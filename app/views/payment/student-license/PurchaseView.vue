@@ -74,7 +74,7 @@
         <label for="studentName">Matrícula del alumno</label>
         <input
           id="studentName"
-          v-model="studentName"
+          v-model.trim="studentName"
           type="text"
           class="form-control"
           required
@@ -84,7 +84,7 @@
         <label for="studentNameConfirm">Confirmar Matrícula del alumno</label>
         <input
           id="studentNameConfirm"
-          v-model="studentNameConfirm"
+          v-model.trim="studentNameConfirm"
           type="text"
           class="form-control"
           ondrop="return false;"

@@ -2,10 +2,10 @@ import { loadStripe } from '@stripe/stripe-js'
 import { getPaymentGroupFromProduct } from '../core/api/payment-group'
 import { createPaymentSession } from '../core/api/payment-session'
 
-async function getStripeLib() {
-  const isProd = document.location.href.includes('codecombat.com')
+async function getStripeLib () {
+  const isProd = application.isProduction()
   const STRIPE_PUBLISHABLE_KEY = isProd ? 'pk_live_27jQZozjDGN1HSUTnSuM578g' : 'pk_test_BqKtc6bIKPn6FeSA4GhuRrwT'
-  return loadStripe(STRIPE_PUBLISHABLE_KEY);
+  return loadStripe(STRIPE_PUBLISHABLE_KEY)
 }
 
 async function handleHomeSubscription (product, couponId, { purchasingForId = null } = {}) {
@@ -36,17 +36,17 @@ async function handleCheckoutSessionHelper (options) {
   const sessionOptions = { ...options }
   try {
     window.tracker.trackEvent('Checkout initiated', sessionOptions)
-    const session = await createPaymentSession(sessionOptions);
-    const sessionId = session.data.sessionId;
-    const result = await stripe.redirectToCheckout({ sessionId });
+    const session = await createPaymentSession(sessionOptions)
+    const sessionId = session.data.sessionId
+    const result = await stripe.redirectToCheckout({ sessionId })
     if (result.error) {
-      console.error('resErr', result.error);
+      console.error('resErr', result.error)
     }
     return {
       result
     }
   } catch (err) {
-    console.error('paymentSession creation failed', err);
+    console.error('paymentSession creation failed', err)
     return {
       errMsg: err?.message || 'Payment session creation failed'
     }
@@ -57,4 +57,4 @@ module.exports = {
   getStripeLib,
   handleHomeSubscription,
   handleCheckoutSessionHelper
-};
+}

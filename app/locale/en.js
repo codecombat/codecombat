@@ -1346,7 +1346,8 @@ module.exports = {
       subscription_status: 'Your Subscription Status',
       currently_not_free: "You don't have a Subscription yet.",
       online_classes: 'Online Classes',
-      feature_ai_level_bot: 'Accelerate learning with AI powered support'
+      feature_ai_level_bot: 'Accelerate learning with AI powered support',
+      sure_buy_as_parent: 'You are buying premium access for your account instead of your child\'s. Are you sure?'
     },
 
     announcement: {
@@ -3297,7 +3298,8 @@ module.exports = {
       back_to_map: 'Back to Map',
       level_options: 'Level Options',
       restart_level: 'Restart Level',
-      max_browser: 'Maximize Browser'
+      max_browser: 'Maximize Browser',
+      ai_hint: 'AI Hint'
     },
 
     impact: {
@@ -3580,7 +3582,7 @@ module.exports = {
       email_settings_url: 'your email settings',
       email_description_suffix: 'or through links in the emails we send, you can change your preferences and easily unsubscribe at any time.',
       cost_title: 'Cost',
-      cost_description: 'CodeCombat is free to play for its introductory levels, with a ${{price}} USD/mo subscription for access to extra levels and {{gems}} bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee.', // eslint-disable-line no-template-curly-in-string
+      cost_description: 'CodeCombat is free to play for its introductory levels, with a $__price__ USD/mo subscription for access to extra levels and __gems__ bonus gems per month. You can cancel with a click, and we offer a 100% money-back guarantee.',
       copyrights_title: 'Copyrights and Licenses',
       contributor_title: 'Contributor License Agreement',
       contributor_description_prefix: 'All contributions, both on the site and on our GitHub repository, are subject to our',
@@ -3932,10 +3934,20 @@ module.exports = {
       professional_development_description: 'CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.',
       contact: 'Contact __apcsp_email__ to get access.',
       role: 'Role',
-      no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+      no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
       request_license: 'Join Pilot Program',
       page_title: 'AP Computer Science Principles Curriculum',
-      explore_each_unit: 'Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>'
+      explore_each_unit: 'Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>',
+      about_apcsp_curriculum: 'About AP CSP Curriculum',
+      step_1_title: 'Get Started Today',
+      step_1_subtitle: 'Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.',
+      step_1_button_1: 'View the Syllabus',
+      step_1_button_2: 'Complete the Audit',
+      join_the_community: 'Join the AP Community',
+      ap_teachers: 'Teacher Central',
+      ap_classroom: 'AP Classroom',
+      slack: 'AP Workspace',
+      join: 'Join'
     },
 
     hoc_2019: {
@@ -4769,7 +4781,12 @@ module.exports = {
       bd_includes_1: 'Full access to CodeCombat and Ozaria with over 200 hours of premium game-based content',
       bd_includes_2: 'Teacher dashboard for record keeping and progress tracking ',
       bd_includes_3: 'Online Resource Hub with walkthroughs and tutorials',
-      bd_help: 'For any help, contact'
+      bd_help: 'For any help, contact',
+      manage_stripe: 'Manage Stripe Billing',
+      manage_billing_info: 'This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.',
+      billing_portal: 'Customer Billing Portal',
+      email_not_verified: 'Your email is not verified, please verify it from the account settings!',
+      stripe_no_data: 'You do not have any data to manage on Stripe portal'
     },
 
     form_validation_errors: {

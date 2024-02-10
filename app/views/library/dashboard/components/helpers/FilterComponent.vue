@@ -9,14 +9,28 @@
       {{ $t('library.user_activities') }} | <span class="filter__subtext">{{ $t('general.from') }}:</span>
     </div>
     <div class="filter__dates">
+      <div
+        v-if="printing"
+        class="filter__date printing"
+      >
+        {{ startDate }}
+      </div>
       <input
+        v-else
         v-model="startDate"
         type="date"
         class="filter__date"
         :max="endDate"
       >
       <span class="filter__to">To:</span>
+      <div
+        v-if="printing"
+        class="filter__date printing"
+      >
+        {{ endDate }}
+      </div>
       <input
+        v-else
         v-model="endDate"
         type="date"
         class="filter__date"
@@ -37,6 +51,10 @@ export default {
     },
     initialEndDate: {
       type: String
+    },
+    printing: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -61,7 +79,8 @@ export default {
 @import "../../css-mixins/variables";
 .filter {
   display: flex;
-  background: $color-yellow-1;
+  background: $color-yellow-1 !important;
+  -webkit-print-color-adjust: exact !important;
   padding: 2rem;
 
   font-feature-settings: 'clig' off, 'liga' off;
@@ -101,6 +120,18 @@ export default {
 
     margin-left: 5px;
     margin-right: 5px;
+  }
+}
+
+@media print {
+  .filter {
+    width: 1024px !important;
+
+    &__date.printing {
+      display: inline-block;
+      font-size: 2rem;
+      font-weight: 600;
+    }
   }
 }
 </style>

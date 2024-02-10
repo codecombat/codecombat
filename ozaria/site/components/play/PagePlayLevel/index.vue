@@ -3,6 +3,7 @@
     :title="title"
     :display-restart-menu-item="canRestart()"
     :display-options-menu-item="true"
+    :display-ai-hint-button="hasAIEnabled"
     :chrome-on="isChromeOn"
     @click-restart="clickRestart"
     @click-options="clickOptions"
@@ -55,6 +56,9 @@ module.exports = Vue.extend({
     },
     isChromeOn () {
       return (store.state.game.level || {}).ozariaType === 'capstone'
+    },
+    hasAIEnabled () {
+      return store.state.game.aiHintVisible
     }
   },
   methods: {

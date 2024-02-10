@@ -100,6 +100,18 @@ async function levelChatCreditsString () {
   }
 }
 
+function hasSeenParentBuyingforSelfPrompt () {
+  return !!localStorage.load(parentBuyingforSelfPromptKey())
+}
+
+function parentBuyingforSelfPromptKey () {
+  return `parent-buying-for-self-prompt-${me.get('_id')}`
+}
+
+function markParentBuyingForSelfPromptSeen () {
+  localStorage.save(parentBuyingforSelfPromptKey(), true, 24 * 60)
+}
+
 module.exports = {
   provisionPremium,
   isInLibraryNetwork,
@@ -108,5 +120,7 @@ module.exports = {
   removeLibraryKeys,
   shouldShowLibraryLoginModal,
   levelChatCreditsString,
-  isCreatedViaLibrary
+  isCreatedViaLibrary,
+  hasSeenParentBuyingforSelfPrompt,
+  markParentBuyingForSelfPromptSeen
 }

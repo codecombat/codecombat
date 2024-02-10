@@ -1,8 +1,6 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 module.exports = {
-  nativeDescription: 'rot13',
-  englishDescription: 'English with the letters jumbled',
+  nativeDescription: 'Ratyvfu',
+  englishDescription: 'Ratyvfu',
   translation: {
 
     ozaria_home: {
@@ -478,7 +476,9 @@ module.exports = {
       other_questions: 'Vs lbh unir nal bgure dhrfgvbaf, cyrnfr __pbagnpg__.',
       see_faq_prefix: 'Frr zber',
       see_faq_link: 'serdhragyl nfxrq dhrfgvbaf va bhe uryc pragre',
-      see_faq_suffix: '.'
+      see_faq_suffix: '.',
+      ai_bot_faq_title: 'Jung vf gur NV Yriry Uryc Obg naq jung zrnfherf ner va cynpr gb rafher fnsrgl?',
+      ai_bot_faq_blurb: 'Gur NV Pung Yriry Uryc Obg va PbqrPbzong rzcbjref yrnearef jvgu NV-qevira uvagf sbe pbqvat punyyratrf, rafhevat n thvqrq lrg vaqrcraqrag yrneavat rkcrevrapr. Fnsrgl vf cnenzbhag, nf gur NV svygref bhg crefbany qngn naq vf genvarq gb unaqyr vzcebcre erdhrfgf.'
     },
 
     play: {
@@ -989,6 +989,7 @@ module.exports = {
       tome_reload_method: 'Erybnq bevtvany pbqr gb erfgneg gur yriry',
       tome_available_spells: 'Ninvynoyr Fcryyf',
       tome_your_skills: 'Lbhe Fxvyyf',
+      blocks: 'Oybpxf',
       hints: 'Uvagf',
       videos: 'Ivqrbf',
       hints_title: 'Uvag {{ahzore}}',
@@ -1004,6 +1005,7 @@ module.exports = {
       problem_alert_title: 'Svk Lbhe Pbqr',
       problem_alert_need_help: 'Arrq uryc?',
       problem_alert_ask_the_ai: 'Nfx gur NV',
+      problem_alert_need_hint: 'Arrq n uvag? Lbh pna nfx gur NV sbe uryc.',
       time_current: 'Abj:',
       time_total: 'Znk:',
       time_goto: 'Tb gb:',
@@ -1137,7 +1139,8 @@ module.exports = {
       ask_teacher_for_help: 'Nfx lbhe grnpure sbe uryc',
       ask_teacher_for_help_offline: 'Lbhe Grnpure vf pheeragyl bssyvar',
       not_enough_credits_bot: 'Bccf! Ybbxf yvxr lbh qba’g unir rabhtu dhrevrf. Fhofpevor abj naq trg gur dhrevrf lbh jnag sbe gur NV cbjrerq fhccbeg lbh arrq!',
-      not_enough_credits_interval: 'Ab perqvgf yrsg sbe gur __vagreiny__. Pbafhzrq __nzbhag__ perqvgf.'
+      not_enough_credits_interval: 'Ab perqvgf yrsg sbe gur __vagreiny__. Pbafhzrq __nzbhag__ perqvgf.',
+      not_enough_credits_interval_multiple: 'Ab perqvgf yrsg sbe __qhengvba__ __vagreiny__. Pbafhzrq __nzbhag__ perqvgf.'
     },
 
     apis: {
@@ -1340,7 +1343,7 @@ module.exports = {
       subscription_status: 'Lbhe Fhofpevcgvba Fgnghf',
       currently_not_free: "Lbh qba'g unir n Fhofpevcgvba lrg.",
       online_classes: 'Bayvar Pynffrf',
-      feature_ai_level_bot: 'Trg NV cbjrerq qrohttvat fhccbeg'
+      feature_ai_level_bot: 'Nppryrengr yrneavat jvgu NV cbjrerq fhccbeg'
     },
 
     announcement: {
@@ -1422,8 +1425,10 @@ module.exports = {
       list_items: 'Rdhvc Cerzvhz-bayl vgrzf yvxr crgf',
       list_support: 'Trg Cerzvhz fhccbeg gb uryc lbh qroht gevpxl pbqr',
       list_clans: 'Perngr cevingr pynaf gb vaivgr lbhe sevraqf naq pbzcrgr ba n tebhc yrnqreobneq',
-      ai_bot_learning: 'NV Cbjrerq fhccbeg gb nppryrengr lbhe yrneavat!',
-      ai_bot_description: 'Zrrg QrohtObg NV, PbqrPbzong’f NV cbjrerq nffvfgnag. Guvf cbjreshy urycre pna rinyhngr lbhe pbqr, cbvag bhg reebef, rkcynva ubj gb svk gurz, naq cebivqr nyy gur pbagrkg lbh arrq gb haqrefgnaq gur “jul”. Vg’f vafgnag fhccbeg jura lbh arrq vg zbfg.'
+      ai_bot_learning: 'NV cbjrerq fhccbeg gb nppryrengr yrneavat bhgpbzrf!',
+      ai_bot_description: "PbqrPbzong’f NV cbjrerq uvagf srngher pna rinyhngr pbqr, cbvag bhg reebef, naq rkcynva ubj gb svk gurz. Zbfg vzcbegnagyl, vg cebivqrf nyy gur pbagrkg arrqrq gb haqrefgnaq gur jul, jvgubhg cebivqvat gur ragver fbyhgvba. Jvgu bayl pheerag pbqr ceboyrz nffvfgnapr ninvynoyr lbhat yrnearef jvyy fgvyy arrq gb jbex guebhtu rnpu yriry'f pbqvat punyyratr. Cerzvhz fhofpevoref erprvir na nyybpngvba bs <o>10 NV uvagf cre qnl</o> gb rafher gurl nyjnlf unir gur fhccbeg gurl arrq.",
+      list_ai_bot: 'Cerzvhz fhofpevoref erprvir na nyybpngvba bs 10 NV uvagf cre qnl',
+      ai_bot_notice: '* NV uvagf engrf ner fhowrpg gb punatr.'
     },
 
     choose_hero: {
@@ -1600,6 +1605,7 @@ module.exports = {
       de_title: 'Qverpgbe bs Rqhpngvba',
       vpm_title: 'IC, Znexrgvat',
       vps_title: 'IC, Fnyrf',
+      vpsm_title: 'IC, Fnyrf naq Znexrgvat',
       oi_title: 'Bayvar Vafgehpgbe',
       m_oi_title: 'Znantre, Bayvar Vafgehpgvba',
       aoim_title: 'Nffbpvngr Bayvar Vafgehpgbe Znantre',
@@ -1683,7 +1689,17 @@ module.exports = {
       error_in_importing_students: 'Reebe va vzcbegvat fghqragf',
       classroom_items_description: 'Jurgure fghqragf fubhyq rnea trzf naq rdhvc vgrzf qhevat tnzrcynl.',
       classroom_live_completion: 'Jurgure gb ranoyr pbqvat nhgbpbzcyrgr va guvf pynffebbz. Qvfnoyrq: gheaf nhgbpbzcyrgr bss sbe nyy yriryf. Ranoyrq: nyybjf fghqragf gb pubbfr. Jr erpbzzraq yrnivat guvf ranoyrq.',
-      not_allow_to_solution: '# Yvprafrf arrqrq gb ivrj fbyhgvbaf'
+      classroom_blocks: 'Qent naq Qebc Oybpxf (orgn)',
+      classroom_blocks_description: 'Jurgure gb ranoyr qent-naq-qebc oybpxf nybatfvqr gur grkg-onfrq pbqr.',
+      classroom_blocks_hidden: 'Qvfnoyrq',
+      classroom_blocks_opt_in: 'Bss ol qrsnhyg',
+      classroom_blocks_opt_out: 'Ba ol qrsnhyg',
+      not_allow_to_solution: '# Yvprafrf arrqrq gb ivrj fbyhgvbaf',
+      classroom_level_chat: 'Yriry Pung jvgu NV',
+      classroom_level_chat_blurb: 'Pbageby jurgure fghqragf pna vagrenpg jvgu gur NV va yriry pung.',
+      classroom_level_chat_option_free_form: 'Serr sbez',
+      classroom_level_chat_option_fixed_prompt_only: 'Svkrq cebzcg bayl',
+      classroom_level_chat_option_none: 'Ab pung'
     },
 
     no_licenses_page: {
@@ -3552,7 +3568,7 @@ module.exports = {
       email_settings_url: 'lbhe rznvy frggvatf',
       email_description_suffix: 'be guebhtu yvaxf va gur rznvyf jr fraq, lbh pna punatr lbhe cersreraprf naq rnfvyl hafhofpevor ng nal gvzr.',
       cost_title: 'Pbfg',
-      cost_description: 'PbqrPbzong vf serr gb cynl sbe vgf vagebqhpgbel yriryf, jvgu n ${{cevpr}} HFQ/zb fhofpevcgvba sbe npprff gb rkgen yriryf naq {{trzf}} obahf trzf cre zbagu. Lbh pna pnapry jvgu n pyvpx, naq jr bssre n 100% zbarl-onpx thnenagrr.',
+      cost_description: 'PbqrPbzong vf serr gb cynl sbe vgf vagebqhpgbel yriryf, jvgu n $__cevpr__ HFQ/zb fhofpevcgvba sbe npprff gb rkgen yriryf naq __trzf__ obahf trzf cre zbagu. Lbh pna pnapry jvgu n pyvpx, naq jr bssre n 100% zbarl-onpx thnenagrr.',
       copyrights_title: 'Pbclevtugf naq Yvprafrf',
       contributor_title: 'Pbagevohgbe Yvprafr Nterrzrag',
       contributor_description_prefix: 'Nyy pbagevohgvbaf, obgu ba gur fvgr naq ba bhe TvgUho ercbfvgbel, ner fhowrpg gb bhe',
@@ -4047,7 +4063,16 @@ module.exports = {
       enter_email_address: 'Cyrnfr cebivqr lbhe rznvy nqqerff gb trg fgnegrq:',
       enter_parent_email_address: "Vs lbh ner n fghqrag haqre 18 lrnef bs ntr, cyrnfr ragre lbhe cnerag be thneqvna'f rznvy nqqerff.",
       email_sent_success: 'Njrfbzr! Na rznvy unf orra frag gb gur nqqerff lbh cebivqrq.',
-      email_schedule_info: 'Cyrnfr bcra naq pyvpx gur yvax gb npprff bhe gevny pynff fpurqhyvat cbegny naq fryrpg nal ninvynoyr gvzr gung jbexf orfg sbe lbh.'
+      email_schedule_info: 'Cyrnfr bcra naq pyvpx gur yvax gb npprff bhe gevny pynff fpurqhyvat cbegny naq fryrpg nal ninvynoyr gvzr gung jbexf orfg sbe lbh.',
+      personalized_coding: 'Crefbanyvmrq Pbqvat Vafgehpgvba',
+      premium_access: 'Cerzvhz Npprff',
+      focus_choice: 'Lbhe Sbphf, Lbhe Pubvpr',
+      get_free_coding_class: 'Lbh Trg n Serr Pbqvat Pynff',
+      tailored_guidance: 'Gnvyberq thvqnapr va Clguba, Wninfpevcg, Yhn, naq zber',
+      enjoy_all_games: 'Rawbl nyy bhe jro tnzrf naq Eboybk rkcrevraprf',
+      choice_of_path: 'Fryrpg sebz Pbqvat Shaqnzragnyf, Tnzr Qrirybczrag, NV Nccyvpngvbaf, NC PFC Cerc, naq zber sbe n crefbanyvmrq yrneavat cngu',
+      classes_in_spanish_english: 'Pynffrf ner ninvynoyr va Ratyvfu be Fcnavfu',
+      free_class: 'Serr Pynff'
     },
 
     modal_timetap_confirmation: {
@@ -4502,6 +4527,12 @@ module.exports = {
       farmscape: 'Snezfpncr',
       storm_siege: 'Fgbez Fvrtr',
       snowhold: 'Fabjubyq',
+      fierce_forces: 'Svrepr Sbeprf',
+      anti_gravity: 'Nagv-Tenivgl',
+      solar_skirmish: 'Fbyne Fxvezvfu',
+      sunfire: 'Fhasver',
+      system_shock: 'Flfgrz Fubpx',
+      supercharged: 'Fhcrepunetrq',
       season_label: 'Frnfba __frnfbaAhzore__: __frnfbaAnzr__',
       season_1: 'Sbetrq va Synzr',
       season_2: 'Fcryyf bs Sbeghar',
@@ -4510,11 +4541,15 @@ module.exports = {
       season_5: 'Fnaqf bs Gvzr',
       season_6: 'Zbygra Znlurz',
       season_7: 'Zrygvat Cbvag',
-      season_8: "Pbqre'f Uneirfg", //
+      season_8: "Pbqre'f Uneirfg",
       season_9: 'Ervta bs Pbqr',
+      season_10: 'Tenivgl Tnzrf',
+      season_11: 'Fhzzre Fznfu',
+      season_12: 'Fcnex bs Cbjre',
       cup: 'Phc',
       blitz: 'Oyvgm',
       clash: 'Pynfu',
+      season10_announcement_1: "Vg'f svrel ubg naq zntzn obhyqref ner enqvngvat cbjreshy raretvrf! Fhzzba havgf naq pnfg fcryyf gb chfu gur zntzn obhyqref gb lbhe bccbarag'f nern naq jernx qrfgehpgvba hcba gurz.",
       season9_announcement_1: 'Na rcvp onggyr vf orvat jntrq ngbc gur jvagel crnxf bs Fabjubyq Pynfu sbe gur Frnfba 9 punzcvbafuvc neran! Qenj lbhe pybnx pybfr naq lbhe pbqr pybfre nf lbh jvryq fgengrtl naq nytbevguzf gb npuvrir ivpgbel va guvf ynaq orlbaq gur fxl.',
       season8_announcement_1: "Vg'f uneirfgvat frnfba va Snezfpncr Oyvgm Frnfba 8! Nf gur yrnirf punatr, vg'f gvzr gb pbqr lbhe jnl nebhaq jvyq naq vzcrargenoyr bofgnpyrf ba gur snez. Fgengrtvpnyyl pbyyrpg ivgny obbfgf gb rzcbjre lbhe ebobg jbexre naq hgvyvmr fcrpvny novyvgvrf gb obbfg cebqhpgvivgl naq bhg-snez lbhe bccbaragf!",
       season8_announcement_2: 'Abgr: neran onynapr nqwhfgzragf znl bpphe hc hagvy Nhthfg 15gu. Fb or fher gb pbzr onpx bsgra gb grfg lbhe pbqr ntnvafg gur tybony yrnqreobneq.',
@@ -4598,7 +4633,12 @@ module.exports = {
       more_details: 'sbe zber qrgnvyf.',
       contact_sales_custom: 'Lbhe phfgbz gbheanzrag njnvgf. Pubbfr gur neran gung lbh’q yvxr gb hfr sbe lbhe phfgbz gbheanzrag naq pbagnpg lbhe PbqrPbzong fnyrf ercerfragngvir gb pbasvez frg hc naq fpurqhyvat qrgnvyf.',
       create_custom: 'Perngr Phfgbz Gbheanzrag',
-      custom_tournament_text: 'Phfgbz Gbheanzrag'
+      custom_tournament_text: 'Phfgbz Gbheanzrag',
+      promotion_blurb: 'Pbzcrgvgvir Pbqvat - Serr gb Trg Fgnegrq',
+      promotion_part1: 'Wbva pbqvat grnzf jvgu sevraqf naq snzvyl',
+      promotion_part2: 'Npprff tybony pbqvat neranf naq yrnqreobneqf',
+      promotion_part3: 'Fubjpnfr lbhe pbqvat fxvyyf naq jva cevmrf',
+      promotion_part4: 'Rnea cbvagf guebhtu cenpgvpr naq urnq-gb-urnq zngpurf'
     },
 
     tournament: {
@@ -4983,7 +5023,19 @@ module.exports = {
       prompt_level_chat_10: 'Jung vf guvf reebe?',
       prompt_level_chat_11: 'Jung vf gur ceboyrz?',
       prompt_level_chat_12: '???',
-      prompt_level_chat_13: 'Qrne NV, V orfrrpu lbh, rkcynva zl reebe, va irefr.'
+      prompt_level_chat_13: 'Qrne NV, V orfrrpu lbh, rkcynva zl reebe, va irefr.',
+      prompt_level_chat_hint_1: 'Pna V trg n uvag?',
+      prompt_level_chat_hint_2: "Jung'f gur arkg guvat V fubhyq qb?",
+      prompt_level_chat_hint_3: 'Cyrnfr uryc zr jvgu gur arkg cneg bs zl pbqr.',
+      prompt_level_chat_hint_4: 'Pbqvat uvag, cyrnfr.',
+      prompt_level_chat_hint_5: 'V arrq n uvag ba gur arkg fgrc.'
+    },
+    user_credits: {
+      level_chat_left_in_duration: '__perqvgf__ NV Obg dhrevrf yrsg sbe gur __qhengvba_xrl__',
+      level_chat_left_in_duration_multiple: '__perqvgf__ NV Obg dhrevrf yrsg sbe __qhengvba_nzbhag__ __qhengvba_xrl__',
+      level_chat_no_credits_left_duration: 'Ab NV Obg dhrevrf yrsg sbe gur __qhengvba_xrl__',
+      level_chat_no_credits_left_duration_multiple: 'Ab NV Obg dhrevrf yrsg sbe __qhengvba_nzbhag__ __qhengvba_xrl__',
+      level_chat_no_credits_left: 'Ab NV Obg dhrevrf yrsg'
     }
   }
 }

@@ -19,6 +19,7 @@ module.exports = class SpellPaletteView extends CocoView
     'surface:frame-changed': 'onFrameChanged'
     'tome:change-language': 'onTomeChangedLanguage'
     'tome:palette-clicked': 'onPaletteClick'
+    'level:gather-chat-message-context': 'onGatherChatMessageContext'
 
 
   events:
@@ -252,6 +253,26 @@ module.exports = class SpellPaletteView extends CocoView
 
   onTransitionEnd: (e) ->
     store.dispatch('game/toggleCodeBank')
+
+  onGatherChatMessageContext: (e) ->
+    context = e.chat.context
+    context.apiProperties = []
+    for group, entries of @entryGroups
+      for entry in entries
+        if e.chat.example
+          # Using entry.options.doc instead of entry.doc skips a lot of the data processing
+          doc = _.omit(entry.options.doc, 'shortDescription', 'autoCompletePriority', 'snippets', 'userShouldCaptureReturn')
+        else
+          # Bakes in code language selection and translations
+          doc = _.omit(entry.doc, 'ownerName', 'shortName', 'shorterName', 'title', 'initialHTML', 'shortDescription', 'autoCompletePriority', 'snippets', 'i18n', 'userShouldCaptureReturn')
+          # TODO: remove more nested i18n
+        doc.owner = 'hero' if doc.owner in ['this', 'more']
+        delete doc.example unless doc.example
+        delete doc.returns?.example if doc.returns and not doc.returns.example
+        delete doc.returns?.description if doc.returns and not doc.returns.description
+        #console.log doc
+        context.apiProperties.push doc
+    null
 
   destroy: ->
     entry.destroy() for entry in @entries

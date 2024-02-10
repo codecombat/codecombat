@@ -6,7 +6,7 @@
     <div class="container">
       <div class="text-center">
         <h2 class="billing-portal">
-          Customer Billing Portal
+          {{ $t('payments.billing_portal') }}
         </h2>
         <div class="form-group manage-billing-section">
           <button
@@ -15,11 +15,11 @@
             :class="errMsg ? 'disabled' : ''"
             @click="onManageBilling"
           >
-            Manage Stripe Billing
+            {{ $t('payments.manage_stripe') }}
           </button>
           <div class="extra-data">
             <p class="extra-p">
-              *This will redirect you to Stripe to view your billing history and make changes to your form of payment.
+              *{{ $t('payments.manage_billing_info') }}
             </p>
           </div>
           <div class="error-info">
@@ -53,7 +53,7 @@ export default {
     } else if (me.isStudent()) {
       this.errMsg = 'Students dont have access to billing'
     } else if (!me.get('emailVerified')) {
-      this.errMsg = 'Email is not verified, please verify and refresh'
+      this.errMsg = $.i18n.t('payments.email_not_verified')
     } else {
       await this.fetchCustomerPortalUrl()
     }
@@ -74,7 +74,7 @@ export default {
       const data = resp?.data
       const stripeCustomerIdPresent = data?.stripeCustomerIdPresent
       if (!stripeCustomerIdPresent) {
-        this.errMsg = 'No data to manage on Stripe'
+        this.errMsg = $.i18n.t('payments.stripe_no_data')
       } else {
         this.customerPortalUrl = data.url
       }
@@ -83,15 +83,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .extra-p {
   color: grey;
+  padding-left: 15%;
+  padding-right: 15%;
 }
 .extra-data {
-  padding-top: 10px;
+  margin-top: 20px;
 }
 .manage-billing-section {
-  padding-top: 15px;
+  margin-top: 15px;
 }
 .error {
   color: red;
