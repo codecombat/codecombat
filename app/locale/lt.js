@@ -257,7 +257,7 @@ module.exports = {
       //    excel: "Games excel at rewarding",
       struggle: 'produktyvi kova',
       kind_of_struggle: 'kova, kurios rezultatas yra mokymasis, kuris įtraukia ir',
-      motivating: 'motyvuoja'
+      motivating: 'motyvuoja',
       //    not_tedious: "not tedious.",
       //    gaming_is_good: "Studies suggest gaming is good for children’s brains. (it’s true!)",
       //    game_based: "When game-based learning systems are",
@@ -399,7 +399,7 @@ module.exports = {
       //    classes: "Classes",
       //    term_of_service: "Terms of Service",
       //    esports: "Esports",
-      browser_recommendation: 'Norėdami gauti geriausios patirties, rekomenduojame naudoti naujausią „Chrome“ versiją. Atsisiųskite naršyklę čia!'
+      browser_recommendation: 'Norėdami gauti geriausios patirties, rekomenduojame naudoti naujausią „Chrome“ versiją. Atsisiųskite naršyklę čia!',
       //    ozaria_classroom: "Ozaria Classroom",
       //    codecombat_classroom: "CodeCombat Classroom",
       //    ozaria_dashboard: "Ozaria Dashboard",
@@ -431,12 +431,12 @@ module.exports = {
     modal: {
       close: 'Uždaryti',
       okay: 'Gerai',
-      cancel: 'Atšaukti'
+      cancel: 'Atšaukti',
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Puslapis nerastas'
+      page_not_found: 'Puslapis nerastas',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'Mes kuriame CodeCombat Angliškai, bet mes turime žaidėjų visame pasaulyje. Daugelis jų norėtų žaisti Lietuvoje, tačiau nesupranta Angliškai. Jei tu gerai moki abi kalbas, prašom užsiregistruoti ir tapti Diplomatu. Taip galėsi padėti išversti CodeCombat interneto svetainę ir visus lygius į Lietuvių kalbą.',
       missing_translations: 'Kol viską išversime į Lietuvių kalbą, dar neišverstą tekstą matysite užrašytą Anglų kalba.',
       learn_more: 'Sužinoti daugiau apie tapimą Diplomatu',
-      subscribe_as_diplomat: 'Noriu tapti Diplomatu'
+      subscribe_as_diplomat: 'Noriu tapti Diplomatu',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Prisijunk kaip Nuotykių Ieškotojas',
       awaiting_levels_adventurer_suffix: 'kad pamatytum juos pirmas.',
       adjust_volume: 'Reguliuoti garsą',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Daugelio žaidėjų arenos',
       campaign_multiplayer_description: '... kuriose tu prgramuoji kad įveiktum kitus žaidėjus.',
       brain_pop_done: 'Tu nugalėjai Ogres su savo kodu! Tu laimėjai!',
@@ -537,7 +538,7 @@ module.exports = {
       replay: 'Pakartoti',
       back_to_classroom: 'Atgal į klasę',
       teacher_button: 'Mokytojams',
-      get_more_codecombat: 'Daugiau CodeCombat'
+      get_more_codecombat: 'Daugiau CodeCombat',
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
       //    customize_hero: "Customize Hero",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'neapibrėžtas',
       null: 'neapibrėžtas',
       nil: 'neapibrėžtas',
-      None: 'neapibrėžtas'
+      None: 'neapibrėžtas',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Įvesk tėvų el. pašto adresą ir mes jiems parodysim!',
       form_label: 'El. pašto adresas',
       placeholder: 'el. pašto adresas',
-      title: 'Puikiai padirbėta, Mokinį!'
+      title: 'Puikiai padirbėta, Mokinį!',
     },
 
     login: {
@@ -627,7 +628,7 @@ module.exports = {
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
       //    individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!",
-      accounts_merge_confirmation: 'Sistemoje jau yra paskyra, susieta su el. paštu iš šios „Google“ paskyros. Ar norėtumėte sujungti šias paskyras?'
+      accounts_merge_confirmation: 'Sistemoje jau yra paskyra, susieta su el. paštu iš šios „Google“ paskyros. Ar norėtumėte sujungti šias paskyras?',
       //    stop_spying: "Stop Spying",
       //    stop_switching: "Stop Switching",
       //    test_as_student: "Test as Student",
@@ -668,7 +669,7 @@ module.exports = {
       name_taken: 'Slapyvardis jau užimtas! Bandyk {{suggestedName}}?',
       name_available: 'Slapyvardis tinkamas!',
       name_is_email: 'Slapyvardis negali būti el. pašto adresas',
-      choose_type: 'Pasirinkite paskyros tipą:'
+      choose_type: 'Pasirinkite paskyros tipą:',
       //    teacher_type_1: "Teach programming using CodeCombat!",
       //    teacher_type_2: "Set up your class",
       //    teacher_type_3: "Access Course Guides",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Susigrąžinti paskyrą',
       send_password: 'Siųsti susigrąžinimo slaptažodį',
-      recovery_sent: 'Susigražinimo laiškas išsiųstas.'
+      recovery_sent: 'Susigražinimo laiškas išsiųstas.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Šarvai',
       accessories: 'Priedai',
       misc: 'Kiti',
-      books: 'Knygos'
+      books: 'Knygos',
     },
 
     common: {
@@ -801,7 +802,7 @@ module.exports = {
       required_field: 'privaloma',
       submit: 'Siųsti',
       replay: 'Kartoti',
-      complete: 'Užbaigti'
+      complete: 'Užbaigti',
       //    pick_image: "Pick Image",
       //    continue_editing: "Continue Editing",
       //    logout: "Logout",
@@ -875,7 +876,7 @@ module.exports = {
       learn_more: 'Sužinok daugiau',
       more: 'Daugiau',
       fewer: 'Mažiau',
-      with: 'su'
+      with: 'su',
       //    archived: "Archived",
       //    chat: "Chat",
       //    chat_with_us: "Chat with us",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'mėnuo',
       months: 'mėnesiai',
       year: 'metai',
-      years: 'metai'
+      years: 'metai',
     },
 
     play_level: {
@@ -1085,7 +1086,7 @@ module.exports = {
       //    tip_mulan: "Believe you can, then you will. - Mulan",
       project_complete: 'Projektas Baigtas!',
       share_this_project: 'Pasidalinkite šiuo projektu su šeima ar draugais:',
-      ready_to_share: 'Pasiruošė publikuoti šį projektą?'
+      ready_to_share: 'Pasiruošė publikuoti šį projektą?',
       //    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates.",
       //    already_published_prefix: "Your changes have been published to the class gallery.",
       //    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates.",
@@ -1161,7 +1162,7 @@ module.exports = {
       jquery: 'jQuery',
       json: 'JSON',
       number: 'Skaičius',
-      webjavascript: 'JavaScript'
+      webjavascript: 'JavaScript',
     },
 
     //  amazon_hoc: {
@@ -1205,13 +1206,14 @@ module.exports = {
       goal_defeat_amount: 'Nugalėk __amount__ priešininkus.',
       goal_move: 'Nueik į visas raudonas X žymes.',
       goal_collect: 'Surink visus daiktus.',
-      goal_collect_amount: 'Surink __amount__ daiktus.'
+      goal_collect_amount: 'Surink __amount__ daiktus.',
     },
 
     game_menu: {
       inventory_tab: 'Inventorius',
       save_load_tab: 'Įrašyti / Atkurti',
       options_tab: 'Pasirinkimai',
+      //    my_code_tab: "My Code",
       guide_tab: 'Pagalba',
       guide_video_tutorial: 'Video vadovėlis',
       guide_tips: 'Patarimai',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Parenk savo herojų',
       choose_hero_caption: 'Pasirink herijų, kalbo',
       options_caption: 'Konfigūruoti nustatymus',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Dokumentai ir patarimai',
       multiplayer_caption: 'Žaisk su draugais!',
-      auth_caption: 'Išsaugok savo pažangą.'
+      auth_caption: 'Išsaugok savo pažangą.',
     },
 
     leaderboard: {
@@ -1240,7 +1243,7 @@ module.exports = {
       gold_collected: 'Surinkta Aukso',
       survival_time: 'Išgyventa',
       defeated: 'Nugalėti priešininkai',
-      code_length: 'Kodo eilutės'
+      code_length: 'Kodo eilutės',
       //    score_display: "__scoreType__: __score__",
     },
 
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: 'Nenaudoti',
       warrior_only: 'Tik Kariui',
       ranger_only: 'Tik Lankininkui',
-      wizard_only: 'Tik Magui'
+      wizard_only: 'Tik Magui',
     },
 
     buy_gems: {
@@ -1271,7 +1274,7 @@ module.exports = {
       prompt_body: 'Ar norite gauti daugiau?',
       prompt_button: 'Į Parduotuvę',
       recovered: 'Atstatyta deimantų pirkimo operacija. Prašome pakraukite puslapį iš naujo.',
-      price: 'x{{gems}} / mėn'
+      price: 'x{{gems}} / mėn',
       //    buy_premium: "Buy Premium",
       //    purchase: "Purchase",
       //    purchased: "Purchased",
@@ -1297,7 +1300,7 @@ module.exports = {
       subscribe_title: 'Prenumerata',
       unsubscribe: 'Nebepremenuoruoti',
       confirm_unsubscribe: 'patvirtinti nebeprenumeravimą',
-      never_mind: 'Nekreipk dėmesio, aš vis dar tave myliu.'
+      never_mind: 'Nekreipk dėmesio, aš vis dar tave myliu.',
       //    thank_you_months_prefix: "Thank you for supporting us these last",
       //    thank_you_months_suffix: "months.",
       //    thank_you: "Thank you for supporting CodeCombat.",
@@ -1344,6 +1347,7 @@ module.exports = {
       //    currently_not_free: "You don't have a Subscription yet.",
       //    online_classes: "Online Classes",
       //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+      //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     },
 
     //  announcement: {
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Žaidimų skriptų kalba.',
       java_blurb: '(Tik abonementams) Android ir verslui.',
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Būsena',
       weapons: 'Ginklai',
       weapons_warrior: 'Kardai - artimas atstumas, be Kerų',
@@ -1466,7 +1479,7 @@ module.exports = {
       speed_2: 'metrų per sekundę greičiu.',
       available_for_purchase: 'Galima pirkti',
       level_to_unlock: 'Atrakinama lygyje:',
-      restricted_to_certain_heroes: 'Tik kai kurie herojai gali žaisti šiame lygyje.'
+      restricted_to_certain_heroes: 'Tik kai kurie herojai gali žaisti šiame lygyje.',
     },
 
     char_customization_modal: {
@@ -1474,7 +1487,7 @@ module.exports = {
       body: 'Kūnas',
       name_label: 'Herojaus Vardas',
       hair_label: 'Plaukų Spalva',
-      skin_label: 'Odos Spalva'
+      skin_label: 'Odos Spalva',
     },
 
     skill_docs: {
@@ -1505,13 +1518,13 @@ module.exports = {
       optional_parameters: 'Papildomi Parametrai',
       returns: 'Grąžina',
       granted_by: 'Suteikta',
-      still_undocumented: 'Vis dar nedokumentuota, atsiprašome.'
+      still_undocumented: 'Vis dar nedokumentuota, atsiprašome.',
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: 'Išsaugotas',
-      granularity_change_history: 'Istorija'
+      granularity_change_history: 'Istorija',
     },
 
     options: {
@@ -1528,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Rodyti poslinkio rekomendacijas',
       editor_config_indentguides_description: 'Rodomos vertikalios linijos patogesniam poslinkio matymui.',
       editor_config_behaviors_label: 'Išmanusis redagavimas',
-      editor_config_behaviors_description: 'Automatiškai uždaro skliaustus, figurinius skliaustus ir kabutes.'
+      editor_config_behaviors_description: 'Automatiškai uždaro skliaustus, figurinius skliaustus ir kabutes.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1662,7 +1675,7 @@ module.exports = {
     //  },
 
     teachers: {
-      licenses_needed: 'Reikalingos licencijos'
+      licenses_needed: 'Reikalingos licencijos',
       //    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO",
       //    select_class: "Select class",
       //    programming_language: "Programming language",
@@ -1689,13 +1702,12 @@ module.exports = {
       //    error_in_importing_students: "Error in importing students",
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-      //    classroom_blocks: "Drag and Drop Blocks (beta)",
-      //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-      //    classroom_blocks_hidden: "Disabled",
-      //    classroom_blocks_opt_in: "Off by default",
-      //    classroom_blocks_opt_out: "On by default",
+      //    code_formats: "Code Formats (beta)",
+      //    code_formats_description: "Which code formats students can choose from.",
+      //    default_code_format: "Default Code Format",
+      //    default_code_format_description: "The code format that students will start with.",
       //    not_allow_to_solution: "# Licenses needed to view solutions",
-      //    classroom_level_chat: "Level Chat with AI",
+      //    classroom_level_chat: "AI Level Hints",
       //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
       //    classroom_level_chat_option_free_form: "Free form",
       //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1857,7 +1869,7 @@ module.exports = {
       cla_url: 'PLS',
       cla_suffix: '.',
       cla_agree: 'AŠ SUTINKU',
-      owner_approve: 'Sąvininkas pirmiausiai turi patvirtinti, kad jūsų pakeitimai būtų matomi.'
+      owner_approve: 'Sąvininkas pirmiausiai turi patvirtinti, kad jūsų pakeitimai būtų matomi.',
     },
 
     contact: {
@@ -1874,7 +1886,7 @@ module.exports = {
       subscriber_support: 'Kadangi turite CodeCombat abonementą, jūsų elektroniniai laiškai mums tampa įpatingai svarbūs.',
       screenshot_included: 'Ekrano kopija pridėta.',
       where_reply: 'Kur mums atsakyti?',
-      send: 'Siųsti užklausą'
+      send: 'Siųsti užklausą',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: 'Klaida Išsaugant',
       saved: 'Pakeitimai Išsaugoti',
       password_mismatch: 'Slaptažodžiai nesutampa.',
-      password_repeat: 'Pakartokite slaptažodį.'
+      password_repeat: 'Pakartokite slaptažodį.',
     },
 
     keyboard_shortcuts: {
@@ -1947,16 +1959,16 @@ module.exports = {
       toggle_debug: 'Įj./išj. klaidų aptikimo (debug) displejų.',
       toggle_grid: 'Įjungti tinklelį.',
       toggle_pathfinding: 'Perjungti kelio radimo sluoksnį.',
-      beautify: 'Tvarkyti Jūsų kodą standartizuojant jo formatą.'
+      beautify: 'Tvarkyti Jūsų kodą standartizuojant jo formatą.',
     },
 
     cinematic: {
-      click_anywhere_continue: 'Nuspauskite kad tęstumėte'
+      click_anywhere_continue: 'Nuspauskite kad tęstumėte',
       //    instructional_tooltip: "Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same.",
     },
 
     community: {
-      main_title: 'Bendruomenė CodeCombat'
+      main_title: 'Bendruomenė CodeCombat',
       //    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!",
       //    level_editor_prefix: "Use the CodeCombat",
       //    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!",
@@ -2034,7 +2046,7 @@ module.exports = {
       track_concepts6b: 'Išrikiuokite narius pagal vardą arba pažangą',
       track_concepts7: 'Norint tapti nariu',
       track_concepts8: 'reikalingas kvietimas',
-      private_require_sub: 'Norint sukurti privatų ar prisijungti prie privataus klano, reikalingas abonementas.'
+      private_require_sub: 'Norint sukurti privatų ar prisijungti prie privataus klano, reikalingas abonementas.',
     },
 
     //  courses: {
@@ -2833,7 +2845,7 @@ module.exports = {
       ambassador_title: 'Ambasadorius',
       ambassador_title_description: '(Palaikymas)',
       ambassador_summary: 'Nuramink mūsų forumo naudotojus ir suteik pagalbą tiems kas turi klausimų. Mūsų Ambasadoriai atstovauja CodeCombat visam pasauliui.',
-      teacher_title: 'Mokytojas'
+      teacher_title: 'Mokytojas',
     },
 
     //  editor: {
@@ -2869,6 +2881,7 @@ module.exports = {
     //    fork_title: "Fork New Version",
     //    fork_creating: "Creating Fork...",
     //    generate_terrain: "Generate Terrain",
+    //    generate_level: "Generate Level",
     //    more: "More",
     //    wiki: "Wiki",
     //    live_chat: "Live Chat",
@@ -2979,11 +2992,11 @@ module.exports = {
 
     article: {
       edit_btn_preview: 'Peržiūra',
-      edit_article_title: 'Redaguoti straipsnį'
+      edit_article_title: 'Redaguoti straipsnį',
     },
 
     polls: {
-      priority: 'Prioritetas'
+      priority: 'Prioritetas',
     },
 
     //  contribute: {
@@ -3169,7 +3182,7 @@ module.exports = {
       certificate_levels_completed: 'baigtų lygių',
       certificate_for: 'Kam',
       //    for_ozaria_chapters_1_4: "For Ozaria Chapters 1 - 4",
-      certificate_number: 'Nr.'
+      certificate_number: 'Nr.',
       //    heroes_unlocked: "Heroes Unlocked",
       //    current_items: "Items Equipped",
       //    contributor_badges: "Contributor Badges",
@@ -3286,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3379,7 +3393,7 @@ module.exports = {
       component: 'Komponentas',
       components: 'Komponentai',
       hero: 'Herojus',
-      campaigns: 'Kampanija'
+      campaigns: 'Kampanija',
     },
 
     concepts: {
@@ -3505,7 +3519,7 @@ module.exports = {
       //    advanced_css: "Advanced CSS",
       //    advanced_web_scripting: "Advanced Web Scripting",
       input_handling: 'Įvesties apdirbimas (Input Handling)',
-      while_loops: 'Ciklai (Loops)'
+      while_loops: 'Ciklai (Loops)',
       //    place_game_objects: "Place game objects",
       //    construct_mazes: "Construct mazes",
       //    create_playable_game: "Create a playable, sharable game project",
@@ -3646,7 +3660,7 @@ module.exports = {
       september: 'Rugsėjis',
       october: 'Spalis',
       november: 'Lapkritis',
-      december: 'Gruodis'
+      december: 'Gruodis',
     },
 
     //  code_play_create_account_modal: {
@@ -3659,10 +3673,10 @@ module.exports = {
 
     server_error: {
       email_taken: 'El. paštas užimtas',
-      username_taken: 'Slapyvardis užimtas'
+      username_taken: 'Slapyvardis užimtas',
       //    easy_password: "Password is too easy to guess",
       //    reused_password: "Password cannot be reused",
-    }
+    },
 
     //  esper: {
     //    line_no: "Line $1: ",
@@ -3920,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4477,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4758,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

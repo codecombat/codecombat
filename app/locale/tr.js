@@ -290,7 +290,7 @@ module.exports = {
       //    go_to_courses: "Go to My Courses",
       //    want_coco: "Want CodeCombat at your school?",
       educator: 'Öğretmen',
-      student: 'Öğrenci'
+      student: 'Öğrenci',
       //    go_to_my_dashboard: "Go to My Dashboard",
       //    our_coding_programs: "Our Coding Programs",
       //    codecombat: "CodeCombat",
@@ -390,7 +390,7 @@ module.exports = {
       //    copyright_prefix: "Copyright",
       //    copyright_suffix: "All Rights Reserved.",
       help_pref: 'Yardım mı lazım? Emaille',
-      help_suff: 've bizimle irtibat kur!'
+      help_suff: 've bizimle irtibat kur!',
       //    resource_hub: "Teacher Toolkit",
       //    apcsp: "AP CS Principles",
       //    parent: "Parents",
@@ -430,13 +430,13 @@ module.exports = {
 
     modal: {
       close: 'Kapat',
-      okay: 'Tamam'
+      okay: 'Tamam',
       //    cancel: "Cancel",
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Sayfa bulunamadı'
+      page_not_found: 'Sayfa bulunamadı',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: "Biz her ne kadar CodeCombat'i İngilizce olarak geliştirsek de, dünyanın her yerinden oyunculara sahibiz. Oyuncuların bir kısmı oyunu Türkçe oynamak istiyor ve İngilizce bilmiyor. Bu yüzden, eğer her iki dili de biliyorsanız, lütfen kaydolup bir Diplomat olmayı ve CodeCombat ile tüm seviyeleri Türkçe diline çevirmeyi göz önünde bulundurun.",
       missing_translations: 'Biz her şeyi Türkçe diline tercüme edene kadar, Türkçe diline tercüme edilemeyen her şey İngilizce olarak gözükecek.',
       learn_more: 'Diplomat olmakla ilgili dahası için...',
-      subscribe_as_diplomat: 'Diplomat olarak katkıda bulun'
+      subscribe_as_diplomat: 'Diplomat olarak katkıda bulun',
     },
 
     //  new_home_faq: {
@@ -530,11 +530,12 @@ module.exports = {
       awaiting_levels_adventurer: 'Yeni oyunları ilk oynayan olmak için',
       awaiting_levels_adventurer_suffix: 'Maceracı olarak kayıt ol.',
       adjust_volume: 'Sesi ayarla',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Çok Oyunculu Meydanlar',
       campaign_multiplayer_description: 'Diğer oyuncularla kafa kafaya verip kodlamak için...',
       //    brain_pop_done: "You’ve defeated the Ogres with code! You win!",
       //    brain_pop_challenge: "Challenge yourself to play again using a different programming language!",
-      replay: 'Tekrar'
+      replay: 'Tekrar',
       //    back_to_classroom: "Back to Classroom",
       //    teacher_button: "For Teachers",
       //    get_more_codecombat: "Get More CodeCombat",
@@ -595,7 +596,7 @@ module.exports = {
       False: 'Yanlış',
       false: 'yanlış',
       //    undefined: "undefined",
-      null: 'boş'
+      null: 'boş',
       //    nil: "nil",
       //    None: "None",
     },
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'E-posta adreslerini aşağıya gir ve onlara göstereceğiz!',
       form_label: 'E-posta Adresi',
       placeholder: 'e-posta adresi',
-      title: 'Harika İş, Çaylak'
+      title: 'Harika İş, Çaylak',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: 'Tamamlanıyor',
       sign_in_with_facebook: 'Facebook ile Oturum Aç',
       sign_in_with_gplus: 'G+ ile Oturum Aç',
-      signup_switch: 'Hesap oluşturmak istiyor musun?'
+      signup_switch: 'Hesap oluşturmak istiyor musun?',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -699,7 +700,7 @@ module.exports = {
       //    confirm_individual_blurb: "Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!",
       //    confirm_individual_blurb_without_email: "Write down your login information in case you need it later.",
       //    write_this_down: "Write down your username:",
-      start_playing: 'Oynamaya Başla!'
+      start_playing: 'Oynamaya Başla!',
       //    sso_connected: "Successfully connected with:",
       //    select_your_starting_hero: "Select Your Starting Hero:",
       //    you_can_always_change_your_hero_later: "You can always change your hero later.",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Hesabı Kurtar',
       send_password: 'Kurtarma Parolası Gönder',
-      recovery_sent: 'Kurtarma e-postası gönderildi.'
+      recovery_sent: 'Kurtarma e-postası gönderildi.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Zırh',
       accessories: 'Aksesuarlar',
       misc: 'Çeşitli',
-      books: 'Kitaplar'
+      books: 'Kitaplar',
     },
 
     common: {
@@ -798,7 +799,7 @@ module.exports = {
       submit_patch: 'Yama Gönder',
       submit_changes: 'Değişiklikleri Gönder',
       save_changes: 'Değişiklikleri Kaydet',
-      required_field: 'gerekli'
+      required_field: 'gerekli',
       //    submit: "Submit",
       //    replay: "Replay",
       //    complete: "Complete",
@@ -873,7 +874,7 @@ module.exports = {
       contact_us: 'Bizimle iletişime geç',
       close_window: 'Pencereyi Kapat',
       learn_more: 'Daha fazla bilgi edin',
-      more: 'Daha fazla'
+      more: 'Daha fazla',
       //    fewer: "Fewer",
       //    with: "with",
       //    archived: "Archived",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'ay',
       months: 'ay',
       year: 'yıl',
-      years: 'yıl'
+      years: 'yıl',
     },
 
     play_level: {
@@ -1066,7 +1067,7 @@ module.exports = {
       //    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch",
       tip_free_your_mind: 'Her şeyi bırakmalısın, Neo. Korku, şüphe, ve güvensizlik. Zihnini özgürleştir. - Morpheus',
       tip_strong_opponents: 'En güçlü rakiplerin bile zayıf noktası vardır. - Itachi Uchiha',
-      tip_paper_and_pen: 'Kodlamaya başlamadan önce çalışmaya her zaman kağıt ve kalemle başlamalısın.'
+      tip_paper_and_pen: 'Kodlamaya başlamadan önce çalışmaya her zaman kağıt ve kalemle başlamalısın.',
       //    tip_solve_then_write: "First, solve the problem. Then, write the code. - John Johnson",
       //    tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments.",
       //    tip_understand_recursion: "The only way to understand recursion is to understand recursion.",
@@ -1155,7 +1156,7 @@ module.exports = {
       array: 'Dizi',
       object: 'Obje',
       //    string: "String",
-      function: 'Fonksiyon'
+      function: 'Fonksiyon',
       //    vector: "Vector",
       //    date: "Date",
       //    jquery: "jQuery",
@@ -1212,6 +1213,7 @@ module.exports = {
       inventory_tab: 'Envanter',
       save_load_tab: 'Kaydet/Yükle',
       options_tab: 'Seçenekler',
+      //    my_code_tab: "My Code",
       guide_tab: 'Rehber',
       guide_video_tutorial: 'Video Öğreticisi',
       guide_tips: 'İpuçları',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Kahramanınızı donatın',
       choose_hero_caption: 'Kahraman, dil seçin',
       options_caption: 'Ayarları yapılandır',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Belgeler ve ipuçları',
       multiplayer_caption: 'Arkadaşlarla oyna!',
-      auth_caption: 'İlerlemenizi kaydedin.'
+      auth_caption: 'İlerlemenizi kaydedin.',
     },
 
     leaderboard: {
@@ -1237,7 +1240,7 @@ module.exports = {
       damage_taken: 'Alınan Hasar',
       damage_dealt: 'Verilen Hasar',
       difficulty: 'Zorluk',
-      gold_collected: 'Toplanan Altın'
+      gold_collected: 'Toplanan Altın',
       //    survival_time: "Survived",
       //    defeated: "Enemies Defeated",
       //    code_length: "Lines of Code",
@@ -1254,7 +1257,7 @@ module.exports = {
       locked: '(kitli)',
       restricted: '(bu bölümde kısıtlı)',
       equip: 'Giy',
-      unequip: 'Çıkar'
+      unequip: 'Çıkar',
       //    warrior_only: "Warrior Only",
       //    ranger_only: "Ranger Only",
       //    wizard_only: "Wizard Only",
@@ -1274,7 +1277,7 @@ module.exports = {
       price: 'x{{gems}} / ay',
       buy_premium: 'Premiumluk Satın Almak',
       purchase: 'Satın Alma',
-      purchased: 'Satın Alındı'
+      purchased: 'Satın Alındı',
     },
 
     //  subscribe_for_gems: {
@@ -1344,6 +1347,7 @@ module.exports = {
     //    currently_not_free: "You don't have a Subscription yet.",
     //    online_classes: "Online Classes",
     //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+    //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     //  },
 
     //  announcement: {
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Oyun betik dili.',
       //    java_blurb: "(Subscriber Only) Android and enterprise.",
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Durum',
       weapons: 'Silahlar',
       //    weapons_warrior: "Swords - Short Range, No Magic",
@@ -1455,7 +1468,7 @@ module.exports = {
       range: 'Menzil',
       blocks: 'Blok',
       //    backstab: "Backstab",
-      skills: 'Yetenekler'
+      skills: 'Yetenekler',
       //    attack_1: "Deals",
       //    attack_2: "of listed",
       //    attack_3: "weapon damage.",
@@ -1511,7 +1524,7 @@ module.exports = {
 
     save_load: {
       granularity_saved_games: 'Kaydedildi',
-      granularity_change_history: 'Geçmiş'
+      granularity_change_history: 'Geçmiş',
     },
 
     options: {
@@ -1520,7 +1533,7 @@ module.exports = {
       music_label: 'Müzik',
       music_description: 'Arkaplan müziğini aç/kapat.',
       editor_config_title_coco: 'Düzenleyici Yapılandırması',
-      editor_config_title_ozar: 'Düzenleyici Yapılandırması'
+      editor_config_title_ozar: 'Düzenleyici Yapılandırması',
       //    editor_config_livecompletion_label: "Enable Autocomplete",
       //    editor_config_livecompletion_description: "Displays autocomplete suggestions while typing.",
       //    editor_config_invisibles_label: "Show Invisibles",
@@ -1657,7 +1670,7 @@ module.exports = {
       screenshots: 'Ekran görüntüleri',
       //    character_art: "Character Art",
       download_all: 'Hepsini İndir',
-      previous: 'Önceki'
+      previous: 'Önceki',
       //    location_title: "We're located in downtown SF:",
     },
 
@@ -1689,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1856,7 +1868,7 @@ module.exports = {
       cla_prefix: 'Değişiklikleri kaydetmek için ilk olarak',
       cla_url: "KLA'mızı",
       cla_suffix: 'kabul etmelisiniz.',
-      cla_agree: 'KABUL EDİYORUM'
+      cla_agree: 'KABUL EDİYORUM',
       //    owner_approve: "An owner will need to approve it before your changes will become visible.",
     },
 
@@ -1874,7 +1886,7 @@ module.exports = {
       //    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support.",
       //    screenshot_included: "Screenshot included.",
       //    where_reply: "Where should we reply?",
-      send: 'Gönder'
+      send: 'Gönder',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: 'Kayıt Esnasında Hata',
       saved: 'Değişiklikler Kaydedildi',
       password_mismatch: 'Şifreler Uyuşmuyor',
-      password_repeat: 'Lütfen şifrenizi yenileyin.'
+      password_repeat: 'Lütfen şifrenizi yenileyin.',
     },
 
     keyboard_shortcuts: {
@@ -1937,7 +1949,7 @@ module.exports = {
       escape: 'Escape',
       shift: 'ÜstKarakter',
       run_code: 'Geçerli kodu çalıştır.',
-      run_real_time: 'Eşzamanlı çalış.'
+      run_real_time: 'Eşzamanlı çalış.',
       //    continue_script: "Continue past current script.",
       //    skip_scripts: "Skip past all skippable scripts.",
       //    toggle_playback: "Toggle play/pause.",
@@ -1948,7 +1960,6 @@ module.exports = {
       //    toggle_grid: "Toggle grid overlay.",
       //    toggle_pathfinding: "Toggle pathfinding overlay.",
       //    beautify: "Beautify your code by standardizing its formatting.",
-      //    maximize_editor: "Maximize/minimize code editor.",
     },
 
     //  cinematic: {
@@ -1957,7 +1968,7 @@ module.exports = {
     //  },
 
     community: {
-      main_title: 'CodeCombat Topluluğu'
+      main_title: 'CodeCombat Topluluğu',
       //    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!",
       //    level_editor_prefix: "Use the CodeCombat",
       //    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!",
@@ -2832,7 +2843,7 @@ module.exports = {
       diplomat_title_description: '(Çevirmen)',
       //    diplomat_summary: "CodeCombat is localized in 45+ languages by our Diplomats. Help us out and contribute translations.",
       ambassador_title: 'Büyükelçi',
-      ambassador_title_description: '(Support)'
+      ambassador_title_description: '(Support)',
       //    ambassador_summary: "Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world.",
       //    teacher_title: "Teacher",
     },
@@ -2870,6 +2881,7 @@ module.exports = {
       fork_title: 'Yeni Sürüm Çatalla',
       fork_creating: 'Çatal Oluşturuluyor...',
       generate_terrain: 'Arazi Oluştur',
+      //    generate_level: "Generate Level",
       more: 'Daha Fazla',
       wiki: 'Viki',
       live_chat: 'Canlı Sohbet',
@@ -2954,7 +2966,7 @@ module.exports = {
       //    standards_search_title: "Search Standards Correlations Here",
       //    thang_search_title: "Search Thang Types Here",
       level_search_title: 'Seviye ara',
-      achievement_search_title: 'Başarı Ara'
+      achievement_search_title: 'Başarı Ara',
       //    poll_search_title: "Search Polls",
       //    course_search_title: "Search Courses",
       //    resource_search_title: "Search Resources",
@@ -2980,7 +2992,7 @@ module.exports = {
 
     article: {
       edit_btn_preview: 'Önizleme',
-      edit_article_title: 'Makaleyi Düzenle'
+      edit_article_title: 'Makaleyi Düzenle',
     },
 
     //  polls: {
@@ -3002,7 +3014,7 @@ module.exports = {
       //    join_desc_2: "to get started, and check the box below to mark yourself as a brave Archmage and get the latest news by email. Want to chat about what to do or how to get more deeply involved? ",
       //    join_desc_3: ", or find us in our ",
       //    join_desc_4: "and we'll go from there!",
-      join_url_email: 'E-Posta ile Bize ulaşın'
+      join_url_email: 'E-Posta ile Bize ulaşın',
       //    join_url_slack: "public Slack channel",
       //    archmage_subscribe_desc: "Get emails on new coding opportunities and announcements.",
       //    artisan_introduction_pref: "We must construct additional levels! People be clamoring for more content, and we can only build so many ourselves. Right now your workstation is level one; our level editor is barely usable even by its creators, so be wary. If you have visions of campaigns spanning for-loops to",
@@ -3097,7 +3109,7 @@ module.exports = {
       tutorial_not_sure: 'Ne olduğundan emin değil misiniz?',
       tutorial_play_first: 'İlk olarak Öğreticiyi oynayın.',
       simple_ai: 'Basit YZ',
-      warmup: 'Isınma'
+      warmup: 'Isınma',
       //    friends_playing: "Friends Playing",
       //    log_in_for_friends: "Log in to play with your friends!",
       //    social_connect_blurb: "Connect and play against your friends!",
@@ -3148,7 +3160,7 @@ module.exports = {
       //    user_title: "__name__ - Learn to Code with CodeCombat",
       //    stats: "Stats",
       singleplayer_title: 'Tek Oyuncu Seviyesi',
-      multiplayer_title: 'Çok Oyunculu Seviyesi'
+      multiplayer_title: 'Çok Oyunculu Seviyesi',
       //    achievements_title: "Achievements",
       //    last_played: "Last Played",
       //    status: "Status",
@@ -3223,7 +3235,7 @@ module.exports = {
       //    active_until: "Active Until",
       cost: 'Tutar',
       next_payment: 'Bir sonraki ödeme',
-      card: 'Kart'
+      card: 'Kart',
       //    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now.",
       //    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!",
       //    not_yet_verified: "Not yet verified.",
@@ -3247,7 +3259,7 @@ module.exports = {
       pay: 'Fatura Ödeme',
       purchasing: 'Ödeniyor...',
       retrying: 'Sunucu hatası, tekrar deneniyor.',
-      success: 'Başarıyla ödendi. Tesekkürler!'
+      success: 'Başarıyla ödendi. Tesekkürler!',
     },
 
     //  account_prepaid: {
@@ -3287,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3364,7 +3377,7 @@ module.exports = {
       conflict: 'Kaynak çakışması.',
       bad_input: 'Hatalı girdi.',
       server_error: 'Sunucu hatası.',
-      unknown: 'Bilinmeyen hata.'
+      unknown: 'Bilinmeyen hata.',
       //    error: "ERROR",
       //    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!",
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
@@ -3380,7 +3393,7 @@ module.exports = {
       component: 'Bileşen',
       components: 'Bileşenler',
       hero: 'Kahraman',
-      campaigns: 'Kampanyalar'
+      campaigns: 'Kampanyalar',
     },
 
     concepts: {
@@ -3503,7 +3516,7 @@ module.exports = {
       intermediate_css: 'Orta düzey CSS',
       //    intermediate_web_scripting: "Intermediate Web Scripting",
       advanced_html: 'Gelişmiş HTML',
-      advanced_css: 'Gelişmiş CSS'
+      advanced_css: 'Gelişmiş CSS',
       //    advanced_web_scripting: "Advanced Web Scripting",
       //    input_handling: "Input Handling",
       //    while_loops: "While Loops",
@@ -3603,7 +3616,7 @@ module.exports = {
       nutshell_title: 'Özetle',
       nutshell_description: 'Seviye editöründe sağladığımız tüm içerik, seviye düzenleme sırasında kullanmanız için uygundur. Fakat ileride bu öğelerin kullanımını kısıtlama hakkını saklı tutmaktayız.',
       //    nutshell_see_also: "See also:",
-      canonical: 'Belirleyici, hukuki nitelikte olan, bu dökümanın İngilizce sürümüdür. Çeviriler arasında tutarsızlık olması halinde İngilizce dökümanda yer alan hüküm dikkate alınacaktır.'
+      canonical: 'Belirleyici, hukuki nitelikte olan, bu dökümanın İngilizce sürümüdür. Çeviriler arasında tutarsızlık olması halinde İngilizce dökümanda yer alan hüküm dikkate alınacaktır.',
       //    third_party_title: "Third Party Services",
       //    third_party_description: "CodeCombat uses the following third party services (among others):",
       //    cookies_message: "CodeCombat uses a few essential and non-essential cookies.",
@@ -3647,8 +3660,8 @@ module.exports = {
       september: 'Eylül',
       october: 'Ekim',
       november: 'Kasım',
-      december: 'Aralık'
-    }
+      december: 'Aralık',
+    },
 
     //  code_play_create_account_modal: {
     //    title: "You did it!",
@@ -3921,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4478,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4759,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

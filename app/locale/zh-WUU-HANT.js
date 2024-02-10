@@ -369,7 +369,7 @@ module.exports = {
       //    star: "CoCoStar",
       contact: '搭我裏聯繫',
       //    press: "Press",
-      twitter_follow: '關注'
+      twitter_follow: '關注',
       //    my_classrooms: "My Classes",
       //    my_courses: "My Courses",
       //    my_units: "My Units",
@@ -430,13 +430,13 @@ module.exports = {
 
     modal: {
       close: '關脫',
-      okay: '好用'
+      okay: '好用',
       //    cancel: "Cancel",
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: '頁面尋弗着'
+      page_not_found: '頁面尋弗着',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: '我裏開發 CodeCombat 個英文版，不過能界我裏個玩家徠整個世界。無數人英語弗懂弗熟，猴想攪吳語版個遊戲，假使爾吳英文都要得懂險，考虑記加進來搭我裏聚隊翻譯，幫忙畀 CodeCombat 網站搭遊戲關加關都翻成吳語。',
       missing_translations: '嘸翻個字都會用英文寫起。',
       learn_more: '望望湊當翻譯人個說明',
-      subscribe_as_diplomat: '提交翻譯人員申請'
+      subscribe_as_diplomat: '提交翻譯人員申請',
     },
 
     //  new_home_faq: {
@@ -530,8 +530,9 @@ module.exports = {
       //    awaiting_levels_adventurer: "Sign up as an Adventurer",
       //    awaiting_levels_adventurer_suffix: "to be the first to play new levels.",
       //    adjust_volume: "Adjust volume",
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: '多人競賽場',
-      campaign_multiplayer_description: '……徠箇搭爾好搭別人代碼捉跤。'
+      campaign_multiplayer_description: '……徠箇搭爾好搭別人代碼捉跤。',
       //    brain_pop_done: "You’ve defeated the Ogres with code! You win!",
       //    brain_pop_challenge: "Challenge yourself to play again using a different programming language!",
       //    replay: "Replay",
@@ -617,7 +618,7 @@ module.exports = {
       log_in: '登進去',
       //    sign_in: "Sign In",
       logging_in: '徠搭登進',
-      log_out: '登出'
+      log_out: '登出',
       //    forgot_password: "Forgot your password?",
       //    finishing: "Finishing",
       //    sign_in_with_facebook: "Facebook",
@@ -647,7 +648,7 @@ module.exports = {
       //    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!",
       creating: '徠搭做賬號……',
       sign_up: '註冊',
-      log_in: '登進'
+      log_in: '登進',
       //    login: "Login",
       //    required: "You need to log in before you can go that way.",
       //    login_switch: "Already have an account?",
@@ -749,7 +750,7 @@ module.exports = {
 
     recover: {
       recover_account_title: '賬號尋轉',
-      send_password: '發轉設鏈接畀我'
+      send_password: '發轉設鏈接畀我',
       //    recovery_sent: "Recovery email sent.",
     },
 
@@ -789,7 +790,7 @@ module.exports = {
       create: '起造',
       fork: '派生',
       play: '開來',
-      retry: '轉試'
+      retry: '轉試',
       //    actions: "Actions",
       //    info: "Info",
       //    help: "Help",
@@ -861,7 +862,7 @@ module.exports = {
       easy: '省力',
       medium: '公道',
       hard: '煩難',
-      player: '來個人'
+      player: '來個人',
       //    player_level: "Level",
       //    warrior: "Warrior",
       //    ranger: "Ranger",
@@ -893,7 +894,7 @@ module.exports = {
       minute: '分',
       minutes: '分',
       hour: '鐘頭',
-      hours: '鐘頭'
+      hours: '鐘頭',
       //    day: "day",
       //    days: "days",
       //    week: "week",
@@ -1043,7 +1044,7 @@ module.exports = {
       tip_documented_bug: '一個寫徠文檔裏個漏洞弗算漏洞，渠是功能。',
       tip_impossible: '事幹還朆下落之前，一切都扣搭嘸道理相。- 納爾遜·曼德拉',
       tip_talk_is_cheap: '甮七講八講，代碼摜出望爻。- 林納斯·托華兹',
-      tip_first_language: '爾經歷着最䁨嗰事幹是爾個頭一門編程語言。 - Alan Kay'
+      tip_first_language: '爾經歷着最䁨嗰事幹是爾個頭一門編程語言。 - Alan Kay',
       //    tip_hardware_problem: "Q: How many programmers does it take to change a light bulb?  A: None, it's a hardware problem.",
       //    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law.",
       //    tip_premature_optimization: "Premature optimization is the root of all evil. - Donald Knuth",
@@ -1212,14 +1213,16 @@ module.exports = {
       //    inventory_tab: "Inventory",
       //    save_load_tab: "Save/Load",
       //    options_tab: "Options",
+      //    my_code_tab: "My Code",
       //    guide_tab: "Guide",
       //    guide_video_tutorial: "Video Tutorial",
       //    guide_tips: "Tips",
-      multiplayer_tab: '多人遊戲'
+      multiplayer_tab: '多人遊戲',
       //    auth_tab: "Sign Up",
       //    inventory_caption: "Equip your hero",
       //    choose_hero_caption: "Choose hero, language",
       //    options_caption: "Configure settings",
+      //    my_code_caption: "Quick Code Actions",
       //    guide_caption: "Docs and tips",
       //    multiplayer_caption: "Play with friends!",
       //    auth_caption: "Save your progress.",
@@ -1344,6 +1347,7 @@ module.exports = {
     //    currently_not_free: "You don't have a Subscription yet.",
     //    online_classes: "Online Classes",
     //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+    //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     //  },
 
     //  announcement: {
@@ -1443,6 +1447,15 @@ module.exports = {
     //    lua_blurb: "Game scripting language.",
     //    java_blurb: "(Subscriber Only) Android and enterprise.",
     //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+    //    code_format: "Code Format",
+    //    text_code: "Text code",
+    //    blocks_and_code: "Blocks and code",
+    //    blocks_text: "Blocks",
+    //    blocks_icons: "Blocks (icons)",
+    //    text_code_blurb: "Type text-based code in a real code editor",
+    //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+    //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+    //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
     //    status: "Status",
     //    weapons: "Weapons",
     //    weapons_warrior: "Swords - Short Range, No Magic",
@@ -1528,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: '顯示縮進提醒',
       editor_config_indentguides_description: '顯示一條豎線讓縮進顯眼。',
       //    editor_config_behaviors_label: "Enable Smart Behaviors",
-      editor_config_behaviors_description: '自動完成括號，大括號搭引號。'
+      editor_config_behaviors_description: '自動完成括號，大括號搭引號。',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1689,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1856,7 +1868,7 @@ module.exports = {
       cla_prefix: '想畀修改存起來，先頭要同意我裏個',
       cla_url: '貢獻者許可協議',
       cla_suffix: '。',
-      cla_agree: '我同意'
+      cla_agree: '我同意',
       //    owner_approve: "An owner will need to approve it before your changes will become visible.",
     },
 
@@ -1874,7 +1886,7 @@ module.exports = {
       //    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support.",
       //    screenshot_included: "Screenshot included.",
       //    where_reply: "Where should we reply?",
-      send: '提出意見'
+      send: '提出意見',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1925,7 +1937,7 @@ module.exports = {
       email_toggle: '切換全部',
       error_saving: '保存時出錯',
       saved: '保存起來哉',
-      password_mismatch: '密碼弗合。'
+      password_mismatch: '密碼弗合。',
       //    password_repeat: "Please repeat your password.",
     },
 
@@ -1948,7 +1960,6 @@ module.exports = {
     //    toggle_grid: "Toggle grid overlay.",
     //    toggle_pathfinding: "Toggle pathfinding overlay.",
     //    beautify: "Beautify your code by standardizing its formatting.",
-    //    maximize_editor: "Maximize/minimize code editor.",
     //  },
 
     //  cinematic: {
@@ -2832,7 +2843,7 @@ module.exports = {
       diplomat_title_description: '(語言翻譯人)',
       //    diplomat_summary: "CodeCombat is localized in 45+ languages by our Diplomats. Help us out and contribute translations.",
       ambassador_title: '使節',
-      ambassador_title_description: '(用戶支持人)'
+      ambassador_title_description: '(用戶支持人)',
       //    ambassador_summary: "Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world.",
       //    teacher_title: "Teacher",
     },
@@ -2870,6 +2881,7 @@ module.exports = {
       fork_title: '派生新版本',
       fork_creating: '徠搭執行派生...',
       //    generate_terrain: "Generate Terrain",
+      //    generate_level: "Generate Level",
       more: '無數',
       wiki: '維基',
       live_chat: '上線白嗒',
@@ -2964,7 +2976,7 @@ module.exports = {
       //    ai_model_search_title: "Search Models",
       //    ai_document_search_title: "Search Documents",
       //    ai_chat_message_search_title: "Search Chat Messages",
-      read_only_warning2: '提醒：爾嘸處存編寫，朆登進之故'
+      read_only_warning2: '提醒：爾嘸處存編寫，朆登進之故',
       //    no_achievements: "No achievements have been added for this level yet.",
       //    achievement_query_misc: "Key achievement off of miscellanea",
       //    achievement_query_goals: "Key achievement off of level goals",
@@ -2980,7 +2992,7 @@ module.exports = {
 
     article: {
       edit_btn_preview: '試望',
-      edit_article_title: '编辑提示'
+      edit_article_title: '编辑提示',
     },
 
     //  polls: {
@@ -3055,7 +3067,7 @@ module.exports = {
       creative_artisans: '我裏有頭路個泥水人:',
       brave_adventurers: '我裏有本事個冒險家:',
       translating_diplomats: '我裏全世界分佈個外交官:',
-      helpful_ambassadors: '我裏親切個使節:'
+      helpful_ambassadors: '我裏親切個使節:',
     },
 
     ladder: {
@@ -3097,7 +3109,7 @@ module.exports = {
       tutorial_not_sure: '曉弗得怎兒攪攪？',
       tutorial_play_first: '先教程攪遍。',
       simple_ai: '省力腦子',
-      warmup: '熱身'
+      warmup: '熱身',
       //    friends_playing: "Friends Playing",
       //    log_in_for_friends: "Log in to play with your friends!",
       //    social_connect_blurb: "Connect and play against your friends!",
@@ -3287,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3364,7 +3377,7 @@ module.exports = {
       conflict: '資源衝撞。',
       bad_input: '吞輸進。',
       server_error: '服務器錯誤。',
-      unknown: '弗識錯誤。'
+      unknown: '弗識錯誤。',
       //    error: "ERROR",
       //    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!",
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
@@ -3374,7 +3387,7 @@ module.exports = {
     resources: {
       level: '等級',
       //    patch: "Patch",
-      patches: '補丁'
+      patches: '補丁',
       //    system: "System",
       //    systems: "Systems",
       //    component: "Component",
@@ -3603,13 +3616,13 @@ module.exports = {
       nutshell_title: '省講佩是',
       nutshell_description: '我裏徠關編寫器裏公開個所有資源，做關到都候爾用，不過我裏保留限制 codecombat.com 上向所造各關傳播個權利，因爲我裏轉日嘸數畀箇許關數收鈔票。',
       //    nutshell_see_also: "See also:",
-      canonical: '箇篇講明個英文版是權威版本。空是各許翻譯版本對弗牢，照英文版裏講個算數。'
+      canonical: '箇篇講明個英文版是權威版本。空是各許翻譯版本對弗牢，照英文版裏講個算數。',
       //    third_party_title: "Third Party Services",
       //    third_party_description: "CodeCombat uses the following third party services (among others):",
       //    cookies_message: "CodeCombat uses a few essential and non-essential cookies.",
       //    cookies_deny: "Decline non-essential cookies",
       //    cookies_allow: "Allow cookies",
-    }
+    },
 
     //  ladder_prizes: {
     //    title: "Tournament Prizes",
@@ -3921,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4478,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4759,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

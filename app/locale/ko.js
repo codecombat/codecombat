@@ -329,7 +329,7 @@ module.exports = {
       //    for_libraries_blurb: "As an entirely self-paced and self-directed digital resource, CodeCombat is the best integration for libraries that want to empower their members of all ages to learn how to code. Our platform offers everything learners need to experience a high-level coding education through a uniquely exciting, game-based curriculum. Perfect for learners in third grade all the way up to adults who want to master college-level coding concepts.",
       //    for_libraries_button: "Explore Libraries",
       //    what_our_customers_are_saying: "What Our Customers Are Saying",
-      game_based_learning: '게임 기반의 '
+      game_based_learning: '게임 기반의 ',
       //    unique_approach_blurb: "With our unique approach, students embrace learning as they play and write code from the very start of their adventure, promoting active learning and a growth mindset.",
       //    text_based_coding: "Text-Based Coding",
       //    custom_code_engine_blurb: "Our custom code engine and interpreter is designed for beginners, teaching true Python, JavaScript, and C++ programming languages using human, beginner-friendly terms.",
@@ -399,7 +399,7 @@ module.exports = {
       //    classes: "Classes",
       //    term_of_service: "Terms of Service",
       //    esports: "Esports",
-      browser_recommendation: '최상의 환경을 위해, 구글 크롬의 최신 버전을 사용하기를 권장합니다. 여기에서 브라우저를 다운로드하세요!'
+      browser_recommendation: '최상의 환경을 위해, 구글 크롬의 최신 버전을 사용하기를 권장합니다. 여기에서 브라우저를 다운로드하세요!',
       //    ozaria_classroom: "Ozaria Classroom",
       //    codecombat_classroom: "CodeCombat Classroom",
       //    ozaria_dashboard: "Ozaria Dashboard",
@@ -431,12 +431,12 @@ module.exports = {
     modal: {
       close: '닫기',
       okay: '확인',
-      cancel: '취소'
+      cancel: '취소',
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: '페이지를 찾을 수 없습니다'
+      page_not_found: '페이지를 찾을 수 없습니다',
     },
 
     diplomat_suggestion: {
@@ -445,14 +445,14 @@ module.exports = {
       pitch_body: '저희는 영어로 코드 컴뱃을 개발하기 시작했지만, 이미 전세계의 유저들이 코드 컴뱃을 이용하고 있습니다. 그 중 많은 사람들이 한국어로 플레이하기를 바랍니다. 혹시 당신이 영어/한국어에 모두 능숙하다면, 외교관(Diplomate)으로 코드 컴뱃에 참여해서 모든 레벨 뿐만 아니라 웹사이트를 한국어로 번역할 수 있습니다.',
       missing_translations: '저희가 모든 내용을 한국어로 번역할 때까지 기본은 영어로 제공됩니다.',
       learn_more: '외교관에 대해서 좀 더 자세히 알아보기',
-      subscribe_as_diplomat: '외교관을 위한 정기 구독'
+      subscribe_as_diplomat: '외교관을 위한 정기 구독',
     },
 
     new_home_faq: {
       what_programming_languages: '어떤 프로그래밍 언어를 사용할 수 있나요?',
       python_and_javascript: '현재 Python과 JavaScript를 지원합니다.',
       why_python: '왜 Python을 선택했나요?',
-      why_python_blurb: 'Python은 초심자에게 좋은 언어이고, Google 등 많은 회사에서 사용되고 있습니다. 코딩을 처음 접하는 사람들에게 Python을 강력히 추천합니다.'
+      why_python_blurb: 'Python은 초심자에게 좋은 언어이고, Google 등 많은 회사에서 사용되고 있습니다. 코딩을 처음 접하는 사람들에게 Python을 강력히 추천합니다.',
       //    why_javascript: "Why should you choose JavaScript?",
       //    why_javascript_blurb: "JavaScript is the language of the web and is used across nearly every website. You may prefer to choose JavaScript if you are planning to also study web development. We’ve also made it easy for students to transition from Python to JavaScript-based web development.",
       //    javascript_versus_python: "JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python.",
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: '모험가로 등록 하세요!',
       awaiting_levels_adventurer_suffix: '새로운 레벨을 가장 먼저 체험하세요!',
       adjust_volume: '소리 조절',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: '멀티 플레이어 전투장',
       campaign_multiplayer_description: '... 이곳에서 당신은 다른 플레이어(사람들)과 직접 결투할 수 있습니다.',
       brain_pop_done: '이겼어요! 당신의 코드로 오우거를 물리쳤습니다!',
@@ -537,7 +538,7 @@ module.exports = {
       replay: '다시 하기',
       back_to_classroom: '교실로 돌아가기',
       teacher_button: '교사용',
-      get_more_codecombat: 'CodeCombat을 더 알아보기'
+      get_more_codecombat: 'CodeCombat을 더 알아보기',
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
       //    customize_hero: "Customize Hero",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: '정의되지 않음',
       null: '없음',
       nil: '없음',
-      None: '없음'
+      None: '없음',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: '아래에 부모님의 이메일 주소를 입력하세요. 부모님께 보여드릴게요!',
       form_label: '이메일 주소 입력',
       placeholder: '이메일 주소 입력',
-      title: '잘 했어요!'
+      title: '잘 했어요!',
     },
 
     login: {
@@ -627,7 +628,7 @@ module.exports = {
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
       //    individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!",
-      accounts_merge_confirmation: '이 이메일로 가입된 Google+ 연동 계정이 있습니다. 두 계정을 합칠까요?'
+      accounts_merge_confirmation: '이 이메일로 가입된 Google+ 연동 계정이 있습니다. 두 계정을 합칠까요?',
       //    stop_spying: "Stop Spying",
       //    stop_switching: "Stop Switching",
       //    test_as_student: "Test as Student",
@@ -743,14 +744,14 @@ module.exports = {
       want_to_play_codecombat: '그런 건 없지만 CodeCombat을 플레이하고 싶습니다.',
       have_a_classcode: '클래스 코드를 알고 있나요?',
       yes_i_have_classcode: '예. 클래스 코드가 있습니다.',
-      enter_it_here: '여기에 입력하세요:'
+      enter_it_here: '여기에 입력하세요:',
       //    play_without_saving: "Play without saving",
     },
 
     recover: {
       recover_account_title: '계정 복구',
       send_password: '복구 비밀번호 전송',
-      recovery_sent: '메일 전송 완료'
+      recovery_sent: '메일 전송 완료',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: '갑옷',
       accessories: '액세서리',
       misc: '잡동사니',
-      books: '책'
+      books: '책',
     },
 
     common: {
@@ -801,7 +802,7 @@ module.exports = {
       required_field: '필수',
       submit: '제출',
       replay: '다시하기',
-      complete: '완료'
+      complete: '완료',
       //    pick_image: "Pick Image",
       //    continue_editing: "Continue Editing",
       //    logout: "Logout",
@@ -872,7 +873,7 @@ module.exports = {
       username: '사용자 이름',
       //    contact_us: "Contact Us",
       close_window: '창 닫기',
-      learn_more: '더 배우기'
+      learn_more: '더 배우기',
       //    more: "More",
       //    fewer: "Fewer",
       //    with: "with",
@@ -901,7 +902,7 @@ module.exports = {
       month: '개월',
       months: '개월',
       year: '년',
-      years: '년'
+      years: '년',
     },
 
     play_level: {
@@ -1102,7 +1103,7 @@ module.exports = {
       vega_character: 'Vega 캐릭터',
       //    capella_character: "Capella Character",
       //    octans_character: "Octans Character",
-      click_to_continue: '클릭해서 계속하기'
+      click_to_continue: '클릭해서 계속하기',
       //    fill_in_solution: "Fill in solution",
       //    toggle_solution: "Toggle solution",
       //    play_as_humans: "Play As Red",
@@ -1161,7 +1162,7 @@ module.exports = {
       jquery: 'jQuery',
       json: 'JSON',
       number: '숫자',
-      webjavascript: 'JavaScript'
+      webjavascript: 'JavaScript',
     },
 
     amazon_hoc: {
@@ -1173,7 +1174,7 @@ module.exports = {
       future_eng_2: '여기',
       future_eng_3: '(디바이스는 필요 없습니다). 이 Alexa 활동이 당신을 위해 주어진 것입니다.',
       future_eng_4: '미래의 Amazon 엔지니어',
-      future_eng_5: '컴퓨터 공학을 추구하는 미국의 모든 K-12 학생들에게 학습과 직업 기회를 만드는 프로그램입니다.'
+      future_eng_5: '컴퓨터 공학을 추구하는 미국의 모든 K-12 학생들에게 학습과 직업 기회를 만드는 프로그램입니다.',
     },
 
     //  live_class: {
@@ -1205,13 +1206,14 @@ module.exports = {
       goal_defeat_amount: '__amount__명의 적 물리치기.',
       goal_move: '모든 빨간색 X 표시로 이동합니다.',
       goal_collect: '모든 아이템을 모으세요.',
-      goal_collect_amount: '__amount__개의 아이템을 모으세요.'
+      goal_collect_amount: '__amount__개의 아이템을 모으세요.',
     },
 
     game_menu: {
       inventory_tab: '인벤토리',
       save_load_tab: '저장하기/불러오기',
       options_tab: '옵션',
+      //    my_code_tab: "My Code",
       guide_tab: '가이드',
       guide_video_tutorial: '영상 튜토리얼',
       guide_tips: '팁들',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: '장비 장착',
       choose_hero_caption: '영웅 및 언어 선택 ',
       options_caption: '설정들을 바꾸기',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: '문서들과 팁들',
       multiplayer_caption: '친구들과 플레이하세요!',
-      auth_caption: '진행사항을 저장하세요'
+      auth_caption: '진행사항을 저장하세요',
     },
 
     leaderboard: {
@@ -1240,7 +1243,7 @@ module.exports = {
       gold_collected: '수집된 골드',
       survival_time: '생존한 시간',
       //    defeated: "Enemies Defeated",
-      code_length: '코드 길이'
+      code_length: '코드 길이',
       //    score_display: "__scoreType__: __score__",
     },
 
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: '해제',
       warrior_only: '워리어 전용',
       ranger_only: '레인저 전용',
-      wizard_only: '마법사 전용'
+      wizard_only: '마법사 전용',
     },
 
     buy_gems: {
@@ -1274,17 +1277,17 @@ module.exports = {
       price: 'x{{gems}} / 한 달',
       buy_premium: '프리미엄 구입',
       purchase: '구매하기',
-      purchased: '구매함'
+      purchased: '구매함',
     },
 
     subscribe_for_gems: {
       prompt_title: 'Gem이 충분하지 않아요!',
-      prompt_body: '프리미엄 구독을 해서 gems을 얻고 전용 레벨에 접근하세요!'
+      prompt_body: '프리미엄 구독을 해서 gems을 얻고 전용 레벨에 접근하세요!',
     },
 
     earn_gems: {
       prompt_title: '젬이 충분하지 않습니다.',
-      prompt_body: '더 얻기 위해 계속 플레이하세요.'
+      prompt_body: '더 얻기 위해 계속 플레이하세요.',
     },
 
     subscribe: {
@@ -1337,13 +1340,14 @@ module.exports = {
       year_price: '$__price__/년',
       //    year_price_without_currency: "__price__/yr",
       support_part1: '결제에 도움이 필요하거나 PayPal을 선호하세요? 메일을 보내주세요.',
-      support_part2: 'support@codecombat.com'
+      support_part2: 'support@codecombat.com',
       //    go_prepaid: "Click here after scaning the code and purchasing",
       //    forever: "Forever",
       //    subscription_status: "Your Subscription Status",
       //    currently_not_free: "You don't have a Subscription yet.",
       //    online_classes: "Online Classes",
       //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+      //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     },
 
     announcement: {
@@ -1386,7 +1390,7 @@ module.exports = {
       tornado_name: '폭풍',
       tornado_description: '엄폐물이 날아가 버렸다면 리셋 버튼을 가지고 있는 게 좋겠죠.',
       wallOfDarkness_name: '암흑의 벽',
-      wallOfDarkness_description: '그림자 벽 뒤에 숨어 엿보는 시선을 회피합니다.'
+      wallOfDarkness_description: '그림자 벽 뒤에 숨어 엿보는 시선을 회피합니다.',
       //    notifications: "Notifications",
       //    x_announcement: "__x__ Notification",
       //    x_announcements: "__x__ Notifications",
@@ -1399,7 +1403,7 @@ module.exports = {
     },
 
     avatar_selection: {
-      pick_an_avatar: '당신을 나타낼 아바타를 고르세요.'
+      pick_an_avatar: '당신을 나타낼 아바타를 고르세요.',
       //    select_avatar_title: "Choose Player Avatar",
     },
 
@@ -1424,7 +1428,7 @@ module.exports = {
       list_web_dev: '웹 사이트 및 대화형 앱 제작',
       list_items: '팻과 같은 프리미엄 전용 아이템',
       list_support: '어려운 코드를 디버그하는데 도움이 되는 프리미엄 지원.',
-      list_clans: '친구를 초대하고 그룹 리더 보드에서 경쟁하는 개인 클랜 만들기.'
+      list_clans: '친구를 초대하고 그룹 리더 보드에서 경쟁하는 개인 클랜 만들기.',
       //    ai_bot_learning: "AI powered support to accelerate learning outcomes!",
       //    ai_bot_description: "CodeCombat’s AI powered hints feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available young learners will still need to work through each level's coding challenge. Premium subscribers receive an allocation of <b>10 AI hints per day</b> to ensure they always have the support they need.",
       //    list_ai_bot: "Premium subscribers receive an allocation of 10 AI hints per day",
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: '게임 스크립팅 언어',
       java_blurb: '(유료 구독 전용) 안드로이드나 기타 프로그램.',
       cpp_blurb: '(유료 구독 전용) 게임 개발이나 고성능 프로그래밍.',
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: '상태',
       weapons: '무기',
       weapons_warrior: '검 - 짧은 거리, 마법 불가',
@@ -1466,7 +1479,7 @@ module.exports = {
       speed_2: '초당 미터.',
       available_for_purchase: '구매 필요',
       level_to_unlock: '잠금 해제를 위해 레벨 클리어 필요:',
-      restricted_to_certain_heroes: '특정 영웅만이 이 레벨을 플레이할 수 있습니다.'
+      restricted_to_certain_heroes: '특정 영웅만이 이 레벨을 플레이할 수 있습니다.',
     },
 
     char_customization_modal: {
@@ -1474,7 +1487,7 @@ module.exports = {
       body: '체형',
       name_label: '영웅의 이름',
       hair_label: '머리 색',
-      skin_label: '피부 색'
+      skin_label: '피부 색',
     },
 
     skill_docs: {
@@ -1505,13 +1518,13 @@ module.exports = {
       //    optional_parameters: "Optional Parameters",
       returns: '뒤로가기',
       granted_by: '부여됨',
-      still_undocumented: '미안해요. 아직 문서화되지 않았습니다.'
+      still_undocumented: '미안해요. 아직 문서화되지 않았습니다.',
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: '저장됨',
-      granularity_change_history: '기록'
+      granularity_change_history: '기록',
     },
 
     options: {
@@ -1528,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: '들여쓰기 가이드 보기',
       editor_config_indentguides_description: '들여쓰기 보조용 세로줄 표시하기.',
       editor_config_behaviors_label: '자동 기능',
-      editor_config_behaviors_description: '괄호, 인용부호, 따옴표 자동 완성.'
+      editor_config_behaviors_description: '괄호, 인용부호, 따옴표 자동 완성.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1658,7 +1671,7 @@ module.exports = {
       character_art: '캐릭터 아트',
       download_all: '모두 다운로드',
       previous: '이전',
-      location_title: '저희는 샌프란시스코 시내에 위치하고 있습니다.:'
+      location_title: '저희는 샌프란시스코 시내에 위치하고 있습니다.:',
     },
 
     //  teachers: {
@@ -1689,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1846,7 +1858,7 @@ module.exports = {
       //    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!",
       convert_account_title: '선생님 계정으로 업데이트하세요',
       //    not: "Not",
-      full_name_required: '성과 이름을 입력하세요'
+      full_name_required: '성과 이름을 입력하세요',
     },
 
     versions: {
@@ -1857,7 +1869,7 @@ module.exports = {
       cla_url: 'CLA',
       cla_suffix: '.',
       cla_agree: '동의 합니다',
-      owner_approve: '변경 사항이 표시 되기 전에 소유자가 이를 승인 해야합니다.'
+      owner_approve: '변경 사항이 표시 되기 전에 소유자가 이를 승인 해야합니다.',
     },
 
     contact: {
@@ -1874,7 +1886,7 @@ module.exports = {
       subscriber_support: '당신이 코드컴뱃 가입자에 있기 때문에,당신의 이메일은 우리의 우선 순위 지원을 받게됩니다.',
       screenshot_included: '스크린샷 첨부됨.',
       where_reply: '우리는 어디에서 대답 해야합니까?',
-      send: '의견 보내기'
+      send: '의견 보내기',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: '오류 저장',
       saved: '변경사항 저장 완료',
       password_mismatch: '비밀번호가 일치하지 않습니다.',
-      password_repeat: '비밀번호를 한번 더 입력해 주세요.'
+      password_repeat: '비밀번호를 한번 더 입력해 주세요.',
     },
 
     keyboard_shortcuts: {
@@ -1947,11 +1959,11 @@ module.exports = {
       toggle_debug: '디버그 화면 전환.',
       toggle_grid: '디버그 오버레이 전환',
       toggle_pathfinding: '길 찾아주는 오버레이 전환.',
-      beautify: '서식을 표준화하여 코드를 아름답게합니다.'
+      beautify: '서식을 표준화하여 코드를 아름답게합니다.',
     },
 
     cinematic: {
-      click_anywhere_continue: '아무 곳이나 클릭하세요.'
+      click_anywhere_continue: '아무 곳이나 클릭하세요.',
       //    instructional_tooltip: "Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same.",
     },
 
@@ -1971,7 +1983,7 @@ module.exports = {
       social_facebook: 'Facebook에서 코드컴뱃 좋아요하기',
       social_twitter: 'Twitter에서 코드컴뱃 팔로우하기',
       //    social_slack: "Chat with us in the public CodeCombat Slack channel",
-      contribute_to_the_project: '프로젝트에 기여하기'
+      contribute_to_the_project: '프로젝트에 기여하기',
     },
 
     clans: {
@@ -2034,7 +2046,7 @@ module.exports = {
       track_concepts6b: '이름이나 진행상황으로 정렬된 맴버들',
       track_concepts7: '초대장 필요',
       track_concepts8: '으로 참여',
-      private_require_sub: '비공개 클랜을 만들거나 참여해서 구독하는것을 권장합니다.'
+      private_require_sub: '비공개 클랜을 만들거나 참여해서 구독하는것을 권장합니다.',
     },
 
     courses: {
@@ -2237,7 +2249,7 @@ module.exports = {
       locked: '잠김',
       concepts_used: '사용된 내용: ',
       show_change_log: '해당 수업의 레벨 변화 표시',
-      hide_change_log: '해당 수업의 레벨 변화 숨김'
+      hide_change_log: '해당 수업의 레벨 변화 숨김',
       //    concept_videos: "Concept Videos",
       //    concept: "Concept:",
       //    basic_syntax: "Basic Syntax",
@@ -2832,7 +2844,7 @@ module.exports = {
       diplomat_summary: '코드컴뱃은 Diplomats에 의해 45+ 언어로 지역화되었습니다. 우리를 도와 번역에 기여하십시오.',
       ambassador_title: '대사',
       ambassador_title_description: '(지원)',
-      ambassador_summary: '포럼 사용자를 관리하는것과 질문들에 대한 방향을 제공합니다. 우리의 대사는 세계에 코드컴뱃을 나타냅니다.'
+      ambassador_summary: '포럼 사용자를 관리하는것과 질문들에 대한 방향을 제공합니다. 우리의 대사는 세계에 코드컴뱃을 나타냅니다.',
       //    teacher_title: "Teacher",
     },
 
@@ -2869,6 +2881,7 @@ module.exports = {
       fork_title: '새 버전 가져오기',
       fork_creating: '포크 생성중...',
       generate_terrain: '지형 생성',
+      //    generate_level: "Generate Level",
       more: '더 보기',
       wiki: '위키',
       live_chat: '실시간 채팅',
@@ -2963,7 +2976,7 @@ module.exports = {
       //    ai_model_search_title: "Search Models",
       //    ai_document_search_title: "Search Documents",
       //    ai_chat_message_search_title: "Search Chat Messages",
-      read_only_warning2: '주의: 로그인하지 않으셨기 때문에 내용을 저장할 수 없습니다.'
+      read_only_warning2: '주의: 로그인하지 않으셨기 때문에 내용을 저장할 수 없습니다.',
       //    no_achievements: "No achievements have been added for this level yet.",
       //    achievement_query_misc: "Key achievement off of miscellanea",
       //    achievement_query_goals: "Key achievement off of level goals",
@@ -2979,11 +2992,11 @@ module.exports = {
 
     article: {
       edit_btn_preview: '미리보기',
-      edit_article_title: '기사 편집하기'
+      edit_article_title: '기사 편집하기',
     },
 
     polls: {
-      priority: '우선도'
+      priority: '우선도',
     },
 
     contribute: {
@@ -3005,7 +3018,7 @@ module.exports = {
       join_url_slack: '공공 Slack 채널',
       archmage_subscribe_desc: '새로운 코딩 관련 기회와 공고를 이메일을 통해 받아보세요.',
       artisan_introduction_pref: '저희는 게임의 새로운 스테이지를 만들어야합니다! 플레이어들은 새로운 컨텐츠를 위해 아우성을 지릅니다. 하지만 우리 만의 힘으로는 많은 요구를 충족시킬 수 없습니다. 아직은 1 스테이지 밖에 구현 안 된 상황입니다. 우리의 에디터는 겨우 기본 기능 만을 구현시킨 상태라서 저희마저 잘 사용하지 않는답니다. 때문에 사용 시 주의를 요합니다.만약 스테이지 설계 영감이 떠올랐다면, 아무리 간단한 내용이라도',
-      artisan_introduction_suf: '해당 직업에 도전해보는 것을 강력히 추천합니다.'
+      artisan_introduction_suf: '해당 직업에 도전해보는 것을 강력히 추천합니다.',
       //    artisan_attribute_1: "Any experience in building content like this would be nice, such as using Blizzard's level editors. But not required!",
       //    artisan_attribute_2: "A hankering to do a whole lot of testing and iteration. To make good levels, you need to take it to others and watch them play it, and be prepared to find a lot of things to fix.",
       //    artisan_attribute_3: "For the time being, endurance en par with an Adventurer. Our Level Editor is super preliminary and frustrating to use. You have been warned!",
@@ -3118,7 +3131,7 @@ module.exports = {
       //    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details",
       //    tournament_blurb_blog: "on our blog",
       rules: '규칙',
-      winners: '승리자'
+      winners: '승리자',
       //    league: "League",
       //    red_ai: "Red CPU",
       //    blue_ai: "Blue CPU",
@@ -3246,7 +3259,7 @@ module.exports = {
       //    pay: "Pay Invoice",
       purchasing: '구매중...',
       retrying: '서버 에러, 재시도중.',
-      success: '결제 성공. 감사합니다!'
+      success: '결제 성공. 감사합니다!',
     },
 
     account_prepaid: {
@@ -3271,7 +3284,7 @@ module.exports = {
       no_codes: '아직 코드가 없습니다!',
       you_can1: '가능합니다',
       you_can2: '선불 코드 구매',
-      you_can3: '당신의 계정에 적용할 수 있고 다른 사람에게 줄 수도 있습니다.'
+      you_can3: '당신의 계정에 적용할 수 있고 다른 사람에게 줄 수도 있습니다.',
       //    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account.",
       //    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times.",
       //    prepaid_applied_success: "Prepaid applied to your account!",
@@ -3286,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     impact: {
@@ -3339,7 +3353,7 @@ module.exports = {
       teacher_school_3: 'Ruby Bridges 초등학교',
       teacher_location_3: 'Alameda, CA',
       spotlight_3: 'Susan Jones-Szabo는 모든 사람들이 그들만의 방식으로 성공을 찾을 수 있도록 그녀의 반에서 공평한 분위기를 조성합니다. 실수나 투쟁은 모든 사람이 도전으로부터 배우는 것이기 때문에, 심지어 선생님까지도 환영을 받습니다.',
-      continue_reading_blog: '블로그에서 계속 읽습니다...'
+      continue_reading_blog: '블로그에서 계속 읽습니다...',
       //    ozaria_impact_title: "Positive Impacts with Ozaria",
       //    ozaria_impact_blurb: "CodeCombat's sister curriculum, Ozaria, has proven to have a positive impact on the student learning outcomes that matter most to both students and educators.",
       //    ozaria_impact_learn_more: "Learn more about Ozaria's curriculum efficacy here.",
@@ -3363,7 +3377,7 @@ module.exports = {
       conflict: '리소스 충돌',
       //    bad_input: "Bad input.",
       server_error: '서버 에러',
-      unknown: '알 수 없는 에러 발생'
+      unknown: '알 수 없는 에러 발생',
       //    error: "ERROR",
       //    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!",
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
@@ -3374,7 +3388,7 @@ module.exports = {
       level: '레벨',
       //    patch: "Patch",
       //    patches: "Patches",
-      system: '시스템'
+      system: '시스템',
       //    systems: "Systems",
       //    component: "Component",
       //    components: "Components",
@@ -3585,7 +3599,7 @@ module.exports = {
       art_music: '뮤직',
       art_sound: '사운드',
       art_artwork: '원화',
-      art_sprites: '스프라이트'
+      art_sprites: '스프라이트',
       //    art_other: "Any and all other non-code creative works that are made available when creating Levels.",
       //    art_access: "Currently there is no universal, easy system for fetching these assets. In general, fetch them from the URLs as used by the site, contact us for assistance, or help us in extending the site to make these assets more easily accessible.",
       //    art_paragraph_1: "For attribution, please name and link to codecombat.com near where the source is used or where appropriate for the medium. For example:",
@@ -3627,7 +3641,7 @@ module.exports = {
       //    credits: "credits",
       //    one_month_coupon: "coupon: choose either Rails or HTML",
       //    one_month_discount: "discount, 30% off: choose either Rails or HTML",
-      license: '라이센스'
+      license: '라이센스',
       //    oreilly: "ebook of your choice",
     },
 
@@ -3646,7 +3660,7 @@ module.exports = {
       september: '9월',
       october: '10월',
       november: '11월',
-      december: '12월'
+      december: '12월',
     },
 
     //  code_play_create_account_modal: {
@@ -3920,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4477,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4758,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     form_validation_errors: {
@@ -4765,10 +4794,10 @@ module.exports = {
       invalidEmail: '유효하지 않은 이메일',
       invalidPhone: '유효하지 않은 전화번호',
       emailExists: ' 이미 존재하는 메일 주소입니다.',
-      numberGreaterThanZero: '숫자는 0보다 커야 합니다.'
+      numberGreaterThanZero: '숫자는 0보다 커야 합니다.',
       //    requireValidEmail: "Please enter a valid email address.",
       //    requireValidPhone: "Please enter a valid phone number, including area code.",
-    }
+    },
 
     //  partners: {
     //    for: "for",

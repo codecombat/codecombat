@@ -288,7 +288,7 @@ module.exports = {
       view_profile: 'Види мој профил',
       view_progress: 'Види напредак',
       go_to_courses: 'Иди на моје курсеве',
-      want_coco: 'Желиш CodeCombat у својој школи?'
+      want_coco: 'Желиш CodeCombat у својој школи?',
       //    educator: "Educator",
       //    student: "Student",
       //    go_to_my_dashboard: "Go to My Dashboard",
@@ -392,7 +392,7 @@ module.exports = {
       help_pref: 'Треба ти помоћ? Пошаљи и-мејл',
       help_suff: 'и ступићемо у контакт!',
       resource_hub: 'Ресурси',
-      apcsp: 'AP CS принципи'
+      apcsp: 'AP CS принципи',
       //    parent: "Parents",
       //    faq: "FAQ",
       //    return_coco: "Return to CodeCombat",
@@ -430,13 +430,13 @@ module.exports = {
 
     modal: {
       close: 'Затвори',
-      okay: 'У реду'
+      okay: 'У реду',
       //    cancel: "Cancel",
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Страница није нађена'
+      page_not_found: 'Страница није нађена',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'Развијамо CodeCombat на енглеском језику, али већ имамо играче из целог света. Многи од њих желе да играју на српском језику јер не говоре енглески, па ако говориш оба, молимо те да размислиш о томе да нам помогнеш да преведемо CodeCombat сајт, као и све нивое на српски.',
       missing_translations: 'Док не преведемо све на српски језик видећеш све на енглеском, док српски не буде доступан.',
       learn_more: 'Информиши се више о Дипломатама',
-      subscribe_as_diplomat: 'Претплати се као Дипломата'
+      subscribe_as_diplomat: 'Претплати се као Дипломата',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Пријави се као Авантуриста',
       awaiting_levels_adventurer_suffix: 'да будеш први који ће играти нове нивое.',
       adjust_volume: 'Подеси звук',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Арене за више играча',
       campaign_multiplayer_description: '... у којима кодираш 1 на 1 мечеве против осталих играча.',
       brain_pop_done: 'Поразио си џинове људождере програмирањем! Победио си!',
@@ -537,7 +538,7 @@ module.exports = {
       replay: 'Поновна игра',
       back_to_classroom: 'Назад у учионицу',
       teacher_button: 'За наставнике',
-      get_more_codecombat: 'Добиј још CodeCombat-а'
+      get_more_codecombat: 'Добиј још CodeCombat-а',
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
       //    customize_hero: "Customize Hero",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'недефинисано',
       null: 'нула',
       nil: 'ништа',
-      None: 'ништа'
+      None: 'ништа',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Упиши и-мејл свог родитеља испод и показаћемо му!',
       form_label: 'И-мејл адреса',
       placeholder: 'и-мејл адреса',
-      title: 'Одличан посао Шегрте'
+      title: 'Одличан посао Шегрте',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: 'Завршавање',
       sign_in_with_facebook: 'Учлани се преко Фејсбука',
       sign_in_with_gplus: 'Учлани се преко Гугл+',
-      signup_switch: 'Да ли желиш да направиш налог?'
+      signup_switch: 'Да ли желиш да направиш налог?',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -721,7 +722,7 @@ module.exports = {
       eu_confirmation: 'Пристајем да допустим CodeCombat-у да чува моје податке на америчким серверима.',
       eu_confirmation_place_of_processing: 'Сазнај више о могућим ризицима',
       eu_confirmation_student: 'Ако ниси сигуран, питај наставника.',
-      eu_confirmation_individual: 'Ако не желиш да чувамо твоје податке на америчким серверима, увек можеш да наставиш анонимно да се играш без чувања кода.'
+      eu_confirmation_individual: 'Ако не желиш да чувамо твоје податке на америчким серверима, увек можеш да наставиш анонимно да се играш без чувања кода.',
       //    request_class_code: "Students, request a Class Code from your Teacher to create an Account!",
       //    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!",
       //    looking_for_classroom: "Looking for classroom...",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Поврати налог',
       send_password: 'Пошаљи помоћну шифру',
-      recovery_sent: 'Послат и-мејл за потврду опоравка.'
+      recovery_sent: 'Послат и-мејл за потврду опоравка.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Оклоп',
       accessories: 'Опрема',
       misc: 'Остало',
-      books: 'Књиге'
+      books: 'Књиге',
     },
 
     common: {
@@ -798,7 +799,7 @@ module.exports = {
       submit_patch: 'Потврди закрпу',
       submit_changes: 'Потврди измене',
       save_changes: 'Сачувај измене',
-      required_field: 'Обавезно поље'
+      required_field: 'Обавезно поље',
       //    submit: "Submit",
       //    replay: "Replay",
       //    complete: "Complete",
@@ -875,7 +876,7 @@ module.exports = {
       learn_more: 'Сазнај више',
       more: 'Више',
       fewer: 'Мање',
-      with: 'са'
+      with: 'са',
       //    archived: "Archived",
       //    chat: "Chat",
       //    chat_with_us: "Chat with us",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'месец',
       months: 'месеци',
       year: 'година',
-      years: 'године'
+      years: 'године',
     },
 
     play_level: {
@@ -1091,7 +1092,7 @@ module.exports = {
       already_published_suffix: 'Настави да експериментишеш и побољшаваш овај пројекат, или види шта је остатак твог разреда направило! Твоје измене ће се аутоматски сачувати и поделити са пријатељима из разреда. ',
       view_gallery: 'Прегледај галерију',
       project_published_noty: 'Твој ниво је објављен!',
-      keep_editing: 'Настави да уређујеш'
+      keep_editing: 'Настави да уређујеш',
       //    learn_new_concepts: "Learn new concepts",
       //    watch_a_video: "Watch a video on __concept_name__",
       //    concept_unlocked: "Concept Unlocked",
@@ -1161,7 +1162,7 @@ module.exports = {
       jquery: 'jQuery',
       json: 'JSON',
       number: 'Број',
-      webjavascript: 'JavaScript'
+      webjavascript: 'JavaScript',
     },
 
     amazon_hoc: {
@@ -1173,7 +1174,7 @@ module.exports = {
       future_eng_2: 'овде',
       future_eng_3: '(уређај није потребан). Ову Alexa активност вам нуди',
       future_eng_4: 'Амазон будући инжењер',
-      future_eng_5: 'програм који креира могућности за учење и рад за све К-12 ученике у Сједињеним Америчким Државама који желе да студирају компјутерске науке. '
+      future_eng_5: 'програм који креира могућности за учење и рад за све К-12 ученике у Сједињеним Америчким Државама који желе да студирају компјутерске науке. ',
     },
 
     //  live_class: {
@@ -1205,13 +1206,14 @@ module.exports = {
       goal_defeat_amount: 'Победи __amount__ непријатеља.',
       goal_move: 'Помери се на сва црвена X обележја.',
       goal_collect: 'Прикупи све ставке.',
-      goal_collect_amount: 'Прикупи __amount__ ставки.'
+      goal_collect_amount: 'Прикупи __amount__ ставки.',
     },
 
     game_menu: {
       inventory_tab: 'Инвентар',
       save_load_tab: 'Сачувај/учитај',
       options_tab: 'Подешавања',
+      //    my_code_tab: "My Code",
       guide_tab: 'Водич',
       guide_video_tutorial: 'Видео туторијал',
       guide_tips: 'Савети',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Опреми свог хероја',
       choose_hero_caption: 'Изабери хероја, језик',
       options_caption: 'Намести подешавања',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Документи и савети',
       multiplayer_caption: 'Играј са пријатељима!',
-      auth_caption: 'Сачувај свој напредак.'
+      auth_caption: 'Сачувај свој напредак.',
     },
 
     leaderboard: {
@@ -1241,7 +1244,7 @@ module.exports = {
       survival_time: 'Преживео',
       defeated: 'Побеђено непријатеља',
       code_length: 'Линије кода',
-      score_display: '__resultType__: __резултат__'
+      score_display: '__resultType__: __резултат__',
     },
 
     inventory: {
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: 'Скини',
       warrior_only: 'Само ратник',
       ranger_only: 'Само рејнџер',
-      wizard_only: 'Само мађионичар'
+      wizard_only: 'Само мађионичар',
     },
 
     buy_gems: {
@@ -1274,7 +1277,7 @@ module.exports = {
       price: 'x{{gems}} / mo',
       buy_premium: 'Купи Премијум',
       purchase: 'Купи  ',
-      purchased: 'Купљено'
+      purchased: 'Купљено',
     },
 
     //  subscribe_for_gems: {
@@ -1284,7 +1287,7 @@ module.exports = {
 
     earn_gems: {
       prompt_title: 'Нема довољно драгуља',
-      prompt_body: 'Настави да играш да зарадиш више!'
+      prompt_body: 'Настави да играш да зарадиш више!',
     },
 
     subscribe: {
@@ -1337,13 +1340,14 @@ module.exports = {
       year_price: '$__price__/годишње',
       //    year_price_without_currency: "__price__/yr",
       support_part1: 'Треба ти помоћ око уплате или ти се више свиђа PayPal? И-мејл на',
-      support_part2: 'support@codecombat.com'
+      support_part2: 'support@codecombat.com',
       //    go_prepaid: "Click here after scaning the code and purchasing",
       //    forever: "Forever",
       //    subscription_status: "Your Subscription Status",
       //    currently_not_free: "You don't have a Subscription yet.",
       //    online_classes: "Online Classes",
       //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+      //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     },
 
     announcement: {
@@ -1386,7 +1390,7 @@ module.exports = {
       tornado_name: 'Торнадо',
       tornado_description: 'Добро је имати дугме за ресетовање када се нечија маска открије.',
       wallOfDarkness_name: 'Зид таме',
-      wallOfDarkness_description: 'Сакриј се иза зида сенки да би спречио да те гледају радознале очи.'
+      wallOfDarkness_description: 'Сакриј се иза зида сенки да би спречио да те гледају радознале очи.',
       //    notifications: "Notifications",
       //    x_announcement: "__x__ Notification",
       //    x_announcements: "__x__ Notifications",
@@ -1424,7 +1428,7 @@ module.exports = {
       list_web_dev: 'Сагради вебсајтове и интерактивне апликације',
       list_items: 'Опреми само премијум ставке као што су љубимци',
       list_support: 'Добиј премијум подршку за помоћ дешифровању компликованог кода',
-      list_clans: 'Креирај приватне кланове да позовеш пријатеље и да се такмичиш на табели групних вођа'
+      list_clans: 'Креирај приватне кланове да позовеш пријатеље и да се такмичиш на табели групних вођа',
       //    ai_bot_learning: "AI powered support to accelerate learning outcomes!",
       //    ai_bot_description: "CodeCombat’s AI powered hints feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available young learners will still need to work through each level's coding challenge. Premium subscribers receive an allocation of <b>10 AI hints per day</b> to ensure they always have the support they need.",
       //    list_ai_bot: "Premium subscribers receive an allocation of 10 AI hints per day",
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Скриптни језик за игре.',
       java_blurb: '(Само за претплатнике) Андроид и предузетништво.',
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Статус',
       weapons: 'Оружја',
       weapons_warrior: 'Мачеви - мали домет, без магије',
@@ -1466,7 +1479,7 @@ module.exports = {
       speed_2: 'метара у секунди.',
       available_for_purchase: 'Доступно за куповину',
       level_to_unlock: 'Ниво који треба откључати:',
-      restricted_to_certain_heroes: 'Само одређени хероји могу да играју овај ниво.'
+      restricted_to_certain_heroes: 'Само одређени хероји могу да играју овај ниво.',
     },
 
     //  char_customization_modal: {
@@ -1504,14 +1517,14 @@ module.exports = {
       required_parameters: 'Захтевани параметри',
       optional_parameters: 'Опциони параметри',
       returns: 'Враћа',
-      granted_by: 'Додељено од'
+      granted_by: 'Додељено од',
       //    still_undocumented: "Still undocumented, sorry.",
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: 'Сачувано',
-      granularity_change_history: 'Историја'
+      granularity_change_history: 'Историја',
     },
 
     options: {
@@ -1528,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Прикажи водиче за индентацију',
       editor_config_indentguides_description: 'Приказује вертикалне линије да би се индентације боље виделе.',
       editor_config_behaviors_label: 'Паметна понашања',
-      editor_config_behaviors_description: 'Аутоматски довршава угласте и витичасте заграде и наводнике.'
+      editor_config_behaviors_description: 'Аутоматски довршава угласте и витичасте заграде и наводнике.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1658,11 +1671,11 @@ module.exports = {
       character_art: 'Илустрације ликова',
       download_all: 'Преузми све',
       previous: 'Претходно',
-      location_title: 'Налазимо се у центру Сан Франциска:'
+      location_title: 'Налазимо се у центру Сан Франциска:',
     },
 
     teachers: {
-      licenses_needed: 'Потребне лиценце'
+      licenses_needed: 'Потребне лиценце',
       //    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO",
       //    select_class: "Select class",
       //    programming_language: "Programming language",
@@ -1689,13 +1702,12 @@ module.exports = {
       //    error_in_importing_students: "Error in importing students",
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-      //    classroom_blocks: "Drag and Drop Blocks (beta)",
-      //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-      //    classroom_blocks_hidden: "Disabled",
-      //    classroom_blocks_opt_in: "Off by default",
-      //    classroom_blocks_opt_out: "On by default",
+      //    code_formats: "Code Formats (beta)",
+      //    code_formats_description: "Which code formats students can choose from.",
+      //    default_code_format: "Default Code Format",
+      //    default_code_format_description: "The code format that students will start with.",
       //    not_allow_to_solution: "# Licenses needed to view solutions",
-      //    classroom_level_chat: "Level Chat with AI",
+      //    classroom_level_chat: "AI Level Hints",
       //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
       //    classroom_level_chat_option_free_form: "Free form",
       //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1775,7 +1787,7 @@ module.exports = {
       courses_prefix: 'Курсеви',
       courses_suffix: '',
       course_prefix: 'Курс',
-      course_suffix: ''
+      course_suffix: '',
       //    licenses_activated_success: "Licenses have been Activated Successfully!",
       //    license_code_used: "License Code used.",
     },
@@ -1845,7 +1857,7 @@ module.exports = {
       create_account: 'Направи наставнички налог',
       create_account_subtitle: 'Добиј приступ алатима само за наставнике за коришћење CodeCombat-а у учионици.  <strong>Подеси разред</strong>, додај своје ученике и <strong>посматрај њихов напредак</strong>!',
       convert_account_title: 'Ажурирај у Наставнички налог',
-      not: 'Није'
+      not: 'Није',
       //    full_name_required: "First and last name required",
     },
 
@@ -1857,7 +1869,7 @@ module.exports = {
       cla_url: 'CLA',
       cla_suffix: '.',
       cla_agree: 'СЛАЖЕМ СЕ',
-      owner_approve: 'Власник ће морати да одобри твоје измене пре него што постану видљиве.'
+      owner_approve: 'Власник ће морати да одобри твоје измене пре него што постану видљиве.',
     },
 
     contact: {
@@ -1874,7 +1886,7 @@ module.exports = {
       subscriber_support: 'Пошто си CodeCombat претплатник, твој и-мејл ће имати приоритет у нашој подршци.',
       screenshot_included: 'Снимак екрана укључен.',
       where_reply: 'Где треба да одговоримо?',
-      send: 'Пошаљи повратну информацију'
+      send: 'Пошаљи повратну информацију',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: 'Чување грешке...',
       saved: 'Измене су сачуване',
       password_mismatch: 'Шифре се не слажу.',
-      password_repeat: 'Понови своју шифру.'
+      password_repeat: 'Понови своју шифру.',
     },
 
     keyboard_shortcuts: {
@@ -1947,7 +1959,7 @@ module.exports = {
       toggle_debug: 'Превуци приказ решавања грешака.',
       toggle_grid: 'Превуци приказ мреже.',
       toggle_pathfinding: 'Превуци приказ руте.',
-      beautify: 'Улепшај свој код тако што ћеш стандардизовати форматирање.'
+      beautify: 'Улепшај свој код тако што ћеш стандардизовати форматирање.',
     },
 
     //  cinematic: {
@@ -1971,7 +1983,7 @@ module.exports = {
       social_facebook: 'Лајкуј CodeCombat на Фејсбуку',
       social_twitter: 'Запрати CodeCombat на Твитеру',
       social_slack: 'Ћаскај са нама на јавном CodeCombat Slack каналу',
-      contribute_to_the_project: 'Допринеси пројекту'
+      contribute_to_the_project: 'Допринеси пројекту',
     },
 
     clans: {
@@ -2034,7 +2046,7 @@ module.exports = {
       track_concepts6b: 'Сортирај чланове према имену или напретку',
       track_concepts7: 'Захтева позив',
       track_concepts8: 'за придруживање',
-      private_require_sub: 'Приватни кланови захтевају претплату да би могао да их направиш или да им се придружиш.'
+      private_require_sub: 'Приватни кланови захтевају претплату да би могао да их направиш или да им се придружиш.',
     },
 
     courses: {
@@ -2235,7 +2247,7 @@ module.exports = {
       keep_trying: 'Настави да покушаваш',
       start_challenge: 'Покрени изазов',
       locked: 'Закључано',
-      concepts_used: 'Коришћени концепти:'
+      concepts_used: 'Коришћени концепти:',
       //    show_change_log: "Show changes to this course's levels",
       //    hide_change_log: "Hide changes to this course's levels",
       //    concept_videos: "Concept Videos",
@@ -2282,7 +2294,7 @@ module.exports = {
     project_gallery: {
       no_projects_published: 'Буди први који ће објавити пројекат у овом курсу!',
       view_project: 'Прегледај пројекат',
-      edit_project: 'Уреди пројекат'
+      edit_project: 'Уреди пројекат',
     },
 
     teacher: {
@@ -2652,7 +2664,7 @@ module.exports = {
       print_guide: 'Иштампај овај водич',
       combo: 'Комбо',
       combo_explanation: 'Ученици прелазе Комбо нивое изазова користећи бар један наведен концепт. Прегледај код ученика тако што ћеш кликнути на тачку напретка.',
-      concept: 'Концепт'
+      concept: 'Концепт',
       //    sync_google_classroom: "Sync Google Classroom",
       //    unit_overview: "Unit Overview",
       //    module_overview: "Module Overview",
@@ -2765,7 +2777,7 @@ module.exports = {
       one_license_used: '(1 коришћена лиценца)',
       licenses_used: '(__licensesUsed__ коришћених лиценци)',
       //    licenses_used_no_braces: "__licensesUsed__/__all__ licenses used",
-      more_info: 'Више информација'
+      more_info: 'Више информација',
       //    shared_pool_label: "Teachers in your shared pool:",
       //    teacher_delete_warning: "The shared licenses assigned to the teacher won't be revoked!",
       //    licenses_limit: "Licenses Limit:",
@@ -2788,14 +2800,14 @@ module.exports = {
       victory_course_share_web: 'прегледају твоју веб страницу',
       victory_course_share_suffix: 'коју си направио.',
       copy_url: 'Копирај URL',
-      share_with_teacher_email: 'Пошаљи наставнику'
+      share_with_teacher_email: 'Пошаљи наставнику',
       //    share_ladder_link: "Share Multiplayer Link",
       //    ladder_link_title: "Share Your Multiplayer Match Link",
       //    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:",
     },
 
     game_dev: {
-      creator: 'Креатор'
+      creator: 'Креатор',
     },
 
     web_dev: {
@@ -2811,7 +2823,7 @@ module.exports = {
       how_to_copy_paste: 'Како копирати/залепити',
       copy: 'Копирај',
       paste: 'Залепи',
-      back_to_editing: 'Назад на уређивање'
+      back_to_editing: 'Назад на уређивање',
     },
 
     classes: {
@@ -2833,7 +2845,7 @@ module.exports = {
       ambassador_title: 'Амбасадор',
       ambassador_title_description: '(Подршка)',
       ambassador_summary: 'Укроти наше кориснике форума и понуди смер за оне са питањима. Наши амбасадори представљају CodeCombat свету.',
-      teacher_title: 'Наставник'
+      teacher_title: 'Наставник',
     },
 
     editor: {
@@ -2869,6 +2881,7 @@ module.exports = {
       fork_title: 'Форк нова верзија',
       fork_creating: 'Прављење форка...',
       generate_terrain: 'Генериши терен',
+      //    generate_level: "Generate Level",
       more: 'Више',
       wiki: 'Wiki',
       live_chat: 'Ћаскање уживо',
@@ -2972,18 +2985,18 @@ module.exports = {
       tasks: 'Задаци',
       clear_storage: 'Избриши своје локалне измене',
       add_system_title: 'Додај системе на ниво',
-      done_adding: 'Завршетак додавања'
+      done_adding: 'Завршетак додавања',
       //    product: "Product",
       //    link: "Link",
     },
 
     article: {
       edit_btn_preview: 'Приказ',
-      edit_article_title: 'Измени чланак'
+      edit_article_title: 'Измени чланак',
     },
 
     polls: {
-      priority: 'Приоритет'
+      priority: 'Приоритет',
     },
 
     contribute: {
@@ -3054,7 +3067,7 @@ module.exports = {
       creative_artisans: 'Наши креативни уметници:',
       brave_adventurers: 'Наши храбри авантуристи:',
       translating_diplomats: 'Наше дипломате преводиоци:',
-      helpful_ambassadors: 'Наши амбасадори од помоћи:'
+      helpful_ambassadors: 'Наши амбасадори од помоћи:',
     },
 
     ladder: {
@@ -3128,7 +3141,7 @@ module.exports = {
       //    loss_num: "Losses",
       //    win_rate: "Win %",
       humans: 'Црвено',
-      ogres: 'Плато'
+      ogres: 'Плато',
       //    live_tournament: "Live Tournament",
       //    awaiting_tournament_title: "Tournament Inactive",
       //    awaiting_tournament_blurb: "The tournament arena is not currently active.",
@@ -3167,7 +3180,7 @@ module.exports = {
       certificate_stats: 'Статистика курса',
       certificate_lines_of: 'линије',
       certificate_levels_completed: 'завршени нивои',
-      certificate_for: 'За'
+      certificate_for: 'За',
       //    for_ozaria_chapters_1_4: "For Ozaria Chapters 1 - 4",
       //    certificate_number: "No.",
       //    heroes_unlocked: "Heroes Unlocked",
@@ -3193,7 +3206,7 @@ module.exports = {
       new_xp_postfix: 'стечено',
       left_xp_prefix: '',
       left_xp_infix: 'до нивоа',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     account: {
@@ -3234,7 +3247,7 @@ module.exports = {
       unsubscribe_from_marketing: 'Поништи претплату __email__ са свих CodeCombat маркетиншких и-мејлова?',
       unsubscribe_button: 'Да, поништи',
       unsubscribe_failed: 'Неуспешно',
-      unsubscribe_success: 'Успешно'
+      unsubscribe_success: 'Успешно',
       //    manage_billing: "Manage Billing",
     },
 
@@ -3246,7 +3259,7 @@ module.exports = {
       pay: 'Плати фактуру.',
       purchasing: 'Куповина је у току...',
       retrying: 'Грешка на серверу, поновни покушај.',
-      success: 'Успешно плаћено. Хвала!'
+      success: 'Успешно плаћено. Хвала!',
     },
 
     account_prepaid: {
@@ -3271,7 +3284,7 @@ module.exports = {
       no_codes: 'Још нема кодова!',
       you_can1: 'Можеш  ',
       you_can2: 'да купиш припрејд код',
-      you_can3: 'који може да се примени на твој налог или да се поклони другоме.'
+      you_can3: 'који може да се примени на твој налог или да се поклони другоме.',
       //    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account.",
       //    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times.",
       //    prepaid_applied_success: "Prepaid applied to your account!",
@@ -3286,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3365,7 +3379,7 @@ module.exports = {
       server_error: 'Грешка сервера.',
       unknown: 'Непозната грешка',
       error: 'ГРЕШКА',
-      general_desc: 'Нешто није у реду и то је вероватно наша грешка. Пробај да мало сачекаш и затим освежи страну или посети један од следећих линкова да би се вратио на програмирање! '
+      general_desc: 'Нешто није у реду и то је вероватно наша грешка. Пробај да мало сачекаш и затим освежи страну или посети један од следећих линкова да би се вратио на програмирање! ',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
     },
@@ -3379,7 +3393,7 @@ module.exports = {
       component: 'Компонента',
       components: 'Компоненте',
       hero: 'Херој',
-      campaigns: 'Кампање'
+      campaigns: 'Кампање',
     },
 
     concepts: {
@@ -3515,7 +3529,7 @@ module.exports = {
       basic_game_ai: 'Основна AI игра',
       basic_javascript: 'Основни JavaScript',
       basic_event_handling: 'Основно управљање догађаја',
-      create_sharable_interactive_web_page: 'Направи интерактивну веб страну за дељење'
+      create_sharable_interactive_web_page: 'Направи интерактивну веб страну за дељење',
       //    iteration: "Iteration",
       //    nesting: "Nesting",
       //    data_types: "Data Types",
@@ -3535,7 +3549,7 @@ module.exports = {
       student_name_placeholder: 'укуцај овде своје име',
       teachers_section: 'Наставници:',
       students_section: 'Ученици:',
-      teacher_notified: 'Обавестили смо твог наставника да желиш да играш више CodeCombat-а у учионици!'
+      teacher_notified: 'Обавестили смо твог наставника да желиш да играш више CodeCombat-а у учионици!',
     },
 
     delta: {
@@ -3546,7 +3560,7 @@ module.exports = {
       moved_index: 'Померен индекс',
       text_diff: 'Разлика текста',
       merge_conflict_with: 'СПОЈ КОНФЛИКТ СА',
-      no_changes: 'Нема промена'
+      no_changes: 'Нема промена',
     },
 
     legal: {
@@ -3606,7 +3620,7 @@ module.exports = {
       third_party_title: 'Услуге других лица',
       third_party_description: 'CodeCombat користи следеће услуге других лица (између осталих):',
       cookies_message: 'CodeCombat користи неколико основних и не-основних колачића.',
-      cookies_deny: 'Одбиј не-основне колачиће'
+      cookies_deny: 'Одбиј не-основне колачиће',
       //    cookies_allow: "Allow cookies",
     },
 
@@ -3628,7 +3642,7 @@ module.exports = {
       one_month_coupon: 'купон: изабери или Rails или HTML',
       one_month_discount: 'попуст, 30% попуста: изабери или Rails или HTML',
       license: 'лиценца  ',
-      oreilly: 'е-књига твог избора'
+      oreilly: 'е-књига твог избора',
     },
 
     calendar: {
@@ -3646,7 +3660,7 @@ module.exports = {
       september: 'септембар',
       october: 'октобар',
       november: 'новембар',
-      december: 'децембар'
+      december: 'децембар',
     },
 
     code_play_create_account_modal: {
@@ -3654,12 +3668,12 @@ module.exports = {
       body: 'Сада си на путу да постанеш главни кодер. Пријави се да примиш додатних <strong>100 драгуља</strong> и имаћеш шансу да <strong>освојиш 2.500 $ и друге Lenovo награде</strong>.',
       sign_up: 'Упиши се и настави да кодираш ▶',
       victory_sign_up_poke: 'Направи бесплатан налог да сачуваш код и да добијеш шансу да освојиш награде! ',
-      victory_sign_up: 'Упиши се и имај шансу да <strong>освојиш 2.500 $</strong>'
+      victory_sign_up: 'Упиши се и имај шансу да <strong>освојиш 2.500 $</strong>',
     },
 
     server_error: {
       email_taken: 'И-мејл се већ користи',
-      username_taken: 'Корисничко име се већ користи'
+      username_taken: 'Корисничко име се већ користи',
       //    easy_password: "Password is too easy to guess",
       //    reused_password: "Password cannot be reused",
     },
@@ -3741,7 +3755,7 @@ module.exports = {
       you_do_not_have: 'Немаш ставку опремљену са $1 вештином.',
       put_each_command_on: 'Стави сваку команду у одвојени пасус',
       are_you_missing_a: "Да ли ти недостаје '$1' након '$2'?",
-      your_parentheses_must_match: 'Твоје заграде морају да се споје'
+      your_parentheses_must_match: 'Твоје заграде морају да се споје',
       //    missing_parentheses: "Missing parentheses? Try `__suggestion__`",
       //    do_nothing_without_parentheses: "`__code__` doesn't do anything without `()`",
       //    error_index_empty: "Cannot read property `__name__` of `__specTypeName__`",
@@ -3830,8 +3844,8 @@ module.exports = {
       unit_8_activity_3: 'Пракса креирања задатка 3: развој игре 3',
       unit_9: 'Јединица 9: AP преглед',
       unit_10: 'Јединица 10: после-AP',
-      unit_10_activity_1: 'Активност јединице 10: веб квиз'
-    }
+      unit_10_activity_1: 'Активност јединице 10: веб квиз',
+    },
 
     //  apcsp_marketing: {
     //    course_outline_unit_1: "Unit 1",
@@ -3920,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4477,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4758,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

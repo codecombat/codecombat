@@ -299,7 +299,7 @@ module.exports = {
       ozaria_blurb: 'Ett äventyrsspel och datavetenskapsprogram där studenter behärskar kodens förlorade magi för att rädda sin värld. Rekommenderas för lärare och studenter.',
       //    ozaria_china_blurb: "",
       try_codecombat: 'Prova på CodeCombat',
-      try_ozaria: 'Prova på Ozaria'
+      try_ozaria: 'Prova på Ozaria',
       //    explore_codecombat: "Explore CodeCombat",
       //    explore_ai_league: "Explore AI League",
       //    explore_ozaria: "Explore Ozaria",
@@ -399,7 +399,7 @@ module.exports = {
       //    classes: "Classes",
       //    term_of_service: "Terms of Service",
       esports: 'E-sporter',
-      browser_recommendation: 'För bästa upplevelse rekommenderar vi att du använder den senaste versionen av Chrome. Ladda ner webbläsaren här!'
+      browser_recommendation: 'För bästa upplevelse rekommenderar vi att du använder den senaste versionen av Chrome. Ladda ner webbläsaren här!',
       //    ozaria_classroom: "Ozaria Classroom",
       //    codecombat_classroom: "CodeCombat Classroom",
       //    ozaria_dashboard: "Ozaria Dashboard",
@@ -431,12 +431,12 @@ module.exports = {
     modal: {
       close: 'Stäng',
       okay: 'Okej',
-      cancel: 'Avbryt'
+      cancel: 'Avbryt',
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Sidan kan inte hittas'
+      page_not_found: 'Sidan kan inte hittas',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'Vi utvecklar CodeCombat på engelska, men vi har redan spelare världen över. Många av dem vill spela på svenska eftersom de inte talar engelska. Om du talar båda språken, fundera på att registrera dig som Diplomat och hjälp till med översättningen av både hemsidan och alla nivåer till svenska.',
       missing_translations: 'Tills vi har översatt allting till svenska, så kommer du se engelska när det inte finns någon svensk översättning tillgänglig.',
       learn_more: 'Läs mer om att vara en Diplomat',
-      subscribe_as_diplomat: 'Registrera dig som Diplomat'
+      subscribe_as_diplomat: 'Registrera dig som Diplomat',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Registrera dig som äventyrare',
       awaiting_levels_adventurer_suffix: 'för att vara först att spela nya nivåer.',
       adjust_volume: 'justera volymen',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Flerspelararenor',
       campaign_multiplayer_description: '... i vilken du tävlar i kodande mot andra spelare',
       brain_pop_done: 'Du har besegrat trollen med kod! Du vann!',
@@ -537,7 +538,7 @@ module.exports = {
       replay: 'Repris',
       back_to_classroom: 'Tillbaka till klassrummet',
       teacher_button: 'För lärare',
-      get_more_codecombat: 'Få mer CodeCombat'
+      get_more_codecombat: 'Få mer CodeCombat',
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
       //    customize_hero: "Customize Hero",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'odefinerat',
       null: 'null',
       nil: 'nil',
-      None: 'None'
+      None: 'None',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Ange en förälders mejladress så visar vi dem!',
       form_label: 'Mejladress',
       placeholder: 'mejladress',
-      title: 'Utmärkt arbete, lärling'
+      title: 'Utmärkt arbete, lärling',
     },
 
     login: {
@@ -627,7 +628,7 @@ module.exports = {
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
       //    individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!",
-      accounts_merge_confirmation: 'Det finns ett konto kopplat till e-post address från detta Google-konto. Vill du slå samman dessa konton?'
+      accounts_merge_confirmation: 'Det finns ett konto kopplat till e-post address från detta Google-konto. Vill du slå samman dessa konton?',
       //    stop_spying: "Stop Spying",
       //    stop_switching: "Stop Switching",
       //    test_as_student: "Test as Student",
@@ -743,14 +744,14 @@ module.exports = {
       want_to_play_codecombat: 'Nej, jag har ingen men vill spela CodeCombat!',
       have_a_classcode: 'Har du en klasskod?',
       yes_i_have_classcode: 'Ja, jag har en klasskod!',
-      enter_it_here: 'Ange den här:'
+      enter_it_here: 'Ange den här:',
       //    play_without_saving: "Play without saving",
     },
 
     recover: {
       recover_account_title: 'Återskapa ditt konto',
       send_password: 'Skicka återskapningslösenord',
-      recovery_sent: 'Återskapningslösenord skickat.'
+      recovery_sent: 'Återskapningslösenord skickat.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Rustning',
       accessories: 'Tillbehör',
       misc: 'Övrigt',
-      books: 'Böcker'
+      books: 'Böcker',
     },
 
     common: {
@@ -801,7 +802,7 @@ module.exports = {
       required_field: 'obligatoriskt',
       submit: 'Skicka in',
       replay: 'Repris',
-      complete: 'Avsluta'
+      complete: 'Avsluta',
       //    pick_image: "Pick Image",
       //    continue_editing: "Continue Editing",
       //    logout: "Logout",
@@ -879,7 +880,7 @@ module.exports = {
       //    archived: "Archived",
       chat: 'Chat',
       chat_with_us: 'Chatta med oss',
-      email_us: 'Skicka oss ett e-mail'
+      email_us: 'Skicka oss ett e-mail',
       //    sales: "Sales",
       //    support: "Support",
       //    here: "here",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'månad',
       months: 'månader',
       year: 'år',
-      years: 'år'
+      years: 'år',
     },
 
     play_level: {
@@ -1102,7 +1103,7 @@ module.exports = {
       vega_character: 'Vega karaktär',
       //    capella_character: "Capella Character",
       //    octans_character: "Octans Character",
-      click_to_continue: 'Klicka för att fortsätta'
+      click_to_continue: 'Klicka för att fortsätta',
       //    fill_in_solution: "Fill in solution",
       //    toggle_solution: "Toggle solution",
       //    play_as_humans: "Play As Red",
@@ -1160,7 +1161,7 @@ module.exports = {
       date: 'Datum',
       //    jquery: "jQuery",
       //    json: "JSON",
-      number: 'Nummer'
+      number: 'Nummer',
       //    webjavascript: "JavaScript",
     },
 
@@ -1173,13 +1174,13 @@ module.exports = {
       future_eng_2: 'här',
       future_eng_3: '(enhet krävs inte). Denna Alexa-aktivitet får du av',
       future_eng_4: 'Amazon Future Engineer',
-      future_eng_5: 'program som skapar inlärnings- och arbetsmöjligheter för alla K-12-studenter i USA som vill bedriva datavetenskap.'
+      future_eng_5: 'program som skapar inlärnings- och arbetsmöjligheter för alla K-12-studenter i USA som vill bedriva datavetenskap.',
     },
 
     live_class: {
       title: 'Tack!',
       content: 'Fantastisk! Vi har precis lanserat live-onlinekurser.',
-      link: 'Är du redo att komma igång med din kodning?'
+      link: 'Är du redo att komma igång med din kodning?',
     },
 
     code_quest: {
@@ -1188,7 +1189,7 @@ module.exports = {
       link: 'Klicka här för att registrera dig och lära dig mer',
       global_tournament: 'Global turnering',
       register: 'Registrera',
-      date: '1 Aug till 31 Aug'
+      date: '1 Aug till 31 Aug',
     },
 
     play_game_dev_level: {
@@ -1205,13 +1206,14 @@ module.exports = {
       goal_defeat_amount: 'Besegrat __amount__ fiender.',
       goal_move: 'Flytta till alla röda X-märken.',
       goal_collect: 'Samla alla föremål.',
-      goal_collect_amount: 'Samla __amount__ föremål.'
+      goal_collect_amount: 'Samla __amount__ föremål.',
     },
 
     game_menu: {
       inventory_tab: 'Utrustning',
       save_load_tab: 'Spara/Ladda',
       options_tab: 'Inställningar',
+      //    my_code_tab: "My Code",
       guide_tab: 'Guide',
       guide_video_tutorial: 'Videogenomgång',
       guide_tips: 'Tips',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Utrusta din hjälte',
       choose_hero_caption: 'Välj hjälte, språk',
       options_caption: 'Konfigurera inställningar',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Dokument och tips',
       multiplayer_caption: 'Spela med vänner!',
-      auth_caption: 'Spara dina framsteg.'
+      auth_caption: 'Spara dina framsteg.',
     },
 
     leaderboard: {
@@ -1240,7 +1243,7 @@ module.exports = {
       gold_collected: 'Samlat guld',
       survival_time: 'Överlevde',
       defeated: 'Fiender besegrade',
-      code_length: 'Rader av kod'
+      code_length: 'Rader av kod',
       //    score_display: "__scoreType__: __score__",
     },
 
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: 'Sluta använda',
       warrior_only: 'Endast krigare',
       ranger_only: 'Endast Vandrare',
-      wizard_only: 'Endast Trollkarl'
+      wizard_only: 'Endast Trollkarl',
     },
 
     buy_gems: {
@@ -1274,17 +1277,17 @@ module.exports = {
       price: 'x{{gems}} / mån',
       buy_premium: 'Köp Premium',
       purchase: 'Köp',
-      purchased: 'Köpt'
+      purchased: 'Köpt',
     },
 
     subscribe_for_gems: {
       prompt_title: 'Inte tillräckligt med ädelstenar!',
-      prompt_body: 'Prenumerera på Premium för att få ädelstenar och få tillgång till ännu fler nivåer!'
+      prompt_body: 'Prenumerera på Premium för att få ädelstenar och få tillgång till ännu fler nivåer!',
     },
 
     earn_gems: {
       prompt_title: 'Inte tillräckligt med ädelstenar',
-      prompt_body: 'Fortsätt spela för att tjäna mer!'
+      prompt_body: 'Fortsätt spela för att tjäna mer!',
     },
 
     subscribe: {
@@ -1337,13 +1340,14 @@ module.exports = {
       year_price: '$__price__/år',
       //    year_price_without_currency: "__price__/yr",
       support_part1: 'Behöver du hjälp med betalning eller föredrar PayPal? E-post',
-      support_part2: 'support@codecombat.com'
+      support_part2: 'support@codecombat.com',
       //    go_prepaid: "Click here after scaning the code and purchasing",
       //    forever: "Forever",
       //    subscription_status: "Your Subscription Status",
       //    currently_not_free: "You don't have a Subscription yet.",
       //    online_classes: "Online Classes",
       //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+      //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     },
 
     announcement: {
@@ -1386,7 +1390,7 @@ module.exports = {
       tornado_name: 'Tornado',
       tornado_description: 'Det är bra att ha en återställningsknapp när man blir avslöjad.',
       wallOfDarkness_name: 'Vägg av mörker',
-      wallOfDarkness_description: 'Dölj dig bakom en skuggvägg för att förhindra at bli sedd av nyfikna ögon.'
+      wallOfDarkness_description: 'Dölj dig bakom en skuggvägg för att förhindra at bli sedd av nyfikna ögon.',
       //    notifications: "Notifications",
       //    x_announcement: "__x__ Notification",
       //    x_announcements: "__x__ Notifications",
@@ -1399,7 +1403,7 @@ module.exports = {
     },
 
     avatar_selection: {
-      pick_an_avatar: 'Välj en avatar som representerar dig som spelare'
+      pick_an_avatar: 'Välj en avatar som representerar dig som spelare',
       //    select_avatar_title: "Choose Player Avatar",
     },
 
@@ -1424,7 +1428,7 @@ module.exports = {
       list_web_dev: 'Bygg webbplatser och interaktiva appar',
       list_items: 'Utrusta dig med Premium föremål så som husdjur',
       list_support: 'Få Premium-support för att hjälpa dig felsöka knepig kod',
-      list_clans: 'Skapa privata klaner för att bjuda in dina vänner och tävla på en leaderboard'
+      list_clans: 'Skapa privata klaner för att bjuda in dina vänner och tävla på en leaderboard',
       //    ai_bot_learning: "AI powered support to accelerate learning outcomes!",
       //    ai_bot_description: "CodeCombat’s AI powered hints feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available young learners will still need to work through each level's coding challenge. Premium subscribers receive an allocation of <b>10 AI hints per day</b> to ensure they always have the support they need.",
       //    list_ai_bot: "Premium subscribers receive an allocation of 10 AI hints per day",
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Språk för spelskript.',
       java_blurb: '(Endast för prenumerant) Android och företag.',
       cpp_blurb: '(Endast för prenumerant) Spelutveckling och högpresterande datorer.',
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Status',
       weapons: 'Vapen',
       weapons_warrior: 'Svärd - Kort räckvidd, ingen magi',
@@ -1466,7 +1479,7 @@ module.exports = {
       speed_2: 'meter per sekund.',
       available_for_purchase: 'Tillgänlig att köpa',
       level_to_unlock: 'Nivå som låser upp:',
-      restricted_to_certain_heroes: 'Det är bara vissa hjältar som kan spela den här nivån.'
+      restricted_to_certain_heroes: 'Det är bara vissa hjältar som kan spela den här nivån.',
     },
 
     char_customization_modal: {
@@ -1474,7 +1487,7 @@ module.exports = {
       body: 'Kropp',
       name_label: 'Hjältens namn',
       hair_label: 'Hårfärg',
-      skin_label: 'Hudfärg'
+      skin_label: 'Hudfärg',
     },
 
     skill_docs: {
@@ -1505,13 +1518,13 @@ module.exports = {
       optional_parameters: 'Valfria parametrar',
       returns: 'Returnerar',
       granted_by: 'Ges av',
-      still_undocumented: 'Fortfarande odokumenterad, sorry.'
+      still_undocumented: 'Fortfarande odokumenterad, sorry.',
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: 'Sparat',
-      granularity_change_history: 'Historik'
+      granularity_change_history: 'Historik',
     },
 
     options: {
@@ -1528,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Visa indenteringsguider',
       editor_config_indentguides_description: 'Visar vertikala linjer för att kunna se indentering bättre.',
       editor_config_behaviors_label: 'Smart beteende',
-      editor_config_behaviors_description: 'Avsluta automatiskt hakparenteser, parenteser, och citat.'
+      editor_config_behaviors_description: 'Avsluta automatiskt hakparenteser, parenteser, och citat.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1658,11 +1671,11 @@ module.exports = {
       character_art: 'Karaktär Art',
       download_all: 'Ladda ner allt',
       previous: 'Föregående',
-      location_title: 'Vi finns i centrala SF:'
+      location_title: 'Vi finns i centrala SF:',
     },
 
     teachers: {
-      licenses_needed: 'Licenser krävs'
+      licenses_needed: 'Licenser krävs',
       //    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO",
       //    select_class: "Select class",
       //    programming_language: "Programming language",
@@ -1689,13 +1702,12 @@ module.exports = {
       //    error_in_importing_students: "Error in importing students",
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-      //    classroom_blocks: "Drag and Drop Blocks (beta)",
-      //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-      //    classroom_blocks_hidden: "Disabled",
-      //    classroom_blocks_opt_in: "Off by default",
-      //    classroom_blocks_opt_out: "On by default",
+      //    code_formats: "Code Formats (beta)",
+      //    code_formats_description: "Which code formats students can choose from.",
+      //    default_code_format: "Default Code Format",
+      //    default_code_format_description: "The code format that students will start with.",
       //    not_allow_to_solution: "# Licenses needed to view solutions",
-      //    classroom_level_chat: "Level Chat with AI",
+      //    classroom_level_chat: "AI Level Hints",
       //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
       //    classroom_level_chat_option_free_form: "Free form",
       //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1774,7 +1786,7 @@ module.exports = {
       purchase: 'Inköp',
       courses_prefix: 'Kurser',
       //    courses_suffix: "",
-      course_prefix: 'Kurs'
+      course_prefix: 'Kurs',
       //    course_suffix: "",
       //    licenses_activated_success: "Licenses have been Activated Successfully!",
       //    license_code_used: "License Code used.",
@@ -1846,7 +1858,7 @@ module.exports = {
       create_account_subtitle: 'Få tillgång till lärarverktyg för att använda CodeCombat i klassrummet. <strong>Konfigurera en klass</strong>, lägg till dina elever och <strong>överse deras framsteg</strong>!',
       convert_account_title: 'Uppdatering av lärarkonto',
       not: 'Inte',
-      full_name_required: 'För- och efternamn krävs'
+      full_name_required: 'För- och efternamn krävs',
     },
 
     versions: {
@@ -1857,7 +1869,7 @@ module.exports = {
       cla_url: 'CLA',
       cla_suffix: '.',
       cla_agree: 'JAG GODKÄNNER',
-      owner_approve: 'En ägare måste godkänna ändringen innan den kan produktionssättas.'
+      owner_approve: 'En ägare måste godkänna ändringen innan den kan produktionssättas.',
     },
 
     contact: {
@@ -1874,7 +1886,7 @@ module.exports = {
       subscriber_support: 'Eftersom du är en CodeCombat-prenumerant kommer ditt mejl att bli prioriterat.',
       screenshot_included: 'Inkluderar skärmbild.',
       where_reply: 'Vart ska vi skicka svaret?',
-      send: 'Skicka Feedback'
+      send: 'Skicka Feedback',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: 'Ett fel uppstod när ändringarna skulle sparas',
       saved: 'Ändringar sparade',
       password_mismatch: 'De angivna lösenorden stämmer inte överens.',
-      password_repeat: 'Upprepa ditt lösenord.'
+      password_repeat: 'Upprepa ditt lösenord.',
     },
 
     keyboard_shortcuts: {
@@ -1947,11 +1959,11 @@ module.exports = {
       toggle_debug: 'Toggla debug display.',
       toggle_grid: 'Toggla grid overlay.',
       toggle_pathfinding: 'Växla till översikt för sökvägen.',
-      beautify: 'Försköna din kod genom att standardisera dess formatering.'
+      beautify: 'Försköna din kod genom att standardisera dess formatering.',
     },
 
     cinematic: {
-      click_anywhere_continue: 'klicka var som helst för att fortsätta'
+      click_anywhere_continue: 'klicka var som helst för att fortsätta',
       //    instructional_tooltip: "Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same.",
     },
 
@@ -1971,7 +1983,7 @@ module.exports = {
       social_facebook: 'Gilla CodeCombat på Facebook',
       social_twitter: 'Följ CodeCombat på Twitter',
       social_slack: 'Chatta med oss i den offentliga CodeCombat Slack-kanalen',
-      contribute_to_the_project: 'Bidra till projektet'
+      contribute_to_the_project: 'Bidra till projektet',
     },
 
     clans: {
@@ -2034,7 +2046,7 @@ module.exports = {
       track_concepts6b: 'Sortera medlemar efter namn eller framsteg',
       track_concepts7: 'Kräver inbjudan',
       track_concepts8: 'att ansluta sig',
-      private_require_sub: 'Privata klaner kräver ett abonnemang för att skapa eller gå med i.'
+      private_require_sub: 'Privata klaner kräver ett abonnemang för att skapa eller gå med i.',
     },
 
     courses: {
@@ -2056,7 +2068,7 @@ module.exports = {
       students: 'Elever',
       concepts: 'Koncept',
       play_time: 'Speltid:',
-      completed: 'Avslutade:'
+      completed: 'Avslutade:',
       //    enter_emails: "Separate each email address by a line break or commas",
       //    send_invites: "Invite Students",
       //    number_programming_students: "Number of Programming Students",
@@ -2282,7 +2294,7 @@ module.exports = {
     project_gallery: {
       no_projects_published: 'Var först med att publicera ett projekt i den här kursen!',
       view_project: 'Visa projekt',
-      edit_project: 'Redigera projelt'
+      edit_project: 'Redigera projelt',
     },
 
     //  teacher: {
@@ -2833,7 +2845,7 @@ module.exports = {
       ambassador_title: 'Ambassadör',
       ambassador_title_description: '(Support)',
       ambassador_summary: 'Tämj forumanvändarna och hjälp dem som har frågor. Ambassadörerna representerar CodeCombat ute i världen.',
-      teacher_title: 'Lärare'
+      teacher_title: 'Lärare',
     },
 
     editor: {
@@ -2869,6 +2881,7 @@ module.exports = {
       //    fork_title: "Fork New Version",
       //    fork_creating: "Creating Fork...",
       //    generate_terrain: "Generate Terrain",
+      //    generate_level: "Generate Level",
       more: 'Mer',
       wiki: 'Wiki',
       //    live_chat: "Live Chat",
@@ -2970,7 +2983,7 @@ module.exports = {
       //    level_completion: "Level Completion",
       //    pop_i18n: "Populate I18N",
       //    tasks: "Tasks",
-      clear_storage: 'Rensa dina lokala ändringar'
+      clear_storage: 'Rensa dina lokala ändringar',
       //    add_system_title: "Add Systems to Level",
       //    done_adding: "Done Adding",
       //    product: "Product",
@@ -2979,11 +2992,11 @@ module.exports = {
 
     article: {
       edit_btn_preview: 'Förhandsgranska',
-      edit_article_title: 'Redigera artikel'
+      edit_article_title: 'Redigera artikel',
     },
 
     polls: {
-      priority: 'Prioritet'
+      priority: 'Prioritet',
     },
 
     contribute: {
@@ -3054,7 +3067,7 @@ module.exports = {
       creative_artisans: 'Våra kreativa hantverkare:',
       brave_adventurers: 'Våra modiga äventyrare:',
       translating_diplomats: 'Våra översättande diplomater:',
-      helpful_ambassadors: 'Våra hjälpfulla ambassadörer:'
+      helpful_ambassadors: 'Våra hjälpfulla ambassadörer:',
     },
 
     ladder: {
@@ -3118,7 +3131,7 @@ module.exports = {
       //    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details",
       //    tournament_blurb_blog: "on our blog",
       rules: 'Regler',
-      winners: 'Vinnare'
+      winners: 'Vinnare',
       //    league: "League",
       //    red_ai: "Red CPU",
       //    blue_ai: "Blue CPU",
@@ -3160,7 +3173,7 @@ module.exports = {
       //    favorite_postfix: ".",
       not_member_of_clans: 'Inte medlem av någon klan än.',
       certificate_view: 'Visa certifikat',
-      certificate_click_to_view: 'Klicka för att visa certifikat'
+      certificate_click_to_view: 'Klicka för att visa certifikat',
       //    certificate_course_incomplete: "course incomplete",
       //    certificate_of_completion: "Certificate of Completion",
       //    certificate_endorsed_by: "Endorsed by",
@@ -3186,7 +3199,7 @@ module.exports = {
     achievements: {
       last_earned: 'Senast förvärvad den',
       amount_achieved: 'Antal',
-      achievement: 'Prestation'
+      achievement: 'Prestation',
       //    current_xp_prefix: "",
       //    current_xp_postfix: " in total",
       //    new_xp_prefix: "",
@@ -3222,7 +3235,7 @@ module.exports = {
       //    active_until: "Active Until",
       cost: 'Kostnad',
       next_payment: 'Nästa betalning',
-      card: 'Kort'
+      card: 'Kort',
       //    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now.",
       //    status_unsubscribed: "Get access to new levels, heroes, items, and bonus gems with a CodeCombat subscription!",
       //    not_yet_verified: "Not yet verified.",
@@ -3286,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3365,7 +3379,7 @@ module.exports = {
       server_error: 'Serverfel.',
       unknown: 'Okänt fel',
       //    error: "ERROR",
-      general_desc: 'Något gick fel, och det är antagligen vårt fel. Prova vänta en stund och ladda om sidan, eller besök en av följande länkar för att gå tillbaka till programmeringen!'
+      general_desc: 'Något gick fel, och det är antagligen vårt fel. Prova vänta en stund och ladda om sidan, eller besök en av följande länkar för att gå tillbaka till programmeringen!',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
     },
@@ -3546,7 +3560,7 @@ module.exports = {
       //    moved_index: "Moved Index",
       //    text_diff: "Text Diff",
       //    merge_conflict_with: "MERGE CONFLICT WITH",
-      no_changes: 'Inga ändringar'
+      no_changes: 'Inga ändringar',
     },
 
     legal: {
@@ -3602,7 +3616,7 @@ module.exports = {
       nutshell_title: 'I ett nötskal',
       nutshell_description: 'Alla resurser vi tillhandahåller i nivåredigeraren är gratis att använda som du vill för att skapa nivåer. Men vi reserverar oss rättigheten att begränsa distribution av nivåerna själva (som skapas på codecombat.com) så att de kan tas betalt för i framtiden, om det är så det blir.',
       //    nutshell_see_also: "See also:",
-      canonical: 'Den engelska versionen av detta dokument är den definitiva, erkända versionen. Om det finns några skillnader mellan översättningar är det det engelska dokumentet som tar företräde.'
+      canonical: 'Den engelska versionen av detta dokument är den definitiva, erkända versionen. Om det finns några skillnader mellan översättningar är det det engelska dokumentet som tar företräde.',
       //    third_party_title: "Third Party Services",
       //    third_party_description: "CodeCombat uses the following third party services (among others):",
       //    cookies_message: "CodeCombat uses a few essential and non-essential cookies.",
@@ -3646,7 +3660,7 @@ module.exports = {
       september: 'September',
       october: 'Oktober',
       november: 'November',
-      december: 'December'
+      december: 'December',
     },
 
     //  code_play_create_account_modal: {
@@ -3659,7 +3673,7 @@ module.exports = {
 
     server_error: {
       email_taken: 'Epostadress redan taget',
-      username_taken: 'Användarnamn redan taget'
+      username_taken: 'Användarnamn redan taget',
       //    easy_password: "Password is too easy to guess",
       //    reused_password: "Password cannot be reused",
     },
@@ -3699,7 +3713,7 @@ module.exports = {
       expected_an_identifier: "En identifierare förväntades, såg istället '$1'.",
       unexpected_identifier: 'Oväntad identifierare',
       unexpected_end_of: 'Oväntat slut på inmatning',
-      unnecessary_semicolon: 'Onödigt semikolon.'
+      unnecessary_semicolon: 'Onödigt semikolon.',
       //    unexpected_token_expected: "Unexpected token: expected `$1` but found `$2` while parsing `$3`",
       //    unexpected_token: "Unexpected token $1",
       //    unexpected_token2: "Unexpected token",
@@ -3788,7 +3802,7 @@ module.exports = {
       //    error_no_arg_to_dereference: "No argument to dereference.",
       //    error_try_dereference_non: "Tried to dereference non pointer.",
       //    error_no_arg_to_alloc: "No argument to alloc.",
-    }
+    },
 
     //  apcsp: {
     //    title: "AP Computer Science Principals | College Board Endorsed",
@@ -3920,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4477,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4758,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

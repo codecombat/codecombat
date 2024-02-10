@@ -335,7 +335,7 @@ module.exports = {
       //    custom_code_engine_blurb: "Our custom code engine and interpreter is designed for beginners, teaching true Python, JavaScript, and C++ programming languages using human, beginner-friendly terms.",
       //    student_impact: "Student Impact",
       //    help_enjoy_learning_blurb: "Our products have helped over 20 million students enjoy learning Computer Science, teaching them to be critical, confident, and creative learners. We engage all students, regardless of experience, helping them to realize a pathway to success in Computer Science.",
-      global_community: 'Доєднатияс до нашої глобальної спільноти'
+      global_community: 'Доєднатияс до нашої глобальної спільноти',
       //    million: "__num__ Million",
       //    billion: "__num__ Billion",
       //    meta_keywords_podcast: "CodeCombat, python, javascript, Coding Games, podcast, edtech",
@@ -399,7 +399,7 @@ module.exports = {
       classes: 'Класи',
       term_of_service: 'Умови обслуговування',
       //    esports: "Esports",
-      browser_recommendation: 'Щоб найкраще все працювало, рекомендуємо використовувати останню версію Chrome. Завантажте цей браузер тут!'
+      browser_recommendation: 'Щоб найкраще все працювало, рекомендуємо використовувати останню версію Chrome. Завантажте цей браузер тут!',
       //    ozaria_classroom: "Ozaria Classroom",
       //    codecombat_classroom: "CodeCombat Classroom",
       //    ozaria_dashboard: "Ozaria Dashboard",
@@ -432,11 +432,11 @@ module.exports = {
       close: 'Закрити',
       okay: 'Добре',
       cancel: 'Скасувати',
-      try_again: 'Спробувати ще раз'
+      try_again: 'Спробувати ще раз',
     },
 
     not_found: {
-      page_not_found: 'Сторінку не знайдено'
+      page_not_found: 'Сторінку не знайдено',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'Ми створюємо CodeCombat англійською, але в нас уже є гравці зі всього світу. Багато хто з них хоче грати українською, але не говорить англійською, тому, якщо Ви знаєте обидві мови, обміркуйте можливість стати Дипломатом і допомогти перекласти сайт CodeCombat та всі рівні українською.',
       missing_translations: 'Поки ми не переклали все українською, Ви бачитимете англійський текст там, де українська ще не доступна.',
       learn_more: 'Дізнатися, як стати Дипломатом',
-      subscribe_as_diplomat: 'Записатися в Дипломати'
+      subscribe_as_diplomat: 'Записатися в Дипломати',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Увійди як Шукач пригод',
       awaiting_levels_adventurer_suffix: 'стань одним з перших, хто їх спробує.',
       adjust_volume: 'Налаштувати гучність',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Арени для мультиплеєра',
       campaign_multiplayer_description: '... в яких Ви програмуєте віч-на-віч із іншими гравцями.',
       brain_pop_done: 'Ви перемогли Оґрів за допомогою коду! Ви виграли!',
@@ -537,7 +538,7 @@ module.exports = {
       replay: 'Переграти',
       back_to_classroom: 'Повернутися до класу',
       teacher_button: 'для вчителів',
-      get_more_codecombat: 'Отримайте більше від CodeCombat'
+      get_more_codecombat: 'Отримайте більше від CodeCombat',
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
       //    customize_hero: "Customize Hero",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'невизначений',
       null: 'нуль',
       nil: 'нуль',
-      None: 'Жоден'
+      None: 'Жоден',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Введіть їхні електронні адреси, і ми покажемо ім!',
       form_label: 'Електронна адреса',
       placeholder: 'електронна адреса',
-      title: 'Досконала робота, учню'
+      title: 'Досконала робота, учню',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: 'Завершення',
       sign_in_with_facebook: 'Увійти через Facebook',
       sign_in_with_gplus: 'Увійти через G+',
-      signup_switch: 'Бажаєте створити обліківку?'
+      signup_switch: 'Бажаєте створити обліківку?',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -721,7 +722,7 @@ module.exports = {
       eu_confirmation: 'Я згоден дозволити CodeCombat зберігати мої дані на серверах США.',
       eu_confirmation_place_of_processing: 'Дізнайтеся більше про можливі ризики',
       eu_confirmation_student: 'Якщо ви не впевнені, дізнайтеся у вашого вчителя.',
-      eu_confirmation_individual: 'Якщо ви не бажаєте сберігати свої дані на серверах США, то ви завжди можете грати анонімно без збереження свого коду.'
+      eu_confirmation_individual: 'Якщо ви не бажаєте сберігати свої дані на серверах США, то ви завжди можете грати анонімно без збереження свого коду.',
       //    request_class_code: "Students, request a Class Code from your Teacher to create an Account!",
       //    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!",
       //    looking_for_classroom: "Looking for classroom...",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Відновити обліківку',
       send_password: 'Надіслати пароль відновлення',
-      recovery_sent: 'Лист для відновлення надіслано.'
+      recovery_sent: 'Лист для відновлення надіслано.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Броня',
       accessories: 'Прикраси',
       misc: 'Різне',
-      books: 'Книги'
+      books: 'Книги',
     },
 
     common: {
@@ -801,7 +802,7 @@ module.exports = {
       required_field: "обов'язкове поле",
       submit: 'Надіслати',
       replay: 'Переграти',
-      complete: 'Завершити'
+      complete: 'Завершити',
       //    pick_image: "Pick Image",
       //    continue_editing: "Continue Editing",
       //    logout: "Logout",
@@ -875,7 +876,7 @@ module.exports = {
       learn_more: 'Дізнатися більше',
       more: 'Більше',
       fewer: 'Менше',
-      with: 'з(і)'
+      with: 'з(і)',
       //    archived: "Archived",
       //    chat: "Chat",
       //    chat_with_us: "Chat with us",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'місяць',
       months: 'місяців',
       year: 'рік',
-      years: 'років'
+      years: 'років',
     },
 
     play_level: {
@@ -1102,7 +1103,7 @@ module.exports = {
       //    vega_character: "Vega Character",
       //    capella_character: "Capella Character",
       //    octans_character: "Octans Character",
-      click_to_continue: 'Клацніть, щоб продовжити'
+      click_to_continue: 'Клацніть, щоб продовжити',
       //    fill_in_solution: "Fill in solution",
       //    toggle_solution: "Toggle solution",
       //    play_as_humans: "Play As Red",
@@ -1161,7 +1162,7 @@ module.exports = {
       jquery: 'jQuery',
       json: 'JSON',
       number: 'Число',
-      webjavascript: 'JavaScript'
+      webjavascript: 'JavaScript',
     },
 
     //  amazon_hoc: {
@@ -1179,13 +1180,13 @@ module.exports = {
     live_class: {
       title: 'Дякую!',
       content: 'Вражаюче! Ми зараз запустили онлайн-клас.',
-      link: 'Вже готові прямувати до кодування?'
+      link: 'Вже готові прямувати до кодування?',
     },
 
     code_quest: {
       great: 'Неймовірно!',
       //    join_paragraph: "Join the largest international Python AI coding tournament for all ages and compete for the top of the leaderboard! This month-long global battle starts August 1st and includes $5k worth of prizes and a virtual awards ceremony where we'll announce winners and recognize your coding skills.",
-      link: 'Тисніть тут щоб зареєструватись та дізнатись більше'
+      link: 'Тисніть тут щоб зареєструватись та дізнатись більше',
       //    global_tournament: "Global Tournament",
       //    register: "Register",
       //    date: "Aug 1 - Aug 31",
@@ -1205,13 +1206,14 @@ module.exports = {
       goal_defeat_amount: 'Перемогти __amount__ ворогів.',
       goal_move: 'Перемістіться до всіх червоних знаків X.',
       goal_collect: 'Зберіть всі предмети.',
-      goal_collect_amount: 'Зберіть __amount__ предметів.'
+      goal_collect_amount: 'Зберіть __amount__ предметів.',
     },
 
     game_menu: {
       inventory_tab: 'Інвентар',
       save_load_tab: 'Зберегти/Завантажити',
       options_tab: 'Параметри',
+      //    my_code_tab: "My Code",
       guide_tab: 'Довідник',
       guide_video_tutorial: 'Відео-посібник',
       guide_tips: 'Поради',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Екіпіруйте свого героя',
       choose_hero_caption: 'Оберіть героя, мову',
       options_caption: 'Налаштування параметрів',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Документація та поради',
       multiplayer_caption: 'Гра з друзями!',
-      auth_caption: 'Збережіть свій прогрес.'
+      auth_caption: 'Збережіть свій прогрес.',
     },
 
     leaderboard: {
@@ -1241,7 +1244,7 @@ module.exports = {
       survival_time: 'Вижив',
       defeated: 'Вороги Переможені',
       code_length: 'Рядків Коду',
-      score_display: '__scoreType__: __score__'
+      score_display: '__scoreType__: __score__',
     },
 
     inventory: {
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: 'Зняти',
       warrior_only: 'Тільки Воїн',
       ranger_only: 'Тільки Рейнджер',
-      wizard_only: 'Тільки Чаклун'
+      wizard_only: 'Тільки Чаклун',
     },
 
     buy_gems: {
@@ -1274,17 +1277,17 @@ module.exports = {
       price: 'x{{gems}} / міс',
       buy_premium: 'Придбати Преміум',
       purchase: 'Купити',
-      purchased: 'Куплено'
+      purchased: 'Куплено',
     },
 
     subscribe_for_gems: {
-      prompt_title: 'Недостатньо самоцвітів!'
+      prompt_title: 'Недостатньо самоцвітів!',
       //    prompt_body: "Subscribe to Premium to get gems and access to even more levels!",
     },
 
     earn_gems: {
       prompt_title: 'Недостатньо самосцвітів',
-      prompt_body: 'Продовжуйте грати, щоб заробити більше!'
+      prompt_body: 'Продовжуйте грати, щоб заробити більше!',
     },
 
     subscribe: {
@@ -1337,13 +1340,14 @@ module.exports = {
       year_price: '$__price__/рік',
       //    year_price_without_currency: "__price__/yr",
       support_part1: 'Потрібна допомога з опціями оплати? Напишіть на',
-      support_part2: 'support@codecombat.com'
+      support_part2: 'support@codecombat.com',
       //    go_prepaid: "Click here after scaning the code and purchasing",
       //    forever: "Forever",
       //    subscription_status: "Your Subscription Status",
       //    currently_not_free: "You don't have a Subscription yet.",
       //    online_classes: "Online Classes",
       //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+      //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     },
 
     announcement: {
@@ -1361,7 +1365,7 @@ module.exports = {
       cougar_name: 'Пума',
       cougar_description: 'Пума обожнюють отримувати вчену ступінь щоденними радісними випробуваннями.',
       fox_name: 'Сумна лисичка',
-      fox_description: 'Сумні лисички дуже чесні й полюбляють копатися у багнюці та снігу!'
+      fox_description: 'Сумні лисички дуже чесні й полюбляють копатися у багнюці та снігу!',
       //    pugicorn_name: "Pugicorn",
       //    pugicorn_description: "Pugicorns are some of the rarest creatures and can cast spells!",
       //    wolf_name: "Wolf Pup",
@@ -1424,7 +1428,7 @@ module.exports = {
       list_web_dev: 'Створюйте веб-сайти та інтерактивні програми',
       //    list_items: "Equip Premium-only items like pets",
       list_support: 'Отримайте преміум підтримку для допомоги з відладкою заплутаного коду',
-      list_clans: 'Створюйте приватні клани, щоб запросити ваших друзів та змагатися в груповому лідерстві'
+      list_clans: 'Створюйте приватні клани, щоб запросити ваших друзів та змагатися в груповому лідерстві',
       //    ai_bot_learning: "AI powered support to accelerate learning outcomes!",
       //    ai_bot_description: "CodeCombat’s AI powered hints feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available young learners will still need to work through each level's coding challenge. Premium subscribers receive an allocation of <b>10 AI hints per day</b> to ensure they always have the support they need.",
       //    list_ai_bot: "Premium subscribers receive an allocation of 10 AI hints per day",
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Мова ігрових сценаріїв.',
       java_blurb: '(Тільки для підписників) Android та підприємства.',
       cpp_blurb: '(Тільки для підписників) Розробка ігор та високошвидкісні розрахунки.',
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Статус',
       weapons: 'Зброя',
       weapons_warrior: 'Мечі – ближній бій, жодної магії',
@@ -1466,7 +1479,7 @@ module.exports = {
       speed_2: ' метрів на секунду.',
       available_for_purchase: 'Можна придбати',
       level_to_unlock: 'Розблокується на рівні:',
-      restricted_to_certain_heroes: 'Тільки певні герої можуть грати в цьому рівні.'
+      restricted_to_certain_heroes: 'Тільки певні герої можуть грати в цьому рівні.',
     },
 
     char_customization_modal: {
@@ -1474,7 +1487,7 @@ module.exports = {
       body: 'Тіло',
       name_label: "Ім'я героя",
       hair_label: 'Колір волосся',
-      skin_label: 'Колір шкіри'
+      skin_label: 'Колір шкіри',
     },
 
     skill_docs: {
@@ -1506,12 +1519,12 @@ module.exports = {
       returns: 'Повертає',
       granted_by: 'Надано',
       //    still_undocumented: "Still undocumented, sorry.",
-      description_coming_soon: 'Опис скоро буде.'
+      description_coming_soon: 'Опис скоро буде.',
     },
 
     save_load: {
       granularity_saved_games: 'Збережено',
-      granularity_change_history: 'Історія'
+      granularity_change_history: 'Історія',
     },
 
     options: {
@@ -1528,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Показувати лінії відступів',
       editor_config_indentguides_description: 'Відображення вертикальних ліній відступів, щоби краще бачити відстань.',
       editor_config_behaviors_label: 'Розумні навички',
-      editor_config_behaviors_description: 'Автоматичне закриття дужок та лапок.'
+      editor_config_behaviors_description: 'Автоматичне закриття дужок та лапок.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1658,11 +1671,11 @@ module.exports = {
       character_art: 'Галерея персонажів',
       download_all: 'Завантажити все',
       previous: 'Попереднє',
-      location_title: 'Ми розташовані в центрі Сан-Франциско:'
+      location_title: 'Ми розташовані в центрі Сан-Франциско:',
     },
 
     teachers: {
-      licenses_needed: 'Потрібна ліцензія'
+      licenses_needed: 'Потрібна ліцензія',
       //    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO",
       //    select_class: "Select class",
       //    programming_language: "Programming language",
@@ -1689,13 +1702,12 @@ module.exports = {
       //    error_in_importing_students: "Error in importing students",
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-      //    classroom_blocks: "Drag and Drop Blocks (beta)",
-      //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-      //    classroom_blocks_hidden: "Disabled",
-      //    classroom_blocks_opt_in: "Off by default",
-      //    classroom_blocks_opt_out: "On by default",
+      //    code_formats: "Code Formats (beta)",
+      //    code_formats_description: "Which code formats students can choose from.",
+      //    default_code_format: "Default Code Format",
+      //    default_code_format_description: "The code format that students will start with.",
       //    not_allow_to_solution: "# Licenses needed to view solutions",
-      //    classroom_level_chat: "Level Chat with AI",
+      //    classroom_level_chat: "AI Level Hints",
       //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
       //    classroom_level_chat_option_free_form: "Free form",
       //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1775,7 +1787,7 @@ module.exports = {
       courses_prefix: 'Курси',
       courses_suffix: '',
       course_prefix: 'Курс',
-      course_suffix: ''
+      course_suffix: '',
       //    licenses_activated_success: "Licenses have been Activated Successfully!",
       //    license_code_used: "License Code used.",
     },
@@ -1846,7 +1858,7 @@ module.exports = {
       create_account_subtitle: 'Отримайте доступ до інструментів, доступних лише вчителям, для використання CodeCombat в класі. <strong>Налаштуйте клас</strong>, додайте учнів та <strong>слідкуйте за їхнім прогресом</strong>!',
       convert_account_title: 'Оновити до обліківки вчителя',
       not: 'Ні',
-      full_name_required: "Необхідні ім'я та призвище"
+      full_name_required: "Необхідні ім'я та призвище",
     },
 
     versions: {
@@ -1857,7 +1869,7 @@ module.exports = {
       cla_url: 'CLA',
       cla_suffix: '.',
       cla_agree: 'Я погоджуюсь',
-      owner_approve: 'Власник повинен підтвердити це перед тим, як зміни стануть видимими.'
+      owner_approve: 'Власник повинен підтвердити це перед тим, як зміни стануть видимими.',
     },
 
     contact: {
@@ -1874,7 +1886,7 @@ module.exports = {
       subscriber_support: 'Оскільки ви власник абонементу CodeCombat, ваші листи розглядаються у пріоритеті.',
       screenshot_included: 'Приєднано зняток.',
       where_reply: 'Куди ми повинні відповісти?',
-      send: 'Надіслати відгук'
+      send: 'Надіслати відгук',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: 'Помилка збереження',
       saved: 'Зміни збережено',
       password_mismatch: 'Паролі не збігаються.',
-      password_repeat: 'Будь ласка, повторіть пароль.'
+      password_repeat: 'Будь ласка, повторіть пароль.',
     },
 
     keyboard_shortcuts: {
@@ -1947,11 +1959,11 @@ module.exports = {
       toggle_debug: 'Перемикач відлагодження.',
       toggle_grid: 'Перемикач сітки.',
       toggle_pathfinding: 'Перемикач накладання шляху.',
-      beautify: 'Зроби код красивішим, стандартизуючи його форматування.'
+      beautify: 'Зроби код красивішим, стандартизуючи його форматування.',
     },
 
     cinematic: {
-      click_anywhere_continue: 'клікніть будь-де, щоб продовжити'
+      click_anywhere_continue: 'клікніть будь-де, щоб продовжити',
       //    instructional_tooltip: "Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same.",
     },
 
@@ -1971,7 +1983,7 @@ module.exports = {
       social_facebook: 'Вподобайте CodeCombat на Facebook',
       social_twitter: 'Слідкуйте за CodeCombat у Twitter',
       social_slack: 'Переписуйтесь з нами в публічному каналі CodeCombat Slack',
-      contribute_to_the_project: 'Взяти участь у розробці'
+      contribute_to_the_project: 'Взяти участь у розробці',
     },
 
     clans: {
@@ -2034,7 +2046,7 @@ module.exports = {
       track_concepts6b: "Впорядкувати учасників за ім'ям або прогресом",
       track_concepts7: 'Необхідне запрошення',
       track_concepts8: 'аби приєднатись',
-      private_require_sub: 'Створення або приєданння до приватного клану потребує абонемент.'
+      private_require_sub: 'Створення або приєданння до приватного клану потребує абонемент.',
     },
 
     courses: {
@@ -2258,7 +2270,7 @@ module.exports = {
       certificate_btn_toggle: 'Переключити',
       //    error_in_creating_data: "Error in creating data for intro level!",
       ask_next_course: 'Хочете грати ще? Спитайте вашого вчителя щодо доступу до наступного курсу.',
-      set_start_locked_level: 'Призначити на рівень'
+      set_start_locked_level: 'Призначити на рівень',
       //    no_level_limit: "-- (no levels locked)",
       //    ask_teacher_to_unlock: "Ask Teacher To Unlock",
       //    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen",
@@ -2282,7 +2294,7 @@ module.exports = {
     project_gallery: {
       no_projects_published: ' Будьте першим, хто опублікує проект у цьому курсі!',
       view_project: 'Дивитись проект',
-      edit_project: 'Редагувати проект'
+      edit_project: 'Редагувати проект',
     },
 
     teacher: {
@@ -2597,7 +2609,7 @@ module.exports = {
       revoking: 'Відкликаємо...',
       //    unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they're ready to learn more!",
       //    remember_new_courses: "Remember to assign new courses!",
-      more_info: 'Більше інформації'
+      more_info: 'Більше інформації',
       //    how_to_assign_courses: "How to Assign Courses",
       //    select_students: "Select Students",
       //    select_instructions: "Click the checkbox next to each student you want to assign courses to.",
@@ -2787,7 +2799,7 @@ module.exports = {
       victory_course_share_game: 'грати в гру',
       victory_course_share_web: 'переглянути веб-сторінку',
       victory_course_share_suffix: ', яку ви щойно створили.',
-      copy_url: 'Копіювати посилання'
+      copy_url: 'Копіювати посилання',
       //    share_with_teacher_email: "Send to your teacher",
       //    share_ladder_link: "Share Multiplayer Link",
       //    ladder_link_title: "Share Your Multiplayer Match Link",
@@ -2795,7 +2807,7 @@ module.exports = {
     },
 
     game_dev: {
-      creator: 'Творець'
+      creator: 'Творець',
     },
 
     web_dev: {
@@ -2811,7 +2823,7 @@ module.exports = {
       how_to_copy_paste: 'Як скопіювати/вставити',
       copy: 'Скопіювати',
       paste: 'Вставити',
-      back_to_editing: 'Назад до редагування'
+      back_to_editing: 'Назад до редагування',
     },
 
     classes: {
@@ -2833,7 +2845,7 @@ module.exports = {
       ambassador_title: 'Посол',
       ambassador_title_description: '(Підтримка)',
       ambassador_summary: 'Вгамовуйте користувачів нашого форуму і скеровуйте тих, хто має запитання. Наші посли — представники CodeCombat у світі.',
-      teacher_title: 'Вчитель'
+      teacher_title: 'Вчитель',
     },
 
     editor: {
@@ -2869,6 +2881,7 @@ module.exports = {
       fork_title: 'Форк нової версії',
       fork_creating: 'Створення форку...',
       generate_terrain: 'Згенерувати ландшафт',
+      //    generate_level: "Generate Level",
       more: 'Більше',
       wiki: 'Вікі',
       live_chat: 'Online чат',
@@ -2972,18 +2985,18 @@ module.exports = {
       tasks: 'Завдання',
       clear_storage: 'Очистити свої локальні зміни',
       add_system_title: 'Додати системи на рівень',
-      done_adding: 'Додано'
+      done_adding: 'Додано',
       //    product: "Product",
       //    link: "Link",
     },
 
     article: {
       edit_btn_preview: 'Перегляд',
-      edit_article_title: 'Редагувати статтю'
+      edit_article_title: 'Редагувати статтю',
     },
 
     polls: {
-      priority: 'Пріоритет'
+      priority: 'Пріоритет',
     },
 
     contribute: {
@@ -3054,7 +3067,7 @@ module.exports = {
       creative_artisans: 'Наші талановиті ремісники:',
       brave_adventurers: 'Наші хоробрі шукачі пригод:',
       translating_diplomats: 'Наші перекладачі - дипломати:',
-      helpful_ambassadors: 'Наші незамінні посланці:'
+      helpful_ambassadors: 'Наші незамінні посланці:',
     },
 
     ladder: {
@@ -3128,7 +3141,7 @@ module.exports = {
       //    loss_num: "Losses",
       //    win_rate: "Win %",
       humans: 'Червоний',
-      ogres: 'Синій'
+      ogres: 'Синій',
       //    live_tournament: "Live Tournament",
       //    awaiting_tournament_title: "Tournament Inactive",
       //    awaiting_tournament_blurb: "The tournament arena is not currently active.",
@@ -3167,7 +3180,7 @@ module.exports = {
       //    certificate_stats: "Course Stats",
       //    certificate_lines_of: "lines of",
       //    certificate_levels_completed: "levels completed",
-      certificate_for: 'Для'
+      certificate_for: 'Для',
       //    for_ozaria_chapters_1_4: "For Ozaria Chapters 1 - 4",
       //    certificate_number: "No.",
       //    heroes_unlocked: "Heroes Unlocked",
@@ -3193,7 +3206,7 @@ module.exports = {
       new_xp_postfix: ' зароблено',
       left_xp_prefix: '',
       left_xp_infix: ' до рівня ',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     account: {
@@ -3230,7 +3243,7 @@ module.exports = {
       email_sent: 'Email надіслано! Перевірте вашу поштову скриньку.',
       verifying_email: 'Перевірка email-адреси...',
       successfully_verified: 'Ви успішно підтвердили ваш email!',
-      verify_error: 'Щось пішло не так під час перевірки вашої email-адреси :('
+      verify_error: 'Щось пішло не так під час перевірки вашої email-адреси :(',
       //    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?",
       //    unsubscribe_button: "Yes, unsubscribe",
       //    unsubscribe_failed: "Failed",
@@ -3246,7 +3259,7 @@ module.exports = {
       pay: 'Оплатити накладну',
       purchasing: 'Триває оплата...',
       retrying: 'Помилка сервера, повторна спроба.',
-      success: 'Успішно оплачено. Дякуємо!'
+      success: 'Успішно оплачено. Дякуємо!',
     },
 
     account_prepaid: {
@@ -3271,7 +3284,7 @@ module.exports = {
       no_codes: 'Коди відсутні!',
       you_can1: 'Ви можете',
       you_can2: 'купити передплачений код',
-      you_can3: 'який може бути застосовано до вашої обліківки або переданий іншим.'
+      you_can3: 'який може бути застосовано до вашої обліківки або переданий іншим.',
       //    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account.",
       //    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times.",
       //    prepaid_applied_success: "Prepaid applied to your account!",
@@ -3286,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3365,7 +3379,7 @@ module.exports = {
       server_error: 'Помилка сервера.',
       unknown: 'Невідома помилка',
       error: 'ПОМИЛКА',
-      general_desc: 'Щось пішло не так і це, скоріш за все, наша провина. Спробуйте трохи зачекати і після цього перевантажити сторінку, або відвідайте одне з наступних посилань щоб повернутись до програмування!'
+      general_desc: 'Щось пішло не так і це, скоріш за все, наша провина. Спробуйте трохи зачекати і після цього перевантажити сторінку, або відвідайте одне з наступних посилань щоб повернутись до програмування!',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
     },
@@ -3379,7 +3393,7 @@ module.exports = {
       component: 'Компонент',
       components: 'Компоненти',
       hero: 'Герой',
-      campaigns: 'Кампанії'
+      campaigns: 'Кампанії',
     },
 
     concepts: {
@@ -3515,7 +3529,7 @@ module.exports = {
       basic_game_ai: 'Основи ШІ',
       basic_javascript: 'Основи JavaScript',
       basic_event_handling: 'Основи обробки подій',
-      create_sharable_interactive_web_page: 'Створи інтерактивну веб-сторінку, якою можна ділитися'
+      create_sharable_interactive_web_page: 'Створи інтерактивну веб-сторінку, якою можна ділитися',
       //    iteration: "Iteration",
       //    nesting: "Nesting",
       //    data_types: "Data Types",
@@ -3534,7 +3548,7 @@ module.exports = {
       //    teacher_email_placeholder: "teacher.email@example.com",
       student_name_placeholder: "напишіть своє ім'я тут",
       teachers_section: 'Вчителі:',
-      students_section: 'Учні:'
+      students_section: 'Учні:',
       //    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!",
     },
 
@@ -3546,7 +3560,7 @@ module.exports = {
       moved_index: 'Переміщено індекс',
       text_diff: 'Різниця тексту',
       merge_conflict_with: "ОБ'ЄДНАТИ КОНФЛІКТ З",
-      no_changes: 'Без змін'
+      no_changes: 'Без змін',
     },
 
     legal: {
@@ -3604,7 +3618,7 @@ module.exports = {
       nutshell_see_also: 'Дивіться також:',
       canonical: 'Англомовна версія цього документа є остаточною та канонічною версією. Якщо є будь-які невідповідності в перекладі, англійська версія документа є пріоритетною.',
       third_party_title: 'Сервіси сторонніх розробників',
-      third_party_description: 'CodeCombat використовує наступні сервіси сторонніх розробників (серед інших):'
+      third_party_description: 'CodeCombat використовує наступні сервіси сторонніх розробників (серед інших):',
       //    cookies_message: "CodeCombat uses a few essential and non-essential cookies.",
       //    cookies_deny: "Decline non-essential cookies",
       //    cookies_allow: "Allow cookies",
@@ -3628,7 +3642,7 @@ module.exports = {
       one_month_coupon: 'купон: оберіть Rails або HTML',
       one_month_discount: 'знижка 30%: оберіть Rails або HTML',
       license: 'ліцензія',
-      oreilly: 'електронна книга на ваш вибір'
+      oreilly: 'електронна книга на ваш вибір',
     },
 
     calendar: {
@@ -3646,7 +3660,7 @@ module.exports = {
       september: 'Вересень',
       october: 'Жовтень',
       november: 'Листопад',
-      december: 'Грудень'
+      december: 'Грудень',
     },
 
     //  code_play_create_account_modal: {
@@ -3659,7 +3673,7 @@ module.exports = {
 
     server_error: {
       email_taken: 'E-mail вже зайнято',
-      username_taken: "Ім'я користувача вже зайнято"
+      username_taken: "Ім'я користувача вже зайнято",
       //    easy_password: "Password is too easy to guess",
       //    reused_password: "Password cannot be reused",
     },
@@ -3920,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4167,7 +4191,7 @@ module.exports = {
       //    students_stat_description: "Total students accounts for all students across all classrooms, regardless of whether they have licenses applied.",
       //    active_students_stat_description: "Active students counts the number of students that have logged into CodeCombat in the last 60 days.",
       //    project_stat_description: "Projects created counts the total number of Game and Web development projects that have been created.",
-      no_teachers: 'Ви не адміністрували жодних вчителів.'
+      no_teachers: 'Ви не адміністрували жодних вчителів.',
       //    totals_calculated: "How are these totals calculated?",
       //    totals_explanation_1: "How are these totals calculated?",
       //    totals_explanation_2: "Licenses used",
@@ -4189,14 +4213,14 @@ module.exports = {
 
     interactives: {
       phenomenal_job: 'Феноменальна робота!',
-      try_again: 'Упс, спробуй знову!'
+      try_again: 'Упс, спробуй знову!',
       //    select_statement_left: "Whoops! Select a code statement before pressing Submit.",
       //    fill_boxes: "Whoops, make sure to fill all boxes before hitting \"Submit.\"",
       //    cannot_play_video: "Sadly, this video cannot be played in your area.",
       //    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab.",
       //    skip_video: "Skip video",
       //    unavailable: "Unavailable",
-    }
+    },
 
     //  browser_recommendation: {
     //    title: "CodeCombat works best on Chrome!",
@@ -4477,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4758,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

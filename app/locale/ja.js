@@ -90,7 +90,7 @@ module.exports = {
       sign_up: 'サインアップ',
       individual_account_warning: '__name__としてログインしていますが、これは個人アカウントです。Ozariaは教師と生徒のアカウントのみ対応しています。アカウントの更新が必要ですか？',
       learner_number: '1200万人',
-      code_line_number: '10億行'
+      code_line_number: '10億行',
       //    dei_initiatives: "What initiatives does Ozaria have to ensure diversity, equity, and inclusion in the game?",
       //    dei_initiatives_blurb: "Ozaria is dedicated to promoting diversity, equity, and inclusion (DEI) within the game. Through diverse character representation, equitable opportunities, and an inclusive environment, Ozaria embraces differences and fosters a welcoming experience for players of all backgrounds and abilities. Explore our __deipage__ to learn more about our commitment and initiatives towards DEI in Ozaria.",
       //    dei_page: "DEI page",
@@ -290,7 +290,7 @@ module.exports = {
       go_to_courses: 'コースを見る',
       want_coco: '学校でCodeCombat使ってみませんか？',
       educator: '教育者',
-      student: '学生'
+      student: '学生',
       //    go_to_my_dashboard: "Go to My Dashboard",
       //    our_coding_programs: "Our Coding Programs",
       //    codecombat: "CodeCombat",
@@ -393,7 +393,7 @@ module.exports = {
       help_suff: 'そして連絡を取り合います！',
       resource_hub: 'Resource Hub',
       apcsp: 'AP CS Principles',
-      parent: '親'
+      parent: '親',
       //    faq: "FAQ",
       //    return_coco: "Return to CodeCombat",
       //    classes: "Classes",
@@ -431,12 +431,12 @@ module.exports = {
     modal: {
       close: '閉じる',
       okay: 'OK',
-      cancel: '取り消し'
+      cancel: '取り消し',
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'ページが見つかりません'
+      page_not_found: 'ページが見つかりません',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'CodeCombatは英語で開発されています。日本語でプレイしたい方がたくさんいますが、ゲームの多くはまだ英語のままです。なのでもし両方話せるなら、外交官（翻訳者）として登録し、CodeCombatのwebサイト等を日本語に翻訳するのを手伝ってください！',
       missing_translations: '翻訳が完了していない部分は、英語で表示されます。',
       learn_more: '外交官について情報',
-      subscribe_as_diplomat: '外交官登録'
+      subscribe_as_diplomat: '外交官登録',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: '冒険者として登録すると、',
       awaiting_levels_adventurer_suffix: '新たなレベルを最初に遊ぶ事ができます',
       adjust_volume: '音量を調整する',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'マルチプレイ・アリーナ',
       campaign_multiplayer_description: 'コーディングで他のプレイヤーに対して格闘しましょう',
       brain_pop_done: '勝利！コードでオーガを倒した！',
@@ -537,7 +538,7 @@ module.exports = {
       replay: 'リプレイ',
       back_to_classroom: 'クラスルームに戻る',
       teacher_button: '先生へ',
-      get_more_codecombat: 'Code Combatについてもっと知る'
+      get_more_codecombat: 'Code Combatについてもっと知る',
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
       //    customize_hero: "Customize Hero",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: '定義されていない',
       null: '空',
       nil: '空',
-      None: '空'
+      None: '空',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: '下にメールアドレスを入力してください',
       form_label: 'メールアドレス',
       placeholder: 'メールアドレス',
-      title: '良くやった、弟子よ'
+      title: '良くやった、弟子よ',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: '仕上げ中',
       sign_in_with_facebook: 'Facebookでログイン',
       sign_in_with_gplus: 'Google+でログイン',
-      signup_switch: 'アカウントを作成しますか？'
+      signup_switch: 'アカウントを作成しますか？',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -743,14 +744,14 @@ module.exports = {
       want_to_play_codecombat: '持って無いけどやりたい！',
       have_a_classcode: 'クラスコードを持っていますか？',
       yes_i_have_classcode: '持ってる！',
-      enter_it_here: 'ここに入力しましょう:'
+      enter_it_here: 'ここに入力しましょう:',
       //    play_without_saving: "Play without saving",
     },
 
     recover: {
       recover_account_title: 'パスワードを忘れた場合',
       send_password: 'パスワードを送信する',
-      recovery_sent: '復旧メールが送信されました'
+      recovery_sent: '復旧メールが送信されました',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: '鎧',
       accessories: 'アクセサリー',
       misc: 'その他',
-      books: '書物'
+      books: '書物',
     },
 
     common: {
@@ -798,7 +799,7 @@ module.exports = {
       submit_patch: 'パッチを送信',
       submit_changes: '変更を送信',
       save_changes: '変更を保存',
-      required_field: '記入漏れ'
+      required_field: '記入漏れ',
       //    submit: "Submit",
       //    replay: "Replay",
       //    complete: "Complete",
@@ -875,7 +876,7 @@ module.exports = {
       learn_more: 'もっとみる',
       more: 'もっと',
       fewer: '少なく',
-      with: 'と'
+      with: 'と',
       //    archived: "Archived",
       //    chat: "Chat",
       //    chat_with_us: "Chat with us",
@@ -901,7 +902,7 @@ module.exports = {
       month: '月',
       months: '月',
       year: '年',
-      years: '年'
+      years: '年',
     },
 
     play_level: {
@@ -1083,7 +1084,7 @@ module.exports = {
       tip_good_idea: '優れたアイディアを得る最善の方法は、多くのアイディアを得ることだ。 - ライナス・ポーリング',
       tip_programming_not_about_computers: '天文学が望遠鏡に関する学問でないのと同様に、計算機科学はコンピュータに関する学問ではない。 - エドガー・ダイクストラ',
       tip_mulan: 'できると信じていれば、できる。 - ムーラン',
-      project_complete: 'プロジェクトを完了!'
+      project_complete: 'プロジェクトを完了!',
       //    share_this_project: "Share this project with friends or family:",
       //    ready_to_share: "Ready to publish your project?",
       //    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates.",
@@ -1205,13 +1206,14 @@ module.exports = {
       goal_defeat_amount: '敵を __amount__ 体を倒す',
       goal_move: '全ての赤いX印に移動',
       goal_collect: '全てのアイテムを集める',
-      goal_collect_amount: '__amount__ 個のアイテムを集める'
+      goal_collect_amount: '__amount__ 個のアイテムを集める',
     },
 
     game_menu: {
       inventory_tab: 'インベントリー',
       save_load_tab: 'セーブ//ロード',
       options_tab: '設定',
+      //    my_code_tab: "My Code",
       guide_tab: 'ガイド',
       guide_video_tutorial: 'チュートリアル動画',
       guide_tips: 'ヒント',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'ヒーローの装備を選ぶ',
       choose_hero_caption: 'ヒーロー、言語と',
       options_caption: '設定を行う',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'ガイドとヒント',
       multiplayer_caption: '友達とプレイ！',
-      auth_caption: '進行状況をセーブする'
+      auth_caption: '進行状況をセーブする',
     },
 
     leaderboard: {
@@ -1240,7 +1243,7 @@ module.exports = {
       gold_collected: '集めたゴールド',
       survival_time: '生き残った',
       defeated: '敵を倒した',
-      code_length: 'コードの行数'
+      code_length: 'コードの行数',
       //    score_display: "__scoreType__: __score__",
     },
 
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: '装備を外す',
       warrior_only: 'Warrior のみ',
       ranger_only: 'Ranger のみ',
-      wizard_only: 'Wizard のみ'
+      wizard_only: 'Wizard のみ',
     },
 
     buy_gems: {
@@ -1274,7 +1277,7 @@ module.exports = {
       price: 'x{{gems}} / 月',
       buy_premium: 'プラチナを購入',
       purchase: '購入',
-      purchased: '購入完了'
+      purchased: '購入完了',
     },
 
     //  subscribe_for_gems: {
@@ -1284,7 +1287,7 @@ module.exports = {
 
     earn_gems: {
       prompt_title: 'ジェムが足りません',
-      prompt_body: 'プレイを続けてさらに稼ごう！'
+      prompt_body: 'プレイを続けてさらに稼ごう！',
     },
 
     subscribe: {
@@ -1300,7 +1303,7 @@ module.exports = {
       never_mind: '気にしないでください、それでもあなたが好きです',
       thank_you_months_prefix: '私達を ',
       thank_you_months_suffix: 'ヶ月サポートしてくださりありがとうございます。',
-      thank_you: 'CodeCombatをサポートして下さりありがとうございます。'
+      thank_you: 'CodeCombatをサポートして下さりありがとうございます。',
       //    sorry_to_see_you_go: "Sorry to see you go! Please let us know what we could have done better.",
       //    unsubscribe_feedback_placeholder: "O, what have we done?",
       //    stripe_description: "Monthly Subscription",
@@ -1344,6 +1347,7 @@ module.exports = {
       //    currently_not_free: "You don't have a Subscription yet.",
       //    online_classes: "Online Classes",
       //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+      //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     },
 
     //  announcement: {
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: 'ゲーム専用のスクリプト言語。',
       java_blurb: '(サブスクリプション限定) Androidや企業',
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'ステータス',
       weapons: '武器',
       weapons_warrior: '剣 - 攻撃範囲:短い- 魔法使用不可',
@@ -1466,7 +1479,7 @@ module.exports = {
       speed_2: 'メートル/秒',
       available_for_purchase: '購入可能',
       level_to_unlock: '解放レベル：',
-      restricted_to_certain_heroes: '特定のヒーローのみ、このレベルをプレイする事が出来ます。'
+      restricted_to_certain_heroes: '特定のヒーローのみ、このレベルをプレイする事が出来ます。',
     },
 
     //  char_customization_modal: {
@@ -1504,14 +1517,14 @@ module.exports = {
       required_parameters: '必須パラメーター',
       optional_parameters: '任意パラメーター',
       returns: 'リターン',
-      granted_by: 'スキルを与えてくれるアイテム：'
+      granted_by: 'スキルを与えてくれるアイテム：',
       //    still_undocumented: "Still undocumented, sorry.",
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: 'セーブされました',
-      granularity_change_history: '履歴'
+      granularity_change_history: '履歴',
     },
 
     options: {
@@ -1528,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'インデントガイドの表示',
       editor_config_indentguides_description: 'より良いインデントを見るために垂直線を表示する。',
       editor_config_behaviors_label: 'スマートビヘイビア',
-      editor_config_behaviors_description: 'カッコ、中括弧、および引用符をオートコンプリートする。'
+      editor_config_behaviors_description: 'カッコ、中括弧、および引用符をオートコンプリートする。',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1583,7 +1596,7 @@ module.exports = {
       //    sdr_title: "Sales Development Representative",
       //    bd_pr_title: "Business Development and Partnerships Representative",
       retrostyle_title: 'イラスト',
-      retrostyle_blurb: 'レトロスタイルのゲーム'
+      retrostyle_blurb: 'レトロスタイルのゲーム',
       //    community_title: "...and our open-source community",
       //    lgd_title: "Lead Game Designer",
       //    oa_title: "Operations Associate",
@@ -1689,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1857,7 +1869,7 @@ module.exports = {
       cla_url: 'CLA',
       cla_suffix: '。',
       cla_agree: '同意する',
-      owner_approve: 'ユーザーは変更が実際に表示される前に同意する必要があります。'
+      owner_approve: 'ユーザーは変更が実際に表示される前に同意する必要があります。',
     },
 
     contact: {
@@ -1874,7 +1886,7 @@ module.exports = {
       subscriber_support: 'あなたはCodeCombatにすでに加入しているので、メールは優先サポートされます。',
       screenshot_included: 'スクリーンショットが含まれています。',
       where_reply: '何処へ返信すれば宜しいですか？',
-      send: 'フィードバックを送信'
+      send: 'フィードバックを送信',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: 'セーブ中にエラーが発生しました',
       saved: '変更しました',
       password_mismatch: 'パスワードが違います',
-      password_repeat: 'もう一度パスワードを入力してください'
+      password_repeat: 'もう一度パスワードを入力してください',
     },
 
     keyboard_shortcuts: {
@@ -1947,7 +1959,7 @@ module.exports = {
       toggle_debug: 'トグル：ディスプレイのデバッグ',
       toggle_grid: 'トグル：オーバーレイをグリッド',
       toggle_pathfinding: 'トグル：オーバーレイの経路探索',
-      beautify: 'フォーマットを標準化してコードを美しくする。'
+      beautify: 'フォーマットを標準化してコードを美しくする。',
     },
 
     //  cinematic: {
@@ -1971,7 +1983,7 @@ module.exports = {
       social_facebook: 'Facebook で CodeCombat にいいね！する',
       social_twitter: 'Twitter の CodeCombat をフォローする',
       social_slack: '公開CodeCombat Slackチャンネルで私たちと話す',
-      contribute_to_the_project: 'プロジェクトに貢献する'
+      contribute_to_the_project: 'プロジェクトに貢献する',
     },
 
     clans: {
@@ -2021,7 +2033,7 @@ module.exports = {
       latest_achievement: '最新業績',
       playtime: 'プレイ時間',
       last_played: '最終プレイ',
-      leagues_explanation: 'リーグで他のマルチアリーナインスタンス内の他のクランメンバーとプレイ'
+      leagues_explanation: 'リーグで他のマルチアリーナインスタンス内の他のクランメンバーとプレイ',
       //    track_concepts1: "Track concepts",
       //    track_concepts2a: "learned by each student",
       //    track_concepts2b: "learned by each member",
@@ -2115,7 +2127,7 @@ module.exports = {
       //    start: "Start",
       //    last_level: "Last level played",
       //    not_you: "Not you?",
-      continue_playing: 'ゲームを続ける'
+      continue_playing: 'ゲームを続ける',
       //    option1_header: "Invite Students by Email",
       //    remove_student1: "Remove Student",
       //    are_you_sure: "Are you sure you want to remove this student from this class?",
@@ -2795,7 +2807,7 @@ module.exports = {
     //  },
 
     game_dev: {
-      creator: 'クリエーター'
+      creator: 'クリエーター',
     },
 
     //  web_dev: {
@@ -2833,7 +2845,7 @@ module.exports = {
       ambassador_title: '大使',
       ambassador_title_description: '(サポート)',
       ambassador_summary: 'フォーラムのユーザが投稿する質問に答えます。私たちの大使が CodeCombat を世界に表現します。',
-      teacher_title: '先生'
+      teacher_title: '先生',
     },
 
     editor: {
@@ -2869,6 +2881,7 @@ module.exports = {
       fork_title: '新しいバージョンをフォークする',
       fork_creating: 'フォークを作成中',
       generate_terrain: '地形を生成',
+      //    generate_level: "Generate Level",
       more: 'さらに見る',
       wiki: 'ウィキ',
       live_chat: 'ライブチャット',
@@ -2929,7 +2942,7 @@ module.exports = {
       new_thang_title_login: 'ログインして新しいサングの型の作成',
       new_level_title_login: 'ログインして新しいレベルの作成',
       new_achievement_title: '新しい実績の作成',
-      new_achievement_title_login: 'ログインして新しい実績の作成'
+      new_achievement_title_login: 'ログインして新しい実績の作成',
       //    new_poll_title: "Create a New Poll",
       //    new_poll_title_login: "Log In to Create a New Poll",
       //    new_course_title: "Create a New Course",
@@ -2979,11 +2992,11 @@ module.exports = {
 
     article: {
       edit_btn_preview: 'プレビュー',
-      edit_article_title: 'アーティクルの設定'
+      edit_article_title: 'アーティクルの設定',
     },
 
     polls: {
-      priority: 'プライオリティ'
+      priority: 'プライオリティ',
     },
 
     contribute: {
@@ -3054,7 +3067,7 @@ module.exports = {
       creative_artisans: '私たちのクリエイティブなアーチザンたち:',
       brave_adventurers: '私たちの勇敢な冒険者たち:',
       translating_diplomats: '私たちの翻訳をしてくれる外交官たち:',
-      helpful_ambassadors: '私たちの有能な大使たち:'
+      helpful_ambassadors: '私たちの有能な大使たち:',
     },
 
     ladder: {
@@ -3128,7 +3141,7 @@ module.exports = {
       //    loss_num: "Losses",
       //    win_rate: "Win %",
       humans: 'レッド',
-      ogres: 'ブルー'
+      ogres: 'ブルー',
       //    live_tournament: "Live Tournament",
       //    awaiting_tournament_title: "Tournament Inactive",
       //    awaiting_tournament_blurb: "The tournament arena is not currently active.",
@@ -3158,7 +3171,7 @@ module.exports = {
       no_achievements: 'まだアーカイブはありません。',
       favorite_prefix: 'お気に入りの言語は ',
       favorite_postfix: '。',
-      not_member_of_clans: 'まだどのクランにも所属していません。'
+      not_member_of_clans: 'まだどのクランにも所属していません。',
       //    certificate_view: "view certificate",
       //    certificate_click_to_view: "click to view certificate",
       //    certificate_course_incomplete: "course incomplete",
@@ -3286,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3583,7 +3597,7 @@ module.exports = {
       //    cc_license_url: "Creative Commons Attribution 4.0 International License",
       //    art_description_suffix: "Common content is anything made generally available by CodeCombat for the purpose of creating Levels. This includes:",
       art_music: '音楽',
-      art_sound: '音'
+      art_sound: '音',
       //    art_artwork: "Artwork",
       //    art_sprites: "Sprites",
       //    art_other: "Any and all other non-code creative works that are made available when creating Levels.",
@@ -3646,7 +3660,7 @@ module.exports = {
       september: '９月',
       october: '１０月',
       november: '１１月',
-      december: '１２月'
+      december: '１２月',
     },
 
     //  code_play_create_account_modal: {
@@ -3920,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4117,7 +4141,7 @@ module.exports = {
       point3: '✓ コンセプトのテストもある',
       point4: '✓ プロジェクトのためのコース',
       point5: '✓ 生徒のプログレスがわかる',
-      point6: '✓ 全てのコンセプトを教えてくれる'
+      point6: '✓ 全てのコンセプトを教えてくれる',
       //    title: "HOUR OF CODE",
       //    acronym: "HOC",
       //    play_video: "Play Video",
@@ -4131,7 +4155,7 @@ module.exports = {
       //    featured_subtitle_3: "Grades 6-8 | JavaScript, Python",
       //    featured_blurb_3: "Enter the world of Ozaria where you must use the power of coding to defeat a darkness that has taken over the world!",
       //    page_heading_latest_activities: "Our latest activities are easy to implement and fun to play",
-    }
+    },
 
     //  hoc_2018_interstitial: {
     //    welcome: "Welcome to CodeCombat's Hour of Code!",
@@ -4477,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4758,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

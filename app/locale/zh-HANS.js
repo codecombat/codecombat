@@ -90,7 +90,7 @@ module.exports = {
       sign_up: '注册',
       //    individual_account_warning: "You are logged in as __name__, which is an individual account. Ozaria is for teacher and student accounts only; do you need to update your account?",
       learner_number: '1200万',
-      code_line_number: '10亿'
+      code_line_number: '10亿',
       //    dei_initiatives: "What initiatives does Ozaria have to ensure diversity, equity, and inclusion in the game?",
       //    dei_initiatives_blurb: "Ozaria is dedicated to promoting diversity, equity, and inclusion (DEI) within the game. Through diverse character representation, equitable opportunities, and an inclusive environment, Ozaria embraces differences and fosters a welcoming experience for players of all backgrounds and abilities. Explore our __deipage__ to learn more about our commitment and initiatives towards DEI in Ozaria.",
       //    dei_page: "DEI page",
@@ -337,7 +337,7 @@ module.exports = {
       help_enjoy_learning_blurb: '我们的平台帮助全球2000万学生入门计算机编程和人工智能基础，激发学生在计算和逻辑思维、创新创造能力上不断提升，并帮助学生树立学好计算机科学的信心。我们的平台可以赋能不同基础的学生在计算机学习道路上越走越远，不论他们之前是否有过代码编程方面的经验。',
       global_community: '加入我们全球社区',
       million: '2000万',
-      billion: '10亿'
+      billion: '10亿',
       //    meta_keywords_podcast: "CodeCombat, python, javascript, Coding Games, podcast, edtech",
       //    coco_worlds_header: "CodeCombat Worlds",
       //    coco_worlds_description: "Embark on a 3D coding adventure in Roblox, where you can program pets, play with friends, and develop games all while playing one. Join the CodeCombat community and unleash your creativity in the metaverse!",
@@ -410,7 +410,7 @@ module.exports = {
       //    codecombat_admin_dashboard: "CodeCombat Admin Dashboard",
       //    professional_development: "Professional Development",
       //    new: "New!",
-      admin: '管理员'
+      admin: '管理员',
       //    api: "API",
       //    api_dashboard: "API Dashboard",
       //    funding_resources_guide: "Funding Resources Guide",
@@ -431,12 +431,12 @@ module.exports = {
     modal: {
       close: '关闭',
       okay: '是',
-      cancel: '取消'
+      cancel: '取消',
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: '找不到网页'
+      page_not_found: '找不到网页',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: '我们开发了英文版的CodeCombat，但是CodeCombat学习者遍布全球。对于不熟悉英语的中文玩家，他们希望能使用简体中文版本；如果您中英文都很熟练，请考虑加入我们的“外交官”团队，汉化CodeCombat网站和所有关卡。感谢！',
       missing_translations: '没有翻译的文字将以英文显示。',
       learn_more: '了解更多成为“外交官”的说明',
-      subscribe_as_diplomat: '提交“外交官”申请'
+      subscribe_as_diplomat: '提交“外交官”申请',
     },
 
     new_home_faq: {
@@ -473,7 +473,7 @@ module.exports = {
       how_much_does_it_cost_blurb: 'CodeCombat个人版或扣哒世界教学版都提供5个关卡的免费试用。CodeCombat个人版支持月度付费 (99元/月)和年度付费 (999元/年)，费用包括所有的关卡学习内容和AI世青赛的竞赛学习内容。',
       recommended_systems: '有没有推荐的浏览器或操作系统?',
       recommended_systems_blurb: '只需要流畅的网络和合适的浏览器即可运行CodeCombat和Ozaria。国内推荐最低电脑内存4GB，浏览器推荐使用谷歌Chrome浏览器或Safari, Firefox和Edge，不推荐国内低版本浏览器特别是360浏览器。支持Windows系统和Mac苹果系统电脑或笔记本，不支持手机，如果你使用Pad，推荐配置键盘。网络带宽至少需要200 Kbps/学生，最好能达到1Mbps以上带宽/学生。',
-      other_questions: '如果你还有其它问题, 请联系微信客服安小风，或者联系平台负责人欧卡王，电子邮箱 bill@codecombat.com.'
+      other_questions: '如果你还有其它问题, 请联系微信客服安小风，或者联系平台负责人欧卡王，电子邮箱 bill@codecombat.com.',
       //    see_faq_prefix: "See more",
       //    see_faq_link: "frequently asked questions in our help center",
       //    see_faq_suffix: ".",
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: '注册成为冒险家',
       awaiting_levels_adventurer_suffix: '来优先尝试新关卡',
       adjust_volume: '音量调节',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: '多人竞技场',
       campaign_multiplayer_description: '……在这里您可以与其他玩家进行代码肉搏战。',
       brain_pop_done: '你用代码击败了巨魔！你赢了！',
@@ -541,7 +542,7 @@ module.exports = {
       back_to_dashboard: '返回我的课程',
       back_to_ozaria: '返回奥佳睿首页',
       customize_hero: '英雄设置',
-      account_settings: '账户设置'
+      account_settings: '账户设置',
       //    back_to_tutorial: "Back to tutorial",
       //    teacher_vega_message: "Students are guided by these tutorial messages. In order to view these messages and to save your progress as you play through the game, please create a student account and play Ozaria as a student.",
       //    beta_levels_on: "beta levels on",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: '未定义',
       null: '空值',
       nil: '空值',
-      None: '空值'
+      None: '空值',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: '输入他们的邮件地址，让他们了解CodeCombat的趣味',
       form_label: '您的邮件地址',
       placeholder: '邮件地址',
-      title: '做的很好，学徒'
+      title: '做的很好，学徒',
     },
 
     login: {
@@ -627,7 +628,7 @@ module.exports = {
       already_have_account2: '你可以直接使用那个账号登录',
       sign_into_ozaria: '登录Ozaria.com',
       //    individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!",
-      accounts_merge_confirmation: '有一个账户与这个谷歌账户的电子邮件相关联。你想合并这些账户吗？'
+      accounts_merge_confirmation: '有一个账户与这个谷歌账户的电子邮件相关联。你想合并这些账户吗？',
       //    stop_spying: "Stop Spying",
       //    stop_switching: "Stop Switching",
       //    test_as_student: "Test as Student",
@@ -744,13 +745,13 @@ module.exports = {
       have_a_classcode: '有班级代码吗？',
       yes_i_have_classcode: '是的，我有一个班级代码！',
       enter_it_here: '在这里输入：',
-      play_without_saving: '直接开始（代码不会被保存）'
+      play_without_saving: '直接开始（代码不会被保存）',
     },
 
     recover: {
       recover_account_title: '找回账户',
       send_password: '发送重置链接',
-      recovery_sent: '找回账户邮件已发送。'
+      recovery_sent: '找回账户邮件已发送。',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: '盔甲',
       accessories: '配饰',
       misc: '辅助道具',
-      books: '书籍'
+      books: '书籍',
     },
 
     common: {
@@ -811,7 +812,7 @@ module.exports = {
       locked: '已锁定',
       //    internal_error: "Internal Error",
       //    manage: "Manage",
-      empty_results: '未找到结果'
+      empty_results: '未找到结果',
     },
 
     general: {
@@ -879,7 +880,7 @@ module.exports = {
       //    archived: "Archived",
       chat: '聊天',
       chat_with_us: '与我们聊天',
-      email_us: '给我们发邮件'
+      email_us: '给我们发邮件',
       //    sales: "Sales",
       //    support: "Support",
       //    here: "here",
@@ -901,7 +902,7 @@ module.exports = {
       month: '月',
       months: '月',
       year: '年',
-      years: '年'
+      years: '年',
     },
 
     play_level: {
@@ -1137,7 +1138,7 @@ module.exports = {
       content_type_interactive: '互动',
       //    feedback: "Feedback",
       ask_teacher_for_help: '向你的老师寻求帮助',
-      ask_teacher_for_help_offline: '你的老师当前不在线'
+      ask_teacher_for_help_offline: '你的老师当前不在线',
       //    not_enough_credits_bot: "Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!",
       //    not_enough_credits_interval: "No credits left for the __interval__. Consumed __amount__ credits.",
       //    not_enough_credits_interval_multiple: "No credits left for __duration__ __interval__. Consumed __amount__ credits.",
@@ -1161,7 +1162,7 @@ module.exports = {
       jquery: 'jQuery',
       json: 'JSON',
       number: '数字',
-      webjavascript: 'JavaScript'
+      webjavascript: 'JavaScript',
     },
 
     amazon_hoc: {
@@ -1173,13 +1174,13 @@ module.exports = {
       future_eng_2: '这里',
       future_eng_3: '(不需要设备)。这个 Alexa 活动是由',
       future_eng_4: '亚马逊未来的工程师',
-      future_eng_5: '计划带来的，该计划为全球所有希望从事计算机科学的 K-12 学生创造学习和工作机会。'
+      future_eng_5: '计划带来的，该计划为全球所有希望从事计算机科学的 K-12 学生创造学习和工作机会。',
     },
 
     live_class: {
       title: '谢谢你！',
       content: '太棒了! 我们刚刚推出了在线直播课程。',
-      link: '准备好在编码上领先一步了吗？'
+      link: '准备好在编码上领先一步了吗？',
     },
 
     code_quest: {
@@ -1188,7 +1189,7 @@ module.exports = {
       link: '点击这里注册并了解更多',
       global_tournament: '全球锦标赛',
       register: '注册',
-      date: '8月1日 - 8月31日'
+      date: '8月1日 - 8月31日',
     },
 
     play_game_dev_level: {
@@ -1205,13 +1206,14 @@ module.exports = {
       goal_defeat_amount: '击败 __amount__ 个怪物。',
       goal_move: '移动到所有红X标记。',
       goal_collect: '收集所有物品。',
-      goal_collect_amount: '收集 __amount__ 个物品。'
+      goal_collect_amount: '收集 __amount__ 个物品。',
     },
 
     game_menu: {
       inventory_tab: '道具箱',
       save_load_tab: '保存/打开',
       options_tab: '设置',
+      //    my_code_tab: "My Code",
       guide_tab: '使用向导',
       guide_video_tutorial: '视频教程',
       guide_tips: '小技巧',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: '装备您的英雄',
       choose_hero_caption: '选择英雄和语言',
       options_caption: '确认设置',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: '文档和提示',
       multiplayer_caption: '与您的朋友一起玩！',
-      auth_caption: '保存进度'
+      auth_caption: '保存进度',
     },
 
     leaderboard: {
@@ -1241,7 +1244,7 @@ module.exports = {
       survival_time: '生存',
       defeated: '击败的敌人',
       code_length: '代码行数',
-      score_display: '__scoreType__： __score__'
+      score_display: '__scoreType__： __score__',
     },
 
     inventory: {
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: '脱下',
       warrior_only: '只能战士装备',
       ranger_only: '只能游骑兵装备',
-      wizard_only: '只能巫师装备'
+      wizard_only: '只能巫师装备',
     },
 
     buy_gems: {
@@ -1274,17 +1277,17 @@ module.exports = {
       price: 'x{{gems}} / 月',
       buy_premium: '购买终身订阅',
       purchase: '购买',
-      purchased: '已购买'
+      purchased: '已购买',
     },
 
     subscribe_for_gems: {
       prompt_title: '没有足够的宝石',
-      prompt_body: '订阅高级版本来获得更多宝石和更多关卡'
+      prompt_body: '订阅高级版本来获得更多宝石和更多关卡',
     },
 
     earn_gems: {
       prompt_title: '宝石不足',
-      prompt_body: '继续玩以获得更多宝石！'
+      prompt_body: '继续玩以获得更多宝石！',
     },
 
     subscribe: {
@@ -1341,9 +1344,10 @@ module.exports = {
       go_prepaid: '付款后请点这里',
       forever: '终生',
       subscription_status: '你的订阅状态',
-      currently_not_free: '您目前还没有订阅'
+      currently_not_free: '您目前还没有订阅',
       //    online_classes: "Online Classes",
       //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+      //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     },
 
     announcement: {
@@ -1392,7 +1396,7 @@ module.exports = {
       //    x_announcements: "__x__ Notifications",
       //    x_announcement_with_unread: "__x__ Notification (__y__ unread)",
       //    x_announcements_with_unread: "__x__ Notifications (__y__ unread)",
-      see_more: '查看其他 __unread__ 个未读公告'
+      see_more: '查看其他 __unread__ 个未读公告',
       //    mark_read: "Mark Read",
       //    read_all: "Read All",
       //    more_announcements: "more notifications...",
@@ -1400,7 +1404,7 @@ module.exports = {
 
     avatar_selection: {
       pick_an_avatar: '选择一个代表你的玩家头像。',
-      select_avatar_title: '选择化身'
+      select_avatar_title: '选择化身',
     },
 
     premium_features: {
@@ -1424,7 +1428,7 @@ module.exports = {
       list_web_dev: '构建网站和应用程序',
       list_items: '配备限量专用物品，如宠物',
       list_support: '获取高级支持，以帮助您调试棘手的代码',
-      list_clans: '创建私人部落邀请你的朋友加入,并与其它部落在排行榜上进行竞争'
+      list_clans: '创建私人部落邀请你的朋友加入,并与其它部落在排行榜上进行竞争',
       //    ai_bot_learning: "AI powered support to accelerate learning outcomes!",
       //    ai_bot_description: "CodeCombat’s AI powered hints feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available young learners will still need to work through each level's coding challenge. Premium subscribers receive an allocation of <b>10 AI hints per day</b> to ensure they always have the support they need.",
       //    list_ai_bot: "Premium subscribers receive an allocation of 10 AI hints per day",
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: '一种游戏脚本语言。',
       java_blurb: '(仅订阅用户) Android 和企业的选择。',
       cpp_blurb: '（仅限订阅者）游戏开发和高性能计算。',
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: '状态',
       weapons: '武器',
       weapons_warrior: '刀剑 - 近程物理攻击',
@@ -1466,7 +1479,7 @@ module.exports = {
       speed_2: '米每秒。',
       available_for_purchase: '可以购买',
       level_to_unlock: '未解锁关卡：',
-      restricted_to_certain_heroes: '只有特定的英雄可以进入本关。'
+      restricted_to_certain_heroes: '只有特定的英雄可以进入本关。',
     },
 
     char_customization_modal: {
@@ -1474,7 +1487,7 @@ module.exports = {
       body: '主体',
       name_label: '英雄的名字',
       hair_label: '头发颜色',
-      skin_label: '皮肤颜色'
+      skin_label: '皮肤颜色',
     },
 
     skill_docs: {
@@ -1505,13 +1518,13 @@ module.exports = {
       optional_parameters: '可选',
       returns: '返回值',
       granted_by: '技能来自',
-      still_undocumented: '还是没有证件，对不起。'
+      still_undocumented: '还是没有证件，对不起。',
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: '保存',
-      granularity_change_history: '历史记录'
+      granularity_change_history: '历史记录',
     },
 
     options: {
@@ -1532,7 +1545,7 @@ module.exports = {
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
-      editor_config_livecompletion_disabled_by_teacher: '你的老师已关闭你的自动补全。'
+      editor_config_livecompletion_disabled_by_teacher: '你的老师已关闭你的自动补全。',
     },
 
     about: {
@@ -1658,7 +1671,7 @@ module.exports = {
       character_art: '人物形象',
       download_all: '全部下载',
       previous: '上一页',
-      location_title: '我们在旧金山市区工作：'
+      location_title: '我们在旧金山市区工作：',
     },
 
     teachers: {
@@ -1689,13 +1702,12 @@ module.exports = {
       error_in_importing_students: '导入学生发生错误',
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       classroom_live_completion: '关闭该项会关闭所有学生的自动补全功能。启用该项则根据学生自己的设置开启自动补全。',
-      //    classroom_blocks: "Drag and Drop Blocks (beta)",
-      //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-      //    classroom_blocks_hidden: "Disabled",
-      //    classroom_blocks_opt_in: "Off by default",
-      //    classroom_blocks_opt_out: "On by default",
-      not_allow_to_solution: '# 查看解法需要许可'
-      //    classroom_level_chat: "Level Chat with AI",
+      //    code_formats: "Code Formats (beta)",
+      //    code_formats_description: "Which code formats students can choose from.",
+      //    default_code_format: "Default Code Format",
+      //    default_code_format_description: "The code format that students will start with.",
+      not_allow_to_solution: '# 查看解法需要许可',
+      //    classroom_level_chat: "AI Level Hints",
       //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
       //    classroom_level_chat_option_free_form: "Free form",
       //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1733,7 +1745,7 @@ module.exports = {
       resources_to_support: '教学支持资源',
       resources_to_support_desc: '教案，扩展活动，课程指南和更多教学资源都为线上和线下，混合式教学的场景设计。',
       actionable_insights: '给老师的可执行的教学设计',
-      actionable_insights_desc: '通过直观的学生学习和评估数据赋能老师开展个性化教学。'
+      actionable_insights_desc: '通过直观的学生学习和评估数据赋能老师开展个性化教学。',
     },
 
     special_offer: {
@@ -1774,7 +1786,7 @@ module.exports = {
       purchase: '购买',
       courses_prefix: '课程',
       //    courses_suffix: "",
-      course_prefix: '课程'
+      course_prefix: '课程',
       //    course_suffix: "",
       //    licenses_activated_success: "Licenses have been Activated Successfully!",
       //    license_code_used: "License Code used.",
@@ -1846,7 +1858,7 @@ module.exports = {
       create_account_subtitle: '在 CodeCombat 班级中使用老师专用工具。 <strong>创建班级</strong>添加学生、<strong>观察学生进度</strong>！',
       convert_account_title: '升级为老师账号',
       not: '不是',
-      full_name_required: '姓和名是必填项'
+      full_name_required: '姓和名是必填项',
     },
 
     versions: {
@@ -1857,7 +1869,7 @@ module.exports = {
       cla_url: '贡献者许可协议',
       cla_suffix: '。',
       cla_agree: '我同意',
-      owner_approve: '您所做出的修改必须经拥有者确认才能生效。'
+      owner_approve: '您所做出的修改必须经拥有者确认才能生效。',
     },
 
     contact: {
@@ -1874,7 +1886,7 @@ module.exports = {
       subscriber_support: '既然您已经订阅了CodeCombat，我们将给您提供优先帮助',
       screenshot_included: '包含截屏',
       where_reply: '我们应该回复谁？',
-      send: '反馈意见'
+      send: '反馈意见',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: '保存时出错',
       saved: '更改已保存',
       password_mismatch: '密码不匹配。',
-      password_repeat: '请重新键入密码。'
+      password_repeat: '请重新键入密码。',
     },
 
     keyboard_shortcuts: {
@@ -1947,12 +1959,12 @@ module.exports = {
       toggle_debug: '显示/关闭调试信息',
       toggle_grid: '显示/关闭网格提示',
       toggle_pathfinding: '显示/关闭路径寻找提示',
-      beautify: '利用标准编码格式美化您的代码。'
+      beautify: '利用标准编码格式美化您的代码。',
     },
 
     cinematic: {
       click_anywhere_continue: '点击任意区域继续',
-      instructional_tooltip: '点击这些方向键来前进或后退，你也可以使用键盘上的方向键来实现同样的效果。'
+      instructional_tooltip: '点击这些方向键来前进或后退，你也可以使用键盘上的方向键来实现同样的效果。',
     },
 
     community: {
@@ -1971,7 +1983,7 @@ module.exports = {
       social_facebook: '关注CodeCombat的Facebook主页',
       social_twitter: '关注CodeCombat的Twitter',
       social_slack: '在公共 CodeCombat Slack 聊天频道与我们交谈',
-      contribute_to_the_project: '为项目做贡献'
+      contribute_to_the_project: '为项目做贡献',
     },
 
     clans: {
@@ -2034,7 +2046,7 @@ module.exports = {
       track_concepts6b: '按姓名或进度排序成员',
       track_concepts7: '需要邀请',
       track_concepts8: '来加入',
-      private_require_sub: '创建或加入私人部落时需要具体描述。'
+      private_require_sub: '创建或加入私人部落时需要具体描述。',
     },
 
     courses: {
@@ -2271,7 +2283,7 @@ module.exports = {
       classroom_announcement: '班级公告',
       //    link_lms_classroom: "Link LMS Classroom",
       //    classroom_items: "Items & Gems",
-      classroom_live_completion: '为学生启用自动补全：'
+      classroom_live_completion: '为学生启用自动补全：',
       //    learn_without_classroom_title: "You can still learn and play without a classroom",
       //    learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>.",
       //    learn_without_classroom_blurb_coco: "Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>.",
@@ -2282,7 +2294,7 @@ module.exports = {
     project_gallery: {
       no_projects_published: '成为第一个在这个课程中发布项目的人吧！',
       view_project: '查看项目',
-      edit_project: '编辑项目'
+      edit_project: '编辑项目',
     },
 
     teacher: {
@@ -2704,7 +2716,7 @@ module.exports = {
       //    revoke_and_archive: "Revoke and Archive",
       license_stats: '许可数据',
       redeemers: '学生（已激活）',
-      removed_redeemers: '学生（曾激活）'
+      removed_redeemers: '学生（曾激活）',
       //    latest_podcast_episode: "Latest Podcast Episode",
       //    from_the_podcast: "From the Podcast",
       //    edit_student_access_title: "Edit Student Access to Levels",
@@ -2714,7 +2726,7 @@ module.exports = {
 
     teacher_licenses: {
       active_licenses: '可用许可',
-      expired_licenses: '许可已用完'
+      expired_licenses: '许可已用完',
     },
 
     teacher_ozaria_encouragement_modal: {
@@ -2726,7 +2738,7 @@ module.exports = {
       bullet2: '教授计算机科学的基本概念，Python 或者 JavaScript，以及 21 世纪所需的技能',
       bullet3: '在顶点项目释放创意',
       bullet4: '提供教研资料指导',
-      you_can_return: '您可以随时回到 CodeCombat'
+      you_can_return: '您可以随时回到 CodeCombat',
     },
 
     educator_signup_ozaria_encouragement: {
@@ -2734,7 +2746,7 @@ module.exports = {
       independent_learners: '独立学习者',
       homeschoolers: '家庭教育者',
       educators_continue_coco: '想在课堂上继续使用 CodeCombat 的教育工作者。',
-      continue_coco: '继续进行 CodeCombat'
+      continue_coco: '继续进行 CodeCombat',
     },
 
     ozaria_cta: {
@@ -2743,7 +2755,7 @@ module.exports = {
       title2: '完整的课程计划',
       description2: '为教师提供深入的演示和工作表，引导学生完成学习目标。',
       title3: '新的教师和管理控制面板',
-      description3: '教育工作者所需的所有可操作的见解一目了然，如学生的进步和概念理解。'
+      description3: '教育工作者所需的所有可操作的见解一目了然，如学生的进步和概念理解。',
     },
 
     share_licenses: {
@@ -2768,7 +2780,7 @@ module.exports = {
       more_info: '更多信息',
       shared_pool_label: '共享池中的老师列表:',
       //    teacher_delete_warning: "The shared licenses assigned to the teacher won't be revoked!",
-      licenses_limit: '限制许可证数量：'
+      licenses_limit: '限制许可证数量：',
     },
 
     sharing: {
@@ -2788,14 +2800,14 @@ module.exports = {
       victory_course_share_web: '网页',
       victory_course_share_suffix: '分享给亲朋好友。',
       copy_url: '复制 URL',
-      share_with_teacher_email: '发送给你的老师'
+      share_with_teacher_email: '发送给你的老师',
       //    share_ladder_link: "Share Multiplayer Link",
       //    ladder_link_title: "Share Your Multiplayer Match Link",
       //    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:",
     },
 
     game_dev: {
-      creator: '创建者'
+      creator: '创建者',
     },
 
     web_dev: {
@@ -2811,7 +2823,7 @@ module.exports = {
       how_to_copy_paste: '如何复制/粘贴',
       copy: '复制',
       paste: '粘贴',
-      back_to_editing: '返回编辑'
+      back_to_editing: '返回编辑',
     },
 
     classes: {
@@ -2833,7 +2845,7 @@ module.exports = {
       ambassador_title: '使节',
       ambassador_title_description: '(用户支持人员)',
       ambassador_summary: '指导我们亲爱的论坛用户并为他们的问题引出一个正确的方向。我们的使节将CodeCombat带到这个世界上。',
-      teacher_title: '老师'
+      teacher_title: '老师',
     },
 
     editor: {
@@ -2869,6 +2881,7 @@ module.exports = {
       fork_title: '派生新版本',
       fork_creating: '正在执行派生...',
       generate_terrain: '生成地形',
+      //    generate_level: "Generate Level",
       more: '更多',
       wiki: '维基',
       live_chat: '在线聊天',
@@ -2972,18 +2985,18 @@ module.exports = {
       tasks: '任务',
       clear_storage: '清除您本地的变更',
       add_system_title: '添加系统到关卡',
-      done_adding: '添加完毕'
+      done_adding: '添加完毕',
       //    product: "Product",
       //    link: "Link",
     },
 
     article: {
       edit_btn_preview: '预览',
-      edit_article_title: '编辑提示'
+      edit_article_title: '编辑提示',
     },
 
     polls: {
-      priority: '优先次序'
+      priority: '优先次序',
     },
 
     contribute: {
@@ -3054,7 +3067,7 @@ module.exports = {
       creative_artisans: '我们极具创意的工匠:',
       brave_adventurers: '我们勇敢的冒险家:',
       translating_diplomats: '我们遍及世界的外交官:',
-      helpful_ambassadors: '我们亲切的使节:'
+      helpful_ambassadors: '我们亲切的使节:',
     },
 
     ladder: {
@@ -3139,7 +3152,7 @@ module.exports = {
       bracket_11_14: '中学组',
       bracket_14_18: '中学组',
       bracket_11_18: '中学组',
-      bracket_open: '开放组'
+      bracket_open: '开放组',
       //    create_tournament: "Create a Tournament",
     },
 
@@ -3169,7 +3182,7 @@ module.exports = {
       certificate_levels_completed: '个关卡通关完成',
       certificate_for: '课程名称',
       //    for_ozaria_chapters_1_4: "For Ozaria Chapters 1 - 4",
-      certificate_number: '编号'
+      certificate_number: '编号',
       //    heroes_unlocked: "Heroes Unlocked",
       //    current_items: "Items Equipped",
       //    contributor_badges: "Contributor Badges",
@@ -3193,7 +3206,7 @@ module.exports = {
       new_xp_postfix: '取得的',
       left_xp_prefix: '',
       left_xp_infix: '直到等级',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     account: {
@@ -3234,7 +3247,7 @@ module.exports = {
       unsubscribe_from_marketing: '取消订阅所有 CodeCombat 营销邮件的 __email__？',
       unsubscribe_button: '是的，取消订阅',
       unsubscribe_failed: '失败',
-      unsubscribe_success: '成功'
+      unsubscribe_success: '成功',
       //    manage_billing: "Manage Billing",
     },
 
@@ -3246,7 +3259,7 @@ module.exports = {
       pay: '付费发票',
       purchasing: '购买中···',
       retrying: '服务器错误，重试中。',
-      success: '支付成功。谢谢！'
+      success: '支付成功。谢谢！',
     },
 
     account_prepaid: {
@@ -3276,7 +3289,7 @@ module.exports = {
       can_use_times: '它可以被使用<strong>__unlocksLeft__</strong> 次',
       prepaid_applied_success: '许可已成功激活!',
       activation_code_used: '激活码已被使用。',
-      redeem_code_error: '错误：无法激活许可：'
+      redeem_code_error: '错误：无法激活许可：',
     },
 
     ozaria_chrome: {
@@ -3285,7 +3298,8 @@ module.exports = {
       back_to_map: '回到地图',
       level_options: '关卡选项',
       restart_level: '重新开始',
-      max_browser: '全屏模式'
+      max_browser: '全屏模式',
+      //    ai_hint: "AI Hint",
     },
 
     impact: {
@@ -3339,7 +3353,7 @@ module.exports = {
       teacher_school_3: 'Ruby Bridges 小学',
       teacher_location_3: '阿拉米达，加利福尼亚州',
       spotlight_3: '苏珊在她的班级中提倡一种公平的氛围，每个人都能以自己的方式成功。犯错和挣扎也是受欢迎的，因为每个人都能从挑战中学习，包括老师。',
-      continue_reading_blog: '在博客中继续阅读...'
+      continue_reading_blog: '在博客中继续阅读...',
       //    ozaria_impact_title: "Positive Impacts with Ozaria",
       //    ozaria_impact_blurb: "CodeCombat's sister curriculum, Ozaria, has proven to have a positive impact on the student learning outcomes that matter most to both students and educators.",
       //    ozaria_impact_learn_more: "Learn more about Ozaria's curriculum efficacy here.",
@@ -3366,7 +3380,7 @@ module.exports = {
       unknown: '未知错误',
       error: '错误',
       general_desc: '出了点问题，估计是我们的错。请您稍后刷新页面，或者点击下面的链接继续编程！',
-      too_many_login_failures: '登录失败过于频繁，请稍后再试。'
+      too_many_login_failures: '登录失败过于频繁，请稍后再试。',
       //    something_went_wrong: "Oops! Something went wrong",
     },
 
@@ -3379,7 +3393,7 @@ module.exports = {
       component: '组件',
       components: '组件',
       hero: '英雄',
-      campaigns: '战役'
+      campaigns: '战役',
     },
 
     concepts: {
@@ -3520,7 +3534,7 @@ module.exports = {
       nesting: '嵌套',
       data_types: '数据类型',
       objects: '对象',
-      methods: '方法'
+      methods: '方法',
       //    compound_conditionals: "Compound Conditionals",
       //    comparators: "Comparators",
       //    data_and_analysis: "Data & Analysis",
@@ -3535,7 +3549,7 @@ module.exports = {
       student_name_placeholder: '输入你的名字',
       teachers_section: '老师:',
       students_section: '学生:',
-      teacher_notified: '已经通知给你的老师，你想要在课堂上玩更多CodeCombat游戏。'
+      teacher_notified: '已经通知给你的老师，你想要在课堂上玩更多CodeCombat游戏。',
     },
 
     delta: {
@@ -3546,7 +3560,7 @@ module.exports = {
       moved_index: '被移动的索引',
       text_diff: '文本变化',
       merge_conflict_with: '合并冲突发生在',
-      no_changes: '没有变化'
+      no_changes: '没有变化',
     },
 
     legal: {
@@ -3607,7 +3621,7 @@ module.exports = {
       third_party_description: 'CodeCombat使用了下列第三方服务（除了别的以外）：',
       cookies_message: 'CodeCombat使用了必要和非必要的cookies.',
       cookies_deny: '禁用非必要的cookies',
-      cookies_allow: '允许 cookies'
+      cookies_allow: '允许 cookies',
     },
 
     ladder_prizes: {
@@ -3628,7 +3642,7 @@ module.exports = {
       one_month_coupon: '优惠: 选择 Rails 或者 HTML',
       one_month_discount: '折扣 30% : 选择 Rails 或者 HTML',
       license: '许可证',
-      oreilly: '您选择的电子书'
+      oreilly: '您选择的电子书',
     },
 
     calendar: {
@@ -3646,7 +3660,7 @@ module.exports = {
       september: '九月',
       october: '十月',
       november: '十一月',
-      december: '十二月'
+      december: '十二月',
     },
 
     code_play_create_account_modal: {
@@ -3654,14 +3668,14 @@ module.exports = {
       body: '你现在正在成为一名编码大师的路上，注册即可获得额外的<strong> 100 个宝石</strong>，还有机会获得<strong> 2500 美元和其他意想不到的奖品</strong>。',
       sign_up: '注册 & 继续编程 ▶',
       victory_sign_up_poke: '创建一个免费账户来保存您的代码，并有机会获得奖品！',
-      victory_sign_up: '报名即有机会<strong>赢取 2500 美元</strong>。'
+      victory_sign_up: '报名即有机会<strong>赢取 2500 美元</strong>。',
     },
 
     server_error: {
       email_taken: '电子邮件已注册。',
       username_taken: '用户名已注册。',
       easy_password: '密码过于简单',
-      reused_password: '与原密码相同'
+      reused_password: '与原密码相同',
     },
 
     esper: {
@@ -3787,7 +3801,7 @@ module.exports = {
       error_cant_call_reference: '无法直接调用引用。',
       error_no_arg_to_dereference: '缺少参数。',
       error_try_dereference_non: '试图释放非指针。',
-      error_no_arg_to_alloc: '缺少 `alloc` 函数的参数。'
+      error_no_arg_to_alloc: '缺少 `alloc` 函数的参数。',
     },
 
     apcsp: {
@@ -3830,7 +3844,7 @@ module.exports = {
       unit_8_activity_3: '创建任务实践3：游戏开发3',
       unit_9: '第九单元：AP 复习',
       unit_10: '第十单元：Post-AP',
-      unit_10_activity_1: '第10单元活动：网络测验'
+      unit_10_activity_1: '第10单元活动：网络测验',
     },
 
     //  apcsp_marketing: {
@@ -3920,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4058,7 +4082,7 @@ module.exports = {
       live_classes_title: 'CodeCombat 的实时编码课程！',
       live_class_booked_thank_you: '您的直播课已被预订，谢谢您！',
       book_your_class: '预订您的课程',
-      call_to_book: '现在打电话预订'
+      call_to_book: '现在打电话预订',
       //    student_journey_start: "Congratulations! Your student's coding journey is about to begin!",
       //    enter_email_address: "Please provide your email address to get started:",
       //    enter_parent_email_address: "If you are a student under 18 years of age, please enter your parent or guardian's email address.",
@@ -4082,7 +4106,7 @@ module.exports = {
       paragraph_3: '很快你就会收到一封邀请函，上面有课程表的详细信息以及你的班主任的姓名和联系信息。',
       paragraph_4: '如果您因任何原因需要修改您的课程选择，重新安排时间或只是想与客户服务专家交谈，只需使用您的电子邮件邀请中提供的联系信息联系。',
       paragraph_5: '感谢你选择 CodeCombat，并祝你在计算机科学的旅途中好运!',
-      back_to_coco: '返回 CodeCombat'
+      back_to_coco: '返回 CodeCombat',
     },
 
     hoc_2018: {
@@ -4119,7 +4143,7 @@ module.exports = {
       point5: '✓ 学生追踪',
       point6: '✓ 全部课程计划',
       title: '2020 编码一小时',
-      acronym: 'HOC'
+      acronym: 'HOC',
       //    play_video: "Play Video",
       //    featured_title_1: "CodeCombat: Goblins 'n' Glory",
       //    featured_subtitle_1: "Grades 6-8 | JavaScript, Python",
@@ -4138,7 +4162,7 @@ module.exports = {
       educator: '我是一名教育工作者',
       show_resources: '让我看看教师资源吧！',
       student: '我是一名学生',
-      ready_to_code: '我已经准备好编码了！'
+      ready_to_code: '我已经准备好编码了！',
     },
 
     hoc_2018_completion: {
@@ -4149,7 +4173,7 @@ module.exports = {
       get_cert_btn: '获取证书',
       first_name: '姓名',
       last_initial: '最后首字母',
-      teacher_email: '教师的电子邮件地址'
+      teacher_email: '教师的电子邮件地址',
     },
 
     school_administrator: {
@@ -4184,7 +4208,7 @@ module.exports = {
       select_time_range: '选择一个时间段：',
       export: '下载',
       preview: '以下为前200行的数据预览，点击下载以获得完整数据',
-      empty_results: '未找到结果'
+      empty_results: '未找到结果',
     },
 
     interactives: {
@@ -4195,25 +4219,25 @@ module.exports = {
       cannot_play_video: '抱歉，这个视频在您的地区无法播放',
       console_instructions: '请按照一下步骤打开浏览器命令行查看原因：1）单击鼠标右键2）选择"检查"3）点击Console标签栏',
       skip_video: '跳过视频',
-      unavailable: '无法获取资源'
+      unavailable: '无法获取资源',
     },
 
     browser_recommendation: {
       title: 'CodeCombat 在 Chrome 浏览器上效果最好',
       pitch_body: '为保证 CodeCombat 的所有功能正常运行，建议使用 Chrome 浏览器进行学习。',
       download: '下载 CHROME 浏览器',
-      ignore: '忽略'
+      ignore: '忽略',
     },
 
     admin: {
       license_type_full: '全课许可',
-      license_type_customize: '可选课程'
+      license_type_customize: '可选课程',
     },
 
     events: {
       title: '扣哒大事记',
       main_title: '扣哒大事记',
-      main_description: '扣哒世界是创建于首都教育腹地中关村的中小学科创教育项目。团队成员来自清华大学、北京大学、哈佛大学、斯坦福大学、耶鲁大学等全国及世界顶级名校以及谷歌、微软、宝洁、麦肯锡等世界级名企，硕士及以上学历占90% 以上，部分成员在ACM、ICM、NOIP和全国数学联赛上取得优异成绩。学高为师、行正致远，这是一支积极向上、兼容并包、业务精湛的队伍，致力于为国内青少年创建世界一流的计算机科学和人工智能通识课程，面向世界，成就未来。'
+      main_description: '扣哒世界是创建于首都教育腹地中关村的中小学科创教育项目。团队成员来自清华大学、北京大学、哈佛大学、斯坦福大学、耶鲁大学等全国及世界顶级名校以及谷歌、微软、宝洁、麦肯锡等世界级名企，硕士及以上学历占90% 以上，部分成员在ACM、ICM、NOIP和全国数学联赛上取得优异成绩。学高为师、行正致远，这是一支积极向上、兼容并包、业务精湛的队伍，致力于为国内青少年创建世界一流的计算机科学和人工智能通识课程，面向世界，成就未来。',
       //    dashboard: "Events Dashboard",
       //    online_classes: "Online Classes",
       //    my_classes: "My Online Classes",
@@ -4358,7 +4382,7 @@ module.exports = {
       class_owner: '班主任',
       share: '共管',
       add: '添加',
-      note: '注'
+      note: '注',
       //    lock_or_skip_levels: "Lock or Skip Levels",
       //    level_access_status_blurb: "When you choose to skip a level, it will have both the 'locked' and 'optional' status. Unskipping the level will remove both the 'locked' and 'optional' statuses.",
       //    reset_progress: "Reset Progress",
@@ -4402,7 +4426,7 @@ module.exports = {
       coverage_p2_ozar: '在扣哒世界，我们相信通过使用真实的代码编程，学生将为市场上计算机领域的工作和计算机科学的进一步学习做好最充分的准备，因此我们不为初学者提供基于模块的可视化编程语言，而是讲授 Python、JavaScript 和 C++ 这些今天被各大互联网公司广泛使用的编程语言。',
       questions: '想要了解更多信息？ 我们很乐意提供帮助。',
       reach_out_manager: '联系我们的客服人员 __name__ :',
-      stats_include: '更多数据还包括 __number__ 个其他__name__'
+      stats_include: '更多数据还包括 __number__ 个其他__name__',
     },
 
     //  efficacy: {
@@ -4477,7 +4501,7 @@ module.exports = {
       //    free_3: "Join competitive coding teams with friends, family, or classmates",
       //    free_4: "Showcase your coding skills and take home great prizes",
       //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-      //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+      //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
       //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
       //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
       //    invite_link: "Invite players to this team by sending them this link:",
@@ -4572,7 +4596,7 @@ module.exports = {
       //    season1_prize_4: "And more!",
       //    season1_prize_hyperx: "HyperX Premium Peripherals",
       //    codecombat_ai_league: "CodeCombat AI League",
-      register: '注册'
+      register: '注册',
       //    not_registered: "Not Registered",
       //    register_for_ai_league: "Register for AI League",
       //    world: "World",
@@ -4656,7 +4680,7 @@ module.exports = {
       starting: '进行中',
       ended: '已结束',
       view_results: '查看结果',
-      estimate_days: '__time__ 天内开始'
+      estimate_days: '__time__ 天内开始',
       //    team_name: "Team: __name__",
       //    status: "Status: __state__",
       //    from_start: "Start __time__",
@@ -4758,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     form_validation_errors: {
@@ -4767,7 +4796,7 @@ module.exports = {
       //    emailExists: "Email already exists",
       //    numberGreaterThanZero: "Should be a number greater than 0",
       requireValidEmail: '请输入正确的邮箱地址',
-      requireValidPhone: '请输入加区号的手机号码'
+      requireValidPhone: '请输入加区号的手机号码',
     },
 
     //  partners: {
@@ -5023,13 +5052,13 @@ module.exports = {
       prompt_level_chat_10: '这是什么错误？',
       prompt_level_chat_11: '出了什么问题？',
       prompt_level_chat_12: '???',
-      prompt_level_chat_13: '你好 AI，请耐心解释一下我的错误'
+      prompt_level_chat_13: '你好 AI，请耐心解释一下我的错误',
       //    prompt_level_chat_hint_1: "Can I get a hint?",
       //    prompt_level_chat_hint_2: "What's the next thing I should do?",
       //    prompt_level_chat_hint_3: "Please help me with the next part of my code.",
       //    prompt_level_chat_hint_4: "Coding hint, please.",
       //    prompt_level_chat_hint_5: "I need a hint on the next step.",
-    }
+    },
 
     //  user_credits: {
     //    level_chat_left_in_duration: "__credits__ AI Bot queries left for the __duration_key__",
