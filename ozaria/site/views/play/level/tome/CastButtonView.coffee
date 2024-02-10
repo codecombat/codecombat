@@ -7,6 +7,7 @@ LevelSession = require 'models/LevelSession'
 async = require('vendor/scripts/async.js')
 GoalManager = require('lib/world/GoalManager')
 store = require 'core/store'
+utils = require('core/utils')
 
 module.exports = class CastButtonView extends CocoView
   id: 'cast-button-view'

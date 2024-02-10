@@ -69,7 +69,7 @@ module.exports = class LevelSetupManager extends CocoClass
       @waitingToLoadModals = true
 
   loadModals: ->
-    if not @level.usesSessionHeroThangType()
+    if not @level.usesSessionHeroThangType() or utils.isOzaria
       # Don't need to configure inventory; just skip it
       @onInventoryModalPlayClicked()
       return
