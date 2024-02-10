@@ -1,7 +1,6 @@
 /*
  * decaffeinate suggestions:
  * DS002: Fix invalid constructor
- * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
  * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
  * DS104: Avoid inline assignments
@@ -74,11 +73,19 @@ module.exports = (PlayHeroesModal = (function () {
       this.initCodeFormatList(options.hadEverChosenHero)
       this.heroAnimationInterval = setInterval(this.animateHeroes, 1000)
       this.trackTimeVisible()
+      if (options.courseInstanceID) {
+        const fetchAceConfig = $.get(`/db/course_instance/${options.courseInstanceID}/classroom?project=aceConfig,members,ownerID`)
+        this.supermodel.trackRequest(fetchAceConfig)
+        fetchAceConfig.then(classroom => {
+          this.classroomAceConfig = classroom.aceConfig
+          this.rerenderFooter()
+        })
+      }
     }
 
     onHeroesLoaded () {
       this.heroes.reset(this.heroes.filter(hero => !hero.get('ozaria')))
-      for (const hero of Array.from(this.heroes.models)) { this.formatHero(hero) }
+      for (const hero of this.heroes.models) { this.formatHero(hero) }
       this.heroes.reset(this.heroes.filter(hero => !hero.hidden))
       if (me.isStudent() && me.showHeroAndInventoryModalsToStudents()) {
         this.heroes.reset(this.heroes.filter(hero => hero.get('heroClass') === 'Warrior'))
@@ -106,14 +113,14 @@ module.exports = (PlayHeroesModal = (function () {
       hero.purchasable = hero.locked && me.isPremium()
       if (this.options.level && (allowedHeroes = this.options.level.get('allowedHeroes'))) {
         let needle
-        hero.restricted = !((needle = hero.get('original'), Array.from(allowedHeroes).includes(needle)))
+        hero.restricted = !((needle = hero.get('original'), allowedHeroes.includes(needle)))
       }
       hero.class = (hero.get('heroClass') || 'warrior').toLowerCase()
       hero.stats = hero.getHeroStats()
       const clanHero = _.find(utils.clanHeroes, { thangTypeOriginal: hero.get('original') })
       if (clanHero) {
         let left, needle1
-        if ((needle1 = clanHero.clanId, !Array.from(((left = me.get('clans')) != null ? left : [])).includes(needle1))) { hero.hidden = true }
+        if ((needle1 = clanHero.clanId, !((left = me.get('clans')) != null ? left : []).includes(needle1))) { hero.hidden = true }
       }
       if (hero.get('original') === ThangTypeConstants.heroes['code-ninja']) {
         hero.hidden = window.location.host !== 'coco.code.ninja'
@@ -179,11 +186,13 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     rerenderFooter () {
-      this.formatHero(this.visibleHero)
+      if (this.visibleHero) {
+        this.formatHero(this.visibleHero)
+      }
       this.renderSelectors('#hero-footer')
       this.buildCodeLanguages()
       this.buildCodeFormats()
-      return this.$el.find('#gems-count-container').toggle(Boolean(this.visibleHero.purchasable))
+      return this.$el.find('#gems-count-container').toggle(Boolean(this.visibleHero?.purchasable))
     }
 
     initCodeLanguageList (hadEverChosenHero) {
@@ -202,7 +211,7 @@ module.exports = (PlayHeroesModal = (function () {
           { id: 'javascript', name: 'JavaScript' },
           { id: 'coffeescript', name: 'CoffeeScript' },
           { id: 'lua', name: 'Lua' },
-          ...Array.from(this.subscriberCodeLanguageList)
+          ...this.subscriberCodeLanguageList
         ]
         if (this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language !== 'coffeescript') {
           // Not really useful to show this any more. Let's get rid of it unless they're currently using it.
@@ -499,7 +508,7 @@ module.exports = (PlayHeroesModal = (function () {
         createjs.Ticker.removeEventListener('tick', stage)
         stage.removeAllChildren()
       }
-      for (const layer of Array.from(this.layers)) { layer.destroy() }
+      for (const layer of this.layers) { layer.destroy() }
       return super.destroy()
     }
   }

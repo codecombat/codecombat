@@ -104,19 +104,21 @@
             span.spr(data-i18n="subscribe.subscribe_title") Subscribe
 
         else if visibleHero.loaded
-          if !me.isStudent()
+          if !me.isStudent() || (view.classroomAceConfig && (view.classroomAceConfig.codeFormats || ['text-code']).length > 1)
             #hero-footer-text-background
               .image-block
                 img(src= "/images/pages/play/modal/language-selector-background.png")
             .form
-              .form-group.select-group.half-width
-                span.help-block(data-i18n="choose_hero.programming_language")
-                select#option-code-language(name="code-language")
-                  for option in codeLanguages
-                    option(value=option.id, selected=codeLanguage === option.id)= option.name
-              .form-group.select-group.half-width
-                span.help-block Code Format
+              if !me.isStudent()
+                .form-group.select-group.half-width
+                  span.help-block(data-i18n="choose_hero.programming_language")
+                  select#option-code-language(name="code-language")
+                    for option in codeLanguages
+                      option(value=option.id, selected=codeLanguage === option.id)= option.name
+              .form-group.select-group(class=me.isStudent() ? '' : 'half-width')
+                span.help-block(data-i18n="choose_hero.code_format")
                 select#option-code-format(name="code-format")
                   for option in codeFormats
-                    option(value=option.id, selected=codeFormat === option.id)= option.name
+                    if !me.isStudent() || ((view.classroomAceConfig ? view.classroomAceConfig.codeFormats : null) || ['text-code']).includes(option.id)
+                      option(value=option.id, selected=codeFormat === option.id)= option.name
           a#confirm-button(data-i18n=confirmButtonI18N)

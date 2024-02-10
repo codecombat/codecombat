@@ -3,13 +3,7 @@
 /*
  * decaffeinate suggestions:
  * DS002: Fix invalid constructor
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
- * DS104: Avoid inline assignments
- * DS204: Change includes calls to have a more natural evaluation order
  * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let ClassroomSettingsModal
@@ -53,7 +47,6 @@ module.exports = (ClassroomSettingsModal = (function () {
     }
 
     initialize (options) {
-      let left, needle
       if (options == null) { options = {} }
       this.classroom = options.classroom || new Classroom()
       this.googleClassrooms = me.get('googleClassrooms') || []
@@ -61,7 +54,7 @@ module.exports = (ClassroomSettingsModal = (function () {
       this.isGoogleClassroom = false
       this.enableCpp = me.enableCpp()
       this.enableJava = me.enableJava()
-      this.enableBlocks = me.isBetaTester() && (((needle = (left = __guard__(this.classroom.get('aceConfig'), x => x.language)) != null ? left : 'python'), ['python', 'javascript', 'lua'].includes(needle)))
+      this.enableBlocks = ['python', 'javascript', 'lua'].includes(this.classroom.get('aceConfig')?.language || 'python') && (me.isBetaTester() || me.isAdmin())
       this.uploadFilePath = `db/classroom/${this.classroom.id}`
       initializeFilePicker()
       if (this.shouldShowLMSButton()) {
@@ -69,7 +62,7 @@ module.exports = (ClassroomSettingsModal = (function () {
           this.lmsClassrooms = resp.data
           if (this.showLMSDropDown) {
             this.render()
-            return $('.class-name').hide()
+            $('.class-name').hide()
           }
         })
       }
@@ -78,12 +71,12 @@ module.exports = (ClassroomSettingsModal = (function () {
 
     afterRender () {
       super.afterRender()
-      return forms.updateSelects(this.$('form'))
+      forms.updateSelects(this.$('form'))
     }
 
     onChangeClassroomItems (e) {
       // Unless we manually change this, we're not saving it, so that we can easily change the schema default later
-      return this.hasChangedClassroomItems = true
+      this.hasChangedClassroomItems = true
     }
 
     onSubmitForm (e) {
@@ -116,9 +109,22 @@ module.exports = (ClassroomSettingsModal = (function () {
         delete attrs.liveCompletion
       }
 
-      if (attrs.blocks) {
-        attrs.aceConfig.blocks = attrs.blocks
-        delete attrs.blocks
+      if (attrs.codeFormats) {
+        attrs.aceConfig.codeFormats = attrs.codeFormats
+        delete attrs.codeFormats
+      }
+
+      if (attrs.defaultCodeFormat) {
+        attrs.aceConfig.defaultCodeFormat = attrs.defaultCodeFormat
+        delete attrs.defaultCodeFormat
+      }
+
+      // Make sure that codeFormats includes defaultCodeFormat, including when these aren't specified
+      const codeFormats = attrs.aceConfig.codeFormats || ['text-code']
+      const defaultCodeFormat = attrs.aceConfig.defaultCodeFormat || 'text-code'
+      if (!codeFormats.includes(defaultCodeFormat)) {
+        attrs.aceConfig.codeFormats = attrs.aceConfig.codeFormats || codeFormats
+        attrs.aceConfig.codeFormats.push(defaultCodeFormat)
       }
 
       if (attrs.levelChat) {
@@ -144,7 +150,7 @@ module.exports = (ClassroomSettingsModal = (function () {
       this.classroom.set(attrs)
       const schemaErrors = this.classroom.getValidationErrors()
       if (schemaErrors) {
-        for (const error of Array.from(schemaErrors)) {
+        for (const error of schemaErrors) {
           if (error.schemaPath === '/properties/name/minLength') {
             error.message = 'Please enter a class name.'
           }
@@ -160,23 +166,23 @@ module.exports = (ClassroomSettingsModal = (function () {
       this.listenToOnce(this.classroom, 'error', function (model, jqxhr) {
         this.stopListening(this.classroom, 'sync', this.hide)
         button.text(this.oldButtonText).attr('disabled', false)
-        return errors.showNotyNetworkError(jqxhr)
+        errors.showNotyNetworkError(jqxhr)
       })
       this.listenToOnce(this.classroom, 'sync', this.hide)
-      return (window.tracker != null ? window.tracker.trackEvent('Teachers Edit Class Saved', { category: 'Teachers', classroomID: this.classroom.id }) : undefined)
+      window.tracker?.trackEvent('Teachers Edit Class Saved', { category: 'Teachers', classroomID: this.classroom.id })
     }
 
     onClickUpdateCoursesButton () {
       this.$('#update-courses-btn').attr('disabled', true)
-      return Promise.resolve(this.classroom.updateCourses())
+      Promise.resolve(this.classroom.updateCourses())
         .then(() => {
           this.$('#update-courses-btn').attr('disabled', false)
-          return noty({ text: 'Updated', timeout: 2000 })
+          noty({ text: 'Updated', timeout: 2000 })
         })
         .catch(e => {
           console.log('e', e)
           this.$('#update-courses-btn').attr('disabled', false)
-          return noty({ text: (e.responseJSON != null ? e.responseJSON.message : undefined) || e.responseText || 'Error!', type: 'error', timeout: 5000 })
+          noty({ text: e.responseJSON?.message || e.responseText || 'Error!', type: 'error', timeout: 5000 })
         })
     }
 
@@ -197,26 +203,26 @@ module.exports = (ClassroomSettingsModal = (function () {
     onClickLinkGoogleClassroom () {
       $('#link-google-classroom-btn').text('Linking...')
       $('#link-google-classroom-btn').attr('disabled', true)
-      return application.gplusHandler.loadAPI({
+      application.gplusHandler.loadAPI({
         success: () => {
-          return this.linkGoogleClassroom()
+          this.linkGoogleClassroom()
         }
       })
     }
 
     linkGoogleClassroom () {
       this.isGoogleClassroom = true
-      return GoogleClassroomHandler.importClassrooms()
+      GoogleClassroomHandler.importClassrooms()
         .then(() => {
           this.googleClassrooms = me.get('googleClassrooms').filter(c => !c.importedToCoco && !c.deletedFromGC)
           this.render()
           $('.google-class-name').show()
           $('.class-name').hide()
-          return $('#link-google-classroom-btn').hide()
+          $('#link-google-classroom-btn').hide()
         })
         .catch(e => {
           noty({ text: e || 'Error in importing classrooms', layout: 'topCenter', type: 'error', timeout: 3000 })
-          return this.render()
+          this.render()
         })
     }
 
@@ -225,11 +231,11 @@ module.exports = (ClassroomSettingsModal = (function () {
       this.render()
       $('.google-class-name').hide()
       $('.class-name').show()
-      return $('#link-google-classroom-btn').show()
+      $('#link-google-classroom-btn').show()
     }
 
     onPickImage () {
-      return filepicker.pick(this.onFileChosen)
+      filepicker.pick(this.onFileChosen)
     }
 
     onFileChosen (inkBlob) {
@@ -242,18 +248,14 @@ module.exports = (ClassroomSettingsModal = (function () {
       }
 
       this.uploadingPath = [this.uploadFilePath, inkBlob.filename].join('/')
-      return $.ajax('/file', { type: 'POST', data: body, success: this.onFileUploaded })
+      $.ajax('/file', { type: 'POST', data: body, success: this.onFileUploaded })
     }
 
     onFileUploaded (e) {
       const textarea = $('textarea#classroom-announcement')
-      return textarea.append(`![${e.metadata.name}](/file/${this.uploadingPath})`)
+      textarea.append(`![${e.metadata.name}](/file/${this.uploadingPath})`)
     }
   }
   ClassroomSettingsModal.initClass()
   return ClassroomSettingsModal
 })())
-
-function __guard__ (value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
-}
