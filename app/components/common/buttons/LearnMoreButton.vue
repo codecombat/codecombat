@@ -9,6 +9,7 @@
       <img
         v-if="hasArrow"
         class="text-button-link__vector"
+        alt="arrow pointing right"
         src="/images/components/arrow.svg"
       >
     </a>
@@ -52,7 +53,6 @@ export default {
     &__link {
         color: $purple;
         letter-spacing: 0;
-        white-space: nowrap;
         width: fit-content;
     }
 

@@ -5,14 +5,13 @@
       class="button-section"
     >
       <CTAButton
-        class="signup-button"
-        :data-start-on-path="utils.isCodeCombat ? 'oz-vs-coco' : 'teacher'"
+        href="/schools"
         @click="homePageEvent(isCodeCombat? 'Homepage Click Teacher Button #1 CTA' : 'Started Signup')"
       >
         {{ $t('new_home.im_an_educator') }}
       </CTAButton>
       <CTAButton
-        href="/parents/signup"
+        href="/parents"
         @click="homePageEvent('Homepage Click Parent Button CTA')"
       >
         {{ $t('new_home.im_a_parent') }}

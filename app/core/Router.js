@@ -294,6 +294,10 @@ module.exports = (CocoRouter = (function () {
           return this.routeDirectly('HomeViewBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
         },
 
+        'schools' () {
+          return this.routeDirectly('SchoolsView', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+        },
+
         'league/academica': redirect('/league/autoclan-school-network-academica'), // Redirect for Academica.
         'league/kipp': redirect('/league/autoclan-school-network-kipp'), // Redirect for KIPP.
         'league(/*subpath)': go('core/SingletonAppVueComponentView'),
@@ -407,7 +411,6 @@ module.exports = (CocoRouter = (function () {
         roblox: go('core/SingletonAppVueComponentView'),
         grants: go('core/SingletonAppVueComponentView'),
 
-        schools: me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),
         seen: me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),
 
         students: go('courses/CoursesView', { redirectTeachers: true }),

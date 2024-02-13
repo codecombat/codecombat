@@ -12,14 +12,9 @@
               class="main-image"
             >
               <template #image>
-                <div style="position: relative; padding-top: 56.25%;">
-                  <iframe
-                    src="https://customer-burj9xtby325x4f1.cloudflarestream.com/da0d63c489741f4bd20448af1846292a/iframe?preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fda0d63c489741f4bd20448af1846292a%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
-                    style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
-                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                    allowfullscreen="true"
-                  />
-                </div>
+                <video-box
+                  video-id="da0d63c489741f4bd20448af1846292a"
+                />
               </template>
             </content-box>
           </div>
@@ -63,7 +58,7 @@
       </div>
     </background-container>
 
-    <div class="container">
+    <div class="container main-carousel">
       <carousel-component :show-tabs="true">
         <template
           v-for="(item, index) in carouselItems"
@@ -125,15 +120,11 @@
         <div class="col-md-12">
           <content-box>
             <template #image>
-              <div style="position: relative; padding-top: 56.25%;">
-                <iframe
-                  :src="'https://iframe.videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e?preload=true&poster=https://videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg%3Ftime%3D2s&defaultTextTrack=en'"
-                  style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"
-                  allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                  allowfullscreen="true"
-                  title="CodeCombat online classes video"
-                />
-              </div>
+              <base-cloudflare-video
+                video-cloudflare-id="bb2e8bf84df5c2cfa0fcdab9517f1d9e"
+                :controls="true"
+                :autoplay="false"
+              />
             </template>
           </content-box>
         </div>
@@ -144,10 +135,7 @@
       id="trends"
       type="colored"
     >
-      <box-panel
-        :title="$t('home_v3.trends_insights')"
-        :items="trends"
-      />
+      <trends-and-insights />
     </background-container>
 
     <div class="container">
@@ -198,11 +186,14 @@ import BackgroundContainer from '../../components/common/backgrounds/BackgroundC
 import ContentBox from '../../components/common/elements/ContentBox.vue'
 import AvatarComponent from '../../components/common/elements/AvatarComponent.vue'
 import BoxPanel from '../../components/common/elements/BoxPanel.vue'
-import MissionComponent from './MissionComponent.vue'
+import VideoBox from '../../components/common/image-containers/VideoBox.vue'
+import MissionComponent from '../common/MissionComponent.vue'
 import ToolsList from './ToolsList.vue'
 import CTAButton from '../../components/common/buttons/CTAButton.vue'
 import PartnersList from './PartnersList.vue'
 import ButtonSection from './ButtonSection.vue'
+import TrendsAndInsights from '../common/TrendsAndInsights.vue'
+import BaseCloudflareVideo from '../../components/common/BaseCloudflareVideo.vue'
 
 export default Vue.extend({
   name: 'PageHome',
@@ -218,7 +209,10 @@ export default Vue.extend({
     ToolsList,
     CTAButton,
     PartnersList,
-    ButtonSection
+    ButtonSection,
+    TrendsAndInsights,
+    VideoBox,
+    BaseCloudflareVideo
   },
   data () {
     return {
@@ -231,7 +225,7 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.testimonals_2_title'),
           name: this.$t('home_v3.testimonals_2_name'),
-          image: '/images/pages/home-v3/testimonal/scott.jpeg'
+          image: '/images/pages/home-v3/testimonal/scott.webp'
         },
         {
           title: this.$t('home_v3.testimonals_3_title'),
@@ -241,7 +235,7 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.testimonals_4_title'),
           name: this.$t('home_v3.testimonals_4_name'),
-          image: '/images/pages/home-v3/testimonal/sandra.jpg'
+          image: '/images/pages/home-v3/testimonal/sandra.webp'
         }
       ],
       carouselItems: [
@@ -278,53 +272,63 @@ export default Vue.extend({
       ],
       engagingBoxes: [
         {
-          title: this.$t('home_v3.engaging_boxes_1_title'),
-          text: this.$t('home_v3.engaging_boxes_1_text'),
-          link: 'https://www.ozaria.com/',
-          image: '/images/pages/home-v3/engaging-boxes/box_1.webp'
+          title: this.$t('schools_page.core_curriculum_1_title'),
+          text: this.$t('schools_page.core_curriculum_1_text'),
+          link: 'https://ozaria.com',
+          linkText: this.$t('schools_page.core_curriculum_1_link_text'),
+          video: {
+            videoId: '177fb5ba412b8fee21928e3353a9e469'
+          }
         },
         {
-          title: this.$t('home_v3.engaging_boxes_2_title'),
-          text: this.$t('home_v3.engaging_boxes_2_text'),
-          image: '/images/pages/home-v3/engaging-boxes/box_2.webp'
+          title: this.$t('schools_page.core_curriculum_2_title'),
+          text: this.$t('schools_page.core_curriculum_2_text'),
+          link: 'https://codecombat.com/#teacher-signup',
+          linkText: this.$t('schools_page.core_curriculum_2_link_text'),
+          image: '/images/pages/schools/boxes/maximize_2.webp'
         },
         {
-          title: this.$t('home_v3.engaging_boxes_3_title'),
-          text: this.$t('home_v3.engaging_boxes_3_text'),
+          title: this.$t('schools_page.practice_enrichment_2_title'),
+          text: this.$t('schools_page.practice_enrichment_2_text'),
           link: 'https://codecombat.com/roblox',
-          image: '/images/pages/home-v3/engaging-boxes/box_3.webp'
+          linkText: this.$t('schools_page.practice_enrichment_2_link_text'),
+          image: '/images/pages/schools/boxes/maximize_4.webp'
         },
         {
-          title: this.$t('home_v3.engaging_boxes_4_title'),
-          text: this.$t('home_v3.engaging_boxes_4_text'),
+          title: this.$t('schools_page.practice_enrichment_1_title'),
+          text: this.$t('schools_page.practice_enrichment_1_text'),
           link: 'https://codecombat.com/league',
-          image: '/images/pages/home-v3/engaging-boxes/box_4.webp'
+          linkText: this.$t('schools_page.practice_enrichment_1_link_text'),
+          image: '/images/pages/schools/boxes/maximize_3.webp'
         },
         {
-          title: this.$t('home_v3.engaging_boxes_5_title'),
-          text: this.$t('home_v3.engaging_boxes_5_text'),
-          link: 'https://codecombat.com/hackstack',
-          image: '/images/pages/home-v3/engaging-boxes/box_5.webp'
+          title: this.$t('schools_page.student_acceleration_1_title'),
+          text: this.$t('schools_page.student_acceleration_1_text'),
+          link: 'https://codecombat.com/ai/',
+          linkText: this.$t('schools_page.student_acceleration_1_link_text'),
+          video: {
+            videoId: '50770b9a2fb36de457a37693a3f632c7'
+          }
         },
         {
           title: this.$t('home_v3.engaging_boxes_6_title'),
           text: this.$t('home_v3.engaging_boxes_6_text'),
-          link: 'https://codecombat.com/home',
-          image: '/images/pages/home-v3/engaging-boxes/box_4.webp'
+          link: 'https://codecombat.com/premium',
+          image: '/images/pages/home-v3/engaging-boxes/box_6.webp'
         }
       ],
       youngLearners: [
         {
           title: this.$t('home_v3.young_learners_1_title'),
           text: this.$t('home_v3.young_learners_1_text'),
-          link: 'https://codecombat.com/home',
+          link: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform',
           linkText: this.$t('home_v3.young_learners_1_linkText'),
           image: '/images/pages/home-v3/young-learners/box_1.webp'
         },
         {
           title: this.$t('home_v3.young_learners_2_title'),
           text: this.$t('home_v3.young_learners_2_text'),
-          link: 'https://codecombat.com/league',
+          link: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform',
           linkText: this.$t('home_v3.young_learners_2_linkText'),
           image: '/images/pages/home-v3/young-learners/box_2.webp'
         }
@@ -335,16 +339,17 @@ export default Vue.extend({
           text: this.$t('home_v3.solutions_1_text'),
           link: 'https://www.ozaria.com/pd',
           linkText: this.$t('home_v3.solutions_1_linkText'),
-          frameImage: '/images/pages/home-v3/logo/southern-new-hampshire-university.webp',
+          middleText: this.$t('home_v3.solutions_1_middleText'),
+          middleImage: '/images/pages/schools/logo/southern-new-hampshire-university_small.webp',
+          middleImageAlt: 'Southern New Hampshire University logo',
           image: '/images/pages/home-v3/solutions/box_1.webp'
         },
         {
-          title: this.$t('home_v3.solutions_2_title'),
-          text: this.$t('home_v3.solutions_2_text'),
-          link: 'https://www.ozaria.com/pd',
-          linkText: this.$t('home_v3.solutions_2_linkText'),
-          image: '/images/pages/home-v3/solutions/box_2.webp',
-          hasPadding: true,
+          title: this.$t('schools_page.student_acceleration_2_title'),
+          text: this.$t('schools_page.student_acceleration_2_text'),
+          image: '/images/pages/schools/boxes/maximize_6.webp',
+          linkText: this.$t('schools_page.learn_more_text'),
+          link: 'https://codecombat.com/apcsp',
           mainImageOriginal: true
         },
         {
@@ -357,7 +362,10 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.solutions_4_title'),
           text: this.$t('home_v3.solutions_4_text'),
-          image: '/images/pages/home-v3/solutions/box_4.gif'
+          link: '/schools',
+          video: {
+            videoId: 'cb37e75e3af57c91bab8af6ea85481d3'
+          }
         },
         {
           title: this.$t('home_v3.solutions_5_title'),
@@ -386,22 +394,6 @@ export default Vue.extend({
           image: '/images/pages/home-v3/solutions/box_8.webp',
           linkText: this.$t('home_v3.solutions_6_linkText'),
           link: '/libraries'
-        }
-      ],
-      trends: [
-        {
-          title: 'AI isn’t Replacing Coding, It’s Accelerating it!',
-          image: '/images/pages/home-v3/trends/1.webp',
-          text: 'We\'ve officially entered the AI era. Along with hype and hyperbole comes a wave of fear and uncertainty concerning the future of computer science. Videos of AI writing code with simple inputs and stories of engineers replaced by AI bots fueled a dramatic yet ultimately flawed narrative. The truth is, AI isn’t replacing coding; it’s accelerating it!',
-          link: 'https://blog.codecombat.com/ai-isnt-replacing-coding-its-accelerating-it/',
-          linkText: 'Read the Blog'
-        },
-        {
-          title: 'Career Technical Education with Pat Keeney',
-          image: '/images/pages/home-v3/trends/2.webp',
-          text: 'Career Technical Education (CTE) prepares students to become lifelong learners and provides them with the skills and knowledge they need to succeed in their future careers. In this episode, Pat Keeney, CTE Champion at McGraw Hill, shares his experience',
-          link: 'https://codecombat.com/podcast/career-technical-education',
-          linkText: 'Listen to the Podcast'
         }
       ]
     }
@@ -446,17 +438,7 @@ export default Vue.extend({
   gap: 80px;
   flex-direction: column;
 
-  ::v-deep &,
-  ::v-deep p,
-  ::v-deep span,
-  ::v-deep h1,
-  ::v-deep h2,
-  ::v-deep h3,
-  ::v-deep h4,
-  ::v-deep h5,
-  ::v-deep h6 {
-    font-family: "Plus Jakarta Sans";
-  }
+  @extend %frontend-page;
 
   ::v-deep .text-h1 {
     @extend %font-32-46;
@@ -505,6 +487,16 @@ export default Vue.extend({
       font-style: normal;
       font-weight: 700;
       line-height: 32px;
+    }
+  }
+
+  .main-carousel {
+    ::v-deep .content-icon-container {
+      img {
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        object-position: center;
+      }
     }
   }
 }

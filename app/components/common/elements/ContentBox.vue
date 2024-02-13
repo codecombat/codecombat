@@ -1,5 +1,10 @@
 <template>
-  <div :class="{ box: true, horizontal: arrangement === 'horizontal' }">
+  <component
+    :is="link ? 'a' : 'div'"
+    :href="link"
+    :class="{ box: true, horizontal: arrangement === 'horizontal', clickable: link}"
+    :style="boxStyle"
+  >
     <div
       v-if="hasMainImage"
       class="rectangle"
@@ -9,7 +14,7 @@
     </div>
     <div
       v-if="!onlyMainImage"
-      class="div"
+      class="box__div"
     >
       <div class="info">
         <div
@@ -26,6 +31,17 @@
           <slot name="title" />
         </div>
         <slot name="text" />
+
+        <p
+          v-if="middleText && middleImage"
+          class="middle-text"
+        >
+          <span>{{ middleText }}</span>
+          <img
+            :src="middleImage"
+            :alt="middleImageAlt"
+          >
+        </p>
         <slot name="button" />
       </div>
       <div
@@ -35,7 +51,7 @@
         <slot name="frameImage" />
       </div>
     </div>
-  </div>
+  </component>
 </template>
 
 <script>
@@ -63,6 +79,26 @@ export default {
     mainImageOriginal: {
       type: Boolean,
       default: false
+    },
+    equalWidth: {
+      type: Boolean,
+      default: false
+    },
+    link: {
+      type: String,
+      default: null
+    },
+    middleText: {
+      type: String,
+      default: null
+    },
+    middleImage: {
+      type: String,
+      default: null
+    },
+    middleImageAlt: {
+      type: String,
+      default: null
     }
   },
   computed: {
@@ -86,6 +122,19 @@ export default {
         return key !== 'image' && value.length
       })
       return !hasOtherTemplate
+    },
+    boxStyle () {
+      if (this.arrangement === 'horizontal' && this.equalWidth) {
+        return {
+          '--rectangle-width': '50%',
+          '--div-width': '50%'
+        }
+      } else {
+        return {
+          '--rectangle-width': '25%',
+          '--div-width': '75%'
+        }
+      }
     }
   }
 }
@@ -106,6 +155,11 @@ export default {
   border-radius: 24px;
   overflow: hidden;
 
+  &.clickable:hover {
+    text-decoration: none;
+    box-shadow: 0px 6px 22px 0px rgba(0, 0, 0, 0.20);
+  }
+
   &.horizontal {
     @media (min-width: $screen-sm) {
       flex-direction: row;
@@ -123,7 +177,7 @@ export default {
   .horizontal & {
     @media (min-width: $screen-sm) {
       width: auto;
-      max-width: 25%;
+      max-width: var(--rectangle-width);
       object-fit: cover;
       border-radius: 24px 0px 0px 24px;
       flex: 1;
@@ -144,6 +198,7 @@ export default {
   &.has-padding {
     >* {
       padding: 40px 0 40px 50px;
+
       @media (max-width: $screen-sm) {
         padding: 40px 50px 0 40px;
         object-fit: contain;
@@ -158,6 +213,8 @@ export default {
     aspect-ratio: 16 / 9;
     overflow: hidden;
     position: relative;
+    object-fit: cover;
+    object-position: top;
 
     @media (max-width: $screen-sm) {
       max-height: 210px;
@@ -169,29 +226,35 @@ export default {
   &.original-size {
     >* {
       object-fit: contain;
+      max-height: 100%;
     }
   }
 }
 
-.div {
-  align-items: center;
-  border-radius: 0px 0px 24px 24px;
-  display: inline-flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 40px 50px;
-  position: relative;
-  height: 100%;
-  width: 100%;
-  justify-content: space-between;
+.box {
+  &__div {
+    align-items: center;
+    border-radius: 0px 0px 24px 24px;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px 50px;
+    @media screen and (max-width: $screen-sm) {
+      padding: 20px 25px;
+    }
+    position: relative;
+    height: 100%;
+    width: 100%;
+    flex-grow: 1;
 
-  .horizontal & {
-    @media (min-width: $screen-sm) {
-      width: auto;
-      max-width: 75%;
-      height: 100%;
-      border-radius: 0px 24px 24px 0px;
-      flex: 1;
+    .horizontal & {
+      @media (min-width: $screen-sm) {
+        width: auto;
+        max-width: var(--div-width);
+        height: 100%;
+        border-radius: 0px 24px 24px 0px;
+        flex: 1;
+      }
     }
   }
 }
@@ -205,6 +268,17 @@ export default {
   gap: 12px;
   padding: 4px 0px 0px;
   position: relative;
+  height: 100%;
+  >:last-child{
+    margin-top: auto;
+  }
+
+  .middle-text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
 }
 
 .title {
