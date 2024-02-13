@@ -100,7 +100,6 @@ export default {
   computed: {
     items () {
       return Object.entries(this.$slots).map(([key, value]) => {
-        console.log(value[0].componentOptions.propsData)
         return {
           key,
           title: value[0].componentOptions.propsData.title,
