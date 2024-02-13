@@ -51,7 +51,7 @@ module.exports = {
       switchCase: 0,
       ignores: []
     }],
-    'vue/comment-directive': 'off'
+    'vue/comment-directive': 1
   },
 
   ignorePatterns: [
