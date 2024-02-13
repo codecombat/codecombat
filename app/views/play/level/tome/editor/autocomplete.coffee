@@ -76,6 +76,7 @@ module.exports = class Autocomplete
     @editor.commands.off 'afterExec', @doLiveCompletion  # Seems important to do
     @bgTokenizer?.stop?()  # Guessing
     @snippetManager?.unregister @oldSnippets if @oldSnippets?  # Guessing
+    @snippetManager?.unregister @oldCustomSnippets if @oldCustomSnippets?
 
   setAceOptions: () ->
     aceOptions =
