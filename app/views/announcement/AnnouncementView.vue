@@ -95,8 +95,12 @@ export default {
         if (!isIntersecting) {
           return
         }
+        const i = target.getAttribute('data-index')
+        if (this.announcements[i].read) {
+          return
+        }
+
         setTimeout(() => {
-          const i = target.getAttribute('data-index')
           this.readAnnouncement(this.announcements[i]._id)
         }, 1000)
       })
