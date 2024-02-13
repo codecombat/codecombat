@@ -3911,7 +3911,8 @@ module.exports = {
       course_overview: 'Course Overview',
       outcomes: 'outcomes',
       coco_requirements: 'CodeCombat’s system requirements',
-      coco_recognized_blurb: 'CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum.'
+      coco_recognized_blurb: 'CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum.',
+      ap_csp_portal: 'AP CSP Portal'
     },
 
     apcsp_curriculum: {
