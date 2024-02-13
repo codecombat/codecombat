@@ -99,6 +99,10 @@ export default {
         if (this.announcements[i].read) {
           return
         }
+        const truncated = target.classList.contains('truncated')
+        if (truncated) {
+          return
+        }
 
         setTimeout(() => {
           this.readAnnouncement(this.announcements[i]._id)
