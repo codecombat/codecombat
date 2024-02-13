@@ -5,12 +5,17 @@
         <div class="title">
           {{ title }}
         </div>
-        <div class="content carousel flex-column">
+        <div
+          id="announcement-lists"
+          class="content carousel flex-column"
+        >
           <announcement-tab
-            v-for="ann in announcements"
+            v-for="(ann, i) in announcements"
             :key="ann._id"
             :announcement="ann"
             :scrolled-to="query.id === ann._id"
+            :index="i"
+            :observer="observer"
           />
           <div
             v-if="moreAnnouncements"
@@ -61,10 +66,23 @@ export default {
       this.getAnnouncements()
     }
   },
+  created () {
+    const options = {
+      root: this.$el,
+      rootMargin: '0px',
+      threshold: 1.0
+    }
+
+    this.observer = window.newIntersectionObserver(this.announcementShowUp, options)
+  },
   data () {
     return {
-      lastFetch: false
+      lastFetch: false,
+      observer: null
     }
+  },
+  beforeDestroy () {
+    this.observer.disconnect()
   },
   methods: {
     ...mapActions('announcements', [
@@ -72,6 +90,18 @@ export default {
       'getAnnouncements',
       'readAnnouncement'
     ]),
+    announcementShowUp (entries) {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting) {
+          return
+        }
+        setTimeout(() => {
+          const i = target.getAttribute('data-index')
+          this.readAnnouncement(this.announcements[i]._id)
+        }, 1000)
+      })
+    },
+
     readAll () {
       // todo: do we need this?
       this.announcements.forEach(a => {
