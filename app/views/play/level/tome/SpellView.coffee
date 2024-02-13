@@ -1284,9 +1284,10 @@ module.exports = class SpellView extends CocoView
   onSpellCreated: (e) ->
     if e.spell.team is me.team
       # ace session won't get correct language mode when created. so we wait for 1.5s
+      # 2024.02.13 didn't find bug if no 1.5s delay. so try to shorten it to 0.5s
       setTimeout(() =>
         @addUserSnippets(e.spell.getSource(), e.spell.language, @ace?.getSession?())
-      , 1500)
+      , 500)
 
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
