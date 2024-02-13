@@ -17,11 +17,11 @@ export default {
     return {
       items: [
         {
-          image: '/images/pages/home-v3/tools-list/logo_1.webp',
+          image: '/images/pages/home-v3/tools-list/logo_python.webp',
           alt: 'Python logo'
         },
         {
-          image: '/images/pages/home-v3/tools-list/logo_2.webp',
+          image: '/images/pages/home-v3/tools-list/logo_js.webp',
           alt: 'JavaScript logo'
         },
         {
@@ -29,23 +29,23 @@ export default {
           alt: 'HTML logo'
         },
         {
-          image: '/images/pages/home-v3/tools-list/logo_4.webp',
+          image: '/images/pages/home-v3/tools-list/logo_css.webp',
           alt: 'CSS logo'
         },
         {
-          image: '/images/pages/home-v3/tools-list/logo_5.webp',
+          image: '/images/pages/home-v3/tools-list/logo_cpp.webp',
           alt: 'C++ logo'
         },
         {
-          image: '/images/pages/home-v3/tools-list/logo_6.webp',
+          image: '/images/pages/home-v3/tools-list/logo_chatgpt.webp',
           alt: 'ChatGPT logo'
         },
         {
-          image: '/images/pages/home-v3/tools-list/logo_7.webp',
+          image: '/images/pages/home-v3/tools-list/logo_claude.webp',
           alt: 'Stable Diffusion logo'
         },
         {
-          image: '/images/pages/home-v3/tools-list/logo_8.webp',
+          image: '/images/pages/home-v3/tools-list/logo_dalle.webp',
           alt: 'DALL-E logo'
         }
       ]

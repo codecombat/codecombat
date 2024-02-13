@@ -67,7 +67,7 @@ export default {
 
 .text-wrapper {
   @extend %font-24-34;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0;
   position: relative;
   width: 162px;

@@ -32,9 +32,10 @@
           <template #image>
             <div v-if="item.video">
               <video-box
-                :alt="item.video.alt || `Video to illustrate ${item.title}`"
-                :src="item.video.src"
-                :padding="item.video.padding"
+                :ref="`video-${index}`"
+                class="video-box"
+                :video-id="item.video.videoId"
+                @loaded="onVideoLoaded(`video-${index}`, item.video.videoId)"
               />
             </div>
             <img
@@ -102,6 +103,31 @@ export default {
         return ARRANGEMENT_OPTIONS.includes(value)
       }
     }
+  },
+  methods: {
+    onVideoLoaded (refName, videoId, retries = 0) {
+      this.$nextTick(() => {
+        const videoBoxes = this.$refs[refName] || []
+        videoBoxes.forEach(videoBox => {
+          const containerHeight = videoBox.$el.offsetHeight
+          const streamElement = videoBox.$el.firstElementChild
+          const streamHeight = streamElement.offsetHeight
+          if (!streamElement.offsetHeight) {
+            setTimeout(() => {
+              if (retries > 5) {
+                // video is not loading, abort
+                return
+              }
+              this.onVideoLoaded(refName, videoId, retries + 1)
+            }, 1000)
+            return
+          }
+          const scaleFactor = containerHeight / streamHeight
+          const translateY = (streamHeight - containerHeight) / 2
+          streamElement.style.transform = `scale(${scaleFactor}) translateY(${translateY * -1}px)`
+        })
+      })
+    }
   }
 }
 </script>
@@ -120,6 +146,21 @@ export default {
 .text-h2 {
   text-align: center;
   margin-bottom: 80px
+}
+
+.video-box {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    z-index: 1;
+  }
 }
 
 </style>

@@ -18,9 +18,14 @@
             class="content-bg"
             :class="{ active: currentIndex === index }"
           >
-            <p class="content-text">
-              {{ item.title }}
-            </p>
+            <div class="content-text">
+              <div
+                v-for="(line, lineIndex) in $t(item.title).split('\n')"
+                :key="`line-${lineIndex}`"
+              >
+                {{ line }}
+              </div>
+            </div>
           </div>
         </button>
       </div>

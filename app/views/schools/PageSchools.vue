@@ -9,20 +9,18 @@
           <p class="text-24">
             {{ $t('schools_page.our_comprehensive_implementation') }}
           </p>
-          <CTAButton class="contact-modal">
+          <CTAButton
+            class="contact-modal"
+            :description="$t('schools_page.let_us_craft_a_custom_program')"
+          >
             {{ $t('schools_page.get_my_solution') }}
           </CTAButton>
-          <p class="text-14">
-            <mixed-color-label :text="$t('schools_page.let_us_craft_a_custom_program')" />
-          </p>
         </template>
         <template #image>
           <content-box :main-image-bg="true">
             <template #image>
               <video-box
-                alt="CodeCombat Schools Page video"
-                padding="56.25%"
-                src="https://customer-burj9xtby325x4f1.cloudflarestream.com/8dc59ba8779cdb63f9cf5a3cb7493b09/iframe?letterboxColor=transparent&muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F8dc59ba8779cdb63f9cf5a3cb7493b09%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+                video-id="8dc59ba8779cdb63f9cf5a3cb7493b09"
               />
             </template>
           </content-box>
@@ -72,9 +70,7 @@
       >
         <template #image>
           <video-box
-            padding="57.2202166064982%"
-            alt="Video to illustrate flexible standards-aligned curriculum"
-            src="https://customer-burj9xtby325x4f1.cloudflarestream.com/c01bf2665cc40c18e1b728516b3ed4fb/iframe?letterboxColor=transparent&muted=true&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fc01bf2665cc40c18e1b728516b3ed4fb%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+            video-id="c01bf2665cc40c18e1b728516b3ed4fb"
           />
         </template>
       </image-and-text>
@@ -85,9 +81,7 @@
       >
         <template #image>
           <video-box
-            padding="56.39999999999999%"
-            alt="Video to illustrate comprehensive tools and resources"
-            src="https://customer-burj9xtby325x4f1.cloudflarestream.com/16ca174da271510477cc042ef2c976be/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F16ca174da271510477cc042ef2c976be%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+            video-id="274971c4154aa46305c65d739a7d4412"
           />
         </template>
       </image-and-text>
@@ -104,9 +98,7 @@
       >
         <template #image>
           <video-box
-            padding="47.8125%"
-            alt="Video to illustrate accessible data insights"
-            src="https://customer-burj9xtby325x4f1.cloudflarestream.com/cfd3f5540ac68830bb1ac43f9863a220/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fcfd3f5540ac68830bb1ac43f9863a220%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+            video-id="cfd3f5540ac68830bb1ac43f9863a220"
           />
         </template>
       </image-and-text>
@@ -125,9 +117,7 @@
         </p>
         <template #image>
           <video-box
-            padding="72.3%"
-            alt="Video to illustrate high quality professional development"
-            src="https://customer-burj9xtby325x4f1.cloudflarestream.com/df52cfd5a4af158c164380a0fb223e69/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fdf52cfd5a4af158c164380a0fb223e69%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+            video-id="daebc1c8739e2f638660df076c1104e2"
           />
         </template>
       </image-and-text>
@@ -228,10 +218,12 @@
         </div>
         <div class="row contact-row">
           <div class="col-md-12">
-            <CTAButton class="contact-modal">
+            <CTAButton
+              class="contact-modal"
+              :description="$t('schools_page.for_your_custom_pathway')"
+            >
               {{ $t('home_v3.contact_us') }}
             </CTAButton>
-            <p>{{ $t('schools_page.for_your_custom_pathway') }}</p>
           </div>
         </div>
         <custom-table
@@ -443,12 +435,12 @@
     >
       <div class="row">
         <div class="col-md-12">
-          <CTAButton class="contact-modal">
+          <CTAButton
+            class="contact-modal"
+            :description="$t('schools_page.for_turnkey_solutions')"
+          >
             {{ $t('schools_page.contact_our_team') }}
           </CTAButton>
-          <p>
-            {{ $t('schools_page.for_turnkey_solutions') }}
-          </p>
         </div>
       </div>
     </div>
@@ -566,14 +558,18 @@ export default Vue.extend({
           text: this.$t('schools_page.core_curriculum_1_text'),
           link: 'https://ozaria.com',
           linkText: this.$t('schools_page.core_curriculum_1_link_text'),
-          image: '/images/pages/schools/boxes/maximize_1.webp'
+          video: {
+            videoId: '177fb5ba412b8fee21928e3353a9e469'
+          }
         },
         {
           title: this.$t('schools_page.core_curriculum_2_title'),
           text: this.$t('schools_page.core_curriculum_2_text'),
           link: 'https://codecombat.com/#teacher-signup',
           linkText: this.$t('schools_page.core_curriculum_2_link_text'),
-          image: '/images/pages/schools/boxes/maximize_2.webp'
+          video: {
+            videoId: '16b8482dc4d9b96c7d827fb788e64368'
+          }
         }
       ],
       practiceEnrichment: [
@@ -582,14 +578,18 @@ export default Vue.extend({
           text: this.$t('schools_page.practice_enrichment_1_text'),
           link: 'https://codecombat.com/league',
           linkText: this.$t('schools_page.practice_enrichment_1_link_text'),
-          image: '/images/pages/schools/boxes/maximize_3.webp'
+          video: {
+            videoId: '1b3bcd237a9dda25a042493d799e7278'
+          }
         },
         {
           title: this.$t('schools_page.practice_enrichment_2_title'),
           text: this.$t('schools_page.practice_enrichment_2_text'),
           link: 'https://codecombat.com/roblox',
           linkText: this.$t('schools_page.practice_enrichment_2_link_text'),
-          image: '/images/pages/schools/boxes/maximize_4.webp'
+          video: {
+            videoId: 'a50758af1eeeb12f241472beca961424'
+          }
         }
       ],
       studentAcceleration: [
@@ -599,9 +599,7 @@ export default Vue.extend({
           link: 'https://codecombat.com/ai/',
           linkText: this.$t('schools_page.student_acceleration_1_link_text'),
           video: {
-            padding: '62.7906976744186%',
-            src: 'https://customer-burj9xtby325x4f1.cloudflarestream.com/50770b9a2fb36de457a37693a3f632c7/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F50770b9a2fb36de457a37693a3f632c7%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false',
-            alt: 'Video to illustrate student acceleration'
+            videoId: '50770b9a2fb36de457a37693a3f632c7'
           }
         },
         {

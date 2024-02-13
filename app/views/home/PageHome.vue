@@ -13,9 +13,7 @@
             >
               <template #image>
                 <video-box
-                  alt="CodeCombat Home Page Video"
-                  padding="56.25%"
-                  src="https://customer-burj9xtby325x4f1.cloudflarestream.com/da0d63c489741f4bd20448af1846292a/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fda0d63c489741f4bd20448af1846292a%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false"
+                  video-id="da0d63c489741f4bd20448af1846292a"
                 />
               </template>
             </content-box>
@@ -60,7 +58,7 @@
       </div>
     </background-container>
 
-    <div class="container">
+    <div class="container main-carousel">
       <carousel-component :show-tabs="true">
         <template
           v-for="(item, index) in carouselItems"
@@ -122,10 +120,10 @@
         <div class="col-md-12">
           <content-box>
             <template #image>
-              <video-box
-                padding="56.25%"
-                alt="CodeCombat online classes video"
-                src="https://iframe.videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e?letterboxColor=transparent&preload=true&poster=https://videodelivery.net/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg%3Ftime%3D2s&defaultTextTrack=en"
+              <base-cloudflare-video
+                video-cloudflare-id="bb2e8bf84df5c2cfa0fcdab9517f1d9e"
+                :controls="true"
+                :autoplay="false"
               />
             </template>
           </content-box>
@@ -195,6 +193,7 @@ import CTAButton from '../../components/common/buttons/CTAButton.vue'
 import PartnersList from './PartnersList.vue'
 import ButtonSection from './ButtonSection.vue'
 import TrendsAndInsights from '../common/TrendsAndInsights.vue'
+import BaseCloudflareVideo from '../../components/common/BaseCloudflareVideo.vue'
 
 export default Vue.extend({
   name: 'PageHome',
@@ -212,7 +211,8 @@ export default Vue.extend({
     PartnersList,
     ButtonSection,
     TrendsAndInsights,
-    VideoBox
+    VideoBox,
+    BaseCloudflareVideo
   },
   data () {
     return {
@@ -276,7 +276,9 @@ export default Vue.extend({
           text: this.$t('schools_page.core_curriculum_1_text'),
           link: 'https://ozaria.com',
           linkText: this.$t('schools_page.core_curriculum_1_link_text'),
-          image: '/images/pages/schools/boxes/maximize_1.webp'
+          video: {
+            videoId: '177fb5ba412b8fee21928e3353a9e469'
+          }
         },
         {
           title: this.$t('schools_page.core_curriculum_2_title'),
@@ -305,15 +307,13 @@ export default Vue.extend({
           link: 'https://codecombat.com/ai/',
           linkText: this.$t('schools_page.student_acceleration_1_link_text'),
           video: {
-            padding: '62.7906976744186%',
-            src: 'https://customer-burj9xtby325x4f1.cloudflarestream.com/50770b9a2fb36de457a37693a3f632c7/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2F50770b9a2fb36de457a37693a3f632c7%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false',
-            alt: 'Video to illustrate student acceleration'
+            videoId: '50770b9a2fb36de457a37693a3f632c7'
           }
         },
         {
           title: this.$t('home_v3.engaging_boxes_6_title'),
           text: this.$t('home_v3.engaging_boxes_6_text'),
-          link: 'https://codecombat.com/home',
+          link: 'https://codecombat.com/premium',
           image: '/images/pages/home-v3/engaging-boxes/box_6.webp'
         }
       ],
@@ -345,12 +345,11 @@ export default Vue.extend({
           image: '/images/pages/home-v3/solutions/box_1.webp'
         },
         {
-          title: this.$t('home_v3.solutions_2_title'),
-          text: this.$t('home_v3.solutions_2_text'),
-          link: 'https://www.ozaria.com/pd',
-          linkText: this.$t('home_v3.solutions_2_linkText'),
-          image: '/images/pages/home-v3/solutions/box_2.webp',
-          hasPadding: true,
+          title: this.$t('schools_page.student_acceleration_2_title'),
+          text: this.$t('schools_page.student_acceleration_2_text'),
+          image: '/images/pages/schools/boxes/maximize_6.webp',
+          linkText: this.$t('schools_page.learn_more_text'),
+          link: 'https://codecombat.com/apcsp',
           mainImageOriginal: true
         },
         {
@@ -363,10 +362,9 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.solutions_4_title'),
           text: this.$t('home_v3.solutions_4_text'),
+          link: '/schools',
           video: {
-            padding: '50.8%;',
-            src: 'https://customer-burj9xtby325x4f1.cloudflarestream.com/cb37e75e3af57c91bab8af6ea85481d3/iframe?letterboxColor=transparent&preload=true&loop=true&autoplay=true&poster=https%3A%2F%2Fcustomer-burj9xtby325x4f1.cloudflarestream.com%2Fcb37e75e3af57c91bab8af6ea85481d3%2Fthumbnails%2Fthumbnail.jpg%3Ftime%3D%26height%3D600&controls=false',
-            alt: `Video to illustrate ${this.$t('home_v3.solutions_4_title')}`
+            videoId: 'cb37e75e3af57c91bab8af6ea85481d3'
           }
         },
         {
@@ -440,17 +438,7 @@ export default Vue.extend({
   gap: 80px;
   flex-direction: column;
 
-  ::v-deep &,
-  ::v-deep p,
-  ::v-deep span,
-  ::v-deep h1,
-  ::v-deep h2,
-  ::v-deep h3,
-  ::v-deep h4,
-  ::v-deep h5,
-  ::v-deep h6 {
-    font-family: "Plus Jakarta Sans";
-  }
+  @extend %frontend-page;
 
   ::v-deep .text-h1 {
     @extend %font-32-46;
@@ -499,6 +487,16 @@ export default Vue.extend({
       font-style: normal;
       font-weight: 700;
       line-height: 32px;
+    }
+  }
+
+  .main-carousel {
+    ::v-deep .content-icon-container {
+      img {
+        aspect-ratio: 16/9;
+        object-fit: cover;
+        object-position: center;
+      }
     }
   }
 }
