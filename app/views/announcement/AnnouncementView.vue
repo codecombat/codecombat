@@ -73,7 +73,7 @@ export default {
       threshold: 1.0
     }
 
-    this.observer = window.newIntersectionObserver(this.announcementShowUp, options)
+    this.observer = new window.IntersectionObserver(this.announcementShowUp, options)
   },
   data () {
     return {
