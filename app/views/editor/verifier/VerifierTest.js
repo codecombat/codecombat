@@ -125,10 +125,10 @@ module.exports = class VerifierTest extends CocoClass {
           // min
           maxHealth: { prop: 'maxHealth', check: 'min', current: 1, lower: 5, upper: hero.maxHealth },
           maxSpeed: { prop: 'maxSpeed', check: 'min', current: 1, lower: 3, upper: hero.maxSpeed },
-          attackDamage: { prop: 'attackDamage', check: 'min', current: 1, lower: 4, upper: hero.attackDamage },
+          attackDamage: { prop: 'attackDamage', check: 'min', current: 1, lower: 4, upper: hero.attackDamage || 13 },
           // max
           maxxSpeed: { prop: 'maxSpeed', check: 'max', current: 1, lower: hero.maxSpeed, upper: 50 },
-          maxxAttackDamage: { prop: 'attackDamage', check: 'max', current: 1, lower: hero.attackDamage, upper: 500 }
+          maxxAttackDamage: { prop: 'attackDamage', check: 'max', current: 1, lower: hero.attackDamage || 13, upper: 500 }
         }
       }
       const prop = this.checkPropKeys[this.checkPropIndex]
@@ -137,11 +137,12 @@ module.exports = class VerifierTest extends CocoClass {
       } else {
         this.clampedProperties[prop].current = Math.ceil((this.clampedProperties[prop].upper + this.clampedProperties[prop].lower) / 2)
       }
-      console.log('new current: ', this.clampedProperties[prop].current)
+      console.log(prop, 'new current: ', this.clampedProperties[prop].current)
       // let find min first
 
       level.recommendedHealth = this.clampedProperties.maxHealth.current
       level.maximumHealth = this.clampedProperties.maxHealth.current
+      level.clampedProperties = level.clampedProperties || {}
       level.clampedProperties[this.clampedProperties[prop].prop] = {}
       level.clampedProperties[this.clampedProperties[prop].prop][this.clampedProperties[prop].check] = this.clampedProperties[prop].current
     }
@@ -256,7 +257,7 @@ module.exports = class VerifierTest extends CocoClass {
             const newProp = this.checkPropKeys[this.checkPropIndex]
             const trueProp = this.clampedProperties[newProp].prop
             const check = this.clampedProperties[newProp].check
-            const clampedProperties = this.level.get('clampedProperties')
+            const clampedProperties = this.level.get('clampedProperties') || {}
             if (trueProp in clampedProperties && (check in clampedProperties[trueProp])) {
               continue
             }
