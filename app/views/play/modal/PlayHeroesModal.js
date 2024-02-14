@@ -299,7 +299,10 @@ module.exports = (PlayHeroesModal = (function () {
 
     buildCodeLanguages () {
       const $select = this.$el.find('#option-code-language')
-      return $select.fancySelect().parent().find('.options li').each(function () {
+      if (!$.browser.mobile) {
+        $select.fancySelect()
+      }
+      $select.parent().find('.options li').each(function () {
         const languageName = $(this).text()
         const languageID = $(this).data('value')
         const blurb = $.i18n.t(`choose_hero.${languageID}_blurb`)
@@ -322,7 +325,10 @@ module.exports = (PlayHeroesModal = (function () {
 
     buildCodeFormats () {
       const $select = this.$el.find('#option-code-format')
-      return $select.fancySelect().parent().find('.options li').each(function () {
+      if (!$.browser.mobile) {
+        $select.fancySelect()
+      }
+      $select.parent().find('.options li').each(function () {
         const formatName = $(this).text()
         const formatID = $(this).data('value')
         const blurb = $.i18n.t(`choose_hero.${formatID}_blurb`.replace(/-/g, '_'))
