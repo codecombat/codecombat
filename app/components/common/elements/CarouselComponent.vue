@@ -1,6 +1,9 @@
 <template>
   <div class="carousel-component">
-    <div class="content-template-carousel">
+    <div
+      class="content-template-carousel"
+      :class="{ 'has-background': hasBackground }"
+    >
       <div
         v-if="showTabs"
         class="carousel-tabs content-tabs"
@@ -15,9 +18,14 @@
             class="content-bg"
             :class="{ active: currentIndex === index }"
           >
-            <p class="content-text">
-              {{ item.title }}
-            </p>
+            <div class="content-text">
+              <div
+                v-for="(line, lineIndex) in $t(item.title).split('\n')"
+                :key="`line-${lineIndex}`"
+              >
+                {{ line }}
+              </div>
+            </div>
           </div>
         </button>
       </div>
@@ -39,6 +47,7 @@
             <img
               class="content-icon"
               :src="item.image"
+              :alt="item.alt || item.title"
             >
           </div>
           <div class="content-text">
@@ -52,11 +61,10 @@
         </div>
       </div>
 
-      <div
-        :class="{'carousel-dots': true, 'carousel-tabs-default': showDots}"
-      >
+      <div :class="{ 'carousel-dots': true, 'carousel-tabs-default': showDots }">
         <img
-          :src="`/images/components/arrow${currentIndex <= 0?'-light':''}.svg`"
+          :src="`/images/components/arrow${currentIndex <= 0 ? '-light' : ''}.svg`"
+          :alt="`Arrow to go to the previous item in the carousel${currentIndex <= 0 ? ' - disabled' : ''}`"
           @click="goTo(currentIndex - 1)"
         >
         <button
@@ -68,7 +76,9 @@
           {{ index + 1 }}
         </button>
         <img
-          :src="`/images/components/arrow${currentIndex >= items.length - 1?'-light':''}.svg`"
+          :src="`/images/components/arrow${currentIndex >= items.length - 1 ? '-light' : ''}.svg`"
+          :alt="`Arrow to go to the next item in the carousel${currentIndex >= items.length - 1 ? ' - disabled' : ''}`"
+
           @click="goTo(currentIndex + 1)"
         >
       </div>
@@ -100,7 +110,6 @@ export default {
   computed: {
     items () {
       return Object.entries(this.$slots).map(([key, value]) => {
-        console.log(value[0].componentOptions.propsData)
         return {
           key,
           title: value[0].componentOptions.propsData.title,
@@ -132,7 +141,8 @@ export default {
   @media screen and (max-width: 768px) {
     display: flex;
   }
-  &.carousel-tabs-default{
+
+  &.carousel-tabs-default {
     display: flex;
   }
 
@@ -165,8 +175,13 @@ export default {
   display: flex;
   box-sizing: border-box;
   min-height: 365px;
+  margin-bottom: 20px;
   width: 100%;
-  gap: 40px;
+
+  &.has-background {
+    gap: 40px;
+  }
+
   flex-direction: column;
 
   @media screen and (max-width: 768px) {
@@ -319,7 +334,8 @@ export default {
         border-radius: 20px;
         border: 2px solid $light-purple;
         background: $light-purple;
-        &.active{
+
+        &.active {
           border-color: $purple;
           background: $purple;
         }
