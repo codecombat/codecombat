@@ -565,9 +565,12 @@ module.exports = class PlayLevelView extends RootView
       @scriptManager?.initializeCamera()
 
   onLoadingViewUnveiling: (e) ->
+    @unveiling = true
     @selectHero()
 
   onLoadingViewUnveiled: (e) ->
+    @unveiling = false
+    @unveiled = true
     if @level.isType('course-ladder', 'hero-ladder', 'ladder') or @observing
       # We used to autoplay by default, but now we only do it if the level says to in the introduction script.
       Backbone.Mediator.publish 'level:set-playing', playing: true
@@ -793,6 +796,10 @@ module.exports = class PlayLevelView extends RootView
     minToolboxWidth ?= if toolboxLocation is 'none' then 0 else minBlockChars * minBlockCharWidth
     maxToolboxWidth = @tome?.spellView?.toolboxWidth?.max
     maxToolboxWidth ?= if toolboxLocation is 'none' then 0 else maxBlockChars * maxBlockCharWidth
+    if not @unveiling and not @unveiled
+      # Just take up 43.5% of the right side of the screen; that's where level goals will be
+      minCodeWidth = 0.435 * windowWidth
+      minWorkspaceWidth = minToolboxWidth = 0
 
     # Now determine if we should put the control bar as 'none', 'top', 'left', or 'right'.
     # Right vs. left: put it on the right, unless it would lead to empty space below the canvas.
