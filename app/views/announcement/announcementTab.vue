@@ -63,16 +63,18 @@ export default {
     }
   },
   mounted () {
-    const el = document.querySelector(`#content${this.announcement._id}`)
-    this.isEllipsisActive = this.checkEllipsisActive(el)
-    this.isTruncated = this.isEllipsisActive
-
-    if (this.scrolledTo) {
-      this.isTruncated = false
-      // top level component
-      el.parentElement.parentElement.scrollIntoView({ behaviors: 'smooth', block: 'center' })
-    }
     this.observer.observe(this.$el)
+    this.$nextTick(() => { // queryselector sometimes cannot load normally when mounted, add nexttick to delay it
+      const el = document.querySelector(`#content${this.announcement._id}`)
+      this.isEllipsisActive = this.checkEllipsisActive(el)
+      this.isTruncated = this.isEllipsisActive
+
+      if (this.scrolledTo) {
+        this.isTruncated = false
+        // top level component
+        el.parentElement.parentElement.scrollIntoView({ behaviors: 'smooth', block: 'center' })
+      }
+    })
   },
   methods: {
     ...mapActions('announcements', [
