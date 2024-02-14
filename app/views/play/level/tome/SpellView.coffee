@@ -529,12 +529,16 @@ module.exports = class SpellView extends CocoView
     if e.type is Blockly.Events.FINISHED_LOADING
       @awaitingBlocklySerialization = false
 
-    if e.type in blocklyUtils.blocklyMutationEvents
-      newSource = @blocklyToAce e
+    return unless e.type in blocklyUtils.blocklyMutationEvents
+    newSource = @blocklyToAce e
 
-      if newSource and @options.level.get('product') is 'codecombat-junior' and e.type in blocklyUtils.blocklyFinishedMutationEvents and newSource.trim().replace(/\n\s*\n/g, '\n') isnt @spell.source.trim().replace(/\n\s*\n/g, '\n')
-        # Immediate code execution on each significant block change that produces a program that differs by more than newlines
-        @recompile()
+    return unless newSource and e.type in blocklyUtils.blocklyFinishedMutationEvents and newSource.trim().replace(/\n\s*\n/g, '\n') isnt @spell.source.trim().replace(/\n\s*\n/g, '\n')
+    if @options.level.get('product') is 'codecombat-junior'
+      # Immediate code execution on each significant block change that produces a program that differs by more than newlines
+      @recompile()
+    else
+      @notifySpellChanged()
+    return
 
   blocklyToAce: ->
     return if @awaitingBlocklySerialization

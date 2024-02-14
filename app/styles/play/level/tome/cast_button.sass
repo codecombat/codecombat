@@ -120,6 +120,18 @@
   #level-view.junior &
     .btn.btn-illustrated
       width: 100%
+      border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
+
+      &:active
+        border-image: url(/images/level/code_toolbar_submit_button_active_pressed.png) 14 20 20 20 fill round
+
+    &:not(.winnable)
+      .btn.btn-illustrated
+        &.cast-button.castable
+          border-image: url(/images/level/code_toolbar_submit_button_zazz.png) 14 20 20 20 fill round
+
+          &:active
+            border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
 
   &:not(.text-code) &
     right: -15px
