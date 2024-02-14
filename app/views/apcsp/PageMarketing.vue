@@ -14,7 +14,8 @@
                 p.text-p {{ $t('apcsp_marketing.page_description_endorsed') }}
             .row.row-request-access
               .col-lg-12
-                a.btn.btn-primary.btn-lg.uppercase(@click="showModal=true") {{ $t('apcsp_marketing.request_access') }}
+                a.btn.btn-primary.btn-lg.uppercase(v-if="hasLicense" href="/apcsportal") {{ $t('apcsp_marketing.ap_csp_portal') }}
+                a.btn.btn-primary.btn-lg.uppercase(v-if="!hasLicense" @click="showModal=true") {{ $t('apcsp_marketing.request_access') }}
 
     .container-fluid.vector-flow
       .vector.vector-0
@@ -140,7 +141,8 @@
     #get-full-course.container-fluid
       .width-container.row
         .col.col-lg-12
-          a.btn.btn-primary.btn-lg.btn-shadow.uppercase(@click="showModal=true") {{ $t('apcsp_marketing.get_full_course') }}
+          a.btn.btn-primary.btn-lg.btn-shadow.uppercase(v-if="hasLicense" href="/apcsportal") {{ $t('apcsp_marketing.get_full_course') }}
+          a.btn.btn-primary.btn-lg.btn-shadow.uppercase(v-else @click="showModal=true") {{ $t('apcsp_marketing.get_full_course') }}
     #professional-development.container-fluid.container-fluid-gradient
       .width-container.row
         .col.col-lg-12
