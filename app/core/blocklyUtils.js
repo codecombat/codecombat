@@ -235,6 +235,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         type: 'field_multilinetext',
         name: 'CODE',
         check: 'String',
+        text: "Couldn't read code."
       }
     ],
     previousStatement: null,
@@ -378,8 +379,6 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         // { kind: 'block', type: 'math_arithmetic', include () { return propNames.has('else') } } // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'math_or_string_arithmetic', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'procedures_return', include () { return propNames.has('else') } }, // TODO: when to introduce? also move this to procedures
-        { kind: 'block', type: 'raw_code', include () { return false } }, // TODO: move this
-        { kind: 'block', type: 'raw_code_value', include () { return false } }, // TODO: move this
         { kind: 'block', type: 'expression_statement', include () { return propNames.has('summon') } }, // TODO: move this
         { kind: 'block', type: 'lists_range', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic? Also, move this. Also, make sure it's not available in JavaScript (but is available hidden, for prepareBlockIntelligence)
       ]
@@ -451,6 +450,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'lists_getSublist', include () { return propNames.has('arrays') && false } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'lists_split', include () { return propNames.has('arrays') && false } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'lists_sort', include () { return propNames.has('arrays') && false } }, // TODO: better targeting of when we introduce this logic?
+        { kind: 'block', type: 'raw_code_value', include () { return false } },
+        { kind: 'block', type: 'raw_code', include () { return false } }, // Put this last so it's the one that shows up when code doesn't parse (not sure why)
       ]
     },
     {

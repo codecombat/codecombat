@@ -484,6 +484,7 @@ module.exports = class SpellView extends CocoView
       @recompile()
     else
       # Initialize Blockly from the text code
+      @awaitingBlocklySerialization = true
       @aceToBlockly true
 
     @resizeBlockly()
