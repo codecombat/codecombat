@@ -125,6 +125,10 @@ module.exports = class RootView extends CocoView
       else
         window.tracker?.trackEvent 'Started Signup', label: @id
     options = {}
+
+    if $(e.currentTarget).data('startOnPath')
+      options.startOnPath = $(e.currentTarget).data('startOnPath')
+
     if userUtils.isInLibraryNetwork()
       options.startOnPath = 'individual'
     @openModalView new CreateAccountModal(options)

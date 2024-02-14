@@ -136,6 +136,8 @@ module.exports = {
   'views/PageAPCSPMarketing': function () { return import(/* webpackChunkName: "PageMarketing" */ 'views/apcsp/PageMarketing') },
   'views/PageAPCSPCurriculum': function () { return import(/* webpackChunkName: "PageCurriculum" */ 'views/apcsp/PageCurriculum') },
   'views/PageCodequest': function () { return import(/* webpackChunkName: "PageCodequest" */ 'views/codequest/PageCodequest') },
+  'views/HomeViewBeta': function () { return import(/* webpackChunkName: "HomeView" */ 'views/home/PageHome') },
+  'views/SchoolsView': function () { return import(/* webpackChunkName: "SchoolsView" */ 'views/schools/PageSchools') },
   'views/PremiumFeaturesView': function () { return import(/* webpackChunkName: "PremiumFeaturesView" */ 'views/PremiumFeaturesView') },
   'views/PrivacyView': function () { return import(/* webpackChunkName: "PrivacyView" */ 'views/PrivacyView') },
   'views/courses/CoursesView': function () { return import(/* webpackChunkName: "courses" */ 'views/courses/CoursesView') },
