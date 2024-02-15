@@ -22,7 +22,12 @@ export default {
   // TODO add a way to clear out old level session data
   actions: {
     // TODO how do we handle two sets of parallel requests here? (ie user vists page, hits back and then visits again quickly)
-    fetchForClassroom: ({ commit, dispatch }, classroomId) => {
+    fetchForClassroom: ({ state, commit, dispatch }, classroomId) => {
+    // Check if levels for this classroomId already exist in the state
+      if (state.levelsByClassroom[classroomId]) {
+        return Promise.resolve(state.levelsByClassroom[classroomId])
+      }
+
       const request = levelsApi.fetchForClassroom(classroomId, {
         data: {
           project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n,assessment,assessmentPlacement,slug,goals'
