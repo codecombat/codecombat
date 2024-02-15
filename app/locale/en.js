@@ -1927,7 +1927,8 @@ module.exports = {
       error_saving: 'Error Saving',
       saved: 'Changes Saved',
       password_mismatch: 'Password does not match.',
-      password_repeat: 'Please repeat your password.'
+      password_repeat: 'Please repeat your password.',
+      switch_new_teacher_dashboard: 'Try the new Teacher Dashboard'
     },
 
     keyboard_shortcuts: {
@@ -4380,7 +4381,9 @@ module.exports = {
       level_access_status_blurb: "When you choose to skip a level, it will have both the 'locked' and 'optional' status. Unskipping the level will remove both the 'locked' and 'optional' statuses.",
       reset_progress: 'Reset Progress',
       export_progress: 'Export Progress',
-      assessments_tab: 'Assessments'
+      assessments_tab: 'Assessments',
+      switch_on: 'On',
+      switch_off: 'Off'
     },
 
     outcomes: {

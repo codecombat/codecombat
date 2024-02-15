@@ -14,7 +14,7 @@
         type="radio"
         name="options"
         autocomplete="off"
-      > On
+      > {{ $t('teacher_dashboard.switch_on') }}
     </label>
     <label
       class="btn btn-primary"
@@ -26,13 +26,13 @@
         type="radio"
         name="options"
         autocomplete="off"
-      > Off
+      > {{ $t('teacher_dashboard.switch_off') }}
     </label>
   </div>
 </template>
 
 <script>
-export default {
+export default Vue.extend({
   name: 'DashboardToggle',
   computed: {
     isOldDashboard () {
@@ -51,11 +51,12 @@ export default {
   },
   methods: {
     setLocalStorage (newValue) {
+      // todo: can we add me.id to key so that for admins it's easier
       localStorage.setItem('newDT', newValue ? 'true' : 'false')
       window.location.reload()
     }
   }
-}
+})
 </script>
 <style scoped lang="scss">
 #dashboard-toggle {
