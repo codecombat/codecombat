@@ -5158,7 +5158,8 @@ module.exports = {
       solutions_7_text: 'Join our mission to make coding accessible and engaging for all by becoming a valued partner. Our flexible partnership structures include educational businesses, esports sponsors, international distributors, and social impact organizations. Partners receive access to our easy-to-use programs, implementation resources, and training options for a successful and enjoyable experience.',
       solutions_8_title: 'Library Solutions',
       solutions_8_text: 'As an entirely self-paced and self-directed digital resource, CodeCombat is the best integration for libraries that want to empower their members of all ages to learn how to code. Our platform offers everything learners need to experience a high-level coding education through a uniquely exciting, game-based curriculum. Perfect for beginners all the way up to those who want to master college-level coding concepts.',
-      learn_more_text: 'Learn More'
+      learn_more_text: 'Learn More',
+      best_homeschool_curriculum: 'Best Homeschool\nCurriculum'
     },
     schools_page: {
       most_effective_computer_science_solution: 'The most effective computer science solution for **schools**',
