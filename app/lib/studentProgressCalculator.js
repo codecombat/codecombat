@@ -1,10 +1,6 @@
 const helper = require('lib/coursesHelper')
 const utils = require('core/utils')
 
-function __guard__ (value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
-}
-
 if (window.saveAs == null) { window.saveAs = require('file-saver/FileSaver.js') } // `window.` is necessary for spec to spy on it
 if (window.saveAs.saveAs) { window.saveAs = window.saveAs.saveAs } // Module format changed with webpack?
 
@@ -32,7 +28,7 @@ module.exports = {
     let csvContent = `Name,Username,Email,Total Levels,Total Playtime(humanize), Total Playtime(seconds),${courseLabels}Concepts\n`
     const levelCourseIdMap = {}
     const levelPracticeMap = {}
-    const language = __guard__(classroom.get('aceConfig'), x => x.language)
+    const language = classroom.get('aceConfig')?.language
     for (trimCourse of Array.from(classroom.getSortedCourses())) {
       for (trimLevel of Array.from(trimCourse.levels)) {
         if (language && (trimLevel.primerLanguage === language)) { continue }
@@ -68,13 +64,13 @@ module.exports = {
       let playtime = 0
       for (const session of Array.from(classroom.sessions.models)) {
         if (session.get('creator') !== student.id) { continue }
-        if (!__guard__(session.get('state'), x1 => x1.complete)) { continue }
-        if (levelPracticeMap[__guard__(session.get('level'), x2 => x2.original)]) { continue }
-        level = levels.findWhere({ original: __guard__(session.get('level'), x3 => x3.original) })
+        if (!session.get('state')?.complete) { continue }
+        if (levelPracticeMap[session.get('level').original]) { continue }
+        level = levels.findWhere({ original: session.get('level').original })
         if (level != null ? level.get('assessment') : undefined) { continue }
         levelsCount++
         playtime += session.get('playtime') || 0
-        courseID = levelCourseIdMap[__guard__(session.get('level'), x4 => x4.original)]
+        courseID = levelCourseIdMap[session.get('level').original]
         if (courseID) {
           if (courseCountsMap[courseID] == null) { courseCountsMap[courseID] = { levels: 0, playtime: 0 } }
           courseCountsMap[courseID].levels++
