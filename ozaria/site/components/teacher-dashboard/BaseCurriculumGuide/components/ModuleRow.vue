@@ -13,7 +13,6 @@ export default {
       type: String,
       required: true,
       validator: value => {
-        console.log('value', value)
         return ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev', 'ladder', 'challenge'].indexOf(value) !== -1
       }
     },

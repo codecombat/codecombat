@@ -106,8 +106,6 @@ export default {
     },
     levelGoals () {
       const goals = []
-      console.log('this.capstoneLevel', this.capstoneLevel?.goals)
-      console.log('this.capstoneLevel.additionalGoals', this.capstoneLevel?.additionalGoals)
       if (this.capstoneLevel.goals) {
         goals.push(this.capstoneLevel.goals)
       }

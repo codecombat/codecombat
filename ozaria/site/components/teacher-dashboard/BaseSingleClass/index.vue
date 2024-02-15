@@ -72,7 +72,6 @@ export default {
 
     modules () {
       const selectedCourseId = this.selectedCourseId
-      console.log('gameContent module?', selectedCourseId)
       const modules = (this.gameContent[selectedCourseId] || {}).modules
       if (modules === undefined) {
         return []
