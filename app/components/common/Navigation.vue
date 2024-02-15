@@ -183,7 +183,6 @@ export default Vue.extend({
             .nav-spacer
             ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
               li
-                DashboardToggle
               template(v-if="me.showChinaResourceInfo()")
                 li
                   a.text-p(href="https://blog.koudashijie.com") {{ $t('nav.blog') }}

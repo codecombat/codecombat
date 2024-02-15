@@ -32,14 +32,15 @@
 </template>
 
 <script>
+import utils from 'core/utils'
 export default Vue.extend({
   name: 'DashboardToggle',
   computed: {
     isOldDashboard () {
-      return localStorage.getItem('newDT') !== 'true'
+      return localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true'
     },
     isNewDashboard () {
-      return localStorage.getItem('newDT') === 'true'
+      return localStorage.getItem(utils.getNewDashboardToggleKey()) === 'true'
     }
   },
   mounted () {
@@ -52,7 +53,7 @@ export default Vue.extend({
   methods: {
     setLocalStorage (newValue) {
       // todo: can we add me.id to key so that for admins it's easier
-      localStorage.setItem('newDT', newValue ? 'true' : 'false')
+      localStorage.setItem(utils.getNewDashboardToggleKey(), newValue ? 'true' : 'false')
       window.location.reload()
     }
   }
