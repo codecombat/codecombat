@@ -2031,6 +2031,14 @@ const allowedLanguages= ({
   [CODECOMBAT]: ['javascript', 'python', 'java', 'cpp']
 })[product]
 
+const getModuleNumberForLevelName = function (courseId, levelName) {
+  const moduleNumberByLevelName = Object.entries(courseModuleLevels[courseId]).reduce((acc, [k, v]) => {
+    v.forEach(l => acc[l] = k)
+    return acc
+  }, {})
+  return moduleNumberByLevelName[levelName] && Number(moduleNumberByLevelName[levelName])
+}
+
 module.exports = {
   activeAndPastArenas,
   activeArenas,
@@ -2080,6 +2088,7 @@ module.exports = {
   getCourseBundlePrice,
   getCoursePraise,
   getDocumentSearchString,
+  getModuleNumberForLevelName,
   getPrepaidCodeAmount,
   getProduct,
   getProductName,
