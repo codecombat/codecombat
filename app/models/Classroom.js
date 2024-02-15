@@ -318,6 +318,7 @@ module.exports = (Classroom = (function () {
         linesOfCode,
         courseComplete
       }
+      console.log('stats', stats)
       return stats
     }
 

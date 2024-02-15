@@ -60,7 +60,7 @@ const globalVar = require('core/globalVar')
 const paymentUtils = require('app/lib/paymentUtils')
 const userUtils = require('lib/user-utils')
 const AILeaguePromotionModal = require('views/core/AILeaguePromotionModal')
-
+const HackstackPromotionModalView = require('views/ai/HackstackPromotionModalView').default
 require('lib/game-libraries')
 
 class LevelSessionsCollection extends CocoCollection {
@@ -101,6 +101,7 @@ module.exports = (CampaignView = (function () {
         'click #anon-classroom-signup-btn': 'onClickAnonClassroomSignup',
         'click .roblox-level': 'onRobloxLevelClick',
         'click .hackstack-level': 'onHackStackLevelClick',
+        'click .hackstack-menu-icon': 'onHackStackLevelClick',
         'click .map-background': 'onClickMap',
         'click .level': 'onClickLevel',
         'dblclick .level': 'onDoubleClickLevel',
@@ -662,11 +663,9 @@ module.exports = (CampaignView = (function () {
     }
 
     onHackStackLevelClick (e) {
-      if (window.tracker != null) {
-        window.tracker.trackEvent('HackStack Explored', { engageAction: 'campaign_level_click' })
-      }
+      window.tracker?.trackEvent('HackStack Explored', { engageAction: 'campaign_level_click' })
       // Backbone.Mediator.publish 'router:navigate', route: '/ai/new_project'
-      return window.open('/ai/new_project', '_blank')
+      this.openModalView(new HackstackPromotionModalView())
     }
 
     setCampaign (campaign) {
@@ -928,9 +927,14 @@ module.exports = (CampaignView = (function () {
       if ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') { return console.log('Game dev HoC does not encourage subscribing.') }
       if (me.isStudent()) { return console.log("Students shouldn't be prompted to subscribe") }
       this.endHighlight()
+      const trackProperties = { category: 'Subscription', label, level: slug, levelID: slug }
+      if (me.isParentHome()) {
+        this.handleParentAccountPremiumPurchase({ trackProperties })
+        return
+      }
       this.openModalView(new SubscribeModal())
       // TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
-      window.tracker?.trackEvent('Show subscription modal', { category: 'Subscription', label, level: slug, levelID: slug })
+      window.tracker?.trackEvent('Show subscription modal', trackProperties)
       this.openModalView(new AILeaguePromotionModal(), true)
     }
 
@@ -1764,8 +1768,29 @@ ${problem.category} - ${problem.score} points\
     }
 
     onClickPremiumButton (e) {
-      this.openModalView(new SubscribeModal())
-      return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'campaignview premium button' }) : undefined)
+      const trackProperties = { category: 'Subscription', label: 'campaignview premium button' }
+      if (me.isParentHome()) {
+        this.handleParentAccountPremiumPurchase({ trackProperties })
+      } else {
+        this.openModalView(new SubscribeModal())
+        window.tracker?.trackEvent('Show subscription modal', trackProperties)
+      }
+    }
+
+    handleParentAccountPremiumPurchase ({ trackProperties }) {
+      const showModalAndTrack = () => {
+        this.openModalView(new SubscribeModal())
+        window.tracker?.trackEvent('Show subscription modal', trackProperties)
+      }
+
+      if (userUtils.hasSeenParentBuyingforSelfPrompt()) {
+        showModalAndTrack()
+      } else {
+        if (window.confirm($.i18n.t('subscribe.sure_buy_as_parent'))) {
+          showModalAndTrack()
+        }
+        userUtils.markParentBuyingForSelfPromptSeen()
+      }
     }
 
     onClickM7OffButton (e) {
@@ -2080,6 +2105,10 @@ ${problem.category} - ${problem.score} points\
         return userUtils.libraryName() === 'surrey-library'
       }
 
+      if (what === 'okanagan-library-logo') {
+        return userUtils.libraryName() === 'okanagan-library'
+      }
+
       if (what === 'league-arena') {
         // Note: Currently the tooltips don't work in the campaignView overworld.
         return !me.isAnonymous() && (this.campaign != null ? this.campaign.get('slug') : undefined) && !this.editorMode && !userUtils.isCreatedViaLibrary()
@@ -2090,7 +2119,7 @@ ${problem.category} - ${problem.score} points\
       }
 
       if (what === 'hackstack') {
-        return ((typeof me.getHackStackExperimentValue === 'function' ? me.getHackStackExperimentValue() : undefined) !== 'beta') && !userUtils.isCreatedViaLibrary()
+        return me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary()
       }
 
       return true

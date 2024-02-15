@@ -7,6 +7,7 @@ import { putSession } from 'ozaria/site/api/interactive'
 import BaseInteractiveLayout from '../common/BaseInteractiveLayout'
 import { getOzariaAssetUrl } from '../../../../common/ozariaUtils'
 import { deterministicShuffleForUserAndDay } from '../../../../common/utils'
+import { translateJS } from '../../../../../../app/lib/translate-utils'
 
 import BaseButton from '../../../common/BaseButton'
 import ModalInteractive from '../common/ModalInteractive.vue'
@@ -17,6 +18,7 @@ import 'codemirror/mode/python/python'
 import 'codemirror/lib/codemirror.css'
 
 export default {
+  name: 'InsertCodeIndex',
   components: {
     codemirror,
     BaseInteractiveLayout,
@@ -44,18 +46,25 @@ export default {
     codeLanguage: {
       type: String,
       required: true
+    },
+
+    interactiveLanguage: {
+      type: String,
+      default: ''
     }
   },
 
   data () {
     const language = this.codeLanguage.toLowerCase()
-    if (language !== 'python' && language !== 'javascript') {
+    let starterCode = this.localizedInteractiveConfig.starterCode
+    if (language === 'cpp' && this.interactiveLanguage.toLowerCase() === 'javascript') {
+      starterCode = translateJS(starterCode)
+    } else if (language !== 'python' && language !== 'javascript') {
       // TODO handle_error_ozaria - this can crash with invalid input.
       throw new Error('Unexpected language type')
     }
 
-    const splitSampleCode = this.localizedInteractiveConfig
-      .starterCode
+    const splitSampleCode = starterCode
       .trim()
       .split('\n')
 
@@ -64,7 +73,15 @@ export default {
       defaultImage = getOzariaAssetUrl(this.interactive.defaultArtAsset)
     }
 
-    const choices = this.localizedInteractiveConfig.choices || []
+    let choices = this.localizedInteractiveConfig.choices || []
+    if (language === 'cpp' && this.interactiveLanguage.toLowerCase() === 'javascript') {
+      choices = choices.map(choice => {
+        return {
+          ...choice,
+          text: translateJS(choice.text, 'cpp', false)
+        }
+      })
+    }
 
     return {
       showModal: false,
@@ -128,7 +145,11 @@ export default {
     },
 
     code () {
-      const arrayIndexToReplace = this.localizedInteractiveConfig.lineToReplace - 1
+      let delta = 1
+      if (this.codeLanguage.toLowerCase() === 'cpp' && this.interactiveLanguage.toLowerCase() === 'javascript') {
+        delta = 0
+      }
+      const arrayIndexToReplace = this.localizedInteractiveConfig.lineToReplace - delta
       let finalCode = this.splitSampleCode
       if (this.questionAnswered) {
         finalCode = finalCode.map((v, i) => {
@@ -238,7 +259,11 @@ export default {
         return
       }
 
-      const lineToReplace = this.localizedInteractiveConfig.lineToReplace - 1
+      let delta = 1
+      if (this.codeLanguage.toLowerCase() === 'cpp' && this.interactiveLanguage.toLowerCase() === 'javascript') {
+        delta = 0
+      }
+      const lineToReplace = this.localizedInteractiveConfig.lineToReplace - delta
 
       if (this.questionAnswered) {
         this.codemirror.addLineClass(lineToReplace, 'background', 'highlight-line-answered')

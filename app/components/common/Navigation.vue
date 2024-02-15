@@ -281,6 +281,8 @@ export default Vue.extend({
                     a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                   li
                     a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
+                  li(v-if="isCodeCombat && (me.isAdmin() || me.isTeacher() || me.isParentHome() || me.isRegisteredHomeUser())")
+                    a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
                     a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")
                       span.caret(v-if="this.announcements.length")
@@ -291,8 +293,6 @@ export default Vue.extend({
                     a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                   li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
                     a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
-                  li(v-if="isCodeCombat && (me.isAdmin() || (me.get('emailVerified') && (me.isTeacher() || me.isParentHome() || (!me.get('role') && !me.isAnonymous()))))")
-                    a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li(v-if="me.isAPIClient()")
                     a.account-dropdown-item(href="/partner-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                   li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")

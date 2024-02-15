@@ -262,5 +262,7 @@ module.exports = {
     { code: { type: 'string' } }),
 
   'level:close-solution': c.object({},
-    { removeButton: { type: 'boolean' } })
+    { removeButton: { type: 'boolean' } }),
+
+  'level:click-ai-hint': c.object({})
 }

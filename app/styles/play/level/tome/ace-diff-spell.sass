@@ -12,7 +12,8 @@ $charDiffBackgroundRight: rgba(0, 92, 175, 0.4)
 @import '../../../common/ace-diff.sass'
 
 .acediff__gutter
-  margin-top: 10px
+  @if $is-codecombat
+    margin-top: 10px
   background-color: transparent
   border: none
 

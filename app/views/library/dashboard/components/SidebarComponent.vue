@@ -68,6 +68,27 @@ export default {
 <style scoped lang="scss">
 @import "../css-mixins/variables";
 
+@media print {
+  .sidebar {
+    width: 1024px !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    padding-bottom: 0 !important;
+
+    &__licenses__number {
+      font-size: 2.5rem !important;
+      text-align: center !important;
+    }
+    &__renewal__date {
+      font-size: 2.5rem !important;
+    }
+
+    & > div {
+      margin-bottom: 1rem !important;
+    }
+  }
+}
+
 .sidebar {
   grid-column: sidebar-start / sidebar-end;
 
@@ -87,7 +108,8 @@ export default {
     &::after {
       content: "";
       height: 1px;
-      background: $color-yellow-1;
+      background: $color-yellow-1 !important;
+      -webkit-print-color-adjust: exact !important;
       display: block;
       width: 100%;
       margin-top: 1rem;
@@ -106,11 +128,13 @@ export default {
 
   &__subtext {
     font-size: 1rem;
-    color: $color-dark-grey-1;
+    color: $color-dark-grey-1 !important;
+    -webkit-print-color-adjust: exact !important;
   }
 
   &__value {
-    color: $color-blue-2;
+    color: $color-blue-2 !important;
+    -webkit-print-color-adjust: exact !important;
     font-family: Space Mono, sans-serif;
     font-size: 3.5rem;
     font-style: normal;

@@ -39,7 +39,7 @@ export default Vue.extend({
       newLiveCompletion: true,
       newClassroomItems: true,
       newBlocks: 'hidden',
-      newLevelChat: 'none',
+      newLevelChat: false,
       newClassroomDescription: '',
       newAverageStudentExp: '',
       newClassroomType: '',
@@ -119,7 +119,7 @@ export default Vue.extend({
       return ((this.classroom || {}).aceConfig || {}).blocks || 'hidden'
     },
     levelChat () {
-      return _.assign({ levelChat: 'none' }, (this.classroom || {}).aceConfig).levelChat
+      return _.assign({ levelChat: false }, (this.classroom || {}).aceConfig).levelChat
     },
     classroomDescription () {
       return (this.classroom || {}).description
@@ -218,12 +218,11 @@ export default Vue.extend({
       const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
       if (this.newProgrammingLanguage && this.newProgrammingLanguage !== this.language) {
         aceConfig.language = this.newProgrammingLanguage
-        updates.aceConfig = aceConfig
       }
       if (this.newLiveCompletion !== this.liveCompletion) {
         aceConfig.liveCompletion = this.newLiveCompletion
-        updates.aceConfig = aceConfig
       }
+
       if (this.newClassroomItems !== this.classroomItems) {
         updates.classroomItems = this.newClassroomItems
       }
@@ -233,7 +232,6 @@ export default Vue.extend({
       }
       if (this.newLevelChat !== this.levelChat) {
         aceConfig.levelChat = this.newLevelChat
-        updates.aceConfig = aceConfig
       }
       if (this.newClassroomDescription !== this.classroomDescription) {
         updates.description = this.newClassroomDescription
@@ -261,6 +259,8 @@ export default Vue.extend({
         updates.googleClassroomId = this.googleClassId
         updates.name = this.googleClassrooms.find((c) => c.id === this.googleClassId).name
       }
+
+      updates.aceConfig = aceConfig
 
       if (_.size(updates)) {
         if (this.classroomInstance.isNew()) {
@@ -713,6 +713,23 @@ export default Vue.extend({
             >
               {{ $t("form_validation_errors.required") }}
             </span>
+          </div>
+        </div>
+        <div
+          class="form-group row levelChat"
+          style="width: 100%"
+        >
+          <div class="col-xs-12">
+            <span class="control-label"> {{ $t('teachers.classroom_level_chat') }}</span>
+            <input
+              id="levelChat"
+              v-model="newLevelChat"
+              type="checkbox"
+            >
+            <span
+              class="control-label-desc"
+              style="width: 100%"
+            >{{ $t("teachers.classroom_level_chat_blurb") }}</span>
           </div>
         </div>
         <div class="form-group row buttons">

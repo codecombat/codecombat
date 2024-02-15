@@ -214,6 +214,7 @@ export default {
   &__item {
     padding: 1rem;
     background: $color-white;
+    page-break-inside: avoid;
 
     border-radius: 1.4rem;
     border: 1px solid $color-grey-2;
@@ -246,6 +247,13 @@ export default {
     top: 40%;
     left: 40%;
     font-size: 3rem;
+  }
+}
+@media print {
+  .graphs {
+    grid-template-columns: 1fr;
+    grid-row-gap: 1rem;
+    width: 1024px !important;
   }
 }
 </style>

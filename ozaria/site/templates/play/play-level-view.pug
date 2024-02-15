@@ -7,6 +7,13 @@ include game-dev-goals
 
     #fullscreen-editor-background-screen(title="Click to minimize the code editor")
 
+    #solution-area
+      #solution-view
+        .ace-solution
+        span.code-background
+        .solution-label(data-i18n="common.solution")
+        .close-solution-btn ×
+
     #code-area
       #goals-view
       #tome-view
@@ -61,6 +68,7 @@ include game-dev-goals
       else
         .panel-body!= view.howToPlayText
 
+    #level-chat-view
   //- #level-footer-shadow
 
   #screen-reader-live-updates.sr-only(aria-live="polite")
