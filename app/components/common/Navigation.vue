@@ -13,8 +13,6 @@ import AnnouncementModal from '../../views/announcement/announcementModal'
 import AnnouncementNav from '../../views/announcement/AnnouncementNav'
 import { mapActions, mapGetters } from 'vuex'
 
-import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle.vue'
-
 /**
  * Unified navigation bar component between CodeCombat and Ozaria.
  */
@@ -137,8 +135,7 @@ export default Vue.extend({
   },
   components: {
     AnnouncementModal,
-    AnnouncementNav,
-    DashboardToggle
+    AnnouncementNav
   }
 })
 </script>
