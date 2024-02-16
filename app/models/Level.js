@@ -508,7 +508,7 @@ module.exports = (Level = (function () {
       if (this.get('product', true) === 'codecombat-junior') { return false }
       if (this.isType('course') && !me.showHeroAndInventoryModalsToStudents()) { return false }
       if (this.isType('course') && this.isAssessment()) { return false }
-      if (this.get('assessment') === 'open-ended') { return false }
+      if (this.get('assessment')) { return false }
       if (!this.isType('course', 'hero', 'hero-ladder', 'hero-coop')) { return false }
       if (this.usesLevelHeroLadderEquipment()) { return false }
       return true

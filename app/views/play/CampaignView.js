@@ -1437,7 +1437,7 @@ ${problem.category} - ${problem.score} points\
 
       // If classroomItems is on, don't go to PlayLevelView directly.
       // Go through LevelSetupManager which will load required modals before going to PlayLevelView.
-      if (me.showHeroAndInventoryModalsToStudents() && (!classroomLevel || !classroomLevel.usesSessionHeroInventory())) {
+      if (me.showHeroAndInventoryModalsToStudents() && (!classroomLevel || classroomLevel.usesSessionHeroInventory())) {
         this.startLevel(levelElement, courseID, courseInstanceID)
         return (window.tracker != null ? window.tracker.trackEvent('Clicked Start Level', { category: 'World Map', levelID: levelSlug }) : undefined)
       } else {
@@ -1447,21 +1447,15 @@ ${problem.category} - ${problem.score} points\
     }
 
     startLevel (levelElement, courseID = null, courseInstanceID = null) {
-      let options
       if (this.setupManager != null) {
         this.setupManager.destroy()
       }
       const levelSlug = levelElement.data('level-slug')
       const levelOriginal = levelElement.data('level-original')
-      const classroomLevel = this.classroomLevelMap != null ? this.classroomLevelMap[levelOriginal] : undefined
-      if (me.showHeroAndInventoryModalsToStudents() && !(classroomLevel || !classroomLevel.usesSessionHeroInventory())) {
-        const codeLanguage = __guard__(this.classroomLevelMap != null ? this.classroomLevelMap[levelOriginal] : undefined, x => x.get('primerLanguage')) || __guard__(this.classroom != null ? this.classroom.get('aceConfig') : undefined, x1 => x1.language)
-        options = { supermodel: this.supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: this.hadEverChosenHero, parent: this, courseID, courseInstanceID, codeLanguage }
-      } else {
-        let session
-        if ((this.preloadedSession != null ? this.preloadedSession.loaded : undefined) && (this.preloadedSession.levelSlug === levelSlug)) { session = this.preloadedSession }
-        options = { supermodel: this.supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: this.hadEverChosenHero, parent: this, session }
-      }
+      const classroomLevel = this.classroomLevelMap ? this.classroomLevelMap[levelOriginal] : undefined
+      const session = this.preloadedSession?.loaded && this.preloadedSession.levelSlug === levelSlug ? this.preloadedSession : null
+      const codeLanguage = classroomLevel?.get('primerLanguage') || this.classroom?.get('aceConfig')?.language || session?.get('codeLanguage')
+      const options = { supermodel: this.supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: this.hadEverChosenHero, parent: this, session, courseID, courseInstanceID, codeLanguage }
       this.setupManager = new LevelSetupManager(options)
       if (!(this.setupManager != null ? this.setupManager.navigatingToPlay : undefined)) {
         if (this.$levelInfo != null) {
@@ -1703,7 +1697,6 @@ ${problem.category} - ${problem.score} points\
     }
 
     loadPoll (url, forceShowPoll) {
-      if (forceShowPoll == null) { forceShowPoll = false }
       if (url == null) { url = `/db/poll/${this.userPollsRecord.id}/next` }
       let tempLoadingPoll = new Poll().setURL(url)
       const onPollSync = function () {
@@ -1730,8 +1723,8 @@ ${problem.category} - ${problem.score} points\
     }
 
     activatePoll (forceShowPoll) {
-      if (forceShowPoll == null) { forceShowPoll = false }
       if (this.shouldShow('promotion')) { return }
+      if (!this.poll) { return }
       const pollTitle = utils.i18n(this.poll.attributes, 'name')
       const $pollButton = this.$el.find('button.poll').removeClass('hidden').addClass('highlighted').attr({ title: pollTitle }).addClass('has-tooltip').tooltip({ title: pollTitle })
       if ((me.get('lastLevel') === 'shadow-guard') || forceShowPoll) {
