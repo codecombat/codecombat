@@ -574,7 +574,7 @@ module.exports = class SpellView extends CocoView
         console.error 'Error preparing Blockly code to blocks conversion:', err
         return
     aceSource = @ace.getValue()
-    return if not aceSource? or aceSource is blocklySource
+    return if aceSource and aceSource is blocklySource
     try
       newBlocklyState = codeToBlocks { code: @ace.getValue(), originalCode: @spell.originalSource, codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
     catch err
@@ -957,7 +957,7 @@ module.exports = class SpellView extends CocoView
     # Determine how wide the workspace and toolbox can/should be
     currentScale = @blockly.getScale()
     desiredToolboxWidth = @$el.find('.blocklyFlyout').width() / currentScale
-    desiredWorkspaceWidth = @blockly.getBlocksBoundingBox().getWidth() + 40
+    desiredWorkspaceWidth = Math.max desiredToolboxWidth + 30, @blockly.getBlocksBoundingBox().getWidth() + 40
 
     # TODO: DRY from PlayLevelView
     tomePosition = if $('#tome-view').offset()?.top > 100 then 'bottom' else 'right'

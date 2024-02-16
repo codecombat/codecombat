@@ -683,7 +683,7 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
       Blockly.serialization.blocks.append(defn, workspace)
       // const state = Blockly.serialization.workspaces.save(workspace) // I don't think we need this
       let blocklySource = javascriptGenerator.workspaceToCode(workspace)
-      if (blocklySource === '☃\n') {
+      if (['☃\n', "Couldn't read code.\n"].includes(blocklySource)) {
         // Parser chokes on this whitespace trimming avoidance hack; ignore it here.
         blocklySource = ''
       }

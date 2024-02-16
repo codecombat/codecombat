@@ -1401,7 +1401,7 @@ const freeAccessLevels = [
   { access: 'short', slug: 'gems-first' },
   { access: 'short', slug: 'steps' },
   { access: 'short', slug: 'long-hall' },
-  { access: 'short', slug: 'big-gem-squares' },
+  { access: 'short', slug: 'big-gem-square' },
   { access: 'short', slug: 'snake-maze' },
   { access: 'short', slug: 'one-block' },
   { access: 'short', slug: 'knock-knock' },
