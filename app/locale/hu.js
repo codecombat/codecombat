@@ -299,7 +299,7 @@ module.exports = {
       //    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students.",
       //    ozaria_china_blurb: "",
       try_codecombat: 'Próbáld ki a CodeCombatot',
-      try_ozaria: 'Próbáld ki az Ozariat'
+      try_ozaria: 'Próbáld ki az Ozariat',
       //    explore_codecombat: "Explore CodeCombat",
       //    explore_ai_league: "Explore AI League",
       //    explore_ozaria: "Explore Ozaria",
@@ -394,7 +394,7 @@ module.exports = {
       resource_hub: 'Segédanyag központ',
       apcsp: 'Számítógép-tudományi alapelvek',
       parent: 'Szülők',
-      faq: 'GYIK'
+      faq: 'GYIK',
       //    return_coco: "Return to CodeCombat",
       //    classes: "Classes",
       //    term_of_service: "Terms of Service",
@@ -432,11 +432,11 @@ module.exports = {
       close: 'Bezár',
       okay: 'Oké',
       cancel: 'Mégsem',
-      try_again: 'Próbáld újra'
+      try_again: 'Próbáld újra',
     },
 
     not_found: {
-      page_not_found: 'Az oldal nem található'
+      page_not_found: 'Az oldal nem található',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'Az oldalt angol nyelven fejlesztettük, de máris rengeteg játékosunk van szerte a világban. Nagyon sokan szeretnének közülük magyarul játszani, de nem beszélnek angolul. Ha te beszélsz angolul is, magyarul is, kérlek jelentkezz Diplomatának, s segíts lefordítani mind a honlapot, mind a pályákat magyarra.',
       missing_translations: 'Addig, amíg nincs minden lefordítva magyarra, angol szöveget fogsz látni ott, ahol még nincs fordítás.',
       learn_more: 'Tudj meg többet a Diplomatákról!',
-      subscribe_as_diplomat: 'Jelentkezz Diplomatának'
+      subscribe_as_diplomat: 'Jelentkezz Diplomatának',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Jelentkezz mint Kalandor',
       awaiting_levels_adventurer_suffix: 'legyél az első aki új pályákon játszik.',
       adjust_volume: 'Hangerő beállítása',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Multiplayer Arénák',
       campaign_multiplayer_description: '... amelyekben a kódod felveheti a versenyt más játékosok kódjával',
       brain_pop_done: 'Legyőzted az Ogrékat a programkódoddal! Győztél!',
@@ -546,7 +547,7 @@ module.exports = {
       //    teacher_vega_message: "Students are guided by these tutorial messages. In order to view these messages and to save your progress as you play through the game, please create a student account and play Ozaria as a student.",
       beta_levels_on: 'béta pályák be',
       beta_levels_turn_off: 'kikapcsolás',
-      confirm_m7_off: 'Biztos ki akarod kapcsolni a béta pályákat?'
+      confirm_m7_off: 'Biztos ki akarod kapcsolni a béta pályákat?',
     },
 
     code: {
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'meghatározatlan',
       null: 'üres',
       nil: 'üres',
-      None: 'Semmi'
+      None: 'Semmi',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Írd be valamelyik szülőd e-mail-címét, és mi megmutatjuk neki!',
       form_label: 'E-mail-cím',
       placeholder: 'e-mail-cím',
-      title: 'Szép munka, Tanítvány'
+      title: 'Szép munka, Tanítvány',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: 'Befejezés',
       sign_in_with_facebook: 'Jelentkezz be Facebook-kal',
       sign_in_with_gplus: 'Jelentkezz be G+-szal',
-      signup_switch: 'Hozz létre egy fiókot!'
+      signup_switch: 'Hozz létre egy fiókot!',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -703,7 +704,7 @@ module.exports = {
       sso_connected: 'Sikeresen kapcsolódtál:',
       select_your_starting_hero: 'Válaszd ki azt a hőst, amelyikkel el szeretnéd kezdeni a játékot:',
       you_can_always_change_your_hero_later: 'A kiválasztott hőst a későbbiekben bármikor lecserélheted.',
-      finish: 'Befejezés'
+      finish: 'Befejezés',
       //    teacher_ready_to_create_class: "You're ready to create your first class!",
       //    teacher_students_can_start_now_coco: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately.",
       //    teacher_students_can_start_now_ozar: "Your students will be able to start playing the first unit, Chapter 1: Up The Mountain, immediately.",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Meglévő fiók visszaállítása',
       send_password: 'Küldj Új Jelszót',
-      recovery_sent: 'Új jelszó elküldve.'
+      recovery_sent: 'Új jelszó elküldve.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Vért',
       accessories: 'Kiegészítők',
       misc: 'Egyveleg',
-      books: 'Könyvek'
+      books: 'Könyvek',
     },
 
     common: {
@@ -811,7 +812,7 @@ module.exports = {
       locked: 'Zárolva',
       internal_error: 'Belső hiba',
       manage: 'Kezelés',
-      empty_results: 'Nincs eredmény.'
+      empty_results: 'Nincs eredmény.',
     },
 
     general: {
@@ -882,7 +883,7 @@ module.exports = {
       email_us: 'Küldj nekünk e-mailt',
       sales: 'Értékesítés',
       support: 'Támogatás',
-      here: 'itt'
+      here: 'itt',
       //    from: "From",
     },
 
@@ -901,7 +902,7 @@ module.exports = {
       month: 'hónap',
       months: 'hónap',
       year: 'év',
-      years: 'év'
+      years: 'év',
     },
 
     play_level: {
@@ -1125,7 +1126,7 @@ module.exports = {
       level_type_challenge: 'Kihívás',
       level_type_cutscene: 'Vágójelenet',
       //    level_type_capstone: "Capstone",
-      level_type_intro: 'Bevezető'
+      level_type_intro: 'Bevezető',
       //    level_type_practice_level: "Practice Level",
       //    level_type_challenge_level: "Challenge Level",
       //    level_type_cutscene_level: "Cutscene Level",
@@ -1161,7 +1162,7 @@ module.exports = {
       jquery: 'jQuery',
       json: 'JSON',
       number: 'Number',
-      webjavascript: 'JavaScript'
+      webjavascript: 'JavaScript',
     },
 
     //  amazon_hoc: {
@@ -1179,7 +1180,7 @@ module.exports = {
     live_class: {
       title: 'Köszönjük!',
       content: 'Elképesztő! Épp most indítottunk egy élő online órát.',
-      link: 'Készen állsz arra, hogy előrébb juss a kódolásban?'
+      link: 'Készen állsz arra, hogy előrébb juss a kódolásban?',
     },
 
     //  code_quest: {
@@ -1205,13 +1206,14 @@ module.exports = {
       goal_defeat_amount: 'Győzz le __amount__ ellenfelet!',
       goal_move: 'Menj oda minden piros X jelhez!',
       goal_collect: 'Gyűjts össze minden tárgyat!',
-      goal_collect_amount: 'Gyűjts össze __amount__ tárgyat!'
+      goal_collect_amount: 'Gyűjts össze __amount__ tárgyat!',
     },
 
     game_menu: {
       inventory_tab: 'Raktár',
       save_load_tab: 'Ment/Betölt',
       options_tab: 'Beállítások',
+      //    my_code_tab: "My Code",
       guide_tab: 'Vezérfonal',
       guide_video_tutorial: 'Bevezető videó',
       guide_tips: 'Tippek',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Szereld fel a hősöd!',
       choose_hero_caption: 'Válassz hős, nyelvet.',
       options_caption: 'Beállítások módosítása',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Jegyzőkönyv és tippek',
       multiplayer_caption: 'Játssz a barátaiddal!',
-      auth_caption: 'Mentsd el a fejlődésed.'
+      auth_caption: 'Mentsd el a fejlődésed.',
     },
 
     leaderboard: {
@@ -1241,7 +1244,7 @@ module.exports = {
       survival_time: 'Túlélted',
       defeated: 'Ellenfél legyőzve',
       code_length: 'Kód sorainak száma',
-      score_display: '__scoreType__: __score__'
+      score_display: '__scoreType__: __score__',
     },
 
     inventory: {
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: 'Levesz',
       warrior_only: 'Csak harcos',
       ranger_only: 'Csak őr',
-      wizard_only: 'Csak varázsló'
+      wizard_only: 'Csak varázsló',
     },
 
     buy_gems: {
@@ -1274,17 +1277,17 @@ module.exports = {
       price: 'x {{gems}} / hó',
       buy_premium: 'Vegyél Premium tagságot',
       purchase: 'Vásárlás',
-      purchased: 'Megvetted'
+      purchased: 'Megvetted',
     },
 
     subscribe_for_gems: {
       prompt_title: 'Nincs elég drágaköved!',
-      prompt_body: 'Fizess elő a Prémiumra, hogy drágaköveket szerezz és még több pályához hozzáférj!'
+      prompt_body: 'Fizess elő a Prémiumra, hogy drágaköveket szerezz és még több pályához hozzáférj!',
     },
 
     earn_gems: {
       prompt_title: 'Nincs elég drágaköved',
-      prompt_body: 'Játssz tovább, hogy szerezz még!'
+      prompt_body: 'Játssz tovább, hogy szerezz még!',
     },
 
     subscribe: {
@@ -1321,7 +1324,7 @@ module.exports = {
       current_recipients: 'Jelenlegi címzettek',
       unsubscribing: 'Leiratkozás',
       subscribe_prepaid: 'Az előre utalt előfizetési kód használatához kattints az Előfizetés lehetőségre',
-      using_prepaid: 'Előre utalt előfizetési kód használata havi előfizetéshez'
+      using_prepaid: 'Előre utalt előfizetési kód használata havi előfizetéshez',
       //    feature_level_access: "Access 500+ levels available",
       //    feature_heroes: "Unlock exclusive heroes and pets",
       //    feature_learn: "Learn to make games and websites",
@@ -1401,7 +1404,7 @@ module.exports = {
 
     avatar_selection: {
       pick_an_avatar: 'Válassz egy avatárt, ami játékosként téged fog képviselni',
-      select_avatar_title: 'Choose Player Avatar'
+      select_avatar_title: 'Choose Player Avatar',
     },
 
     //  premium_features: {
@@ -1444,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Játék programozó nyelv',
       java_blurb: '(Csak előfizetőknek) Android és vállalati felhasználók.',
       cpp_blurb: '(Csak előfizetőknek) Játékfejlesztés és nagy teljesítményű számítástechnika.',
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Státusz',
       weapons: 'Fegyverek',
       weapons_warrior: 'Kardok - Rövid hatótávolság, mágikus erő nélkül.',
@@ -1467,7 +1479,7 @@ module.exports = {
       speed_2: 'méter / másodperc.',
       available_for_purchase: 'Megvehető',
       level_to_unlock: 'Szükséges pályák:',
-      restricted_to_certain_heroes: 'Csak bizonyos hős játszhatja ezt a pályát.'
+      restricted_to_certain_heroes: 'Csak bizonyos hős játszhatja ezt a pályát.',
     },
 
     char_customization_modal: {
@@ -1475,7 +1487,7 @@ module.exports = {
       body: 'Test',
       name_label: 'Hős neve',
       hair_label: 'Hajszín',
-      skin_label: 'Bőrszín'
+      skin_label: 'Bőrszín',
     },
 
     skill_docs: {
@@ -1507,12 +1519,12 @@ module.exports = {
       returns: 'Visszatérés',
       granted_by: 'Megkapva',
       still_undocumented: 'Még mindig nem dokumentált, sajnálom.',
-      description_coming_soon: 'Leírás hamarosan'
+      description_coming_soon: 'Leírás hamarosan',
     },
 
     save_load: {
       granularity_saved_games: 'Mentve',
-      granularity_change_history: 'Történet'
+      granularity_change_history: 'Történet',
     },
 
     options: {
@@ -1529,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Bekezdés segítő',
       editor_config_indentguides_description: 'Vízszintes vonalak megjelenítése a jobb áttekinthetőség érdekében.',
       editor_config_behaviors_label: 'Okos viselkedés',
-      editor_config_behaviors_description: 'Automata zárójel és idézet befejezés.'
+      editor_config_behaviors_description: 'Automata zárójel és idézet befejezés.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1659,11 +1671,11 @@ module.exports = {
       character_art: 'Karakterek',
       download_all: 'Összes letöltése',
       previous: 'Előző',
-      location_title: 'Az irodánkat San Francisco szívében találod:'
+      location_title: 'Az irodánkat San Francisco szívében találod:',
     },
 
     teachers: {
-      licenses_needed: 'Licensz szükséges'
+      licenses_needed: 'Licensz szükséges',
       //    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO",
       //    select_class: "Select class",
       //    programming_language: "Programming language",
@@ -1690,13 +1702,12 @@ module.exports = {
       //    error_in_importing_students: "Error in importing students",
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-      //    classroom_blocks: "Drag and Drop Blocks (beta)",
-      //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-      //    classroom_blocks_hidden: "Disabled",
-      //    classroom_blocks_opt_in: "Off by default",
-      //    classroom_blocks_opt_out: "On by default",
+      //    code_formats: "Code Formats (beta)",
+      //    code_formats_description: "Which code formats students can choose from.",
+      //    default_code_format: "Default Code Format",
+      //    default_code_format_description: "The code format that students will start with.",
       //    not_allow_to_solution: "# Licenses needed to view solutions",
-      //    classroom_level_chat: "Level Chat with AI",
+      //    classroom_level_chat: "AI Level Hints",
       //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
       //    classroom_level_chat_option_free_form: "Free form",
       //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1847,7 +1858,7 @@ module.exports = {
       create_account_subtitle: 'Férj hozzá az oktatói funkciókhoz, amelyekkel a CodeCombat tanterved szerves részévé válhat.  <strong>Állíts össze osztályokat</strong>, rendeld hozzájuk a diákokat, és <strong>kövesd nyomon a fejlődésüket</strong>!',
       convert_account_title: 'Frissítés oktatói fiókra',
       not: 'Nem',
-      full_name_required: 'Kereszt- és vezetéknév szükséges'
+      full_name_required: 'Kereszt- és vezetéknév szükséges',
     },
 
     versions: {
@@ -1858,7 +1869,7 @@ module.exports = {
       cla_url: 'CLA',
       cla_suffix: 'tartalmát.',
       cla_agree: 'ELFOGADOM',
-      owner_approve: 'Minden tulajdonosnak jóvá kell hagynia, mielőtt a változtatásaid láthatóvá válnak.'
+      owner_approve: 'Minden tulajdonosnak jóvá kell hagynia, mielőtt a változtatásaid láthatóvá válnak.',
     },
 
     contact: {
@@ -1876,7 +1887,7 @@ module.exports = {
       screenshot_included: 'Képernyőkép (screenshot) mellékelve.',
       where_reply: 'Milyen címre válaszoljunk?',
       send: 'Visszajelzés küldése',
-      ooo_blurb: 'A CodeCombat csapata június 5. és június 9. között nem lesz az irodában, és ez idő alatt csak korlátozottan férhet hozzá az e-mailekhez. A lehető leghamarabb válaszolunk megkeresésére, kérjük, vegye figyelembe a várható várakozási időt.'
+      ooo_blurb: 'A CodeCombat csapata június 5. és június 9. között nem lesz az irodában, és ez idő alatt csak korlátozottan férhet hozzá az e-mailekhez. A lehető leghamarabb válaszolunk megkeresésére, kérjük, vegye figyelembe a várható várakozási időt.',
     },
 
     account_settings: {
@@ -1927,7 +1938,7 @@ module.exports = {
       error_saving: 'Hiba a mentés során',
       saved: 'Változtatások elmentve',
       password_mismatch: 'A jelszavak nem egyeznek.',
-      password_repeat: 'Kérlek ismételd meg a jelszavadat'
+      password_repeat: 'Kérlek ismételd meg a jelszavadat',
     },
 
     keyboard_shortcuts: {
@@ -1949,12 +1960,11 @@ module.exports = {
       toggle_grid: 'Rácsos átfedő panel be-/kikapcsolása.',
       toggle_pathfinding: 'Útkeresési átfedő panel be-/kikapcsolása.',
       beautify: 'A kód kicsinosítása és szabványos formátumra hozása.',
-      maximize_editor: 'Maximális/Minimális kód szerkesztő.'
     },
 
     cinematic: {
       click_anywhere_continue: 'Kattints a folytatáshoz',
-      instructional_tooltip: 'Ezekre a nyílgombokra kattintva tudsz előre és hátra lépni. Ugyanezt a billentyűzet nyílbillentyűivel is megteheted.'
+      instructional_tooltip: 'Ezekre a nyílgombokra kattintva tudsz előre és hátra lépni. Ugyanezt a billentyűzet nyílbillentyűivel is megteheted.',
     },
 
     community: {
@@ -1973,7 +1983,7 @@ module.exports = {
       social_facebook: 'Like-old a CodeCombat-et a Facebookon',
       social_twitter: 'Kövesd a CodeCombat-et a Twitteren',
       social_slack: 'Csatlakozz a nyilvános CodeCombat Slack csatornához',
-      contribute_to_the_project: 'Vegyél részt a projektben'
+      contribute_to_the_project: 'Vegyél részt a projektben',
     },
 
     clans: {
@@ -2036,7 +2046,7 @@ module.exports = {
       track_concepts6b: 'Tagok rendezése név vagy fejlődési szintjük szerint',
       track_concepts7: 'A csatlakozáshoz',
       track_concepts8: 'meghívó szükséges',
-      private_require_sub: 'A privát klánok létrehozásához, illetve a hozzájuk történő csatlakozáshoz előfizetés szükséges.'
+      private_require_sub: 'A privát klánok létrehozásához, illetve a hozzájuk történő csatlakozáshoz előfizetés szükséges.',
     },
 
     courses: {
@@ -2216,7 +2226,7 @@ module.exports = {
       select_your_hero: 'Válassz hőst',
       select_your_hero_description: 'Másik hős választásához nyisd meg a „Kurzusok” lapot, majd kattints a „Hős lecserélése” gombra.',
       select_this_hero: 'Kijelölt hős kiválasztása',
-      current_hero: 'Aktuális hős:'
+      current_hero: 'Aktuális hős:',
       //    current_hero_female: "Current Hero:",
       //    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels.",
       //    course_membership_required_to_play: "You'll need to join a course to play this level.",
@@ -2284,7 +2294,7 @@ module.exports = {
     project_gallery: {
       no_projects_published: 'Publikálj elsőként projektet ebben a kurzusban!',
       view_project: 'Projekt megtekintése',
-      edit_project: 'Projekt szerkesztése'
+      edit_project: 'Projekt szerkesztése',
     },
 
     teacher: {
@@ -2453,7 +2463,7 @@ module.exports = {
       status_not_enrolled: 'Nincs beíratva.',
       status_enrolled: 'Lejár: {{date}}',
       //    status_partly_expires: "Partly expires on {{date}}",
-      select_all: 'Összes kiválasztása'
+      select_all: 'Összes kiválasztása',
       //    project: "Project",
       //    projects: "Projects",
       //    project_gallery: "Project Gallery",
@@ -2789,7 +2799,7 @@ module.exports = {
       victory_course_share_game: 'játszhatnak a játékkal',
       victory_course_share_web: 'megnézhetik a weboldalt',
       victory_course_share_suffix: 'amit létrehoztál.',
-      copy_url: 'URL másolása'
+      copy_url: 'URL másolása',
       //    share_with_teacher_email: "Send to your teacher",
       //    share_ladder_link: "Share Multiplayer Link",
       //    ladder_link_title: "Share Your Multiplayer Match Link",
@@ -2797,7 +2807,7 @@ module.exports = {
     },
 
     game_dev: {
-      creator: 'Létrehozta'
+      creator: 'Létrehozta',
     },
 
     web_dev: {
@@ -2813,7 +2823,7 @@ module.exports = {
       how_to_copy_paste: 'A másolás/beillesztés módja',
       copy: 'Másolás',
       paste: 'Beillesztés',
-      back_to_editing: 'Vissza a szerkesztőbe'
+      back_to_editing: 'Vissza a szerkesztőbe',
     },
 
     classes: {
@@ -2835,7 +2845,7 @@ module.exports = {
       ambassador_title: 'Nagykövet',
       ambassador_title_description: '(Támogató)',
       ambassador_summary: 'Vezesd a fórumozókat és mutass utat a kérdezőknek. A CodeCombatot a Nagykövetek reprezentálják a világban.',
-      teacher_title: 'Tanár'
+      teacher_title: 'Tanár',
     },
 
     editor: {
@@ -2871,6 +2881,7 @@ module.exports = {
       fork_title: 'Új Verzió villára vétele',
       fork_creating: 'Villára vétel...',
       generate_terrain: 'Terület generálása',
+      //    generate_level: "Generate Level",
       more: 'Több',
       wiki: 'Tudásbázis',
       live_chat: 'Élő cset',
@@ -2976,16 +2987,16 @@ module.exports = {
       add_system_title: 'Rendszerek hozzáadása a pályához',
       done_adding: 'Hozzáadás kész',
       product: 'Termék',
-      link: 'Link'
+      link: 'Link',
     },
 
     article: {
       edit_btn_preview: 'Előnézet',
-      edit_article_title: 'Cikk szerkesztés'
+      edit_article_title: 'Cikk szerkesztés',
     },
 
     polls: {
-      priority: 'Prioritás'
+      priority: 'Prioritás',
     },
 
     contribute: {
@@ -3056,7 +3067,7 @@ module.exports = {
       creative_artisans: 'Tehetséges alkotóművészeink:',
       brave_adventurers: 'Bátor kalandoraink:',
       translating_diplomats: 'Nyelvekben jeleskedő diplomatáink:',
-      helpful_ambassadors: 'Segítőkész nagyköveteink:'
+      helpful_ambassadors: 'Segítőkész nagyköveteink:',
     },
 
     ladder: {
@@ -3130,7 +3141,7 @@ module.exports = {
       //    loss_num: "Losses",
       //    win_rate: "Win %",
       humans: 'Vörös',
-      ogres: 'Kék'
+      ogres: 'Kék',
       //    live_tournament: "Live Tournament",
       //    awaiting_tournament_title: "Tournament Inactive",
       //    awaiting_tournament_blurb: "The tournament arena is not currently active.",
@@ -3160,7 +3171,7 @@ module.exports = {
       no_achievements: 'Egyelőre nincsenek szerzett eredmények.',
       favorite_prefix: 'A kedvenc nyelv ',
       favorite_postfix: '.',
-      not_member_of_clans: 'Még egy Klánnak sem tagja.'
+      not_member_of_clans: 'Még egy Klánnak sem tagja.',
       //    certificate_view: "view certificate",
       //    certificate_click_to_view: "click to view certificate",
       //    certificate_course_incomplete: "course incomplete",
@@ -3195,7 +3206,7 @@ module.exports = {
       new_xp_postfix: ' megszerzett',
       left_xp_prefix: '',
       left_xp_infix: ' következő szinthez ',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     account: {
@@ -3237,7 +3248,7 @@ module.exports = {
       unsubscribe_button: 'Igen, leiratkozás',
       unsubscribe_failed: 'Sikertelen',
       unsubscribe_success: 'Sikeres',
-      manage_billing: 'Számlázás kezelése'
+      manage_billing: 'Számlázás kezelése',
     },
 
     account_invoices: {
@@ -3248,7 +3259,7 @@ module.exports = {
       pay: 'Számla kifizetése',
       purchasing: 'Vásárlás...',
       retrying: 'Szerverhiba, új próbálkozás.',
-      success: 'Sikeres fizetés. Köszönjük!'
+      success: 'Sikeres fizetés. Köszönjük!',
     },
 
     account_prepaid: {
@@ -3273,7 +3284,7 @@ module.exports = {
       no_codes: 'Nincs még kód!',
       you_can1: 'Vásárolhatsz',
       you_can2: 'egy fizetős kódot,',
-      you_can3: 'amelyet a saját fiókodban is beválthatsz vagy átadhatsz másoknak.'
+      you_can3: 'amelyet a saját fiókodban is beválthatsz vagy átadhatsz másoknak.',
       //    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account.",
       //    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times.",
       //    prepaid_applied_success: "Prepaid applied to your account!",
@@ -3287,7 +3298,7 @@ module.exports = {
       back_to_map: 'Vissza a térképre',
       level_options: 'Szint opciók',
       restart_level: 'Szint újraindítása',
-      max_browser: 'Böngésző maximalizálása'
+      max_browser: 'Böngésző maximalizálása',
       //    ai_hint: "AI Hint",
     },
 
@@ -3368,7 +3379,7 @@ module.exports = {
       server_error: 'Szerver hiba.',
       unknown: 'Ismeretlen hiba.',
       error: 'HIBA',
-      general_desc: 'Hiba történt, valószínűleg a mi készülékünkben. Kis idő múlva frissítsd az oldalt vagy válassz az alábbi linkek közül, hogy visszatérj a programozáshoz.'
+      general_desc: 'Hiba történt, valószínűleg a mi készülékünkben. Kis idő múlva frissítsd az oldalt vagy válassz az alábbi linkek közül, hogy visszatérj a programozáshoz.',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
     },
@@ -3382,7 +3393,7 @@ module.exports = {
       component: 'Komponens',
       components: 'Komponensek',
       hero: 'Hős (hero)',
-      campaigns: 'Kampányok'
+      campaigns: 'Kampányok',
     },
 
     concepts: {
@@ -3508,7 +3519,7 @@ module.exports = {
       advanced_css: 'CSS haladóknak',
       advanced_web_scripting: 'Webscripting haladóknak',
       input_handling: 'Inputkezelés',
-      while_loops: 'While ciklus'
+      while_loops: 'While ciklus',
       //    place_game_objects: "Place game objects",
       //    construct_mazes: "Construct mazes",
       //    create_playable_game: "Create a playable, sharable game project",
@@ -3538,7 +3549,7 @@ module.exports = {
       student_name_placeholder: 'írd be ide a nevedet',
       teachers_section: 'Tanárok:',
       students_section: 'Diákok:',
-      teacher_notified: 'Értesítettük a tanárodat, hogy szeretnél még CodeCombatot játszani a tantermedben!'
+      teacher_notified: 'Értesítettük a tanárodat, hogy szeretnél még CodeCombatot játszani a tantermedben!',
     },
 
     delta: {
@@ -3549,7 +3560,7 @@ module.exports = {
       moved_index: 'Index eltávolítva',
       text_diff: 'Szöveg Különbség',
       merge_conflict_with: 'Merge konfliktus',
-      no_changes: 'Nincs Változás'
+      no_changes: 'Nincs Változás',
     },
 
     legal: {
@@ -3607,7 +3618,7 @@ module.exports = {
       //    nutshell_see_also: "See also:",
       canonical: 'Ennek a dokumentumnak az angol eredetije a mérvadó és hitelesnek elismert változata. Az eredetihez képest a más nyelvekre fordított változatokban esetlegesen meglévő bármilyen változás esetén az angol eredetit kell alapul venni.',
       third_party_title: 'Harmadik fél által nyújtott szolgáltatások',
-      third_party_description: 'A CodeCombat az alábbiak között a következő harmadik fél által nyújtott szolgáltatásokat használja:'
+      third_party_description: 'A CodeCombat az alábbiak között a következő harmadik fél által nyújtott szolgáltatásokat használja:',
       //    cookies_message: "CodeCombat uses a few essential and non-essential cookies.",
       //    cookies_deny: "Decline non-essential cookies",
       //    cookies_allow: "Allow cookies",
@@ -3631,7 +3642,7 @@ module.exports = {
       one_month_coupon: 'kupon: Railst vagy HTML-t választhatsz',
       one_month_discount: '30% kedvezmény: Railst vagy HTML-t választhatsz',
       license: 'licenc',
-      oreilly: 'szabadon választott e-könyv'
+      oreilly: 'szabadon választott e-könyv',
     },
 
     calendar: {
@@ -3649,7 +3660,7 @@ module.exports = {
       september: 'Szeptember',
       october: 'Október',
       november: 'November',
-      december: 'December'
+      december: 'December',
     },
 
     //  code_play_create_account_modal: {
@@ -3664,7 +3675,7 @@ module.exports = {
       email_taken: 'Ezzel az e-mail címmel már regisztráltak.',
       username_taken: 'A felhasználó név már foglalt.',
       easy_password: 'A jelszó túl könnyen kitalálható',
-      reused_password: 'A jelszó nem lehet újra felhasznált'
+      reused_password: 'A jelszó nem lehet újra felhasznált',
     },
 
     esper: {
@@ -3742,7 +3753,7 @@ module.exports = {
       missing_a_quotation_mark: 'Hiányzó idézőjel. ',
       //    missing_var_use_var: "Missing `$1`. Use `$2` to make a new variable.",
       //    you_do_not_have: "You do not have an item equipped with the `$1` skill.",
-      put_each_command_on: 'Helyezz minden utasítást külön sorba'
+      put_each_command_on: 'Helyezz minden utasítást külön sorba',
       //    are_you_missing_a: "Are you missing a `$1` after `$2`? ",
       //    your_parentheses_must_match: "Your parentheses must match.",
       //    missing_parentheses: "Missing parentheses? Try `__suggestion__`",
@@ -4215,12 +4226,12 @@ module.exports = {
       title: 'A CodeCombat legjobban Chrome alatt működik!',
       pitch_body: 'A legjobb CodeCombat-élmény érdekében javasoljuk a Chrome legújabb verziójának használatát. Töltsd le a Chrome legújabb verzióját az alábbi gombra kattintva!',
       download: 'Chrome letöltése',
-      ignore: 'Figyelmen kívül hagyás'
+      ignore: 'Figyelmen kívül hagyás',
     },
 
     admin: {
       license_type_full: 'Teljes kurzusok',
-      license_type_customize: 'Kurzusok testreszabása'
+      license_type_customize: 'Kurzusok testreszabása',
     },
 
     //  events: {
@@ -4490,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4785,8 +4796,8 @@ module.exports = {
       emailExists: 'E-mail már létezik',
       numberGreaterThanZero: '0-nál nagyobb számnak kell lennie',
       requireValidEmail: 'Kérjük, adj meg egy érvényes e-mail címet.',
-      requireValidPhone: 'Kérjük, adj meg egy érvényes telefonszámot, körzetszámmal együtt.'
-    }
+      requireValidPhone: 'Kérjük, adj meg egy érvényes telefonszámot, körzetszámmal együtt.',
+    },
 
     //  partners: {
     //    for: "for",

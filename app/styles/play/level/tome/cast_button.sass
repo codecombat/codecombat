@@ -26,18 +26,10 @@
 #cast-button-view
   display: none
   position: absolute
-
   z-index: 2
   width: 100%
-  border-radius: 6px
-
-  background: transparent url(/images/level/code_toolbar_background.png)
-  background-size: 100% 100%
   left: -15px
   right: 15px
-  height: 94px
-  margin-top: -8px
-  padding: 20px 2.8%
 
   .btn.btn-illustrated
     height: 46px
@@ -50,6 +42,9 @@
     border-image: url(/images/level/code_toolbar_run_button_active.png) 14 20 20 20 fill round
     border-width: 7px 10px 10px 10px
 
+    &.full-width
+      width: 100%
+
     &:active
       border-image: url(/images/level/code_toolbar_run_button_active_pressed.png) 14 20 20 20 fill round
       padding: 2px 0 0 2px
@@ -57,7 +52,7 @@
     &.submit-button, &.done-button, &.rank-button
       margin-left: 10px
       border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
-      
+
       &:active
         border-image: url(/images/level/code_toolbar_submit_button_active_pressed.png) 14 20 20 20 fill round
 
@@ -71,16 +66,21 @@
       width: 100%
       font-size: 18px
 
-  
+    .last-submitted
+      float: right
+      margin-top: -4px
+      width: calc(100% - 20px)
+      text-align: center
+
   .cast-button
     @include opacity(0.77)
-  
+
     &:hover, &.castable
       @include opacity(1)
 
   .submit-button > *, .done-button > *
     @include opacity(0.9)
-  
+
     &:hover
       @include opacity(1)
 
@@ -114,43 +114,25 @@
         &:active
           border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
 
+  #stop-cinematic-playback-button
+    display: none
 
-html.no-borderimage #cast-button-view
-  .btn.btn-illustrated
-    border: 0
-    background-image: url(/images/level/code_toolbar_run_button_active.png)
-    background-size: 100% 100%
-    padding: 7px 10px 10px 10px
-  
-    &:active
-      background-image: url(/images/level/code_toolbar_run_button_active_pressed.png)
-      padding: 9px 8px 8px 12px
-      border: 0
-
-    &.submit-button, &.done-button
-      background-image: url(/images/level/code_toolbar_submit_button_active.png)
-      border: 0
+  #level-view.junior &
+    .btn.btn-illustrated
+      width: 100%
+      border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
 
       &:active
-        background-image: url(/images/level/code_toolbar_submit_button_active_pressed.png)
-        border: 0
+        border-image: url(/images/level/code_toolbar_submit_button_active_pressed.png) 14 20 20 20 fill round
 
-  &:not(.winnable)
-    .btn.btn-illustrated
-      &.cast-button.castable
-        border: 0
-        background-image: url(/images/level/code_toolbar_run_button_zazz.png)
+    &:not(.winnable)
+      .btn.btn-illustrated
+        &.cast-button.castable
+          border-image: url(/images/level/code_toolbar_submit_button_zazz.png) 14 20 20 20 fill round
 
-        &:active
-          background-image: url(/images/level/code_toolbar_run_button_zazz_pressed.png)
+          &:active
+            border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
 
-  &.winnable
-    .btn.btn-illustrated
-      &.submit-button, &.done-button
-        border: 0
-        background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
+  &:not(.text-code) &
+    right: -15px
 
-        &:active
-          border: 0
-          background-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png)
-          

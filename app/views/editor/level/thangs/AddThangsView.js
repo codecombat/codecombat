@@ -3,18 +3,13 @@
 /*
  * decaffeinate suggestions:
  * DS002: Fix invalid constructor
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS104: Avoid inline assignments
- * DS204: Change includes calls to have a more natural evaluation order
  * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let AddThangsView
 require('app/styles/editor/level/add-thangs-view.sass')
 const CocoView = require('views/core/CocoView')
-const add_thangs_template = require('app/templates/editor/level/add-thangs-view')
+const addThangsTemplate = require('app/templates/editor/level/add-thangs-view')
 const ThangType = require('models/ThangType')
 const CocoCollection = require('collections/CocoCollection')
 const utils = require('core/utils')
@@ -26,10 +21,6 @@ class ThangTypeSearchCollection extends CocoCollection {
     this.prototype.url = '/db/thang.type?project=original,name,version,description,slug,kind,rasterIcon'
     this.prototype.model = ThangType
   }
-
-  addTerm (term) {
-    if (term) { return this.url += `&term=${term}` }
-  }
 }
 ThangTypeSearchCollection.initClass()
 
@@ -38,7 +29,7 @@ module.exports = (AddThangsView = (function () {
     static initClass () {
       this.prototype.id = 'add-thangs-view'
       this.prototype.className = 'add-thangs-palette'
-      this.prototype.template = add_thangs_template
+      this.prototype.template = addThangsTemplate
 
       this.prototype.events =
         { 'keyup input#thang-search': 'runSearch' }
@@ -74,7 +65,7 @@ module.exports = (AddThangsView = (function () {
 
     getRenderData (context) {
       let models
-      if (context == null) { context = {} }
+      context = context || {}
       context = super.getRenderData(context)
       if (this.searchModels) {
         models = this.searchModels
@@ -83,19 +74,16 @@ module.exports = (AddThangsView = (function () {
       }
 
       let thangTypes = _.uniq(models, false, thangType => thangType.get('original'))
-      thangTypes = _.reject(thangTypes, function (thangType) {
-        let needle
-        return (needle = thangType.get('kind'), ['Mark', 'Item', undefined].includes(needle))
-      })
+      thangTypes = _.reject(thangTypes, thangType => ['Mark', 'Item', undefined].includes(thangType.get('kind')))
       const groupMap = {}
-      for (const thangType of Array.from(thangTypes)) {
+      for (const thangType of thangTypes) {
         const kind = thangType.get('kind')
-        if (groupMap[kind] == null) { groupMap[kind] = [] }
+        groupMap[kind] = groupMap[kind] || []
         groupMap[kind].push(thangType)
       }
 
       let groups = []
-      for (const groupName of Array.from(Object.keys(groupMap).sort())) {
+      for (const groupName of Object.keys(groupMap).sort()) {
         let someThangTypes = groupMap[groupName]
         someThangTypes = _.sortBy(someThangTypes, thangType => thangType.get('name'))
         const group = {
@@ -106,7 +94,7 @@ module.exports = (AddThangsView = (function () {
       }
 
       groups = _.sortBy(groups, function (group) {
-        const index = ['Wall', 'Floor', 'Unit', 'Doodad', 'Misc'].indexOf(group.name)
+        const index = ['Wall', 'Junior', 'Floor', 'Unit', 'Doodad', 'Misc'].indexOf(group.name)
         if (index === -1) { return 9001 } else { return index }
       })
 
@@ -117,15 +105,15 @@ module.exports = (AddThangsView = (function () {
 
     afterRender () {
       super.afterRender()
-      return this.buildAddThangPopovers()
+      this.buildAddThangPopovers()
     }
 
     buildAddThangPopovers () {
-      return this.$el.find('#thangs-list .add-thang-palette-icon').addClass('has-tooltip').tooltip({ container: 'body', animation: false })
+      this.$el.find('#thangs-list .add-thang-palette-icon').addClass('has-tooltip').tooltip({ container: 'body', animation: false })
     }
 
     runSearch (e) {
-      if ((e != null ? e.which : undefined) === 27) {
+      if (e?.which === 27) {
         this.onEscapePressed()
       }
       const term = this.$el.find('input#thang-search').val()
@@ -138,12 +126,12 @@ module.exports = (AddThangsView = (function () {
       })
       this.render()
       this.$el.find('input#thang-search').focus().val(term)
-      return this.lastSearch = term
+      this.lastSearch = term
     }
 
     onEscapePressed () {
       this.$el.find('input#thang-search').val('')
-      return this.runSearch()
+      this.runSearch()
     }
   }
   AddThangsView.initClass()

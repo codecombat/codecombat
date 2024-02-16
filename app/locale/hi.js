@@ -369,7 +369,7 @@ module.exports = {
       //    star: "CoCoStar",
       contact: 'संपर्क',
       //    press: "Press",
-      twitter_follow: 'साथ दें'
+      twitter_follow: 'साथ दें',
       //    my_classrooms: "My Classes",
       //    my_courses: "My Courses",
       //    my_units: "My Units",
@@ -430,13 +430,13 @@ module.exports = {
 
     modal: {
       close: 'बंद करें',
-      okay: 'ठीक है'
+      okay: 'ठीक है',
       //    cancel: "Cancel",
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'पेज नहीं मिला'
+      page_not_found: 'पेज नहीं मिला',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'हम CodeCombat को अंग्रेजी में डेवेलोप करते हैं परन्तु हमारे पास दुनिया भर से लोग CodeCombat खेलते हैं| उनमें से कई हिंदी में खेलना चाहते हैं लेकिन नहीं खेल पातें है, इसलिए अगर आप दोनों भाषाओँ को जानते हैं, कृपया राजनयिक बन कर हमारी मदद करें|',
       missing_translations: 'जब तक हम हिंदी में सब कुछ अनुवाद ना कर सकें आपको अंग्रेजी में ही खेलना पड़ेगा|',
       learn_more: 'एक राजनयिक होने के बारे में और अधिक जानें',
-      subscribe_as_diplomat: 'एक राजनयिक के रूप में सदस्यता लें'
+      subscribe_as_diplomat: 'एक राजनयिक के रूप में सदस्यता लें',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
     //    awaiting_levels_adventurer: "Sign up as an Adventurer",
     //    awaiting_levels_adventurer_suffix: "to be the first to play new levels.",
     //    adjust_volume: "Adjust volume",
+    //    toggle_fullscreen: "Toggle fullscreen",
     //    campaign_multiplayer: "Multiplayer Arenas",
     //    campaign_multiplayer_description: "... in which you code head-to-head against other players.",
     //    brain_pop_done: "You’ve defeated the Ogres with code! You win!",
@@ -773,7 +774,7 @@ module.exports = {
       //    continue: "Continue",
       //    next: "Next",
       //    default_code: "Default Code",
-      loading: 'Loading...'
+      loading: 'Loading...',
       //    overview: "Overview",
       //    processing: "Processing...",
       //    solution: "Solution",
@@ -812,7 +813,7 @@ module.exports = {
       //    internal_error: "Internal Error",
       //    manage: "Manage",
       //    empty_results: "Empty Results.",
-    }
+    },
 
     //  general: {
     //    and: "and",
@@ -1212,6 +1213,7 @@ module.exports = {
     //    inventory_tab: "Inventory",
     //    save_load_tab: "Save/Load",
     //    options_tab: "Options",
+    //    my_code_tab: "My Code",
     //    guide_tab: "Guide",
     //    guide_video_tutorial: "Video Tutorial",
     //    guide_tips: "Tips",
@@ -1220,6 +1222,7 @@ module.exports = {
     //    inventory_caption: "Equip your hero",
     //    choose_hero_caption: "Choose hero, language",
     //    options_caption: "Configure settings",
+    //    my_code_caption: "Quick Code Actions",
     //    guide_caption: "Docs and tips",
     //    multiplayer_caption: "Play with friends!",
     //    auth_caption: "Save your progress.",
@@ -1444,6 +1447,15 @@ module.exports = {
     //    lua_blurb: "Game scripting language.",
     //    java_blurb: "(Subscriber Only) Android and enterprise.",
     //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+    //    code_format: "Code Format",
+    //    text_code: "Text code",
+    //    blocks_and_code: "Blocks and code",
+    //    blocks_text: "Blocks",
+    //    blocks_icons: "Blocks (icons)",
+    //    text_code_blurb: "Type text-based code in a real code editor",
+    //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+    //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+    //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
     //    status: "Status",
     //    weapons: "Weapons",
     //    weapons_warrior: "Swords - Short Range, No Magic",
@@ -1690,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1949,7 +1960,6 @@ module.exports = {
     //    toggle_grid: "Toggle grid overlay.",
     //    toggle_pathfinding: "Toggle pathfinding overlay.",
     //    beautify: "Beautify your code by standardizing its formatting.",
-    //    maximize_editor: "Maximize/minimize code editor.",
     //  },
 
     //  cinematic: {
@@ -2871,6 +2881,7 @@ module.exports = {
     //    fork_title: "Fork New Version",
     //    fork_creating: "Creating Fork...",
     //    generate_terrain: "Generate Terrain",
+    //    generate_level: "Generate Level",
     //    more: "More",
     //    wiki: "Wiki",
     //    live_chat: "Live Chat",
@@ -4490,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",

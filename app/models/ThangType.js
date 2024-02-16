@@ -125,15 +125,7 @@ module.exports = (ThangType = (function () {
       let raster
       if (this.loadingRaster || this.loadedRaster) { return }
       if (!(raster = this.get('raster'))) { return }
-      if (utils.isOzaria) {
-        this.rasterImage = $(`<img crossOrigin='Anonymous' src='/file/${raster}' />`)
-      } else {
-        // IE11 does not support CORS for images in the canvas element
-        // https://caniuse.com/#feat=cors
-        this.rasterImage = utils.isIE()
-          ? $(`<img src='/file/${raster}' />`)
-          : $(`<img crossOrigin='Anonymous', src='/file/${raster}' />`)
-      }
+      this.rasterImage = $(`<img crossOrigin='Anonymous' src='/file/${raster}' />`)
       this.loadingRaster = true
       this.rasterImage.one('load', () => {
         this.loadingRaster = false

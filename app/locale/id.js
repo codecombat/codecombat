@@ -299,7 +299,7 @@ module.exports = {
       ozaria_blurb: 'Sebuah game petualangan dan program Ilmu Komputer tempat siswa menguasai keajaiban coding yang hilang untuk menyelamatkan dunia mereka. Direkomendasikan untuk pengajar dan siswa.',
       //    ozaria_china_blurb: "",
       try_codecombat: 'Coba CodeCombat',
-      try_ozaria: 'Coba Ozaria'
+      try_ozaria: 'Coba Ozaria',
       //    explore_codecombat: "Explore CodeCombat",
       //    explore_ai_league: "Explore AI League",
       //    explore_ozaria: "Explore Ozaria",
@@ -399,7 +399,7 @@ module.exports = {
       //    classes: "Classes",
       //    term_of_service: "Terms of Service",
       esports: 'Esports',
-      browser_recommendation: 'Untuk pengalaman yang lebih baik, kami merekomendasikan menggunakan browser chrome terbaru. Download browser disini'
+      browser_recommendation: 'Untuk pengalaman yang lebih baik, kami merekomendasikan menggunakan browser chrome terbaru. Download browser disini',
       //    ozaria_classroom: "Ozaria Classroom",
       //    codecombat_classroom: "CodeCombat Classroom",
       //    ozaria_dashboard: "Ozaria Dashboard",
@@ -431,12 +431,12 @@ module.exports = {
     modal: {
       close: 'Tutup',
       okay: 'Baik',
-      cancel: 'Batal'
+      cancel: 'Batal',
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Laman tidak ditemukan'
+      page_not_found: 'Laman tidak ditemukan',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'Kami mengembangkan CodeCombat dalam bahasa Inggris, tapi kami sudah memiliki pemain di seluruh dunia. Banyak dari mereka ingin bermain di Indonesia, tetapi tidak berbicara bahasa Inggris, jadi jika Anda dapat menguasai kedua bahasa tersebut, silakan mempertimbangkan untuk mendaftar untuk menjadi Diplomat dan membantu menerjemahkan kedua situs CodeCombat dan semua tingkatan ke Bahasa Indonesia.',
       missing_translations: 'Hingga kami bisa menerjemahkan semuanya ke dalam bahasa Indonesia, Anda akan melihat bahasa Inggris ketika bahasa Indonesia belum tersedia.',
       learn_more: 'Pelajari lebih lanjut tentang menjadi seorang Diplomat',
-      subscribe_as_diplomat: 'Berlangganan sebagai seorang Diplomat'
+      subscribe_as_diplomat: 'Berlangganan sebagai seorang Diplomat',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Daftar sebagai seorang Petualang',
       awaiting_levels_adventurer_suffix: 'Untuk menjadi yang pertama memainkan level baru.',
       adjust_volume: 'Atur suara',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Arena Multipemain',
       campaign_multiplayer_description: '... dimana kamu membuat kode satu lawan satu melawan pemain lainnya.',
       brain_pop_done: 'Kamu telah mengalahkan Raksasa dengan kode! Kamu menang!',
@@ -537,7 +538,7 @@ module.exports = {
       replay: 'Ulang',
       back_to_classroom: 'Kembali ke Kelas',
       teacher_button: 'Untuk Guru',
-      get_more_codecombat: 'Dapatkan Lebih Lagi CodeCombat'
+      get_more_codecombat: 'Dapatkan Lebih Lagi CodeCombat',
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
       //    customize_hero: "Customize Hero",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'tidak didefinisikan',
       null: 'null',
       nil: 'nihil',
-      None: 'Tidak ada'
+      None: 'Tidak ada',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Masukkan alamat email orang tuamu dibawah dan kami akan beritahu mereka!',
       form_label: 'Alamat Email',
       placeholder: 'alamat email',
-      title: 'Kerja yang sangat bagus, Murid'
+      title: 'Kerja yang sangat bagus, Murid',
     },
 
     login: {
@@ -627,7 +628,7 @@ module.exports = {
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
       //    individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!",
-      accounts_merge_confirmation: 'Akun tersebut telah digunakan oleh akun google yang lain. Apakah anda ingin menggabungkan kedua akun tersebut?'
+      accounts_merge_confirmation: 'Akun tersebut telah digunakan oleh akun google yang lain. Apakah anda ingin menggabungkan kedua akun tersebut?',
       //    stop_spying: "Stop Spying",
       //    stop_switching: "Stop Switching",
       //    test_as_student: "Test as Student",
@@ -743,14 +744,14 @@ module.exports = {
       want_to_play_codecombat: 'Tidak, saya tidak punya satu pun tapi ingin bermain CodeCombat!',
       have_a_classcode: 'Punya Kode Kelas?',
       yes_i_have_classcode: 'Ya, saya memiliki Kode Kelas!',
-      enter_it_here: 'Masukkan di sini:'
+      enter_it_here: 'Masukkan di sini:',
       //    play_without_saving: "Play without saving",
     },
 
     recover: {
       recover_account_title: 'Pulihkan Akun',
       send_password: 'Kirim Pemulihan Kata Sandi',
-      recovery_sent: 'Email pemulihan telah dikirim'
+      recovery_sent: 'Email pemulihan telah dikirim',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Baju Pelindung',
       accessories: 'Aksesoris',
       misc: 'Lain-lain',
-      books: 'Buku-buku'
+      books: 'Buku-buku',
     },
 
     common: {
@@ -801,7 +802,7 @@ module.exports = {
       required_field: 'wajib',
       submit: 'Kirim',
       replay: 'Ulangi',
-      complete: 'Selesai'
+      complete: 'Selesai',
       //    pick_image: "Pick Image",
       //    continue_editing: "Continue Editing",
       //    logout: "Logout",
@@ -881,7 +882,7 @@ module.exports = {
       chat_with_us: 'Bicaralah dengan kami',
       email_us: 'Kirimkan email kepada kami',
       sales: 'Penjualan',
-      support: 'Dukungan'
+      support: 'Dukungan',
       //    here: "here",
       //    from: "From",
     },
@@ -901,7 +902,7 @@ module.exports = {
       month: 'bulan',
       months: 'bulan',
       year: 'tahun',
-      years: 'tahun'
+      years: 'tahun',
     },
 
     play_level: {
@@ -1103,7 +1104,7 @@ module.exports = {
       //    capella_character: "Capella Character",
       //    octans_character: "Octans Character",
       click_to_continue: 'Klik untuk Melanjutkan',
-      fill_in_solution: 'Isi solusi'
+      fill_in_solution: 'Isi solusi',
       //    toggle_solution: "Toggle solution",
       //    play_as_humans: "Play As Red",
       //    play_as_ogres: "Play As Blue",
@@ -1161,7 +1162,7 @@ module.exports = {
       jquery: 'jQuery',
       json: 'JSON',
       number: 'Number',
-      webjavascript: 'JavaScript'
+      webjavascript: 'JavaScript',
     },
 
     amazon_hoc: {
@@ -1173,13 +1174,13 @@ module.exports = {
       future_eng_2: 'di sini',
       future_eng_3: '(perangkat tidak diperlukan). Aktivitas Alexa ini dipersembahkan oleh',
       future_eng_4: 'Insinyur Masa Depan Amazon',
-      future_eng_5: 'program yang menciptakan kesempatan belajar dan bekerja bagi semua siswa K-12 di Amerika Serikat yang ingin mengejar ilmu komputer.'
+      future_eng_5: 'program yang menciptakan kesempatan belajar dan bekerja bagi semua siswa K-12 di Amerika Serikat yang ingin mengejar ilmu komputer.',
     },
 
     live_class: {
       title: 'Terima kasih!',
       content: 'Luar biasa! Kami baru saja meluncurkan kelas online langsung.',
-      link: 'Siap melanjutkan pengkodean Anda?'
+      link: 'Siap melanjutkan pengkodean Anda?',
     },
 
     code_quest: {
@@ -1188,7 +1189,7 @@ module.exports = {
       link: 'Klik di sini untuk mendaftar dan belajar lebih lanjut',
       global_tournament: 'Turnamen Global',
       register: 'Daftar',
-      date: '1 Agustus - 31 Agustus'
+      date: '1 Agustus - 31 Agustus',
     },
 
     play_game_dev_level: {
@@ -1205,13 +1206,14 @@ module.exports = {
       goal_defeat_amount: 'Kalahkan __amount__ musuh.',
       goal_move: 'Bergerak ke semua tanda X merah',
       goal_collect: 'Kumpulkan semua barang-barang',
-      goal_collect_amount: 'Kumpulkan __amount__ barang.'
+      goal_collect_amount: 'Kumpulkan __amount__ barang.',
     },
 
     game_menu: {
       inventory_tab: 'Inventaris',
       save_load_tab: 'Simpan/Muat',
       options_tab: 'Opsi',
+      //    my_code_tab: "My Code",
       guide_tab: 'Panduan',
       guide_video_tutorial: 'Panduan Video',
       guide_tips: 'Saran',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Pakai jagoanmu',
       choose_hero_caption: 'Memilih jagoan, bahasa',
       options_caption: 'Mengkonfigurasi pengaturan',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Dokumen dan saran',
       multiplayer_caption: 'Bermain bersama teman-teman!',
-      auth_caption: 'Simpan perkembanganmu'
+      auth_caption: 'Simpan perkembanganmu',
     },
 
     leaderboard: {
@@ -1241,7 +1244,7 @@ module.exports = {
       survival_time: 'Bertahan Hidup',
       defeated: 'Lawan yang Dikalahkan',
       code_length: 'Baris Kode',
-      score_display: '__scoreType__: __score__'
+      score_display: '__scoreType__: __score__',
     },
 
     inventory: {
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: 'Lepas',
       warrior_only: 'Kesatria Saja',
       ranger_only: 'Pemanah Saja',
-      wizard_only: 'Penyihir Saja'
+      wizard_only: 'Penyihir Saja',
     },
 
     buy_gems: {
@@ -1274,17 +1277,17 @@ module.exports = {
       price: 'x{{gems}} / bln',
       buy_premium: 'Beli Premium',
       purchase: 'Membeli',
-      purchased: 'Terbeli'
+      purchased: 'Terbeli',
     },
 
     subscribe_for_gems: {
       prompt_title: 'Permata Tidak Cukup!',
-      prompt_body: 'Berlangganan Premium untuk mendapatkan permata dan akses ke lebih banyak level!'
+      prompt_body: 'Berlangganan Premium untuk mendapatkan permata dan akses ke lebih banyak level!',
     },
 
     earn_gems: {
       prompt_title: 'Permata Tidak Cukup',
-      prompt_body: 'Tetap bermain untuk mendapatkan lebih!'
+      prompt_body: 'Tetap bermain untuk mendapatkan lebih!',
     },
 
     subscribe: {
@@ -1337,7 +1340,7 @@ module.exports = {
       year_price: '$__price__/year',
       //    year_price_without_currency: "__price__/yr",
       support_part1: 'Membutuhkan bantuan pembayaran atau memilih PayPal? Email',
-      support_part2: 'support@codecombat.com'
+      support_part2: 'support@codecombat.com',
       //    go_prepaid: "Click here after scaning the code and purchasing",
       //    forever: "Forever",
       //    subscription_status: "Your Subscription Status",
@@ -1387,7 +1390,7 @@ module.exports = {
       tornado_name: 'Tornado',
       tornado_description: 'Sebaiknya ada tombol setel ulang saat penutup seseorang meledak.',
       wallOfDarkness_name: 'Wall of Darkness',
-      wallOfDarkness_description: 'Bersembunyi di balik dinding bayangan untuk mencegah tatapan mata yang mengintip.'
+      wallOfDarkness_description: 'Bersembunyi di balik dinding bayangan untuk mencegah tatapan mata yang mengintip.',
       //    notifications: "Notifications",
       //    x_announcement: "__x__ Notification",
       //    x_announcements: "__x__ Notifications",
@@ -1400,7 +1403,7 @@ module.exports = {
     },
 
     avatar_selection: {
-      pick_an_avatar: 'Pilih avatar yang akan mewakili Anda sebagai pemain'
+      pick_an_avatar: 'Pilih avatar yang akan mewakili Anda sebagai pemain',
       //    select_avatar_title: "Choose Player Avatar",
     },
 
@@ -1425,7 +1428,7 @@ module.exports = {
       list_web_dev: 'Bangun situs web dan aplikasi interaktif',
       list_items: 'Pakai benda Premium seperti peliharaan',
       list_support: 'Dapatkan bantuan Premium untuk menolongmu men-debug kode yang rumit',
-      list_clans: 'Buatlah klan pribadi untuk mengundang teman-temanmu dan berkompetisi di grup peringkat pemain'
+      list_clans: 'Buatlah klan pribadi untuk mengundang teman-temanmu dan berkompetisi di grup peringkat pemain',
       //    ai_bot_learning: "AI powered support to accelerate learning outcomes!",
       //    ai_bot_description: "CodeCombat’s AI powered hints feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available young learners will still need to work through each level's coding challenge. Premium subscribers receive an allocation of <b>10 AI hints per day</b> to ensure they always have the support they need.",
       //    list_ai_bot: "Premium subscribers receive an allocation of 10 AI hints per day",
@@ -1444,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Bahasa untuk Skrip Permainan',
       java_blurb: '(Khusus Pelanggan) Android dan perusahaan.',
       cpp_blurb: '(Khusus Pelanggan) Pengembangan game dan komputasi kinerja tinggi.',
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Status',
       weapons: 'Senjata',
       weapons_warrior: 'Pedang - Jarak Dekat, Tanpa Sihir',
@@ -1467,7 +1479,7 @@ module.exports = {
       speed_2: 'meter perdetik.',
       available_for_purchase: 'Tersedia untuk Dibeli',
       level_to_unlock: 'Level untuk dibuka:',
-      restricted_to_certain_heroes: 'Hanya beberapa jagoan yang bisa memainkan level ini.'
+      restricted_to_certain_heroes: 'Hanya beberapa jagoan yang bisa memainkan level ini.',
     },
 
     char_customization_modal: {
@@ -1475,7 +1487,7 @@ module.exports = {
       body: 'Badan',
       name_label: 'Nama Pahlawan',
       hair_label: 'Warna Rambut',
-      skin_label: 'Warna Kulit'
+      skin_label: 'Warna Kulit',
     },
 
     skill_docs: {
@@ -1506,13 +1518,13 @@ module.exports = {
       optional_parameters: 'Parameter Opsional',
       returns: 'Mengembalikan',
       granted_by: 'Diberikan oleh',
-      still_undocumented: 'Masih tidak berdokumen, maaf.'
+      still_undocumented: 'Masih tidak berdokumen, maaf.',
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: 'Tersimpan',
-      granularity_change_history: 'Riwayat'
+      granularity_change_history: 'Riwayat',
     },
 
     options: {
@@ -1529,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Tunjukkan Panduan Indentasi',
       editor_config_indentguides_description: 'Menunjukkan garis vertikal untuk melihat indentasi lebih baik.',
       editor_config_behaviors_label: 'Bantuan Cerdas',
-      editor_config_behaviors_description: 'Otomatis komplit tanda kurung, kurung kurawal, dan tanda petik.'
+      editor_config_behaviors_description: 'Otomatis komplit tanda kurung, kurung kurawal, dan tanda petik.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1659,11 +1671,11 @@ module.exports = {
       character_art: 'Seni Karakter',
       download_all: 'Unduh Semua',
       previous: 'Sebelum',
-      location_title: 'Kamu berada di pusat kota San Fransisco:'
+      location_title: 'Kamu berada di pusat kota San Fransisco:',
     },
 
     teachers: {
-      licenses_needed: 'Lisensi dibutuhkan'
+      licenses_needed: 'Lisensi dibutuhkan',
       //    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO",
       //    select_class: "Select class",
       //    programming_language: "Programming language",
@@ -1690,13 +1702,12 @@ module.exports = {
       //    error_in_importing_students: "Error in importing students",
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-      //    classroom_blocks: "Drag and Drop Blocks (beta)",
-      //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-      //    classroom_blocks_hidden: "Disabled",
-      //    classroom_blocks_opt_in: "Off by default",
-      //    classroom_blocks_opt_out: "On by default",
+      //    code_formats: "Code Formats (beta)",
+      //    code_formats_description: "Which code formats students can choose from.",
+      //    default_code_format: "Default Code Format",
+      //    default_code_format_description: "The code format that students will start with.",
       //    not_allow_to_solution: "# Licenses needed to view solutions",
-      //    classroom_level_chat: "Level Chat with AI",
+      //    classroom_level_chat: "AI Level Hints",
       //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
       //    classroom_level_chat_option_free_form: "Free form",
       //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1776,7 +1787,7 @@ module.exports = {
       courses_prefix: 'Kursus',
       courses_suffix: '',
       course_prefix: 'Kursus',
-      course_suffix: ''
+      course_suffix: '',
       //    licenses_activated_success: "Licenses have been Activated Successfully!",
       //    license_code_used: "License Code used.",
     },
@@ -1847,7 +1858,7 @@ module.exports = {
       create_account_subtitle: 'Dapatkan akses peralatan hanya untuk guru jika menggunakan CodeCombat di ruang kelas. <strong>Mempersiapkan kelas</strong>, menambah siswamu, dan <strong>mengawasi perkembangan mereka</strong>!',
       convert_account_title: 'Ubah ke Akun Guru',
       not: 'Tidak',
-      full_name_required: 'Diperlukan nama depan dan belakang'
+      full_name_required: 'Diperlukan nama depan dan belakang',
     },
 
     versions: {
@@ -1858,7 +1869,7 @@ module.exports = {
       cla_url: 'CLA',
       cla_suffix: '.',
       cla_agree: 'SAYA SETUJU',
-      owner_approve: 'Pemilik akan menerimanya sebelum kamu perubahanmu akan terlihat'
+      owner_approve: 'Pemilik akan menerimanya sebelum kamu perubahanmu akan terlihat',
     },
 
     contact: {
@@ -1875,7 +1886,7 @@ module.exports = {
       subscriber_support: 'Karena kamu adalah seorang pelanggan CodeCombat, emailmu akan menerima dukungan prioritas dari kami.',
       screenshot_included: 'Tangkapan layar termasuk.',
       where_reply: 'Dimanakah kamu harus membalas?',
-      send: 'Kirim Umpan Balik'
+      send: 'Kirim Umpan Balik',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1927,7 +1938,7 @@ module.exports = {
       error_saving: 'Gagal Menyimpan',
       saved: 'Perubahan Disimpan',
       password_mismatch: 'Kata sandi tidak sama.',
-      password_repeat: 'Tolong ulang kata sandimu.'
+      password_repeat: 'Tolong ulang kata sandimu.',
     },
 
     keyboard_shortcuts: {
@@ -1949,11 +1960,10 @@ module.exports = {
       toggle_grid: 'Beralih lembaran kotak-kotak.',
       toggle_pathfinding: 'Beralih lembaran mencari jalan.',
       beautify: 'Percantik kodemu dengan menstandarisasi formatnya.',
-      maximize_editor: 'Memaksimalkan/meminimalisasi editor kode.'
     },
 
     cinematic: {
-      click_anywhere_continue: 'klik di mana saja untuk melanjutkan'
+      click_anywhere_continue: 'klik di mana saja untuk melanjutkan',
       //    instructional_tooltip: "Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same.",
     },
 
@@ -1973,7 +1983,7 @@ module.exports = {
       social_facebook: 'Like CodeCombat di Facebook',
       social_twitter: 'Follow CodeCombat di Twitter',
       social_slack: 'Mengobrol bersama kami di channel publik Slack CodeCombat',
-      contribute_to_the_project: 'Berkontribusi pada proyek'
+      contribute_to_the_project: 'Berkontribusi pada proyek',
     },
 
     clans: {
@@ -2036,7 +2046,7 @@ module.exports = {
       track_concepts6b: 'Urutkan anggota berdasarkan nama atau perkembangan',
       track_concepts7: 'Membutuhkan undangan',
       track_concepts8: 'untuk bergabung',
-      private_require_sub: 'Klan privat membutuhkan langganan untuk membuat atau bergabung.'
+      private_require_sub: 'Klan privat membutuhkan langganan untuk membuat atau bergabung.',
     },
 
     courses: {
@@ -2261,7 +2271,7 @@ module.exports = {
       //    error_in_creating_data: "Error in creating data for intro level!",
       ask_next_course: 'Ingin bermain lebih banyak? Minta akses guru Anda ke kursus berikutnya.',
       set_start_locked_level: 'Kunci level dimulai dari',
-      no_level_limit: '- (tidak ada level yang dikunci)'
+      no_level_limit: '- (tidak ada level yang dikunci)',
       //    ask_teacher_to_unlock: "Ask Teacher To Unlock",
       //    ask_teacher_to_unlock_instructions: "To play the next level, ask your teacher to unlock it on their Course Progress screen",
       //    play_next_level: "Play Next Level",
@@ -2284,7 +2294,7 @@ module.exports = {
     project_gallery: {
       no_projects_published: 'Jadilah yang pertama mempublikasi proyek di kursus ini!',
       view_project: 'Lihat Proyek',
-      edit_project: 'Ubah Project'
+      edit_project: 'Ubah Project',
     },
 
     teacher: {
@@ -2695,7 +2705,7 @@ module.exports = {
       //    presentation_checklist: "Presentation Checklist",
       try_ozaria_footer: 'Coba game petualangan baru kami, Ozaria!',
       try_ozaria_free: 'Coba Ozaria gratis',
-      ozaria_intro: 'Memperkenalkan Program Ilmu Komputer Baru Kami'
+      ozaria_intro: 'Memperkenalkan Program Ilmu Komputer Baru Kami',
       //    share_class: "share class",
       //    permission: "Permission",
       //    not_write_permission: "You don't have write permission to the class",
@@ -2728,7 +2738,7 @@ module.exports = {
       bullet2: 'Ajarkan dasar-dasar Ilmu Komputer, Python atau JavaScript, dan keterampilan abad ke-21',
       bullet3: 'Buka kreativitas melalui proyek batu penjuru',
       bullet4: 'Mendukung petunjuk melalui sumber daya kurikulum khusus',
-      you_can_return: 'Anda selalu dapat kembali ke CodeCombat'
+      you_can_return: 'Anda selalu dapat kembali ke CodeCombat',
     },
 
     educator_signup_ozaria_encouragement: {
@@ -2736,7 +2746,7 @@ module.exports = {
       independent_learners: 'Pembelajar mandiri',
       homeschoolers: 'homeschooler',
       educators_continue_coco: 'Pengajar yang ingin terus menggunakan CodeCombat di kelasnya',
-      continue_coco: 'Lanjutkan dengan CodeCombat'
+      continue_coco: 'Lanjutkan dengan CodeCombat',
     },
 
     ozaria_cta: {
@@ -2745,7 +2755,7 @@ module.exports = {
       title2: 'Rencana Pelajaran Turnkey',
       description2: 'Presentasi dan lembar kerja mendalam bagi guru untuk membimbing siswa melalui tujuan pembelajaran.',
       title3: 'Dasbor Baru untuk Admin & Guru',
-      description3: 'Semua wawasan yang dapat ditindaklanjuti yang dibutuhkan pengajar dalam sekejap, seperti kemajuan siswa dan pemahaman konsep.'
+      description3: 'Semua wawasan yang dapat ditindaklanjuti yang dibutuhkan pengajar dalam sekejap, seperti kemajuan siswa dan pemahaman konsep.',
     },
 
     share_licenses: {
@@ -2767,7 +2777,7 @@ module.exports = {
       one_license_used: '(1 lisensi digunakan)',
       licenses_used: '(__licensesUsed__ lisensi digunakan)',
       //    licenses_used_no_braces: "__licensesUsed__/__all__ licenses used",
-      more_info: 'Info lanjut'
+      more_info: 'Info lanjut',
       //    shared_pool_label: "Teachers in your shared pool:",
       //    teacher_delete_warning: "The shared licenses assigned to the teacher won't be revoked!",
       //    licenses_limit: "Licenses Limit:",
@@ -2790,14 +2800,14 @@ module.exports = {
       victory_course_share_web: 'melihat halaman web',
       victory_course_share_suffix: 'yang kamu buat.',
       copy_url: 'Salin URL',
-      share_with_teacher_email: 'Kirimkan ke gurumu'
+      share_with_teacher_email: 'Kirimkan ke gurumu',
       //    share_ladder_link: "Share Multiplayer Link",
       //    ladder_link_title: "Share Your Multiplayer Match Link",
       //    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:",
     },
 
     game_dev: {
-      creator: 'Pembuat'
+      creator: 'Pembuat',
     },
 
     web_dev: {
@@ -2813,7 +2823,7 @@ module.exports = {
       how_to_copy_paste: 'Bagaimana cara Salin/Tempel',
       copy: 'Salin',
       paste: 'Tempel',
-      back_to_editing: 'Kembali ke Sunting'
+      back_to_editing: 'Kembali ke Sunting',
     },
 
     classes: {
@@ -2835,7 +2845,7 @@ module.exports = {
       ambassador_title: 'Duta Besar',
       ambassador_title_description: '(Pendukung)',
       ambassador_summary: 'Pandu pengguna forum kami dan berikan arahan bagi mereka yang memiliki pertanyaan. Duta Besar kami mewakili CodeCombat kepada dunia.',
-      teacher_title: 'Guru'
+      teacher_title: 'Guru',
     },
 
     editor: {
@@ -2871,6 +2881,7 @@ module.exports = {
       fork_title: 'Fork Versi Baru',
       fork_creating: 'Membuat Fork ...',
       generate_terrain: 'Buat Medan',
+      //    generate_level: "Generate Level",
       more: 'Lainnya',
       wiki: 'Wiki',
       live_chat: 'Obrolan Langsung',
@@ -2974,18 +2985,18 @@ module.exports = {
       tasks: 'Tugas',
       clear_storage: 'Hapus perubahan lokal Anda',
       add_system_title: 'Tambahkan Sistem ke Tingkat',
-      done_adding: 'Selesai Menambahkan'
+      done_adding: 'Selesai Menambahkan',
       //    product: "Product",
       //    link: "Link",
     },
 
     article: {
       edit_btn_preview: 'Pratijau',
-      edit_article_title: 'Ubah Artikel'
+      edit_article_title: 'Ubah Artikel',
     },
 
     polls: {
-      priority: 'Prioritas'
+      priority: 'Prioritas',
     },
 
     contribute: {
@@ -3056,7 +3067,7 @@ module.exports = {
       creative_artisans: 'Pengrajin Kreatif Kami:',
       brave_adventurers: 'Petualang Berani Kami:',
       translating_diplomats: 'Diplomat Penerjemah Kami:',
-      helpful_ambassadors: 'Duta Kami yang Suka Menolong:'
+      helpful_ambassadors: 'Duta Kami yang Suka Menolong:',
     },
 
     ladder: {
@@ -3141,7 +3152,7 @@ module.exports = {
       bracket_11_14: '11-14',
       bracket_14_18: '14-18',
       //    bracket_11_18: "11-18",
-      bracket_open: 'Buka'
+      bracket_open: 'Buka',
       //    create_tournament: "Create a Tournament",
     },
 
@@ -3171,7 +3182,7 @@ module.exports = {
       certificate_levels_completed: 'level selesai',
       certificate_for: 'Untuk',
       //    for_ozaria_chapters_1_4: "For Ozaria Chapters 1 - 4",
-      certificate_number: 'Nomor'
+      certificate_number: 'Nomor',
       //    heroes_unlocked: "Heroes Unlocked",
       //    current_items: "Items Equipped",
       //    contributor_badges: "Contributor Badges",
@@ -3195,7 +3206,7 @@ module.exports = {
       new_xp_postfix: ' diperoleh',
       left_xp_prefix: '',
       left_xp_infix: ' sampai tingkat ',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     account: {
@@ -3236,7 +3247,7 @@ module.exports = {
       unsubscribe_from_marketing: 'Berhenti berlangganan __email__ dari semua marketing email CodeCombat?',
       unsubscribe_button: 'Ya, berhenti berlangganan',
       unsubscribe_failed: 'Gagal',
-      unsubscribe_success: 'Sukses'
+      unsubscribe_success: 'Sukses',
       //    manage_billing: "Manage Billing",
     },
 
@@ -3248,7 +3259,7 @@ module.exports = {
       pay: 'Bayar Tagihan',
       purchasing: 'Membeli...',
       retrying: 'Terjadi kesalahan di server, mencoba kembali.',
-      success: 'Berhasil dibayar. Terima Kasih!'
+      success: 'Berhasil dibayar. Terima Kasih!',
     },
 
     account_prepaid: {
@@ -3273,7 +3284,7 @@ module.exports = {
       no_codes: 'Belum ada kode!',
       you_can1: 'Anda bisa',
       you_can2: 'beli kode prabayar',
-      you_can3: 'yang dapat diterapkan ke akun Anda sendiri atau diberikan kepada orang lain.'
+      you_can3: 'yang dapat diterapkan ke akun Anda sendiri atau diberikan kepada orang lain.',
       //    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account.",
       //    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times.",
       //    prepaid_applied_success: "Prepaid applied to your account!",
@@ -3342,7 +3353,7 @@ module.exports = {
       teacher_school_3: 'Ruby Bridges Elementary',
       teacher_location_3: 'Alameda, CA',
       spotlight_3: 'Susan Jones-Szabo mempromosikan suasana yang setara di kelasnya di mana setiap orang dapat menemukan kesuksesan dengan caranya sendiri. Kesalahan dan perjuangan disambut karena semua orang belajar dari tantangan, bahkan dari guru.',
-      continue_reading_blog: 'Lanjutkan Membaca di Blog ...'
+      continue_reading_blog: 'Lanjutkan Membaca di Blog ...',
       //    ozaria_impact_title: "Positive Impacts with Ozaria",
       //    ozaria_impact_blurb: "CodeCombat's sister curriculum, Ozaria, has proven to have a positive impact on the student learning outcomes that matter most to both students and educators.",
       //    ozaria_impact_learn_more: "Learn more about Ozaria's curriculum efficacy here.",
@@ -3369,7 +3380,7 @@ module.exports = {
       unknown: 'Kesalahan tidak diketahui',
       error: 'KESALAHAN',
       general_desc: 'Ada yang salah, dan mungkin itu salah kami. Coba tunggu sebentar lalu muat ulang halaman, atau kunjungi salah satu tautan dibawah untuk kembali ke pemrograman!',
-      too_many_login_failures: 'Terlalu banyak upaya login yang gagal. Silakan coba lagi nanti.'
+      too_many_login_failures: 'Terlalu banyak upaya login yang gagal. Silakan coba lagi nanti.',
       //    something_went_wrong: "Oops! Something went wrong",
     },
 
@@ -3382,7 +3393,7 @@ module.exports = {
       component: 'Komponen',
       components: 'Komponen',
       hero: 'Jagoan',
-      campaigns: 'Kampanye'
+      campaigns: 'Kampanye',
     },
 
     concepts: {
@@ -3518,7 +3529,7 @@ module.exports = {
       basic_game_ai: 'AI Game Dasar',
       basic_javascript: 'JavaScript Dasar',
       basic_event_handling: 'Penanganan Event Dasar',
-      create_sharable_interactive_web_page: 'Buat halaman web interaktif yang dapat dibagikan'
+      create_sharable_interactive_web_page: 'Buat halaman web interaktif yang dapat dibagikan',
       //    iteration: "Iteration",
       //    nesting: "Nesting",
       //    data_types: "Data Types",
@@ -3538,7 +3549,7 @@ module.exports = {
       student_name_placeholder: 'ketik nama anda di sini',
       teachers_section: 'Guru:',
       students_section: 'Siswa:',
-      teacher_notified: 'Kami telah memberi tahu guru kamu bahwa kamu ingin memainkan lebih CodeCombat di kelasmu!'
+      teacher_notified: 'Kami telah memberi tahu guru kamu bahwa kamu ingin memainkan lebih CodeCombat di kelasmu!',
     },
 
     delta: {
@@ -3549,7 +3560,7 @@ module.exports = {
       moved_index: 'Indeks Pindah',
       text_diff: 'Perbedaan Teks',
       merge_conflict_with: 'GABUNG PERBEDAAN DENGAN',
-      no_changes: 'Tidak Ada Perubahan'
+      no_changes: 'Tidak Ada Perubahan',
     },
 
     legal: {
@@ -3610,7 +3621,7 @@ module.exports = {
       third_party_description: 'CodeCombat menggunakan layanan pihak ketiga berikut (antara lain):',
       cookies_message: 'CodeCombat menggunakan beberapa cookie penting dan non-esensial.',
       cookies_deny: 'Tolak cookie yang tidak penting',
-      cookies_allow: 'Izinkan cookie'
+      cookies_allow: 'Izinkan cookie',
     },
 
     //  ladder_prizes: {
@@ -3649,7 +3660,7 @@ module.exports = {
       september: 'September',
       october: 'Oktober',
       november: 'November',
-      december: 'Desember'
+      december: 'Desember',
     },
 
     code_play_create_account_modal: {
@@ -3657,14 +3668,14 @@ module.exports = {
       body: 'Anda sekarang dalam perjalanan untuk menjadi master coder. Daftar untuk menerima <strong> 100 Permata </strong> ekstra & Anda juga akan dimasuki untuk kesempatan <strong> memenangkan $2.500 & Hadiah Lenovo lainnya </strong>. ',
       sign_up: 'Daftar & pertahankan coding ▶',
       victory_sign_up_poke: 'Buat akun gratis untuk menyimpan kode Anda & masuki kesempatan untuk memenangkan hadiah!',
-      victory_sign_up: 'Daftar & ikuti <strong> win $2.500 </strong>'
+      victory_sign_up: 'Daftar & ikuti <strong> win $2.500 </strong>',
     },
 
     server_error: {
       email_taken: 'Email telah diambil',
       username_taken: 'Username telah diambil',
       easy_password: 'Kata sandi terlalu mudah ditebak',
-      reused_password: 'Kata sandi tidak dapat digunakan kembali'
+      reused_password: 'Kata sandi tidak dapat digunakan kembali',
     },
 
     esper: {
@@ -3744,7 +3755,7 @@ module.exports = {
       you_do_not_have: 'Anda tidak memiliki item yang dilengkapi dengan keahlian $1.',
       put_each_command_on: 'Tempatkan setiap perintah pada baris terpisah',
       are_you_missing_a: "Apakah Anda kehilangan '$1' setelah '$2'?",
-      your_parentheses_must_match: 'Tanda kurung Anda harus cocok.'
+      your_parentheses_must_match: 'Tanda kurung Anda harus cocok.',
       //    missing_parentheses: "Missing parentheses? Try `__suggestion__`",
       //    do_nothing_without_parentheses: "`__code__` doesn't do anything without `()`",
       //    error_index_empty: "Cannot read property `__name__` of `__specTypeName__`",
@@ -3833,7 +3844,7 @@ module.exports = {
       unit_8_activity_3: 'Buat Latihan Tugas 3: Pengembangan Game 3',
       unit_9: 'Unit 9: Ulasan AP',
       unit_10: 'Unit 10: Pasca-AP',
-      unit_10_activity_1: 'Aktivitas Unit 10: Kuis Web'
+      unit_10_activity_1: 'Aktivitas Unit 10: Kuis Web',
     },
 
     //  apcsp_marketing: {
@@ -4071,7 +4082,7 @@ module.exports = {
       live_classes_title: 'Kelas pengkodean langsung dari CodeCombat!',
       live_class_booked_thank_you: 'Kelas langsung Anda telah dipesan, terima kasih!',
       book_your_class: 'Pesan Kelas Anda',
-      call_to_book: 'Telepon sekarang untuk memesan'
+      call_to_book: 'Telepon sekarang untuk memesan',
       //    student_journey_start: "Congratulations! Your student's coding journey is about to begin!",
       //    enter_email_address: "Please provide your email address to get started:",
       //    enter_parent_email_address: "If you are a student under 18 years of age, please enter your parent or guardian's email address.",
@@ -4095,7 +4106,7 @@ module.exports = {
       paragraph_3: 'Sebentar lagi Anda akan menerima undangan email dengan detail jadwal kelas serta nama instruktur kelas dan informasi kontak Anda.',
       paragraph_4: 'Jika karena alasan apa pun Anda perlu mengubah pilihan kelas, menjadwalkan ulang, atau hanya ingin berbicara dengan spesialis layanan pelanggan, cukup hubungi menggunakan informasi kontak yang disediakan dalam undangan email Anda.',
       paragraph_5: 'Terima kasih telah memilih CodeCombat dan semoga sukses dalam perjalanan ilmu komputer Anda!',
-      back_to_coco: 'Kembali ke CodeCombat'
+      back_to_coco: 'Kembali ke CodeCombat',
     },
 
     hoc_2018: {
@@ -4132,7 +4143,7 @@ module.exports = {
       point5: '✓ Pelacakan siswa',
       point6: '✓ Rencana pelajaran lengkap',
       title: 'HOUR OF CODE',
-      acronym: 'HOC'
+      acronym: 'HOC',
       //    play_video: "Play Video",
       //    featured_title_1: "CodeCombat: Goblins 'n' Glory",
       //    featured_subtitle_1: "Grades 6-8 | JavaScript, Python",
@@ -4151,7 +4162,7 @@ module.exports = {
       educator: 'Saya seorang pendidik',
       show_resources: 'Tunjukkan sumber daya guru!',
       student: 'Saya seorang siswa',
-      ready_to_code: 'Saya siap membuat kode!'
+      ready_to_code: 'Saya siap membuat kode!',
     },
 
     hoc_2018_completion: {
@@ -4162,7 +4173,7 @@ module.exports = {
       get_cert_btn: 'Dapatkan Sertifikat',
       first_name: 'Nama depan',
       last_initial: 'Inisial Terakhir',
-      teacher_email: 'Alamat email guru'
+      teacher_email: 'Alamat email guru',
     },
 
     school_administrator: {
@@ -4191,7 +4202,7 @@ module.exports = {
       totals_explanation_7: 'Menghitung terakhir semua siswa yang aktif dalam 60 hari.',
       totals_explanation_8: 'Proyek dibuat',
       totals_explanation_9: 'Menghitung total game dan halaman web yang dibuat.',
-      date_thru_date: '__startDateRange__ thru __endDateRange__'
+      date_thru_date: '__startDateRange__ thru __endDateRange__',
       //    teachers: "Teachers",
       //    students_enrolled: "Students Enrolled",
       //    select_time_range: "Select the time range:",
@@ -4204,7 +4215,7 @@ module.exports = {
       phenomenal_job: 'Pekerjaan Fenomenal!',
       try_again: 'Ups, coba lagi!',
       select_statement_left: 'Ups, pilih pernyataan dari kiri sebelum menekan "Kirim."',
-      fill_boxes: 'Ups, pastikan untuk mengisi semua kotak sebelum menekan "Kirim."'
+      fill_boxes: 'Ups, pastikan untuk mengisi semua kotak sebelum menekan "Kirim."',
       //    cannot_play_video: "Sadly, this video cannot be played in your area.",
       //    console_instructions: "See why by opening your browser console: 1) Right click 2) Choose \"Inspect\" 3) Click the console tab.",
       //    skip_video: "Skip video",
@@ -4215,12 +4226,12 @@ module.exports = {
       title: 'CodeCombat bekerja paling baik di Chrome!',
       pitch_body: 'Untuk pengalaman CodeCombat terbaik, sebaiknya gunakan Chrome versi terbaru. Unduh versi terbaru chrome dengan mengeklik tombol di bawah!',
       download: 'Unduh Chrome',
-      ignore: 'Abaikan'
+      ignore: 'Abaikan',
     },
 
     admin: {
       license_type_full: 'Kursus Lengkap',
-      license_type_customize: 'Sesuaikan Kursus'
+      license_type_customize: 'Sesuaikan Kursus',
     },
 
     //  events: {
@@ -4582,7 +4593,7 @@ module.exports = {
       season1_prize_1: 'Beasiswa $1,000',
       season1_prize_2: 'RESPAWN Kursi Permainan',
       season1_prize_3: 'Avatar CodeCombat Khusus',
-      season1_prize_4: 'Dan banyak lagi!'
+      season1_prize_4: 'Dan banyak lagi!',
       //    season1_prize_hyperx: "HyperX Premium Peripherals",
       //    codecombat_ai_league: "CodeCombat AI League",
       //    register: "Register",
@@ -4664,7 +4675,7 @@ module.exports = {
       no_tournaments_owner: 'Tidak ada turnamen sekarang, buatlah turnamen',
       no_tournaments: 'Tidak ada turnamen sekarang',
       edit_tournament: 'Edit Turnamen',
-      create_tournament: 'Buat Turnamen'
+      create_tournament: 'Buat Turnamen',
       //    upcoming: "Upcoming",
       //    starting: "Starting",
       //    ended: "Ended",
@@ -4698,7 +4709,7 @@ module.exports = {
       //    error_results_date_too_early: "The Results Time cannot be earlier than End Time",
       //    publish_results: "Publish Results",
       //    publish_options: "Publish Options",
-    }
+    },
 
     //  payments: {
     //    student_licenses: "Student Licenses",

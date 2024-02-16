@@ -13,11 +13,12 @@
     width: 170px
     display: inline-block
   
-  label
+  label:not(.checkbox-inline)
     margin-top: 15px
 
     .pick-image-button
       margin-left: 20px
+
   .help-block
     margin: 0
 
@@ -33,3 +34,6 @@
     margin-left: 15px
     width: 18px
     height: 18px
+
+  .checkbox-inline input[type=checkbox]
+    margin-top: 8px

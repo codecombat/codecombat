@@ -17,7 +17,7 @@ body.is-playing
   top: 0
   @include user-select(none)
 
-  &.real-time, &.cinematic
+  &.real-time
     // Hmm, somehow the #page-container is cutting us off by ~17px on the right, looks a bit off.
 
     &.real-time.game-dev
@@ -50,8 +50,6 @@ body.is-playing
           width: 1.8vw
           height: 1.8vw
     #duel-stats-view
-      right: calc(50% - 250px)
-      bottom: 50px
       .duel-stats-background
         opacity: 0.8
     #control-bar-view .title
@@ -86,30 +84,10 @@ body.is-playing
       display: block
       z-index: 20
 
-  &.cinematic
-    #playback-view
-      width: 100%
-      margin-top: -10px
-
-    #stop-cinematic-playback-button
-      display: block
-      z-index: 20
-
-    #cinematic-code-display
-      display: block
-      z-index: 20
-      visibility: visible
-
-    #control-bar-view
-      display: none
-
-    #canvas-wrapper
-      top: 0
-
   #canvas-wrapper
-    top: 50px
+    top: $control-bar-height
     width: calc(57% - 200px)
-    width: calc(#{$game-view-width} - #{$api-bar-width})
+    width: $game-view-width
     position: relative
     overflow: hidden
     background-color: black
@@ -150,15 +128,12 @@ body.is-playing
     &.flag-color-selected
       cursor: crosshair
 
-  min-width: 1024px
-
-  &.no-api
-    #code-area
-      width: 43.5%
-      width: $code-area-width-no-api
-    #solution-area
-      right: 43.5%
-      right: $code-area-width-no-api
+  #code-area
+    width: 43.5%
+    width: $code-area-width
+  #solution-area
+    right: 43.5%
+    right: $code-area-width
 
   &.blocks #code-area
     width: 43.5%
@@ -166,7 +141,7 @@ body.is-playing
 
   #code-area, #solution-area
     @include box-sizing(border-box)
-    padding: 0px 0.9% 10px 0
+    padding: 0 0 10px 0
     width: 43.5%
     width: $code-area-width
     background: transparent url(/images/level/wood_texture.png)
@@ -318,9 +293,9 @@ body.is-playing
     height: 100%
     width: 2%
 
-  &.no-api #play-footer
+  #play-footer
     width: 57%
-    width: $game-view-width-no-api
+    width: $game-view-width
 
   &.blocks #play-footer
     width: 57%
@@ -330,7 +305,7 @@ body.is-playing
     position: absolute
     bottom: 0px
     width: calc(57% - 200px)
-    width: calc(#{$game-view-width} - #{$api-bar-width})
+    width: $game-view-width
     text-align: center
     font-family: $headings-font-family
     font-variant: small-caps
@@ -362,40 +337,25 @@ body.is-playing
     background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)
     pointer-events: none
 
-  #fullscreen-editor-background-screen
-    background-color: black
-    opacity: 0.5
-    cursor: pointer
-    display: none
-    position: absolute
-    left: 0
-    right: 0
-    bottom: 0
-    top: 0
-    z-index: 19
-
-  #stop-real-time-playback-button, #stop-cinematic-playback-button
+  #stop-real-time-playback-button
     display: none
     position: absolute
     // bottom: 70px // Set via javascript because of gamedev level sizing
     right: 15px
     font-size: 30px
 
-  #stop-cinematic-playback-button
-    bottom: 70px
-
   #cinematic-code-display
     display: none
     position: absolute
-    left: 0px
+    right: 0px
     top: 0px
     padding: 10px
-    font-size: 1.1vw
+    font-size: 2.2vw
     text-align: left
     background-color: rgba(0, 0, 0, 0.7)
     border-bottom-right-radius: 8px
-    visibility: hidden
     max-width: 35%
+    z-index: 20
 
     .code-line
       line-height: 1.2em
@@ -433,19 +393,16 @@ body.is-playing
   .game-container, .level-content
     height: 100%
 
-  &.no-api
-    #spell-palette-view-mid
-      display: none
-    #canvas-wrapper
-      width: 57%
-      width: $game-view-width-no-api
+  #canvas-wrapper
+    width: 57%
+    width: $game-view-width
 
-    &.real-time
-      #canvas-wrapper
-        width: 100%
+  &.real-time
+    #canvas-wrapper
+      width: 100%
 
   &.blocks
-    #spell-palette-view-mid
+    #spell-palette-view
       display: none
     #canvas-wrapper
       width: 57%
@@ -458,14 +415,14 @@ body.is-playing
     left: 0
     right: 0
 
-    #playback-view, #thang-hud, #level-dialogue-view, #play-footer, #level-footer-background, #level-footer-shadow
+    #playback-view, #thang-hud, #level-dialogue-view, #play-footer, #level-footer-background
       display: none
 
     .game-container, .level-content, #game-area, #canvas-wrapper
       height: 100%
 
     #canvas-wrapper
-      height: calc(100% - 50px)
+      height: calc(100% - $control-bar-height)
 
     #canvas-wrapper canvas
       display: none
@@ -484,48 +441,276 @@ body.is-playing
     width: 20%
     bottom: 38px
 
-html.fullscreen-editor
-  #level-view
-    #fullscreen-editor-background-screen
-      display: block
-
-    #code-area
-      position: fixed
-      width: 95%
-      height: 100%
-      right: 0
-
-body.ipad #level-view
-  // Full-width Surface, preserving aspect ratio, with space for control bar.
-  height: 1024px * math.div(589, 924) + 50px
-  overflow: hidden
-
-  #code-area, #play-footer, #thang-hud
-    display: none
-
-  #level-chat-view
-    bottom: 40px
-
-  #playback-view
-    background-color: transparent
-    z-index: 3
-    bottom: 30px
-
-    button
-      background-color: #333
-
-    .scrubber .progress
-      background-color: rgba(255, 255, 255, 0.4)
-
-  #canvas-wrapper, #control-bar-view, #playback-view, #thang-hud
-    width: 100%
+  .game-container .level-content
+    #code-area #spell-top-bar-view
+      display: none
+      height: 0
+      padding: 0
 
   #canvas-wrapper
-    height: 653px
+    top: 0
 
-    canvas
-      margin: 0 auto
+  &.game-dev
+    #playback-view, #thang-hud, #level-footer-shadow
+      display: none
+
+  &:not(.text-code), &.cinematic
+    .game-container .level-content #code-area
+      padding: 0
+      margin: 0
+
+      #spell-view
+        position: static
+
+      .spell-toolbar-view
+        width: 100%
+        margin: 0
+        position: absolute
+        bottom: 0
+
+      .code-background
+        height: calc(100% + 25px)
+
+  &.blocks-icons, &.blocks-text
+    #tome-view #spell-view
+      .ace_editor
+        visibility: hidden
+        width: 1px
+
+      .blockly-container
+        left: 0
+
+  &.blocks-icons, &.blocks-text, &.blocks-and-code
+    .save-status, .programming-language-container
+      display: none
+
+  &[data-control-bar-location="left"], &[data-control-bar-location="top"]
+    #game-area
+      top: $control-bar-height
+
+  &[data-control-bar-location="right"], &[data-control-bar-location="none"]
+    #game-area
+      top: 0
+
+  &[data-control-bar-location="left"]
+    .game-container .level-content #control-bar-view
+        @media screen and (max-width: 1920px)
+          .wood-background
+            background-size: cover
+            height: $control-bar-height
+
+          .left-cap
+            display: none
+
+          .levels-link-area
+            width: auto
+
+            .levels-link
+              font-size: 20px
+
+        @media screen and (max-width: 1366px)
+          .buttons-area #game-menu-button .game-menu-text, .home-text, .right-cap, .right-chain
+            display: none
+
+          .buttons-area
+            right: 10px
+            top: 4px
+
+          .level-name-area
+            min-width: 140px
+            max-width: 240px
+
+            .level-label
+              display: none
+
+  &[data-control-bar-location="right"]
+    .game-container .level-content #control-bar-view
+        .wood-background
+          background-size: cover
+          height: $control-bar-height
+
+        .left-cap, .buttons-area #game-menu-button .game-menu-text, .home-text, .right-cap, .right-chain
+          display: none
+
+        .levels-link-area
+          width: auto
+
+          .levels-link
+            font-size: 20px
+
+        .buttons-area
+          right: 10px
+          top: 4px
+
+        .level-name-area
+          min-width: 140px
+          max-width: 240px
+
+          .level-label
+            display: none
+
+  &[data-control-bar-location="top"]
+    @media screen and (max-width: 700px)
+      .game-container .level-content #control-bar-view
+          .wood-background
+            background-size: cover
+            height: $control-bar-height
+
+          .left-cap, .buttons-area #game-menu-button .game-menu-text
+            display: none
+
+          .levels-link-area
+            width: auto
+
+            .levels-link
+              font-size: 20px
+
+          .home-text
+            display: none
+
+            .right-cap, .right-chain
+              display: none
+
+            .buttons-area
+              right: 10px
+              top: 4px
+
+            .level-name-area
+              min-width: 140px
+              max-width: 240px
+
+              .level-label
+                display: none
+
+  &[data-playback-location="bottom"]
+    #playback-view
+      background: transparent
+      margin-bottom: -2px
+
+      .scrubber
+        height: 14px
+        top: 28px
+
+        .scrubber-inner
+          padding: 1px
+
+          .progress
+            height: 8px
+
+            .scrubber-handle
+              width: 30px
+              height: 30px
+
+  &[data-tome-location="bottom"]
+    #code-area
       overflow: hidden
+
+  &[data-hud-location="none"]
+    #thang-hud
+      display: none
+
+  &.blocks-and-code, &.text-code
+    // TODO: better conditions for when to trigger this (when we won't have enough width to show the code)
+    @media screen and (max-width: 932px) and (max-height: 500px) and (max-aspect-ratio: 932 / 375)
+      &.cinematic #cinematic-code-display
+        // Show the smallest version of the executing code we can
+        display: block
+
+      &.cinematic #tome-view #spell-view .ace_editor
+        // We don't have enough space to display this; blank it out in favor of cinematic playback code view
+        visibility: hidden
+
+  &.cinematic
+    .game-container .level-content #control-bar-view
+      .left-cap, .right-cap, .center-chain, .right-chain, .wood-background, .levels-link-area, .buttons-area
+        display: none
+
+    .game-container .level-content #playback-view
+      margin-top: -50px
+
+      button
+        display: none
+
+      .scrubber
+        background: rgba(3, 3, 3, 0.2)
+        left: 20px
+        right: 30px
+
+    #stop-cinematic-playback-button
+      display: block
+
+    .cast-button
+      display: none
+
+    #canvas-wrapper
+      top: 0
+
+    #tome-view.blocks #spell-view .blockly-container
+      //.blocklyFlyout, .blocklyFlyoutScrollbar, .blocklyTrash, .blocklyZoomOut, .blocklyZoomIn, .blocklyZoomReset
+      .blocklyTrash, .blocklyZoomOut, .blocklyZoomIn, .blocklyZoomReset
+        display: none
+        visibility: hidden
+        width: 0
+
+      .blocklySvg
+        background: transparent
+
+  &.cinematic-old
+    // TODO: try reintegrating this in certain cases
+    // Hmm, somehow the #page-container is cutting us off by ~17px on the right, looks a bit off.
+
+    #canvas-wrapper
+      width: 100%
+      canvas
+        margin: 0 auto
+      #normal-surface
+        left: 0
+        right: 0
+        margin-left: auto
+        margin-right: auto
+    #control-bar-view
+      width: 100% !important
+      button, h4
+        display: none
+    #code-area, #thang-hud, #goals-view
+      display: none
+      visibility: hidden
+    #gold-view
+      right: 1%
+      @include box-shadow(-1px 1px 10px cyan)
+      .team-gold
+        font-size: 2vw
+        line-height: 2vw
+        img
+          width: 1.8vw
+          height: 1.8vw
+    #duel-stats-view
+      .duel-stats-background
+        opacity: 0.8
+    #control-bar-view .title
+      left: 20%
+      width: 60%
+      text-align: center
+    #level-dialogue-view
+      display: none
+
+    .level-content
+      margin: 0px auto
+
+  .level-content
+    position: relative
+    min-height: 555px
+    //background-color: black
+
+  &.junior
+    // Remove interface elements with unwanted reading
+    .game-container .level-content
+      #control-bar-view
+        .buttons-area #game-menu-button .game-menu-text
+          display: none
+
+        .home-text
+          display: none
 
 #level-footer-background
   display: none
@@ -534,5 +719,5 @@ body.ipad #level-view
   bottom: 0
   width: 100%
   background-size: cover
-  height: Max(400px, calc(100vh - (100vw * 0.57 - 200px - 17px) * 589 / 924 - 50px - 43px - 80px))
+  height: Max(400px, calc(100vh - (100vw * 0.57 - 200px - 17px) * 589 / 924 - $control-bar-height - 43px - 80px))
   z-index: -9001

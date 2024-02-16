@@ -137,7 +137,8 @@ const campignSlugImageMap = {
   'campaign-web-dev-2': 'web-dev-2.png',
   'campaign-game-dev-1': 'game-dev.png',
   'campaign-game-dev-2': 'game-dev-2.png',
-  'campaign-game-dev-3': 'game-dev-2.png'
+  'campaign-game-dev-3': 'game-dev-2.png',
+  junior: 'backwoods-forest.png',
 }
 export default {
   name: 'CampaignBasicSummary',

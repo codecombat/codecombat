@@ -5,6 +5,7 @@ template = require 'app/templates/play/level/tome/cast-button-view'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 LevelSession = require 'models/LevelSession'
 async = require('vendor/scripts/async.js')
+utils = require('core/utils')
 
 module.exports = class CastButtonView extends CocoView
   id: 'cast-button-view'
@@ -24,6 +25,7 @@ module.exports = class CastButtonView extends CocoView
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'god:goals-calculated': 'onGoalsCalculated'
     'playback:ended-changed': 'onPlaybackEndedChanged'
+    'playback:playback-ended': 'onPlaybackEnded'
 
   constructor: (options) ->
     super options
@@ -55,11 +57,13 @@ module.exports = class CastButtonView extends CocoView
       @$el.find('.done-button').show()
     if @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
       @$el.find('.submit-button').hide()  # Hide submit until first win so that script can explain it.
+    @updateButtonWidth()
     @updateReplayability()
     @updateLadderSubmissionViews()
 
   attachTo: (spellView) ->
     @$el.detach().prependTo(spellView.toolbarView.$el).show()
+    @updateButtonWidth()
 
   castShortcutVerbose: ->
     shift = $.i18n.t 'keyboard_shortcuts.shift'
@@ -123,6 +127,12 @@ module.exports = class CastButtonView extends CocoView
     @updateCastButton()
     @world = e.world
 
+  onPlaybackEnded: (e) ->
+    return unless @winnable
+    return if @options.level.get('product', true) is 'codecombat' and not utils.isOzaria
+    return if @options.level.get('ozariaType') is 'capstone'
+    Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
+
   onNewGoalStates: (e) ->
     winnable = e.overallStatus is 'success'
     return if @winnable is winnable
@@ -135,6 +145,7 @@ module.exports = class CastButtonView extends CocoView
       @$el.find('.done-button').toggle @winnable
     else if @winnable and @options.level.get('slug') in ['course-thornbush-farm', 'thornbush-farm']
       @$el.find('.submit-button').show()  # Hide submit until first win so that script can explain it.
+    @updateButtonWidth()
 
   onGoalsCalculated: (e) ->
     # When preloading, with real-time playback enabled, we highlight the submit button when we think they'll win.
@@ -165,9 +176,13 @@ module.exports = class CastButtonView extends CocoView
           castText += ' ' + @castShortcut
       else
         castText = $.i18n.t('play_level.tome_cast_button_ran')
-      @castButton.text castText
+      @castButton.text castText unless @options.level.get('product') is 'codecombat-junior'
       #@castButton.prop 'disabled', not castable
       @ladderSubmissionView?.updateButton()
+
+  updateButtonWidth: ->
+    numVisibleButtons = @$el.find('.btn:visible').length
+    @castButton.toggleClass 'full-width', numVisibleButtons is 1
 
   updateReplayability: =>
     return if @destroyed

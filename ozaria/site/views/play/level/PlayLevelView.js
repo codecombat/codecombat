@@ -600,9 +600,6 @@ class PlayLevelView extends RootView {
     ) {
       return
     }
-    const useHero =
-      /hero/.test(spell.getSource()) ||
-      !/(self[\.\:]|this\.|\@)/.test(spell.getSource())
     if (this.spellPaletteView && !this.spellPaletteView.destroyed) {
       this.removeSubView(this.spellPaletteView)
     }
@@ -620,8 +617,7 @@ class PlayLevelView extends RootView {
         session: this.session,
         level: this.level,
         courseID: this.courseID,
-        courseInstanceID: this.courseInstanceID,
-        useHero
+        courseInstanceID: this.courseInstanceID
       })
     )
   }
@@ -773,57 +769,11 @@ class PlayLevelView extends RootView {
   // Load Completed Setup ######################################################
 
   onSessionLoaded (e) {
-    let left1
     store.commit('game/setTimesCodeRun', e.session.get('timesCodeRun') || 0)
     store.commit(
       'game/setTimesAutocompleteUsed',
       e.session.get('timesAutocompleteUsed') || 0
     )
-    if (this.session) {
-      return
-    }
-    // Just the level and session have been loaded by the level loader
-    if (
-      e.level.isType('hero', 'hero-ladder', 'hero-coop') &&
-      !_.size(
-        (left1 = __guard__(e.session.get('heroConfig'), x => x.inventory)) !=
-          null
-          ? left1
-          : {}
-      ) &&
-      e.level.get('assessment') !== 'open-ended'
-    ) {
-      // Delaying this check briefly so LevelLoader.loadDependenciesForSession has a chance to set the heroConfig on the level session
-      return _.defer(() => {
-        let left2
-        if (
-          _.size(
-            (left2 = __guard__(
-              e.session.get('heroConfig'),
-              x1 => x1.inventory
-            )) != null
-              ? left2
-              : {}
-          )
-        ) {
-          return
-        }
-        // TODO: which scenario is this executed for?
-        if (this.setupManager != null) {
-          this.setupManager.destroy()
-        }
-        this.setupManager = new LevelSetupManager({
-          supermodel: this.supermodel,
-          level: e.level,
-          levelID: this.levelID,
-          parent: this,
-          session: e.session,
-          courseID: this.courseID,
-          courseInstanceID: this.courseInstanceID
-        })
-        return this.setupManager.open()
-      })
-    }
   }
 
   onLoaded () {
@@ -1831,9 +1781,6 @@ PlayLevelView.prototype.events = {
   },
   'click #stop-cinematic-playback-button' () {
     return Backbone.Mediator.publish('playback:stop-cinematic-playback', {})
-  },
-  'click #fullscreen-editor-background-screen' (e) {
-    return Backbone.Mediator.publish('tome:toggle-maximize', {})
   },
   'click .contact-link': 'onContactClicked',
   'contextmenu #webgl-surface': 'onSurfaceContextMenu',

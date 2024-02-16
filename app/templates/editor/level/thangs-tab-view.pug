@@ -2,13 +2,15 @@ button.btn#thangs-container-toggle
   span.icon-list
 button.btn#thangs-palette-toggle
   span.icon-plus
-.thangs-container.hide#all-thangs
+.thangs-container#all-thangs
   h3(data-i18n="editor.level_tab_thangs_title") Current Thangs
   #thangs-treema(data-i18n="[title]editor.config_thang", title="Double click to configure a thang")
 
 .world-container
   #canvas-wrapper
-    button.generate-terrain-button.btn.btn-info.btn-lg(data-toggle="coco-modal", data-target="editor/level/modals/GenerateTerrainModal", data-i18n="editor.generate_terrain") Generate Terrain
+    button.generate-terrain-button.btn.btn-info.btn-lg(data-toggle="coco-modal", data-target="editor/level/modals/GenerateTerrainModal", data-i18n="editor.generate_terrain")
+    if me.isAdmin()
+      button.generate-level-button.btn.btn-info.btn-lg(data-i18n="editor.generate_level")
     ul.dropdown-menu#contextmenu
       li#delete
         a(data-i18n="editor.delete") Delete
@@ -29,6 +31,7 @@ button.btn#thangs-palette-toggle
     canvas(width=924, height=589)#normal-surface
     #canvas-left-gradient.gradient
     #canvas-top-gradient.gradient
+    #surface-selection-rectangle
 
 #add-thangs-view
 #level-thang-edit-view.secret

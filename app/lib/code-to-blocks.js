@@ -33,12 +33,28 @@ function fuzzyMatch (a, b) {
 
 function findOne (array, pred, why = 'Expected exactly one match') {
   const matches = array.filter(pred)
-  if (matches.length !== 1) {
-    console.log(matches)
-    console.log(array)
+  if (matches.length === 1) {
+    return matches[0]
+  }
+  if (matches.length > 1) {
+    const nonSnippets = matches.filter(x => x[0].setupInfo?.type !== 'snippet')
+    if (nonSnippets.length === 1) {
+      // There's one main match and then some duplicative snippets, it's ok
+      return nonSnippets[0]
+    }
+    if (nonSnippets.length === 0) {
+      // There are multiple matching snippets; it's ok to just pick one
+      return matches[0]
+    }
+    // There are multiple matching non-snippets; maybe this is bad and we should error out?
+    console.log('Multiple block matches:', matches + '\nfrom possibilities:', array)
     throw new Error(why + ', found ' + matches.length)
   }
-  return matches[0]
+  if (matches.length === 0) {
+    // There are no matches
+    console.log('No block matches from possibilities:', array)
+    throw new Error(why + ', found ' + matches.length)
+  }
 }
 class Converters {
   static ConvertProgram (n, ctx) {
@@ -205,7 +221,7 @@ class Converters {
 
   static ConvertIfStatement (n, ctx) {
     // TODO: ELSE, ELSEIF
-    console.log('IF', n)
+    // console.log('IF', n)
     const conq = convert(n.consequent, { ...ctx, context: 'statement', nospace: true })
     const o = {
       type: 'controls_if',
@@ -305,7 +321,7 @@ class Converters {
 
   static ConvertCallExpression (n, ctx) {
     if (n.callee.type === 'Identifier') {
-      console.log('CALL', n, ctx.scope)
+      // console.log('CALL', n, ctx.scope)
 
       if (n.callee.name === '__comment__') {
         return {
@@ -396,7 +412,7 @@ class Converters {
     }
 
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), `Couldn't find match for ${JSON.stringify(n)}`)
-    console.log('CALL', ctx, found[0])
+    // console.log('CALL', ctx, found[0])
 
     const out = {
       type: found[0].type,
@@ -406,11 +422,22 @@ class Converters {
     const args = n.arguments.map(x => convert(x, { ...ctx, context: 'value' }))
     if (found[0].inputs) {
       const inputs = Object.keys(found[0].inputs)
+      if (['go', 'hit', 'zap', 'look'].indexOf(n.callee?.name) !== -1) {
+        // Remove first argument; convert to field
+        // TODO: make general, not just based on callee.name being one of the methods where we do this
+        const toArg = args.splice(0, 1)
+        out.fields = { to: toArg[0].fields.TEXT }
+        if (args.length) {
+          // Remove second argument; convert to field
+          const squaresArg = args.splice(0, 1)
+          out.fields.steps = '' + squaresArg[0].fields.NUM // Convert to string, dropdowns expect that
+        }
+      }
       for (let i = 0; i < args.length; ++i) {
         out.inputs[inputs[i]] = { block: args[i] }
       }
     } else {
-      console.log('NO INPUT', found[0])
+      // console.log('NO INPUT', found[0])
     }
 
     if (ctx.context !== 'value' && found[0].output) {
@@ -427,7 +454,7 @@ class Converters {
 
   static ConvertFunctionDeclaration (n, ctx) {
     ctx.scope[n.id.name] = { type: 'fx', n }
-    console.log('FX', n)
+    // console.log('FX', n)
     const o = {
       type: 'procedures_defnoreturn',
       extraState: { params: [] },
@@ -489,7 +516,7 @@ class Converters {
     }
 
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), `Couldn't find match for ${JSON.stringify(n)}`)
-    console.log(found)
+    // console.log(found)
     return {
       type: found[0].type
     }
@@ -594,7 +621,7 @@ function nextify (arr, ctx) {
         target.next = { block: { type: 'newline', next: { block: e } } }
         target = e
       } else {
-        console.log('BREAK', e.loc, target.loc)
+        // console.log('BREAK', e.loc, target.loc)
         result.push(e)
         target = e
       }
@@ -606,13 +633,13 @@ function nextify (arr, ctx) {
 function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
   const plan = []
 
-  console.log('prepareBlockIntelligence', arguments[0])
-  window.ws = workspace
+  // console.log('prepareBlockIntelligence', arguments[0])
+  // window.ws = workspace
   const blocks = findAllBlocks(toolbox.fullContents)
 
   for (const block of blocks) {
     const zeblock = Blockly.Blocks[block.type]
-    console.log('Consiter', block, 'z', zeblock)
+    // console.log('Consider', block, 'z', zeblock)
     workspace.clear()
     const defn = {
       type: block.type
@@ -624,8 +651,12 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
         defn.output = zeblock.setupInfo.output === null
 
         for (const entry of zeblock.setupInfo.args0) {
-          console.log(entry)
-          if (entry.check === 'Number') {
+          // console.log(entry)
+          if (entry.type === 'field_image') {
+            // Don't add an input; it's just decoration
+          } else if (['to', 'steps', 'squares'].includes(entry.name) && entry.type === 'field_dropdown') {
+            // Don't add an input.
+          } else if (entry.check === 'Number') {
             defn.inputs[entry.name] = {
               block: {
                 type: 'math_number',
@@ -651,11 +682,16 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
     try {
       Blockly.serialization.blocks.append(defn, workspace)
       // const state = Blockly.serialization.workspaces.save(workspace) // I don't think we need this
-      const blocklySource = javascriptGenerator.workspaceToCode(workspace)
+      let blocklySource = javascriptGenerator.workspaceToCode(workspace)
+      if (['☃\n', "Couldn't read code.\n"].includes(blocklySource)) {
+        // Parser chokes on this whitespace trimming avoidance hack; ignore it here.
+        blocklySource = ''
+      }
       const blx = doParse(blocklySource)
-      console.log('BS[' + blocklySource + ']', blx)
+      // console.log('BS[' + blocklySource + ']', blx)
       if (blx !== null) plan.push([defn, blx, blocklySource])
     } catch (e) {
+      console.error('Could not prepare block definition:', defn)
       console.error(e)
     }
   }
@@ -663,52 +699,71 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
   return { RobIsAwesome: true, plan }
 }
 
-function codeToBlocks ({ code, codeLanguage, prepData }) {
+function addInsertionPoints ({ code, originalCode, codeLanguage }) {
+  if (codeLanguage === 'javascript') {
+    // Add special arrow block to point out blocks ending with empty lines, indicating code should go there
+    code = code.replace(/\n( {4,})\n([ ]*\})/gm, (_, s, s2) => `${s}\n__arrow__()${s2}`)
+  }
+
+  // Add special arrow block to point out code insertion points after comments (only after intro comment section end)
+  const codeLines = code.split('\n')
+  const originalLines = originalCode.split('\n')
+  let newCode = ''
+  let previousLine = null
+  let previousLineHadComment = false
+  let previousLineHadCode = false
+  let previousLineWasBlank = false
+  let pastIntroComments = false
+  const commentStart = { javascript: '//', python: '#', lua: '--' }[codeLanguage] || '//'
+  const singleLineCommentRegex = new RegExp(`[ \t]*(${commentStart})[^"'\n]*`)
+
+  for (let i = 0; i < codeLines.length; ++i) {
+    const line = codeLines[i]
+    const originalLine = originalLines[i]
+    // Find whether the line has changed. It might just be that the line was shifted around by the player inserting more code.
+    // We also look for the unchanged comment line in a new position to find what line we're really on.
+    const originalLineMovedIndex = originalLines.indexOf(previousLine)
+    const lineHasComment = singleLineCommentRegex.test(line)
+    const lineHasChanged = line !== originalLine && (originalLineMovedIndex === -1 || line !== originalLines[originalLineMovedIndex])
+    const lineIsBlank = !line.trim()[0]
+    const lineHasCode = !lineIsBlank && !lineHasComment
+    if (lineHasCode || previousLineWasBlank) {
+      pastIntroComments = true
+    }
+    const isEntryPoint = lineIsBlank && previousLineHadComment && !previousLineHadCode && pastIntroComments && !lineHasChanged
+    if (isEntryPoint) {
+      newCode += line + '__arrow__()\n'
+    } else {
+      newCode += line + '\n'
+    }
+    previousLine = line
+    previousLineHadComment = lineHasComment
+    previousLineHadCode = lineHasCode
+    previousLineWasBlank = lineIsBlank
+    pastIntroComments = pastIntroComments || lineHasCode || previousLineWasBlank
+  }
+  return newCode
+}
+
+function codeToBlocks ({ code, originalCode, codeLanguage, prepData }) {
   let ast
   try {
+    code = addInsertionPoints({ code, originalCode, codeLanguage })
     switch (codeLanguage) {
       case 'javascript':
       {
-        // Add special arrow block to point out blocks ending with empty lines, indicating code should go there
-        code = code.replace(/\n( {4,})\n([ ]*\})/gm, (_, s, s2) => `${s}\n__arrow__()${s2}`)
-
-        // Add special arrow block to point out code insertion points after comments (only after intro comment section end)
-        // TODO: add special characters to the right kinds of comments so that we only apply this to those
-        let pastIntroComments = false
-        let previousLineWasBlank = false
-        const codeLines = code.split('\n')
-        let i
-        for (i = 0; i < codeLines.length && !pastIntroComments; ++i) {
-          const line = codeLines[i]
-          const lineIsBlank = !line.trim()[0]
-          const lineHasCode = !lineIsBlank && line.trim()[0] !== '/'
-          if (lineHasCode || previousLineWasBlank) {
-            pastIntroComments = true
-          }
-          previousLineWasBlank = lineIsBlank
-        }
-        if (pastIntroComments) {
-          const introCode = codeLines.slice(0, i).join('\n')
-          const mainCode = codeLines.slice(i).join('\n')
-          console.log('zzzzz', { introCode, mainCode, replaced: mainCode.replace(/\n( {4,})\n([ ]*\})/gm, (_, s, s2) => `${s}\n__arrow__()${s2}`) })
-          code = introCode + '\n' + mainCode.replace(/^([ \t]*)\/\/(.+)\n[ \t]*\n/gm, (_, s, c) => `${_.trimEnd()}\n${s}__arrow__()\n`)
-        }
-
         const { parse } = window.esper.plugins.babylon.babylon
         ast = parse(code + '\n__donothing__()', { errorRecovery: true })
         break
       }
       case 'python':
       {
-        // TODO: add arrow/insertion point handling for Python
-
         const { parse } = window.esper.plugins['lang-python'].skulpty
         code = code.replace(/^(\s*)#(.*)$/gm, (_, s, c) => `${s}__comment__(${JSON.stringify(c)})`)
-
         ast = parse(code, { errorRecovery: true, naive: true, locations: true, startend: true })
         // console.log("PGC", ast, require("@babel/generator").default(ast).code)
         ast = { type: 'File', program: ast }
-        console.log('OYY', ast)
+        // console.log('OYY', ast)
         break
       }
     }
@@ -728,7 +783,7 @@ function codeToBlocks ({ code, codeLanguage, prepData }) {
   for (const v in ctx.scope) {
     if (ctx.scope[v].type === 'var') out.variables.push({ name: v, id: v })
   }
-  console.log('OUT', out)
+  // console.log('OUT', out)
   return out
 }
 

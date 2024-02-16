@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 // this file will hold the experimental JSON schema for i18n
 const c = require('./schemas') // eslint-disable-line no-unused-vars
 

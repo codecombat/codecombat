@@ -69,20 +69,13 @@ module.exports = class LevelSetupManager extends CocoClass
       @waitingToLoadModals = true
 
   loadModals: ->
-    # build modals and prevent them from disappearing.
-    if @level.usesConfiguredMultiplayerHero()
-     @onInventoryModalPlayClicked()
-     return
-
-    if @level.isType('course-ladder', 'game-dev', 'web-dev') or (utils.isCodeCombat and @level.isType('ladder')) or (@level.isType('course') and (not me.showHeroAndInventoryModalsToStudents() or @level.isAssessment())) or window.serverConfig.picoCTF
+    if not @level.usesSessionHeroThangType() or utils.isOzaria
+      # Don't need to configure inventory; just skip it
       @onInventoryModalPlayClicked()
       return
 
-    if @level.isSummative()
-      @onInventoryModalPlayClicked()
-      return
-
-    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero})
+    # Build modals and prevent them from disappearing.
+    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero, courseInstanceID: @options.courseInstanceID })
     @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level})
     @heroesModalDestroy = @heroesModal.destroy
     @inventoryModalDestroy = @inventoryModal.destroy
@@ -108,9 +101,13 @@ module.exports = class LevelSetupManager extends CocoClass
       unless (utils.isOzaria and _.contains allowedHeroOriginals, me.get('ozariaUserOptions')?.isometricThangTypeOriginal) or (utils.isCodeCombat and _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType)
         firstModal = @heroesModal
 
-
     lastHeroesEarned = me.get('earned')?.heroes ? []
     lastHeroesPurchased = me.get('purchased')?.heroes ? []
+
+    if firstModal is @inventoryModal and @level.get('product', true) is 'codecombat-junior'
+      # Skip inventory screen
+      return @onInventoryModalPlayClicked()
+
     @options.parent.openModalView(firstModal)
     @trigger 'open'
     #    @inventoryModal.onShown() # replace?
@@ -121,6 +118,9 @@ module.exports = class LevelSetupManager extends CocoClass
      @inventoryModal.setHero(e.hero) if window.currentModal is @inventoryModal
 
   onHeroesModalConfirmClicked: (e) ->
+    if @level.get('product', true) is 'codecombat-junior'
+      # Skip inventory screen
+      return @onInventoryModalPlayClicked()
     @options.parent.openModalView(@inventoryModal)
     @inventoryModal.render()
     @inventoryModal.didReappear()

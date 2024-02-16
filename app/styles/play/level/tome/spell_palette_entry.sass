@@ -21,7 +21,7 @@
   &.selected
     color: white
 
-#spell-palette-view-bot .spell-palette-entry-view
+#spell-palette-view .spell-palette-entry-view
   margin: 0 1vw 0 0
   min-width: 10vw
 
@@ -48,6 +48,10 @@
     height: 38px
     line-height: 38px
 
+  img.spawnable-image
+    height: 16px
+    margin-right: 4px
+
   // Originally pulled these colors from the most relevant textmate-theme classes, but then fudged them a lot.
   //&.function
   //  color: black
@@ -69,19 +73,8 @@
     .rtl-right-aligned
       text-align: right
 
-body.dialogue-view-active
-  .spell-palette-popover.popover
-    top: 50px !important
-
 .spell-palette-popover.popover
-  // Only those popovers which are our direct children (spell documentation)
-  top: 80px !important
-  right: calc(#{$code-area-width} + 1.5%)
-  .no-api &
-    right: calc(#{$code-area-width-no-api} + 1.5%)
-  .blocks &
-    right: calc(#{$code-area-width-blocks} + 1.5%)
-  left: auto !important
+  top: 80px
   min-width: 500px
 
 .spell-palette-popover.popover, .blocklyTooltipDiv
@@ -120,20 +113,7 @@ body.dialogue-view-active
     @include animation(jiggle .3s infinite)
 
   &.pinned
-    top: 50px !important
-    right: 45%
-    right: calc(#{$code-area-width} + 1.5%)
-    .no-api &
-      right: calc(#{$code-area-width-no-api} + 1.5%)
-    .blocks &
-      right: calc(#{$code-area-width-blocks} + 1.5%)
-
-    // bottom: 151px
     @include user-select(text)
-    // Wish I could set max-width and max-height (and override Bootstrap's stuff)
-    // but without explicitly setting height, child overflow-y: scroll doesn't work
-    min-width: 45%
-    max-height: 60%
 
     .arrow
       display: none
@@ -169,6 +149,10 @@ body.dialogue-view-active
     margin-right: 10px
     img
       float: right
+
+    img:first-child
+      max-width: 100px
+      margin-top: -30px
 
   &.top .arrow
     bottom: -2%
@@ -207,19 +191,6 @@ body.dialogue-view-active
   .docs-ace-container
     &, .docs-ace
       white-space: pre-wrap
-
-html.no-borderimage
-  .spell-palette-popover.popover
-    background: transparent url(/images/level/popover_background.png)
-    background-size: 100% 100%
-    border: 0
-
-html.fullscreen-editor
-  .spell-palette-popover.popover.pinned
-    min-width: 600px
-    bottom: inherit
-    right: 50%
-    margin-right: -300px
 
 // iPad property docs
 

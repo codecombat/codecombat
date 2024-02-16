@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 const c = require('./../schemas')
 const ThangComponentSchema = require('./thang_component')
 
@@ -393,7 +391,8 @@ const LevelSchema = c.object({
       { id: 'ogres-die', name: 'Defeat the ogres.', killThangs: ['ogres'], worldEndsAfter: 3 },
       { id: 'humans-survive', name: 'Your hero must survive.', saveThangs: ['Hero Placeholder'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true }
     ],
-    concepts: ['basic_syntax']
+    concepts: ['basic_syntax'],
+    product: 'codecombat',
   }
 })
 c.extendNamedProperties(LevelSchema) // let's have the name be the first property
@@ -562,7 +561,7 @@ _.extend(LevelSchema.properties, {
   },
   campaign: c.shortString({ title: 'Campaign', description: 'Set automatically by the campaign editor. Which campaign this level is part of (like "desert").', format: 'hidden', inEditor: 'ozaria' }),
   campaignIndex: c.int({ title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden' }), // Automatically set by campaign editor.
-  scoreTypes: c.array({ title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).' }, { inEditor: 'codecombat' }, {
+  scoreTypes: c.array({ title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).', inEditor: 'codecombat' }, {
     anyOf: [
       c.scoreType,
       {
@@ -620,7 +619,8 @@ _.extend(LevelSchema.properties, {
     }
   })),
   archived: { type: 'integer', description: 'Marks this level with to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.' },
-  difficulty: { type: 'integer', title: 'Difficulty', description: 'Difficulty of this level - used to show difficulty in star-rating of 1 to 5', minimum: 1, maximum: 5, inEditor: 'codecombat' }
+  difficulty: { type: 'integer', title: 'Difficulty', description: 'Difficulty of this level - used to show difficulty in star-rating of 1 to 5', minimum: 1, maximum: 5, inEditor: 'codecombat' },
+  product: _.extend(c.singleProduct, { inEditor: true })
 })
 
 c.extendBasicProperties(LevelSchema, 'level')

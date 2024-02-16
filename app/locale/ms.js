@@ -246,7 +246,7 @@ module.exports = {
       //    course_guides: "and course guides",
       //    teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds.",
       //    accessible_to: "Accessible to",
-      everyone: 'semua'
+      everyone: 'semua',
       //    democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code.",
       //    forgot_learning: "I think they actually forgot that they were learning something.",
       //    wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school.",
@@ -369,7 +369,7 @@ module.exports = {
       //    star: "CoCoStar",
       contact: 'Hubungi',
       //    press: "Press",
-      twitter_follow: 'Ikuti'
+      twitter_follow: 'Ikuti',
       //    my_classrooms: "My Classes",
       //    my_courses: "My Courses",
       //    my_units: "My Units",
@@ -431,12 +431,12 @@ module.exports = {
     modal: {
       close: 'Tutup',
       okay: 'Ok',
-      cancel: 'Batal'
+      cancel: 'Batal',
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Halaman tidak ditemui'
+      page_not_found: 'Halaman tidak ditemui',
     },
 
     diplomat_suggestion: {
@@ -444,7 +444,7 @@ module.exports = {
       sub_heading: 'Kami memerlukan kemahiran bahasa anda.',
       pitch_body: 'Kami membina CodeCombat dalam Bahasa Inggeris, tetapi kami sudah ada pemain dari seluruh dunia. Kebanyakan mereka mahu bermain dalam Bahasa Melayu dan tidak memahami Bahasa Inggeris, jikalau anda boleh tertutur dalam kedua-dua bahasa, harap anda boleh daftar untuk menjadi Diplomat dan menolong menterjemahkan laman CodeCombat dan kesemua level kepada Bahasa Melayu.',
       missing_translations: 'Sehingga kami dapat menterjemahkan kesemua kepada Bahasa Melayu, anda akan melihat Bahasa Inggeris apabila Bahasa Melayu tiada dalam penterjemahan.',
-      learn_more: 'Ketahui lebih lanjut untuk menjadi ahli Diplomat'
+      learn_more: 'Ketahui lebih lanjut untuk menjadi ahli Diplomat',
       //    subscribe_as_diplomat: "Subscribe as a Diplomat",
     },
 
@@ -530,6 +530,7 @@ module.exports = {
     //    awaiting_levels_adventurer: "Sign up as an Adventurer",
     //    awaiting_levels_adventurer_suffix: "to be the first to play new levels.",
     //    adjust_volume: "Adjust volume",
+    //    toggle_fullscreen: "Toggle fullscreen",
     //    campaign_multiplayer: "Multiplayer Arenas",
     //    campaign_multiplayer_description: "... in which you code head-to-head against other players.",
     //    brain_pop_done: "You’ve defeated the Ogres with code! You win!",
@@ -617,7 +618,7 @@ module.exports = {
       log_in: 'Log Masuk',
       //    sign_in: "Sign In",
       //    logging_in: "Logging In",
-      log_out: 'Log Keluar'
+      log_out: 'Log Keluar',
       //    forgot_password: "Forgot your password?",
       //    finishing: "Finishing",
       //    sign_in_with_facebook: "Facebook",
@@ -647,7 +648,7 @@ module.exports = {
       //    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!",
       creating: 'Sedang membuat Akaun...',
       sign_up: 'Daftar',
-      log_in: 'Log Masuk'
+      log_in: 'Log Masuk',
       //    login: "Login",
       //    required: "You need to log in before you can go that way.",
       //    login_switch: "Already have an account?",
@@ -749,7 +750,7 @@ module.exports = {
 
     recover: {
       recover_account_title: 'Dapatkan Kembali Akaun',
-      send_password: 'Hantar kembali kata-laluan'
+      send_password: 'Hantar kembali kata-laluan',
       //    recovery_sent: "Recovery email sent.",
     },
 
@@ -788,7 +789,7 @@ module.exports = {
       //    publish: "Publish",
       //    create: "Create",
       //    fork: "Fork",
-      play: 'Mula'
+      play: 'Mula',
       //    retry: "Retry",
       //    actions: "Actions",
       //    info: "Info",
@@ -857,7 +858,7 @@ module.exports = {
       score: 'Mata',
       win: 'Menang',
       loss: 'Kalah',
-      tie: 'Seri'
+      tie: 'Seri',
       //    easy: "Easy",
       //    medium: "Medium",
       //    hard: "Hard",
@@ -1212,6 +1213,7 @@ module.exports = {
     //    inventory_tab: "Inventory",
     //    save_load_tab: "Save/Load",
     //    options_tab: "Options",
+    //    my_code_tab: "My Code",
     //    guide_tab: "Guide",
     //    guide_video_tutorial: "Video Tutorial",
     //    guide_tips: "Tips",
@@ -1220,6 +1222,7 @@ module.exports = {
     //    inventory_caption: "Equip your hero",
     //    choose_hero_caption: "Choose hero, language",
     //    options_caption: "Configure settings",
+    //    my_code_caption: "Quick Code Actions",
     //    guide_caption: "Docs and tips",
     //    multiplayer_caption: "Play with friends!",
     //    auth_caption: "Save your progress.",
@@ -1311,7 +1314,7 @@ module.exports = {
       //    personal_sub: "Personal Subscription",
       //    loading_info: "Loading subscription information...",
       //    managed_by: "Managed by",
-      will_be_cancelled: 'Akan dibatalkan pada'
+      will_be_cancelled: 'Akan dibatalkan pada',
       //    currently_free: "You currently have a free subscription",
       //    currently_free_until: "You currently have a subscription until __date__",
       //    free_subscription: "Free subscription",
@@ -1444,6 +1447,15 @@ module.exports = {
     //    lua_blurb: "Game scripting language.",
     //    java_blurb: "(Subscriber Only) Android and enterprise.",
     //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+    //    code_format: "Code Format",
+    //    text_code: "Text code",
+    //    blocks_and_code: "Blocks and code",
+    //    blocks_text: "Blocks",
+    //    blocks_icons: "Blocks (icons)",
+    //    text_code_blurb: "Type text-based code in a real code editor",
+    //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+    //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+    //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
     //    status: "Status",
     //    weapons: "Weapons",
     //    weapons_warrior: "Swords - Short Range, No Magic",
@@ -1690,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1817,7 +1828,7 @@ module.exports = {
       elementary_school: 'Sekolah Rendah',
       //    high_school: "High School",
       //    please_explain: "(please explain)",
-      middle_school: 'Sekolah Menengah'
+      middle_school: 'Sekolah Menengah',
       //    college_plus: "College or higher",
       //    referrer: "How did you hear about us?",
       //    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc.",
@@ -1857,7 +1868,7 @@ module.exports = {
       cla_prefix: 'Untuk menyimpan pengubahsuaian, anda perlu setuju dengan',
       //    cla_url: "CLA",
       //    cla_suffix: ".",
-      cla_agree: 'SAYA SETUJU'
+      cla_agree: 'SAYA SETUJU',
       //    owner_approve: "An owner will need to approve it before your changes will become visible.",
     },
 
@@ -1875,7 +1886,7 @@ module.exports = {
       //    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support.",
       //    screenshot_included: "Screenshot included.",
       //    where_reply: "Where should we reply?",
-      send: 'Hantar Maklumbalas'
+      send: 'Hantar Maklumbalas',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1937,7 @@ module.exports = {
       //    email_toggle: "Toggle All",
       error_saving: 'Masalah menyimpan',
       saved: 'Pengubahsuian disimpan',
-      password_mismatch: 'Kata-laluan tidak sama.'
+      password_mismatch: 'Kata-laluan tidak sama.',
       //    password_repeat: "Please repeat your password.",
     },
 
@@ -1949,7 +1960,6 @@ module.exports = {
     //    toggle_grid: "Toggle grid overlay.",
     //    toggle_pathfinding: "Toggle pathfinding overlay.",
     //    beautify: "Beautify your code by standardizing its formatting.",
-    //    maximize_editor: "Maximize/minimize code editor.",
     //  },
 
     //  cinematic: {
@@ -2722,7 +2732,7 @@ module.exports = {
     teacher_ozaria_encouragement_modal: {
       //    title: "Build Computer Science Skills to Save Ozaria",
       //    sub_title: "You are invited to try the new adventure game from CodeCombat",
-      cancel: 'Kembali ke CodeCombat'
+      cancel: 'Kembali ke CodeCombat',
       //    accept: "Try First Unit Free",
       //    bullet1: "Deepen student connection to learning through an epic story and immersive gameplay",
       //    bullet2: "Teach CS fundamentals, Python or JavaScript and 21st century skills",
@@ -2856,7 +2866,7 @@ module.exports = {
       //    ai_document_title: "AI Document Editor",
       //    ai_chat_message_title: "AI Chat Message Editor",
       //    resource_title_general: "__resource__ Editor",
-      back: 'Kembali'
+      back: 'Kembali',
       //    revert: "Revert",
       //    revert_models: "Revert Models",
       //    pick_a_terrain: "Pick A Terrain",
@@ -2871,6 +2881,7 @@ module.exports = {
       //    fork_title: "Fork New Version",
       //    fork_creating: "Creating Fork...",
       //    generate_terrain: "Generate Terrain",
+      //    generate_level: "Generate Level",
       //    more: "More",
       //    wiki: "Wiki",
       //    live_chat: "Live Chat",
@@ -3582,7 +3593,7 @@ module.exports = {
       //    mit_license_url: "MIT license",
       code_description_suffix: 'Ini termasuk kesemua kod Sistem dan Komponen yang sudah sedia ada untuk CodeCombat untuk membina level.',
       //    art_title: "Art/Music - Creative Commons ",
-      art_description_prefix: 'Kesemua muatan umum boleh didapat di bawah'
+      art_description_prefix: 'Kesemua muatan umum boleh didapat di bawah',
       //    cc_license_url: "Creative Commons Attribution 4.0 International License",
       //    art_description_suffix: "Common content is anything made generally available by CodeCombat for the purpose of creating Levels. This includes:",
       //    art_music: "Music",
@@ -3649,8 +3660,8 @@ module.exports = {
       september: 'September',
       october: 'Oktober',
       november: 'November',
-      december: 'Disember'
-    }
+      december: 'Disember',
+    },
 
     //  code_play_create_account_modal: {
     //    title: "You did it!",
@@ -4490,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",

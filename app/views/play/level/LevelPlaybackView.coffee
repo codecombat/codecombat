@@ -29,8 +29,6 @@ module.exports = class LevelPlaybackView extends CocoView
 
   events:
     'click #music-button': 'onToggleMusic'
-    'click #zoom-in-button': -> Backbone.Mediator.publish 'camera:zoom-in', {} unless @shouldIgnore()
-    'click #zoom-out-button': -> Backbone.Mediator.publish 'camera:zoom-out', {} unless @shouldIgnore()
     'click #volume-button': 'onToggleVolume'
     'click #play-button': 'onTogglePlay'
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {} unless @realTime
@@ -59,8 +57,7 @@ module.exports = class LevelPlaybackView extends CocoView
     @hookUpScrubber() unless @options.level.isType('game-dev')
     @updateMusicButton()
     $(window).on('resize', @onWindowResize)
-    ua = navigator.userAgent.toLowerCase()
-    if /safari/.test(ua) and not /chrome/.test(ua)
+    unless @getFullscreenRequestMethod()
       @$el.find('.toggle-fullscreen').hide()
     @timePopup ?= new HoverPopup
     @second = $.i18n.t 'units.second'
@@ -125,7 +122,7 @@ module.exports = class LevelPlaybackView extends CocoView
 
   updateBarWidth: (loadedFrameCount, maxTotalFrames, dt) ->
     @totalTime = (loadedFrameCount - 1) * dt
-    pct = parseInt(100 * loadedFrameCount / (maxTotalFrames - 1)) + '%'
+    pct = Math.min(parseInt(100 * loadedFrameCount / (maxTotalFrames - 1)), 100) + '%'
     @barWidth = $('.progress', @$el).css('width', pct).show().width()
     $('.scrubber .progress', @$el).slider('enable', true)
     @newTime = 0
@@ -260,6 +257,7 @@ module.exports = class LevelPlaybackView extends CocoView
       Backbone.Mediator.publish 'level:set-letterbox', on: false if @realTime or @cinematic
       Backbone.Mediator.publish 'playback:real-time-playback-ended', {} if @realTime
       Backbone.Mediator.publish 'playback:cinematic-playback-ended', {} if @cinematic
+      Backbone.Mediator.publish 'playback:playback-ended', {}
     if progress < 0.99 and @lastProgress >= 0.99
       playing = store.state.game.playing
       playButton.removeClass('ended')

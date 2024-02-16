@@ -337,7 +337,7 @@ module.exports = {
       //    help_enjoy_learning_blurb: "Our products have helped over 20 million students enjoy learning Computer Science, teaching them to be critical, confident, and creative learners. We engage all students, regardless of experience, helping them to realize a pathway to success in Computer Science.",
       global_community: 'Pievienojieties mūsu globālajai kopienai',
       million: '__num__ Miljons',
-      billion: '__num__ Miljards'
+      billion: '__num__ Miljards',
       //    meta_keywords_podcast: "CodeCombat, python, javascript, Coding Games, podcast, edtech",
       //    coco_worlds_header: "CodeCombat Worlds",
       //    coco_worlds_description: "Embark on a 3D coding adventure in Roblox, where you can program pets, play with friends, and develop games all while playing one. Join the CodeCombat community and unleash your creativity in the metaverse!",
@@ -377,7 +377,7 @@ module.exports = {
       //    careers: "Careers",
       facebook: 'Facebook',
       twitter: 'Twitter',
-      create_a_class: 'Izveidojiet Klasi'
+      create_a_class: 'Izveidojiet Klasi',
       //    other: "Other",
       //    learn_to_code: "Learn to Code!",
       //    toggle_nav: "Toggle navigation",
@@ -431,17 +431,17 @@ module.exports = {
     modal: {
       close: 'Aizvērt',
       okay: 'Labi',
-      cancel: 'Atcelt'
+      cancel: 'Atcelt',
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Lapa nav atrasta'
+      page_not_found: 'Lapa nav atrasta',
     },
 
     diplomat_suggestion: {
       title: 'Palīdziet tulkot CodeCombat!',
-      sub_heading: 'Mums ir nepieciešamas jūsu valodu zināšanas.'
+      sub_heading: 'Mums ir nepieciešamas jūsu valodu zināšanas.',
       //    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both and are a native speaker of {English}, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}.",
       //    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available.",
       //    learn_more: "Learn more about being a Diplomat",
@@ -461,7 +461,7 @@ module.exports = {
       getting_started_2: 'Izveidojiet klasi',
       getting_started_3: 'Pievienojiet skolēnus',
       //    getting_started_4: "Sit back and watch your students have fun learning to code",
-      main_curriculum: 'Vai kā galveno mācību programmu varu izmantot CodeCombat vai Ozaria?'
+      main_curriculum: 'Vai kā galveno mācību programmu varu izmantot CodeCombat vai Ozaria?',
       //    main_curriculum_blurb: "Absolutely! We’ve spent time consulting with education specialists to craft classroom curriculum and materials specifically for teachers who are using CodeCombat or Ozaria without any prior computer science experience themselves. Many schools are implementing CodeCombat and/or Ozaria as the main computer science curriculum.",
       //    clever_instant_login: "Does CodeCombat and Ozaria support Clever Instant Login?",
       //    clever_instant_login_blurb: "Yes! Check out our __clever__ for more details on how to get started.",
@@ -530,6 +530,7 @@ module.exports = {
     //    awaiting_levels_adventurer: "Sign up as an Adventurer",
     //    awaiting_levels_adventurer_suffix: "to be the first to play new levels.",
     //    adjust_volume: "Adjust volume",
+    //    toggle_fullscreen: "Toggle fullscreen",
     //    campaign_multiplayer: "Multiplayer Arenas",
     //    campaign_multiplayer_description: "... in which you code head-to-head against other players.",
     //    brain_pop_done: "You’ve defeated the Ogres with code! You win!",
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Ievadiet savu vecāku e-pasta adresi zemāk, un mēs viņiem parādīsim!',
       form_label: 'E-pasta adrese',
       placeholder: 'e-pasta adrese',
-      title: 'Lielisks darbs, Mācekli'
+      title: 'Lielisks darbs, Mācekli',
     },
 
     login: {
@@ -627,7 +628,7 @@ module.exports = {
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
       //    individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!",
-      accounts_merge_confirmation: 'Ar šī Google konta e-pastu ir saistīts konts. Vai vēlaties apvienot šos kontus?'
+      accounts_merge_confirmation: 'Ar šī Google konta e-pastu ir saistīts konts. Vai vēlaties apvienot šos kontus?',
       //    stop_spying: "Stop Spying",
       //    stop_switching: "Stop Switching",
       //    test_as_student: "Test as Student",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Atjaunot kontu',
       send_password: 'Nosūtiet atkopšanas paroli',
-      recovery_sent: 'Atkopšanas e-pasts ir nosūtīts.'
+      recovery_sent: 'Atkopšanas e-pasts ir nosūtīts.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Bruņas',
       accessories: 'Piederumi',
       misc: 'Dažādi',
-      books: 'Grāmatas'
+      books: 'Grāmatas',
     },
 
     //  common: {
@@ -901,7 +902,7 @@ module.exports = {
       month: 'mēnesis',
       months: 'mēneši',
       year: 'gads',
-      years: 'gadi'
+      years: 'gadi',
     },
 
     //  play_level: {
@@ -1179,7 +1180,7 @@ module.exports = {
     live_class: {
       title: 'Paldies!',
       content: 'Lieliski! Mēs tikko uzsākām tiešsaistes nodarbības.',
-      link: 'Vai esat gatavs uzlabot savas kodēšanas prasmes?'
+      link: 'Vai esat gatavs uzlabot savas kodēšanas prasmes?',
     },
 
     //  code_quest: {
@@ -1212,6 +1213,7 @@ module.exports = {
     //    inventory_tab: "Inventory",
     //    save_load_tab: "Save/Load",
     //    options_tab: "Options",
+    //    my_code_tab: "My Code",
     //    guide_tab: "Guide",
     //    guide_video_tutorial: "Video Tutorial",
     //    guide_tips: "Tips",
@@ -1220,6 +1222,7 @@ module.exports = {
     //    inventory_caption: "Equip your hero",
     //    choose_hero_caption: "Choose hero, language",
     //    options_caption: "Configure settings",
+    //    my_code_caption: "Quick Code Actions",
     //    guide_caption: "Docs and tips",
     //    multiplayer_caption: "Play with friends!",
     //    auth_caption: "Save your progress.",
@@ -1279,12 +1282,12 @@ module.exports = {
 
     subscribe_for_gems: {
       prompt_title: 'Nepietiek dārgakmeņu!',
-      prompt_body: 'Abonējiet Premium, lai iegūtu dārgakmeņus un piekļūtu vēl vairākiem līmeņiem!'
+      prompt_body: 'Abonējiet Premium, lai iegūtu dārgakmeņus un piekļūtu vēl vairākiem līmeņiem!',
     },
 
     earn_gems: {
       prompt_title: 'Nepietiek dārgakmeņu',
-      prompt_body: 'Turpiniet spēlēt, lai nopelnītu vairāk!'
+      prompt_body: 'Turpiniet spēlēt, lai nopelnītu vairāk!',
     },
 
     //  subscribe: {
@@ -1400,7 +1403,7 @@ module.exports = {
     //  },
 
     avatar_selection: {
-      pick_an_avatar: 'Izvēlieties personāžu, kas pārstāvēs jūs kā spēlētāju'
+      pick_an_avatar: 'Izvēlieties personāžu, kas pārstāvēs jūs kā spēlētāju',
       //    select_avatar_title: "Choose Player Avatar",
     },
 
@@ -1444,6 +1447,15 @@ module.exports = {
     //    lua_blurb: "Game scripting language.",
     //    java_blurb: "(Subscriber Only) Android and enterprise.",
     //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+    //    code_format: "Code Format",
+    //    text_code: "Text code",
+    //    blocks_and_code: "Blocks and code",
+    //    blocks_text: "Blocks",
+    //    blocks_icons: "Blocks (icons)",
+    //    text_code_blurb: "Type text-based code in a real code editor",
+    //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+    //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+    //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
     //    status: "Status",
     //    weapons: "Weapons",
     //    weapons_warrior: "Swords - Short Range, No Magic",
@@ -1475,7 +1487,7 @@ module.exports = {
       body: 'Ķermenis',
       name_label: 'Varoņa vārds',
       hair_label: 'Matu krāsa',
-      skin_label: 'Ādas krāsa'
+      skin_label: 'Ādas krāsa',
     },
 
     //  skill_docs: {
@@ -1512,7 +1524,7 @@ module.exports = {
 
     save_load: {
       granularity_saved_games: 'Saglabāts',
-      granularity_change_history: 'Vēsture'
+      granularity_change_history: 'Vēsture',
     },
 
     //  options: {
@@ -1663,7 +1675,7 @@ module.exports = {
     //  },
 
     teachers: {
-      licenses_needed: 'Nepieciešamas licences'
+      licenses_needed: 'Nepieciešamas licences',
       //    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO",
       //    select_class: "Select class",
       //    programming_language: "Programming language",
@@ -1690,13 +1702,12 @@ module.exports = {
       //    error_in_importing_students: "Error in importing students",
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-      //    classroom_blocks: "Drag and Drop Blocks (beta)",
-      //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-      //    classroom_blocks_hidden: "Disabled",
-      //    classroom_blocks_opt_in: "Off by default",
-      //    classroom_blocks_opt_out: "On by default",
+      //    code_formats: "Code Formats (beta)",
+      //    code_formats_description: "Which code formats students can choose from.",
+      //    default_code_format: "Default Code Format",
+      //    default_code_format_description: "The code format that students will start with.",
       //    not_allow_to_solution: "# Licenses needed to view solutions",
-      //    classroom_level_chat: "Level Chat with AI",
+      //    classroom_level_chat: "AI Level Hints",
       //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
       //    classroom_level_chat_option_free_form: "Free form",
       //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1949,11 +1960,10 @@ module.exports = {
     //    toggle_grid: "Toggle grid overlay.",
     //    toggle_pathfinding: "Toggle pathfinding overlay.",
     //    beautify: "Beautify your code by standardizing its formatting.",
-    //    maximize_editor: "Maximize/minimize code editor.",
     //  },
 
     cinematic: {
-      click_anywhere_continue: 'noklikšķiniet jebkurā vietā, lai turpinātu'
+      click_anywhere_continue: 'noklikšķiniet jebkurā vietā, lai turpinātu',
       //    instructional_tooltip: "Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same.",
     },
 
@@ -2284,7 +2294,7 @@ module.exports = {
     project_gallery: {
       no_projects_published: 'Esi pirmais, kas publicē projektu šajā kursā!',
       view_project: 'Skatīt projektu',
-      edit_project: 'Rediģēt projektu'
+      edit_project: 'Rediģēt projektu',
     },
 
     //  teacher: {
@@ -2797,7 +2807,7 @@ module.exports = {
     //  },
 
     game_dev: {
-      creator: 'Izveidotājs'
+      creator: 'Izveidotājs',
     },
 
     //  web_dev: {
@@ -2871,6 +2881,7 @@ module.exports = {
     //    fork_title: "Fork New Version",
     //    fork_creating: "Creating Fork...",
     //    generate_terrain: "Generate Terrain",
+    //    generate_level: "Generate Level",
     //    more: "More",
     //    wiki: "Wiki",
     //    live_chat: "Live Chat",
@@ -2981,11 +2992,11 @@ module.exports = {
 
     article: {
       edit_btn_preview: 'Priekšskatījums',
-      edit_article_title: 'Rediģēt rakstu'
+      edit_article_title: 'Rediģēt rakstu',
     },
 
     polls: {
-      priority: 'Prioritāte'
+      priority: 'Prioritāte',
     },
 
     //  contribute: {
@@ -3382,7 +3393,7 @@ module.exports = {
       component: 'Komponents',
       components: 'Komponenti',
       hero: 'Varonis',
-      campaigns: 'Kampaņas'
+      campaigns: 'Kampaņas',
     },
 
     //  concepts: {
@@ -3538,7 +3549,7 @@ module.exports = {
       student_name_placeholder: 'ieraksti savu vārdu šeit',
       teachers_section: 'Skolotāji:',
       students_section: 'Studenti:',
-      teacher_notified: 'Mēs esam paziņojuši jūsu skolotājam, ka vēlaties savā klasē spēlēt CodeCombat!'
+      teacher_notified: 'Mēs esam paziņojuši jūsu skolotājam, ka vēlaties savā klasē spēlēt CodeCombat!',
     },
 
     //  delta: {
@@ -3649,7 +3660,7 @@ module.exports = {
       september: 'Septembris',
       october: 'Oktobris',
       november: 'Novembris',
-      december: 'Decembris'
+      december: 'Decembris',
     },
 
     //  code_play_create_account_modal: {
@@ -3664,7 +3675,7 @@ module.exports = {
       email_taken: 'E-pasts jau aizņemts',
       username_taken: 'Lietotājvārds jau aizņemts',
       easy_password: 'Paroli ir pārāk viegli uzminēt',
-      reused_password: 'Paroli nevar izmantot atkārtoti'
+      reused_password: 'Paroli nevar izmantot atkārtoti',
     },
 
     //  esper: {
@@ -4220,7 +4231,7 @@ module.exports = {
 
     admin: {
       license_type_full: 'Pilni kursi',
-      license_type_customize: 'Pielāgot kursus'
+      license_type_customize: 'Pielāgot kursus',
     },
 
     //  events: {
@@ -4490,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4664,7 +4675,7 @@ module.exports = {
       no_tournaments_owner: 'Pašlaik nav neviena turnīra. Lūdzu, izveidojiet to',
       no_tournaments: 'Turnīra šobrīd nav',
       edit_tournament: 'Rediģēt turnīru',
-      create_tournament: 'Izveidojiet turnīru'
+      create_tournament: 'Izveidojiet turnīru',
       //    upcoming: "Upcoming",
       //    starting: "Starting",
       //    ended: "Ended",
@@ -4726,7 +4737,7 @@ module.exports = {
       recurring_month_1: 'Atkārtota norēķinu veikšana katru mēnesi',
       recurring_month_3: 'Atkārtota norēķinu veikšana ik pēc 3 mēnešiem',
       recurring_month_6: 'Atkārtota norēķinu veikšana ik pēc 6 mēnešiem',
-      recurring_year_1: 'Atkārtota norēķinu veikšana ik gadu'
+      recurring_year_1: 'Atkārtota norēķinu veikšana ik gadu',
       //    purchase_licenses_2: "Purchase licenses for your students to access paid curriculum after the first course",
       //    applying_licenses: "applying licenses",
       //    about: "about",
@@ -4783,10 +4794,10 @@ module.exports = {
       invalidEmail: 'Nepareizs e-pasts',
       invalidPhone: 'Nederīgs tālruņa numurs',
       emailExists: 'E-pasts jau pastāv',
-      numberGreaterThanZero: 'Skaitlim jābūt lielākam par 0'
+      numberGreaterThanZero: 'Skaitlim jābūt lielākam par 0',
       //    requireValidEmail: "Please enter a valid email address.",
       //    requireValidPhone: "Please enter a valid phone number, including area code.",
-    }
+    },
 
     //  partners: {
     //    for: "for",
