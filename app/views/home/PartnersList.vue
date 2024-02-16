@@ -53,6 +53,10 @@ export default {
         {
           imageSrc: '/images/pages/home-v3/partners/image 23.webp',
           text: 'home_v3.top_pick_for_learning'
+        },
+        {
+          imageSrc: '/images/pages/home-v3/partners/best_homeschool.webp',
+          text: 'home_v3.best_homeschool_curriculum'
         }
       ]
     }
@@ -69,7 +73,7 @@ export default {
     position: relative;
     width: 100%;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 12px;
 
     .div {
         align-items: center;
@@ -85,7 +89,7 @@ export default {
         height: 63px;
         object-fit: contain;
         position: relative;
-        width: 129px;
+        max-width: 129px;
         object-position: bottom;
     }
 
@@ -97,7 +101,6 @@ export default {
         line-height: 27px;
         position: relative;
         text-align: center;
-        width: 151px;
     }
 }
 </style>

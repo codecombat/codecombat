@@ -3911,7 +3911,8 @@ module.exports = {
       course_overview: 'Course Overview',
       outcomes: 'outcomes',
       coco_requirements: 'CodeCombat’s system requirements',
-      coco_recognized_blurb: 'CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum.'
+      coco_recognized_blurb: 'CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum.',
+      ap_csp_portal: 'AP CSP Portal'
     },
 
     apcsp_curriculum: {
@@ -5157,7 +5158,8 @@ module.exports = {
       solutions_7_text: 'Join our mission to make coding accessible and engaging for all by becoming a valued partner. Our flexible partnership structures include educational businesses, esports sponsors, international distributors, and social impact organizations. Partners receive access to our easy-to-use programs, implementation resources, and training options for a successful and enjoyable experience.',
       solutions_8_title: 'Library Solutions',
       solutions_8_text: 'As an entirely self-paced and self-directed digital resource, CodeCombat is the best integration for libraries that want to empower their members of all ages to learn how to code. Our platform offers everything learners need to experience a high-level coding education through a uniquely exciting, game-based curriculum. Perfect for beginners all the way up to those who want to master college-level coding concepts.',
-      learn_more_text: 'Learn More'
+      learn_more_text: 'Learn More',
+      best_homeschool_curriculum: 'Best Homeschool\nCurriculum'
     },
     schools_page: {
       most_effective_computer_science_solution: 'The most effective computer science solution for **schools**',
