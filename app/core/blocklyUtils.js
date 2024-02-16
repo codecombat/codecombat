@@ -710,7 +710,10 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
         if (arg?.type === 'field_dropdown') {
           const defaultValue = arg.default
           if (defaultValue) {
-            this.inputList[0].fieldRow[index + 1].setValue('' + defaultValue)
+            const field = _.find(this.inputList[0].fieldRow, f => f.name === arg.name)
+            if (field) {
+              field.setValue('' + defaultValue)
+            }
           }
         }
       }
