@@ -369,7 +369,7 @@ module.exports = {
       //    star: "CoCoStar",
       contact: 'Contacta',
       //    press: "Press",
-      twitter_follow: 'Síguenos en Twitter'
+      twitter_follow: 'Síguenos en Twitter',
       //    my_classrooms: "My Classes",
       //    my_courses: "My Courses",
       //    my_units: "My Units",
@@ -430,13 +430,13 @@ module.exports = {
 
     modal: {
       close: 'Pechar',
-      okay: 'Ok'
+      okay: 'Ok',
       //    cancel: "Cancel",
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Páxina non atopada'
+      page_not_found: 'Páxina non atopada',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'Nós desenvolvemos CodeCombat en inglés, pero xa temos xogadores de todo o mundo. Moitos deles queren xogar en galego porque non falan inglés, así que si falas ambos idiomas, inscríbete como Diplomático e axuda a traducir a web e todos os niveis de CodeCombat ao galego.',
       missing_translations: 'Mentras terminamos a traducción ao galego, verás en castelán ou en inglés as partes que non estén ainda dispoñibles.',
       learn_more: 'Aprende máis sobre o que é ser un Diplomático',
-      subscribe_as_diplomat: 'Suscríbete como Diplomático'
+      subscribe_as_diplomat: 'Suscríbete como Diplomático',
     },
 
     //  new_home_faq: {
@@ -530,8 +530,9 @@ module.exports = {
       //    awaiting_levels_adventurer: "Sign up as an Adventurer",
       //    awaiting_levels_adventurer_suffix: "to be the first to play new levels.",
       //    adjust_volume: "Adjust volume",
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Areas Multixogador',
-      campaign_multiplayer_description: '... nas que o teu código se enfrentará ao de outros xogadores.'
+      campaign_multiplayer_description: '... nas que o teu código se enfrentará ao de outros xogadores.',
       //    brain_pop_done: "You’ve defeated the Ogres with code! You win!",
       //    brain_pop_challenge: "Challenge yourself to play again using a different programming language!",
       //    replay: "Replay",
@@ -617,7 +618,7 @@ module.exports = {
       log_in: 'Entrar',
       //    sign_in: "Sign In",
       logging_in: 'Entrando...',
-      log_out: 'Saír'
+      log_out: 'Saír',
       //    forgot_password: "Forgot your password?",
       //    finishing: "Finishing",
       //    sign_in_with_facebook: "Facebook",
@@ -649,7 +650,7 @@ module.exports = {
       sign_up: 'Rexistrarse',
       log_in: 'Iniciar sesión con contrasinal',
       //    login: "Login",
-      required: 'Tes que estar rexistrado antes de poder continuar.'
+      required: 'Tes que estar rexistrado antes de poder continuar.',
       //    login_switch: "Already have an account?",
       //    optional: "optional",
       //    connected_gplus_header: "You've successfully connected with Google+!",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Recuperar Conta',
       send_password: 'Enviar recuperación de contrasinal',
-      recovery_sent: 'Email de recuperación de contrasinal enviado.'
+      recovery_sent: 'Email de recuperación de contrasinal enviado.',
     },
 
     items: {
@@ -758,7 +759,7 @@ module.exports = {
       //    secondary: "Secondary",
       armor: 'Armadura',
       accessories: 'Accesorios',
-      misc: 'Miscelánea'
+      misc: 'Miscelánea',
       //    books: "Books",
     },
 
@@ -795,7 +796,7 @@ module.exports = {
       //    help: "Help",
       watch: 'Mirar',
       unwatch: 'Pasar',
-      submit_patch: 'Enviar Parche'
+      submit_patch: 'Enviar Parche',
       //    submit_changes: "Submit Changes",
       //    save_changes: "Save Changes",
       //    required_field: "required",
@@ -861,7 +862,7 @@ module.exports = {
       easy: 'Doado',
       medium: 'Media',
       hard: 'Difícil',
-      player: 'Xogador'
+      player: 'Xogador',
       //    player_level: "Level",
       //    warrior: "Warrior",
       //    ranger: "Ranger",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'mes',
       months: 'meses',
       year: 'ano',
-      years: 'anos'
+      years: 'anos',
     },
 
     play_level: {
@@ -1047,7 +1048,7 @@ module.exports = {
       tip_hardware_problem: 'P: Cantos programadores fan falla para cambiar unha bombilla?  R: Ningún, é un problema de hardware.',
       //    tip_hofstadters_law: "Hofstadter's Law: It always takes longer than you expect, even when you take into account Hofstadter's Law.",
       tip_premature_optimization: 'A optimizacion prematura é a raíz de todo mal. - Donald Knuth',
-      tip_brute_force: 'Cando haxa dúbidas, usa a forza bruta. - Ken Thompson'
+      tip_brute_force: 'Cando haxa dúbidas, usa a forza bruta. - Ken Thompson',
       //    tip_extrapolation: "There are only two kinds of people: those that can extrapolate from incomplete data...",
       //    tip_superpower: "Coding is the closest thing we have to a superpower.",
       //    tip_control_destiny: "In real open source, you have the right to control your own destiny. - Linus Torvalds",
@@ -1212,6 +1213,7 @@ module.exports = {
       inventory_tab: 'Inventario',
       save_load_tab: 'Gardar/Cargar',
       options_tab: 'Opcións',
+      //    my_code_tab: "My Code",
       guide_tab: 'Guía',
       //    guide_video_tutorial: "Video Tutorial",
       //    guide_tips: "Tips",
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Equipa ao teu Heroe',
       choose_hero_caption: 'Escolle a lingua do teu Heroe',
       options_caption: 'Axustes de configuración',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Documentos e pistas',
       multiplayer_caption: 'Xoga cos teus amigos!',
-      auth_caption: 'Gardar o teu progreso.'
+      auth_caption: 'Gardar o teu progreso.',
     },
 
     //  leaderboard: {
@@ -1444,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Linguaxe Script para Xogos.',
       //    java_blurb: "(Subscriber Only) Android and enterprise.",
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Estado',
       weapons: 'Armas',
       //    weapons_warrior: "Swords - Short Range, No Magic",
@@ -1456,7 +1468,7 @@ module.exports = {
       //    range: "Range",
       //    blocks: "Blocks",
       //    backstab: "Backstab",
-      skills: 'Habilidades'
+      skills: 'Habilidades',
       //    attack_1: "Deals",
       //    attack_2: "of listed",
       //    attack_3: "weapon damage.",
@@ -1512,7 +1524,7 @@ module.exports = {
 
     save_load: {
       granularity_saved_games: 'Gardado',
-      granularity_change_history: 'Historia'
+      granularity_change_history: 'Historia',
     },
 
     options: {
@@ -1529,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Amosar guías de sangría',
       editor_config_indentguides_description: 'Pódense ver as liñas verticais que definen o sangrado dunha forma máis clara.',
       editor_config_behaviors_label: 'Comportamentos intelixentes',
-      editor_config_behaviors_description: 'Complétanse automáticamente corchetes, paréntesis e comiñas.'
+      editor_config_behaviors_description: 'Complétanse automáticamente corchetes, paréntesis e comiñas.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1584,7 +1596,7 @@ module.exports = {
       //    sdr_title: "Sales Development Representative",
       //    bd_pr_title: "Business Development and Partnerships Representative",
       //    retrostyle_title: "Illustration",
-      retrostyle_blurb: 'RetroStyle Games'
+      retrostyle_blurb: 'RetroStyle Games',
       //    community_title: "...and our open-source community",
       //    lgd_title: "Lead Game Designer",
       //    oa_title: "Operations Associate",
@@ -1690,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1857,7 +1868,7 @@ module.exports = {
       cla_prefix: 'Para gardar os cambios, primeiro debes aceptar o noso',
       cla_url: 'CLA',
       cla_suffix: '.',
-      cla_agree: 'De acordo'
+      cla_agree: 'De acordo',
       //    owner_approve: "An owner will need to approve it before your changes will become visible.",
     },
 
@@ -1875,7 +1886,7 @@ module.exports = {
       //    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support.",
       //    screenshot_included: "Screenshot included.",
       //    where_reply: "Where should we reply?",
-      send: 'Envía o teu comentario'
+      send: 'Envía o teu comentario',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1927,7 +1938,7 @@ module.exports = {
       error_saving: 'Erro ao gardar',
       saved: 'Cambios gardados',
       password_mismatch: 'O contrasinal non coincide',
-      password_repeat: 'Repite o teu contrasinal.'
+      password_repeat: 'Repite o teu contrasinal.',
     },
 
     keyboard_shortcuts: {
@@ -1949,7 +1960,6 @@ module.exports = {
       //    toggle_grid: "Toggle grid overlay.",
       //    toggle_pathfinding: "Toggle pathfinding overlay.",
       beautify: 'Embelece o teu código estandarizando o formato.',
-      maximize_editor: 'Maximizar/minimizar o editor de código.'
     },
 
     //  cinematic: {
@@ -1973,7 +1983,7 @@ module.exports = {
       social_facebook: 'Dalle a Gústame a CodeCombat en Facebook',
       social_twitter: 'Segue a CodeCombat en Twitter',
       //    social_slack: "Chat with us in the public CodeCombat Slack channel",
-      contribute_to_the_project: 'Contribúe ao proxecto'
+      contribute_to_the_project: 'Contribúe ao proxecto',
     },
 
     //  clans: {
@@ -2833,7 +2843,7 @@ module.exports = {
       diplomat_title_description: '(Tradutor)',
       //    diplomat_summary: "CodeCombat is localized in 45+ languages by our Diplomats. Help us out and contribute translations.",
       ambassador_title: 'Embaixador',
-      ambassador_title_description: '(Soporte)'
+      ambassador_title_description: '(Soporte)',
       //    ambassador_summary: "Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world.",
       //    teacher_title: "Teacher",
     },
@@ -2871,6 +2881,7 @@ module.exports = {
       fork_title: 'Bifurcar nova versión',
       fork_creating: 'Creando bifurcación...',
       generate_terrain: 'Xerar Terreo',
+      //    generate_level: "Generate Level",
       more: 'Máis',
       wiki: 'Wiki',
       live_chat: 'Chat en directo',
@@ -2969,7 +2980,7 @@ module.exports = {
       no_achievements: 'Non se engadiron Logros a este nivel.',
       //    achievement_query_misc: "Key achievement off of miscellanea",
       //    achievement_query_goals: "Key achievement off of level goals",
-      level_completion: 'Porcentaxe de Nivel completado'
+      level_completion: 'Porcentaxe de Nivel completado',
       //    pop_i18n: "Populate I18N",
       //    tasks: "Tasks",
       //    clear_storage: "Clear your local changes",
@@ -2981,7 +2992,7 @@ module.exports = {
 
     article: {
       edit_btn_preview: 'Vista preliminar',
-      edit_article_title: 'Editar artigo'
+      edit_article_title: 'Editar artigo',
     },
 
     //  polls: {
@@ -3056,7 +3067,7 @@ module.exports = {
       creative_artisans: 'Os nosos creativos Artesáns:',
       brave_adventurers: 'Os nosos bravos Aventureiros:',
       translating_diplomats: 'Os nosos políglotas Diplomáticos:',
-      helpful_ambassadors: 'Os nosos amables Embaixadores:'
+      helpful_ambassadors: 'Os nosos amables Embaixadores:',
     },
 
     ladder: {
@@ -3120,7 +3131,7 @@ module.exports = {
       //    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details",
       tournament_blurb_blog: 'no noso blog',
       rules: 'Regras',
-      winners: 'Gañadores'
+      winners: 'Gañadores',
       //    league: "League",
       //    red_ai: "Red CPU",
       //    blue_ai: "Blue CPU",
@@ -3159,7 +3170,7 @@ module.exports = {
       no_multiplayer: 'Ainda non xogaches ningún nivel multixogador.',
       no_achievements: 'Ainda non alcanzaches ningún logro.',
       favorite_prefix: 'O teu idioma favorito ',
-      favorite_postfix: '.'
+      favorite_postfix: '.',
       //    not_member_of_clans: "Not a member of any clans yet.",
       //    certificate_view: "view certificate",
       //    certificate_click_to_view: "click to view certificate",
@@ -3195,7 +3206,7 @@ module.exports = {
       new_xp_postfix: ' gañado',
       left_xp_prefix: '',
       left_xp_infix: ' ata o nivel',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     //  account: {
@@ -3366,7 +3377,7 @@ module.exports = {
       conflict: 'Conflicto de recursos.',
       bad_input: 'Entrada incorrecta.',
       server_error: 'Erro do servidor.',
-      unknown: 'Erro descoñecido.'
+      unknown: 'Erro descoñecido.',
       //    error: "ERROR",
       //    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!",
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
@@ -3380,7 +3391,7 @@ module.exports = {
       system: 'Sistema',
       systems: 'Sistemas',
       component: 'Compoñente',
-      components: 'Componentes'
+      components: 'Componentes',
       //    hero: "Hero",
       //    campaigns: "Campaigns",
     },
@@ -3549,7 +3560,7 @@ module.exports = {
       moved_index: 'Índice movido',
       //    text_diff: "Text Diff",
       //    merge_conflict_with: "MERGE CONFLICT WITH",
-      no_changes: 'Sen Cambios'
+      no_changes: 'Sen Cambios',
     },
 
     legal: {
@@ -3605,7 +3616,7 @@ module.exports = {
       nutshell_title: 'Nunha palabra',
       nutshell_description: 'Todos os recursos que ofrecemos no editor de niveis son libres de ser utilizados para crear niveis. Pero reservámosnos o dereito de restrinxir a distribución dos propios niveis (que se crean en codecombat.com) de modo que se poida cobrar por eles no futuro, se iso é o que termina por suceder.',
       //    nutshell_see_also: "See also:",
-      canonical: 'A versión inglesa deste documento é a canónica, a definitiva. Se hai algunha diferenza coa que poida aparecer nas traduccións, a versión inglesa é a que prevalece sobre as demais.'
+      canonical: 'A versión inglesa deste documento é a canónica, a definitiva. Se hai algunha diferenza coa que poida aparecer nas traduccións, a versión inglesa é a que prevalece sobre as demais.',
       //    third_party_title: "Third Party Services",
       //    third_party_description: "CodeCombat uses the following third party services (among others):",
       //    cookies_message: "CodeCombat uses a few essential and non-essential cookies.",
@@ -3631,8 +3642,8 @@ module.exports = {
       one_month_coupon: 'cupón: elixe entre Rails ou HTML',
       one_month_discount: 'desconto do 30%: elixe entre Rails ou HTML',
       license: 'licenza',
-      oreilly: 'ebook da túa escolla'
-    }
+      oreilly: 'ebook da túa escolla',
+    },
 
     //  calendar: {
     //    year: "Year",
@@ -4490,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",

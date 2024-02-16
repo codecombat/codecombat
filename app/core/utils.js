@@ -581,8 +581,6 @@ const getByPath = function (target, path) {
 
 const isID = id => _.isString(id) && (id.length === 24) && (__guard__(id.match(/[a-f0-9]/gi), x1 => x1.length) === 24)
 
-const isIE = () => __guard__(typeof $ !== 'undefined' && $ !== null ? $.browser : undefined, x1 => x1.msie) != null ? __guard__(typeof $ !== 'undefined' && $ !== null ? $.browser : undefined, x1 => x1.msie) : false
-
 const isRegionalSubscription = name => /_basic_subscription/.test(name)
 
 const isSmokeTestEmail = email => /@example.com/.test(email) || /smoketest/.test(email)
@@ -1394,7 +1392,38 @@ const freeAccessLevels = [
   { access: 'short', slug: '1fhm1l1l5b' },
   { access: 'short', slug: '1fhm1l1l6b' },
   { access: 'short', slug: '1fhm1l1l7b' },
-  { access: 'short', slug: '1fhm1l1l8b' }
+  { access: 'short', slug: '1fhm1l1l8b' },
+  // Test set of free CoCo Jr levels
+  { access: 'short', slug: 'the-gem' },
+  { access: 'short', slug: 'two-gems' },
+  { access: 'short', slug: 'gem-square' },
+  { access: 'short', slug: 'x-marks-the-spot' },
+  { access: 'short', slug: 'gems-first' },
+  { access: 'short', slug: 'steps' },
+  { access: 'short', slug: 'long-hall' },
+  { access: 'short', slug: 'big-gem-square' },
+  { access: 'short', slug: 'snake-maze' },
+  { access: 'short', slug: 'one-block' },
+  { access: 'short', slug: 'knock-knock' },
+  { access: 'short', slug: 'open-and-shut' },
+  { access: 'short', slug: 'open-up' },
+  { access: 'short', slug: 'doors' },
+  { access: 'short', slug: 'bad-guys' },
+  { access: 'short', slug: 'hall-monitor' },
+  { access: 'short', slug: 'one-at-a-time' },
+  { access: 'short', slug: 'choose-your-battles' },
+  { access: 'short', slug: 'spin-to-win' },
+  { access: 'short', slug: 'busy-intersection' },
+  { access: 'short', slug: 'badder-guy' },
+  { access: 'short', slug: 'two-big' },
+  { access: 'short', slug: 'hit-and-spin' },
+  { access: 'short', slug: 'zap-it' },
+  { access: 'short', slug: 'zap-gap' },
+  { access: 'short', slug: 'kaboom' },
+  { access: 'short', slug: 'loopy' },
+  { access: 'short', slug: 'spin-eternally' },
+  { access: 'short', slug: 'gem-weave' },
+  { access: 'short', slug: 'zap-smart' },
 ]
 
 const orgKindString = function (kind, org = null) {
@@ -1586,7 +1615,6 @@ module.exports = {
   injectCSS,
   internalCampaignIds,
   isID,
-  isIE,
   isRegionalSubscription,
   isSmokeTestEmail,
   isValidEmail,

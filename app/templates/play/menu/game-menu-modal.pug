@@ -9,18 +9,31 @@
         span.glyphicon.glyphicon-remove
 
       ul#game-menu-nav.nav.nav-pills.nav-stacked(dir="ltr")
-        if view.showsChooseHero()
-          li
-            a#change-hero-tab
-              span.glyphicon.glyphicon-user
-              span(data-i18n='[title]game_menu.choose_hero_caption;play.change_hero')
-
         for submenu, index in submenus
           li(class=submenu === showTab ? "active" : "")
             a(href='#' + submenu + '-view', data-toggle='tab')
               span.glyphicon(class="glyphicon-"+iconMap[submenu])
               - var i18nKey = 'game_menu.' + submenu.replace('-', '_');
               span(data-i18n='[title]' + i18nKey + '_caption;' + i18nKey + '_tab')
+
+        if view.options.hintsState && view.options.hintsState.get('total') > 0
+          li
+            a.hints-button
+              span.glyphicon.glyphicon-book
+              span(data-i18n='play_level.hints')
+
+        if view.showsCourseVideos()
+          li
+            a.course-videos-button
+              span.glyphicon.glyphicon-film
+              span(data-i18n="play_level.videos")
+
+        if view.showsChooseHero()
+          li
+            a#change-hero-tab
+              span.glyphicon.glyphicon-user
+              span(data-i18n='[title]game_menu.choose_hero_caption;play.change_hero_or_language')
+
         if me.get('anonymous') && !features.noAuth
           li.auth-tab(data-toggle='coco-modal', data-target="core/CreateAccountModal")
             a(data-toggle='coco-modal', data-target="core/CreateAccountModal")

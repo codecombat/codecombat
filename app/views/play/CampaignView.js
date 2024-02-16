@@ -1112,7 +1112,7 @@ ${problem.category} - ${problem.score} points\
         }
       }
 
-      let dontPointTo = ['lost-viking', 'kithgard-mastery'] // Challenge levels we don't want most players bashing heads against
+      const dontPointTo = ['lost-viking', 'kithgard-mastery'] // Challenge levels we don't want most players bashing heads against
       const subscriptionPrompts = [{ slug: 'boom-and-bust', unless: 'defense-of-plainswood' }]
 
       if ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') {
@@ -1134,22 +1134,22 @@ ${problem.category} - ${problem.score} points\
 
       const findNextLevel = (level, practiceOnly) => {
         for (const nextLevelOriginal of Array.from(level.nextLevels)) {
-          var nextLevel = _.find(orderedLevels, { original: nextLevelOriginal })
+          const nextLevel = _.find(orderedLevels, { original: nextLevelOriginal })
           if (!nextLevel || nextLevel.locked) { continue }
           if (practiceOnly && !this.campaign.levelIsPractice(nextLevel)) { continue }
           if (this.campaign.levelIsAssessment(nextLevel)) { continue }
           if (this.campaign.levelIsAssessment(level) && this.campaign.levelIsPractice(nextLevel)) { continue }
 
-          // If it's a challenge level, we efficiently determine whether we actually do want to point it out.
-          // 2021-09-21: disabling for now, guessing it doesn't work well and makes experiments harder
-          if (false && (nextLevel.slug === 'kithgard-mastery') && !this.levelStatusMap[nextLevel.slug] && (this.calculateExperienceScore() >= 3)) {
-            var timesPointedOut
-            if (!((timesPointedOut = storage.load(`pointed-out-${nextLevel.slug}`) || 0) > 3)) {
-              // We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
-              dontPointTo = _.without(dontPointTo, nextLevel.slug)
-              storage.save(`pointed-out-${nextLevel.slug}`, timesPointedOut + 1)
-            }
-          }
+          // // If it's a challenge level, we efficiently determine whether we actually do want to point it out.
+          // // 2021-09-21: disabling for now, guessing it doesn't work well and makes experiments harder
+          // if (false && (nextLevel.slug === 'kithgard-mastery') && !this.levelStatusMap[nextLevel.slug] && (this.calculateExperienceScore() >= 3)) {
+          //   const timesPointedOut = storage.load(`pointed-out-${nextLevel.slug}`) || 0
+          //   if (timesPointedOut <= 3) {
+          //     // We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
+          //     dontPointTo = _.without(dontPointTo, nextLevel.slug)
+          //     storage.save(`pointed-out-${nextLevel.slug}`, timesPointedOut + 1)
+          //   }
+          // }
 
           // Should we point this level out?
           if (!nextLevel.disabled && (this.levelStatusMap[nextLevel.slug] !== 'complete') && !Array.from(dontPointTo).includes(nextLevel.slug) &&
@@ -1437,7 +1437,7 @@ ${problem.category} - ${problem.score} points\
 
       // If classroomItems is on, don't go to PlayLevelView directly.
       // Go through LevelSetupManager which will load required modals before going to PlayLevelView.
-      if (me.showHeroAndInventoryModalsToStudents() && !(classroomLevel != null ? classroomLevel.isAssessment() : undefined)) {
+      if (me.showHeroAndInventoryModalsToStudents() && (!classroomLevel || !classroomLevel.usesSessionHeroInventory())) {
         this.startLevel(levelElement, courseID, courseInstanceID)
         return (window.tracker != null ? window.tracker.trackEvent('Clicked Start Level', { category: 'World Map', levelID: levelSlug }) : undefined)
       } else {
@@ -1454,7 +1454,7 @@ ${problem.category} - ${problem.score} points\
       const levelSlug = levelElement.data('level-slug')
       const levelOriginal = levelElement.data('level-original')
       const classroomLevel = this.classroomLevelMap != null ? this.classroomLevelMap[levelOriginal] : undefined
-      if (me.showHeroAndInventoryModalsToStudents() && !(classroomLevel != null ? classroomLevel.isAssessment() : undefined)) {
+      if (me.showHeroAndInventoryModalsToStudents() && !(classroomLevel || !classroomLevel.usesSessionHeroInventory())) {
         const codeLanguage = __guard__(this.classroomLevelMap != null ? this.classroomLevelMap[levelOriginal] : undefined, x => x.get('primerLanguage')) || __guard__(this.classroom != null ? this.classroom.get('aceConfig') : undefined, x1 => x1.language)
         options = { supermodel: this.supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: this.hadEverChosenHero, parent: this, courseID, courseInstanceID, codeLanguage }
       } else {
@@ -1508,7 +1508,7 @@ ${problem.category} - ${problem.score} points\
     onWindowResize (e) {
       let iPadHeight, resultingHeight, resultingWidth
       const mapHeight = (iPadHeight = 1536)
-      const mapWidth = { dungeon: 2350, forest: 2500, auditions: 2500, desert: 2411, mountain: 2422, glacier: 2421 }[this.terrain] || 2350
+      const mapWidth = { dungeon: 2350, forest: 2500, auditions: 2500, desert: 2411, mountain: 2422, glacier: 2421, junior: 2500 }[this.terrain] || 2350
       const aspectRatio = mapWidth / mapHeight
       const pageWidth = this.$el.width()
       const pageHeight = this.$el.height()

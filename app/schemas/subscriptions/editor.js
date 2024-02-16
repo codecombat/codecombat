@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 const c = require('schemas/schemas')
 
 module.exports = {
@@ -63,8 +61,11 @@ module.exports = {
   'editor:random-terrain-generated': c.object({ required: ['thangs', 'terrain'] }, {
     thangs: c.array({}, { type: 'object' }),
     terrain: c.terrainString
-  }
-  ),
+  }),
+
+  'editor:generate-random-level': c.object({ required: ['size'] }, {
+    size: { type: 'string' }
+  }),
 
   'editor:terrain-changed': c.object({ required: ['terrain'] }, {
     terrain: {

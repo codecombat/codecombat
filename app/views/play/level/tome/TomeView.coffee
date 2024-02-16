@@ -23,7 +23,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'app/templates/play/level/tome/tome'
 {me} = require 'core/auth'
 Spell = require './Spell'
-SpellPaletteViewBot = require './SpellPaletteViewBot'
+SpellPaletteView = require './SpellPaletteView'
 CastButtonView = require './CastButtonView'
 utils = require 'core/utils'
 store = require 'core/store'
@@ -44,14 +44,14 @@ module.exports = class TomeView extends CocoView
     'tome:comment-my-code': 'onCommentMyCode'
     'tome:reset-my-code': 'onResetMyCode'
     'tome:select-primary-sprite': 'onSelectPrimarySprite'
-    'tome:toggle-blocks': 'onToggleBlocks'
+    'tome:toggle-blocks': 'onToggleBlocks' # TODO: handle blocks class toggling better
 
   events:
     'click': 'onClick'
 
   constructor: (options) ->
     super options
-    @determineBlocksSettings()
+    @determineCodeFormat()
     @unwatchFn = store.watch(
       (state, getters) -> getters['game/levelSolution'],
       (solution) => @onChangeMyCode(solution.source) if solution?.source
@@ -75,6 +75,7 @@ module.exports = class TomeView extends CocoView
       noty text: warning, layout: 'topCenter', type: 'warning', killer: false, timeout: 15000, dismissQueue: true, maxVisible: 3
       console.warn warning
     delete @options.thangs
+    # TODO: handle blocks class toggling better
     @$el.toggleClass 'blocks', Boolean @blocks
     @options.playLevelView?.$el.toggleClass 'blocks', Boolean @blocks
 
@@ -109,19 +110,25 @@ module.exports = class TomeView extends CocoView
     return null if globalVar.application.isIPadApp  # Save memory!
     return new Worker('/javascripts/workers/aether_worker.js')
 
-  determineBlocksSettings: ->
+  determineCodeFormat: ->
     language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
-    if @options.level.isType('web-dev', 'game-dev') or (language not in ['python', 'javascript', 'lua'])
+    if @options.level.isType('web-dev') or (language not in ['python', 'javascript', 'lua'])
       # TODO: eventually we could get game-dev working, if we figure out how to list spawnables
-      @blocks = false
-      @blocksHidden = true
-      return
-    classroomBlocks = @options.classroomAceConfig?.blocks ? 'opt-in'
-    @blocksHidden = false
-    switch classroomBlocks
-      when 'hidden' then @blocksHidden = true
-      when 'opt-in' then @blocks = me.get('aceConfig')?.blocks
-      when 'opt-out' then @blocks = me.get('aceConfig')?.blocks ? true
+      newCodeFormat = 'text-code'
+    else
+      classroomCodeFormatDefault = @options.classroomAceConfig?.codeFormatDefault or 'text-code'
+      classroomCodeFormats = @options.classroomAceConfig?.codeFormats or ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code']
+      desiredCodeFormat = me.get('aceConfig')?.codeFormat or classroomCodeFormatDefault
+      newCodeFormat = if desiredCodeFormat in classroomCodeFormats then desiredCodeFormat else classroomCodeFormatDefault
+    return if newCodeFormat is @codeFormat
+    @blocks = /block/.test(newCodeFormat) # TODO: handle blocks class toggling better
+    @blocksHidden = not _.intersection(classroomCodeFormats, ['blocks-icons', 'blocks-text', 'blocks-and-code']).length # TODO: handle blocks class toggling better
+    changeEvent = codeFormat: newCodeFormat
+    if @codeFormat
+      changeEvent.oldCodeFormat = @codeFormat
+    @codeFormat = newCodeFormat
+    Backbone.Mediator.publish 'tome:code-format-changed', changeEvent
+    return @codeFormat
 
   generateTeamSpellMap: (spellObject) ->
     teamSpellMap = {}
@@ -142,7 +149,7 @@ module.exports = class TomeView extends CocoView
     language ?= @options.session.get('codeLanguage')
     language ?= me.get('aceConfig')?.language
     language ?= 'python'
-    @determineBlocksSettings()
+    @determineCodeFormat()
     pathPrefixComponents = ['play', 'level', @options.levelID, @options.session.id, 'code']
     @spells ?= {}
     @thangSpells ?= {}
@@ -174,8 +181,10 @@ module.exports = class TomeView extends CocoView
           courseID: @options.courseID
           courseInstanceID: @options.courseInstanceID
           classroomAceConfig: @options.classroomAceConfig
+          # TODO: replace @blocks and @blocksHidden logic, and blocks toggle UI, with something aware of multiple block choices
           blocks: @blocks
           blocksHidden: @blocksHidden
+          codeFormat: @codeFormat
           teacherID: @options.teacherID
 
     for thangID, spellKeys of @thangSpells
@@ -247,12 +256,9 @@ module.exports = class TomeView extends CocoView
     @spellView?.setThang thang
 
   updateSpellPalette: (thang, spell) ->
-    paletteManagedInParent = @options.playLevelView?.updateSpellPalette thang, spell
-    @$('#spell-palette-view-bot').toggleClass 'hidden', paletteManagedInParent
-    return if paletteManagedInParent
-    useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
+    @$('#spell-palette-view').toggleClass 'hidden', false
     @removeSubView @spellPaletteView if @spellPaletteView and not @spellPaletteView?.destroyed
-    @spellPaletteView = @insertSubView new SpellPaletteViewBot { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID, useHero }
+    @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID }
     @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view
 
   spellFor: (thang, spellName) ->
@@ -268,7 +274,6 @@ module.exports = class TomeView extends CocoView
 
   reloadAllCode: ->
     if utils.getQueryVariable 'dev'
-      @options.playLevelView?.spellPaletteView?.destroy()
       @updateSpellPalette @spellView.thang, @spellView.spell if @spellView
     spell.view.reloadCode false for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
     @cast false, false
@@ -291,6 +296,7 @@ module.exports = class TomeView extends CocoView
       Backbone.Mediator.publish 'level:select-sprite', thangID: 'Hero Placeholder'
 
   onToggleBlocks: (e) ->
+    # TODO: replace @blocks and @blocksHidden logic, and blocks toggle UI, with something aware of multiple block choices
     return if Boolean(@blocks) is Boolean(e.blocks)
     @blocks = Boolean e.blocks
     @$el.toggleClass 'blocks', @blocks

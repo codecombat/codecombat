@@ -174,7 +174,7 @@ module.exports = (SystemsTabView = (function () {
 
     onTerrainChanged (e) {
       let AI, Vision
-      const defaultPathfinding = ['Dungeon', 'Indoor', 'Mountain', 'Glacier', 'Volcano'].includes(e.terrain)
+      const defaultPathfinding = ['Dungeon', 'Indoor', 'Mountain', 'Glacier', 'Volcano', 'Junior'].includes(e.terrain)
       let changed = false
       if (AI = this.systemsTreema.get('original=528110f30268d018e3000001')) {
         if ((AI.config != null ? AI.config.findsPaths : undefined) !== defaultPathfinding) {

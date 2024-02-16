@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 const c = require('./../schemas')
 const ThangComponentSchema = require('./thang_component')
 
@@ -132,7 +130,7 @@ _.extend(ThangTypeSchema.properties, {
     containers: c.object({ title: 'Containers', additionalProperties: ContainerObjectSchema }),
     animations: c.object({ title: 'Animations', additionalProperties: RawAnimationObjectSchema })
   }),
-  kind: c.shortString({ enum: ['Unit', 'Floor', 'Wall', 'Doodad', 'Misc', 'Mark', 'Item', 'Hero', 'Missile'], default: 'Misc', title: 'Kind' }),
+  kind: c.shortString({ enum: ['Unit', 'Floor', 'Wall', 'Doodad', 'Misc', 'Mark', 'Item', 'Hero', 'Missile', 'Junior'], default: 'Misc', title: 'Kind' }),
   terrains: c.array({ title: 'Terrains', description: 'If specified, limits this ThangType to levels with matching terrains.', uniqueItems: true }, c.terrainString),
   gems: { type: 'integer', minimum: 0, title: 'Gem Cost', description: 'How many gems this item or hero costs.' },
   subscriber: { type: 'boolean', title: 'Subscriber (items only)', description: 'This item is for subscribers only.' },

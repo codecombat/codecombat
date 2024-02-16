@@ -69,30 +69,31 @@ if doc.translatedShortName
           code= cooldowns.duration
           | s.
 
-if !selectedMethod
-  if doc.example
-    p.example
-      strong
-        span(data-i18n="skill_docs.example") Example
-        | :
+if doc.example
+  p.example
+    strong
+      span(data-i18n="skill_docs.example") Example
+      | :
+    .docs-ace-container
+      .docs-ace= doc.example
+else if doc.type == 'function' && argumentExamples.length
+  p.example
+    strong
+      span(data-i18n="skill_docs.example") Example
+      | :
+    div
       .docs-ace-container
-        .docs-ace= doc.example
-  else if doc.type == 'function' && argumentExamples.length
-    p.example
-      strong
-        span(data-i18n="skill_docs.example") Example
-        | :
-      div
-        .docs-ace-container
-          .docs-ace
-            if /javascript|java|cpp/.test(language)
-              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
-            else if language == 'coffeescript'
-              span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + docName + ' ' + argumentExamples.join(', ')
-            else if language == 'python'
-              span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ')'
-            else if language == 'lua'
-              span= doc.ownerName + ':' + docName + '(' + argumentExamples.join(', ') + ')'
+        .docs-ace
+          if product == 'codecombat-junior'
+            span= docName + '(' + argumentExamples.join(', ') + ')'
+          else if /javascript|java|cpp/.test(language)
+            span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ');'
+          else if language == 'coffeescript'
+            span= doc.ownerName + (doc.ownerName == '@' ? '' : '.') + docName + ' ' + argumentExamples.join(', ')
+          else if language == 'python'
+            span= doc.ownerName + '.' + docName + '(' + argumentExamples.join(', ') + ')'
+          else if language == 'lua'
+            span= doc.ownerName + ':' + docName + '(' + argumentExamples.join(', ') + ')'
 
 if (doc.type != 'function' && doc.type != 'snippet' && doc.type != 'spawnable' && doc.type != 'event' && doc.type != 'handler' && doc.type != 'property' && !_.contains(['HTML', 'CSS', 'WebJavaScript', 'jQuery'], doc.owner)) || doc.name == 'now'
   p.value
@@ -178,12 +179,9 @@ if doc.returns
       if doc.returns.description
         div!= marked(doc.returns.description)
 
-if item && (typeof item.get === 'function')
+if item && (typeof item.get === 'function') && doc.owner != 'game' && product != 'codecombat-junior'
   p
     em
       span.spr(data-i18n="skill_docs.granted_by") Granted by
       | #{item.get('name')}.
 
-if selectedMethod
-  p
-    em Write the body of this method below.

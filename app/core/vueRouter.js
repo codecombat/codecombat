@@ -310,6 +310,11 @@ export default function getVueRouter () {
           path: '/:pname(library|partner)-dashboard',
           name: 'LibraryDashboard',
           component: () => import(/* webpackChunkName: "libraryDashboard" */'/app/views/library/dashboard/MainView')
+        },
+        {
+          path: '/home-beta',
+          name: 'HomeBeta',
+          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
         }
       ],
       scrollBehavior (to) {

@@ -337,7 +337,7 @@ module.exports = {
       //    help_enjoy_learning_blurb: "Our products have helped over 20 million students enjoy learning Computer Science, teaching them to be critical, confident, and creative learners. We engage all students, regardless of experience, helping them to realize a pathway to success in Computer Science.",
       global_community: 'Alătură-te comunității globale',
       million: '__num__ milioane',
-      billion: '__num__ Bilioane'
+      billion: '__num__ Bilioane',
       //    meta_keywords_podcast: "CodeCombat, python, javascript, Coding Games, podcast, edtech",
       //    coco_worlds_header: "CodeCombat Worlds",
       //    coco_worlds_description: "Embark on a 3D coding adventure in Roblox, where you can program pets, play with friends, and develop games all while playing one. Join the CodeCombat community and unleash your creativity in the metaverse!",
@@ -413,7 +413,7 @@ module.exports = {
       admin: 'Admin',
       //    api: "API",
       api_dashboard: 'Panou de lucru API',
-      funding_resources_guide: 'Ghid resurse de finanțare'
+      funding_resources_guide: 'Ghid resurse de finanțare',
       //    partnerships: "Partnerships",
       //    podcast: "Our Podcast",
       //    dashboard: "Dashboard",
@@ -431,12 +431,12 @@ module.exports = {
     modal: {
       close: 'Închide',
       okay: 'Okay',
-      cancel: 'Anulează'
+      cancel: 'Anulează',
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Pagina nu a fost gasită'
+      page_not_found: 'Pagina nu a fost gasită',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'CodeCombat este dezvoltat în limba engleza , dar deja avem jucători din toate colțurile lumii. Mulți dintre ei vor să joace în română și nu vorbesc engleză. Dacă poți vorbi ambele limbi te rugăm să te gândești dacă ai dori să devi un Diplomat și să ne ajuți sa traducem atât jocul cât și site-ul.',
       missing_translations: 'Până când nu putem traduce totul în Română, vei vedea limba engleză acolo unde limba română nu este displonibilă.',
       learn_more: 'Află mai multe despre cum să fi un Diplomat',
-      subscribe_as_diplomat: 'Înscrie-te ca Diplomat'
+      subscribe_as_diplomat: 'Înscrie-te ca Diplomat',
     },
 
     new_home_faq: {
@@ -473,7 +473,7 @@ module.exports = {
       how_much_does_it_cost_blurb: 'Personalizăm soluțiile pentru școli și districte și vom lucra cu tine pentru a înțelege cerința de utilizare, contextul și bugetul. __contact__ pentru mai multe detalii! Vezi de asemenea __funding__ pentru informații cu privire la accesarea surselor CARES Act funding cum sunt ESSER și GEER.',
       recommended_systems: 'Există o recomandare cu privire la navigatorul web și la sistemul de operare?',
       recommended_systems_blurb: 'CodeCombat și Ozaria rulează cel mai bine pe calculatoare cu cel puțin 4GB de RAM, pe navigatoare web moderne cum sunt Chrome, Safari, Firefox sau Edge. Chromebooks cu 2GB de RAM pot avea probleme minore de grafică în cursurile mai avansate. Un minim de 200 Kbps lățime de bandă pentru fiecare elev este necesară, deși este recomandat 1+ Mbps.',
-      other_questions: 'Dacă ai și alte întrebări, te rog __contact__.'
+      other_questions: 'Dacă ai și alte întrebări, te rog __contact__.',
       //    see_faq_prefix: "See more",
       //    see_faq_link: "frequently asked questions in our help center",
       //    see_faq_suffix: ".",
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Înscrie-te ca un aventurier ',
       awaiting_levels_adventurer_suffix: 'pentru a fi primul care joacă nivele noi.',
       adjust_volume: 'Reglează volumul',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Arene Multiplayer',
       campaign_multiplayer_description: '... în care lupți cot-la-cot contra alți jucători.',
       brain_pop_done: 'Ai ănfrânt căpcăunii cu codul tău! Ai învins!',
@@ -537,7 +538,7 @@ module.exports = {
       replay: 'Joacă din nou',
       back_to_classroom: 'Înapoi la clasă',
       teacher_button: 'Pentru profesori',
-      get_more_codecombat: 'Mai mult CodeCombat'
+      get_more_codecombat: 'Mai mult CodeCombat',
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
       //    customize_hero: "Customize Hero",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'nedefinit',
       null: 'Zero/Fără valoare cand nu este obiect',
       nil: 'Zero/Fără valoare pentru obiecte',
-      None: 'Nici unul/una'
+      None: 'Nici unul/una',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Introduceți adresa e-mail al unui părinte mai jos și le vom arăta!',
       form_label: 'Adresă e-mail',
       placeholder: 'adresă e-mail',
-      title: 'Excelentă treabă, Ucenicule'
+      title: 'Excelentă treabă, Ucenicule',
     },
 
     login: {
@@ -627,7 +628,7 @@ module.exports = {
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
       //    individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!",
-      accounts_merge_confirmation: 'Există un cont asociat cu adresa de e-mail a acestui cont Google. Vreți să unim aceste conturi?'
+      accounts_merge_confirmation: 'Există un cont asociat cu adresa de e-mail a acestui cont Google. Vreți să unim aceste conturi?',
       //    stop_spying: "Stop Spying",
       //    stop_switching: "Stop Switching",
       //    test_as_student: "Test as Student",
@@ -743,14 +744,14 @@ module.exports = {
       want_to_play_codecombat: 'Nu, Nu am una dar vreau să joc CodeCombat!',
       have_a_classcode: 'Ai un cod de clasă?',
       yes_i_have_classcode: 'Da, am un cod de clasă!',
-      enter_it_here: 'Introdu codu aici:'
+      enter_it_here: 'Introdu codu aici:',
       //    play_without_saving: "Play without saving",
     },
 
     recover: {
       recover_account_title: 'Recuperează Cont',
       send_password: 'Trimite parolă de recuperare',
-      recovery_sent: 'E-mail de recuperare trimis.'
+      recovery_sent: 'E-mail de recuperare trimis.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Armură',
       accessories: 'Accesorii',
       misc: 'Diverse',
-      books: 'Cărți'
+      books: 'Cărți',
     },
 
     common: {
@@ -802,7 +803,7 @@ module.exports = {
       submit: 'Transmite',
       replay: 'Rejoacă',
       complete: 'Complet',
-      pick_image: 'Alege imagine'
+      pick_image: 'Alege imagine',
       //    continue_editing: "Continue Editing",
       //    logout: "Logout",
       //    empty: "Empty",
@@ -882,7 +883,7 @@ module.exports = {
       email_us: 'Trimite-ne e-mail',
       sales: 'Vânzări',
       support: 'Suport',
-      here: 'aici'
+      here: 'aici',
       //    from: "From",
     },
 
@@ -901,7 +902,7 @@ module.exports = {
       month: 'lună',
       months: 'luni',
       year: 'an',
-      years: 'ani'
+      years: 'ani',
     },
 
     play_level: {
@@ -1106,7 +1107,7 @@ module.exports = {
       fill_in_solution: 'Completează cu soluția',
       //    toggle_solution: "Toggle solution",
       play_as_humans: 'Joacă ca om',
-      play_as_ogres: 'Joacă ca căpcăun'
+      play_as_ogres: 'Joacă ca căpcăun',
       //    changed: "Last edited ",
       //    team_humans: "Red",
       //    team_ogres: "Blue",
@@ -1161,7 +1162,7 @@ module.exports = {
       jquery: 'jQuery',
       json: 'JSON',
       number: 'Număr',
-      webjavascript: 'JavaScript'
+      webjavascript: 'JavaScript',
     },
 
     amazon_hoc: {
@@ -1173,13 +1174,13 @@ module.exports = {
       future_eng_2: 'aici',
       future_eng_3: '(echipamentul nu este necesar). Această activitate cu Alexa este prezentată de',
       future_eng_4: 'Amazon Future Engineer (Viitorii Ingineri Amazon)',
-      future_eng_5: 'un program care creează oportunități pentru învățare și munncă pentru toți elevii K-12 din Statele Unite care doresc să urmeze o cariere în informatică.'
+      future_eng_5: 'un program care creează oportunități pentru învățare și munncă pentru toți elevii K-12 din Statele Unite care doresc să urmeze o cariere în informatică.',
     },
 
     live_class: {
       title: 'Mulțumesc!',
       content: 'Uimitor! Tocmai am lansat clase on-line în timp real.',
-      link: 'Ești pregătit să mergi mai departe cu programarea?'
+      link: 'Ești pregătit să mergi mai departe cu programarea?',
     },
 
     code_quest: {
@@ -1188,7 +1189,7 @@ module.exports = {
       link: 'Apasă aici pentru înregistrare și mai multe detalii',
       global_tournament: 'Turneu global',
       register: 'Înregistrare',
-      date: '1 Aug - 31 Aug'
+      date: '1 Aug - 31 Aug',
     },
 
     play_game_dev_level: {
@@ -1205,13 +1206,14 @@ module.exports = {
       goal_defeat_amount: 'Învinge __amount__ inamici.',
       goal_move: 'Mergi la toate marcajele cu X.',
       goal_collect: 'Colectează toate obiectele.',
-      goal_collect_amount: 'Ai colectat __amount__ obiecte.'
+      goal_collect_amount: 'Ai colectat __amount__ obiecte.',
     },
 
     game_menu: {
       inventory_tab: 'Inventar',
       save_load_tab: 'Salvează/Încarcă',
       options_tab: 'Opțiuni',
+      //    my_code_tab: "My Code",
       guide_tab: 'Ghid',
       guide_video_tutorial: 'Tutorial Video',
       guide_tips: 'Sfaturi',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Echipează-ți eroul',
       choose_hero_caption: 'Alege eroul, limba',
       options_caption: 'Configurarea setărilor',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Documentație și sfaturi',
       multiplayer_caption: 'Joacă cu prieteni!',
-      auth_caption: 'Salvează progresul.'
+      auth_caption: 'Salvează progresul.',
     },
 
     leaderboard: {
@@ -1241,7 +1244,7 @@ module.exports = {
       survival_time: 'Supraviețuit',
       defeated: 'Inamici înfrânți',
       code_length: 'Linii de cod',
-      score_display: '__scoreType__: __score__'
+      score_display: '__scoreType__: __score__',
     },
 
     inventory: {
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: 'Dezechipează',
       warrior_only: 'Doar războinic',
       ranger_only: 'Doar arcaș',
-      wizard_only: 'Doar vrăjitor'
+      wizard_only: 'Doar vrăjitor',
     },
 
     buy_gems: {
@@ -1274,17 +1277,17 @@ module.exports = {
       price: 'x{{gems}} / mo',
       buy_premium: 'Cumpără premium',
       purchase: 'Cumpără',
-      purchased: 'Cumpărat'
+      purchased: 'Cumpărat',
     },
 
     subscribe_for_gems: {
       prompt_title: 'Pietre prețioase insuficiente!',
-      prompt_body: 'Abonează-te la Premium pentru a obține pietre prețioase și pentru a accesa chiar mai multe niveluri!'
+      prompt_body: 'Abonează-te la Premium pentru a obține pietre prețioase și pentru a accesa chiar mai multe niveluri!',
     },
 
     earn_gems: {
       prompt_title: 'Pietre prețioase insuficiente',
-      prompt_body: 'Continuă să joci pentru a câștiga mai multe!'
+      prompt_body: 'Continuă să joci pentru a câștiga mai multe!',
     },
 
     subscribe: {
@@ -1337,7 +1340,7 @@ module.exports = {
       year_price: '$__price__/an',
       //    year_price_without_currency: "__price__/yr",
       support_part1: 'Ai nevoie de ajutor cu plata sau preferi PayPal? E-mail',
-      support_part2: 'support@codecombat.com'
+      support_part2: 'support@codecombat.com',
       //    go_prepaid: "Click here after scaning the code and purchasing",
       //    forever: "Forever",
       //    subscription_status: "Your Subscription Status",
@@ -1387,7 +1390,7 @@ module.exports = {
       tornado_name: 'Tornado',
       tornado_description: 'Este bine să ai un buton de reset când acoperirea cuiva este spulberată.',
       wallOfDarkness_name: 'Zidul Întunericului',
-      wallOfDarkness_description: 'Se ascunde în spatele unui zid de umbră pentru a evita privirile.'
+      wallOfDarkness_description: 'Se ascunde în spatele unui zid de umbră pentru a evita privirile.',
       //    notifications: "Notifications",
       //    x_announcement: "__x__ Notification",
       //    x_announcements: "__x__ Notifications",
@@ -1400,7 +1403,7 @@ module.exports = {
     },
 
     avatar_selection: {
-      pick_an_avatar: 'Alege un avatar care te reprezintă ca și jucător'
+      pick_an_avatar: 'Alege un avatar care te reprezintă ca și jucător',
       //    select_avatar_title: "Choose Player Avatar",
     },
 
@@ -1425,7 +1428,7 @@ module.exports = {
       list_web_dev: 'Construiește site-uri web și aplicații interactive',
       list_items: 'Echipează-te cu elemente specifice premium cum sunt animăluțele',
       list_support: 'Primește suport de tip premium pentrua te ajuta să rezolvi situațiile încâlcite',
-      list_clans: 'Creează clanuri private în acre să inviți prieteni și concurează într-un clasament de grup'
+      list_clans: 'Creează clanuri private în acre să inviți prieteni și concurează într-un clasament de grup',
       //    ai_bot_learning: "AI powered support to accelerate learning outcomes!",
       //    ai_bot_description: "CodeCombat’s AI powered hints feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available young learners will still need to work through each level's coding challenge. Premium subscribers receive an allocation of <b>10 AI hints per day</b> to ensure they always have the support they need.",
       //    list_ai_bot: "Premium subscribers receive an allocation of 10 AI hints per day",
@@ -1444,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Limbaj de scripting pentru jocuri.',
       java_blurb: '(Numai pentru abonați) Android și pentru afaceri.',
       cpp_blurb: '(Numai pentru abonați) Dezvoltare de jocuri și calcul de înaltă performanță.',
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Stare',
       weapons: 'Armament',
       weapons_warrior: 'Săbii - Distanță scurtă, Fără magie',
@@ -1467,7 +1479,7 @@ module.exports = {
       speed_2: 'metri pe secundă.',
       available_for_purchase: 'Disponibil pentru cumpărare',
       level_to_unlock: 'Nivel ce trebuie deblocat:',
-      restricted_to_certain_heroes: 'Numai anumiți eroi pot juca acest nivel.'
+      restricted_to_certain_heroes: 'Numai anumiți eroi pot juca acest nivel.',
     },
 
     char_customization_modal: {
@@ -1475,7 +1487,7 @@ module.exports = {
       body: 'Corp',
       name_label: 'Nume erou',
       hair_label: 'Culoare păr',
-      skin_label: 'Culoare piele'
+      skin_label: 'Culoare piele',
     },
 
     skill_docs: {
@@ -1506,13 +1518,13 @@ module.exports = {
       optional_parameters: 'Parametrii opționali',
       returns: 'Întoarce',
       granted_by: 'Acordat de',
-      still_undocumented: 'Încă nedocumentat, ne pare rău.'
+      still_undocumented: 'Încă nedocumentat, ne pare rău.',
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: 'Salvate',
-      granularity_change_history: 'Istoric'
+      granularity_change_history: 'Istoric',
     },
 
     options: {
@@ -1529,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Arată ghidul de indentare',
       editor_config_indentguides_description: 'Arată linii verticale pentru a vedea mai bine indentarea.',
       editor_config_behaviors_label: 'Comportamente inteligente',
-      editor_config_behaviors_description: 'Completează automat parantezele, ghilimele etc.'
+      editor_config_behaviors_description: 'Completează automat parantezele, ghilimele etc.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1690,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1857,7 +1868,7 @@ module.exports = {
       cla_prefix: 'Pentru a salva modificările mai intâi trebuie sa fiți de acord cu',
       cla_url: 'CLA',
       cla_suffix: '.',
-      cla_agree: 'SUNT DE ACORD'
+      cla_agree: 'SUNT DE ACORD',
       //    owner_approve: "An owner will need to approve it before your changes will become visible.",
     },
 
@@ -1875,7 +1886,7 @@ module.exports = {
       subscriber_support: 'Din moment ce ești un abonat CodeCombat, adresa ta de email va primi sprijinul nostru prioritar.',
       screenshot_included: 'Screenshot-uri incluse.',
       where_reply: 'Unde ar trebui să răspundem?',
-      send: 'Trimite Feedback'
+      send: 'Trimite Feedback',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1927,7 +1938,7 @@ module.exports = {
       error_saving: 'Salvare erori',
       saved: 'Modificări salvate',
       password_mismatch: 'Parola nu se potrivește.',
-      password_repeat: 'Te rugăm sa repeți parola.'
+      password_repeat: 'Te rugăm sa repeți parola.',
     },
 
     keyboard_shortcuts: {
@@ -1949,7 +1960,6 @@ module.exports = {
       toggle_grid: 'Comută afișaj grilă.',
       toggle_pathfinding: 'Comută afișaj pathfinding.',
       beautify: 'Înfrumusețează codul standardizând formatarea lui.',
-      maximize_editor: 'Mărește/Micește editorul.'
     },
 
     //  cinematic: {
@@ -1973,7 +1983,7 @@ module.exports = {
       social_facebook: 'Lasă un Like pentru CodeCombat pe facebook',
       social_twitter: 'Urmărește CodeCombat pe Twitter',
       //    social_slack: "Chat with us in the public CodeCombat Slack channel",
-      contribute_to_the_project: 'Contribuie la proiect'
+      contribute_to_the_project: 'Contribuie la proiect',
     },
 
     clans: {
@@ -2022,7 +2032,7 @@ module.exports = {
       //    view_attempt: "Click to view attempt.",
       latest_achievement: 'Ultimile Achievement-uri',
       playtime: 'Timp Jucat',
-      last_played: 'Ultima oară cănd ai jucat'
+      last_played: 'Ultima oară cănd ai jucat',
       //    leagues_explanation: "Play in a league against other clan members in these multiplayer arena instances.",
       //    track_concepts1: "Track concepts",
       //    track_concepts2a: "learned by each student",
@@ -2834,7 +2844,7 @@ module.exports = {
       diplomat_summary: 'CodeCombat e localizat în 45+ de limbi de Diplomații noștri. Ajută-ne și contribuie la traducere.',
       ambassador_title: 'Ambasador',
       ambassador_title_description: '(Suport)',
-      ambassador_summary: 'Îmblânzește useri de pe forumul nostru si oferă direcți pentru cei cu întrebări. Ambasadori noștri reprezintă CodeCombat în fața lumii.'
+      ambassador_summary: 'Îmblânzește useri de pe forumul nostru si oferă direcți pentru cei cu întrebări. Ambasadori noștri reprezintă CodeCombat în fața lumii.',
       //    teacher_title: "Teacher",
     },
 
@@ -2871,6 +2881,7 @@ module.exports = {
       fork_title: 'Fork Versiune Nouă',
       fork_creating: 'Creare Fork...',
       generate_terrain: 'Generează Teren',
+      //    generate_level: "Generate Level",
       more: 'Mai Multe',
       wiki: 'Wiki',
       live_chat: 'Chat Live',
@@ -2972,7 +2983,7 @@ module.exports = {
       level_completion: 'Finalizare Nivel',
       pop_i18n: 'Populează I18N',
       tasks: 'Sarcini',
-      clear_storage: 'Șterge schimbările locale'
+      clear_storage: 'Șterge schimbările locale',
       //    add_system_title: "Add Systems to Level",
       //    done_adding: "Done Adding",
       //    product: "Product",
@@ -2981,11 +2992,11 @@ module.exports = {
 
     article: {
       edit_btn_preview: 'Preview',
-      edit_article_title: 'Editează Articol'
+      edit_article_title: 'Editează Articol',
     },
 
     polls: {
-      priority: 'Prioritate'
+      priority: 'Prioritate',
     },
 
     contribute: {
@@ -3056,7 +3067,7 @@ module.exports = {
       creative_artisans: 'Artizanii noștri creativi:',
       brave_adventurers: 'Aventurierii noștri neînfricați:',
       translating_diplomats: 'Diplomații noștri abili:',
-      helpful_ambassadors: 'Ambasadorii noștri de ajutor:'
+      helpful_ambassadors: 'Ambasadorii noștri de ajutor:',
     },
 
     ladder: {
@@ -3120,7 +3131,7 @@ module.exports = {
       //    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details",
       tournament_blurb_blog: 'pe blogul nostru',
       rules: 'Reguli',
-      winners: 'Învingători'
+      winners: 'Învingători',
       //    league: "League",
       //    red_ai: "Red CPU",
       //    blue_ai: "Blue CPU",
@@ -3160,7 +3171,7 @@ module.exports = {
       no_achievements: 'Nici-un Achivement câștigat.',
       favorite_prefix: 'Limbaj preferat',
       favorite_postfix: '.',
-      not_member_of_clans: 'Nu ești membrul unui clan.'
+      not_member_of_clans: 'Nu ești membrul unui clan.',
       //    certificate_view: "view certificate",
       //    certificate_click_to_view: "click to view certificate",
       //    certificate_course_incomplete: "course incomplete",
@@ -3195,7 +3206,7 @@ module.exports = {
       new_xp_postfix: ' câștigat',
       left_xp_prefix: '',
       left_xp_infix: ' până la level',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     account: {
@@ -3226,7 +3237,7 @@ module.exports = {
       next_payment: 'Următoarea Plată',
       card: 'Card',
       status_unsubscribed_active: 'Nu ești abonat si nu vei fi facturat, contul tău este activ deocamdată.',
-      status_unsubscribed: 'Primește access la nivele noi, eroi, iteme, și Pietre Prețioase bonus cu un abonament CodeCombat!'
+      status_unsubscribed: 'Primește access la nivele noi, eroi, iteme, și Pietre Prețioase bonus cu un abonament CodeCombat!',
       //    not_yet_verified: "Not yet verified.",
       //    resend_email: "Please save first then Resend email",
       //    email_sent: "Email sent! Check your inbox.",
@@ -3248,7 +3259,7 @@ module.exports = {
       pay: 'Plată Invoice',
       purchasing: 'Cumpăr...',
       retrying: 'Eroare server, reîncerc.',
-      success: 'Plătit cu success. Mulțumim!'
+      success: 'Plătit cu success. Mulțumim!',
     },
 
     //  account_prepaid: {
@@ -3366,7 +3377,7 @@ module.exports = {
       conflict: 'Conflict resurse.',
       bad_input: 'Date greșite.',
       server_error: 'Eroare Server.',
-      unknown: 'Eroare Necunoscută.'
+      unknown: 'Eroare Necunoscută.',
       //    error: "ERROR",
       //    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!",
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
@@ -3382,7 +3393,7 @@ module.exports = {
       component: 'Componentă',
       components: 'Componente',
       hero: 'Erou',
-      campaigns: 'Campanii'
+      campaigns: 'Campanii',
     },
 
     //  concepts: {
@@ -3549,7 +3560,7 @@ module.exports = {
       moved_index: 'Index Mutat',
       text_diff: 'Diff Text',
       merge_conflict_with: 'ÎBINĂ CONFLICTUL CU',
-      no_changes: 'Fară Schimbări'
+      no_changes: 'Fară Schimbări',
     },
 
     legal: {
@@ -3605,7 +3616,7 @@ module.exports = {
       nutshell_title: 'Pe scurt',
       nutshell_description: 'Orice resurse vă punem la dispoziție în Editorul de Nivele puteți folosi liber cum vreți pentru a crea nivele. Dar ne rezervăm dreptul de a rezerva distribuția de nivele în sine (care sunt create pe codecombat.com) astfel încât să se poată percepe o taxă pentru ele pe vitor, dacă se va ajunge la așa ceva.',
       //    nutshell_see_also: "See also:",
-      canonical: 'Versiunea in engleză a acestui document este cea definitivă, versiunea canonică. Dacă există orice discrepanțe între traduceri, documentul in engleză are prioritate.'
+      canonical: 'Versiunea in engleză a acestui document este cea definitivă, versiunea canonică. Dacă există orice discrepanțe între traduceri, documentul in engleză are prioritate.',
       //    third_party_title: "Third Party Services",
       //    third_party_description: "CodeCombat uses the following third party services (among others):",
       //    cookies_message: "CodeCombat uses a few essential and non-essential cookies.",
@@ -3631,14 +3642,14 @@ module.exports = {
       one_month_coupon: 'coupon: alege Rails sau HTML',
       one_month_discount: 'discount, 30% off: choose either Rails or HTML',
       license: 'licență',
-      oreilly: 'ebook la alegere'
+      oreilly: 'ebook la alegere',
     },
 
     calendar: {
       year: 'An',
       day: 'Zi',
       //    month: "Month",
-      january: 'Ianuarie'
+      january: 'Ianuarie',
       //    february: "February",
       //    march: "March",
       //    april: "April",
@@ -4490,7 +4501,7 @@ module.exports = {
       free_3: 'Alătură-te echipelor de programare competitive împreună cu prietenii, familia sau colegii de clasă',
       free_4: 'Arată-ți abilitățile de programare și ia acasă premiile mari',
       //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-      //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+      //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
       //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
       //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
       invite_link: 'Invită jucători în această echipă trimițăndu-le acest link:',
@@ -4599,7 +4610,7 @@ module.exports = {
       top_student: 'Top:',
       top_percent: 'top',
       top_of: 'of',
-      arena_victories: 'Victorii în Arenă'
+      arena_victories: 'Victorii în Arenă',
       //    arena_victories_blurb: "Global AI League arena recent wins",
       //    arena_victories_title: "Win count is based on the last 1000 matches played asynchronously by each player in each of their AI League arenas.",
       //    count_wins: "wins",
@@ -4664,7 +4675,7 @@ module.exports = {
       no_tournaments_owner: 'Nu există nici un campionat acum, te rog crează unul',
       no_tournaments: 'Nu există nici un campionat acum',
       edit_tournament: 'Editează campionatul',
-      create_tournament: 'Crează campionatul'
+      create_tournament: 'Crează campionatul',
       //    upcoming: "Upcoming",
       //    starting: "Starting",
       //    ended: "Ended",
@@ -4722,7 +4733,7 @@ module.exports = {
       most_popular: 'Cel mai popular',
       best_value: 'Valoarea cea mai bună',
       purchase_licenses: 'Cumpără licențe ușor pentru a avea acces la CodeCombat și Ozaria',
-      homeschooling: 'Licențe pentru școala făcută acasă'
+      homeschooling: 'Licențe pentru școala făcută acasă',
       //    recurring_month_1: "Recurring billing every month",
       //    recurring_month_3: "Recurring billing every 3 months",
       //    recurring_month_6: "Recurring billing every 6 months",
@@ -4783,10 +4794,10 @@ module.exports = {
       invalidEmail: 'E-mail invalid',
       invalidPhone: 'Număr de telefon invalid',
       emailExists: 'Adresa de e-mail există deja',
-      numberGreaterThanZero: 'Ar trebui să fie un număr mai mare decât 0'
+      numberGreaterThanZero: 'Ar trebui să fie un număr mai mare decât 0',
       //    requireValidEmail: "Please enter a valid email address.",
       //    requireValidPhone: "Please enter a valid phone number, including area code.",
-    }
+    },
 
     //  partners: {
     //    for: "for",

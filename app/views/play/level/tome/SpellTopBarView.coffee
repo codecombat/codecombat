@@ -20,7 +20,6 @@ module.exports = class SpellTopBarView extends CocoView
     'tome:spell-loaded': 'onSpellLoaded'
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-changed-language': 'onSpellChangedLanguage'
-    'tome:toggle-maximize': 'onToggleMaximize'
     'websocket:user-online': 'onUserOnlineChanged'
 
   events:
@@ -66,7 +65,6 @@ module.exports = class SpellTopBarView extends CocoView
 
   afterRender: ->
     super()
-    @attachTransitionEventListener()
     @$('[data-toggle="popover"]').popover()
 
   showVideosButton: () ->
@@ -109,13 +107,6 @@ module.exports = class SpellTopBarView extends CocoView
     return unless @controlsEnabled
     Backbone.Mediator.publish 'tome:spell-beautify', spell: @spell
 
-  onToggleMaximize: (e) ->
-    $codearea = $('html')
-    $('#code-area').css 'z-index', 20 unless $codearea.hasClass 'fullscreen-editor'
-    $('html').toggleClass 'fullscreen-editor'
-    $('.fullscreen-code').toggleClass 'maximized'
-    Backbone.Mediator.publish 'tome:maximize-toggled', {}
-
   updateReloadButton: ->
     changed = @spell.hasChanged null, @spell.getSource()
     @$el.find('.reload-code').css('display', if changed then 'inline-block' else 'none')
@@ -144,22 +135,6 @@ module.exports = class SpellTopBarView extends CocoView
     return if enabled is @controlsEnabled
     @controlsEnabled = enabled
     @$el.toggleClass 'read-only', not enabled
-
-  attachTransitionEventListener: =>
-    transitionListener = ''
-    testEl = document.createElement 'fakeelement'
-    transitions =
-      'transition':'transitionend'
-      'OTransition':'oTransitionEnd'
-      'MozTransition':'transitionend'
-      'WebkitTransition':'webkitTransitionEnd'
-    for transition, transitionEvent of transitions
-      unless testEl.style[transition] is undefined
-        transitionListener = transitionEvent
-        break
-    $codearea = $('#code-area')
-    $codearea.on transitionListener, =>
-      $codearea.css 'z-index', 2 unless $('html').hasClass 'fullscreen-editor'
 
   otherTeam: =>
     teams = _.without ['humans', 'ogres'], @options.spell.team

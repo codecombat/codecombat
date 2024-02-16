@@ -48,7 +48,7 @@ module.exports = (PrepaidView = (function () {
       super.initialize()
 
       // HACK: Make this one specific page responsive on mobile.
-      $('head').append('<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">')
+      $('head').append('<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0; viewport-fit=cover">')
 
       this.codes = new CocoCollection([], { url: '/db/user/' + me.id + '/prepaid_codes', model: Prepaid })
       this.codes.on('sync', code => (typeof this.render === 'function' ? this.render() : undefined))
