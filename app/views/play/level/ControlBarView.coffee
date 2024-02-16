@@ -31,6 +31,7 @@ module.exports = class ControlBarView extends CocoView
     'click .home a': 'onClickHome'
     'click #control-bar-sign-up-button': 'onClickSignupButton'
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
+    'click .hints-button': 'onClickHintsButton'
 
   constructor: (options) ->
     @supermodel = options.supermodel
@@ -170,6 +171,12 @@ module.exports = class ControlBarView extends CocoView
 
   onClickSignupButton: (e) ->
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Control Bar', level: @levelID
+
+  onClickHintsButton: ->
+    return unless @options.hintsState?
+    Backbone.Mediator.publish 'level:hints-button', {state: @options.hintsState.get('hidden')}
+    @options.hintsState.set('hidden', not @options.hintsState.get('hidden'))
+    window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @levelSlug, hintCount: @options.hintsState.get('hints')?.length ? 0
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
