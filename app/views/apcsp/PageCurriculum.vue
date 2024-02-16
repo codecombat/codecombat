@@ -16,24 +16,14 @@
     #greed-banner.container-fluid.greed-banner-top(v-if="hasLicense")
       .container.width-container.row.row-eq-height
         .col.col-lg-12.col-step-box
-          .step-box.step-box__step-1
-            .step
-              .overlap-group
-                .text-wrapper 1
         h2.h2-text.step-1.col.col-lg-12 {{ $t('apcsp_curriculum.step_1_title') }}
         h3.h3-text.step-1.col.col-lg-12 {{ $t('apcsp_curriculum.step_1_subtitle') }}
-      .container.width-container.row.row-eq-height
-        .col.col-md-6.col-button
-          a.btn.btn-primary.btn-big.btn-shadow(href="https://drive.google.com/file/d/110naGz8FW9U1tLzDy2NBDtUnircnGjUW/view?usp=drive_link" target="_blank") {{ $t('apcsp_curriculum.step_1_button_1') }}
-        .col.col-md-6.col-button
-          a.btn.btn-primary.btn-big.btn-shadow(href="https://apcentral.collegeboard.org/courses/ap-course-audit" target="_blank") {{ $t('apcsp_curriculum.step_1_button_2') }}
+        .col.col-md-12.col-button
+          a.btn.btn-primary.btn-lg.btn-shadow(href="https://drive.google.com/file/d/110naGz8FW9U1tLzDy2NBDtUnircnGjUW/view?usp=drive_link" target="_blank") {{ $t('apcsp_curriculum.step_1_button_1') }}
+          a.btn.btn-primary.btn-lg.btn-shadow(href="https://apcentral.collegeboard.org/courses/ap-course-audit" target="_blank") {{ $t('apcsp_curriculum.step_1_button_2') }}
     #greed-banner.container-fluid(v-if="hasLicense")
       .container.width-container.row.row-eq-height.greed-banner-bottom
         .col.col-md-5.col-lg-4
-          .step-box.step-box__step-2
-            .step
-              .overlap-group
-                .text-wrapper 2
           .border-yellow.pacing-guide
             .row
               .col.col-lg-12
@@ -55,10 +45,6 @@
     #resources.container-fluid(v-if="hasLicense")
       .container.width-container.row
         .col-lg-12
-          .step-box.step-box__step-3
-            .step
-              .overlap-group
-                .text-wrapper 3
           h2.text-h2 {{ $t('apcsp_curriculum.join_the_community') }}
         .col-lg-12
           .row-boxes-container
@@ -581,16 +567,18 @@ p,
     background-size: cover;
     background-position: left bottom;
     overflow: hidden;
+
     &.greed-banner-top {
-      background: linear-gradient(180deg, rgba(13, 85, 59, 0.57) 0%, #014D5D 100%);
+      background: linear-gradient(180deg, rgba(13, 85, 59, 100%) 0%, #014D5D 100%);
     }
 
     .width-container {
-      margin-top: 90px;
+      margin-top: 60px;
 
       &:last-child {
         margin-bottom: 60px;
       }
+
       &.greed-banner-bottom {
         margin-bottom: 230px;
       }
@@ -603,23 +591,23 @@ p,
 
       .col-button {
         display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        gap: 20px;
+
+        .btn {
+          min-width: 260px;
+        }
 
         @media (max-width: $screen-md) {
           width: 100%;
+
           .btn {
             width: 100%;
             max-width: unset;
           }
-        }
-
-        &:first-child {
-          text-align: left;
-          align-items: start;
-        }
-
-        &:last-child {
-          text-align: right;
-          align-items: end;
         }
 
         .btn {
@@ -856,8 +844,8 @@ p,
 
   #resources {
     background-image: linear-gradient(to right, rgba(14, 76, 96, 1), rgba(32, 87, 43, 1));
-    padding-top: 120px;
-    padding-bottom: 135px;
+    padding-top: 60px;
+    padding-bottom: 80px;
 
     .resources-container {
       display: grid;
@@ -1057,12 +1045,10 @@ p,
       color: #FFF;
       text-align: center;
       font-family: Arvo;
-      font-size: 60px;
+      font-size: 33px;
       font-style: normal;
       font-weight: 700;
-      line-height: 62px;
-      letter-spacing: 1.96px;
-      margin-bottom: 60px;
+      margin-bottom: 40px;
     }
 
     .text-h3 {
@@ -1154,13 +1140,10 @@ p,
     text-align: center;
     text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
     font-family: Arvo;
-    font-size: 64px;
+    font-size: 33px;
     font-style: normal;
     font-weight: 700;
-    line-height: 62px;
-    /* 96.875% */
-    letter-spacing: 1.96px;
-    margin: 40px auto;
+    margin: 20px auto;
   }
 }
 
@@ -1169,13 +1152,16 @@ p,
     color: #FFF;
     text-align: center;
     font-family: Arvo;
-    font-size: 60px;
+    font-size: 33px;
     font-style: normal;
     font-weight: 700;
-    line-height: 70px;
-    /* 116.667% */
-    letter-spacing: 1.96px;
-    margin: 40px auto;
+    margin: 20px auto 40px auto;
+
+    @media screen and (min-width: $screen-md) {
+      margin: 20px auto 50px auto;
+      width: 62%;
+
+    }
   }
 }
 
@@ -1185,71 +1171,5 @@ p,
 
 .image18 {
   border-radius: 25px;
-}
-
-.col-step-box {
-  @media (max-width: $screen-md) {
-    margin-top: 70px;
-    padding-bottom: 70px;
-  }
-}
-
-.step-box {
-  height: 145px;
-  width: 145px;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 3;
-  transform: translate(-50%, -50%);
-
-  @media (max-width: $screen-md) {
-    height: 100px;
-    width: 100px;
-  }
-
-  @media (max-width: $screen-xs) {
-    height: 80px;
-    width: 80px;
-  }
-
-  .step {
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
-
-  .overlap-group {
-    background-color: #047f9a;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    border-radius: 145px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .text-wrapper {
-    -webkit-text-stroke: 8px transparent;
-    color: #ffffff;
-    font-family: "Arvo-Bold", Helvetica;
-    font-size: 128px;
-
-    @media screen and (max-width: $screen-md) {
-      font-size: 80px;
-    }
-
-    @media screen and (max-width: $screen-xs) {
-      font-size: 64px;
-    }
-
-    font-weight: 700;
-    line-height: 24px;
-    text-align: center;
-  }
 }
 </style>
