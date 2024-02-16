@@ -425,8 +425,13 @@ class Converters {
       if (['go', 'hit', 'zap', 'look'].indexOf(n.callee?.name) !== -1) {
         // Remove first argument; convert to field
         // TODO: make general, not just based on callee.name being one of the methods where we do this
-        const dropdownArg = args.splice(0, 1)
-        out.fields = { to: dropdownArg[0].fields.TEXT }
+        const toArg = args.splice(0, 1)
+        out.fields = { to: toArg[0].fields.TEXT }
+        if (args.length) {
+          // Remove second argument; convert to field
+          const squaresArg = args.splice(0, 1)
+          out.fields.steps = '' + squaresArg[0].fields.NUM // Convert to string, dropdowns expect that
+        }
       }
       for (let i = 0; i < args.length; ++i) {
         out.inputs[inputs[i]] = { block: args[i] }
@@ -649,12 +654,8 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
           // console.log(entry)
           if (entry.type === 'field_image') {
             // Don't add an input; it's just decoration
-          } else if (entry.name === 'to' && entry.type === 'field_dropdown') {
+          } else if (['to', 'steps', 'squares'].includes(entry.name) && entry.type === 'field_dropdown') {
             // Don't add an input.
-            // I thought we might set the field value, but it's appparently not needed.
-            // defn.fields = {
-            //   to: 'left' // TODO: what should it be?
-            // }
           } else if (entry.check === 'Number') {
             defn.inputs[entry.name] = {
               block: {
@@ -690,6 +691,7 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
       // console.log('BS[' + blocklySource + ']', blx)
       if (blx !== null) plan.push([defn, blx, blocklySource])
     } catch (e) {
+      console.error('Could not prepare block definition:', defn)
       console.error(e)
     }
   }

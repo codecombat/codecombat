@@ -532,6 +532,9 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
         if (!code && arg.name === 'to') {
           code = `'${block.getFieldValue(arg.name)}'`
         }
+        if (!code && ['steps', 'squares'].includes(arg.name)) {
+          code = `${block.getFieldValue(arg.name)}`
+        }
         if (!code && arg.default) {
           if (/move(Up|Left|Right|Down)/.test(propName)) {
             // Don't add the default value
@@ -674,6 +677,24 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     }
   }
 
+  // Replace a `steps` or `squares` numerical argument with a dropdown (field, not input)
+  if (['steps', 'squares'].includes(args[1]?.name) && args[1].type === 'number') {
+    const dropdownArg = setup.args0[codeFormat === 'blocks-icons' ? 2 : 1]
+    dropdownArg.type = 'field_dropdown'
+    dropdownArg.options = [
+      ['1', '1'],
+      ['2', '2'],
+      ['3', '3'],
+      ['4', '4'],
+      ['5', '5'],
+      ['6', '6'],
+    ]
+    dropdownArg.default = args[1].default
+    if (_.isString(dropdownArg.default)) {
+      dropdownArg.default = dropdownArg.default.replace(/['"]/g, '')
+    }
+  }
+
   if (returnsValue) {
     setup.output = null
   } else {
@@ -685,11 +706,11 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
   const blockInitializer = {
     init () {
       this.jsonInit(setup)
-      for (const arg of setup.args0) {
+      for (const [index, arg] of setup.args0.entries()) {
         if (arg?.type === 'field_dropdown') {
           const defaultValue = arg.default
           if (defaultValue) {
-            this.inputList[0].fieldRow[1].setValue(defaultValue)
+            this.inputList[0].fieldRow[index + 1].setValue('' + defaultValue)
           }
         }
       }
@@ -715,6 +736,10 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
         defaultValue = defaultValue.replace(/['"]/g, '')
       }
       if (arg.name === 'to' && arg.type === 'string') {
+        // We're making this into a field_dropdown, not an input
+        continue
+      }
+      if (['steps', 'squares'].includes(arg.name) && arg.type === 'number') {
         // We're making this into a field_dropdown, not an input
         continue
       }
