@@ -1745,6 +1745,9 @@ ${problem.category} - ${problem.score} points\
 
     showPoll () {
       if (!this.shouldShow('poll')) { return false }
+      if (this.poll.get('slug') === 'how-old-are-you' && userUtils.isCreatedViaLibrary()) {
+        return false // since the answers of how-old-are-you poll do no have nextPoll, so just return is fine
+      }
       const pollModal = new PollModal({ supermodel: this.supermodel, poll: this.poll, userPollsRecord: this.userPollsRecord })
       this.openModalView(pollModal)
       const $pollButton = this.$el.find('button.poll')
