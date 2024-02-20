@@ -18,9 +18,21 @@
             class="content-bg"
             :class="{ active: currentIndex === index }"
           >
-            <div class="content-text">
+            <div
+              v-if="item.tabImage"
+              class="content-image"
+            >
+              <img
+                :src="item.tabImage"
+                :alt="item.title"
+              >
+            </div>
+            <div
+              v-else
+              class="content-text"
+            >
               <div
-                v-for="(line, lineIndex) in $t(item.title).split('\n')"
+                v-for="(line, lineIndex) in String(item.title).split('\n')"
                 :key="`line-${lineIndex}`"
               >
                 {{ line }}
@@ -30,32 +42,35 @@
         </button>
       </div>
 
-      <div
-        v-for="(item, index) in items"
-        v-show="currentIndex === index"
-        :key="'item' + index"
-        class="carousel-item"
-      >
+      <div class="carousel-item-container">
         <div
-          class="content-details"
-          :class="{ 'has-background': hasBackground }"
+          v-for="(item, index) in items"
+          :key="'item' + index"
+          class="carousel-item"
+          :class="{ active: currentIndex === index }"
+          :style="currentIndex === index ? 'order: 1;' : `order: ${index + 2};`"
         >
           <div
-            v-if="item.image"
-            class="content-icon-container"
+            class="content-details"
+            :class="{ 'has-background': hasBackground }"
           >
-            <img
-              class="content-icon"
-              :src="item.image"
-              :alt="item.alt || item.title"
+            <div
+              v-if="item.image"
+              class="content-icon-container"
             >
-          </div>
-          <div class="content-text">
-            <p class="content-title">
-              {{ item.title }}
-            </p>
+              <img
+                class="content-icon"
+                :src="item.image"
+                :alt="item.alt || item.title"
+              >
+            </div>
             <div class="content-text">
-              <slot :name="item.key" />
+              <p class="content-title">
+                {{ item.title }}
+              </p>
+              <div class="content-text">
+                <slot :name="item.key" />
+              </div>
             </div>
           </div>
         </div>
@@ -78,7 +93,6 @@
         <img
           :src="`/images/components/arrow${currentIndex >= items.length - 1 ? '-light' : ''}.svg`"
           :alt="`Arrow to go to the next item in the carousel${currentIndex >= items.length - 1 ? ' - disabled' : ''}`"
-
           @click="goTo(currentIndex + 1)"
         >
       </div>
@@ -110,10 +124,12 @@ export default {
   computed: {
     items () {
       return Object.entries(this.$slots).map(([key, value]) => {
+        console.log(value[0].componentOptions.propsData)
         return {
           key,
           title: value[0].componentOptions.propsData.title,
-          image: value[0].componentOptions.propsData.image
+          image: value[0].componentOptions.propsData.image,
+          tabImage: value[0].componentOptions.propsData.tabImage,
         }
       })
     }
@@ -254,6 +270,7 @@ export default {
   align-items: flex-start;
   flex-direction: column;
   display: flex;
+  height: 100%;
 
   @media screen and (max-width: 768px) {
     gap: 14px;
@@ -356,11 +373,41 @@ export default {
           display: none;
         }
       }
+
+      .content-image {
+        img {
+          height: 70px;
+          width: 100px;
+          object-fit: contain;
+          margin-bottom: 16px;
+          opacity: 50%;
+        }
+      }
+
+      &.active .content-image img {
+        opacity: 100%;
+      }
+
+      &:hover:not(.active) .content-image img {
+        opacity: 75%;
+      }
+
     }
   }
 }
 
+.carousel-item-container {
+  display: flex;
+  max-width: calc(100vw - 45px);
+  flex-direction: row;
+}
+
 .carousel-item {
-  width: 100%;
+  min-width: 100%;
+  opacity: 1;
+
+  &:not(.active) {
+    opacity: 0.0;
+  }
 }
 </style>

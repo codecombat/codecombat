@@ -5325,7 +5325,33 @@ module.exports = {
       trends_2_title: 'Career Technical Education with Pat Keeney',
       trends_2_text: 'Career Technical Education (CTE) prepares students to become lifelong learners and provides them with the skills and knowledge they need to succeed in their future careers. In this episode, Pat Keeney, CTE Champion at McGraw Hill, shares his experience',
       trends_2_linkText: 'Listen to the Podcast',
-      learn_more_text: 'Learn More'
+      learn_more_text: 'Learn More',
+      your_turnkey_solutions: 'Your Turnkey Solutions',
+    },
+    standards_page: {
+      standards_aligned_curriculum: '**Standards Aligned Curriculum**',
+      curriculum_description: 'CodeCombat offers robust course pathways aligned with several national and state standard frameworks across grades K-12 including AP level programming courses in many languages. Our curriculum engages students to explore and learn computer science through standards-aligned lessons.',
+      most_effective_computer_science_solution: 'The most effective computer science solution for **[https://codecombat.com/schools]schools**',
+      comprehensive_implementation: 'Our comprehensive implementation empowers teachers, engages students and delivers successful outcomes.',
+      carousel_1_title: 'Computer Science Teachers Association (CSTA)',
+      carousel_1_text: 'The **[https://csteachers.org/k12standards/]Computer Science Teachers Association K-12 Computer Science Standards** outline a core set of learning objectives that are designed to provide the foundation for a complete computer science curriculum and its implementation in K-12.\n\nCodeCombat is recognized by CSTA as an endorsed provider of curriculum and professional development. Learn the skills to effectively teach computer science with our self-directed, CSTA-accredited **[https://www.ozaria.com/professional-development]Professional Development** course. Earn up to 40 credit hours any time, from any device.\n\nLearn about the detailed CSTA Standards Alignment below:',
+      carousel_1_button_1_text: 'Ozaria',
+      carousel_1_button_2_text: 'CodeCombat',
+      carousel_2_title: 'Next Generation Science Standards (NGSS)',
+      carousel_2_text: 'The **[https://www.nextgenscience.org/]Next Generation Science Standards (NGSS)** are K–12 science content standards. Standards set the expectations for what students should know and be able to do.\n\nThe NGSS were developed by states to improve science education for all students. CodeCombat is aligned with NGSS.',
+      carousel_2_button_1_text: 'Learn More',
+      carousel_3_title: 'International Society for Technology in Education (ISTE)',
+      carousel_3_text: 'The **[https://www.iste.org/standards]ISTE Standards** are a framework for students, educators, administrators, coaches and computer science educators to rethink education and create innovative learning environments. The standards are a roadmap for bold, innovative educators to re-engineer their schools and classrooms for digital age learning no matter where they fall on the journey to meaningful, effective ed tech integration.\n\nCodeCombat is aligned with ISTE standards.',
+      carousel_3_button_1_text: 'Ozaria',
+      carousel_3_button_2_text: 'CodeCombat',
+      carousel_4_title: 'Common Core State Standards Initiative',
+      carousel_4_text: 'The **[http://www.corestandards.org/]Common Core State Standards Initiative** is an educational initiative from 2010 that details what K–12 students throughout the United States should know in English language arts and mathematics at the conclusion of each school grade.\n\nCodeCombat is aligned with Common Core standards.',
+      carousel_4_button_1_text: 'Ozaria',
+      carousel_4_button_2_text: 'CodeCombat',
+      carousel_5_title: 'Advanced Placement (AP) Computer Science Principles',
+      carousel_5_text: 'AP Computer Science Principles is an introductory college-level computing course. Students cultivate their understanding of computer science through working with data, collaborating to solve problems, and developing computer programs as they explore concepts like creativity, abstraction, data and information, algorithms, programming, the internet, and the global impact of computing.\n\nCodeCombat offers an AP Computer Science Principles course that is endorsed by College Board.',
+      carousel_5_button_1_text: 'Ozaria',
+      carousel_5_button_2_text: 'CodeCombat'
     }
   }
 }

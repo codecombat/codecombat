@@ -7,7 +7,7 @@
 
 <script>
 
-const TYPES = ['default', 'sides', 'colored', 'bottom']
+const TYPES = ['default', 'sides', 'colored', 'top-right', 'bottom']
 
 export default {
   name: 'BackgroundContainer',
@@ -53,6 +53,27 @@ export default {
     position: absolute;
     top: 20px;
     bottom: 20px;
+  }
+
+  &__top-right {
+    min-height: unset;
+    margin-top: 160px;
+  }
+
+  &__overlap-top-right {
+    &:before {
+      background-image: url(/images/components/top-right-bg.webp);
+      background-size: contain;
+      background-repeat: no-repeat;
+      content: "";
+      position: absolute;
+      right: -700px;
+      width: 1000px;
+      height: 1000px;
+      z-index: 0;
+      top: -600px;
+      transform: rotate(-24.272deg);
+    }
   }
 
   &__overlap-sides {

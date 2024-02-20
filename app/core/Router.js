@@ -292,6 +292,8 @@ module.exports = (CocoRouter = (function () {
 
         'home-beta': go('core/SingletonAppVueComponentView'),
 
+        standards: go('core/SingletonAppVueComponentView'),
+
         'schools' () {
           return this.routeDirectly('SchoolsView', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
         },
