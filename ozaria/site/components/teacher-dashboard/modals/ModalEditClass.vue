@@ -715,23 +715,6 @@ export default Vue.extend({
             </span>
           </div>
         </div>
-        <div
-          class="form-group row levelChat"
-          style="width: 100%"
-        >
-          <div class="col-xs-12">
-            <span class="control-label"> {{ $t('teachers.classroom_level_chat') }}</span>
-            <input
-              id="levelChat"
-              v-model="newLevelChat"
-              type="checkbox"
-            >
-            <span
-              class="control-label-desc"
-              style="width: 100%"
-            >{{ $t("teachers.classroom_level_chat_blurb") }}</span>
-          </div>
-        </div>
         <div class="form-group row buttons">
           <div class="col-xs-12 buttons">
             <tertiary-button
