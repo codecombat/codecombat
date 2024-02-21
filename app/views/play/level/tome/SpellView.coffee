@@ -113,9 +113,7 @@ module.exports = class SpellView extends CocoView
     @createACE()
     @createACEShortcuts()
     @hookACECustomBehavior()
-    if (me.isAdmin() or utils.getQueryVariable 'ai') and not @spectateView
-      @fillACESolution()
-    if @teaching
+    unless @spectateView
       @fillACESolution()
     @fillACE()
     @createOnCodeChangeHandlers()
