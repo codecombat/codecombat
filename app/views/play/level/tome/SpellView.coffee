@@ -113,9 +113,7 @@ module.exports = class SpellView extends CocoView
     @createACE()
     @createACEShortcuts()
     @hookACECustomBehavior()
-    if (me.isAdmin() or utils.getQueryVariable 'ai') and not @spectateView
-      @fillACESolution()
-    if @teaching
+    unless @spectateView
       @fillACESolution()
     @fillACE()
     @createOnCodeChangeHandlers()
@@ -827,9 +825,11 @@ module.exports = class SpellView extends CocoView
     return if @destroyed
     Backbone.Mediator.publish 'tome:editing-began', {}
 
-  updateSolutionLines: (screenLineCount, ace, aceCls, areaId) =>
+  updateSolutionLines: (ace, aceCls, areaId) =>
+    screenLineCount = ace.getSession().getScreenLength()
     # wrap the updateAceLine to avoid throttle mess up different params(aceCls)
     @updateAceLines(screenLineCount, ace, aceCls, areaId)
+    ace.resize(true)
 
   updateAceLines: (screenLineCount, ace=@ace, aceCls='.ace', areaId='#code-area') =>
     # Figure out how many lines we should set ace to and update it.
@@ -1753,11 +1753,7 @@ module.exports = class SpellView extends CocoView
     return unless @aceDiff
     @aceSolution.setValue e.code
     @aceSolution.clearSelection()
-    lineCount = e.code.split('\n').length
-    # if lineCount > @aceSolutionLastLineCount
-      # @aceSolutionLastLineCount = lineCount
-    @updateSolutionLines(lineCount, @aceSolution, '.ace-solution', '#solution-area')
-    @aceSolution.resize(true)
+    @updateSolutionLines(@aceSolution, '.ace-solution', '#solution-area')
 
   onStreamingSolution: (e) ->
     if e.finish
@@ -1818,6 +1814,7 @@ module.exports = class SpellView extends CocoView
     @lastScreenLineCount = null
     @updateLines()
     @resizeBlockly()
+    @updateSolutionLines(@aceSolution, '.ace-solution', '#solution-area')
 
   resizeBlockly: (repeat=true) ->
     return unless @blocklyActive

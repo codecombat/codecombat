@@ -20,12 +20,13 @@ const Achievement = require('models/Achievement')
 const EarnedAchievement = require('models/EarnedAchievement')
 const CocoCollection = require('collections/CocoCollection')
 const LocalMongo = require('lib/LocalMongo')
-let utils = require('core/utils')
+const utils = require('core/utils')
+const api = require('core/api')
 const ThangType = require('models/ThangType')
 const LadderSubmissionView = require('views/play/common/LadderSubmissionView')
 const AudioPlayer = require('lib/AudioPlayer')
 const User = require('models/User')
-utils = require('core/utils')
+const Level = require('models/Level')
 const LevelFeedback = require('models/LevelFeedback')
 const SubscribeModal = require('views/core/SubscribeModal')
 const AmazonHocModal = require('views/play/modal/AmazonHocModal')
@@ -102,6 +103,16 @@ module.exports = (HeroVictoryModal = (function () {
       }
 
       this.trackAwsButtonShown = _.once(() => window.tracker != null ? window.tracker.trackEvent('Show Amazon Modal Button') : undefined)
+
+      if (this.level.get('product', true) === 'codecombat-junior' && this.level.get('campaign')) {
+        this.nextLevel = new Level()
+        api.levels.fetchNextForCampaign({
+          campaignSlug: this.level.get('campaign'),
+          levelOriginal: this.level.get('original'),
+        }).then((level) => {
+          this.nextLevel.set(level)
+        })
+      }
     }
 
     destroy () {
@@ -544,7 +555,13 @@ module.exports = (HeroVictoryModal = (function () {
     getNextLevelLink (returnToCourse) {
       let link
       if (returnToCourse == null) { returnToCourse = false }
-      if (this.level.isType('course')) {
+      if (this.level.get('product', true) === 'codecombat-junior' && this.nextLevel?.get('slug')) {
+        link = `/play/level/${this.nextLevel.get('slug')}`
+        if (this.courseID) {
+          link += `/${this.courseID}`
+          if (this.courseInstanceID) { link += `/${this.courseInstanceID}` }
+        }
+      } else if (this.level.isType('course')) {
         link = '/students'
         if (this.courseID) {
           link += `/${this.courseID}`
@@ -573,7 +590,7 @@ module.exports = (HeroVictoryModal = (function () {
         nextLevelLink = '/play'
         viewClass = 'views/play/CampaignView'
         viewArgs = [options]
-      } else if (this.level.isType('course') && this.nextLevel && !options.returnToCourse) {
+      } else if ((this.level.isType('course') || this.level.get('product', true) === 'codecombat-junior') && this.nextLevel?.get('slug') && !options.returnToCourse) {
         viewClass = 'views/play/level/PlayLevelView'
         options.courseID = this.courseID
         options.courseInstanceID = this.courseInstanceID

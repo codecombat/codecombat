@@ -33,6 +33,12 @@ module.exports = {
     return fetchJson(url, options)
   },
 
+  fetchNextForCampaign ({ campaignSlug, levelOriginal }, options) {
+    if (options == null) { options = {} }
+    const url = `/db/campaign/${campaignSlug}/levels/${levelOriginal}/next`
+    return fetchJson(url, options)
+  },
+
   save (level, options) {
     if (options == null) { options = {} }
     return fetchJson(`/db/level/${level._id}`, _.assign({}, options, {

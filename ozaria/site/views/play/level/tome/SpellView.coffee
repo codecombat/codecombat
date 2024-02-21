@@ -94,13 +94,14 @@ module.exports = class SpellView extends CocoView
     @addUserSnippets = _.debounce @reallyAddUserSnippets, 500, {maxWait: 1500}
     @loadedToken = {}
     @addUserSnippets = _.debounce @reallyAddUserSnippets, 500, {maxWait: 1500, leading: true, trailing: false}
+    @teaching = utils.getQueryVariable('teaching', false) # not enable in ozaria for now, always false
 
   afterRender: ->
     super()
     @createACE()
     @createACEShortcuts()
     @hookACECustomBehavior()
-    if (me.isAdmin() or utils.getQueryVariable 'ai') and not @spectateView
+    unless @spectateView
       @fillACESolution()
     @fillACE()
     @createOnCodeChangeHandlers()
