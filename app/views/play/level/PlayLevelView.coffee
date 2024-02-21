@@ -901,13 +901,16 @@ module.exports = class PlayLevelView extends RootView
     @$el.find('#gold-view').css right: windowWidth - canvasWidth + 12, top: 12
     @$el.find('#code-area').css width: tomeWidth, height: tomeHeight, top: tomeTop
     @$el.find('#solution-area').css right: tomeWidth, width: tomeWidth, height: tomeHeight, top: tomeTop, bottom: 'unset', left: 'unset'
-    if tomeLocation is 'bottom'
-      @$el.find('#solution-area').css right: 'unset', left: '-54px', top: 0, width: tomeWidth, height: 'auto'
+    @$el.find('#solution-area').css right: 'unset', left: '-54px', top: 0, width: tomeWidth, height: 'auto' if tomeLocation is 'bottom'
     @$el.find('#code-area #tome-view #spell-view .ace_editor').css width: codeWidth if /blocks/.test(@codeFormat)  # Let handle own height, and width if there are no blocks
     @$el.find('#solution-area .ace_editor').css width: codeWidth if /blocks/.test(@codeFormat)  # do we need blocks hint?
     @$el.find('#code-area #tome-view #spell-view .blockly-container').css width: workspaceWidth + toolboxWidth, height: workspaceHeight, left: codeWidth
     @$el.find('#duel-stats-view').css left: duelStatsLeft, top: duelStatsTop
     @$el.find('#level-dialogue-view').css left: dialogueLeft
+    if controlBarLocation is 'right'
+      @$el.find('#level-chat-view').css bottom: '40px'
+    else
+      @$el.find('#level-chat-view').css bottom: '5px'
     # TODO: figure out how to get workspace and toolbox to share width evenly
 
     # TODO: set the font sizes on the appropriate elements (probably in SpellView)
