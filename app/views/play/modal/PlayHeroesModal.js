@@ -151,7 +151,7 @@ module.exports = (PlayHeroesModal = (function () {
       context.codeLanguages = this.codeLanguageList
       context.codeLanguage = this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
       context.codeFormats = this.codeFormatList
-      context.codeFormat = this.codeFormat = me.get('aceConfig')?.codeFormat || 'python'
+      context.codeFormat = this.codeFormat = me.get('aceConfig')?.codeFormat || 'text-code'
       context.confirmButtonI18N = this.confirmButtonI18N
       context.visibleHero = this.visibleHero
       context.gems = me.gems()
