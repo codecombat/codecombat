@@ -110,12 +110,12 @@
                 img(src= "/images/pages/play/modal/language-selector-background.png")
             .form
               if !me.isStudent()
-                .form-group.select-group.half-width
+                .form-group.select-group.half-width.code-language-form
                   span.help-block(data-i18n="choose_hero.programming_language")
                   select#option-code-language(name="code-language")
                     for option in codeLanguages
                       option(value=option.id, selected=codeLanguage === option.id)= option.name
-              .form-group.select-group(class=me.isStudent() ? '' : 'half-width')
+              .form-group.select-group.code-format-form(class=me.isStudent() ? '' : 'half-width')
                 span.help-block(data-i18n="choose_hero.code_format")
                 select#option-code-format(name="code-format")
                   for option in codeFormats
