@@ -853,6 +853,7 @@ if (isCodeCombat) {
   // Harcoding module names for simplicity
   // Use db to store these later when we add sophisticated module functionality, right now its only used for UI
   courseModules = {}
+  courseModuleLevels = {}
   courseModules[courseIDs.CHAPTER_ONE] = {
     1: 'Introduction to Coding'
   }
