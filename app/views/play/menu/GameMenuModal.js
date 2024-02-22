@@ -52,6 +52,7 @@ module.exports = (GameMenuModal = (function () {
       super(options)
       this.level = this.options.level
       this.options.levelID = this.options.level.get('slug')
+      this.options.codeLanguage = this.options.session?.get('codeLanguage')
       this.options.startingSessionHeroConfig = $.extend({}, true, ((left = this.options.session.get('heroConfig')) != null ? left : {}))
       Backbone.Mediator.publish('music-player:enter-menu', { terrain: (left1 = this.options.level.get('terrain', true)) != null ? left1 : 'Dungeon' })
     }
