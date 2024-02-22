@@ -285,21 +285,27 @@ export default Vue.extend({
           text: this.$t('schools_page.core_curriculum_2_text'),
           link: 'https://codecombat.com/#teacher-signup',
           linkText: this.$t('schools_page.core_curriculum_2_link_text'),
-          image: '/images/pages/schools/boxes/maximize_2.webp'
+          video: {
+            videoId: '16b8482dc4d9b96c7d827fb788e64368'
+          }
         },
         {
           title: this.$t('schools_page.practice_enrichment_2_title'),
           text: this.$t('schools_page.practice_enrichment_2_text'),
           link: 'https://codecombat.com/roblox',
           linkText: this.$t('schools_page.practice_enrichment_2_link_text'),
-          image: '/images/pages/schools/boxes/maximize_4.webp'
+          video: {
+            videoId: 'a50758af1eeeb12f241472beca961424'
+          }
         },
         {
           title: this.$t('schools_page.practice_enrichment_1_title'),
           text: this.$t('schools_page.practice_enrichment_1_text'),
           link: 'https://codecombat.com/league',
           linkText: this.$t('schools_page.practice_enrichment_1_link_text'),
-          image: '/images/pages/schools/boxes/maximize_3.webp'
+          video: {
+            videoId: '1b3bcd237a9dda25a042493d799e7278'
+          }
         },
         {
           title: this.$t('schools_page.student_acceleration_1_title'),
