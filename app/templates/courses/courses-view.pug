@@ -182,10 +182,10 @@ mixin classrooms_content()
              - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
              - allCoursesComplete = allCoursesComplete && stats.courseComplete
              if nextLevel
-               - console.log('nextLevel', nextLevel)
+               //- - console.log('nextLevel', nextLevel)
                - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
                - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
-               - console.log('isLocked', isLocked)
+               //- - console.log('isLocked', isLocked)
                - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID, classroomId: courseInstance.get('classroomID')});
 
              if course
