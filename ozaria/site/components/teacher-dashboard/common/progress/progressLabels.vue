@@ -1,6 +1,7 @@
 <script>
 import IconHelp from '../../common/icons/IconHelp'
 import ProgressDot from '../../common/progress/progressDot'
+import utils from 'core/utils'
 
 export default {
   components: {
@@ -11,6 +12,11 @@ export default {
     showReviewLabels: {
       type: Boolean,
       default: false
+    }
+  },
+  data () {
+    return {
+      isOzaria: utils.isOzaria
     }
   }
 }
@@ -47,7 +53,7 @@ export default {
       <span>{{ $t("common.locked") }}</span>
     </div>
     <div
-      v-if="showReviewLabels"
+      v-if="isOzaria && showReviewLabels"
       class="img-subtext"
     >
       <div class="dot-border concept-flag-border">

@@ -6,6 +6,7 @@ import Modal from '../../common/Modal'
 import api from 'core/api'
 import contact from 'core/contact'
 import { mapGetters } from 'vuex'
+import { isOzaria } from 'core/utils'
 
 export default Vue.extend({
   components: {
@@ -22,7 +23,7 @@ export default Vue.extend({
     emailMessage: {
       type: String,
       // default to DT text
-      default: 'Hi Ozaria! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 2 and on.'
+      default: `Hi ${isOzaria ? 'Ozaria' : 'CodeCombat'}! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 2 and on.`
     }
   },
   data: () => ({

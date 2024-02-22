@@ -36,6 +36,7 @@ store = new Vuex.Store({
     classrooms: require('./modules/classrooms').default
     courseInstances: require('./modules/courseInstances').default
     levelSessions: require('./modules/levelSessions').default
+    levels: require('./modules/levels').default
     users: require('./modules/users').default
     interactives: require('./modules/interactives').default
     campaigns: require('./modules/campaigns').default

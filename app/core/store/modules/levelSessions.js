@@ -110,6 +110,9 @@ export default {
     getSessionsMapForClassroom: (state) => (classroom) => {
       return (state.levelSessionsByClassroom[classroom] || {}).levelSessionMapByUser
     },
+    getSessionsForClassroom: (state) => (classroom) => {
+      return (state.levelSessionsByClassroom[classroom] || {}).sessions
+    },
     getSessionsCountForDate: (state) => (date) => {
       return state.levelSessionsCountByDate[date]
     },

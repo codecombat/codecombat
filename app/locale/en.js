@@ -1938,7 +1938,8 @@ module.exports = {
       error_saving: 'Error Saving',
       saved: 'Changes Saved',
       password_mismatch: 'Password does not match.',
-      password_repeat: 'Please repeat your password.'
+      password_repeat: 'Please repeat your password.',
+      switch_new_teacher_dashboard: 'Try the new Teacher Dashboard'
     },
 
     keyboard_shortcuts: {
@@ -2682,6 +2683,8 @@ module.exports = {
       module4: 'Module 4: ',
       module5: 'Module 5: ',
       module6: 'Module 6: ',
+      module7: 'Module 7: ',
+      module8: 'Module 8: ',
       algorithms_and_syntax: 'Algorithms and Syntax',
       debugging: 'Debugging',
       variables: 'Variables',
@@ -4370,7 +4373,8 @@ module.exports = {
       lesson_slides_tooltip: '<h3>Lesson Slides</h3><p>Downloadable, step-by-step presentation slides for guiding students through module learning objectives</p>',
       project_rubric_tooltip: '<h3>Project Rubric</h3><p>Downloadable and modifiable scoring rubric for the Capstone Project</p>',
       exemplar_projects_tooltip: '<h3>Exemplar Project</h3><p>Live view of the exemplar Capstone Project</p>',
-      want_to_save_tooltip: '<h3>Want to save your progress?</h3><p>Please create a student account and play Ozaria as a student if you would like to save your progress.</p>',
+      want_to_save_tooltip: '<h3>Want to save your progress?</h3><p>Please create a student account, or go to <i>My Account / Test as Student</i> and play Ozaria as a student if you would like to save your progress.</p>',
+      want_to_save_tooltip_coco: '<h3>Want to save your progress?</h3><p>Please create a student account, or go to <i>My Account / Test as Student</i> and play CodeCombat as a student if you would like to save your progress.</p>',
       intro_explain_tooltip: '<b>"Intros"</b> introduce new concepts or further the storyline in a scaffolded way. They typically include Cinematics and/or Concept Checks.',
       chapter_num: 'Chapter __num__',
       read: 'View Only',
@@ -4386,7 +4390,11 @@ module.exports = {
       note: 'Note',
       lock_or_skip_levels: 'Lock or Skip Levels',
       level_access_status_blurb: "When you choose to skip a level, it will have both the 'locked' and 'optional' status. Unskipping the level will remove both the 'locked' and 'optional' statuses.",
-      reset_progress: 'Reset Progress'
+      reset_progress: 'Reset Progress',
+      export_progress: 'Export Progress',
+      assessments_tab: 'Assessments',
+      switch_on: 'On',
+      switch_off: 'Off'
     },
 
     outcomes: {
