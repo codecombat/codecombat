@@ -96,11 +96,12 @@ else
           .related-account-sub(data-i18n="related_accounts.subtitle")
           a.btn.btn-primary.related-account-manage(href="/users/switch-account" target="_blank" data-i18n="common.manage")
           
-      .panel.panel-default
-        .panel-heading
-          .panel-title#connect-roblox-title(data-i18n="account_settings.switch_new_teacher_dashboard")
-        .panel-body
-          #dashboard-toggle                  
+      if me.isTeacher()            
+        .panel.panel-default
+          .panel-heading
+            .panel-title#connect-roblox-title(data-i18n="account_settings.switch_new_teacher_dashboard")
+          .panel-body
+            #dashboard-toggle                  
 
       if me.canDeleteAccount()
         .panel.panel-default
