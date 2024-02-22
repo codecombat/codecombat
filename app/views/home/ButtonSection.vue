@@ -6,7 +6,7 @@
     >
       <CTAButton
         href="/schools"
-        @click="homePageEvent(isCodeCombat? 'Homepage Click Teacher Button #1 CTA' : 'Started Signup')"
+        @click="homePageEvent(isCodeCombat ? 'Homepage Click Teacher Button #1 CTA' : 'Started Signup')"
       >
         {{ $t('new_home.im_an_educator') }}
       </CTAButton>
@@ -19,7 +19,7 @@
       <CTAButton
         class="signup-button"
         data-start-on-path="student"
-        @click="homePageEvent('Started Signup');homePageEvent('Homepage Click Student Button CTA')"
+        @click="homePageEvent('Started Signup'); homePageEvent('Homepage Click Student Button CTA')"
       >
         {{ $t('new_home.im_a_student') }}
       </CTAButton>
@@ -95,12 +95,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
-    .button-section {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 40px;
-      margin-bottom: 40px;
-    }
+@import 'app/styles/component_variables.scss';
+
+.button-section {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+
+  @media screen and (max-height: $small-screen-height) and (orientation: landscape) {
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+}
 </style>

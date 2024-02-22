@@ -5,19 +5,18 @@
         <h1 class="text-h1">
           <mixed-color-label :text="$t('home_v3.learn_to_code')" />
         </h1>
-        <div class="row">
-          <div class="col-md-8 col-md-offset-2">
-            <content-box
-              :main-image-bg="true"
-              class="main-image"
-            >
-              <template #image>
-                <video-box
-                  video-id="da0d63c489741f4bd20448af1846292a"
-                />
-              </template>
-            </content-box>
-          </div>
+        <div class="top-video-container">
+          <content-box
+            :main-image-bg="true"
+            class="main-image"
+          >
+            <template #image>
+              <video-box
+                class="header__video"
+                video-id="da0d63c489741f4bd20448af1846292a"
+              />
+            </template>
+          </content-box>
         </div>
         <div class="row">
           <div class="col-lg-12">
@@ -453,6 +452,10 @@ export default Vue.extend({
     font-style: normal;
     font-weight: 500;
     margin: 80px auto 40px auto;
+
+    @media screen and (max-height: $small-screen-height) and (orientation: landscape) {
+      margin: 20px auto 20px auto;
+    }
   }
 
   ::v-deep .text-h2 {
@@ -461,8 +464,26 @@ export default Vue.extend({
   }
 
   .header {
-    .main-image {
-      margin-bottom: 40px;
+
+    .top-video-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .main-image {
+        max-width: min(750px, 100%);
+        width: 100%;
+        @media screen and (orientation: landscape) {
+          min-height: max(290px, min(50vh, 422px));
+          width: auto;
+        }
+        aspect-ratio: 16/9;
+        margin-bottom: 40px;
+
+        @media screen and (max-height: $small-screen-height) and (orientation: landscape) {
+          margin-bottom: 20px;
+        }
+      }
     }
 
     p {
@@ -471,6 +492,10 @@ export default Vue.extend({
       text-align: center;
       font-weight: 400;
       margin: 40px auto;
+
+      @media screen and (max-height: $small-screen-height) and (orientation: landscape) {
+          margin: 15px auto;
+        }
     }
   }
 
