@@ -288,7 +288,7 @@ module.exports = {
       view_profile: 'Veure El meu Perfil',
       view_progress: 'Veure Progrés',
       go_to_courses: 'Vés a Els meus Cursos',
-      want_coco: 'Vols CodeCombat al teu centre?'
+      want_coco: 'Vols CodeCombat al teu centre?',
       //    educator: "Educator",
       //    student: "Student",
       //    go_to_my_dashboard: "Go to My Dashboard",
@@ -393,7 +393,7 @@ module.exports = {
       help_suff: 'i contactarem amb tu!',
       resource_hub: 'Centre de Recursos',
       apcsp: 'Principis AP CS',
-      parent: 'Pares'
+      parent: 'Pares',
       //    faq: "FAQ",
       //    return_coco: "Return to CodeCombat",
       //    classes: "Classes",
@@ -430,13 +430,13 @@ module.exports = {
 
     modal: {
       close: 'Tancar',
-      okay: "D'acord"
+      okay: "D'acord",
       //    cancel: "Cancel",
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Pàgina no trobada'
+      page_not_found: 'Pàgina no trobada',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: "Hem desenvolupat CodeCombat en anglès, però tenim jugadors per tot el món. Molts d'ells volen jugar en Català, però no parlen anglès, per tant si pots parlar ambdues llengües, siusplau considereu iniciar sessió per a ser Diplomàtic i ajudar a traduir la web de CodeCombat i tots els seus nivells en Català.",
       missing_translations: 'Fins que puguem traduir-ho tot en català, ho veuràs en anglès quant no estigui en català.',
       learn_more: 'Aprèn més sobre ser un diplomàtic',
-      subscribe_as_diplomat: 'Subscriu-te com a diplomàtic'
+      subscribe_as_diplomat: 'Subscriu-te com a diplomàtic',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Inicia sessió com a aventurer',
       awaiting_levels_adventurer_suffix: 'Sigues el primer en jugar els nous nivells',
       adjust_volume: 'Ajustar volum',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Arenes Multijugador',
       campaign_multiplayer_description: '... on programes cara a cara contra altres jugadors.',
       brain_pop_done: 'Has derrotat els ogres amb el codi! Tu guanyes!',
@@ -537,7 +538,7 @@ module.exports = {
       replay: 'Repeteix',
       back_to_classroom: "Tornar a l'aula",
       teacher_button: 'Per a Docents',
-      get_more_codecombat: 'Obté més CodeCombat'
+      get_more_codecombat: 'Obté més CodeCombat',
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
       //    customize_hero: "Customize Hero",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'indefinit',
       null: 'nul',
       nil: 'nul',
-      None: 'Cap'
+      None: 'Cap',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Escriu els seus emails a sota i els hi ensenyarem!',
       form_label: 'Correu electrònic',
       placeholder: 'adreça de correu electrònic',
-      title: 'Excel·lent feina, aprenent'
+      title: 'Excel·lent feina, aprenent',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: 'Acabant',
       sign_in_with_facebook: 'Inicia amb Facebook',
       sign_in_with_gplus: 'Inicia amb G+',
-      signup_switch: 'Vols crear-te un compte?'
+      signup_switch: 'Vols crear-te un compte?',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -721,7 +722,7 @@ module.exports = {
       eu_confirmation: "Estic d'acord en permetre que CodeCombat desi les meves dades als servidors dels EE.UU.",
       eu_confirmation_place_of_processing: 'Saber més sobre possibles riscos',
       eu_confirmation_student: 'Si dubtes, consulta al teu professorat.',
-      eu_confirmation_individual: 'Si no vols que desem les teves dades als servidors dels EE.UU., sempre pots continuar jugant de manera anònima sense desar el teu codi.'
+      eu_confirmation_individual: 'Si no vols que desem les teves dades als servidors dels EE.UU., sempre pots continuar jugant de manera anònima sense desar el teu codi.',
       //    request_class_code: "Students, request a Class Code from your Teacher to create an Account!",
       //    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!",
       //    looking_for_classroom: "Looking for classroom...",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Recuperar Compte',
       send_password: 'Enviar contrasenya oblidada',
-      recovery_sent: 'Correu de recuperació de contrasenya enviat.'
+      recovery_sent: 'Correu de recuperació de contrasenya enviat.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Armadura',
       accessories: 'Accessoris',
       misc: 'Misc',
-      books: 'Llibres'
+      books: 'Llibres',
     },
 
     common: {
@@ -798,7 +799,7 @@ module.exports = {
       submit_patch: 'Enviar pegat',
       submit_changes: 'Puja canvis',
       save_changes: 'Guarda canvis',
-      required_field: 'obligatori'
+      required_field: 'obligatori',
       //    submit: "Submit",
       //    replay: "Replay",
       //    complete: "Complete",
@@ -875,7 +876,7 @@ module.exports = {
       learn_more: 'Aprèn més',
       more: 'Més',
       fewer: 'Menys',
-      with: 'amb'
+      with: 'amb',
       //    archived: "Archived",
       //    chat: "Chat",
       //    chat_with_us: "Chat with us",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'mes',
       months: 'mesos',
       year: 'any',
-      years: 'anys'
+      years: 'anys',
     },
 
     play_level: {
@@ -1091,7 +1092,7 @@ module.exports = {
       already_published_suffix: 'Continua experimentant i millorant aquest projecte, o mira el que la resta de la teva classe ha fet. Els teus canvis es desaran i es compartiran automàticament amb els teus companys.',
       view_gallery: 'Veure Galeria',
       project_published_noty: "S'ha publicat el teu nivell!",
-      keep_editing: 'Segueix editant'
+      keep_editing: 'Segueix editant',
       //    learn_new_concepts: "Learn new concepts",
       //    watch_a_video: "Watch a video on __concept_name__",
       //    concept_unlocked: "Concept Unlocked",
@@ -1161,7 +1162,7 @@ module.exports = {
       jquery: 'jQuery',
       json: 'JSON',
       number: 'Número',
-      webjavascript: 'JavaScript'
+      webjavascript: 'JavaScript',
     },
 
     amazon_hoc: {
@@ -1173,7 +1174,7 @@ module.exports = {
       future_eng_2: 'aquí',
       future_eng_3: '(no es requereix dispositiu). Aquesta activitat Alexa és presentada pel programa',
       future_eng_4: 'Amazon Future Engineer',
-      future_eng_5: "que crea oportunitats d'aprenentatge i treball per a tots els estudiants de K-12 als Estats Units que vulguin cursar informàtica."
+      future_eng_5: "que crea oportunitats d'aprenentatge i treball per a tots els estudiants de K-12 als Estats Units que vulguin cursar informàtica.",
     },
 
     //  live_class: {
@@ -1205,13 +1206,14 @@ module.exports = {
       goal_defeat_amount: 'Derrota __amount__ enemics.',
       goal_move: 'Mou-te a totes les X vermelles.',
       goal_collect: 'Recull tots els ítems.',
-      goal_collect_amount: 'Recull __amount__ ítems.'
+      goal_collect_amount: 'Recull __amount__ ítems.',
     },
 
     game_menu: {
       inventory_tab: 'Inventari',
       save_load_tab: 'Desa/Carrega',
       options_tab: 'Opcions',
+      //    my_code_tab: "My Code",
       guide_tab: 'Gui',
       guide_video_tutorial: 'Vídeo Tutorial',
       guide_tips: 'Consells',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Equipa el teu heroi',
       choose_hero_caption: "Tria l'heroi, llenguatge",
       options_caption: 'Edita la configuració',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Documents i pistes',
       multiplayer_caption: 'Juga amb amics!',
-      auth_caption: 'Desa el progrés.'
+      auth_caption: 'Desa el progrés.',
     },
 
     leaderboard: {
@@ -1241,7 +1244,7 @@ module.exports = {
       survival_time: 'Sobreviscut',
       defeated: 'Enemics derrotats',
       code_length: 'Línies de Codi',
-      score_display: '__scoreType__: __score__'
+      score_display: '__scoreType__: __score__',
     },
 
     inventory: {
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: 'Desequipa',
       warrior_only: 'Només Guerrers',
       ranger_only: 'Només Exploradors',
-      wizard_only: 'Només Mags'
+      wizard_only: 'Només Mags',
     },
 
     buy_gems: {
@@ -1274,17 +1277,17 @@ module.exports = {
       price: 'x{{gems}} / més',
       buy_premium: 'Compra Premium',
       purchase: 'Compra',
-      purchased: 'Comprat'
+      purchased: 'Comprat',
     },
 
     subscribe_for_gems: {
       prompt_title: 'No hi ha prou gemmes!',
-      prompt_body: 'Compra Prèmium per tenir gemes i accedir fins i tot a més nivells!'
+      prompt_body: 'Compra Prèmium per tenir gemes i accedir fins i tot a més nivells!',
     },
 
     earn_gems: {
       prompt_title: 'No hi ha prou gemmes',
-      prompt_body: 'Continua jugant per guanyar-ne més!'
+      prompt_body: 'Continua jugant per guanyar-ne més!',
     },
 
     subscribe: {
@@ -1337,7 +1340,7 @@ module.exports = {
       year_price: '$__price__/any',
       //    year_price_without_currency: "__price__/yr",
       support_part1: "Necessites ajuda amb el pagament o prefereixes PayPal? Envia'ns un e-mail a",
-      support_part2: 'support@codecombat.com'
+      support_part2: 'support@codecombat.com',
       //    go_prepaid: "Click here after scaning the code and purchasing",
       //    forever: "Forever",
       //    subscription_status: "Your Subscription Status",
@@ -1387,7 +1390,7 @@ module.exports = {
       tornado_name: 'Tornado',
       tornado_description: 'És bo tenir un botó de restabliment quan la coberta surt pels aires.',
       wallOfDarkness_name: 'Paret de Foscor',
-      wallOfDarkness_description: "Amaga't darrere una paret d'ombres per evitar la mirada d'ulls curiosos."
+      wallOfDarkness_description: "Amaga't darrere una paret d'ombres per evitar la mirada d'ulls curiosos.",
       //    notifications: "Notifications",
       //    x_announcement: "__x__ Notification",
       //    x_announcements: "__x__ Notifications",
@@ -1425,7 +1428,7 @@ module.exports = {
       list_web_dev: 'Crea llocs web i aplicacions interactives',
       list_items: 'Equipa amb elements exclusius Prèmium com ara mascotes',
       list_support: 'Obté suport Prèmium per ajudar-te a depurar el codi delicat',
-      list_clans: 'Crea clans privats per convidar els teus amics i competir en una taula de classificació del grup'
+      list_clans: 'Crea clans privats per convidar els teus amics i competir en una taula de classificació del grup',
       //    ai_bot_learning: "AI powered support to accelerate learning outcomes!",
       //    ai_bot_description: "CodeCombat’s AI powered hints feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available young learners will still need to work through each level's coding challenge. Premium subscribers receive an allocation of <b>10 AI hints per day</b> to ensure they always have the support they need.",
       //    list_ai_bot: "Premium subscribers receive an allocation of 10 AI hints per day",
@@ -1444,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Llenguatge script per a jocs.',
       java_blurb: '(Només subscriptor) Android i empresa.',
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Estat',
       weapons: 'Armes',
       weapons_warrior: 'Espases - Curt abast, no hi ha màgia',
@@ -1467,7 +1479,7 @@ module.exports = {
       speed_2: 'metres per segon.',
       available_for_purchase: 'Disponible per a la compra',
       level_to_unlock: 'Nivell per desbloquejar:',
-      restricted_to_certain_heroes: 'Només certs herois poden jugar aquest nivell.'
+      restricted_to_certain_heroes: 'Només certs herois poden jugar aquest nivell.',
     },
 
     //  char_customization_modal: {
@@ -1505,14 +1517,14 @@ module.exports = {
       required_parameters: 'Paràmetres requerits',
       optional_parameters: 'Paràmetres opcionals',
       returns: 'Retorna',
-      granted_by: 'Atorgat per'
+      granted_by: 'Atorgat per',
       //    still_undocumented: "Still undocumented, sorry.",
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: 'Desats',
-      granularity_change_history: 'Historial'
+      granularity_change_history: 'Historial',
     },
 
     options: {
@@ -1529,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Mostra guies de sagnia',
       editor_config_indentguides_description: 'Mostra línees verticals per veure i identificar millor.',
       editor_config_behaviors_label: 'Comportament intel·ligent',
-      editor_config_behaviors_description: 'Autocompleta claudàtors, correctors i cometes.'
+      editor_config_behaviors_description: 'Autocompleta claudàtors, correctors i cometes.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1659,11 +1671,11 @@ module.exports = {
       character_art: 'Art del personatge',
       download_all: 'Baixa tot',
       previous: 'Previ',
-      location_title: 'Ens trobem al centre de SF:'
+      location_title: 'Ens trobem al centre de SF:',
     },
 
     teachers: {
-      licenses_needed: 'Calen llicències'
+      licenses_needed: 'Calen llicències',
       //    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO",
       //    select_class: "Select class",
       //    programming_language: "Programming language",
@@ -1690,13 +1702,12 @@ module.exports = {
       //    error_in_importing_students: "Error in importing students",
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-      //    classroom_blocks: "Drag and Drop Blocks (beta)",
-      //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-      //    classroom_blocks_hidden: "Disabled",
-      //    classroom_blocks_opt_in: "Off by default",
-      //    classroom_blocks_opt_out: "On by default",
+      //    code_formats: "Code Formats (beta)",
+      //    code_formats_description: "Which code formats students can choose from.",
+      //    default_code_format: "Default Code Format",
+      //    default_code_format_description: "The code format that students will start with.",
       //    not_allow_to_solution: "# Licenses needed to view solutions",
-      //    classroom_level_chat: "Level Chat with AI",
+      //    classroom_level_chat: "AI Level Hints",
       //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
       //    classroom_level_chat_option_free_form: "Free form",
       //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1776,7 +1787,7 @@ module.exports = {
       courses_prefix: 'Cursos',
       courses_suffix: '',
       course_prefix: 'Curs',
-      course_suffix: ''
+      course_suffix: '',
       //    licenses_activated_success: "Licenses have been Activated Successfully!",
       //    license_code_used: "License Code used.",
     },
@@ -1846,7 +1857,7 @@ module.exports = {
       create_account: 'Crear un compte de professor',
       create_account_subtitle: "Obteniu accés a les eines exclusives de professors per utilitzar CodeCombat a l'aula. <strong>Configura una classe</strong>, afegeix els teus alumnes, i <strong>supervisa el seu progrés</strong>!",
       convert_account_title: 'Actualitza a compte del professor',
-      not: 'No'
+      not: 'No',
       //    full_name_required: "First and last name required",
     },
 
@@ -1858,7 +1869,7 @@ module.exports = {
       cla_url: 'CLA',
       cla_suffix: '.',
       cla_agree: "Estic d'acord",
-      owner_approve: "Un propietari ho haurà d'aprovar abans que els canvis es facin visibles."
+      owner_approve: "Un propietari ho haurà d'aprovar abans que els canvis es facin visibles.",
     },
 
     contact: {
@@ -1875,7 +1886,7 @@ module.exports = {
       subscriber_support: 'Com que seràs subscriptor de CodeCombat, el teu e-mail tindrà el nostre suport prioritari.',
       screenshot_included: 'Captura de pantalla inclosa.',
       where_reply: 'On hem de respondre?',
-      send: 'Enviar comentari'
+      send: 'Enviar comentari',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1927,7 +1938,7 @@ module.exports = {
       error_saving: 'Error en desar',
       saved: 'Canvis desats',
       password_mismatch: 'Les contrasenyes no coincideixen.',
-      password_repeat: 'Siusplau, repetiu la contrasenya.'
+      password_repeat: 'Siusplau, repetiu la contrasenya.',
     },
 
     keyboard_shortcuts: {
@@ -1949,7 +1960,6 @@ module.exports = {
       toggle_grid: 'Commuta la superposició de la graella.',
       toggle_pathfinding: "Canvia la superposició d'enfocament de camí.",
       beautify: 'Embelleix el teu codi estandarditzant el format.',
-      maximize_editor: "Maximitza/minimitza l'editor de codi."
     },
 
     //  cinematic: {
@@ -1973,7 +1983,7 @@ module.exports = {
       social_facebook: 'Fes Like a CodeCombat en Facebook',
       social_twitter: 'Segueix CodeCombat al Twitter',
       social_slack: 'Xateja amb nosaltres al canal públic CodeCombat Slack',
-      contribute_to_the_project: 'Contribueix al projecte'
+      contribute_to_the_project: 'Contribueix al projecte',
     },
 
     clans: {
@@ -2036,7 +2046,7 @@ module.exports = {
       track_concepts6b: 'Ordena membres per nom o progrés',
       track_concepts7: 'Requereix invitació',
       track_concepts8: 'per unir-se',
-      private_require_sub: "Els Clans Privats requereixen subscripció per crear-los o unir-se'n."
+      private_require_sub: "Els Clans Privats requereixen subscripció per crear-los o unir-se'n.",
     },
 
     courses: {
@@ -2239,7 +2249,7 @@ module.exports = {
       locked: 'Bloquejat',
       concepts_used: 'Conceptes Usats:',
       show_change_log: "Mostra els canvis als nivells d'aquest curs",
-      hide_change_log: "Amaga els canvis als nivells d'aquest curs"
+      hide_change_log: "Amaga els canvis als nivells d'aquest curs",
       //    concept_videos: "Concept Videos",
       //    concept: "Concept:",
       //    basic_syntax: "Basic Syntax",
@@ -2284,7 +2294,7 @@ module.exports = {
     project_gallery: {
       no_projects_published: 'Sigues el primer en publicar un projecte en aquest curs!',
       view_project: 'Veure Projecte',
-      edit_project: 'Editar Projecte'
+      edit_project: 'Editar Projecte',
     },
 
     teacher: {
@@ -2654,7 +2664,7 @@ module.exports = {
       print_guide: 'Imprimir aquesta guia',
       combo: 'Combinat',
       combo_explanation: "Els estudiants passen els nivells de desafiament combinat utilitzant com a mínim un concepte enumerat. Reviseu el codi de l'alumne fent clic al punt de progrés.",
-      concept: 'Concepte'
+      concept: 'Concepte',
       //    sync_google_classroom: "Sync Google Classroom",
       //    unit_overview: "Unit Overview",
       //    module_overview: "Module Overview",
@@ -2767,7 +2777,7 @@ module.exports = {
       one_license_used: '(1 llicència utilitzada)',
       licenses_used: '(__licensesUsed__ llicències utilitzades)',
       //    licenses_used_no_braces: "__licensesUsed__/__all__ licenses used",
-      more_info: 'Més informació'
+      more_info: 'Més informació',
       //    shared_pool_label: "Teachers in your shared pool:",
       //    teacher_delete_warning: "The shared licenses assigned to the teacher won't be revoked!",
       //    licenses_limit: "Licenses Limit:",
@@ -2790,14 +2800,14 @@ module.exports = {
       victory_course_share_web: 'veure la plana web',
       victory_course_share_suffix: 'que acabes de crear.',
       copy_url: 'Copiar URL',
-      share_with_teacher_email: 'Enviar al teu professor/a'
+      share_with_teacher_email: 'Enviar al teu professor/a',
       //    share_ladder_link: "Share Multiplayer Link",
       //    ladder_link_title: "Share Your Multiplayer Match Link",
       //    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:",
     },
 
     game_dev: {
-      creator: 'Creador'
+      creator: 'Creador',
     },
 
     web_dev: {
@@ -2813,7 +2823,7 @@ module.exports = {
       how_to_copy_paste: 'Com Copiar/Pegar',
       copy: 'Copiar',
       paste: 'Pegar',
-      back_to_editing: 'Tornar a Editar'
+      back_to_editing: 'Tornar a Editar',
     },
 
     classes: {
@@ -2835,7 +2845,7 @@ module.exports = {
       ambassador_title: 'Ambaixador',
       ambassador_title_description: '(Suport)',
       ambassador_summary: 'Posar ordre als fòrums i respondre a les preguntes que sorgeixin. Els nostres Ambaixadors representen a CodeCombat envers el món.',
-      teacher_title: 'Mestre'
+      teacher_title: 'Mestre',
     },
 
     editor: {
@@ -2871,6 +2881,7 @@ module.exports = {
       fork_title: 'Nova versió Bifurcació',
       fork_creating: 'Creant bifurcació...',
       generate_terrain: 'Generar Terreny',
+      //    generate_level: "Generate Level",
       more: 'Més',
       wiki: 'Wiki',
       live_chat: 'Xat en directe',
@@ -2974,18 +2985,18 @@ module.exports = {
       tasks: 'Tasques',
       clear_storage: 'Esborreu els canvis locals',
       add_system_title: 'Afegiu sistemes al nivell',
-      done_adding: 'Afegits fets'
+      done_adding: 'Afegits fets',
       //    product: "Product",
       //    link: "Link",
     },
 
     article: {
       edit_btn_preview: 'Vista prèvia',
-      edit_article_title: "Editar l'article"
+      edit_article_title: "Editar l'article",
     },
 
     polls: {
-      priority: 'Prioritat'
+      priority: 'Prioritat',
     },
 
     contribute: {
@@ -3056,7 +3067,7 @@ module.exports = {
       creative_artisans: 'Els Nostres Artesans Creatius:',
       brave_adventurers: 'Els Nostres Aventurers Valents:',
       translating_diplomats: 'Els Nostres Diplomàtics Traductors:',
-      helpful_ambassadors: 'Els Nostres Ambaixadors Útils:'
+      helpful_ambassadors: 'Els Nostres Ambaixadors Útils:',
     },
 
     ladder: {
@@ -3130,7 +3141,7 @@ module.exports = {
       //    loss_num: "Losses",
       //    win_rate: "Win %",
       humans: 'Vermell',
-      ogres: 'Blau'
+      ogres: 'Blau',
       //    live_tournament: "Live Tournament",
       //    awaiting_tournament_title: "Tournament Inactive",
       //    awaiting_tournament_blurb: "The tournament arena is not currently active.",
@@ -3169,7 +3180,7 @@ module.exports = {
       certificate_stats: 'Estadístiques del curs',
       certificate_lines_of: 'línies de',
       certificate_levels_completed: 'nivells completats',
-      certificate_for: 'Per'
+      certificate_for: 'Per',
       //    for_ozaria_chapters_1_4: "For Ozaria Chapters 1 - 4",
       //    certificate_number: "No.",
       //    heroes_unlocked: "Heroes Unlocked",
@@ -3195,7 +3206,7 @@ module.exports = {
       new_xp_postfix: ' guanyat',
       left_xp_prefix: '',
       left_xp_infix: ' fins el nivell ',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     account: {
@@ -3236,7 +3247,7 @@ module.exports = {
       unsubscribe_from_marketing: 'Abandonar la subscripció a __email__ de tots els e-mails de màrqueting de CodeCombat?',
       unsubscribe_button: 'Sí, abandonar la subscripció',
       unsubscribe_failed: 'Errada',
-      unsubscribe_success: 'Èxit'
+      unsubscribe_success: 'Èxit',
       //    manage_billing: "Manage Billing",
     },
 
@@ -3248,7 +3259,7 @@ module.exports = {
       pay: 'Factures de Pagament',
       purchasing: 'Comprant...',
       retrying: 'Error del Servidor, reintentant.',
-      success: "S'ha pagat correctament. Gràcies!"
+      success: "S'ha pagat correctament. Gràcies!",
     },
 
     account_prepaid: {
@@ -3273,7 +3284,7 @@ module.exports = {
       no_codes: 'Encara no hi ha cap codi!',
       you_can1: 'Pots',
       you_can2: 'comprar un codi Prepagat',
-      you_can3: "per aplicar al teu compte o donar a d'altres."
+      you_can3: "per aplicar al teu compte o donar a d'altres.",
       //    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account.",
       //    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times.",
       //    prepaid_applied_success: "Prepaid applied to your account!",
@@ -3368,7 +3379,7 @@ module.exports = {
       server_error: 'Error del servidor.',
       unknown: 'Error Desconegut',
       error: 'ERROR',
-      general_desc: "Alguna cosa ha anat malament, i és probable que sigui culpa nostra. Mira d'esperar una mica i després recarrega la plana, o visita un dels enllaços següents per tornar a programar!"
+      general_desc: "Alguna cosa ha anat malament, i és probable que sigui culpa nostra. Mira d'esperar una mica i després recarrega la plana, o visita un dels enllaços següents per tornar a programar!",
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
     },
@@ -3382,7 +3393,7 @@ module.exports = {
       component: 'Component',
       components: 'Components',
       hero: 'Heroi',
-      campaigns: 'Campanyes'
+      campaigns: 'Campanyes',
     },
 
     concepts: {
@@ -3518,7 +3529,7 @@ module.exports = {
       basic_game_ai: "Joc bàsic d'AI",
       basic_javascript: 'JavaScript bàsic',
       basic_event_handling: "Manipulació d'Events bàsica",
-      create_sharable_interactive_web_page: 'Crear una plana web compartible interactiva'
+      create_sharable_interactive_web_page: 'Crear una plana web compartible interactiva',
       //    iteration: "Iteration",
       //    nesting: "Nesting",
       //    data_types: "Data Types",
@@ -3538,7 +3549,7 @@ module.exports = {
       student_name_placeholder: 'Escriu aquí el teu nom',
       teachers_section: 'Docents:',
       students_section: 'Alumnat:',
-      teacher_notified: 'Hem notificat al vostre professor que voleu jugar més a CodeCombat en classe.'
+      teacher_notified: 'Hem notificat al vostre professor que voleu jugar més a CodeCombat en classe.',
     },
 
     delta: {
@@ -3549,7 +3560,7 @@ module.exports = {
       moved_index: 'Índex desplaçat',
       text_diff: 'Diferir text',
       merge_conflict_with: "Conflicte d'unió amb",
-      no_changes: 'Sense canvis'
+      no_changes: 'Sense canvis',
     },
 
     legal: {
@@ -3609,7 +3620,7 @@ module.exports = {
       third_party_title: 'Serveis de tercers',
       third_party_description: "CodeCombat usa els següents serveis de tercers (entre d'altres):",
       cookies_message: 'CodeCombat utilitza unes quantes galetes essencials i no essencials.',
-      cookies_deny: 'Declareu les galetes no essencials'
+      cookies_deny: 'Declareu les galetes no essencials',
       //    cookies_allow: "Allow cookies",
     },
 
@@ -3631,7 +3642,7 @@ module.exports = {
       one_month_coupon: 'cupó: trieu Rails o HTML',
       one_month_discount: 'descompte del 30%: seleccioneu Rails o HTML',
       license: 'llicencia',
-      oreilly: 'ebook de la vostra elecció'
+      oreilly: 'ebook de la vostra elecció',
     },
 
     calendar: {
@@ -3649,7 +3660,7 @@ module.exports = {
       september: 'Setembre',
       october: 'Octubre',
       november: 'Novembre',
-      december: 'Desembre'
+      december: 'Desembre',
     },
 
     code_play_create_account_modal: {
@@ -3657,12 +3668,12 @@ module.exports = {
       body: "Ara estàs en camí d'esdevenir un mestre codificador. Registra't per rebre un extra de <strong>100 Gemmes</strong> i també se't donarà l'oportunitat de <strong>guanyar $2,500 i altres premis de Lenovo</strong>.",
       sign_up: "Retistra't i continua codificant ▶",
       victory_sign_up_poke: 'Crea un compte gratuït per desar el codi i ingressa per obtenir premis.',
-      victory_sign_up: 'Inscriu-te i accedeix a poder <strong>gunayar $2,500</strong>'
+      victory_sign_up: 'Inscriu-te i accedeix a poder <strong>gunayar $2,500</strong>',
     },
 
     server_error: {
       email_taken: 'E-mail ja agafat',
-      username_taken: 'Usuari ja agafat'
+      username_taken: 'Usuari ja agafat',
       //    easy_password: "Password is too easy to guess",
       //    reused_password: "Password cannot be reused",
     },
@@ -3744,7 +3755,7 @@ module.exports = {
       you_do_not_have: "No tens cap ítem equipat amb l'habilitat $1.",
       put_each_command_on: 'Posa cada comand en una línia diferent',
       are_you_missing_a: "T'estàs oblidant de '$1' després de '$2'? ",
-      your_parentheses_must_match: 'Els teus parèntesis han de coincidir.'
+      your_parentheses_must_match: 'Els teus parèntesis han de coincidir.',
       //    missing_parentheses: "Missing parentheses? Try `__suggestion__`",
       //    do_nothing_without_parentheses: "`__code__` doesn't do anything without `()`",
       //    error_index_empty: "Cannot read property `__name__` of `__specTypeName__`",
@@ -3833,7 +3844,7 @@ module.exports = {
       unit_8_activity_3: 'Pràctica Tasca Creativa 3: Desenvolupament de Jocs 3',
       unit_9: 'Unitat 9: Revisió dels Fonaments',
       unit_10: 'Unitat 10: Més enllà dels Fonaments',
-      unit_10_activity_1: 'Unitat 10 Activitat: Web Quiz'
+      unit_10_activity_1: 'Unitat 10 Activitat: Web Quiz',
     },
 
     //  apcsp_marketing: {
@@ -4130,7 +4141,7 @@ module.exports = {
       point3: '✓ Avaluació Formativa i Sumativa',
       point4: '✓ Cursos basats en Projectes',
       point5: "✓ Seguiment de l'Alumnat",
-      point6: '✓ Planificació de Lliçons complertes'
+      point6: '✓ Planificació de Lliçons complertes',
       //    title: "HOUR OF CODE",
       //    acronym: "HOC",
       //    play_video: "Play Video",
@@ -4144,7 +4155,7 @@ module.exports = {
       //    featured_subtitle_3: "Grades 6-8 | JavaScript, Python",
       //    featured_blurb_3: "Enter the world of Ozaria where you must use the power of coding to defeat a darkness that has taken over the world!",
       //    page_heading_latest_activities: "Our latest activities are easy to implement and fun to play",
-    }
+    },
 
     //  hoc_2018_interstitial: {
     //    welcome: "Welcome to CodeCombat's Hour of Code!",
@@ -4490,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",

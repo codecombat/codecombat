@@ -393,7 +393,7 @@ module.exports = (User = (function () {
 
     levels () {
       let left, left1
-      return ((left = this.get('earned')?.levels) != null ? left : []).concat((left1 = this.get('purchased')?.levels) != null ? left1 : []).concat(LevelConstants.levels['dungeons-of-kithgard'])
+      return ((left = this.get('earned')?.levels) != null ? left : []).concat((left1 = this.get('purchased')?.levels) != null ? left1 : []).concat(LevelConstants.levels['dungeons-of-kithgard']).concat(LevelConstants.levels['the-gem'])
     }
 
     ownsHero (heroOriginal) {

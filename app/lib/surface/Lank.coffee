@@ -723,8 +723,8 @@ module.exports = Lank = class Lank extends CocoClass
   onSetLetterbox: (e) ->
     @letterboxOn = e.on
 
-  setNameLabel: (name) ->
-    label = @addLabel 'name', Label.STYLE_NAME
+  setNameLabel: (name, style) ->
+    label = @addLabel 'name', style || Label.STYLE_NAME
     label.setText name
 
   updateLabels: ->

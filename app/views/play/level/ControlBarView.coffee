@@ -31,6 +31,7 @@ module.exports = class ControlBarView extends CocoView
     'click .home a': 'onClickHome'
     'click #control-bar-sign-up-button': 'onClickSignupButton'
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
+    'click .hints-button': 'onClickHintsButton'
 
   constructor: (options) ->
     @supermodel = options.supermodel
@@ -153,11 +154,11 @@ module.exports = class ControlBarView extends CocoView
     c
 
   showGameMenuModal: (e, tab=null) ->
-    gameMenuModal = new GameMenuModal level: @level, session: @session, supermodel: @supermodel, showTab: tab, classroomAceConfig: @options.classroomAceConfig
+    gameMenuModal = new GameMenuModal {@level, @session, @supermodel, showTab: tab, classroomAceConfig: @options.classroomAceConfig, hintsState: @options.hintsState, teacherID: @options.teacherID, @team, @courseID, @courseInstanceID}
     @openModalView gameMenuModal
     @listenToOnce gameMenuModal, 'change-hero', ->
       @setupManager?.destroy()
-      @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, courseID: @courseID, courseInstanceID: @courseInstanceID})
+      @setupManager = new LevelSetupManager({@supermodel, @level, @levelID, parent: @, @session, @courseID, @courseInstanceID})
       @setupManager.open()
 
   onClickHome: (e) ->
@@ -170,6 +171,12 @@ module.exports = class ControlBarView extends CocoView
 
   onClickSignupButton: (e) ->
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Control Bar', level: @levelID
+
+  onClickHintsButton: ->
+    return unless @options.hintsState?
+    Backbone.Mediator.publish 'level:hints-button', {state: @options.hintsState.get('hidden')}
+    @options.hintsState.set('hidden', not @options.hintsState.get('hidden'))
+    window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @levelSlug, hintCount: @options.hintsState.get('hints')?.length ? 0
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true

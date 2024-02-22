@@ -288,7 +288,7 @@ module.exports = {
       view_profile: 'הצג את הפרופיל שלי',
       view_progress: 'הצג התקדמות',
       go_to_courses: 'עבור לקורסים שלי',
-      want_coco: 'רוצים את CodeCombat אצלכם בבית הספר?'
+      want_coco: 'רוצים את CodeCombat אצלכם בבית הספר?',
       //    educator: "Educator",
       //    student: "Student",
       //    go_to_my_dashboard: "Go to My Dashboard",
@@ -391,7 +391,7 @@ module.exports = {
       copyright_suffix: 'כל הזכויות שמורות.',
       help_pref: 'זקוקים לעזרה? שלחו דואר אלקטרוני לכתובת',
       help_suff: 'ואנו ניצור עמכם קשר!',
-      resource_hub: 'מרכז המשאבים'
+      resource_hub: 'מרכז המשאבים',
       //    apcsp: "AP CS Principles",
       //    parent: "Parents",
       //    faq: "FAQ",
@@ -430,13 +430,13 @@ module.exports = {
 
     modal: {
       close: 'סגור',
-      okay: 'אישור'
+      okay: 'אישור',
       //    cancel: "Cancel",
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'הדף לא נמצא'
+      page_not_found: 'הדף לא נמצא',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'אנו מפתחים את CodeCombat בשפה האנגלית, אך כבר יש לנו שחקנים בכל העולם. רבים מהם רוצים לשחק בשפה English אך אינם דוברים אנגלית. לכן, אם אתם דוברים את שתי השפות, אנא שקלו להירשם בתור דיפלומט ולעזור לתרגם את אתר האינטרנט ואת כל השלבים של CodeCombat לשפה English.',
       missing_translations: 'עד שנצליח לתרגם הכול לשפה English, יופיע בפניכם תוכן באנגלית כאשר השפה English אינה זמינה.',
       learn_more: 'למידע נוסף על הצטרפות כדיפלומט',
-      subscribe_as_diplomat: 'הירשם כמנוי דיפלומט'
+      subscribe_as_diplomat: 'הירשם כמנוי דיפלומט',
     },
 
     //  new_home_faq: {
@@ -530,12 +530,13 @@ module.exports = {
       awaiting_levels_adventurer: 'הרשמה כהרפתקן',
       awaiting_levels_adventurer_suffix: 'כדי להיות הראשונים שישחקו בשלבים החדשים.',
       adjust_volume: 'כוונון עצמת קול',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'זירות מרובות משתתפים',
       campaign_multiplayer_description: '... שבהן תוכלו לקודד ראש-בראש נגד שחקנים אחרים.',
       brain_pop_done: 'הבסתם את הענק בכוח הקוד! ניצחתם!',
       brain_pop_challenge: 'כדי לאתגר את עצמכם, שחקו שוב באמצעות שפת תכנות אחרת!',
       replay: 'הילוך חוזר',
-      back_to_classroom: 'בחזרה לכיתה'
+      back_to_classroom: 'בחזרה לכיתה',
       //    teacher_button: "For Teachers",
       //    get_more_codecombat: "Get More CodeCombat",
       //    back_to_dashboard: "Back to Dashboard",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'לא מוגדר',
       null: 'ריק',
       nil: 'ערך אפס',
-      None: 'ללא'
+      None: 'ללא',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'הזינו למטה את כתובת הדואר האלקטרוני של ההורה, ואנו נראה לו או לה!',
       form_label: 'כתובת דואר אלקטרוני',
       placeholder: 'כתובת דואר אלקטרוני',
-      title: 'כל הכבוד, חניכים'
+      title: 'כל הכבוד, חניכים',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: 'מסיים',
       sign_in_with_facebook: 'כניסה באמצעות Facebook',
       sign_in_with_gplus: 'כניסה באמצעות Google',
-      signup_switch: 'רוצים ליצור חשבון?'
+      signup_switch: 'רוצים ליצור חשבון?',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -720,7 +721,7 @@ module.exports = {
       //    want_codecombat_in_school: "Want to play CodeCombat all the time?",
       //    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers.",
       //    eu_confirmation_place_of_processing: "Learn more about the possible risks",
-      eu_confirmation_student: 'אם אתה לא בטוח, תשאל את המורה שלך'
+      eu_confirmation_student: 'אם אתה לא בטוח, תשאל את המורה שלך',
       //    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code.",
       //    request_class_code: "Students, request a Class Code from your Teacher to create an Account!",
       //    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'שחזור חשבון',
       send_password: 'שלח סיסמת שחזור',
-      recovery_sent: 'הודעת שחזור נשלחה.'
+      recovery_sent: 'הודעת שחזור נשלחה.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'שריון',
       accessories: 'אביזרים',
       misc: 'שונות',
-      books: 'ספרים'
+      books: 'ספרים',
     },
 
     common: {
@@ -798,7 +799,7 @@ module.exports = {
       submit_patch: 'שלח תיקון',
       submit_changes: 'שלח שינויים',
       save_changes: 'שמור שינויים',
-      required_field: 'חובה'
+      required_field: 'חובה',
       //    submit: "Submit",
       //    replay: "Replay",
       //    complete: "Complete",
@@ -872,7 +873,7 @@ module.exports = {
       username: 'שם משתמש',
       contact_us: 'צור קשר',
       close_window: 'סגור חלון',
-      learn_more: 'מידע נוסף'
+      learn_more: 'מידע נוסף',
       //    more: "More",
       //    fewer: "Fewer",
       //    with: "with",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'חודש',
       months: 'חודשים',
       year: 'שנה',
-      years: 'שנים'
+      years: 'שנים',
     },
 
     play_level: {
@@ -1091,7 +1092,7 @@ module.exports = {
       already_published_suffix: 'המשיכו לנסות דברים ולשפר את הפרויקט עוד יותר, או בואו לראות מה בנו שאר חבריכם לכיתה! השינויים שתבצעו יישמרו באופן אוטומטי וישותפו עם חבריכם לכיתה.',
       view_gallery: 'הצג גלריה',
       project_published_noty: 'השלב שלכם פורסם!',
-      keep_editing: 'המשך בעריכה'
+      keep_editing: 'המשך בעריכה',
       //    learn_new_concepts: "Learn new concepts",
       //    watch_a_video: "Watch a video on __concept_name__",
       //    concept_unlocked: "Concept Unlocked",
@@ -1198,7 +1199,7 @@ module.exports = {
       play: 'שחקו בשלב',
       play_more_codecombat: 'שחקו עוד CodeCombat',
       learn_about_ozaria: 'Learn About Ozaria',
-      default_student_instructions: 'לחצו כדי לשלוט בגיבור שלכם ולנצח במשחק!'
+      default_student_instructions: 'לחצו כדי לשלוט בגיבור שלכם ולנצח במשחק!',
       //    goal_survive: "Survive.",
       //    goal_survive_time: "Survive for __seconds__ seconds.",
       //    goal_defeat: "Defeat all enemies.",
@@ -1212,6 +1213,7 @@ module.exports = {
       inventory_tab: 'ציוד',
       save_load_tab: 'שמור/טען',
       options_tab: 'אפשרויות',
+      //    my_code_tab: "My Code",
       guide_tab: 'מדריך',
       guide_video_tutorial: 'הדרכת וידאו',
       guide_tips: 'עצות',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'ציידו את הגיבור',
       choose_hero_caption: 'בחרו גיבור, שפה',
       options_caption: 'קבעו הגדרות',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'מסמכים ועצות',
       multiplayer_caption: 'שחקו עם חברים!',
-      auth_caption: 'שמרו את התקדמותכם.'
+      auth_caption: 'שמרו את התקדמותכם.',
     },
 
     leaderboard: {
@@ -1237,7 +1240,7 @@ module.exports = {
       damage_taken: 'נזק שנספג',
       damage_dealt: 'נזק שנגרם',
       difficulty: 'רמת קושי',
-      gold_collected: 'זהב שנאסף'
+      gold_collected: 'זהב שנאסף',
       //    survival_time: "Survived",
       //    defeated: "Enemies Defeated",
       //    code_length: "Lines of Code",
@@ -1254,7 +1257,7 @@ module.exports = {
       locked: '(נעול)',
       restricted: '(מוגבל בשלב הזה)',
       equip: 'צייד',
-      unequip: 'הסר'
+      unequip: 'הסר',
       //    warrior_only: "Warrior Only",
       //    ranger_only: "Ranger Only",
       //    wizard_only: "Wizard Only",
@@ -1274,7 +1277,7 @@ module.exports = {
       price: 'x{{gems}} לחודש',
       buy_premium: 'קנה פרימיום',
       purchase: 'רכישה',
-      purchased: 'נרכש'
+      purchased: 'נרכש',
     },
 
     //  subscribe_for_gems: {
@@ -1284,7 +1287,7 @@ module.exports = {
 
     earn_gems: {
       prompt_title: 'אין מספיק אבני חן',
-      prompt_body: 'המשיכו לשחק כדי להשיג עוד!'
+      prompt_body: 'המשיכו לשחק כדי להשיג עוד!',
     },
 
     subscribe: {
@@ -1337,7 +1340,7 @@ module.exports = {
       year_price: '$__price__ לשנה',
       //    year_price_without_currency: "__price__/yr",
       support_part1: 'זקוקים לעזרה עם אפשרויות התשלום? שלחו דואר אלקטרוני לכתובת',
-      support_part2: 'support@codecombat.com'
+      support_part2: 'support@codecombat.com',
       //    go_prepaid: "Click here after scaning the code and purchasing",
       //    forever: "Forever",
       //    subscription_status: "Your Subscription Status",
@@ -1387,7 +1390,7 @@ module.exports = {
       tornado_name: 'טורנדו',
       tornado_description: 'טוב שיש לחצן איפוס, ברגע שתופסים אותך.',
       wallOfDarkness_name: 'קיר חושך',
-      wallOfDarkness_description: 'הסתתרו מאחורי קיר צללים, כדי לחמוק מעיניים סקרניות.'
+      wallOfDarkness_description: 'הסתתרו מאחורי קיר צללים, כדי לחמוק מעיניים סקרניות.',
       //    notifications: "Notifications",
       //    x_announcement: "__x__ Notification",
       //    x_announcements: "__x__ Notifications",
@@ -1425,7 +1428,7 @@ module.exports = {
       list_web_dev: 'בנו אתרי אינטרנט ויישומים אינטראקטיביים',
       list_items: 'הצטיידו בפריטי פרימיום בלעדיים, כגון חיות מחמד',
       list_support: 'קבלו תמיכת פרימיום, שתעזור לכם לאתר באגים בקודים מסובכים',
-      list_clans: 'צרו שבטים פרטיים, כדי להזמין חברים ולהתחרות בטבלה של קבוצות מובילות'
+      list_clans: 'צרו שבטים פרטיים, כדי להזמין חברים ולהתחרות בטבלה של קבוצות מובילות',
       //    ai_bot_learning: "AI powered support to accelerate learning outcomes!",
       //    ai_bot_description: "CodeCombat’s AI powered hints feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available young learners will still need to work through each level's coding challenge. Premium subscribers receive an allocation of <b>10 AI hints per day</b> to ensure they always have the support they need.",
       //    list_ai_bot: "Premium subscribers receive an allocation of 10 AI hints per day",
@@ -1444,6 +1447,15 @@ module.exports = {
       lua_blurb: 'שפת כתיבת Script למשחקים.',
       java_blurb: '(למנויים בלבד) Android וארגוני.',
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'מצב',
       weapons: 'כלי נשק',
       weapons_warrior: 'חרבות - טווח קצר, ללא קסם',
@@ -1467,7 +1479,7 @@ module.exports = {
       speed_2: 'מטר לשנייה.',
       available_for_purchase: 'זמין לרכישה',
       level_to_unlock: 'שלב לפתיחה:',
-      restricted_to_certain_heroes: 'רק גיבורים מסוימים יכולים לשחק בשלב זה.'
+      restricted_to_certain_heroes: 'רק גיבורים מסוימים יכולים לשחק בשלב זה.',
     },
 
     //  char_customization_modal: {
@@ -1505,14 +1517,14 @@ module.exports = {
       required_parameters: 'פרמטרים נדרשים',
       optional_parameters: 'פרמטרים אופציונליים',
       returns: 'מחזיר',
-      granted_by: 'מתקבל מ:'
+      granted_by: 'מתקבל מ:',
       //    still_undocumented: "Still undocumented, sorry.",
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: 'נשמר',
-      granularity_change_history: 'היסטוריה'
+      granularity_change_history: 'היסטוריה',
     },
 
     options: {
@@ -1529,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'הצג קווי הזחה',
       editor_config_indentguides_description: 'מציג קווים אנכיים, להצגה ברורה יותר של ההזחה.',
       editor_config_behaviors_label: 'אופני פעולה חכמים',
-      editor_config_behaviors_description: 'משלים באופן אוטומטי סוגריים מרובים, סוגריים מסולסלים ומירכאות.'
+      editor_config_behaviors_description: 'משלים באופן אוטומטי סוגריים מרובים, סוגריים מסולסלים ומירכאות.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1659,11 +1671,11 @@ module.exports = {
       character_art: 'אמנות דמויות',
       download_all: 'הורד הכול',
       previous: 'הקודם',
-      location_title: 'אנו יושבים בלב סן פרנסיסקו:'
+      location_title: 'אנו יושבים בלב סן פרנסיסקו:',
     },
 
     teachers: {
-      licenses_needed: 'רישיונות נדרשים'
+      licenses_needed: 'רישיונות נדרשים',
       //    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO",
       //    select_class: "Select class",
       //    programming_language: "Programming language",
@@ -1690,13 +1702,12 @@ module.exports = {
       //    error_in_importing_students: "Error in importing students",
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-      //    classroom_blocks: "Drag and Drop Blocks (beta)",
-      //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-      //    classroom_blocks_hidden: "Disabled",
-      //    classroom_blocks_opt_in: "Off by default",
-      //    classroom_blocks_opt_out: "On by default",
+      //    code_formats: "Code Formats (beta)",
+      //    code_formats_description: "Which code formats students can choose from.",
+      //    default_code_format: "Default Code Format",
+      //    default_code_format_description: "The code format that students will start with.",
       //    not_allow_to_solution: "# Licenses needed to view solutions",
-      //    classroom_level_chat: "Level Chat with AI",
+      //    classroom_level_chat: "AI Level Hints",
       //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
       //    classroom_level_chat_option_free_form: "Free form",
       //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1776,7 +1787,7 @@ module.exports = {
       courses_prefix: 'קורסים',
       courses_suffix: '',
       course_prefix: 'קורס',
-      course_suffix: ''
+      course_suffix: '',
       //    licenses_activated_success: "Licenses have been Activated Successfully!",
       //    license_code_used: "License Code used.",
     },
@@ -1846,7 +1857,7 @@ module.exports = {
       create_account: 'יצירת חשבון מורה',
       create_account_subtitle: 'קבלו גישה לכלים המיועדים למורים בלבד, לצורך השימוש ב-CodeCombat בכיתה.  <strong>הקימו כיתה</strong>, הוסיפו תלמידים, <strong>ועקבו אחר ההתקדמות שלהם</strong>!',
       convert_account_title: 'עדכון לחשבון מורה',
-      not: 'לא'
+      not: 'לא',
       //    full_name_required: "First and last name required",
     },
 
@@ -1858,7 +1869,7 @@ module.exports = {
       cla_url: 'ל-CLA',
       cla_suffix: '.',
       cla_agree: 'אני מסכים',
-      owner_approve: 'על אחד האחראים לאשר זאת לפני שהשינויים שלך יהיו גלויים.'
+      owner_approve: 'על אחד האחראים לאשר זאת לפני שהשינויים שלך יהיו גלויים.',
     },
 
     contact: {
@@ -1875,7 +1886,7 @@ module.exports = {
       subscriber_support: 'משום שאתם מנויים ל-CodeCombat, ההודעה שנקבל מכם בדואר אלקטרוני תקבל עדיפות בתמיכה.',
       screenshot_included: 'צילום מסך מצורף.',
       where_reply: 'היכן כדאי לנו להשיב?',
-      send: 'שלח משוב'
+      send: 'שלח משוב',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1927,7 +1938,7 @@ module.exports = {
       error_saving: 'שגיאה בשמירה',
       saved: 'השינויים נשמרו',
       password_mismatch: 'הסיסמה אינה תואמת.',
-      password_repeat: 'נא להזין שוב את סיסמתכם.'
+      password_repeat: 'נא להזין שוב את סיסמתכם.',
     },
 
     keyboard_shortcuts: {
@@ -1949,7 +1960,6 @@ module.exports = {
       toggle_grid: 'שינוי מצב של פריסת רשת.',
       toggle_pathfinding: 'שינוי מצב של פריסת מציאת מסלול.',
       beautify: 'כתבו קוד אלגנטי יותר באמצעות עיצוב מתוקנן.',
-      maximize_editor: 'הגדלה/כיווץ של עורך הקוד.'
     },
 
     //  cinematic: {
@@ -1973,7 +1983,7 @@ module.exports = {
       social_facebook: 'תנו ל-CodeCombat "לייק" ב-Facebook',
       social_twitter: 'עקבו אחרי CodeCombat ב-Twitter',
       social_slack: "שוחחו עמנו בצ'אט בערוץ ה-Slack הציבורי של CodeCombat",
-      contribute_to_the_project: 'תרמו לפרויקט'
+      contribute_to_the_project: 'תרמו לפרויקט',
     },
 
     clans: {
@@ -2036,7 +2046,7 @@ module.exports = {
       track_concepts6b: 'מיין חברים לפי שם או התקדמות',
       track_concepts7: 'נדרשת הזמנה',
       track_concepts8: 'כדי להצטרף',
-      private_require_sub: 'נדרש מנוי כדי ליצור שבטים פרטיים או להצטרף אליהם.'
+      private_require_sub: 'נדרש מנוי כדי ליצור שבטים פרטיים או להצטרף אליהם.',
     },
 
     courses: {
@@ -2225,7 +2235,7 @@ module.exports = {
       update_old_classroom: 'שנת לימודים חדשה, שלבים חדשים!',
       update_old_classroom_detail: 'בכדי לוודא שאתם מקבלים את השלבים המעודכנים ביותר, וודא שאתם יוצרים כתה חדשה לסמסטר הנוכחי, על ידי לחיצה על ״צור כיתה חדשה״',
       teacher_dashboard: 'על לוח המחוונים למורה',
-      update_old_classroom_detail_2: 'והעבר/י לתלמידים את קוד הכיתה החדש שמופיע'
+      update_old_classroom_detail_2: 'והעבר/י לתלמידים את קוד הכיתה החדש שמופיע',
       //    view_assessments: "View Assessments",
       //    view_challenges: "view challenge levels",
       //    challenge: "Challenge:",
@@ -2284,7 +2294,7 @@ module.exports = {
     project_gallery: {
       no_projects_published: 'פרסמו פרויקט בקורס זה לפני כולם!',
       view_project: 'הצג פרויקט',
-      edit_project: 'עריכת פרויקט'
+      edit_project: 'עריכת פרויקט',
     },
 
     teacher: {
@@ -2651,7 +2661,7 @@ module.exports = {
       //    time_played_label: "Time Spent:",
       back_to_resource_hub: 'חזרה למרכז המשאבים',
       //    back_to_course_guides: "Back to Course Guides",
-      print_guide: 'הדפס מדריך זה'
+      print_guide: 'הדפס מדריך זה',
       //    combo: "Combo",
       //    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot.",
       //    concept: "Concept",
@@ -2767,7 +2777,7 @@ module.exports = {
       one_license_used: '(רישיון אחד בשימוש)',
       licenses_used: '(__licensesUsed__ רישיונות בשימוש)',
       //    licenses_used_no_braces: "__licensesUsed__/__all__ licenses used",
-      more_info: 'מידע נוסף'
+      more_info: 'מידע נוסף',
       //    shared_pool_label: "Teachers in your shared pool:",
       //    teacher_delete_warning: "The shared licenses assigned to the teacher won't be revoked!",
       //    licenses_limit: "Licenses Limit:",
@@ -2789,7 +2799,7 @@ module.exports = {
       victory_course_share_game: 'לשחק במשחק',
       victory_course_share_web: 'לצפות בדף האינטרנט',
       victory_course_share_suffix: 'שיצרתם כעת.',
-      copy_url: 'העתק כתובת URL'
+      copy_url: 'העתק כתובת URL',
       //    share_with_teacher_email: "Send to your teacher",
       //    share_ladder_link: "Share Multiplayer Link",
       //    ladder_link_title: "Share Your Multiplayer Match Link",
@@ -2797,7 +2807,7 @@ module.exports = {
     },
 
     game_dev: {
-      creator: 'יוצר'
+      creator: 'יוצר',
     },
 
     web_dev: {
@@ -2813,7 +2823,7 @@ module.exports = {
       how_to_copy_paste: 'כיצד להעתיק/להדביק',
       copy: 'העתק',
       paste: 'הדבק',
-      back_to_editing: 'בחזרה לעריכה'
+      back_to_editing: 'בחזרה לעריכה',
     },
 
     classes: {
@@ -2835,7 +2845,7 @@ module.exports = {
       ambassador_title: 'שגריר',
       ambassador_title_description: '(תמיכה)',
       ambassador_summary: 'רסנו את משתמשי הפורום שלנו, וספקו הכוונה עבור אלה שיש להם שאלות. השגרירים שלנו מייצגים את CodeCombat מול העולם.',
-      teacher_title: 'מורה'
+      teacher_title: 'מורה',
     },
 
     editor: {
@@ -2871,6 +2881,7 @@ module.exports = {
       fork_title: 'פיצול לגרסה חדשה',
       fork_creating: 'יוצר פיצול...',
       generate_terrain: 'הפק שטח',
+      //    generate_level: "Generate Level",
       more: 'עוד',
       wiki: 'ויקי',
       live_chat: "צ'אט חי",
@@ -2974,18 +2985,18 @@ module.exports = {
       tasks: 'משימות',
       clear_storage: 'נקו שינויים מקומיים שלכם',
       add_system_title: 'הוספת מערכות לשלב',
-      done_adding: 'ההוספה הסתיימה'
+      done_adding: 'ההוספה הסתיימה',
       //    product: "Product",
       //    link: "Link",
     },
 
     article: {
       edit_btn_preview: 'תצוגה מקדימה',
-      edit_article_title: 'עריכת מאמר'
+      edit_article_title: 'עריכת מאמר',
     },
 
     polls: {
-      priority: 'עדיפות'
+      priority: 'עדיפות',
     },
 
     contribute: {
@@ -3056,7 +3067,7 @@ module.exports = {
       creative_artisans: 'בעלי המלאכה היצירתיים:',
       brave_adventurers: 'ההרפתקנים האמיצים:',
       translating_diplomats: 'הדיפלומטים המתרגמים:',
-      helpful_ambassadors: 'השגרירים המועילים:'
+      helpful_ambassadors: 'השגרירים המועילים:',
     },
 
     ladder: {
@@ -3130,7 +3141,7 @@ module.exports = {
       //    loss_num: "Losses",
       //    win_rate: "Win %",
       humans: 'אדום',
-      ogres: 'כחול'
+      ogres: 'כחול',
       //    live_tournament: "Live Tournament",
       //    awaiting_tournament_title: "Tournament Inactive",
       //    awaiting_tournament_blurb: "The tournament arena is not currently active.",
@@ -3160,7 +3171,7 @@ module.exports = {
       no_achievements: 'טרם הוגשמו הישגים.',
       favorite_prefix: 'השפה המועדפת היא ',
       favorite_postfix: '.',
-      not_member_of_clans: 'עדיין לא חבר בשום שבטים.'
+      not_member_of_clans: 'עדיין לא חבר בשום שבטים.',
       //    certificate_view: "view certificate",
       //    certificate_click_to_view: "click to view certificate",
       //    certificate_course_incomplete: "course incomplete",
@@ -3195,7 +3206,7 @@ module.exports = {
       new_xp_postfix: ' הושגו',
       left_xp_prefix: '',
       left_xp_infix: ' עד דרגה ',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     account: {
@@ -3232,7 +3243,7 @@ module.exports = {
       email_sent: 'הודעת דואר אלקטרוני נשלחה! בדקו בתיבת הדואר הנכנס.',
       verifying_email: 'מאמת כתובת דואר אלקטרוני...',
       successfully_verified: 'וידאתם בהצלחה את כתובת הדואר האלקטרוני!',
-      verify_error: 'אירעה בעיה כלשהי בעת אימות כתובת הדואר האלקטרוני :('
+      verify_error: 'אירעה בעיה כלשהי בעת אימות כתובת הדואר האלקטרוני :(',
       //    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?",
       //    unsubscribe_button: "Yes, unsubscribe",
       //    unsubscribe_failed: "Failed",
@@ -3248,7 +3259,7 @@ module.exports = {
       pay: 'שלם חשבונית',
       purchasing: 'מבצע רכישה...',
       retrying: 'אירעה שגיאה בשרת, מנסה שוב.',
-      success: 'התשלום בוצע בהצלחה. תודה!'
+      success: 'התשלום בוצע בהצלחה. תודה!',
     },
 
     account_prepaid: {
@@ -3273,7 +3284,7 @@ module.exports = {
       no_codes: 'עדיין אין קודים!',
       you_can1: 'באפשרותך',
       you_can2: 'לרכוש קוד בתשלום מראש',
-      you_can3: 'אשר ניתן להחיל על חשבונך או לתת למשתמשים אחרים.'
+      you_can3: 'אשר ניתן להחיל על חשבונך או לתת למשתמשים אחרים.',
       //    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account.",
       //    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times.",
       //    prepaid_applied_success: "Prepaid applied to your account!",
@@ -3368,7 +3379,7 @@ module.exports = {
       server_error: 'שגיאה בשרת.',
       unknown: 'שגיאה לא ידועה',
       error: 'שגיאה',
-      general_desc: 'משהו השתבש, וזה כנראה באשמתנו. נסו להמתין מעט ולאחר מכן לרענן את הדף. לחלופין, בקרו באחד הקישורים שלהלן כדי לחזור לתכנות!'
+      general_desc: 'משהו השתבש, וזה כנראה באשמתנו. נסו להמתין מעט ולאחר מכן לרענן את הדף. לחלופין, בקרו באחד הקישורים שלהלן כדי לחזור לתכנות!',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
     },
@@ -3382,7 +3393,7 @@ module.exports = {
       component: 'רכיב',
       components: 'רכיבים',
       hero: 'גיבור',
-      campaigns: 'מערכות'
+      campaigns: 'מערכות',
     },
 
     concepts: {
@@ -3518,7 +3529,7 @@ module.exports = {
       basic_game_ai: 'AI משחק בסיסי',
       basic_javascript: 'JavaScript בסיסי',
       basic_event_handling: 'טיפול בסיסי באירועים',
-      create_sharable_interactive_web_page: 'יצירת דף אינטרנט אינטראקטיבי שניתן לשתף'
+      create_sharable_interactive_web_page: 'יצירת דף אינטרנט אינטראקטיבי שניתן לשתף',
       //    iteration: "Iteration",
       //    nesting: "Nesting",
       //    data_types: "Data Types",
@@ -3549,7 +3560,7 @@ module.exports = {
       moved_index: 'אינדקס הועבר',
       text_diff: 'הבדל טקסט',
       merge_conflict_with: 'מזג התנגשות עם',
-      no_changes: 'ללא שינויים'
+      no_changes: 'ללא שינויים',
     },
 
     legal: {
@@ -3607,7 +3618,7 @@ module.exports = {
       //    nutshell_see_also: "See also:",
       canonical: 'הגרסה באנגלית של מסמך זה היא הגרסה הקובעת והקנונית. במקרה של אי התאמות כלשהן בין התרגומים, יגבר המסמך באנגלית.',
       third_party_title: 'שירותי צד שלישי',
-      third_party_description: 'CodeCombat משתמש בשירותי הצד השלישי שלהלן (בין השאר):'
+      third_party_description: 'CodeCombat משתמש בשירותי הצד השלישי שלהלן (בין השאר):',
       //    cookies_message: "CodeCombat uses a few essential and non-essential cookies.",
       //    cookies_deny: "Decline non-essential cookies",
       //    cookies_allow: "Allow cookies",
@@ -3631,7 +3642,7 @@ module.exports = {
       one_month_coupon: 'קופון: בחרו Rails או HTML',
       one_month_discount: '30% הנחה: בחרו Rails או HTML',
       license: 'רישיון',
-      oreilly: 'ספר אלקטרוני לבחירתכם'
+      oreilly: 'ספר אלקטרוני לבחירתכם',
     },
 
     calendar: {
@@ -3649,7 +3660,7 @@ module.exports = {
       september: 'ספטמבר',
       october: 'אוקטובר',
       november: 'נובמבר',
-      december: 'דצמבר'
+      december: 'דצמבר',
     },
 
     code_play_create_account_modal: {
@@ -3657,12 +3668,12 @@ module.exports = {
       body: 'כעת תוכלו לצאת לדרך להפיכה לאשפי קידוד. הירשמו כדי לקבל <strong>100 אבני חן</strong> נוספות, ותזכו גם בהזדמנות <strong>לזכות ב-$2,500 ובפרסים נוספים של Lenovo</strong>.',
       sign_up: 'הירשמו והמשיכו לקודד ▶',
       victory_sign_up_poke: 'צרו חשבון בחינם כדי לשמור את הקוד שלכם, וקבלו הזדמנות לזכות בפרסים!',
-      victory_sign_up: 'הירשמו כדי לקבל הזדמנות לזכות ב-<strong>$2,500</strong>'
+      victory_sign_up: 'הירשמו כדי לקבל הזדמנות לזכות ב-<strong>$2,500</strong>',
     },
 
     server_error: {
       email_taken: 'כתובת הדואר האלקטרוני תפוסה',
-      username_taken: 'שם המשתמש כבר תפוס'
+      username_taken: 'שם המשתמש כבר תפוס',
       //    easy_password: "Password is too easy to guess",
       //    reused_password: "Password cannot be reused",
     },
@@ -3682,7 +3693,7 @@ module.exports = {
       py_empty_block: '$1 ריק. הציבו 4 תווי רווח לפני הפסוק בתוך $2.',
       fx_missing_paren: "אם ברצונכם לקרוא אל '$1` בתור פונקציה יש צורך ב-`()`",
       unmatched_token: "'$1' ללא התאמה.  Every opening `$2` needs a closing `$3` to match it.",
-      unterminated_string: "מחרוזת לא גמורה. הוסיפו '\"' תואם בסיום המחרוזת."
+      unterminated_string: "מחרוזת לא גמורה. הוסיפו '\"' תואם בסיום המחרוזת.",
       //    missing_semicolon: "Missing semicolon.",
       //    missing_quotes: "Missing quotes. Try `$1`",
       //    argument_type: "`$1`'s argument `$2` should have type `$3`, but got `$4`: `$5`.",
@@ -3791,7 +3802,7 @@ module.exports = {
       //    error_no_arg_to_dereference: "No argument to dereference.",
       //    error_try_dereference_non: "Tried to dereference non pointer.",
       //    error_no_arg_to_alloc: "No argument to alloc.",
-    }
+    },
 
     //  apcsp: {
     //    title: "AP Computer Science Principals | College Board Endorsed",
@@ -4490,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",

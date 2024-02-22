@@ -1,0 +1,43 @@
+.blockly-container
+  z-index: 4
+
+  .blocklyTreeLabel
+    font-size: 12px
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace
+
+  .blocklySvg
+    background-color: rgba(31, 31, 31, 0.1)
+
+  .blocklyScrollbarHandle
+    fill: #555
+
+  .blocklyScrollbarBackground:hover + .blocklyScrollbarHandle, .blocklyScrollbarHandle:hover
+    fill: #111
+
+  // Not using zoom anyway
+  // .blocklyZoom > image, image.zoomToFit
+  //   opacity: .6
+  //
+  // .blocklyZoom > image:hover, image.zoomToFit:hover
+  //   opacity: .9
+  //
+  // .blocklyZoom > image:active, image.zoomToFit:active
+  //   opacity: 1.0
+  //
+  // @media screen and (max-width: 1376px)
+  //   .blocklyZoom, image.zoomToFit
+  //     // Hide these on narrow screens to avoid overlapping code
+  //     display: none
+
+  .blocklyToolboxDiv
+    //max-width: 150px  // Don't get too wide with long method names
+    max-width: 0  // Just hide it, continuous flyout makes it unnecessary
+
+  .blocklyMainBackground
+    stroke-width: 0
+
+  .injectionDiv.coco-dark-theme
+    .comment-block
+      font-family: "Open Sans Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif
+      font-size: 12px
+

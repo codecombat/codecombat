@@ -299,7 +299,7 @@ module.exports = {
       //    ozaria_blurb: "An adventure game and Computer Science program where students master the lost magic of coding to save their world. Recommended for educators and students.",
       //    ozaria_china_blurb: "",
       try_codecombat: 'Chơi thử CodeCombat',
-      try_ozaria: 'Chơi thử Ozaria'
+      try_ozaria: 'Chơi thử Ozaria',
       //    explore_codecombat: "Explore CodeCombat",
       //    explore_ai_league: "Explore AI League",
       //    explore_ozaria: "Explore Ozaria",
@@ -412,7 +412,7 @@ module.exports = {
       new: 'Mới!',
       admin: 'Quản lý',
       //    api: "API",
-      api_dashboard: 'Quản lý API'
+      api_dashboard: 'Quản lý API',
       //    funding_resources_guide: "Funding Resources Guide",
       //    partnerships: "Partnerships",
       //    podcast: "Our Podcast",
@@ -431,12 +431,12 @@ module.exports = {
     modal: {
       close: 'Đóng',
       okay: 'Đồng ý',
-      cancel: 'Huỷ'
+      cancel: 'Huỷ',
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Không tìm thấy trang này'
+      page_not_found: 'Không tìm thấy trang này',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'Chúng tôi xây dựng CodeCombat bằng Tiếng Anh, tuy nhiên có rất nhiều bạn trẻ trên toàn thế giới đều muốn tham gia. Các bạn trẻ Việt Nam cũng muốn chơi với nội dung Tiếng Việt, nếu như bạn có thể đọc và viết thành thạo cả 2 ngôn ngữ xin hãy đăng kí làm dịch thuật cho chúng tôi.',
       missing_translations: 'Bạn sẽ tiếp tục thấy Tiếng Anh cho đến khi chúng tôi dịch tất cả nội dung qua Tiếng Việt.',
       learn_more: 'Tìm hiểu thêm để tham gia trở thành Phiên Dịch Viên',
-      subscribe_as_diplomat: 'Trở thành Phiên Dịch Viên'
+      subscribe_as_diplomat: 'Trở thành Phiên Dịch Viên',
     },
 
     //  new_home_faq: {
@@ -530,8 +530,9 @@ module.exports = {
       awaiting_levels_adventurer: 'Đăng kí làm Nhà Thám Hiểm',
       awaiting_levels_adventurer_suffix: 'để trở thành những người đầu tiên chơi những bàn mới.',
       adjust_volume: 'Tùy chỉnh âm lượng',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Đấu trường thi đấu',
-      campaign_multiplayer_description: '... nơi mà bạn đối đầu với người chơi khác.'
+      campaign_multiplayer_description: '... nơi mà bạn đối đầu với người chơi khác.',
       //    brain_pop_done: "You’ve defeated the Ogres with code! You win!",
       //    brain_pop_challenge: "Challenge yourself to play again using a different programming language!",
       //    replay: "Replay",
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Nhập địa chỉ email của người bạn muốn chia sẻ.',
       form_label: 'Địa chỉ Email',
       placeholder: 'địa chỉ email',
-      title: 'Làm tốt lắm, Thực Tập Viên!'
+      title: 'Làm tốt lắm, Thực Tập Viên!',
     },
 
     login: {
@@ -627,7 +628,7 @@ module.exports = {
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
       //    individual_users_not_supported: "Ozaria is for classrooms only!  Please visit CodeCombat to continue playing!",
-      accounts_merge_confirmation: 'Đã có một tài khoản sử dụng email Google này. Em có muốn nhập hai tài khoản vào làm một không?'
+      accounts_merge_confirmation: 'Đã có một tài khoản sử dụng email Google này. Em có muốn nhập hai tài khoản vào làm một không?',
       //    stop_spying: "Stop Spying",
       //    stop_switching: "Stop Switching",
       //    test_as_student: "Test as Student",
@@ -743,14 +744,14 @@ module.exports = {
       want_to_play_codecombat: 'Em không có Mật Khẩu gì cả, nhưng em vẫn muốn chơi',
       have_a_classcode: 'Em có Mật Khẩu của lớp không?',
       yes_i_have_classcode: 'Có, em có Mật Khẩu lớp đây!',
-      enter_it_here: 'Nhập vào đây:'
+      enter_it_here: 'Nhập vào đây:',
       //    play_without_saving: "Play without saving",
     },
 
     recover: {
       recover_account_title: 'Khôi phục tài khoản',
       send_password: 'Gởi mật mã khôi phục',
-      recovery_sent: 'Đã gửi email giúp bạn khôi phục mật khẩu.'
+      recovery_sent: 'Đã gửi email giúp bạn khôi phục mật khẩu.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Áo giáp',
       accessories: 'Phụ kiện',
       misc: 'Khác',
-      books: 'Sách'
+      books: 'Sách',
     },
 
     common: {
@@ -798,7 +799,7 @@ module.exports = {
       submit_patch: 'Submit bản patch',
       submit_changes: 'Submit thay đổi',
       save_changes: 'Lưu thay dổi',
-      required_field: 'Thông tin bắt buộc'
+      required_field: 'Thông tin bắt buộc',
       //    submit: "Submit",
       //    replay: "Replay",
       //    complete: "Complete",
@@ -871,7 +872,7 @@ module.exports = {
       last_initial: 'Tên đệm',
       username: 'Tên đăng nhập',
       contact_us: 'Liên Hệ',
-      close_window: 'Đóng cửa sổ'
+      close_window: 'Đóng cửa sổ',
       //    learn_more: "Learn More",
       //    more: "More",
       //    fewer: "Fewer",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'tháng',
       months: 'tháng',
       year: 'năm',
-      years: 'năm'
+      years: 'năm',
     },
 
     play_level: {
@@ -1082,7 +1083,7 @@ module.exports = {
       tip_luna_lovegood: 'Đừng lo, bạn cũng không điên giống tôi thôi. - Luna Lovegood',
       tip_good_idea: 'Cách tốt nhất để có một ý tưởng tốt là phải có cho mình thật nhiều ý tưởng. - Linus Pauling',
       tip_programming_not_about_computers: 'Công nghệ thông tin không còn chỉ liên quan đến máy tính cũng giống như thiên văn học đối với kinh thiên văn vậy. - Edsger Dijkstra',
-      tip_mulan: 'Cứ tin là bạn có thể, rồi bạn sẽ làm được. - Mulan'
+      tip_mulan: 'Cứ tin là bạn có thể, rồi bạn sẽ làm được. - Mulan',
       //    project_complete: "Project Complete!",
       //    share_this_project: "Share this project with friends or family:",
       //    ready_to_share: "Ready to publish your project?",
@@ -1212,6 +1213,7 @@ module.exports = {
       inventory_tab: 'Hành Trang',
       save_load_tab: 'Lưu/đọc',
       options_tab: 'Tùy chỉnh',
+      //    my_code_tab: "My Code",
       guide_tab: 'Hướng dẫn',
       guide_video_tutorial: 'Video hướng dẫn',
       guide_tips: 'Mẹo',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Trang bị cho nhân vật của bạn',
       choose_hero_caption: 'Chọn tướng, ngôn ngữ',
       options_caption: 'Cài đặt tùy chỉnh',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Tài liệu và hướng dẫn',
       multiplayer_caption: 'Chơi với bạn!',
-      auth_caption: 'Lưu tiến trình của bạn.'
+      auth_caption: 'Lưu tiến trình của bạn.',
     },
 
     leaderboard: {
@@ -1237,7 +1240,7 @@ module.exports = {
       damage_taken: 'Sát thương nhận vào',
       damage_dealt: 'Mức Sát Thương',
       difficulty: 'Độ khó',
-      gold_collected: 'Vàng đã thu thập'
+      gold_collected: 'Vàng đã thu thập',
       //    survival_time: "Survived",
       //    defeated: "Enemies Defeated",
       //    code_length: "Lines of Code",
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: 'Cởi ra',
       warrior_only: 'Chỉ dành cho Chiến binh',
       ranger_only: 'Chỉ dành cho Xạ thủ',
-      wizard_only: 'Chỉ dành cho Phù thuỷ'
+      wizard_only: 'Chỉ dành cho Phù thuỷ',
     },
 
     buy_gems: {
@@ -1271,7 +1274,7 @@ module.exports = {
       prompt_body: 'Ban có muốn nhiều ngọc hơn không?',
       prompt_button: 'Vào cửa hàng',
       recovered: 'Ngọc đã được hoàn trả. Vui lòng refresh lại trang.',
-      price: 'x{{gems}} / tháng'
+      price: 'x{{gems}} / tháng',
       //    buy_premium: "Buy Premium",
       //    purchase: "Purchase",
       //    purchased: "Purchased",
@@ -1321,7 +1324,7 @@ module.exports = {
       current_recipients: 'Người nhận',
       unsubscribing: 'Đang hủy gói dịch vụ',
       subscribe_prepaid: 'Nhấn Subscribe để sử dụng mã mua hàng',
-      using_prepaid: 'Sử dụng mã mua hàng để mua gói dịch vụ tháng'
+      using_prepaid: 'Sử dụng mã mua hàng để mua gói dịch vụ tháng',
       //    feature_level_access: "Access 500+ levels available",
       //    feature_heroes: "Unlock exclusive heroes and pets",
       //    feature_learn: "Learn to make games and websites",
@@ -1444,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Ngôn ngữ được ưa chuông để làm game.',
       //    java_blurb: "(Subscriber Only) Android and enterprise.",
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Tình trạng',
       weapons: 'Vũ khí',
       weapons_warrior: 'Kiếm - Tầm ngắn, Không có phép thuật',
@@ -1467,7 +1479,7 @@ module.exports = {
       speed_2: 'mét trên giây.',
       available_for_purchase: 'Có thể mua',
       level_to_unlock: 'Yêu cầu cấp độ:',
-      restricted_to_certain_heroes: 'Chỉ một số tướng chơi được màn chơi này.'
+      restricted_to_certain_heroes: 'Chỉ một số tướng chơi được màn chơi này.',
     },
 
     //  char_customization_modal: {
@@ -1500,7 +1512,7 @@ module.exports = {
       example: 'Ví dụ',
       ex: 'VD',
       current_value: 'Giá trị hiện tại',
-      default_value: 'Giá trị mặc định'
+      default_value: 'Giá trị mặc định',
       //    parameters: "Parameters",
       //    required_parameters: "Required Parameters",
       //    optional_parameters: "Optional Parameters",
@@ -1512,7 +1524,7 @@ module.exports = {
 
     save_load: {
       granularity_saved_games: 'Đã lưu',
-      granularity_change_history: 'Lịch sử'
+      granularity_change_history: 'Lịch sử',
     },
 
     options: {
@@ -1529,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Hỗ trợ căn lề',
       editor_config_indentguides_description: 'Hiển thị các đường dọc hỗ trợ việc căn lề.',
       editor_config_behaviors_label: 'Hỗ trợ thông minh',
-      editor_config_behaviors_description: 'Tự động hoàn thiện đóng ngoặc tròn, đóng ngoặc nhọn, đóng quote.'
+      editor_config_behaviors_description: 'Tự động hoàn thiện đóng ngoặc tròn, đóng ngoặc nhọn, đóng quote.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1659,7 +1671,7 @@ module.exports = {
       character_art: 'Ảnh nhân vật',
       download_all: 'Tải Xuống Tất Cả',
       previous: 'Trước',
-      location_title: 'Chúng tôi đóng quân tại trung tâm thành phố SF:'
+      location_title: 'Chúng tôi đóng quân tại trung tâm thành phố SF:',
     },
 
     //  teachers: {
@@ -1690,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1846,7 +1857,7 @@ module.exports = {
       create_account: 'Tạo tài khoản Giáo VIên',
       //    create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!",
       convert_account_title: 'Năng cấp lên tài khoản Giáo Viên',
-      not: 'Không phải'
+      not: 'Không phải',
       //    full_name_required: "First and last name required",
     },
 
@@ -1857,7 +1868,7 @@ module.exports = {
       cla_prefix: 'Để lưu thay đổi, bạn phải chấp thuận văn bản',
       cla_url: 'CLA',
       cla_suffix: 'với chúng tôi',
-      cla_agree: 'TÔI ĐỒNG Ý'
+      cla_agree: 'TÔI ĐỒNG Ý',
       //    owner_approve: "An owner will need to approve it before your changes will become visible.",
     },
 
@@ -1875,7 +1886,7 @@ module.exports = {
       subscriber_support: 'Vì bạn đã mua dịch vụ của CodeCombat, email của bạn sẽ được ưu tiên hỗ trợ.',
       screenshot_included: 'Bao gồm ảnh chụp màn hình.',
       where_reply: 'Chúng tôi nên trả lời cho ai?',
-      send: 'Gửi phản hồi'
+      send: 'Gửi phản hồi',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1927,7 +1938,7 @@ module.exports = {
       error_saving: 'Lỗi lưu',
       saved: 'Thay đổi được lưu',
       password_mismatch: 'Mật khẩu không khớp.',
-      password_repeat: 'Hãy nhập lại mật khẩu của bạn một lần nữa.'
+      password_repeat: 'Hãy nhập lại mật khẩu của bạn một lần nữa.',
     },
 
     keyboard_shortcuts: {
@@ -1949,7 +1960,6 @@ module.exports = {
       //    toggle_grid: "Toggle grid overlay.",
       //    toggle_pathfinding: "Toggle pathfinding overlay.",
       //    beautify: "Beautify your code by standardizing its formatting.",
-      maximize_editor: 'Phong to/thu nhỏ trình soạn thảo code.'
     },
 
     //  cinematic: {
@@ -1973,7 +1983,7 @@ module.exports = {
       social_facebook: 'Thích trang Facebook của CodeCombat',
       social_twitter: 'Theo dõi CodeCombat trên Twitter',
       social_slack: 'Chat với chúng tôi trên kênh Slack của CodeCombat',
-      contribute_to_the_project: 'Đóng góp vào dự án'
+      contribute_to_the_project: 'Đóng góp vào dự án',
     },
 
     clans: {
@@ -2036,7 +2046,7 @@ module.exports = {
       track_concepts6b: 'Sắp xếp thành viên theo tên hoặc tiến trình',
       track_concepts7: 'Yêu cầu lời mời',
       track_concepts8: 'để tham gia',
-      private_require_sub: 'Các Clan kín cần mua subscription để tạo hoặc tham gia.'
+      private_require_sub: 'Các Clan kín cần mua subscription để tạo hoặc tham gia.',
     },
 
     courses: {
@@ -2163,7 +2173,7 @@ module.exports = {
       //    minutes_per_class: "minutes per class",
       create_class: 'Tạo Lớp',
       class_name: 'Tên lớp',
-      teacher_account_restricted: 'Tài khoản của bạn là tài khoản Giáo Viên, vì thế bạn không thể truy cập nội dung dành cho học viên.'
+      teacher_account_restricted: 'Tài khoản của bạn là tài khoản Giáo Viên, vì thế bạn không thể truy cập nội dung dành cho học viên.',
       //    account_restricted: "A student account is required to access this page.",
       //    update_account_login_title: "Log in to update your account",
       //    update_account_title: "Your account needs attention!",
@@ -2471,7 +2481,7 @@ module.exports = {
       //    curriculum: "Curriculum",
       //    lesson_slides: "Lesson Slides",
       //    section: "Section",
-      educator_faq: 'Câu hỏi thường gặp'
+      educator_faq: 'Câu hỏi thường gặp',
       //    educator_faq_desc: "Frequently asked questions about using Ozaria in your classroom or school.",
       //    teacher_getting_started: "Teacher Getting Started Guide",
       //    teacher_getting_started_desc: "New to Ozaria? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first unit.",
@@ -2835,7 +2845,7 @@ module.exports = {
       ambassador_title: 'Đại Sứ',
       ambassador_title_description: '(Hỗ Trợ Khách Hàng)',
       ambassador_summary: 'Trò chuyện với những thành viện trong diễn đàn và trả lời những thắc mắc. Đoàn Đại Sứ của chúng tôi là bộ mặt đại diện của CodeCombat tới thế giới.',
-      teacher_title: 'Giáo Viên'
+      teacher_title: 'Giáo Viên',
     },
 
     editor: {
@@ -2871,6 +2881,7 @@ module.exports = {
       fork_title: 'Fork phiên bản mới',
       fork_creating: 'Đang tạo Fork...',
       //    generate_terrain: "Generate Terrain",
+      //    generate_level: "Generate Level",
       more: 'Thêm',
       wiki: 'Wiki',
       live_chat: 'Live Chat',
@@ -2891,7 +2902,7 @@ module.exports = {
       //    add_components: "Add Components",
       //    component_configs: "Component Configurations",
       //    config_thang: "Double click to configure a thang",
-      delete: 'Xóa'
+      delete: 'Xóa',
       //    duplicate: "Duplicate",
       //    stop_duplicate: "Stop Duplicate",
       //    rotate: "Rotate",
@@ -2981,11 +2992,11 @@ module.exports = {
 
     article: {
       edit_btn_preview: 'Xem trước',
-      edit_article_title: 'Sửa bài viết'
+      edit_article_title: 'Sửa bài viết',
     },
 
     polls: {
-      priority: 'Ưu tiên'
+      priority: 'Ưu tiên',
     },
 
     contribute: {
@@ -3056,7 +3067,7 @@ module.exports = {
       creative_artisans: 'Những Thợ Thủ Công đầy sáng tạo của chúng tôi:',
       brave_adventurers: 'Những Nhà Thám Hiểm dũng cảm của chúng tôi:',
       translating_diplomats: 'Những Nhà Ngoại Giao của chúng tôi: ',
-      helpful_ambassadors: 'Những Sứ Giả đầy hữu ích của chúng tôi:'
+      helpful_ambassadors: 'Những Sứ Giả đầy hữu ích của chúng tôi:',
     },
 
     ladder: {
@@ -3130,7 +3141,7 @@ module.exports = {
       //    loss_num: "Losses",
       //    win_rate: "Win %",
       humans: 'Đỏ',
-      ogres: 'Xanh'
+      ogres: 'Xanh',
       //    live_tournament: "Live Tournament",
       //    awaiting_tournament_title: "Tournament Inactive",
       //    awaiting_tournament_blurb: "The tournament arena is not currently active.",
@@ -3160,7 +3171,7 @@ module.exports = {
       no_achievements: 'Không có thành tích nào.',
       favorite_prefix: 'Ngôn ngữ lập trình ưa thích là ',
       favorite_postfix: '.',
-      not_member_of_clans: 'Không phải là thành viên của clan nào.'
+      not_member_of_clans: 'Không phải là thành viên của clan nào.',
       //    certificate_view: "view certificate",
       //    certificate_click_to_view: "click to view certificate",
       //    certificate_course_incomplete: "course incomplete",
@@ -3195,7 +3206,7 @@ module.exports = {
       new_xp_postfix: ' earned',
       left_xp_prefix: 'Cần thêm',
       left_xp_infix: ' để lên cấp',
-      left_xp_postfix: "'"
+      left_xp_postfix: "'",
     },
 
     account: {
@@ -3226,7 +3237,7 @@ module.exports = {
       next_payment: 'Giao Dịch Tiếp Theo',
       card: 'Thẻ',
       status_unsubscribed_active: 'Hiện tại bạn không đăng kí subcribe và sẽ không bị tính phí, nhưng tài khoản của bạn vẫn trong trạng thái active.',
-      status_unsubscribed: 'Tham gia những màn chơi mới, lựa chọn tướng mới, mặc những trang bị mới và nhận được ưu đãi gem hàng tháng bằng việc đăng kí CodeCombat subcription!'
+      status_unsubscribed: 'Tham gia những màn chơi mới, lựa chọn tướng mới, mặc những trang bị mới và nhận được ưu đãi gem hàng tháng bằng việc đăng kí CodeCombat subcription!',
       //    not_yet_verified: "Not yet verified.",
       //    resend_email: "Please save first then Resend email",
       //    email_sent: "Email sent! Check your inbox.",
@@ -3248,7 +3259,7 @@ module.exports = {
       pay: 'Thanh Toán Hóa Đơn',
       purchasing: 'Đang thanh toán...',
       retrying: 'Lỗi server, đang thử lại.',
-      success: 'Đã thanh toán thành công. Cảm ơn!'
+      success: 'Đã thanh toán thành công. Cảm ơn!',
     },
 
     account_prepaid: {
@@ -3273,7 +3284,7 @@ module.exports = {
       no_codes: 'Chưa có mã nào!',
       you_can1: 'Bạn có thể',
       you_can2: 'mua một mã trả trước',
-      you_can3: 'mà có thể áp dụng cho tài khoản của bạn hoặc gửi cho người khác.'
+      you_can3: 'mà có thể áp dụng cho tài khoản của bạn hoặc gửi cho người khác.',
       //    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account.",
       //    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times.",
       //    prepaid_applied_success: "Prepaid applied to your account!",
@@ -3368,7 +3379,7 @@ module.exports = {
       server_error: 'Lỗi server.',
       unknown: 'Lỗi không xác định',
       error: 'LỖI',
-      general_desc: 'Có lỗi xảy ra, và có thể là lỗi do chúng tôi. Hãy cố đợi một lát và tải lại trang, hoặc truy cập một trong số những đường link phía dưới để quay lại tiếp tục lập trình!'
+      general_desc: 'Có lỗi xảy ra, và có thể là lỗi do chúng tôi. Hãy cố đợi một lát và tải lại trang, hoặc truy cập một trong số những đường link phía dưới để quay lại tiếp tục lập trình!',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
     },
@@ -3382,7 +3393,7 @@ module.exports = {
       component: 'Component',
       components: 'Các component',
       hero: 'Tướng',
-      campaigns: 'Chiến dịch'
+      campaigns: 'Chiến dịch',
     },
 
     concepts: {
@@ -3516,7 +3527,7 @@ module.exports = {
       //    create_sharable_web_page: "Create a sharable web page",
       //    basic_input_handling: "Basic Input Handling",
       //    basic_game_ai: "Basic Game AI",
-      basic_javascript: 'JavaScript cơ bản'
+      basic_javascript: 'JavaScript cơ bản',
       //    basic_event_handling: "Basic Event Handling",
       //    create_sharable_interactive_web_page: "Create a sharable interactive web page",
       //    iteration: "Iteration",
@@ -3549,7 +3560,7 @@ module.exports = {
       //    moved_index: "Moved Index",
       //    text_diff: "Text Diff",
       //    merge_conflict_with: "MERGE CONFLICT WITH",
-      no_changes: 'Không Thay Đổi'
+      no_changes: 'Không Thay Đổi',
     },
 
     legal: {
@@ -3607,7 +3618,7 @@ module.exports = {
       //    nutshell_see_also: "See also:",
       canonical: 'Phiên bản tiếng Anh của tài liệu này là phiên bản chính xác, tiêu chuẩn. Nếu có sự khác biệt giữa các bản dịch, tài liệu tiếng Anh sẽ được sử dụng.',
       third_party_title: 'Dịch Vụ Bên Thứ Ba',
-      third_party_description: 'CodeCombat sử dụng những dịch vụ bên thứ ba sau (và một số dịch vụ khác nữa):'
+      third_party_description: 'CodeCombat sử dụng những dịch vụ bên thứ ba sau (và một số dịch vụ khác nữa):',
       //    cookies_message: "CodeCombat uses a few essential and non-essential cookies.",
       //    cookies_deny: "Decline non-essential cookies",
       //    cookies_allow: "Allow cookies",
@@ -3630,7 +3641,7 @@ module.exports = {
       //    credits: "credits",
       one_month_coupon: 'phiếu coupon: lụa chọn Rails hoặc HTML',
       one_month_discount: 'giảm giá, giảm 30%: lựa chọn Rails hoặc HTML',
-      license: 'giấy phép'
+      license: 'giấy phép',
       //    oreilly: "ebook of your choice",
     },
 
@@ -3649,7 +3660,7 @@ module.exports = {
       september: 'Tháng Chín',
       october: 'Tháng Mười',
       november: 'Tháng Mười Một',
-      december: 'Tháng Mười Hai'
+      december: 'Tháng Mười Hai',
     },
 
     //  code_play_create_account_modal: {
@@ -3738,7 +3749,7 @@ module.exports = {
       //    target_is_null_is: "Target is `$1`. Is there always a target to attack? (Use `$2`?)",
       hero_has_no_method: '`$1` không có hàm `$2`.',
       there_is_a_problem: 'Code của em đang sai gì đó rồi.',
-      did_you_mean: 'Ý em là $1? Nhưng mà em không có đồ nghề vũ khí nào phù hợp để làm cả.'
+      did_you_mean: 'Ý em là $1? Nhưng mà em không có đồ nghề vũ khí nào phù hợp để làm cả.',
       //    missing_a_quotation_mark: "Missing a quotation mark. ",
       //    missing_var_use_var: "Missing `$1`. Use `$2` to make a new variable.",
       //    you_do_not_have: "You do not have an item equipped with the `$1` skill.",
@@ -4215,7 +4226,7 @@ module.exports = {
       title: 'CodeCombat chạy ổn định nhất trên trình duyệt Chrome!',
       pitch_body: 'Hãy dùng trình duyệt Chrome bản cập nhật mới nhất để có được trải nghiệm tốt nhất. Ấn vào đây để tải trình duyệt bản mới nhất!',
       download: 'Tải trình duyệt Chrome',
-      ignore: 'Bỏ qua'
+      ignore: 'Bỏ qua',
     },
 
     //  admin: {
@@ -4490,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4783,10 +4794,10 @@ module.exports = {
       invalidEmail: 'Email không đúng',
       invalidPhone: 'Số điện thoại không đúng',
       emailExists: 'Email đã tồn tại trên hệ thống',
-      numberGreaterThanZero: 'Số này phải lớn hơn 0'
+      numberGreaterThanZero: 'Số này phải lớn hơn 0',
       //    requireValidEmail: "Please enter a valid email address.",
       //    requireValidPhone: "Please enter a valid phone number, including area code.",
-    }
+    },
 
     //  partners: {
     //    for: "for",

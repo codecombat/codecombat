@@ -29,9 +29,12 @@ module.exports = {
     lscache: 'readonly',
     tv4: 'readonly',
     TreemaUtils: 'readonly',
+    TreemaObjectNode: 'readonly',
+    TreemaArrayNode: 'readonly',
     CoffeeScript: 'readonly',
     i18n: 'readonly',
-    marked: 'readonly'
+    marked: 'readonly',
+    key: 'readonly'
   },
 
   env: {
@@ -51,7 +54,9 @@ module.exports = {
       switchCase: 0,
       ignores: []
     }],
-    'vue/comment-directive': 1
+    'vue/comment-directive': 1,
+    'eol-last': 'off', // Disables the enforcement for having no newline at the end of files
+    'comma-dangle': ['error', 'only-multiline'],
   },
 
   ignorePatterns: [

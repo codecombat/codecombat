@@ -290,7 +290,7 @@ module.exports = {
       go_to_courses: 'Ga naar mijn cursussen',
       want_coco: 'Wil je CodeCombat op jouw school?',
       educator: 'Onderwijzer',
-      student: 'Student'
+      student: 'Student',
       //    go_to_my_dashboard: "Go to My Dashboard",
       //    our_coding_programs: "Our Coding Programs",
       //    codecombat: "CodeCombat",
@@ -399,7 +399,7 @@ module.exports = {
       //    classes: "Classes",
       //    term_of_service: "Terms of Service",
       //    esports: "Esports",
-      browser_recommendation: 'Voor de beste ervaring raden we aan de nieuwste versie van Chrome te gebruiken. Download de browser hier!'
+      browser_recommendation: 'Voor de beste ervaring raden we aan de nieuwste versie van Chrome te gebruiken. Download de browser hier!',
       //    ozaria_classroom: "Ozaria Classroom",
       //    codecombat_classroom: "CodeCombat Classroom",
       //    ozaria_dashboard: "Ozaria Dashboard",
@@ -431,12 +431,12 @@ module.exports = {
     modal: {
       close: 'Sluiten',
       okay: 'Oké',
-      cancel: 'Annuleer'
+      cancel: 'Annuleer',
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Pagina niet gevonden'
+      page_not_found: 'Pagina niet gevonden',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'We ontwikkelen CodeCombat in het Engels, maar we hebben al spelers van over de hele wereld. Veel van hen willen in het Nederlands spelen, maar kunnen geen Engels. Dus als je beiden talen spreekt, overweeg a.u.b. om je aan te melden als Diplomaat en help zowel de CodeCombat website als alle levels te vertalen naar het Nederlands.',
       missing_translations: 'Totdat we alles hebben vertaald naar het Nederlands zul je Engels zien waar Nederlands niet beschikbaar is.',
       learn_more: 'Meer informatie over Diplomaat zijn',
-      subscribe_as_diplomat: 'Abonneren als Diplomaat'
+      subscribe_as_diplomat: 'Abonneren als Diplomaat',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Schrijf je in als Avonturier',
       awaiting_levels_adventurer_suffix: 'om de eerste te zijn die nieuwe levels speelt.',
       adjust_volume: 'Volume aanpassen',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: "Multiplayer Arena's",
       campaign_multiplayer_description: '... waarin je direct tegen andere spelers speelt.',
       brain_pop_done: 'Je hebt de ogres verslagen met code! Jij wint!',
@@ -537,7 +538,7 @@ module.exports = {
       replay: 'Herstart',
       back_to_classroom: 'Terug naar Klaslokaal',
       teacher_button: 'Voor leerkrachten',
-      get_more_codecombat: 'Ga door met CodeCombat'
+      get_more_codecombat: 'Ga door met CodeCombat',
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
       //    customize_hero: "Customize Hero",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'ongedefinieerd',
       null: 'nul',
       nil: 'nihil',
-      None: 'Geen'
+      None: 'Geen',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Vul het e-mailadres van je ouders hieronder in en we zullen het ze laten zien!',
       form_label: 'E-mailadres',
       placeholder: 'e-mailadres',
-      title: 'Goed werk, leerling'
+      title: 'Goed werk, leerling',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: 'Voltooien',
       sign_in_with_facebook: 'Inloggen met Facebook',
       sign_in_with_gplus: 'Inloggen met G+',
-      signup_switch: 'Account aanmaken?'
+      signup_switch: 'Account aanmaken?',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -721,7 +722,7 @@ module.exports = {
       eu_confirmation: 'Ik ga ermee akkoord dat CodeCombat mijn data op US servers bewaart.',
       eu_confirmation_place_of_processing: "Lees meer over mogelijke risico's.",
       eu_confirmation_student: 'Als je het niet zeker weet, vraag het dan aan je leraar.',
-      eu_confirmation_individual: 'Als je niet wilt dat we je data op US servers bewaren, kun je altijd anoniem spelen zonder je code te bewaren.'
+      eu_confirmation_individual: 'Als je niet wilt dat we je data op US servers bewaren, kun je altijd anoniem spelen zonder je code te bewaren.',
       //    request_class_code: "Students, request a Class Code from your Teacher to create an Account!",
       //    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!",
       //    looking_for_classroom: "Looking for classroom...",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Herstel Account',
       send_password: 'Verzend nieuw wachtwoord',
-      recovery_sent: 'Herstel e-mail verzonden.'
+      recovery_sent: 'Herstel e-mail verzonden.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Harnas',
       accessories: 'Accessoires',
       misc: 'Overige',
-      books: 'Boeken'
+      books: 'Boeken',
     },
 
     common: {
@@ -801,7 +802,7 @@ module.exports = {
       required_field: 'Verplicht veld',
       submit: 'Invoeren',
       replay: 'Opnieuw afspelen',
-      complete: 'Voltooi'
+      complete: 'Voltooi',
       //    pick_image: "Pick Image",
       //    continue_editing: "Continue Editing",
       //    logout: "Logout",
@@ -875,7 +876,7 @@ module.exports = {
       learn_more: 'Lees Meer',
       more: 'Meer',
       fewer: 'Minder',
-      with: 'met'
+      with: 'met',
       //    archived: "Archived",
       //    chat: "Chat",
       //    chat_with_us: "Chat with us",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'maand',
       months: 'maanden',
       year: 'jaar',
-      years: 'jaren'
+      years: 'jaren',
     },
 
     play_level: {
@@ -1102,7 +1103,7 @@ module.exports = {
       //    vega_character: "Vega Character",
       //    capella_character: "Capella Character",
       //    octans_character: "Octans Character",
-      click_to_continue: 'Klik om verder te gaan'
+      click_to_continue: 'Klik om verder te gaan',
       //    fill_in_solution: "Fill in solution",
       //    toggle_solution: "Toggle solution",
       //    play_as_humans: "Play As Red",
@@ -1160,7 +1161,7 @@ module.exports = {
       date: 'Datum',
       //    jquery: "jQuery",
       //    json: "JSON",
-      number: 'Nummer'
+      number: 'Nummer',
       //    webjavascript: "JavaScript",
     },
 
@@ -1173,7 +1174,7 @@ module.exports = {
       future_eng_2: 'hier',
       future_eng_3: '(apparaat is niet nodig). Deze Alexa activiteit wordt je aangeboden door',
       //    future_eng_4: "Amazon Future Engineer",
-      future_eng_5: 'programma wat leer-en werkmogelijkheden creëert voor alle K-12 leerlingen in de Verenigde Staten die verder willen gaan in computer science.'
+      future_eng_5: 'programma wat leer-en werkmogelijkheden creëert voor alle K-12 leerlingen in de Verenigde Staten die verder willen gaan in computer science.',
     },
 
     //  live_class: {
@@ -1212,6 +1213,7 @@ module.exports = {
       //    inventory_tab: "Inventory",
       //    save_load_tab: "Save/Load",
       //    options_tab: "Options",
+      //    my_code_tab: "My Code",
       //    guide_tab: "Guide",
       //    guide_video_tutorial: "Video Tutorial",
       //    guide_tips: "Tips",
@@ -1220,9 +1222,10 @@ module.exports = {
       //    inventory_caption: "Equip your hero",
       //    choose_hero_caption: "Choose hero, language",
       //    options_caption: "Configure settings",
+      //    my_code_caption: "Quick Code Actions",
       //    guide_caption: "Docs and tips",
       //    multiplayer_caption: "Play with friends!",
-      auth_caption: 'Bewaar je vooruitgang.'
+      auth_caption: 'Bewaar je vooruitgang.',
     },
 
     leaderboard: {
@@ -1237,7 +1240,7 @@ module.exports = {
       damage_taken: 'Ontvangen Schaden',
       damage_dealt: 'Uitgedeelde schade',
       //    difficulty: "Difficulty",
-      gold_collected: 'Verzameld goudd'
+      gold_collected: 'Verzameld goudd',
       //    survival_time: "Survived",
       //    defeated: "Enemies Defeated",
       //    code_length: "Lines of Code",
@@ -1251,7 +1254,7 @@ module.exports = {
       //    restricted_title: "Restricted",
       should_equip: '(double-click om te kiezen)',
       //    equipped: "(equipped)",
-      locked: '(gesloten)'
+      locked: '(gesloten)',
       //    restricted: "(restricted in this level)",
       //    equip: "Equip",
       //    unequip: "Unequip",
@@ -1271,7 +1274,7 @@ module.exports = {
       prompt_body: 'Wil je er meer verkrijgen?',
       prompt_button: 'Ga de winkel binnen',
       recovered: 'Reeds gekochte edelstenen hersteld. Herlaad de pagina alsjeblieft.',
-      price: 'x{{edelstenen}} / mo'
+      price: 'x{{edelstenen}} / mo',
       //    buy_premium: "Buy Premium",
       //    purchase: "Purchase",
       //    purchased: "Purchased",
@@ -1316,7 +1319,7 @@ module.exports = {
       currently_free_until: 'Je hebt momenteel een abonnement tot __date__',
       //    free_subscription: "Free subscription",
       was_free_until: 'Je had een gratis abonnement tot',
-      managed_subs: 'Onderhouden abonnementen'
+      managed_subs: 'Onderhouden abonnementen',
       //    subscribing: "Subscribing...",
       //    current_recipients: "Current Recipients",
       //    unsubscribing: "Unsubscribing",
@@ -1444,6 +1447,15 @@ module.exports = {
     //    lua_blurb: "Game scripting language.",
     //    java_blurb: "(Subscriber Only) Android and enterprise.",
     //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+    //    code_format: "Code Format",
+    //    text_code: "Text code",
+    //    blocks_and_code: "Blocks and code",
+    //    blocks_text: "Blocks",
+    //    blocks_icons: "Blocks (icons)",
+    //    text_code_blurb: "Type text-based code in a real code editor",
+    //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+    //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+    //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
     //    status: "Status",
     //    weapons: "Weapons",
     //    weapons_warrior: "Swords - Short Range, No Magic",
@@ -1504,7 +1516,7 @@ module.exports = {
       //    parameters: "Parameters",
       //    required_parameters: "Required Parameters",
       //    optional_parameters: "Optional Parameters",
-      returns: 'Verdiensten'
+      returns: 'Verdiensten',
       //    granted_by: "Granted by",
       //    still_undocumented: "Still undocumented, sorry.",
       //    description_coming_soon: "Description coming soon",
@@ -1690,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1853,7 +1864,7 @@ module.exports = {
     versions: {
       //    save_version_title: "Save New Version",
       //    new_major_version: "New Major Version",
-      submitting_patch: 'Aanpassing wordt Ingediend...'
+      submitting_patch: 'Aanpassing wordt Ingediend...',
       //    cla_prefix: "To save changes, first you must agree to our",
       //    cla_url: "CLA",
       //    cla_suffix: ".",
@@ -1864,7 +1875,7 @@ module.exports = {
     contact: {
       //    contact_us: "Contact CodeCombat",
       //    welcome: "Good to hear from you! Let us know how we can help, and we'll get back to you in 1-2 business days.",
-      forum_prefix: 'Voor iets publiekelijks, probeer dan '
+      forum_prefix: 'Voor iets publiekelijks, probeer dan ',
       //    forum_page: "public forum here ",
       //    faq_prefix: "and our ",
       //    faq: "FAQs here",
@@ -1927,7 +1938,7 @@ module.exports = {
       error_saving: 'Fout Tijdens Het Opslaan',
       //    saved: "Changes Saved",
       //    password_mismatch: "Password does not match.",
-      password_repeat: 'Gelieve je wachtwoord te herhalen.'
+      password_repeat: 'Gelieve je wachtwoord te herhalen.',
     },
 
     keyboard_shortcuts: {
@@ -1945,11 +1956,10 @@ module.exports = {
       scrub_playback: 'Schrob vooruit en achteruit door de tijd.',
       single_scrub_playback: 'Schrob vooruit en achteruit door de tijd per beeld.',
       scrub_execution: 'Schrob door de actuele betovering in uitvoering.',
-      toggle_debug: 'Toggle debug display.'
+      toggle_debug: 'Toggle debug display.',
       //    toggle_grid: "Toggle grid overlay.",
       //    toggle_pathfinding: "Toggle pathfinding overlay.",
       //    beautify: "Beautify your code by standardizing its formatting.",
-      //    maximize_editor: "Maximize/minimize code editor.",
     },
 
     //  cinematic: {
@@ -2028,7 +2038,7 @@ module.exports = {
       //    track_concepts2a: "learned by each student",
       //    track_concepts2b: "learned by each member",
       track_concepts3a: 'Traject levels beëindigd voor elke leerling',
-      track_concepts3b: 'Traject levels beëindigd voor elk lid'
+      track_concepts3b: 'Traject levels beëindigd voor elk lid',
       //    track_concepts4a: "See your students'",
       //    track_concepts4b: "See your members'",
       //    track_concepts5: "solutions",
@@ -2137,7 +2147,7 @@ module.exports = {
       //    grants_lifetime_access: "Grants access to all Courses.",
       //    enrollment_credits_available: "Licenses Available:",
       //    language_select: "Select a language",
-      language_cannot_change: 'Nadat een leerling een les vervoegt kan de taal niet meer veranderd worden'
+      language_cannot_change: 'Nadat een leerling een les vervoegt kan de taal niet meer veranderd worden',
       //    avg_student_exp_label: "Average Student Programming Experience",
       //    avg_student_exp_desc: "This will help us understand how to pace courses better.",
       //    avg_student_exp_select: "Select the best option",
@@ -2819,7 +2829,7 @@ module.exports = {
     classes: {
       //    archmage_title: "Archmage",
       //    archmage_title_description: "(Coder)",
-      archmage_summary: 'Als je een programmeur met interesse in het maken van educatieve spellen, word dan Tovernaar en help ons CodeCombat te ontwikkelen!'
+      archmage_summary: 'Als je een programmeur met interesse in het maken van educatieve spellen, word dan Tovernaar en help ons CodeCombat te ontwikkelen!',
       //    artisan_title: "Artisan",
       //    artisan_title_description: "(Level Builder)",
       //    artisan_summary: "Build and share levels for you and your friends to play. Become an Artisan to learn the art of teaching others to program.",
@@ -2871,6 +2881,7 @@ module.exports = {
       //    fork_title: "Fork New Version",
       //    fork_creating: "Creating Fork...",
       //    generate_terrain: "Generate Terrain",
+      //    generate_level: "Generate Level",
       //    more: "More",
       //    wiki: "Wiki",
       //    live_chat: "Live Chat",
@@ -2973,7 +2984,7 @@ module.exports = {
       pop_i18n: 'Bevolk I18N',
       //    tasks: "Tasks",
       clear_storage: 'Wis je locale wijzigingen',
-      add_system_title: 'Voeg systemen aan het level toe'
+      add_system_title: 'Voeg systemen aan het level toe',
       //    done_adding: "Done Adding",
       //    product: "Product",
       //    link: "Link",
@@ -3042,7 +3053,7 @@ module.exports = {
       //    diplomat_github_url: "on GitHub",
       diplomat_join_suf_github: ', edit het online, en submit een pull request. Daarnaast kun je hieronder aanvinken als je up-to-date wilt worden gehouden met nieuwe internationalisatie-ontwikkelingen.',
       //    diplomat_subscribe_desc: "Get emails about i18n developments and levels to translate.",
-      ambassador_introduction: 'We zijn een gemeenschap aan het uitbouwen, en jij maakt er deel van uit. We hebben Olark chatkamers, emails, en sociale netwerken met veel andere mensen waarmee je kan praten en hulp aan kan vragen over het spel of om bij te leren. Als jij mensen wil helpen en te werken nabij de hartslag van CodeCombat in het bijsturen van onze toekomstvisie, dan is dit de geknipte klasse voor jou!'
+      ambassador_introduction: 'We zijn een gemeenschap aan het uitbouwen, en jij maakt er deel van uit. We hebben Olark chatkamers, emails, en sociale netwerken met veel andere mensen waarmee je kan praten en hulp aan kan vragen over het spel of om bij te leren. Als jij mensen wil helpen en te werken nabij de hartslag van CodeCombat in het bijsturen van onze toekomstvisie, dan is dit de geknipte klasse voor jou!',
       //    ambassador_attribute_1: "Communication skills. Be able to identify the problems players are having and help them solve them. Also, keep the rest of us informed about what players are saying, what they like and don't like and want more of!",
       //    ambassador_join_desc: "tell us a little about yourself, what you've done and what you'd be interested in doing. We'll go from there!",
       //    ambassador_join_step1: "Read the documentation.",
@@ -3123,7 +3134,7 @@ module.exports = {
       //    winners: "Winners",
       league: 'Liga',
       red_ai: 'AI rood',
-      blue_ai: 'AI blauw'
+      blue_ai: 'AI blauw',
       //    wins: "Wins",
       //    losses: "Losses",
       //    win_num: "Wins",
@@ -3226,7 +3237,7 @@ module.exports = {
       //    next_payment: "Next Payment",
       //    card: "Card",
       //    status_unsubscribed_active: "You're not subscribed and won't be billed, but your account is still active for now.",
-      status_unsubscribed: 'Krijg toegang tot nieuwe levels, helden, objecten en bonus edelstenen met een CodeCombat abonnement!'
+      status_unsubscribed: 'Krijg toegang tot nieuwe levels, helden, objecten en bonus edelstenen met een CodeCombat abonnement!',
       //    not_yet_verified: "Not yet verified.",
       //    resend_email: "Please save first then Resend email",
       //    email_sent: "Email sent! Check your inbox.",
@@ -3273,7 +3284,7 @@ module.exports = {
       //    no_codes: "No codes yet!",
       you_can1: 'Je kan',
       you_can2: 'koop een voorafbetaalde code',
-      you_can3: 'Dit kan je toepassen op je eigen account of aan iemand anders.'
+      you_can3: 'Dit kan je toepassen op je eigen account of aan iemand anders.',
       //    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account.",
       //    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times.",
       //    prepaid_applied_success: "Prepaid applied to your account!",
@@ -3367,7 +3378,7 @@ module.exports = {
       bad_input: 'Slechte input.',
       //    server_error: "Server error.",
       //    unknown: "Unknown Error",
-      error: 'FOUT'
+      error: 'FOUT',
       //    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!",
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
@@ -3508,7 +3519,7 @@ module.exports = {
       //    advanced_css: "Advanced CSS",
       //    advanced_web_scripting: "Advanced Web Scripting",
       //    input_handling: "Input Handling",
-      while_loops: 'Terwijl Lussen'
+      while_loops: 'Terwijl Lussen',
       //    place_game_objects: "Place game objects",
       //    construct_mazes: "Construct mazes",
       //    create_playable_game: "Create a playable, sharable game project",
@@ -3549,7 +3560,7 @@ module.exports = {
       moved_index: 'Verhuisde Index',
       text_diff: 'Tekst Diff',
       merge_conflict_with: 'VOEG CONFLICT SAMEN MET',
-      no_changes: 'Geen wijzigingen'
+      no_changes: 'Geen wijzigingen',
     },
 
     legal: {
@@ -3607,7 +3618,7 @@ module.exports = {
       //    nutshell_see_also: "See also:",
       //    canonical: "The English version of this document is the definitive, canonical version. If there are any discrepancies between translations, the English document takes precedence.",
       third_party_title: 'Diensten Van Derden',
-      third_party_description: 'CodeCombat gebruikt de volgende diensten van derden (onder andere):'
+      third_party_description: 'CodeCombat gebruikt de volgende diensten van derden (onder andere):',
       //    cookies_message: "CodeCombat uses a few essential and non-essential cookies.",
       //    cookies_deny: "Decline non-essential cookies",
       //    cookies_allow: "Allow cookies",
@@ -3626,13 +3637,13 @@ module.exports = {
       in_cash: 'Contant',
       //    custom_wizard: "Custom CodeCombat Wizard",
       //    custom_avatar: "Custom CodeCombat avatar",
-      heap: 'voor zes maanden "opsstart" toegang'
+      heap: 'voor zes maanden "opsstart" toegang',
       //    credits: "credits",
       //    one_month_coupon: "coupon: choose either Rails or HTML",
       //    one_month_discount: "discount, 30% off: choose either Rails or HTML",
       //    license: "license",
       //    oreilly: "ebook of your choice",
-    }
+    },
 
     //  calendar: {
     //    year: "Year",
@@ -4490,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",

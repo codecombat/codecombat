@@ -60,7 +60,7 @@
     </background-container>
 
     <div class="container">
-      <turnkey-solutions />
+      <turnkey-solutions :title="$t('schools_page.your_turnkey_solutions')" />
     </div>
 
     <div class="container">

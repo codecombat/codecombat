@@ -747,7 +747,7 @@ module.exports = (ThangTypeEditView = (function () {
         this.lastKind = kind
         Backbone.Mediator.publish('editor:thang-type-kind-changed', { kind })
         if (['Doodad', 'Floor', 'Wall'].includes(kind) && !this.treema.data.terrains) {
-          this.treema.set('/terrains', ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano']) // So editors know to set them.
+          this.treema.set('/terrains', ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano', 'Junior']) // So editors know to set them.
         }
         if (!this.treema.data.tasks) {
           return this.treema.set('/tasks', (Array.from(defaultTasks[kind]).map((t) => ({ name: t }))))

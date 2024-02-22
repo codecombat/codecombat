@@ -5,11 +5,8 @@
 #playback-view
   $playback-button-color: rgb(248, 197, 146)
   // When 75% alpha, it will look like the rgb(194, 154, 114) from Heald's design
-  width: calc(57% - 200px)
-  width: calc(#{$game-view-width} -  #{$api-bar-width})
-  #level-view.no-api &
-    width: 57%
-    width: $game-view-width-no-api
+  width: 57%
+  width: $game-view-width
   #level-view.blocks &
     width: 57%
     width: $game-view-width-blocks
@@ -38,12 +35,15 @@
       position: relative
 
   button:hover
+    background-color: #bf5025
     @include opacity(1)
 
   #play-button, #volume-button, #music-button
-    float: left
     position: relative
-    
+
+  #play-button
+    float: left
+
   #music-button
     @include opacity(0.5)
     span
@@ -95,10 +95,10 @@
 
   .scrubber
     position: absolute
-    left: 170px
+    left: 60px
     top: 21px
     bottom: 0px
-    right: 175px
+    right: 160px
     background: rgb(3, 3, 3)
     height: 28px
     border: 1px solid rgb(67, 67, 44)

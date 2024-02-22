@@ -56,27 +56,9 @@
     .programming-language
       color: darkred
 
-  .firepad
-    // When Firepad is active, it wraps .ace_editor in .firepad.
-    @include editor-height(0px)
-    width: 94%
-
-    .ace_editor
-      width: 100%
-      height: 100%
-
-    .powered-by-firepad
-      display: none
-
   @include ace
 
 .ace_autocomplete .ace_line:not(.ace_selected) .ace_completion-meta
   // Don't show "press enter" on lines that aren't currently selected
   display: none
 
-html.no-borderimage
-  #spell-view
-    span.code-background
-      display: none
-    img.code-background
-      display: block

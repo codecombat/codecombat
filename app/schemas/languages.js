@@ -1,12 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
 let languageCodes, languageCodesLower
 let code
 const locale = require('../locale/locale') // requiring from app; will break if we stop serving from where app lives
@@ -18,14 +9,11 @@ for (code in locale) {
 }
 
 module.exports.languages = languages
-module.exports.languageCodes = (languageCodes = (Array.from(languages).map((language) => language.code)))
-module.exports.languageCodesLower = (languageCodesLower = ((() => {
-  const result = []
-  for (code of Array.from(languageCodes)) {
-    result.push(code.toLowerCase())
-  }
-  return result
-})()))
+module.exports.languageCodes = (languageCodes = (languages).map((language) => language.code))
+module.exports.languageCodesLower = (languageCodesLower = [])
+for (code of languageCodes) {
+  languageCodesLower.push(code.toLowerCase())
+}
 
 // Keep keys lower-case for matching and values with second subtag uppercase like i18next expects
 const languageAliases = {
@@ -45,7 +33,7 @@ const languageAliases = {
 }
 
 module.exports.languageCodeFromAcceptedLanguages = function (acceptedLanguages) {
-  for (const lang of Array.from(acceptedLanguages != null ? acceptedLanguages : [])) {
+  for (const lang of acceptedLanguages || []) {
     code = languageAliases[lang.toLowerCase()]
     if (code) { return code }
     const codeIndex = _.indexOf(languageCodesLower, lang)

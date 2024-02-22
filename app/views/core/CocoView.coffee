@@ -204,7 +204,6 @@ module.exports = class CocoView extends Backbone.View
     context.pathname = document.location.pathname  # like '/play/level'
     context.fbRef = context.pathname.replace(/[^a-zA-Z0-9+/=\-.:_]/g, '').slice(0, 40) or 'home'
     context.isMobile = @isMobile()
-    context.isIE = @isIE()
     context.moment = moment
     context.translate = $.t
     context.view = @
@@ -523,6 +522,13 @@ module.exports = class CocoView extends Backbone.View
 
     @pointerRadialDistance = -47
     @pointerRotation = options.rotation ? Math.atan2(@$el.outerWidth() * 0.5 - targetLeft, targetTop - @$el.outerHeight() * 0.5)
+    initialRotation = @pointerRotation
+    while @pointerRotation < initialRotation + 2 * Math.PI and (
+      targetLeft - Math.sin(@pointerRotation) * 150 < 0 or
+      targetLeft - Math.sin(@pointerRotation) * 150 > @$el.outerWidth() or
+      targetTop - Math.cos(@pointerRotation) * 150 < 0 or
+      targetTop - Math.cos(@pointerRotation) * 150 > @$el.outerHeight())
+      @pointerRotation += Math.PI / 16
     initialScale = Math.max 1, 20 - me.level()
     $pointer.css
       opacity: 1.0
@@ -568,8 +574,6 @@ module.exports = class CocoView extends Backbone.View
     ua = navigator.userAgent or navigator.vendor or window.opera
     return mobileRELong.test(ua) or mobileREShort.test(ua.substr(0, 4))
 
-  isIE: utils.isIE
-
   isMac: ->
     navigator.platform.toUpperCase().indexOf('MAC') isnt -1
 
@@ -590,6 +594,14 @@ module.exports = class CocoView extends Backbone.View
   scrollToTop: (speed=300) ->
     $('html, body').animate({ scrollTop: 0 }, speed)
 
+  getFullscreenRequestMethod: ->
+    d = document.documentElement
+    return d.requestFullScreen or
+    d.mozRequestFullScreen or
+    d.mozRequestFullscreen or
+    d.msRequestFullscreen or
+    (if d.webkitRequestFullscreen then -> d.webkitRequestFullscreen Element.ALLOW_KEYBOARD_INPUT else null)
+
   toggleFullscreen: (e) ->
     # https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Using_full_screen_mode?redirectlocale=en-US&redirectslug=Web/Guide/DOM/Using_full_screen_mode
     # Whoa, even cooler: https://developer.mozilla.org/en-US/docs/WebAPI/Pointer_Lock
@@ -598,14 +610,9 @@ module.exports = class CocoView extends Backbone.View
            document.mozFullscreenElement or
            document.webkitFullscreenElement or
            document.msFullscreenElement
-    d = document.documentElement
     if not full
-      req = d.requestFullScreen or
-            d.mozRequestFullScreen or
-            d.mozRequestFullscreen or
-            d.msRequestFullscreen or
-            (if d.webkitRequestFullscreen then -> d.webkitRequestFullscreen Element.ALLOW_KEYBOARD_INPUT else null)
-      req?.call d
+      req = @getFullscreenRequestMethod()
+      req?.call(document.documentElement)
       @playSound 'full-screen-start' if req
     else
       nah = document.exitFullscreen or
@@ -613,8 +620,8 @@ module.exports = class CocoView extends Backbone.View
             document.mozCancelFullscreen or
             document.msExitFullscreen or
             document.webkitExitFullscreen
-      nah?.call document
-      @playSound 'full-screen-end' if req
+      nah?.call(document)
+      @playSound 'full-screen-end' if nah
     return
 
   playSound: (trigger, volume=1, delay=0, pos=null, pan=0) ->

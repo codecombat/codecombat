@@ -14,6 +14,10 @@ module.exports = class CoordinateGrid extends CocoClass
     @camera = options.camera
     @layer = options.layer
     @textLayer = options.textLayer
+    @gridSize = options.resolution or ((worldSize[0] or 80) / 20)
+    @gridOffset = options.gridOffset or {x: 0, y: 0}
+    @hideAxisLabels = options.hideAxisLabels ? false
+    @alpha = options.alpha ? 0.125
     console.error @toString(), 'needs a camera.' unless @camera
     console.error @toString(), 'needs a layer.' unless @layer
     console.error @toString(), 'needs a textLayer.' unless @textLayer
@@ -31,11 +35,10 @@ module.exports = class CoordinateGrid extends CocoClass
     @gridShape = new createjs.Shape()
     @gridContainer.addChild @gridShape
     @gridContainer.mouseEnabled = false
-    @gridShape.alpha = 0.125
+    @gridShape.alpha = @alpha
     @gridShape.graphics.setStrokeStyle 1
     @gridShape.graphics.beginStroke 'blue'
-    gridSize = Math.round(worldWidth / 20)
-    wopStart = x: 0, y: 0
+    wopStart = @gridOffset
     wopEnd = x: worldWidth, y: worldHeight
     supStart = @camera.worldToSurface wopStart
     supEnd = @camera.worldToSurface wopEnd
@@ -45,7 +48,7 @@ module.exports = class CoordinateGrid extends CocoClass
     while wop.x <= wopEnd.x
       sup = @camera.worldToSurface wop
       @gridShape.graphics.mt(sup.x, supStart.y).lt(sup.x, supEnd.y)
-      if ++linesDrawn % 2
+      if (++linesDrawn % 2) and not @hideAxisLabels
         t = new createjs.Text(wop.x.toFixed(0), '16px Arial', 'blue')
         t.textAlign = 'center'
         t.textBaseline = 'bottom'
@@ -53,14 +56,14 @@ module.exports = class CoordinateGrid extends CocoClass
         t.y = supStart.y
         t.alpha = 0.75
         @labels.push t
-      wop.x += gridSize
-      if wopEnd.x < wop.x <= wopEnd.x - gridSize / 2
+      wop.x += @gridSize
+      if wopEnd.x < wop.x <= wopEnd.x - @gridSize / 2
         wop.x = wopEnd.x
     linesDrawn = 0
     while wop.y <= wopEnd.y
       sup = @camera.worldToSurface wop
       @gridShape.graphics.mt(supStart.x, sup.y).lt(supEnd.x, sup.y)
-      if ++linesDrawn % 2
+      if (++linesDrawn % 2) and not @hideAxisLabels
         t = new createjs.Text(wop.y.toFixed(0), '16px Arial', 'blue')
         t.textAlign = 'left'
         t.textBaseline = 'middle'
@@ -68,8 +71,8 @@ module.exports = class CoordinateGrid extends CocoClass
         t.y = sup.y
         t.alpha = 0.75
         @labels.push t
-      wop.y += gridSize
-      if wopEnd.y < wop.y <= wopEnd.y - gridSize / 2
+      wop.y += @gridSize
+      if wopEnd.y < wop.y <= wopEnd.y - @gridSize / 2
         wop.y = wopEnd.y
     @gridShape.graphics.endStroke()
     bounds = x: supStart.x, y: supEnd.y, width: supEnd.x - supStart.x, height: supStart.y - supEnd.y
@@ -92,4 +95,3 @@ module.exports = class CoordinateGrid extends CocoClass
   onToggleGrid: (e) ->
     e?.preventDefault?()
     if @gridShowing() then @hideGrid() else @showGrid()
-

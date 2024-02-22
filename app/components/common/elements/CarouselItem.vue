@@ -16,7 +16,12 @@ export default {
       type: String,
       required: false,
       default: null
-    }
+    },
+    tabImage: {
+      type: String,
+      required: false,
+      default: null
+    },
   }
 }
 </script>
