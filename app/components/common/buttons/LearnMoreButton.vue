@@ -28,7 +28,7 @@ export default {
     target: {
       type: String,
       required: false,
-      default: '_self'
+      default: '_blank'
     },
     hasArrow: {
       type: Boolean,
