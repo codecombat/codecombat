@@ -1,6 +1,8 @@
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 
+import utils from 'core/utils'
+
 import ChapterNav from './components/ChapterNav'
 import ChapterInfo from './components/ChapterInfo'
 import ConceptsCovered from './components/ConceptsCovered'
@@ -65,6 +67,9 @@ export default {
       this.setSelectedLanguage(e.target.value)
     },
     isCapstoneModule (moduleNum) {
+      if (utils.isCodeCombat) {
+        return false
+      }
       // Assuming that last module is the capstone module, TODO store `isCapstoneModule` with module details in the course schema.
       return moduleNum === this.moduleNumbers[this.moduleNumbers.length - 1]
     }

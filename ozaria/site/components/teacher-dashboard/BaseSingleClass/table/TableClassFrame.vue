@@ -207,7 +207,7 @@ export default {
  which messes up sticky header and student row.
 */
 .size-container {
-  display: inline-block;
+  display: block;
 }
 
 #stickyHeader {

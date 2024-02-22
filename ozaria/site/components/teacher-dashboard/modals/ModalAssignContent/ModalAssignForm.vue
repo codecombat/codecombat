@@ -113,11 +113,6 @@ export default {
               {{ course.name }}
             </option>
           </select>
-          <span
-            class="form-error"
-          >
-            {{ $t("form_validation_errors.required") }}
-          </span>
         </div>
       </div>
       <div class="form-group row buttons-container">

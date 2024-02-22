@@ -1938,7 +1938,8 @@ module.exports = {
       error_saving: 'Error Saving',
       saved: 'Changes Saved',
       password_mismatch: 'Password does not match.',
-      password_repeat: 'Please repeat your password.'
+      password_repeat: 'Please repeat your password.',
+      switch_new_teacher_dashboard: 'Try the new Teacher Dashboard'
     },
 
     keyboard_shortcuts: {
@@ -2682,6 +2683,8 @@ module.exports = {
       module4: 'Module 4: ',
       module5: 'Module 5: ',
       module6: 'Module 6: ',
+      module7: 'Module 7: ',
+      module8: 'Module 8: ',
       algorithms_and_syntax: 'Algorithms and Syntax',
       debugging: 'Debugging',
       variables: 'Variables',
@@ -4370,7 +4373,8 @@ module.exports = {
       lesson_slides_tooltip: '<h3>Lesson Slides</h3><p>Downloadable, step-by-step presentation slides for guiding students through module learning objectives</p>',
       project_rubric_tooltip: '<h3>Project Rubric</h3><p>Downloadable and modifiable scoring rubric for the Capstone Project</p>',
       exemplar_projects_tooltip: '<h3>Exemplar Project</h3><p>Live view of the exemplar Capstone Project</p>',
-      want_to_save_tooltip: '<h3>Want to save your progress?</h3><p>Please create a student account and play Ozaria as a student if you would like to save your progress.</p>',
+      want_to_save_tooltip: '<h3>Want to save your progress?</h3><p>Please create a student account, or go to <i>My Account / Test as Student</i> and play Ozaria as a student if you would like to save your progress.</p>',
+      want_to_save_tooltip_coco: '<h3>Want to save your progress?</h3><p>Please create a student account, or go to <i>My Account / Test as Student</i> and play CodeCombat as a student if you would like to save your progress.</p>',
       intro_explain_tooltip: '<b>"Intros"</b> introduce new concepts or further the storyline in a scaffolded way. They typically include Cinematics and/or Concept Checks.',
       chapter_num: 'Chapter __num__',
       read: 'View Only',
@@ -4386,7 +4390,11 @@ module.exports = {
       note: 'Note',
       lock_or_skip_levels: 'Lock or Skip Levels',
       level_access_status_blurb: "When you choose to skip a level, it will have both the 'locked' and 'optional' status. Unskipping the level will remove both the 'locked' and 'optional' statuses.",
-      reset_progress: 'Reset Progress'
+      reset_progress: 'Reset Progress',
+      export_progress: 'Export Progress',
+      assessments_tab: 'Assessments',
+      switch_on: 'On',
+      switch_off: 'Off'
     },
 
     outcomes: {
@@ -5325,7 +5333,33 @@ module.exports = {
       trends_2_title: 'Career Technical Education with Pat Keeney',
       trends_2_text: 'Career Technical Education (CTE) prepares students to become lifelong learners and provides them with the skills and knowledge they need to succeed in their future careers. In this episode, Pat Keeney, CTE Champion at McGraw Hill, shares his experience',
       trends_2_linkText: 'Listen to the Podcast',
-      learn_more_text: 'Learn More'
+      learn_more_text: 'Learn More',
+      your_turnkey_solutions: 'Your Turnkey Solutions',
+    },
+    standards_page: {
+      standards_aligned_curriculum: '**Standards Aligned Curriculum**',
+      curriculum_description: 'CodeCombat offers robust course pathways aligned with several national and state standard frameworks across grades K-12 including AP level programming courses in many languages. Our curriculum engages students to explore and learn computer science through standards-aligned lessons.',
+      most_effective_computer_science_solution: 'The most effective computer science solution for **[https://codecombat.com/schools]schools**',
+      comprehensive_implementation: 'Our comprehensive implementation empowers teachers, engages students and delivers successful outcomes.',
+      carousel_1_title: 'Computer Science Teachers Association (CSTA)',
+      carousel_1_text: 'The **[https://csteachers.org/k12standards/]Computer Science Teachers Association K-12 Computer Science Standards** outline a core set of learning objectives that are designed to provide the foundation for a complete computer science curriculum and its implementation in K-12.\n\nCodeCombat is recognized by CSTA as an endorsed provider of curriculum and professional development. Learn the skills to effectively teach computer science with our self-directed, CSTA-accredited **[https://www.ozaria.com/professional-development]Professional Development** course. Earn up to 40 credit hours any time, from any device.\n\nLearn about the detailed CSTA Standards Alignment below:',
+      carousel_1_button_1_text: 'Ozaria',
+      carousel_1_button_2_text: 'CodeCombat',
+      carousel_2_title: 'Next Generation Science Standards (NGSS)',
+      carousel_2_text: 'The **[https://www.nextgenscience.org/]Next Generation Science Standards (NGSS)** are K–12 science content standards. Standards set the expectations for what students should know and be able to do.\n\nThe NGSS were developed by states to improve science education for all students. CodeCombat is aligned with NGSS.',
+      carousel_2_button_1_text: 'Learn More',
+      carousel_3_title: 'International Society for Technology in Education (ISTE)',
+      carousel_3_text: 'The **[https://www.iste.org/standards]ISTE Standards** are a framework for students, educators, administrators, coaches and computer science educators to rethink education and create innovative learning environments. The standards are a roadmap for bold, innovative educators to re-engineer their schools and classrooms for digital age learning no matter where they fall on the journey to meaningful, effective ed tech integration.\n\nCodeCombat is aligned with ISTE standards.',
+      carousel_3_button_1_text: 'Ozaria',
+      carousel_3_button_2_text: 'CodeCombat',
+      carousel_4_title: 'Common Core State Standards Initiative',
+      carousel_4_text: 'The **[http://www.corestandards.org/]Common Core State Standards Initiative** is an educational initiative from 2010 that details what K–12 students throughout the United States should know in English language arts and mathematics at the conclusion of each school grade.\n\nCodeCombat is aligned with Common Core standards.',
+      carousel_4_button_1_text: 'Ozaria',
+      carousel_4_button_2_text: 'CodeCombat',
+      carousel_5_title: 'Advanced Placement (AP) Computer Science Principles',
+      carousel_5_text: 'AP Computer Science Principles is an introductory college-level computing course. Students cultivate their understanding of computer science through working with data, collaborating to solve problems, and developing computer programs as they explore concepts like creativity, abstraction, data and information, algorithms, programming, the internet, and the global impact of computing.\n\nCodeCombat offers an AP Computer Science Principles course that is endorsed by College Board.',
+      carousel_5_button_1_text: 'Ozaria',
+      carousel_5_button_2_text: 'CodeCombat'
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="solutions">
     <div class="heading">
-      Your Turnkey Solution
+      <MixedColorLabel :text="title" />
     </div>
     <div class="menu-content">
       <div
@@ -30,8 +30,19 @@
 </template>
 
 <script>
+import MixedColorLabel from '../../components/common/labels/MixedColorLabel.vue'
+
 export default {
   name: 'TurnkeySolutions',
+  components: {
+    MixedColorLabel
+  },
+  props: {
+    title: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       items: [
@@ -62,7 +73,7 @@ export default {
     .heading {
         align-self: stretch;
         color: #000000;
-        font-size: 36px;
+        @extend %font-36;
         position: relative;
         text-align: center;
     }

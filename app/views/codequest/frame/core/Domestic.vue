@@ -21,7 +21,7 @@
         <div class="flexcontainer">
           <p class="div">
             <span class="text-wrapper-2">
-              Pricing: $3,750
+              Pricing: $3,750 (Early bird price: $2,950 if you book before 3/31)
               <br>
             </span>
           </p>
@@ -45,7 +45,7 @@
           </p>
           <p class="div">
             <span class="text-wrapper-2">
-              Pricing: $2,175
+              Pricing: $2,175 (Early bird price: $1,675 if you book before 3/31)
               <br>
             </span>
           </p>

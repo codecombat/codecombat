@@ -2,6 +2,7 @@
 import { getDisplayPermission } from '../../../common/utils'
 import IconShareGray from '../common/icons/IconShareGray'
 import IconArchived from './icons/IconArchive'
+import utils from 'core/utils'
 
 export default {
   components: {
@@ -41,7 +42,7 @@ export default {
   },
 
   created () {
-    if (this.language && !['javascript', 'python'].includes(this.language)) {
+    if (this.language && !utils.allowedLanguages.includes(this.language)) {
       throw new Error(`Unexpected language prop passed into ClassInfoRow.vue. Got: '${this.language}'`)
     }
   },

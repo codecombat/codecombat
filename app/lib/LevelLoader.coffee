@@ -291,6 +291,7 @@ module.exports = class LevelLoader extends CocoClass
       @consolidateFlagHistory() if @session.loaded
 
     if not @level.usesSessionHeroThangType()
+      @sessionDependenciesRegistered?[session.id] = true
       if @checkAllWorldNecessitiesRegisteredAndLoaded()
         # Finish if all world necessities were completed by the time the session loaded.
         @onWorldNecessitiesLoaded()
