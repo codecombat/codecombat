@@ -2,6 +2,7 @@
   <component
     :is="link ? 'a' : 'div'"
     :href="link"
+    :target="link ? target : null"
     :class="{ box: true, horizontal: arrangement === 'horizontal', clickable: link}"
     :style="boxStyle"
   >
@@ -87,6 +88,10 @@ export default {
     link: {
       type: String,
       default: null
+    },
+    target: {
+      type: String,
+      default: '_blank'
     },
     middleText: {
       type: String,

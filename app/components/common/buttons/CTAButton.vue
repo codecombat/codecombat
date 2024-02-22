@@ -36,7 +36,7 @@ export default {
     target: {
       type: String,
       required: false,
-      default: null
+      default: '_blank'
     },
     rel: {
       type: String,
