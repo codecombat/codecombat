@@ -812,6 +812,11 @@ module.exports = class SpellView extends CocoView
       # Force the popup back
       @ace?.completer?.showPopup(@ace)
 
+    screenLineCount = @aceSession.getScreenLength() - 1
+    if screenLineCount isnt @lastScreenLineCount
+      @lastScreenLineCount = screenLineCount
+      @updateAceLines(screenLineCount)
+
     # Ensure current user code line visible and not truncated at bottom of editor
     if cursorPosition.row >= lineCount - 2
       @ace.scrollToLine lineCount, true, true
