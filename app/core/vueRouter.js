@@ -315,6 +315,11 @@ export default function getVueRouter () {
           path: '/home-beta',
           name: 'HomeBeta',
           component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+        },
+        {
+          path: '/standards',
+          name: 'StandardsPage',
+          component: () => import(/* webpackChunkName: "standardsPage" */'app/views/standards/PageStandards')
         }
       ],
       scrollBehavior (to) {
