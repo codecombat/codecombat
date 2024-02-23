@@ -42,10 +42,9 @@ const homePageExperiment = function () {
   const experimentName = 'home-page'
   let value = me.getExperimentValue(experimentName)
   if (value) {
-    console.log('expValue', value, me.id)
     return value
   }
-  const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
+  const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.2
   let valueProbability
   const rand = Math.random()
   if (rand < probability) {
@@ -55,7 +54,6 @@ const homePageExperiment = function () {
     value = 'control'
     valueProbability = 1 - probability
   }
-  console.log('exp', value, valueProbability, probability, me.id, rand)
   me.startExperiment(experimentName, value, valueProbability)
   return value
 }
