@@ -133,6 +133,7 @@ module.exports = {
   'views/play/SpectateView': function () { return import(/* webpackChunkName: "play" */ 'views/play/SpectateView') },
   'views/PageImpact': function () { return import(/* webpackChunkName: "PageImpact" */ 'views/impact/PageImpact') },
   'views/PagePartners': function () { return import(/* webpackChunkName: "PagePartners" */ 'views/partners/PagePartners') },
+  'views/HomeBeta': function () { return import(/* webpackChunkName: "homeBeta" */ 'views/home/PageHome') },
   'views/PageAPCSPMarketing': function () { return import(/* webpackChunkName: "PageMarketing" */ 'views/apcsp/PageMarketing') },
   'views/PageAPCSPCurriculum': function () { return import(/* webpackChunkName: "PageCurriculum" */ 'views/apcsp/PageCurriculum') },
   'views/PageCodequest': function () { return import(/* webpackChunkName: "PageCodequest" */ 'views/codequest/PageCodequest') },
