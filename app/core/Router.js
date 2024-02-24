@@ -321,9 +321,7 @@ module.exports = (CocoRouter = (function () {
 
         standards: go('core/SingletonAppVueComponentView'),
 
-        'schools' () {
-          return this.routeDirectly('SchoolsView', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
-        },
+        schools: go('core/SingletonAppVueComponentView'),
 
         'league/academica': redirect('/league/autoclan-school-network-academica'), // Redirect for Academica.
         'league/kipp': redirect('/league/autoclan-school-network-kipp'), // Redirect for KIPP.

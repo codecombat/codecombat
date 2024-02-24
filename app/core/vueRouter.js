@@ -318,6 +318,11 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
         },
         {
+          path: '/schools',
+          name: 'SchoolsPage',
+          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/schools/PageSchools')
+        },
+        {
           path: '/standards',
           name: 'StandardsPage',
           component: () => import(/* webpackChunkName: "standardsPage" */'app/views/standards/PageStandards')
