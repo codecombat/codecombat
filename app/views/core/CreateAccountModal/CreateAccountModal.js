@@ -331,8 +331,8 @@ module.exports = (CreateAccountModal = (function () {
     }
 
     onClickDismiss () {
-      // Force back to root (in case url changed) or reload to avoid issues with sign up state and CTA's for signing up on the home page:
-      application.router.navigate('/', { trigger: true })
+      // reload to avoid issues with sign up state and CTA's for signing up on the home page:
+      history.pushState('', document.title, window.location.pathname + window.location.search)
       return window.location.reload()
     }
 
