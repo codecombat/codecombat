@@ -126,7 +126,11 @@ var init = function () {
     // We always want to load this font.
     $('head').prepend('<link rel="stylesheet" type="text/css" href="/fonts/vt323.css">')
   }
-  Backbone.history.start({ pushState: true })
+  Backbone.history.start({
+    pushState: true,
+    hashChange: false,
+    root: '/'
+  });
   handleNormalUrls()
   setUpMoment() // Set up i18n for moment
   setUpTv4()
