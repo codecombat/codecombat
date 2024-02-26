@@ -1,6 +1,7 @@
 <template>
   <button class="text-button-link">
-    <a
+    <component
+      :is="link ? 'a' : 'span'"
       class="text-button-link__link"
       :href="link"
       :target="target"
@@ -12,7 +13,7 @@
         alt="arrow pointing right"
         src="/images/components/arrow.svg"
       >
-    </a>
+    </component>
   </button>
 </template>
 
@@ -23,7 +24,7 @@ export default {
     link: {
       type: String,
       required: true,
-      default: '#'
+      default: ''
     },
     target: {
       type: String,
@@ -54,6 +55,9 @@ export default {
         color: $purple;
         letter-spacing: 0;
         width: fit-content;
+        &:hover {
+          text-decoration: underline;
+        }
     }
 
     &__vector {
