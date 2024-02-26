@@ -19,6 +19,8 @@
       >
         <content-box
           class="box"
+          :signup-modal="item.signupModal"
+          :data-start-on-path="item.signupModalPath"
           :has-padding="item.hasPadding"
           :main-image-original="item.mainImageOriginal"
           :arrangement="arrangement"
@@ -51,7 +53,7 @@
             <mixed-color-label :text="item.text" />
           </template>
           <template
-            v-if="item.link"
+            v-if="item.link || item.signupModal"
             #button
           >
             <learn-more-button :link="item.link">
