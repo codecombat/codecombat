@@ -1,5 +1,5 @@
 <script>
-import { coursesWithProjects } from 'core/utils'
+import { coursesWithProjects, isOzaria } from 'core/utils'
 import PrimaryButton from '../common/buttons/PrimaryButton'
 import ButtonCurriculumGuide from '../common/ButtonCurriculumGuide'
 import LicensesComponent from '../common/LicensesComponent'
@@ -53,6 +53,9 @@ export default {
     }),
 
     filteredCourses () {
+      if (isOzaria) {
+        return this.courses
+      }
       if (this.$route.path.startsWith('/teachers/assessments')) {
         const classroom = new Classroom(this.classroom)
         return this.courses.filter(course => classroom.hasAssessments({ courseId: course._id }))
