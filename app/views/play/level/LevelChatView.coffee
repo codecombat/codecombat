@@ -327,13 +327,13 @@ module.exports = class LevelChatView extends CocoView
         uid: creditUid,
         newId: chatMessage.get('_id')
       })
-      
+
     return if chatMessage.get('message')?.sender?.kind is 'bot'
     #fetchJson("/db/chat_message/#{chatMessage.id}/ai-response").then @onChatResponse
     @fetchChatMessageStream chatMessage.id
 
   fetchChatMessageStream: (chatMessageId) ->
-    model = utils.getQueryVariable('model') or 'gpt-4-1106-preview' # or 'gpt-4'
+    model = utils.getQueryVariable('model') or 'gpt-4-turbo-preview' # or 'gpt-4'
     fetch("/db/chat_message/#{chatMessageId}/ai-response?model=#{model}").then co.wrap (response) =>
       reader = response.body.getReader()
       decoder = new TextDecoder('utf-8')

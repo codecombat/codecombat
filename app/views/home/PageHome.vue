@@ -282,7 +282,8 @@ export default Vue.extend({
         {
           title: this.$t('schools_page.core_curriculum_2_title'),
           text: this.$t('schools_page.core_curriculum_2_text'),
-          link: 'https://codecombat.com/#teacher-signup',
+          signupModal: true,
+          signupModalPath: 'teacher',
           linkText: this.$t('schools_page.core_curriculum_2_link_text'),
           video: {
             videoId: '16b8482dc4d9b96c7d827fb788e64368'

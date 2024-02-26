@@ -3,7 +3,10 @@
     :is="link ? 'a' : 'div'"
     :href="link"
     :target="link ? target : null"
-    :class="{ box: true, horizontal: arrangement === 'horizontal', clickable: link}"
+    :class="{ box: true,
+              horizontal: arrangement === 'horizontal',
+              clickable: link || signupModal,
+              'signup-button': signupModal}"
     :style="boxStyle"
   >
     <div
@@ -68,6 +71,10 @@ export default {
       validator: function (value) {
         return ARRANGEMENT_OPTIONS.includes(value)
       }
+    },
+    signupModal: {
+      type: Boolean,
+      default: false
     },
     hasPadding: {
       type: Boolean,
@@ -161,6 +168,7 @@ export default {
   overflow: hidden;
 
   &.clickable:hover {
+    cursor: pointer;
     text-decoration: none;
     box-shadow: 0px 6px 22px 0px rgba(0, 0, 0, 0.20);
   }
