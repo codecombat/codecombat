@@ -10,7 +10,7 @@
             {{ $t('schools_page.our_comprehensive_implementation') }}
           </p>
           <CTAButton
-            class="contact-modal"
+            href="https://codecombat.com/teachers/quote"
             :description="$t('schools_page.let_us_craft_a_custom_program')"
           >
             {{ $t('schools_page.get_my_solution') }}
