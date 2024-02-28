@@ -111,11 +111,11 @@ export default Vue.extend({
           buttons: [
             {
               text: this.$t('standards_page.carousel_1_button_1_text'),
-              link: 'https://ozaria.com'
+              link: 'https://docs.google.com/spreadsheets/d/1S7qS2zxVccBMVNUQ0Duh6ugyQfhqopGKaSXyhCf-5UA/edit?usp=sharing'
             },
             {
               text: this.$t('standards_page.carousel_1_button_2_text'),
-              link: 'https://codecombat.com'
+              link: 'https://docs.google.com/spreadsheets/d/1C47-_ft41byNN-b88RXS05xLbYH_jk6Vqk4U_TQouPU/edit#gid=0'
             }
           ]
         },
@@ -126,7 +126,7 @@ export default Vue.extend({
           buttons: [
             {
               text: this.$t('standards_page.carousel_2_button_1_text'),
-              link: '/apcsp'
+              link: 'https://codecombat.com/apcsp'
             }]
         },
         {
@@ -136,11 +136,11 @@ export default Vue.extend({
           buttons: [
             {
               text: this.$t('standards_page.carousel_3_button_1_text'),
-              link: 'https://ozaria.com'
+              link: 'https://docs.google.com/document/d/1Nx7lIXyI5mMU_tB9HgPOqdEtzMcpDgXZE_RGjVaMN5o/edit?usp=sharing'
             },
             {
               text: this.$t('standards_page.carousel_3_button_2_text'),
-              link: 'https://codecombat.com'
+              link: 'https://docs.google.com/document/d/1k7oSRdCd1ctFnpgvYF_mjJl60nDTXKCK2xHG5rcnabI/edit?usp=sharing'
             }
           ]
         },
@@ -151,7 +151,7 @@ export default Vue.extend({
           buttons: [
             {
               text: this.$t('standards_page.carousel_4_button_1_text'),
-              link: 'https://ozaria.com'
+              link: 'https://docs.google.com/document/d/1oltTL0FygQHTMGcNERGLK21kJcmMpR25lTWzu9wkQ5Y/edit?usp=sharing'
             },
             {
               text: this.$t('standards_page.carousel_4_button_2_text'),
@@ -166,7 +166,7 @@ export default Vue.extend({
           buttons: [
             {
               text: this.$t('standards_page.carousel_5_button_1_text'),
-              link: 'https://ozaria.com'
+              link: 'https://docs.google.com/document/d/16r0-e-dOBBqHukXM7ITaiNCDiW0l8IRCPvRCqK-dAOM/edit?usp=sharing'
             },
             {
               text: this.$t('standards_page.carousel_5_button_2_text'),
