@@ -285,9 +285,16 @@ module.exports = (LeaderboardView = (function () {
     }
 
     getClanName (model) {
-      let left, left1, left2
-      const firstClan = (left = ((left1 = model.get('creatorClans')) != null ? left1 : [])[0]) != null ? left : {}
-      let name = (left2 = firstClan.displayName != null ? firstClan.displayName : firstClan.name) != null ? left2 : ''
+      const creatorClans = model.get('creatorClans') || []
+      const firstClan = creatorClans[0] || {}
+      let name = firstClan.displayName || firstClan.name || ''
+      if (this.league) {
+        const preferedClanID = _.find(model.get('leagues'), { leagueID: this.league.id }).displayTeamId
+        if (preferedClanID) {
+          const preferedClan = _.find(creatorClans, { _id: preferedClanID }) || {}
+          name = preferedClan.displayName || preferedClan.name || name
+        }
+      }
       if (!/[a-z]/.test(name)) {
         name = utils.titleize(name) // Convert any all-uppercase clan names to title-case
       }
