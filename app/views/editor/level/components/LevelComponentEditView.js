@@ -216,7 +216,10 @@ class PropertyDocumentationNode extends TreemaObjectNode {
     if (data.owner && data.owner !== 'this' && data.owner !== 'snippets') { s += `${data.owner}.` }
     s += data.name
     if (data.type) { s += `: ${data.type}` }
-    if (data.description) { s += ` - ${data.description.slice(0, 100)}${data.description.length > 100 ? '...' : ''}` }
+    if (data.description) {
+      const description = JSON.stringify(data.description)
+      s += ` - ${description.slice(0, 100)}${description.length > 100 ? '...' : ''}`
+    }
     const result = this.buildValueForDisplaySimply(valEl, s)
     // Doesn't work, would need a bit more effort to figure out how to enrich this with useful shorthands
     // if (data.i18n) {
