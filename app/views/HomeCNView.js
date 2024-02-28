@@ -21,6 +21,7 @@ const storage = require('core/storage')
 const { logoutUser, me } = require('core/auth')
 const CreateAccountModal = require('views/core/CreateAccountModal/CreateAccountModal')
 const fetchJson = require('core/api/fetch-json')
+const Mandate = require('models/Mandate')
 const DOMPurify = require('dompurify')
 
 module.exports = (HomeCNView = (function () {
@@ -53,6 +54,9 @@ module.exports = (HomeCNView = (function () {
       this.courses = new Courses()
       this.supermodel.trackRequest(this.courses.fetchReleased())
 
+      this.homeCN = {}
+      this.mandate = this.supermodel.loadModel(new Mandate()).model
+      this.listenTo(this.mandate, 'sync', this.getMandate)
       // @getBanner()
       if (me.isTeacher()) {
         this.trialRequests = new TrialRequests()
@@ -72,6 +76,11 @@ module.exports = (HomeCNView = (function () {
 
         ]
       }
+    }
+
+    getMandate () {
+      this.homeCN = this.mandate.get('0').homeCN
+      this.renderSelectors('.aiyouth')
     }
 
     getBanner () {

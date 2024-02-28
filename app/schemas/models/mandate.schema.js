@@ -71,6 +71,16 @@ module.exports = (MandateSchema = {
         description: 'Mapping of experimental values to their probabilities, like `{control: 0.75, experiment: 0.25}`',
         additionalProperties: c.pct({ description: 'Probability of being assigned to this experiment value' })
       }
+    },
+    homeCN: {
+      type: 'object',
+      properties: {
+        title: 'string',
+        subtitle: 'string',
+        time: 'string',
+        url: 'string',
+        urlText: 'string'
+      }
     }
   }
 })

@@ -26,6 +26,7 @@ const GetStartedSignupModal = require('app/views/teachers/GetStartedSignupModal'
 const paymentUtils = require('app/lib/paymentUtils')
 const fetchJson = require('core/api/fetch-json')
 const DOMPurify = require('dompurify')
+const Mandate = require('models/Mandate')
 const MineModal = require('views/core/MineModal') // Roblox modal
 storage = require('core/storage')
 
@@ -37,6 +38,9 @@ module.exports = (HomeView = (function () {
       this.onCarouselSlide = this.onCarouselSlide.bind(this)
       this.activateCarousels = this.activateCarousels.bind(this)
       this.renderedPaymentNoty = false
+      this.homeCN = {}
+      this.mandate = this.supermodel.loadModel(new Mandate()).model
+      this.listenTo(this.mandate, 'sync', this.getMandate)
       this.getBanner()
     }
 
@@ -100,6 +104,11 @@ module.exports = (HomeView = (function () {
           { vmid: 'rel-canonical', rel: 'canonical', href: '/' }
         ]
       }
+    }
+
+    getMandate () {
+      this.homeCN = this.mandate.get('0').homeCN
+      this.renderSelectors('.aiyouth')
     }
 
     getBanner () {
