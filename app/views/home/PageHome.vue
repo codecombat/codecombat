@@ -194,6 +194,9 @@ import ButtonSection from './ButtonSection.vue'
 import TrendsAndInsights from '../common/TrendsAndInsights.vue'
 import BaseCloudflareVideo from '../../components/common/BaseCloudflareVideo.vue'
 
+const utils = require('core/utils')
+const paymentUtils = require('app/lib/paymentUtils')
+
 export default Vue.extend({
   name: 'PageHome',
   components: {
@@ -402,6 +405,65 @@ export default Vue.extend({
           link: '/libraries'
         }
       ]
+    }
+  },
+  mounted () {
+    this.checkPaymentTracking()
+  },
+  methods: {
+    checkPaymentTracking () {
+      let needle, needle1, paymentResult, title, type
+      if ((needle = utils.getQueryVariable('payment-studentLicenses'), ['success', 'failed'].includes(needle)) && !this.renderedPaymentNoty) {
+        paymentResult = utils.getQueryVariable('payment-studentLicenses')
+        if (paymentResult === 'success') {
+          title = $.i18n.t('payments.studentLicense_successful')
+          type = 'success'
+          if (utils.getQueryVariable('tecmilenio')) {
+            title = '¡Felicidades! El alumno recibirá más información de su profesor para acceder a la licencia de CodeCombat.'
+          }
+          this.trackPurchase(`Student license purchase ${type}`)
+        } else {
+          title = $.i18n.t('payments.failed')
+          type = 'error'
+        }
+        noty({ text: title, type, timeout: 10000, killer: true })
+        this.renderedPaymentNoty = true
+      } else if ((needle1 = utils.getQueryVariable('payment-homeSubscriptions'), ['success', 'failed'].includes(needle1)) && !this.renderedPaymentNoty) {
+        paymentResult = utils.getQueryVariable('payment-homeSubscriptions')
+        if (paymentResult === 'success') {
+          title = $.i18n.t('payments.homeSubscriptions_successful')
+          type = 'success'
+          this.trackPurchase(`Home subscription purchase ${type}`)
+        } else {
+          title = $.i18n.t('payments.failed')
+          type = 'error'
+        }
+        noty({ text: title, type, timeout: 10000, killer: true })
+        this.renderedPaymentNoty = true
+      }
+    },
+    trackPurchase (event) {
+      if (!paymentUtils.hasTrackedPremiumAccess()) {
+        this.homePageEvent(event, this.getPaymentTrackingData())
+        return paymentUtils.setTrackedPremiumPurchase()
+      }
+    },
+
+    getPaymentTrackingData () {
+      const amount = utils.getQueryVariable('amount')
+      const duration = utils.getQueryVariable('duration')
+      return paymentUtils.getTrackingData({ amount, duration })
+    },
+
+    homePageEvent (action, extraProperties) {
+      if (extraProperties == null) { extraProperties = {} }
+      action = action || 'unknown'
+      const defaults = {
+        category: utils.isCodeCombat ? 'Homepage' : 'Home',
+        user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser'
+      }
+      const properties = _.merge(defaults, extraProperties)
+      return (window.tracker != null ? window.tracker.trackEvent(action, properties) : undefined)
     }
   }
 })
