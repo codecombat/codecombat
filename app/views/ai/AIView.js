@@ -32,6 +32,7 @@ module.exports = (AIView = (function () {
       $('html').css('font-size', '16px')
       ai.AI({ domElement: this.$el.find('#ai-root')[0] })
       window.handleAICreditLimitReached = this.handleAICreditLimitReached
+      window.AICreditLimitReachedMsg = this.AICreditLimitReachedMsg
       return super.afterInsert()
     }
 
@@ -39,11 +40,12 @@ module.exports = (AIView = (function () {
       // Redo our 62.5% default HTML font-size here
       $('html').css('font-size', '62.5%')
       window.handleAICreditLimitReached = null
+      window.AICreditLimitReachedMsg = null
       return super.destroy()
     }
 
     handleAICreditLimitReached (code, body) {
-      if (code !== 402) {
+      if (code !== 402 && code !== 4020) {
         return
       }
       let message = $.i18n.t('play_level.not_enough_credits_bot')
@@ -66,7 +68,33 @@ module.exports = (AIView = (function () {
           message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
         }
       }
-      noty({ text: message, type: 'error', timeout: 10000, layout: 'center' })
+      if (code === 402) {
+        noty({ text: message, type: 'error', timeout: 10000, layout: 'center' })
+      }
+    }
+
+    AICreditLimitReachedMsg (body) {
+      const creditsLeft = typeof body === 'string' ? JSON.parse(body)?.creditsLeft : body.creditsLeft
+      const creditObj = creditsLeft.find((c) => c.creditsLeft <= 0)
+      const interval = creditObj.durationKey
+      const amount = creditObj.durationAmount
+
+      if (me.isAnonymous()) {
+        return $.i18n.t('play_level.create_account_to_get_credits')
+      } else if (me.isHomeUser() || me.isParentHome()) {
+        if (me.isPremium()) {
+          return $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
+        }
+        return $.i18n.t('play_level.get_credits')
+      } else if (me.isTeacher()) {
+        // todo: teacher licenses checking
+        return $.i18n.t('play_level.get_ai_hs_license')
+      } else if (me.isStudent()) {
+        if (me.isEnrolled()) {
+          return $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
+        }
+        return $.i18n.t('play_level.ask_teacher_for_credits')
+      }
     }
   }
   AIView.initClass()

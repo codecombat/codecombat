@@ -1141,7 +1141,11 @@ module.exports = {
       ask_teacher_for_help_offline: 'Your Teacher is currently offline',
       not_enough_credits_bot: 'Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!',
       not_enough_credits_interval: 'No credits left for the __interval__. Consumed __amount__ credits.',
-      not_enough_credits_interval_multiple: 'No credits left for __duration__ __interval__. Consumed __amount__ credits.'
+      not_enough_credits_interval_multiple: 'No credits left for __duration__ __interval__. Consumed __amount__ credits.',
+      create_account_to_get_credits: 'Create an account to get free credits for using the AI powered support!',
+      ask_teacher_for_credits: 'Ask your teacher for an AI Hackstack license.',
+      get_credits: 'Get Credits',
+      get_ai_hs_license: 'Get AI Hackstack License',
     },
 
     apis: {
