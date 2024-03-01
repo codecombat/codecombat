@@ -54,7 +54,7 @@ export default {
       subOrgs: [],
       loading: true,
       earliestProgressDate: null,
-      fetchInterval: null,
+      fetchInterval: 500,
       fetchAttempts: 0,
       loadingText: 'Loading',
       loadingTips: ''
@@ -137,10 +137,6 @@ export default {
   },
 
   beforeDestroy () {
-    if (this.fetchInterval) {
-      window.clearInterval(this.fetchInterval)
-      this.fetchInterval = null
-    }
   },
 
   methods: {
@@ -185,17 +181,15 @@ export default {
       this.loading = (stats.status !== 'cached') // cached means loading finished(false)
       if (this.loading) {
         this.loadingText = $.i18n.t('common.loading') + '.'.repeat(this.fetchAttempts % 4)
-        if (this.fetchAttempts > 20) { // 10s
+        if (this.fetchAttempts > 6) { // 10.5s
           this.loadingTips = $.i18n.t('outcomes.loading_too_long')
         }
-        if (!this.fetchInterval) {
-          this.fetchInterval = setInterval(() => {
-            this.loadRequiredData()
-          }, 500)
+        setTimeout(() => {
+          this.loadRequiredData()
+        }, this.fetchInterval)
+        if (this.fetchInterval < 5000) {
+          this.fetchInterval += 500 // re-fetch can be slower for every time.
         }
-      } else {
-        window.clearInterval(this.fetchInterval)
-        this.fetchInterval = null
       }
 
       let subOrgs = []
