@@ -62,6 +62,16 @@ _.extend(AIScenarioSchema.properties, {
     format: 'i18n',
     props: ['mode', 'task', 'doc', 'name', 'description'],
   },
+  coverImage: {
+    title: 'Cover Image',
+    type: 'string',
+    description: 'The cover image for this scenario',
+  },
+  priority: {
+    title: 'Priority',
+    description: 'Lower numbers will show earlier.',
+    type: 'integer'
+  }
 })
 
 AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']
