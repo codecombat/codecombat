@@ -184,6 +184,7 @@ export default {
         if (this.fetchAttempts > 6) { // 10.5s
           this.loadingTips = $.i18n.t('outcomes.loading_too_long')
         }
+        // todo: migrate to websocket when ws enabled
         setTimeout(() => {
           this.loadRequiredData()
         }, this.fetchInterval)
