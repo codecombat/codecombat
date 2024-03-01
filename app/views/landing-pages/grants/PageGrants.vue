@@ -161,7 +161,7 @@
                   <div class="content-button-grantsgov">
                     <a
                       class="btn btn-primary btn-lg"
-                      href="https://www.grants.gov/web/grants/search-grants.html"
+                      href="https://www.grants.gov/search-grants"
                       target="_blank"
                     >Visit Grants.gov</a>
                   </div>

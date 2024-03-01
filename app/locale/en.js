@@ -1141,7 +1141,11 @@ module.exports = {
       ask_teacher_for_help_offline: 'Your Teacher is currently offline',
       not_enough_credits_bot: 'Opps! Looks like you don’t have enough queries. Subscribe now and get the queries you want for the AI powered support you need!',
       not_enough_credits_interval: 'No credits left for the __interval__. Consumed __amount__ credits.',
-      not_enough_credits_interval_multiple: 'No credits left for __duration__ __interval__. Consumed __amount__ credits.'
+      not_enough_credits_interval_multiple: 'No credits left for __duration__ __interval__. Consumed __amount__ credits.',
+      create_account_to_get_credits: 'Create an account to get free credits for using the AI powered support!',
+      ask_teacher_for_credits: 'Ask your teacher for an AI Hackstack license.',
+      get_credits: 'Get Credits',
+      get_ai_hs_license: 'Get AI Hackstack License',
     },
 
     apis: {
@@ -5345,9 +5349,9 @@ module.exports = {
       carousel_1_text: 'The **[https://csteachers.org/k12standards/]Computer Science Teachers Association K-12 Computer Science Standards** outline a core set of learning objectives that are designed to provide the foundation for a complete computer science curriculum and its implementation in K-12.\n\nCodeCombat is recognized by CSTA as an endorsed provider of curriculum and professional development. Learn the skills to effectively teach computer science with our self-directed, CSTA-accredited **[https://www.ozaria.com/professional-development]Professional Development** course. Earn up to 40 credit hours any time, from any device.\n\nLearn about the detailed CSTA Standards Alignment below:',
       carousel_1_button_1_text: 'Ozaria',
       carousel_1_button_2_text: 'CodeCombat',
-      carousel_2_title: 'Next Generation Science Standards (NGSS)',
-      carousel_2_text: 'The **[https://www.nextgenscience.org/]Next Generation Science Standards (NGSS)** are K–12 science content standards. Standards set the expectations for what students should know and be able to do.\n\nThe NGSS were developed by states to improve science education for all students. CodeCombat is aligned with NGSS.',
-      carousel_2_button_1_text: 'Learn More',
+      carousel_2_title: 'AP Computer Science Principles (AP CSP)',
+      carousel_2_text: 'CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all of the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum.\n\nLearn more about our CodeCombat AP CSP curriculum below:',
+      carousel_2_button_1_text: 'CodeCombat AP CSP',
       carousel_3_title: 'International Society for Technology in Education (ISTE)',
       carousel_3_text: 'The **[https://www.iste.org/standards]ISTE Standards** are a framework for students, educators, administrators, coaches and computer science educators to rethink education and create innovative learning environments. The standards are a roadmap for bold, innovative educators to re-engineer their schools and classrooms for digital age learning no matter where they fall on the journey to meaningful, effective ed tech integration.\n\nCodeCombat is aligned with ISTE standards.',
       carousel_3_button_1_text: 'Ozaria',
@@ -5356,8 +5360,8 @@ module.exports = {
       carousel_4_text: 'The **[http://www.corestandards.org/]Common Core State Standards Initiative** is an educational initiative from 2010 that details what K–12 students throughout the United States should know in English language arts and mathematics at the conclusion of each school grade.\n\nCodeCombat is aligned with Common Core standards.',
       carousel_4_button_1_text: 'Ozaria',
       carousel_4_button_2_text: 'CodeCombat',
-      carousel_5_title: 'Advanced Placement (AP) Computer Science Principles',
-      carousel_5_text: 'AP Computer Science Principles is an introductory college-level computing course. Students cultivate their understanding of computer science through working with data, collaborating to solve problems, and developing computer programs as they explore concepts like creativity, abstraction, data and information, algorithms, programming, the internet, and the global impact of computing.\n\nCodeCombat offers an AP Computer Science Principles course that is endorsed by College Board.',
+      carousel_5_title: 'Next Generation Science Standards (NGSS)',
+      carousel_5_text: 'The **[https://www.nextgenscience.org/]Next Generation Science Standards (NGSS)** are K–12 science content standards, setting expectations for what students should know and be able to do. These standards were developed by states to improve science education for all students.\n\nCodeCombat is a perfect curriculum partner for introducing key science and engineering concepts from NGSS.\n\nLearn about the detailed NGSS Standards Alignment below:',
       carousel_5_button_1_text: 'Ozaria',
       carousel_5_button_2_text: 'CodeCombat'
     }

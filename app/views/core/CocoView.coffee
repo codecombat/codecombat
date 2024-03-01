@@ -353,7 +353,7 @@ module.exports = class CocoView extends Backbone.View
     modalRef.on 'hidden.bs.modal', @modalClosed
     modalRef.on 'shown.bs.modal', @modalShown
     window.currentModal = modalView
-    @getRootView().stopListeningToShortcuts(true)
+    @getRootView?().stopListeningToShortcuts(true)
     Backbone.Mediator.publish 'modal:opened', {}
     viewLoad.record()
     return modalView
