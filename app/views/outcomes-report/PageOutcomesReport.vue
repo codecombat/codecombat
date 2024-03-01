@@ -53,7 +53,11 @@ export default {
       org: null,
       subOrgs: [],
       loading: true,
-      earliestProgressDate: null
+      earliestProgressDate: null,
+      fetchInterval: null,
+      fetchAttempts: 0,
+      loadingText: 'Loading',
+      loadingTips: ''
     }
     const defaults = parameterDefaults()
     for (const key in defaults) {
@@ -119,6 +123,7 @@ export default {
   },
 
   mounted () {
+    this.loadingText = $.i18n.t('common.loading')
     // Scroll to the current hash, once everything in the browser is set up
     // TODO: Should this be a general thing we do in all top-level Vue views, like it is on CocoViews?
     const scrollTo = () => {
@@ -132,7 +137,10 @@ export default {
   },
 
   beforeDestroy () {
-
+    if (this.fetchInterval) {
+      window.clearInterval(this.fetchInterval)
+      this.fetchInterval = null
+    }
   },
 
   methods: {
@@ -166,14 +174,29 @@ export default {
       // TODO: if we go from loaded subOrgs true to false, don't need to re-fetch
       $('html, body').animate({ scrollTop: 0 })
       await this.fetchOutcomesReportStats({ kind: this.kind, orgIdOrSlug: this.orgIdOrSlug, includeSubOrgs: this.includeSubOrgs, country: this.country, startDate: this.startDate, endDate: this.endDate }) // TODO: date range
-      this.loading = false
     },
 
     // TODO: date range
     async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
+      this.fetchAttempts++
       console.log('gonna load stats for', kind, orgIdOrSlug, country)
       const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate })
       console.log(' ...', kind, orgIdOrSlug, country, 'got stats', stats)
+      this.loading = (stats.status !== 'cached') // cached means loading finished(false)
+      if (this.loading) {
+        this.loadingText = $.i18n.t('common.loading') + '.'.repeat(this.fetchAttempts % 4)
+        if (this.fetchAttempts > 20) { // 10s
+          this.loadingTips = $.i18n.t('outcomes.loading_too_long')
+        }
+        if (!this.fetchInterval) {
+          this.fetchInterval = setInterval(() => {
+            this.loadRequiredData()
+          }, 500)
+        }
+      } else {
+        window.clearInterval(this.fetchInterval)
+        this.fetchInterval = null
+      }
 
       let subOrgs = []
       if (includeSubOrgs) {
@@ -308,7 +331,8 @@ main#page-outcomes-report
         outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
 
     .loading-indicator(v-if="loading")
-      h1= $t('common.loading')
+      h1 {{ loadingText }}
+      div.loading-tips {{ loadingTips }}
 
     if org && org.insightsHtml
       .dont-break.block
