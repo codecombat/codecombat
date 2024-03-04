@@ -66,7 +66,7 @@
             </div>
             <div class="content-text">
               <p class="content-title">
-                {{ String(item.title).replace('[NEWLINE]', ' ') }}
+                {{ String(item.title || '').replace('[NEWLINE]', ' ') }}
               </p>
               <div class="content-text">
                 <slot :name="item.key" />
