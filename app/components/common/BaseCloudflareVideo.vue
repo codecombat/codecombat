@@ -40,6 +40,11 @@ export default {
     playWhenVisible: {
       type: Boolean,
       default: false
+    },
+    title: {
+      type: String,
+      default: 'Your descriptive text here',
+      required: false
     }
   },
 
@@ -97,6 +102,8 @@ export default {
         if (this.playWhenVisible && this.isInViewport(video)) {
           this.playVideo()
         }
+
+        this.setTitleForIframe(video)
       }
       this.$emit('loaded')
     },
@@ -109,6 +116,16 @@ export default {
         rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
         rect.right <= (window.innerWidth || document.documentElement.clientWidth)
       )
+    },
+
+    setTitleForIframe (video) {
+      // Find the iframe inside the <stream> element
+      const iframe = video.querySelector('iframe')
+
+      // Set the title attribute of the iframe
+      if (iframe) {
+        iframe.setAttribute('title', this.title)
+      }
     },
 
     onCompleted () {

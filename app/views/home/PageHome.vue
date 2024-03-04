@@ -14,6 +14,7 @@
               <video-box
                 class="header__video"
                 video-id="da0d63c489741f4bd20448af1846292a"
+                title="Video to illustrate the header"
               />
             </template>
           </content-box>
@@ -167,10 +168,12 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <CTAButton class="contact-modal">
+          <CTAButton
+            class="contact-modal"
+            :description="$t('home_v3.for_further_questions')"
+          >
             {{ $t('home_v3.contact_us') }}
           </CTAButton>
-          <p>{{ $t('home_v3.for_further_questions') }}</p>
         </div>
       </div>
     </div>
@@ -357,7 +360,7 @@ export default Vue.extend({
           title: this.$t('schools_page.student_acceleration_2_title'),
           text: this.$t('schools_page.student_acceleration_2_text'),
           image: '/images/pages/schools/boxes/maximize_6.webp',
-          linkText: this.$t('schools_page.learn_more_text'),
+          linkText: this.$t('home_v3.learn_more_text_apcsp'),
           link: 'https://codecombat.com/apcsp',
           mainImageOriginal: true
         },

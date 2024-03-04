@@ -324,7 +324,7 @@ export default {
       align-items: center;
       justify-content: center;
       display: flex;
-      color: #878787;
+      color: $light-grey;
       font-weight: 500;
       font-feature-settings: 'clig' off, 'liga' off;
       border-bottom: 2px solid $light-purple;
