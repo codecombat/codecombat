@@ -1840,6 +1840,7 @@ module.exports = class SpellView extends CocoView
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault
+    @renderSelectors('.programming-language')
 
   onInsertSnippet: (e) ->
     snippetCode = null

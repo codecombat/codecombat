@@ -1,0 +1,29 @@
+#change-language-view
+  .trigger, .options
+    background-color: rgb(239,232,217)
+    color: black
+
+  .options
+    .selected
+      color: black
+
+    .hover
+      color: black
+      background-color: #abc
+
+  .code-language-form .options li
+    padding-left: 40px
+    background: transparent url(/images/common/code_languages/javascript_small.png) no-repeat left center
+    background-size: 32px 32px
+    margin-bottom: -1px
+
+    &[data-value="python"]
+      background-image: url(/images/common/code_languages/python_small.png)
+    &[data-value="coffeescript"]
+      background-image: url(/images/common/code_languages/coffeescript_small.png)
+    &[data-value="lua"]
+      background-image: url(/images/common/code_languages/lua_small.png)
+    &[data-value="java"]
+      background-image: url(/images/common/code_languages/java_small.png)
+    &[data-value="cpp"]
+      background-image: url(/images/common/code_languages/cpp_small.png)
