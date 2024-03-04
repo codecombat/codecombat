@@ -35,7 +35,7 @@
               class="carousel-content"
             >
               <p
-                v-for="(paragraph, pIndex) in item.text.split('\n\n')"
+                v-for="(paragraph, pIndex) in item.text.split('[NEWLINE]')"
                 :key="`paragraph-${pIndex}`"
                 class="carousel-paragraph"
               >
@@ -187,6 +187,8 @@ export default Vue.extend({
   display: flex;
   gap: 80px;
   flex-direction: column;
+  max-width: 100vw;
+  overflow:hidden;
 
   @extend %frontend-page;
 

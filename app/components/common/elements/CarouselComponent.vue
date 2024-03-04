@@ -32,7 +32,7 @@
               class="content-text"
             >
               <div
-                v-for="(line, lineIndex) in String(item.title).split('\n')"
+                v-for="(line, lineIndex) in String(item.title).split('[NEWLINE]')"
                 :key="`line-${lineIndex}`"
               >
                 {{ line }}
@@ -66,7 +66,7 @@
             </div>
             <div class="content-text">
               <p class="content-title">
-                {{ item.title }}
+                {{ item.title.replace('[NEWLINE]', ' ') }}
               </p>
               <div class="content-text">
                 <slot :name="item.key" />
