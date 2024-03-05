@@ -51,7 +51,7 @@ module.exports = class SpellTopBarView extends CocoView
     @blocksHidden = options.blocksHidden
     @teacherID = options.teacherID
     @teaching = utils.getQueryVariable 'teaching'
-    @showLevelHelp = true
+    @showLevelHelp = true && !me.showChinaResourceInfo()
     if me.isStudent()
       @showLevelHelp = options.showLevelHelp and options.showLevelHelp != 'none'
 

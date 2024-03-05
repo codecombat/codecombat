@@ -57,11 +57,12 @@ module.exports = class ProblemAlertView extends CocoView
     $(window).on 'resize', @onWindowResize
     @creditMessage = ''
     @showAiBotHelp = false
-    if @aceConfig.levelChat != 'none'
-      if me.isHomeUser() && me.getLevelChatExperimentValue() == 'beta'
-        @showAiBotHelp = true
-      else if not me.isHomeUser()
-        @showAiBotHelp = true
+    if !me.showChinaResourceInfo()
+      if @aceConfig.levelChat != 'none'
+        if me.isHomeUser() && me.getLevelChatExperimentValue() == 'beta'
+          @showAiBotHelp = true
+        else if not me.isHomeUser()
+          @showAiBotHelp = true
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
