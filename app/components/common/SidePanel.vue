@@ -51,9 +51,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@use 'app/styles/common/transition' with (
-  $side-panel-width: min(40vw, 800px)
-);
 
 .header-right{
   float: right;

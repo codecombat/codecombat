@@ -213,7 +213,8 @@ module.exports = (Classroom = (function () {
       const course = _.findWhere(courses, { _id: courseID })
       if (!course) { return }
       const levels = new Levels(course.levels)
-      return levels.find(l => l.isProject())
+      const projects = levels.filter(l => l.isProject())
+      return projects[projects.length - 1]
     }
 
     findNextLevel (sessions, courseLevels) {

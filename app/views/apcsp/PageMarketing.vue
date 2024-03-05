@@ -14,7 +14,8 @@
                 p.text-p {{ $t('apcsp_marketing.page_description_endorsed') }}
             .row.row-request-access
               .col-lg-12
-                a.btn.btn-primary.btn-lg.uppercase(href="https://forms.gle/RAA37R3FJojZ7bfQ7" target="_blank") {{ $t('apcsp_marketing.request_access') }}
+                a.btn.btn-primary.btn-lg.uppercase(v-if="hasLicense" href="/apcsportal") {{ $t('apcsp_marketing.ap_csp_portal') }}
+                .btn.btn-primary.btn-lg.uppercase(v-if="!hasLicense" @click="showModal=true") {{ $t('apcsp_marketing.request_access') }}
 
     .container-fluid.vector-flow
       .vector.vector-0
@@ -140,7 +141,8 @@
     #get-full-course.container-fluid
       .width-container.row
         .col.col-lg-12
-          a.btn.btn-primary.btn-lg.btn-shadow.uppercase(href="https://forms.gle/RAA37R3FJojZ7bfQ7" target="_blank") {{ $t('apcsp_marketing.get_full_course') }}
+          a.btn.btn-primary.btn-lg.btn-shadow.uppercase(v-if="hasLicense" href="/apcsportal") {{ $t('apcsp_marketing.get_full_course') }}
+          .btn.btn-primary.btn-lg.btn-shadow.uppercase(v-else @click="showModal=true") {{ $t('apcsp_marketing.get_full_course') }}
     #professional-development.container-fluid.container-fluid-gradient
       .width-container.row
         .col.col-lg-12
@@ -184,7 +186,7 @@
       .width-container.row.text-center
         .col.col-md-12
           h3.text-h3 {{ $t('apcsp_marketing.more_information') }}
-          a.btn.btn-primary.btn-lg.btn-shadow.uppercase(href="https://forms.gle/RAA37R3FJojZ7bfQ7" target="_blank") {{ $t('apcsp_marketing.contact_us') }}
+          a.btn.btn-primary.btn-lg.btn-shadow.uppercase(@click="showModal=true") {{ $t('apcsp_marketing.contact_us') }}
 
     #faq.container-fluid
       .width-container.row
@@ -203,15 +205,20 @@
               .col-md-6
                 .question {{ $t('apcsp_marketing.question_3') }}
                 .answer(v-html="$t('apcsp_marketing.answer_3', i18nData)")
-
+    modal-apcsp-contact(v-if="showModal" @close="showModal = false")
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import ModalAPCSPContact from 'app/components/common/ModalAPCSPContact.vue'
 
 export default Vue.extend({
+  components: {
+    'modal-apcsp-contact': ModalAPCSPContact
+  },
   data () {
     return {
+      showModal: false,
       icons: [
         {
           img: '/images/pages/apcsp/small-images/01-coding-levels.png',

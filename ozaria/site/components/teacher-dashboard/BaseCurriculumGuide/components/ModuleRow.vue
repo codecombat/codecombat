@@ -2,6 +2,7 @@
 import ContentIcon from '../../common/icons/ContentIcon'
 import { mapGetters } from 'vuex'
 import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
+import marked from 'marked'
 
 export default {
   components: {
@@ -12,7 +13,9 @@ export default {
     iconType: {
       type: String,
       required: true,
-      validator: value => ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].indexOf(value) !== -1
+      validator: value => {
+        return ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev', 'ladder', 'challenge'].indexOf(value) !== -1
+      }
     },
 
     displayName: {
@@ -59,6 +62,10 @@ export default {
       isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
     }),
 
+    clearDescription () {
+      return marked(this.description).replace(/<[^>]*>/g, '')
+    },
+
     moduleRowClass () {
       return {
         locked: this.isOnLockedCampaign,
@@ -102,7 +109,7 @@ export default {
         <b>{{ getContentTypeHeader }}: {{ displayName }}</b>
       </p>
       <p class="content-desc">
-        {{ description }}
+        {{ clearDescription }}
       </p>
       <div
         v-if="showCodeBtn"

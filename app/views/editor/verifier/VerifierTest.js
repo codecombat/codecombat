@@ -175,6 +175,11 @@ module.exports = (VerifierTest = class VerifierTest extends CocoClass {
         if (!this.solution.goals[k]) { continue }
         if (this.solution.goals[k] !== this.goals[k].status) { return false }
       }
+    } else if (this.goals) {
+      const allPassed = _.all(this.goals, goal => goal.status === 'success')
+      const someFailed = _.any(this.goals, goal => goal.status !== 'success')
+      if (this.solution.succeeds) { return allPassed }
+      if (!this.solution.succeeds) { return someFailed }
     }
     return true
   }

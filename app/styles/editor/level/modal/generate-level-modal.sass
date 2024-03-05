@@ -1,0 +1,81 @@
+#generate-level-modal
+
+  .choose-option
+    margin-bottom: 15px
+    margin-right: 1%
+    margin-left: 1%
+    overflow: hidden
+    background: white
+    border: 1px solid #333
+    position: relative
+    float: left
+    text-align: center
+
+    -webkit-transition: opacity 0.3s ease-in-out
+    -moz-transition: opacity 0.3s ease-in-out
+    -ms-transition: opacity 0.3s ease-in-out
+    -o-transition: opacity 0.3s ease-in-out
+    transition: opacity 0.3s ease-in-out
+
+    opacity: 0.4
+
+    border-radius: 5px
+    .only-one
+      -webkit-transition: opacity 0.3s ease-in-out
+      -moz-transition: opacity 0.3s ease-in-out
+      -ms-transition: opacity 0.3s ease-in-out
+      -o-transition: opacity 0.3s ease-in-out
+      transition: opacity 0.3s ease-in-out
+      opacity: 0
+
+  .choose-option:hover
+    opacity: 1
+    .only-one
+      opacity: 1
+
+  .diagram-row
+    font-size: 24px
+    font-family: monospace
+
+  .name-label
+    border-bottom: 20px solid lightslategray
+    height: 0
+    min-width: 40%
+    position: absolute
+    bottom: 0
+    color: black
+    font-weight: bold
+    text-align: center
+    z-index: 2
+
+    span
+      position: relative
+      top: 1px
+
+  .preset-size
+    border-left: 15px solid transparent
+    right: 0
+    //text-align: right
+    span
+      right: 3px
+
+  .preset-name
+    border-top: 25px solid darkgray
+    border-left: 20px solid transparent
+    border-right: 20px solid transparent
+    height: 0
+    width: 30%
+    position: absolute
+    left: 35%
+    top: 0
+    color: black
+    text-align: center
+    font-size: 18px
+    font-weight: bold
+
+    span
+      position: relative
+      top: -25px
+
+  .capitalize
+    text-transform: capitalize

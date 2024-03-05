@@ -35,6 +35,29 @@ const utils = require('./utils')
 const ViewLoadTimer = require('core/ViewLoadTimer')
 const paymentUtils = require('lib/paymentUtils')
 
+const homePageExperiment = function () {
+  if (!utils.isCodeCombat) {
+    return 'control'
+  }
+  const experimentName = 'home-page'
+  let value = me.getExperimentValue(experimentName)
+  if (value) {
+    return value
+  }
+  const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.2
+  let valueProbability
+  const rand = Math.random()
+  if (rand < probability) {
+    value = 'beta'
+    valueProbability = probability
+  } else {
+    value = 'control'
+    valueProbability = 1 - probability
+  }
+  me.startExperiment(experimentName, value, valueProbability)
+  return value
+}
+
 module.exports = (CocoRouter = (function () {
   CocoRouter = class CocoRouter extends Backbone.Router {
     static initClass () {
@@ -66,7 +89,11 @@ module.exports = (CocoRouter = (function () {
               return this.routeDirectly('HomeCNView', [])
             }
           }
-          return this.routeDirectly('HomeView', [])
+          if (homePageExperiment() === 'beta') {
+            return this.routeDirectly('HomeBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+          } else {
+            return this.routeDirectly('HomeView', [])
+          }
         },
 
         about: go('AboutView'),
@@ -242,7 +269,7 @@ module.exports = (CocoRouter = (function () {
         },
 
         'play/hoc-2020' () { return this.navigate('/play/hoc-2018', { trigger: true, replace: true }) }, // Added to handle HoC PDF
-        home: utils.isCodeCombat && me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),
+        home: utils.isCodeCombat && me.useChinaHomeView() ? go('HomeCNView') : (homePageExperiment() === 'beta' ? go('core/SingletonAppVueComponentView') : go('HomeView')),
 
         i18n: go('i18n/I18NHomeView'),
         'i18n/thang/:handle': go('i18n/I18NEditThangTypeView'),
@@ -293,6 +320,14 @@ module.exports = (CocoRouter = (function () {
 
         'codequest' () {
           return this.routeDirectly('PageCodequest', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+        },
+
+        'home-beta': go('core/SingletonAppVueComponentView'),
+
+        standards: go('core/SingletonAppVueComponentView'),
+
+        'schools' () {
+          return this.routeDirectly('SchoolsView', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
         },
 
         'league/academica': redirect('/league/autoclan-school-network-academica'), // Redirect for Academica.
@@ -408,7 +443,6 @@ module.exports = (CocoRouter = (function () {
         roblox: go('core/SingletonAppVueComponentView'),
         grants: go('core/SingletonAppVueComponentView'),
 
-        schools: me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),
         seen: me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),
 
         students: go('courses/CoursesView', { redirectTeachers: true }),
@@ -420,7 +454,7 @@ module.exports = (CocoRouter = (function () {
         'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true }),
 
         'teachers' () {
-          if (utils.isCodeCombat && (localStorage.getItem('newDT') !== 'true')) {
+          if (utils.isCodeCombat && (localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true')) {
             delete window.alreadyLoadedView
             return this.navigate('/teachers/classes' + document.location.search, { trigger: true, replace: true })
           } else {
@@ -428,23 +462,24 @@ module.exports = (CocoRouter = (function () {
           }
         },
         'teachers/classes' () {
-          if (utils.isCodeCombat && (localStorage.getItem('newDT') !== 'true')) {
+          if (utils.isCodeCombat && (localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true')) {
             return this.routeDirectly('courses/TeacherClassesView', [], { redirectStudents: true, teachersOnly: true })
           } else {
             return this.routeDirectly('core/SingletonAppVueComponentView', arguments, { redirectStudents: true, teachersOnly: true })
           }
         },
         'teachers/projects/:classroomId': go('core/SingletonAppVueComponentView'),
+        'teachers/assessments/:classroomId': go('core/SingletonAppVueComponentView'),
         'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true }),
         'teachers/classes/:classroomID' () {
-          if (utils.isCodeCombat && (localStorage.getItem('newDT') !== 'true')) {
+          if (utils.isCodeCombat && (localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true')) {
             return this.routeDirectly('courses/TeacherClassView', arguments, { redirectStudents: true, teachersOnly: true })
           } else {
             return this.routeDirectly('core/SingletonAppVueComponentView', arguments, { redirectStudents: true, teachersOnly: true })
           }
         },
         'teachers/courses' () {
-          if (utils.isCodeCombat && (localStorage.getItem('newDT') !== 'true')) {
+          if (utils.isCodeCombat && (localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true')) {
             return this.routeDirectly('courses/TeacherCoursesView', arguments, { redirectStudents: true })
           } else {
             delete window.alreadyLoadedView

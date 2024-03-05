@@ -224,9 +224,12 @@ kbd
     height: 60px
 
 .popover
-  border-style: solid
-  border-image: url(/images/level/popover_border_background.png) 16 12 fill stretch
-  border-width: 16px 12px
+  @if $is-codecombat
+    border-style: solid
+    border-image: url(/images/level/popover_border_background.png) 16 12 fill stretch
+    border-width: 16px 12px
+  @else
+    border: 4px solid #F7D047
   .arrow
     display: none
   .btn
@@ -308,56 +311,6 @@ kbd
 
   &:hover > *
     @include opacity(1)
-
-
-html.no-borderimage
-  .popover
-    border: 0
-    background: transparent url(/images/level/popover_background.png)
-    background-size: 100% 100%
-    padding: 10px 20px
-
-  .btn.btn-illustrated
-    border: 0
-    background-image: url(/images/common/button-background-active.png)
-    background-size: 100% 100%
-    padding: 7px 10px 10px 10px
-
-    &.btn-primary
-      background-image: url(/images/common/button-background-primary-active.png)
-    &.btn-success
-      background-image: url(/images/common/button-background-success-active.png)
-    &.btn-warning
-      background-image: url(/images/common/button-background-warning-active.png)
-    &.btn-danger
-      background-image: url(/images/common/button-background-danger-active.png)
-
-    &:active
-      background-image: url(/images/common/button-background-pressed.png)
-      padding: 9px 8px 8px 12px
-      border: 0
-
-      &.btn-primary
-        background-image: url(/images/common/button-background-primary-pressed.png)
-      &.btn-success
-        background-image: url(/images/common/button-background-success-pressed.png)
-      &.btn-warning
-        background-image: url(/images/common/button-background-warning-pressed.png)
-      &.btn-danger
-        background-image: url(/images/common/button-background-danger-pressed.png)
-
-    &.disabled, &:disabled
-      background-image: url(/images/common/button-background-disabled.png)
-
-      &.btn-primary
-        background-image: url(/images/common/button-background-primary-disabled.png)
-      &.btn-success
-        background-image: url(/images/common/button-background-success-inactive.png)
-      &.btn-warning
-        background-image: url(/images/common/button-background-warning-disabled.png)
-      &.btn-danger
-        background-image: url(/images/common/button-background-danger-disabled.png)
-
 
 body > iframe[src^="https://apis.google.com"]
   display: none

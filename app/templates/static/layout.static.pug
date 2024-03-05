@@ -6,7 +6,7 @@ html(lang='en')
     - var productShort = product == 'codecombat' ? 'coco' : 'ozar'
     - var productCap = product == 'codecombat' ? 'CodeCombat' : 'Ozaria'
     meta(charset='utf-8')
-    meta(name='viewport', content="width=device-width,initial-scale=1.0", data-vue-meta="true", data-vmid="viewport")
+    meta(name='viewport', content="width=device-width,initial-scale=1.0,viewport-fit=cover", data-vue-meta="true", data-vmid="viewport")
     meta(http-equiv='Accept-CH', content='Viewport-Width')
     title(data-i18n=`new_home.title_${productShort}`)
     meta(name="keywords", data-i18n=`[content]new_home.meta_keywords_${productShort}`)
@@ -151,6 +151,7 @@ html(lang='en')
           clientToken: 'puba9a669c3117915d99f1f47970d1f49ff',
           forwardErrorsToLogs: true
         });
+              
 
     // Webpack-inserted CSS:
     //- (will be inserted at runtime)

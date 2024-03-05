@@ -46,6 +46,7 @@ module.exports = class LevelChatView extends CocoView
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
     @diffShown = false
+    @creditUid = undefined
 
   updateMultiplayerVisibility: ->
     return unless @$el?
@@ -121,7 +122,8 @@ module.exports = class LevelChatView extends CocoView
     splitContent = content.split('\[Show Me\]')
     preContent = splitContent[0]
     if splitContent.length > 1
-      buttonContent = "<p><button class='btn btn-illustrated btn-small btn-primary fix-code-button'>#{$.i18n.t('play_level.chat_fix_' + if @diffShown then 'hide' else 'show')}</button></p>"
+      btnCls = if utils.isCodeCombat then  'btn-illustrated btn-primay' else 'ai-btn-active'
+      buttonContent = "<p><button class='btn btn-small #{btnCls} fix-code-button'>#{$.i18n.t('play_level.chat_fix_' + if @diffShown then 'hide' else 'show')}</button></p>"
       postContent = splitContent[1]
     else
       @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
@@ -154,7 +156,8 @@ module.exports = class LevelChatView extends CocoView
         tr.addClass('me')
         avatarTd = $("<div class='td player-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/db/user/#{me.id}/avatar?s=80' alt='Player'></a></div>")
       else
-        avatarTd = $("<div class='td chatbot-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='/images/level/baby-griffin.png' alt='AI'></a></div>")
+        avatarImg = if utils.isCodeCombat then '/images/level/baby-griffin.png' else '/images/ozaria/avatar-selector/avatar_ghost.png'
+        avatarTd = $("<div class='td chatbot-avatar-cell avatar-cell'><a href='/editor/chat/#{messageId or ''}' target='_blank'><img class='avatar' src='#{avatarImg}' alt='AI'></a></div>")
       tr.addClass 'streaming' if message.streaming
       mbody.append(avatarTd)
       mbody.append(td)
@@ -232,14 +235,25 @@ module.exports = class LevelChatView extends CocoView
     @checkCreditsAndAddMessage(e.message)
 
   checkCreditsAndAddMessage: (message) ->
+    if @creditUid
+      # console.log('too many attempts')
+      noty({text: 'too many attempts, please try again later', layout: 'topRight', type: 'error', timeout: 3000})
+      return
+
     uuid = crypto.randomUUID() || Date.now()
+    event = 'LevelChatBot Clicked'
+    props = { lid: @levelID, ls: @sessionID, redeem: false }
+    @creditUid = "#{uuid}|#{message.slice(0, 20)}"
     userCreditApi.redeemCredits({
       operation: 'LEVEL_CHAT_BOT',
-      id: "#{uuid}|#{message.slice(0, 20)}"
+      id: @creditUid
     })
       .then (res) =>
+        props.redeem = true
+        window.tracker?.trackEvent event, props
         @saveChatMessage { text:  message }
       .catch (err) =>
+        window.tracker?.trackEvent event, props
         console.log('user credit redemption error', err)
         message = err?.message || 'Internal error'
         if err.code is 402
@@ -305,12 +319,21 @@ module.exports = class LevelChatView extends CocoView
 
   onChatMessageSaved: (chatMessage) ->
     @onNewMessage message: chatMessage.get('message'), messageId: chatMessage.get('_id')  # TODO: temporarily putting this after save so we have message id link
+    if @creditUid
+      creditUid = @creditUid
+      @creditUid = undefined
+      userCreditApi.updateCreditUid({
+        operation: 'LEVEL_CHAT_BOT',
+        uid: creditUid,
+        newId: chatMessage.get('_id')
+      })
+
     return if chatMessage.get('message')?.sender?.kind is 'bot'
     #fetchJson("/db/chat_message/#{chatMessage.id}/ai-response").then @onChatResponse
     @fetchChatMessageStream chatMessage.id
 
   fetchChatMessageStream: (chatMessageId) ->
-    model = utils.getQueryVariable('model') or 'gpt-4-1106-preview' # or 'gpt-4'
+    model = utils.getQueryVariable('model') or 'gpt-4-turbo-preview' # or 'gpt-4'
     fetch("/db/chat_message/#{chatMessageId}/ai-response?model=#{model}").then co.wrap (response) =>
       reader = response.body.getReader()
       decoder = new TextDecoder('utf-8')
@@ -435,7 +458,7 @@ module.exports = class LevelChatView extends CocoView
   onWindowResize: (e) =>
     # Couldn't figure out the CSS to make this work, so doing it here
     return if @destroyed
-    maxHeight = $(window).height() - $('#thang-hud').offset().top - $('#thang-hud').height() - 25 - 30
+    maxHeight = $(window).height() - (($('#thang-hud')?.offset()?.top + $('#thang-hud').height() )|| 200)  - 25 - 30
     if maxHeight < 0
       # Just have to overlay the level, and have them close when done
       maxHeight = 0

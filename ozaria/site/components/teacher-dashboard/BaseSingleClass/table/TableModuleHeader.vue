@@ -225,14 +225,31 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 
   background-color: #413c55;
   border-bottom: 1px solid white;
 
   padding: 0 0 0 12px;
 
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .v-popover {
+    display: none;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+  }
+
+  &:hover .v-popover {
+    display: block;
+
+  }
+
   h3 {
-    overflow: hidden;
+    max-height: 2em;
+    overflow-y: visible;
     text-overflow: ellipsis;
   }
 }

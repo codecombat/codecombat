@@ -1,14 +1,14 @@
 // WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
 // Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
 //
-// Last updated: 2023-12-04T11:56:21.103Z
+// Last updated: 2024-02-21T12:07:22.413Z
 
 const _ = require('lodash')
 const c = require('./../schemas')
 
 const AIChatMessageSchema = c.object({
   title: 'AI Chat Message',
-  description: 'A generative AI interaction'
+  description: 'A generative AI interaction',
 })
 
 _.extend(AIChatMessageSchema.properties, {
@@ -18,13 +18,13 @@ _.extend(AIChatMessageSchema.properties, {
     type: ['object', 'string'],
     description: 'The parent chat of this message',
     format: 'chat-message-parent-link',
-    refPath: 'parentKind'
+    refPath: 'parentKind',
   },
   parentKind: {
     title: 'Parent Kind',
     type: 'string',
     description: 'Whether this message is part of a scenario or project chat',
-    enum: ['scenario', 'project']
+    enum: ['scenario', 'project'],
   },
   sentAt: { title: 'Sent At', type: 'number' },
   text: { title: 'Text', type: 'string', description: 'The content text of the chat message' },
@@ -32,7 +32,11 @@ _.extend(AIChatMessageSchema.properties, {
     title: 'Documents',
     type: 'array',
     description: 'The attached AI Document objects',
-    items: { type: 'string', links: [{ rel: 'db', href: '/db/level/{($)}/version' }], format: 'ai-document-link' }
+    items: {
+      type: ['string', 'object'],
+      links: [{ rel: 'db', href: '/db/level/{($)}/version' }],
+      format: 'ai-document-link',
+    },
   },
   actionData: {
     title: 'Action Data',
@@ -53,15 +57,15 @@ _.extend(AIChatMessageSchema.properties, {
               type: 'object',
               format: 'i18n',
               props: ['text', 'responseText'],
-              description: 'Help translate this property'
-            }
-          }
-        }
-      }
-    }
+              description: 'Help translate this property',
+            },
+          },
+        },
+      },
+    },
   },
   i18n: { title: 'I18n', type: 'object', description: 'Help translate this property', format: 'i18n', props: ['text'] },
-  ownerID: { title: 'Owner Id', type: 'string', description: 'The user who created this chat message' }
+  ownerID: { title: 'Owner Id', type: 'string', description: 'The user who created this chat message' },
 })
 
 AIChatMessageSchema.required = ['actor', 'parent', 'parentKind', 'sentAt', 'text', 'documents', 'ownerID']

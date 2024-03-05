@@ -51,3 +51,6 @@ if includeHomeLink
   if me.get('anonymous') && !features.noAuth
     button.btn.btn-xs.btn-primary.banner#control-bar-sign-up-button(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="signup.sign_up")
 
+  if view.level.get('product', true) != 'codecombat-junior' && view.options.hintsState && view.options.hintsState.get('total') > 0
+    .btn.btn-small.btn-illustrated.hints-button
+      span(data-i18n="play_level.hints")

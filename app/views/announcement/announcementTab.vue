@@ -2,6 +2,7 @@
   <div
     class="tab"
     :class="{read: announcement.read, truncated: isTruncated}"
+    :data-index="index"
   >
     <div class="left">
       <div class="time">
@@ -42,7 +43,7 @@ import moment from 'moment'
 import { mapActions } from 'vuex'
 export default {
   name: 'AnnouncementTab',
-  props: ['announcement', 'scrolledTo'],
+  props: ['announcement', 'scrolledTo', 'observer', 'index'],
   data () {
     return {
       isTruncated: true,
@@ -62,15 +63,18 @@ export default {
     }
   },
   mounted () {
-    const el = document.querySelector(`#content${this.announcement._id}`)
-    this.isEllipsisActive = this.checkEllipsisActive(el)
-    this.isTruncated = this.isEllipsisActive
+    this.observer.observe(this.$el)
+    this.$nextTick(() => { // queryselector sometimes cannot load normally when mounted, add nexttick to delay it
+      const el = document.querySelector(`#content${this.announcement._id}`)
+      this.isEllipsisActive = this.checkEllipsisActive(el)
+      this.isTruncated = this.isEllipsisActive
 
-    if (this.scrolledTo) {
-      this.isTruncated = false
-      // top level component
-      el.parentElement.parentElement.scrollIntoView({ behaviors: 'smooth', block: 'center' })
-    }
+      if (this.scrolledTo) {
+        this.isTruncated = false
+        // top level component
+        el.parentElement.parentElement.scrollIntoView({ behaviors: 'smooth', block: 'center' })
+      }
+    })
   },
   methods: {
     ...mapActions('announcements', [
@@ -83,6 +87,9 @@ export default {
     },
     readfull () {
       this.isTruncated = false
+      if (!this.announcement.read) {
+        this.readAnnouncement(this.announcement._id)
+      }
     },
     // checkEllipsisActive and checkRange coming from
     // https://stackoverflow.com/a/64747288

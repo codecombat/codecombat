@@ -214,7 +214,7 @@ export default Vue.extend({
     return {
       title: utils.getProductName(),
       meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
       ]
     }
   },

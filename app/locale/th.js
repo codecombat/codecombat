@@ -320,7 +320,7 @@ module.exports = {
       for_everyone: 'สำหรับทุกคน',
       for_students: 'สำหรับนักเรียน',
       for_individuals: 'สำหรับเอกชน',
-      for_libraries: 'สําหรับห้องสมุด'
+      for_libraries: 'สําหรับห้องสมุด',
       //    for_partners: "For Partners",
       //    for_partners_title: "Partner With CodeCombat",
       //    for_partners_blurb: "Join our mission to make coding accessible and engaging for all by becoming a valued partner with CodeCombat. Our partnership structures include educational businesses, esports sponsors, international distributors, and social impact partners. Partners receive access to our easy-to-use programs, implementation resources, and training options for a successful and enjoyable experience.",
@@ -423,7 +423,7 @@ module.exports = {
       //    libraries: "Libraries",
       //    codecombat_worlds_on_roblox: "CodeCombat Worlds on Roblox",
       pricing: 'ราคา',
-      help_center: 'ศูนย์ช่วยเหลือ'
+      help_center: 'ศูนย์ช่วยเหลือ',
       //    research_efficacy: "Research - Efficacy",
       //    research_impact: "Research - Impact",
     },
@@ -432,11 +432,11 @@ module.exports = {
       close: 'ปิด',
       okay: 'ตกลง',
       cancel: 'ยกเลิก',
-      try_again: 'ลองอีกครั้ง'
+      try_again: 'ลองอีกครั้ง',
     },
 
     not_found: {
-      page_not_found: 'ขออภัย ไม่พบหน้าเว็บที่คุณต้องการ'
+      page_not_found: 'ขออภัย ไม่พบหน้าเว็บที่คุณต้องการ',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'เราพัฒนา CodeCombat เป็นภาษาอังกฤษ แต่เรามีผู้เล่นอยู่ทั่วโลกแล้ว หลายคนอยากเล่นภาษาไทย แต่ไม่พูดภาษาอังกฤษดังนั้นถ้าคุณสามารถพูดได้ทั้งสองอย่างโปรดพิจารณาลงทะเบียนเพื่อเป็น Diplomat และช่วยแปลเว็บไซต์ CodeCombat และทุกด่านเป็นภาษาไทย',
       missing_translations: 'จนกว่าเราจะสามารถแปลทุกสิ่งทุกอย่างเป็นภาษาไทยได้คุณจะเห็นภาษาอังกฤษเมื่อภาษาไทยไม่สามารถใช้ได้',
       learn_more: 'เรียนรู้เพิ่มเติมเกี่ยวกับการเป็น Diplomat',
-      subscribe_as_diplomat: 'สมัครเป็น Diplomat'
+      subscribe_as_diplomat: 'สมัครเป็น Diplomat',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Sign up as an Adventurer',
       //    awaiting_levels_adventurer_suffix: "to be the first to play new levels.",
       //    adjust_volume: "Adjust volume",
+      //    toggle_fullscreen: "Toggle fullscreen",
       //    campaign_multiplayer: "Multiplayer Arenas",
       //    campaign_multiplayer_description: "... in which you code head-to-head against other players.",
       //    brain_pop_done: "You’ve defeated the Ogres with code! You win!",
@@ -541,7 +542,7 @@ module.exports = {
       back_to_dashboard: 'กลับไปที่แดชบอร์ด',
       //    back_to_ozaria: "Back to ozaria.com",
       customize_hero: 'ปรับแต่งฮีโร่',
-      account_settings: 'ตั้งค่าบัญชี'
+      account_settings: 'ตั้งค่าบัญชี',
       //    back_to_tutorial: "Back to tutorial",
       //    teacher_vega_message: "Students are guided by these tutorial messages. In order to view these messages and to save your progress as you play through the game, please create a student account and play Ozaria as a student.",
       //    beta_levels_on: "beta levels on",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'ไม่ถูกกำหนดค่า',
       null: 'ว่าง',
       nil: 'ศูนย์',
-      None: 'ไม่มี'
+      None: 'ไม่มี',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'กรอกที่อีเมลของพ่อแม่ของคุณและแสดงให้ท่านเห็น!',
       form_label: 'ที่อยู่อีเมล',
       placeholder: 'ที่อยู่อีเมล',
-      title: 'เยี่ยมมาก ผู้ฝึกหัด'
+      title: 'เยี่ยมมาก ผู้ฝึกหัด',
     },
 
     login: {
@@ -632,7 +633,7 @@ module.exports = {
       //    stop_switching: "Stop Switching",
       test_as_student: 'ทดสอบในฐานะนักเรียน',
       gplus_linked: 'บัญชี Google ได้รับการเชื่อมโยงสำเร็จเรียบร้อยแล้ว',
-      plus_link_error: 'การเชื่อมโยงบัญชี Google ล้มเหลว'
+      plus_link_error: 'การเชื่อมโยงบัญชี Google ล้มเหลว',
       //    email_or_username_or_library: "Email or Username or Library Card number",
     },
 
@@ -662,7 +663,7 @@ module.exports = {
       //    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help.",
       //    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help.",
       checking: 'กำลังตรวจสอบ...',
-      account_exists: 'อีเมลนี้ถูกใช้แล้วนะ :'
+      account_exists: 'อีเมลนี้ถูกใช้แล้วนะ :',
       //    sign_in: "Sign in",
       //    email_good: "Email looks good!",
       //    name_taken: "Username already taken! Try {{suggestedName}}?",
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'ชุดเกราะ',
       accessories: 'เครื่องประดับ',
       misc: 'อื่นๆ',
-      books: 'หนังสือ'
+      books: 'หนังสือ',
     },
 
     common: {
@@ -788,7 +789,7 @@ module.exports = {
       //    publish: "Publish",
       //    create: "Create",
       //    fork: "Fork",
-      play: 'เล่น'
+      play: 'เล่น',
       //    retry: "Retry",
       //    actions: "Actions",
       //    info: "Info",
@@ -873,7 +874,7 @@ module.exports = {
       //    contact_us: "Contact Us",
       //    close_window: "Close Window",
       //    learn_more: "Learn More",
-      more: 'อื่นๆ'
+      more: 'อื่นๆ',
       //    fewer: "Fewer",
       //    with: "with",
       //    archived: "Archived",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'เดือน',
       months: 'เดือน',
       year: 'ปี',
-      years: 'ปี'
+      years: 'ปี',
     },
 
     play_level: {
@@ -1067,7 +1068,7 @@ module.exports = {
       //    tip_free_your_mind: "You have to let it all go, Neo. Fear, doubt, and disbelief. Free your mind. - Morpheus",
       tip_strong_opponents: 'ศัตรูที่แข็งแกร่งที่สุด ก็ยังมีจุดอ่อน - อุจิวะ อิทาจิ',
       //    tip_paper_and_pen: "Before you start coding, you can always plan with a sheet of paper and a pen.",
-      tip_solve_then_write: 'อย่างแรก ต้องแก้ไขปัญหาก่อน จากนั้นก็เขียนโค๊ด. - John Johnson'
+      tip_solve_then_write: 'อย่างแรก ต้องแก้ไขปัญหาก่อน จากนั้นก็เขียนโค๊ด. - John Johnson',
       //    tip_compiler_ignores_comments: "Sometimes I think that the compiler ignores my comments.",
       //    tip_understand_recursion: "The only way to understand recursion is to understand recursion.",
       //    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome.",
@@ -1155,7 +1156,7 @@ module.exports = {
       //    array: "Array",
       //    object: "Object",
       //    string: "String",
-      function: 'ฟังก์ชั่น'
+      function: 'ฟังก์ชั่น',
       //    vector: "Vector",
       //    date: "Date",
       //    jquery: "jQuery",
@@ -1212,6 +1213,7 @@ module.exports = {
       inventory_tab: 'คลัง',
       save_load_tab: 'เซฟ/โหลด',
       options_tab: 'ตัวเลือก',
+      //    my_code_tab: "My Code",
       //    guide_tab: "Guide",
       guide_video_tutorial: 'วีดีโอสอน',
       //    guide_tips: "Tips",
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'เลือกฮีโร่ของคุณ!!',
       //    choose_hero_caption: "Choose hero, language",
       //    options_caption: "Configure settings",
+      //    my_code_caption: "Quick Code Actions",
       //    guide_caption: "Docs and tips",
       multiplayer_caption: 'เล่นกับเพื่อนๆ!!!',
-      auth_caption: 'บันทึกความก้าวหน้าของคุณ'
+      auth_caption: 'บันทึกความก้าวหน้าของคุณ',
     },
 
     leaderboard: {
@@ -1237,7 +1240,7 @@ module.exports = {
       //    damage_taken: "Damage Taken",
       //    damage_dealt: "Damage Dealt",
       difficulty: 'ระดับความยาก',
-      gold_collected: 'Gold ที่เก็บได้'
+      gold_collected: 'Gold ที่เก็บได้',
       //    survival_time: "Survived",
       //    defeated: "Enemies Defeated",
       //    code_length: "Lines of Code",
@@ -1254,7 +1257,7 @@ module.exports = {
       //    locked: "(locked)",
       //    restricted: "(restricted in this level)",
       equip: 'ใช้งาน',
-      unequip: 'ถอดออก'
+      unequip: 'ถอดออก',
       //    warrior_only: "Warrior Only",
       //    ranger_only: "Ranger Only",
       //    wizard_only: "Wizard Only",
@@ -1267,7 +1270,7 @@ module.exports = {
       //    purchasing: "Purchasing...",
       //    declined: "Your card was declined",
       retrying: 'เซิร์ฟเวอร์ไม่ตอบสนอง กำลังลองอีกครั้ง',
-      prompt_title: 'Gems ไม่พอ'
+      prompt_title: 'Gems ไม่พอ',
       //    prompt_body: "Do you want to get more?",
       //    prompt_button: "Enter Shop",
       //    recovered: "Previous gems purchase recovered. Please refresh the page.",
@@ -1344,6 +1347,7 @@ module.exports = {
     //    currently_not_free: "You don't have a Subscription yet.",
     //    online_classes: "Online Classes",
     //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+    //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     //  },
 
     //  announcement: {
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: 'ภาษาเขียนเกม',
       //    java_blurb: "(Subscriber Only) Android and enterprise.",
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       //    status: "Status",
       weapons: 'อาวุธ',
       weapons_warrior: 'ดาบ - ระยะใกล้, ไม่ใช้เวทย์',
@@ -1452,7 +1465,7 @@ module.exports = {
       //    health: "Health",
       //    speed: "Speed",
       //    regeneration: "Regen",
-      range: 'ระยะ'
+      range: 'ระยะ',
       //    blocks: "Blocks",
       //    backstab: "Backstab",
       //    skills: "Skills",
@@ -1517,7 +1530,7 @@ module.exports = {
     options: {
       //    general_options: "General Options",
       //    volume_label: "Volume",
-      music_label: 'ดนตรี'
+      music_label: 'ดนตรี',
       //    music_description: "Turn background music on/off.",
       //    editor_config_title_coco: "Editor Configuration",
       //    editor_config_title_ozar: "Level Options:",
@@ -1583,7 +1596,7 @@ module.exports = {
       //    sdr_title: "Sales Development Representative",
       //    bd_pr_title: "Business Development and Partnerships Representative",
       //    retrostyle_title: "Illustration",
-      retrostyle_blurb: 'RetroStyle Games'
+      retrostyle_blurb: 'RetroStyle Games',
       //    community_title: "...and our open-source community",
       //    lgd_title: "Lead Game Designer",
       //    oa_title: "Operations Associate",
@@ -1689,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: 'บันทึกผิดพลาด',
       saved: 'เปลี่ยนรหัสผ่าน',
       password_mismatch: 'รหัสผ่านไม่ถูกต้อง',
-      password_repeat: 'จงใส่รหัสผ่านอีกครั้ง'
+      password_repeat: 'จงใส่รหัสผ่านอีกครั้ง',
     },
 
     keyboard_shortcuts: {
@@ -1934,7 +1946,7 @@ module.exports = {
       space: 'Space',
       enter: 'Enter',
       press_enter: 'กด enter',
-      escape: 'Esc'
+      escape: 'Esc',
       //    shift: "Shift",
       //    run_code: "Run current code.",
       //    run_real_time: "Run in real time.",
@@ -1948,7 +1960,6 @@ module.exports = {
       //    toggle_grid: "Toggle grid overlay.",
       //    toggle_pathfinding: "Toggle pathfinding overlay.",
       //    beautify: "Beautify your code by standardizing its formatting.",
-      //    maximize_editor: "Maximize/minimize code editor.",
     },
 
     //  cinematic: {
@@ -1980,7 +1991,7 @@ module.exports = {
       //    clan_title: "__clan__ - Join CodeCombat Clans and Learn to Code",
       //    meta_description: "Join a Clan or build your own community of coders. Play multiplayer arena levels and level up your hero and your coding skills.",
       clan: 'แคลน',
-      clans: 'แคลน'
+      clans: 'แคลน',
       //    new_name: "New clan name",
       //    new_description: "New clan description",
       //    make_private: "Make clan private",
@@ -2870,6 +2881,7 @@ module.exports = {
     //    fork_title: "Fork New Version",
     //    fork_creating: "Creating Fork...",
     //    generate_terrain: "Generate Terrain",
+    //    generate_level: "Generate Level",
     //    more: "More",
     //    wiki: "Wiki",
     //    live_chat: "Live Chat",
@@ -2980,17 +2992,17 @@ module.exports = {
 
     article: {
       edit_btn_preview: 'ดูตัวอย่าง',
-      edit_article_title: 'แก้ไขบทความ'
+      edit_article_title: 'แก้ไขบทความ',
     },
 
     polls: {
-      priority: 'ลำดับความสำคัญ'
+      priority: 'ลำดับความสำคัญ',
     },
 
     contribute: {
       //    page_title: "Contributing",
       //    intro_blurb: "CodeCombat is part of the open source community! Hundreds of dedicated players have helped us build the game into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the world to code!",
-      alert_account_message_intro: 'หวัดดี!'
+      alert_account_message_intro: 'หวัดดี!',
       //    alert_account_message: "To subscribe for class emails, you'll need to be logged in first.",
       //    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever.",
       //    class_attributes: "Class Attributes",
@@ -3287,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3647,8 +3660,8 @@ module.exports = {
       september: 'กันยายน',
       october: 'ตุลาคม',
       november: 'พฤศจิกายน',
-      december: 'ธันวาคม'
-    }
+      december: 'ธันวาคม',
+    },
 
     //  code_play_create_account_modal: {
     //    title: "You did it!",
@@ -3921,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4478,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4759,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

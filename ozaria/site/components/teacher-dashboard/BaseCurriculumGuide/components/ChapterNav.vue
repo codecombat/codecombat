@@ -1,5 +1,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import utils from 'core/utils'
 export default {
   computed: {
     ...mapGetters({
@@ -16,10 +17,10 @@ export default {
         .concat(
           (this.chapterNavBar || [])
             .filter(({ releasePhase }) => releasePhase === 'internalRelease')
-        ).map(({ campaignID, free }, idx) => {
+        ).map(({ campaignID, free, _id }, idx) => {
           return ({
             campaignID,
-            heading: this.$t('teacher_dashboard.chapter_num', { num: idx + 1 })
+            heading: utils.isCodeCombat ? utils.courseAcronyms[_id] : this.$t('teacher_dashboard.chapter_num', { num: idx + 1 })
           })
         })
     },

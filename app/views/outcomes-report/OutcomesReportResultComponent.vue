@@ -50,16 +50,16 @@ export default Vue.extend({
       let totalPrograms = 0
       for (const language of ['python', 'javascript', 'cpp']) {
         let programs
-        if (this.org.newProgress) {
-          programs = this.org.newProgress.languages[language] || 0
+        if (this.org.newReport) {
+          programs = this.org.progress.languages[language] || 0
         } else {
           programs = this.org.progress.programsByLanguage[language]
         }
         totalPrograms += programs
         languageStats[language] = { programs }
       }
-      if (this.org.newProgress) {
-        let programs = this.org.newProgress.languages.java || 0
+      if (this.org.newReport) {
+        let programs = this.org.progress.languages.java || 0
         totalPrograms += programs
         languageStats['java'] = { programs }
       }
@@ -80,7 +80,7 @@ export default Vue.extend({
     },
 
     coursesWithProgress () {
-      if (!this.org.progress && !this.org.newProgress) return []
+      if (!this.org.progress && !this.org.newReport) return []
       let courses = _.cloneDeep(this.sortedCourses)
       let alreadyCoveredConcepts = []
       for (const course of courses) {
@@ -89,18 +89,18 @@ export default Vue.extend({
         course.studentsStarting = (this.org.progress.studentsStartingCourse || {})[course._id] || 0
         course.studentsCompleting = (this.org.progress.studentsCompletingCourse || {})[course._id] || 0
         course.completion = course.studentsStarting ? Math.min(1, course.studentsCompleting / course.studentsStarting) : 0
-        if (this.org.newProgress) {
-          const courseCompleteLevels = this.org.newProgress.courseCompleteLevels || {}
-          const courseStartingStudents = this.org.newProgress.courseStartingStudents || {}
+        if (this.org.newReport) {
+          const courseCompleteLevels = this.org.progress.courseCompleteLevels || {}
+          const courseStartingStudents = this.org.progress.courseStartingStudents || {}
           const completeLevels = Math.max(...Object.values(courseCompleteLevels[course._id] || {})) || 0
           course.studentsStarting = courseStartingStudents[course._id] || 0
           course.completeLevels = completeLevels
-          course.completion = Math.min(1, course.completeLevels / (this.org.newProgress.courseAllLevels[course._id] || 1))
+          course.completion = Math.min(1, course.completeLevels / (this.org.progress.courseAllLevels[course._id] || 1))
         }
         course.newConcepts = _.difference(course.concepts, alreadyCoveredConcepts)
         alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
       }
-      if (this.org.newProgress) {
+      if (this.org.newReport) {
         courses = _.filter(courses, (course) => course.completeLevels >= 1)
       } else {
         courses = _.filter(courses, (course) => (course.studentsStarting + course.studentsCompleting) >= Math.min(100, Math.max(2, Math.ceil(0.02 * this.org.progress.studentsWithCode))))

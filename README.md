@@ -14,9 +14,7 @@ CodeCombat is a multiplayer programming game for learning how to code.
 setup guide, extensive documentation, and much more to get started hacking!**
 
 It's both a startup and a community project, completely open source under the
-[MIT and Creative Commons licenses](http://codecombat.com/legal). It's the
-largest open source [CoffeeScript](http://coffeescript.org/) project by lines of
-code, and since it's a game (with [really cool tech](../../wiki/Third-party-software-and-services)),
+[MIT and Creative Commons licenses](http://codecombat.com/legal). Since it's a game (with [really cool tech](../../wiki/Third-party-software-and-services)),
 it's really fun to hack on. Join us in teaching the world to code! Your
 contribution will go on to show millions of players how cool programming can be.
 

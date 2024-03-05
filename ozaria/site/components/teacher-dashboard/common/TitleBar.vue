@@ -1,13 +1,15 @@
 <script>
+import { coursesWithProjects, isOzaria } from 'core/utils'
 import PrimaryButton from '../common/buttons/PrimaryButton'
 import ButtonCurriculumGuide from '../common/ButtonCurriculumGuide'
 import LicensesComponent from '../common/LicensesComponent'
 import NavSelectUnit from '../common/NavSelectUnit'
 import ClassInfoRow from './ClassInfoRow'
 import moment from 'moment'
-import { getDisplayPermission } from '../../../common/utils'
 
 import { mapActions, mapGetters } from 'vuex'
+
+const Classroom = require('models/Classroom')
 
 export default {
   components: {
@@ -49,6 +51,20 @@ export default {
     ...mapGetters({
       activeClassrooms: 'teacherDashboard/getActiveClassrooms'
     }),
+
+    filteredCourses () {
+      if (isOzaria) {
+        return this.courses
+      }
+      if (this.$route.path.startsWith('/teachers/assessments')) {
+        const classroom = new Classroom(this.classroom)
+        return this.courses.filter(course => classroom.hasAssessments({ courseId: course._id }))
+      } else if (this.$route.path.startsWith('/teachers/projects')) {
+        return this.courses.filter(course => (coursesWithProjects || []).includes(course._id))
+      } else {
+        return this.courses
+      }
+    },
 
     classroomCreationDate () {
       if ((this.classroom || {})._id) {
@@ -159,7 +175,7 @@ export default {
       <nav-select-unit
         v-if="showClassInfo"
         class="btn-margins-height"
-        :courses="courses"
+        :courses="filteredCourses"
         :selected-course-id="selectedCourseId"
         @change-course=" (courseId) => $emit('change-course', courseId)"
       />

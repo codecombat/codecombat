@@ -42,7 +42,7 @@ module.exports = (AdminLevelHintsView = (function () {
 
     onLoaded () {
       let campaign
-      const orderedCampaignSlugs = ['dungeon', 'campaign-game-dev-1', 'campaign-web-dev-1', 'forest', 'campaign-game-dev-2', 'campaign-web-dev-2', 'desert', 'mountain', 'glacier']
+      const orderedCampaignSlugs = ['junior', 'dungeon', 'campaign-game-dev-1', 'campaign-web-dev-1', 'forest', 'campaign-game-dev-2', 'campaign-web-dev-2', 'desert', 'mountain', 'glacier']
       const courseCampaignIds = []
       for (var course of Array.from(utils.sortCourses(this.courses.models).reverse())) {
         if (course.get('releasePhase') === 'released') {

@@ -188,7 +188,7 @@ export default function getVueRouter () {
         {
           path: '/teachers',
           component: () => {
-            if (utils.isCodeCombat && localStorage.getItem('newDT') !== 'true') {
+            if (utils.isCodeCombat && localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true') {
               return import(/* webpackChunkName: "teachers" */ 'app/components/common/PassThrough')
             }
             return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/index.vue')
@@ -198,6 +198,7 @@ export default function getVueRouter () {
             { path: 'classes', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseMyClasses/index.vue') },
             { path: 'classes/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseSingleClass/index.vue'), props: true },
             { path: 'projects/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseStudentProjects/index.vue'), props: true },
+            { path: 'assessments/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseStudentAssessments/index.vue'), props: true },
             {
               path: 'licenses/join',
               component: () => import(/* webpackChunkName: "teachers" */'app/views/teachers/JoinLicensesByCode.vue')
@@ -205,7 +206,7 @@ export default function getVueRouter () {
             {
               path: 'licenses',
               component: () => {
-                if (utils.isCodeCombat && localStorage.getItem('newDT') !== 'true') {
+                if (utils.isCodeCombat && localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true') {
                   return import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/StudentLicensesMainComponent')
                 } else {
                   return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherLicenses/index.vue')
@@ -219,7 +220,7 @@ export default function getVueRouter () {
             {
               path: 'resources',
               component: () => {
-                if (utils.isCodeCombat && localStorage.getItem('newDT') !== 'true') {
+                if (utils.isCodeCombat && localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true') {
                   return import(/* webpackChunkName: "teachers" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue')
                 } else {
                   return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue')
@@ -310,6 +311,26 @@ export default function getVueRouter () {
           path: '/:pname(library|partner)-dashboard',
           name: 'LibraryDashboard',
           component: () => import(/* webpackChunkName: "libraryDashboard" */'/app/views/library/dashboard/MainView')
+        },
+        {
+          path: '/home-beta',
+          name: 'HomeBeta',
+          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+        },
+        {
+          path: '/standards',
+          name: 'StandardsPage',
+          component: () => import(/* webpackChunkName: "standardsPage" */'app/views/standards/PageStandards')
+        },
+        {
+          path: '/home',
+          name: 'HomeBeta1',
+          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+        },
+        {
+          path: '/',
+          name: 'HomeBeta2',
+          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
         }
       ],
       scrollBehavior (to) {

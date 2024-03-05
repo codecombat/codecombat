@@ -47,6 +47,10 @@ export default Vue.extend({
 
     hideNav () {
       return getQueryVariable('landing', false)
+    },
+
+    showHackStackLogo () {
+      return window.location.pathname.startsWith('/ai')
     }
   },
 
@@ -169,6 +173,8 @@ export default Vue.extend({
               img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-2.png" alt="Tecmilenio logo")
             a.navbar-brand(v-else-if="me.showChinaResourceInfo()&&!me.showChinaHomeVersion()" href="/home")
               img#logo-img(src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
+            a.navbar-brand(v-else-if="showHackStackLogo" href="/home")
+              img#logo-img(src="/images/pages/base/logo+hs.png" alt="CodeCombat and HackStack logo")
             a.navbar-brand(v-else :href="hideNav ? '#' : '/home'")
               picture
                 source#logo-img(srcset="/images/pages/base/logo.webp" type="image/webp")
@@ -182,6 +188,7 @@ export default Vue.extend({
           #navbar-collapse.collapse.navbar-collapse
             .nav-spacer
             ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
+              li
               template(v-if="me.showChinaResourceInfo()")
                 li
                   a.text-p(href="https://oj.koudashijie.com", data-i18n="nav.coco_oj", class='')
@@ -256,6 +263,8 @@ export default Vue.extend({
                     a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                   li
                     a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
+                  li(v-if="isCodeCombat && (me.isAdmin() || me.isTeacher() || me.isParentHome() || me.isRegisteredHomeUser())")
+                    a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
                     a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")
                       span.caret(v-if="this.announcements.length")

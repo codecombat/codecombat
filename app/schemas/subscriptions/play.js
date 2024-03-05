@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 const c = require('schemas/schemas')
 const ChatMessage = require('schemas/models/chat_message.schema')
 
@@ -262,5 +260,7 @@ module.exports = {
     { code: { type: 'string' } }),
 
   'level:close-solution': c.object({},
-    { removeButton: { type: 'boolean' } })
+    { removeButton: { type: 'boolean' } }),
+
+  'level:click-ai-hint': c.object({})
 }

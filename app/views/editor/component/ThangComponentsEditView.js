@@ -393,10 +393,14 @@ module.exports = (ThangComponentsEditView = (function () {
           config: e.config
         })
 
-        for (var subview of Array.from(_.values(this.subviews))) {
+        for (const subview of Array.from(_.values(this.subviews))) {
           if (!(subview instanceof ThangComponentConfigView)) { continue }
           if (subview.component.get('original') === e.component.get('original')) {
-            _.defer(() => subview.setIsDefaultComponent(false))
+            _.defer(() => {
+              if (!subview.destroyed) {
+                subview.setIsDefaultComponent(false)
+              }
+            })
             break
           }
         }

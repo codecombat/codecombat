@@ -1,0 +1,111 @@
+.form
+
+  h3(data-i18n="game_menu.my_code_caption")
+
+  // TODO: only show if the code has changed?
+  .row.action-row
+    .col.col-xs-4
+      .btn.btn-block.btn-illustrated.btn-warning.reload-code(data-i18n="[title]play_level.tome_reload_method")
+        .glyphicon.glyphicon-repeat
+        span= ' '
+        span(data-i18n="play_level.reload")
+    .col.col.xs-8
+      span.action-help(data-i18n="play_level.tome_reload_method")
+
+  // TODO: only show if code exists?
+  if codeLanguage === 'javascript' && me.level() >= 15
+    .row.action-row
+      .col.col-xs-4
+        .btn.btn-block.btn-illustrated.btn-primary.beautify-code(title=beautifyShortcutVerbose)
+          .glyphicon.glyphicon-magnet
+          span= ' '
+          span Beautify
+      .col.col.xs-8
+        span.action-help Clean up and reformat current code
+
+  .row.action-row
+    .col.col-xs-4
+      .btn.btn-block.btn-illustrated.btn-primary.ai-hint(data-i18n="[title]play_level.problem_alert_ask_the_ai")
+        .glyphicon.glyphicon-question-sign
+        span= ' '
+        span(data-i18n="play_level.problem_alert_ask_the_ai")
+    .col.col.xs-8
+      span.action-help(data-i18n="play_level.problem_alert_need_hint")
+
+  if view.options.courseID && me.isStudent() && view.teacherOnline()
+    .row.action-row
+      .col.col-xs-4
+        .btn.btn-block.btn-illustrated.btn-primary.teacher-help(title="Ask your teacher for help", class=view.teacherOnline && view.teacherOnline() ? '' : 'disabled')
+          //, title=askingTeacher)
+          .glyphicon.glyphicon-comment
+          span= ' '
+          span Ask for help
+      .col.col.xs-8
+        span.action-help Ask your teacher to help you
+
+  if view.options.level.isType('web-dev')
+    .row.action-row
+      .col.col-xs-4
+        .btn.btn-block.btn-illustrated.btn-primary.image-gallery(data-i18n="[title]web_dev.image_gallery_title")
+          .glyphicon.glyphicon-picture
+          span= ' '
+          span(data-i18n="web_dev.image_gallery_title")
+      .col.col.xs-8
+        span.action-help Find website images in the image gallery
+
+  if view.options.level.get('shareable')
+    - var i18nName = view.options.level.isType('game-dev') ? 'sharing.game' : 'sharing.webpage'
+    .row.action-row
+      .col.col-xs-4
+        if view.options.session.isFake()
+          .btn.btn-block.btn-illustrated.btn-primary.share-project-button(
+              data-i18n="[title]" + i18nName
+              data-toggle="popover"
+              data-placement="bottom"
+              data-content=translate("sharing.your_students_preview")
+              data-trigger="hover"
+            )
+            .glyphicon.glyphicon-share
+            span= ' '
+            span(data-i18n=i18nName)
+        else
+          - var url = '/play/' + view.options.level.get('type') + '-level/' + view.options.level.get('slug') + '/' + view.options.session.id
+          if view.options.courseID
+            - url += '?course=' + view.options.courseID
+            if view.options.courseInstanceID
+              - url += '&course-instance=' + view.options.courseInstanceID
+          a.btn.btn-block.btn-illustrated.btn-primary.share-project-button(href=url)
+            .glyphicon.glyphicon-share
+            span= ' '
+            span(data-i18n=i18nName)
+      .col.col.xs-8
+        span.action-help Open this project's shareable link
+
+  if me.canAutoFillCode()
+    .row.action-row
+      if view.teaching
+        .col.col-xs-4
+          .btn.btn-block.btn-illustrated.btn-primary.toggle-solution(data-i18n="[title]play_level.toggle_solution")
+            .glyphicon.glyphicon-ok-circle
+            span= ' '
+            span(data-i18n="play_level.toggle_solution")
+        .col.col.xs-8
+          span.action-help Toggle side-by-side sample solution display
+      else
+        .col.col-xs-4
+          .btn.btn-block.btn-illustrated.btn-primary.fill-solution(data-i18n="[title]play_level.fill_in_solution")
+            .glyphicon.glyphicon-ok-circle
+            span= ' '
+            span(data-i18n="play_level.fill_in_solution")
+        .col.col.xs-8
+          span.action-help Replace current code with sample solution
+
+  if false && view.options.level.isType('ladder')
+    .row.action-row
+      .col.col-xs-4
+        button(class="btn btn-block btn-illustrated switch-team " + (view.otherTeam() == "ogres" ? "btn-primary" : "btn-danger"))
+          .glyphicon.glyphicon-tint
+          span= ' '
+          span(data-i18n="play_level.play_as_" + view.otherTeam())
+      .col.col.xs-8
+        span.action-help Switch arena teams to the other side

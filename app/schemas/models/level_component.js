@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 const c = require('./../schemas')
 const metaschema = require('./../metaschema')
 
@@ -12,7 +10,7 @@ class AttacksSelf extends Component
 const systems = [
   'action', 'ai', 'alliance', 'collision', 'combat', 'display', 'event', 'existence', 'hearing',
   'inventory', 'movement', 'programming', 'targeting', 'ui', 'vision', 'misc', 'physics', 'effect',
-  'magic', 'game'
+  'magic', 'game', 'junior'
 ]
 
 const DependencySchema = c.object({

@@ -3,7 +3,6 @@ CocoView = require 'views/core/CocoView'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './SpellPaletteEntryView'
-SpellPaletteThangEntryView = require './SpellPaletteThangEntryView'
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
@@ -15,9 +14,9 @@ N_ROWS = 4
 
 module.exports = class SpellPaletteView extends CocoView
   id: 'spell-palette-view'
-  template: require 'app/templates/play/level/tome/spell-palette-view-mid'
+  template: require 'app/templates/play/level/tome/spell-palette-view'
   controlsEnabled: true
-  position: 'mid'
+  position: 'bot'
 
   subscriptions:
     'level:disable-controls': 'onDisableControls'
@@ -30,10 +29,9 @@ module.exports = class SpellPaletteView extends CocoView
 
   events:
     'click .closeBtn': 'onClickClose'
-    'click .section-header': 'onSectionHeaderClick'
 
   initialize: (options) ->
-    {@level, @session, @thang, @useHero} = options
+    {@level, @session, @thang} = options
     @aceEditors = []
     docs = @options.level.get('documentation') ? {}
     @createPalette()
@@ -55,8 +53,7 @@ module.exports = class SpellPaletteView extends CocoView
       @entryGroupElements[group] = itemGroup = $('<div class="property-entry-item-group"></div>').appendTo @$el.find('.properties-this')
       if entries[0].options.item?.getPortraitURL
         itemImage = $('<img class="item-image" draggable=false></img>').attr('src', entries[0].options.item.getPortraitURL())
-        if @position is 'bot'
-          itemImage.css('top', Math.max(0, 19 * (entries.length - 2) / 2) + 2)
+        itemImage.css('top', Math.max(0, 19 * (entries.length - 2) / 2) + 2)
         itemGroup.append itemImage
         firstEntry = entries[0]
         do (firstEntry) ->
@@ -81,47 +78,8 @@ module.exports = class SpellPaletteView extends CocoView
         entry.render()  # Render after appending so that we can access parent container for popover
         if itemsInGroup is 0
           entry.$el.addClass 'first-entry'
-    @$el.addClass 'hero'
     @$el.toggleClass 'shortenize', Boolean @shortenize
     @$el.toggleClass 'web-dev', @options.level.isType('web-dev')
-
-    tts = @supermodel.getModels ThangType
-
-    for dn of @deferredDocs
-      doc = @deferredDocs[dn]
-      if doc.type is "spawnable"
-        thangName = doc.name
-        if @thang.spawnAliases[thangName]
-          thangName = @thang.spawnAliases[thangName][0]
-
-        info = @thang.buildables[thangName]
-        tt = _.find tts, (t) -> t.get('original') is info?.thangType
-        continue unless tt?
-        t = new SpellPaletteThangEntryView doc: doc, thang: tt, buildable: info, buildableName: doc.name, shortenize: true, language: @options.language, level: @options.level, useHero: @useHero
-        @$el.find("#palette-tab-stuff-area").append t.el
-        t.render()
-
-      if doc.type is "event"
-        t = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: true, language: @options.language, level: @options.level, useHero: @useHero
-        @$el.find("#palette-tab-events").append t.el
-        t.render()
-
-      if doc.type is "handler"
-        t = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: true, language: @options.language, level: @options.level, useHero: @useHero
-        @$el.find("#palette-tab-handlers").append t.el
-        t.render()
-
-      if doc.type is "property"
-        t = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: true, language: @options.language, level: @options.level, writable: true
-        @$el.find("#palette-tab-properties").append t.el
-        t.render()
-
-      if doc.type is "snippet" and @level.get('type') is 'game-dev'
-        t = new SpellPaletteEntryView doc: doc, thang: @thang, isSnippet: true, shortenize: true, language: @options.language, level: @options.level
-        @$el.find("#palette-tab-snippets").append t.el
-        t.render()
-
-    @$(".section-header:has(+.collapse:empty)").hide()
 
   afterInsert: ->
     super()
@@ -131,16 +89,19 @@ module.exports = class SpellPaletteView extends CocoView
     @options.language = language
 
   calculateNColumns: ->
-    return 1 unless @isHero and @position is 'bot'
-    columnWidth = 212
-    columnWidth = 175 if @shortenize
-    columnWidth = 100 if @options.level.isType('web-dev')
     availableWidth = @$el.find('.properties-this').innerWidth() or $('#code-area').innerWidth() - 40
-    nColumns = Math.floor availableWidth / columnWidth   # Will always have at least 2 columns, since at 1024px screen we have 425px .properties
+    columnWidth = switch
+      when @options.level.isType('web-dev') then 100
+      when @shortenize then 175
+      else 212
+    nColumns = Math.floor availableWidth / columnWidth   # Aim to always have at least 2 columns
+    @hideImages = nColumns < 2 or @options.level.isType('game-dev', 'ladder')  # Don't show 38px images if really short on space or we don't need images
+    if @hideImages
+      columnWidth -= 38
+      nColumns = Math.floor availableWidth / columnWidth
     Math.max 2, nColumns
 
   updateMaxHeight: ->
-    return unless @isHero and @position is 'bot'
     # We figure out how many columns we can fit, width-wise, and then guess how many rows will be needed.
     # We can then assign a height based on the number of rows, and the flex layout will do the rest.
     nColumns = @calculateNColumns()
@@ -152,7 +113,8 @@ module.exports = class SpellPaletteView extends CocoView
     for group in entryGroupsByLength
       entries = @entryGroups[group]
       continue unless shortestColumn = _.sortBy(columns, (column) -> column.nEntries)[0]
-      shortestColumn.nEntries += Math.max 2, entries.length  # Item portrait is two rows tall
+      minEntriesPerGroup = if @hideImages then 1 else 2  # Item portrait is two rows tall
+      shortestColumn.nEntries += Math.max minEntriesPerGroup, entries.length
       shortestColumn.items.push @entryGroupElements[group]
       orderedColumns.push shortestColumn unless shortestColumn in orderedColumns
       nRows = Math.max nRows, shortestColumn.nEntries
@@ -160,7 +122,7 @@ module.exports = class SpellPaletteView extends CocoView
       for item in column.items
         item.detach().appendTo @$el.find('.properties-this')
     desiredHeight = 19 * (nRows + 1)
-    @$el.find('.properties').css('height', desiredHeight)
+    @$el.find('.properties').css('height', desiredHeight).toggleClass 'hide-images', @hideImages
 
   onResize: (e) =>
     @updateMaxHeight?()
@@ -176,6 +138,7 @@ module.exports = class SpellPaletteView extends CocoView
         if doc.codeLanguages and not (@options.language in doc.codeLanguages)
           excludedDocs['__' + doc.name] = doc
           continue
+        doc = _.cloneDeep(doc)  # Don't accidentally modify the original copy
         allDocs['__' + doc.name] ?= []
         allDocs['__' + doc.name].push doc
         if doc.type is 'snippet' then doc.owner = 'snippets'
@@ -184,17 +147,18 @@ module.exports = class SpellPaletteView extends CocoView
       propStorage =
         'this': 'programmableProperties'
         more: 'moreProgrammableProperties'
-        Math: 'programmableMathProperties'
-        Array: 'programmableArrayProperties'
-        Object: 'programmableObjectProperties'
-        String: 'programmableStringProperties'
-        Global: 'programmableGlobalProperties'
-        Function: 'programmableFunctionProperties'
-        RegExp: 'programmableRegExpProperties'
-        Date: 'programmableDateProperties'
-        Number: 'programmableNumberProperties'
-        JSON: 'programmableJSONProperties'
-        LoDash: 'programmableLoDashProperties'
+        # We used to include a ton of this stuff, but we usually don't have space, and it's JS-specific, and it's questionably useful
+        #Math: 'programmableMathProperties'
+        #Array: 'programmableArrayProperties'
+        #Object: 'programmableObjectProperties'
+        #String: 'programmableStringProperties'
+        #Global: 'programmableGlobalProperties'
+        #Function: 'programmableFunctionProperties'
+        #RegExp: 'programmableRegExpProperties'
+        #Date: 'programmableDateProperties'
+        #Number: 'programmableNumberProperties'
+        #JSON: 'programmableJSONProperties'
+        #LoDash: 'programmableLoDashProperties'
         Vector: 'programmableVectorProperties'
         HTML: 'programmableHTMLProperties'
         WebJavaScript: 'programmableWebJavaScriptProperties'
@@ -208,13 +172,11 @@ module.exports = class SpellPaletteView extends CocoView
 
   organizePalette: (propStorage, allDocs, excludedDocs) ->
     # Assign any kind of programmable properties to the items that grant them.
-    @isHero = true
     itemThangTypes = {}
     itemThangTypes[tt.get('name')] = tt for tt in @supermodel.getModels ThangType  # Also heroes
     propsByItem = {}
     propCount = 0
     itemsByProp = {}
-    @deferredDocs = {}
     # Make sure that we get the spellbook first, then the primary hand, then anything else.
     slots = _.sortBy _.keys(@thang.inventoryThangTypeNames ? {}), (slot) ->
       if slot is 'left-hand' then 0 else if slot is 'right-hand' then 1 else 2
@@ -250,14 +212,9 @@ module.exports = class SpellPaletteView extends CocoView
       for prop in sortedProps
         continue if @thang.excludedProperties and prop in @thang.excludedProperties
         if doc = _.find (allDocs['__' + prop] ? []), {owner: owner}  # Not all languages have all props
-          if @position is 'bot'
-            # Assign them to the hero
-            propsByItem[owner] ?= []
-            propsByItem[owner].push owner: owner, prop: prop, item: programmaticon
-          else
-            # Assign them to their tabs
-            entry = @addEntry doc, false, false, programmaticon
-            @tabs[owner].push entry
+          # Assign them to the hero
+          propsByItem[owner] ?= []
+          propsByItem[owner].push owner: owner, prop: prop, item: programmaticon
 
     # Assign any unassigned properties to the hero itself.
     for owner, storage of propStorage
@@ -292,23 +249,23 @@ module.exports = class SpellPaletteView extends CocoView
           doc ?= prop
         if doc
           if doc.type in ['spawnable', 'event', 'handler', 'property'] or (doc.type is 'snippet' and @level.get('type') is 'game-dev')
-            @deferredDocs[doc.name] = doc
+            thangType = if doc.type is 'spawnable' then @getThangTypeForDoc(doc) else null
+            @entries.push @addEntry(doc, @shortenize, owner is 'snippets', doc.type, propIndex > 0, thangType)
           else
             @entries.push @addEntry(doc, @shortenize, owner is 'snippets', item, propIndex > 0)
-    if @options.level.isType('web-dev')
+    if @options.level.isType('web-dev', 'game-dev')
       @entryGroups = _.groupBy @entries, (entry) -> entry.doc.type
     else
       @entryGroups = _.groupBy @entries, (entry) ->
         itemsByProp[entry.doc.name]?.get?('name') ? 'Hero'
-    if @position is 'bot'
-      # Reorganize to balance number of entries in each group (especially useful for arenas when all properties are on hero)
-      nColumns = @calculateNColumns()
-      itemsPerGroup = Math.max 4, Math.ceil(propCount / nColumns)
-      for group in _.keys @entryGroups
-        excessGroupCounter = 1
-        while @entryGroups[group].length > itemsPerGroup
-          excessEntries = @entryGroups[group].splice(itemsPerGroup, itemsPerGroup)
-          @entryGroups[group + " #{++excessGroupCounter}"] = excessEntries
+    # Reorganize to balance number of entries in each group (especially useful for arenas when all properties are on hero)
+    nColumns = @calculateNColumns()
+    itemsPerGroup = Math.max 4, Math.ceil(propCount / nColumns)
+    for group in _.keys @entryGroups
+      excessGroupCounter = 1
+      while @entryGroups[group].length > itemsPerGroup
+        excessEntries = @entryGroups[group].splice(itemsPerGroup, itemsPerGroup)
+        @entryGroups[group + " #{++excessGroupCounter}"] = excessEntries
     entryGroups = {}
     for group, entries of @entryGroups
       entryGroups[group] =
@@ -316,9 +273,16 @@ module.exports = class SpellPaletteView extends CocoView
         props: (entry.doc for entry in entries)
     Backbone.Mediator.publish 'tome:palette-updated', thangID: @thang.id, entryGroups: entryGroups
 
-  addEntry: (doc, shortenize, isSnippet=false, item=null, showImage=false) ->
+  addEntry: (doc, shortenize, isSnippet=false, item=null, showImage=false, thangType=null) ->
     writable = (if _.isString(doc) then doc else doc.name) in (@thang.apiUserProperties ? [])
-    new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: shortenize, isSnippet: isSnippet, language: @options.language, writable: writable, level: @options.level, item: item, showImage: showImage, useHero: @useHero, spellPalettePosition: @position
+    new SpellPaletteEntryView doc: doc, thang: @thang, thangType: thangType, shortenize: shortenize, isSnippet: isSnippet, language: @options.language, writable: writable, level: @options.level, item: item, showImage: showImage, spellPalettePosition: @position
+
+  getThangTypeForDoc: (doc) ->
+    thangName = doc.name
+    if @thang.spawnAliases[thangName]
+      thangName = @thang.spawnAliases[thangName][0]
+    info = @thang.buildables[thangName]
+    return _.find @supermodel.getModels(ThangType), (t) -> t.get('original') is info?.thangType
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
@@ -338,22 +302,6 @@ module.exports = class SpellPaletteView extends CocoView
     entry.destroy() for entry in @entries
     @createPalette()
     @render()
-
-  onSectionHeaderClick: (e) ->
-    $et = @$(e.currentTarget)
-    target = @$($et.attr('data-panel'))
-    isCollapsed = !target.hasClass('in')
-    if isCollapsed
-      target.collapse 'show'
-      $et.find('.glyphicon').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down')
-    else
-      target.collapse 'hide'
-      $et.find('.glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
-
-    setTimeout () =>
-      @$('.nano').nanoScroller alwaysVisible: true
-    , 200
-    e.preventDefault()
 
   onClickClose: (e) ->
     @hide()

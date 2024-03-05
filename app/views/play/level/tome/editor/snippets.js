@@ -14,10 +14,10 @@
   treated better in the autocomplete than local values
 */
 
-const { score } = fuzzaldrin
+const { score } = window.fuzzaldrin
 // score = (a, b) -> new Fuzziac(a).score b
 const lineBreak = /\r\n|[\n\r\u2028\u2029]/g
-const identifierRegex = /[\.a-zA-Z_0-9\$\-\u00A2-\uFFFF]/
+const identifierRegex = /[.a-zA-Z_0-9$\-\u00A2-\uFFFF]/
 const Fuzziac = require('./fuzziac') // https://github.com/stollcri/fuzziac.js
 const ace = require('lib/aceContainer')
 const store = require('core/store')
@@ -41,8 +41,7 @@ const checkingParentheses = function (line, left) {
 
 module.exports = function (SnippetManager, autoLineEndings) {
   const { Range } = ace.require('ace/range')
-  const util = ace.require('ace/autocomplete/util');
-  ({ identifierRegexps: [identifierRegex] })
+  const util = ace.require('ace/autocomplete/util')
 
   // Cleanup surrounding text
   const baseInsertSnippet = SnippetManager.insertSnippet
@@ -159,7 +158,6 @@ module.exports = function (SnippetManager, autoLineEndings) {
     let afterIndex = cursor.column
     const trailingText = line.substring(afterIndex)
     const newLine = editor.session.getLine(cursor.row) // get current session line
-    let hasAfterRange = false
     if (newLine !== line) {
       // deal with we already remove some of code because of begging of the snippet
       const removedStr = line.slice(removedStart, removedEnd)
@@ -168,7 +166,6 @@ module.exports = function (SnippetManager, autoLineEndings) {
         length = checkingParentheses(newLine.substring(removedStart), left)
         afterRange = new Range(cursor.row, removedStart, cursor.row, removedStart + length)
         editor.session.remove(afterRange)
-        hasAfterRange = true
       }
     }
 
@@ -185,7 +182,7 @@ module.exports = function (SnippetManager, autoLineEndings) {
 
   return {
     getCompletions (editor, session, pos, prefix, callback) {
-      // console.log "Snippets getCompletions pos.column=#{pos.column} prefix=#{prefix}"
+      // console.log(`Snippets getCompletions pos.column=${pos.column} prefix=${prefix}`)
       // Completion format:
       // prefix: text that will be replaced by snippet
       // caption: displayed left-justified in popup, and what's being matched
@@ -200,7 +197,6 @@ module.exports = function (SnippetManager, autoLineEndings) {
       // If the prefix is a member expression, supress completions
       const fullPrefix = getFullIdentifier(session, pos)
       const fullPrefixParts = fullPrefix.split(/[.:]/g)
-      const word = getCurrentWord(session, pos)
 
       if (fullPrefixParts.length > 2) {
         this.completions = []
@@ -227,7 +223,7 @@ module.exports = function (SnippetManager, autoLineEndings) {
         return (() => {
           const result = []
           for (const s of Array.from(snippets)) {
-            var left
+            let left
             const caption = s.name || s.tabTrigger
             if (!caption) { continue }
             if (/^['"]/.test(caption) && emptyBeginning) { continue } // don't show string completions at the end of line
@@ -256,30 +252,25 @@ module.exports = function (SnippetManager, autoLineEndings) {
 
       this.completions = completions
       return callback(null, completions)
-    }
+    },
+
+    // TODO: This shim doesn't work because our version of ace isn't updated to this change:
+    // TODO: https://github.com/ajaxorg/ace/commit/7b01a4273e91985c9177f53d238d6b83fe99dc56
+    // TODO: But, if it was we could use this and pass a 'completer: @' property for each completion
+    // insertMatch (editor, data) {
+    //   console.log(`Snippets insertMatch data=${JSON.stringify(data}`)
+    //   if (data.content) {
+    //     console.log(`Snippets insertMatch data.content=${data.content}`)
+    //     return editor.execCommand('insertSnippet', data.content)
+    //   } else {
+    //     console.log(`Snippets insertMatch data.snippet=${data.snippet}`)
+    //     return editor.execCommand('insertSnippet', data.snippet)
+    //   }
+    // }
   }
 }
 
-// TODO: This shim doesn't work because our version of ace isn't updated to this change:
-// TODO: https://github.com/ajaxorg/ace/commit/7b01a4273e91985c9177f53d238d6b83fe99dc56
-// TODO: But, if it was we could use this and pass a 'completer: @' property for each completion
-// insertMatch: (editor, data) ->
-//   console.log 'Snippets snippets insertMatch', editor, data
-//   if data.snippet
-//     SnippetManager.insertSnippet editor, data.snippet
-//   else
-//     editor.execCommand "insertstring", data.value || data
-
-var getCurrentWord = function (doc, pos) {
-  const end = pos.column
-  let start = end - 1
-  const text = doc.getLine(pos.row)
-  while ((start >= 0) && !text[start].match(/\s+|[\.\@]/)) { start-- }
-  if (start >= 0) { start++ }
-  return text.substring(start, end)
-}
-
-var getFullIdentifier = function (doc, pos) {
+const getFullIdentifier = function (doc, pos) {
   const end = pos.column
   let start = end - 1
   const text = doc.getLine(pos.row)
@@ -288,14 +279,13 @@ var getFullIdentifier = function (doc, pos) {
   return text.substring(start, end)
 }
 
-var scrubSnippet = function (snippet, caption, line, input, pos, lang, autoLineEndings, captureReturn) {
+const scrubSnippet = function (snippet, caption, line, input, pos, lang, autoLineEndings, captureReturn) {
   // console.log "Snippets snippet=#{snippet} caption=#{caption} line=#{line} input=#{input} pos.column=#{pos.column} lang=#{lang}"
-  let prefixStart
   let fuzzScore = 0.1
   const snippetLineBreaks = (snippet.match(lineBreak) || []).length
   // input will be replaced by snippet
   // trim snippet prefix and suffix if already in the document (line)
-  if (prefixStart = snippet.toLowerCase().indexOf(input.toLowerCase()) > -1) {
+  if (snippet.toLowerCase().indexOf(input.toLowerCase()) > -1) {
     let linePrefix
     const captionStart = snippet.indexOf(caption)
 
@@ -356,7 +346,7 @@ var scrubSnippet = function (snippet, caption, line, input, pos, lang, autoLineE
     if ((lineSuffix.length === 0) && /^\s*$/.test(line.slice(pos.column))) {
       // console.log 'Snippets atLineEnd', pos.column, lineSuffix.length, line.slice(pos.column + lineSuffix.length), line
       const toLinePrefix = line.substring(0, linePrefixIndex)
-      if (((linePrefixIndex < 0) || ((linePrefixIndex >= 0) && !/[\(\)]/.test(toLinePrefix) && !/^[ \t]*(?:if\b|elif\b)/.test(toLinePrefix))) && /\([^)]*\)/.test(snippet)) {
+      if (((linePrefixIndex < 0) || ((linePrefixIndex >= 0) && !/[()]/.test(toLinePrefix) && !/^[ \t]*(?:if\b|elif\b)/.test(toLinePrefix))) && /\([^)]*\)/.test(snippet)) {
         if ((snippetLineBreaks === 0) && autoLineEndings[lang]) { snippet += autoLineEndings[lang] }
         if ((snippetLineBreaks === 0) && !/\$\{/.test(snippet)) { snippet += '\n' }
 

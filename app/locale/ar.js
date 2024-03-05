@@ -279,7 +279,7 @@ module.exports = {
       logged_in_as: 'لقد قمت تسجيل الدخول بأسم',
       //    computer_science: "Our self-paced courses cover basic syntax to advanced concepts",
       ffa: 'مجاناً لكل الطلاب',
-      coming_soon: 'المزيد قادم قريباً!'
+      coming_soon: 'المزيد قادم قريباً!',
       //    courses_available_in: "Courses are available in JavaScript and Python. Web Development courses utilize HTML, CSS, and jQuery.",
       //    boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike.",
       //    winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable.",
@@ -386,7 +386,7 @@ module.exports = {
       //    related_urls: "Related Links",
       //    open_source: "Open source (GitHub)",
       //    support: "Support",
-      faqs: 'الأسئلة الشائعة'
+      faqs: 'الأسئلة الشائعة',
       //    copyright_prefix: "Copyright",
       //    copyright_suffix: "All Rights Reserved.",
       //    help_pref: "Need help? Email",
@@ -431,12 +431,12 @@ module.exports = {
     modal: {
       close: 'إغلاق',
       okay: 'حسنا',
-      cancel: 'إلغاء'
+      cancel: 'إلغاء',
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'الصفحة غير موجودة'
+      page_not_found: 'الصفحة غير موجودة',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'نحن نطوّر كودكومبات باللّغة الإنجليزيّة، ولكن لدينا بالفعل لاعبين في جميع أنحاء العالم. كثير منهم يريدون اللّعب باللّغة العربيّة ولكن لا يتحدثون الإنجليزيّة، حتى إذا كنت أستطيع أن أتكلّم على حد سواء، يرجى النّظر في التوقيع على أن يكون دبلوماسيّا والمساعدة في ترجمة كل من موقع كودكومبات وجميع المستويات إلى العربيّة.',
       missing_translations: 'حتى يمكننا ترجمة كلّ شيء إلى اللّغة العربيّة، سترى الإنجليزيّة عندما تكون العربيّة غير متوفر.',
       learn_more: 'معرفة المزيد عن كونك دبلوماسي',
-      subscribe_as_diplomat: 'الاشتراك كدبلوماسي'
+      subscribe_as_diplomat: 'الاشتراك كدبلوماسي',
     },
 
     //  new_home_faq: {
@@ -530,13 +530,14 @@ module.exports = {
       awaiting_levels_adventurer: 'التوقيع على النحو المغامر',
       awaiting_levels_adventurer_suffix: 'أن تكون أول للعب مستويات جديدة.',
       adjust_volume: 'تعديل الصوت',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'ساحات متعددة اللاّعبين',
       campaign_multiplayer_description: '... فيها تبرمج وجه لوجه ضد لاعبين آخرين.',
       brain_pop_done: 'لقد هزمت الأوغريس بالبرمجة! لقد فزت!',
       brain_pop_challenge: 'تحدي نفسك بأعادة اللعبه بأستخدام لغة برمجة مختلفة!',
       replay: 'اعادة',
       back_to_classroom: 'ارجع الى الفصل',
-      teacher_button: 'للمعلمين'
+      teacher_button: 'للمعلمين',
       //    get_more_codecombat: "Get More CodeCombat",
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'ادخل بريد اولياء امرك الالكتروني لكي نريهم!',
       form_label: 'عنوان البريد الالكتروني',
       placeholder: 'عنوان البريد الالكتروني',
-      title: 'عمل ممتاز, Apprentice'
+      title: 'عمل ممتاز, Apprentice',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: 'الانتهاء',
       sign_in_with_facebook: 'سجل الدخول بواسطة فيسبوك',
       sign_in_with_gplus: 'سجل الدخول بواسطة غوغل بلس',
-      signup_switch: 'تريد انشاء حساب?'
+      signup_switch: 'تريد انشاء حساب?',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -662,7 +663,7 @@ module.exports = {
       //    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help.",
       //    activation_code_used: "The activation code has been used. Check your spelling or ask your teacher for help.",
       //    checking: "Checking...",
-      account_exists: 'هذا البريد استخدم من قبل:'
+      account_exists: 'هذا البريد استخدم من قبل:',
       //    sign_in: "Sign in",
       //    email_good: "Email looks good!",
       //    name_taken: "Username already taken! Try {{suggestedName}}?",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'إستعادة حساب',
       send_password: 'إرسال كلمة سرّ الإستعادة',
-      recovery_sent: 'استرداد البريد الالكتروني المرسل.'
+      recovery_sent: 'استرداد البريد الالكتروني المرسل.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'درع',
       accessories: 'إكسسوارات',
       misc: 'متفرقات',
-      books: 'كتب'
+      books: 'كتب',
     },
 
     common: {
@@ -797,7 +798,7 @@ module.exports = {
       unwatch: 'إنهاء المشاهدة',
       submit_patch: 'تقديم التصحيح',
       submit_changes: 'تقديم التغييرات',
-      save_changes: 'حفظ التغيرات'
+      save_changes: 'حفظ التغيرات',
       //    required_field: "required",
       //    submit: "Submit",
       //    replay: "Replay",
@@ -865,7 +866,7 @@ module.exports = {
       player_level: 'مستوى',
       warrior: 'محارب',
       ranger: 'مقاتل',
-      wizard: 'ساحر'
+      wizard: 'ساحر',
       //    first_name: "First Name",
       //    last_name: "Last Name",
       //    last_initial: "Last Initial",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'شهر',
       months: 'أشهر',
       year: 'سنة',
-      years: 'سنوات'
+      years: 'سنوات',
     },
 
     play_level: {
@@ -1008,7 +1009,7 @@ module.exports = {
       //    problem_alert_need_hint: "Need a hint? You can ask the AI for help.",
       time_current: 'الان:',
       time_total: 'الحد الأقصي:',
-      time_goto: 'أذهب الى:'
+      time_goto: 'أذهب الى:',
       //    non_user_code_problem_title: "Unable to Load Level",
       //    infinite_loop_title: "Infinite Loop Detected",
       //    infinite_loop_description: "The initial code to build the world never finished running. It's probably either really slow or has an infinite loop. Or there might be a bug. You can either try running this code again or reset the code to the default state. If that doesn't fix it, please let us know.",
@@ -1212,6 +1213,7 @@ module.exports = {
       inventory_tab: 'المخزن',
       save_load_tab: 'أحفظأسترجع',
       options_tab: 'خيارات',
+      //    my_code_tab: "My Code",
       guide_tab: 'الدليل',
       guide_video_tutorial: 'فيديو تعليمي',
       guide_tips: 'نصائح',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'جهز بطلك الخاص',
       choose_hero_caption: 'اختر بطل, لغة',
       options_caption: 'تهيئة الإعدادات',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'المستندات والنصائح',
       multiplayer_caption: 'العب مع الاصدقاء!',
-      auth_caption: 'أحفظ ما وصلت اليه.'
+      auth_caption: 'أحفظ ما وصلت اليه.',
     },
 
     leaderboard: {
@@ -1240,7 +1243,7 @@ module.exports = {
       gold_collected: 'الذهب المجمع',
       survival_time: 'وقت النجاه',
       defeated: 'الأعداءالمهزومين',
-      code_length: 'الأسطر البرمجيه'
+      code_length: 'الأسطر البرمجيه',
       //    score_display: "__scoreType__: __score__",
     },
 
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: 'الغي الاستخدام',
       warrior_only: 'المحارب فقط',
       ranger_only: 'الحارس فقط',
-      wizard_only: 'الساحر فقط'
+      wizard_only: 'الساحر فقط',
     },
 
     buy_gems: {
@@ -1270,7 +1273,7 @@ module.exports = {
       //    prompt_title: "Not Enough Gems",
       //    prompt_body: "Do you want to get more?",
       prompt_button: 'أدخل متجر',
-      recovered: 'الأحجار الكريمة السابقة أون استردادها. يرجى تحديث الصفحة.'
+      recovered: 'الأحجار الكريمة السابقة أون استردادها. يرجى تحديث الصفحة.',
       //    price: "x{{gems}} / mo",
       //    buy_premium: "Buy Premium",
       //    purchase: "Purchase",
@@ -1344,6 +1347,7 @@ module.exports = {
     //    currently_not_free: "You don't have a Subscription yet.",
     //    online_classes: "Online Classes",
     //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+    //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     //  },
 
     //  announcement: {
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: 'لعبة لغة البرمجة.',
       //    java_blurb: "(Subscriber Only) Android and enterprise.",
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       //    status: "Status",
       weapons: 'اسلحة',
       //    weapons_warrior: "Swords - Short Range, No Magic",
@@ -1455,7 +1468,7 @@ module.exports = {
       //    range: "Range",
       //    blocks: "Blocks",
       //    backstab: "Backstab",
-      skills: 'المهارات'
+      skills: 'المهارات',
       //    attack_1: "Deals",
       //    attack_2: "of listed",
       //    attack_3: "weapon damage.",
@@ -1689,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1856,7 +1868,7 @@ module.exports = {
       cla_prefix: 'لحفظ التغييرات، أولا يجب أن توافق على ',
       cla_url: 'اتفاقيّة ترخيص المساهم',
       cla_suffix: '.',
-      cla_agree: 'أوافق'
+      cla_agree: 'أوافق',
       //    owner_approve: "An owner will need to approve it before your changes will become visible.",
     },
 
@@ -1874,7 +1886,7 @@ module.exports = {
       //    subscriber_support: "Since you're a CodeCombat subscriber, your email will get our priority support.",
       //    screenshot_included: "Screenshot included.",
       //    where_reply: "Where should we reply?",
-      send: 'إرسال تعليقات'
+      send: 'إرسال تعليقات',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1907,7 +1919,7 @@ module.exports = {
       type_in_email: 'اكتب بريدك الإلكتروني لتأكيد حذف حسابك.',
       //    type_in_email_progress: "Type in your email to confirm deleting your progress.",
       type_in_password: 'أيضا، اكتب كلمة المرور الخاصة بك.',
-      email_subscriptions: 'الاشتراكات البريد الإلكتروني'
+      email_subscriptions: 'الاشتراكات البريد الإلكتروني',
       //    email_subscriptions_none: "No Email Subscriptions.",
       //    email_announcements: "Announcements",
       //    email_announcements_description: "Get emails on the latest news and developments at CodeCombat.",
@@ -1948,7 +1960,6 @@ module.exports = {
     //    toggle_grid: "Toggle grid overlay.",
     //    toggle_pathfinding: "Toggle pathfinding overlay.",
     //    beautify: "Beautify your code by standardizing its formatting.",
-    //    maximize_editor: "Maximize/minimize code editor.",
     //  },
 
     //  cinematic: {
@@ -1957,7 +1968,7 @@ module.exports = {
     //  },
 
     community: {
-      main_title: 'مجتمع كودكومبات'
+      main_title: 'مجتمع كودكومبات',
       //    introduction: "Check out the ways you can get involved below and decide what sounds the most fun. We look forward to working with you!",
       //    level_editor_prefix: "Use the CodeCombat",
       //    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!",
@@ -2870,6 +2881,7 @@ module.exports = {
     //    fork_title: "Fork New Version",
     //    fork_creating: "Creating Fork...",
     //    generate_terrain: "Generate Terrain",
+    //    generate_level: "Generate Level",
     //    more: "More",
     //    wiki: "Wiki",
     //    live_chat: "Live Chat",
@@ -3158,7 +3170,7 @@ module.exports = {
       no_multiplayer: 'لا يوجد مباريات متعدّدة اللاّعبين لعبت حتّى الآن',
       no_achievements: 'لا توجد انجازات مكتسبة حتّى الآن.',
       favorite_prefix: 'لغتك المفضّلة هي ',
-      favorite_postfix: '.'
+      favorite_postfix: '.',
       //    not_member_of_clans: "Not a member of any clans yet.",
       //    certificate_view: "view certificate",
       //    certificate_click_to_view: "click to view certificate",
@@ -3193,7 +3205,7 @@ module.exports = {
       //    new_xp_prefix: "",
       new_xp_postfix: 'اكتسبت',
       //    left_xp_prefix: "",
-      left_xp_infix: 'حتّى مستوى '
+      left_xp_infix: 'حتّى مستوى ',
       //    left_xp_postfix: "",
     },
 
@@ -3215,7 +3227,7 @@ module.exports = {
       //    service_web: "Web",
       //    paid_on: "Paid On",
       //    service: "Service",
-      price: 'السعر'
+      price: 'السعر',
       //    gems: "Gems",
       //    active: "Active",
       //    subscribed: "Subscribed",
@@ -3287,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3364,7 +3377,7 @@ module.exports = {
       conflict: 'الصراع على الموارد.',
       bad_input: 'إدخال سيئ.',
       server_error: 'خطأ في الخادم.',
-      unknown: 'خطأ غير معروف.'
+      unknown: 'خطأ غير معروف.',
       //    error: "ERROR",
       //    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!",
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
@@ -3547,8 +3560,8 @@ module.exports = {
       moved_index: 'فهرس انتقل',
       text_diff: 'Text Diff',
       merge_conflict_with: 'تدمج الصدام مع',
-      no_changes: 'No Changes'
-    }
+      no_changes: 'No Changes',
+    },
 
     //  legal: {
     //    page_title: "Legal",
@@ -3921,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4478,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4759,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

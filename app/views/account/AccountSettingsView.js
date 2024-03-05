@@ -25,6 +25,7 @@ const CreateAccountModal = require('views/core/CreateAccountModal')
 const globalVar = require('core/globalVar')
 const utils = require('core/utils')
 const RobloxButton = require('./robloxButton.vue').default
+const DashboardToggle = require('ozaria/site/components/teacher-dashboard/common/DashboardToggle.vue').default
 
 module.exports = (AccountSettingsView = (function () {
   AccountSettingsView = class AccountSettingsView extends RootView {
@@ -59,7 +60,8 @@ module.exports = (AccountSettingsView = (function () {
       this.listenTo(this, 'save-user-success', this.onUserSaveSuccess)
       this.listenTo(this, 'save-user-error', this.onUserSaveError)
 
-      return this.robloxButton = new RobloxButton({ propsData: { size: 'small' }, el: this.$el.find('#roblox-button')[0] })
+      this.robloxButton = new RobloxButton({ propsData: { size: 'small' }, el: this.$el.find('#roblox-button')[0] })
+      this.dashboardToggle = new DashboardToggle({ propsData: { size: 'small' }, el: this.$el.find('#dashboard-toggle')[0] })
     }
 
     afterInsert () {
@@ -435,6 +437,9 @@ module.exports = (AccountSettingsView = (function () {
     destroy () {
       if (this.robloxButton != null) {
         this.robloxButton.$destroy()
+      }
+      if (this.dashboardToggle != null) {
+        this.dashboardToggle.$destroy()
       }
       return super.destroy()
     }

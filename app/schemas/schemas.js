@@ -1,12 +1,5 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
 const Language = require('./languages')
+const _ = require('lodash')
 
 // schema helper methods
 
@@ -272,9 +265,11 @@ me.PropertyDocumentationSchema = me.object({
     type: 'object',
     description: 'The `foo` property can satisfy all the #{spriteName}\'s foobar needs. Use it wisely.'
   },
-  required: ['name', 'type', 'description']
+  required: ['name', 'type', 'description'],
+  format: 'property-documentation'
 }, {
   name: { type: 'string', title: 'Name', description: 'Name of the property.' },
+  componentName: { type: 'string', description: 'Component Name for ozaria.' },
   i18n: { type: 'object', format: 'i18n', props: ['name', 'shortDescription', 'description', 'context'], description: 'Help translate this property' },
   context: {
     type: 'object',
@@ -396,7 +391,7 @@ me.activity = me.object({ description: 'Stats on an activity' }, {
   count: { type: 'integer', minimum: 0 }
 })
 
-me.terrainString = me.shortString({ enum: ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano'], title: 'Terrain', description: 'Which terrain type this is.', inEditor: 'codecombat' })
+me.terrainString = me.shortString({ enum: ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano', 'Junior'], title: 'Terrain', description: 'Which terrain type this is.', inEditor: 'codecombat' })
 
 me.HeroConfigSchema = me.object({ description: 'Which hero the player is using, equipped with what inventory.' }, {
   inventory: {
@@ -452,7 +447,8 @@ me.voiceOver = {
   ]
 }
 
-me.product = { type: 'string', title: 'Product', description: 'Which product this document is for (codecombat, ozaria, or both)', enum: ['codecombat', 'ozaria', 'both'], default: 'both' }
+me.product = { type: 'string', title: 'Product', description: 'Which product this document is for (codecombat, ozaria, or both)', enum: ['codecombat', 'ozaria', 'both'], default: 'both' } // Older version; for differentiating between codecombat.com and ozaria.com and separate databases (like a ResourceHubResource)
+me.singleProduct = { type: 'string', title: 'Product', description: 'Which product this document is for (codecombat, ozaria, or codecombat-junior)', enum: ['codecombat', 'ozaria', 'codecombat-junior'], default: 'codecombat' } // Newer version: for when this document is specific to a single product (like a Level)
 
 me.InlineInteractionSchema = me.object({ description: 'An inline interaction', definitions: {}, required: ['type', 'actor'], additionalProperties: true }, {
   type: { type: 'string', enum: ['model-response', 'prompt-quiz', 'free-chat', 'chat-message', 'load-document'] },

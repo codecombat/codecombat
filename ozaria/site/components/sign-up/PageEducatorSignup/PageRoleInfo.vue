@@ -11,7 +11,7 @@ const countryList = require('country-list')()
 
 export default {
   metaInfo: {
-    meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
+    meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }]
   },
   components: {
     SecondaryButton

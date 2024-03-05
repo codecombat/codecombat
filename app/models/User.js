@@ -393,7 +393,7 @@ module.exports = (User = (function () {
 
     levels () {
       let left, left1
-      return ((left = this.get('earned')?.levels) != null ? left : []).concat((left1 = this.get('purchased')?.levels) != null ? left1 : []).concat(LevelConstants.levels['dungeons-of-kithgard'])
+      return ((left = this.get('earned')?.levels) != null ? left : []).concat((left1 = this.get('purchased')?.levels) != null ? left1 : []).concat(LevelConstants.levels['dungeons-of-kithgard']).concat(LevelConstants.levels['the-gem'])
     }
 
     ownsHero (heroOriginal) {
@@ -1083,7 +1083,10 @@ module.exports = (User = (function () {
         // Don't include users other than home users
         value = 'control'
       }
-      if ((value == null)) {
+      if (me.isAdmin()) {
+        value = 'beta'
+      }
+      if ((!value)) {
         let valueProbability
         const probability = window.serverConfig?.experimentProbabilities?.hackstack?.beta != null ? window.serverConfig?.experimentProbabilities?.hackstack?.beta : 0.05
         if (Math.random() < probability) {
@@ -1215,6 +1218,14 @@ module.exports = (User = (function () {
     showChinaRegistration () { return features?.china != null ? features?.china : false }
     enableCpp () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || this.isTeacher()) }
     enableJava () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || (this.isTeacher() && this.isBetaTester())) }
+
+    getEnabledLanguages () {
+      const languages = ['javascript', 'python']
+      if (this.enableCpp()) { languages.push('cpp') }
+      if (this.enableJava()) { languages.push('java') }
+      return languages
+    }
+
     useQiyukf () { return false }
     useChinaServices () { return features?.china != null ? features?.china : false }
     useGeneralArticle () { return !(features?.china != null ? features?.china : false) }

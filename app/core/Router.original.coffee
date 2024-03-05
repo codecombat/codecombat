@@ -397,6 +397,7 @@ module.exports = class CocoRouter extends Backbone.Router
       else
         @routeDirectly('core/SingletonAppVueComponentView', arguments, {redirectStudents: true, teachersOnly: true})
     'teachers/projects/:classroomId': go('core/SingletonAppVueComponentView')
+    'teachers/assessments/:classroomId': go('core/SingletonAppVueComponentView')
     'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true })
     'teachers/classes/:classroomID': ->
       if utils.isCodeCombat and localStorage.getItem('newDT') isnt 'true'

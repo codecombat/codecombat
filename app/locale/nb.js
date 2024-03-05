@@ -286,7 +286,7 @@ module.exports = {
       //    run_class: "Everything you need to run a computer science class in your school today, no CS background required.",
       goto_classes: 'Gå til klassene mine',
       view_profile: 'Vis profilen min',
-      view_progress: 'Vis framgang'
+      view_progress: 'Vis framgang',
       //    go_to_courses: "Go to My Courses",
       //    want_coco: "Want CodeCombat at your school?",
       //    educator: "Educator",
@@ -382,7 +382,7 @@ module.exports = {
       //    learn_to_code: "Learn to Code!",
       //    toggle_nav: "Toggle navigation",
       schools: 'Skoler',
-      get_involved: 'Bli involvert'
+      get_involved: 'Bli involvert',
       //    related_urls: "Related Links",
       //    open_source: "Open source (GitHub)",
       //    support: "Support",
@@ -430,13 +430,13 @@ module.exports = {
 
     modal: {
       close: 'Lukk',
-      okay: 'OK'
+      okay: 'OK',
       //    cancel: "Cancel",
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Finner ikke siden'
+      page_not_found: 'Finner ikke siden',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'Vi utvikler CodeCombat på engelsk, men vi har allerede spillere over hele verden. Mange av dem vil spille på norsk, men snakker ikke engelsk, så hvis du kan snakke begge språk, vennligst vurder å meld deg på som Diplomat og hjelp å oversette både CodeCombat websiden og alle brettene til norsk.',
       missing_translations: 'Inntil vi har oversatt alt til norsk vil du se engelsk der hvor norsk ikke er tilgjengelig.',
       learn_more: 'Lær mer om hvordan det er å være en Diplomat',
-      subscribe_as_diplomat: 'Meld deg på som Diplomat'
+      subscribe_as_diplomat: 'Meld deg på som Diplomat',
     },
 
     //  new_home_faq: {
@@ -530,8 +530,9 @@ module.exports = {
       awaiting_levels_adventurer: 'Registrer deg som eventyrer',
       awaiting_levels_adventurer_suffix: 'for å få spille nye nivåer før alle andre.',
       adjust_volume: 'Juster lydnivå',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Flerspillerarenaer',
-      campaign_multiplayer_description: '... hvor du spiller direkte mot andre spillere.'
+      campaign_multiplayer_description: '... hvor du spiller direkte mot andre spillere.',
       //    brain_pop_done: "You’ve defeated the Ogres with code! You win!",
       //    brain_pop_challenge: "Challenge yourself to play again using a different programming language!",
       //    replay: "Replay",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'udefinert',
       null: 'null',
       //    nil: "nil",
-      None: 'Ingen'
+      None: 'Ingen',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Skriv ned e-postadressen deres nedenfor, så skal vi vise dem!',
       form_label: 'E-postadresse',
       placeholder: 'E-postadresse',
-      title: 'Godt jobbet, lærling'
+      title: 'Godt jobbet, lærling',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: 'Fullfører',
       sign_in_with_facebook: 'Logg på med Facebook',
       sign_in_with_gplus: 'Logg på med G+',
-      signup_switch: 'Vil du lage en konto?'
+      signup_switch: 'Vil du lage en konto?',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -702,7 +703,7 @@ module.exports = {
       start_playing: 'Begynn spillet!',
       sso_connected: 'Koblet til med:',
       select_your_starting_hero: 'Velg din helt:',
-      you_can_always_change_your_hero_later: 'Du kan alltids bytte helt senere.'
+      you_can_always_change_your_hero_later: 'Du kan alltids bytte helt senere.',
       //    finish: "Finish",
       //    teacher_ready_to_create_class: "You're ready to create your first class!",
       //    teacher_students_can_start_now_coco: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately.",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Tilbakestill passord',
       send_password: 'Send nytt passord',
-      recovery_sent: 'E-post sendt.'
+      recovery_sent: 'E-post sendt.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Rustning',
       accessories: 'Tilbehør',
       misc: 'Diverse',
-      books: 'Bøker'
+      books: 'Bøker',
     },
 
     common: {
@@ -798,7 +799,7 @@ module.exports = {
       submit_patch: 'Lever en patch',
       submit_changes: 'Lever endringer',
       save_changes: 'Lagre endringer',
-      required_field: 'Påkrevet felt'
+      required_field: 'Påkrevet felt',
       //    submit: "Submit",
       //    replay: "Replay",
       //    complete: "Complete",
@@ -875,7 +876,7 @@ module.exports = {
       learn_more: 'Lær mer',
       more: 'Mer',
       fewer: 'Mindre',
-      with: 'Med'
+      with: 'Med',
       //    archived: "Archived",
       //    chat: "Chat",
       //    chat_with_us: "Chat with us",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'måned',
       months: 'måneder',
       year: 'år',
-      years: 'år'
+      years: 'år',
     },
 
     play_level: {
@@ -1082,7 +1083,7 @@ module.exports = {
       //    tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood",
       tip_good_idea: 'Den beste måten å ha en god idè er å ha mange ideer. - Linus Pauling',
       //    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra",
-      tip_mulan: 'Tro du kan, da kan du. - Mulan'
+      tip_mulan: 'Tro du kan, da kan du. - Mulan',
       //    project_complete: "Project Complete!",
       //    share_this_project: "Share this project with friends or family:",
       //    ready_to_share: "Ready to publish your project?",
@@ -1212,6 +1213,7 @@ module.exports = {
       inventory_tab: 'Utstyr',
       save_load_tab: 'Lagre/Laste',
       options_tab: 'Innstillinger',
+      //    my_code_tab: "My Code",
       guide_tab: 'Guide',
       guide_video_tutorial: 'Videoveiledning',
       guide_tips: 'Tips',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Utstyr helten din',
       choose_hero_caption: 'Velg helt og språk',
       options_caption: 'Velg innstillinger',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Dokumentasjon og tips',
       multiplayer_caption: 'Spill med venner',
-      auth_caption: 'Lagre din fremgang.'
+      auth_caption: 'Lagre din fremgang.',
     },
 
     leaderboard: {
@@ -1237,7 +1240,7 @@ module.exports = {
       damage_taken: 'Skade tatt',
       damage_dealt: 'Skade gitt',
       difficulty: 'Vanskelighetsgrad',
-      gold_collected: 'Gull samlet'
+      gold_collected: 'Gull samlet',
       //    survival_time: "Survived",
       //    defeated: "Enemies Defeated",
       //    code_length: "Lines of Code",
@@ -1254,7 +1257,7 @@ module.exports = {
       locked: '(låst)',
       restricted: '(ikke tilgjengelig på dette brettet)',
       equip: 'Bruk',
-      unequip: 'Ikke bruk'
+      unequip: 'Ikke bruk',
       //    warrior_only: "Warrior Only",
       //    ranger_only: "Ranger Only",
       //    wizard_only: "Wizard Only",
@@ -1270,7 +1273,7 @@ module.exports = {
       prompt_title: 'Ikke nok juveler',
       prompt_body: 'Har du lyst på flere?',
       prompt_button: 'Til Butikken',
-      recovered: 'Tidligere juvelkjøp hentet. Vennligst last siden på nytt'
+      recovered: 'Tidligere juvelkjøp hentet. Vennligst last siden på nytt',
       //    price: "x{{gems}} / mo",
       //    buy_premium: "Buy Premium",
       //    purchase: "Purchase",
@@ -1307,7 +1310,7 @@ module.exports = {
       //    stripe_yearly_description: "Annual Subscription",
       buy_now: 'Kjøp nå',
       subscription_required_to_play: 'Du trenger abonnement for å spille dette nivået.',
-      unlock_help_videos: 'Abonnér for å låse opp alle videoveiledningene.'
+      unlock_help_videos: 'Abonnér for å låse opp alle videoveiledningene.',
       //    personal_sub: "Personal Subscription",
       //    loading_info: "Loading subscription information...",
       //    managed_by: "Managed by",
@@ -1344,6 +1347,7 @@ module.exports = {
       //    currently_not_free: "You don't have a Subscription yet.",
       //    online_classes: "Online Classes",
       //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+      //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     },
 
     //  announcement: {
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Et skriptspråk for spill.',
       //    java_blurb: "(Subscriber Only) Android and enterprise.",
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Status',
       weapons: 'Våpen',
       weapons_warrior: 'Sverd - Kort rekkevidde, ingen magi',
@@ -1466,7 +1479,7 @@ module.exports = {
       speed_2: 'meter i sekundet.',
       available_for_purchase: 'Kan kjøpes',
       level_to_unlock: 'Låses opp på nivå:',
-      restricted_to_certain_heroes: 'Bare noen helter kan spille dette brettet.'
+      restricted_to_certain_heroes: 'Bare noen helter kan spille dette brettet.',
     },
 
     //  char_customization_modal: {
@@ -1504,14 +1517,14 @@ module.exports = {
       //    required_parameters: "Required Parameters",
       //    optional_parameters: "Optional Parameters",
       returns: 'Returnerer',
-      granted_by: 'Gitt av'
+      granted_by: 'Gitt av',
       //    still_undocumented: "Still undocumented, sorry.",
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: 'Lagret',
-      granularity_change_history: 'Historikk'
+      granularity_change_history: 'Historikk',
     },
 
     options: {
@@ -1528,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Vis innrykkslinjer',
       editor_config_indentguides_description: 'Viser vertikale linjer for å se antall innrykk bedre.',
       editor_config_behaviors_label: 'Smart oppførsel',
-      editor_config_behaviors_description: 'Autofullfører parenteser, krøllparenteser, hakeparenteser og anførselstegn'
+      editor_config_behaviors_description: 'Autofullfører parenteser, krøllparenteser, hakeparenteser og anførselstegn',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1657,7 +1670,7 @@ module.exports = {
       screenshots: 'Skjermbilder',
       //    character_art: "Character Art",
       //    download_all: "Download All",
-      previous: 'Forrige'
+      previous: 'Forrige',
       //    location_title: "We're located in downtown SF:",
     },
 
@@ -1689,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1808,7 +1820,7 @@ module.exports = {
       //    school_name: "School Name",
       city: 'By',
       state: 'Fylke',
-      country: 'Land'
+      country: 'Land',
       //    num_students_help: "How many students will use __product__?",
       //    num_students_default: "Select Range",
       //    education_level_label: "Education Level of Students",
@@ -1857,7 +1869,7 @@ module.exports = {
       cla_url: 'CLA',
       cla_suffix: '.',
       cla_agree: 'JEG AKSEPTERER',
-      owner_approve: 'En eier må godta endringene før de blir synlige.'
+      owner_approve: 'En eier må godta endringene før de blir synlige.',
     },
 
     contact: {
@@ -1874,7 +1886,7 @@ module.exports = {
       subscriber_support: 'Siden du er en CodeCombat-abonnent, vil din e-post få fortrinn hos kundestøtte.',
       screenshot_included: 'Skjermbilde vedlagt.',
       where_reply: 'Hvor skal vi sende svaret?',
-      send: 'Send tilbakemelding'
+      send: 'Send tilbakemelding',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: 'Lagring Feilet',
       saved: 'Endringer Lagret',
       password_mismatch: 'Passordene er ikke like.',
-      password_repeat: 'Vennligst gjenta passordet.'
+      password_repeat: 'Vennligst gjenta passordet.',
     },
 
     keyboard_shortcuts: {
@@ -1948,7 +1960,6 @@ module.exports = {
       toggle_grid: 'Skru på/av rutenett',
       toggle_pathfinding: 'Skru på/av stifinnervindu',
       beautify: 'Gjør koden penere med standard formattering.',
-      maximize_editor: 'Maksimer/minimer kode editor.'
     },
 
     //  cinematic: {
@@ -1972,7 +1983,7 @@ module.exports = {
       social_facebook: 'Lik CodeCombat på Facebook',
       social_twitter: 'Følg CodeCombat på Twitter',
       //    social_slack: "Chat with us in the public CodeCombat Slack channel",
-      contribute_to_the_project: 'Bidra på prosjektet'
+      contribute_to_the_project: 'Bidra på prosjektet',
     },
 
     clans: {
@@ -2030,7 +2041,7 @@ module.exports = {
       //    track_concepts3b: "Track levels completed for each member",
       //    track_concepts4a: "See your students'",
       //    track_concepts4b: "See your members'",
-      track_concepts5: 'Løsninger'
+      track_concepts5: 'Løsninger',
       //    track_concepts6a: "Sort students by name or progress",
       //    track_concepts6b: "Sort members by name or progress",
       //    track_concepts7: "Requires invitation",
@@ -2161,7 +2172,7 @@ module.exports = {
       //    classes_per_week: "classes per week",
       //    minutes_per_class: "minutes per class",
       create_class: 'Lag en klasse',
-      class_name: 'Klasse navn'
+      class_name: 'Klasse navn',
       //    teacher_account_restricted: "Your account is a teacher account and cannot access student content.",
       //    account_restricted: "A student account is required to access this page.",
       //    update_account_login_title: "Log in to update your account",
@@ -2411,7 +2422,7 @@ module.exports = {
       //    apply_licenses_to_the_following_students: "Apply Licenses to the Following Students",
       //    select_license_type: "Select License Type to Apply",
       //    students_have_licenses: "The following students already have licenses applied:",
-      all_students: 'Alle studenter'
+      all_students: 'Alle studenter',
       //    apply_licenses: "Apply Licenses",
       //    not_enough_enrollments: "Not enough licenses available.",
       //    enrollments_blurb: "Students are required to have a license to access any content after the first course.",
@@ -2834,7 +2845,7 @@ module.exports = {
       ambassador_title: 'Ambassadør',
       ambassador_title_description: '(Brukerstøtte)',
       ambassador_summary: 'Temm våre forumbrukere og tilby hjelp for de med spørsmål. Våre ambassadører representerer CodeCombat ute i verden.',
-      teacher_title: 'Lærer'
+      teacher_title: 'Lærer',
     },
 
     editor: {
@@ -2870,6 +2881,7 @@ module.exports = {
       fork_title: 'Lag ny forgrening',
       fork_creating: 'Lager forgrening...',
       generate_terrain: 'Generer Terreng',
+      //    generate_level: "Generate Level",
       more: 'Mer',
       wiki: 'Wiki',
       //    live_chat: "Live Chat",
@@ -2970,7 +2982,7 @@ module.exports = {
       achievement_query_goals: 'Oppnådde nøkkelmål',
       level_completion: 'Komplett nivå',
       pop_i18n: 'Fullfør I18N',
-      tasks: 'Oppgaver'
+      tasks: 'Oppgaver',
       //    clear_storage: "Clear your local changes",
       //    add_system_title: "Add Systems to Level",
       //    done_adding: "Done Adding",
@@ -2980,11 +2992,11 @@ module.exports = {
 
     article: {
       edit_btn_preview: 'Forhåndsvis',
-      edit_article_title: 'Rediger Artikkel'
+      edit_article_title: 'Rediger Artikkel',
     },
 
     polls: {
-      priority: 'Prioritet'
+      priority: 'Prioritet',
     },
 
     contribute: {
@@ -3055,7 +3067,7 @@ module.exports = {
       creative_artisans: 'Våre kreative Artisaner:',
       brave_adventurers: 'Våre tapre Eventyrere:',
       translating_diplomats: 'Våre oversettende Diplomater:',
-      helpful_ambassadors: 'Våre hjelpsomme Ambassadører:'
+      helpful_ambassadors: 'Våre hjelpsomme Ambassadører:',
     },
 
     ladder: {
@@ -3129,7 +3141,7 @@ module.exports = {
       //    loss_num: "Losses",
       //    win_rate: "Win %",
       humans: 'Rød',
-      ogres: 'Blå'
+      ogres: 'Blå',
       //    live_tournament: "Live Tournament",
       //    awaiting_tournament_title: "Tournament Inactive",
       //    awaiting_tournament_blurb: "The tournament arena is not currently active.",
@@ -3159,7 +3171,7 @@ module.exports = {
       no_achievements: 'Ingen prestasjoner oppnådd ennå.',
       favorite_prefix: 'Favorittspråket er ',
       favorite_postfix: '.',
-      not_member_of_clans: 'Ikke et medlem av en klan enda.'
+      not_member_of_clans: 'Ikke et medlem av en klan enda.',
       //    certificate_view: "view certificate",
       //    certificate_click_to_view: "click to view certificate",
       //    certificate_course_incomplete: "course incomplete",
@@ -3194,7 +3206,7 @@ module.exports = {
       new_xp_postfix: ' opptjent',
       left_xp_prefix: '',
       left_xp_infix: ' til nivå ',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     account: {
@@ -3235,12 +3247,12 @@ module.exports = {
       unsubscribe_from_marketing: 'Avmeld __email__ fra alle e-poster om CodeCombat-markedsføring?',
       unsubscribe_button: 'Ja, avmeld',
       unsubscribe_failed: 'Feilet',
-      unsubscribe_success: 'Suksess'
+      unsubscribe_success: 'Suksess',
       //    manage_billing: "Manage Billing",
     },
 
     account_invoices: {
-      amount: 'Prisen er i Amerikanske dollar'
+      amount: 'Prisen er i Amerikanske dollar',
       //    declined: "Your card was declined",
       //    invalid_amount: "Please enter a US dollar amount.",
       //    not_logged_in: "Log in or create an account to access invoices.",
@@ -3270,7 +3282,7 @@ module.exports = {
       quantity: 'Mengde',
       //    redeemed: "Redeemed",
       no_codes: 'Ingen kode enda!',
-      you_can1: 'Du kan'
+      you_can1: 'Du kan',
       //    you_can2: "purchase a prepaid code",
       //    you_can3: "that can be applied to your own account or given to others.",
       //    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account.",
@@ -3287,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3365,7 +3378,7 @@ module.exports = {
       bad_input: 'Feil i inndata',
       server_error: 'Serverfeil.',
       unknown: 'Ukjent feil.',
-      error: 'FEIL'
+      error: 'FEIL',
       //    general_desc: "Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!",
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
@@ -3380,7 +3393,7 @@ module.exports = {
       component: 'Komponent',
       components: 'Komponenter',
       hero: 'Helt',
-      campaigns: 'Kampanjer'
+      campaigns: 'Kampanjer',
     },
 
     //  concepts: {
@@ -3547,7 +3560,7 @@ module.exports = {
       moved_index: 'Endret Index',
       text_diff: 'Tekst Diff',
       merge_conflict_with: 'MERGE KONFLIKT MED',
-      no_changes: 'Ingen Endringer'
+      no_changes: 'Ingen Endringer',
     },
 
     legal: {
@@ -3603,7 +3616,7 @@ module.exports = {
       nutshell_title: 'I et nøtteskall',
       nutshell_description: 'Alle ressursene vi har gjort tilgjengelig i Brett-editoren kan fritt brukes til å lage nye Brett. Men vi forbeholder oss rettighetene til å distribuere selve Brettene (som er laget på codecombat.com), slik at vi har muligheten til å kreve betaling for dem i fremtiden, dersom vi ender opp med å gjøre det.',
       //    nutshell_see_also: "See also:",
-      canonical: 'Den engelske utgaven av dette dokumentet er den definitive og gjeldende utgaven. Hvis det er forskjeller i oversettelsen så er det den engelske utgaven som gjelder.'
+      canonical: 'Den engelske utgaven av dette dokumentet er den definitive og gjeldende utgaven. Hvis det er forskjeller i oversettelsen så er det den engelske utgaven som gjelder.',
       //    third_party_title: "Third Party Services",
       //    third_party_description: "CodeCombat uses the following third party services (among others):",
       //    cookies_message: "CodeCombat uses a few essential and non-essential cookies.",
@@ -3647,8 +3660,8 @@ module.exports = {
       september: 'September',
       october: 'Oktober',
       november: 'November',
-      december: 'Desember'
-    }
+      december: 'Desember',
+    },
 
     //  code_play_create_account_modal: {
     //    title: "You did it!",
@@ -3921,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4478,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4759,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

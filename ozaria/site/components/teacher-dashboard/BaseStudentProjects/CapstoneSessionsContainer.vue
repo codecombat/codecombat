@@ -4,6 +4,7 @@ import StudentRow from './StudentRow'
 import { playDevLevel } from 'app/core/urls'
 import { broadName } from 'models/User'
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
 
 export default {
   components: {
@@ -27,8 +28,14 @@ export default {
   computed: {
     ...mapGetters({
       getTrackCategory: 'teacherDashboard/getTrackCategory',
-      loading: 'teacherDashboard/getLoadingState'
+      loading: 'teacherDashboard/getLoadingState',
+      classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
+      selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom'
     }),
+
+    selectedCourse () {
+      return this.classroomCourses.find((c) => c._id === this.selectedCourseId) || {}
+    },
 
     sortedMembers () {
       const sortedMembers = [...this.members]
@@ -91,7 +98,7 @@ export default {
       return (member) => {
         const capstoneSession = this.capstoneSession(member)
         if (capstoneSession) {
-          return playDevLevel({ level: this.capstoneLevel, session: capstoneSession })
+          return playDevLevel({ level: this.capstoneLevel, session: capstoneSession, course: this.selectedCourse })
         } else {
           return ''
         }
@@ -99,10 +106,14 @@ export default {
     },
     levelGoals () {
       const goals = []
-      goals.push(this.capstoneLevel.goals)
-      this.capstoneLevel.additionalGoals.forEach(goal => {
-        goals.push(goal.goals)
-      })
+      if (this.capstoneLevel.goals) {
+        goals.push(this.capstoneLevel.goals)
+      }
+      if (this.capstoneLevel.additionalGoals) {
+        this.capstoneLevel.additionalGoals.forEach(goal => {
+          goals.push(goal.goals)
+        })
+      }
       return _.flatten(goals)
     },
     studentName () {

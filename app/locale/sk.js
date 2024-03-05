@@ -288,7 +288,7 @@ module.exports = {
       view_profile: 'Ukáž môj profil',
       view_progress: 'Ukáž postup',
       go_to_courses: 'Cho ku mojím kurzom',
-      want_coco: 'Chceš CodeCombat na svojej škole?'
+      want_coco: 'Chceš CodeCombat na svojej škole?',
       //    educator: "Educator",
       //    student: "Student",
       //    go_to_my_dashboard: "Go to My Dashboard",
@@ -391,7 +391,7 @@ module.exports = {
       //    copyright_suffix: "All Rights Reserved.",
       help_pref: 'Potrebuješ pomoc? Email',
       help_suff: 'a ozveme sa.',
-      resource_hub: 'Zdroje'
+      resource_hub: 'Zdroje',
       //    apcsp: "AP CS Principles",
       //    parent: "Parents",
       //    faq: "FAQ",
@@ -430,13 +430,13 @@ module.exports = {
 
     modal: {
       close: 'Zatvor',
-      okay: 'Súhlasím'
+      okay: 'Súhlasím',
       //    cancel: "Cancel",
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Stránka nenájdená'
+      page_not_found: 'Stránka nenájdená',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'CodeCombat je vyvíjaný v angličitne, ale hrajú ho hráči z celého sveta. Máme aj hráčov, ktorí potrebujú preklad do slovenčiny. Ak vieš teda po anglicky aj po slovensky, prihlás sa ako diplomat a pomôž s prekladom stránky a úrovní do slovenčiny.',
       missing_translations: 'Pokiaľ bude všetko preložené do slovenčiny, budú nepreložené časti do slovenčiny dostupné v angličtine.',
       learn_more: 'Zisti viac, ako byť Diplomat',
-      subscribe_as_diplomat: 'Prihlásiť sa ako Diplomat'
+      subscribe_as_diplomat: 'Prihlásiť sa ako Diplomat',
     },
 
     //  new_home_faq: {
@@ -530,9 +530,10 @@ module.exports = {
       awaiting_levels_adventurer: 'Prihlás sa ako Dobrodruh',
       awaiting_levels_adventurer_suffix: 'budeš ako prvý hrať nové levely.',
       adjust_volume: 'Zmeniť hlasitosť',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Aréna pre viacerých hráčov',
       campaign_multiplayer_description: '... v ktorej si zmeriaš svoje programátorské sily proti ostatným hráčom.',
-      brain_pop_done: 'Svojim kódom si porazil ogrov. Vyhral si!'
+      brain_pop_done: 'Svojim kódom si porazil ogrov. Vyhral si!',
       //    brain_pop_challenge: "Challenge yourself to play again using a different programming language!",
       //    replay: "Replay",
       //    back_to_classroom: "Back to Classroom",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'nedefinované',
       null: 'prázdny',
       nil: 'prázdny',
-      None: 'Nič'
+      None: 'Nič',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Vlož nižšie ich emailové adresy a my sa s nimi spojíme !',
       form_label: 'Emailová adresa',
       placeholder: 'emailová adresa',
-      title: 'Výborná práca, nováčik'
+      title: 'Výborná práca, nováčik',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: 'Finišujem',
       sign_in_with_facebook: 'Prihlás sa s Facebookom',
       sign_in_with_gplus: 'Prihlás sa s G+',
-      signup_switch: 'Chceš si vytvoriť účet?'
+      signup_switch: 'Chceš si vytvoriť účet?',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -702,7 +703,7 @@ module.exports = {
       start_playing: 'Začni hrať!',
       sso_connected: 'Úspešne pripojený:',
       select_your_starting_hero: 'Vyber hrdinu, s ktorým začneš hru:',
-      you_can_always_change_your_hero_later: 'Svojho hrdinu môžeš neskôr zmeniť.'
+      you_can_always_change_your_hero_later: 'Svojho hrdinu môžeš neskôr zmeniť.',
       //    finish: "Finish",
       //    teacher_ready_to_create_class: "You're ready to create your first class!",
       //    teacher_students_can_start_now_coco: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately.",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Obnov účet',
       send_password: 'Zašli nové heslo',
-      recovery_sent: 'Email s novým heslom odoslaný.'
+      recovery_sent: 'Email s novým heslom odoslaný.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Zbroj',
       accessories: 'Príslušenstvo',
       misc: 'Rôzne',
-      books: 'Knihy'
+      books: 'Knihy',
     },
 
     common: {
@@ -798,7 +799,7 @@ module.exports = {
       submit_patch: 'Odoslať Opravu',
       submit_changes: 'Odoslať zmeny',
       save_changes: 'Ulož zmeny',
-      required_field: 'vyžadované'
+      required_field: 'vyžadované',
       //    submit: "Submit",
       //    replay: "Replay",
       //    complete: "Complete",
@@ -872,7 +873,7 @@ module.exports = {
       username: 'Uživateľské meno',
       contact_us: 'Spoj sa s anmi',
       close_window: 'Zatvor okno',
-      learn_more: 'Dozveď sa viac'
+      learn_more: 'Dozveď sa viac',
       //    more: "More",
       //    fewer: "Fewer",
       //    with: "with",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'mesiac',
       months: 'mesaicov',
       year: 'rok',
-      years: 'rokov'
+      years: 'rokov',
     },
 
     play_level: {
@@ -1082,7 +1083,7 @@ module.exports = {
       tip_luna_lovegood: "Don't worry, you're just as sane as I am. - Luna Lovegood",
       tip_good_idea: 'Najlepším spôsobom ako mať dobrý nápad, je mať veľa dobrých nápadov. - Linus Pauling',
       tip_programming_not_about_computers: 'Veda o počítačoch je o počítačoch v tej miere ako je astronómia o teleskopoch. - Edsger Dijkstra',
-      tip_mulan: 'Ver, že môžeš a potom budeš aj chcieť. - Mulan'
+      tip_mulan: 'Ver, že môžeš a potom budeš aj chcieť. - Mulan',
       //    project_complete: "Project Complete!",
       //    share_this_project: "Share this project with friends or family:",
       //    ready_to_share: "Ready to publish your project?",
@@ -1198,7 +1199,7 @@ module.exports = {
       play: 'Hraj level',
       play_more_codecombat: 'Hraj ďalej CodeCombat',
       learn_about_ozaria: 'Learn About Ozaria',
-      default_student_instructions: 'Klikni, aby si ovládal svojho hrdinu a vyhraj!'
+      default_student_instructions: 'Klikni, aby si ovládal svojho hrdinu a vyhraj!',
       //    goal_survive: "Survive.",
       //    goal_survive_time: "Survive for __seconds__ seconds.",
       //    goal_defeat: "Defeat all enemies.",
@@ -1212,6 +1213,7 @@ module.exports = {
       inventory_tab: 'Inventár',
       save_load_tab: 'Ulož/Nahraj',
       options_tab: 'Nastavenie',
+      //    my_code_tab: "My Code",
       guide_tab: 'Návod',
       guide_video_tutorial: 'Video Návod',
       guide_tips: 'Tipy',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Vystroj svojho hrdinu',
       choose_hero_caption: 'Zvoľ hrdinu,jazyk',
       options_caption: 'Uprav nastavenia',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Dokumenty a tipy',
       multiplayer_caption: 'Hraj s priateľmi!',
-      auth_caption: 'Ulož svoj progres.'
+      auth_caption: 'Ulož svoj progres.',
     },
 
     leaderboard: {
@@ -1237,7 +1240,7 @@ module.exports = {
       damage_taken: 'obdržanej újmy',
       damage_dealt: 'spôsobenej újmy',
       difficulty: 'obtiažnosti',
-      gold_collected: 'Nazbierané zlato'
+      gold_collected: 'Nazbierané zlato',
       //    survival_time: "Survived",
       //    defeated: "Enemies Defeated",
       //    code_length: "Lines of Code",
@@ -1254,7 +1257,7 @@ module.exports = {
       locked: '(zamknuté)',
       restricted: '(obmedzené v tejto úrovni)',
       equip: 'Použi',
-      unequip: 'Odlož'
+      unequip: 'Odlož',
       //    warrior_only: "Warrior Only",
       //    ranger_only: "Ranger Only",
       //    wizard_only: "Wizard Only",
@@ -1274,7 +1277,7 @@ module.exports = {
       price: 'x{{gems}} / mesiac',
       buy_premium: 'Kúp si prémiový účet',
       purchase: 'Kúpiť',
-      purchased: 'Kúpené'
+      purchased: 'Kúpené',
     },
 
     //  subscribe_for_gems: {
@@ -1337,13 +1340,14 @@ module.exports = {
       year_price: '$__price__/rok',
       //    year_price_without_currency: "__price__/yr",
       support_part1: 'Potrebuješ pomoc s predplatným? Napíš email na',
-      support_part2: 'support@codecombat.com'
+      support_part2: 'support@codecombat.com',
       //    go_prepaid: "Click here after scaning the code and purchasing",
       //    forever: "Forever",
       //    subscription_status: "Your Subscription Status",
       //    currently_not_free: "You don't have a Subscription yet.",
       //    online_classes: "Online Classes",
       //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+      //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     },
 
     announcement: {
@@ -1374,7 +1378,7 @@ module.exports = {
       play_second_kithmaze: 'Vlčiatko získaš v úrovni {{Druhé bludisko}} !',
       the_second_kithmaze: 'Druhé bludisko',
       keep_playing: 'hraj a získaš prvé zvieratko!',
-      coming_soon: 'Čoskoro'
+      coming_soon: 'Čoskoro',
       //    ritic: "Ritic the Cold",
       //    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him.",
       //    ice_block: "A block of ice",
@@ -1424,7 +1428,7 @@ module.exports = {
       list_web_dev: 'Možnosť vytvárať webové stránky a interaktívne aplikácie',
       list_items: 'Prístup ku zvieratkám',
       list_support: 'Prémiová podpora pri ladení kódu',
-      list_clans: 'Možnosť vytvárať súkromné klany, do ktorých si môžeš pozvať priateľov, s ktorými môžeš sútažiť o pozíciu lídra tabuľky.'
+      list_clans: 'Možnosť vytvárať súkromné klany, do ktorých si môžeš pozvať priateľov, s ktorými môžeš sútažiť o pozíciu lídra tabuľky.',
       //    ai_bot_learning: "AI powered support to accelerate learning outcomes!",
       //    ai_bot_description: "CodeCombat’s AI powered hints feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available young learners will still need to work through each level's coding challenge. Premium subscribers receive an allocation of <b>10 AI hints per day</b> to ensure they always have the support they need.",
       //    list_ai_bot: "Premium subscribers receive an allocation of 10 AI hints per day",
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Jazyk na skriptovanie hier.',
       java_blurb: '(Iba pre predplatiteľov) Android.',
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Stav',
       weapons: 'Zbrane',
       weapons_warrior: 'Meče - Krátka vzdialenosť, Žiadna mágia',
@@ -1466,7 +1479,7 @@ module.exports = {
       speed_2: 'metrov za sekundu.',
       available_for_purchase: 'Dostupné na zakúpenie',
       level_to_unlock: 'Úroveň, v ktorej môžeš hrdinu odomknúť:',
-      restricted_to_certain_heroes: 'Iba niektorí hrdinovia môžu hrať túto úroveň.'
+      restricted_to_certain_heroes: 'Iba niektorí hrdinovia môžu hrať túto úroveň.',
     },
 
     //  char_customization_modal: {
@@ -1504,14 +1517,14 @@ module.exports = {
       required_parameters: 'Požadované  parametere',
       optional_parameters: 'Voliteľné  parametere',
       returns: 'Vracia',
-      granted_by: 'Zaručuje'
+      granted_by: 'Zaručuje',
       //    still_undocumented: "Still undocumented, sorry.",
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: 'Uložené',
-      granularity_change_history: 'História'
+      granularity_change_history: 'História',
     },
 
     options: {
@@ -1528,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Zobraziť odsadenie',
       editor_config_indentguides_description: 'Ukáže vertikálne čiary odsadenia.',
       editor_config_behaviors_label: 'Chytré správanie',
-      editor_config_behaviors_description: 'Automaticky doplňuje hranaté a oblé zátvorky a úvodzovky.'
+      editor_config_behaviors_description: 'Automaticky doplňuje hranaté a oblé zátvorky a úvodzovky.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1658,11 +1671,11 @@ module.exports = {
       character_art: 'Postavy v akcii',
       download_all: 'Stiahni všetko',
       previous: 'Späť',
-      location_title: 'Sídlo:'
+      location_title: 'Sídlo:',
     },
 
     teachers: {
-      licenses_needed: 'Potrebné licencie'
+      licenses_needed: 'Potrebné licencie',
       //    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO",
       //    select_class: "Select class",
       //    programming_language: "Programming language",
@@ -1689,13 +1702,12 @@ module.exports = {
       //    error_in_importing_students: "Error in importing students",
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-      //    classroom_blocks: "Drag and Drop Blocks (beta)",
-      //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-      //    classroom_blocks_hidden: "Disabled",
-      //    classroom_blocks_opt_in: "Off by default",
-      //    classroom_blocks_opt_out: "On by default",
+      //    code_formats: "Code Formats (beta)",
+      //    code_formats_description: "Which code formats students can choose from.",
+      //    default_code_format: "Default Code Format",
+      //    default_code_format_description: "The code format that students will start with.",
       //    not_allow_to_solution: "# Licenses needed to view solutions",
-      //    classroom_level_chat: "Level Chat with AI",
+      //    classroom_level_chat: "AI Level Hints",
       //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
       //    classroom_level_chat_option_free_form: "Free form",
       //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1751,7 +1763,7 @@ module.exports = {
       purchase_starter_licenses_to_grant: 'Kúp Štartovacie licencie na získanie prístupu ku __starterLicenseCourseList__',
       starter_licenses_can_be_used: 'Štartovacie licencie sa môžu použiť hneď po zakúpení na priradenie dodatočných kurzov.',
       pay_now: 'Zaplať teraz',
-      we_accept_all_major_credit_cards: 'Akceptujeme všetky hlavné kreditné karty.'
+      we_accept_all_major_credit_cards: 'Akceptujeme všetky hlavné kreditné karty.',
       //    cs2_description: "builds on the foundation from Introduction to Computer Science, diving into if-statements, functions, events and more.",
       //    wd1_description: "introduces the basics of HTML and CSS while teaching skills needed for students to build their first webpage.",
       //    gd1_description: "uses syntax students are already familiar with to show them how to build and share their own playable game levels.",
@@ -1856,7 +1868,7 @@ module.exports = {
       cla_prefix: 'Ak chcete uložiť svoje zmeny, musíte najprv súhlasiť s našou',
       cla_url: 'licencia',
       cla_suffix: '.',
-      cla_agree: 'SÚHLASÍM'
+      cla_agree: 'SÚHLASÍM',
       //    owner_approve: "An owner will need to approve it before your changes will become visible.",
     },
 
@@ -1874,7 +1886,7 @@ module.exports = {
       subscriber_support: 'Emaily od predplatiteľov sú našou prioritou.',
       screenshot_included: 'Pridaný snímok obrazovky.',
       where_reply: 'Ako máme odpovedať?',
-      send: 'Poslať odozvu'
+      send: 'Poslať odozvu',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: 'Chyba pri ukladaní',
       saved: 'Zmeny uložené',
       password_mismatch: 'Heslá nesedia.',
-      password_repeat: 'Zopakuj, prosím, svoje heslo.'
+      password_repeat: 'Zopakuj, prosím, svoje heslo.',
     },
 
     keyboard_shortcuts: {
@@ -1948,7 +1960,6 @@ module.exports = {
       toggle_grid: 'Prepni zobrazenie mriežky.',
       toggle_pathfinding: 'Prepni zobrazenie hľadania cesty.',
       beautify: 'Skrášli kód pomocou štandardizácie formátovania.',
-      maximize_editor: 'Zväčši maximálne/minimálne editor.'
     },
 
     //  cinematic: {
@@ -1972,7 +1983,7 @@ module.exports = {
       social_facebook: 'Daj Like CodeCombatu na Facebooku',
       social_twitter: 'Sleduj CodeCombat na Twitteri',
       social_slack: 'Chatuj s nami na verejnom kanáli Slack.',
-      contribute_to_the_project: 'Prispej svojou prácou'
+      contribute_to_the_project: 'Prispej svojou prácou',
     },
 
     clans: {
@@ -2031,7 +2042,7 @@ module.exports = {
       track_concepts4a: "Pozri študentské'",
       track_concepts4b: "Pozri členské'",
       track_concepts5: 'riešenia',
-      track_concepts6a: 'Usporiadaj študentov podľa mena alebo postupu'
+      track_concepts6a: 'Usporiadaj študentov podľa mena alebo postupu',
       //    track_concepts6b: "Sort members by name or progress",
       //    track_concepts7: "Requires invitation",
       //    track_concepts8: "to join",
@@ -2178,7 +2189,7 @@ module.exports = {
       //    update_account_teachers_can4: "Access new teacher-only features as we release them",
       //    update_account_teachers_warning_new: "Warning: you will not be able to save your progress on any levels; you will need separate student accounts to do that.",
       update_account_remain_teacher: 'Zostaň učiteľom',
-      update_account_update_teacher: 'Zmeň sa na učiteľa'
+      update_account_update_teacher: 'Zmeň sa na učiteľa',
       //    update_account_am_student: "I am a student",
       //    update_account_no_home: "Let me join classes but not play outside of class",
       //    update_account_students_can: "Student accounts can:",
@@ -2796,7 +2807,7 @@ module.exports = {
     //  },
 
     game_dev: {
-      creator: 'Tvorca'
+      creator: 'Tvorca',
     },
 
     web_dev: {
@@ -2812,7 +2823,7 @@ module.exports = {
       how_to_copy_paste: 'Ako kopírovať/vložiť',
       copy: 'Skopíruj',
       paste: 'Vlož',
-      back_to_editing: 'Späť ku editácii'
+      back_to_editing: 'Späť ku editácii',
     },
 
     classes: {
@@ -2834,7 +2845,7 @@ module.exports = {
       ambassador_title: 'Ambasador',
       ambassador_title_description: '(Poradca)',
       ambassador_summary: 'Kroť použivateľov nášho fóra a nasmeruj na správnu cestu tých, čo sa pýtajú. Naši ambasádori reprezentujú  CodeCombat na celom svete.',
-      teacher_title: 'učiteľ'
+      teacher_title: 'učiteľ',
     },
 
     editor: {
@@ -2870,6 +2881,7 @@ module.exports = {
       fork_title: 'Vytvor novú verziu',
       fork_creating: 'Vytváram verziu...',
       generate_terrain: 'Vygeneruj terén',
+      //    generate_level: "Generate Level",
       more: 'Viac',
       wiki: 'Wiki',
       live_chat: 'Live Chat',
@@ -2887,7 +2899,7 @@ module.exports = {
       level_tab_thangs_conditions: 'Počiatočné podmienky',
       level_tab_thangs_add: 'Pridaj vecičky',
       level_tab_thangs_search: 'Hľadaj vecičky',
-      add_components: 'Pridaj komponenty'
+      add_components: 'Pridaj komponenty',
       //    component_configs: "Component Configurations",
       //    config_thang: "Double click to configure a thang",
       //    delete: "Delete",
@@ -2980,7 +2992,7 @@ module.exports = {
 
     article: {
       edit_btn_preview: 'Náhľad',
-      edit_article_title: 'Upraviť článok'
+      edit_article_title: 'Upraviť článok',
     },
 
     //  polls: {
@@ -2990,7 +3002,7 @@ module.exports = {
     contribute: {
       page_title: 'Prispenie',
       intro_blurb: 'CodeCombat je  100% open source! Stovky nadšených hráčov nám pomohli dostať hru na dnešnú úroveň. Pripoj sa k nám a napíš ďalšiu kapitolu CodeCombatu, ktorý učí svet kódovať!',
-      alert_account_message_intro: 'Ahoj!'
+      alert_account_message_intro: 'Ahoj!',
       //    alert_account_message: "To subscribe for class emails, you'll need to be logged in first.",
       //    archmage_introduction: "One of the best parts about building games is they synthesize so many different things. Graphics, sound, real-time networking, social networking, and of course many of the more common aspects of programming, from low-level database management, and server administration to user facing design and interface building. There's a lot to do, and if you're an experienced programmer with a hankering to really dive into the nitty-gritty of CodeCombat, this class might be for you. We would love to have your help building the best programming game ever.",
       //    class_attributes: "Class Attributes",
@@ -3119,7 +3131,7 @@ module.exports = {
       //    tournament_blurb_ace_of_coders: "Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details",
       tournament_blurb_blog: 'v našom blogu.',
       rules: 'Pravidlá',
-      winners: 'Víťazi'
+      winners: 'Víťazi',
       //    league: "League",
       //    red_ai: "Red CPU",
       //    blue_ai: "Blue CPU",
@@ -3158,7 +3170,7 @@ module.exports = {
       no_multiplayer: 'Doteraz neboli odohrané žiadne hry pre viac hráčov.',
       no_achievements: 'Zatiaľ nemáš žiadne Úspechy.',
       favorite_prefix: 'Tvoj obľúbený jazyk je ',
-      favorite_postfix: '.'
+      favorite_postfix: '.',
       //    not_member_of_clans: "Not a member of any clans yet.",
       //    certificate_view: "view certificate",
       //    certificate_click_to_view: "click to view certificate",
@@ -3194,7 +3206,7 @@ module.exports = {
       new_xp_postfix: ' získaných',
       left_xp_prefix: '',
       left_xp_infix: ' do ďalšieho levelu ',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     //  account: {
@@ -3287,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3516,7 +3529,7 @@ module.exports = {
       basic_game_ai: 'Základná herná AI',
       basic_javascript: 'Základy JavaScriptu',
       basic_event_handling: 'Základná práca s udalosťami',
-      create_sharable_interactive_web_page: 'Vytvor zdielateľnú, interaktívnu webovú stránku'
+      create_sharable_interactive_web_page: 'Vytvor zdielateľnú, interaktívnu webovú stránku',
       //    iteration: "Iteration",
       //    nesting: "Nesting",
       //    data_types: "Data Types",
@@ -3547,7 +3560,7 @@ module.exports = {
       moved_index: 'Zmenený Index',
       text_diff: 'Text Diff',
       merge_conflict_with: ' Konflikt pre MERGE s ',
-      no_changes: 'Bez zmien'
+      no_changes: 'Bez zmien',
     },
 
     legal: {
@@ -3561,7 +3574,7 @@ module.exports = {
       practices_title: 'Rešpektované zvyky',
       practices_description: 'Toto sľubujeme našim hráčom:',
       privacy_title: 'Súkromie',
-      privacy_description: 'Nebudeme obchodovať so žiadnymi osobnými informáciami.'
+      privacy_description: 'Nebudeme obchodovať so žiadnymi osobnými informáciami.',
       //    security_title: "Security",
       //    security_description: "We strive to keep your personal information safe. As an open source project, our site is freely open to anyone to review and improve our security systems.",
       //    email_title: "Email",
@@ -3647,7 +3660,7 @@ module.exports = {
       september: 'September',
       october: 'Október',
       november: 'November',
-      december: 'December'
+      december: 'December',
     },
 
     code_play_create_account_modal: {
@@ -3655,8 +3668,8 @@ module.exports = {
       body: 'Si na ceste, kde sa z teba stane majster kódu. Zaregistruj sa  a získaš  <strong>100 diamantov</strong> & možnosť <strong>vyhrať $2,500 & vecné ceny v súťaži s  Lenovom.</strong>.',
       sign_up: 'Zaregistruj sa &pokračuj v kódovaní ▶',
       victory_sign_up_poke: 'Vytvor si zdarma účet, aby si si uložil svoj program & získal možnosť vyhrať ceny!',
-      victory_sign_up: 'Zaregistruj sa & bojuj o <strong> $2,500</strong>'
-    }
+      victory_sign_up: 'Zaregistruj sa & bojuj o <strong> $2,500</strong>',
+    },
 
     //  server_error: {
     //    email_taken: "Email already taken",
@@ -3921,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4478,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4759,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

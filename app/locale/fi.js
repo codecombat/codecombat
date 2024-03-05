@@ -288,7 +288,7 @@ module.exports = {
       view_profile: 'Tarkastele profiiliani',
       view_progress: 'Tarkastele edistymistäni',
       go_to_courses: 'Siirry omiin kursseihin',
-      want_coco: 'Haluatko CodeCombat:in kouluusi?'
+      want_coco: 'Haluatko CodeCombat:in kouluusi?',
       //    educator: "Educator",
       //    student: "Student",
       //    go_to_my_dashboard: "Go to My Dashboard",
@@ -393,7 +393,7 @@ module.exports = {
       help_suff: 'ja me autamme!',
       resource_hub: 'Resurssit',
       //    apcsp: "AP CS Principles",
-      parent: 'Vanhemmat'
+      parent: 'Vanhemmat',
       //    faq: "FAQ",
       //    return_coco: "Return to CodeCombat",
       //    classes: "Classes",
@@ -430,13 +430,13 @@ module.exports = {
 
     modal: {
       close: 'Sulje',
-      okay: 'Ok'
+      okay: 'Ok',
       //    cancel: "Cancel",
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Sivua ei löydy'
+      page_not_found: 'Sivua ei löydy',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'CodeCombat:ia kehitetään englanniksi mutta pelaajia on jo ympäri maailmaa. Monet haluavat pelata peliä omalla kielellään, joten jos haluat osallistua kääntämiseen, ilmoittaudu Diplomaatiksi ja anna panoksesi.',
       missing_translations: 'Siihen asti kunnes koko peli on käännetty suomeksi näet joitain tekstejä edelleen englanniksi.',
       learn_more: 'Ota selvää mitä tarkoitta olla Diplomaatti',
-      subscribe_as_diplomat: 'Tilaa Diplomaatin uutiskirje'
+      subscribe_as_diplomat: 'Tilaa Diplomaatin uutiskirje',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Kirjaudu seikkailijaksi',
       awaiting_levels_adventurer_suffix: 'ja ole ensimmäisten joukossa pelaamassa uusia tasoja.',
       adjust_volume: 'Aänenvoimakkuus',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Moninpeli Areenat',
       campaign_multiplayer_description: '... joissa mittaat ohjelmointitaitosi toisia pelaajia vastaan.',
       brain_pop_done: 'Pieksit örkit koodilla! Voitto!',
@@ -537,7 +538,7 @@ module.exports = {
       replay: 'Uudelleentoisto',
       back_to_classroom: 'Takaisin luokkahuoneeseen',
       teacher_button: 'Opettajille',
-      get_more_codecombat: 'Hanki Jatkoa CodeCombat:lle'
+      get_more_codecombat: 'Hanki Jatkoa CodeCombat:lle',
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
       //    customize_hero: "Customize Hero",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'määrittelemätön',
       null: 'tyhjä',
       nil: 'nolla',
-      None: 'Olematon'
+      None: 'Olematon',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Syötä heidän sähköpostiosoitteet ja me kerromme heille!',
       form_label: 'Sähköpostiosoite',
       placeholder: 'osoite',
-      title: 'Erinomaista työtä, Oppipoika'
+      title: 'Erinomaista työtä, Oppipoika',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: 'Viimeistellään',
       sign_in_with_facebook: 'Kirjaudu Facebook tunnuksilla',
       sign_in_with_gplus: 'Kirjaudu G+ tunnuksilla',
-      signup_switch: 'Haluatko luoda tilin?'
+      signup_switch: 'Haluatko luoda tilin?',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -720,7 +721,7 @@ module.exports = {
       //    want_codecombat_in_school: "Want to play CodeCombat all the time?",
       //    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers.",
       eu_confirmation_place_of_processing: 'Lue lisää mahdollisista riskeistä',
-      eu_confirmation_student: 'Jos et ole varma, kysy opettajaltasi.'
+      eu_confirmation_student: 'Jos et ole varma, kysy opettajaltasi.',
       //    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code.",
       //    request_class_code: "Students, request a Class Code from your Teacher to create an Account!",
       //    educators_create_account: "Educators, create a Teacher Account to access the first unit for free!",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Palauta tili',
       send_password: 'Lähetä palautusviesti',
-      recovery_sent: 'Palautusviesti lähetetty.'
+      recovery_sent: 'Palautusviesti lähetetty.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Suojat',
       accessories: 'Tarvikkeet',
       misc: 'Sekalaiset',
-      books: 'Kirjat'
+      books: 'Kirjat',
     },
 
     common: {
@@ -798,7 +799,7 @@ module.exports = {
       submit_patch: 'Lähetä paikkaus',
       submit_changes: 'Lähetä muutos',
       save_changes: 'Tallenna muutokset',
-      required_field: 'Vaadittu kenttä'
+      required_field: 'Vaadittu kenttä',
       //    submit: "Submit",
       //    replay: "Replay",
       //    complete: "Complete",
@@ -875,7 +876,7 @@ module.exports = {
       learn_more: 'Lue lisää',
       more: 'Lisää',
       fewer: 'Vähemmän',
-      with: 'lisäksi'
+      with: 'lisäksi',
       //    archived: "Archived",
       //    chat: "Chat",
       //    chat_with_us: "Chat with us",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'kuukausi',
       months: 'kuukautta',
       year: 'vuosi',
-      years: 'vuotta'
+      years: 'vuotta',
     },
 
     play_level: {
@@ -1091,7 +1092,7 @@ module.exports = {
       already_published_suffix: 'Jatka kokeilemista ja tee tästä projektista jopa vielä parempi tai käy katsomassa mitä luokkakaverisi ovat rakentaneet! Tulevat muutoksesi tallennetaan ja jaetaan automaattisesti luokkatoveriesi kanssa.',
       view_gallery: 'Katso galleriaa',
       project_published_noty: 'Tasosi on julkaistu!',
-      keep_editing: 'Jatka muokkaamista'
+      keep_editing: 'Jatka muokkaamista',
       //    learn_new_concepts: "Learn new concepts",
       //    watch_a_video: "Watch a video on __concept_name__",
       //    concept_unlocked: "Concept Unlocked",
@@ -1212,6 +1213,7 @@ module.exports = {
       inventory_tab: 'Luettelo',
       save_load_tab: 'Tallenna/Lataa',
       options_tab: 'Asetukset',
+      //    my_code_tab: "My Code",
       guide_tab: 'Opas',
       guide_video_tutorial: 'Video-oppaat',
       guide_tips: 'Vinkkejä',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Varusta sankari',
       choose_hero_caption: 'Valitse sankari ja kieli',
       options_caption: 'Muuta asetuksia',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Ohjeita ja vinkkejä',
       multiplayer_caption: 'Pelaa ystävien kanssa!',
-      auth_caption: 'Tallenna edistymisesi.'
+      auth_caption: 'Tallenna edistymisesi.',
     },
 
     leaderboard: {
@@ -1237,7 +1240,7 @@ module.exports = {
       damage_taken: 'Vanhinkoa saatu',
       damage_dealt: 'Vahinkoa annettu',
       difficulty: 'Vaikeustaso',
-      gold_collected: 'Kultaa kerätty'
+      gold_collected: 'Kultaa kerätty',
       //    survival_time: "Survived",
       //    defeated: "Enemies Defeated",
       //    code_length: "Lines of Code",
@@ -1254,7 +1257,7 @@ module.exports = {
       locked: '(lukittu)',
       restricted: '(ei saatavilla tässä kentässä)',
       equip: 'Ota käyttöön',
-      unequip: 'Ota pois käytöstä'
+      unequip: 'Ota pois käytöstä',
       //    warrior_only: "Warrior Only",
       //    ranger_only: "Ranger Only",
       //    wizard_only: "Wizard Only",
@@ -1274,17 +1277,17 @@ module.exports = {
       price: 'x{{gems}} / kk',
       buy_premium: 'Osta Premium',
       purchase: 'Osta',
-      purchased: 'Ostettu'
+      purchased: 'Ostettu',
     },
 
     subscribe_for_gems: {
       prompt_title: 'Ei riittävästi jalokiviä!',
-      prompt_body: 'Tilaa Premium saadaksesi jalokiviä ja vielä enemmän tasoja!'
+      prompt_body: 'Tilaa Premium saadaksesi jalokiviä ja vielä enemmän tasoja!',
     },
 
     earn_gems: {
       prompt_title: 'Ei tarpeeksi jalokiviä',
-      prompt_body: 'Jatka pelaamista ansaitaksesi lisää!'
+      prompt_body: 'Jatka pelaamista ansaitaksesi lisää!',
     },
 
     subscribe: {
@@ -1321,7 +1324,7 @@ module.exports = {
       current_recipients: 'Tämänhetkiset vastaanottajat',
       unsubscribing: 'Tilaus päätetään...',
       subscribe_prepaid: 'Tilaa käyttämällä ennakkomaksettua koodinumeroa',
-      using_prepaid: 'Käytetään ennakkomaksettu koodinumero kuukausitilaukseen'
+      using_prepaid: 'Käytetään ennakkomaksettu koodinumero kuukausitilaukseen',
       //    feature_level_access: "Access 500+ levels available",
       //    feature_heroes: "Unlock exclusive heroes and pets",
       //    feature_learn: "Learn to make games and websites",
@@ -1344,6 +1347,7 @@ module.exports = {
       //    currently_not_free: "You don't have a Subscription yet.",
       //    online_classes: "Online Classes",
       //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+      //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     },
 
     //  announcement: {
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Pelien skriptauskieli.',
       java_blurb: '(Vain Tilaajille) Android ja enterprise.',
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Tila',
       weapons: 'Aseet',
       weapons_warrior: 'Miekat - Lyhyt kantama, Ei taikuutta',
@@ -1466,7 +1479,7 @@ module.exports = {
       speed_2: 'metriä sekunnissa.',
       available_for_purchase: 'Hankittavissa',
       level_to_unlock: 'Taso, joka avaa:',
-      restricted_to_certain_heroes: 'Voit pelata tason vain tietyillä sankareilla.'
+      restricted_to_certain_heroes: 'Voit pelata tason vain tietyillä sankareilla.',
     },
 
     //  char_customization_modal: {
@@ -1504,14 +1517,14 @@ module.exports = {
       required_parameters: 'Vaaditut parametrit',
       optional_parameters: 'Vapaaehtoiset parametrit',
       returns: 'Palauttaa',
-      granted_by: 'Mahdollistaa'
+      granted_by: 'Mahdollistaa',
       //    still_undocumented: "Still undocumented, sorry.",
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: 'Tallennettu',
-      granularity_change_history: 'Historia'
+      granularity_change_history: 'Historia',
     },
 
     options: {
@@ -1528,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Näytä Sisennysapu',
       editor_config_indentguides_description: 'Näyttää pystyviivan jokaisen sisennyksen kohdalla.',
       editor_config_behaviors_label: 'Älykäät Toiminnot',
-      editor_config_behaviors_description: 'Täydentää automaattisesti sulut ja lainausmerkit.'
+      editor_config_behaviors_description: 'Täydentää automaattisesti sulut ja lainausmerkit.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1689,13 +1702,12 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-    //    classroom_blocks: "Drag and Drop Blocks (beta)",
-    //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-    //    classroom_blocks_hidden: "Disabled",
-    //    classroom_blocks_opt_in: "Off by default",
-    //    classroom_blocks_opt_out: "On by default",
+    //    code_formats: "Code Formats (beta)",
+    //    code_formats_description: "Which code formats students can choose from.",
+    //    default_code_format: "Default Code Format",
+    //    default_code_format_description: "The code format that students will start with.",
     //    not_allow_to_solution: "# Licenses needed to view solutions",
-    //    classroom_level_chat: "Level Chat with AI",
+    //    classroom_level_chat: "AI Level Hints",
     //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
     //    classroom_level_chat_option_free_form: "Free form",
     //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1857,7 +1869,7 @@ module.exports = {
       cla_url: 'käyttöehdot',
       cla_suffix: '.',
       cla_agree: 'HYVÄKSYN',
-      owner_approve: 'Omistajan pitää ensin hyväksyä se ennen kuin muutokset tulevat voimaan.'
+      owner_approve: 'Omistajan pitää ensin hyväksyä se ennen kuin muutokset tulevat voimaan.',
     },
 
     contact: {
@@ -1874,7 +1886,7 @@ module.exports = {
       subscriber_support: 'Kun olette CodeCombat kuukausitilaaja, sähköpostisi käsitellään etusijalla.',
       screenshot_included: 'Kuvankaappaus liitetty.',
       where_reply: 'Mihin haluatte vastauksen?',
-      send: 'Lähetä'
+      send: 'Lähetä',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: 'Virhe tallennettaessa',
       saved: 'Muutokset tallennettu',
       password_mismatch: 'Salasanat eivät täsmää.',
-      password_repeat: 'Kirjoita salasana uudestaan.'
+      password_repeat: 'Kirjoita salasana uudestaan.',
     },
 
     keyboard_shortcuts: {
@@ -1948,7 +1960,6 @@ module.exports = {
       toggle_grid: 'Taustaruudukko.',
       toggle_pathfinding: 'Reitinhakunäyttö.',
       beautify: 'Viimeistele ohjelmakoodisi, muotoilemalla se yhdenmukaisesti.',
-      maximize_editor: 'Laajenna/pienennä koodieditori.'
     },
 
     //  cinematic: {
@@ -1958,7 +1969,7 @@ module.exports = {
 
     community: {
       main_title: 'CodeCombat Yhteisö',
-      introduction: 'Katso miten voit auttaa ja mieti mikä kuulostaa hauskimmalta. Kuulemme mielellään sinusta!'
+      introduction: 'Katso miten voit auttaa ja mieti mikä kuulostaa hauskimmalta. Kuulemme mielellään sinusta!',
       //    level_editor_prefix: "Use the CodeCombat",
       //    level_editor_suffix: "to create and edit levels. Users have created levels for their classes, friends, hackathons, students, and siblings. If create a new level sounds intimidating you can start by forking one of ours!",
       //    thang_editor_prefix: "We call units within the game 'thangs'. Use the",
@@ -2022,7 +2033,7 @@ module.exports = {
       latest_achievement: 'Viimeisin saavutus',
       playtime: 'Peliaika',
       last_played: 'Viimeksi pelattu',
-      leagues_explanation: 'Pelaa liigaa muita klaanin jäseniä vastaan näillä moninpelaaja-areenoilla.'
+      leagues_explanation: 'Pelaa liigaa muita klaanin jäseniä vastaan näillä moninpelaaja-areenoilla.',
       //    track_concepts1: "Track concepts",
       //    track_concepts2a: "learned by each student",
       //    track_concepts2b: "learned by each member",
@@ -2216,7 +2227,7 @@ module.exports = {
       select_your_hero_description: 'Voit vaihtaa sankariasi menemällä kurssit sivulle ja valitsemalla "Valitse sankarisi"',
       select_this_hero: 'Valitse tämä sankari',
       current_hero: 'Nykyinen sankari:',
-      current_hero_female: 'Nykyinen sankari:'
+      current_hero_female: 'Nykyinen sankari:',
       //    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels.",
       //    course_membership_required_to_play: "You'll need to join a course to play this level.",
       //    license_required_to_play_coco: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!",
@@ -2789,14 +2800,14 @@ module.exports = {
       victory_course_share_web: 'katsoa nettisivua,',
       victory_course_share_suffix: 'jonka sinä juuri loit.',
       copy_url: 'Kopio URL-osoite',
-      share_with_teacher_email: 'Lähetä opettajallesi'
+      share_with_teacher_email: 'Lähetä opettajallesi',
       //    share_ladder_link: "Share Multiplayer Link",
       //    ladder_link_title: "Share Your Multiplayer Match Link",
       //    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:",
     },
 
     game_dev: {
-      creator: 'Tekijä'
+      creator: 'Tekijä',
     },
 
     web_dev: {
@@ -2812,7 +2823,7 @@ module.exports = {
       how_to_copy_paste: 'Miten Kopioida/Liittää',
       copy: 'Kopioi',
       paste: 'Liitä',
-      back_to_editing: 'Takaisin muokkaamaan'
+      back_to_editing: 'Takaisin muokkaamaan',
     },
 
     classes: {
@@ -2832,7 +2843,7 @@ module.exports = {
       diplomat_title_description: '(Kääntäjä)',
       //    diplomat_summary: "CodeCombat is localized in 45+ languages by our Diplomats. Help us out and contribute translations.",
       ambassador_title: 'Suurlähettiläs',
-      ambassador_title_description: '(Tuki)'
+      ambassador_title_description: '(Tuki)',
       //    ambassador_summary: "Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world.",
       //    teacher_title: "Teacher",
     },
@@ -2870,6 +2881,7 @@ module.exports = {
     //    fork_title: "Fork New Version",
     //    fork_creating: "Creating Fork...",
     //    generate_terrain: "Generate Terrain",
+    //    generate_level: "Generate Level",
     //    more: "More",
     //    wiki: "Wiki",
     //    live_chat: "Live Chat",
@@ -2980,11 +2992,11 @@ module.exports = {
 
     article: {
       edit_btn_preview: 'Esikatselu',
-      edit_article_title: 'Muokkaa artikkelia'
+      edit_article_title: 'Muokkaa artikkelia',
     },
 
     polls: {
-      priority: 'Prioriteetti'
+      priority: 'Prioriteetti',
     },
 
     //  contribute: {
@@ -3159,7 +3171,7 @@ module.exports = {
       no_achievements: 'Ei saavutuksia.',
       favorite_prefix: 'Suosikki ohjelmointikieleni on ',
       favorite_postfix: '.',
-      not_member_of_clans: 'Ei klaanien jäsenyyksiä.'
+      not_member_of_clans: 'Ei klaanien jäsenyyksiä.',
       //    certificate_view: "view certificate",
       //    certificate_click_to_view: "click to view certificate",
       //    certificate_course_incomplete: "course incomplete",
@@ -3194,7 +3206,7 @@ module.exports = {
       new_xp_postfix: ' ansaittu',
       left_xp_prefix: '',
       left_xp_infix: ' jäljellä tasoon ',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     account: {
@@ -3231,7 +3243,7 @@ module.exports = {
       email_sent: 'Viesti lähetetty! Tarkista sähköpostisi.',
       verifying_email: 'Vahvistetaan sähköpostiosoitettasi...',
       successfully_verified: 'Vahvistit sähköpostiosoitteesi onnistuneesti!',
-      verify_error: 'Jotain meni pieleen sähköpostiasi vahvistettaessa. :('
+      verify_error: 'Jotain meni pieleen sähköpostiasi vahvistettaessa. :(',
       //    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?",
       //    unsubscribe_button: "Yes, unsubscribe",
       //    unsubscribe_failed: "Failed",
@@ -3247,7 +3259,7 @@ module.exports = {
       pay: 'Suorita maksu',
       purchasing: 'Käsitellään...',
       retrying: 'Palvelinvirhe, yritetään uudelleen.',
-      success: 'Maksu onnistui. Kiitos!'
+      success: 'Maksu onnistui. Kiitos!',
     },
 
     //  account_prepaid: {
@@ -3287,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3366,7 +3379,7 @@ module.exports = {
       server_error: 'Palvelinvirhe.',
       unknown: 'Tuntematon virhe.',
       error: 'VIRHE',
-      general_desc: 'Jotain meni pieleen ja se on luultavasti meidän syytämme. Odota hetki ja lataa sivu uudelleen tai katso seuraavat linkit päästäksesi takaisin ohjelmoimaan!'
+      general_desc: 'Jotain meni pieleen ja se on luultavasti meidän syytämme. Odota hetki ja lataa sivu uudelleen tai katso seuraavat linkit päästäksesi takaisin ohjelmoimaan!',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
     },
@@ -3380,7 +3393,7 @@ module.exports = {
       component: 'Komponentti',
       components: 'Komponentit',
       hero: 'Sankari',
-      campaigns: 'Kampanjat'
+      campaigns: 'Kampanjat',
     },
 
     //  concepts: {
@@ -3647,8 +3660,8 @@ module.exports = {
       september: 'Syyskuu',
       october: 'Lokakuu',
       november: 'Marraskuu',
-      december: 'Joulukuu'
-    }
+      december: 'Joulukuu',
+    },
 
     //  code_play_create_account_modal: {
     //    title: "You did it!",
@@ -3921,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4478,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4759,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

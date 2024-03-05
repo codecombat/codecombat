@@ -8,23 +8,27 @@
               h1.text-h1 {{ $t('apcsp_curriculum.page_title') }}
 
     #nolicense.container-fluid(v-if="!hasLicense")
-      .width-container.row.border-red
+      .container.width-container.row.border-red
         .col.col-lg-12
           h2.text-h2 {{ $t('apcsp_curriculum.no_license') }}
-          a.btn.btn-primary.btn-lg.btn-shadow(href="https://forms.gle/RAA37R3FJojZ7bfQ7" target="_blank") {{ $t('apcsp_curriculum.request_license') }}
+          a.btn.btn-primary.btn-lg.btn-shadow(href="/apcsp") {{ $t('apcsp_curriculum.about_apcsp_curriculum') }}
 
+    #greed-banner.container-fluid.greed-banner-top(v-if="hasLicense")
+      .container.width-container.row.row-eq-height
+        .col.col-lg-12.col-step-box
+        h2.h2-text.step-1.col.col-lg-12 {{ $t('apcsp_curriculum.step_1_title') }}
+        h3.h3-text.step-1.col.col-lg-12 {{ $t('apcsp_curriculum.step_1_subtitle') }}
+        .col.col-md-12.col-button
+          a.btn.btn-primary.btn-lg.btn-shadow(href="https://drive.google.com/file/d/110naGz8FW9U1tLzDy2NBDtUnircnGjUW/view?usp=drive_link" target="_blank") {{ $t('apcsp_curriculum.step_1_button_1') }}
+          a.btn.btn-primary.btn-lg.btn-shadow(href="https://apcentral.collegeboard.org/courses/ap-course-audit" target="_blank") {{ $t('apcsp_curriculum.step_1_button_2') }}
     #greed-banner.container-fluid(v-if="hasLicense")
-      .width-container.row.row-eq-height
+      .container.width-container.row.row-eq-height.greed-banner-bottom
         .col.col-md-5.col-lg-4
-          .border-yellow
+          .border-yellow.pacing-guide
             .row
               .col.col-lg-12
-                h2.text-h2(v-html="$t('apcsp_curriculum.access_syllabus', i18nData)")
-                a.btn.btn-primary.btn-lg.btn-shadow(v-if="!hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
-                a.btn.btn-primary.btn-lg.btn-shadow(v-if="hasLicense" href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Syllabus_FullAccess.pdf" target="_blank") {{ $t('apcsp_marketing.syllabus') }}
-              .col.col-lg-12
                 h2.text-h2(v-html="$t('apcsp_curriculum.access_pacing_guide', i18nData)")
-                a.btn.btn-primary.btn-lg.btn-shadow(href="https://files.codecombat.com/docs/apcsp/CodeCombat_APCSP_Pacing_Guide_Full.pdf" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
+                a.btn.btn-primary.btn-lg.btn-shadow(href="https://docs.google.com/spreadsheets/d/1CyGe58Budm4_d3hjjdJyXVg1HkCYmz6yv12-FpS-lrs/edit?usp=sharing" target="_blank") {{ $t('apcsp_marketing.pacing_guide') }}
                 .col.col-lg-12
         .col.col-md-7.col-lg-8
           .border-yellow
@@ -39,86 +43,33 @@
                     span.title(v-html="slide.title")
 
     #resources.container-fluid(v-if="hasLicense")
-      .width-container.row
+      .container.width-container.row
         .col-lg-12
-          h2.text-h2 {{ $t('apcsp_curriculum.resources') }}
+          h2.text-h2 {{ $t('apcsp_curriculum.join_the_community') }}
         .col-lg-12
           .row-boxes-container
             .resources-container
               .resources-container__box
-                h4.text-h4 College Board
-                ul
-                  li
-                    a(href="https://apcentral.collegeboard.org/media/pdf/ap-computer-science-principles-course-and-exam-description.pdf" target="_blank") Course and Exam Description (CED)
-                  li
-                    a(href="https://myap.collegeboard.org/" target="_blank") AP Classroom
-                  li
-                    a(href="https://apcentral.collegeboard.org/courses/ap-course-audit" target="_blank") AP Course Audit
-                  li
-                    a(href="https://apcentral.collegeboard.org/" target="_blank") AP Central
-                  li
-                    a(href="https://apcommunity.collegeboard.org/" target="_blank") Teacher Community
+                h4.text-h4 Slack
+                .resources-container__box__row
+                  a.btn.btn-primary(href="https://communityinviter.com/apps/codecombat/join-community" target="_blank") {{ $t('apcsp_curriculum.join') }}
+                .resources-container__box__row
+                  a.btn.btn-primary(href="https://app.slack.com/client/T0DEDCL22/C0DE9BGTF" target="_blank") {{  $t('apcsp_curriculum.slack') }}
+
               .resources-container__box
-                h4.text-h4 CodeCombat
-                ul
-                  li
-                    a(href="https://codecombat.com/" target="_blank") CodeCombat Login
-                  li
-                    a(href="https://edapp.com" target="_blank") EdApp Login
-                  li
-                    a(href="https://communityinviter.com/apps/codecombat/join-community" target="_blank") CodeCombat Community Slack Channel
-                  li
-                    a(href="https://codecombat.com/podcast" target="_blank") EdTech Adventures -CodeCombat’s Podcast
+                h4.text-h4 Professional Development
+                .resources-container__box__row
+                  a.btn.btn-primary(href="https://link.edapp.com/pZtq1MrLzyb" target="_blank") EdApp
+
               .resources-container__box
                 h4.text-h4 Recruitment
-                ul
-                  li
-                    a(href="https://apcentral.collegeboard.org/courses/resources/ap-computer-science-recruitment-strategies" target="_blank") Recruitment Strategies
-                  li
-                    a(href="https://drive.google.com/drive/folders/1Nrd70AtxGSdkwiWM2lsAsNrpstnmFnh3?usp=drive_link" target="_blank") Recruitment Flyers
-                  li
-                    a(href="https://docs.google.com/document/d/1-LRofVdnEFUFVqzp3tXqFep7YxGCSZd88lsE5-JoA_s/edit?usp=sharing" target="_blank") Recruitment Letter
-                    span (English + Spanish)
-                  li
-                    a(href="https://docs.google.com/document/d/1GiEz1l7_deD4pdJlZno6s0X8rKNQLXXWVAjREsLNP40/edit?usp=sharing" target="_blank") My Recruitment Plan
-              .resources-container__box
-                h4.text-h4 Create Task
-                ul
-                  li
-                    a(href="https://docs.google.com/document/d/1-ar3rSXLXgqgfGmt5-DOTZuciGrgJ2wI1iadsIgyrgg/edit?usp=sharing" target="_blank") Written Response Handout
-                  li
-                    a(href="https://apcentral.collegeboard.org/courses/ap-computer-science-principles/exam" target="_blank") Example Projects
-                  li
-                    a(href="https://apcentral.collegeboard.org/media/pdf/ap22-sg-computer-science-principles.pdf" target="_blank") College Board’s Official Scoring Rubric
-                  li
-                    a(href="https://drive.google.com/file/d/1UCnlnfGiDIT1bmSJUMBowBddG4Tkh64o/view?usp=sharing" target="_blank") College Board’s Student Handout
-              .resources-container__box
-                h4.text-h4 Teaching Strategies
-                ul
-                  li
-                    a(href="https://docs.google.com/document/d/1yEBvUSwyJ5bRPpZUslS-DU8IEmTeR6Bw6rfPDakocYI/edit?usp=sharing" target="_blank") Pair Programming Protocol
-                  li
-                    a(href="https://docs.google.com/presentation/d/1Qtx_XOlqDLFlBfWVpqDeJU87MFe99Ks5KtEMJeJEnZo/edit?usp=sharing" target="_blank") Vocab Card Template
-                  li
-                    a(href="https://docs.google.com/document/d/1vo3V4LUbTvBADIIZ9REPUbES5W2mFjORf4ZuZl0XTs4/edit?usp=sharing" target="_blank") Student Grouping Strategies
-                  li
-                    a(href="https://docs.google.com/document/d/1hBSpxtjcd7DMGrsGIhgLXII2uGkRFBXy60qb89H7PiY/edit?usp=sharing" target="_blank") Interpersonal Skills Rubric
-              .resources-container__box
-                h4.text-h4 More to Explore
-                ul
-                  li
-                    a(href="https://docs.google.com/document/d/1_gY1r1MM0wP1vS_0ctsxzq025k3tZ7w8fxLaIffJH_4/edit?usp=drive_link" target="_blank") AP CSP Vocab Terms
-                  li
-                    a(href="https://create.kahoot.it/groups/ed7457aa-8b38-4e17-81d9-2305533da20d/join?inviteCode=jfj71f9h3vm6mk6rdthc80922to250g9e2kikghked9v7i12ullnc98nl228jce2lhe8n90vurde" target="_blank") Kahoot! Quizzes
-                  li
-                    a(href="https://apcentral.collegeboard.org/media/pdf/ap-computer-science-principles-exam-reference-sheet.pdf" target="_blank") Pseudocode Reference Sheet
-                  li
-                    a(href="https://replit.com" target="_blank") Repl.it
-                  li
-                    a(href="https://www.screencastify.com/get-started?gad=1&gclid=CjwKCAjwp6CkBhB_EiwAlQVyxRDyiZV_Iga9zBUn06cdmILnQYq8HYRuJRhyzrD9nLiUZZ_5MPzJIRoCXOYQAvD_BwE" target="_blank") Screencastify
+                .resources-container__box__row
+                  a.btn.btn-primary(href="https://apcentral.collegeboard.org/instructional-resources/ap-classroom" target="_blank") {{ $t('apcsp_curriculum.ap_classroom') }}
+                .resources-container__box__row
+                  a.btn.btn-primary(href="https://apcentral.collegeboard.org/about-ap/teachers" target="_blank") {{ $t('apcsp_curriculum.ap_teachers') }}
 
     #more-information.container-fluid
-      .width-container.row.text-center
+      .container.width-container.row.text-center
         .col.col-md-12
           h3.text-h3 Questions?
           .btn.btn-primary.btn-lg.btn-shadow.uppercase(@click="showModal=true") Get in touch
@@ -387,6 +338,21 @@ p,
     background-color: $yellow-light;
     transition: background-color .35s;
   }
+
+  &.btn-big {
+    color: #232323;
+    text-align: center;
+    font-family: "Open Sans";
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    text-decoration-line: underline;
+
+    max-width: max-content;
+    min-height: max-content;
+    padding: 50px;
+  }
 }
 
 #apcsp-curriculum-page {
@@ -561,6 +527,12 @@ p,
     height: 100%;
     position: relative;
 
+    &.pacing-guide {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     .college-board-image-container {
       position: absolute;
       right: 0;
@@ -596,13 +568,50 @@ p,
     background-position: left bottom;
     overflow: hidden;
 
+    &.greed-banner-top {
+      background: linear-gradient(180deg, rgba(13, 85, 59, 100%) 0%, #014D5D 100%);
+    }
+
     .width-container {
-      margin-top: 90px;
-      margin-bottom: 230px;
+      margin-top: 60px;
+
+      &:last-child {
+        margin-bottom: 60px;
+      }
+
+      &.greed-banner-bottom {
+        margin-bottom: 230px;
+      }
 
       >div {
         @media (max-width: $screen-lg) {
           padding-bottom: 20px;
+        }
+      }
+
+      .col-button {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        gap: 20px;
+
+        .btn {
+          min-width: 260px;
+        }
+
+        @media (max-width: $screen-md) {
+          width: 100%;
+
+          .btn {
+            width: 100%;
+            max-width: unset;
+          }
+        }
+
+        .btn {
+          margin: unset;
         }
       }
 
@@ -666,6 +675,7 @@ p,
               text-align: left;
               display: inline-block;
               width: min-content;
+
               @media screen and (min-width: 768px) and (max-width: $screen-lg) {
                 white-space: nowrap;
               }
@@ -706,8 +716,6 @@ p,
         align-items: center;
         justify-content: center;
         margin: 30px auto;
-        max-width: 168px;
-        min-height: 65px;
       }
     }
   }
@@ -728,7 +736,7 @@ p,
       filter: none;
       display: block;
       margin: 50px auto;
-      max-width: 268px;
+      width: fit-content;
     }
   }
 
@@ -836,13 +844,15 @@ p,
 
   #resources {
     background-image: linear-gradient(to right, rgba(14, 76, 96, 1), rgba(32, 87, 43, 1));
-    padding-top: 90px;
-    padding-bottom: 135px;
+    padding-top: 60px;
+    padding-bottom: 80px;
 
     .resources-container {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 45px;
+
+      width: 100%;
 
       // Let's keep 3 columns till the 992 breakpoint, 2 columns till the 768px
       @media (max-width: $screen-md) {
@@ -877,7 +887,7 @@ p,
 
         ul {
           padding: 20px 30px;
-          margin: min(35px, 1.8vw);
+          margin: min(5px, 1.8vw);
 
           li {
             margin-bottom: 15px;
@@ -903,6 +913,19 @@ p,
               display: block;
             }
           }
+        }
+
+        &__row {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 20px 30px;
+          margin: min(5px, 1.8vw);
+
+          .btn {
+            margin: 0 auto;
+          }
+
         }
       }
     }
@@ -1019,17 +1042,13 @@ p,
     }
 
     .text-h2 {
-      color: #FCBB00;
+      color: #FFF;
       text-align: center;
       font-family: Arvo;
-      font-size: 60px;
+      font-size: 33px;
       font-style: normal;
       font-weight: 700;
-      line-height: 62px;
-      /* 103.333% */
-      letter-spacing: 1.96px;
-      text-shadow: 0px 0px 20px #000000;
-      padding-bottom: 50px;
+      margin-bottom: 40px;
     }
 
     .text-h3 {
@@ -1111,6 +1130,37 @@ p,
       right: -16.2%;
       top: -3.2%;
       width: 138.958333%;
+    }
+  }
+}
+
+.h2-text {
+  &.step-1 {
+    color: #FCBB00;
+    text-align: center;
+    text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+    font-family: Arvo;
+    font-size: 33px;
+    font-style: normal;
+    font-weight: 700;
+    margin: 20px auto;
+  }
+}
+
+.h3-text {
+  &.step-1 {
+    color: #FFF;
+    text-align: center;
+    font-family: Arvo;
+    font-size: 33px;
+    font-style: normal;
+    font-weight: 700;
+    margin: 20px auto 40px auto;
+
+    @media screen and (min-width: $screen-md) {
+      margin: 20px auto 50px auto;
+      width: 62%;
+
     }
   }
 }

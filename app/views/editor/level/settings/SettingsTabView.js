@@ -49,18 +49,31 @@ module.exports = (SettingsTabView = (function () {
       this.editableSettings = this.editableSettings.concat(_.keys(_.pick(Level.schema.properties, (value, key) => (value.inEditor === true) || (value.inEditor === utils.getProduct()))))
     }
 
+    getDataForReplacementView () {
+      return {
+        concepts: this.concepts
+      }
+    }
+
     onLoaded () {}
 
     onLevelLoaded (e) {
-      this.concepts = new Concepts([])
+      this.concepts = this.options.previouslyLoadedData.concepts
+      if (!this.concepts) {
+        this.concepts = new Concepts([])
 
-      this.listenTo(this.concepts, 'sync', () => {
-        concepts = this.concepts.models
-        schemas.concept.enum = _.map(concepts, c => c.get('key'))
-        return this.onConceptsLoaded(e)
-      })
+        this.listenTo(this.concepts, 'sync', () => {
+          concepts = this.concepts.models
+          schemas.concept.enum = _.map(concepts, c => c.get('key'))
+          this.onConceptsLoaded(e)
+        })
 
-      return this.concepts.fetch({ data: { skip: 0, limit: 1000 } })
+        this.concepts.fetch({
+          data: { skip: 0, limit: 1000 }
+        })
+      } else {
+        this.onConceptsLoaded(e)
+      }
     }
 
     onConceptsLoaded (e) {
@@ -139,11 +152,13 @@ module.exports = (SettingsTabView = (function () {
       if (this.thangIDs != null) {
         this.thangIDs.splice(0, this.thangIDs.length, ...Array.from(this.getThangIDs()))
       }
-      return this.settingsTreema.solutions = this.level.getSolutions() // Remove if slow
+      if (this.settingsTreema) {
+        this.settingsTreema.solutions = this.level.getSolutions() // Remove if slow
+      }
     }
 
     onRandomTerrainGenerated (e) {
-      return this.settingsTreema.set('/terrain', e.terrain)
+      this.settingsTreema.set('/terrain', e.terrain)
     }
 
     onTypeChanged (type) {

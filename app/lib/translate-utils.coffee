@@ -6,9 +6,33 @@ module.exports.translateJS = (jsCode, language='cpp', fullCode=true) ->
   return jsCode
 
 translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
-# Supports cpp or java
+  # Supports cpp or java
 
-# Find all global statement(except global variables) and move into main function
+  if fullCode and not /;\n/.test(jsCode)
+    # This JS code doesn't use semicolons, relying instead on ASI. Add semicolons where they will be needed in Java and C++.
+    patterns = [
+      # Quick GPT-4 try #1
+      # Insert semicolon after variable declarations if missing
+      { regex: /(\b(let|var|const)\s+\w+\s*=.*[^;])\s*$/gm, replacement: "$1;" }
+      # Insert semicolon after standalone expressions or function calls if missing
+      #{ regex: /((?<!for\s*\(.*);[^\n;{}]+[^;{}\n\s])\s*$/gm, replacement: "$1;" }  # Variable width lookbehind not supported in mobile Safari
+      # Return statements without semicolon
+      { regex: /(\breturn\s+.*[^;])\s*$/gm, replacement: "$1;" }
+      # Correct lines ending with a semicolon followed by whitespace (avoid duplications)
+      { regex: /;\s+$/gm, replacement: ";" }
+      # Insert semicolon after closing brace if the next non-whitespace character isn't a semicolon or closing brace
+      { regex: /(\})\s*([^\n;{}\s])/g, replacement: "$1;\n$2" }
+      # Ensure loops and conditionals are properly terminated
+      { regex: /(\b(for|if|while|do)\s*\(.*\)\s*{[^\n}]*})\s*([^\n;{}\s])/gm, replacement: "$1;\n$3" }
+      # Quick GPT-4 try #2
+      # { regex: /(?<!for\s*\([^)]*\))([^\s{;][^\n{}]*[^\s};])\s*$/gm, replacement: "$1;" }  # Variable width lookbehind not supported in mobile Safari
+      # Quick GPT-4 try #3, I probably should have just written it myself at this point
+      { regex: /^.*[^;\s{}]\s*$/gm, replacement: "$&;" }
+    ]
+    for { regex, replacement } in patterns
+      jsCode = jsCode.replace regex, replacement
+
+  # Find all global statement(except global variables) and move into main function
   reorderGlobals = (strs) ->
     insertPlace = strs.length-1
     for i in [strs.length-2..0] by -1
@@ -67,10 +91,10 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
 
   jsCodes = splitFunctions jsCode
   if fullCode
-# Remove whitespace-only pieces, except for in the last piece
+    # Remove whitespace-only pieces, except for in the last piece
     jsCodes = _.filter(jsCodes.slice(0, jsCodes.length - 1), (piece) -> piece.replace(/\s/g, '').length).concat(jsCodes[jsCodes.length - 1])
   else
-# Remove all whitespace-only pieces
+    # Remove all whitespace-only pieces
     jsCodes = _.filter jsCodes, (piece) -> piece.replace(/\s/g, '').length
   len = jsCodes.length
   if len
@@ -167,7 +191,7 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
   jsCodes.join '\n'
 
 translateJSWhitespace = (jsCode, language='lua') ->
-# Supports python, lua, or coffeescript
+  # Supports python, lua, or coffeescript
 
   s = jsCode.split('\n').map((line) -> ' ' + line).join('\n')  # Add whitespace at beginning of each line to make regexes easier
 
@@ -185,53 +209,53 @@ translateJSWhitespace = (jsCode, language='lua') ->
   # Rewrite for-loops
   # for(i=0; i < archers.length; i++) {
   #     var archer = archers[i];
-  cStyleForInLoopWithVariableAssignmentRegex = /for ?\((?:var )?(.+?) ?= ?0; ?\1 ?< ?(.+?).length; ?(?:.*?\+\+.*?)\) *\{?\n(.*)var (.+?) ?= ?\2\[\1\];? *$/gm
+  cStyleForInLoopWithVariableAssignmentRegex = /for ?\((?:(?:var|let) )?(.+?) ?= ?0; ?\1 ?< ?(.+?).length; ?(?:.*?\+\+.*?)\) *\{?\n(.*)(?:var|let) (.+?) ?= ?\2\[\1\];? *$/gm
   if language is 'lua'
-# for i, archer in pairs(archers) do
+    # for i, archer in pairs(archers) do
     s = s.replace cStyleForInLoopWithVariableAssignmentRegex, 'for $1, $4 in pairs($2) do'
   else if language is 'python'
-#s = s.replace cStyleForInLoopWithVariableAssignmentRegex, 'for $1, $4 in enumerate($2):'  # I guess we usually do the other way for scaffolding learning similar to how we do it in JS instead of teaching enumerate
+    #s = s.replace cStyleForInLoopWithVariableAssignmentRegex, 'for $1, $4 in enumerate($2):'  # I guess we usually do the other way for scaffolding learning similar to how we do it in JS instead of teaching enumerate
     s = s.replace cStyleForInLoopWithVariableAssignmentRegex, 'for $1 in range(len($2)):\n$3$4 = $2[$1]'
   else if language is 'coffeescript'
-# for archer in archers
+    # for archer in archers
     s = s.replace cStyleForInLoopWithVariableAssignmentRegex, 'for $4, $1 in $2'
 
   # for(i=0; i < archers.length; i++) {
-  cStyleForInLoopRegex = /for ?\((?:var )?(.+?) ?= ?0; ?\1 ?< ?(.+?).length; ?(?:.*?\+\+.*?)\) *\{?/g
+  cStyleForInLoopRegex = /for ?\((?:(?:var|let) )?(.+?) ?= ?0; ?\1 ?< ?(.+?).length; ?(?:.*?\+\+.*?)\) *\{?/g
   if language is 'lua'
-# for i in pairs(archers) do
+    # for i in pairs(archers) do
     s = s.replace cStyleForInLoopRegex, 'for $1 in pairs($2) do'
   else if language is 'python'
-# for i in range(0, len(archers)):
+    # for i in range(0, len(archers)):
     s = s.replace cStyleForInLoopRegex, 'for $1 in range(len($2)):'
   else if language is 'coffeescript'
-# for i in [0...archers.length]
+    # for i in [0...archers.length]
     s = s.replace cStyleForInLoopRegex, 'for $1 in [0...$2.length]'
 
   # for(i=0; i < 10; i++) {
-  cStyleForLoopRegex = /for ?\((?:var )?(.+?) ?= ?(\d+); ?\1 ?< ?(.+?); ?(?:.*?\+\+.*?)\) *\{?/g
+  cStyleForLoopRegex = /for ?\((?:(?:var|let) )?(.+?) ?= ?(\d+); ?\1 ?< ?(.+?); ?(?:.*?\+\+.*?)\) *\{?/g
   if language is 'lua'
-# for i=0, 10 do
+    # for i=0, 10 do
     s = s.replace cStyleForLoopRegex, 'for $1=$2, $3 do'
   else if language is 'python'
-# for i in range(0, 10):
+    # for i in range(0, 10):
     s = s.replace cStyleForLoopRegex, 'for $1 in range($2, $3):'
   else if language is 'coffeescript'
-# for i in [0...10]
-    s = s.replace cStyleForLoopRegex, 'for $1 [$2...$3]'
+    # for i in [0...10]
+    s = s.replace cStyleForLoopRegex, 'for $1 in [$2...$3]'
 
   # for(y=110; y >= 38; i -= 18) {
   # This is brittle and will not get inclusive vs. exclusive ranges right, but better than nothing
-  cStyleForLoopWithArithmeticRegex = /for ?\((?:var )?(.+?) ?= ?(\d+); ?\1 ?(<=|<|>=|>) ?(.+?); ?\1 ?\+?(-?)= ?(.*)\) *\{?/g
+  cStyleForLoopWithArithmeticRegex = /for ?\((?:(?:var|let) )?(.+?) ?= ?(\d+); ?\1 ?(<=|<|>=|>) ?(.+?); ?\1 ?\+?(-?)= ?(.*)\) *\{?/g
   if language is 'lua'
-# for y=110, 38, -18 do
+    # for y=110, 38, -18 do
     s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1=$2, $4, $5$6 do'
   else if language is 'python'
-# for y in range(110, 38, -18):
+    # for y in range(110, 38, -18):
     s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1 in range($2, $4, $5$6):'
   else if language is 'coffeescript'
-# for y in [110...38, -18]
-    s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1 [$2...$4, $5$6]'
+    # for y in [110...38, -18]
+    s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1 in [$2...$4, $5$6]'
 
   # There are a lot of other for-loop possibilities, but we'll handle those with manual solutions
 
@@ -320,12 +344,12 @@ translateJSWhitespace = (jsCode, language='lua') ->
   s = s.replace /(}\s*)?else\s*{/g, 'else'
 
   if language is 'lua'
-# Rewrite standalone `}` to `end`
+    # Rewrite standalone `}` to `end`
     s = s.replace /^(\s*)\} *$/gm, '$1end'
     # Remove `end` as part of part of if/elseif/else chains
     s = s.replace /^(\s*)end ?}?\n((\n|\s|--.*\n)*^\1)(elseif|else)/gm, '$2$4'  # The ^\1 only matches the same level of indentation
   else if language in ['python', 'coffeescript']
-# Remove stanadlone `}`
+    # Remove stanadlone `}`
     s = s.replace /\n\s*\} *$/gm, ''
 
   if language is 'lua'
@@ -338,26 +362,26 @@ translateJSWhitespace = (jsCode, language='lua') ->
     s = s.replace /(\S+)\.length/g, 'len($1)'  # Do this after if/else paren/bracket replacement
 
   if language is 'coffeescript'
-# Remove unnecessary parenthesis in CofeeScript
+    # Remove unnecessary parenthesis in CofeeScript
     s = s.replace /([$A-Z_][0-9A-Z_$]*)\(([^()]+)\)(?!\))$/gim, '$1 $2'
     # Use simple loops in CoffeeScript
     s = s.replace /while true$/gm, 'loop'
 
   if language is 'lua'
-# Convert : to =. {x:1, y:1} -> {x=1, y=1}
+    # Convert : to =. {x:1, y:1} -> {x=1, y=1}
     s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,]+)\}/g, '{$1=$2}'  # 1 element
     s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)\}/g, '{$1=$2, $3=$4}'  # 2 elements
     s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)\}/g, '{$1=$2, $3=$4, $4=6}'  # 3 elements
-# TODO: something flexible for arbitrary n elements
+    # TODO: something flexible for arbitrary n elements
   else if language is 'python'
-# Add quotes. {x:1, y:1} -> {"x": 1, "y": 1}
+    # Add quotes. {x:1, y:1} -> {"x": 1, "y": 1}
     s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,]+)\}/g, '{"$1": $2}'  # 1 element
     s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)\}/g, '{"$1": $2, "$3": $4}'  # 2 elements
     s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)\}/g, '{"$1": $2, "$3": $4, "$5": $6}'  # 3 elements
-  # TODO: something flexible for arbitrary n elements
+    # TODO: something flexible for arbitrary n elements
 
   if language is 'lua'
-# Try incrementing all literal array indexes under, say, 10 by 1 to offset 1-based indexing. Hack, but most of those levels will need manual attention anyway.
+    # Try incrementing all literal array indexes under, say, 10 by 1 to offset 1-based indexing. Hack, but most of those levels will need manual attention anyway.
     s = s.replace /\[(\d)\]/g, (match, index) -> "[#{parseInt(index, 10) + 1}]"
 
   # TODO: see if we can do something about lack of a continue statement in Lua? Maybe too hard and we should give up.

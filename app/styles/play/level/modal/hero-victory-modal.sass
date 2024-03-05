@@ -10,6 +10,22 @@
     padding-top: 0
     width: 750px
 
+    @media screen and (max-height: 430px)
+      margin-top: -38px
+
+    @media screen and (max-height: 390px)
+      margin-top: -77px
+
+    @media screen and (max-height: 375px)
+      margin-top: -94px
+
+    @media screen and (max-width: 667px)
+      transform: scale(0.8)
+      margin-left: -48px
+
+      @media screen and (max-height: 390px)
+        margin-top: -49px
+
     .modal-content
       position: relative
       margin-top: -251px
@@ -278,6 +294,7 @@
 
         .total-label
           width: 90px
+          white-space: normal
 
       .total-count
         float: left
@@ -562,28 +579,6 @@
   &.with-achievements
     #victory-text
       display: none
-
-html.no-borderimage
-  #hero-victory-modal
-    .modal-dialog
-      margin-top: 251px
-    .background-wrapper
-      border: 0
-      background: url("/images/pages/play/level/modal/victory_modal_background.png")
-      height: 713px
-
-    &.full-achievements
-      @media only screen and (max-height: 720px)
-        .modal-dialog
-          margin-top: 175px
-          #victory-header
-            background: transparent
-      @media only screen and (max-height: 640px)
-        .modal-dialog
-          margin-top: 121px
-          #victory-header
-            display: none
-
 
 body.ipad
   #hero-victory-modal

@@ -288,7 +288,7 @@ module.exports = {
       view_profile: 'Προβολή του Προφίλ Μου',
       view_progress: 'Προβολή της Προόδου',
       go_to_courses: 'Εμφάνισε τα Μαθήματά Μου',
-      want_coco: 'Θέλετε το CodeCombat στο σχολείο σας;'
+      want_coco: 'Θέλετε το CodeCombat στο σχολείο σας;',
       //    educator: "Educator",
       //    student: "Student",
       //    go_to_my_dashboard: "Go to My Dashboard",
@@ -392,7 +392,7 @@ module.exports = {
       help_pref: 'Χρειάζεστε βοήθεια; Ηλεκτρονικό Ταχυδρομείο',
       help_suff: 'και θα επικοινωνήσουμε μαζί σας!',
       resource_hub: 'Κέντρο Υλικού',
-      apcsp: 'Αρχές Πληροφορικής AP'
+      apcsp: 'Αρχές Πληροφορικής AP',
       //    parent: "Parents",
       //    faq: "FAQ",
       //    return_coco: "Return to CodeCombat",
@@ -430,13 +430,13 @@ module.exports = {
 
     modal: {
       close: 'Κλείσιμο',
-      okay: 'Εντάξει'
+      okay: 'Εντάξει',
       //    cancel: "Cancel",
       //    try_again: "Try Again",
     },
 
     not_found: {
-      page_not_found: 'Η σελίδα δεν βρέθηκε'
+      page_not_found: 'Η σελίδα δεν βρέθηκε',
     },
 
     diplomat_suggestion: {
@@ -445,7 +445,7 @@ module.exports = {
       pitch_body: 'Αναπτύσσουμε το CodeCombat στα αγγλικά, αλλά ήδη έχουμε παίκτες από όλο τον κόσμο. Πολλοί από αυτούς θέλουν να παίξουν στα ελληνικά, αλλά δεν μιλούν αγγλικά. Εάν έχετε ευχέρεια και στις δύο γλώσσες, αγγλική κι ελληνική, παρακαλούμε να εγγραφείτε ως Διπλωμάτης και να συμβάλετε στην απόδοση της ιστοσελίδας CodeCombat και όλων των επιπέδων στην ελληνική γλώσσα.',
       missing_translations: 'Μέχρι να μπορούν να μεταφράσουν τα πάντα σε Ελληνικά, θα δείτε την αγγλική γλώσσα όπου τα Ελληνικά δεν είναι διαθέσιμα.',
       learn_more: 'Μάθετε πώς να γίνετε Διπλωμάτης',
-      subscribe_as_diplomat: 'Εγγραφή ως Διπλωμάτης'
+      subscribe_as_diplomat: 'Εγγραφή ως Διπλωμάτης',
     },
 
     //  new_home_faq: {
@@ -530,6 +530,7 @@ module.exports = {
       awaiting_levels_adventurer: 'Εγγραφή ως Εξερευνητής',
       awaiting_levels_adventurer_suffix: 'για να παίξεις πρώτος νέα επίπεδα.',
       adjust_volume: 'ρύθμιση έντασης',
+      //    toggle_fullscreen: "Toggle fullscreen",
       campaign_multiplayer: 'Αρένες Πολλαπλών Παικτών',
       campaign_multiplayer_description: '... στις οποίες προγραμματίζετε σώμα-με-σώμα εναντίον άλλων παικτών.',
       brain_pop_done: 'Εξουδετέρωσες τους Αγριάνθρωπους με τον κώδικα! Νίκησες!',
@@ -537,7 +538,7 @@ module.exports = {
       replay: 'Επανάληψη',
       back_to_classroom: 'Πίσω στη Τάξη',
       teacher_button: 'Για Εκπαιδευτικούς',
-      get_more_codecombat: 'Περισσότερο CodeCombat'
+      get_more_codecombat: 'Περισσότερο CodeCombat',
       //    back_to_dashboard: "Back to Dashboard",
       //    back_to_ozaria: "Back to ozaria.com",
       //    customize_hero: "Customize Hero",
@@ -597,7 +598,7 @@ module.exports = {
       undefined: 'απροσδιόριστο',
       null: 'κενό (χωρίς τιμή)',
       nil: 'τίποτα',
-      None: 'Καθόλου'
+      None: 'Καθόλου',
     },
 
     share_progress_modal: {
@@ -606,7 +607,7 @@ module.exports = {
       form_blurb: 'Δώσε τη διεύθυνση ηλεκτρονικού ταχυδρομείου των γονιών σου και θα τους το δείξουμε!',
       form_label: 'Διεύθυνση ηλεκτρονικού ταχυδρομείου',
       placeholder: 'Διεύθυνση ηλεκτρονικού ταχυδρομείου',
-      title: 'Εξαιρετική Δουλειά, Μαθητευόμενε'
+      title: 'Εξαιρετική Δουλειά, Μαθητευόμενε',
     },
 
     login: {
@@ -622,7 +623,7 @@ module.exports = {
       finishing: 'Τελειώνει',
       sign_in_with_facebook: 'Σύνδεση μέσω Facebook',
       sign_in_with_gplus: 'Σύνδεση μέσω G+',
-      signup_switch: 'Δεν έχεις λογαριασμό;'
+      signup_switch: 'Δεν έχεις λογαριασμό;',
       //    already_have_account1: "Already have a CodeCombat Teacher or Student account?",
       //    already_have_account2: "You can sign into Ozaria.com using that account.",
       //    sign_into_ozaria: "Sign Into Ozaria.com",
@@ -717,7 +718,7 @@ module.exports = {
       teacher_list_resource_hub_5: 'για οδηγούς προγράμματος σπουδών, δραστηριότητες και άλλα πολλά!',
       teacher_additional_questions: 'Αυτό είναι! Αν χρειάζεστε περισσότερη βοήθεια ή έχετε ερωτήσεις, απευθυνθείτε στο __supportEmail__.',
       dont_use_our_email_silly: 'Μην βάζεις το email σου εδώ! Βάλε του γονιού σου.',
-      want_codecombat_in_school: 'Θέλεις να παίζεις το CodeCombat όλη την ώρα;'
+      want_codecombat_in_school: 'Θέλεις να παίζεις το CodeCombat όλη την ώρα;',
       //    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers.",
       //    eu_confirmation_place_of_processing: "Learn more about the possible risks",
       //    eu_confirmation_student: "If you are not sure, ask your teacher.",
@@ -750,7 +751,7 @@ module.exports = {
     recover: {
       recover_account_title: 'Ανάκτηση λογαριασμού',
       send_password: 'Αποστολή Κωδικού Ανάκτησης',
-      recovery_sent: 'To Email ανάκτησης στάλθηκε.'
+      recovery_sent: 'To Email ανάκτησης στάλθηκε.',
     },
 
     items: {
@@ -759,7 +760,7 @@ module.exports = {
       armor: 'Πανοπλία',
       accessories: 'Εξαρτήματα',
       misc: 'Διάφορα',
-      books: 'Βιβλία'
+      books: 'Βιβλία',
     },
 
     common: {
@@ -798,7 +799,7 @@ module.exports = {
       submit_patch: 'Αποστολή Επιδιόρθωσης',
       submit_changes: 'Υποβολή αλλαγών',
       save_changes: 'Αποθήκευση Αλλαγών',
-      required_field: 'απαιτείται'
+      required_field: 'απαιτείται',
       //    submit: "Submit",
       //    replay: "Replay",
       //    complete: "Complete",
@@ -875,7 +876,7 @@ module.exports = {
       learn_more: 'Μάθε Περισσότερα',
       more: 'Περισσότερα',
       fewer: 'Λιγότερα',
-      with: 'μαζί'
+      with: 'μαζί',
       //    archived: "Archived",
       //    chat: "Chat",
       //    chat_with_us: "Chat with us",
@@ -901,7 +902,7 @@ module.exports = {
       month: 'μήνας',
       months: 'μήνες',
       year: 'χρόνος',
-      years: 'χρόνια'
+      years: 'χρόνια',
     },
 
     play_level: {
@@ -1091,7 +1092,7 @@ module.exports = {
       already_published_suffix: 'Συνεχίστε να πειραματίζεστε και κάνετε αυτό το έργο ακόμα καλύτερο ή δείτε τι έχουν φτιάξει οι υπόλοιποι της τάξης σας! Οι αλλαγές σας θα αποθηκευτούν και θα μοιραστούν αυτόματα με τους συμμαθητές σας.',
       view_gallery: 'Προβολή Συλλογής',
       project_published_noty: 'Το επίπεδό σου έχει δημοσιοποιηθεί!',
-      keep_editing: 'Συνέχισε την Επεξεργασία'
+      keep_editing: 'Συνέχισε την Επεξεργασία',
       //    learn_new_concepts: "Learn new concepts",
       //    watch_a_video: "Watch a video on __concept_name__",
       //    concept_unlocked: "Concept Unlocked",
@@ -1161,7 +1162,7 @@ module.exports = {
       jquery: 'jQuery',
       json: 'JSON',
       number: 'Αριθμός',
-      webjavascript: 'JavaScript'
+      webjavascript: 'JavaScript',
     },
 
     amazon_hoc: {
@@ -1173,7 +1174,7 @@ module.exports = {
       future_eng_2: 'εδώ',
       future_eng_3: '(δεν απαιτείται συσκευή). Αυτή η δραστηριότητα της Alexa σας εντάσσει στο πρόγραμμα',
       future_eng_4: 'Μηχανικού του Μέλλοντος της Amazon',
-      future_eng_5: 'το οποίο δημιουργεί ευκαιρίες μάθησης και εργασίας για όλους τους φοιτητές K-12 των Ηνωμένων Πολιτειών που επιθυμούν να ακολουθήσουν την επιστήμη των υπολογιστών.'
+      future_eng_5: 'το οποίο δημιουργεί ευκαιρίες μάθησης και εργασίας για όλους τους φοιτητές K-12 των Ηνωμένων Πολιτειών που επιθυμούν να ακολουθήσουν την επιστήμη των υπολογιστών.',
     },
 
     //  live_class: {
@@ -1205,13 +1206,14 @@ module.exports = {
       goal_defeat_amount: 'Εξουδετέρωσε __amount__ εχθρούς.',
       goal_move: 'Μετακινηθείτε σε όλα τα κόκκινα σημάδια X.',
       goal_collect: 'Μαζεύετε όλα τα αντικείμενα.',
-      goal_collect_amount: 'Μαζεύετε __amount__ αντικείμενα.'
+      goal_collect_amount: 'Μαζεύετε __amount__ αντικείμενα.',
     },
 
     game_menu: {
       inventory_tab: 'εξοπλισμός',
       save_load_tab: 'Αποθήκευση/Φόρτωση',
       options_tab: 'Επιλογές',
+      //    my_code_tab: "My Code",
       guide_tab: 'Οδηγός',
       guide_video_tutorial: 'Βίντεο Βοήθειας',
       guide_tips: 'Συμβουλές',
@@ -1220,9 +1222,10 @@ module.exports = {
       inventory_caption: 'Εξόπλισε τον ήρωά σου',
       choose_hero_caption: 'Διάλεξε ήρωα και γλώσσα',
       options_caption: 'Ρυθμίσεις',
+      //    my_code_caption: "Quick Code Actions",
       guide_caption: 'Τεκμηρίωση και βοήθεια',
       multiplayer_caption: 'Παίξε με φίλους!',
-      auth_caption: 'Αποθήκευσε την πρόοδό σου.'
+      auth_caption: 'Αποθήκευσε την πρόοδό σου.',
     },
 
     leaderboard: {
@@ -1241,7 +1244,7 @@ module.exports = {
       survival_time: 'Επιβίωσες',
       defeated: 'Εξουδετέρωση Εχθρών',
       code_length: 'Γραμμές Κώδικα',
-      score_display: '__scoreType__: __score__'
+      score_display: '__scoreType__: __score__',
     },
 
     inventory: {
@@ -1257,7 +1260,7 @@ module.exports = {
       unequip: 'Βάλτο στην άκρη',
       warrior_only: 'Πολεμιστής Μόνο',
       ranger_only: 'Καταδρομέας Μόνο',
-      wizard_only: 'Μάγος Μόνο'
+      wizard_only: 'Μάγος Μόνο',
     },
 
     buy_gems: {
@@ -1274,7 +1277,7 @@ module.exports = {
       price: 'x{{gems}} / μήνα',
       buy_premium: 'Αγορά Προνομιακού',
       purchase: 'Αγορά',
-      purchased: 'Αγοράστηκε'
+      purchased: 'Αγοράστηκε',
     },
 
     //  subscribe_for_gems: {
@@ -1284,7 +1287,7 @@ module.exports = {
 
     earn_gems: {
       prompt_title: 'Μη Επαρκή Πετράδια',
-      prompt_body: 'Συνέχισε να παίζεις για να πάρεις περισσότερα!'
+      prompt_body: 'Συνέχισε να παίζεις για να πάρεις περισσότερα!',
     },
 
     subscribe: {
@@ -1337,13 +1340,14 @@ module.exports = {
       year_price: '$__price__/έτος',
       //    year_price_without_currency: "__price__/yr",
       support_part1: 'Χρειάζεστε βοήθεια με την πληρωμή ή προτιμάτε PayPal; Ηλεκτρονικό Ταχυδρομείο',
-      support_part2: 'support@codecombat.com'
+      support_part2: 'support@codecombat.com',
       //    go_prepaid: "Click here after scaning the code and purchasing",
       //    forever: "Forever",
       //    subscription_status: "Your Subscription Status",
       //    currently_not_free: "You don't have a Subscription yet.",
       //    online_classes: "Online Classes",
       //    feature_ai_level_bot: "Accelerate learning with AI powered support",
+      //    sure_buy_as_parent: "You are buying premium access for your account instead of your child's. Are you sure?",
     },
 
     announcement: {
@@ -1386,7 +1390,7 @@ module.exports = {
       tornado_name: 'Σίφουνας',
       tornado_description: 'Είναι καλό να έχεις ένα κουμπί επαναφοράς όταν το καπάκι ανοίξει.',
       wallOfDarkness_name: 'Σκοτεινό Τοίχος',
-      wallOfDarkness_description: 'Κρύψου πίσω από έναν τοίχο σκιών για να αποφύγεις το βλέμμα των αδιάκριτων ματιών.'
+      wallOfDarkness_description: 'Κρύψου πίσω από έναν τοίχο σκιών για να αποφύγεις το βλέμμα των αδιάκριτων ματιών.',
       //    notifications: "Notifications",
       //    x_announcement: "__x__ Notification",
       //    x_announcements: "__x__ Notifications",
@@ -1424,7 +1428,7 @@ module.exports = {
       list_web_dev: 'Φτιάξτε ιστοσελίδες και διαδραστικές εφαρμογές',
       list_items: 'Εξοπλιστείτε με μόνο για συνδρομητές αντικείμενα όπως ζώα',
       list_support: 'Λάβετε Προνομιακή υποστήριξη για να σας βοηθήσουμε να εντοπίσετε λάθη στον κώδικα',
-      list_clans: 'Δημιουργήστε ιδιωτικές φατρίες για να καλέσετε τους φίλους σας και να συναγωνιστείτε με μία ομάδα του πίνακα κατάταξης'
+      list_clans: 'Δημιουργήστε ιδιωτικές φατρίες για να καλέσετε τους φίλους σας και να συναγωνιστείτε με μία ομάδα του πίνακα κατάταξης',
       //    ai_bot_learning: "AI powered support to accelerate learning outcomes!",
       //    ai_bot_description: "CodeCombat’s AI powered hints feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available young learners will still need to work through each level's coding challenge. Premium subscribers receive an allocation of <b>10 AI hints per day</b> to ensure they always have the support they need.",
       //    list_ai_bot: "Premium subscribers receive an allocation of 10 AI hints per day",
@@ -1443,6 +1447,15 @@ module.exports = {
       lua_blurb: 'Γλώσσα παιχνιδιών με σενάρια.',
       java_blurb: '(Συνδρομητής μόνο) Android και επιχείρηση.',
       //    cpp_blurb: "(Subscriber Only) Game development and high performance computing.",
+      //    code_format: "Code Format",
+      //    text_code: "Text code",
+      //    blocks_and_code: "Blocks and code",
+      //    blocks_text: "Blocks",
+      //    blocks_icons: "Blocks (icons)",
+      //    text_code_blurb: "Type text-based code in a real code editor",
+      //    blocks_and_code_blurb: "Blocks and text code side-by-side",
+      //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
+      //    blocks_icons_blurb: "Icon-based blocks for phones or pre-readers",
       status: 'Κατάσταση',
       weapons: 'Όπλα',
       weapons_warrior: 'Σπαθιά - Μικρή Εμβέλεια, Χωρίς Μαγεία',
@@ -1466,7 +1479,7 @@ module.exports = {
       speed_2: 'μέτρα το δευτερόλεπτο.',
       available_for_purchase: 'Διαθέσιμο για Αγορά',
       level_to_unlock: 'Επίπεδο για ξεκλείδωμα:',
-      restricted_to_certain_heroes: 'Μόνο συγκεκριμένοι ήρωες μπορούν να παίξουν αυτό το επίπεδο.'
+      restricted_to_certain_heroes: 'Μόνο συγκεκριμένοι ήρωες μπορούν να παίξουν αυτό το επίπεδο.',
     },
 
     //  char_customization_modal: {
@@ -1504,14 +1517,14 @@ module.exports = {
       required_parameters: 'Απαιτούμενες Παράμετροι',
       optional_parameters: 'Προαιρετικές Παράμετροι',
       returns: 'Επιστρέφει',
-      granted_by: 'Παραχωρήθηκε από '
+      granted_by: 'Παραχωρήθηκε από ',
       //    still_undocumented: "Still undocumented, sorry.",
       //    description_coming_soon: "Description coming soon",
     },
 
     save_load: {
       granularity_saved_games: 'Αποθηκεύτηκε',
-      granularity_change_history: 'Ιστορικό'
+      granularity_change_history: 'Ιστορικό',
     },
 
     options: {
@@ -1528,7 +1541,7 @@ module.exports = {
       editor_config_indentguides_label: 'Εμφάνιση Οδηγών Στοίχισης',
       editor_config_indentguides_description: 'Εμφανίζει κάθετες γραμμές για να βλέπεις τη στοίχιση καλύτερα.',
       editor_config_behaviors_label: 'Έξυπνες Συμπεριφορές',
-      editor_config_behaviors_description: 'Συμπληρώνει αυτόματα αγκύλες, άγκιστρα και εισαγωγικά.'
+      editor_config_behaviors_description: 'Συμπληρώνει αυτόματα αγκύλες, άγκιστρα και εισαγωγικά.',
       //    editor_config_screen_reader_mode_label: "Enable Screen Reader Mode",
       //    editor_config_screen_reader_mode_label_disable: "Disable Screen Reader Mode",
       //    editor_config_screen_reader_mode_description: "Display levels in text rather than visually.",
@@ -1658,11 +1671,11 @@ module.exports = {
       character_art: 'Καλλιτέχνημα Χαρακτήρων',
       download_all: 'Λήψη Όλων',
       previous: 'Προηγούμενο',
-      location_title: 'Βρισκόμαστε στο κέντρο του Σαν Φρανσίσκο:'
+      location_title: 'Βρισκόμαστε στο κέντρο του Σαν Φρανσίσκο:',
     },
 
     teachers: {
-      licenses_needed: 'Απαιτούνται άδειες'
+      licenses_needed: 'Απαιτούνται άδειες',
       //    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO",
       //    select_class: "Select class",
       //    programming_language: "Programming language",
@@ -1689,13 +1702,12 @@ module.exports = {
       //    error_in_importing_students: "Error in importing students",
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-      //    classroom_blocks: "Drag and Drop Blocks (beta)",
-      //    classroom_blocks_description: "Whether to enable drag-and-drop blocks alongside the text-based code.",
-      //    classroom_blocks_hidden: "Disabled",
-      //    classroom_blocks_opt_in: "Off by default",
-      //    classroom_blocks_opt_out: "On by default",
+      //    code_formats: "Code Formats (beta)",
+      //    code_formats_description: "Which code formats students can choose from.",
+      //    default_code_format: "Default Code Format",
+      //    default_code_format_description: "The code format that students will start with.",
       //    not_allow_to_solution: "# Licenses needed to view solutions",
-      //    classroom_level_chat: "Level Chat with AI",
+      //    classroom_level_chat: "AI Level Hints",
       //    classroom_level_chat_blurb: "Control whether students can interact with the AI in level chat.",
       //    classroom_level_chat_option_free_form: "Free form",
       //    classroom_level_chat_option_fixed_prompt_only: "Fixed prompt only",
@@ -1775,7 +1787,7 @@ module.exports = {
       courses_prefix: 'Σειρές Μαθημάτων',
       courses_suffix: '',
       course_prefix: 'Σειρά Μαθημάτων',
-      course_suffix: ''
+      course_suffix: '',
       //    licenses_activated_success: "Licenses have been Activated Successfully!",
       //    license_code_used: "License Code used.",
     },
@@ -1845,7 +1857,7 @@ module.exports = {
       create_account: 'Δημιουργήστε έναν Λογαριασμό Εκπαιδευτικού',
       create_account_subtitle: 'Αποκτήστε πρόσβαση σε εργαλεία μόνο για εκπαιδευτικούς για τη χρήση του CodeCombat στην τάξη. <strong>Δημιουργήστε μια τάξη</strong>, προσθέστε τους μαθητές σας και <strong>παρακολουθήστε την πρόοδό τους</strong>!',
       convert_account_title: 'Αναβάθμιση σε Λογαριασμό Εκπαιδευτικού',
-      not: 'Όχι'
+      not: 'Όχι',
       //    full_name_required: "First and last name required",
     },
 
@@ -1857,7 +1869,7 @@ module.exports = {
       cla_url: 'Άδεια Χρήσης Συντελεστή (CLA)',
       cla_suffix: '.',
       cla_agree: 'ΣΥΜΦΩΝΩ',
-      owner_approve: 'Ένας από τους ιδιοκτήτες θα πρέπει να εγκρίνει τις αλλαγές σας πριν αυτές γίνουν ορατές.'
+      owner_approve: 'Ένας από τους ιδιοκτήτες θα πρέπει να εγκρίνει τις αλλαγές σας πριν αυτές γίνουν ορατές.',
     },
 
     contact: {
@@ -1874,7 +1886,7 @@ module.exports = {
       subscriber_support: 'Αφού είστε συνδρομητής στο CodeCombat, θα έχετε προνομιακή υποστήριξη μέσω ηλεκτρονικού ταχυδρομείου.',
       screenshot_included: 'Θα συμπεριλάβουμε και στιγμιότυπα οθόνης.',
       where_reply: 'Σε ποια διεύθυνση να απαντήσουμε;',
-      send: 'Αποστολή σχολίων'
+      send: 'Αποστολή σχολίων',
       //    ooo_blurb: "The CodeCombat team will be out of the office from June 5th to June 9th, and during this time will have limited access to emails. We will respond to your inquiry as soon as possible, please be aware of the anticipated wait time.",
     },
 
@@ -1926,7 +1938,7 @@ module.exports = {
       error_saving: 'Σφάλμα αποθήκευσης',
       saved: 'Οι αλλαγές αποθηκεύτηκαν',
       password_mismatch: 'Οι κωδικοί δεν ταιριάζουν',
-      password_repeat: 'Παρακαλώ επαναλάβετε τον κωδικό σας.'
+      password_repeat: 'Παρακαλώ επαναλάβετε τον κωδικό σας.',
     },
 
     keyboard_shortcuts: {
@@ -1948,7 +1960,6 @@ module.exports = {
       toggle_grid: 'Εναλλαγή στρώσης πλέγματος.',
       toggle_pathfinding: 'Εναλλαγή στρώσης εύρεσης μονοπατιού.',
       beautify: 'Κάνε τον κώδικά σου να φαίνεται πιο ωραίος μορφοποιόντας τον.',
-      maximize_editor: 'Μεγιστοποίηση/ελαχιστοποίηση διορθωτή κώδικα.'
     },
 
     //  cinematic: {
@@ -1972,7 +1983,7 @@ module.exports = {
       social_facebook: 'Κάντε Like στο CodeCombat στο Facebook',
       social_twitter: 'Ακολουθείστε το CodeCombat στο Twitter',
       social_slack: 'Συζητήστε μαζί μας στο δημόσιο κανάλι του CodeCombat στο Slack',
-      contribute_to_the_project: 'Συμβάλλετε στο έργο'
+      contribute_to_the_project: 'Συμβάλλετε στο έργο',
     },
 
     clans: {
@@ -2035,7 +2046,7 @@ module.exports = {
       track_concepts6b: 'Ταξινόμηση μελών κατά όνομα ή πρόοδο',
       track_concepts7: 'Απαιτεί πρόσκληση',
       track_concepts8: 'για να συνδεθείς',
-      private_require_sub: 'Οι ιδιωτικές φατρίες απαιτούν να είσαι συνδρομητής για τις δημιουργήσεις ή να συνδεθείς με αυτές.'
+      private_require_sub: 'Οι ιδιωτικές φατρίες απαιτούν να είσαι συνδρομητής για τις δημιουργήσεις ή να συνδεθείς με αυτές.',
     },
 
     courses: {
@@ -2236,7 +2247,7 @@ module.exports = {
       keep_trying: 'Συνέχισε την Προσπάθεια',
       start_challenge: 'Εκκίνηση Πρόκλησης',
       locked: 'Κλειδωμένο',
-      concepts_used: 'Χρησιμοποιημένες Έννοιες:'
+      concepts_used: 'Χρησιμοποιημένες Έννοιες:',
       //    show_change_log: "Show changes to this course's levels",
       //    hide_change_log: "Hide changes to this course's levels",
       //    concept_videos: "Concept Videos",
@@ -2283,7 +2294,7 @@ module.exports = {
     project_gallery: {
       no_projects_published: 'Γίνε ο πρώτος που θα κοινοποιήσει ένα έργο σε αυτό το μάθημα!',
       view_project: 'Προβολή Έργου',
-      edit_project: 'Επεξεργασία Έργου'
+      edit_project: 'Επεξεργασία Έργου',
     },
 
     teacher: {
@@ -2653,7 +2664,7 @@ module.exports = {
       print_guide: 'Εκτύπωση αυτού του οδηγού',
       combo: 'Συνδυαστικά',
       combo_explanation: 'Οι μαθητές περνούν τα επίπεδα συνδυαστικής πρόκλησης χρησιμοποιώντας τουλάχιστον μία εισηγμένη έννοια. Ελέγξτε τον κώδικα των μαθητών κάνοντας κλικ στην κουκκίδα προόδου.',
-      concept: 'Έννοια'
+      concept: 'Έννοια',
       //    sync_google_classroom: "Sync Google Classroom",
       //    unit_overview: "Unit Overview",
       //    module_overview: "Module Overview",
@@ -2766,7 +2777,7 @@ module.exports = {
       one_license_used: '(1 άδεια χρησιμοποιήθηκε)',
       licenses_used: '(__licensesUsed__ άδειες χρησιμοποιήθηκαν)',
       //    licenses_used_no_braces: "__licensesUsed__/__all__ licenses used",
-      more_info: 'Περισσότερες πληροφορίες'
+      more_info: 'Περισσότερες πληροφορίες',
       //    shared_pool_label: "Teachers in your shared pool:",
       //    teacher_delete_warning: "The shared licenses assigned to the teacher won't be revoked!",
       //    licenses_limit: "Licenses Limit:",
@@ -2789,14 +2800,14 @@ module.exports = {
       victory_course_share_web: 'δουν την ιστοσελίδα',
       victory_course_share_suffix: 'που μόλις δημιούργησες.',
       copy_url: 'Αντιγραφή διεύθυνσης URL',
-      share_with_teacher_email: 'Αποστολή στο δάσκαλό σου'
+      share_with_teacher_email: 'Αποστολή στο δάσκαλό σου',
       //    share_ladder_link: "Share Multiplayer Link",
       //    ladder_link_title: "Share Your Multiplayer Match Link",
       //    ladder_link_blurb: "Share your AI battle link so your friends and family can play versus your code:",
     },
 
     game_dev: {
-      creator: 'Δημιουργός'
+      creator: 'Δημιουργός',
     },
 
     web_dev: {
@@ -2812,7 +2823,7 @@ module.exports = {
       how_to_copy_paste: 'Πως να Αντιγράψετε/Επικολλήσετε',
       copy: 'Αντιγραφή',
       paste: 'Επικόλληση',
-      back_to_editing: 'Επιστροφή στην Επεξεργασία'
+      back_to_editing: 'Επιστροφή στην Επεξεργασία',
     },
 
     classes: {
@@ -2834,7 +2845,7 @@ module.exports = {
       ambassador_title: 'Πρεσβευτής',
       ambassador_title_description: '(Υποστήριξη)',
       ambassador_summary: 'Βοήθησε τους χρήστες στο φόρουμ μας και δώσε οδηγίες σε αυτούς που έχουν ερωτήσεις. Οι Πρεσβευτές μας αντιπροσωπεύουν το CodeCombat στον κόσμο.',
-      teacher_title: 'Δάσκαλος'
+      teacher_title: 'Δάσκαλος',
     },
 
     editor: {
@@ -2870,6 +2881,7 @@ module.exports = {
       fork_title: 'Κλωνοποίηση Νέας Έκδοσης',
       fork_creating: 'Δημιουργία Κλώνου...',
       generate_terrain: 'Δημιουργία Εδάφους',
+      //    generate_level: "Generate Level",
       more: 'Περισσότερα',
       wiki: 'Wiki',
       live_chat: 'Ζωντανή Συνομιλία',
@@ -2973,18 +2985,18 @@ module.exports = {
       tasks: 'Ενέργειες',
       clear_storage: 'Καθαρισμός τοπικών αλλαγών',
       add_system_title: 'προσθήκη Συστημάτων στο Επίπεδο',
-      done_adding: 'Η προσθήκη τελείωσε'
+      done_adding: 'Η προσθήκη τελείωσε',
       //    product: "Product",
       //    link: "Link",
     },
 
     article: {
       edit_btn_preview: 'Προεπισκόπηση',
-      edit_article_title: 'Επεξεργασία Άρθρου'
+      edit_article_title: 'Επεξεργασία Άρθρου',
     },
 
     polls: {
-      priority: 'Προτεραιότητα'
+      priority: 'Προτεραιότητα',
     },
 
     contribute: {
@@ -3055,7 +3067,7 @@ module.exports = {
       creative_artisans: 'Οι Δημιουργικοί Τεχνίτες μας:',
       brave_adventurers: 'Οι Γενναίοι Εξερευνητές μας :',
       translating_diplomats: 'Οι Λεπτολόγοι Διπλωμάτες μας:',
-      helpful_ambassadors: 'Οι πάντα πρόθυμοι να βοηθήσουν Πρεσβευτές μας:'
+      helpful_ambassadors: 'Οι πάντα πρόθυμοι να βοηθήσουν Πρεσβευτές μας:',
     },
 
     ladder: {
@@ -3129,7 +3141,7 @@ module.exports = {
       //    loss_num: "Losses",
       //    win_rate: "Win %",
       humans: 'Κόκκινοι',
-      ogres: 'Μπλε'
+      ogres: 'Μπλε',
       //    live_tournament: "Live Tournament",
       //    awaiting_tournament_title: "Tournament Inactive",
       //    awaiting_tournament_blurb: "The tournament arena is not currently active.",
@@ -3159,7 +3171,7 @@ module.exports = {
       no_achievements: 'Δεν έχεις κανένα επίτευγμα ακόμα.',
       favorite_prefix: 'Η αγαπημένη σου γλώσσα είναι η ',
       favorite_postfix: '.',
-      not_member_of_clans: 'Δεν είσαι μέλος σε καμιά φατρία ακόμα.'
+      not_member_of_clans: 'Δεν είσαι μέλος σε καμιά φατρία ακόμα.',
       //    certificate_view: "view certificate",
       //    certificate_click_to_view: "click to view certificate",
       //    certificate_course_incomplete: "course incomplete",
@@ -3194,7 +3206,7 @@ module.exports = {
       new_xp_postfix: ' αποκτήθηκαν',
       left_xp_prefix: '',
       left_xp_infix: ' μέχρι το επίπεδο ',
-      left_xp_postfix: ''
+      left_xp_postfix: '',
     },
 
     account: {
@@ -3231,7 +3243,7 @@ module.exports = {
       email_sent: 'Το email στάλθηκε! Έλεγξε τα εισερχόμενα.',
       verifying_email: 'Επιβεβαίωση διεύθυνσης ηλεκτρονικού ταχυδρομείου...',
       successfully_verified: 'Έχεις επιβεβαιώσει επιτυχώς την διεύθυνση του ηλεκτρονικού ταχυδρομείου σου!',
-      verify_error: 'Κάτι πήγε στραβά με την επιβεβαίωση του email σου :('
+      verify_error: 'Κάτι πήγε στραβά με την επιβεβαίωση του email σου :(',
       //    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?",
       //    unsubscribe_button: "Yes, unsubscribe",
       //    unsubscribe_failed: "Failed",
@@ -3247,7 +3259,7 @@ module.exports = {
       pay: 'Πληρωμή Παραστατικού',
       purchasing: 'Αγορά...',
       retrying: 'Λάθος εξυπηρετητή, ξαναδοκιμάζω.',
-      success: 'Η πληρωμή έγινε. Ευχαριστούμε!'
+      success: 'Η πληρωμή έγινε. Ευχαριστούμε!',
     },
 
     account_prepaid: {
@@ -3272,7 +3284,7 @@ module.exports = {
       no_codes: 'Δεν υπάρχουν ακόμη κωδικοί!',
       you_can1: 'Μπορείτε',
       you_can2: 'να αγοράσετε ένα προπληρωμένο κωδικό',
-      you_can3: 'που θα χρησιμοποιήσετε στο δικό σας λογαριασμό ή θα το δώσετε σε άλλους.'
+      you_can3: 'που θα χρησιμοποιήσετε στο δικό σας λογαριασμό ή θα το δώσετε σε άλλους.',
       //    prepaid_add_months: "This prepaid code adds <strong>__months__ months of subscription</strong> to your account.",
       //    can_use_times: "It can be used <strong>__unlocksLeft__ more</strong> times.",
       //    prepaid_applied_success: "Prepaid applied to your account!",
@@ -3287,6 +3299,7 @@ module.exports = {
     //    level_options: "Level Options",
     //    restart_level: "Restart Level",
     //    max_browser: "Maximize Browser",
+    //    ai_hint: "AI Hint",
     //  },
 
     //  impact: {
@@ -3366,7 +3379,7 @@ module.exports = {
       server_error: 'Σφάλμα εξυπηρετητή.',
       unknown: 'Άγνωστο Σφάλμα',
       error: 'Σφάλμα',
-      general_desc: 'Κάτι πήγε στραβά, και ίσως είναι λάθος μας. Δοκιμάστε να περιμένετε λίγο και στη συνέχεια να ανανεώσετε τη σελίδα ή επισκεφθείτε έναν από τους παρακάτω συνδέσμους για να επιστρέψετε στον προγραμματισμό!'
+      general_desc: 'Κάτι πήγε στραβά, και ίσως είναι λάθος μας. Δοκιμάστε να περιμένετε λίγο και στη συνέχεια να ανανεώσετε τη σελίδα ή επισκεφθείτε έναν από τους παρακάτω συνδέσμους για να επιστρέψετε στον προγραμματισμό!',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
     },
@@ -3380,7 +3393,7 @@ module.exports = {
       component: 'Δομικό Στοιχείο',
       components: 'Δομικά Στοιχεία',
       hero: 'Ήρωας',
-      campaigns: 'Εκστρατείες'
+      campaigns: 'Εκστρατείες',
     },
 
     concepts: {
@@ -3516,7 +3529,7 @@ module.exports = {
       basic_game_ai: 'Βασική Τεχνητή Νοημοσύνη Παιχνιδιού',
       basic_javascript: 'Βασική JavaScript',
       basic_event_handling: 'Βασικός Χειρισμός Συμβάντων',
-      create_sharable_interactive_web_page: 'Δημιουργία διαδραστικής ιστοσελίδας που μπορεί να κοινοποιηθεί'
+      create_sharable_interactive_web_page: 'Δημιουργία διαδραστικής ιστοσελίδας που μπορεί να κοινοποιηθεί',
       //    iteration: "Iteration",
       //    nesting: "Nesting",
       //    data_types: "Data Types",
@@ -3536,7 +3549,7 @@ module.exports = {
       student_name_placeholder: 'πληκτρολογήστε το όνομα εδώ',
       teachers_section: 'Δάσκαλοι:',
       students_section: 'Μαθητές:',
-      teacher_notified: 'Έχουμε ειδοποιήσει τον δάσκαλό σας ότι θέλετε να παίξετε περισσότερο CodeCombat στην τάξη σας!'
+      teacher_notified: 'Έχουμε ειδοποιήσει τον δάσκαλό σας ότι θέλετε να παίξετε περισσότερο CodeCombat στην τάξη σας!',
     },
 
     delta: {
@@ -3547,7 +3560,7 @@ module.exports = {
       moved_index: 'Μετακινημένος Δείκτης',
       text_diff: 'Διαφορά Κειμένου',
       merge_conflict_with: 'ΣΥΓΧΩΝΕΥΣΗ ΣΥΓΚΡΟΥΣΕΩΝ ΜΕ',
-      no_changes: 'Δεν υπάρχουν αλλαγές'
+      no_changes: 'Δεν υπάρχουν αλλαγές',
     },
 
     legal: {
@@ -3605,7 +3618,7 @@ module.exports = {
       //    nutshell_see_also: "See also:",
       canonical: 'Η Αγγλική έκδοση αυτού του εγγράφου είναι η απόλυτη , ρυθμιστική (canonical) έκδοση. Αν υπάρχουν αισθητές διαφορές μεταξύ των μεταφράσεων, το Αγγλικό έγγραφο προηγείται.',
       third_party_title: 'Υπηρεσίες Τρίτων',
-      third_party_description: 'Το CodeCombat χρησιμοποιεί τις ακόλουθες υπηρεσίες τρίτων (μεταξύ άλλων):'
+      third_party_description: 'Το CodeCombat χρησιμοποιεί τις ακόλουθες υπηρεσίες τρίτων (μεταξύ άλλων):',
       //    cookies_message: "CodeCombat uses a few essential and non-essential cookies.",
       //    cookies_deny: "Decline non-essential cookies",
       //    cookies_allow: "Allow cookies",
@@ -3629,7 +3642,7 @@ module.exports = {
       one_month_coupon: 'κουπόνι: διάλεξε Rails ή HTML',
       one_month_discount: 'έκπτωση, μείον 30% : διάλεξε Rails ή HTML',
       license: 'άδεια',
-      oreilly: 'ηλεκτρονικό βιβλίο της επιλογής σου'
+      oreilly: 'ηλεκτρονικό βιβλίο της επιλογής σου',
     },
 
     calendar: {
@@ -3647,7 +3660,7 @@ module.exports = {
       september: 'Σεπτέμβριος',
       october: 'Οκτώβριος',
       november: 'Νοέμβριος',
-      december: 'Δεκέμβριος'
+      december: 'Δεκέμβριος',
     },
 
     code_play_create_account_modal: {
@@ -3655,12 +3668,12 @@ module.exports = {
       body: 'Τώρα είστε στο δρόμο για να γίνετε μεγάλος προγραμματιστής. Εγγραφείτε για να λάβετε επιπλέον <strong>100 Πετράδια</strong> και να συμμετάσχετε επίσης για να <strong>κερδίσετε $2.500 και άλλα βραβεία Lenovo</strong>.',
       sign_up: 'Συνδέσου και συνέχιζε να προγραμματίζεις ▶',
       victory_sign_up_poke: 'Δημιουργήστε έναν δωρεάν λογαριασμό για να αποθηκεύσετε τον κώδικά σας και να συμμετάσχετε για να κερδίσετε βραβεία!',
-      victory_sign_up: 'Συνδέσου και καταχωρήσου για να <strong>κερδίσεις $2,500</strong>'
+      victory_sign_up: 'Συνδέσου και καταχωρήσου για να <strong>κερδίσεις $2,500</strong>',
     },
 
     server_error: {
       email_taken: 'Το email χρησιμοποιείται',
-      username_taken: 'Το όνομα χρήστη χρησιμοποιείται'
+      username_taken: 'Το όνομα χρήστη χρησιμοποιείται',
       //    easy_password: "Password is too easy to guess",
       //    reused_password: "Password cannot be reused",
     },
@@ -3742,7 +3755,7 @@ module.exports = {
       you_do_not_have: 'Δεν έχεις εξοπλιστεί κάποιο αντικείμενο με την ικανότητα $1.',
       put_each_command_on: 'Βάλε κάθε εντολή σε ξεχωριστή γραμμή',
       are_you_missing_a: "Λείπει ένα '$1' μετά από '$2';",
-      your_parentheses_must_match: 'Οι παρενθέσεις σου πρέπει να ταιριάζουν.'
+      your_parentheses_must_match: 'Οι παρενθέσεις σου πρέπει να ταιριάζουν.',
       //    missing_parentheses: "Missing parentheses? Try `__suggestion__`",
       //    do_nothing_without_parentheses: "`__code__` doesn't do anything without `()`",
       //    error_index_empty: "Cannot read property `__name__` of `__specTypeName__`",
@@ -3789,7 +3802,7 @@ module.exports = {
       //    error_no_arg_to_dereference: "No argument to dereference.",
       //    error_try_dereference_non: "Tried to dereference non pointer.",
       //    error_no_arg_to_alloc: "No argument to alloc.",
-    }
+    },
 
     //  apcsp: {
     //    title: "AP Computer Science Principals | College Board Endorsed",
@@ -3921,10 +3934,20 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
-    //    no_license: "Our AP CSP curriculum requires a paid license or participation in our AP CSP pilot program. If you're interested in the pilot program, please fill out this form",
+    //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
     //    explore_each_unit: "Explore each unit, including <br> <strong>lesson plans</strong> and <strong>lesson slides</strong>",
+    //    about_apcsp_curriculum: "About AP CSP Curriculum",
+    //    step_1_title: "Get Started Today",
+    //    step_1_subtitle: "Upload CodeCombat’s AP CSP syllabus to College Board’s Course Audit.",
+    //    step_1_button_1: "View the Syllabus",
+    //    step_1_button_2: "Complete the Audit",
+    //    join_the_community: "Join the AP Community",
+    //    ap_teachers: "Teacher Central",
+    //    ap_classroom: "AP Classroom",
+    //    slack: "AP Workspace",
+    //    join: "Join",
     //  },
 
     //  hoc_2019: {
@@ -4478,7 +4501,7 @@ module.exports = {
     //    free_3: "Join competitive coding teams with friends, family, or classmates",
     //    free_4: "Showcase your coding skills and take home great prizes",
     //    compete_season: "Put all the skills you’ve learned to the test! Compete against students and players from across the world in this exciting culmination to the season.",
-    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or CoffeeScript.",
+    //    season_subheading1: "For both Season and Championship arenas, each player programs their team of “AI Heroes” with code written in Python, JavaScript, C++, Lua, or Java.",
     //    season_subheading2: "Their code informs the strategies their AI Heroes will execute in a head-to-head battle against other competitors.",
     //    team_derbezt: "Learn coding and win prizes sponsored by superstar Mexican actor, comedian, and filmmaker Eugenio Derbez.",
     //    invite_link: "Invite players to this team by sending them this link:",
@@ -4759,6 +4782,11 @@ module.exports = {
     //    bd_includes_2: "Teacher dashboard for record keeping and progress tracking ",
     //    bd_includes_3: "Online Resource Hub with walkthroughs and tutorials",
     //    bd_help: "For any help, contact",
+    //    manage_stripe: "Manage Stripe Billing",
+    //    manage_billing_info: "This will take you to Stripe, where you can handle subscription-related tasks such as reviewing your billing history and updating your payment method.",
+    //    billing_portal: "Customer Billing Portal",
+    //    email_not_verified: "Your email is not verified, please verify it from the account settings!",
+    //    stripe_no_data: "You do not have any data to manage on Stripe portal",
     //  },
 
     //  form_validation_errors: {

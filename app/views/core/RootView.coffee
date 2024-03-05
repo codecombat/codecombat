@@ -61,7 +61,6 @@ module.exports = class RootView extends CocoView
     earnedAchievement.set('notified', true)
     earnedAchievement.patch()
     return if achievement.get('collection') is 'level.sessions' and not achievement.get('query')?.team
-    #return if @isIE()  # Some bugs in IE right now, TODO fix soon!  # Maybe working now with not caching achievement fetches in CocoModel?
     return if window.serverConfig.picoCTF
     return if achievement.get('hidden')
 
@@ -110,7 +109,6 @@ module.exports = class RootView extends CocoView
       .catch((err) -> errors.showNotyNetworkError(err))
 
   onClickSignupButton: (e) ->
-    CreateAccountModal = require 'views/core/CreateAccountModal'
     switch @id
       when 'home-view'
         properties = {
@@ -125,21 +123,33 @@ module.exports = class RootView extends CocoView
       else
         window.tracker?.trackEvent 'Started Signup', label: @id
     options = {}
+
+    if $(e.currentTarget).data('startOnPath')
+      options.startOnPath = $(e.currentTarget).data('startOnPath')
+
     if userUtils.isInLibraryNetwork()
       options.startOnPath = 'individual'
+    
+    @openCreateAccountModal(options)
+
+  openCreateAccountModal: (options) ->
+    CreateAccountModal = require 'views/core/CreateAccountModal'
     @openModalView new CreateAccountModal(options)
 
   onClickLoginButton: (e) ->
     loginMessage = e.target.dataset.loginMessage
     nextUrl = e.target.dataset.nextUrl
-    AuthModal = require 'views/core/AuthModal'
     if @id is 'home-view'
       properties = { category: if utils.isCodeCombat then 'Homepage' else 'Home' }
       window.tracker?.trackEvent 'Login', properties
 
       eventAction = $(e.target)?.data('event-action')
       window.tracker?.trackEvent(eventAction, properties) if eventAction
-    @openModalView new AuthModal({loginMessage, nextUrl})
+    @openAuthModal({ loginMessage, nextUrl })
+
+  openAuthModal: (options) ->
+    AuthModal = require 'views/core/AuthModal'
+    @openModalView new AuthModal(options)  
 
   onTrackClickEvent: (e) ->
     eventAction = $(e.target)?.closest('a')?.data('event-action')

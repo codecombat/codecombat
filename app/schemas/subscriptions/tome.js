@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 const c = require('schemas/schemas')
 
 module.exports = {
@@ -135,14 +133,15 @@ module.exports = {
 
   'tome:focus-editor': c.object({ title: 'Focus Editor', description: 'Published whenever we want to give focus back to the editor' }),
 
-  'tome:toggle-maximize': c.object({ title: 'Toggle Maximize', description: 'Published when we want to make the Tome take up most of the screen' }),
-
-  'tome:maximize-toggled': c.object({ title: 'Maximize Toggled', description: 'Published when the Tome has changed maximize/minimize state.' }),
-
   'tome:select-primary-sprite': c.object({ title: 'Select Primary Sprite', description: 'Published to get the most important sprite\'s code selected.' }),
 
   'tome:toggle-blocks': c.object({ title: 'Toggle Blocks', description: 'Published when we want to toggle the blocks view', required: ['blocks'] },
     { blocks: { type: 'boolean', description: 'Whether blocks should be enabled' } }),
+
+  'tome:code-format-changed': c.object({ title: 'Set Code Format', description: 'Published when the Tome determines what the code format should be, or when it changes', required: ['codeFormat'] }, {
+    oldCodeFormat: { type: 'string', description: 'The old code format', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'] },
+    codeFormat: { type: 'string', description: 'The new code format', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'] }
+  }),
 
   'tome:required-code-fragment-deleted': c.object({ title: 'Required Code Fragment Deleted', description: 'Published when a required code fragment is deleted from the sample code.', required: ['codeFragment'] },
     { codeFragment: { type: 'string' } }),
@@ -189,5 +188,7 @@ module.exports = {
     { code: { type: 'string' } }),
   'tome:fix-code-preview-start': c.object({ required: ['code'] },
     { code: { type: 'string' } }),
-  'tome:fix-code-preview-end': c.object({})
+  'tome:fix-code-preview-end': c.object({}),
+
+  'blockly:clicked-block': c.object({ required: ['block', 'text'] }, { block: { type: 'object' }, text: { type: 'string' } }),
 }

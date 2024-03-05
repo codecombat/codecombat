@@ -75,7 +75,7 @@ block modal-body-content
         for state in ['waiting', 'running', 'problems', 'failed', 'passedExceptFrames', 'passed']
           span(style=(view[state] ? "font-weight: bold" : ""))  #{_.string.humanize(state)}: #{view[state]} |
         span= ' '
-        a(href=('/editor/verifier/' + level.get('slug') + '?dev=true'), target="_blank") Details
+        a(href=('/editor/verifier/' + level.get('slug') + '?dev=true&frames=' + (view.level.get('product', true) == 'codecombat-junior' ? 'false' : 'true')), target="_blank") Details
 
   #errors-wrapper.alert.alert-danger.hide
     strong Validation Error! Save failed.

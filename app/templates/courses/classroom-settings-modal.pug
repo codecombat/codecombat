@@ -88,24 +88,42 @@ block modal-body-content
           .help-block.small.text-navy(data-i18n="teachers.classroom_live_completion")
 
         if view.enableBlocks
+          // Icon blocks only ready for Junior, which isn't in classroom yet
+          // - var allCodeFormats = ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']
+          - var allCodeFormats = ['text-code', 'blocks-and-code', 'blocks-text']
+          label
+            span(data-i18n="teachers.code_formats")
           .form-group
-            label
-              span(data-i18n="teachers.classroom_blocks")
             - var aceConfig = view.classroom.get('aceConfig') || {}
-            - var blocks = aceConfig.blocks
-            if blocks === undefined
-              - blocks = 'hidden'
-            select#blocks-select.form-control(name="blocks" value=blocks)
-              option(value="hidden" data-i18n="teachers.classroom_blocks_hidden")
-              option(value="opt-in" data-i18n="teachers.classroom_blocks_opt_in")
-              option(value="opt-out" data-i18n="teachers.classroom_blocks_opt_out")
-            .help-block.small.text-navy(data-i18n="teachers.classroom_blocks_description")
+            - var codeFormats = aceConfig.codeFormats
+            if codeFormats === undefined
+              - codeFormats = ['text-code']
+              // Later, we can turn everything on by default
+              // - codeFormats = isJunior ? allCodeFormats : _.omit(allCodeFormats, 'blocks-icons')
+            each format in allCodeFormats
+              - var i18nPrefix = 'choose_hero.' + format.replace(/-/g, '_')
+              label.checkbox-inline(data-i18n="[title]" + i18nPrefix + "_blurb")
+                input(name="codeFormats" value=format checked=codeFormats.includes(format) type='checkbox')
+                span(data-i18n="choose_hero." + format.replace(/-/g, '_'))
+            .help-block.small.text-navy(data-i18n="teachers.code_formats_description")
+            label
+              span(data-i18n="teachers.default_code_format")
+            - var aceConfig = view.classroom.get('aceConfig') || {}
+            - var defaultCodeFormat = aceConfig.defaultCodeFormat
+            if defaultCodeFormat === undefined
+              - defaultCodeFormat = 'text-code'
+            select.form-control(name="defaultCodeFormat" value=defaultCodeFormat)
+              each format in allCodeFormats
+                - var i18nPrefix = 'choose_hero.' + format.replace(/-/g, '_')
+                option(value=format)= $.i18n.t(i18nPrefix) + ' - ' + $.i18n.t(i18nPrefix + '_blurb')
+            .help-block.small.text-navy(data-i18n="teachers.default_code_format_description")
 
         if !me.showChinaResourceInfo()
           .form-group
             label
               span(data-i18n="teachers.classroom_level_chat")
-              - var aceConfig = _.assign({levelChat: 'none'},  view.classroom.get('aceConfig'))
+              span= ': '
+              - var aceConfig = _.assign({levelChat: 'fixed_prompt_only'},  view.classroom.get('aceConfig'))
               - var levelChat = aceConfig.levelChat
               - var levelChatAllowed = levelChat === 'fixed_prompt_only'
               input#level-chat(name="levelChat" checked=levelChatAllowed value='fixed_prompt_only' type='checkbox')
@@ -161,9 +179,9 @@ block modal-body-content
             span(data-i18n="courses.estimated_class_dates_label")
             i.spl.text-muted(data-i18n="signup.optional")
           div
-            input.class-dates.form-control(name="classDateStart" type="date" value=view.classroom.get('classDateStart'))
+            input.class-dates.form-control(name="classDateStart" type="date" value=view.classroom.get('classDateStart') max="9999-12-31")
             span.spl.spr(data-i18n="courses.student_age_range_to")
-            input.class-dates.form-control(name="classDateEnd" type="date" value=view.classroom.get('classDateEnd'))
+            input.class-dates.form-control(name="classDateEnd" type="date" value=view.classroom.get('classDateEnd') max="9999-12-31")
 
         .form-group
           label

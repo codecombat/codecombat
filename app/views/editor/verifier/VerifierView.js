@@ -60,7 +60,7 @@ module.exports = (VerifierView = (function () {
       }
 
       this.cores = window.navigator.hardwareConcurrency || 4
-      this.careAboutFrames = true
+      this.careAboutFrames = utils.getQueryVariable('frames', true)
 
       if (this.levelID) {
         this.levelIDs = [this.levelID]

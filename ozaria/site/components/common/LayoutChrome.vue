@@ -26,6 +26,11 @@ export default Vue.extend({
     displayRestartMenuItem: {
       type: Boolean,
       default: false
+    },
+
+    displayAiHintButton: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -107,6 +112,10 @@ export default Vue.extend({
     clickSaveProgress () {
       this.openSaveProgressModal = true
       this.$emit('pause-cutscene')
+    },
+
+    onClickAIHint () {
+      window.Backbone.Mediator.publish('level:click-ai-hint', {})
     },
 
     // Inspired from CocoView toggleFullscreen method.
@@ -237,9 +246,19 @@ export default Vue.extend({
           :aria-label="$t('ozaria_chrome.restart_level')"
           @click="clickRestart"
         />
+        <button
+          v-tooltip="{
+            content: $t('ozaria_chrome.ai_hint'),
+            placement: 'right',
+            classes: 'layoutChromeTooltip',
+          }"
+          class="button-flex-item ai-hint-btn"
+          :class="{ hideBtn: !displayAiHintButton }"
+          :aria-label="$t('ozaria_chrome.ai_hint')"
+          @click="onClickAIHint"
+        />
 
         <div class="spacer" />
-
         <a
           :href="mapLink"
           tabindex="-1"
@@ -476,6 +495,13 @@ export default Vue.extend({
 
         &:hover
           background: url(/images/ozaria/layout/chrome/Global_Hover_Restart.png)
+
+      .ai-hint-btn
+        background: url(/images/ozaria/layout/chrome/Global_Neutral_AI_Hint.png)
+
+        &:hover
+          background: url(/images/ozaria/layout/chrome/Global_Hover_AI_Hint.png)
+
       .map-btn
         background: url(/images/ozaria/layout/chrome/Global_Neutral_Map.png)
 
@@ -512,7 +538,7 @@ export default Vue.extend({
         &.menu-screen-reader-mode-enabled:hover
           background: url(/images/ozaria/layout/chrome/Global_Hover_SoundOff.png)
 
-      .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn, .screen-reader-btn, .screen-reader-btn.menu-screen-reader-mode-enabled
+      .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .ai-hint-btn, .fullscreen-btn, .screen-reader-btn, .screen-reader-btn.menu-screen-reader-mode-enabled
         &, &:hover
           background-size: 100%
           background-position: center
@@ -607,7 +633,7 @@ export default Vue.extend({
         .spacer
           min-height: 224px
 
-        .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .fullscreen-btn, .screen-reader-btn, .screen-reader-btn.menu-screen-reader-mode-enabled
+        .options-btn, .restart-btn, .map-btn, .sound-btn, .sound-btn.menuVolumeOff, .ai-hint-btn, .fullscreen-btn, .screen-reader-btn, .screen-reader-btn.menu-screen-reader-mode-enabled
           background-size: 45px
 
 </style>

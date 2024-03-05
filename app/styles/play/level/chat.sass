@@ -2,10 +2,12 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 @import "app/styles/play/variables"
+@import "ozaria/site/styles/play/images"
 
 #level-chat-view
   $bgWhite: #f6f6f8
   $bgOrange: #ff932e
+  $bgOzaria: #40f3e4
   $fontPurple: #5b586b
   $fontWhite: #ffefe0
 
@@ -63,10 +65,16 @@
   .me
     .message-body
       flex-direction: row-reverse
-      color: $fontWhite
+      @if $is-codecombat
+        color: $fontWhite
+      @else
+        color: $fontPurple
 
       .message-content
-        background: $bgOrange
+        @if $is-codecombat
+          background: $bgOrange
+        @else
+          background: $bgOzaria
         border-bottom-left-radius: 15px
         border-bottom-right-radius: 0px
         margin-left: unset
@@ -75,7 +83,10 @@
         &:before
           left: unset
           right: -20px
-          background: radial-gradient(circle at top right, transparent, transparent 20px, $bgOrange 20px, $bgOrange)
+          @if $is-codecombat
+            background: radial-gradient(circle at top right, transparent, transparent 20px, $bgOrange 20px, $bgOrange)
+          @else
+            background: radial-gradient(circle at top right, transparent, transparent 20px, $bgOzaria 20px, $bgOzaria)
 
   .chat-area
     margin-left: -22px
@@ -86,8 +97,10 @@
     left: 0px
     min-width: 530px
     max-width: 650px
-    width: calc(57vw - $api-bar-width - 50px)
-    //width: calc(#{$game-view-width} - #{$api-bar-width} - 50px)
+    width: calc(57vw - 50px)
+    //width: calc(#{$game-view-width} - 50px)
+    //max-height: Max(200px, calc(100vh - calc(#{$game-view-width} * (589 / 924)) - 50px - 60px - 80px - 30px - 25px))
+    max-height: Max(200px, calc(100vh - (100vw * 0.57 - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
     scroll-behavior: smooth
     overflow-y: scroll
     scrollbar-width: none
@@ -97,21 +110,15 @@
       width: 0
       height: 0
 
-  .no-api &
-    .chat-area
-      //max-height: Max(200px, calc(100vh - calc(#{$game-view-width-no-api} * (589 / 924)) - 50px - 60px - 80px - 30px - 25px))
-      max-height: Max(200px, calc(100vh - (100vw * 0.57 - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
-      width: calc(57vw - 50px)
+    &.open-chat-area
+      max-height: Max(600px, calc(100vh - (100vw * 0.57 - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
 
-      &.open-chat-area
-        max-height: Max(600px, calc(100vh - (100vw * 0.57 - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
-
-    input, textarea
-      width: calc(57vw - 50px - 41px)
+  input, textarea
+    width: calc(57vw - 50px - 41px)
 
   .closed-chat-area
     max-height: 400px
-    //max-height: Max(200px, calc(100vh - calc(#{$game-view-width} - #{$api-bar-width}) * (589 / 924) - 50px - 80px - 60px - 30px - 25px))
+    //max-height: Max(200px, calc(100vh - calc(#{$game-view-width}) * (589 / 924) - 50px - 80px - 60px - 30px - 25px))
     max-height: Max(200px, calc(100vh - (100vw * 0.57 - 200px - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
 
   .open-chat-area
@@ -120,7 +127,7 @@
     border-radius: 5px
     border: 1px solid #222
     max-height: 600px
-    //max-height: Max(600px, calc(100vh - calc(#{$game-view-width} - #{$api-bar-width}) * (589 / 924) - 50px - 80px - 60px - 30px - 25px))
+    //max-height: Max(600px, calc(100vh - calc(#{$game-view-width}) * (589 / 924) - 50px - 80px - 60px - 30px - 25px))
     max-height: Max(600px, calc(100vh - (100vw * 0.57 - 200px - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
     
   tr
@@ -145,7 +152,7 @@
     right: 0px
     min-width: 489px
     max-width: 609px
-    width: calc(57vw - $api-bar-width - 50px - 41px)
+    width: calc(57vw - 50px - 41px)
     height: 27px
     min-height: 27px
     max-height: 100px
@@ -179,3 +186,12 @@
       width: 40px
       margin-right: 5px
 
+  .ai-btn-active
+    background-image: url($Button)
+    background-position: center
+    background-size: contain
+    background-repeat: no-repeat
+    font-size: 16px
+    font-weight: bold
+    letter-spacing: 0.77px
+    line-height: 18px

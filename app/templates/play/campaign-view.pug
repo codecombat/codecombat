@@ -58,7 +58,11 @@ if showGameDevAlert
 
     else if view.shouldShow('surrey-library-logo')
       a#library-logo-container(href='https://www.surreylibraries.ca/' target='_blank' rel='noopener noreferrer')
-        img#library-logo(src="/images/pages/play/surrey-library-logo.svg")
+        img#library-logo(src="/images/pages/play/surrey-library-logo.svg" alt='Surrey Library')
+
+    else if view.shouldShow('okanagan-library-logo')
+      a#library-logo-container(href='https://www.orl.bc.ca/' target='_blank' rel='noopener noreferrer')
+        img#library-logo(src="/images/pages/play/okanagan-library-600x200.png" alt='Okanagan Regional Library')
 
     if view.shouldShow('back-to-classroom') && view.DEEP_API_LIST.indexOf(me.get('clientCreator')) == -1
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
@@ -250,7 +254,7 @@ if showGameDevAlert
       // HackStack Modal
       if view.shouldShow('hackstack') && campaign.get('slug') == 'dungeon'
         .level.hackstack-level#hackstack-level-container(title="CodeCombat AI HackStack")
-           a(href="/ai/new_project" target="_blank")
+           span
             .hackstack-icon
         .hackstack-level#hackstack-level-shadow(style="left: 61%; top: 67.5%;", class="level-shadow")
 
@@ -317,7 +321,7 @@ if showGameDevAlert
   .game-controls.header-font.picoctf-hide
     if !(features.picoCtf || features.brainPop)
       if view.shouldShow('hackstack')
-        a.btn.hackstack-menu-icon(href='/ai/new_project' target='_blank' title='CodeCombat AI HackStack')
+        span.btn.hackstack-menu-icon(title='CodeCombat AI HackStack')
       button.btn.roblox-level.roblox-menu-icon(style='display: none;' title='CodeCombat Worlds on Roblox')
       if view.shouldShow('promotion')
         button.btn.promotion-menu-icon(data-toggle='coco-modal', data-target='play/modal/PromotionModal', title='New: Code in Beijing!')

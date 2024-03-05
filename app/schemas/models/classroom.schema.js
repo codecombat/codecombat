@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 const c = require('./../schemas')
 
 const ClassroomSchema = c.object({
@@ -24,7 +22,11 @@ _.extend(ClassroomSchema.properties, {
   aceConfig: {
     language: { type: 'string', enum: ['python', 'javascript', 'cpp', 'java'] },
     liveCompletion: { type: 'boolean', default: true },
-    blocks: { type: 'string', enum: ['hidden', 'opt-in', 'opt-out'], description: 'Drag-and-drop blocks option for students. Default if unset: hidden.' },
+    codeFormats: c.array({ title: 'Code Formats', description: 'Enable these code formats for students', minitems: 1, uniqueItems: true }, {
+      type: 'string',
+      enum: ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons'],
+    }),
+    codeFormatDefault: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option for students. Default if unset: text-code.' },
     levelChat: { type: 'string', enum: ['fixed_prompt_only', 'none'] }
   },
   averageStudentExp: { type: 'string' },
