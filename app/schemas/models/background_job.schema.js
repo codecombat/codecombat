@@ -6,7 +6,7 @@ const BackgroundJobSchema = c.object({
   properties: {
     type: {
       type: 'string',
-      enum: ['outcome-report'],
+      enum: ['outcomes-report'],
       description: 'The type of the job'
     },
     status: {
@@ -26,7 +26,11 @@ const BackgroundJobSchema = c.object({
             href: '/db/user/{($)}'
           }
         ]
-    })
+    }),
+    message: {
+      type: 'string',
+      description: 'A message about the job - what is currently processing, or what happened if the job is completed or failed'
+    }
   }
 })
 
