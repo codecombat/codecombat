@@ -3,6 +3,8 @@ import { mapGetters, mapActions, mapState } from 'vuex'
 import OutcomesReportResultComponent from './OutcomesReportResultComponent'
 import { getOutcomesReportStats } from '../../core/api/outcomes-reports'
 import utils from 'core/utils'
+import { create as createJob, get as getJob } from '../../core/api/background-job'
+const JOB_TYPE = 'outcomes-report'
 
 const orgKinds = {
   'administrative-region': { childKinds: ['school-district'] },
@@ -53,7 +55,10 @@ export default {
       org: null,
       subOrgs: [],
       loading: true,
-      earliestProgressDate: null
+      earliestProgressDate: null,
+      loadingText: null,
+      fetchAttempts: 0,
+      fetchInterval: 2000
     }
     const defaults = parameterDefaults()
     for (const key in defaults) {
@@ -160,6 +165,7 @@ export default {
         return
       }
       this.loading = true
+      this.loadingText = $.i18n.t('common.loading')
       // TODO: update the URL parameters according to this fetch
       // TODO: cache the results in case we query again for the same parameters
       // TODO: if we load again while one load is still in progress, abort the old one
@@ -171,10 +177,18 @@ export default {
 
     // TODO: date range
     async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
-      console.log('gonna load stats for', kind, orgIdOrSlug, country)
-      const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate })
-      console.log(' ...', kind, orgIdOrSlug, country, 'got stats', stats)
+      if (me.isInternal() || this.$route.query['use-long-poll']) {
+        await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate })
+      } else {
+        console.log('gonna load stats for', kind, orgIdOrSlug, country)
+        const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate })
+        console.log(' ...', kind, orgIdOrSlug, country, 'got stats', stats)
 
+        this.setStats({ stats, includeSubOrgs, kind })
+      }
+    },
+
+    setStats ({ stats, includeSubOrgs, kind }) {
       let subOrgs = []
       if (includeSubOrgs) {
         for (const childKind of orgKinds[kind].childKinds) {
@@ -192,6 +206,43 @@ export default {
         orgs[0].subOrgs = this.subOrgs
         this.org = Object.freeze(orgs[0]) // Don't add reactivity
         console.log('   ... got our org', this.org)
+      }
+    },
+
+    async fetchUsingBackgroundJob ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
+      const resp = await createJob(JOB_TYPE, { kind, orgIdOrSlug, includeSubOrgs, country, dateRange: { startDate, endDate } })
+      const jobId = resp?.job
+
+      if (!jobId) {
+        console.log('failed to create job', jobId, resp)
+        this.loadingText = $.i18n.t('loading_error.could_not_load')
+        return
+      }
+      const stats = await this.pollJob(jobId)
+      this.setStats({ stats, includeSubOrgs, kind })
+    },
+
+    async pollJob (jobId) {
+      const sleep = async function (ms) {
+        return new Promise(resolve => setTimeout(resolve, ms))
+      }
+
+      while (true) {
+        this.fetchAttempts++
+        const job = await getJob(jobId)
+        this.loadingText = job?.message || ($.i18n.t('common.loading') + '.'.repeat((this.fetchAttempts % 4) * 2))
+
+        if (job.status === 'completed') {
+          return JSON.parse(job.output)
+        } else if (job.status === 'failed') {
+          this.loadingText = $.i18n.t('loading_error.could_not_load')
+          return
+        } else {
+          if (this.fetchInterval < 5000) {
+            this.fetchInterval += 500 // re-fetch can be slower for every time.
+          }
+          await sleep(this.fetchInterval)
+        }
       }
     },
 
@@ -308,7 +359,7 @@ main#page-outcomes-report
         outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
 
     .loading-indicator(v-if="loading")
-      h1= $t('common.loading')
+      h1 {{ loadingText }}
 
     if org && org.insightsHtml
       .dont-break.block
