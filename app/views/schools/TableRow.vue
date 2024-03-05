@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     splitContent (content) {
-      return content.split('\n')
+      return content.split('[NEWLINE]')
     }
   }
 }

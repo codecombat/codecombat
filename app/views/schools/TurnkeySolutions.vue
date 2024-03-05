@@ -18,7 +18,7 @@
           class="text-wrapper"
         >
           <div
-            v-for="(line, lineIndex) in item.text.split('\n')"
+            v-for="(line, lineIndex) in item.text.split('[NEWLINE]')"
             :key="`line-${lineIndex}`"
           >
             {{ line }}
