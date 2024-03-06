@@ -74,13 +74,14 @@ module.exports = (OptionsView = (function () {
         codeFormatChanged = true
       }
 
-      if (changed) { me.patch() }
-
-      // todo: what if change code-format?
-      if (codeFormatChanged) {
-        document.location.reload()
-      } else if (changed) {
-        Backbone.Mediator.publish('tome:change-language', { language: this.codeLanguage, reload: true })
+      if (changed) {
+        me.patch().then(() => {
+          if (codeFormatChanged) {
+            return document.location.reload()
+          } else {
+            return Backbone.Mediator.publish('tome:change-language', { language: this.codeLanguage, reload: true })
+          }
+        })
       }
     }
 
@@ -158,7 +159,6 @@ module.exports = (OptionsView = (function () {
         noty({ text: `Can't show blocks and code with ${this.codeLanguage}`, layout: 'bottomCenter', type: 'error', killer: false, timeout: 3000 })
         this.$el.find('#option-code-format').val('text-code').change()
       }
-      console.log(this.codeLanguage)
     }
 
     onCodeFormatChanged (e) {
@@ -170,7 +170,6 @@ module.exports = (OptionsView = (function () {
         noty({ text: `Can't show blocks and code with ${this.codeLanguage}`, layout: 'bottomCenter', type: 'error', killer: false, timeout: 3000 })
         this.$el.find('#option-code-language').val('javascript').change()
       }
-      console.log(this.codeFormat)
     }
   }
   OptionsView.initClass()
