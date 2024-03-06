@@ -5349,7 +5349,7 @@ module.exports = {
       comprehensive_implementation: 'Our comprehensive implementation empowers teachers, engages students and delivers successful outcomes.',
       carousel_1_title: 'Computer Science Teachers Association (CSTA)',
       carousel_1_text: 'The **[https://csteachers.org/k12standards/]Computer Science Teachers Association K-12 Computer Science Standards** outline a core set of learning objectives that are designed to provide the foundation for a complete computer science curriculum and its implementation in K-12.[NEWLINE]CodeCombat is recognized by CSTA as an endorsed provider of curriculum and professional development. Learn the skills to effectively teach computer science with our self-directed, CSTA-accredited **[https://www.ozaria.com/professional-development]Professional Development** course. Earn up to 40 credit hours any time, from any device.[NEWLINE]Learn about the detailed CSTA Standards Alignment below:',
-      carousel_1_button_1_text: 'Ozaria',
+      carousel_1_button_1_text: 'CSTA Alignment',
       carousel_1_button_2_text: 'CodeCombat',
       carousel_2_title: 'AP Computer Science Principles (AP CSP)',
       carousel_2_text: 'CodeCombat is recognized by College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). This endorsement affirms that CodeCombat’s curriculum is aligned to all of the AP Curriculum Framework standards and the AP CSP assessment. This affords schools access to resources including an AP CSP syllabus pre-approved by the College Board’s Course Audit, and officially recognized professional development that prepares teachers to teach this curriculum.[NEWLINE]Learn more about our CodeCombat AP CSP curriculum below:',
@@ -5364,7 +5364,7 @@ module.exports = {
       carousel_4_button_2_text: 'CodeCombat',
       carousel_5_title: 'Next Generation Science Standards (NGSS)',
       carousel_5_text: 'The **[https://www.nextgenscience.org/]Next Generation Science Standards (NGSS)** are K–12 science content standards, setting expectations for what students should know and be able to do. These standards were developed by states to improve science education for all students.[NEWLINE]CodeCombat is a perfect curriculum partner for introducing key science and engineering concepts from NGSS.[NEWLINE]Learn about the detailed NGSS Standards Alignment below:',
-      carousel_5_button_1_text: 'Ozaria',
+      carousel_5_button_1_text: 'NGSS Alignment',
       carousel_5_button_2_text: 'CodeCombat'
     }
   }
