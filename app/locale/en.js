@@ -1226,7 +1226,7 @@ module.exports = {
       inventory_caption: 'Equip your hero',
       choose_hero_caption: 'Choose hero, language',
       change_langugae_caption: 'Choose language',
-      change_language_tab: 'Code Language',
+      change_language_tab: 'Language',
       options_caption: 'Configure settings',
       my_code_caption: 'Quick Code Actions',
       guide_caption: 'Docs and tips',
