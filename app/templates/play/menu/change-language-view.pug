@@ -1,12 +1,1 @@
-.form
-  .form-group.select-group.half-width.code-language-form
-    span.help-block(data-i18n="choose_hero.programming_language")
-    select#option-code-language(name="code-language")
-      for option in codeLanguages
-        option(value=option.id, selected=codeLanguage === option.id)= option.name
-  .form-group.select-group.code-format-form(class=me.isStudent() ? '' : 'half-width')
-    span.help-block(data-i18n="choose_hero.code_format")
-    select#option-code-format(name="code-format")
-      for option in codeFormats
-        if !me.isStudent() || ((view.classroomAceConfig ? view.classroomAceConfig.codeFormats : null) || ['text-code']).includes(option.id)
-          option(value=option.id, selected=codeFormat === option.id)= option.name
+#change-language-tab-view
