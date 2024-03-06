@@ -449,7 +449,7 @@ module.exports = (CocoRouter = (function () {
         'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true }),
 
         'teachers' () {
-          if (utils.isCodeCombat && (localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true')) {
+          if (utils.isCodeCombat && !me.isNewDashboardActive()) {
             delete window.alreadyLoadedView
             return this.navigate('/teachers/classes' + document.location.search, { trigger: true, replace: true })
           } else {
@@ -457,7 +457,7 @@ module.exports = (CocoRouter = (function () {
           }
         },
         'teachers/classes' () {
-          if (utils.isCodeCombat && (localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true')) {
+          if (utils.isCodeCombat && !me.isNewDashboardActive()) {
             return this.routeDirectly('courses/TeacherClassesView', [], { redirectStudents: true, teachersOnly: true })
           } else {
             return this.routeDirectly('core/SingletonAppVueComponentView', arguments, { redirectStudents: true, teachersOnly: true })
@@ -467,14 +467,14 @@ module.exports = (CocoRouter = (function () {
         'teachers/assessments/:classroomId': go('core/SingletonAppVueComponentView'),
         'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true }),
         'teachers/classes/:classroomID' () {
-          if (utils.isCodeCombat && (localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true')) {
+          if (utils.isCodeCombat && !me.isNewDashboardActive()) {
             return this.routeDirectly('courses/TeacherClassView', arguments, { redirectStudents: true, teachersOnly: true })
           } else {
             return this.routeDirectly('core/SingletonAppVueComponentView', arguments, { redirectStudents: true, teachersOnly: true })
           }
         },
         'teachers/courses' () {
-          if (utils.isCodeCombat && (localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true')) {
+          if (utils.isCodeCombat && !me.isNewDashboardActive()) {
             return this.routeDirectly('courses/TeacherCoursesView', arguments, { redirectStudents: true })
           } else {
             delete window.alreadyLoadedView

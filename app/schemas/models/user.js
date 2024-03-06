@@ -202,7 +202,7 @@ _.extend(UserSchema.properties, {
       })
     }),
 
-  aceConfig: c.object({ default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true } }, {
+  aceConfig: c.object({ default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true, newDashboard: false } }, {
     language: { type: 'string', enum: ['python', 'javascript', 'coffeescript', 'lua', 'java', 'cpp'] },
     keyBindings: { type: 'string', enum: ['default', 'vim', 'emacs'] }, // Deprecated 2016-05-30; now we just always give them 'default'.
     invisibles: { type: 'boolean' },
@@ -210,7 +210,8 @@ _.extend(UserSchema.properties, {
     behaviors: { type: 'boolean' },
     liveCompletion: { type: 'boolean' },
     screenReaderMode: { type: 'boolean' },
-    codeFormat: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option. Default if unset: text-code.' }
+    codeFormat: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option. Default if unset: text-code.' },
+    newDashboard: { type: 'boolean', description: 'Whether the user has opted into the new dashboard' }
   }),
 
   simulatedBy: { type: 'integer', minimum: 0 },

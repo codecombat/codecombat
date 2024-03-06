@@ -160,6 +160,10 @@ module.exports = (User = (function () {
     isSmokeTestUser () { return User.isSmokeTestUser(this.attributes) }
     isIndividualUser () { return !this.isStudent() && !User.isTeacher(this.attributes) }
 
+    isNewDashboardActive () {
+      return me.get('aceConfig').newDashboard
+    }
+
     isInternal () {
       const email = this.get('email')
       if (!email) { return false }

@@ -7,7 +7,7 @@
     <label
       class="btn btn-primary"
       :disabled="isNewDashboard"
-      @click="setLocalStorage(true)"
+      @click="saveValue(true)"
     >
       <input
         id="option1"
@@ -19,7 +19,7 @@
     <label
       class="btn btn-primary"
       :disabled="isOldDashboard"
-      @click="setLocalStorage(false)"
+      @click="saveValue(false)"
     >
       <input
         id="option2"
@@ -32,15 +32,26 @@
 </template>
 
 <script>
-import utils from 'core/utils'
 export default Vue.extend({
   name: 'DashboardToggle',
+  data () {
+    return {
+      dashboardStatus: me.isNewDashboardActive()
+    }
+  },
   computed: {
     isOldDashboard () {
-      return localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true'
+      return !this.dashboardStatus
     },
     isNewDashboard () {
-      return localStorage.getItem(utils.getNewDashboardToggleKey()) === 'true'
+      return this.dashboardStatus
+    }
+  },
+  watch: {
+    dashboardStatus (newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.dashboardStatus = newValue
+      }
     }
   },
   mounted () {
@@ -51,10 +62,10 @@ export default Vue.extend({
     }
   },
   methods: {
-    setLocalStorage (newValue) {
-      // todo: can we add me.id to key so that for admins it's easier
-      localStorage.setItem(utils.getNewDashboardToggleKey(), newValue ? 'true' : 'false')
-      window.location.reload()
+    async saveValue (newValue) {
+      me.set('aceConfig', { ...me.get('aceConfig'), newDashboard: newValue })
+      await me.save()
+      this.dashboardStatus = me.isNewDashboardActive()
     }
   }
 })
