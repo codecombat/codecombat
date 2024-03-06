@@ -19,6 +19,7 @@ if (utils.isOzaria) {
 } else {
   submenuViews.push(require('views/play/menu/MyCodeView'))
   submenuViews.push(require('views/play/menu/OptionsView'))
+  submenuViews.push(require('views/play/menu/ChangeLanguageView'))
 }
 
 const ModalView = require('views/core/ModalView')
@@ -67,6 +68,10 @@ module.exports = (GameMenuModal = (function () {
         options: 'cog',
         'save-load': 'floppy-disk',
       }
+      if (!this.showsChooseHero() && this.showsChangeLanguage()) {
+        submenus.push('change-language')
+        context.iconMap['change-language'] = 'globe'
+      }
       context.submenus = submenus
       context.isCodeCombat = utils.isCodeCombat
       return context
@@ -78,6 +83,12 @@ module.exports = (GameMenuModal = (function () {
 
     showsChooseHero () {
       return this.level.usesSessionHeroThangType()
+    }
+
+    showsChangeLanguage () {
+      // web-dev change language do nothing
+      // student cannot change language unless they're playing ai-leauge ladder
+      return !this.level.isType('web-dev') && !(me.isStudent() && !this.level.isType('ladder'))
     }
 
     afterRender () {
