@@ -987,7 +987,7 @@ module.exports = (User = (function () {
     }
 
     getHomePageExperimentValue (experimentName) {
-      let value = me.getExperimentValue(experimentName)
+      let value = me.getExperimentValue(experimentName, null)
 
       if ((value == null) && !me.get('anonymous')) {
         // Don't include registered users
