@@ -986,6 +986,27 @@ module.exports = (User = (function () {
       return true
     }
 
+    getHomePageExperimentValue (experimentName) {
+      let value = me.getExperimentValue(experimentName)
+
+      if ((value == null) && !me.get('anonymous')) {
+        // Don't include registered users
+        value = 'control'
+      }
+      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
+        // Don't include non-English-speaking users
+        value = 'control'
+      }
+
+      const oneDayAgo = new Date(new Date() - 24 * 60 * 60 * 1000)
+      if ((value == null) && (new Date(me.get('dateCreated')) < oneDayAgo)) {
+        // don't include users created more than a day before the experiment
+        value = 'control'
+      }
+
+      return value
+    }
+
     getM7ExperimentValue () {
       let left
       let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('m7')]

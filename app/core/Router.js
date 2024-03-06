@@ -36,11 +36,12 @@ const ViewLoadTimer = require('core/ViewLoadTimer')
 const paymentUtils = require('lib/paymentUtils')
 
 const homePageExperiment = function () {
+  const experimentName = 'home-page'
+
   if (!utils.isCodeCombat) {
     return 'control'
   }
-  const experimentName = 'home-page'
-  let value = me.getExperimentValue(experimentName)
+  let value = me.getHomePageExperimentValue(experimentName)
   if (value) {
     return value
   }
