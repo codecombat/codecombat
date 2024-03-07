@@ -1000,7 +1000,7 @@ module.exports = (User = (function () {
 
       const oneDayAgo = new Date(new Date() - 24 * 60 * 60 * 1000)
       if ((value == null) && (new Date(me.get('dateCreated')) < oneDayAgo)) {
-        // don't include users created more than a day before the experiment
+        // Don't include users created more than a day ago; they've probably seen the old homepage before without having started the experiment somehow
         value = 'control'
       }
 
