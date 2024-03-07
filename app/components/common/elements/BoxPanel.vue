@@ -37,6 +37,7 @@
                 :ref="`video-${index}`"
                 class="video-box"
                 :video-id="item.video.videoId"
+                :title="`Video to illustrate ${item.title}`"
                 @loaded="onVideoLoaded(`video-${index}`, item.video.videoId)"
               />
             </div>
@@ -57,7 +58,7 @@
             #button
           >
             <learn-more-button :link="item.link">
-              {{ item.linkText || 'Learn More' }}
+              {{ item.linkText || $t('home_v3.learn_more_text') }}
             </learn-more-button>
           </template>
           <template

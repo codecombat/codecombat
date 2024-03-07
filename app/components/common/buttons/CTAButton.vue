@@ -13,7 +13,7 @@
     </component>
     <p
       v-if="description"
-      class="text-14 description"
+      class="description"
     >
       {{ description }}
     </p>
@@ -55,6 +55,11 @@ export default {
 <style scoped lang="scss">
 @import "app/styles/component_variables.scss";
 
+%text-contrast {
+  // for better lighthouse score (better contrast ratio)
+  text-shadow: -1px 0 darken($purple, 20%), 0 1px darken($purple, 20%), 1px 0 darken($purple, 20%), 0 -1px darken($purple, 20%);
+}
+
 .cta-container {
   display: flex;
   flex-direction: column;
@@ -77,6 +82,7 @@ export default {
     @extend %font-18-24;
     align-items: center;
     background-color: $purple;
+    @extend %text-contrast;
 
     &:hover {
       background-color: $purple-2;
@@ -103,11 +109,12 @@ export default {
 
 .description {
   margin-top: 8px;
-  color: $purple;
+  color: darken($purple, 10%); // darken for better contrast
   text-align: center;
-  @extend %font-14;
+  @extend %font-16;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 32px;
+
 }
 </style>
