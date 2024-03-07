@@ -210,8 +210,7 @@ _.extend(UserSchema.properties, {
     behaviors: { type: 'boolean' },
     liveCompletion: { type: 'boolean' },
     screenReaderMode: { type: 'boolean' },
-    codeFormat: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option. Default if unset: text-code.' },
-    newDashboard: { type: 'boolean', description: 'Whether the user has opted into the new dashboard' }
+    codeFormat: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option. Default if unset: text-code.' }
   }),
 
   simulatedBy: { type: 'integer', minimum: 0 },
@@ -403,6 +402,11 @@ _.extend(UserSchema.properties, {
   seenNewDashboardModal: { type: 'boolean', description: 'Whether the user has seen the new dashboard onboarding modal? Set to true after the modal is seen and closed by the user' }, // Ozaria
   closedNewTDGetStartedTooltip: { type: 'boolean', description: 'Whether the user has closed the get started tooltip in the new dashboard? Set to true once the user has dismissed the tooltip' }, // Ozaria
 
+  dashboardVersion: {
+    type: 'string',
+    enum: ['default', 'old-coco', 'merged'],
+  },
+
   features: {
     type: 'object',
     title: 'Feature Flags',
@@ -418,7 +422,7 @@ _.extend(UserSchema.properties, {
         description: 'Features flags applied to this user',
         // key is the feature id
         additionalProperties: FeatureRecipientSchema
-      }
+      },
     }
   },
 

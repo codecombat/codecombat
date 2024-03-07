@@ -14,6 +14,7 @@
         type="radio"
         name="options"
         autocomplete="off"
+        :checked="isNewDashboard"
       > {{ $t('teacher_dashboard.switch_on') }}
     </label>
     <label
@@ -26,6 +27,7 @@
         type="radio"
         name="options"
         autocomplete="off"
+        :checked="isOldDashboard"
       > {{ $t('teacher_dashboard.switch_off') }}
     </label>
   </div>
@@ -54,16 +56,9 @@ export default Vue.extend({
       }
     }
   },
-  mounted () {
-    if (this.isNewDashboard) {
-      document.getElementById('option1').checked = true
-    } else {
-      document.getElementById('option2').checked = true
-    }
-  },
   methods: {
     async saveValue (newValue) {
-      me.set('aceConfig', { ...me.get('aceConfig'), newDashboard: newValue })
+      me.set('dashboardVersion', newValue ? 'merged' : 'old-coco')
       await me.save()
       this.dashboardStatus = me.isNewDashboardActive()
     }

@@ -161,7 +161,8 @@ module.exports = (User = (function () {
     isIndividualUser () { return !this.isStudent() && !User.isTeacher(this.attributes) }
 
     isNewDashboardActive () {
-      return me.get('aceConfig').newDashboard
+      const version = me.get('dashboardVersion')
+      return version === 'merged'
     }
 
     isInternal () {
