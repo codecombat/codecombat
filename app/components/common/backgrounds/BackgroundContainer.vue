@@ -9,6 +9,14 @@
 
 const TYPES = ['default', 'sides', 'colored', 'top-right', 'bottom']
 
+const TYPE_IMAGES = {
+  default: '/images/components/bg-image.webp',
+  sides: ['/images/components/cubes-left.webp', '/images/components/cubes-right.webp'],
+  colored: null,
+  'top-right': '/images/components/top-right-bg.webp',
+  bottom: null
+}
+
 export default {
   name: 'BackgroundContainer',
   typeOptions: TYPES,
@@ -17,6 +25,28 @@ export default {
       type: String,
       default: 'default',
       allowedValues: TYPES
+    }
+  },
+
+  mounted () {
+    const images = TYPE_IMAGES[this.type]
+    if (images) {
+      if (Array.isArray(images)) {
+        images.forEach(image => this.preloadImage(image))
+      } else {
+        this.preloadImage(images)
+      }
+    }
+  },
+  methods: {
+    // For better LCP
+    // I'm not sure if this is really effective, but at least it's something...
+    preloadImage (image) {
+      const link = document.createElement('link')
+      link.rel = 'preload'
+      link.href = image
+      link.as = 'image'
+      document.head.appendChild(link)
     }
   }
 }
@@ -54,9 +84,10 @@ export default {
   }
 
   &__overlap-default {
+    background-color: #F9F9FF;
     background-image: url('/images/components/bg-image.webp');
     background-position: center;
-    background-repeat: repeat-x;
+    background-repeat: no-repeat;
     width: 100%;
     position: absolute;
     top: 20px;

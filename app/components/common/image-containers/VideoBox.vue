@@ -3,11 +3,12 @@
     ref="video"
     :video-cloudflare-id="videoId"
     :sound-on="false"
-    preload="auto"
+    preload="none"
     :loop="true"
     :autoplay="true"
     :controls="false"
     :play-when-visible="true"
+    :title="title"
     @loaded="onVideoLoaded"
   />
 </template>
@@ -24,13 +25,18 @@ export default {
     videoId: {
       type: String,
       required: true
+    },
+    title: {
+      type: String,
+      default: 'Your descriptive text here',
+      required: false
     }
   },
   methods: {
     onVideoLoaded () {
       this.$emit('loaded')
     }
-  }
+  },
 }
 </script>
 
