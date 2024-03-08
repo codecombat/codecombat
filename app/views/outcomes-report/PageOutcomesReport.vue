@@ -58,7 +58,9 @@ export default {
       earliestProgressDate: null,
       loadingText: null,
       fetchAttempts: 0,
-      fetchInterval: 2000
+      fetchInterval: 2000,
+      includeOther: false,
+      showLicense: true
     }
     const defaults = parameterDefaults()
     for (const key in defaults) {
@@ -201,9 +203,12 @@ export default {
       }
       this.subOrgs = Object.freeze(subOrgs) // Don't add reactivity
 
-      const orgs = stats[kind + 's']
+      const licenses = stats.current.licenses
+
+      const orgs = stats.current[kind + 's']
       if (orgs) {
         orgs[0].subOrgs = this.subOrgs
+        orgs[0].newLicenses = licenses
         this.org = Object.freeze(orgs[0]) // Don't add reactivity
         console.log('   ... got our org', this.org)
       }
@@ -219,6 +224,7 @@ export default {
         return
       }
       const stats = await this.pollJob(jobId)
+      console.log('what?', stats)
       this.setStats({ stats, includeSubOrgs, kind })
     },
 
@@ -354,7 +360,7 @@ main#page-outcomes-report
           label.edit-label.editing-only(v-if="editing" for="startDate") &nbsp; (edit)
 
     .org-results(v-if="org && !loading")
-      outcomes-report-result-component(:org="org" v-bind:editing="editing")
+      outcomes-report-result-component(:org="org" v-bind:editing="editing" :showLicense="showLicense")
       if includeSubOrgs
         outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
 
@@ -417,6 +423,16 @@ main#page-outcomes-report
           span  #{$t("outcomes.max")}#{kindString({kind: childKind}).toLowerCase()}#{$t('outcomes.multiple')}
         .col-xs-7
           input#subOrgLimit.form-control(type="number" v-model.number="subOrgLimit" name="subOrgLimit" min="1" step="1")
+      .form-group
+        label.control-label.col-xs-5(for="showLicense")
+          span= $t('outcomes.show_license_stats')
+        .col-xs-7
+          input#showLicense.form-control(type="checkbox" v-model="showLicense" name="showLicnese")
+      .form-group
+        label.control-label.col-xs-5(for="includeOtherProduct")
+          span= $t('outcomes.include_other_product', { product: this.otherProduct })
+        .col-xs-7
+          input#includeOtherProduct.form-control(type="checkbox" v-model="includeOther" name="includeOtherProduct")
     .clearfix
 </template>
 

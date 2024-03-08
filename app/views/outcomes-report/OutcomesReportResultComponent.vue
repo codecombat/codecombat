@@ -20,6 +20,10 @@ export default Vue.extend({
     parentOrgKind: {
       type: String,
       default: null
+    },
+    showLicense: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -77,6 +81,18 @@ export default Vue.extend({
         otherLanguagesCumulativePercentage += stats.percentage
       }
       return languageStats
+    },
+
+    licenses () {
+      return this.org.newLicenses || []
+    },
+
+    totalLicense () {
+      return this.licenses.reduce((acc, license) => {
+        acc.used += license.used
+        acc.count += license.count
+        return acc
+      }, { used: 0, count: 0 })
     },
 
     coursesWithProgress () {
@@ -158,6 +174,15 @@ export default Vue.extend({
     phoneString (phone) {
       if (!/[0-9]{10}/.test(phone)) return phone
       return `(${phone.slice(0, 3)}) ${phone.slice(3, 6)}-${phone.slice(6, 10)}`
+    },
+
+    formatLicenseName (license) {
+      if (license._id === null) {
+        return $.i18n.t('teacher.full_license')
+      }
+      const ids = license._id.split('-').slice(1) // first is ''
+
+      return $.i18n.t('teacher.customized_license') + ': ' + ids.map(id => utils.courseAcronyms[id]).join('+')
     },
 
     formatNumber (num) {
@@ -263,6 +288,18 @@ export default Vue.extend({
         span= $t('nav.admin') + ': '
         a(:href="'/outcomes-report/school-admin/' + org['school-admin']._id" target="_blank")
           b= org['school-admin'].displayName
+
+  .block(v-if="showLicense")
+    h1= $t('outcomes.license_stats')
+    for license in licenses
+      .license
+        h3= formatLicenseName(license)
+        span= "Used: " + license.used
+        span= "All: " + license.count
+    .license
+      h3 Total
+      span= "Used: " + totalLicense.used
+      span= "All: " + totalLicense.count
 
   .block(v-if="included && coursesLoaded && coursesWithProgress[0] && (coursesWithProgress[0].completion !== null || coursesWithProgress[0].studentsStarting > 1)" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
     h1= $t('teacher.course_progress')
@@ -432,6 +469,21 @@ export default Vue.extend({
   }
   label.edit-label {
     float: right;
+  }
+  .license {
+    display: flex;
+
+    h3 {
+      flex-basis: 50%;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      font-size: 14pt;
+    }
+
+    span {
+      flex-basis: 20%;
+      text-align: right;
+    }
   }
   .course {
     // TODO: tighten up styles so that most common case (1 course, multiple code languages) can fit on one page
