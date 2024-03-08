@@ -1050,14 +1050,19 @@ var i18n = function (say, target, language, fallback) {
   if (matches) { generalName = matches[0] }
 
   // Lets us safely attempt to translate undefined objects
-  if (!(say != null ? say.i18n : undefined)) { return (say != null ? say[target] : undefined) }
+  if (!say?.i18n) { return say?.[target] }
 
   for (const localeName in say.i18n) {
     var result
     const locale = say.i18n[localeName]
     if (localeName === '-') { continue }
     if (target in locale) {
-      result = locale[target]
+      // fallback with english keys in case the i18n doesn't contains every key
+      if (typeof locale[target] === 'object') {
+        result = Object.assign(say?.[target] || {}, locale[target])
+      } else {
+        result = locale[target] || say?.[target]
+      }
     } else { continue }
     if (localeName === language) { return result }
     if (localeName === generalName) { generalResult = result }

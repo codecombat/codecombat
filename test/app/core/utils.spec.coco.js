@@ -422,16 +422,16 @@ describe('Utility library', function () {
 
     it('i18n should find a valid target string', function () {
       expect(utils.i18n(this.fixture1, 'text', 'sv')).toEqual(this.fixture1.i18n.sv.text)
-      return expect(utils.i18n(this.fixture1, 'text', 'es-ES')).toEqual(this.fixture1.i18n['es-ES'].text)
+      expect(utils.i18n(this.fixture1, 'text', 'es-ES')).toEqual(this.fixture1.i18n['es-ES'].text)
     })
 
     it('i18n picks the correct fallback for a specific language', function () {
-      return expect(utils.i18n(this.fixture1, 'text', 'fr-be')).toEqual(this.fixture1.i18n.fr.text)
+      expect(utils.i18n(this.fixture1, 'text', 'fr-be')).toEqual(this.fixture1.i18n.fr.text)
     })
 
     it('i18n picks the correct fallback', function () {
       expect(utils.i18n(this.fixture1, 'text', 'nl')).toEqual(this.fixture1.i18n.en.text)
-      return expect(utils.i18n(this.fixture1, 'text', 'nl', 'de')).toEqual(this.fixture1.i18n.de.text)
+      expect(utils.i18n(this.fixture1, 'text', 'nl', 'de')).toEqual(this.fixture1.i18n.de.text)
     })
 
     it('i18n falls back to the default text, even for other targets (like blurb)', function () {
@@ -439,11 +439,11 @@ describe('Utility library', function () {
       expect(utils.i18n(this.fixture1, 'text', 'en')).toEqual(this.fixture1.text)
       expect(utils.i18n(this.fixture1, 'blurb', 'en')).toEqual(this.fixture1.blurb)
       delete this.fixture1.blurb
-      return expect(utils.i18n(this.fixture1, 'blurb', 'en')).toEqual(null)
+      expect(utils.i18n(this.fixture1, 'blurb', 'en')).toEqual(null)
     })
 
     return it('i18n can fall forward if a general language is not found', function () {
-      return expect(utils.i18n(this.fixture1, 'text', 'pt')).toEqual(this.fixture1.i18n['pt-BR'].text)
+      expect(utils.i18n(this.fixture1, 'text', 'pt')).toEqual(this.fixture1.i18n['pt-BR'].text)
     })
   })
 
