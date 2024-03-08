@@ -23,7 +23,8 @@ const parameterDefaults = () => ({
   subOrgLimit: 10, // TODO: different default limits for students vs. other types? Max value from number of sub orgs this org has?
   startDate: null,
   endDate: moment(new Date()).format('YYYY-MM-DD'),
-  editing: me.isAdmin()
+  editing: me.isAdmin(),
+  includeOther: false,
 })
 
 export default {
@@ -58,7 +59,8 @@ export default {
       earliestProgressDate: null,
       loadingText: null,
       fetchAttempts: 0,
-      fetchInterval: 2000
+      fetchInterval: 2000,
+      includeOther: false
     }
     const defaults = parameterDefaults()
     for (const key in defaults) {
@@ -111,6 +113,11 @@ export default {
     },
     editing (newVal, lastVal) {
       if (newVal !== lastVal) { // TODO: is this diff check needed?
+        this.addParametersToLocation()
+      }
+    },
+    includeOther (newVal, lastVal) {
+      if (newVal !== lastVal) {
         this.addParametersToLocation()
       }
     }
@@ -177,8 +184,11 @@ export default {
 
     // TODO: date range
     async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
-      if (me.isInternal() || this.$route.query['use-long-poll']) {
+      if (me.isInternal() || me.isAdmin() || this.$route.query['use-long-poll']) {
         await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate })
+        if (this.includeOther) {
+          await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }, true)
+        }
       } else {
         console.log('gonna load stats for', kind, orgIdOrSlug, country)
         const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate })
@@ -192,7 +202,7 @@ export default {
       let subOrgs = []
       if (includeSubOrgs) {
         for (const childKind of orgKinds[kind].childKinds) {
-          subOrgs = subOrgs.concat(stats[childKind + 's'] || [])
+          subOrgs = subOrgs.concat(stats.current[childKind + 's'] || [])
         }
         for (const [index, subOrg] of subOrgs.entries()) {
           subOrg.initiallyIncluded = Boolean(!subOrg.archived && index < this.subOrgLimit && subOrg.progress && subOrg.progress.programs && (subOrgs.length > 1 || this.subOrgLimit === 1))
@@ -201,7 +211,7 @@ export default {
       }
       this.subOrgs = Object.freeze(subOrgs) // Don't add reactivity
 
-      const orgs = stats[kind + 's']
+      const orgs = stats.current[kind + 's']
       if (orgs) {
         orgs[0].subOrgs = this.subOrgs
         this.org = Object.freeze(orgs[0]) // Don't add reactivity
@@ -209,8 +219,9 @@ export default {
       }
     },
 
-    async fetchUsingBackgroundJob ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
-      const resp = await createJob(JOB_TYPE, { kind, orgIdOrSlug, includeSubOrgs, country, dateRange: { startDate, endDate } })
+    async fetchUsingBackgroundJob ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }, includeOther = false) {
+      const otherProduct = includeOther ? this.otherProduct : undefined
+      const resp = await createJob(JOB_TYPE, { kind, orgIdOrSlug, includeSubOrgs, country, dateRange: { startDate, endDate } }, otherProduct)
       const jobId = resp?.job
 
       if (!jobId) {
@@ -229,7 +240,26 @@ export default {
 
       while (true) {
         this.fetchAttempts++
-        const job = await getJob(jobId)
+        let job
+        if (this.includeOther) {
+          job = await Promise.all([getJob(jobId), getJob(jobId, {}, this.otherProduct)]).then(([job1, job2]) => {
+            // todo: check this job
+            if (job1.status === 'failed' || job2.status === 'failed') {
+              return { status: 'failed' }
+            } else if (job1.status === 'completed' && job2.status === 'completed') {
+              return {
+                status: 'completed',
+                output: `{ "current": ${job1.output}, "other": ${job2.output} }`
+              }
+            }
+            return { status: 'pending' }
+          })
+        } else {
+          job = await getJob(jobId)
+          if (job.output) {
+            job.output = `{ "current": ${job.output} }`
+          }
+        }
         this.loadingText = job?.message || ($.i18n.t('common.loading') + '.'.repeat((this.fetchAttempts % 4) * 2))
 
         if (job.status === 'completed') {
@@ -287,6 +317,9 @@ export default {
 
     isCodeCombat () {
       return utils.isCodeCombat
+    },
+    otherProduct () {
+      return utils.isCodeCombat ? 'ozaria' : 'codecombat'
     },
     courseById () {
       return (courseId) => this.$store.state.courses.byId[courseId]
@@ -417,6 +450,11 @@ main#page-outcomes-report
           span  #{$t("outcomes.max")}#{kindString({kind: childKind}).toLowerCase()}#{$t('outcomes.multiple')}
         .col-xs-7
           input#subOrgLimit.form-control(type="number" v-model.number="subOrgLimit" name="subOrgLimit" min="1" step="1")
+      .form-group
+        label.control-label.col-xs-5(for="includeOtherProduct")
+          span= $t('outcomes.include_other_product', { product: this.otherProduct })
+        .col-xs-7
+          input#includeOtherProduct.form-control(type="checkbox" v-model="includeOther" name="includeOtherProduct")
     .clearfix
 </template>
 
