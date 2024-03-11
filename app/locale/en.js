@@ -5184,7 +5184,9 @@ module.exports = {
       solutions_8_title: 'Library Solutions',
       solutions_8_text: 'As an entirely self-paced and self-directed digital resource, CodeCombat is the best integration for libraries that want to empower their members of all ages to learn how to code. Our platform offers everything learners need to experience a high-level coding education through a uniquely exciting, game-based curriculum. Perfect for beginners all the way up to those who want to master college-level coding concepts.',
       learn_more_text: 'Discover More',
-      best_homeschool_curriculum: 'Best Homeschool[NEWLINE]Curriculum'
+      best_homeschool_curriculum: 'Best Homeschool[NEWLINE]Curriculum',
+      sign_up_free: 'Sign Up Free',
+      learn_more_text_apcsp: 'Try it now'
     },
     schools_page: {
       most_effective_computer_science_solution: 'The most effective computer science solution for **schools**',
@@ -5341,6 +5343,9 @@ module.exports = {
       trends_2_linkText: 'Listen to the Podcast',
       learn_more_text: 'Discover More',
       your_turnkey_solutions: 'Your Turnkey Solutions',
+      free_teacher_account: 'Free Teacher Account',
+      trial_the_curriculum: 'Trial the curriculum with your students today!',
+      try_it_free: 'Try It Free',
     },
     standards_page: {
       standards_aligned_curriculum: '**Standards Aligned Curriculum**',

@@ -84,6 +84,20 @@
       <tools-list />
     </div>
 
+    <div
+      class="container"
+    >
+      <div class="row">
+        <div class="col-md-12">
+          <CTAButton
+            class="signup-button"
+          >
+            {{ $t('home_v3.sign_up_free') }}
+          </CTAButton>
+        </div>
+      </div>
+    </div>
+
     <box-panel
       :title="$t('home_v3.engaging_play_experiences')"
       :items="engagingBoxes"
@@ -106,6 +120,20 @@
         </div>
       </div>
     </background-container>
+
+    <div
+      class="container"
+    >
+      <div class="row">
+        <div class="col-md-12">
+          <CTAButton
+            class="signup-button"
+          >
+            {{ $t('schools_page.try_it_free') }}
+          </CTAButton>
+        </div>
+      </div>
+    </div>
 
     <box-panel
       :title="$t('home_v3.your_turnkey_solutions')"
