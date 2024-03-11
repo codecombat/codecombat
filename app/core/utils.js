@@ -1058,11 +1058,7 @@ var i18n = function (say, target, language, fallback) {
     if (localeName === '-') { continue }
     if (target in locale) {
       // fallback with english keys in case the i18n doesn't contains every key
-      if (typeof locale[target] === 'object') {
-        result = Object.assign(say?.[target] || {}, locale[target])
-      } else {
-        result = locale[target] || say?.[target]
-      }
+      result = Object.assign(say?.[target] || {}, locale[target])
     } else { continue }
     if (localeName === language) { return result }
     if (localeName === generalName) { generalResult = result }
