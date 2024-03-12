@@ -4445,7 +4445,7 @@ module.exports = {
       include_other_product: 'include __product__',
       show_license_stats: 'Show Detail License Stats',
       license_stats: 'License Stats',
-      license_template: 'Licenses: __used__ used, __avaliable__ available'
+      license_template: 'Licenses: __used__ used, __available__ available'
     },
 
     efficacy: {

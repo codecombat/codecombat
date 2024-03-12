@@ -295,7 +295,7 @@ export default Vue.extend({
           b= org['school-admin'].displayName
 
       .license-summary(v-if="showLicenseSummary")
-        span=$t('outcomes.license_template', { used: totalLicense.used, avaliable: totalLicense.count - totalLicense.used })
+        span=$t('outcomes.license_template', { used: totalLicense.used, available: totalLicense.count })
 
   .block(v-if="showLicense")
     h1= $t('outcomes.license_stats')
@@ -303,7 +303,7 @@ export default Vue.extend({
       .license
         h3= formatLicenseName(license)
         span= "Used: " + license.used
-        span= "Available: " + (license.count - license.used)
+        span= "Available: " + license.count
 
   .block(v-if="included && coursesLoaded && coursesWithProgress[0] && (coursesWithProgress[0].completion !== null || coursesWithProgress[0].studentsStarting > 1)" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
     h1= $t('teacher.course_progress')
