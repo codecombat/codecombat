@@ -350,6 +350,7 @@ module.exports = (PlayHeroesModal = (function () {
     saveAndHide () {
       this.codeLanguage = this.changeLanguageView.codeLanguage
       this.codeFormat = this.changeLanguageView.codeFormat
+      this.subscriberCodeLanguageList = this.changeLanguageView.subscriberCodeLanguageList
       let changed
       if (!me.hasSubscription() && this.subscriberCodeLanguageList.find(l => l.id === this.codeLanguage) && !me.isStudent()) {
         this.openModalView(new SubscribeModal())
