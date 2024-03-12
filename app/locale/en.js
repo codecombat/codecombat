@@ -5190,7 +5190,7 @@ module.exports = {
       learn_more_text: 'Discover More',
       best_homeschool_curriculum: 'Best Homeschool[NEWLINE]Curriculum',
       sign_up_free: 'Sign Up Free',
-      learn_more_text_apcsp: 'Try it now'
+      try_it_now: 'Try it now'
     },
     schools_page: {
       most_effective_computer_science_solution: 'The most effective computer science solution for **schools**',
