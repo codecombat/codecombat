@@ -58,7 +58,9 @@ export default {
       earliestProgressDate: null,
       loadingText: null,
       fetchAttempts: 0,
-      fetchInterval: 2000
+      fetchInterval: 2000,
+      includeOther: false,
+      showLicense: false
     }
     const defaults = parameterDefaults()
     for (const key in defaults) {
@@ -177,18 +179,19 @@ export default {
 
     // TODO: date range
     async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
-      if (me.isInternal() || this.$route.query['use-long-poll']) {
-        await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate })
-      } else {
+      let stats
+      if (this.$route.query['use-old-method']) {
         console.log('gonna load stats for', kind, orgIdOrSlug, country)
         const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate })
-        console.log(' ...', kind, orgIdOrSlug, country, 'got stats', stats)
-
-        this.setStats({ stats, includeSubOrgs, kind })
+        console.log('outcome-reports', kind, orgIdOrSlug, country, 'got stats', stats)
+      } else {
+        stats = await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate })
       }
+      this.setStats({ stats, includeSubOrgs, kind })
     },
 
     setStats ({ stats, includeSubOrgs, kind }) {
+      if (!stats) return
       let subOrgs = []
       if (includeSubOrgs) {
         for (const childKind of orgKinds[kind].childKinds) {
@@ -201,9 +204,12 @@ export default {
       }
       this.subOrgs = Object.freeze(subOrgs) // Don't add reactivity
 
+      const licenses = stats.licenses
+
       const orgs = stats[kind + 's']
       if (orgs) {
         orgs[0].subOrgs = this.subOrgs
+        orgs[0].newLicenses = licenses
         this.org = Object.freeze(orgs[0]) // Don't add reactivity
         console.log('   ... got our org', this.org)
       }
@@ -219,7 +225,7 @@ export default {
         return
       }
       const stats = await this.pollJob(jobId)
-      this.setStats({ stats, includeSubOrgs, kind })
+      return stats
     },
 
     async pollJob (jobId) {
@@ -234,7 +240,7 @@ export default {
 
         if (job.status === 'completed') {
           return JSON.parse(job.output)
-        } else if (job.status === 'failed') {
+        } else if (job.status === 'failed' || this.fetchAttempts > 50) {
           this.loadingText = $.i18n.t('loading_error.could_not_load')
           return
         } else {
@@ -354,7 +360,7 @@ main#page-outcomes-report
           label.edit-label.editing-only(v-if="editing" for="startDate") &nbsp; (edit)
 
     .org-results(v-if="org && !loading")
-      outcomes-report-result-component(:org="org" v-bind:editing="editing")
+      outcomes-report-result-component(:org="org" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="kind !== 'student'")
       if includeSubOrgs
         outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
 
@@ -417,6 +423,11 @@ main#page-outcomes-report
           span  #{$t("outcomes.max")}#{kindString({kind: childKind}).toLowerCase()}#{$t('outcomes.multiple')}
         .col-xs-7
           input#subOrgLimit.form-control(type="number" v-model.number="subOrgLimit" name="subOrgLimit" min="1" step="1")
+      .form-group(v-if="kind !== 'student'")
+        label.control-label.col-xs-5(for="showLicense")
+          span= $t('outcomes.show_license_stats')
+        .col-xs-7
+          input#showLicense.form-control(type="checkbox" v-model="showLicense" name="showLicnese")
     .clearfix
 </template>
 

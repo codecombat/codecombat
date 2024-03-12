@@ -986,6 +986,47 @@ module.exports = (User = (function () {
       return true
     }
 
+    getHomePageExperimentValue () {
+      const experimentName = 'home-page-filtered'
+      let value = me.getExperimentValue(experimentName, null)
+
+      if (value === null && !utils.isCodeCombat) {
+        // Don't include non-CodeCombat users
+        return 'control'
+      }
+
+      if ((value == null) && !me.get('anonymous')) {
+        // Don't include registered users
+        value = 'control'
+      }
+      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
+        // Don't include non-English-speaking users
+        value = 'control'
+      }
+
+      const oneDayAgo = new Date(new Date() - 24 * 60 * 60 * 1000)
+      if ((value == null) && (new Date(me.get('dateCreated')) < oneDayAgo)) {
+        // Don't include users created more than a day ago; they've probably seen the old homepage before without having started the experiment somehow
+        value = 'control'
+      }
+
+      if (value === null) {
+        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.2
+        let valueProbability
+        const rand = Math.random()
+        if (rand < probability) {
+          value = 'beta'
+          valueProbability = probability
+        } else {
+          value = 'control'
+          valueProbability = 1 - probability
+        }
+        me.startExperiment(experimentName, value, valueProbability)
+      }
+
+      return value
+    }
+
     getM7ExperimentValue () {
       let left
       let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('m7')]

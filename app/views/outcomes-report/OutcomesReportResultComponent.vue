@@ -20,6 +20,14 @@ export default Vue.extend({
     parentOrgKind: {
       type: String,
       default: null
+    },
+    showLicense: {
+      type: Boolean,
+      default: false
+    },
+    showLicenseSummary: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -77,6 +85,18 @@ export default Vue.extend({
         otherLanguagesCumulativePercentage += stats.percentage
       }
       return languageStats
+    },
+
+    licenses () {
+      return this.org.newLicenses || []
+    },
+
+    totalLicense () {
+      return this.licenses.reduce((acc, license) => {
+        acc.used += license.used
+        acc.count += license.count
+        return acc
+      }, { used: 0, count: 0 })
     },
 
     coursesWithProgress () {
@@ -160,6 +180,15 @@ export default Vue.extend({
       return `(${phone.slice(0, 3)}) ${phone.slice(3, 6)}-${phone.slice(6, 10)}`
     },
 
+    formatLicenseName (license) {
+      if (license._id === null) {
+        return $.i18n.t('teacher.full_license')
+      }
+      const ids = license._id.split('-').slice(1) // first is ''
+
+      return $.i18n.t('teacher.customized_license') + ': ' + ids.map(id => utils.courseAcronyms[id]).join('+')
+    },
+
     formatNumber (num) {
       if (num < 10000) return num.toLocaleString()
       if (num < 999500) return Math.round(num / 1000) + 'K'
@@ -198,6 +227,7 @@ export default Vue.extend({
         span  (#{org.email})
       if org.kind == 'student' && org.displayName && org.name && (org.name.replace(/\W/g, '').toLowerCase() != org.displayName.replace(/\W/g, '').toLowerCase())
         span  (#{org.name})
+
       if codeLanguageString
         span  (#{codeLanguageString})
       if !included && org.progress && org.progress.studentsWithCode && org.kind != 'student'
@@ -263,6 +293,17 @@ export default Vue.extend({
         span= $t('nav.admin') + ': '
         a(:href="'/outcomes-report/school-admin/' + org['school-admin']._id" target="_blank")
           b= org['school-admin'].displayName
+
+      .license-summary(v-if="showLicenseSummary && totalLicense.count > 0")
+        span=$t('outcomes.license_template', { used: totalLicense.used, available: totalLicense.count })
+
+  .block(v-if="showLicense")
+    h1= $t('outcomes.license_stats')
+    for license in licenses
+      .license
+        h3= formatLicenseName(license)
+        span= "Used: " + license.used
+        span= "Available: " + license.count
 
   .block(v-if="included && coursesLoaded && coursesWithProgress[0] && (coursesWithProgress[0].completion !== null || coursesWithProgress[0].studentsStarting > 1)" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
     h1= $t('teacher.course_progress')
@@ -432,6 +473,21 @@ export default Vue.extend({
   }
   label.edit-label {
     float: right;
+  }
+  .license {
+    display: flex;
+
+    h3 {
+      flex-basis: 50%;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      font-size: 14pt;
+    }
+
+    span {
+      flex-basis: 20%;
+      text-align: right;
+    }
   }
   .course {
     // TODO: tighten up styles so that most common case (1 course, multiple code languages) can fit on one page
