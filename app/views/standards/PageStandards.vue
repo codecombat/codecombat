@@ -111,11 +111,7 @@ export default Vue.extend({
           buttons: [
             {
               text: this.$t('standards_page.carousel_1_button_1_text'),
-              link: 'https://docs.google.com/spreadsheets/d/1S7qS2zxVccBMVNUQ0Duh6ugyQfhqopGKaSXyhCf-5UA/edit?usp=sharing'
-            },
-            {
-              text: this.$t('standards_page.carousel_1_button_2_text'),
-              link: 'https://docs.google.com/spreadsheets/d/1C47-_ft41byNN-b88RXS05xLbYH_jk6Vqk4U_TQouPU/edit#gid=0'
+              link: 'https://docs.google.com/spreadsheets/d/1DwNbbAToGjitTHU4HgiKRZYtSw5Ml7rb1OcTCA22DjM/edit#gid=0'
             }
           ]
         },
@@ -155,7 +151,7 @@ export default Vue.extend({
             },
             {
               text: this.$t('standards_page.carousel_4_button_2_text'),
-              link: 'https://codecombat.com'
+              link: 'https://docs.google.com/document/d/1kyNxixvoJRTgOgIArLNqGa2rYC8u0o1sFWgqchJ2A34/edit?usp=sharing'
             }
           ]
         },
@@ -166,11 +162,7 @@ export default Vue.extend({
           buttons: [
             {
               text: this.$t('standards_page.carousel_5_button_1_text'),
-              link: 'https://docs.google.com/document/d/16r0-e-dOBBqHukXM7ITaiNCDiW0l8IRCPvRCqK-dAOM/edit?usp=sharing'
-            },
-            {
-              text: this.$t('standards_page.carousel_5_button_2_text'),
-              link: 'https://codecombat.com'
+              link: 'https://docs.google.com/spreadsheets/d/1uWrRNKfPYdZ9g4GCePEw142khZgv9t5nB-X7nIytSOU/edit?usp=sharing'
             }
           ]
         }
