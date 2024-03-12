@@ -179,7 +179,7 @@ export default {
 
     // TODO: date range
     async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
-      if (me.isInternal() || this.$route.query['use-long-poll']) {
+      if (this.$route.query['use-old-method']) {
         await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate })
       } else {
         console.log('gonna load stats for', kind, orgIdOrSlug, country)
@@ -240,7 +240,7 @@ export default {
 
         if (job.status === 'completed') {
           return JSON.parse(job.output)
-        } else if (job.status === 'failed') {
+        } else if (job.status === 'failed' || this.fetchAttempts > 50) {
           this.loadingText = $.i18n.t('loading_error.could_not_load')
           return
         } else {
