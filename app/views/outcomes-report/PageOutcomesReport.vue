@@ -179,18 +179,19 @@ export default {
 
     // TODO: date range
     async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
+      let stats
       if (this.$route.query['use-old-method']) {
-        await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate })
-      } else {
         console.log('gonna load stats for', kind, orgIdOrSlug, country)
         const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate })
-        console.log(' ...', kind, orgIdOrSlug, country, 'got stats', stats)
-
-        this.setStats({ stats, includeSubOrgs, kind })
+        console.log('outcome-reports', kind, orgIdOrSlug, country, 'got stats', stats)
+      } else {
+        stats = await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate })
       }
+      this.setStats({ stats, includeSubOrgs, kind })
     },
 
     setStats ({ stats, includeSubOrgs, kind }) {
+      if (!stats) return
       let subOrgs = []
       if (includeSubOrgs) {
         for (const childKind of orgKinds[kind].childKinds) {
@@ -224,8 +225,7 @@ export default {
         return
       }
       const stats = await this.pollJob(jobId)
-      console.log('what?', stats)
-      this.setStats({ stats, includeSubOrgs, kind })
+      return stats
     },
 
     async pollJob (jobId) {
