@@ -216,9 +216,8 @@ module.exports = (HeroVictoryModal = (function () {
       let achievement
       const c = super.getRenderData()
       c.levelName = utils.i18n(this.level.attributes, 'name')
-      if (this.level.isType('hero', 'game-dev', 'web-dev')) {
-        let left
-        c.victoryText = utils.i18n((left = this.level.get('victory')) != null ? left : {}, 'body')
+      if (this.level.isType('hero', 'game-dev', 'web-dev') && this.level.get('product', true) !== 'codecombat-junior') {
+        c.victoryText = utils.i18n(this.level.get('victory') || {}, 'body')
       }
       const earnedAchievementMap = _.indexBy(this.newEarnedAchievements || [], ea => ea.get('achievement'))
       for (achievement of Array.from(((this.achievements != null ? this.achievements.models : undefined) || []))) {
@@ -308,8 +307,7 @@ module.exports = (HeroVictoryModal = (function () {
         this.showShareGameWithTeacher = /game-dev/.test(hocCampaignSlug) && lastLevel
       }
 
-      c.showLeaderboard = (__guard__(this.level.get('scoreTypes'), x1 => x1.length) > 0) && !this.level.isType('course') && !this.showAmazonHocButton && !this.showHoc2016ExploreButton
-
+      c.showLeaderboard = (this.level.get('scoreTypes') || []).length > 0 && !this.level.isType('course') && !this.showAmazonHocButton && !this.showHoc2016ExploreButton && this.level.get('product', true) !== 'codecombat-junior'
       c.showReturnToCourse = !c.showLeaderboard && !me.get('anonymous') && this.level.isType('course', 'course-ladder')
       c.isCourseLevel = this.level.isType('course')
       c.currentCourseName = this.course != null ? this.course.get('name') : undefined
@@ -478,8 +476,15 @@ module.exports = (HeroVictoryModal = (function () {
       const totalXPNeeded = nextLevelXP - currentLevelXP
       let alreadyAchievedPercentage = (100 * (previousXP - currentLevelXP)) / totalXPNeeded
       if (alreadyAchievedPercentage < 0) { alreadyAchievedPercentage = 0 } // In case of level up
-
+      let newlyAchievedPercentage
+      if (leveledUp) {
+        newlyAchievedPercentage = 100 * (currentXP - currentLevelXP) / totalXPNeeded
+      } else {
+        newlyAchievedPercentage = 100 * achievedXP / totalXPNeeded
+      }
       const xpEl = $('#xp-wrapper')
+      xpEl.find('.xp-bar-already-achieved').css('width', alreadyAchievedPercentage + '%')
+      xpEl.find('.xp-bar-total').css('width', (alreadyAchievedPercentage + newlyAchievedPercentage) + '%')
       const levelLabel = xpEl.find('.level')
       utils.replaceText(levelLabel, currentLevel)
 
