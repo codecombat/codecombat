@@ -294,7 +294,7 @@ export default Vue.extend({
         a(:href="'/outcomes-report/school-admin/' + org['school-admin']._id" target="_blank")
           b= org['school-admin'].displayName
 
-      .license-summary(v-if="showLicenseSummary")
+      .license-summary(v-if="showLicenseSummary && totalLicense.count > 0")
         span=$t('outcomes.license_template', { used: totalLicense.used, available: totalLicense.count })
 
   .block(v-if="showLicense")
