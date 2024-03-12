@@ -4443,8 +4443,9 @@ module.exports = {
       reach_out_manager: 'Reach out to your Account Manager __name__ at ',
       stats_include: 'stats include __number__ other __name__',
       include_other_product: 'include __product__',
-      show_license_stats: 'Show License Stats',
+      show_license_stats: 'Show Detail License Stats',
       license_stats: 'License Stats',
+      license_template: 'Licenses: __used__ used, __avaliable__ available'
     },
 
     efficacy: {

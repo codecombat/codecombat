@@ -24,6 +24,10 @@ export default Vue.extend({
     showLicense: {
       type: Boolean,
       default: false
+    },
+    showLicenseSummary: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -223,6 +227,7 @@ export default Vue.extend({
         span  (#{org.email})
       if org.kind == 'student' && org.displayName && org.name && (org.name.replace(/\W/g, '').toLowerCase() != org.displayName.replace(/\W/g, '').toLowerCase())
         span  (#{org.name})
+
       if codeLanguageString
         span  (#{codeLanguageString})
       if !included && org.progress && org.progress.studentsWithCode && org.kind != 'student'
@@ -289,17 +294,16 @@ export default Vue.extend({
         a(:href="'/outcomes-report/school-admin/' + org['school-admin']._id" target="_blank")
           b= org['school-admin'].displayName
 
+      .license-summary(v-if="showLicenseSummary")
+        span=$t('outcomes.license_template', { used: totalLicense.used, avaliable: totalLicense.count - totalLicense.used })
+
   .block(v-if="showLicense")
     h1= $t('outcomes.license_stats')
     for license in licenses
       .license
         h3= formatLicenseName(license)
         span= "Used: " + license.used
-        span= "All: " + license.count
-    .license
-      h3 Total
-      span= "Used: " + totalLicense.used
-      span= "All: " + totalLicense.count
+        span= "Available: " + (license.count - license.used)
 
   .block(v-if="included && coursesLoaded && coursesWithProgress[0] && (coursesWithProgress[0].completion !== null || coursesWithProgress[0].studentsStarting > 1)" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
     h1= $t('teacher.course_progress')
