@@ -35,29 +35,6 @@ const utils = require('./utils')
 const ViewLoadTimer = require('core/ViewLoadTimer')
 const paymentUtils = require('lib/paymentUtils')
 
-const homePageExperiment = function () {
-  if (!utils.isCodeCombat) {
-    return 'control'
-  }
-  const experimentName = 'home-page'
-  let value = me.getExperimentValue(experimentName)
-  if (value) {
-    return value
-  }
-  const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.2
-  let valueProbability
-  const rand = Math.random()
-  if (rand < probability) {
-    value = 'beta'
-    valueProbability = probability
-  } else {
-    value = 'control'
-    valueProbability = 1 - probability
-  }
-  me.startExperiment(experimentName, value, valueProbability)
-  return value
-}
-
 module.exports = (CocoRouter = (function () {
   CocoRouter = class CocoRouter extends Backbone.Router {
     static initClass () {
@@ -89,7 +66,7 @@ module.exports = (CocoRouter = (function () {
               return this.routeDirectly('HomeCNView', [])
             }
           }
-          if (homePageExperiment() === 'beta') {
+          if (me.getHomePageExperimentValue() === 'beta') {
             return this.routeDirectly('HomeBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
           } else {
             return this.routeDirectly('HomeView', [])
@@ -268,7 +245,7 @@ module.exports = (CocoRouter = (function () {
         },
 
         'play/hoc-2020' () { return this.navigate('/play/hoc-2018', { trigger: true, replace: true }) }, // Added to handle HoC PDF
-        home: utils.isCodeCombat && me.useChinaHomeView() ? go('HomeCNView') : (homePageExperiment() === 'beta' ? go('core/SingletonAppVueComponentView') : go('HomeView')),
+        home: utils.isCodeCombat && me.useChinaHomeView() ? go('HomeCNView') : (me.getHomePageExperimentValue() === 'beta' ? go('core/SingletonAppVueComponentView') : go('HomeView')),
 
         i18n: go('i18n/I18NHomeView'),
         'i18n/thang/:handle': go('i18n/I18NEditThangTypeView'),
