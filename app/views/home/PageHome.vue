@@ -388,7 +388,7 @@ export default Vue.extend({
           title: this.$t('schools_page.student_acceleration_2_title'),
           text: this.$t('schools_page.student_acceleration_2_text'),
           image: '/images/pages/schools/boxes/maximize_6.webp',
-          linkText: this.$t('home_v3.learn_more_text_apcsp'),
+          linkText: this.$t('home_v3.try_it_now'),
           link: 'https://codecombat.com/apcsp',
           mainImageOriginal: true
         },
