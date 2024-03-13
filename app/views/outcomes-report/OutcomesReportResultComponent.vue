@@ -95,8 +95,10 @@ export default Vue.extend({
       return this.licenses.reduce((acc, license) => {
         acc.used += license.used
         acc.count += license.count
+        license.teachers.forEach(tea => acc.teachers.add(tea))
+        license.schools.forEach(sch => acc.schools.add(sch))
         return acc
-      }, { used: 0, count: 0 })
+      }, { used: 0, count: 0, teachers: new Set(), schools: new Set() })
     },
 
     coursesWithProgress () {
@@ -295,7 +297,9 @@ export default Vue.extend({
           b= org['school-admin'].displayName
 
       .license-summary(v-if="showLicenseSummary && totalLicense.count > 0")
-        span=$t('outcomes.license_template', { used: totalLicense.used, available: totalLicense.count })
+        p=$t('outcomes.license_template', { used: totalLicense.used.toLocaleString(), available: totalLicense.count.toLocaleString() })
+        p=$t('outcomes.licensed_teachers', { teachers: totalLicense.teachers.size.toLocaleString() })
+        p=$t('outcomes.licensed_schools', { schools: totalLicense.schools.size.toLocaleString() })
 
   .block(v-if="showLicense")
     h1= $t('outcomes.license_stats')
