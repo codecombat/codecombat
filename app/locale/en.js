@@ -425,7 +425,8 @@ module.exports = {
       pricing: 'Pricing',
       help_center: 'Help Center',
       research_efficacy: 'Research - Efficacy',
-      research_impact: 'Research - Impact'
+      research_impact: 'Research - Impact',
+      terms: 'Terms'
     },
 
     modal: {

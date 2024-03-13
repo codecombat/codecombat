@@ -1,4 +1,4 @@
-<script> // eslint-disable-line vue/multi-word-component-names
+<script>// eslint-disable-line vue/multi-word-component-names
 import {
   cocoBaseURL,
   CODECOMBAT,
@@ -12,11 +12,19 @@ import {
 import AnnouncementModal from '../../views/announcement/announcementModal'
 import AnnouncementNav from '../../views/announcement/AnnouncementNav'
 import { mapActions, mapGetters } from 'vuex'
+import CTAButton from '../../components/common/buttons/CTAButton'
+import CaretDown from '../../components/common/icons/CaretDown'
 
 /**
  * Unified navigation bar component between CodeCombat and Ozaria.
  */
 export default Vue.extend({
+  components: {
+    AnnouncementModal,
+    AnnouncementNav,
+    'cta-button': CTAButton,
+    caret: CaretDown
+  },
   computed: {
     ...mapGetters('announcements', [
       'announcements',
@@ -25,6 +33,9 @@ export default Vue.extend({
       'announcementModalOpen',
       'announcementDisplay'
     ]),
+    languageCode () {
+      return me.get('preferredLanguage')
+    },
     isChinaOldBrowser () {
       return isChinaOldBrowser()
     },
@@ -136,10 +147,6 @@ export default Vue.extend({
     readAnnouncement () {
       return application.router.navigate('/announcements', { trigger: true })
     }
-  },
-  components: {
-    AnnouncementModal,
-    AnnouncementNav
   }
 })
 </script>
@@ -147,9 +154,9 @@ export default Vue.extend({
 <template lang="pug">
   nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
     announcement-modal(v-if="announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
-    .container-fluid
+    .container
       .row
-        .col-md-12
+        .col-md-12.header-container
           .navbar-header
             button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
               span.sr-only {{ $t('nav.toggle_nav') }}
@@ -201,7 +208,7 @@ export default Vue.extend({
                   li.dropdown.dropdown-hover
                     a.text-p(:href="isCodeCombat ? '/impact' : '/'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
                       span {{ $t('nav.educators') }}
-                      span.caret
+                      caret
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/')")
@@ -226,13 +233,11 @@ export default Vue.extend({
                   li.dropdown.dropdown-hover
                     a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                       span {{ $t('nav.dashboard') }}
-                      span.caret
+                      caret
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/teachers/classes')")
-                          span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria${me.isSchoolAdmin()?'_teacher':''}_dashboard`) }}
                       li
-                        a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t(`nav.codecombat${me.isSchoolAdmin()?'_teacher':''}_dashboard`) }}
 
                       li(v-if="me.isSchoolAdmin()")
                         a.text-p(:href="ozPath('/school-administrator')")
@@ -245,7 +250,7 @@ export default Vue.extend({
                   li.dropdown.dropdown-hover
                     a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                       span {{ $t('nav.my_courses') }}
-                      span.caret
+                      caret
                     ul(class="dropdown-menu")
                       li
                         a.text-p(:href="ozPath('/students')")
@@ -256,14 +261,6 @@ export default Vue.extend({
               li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
                 a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
 
-            ul.nav.navbar-nav
-              li.dropdown
-                a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                  //- string replaced in RootView
-                  span.language-dropdown-current Language
-                  span.caret
-                ul(class="dropdown-menu language-dropdown")
-
             ul.nav.navbar-nav(v-if="!me.isAnonymous()")
               li(v-if="me.isTarena()")
                 a.text-p#logout-button {{ $t('login.log_out') }}
@@ -272,7 +269,7 @@ export default Vue.extend({
                   img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}")
                   span.unreadMessage(v-if="unread")
                   span {{ $t('nav.my_account') }}
-                  span.caret
+                  caret
                 ul.dropdown-menu.pull-right
                   li.user-dropdown-header.text-center.hidden-xs.hidden-sm
                     a(:href="cocoPath(`/user/${me.getSlugOrID()}`)")
@@ -287,7 +284,7 @@ export default Vue.extend({
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
                     a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")
-                      span.caret(v-if="this.announcements.length")
+                      caret(v-if="this.announcements.length")
                       span {{ $t('announcement.notifications') }}
                       span.unread(v-if="unread") {{ unread }}
                     announcement-nav.announcement-nav(v-if="this.announcements.length")
@@ -309,358 +306,194 @@ export default Vue.extend({
                     a.account-dropdown-item#nav-stop-switching-button(href="#") {{ $t('login.stop_switching') }}
                   li
                     a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
-
-            ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
-              li
-                button#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
-              li
-                button#login-link.login-button(data-event-action="Header Login CTA") {{ $t('signup.login') }}
+            .right
+              ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
+                li
+                  cta-button#login-link.login-button(data-event-action="Header Login CTA" size="small" type="no-background") {{ $t('signup.login') }}
+                li
+                  cta-button#create-account-link.signup-button(data-event-action="Header Sign Up CTA" size="small") {{ $t('signup.sign_up') }}
+              ul.nav.navbar-nav
+                li.dropdown
+                  a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                    //- string replaced in RootView
+                    span.language-dropdown-current Language
+                  ul(class="dropdown-menu language-dropdown")
 </template>
 
 <style lang="scss" scoped>
 /* These styles are global. This is required so bootstrap.... :( */
+
 @import "app/styles/bootstrap/variables";
 @import "app/styles/mixins";
 @import "app/styles/style-flat-variables";
+@import "app/styles/component_variables.scss";
 
 #main-nav.navbar {
   background: white;
-  margin-bottom: 0;
-  white-space: nowrap; // prevent home icon from going under brand
-  box-shadow: unset;
-  font-weight: 400;
 
-  @media print {
-    display: none;
+  ::v-deep .emoji-flag {
+    font-size: 30px
   }
 
-  h5 {
-    font-family: "Arvo", serif;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 31px;
-    font-variant: normal;
-    color: black;
-    margin: 0;
-  }
+  // Add dark mode styles
+  &.dark-mode {
 
-  p, .text-p, .text-p button {
-    font-family: $body-font;
-    font-size: 18px;
-    font-weight: 400;
-    letter-spacing: 0.75px;
-    line-height: 26px;
-  }
-
-  #create-account-link {
-    background-color: $teal-dark;
-    color: white;
-    border: 1px solid $teal-dark;
-    border-radius: 4px 0 0 4px;
-    width: 131px;
-
-    &:hover {
-      background-color: #2DCEC8;
-      border: 1px solid #2DCEC8;
-      color: $teal-dark;
-      transition: background-color .35s, border .35s;
-    }
-  }
-
-  #login-link {
-    width: 94px;
-    border: 1px solid $teal;
-    border-radius: 0 4px 4px 0;
-    /*color: $teal;*/
-    /* too faint for WCAG AAA */
-    color: #16837f; /* increased contrast by lowering luminance */
-    background: transparent;
-
-    &:hover {
-      background-color: #1FBAB4;
-      color: white;
-      transition: color .35s, background-color .35s;
-    }
-  }
-
-  .nav-spacer {
-    height: 12px;
-  }
-
-  .navbar-browser-recommendation {
-    margin-left: 1em;
-    padding-top: 15px;
-
-    a {
-      font-size: 16px;
-      padding: 10px 15px;
-      float: left;
-
-      &:hover {
-        color: $teal;
-        text-decoration: none;
-      }
-    }
-  }
-
-  .login-buttons {
-    margin: 2px 70px 0px 10px;
-    @media (max-width: $screen-md-min) {
-      display: inline-block;
-      margin: 2px 10px 29.5px;
-    }
-    @media (max-width: $wider-breakpoint) {
-      margin-right: 10px;
-    }
-
-    & li {
-      display: inline-block;
-    }
-
-    & button {
-      line-height: 20px;
-    }
-  }
-
-  a.navbar-brand {
-    padding: 14px 0 16px 70px;
-    margin: 0px;
-    @media (max-width: $wider-breakpoint) {
-      padding-left: 10px;
-    }
-
-    #logo-img {
-      height: 40px;
-
-      &.powered-by {
-        height: 30px;
-        width: auto;
-        margin-top: -5px;
-      }
-    }
-
-    .code-ninjas-logo, #tarena-logo, .tecmilenio-logo {
-      height: 40px;
-      width: auto;
-      margin-right: 10px;
-    }
-  }
-
-  .navbar-toggle {
-    color: black;
-    margin: 30px 70px 0;
-    border-color: $navy;
-    @media (max-width: 767px) {
-      margin: 15px 10px 0;
-    }
-
-    .icon-bar {
-      background-color: $navy;
-    }
-  }
-
-  @media (min-width: $grid-float-breakpoint) {
-    #navbar-collapse {
-      float: right;
+    &,
+    .dropdown-menu {
+      background: $dark-grey-2;
     }
 
     .dropdown-menu {
-      max-width: 330px;
-      overflow-x: visible;
+      h5 {
+        color: white;
+      }
+
+      ::v-deep {
+        li {
+          background: $dark-grey-2;
+
+          a {
+            color: white;
+            background: $dark-grey-2;
+
+            &:hover {
+              background: lighten($dark-grey-2, 10%);
+            }
+          }
+        }
+      }
     }
+
+    p,
+    li,
+    span,
+    a,
+    button,
+    div {
+      color: white;
+    }
+
+    .nav {
+      >li {
+        >a {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .dropdown-menu,
+  ::v-deep .language-dropdown {
+    @media (max-width: 991px) {
+      li>a {
+        color: $dark-grey-2;
+      }
+    }
+  }
+
+  p,
+  li,
+  span,
+  a,
+  button,
+  div {
+    font-family: $main-font-family;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  .navbar-brand {
+    #logo-img {
+      max-height: 41px;
+    }
+  }
+
+  .navbar-collapse {
+    max-height: min(600px, 50vh);
   }
 
   .language-dropdown {
-    max-height: 60vh;
-    overflow-y: auto;
-    left: -55px;
-  }
-
-  #navbar-collapse {
-    max-height: 100vh;
-
-    .text-teal {
-      /*color: $teal;*/
-      /* too faint for WCAG AAA */
-      color: #16837f; /* increased contrast by lowering luminance */
-      font-weight: 600; /* increased contrast by increasing weight */
+    transform: translateX(-60%);
+    @media screen and (min-width: $screen-md-min) {
+      max-height: calc(100vh - 80px);
+      overflow-y: scroll;
     }
   }
 
-  .nav > li > a, .nav > li > button {
-    // TODO: Move this to bootstrap variables for navbars
+  .header-container {
+    @media (min-width: 992px) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-    // TODO: getting overridden by .navbar .nav > li > a for some reason
-    font-family: $body-font;
-    text-shadow: unset;
-    padding: 10px 15px;
-    @media (max-width: $wider-breakpoint) {
-      padding: 10px 10px;
-    }
+      .navbar-header {
+        flex-grow: 0;
+      }
 
-    color: $navy;
-
-    &:hover {
-      color: $teal;
+      .navbar-collapse {
+        flex-grow: 1;
+      }
     }
   }
 
-  // TODO: what is this for?
-  .nav > li.disabled > a, .nav > li.disabled > button {
-    color: black;
+  .navbar-collapse {
+    @media (min-width: 992px) {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
 
-    &:hover {
-      background: white;
-      color: black;
-      cursor: default;
+      .nav.navbar-nav {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+      }
+
+      .right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        > .login-buttons {
+          position:relative;
+          padding-right: 6px;
+          margin-right: 6px;
+          &:after {
+            border-right: 1px solid $light-grey-2;
+            content:'';
+            position: absolute;
+            right: 0;
+            top: 5px;
+            height: calc(100% - 10px);
+          }
+        }
+      }
     }
-  }
-
-  .new-pill {
-    font-size: 16px;
-    font-weight: 600;
-    background-color: #ff76c1;
-    border-radius: 14px;
-    padding: 4px;
-    margin-left: 5px;
-  }
-
-  .dropdown-hover .dropdown-menu {
-    padding: 0;
   }
 
   @media (min-width: $grid-float-breakpoint) {
     .dropdown-hover:hover {
-      & > ul {
+      &>ul {
         /* Allows for mouse over to expand dropdown */
         display: unset;
       }
     }
   }
 
-  .dropdown-hover .dropdown-menu li a {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    color: #0E4C60;
-  }
-
-  @media (max-width: $grid-float-breakpoint) {
-    .nav > li > a, .nav > li > button {
-      padding: 10px 20px;
-      height: 45px;
-    }
-    .language-dropdown-item {
-      color: $navy;
-    }
-    .account-dropdown-item {
-      color: $navy;
-    }
-
-    .dropdown-hover .dropdown-menu li a {
-      justify-content: center;
-    }
-
-    .dropdown-menu.pull-right {
-      /* Important required for bootstrap overwriting */
-      float: unset !important;
+  .nav {
+    >li {
+      >a {
+        color: $dark-grey-2;
+        text-align: center;
+        font-family: $main-font-family;
+        font-style: normal;
+        text-shadow: none;
+      }
     }
   }
 
-  // TODO: still used?
-  .img-circle {
-    border: $gold 8px solid;
-    width: 98px;
-    height: 98px; // Includes the border
-  }
-
-  .img-circle-small {
-    border: $gold 3px solid;
-    width: 33px;
-    height: 33px;
-  }
-
-  // For teacher avatars
-  .border-burgundy {
-    border-color: $navy;
-  }
-
-  .border-navy {
-    border-color: $navy;
-  }
-
-  span.unreadMessage {
-    width: 5px;
-    height: 5px;
-    position: absolute;
-    top: 10px;
-    left: 45px;
-    border-radius: 50%;
-    background-color: $yellow;
-    box-shadow: 0 0 2px 2px $yellow;
-  }
-
-  .dropleft {
-    .announcement-nav {
-      position: absolute;
-      left: auto;
-      right: 100%;
-      top: 0;
-    }
-
-    .caret {
-      transform: rotate(90deg);
-    }
-  }
-
-  span.unread {
-    width: 1.2em;
-    height: 1.2em;
-    margin-left: 1em;
-    line-height: 1.2em;
-    border-radius: 50%;
-    background-color: $yellow;
-    color: white;
-    display: inline-block;
-    margin-left: 0.5em;
-  }
-
-}
-
-nav#main-nav.navbar.dark-mode {
-  background-color: #0C1016;
-
-  .nav > li > a {
-    color: #FCBB00;
-
-    &:hover {
-      color: #FF39A6;
-    }
-  }
-
-  .dropdown-menu {
-    background-color: white;
-  }
-
-  #create-account-link {
-    background-color: #FCBB00;
-    border: 1px solid #FCBB00;
-    color: #0C1016;
-
-    &:hover {
-      background-color: #FF39A6;
-      border: 1px solid #FF39A6;
-    }
-  }
-
-  #login-link {
-    color: #FCBB00;
-    border: 1px solid #FCBB00;
-
-    &:hover {
-      background-color: #FF39A6;
-      border: 1px solid #FF39A6;
-      color: #0C1016;
+  .login-buttons {
+    li {
+      margin: auto 10px;
     }
   }
 }
