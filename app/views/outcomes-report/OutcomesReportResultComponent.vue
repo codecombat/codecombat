@@ -1,9 +1,13 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import utils from 'core/utils'
+import SummaryComponent from './SummaryComponent'
 
 export default Vue.extend({
   name: 'OutcomesReportResultComponent',
+  components: {
+    SummaryComponent
+  },
   props: {
     org: {
       type: Object,
@@ -296,6 +300,9 @@ export default Vue.extend({
 
       .license-summary(v-if="showLicenseSummary && totalLicense.count > 0")
         span=$t('outcomes.license_template', { used: totalLicense.used, available: totalLicense.count })
+
+  .block(v-if="org.kind === 'school-district'")
+    summary-component(:students="org.progress.studentsWithCode" :teachers="org.progress.teacherCount" :schools="org.progress.schoolCount" :licensesUsed="totalLicense?.used" v-if="org.progress")
 
   .block(v-if="showLicense")
     h1= $t('outcomes.license_stats')
