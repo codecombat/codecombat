@@ -13,7 +13,7 @@ import AnnouncementModal from '../../views/announcement/announcementModal'
 import AnnouncementNav from '../../views/announcement/AnnouncementNav'
 import { mapActions, mapGetters } from 'vuex'
 import CTAButton from '../../components/common/buttons/CTAButton'
-import CaretDown from '../../components/common/icons/CaretDown'
+import CaretDown from '../../components/common/elements/CaretDown'
 
 /**
  * Unified navigation bar component between CodeCombat and Ozaria.
