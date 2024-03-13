@@ -1143,7 +1143,7 @@ module.exports.createBlockById = function ({ workspace, id, codeLanguage }) {
     const childConnection = newWorkspaceBlock.previousConnection
     if (parentConnection && childConnection) {
       parentConnection.connect(childConnection)
-      return
+      return newWorkspaceBlock
     }
   }
   newWorkspaceBlock.moveBy(0, 1000, 'Could not automatically connect. Putting this all the way down so that it goes in the right order when we clean up.')
