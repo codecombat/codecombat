@@ -85,6 +85,7 @@
     </div>
 
     <div
+      v-if="me.isAnonymous()"
       class="container"
     >
       <div class="row">
@@ -122,6 +123,7 @@
     </background-container>
 
     <div
+      v-if="me.isAnonymous()"
       class="container"
     >
       <div class="row">
@@ -436,6 +438,11 @@ export default Vue.extend({
           link: '/libraries'
         }
       ]
+    }
+  },
+  computed: {
+    me () {
+      return me
     }
   },
   mounted () {
