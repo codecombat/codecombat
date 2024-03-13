@@ -64,6 +64,7 @@
     </div>
 
     <div
+      v-if="me.isAnonymous()"
       id="try-it-free"
       class="container contact-us"
     >
@@ -232,7 +233,10 @@
             </h2>
           </div>
         </div>
-        <div class="row contact-row">
+        <div
+          v-if="me.isAnonymous()"
+          class="row contact-row"
+        >
           <div class="col-md-12">
             <CTAButton
               class="signup-button"
@@ -676,6 +680,11 @@ export default Vue.extend({
           image: '/images/pages/home-v3/solutions/box_1.webp'
         }
       ]
+    }
+  },
+  computed: {
+    me () {
+      return me
     }
   }
 })

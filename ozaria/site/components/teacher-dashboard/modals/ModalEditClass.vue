@@ -77,7 +77,8 @@ export default Vue.extend({
 
   computed: {
     ...mapGetters({
-      getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom'
+      getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
+      courses: 'courses/sorted'
     }),
     googleClassroomDisabled () {
       return !me.googleClassroomEnabled()
@@ -266,6 +267,10 @@ export default Vue.extend({
         let savedClassroom
         if (this.classroomInstance.isNew()) {
           savedClassroom = await this.createClassroom({ ...this.classroom.attributes, ...updates })
+          if (this.isOzaria) {
+            await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
+          }
+
           this.$emit('created')
         } else {
           await this.updateClassroom({ classroom: this.classroom, updates })
