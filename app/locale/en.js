@@ -4445,9 +4445,9 @@ module.exports = {
       include_other_product: 'include __product__',
       show_license_stats: 'Show Detail License Stats',
       license_stats: 'License Stats',
-      license_template: 'Licenses: __used__ used, __available__ available',
-      licensed_teachers: 'Teachers with licenses: __teachers__',
-      licensed_schools: 'Schools with licenses: __schools__'
+      license_template: '<b>Licenses</b>: __used__ used, __available__ available',
+      licensed_teachers: '<b>Teachers</b> with licenses: __teachers__',
+      licensed_schools: '<b>Schools</b> with licenses: __schools__'
     },
 
     efficacy: {

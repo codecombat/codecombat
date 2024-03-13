@@ -297,9 +297,9 @@ export default Vue.extend({
           b= org['school-admin'].displayName
 
       .license-summary(v-if="showLicenseSummary && totalLicense.count > 0")
-        p=$t('outcomes.license_template', { used: totalLicense.used.toLocaleString(), available: totalLicense.count.toLocaleString() })
-        p=$t('outcomes.licensed_teachers', { teachers: totalLicense.teachers.size.toLocaleString() })
-        p=$t('outcomes.licensed_schools', { schools: totalLicense.schools.size.toLocaleString() })
+        p(v-html="$t('outcomes.license_template', { used: totalLicense.used.toLocaleString(), available: totalLicense.count.toLocaleString() })")
+        p(v-html="$t('outcomes.licensed_teachers', { teachers: totalLicense.teachers.size.toLocaleString() })")
+        p(v-html="$t('outcomes.licensed_schools', { schools: totalLicense.schools.size.toLocaleString() })")
 
   .block(v-if="showLicense")
     h1= $t('outcomes.license_stats')
