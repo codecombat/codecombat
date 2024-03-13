@@ -179,18 +179,19 @@ export default {
 
     // TODO: date range
     async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
-      if (me.isInternal() || this.$route.query['use-long-poll']) {
-        await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate })
-      } else {
+      let stats
+      if (this.$route.query['use-old-method']) {
         console.log('gonna load stats for', kind, orgIdOrSlug, country)
         const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate })
-        console.log(' ...', kind, orgIdOrSlug, country, 'got stats', stats)
-
-        this.setStats({ stats, includeSubOrgs, kind })
+        console.log('outcome-reports', kind, orgIdOrSlug, country, 'got stats', stats)
+      } else {
+        stats = await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate })
       }
+      this.setStats({ stats, includeSubOrgs, kind })
     },
 
     setStats ({ stats, includeSubOrgs, kind }) {
+      if (!stats) return
       let subOrgs = []
       if (includeSubOrgs) {
         for (const childKind of orgKinds[kind].childKinds) {
@@ -224,8 +225,7 @@ export default {
         return
       }
       const stats = await this.pollJob(jobId)
-      console.log('what?', stats)
-      this.setStats({ stats, includeSubOrgs, kind })
+      return stats
     },
 
     async pollJob (jobId) {
@@ -240,7 +240,7 @@ export default {
 
         if (job.status === 'completed') {
           return JSON.parse(job.output)
-        } else if (job.status === 'failed') {
+        } else if (job.status === 'failed' || this.fetchAttempts > 50) {
           this.loadingText = $.i18n.t('loading_error.could_not_load')
           return
         } else {
