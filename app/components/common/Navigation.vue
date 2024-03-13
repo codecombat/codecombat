@@ -206,7 +206,7 @@ export default Vue.extend({
               li(v-if="me.isAnonymous()")
                 ul.nav.navbar-nav
                   li.dropdown.dropdown-hover
-                    a.text-p(:href="isCodeCombat ? '/impact' : '/'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
+                    a.text-p(:href="isCodeCombat ? '/schools' : '/'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
                       span {{ $t('nav.educators') }}
                       caret
                     ul(class="dropdown-menu")
@@ -214,7 +214,7 @@ export default Vue.extend({
                         a.text-p(:href="ozPath('/')")
                           span(:class="isOzaria && !checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
                       li
-                        a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
+                        a.text-p(:href="cocoPath('/schools')" :class="checkLocation('/schools', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
                       li
                         a.text-p(:href="ozPath('/professional-development')")
                           span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
