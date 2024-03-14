@@ -86,6 +86,11 @@ export default {
       if (!this.isOnLockedCampaign && eventName) {
         window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
       }
+    },
+
+    renderModuleName (name) {
+      // Wanted to use marked, but we don't have marked.parseInline because of old version
+      return (name || 'Introduction').replace(/`(.+?)`/g, '<code>$1</code>')
     }
   }
 }
@@ -93,7 +98,12 @@ export default {
 <template>
   <div class="header">
     <div class="module-header">
-      <h3>{{ $t('teacher_dashboard.module') }} {{ moduleNum }} {{ moduleName || getCurrentModuleNames(moduleNum) }}</h3>
+      <h3>
+        <span>{{ $t('teacher_dashboard.module') }} {{ moduleNum }}: </span>
+        <!-- eslint-disable vue/no-v-html -->
+        <span v-html="renderModuleName(moduleName || getCurrentModuleNames(moduleNum))" />
+        <!-- eslint-enable vue/no-v-html -->
+      </h3>
       <div
         v-if="getModuleTotalTimeInfo !== undefined"
         class="time-row"

@@ -448,12 +448,35 @@ export default {
         commit('setMostRecentClassCode', codeCamel)
       }
     },
+
     fetchCourseLevels: async ({ commit, getters }, { classroomID, courseID }) => {
       if (getters.getCourseLevels(classroomID, courseID)) {
         return
       }
       const levels = await classroomsApi.getCourseLevels({ classroomID, courseID }, { data: { cacheEdge: true } })
       commit('setClassroomCourseLevels', { classroomID, courseID, levels })
-    }
+    },
+
+    addOrUpdateCourse: async ({ commit, getters}, { classroomId, courseId }) => {
+      const updatedClassroom = await classroomsApi.addOrUpdateCourse({ classroomId, courseId }, {})
+      commit('updateClassroomById', {
+        classroomID: classroomId,
+        updates: {
+          courses: updatedClassroom.courses
+        }
+      })
+      // Also update it in the classrooms by teacher, for the teacher dashboard
+      // TODO: this doesn't entirely work, takes a page refresh for the student to show up in the new course when switching to it--why?
+      const classroom = getters.getClassroomById(classroomId)
+      const teacherId = getTeacherIdBasedOnSharedWritePermission(classroom)
+      commit('updateClassroom', {
+        teacherId,
+        classroomId,
+        updates: {
+          courses: updatedClassroom.courses
+        }
+      })
+      return classroom
+    },
   }
 }
