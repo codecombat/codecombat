@@ -32,7 +32,7 @@
     </div>
     <div
       v-if="licensesUsed"
-      class="item"
+      class="item license-used"
     >
       <stat-item-component
         img-path="/images/pages/library/icon-code.png"
@@ -84,6 +84,13 @@ export default Vue.extend({
 
   :deep(.stat__info) {
     font-size: 2rem;
+  }
+
+  .license-used {
+    :deep(.stat__img) {
+      position: relative;
+      top: -1rem;
+    }
   }
 }
 </style>
