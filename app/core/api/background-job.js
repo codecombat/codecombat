@@ -1,6 +1,6 @@
 const fetchJson = require('./fetch-json')
 
-function create (jobType, input, other = undefined) {
+function create (jobType, input, other) {
   let url = '/db/background-jobs'
   if (other) {
     url = '/' + other + url
@@ -11,7 +11,7 @@ function create (jobType, input, other = undefined) {
   })
 }
 
-function get (jobId, options = {}, other = undefined) {
+function get (jobId, other, options = {}) {
   let url = `/db/background-jobs/${jobId}`
   if (other) {
     url = '/' + other + url

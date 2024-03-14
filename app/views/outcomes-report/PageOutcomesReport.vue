@@ -193,7 +193,7 @@ export default {
       } else {
         stats = await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate })
         if (this.includeOther) {
-          await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }, true)
+          await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate, includeOther: true })
         }
       }
       this.setStats({ stats, includeSubOrgs, kind })
@@ -223,7 +223,7 @@ export default {
       }
     },
 
-    async fetchUsingBackgroundJob ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }, includeOther = false) {
+    async fetchUsingBackgroundJob ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate, includeOther }) {
       const otherProduct = includeOther ? this.otherProduct : undefined
       const resp = await createJob(JOB_TYPE, { kind, orgIdOrSlug, includeSubOrgs, country, dateRange: { startDate, endDate } }, otherProduct)
       const jobId = resp?.job
@@ -246,7 +246,7 @@ export default {
         this.fetchAttempts++
         let job
         if (this.includeOther) {
-          job = await Promise.all([getJob(jobId), getJob(jobId, {}, this.otherProduct)]).then(([job1, job2]) => {
+          job = await Promise.all([getJob(jobId), getJob(jobId, this.otherProduct)]).then(([job1, job2]) => {
             // todo: check this job
             if (job1.status === 'failed' || job2.status === 'failed') {
               return { status: 'failed' }
