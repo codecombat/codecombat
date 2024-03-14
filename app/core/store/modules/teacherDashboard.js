@@ -373,15 +373,22 @@ export default {
     },
 
     // Curriculum guides panel
-    async fetchDataCurriculumGuide ({ dispatch, rootGetters }) {
+    async fetchDataCurriculumGuide ({ dispatch, rootGetters, getters }) {
       let sortedCourses = rootGetters['courses/sorted'] || []
       if (sortedCourses.length === 0) {
         await dispatch('courses/fetchReleased', undefined, { root: true })
       }
       sortedCourses = rootGetters['courses/sorted'] || []
       if (sortedCourses[0]) {
-        // After loading ensure that the first course is automatically selected
-        dispatch('baseCurriculumGuide/setSelectedCampaign', sortedCourses[0].campaignID, { root: true })
+        // After loading, ensure that the first course that's in the classroom is automatically selected
+        const classroom = getters.getCurrentClassroom
+        const classroomCourseIds = (classroom.courses || []).map((c) => c._id) || []
+        let selectedCourse
+        if (classroomCourseIds.length) {
+          selectedCourse = sortedCourses.find((c) => classroomCourseIds.includes(c._id))
+        }
+        selectedCourse = selectedCourse || sortedCourses[0]
+        dispatch('baseCurriculumGuide/setSelectedCampaign', selectedCourse.campaignID, { root: true })
       }
       sortedCourses.forEach(({ campaignID }) => {
         dispatch('gameContent/fetchGameContentForCampaign', { campaignId: campaignID }, { root: true })

@@ -66,7 +66,7 @@ module.exports = (TeacherStudentView = (function () {
           this.aceDiffs?.[levelOriginal].editors.left.ace.setValue(code, -1)
         } else {
           levelOriginal = link.attr('id').split('-')[0].slice(0, -1)
-          const solutions = this.paidTeacher || (utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE === this.selectedCourseId) ? this.levelSolutionsMap[levelOriginal] : [{ source: $.i18n.t('teachers.not_allow_to_solution') }]
+          const solutions = this.paidTeacher || utils.allFreeCourseIDs.includes(this.selectedCourseId) ? this.levelSolutionsMap[levelOriginal] : [{ source: $.i18n.t('teachers.not_allow_to_solution') }]
           this.aceDiffs?.[levelOriginal].editors.right.ace.setValue(solutions[solutionIndex].source, -1)
         }
       }
@@ -200,7 +200,7 @@ module.exports = (TeacherStudentView = (function () {
       if (utils.isCodeCombat) {
         const view = this
         this.aceDiffs = {}
-        const showAceDiff = this.paidTeacher || (utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE === this.selectedCourseId)
+        const showAceDiff = this.paidTeacher || utils.allFreeCourseIDs.includes(this.selectedCourseId)
         return this.$el.find('div[class*="ace-diff-"]').each(function () {
           const cls = $(this).attr('class')
           const levelOriginal = cls.split('-')[2]
