@@ -1,9 +1,13 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import utils from 'core/utils'
+import SummaryComponent from './SummaryComponent'
 
 export default Vue.extend({
   name: 'OutcomesReportResultComponent',
+  components: {
+    SummaryComponent
+  },
   props: {
     org: {
       type: Object,
@@ -300,6 +304,9 @@ export default Vue.extend({
         p(v-html="$t('outcomes.license_template', { used: totalLicense.used.toLocaleString(), available: totalLicense.count.toLocaleString() })")
         p(v-html="$t('outcomes.licensed_teachers', { teachers: totalLicense.teachers.size.toLocaleString() })")
         p(v-html="$t('outcomes.licensed_schools', { schools: totalLicense.schools.size.toLocaleString() })")
+
+  .block(v-if="org.kind === 'school-district'")
+    summary-component(:students="org.progress.studentsWithCode" :teachers="org.progress.teacherCount" :schools="org.progress.schoolCount" :licensesUsed="totalLicense?.used" v-if="org.progress")
 
   .block(v-if="showLicense")
     h1= $t('outcomes.license_stats')
