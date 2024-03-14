@@ -288,6 +288,8 @@ module.exports = class GoalManager extends CocoClass
   checkLinesOfCode: (goalID, who, thang, linesUsed, frameNumber) ->
     return unless linesAllowed = who[thang.id] ? who[thang.team]
     @updateGoalState goalID, thang.id, 'lines', frameNumber if linesUsed > linesAllowed
+    @goalStates[goalID].lines.used = linesUsed
+    @goalStates[goalID].lines.allowed = linesAllowed
 
   wrapUpGoalStates: (finalFrame) ->
     for goalID, state of @goalStates
