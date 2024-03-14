@@ -161,7 +161,7 @@ module.exports = (User = (function () {
     isIndividualUser () { return !this.isStudent() && !User.isTeacher(this.attributes) }
 
     isNewDashboardActive () {
-      return me.get('features')?.isNewDashboardActive
+      return this.get('features')?.isNewDashboardActive
     }
 
     isInternal () {
