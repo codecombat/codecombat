@@ -60,9 +60,9 @@ export default Vue.extend({
     newClassName: {
       required: requiredIf(function () { return !this.isGoogleClassroomForm })
     },
-    // googleClassId: {
-    //   required: requiredIf(function () { return this.isGoogleClassroomForm })
-    // },
+    googleClassId: {
+      required: requiredIf(function () { return this.isGoogleClassroomForm })
+    },
     newProgrammingLanguage: {
       required
     },
@@ -77,7 +77,8 @@ export default Vue.extend({
 
   computed: {
     ...mapGetters({
-      getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom'
+      getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
+      courses: 'courses/sorted'
     }),
     googleClassroomDisabled () {
       return !me.googleClassroomEnabled()
@@ -263,17 +264,23 @@ export default Vue.extend({
       updates.aceConfig = aceConfig
 
       if (_.size(updates)) {
+        let savedClassroom
         if (this.classroomInstance.isNew()) {
-          await this.createClassroom({ ...this.classroom.attributes, ...updates })
+          savedClassroom = await this.createClassroom({ ...this.classroom.attributes, ...updates })
+          if (this.isOzaria) {
+            await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
+          }
+
           this.$emit('created')
         } else {
           await this.updateClassroom({ classroom: this.classroom, updates })
+          savedClassroom = this.classroom
           this.$emit('updated')
         }
 
         if (this.isGoogleClassroomForm) {
           await GoogleClassroomHandler.markAsImported(this.googleClassId)
-          GoogleClassroomHandler.importStudentsToClassroom(this.classroomInstance)
+          GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
             .then((importedMembers) => {
               if (importedMembers.length > 0) {
                 console.debug('Students imported to classroom:', importedMembers)
@@ -364,6 +371,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
+          v-if="!isGoogleClassroomForm"
           class="form-group row class-name"
           :class="{ 'has-error': $v.newClassName.$error }"
         >
