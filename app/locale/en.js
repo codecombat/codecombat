@@ -4446,8 +4446,8 @@ module.exports = {
       show_license_stats: 'Show Detail License Stats',
       license_stats: 'License Stats',
       license_template: '<b>Licenses</b>: __used__ used, __available__ available',
-      licensed_teachers: '<b>Teachers</b> with licenses: __teachers__',
-      licensed_schools: '<b>Schools</b> with licenses: __schools__'
+      licensed_teachers: '<b>Teachers with licenses</b>: __teachers__',
+      licensed_schools: '<b>Schools with licenses</b>: __schools__'
     },
 
     efficacy: {
