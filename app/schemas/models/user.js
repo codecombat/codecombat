@@ -402,11 +402,6 @@ _.extend(UserSchema.properties, {
   seenNewDashboardModal: { type: 'boolean', description: 'Whether the user has seen the new dashboard onboarding modal? Set to true after the modal is seen and closed by the user' }, // Ozaria
   closedNewTDGetStartedTooltip: { type: 'boolean', description: 'Whether the user has closed the get started tooltip in the new dashboard? Set to true once the user has dismissed the tooltip' }, // Ozaria
 
-  dashboardVersion: {
-    type: 'string',
-    enum: ['default', 'old-coco', 'merged'],
-  },
-
   features: {
     type: 'object',
     title: 'Feature Flags',
@@ -423,6 +418,9 @@ _.extend(UserSchema.properties, {
         // key is the feature id
         additionalProperties: FeatureRecipientSchema
       },
+      isNewDashboardActive: {
+        type: 'boolean'
+      }
     }
   },
 

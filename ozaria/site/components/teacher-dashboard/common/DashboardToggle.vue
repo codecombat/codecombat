@@ -58,7 +58,10 @@ export default Vue.extend({
   },
   methods: {
     async saveValue (newValue) {
-      me.set('dashboardVersion', newValue ? 'merged' : 'old-coco')
+      me.set('features', {
+        ...me.get('features'),
+        isNewDashboardActive: newValue
+      })
       await me.save()
       this.dashboardStatus = me.isNewDashboardActive()
     }
