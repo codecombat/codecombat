@@ -420,7 +420,8 @@ _.extend(UserSchema.properties, {
       },
       isNewDashboardActive: {
         type: 'boolean'
-      }
+      },
+      ownerDistrictId: c.objectId({ description: 'District ID where user has admin permission to view data like outcome reports' })
     }
   },
 
