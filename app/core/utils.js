@@ -2137,10 +2137,6 @@ const getModuleNumberForLevelName = function (courseId, levelName) {
   return moduleNumberByLevelName[levelName] && Number(moduleNumberByLevelName[levelName])
 }
 
-const getNewDashboardToggleKey = function () {
-  return `new-dashboard-${me.id}`
-}
-
 module.exports = {
   activeAndPastArenas,
   activeArenas,
@@ -2192,7 +2188,6 @@ module.exports = {
   getCoursePraise,
   getDocumentSearchString,
   getModuleNumberForLevelName,
-  getNewDashboardToggleKey,
   getPrepaidCodeAmount,
   getProduct,
   getProductName,
