@@ -4442,7 +4442,7 @@ module.exports = {
       questions: "Have questions or want more information? We'd be happy to help.",
       reach_out_manager: 'Reach out to your Account Manager __name__ at ',
       stats_include: 'Stats include __number__ other __name__',
-      include_other_product: 'Load __product__ stats',
+      include_other_product: 'Show __product__ stats', // keep these 2 strings the same so that not confused the user
       show_other_product: 'Show __product__ stats',
       show_license_stats: 'Show Detail License Stats',
       license_stats: 'License Stats',
