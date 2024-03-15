@@ -30,7 +30,7 @@ module.exports = (ChangeLanguageView = (function () {
 
     afterRender () {
       super.afterRender()
-      this.insertSubView(this.changeLanguageTab = new ChangeLanguageTab({ options: this.options }))
+      this.insertSubView(this.changeLanguageTab = new ChangeLanguageTab(this.options))
     }
 
     onHidden () {
