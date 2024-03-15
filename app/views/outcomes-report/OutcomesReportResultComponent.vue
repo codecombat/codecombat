@@ -78,7 +78,7 @@ export default Vue.extend({
         } else {
           programs = this.org.progress.programsByLanguage[language]
         }
-        if (this.showOther && this.otherOrg.progress) {
+        if (this.showOther && this.otherOrg?.progress) {
           if (this.otherOrg.newReport) {
             programs += this.otherOrg.progress.languages[language] || 0
           } else {
@@ -125,7 +125,7 @@ export default Vue.extend({
       if (!this.org.progress) return []
       let courses = _.cloneDeep(this.sortedCourses)
       courses = this.formatCourse(courses, this.org.progress, this.org.newReport)
-      if (this.showOther && this.otherOrg.progress) {
+      if (this.showOther && this.otherOrg?.progress) {
         let otherCourses = _.cloneDeep(this.sortedOtherCourses)
         otherCourses = this.formatCourse(otherCourses, this.otherOrg.progress, this.otherOrg.newReport)
         courses = courses.concat(otherCourses)
@@ -136,7 +136,7 @@ export default Vue.extend({
 
     schoolCount () {
       let schools = this.org.progress.schoolCount
-      if (this.showOther && this.otherOrg.progress) {
+      if (this.showOther && this.otherOrg?.progress) {
         schools += this.otherOrg.progress.schoolCount
       }
       return schools
@@ -144,7 +144,7 @@ export default Vue.extend({
 
     teacherCount () {
       let teachers = this.org.progress.teacherCount
-      if (this.showOther && this.otherOrg.progress) {
+      if (this.showOther && this.otherOrg?.progress) {
         teachers += this.otherOrg.progress.teacherCount
       }
       return teachers
@@ -152,7 +152,7 @@ export default Vue.extend({
 
     studentsWithCode () {
       let students = this.org.progress.studentsWithCode
-      if (this.showOther && this.otherOrg.progress) {
+      if (this.showOther && this.otherOrg?.progress) {
         students = Math.max(students, this.otherOrg.progress.studentsWithCode)
         // use max here because we cannot determine duplicated students
       }
@@ -161,7 +161,7 @@ export default Vue.extend({
 
     projects () {
       let projects = this.org.progress.projects
-      if (this.showOther && this.otherOrg.progress) {
+      if (this.showOther && this.otherOrg?.progress) {
         projects += this.otherOrg.progress.projects
       }
 
@@ -170,7 +170,7 @@ export default Vue.extend({
 
     programs () {
       let programs = this.org.progress.programs
-      if (this.showOther && this.otherOrg.progress) {
+      if (this.showOther && this.otherOrg?.progress) {
         programs += this.otherOrg.progress.programs
       }
       return programs
@@ -178,7 +178,7 @@ export default Vue.extend({
 
     linesOfCode () {
       let lines = this.org.progress.linesOfCode
-      if (this.showOther && this.otherOrg.progress) {
+      if (this.showOther && this.otherOrg?.progress) {
         lines += this.otherOrg.progress.linesOfCode
       }
       return lines
@@ -186,14 +186,14 @@ export default Vue.extend({
 
     playtime () {
       let time = this.org.progress.playtime
-      if (this.showOther && this.otherOrg.progress) {
+      if (this.showOther && this.otherOrg?.progress) {
         time += this.otherOrg.progress.playtime
       }
       return time
     },
     populationSize () {
       let size = this.org.progress.populationSize
-      if (this.showOther && this.otherOrg.progress) {
+      if (this.showOther && this.otherOrg?.progress) {
         size += this.otherOrg.progress.populationSize
       }
       return size
@@ -201,7 +201,7 @@ export default Vue.extend({
 
     sampleSize () {
       let size = this.org.progress.sampleSize
-      if (this.showOther && this.otherOrg.progress) {
+      if (this.showOther && this.otherOrg?.progress) {
         size += this.otherOrg.progress.sampleSize
       }
       return size
