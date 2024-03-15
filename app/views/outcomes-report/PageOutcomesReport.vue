@@ -417,7 +417,7 @@ main#page-outcomes-report
       outcomes-report-result-component(:org="org" :other-org="otherOrg" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="kind !== 'student'" :showOther="showOther")
       if includeSubOrgs
         outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
-        outcomes-report-result-component.sub-org(v-if="showOther" v-for="subOrg, index in otherSubOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
+        outcomes-report-result-component.sub-org(v-if="showOther" v-for="subOrg, index in otherSubOrgs" v-bind:index="index" v-bind:key="'other-' + subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
 
     .loading-indicator(v-if="loading")
       h1 {{ loadingText }}

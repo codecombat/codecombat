@@ -14,6 +14,7 @@ function create (jobType, input, other) {
 function get (jobId, other, options = {}) {
   let url = `/db/background-jobs/${jobId}`
   if (other) {
+    // todo: move this logic into fetchJson
     url = '/' + other + url
   }
   return fetchJson(url, options)

@@ -135,17 +135,17 @@ export default Vue.extend({
     },
 
     schoolCount () {
-      let schools = this.org.progress.schools
+      let schools = this.org.progress.schoolCount
       if (this.showOther && this.otherOrg.progress) {
-        schools += this.otherOrg.progress.schools
+        schools += this.otherOrg.progress.schoolCount
       }
       return schools
     },
 
     teacherCount () {
-      let teachers = this.org.progress.teachers
+      let teachers = this.org.progress.teacherCount
       if (this.showOther && this.otherOrg.progress) {
-        teachers += this.otherOrg.progress.teachers
+        teachers += this.otherOrg.progress.teacherCount
       }
       return teachers
     },
