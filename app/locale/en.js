@@ -4449,6 +4449,7 @@ module.exports = {
       include_other_product: 'Show __product__ stats', // keep these 2 strings the same so that not confused the user
       show_other_product: 'Show __product__ stats',
       show_license_stats: 'Show Detail License Stats',
+      show_license_summary: 'Show License Summary',
       license_stats: 'License Stats',
       license_template: '<b>Licenses</b>: __used__ used, __available__ available',
       licensed_teachers: '<b>Teachers with licenses</b>: __teachers__',
