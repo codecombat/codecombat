@@ -206,7 +206,7 @@ module.exports = (BlockTestingView = (function () {
           }
           // Blockly -> output ace
           // TODO: make sure it's the kind of change we want to do, we don't fire multiple changes for same source?
-          const { blocklyState, blocklySource } = blocklyUtils.getBlocklySource(testBlockly.workspace, testCase.codeLanguage)
+          const { blocklyState, blocklySource } = blocklyUtils.getBlocklySource(testBlockly.workspace, { codeLanguage: testCase.codeLanguage, product: 'codecombat' })
           console.log('New blockly state for', testCase.name, 'is', blocklyState)
           outputAce.setValue(blocklySource)
           outputAce.clearSelection()

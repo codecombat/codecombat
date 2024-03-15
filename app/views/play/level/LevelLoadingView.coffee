@@ -60,14 +60,22 @@ module.exports = class LevelLoadingView extends CocoView
   onLevelLoaded: (e) ->
     return if @level
     @level = e.level
-    if utils.isCodeCombat
+    @$el.toggleClass 'codecombat-junior', @level.get('product', true) is 'codecombat-junior'
+    @$el.toggleClass 'codecombat', @level.get('product', true) is 'codecombat'
+    if utils.isCodeCombat and @level.get('product', true) is 'codecombat'
       @prepareGoals e
       @prepareTip()
       @prepareIntro()
+    else if @level.get('product', true) is 'codecombat-junior'
+      @prepareLevelName()
 
   onSessionLoaded: (e) ->
     return if @session
     @session = e.session if e.session.get('creator') is me.id
+
+  prepareLevelName: ->
+    name = utils.i18n(@level.attributes, 'displayName') or utils.i18n(@level.attributes, 'name')
+    @$el.find('.level-name').text(name).show()
 
   prepareGoals: ->
     @levelGoalsComponent = new LevelGoals({
@@ -138,7 +146,7 @@ module.exports = class LevelLoadingView extends CocoView
     if showIntro?
       autoUnveil = not showIntro
     else
-      autoUnveil = @options.autoUnveil or @session?.get('state').complete
+      autoUnveil = @options.autoUnveil or @session?.get('state').complete or @level.get('product', true) is 'codecombat-junior'
     if autoUnveil
       @startUnveiling()
       @unveil true

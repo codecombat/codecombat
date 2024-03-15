@@ -2,6 +2,7 @@
 import IconHelp from '../../common/icons/IconHelp'
 import { isOzaria } from 'core/utils'
 
+import ButtonAddCourseToClassroom from './ButtonAddCourseToClassroom'
 import ButtonPlayChapter from './ButtonPlayChapter'
 import ButtonSolutionGuide from './ButtonSolutionGuide'
 import { getOzariaAssetUrl } from 'ozaria/site/common/ozariaUtils'
@@ -10,10 +11,12 @@ import { mapGetters } from 'vuex'
 import utils from 'app/core/utils'
 
 const Campaigns = require('collections/Campaigns')
+const _ = require('lodash')
 
 export default {
   components: {
     IconHelp,
+    ButtonAddCourseToClassroom,
     ButtonPlayChapter,
     ButtonSolutionGuide
   },
@@ -31,7 +34,8 @@ export default {
       getCourseUnitMapUrl: 'baseCurriculumGuide/getCourseUnitMapUrl',
       getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
       isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign',
-      getTrackCategory: 'teacherDashboard/getTrackCategory'
+      getTrackCategory: 'teacherDashboard/getTrackCategory',
+      getCurrentClassroom: 'teacherDashboard/getCurrentClassroom',
     }),
 
     isOzaria () {
@@ -73,7 +77,8 @@ export default {
     getCourseThumbnail () {
       if (this.getCurrentCourse?.screenshot) {
         if (utils.isCodeCombat) {
-          return this.getCurrentCourse.screenshot
+          // return this.getCurrentCourse.screenshot
+          return null // TODO: bring back once we have refreshed screenshots
         } else {
           return getOzariaAssetUrl(this.getCurrentCourse.screenshot)
         }
@@ -116,6 +121,13 @@ export default {
       return randomImage
     },
 
+    courseIsNotInCurrentClassroom () {
+      if (!this.getCurrentClassroom._id) {
+        return false
+      }
+      return !_.find(this.getCurrentClassroom.courses || [], { _id: this.getCurrentCourse._id })
+    },
+
     solutionGuideUrl () {
       if (!this.getCurrentCourse || this.isOnLockedCampaign) {
         return ''
@@ -141,7 +153,11 @@ export default {
     campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
     campaigns.on('sync', () => {
       const campaign = campaigns.get(this.getCurrentCourse.campaignID)
-      this.levelsNameMap = campaign.getLevelNameMap()
+      if (campaign) {
+        this.levelsNameMap = campaign.getLevelNameMap()
+      } else {
+        // Campaign is not loaded yet, do we need to do anything here?
+      }
     })
   },
 
@@ -236,6 +252,16 @@ export default {
             v-if="!isOnLockedCampaign"
             class="btns"
           >
+            <button-add-course-to-classroom
+              v-if="courseIsNotInCurrentClassroom"
+              v-tooltip.top="{
+                content: $t('teacher_dashboard.add_course_to_classroom_tooltip'),
+                classes: 'teacher-dashboard-tooltip lighter-p'
+              }"
+              :course="getCurrentCourse"
+              :classroom="getCurrentClassroom"
+              @click.native="trackEvent('Curriculum Guide: Add Course to Classroom Clicked')"
+            />
             <a
               :href="playChapterUrl"
               target="_blank"
