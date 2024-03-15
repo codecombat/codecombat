@@ -1,5 +1,4 @@
 <script>
-import utils from 'core/utils'
 import { mapActions } from 'vuex'
 
 export default {
@@ -19,12 +18,6 @@ export default {
       isAddingCourse: false,
       hasAddedCourse: false,
     }
-  },
-
-  computed: {
-    isCodeCombat () {
-      return utils.isCodeCombat
-    },
   },
 
   methods: {

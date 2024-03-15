@@ -32,6 +32,7 @@ module.exports = (ChangeLanguageTab = (function () {
       this.session = options.session
       this.utils = utils
       this.initCodeLanguageList()
+      this.classroomAceConfig = options.classroomAceConfig
       this.codeFormatList = [
         { id: 'text-code', name: `${$.i18n.t('choose_hero.text_code')} (${$.i18n.t('choose_hero.default')})` },
         { id: 'blocks-and-code', name: `${$.i18n.t('choose_hero.blocks_and_code')}` },
