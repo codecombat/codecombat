@@ -61,7 +61,8 @@ export default {
       fetchAttempts: 0,
       fetchInterval: 2000,
       includeOther: false,
-      showLicense: false
+      showLicense: false,
+      showLicenseSummary: false
     }
     const defaults = parameterDefaults()
     for (const key in defaults) {
@@ -129,6 +130,9 @@ export default {
     this.orgIdOrSlug = this.$route.params.idOrSlug || null
     this.country = this.$route.params.country || null
     this.fetchCourses()
+    if (me.isInternal() || me.isAdmin()) {
+      this.showLicenseSummary = true
+    }
   },
 
   mounted () {
@@ -391,7 +395,7 @@ main#page-outcomes-report
           label.edit-label.editing-only(v-if="editing" for="startDate") &nbsp; (edit)
 
     .org-results(v-if="org && !loading")
-      outcomes-report-result-component(:org="org" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="kind !== 'student'")
+      outcomes-report-result-component(:org="org" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="showLicenseSummary && kind !== 'student'")
       if includeSubOrgs
         outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
 
@@ -455,10 +459,15 @@ main#page-outcomes-report
         .col-xs-7
           input#subOrgLimit.form-control(type="number" v-model.number="subOrgLimit" name="subOrgLimit" min="1" step="1")
       .form-group(v-if="kind !== 'student'")
+        label.control-label.col-xs-5(for="showLicenseSummary")
+          span= $t('outcomes.show_license_summary')
+        .col-xs-7
+          input#showLicenseSummary.form-control(type="checkbox" v-model="showLicenseSummary" name="showLicenseSummary")
+      .form-group(v-if="kind !== 'student'")
         label.control-label.col-xs-5(for="showLicense")
           span= $t('outcomes.show_license_stats')
         .col-xs-7
-          input#showLicense.form-control(type="checkbox" v-model="showLicense" name="showLicnese")
+          input#showLicense.form-control(type="checkbox" v-model="showLicense" name="showLicense")
       .form-group
         label.control-label.col-xs-5(for="includeOtherProduct")
           span= $t('outcomes.include_other_product', { product: this.otherProduct })
