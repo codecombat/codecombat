@@ -1458,6 +1458,12 @@ const sortCourses = courses => _.sortBy(courses, function (course) {
   return index
 })
 
+const sortOtherCourses = courses => _.sortBy(courses, function (course) {
+  let index = otherOrderedCourseIDs.indexOf(course.id != null ? course.id : course._id)
+  if (index === -1) { index = 9001 }
+  return index
+})
+
 const sortCoursesByAcronyms = function (courses) {
   const orderedCourseAcronyms = _.sortBy(courseAcronyms)
   return _.sortBy(courses, function (course) {
@@ -2162,6 +2168,7 @@ module.exports = {
   round,
   AILeagueSeasons,
   sortCourses,
+  sortOtherCourses,
   sortCoursesByAcronyms,
   stripIndentation,
   teamSpells,

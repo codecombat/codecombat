@@ -14,9 +14,13 @@ module.exports = {
     return fetchJson(`/db/course/${courseID}`, options)
   },
 
-  getAll (options) {
+  getAll (options, other) {
     if (options == null) { options = {} }
-    return fetchJson('/db/course', options)
+    let url = '/db/course'
+    if (other) {
+      url = '/' + other + url
+    }
+    return fetchJson(url, options)
   },
 
   getReleased (options) {

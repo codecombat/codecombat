@@ -13,6 +13,11 @@ export default Vue.extend({
       type: Object,
       required: true
     },
+    otherOrg: {
+      type: Object,
+      required: false,
+      default: () => null
+    },
     isSubOrg: {
       type: Boolean,
       default: false
@@ -32,6 +37,10 @@ export default Vue.extend({
     showLicenseSummary: {
       type: Boolean,
       default: false
+    },
+    showOther: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -45,7 +54,8 @@ export default Vue.extend({
   computed: {
     ...mapState('courses', {
       coursesLoaded: 'loaded',
-      sortedCourses: (state) => utils.sortCourses(_.values(state.byId))
+      sortedCourses: (state) => utils.sortCourses(_.values(state.byId)),
+      sortedOtherCourses: (state) => utils.sortOtherCourses(_.values(state.otherById))
     }),
 
     kindString () {
@@ -60,20 +70,25 @@ export default Vue.extend({
       if (!this.org.progress) return
       let languageStats = {}
       let totalPrograms = 0
-      for (const language of ['python', 'javascript', 'cpp']) {
+      for (const language of ['python', 'javascript', 'cpp', 'java']) {
+        if (language === 'java' && !this.org.newReport) continue
         let programs
         if (this.org.newReport) {
           programs = this.org.progress.languages[language] || 0
         } else {
           programs = this.org.progress.programsByLanguage[language]
         }
+        if (this.showOther && this.otherOrg.progress) {
+          if (this.otherOrg.newReport) {
+            programs += this.otherOrg.progress.languages[language] || 0
+          } else {
+            if (language !== 'java') {
+              programs += this.otherOrg.progress.programsByLanguage[language]
+            }
+          }
+        }
         totalPrograms += programs
         languageStats[language] = { programs }
-      }
-      if (this.org.newReport) {
-        let programs = this.org.progress.languages.java || 0
-        totalPrograms += programs
-        languageStats['java'] = { programs }
       }
       for (const [language, stats] of Object.entries(languageStats)) {
         stats.percentage = Math.round(100 * stats.programs / totalPrograms)
@@ -92,6 +107,7 @@ export default Vue.extend({
     },
 
     licenses () {
+      // licenses are in shared db so do not merge coco & oz
       return this.org.newLicenses || []
     },
 
@@ -99,39 +115,96 @@ export default Vue.extend({
       return this.licenses.reduce((acc, license) => {
         acc.used += license.used
         acc.count += license.count
-        license.teachers.forEach(tea => acc.teachers.add(tea))
-        license.schools.forEach(sch => acc.schools.add(sch))
+        license.teachers?.forEach(tea => acc.teachers.add(tea))
+        license.schools?.forEach(sch => acc.schools.add(sch))
         return acc
       }, { used: 0, count: 0, teachers: new Set(), schools: new Set() })
     },
 
     coursesWithProgress () {
-      if (!this.org.progress && !this.org.newReport) return []
+      if (!this.org.progress) return []
       let courses = _.cloneDeep(this.sortedCourses)
-      let alreadyCoveredConcepts = []
-      for (const course of courses) {
-        course.name = utils.i18n(course, 'name')
-        course.acronym = utils.courseAcronyms[course._id]
-        course.studentsStarting = (this.org.progress.studentsStartingCourse || {})[course._id] || 0
-        course.studentsCompleting = (this.org.progress.studentsCompletingCourse || {})[course._id] || 0
-        course.completion = course.studentsStarting ? Math.min(1, course.studentsCompleting / course.studentsStarting) : 0
-        if (this.org.newReport) {
-          const courseCompleteLevels = this.org.progress.courseCompleteLevels || {}
-          const courseStartingStudents = this.org.progress.courseStartingStudents || {}
-          const completeLevels = Math.max(...Object.values(courseCompleteLevels[course._id] || {})) || 0
-          course.studentsStarting = courseStartingStudents[course._id] || 0
-          course.completeLevels = completeLevels
-          course.completion = Math.min(1, course.completeLevels / (this.org.progress.courseAllLevels[course._id] || 1))
-        }
-        course.newConcepts = _.difference(course.concepts, alreadyCoveredConcepts)
-        alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
+      courses = this.formatCourse(courses, this.org.progress, this.org.newReport)
+      if (this.showOther && this.otherOrg.progress) {
+        let otherCourses = _.cloneDeep(this.sortedOtherCourses)
+        otherCourses = this.formatCourse(otherCourses, this.otherOrg.progress, this.otherOrg.newReport)
+        courses = courses.concat(otherCourses)
       }
-      if (this.org.newReport) {
-        courses = _.filter(courses, (course) => course.completeLevels >= 1)
-      } else {
-        courses = _.filter(courses, (course) => (course.studentsStarting + course.studentsCompleting) >= Math.min(100, Math.max(2, Math.ceil(0.02 * this.org.progress.studentsWithCode))))
-      }
+
       return courses
+    },
+
+    schoolCount () {
+      let schools = this.org.progress.schools
+      if (this.showOther && this.otherOrg.progress) {
+        schools += this.otherOrg.progress.schools
+      }
+      return schools
+    },
+
+    teacherCount () {
+      let teachers = this.org.progress.teachers
+      if (this.showOther && this.otherOrg.progress) {
+        teachers += this.otherOrg.progress.teachers
+      }
+      return teachers
+    },
+
+    studentsWithCode () {
+      let students = this.org.progress.studentsWithCode
+      if (this.showOther && this.otherOrg.progress) {
+        students = Math.max(students, this.otherOrg.progress.studentsWithCode)
+        // use max here because we cannot determine duplicated students
+      }
+      return students
+    },
+
+    projects () {
+      let projects = this.org.progress.projects
+      if (this.showOther && this.otherOrg.progress) {
+        projects += this.otherOrg.progress.projects
+      }
+
+      return projects
+    },
+
+    programs () {
+      let programs = this.org.progress.programs
+      if (this.showOther && this.otherOrg.progress) {
+        programs += this.otherOrg.progress.programs
+      }
+      return programs
+    },
+
+    linesOfCode () {
+      let lines = this.org.progress.linesOfCode
+      if (this.showOther && this.otherOrg.progress) {
+        lines += this.otherOrg.progress.linesOfCode
+      }
+      return lines
+    },
+
+    playtime () {
+      let time = this.org.progress.playtime
+      if (this.showOther && this.otherOrg.progress) {
+        time += this.otherOrg.progress.playtime
+      }
+      return time
+    },
+    populationSize () {
+      let size = this.org.progress.populationSize
+      if (this.showOther && this.otherOrg.progress) {
+        size += this.otherOrg.progress.populationSize
+      }
+      return size
+    },
+
+    sampleSize () {
+      let size = this.org.progress.sampleSize
+      if (this.showOther && this.otherOrg.progress) {
+        size += this.otherOrg.progress.sampleSize
+      }
+      return size
     },
 
     mapUrl () {
@@ -203,6 +276,34 @@ export default Vue.extend({
       if (num < 10000000000) return (num / 1000000000).toFixed(1) + 'B'
       if (num < 999500000000) return Math.round(num / 1000000000) + 'B'
       return Math.round(num / 1000000000000) + 'T'
+    },
+
+    formatCourse (courses, progress, newReport) {
+      let alreadyCoveredConcepts = []
+      for (const course of courses) {
+        course.name = utils.i18n(course, 'name')
+        course.acronym = utils.courseAcronyms[course._id]
+        course.studentsStarting = (progress.studentsStartingCourse || {})[course._id] || 0
+        course.studentsCompleting = (progress.studentsCompletingCourse || {})[course._id] || 0
+        course.completion = course.studentsStarting ? Math.min(1, course.studentsCompleting / course.studentsStarting) : 0
+        if (newReport) {
+          const courseCompleteLevels = progress.courseCompleteLevels || {}
+          const courseStartingStudents = progress.courseStartingStudents || {}
+          const completeLevels = Math.max(...Object.values(courseCompleteLevels[course._id] || {})) || 0
+          course.studentsStarting = courseStartingStudents[course._id] || 0
+          course.completeLevels = completeLevels
+          course.completion = Math.min(1, course.completeLevels / (progress.courseAllLevels[course._id] || 1))
+        }
+        course.newConcepts = _.difference(course.concepts, alreadyCoveredConcepts)
+        alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
+      }
+      if (newReport) {
+        courses = _.filter(courses, (course) => course.completeLevels >= 1)
+      } else {
+        courses = _.filter(courses, (course) => (course.studentsStarting + course.studentsCompleting) >= Math.min(100, Math.max(2, Math.ceil(0.02 * progress.studentsWithCode))))
+      }
+
+      return courses
     }
   }
 })
@@ -236,8 +337,8 @@ export default Vue.extend({
 
       if codeLanguageString
         span  (#{codeLanguageString})
-      if !included && org.progress && org.progress.studentsWithCode && org.kind != 'student'
-        span  - #{org.progress.studentsWithCode} #{$t('courses.students').toLocaleLowerCase()}
+      if !included && org.progress && studentsWithCode && org.kind != 'student'
+        span  - #{studentsWithCode} #{$t('courses.students').toLocaleLowerCase()}
       label.edit-label.editing-only(:for="'includeOrg-' + org._id" v-if="editing && isSubOrg")
         span  &nbsp;
         input(:id="'includeOrg-' + org._id" name="'includeOrg-' + org._id" type="checkbox" v-model="included")
@@ -306,7 +407,7 @@ export default Vue.extend({
         p(v-html="$t('outcomes.licensed_schools', { schools: totalLicense.schools.size.toLocaleString() })")
 
   .block(v-if="org.kind === 'school-district'")
-    summary-component(:students="org.progress.studentsWithCode" :teachers="org.progress.teacherCount" :schools="org.progress.schoolCount" :licensesUsed="totalLicense?.used" v-if="org.progress")
+    summary-component(:students="studentsWithCode" :teachers="teacherCount" :schools="schoolCount" :licensesUsed="totalLicense?.used" v-if="org.progress")
 
   .block(v-if="showLicense")
     h1= $t('outcomes.license_stats')
@@ -351,7 +452,7 @@ export default Vue.extend({
             .overlay-text.mid-text= course.acronym
             .overlay-text.bot-text= Math.round(100 * course.completion) + '% ' + $t('courses.complete')
 
-  .block(v-if="org.progress && org.progress.programs > 1 && included && codeLanguageStats.length > 1 && !codeLanguageString")
+  .block(v-if="org.progress && programs > 1 && included && codeLanguageStats.length > 1 && !codeLanguageString")
     // TODO: somehow note the code language if we are skipping this section (like 100% Python at school level)
     .course.dont-break.full-row
       h3= $t('outcomes.code_languages')
@@ -370,49 +471,49 @@ export default Vue.extend({
               img.code-language-icon(alt="" :src="'/images/common/code_languages/' + stats.language + '_small.png'")
               span= stats.name
 
-  .dont-break.block.summary(v-if="org.progress && org.progress.programs > 1 && included")
+  .dont-break.block.summary(v-if="org.progress && programs > 1 && included")
     h1= $t('clans.summary')
     if org.kind != 'student'
       h4= $t('outcomes.using_codecombat')
       .fakebar
         div
-          | #{formatNumber(org.progress.studentsWithCode)}
+          | #{formatNumber(studentsWithCode)}
           = " "
-          small= (org.progress.studentsWithCode == 1 ? $t('courses.student') : $t('courses.students')).toLocaleLowerCase()
+          small= (studentsWithCode == 1 ? $t('courses.student') : $t('courses.students')).toLocaleLowerCase()
     if org.kind === 'student'
       h4= (org.displayName || org.name) + ' ' + $t('outcomes.wrote')
     else
       h4= $t('outcomes.wrote')
     .fakebar
       div
-        | #{formatNumber(org.progress.programs)}
+        | #{formatNumber(programs)}
         = " "
-        small= org.progress.programs == 1 ? $t('outcomes.computer_program') : $t('outcomes.computer_programs')
+        small= programs == 1 ? $t('outcomes.computer_program') : $t('outcomes.computer_programs')
     h4= $t('outcomes.across_an_estimated')
     .fakebar
       div
-        | #{formatNumber(org.progress.linesOfCode)}
+        | #{formatNumber(linesOfCode)}
         = " "
-        small= org.progress.linesOfCode == 1 ? $t('outcomes.line_of_code') : $t('outcomes.lines_of_code')
-    if org.progress && (org.progress.playtime >= 1.5 * 3600 || org.kind == 'student')
+        small= linesOfCode == 1 ? $t('outcomes.line_of_code') : $t('outcomes.lines_of_code')
+    if org.progress && (playtime >= 1.5 * 3600 || org.kind == 'student')
       h4= $t('outcomes.in')
       .fakebar
         div
-          if org.progress.playtime > 1.5 * 3600
-            span= formatNumber(Math.round(org.progress.playtime / 3600))
+          if playtime > 1.5 * 3600
+            span= formatNumber(Math.round(playtime / 3600))
           else
-            span= (org.progress.playtime / 3600).toFixed(1)
+            span= (playtime / 3600).toFixed(1)
           = " "
           small= $t('outcomes.coding_hours')
-    if org.progress.projects >= 1 + Math.min(100, Math.floor(0.02 * org.progress.studentsWithCode))
+    if projects >= 1 + Math.min(100, Math.floor(0.02 * studentsWithCode))
       h4= $t('outcomes.expressed_creativity')
       .fakebar
         div
-          | #{formatNumber(org.progress.projects)}
+          | #{formatNumber(projects)}
           = " "
-          small= $t('outcomes.report_content_1') + (org.progress.projects == 1 ? $t('outcomes.project') : $t('outcomes.projects'))
-    if org.progress && org.progress.sampleSize < org.progress.populationSize
-      em=  "* " + $t('outcomes.progress_stats', {sampleSize: formatNumber(org.progress.sampleSize), populationSize: formatNumber(org.progress.populationSize)})
+          small= $t('outcomes.report_content_1') + (projects == 1 ? $t('outcomes.project') : $t('outcomes.projects'))
+    if org.progress && sampleSize < populationSize
+      em=  "* " + $t('outcomes.progress_stats', {sampleSize: formatNumber(sampleSize), populationSize: formatNumber(populationSize)})
 
   .block(v-if="included && false")
     h1 Uncategorized Info
