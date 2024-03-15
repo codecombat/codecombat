@@ -115,7 +115,7 @@ $UNVEIL_TIME: 1.2s
       background-size: 100% 100%
       padding: 4% 80px 40px 80px
       // http://matthewlein.com/ceaser/  Bounce down a bit, then snap up.
-      @include transition($UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600))
+      @include transition(all $UNVEIL_TIME cubic-bezier(0.285, -0.595, 0.670, -0.600), padding 0s)
       &.preview
         top: 0
         right: 0
@@ -125,11 +125,21 @@ $UNVEIL_TIME: 1.2s
           width: calc($code-area-width-blocks - 20px)
         height: auto
         pointer-events: all
-        @include transition($UNVEIL_TIME ease-in-out)
+        @include transition(all $UNVEIL_TIME ease-in-out, padding 0s)
 
         padding: 11vh 70px 40px 50px
         .progress-or-start-container.intro-footer
           bottom: 30px
+
+      .level-name
+        font-family: $headings-font-family
+        font-weight: bold
+        font-size: 48px
+        color: black
+        text-wrap: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+        margin-top: 100px
 
       .level-loading-goals
         text-align: left
@@ -194,8 +204,8 @@ $UNVEIL_TIME: 1.2s
         position: absolute
         bottom: 95px
         height: 80px
-        left: 48px
-        right: 77px
+        left: 59px
+        right: 66px
         @include transition(bottom $UNVEIL_TIME ease-out)
       @else
         color: white
@@ -420,3 +430,7 @@ $UNVEIL_TIME: 1.2s
         border-width: 124px 76px 64px 40px
         border-image: url(/images/level/code_editor_background.png) 124 76 64 40 fill round
         padding: 0 35px 0 15px
+
+  #level-loading-view.codecombat-junior
+    #loading-details, #loading-details.preview
+      padding: 60px 20px 30px 20px

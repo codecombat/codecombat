@@ -21,5 +21,5 @@ mixin license-type(licenseType, licensePresets, utils)
           if licenseType === 'customize'
             each courseID, key in utils.allCourseIDs
               label.course-name
-                input(type="checkbox", name="includedCourseIDs", value=courseID, checked=key==='INTRODUCTION_TO_COMPUTER_SCIENCE')
+                input(type="checkbox", name="includedCourseIDs", value=courseID, checked=key==='INTRODUCTION_TO_COMPUTER_SCIENCE' || key==='JUNIOR')
                 span=utils.courseAcronyms[courseID]

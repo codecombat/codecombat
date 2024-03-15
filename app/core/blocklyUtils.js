@@ -892,17 +892,23 @@ module.exports.initializeBlocklyPlugins = function (blockly) {
 // zoomToFit = new ZoomToFitControl blockly
 // zoomToFit.init()
 
-module.exports.getBlocklySource = function (blockly, codeLanguage) {
+module.exports.getBlocklySource = function (blockly, { codeLanguage, product }) {
   if (!blockly) { return }
   const blocklyState = Blockly.serialization.workspaces.save(blockly)
   const generator = module.exports.getBlocklyGenerator(codeLanguage)
-  let blocklySource = generator.workspaceToCode(blockly)
-  blocklySource = module.exports.rewriteBlocklyCode(blocklySource, codeLanguage)
+  let blocklySourceRaw = generator.workspaceToCode(blockly)
+  blocklySourceRaw = module.exports.rewriteBlocklyCode(blocklySourceRaw, { codeLanguage, product })
+  let blocklySource
+  if (product === 'codecombat-junior') {
+    blocklySource = condenseNewlines(blocklySourceRaw)
+  } else {
+    blocklySource = blocklySourceRaw
+  }
   const commentStart = utils.commentStarts[codeLanguage] || '//'
   // console.log "Blockly state", blocklyState
   // console.log "Blockly source", blocklySource
   const combined = `${commentStart}BLOCKLY| ${JSON.stringify(blocklyState)}\n\n${blocklySource}`
-  return { blocklyState, blocklySource, combined }
+  return { blocklyState, blocklySource, combined, blocklySourceRaw }
 }
 
 module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
@@ -1063,22 +1069,22 @@ module.exports.blocklyStateIncludesBlockType = function (state, type) {
   return false
 }
 
-module.exports.rewriteBlocklyCode = function (code, codeLanguage) {
+module.exports.rewriteBlocklyCode = function (code, { codeLanguage, product }) {
   code = code.replace(/☃/gm, '') // Undo our unicode snowman whitespace trimmer remover
   codeLanguage = codeLanguage || 'javascript'
   switch (codeLanguage) {
     case 'javascript':
-      return rewriteBlocklyJS(code)
+      return rewriteBlocklyJS(code, { product })
     case 'python':
-      return rewriteBlocklyPython(code)
+      return rewriteBlocklyPython(code, { product })
     case 'lua':
-      return rewriteBlocklyLua(code)
+      return rewriteBlocklyLua(code, { product })
     default:
       throw new Error(`Unknown code language ${codeLanguage}`)
   }
 }
 
-function rewriteBlocklyJS (code) {
+function rewriteBlocklyJS (code, { product }) {
   // Replace var greeting;\n\ngreeting = 'Hello'; with var greeting = 'Hello';
   code = code.replace(/^var (\S+,? ?)+\n*/, '')
   const found = []
@@ -1091,18 +1097,24 @@ function rewriteBlocklyJS (code) {
   return code.trim()
 }
 
-function rewriteBlocklyPython (code) {
-  let oldcode
+function rewriteBlocklyPython (code, { product }) {
+  let oldCode
   do {
-    oldcode = code
+    oldCode = code
     code = code.replace(/^[a-zA-Z0-9_-s]+ = None\n/, '')
-  } while (code !== oldcode)
+  } while (code !== oldCode)
 
   return code.trim()
 }
 
-function rewriteBlocklyLua (code) {
+function rewriteBlocklyLua (code, { product }) {
   return code
+}
+
+function condenseNewlines (code) {
+  // Replace multiple newlines, possibly with whitespace in the middle, with single newlines
+  // Only do this in between lines of code, not comments
+  return code.replace(/([^\n])\n[ \t]*\n([^\n])/g, '$1\n$2')
 }
 
 function findLastBlockWithNextConnection (block) {
@@ -1131,7 +1143,7 @@ module.exports.createBlockById = function ({ workspace, id, codeLanguage }) {
     const childConnection = newWorkspaceBlock.previousConnection
     if (parentConnection && childConnection) {
       parentConnection.connect(childConnection)
-      return
+      return newWorkspaceBlock
     }
   }
   newWorkspaceBlock.moveBy(0, 1000, 'Could not automatically connect. Putting this all the way down so that it goes in the right order when we clean up.')

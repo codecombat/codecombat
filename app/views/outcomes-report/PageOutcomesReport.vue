@@ -25,6 +25,7 @@ const parameterDefaults = () => ({
   endDate: moment(new Date()).format('YYYY-MM-DD'),
   editing: me.isAdmin(),
   includeOther: false,
+  showOther: false,
 })
 
 export default {
@@ -54,14 +55,18 @@ export default {
       orgIdOrSlug: '',
       country: null,
       org: null,
+      otherOrg: null,
       subOrgs: [],
+      otherSubOrgs: [],
       loading: true,
       earliestProgressDate: null,
       loadingText: null,
       fetchAttempts: 0,
       fetchInterval: 2000,
       includeOther: false,
-      showLicense: false
+      showOther: false,
+      showLicense: false,
+      showLicenseSummary: false
     }
     const defaults = parameterDefaults()
     for (const key in defaults) {
@@ -118,8 +123,12 @@ export default {
       }
     },
     includeOther (newVal, lastVal) {
-      if (newVal !== lastVal) {
+      if (newVal) {
         this.addParametersToLocation()
+        this.loadRequiredData()
+        this.showOther = true // show other product by default
+      } else {
+        this.showOther = false
       }
     }
   },
@@ -129,6 +138,10 @@ export default {
     this.orgIdOrSlug = this.$route.params.idOrSlug || null
     this.country = this.$route.params.country || null
     this.fetchCourses()
+    if (me.isInternal() || me.isAdmin()) {
+      this.showLicenseSummary = true
+    }
+    this.fetchOtherCourses(this.otherProduct)
   },
 
   mounted () {
@@ -150,7 +163,8 @@ export default {
 
   methods: {
     ...mapActions({
-      fetchCourses: 'courses/fetch'
+      fetchCourses: 'courses/fetch',
+      fetchOtherCourses: 'courses/fetchOther'
     }),
 
     // changeClanSelected (e) {
@@ -191,53 +205,66 @@ export default {
         const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate })
         console.log('outcome-reports', kind, orgIdOrSlug, country, 'got stats', stats)
       } else {
-        stats = await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate })
-        if (this.includeOther) {
-          await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate, includeOther: true })
-        }
+        stats = await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate, includeOther: this.includeOther })
       }
       this.setStats({ stats, includeSubOrgs, kind })
     },
 
     setStats ({ stats, includeSubOrgs, kind }) {
       if (!stats) return
+      this.org = this.setOrgAndSubOrgs(stats)
+      if (this.includeOther) {
+        this.otherOrg = this.setOrgAndSubOrgs(stats, 'other')
+      }
+    },
+
+    setOrgAndSubOrgs (stats, product = 'current') {
       let subOrgs = []
-      if (includeSubOrgs) {
-        for (const childKind of orgKinds[kind].childKinds) {
-          subOrgs = subOrgs.concat(stats.current[childKind + 's'] || [])
+      if (this.includeSubOrgs) {
+        for (const childKind of orgKinds[this.kind].childKinds) {
+          subOrgs = subOrgs.concat(stats[product][childKind + 's'] || [])
         }
         for (const [index, subOrg] of subOrgs.entries()) {
           subOrg.initiallyIncluded = Boolean(!subOrg.archived && index < this.subOrgLimit && subOrg.progress && subOrg.progress.programs && (subOrgs.length > 1 || this.subOrgLimit === 1))
           // TODO: better way to get rid of redundant info if there is only one subOrg
         }
       }
-      this.subOrgs = Object.freeze(subOrgs) // Don't add reactivity
+      if (product === 'current') {
+        this.subOrgs = Object.freeze(subOrgs) // Don't add reactivity
+      } else {
+        this.otherSubOrgs = Object.freeze(subOrgs) // Don't add reactivity
+      }
 
-      const licenses = stats.current.licenses
-      const orgs = stats.current[kind + 's']
+      const licenses = stats[product].licenses
+      const orgs = stats[product][this.kind + 's']
       if (orgs) {
         orgs[0].subOrgs = this.subOrgs
         orgs[0].newLicenses = licenses
-        this.org = Object.freeze(orgs[0]) // Don't add reactivity
-        console.log('   ... got our org', this.org)
+        const org = Object.freeze(orgs[0]) // Don't add reactivity
+        console.log('   ... got our org', org)
+        return org
       }
     },
 
     async fetchUsingBackgroundJob ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate, includeOther }) {
-      const otherProduct = includeOther ? this.otherProduct : undefined
-      const resp = await createJob(JOB_TYPE, { kind, orgIdOrSlug, includeSubOrgs, country, dateRange: { startDate, endDate } }, otherProduct)
+      const resp = await createJob(JOB_TYPE, { kind, orgIdOrSlug, includeSubOrgs, country, dateRange: { startDate, endDate } })
+      let resp2
+      if (includeOther) {
+        resp2 = await createJob(JOB_TYPE, { kind, orgIdOrSlug, includeSubOrgs, country, dateRange: { startDate, endDate } }, this.otherProduct)
+      }
       const jobId = resp?.job
+      const jobId2 = resp2?.job
 
       if (!jobId) {
         console.log('failed to create job', jobId, resp)
         this.loadingText = $.i18n.t('loading_error.could_not_load')
         return
       }
-      const stats = await this.pollJob(jobId)
+      const stats = await this.pollJob(jobId, jobId2)
       return stats
     },
 
-    async pollJob (jobId) {
+    async pollJob (jobId, jobId2) {
       const sleep = async function (ms) {
         return new Promise(resolve => setTimeout(resolve, ms))
       }
@@ -246,7 +273,7 @@ export default {
         this.fetchAttempts++
         let job
         if (this.includeOther) {
-          job = await Promise.all([getJob(jobId), getJob(jobId, this.otherProduct)]).then(([job1, job2]) => {
+          job = await Promise.all([getJob(jobId), getJob(jobId2, this.otherProduct)]).then(([job1, job2]) => {
             // todo: check this job
             if (job1.status === 'failed' || job2.status === 'failed') {
               return { status: 'failed' }
@@ -316,7 +343,7 @@ export default {
 
     ...mapState('courses', {
       coursesLoaded: 'loaded',
-      courses: (state) => state.byId
+      courses: (state) => state.byId,
     }),
 
     isCodeCombat () {
@@ -391,9 +418,10 @@ main#page-outcomes-report
           label.edit-label.editing-only(v-if="editing" for="startDate") &nbsp; (edit)
 
     .org-results(v-if="org && !loading")
-      outcomes-report-result-component(:org="org" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="kind !== 'student'")
+      outcomes-report-result-component(:org="org" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="showLicenseSummary && kind !== 'student'" :showOther="showOther")
       if includeSubOrgs
         outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
+        outcomes-report-result-component.sub-org(v-if="showOther" v-for="subOrg, index in otherSubOrgs" v-bind:index="index" v-bind:key="'other-' + subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
 
     .loading-indicator(v-if="loading")
       h1 {{ loadingText }}
@@ -455,15 +483,25 @@ main#page-outcomes-report
         .col-xs-7
           input#subOrgLimit.form-control(type="number" v-model.number="subOrgLimit" name="subOrgLimit" min="1" step="1")
       .form-group(v-if="kind !== 'student'")
+        label.control-label.col-xs-5(for="showLicenseSummary")
+          span= $t('outcomes.show_license_summary')
+        .col-xs-7
+          input#showLicenseSummary.form-control(type="checkbox" v-model="showLicenseSummary" name="showLicenseSummary")
+      .form-group(v-if="kind !== 'student'")
         label.control-label.col-xs-5(for="showLicense")
           span= $t('outcomes.show_license_stats')
         .col-xs-7
-          input#showLicense.form-control(type="checkbox" v-model="showLicense" name="showLicnese")
-      .form-group
+          input#showLicense.form-control(type="checkbox" v-model="showLicense" name="showLicense")
+      .form-group(v-if="!includeOther")
         label.control-label.col-xs-5(for="includeOtherProduct")
           span= $t('outcomes.include_other_product', { product: this.otherProduct })
         .col-xs-7
           input#includeOtherProduct.form-control(type="checkbox" v-model="includeOther" name="includeOtherProduct")
+      .form-group(v-else)
+        label.control-label.col-xs-5(for="showOtherProduct")
+          span= $t('outcomes.show_other_product', { product: this.otherProduct })
+        .col-xs-7
+          input#showOtherProduct.form-control(type="checkbox" v-model="showOther" name="showOtherProduct")
     .clearfix
 </template>
 

@@ -35,6 +35,7 @@ const fetchWrapper = function (url, options) {
     delete options.data
   }
   if (options.callOz) {
+    // todo: change to callOther so that can call coco from oz too
     url = utils.getProductUrl('OZ', url)
   }
   if (options.credentials == null) { options.credentials = 'same-origin' }

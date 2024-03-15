@@ -417,6 +417,9 @@ _.extend(UserSchema.properties, {
         description: 'Features flags applied to this user',
         // key is the feature id
         additionalProperties: FeatureRecipientSchema
+      },
+      isNewDashboardActive: {
+        type: 'boolean'
       }
     }
   },

@@ -16,6 +16,7 @@ const courseIDs = {
 }
 
 const otherCourseIDs = {
+  JUNIOR: '65f32b6c87c07dbeb5ba1936',
   INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
   GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
   WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
@@ -43,6 +44,7 @@ const orderedCourseIDs = [ // eslint-disable-line no-unused-vars
   courseIDs.CHAPTER_FOUR
 ]
 const otherOrderedCourseIDs = [ // eslint-disable-line no-unused-vars
+  otherCourseIDs.JUNIOR,
   otherCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
   otherCourseIDs.GAME_DEVELOPMENT_1,
   otherCourseIDs.WEB_DEVELOPMENT_1,

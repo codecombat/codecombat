@@ -121,7 +121,9 @@ export default {
     :style="cssVariables"
   >
     <div class="title">
-      <h3>{{ moduleHeading }}</h3>
+      <!-- eslint-disable vue/no-v-html -->
+      <h3 v-html="moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>')" />
+      <!-- eslint-enable vue/no-v-html -->
       <v-popover
         v-if="!displayOnly"
         placement="top"

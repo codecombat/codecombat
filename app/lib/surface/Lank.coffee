@@ -504,6 +504,8 @@ module.exports = Lank = class Lank extends CocoClass
     if bar = @healthBar
       healthPct = Math.max(@thang.health / @thang.maxHealth, 0)
       bar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
+      if @thang.id is 'Hero Placeholder'
+        Backbone.Mediator.publish 'sprite:hero-health-updated', health: @thang.health, maxHealth: @thang.maxHealth
     if @thang.showsName
       @setNameLabel(if @thang.health <= 0 then '' else @thang.id)
     else if @options.playerName

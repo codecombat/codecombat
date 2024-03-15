@@ -222,13 +222,16 @@ var titleize = s => // Turns things like 'dungeons-of-kithgard' into 'Dungeons o
   )
 
 if (isCodeCombat) {
-  campaignIDs =
-    { INTRO: '55b29efd1cd6abe8ce07db0d' }
+  campaignIDs = {
+    JUNIOR: '65c56663d2ca2055e65676af',
+    INTRO: '55b29efd1cd6abe8ce07db0d',
+  }
 
-  freeCampaignIds = [campaignIDs.INTRO] // CS1 campaign
+  freeCampaignIds = [campaignIDs.JUNIOR, campaignIDs.INTRO] // Junior, CS1 campaign
   internalCampaignIds = [] // Ozaria has one of these, CoCo doesn't
 
   courseIDs = {
+    JUNIOR: '65f32b6c87c07dbeb5ba1936',
     INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
     GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
     WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
@@ -260,6 +263,7 @@ if (isCodeCombat) {
   }
 
   CSCourseIDs = [
+    courseIDs.JUNIOR,
     courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     courseIDs.COMPUTER_SCIENCE_2,
     courseIDs.COMPUTER_SCIENCE_3,
@@ -272,6 +276,7 @@ if (isCodeCombat) {
     courseIDs.WEB_DEVELOPMENT_2
   ]
   orderedCourseIDs = [
+    courseIDs.JUNIOR,
     courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     courseIDs.GAME_DEVELOPMENT_1,
     courseIDs.WEB_DEVELOPMENT_1,
@@ -293,6 +298,67 @@ if (isCodeCombat) {
 
   courseModules = {}
   courseModuleLevels = {}
+
+  courseModules[courseIDs.JUNIOR] = {
+    1: 'The `go()` Function',
+    2: 'Arguments',
+    3: 'The `hit()` Function',
+    4: 'The `spin()` Function',
+    5: 'The `zap()` Function',
+    6: 'For Loops',
+    7: 'If Statements',
+    // 8: 'Variables'
+  }
+
+  // TODO: move all the level/module data to database
+  // structure: [courseId][moduleNumber]: [levelName1, levelName2, ...]
+  courseModuleLevels[courseIDs.JUNIOR] = {
+    1: [
+      'The Gem',
+      'Two Gems',
+      'Gem Square',
+      'X Marks the Spot',
+      'Gems First',
+    ],
+    2: [
+      'Steps',
+      'Long Hall',
+      'Big Gem Square',
+      'Snake Maze',
+      'One Block',
+    ],
+    3: [
+      'Knock Knock',
+      'Open and Shut',
+      'Open Up',
+      'Doors',
+      'Bad Guys',
+      'Hall Monitor',
+      'One at a Time',
+      'Choose Your Battles',
+    ],
+    4: [
+      'Spin to Win',
+      'Busy Intersection',
+      'Badder Guy',
+      'Two Big',
+      'Hit and Spin',
+    ],
+    5: [
+      'Zap It',
+      'Zap Gap',
+      'Kaboom',
+    ],
+    6: [
+      'Loopy',
+      'Spin Eternally',
+      'Gem Weave',
+    ],
+    7: [
+      'Zap Smart',
+    ],
+  }
+
   courseModules[courseIDs.COMPUTER_SCIENCE_2] = {
     1: 'Coordinate Systems',
     2: 'Conditionals Part 1',
@@ -303,8 +369,6 @@ if (isCodeCombat) {
     7: 'Events'
   }
 
-    // TODO: move all the level/module data to database
-    // structure: [courseId][moduleNumber]: [levelName1, levelName2, ...]
   courseModuleLevels[courseIDs.COMPUTER_SCIENCE_2] = {
     1: [
       'Defense of Plainswood',
@@ -790,7 +854,7 @@ if (isCodeCombat) {
   }
 
   hourOfCodeOptions = {
-    campaignId: freeCampaignIds[0],
+    campaignId: freeCampaignIds[1],
     courseId: courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     name: 'Introduction to Computer Science',
     progressModalAfter: 1500000 // 25 mins
@@ -810,6 +874,7 @@ if (isCodeCombat) {
   }
 
   otherCourseIDs = {
+    JUNIOR: '65f32b6c87c07dbeb5ba1936',
     INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
     GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
     WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
@@ -837,6 +902,7 @@ if (isCodeCombat) {
     courseIDs.CHAPTER_FOUR
   ]
   otherOrderedCourseIDs = [
+    otherCourseIDs.JUNIOR,
     otherCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     otherCourseIDs.GAME_DEVELOPMENT_1,
     otherCourseIDs.WEB_DEVELOPMENT_1,
@@ -888,6 +954,7 @@ if (isCodeCombat) {
 }
 
 const allCourseIDs = _.assign(courseIDs, otherCourseIDs)
+const allFreeCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.CHAPTER_ONE]
 
 const courseNumericalStatus = {};
 (function () {
@@ -901,6 +968,7 @@ const courseNumericalStatus = {};
 })()
 
 const courseAcronyms = {}
+courseAcronyms[allCourseIDs.JUNIOR] = 'JR'
 courseAcronyms[allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
 courseAcronyms[allCourseIDs.GAME_DEVELOPMENT_1] = 'GD1'
 courseAcronyms[allCourseIDs.WEB_DEVELOPMENT_1] = 'WD1'
@@ -1454,6 +1522,12 @@ const needsPractice = function (playtime, threshold) {
 const sortCourses = courses => _.sortBy(courses, function (course) {
   // ._id can be from classroom.courses, otherwise it's probably .id
   let index = orderedCourseIDs.indexOf(course.id != null ? course.id : course._id)
+  if (index === -1) { index = 9001 }
+  return index
+})
+
+const sortOtherCourses = courses => _.sortBy(courses, function (course) {
+  let index = otherOrderedCourseIDs.indexOf(course.id != null ? course.id : course._id)
   if (index === -1) { index = 9001 }
   return index
 })
@@ -2069,10 +2143,6 @@ const getModuleNumberForLevelName = function (courseId, levelName) {
   return moduleNumberByLevelName[levelName] && Number(moduleNumberByLevelName[levelName])
 }
 
-const getNewDashboardToggleKey = function () {
-  return `new-dashboard-${me.id}`
-}
-
 module.exports = {
   activeAndPastArenas,
   activeArenas,
@@ -2100,6 +2170,7 @@ module.exports = {
   courseAcronyms,
   courseIDs,
   allCourseIDs,
+  allFreeCourseIDs,
   courseModules,
   courseModuleLevels,
   courseNumericalStatus,
@@ -2123,7 +2194,6 @@ module.exports = {
   getCoursePraise,
   getDocumentSearchString,
   getModuleNumberForLevelName,
-  getNewDashboardToggleKey,
   getPrepaidCodeAmount,
   getProduct,
   getProductName,
@@ -2162,6 +2232,7 @@ module.exports = {
   round,
   AILeagueSeasons,
   sortCourses,
+  sortOtherCourses,
   sortCoursesByAcronyms,
   stripIndentation,
   teamSpells,
