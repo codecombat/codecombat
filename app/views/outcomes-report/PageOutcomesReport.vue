@@ -397,6 +397,26 @@ export default {
       // TODO: filter out a kind if there's only one instance (one classroom for a teacher, maybe one teacher in a school)
       // TODO: filter out a kind if there are no instances (no subnetwork so go to schools)
       return orgKinds[this.kind].childKinds[0]
+    },
+
+    combinedSubOrgs () {
+      const subOrgs = {}
+      for (const subOrg of this.subOrgs || []) {
+        if (subOrg._id in subOrgs) {
+          subOrgs[subOrg._id].org = subOrg
+        } else {
+          subOrgs[subOrg._id] = { org: subOrg }
+        }
+      }
+      for (const subOrg of this.otherSubOrgs || []) {
+        if (subOrg._id in subOrgs) {
+          subOrgs[subOrg._id].otherOrg = subOrg
+        } else {
+          // if only ozaria suborgs, we still use it as org in report comonent
+          subOrgs[subOrg._id] = { org: subOrg }
+        }
+      }
+      return Object.values(subOrgs)
     }
   }
 }
@@ -420,8 +440,7 @@ main#page-outcomes-report
     .org-results(v-if="org && !loading")
       outcomes-report-result-component(:org="org" :other-org="otherOrg" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="showLicenseSummary && kind !== 'student'" :showOther="showOther")
       if includeSubOrgs
-        outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
-        outcomes-report-result-component.sub-org(v-if="showOther" v-for="subOrg, index in otherSubOrgs" v-bind:index="index" v-bind:key="'other-' + subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
+        outcomes-report-result-component.sub-org(v-for="subOrg, index in combinedSubOrgs" :index="index" :key="subOrg.org.kind + '-' + subOrg.org._id" :org="subOrg.org" :other-org="subOrg.otherOrg" :editing="editing" :isSubOrg="true" :parentOrgKind="org.kind" :showOther="showOther")
 
     .loading-indicator(v-if="loading")
       h1 {{ loadingText }}

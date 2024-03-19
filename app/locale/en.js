@@ -4457,7 +4457,8 @@ module.exports = {
       students: 'Students',
       teachers: 'Teachers',
       licensesUsed: 'Licenses Used',
-      schools: 'Schools'
+      schools: 'Schools',
+      top_teacher_info: 'Teacher __A__, __B__ and __n__ other teachers use our platform'
     },
 
     efficacy: {
