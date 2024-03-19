@@ -2168,6 +2168,8 @@ module.exports = {
       class_type_after_school: 'After School',
       class_type_online: 'Online',
       class_type_camp: 'Camp',
+      class_type_camp_esports: 'Camp (Esports)',
+      class_type_camp_junior: 'Camp (Roblox)',
       class_type_homeschool: 'Homeschool',
       class_type_other: 'Other',
       student_age_range_label: 'Student Age Range',

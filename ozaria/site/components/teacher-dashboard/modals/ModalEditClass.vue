@@ -630,22 +630,49 @@ export default Vue.extend({
               <option value="">
                 {{ $t('courses.avg_student_exp_select') }}
               </option>
-              <option value="in-school">
+              <option
+                v-if="!me.isCodeNinja()"
+                value="in-school"
+              >
                 {{ $t('courses.class_type_in_school') }}
               </option>
               <option value="after-school">
                 {{ $t('courses.class_type_after_school') }}
               </option>
-              <option value="online">
+              <option
+                v-if="!me.isCodeNinja()"
+                value="online"
+              >
                 {{ $t('courses.class_type_online') }}
               </option>
-              <option value="camp">
+              <option
+                v-if="!me.isCodeNinja()"
+                value="camp"
+              >
                 {{ $t('courses.class_type_camp') }}
               </option>
-              <option value="homeschool">
+              <option
+                v-if="me.isCodeNinja()"
+                value="camp-esports"
+              >
+                {{ $t('courses.class_type_camp_esports') }}
+              </option>
+              <option
+                v-if="me.isCodeNinja()"
+                value="camp-junior"
+              >
+                {{ $t('courses.class_type_camp_junior') }}
+              </option>
+              <option
+                v-if="!me.isCodeNinja()"
+                value="homeschool"
+              >
                 {{ $t('courses.class_type_homeschool') }}
               </option>
-              <option value="other">
+              <option
+                v-if="!me.isCodeNinja()"
+                value="other"
+              >
                 {{ $t('courses.class_type_other') }}
               </option>
             </select>
