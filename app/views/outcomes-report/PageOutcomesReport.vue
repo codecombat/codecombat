@@ -229,13 +229,6 @@ export default {
           // TODO: better way to get rid of redundant info if there is only one subOrg
         }
       }
-      subOrgs.forEach(org => {
-        org.topTeachers?.forEach(teacher => {
-          if (!teacher.firstName) {
-            teacher.firstName = _.find(stats[product].teachers, (tea) => tea._id === teacher._id)?.firstName
-          }
-        })
-      })
       if (product === 'current') {
         this.subOrgs = Object.freeze(subOrgs) // Don't add reactivity
       } else {
@@ -247,11 +240,6 @@ export default {
       if (orgs) {
         orgs[0].subOrgs = this.subOrgs
         orgs[0].newLicenses = licenses
-        orgs[0].topTeachers?.forEach(teacher => {
-          if (!teacher.firstName) {
-            teacher.firstName = _.find(stats[product].teachers, (tea) => tea._id === teacher._id)?.firstName
-          }
-        })
         const org = Object.freeze(orgs[0]) // Don't add reactivity
         console.log('   ... got our org', org)
         return org
