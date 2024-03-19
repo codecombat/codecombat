@@ -202,8 +202,9 @@ module.exports = class LevelChatView extends CocoView
 
   onIconClick: (e) ->
     @open = not @open
-    openPanel = $('.open-chat-area', @$el).toggle @open
-    closedPanel = $('.closed-chat-area', @$el).toggle not @open
+    openPanel = @$('.open-chat-area', @$el).toggle @open
+    closedPanel = @$('.closed-chat-area', @$el).toggle not @open
+    @$('i.icon-comment').toggle true if @open
     @scrollDown()
     if window.getSelection?
       sel = window.getSelection()

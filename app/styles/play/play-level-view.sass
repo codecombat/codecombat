@@ -170,9 +170,15 @@ body.is-playing
     opacity: 0
     pointer-events: none
 
+    .ace_gutter-layer
+      pointer-events: none
+
     &.display
       transform: translate(54px, 0)
       pointer-events: auto
+
+      .ace_gutter-layer
+        pointer-events: auto
 
     #solution-view
       margin-top: 10px
