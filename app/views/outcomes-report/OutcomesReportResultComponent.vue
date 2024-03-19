@@ -248,7 +248,7 @@ export default Vue.extend({
       const info = $.i18n.t('outcomes.top_teacher_info', {
         A: formatTeacher(this.org.topTeachers[0]),
         B: formatTeacher(this.org.topTeachers[1]),
-        n: this.org.nces.teachers - 2
+        n: this.teacherCount - this.org.topTeachers.length
       })
       // $.i18.t encode the html
       const txt = document.createElement('textarea')
@@ -423,7 +423,7 @@ export default Vue.extend({
         p(v-html="$t('outcomes.license_template', { used: totalLicense.used.toLocaleString(), available: totalLicense.count.toLocaleString() })")
         p(v-html="$t('outcomes.licensed_teachers', { teachers: totalLicense.teachers.size.toLocaleString() })")
         p(v-html="$t('outcomes.licensed_schools', { schools: totalLicense.schools.size.toLocaleString() })")
-      .top-teachers(v-if="['school', 'school-admin', 'school-district'].includes(org.kind)")
+      .top-teachers(v-if="['school', 'school-admin', 'school-district'].includes(org.kind) && this.teacherCount > 0")
         p(v-html="topTeacherInfo")
 
   .block(v-if="org.kind === 'school-district'")
