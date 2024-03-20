@@ -33,6 +33,14 @@ export default {
         return undefined
       }
       return this.currentSelectedClassroom
+    },
+
+    showPD () {
+      return !me.isCodeNinja()
+    },
+
+    showLicenses () {
+      return !me.isCodeNinja()
     }
   },
 
@@ -176,7 +184,7 @@ export default {
         {{ $t('teacher_dashboard.resource_hub') }}
       </router-link>
     </li>
-    <li>
+    <li v-if="showLicenses">
       <router-link
         id="LicensesAnchor"
         to="/teachers/licenses"
@@ -188,7 +196,7 @@ export default {
         {{ $t('teacher_dashboard.my_licenses') }}
       </router-link>
     </li>
-    <li>
+    <li v-if="showPD">
       <router-link
         id="PDAnchor"
         to="/teachers/professional-development"
