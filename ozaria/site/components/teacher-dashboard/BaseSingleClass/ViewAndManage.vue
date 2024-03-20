@@ -51,7 +51,11 @@ export default {
       getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
       getLevelsForClassroom: 'levels/getLevelsForClassroom',
       getSessionsForClassroom: 'levelSessions/getSessionsForClassroom'
-    })
+    }),
+
+    showLicenses () {
+      return !me.isCodeNinja()
+    }
   },
   methods: {
     ...mapActions({
@@ -132,6 +136,7 @@ export default {
           {{ $t('teacher_dashboard.assign_content') }}
         </primary-button>
         <icon-button-with-text
+          v-if="showLicenses"
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseApply_Gray' : 'IconLicenseApply'"
           :text="$t('teacher.apply_licenses')"
@@ -139,6 +144,7 @@ export default {
           @click="applyLicenses"
         />
         <icon-button-with-text
+          v-if="showLicenses"
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseRevoke_Gray' : 'IconLicenseRevoke'"
           :text="$t('teacher_dashboard.revoke_licenses')"

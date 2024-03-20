@@ -66,10 +66,15 @@ export default {
       classrooms.sort(this.classroomSortById)
       return classrooms
     },
+
     sortedSharedClassrooms () {
       const classrooms = [...this.sharedClassrooms]
       classrooms.sort(this.classroomSortById)
       return classrooms
+    },
+
+    showPodcast () {
+      return !me.isCodeNinja()
     }
   },
 
@@ -250,7 +255,10 @@ export default {
       @close="showShareClassWithTeacherModal = false"
     />
 
-    <div class="container latest-podcast">
+    <div
+      v-if="showPodcast"
+      class="container latest-podcast"
+    >
       <h5 class="text-h5">
         {{ $t('teacher.from_the_podcast') }}
       </h5>
