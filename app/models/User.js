@@ -170,6 +170,11 @@ module.exports = (User = (function () {
       return email.endsWith('@codecombat.com') || email.endsWith('@ozaria.com')
     }
 
+    isDistrictAdmin (districtId) {
+      if (!districtId) return false
+      return this.get('features')?.ownerDistrictId === districtId
+    }
+
     displayName () { return this.get('name', true) }
     broadName () { return User.broadName(this.attributes) }
 
@@ -1225,9 +1230,9 @@ module.exports = (User = (function () {
     useSocialSignOn () { return !((features?.chinaUx != null ? features?.chinaUx : false) || (features?.china != null ? features?.china : false)) }
     isTarena () { return features?.Tarena != null ? features?.Tarena : false }
     useTarenaLogo () { return this.isTarena() }
-    hideTopRightNav () { return this.isTarena() || this.isILK() || this.isICode() }
-    hideFooter () { return this.isTarena() || this.isILK() || this.isICode() }
-    hideOtherProductCTAs () { return this.isTarena() || this.isILK() || this.isICode() }
+    hideTopRightNav () { return this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
+    hideFooter () { return this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
+    hideOtherProductCTAs () { return this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
     useGoogleClassroom () { return !(features?.chinaUx != null ? features?.chinaUx : false) && (this.get('gplusID') != null) } // if signed in using google SSO
     useGoogleCalendar () { return !(features?.chinaUx != null ? features?.chinaUx : false) && (this.get('gplusID') != null) && (this.isAdmin() || this.isOnlineTeacher()) } // if signed in using google SSO
     useGoogleAnalytics () { return !((features?.china != null ? features?.china : false) || (features?.chinaInfra != null ? features?.chinaInfra : false)) }
@@ -1238,18 +1243,19 @@ module.exports = (User = (function () {
     canAccessCampaignFreelyFromChina (campaignID) { return (utils.isCodeCombat && (campaignID === '55b29efd1cd6abe8ce07db0d')) || (utils.isOzaria && (campaignID === '5d1a8368abd38e8b5363bad9')) } // teacher can only access CS1 or CH1 freely in China
     isCreatedByTarena () { return (this.get('clientCreator') === '60fa65059e17ca0019950fdd') || (this.get('clientCreator') === '5c80a2a0d78b69002448f545') } // ClientID of Tarena2/Tarena3 on koudashijie.com
     isILK () {
-      let left
-      return (this.get('clientCreator') === '6082ec9996895d00a9b96e90') || _.find((left = this.get('clientPermissions')) != null ? left : [], { client: '6082ec9996895d00a9b96e90' })
+      return (this.get('clientCreator') === '6082ec9996895d00a9b96e90') || (this.get('clientPermissions') || []).some(p => p.client === '6082ec9996895d00a9b96e90')
     }
 
     isICode () {
-      let left
-      return (this.get('clientCreator') === '61393874c324991d0f68fc70') || _.find((left = this.get('clientPermissions')) != null ? left : [], { client: '61393874c324991d0f68fc70' })
+      return (this.get('clientCreator') === '61393874c324991d0f68fc70') || (this.get('clientPermissions') || []).some(p => p.client === '61393874c324991d0f68fc70')
     }
 
     isTecmilenio () {
-      let left
-      return ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'].includes(this.get('clientCreator')) || _.find((left = this.get('clientPermissions')) != null ? left : [], p => ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'].includes(p.client))
+      return ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'].includes(this.get('clientCreator')) || (this.get('clientPermissions') || []).some(p => ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'].includes(p.client))
+    }
+
+    isCodeNinja () {
+      return ['57fff652b0783842003fed00', '5b9af3a99c27360047dd2123'].includes(this.get('clientCreator')) || (this.get('clientPermissions') || []).some(p => ['57fff652b0783842003fed00', '5b9af3a99c27360047dd2123'].includes(p.client))
     }
 
     showForumLink () { return !(features?.china != null ? features?.china : false) }

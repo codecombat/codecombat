@@ -94,10 +94,16 @@ module.exports = (GameMenuModal = (function () {
     afterRender () {
       super.afterRender()
       for (const SubmenuView of Array.from(submenuViews)) { this.insertSubView(new SubmenuView(this.options)) }
-      const firstView = this.subviews.my_code_view
-      firstView.$el.addClass('active')
-      if (typeof firstView.onShown === 'function') {
-        firstView.onShown()
+      let firstView = this.subviews.my_code_view
+      if (utils.isOzaria) {
+        // ozaria still uses options_view
+        firstView = this.subviews.options_view
+      }
+      if (firstView) {
+        firstView.$el.addClass('active')
+        if (typeof firstView.onShown === 'function') {
+          firstView.onShown()
+        }
       }
       this.playSound('game-menu-open')
       return this.$el.find('.nano:visible').nanoScroller()
