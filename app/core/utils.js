@@ -500,7 +500,7 @@ if (isCodeCombat) {
       'Game of Coins Step 4: Power-Ups',
       'Game of Coins Step 5: Balance',
       'Game Dev 2 Final Project',
-    ]    
+    ]
   }
 
   courseModules[courseIDs.WEB_DEVELOPMENT_2] = {
@@ -650,7 +650,7 @@ if (isCodeCombat) {
       'Dangerous Key',
       'Olympic Race',
       'Cross Bones',
-    ]    
+    ]
   }
 
   courseModules[courseIDs.GAME_DEVELOPMENT_3] = {
@@ -679,7 +679,7 @@ if (isCodeCombat) {
       'Runner Step 3: Enemies',
       'Runner Step 4: Balance',
       'Game Dev 3 Final Project',
-    ]    
+    ]
   }
 
   courseModules[courseIDs.COMPUTER_SCIENCE_4] = {
@@ -737,7 +737,7 @@ if (isCodeCombat) {
       'Hunting Party',
       'Borrowed Sword',
       'Summation Summit',
-    ]    
+    ]
   }
 
   courseModules[courseIDs.COMPUTER_SCIENCE_5] = {
@@ -1121,6 +1121,9 @@ var i18n = function (say, target, language, fallback) {
     // we have some objects as return value.
     // when ai translation finished we can know how to deal with them
     // now return first
+    if (!str) {
+      return str
+    }
     if (typeof str === 'object') {
       const newObject = {}
       Object.keys(str).forEach((key) => {
