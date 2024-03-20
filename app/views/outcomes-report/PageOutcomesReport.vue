@@ -438,9 +438,9 @@ main#page-outcomes-report
           label.edit-label.editing-only(v-if="editing" for="startDate") &nbsp; (edit)
 
     .org-results(v-if="org && !loading")
-      outcomes-report-result-component(:org="org" :other-org="otherOrg" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="showLicenseSummary && kind !== 'student'" :showOther="showOther")
+      outcomes-report-result-component(:org="org" :other-org="otherOrg" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="showLicenseSummary && kind !== 'student'" :showOther="showOther" :org-id="orgIdOrSlug" :org-kind="kind")
       if includeSubOrgs
-        outcomes-report-result-component.sub-org(v-for="subOrg, index in combinedSubOrgs" :index="index" :key="subOrg.org.kind + '-' + subOrg.org._id" :org="subOrg.org" :other-org="subOrg.otherOrg" :editing="editing" :isSubOrg="true" :parentOrgKind="org.kind" :showOther="showOther")
+        outcomes-report-result-component.sub-org(v-for="subOrg, index in combinedSubOrgs" :index="index" :key="subOrg.org.kind + '-' + subOrg.org._id" :org="subOrg.org" :other-org="subOrg.otherOrg" :editing="editing" :isSubOrg="true" :parentOrgKind="org.kind" :showOther="showOther" :parent-org-id="orgIdOrSlug")
 
     .loading-indicator(v-if="loading")
       h1 {{ loadingText }}

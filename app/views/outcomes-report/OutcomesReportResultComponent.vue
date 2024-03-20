@@ -41,6 +41,10 @@ export default Vue.extend({
     showOther: {
       type: Boolean,
       default: false
+    },
+    parentOrgId: {
+      type: String,
+      default: null
     }
   },
 
@@ -243,13 +247,40 @@ export default Vue.extend({
         if (!tea) {
           return ''
         }
-        return `<a href="/outcomes-report/teacher/${tea._id}">${tea.firstName}</a>`
+        const linkedTeacher = `<a href="/outcomes-report/teacher/${tea._id}" target="_blank">${tea.firstName}</a>`
+        const unlinkedTeacher = `<span>${tea.firstName}</span>`
+        let teacherTag = unlinkedTeacher
+        if (me.isAdmin()) {
+          teacherTag = linkedTeacher
+        } else if (this.org.kind === 'school-district' || this.parentOrgKind === 'school-district') {
+          if (me.isDistrictAdmin(this.org._id) || me.isDistrictAdmin(this.parentOrgId)) {
+            teacherTag = linkedTeacher
+          }
+        }
+        return teacherTag
       }
-      const info = $.i18n.t('outcomes.top_teacher_info', {
-        A: formatTeacher(this.org.topTeachers[0]),
-        B: formatTeacher(this.org.topTeachers[1]),
-        n: this.teacherCount - this.org.topTeachers.length
-      })
+      const n = this.teacherCount - this.org.topTeachers.length
+      let info
+      const A = formatTeacher(this.org.topTeachers[0])
+      const B = formatTeacher(this.org.topTeachers[1])
+      if (n <= 0) {
+        if (!B) {
+          info = $.i18n.t('outcomes.top_teacher_info_2', {
+            A
+          })
+        } else {
+          info = $.i18n.t('outcomes.top_teacher_info_1', {
+            A,
+            B
+          })
+        }
+      } else {
+        info = $.i18n.t('outcomes.top_teacher_info', {
+          A,
+          B,
+          n
+        })
+      }
       // $.i18.t encode the html
       const txt = document.createElement('textarea')
       txt.innerHTML = info
