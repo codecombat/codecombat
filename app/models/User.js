@@ -170,6 +170,11 @@ module.exports = (User = (function () {
       return email.endsWith('@codecombat.com') || email.endsWith('@ozaria.com')
     }
 
+    isDistrictAdmin (districtId) {
+      if (!districtId) return false
+      return this.get('features')?.ownerDistrictId === districtId
+    }
+
     displayName () { return this.get('name', true) }
     broadName () { return User.broadName(this.attributes) }
 
