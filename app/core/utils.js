@@ -500,7 +500,7 @@ if (isCodeCombat) {
       'Game of Coins Step 4: Power-Ups',
       'Game of Coins Step 5: Balance',
       'Game Dev 2 Final Project',
-    ]    
+    ]
   }
 
   courseModules[courseIDs.WEB_DEVELOPMENT_2] = {
@@ -650,7 +650,7 @@ if (isCodeCombat) {
       'Dangerous Key',
       'Olympic Race',
       'Cross Bones',
-    ]    
+    ]
   }
 
   courseModules[courseIDs.GAME_DEVELOPMENT_3] = {
@@ -679,7 +679,7 @@ if (isCodeCombat) {
       'Runner Step 3: Enemies',
       'Runner Step 4: Balance',
       'Game Dev 3 Final Project',
-    ]    
+    ]
   }
 
   courseModules[courseIDs.COMPUTER_SCIENCE_4] = {
@@ -737,7 +737,7 @@ if (isCodeCombat) {
       'Hunting Party',
       'Borrowed Sword',
       'Summation Summit',
-    ]    
+    ]
   }
 
   courseModules[courseIDs.COMPUTER_SCIENCE_5] = {
@@ -1117,8 +1117,27 @@ var i18n = function (say, target, language, fallback) {
   const matches = (/\w+/gi).exec(language)
   if (matches) { generalName = matches[0] }
 
+  const removeAI = function (str) {
+    // we have some objects as return value.
+    // when ai translation finished we can know how to deal with them
+    // now return first
+    if (!str) {
+      return str
+    }
+    if (typeof str === 'object') {
+      const newObject = {}
+      Object.keys(str).forEach((key) => {
+        newObject[key] = removeAI(str[key])
+      })
+      return newObject
+    }
+    if (typeof str !== 'string') {
+      return str
+    }
+    return str.replace(/^\[AI_TRANSLATION\]/, '')
+  }
   // Lets us safely attempt to translate undefined objects
-  if (!(say != null ? say.i18n : undefined)) { return (say != null ? say[target] : undefined) }
+  if (!(say != null ? say.i18n : undefined)) { return removeAI(say != null ? say[target] : undefined) }
 
   for (const localeName in say.i18n) {
     var result
@@ -1127,18 +1146,18 @@ var i18n = function (say, target, language, fallback) {
     if (target in locale) {
       result = locale[target]
     } else { continue }
-    if (localeName === language) { return result }
+    if (localeName === language) { return removeAI(result) }
     if (localeName === generalName) { generalResult = result }
     if (localeName === fallback) { fallBackResult = result }
     if ((localeName.indexOf(language) === 0) && (fallForwardResult == null)) { fallForwardResult = result }
     if ((localeName.indexOf(generalName) === 0) && (fallSidewaysResult == null)) { fallSidewaysResult = result }
   }
 
-  if (generalResult != null) { return generalResult }
-  if (fallForwardResult != null) { return fallForwardResult }
-  if (fallSidewaysResult != null) { return fallSidewaysResult }
-  if (fallBackResult != null) { return fallBackResult }
-  if (target in say) { return say[target] }
+  if (generalResult != null) { return removeAI(generalResult) }
+  if (fallForwardResult != null) { return removeAI(fallForwardResult) }
+  if (fallSidewaysResult != null) { return removeAI(fallSidewaysResult) }
+  if (fallBackResult != null) { return removeAI(fallBackResult) }
+  if (target in say) { return removeAI(say[target]) }
   return null
 }
 

@@ -116,7 +116,10 @@ const Application = {
       interpolation: { prefix: '__', suffix: '__' }
       // debug: true
     }))
-    i18nextInstance.init()
+    const AIPostProcessor = require('../lib/i18n/AIPostProcessor')
+    i18nextInstance.use(new AIPostProcessor()).init({
+      postProcess: ['AIPostProcessor']
+    })
     // eslint-disable-next-line no-proto
     i18nextInstance.services.languageUtils.__proto__.formatLanguageCode = code => code // Hack so that it doesn't turn zh-HANS into zh-Hans
     jqueryI18next.init(i18nextInstance, $, {

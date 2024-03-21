@@ -452,7 +452,7 @@ main#page-outcomes-report
     .org-results(v-if="org && !loading")
       outcomes-report-result-component(:org="org" :other-org="otherOrg" :leagueStats="aiLeagueStats" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="showLicenseSummary && kind !== 'student'" :showOther="showOther")
       if includeSubOrgs
-        outcomes-report-result-component.sub-org(v-for="subOrg, index in combinedSubOrgs" :index="index" :key="subOrg.org.kind + '-' + subOrg.org._id" :org="subOrg.org" :other-org="subOrg.otherOrg" :editing="editing" :isSubOrg="true" :parentOrgKind="org.kind" :showOther="showOther")
+        outcomes-report-result-component.sub-org(v-for="subOrg, index in combinedSubOrgs" :index="index" :key="subOrg.org.kind + '-' + subOrg.org._id" :org="subOrg.org" :other-org="subOrg.otherOrg" :editing="editing" :isSubOrg="true" :parentOrgKind="org.kind" :showOther="showOther" :parent-org-id="orgIdOrSlug")
 
     .loading-indicator(v-if="loading")
       h1 {{ loadingText }}
