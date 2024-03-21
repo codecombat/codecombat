@@ -8,10 +8,6 @@ export default Vue.extend({
       default () {
         return {}
       }
-    },
-    myId: {
-      type: String,
-      default: ''
     }
   },
   computed: {
