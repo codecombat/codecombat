@@ -1,41 +1,66 @@
 <template>
   <div
-    id="dashboard-toggle"
-    class="btn-group"
-    data-toggle="buttons"
+    class="dashboard-toggle"
   >
-    <label
-      class="btn btn-primary"
-      :disabled="isNewDashboard"
-      @click="saveValue(true)"
+    <div
+      v-if="showTitle"
+      class="dashboard-toggle__title"
     >
-      <input
-        id="option1"
-        type="radio"
-        name="options"
-        autocomplete="off"
-        :checked="isNewDashboard"
-      > {{ $t('teacher_dashboard.switch_on') }}
-    </label>
-    <label
-      class="btn btn-primary"
-      :disabled="isOldDashboard"
-      @click="saveValue(false)"
+      Dashboard Version
+    </div>
+    <div
+      class="btn-group"
+      data-toggle="buttons"
     >
-      <input
-        id="option2"
-        type="radio"
-        name="options"
-        autocomplete="off"
-        :checked="isOldDashboard"
-      > {{ $t('teacher_dashboard.switch_off') }}
-    </label>
+      <label
+        class="btn btn-primary"
+        :class="{ [`btn-${size}`]: true, active: isNewDashboard}"
+        :disabled="isNewDashboard"
+        @click="saveValue(true)"
+      >
+        <input
+          id="option1"
+          type="radio"
+          name="options"
+          autocomplete="off"
+          :checked="isNewDashboard"
+        > {{ $t('teacher_dashboard.version_new') }}
+      </label>
+      <label
+        class="btn btn-primary"
+        :class="{ [`btn-${size}`]: true, active: isOldDashboard}"
+        :disabled="isOldDashboard"
+        @click="saveValue(false)"
+      >
+        <input
+          id="option2"
+          type="radio"
+          name="options"
+          autocomplete="off"
+          :checked="isOldDashboard"
+        > {{ $t('teacher_dashboard.version_old') }}
+      </label>
+    </div>
   </div>
 </template>
 
 <script>
 export default Vue.extend({
   name: 'DashboardToggle',
+  props: {
+    size: {
+      type: String,
+      default: 'md'
+    },
+    showTitle: {
+      type: Boolean,
+      default: false
+    },
+    reloadLocation: {
+      type: String,
+      default: null
+    }
+  },
   data () {
     return {
       dashboardStatus: me.isNewDashboardActive()
@@ -64,14 +89,30 @@ export default Vue.extend({
       })
       await me.save()
       this.dashboardStatus = me.isNewDashboardActive()
+      if (this.reloadLocation) {
+        window.location.href = this.reloadLocation
+        window.location.reload()
+      }
     }
   }
 })
 </script>
 <style scoped lang="scss">
-#dashboard-toggle {
-    label {
+.dashboard-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    &__title {
+        font-size: 11px;
+        line-height: 13px;
+        font-weight: normal;
+    }
+    .btn-group label {
         margin-left: 0;
+    }
+    .active {
+      text-decoration: underline;
     }
 }
 </style>

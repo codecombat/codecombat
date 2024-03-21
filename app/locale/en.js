@@ -4404,7 +4404,9 @@ module.exports = {
       export_progress: 'Export Progress',
       assessments_tab: 'Assessments',
       switch_on: 'On',
-      switch_off: 'Off'
+      switch_off: 'Off',
+      version_old: 'Old',
+      version_new: 'New'
     },
 
     outcomes: {

@@ -1,5 +1,5 @@
 <script>
-import { coursesWithProjects, isOzaria } from 'core/utils'
+import { coursesWithProjects, isOzaria, isCodeCombat } from 'core/utils'
 import PrimaryButton from '../common/buttons/PrimaryButton'
 import ButtonCurriculumGuide from '../common/ButtonCurriculumGuide'
 import LicensesComponent from '../common/LicensesComponent'
@@ -8,6 +8,7 @@ import ClassInfoRow from './ClassInfoRow'
 import moment from 'moment'
 
 import { mapActions, mapGetters } from 'vuex'
+import DashboardToggle from './DashboardToggle.vue'
 
 const Classroom = require('models/Classroom')
 
@@ -17,7 +18,8 @@ export default {
     'button-curriculum-guide': ButtonCurriculumGuide,
     'licenses-component': LicensesComponent,
     'nav-select-unit': NavSelectUnit,
-    'class-info-row': ClassInfoRow
+    'class-info-row': ClassInfoRow,
+    'dashboard-toggle': DashboardToggle
   },
 
   props: {
@@ -51,6 +53,10 @@ export default {
     ...mapGetters({
       activeClassrooms: 'teacherDashboard/getActiveClassrooms'
     }),
+
+    isCodeCombat () {
+      return isCodeCombat
+    },
 
     filteredCourses () {
       if (isOzaria) {
@@ -207,6 +213,12 @@ export default {
           @click="clickCurriculumGuide"
         />
       </div>
+      <dashboard-toggle
+        v-if="isCodeCombat"
+        size="sm"
+        :show-title="true"
+        reload-location="/teachers/classes"
+      />
     </div>
   </div>
 </template>
