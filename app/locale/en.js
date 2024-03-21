@@ -4460,7 +4460,9 @@ module.exports = {
       teachers: 'Teachers',
       licensesUsed: 'Licenses Used',
       schools: 'Schools',
-      top_teacher_info: 'Teacher __A__, __B__ and __n__ other teachers use our platform'
+      top_teacher_info: 'Teacher __A__, __B__ and __n__ other teachers use our platform',
+      ai_league: 'AI League',
+      ai_league_stats: '__n__ players played in AI League arenas',
     },
 
     efficacy: {

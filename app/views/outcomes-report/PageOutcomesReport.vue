@@ -2,8 +2,10 @@
 import { mapGetters, mapActions, mapState } from 'vuex'
 import OutcomesReportResultComponent from './OutcomesReportResultComponent'
 import { getOutcomesReportStats } from '../../core/api/outcomes-reports'
+import { getAILeagueStats } from '../../core/api/clans'
 import utils from 'core/utils'
 import { create as createJob, get as getJob } from '../../core/api/background-job'
+import Clan from '../../models/Clan'
 const JOB_TYPE = 'outcomes-report'
 
 const orgKinds = {
@@ -58,6 +60,7 @@ export default {
       otherOrg: null,
       subOrgs: [],
       otherSubOrgs: [],
+      aiLeagueStats: null,
       loading: true,
       earliestProgressDate: null,
       loadingText: null,
@@ -200,6 +203,15 @@ export default {
     // TODO: date range
     async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
       let stats
+      if (['classroom', 'teacher'].includes(kind) && orgIdOrSlug) {
+        const clanSlug = Clan.getAutoClanSlug(orgIdOrSlug, kind)
+        const leagueStats = await getAILeagueStats(clanSlug)
+        try {
+          this.aiLeagueStats = JSON.parse(leagueStats)
+        } catch (e) {
+          this.aiLeagueStats = undefined
+        }
+      }
       if (this.$route.query['use-old-method']) {
         console.log('gonna load stats for', kind, orgIdOrSlug, country)
         const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate })
@@ -438,7 +450,7 @@ main#page-outcomes-report
           label.edit-label.editing-only(v-if="editing" for="startDate") &nbsp; (edit)
 
     .org-results(v-if="org && !loading")
-      outcomes-report-result-component(:org="org" :other-org="otherOrg" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="showLicenseSummary && kind !== 'student'" :showOther="showOther")
+      outcomes-report-result-component(:org="org" :other-org="otherOrg" :leagueStats="aiLeagueStats" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="showLicenseSummary && kind !== 'student'" :showOther="showOther")
       if includeSubOrgs
         outcomes-report-result-component.sub-org(v-for="subOrg, index in combinedSubOrgs" :index="index" :key="subOrg.org.kind + '-' + subOrg.org._id" :org="subOrg.org" :other-org="subOrg.otherOrg" :editing="editing" :isSubOrg="true" :parentOrgKind="org.kind" :showOther="showOther")
 

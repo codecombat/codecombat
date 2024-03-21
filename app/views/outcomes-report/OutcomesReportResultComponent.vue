@@ -2,11 +2,13 @@
 import { mapActions, mapState } from 'vuex'
 import utils from 'core/utils'
 import SummaryComponent from './SummaryComponent'
+import ClanLeagueStatsComponent from './ClanLeagueStatsComponent'
 
 export default Vue.extend({
   name: 'OutcomesReportResultComponent',
   components: {
-    SummaryComponent
+    SummaryComponent,
+    ClanLeagueStatsComponent
   },
   props: {
     org: {
@@ -41,6 +43,11 @@ export default Vue.extend({
     showOther: {
       type: Boolean,
       default: false
+    },
+    leagueStats: {
+      type: Object,
+      required: false,
+      default: () => null
     }
   },
 
@@ -436,6 +443,10 @@ export default Vue.extend({
         h3= formatLicenseName(license)
         span= "Used: " + license.used
         span= "Available: " + license.count
+
+  .block(v-if="['school', 'teacher'].includes(org.kind) && leagueStats && leagueStats.totalPlayers > 1")
+    h1= $t('outcomes.ai_league')
+    clan-league-stats-component(:stats="leagueStats" :myId="org._id")
 
   .block(v-if="included && coursesLoaded && coursesWithProgress[0] && (coursesWithProgress[0].completion !== null || coursesWithProgress[0].studentsStarting > 1)" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
     h1= $t('teacher.course_progress')
