@@ -79,6 +79,10 @@ export default {
       return me
     },
 
+    isCodeCombat () {
+      return utils.isCodeCombat
+    },
+
     pageTitle () {
       if (this.showClassInfo) {
         return this.classroom.name || ''
@@ -113,6 +117,12 @@ export default {
     $route (to, from) {
       if (to.params.classroomId !== from.params.classroomId && to.params.classroomId) {
         this.updateStoreOnNavigation()
+      }
+    },
+    showOnboardingModal (newVal) {
+      // skip the ozaria modal for coco users
+      if (this.isCodeCombat && newVal) {
+        this.closeOnboardingModal()
       }
     }
   },
