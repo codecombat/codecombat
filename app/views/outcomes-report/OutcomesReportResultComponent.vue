@@ -475,10 +475,6 @@ export default Vue.extend({
         span= "Used: " + license.used
         span= "Available: " + license.count
 
-  .block(v-if="['school', 'teacher'].includes(org.kind) && leagueStats && leagueStats.totalPlayers > 1")
-    h1= $t('outcomes.ai_league')
-    clan-league-stats-component(:stats="leagueStats")
-
   .block(v-if="included && coursesLoaded && coursesWithProgress[0] && (coursesWithProgress[0].completion !== null || coursesWithProgress[0].studentsStarting > 1)" :class="isSubOrg && coursesWithProgress.length > 1 ? 'dont-break' : ''")
     h1= $t('teacher.course_progress')
     for course in coursesWithProgress
@@ -513,6 +509,10 @@ export default Vue.extend({
               .overlay-text.top-text #{formatNumber(course.studentsStarting)} #{(course.studentsStarting === 1 ? $t('courses.student') : $t('courses.students')).toLocaleLowerCase()}
             .overlay-text.mid-text= course.acronym
             .overlay-text.bot-text= Math.round(100 * course.completion) + '% ' + $t('courses.complete')
+
+  .block(v-if="['school', 'teacher'].includes(org.kind) && leagueStats && leagueStats.totalPlayers > 1")
+    h1= $t('outcomes.ai_league')
+    clan-league-stats-component(:stats="leagueStats")
 
   .block(v-if="org.progress && programs > 1 && included && codeLanguageStats.length > 1 && !codeLanguageString")
     // TODO: somehow note the code language if we are skipping this section (like 100% Python at school level)
