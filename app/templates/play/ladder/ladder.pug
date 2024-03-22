@@ -38,7 +38,7 @@ block content
       if view.levelDescription
         div!= view.levelDescription
 
-      if view.leagueType === 'clan'
+      if view.leagueType === 'clan' || view.leagueID === '65fd4d0fd4d7309619d4bda4'
         h1.league-header
           span= view.league.get('displayName') || view.league.get('name')
           -// a(href="/clans/#{view.league.id}")= view.league.get('name')

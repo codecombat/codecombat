@@ -197,7 +197,7 @@ module.exports = {
       //    quotes_quote5: "Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills.",
       //    quotes_quote5_author: "Latthaphon Pohpon, Parent",
       see_example: '查看示例',
-      slogan: '白名单赛事编程学习平台',
+      slogan: '青少年人工智能学习平台',
       slogan_power_of_play: '玩游戏 学编程',
       teach_cs1_free: '免费教授计算机科学入门',
       teachers_love_codecombat_title: '教师们喜欢扣哒世界',
@@ -234,7 +234,7 @@ module.exports = {
       im_a_teacher: '我是老师',
       im_a_student: '我是学生',
       im_a_student_description: '加入班级学习编程',
-      //    im_an_individual: "I'm an Individual"
+      im_an_individual: '个人玩家',
       //    im_an_individual_description: "Play at home outside of a class setting"
       learn_more: '了解更多',
       //    check_it_out: "Check it out!",
