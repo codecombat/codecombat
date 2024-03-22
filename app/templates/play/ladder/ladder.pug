@@ -41,6 +41,8 @@ block content
       if view.leagueType === 'clan' || view.leagueID === '65fd4d0fd4d7309619d4bda4'
         h1.league-header
           span= view.league.get('displayName') || view.league.get('name')
+          if view.leagueID === '65fd4d0fd4d7309619d4bda4'
+            span 园区中小学生信息技能大赛正式比赛专场
           -// a(href="/clans/#{view.league.id}")= view.league.get('name')
           -// span.spl(data-i18n="ladder.league") League
 
