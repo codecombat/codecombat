@@ -2,11 +2,13 @@
 import { mapActions, mapState } from 'vuex'
 import utils from 'core/utils'
 import SummaryComponent from './SummaryComponent'
+import ClanLeagueStatsComponent from './ClanLeagueStatsComponent'
 
 export default Vue.extend({
   name: 'OutcomesReportResultComponent',
   components: {
-    SummaryComponent
+    SummaryComponent,
+    ClanLeagueStatsComponent
   },
   props: {
     org: {
@@ -41,6 +43,11 @@ export default Vue.extend({
     showOther: {
       type: Boolean,
       default: false
+    },
+    leagueStats: {
+      type: Object,
+      required: false,
+      default: () => null
     },
     parentOrgId: {
       type: String,
@@ -502,6 +509,10 @@ export default Vue.extend({
               .overlay-text.top-text #{formatNumber(course.studentsStarting)} #{(course.studentsStarting === 1 ? $t('courses.student') : $t('courses.students')).toLocaleLowerCase()}
             .overlay-text.mid-text= course.acronym
             .overlay-text.bot-text= Math.round(100 * course.completion) + '% ' + $t('courses.complete')
+
+  .block(v-if="['school', 'teacher'].includes(org.kind) && leagueStats && leagueStats.totalPlayers > 1")
+    h1= $t('outcomes.ai_league')
+    clan-league-stats-component(:stats="leagueStats")
 
   .block(v-if="org.progress && programs > 1 && included && codeLanguageStats.length > 1 && !codeLanguageString")
     // TODO: somehow note the code language if we are skipping this section (like 100% Python at school level)

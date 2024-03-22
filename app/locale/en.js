@@ -4406,7 +4406,10 @@ module.exports = {
       export_progress: 'Export Progress',
       assessments_tab: 'Assessments',
       switch_on: 'On',
-      switch_off: 'Off'
+      switch_off: 'Off',
+      version_old: 'Old',
+      version_new: 'New',
+      dashboard_version: 'Dashboard Version'
     },
 
     outcomes: {
@@ -4462,7 +4465,9 @@ module.exports = {
       schools: 'Schools',
       top_teacher_info: 'Teacher __A__, __B__ and __n__ other teachers use our platform',
       top_teacher_info_1: 'Teacher __A__ and __B__ use our platform',
-      top_teacher_info_2: 'Teacher __A__ uses our platform'
+      top_teacher_info_2: 'Teacher __A__ uses our platform',
+      ai_league: 'AI League',
+      ai_league_stats: '__n__ players played in AI League arenas'
     },
 
     efficacy: {

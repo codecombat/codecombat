@@ -50,17 +50,6 @@
         >
       </div>
       <div class="form-group">
-        <label for="studentEmail">Correo institucional del alumno (Ejemplo: al02962150@tecmilenio.mx)</label>
-        <input
-          id="studentEmail"
-          v-model="studentEmail"
-          type="email"
-          class="form-control"
-          placeholder="al02962150@tecmilenio.mx"
-          required
-        >
-      </div>
-      <div class="form-group">
         <label for="studentName">Nombre del estuadiante</label>
         <input
           id="studentNameV2"
@@ -89,6 +78,17 @@
           class="form-control"
           ondrop="return false;"
           onpaste="return false;"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="studentEmail">Correo institucional del alumno</label>
+        <input
+          id="studentEmail"
+          v-model="studentEmail"
+          disabled="true"
+          type="email"
+          class="form-control"
           required
         >
       </div>
@@ -190,6 +190,11 @@ export default {
     },
     totalAmountInDecimal () {
       return this.getSelectedPrice().unit_amount * this.licenseNum
+    }
+  },
+  watch: {
+    studentNameConfirm (newValue) {
+      this.studentEmail = `al${newValue}@tecmilenio.mx`
     }
   },
   methods: {
