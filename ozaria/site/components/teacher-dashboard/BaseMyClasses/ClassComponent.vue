@@ -66,129 +66,279 @@ export default {
     />
     <div v-if="showEsportsCampInfoCoCo || showEsportsCampInfoOz">
       <b>Esports Camp Quick Links</b>
-      <!-- TODO: break down by day? Or just generally give some sort of reinforcement of the camp's intended pacing. -->
       <ul class="list-inline">
         <li>
-          <!-- TODO: sensei guide -->
+          <!-- TODO: sensei guide URL -->
           <a
-            href="???"
-            class="btn btn-primary"
-          >Sensei Guide</a>
+            v-tooltip.top="{
+              content: 'Comprehensive Sensei guide to running the Competitive Coding: Esports and Game Design camp with Ozaria and the CodeCombat AI League. (Sensei guide coming soon.)',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="#"
+            class="dusk-btn disabled"
+            target="_blank"
+            disabled
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Sensei Guide</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Day-by-day slides and Sensei resources for the Esports + Game Design camp.',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://drive.google.com/drive/folders/1Ut8R4xeTxJdlb7_Uy4_vWyWc-kT_-3RE?usp=drive_link"
+            class="dusk-btn"
+            target="_blank"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Camp Curriculum</span>
+          </a>
         </li>
         <li v-if="showEsportsCampInfoCoCo">
           <a
-            href="https://www.ozaria.com/teachers/classes/"
-            class="btn btn-primary"
-          >Ozaria Chapters 1+2</a>
-        </li>
-        <li>
-          <!-- TODO: this button can't customize its text, need to use a more general one
-          <span
             v-tooltip.top="{
-                           content: 'Click here to see lesson slides for camp day 1, covering Ozaria Chapter 1',
-                           classes: 'teacher-dashboard-tooltip lighter-p',
-                           autoHide: false
-                           }"
+              content: 'Switch to the Ozaria sensei dashboard to see student progress through Chapters 1 & 2 (days 1-2).',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://www.ozaria.com/teachers/classes/"
+            class="dusk-btn"
           >
-            <button-slides
-              class="margin-right"
-              link="https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing"
-            />
-          </span>
-          -->
-          <a
-            href=""
-            target="_blank"
-            class="btn btn-primary"
-          >Chapter 1 Slides</a>
-        </li>
-        <li>
-          <a
-            href="https://drive.google.com/drive/folders/1u78qNwBmGXkKxw3qzqSimoUbMCNv_IMn?usp=sharing"
-            target="_blank"
-            class="btn btn-primary"
-          >Chapter 2 Slides</a>
+            <div class="quick-link-icon icon-dashboard" />
+            <span>Ozaria Dashboard</span>
+          </a>
         </li>
         <li>
           <!-- TODO: specific tournament link -->
           <a
-            href="/play/ladder/equinox/clan/65fa5bc654652e2ad959548e?tournament=65fcadac32f2005645fba16b"
-            class="btn btn-primary"
-          >Equinox Arena</a>
-        </li>
-        <li>
-          <a
-            href="https://drive.google.com/drive/folders/16lYF5Bt_WupEUv9rNfTN_byL8DSJK3iX?usp=sharing"
-            target="_blank"
-            class="btn btn-primary"
-          >Equinox Slides</a>
+            v-tooltip.top="{
+              content: 'View tournament leaderboards or play the Equinox arena (days 3-4).',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://codecombat.com/play/ladder/equinox/clan/65fa5bc654652e2ad959548e?tournament=65fcadac32f2005645fba16b"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-arena" />
+            <span>Equinox Arena</span>
+          </a>
         </li>
         <li>
           <!-- TODO: specific tournament link -->
           <a
-            href="/play/ladder/fierce-forces/clan/65fa5bc654652e2ad959548e?tournament=65fcadf032f2005645fba186"
-            class="btn btn-primary"
-          >Tournament Arena</a>
+            v-tooltip.top="{
+              content: 'View tournament leaderboards or play the final tournament arena (day 5).',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://codecombat.com/play/ladder/fierce-forces/clan/65fa5bc654652e2ad959548e?tournament=65fcadf032f2005645fba186"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-arena" />
+            <span>Tournament Arena</span>
+          </a>
+        </li>
+      </ul>
+      <b>Lessons</b>
+      <ul class="list-inline">
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Lesson slides for Day 1: Algorithms & Problem Solving (Ozaria Chapter 1, Module 1, Lessons 1-3).',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://docs.google.com/presentation/d/1s551TjfXHcKZ9VxAcJDppEVSee7jQffQiCBPlQSjafs/edit#slide=id.g26c495a3c7b_0_735"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Day 1</span>
+          </a>
         </li>
         <li>
-          <!-- TODO: tournament slides -->
           <a
-            href="???"
-            target="_blank"
-            class="btn btn-primary"
-          >Tournament Slides</a>
+            v-tooltip.top="{
+              content: 'Lesson slides for Day 2: Capstone Competition (Ozaria Chapter 1 Capstone).',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://docs.google.com/presentation/d/1s551TjfXHcKZ9VxAcJDppEVSee7jQffQiCBPlQSjafs/edit#slide=id.g26c495a3c7b_0_1070"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Day 2</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Lesson slides for Day 3: Intro to AI League (Equinox arena, introduction).',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://docs.google.com/presentation/d/1s551TjfXHcKZ9VxAcJDppEVSee7jQffQiCBPlQSjafs/edit#slide=id.g26c5c0ddf08_0_233"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Day 3</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Lesson slides for Day 4: Esports Practice (Equinox arena, more strategies).',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://docs.google.com/presentation/d/1s551TjfXHcKZ9VxAcJDppEVSee7jQffQiCBPlQSjafs/edit#slide=id.g26c5c0ddf08_0_346"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Day 4</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Lesson slidse for Day 5: AI League Tournament.',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://docs.google.com/presentation/d/1s551TjfXHcKZ9VxAcJDppEVSee7jQffQiCBPlQSjafs/edit#slide=id.g26c5c0ddf08_0_459"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Day 5</span>
+          </a>
         </li>
       </ul>
     </div>
     <div v-if="showJuniorCampInfo">
       <b>Roblox Camp Quick Links</b>
-      <!-- TODO: break down by day? Or just generally give some sort of reinforcement of the camp's intended pacing. -->
       <ul class="list-inline">
         <li>
-          <!-- TODO: sensei guide -->
+          <!-- TODO: sensei guide URL -->
           <a
-            href="???"
-            class="btn btn-primary"
-          >Sensei Guide</a>
+            v-tooltip.top="{
+              content: 'Comprehensive Sensei guide to running the Roblox: Intro to Coding and Game Design camp with CodeCombat Junior and CodeCombat Worlds. (Sensei guide coming soon.)',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="#"
+            class="dusk-btn disabled"
+            disabled
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Sensei Guide</span>
+          </a>
         </li>
         <li>
-          <!-- TODO: real Junior slides -->
           <a
-            href="???"
+            v-tooltip.top="{
+              content: 'Day-by-day slides and Sensei resources for the Roblox: Intro to Coding and Game Design camp.',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://drive.google.com/drive/folders/1EDDk0Scl1v2y2FYMprFw06YznlV0guML?usp=drive_link"
             target="_blank"
-            class="btn btn-primary"
-          >CodeCombat Junior Slides</a>
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Camp Curriculum</span>
+          </a>
         </li>
         <li>
           <!-- TODO: class-specific Roblox private server link -->
           <a
+            v-tooltip.top="{
+              content: 'Join the private server for your class to play CodeCombat Worlds on Roblox. (Private server link functionality coming soon.)',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
             href="https://www.roblox.com/games/11704713454"
-            class="btn btn-primary"
-          >Join Roblox Private Server</a>
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-external-link" />
+            <span>Join Roblox Server</span>
+          </a>
+        </li>
+      </ul>
+      <b>Lessons</b>
+      <ul class="list-inline">
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Lesson slides for Day 1: Intro to Coding with CodeCombat Junior and CodeCombat Worlds on Roblox.',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g2c5478d5359_1_197"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Day 1</span>
+          </a>
         </li>
         <li>
-          <!-- TODO: updated Roblox slides -->
           <a
-            href="https://drive.google.com/drive/folders/1E6k12t6wxRCdeEjBQM1Pp4Cww6X3EN1q?usp=sharing"
-            target="_blank"
-            class="btn btn-primary"
-          >Roblox Getting Started Slides</a>
+            v-tooltip.top="{
+              content: 'Lesson slides for Day 2: Rift Village.',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g26c4a941b7b_0_4"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Day 2</span>
+          </a>
         </li>
         <li>
-          <!-- TODO: updated Roblox slides -->
           <a
-            href="https://drive.google.com/drive/folders/1-l_49tX4PQSTPO8GPqge6HuO6sTLVkdI?usp=sharing"
-            target="_blank"
-            class="btn btn-primary"
-          >Roblox Learning Levels Slides</a>
+            v-tooltip.top="{
+              content: 'Lesson slides for Day 3: Learning Levels.',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g26c4a941b7b_0_0"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Day 3</span>
+          </a>
         </li>
         <li>
-          <!-- TODO: Creative Mode Roblox slides -->
           <a
-            href="???"
-            target="_blank"
-            class="btn btn-primary"
-          >Roblox Creative Mode Slides</a>
+            v-tooltip.top="{
+              content: 'Lesson slides for Day 4: Creative Mode.',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g2c544e9b6d0_0_0"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Day 4</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Lesson slides for Day 5: Showcase.',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g2c544e9b6d0_0_61"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Day 5</span>
+          </a>
         </li>
       </ul>
     </div>
@@ -196,5 +346,34 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@import "app/styles/bootstrap/variables";
+@import "ozaria/site/styles/common/variables.scss";
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "ozaria/site/components/teacher-dashboard/common/_dusk-button";
 
+.quick-link-icon {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  margin-right: 5px;
+}
+
+.quick-link-icon.icon-curriculum {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg);
+}
+
+.quick-link-icon.icon-dashboard {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Progress_Black.svg);
+}
+
+.quick-link-icon.icon-external-link {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconExemplarProject.svg);
+}
+
+.quick-link-icon.icon-arena {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Black.svg);
+}
 </style>
