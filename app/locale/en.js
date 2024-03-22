@@ -2168,6 +2168,8 @@ module.exports = {
       class_type_after_school: 'After School',
       class_type_online: 'Online',
       class_type_camp: 'Camp',
+      class_type_camp_esports: 'Camp (Esports)',
+      class_type_camp_junior: 'Camp (Roblox)',
       class_type_homeschool: 'Homeschool',
       class_type_other: 'Other',
       student_age_range_label: 'Student Age Range',
@@ -4460,7 +4462,10 @@ module.exports = {
       students: 'Students',
       teachers: 'Teachers',
       licensesUsed: 'Licenses Used',
-      schools: 'Schools'
+      schools: 'Schools',
+      top_teacher_info: 'Teacher __A__, __B__ and __n__ other teachers use our platform',
+      top_teacher_info_1: 'Teacher __A__ and __B__ use our platform',
+      top_teacher_info_2: 'Teacher __A__ uses our platform'
     },
 
     efficacy: {

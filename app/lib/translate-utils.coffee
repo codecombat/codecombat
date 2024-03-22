@@ -62,6 +62,7 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
         cc -= 1
         return i+2 unless cc
   splitFunctions = (str) ->
+    return [] unless str
     creg = /\n?[ \t]*[^\/]/
     startCommentReg = /^\n?(\/\/.*?\n)*\n/
     comments = startCommentReg.exec(str)

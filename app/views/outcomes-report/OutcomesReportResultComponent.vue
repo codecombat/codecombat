@@ -41,6 +41,10 @@ export default Vue.extend({
     showOther: {
       type: Boolean,
       default: false
+    },
+    parentOrgId: {
+      type: String,
+      default: null
     }
   },
 
@@ -236,6 +240,51 @@ export default Vue.extend({
 
     isSchoolAdmin () {
       return me.isSchoolAdmin()
+    },
+
+    topTeacherInfo () {
+      const formatTeacher = (tea) => {
+        if (!tea) {
+          return ''
+        }
+        const linkedTeacher = `<a href="/outcomes-report/teacher/${tea._id}" target="_blank">${tea.firstName}</a>`
+        const unlinkedTeacher = `<span>${tea.firstName}</span>`
+        let teacherTag = unlinkedTeacher
+        if (me.isAdmin()) {
+          teacherTag = linkedTeacher
+        } else if (this.org.kind === 'school-district' || this.parentOrgKind === 'school-district') {
+          if (me.isDistrictAdmin(this.org._id) || me.isDistrictAdmin(this.parentOrgId)) {
+            teacherTag = linkedTeacher
+          }
+        }
+        return teacherTag
+      }
+      const n = this.teacherCount - this.org.topTeachers.length
+      let info
+      const A = formatTeacher(this.org.topTeachers[0])
+      const B = formatTeacher(this.org.topTeachers[1])
+      if (n <= 0) {
+        if (!B) {
+          info = $.i18n.t('outcomes.top_teacher_info_2', {
+            A
+          })
+        } else {
+          info = $.i18n.t('outcomes.top_teacher_info_1', {
+            A,
+            B
+          })
+        }
+      } else {
+        info = $.i18n.t('outcomes.top_teacher_info', {
+          A,
+          B,
+          n
+        })
+      }
+      // $.i18.t encode the html
+      const txt = document.createElement('textarea')
+      txt.innerHTML = info
+      return txt.value
     }
   },
 
@@ -405,6 +454,8 @@ export default Vue.extend({
         p(v-html="$t('outcomes.license_template', { used: totalLicense.used.toLocaleString(), available: totalLicense.count.toLocaleString() })")
         p(v-html="$t('outcomes.licensed_teachers', { teachers: totalLicense.teachers.size.toLocaleString() })")
         p(v-html="$t('outcomes.licensed_schools', { schools: totalLicense.schools.size.toLocaleString() })")
+      .top-teachers(v-if="['school', 'school-admin', 'school-district'].includes(org.kind) && teacherCount > 0")
+        p(v-html="topTeacherInfo")
 
   .block(v-if="org.kind === 'school-district'")
     summary-component(:students="studentsWithCode" :teachers="teacherCount" :schools="schoolCount" :licensesUsed="totalLicense?.used" v-if="org.progress")

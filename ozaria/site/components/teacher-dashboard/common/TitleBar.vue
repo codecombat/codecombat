@@ -103,6 +103,9 @@ export default {
       const kind = this.allClassesPage ? 'teacher' : 'classroom'
       const org = this.allClassesPage ? me.get('_id') : this.classroom._id
       return `/outcomes-report/${kind}/${org}`
+    },
+    showLicenses () {
+      return !me.isCodeNinja()
     }
   },
 
@@ -174,6 +177,7 @@ export default {
       </div>
       <!--  we want to use classroom ownerID always even when class is not owned by teacher in case of shared classes since license is cut from owner -->
       <licenses-component
+        v-if="showLicenses"
         class="btn-margins-height"
         :selected-teacher-id="allClassesPage ? null : classroom.ownerID"
         :shared-classroom-id="sharedClassroomId"
