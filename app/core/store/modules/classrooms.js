@@ -258,13 +258,8 @@ export default {
     fetchClassroomsForTeacher: ({ commit }, { teacherId, project }) => {
       commit('toggleLoadingForTeacher', teacherId)
 
-      if (utils.isOzaria) {
-        // ozar limit the projections. so remember to add default array when updating classroom schema
-        project = project || ['_id', 'name', 'slug', 'members', 'deletedMembers', 'ownerID', 'code', 'codeCamel', 'aceConfig', 'archived', 'googleClassroomId', 'classroomItems', 'studentLockMap', 'courses._id', 'courses.levels', 'permissions']
-      } else {
-        // fetch all for coco, so keep project as null
-        project = project || null
-      }
+      // We used to limit the default projection in Ozaria but not in CodeCombat, but it was easy to miss new properties, and Ozaria still fetched almost all the data, so now both products fetch all fields by default.
+      project = project || null
 
       return classroomsApi.fetchByOwner(teacherId, {
         project,

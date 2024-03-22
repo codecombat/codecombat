@@ -49,7 +49,7 @@ export default Vue.extend({
       newClassesPerWeek: '',
       newMinutesPerClass: '',
       saving: false,
-      classGrades: utils.isOzaria ? [] : null,
+      classGrades: (utils.isOzaria && !me.isCodeNinja()) ? [] : null,
       googleClassId: '',
       googleClassrooms: null,
       isGoogleClassroomForm: false,
@@ -67,7 +67,7 @@ export default Vue.extend({
     newProgrammingLanguage: {
       required
     },
-    ...(utils.isOzaria
+    ...(utils.isOzaria && !me.isCodeNinja()
       ? {
         classGrades: {
           required
@@ -121,9 +121,8 @@ export default Vue.extend({
       return ['python', 'javascript', 'lua'].includes(this.language || 'python') && (this.me.isBetaTester() || this.me.isAdmin())
     },
     allCodeFormats () {
-      // Icon blocks only ready for Junior, which isn't in classroom yet
-      // return ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']
-      return ['text-code', 'blocks-and-code', 'blocks-text']
+      // TODO: only show blocks-icons if a Junior course is included
+      return ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']
     },
     codeFormats () {
       // Later, we can turn everything on by default
@@ -610,7 +609,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
+          v-if="isCodeCombat || me.isCodeNinja()"
           class="form-group row"
         >
           <div class="col-md-12">
@@ -679,7 +678,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
+          v-if="isCodeCombat || me.isCodeNinja()"
           class="form-group row"
         >
           <div class="col-xs-12">
@@ -706,7 +705,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
+          v-if="isCodeCombat && !me.isCodeNinja()"
           class="form-group row"
         >
           <div class="col-sm-12">
@@ -757,7 +756,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isOzaria"
+          v-if="isOzaria && !me.isCodeNinja()"
           class="form-group row class-grades"
           :class="{ 'has-error': $v.classGrades.$error }"
         >

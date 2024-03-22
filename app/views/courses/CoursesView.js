@@ -310,6 +310,22 @@ module.exports = (CoursesView = (function () {
       return false
     }
 
+    hasCodeNinjasEsportsCamp () {
+      return me.isCodeNinja() && _.find(this.classrooms?.models || [], classroom => classroom.get('type') === 'camp-esports')
+    }
+
+    hasOnlyCodeNinjasEsportsCamps () {
+      return me.isCodeNinja() && _.all(this.classrooms?.models || [], classroom => classroom.get('type') === 'camp-esports')
+    }
+
+    hasCodeNinjasJuniorCamp () {
+      return me.isCodeNinja() && _.find(this.classrooms?.models || [], classroom => classroom.get('type') === 'camp-junior')
+    }
+
+    hasOnlyCodeNinjasJuniorCamps () {
+      return me.isCodeNinja() && _.all(this.classrooms?.models || [], classroom => classroom.get('type') === 'camp-junior')
+    }
+
     afterInsert () {
       super.afterInsert()
       if (!me.isStudent() && (!this.classCodeQueryVar || !!me.isTeacher())) {

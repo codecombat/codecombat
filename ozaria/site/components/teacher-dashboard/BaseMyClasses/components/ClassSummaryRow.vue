@@ -32,6 +32,14 @@ export default {
       type: String,
       required: true
     },
+    dateStart: {
+      type: String,
+      default: ''
+    },
+    dateEnd: {
+      type: String,
+      default: ''
+    },
     // TODO: CodeCamel isn't set when spying with administrator teacher.
     codeCamel: {
       type: String,
@@ -82,6 +90,8 @@ export default {
             :language="language"
             :num-students="numStudents"
             :date-created="dateCreated"
+            :date-start="dateStart"
+            :date-end="dateEnd"
             :share-permission="sharePermission"
             :archived="archived"
           />
@@ -97,6 +107,8 @@ export default {
             :language="language"
             :num-students="numStudents"
             :date-created="dateCreated"
+            :date-start="dateStart"
+            :date-end="dateEnd"
             :share-permission="sharePermission"
             :archived="archived"
           />
