@@ -405,6 +405,11 @@ module.exports = (BasicInfoView = (function () {
 
           me.set(_.omit(this.signupState.get('ssoAttrs') || {}, 'email', 'facebookID', 'gplusID'))
 
+          me.set('features', {
+            ...(me.get('features') || {}),
+            isNewDashboardActive: true
+          })
+
           const jqxhr = me.save()
           if (!jqxhr) {
             console.error(me.validationError)
