@@ -324,7 +324,7 @@ mixin coco_main_content()
                     span(data-i18n="courses.play_next_level")
 
             if view.hasCodeNinjasEsportsCamp()
-              a.play-next-level-btn.tile(href="https://www.ozaria.com/students")
+              a.tile(href="https://www.ozaria.com/students")
                 - var levelImage = view.nextLevelImage()
                 img(src=levelImage, alt="Play Ozaria", class="level-image" + (levelImage ? "" : " placeholder"))
                 h3.dynamic-level-name.overlay-text Ozaria
@@ -334,7 +334,7 @@ mixin coco_main_content()
                     span Play Ozaria
 
             if view.hasCodeNinjasJuniorCamp()
-              a.play-next-level-btn.tile(href="https://www.roblox.com/games/11704713454/")
+              a.tile(href="https://www.roblox.com/games/11704713454/" target="_blank")
                 - var levelImage = '/images/pages/roblox/header-bg/bg_1600.webp'
                 img(src=levelImage, alt="Play CodeCombat Worlds on Roblox", class="level-image" + (levelImage ? "" : " placeholder"))
                 h3.dynamic-level-name.overlay-text Roblox
@@ -342,6 +342,15 @@ mixin coco_main_content()
                 .play-text-container
                   .overlay-text.play-text
                     span Play CodeCombat Worlds on Roblox
+
+              a.tile(href="https://drive.google.com/drive/folders/1MpXn9h_y9NDV5vxSQfis5Bu1cUcxOAb-?usp=drive_link" target="_blank")
+                - var levelImage = '/images/pages/courses/banners/contributor-artisan.png'
+                img(src=levelImage alt="Camp Activities", class="level-image")
+                h3.dynamic-level-name.overlay-text Camp Activities
+                .tile-text-backdrop
+                .play-text-container
+                  .overlay-text.play-text
+                    span View Camp Activities
 
             for arena in view.activeArenas || []
               - if (view.hasOnlyCodeNinjasEsportsCamps() || view.hasOnlyCodeNinjasJuniorCamps()) { continue }
@@ -457,7 +466,7 @@ mixin ozar_main_content()
             h1(data-i18n="courses.welcome_to_page")
 
             if view.hasCodeNinjasEsportsCamp()
-              a.play-next-level-btn.tile(href="https://codecombat.com/students")
+              a.tile(href="https://codecombat.com/students")
                 - var levelImage = 'https://codecombat.com/images/pages/courses/banners/ai-league-banner-anya.png'
                 img(src=levelImage, alt="Esports Tournament Arenas", class="level-image" + (levelImage ? "" : " placeholder"))
                 .tile-text-backdrop
