@@ -4406,7 +4406,8 @@ module.exports = {
       switch_on: 'On',
       switch_off: 'Off',
       version_old: 'Old',
-      version_new: 'New'
+      version_new: 'New',
+      dashboard_version: 'Dashboard Version'
     },
 
     outcomes: {

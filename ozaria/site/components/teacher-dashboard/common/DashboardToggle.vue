@@ -6,7 +6,7 @@
       v-if="showTitle"
       class="dashboard-toggle__title"
     >
-      Dashboard Version
+      {{ $t('teacher_dashboard.dashboard_version') }}
     </div>
     <div
       class="btn-group"
