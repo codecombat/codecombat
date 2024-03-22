@@ -57,10 +57,10 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     constructor (options) {
+      if (options == null) { options = {} }
       super(options)
       this.options = options
       this.animateHeroes = this.animateHeroes.bind(this)
-      if (options == null) { options = {} }
       this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : 'common.save'
       this.heroes = new CocoCollection([], { model: ThangType })
       this.heroes.url = '/db/thang.type?view=heroes'
