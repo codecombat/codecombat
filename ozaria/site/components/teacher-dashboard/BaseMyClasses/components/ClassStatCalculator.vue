@@ -2,6 +2,7 @@
   /** Given a class id, generates and populates the stats for the class component */
 import { mapGetters } from 'vuex'
 import ClassComponent from '../ClassComponent'
+import { allCourseIDs } from 'core/utils'
 
 export default {
   components: {
@@ -34,6 +35,16 @@ export default {
       return moment(parseInt(this.classroomState._id.substring(0, 8), 16) * 1000).format('MMMM Do, YYYY')
     },
 
+    classroomStartDate () {
+      if (!this.classroomState.classDateStart) { return '' }
+      return moment(this.classroomState.classDateStart).format('ll')
+    },
+
+    classroomEndDate () {
+      if (!this.classroomState.classDateEnd) { return '' }
+      return moment(this.classroomState.classDateEnd).format('ll')
+    },
+
     sharePermission () {
       return (this.classroomState.permissions || []).find(p => p.target === me.get('_id'))?.access
     },
@@ -45,6 +56,8 @@ export default {
         language: this.classroomState.aceConfig.language || 'python',
         numberOfStudents: this.classroomState.members.length || 0,
         classroomCreated: this.classroomCreationDate,
+        classDateStart: this.classroomStartDate,
+        classDateEnd: this.classroomEndDate,
         archived: this.classroomState.archived,
         codeCamel: this.classroomState.codeCamel,
         sharePermission: this.sharePermission
@@ -84,8 +97,13 @@ export default {
       }
       */
     chapterStatsAdapter () {
+      const selectedCodeNinjasCampCourses = {
+        'camp-esports': [allCourseIDs.CHAPTER_ONE, allCourseIDs.CHAPTER_TWO],
+        'camp-junior': [allCourseIDs.JUNIOR],
+      }[this.classroomState.type]
       return this.sortedCourses
         .filter((course) => me.hasCampaignAccess(course))
+        .filter((course) => !me.isCodeNinja() || !selectedCodeNinjasCampCourses || selectedCodeNinjasCampCourses.includes(course._id))
         .map((course) => {
           // Splits off the "Chapter 1" part of the name
           // Expects the course name to have 'Chapter <int>:' structure.

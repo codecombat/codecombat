@@ -79,6 +79,14 @@ export default {
         return ''
       }
     },
+    classroomStartDate () {
+      if (!this.classroom.classDateStart) { return '' }
+      return moment(this.classroom.classDateStart).format('ll')
+    },
+    classroomEndDate () {
+      if (!this.classroom.classDateEnd) { return '' }
+      return moment(this.classroom.classDateEnd).format('ll')
+    },
     classroomLanguage () {
       return (this.classroom.aceConfig || {}).language
     },
@@ -150,6 +158,8 @@ export default {
         :language="classroomLanguage"
         :num-students="classroomStudentsLength"
         :date-created="classroomCreationDate"
+        :date-start="classroomStartDate"
+        :date-end="classroomEndDate"
         :share-permission="sharePermission"
       />
       <div

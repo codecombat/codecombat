@@ -1,6 +1,8 @@
 <script>
 import ProgressLabels from '../common/progress/progressLabels'
 import ContentIcon from '../common/icons/ContentIcon'
+import utils from 'core/utils'
+
 export default {
   components: {
     'progress-labels': ProgressLabels,
@@ -11,6 +13,11 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+  computed: {
+    showContentGuide () {
+      return utils.isOzaria
+    },
   },
   methods: {
     clickArrow () {
@@ -30,11 +37,17 @@ export default {
         <span>{{ $t('teacher_dashboard.color_code') }}</span>
       </div>
       <progress-labels :show-review-labels="true" />
-      <div class="title-card">
+      <div
+        v-if="showContentGuide"
+        class="title-card"
+      >
         <span style="width: 59px">{{ $t('teacher_dashboard.content_guide') }}</span>
       </div>
       <div class="spacer">
-        <div class="grid-container">
+        <div
+          v-if="showContentGuide"
+          class="grid-container"
+        >
           <div class="story-title">
             <h3>{{ $t('teacher_dashboard.story') }}</h3>
           </div>

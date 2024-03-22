@@ -35,13 +35,26 @@ export default {
       return this.currentSelectedClassroom
     },
 
+    showStudentProjects () {
+      // TODO: do show the student projects if it is Code Ninjas, but not in a camp context
+      if (utils.isCodeCombat && me.isCodeNinja()) {
+        return false
+      }
+      return true
+    },
+
     showPD () {
       return !me.isCodeNinja()
     },
 
     showLicenses () {
       return !me.isCodeNinja()
-    }
+    },
+
+    showAssessments () {
+      // TODO: do show the assessments if it is CodeNinjas, but not in a camp context
+      return utils.isCodeCombat && !me.isCodeNinja()
+    },
   },
 
   methods: {
@@ -123,6 +136,7 @@ export default {
       </ul>
     </li>
     <li
+      v-if="showStudentProjects"
       role="presentation"
       class="dropdown"
     >
@@ -209,7 +223,7 @@ export default {
         {{ $t('teacher_dashboard.pd_short') }}
       </router-link>
     </li>
-    <li v-if="isCodeCombat">
+    <li v-if="showAssessments">
       <a
         id="AssessmentsDropdown"
         :class="['dropdown-toggle', isCurrentRoute('/teachers/projects') ? 'current-route' : '']"
