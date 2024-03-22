@@ -1297,8 +1297,8 @@ module.exports = (User = (function () {
     hasInteractiveEditorAccess () { return this.isAdmin() }
 
     // google classroom flags for new teacher dashboard, remove `useGoogleClassroom` when old dashboard disabled
-    showGoogleClassroom () { return !(features?.chinaUx != null ? features?.chinaUx : false) }
-    googleClassroomEnabled () { return (me.get('gplusID') != null) }
+    showGoogleClassroom () { return !(features?.chinaUx != null ? features?.chinaUx : false) && !me.isCodeNinja() }
+    googleClassroomEnabled () { return (me.get('gplusID') != null) && !me.isCodeNinja() }
 
     // Block access to paid campaigns(any campaign other than CH1) for anonymous users + non-admin, non-internal individual users.
     // Scenarios where a user has access to a campaign:
