@@ -58,7 +58,7 @@ export default Vue.extend({
     },
     reloadLocation: {
       type: String,
-      default: null
+      default: '/teachers/classes'
     }
   },
   data () {
@@ -90,8 +90,11 @@ export default Vue.extend({
       await me.save()
       this.dashboardStatus = me.isNewDashboardActive()
       if (this.reloadLocation) {
-        window.location.href = this.reloadLocation
-        window.location.reload()
+        if (window.location.pathname === this.reloadLocation) {
+          window.location.reload()
+        } else {
+          window.location.href = this.reloadLocation
+        }
       }
     }
   }
