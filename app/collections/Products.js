@@ -32,7 +32,7 @@ module.exports = (Products = (function () {
 
     getBasicSubscriptionForUser (user) {
       if (features.chinaHome) {
-        return this.findWhere({ name: 'china_monthly_subscription' })
+        return this.findWhere({ name: 'china_seasonly_subscription' })
       } else if (features.chinaInfra) { return null }
 
       let countrySpecificProduct

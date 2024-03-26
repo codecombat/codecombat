@@ -11,6 +11,13 @@ const pay = async (plan) => {
   return response
 }
 
+const querySession = async (sessionId) => {
+  const response = await fetchJson(`/db/payments/wechat-pay/session/${sessionId}`)
+
+  return response
+}
+
 module.exports = {
-  pay
+  pay,
+  querySession
 }

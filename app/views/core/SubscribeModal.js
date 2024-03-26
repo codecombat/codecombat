@@ -158,10 +158,8 @@ module.exports = (SubscribeModal = (function () {
       if (!this.basicProduct) { return }
       this.playSound('menu-button-click')
       if (features.chinaHome) {
-        wechatPay.pay(this.basicProduct.get('planID')).then((url) => {
-          console.log('pay url:', url)
-
-          this.openModalView(new WechatPayModal({ propsData: { url: url.code_url } }))
+        wechatPay.pay(this.basicProduct.get('planID')).then((res) => {
+          this.openModalView(new WechatPayModal({ propsData: { url: res.wechat.code_url, sessionId: res.sessionId } }))
         })
         return
       }
@@ -184,9 +182,9 @@ module.exports = (SubscribeModal = (function () {
       if (!this.basicProductAnnual) { return }
       this.playSound('menu-button-click')
       if(features.chinaHome) {
-        const prodBasic = 'https://appKGNJyWGE8466.h5.xiaoeknow.com/v1/entity/coupon/g_61ce58e0e82b4_vaLjWMMA?type=2'
-        if(application.isProduction)
-          window.open(prodBasic, '_blank')
+        wechatPay.pay(this.basicProductAnnual.get('planID')).then((res) => {
+          this.openModalView(new WechatPayModal({ propsData: { url: res.wechat.code_url, sessionId: res.sessionId } }))
+        })
         return
       }
 

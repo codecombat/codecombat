@@ -457,7 +457,7 @@ _.extend(UserSchema.properties, {
         detailType: { enum: ['email', 'phone'] },
         detail: c.shortString({ description: 'We may have a purchaser with no account, in which case only this email/phone/... will be set' })
       },
-      paymentService: { enum: ['stripe', 'testing', 'free', 'api', 'external', 'paypal'] }, // Removed 'ios', could perhaps remove 'paypal', could differentiate 'external' further
+      paymentService: { enum: ['stripe', 'testing', 'free', 'api', 'external', 'paypal', 'wechat'] }, // Removed 'ios', could perhaps remove 'paypal', could differentiate 'external' further
       paymentDetails:
         c.object({ additionalProperties: true }, {
           allOf: {
@@ -468,7 +468,8 @@ _.extend(UserSchema.properties, {
             oneOf: [
               { stripeCustomerId: { type: 'string' }, subscriptionId: { type: 'string' }, paymentSession: c.objectId({ links: [{ rel: 'extra', href: '/db/payment.session/{($)}' }] }) }, // TODO: other various Stripe-specific options
               { paypalCustomerId: { type: 'string' } }, // TODO: various PayPal-specific options, if we keep PayPal
-              { staffCreator: c.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }) } // any other external payment source options?
+              { staffCreator: c.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }) }, // any other external payment source options?
+              { transactionId: { type: 'string' }, refundId: { type: 'string' } } // wechat
               // ... etc. for each possible payment service ...
             ]
           }
