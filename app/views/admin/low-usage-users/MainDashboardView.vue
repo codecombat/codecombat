@@ -3,9 +3,12 @@
     <h1 class="low-usage__title">
       Low Usage Users
     </h1>
-    <filter-component />
+    <filter-component
+      @show-done="onShowDone"
+      @user-search="onUserSearch"
+    />
     <data-component
-      :users="lowUsageUsers"
+      :users="filteredLowUsageUsers"
     />
   </div>
 </template>
@@ -20,10 +23,30 @@ export default {
     DataComponent,
     FilterComponent
   },
+  data () {
+    return {
+      showDone: false,
+      search: ''
+    }
+  },
   computed: {
     ...mapGetters({
       lowUsageUsers: 'lowUsageUsers/getLowUsageUsers'
-    })
+    }),
+    filteredLowUsageUsers () {
+      let users = this.lowUsageUsers
+      if (this.showDone) {
+        // users = users
+      }
+      if (this.search) {
+        if (this.search.includes('@')) {
+          users = users.filter(user => user.email === this.search)
+        } else {
+          users = users.filter(user => user.userId === this.search)
+        }
+      }
+      return users
+    }
   },
   async created () {
     await this.fetchLowUsageUsers()
@@ -32,7 +55,15 @@ export default {
   methods: {
     ...mapActions({
       fetchLowUsageUsers: 'lowUsageUsers/fetchLowUsageUsers'
-    })
+    }),
+    onShowDone (val) {
+      console.log('showdone', val)
+      this.showDone = val
+    },
+    onUserSearch (value) {
+      console.log('search', value)
+      this.search = value
+    }
   }
 }
 </script>
