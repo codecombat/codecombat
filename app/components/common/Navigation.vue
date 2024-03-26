@@ -274,7 +274,7 @@ export default Vue.extend({
                   li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                     a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                   li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()|| (me.showChinaHomeVersion() && me.isHomeUser()))")
-                    a.account-dropdown-item(:href="`/account/${me.showChinaHomeVersion() ? 'prepaid' : 'subscription'}`") {{ $t('account.subscription') }}
+                    a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
                   li(v-if="me.isAdmin() || (me.get('emailVerified') && (!me.showChinaHomeVersion()) && (me.isTeacher() || (!me.get('role') && !me.isAnonymous())))")
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li(v-if="me.isAPIClient()")

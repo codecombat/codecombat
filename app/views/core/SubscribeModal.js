@@ -22,6 +22,8 @@ const CreateAccountModal = require('views/core/CreateAccountModal')
 const Products = require('collections/Products')
 const payPal = require('core/services/paypal')
 const { handleHomeSubscription } = require('../../lib/stripeUtil')
+const wechatPay = require('core/api/wechat')
+const WechatPayModal = require('./WechatPayModal.js').default
 
 module.exports = (SubscribeModal = (function () {
   SubscribeModal = class SubscribeModal extends ModalView {
@@ -155,13 +157,12 @@ module.exports = (SubscribeModal = (function () {
     onClickPurchaseButton (e) {
       if (!this.basicProduct) { return }
       this.playSound('menu-button-click')
-      if(features.chinaHome) {
-        const prodBasic = 'https://appKGNJyWGE8466.h5.xiaoeknow.com/v1/entity/coupon/g_61ce58b300c20_QIc9JL7I?type=2'
-        const stagingBasic = 'https://vvf.h5.xeknow.com/s/1gxOW1'
-        if(application.isProduction)
-          window.open(prodBasic, '_blank')
-        else
-          window.open(stagingBasic, '_blank')
+      if (features.chinaHome) {
+        wechatPay.pay(this.basicProduct.get('planID')).then((url) => {
+          console.log('pay url:', url)
+
+          this.openModalView(new WechatPayModal({ propsData: { url: url.code_url } }))
+        })
         return
       }
 
