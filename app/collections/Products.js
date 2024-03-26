@@ -32,18 +32,8 @@ module.exports = (Products = (function () {
 
     getBasicSubscriptionForUser (user) {
       if (features.chinaHome) {
-        return new Product({
-          name: "basic_subscription",
-          amount: 29900,
-          gems: 0,
-          planID: "basic",
-          payPalBillingPlanID: "P-9EL85781P1990940Y5PNNCTQ",
-          displayName: "CodeCombat Premium Subscription",
-          displayDescription: "A CodeCombat Premium subscription gives you access to exclusive levels, heroes, equipment, pets and more!"
-        })
-      }
-      else if(features.chinaInfra)
-        return null
+        return this.findWhere({ name: 'china_seasonly_subscription' })
+      } else if (features.chinaInfra) { return null }
 
       let countrySpecificProduct
       const coupon = __guard__(user != null ? user.get('stripe') : undefined, x => x.couponID)
@@ -62,17 +52,8 @@ module.exports = (Products = (function () {
 
     getBasicAnnualSubscriptionForUser () {
       if (features.chinaHome) {
-        return new Product({
-          name: "basic_subscription_annual",
-          amount: 99900,
-          gems:0,
-          planID:"price_1Hja49KaReE7xLUdlPuATOvQ",
-          displayName:"CodeCombat Premium Subscription",
-          displayDescription:"A CodeCombat Premium subscription gives you access to exclusive levels, heroes, equipment, pets and more!"
-        })
-      }
-      else if (features.chinaInfra)
-        return null
+        return this.findWhere({ name: 'china_annual_subscription' })
+      } else if (features.chinaInfra) { return null }
 
       const corrilyAnnual = this.findWhere({ name: 'corrily_basic_subscription_annual' })
       console.log('product annual sel', corrilyAnnual)

@@ -72,11 +72,6 @@ mixin price(name, p, nameWithoutCurrency)
               button.btn.btn-lg.btn-illustrated.purchase-button
                 span.buy-now-text(data-i18n="subscribe.buy_now")
                 span.buy-lock-icon &#x1F512;
-                if features.chinaHome
-                   if isProduction
-                     img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/prod_season_qr.png')
-                   else
-                     img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/staging/basic_month_qr.png')
  
           else
             - var secondRowClass = '.col-xs-12'
@@ -91,9 +86,6 @@ mixin price(name, p, nameWithoutCurrency)
                 button.stripe-annual-button.btn.btn-lg.btn-illustrated
                   span.buy-now-text(data-i18n="subscribe.buy_now")
                   span.buy-lock-icon &#x1F512;
-                  if features.chinaHome
-                     if isProduction
-                       img.cn-purchase-qrcode(src='https://assets.koudashijie.com/images/homeVersion/subscription/prod_annual_qr.png')
 
           else if view.lifetimeProduct
             .option-col(class=secondRowClass)
@@ -108,9 +100,6 @@ mixin price(name, p, nameWithoutCurrency)
 
         div.support-blurb.text-center
           p
-            if features.chinaHome
-              a.go-prepaid(data-i18n='subscribe.go_prepaid', href='#')
-              span(data-i18n="subscribe.support_part1")
             if !features.chinaHome
               span 付款时需要帮助? Email 
               =" "
