@@ -15,8 +15,19 @@
       {{ licensesString(user.licenseInfo) }}
     </div>
     <div class="item__done">
-      <button class="btn btn-success">
+      <button
+        v-if="!isUserMarkedDone(user)"
+        class="btn btn-success"
+        @click="$emit('mark-done', user.userId)"
+      >
         Mark done
+      </button>
+      <button
+        v-else
+        class="btn btn-warning"
+        @click="$emit('undo-done', user.userId)"
+      >
+        Undo done
       </button>
     </div>
     <div class="item__actions">
@@ -26,6 +37,7 @@
 </template>
 
 <script>
+import { isMarkedDone } from './low-usage-users-helper'
 export default {
   name: 'DataItemComponent',
   props: {
@@ -40,6 +52,9 @@ export default {
     },
     licensesString (licenseInfo) {
       return `${licenseInfo?.redeemers} / ${licenseInfo?.maxRedeemers}`
+    },
+    isUserMarkedDone (user) {
+      return isMarkedDone(user)
     }
   }
 }

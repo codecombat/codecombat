@@ -27,6 +27,8 @@
     >
       <data-item-component
         :user="user"
+        @mark-done="$emit('mark-done', user.userId)"
+        @undo-done="$emit('undo-done', user.userId)"
       />
     </div>
   </div>

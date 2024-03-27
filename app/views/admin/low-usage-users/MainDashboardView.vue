@@ -9,6 +9,8 @@
     />
     <data-component
       :users="filteredLowUsageUsers"
+      @mark-done="onMarkDone"
+      @undo-done="onUndoDone"
     />
   </div>
 </template>
@@ -54,7 +56,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchLowUsageUsers: 'lowUsageUsers/fetchLowUsageUsers'
+      fetchLowUsageUsers: 'lowUsageUsers/fetchLowUsageUsers',
+      addAction: 'lowUsageUsers/addActionToUser'
     }),
     onShowDone (val) {
       console.log('showdone', val)
@@ -63,6 +66,16 @@ export default {
     onUserSearch (value) {
       console.log('search', value)
       this.search = value
+    },
+    onMarkDone (userId) {
+      console.log('mark done', userId, this.lowUsageUsers.find(user => user.userId === userId), this.lowUsageUsers)
+      const lowUsageUserId = this.lowUsageUsers.find(user => user.userId === userId)._id
+      this.addAction({ lowUsageUserId, action: 'done' })
+    },
+    onUndoDone (userId) {
+      console.log('undo done', userId)
+      const lowUsageUserId = this.lowUsageUsers.find(user => user.userId === userId)._id
+      this.addAction({ lowUsageUserId, action: 'undo-done' })
     }
   }
 }
