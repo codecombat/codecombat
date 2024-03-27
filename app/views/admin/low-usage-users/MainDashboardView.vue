@@ -19,6 +19,7 @@
 import DataComponent from './DataComponent'
 import FilterComponent from './FilterComponent'
 import { mapActions, mapGetters } from 'vuex'
+import { isMarkedDone } from './low-usage-users-helper'
 export default {
   name: 'MainDashboardView',
   components: {
@@ -38,7 +39,9 @@ export default {
     filteredLowUsageUsers () {
       let users = this.lowUsageUsers
       if (this.showDone) {
-        // users = users
+        users = users.filter(u => isMarkedDone(u))
+      } else {
+        users = users.filter(u => !isMarkedDone(u))
       }
       if (this.search) {
         if (this.search.includes('@')) {
