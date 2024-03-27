@@ -28,5 +28,6 @@ module.exports = {
   oauth: require('./o-auth'),
   outcomesReports: require('./outcomes-reports'),
   archivedElements: require('./archived-elements'),
-  backgroundJob: require('./background-job')
+  backgroundJob: require('./background-job'),
+  lowUsageUsers: require('./low-usage-users')
 };
