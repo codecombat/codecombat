@@ -35,12 +35,10 @@ export default {
       if (newVal !== oldVal) {
         this.$emit('show-done', newVal)
       }
-      console.log('showDone', newVal, oldVal)
     }
   },
   methods: {
     onUserSearch () {
-      console.log('user', this.search, this.showDone)
       this.$emit('user-search', this.search)
     }
   }

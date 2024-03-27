@@ -7,6 +7,9 @@
       @show-done="onShowDone"
       @user-search="onUserSearch"
     />
+    <div class="count">
+      {{ filteredLowUsageUsers.length }} users found
+    </div>
     <data-component
       :users="filteredLowUsageUsers"
       @mark-done="onMarkDone"
@@ -55,7 +58,7 @@ export default {
   },
   async created () {
     await this.fetchLowUsageUsers()
-    console.log('users', this.lowUsageUsers)
+    console.log('low-usage-users', this.lowUsageUsers)
   },
   methods: {
     ...mapActions({
@@ -63,20 +66,16 @@ export default {
       addAction: 'lowUsageUsers/addActionToUser'
     }),
     onShowDone (val) {
-      console.log('showdone', val)
       this.showDone = val
     },
     onUserSearch (value) {
-      console.log('search', value)
       this.search = value
     },
     onMarkDone (userId) {
-      console.log('mark done', userId, this.lowUsageUsers.find(user => user.userId === userId), this.lowUsageUsers)
       const lowUsageUserId = this.lowUsageUsers.find(user => user.userId === userId)._id
       this.addAction({ lowUsageUserId, action: 'done' })
     },
     onUndoDone (userId) {
-      console.log('undo done', userId)
       const lowUsageUserId = this.lowUsageUsers.find(user => user.userId === userId)._id
       this.addAction({ lowUsageUserId, action: 'undo-done' })
     }
@@ -89,5 +88,9 @@ export default {
   font-size: 62.5%;
 
   padding: 5rem;
+
+  .count {
+    font-size: 1.5rem;
+  }
 }
 </style>

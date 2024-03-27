@@ -13,14 +13,12 @@ export default {
       const index = state.lowUsageUsers.indexOf(user)
       user.actions ||= []
       user.actions.push(action)
-      console.log('index', index, user)
       state.lowUsageUsers.splice(index, 1, user)
     }
   },
   actions: {
     fetchLowUsageUsers: async ({ commit }) => {
       const lowUsageUsers = await lowUsageUsersApi.fetchAll()
-      console.log('fetch', lowUsageUsers)
       commit('setLowUsageUsers', lowUsageUsers.data)
     },
     addActionToUser: async ({ commit }, { lowUsageUserId, action }) => {

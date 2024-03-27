@@ -3,7 +3,7 @@
     class="item"
   >
     <div class="item__date">
-      {{ dateString(user.updatedAt) }}
+      {{ index + 1 }}.  {{ foundOnString(user) }}
     </div>
     <div class="item__user">
       {{ user.email || user.userId }}
@@ -44,6 +44,10 @@ export default {
     user: {
       type: Object,
       default: () => {}
+    },
+    index: {
+      type: Number,
+      default: 0
     }
   },
   methods: {
@@ -55,6 +59,9 @@ export default {
     },
     isUserMarkedDone (user) {
       return isMarkedDone(user)
+    },
+    foundOnString (user) {
+      return this.dateString(user.logs[0].date)
     }
   }
 }

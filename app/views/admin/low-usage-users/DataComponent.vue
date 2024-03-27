@@ -11,7 +11,7 @@
         Criterias
       </div>
       <div class="header">
-        Licenses used / available
+        Licenses <span class="header__sub">(used / available)</span>
       </div>
       <div class="header">
         Mark done
@@ -21,12 +21,13 @@
       </div>
     </div>
     <div
-      v-for="user in users"
+      v-for="(user, index) in users"
       :key="user._id"
       class="data-element"
     >
       <data-item-component
         :user="user"
+        :index="index"
         @mark-done="$emit('mark-done', user.userId)"
         @undo-done="$emit('undo-done', user.userId)"
       />
@@ -67,6 +68,10 @@ export default {
   .header {
     font-weight: bold;
     font-size: 1.8rem;
+
+    &__sub {
+      font-size: 1.1rem;
+    }
   }
 
   .data-element {
