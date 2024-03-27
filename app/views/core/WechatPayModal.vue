@@ -1,6 +1,6 @@
 <template>
   <modal
-    title="Wechat Pay"
+    title="微信扫一扫支付"
     :backbone-dismiss-modal="true"
   >
     <div
