@@ -203,8 +203,7 @@ module.exports = class RootView extends CocoView
 
   initializeLanguageDropdown: (newLang) ->
     emoji = languages.getEmoji(newLang)
-    console.log('-------emojji', newLang, '---', emoji)
-    if not emoji
+    if not emoji or newLang isnt 'en-US'
       @$el.find('.language-dropdown-current')?.text(locale[newLang].nativeDescription)
     else
       @$el.find('.language-dropdown-current')?.html("<span class=\"emoji-flag\">#{emoji}</span>")
