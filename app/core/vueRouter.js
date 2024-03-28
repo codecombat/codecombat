@@ -227,8 +227,16 @@ export default function getVueRouter () {
                 }
               }
             },
-            { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDView.vue') }
+            { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDView.vue') },
+            {
+              path: 'ai-league',
+              component: () => import(/* webpackChunkName: "ai-league" */ '../views/ai-league/AILeagueView.vue'),
+              children: [
+                { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueViewTeachers" */ 'app/views/ai-league/PageLeagueTeachers') }
+              ]
+            }
           ]
+
         },
         {
           path: '/roblox',

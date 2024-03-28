@@ -4407,6 +4407,7 @@ module.exports = {
       assessments_tab: 'Assessments',
       switch_on: 'On',
       switch_off: 'Off',
+      ai_league: 'AI League',
       version_old: 'Old',
       version_new: 'New',
       dashboard_version: 'Dashboard Version'
@@ -4703,7 +4704,14 @@ module.exports = {
       promotion_part1: 'Join coding teams with friends and family',
       promotion_part2: 'Access global coding arenas and leaderboards',
       promotion_part3: 'Showcase your coding skills and win prizes',
-      promotion_part4: 'Earn points through practice and head-to-head matches'
+      promotion_part4: 'Earn points through practice and head-to-head matches',
+      codecombat_ai_league_description: 'The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an academic competition unlike any other.',
+      teacher_getting_started_guide: 'Teacher Getting Started Guide',
+      try_ai_league_as_a_teacher: 'Try AI League as a Teacher',
+      current_season: 'Current Season',
+      all_time: 'All Time',
+      view_leaderboards_for_team: 'View leaderboards for team:',
+      global_stats: 'GLOBAL STATS'
     },
 
     tournament: {

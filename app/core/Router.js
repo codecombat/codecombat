@@ -406,6 +406,8 @@ module.exports = (CocoRouter = (function () {
         privacy: go('PrivacyView'),
 
         'professional-development': go('core/SingletonAppVueComponentView'),
+        'ai-league': go('core/SingletonAppVueComponentView'),
+
         pd: go('core/SingletonAppVueComponentView'),
         efficacy: go('core/SingletonAppVueComponentView'),
 
@@ -483,6 +485,9 @@ module.exports = (CocoRouter = (function () {
         'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true }),
         'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true }),
         'teachers/professional-development': teacherProxyRoute(go('pd/PDView', { redirectStudents: true })),
+        'teachers/ai-league': teacherProxyRoute(go('ai-league/AILeagueView', { redirectStudents: true })),
+        'teachers/ai-league(/*subpath)': go('core/SingletonAppVueComponentView'),
+
         'teachers/signup' () {
           if (me.isAnonymous()) { return this.routeDirectly('teachers/CreateTeacherAccountView', []) }
           if (me.isStudent() && !me.isAdmin()) { return this.navigate('/students', { trigger: true, replace: true }) }
