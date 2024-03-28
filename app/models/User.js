@@ -1020,7 +1020,7 @@ module.exports = (User = (function () {
       }
 
       if (value === null) {
-        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.2
+        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
         let valueProbability
         const rand = Math.random()
         if (rand < probability) {
