@@ -3,10 +3,13 @@
 $dark-grey:     #0a2239;
 $dark-grey-2:   #111928;
 $light-grey:    #6b7280;
+$light-grey-2:  #C7C7C7;
 $purple:        #7a65fc;
 $purple-2:      #9487FF;
 $middle-purple: #d5d5fc;
 $light-purple:  #e9e8fd;
+
+$main-font-family: "Plus Jakarta Sans";
 
 $small-screen-height: 768px;
 
@@ -160,7 +163,7 @@ $small-screen-height: 768px;
   ::v-deep a,
   ::v-deep button,
   ::v-deep div {
-    font-family: "Plus Jakarta Sans";
+    font-family: $main-font-family;
   }
 
   ::v-deep .text-h1 {
