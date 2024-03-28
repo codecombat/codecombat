@@ -5390,7 +5390,7 @@ module.exports = {
       carousel_3_button_1_text: 'Ozaria',
       carousel_3_button_2_text: 'CodeCombat',
       carousel_4_title: 'Common Core State Standards',
-      carousel_4_text: 'The **[https://corestandards.org/]Common Core State Standards** are a set of uniform academic standards for K–12 Mathematics and English Language Arts.[NEWLINE]CodeCombat integrates a variety of cross-curricular connections to core subject areas throughout our curriculum. [NEWLINE]Learn about the detailed Common Core Standards Alignment below:',
+      carousel_4_text: 'The **[https://corestandards.org/]Common Core State Standards** are a set of uniform academic standards for K–12 Mathematics and English Language Arts.[NEWLINE]CodeCombat integrates a variety of cross-curricular connections to core subject areas throughout our curriculum. [NEWLINE]Learn about the detailed Common Core Standards Alignment below:',
       carousel_4_button_1_text: 'Ozaria',
       carousel_4_button_2_text: 'CodeCombat',
       carousel_5_title: 'Next Generation Science Standards (NGSS)',
