@@ -36,7 +36,7 @@ const ViewLoadTimer = require('core/ViewLoadTimer')
 const paymentUtils = require('lib/paymentUtils')
 
 const homePageExperiment = function () {
-  if (!utils.isCodeCombat) {
+  if (!utils.isCodeCombat || features?.china) {
     return 'control'
   }
   const experimentName = 'home-page'
