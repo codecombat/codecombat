@@ -17,7 +17,7 @@
         Mark done
       </div>
       <div class="header">
-        Add action
+        Actions
       </div>
     </div>
     <div
