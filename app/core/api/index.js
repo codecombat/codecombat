@@ -2,6 +2,8 @@
 // Sanity-check the conversion and remove this comment.
 module.exports = {
   admin: require('./admin'),
+  aiJuniorScenarios: require('./ai-junior-scenarios'),
+  aiJuniorProjects: require('./ai-junior-projects'),
   apcsp: require('./apcsp'),
   analyticsLogEvents: require('./analytics-log-events'),
   campaigns: require('./campaigns'),

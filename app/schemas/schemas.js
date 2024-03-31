@@ -25,7 +25,9 @@ me.passwordString = {
   ]
 }
 
-// Dates should usually be strings, ObjectIds should be strings: https://github.com/codecombat/codecombat/issues/1384
+// Dates should usually be strings
+// We use to think ObjectIds should br strings: https://github.com/codecombat/codecombat/issues/1384
+// ... but that's bad, they should be ObjectIds
 me.date = ext => combine({ type: ['object', 'string'], format: 'date-time' }, ext) // old
 me.stringDate = ext => combine({ type: ['string'], format: 'date-time' }, ext) // new
 me.objectId = ext => combine({ type: ['object', 'string'] }, ext) // old

@@ -7,7 +7,8 @@ export const COMPONENT_NAMES = {
   MY_LICENSES: 'BaseTeacherLicenses',
   RESOURCE_HUB: 'BaseResourceHub',
   PD: 'PD',
-  STUDENT_ASSESSMENTS: 'BaseStudentAssessments'
+  STUDENT_ASSESSMENTS: 'BaseStudentAssessments',
+  AI_HACKSTACK_JUNIOR: 'BaseAIHackStackJunior',
   // CURRICULUM_GUIDE: 'BaseCurriculumGuide'
 }
 

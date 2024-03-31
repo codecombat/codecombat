@@ -1,0 +1,25 @@
+extends /templates/base
+
+block content
+  div
+    ol.breadcrumb
+      li
+        a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
+      li
+        a(href="/editor/ai-junior-project", data-i18n="editor.ai_junior_project_title")
+      li.active
+        | #{view.project.get('_id')}
+
+  - var authorized = !me.get('anonymous');
+  button.ai-junior-project-tool-button.btn.btn-primary#delete-button(data-i18n="editor.delete", disabled=me.isAdmin() === true ? undefined : "true")
+  button.ai-junior-project-tool-button.btn.btn-primary#save-button(data-i18n="common.save", disabled=authorized === true ? undefined : "true")
+
+  h3
+    span(data-i18n="editor.ai_junior_project_edit_title")
+    |: #{view.project.attributes._id}
+
+  #ai-junior-project-treema
+
+  hr
+
+  // TODO: visualize the project here

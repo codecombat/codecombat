@@ -81,11 +81,11 @@ export default {
     },
     classroomStartDate () {
       if (!this.classroom.classDateStart) { return '' }
-      return moment(this.classroom.classDateStart).format('ll')
+      return this.classroom.classDateStart
     },
     classroomEndDate () {
       if (!this.classroom.classDateEnd) { return '' }
-      return moment(this.classroom.classDateEnd).format('ll')
+      return this.classroom.classDateEnd
     },
     classroomLanguage () {
       return (this.classroom.aceConfig || {}).language
