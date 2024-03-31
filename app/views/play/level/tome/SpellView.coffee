@@ -114,7 +114,10 @@ module.exports = class SpellView extends CocoView
     @createACEShortcuts()
     @hookACECustomBehavior()
     unless @spectateView
-      @fillACESolution()
+      try
+        @fillACESolution()
+      catch err
+        console.error("Could not fill ace solution:", err)
     @fillACE()
     @createOnCodeChangeHandlers()
     @lockDefaultCode()

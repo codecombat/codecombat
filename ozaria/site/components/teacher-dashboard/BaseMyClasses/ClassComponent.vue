@@ -68,14 +68,13 @@ export default {
       <b>Esports Camp Quick Links</b>
       <ul class="list-inline">
         <li>
-          <!-- TODO: sensei guide URL -->
           <a
             v-tooltip.top="{
               content: 'Comprehensive Sensei guide to running the Competitive Coding: Esports and Game Design camp with Ozaria and the CodeCombat AI League. (Sensei guide coming soon.)',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="#"
+            href="https://drive.google.com/file/d/1Zdh9-jh1UP81nasfan3H98mcYrRwvszn/view?usp=drive_link"
             class="dusk-btn disabled"
             target="_blank"
             disabled
