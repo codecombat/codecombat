@@ -2,7 +2,7 @@
   <div class="data">
     <div class="data__headers">
       <div class="header">
-        Found on
+        Last Found on
       </div>
       <div class="header">
         User

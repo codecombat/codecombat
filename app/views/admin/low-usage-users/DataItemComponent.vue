@@ -80,7 +80,9 @@ export default {
       return isMarkedDone(user)
     },
     foundOnString (user) {
-      return this.dateString(user.logs[0].date)
+      const logs = user.logs
+      const log = logs[logs.length - 1]
+      return this.dateString(log.date)
     }
   }
 }
