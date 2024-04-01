@@ -157,12 +157,6 @@ module.exports = (SubscribeModal = (function () {
     onClickPurchaseButton (e) {
       if (!this.basicProduct) { return }
       this.playSound('menu-button-click')
-      if (features.chinaHome) {
-        wechatPay.pay(this.basicProduct.get('planID')).then((res) => {
-          this.openModalView(new WechatPayModal({ propsData: { url: res.wechat.code_url, sessionId: res.sessionId } }))
-        })
-        return
-      }
 
       if (me.get('anonymous')) {
         const service = this.basicProduct.isRegionalSubscription() ? 'paypal' : 'stripe'
@@ -171,6 +165,14 @@ module.exports = (SubscribeModal = (function () {
         }
         return this.openModalView(new CreateAccountModal({ startOnPath: 'individual', subModalContinue: 'monthly' }))
       }
+
+      if (features.chinaHome) {
+        wechatPay.pay(this.basicProduct.get('planID')).then((res) => {
+          this.openModalView(new WechatPayModal({ propsData: { url: res.wechat.code_url, sessionId: res.sessionId } }))
+        })
+        return
+      }
+
       // if @basicProduct.isRegionalSubscription()
       //   @startPayPalSubscribe()
       // else
@@ -181,18 +183,19 @@ module.exports = (SubscribeModal = (function () {
     onClickAnnualPurchaseButton (e) {
       if (!this.basicProductAnnual) { return }
       this.playSound('menu-button-click')
-      if(features.chinaHome) {
-        wechatPay.pay(this.basicProductAnnual.get('planID')).then((res) => {
-          this.openModalView(new WechatPayModal({ propsData: { url: res.wechat.code_url, sessionId: res.sessionId } }))
-        })
-        return
-      }
 
       if (me.get('anonymous')) {
         if (application.tracker != null) {
           application.tracker.trackEvent('Started Signup from buy yearly', { service: 'stripe' })
         }
         return this.openModalView(new CreateAccountModal({ startOnPath: 'individual', subModalContinue: 'yearly' }))
+      }
+
+      if (features.chinaHome) {
+        wechatPay.pay(this.basicProductAnnual.get('planID')).then((res) => {
+          this.openModalView(new WechatPayModal({ propsData: { url: res.wechat.code_url, sessionId: res.sessionId } }))
+        })
+        return
       }
 
       return this.startYearlyStripeSubscription()
