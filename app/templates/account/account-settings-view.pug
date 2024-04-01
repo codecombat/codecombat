@@ -102,7 +102,7 @@ else
           .related-account-sub(data-i18n="related_accounts.subtitle")
           a.btn.btn-primary.related-account-manage(href="/users/switch-account" target="_blank" data-i18n="common.manage")
           
-      if me.isTeacher()            
+      if me.isTeacher()
         .panel.panel-default
           .panel-heading
             .panel-title#connect-roblox-title(data-i18n="account_settings.switch_new_teacher_dashboard")
@@ -259,11 +259,12 @@ else
                 input#password-reset-progress.form-control(name="password", type="password")
             button#reset-progress-btn.btn.form-control.btn-primary(data-i18n="account_settings.reset_your_progress")
     
-        .panel.panel-default
-          .panel-heading
-            .panel-title#connect-roblox-title(data-i18n="account_settings.connect_roblox_tab")
-          .panel-body
-            #roblox-button  
+        if !me.showChinaRegistration()
+          .panel.panel-default
+            .panel-heading
+              .panel-title#connect-roblox-title(data-i18n="account_settings.connect_roblox_tab")
+            .panel-body
+              #roblox-button  
     
   .clearfix
   

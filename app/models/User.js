@@ -999,6 +999,10 @@ module.exports = (User = (function () {
       const experimentName = 'home-page-filtered'
       let value = me.getExperimentValue(experimentName, null)
 
+      if (features?.china) {
+        return 'control'
+      }
+
       if (value === null && !utils.isCodeCombat) {
         // Don't include non-CodeCombat users
         return 'control'

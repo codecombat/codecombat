@@ -1348,7 +1348,7 @@ module.exports = {
       feature_learn: '学习游戏和网页项目实践',
       feature_languages: '畅学多种主流语言，可随时切换',
       feature_aiyouth: 'AI世青赛参赛机会',
-      //    feature_gems: "Earn __gems__ gems/mo (__gems12__ gems/yr)",
+      feature_gems: '获得3000宝石/月(10000宝石/年)',
       month_price: '__price__元/月',
       season_price: '__price__元/季度',
       //    month_price_without_currency: "__price__/mo",
