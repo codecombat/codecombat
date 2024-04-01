@@ -51,6 +51,14 @@ export default Vue.extend({
 
     showHackStackLogo () {
       return window.location.pathname.startsWith('/ai')
+    },
+
+    homeLink () {
+      if (me.isCodeNinja() && me.isStudent()) { return '/students' }
+      if (me.isCodeNinja() && me.isTeacher()) { return '/teachers/classes' }
+      if (me.isTarena()) { return 'http://kidtts.tmooc.cn/ttsPage/login.html' }
+      if (this.hideNav) { return '#' }
+      return '/home'
     }
   },
 
@@ -156,17 +164,17 @@ export default Vue.extend({
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            a.navbar-brand(v-if="me.useTarenaLogo()" href="http://kidtts.tmooc.cn/ttsPage/login.html")
+            a.navbar-brand(v-if="me.useTarenaLogo()" :href="homeLink")
               picture
                 source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
               img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
-            a.navbar-brand(v-else-if="serverConfig.codeNinjas" href="/home")
+            a.navbar-brand(v-else-if="serverConfig.codeNinjas || me.isCodeNinja()" :href="homeLink")
               picture
                 source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
               img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
-            a.navbar-brand(v-else-if="me.isTecmilenio()" href="/home")
+            a.navbar-brand(v-else-if="me.isTecmilenio()" :href="homeLink")
               picture
                 source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")

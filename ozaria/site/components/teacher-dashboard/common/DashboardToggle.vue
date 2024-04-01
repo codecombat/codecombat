@@ -1,68 +1,121 @@
 <template>
   <div
-    id="dashboard-toggle"
-    class="btn-group"
-    data-toggle="buttons"
+    class="dashboard-toggle"
   >
-    <label
-      class="btn btn-primary"
-      :disabled="isNewDashboard"
-      @click="setLocalStorage(true)"
+    <div
+      v-if="showTitle"
+      class="dashboard-toggle__title"
     >
-      <input
-        id="option1"
-        type="radio"
-        name="options"
-        autocomplete="off"
-      > {{ $t('teacher_dashboard.switch_on') }}
-    </label>
-    <label
-      class="btn btn-primary"
-      :disabled="isOldDashboard"
-      @click="setLocalStorage(false)"
+      {{ $t('teacher_dashboard.dashboard_version') }}
+    </div>
+    <div
+      class="btn-group"
+      data-toggle="buttons"
     >
-      <input
-        id="option2"
-        type="radio"
-        name="options"
-        autocomplete="off"
-      > {{ $t('teacher_dashboard.switch_off') }}
-    </label>
+      <label
+        class="btn btn-primary"
+        :class="{ [`btn-${size}`]: true, active: isNewDashboard}"
+        :disabled="isNewDashboard"
+        @click="saveValue(true)"
+      >
+        <input
+          id="option1"
+          type="radio"
+          name="options"
+          autocomplete="off"
+          :checked="isNewDashboard"
+        > {{ $t('teacher_dashboard.version_new') }}
+      </label>
+      <label
+        class="btn btn-primary"
+        :class="{ [`btn-${size}`]: true, active: isOldDashboard}"
+        :disabled="isOldDashboard"
+        @click="saveValue(false)"
+      >
+        <input
+          id="option2"
+          type="radio"
+          name="options"
+          autocomplete="off"
+          :checked="isOldDashboard"
+        > {{ $t('teacher_dashboard.version_old') }}
+      </label>
+    </div>
   </div>
 </template>
 
 <script>
-import utils from 'core/utils'
 export default Vue.extend({
   name: 'DashboardToggle',
-  computed: {
-    isOldDashboard () {
-      return localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true'
+  props: {
+    size: {
+      type: String,
+      default: 'md'
     },
-    isNewDashboard () {
-      return localStorage.getItem(utils.getNewDashboardToggleKey()) === 'true'
+    showTitle: {
+      type: Boolean,
+      default: false
+    },
+    reloadLocation: {
+      type: String,
+      default: '/teachers/classes'
     }
   },
-  mounted () {
-    if (this.isNewDashboard) {
-      document.getElementById('option1').checked = true
-    } else {
-      document.getElementById('option2').checked = true
+  data () {
+    return {
+      dashboardStatus: me.isNewDashboardActive()
+    }
+  },
+  computed: {
+    isOldDashboard () {
+      return !this.dashboardStatus
+    },
+    isNewDashboard () {
+      return this.dashboardStatus
+    }
+  },
+  watch: {
+    dashboardStatus (newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.dashboardStatus = newValue
+      }
     }
   },
   methods: {
-    setLocalStorage (newValue) {
-      // todo: can we add me.id to key so that for admins it's easier
-      localStorage.setItem(utils.getNewDashboardToggleKey(), newValue ? 'true' : 'false')
-      window.location.reload()
+    async saveValue (newValue) {
+      me.set('features', {
+        ...me.get('features'),
+        isNewDashboardActive: newValue
+      })
+      await me.save()
+      this.dashboardStatus = me.isNewDashboardActive()
+      if (this.reloadLocation) {
+        if (window.location.pathname === this.reloadLocation) {
+          window.location.reload()
+        } else {
+          window.location.href = this.reloadLocation
+        }
+      }
     }
   }
 })
 </script>
 <style scoped lang="scss">
-#dashboard-toggle {
-    label {
+.dashboard-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    &__title {
+        font-size: 11px;
+        line-height: 13px;
+        font-weight: normal;
+    }
+    .btn-group label {
         margin-left: 0;
+    }
+    .active {
+      text-decoration: underline;
     }
 }
 </style>

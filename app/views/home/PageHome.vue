@@ -14,6 +14,7 @@
               <video-box
                 class="header__video"
                 video-id="da0d63c489741f4bd20448af1846292a"
+                title="Video to illustrate the header"
               />
             </template>
           </content-box>
@@ -83,6 +84,21 @@
       <tools-list />
     </div>
 
+    <div
+      v-if="me.isAnonymous()"
+      class="container"
+    >
+      <div class="row">
+        <div class="col-md-12">
+          <CTAButton
+            class="signup-button"
+          >
+            {{ $t('home_v3.sign_up_free') }}
+          </CTAButton>
+        </div>
+      </div>
+    </div>
+
     <box-panel
       :title="$t('home_v3.engaging_play_experiences')"
       :items="engagingBoxes"
@@ -105,6 +121,21 @@
         </div>
       </div>
     </background-container>
+
+    <div
+      v-if="me.isAnonymous()"
+      class="container"
+    >
+      <div class="row">
+        <div class="col-md-12">
+          <CTAButton
+            class="signup-button"
+          >
+            {{ $t('schools_page.try_it_free') }}
+          </CTAButton>
+        </div>
+      </div>
+    </div>
 
     <box-panel
       :title="$t('home_v3.your_turnkey_solutions')"
@@ -167,10 +198,12 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <CTAButton class="contact-modal">
+          <CTAButton
+            class="contact-modal"
+            :description="$t('home_v3.for_further_questions')"
+          >
             {{ $t('home_v3.contact_us') }}
           </CTAButton>
-          <p>{{ $t('home_v3.for_further_questions') }}</p>
         </div>
       </div>
     </div>
@@ -357,7 +390,7 @@ export default Vue.extend({
           title: this.$t('schools_page.student_acceleration_2_title'),
           text: this.$t('schools_page.student_acceleration_2_text'),
           image: '/images/pages/schools/boxes/maximize_6.webp',
-          linkText: this.$t('schools_page.learn_more_text'),
+          linkText: this.$t('home_v3.try_it_now'),
           link: 'https://codecombat.com/apcsp',
           mainImageOriginal: true
         },
@@ -405,6 +438,11 @@ export default Vue.extend({
           link: '/libraries'
         }
       ]
+    }
+  },
+  computed: {
+    me () {
+      return me
     }
   },
   mounted () {

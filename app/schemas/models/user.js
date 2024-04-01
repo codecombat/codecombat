@@ -417,7 +417,13 @@ _.extend(UserSchema.properties, {
         description: 'Features flags applied to this user',
         // key is the feature id
         additionalProperties: FeatureRecipientSchema
-      }
+      },
+      isNewDashboardActive: {
+        type: 'boolean'
+      },
+      ownerDistrictId: c.objectId({ description: 'District ID where user has admin permission to view data like outcome reports' }),
+      syncedToSF: { type: 'boolean', description: 'Whether the user has been synced to Salesforce' },
+      syncedToCIO: { type: 'boolean', description: 'Whether the user has been synced to CIO' }
     }
   },
 

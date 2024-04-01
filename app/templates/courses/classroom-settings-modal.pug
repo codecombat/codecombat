@@ -158,12 +158,17 @@ block modal-body-content
               i.spl.text-muted(data-i18n="signup.optional")
           select.form-control(name="type", value=view.classroom.get('type'))
             option(value="" data-i18n="courses.avg_student_exp_select")
-            option(value="in-school" data-i18n="courses.class_type_in_school")
+            if me.isCodeNinja()
+              option(value="camp-esports" data-i18n="courses.class_type_camp_esports")
+              option(value="camp-junior" data-i18n="courses.class_type_camp_junior")
+            if !me.isCodeNinja()
+              option(value="in-school" data-i18n="courses.class_type_in_school")
             option(value="after-school" data-i18n="courses.class_type_after_school")
-            option(value="online" data-i18n="courses.class_type_online")
-            option(value="camp" data-i18n="courses.class_type_camp")
-            option(value="homeschool" data-i18n="courses.class_type_homeschool")
-            option(value="other" data-i18n="courses.class_type_other")
+            if !me.isCodeNinja()
+              option(value="online" data-i18n="courses.class_type_online")
+              option(value="camp" data-i18n="courses.class_type_camp")
+              option(value="homeschool" data-i18n="courses.class_type_homeschool")
+              option(value="other" data-i18n="courses.class_type_other")
 
         .form-group
           label

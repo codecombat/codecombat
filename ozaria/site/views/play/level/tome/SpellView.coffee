@@ -762,6 +762,8 @@ module.exports = class SpellView extends CocoView
 
   updateAceLines: (screenLineCount, ace=@ace, aceCls='.ace', areaId='#code-area') =>
     lineHeight = ace.renderer.lineHeight or 20
+    if @courseID && @courseID == utils.courseIDs.CHAPTER_ONE
+      lineHeight = 29
     spellPaletteView = $('#tome-view #spell-palette-view-bot')
     spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
     if aceCls == '.ace'

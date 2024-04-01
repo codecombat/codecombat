@@ -39,7 +39,7 @@ export default Vue.extend({
     },
 
     hideFooter () {
-      return getQueryVariable('landing', false)
+      return getQueryVariable('landing', false) || me.hideFooter()
     },
 
     footerUrls () {

@@ -26,6 +26,7 @@ const SubscribeModal = require('views/core/SubscribeModal')
 const Purchase = require('models/Purchase')
 const createjs = require('lib/createjs-parts')
 const ThangTypeConstants = require('lib/ThangTypeConstants')
+const ChangeLanguageTab = require('views/play/common/ChangeLanguageTab')
 
 module.exports = (PlayHeroesModal = (function () {
   PlayHeroesModal = class PlayHeroesModal extends ModalView {
@@ -56,9 +57,10 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     constructor (options) {
-      super(options)
-      this.animateHeroes = this.animateHeroes.bind(this)
       if (options == null) { options = {} }
+      super(options)
+      this.options = options
+      this.animateHeroes = this.animateHeroes.bind(this)
       this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : 'common.save'
       this.heroes = new CocoCollection([], { model: ThangType })
       this.heroes.url = '/db/thang.type?view=heroes'
@@ -69,8 +71,6 @@ module.exports = (PlayHeroesModal = (function () {
       this.stages = {}
       this.layers = []
       this.session = options.session
-      this.initCodeLanguageList(options.hadEverChosenHero)
-      this.initCodeFormatList(options.hadEverChosenHero)
       this.heroAnimationInterval = setInterval(this.animateHeroes, 1000)
       this.trackTimeVisible()
       if (options.courseInstanceID) {
@@ -148,10 +148,6 @@ module.exports = (PlayHeroesModal = (function () {
       context = super.getRenderData(context)
       context.heroes = this.heroes.models
       context.level = this.options.level
-      context.codeLanguages = this.codeLanguageList
-      context.codeLanguage = this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
-      context.codeFormats = this.codeFormatList
-      context.codeFormat = this.codeFormat = me.get('aceConfig')?.codeFormat || 'text-code'
       context.confirmButtonI18N = this.confirmButtonI18N
       context.visibleHero = this.visibleHero
       context.gems = me.gems()
@@ -181,52 +177,18 @@ module.exports = (PlayHeroesModal = (function () {
       this.$el.find(`.hero-item:nth-child(${heroIndex + 1}), .hero-indicator:nth-child(${heroIndex + 1})`).addClass('active')
       this.onHeroChanged({ direction: null, relatedTarget: this.$el.find('.hero-item')[heroIndex] })
       this.$el.find('.hero-stat').addClass('has-tooltip').tooltip()
-      this.buildCodeLanguages()
-      this.buildCodeFormats()
     }
 
     rerenderFooter () {
+      if (this.destroyed) { return }
       if (this.visibleHero) {
         this.formatHero(this.visibleHero)
       }
       this.renderSelectors('#hero-footer')
-      this.buildCodeLanguages()
-      this.buildCodeFormats()
+      const changeLanguageOptions = _.clone(this.options)
+      changeLanguageOptions.classroomAceConfig = this.classroomAceConfig
+      this.insertSubView(this.changeLanguageView = new ChangeLanguageTab(changeLanguageOptions))
       return this.$el.find('#gems-count-container').toggle(Boolean(this.visibleHero?.purchasable))
-    }
-
-    initCodeLanguageList (hadEverChosenHero) {
-      if (application.isIPadApp) {
-        this.codeLanguageList = [
-          { id: 'python', name: `Python (${$.i18n.t('choose_hero.default')})` },
-          { id: 'javascript', name: 'JavaScript' }
-        ]
-      } else {
-        this.subscriberCodeLanguageList = [
-          { id: 'cpp', name: 'C++' },
-          { id: 'java', name: `Java (${$.i18n.t('choose_hero.experimental')})` }
-        ]
-        this.codeLanguageList = [
-          { id: 'python', name: `Python (${$.i18n.t('choose_hero.default')})` },
-          { id: 'javascript', name: 'JavaScript' },
-          { id: 'coffeescript', name: 'CoffeeScript' },
-          { id: 'lua', name: 'Lua' },
-          ...this.subscriberCodeLanguageList
-        ]
-        if (this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language !== 'coffeescript') {
-          // Not really useful to show this any more. Let's get rid of it unless they're currently using it.
-          this.codeLanguageList = _.filter(this.codeLanguageList, language => language.id !== 'coffeescript')
-        }
-      }
-    }
-
-    initCodeFormatList (hadEverChosenHero) {
-      this.codeFormatList = [
-        { id: 'text-code', name: `${$.i18n.t('choose_hero.text_code')} (${$.i18n.t('choose_hero.default')})` },
-        { id: 'blocks-and-code', name: `${$.i18n.t('choose_hero.blocks_and_code')}` },
-        { id: 'blocks-text', name: `${$.i18n.t('choose_hero.blocks_text')}` },
-        { id: 'blocks-icons', name: `${$.i18n.t('choose_hero.blocks_icons')}` },
-      ]
     }
 
     onHeroChanged (e) {
@@ -295,58 +257,6 @@ module.exports = (PlayHeroesModal = (function () {
       AudioPlayer.preloadSoundReference(sound)
       this.currentSoundInstance = AudioPlayer.playSound(name, 1)
       return this.currentSoundInstance
-    }
-
-    buildCodeLanguages () {
-      const $select = this.$el.find('#option-code-language')
-      if (!$.browser.mobile) {
-        $select.fancySelect()
-      }
-      $select.parent().find('.options li').each(function () {
-        const languageName = $(this).text()
-        const languageID = $(this).data('value')
-        const blurb = $.i18n.t(`choose_hero.${languageID}_blurb`)
-        if (languageName.indexOf(blurb) === -1) { // Avoid doubling blurb if this is called 2x
-          return $(this).text(`${languageName} - ${blurb}`)
-        }
-      })
-    }
-
-    onCodeLanguageChanged (e) {
-      this.codeLanguage = this.$el.find('#option-code-language').val()
-      this.codeLanguageChanged = true
-      window.tracker?.trackEvent('Campaign changed code language', { category: 'Campaign Hero Select', codeLanguage: this.codeLanguage, levelSlug: this.options.level?.get('slug') })
-      if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
-        // Blockly can't support languages like C++/Java. (Some day we'll have Lua.)
-        noty({ text: `Can't show blocks and code with ${this.codeLanguage}`, layout: 'bottomCenter', type: 'error', killer: false, timeout: 3000 })
-        this.$el.find('#option-code-format').val('text-code').change()
-      }
-    }
-
-    buildCodeFormats () {
-      const $select = this.$el.find('#option-code-format')
-      if (!$.browser.mobile) {
-        $select.fancySelect()
-      }
-      $select.parent().find('.options li').each(function () {
-        const formatName = $(this).text()
-        const formatID = $(this).data('value')
-        const blurb = $.i18n.t(`choose_hero.${formatID}_blurb`.replace(/-/g, '_'))
-        if (formatName.indexOf(blurb) === -1) { // Avoid doubling blurb if this is called 2x
-          return $(this).text(`${formatName} - ${blurb}`)
-        }
-      })
-    }
-
-    onCodeFormatChanged (e) {
-      this.codeFormat = this.$el.find('#option-code-format').val()
-      this.codeFormatChanged = true
-      window.tracker?.trackEvent('Campaign changed code format', { category: 'Campaign Hero Select', codeFormat: this.codeFormat, levelSlug: this.options.level?.get('slug') })
-      if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
-        // Blockly can't support languages like C++/Java. (Some day we'll have Lua.)
-        noty({ text: `Can't show blocks and code with ${this.codeLanguage}`, layout: 'bottomCenter', type: 'error', killer: false, timeout: 3000 })
-        this.$el.find('#option-code-language').val('javascript').change()
-      }
     }
 
     // - Purchasing the hero
@@ -440,6 +350,9 @@ module.exports = (PlayHeroesModal = (function () {
     // - Exiting
 
     saveAndHide () {
+      this.codeLanguage = this.changeLanguageView.codeLanguage
+      this.codeFormat = this.changeLanguageView.codeFormat
+      this.subscriberCodeLanguageList = this.changeLanguageView.subscriberCodeLanguageList
       let changed
       if (!me.hasSubscription() && this.subscriberCodeLanguageList.find(l => l.id === this.codeLanguage) && !me.isStudent()) {
         this.openModalView(new SubscribeModal())

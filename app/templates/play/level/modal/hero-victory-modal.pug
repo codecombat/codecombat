@@ -3,7 +3,7 @@ block modal-header-content
   #victory-header.out
     #victory-title
       if !me.get('preferredLanguage') || me.get('preferredLanguage').split('-')[0] == 'en'
-        img(src="/images/pages/play/level/modal/victory_word.png", draggable="false")
+        img(src="/images/pages/play/level/modal/victory_word.png", draggable="false", data-i18n="[alt]play_level.victory")
       else
         h1(data-i18n="play_level.victory") Victory
 
@@ -56,7 +56,8 @@ block modal-body-content
       .achievement-panel(class=achievement.completedAWhileAgo ? 'earned' : '' data-achievement-id=achievement.id data-animate=animate)
         - var rewards = achievement.get('rewards') || {};
 
-        div.achievement-description(dir="auto")= achievement.description
+        if view.level.get("product", true) != "codecombat-junior"
+          div.achievement-description(dir="auto")= achievement.description
 
         div.achievement-rewards
           - var worth = achievement.worth;
@@ -66,13 +67,13 @@ block modal-body-content
           if worth
             .reward-panel.numerical.xp(data-number=worth, data-number-unit='xp', data-previous-number=previousWorth || 0)
               .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
-                img(src="/images/pages/play/level/modal/reward_icon_xp.png")
+                img(src="/images/pages/play/level/modal/reward_icon_xp.png" data-i18n="[alt]play_level.victory_experience_gained")
               .reward-text= animate ? '+0' : '+'+worth
 
           if gems
             .reward-panel.numerical.gems(data-number=gems, data-number-unit='gem', data-previous-number=previousGems || 0)
               .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
-                img(src="/images/pages/play/level/modal/reward_icon_gems.png")
+                img(src="/images/pages/play/level/modal/reward_icon_gems.png" data-i18n="[alt]play_level.victory_gems_gained")
               .reward-text= animate ? '+0' : '+'+gems
 
           if rewards.heroes
@@ -80,7 +81,7 @@ block modal-body-content
               - var hero = thangTypes[hero];
               .reward-panel.hero(data-hero-thang-type=hero.get('original'))
                 .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
-                  img(src=hero.getPortraitURL())
+                  img(src=hero.getPortraitURL() data-i18n="[alt]play_level.victory_new_hero")
                 if animate
                   .reward-text(data-i18n="play_level.victory_new_hero") New Hero
                 else
@@ -94,7 +95,7 @@ block modal-body-content
                   if item.get('subscriber')
                     .reward-border
                   .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
-                    img(src=item.getPortraitURL())
+                    img(src=item.getPortraitURL() data-i18n="[alt]play_level.victory_new_item")
                   if animate
                     .reward-text(data-i18n="play_level.victory_new_item") New Item
                   else
@@ -102,20 +103,34 @@ block modal-body-content
 
 
 block modal-footer-content
-  #totals(class=view.showShareGameWithTeacher ? "hide" : "")
+  #totals(class=(view.showShareGameWithTeacher ? "hide" : "") + (view.level.get("product", true) == "codecombat-junior" ? " codecombat-junior" : ""))
     .total-wrapper#xp-wrapper
       .total-count#xp-total 0
-      .total-label.rtl-allowed
-        span.spr(data-i18n="play_level.victory_experience_gained") XP Gained
-        | -
-        span.spl.spr(data-i18n="general.player_level") Level
-        span.level= me.level()
-      .xp-bar-outer
-        .xp-bar-already-achieved
-        .xp-bar-total
+      if view.level.get("product", true) == "codecombat-junior"
+        .total-label.rtl-allowed
+          span.spl.spr(data-i18n="general.player_level") Level
+          span.level= me.level()
+        .xp-bar-outer
+          .xp-bar-already-achieved
+          .xp-bar-total
+        .total-label.total-label-icon
+          img(src="/images/pages/play/level/modal/reward_icon_xp.png" data-i18n="[alt]play_level.victory_experience_gained")
+      else
+        .total-label.rtl-allowed
+          span.spr(data-i18n="play_level.victory_experience_gained") XP Gained
+          | -
+          span.spl.spr(data-i18n="general.player_level") Level
+          span.level= me.level()
+        .xp-bar-outer
+          .xp-bar-already-achieved
+          .xp-bar-total
     .total-wrapper#gem-wrapper
       .total-count#gem-total 0
-      .total-label(data-i18n="play_level.victory_gems_gained") Gems Gained
+      if view.level.get("product", true) == "codecombat-junior"
+        .total-label.total-label-icon
+          img(src="/images/pages/play/level/modal/reward_icon_gems.png" data-i18n="[alt]play_level.victory_gems_gained")
+      else
+        .total-label(data-i18n="play_level.victory_gems_gained") Gems Gained
 
   if view.shareURL
     #share-level-container(class=view.showShareGameWithTeacher ? "with-email" : "")
@@ -170,6 +185,11 @@ block modal-footer-content
       button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="play_level.explore_codecombat")
     else if level.isType('hero-ladder', 'ladder')
       button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href=`/play/ladder/${level.get('slug')}#my-matches`, data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
+    else if level.get('product', true) == 'codecombat-junior'
+      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide.codecombat-junior#continue-button
+        span(data-i18n="common.continue") Continue
+        span= ' '
+        img(src='/images/level/blocks/block-right.png' data-i18n="[alt]common.continue")
     else
       button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue
 

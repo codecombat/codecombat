@@ -66,6 +66,8 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Cover Image',
     type: 'string',
     description: 'The cover image for this scenario',
+    format: 'image-file',
+    inEditor: 'codecombat'
   },
   priority: {
     title: 'Priority',

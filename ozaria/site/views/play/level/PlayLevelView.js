@@ -190,7 +190,7 @@ class PlayLevelView extends RootView {
       const fetchAceConfig = $.get(`/db/course_instance/${this.courseInstanceID}/classroom?project=aceConfig,members`)
       this.supermodel.trackRequest(fetchAceConfig)
       fetchAceConfig.then(classroom => {
-        this.classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion || true
+        this.classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion != null ? classroom.aceConfig.liveCompletion : true
         const levelChat = classroom.aceConfig?.levelChat || 'none'
         this.classroomAceConfig.levelChat = levelChat
         store.commit('game/setAIHintVisible', levelChat !== 'none')

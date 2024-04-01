@@ -240,7 +240,7 @@ module.exports = (Level = (function () {
       } else {
         if (/Hero Placeholder/.test(levelThang.id) && this.usesSessionHeroThangType() && !this.usesSessionHeroInventory() && !this.headless && !this.isEditorPreview) {
           // Grab the hero from my config, not the session hero config (so that switching heroes globally applies to existing sessions), when we are using configured heroes but not their inventory.
-          heroThangType = me.get('heroConfig')?.thangType || ThangTypeConstants.heroes.captain
+          heroThangType = session.get('heroConfig')?.thangType || me.get('heroConfig')?.thangType || ThangTypeConstants.heroes.captain
           // For assessments, use default hero in class if classroomItems is on
           if (this.isAssessment() && me.showHeroAndInventoryModalsToStudents()) {
             heroThangType = ThangTypeConstants.heroes.captain

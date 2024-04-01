@@ -19,6 +19,7 @@ if (utils.isOzaria) {
 } else {
   submenuViews.push(require('views/play/menu/MyCodeView'))
   submenuViews.push(require('views/play/menu/OptionsView'))
+  submenuViews.push(require('views/play/menu/ChangeLanguageView'))
 }
 
 const ModalView = require('views/core/ModalView')
@@ -67,6 +68,10 @@ module.exports = (GameMenuModal = (function () {
         options: 'cog',
         'save-load': 'floppy-disk',
       }
+      if (!this.showsChooseHero() && this.showsChangeLanguage()) {
+        submenus.push('change-language')
+        context.iconMap['change-language'] = 'globe'
+      }
       context.submenus = submenus
       context.isCodeCombat = utils.isCodeCombat
       return context
@@ -80,13 +85,25 @@ module.exports = (GameMenuModal = (function () {
       return this.level.usesSessionHeroThangType()
     }
 
+    showsChangeLanguage () {
+      // web-dev change language do nothing
+      // student cannot change language unless they're playing ai-leauge ladder
+      return !this.level.isType('web-dev') && !(me.isStudent() && !this.level.isType('ladder'))
+    }
+
     afterRender () {
       super.afterRender()
       for (const SubmenuView of Array.from(submenuViews)) { this.insertSubView(new SubmenuView(this.options)) }
-      const firstView = this.subviews.my_code_view
-      firstView.$el.addClass('active')
-      if (typeof firstView.onShown === 'function') {
-        firstView.onShown()
+      let firstView = this.subviews.my_code_view
+      if (utils.isOzaria) {
+        // ozaria still uses options_view
+        firstView = this.subviews.options_view
+      }
+      if (firstView) {
+        firstView.$el.addClass('active')
+        if (typeof firstView.onShown === 'function') {
+          firstView.onShown()
+        }
       }
       this.playSound('game-menu-open')
       return this.$el.find('.nano:visible').nanoScroller()

@@ -2,7 +2,11 @@
 import { mapGetters, mapActions, mapState } from 'vuex'
 import OutcomesReportResultComponent from './OutcomesReportResultComponent'
 import { getOutcomesReportStats } from '../../core/api/outcomes-reports'
+import { getAILeagueStats } from '../../core/api/clans'
 import utils from 'core/utils'
+import { create as createJob, get as getJob } from '../../core/api/background-job'
+import Clan from '../../models/Clan'
+const JOB_TYPE = 'outcomes-report'
 
 const orgKinds = {
   'administrative-region': { childKinds: ['school-district'] },
@@ -21,7 +25,9 @@ const parameterDefaults = () => ({
   subOrgLimit: 10, // TODO: different default limits for students vs. other types? Max value from number of sub orgs this org has?
   startDate: null,
   endDate: moment(new Date()).format('YYYY-MM-DD'),
-  editing: me.isAdmin()
+  editing: me.isAdmin(),
+  includeOther: false,
+  showOther: false,
 })
 
 export default {
@@ -51,9 +57,19 @@ export default {
       orgIdOrSlug: '',
       country: null,
       org: null,
+      otherOrg: null,
       subOrgs: [],
+      otherSubOrgs: [],
+      aiLeagueStats: null,
       loading: true,
-      earliestProgressDate: null
+      earliestProgressDate: null,
+      loadingText: null,
+      fetchAttempts: 0,
+      fetchInterval: 2000,
+      includeOther: false,
+      showOther: false,
+      showLicense: false,
+      showLicenseSummary: false
     }
     const defaults = parameterDefaults()
     for (const key in defaults) {
@@ -108,6 +124,15 @@ export default {
       if (newVal !== lastVal) { // TODO: is this diff check needed?
         this.addParametersToLocation()
       }
+    },
+    includeOther (newVal, lastVal) {
+      if (newVal) {
+        this.addParametersToLocation()
+        this.loadRequiredData()
+        this.showOther = true // show other product by default
+      } else {
+        this.showOther = false
+      }
     }
   },
 
@@ -116,6 +141,10 @@ export default {
     this.orgIdOrSlug = this.$route.params.idOrSlug || null
     this.country = this.$route.params.country || null
     this.fetchCourses()
+    if (me.isInternal() || me.isAdmin()) {
+      this.showLicenseSummary = true
+    }
+    this.fetchOtherCourses(this.otherProduct)
   },
 
   mounted () {
@@ -137,7 +166,8 @@ export default {
 
   methods: {
     ...mapActions({
-      fetchCourses: 'courses/fetch'
+      fetchCourses: 'courses/fetch',
+      fetchOtherCourses: 'courses/fetchOther'
     }),
 
     // changeClanSelected (e) {
@@ -160,6 +190,7 @@ export default {
         return
       }
       this.loading = true
+      this.loadingText = $.i18n.t('common.loading')
       // TODO: update the URL parameters according to this fetch
       // TODO: cache the results in case we query again for the same parameters
       // TODO: if we load again while one load is still in progress, abort the old one
@@ -171,27 +202,120 @@ export default {
 
     // TODO: date range
     async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
-      console.log('gonna load stats for', kind, orgIdOrSlug, country)
-      const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate })
-      console.log(' ...', kind, orgIdOrSlug, country, 'got stats', stats)
+      let stats
+      if (['classroom', 'teacher'].includes(kind) && orgIdOrSlug) {
+        const clanSlug = Clan.getAutoClanSlug(orgIdOrSlug, kind)
+        const leagueStats = await getAILeagueStats(clanSlug)
+        try {
+          this.aiLeagueStats = JSON.parse(leagueStats)
+        } catch (e) {
+          this.aiLeagueStats = undefined
+        }
+      }
+      if (this.$route.query['use-old-method']) {
+        console.log('gonna load stats for', kind, orgIdOrSlug, country)
+        const stats = await getOutcomesReportStats(kind, orgIdOrSlug, { includeSubOrgs, country, startDate, endDate })
+        console.log('outcome-reports', kind, orgIdOrSlug, country, 'got stats', stats)
+      } else {
+        stats = await this.fetchUsingBackgroundJob({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate, includeOther: this.includeOther })
+      }
+      this.setStats({ stats, includeSubOrgs, kind })
+    },
 
+    setStats ({ stats, includeSubOrgs, kind }) {
+      if (!stats) return
+      this.org = this.setOrgAndSubOrgs(stats)
+      if (this.includeOther) {
+        this.otherOrg = this.setOrgAndSubOrgs(stats, 'other')
+      }
+    },
+
+    setOrgAndSubOrgs (stats, product = 'current') {
       let subOrgs = []
-      if (includeSubOrgs) {
-        for (const childKind of orgKinds[kind].childKinds) {
-          subOrgs = subOrgs.concat(stats[childKind + 's'] || [])
+      if (this.includeSubOrgs) {
+        for (const childKind of orgKinds[this.kind].childKinds) {
+          subOrgs = subOrgs.concat(stats[product][childKind + 's'] || [])
         }
         for (const [index, subOrg] of subOrgs.entries()) {
           subOrg.initiallyIncluded = Boolean(!subOrg.archived && index < this.subOrgLimit && subOrg.progress && subOrg.progress.programs && (subOrgs.length > 1 || this.subOrgLimit === 1))
           // TODO: better way to get rid of redundant info if there is only one subOrg
         }
       }
-      this.subOrgs = Object.freeze(subOrgs) // Don't add reactivity
+      if (product === 'current') {
+        this.subOrgs = Object.freeze(subOrgs) // Don't add reactivity
+      } else {
+        this.otherSubOrgs = Object.freeze(subOrgs) // Don't add reactivity
+      }
 
-      const orgs = stats[kind + 's']
+      const licenses = stats[product].licenses
+      const orgs = stats[product][this.kind + 's']
       if (orgs) {
         orgs[0].subOrgs = this.subOrgs
-        this.org = Object.freeze(orgs[0]) // Don't add reactivity
-        console.log('   ... got our org', this.org)
+        orgs[0].newLicenses = licenses
+        const org = Object.freeze(orgs[0]) // Don't add reactivity
+        console.log('   ... got our org', org)
+        return org
+      }
+    },
+
+    async fetchUsingBackgroundJob ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate, includeOther }) {
+      const resp = await createJob(JOB_TYPE, { kind, orgIdOrSlug, includeSubOrgs, country, dateRange: { startDate, endDate } })
+      let resp2
+      if (includeOther) {
+        resp2 = await createJob(JOB_TYPE, { kind, orgIdOrSlug, includeSubOrgs, country, dateRange: { startDate, endDate } }, this.otherProduct)
+      }
+      const jobId = resp?.job
+      const jobId2 = resp2?.job
+
+      if (!jobId) {
+        console.log('failed to create job', jobId, resp)
+        this.loadingText = $.i18n.t('loading_error.could_not_load')
+        return
+      }
+      const stats = await this.pollJob(jobId, jobId2)
+      return stats
+    },
+
+    async pollJob (jobId, jobId2) {
+      const sleep = async function (ms) {
+        return new Promise(resolve => setTimeout(resolve, ms))
+      }
+
+      while (true) {
+        this.fetchAttempts++
+        let job
+        if (this.includeOther) {
+          job = await Promise.all([getJob(jobId), getJob(jobId2, this.otherProduct)]).then(([job1, job2]) => {
+            // todo: check this job
+            if (job1.status === 'failed' || job2.status === 'failed') {
+              return { status: 'failed' }
+            } else if (job1.status === 'completed' && job2.status === 'completed') {
+              return {
+                status: 'completed',
+                output: `{ "current": ${job1.output}, "other": ${job2.output} }`
+              }
+            }
+            return { status: 'pending' }
+          })
+        } else {
+          job = await getJob(jobId)
+          if (job.output) {
+            job.output = `{ "current": ${job.output} }`
+          }
+        }
+        this.loadingText = job?.message || ($.i18n.t('common.loading') + '.'.repeat((this.fetchAttempts % 4) * 2))
+
+        if (job.status === 'completed') {
+          return JSON.parse(job.output)
+        } else if (job.status === 'failed' || this.fetchAttempts > 50) {
+          this.loadingText = $.i18n.t('loading_error.could_not_load')
+          return
+        } else {
+          if (this.fetchInterval < 5000) {
+            this.fetchInterval += 500 // re-fetch can be slower for every time.
+          }
+          await sleep(this.fetchInterval)
+        }
       }
     },
 
@@ -231,11 +355,14 @@ export default {
 
     ...mapState('courses', {
       coursesLoaded: 'loaded',
-      courses: (state) => state.byId
+      courses: (state) => state.byId,
     }),
 
     isCodeCombat () {
       return utils.isCodeCombat
+    },
+    otherProduct () {
+      return utils.isCodeCombat ? 'ozaria' : 'codecombat'
     },
     courseById () {
       return (courseId) => this.$store.state.courses.byId[courseId]
@@ -282,6 +409,26 @@ export default {
       // TODO: filter out a kind if there's only one instance (one classroom for a teacher, maybe one teacher in a school)
       // TODO: filter out a kind if there are no instances (no subnetwork so go to schools)
       return orgKinds[this.kind].childKinds[0]
+    },
+
+    combinedSubOrgs () {
+      const subOrgs = {}
+      for (const subOrg of this.subOrgs || []) {
+        if (subOrg._id in subOrgs) {
+          subOrgs[subOrg._id].org = subOrg
+        } else {
+          subOrgs[subOrg._id] = { org: subOrg }
+        }
+      }
+      for (const subOrg of this.otherSubOrgs || []) {
+        if (subOrg._id in subOrgs) {
+          subOrgs[subOrg._id].otherOrg = subOrg
+        } else {
+          // if only ozaria suborgs, we still use it as org in report comonent
+          subOrgs[subOrg._id] = { org: subOrg }
+        }
+      }
+      return Object.values(subOrgs)
     }
   }
 }
@@ -303,12 +450,12 @@ main#page-outcomes-report
           label.edit-label.editing-only(v-if="editing" for="startDate") &nbsp; (edit)
 
     .org-results(v-if="org && !loading")
-      outcomes-report-result-component(:org="org" v-bind:editing="editing")
+      outcomes-report-result-component(:org="org" :other-org="otherOrg" :leagueStats="aiLeagueStats" v-bind:editing="editing" :showLicense="showLicense" :showLicenseSummary="showLicenseSummary && kind !== 'student'" :showOther="showOther")
       if includeSubOrgs
-        outcomes-report-result-component.sub-org(v-for="subOrg, index in subOrgs" v-bind:index="index" v-bind:key="subOrg.kind + '-' + subOrg._id" v-bind:org="subOrg" v-bind:editing="editing" v-bind:isSubOrg="true" v-bind:parentOrgKind="org.kind")
+        outcomes-report-result-component.sub-org(v-for="subOrg, index in combinedSubOrgs" :index="index" :key="subOrg.org.kind + '-' + subOrg.org._id" :org="subOrg.org" :other-org="subOrg.otherOrg" :editing="editing" :isSubOrg="true" :parentOrgKind="org.kind" :showOther="showOther" :parent-org-id="orgIdOrSlug")
 
     .loading-indicator(v-if="loading")
-      h1= $t('common.loading')
+      h1 {{ loadingText }}
 
     if org && org.insightsHtml
       .dont-break.block
@@ -366,6 +513,26 @@ main#page-outcomes-report
           span  #{$t("outcomes.max")}#{kindString({kind: childKind}).toLowerCase()}#{$t('outcomes.multiple')}
         .col-xs-7
           input#subOrgLimit.form-control(type="number" v-model.number="subOrgLimit" name="subOrgLimit" min="1" step="1")
+      .form-group(v-if="kind !== 'student'")
+        label.control-label.col-xs-5(for="showLicenseSummary")
+          span= $t('outcomes.show_license_summary')
+        .col-xs-7
+          input#showLicenseSummary.form-control(type="checkbox" v-model="showLicenseSummary" name="showLicenseSummary")
+      .form-group(v-if="kind !== 'student'")
+        label.control-label.col-xs-5(for="showLicense")
+          span= $t('outcomes.show_license_stats')
+        .col-xs-7
+          input#showLicense.form-control(type="checkbox" v-model="showLicense" name="showLicense")
+      .form-group(v-if="!includeOther")
+        label.control-label.col-xs-5(for="includeOtherProduct")
+          span= $t('outcomes.include_other_product', { product: this.otherProduct })
+        .col-xs-7
+          input#includeOtherProduct.form-control(type="checkbox" v-model="includeOther" name="includeOtherProduct")
+      .form-group(v-else)
+        label.control-label.col-xs-5(for="showOtherProduct")
+          span= $t('outcomes.show_other_product', { product: this.otherProduct })
+        .col-xs-7
+          input#showOtherProduct.form-control(type="checkbox" v-model="showOther" name="showOtherProduct")
     .clearfix
 </template>
 

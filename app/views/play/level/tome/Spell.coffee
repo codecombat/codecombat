@@ -116,12 +116,7 @@ module.exports = class Spell
         commentContext[k] = v.replace /\b([a-zA-Z]+)\.([a-zA-Z_]+\()/, '$1:$2'
 
     if commentI18N
-      while spokenLanguage
-        spokenLanguage = spokenLanguage.substr 0, spokenLanguage.lastIndexOf('-') if fallingBack?
-        if spokenLanguageContext = commentI18N[spokenLanguage]?.context
-          commentContext = _.merge commentContext, spokenLanguageContext
-          break
-        fallingBack = true
+      commentContext = utils.i18n({context: commentContext, i18n: commentI18N, spokenLanguage: spokenLanguage}, 'context')
     try
       translatedSource = _.template source, commentContext
     catch e

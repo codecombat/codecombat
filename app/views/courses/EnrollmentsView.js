@@ -140,7 +140,7 @@ module.exports = (EnrollmentsView = (function () {
         this.newAdministeredClassrooms
           .models
           .map(c => c.attributes)
-          .filter(c => (c.courses.length > 1) || ((c.courses.length === 1) && (c.courses[0]._id !== utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE)))
+          .filter(c => _.some(c.courses, course => !utils.allFreeCourseIDs.includes(course._id)))
       )
 
       this.totalAdministeredTeachers -= 1

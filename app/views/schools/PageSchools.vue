@@ -63,6 +63,23 @@
       <turnkey-solutions :title="$t('schools_page.your_turnkey_solutions')" />
     </div>
 
+    <div
+      v-if="me.isAnonymous()"
+      id="try-it-free"
+      class="container contact-us"
+    >
+      <div class="row">
+        <div class="col-md-12">
+          <CTAButton
+            class="signup-button"
+            data-start-on-path="teacher"
+          >
+            {{ $t('schools_page.try_it_free') }}
+          </CTAButton>
+        </div>
+      </div>
+    </div>
+
     <div class="container">
       <image-and-text
         :title="$t('schools_page.flexible_standards_aligned_curriculum_title')"
@@ -216,13 +233,17 @@
             </h2>
           </div>
         </div>
-        <div class="row contact-row">
+        <div
+          v-if="me.isAnonymous()"
+          class="row contact-row"
+        >
           <div class="col-md-12">
             <CTAButton
-              class="contact-modal"
-              :description="$t('schools_page.for_your_custom_pathway')"
+              class="signup-button"
+              data-start-on-path="teacher"
+              :description="$t('schools_page.trial_the_curriculum')"
             >
-              {{ $t('home_v3.contact_us') }}
+              {{ $t('schools_page.free_teacher_account') }}
             </CTAButton>
           </div>
         </div>
@@ -659,6 +680,11 @@ export default Vue.extend({
           image: '/images/pages/home-v3/solutions/box_1.webp'
         }
       ]
+    }
+  },
+  computed: {
+    me () {
+      return me
     }
   }
 })

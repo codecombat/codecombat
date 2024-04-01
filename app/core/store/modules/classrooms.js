@@ -258,13 +258,8 @@ export default {
     fetchClassroomsForTeacher: ({ commit }, { teacherId, project }) => {
       commit('toggleLoadingForTeacher', teacherId)
 
-      if (utils.isOzaria) {
-        // ozar limit the projections. so remember to add default array when updating classroom schema
-        project = project || ['_id', 'name', 'slug', 'members', 'deletedMembers', 'ownerID', 'code', 'codeCamel', 'aceConfig', 'archived', 'googleClassroomId', 'classroomItems', 'studentLockMap', 'courses._id', 'courses.levels', 'permissions']
-      } else {
-        // fetch all for coco, so keep project as null
-        project = project || null
-      }
+      // We used to limit the default projection in Ozaria but not in CodeCombat, but it was easy to miss new properties, and Ozaria still fetched almost all the data, so now both products fetch all fields by default.
+      project = project || null
 
       return classroomsApi.fetchByOwner(teacherId, {
         project,
@@ -448,12 +443,35 @@ export default {
         commit('setMostRecentClassCode', codeCamel)
       }
     },
+
     fetchCourseLevels: async ({ commit, getters }, { classroomID, courseID }) => {
       if (getters.getCourseLevels(classroomID, courseID)) {
         return
       }
       const levels = await classroomsApi.getCourseLevels({ classroomID, courseID }, { data: { cacheEdge: true } })
       commit('setClassroomCourseLevels', { classroomID, courseID, levels })
-    }
+    },
+
+    addOrUpdateCourse: async ({ commit, getters}, { classroomId, courseId }) => {
+      const updatedClassroom = await classroomsApi.addOrUpdateCourse({ classroomId, courseId }, {})
+      commit('updateClassroomById', {
+        classroomID: classroomId,
+        updates: {
+          courses: updatedClassroom.courses
+        }
+      })
+      // Also update it in the classrooms by teacher, for the teacher dashboard
+      // TODO: this doesn't entirely work, takes a page refresh for the student to show up in the new course when switching to it--why?
+      const classroom = getters.getClassroomById(classroomId)
+      const teacherId = getTeacherIdBasedOnSharedWritePermission(classroom)
+      commit('updateClassroom', {
+        teacherId,
+        classroomId,
+        updates: {
+          courses: updatedClassroom.courses
+        }
+      })
+      return classroom
+    },
   }
 }
