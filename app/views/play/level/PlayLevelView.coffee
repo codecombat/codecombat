@@ -219,7 +219,6 @@ module.exports = class PlayLevelView extends RootView
         @classroomAceConfig.levelChat = classroom.aceConfig?.levelChat ? 'none'
         @classroomAceConfig.classroomItems = classroom?.classroomItems ? (!features?.china) # china classroomitems default to false and global default to true
         @teacherID = classroom.ownerID
-        console.log("bget classroom", classroom)
 
         if @teaching and (not @teacherID.equals(me.id))
           return _.defer -> application.router.redirectHome()
