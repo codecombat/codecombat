@@ -710,7 +710,7 @@ export default {
         <div>
           <img
             class="img-responsive"
-            src="/images/pages/league/snowhold-clash.png"
+            src="/images/pages/league/anti-gravity-cup.png"
             loading="lazy"
             style="max-height: 200px; float: right; margin: 0 15px 15px;"
             alt=""
@@ -719,11 +719,11 @@ export default {
             class="subheader1"
             style="margin-bottom: 32px;"
           >
-            <span class="esports-green">Season 9 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span>
+            <span class="esports-green">Season 10 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span>
           </h1>
         </div>
-        <p>{{ $t('league.season9_announcement_1') }}</p>
-        <p>{{ $t('league.season6_announcement_2') }}</p>
+        <p>{{ $t('league.season10_announcement_1') }}</p>
+        <p>{{ $t('league.season4_announcement_2') }}</p>
       </div>
     </div>
 
