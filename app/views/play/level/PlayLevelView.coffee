@@ -207,9 +207,9 @@ module.exports = class PlayLevelView extends RootView
         'blocks-and-code': 'blocks-and-code',
         'text-code': 'text-code',
         }[codeFormatOverride] or codeFormat
-    @classroomAceConfig = {liveCompletion: true, codeFormatDefault: codeFormat }  # default (home users, teachers, etc.)
+    @classroomAceConfig = {liveCompletion: true, codeFormatDefault: codeFormat, classroomItems: true }  # default (home users, teachers, etc.)
     if @courseInstanceID
-      fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID")
+      fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID,classroomItems")
       @supermodel.trackRequest fetchAceConfig
       fetchAceConfig.then (classroom) =>
         @classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion ? true
@@ -217,6 +217,7 @@ module.exports = class PlayLevelView extends RootView
         @classroomAceConfig.codeFormats = classroom.aceConfig?.codeFormats ? ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code']
         @tome?.determineCodeFormat()
         @classroomAceConfig.levelChat = classroom.aceConfig?.levelChat ? 'none'
+        @classroomAceConfig.classroomItems = classroom?.classroomItems ? (!features?.china) # china classroomitems default to false and global default to true
         @teacherID = classroom.ownerID
 
         if @teaching and (not @teacherID.equals(me.id))
