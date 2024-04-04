@@ -203,15 +203,44 @@ class Converters {
   static ConvertForOfStatement (n, ctx) {
     ctx.scope[n.left.name] = { type: 'var' }
     const body = convert(n.body, { ...ctx, nospace: true, context: 'statement' })
-    const o = {
-      // type: 'controls_untyped_for_each',
-      type: 'controls_forEach',
-      fields: {
-        VAR: { id: n.left.name }
-      },
-      inputs: {
-        LIST: { block: convert(n.right, { ...ctx, context: 'value' }) }
-
+    let o
+    if (n.right?.type === 'CallExpression' && n.right.callee?.name === 'range' && n.right.arguments?.length && (!n.right.arguments[2] || n.right.arguments[2].value === 1)) {
+      try {
+        // Use controls_repeat_ext block instead of a controls_forEach block for Python ranges that are just repeating N times
+        let start, end, endNode
+        if (n.right.arguments.length > 1) {
+          start = n.right.arguments[0].value
+          end = n.right.arguments[1].value
+          endNode = n.right.arguments[1]
+        } else {
+          start = 0
+          end = n.right.arguments[0].value
+          endNode = n.right.arguments[0]
+        }
+        const times = end - start
+        const fakeTimesNode = _.cloneDeep(endNode)
+        fakeTimesNode.raw = '' + times
+        fakeTimesNode.value = times
+        o = {
+          type: 'controls_repeat_ext',
+          inputs: {
+            TIMES: { block: convert(fakeTimesNode, ctx) }
+          }
+        }
+      } catch (err) {
+        console.error("Couldn't convert for-in range to simple repeat block:", n, err)
+      }
+    }
+    if (!o) {
+      o = {
+        // type: 'controls_untyped_for_each',
+        type: 'controls_forEach',
+        fields: {
+          VAR: { id: n.left.name }
+        },
+        inputs: {
+          LIST: { block: convert(n.right, { ...ctx, context: 'value' }) }
+        }
       }
     }
 
