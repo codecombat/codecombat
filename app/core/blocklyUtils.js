@@ -1094,6 +1094,16 @@ function rewriteBlocklyJS (code, { product }) {
     return s + 'var ' + n + ' = '
   })
 
+  // Replace count, count2, etc. repeat variables with i, j, etc.
+  code = code.replace(/\bcount(\d*)\b(\+\+)?/g, (match, num, increment) => {
+    const index = num ? parseInt(num) : 1
+    const letter = String.fromCharCode(105 + index - 1) // 105 is ASCII code for 'i'
+    return increment ? `${letter}${increment}` : letter
+  })
+
+  // Replace var with let
+  code = code.replace(/\bvar\b/g, 'let')
+
   return code.trim()
 }
 
@@ -1103,6 +1113,13 @@ function rewriteBlocklyPython (code, { product }) {
     oldCode = code
     code = code.replace(/^[a-zA-Z0-9_-s]+ = None\n/, '')
   } while (code !== oldCode)
+
+  // Replace count, count2, etc. repeat variables with i, j, etc. in Python code
+  code = code.replace(/\bcount(\d*)\b/g, (match, num) => {
+    const index = num ? parseInt(num) : 1
+    const letter = String.fromCharCode(105 + index - 1) // 105 is ASCII code for 'i'
+    return letter
+  })
 
   return code.trim()
 }
