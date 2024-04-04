@@ -43,7 +43,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       propNames.add(prop.name)
     }
     if (/programmaticon/i.test(owner)) continue
-    const userBlocks = mergedPropertyEntryGroups[owner].props.map(prop =>
+    const userBlocks = mergedPropertyEntryGroups[owner].props.filter(prop => !(['for-loop'].includes(prop.name))).map(prop =>
       createBlock({ owner, prop, generator, codeLanguage, codeFormat, level, superBasicLevels })
     )
     userBlockCategories.push({ kind: 'category', name: owner, colour: '190', contents: userBlocks })
