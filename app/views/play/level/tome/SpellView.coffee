@@ -1979,6 +1979,7 @@ module.exports = class SpellView extends CocoView
     @aceDoc?.off 'change', @onCodeChangeMetaHandler
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
     @destroyAceEditor(@ace)
+    @destroyAceEditor(@aceSolution)
     @debugView?.destroy()
     @translationView?.destroy()
     @toolbarView?.destroy()
