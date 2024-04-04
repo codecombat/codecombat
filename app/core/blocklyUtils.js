@@ -228,6 +228,18 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     tooltip: '%{BKY_CONTROLS_REPEAT_TOOLTIP}',
     helpUrl: '%{BKY_CONTROLS_REPEAT_HELPURL}',
   }
+
+  if (codeFormat === 'blocks-icons') {
+    // Use an image instead of text
+    dropdownRepeatBlock.message0 = `%1%2%3%4`,
+    dropdownRepeatBlock.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-loop.png',
+      width: 42,
+      height: 42,
+      alt: 'repeat'
+    })
+  }
   Blockly.Blocks.controls_repeat_dropdown = { init () { return this.jsonInit(dropdownRepeatBlock) } }
   generator.forBlock.controls_repeat_dropdown = generator.forBlock.controls_repeat
 
