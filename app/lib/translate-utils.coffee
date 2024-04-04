@@ -376,9 +376,10 @@ translateJSWhitespace = (jsCode, language='lua') ->
     # TODO: something flexible for arbitrary n elements
   else if language is 'python'
     # Add quotes. {x:1, y:1} -> {"x": 1, "y": 1}
-    s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,]+)\}/g, '{"$1": $2}'  # 1 element
-    s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)\}/g, '{"$1": $2, "$3": $4}'  # 2 elements
-    s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)\}/g, '{"$1": $2, "$3": $4, "$5": $6}'  # 3 elements
+    # Exclude argument placeholders ${...} from being quoted
+    s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,\}]+)(?<!'\$\{[^}]+)\}/g, '{"$1": $2}'  # 1 element
+    s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,\}]+)(?<!'\$\{[^}]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)(?<!'\$\{[^}]+)\}/g, '{"$1": $2, "$3": $4}'  # 2 elements
+    s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,\}]+)(?<!'\$\{[^}]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)(?<!'\$\{[^}]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)(?<!'\$\{[^}]+)\}/g, '{"$1": $2, "$3": $4, "$5": $6}'  # 3 elements
     # TODO: something flexible for arbitrary n elements
 
   if language is 'lua'
