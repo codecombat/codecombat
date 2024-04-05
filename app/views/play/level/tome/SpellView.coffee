@@ -948,7 +948,7 @@ module.exports = class SpellView extends CocoView
       longestLineChars = (if isJunior then 30 else 40) + wrapperIndentationChars
     longestLineChars = Math.max(longestLineChars, 40) if isWebDev
     hardMinCodeChars = switch
-      when isJunior then 12 + wrapperIndentationChars
+      when isJunior then 16 + wrapperIndentationChars
       when @blocklyActive then 18 + wrapperIndentationChars
       else 29  # Enough for two spell palette columns
     hardMaxCodeChars = (if isJunior is 'codecombat-junior' then 40 else 80) + wrapperIndentationChars
