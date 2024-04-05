@@ -306,8 +306,9 @@ if (isCodeCombat) {
     4: 'The `spin()` Function',
     5: 'The `zap()` Function',
     6: 'For Loops',
-    7: 'If Statements',
-    // 8: 'Variables'
+    7: 'Loop Combinations',
+    8: 'If Statements'
+    // 9: 'Variables'
   }
 
   // TODO: move all the level/module data to database
@@ -388,11 +389,27 @@ if (isCodeCombat) {
       'Zap Master',
     ],
     6: [
-      'Spin Eternally',
       'Loopy',
-      'Gem Weave',
+      'More Times',
+      'Right Up',
+      'Square Wave',
+      'Grabber',
+      'Smasher',
+      'Spin Eternally',
+      'Down the Line',
+      'Tall Wave',
+      'Clearing the Way',
+      'Restraint',
+      'Fern',
+      'Scratch Loop',
+      'Regular Path',
+      'Detonations',
+      'Showdown',
     ],
     7: [
+      'Gem Weave',
+    ],
+    8: [
       'Zap Smart',
     ],
   }
@@ -2095,9 +2112,23 @@ const freeAccessLevels = [
   { access: 'short', slug: 'careful-aim' },
   { access: 'short', slug: 'chain-reaction' },
   { access: 'short', slug: 'zap-master' },
-  { access: 'short', slug: 'spin-eternally' },
-  { access: 'short', slug: 'gem-weave' },
   { access: 'short', slug: 'loopy' },
+  { access: 'short', slug: 'more-times' },
+  { access: 'short', slug: 'right-up' },
+  { access: 'short', slug: 'square-wave' },
+  { access: 'short', slug: 'grabber' },
+  { access: 'short', slug: 'smasher' },
+  { access: 'short', slug: 'spin-eternally' },
+  { access: 'short', slug: 'down-the-line' },
+  { access: 'short', slug: 'tall-wave' },
+  { access: 'short', slug: 'clearing-the-way' },
+  { access: 'short', slug: 'restraint' },
+  { access: 'short', slug: 'fern' },
+  { access: 'short', slug: 'scratch-loop' },
+  { access: 'short', slug: 'regular-path' },
+  { access: 'short', slug: 'detonations' },
+  { access: 'short', slug: 'showdown' },
+  { access: 'short', slug: 'gem-weave' },
   { access: 'short', slug: 'zap-smart' },
 ]
 
