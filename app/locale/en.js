@@ -5471,7 +5471,6 @@ module.exports = {
       travel_steps_1: 'Prior to departure you will receive a comprehensive travel packet with all the information you will need to know.',
       travel_steps_2: 'Preparations have been made to shuttle participants from the airport to the hotel and to and from the activities throughout the week. Transportation back to the airport for departure will also be arranged.',
       travel_steps_3: 'The full package fee will be due prior to travel, minus the initial deposit fee.',
-      // frame
       frame_heading_1: 'The paced schedule will fill the days with a mixture of ',
       frame_heading_2: 'learning',
       frame_heading_3: ' and ',
