@@ -482,7 +482,7 @@ module.exports = (CampaignView = (function () {
     }
 
     openCreateAccountModal (e) {
-      e.stopPropagation()
+      e?.stopPropagation?.()
       return this.openModalView(new CreateAccountModal())
     }
 
