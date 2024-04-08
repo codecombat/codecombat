@@ -19,13 +19,13 @@
         v-if="forAll"
         class="participants for-all"
       >
-        All Participants
+        {{ $t('codequest_page.all_participants') }}
       </div>
       <div
         v-else
         class="participants"
       >
-        International Participants
+        {{ $t('codequest_page.international_participants') }}
       </div>
       <div class="div">
         <div :class="['title', titleClass]">
