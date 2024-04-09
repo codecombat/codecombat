@@ -4,26 +4,25 @@
       <div class="content">
         <div class="header-text">
           <p class="title">
-            <span class="text-wrapper">CodeQuest </span>
+            <span class="text-wrapper"> {{ $t('codequest_page.codequest') }} </span>
             <span class="span">2024 </span>
           </p>
           <p class="date-text">
-            <span class="text-wrapper">Date:</span> July 22 - July 27, 2024
+            <span class="text-wrapper"> {{ $t('codequest_page.date') }}:</span>
+            {{ $t('codequest_page.date_time') }}
           </p>
           <p class="supporting-text">
-            Join us for an immersive educational experience like no other, designed to inspire and empower the
-            next
-            generation of computer science innovators through coding and AI. Students aged 13-17 are welcome.
+            {{ $t('codequest_page.supporting_text') }}
           </p>
           <div class="CTA">
             <ButtonA
               class="button-a-instance"
               href="https://docs.google.com/forms/d/e/1FAIpQLSf-Hq5e5COINPxh5soG0XIF0UNH9HjnAjXKz4EBinLmcmp2sw/viewform"
               property1="default"
-              text="Apply Now"
+              :text="$t('codequest_page.apply_now')"
             />
             <p class="div">
-              An insightful real-world learning experience!
+              {{ $t('codequest_page.insight') }}
             </p>
           </div>
           <div class="partners">

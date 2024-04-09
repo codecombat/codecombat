@@ -160,10 +160,19 @@ module.exports = (User = (function () {
     isSmokeTestUser () { return User.isSmokeTestUser(this.attributes) }
     isIndividualUser () { return !this.isStudent() && !User.isTeacher(this.attributes) }
 
+    isNewDashboardActive () {
+      return this.get('features')?.isNewDashboardActive
+    }
+
     isInternal () {
       const email = this.get('email')
       if (!email) { return false }
       return email.endsWith('@codecombat.com') || email.endsWith('@ozaria.com')
+    }
+
+    isDistrictAdmin (districtId) {
+      if (!districtId) return false
+      return this.get('features')?.ownerDistrictId === districtId
     }
 
     displayName () { return this.get('name', true) }
@@ -393,7 +402,7 @@ module.exports = (User = (function () {
 
     levels () {
       let left, left1
-      return ((left = this.get('earned')?.levels) != null ? left : []).concat((left1 = this.get('purchased')?.levels) != null ? left1 : []).concat(LevelConstants.levels['dungeons-of-kithgard'])
+      return ((left = this.get('earned')?.levels) != null ? left : []).concat((left1 = this.get('purchased')?.levels) != null ? left1 : []).concat(LevelConstants.levels['dungeons-of-kithgard']).concat(LevelConstants.levels['the-gem'])
     }
 
     ownsHero (heroOriginal) {
@@ -986,6 +995,47 @@ module.exports = (User = (function () {
       return true
     }
 
+    getHomePageExperimentValue () {
+      const experimentName = 'home-page-filtered'
+      let value = me.getExperimentValue(experimentName, null)
+
+      if (value === null && !utils.isCodeCombat) {
+        // Don't include non-CodeCombat users
+        return 'control'
+      }
+
+      if ((value == null) && !me.get('anonymous')) {
+        // Don't include registered users
+        value = 'control'
+      }
+      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
+        // Don't include non-English-speaking users
+        value = 'control'
+      }
+
+      const oneDayAgo = new Date(new Date() - 24 * 60 * 60 * 1000)
+      if ((value == null) && (new Date(me.get('dateCreated')) < oneDayAgo)) {
+        // Don't include users created more than a day ago; they've probably seen the old homepage before without having started the experiment somehow
+        value = 'control'
+      }
+
+      if (value === null) {
+        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
+        let valueProbability
+        const rand = Math.random()
+        if (rand < probability) {
+          value = 'beta'
+          valueProbability = probability
+        } else {
+          value = 'control'
+          valueProbability = 1 - probability
+        }
+        me.startExperiment(experimentName, value, valueProbability)
+      }
+
+      return value
+    }
+
     getM7ExperimentValue () {
       let left
       let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('m7')]
@@ -1083,7 +1133,10 @@ module.exports = (User = (function () {
         // Don't include users other than home users
         value = 'control'
       }
-      if ((value == null)) {
+      if (me.isAdmin()) {
+        value = 'beta'
+      }
+      if ((!value)) {
         let valueProbability
         const probability = window.serverConfig?.experimentProbabilities?.hackstack?.beta != null ? window.serverConfig?.experimentProbabilities?.hackstack?.beta : 0.05
         if (Math.random() < probability) {
@@ -1177,9 +1230,9 @@ module.exports = (User = (function () {
     useSocialSignOn () { return !((features?.chinaUx != null ? features?.chinaUx : false) || (features?.china != null ? features?.china : false)) }
     isTarena () { return features?.Tarena != null ? features?.Tarena : false }
     useTarenaLogo () { return this.isTarena() }
-    hideTopRightNav () { return this.isTarena() || this.isILK() || this.isICode() }
-    hideFooter () { return this.isTarena() || this.isILK() || this.isICode() }
-    hideOtherProductCTAs () { return this.isTarena() || this.isILK() || this.isICode() }
+    hideTopRightNav () { return this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
+    hideFooter () { return this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
+    hideOtherProductCTAs () { return this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
     useGoogleClassroom () { return !(features?.chinaUx != null ? features?.chinaUx : false) && (this.get('gplusID') != null) } // if signed in using google SSO
     useGoogleCalendar () { return !(features?.chinaUx != null ? features?.chinaUx : false) && (this.get('gplusID') != null) && (this.isAdmin() || this.isOnlineTeacher()) } // if signed in using google SSO
     useGoogleAnalytics () { return !((features?.china != null ? features?.china : false) || (features?.chinaInfra != null ? features?.chinaInfra : false)) }
@@ -1190,18 +1243,19 @@ module.exports = (User = (function () {
     canAccessCampaignFreelyFromChina (campaignID) { return (utils.isCodeCombat && (campaignID === '55b29efd1cd6abe8ce07db0d')) || (utils.isOzaria && (campaignID === '5d1a8368abd38e8b5363bad9')) } // teacher can only access CS1 or CH1 freely in China
     isCreatedByTarena () { return (this.get('clientCreator') === '60fa65059e17ca0019950fdd') || (this.get('clientCreator') === '5c80a2a0d78b69002448f545') } // ClientID of Tarena2/Tarena3 on koudashijie.com
     isILK () {
-      let left
-      return (this.get('clientCreator') === '6082ec9996895d00a9b96e90') || _.find((left = this.get('clientPermissions')) != null ? left : [], { client: '6082ec9996895d00a9b96e90' })
+      return (this.get('clientCreator') === '6082ec9996895d00a9b96e90') || (this.get('clientPermissions') || []).some(p => p.client === '6082ec9996895d00a9b96e90')
     }
 
     isICode () {
-      let left
-      return (this.get('clientCreator') === '61393874c324991d0f68fc70') || _.find((left = this.get('clientPermissions')) != null ? left : [], { client: '61393874c324991d0f68fc70' })
+      return (this.get('clientCreator') === '61393874c324991d0f68fc70') || (this.get('clientPermissions') || []).some(p => p.client === '61393874c324991d0f68fc70')
     }
 
     isTecmilenio () {
-      let left
-      return ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'].includes(this.get('clientCreator')) || _.find((left = this.get('clientPermissions')) != null ? left : [], p => ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'].includes(p.client))
+      return ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'].includes(this.get('clientCreator')) || (this.get('clientPermissions') || []).some(p => ['62de625ef3365e002314d554', '62e7a13c85e9850026fa2c7f'].includes(p.client))
+    }
+
+    isCodeNinja () {
+      return ['57fff652b0783842003fed00', '5b9af3a99c27360047dd2123'].includes(this.get('clientCreator')) || (this.get('clientPermissions') || []).some(p => ['57fff652b0783842003fed00', '5b9af3a99c27360047dd2123'].includes(p.client))
     }
 
     showForumLink () { return !(features?.china != null ? features?.china : false) }
@@ -1215,6 +1269,14 @@ module.exports = (User = (function () {
     showChinaRegistration () { return features?.china != null ? features?.china : false }
     enableCpp () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || this.isTeacher()) }
     enableJava () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || (this.isTeacher() && this.isBetaTester())) }
+
+    getEnabledLanguages () {
+      const languages = ['javascript', 'python']
+      if (this.enableCpp()) { languages.push('cpp') }
+      if (this.enableJava()) { languages.push('java') }
+      return languages
+    }
+
     useQiyukf () { return false }
     useChinaServices () { return features?.china != null ? features?.china : false }
     useGeneralArticle () { return !(features?.china != null ? features?.china : false) }
@@ -1235,8 +1297,8 @@ module.exports = (User = (function () {
     hasInteractiveEditorAccess () { return this.isAdmin() }
 
     // google classroom flags for new teacher dashboard, remove `useGoogleClassroom` when old dashboard disabled
-    showGoogleClassroom () { return !(features?.chinaUx != null ? features?.chinaUx : false) }
-    googleClassroomEnabled () { return (me.get('gplusID') != null) }
+    showGoogleClassroom () { return !(features?.chinaUx != null ? features?.chinaUx : false) && !me.isCodeNinja() }
+    googleClassroomEnabled () { return (me.get('gplusID') != null) && !me.isCodeNinja() }
 
     // Block access to paid campaigns(any campaign other than CH1) for anonymous users + non-admin, non-internal individual users.
     // Scenarios where a user has access to a campaign:

@@ -1,7 +1,6 @@
 /*
  * decaffeinate suggestions:
  * DS002: Fix invalid constructor
- * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
  * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
  * DS104: Avoid inline assignments
@@ -27,6 +26,7 @@ const SubscribeModal = require('views/core/SubscribeModal')
 const Purchase = require('models/Purchase')
 const createjs = require('lib/createjs-parts')
 const ThangTypeConstants = require('lib/ThangTypeConstants')
+const ChangeLanguageTab = require('views/play/common/ChangeLanguageTab')
 
 module.exports = (PlayHeroesModal = (function () {
   PlayHeroesModal = class PlayHeroesModal extends ModalView {
@@ -39,6 +39,7 @@ module.exports = (PlayHeroesModal = (function () {
       this.prototype.events = {
         'slide.bs.carousel #hero-carousel': 'onHeroChanged',
         'change #option-code-language': 'onCodeLanguageChanged',
+        'change #option-code-format': 'onCodeFormatChanged',
         'click #close-modal': 'hide',
         'click #confirm-button': 'saveAndHide',
         'click .unlock-button': 'onUnlockButtonClicked',
@@ -56,9 +57,10 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     constructor (options) {
-      super(options)
-      this.animateHeroes = this.animateHeroes.bind(this)
       if (options == null) { options = {} }
+      super(options)
+      this.options = options
+      this.animateHeroes = this.animateHeroes.bind(this)
       this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : 'common.save'
       this.heroes = new CocoCollection([], { model: ThangType })
       this.heroes.url = '/db/thang.type?view=heroes'
@@ -69,14 +71,21 @@ module.exports = (PlayHeroesModal = (function () {
       this.stages = {}
       this.layers = []
       this.session = options.session
-      this.initCodeLanguageList(options.hadEverChosenHero)
       this.heroAnimationInterval = setInterval(this.animateHeroes, 1000)
       this.trackTimeVisible()
+      if (options.courseInstanceID) {
+        const fetchAceConfig = $.get(`/db/course_instance/${options.courseInstanceID}/classroom?project=aceConfig,members,ownerID`)
+        this.supermodel.trackRequest(fetchAceConfig)
+        fetchAceConfig.then(classroom => {
+          this.classroomAceConfig = classroom.aceConfig
+          this.rerenderFooter()
+        })
+      }
     }
 
     onHeroesLoaded () {
       this.heroes.reset(this.heroes.filter(hero => !hero.get('ozaria')))
-      for (const hero of Array.from(this.heroes.models)) { this.formatHero(hero) }
+      for (const hero of this.heroes.models) { this.formatHero(hero) }
       this.heroes.reset(this.heroes.filter(hero => !hero.hidden))
       if (me.isStudent() && me.showHeroAndInventoryModalsToStudents()) {
         this.heroes.reset(this.heroes.filter(hero => hero.get('heroClass') === 'Warrior'))
@@ -104,14 +113,14 @@ module.exports = (PlayHeroesModal = (function () {
       hero.purchasable = hero.locked && me.isPremium()
       if (this.options.level && (allowedHeroes = this.options.level.get('allowedHeroes'))) {
         let needle
-        hero.restricted = !((needle = hero.get('original'), Array.from(allowedHeroes).includes(needle)))
+        hero.restricted = !((needle = hero.get('original'), allowedHeroes.includes(needle)))
       }
       hero.class = (hero.get('heroClass') || 'warrior').toLowerCase()
       hero.stats = hero.getHeroStats()
       const clanHero = _.find(utils.clanHeroes, { thangTypeOriginal: hero.get('original') })
       if (clanHero) {
         let left, needle1
-        if ((needle1 = clanHero.clanId, !Array.from(((left = me.get('clans')) != null ? left : [])).includes(needle1))) { hero.hidden = true }
+        if ((needle1 = clanHero.clanId, !((left = me.get('clans')) != null ? left : []).includes(needle1))) { hero.hidden = true }
       }
       if (hero.get('original') === ThangTypeConstants.heroes['code-ninja']) {
         hero.hidden = window.location.host !== 'coco.code.ninja'
@@ -135,17 +144,13 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     getRenderData (context) {
-      let left, left1
       if (context == null) { context = {} }
       context = super.getRenderData(context)
       context.heroes = this.heroes.models
       context.level = this.options.level
-      context.codeLanguages = this.codeLanguageList
-      context.codeLanguage = (this.codeLanguage = (left = (left1 = __guard__(this.options != null ? this.options.session : undefined, x => x.get('codeLanguage'))) != null ? left1 : __guard__(me.get('aceConfig'), x1 => x1.language)) != null ? left : 'python')
       context.confirmButtonI18N = this.confirmButtonI18N
       context.visibleHero = this.visibleHero
       context.gems = me.gems()
-      context.isIE = this.isIE()
       return context
     }
 
@@ -159,7 +164,6 @@ module.exports = (PlayHeroesModal = (function () {
       super.afterRender()
       if (!this.supermodel.finished()) { return }
       this.playSound('game-menu-open')
-      if (this.isIE()) { this.$el.find('.hero-avatar').addClass('ie') }
       const heroes = this.heroes.models
       this.$el.find('.hero-indicator').each(function () {
         const heroID = $(this).data('hero-id')
@@ -173,35 +177,18 @@ module.exports = (PlayHeroesModal = (function () {
       this.$el.find(`.hero-item:nth-child(${heroIndex + 1}), .hero-indicator:nth-child(${heroIndex + 1})`).addClass('active')
       this.onHeroChanged({ direction: null, relatedTarget: this.$el.find('.hero-item')[heroIndex] })
       this.$el.find('.hero-stat').addClass('has-tooltip').tooltip()
-      return this.buildCodeLanguages()
     }
 
     rerenderFooter () {
-      this.formatHero(this.visibleHero)
-      this.renderSelectors('#hero-footer')
-      this.buildCodeLanguages()
-      return this.$el.find('#gems-count-container').toggle(Boolean(this.visibleHero.purchasable))
-    }
-
-    initCodeLanguageList (hadEverChosenHero) {
-      if (application.isIPadApp) {
-        this.codeLanguageList = [
-          { id: 'python', name: `Python (${$.i18n.t('choose_hero.default')})` },
-          { id: 'javascript', name: 'JavaScript' }
-        ]
-      } else {
-        this.subscriberCodeLanguageList = [
-          { id: 'cpp', name: 'C++' },
-          { id: 'java', name: `Java (${$.i18n.t('choose_hero.experimental')})` }
-        ]
-        this.codeLanguageList = [
-          { id: 'python', name: `Python (${$.i18n.t('choose_hero.default')})` },
-          { id: 'javascript', name: 'JavaScript' },
-          { id: 'coffeescript', name: 'CoffeeScript' },
-          { id: 'lua', name: 'Lua' },
-          ...Array.from(this.subscriberCodeLanguageList)
-        ]
+      if (this.destroyed) { return }
+      if (this.visibleHero) {
+        this.formatHero(this.visibleHero)
       }
+      this.renderSelectors('#hero-footer')
+      const changeLanguageOptions = _.clone(this.options)
+      changeLanguageOptions.classroomAceConfig = this.classroomAceConfig
+      this.insertSubView(this.changeLanguageView = new ChangeLanguageTab(changeLanguageOptions))
+      return this.$el.find('#gems-count-container').toggle(Boolean(this.visibleHero?.purchasable))
     }
 
     onHeroChanged (e) {
@@ -270,24 +257,6 @@ module.exports = (PlayHeroesModal = (function () {
       AudioPlayer.preloadSoundReference(sound)
       this.currentSoundInstance = AudioPlayer.playSound(name, 1)
       return this.currentSoundInstance
-    }
-
-    buildCodeLanguages () {
-      const $select = this.$el.find('#option-code-language')
-      return $select.fancySelect().parent().find('.options li').each(function () {
-        const languageName = $(this).text()
-        const languageID = $(this).data('value')
-        const blurb = $.i18n.t(`choose_hero.${languageID}_blurb`)
-        if (languageName.indexOf(blurb) === -1) { // Avoid doubling blurb if this is called 2x
-          return $(this).text(`${languageName} - ${blurb}`)
-        }
-      })
-    }
-
-    onCodeLanguageChanged (e) {
-      this.codeLanguage = this.$el.find('#option-code-language').val()
-      this.codeLanguageChanged = true
-      return (window.tracker != null ? window.tracker.trackEvent('Campaign changed code language', { category: 'Campaign Hero Select', codeLanguage: this.codeLanguage, levelSlug: (this.options.level != null ? this.options.level.get('slug') : undefined) }) : undefined)
     }
 
     // - Purchasing the hero
@@ -381,6 +350,9 @@ module.exports = (PlayHeroesModal = (function () {
     // - Exiting
 
     saveAndHide () {
+      this.codeLanguage = this.changeLanguageView.codeLanguage
+      this.codeFormat = this.changeLanguageView.codeFormat
+      this.subscriberCodeLanguageList = this.changeLanguageView.subscriberCodeLanguageList
       let changed
       if (!me.hasSubscription() && this.subscriberCodeLanguageList.find(l => l.id === this.codeLanguage) && !me.isStudent()) {
         this.openModalView(new SubscribeModal())
@@ -421,6 +393,11 @@ module.exports = (PlayHeroesModal = (function () {
         me.set('aceConfig', aceConfig)
         changed = true
       }
+      if (this.codeFormat !== aceConfig.codeFormat) {
+        aceConfig.codeFormat = this.codeFormat
+        me.set('aceConfig', aceConfig)
+        changed = true
+      }
 
       if (changed) { me.patch() }
 
@@ -450,7 +427,7 @@ module.exports = (PlayHeroesModal = (function () {
         createjs.Ticker.removeEventListener('tick', stage)
         stage.removeAllChildren()
       }
-      for (const layer of Array.from(this.layers)) { layer.destroy() }
+      for (const layer of this.layers) { layer.destroy() }
       return super.destroy()
     }
   }

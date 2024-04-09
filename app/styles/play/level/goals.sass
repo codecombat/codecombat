@@ -15,6 +15,61 @@
   font-size: 14px
   min-width: 230px
 
+  &.codecombat-junior
+    font-size: 32px
+    border-image: url(/images/level/goals_background_junior.png) 15 20 15 15 fill stretch
+    border-width: 8px 10px 8px 8px
+    margin: -8px -10px -8px -8px
+    padding: 10px 0px 0px 25px
+    min-width: auto
+
+    .glyphicon
+      top: 3px
+
+  @media screen and (max-width: 1366px) and (min-aspect-ratio: 1/1)
+    transform: scale(0.8)
+    transform-origin: top left
+
+  @media screen and (max-width: 800px) and (max-aspect-ratio: 1/1)
+    transform: scale(0.8)
+    transform-origin: top left
+
+  @media screen and (max-width: 1280px) and (min-aspect-ratio: 1/1)
+    transform: scale(0.7)
+
+    &.codecombat-junior
+      margin: 0
+      font-size: 24px
+
+  @media screen and (max-width: 640px) and (max-aspect-ratio: 1/1)
+    transform: scale(0.7)
+
+    &.codecombat-junior
+      margin: 0
+      font-size: 24px
+
+  @media screen and (max-width: 1024px) and (min-aspect-ratio: 1/1)
+    transform: scale(0.6)
+
+    img.goal-icon
+      width: 1em
+      margin-top: -0.2em
+
+    &.codecombat-junior
+      font-size: 20px
+
+  @media screen and (max-width: 900px) and (min-aspect-ratio: 1/1)
+    transform: scale(0.5)
+
+  @media screen and (max-width: 800px) and (min-aspect-ratio: 1/1)
+    transform: scale(0.4)
+
+  @media screen and (max-width: 600px) and (min-aspect-ratio: 1/1)
+    transform: scale(0.3)
+
+  @media screen and (max-width: 500px) and (min-aspect-ratio: 1/1)
+    transform: scale(0.2)
+
   @media screen and (min-width: 1600px)
     &.brighter
       transform: scale(1.2)
@@ -29,22 +84,9 @@
 
 #goals-view.collapsed ul
   display: none
-    
-html.no-borderimage
-  #goals-view
-    background: transparent url(/images/level/goals_background.png)
-    background-size: 100% 100%
-    border: 0
-
-    &.brighter
-      border: 0
-
-    .goals-status
-      position: static
-      margin-top: 10px
 
 body[lang^='pt'], body[lang^='es'], body[lang='fr'], body[lang='hu'], body[lang='it'], body[lang='sr']
-  #goals-view
+  #goals-view:not(.codecombat-junior)
     font-size: 12px
 
     &.brighter

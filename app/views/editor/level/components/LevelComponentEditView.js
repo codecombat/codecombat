@@ -86,7 +86,8 @@ module.exports = (LevelComponentEditView = (function () {
         schema,
         data,
         readonly: me.get('anonymous'),
-        callbacks: { change: this.onComponentSettingsEdited }
+        callbacks: { change: this.onComponentSettingsEdited },
+        nodeClasses: { 'property-documentation': PropertyDocumentationNode }
       }
       this.componentSettingsTreema = this.$el.find('#edit-component-treema').treema(treemaOptions)
       this.componentSettingsTreema.build()
@@ -204,3 +205,28 @@ module.exports = (LevelComponentEditView = (function () {
   LevelComponentEditView.initClass()
   return LevelComponentEditView
 })())
+
+class PropertyDocumentationNode extends TreemaObjectNode {
+  static initClass () {
+    this.prototype.valueClass = 'treema-property-documentation'
+  }
+
+  buildValueForDisplay (valEl, data) {
+    let s = ''
+    if (data.owner && data.owner !== 'this' && data.owner !== 'snippets') { s += `${data.owner}.` }
+    s += data.name
+    if (data.type) { s += `: ${data.type}` }
+    if (data.description) {
+      const description = JSON.stringify(data.description)
+      s += ` - ${description.slice(0, 100)}${description.length > 100 ? '...' : ''}`
+    }
+    const result = this.buildValueForDisplaySimply(valEl, s)
+    // Doesn't work, would need a bit more effort to figure out how to enrich this with useful shorthands
+    // if (data.i18n) {
+    //   result.addClass('i18n-active')
+    // }
+    // valEl.find('.treema-description').html(`i18n?: ${Boolean(data.i18n)}, snippets?: ${Boolean(data.snippets)}`)
+    return result
+  }
+}
+PropertyDocumentationNode.initClass()

@@ -20,6 +20,7 @@ const Campaign = require('models/Campaign')
 const CocoCollection = require('collections/CocoCollection')
 const Campaigns = require('collections/Campaigns')
 const Levels = require('collections/Levels')
+const utils = require('core/utils')
 
 module.exports = (SolutionProblemsView = (function () {
   let excludedCampaigns
@@ -283,7 +284,7 @@ module.exports = (SolutionProblemsView = (function () {
       try {
         renderedSource = _.template(solution.source)(context)
       } catch (error) {
-        console.log(source, context, error)
+        console.log(solution.source, context, error)
         problems.push({
           type: 'Solution template syntax error',
           value: error.message

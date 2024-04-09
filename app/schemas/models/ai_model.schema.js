@@ -1,14 +1,14 @@
 // WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
 // Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
 //
-// Last updated: 2023-12-04T11:56:21.103Z
+// Last updated: 2024-02-21T12:07:22.413Z
 
 const _ = require('lodash')
 const c = require('./../schemas')
 
 const AIModelSchema = c.object({
   title: 'AI Model',
-  description: 'A generative AI model'
+  description: 'A generative AI model',
 })
 
 _.extend(AIModelSchema.properties, {
@@ -17,14 +17,19 @@ _.extend(AIModelSchema.properties, {
     title: 'Family',
     type: 'string',
     description: 'The common name for the model or the family of models it is in',
-    enum: ['ChatGPT', 'Stable Diffusion', 'Claude']
+    enum: ['ChatGPT', 'Stable Diffusion', 'Claude'],
   },
   description: {
     title: 'Description',
     type: 'string',
     description: 'A short explanation of what this model does',
-    maxLength: 2000
-  }
+    maxLength: 2000,
+  },
+  displayName: {
+    title: 'Display Name',
+    type: 'string',
+    description: 'The name of the model as it should be displayed to users',
+  },
 })
 
 AIModelSchema.required = ['name', 'family']

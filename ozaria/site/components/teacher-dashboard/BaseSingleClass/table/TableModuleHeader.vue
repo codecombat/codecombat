@@ -121,7 +121,9 @@ export default {
     :style="cssVariables"
   >
     <div class="title">
-      <h3>{{ moduleHeading }}</h3>
+      <!-- eslint-disable vue/no-v-html -->
+      <h3 v-html="moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>')" />
+      <!-- eslint-enable vue/no-v-html -->
       <v-popover
         v-if="!displayOnly"
         placement="top"
@@ -225,14 +227,31 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 
   background-color: #413c55;
   border-bottom: 1px solid white;
 
   padding: 0 0 0 12px;
 
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .v-popover {
+    display: none;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+  }
+
+  &:hover .v-popover {
+    display: block;
+
+  }
+
   h3 {
-    overflow: hidden;
+    max-height: 2em;
+    overflow-y: visible;
     text-overflow: ellipsis;
   }
 }

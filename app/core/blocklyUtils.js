@@ -12,7 +12,7 @@ const { ContinuousToolbox, ContinuousFlyout, ContinuousMetrics } = require('@blo
 const { CrossTabCopyPaste } = require('@blockly/plugin-cross-tab-copy-paste')
 // { ZoomToFitControl } = require '@blockly/zoom-to-fit'  # Not that useful unless we increase zoom level range
 
-module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator, codeLanguage, level }) {
+module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator, codeLanguage, codeFormat, level }) {
   if (!codeLanguage) { codeLanguage = 'javascript' }
   const commentStart = utils.commentStarts[codeLanguage] || '//'
   generator = module.exports.getBlocklyGenerator(codeLanguage)
@@ -26,14 +26,26 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
 
   const userBlockCategories = []
 
-  const propNames = new Set()
+  const mergedPropertyEntryGroups = {}
   for (const owner in propertyEntryGroups) {
-    for (const prop of propertyEntryGroups[owner].props) {
+    // Merge groups like "Hero", "Hero 2", Hero 3" all into "Hero"
+    const ownerName = owner.replace(/ \d+$/, '')
+    if (mergedPropertyEntryGroups[ownerName]) {
+      mergedPropertyEntryGroups[ownerName].props = mergedPropertyEntryGroups[ownerName].props.slice().concat(propertyEntryGroups[owner].props.slice())
+    } else {
+      mergedPropertyEntryGroups[ownerName] = _.clone(propertyEntryGroups[owner])
+    }
+  }
+
+  const propNames = new Set()
+  for (const owner in mergedPropertyEntryGroups) {
+    for (const prop of mergedPropertyEntryGroups[owner].props) {
       propNames.add(prop.name)
     }
     if (/programmaticon/i.test(owner)) continue
-    const userBlocks = propertyEntryGroups[owner].props.map(prop =>
-      createBlock({ owner, prop, generator, codeLanguage, level, superBasicLevels }))
+    const userBlocks = mergedPropertyEntryGroups[owner].props.filter(prop => !(['for-loop'].includes(prop.name))).map(prop =>
+      createBlock({ owner, prop, generator, codeLanguage, codeFormat, level, superBasicLevels })
+    )
     userBlockCategories.push({ kind: 'category', name: owner, colour: '190', contents: userBlocks })
   }
 
@@ -71,7 +83,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   const commentBlock = {
     type: 'comment',
     message0: '%1',
-    args0: [{ type: 'field_input', name: 'COMMENT', text: 'Comment' }],
+    args0: [{ type: 'field_label_serializable', name: 'COMMENT', text: 'Comment', 'class': 'comment-block' }],
     previousStatement: null,
     nextStatement: null,
     colour: 180,
@@ -137,11 +149,11 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   generator.forBlock.math_or_string_arithmetic = function (block) {
     // Basic arithmetic operators, and power.
     const OPERATORS = {
-      'ADD': [' + ', 6.2],
-      'MINUS': [' - ', 6.1],
-      'MULTIPLY': [' * ', 5.1],
-      'DIVIDE': [' / ', 5.2],
-      'POWER': [' ** ', 5.0],
+      ADD: [' + ', 6.2],
+      MINUS: [' - ', 6.1],
+      MULTIPLY: [' * ', 5.1],
+      DIVIDE: [' / ', 5.2],
+      POWER: [' ** ', 5.0],
     }
     const tuple = OPERATORS[block.getFieldValue('OP')]
     const operator = tuple[0]
@@ -183,8 +195,53 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       'controls_forEach_tooltip',
     ],
   }
-  // TODO: rewrite code gen so we can skip the "1" increment value if needed
   Blockly.Blocks.controls_forEach = { init () { return this.jsonInit(untypedForEachBlock) } }
+
+  const dropdownRepeatBlock = {
+    type: 'controls_repeat_dropdown',
+    message0: `%{BKY_CONTROLS_REPEAT_TITLE}%2%{BKY_CONTROLS_REPEAT_INPUT_DO}%3`,
+    args0: [
+      {
+        type: 'field_dropdown',
+        name: 'TIMES',
+        options: [
+          ['1', '1'],
+          ['2', '2'],
+          ['3', '3'],
+          ['4', '4'],
+          ['5', '5'],
+          ['6', '6'],
+          ['7', '7'],
+        ]
+      },
+      {
+        type: 'input_dummy',
+      },
+      {
+        type: 'input_statement',
+        name: 'DO',
+      },
+    ],
+    previousStatement: null,
+    nextStatement: null,
+    colour: '%{BKY_LOOPS_HUE}',
+    tooltip: '%{BKY_CONTROLS_REPEAT_TOOLTIP}',
+    helpUrl: '%{BKY_CONTROLS_REPEAT_HELPURL}',
+  }
+
+  if (codeFormat === 'blocks-icons') {
+    // Use an image instead of text
+    dropdownRepeatBlock.message0 = `%1%2%3%4`,
+    dropdownRepeatBlock.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-loop.png',
+      width: 42,
+      height: 42,
+      alt: 'repeat'
+    })
+  }
+  Blockly.Blocks.controls_repeat_dropdown = { init () { return this.jsonInit(dropdownRepeatBlock) } }
+  generator.forBlock.controls_repeat_dropdown = generator.forBlock.controls_repeat
 
   const returnBlock = {
     type: 'procedures_return',
@@ -210,7 +267,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     if (returnValue) {
       return 'return ' + returnValue + ';\n'
     } else {
-      return 'return;\n';
+      return 'return;\n'
     }
   }
 
@@ -223,6 +280,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         type: 'field_multilinetext',
         name: 'CODE',
         check: 'String',
+        text: "Couldn't read code."
       }
     ],
     previousStatement: null,
@@ -318,12 +376,12 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       owner: 'hero',
       generator,
       codeLanguage,
+      codeFormat,
       level,
-      superBasicLevels,
       prop: {
         name: 'say',
         owner: 'this',
-        args: [{ name: 'what', /* type: string' */ }], // TODO: can we do String or Number? is it String or string?
+        args: [{ name: 'what' /* type: string' */ }], // TODO: can we do String or Number? is it String or string?
         type: 'function'
       },
       include () {
@@ -331,12 +389,25 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         if (!slug) {
           return true
         }
-        return !superBasicLevels.includes(slug) && (slug === 'wakka-maul' || !level.isLadder())
+        return !superBasicLevels.includes(slug) && (slug === 'wakka-maul' || !level.isLadder()) && level?.get('product') !== 'codecombat-junior'
       }
     }),
-    createBlock({ owner: 'hero', generator, codeLanguage, level, superBasicLevels, prop: { type: 'ref' }, include () { return propNames.has('if/else') } }) // TODO: better targeting of when we introduce this (hero used as a value)
+    createBlock({
+      owner: 'hero',
+      generator,
+      codeLanguage,
+      codeFormat,
+      level,
+      prop: { type: 'ref' },
+      include () {
+        // TODO: better targeting of when we introduce this (hero used as a value)
+        return propNames.has('if/else') && level?.get('product') !== 'codecombat-junior'
+      }
+    })
   ]
-  userBlockCategories.push({ kind: 'category', name: 'Misc', colour: '190', contents: miscBlocks })
+  if (miscBlocks.filter(prop => prop.include()).length) {
+    userBlockCategories.push({ kind: 'category', name: 'Misc', colour: '190', contents: miscBlocks })
+  }
 
   const builtInBlockCategories = [
     {
@@ -353,8 +424,6 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         // { kind: 'block', type: 'math_arithmetic', include () { return propNames.has('else') } } // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'math_or_string_arithmetic', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'procedures_return', include () { return propNames.has('else') } }, // TODO: when to introduce? also move this to procedures
-        { kind: 'block', type: 'raw_code', include () { return false } }, // TODO: move this
-        { kind: 'block', type: 'raw_code_value', include () { return false } }, // TODO: move this
         { kind: 'block', type: 'expression_statement', include () { return propNames.has('summon') } }, // TODO: move this
         { kind: 'block', type: 'lists_range', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic? Also, move this. Also, make sure it's not available in JavaScript (but is available hidden, for prepareBlockIntelligence)
       ]
@@ -378,7 +447,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
           include () { return propNames.has('while-true loop') }
         },
         // { kind: 'block', type: 'controls_whileUntil', include: -> propNames.has('while-loop') }  # Redundant, since while-true can just delete true
-        { kind: 'block', type: 'controls_repeat_ext', include () { return propNames.has('for-loop') } },
+        { kind: 'block', type: 'controls_repeat_ext', inputs: { TIMES: { block: { type: 'math_number', fields: { NUM: 3 } } } }, include () { return propNames.has('for-loop') && level?.get('product') !== 'codecombat-junior' }, includeCodeToBlocks () { return level?.get('product') !== 'codecombat-junior' } },
+        { kind: 'block', type: 'controls_repeat_dropdown', fields: { TIMES: '3' }, include () { return propNames.has('for-loop') && level?.get('product') === 'codecombat-junior' }, includeCodeToBlocks () { return level?.get('product') === 'codecombat-junior' } },
         // { kind: 'block', type: 'controls_for', include: -> propNames.has('for-loop') }  # Too wide  # TODO: introduce this later than the simpler repeat_ext loop above? Or just use this one, but defaults start at 0 and increment by 1?
         // { kind: 'block', type: 'controls_forEach', include () { return propNames.has('for-in-loop') } },  // TODO: use sometimes?
         { kind: 'block', type: 'controls_forEach', include () { return propNames.has('for-in-loop') } }, // TODO: better targeting of when we introduce this logic? Also, move this. Also, think about Python vs. JS and the general typed array forEach
@@ -392,14 +462,14 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       name: 'Literals',
       colour: '10',
       contents: [
-        { kind: 'block', type: 'text', include () { return !superBasicLevels.includes(level?.get('slug')) } },
-        { kind: 'block', type: 'math_number', include () { return !superBasicLevels.includes(level?.get('slug')) } },
+        { kind: 'block', type: 'text', include () { return !superBasicLevels.includes(level?.get('slug')) && level?.get('product') !== 'codecombat-junior' } },
+        { kind: 'block', type: 'math_number', include () { return !superBasicLevels.includes(level?.get('slug')) && level?.get('product') !== 'codecombat-junior' } },
         { kind: 'block', type: 'logic_boolean', include () { return propNames.has('if/else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'logic_null', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
-        { kind: 'block', type: 'newline', include () { return !superBasicLevels.includes(level?.get('slug')) } },
-        { kind: 'block', type: 'entry_point', include () { return false } },  // TODO: organize
-        { kind: 'block', type: 'comment', include () { return !superBasicLevels.includes(level?.get('slug')) } },
-        { kind: 'block', type: 'code_comment', include () { return propNames.has('if/else') } }, // TODO: introduce this around when we start having commented-out code in sample code
+        { kind: 'block', type: 'newline', include () { return false } },
+        { kind: 'block', type: 'entry_point', include () { return false } }, // TODO: organize
+        { kind: 'block', type: 'comment', include () { return false } },
+        { kind: 'block', type: 'code_comment', include () { return false } },
         { kind: 'block', type: 'logic_ternary', include () { return false } },
       ]
     },
@@ -411,7 +481,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'lists_create_empty', include () { return propNames.has('arrays') } },
         { kind: 'block', type: 'lists_create_with', include () { return propNames.has('arrays') } },
         { kind: 'block', type: 'lists_length', include () { return propNames.has('arrays') } },
-        { kind: 'block', type: 'text_length', include () { return propNames.has('arrays') } },  // TODO: make a general version, determine when to use
+        { kind: 'block', type: 'text_length', include () { return propNames.has('arrays') } }, // TODO: make a general version, determine when to use
         { kind: 'block', type: 'lists_isEmpty', include () { return propNames.has('arrays') } },
         // Removing wide blocks for now until we have a way to handle them in continuous flyout
         // { kind: 'block', type: 'lists_repeat', inputs: { NUM: { block: { type: 'math_number', fields: { NUM: '5' } } } }, include () { return propNames.has('arrays') } },
@@ -426,6 +496,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'lists_getSublist', include () { return propNames.has('arrays') && false } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'lists_split', include () { return propNames.has('arrays') && false } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'lists_sort', include () { return propNames.has('arrays') && false } }, // TODO: better targeting of when we introduce this logic?
+        { kind: 'block', type: 'raw_code_value', include () { return false } },
+        { kind: 'block', type: 'raw_code', include () { return false } }, // Put this last so it's the one that shows up when code doesn't parse (not sure why)
       ]
     },
     {
@@ -449,6 +521,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
 
   for (const category of blockCategories) {
     if (category.contents) {
+      // Hide irrelevant, non-included blocks from the player
       category.contents = category.contents.filter(block => (block.include === undefined) || block.include())
       const numBlocks = category.contents.length
       if (numBlocks && (propNames.size > 12)) {
@@ -461,6 +534,13 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   }
   blockCategories = blockCategories.filter(category => ((category.include === undefined) || category.include()) && ((category.contents === undefined) || (category.contents.length > 0)))
 
+  for (const category of fullBlockCategories) {
+    if (category.contents) {
+      // Hide irrelevant, non-fully-included blocks from the code-to-blocks generator
+      category.contents = category.contents.filter(block => (block.includeCodeToBlocks === undefined) || block.includeCodeToBlocks())
+    }
+  }
+
   const toolbox = {
     kind: 'categoryToolbox',
     contents: blockCategories,
@@ -470,19 +550,24 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   return toolbox
 }
 
-let createBlock = function ({ owner, prop, generator, codeLanguage, include, level, superBasicLevels }) {
+const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat, include, level, superBasicLevels }) {
   const propName = prop.name ? prop.name.replace(/"/g, '') : undefined
   const returnsValue = (prop.returns != null) || (prop.userShouldCaptureReturn != null) || (!['function', 'snippet'].includes(prop.type))
   const name = `${owner}_${propName}`
   let args = prop.args || []
-  if (superBasicLevels.includes(level?.get('slug')) && (['moveDown', 'moveLeft', 'moveRight', 'moveUp'].includes(propName))) {
+  if (superBasicLevels?.includes(level?.get('slug')) && (['moveDown', 'moveLeft', 'moveRight', 'moveUp'].includes(propName))) {
+    // Don't include steps argument yet
     args = []
   }
 
   generator.forBlock[name] = function (block) {
     const parts = []
     if (propName && ['this', 'self', 'hero'].includes(prop.owner)) {
-      parts.push(`hero.${propName}`)
+      if (level?.get('product') === 'codecombat-junior') {
+        parts.push(propName) // Functional
+      } else {
+        parts.push(`hero.${propName}`) // Object-oriented
+      }
     } else if (prop.type === 'function' || (prop.type === 'snippet' && args.length)) {
       parts.push(propName.replace(/\(.*/, ''))
     } else if (propName) {
@@ -498,6 +583,12 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
         const arg = args[idx]
         // let code = generator.valueToCode(block, arg.name, generator.ORDER_ATOMIC)
         let code = generator.valueToCode(block, arg.name, generator.ORDER_CONDITIONAL)
+        if (!code && arg.name === 'to') {
+          code = `'${block.getFieldValue(arg.name)}'`
+        }
+        if (!code && ['steps', 'squares'].includes(arg.name)) {
+          code = `${block.getFieldValue(arg.name)}`
+        }
         if (!code && arg.default) {
           if (/move(Up|Left|Right|Down)/.test(propName)) {
             // Don't add the default value
@@ -533,15 +624,129 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
     return returnsValue ? [parts.join(''), generator.ORDER_ATOMIC] : parts.join('')
   }
 
+  // CodeCombat Junior doesn't label arguments. (Should we label them for CodeCombat?)
+  const blockMessage = level?.get('product') === 'codecombat-junior'
+    ? `${(propName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `%${v + 1}`).join(' ')
+    : `${(propName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `${a.name}: %${v + 1}`).join(' ')
   const setup = {
-    message0: `${(propName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `${a.name}: %${v + 1}`).join(' '),
+    message0: blockMessage,
     args0: args.map(a => ({
       type: 'input_value',
       name: a.name
     })),
     colour: returnsValue ? 350 : 240,
     tooltip: prop.description || '',
-    docFormatter: prop.docFormatter
+    docFormatter: prop.docFormatter,
+    type: prop.type,
+    inputsInline: args.length <= 2,
+  }
+
+  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('go ')) {
+    // Use an image instead of text
+    setup.message0 = setup.message0.replace(/go %1 %2/, '%1%2 %3') // With steps
+    setup.message0 = setup.message0.replace(/go %1/, '%1%2') // Without steps
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-go.png',
+      width: 36,
+      height: 36,
+      alt: 'go'
+    })
+  }
+
+  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('hit ')) {
+    // Use an image instead of text
+    setup.message0 = setup.message0.replace(/hit %1 %2/, '%1%2 %3') // With times
+    setup.message0 = setup.message0.replace(/hit %1/, '%1%2') // Without times
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-hit.png',
+      width: 36,
+      height: 36,
+      alt: 'hit'
+    })
+  }
+
+  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('zap ')) {
+    // Use an image instead of text
+    setup.message0 = setup.message0.replace(/zap %1 %2/, '%1%2 %3') // With times
+    setup.message0 = setup.message0.replace(/zap %1/, '%1%2') // Without times
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-zap.png',
+      width: 36,
+      height: 36,
+      alt: 'zap'
+    })
+  }
+
+  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('spin ')) {
+    // Use an image instead of text
+    setup.message0 = setup.message0.replace(/spin %1/, '%1 %2') // With times
+    setup.message0 = setup.message0.replace(/spin/, '%1') // Without times
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-spin.png',
+      width: 36,
+      height: 36,
+      alt: 'spin'
+    })
+  }
+
+  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('look ')) {
+    // Use an image instead of text
+    setup.message0 = setup.message0.replace(/look %1 %2/, '%1%2 %3') // With squares
+    setup.message0 = setup.message0.replace(/look %1/, '%1%2') // Without squares
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-look.png',
+      width: 36,
+      height: 36,
+      alt: 'look'
+    })
+  }
+
+  // Replace a `to` directional argument with a dropdown (field, not input)
+  if (args[0]?.name === 'to' && args[0].type === 'string') {
+    const dropdownArg = setup.args0[codeFormat === 'blocks-icons' ? 1 : 0]
+    dropdownArg.type = 'field_dropdown'
+    if (codeFormat === 'blocks-icons') {
+      dropdownArg.options = [
+        [{ src: '/images/level/blocks/block-up.png', width: 36, height: 36 }, 'up'],
+        [{ src: '/images/level/blocks/block-down.png', width: 36, height: 36 }, 'down'],
+        [{ src: '/images/level/blocks/block-left.png', width: 36, height: 36 }, 'left'],
+        [{ src: '/images/level/blocks/block-right.png', width: 36, height: 36 }, 'right']
+      ]
+    } else {
+      dropdownArg.options = [
+        ['up', 'up'],
+        ['down', 'down'],
+        ['left', 'left'],
+        ['right', 'right']
+      ]
+    }
+    dropdownArg.default = args[0].default
+    if (_.isString(dropdownArg.default)) {
+      dropdownArg.default = dropdownArg.default.replace(/['"]/g, '')
+    }
+  }
+
+  // Replace a `steps` or `squares` numerical argument with a dropdown (field, not input)
+  if (['steps', 'squares'].includes(args[1]?.name) && args[1].type === 'number') {
+    const dropdownArg = setup.args0[codeFormat === 'blocks-icons' ? 2 : 1]
+    dropdownArg.type = 'field_dropdown'
+    dropdownArg.options = [
+      ['1', '1'],
+      ['2', '2'],
+      ['3', '3'],
+      ['4', '4'],
+      ['5', '5'],
+      ['6', '6'],
+    ]
+    dropdownArg.default = args[1].default
+    if (_.isString(dropdownArg.default)) {
+      dropdownArg.default = dropdownArg.default.replace(/['"]/g, '')
+    }
   }
 
   if (returnsValue) {
@@ -555,6 +760,17 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
   const blockInitializer = {
     init () {
       this.jsonInit(setup)
+      for (const [index, arg] of setup.args0.entries()) {
+        if (arg?.type === 'field_dropdown') {
+          const defaultValue = arg.default
+          if (defaultValue) {
+            const field = _.find(this.inputList[0].fieldRow, f => f.name === arg.name)
+            if (field) {
+              field.setValue('' + defaultValue)
+            }
+          }
+        }
+      }
       this.docFormatter = setup.docFormatter
       this.tooltipImg = setup.tooltipImg
     },
@@ -572,7 +788,19 @@ let createBlock = function ({ owner, prop, generator, codeLanguage, include, lev
       const type = { string: 'text', number: 'math_number', int: 'math_number', boolean: 'logic_boolean' }[arg.type] || 'text' // TODO: more types
       const field = { string: 'TEXT', number: 'NUM', int: 'NUM', boolean: 'BOOL' }[arg.type]
       if (!type || !field) { continue }
-      blockDefinition.inputs[arg.name] = { shadow: { type, fields: { [field]: arg.default } } }
+      let defaultValue = arg.default
+      if (_.isString(defaultValue)) {
+        defaultValue = defaultValue.replace(/['"]/g, '')
+      }
+      if (arg.name === 'to' && arg.type === 'string') {
+        // We're making this into a field_dropdown, not an input
+        continue
+      }
+      if (['steps', 'squares'].includes(arg.name) && arg.type === 'number') {
+        // We're making this into a field_dropdown, not an input
+        continue
+      }
+      blockDefinition.inputs[arg.name] = { shadow: { type, fields: { [field]: defaultValue } } }
     }
   }
   return blockDefinition
@@ -649,18 +877,10 @@ module.exports.initializeBlocklyLanguage = function () {
   }
 }
 
-module.exports.createBlocklyOptions = function ({ toolbox }) {
+module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguage, codeFormat, product }) {
   module.exports.initializeBlocklyLanguage()
   return {
     toolbox,
-    zoom: {
-      controls: true,
-      wheel: true,
-      startScale: 0.8,
-      maxScale: 1,
-      minScale: 0.6,
-      scaleSpeed: 1.2
-    },
     toolboxPosition: 'end',
     theme: 'coco-dark',
     plugins: {
@@ -668,7 +888,34 @@ module.exports.createBlocklyOptions = function ({ toolbox }) {
       flyoutsVerticalToolbox: ContinuousFlyout,
       metricsManager: ContinuousMetrics
     },
-    sounds: me.get('volume') > 0
+    sounds: me.get('volume') > 0,
+    // Renderer choices: 'geras': default, 'thrasos': more modern take on geras, 'zelos': Scratch-like
+    // renderer: 'zelos',
+    // renderer: 'thrasos',
+    renderer: renderer || ($(window).innerHeight() > 500 && product === 'codecombat-junior' ? 'zelos' : 'thrasos'),
+    zoom: {
+      // Hide so that we don't mess with width of toolbox
+      controls: false,
+      startScale: 1,
+      minScale: 0.5,
+      maxScale: 1.5,
+    },
+    trashcan: false,
+    // oneBasedIndex: codeLanguage === 'lua' // TODO: Need to test. Default is true.
+    move: {
+      scrollbars: true,
+      drag: true,
+      wheel: true
+    },
+    // No grid. Thought we could maybe make fake "lines", but block heights are too unpredictable.
+    // grid: {
+    //   spacing: 48,
+    //   length: 48,
+    //   colour: '#000',
+    //   snap: true
+    // },
+    collapse: codeFormat !== 'blocks-icons', // Don't let blocks be collapsed in icon mode
+    disable: true, // Do let blocks be disabled
   }
 }
 
@@ -699,23 +946,30 @@ module.exports.initializeBlocklyPlugins = function (blockly) {
 // zoomToFit = new ZoomToFitControl blockly
 // zoomToFit.init()
 
-module.exports.getBlocklySource = function (blockly, codeLanguage) {
+module.exports.getBlocklySource = function (blockly, { codeLanguage, product }) {
   if (!blockly) { return }
   const blocklyState = Blockly.serialization.workspaces.save(blockly)
   const generator = module.exports.getBlocklyGenerator(codeLanguage)
-  let blocklySource = generator.workspaceToCode(blockly)
-  blocklySource = module.exports.rewriteBlocklyCode(blocklySource, codeLanguage)
+  let blocklySourceRaw = generator.workspaceToCode(blockly)
+  blocklySourceRaw = module.exports.rewriteBlocklyCode(blocklySourceRaw, { codeLanguage, product })
+  let blocklySource
+  if (product === 'codecombat-junior') {
+    blocklySource = condenseNewlines(blocklySourceRaw)
+  } else {
+    blocklySource = blocklySourceRaw
+  }
   const commentStart = utils.commentStarts[codeLanguage] || '//'
   // console.log "Blockly state", blocklyState
   // console.log "Blockly source", blocklySource
   const combined = `${commentStart}BLOCKLY| ${JSON.stringify(blocklyState)}\n\n${blocklySource}`
-  return { blocklyState, blocklySource, combined }
+  return { blocklyState, blocklySource, combined, blocklySourceRaw }
 }
 
 module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
   if (tries == null) { tries = 0 }
   if (tries > 10) { return false }
-  if (!blocklyState?.blocks?.blocks) { return false }
+  if (!blocklyState?.blocks) { return false }
+  if (!blocklyState.blocks.blocks) { blocklyState.blocks.blocks = [] }
   const oldBlocklyState = Blockly.serialization.workspaces.save(blockly)
   try {
     // console.log('Need to load', blocklyState, 'into', blockly, 'comparing to', oldBlocklyState)
@@ -743,7 +997,7 @@ module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
 }
 
 const blockHeight = 25
-function mergeBlocklyStates(oldState, newState, mergeProgress) {
+function mergeBlocklyStates (oldState, newState, mergeProgress) {
   if (!newState) {
     return
   }
@@ -780,7 +1034,7 @@ function mergeBlocklyStates(oldState, newState, mergeProgress) {
   }
 }
 
-function countBlocks(newState) {
+function countBlocks (newState) {
   // TODO: this should probably count nested blocks, arguments, also account for taller blocks. But, not important with auto blockly.cleanUp() function.
   let count = 0
   while (newState?.next) {
@@ -790,12 +1044,12 @@ function countBlocks(newState) {
   return count
 }
 
-let filterBlocklyState = function (blocklyState, blockType) {
+const filterBlocklyState = function (blocklyState, blockType) {
   // Stubs out all blocks of the given type from the blockly state. Useful for not throwing away all code just because a block definition is missing.
   console.log('Trying to remove', blockType, 'from blockly state', blocklyState, 'with', blocklyState?.blocks?.blocks?.length ?? 0, 'blocks')
   // console.log 'Trying to remove', blockType, 'from blockly state', _.cloneDeep(blocklyState), 'with', blocklyState.blocks?.blocks?.length, 'blocks'  # debugging
   // Recursively walk through all properties of the blockly state, and transform the ones with type: blockType to be comment blocks
-  let transformBlock = function (parent, key, value) {
+  const transformBlock = function (parent, key, value) {
     if ((value != null ? value.type : undefined) === blockType) {
       // console.log 'Found block of type', blockType, 'at', key, 'in', _.cloneDeep parent
       // console.log 'Replacing with comment block'
@@ -812,46 +1066,46 @@ let filterBlocklyState = function (blocklyState, blockType) {
 }
 
 module.exports.isEqualBlocklyState = function (state1, state2) {
-    const keysToIgnore = ['x', 'y', 'id', 'start', 'end', 'languageVersion']
-    const keysToIgnoreWhenEmpty = ['variables', 'inputs']
+  const keysToIgnore = ['x', 'y', 'id', 'start', 'end', 'languageVersion']
+  const keysToIgnoreWhenEmpty = ['variables', 'inputs']
 
-    function isEmptyOrUndefined(value) {
-        return value === undefined || value === null || (_.isArray(value) && value.length === 0) || (_.isObject(value) && _.size(value) === 0)
-    }
+  function isEmptyOrUndefined (value) {
+    return value === undefined || value === null || (_.isArray(value) && value.length === 0) || (_.isObject(value) && _.size(value) === 0)
+  }
 
-    function isEqualIgnoringSomeKeys(obj1, obj2) {
-        // If both are the same object or both are null/undefined, they are equal
-        if (obj1 === obj2) return true
+  function isEqualIgnoringSomeKeys (obj1, obj2) {
+    // If both are the same object or both are null/undefined, they are equal
+    if (obj1 === obj2) return true
 
-        // If either is not an object (and they are not equal), they are not equal
-        if (!_.isObject(obj1) || !_.isObject(obj2)) return false
+    // If either is not an object (and they are not equal), they are not equal
+    if (!_.isObject(obj1) || !_.isObject(obj2)) return false
 
-        // Get keys from both objects
-        const keys1 = _.without(Object.keys(obj1), ...keysToIgnore)
-        const keys2 = _.without(Object.keys(obj2), ...keysToIgnore)
+    // Get keys from both objects
+    const keys1 = _.without(Object.keys(obj1), ...keysToIgnore)
+    const keys2 = _.without(Object.keys(obj2), ...keysToIgnore)
 
-        for (let key of _.union(keys1, keys2)) {
-            // Treat as equal if the key should be ignored when empty and both values are empty
-            if (keysToIgnoreWhenEmpty.includes(key)) {
-                if (isEmptyOrUndefined(obj1[key]) && isEmptyOrUndefined(obj2[key])) {
-                    continue
-                }
-            }
-
-            // If both values are objects, compare recursively
-            if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
-                if (!isEqualIgnoringSomeKeys(obj1[key], obj2[key])) return false
-            }
-            // For non-object values, use Lodash's isEqual for comparison
-            else {
-                if (!_.isEqual(obj1[key], obj2[key])) return false
-            }
+    for (const key of _.union(keys1, keys2)) {
+      // Treat as equal if the key should be ignored when empty and both values are empty
+      if (keysToIgnoreWhenEmpty.includes(key)) {
+        if (isEmptyOrUndefined(obj1[key]) && isEmptyOrUndefined(obj2[key])) {
+          continue
         }
+      }
 
-        return true
+      // If both values are objects, compare recursively
+      if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
+        if (!isEqualIgnoringSomeKeys(obj1[key], obj2[key])) return false
+      }
+      // For non-object values, use Lodash's isEqual for comparison
+      else {
+        if (!_.isEqual(obj1[key], obj2[key])) return false
+      }
     }
 
-    return isEqualIgnoringSomeKeys(state1, state2)
+    return true
+  }
+
+  return isEqualIgnoringSomeKeys(state1, state2)
 }
 
 function blockSubtreeIncludesBlockType (block, type) {
@@ -861,7 +1115,7 @@ function blockSubtreeIncludesBlockType (block, type) {
 }
 
 module.exports.blocklyStateIncludesBlockType = function (state, type) {
-  for (let block of state?.blocks?.blocks) {
+  for (const block of state?.blocks?.blocks) {
     if (blockSubtreeIncludesBlockType(block, type)) {
       return true
     }
@@ -869,47 +1123,104 @@ module.exports.blocklyStateIncludesBlockType = function (state, type) {
   return false
 }
 
-module.exports.rewriteBlocklyCode = function(code, codeLanguage) {
-  code = code.replace(/^( *)☃/gm, '$1') // Undo our unicode snowman whitespace trimmer remover
+module.exports.rewriteBlocklyCode = function (code, { codeLanguage, product }) {
+  code = code.replace(/☃/gm, '') // Undo our unicode snowman whitespace trimmer remover
   codeLanguage = codeLanguage || 'javascript'
   switch (codeLanguage) {
-  case 'javascript':
-    return rewriteBlocklyJS(code)
-  case 'python':
-    return rewriteBlocklyPython(code)
-  case 'lua':
-    return rewriteBlocklyLua(code)
-  default:
-    throw new Error(`Unknown code language ${codeLanguage}`)
+    case 'javascript':
+      return rewriteBlocklyJS(code, { product })
+    case 'python':
+      return rewriteBlocklyPython(code, { product })
+    case 'lua':
+      return rewriteBlocklyLua(code, { product })
+    default:
+      throw new Error(`Unknown code language ${codeLanguage}`)
   }
 }
 
-function rewriteBlocklyJS(code) {
+function rewriteBlocklyJS (code, { product }) {
   // Replace var greeting;\n\ngreeting = 'Hello'; with var greeting = 'Hello';
   code = code.replace(/^var (\S+,? ?)+\n*/, '')
-  let found = []
+  const found = []
   code = code.replace(/^(\s*)([a-zA-Z0-9_-]+) = /mg, (m, s, n) => {
-    if ( found.indexOf(n) !== -1) return m
+    if (found.indexOf(n) !== -1) return m
     found.push(n)
     return s + 'var ' + n + ' = '
-  });
+  })
+
+  // Replace count, count2, etc. repeat variables with i, j, etc.
+  code = code.replace(/\bcount(\d*)\b(\+\+)?/g, (match, num, increment) => {
+    const index = num ? parseInt(num) : 1
+    const letter = String.fromCharCode(105 + index - 1) // 105 is ASCII code for 'i'
+    return increment ? `${letter}${increment}` : letter
+  })
+
+  // Replace var with let
+  code = code.replace(/\bvar\b/g, 'let')
 
   return code.trim()
 }
 
-function rewriteBlocklyPython(code) {
-  let oldcode;
+function rewriteBlocklyPython (code, { product }) {
+  let oldCode
   do {
-    oldcode = code;
+    oldCode = code
     code = code.replace(/^[a-zA-Z0-9_-s]+ = None\n/, '')
-  } while (code !== oldcode)
+  } while (code !== oldCode)
+
+  // Replace count, count2, etc. repeat variables with i, j, etc. in Python code
+  code = code.replace(/\bcount(\d*)\b/g, (match, num) => {
+    const index = num ? parseInt(num) : 1
+    const letter = String.fromCharCode(105 + index - 1) // 105 is ASCII code for 'i'
+    return letter
+  })
 
   return code.trim()
 }
 
-function rewriteBlocklyLua(code) {
-
+function rewriteBlocklyLua (code, { product }) {
   return code
 }
 
+function condenseNewlines (code) {
+  // Replace multiple newlines, possibly with whitespace in the middle, with single newlines
+  // Only do this in between lines of code, not comments
+  return code.replace(/([^\n])\n[ \t]*\n([^\n])/g, '$1\n$2')
+}
+
+function findLastBlockWithNextConnection (block) {
+  let lastBlockWithNextConnection
+  if (block.nextConnection) {
+    lastBlockWithNextConnection = block
+  }
+  for (const child of block.getChildren(true)) {
+    lastBlockWithNextConnection = findLastBlockWithNextConnection(child) || lastBlockWithNextConnection
+  }
+  return lastBlockWithNextConnection
+}
+
+module.exports.createBlockById = function ({ workspace, id, codeLanguage }) {
+  const flyoutBlock = workspace.getToolbox()?.getFlyout()?.getWorkspace()?.getBlockById(id)
+  if (!flyoutBlock) return null
+  const topBlocks = workspace.getTopBlocks(true)
+  const newWorkspaceBlock = workspace.getToolbox()?.getFlyout()?.createBlock(flyoutBlock)
+  if (!newWorkspaceBlock) return null
+  let lastBlock
+  for (const block of topBlocks) {
+    lastBlock = findLastBlockWithNextConnection(block) || lastBlock
+  }
+  if (lastBlock) {
+    const parentConnection = lastBlock.nextConnection
+    const childConnection = newWorkspaceBlock.previousConnection
+    if (parentConnection && childConnection) {
+      parentConnection.connect(childConnection)
+      return newWorkspaceBlock
+    }
+  }
+  newWorkspaceBlock.moveBy(0, 1000, 'Could not automatically connect. Putting this all the way down so that it goes in the right order when we clean up.')
+  workspace.cleanUp()
+  return newWorkspaceBlock
+}
+
 module.exports.blocklyMutationEvents = [Blockly.Events.CHANGE, Blockly.Events.CREATE, Blockly.Events.DELETE, Blockly.Events.BLOCK_CHANGE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DELETE, Blockly.Events.BLOCK_DRAG, Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE, Blockly.Events.BLOCK_MOVE, Blockly.Events.VAR_CREATE, Blockly.Events.VAR_DELETE, Blockly.Events.VAR_RENAME]
+module.exports.blocklyFinishedMutationEvents = _.without(module.exports.blocklyMutationEvents, Blockly.Events.CREATE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DRAG, Blockly.Events.VAR_CREATE, Blockly.Events.VAR_DELETE, Blockly.Events.VAR_RENAME)

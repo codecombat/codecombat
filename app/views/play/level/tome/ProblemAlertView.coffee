@@ -1,6 +1,5 @@
 require('app/styles/play/level/tome/problem_alert.sass')
 CocoView = require 'views/core/CocoView'
-GameMenuModal = require 'views/play/menu/GameMenuModal'
 template = require 'app/templates/play/level/tome/problem_alert'
 {me} = require 'core/auth'
 userUtils = require 'app/lib/user-utils'
@@ -79,20 +78,20 @@ module.exports = class ProblemAlertView extends CocoView
       @playSound 'error_appear'
 
   setProblemMessage: ->
-    if @problem?
-      format = (s) -> marked(s) if s?
-      message = @problem.message
-      # Add time to problem message if hint is for a missing null check
-      # NOTE: This may need to be updated with Aether error hint changes
-      if @problem.hint? and /(?:null|undefined)/.test @problem.hint
-        age = @problem.userInfo?.age
-        if age?
-          if /^Line \d+:/.test message
-            message = message.replace /^(Line \d+)/, "$1, time #{age.toFixed(1)}"
-          else
-            message = "Time #{age.toFixed(1)}: #{message}"
-      @message = format message
-      @hint = format @problem.hint
+    return unless @problem
+    format = (s) -> marked(s) if s?
+    message = @problem.message
+    # Add time to problem message if hint is for a missing null check
+    # NOTE: This may need to be updated with Aether error hint changes
+    if @problem.hint? and /(?:null|undefined)/.test @problem.hint
+      age = @problem.userInfo?.age
+      if age?
+        if /^Line \d+:/.test message
+          message = message.replace /^(Line \d+)/, "$1, time #{age.toFixed(1)}"
+        else
+          message = "Time #{age.toFixed(1)}: #{message}"
+    @message = format message
+    @hint = format @problem.hint
 
   onShowProblemAlert: (data) ->
     return unless $('#code-area').is(":visible") or @level.isType('game-dev')
@@ -135,21 +134,23 @@ module.exports = class ProblemAlertView extends CocoView
     _.delay (=> @handleUserCreditsMessage()), 5000
 
   onWindowResize: (e) =>
-    # TODO: This all seems a little hacky
-    if @problem?
-      levelContentWidth = $('.level-content').outerWidth(true)
-      goalsViewWidth = $('#goals-view').outerWidth(true)
-      codeAreaWidth = $('#code-area').outerWidth(true)
-      # problem alert view has 20px padding
-      @$el.css('max-width', levelContentWidth - codeAreaWidth - goalsViewWidth + 40 + 'px')
-      @$el.css('right', codeAreaWidth + 'px')
-
-      top = $('#code-area .ace').offset().top
-      @$el.css('top', (top + @lineOffsetPx - @$el.height() / 2) + 'px')
+    return unless @problem
+    tomeLocation = if $('#code-area').offset().top > 100 then 'bottom' else 'right'
+    tomeWidth = $('#code-area').outerWidth()
+    right = if tomeLocation is 'bottom' then 'auto' else tomeWidth + 40
+    left = if tomeLocation is 'bottom' then 40 else 'auto'
+    maxWidth = $('#game-area').innerWidth() - $('#goals-view').outerWidth(true) - 2 * 20  # 20px padding
+    @$el.css { left, right, maxWidth }
+    codeAreaTop = $('#code-area .ace').offset().top
+    if tomeLocation is 'bottom'
+      top = codeAreaTop - @$el.outerHeight() - 80
+    else
+      top = codeAreaTop + @lineOffsetPx - @$el.height() / 2
+    @$el.css top: Math.max(60, top)
+    null
 
   handleUserCreditsMessage: ->
-    userUtils.levelChatCreditsString()
-        .then (res) =>
-          if @creditMessage != res
-            @creditMessage = res
-            @render()
+    userUtils.levelChatCreditsString().then (res) =>
+      if @creditMessage != res
+        @creditMessage = res
+        @render()

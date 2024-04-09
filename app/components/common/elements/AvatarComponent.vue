@@ -2,6 +2,7 @@
   <img
     class="avatar"
     :src="img"
+    :alt="alt"
   >
 </template>
 
@@ -12,6 +13,11 @@ export default {
     img: {
       type: String,
       required: true
+    },
+    alt: {
+      type: String,
+      required: false,
+      default: 'avatar'
     }
   }
 }

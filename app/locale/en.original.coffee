@@ -2612,6 +2612,8 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     module4: "Module 4: "
     module5: "Module 5: "
     module6: "Module 6: "
+    module7: "Module 7: "
+    module8: "Module 8: "
     algorithms_and_syntax: "Algorithms and Syntax"
     debugging: "Debugging"
     variables: "Variables"
@@ -4249,6 +4251,7 @@ module.exports = nativeDescription: "English", englishDescription: "English", tr
     lock_or_skip_levels: 'Lock or Skip Levels'
     level_access_status_blurb: "When you choose to skip a level, it will have both the 'locked' and 'optional' status. Unskipping the level will remove both the 'locked' and 'optional' statuses."
     reset_progress: "Reset Progress"
+    assessments_tab: "Assessments"
 
   outcomes:
     outcomes_report: "Outcomes Report"

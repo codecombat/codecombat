@@ -44,7 +44,7 @@ export default {
       return !(course?.free || isPaidTeacher || state.hasAccessViaSharedClass)
     },
 
-    selectedChapterId (state) {
+    selectedChapterId (state) { // TODO: chapter or campaign or course?
       return state.selectedCampaignId
     },
 

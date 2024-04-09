@@ -97,8 +97,10 @@
     left: 0px
     min-width: 530px
     max-width: 650px
-    width: calc(57vw - $api-bar-width - 50px)
-    //width: calc(#{$game-view-width} - #{$api-bar-width} - 50px)
+    width: calc(57vw - 50px)
+    //width: calc(#{$game-view-width} - 50px)
+    //max-height: Max(200px, calc(100vh - calc(#{$game-view-width} * (589 / 924)) - 50px - 60px - 80px - 30px - 25px))
+    max-height: Max(200px, calc(100vh - (100vw * 0.57 - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
     scroll-behavior: smooth
     overflow-y: scroll
     scrollbar-width: none
@@ -108,21 +110,15 @@
       width: 0
       height: 0
 
-  .no-api &
-    .chat-area
-      //max-height: Max(200px, calc(100vh - calc(#{$game-view-width-no-api} * (589 / 924)) - 50px - 60px - 80px - 30px - 25px))
-      max-height: Max(200px, calc(100vh - (100vw * 0.57 - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
-      width: calc(57vw - 50px)
+    &.open-chat-area
+      max-height: Max(600px, calc(100vh - (100vw * 0.57 - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
 
-      &.open-chat-area
-        max-height: Max(600px, calc(100vh - (100vw * 0.57 - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
-
-    input, textarea
-      width: calc(57vw - 50px - 41px)
+  input, textarea
+    width: calc(57vw - 50px - 41px)
 
   .closed-chat-area
     max-height: 400px
-    //max-height: Max(200px, calc(100vh - calc(#{$game-view-width} - #{$api-bar-width}) * (589 / 924) - 50px - 80px - 60px - 30px - 25px))
+    //max-height: Max(200px, calc(100vh - calc(#{$game-view-width}) * (589 / 924) - 50px - 80px - 60px - 30px - 25px))
     max-height: Max(200px, calc(100vh - (100vw * 0.57 - 200px - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
 
   .open-chat-area
@@ -131,7 +127,7 @@
     border-radius: 5px
     border: 1px solid #222
     max-height: 600px
-    //max-height: Max(600px, calc(100vh - calc(#{$game-view-width} - #{$api-bar-width}) * (589 / 924) - 50px - 80px - 60px - 30px - 25px))
+    //max-height: Max(600px, calc(100vh - calc(#{$game-view-width}) * (589 / 924) - 50px - 80px - 60px - 30px - 25px))
     max-height: Max(600px, calc(100vh - (100vw * 0.57 - 200px - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
     
   tr
@@ -148,7 +144,8 @@
     left: 3px
     float: left
     cursor: pointer
-    
+    display: none
+
   input, textarea
     position: absolute
     bottom: 0px
@@ -156,7 +153,7 @@
     right: 0px
     min-width: 489px
     max-width: 609px
-    width: calc(57vw - $api-bar-width - 50px - 41px)
+    width: calc(57vw - 50px - 41px)
     height: 27px
     min-height: 27px
     max-height: 100px

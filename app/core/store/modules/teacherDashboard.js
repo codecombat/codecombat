@@ -207,6 +207,10 @@ export default {
         } else if (componentName === COMPONENT_NAMES.PD) {
           // PD page
           await dispatch('fetchDataPDAsync', options)
+        } else if (componentName === COMPONENT_NAMES.STUDENT_ASSESSMENTS) {
+          // Assessments page
+          await dispatch('fetchDataStudentAssessments', options)
+          dispatch('fetchDataStudentAssessmentsAsync', options) // does not block loading indicator
         }
       } catch (err) {
         console.error('Error in fetching data:', err)
@@ -289,7 +293,7 @@ export default {
     // options.data = { users: '', levelSessions: '' } -> properties needed for these objects, i.e. will be used as `project` in db queries
     async fetchDataStudentProjects ({ state, dispatch }, options = {}) {
       const fetchPromises = []
-
+      fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
       fetchPromises.push(dispatch('teacherDashboard/fetchClassroomData', options, { root: true }))
 
@@ -298,6 +302,28 @@ export default {
 
     // Students progress page - without blocking loading indicator
     async fetchDataStudentProjectsAsync ({ state, dispatch }, options = {}) {
+      const fetchPromises = []
+      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.teacherId }, { root: true }))
+      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
+      await Promise.all(fetchPromises)
+    },
+
+    // Asssessments page
+    // options.data = { users: '', levelSessions: '' } -> properties needed for these objects, i.e. will be used as `project` in db queries
+    async fetchDataStudentAssessments ({ state, dispatch }, options = {}) {
+      const fetchPromises = []
+
+      fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForClassroom', state.classroomId, { root: true }))
+      fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
+      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true }))
+      fetchPromises.push(dispatch('teacherDashboard/fetchClassroomData', options, { root: true }))
+      fetchPromises.push(dispatch('levels/fetchForClassroom', state.classroomId, { root: true }))
+
+      await Promise.all(fetchPromises)
+    },
+
+    // Assessments page - without blocking loading indicator
+    async fetchDataStudentAssessmentsAsync ({ state, dispatch }, options = {}) {
       const fetchPromises = []
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.teacherId }, { root: true }))
       fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
@@ -347,15 +373,22 @@ export default {
     },
 
     // Curriculum guides panel
-    async fetchDataCurriculumGuide ({ dispatch, rootGetters }) {
+    async fetchDataCurriculumGuide ({ dispatch, rootGetters, getters }) {
       let sortedCourses = rootGetters['courses/sorted'] || []
       if (sortedCourses.length === 0) {
         await dispatch('courses/fetchReleased', undefined, { root: true })
       }
       sortedCourses = rootGetters['courses/sorted'] || []
       if (sortedCourses[0]) {
-        // After loading ensure that the first course is automatically selected
-        dispatch('baseCurriculumGuide/setSelectedCampaign', sortedCourses[0].campaignID, { root: true })
+        // After loading, ensure that the first course that's in the classroom is automatically selected
+        const classroom = getters.getCurrentClassroom
+        const classroomCourseIds = (classroom.courses || []).map((c) => c._id) || []
+        let selectedCourse
+        if (classroomCourseIds.length) {
+          selectedCourse = sortedCourses.find((c) => classroomCourseIds.includes(c._id))
+        }
+        selectedCourse = selectedCourse || sortedCourses[0]
+        dispatch('baseCurriculumGuide/setSelectedCampaign', selectedCourse.campaignID, { root: true })
       }
       sortedCourses.forEach(({ campaignID }) => {
         dispatch('gameContent/fetchGameContentForCampaign', { campaignId: campaignID }, { root: true })

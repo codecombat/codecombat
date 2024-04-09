@@ -1,0 +1,15 @@
+@import "app/styles/component_variables.scss";
+
+%table-gaps {
+    gap: 16px;
+    @media screen and (max-width: $screen-sm) {
+        gap: 8px;
+    }
+}
+
+%table-paddings {
+    padding: 0 30px;
+    @media screen and (max-width: $screen-sm) {
+        padding: 0 5px;
+    }
+}

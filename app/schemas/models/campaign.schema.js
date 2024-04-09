@@ -1,10 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
 const c = require('./../schemas')
 const LevelSchema = require('./level')
 
@@ -69,7 +62,8 @@ _.extend(CampaignSchema.properties, {
       }
     }
   },
-  isOzaria: { type: 'boolean', description: 'Is this an ozaria campaign', default: false },
+  isOzaria: { type: 'boolean', description: 'Is this an ozaria campaign', default: false }, // TODO: migrate to using `product` instead
+  product: c.singleProduct,
   levelsUpdated: c.date(),
 
   levels: {
@@ -184,10 +178,10 @@ CampaignSchema.denormalizedLevelProperties = [
   'displayName'
 ]
 const hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
-for (const prop of Array.from(CampaignSchema.denormalizedLevelProperties)) {
+for (const prop of CampaignSchema.denormalizedLevelProperties) {
   CampaignSchema.properties.levels.additionalProperties.properties[prop] = _.cloneDeep(LevelSchema.properties[prop])
 }
-for (const hiddenProp of Array.from(hiddenLevelProperties)) {
+for (const hiddenProp of hiddenLevelProperties) {
   CampaignSchema.properties.levels.additionalProperties.properties[hiddenProp].format = 'hidden'
 }
 

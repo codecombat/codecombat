@@ -20,12 +20,13 @@ const Achievement = require('models/Achievement')
 const EarnedAchievement = require('models/EarnedAchievement')
 const CocoCollection = require('collections/CocoCollection')
 const LocalMongo = require('lib/LocalMongo')
-let utils = require('core/utils')
+const utils = require('core/utils')
+const api = require('core/api')
 const ThangType = require('models/ThangType')
 const LadderSubmissionView = require('views/play/common/LadderSubmissionView')
 const AudioPlayer = require('lib/AudioPlayer')
 const User = require('models/User')
-utils = require('core/utils')
+const Level = require('models/Level')
 const LevelFeedback = require('models/LevelFeedback')
 const SubscribeModal = require('views/core/SubscribeModal')
 const AmazonHocModal = require('views/play/modal/AmazonHocModal')
@@ -102,6 +103,16 @@ module.exports = (HeroVictoryModal = (function () {
       }
 
       this.trackAwsButtonShown = _.once(() => window.tracker != null ? window.tracker.trackEvent('Show Amazon Modal Button') : undefined)
+
+      if (this.level.get('product', true) === 'codecombat-junior' && this.level.get('campaign')) {
+        this.nextLevel = new Level()
+        api.levels.fetchNextForCampaign({
+          campaignSlug: this.level.get('campaign'),
+          levelOriginal: this.level.get('original'),
+        }).then((level) => {
+          this.nextLevel.set(level)
+        })
+      }
     }
 
     destroy () {
@@ -205,9 +216,8 @@ module.exports = (HeroVictoryModal = (function () {
       let achievement
       const c = super.getRenderData()
       c.levelName = utils.i18n(this.level.attributes, 'name')
-      if (this.level.isType('hero', 'game-dev', 'web-dev')) {
-        let left
-        c.victoryText = utils.i18n((left = this.level.get('victory')) != null ? left : {}, 'body')
+      if (this.level.isType('hero', 'game-dev', 'web-dev') && this.level.get('product', true) !== 'codecombat-junior') {
+        c.victoryText = utils.i18n(this.level.get('victory') || {}, 'body')
       }
       const earnedAchievementMap = _.indexBy(this.newEarnedAchievements || [], ea => ea.get('achievement'))
       for (achievement of Array.from(((this.achievements != null ? this.achievements.models : undefined) || []))) {
@@ -297,8 +307,7 @@ module.exports = (HeroVictoryModal = (function () {
         this.showShareGameWithTeacher = /game-dev/.test(hocCampaignSlug) && lastLevel
       }
 
-      c.showLeaderboard = (__guard__(this.level.get('scoreTypes'), x1 => x1.length) > 0) && !this.level.isType('course') && !this.showAmazonHocButton && !this.showHoc2016ExploreButton
-
+      c.showLeaderboard = (this.level.get('scoreTypes') || []).length > 0 && !this.level.isType('course') && !this.showAmazonHocButton && !this.showHoc2016ExploreButton && this.level.get('product', true) !== 'codecombat-junior'
       c.showReturnToCourse = !c.showLeaderboard && !me.get('anonymous') && this.level.isType('course', 'course-ladder')
       c.isCourseLevel = this.level.isType('course')
       c.currentCourseName = this.course != null ? this.course.get('name') : undefined
@@ -467,8 +476,15 @@ module.exports = (HeroVictoryModal = (function () {
       const totalXPNeeded = nextLevelXP - currentLevelXP
       let alreadyAchievedPercentage = (100 * (previousXP - currentLevelXP)) / totalXPNeeded
       if (alreadyAchievedPercentage < 0) { alreadyAchievedPercentage = 0 } // In case of level up
-
+      let newlyAchievedPercentage
+      if (leveledUp) {
+        newlyAchievedPercentage = 100 * (currentXP - currentLevelXP) / totalXPNeeded
+      } else {
+        newlyAchievedPercentage = 100 * achievedXP / totalXPNeeded
+      }
       const xpEl = $('#xp-wrapper')
+      xpEl.find('.xp-bar-already-achieved').css('width', alreadyAchievedPercentage + '%')
+      xpEl.find('.xp-bar-total').css('width', (alreadyAchievedPercentage + newlyAchievedPercentage) + '%')
       const levelLabel = xpEl.find('.level')
       utils.replaceText(levelLabel, currentLevel)
 
@@ -544,7 +560,13 @@ module.exports = (HeroVictoryModal = (function () {
     getNextLevelLink (returnToCourse) {
       let link
       if (returnToCourse == null) { returnToCourse = false }
-      if (this.level.isType('course')) {
+      if (this.level.get('product', true) === 'codecombat-junior' && this.nextLevel?.get('slug')) {
+        link = `/play/level/${this.nextLevel.get('slug')}`
+        if (this.courseID) {
+          link += `/${this.courseID}`
+          if (this.courseInstanceID) { link += `/${this.courseInstanceID}` }
+        }
+      } else if (this.level.isType('course')) {
         link = '/students'
         if (this.courseID) {
           link += `/${this.courseID}`
@@ -573,7 +595,7 @@ module.exports = (HeroVictoryModal = (function () {
         nextLevelLink = '/play'
         viewClass = 'views/play/CampaignView'
         viewArgs = [options]
-      } else if (this.level.isType('course') && this.nextLevel && !options.returnToCourse) {
+      } else if ((this.level.isType('course') || this.level.get('product', true) === 'codecombat-junior') && this.nextLevel?.get('slug') && !options.returnToCourse) {
         viewClass = 'views/play/level/PlayLevelView'
         options.courseID = this.courseID
         options.courseInstanceID = this.courseInstanceID

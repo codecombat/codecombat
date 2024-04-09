@@ -19,7 +19,7 @@ require('ozaria/site/styles/play/level/tome/tome.sass')
 # SpellPaletteViews are destroyed and recreated whenever you switch Thangs.
 
 CocoView = require 'views/core/CocoView'
-template = require 'app/templates/play/level/tome/tome.pug'
+template = require 'ozaria/site/templates/play/level/tome/tome.pug'
 {me} = require 'core/auth'
 Spell = require './Spell'
 SpellPaletteView = require './SpellPaletteView'

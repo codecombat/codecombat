@@ -16,6 +16,10 @@ module.exports = (Clan = (function () {
       this.schema = schema
       this.prototype.urlRoot = '/db/clan'
     }
+
+    static getAutoClanSlug (idOrSlug, kind) {
+      return `autoclan-${kind}-${idOrSlug}`
+    }
   }
   Clan.initClass()
   return Clan

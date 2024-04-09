@@ -1,5 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
 const c = require('schemas/schemas')
 
 const spriteMouseEventSchema = c.object({ required: ['sprite', 'thang', 'originalEvent', 'canvas'] }, {
@@ -69,6 +67,11 @@ module.exports = { // /app/lib/surface
   'sprite:dialogue-sound-completed': c.object({}),
 
   'level:sprite-clear-dialogue': c.object({}),
+
+  'sprite:hero-health-updated': c.object({ required: ['health', 'maxHealth'] }, {
+    health: { type: 'number' },
+    maxHealth: { type: 'number' }
+  }),
 
   'surface:gold-changed': c.object({ required: ['team', 'gold'] }, {
     team: { type: 'string' },

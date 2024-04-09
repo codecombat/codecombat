@@ -107,6 +107,7 @@ scripts/github-translation-import.js
 scripts/copy-i18n-tags.js
 
 test/app/core/social-handlers/GoogleClassroomHandler.spec.js
+test/app/core/utils.spec.coco.js
 test/app/models/Cinematic.spec.js
 test/app/lib/cinematic/AbstractCommand.spec.js
 test/app/lib/cinematic/commandRunner.spec.js

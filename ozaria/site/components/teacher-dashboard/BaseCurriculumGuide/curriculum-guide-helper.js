@@ -12,7 +12,7 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       slug,
       introContent,
       _id
-    } = content
+    } = { type: content.practice ? 'practicelvl' : 'challengelvl', ...content }
 
     // Potentially this intro doesn't have a header in the curriculum guide yet
     if (introLevelSlug &&
@@ -30,6 +30,7 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
     let icon, url
 
     // TODO: Where is the language chosen in the curriculum guide?
+
     if (!ozariaType) {
       icon = type
       url = `/play/intro/${introLevelSlug}?course=${currentCourseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
@@ -41,6 +42,10 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       } else if (ozariaType === 'challenge') {
         icon = 'challengelvl'
       }
+      url = `/play/level/${slug}?course=${currentCourseId}&codeLanguage=${codeLanguage}`
+    }
+
+    if (utils.isCodeCombat) {
       url = `/play/level/${slug}?course=${currentCourseId}&codeLanguage=${codeLanguage}`
     }
 

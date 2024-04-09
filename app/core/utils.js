@@ -12,7 +12,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 
-let campaignIDs, compare, courseIDs, courseModules, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
+let campaignIDs, compare, courseIDs, courseModules, courseModuleLevels, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
 const product = ((left = typeof COCO_PRODUCT !== 'undefined' && COCO_PRODUCT !== null ? COCO_PRODUCT : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.COCO_PRODUCT))) != null ? left : 'codecombat'
 const shaTag = ((left = typeof SHA_TAG !== 'undefined' && SHA_TAG !== null ? SHA_TAG : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.SHA_TAG))) != null ? left : 'unknown'
 const isCodeCombat = product === 'codecombat'
@@ -222,13 +222,16 @@ var titleize = s => // Turns things like 'dungeons-of-kithgard' into 'Dungeons o
   )
 
 if (isCodeCombat) {
-  campaignIDs =
-    { INTRO: '55b29efd1cd6abe8ce07db0d' }
+  campaignIDs = {
+    JUNIOR: '65c56663d2ca2055e65676af',
+    INTRO: '55b29efd1cd6abe8ce07db0d',
+  }
 
-  freeCampaignIds = [campaignIDs.INTRO] // CS1 campaign
+  freeCampaignIds = [campaignIDs.JUNIOR, campaignIDs.INTRO] // Junior, CS1 campaign
   internalCampaignIds = [] // Ozaria has one of these, CoCo doesn't
 
   courseIDs = {
+    JUNIOR: '65f32b6c87c07dbeb5ba1936',
     INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
     GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
     WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
@@ -242,6 +245,16 @@ if (isCodeCombat) {
     COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
   }
 
+
+  coursesWithProjects = [
+    courseIDs.GAME_DEVELOPMENT_1,
+    courseIDs.WEB_DEVELOPMENT_1,
+    courseIDs.GAME_DEVELOPMENT_2,
+    courseIDs.WEB_DEVELOPMENT_2,
+    courseIDs.GAME_DEVELOPMENT_3
+  ]
+
+
   otherCourseIDs = {
     CHAPTER_ONE: '5d41d731a8d1836b5aa3cba1',
     CHAPTER_TWO: '5d8a57abe8919b28d5113af1',
@@ -250,6 +263,7 @@ if (isCodeCombat) {
   }
 
   CSCourseIDs = [
+    courseIDs.JUNIOR,
     courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     courseIDs.COMPUTER_SCIENCE_2,
     courseIDs.COMPUTER_SCIENCE_3,
@@ -262,6 +276,7 @@ if (isCodeCombat) {
     courseIDs.WEB_DEVELOPMENT_2
   ]
   orderedCourseIDs = [
+    courseIDs.JUNIOR,
     courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     courseIDs.GAME_DEVELOPMENT_1,
     courseIDs.WEB_DEVELOPMENT_1,
@@ -281,11 +296,620 @@ if (isCodeCombat) {
     otherCourseIDs.CHAPTER_FOUR
   ]
 
-  // Ozaria uses this
   courseModules = {}
+  courseModuleLevels = {}
+
+  courseModules[courseIDs.JUNIOR] = {
+    1: 'The `go()` Function',
+    2: 'Arguments',
+    3: 'The `hit()` Function',
+    4: 'The `spin()` Function',
+    5: 'The `zap()` Function',
+    6: 'For Loops',
+    7: 'Loop Combinations',
+    8: 'If Statements'
+    // 9: 'Variables'
+  }
+
+  // TODO: move all the level/module data to database
+  // structure: [courseId][moduleNumber]: [levelName1, levelName2, ...]
+  courseModuleLevels[courseIDs.JUNIOR] = {
+    1: [
+      'The Gem',
+      'Go Go Go',
+      'Two Gems',
+      'Elbow',
+      'Shiny',
+      'Gem Square',
+      'The X',
+      'X Marks the Spot',
+      'Gems First',
+      'Walk It Off',
+    ],
+    2: [
+      'Go Smart',
+      'Steps',
+      'Hiker',
+      'Long Hall',
+      'Step Change',
+      'Go Around',
+      'Big Gem Square',
+      'Turns',
+      'Snake Maze',
+      'One Block',
+    ],
+    3: [
+      'Knock Knock',
+      'Open and Shut',
+      'Doors',
+      'Open Up',
+      'Airlock',
+      'No Keys',
+      'Bad Guys',
+      'Hall Monitor',
+      'Clean Up',
+      'Just a Scratch',
+      'Brave',
+      'Wise',
+      'Careful',
+      'Heart Up',
+      'Tough',
+      'One at a Time',
+      'Choose Your Battles',
+    ],
+    4: [
+      'Spin to Win',
+      'Whirlwind',
+      'Twister',
+      'Vortex',
+      'Busy Intersection',
+      'Badder Guy',
+      'Two Big',
+      'Tornado',
+      'Cyclone',
+      'Hit and Spin',
+      'Hurricane',
+    ],
+    5: [
+      'Zap Gap',
+      'Easy Pickings',
+      'Advantage',
+      'Hit Me Up',
+      'Zap It',
+      'Target Practice',
+      'TNT',
+      'Kaboom',
+      'Back Up',
+      'Monster',
+      'Lure It',
+      'It\'s a Trap',
+      'Friends',
+      'Careful Aim',
+      'Chain Reaction',
+      'Zap Master',
+    ],
+    6: [
+      'Loopy',
+      'More Times',
+      'Right Up',
+      'Square Wave',
+      'Grabber',
+      'Smasher',
+      'Spin Eternally',
+      'Down the Line',
+      'Tall Wave',
+      'Clearing the Way',
+      'Restraint',
+      'Fern',
+      'Scratch Loop',
+      'Regular Path',
+      'Detonations',
+      'Showdown',
+    ],
+    7: [
+      'Gem Weave',
+    ],
+    8: [
+      'Zap Smart',
+    ],
+  }
+
+  courseModules[courseIDs.COMPUTER_SCIENCE_2] = {
+    1: 'Coordinate Systems',
+    2: 'Conditionals Part 1',
+    3: 'Conditionals Part 2',
+    4: 'Conditionals Part 3',
+    5: 'Functions Part 1',
+    6: 'Functions Part 2',
+    7: 'Events'
+  }
+
+  courseModuleLevels[courseIDs.COMPUTER_SCIENCE_2] = {
+    1: [
+      'Defense of Plainswood',
+      'Winding Trail',
+      'One Wrong Step',
+      'Forest Evasion',
+      'Gem Berries',
+    ],
+    2: [
+      'Woodland Cubbies',
+      'Backwoods Ambush',
+      'Patrol Buster',
+      'Patrol Buster A',
+      'Picnic Buster',
+      'Eagle Eye',
+      'If-stravaganza',
+      'Village Guard',
+      'Thornbush Farm',
+      'Cleanup',
+      'Middle Point',
+    ],
+    3: [
+      'Back to Back',
+      'Ogre Encampment',
+      'Sacred Glade',
+      'Woodland Cleaver',
+      'Elseweyr',
+      'Backwoods Standoff',
+      'Backwoods Standoff A',
+      'Backwoods Standoff B',
+      'Range Finder',
+      'Peasant Protection',
+      'Munchkin Swarm',
+      'Brave Ogres',
+    ],
+    4: [
+      'Maniac Munchkins',
+      'Free Billy',
+      'Forest Fire Dancing',
+      'Stillness in Motion',
+      'The Agrippa Defense',
+      'The Agrippa Defense A',
+      'The Agrippa Defense B',
+      'Dangerous Tree',
+      'Last Guardian',
+    ],
+    5: [
+      'Village Rover',
+      'Village Warder',
+      'Village Champion',
+      'A Fine Mint',
+      'Silent Village',
+    ],
+    6: [
+      'Backwoods Fork',
+      'Tomb Raider',
+      'Tomb Ghost',
+      'Seek-and-Hide',
+      'Forest Miners',
+      'Leave it to Cleaver',
+      'Timberland Trap',
+      'Return to Thornbush Farm',
+      'Return to Thornbush Farm A',
+      'Return to Thornbush Farm B',
+      'Agrippa Refactored',
+      'Closed Crossroad',
+      'Greed Traps',
+      'Last Cannon',
+      'Functional Patrol',
+    ],
+    7: [
+      'Backwoods Buddy',
+      'Buddy\'s Name A',
+      'Buddy\'s Name B',
+      'Buddy\'s Name',
+      'Phd Kitty',
+      'Pet Quiz',
+      'Timely Word',
+      'Go Fetch',
+      'Guard Dog',
+      'Long Road',
+      'Tough Bait',
+      'Forest Jogging',
+      'Forest Cannon Dancing',
+      'Sharp Bait',
+      'Eventful Skirmish',
+      'Power Peak',
+    ]
+  }
+
+  courseModules[courseIDs.GAME_DEVELOPMENT_2] = {
+    1: 'Events',
+    2: 'Random Numbers',
+    3: 'Manual Goals',
+    4: 'Input'
+  }
+
+  courseModuleLevels[courseIDs.GAME_DEVELOPMENT_2] = {
+    1: [
+      'Guard Duty',
+      'Army Training 2',
+      'Standard Operating Procedure',
+      'Center Formation',
+      'Chokepoint',
+      'Adventure Time',
+      'Teatime',
+      'Random Riposte',
+      'Agony of Defeat',
+    ],
+    2: [
+      'Lernaean Hydra',
+      'Stick Shift',
+      'Don\'t Touch Them',
+      'From Dust to Dust',
+      'Cages',
+    ],
+    3: [
+      'Accounts Department',
+      'Hot Gems',
+      'Berserker',
+      'Freeze Tag',
+    ],
+    4: [
+      'Run for Gold',
+      'Disintegration Arrow',
+      'Game of Coins Step 1: Layout',
+      'Game of Coins Step 2: Score',
+      'Game of Coins Step 3: Enemies',
+      'Game of Coins Step 4: Power-Ups',
+      'Game of Coins Step 5: Balance',
+      'Game Dev 2 Final Project',
+    ]
+  }
+
+  courseModules[courseIDs.WEB_DEVELOPMENT_2] = {
+    1: 'JavaScript',
+    2: 'jQuery',
+    3: 'CSS',
+    4: 'Input'
+  }
+
+  courseModuleLevels[courseIDs.WEB_DEVELOPMENT_2] = {
+    1: [
+      'True Names',
+      'Fire Dancing',
+      'Lost in the Stacks',
+      'Master of Names',
+      'Patrol Buster',
+      'Back to Back',
+      'Maniac Munchkins',
+      'Stillness in Motion',
+      'A Fine Mint',
+      'Return to Thornbush Farm',
+    ],
+    2: [
+      'Query Confirmed',
+      'Clickthrough',
+      'Disappearing Act',
+      'Toggulation',
+      'Eventful Selectors',
+      'Sibling Rivalry',
+    ],
+    3: [
+      'Border Patrol',
+      'Marginal Utility',
+      'Transformative Properties',
+      'Animania',
+      'Precision Coloring',
+      'Quizlet',
+    ]
+  }
+
+  courseModules[courseIDs.COMPUTER_SCIENCE_3] = {
+    1: 'Expressions',
+    2: 'Properties',
+    3: 'Return',
+    4: 'Comparisons',
+    5: 'Compound Comparisons',
+    6: 'Movement',
+    7: 'Properties Revisted',
+    8: 'Break and Continue'
+  }
+
+  courseModuleLevels[courseIDs.COMPUTER_SCIENCE_3] = {
+    1: [
+      'Friend and Foe',
+      'Deja Brew',
+      'Reward and Ruination',
+      'Air Rescue Service',
+      'The Wizard\'s Door',
+      'The Wizard\'s Haunt',
+      'The Wizard\'s Plane',
+      'True Alchemy',
+    ],
+    2: [
+      'Coincrumbs',
+      'White Rabbit',
+      'Chameleons',
+      'Rich and Safe',
+      'Wind Correction',
+      'Backwoods Bombardier',
+      'Thumb Biter',
+      'Endangered Burl',
+      'Taunting',
+      'Wrong Type',
+    ],
+    3: [
+      'Burlbole Grove',
+      'Blind Distance',
+      'Hit and Freeze',
+      'Coin Hunter',
+      'Agrippa Returned',
+      'Metal Detector',
+      'Ogre Invaders',
+      'Forest Storm',
+    ],
+    4: [
+      'Passing Through',
+      'Useful Competitors',
+      'Wonderglade',
+      'Cursed Wonderglade',
+      'Wild Alliance',
+      'Gems or Death',
+      'Burls Beets Booleans',
+    ],
+    5: [
+      'Salted Earth',
+      'Star Shower',
+      'Forest Shadow',
+      'Warders',
+      'Spring Thunder',
+      'Teleport Lasso',
+      'Brawler Hunt',
+      'Helpful Hunting',
+      'Usual Day',
+      'Logical Path',
+      'Logical Circle',
+      'Logical Conclusion',
+      'Nonandor',
+    ],
+    6: [
+      'The Mighty Sand Yak',
+      'Oasis',
+      'Sarven Road',
+      'Dried Irrigation',
+      'Sarven Gaps',
+      'Crossroads',
+      'Interception',
+      'Thunderhooves',
+      'Friendly Minefield',
+      'Kithgard Enchanter',
+    ],
+    7: [
+      'Minesweeper',
+      'Operation \'Killdeer\'',
+      'Medical Attention',
+      'Valley of the King',
+      'Valley of a Thousand Rocks',
+      'Keeping Time',
+      'Crux of the Desert',
+    ],
+    8: [
+      'Hoarding Gold',
+      'Decoy Drill',
+      'Greed Protection',
+      'Continuous Alchemy',
+      'Master of Camouflage',
+      'Escape of the Spring',
+      'Fast and Furry-ous',
+      'Sand Mushrooms',
+      'Mushroom Noise',
+      'Key Traps',
+      'Chain of Command',
+      'Pet Engineer',
+      'Pet Translator',
+      'Pet Adjutant',
+      'Alchemic Power',
+      'Pet Explorer',
+      'Dangerous Key',
+      'Olympic Race',
+      'Cross Bones',
+    ]
+  }
+
+  courseModules[courseIDs.GAME_DEVELOPMENT_3] = {
+    1: 'Frames',
+    2: 'Position',
+    3: 'Movement',
+    4: 'Bring It Together'
+  }
+
+  courseModuleLevels[courseIDs.GAME_DEVELOPMENT_3] = {
+    1: [
+      'The Rule of the Square',
+      'The Big Guy',
+    ],
+    2: [
+      'Quantum Jump',
+      'Looping Forest',
+    ],
+    3: [
+      'Smooth Run',
+      'Looney Gems',
+    ],
+    4: [
+      'Runner Step 1: Environment',
+      'Runner Step 2: Scoring',
+      'Runner Step 3: Enemies',
+      'Runner Step 4: Balance',
+      'Game Dev 3 Final Project',
+    ]
+  }
+
+  courseModules[courseIDs.COMPUTER_SCIENCE_4] = {
+    1: 'While Loops Revisited',
+    2: 'Lists Part 1',
+    3: 'Lists Part 2',
+    4: 'Movement Revisited',
+    5: 'For Loops'
+  }
+
+  courseModuleLevels[courseIDs.COMPUTER_SCIENCE_4] = {
+    1: [
+      'Dust',
+      'Double Check',
+      'Canyon of Storms',
+      'No Pain No Gain',
+      'Desert Combat',
+      'Bait and Switch',
+      'Mirage Maker',
+      'Spinach Power',
+    ],
+    2: [
+      'Team Work',
+      'Coordinated Defense',
+      'Recruiting Queue',
+      'Second Gem',
+    ],
+    3: [
+      'Sarven Savior',
+      'Bank Raid',
+      'Wandering Souls',
+      'Lurkers',
+      'Preferential Treatment',
+      'Sarven Shepherd',
+      'Shine Getter',
+      'Marauder',
+      'Sand Snakes',
+      'Odd Sandstorm',
+      'Mad Maxer',
+    ],
+    4: [
+      'Brittle Morale',
+      'Mad Maxer Strikes Back',
+      'Wishing Well',
+      'Crag Tag',
+      'Slalom',
+      'Ogre Gorge Gouger',
+      'Cloudrip Commander',
+      'Mountain Mercenaries',
+    ],
+    5: [
+      'Timber Guard',
+      'Zoo Keeper',
+      'Noble Sacrifice',
+      'Hunting Party',
+      'Borrowed Sword',
+      'Summation Summit',
+    ]
+  }
+
+  courseModules[courseIDs.COMPUTER_SCIENCE_5] = {
+    1: 'Functions Revisited',
+    2: 'Modulo',
+    3: 'Strings',
+    4: 'For Loops Revisited',
+    5: 'Matrices'
+  }
+
+  courseModuleLevels[courseIDs.COMPUTER_SCIENCE_5] = {
+    1: [
+      'Vital Powers',
+      'The Two Flowers',
+      'Hunters and Prey',
+      'Reaping Fire',
+      'Toil and Trouble',
+      'Mixed Unit Tactics',
+    ],
+    2: [
+      'Ring Bearer',
+      'Library Tactician',
+      'The Geometry of Flowers',
+    ],
+    3: [
+      'The Spy Among Us',
+      'In My Name',
+      'Highlanders',
+    ],
+    4: [
+      'Perimeter Defense',
+      'Dangerous Tracks',
+      'Resource Valleys',
+      'Flawless Pairs',
+      'Twins Power',
+      'Think Ahead',
+      'Grid Search',
+      'Grid Minefield',
+      'To Arms!',
+    ],
+    5: [
+      'Power Points',
+      'Danger Valley',
+      'Sleepwalkers',
+      'Cannon Landing Force',
+      'Snowdrops',
+      'Reindeer Wakeup',
+      'Reindeer Spotter',
+      'Reindeer Tender',
+      'Ritual of Rectangling',
+      'Square Shield',
+      'Area of Yetis',
+      'Bits and Trits',
+    ]
+  }
+
+  courseModules[courseIDs.COMPUTER_SCIENCE_6] = {
+    1: 'Common Algorithms',
+    2: 'Vectors',
+    3: 'More Algorithms',
+    4: 'Data Structures',
+    5: 'Advanced Algorithms'
+  }
+
+  courseModuleLevels[courseIDs.COMPUTER_SCIENCE_6] = {
+    1: [
+      'Misty Island Mine',
+      'Grim Determination',
+      'Yeti Eater',
+      'Antipodes',
+      'The Hunt Begins',
+      'Yak Heist',
+      'Slumbering Sample',
+    ],
+    2: [
+      'Circle Walking',
+      'Skating Away',
+      'Brewball',
+      'Precision Kicking',
+      'Ice Soccer',
+      'Serpent Savings',
+      'Snowflakes on the Ice',
+    ],
+    3: [
+      'Ice Life',
+      'Coded Orders',
+      'Guess My Number',
+      'Form Up!',
+    ],
+    4: [
+      'First Out',
+      'Double Queue',
+      'Queue Manager',
+      'Key Stack',
+      'Stack Triage',
+      'Alchemic Stack',
+      'Linked Keys',
+      'Count Links',
+      'Gem by Gem',
+      'Wireless',
+      'Hashed Yaks',
+      'Hashing Magic',
+    ],
+    5: [
+      'Match Cord',
+      'Golden Choice',
+      'Kelvintaph Pillars',
+      'Fragile Maze',
+      'Treasured in Ice',
+      'Broken Circles',
+      'Bombing Run',
+      'Ace of Coders',
+    ]
+  }
 
   hourOfCodeOptions = {
-    campaignId: freeCampaignIds[0],
+    campaignId: freeCampaignIds[1],
     courseId: courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     name: 'Introduction to Computer Science',
     progressModalAfter: 1500000 // 25 mins
@@ -305,6 +929,7 @@ if (isCodeCombat) {
   }
 
   otherCourseIDs = {
+    JUNIOR: '65f32b6c87c07dbeb5ba1936',
     INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
     GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
     WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
@@ -332,6 +957,7 @@ if (isCodeCombat) {
     courseIDs.CHAPTER_FOUR
   ]
   otherOrderedCourseIDs = [
+    otherCourseIDs.JUNIOR,
     otherCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     otherCourseIDs.GAME_DEVELOPMENT_1,
     otherCourseIDs.WEB_DEVELOPMENT_1,
@@ -348,6 +974,7 @@ if (isCodeCombat) {
   // Harcoding module names for simplicity
   // Use db to store these later when we add sophisticated module functionality, right now its only used for UI
   courseModules = {}
+  courseModuleLevels = {}
   courseModules[courseIDs.CHAPTER_ONE] = {
     1: 'Introduction to Coding'
   }
@@ -382,6 +1009,7 @@ if (isCodeCombat) {
 }
 
 const allCourseIDs = _.assign(courseIDs, otherCourseIDs)
+const allFreeCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.CHAPTER_ONE]
 
 const courseNumericalStatus = {};
 (function () {
@@ -395,6 +1023,7 @@ const courseNumericalStatus = {};
 })()
 
 const courseAcronyms = {}
+courseAcronyms[allCourseIDs.JUNIOR] = 'JR'
 courseAcronyms[allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
 courseAcronyms[allCourseIDs.GAME_DEVELOPMENT_1] = 'GD1'
 courseAcronyms[allCourseIDs.WEB_DEVELOPMENT_1] = 'WD1'
@@ -543,8 +1172,27 @@ var i18n = function (say, target, language, fallback) {
   const matches = (/\w+/gi).exec(language)
   if (matches) { generalName = matches[0] }
 
+  const removeAI = function (str) {
+    // we have some objects as return value.
+    // when ai translation finished we can know how to deal with them
+    // now return first
+    if (!str) {
+      return str
+    }
+    if (typeof str === 'object') {
+      const newObject = {}
+      Object.keys(str).forEach((key) => {
+        newObject[key] = removeAI(str[key])
+      })
+      return newObject
+    }
+    if (typeof str !== 'string') {
+      return str
+    }
+    return str.replace(/^\[AI_TRANSLATION\]/, '')
+  }
   // Lets us safely attempt to translate undefined objects
-  if (!(say != null ? say.i18n : undefined)) { return (say != null ? say[target] : undefined) }
+  if (!(say != null ? say.i18n : undefined)) { return removeAI(say != null ? say[target] : undefined) }
 
   for (const localeName in say.i18n) {
     var result
@@ -553,18 +1201,18 @@ var i18n = function (say, target, language, fallback) {
     if (target in locale) {
       result = locale[target]
     } else { continue }
-    if (localeName === language) { return result }
+    if (localeName === language) { return removeAI(result) }
     if (localeName === generalName) { generalResult = result }
     if (localeName === fallback) { fallBackResult = result }
     if ((localeName.indexOf(language) === 0) && (fallForwardResult == null)) { fallForwardResult = result }
     if ((localeName.indexOf(generalName) === 0) && (fallSidewaysResult == null)) { fallSidewaysResult = result }
   }
 
-  if (generalResult != null) { return generalResult }
-  if (fallForwardResult != null) { return fallForwardResult }
-  if (fallSidewaysResult != null) { return fallSidewaysResult }
-  if (fallBackResult != null) { return fallBackResult }
-  if (target in say) { return say[target] }
+  if (generalResult != null) { return removeAI(generalResult) }
+  if (fallForwardResult != null) { return removeAI(fallForwardResult) }
+  if (fallSidewaysResult != null) { return removeAI(fallSidewaysResult) }
+  if (fallBackResult != null) { return removeAI(fallBackResult) }
+  if (target in say) { return removeAI(say[target]) }
   return null
 }
 
@@ -580,8 +1228,6 @@ const getByPath = function (target, path) {
 }
 
 const isID = id => _.isString(id) && (id.length === 24) && (__guard__(id.match(/[a-f0-9]/gi), x1 => x1.length) === 24)
-
-const isIE = () => __guard__(typeof $ !== 'undefined' && $ !== null ? $.browser : undefined, x1 => x1.msie) != null ? __guard__(typeof $ !== 'undefined' && $ !== null ? $.browser : undefined, x1 => x1.msie) : false
 
 const isRegionalSubscription = name => /_basic_subscription/.test(name)
 
@@ -954,6 +1600,12 @@ const sortCourses = courses => _.sortBy(courses, function (course) {
   return index
 })
 
+const sortOtherCourses = courses => _.sortBy(courses, function (course) {
+  let index = otherOrderedCourseIDs.indexOf(course.id != null ? course.id : course._id)
+  if (index === -1) { index = 9001 }
+  return index
+})
+
 const sortCoursesByAcronyms = function (courses) {
   const orderedCourseAcronyms = _.sortBy(courseAcronyms)
   return _.sortBy(courses, function (course) {
@@ -1301,7 +1953,7 @@ const arenas = [
   { season: 9, slug: 'storm-siege', type: 'regular', start: new Date('2023-09-01T00:00:00.000-07:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '64c792d1562b9a008d3e2e1a', tournament: '658cfc449ac7fb700b08d815', image: '/file/db/level/64c792d1562b9a008d3e2e1a/StormSiegeBannerv3.png' },
   { season: 9, slug: 'snowhold', type: 'championship', start: new Date('2023-12-01T00:00:00.000-08:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '654a306ba0c557007a807ead', tournament: '658cfc869ac7fb700b08d82c', image: '/file/db/level/654a306ba0c557007a807ead/SnowholdClashBannerv2.png' },
   { season: 10, slug: 'fierce-forces', type: 'regular', start: new Date('2024-01-01T00:00:00.000-08:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-10T07:00:00.000-07:00'), levelOriginal: '6576ff2b1457f600193d2cc9', image: '/file/db/level/6576ff2b1457f600193d2cc9/FierceForcesBannerNew.png' },
-  { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-10T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-10T07:00:00.000-07:00'), levelOriginal: '65f2618f757a82bcc90b7c9e', image: '/file/db/level/65f2618f757a82bcc90b7c9e/AntiGravityBanner.png' },
   { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
@@ -1394,7 +2046,90 @@ const freeAccessLevels = [
   { access: 'short', slug: '1fhm1l1l5b' },
   { access: 'short', slug: '1fhm1l1l6b' },
   { access: 'short', slug: '1fhm1l1l7b' },
-  { access: 'short', slug: '1fhm1l1l8b' }
+  { access: 'short', slug: '1fhm1l1l8b' },
+  // Test set of free CoCo Jr levels
+  { access: 'short', slug: 'the-gem' },
+  { access: 'short', slug: 'go-go-go' },
+  { access: 'short', slug: 'two-gems' },
+  { access: 'short', slug: 'elbow' },
+  { access: 'short', slug: 'shiny' },
+  { access: 'short', slug: 'gem-square' },
+  { access: 'short', slug: 'the-x' },
+  { access: 'short', slug: 'x-marks-the-spot' },
+  { access: 'short', slug: 'gems-first' },
+  { access: 'short', slug: 'walk-it-off' },
+  { access: 'short', slug: 'go-smart' },
+  { access: 'short', slug: 'steps' },
+  { access: 'short', slug: 'hiker' },
+  { access: 'short', slug: 'long-hall' },
+  { access: 'short', slug: 'step-change' },
+  { access: 'short', slug: 'go-around' },
+  { access: 'short', slug: 'big-gem-square' },
+  { access: 'short', slug: 'turns' },
+  { access: 'short', slug: 'snake-maze' },
+  { access: 'short', slug: 'one-block' },
+  { access: 'short', slug: 'knock-knock' },
+  { access: 'short', slug: 'open-and-shut' },
+  { access: 'short', slug: 'doors' },
+  { access: 'short', slug: 'open-up' },
+  { access: 'short', slug: 'airlock' },
+  { access: 'short', slug: 'no-keys' },
+  { access: 'short', slug: 'bad-guys' },
+  { access: 'short', slug: 'hall-monitor' },
+  { access: 'short', slug: 'clean-up' },
+  { access: 'short', slug: 'just-a-scratch' },
+  { access: 'short', slug: 'brave' },
+  { access: 'short', slug: 'wise' },
+  { access: 'short', slug: 'careful' },
+  { access: 'short', slug: 'heart-up' },
+  { access: 'short', slug: 'tough' },
+  { access: 'short', slug: 'one-at-a-time' },
+  { access: 'short', slug: 'choose-your-battles' },
+  { access: 'short', slug: 'spin-to-win' },
+  { access: 'short', slug: 'whirlwind' },
+  { access: 'short', slug: 'twister' },
+  { access: 'short', slug: 'vortex' },
+  { access: 'short', slug: 'busy-intersection' },
+  { access: 'short', slug: 'badder-guy' },
+  { access: 'short', slug: 'two-big' },
+  { access: 'short', slug: 'tornado' },
+  { access: 'short', slug: 'cyclone' },
+  { access: 'short', slug: 'hit-and-spin' },
+  { access: 'short', slug: 'hurricane' },
+  { access: 'short', slug: 'zap-gap' },
+  { access: 'short', slug: 'easy-pickings' },
+  { access: 'short', slug: 'advantage' },
+  { access: 'short', slug: 'hit-me-up' },
+  { access: 'short', slug: 'zap-it' },
+  { access: 'short', slug: 'target-practice' },
+  { access: 'short', slug: 'tnt' },
+  { access: 'short', slug: 'kaboom' },
+  { access: 'short', slug: 'back-up' },
+  { access: 'short', slug: 'monster' },
+  { access: 'short', slug: 'lure-it' },
+  { access: 'short', slug: 'its-a-trap' },
+  { access: 'short', slug: 'friends' },
+  { access: 'short', slug: 'careful-aim' },
+  { access: 'short', slug: 'chain-reaction' },
+  { access: 'short', slug: 'zap-master' },
+  { access: 'short', slug: 'loopy' },
+  { access: 'short', slug: 'more-times' },
+  { access: 'short', slug: 'right-up' },
+  { access: 'short', slug: 'square-wave' },
+  { access: 'short', slug: 'grabber' },
+  { access: 'short', slug: 'smasher' },
+  { access: 'short', slug: 'spin-eternally' },
+  { access: 'short', slug: 'down-the-line' },
+  { access: 'short', slug: 'tall-wave' },
+  { access: 'short', slug: 'clearing-the-way' },
+  { access: 'short', slug: 'restraint' },
+  { access: 'short', slug: 'fern' },
+  { access: 'short', slug: 'scratch-loop' },
+  { access: 'short', slug: 'regular-path' },
+  { access: 'short', slug: 'detonations' },
+  { access: 'short', slug: 'showdown' },
+  { access: 'short', slug: 'gem-weave' },
+  { access: 'short', slug: 'zap-smart' },
 ]
 
 const orgKindString = function (kind, org = null) {
@@ -1521,6 +2256,19 @@ const getProductUrl = function (product, url) {
   return url
 }
 
+const allowedLanguages= ({
+  [OZARIA]: ['javascript', 'python'],
+  [CODECOMBAT]: ['javascript', 'python', 'java', 'cpp']
+})[product]
+
+const getModuleNumberForLevelName = function (courseId, levelName) {
+  const moduleNumberByLevelName = Object.entries(courseModuleLevels[courseId]).reduce((acc, [k, v]) => {
+    v.forEach(l => acc[l] = k)
+    return acc
+  }, {})
+  return moduleNumberByLevelName[levelName] && Number(moduleNumberByLevelName[levelName])
+}
+
 module.exports = {
   activeAndPastArenas,
   activeArenas,
@@ -1530,6 +2278,7 @@ module.exports = {
   ageBracketsChina,
   ageOfConsent,
   ageToBracket,
+  allowedLanguages,
   anonymizingUser,
   arenas,
   bracketToAge,
@@ -1547,8 +2296,11 @@ module.exports = {
   courseAcronyms,
   courseIDs,
   allCourseIDs,
+  allFreeCourseIDs,
   courseModules,
+  courseModuleLevels,
   courseNumericalStatus,
+  coursesWithProjects,
   CSCourseIDs,
   WDCourseIDs,
   createLevelNumberMap,
@@ -1567,6 +2319,7 @@ module.exports = {
   getCourseBundlePrice,
   getCoursePraise,
   getDocumentSearchString,
+  getModuleNumberForLevelName,
   getPrepaidCodeAmount,
   getProduct,
   getProductName,
@@ -1586,7 +2339,6 @@ module.exports = {
   injectCSS,
   internalCampaignIds,
   isID,
-  isIE,
   isRegionalSubscription,
   isSmokeTestEmail,
   isValidEmail,
@@ -1606,6 +2358,7 @@ module.exports = {
   round,
   AILeagueSeasons,
   sortCourses,
+  sortOtherCourses,
   sortCoursesByAcronyms,
   stripIndentation,
   teamSpells,

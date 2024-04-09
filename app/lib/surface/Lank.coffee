@@ -504,6 +504,8 @@ module.exports = Lank = class Lank extends CocoClass
     if bar = @healthBar
       healthPct = Math.max(@thang.health / @thang.maxHealth, 0)
       bar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
+      if @thang.id is 'Hero Placeholder'
+        Backbone.Mediator.publish 'sprite:hero-health-updated', health: @thang.health, maxHealth: @thang.maxHealth
     if @thang.showsName
       @setNameLabel(if @thang.health <= 0 then '' else @thang.id)
     else if @options.playerName
@@ -723,8 +725,8 @@ module.exports = Lank = class Lank extends CocoClass
   onSetLetterbox: (e) ->
     @letterboxOn = e.on
 
-  setNameLabel: (name) ->
-    label = @addLabel 'name', Label.STYLE_NAME
+  setNameLabel: (name, style) ->
+    label = @addLabel 'name', style || Label.STYLE_NAME
     label.setText name
 
   updateLabels: ->

@@ -2,25 +2,25 @@ CocoClass = require 'core/CocoClass'
 createjs = require 'lib/createjs-parts'
 
 # Default parameters are using short name (char)
-DEFAULT_STYLE_CHAR = {dialogue: 'D', say: 'S', name: 'N', variable: 'V', text: 'T'}
+DEFAULT_STYLE_CHAR = {dialogue: 'D', say: 'S', name: 'N', variable: 'V', text: 'T', editor: 'E'}
 DEFAULT_LABEL_OPTIONS  = {
-  marginX: {D: 5, S: 6, N: 3, V: 0, T: 0},
-  marginY: {D: 6, S: 4, N: 3, V: 0, T: 0},
-  fontWeight: {D: 'bold', S: 'bold', N: 'bold', V: 'bold', T: 'bold'},
-  shadow: {D: false, S: true, N: true, V: true, T: false},
-  shadowColor: {D: '#FFF', S: '#000', N: '#000', V: "#000", T: "#FFF"},
-  fontSize: {D: 25, S: 12, N: 24, V: 18, T: 20},
-  lineSpacing: {D: 2, S: 2, N: 2, V: 2, T: 2},
-  fontFamily: {D: 'Arial', S: 'Arial', N: 'Arial', B: 'Arial', V: 'Arial', T: 'Arial'},
-  textAlign: {D: 'left', S: 'left', N: 'left', B: 'left', V: 'left', T: 'left'},
-  fontColor: {D: '#000', S: '#FFF', N: '#6c6', V: '#fff', T: '#000'},
-  backgroundFillColor: {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(0,0,0,0.7)', V: 'rgba(0,0,0,0.7)', T: 'rgba(0,0,0,0)'},
-  backgroundStrokeColor: {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)', V: 'rgba(0,0,0,0)', T: 'rgba(0,0,0,0)'},
-  backgroundStrokeStyle: {D: 2, S: 1, N: 1, V: 1, T: 0},
-  backgroundBorderRadius: {D: 10, S: 3, N: 3, V: 3, T: 0},
-  layerPriority: {D: 10, S: 5, N: 5, V: 5, T: 10},
-  maxWidth: {D: 300, S: 300, N: 180, V: 100, T: 100},
-  maxLength: {D: 100, S: 100, N: 30, V: 30, T: 100}
+  marginX: {D: 5, S: 6, N: 3, V: 0, T: 0, E: 0},
+  marginY: {D: 6, S: 4, N: 3, V: 0, T: 0, E: 0},
+  fontWeight: {D: 'bold', S: 'bold', N: 'bold', V: 'bold', T: 'bold', E: 'regular'},
+  shadow: {D: false, S: true, N: true, V: true, T: false, E: false},
+  shadowColor: {D: '#FFF', S: '#000', N: '#000', V: "#000", T: "#FFF", E: '#000'},
+  fontSize: {D: 25, S: 12, N: 24, V: 18, T: 20, E: 8},
+  lineSpacing: {D: 2, S: 2, N: 2, V: 2, T: 2, E: 2},
+  fontFamily: {D: 'Arial', S: 'Arial', N: 'Arial', B: 'Arial', V: 'Arial', T: 'Arial', E: 'Arial'},
+  textAlign: {D: 'left', S: 'left', N: 'left', B: 'left', V: 'left', T: 'left', E: 'left'},
+  fontColor: {D: '#000', S: '#FFF', N: '#6c6', V: '#fff', T: '#000', E: '#6c6'},
+  backgroundFillColor: {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(0,0,0,0.7)', V: 'rgba(0,0,0,0.7)', T: 'rgba(0,0,0,0)', E: 'rgba(0,0,0,0.8)'},
+  backgroundStrokeColor: {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)', V: 'rgba(0,0,0,0)', T: 'rgba(0,0,0,0)', E: 'rgba(0,0,0,0)'},
+  backgroundStrokeStyle: {D: 2, S: 1, N: 1, V: 1, T: 0, E: 0},
+  backgroundBorderRadius: {D: 10, S: 3, N: 3, V: 3, T: 0, E: 1},
+  layerPriority: {D: 10, S: 5, N: 5, V: 5, T: 10, E: 5},
+  maxWidth: {D: 300, S: 300, N: 180, V: 100, T: 100, E: 100},
+  maxLength: {D: 100, S: 100, N: 30, V: 30, T: 100, E: 50}
 }
 
 
@@ -32,6 +32,7 @@ module.exports = class Label extends CocoClass
   # Nick designed 'say' based off of Scott's 'name' back when they were using two systems
   @STYLE_VAR = 'variable'
   @STYLE_TEXT = 'text' # "Direct" label on the sprite pos without following screen caps
+  @STYLE_EDITOR = 'editor' # Like STYLE_NAME, but smaller, for use in level editor
 
   @BITMAP_SPACE = 20 # Size extenstion for speech bubbles for box pointers
 
@@ -114,9 +115,9 @@ module.exports = class Label extends CocoClass
     if @style isnt Label.STYLE_TEXT
       # 'text' is only non limited
       o.maxWidth = Math.max(@camera.canvasWidth / 2 - 100, o.maxWidth)
-    if @style is Label.STYLE_NAME and @sprite?.thang?.team is 'humans'
+    if (@style in [Label.STYLE_NAME, Label.STYLE_EDITOR]) and @sprite?.thang?.team is 'humans'
       o.fontColor = '#c66'
-    else if @style is Label.STYLE_NAME and @sprite?.thang?.team is 'ogres'
+    else if (@style in [Label.STYLE_NAME, Label.STYLE_EDITOR]) and @sprite?.thang?.team is 'ogres'
       o.fontColor = '#66c'
     # We allow to override options from thang.sayLabelOptions
     o = _.merge(o, @labelOptions)

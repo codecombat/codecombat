@@ -67,7 +67,6 @@ module.exports = class SpellView extends CocoView
     'tome:update-snippets': 'addAutocompleteSnippets'
     'tome:insert-snippet': 'onInsertSnippet'
     'tome:spell-beautify': 'onSpellBeautify'
-    'tome:maximize-toggled': 'onMaximizeToggled'
     'tome:toggle-blocks': 'onToggleBlocks'
     'tome:problems-updated': 'onProblemsUpdated'
     'script:state-changed': 'onScriptStateChange'
@@ -83,6 +82,9 @@ module.exports = class SpellView extends CocoView
     'level:close-solution': 'closeSolution'
     'level:streaming-solution': 'onStreamingSolution'
     'websocket:asking-help': 'onAskingHelp'
+    'playback:cinematic-playback-started': 'onCinematicPlaybackStarted'
+    'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded'
+    'blockly:clicked-block': 'onClickedBlock'
 
   events:
     'mouseout': 'onMouseOut'
@@ -111,10 +113,11 @@ module.exports = class SpellView extends CocoView
     @createACE()
     @createACEShortcuts()
     @hookACECustomBehavior()
-    if (me.isAdmin() or utils.getQueryVariable 'ai') and not @spectateView
-      @fillACESolution()
-    if @teaching
-      @fillACESolution()
+    unless @spectateView
+      try
+        @fillACESolution()
+      catch err
+        console.error("Could not fill ace solution:", err)
     @fillACE()
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
@@ -290,10 +293,6 @@ module.exports = class SpellView extends CocoView
       passEvent: true
       exec: ->  # just prevent default ACE go-to-line alert
     addCommand
-      name: 'open-fullscreen-editor'
-      bindKey: {win: 'Ctrl-Shift-M', mac: 'Command-Shift-M|Ctrl-Shift-M'}
-      exec: -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
-    addCommand
       # TODO: Restrict to beginner campaign levels like we do backspaceThrottle
       name: 'enter-skip-delimiters'
       bindKey: 'Enter|Return'
@@ -464,11 +463,11 @@ module.exports = class SpellView extends CocoView
       @awaitingBlockly = true
       return
     codeLanguage = @spell.language
-    @blocklyToolbox = blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage, level: @options.level })
+    @blocklyToolbox = blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage, codeFormat: @options.codeFormat, level: @options.level })
     # codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
-    @blocklyToolboxJS = if codeLanguage is 'javascript' then @blocklyToolbox else blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage: 'javascript', level: @options.level })
-    targetDiv = @$('#blockly-container')
-    blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: @blocklyToolbox })
+    @blocklyToolboxJS = if codeLanguage is 'javascript' then @blocklyToolbox else blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage: 'javascript', codeFormat: @options.codeFormat, level: @options.level })
+    targetDiv = @$('.blockly-container')
+    blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: @blocklyToolbox, codeLanguage, codeFormat: @options.codeFormat, product: @options.level.get('product') or 'codecombat' })
     @blockly = Blockly.inject targetDiv[0], blocklyOptions
     @blocklyActive = true
     blocklyUtils.initializeBlocklyTooltips()
@@ -486,26 +485,74 @@ module.exports = class SpellView extends CocoView
       @recompile()
     else
       # Initialize Blockly from the text code
+      @awaitingBlocklySerialization = true
       @aceToBlockly true
 
     @resizeBlockly()
 
   getBlocklySource: ->
-    blocklyUtils.getBlocklySource @blockly, @spell.language
+    blocklyUtils.getBlocklySource @blockly, { codeLanguage: @spell.language, product: @options.level.get('product', true) or 'codecombat' }
+
+  onClickedBlock: (e) ->
+    # We monkey-patch Blockly egregiously to make this work
+    return unless $(e.block).parents('.blocklyFlyout').length
+    return if e.block.classList?[0] is 'blocklyEditableText'  # Number?
+    # This is a block in the toolbox flyout. If we can, let's just directly add it to the end of our program.
+    blockNode = e.block
+    blockNode = blockNode.parentNode while not blockNode.dataset?.id and blockNode.parentNode
+    return unless blockNode.dataset?.id
+    # Method 1: try to create the block from the flyout
+    newBlock = blocklyUtils.createBlockById workspace: @blockly, id: blockNode.dataset.id, codeLanguage: @spell.language
+    return if newBlock
+    # Method 2: try to use its tooltip. Doesn't update if you changed the flyout block (for example, from "up" to "down")
+    blockSource = e.block.tooltip?.docFormatter?.doc?.example
+    if not blockSource
+      # Method 3: try to use our autocomplete snippets. (Should we even use this? Also doesn't update.)
+      method = e.text.trim().split(/\s/g)[0].trim()
+      matchingSnippet = _.find (_.values(@autocomplete?.snippetManager?.snippetMap?._ or {})), (snippet) ->
+        snippet.tabTrigger is method and snippet.autocompletePriority > 0  # Don't pull in auto-added snippets
+      blockSource = matchingSnippet?.content
+    return unless blockSource
+    source = @getSource()
+    lastLine = _.last(source.split('\n'))
+    indent = lastLine.match(/^\s*/)[0]
+    if /\S/.test(lastLine)
+      source += '\n' + indent
+    source += blockSource + '\n' + indent
+    @updateACEText source
+    @aceToBlockly()
+    if @options.level.get('product') is 'codecombat-junior'
+      @recompile()
+    null
 
   onBlocklyEvent: (e) =>
     # console.log "--------- Got Blockly Event #{e.type} ------------", e
     if e.type is Blockly.Events.FINISHED_LOADING
       @awaitingBlocklySerialization = false
 
-    if e.type in blocklyUtils.blocklyMutationEvents
-      @blocklyToAce()
+    return unless e.type in blocklyUtils.blocklyMutationEvents
+    { blocklySource, blocklySourceRaw } = @blocklyToAce e
+
+    return unless blocklySource and e.type in blocklyUtils.blocklyFinishedMutationEvents and blocklySource.trim().replace(/\n\s*\n/g, '\n') isnt @spell.source.trim().replace(/\n\s*\n/g, '\n')
+    return if e.type is Blockly.Events.BLOCK_MOVE and not ('drag' in (e.reason or []))  # Sometimes move event happens when blocks are moving around during a drag, but the drag isn't done
+
+    if blocklySourceRaw isnt blocklySource
+      # Blocks -> code processing introduced a significant change and should rewrite the blocks to match that change
+      # Example: removing newlines so that blocks snap together
+      @aceToBlockly(true)
+
+    if @options.level.get('product') is 'codecombat-junior'
+      # Immediate code execution on each significant block change that produces a program that differs by more than newlines
+      @recompile()
+    else
+      @notifySpellChanged()
+    return
 
   blocklyToAce: ->
-    return if @awaitingBlocklySerialization
-    return if @eventsSuppressed
-    return unless @blockly
-    { blocklyState, blocklySource, combined } = @getBlocklySource()
+    return {} if @awaitingBlocklySerialization
+    return {} if @eventsSuppressed
+    return {} unless @blockly
+    { blocklyState, blocklySource, combined, blocklySourceRaw } = @getBlocklySource()
     @lastBlocklyState = blocklyState
     aceSource = @getSource()
 
@@ -515,17 +562,19 @@ module.exports = class SpellView extends CocoView
     #@updateACEText combined
 
     # Just the code
-    return if blocklySource is aceSource
-    console.log 'B2A: Changing ace source from', aceSource, 'to', blocklySource, 'with state', blocklyState
+    return { blocklySource, blocklySourceRaw } if blocklySource is aceSource
+    #console.log 'B2A: Changing ace source from', aceSource, 'to', blocklySource, 'with state', blocklyState
     @updateACEText blocklySource
 
     if PERSIST_BLOCK_STATE and not @session.fake
       storage.save "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}", blocklyState
 
+    return { blocklySource, blocklySourceRaw }
+
   aceToBlockly: (force) =>
     return if @eventsSuppressed and not force
     return unless @blockly
-    { blocklyState, blocklySource } = @getBlocklySource()
+    { blocklyState, blocklySource, blocklySourceRaw } = @getBlocklySource()
     unless @codeToBlocksPrepData
       try
         @codeToBlocksPrepData = prepareBlockIntelligence { toolbox: @blocklyToolboxJS, blocklyState, workspace: @blockly }
@@ -533,9 +582,9 @@ module.exports = class SpellView extends CocoView
         console.error 'Error preparing Blockly code to blocks conversion:', err
         return
     aceSource = @ace.getValue()
-    return if not aceSource? or aceSource is blocklySource
+    return if aceSource and aceSource is blocklySourceRaw
     try
-      newBlocklyState = codeToBlocks { code: @ace.getValue(), codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
+      newBlocklyState = codeToBlocks { code: @ace.getValue(), originalCode: @spell.originalSource, codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
     catch err
       console.log "Couldn't parse code to get new blockly state:", err, '\nCode:', aceSource
       return
@@ -545,7 +594,7 @@ module.exports = class SpellView extends CocoView
       return
     else
       #console.log 'new blockly state', newBlocklyState, 'is different from last blockly state', @lastBlocklyState
-    console.log 'A2B: Changing blockly source from', blocklySource, 'to', aceSource
+    #console.log 'A2B: Changing blockly source from', blocklySource, 'to', aceSource
     @eventsSuppressed = true
     @awaitingBlocklySerialization = true
     #console.log 'would set to', newBlocklyState
@@ -560,7 +609,6 @@ module.exports = class SpellView extends CocoView
     if not lockDefaultCode or (_.isNumber(lockDefaultCode) and lockDefaultCode < me.level())
       return
     return unless @spell.source is @spell.originalSource or force
-    return if @isIE()  # Temporary workaround for #2512
     aceConfig = me.get('aceConfig') ? {}
     return if aceConfig.keyBindings and aceConfig.keyBindings isnt 'default'  # Don't lock in vim/emacs mode
 
@@ -689,7 +737,7 @@ module.exports = class SpellView extends CocoView
         keywords: false
         snippets: @autocompleteOn
       autoLineEndings:
-        javascript: ';'
+        javascript: if @options.level.get('product') is 'codecombat-junior' then '' else ';'
         java: ';'
         c_cpp: ';' # Match ace editor language mode
       popupFontSizePx: popupFontSizePx
@@ -701,6 +749,8 @@ module.exports = class SpellView extends CocoView
 
   reallyAddUserSnippets: (source, lang, session) ->
     return unless @autocomplete and @autocompleteOn
+    return if @options.level.get('product') is 'codecombat-junior'
+    return if me.level() < 15  # Don't do this until later, to avoid custom user snippets before they are useful
     newIdentifiers = aceUtils.parseUserSnippets(source, lang, session)
     # console.log 'debug newIdentifiers: ', newIdentifiers
     @autocomplete?.addCustomSnippets Object.values(newIdentifiers), @editorLang if @editorLang?
@@ -723,32 +773,6 @@ module.exports = class SpellView extends CocoView
     @spell.originalSource = newSource
     @updateACEText newSource
     _.delay (=> @recompile?()), 1000
-
-  createFirepad: ->
-    # Currently not called; could be brought back for future multiplayer modes.
-    # Load from firebase or the original source if there's nothing there.
-    return if @firepadLoading
-    @eventsSuppressed = true
-    @loaded = false
-    @previousSource = @ace.getValue()
-    @ace.setValue('')
-    @aceSession.setUndoManager(new UndoManager())
-    fireURL = 'https://codecombat.firebaseio.com/' + @spell.pathComponents.join('/')
-    @fireRef = new Firebase fireURL
-    firepadOptions = userId: me.id
-    @firepad = Firepad.fromACE @fireRef, @ace, firepadOptions
-    @firepadLoading = true
-    @firepad.on 'ready', =>
-      return if @destroyed
-      @firepadLoading = false
-      firepadSource = @ace.getValue()
-      if firepadSource
-        @spell.source = firepadSource
-      else
-        @ace.setValue @previousSource
-        @aceSession.setUndoManager(new UndoManager())
-        @ace.clearSelection()
-      @onAllLoaded()
 
   onAllLoaded: =>
     @fetchToken(@spell.source, @spell.language).then (token) =>
@@ -804,54 +828,75 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:spell-changed', spell: @spell
 
   notifyEditingEnded: =>
-    return if @destroyed or @aceDoc?.undergoingFirepadOperation  # from my Firepad ACE adapter
+    return if @destroyed
     Backbone.Mediator.publish 'tome:editing-ended', {}
 
   notifyEditingBegan: =>
-    return if @destroyed or @aceDoc?.undergoingFirepadOperation  # from my Firepad ACE adapter
+    return if @destroyed
     Backbone.Mediator.publish 'tome:editing-began', {}
 
-  updateSolutionLines: (screenLineCount, ace, aceCls, areaId) =>
+  updateSolutionLines: (ace, aceCls, areaId) =>
+    screenLineCount = ace.getSession().getScreenLength()
     # wrap the updateAceLine to avoid throttle mess up different params(aceCls)
     @updateAceLines(screenLineCount, ace, aceCls, areaId)
+    ace.resize(true)
 
   updateAceLines: (screenLineCount, ace=@ace, aceCls='.ace', areaId='#code-area') =>
+    # Figure out how many lines we should set ace to and update it.
+    # Also update spell palette size and position, if it is shown.
+    isCinematic = $('#level-view').hasClass('cinematic')
+    hasBlocks = @blocklyActive
+    tomePosition = if $('#tome-view').offset()?.top > 100 then 'bottom' else 'right'
     lineHeight = ace.renderer.lineHeight or 20
-    spellPaletteView = $('#tome-view #spell-palette-view-bot')
+    spellPaletteView = $('#tome-view #spell-palette-view')
     spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
-    if aceCls == '.ace'
-      spellPaletteHeight = spellPaletteView.outerHeight()
-    else
-      spellPaletteHeight = 0
+    controlBarHeight = $('#control-bar-view').outerHeight()
+    if spellTopBarHeight is 0 and parseInt($('#control-bar-view').css('left'), 10) > 0
+      # Spell top bar isn't there, but we've stacked level control bar above editor instead
+      spellTopBarHeight = controlBarHeight
+    spellPaletteHeight = switch
+      when hasBlocks then 0
+      when aceCls == '.ace' then spellPaletteView.find('.properties-this').outerHeight()
+      else 0
     windowHeight = $(window).innerHeight()
-    spellPaletteAllowedHeight = Math.min spellPaletteHeight, windowHeight / 2
-    topOffset = $(aceCls).offset().top
+    topOffset = $(aceCls).offset()?.top or 0
+    spellPaletteAllowedMinHeight = Math.min spellPaletteHeight, 0.4 * (windowHeight  - topOffset)
+    spellPaletteAllowedMinHeight = Math.max 150, spellPaletteAllowedMinHeight if spellPaletteHeight > 0  # At least room for four props
     gameHeight = $('#game-area').innerHeight()
     heightScale = if aceCls == '.ace' then 1 else 0.5
 
     # If the spell palette is too tall, we'll need to shrink it.
-    maxHeightOffset = 75
-    minHeightOffset = 175
-    maxHeight = Math.min(windowHeight, Math.max(windowHeight, 600)) - topOffset - spellPaletteAllowedHeight - maxHeightOffset
-    minHeight = Math.min maxHeight * heightScale, Math.min(gameHeight, Math.max(windowHeight, 600)) - spellPaletteHeight - minHeightOffset
+    maxHeightOffset = 0
+    minHeightOffset = if hasBlocks or isCinematic then 0 else 100
+    maxHeight = windowHeight - topOffset - spellPaletteAllowedMinHeight - maxHeightOffset
+    minHeight = Math.min maxHeight * heightScale, Math.min(gameHeight, windowHeight) - spellPaletteHeight - minHeightOffset
+    minHeight = maxHeight if hasBlocks or isCinematic
 
-    spellPalettePosition = if spellPaletteHeight > 0 then 'bot' else 'mid'
-    minLinesBuffer = if spellPalettePosition is 'bot' then 0 else 2
-    linesAtMinHeight = Math.max(8, Math.floor(minHeight / lineHeight - minLinesBuffer))
+    spellPaletteShown = spellPaletteHeight > 0
+    minLinesBuffer = if spellPaletteShown then 0 else 2
+    minLinesBuffer = 0 if hasBlocks or isCinematic
+    hardMinLines = if tomePosition is 'bottom' then 5 else 8
+    linesAtMinHeight = Math.max(hardMinLines, Math.floor(minHeight / lineHeight - minLinesBuffer))
     linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-    lines = Math.max linesAtMinHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), 8
+    lines = Math.max linesAtMinHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), hardMinLines
     lines = 8 if _.isNaN lines
 
     ace.setOptions minLines: lines, maxLines: lines
 
-    # If bot: move spell palette up, slightly overlapping us.
-    newTop = 185 + lineHeight * lines
-    if aceCls == '.ace'
-      spellPaletteView.css('top', newTop)
+    return unless spellPaletteShown and aceCls is '.ace'
+    # Move spell palette up, overlapping us a bit
+    spellTopMargin = parseInt(@$el.css('marginTop'), 10)
+    spellTopPadding = parseInt(@$el.css('paddingTop'), 10)
+    spellBottomPadding = parseInt(@$el.css('paddingBottom'), 10)
+    verticalOverlap = 10
+    newTop = spellTopMargin + spellTopPadding + lineHeight * lines + spellBottomPadding - verticalOverlap
+    spellPaletteAllowedMaxHeight = Math.min(spellPaletteHeight, Math.max(spellPaletteAllowedMinHeight, windowHeight - newTop - spellTopBarHeight))
+    spellPaletteView.css top: newTop
+    spellPaletteView.find('.properties-scroll-container').css height: Math.min(spellPaletteHeight, windowHeight - newTop - spellTopBarHeight)
 
-      codeAreaBottom = if spellPaletteHeight then windowHeight - (newTop + spellPaletteHeight + 20) else 0
-      $(areaId).css('bottom', codeAreaBottom)
-    #console.log { lineHeight, spellTopBarHeight, spellPaletteHeight, spellPaletteAllowedHeight, windowHeight, topOffset, gameHeight, minHeight, maxHeight, linesAtMinHeight, linesAtMaxHeight, lines, newTop, screenLineCount }
+    codeAreaBottom = if spellPaletteHeight then spellPaletteAllowedMaxHeight else 0
+    $(areaId).css('bottom', codeAreaBottom)
+    # console.log { lineHeight, spellTopBarHeight, controlBarHeight, spellPaletteHeight, windowHeight, topOffset, spellPaletteAllowedMinHeight, spellPaletteAllowedMaxHeight, gameHeight, heightScale, maxHeightOffset, minHeightOffset, minHeight, maxHeight, spellPaletteShown, minLinesBuffer, linesAtMinHeight, linesAtMaxHeight, lines, aceCls, areaId, codeAreaBottom, spellTopMargin, spellTopPadding, spellBottomPadding, verticalOverlap, newTop }
 
   updateLines: =>
     # Make sure there are always blank lines for the player to type on, and that the editor resizes to the height of the lines.
@@ -875,6 +920,90 @@ module.exports = class SpellView extends CocoView
     if @firstEntryToScrollLine? and @ace?.renderer?.$cursorLayer?.config
       @ace.scrollToLine @firstEntryToScrollLine, true, true
       @firstEntryToScrollLine = undefined
+
+    # Determine how wide the editor can/should be, in terms of max code line length in current code and solution
+    isJunior = @options.level.get('product', true) is 'codecombat-junior'
+    isWebDev = @options.level.isType('web-dev')
+    lineLengthWrappingComments = (line) =>
+      if @singleLineCommentOnlyRegex().test(line)
+        # 85% of CodeCombat solution lines are under 60 characters; longer ones are mostly comments, Java/C++, or advanced
+        return Math.min(line.length, 60)
+      return line.length
+    lineLengthWithoutComments = (line) =>
+      if @singleLineCommentOnlyRegex().test(line)
+        return 0
+      return line.length
+    currentCodeLineLengthFunction = if @blocklyActive then lineLengthWithoutComments else lineLengthWrappingComments
+    longestLineChars = Math.max @aceDoc.getAllLines().map(currentCodeLineLengthFunction)...
+    solution = store.getters['game/getSolutionSrc'](@spell.language)
+    if solution
+      longestLineChars = Math.max longestLineChars, solution.split('\n').map(lineLengthWithoutComments)...
+    wrapperIndentationChars = { cpp: 4, java: 8 }[@spell.language] or 0  # main, class + main
+    if longestLineChars < 8
+      # No (complete) lines of code yet, so let's guess at how long a line will be
+      # A long Junior line might be like this (28 characters):
+      # for (let i = 0; i < 5; ++i) {
+      # A long CodeCombat line might be like this (39 characters):
+      #     var enemy = hero.findNearestEnemy();
+      longestLineChars = (if isJunior then 30 else 40) + wrapperIndentationChars
+    longestLineChars = Math.max(longestLineChars, 40) if isWebDev
+    hardMinCodeChars = switch
+      when isJunior then 16 + wrapperIndentationChars
+      when @blocklyActive then 18 + wrapperIndentationChars
+      else 29  # Enough for two spell palette columns
+    hardMaxCodeChars = (if isJunior is 'codecombat-junior' then 40 else 80) + wrapperIndentationChars
+    desiredCodeChars = Math.min(hardMaxCodeChars, Math.max(hardMinCodeChars, longestLineChars + 1))
+    previousDesiredCodeChars = @codeChars?.desired
+    @codeChars = min: hardMinCodeChars, max: hardMaxCodeChars, desired: desiredCodeChars
+    resizing = false
+    if previousDesiredCodeChars and desiredCodeChars isnt previousDesiredCodeChars
+      if not @resizeWindowDebounced
+        resizeWindow = => $(window).trigger('resize') unless @destroyed
+        @resizeWindowDebounced = _.debounce resizeWindow, 600
+      resizing = true
+      @resizeWindowDebounced()
+
+    return unless @blocklyActive
+    # Determine how wide the workspace and toolbox can/should be
+    currentScale = @blockly.getScale()
+    desiredToolboxWidth = @$el.find('.blocklyFlyout').width() / currentScale
+    desiredWorkspaceWidth = Math.max desiredToolboxWidth + 30, @blockly.getBlocksBoundingBox().getWidth() + 40
+
+    # TODO: DRY from PlayLevelView
+    tomePosition = if $('#tome-view').offset()?.top > 100 then 'bottom' else 'right'
+    availableWidth = $(window).width()
+    availableWidth -= ($(window).height() - 50) * 924 / 589 if tomePosition is 'right'
+    availableWidth -= desiredCodeChars * 410.47 / 57 + 30 + 41 + 30 if @options.codeFormat is 'blocks-and-code'
+    availableWidth = Math.max availableWidth, $(window).width() * (if @options.codeFormat is 'blocks-and-code' then 0.2 else 0.3)
+    # Split the difference between current desires and the min/max with zoom, as low as 0.5 or as high as 1.5
+    if desiredToolboxWidth + desiredWorkspaceWidth > availableWidth
+      desiredScale = Math.max 0.5, Math.min 1, availableWidth / (desiredToolboxWidth + desiredWorkspaceWidth)
+    else if desiredToolboxWidth + desiredWorkspaceWidth < 0.8 * availableWidth
+      desiredScale = Math.max 1, Math.min 1.5, 0.8 * availableWidth / (desiredToolboxWidth + desiredWorkspaceWidth)
+    else
+      desiredScale = currentScale
+    desiredScale = (desiredScale + currentScale) / 2
+    if Math.abs(desiredScale - currentScale) > 0.02
+      @blockly.setScale desiredScale
+    else
+      desiredScale = currentScale
+    desiredToolboxWidth *= desiredScale
+    desiredWorkspaceWidth *= desiredScale
+
+    minToolboxWidth = 144
+    maxToolboxWidth = if isJunior then 221 else 346
+    @toolboxWidth = min: minToolboxWidth, max: maxToolboxWidth, desired: Math.min(maxToolboxWidth, Math.max(minToolboxWidth, desiredToolboxWidth))
+    minWorkspaceWidth = 128
+    maxWorkspaceWidth = if isJunior then 512 else 665
+    @workspaceWidth = min: minWorkspaceWidth, max: maxWorkspaceWidth, desired: Math.min(maxWorkspaceWidth, Math.max(minWorkspaceWidth, desiredWorkspaceWidth))
+    previousDesiredWorkspaceWidth = @workspaceWidth?.desired
+    if previousDesiredWorkspaceWidth and desiredWorkspaceWidth isnt previousDesiredWorkspaceWidth and not resizing
+      if not @resizeWindowDebounced
+        resizeWindow = => $(window).trigger('resize') unless @destroyed
+        @resizeWindowDebounced = _.debounce resizeWindow, 600
+      resizing = true
+      @resizeWindowDebounced()
+    return
 
   hideProblemAlert: ->
     return if @destroyed
@@ -953,12 +1082,9 @@ module.exports = class SpellView extends CocoView
 
   updateACEText: (source) ->
     @eventsSuppressed = true
-    if @firepad
-      @firepad.setText source
-    else
-      @ace.setValue source
-      @ace.clearSelection()
-      @aceSession.setUndoManager(new UndoManager())
+    @ace.setValue source
+    @ace.clearSelection()
+    @aceSession.setUndoManager(new UndoManager())
     @eventsSuppressed = false
     try
       @ace.resize true  # hack: @ace may not have updated its text properly, so we force it to refresh
@@ -1284,9 +1410,10 @@ module.exports = class SpellView extends CocoView
   onSpellCreated: (e) ->
     if e.spell.team is me.team
       # ace session won't get correct language mode when created. so we wait for 1.5s
+      # 2024.02.13 didn't find bug if no 1.5s delay. so try to shorten it to 0.5s
       setTimeout(() =>
         @addUserSnippets(e.spell.getSource(), e.spell.language, @ace?.getSession?())
-      , 1500)
+      , 500)
 
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
@@ -1577,7 +1704,7 @@ module.exports = class SpellView extends CocoView
     filters.darkenImage background, 'span.code-background', 0.8 unless @controlsEnabled
 
   onSpellBeautify: (e) ->
-    return unless @spellThang and (@ace.isFocused() or e.spell is @spell)
+    return unless @spellThang and (@ace.isFocused() or e.spell is @spell or not e.spell)
     ugly = @getSource()
     pretty = @spellThang.aether.beautify(ugly.replace /\bloop\b/g, 'while (__COCO_LOOP_CONSTRUCT__)').replace /while \(__COCO_LOOP_CONSTRUCT__\)/g, 'loop'
     @ace.setValue pretty
@@ -1636,11 +1763,7 @@ module.exports = class SpellView extends CocoView
     return unless @aceDiff
     @aceSolution.setValue e.code
     @aceSolution.clearSelection()
-    lineCount = e.code.split('\n').length
-    # if lineCount > @aceSolutionLastLineCount
-      # @aceSolutionLastLineCount = lineCount
-    @updateSolutionLines(lineCount, @aceSolution, '.ace-solution', '#solution-area')
-    @aceSolution.resize(true)
+    @updateSolutionLines(@aceSolution, '.ace-solution', '#solution-area')
 
   onStreamingSolution: (e) ->
     if e.finish
@@ -1676,9 +1799,6 @@ module.exports = class SpellView extends CocoView
         solution.style.opacity = 0
       , 1000)
 
-  onMaximizeToggled: (e) ->
-    _.delay (=> @resize()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
-
   onToggleBlocks: (e) ->
     return if e.blocks and @blocklyActive
     return if not e.blocks and not @blocklyActive
@@ -1704,6 +1824,7 @@ module.exports = class SpellView extends CocoView
     @lastScreenLineCount = null
     @updateLines()
     @resizeBlockly()
+    @updateSolutionLines(@aceSolution, '.ace-solution', '#solution-area')
 
   resizeBlockly: (repeat=true) ->
     return unless @blocklyActive
@@ -1729,6 +1850,7 @@ module.exports = class SpellView extends CocoView
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault
+    @renderSelectors('.programming-language')
 
   onInsertSnippet: (e) ->
     snippetCode = null
@@ -1831,16 +1953,33 @@ module.exports = class SpellView extends CocoView
           )
       )
 
+  onCinematicPlaybackStarted: (e) ->
+    return if @cinematic
+    @cinematic = true
+    console.log 'cinematic started, tb visible?', @blockly?.getToolbox()?.visible
+    console.log 'cinematic started, fo visible?', @blockly?.getFlyout()?.visible
+    @blockly?.getToolbox()?.setVisible false
+    @blockly?.getFlyout()?.setVisible false
+
+  onCinematicPlaybackEnded: (e) ->
+    return unless @cinematic
+    @cinematic = false
+    console.log 'cinematic ended, tb visible?', @blockly?.getToolbox()?.visible
+    console.log 'cinematic ended, fo visible?', @blockly?.getFlyout()?.visible
+    @blockly?.getToolbox()?.setVisible true
+    @blockly?.getFlyout()?.setVisible true
+    null
+
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click mouseenter', '.ace_error, .ace_warning, .ace_info'
     $(@ace?.container).find('.ace_gutter').off()
-    @firepad?.dispose()
     @blockly?.dispose()
     @ace?.commands.removeCommand command for command in @aceCommands
     @ace?.destroy()
     @aceDoc?.off 'change', @onCodeChangeMetaHandler
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
     @destroyAceEditor(@ace)
+    @destroyAceEditor(@aceSolution)
     @debugView?.destroy()
     @translationView?.destroy()
     @toolbarView?.destroy()

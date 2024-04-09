@@ -53,7 +53,6 @@ HintsView = require './HintsView'
 SurfaceContextMenuView = require './SurfaceContextMenuView'
 HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
-SpellPaletteViewMid = require './tome/SpellPaletteViewMid'
 store = require('core/store')
 
 require 'lib/game-libraries'
@@ -75,6 +74,7 @@ module.exports = class PlayLevelView extends RootView
   cache: false
   shortcutsEnabled: true
   isEditorPreview: false
+  codeFormat: 'text-code'
 
   subscriptions:
     'level:set-volume': 'onSetVolume'
@@ -103,13 +103,13 @@ module.exports = class PlayLevelView extends RootView
     'ipad:memory-warning': 'onIPadMemoryWarning'
     'store:item-purchased': 'onItemPurchased'
     'tome:manual-cast': 'onRunCode'
+    'tome:code-format-changed': 'onCodeFormatChanged'
     'world:update-key-value-db': 'updateKeyValueDb'
 
   events:
     'click #level-done-button': 'onDonePressed'
     'click #stop-real-time-playback-button': -> Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
     'click #stop-cinematic-playback-button': -> Backbone.Mediator.publish 'playback:stop-cinematic-playback', {}
-    'click #fullscreen-editor-background-screen': (e) -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
     'click .contact-link': 'onContactClicked'
     'contextmenu #webgl-surface': 'onSurfaceContextMenu'
     'click': 'onClick'
@@ -196,19 +196,28 @@ module.exports = class PlayLevelView extends RootView
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
 
-    blocksDefault = 'hidden'
-    blocksOverride = utils.getQueryVariable 'blocks'
-    if blocksOverride?
-      blocksDefault = { true: 'opt-out', false: 'hidden' }[blocksOverride] or blocksOverride
-    @classroomAceConfig = {liveCompletion: true, blocks: blocksDefault}  # default (home users, teachers, etc.)
+    codeFormat = 'text-code'
+    codeFormatOverride = utils.getQueryVariable('codeFormat') || utils.getQueryVariable('blocks')
+    if codeFormatOverride?
+      codeFormat = {
+        true: 'blocks-and-code',
+        false: 'text-code',
+        'blocks-icons': 'blocks-icons',
+        'blocks-text': 'blocks-text',
+        'blocks-and-code': 'blocks-and-code',
+        'text-code': 'text-code',
+        }[codeFormatOverride] or codeFormat
+    @classroomAceConfig = {liveCompletion: true, codeFormatDefault: codeFormat, classroomItems: true }  # default (home users, teachers, etc.)
     if @courseInstanceID
-      fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID")
+      fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID,classroomItems")
       @supermodel.trackRequest fetchAceConfig
       fetchAceConfig.then (classroom) =>
         @classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion ? true
-        @classroomAceConfig.blocks = classroom.aceConfig?.blocks ? blocksDefault
-        @tome?.determineBlocksSettings()
+        @classroomAceConfig.codeFormatDefault = classroom.aceConfig?.codeFormatDefault ? codeFormat
+        @classroomAceConfig.codeFormats = classroom.aceConfig?.codeFormats ? ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code']
+        @tome?.determineCodeFormat()
         @classroomAceConfig.levelChat = classroom.aceConfig?.levelChat ? 'none'
+        @classroomAceConfig.classroomItems = classroom?.classroomItems ? (!features?.china) # china classroomitems default to false and global default to true
         @teacherID = classroom.ownerID
 
         if @teaching and (not @teacherID.equals(me.id))
@@ -350,8 +359,8 @@ module.exports = class PlayLevelView extends RootView
       @howToPlayText = marked(@howToPlayText, { sanitize: true })
       @renderSelectors('#how-to-play-game-dev-panel')
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
-    @spellPalettePosition = @getSpellPalettePosition()
-    @$el.addClass 'no-api' if @spellPalettePosition is 'bot'
+    if @level.get('product') is 'codecombat-junior'
+      @$el.addClass 'junior'
     # TODO: Update terminology to always be opponentSession or otherSession
     # TODO: E.g. if it's always opponent right now, then variable names should be opponentSession until we have coop play
     @otherSession = @levelLoader.opponentSession
@@ -419,35 +428,6 @@ module.exports = class PlayLevelView extends RootView
     @goalManager.destroy()
     @initGoalManager()
 
-  getSpellPalettePosition: ->
-    return @spellPalettePosition if @spellPalettePosition
-    return position if position = utils.getQueryVariable('apis')
-    return 'mid' if @level.isType('game-dev', 'web-dev')
-    heroID = if @team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
-    return 'mid' unless heroThang = @world?.getThangByID(heroID)
-    programmablePropCount = 0
-    for propStorage in ['programmableProperties', 'programmableSnippets', 'moreProgrammableProperties']
-      programmablePropCount += heroThang[propStorage]?.length or 0
-    if programmablePropCount < 16
-      return 'bot'
-    else
-      return 'mid'
-
-  updateSpellPalette: (thang, spell) ->
-    return false unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
-    useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    @removeSubView @spellPaletteView if @spellPaletteView and not @spellPaletteView?.destroyed
-    @spellPaletteView = null
-    if @getSpellPalettePosition() is 'bot'
-      # We'l make it inside Tome instead
-      @$el.toggleClass 'no-api', true
-      return false
-    # We'll manage it here
-    @spellPaletteView = @insertSubView new SpellPaletteViewMid { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @session.get('codeLanguage'), session: @session, level: @level, courseID: @courseID, courseInstanceID: @courseInstanceID, useHero }
-    @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view
-    @$el.toggleClass 'no-api', false
-    return true
-
   insertSubviews: ->
     @hintsState = new HintsState({ hidden: true }, { @session, @level, @supermodel })
     store.commit('game/setHintsVisible', false)
@@ -455,21 +435,21 @@ module.exports = class PlayLevelView extends RootView
       store.commit('game/setHintsVisible', !newHiddenValue)
     )
     @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState, @classroomAceConfig, @teacherID}
-    @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
-    @insertSubView new GoalsView {level: @level, session: @session}
-    @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
+    @insertSubView new LevelPlaybackView {@session, @level} unless @level.isType('web-dev')
+    @insertSubView new GoalsView {@level, @session}
+    @insertSubView new LevelFlagsView {@levelID, @world} if @$el.hasClass 'flags'
     goldInDuelStatsView = @level.get('slug') in ['wakka-maul', 'cross-bones']
-    @insertSubView new GoldView {} unless @level.isType('web-dev', 'game-dev') or goldInDuelStatsView
+    @insertSubView new GoldView {} unless @level.isType('web-dev', 'game-dev') or goldInDuelStatsView or @level.get('product', true) isnt 'codecombat'
     @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
-    @insertSubView new HUDView {level: @level} unless @level.isType('web-dev')
-    @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
-    @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session, aceConfig: @classroomAceConfig
-    @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel, aceConfig: @classroomAceConfig
-    @insertSubView new SurfaceContextMenuView session: @session, level: @level
-    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isLadder()
-    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID, @classroomAceConfig}
+    @insertSubView new HUDView {@level} unless @level.isType('web-dev')
+    @insertSubView new LevelDialogueView {@level, sessionID: @session.id}
+    @insertSubView new ChatView {@levelID, sessionID: @session.id, @session, aceConfig: @classroomAceConfig}
+    @insertSubView new ProblemAlertView {@session, @level, @supermodel, aceConfig: @classroomAceConfig}
+    @insertSubView new SurfaceContextMenuView {@session, @level}
+    @insertSubView new DuelStatsView {@level, @session, @otherSession, @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView} if @level.isLadder()
+    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), @session, @level, @supermodel, @courseID, @courseInstanceID, @classroomAceConfig, @hintsState, @teacherID, @team }
     @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
-    @insertSubView @webSurface = new WebSurfaceView {level: @level, @goalManager} if @level.isType('web-dev')
+    @insertSubView @webSurface = new WebSurfaceView {@level, @goalManager} if @level.isType('web-dev')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
 
   initVolume: ->
@@ -499,7 +479,7 @@ module.exports = class PlayLevelView extends RootView
     return if @session
     Backbone.Mediator.publish "ipad:language-chosen", language: e.session.get('codeLanguage') ? "python"
     # Just the level and session have been loaded by the level loader
-    if e.level.isType('hero', 'hero-ladder', 'hero-coop') and not _.size(e.session.get('heroConfig')?.inventory ? {}) and e.level.get('assessment') isnt 'open-ended'
+    if e.level.usesSessionHeroInventory() and not _.size(e.session.get('heroConfig')?.inventory ? {})
       # Delaying this check briefly so LevelLoader.loadDependenciesForSession has a chance to set the heroConfig on the level session
       _.defer =>
         return if @destroyed or _.size(e.session.get('heroConfig')?.inventory ? {})
@@ -513,7 +493,11 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelLoaderLoaded: ->
     # Everything is now loaded
-    return unless @levelLoader.progress() is 1  # double check, since closing the guide may trigger this early
+    return unless @levelLoader?.progress() is 1  # double check, since closing the guide may trigger this early
+    if not @level
+      console.warn 'Warning: somehow level loader loaded without having grabbed level loader data first? Trying again soon.'
+      _.delay (=> @onLevelLoaderLoaded?()), 2000
+      return
 
     # Save latest level played.
     if not @observing and not @isEditorPreview and not @levelLoader.level.isType('ladder-tutorial')
@@ -546,6 +530,7 @@ module.exports = class PlayLevelView extends RootView
       levelType: @level.get('type', true)
       @gameUIState
       @level # TODO: change from levelType to level
+      resizeStrategy: 'wrapper-size'
     }
     @surface = new Surface(@world, normalSurface, webGLSurface, surfaceOptions)
     worldBounds = @world.getBounds()
@@ -553,7 +538,6 @@ module.exports = class PlayLevelView extends RootView
     @surface.camera.setBounds(bounds)
     @surface.camera.zoomTo({x: 0, y: 0}, 0.1, 0)
     @listenTo @surface, 'resize', ({ height }) ->
-      @$('#stop-real-time-playback-button').css({ top: height - 30 })
       @$('#how-to-play-game-dev-panel').css({ height })
 
   findPlayerNames: ->
@@ -577,12 +561,16 @@ module.exports = class PlayLevelView extends RootView
       @loadingView.startUnveiling()
       @loadingView.unveil true
     else
+      $(window).trigger 'resize'
       @scriptManager?.initializeCamera()
 
   onLoadingViewUnveiling: (e) ->
+    @unveiling = true
     @selectHero()
 
   onLoadingViewUnveiled: (e) ->
+    @unveiling = false
+    @unveiled = true
     if @level.isType('course-ladder', 'hero-ladder', 'ladder') or @observing
       # We used to autoplay by default, but now we only do it if the level says to in the introduction script.
       Backbone.Mediator.publish 'level:set-playing', playing: true
@@ -725,6 +713,216 @@ module.exports = class PlayLevelView extends RootView
 
   onWindowResize: (e) =>
     @endHighlight()
+    # See CodeCombat Devices x Layouts spreadsheet https://docs.google.com/spreadsheets/d/1AJ4vh-XwYF95RW0QLBXEGyi-xqVET6qCcaqyT_PZLJ4/edit#gid=0
+    windowWidth = $(window).innerWidth()
+    windowHeight = $(window).innerHeight()
+    windowAspectRatio = windowWidth / windowHeight
+    canvasAspectRatio = 924 / 589
+    # TODO: set the cinematic class here, depending on whether we are running, rather than setting it elsewhere and then deciding whether to do anything with it here and in CSS
+    product = @level?.get('product', true) or 'codecombat'
+    cinematic = product is 'codecombat' and @$el.hasClass('cinematic') and (windowAspectRatio < 2 or windowWidth <= 1366) and windowAspectRatio > 1
+    tomeLocation = switch
+      when @level?.isType('web-dev') then 'right'
+      when windowAspectRatio < 1 then 'bottom'
+      when windowAspectRatio < 1.35 and @codeFormat is 'blocks-and-code' and not cinematic then 'bottom'
+      else 'right'
+    workspaceLocation = switch
+      when not /blocks/.test(@codeFormat) then 'none'
+      when tomeLocation is 'bottom' and @codeFormat is 'blocks-and-code' then 'bottom-middle-third'
+      when tomeLocation is 'bottom' and @codeFormat isnt 'blocks-and-code' then 'bottom-left-half'
+      when cinematic then 'full-cinematic'
+      when @codeFormat is 'blocks-and-code' then 'middle-third'
+      else 'left-half'
+    toolboxLocation = switch
+      when not /blocks/.test(@codeFormat) or cinematic then 'none'
+      when tomeLocation is 'bottom' and @codeFormat is 'blocks-and-code' then 'bottom-right-third'
+      when tomeLocation is 'bottom' and @codeFormat isnt 'blocks-and-code' then 'bottom-right-half'
+      when @codeFormat is 'blocks-and-code' then 'right-third'
+      else 'right-half'
+    spellPaletteLocation = switch
+      when /blocks/.test(@codeFormat) or cinematic then 'none'
+      else 'bottom'
+    codeLocation = switch
+      when @codeFormat is 'blocks-and-code' and cinematic then 'none'
+      when @codeFormat is 'blocks-and-code' and tomeLocation is 'bottom' then 'bottom-left-third'
+      when @codeFormat is 'blocks-and-code' then 'left-third'
+      when @codeFormat is 'text-code' and cinematic then 'full-cinematic'
+      when @codeFormat is 'text-code' and not cinematic then 'full'
+      else 'none'
+    playButtonLocation = switch
+      when tomeLocation is 'bottom' then 'bottom-left'
+      when spellPaletteLocation is 'bottom' then 'middle'
+      else 'bottom'
+    minTomeHeight = switch
+      when cinematic then Math.max(windowHeight * 0.15, 150)
+      else Math.max(windowHeight * 0.25, 250)
+    # Used to think min/max/desired code/workspace/toolbox width would be handled here, but actually currently SpellView is figuring that out and changing block zoom levels as needed.
+    # Future work could be to also change font size and to move the relevant logic just to one place.
+    minCodeChars = @tome?.spellView?.codeChars?.desired  # Also have min available. TODO: be smart here about min vs. desired based on how much space we have
+    minCodeChars ?= switch
+      when @level?.isType('web-dev') then 80
+      # CoCo Jr might have a line like "for (let i = 0; i < 5; ++i) {"
+      when product is 'codecombat-junior' then 28
+      # Cinematic playback probably doesn't need to show long lines at full width, especially comments
+      when cinematic then 40
+      # 85% of CodeCombat solution lines are under 60 characters; longer ones are mostly comments, Java/C++, or advanced
+      else 60
+    maxCodeChars = @tome?.spellView?.codeChars?.max
+    maxCodeChars ?= if product is 'codecombat-junior' then 40 else 80
+    minCodeCharWidth = 410.47 / 57 # 7.201px, measured at default font size. Can we get down to 5 if we shrink, on small screens? Don't want to shrink on large screens.
+    maxCodeCharWidth = 24  # TODO: test and measure this, correlate to a font size
+    acePaddingGutterAndMargin = 30 + 41 + 30  # 30px left and right padding, 41px gutter with 10-99 lines of code
+    minCodeWidth = if codeLocation is 'none' then 0 else minCodeChars * minCodeCharWidth + acePaddingGutterAndMargin
+    maxCodeWidth = if codeLocation is 'none' then 0 else maxCodeChars * maxCodeCharWidth + acePaddingGutterAndMargin
+    minBlockChars = switch
+      when @codeFormat is 'blocks-icons' and product is 'codecombat-junior' then 4
+      when @codeFormat is 'blocks-icons' and cinematic then 6
+      when @codeFormat is 'blocks-icons' then 7
+      when product is 'codecombat-junior' then 30
+      else 35
+    maxBlockChars = switch
+      when @codeFormat is 'blocks-icons' and tomeLocation is 'bottom' then 15
+      when @codeFormat is 'blocks-icons' and product is 'codecombat-junior' then 8
+      when @codeFormat is 'blocks-icons' and product is 'codecombat' then 10
+      when product is 'codecombat-junior' then 40
+      else 50
+    minBlockCharWidth = if @codeFormat is 'blocks-icons' then 50 else 10
+    maxBlockCharWidth = if @codeFormat is 'blocks-icons' then 70 else 15
+    minWorkspaceWidth = @tome?.spellView?.workspaceWidth?.desired
+    minWorkspaceWidth ?= if workspaceLocation is 'none' then 0 else minBlockChars * minBlockCharWidth
+    maxWorkspaceWidth = @tome?.spellView?.workspaceWidth?.max
+    maxWorkspaceWidth ?= if workspaceLocation is 'none' then 0 else maxBlockChars * maxBlockCharWidth
+    minToolboxWidth = @tome?.spellView?.toolboxWidth?.desired
+    minToolboxWidth ?= if toolboxLocation is 'none' then 0 else minBlockChars * minBlockCharWidth
+    maxToolboxWidth = @tome?.spellView?.toolboxWidth?.max
+    maxToolboxWidth ?= if toolboxLocation is 'none' then 0 else maxBlockChars * maxBlockCharWidth
+    if not @unveiling and not @unveiled
+      # Just take up 43.5% of the right side of the screen; that's where level goals will be
+      minCodeWidth = 0.435 * windowWidth
+      minWorkspaceWidth = minToolboxWidth = 0
+    if @level?.isType('game-dev') and @$el.hasClass 'real-time'
+      # Game dev don't show the editor during playback
+      minCodeWidth = maxCodeWidth = minWorkspaceWidth = maxWorkspaceWidth = minToolboxWidth = maxToolboxWidth = 0
+    else if @$el.hasClass('real-time')  # and $el.hasClass('flags')
+      # Real-time submission (during flag levels or otherwise)
+      minCodeWidth = maxCodeWidth = minWorkspaceWidth = maxWorkspaceWidth = minToolboxWidth = maxToolboxWidth = 0
+
+    # Now determine if we should put the control bar as 'none', 'top', 'left', or 'right'.
+    # Right vs. left: put it on the right, unless it would lead to empty space below the canvas.
+    canvasHeightWhenControlBarRight = Math.min(windowHeight, (windowWidth - minCodeWidth - minWorkspaceWidth - minToolboxWidth) / canvasAspectRatio)
+    canvasWidthWhenControlBarRight = canvasHeightWhenControlBarRight * canvasAspectRatio
+    tomeWidthWhenControlBarRight = windowWidth - canvasWidthWhenControlBarRight
+    emptyHeightBelowCanvasWhenControlBarRight = windowHeight - canvasHeightWhenControlBarRight
+    controlBarLocation = switch
+      when @level?.isType('web-dev') then 'left'
+      when cinematic then 'none'
+      when tomeLocation is 'bottom' then 'top'
+      when tomeWidthWhenControlBarRight > 160 and emptyHeightBelowCanvasWhenControlBarRight <= 0 then 'right'
+      else 'left'
+    controlBarHeight = if cinematic then 0 else 50
+    canvasHeight = switch
+      when @level?.isType('web-dev') then windowHeight - controlBarHeight
+      when tomeLocation is 'bottom' then Math.min(windowHeight - minTomeHeight - controlBarHeight, windowWidth / canvasAspectRatio)
+      else Math.min(windowHeight - (if controlBarLocation is 'left' then controlBarHeight else 0), (windowWidth - minCodeWidth - minWorkspaceWidth - minToolboxWidth) / canvasAspectRatio)
+    canvasWidth = switch
+      when @level?.isType('web-dev') then windowWidth - minCodeWidth
+      else canvasHeight * canvasAspectRatio
+    emptyHeightBelowCanvas = switch
+      when tomeLocation is 'bottom' then 0
+      else windowHeight - canvasHeight - (if controlBarLocation is 'left' then controlBarHeight else 0)
+    emptyWidthLeftOfCanvas = switch
+      when tomeLocation is 'right' then 0
+      else (windowWidth - canvasWidth) / 2
+    controlBarWidth = switch
+      when controlBarLocation in ['none', 'left'] then canvasWidth
+      when controlBarLocation is 'right' then windowWidth - canvasWidth
+      else windowWidth
+    controlBarLeft = if controlBarLocation is 'right' then canvasWidth else 0
+    tomeOverlap = 6
+    tomeWidth = if tomeLocation is 'right' then windowWidth - canvasWidth + tomeOverlap else windowWidth
+    tomeHeight = switch
+      when tomeLocation is 'bottom' then windowHeight - canvasHeight - controlBarHeight
+      when cinematic then windowHeight
+      when controlBarLocation in ['right', 'top'] then windowHeight - controlBarHeight
+      else windowHeight
+    tomeTop = switch
+      when tomeLocation is 'bottom' then controlBarHeight + canvasHeight
+      when controlBarLocation is 'right' then 50
+      else 0
+    playButtonHeight = 46
+    workspaceWidth = switch
+      when workspaceLocation is 'none' then 0
+      when workspaceLocation in ['left-half', 'bottom-left-half'] then tomeWidth - minToolboxWidth
+      when workspaceLocation in ['middle-third', 'bottom-middle-third'] then (minWorkspaceWidth / (minWorkspaceWidth + minCodeWidth)) * (tomeWidth - minToolboxWidth)
+      else tomeWidth
+    workspaceHeight = if workspaceLocation is 'none' then 0 else tomeHeight - playButtonHeight
+    toolboxWidth = switch
+      when toolboxLocation is 'none' then 0
+      when toolboxLocation in ['right-half', 'bottom-right-half'] then minToolboxWidth
+      else minToolboxWidth
+    toolboxHeight = if toolboxLocation is 'none' then 0 else tomeHeight - playButtonHeight
+    spellPaletteWidth = if spellPaletteLocation is 'none' then 0 else tomeWidth
+    spellPaletteHeight = if spellPaletteLocation is 'none' then 0 else 150  # TODO: real spell palette height
+    codeWidth = switch
+      when codeLocation is 'none' then 0
+      when codeLocation in ['left-third', 'bottom-left-third'] then tomeWidth - workspaceWidth - toolboxWidth
+      else tomeWidth
+    codeHeight = if codeLocation is 'none' then 0 else tomeHeight - playButtonHeight
+    playbackLocation = if emptyHeightBelowCanvas > 15 then 'below' else 'bottom'
+    playbackHeight = 60  # Technically it's 60, it has funky margins and padding though for some overlap
+    playbackTopMargin = Math.min(emptyHeightBelowCanvas - 58, -5)
+    hudLocation = if emptyHeightBelowCanvas > 60 then 'below' else 'none'
+    footerTop = switch
+      when tomeLocation is 'bottom' then controlBarHeight + canvasHeight
+      when controlBarLocation is 'right' then canvasHeight + playbackHeight + playbackTopMargin
+      when @level?.isType('web-dev') then controlBarHeight + canvasHeight
+      else controlBarHeight + canvasHeight + playbackHeight + playbackTopMargin
+    footerShadowTop = switch
+      when @level?.isType('web-dev') then footerTop - 10
+      when playbackLocation is 'bottom' then footerTop - 10
+      else footerTop
+    duelStatsLeft = (canvasWidth - 500) / 2
+    duelStatsTop = canvasHeight - 60 + (if playbackLocation is 'below' then playbackTopMargin else -32)
+    dialogueLeft = if tomeLocation is 'bottom' then (canvasWidth - 417) / 2 else canvasWidth - 417 - 50
+    levelChatBottom = if controlBarLocation is 'right' then 40 else 5
+    gameDevTrackRight = windowWidth - canvasWidth + 12
+    stopRealTimePlaybackTop = canvasHeight - 30 - (if controlBarLocation is 'right' then 50 else 0)
+
+    # console.log 'Calculated PlayLevelView dimensions', { @codeFormat, windowWidth, windowHeight, canvasAspectRatio, minCodeChars, maxCodeChars, minCodeCharWidth, maxCodeCharWidth, minCodeWidth, maxCodeWidth, minBlockChars, maxBlockChars, minBlockCharWidth, maxBlockCharWidth, minWorkspaceWidth, maxWorkspaceWidth, minToolboxWidth, maxToolboxWidth, controlBarLocation, controlBarHeight, canvasHeight, canvasWidth, emptyHeightBelowCanvas, emptyWidthLeftOfCanvas, controlBarWidth, controlBarLeft, tomeOverlap, tomeWidth, tomeHeight, tomeTop, playButtonHeight, workspaceWidth, workspaceHeight, toolboxWidth, toolboxHeight, spellPaletteWidth, spellPaletteHeight, codeWidth, codeHeight, playbackLocation, playbackHeight, playbackTopMargin, hudLocation, footerTop, footerShadowTop, duelStatsLeft, duelStatsTop }
+
+    @$el[0].dataset.tomeLocation = tomeLocation
+    @$el[0].dataset.workspaceLocation = workspaceLocation
+    @$el[0].dataset.toolboxLocation = toolboxLocation
+    @$el[0].dataset.spellPaletteLocation = spellPaletteLocation
+    @$el[0].dataset.codeLocation = codeLocation
+    @$el[0].dataset.playButtonLocation = playButtonLocation
+    @$el[0].dataset.controlBarLocation = controlBarLocation
+    @$el[0].dataset.playbackLocation = playbackLocation
+    @$el[0].dataset.hudLocation = hudLocation
+
+    # Set the widths, heights, and positions on the appropriate elements
+    @$el.find('#canvas-wrapper').css width: canvasWidth, height: canvasHeight, left: emptyWidthLeftOfCanvas
+    @$el.find('#level-footer-shadow').css top: footerShadowTop
+    @$el.find('#control-bar-view').css width: controlBarWidth, height: controlBarHeight, left: controlBarLeft
+    @$el.find('#playback-view').css width: canvasWidth, marginTop: playbackTopMargin
+    @$el.find('#thang-hud').css width: canvasWidth
+    @$el.find('#thang-hud .center').css maxWidth: canvasWidth
+    @$el.find('#gold-view').css right: windowWidth - canvasWidth + 12, top: 12
+    @$el.find('#code-area').css width: tomeWidth, height: tomeHeight, top: tomeTop
+    @$el.find('#solution-area').css right: tomeWidth, width: tomeWidth, height: tomeHeight, top: tomeTop, bottom: 'unset', left: 'unset'
+    @$el.find('#solution-area').css right: 'unset', left: '-54px', top: 0, width: tomeWidth, height: 'auto' if tomeLocation is 'bottom'
+    @$el.find('#code-area #tome-view #spell-view .ace_editor').css width: codeWidth if /blocks/.test(@codeFormat)  # Let handle own height, and width if there are no blocks
+    @$el.find('#solution-area .ace_editor').css width: codeWidth if /blocks/.test(@codeFormat)  # do we need blocks hint?
+    @$el.find('#code-area #tome-view #spell-view .blockly-container').css width: workspaceWidth + toolboxWidth, height: workspaceHeight, left: codeWidth
+    @$el.find('#duel-stats-view').css left: duelStatsLeft, top: duelStatsTop
+    @$el.find('#level-dialogue-view').css left: dialogueLeft
+    @$el.find('#level-chat-view').css bottom: levelChatBottom
+    @$el.find('#game-dev-track-view').css right: gameDevTrackRight, top: 12
+    @$el.find('#stop-real-time-playback-button').css top: stopRealTimePlaybackTop
+
+    # TODO: figure out how to get workspace and toolbox to share width evenly
+
+    # TODO: set the font sizes on the appropriate elements (probably in SpellView)
 
   onDisableControls: (e) ->
     return if e.controls and not ('level' in e.controls)
@@ -961,3 +1159,9 @@ module.exports = class PlayLevelView extends RootView
   onRunCode: ->
     @updateKeyValueDb()
     store.commit('game/incrementTimesCodeRun')
+
+  onCodeFormatChanged: (e) ->
+    @codeFormat = e.codeFormat
+    if e.oldCodeFormat
+      @$el.removeClass(e.oldCodeFormat)
+    @$el.addClass(e.codeFormat)

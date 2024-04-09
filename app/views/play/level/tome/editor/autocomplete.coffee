@@ -1,5 +1,6 @@
 aceUtils = require 'core/aceUtils'
 ace = require('lib/aceContainer')
+{ translateJS } = require('lib/translate-utils')
 
 defaults =
   autoLineEndings:
@@ -76,6 +77,7 @@ module.exports = class Autocomplete
     @editor.commands.off 'afterExec', @doLiveCompletion  # Seems important to do
     @bgTokenizer?.stop?()  # Guessing
     @snippetManager?.unregister @oldSnippets if @oldSnippets?  # Guessing
+    @snippetManager?.unregister @oldCustomSnippets if @oldCustomSnippets?
 
   setAceOptions: () ->
     aceOptions =
@@ -220,20 +222,20 @@ module.exports = class Autocomplete
             editor.completer = new Autocomplete()
             getCompletionPrefix = @getCompletionPrefix
             editor.completer.gatherCompletions = (editor, callback) ->
-              session = editor.getSession();
-              pos = editor.getCursorPosition();
+              session = editor.getSession()
+              pos = editor.getCursorPosition()
 
-              prefix = getCompletionPrefix(editor);
+              prefix = getCompletionPrefix(editor)
 
-              @base = session.doc.createAnchor(pos.row, pos.column - prefix.length);
-              @base.$insertRight = true;
+              @base = session.doc.createAnchor(pos.row, pos.column - prefix.length)
+              @base.$insertRight = true
 
-              matches = [];
-              total = editor.completers.length;
+              matches = []
+              total = editor.completers.length
               editor.completers.forEach (completer, i) =>
                 completer.getCompletions(editor, session, pos, prefix, (err, results) =>
                   if (!err && results)
-                    matches = matches.concat(results);
+                    matches = matches.concat(results)
                   # Fetch prefix again, because they may have changed by now
                   callback(null, {
                     prefix: getCompletionPrefix(editor),
@@ -241,7 +243,7 @@ module.exports = class Autocomplete
                     finished: (--total == 0)
                   })
                 )
-              return true;
+              return true
 
           # Disable autoInsert and show popup
           editor.completer.autoSelect = true
@@ -319,12 +321,19 @@ module.exports = class Autocomplete
     fixLanguageSnippets = (doc, lang) ->
       usedAutocompleteReplacement = []
 
-      if lang in ['java', 'cpp'] and not doc?.snippets?[lang] and doc?.snippets?.javascript
-        doc.snippets[lang] = doc.snippets.javascript
-
-      if lang in ['lua', 'coffeescript', 'python'] and not doc?.snippets?[lang] and (doc?.snippets?.python or doc?.snippets?.javascript)
-          # These are mostly the same, so use the Python or JavaScript ones if language-specific ones aren't available
-        doc.snippets[lang] = doc?.snippets?.python or doc.snippets.javascript
+      if lang in ['lua', 'coffeescript', 'python', 'java', 'cpp'] and not doc?.snippets?[lang] and doc?.snippets?.javascript
+        # Automatically translate from the JavaScript snippet
+        doc.snippets[lang] = _.cloneDeep(doc.snippets.javascript)
+        doc.snippets[lang].tab = translateJS(doc.snippets[lang].tab, lang, false)
+        doc.snippets[lang].code = translateJS(doc.snippets[lang].code, lang, false)
+        if lang is 'python'
+          # Undo addition of quotes around object keys when it's actually autocomplete argument interpolation
+          # Ex.: hit('${1:up}') -> hit('${"1": up}') -> hit('${1:up}')
+          #      go('${1:up}', ${2:1}) -> go('${"1": up}', ${"2": 1}) -> go('${1:up}', ${2:1})
+          doc.snippets[lang].code = doc.snippets[lang].code.replace(/\${"(\d)": ?/g, '${$1:')
+      else if lang in ['lua', 'coffeescript', 'python'] and doc?.snippets?.python
+        # These are mostly the same, so use the Python if JavaScript or language-specific ones aren't available
+        doc.snippets[lang] = doc.snippets.python
 
       if doc?.snippets?[lang]
         name = doc.name
@@ -377,10 +386,12 @@ module.exports = class Autocomplete
         {doc, content, name} = fixLanguageSnippets(doc, e.language)
 
         if doc?.snippets?[e.language]
+          entryName = name
+          entryName = entryName.replace(/'/g, '"') if e.language in ['java', 'cpp']
           entry =
             content: content
             meta: $.i18n.t('keyboard_shortcuts.press_enter', defaultValue: 'press enter')
-            name: name
+            name: entryName
             tabTrigger: doc.snippets[e.language].tab
             importance: doc.autoCompletePriority ? 1.0
           haveFindNearestEnemy ||= name is 'findNearestEnemy'

@@ -190,8 +190,8 @@ module.exports = (BlockTestingView = (function () {
       // Initialize Blockly
       const testBlockly = { loaded: false, loading: false, div: testContainer.find('.blockly-container')[0] }
       testBlockly.load = () => {
-        const toolbox = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: testCase.codeLanguage })
-        const blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox })
+        const toolbox = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: testCase.codeLanguage, codeFormat: 'blocks-text' })
+        const blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox, codeLanguage: testCase.codeLanguage, codeFormat: 'blocks-text', renderer: 'thrasos', product: 'codecombat' })
         testBlockly.workspace = Blockly.inject(testBlockly.div, blocklyOptions)
         this.blocklyWorkspaces.push(testBlockly.workspace)
         testBlockly.loading = true
@@ -206,7 +206,7 @@ module.exports = (BlockTestingView = (function () {
           }
           // Blockly -> output ace
           // TODO: make sure it's the kind of change we want to do, we don't fire multiple changes for same source?
-          const { blocklyState, blocklySource } = blocklyUtils.getBlocklySource(testBlockly.workspace, testCase.codeLanguage)
+          const { blocklyState, blocklySource } = blocklyUtils.getBlocklySource(testBlockly.workspace, { codeLanguage: testCase.codeLanguage, product: 'codecombat' })
           console.log('New blockly state for', testCase.name, 'is', blocklyState)
           outputAce.setValue(blocklySource)
           outputAce.clearSelection()
@@ -256,9 +256,9 @@ module.exports = (BlockTestingView = (function () {
         // debugBlocklyWorkspace is currently needed so we can go from block JSON -> block -> block output code using workspaceToCode
         // TODO: try to just do valueToCode or something so we don't even need a workspace
         // codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
-        const toolboxJS = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: 'javascript' })
+        const toolboxJS = blocklyUtils.createBlocklyToolbox({ propertyEntryGroups, codeLanguage: 'javascript', codeFormat: 'blocks-text' })
         const debugBlocklyDiv = testContainer.find('.blockly-container-debug')[0]
-        const debugBlocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: toolboxJS })
+        const debugBlocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: toolboxJS, codeLanguage: 'javascript', codeFormat: 'blocks-text', renderer: 'thrasos', product: 'codecombat' })
         const debugBlocklyWorkspace = Blockly.inject(debugBlocklyDiv, debugBlocklyOptions)
         this.blocklyWorkspaces.push(debugBlocklyWorkspace)
         try {
@@ -310,7 +310,7 @@ module.exports = (BlockTestingView = (function () {
 
     runCodeToBlocks ({ testCase, code, codeLanguage, errorDiv, prepData, prepDataError }) {
       try {
-        const newBlocklyState = codeToBlocks({ code, codeLanguage, prepData })
+        const newBlocklyState = codeToBlocks({ code, originalCode: testCase.code, codeLanguage, prepData })
         if (!prepDataError) {
           $(errorDiv).text('').addClass('hide')
         }

@@ -2,6 +2,7 @@
 import { getDisplayPermission } from '../../../common/utils'
 import IconShareGray from '../common/icons/IconShareGray'
 import IconArchived from './icons/IconArchive'
+import utils from 'core/utils'
 
 export default {
   components: {
@@ -22,6 +23,14 @@ export default {
       type: String,
       required: true
     },
+    dateStart: {
+      type: String,
+      default: ''
+    },
+    dateEnd: {
+      type: String,
+      default: ''
+    },
     sharePermission: {
       type: String
     },
@@ -35,13 +44,55 @@ export default {
     languageImgSrc () {
       return `/images/ozaria/teachers/dashboard/png_icons/${this.language}.png`
     },
+
     languageName () {
       return { javascript: 'JavaScript', cpp: 'C++' }[this.language] || _.string.titleize(this.language)
+    },
+
+    classDateString () {
+      const currentYear = moment().year()
+      const isUSLocale = moment.locale() === 'en'
+
+      if (this.dateStart && this.dateEnd) {
+        const start = moment(this.dateStart)
+        const end = moment(this.dateEnd)
+
+        if (start.year() === end.year()) {
+          if (start.month() === end.month()) {
+            // Same month and year
+            if (start.year() === currentYear && isUSLocale) {
+              // Same as current year and US locale, format as "MMM D - D"
+              return `${start.format('MMM D')} - ${end.format('D')}`
+            } else {
+              // Different year or non-US locale, format as "ll - D"
+              return `${start.format('ll')} - ${end.format('D')}`
+            }
+          } else {
+            // Same year but different months
+            if (start.year() === currentYear && isUSLocale) {
+              // Same as current year and US locale, format as "MMM D - MMM D"
+              return `${start.format('MMM D')} - ${end.format('MMM D')}`
+            } else {
+              // Different year or non-US locale, format as "ll - ll"
+              return `${start.format('ll')} - ${end.format('ll')}`
+            }
+          }
+        } else {
+          // Different years, format as "ll - ll"
+          return `${start.format('ll')} - ${end.format('ll')}`
+        }
+      }
+
+      if (this.dateStart) {
+        return moment(this.dateStart).format('ll')
+      }
+
+      return this.dateCreated
     }
   },
 
   created () {
-    if (this.language && !['javascript', 'python'].includes(this.language)) {
+    if (this.language && !utils.allowedLanguages.includes(this.language)) {
       throw new Error(`Unexpected language prop passed into ClassInfoRow.vue. Got: '${this.language}'`)
     }
   },
@@ -65,7 +116,7 @@ export default {
     </div>
     <div class="stats-tab">
       <img src="/images/ozaria/teachers/dashboard/svg_icons/calendar.svg">
-      <span>{{ dateCreated }}</span>
+      <span>{{ classDateString }}</span>
     </div>
     <div
       v-if="sharePermission === 'read' || sharePermission === 'write'"

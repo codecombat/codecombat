@@ -11,7 +11,7 @@ import utils from 'core/utils'
 
 export default {
   metaInfo: {
-    meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1' }]
+    meta: [{ vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }]
   },
   components: {
     'united-states-school-form': UnitedStatesSchoolForm,

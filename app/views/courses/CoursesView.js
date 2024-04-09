@@ -129,8 +129,10 @@ module.exports = (CoursesView = (function () {
 
         if (me.get('role') === 'student') {
           const tournaments = new CocoCollection([], { url: `/db/tournaments?memberId=${me.id}`, model: Tournament })
+          this.reversedTournaments = []
           this.listenToOnce(tournaments, 'sync', () => {
             this.tournaments = (Array.from(tournaments.models).map((t) => t.toJSON()))
+            this.reversedTournaments = this.tournaments.slice().reverse()
             this.tournamentsByState = _.groupBy(this.tournaments, 'state')
             return this.renderSelectors('.student-profile-area')
           })
@@ -308,6 +310,22 @@ module.exports = (CoursesView = (function () {
       if (((left = me.get('courseInstances')) != null ? left : []).length === 0) { return true }
       if (this.nextLevelInfo != null ? this.nextLevelInfo.locked : undefined) { return true }
       return false
+    }
+
+    hasCodeNinjasEsportsCamp () {
+      return me.isCodeNinja() && _.find(this.classrooms?.models || [], classroom => classroom.get('type') === 'camp-esports')
+    }
+
+    hasOnlyCodeNinjasEsportsCamps () {
+      return me.isCodeNinja() && _.all(this.classrooms?.models || [], classroom => classroom.get('type') === 'camp-esports')
+    }
+
+    hasCodeNinjasJuniorCamp () {
+      return me.isCodeNinja() && _.find(this.classrooms?.models || [], classroom => classroom.get('type') === 'camp-junior')
+    }
+
+    hasOnlyCodeNinjasJuniorCamps () {
+      return me.isCodeNinja() && _.all(this.classrooms?.models || [], classroom => classroom.get('type') === 'camp-junior')
     }
 
     afterInsert () {

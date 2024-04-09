@@ -17,10 +17,13 @@ require('app/styles/play/menu/game-menu-modal.sass')
 if (utils.isOzaria) {
   submenuViews.push(require('ozaria/site/views/play/menu/OptionsView'))
 } else {
+  submenuViews.push(require('views/play/menu/MyCodeView'))
   submenuViews.push(require('views/play/menu/OptionsView'))
+  submenuViews.push(require('views/play/menu/ChangeLanguageView'))
 }
 
 const ModalView = require('views/core/ModalView')
+const CourseVideosModal = require('views/play/level/modal/CourseVideosModal')
 const CreateAccountModal = require('views/core/CreateAccountModal')
 const template = require('app/templates/play/menu/game-menu-modal')
 
@@ -39,7 +42,9 @@ module.exports = (GameMenuModal = (function () {
         'shown.bs.tab #game-menu-nav a': 'onTabShown',
         'click #change-hero-tab' () { return this.trigger('change-hero') },
         'click .auth-tab': 'onClickSignupButton',
-        'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
+        'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal',
+        'click .hints-button': 'onClickHintsButton',
+        'click .course-videos-button': 'onClickCourseVideosButton',
       }
     }
 
@@ -47,7 +52,9 @@ module.exports = (GameMenuModal = (function () {
       let left, left1
       super(options)
       this.level = this.options.level
+      this.classroomAceConfig = this.options.classroomAceConfig
       this.options.levelID = this.options.level.get('slug')
+      this.options.codeLanguage = this.options.session?.get('codeLanguage')
       this.options.startingSessionHeroConfig = $.extend({}, true, ((left = this.options.session.get('heroConfig')) != null ? left : {}))
       Backbone.Mediator.publish('music-player:enter-menu', { terrain: (left1 = this.options.level.get('terrain', true)) != null ? left1 : 'Dungeon' })
     }
@@ -55,32 +62,53 @@ module.exports = (GameMenuModal = (function () {
     getRenderData (context) {
       if (context == null) { context = {} }
       context = super.getRenderData(context)
-      const submenus = ['options']
+      const submenus = ['my-code', 'options']
       context.showTab = this.options.showTab != null ? this.options.showTab : submenus[0]
       context.iconMap = {
+        'my-code': 'list-alt',
         options: 'cog',
-        'save-load': 'floppy-disk'
+        'save-load': 'floppy-disk',
+      }
+      if (!this.showsChooseHero() && this.showsChangeLanguage()) {
+        submenus.push('change-language')
+        context.iconMap['change-language'] = 'globe'
       }
       context.submenus = submenus
       context.isCodeCombat = utils.isCodeCombat
       return context
     }
 
+    showsCourseVideos () {
+      return me.isStudent() && this.options.courseID === utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+    }
+
     showsChooseHero () {
-      if ((this.level != null ? this.level.isType('course') : undefined) && me.showHeroAndInventoryModalsToStudents() && ((this.level != null ? this.level.get('assessment') : undefined) !== 'open-ended')) { return true }
-      if (this.level != null ? this.level.isType('course', 'course-ladder', 'game-dev', 'web-dev', 'ladder') : undefined) { return false }
-      if ((this.level != null ? this.level.get('assessment') : undefined) === 'open-ended') { return false }
-      if (this.level != null ? this.level.usesConfiguredMultiplayerHero() : undefined) { return false }
-      return true
+      const useHero = this.level.usesSessionHeroThangType()
+      if (this.classroomAceConfig) {
+        return this.classroomAceConfig.classroomItems && useHero
+      }
+      return useHero
+    }
+
+    showsChangeLanguage () {
+      // web-dev change language do nothing
+      // student cannot change language unless they're playing ai-leauge ladder
+      return !this.level.isType('web-dev') && !(me.isStudent() && !this.level.isType('ladder'))
     }
 
     afterRender () {
       super.afterRender()
       for (const SubmenuView of Array.from(submenuViews)) { this.insertSubView(new SubmenuView(this.options)) }
-      const firstView = this.subviews.options_view
-      firstView.$el.addClass('active')
-      if (typeof firstView.onShown === 'function') {
-        firstView.onShown()
+      let firstView = this.subviews.my_code_view
+      if (utils.isOzaria) {
+        // ozaria still uses options_view
+        firstView = this.subviews.options_view
+      }
+      if (firstView) {
+        firstView.$el.addClass('active')
+        if (typeof firstView.onShown === 'function') {
+          firstView.onShown()
+        }
       }
       this.playSound('game-menu-open')
       return this.$el.find('.nano:visible').nanoScroller()
@@ -113,6 +141,19 @@ module.exports = (GameMenuModal = (function () {
       }
       this.playSound('game-menu-close')
       return Backbone.Mediator.publish('music-player:exit-menu', {})
+    }
+
+    onClickHintsButton () {
+      if (!this.options.hintsState) { return }
+      this.options.hintsState.set('hidden', !this.options.hintsState.get('hidden'))
+      window.tracker?.trackEvent('Hints Clicked', { category: 'Students', levelSlug: this.options.level.get('slug'), hintCount: this.options.hintsState.get('hints')?.length || 0 })
+      const event = { state: this.options.hintsState.get('hidden') }
+      this.hide()
+      Backbone.Mediator.publish('level:hints-button', event)
+    }
+
+    onClickCourseVideosButton (e) {
+      this.openModalView(new CourseVideosModal({ courseInstanceID: this.options.courseInstanceID, courseID: this.options.courseID }))
     }
 
     openCreateAccountModal (e) {

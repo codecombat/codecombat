@@ -1,10 +1,10 @@
 <script>
 import Panel from '../Panel/index.vue'
-import ModalNewClass from '../modals/ModalNewClass/index'
 import ModalAssignContent from '../modals/ModalAssignContent/index'
 import ModalAddStudents from '../modals/ModalAddStudents'
 import ModalRemoveStudents from '../modals/ModalRemoveStudents'
 import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
+import ModalEditClass from '../modals/ModalEditClass'
 
 import BaseCurriculumGuide from '../BaseCurriculumGuide'
 
@@ -13,12 +13,16 @@ import TitleBar from '../common/TitleBar'
 import LoadingBar from 'ozaria/site/components/common/LoadingBar'
 import { COMPONENT_NAMES } from '../common/constants.js'
 
+import utils from 'core/utils'
+
 import storage from 'core/storage'
 
 import { mapMutations, mapGetters } from 'vuex'
 import { FIRST_CLASS_STEPS, CREATE_CLASS_STEPS } from './teacherDashboardTours'
 import ModalTeacherDetails from '../modals/ModalTeacherDetails'
 import { hasSeenTeacherDetailModalRecently, markTeacherDetailsModalAsSeen } from '../../../common/utils'
+
+const Classroom = require('models/Classroom')
 const VueShepherd = require('vue-shepherd')
 
 const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
@@ -27,7 +31,7 @@ const SEEN_TEACHER_DETAILS_MODAL = 'seen-teacher-details-modal'
 export default {
   components: {
     Panel,
-    ModalNewClass,
+    ModalEditClass,
     ModalAssignContent,
     ModalAddStudents,
     ModalRemoveStudents,
@@ -53,7 +57,8 @@ export default {
       // // We may want to pull this out. For locality with dashboard this reduces abstraction.
       runningTour: null,
       createdFirstClass: false,
-      trialRequestLoading: true
+      trialRequestLoading: true,
+      newClassroom: new Classroom({ ownerID: me.id })
     }
   },
 
@@ -69,6 +74,14 @@ export default {
       trialRequest: 'trialRequest/properties',
       sharedClassrooms: 'teacherDashboard/getSharedClassrooms'
     }),
+
+    me () {
+      return me
+    },
+
+    isCodeCombat () {
+      return utils.isCodeCombat
+    },
 
     pageTitle () {
       if (this.showClassInfo) {
@@ -93,7 +106,7 @@ export default {
     },
 
     showClassInfo () {
-      return this.componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE || this.componentName === COMPONENT_NAMES.STUDENT_PROJECTS
+      return this.componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE || this.componentName === COMPONENT_NAMES.STUDENT_PROJECTS || this.componentName === COMPONENT_NAMES.STUDENT_ASSESSMENTS
     },
     allClassrooms () {
       return [...this.activeClassrooms, ...this.sharedClassrooms]
@@ -104,6 +117,12 @@ export default {
     $route (to, from) {
       if (to.params.classroomId !== from.params.classroomId && to.params.classroomId) {
         this.updateStoreOnNavigation()
+      }
+    },
+    showOnboardingModal (newVal) {
+      // skip the ozaria modal for coco users
+      if (this.isCodeCombat && newVal) {
+        this.closeOnboardingModal()
       }
     }
   },
@@ -123,7 +142,7 @@ export default {
 
   metaInfo () {
     return {
-      title: 'Ozaria - Teacher Dashboard'
+      title: $.i18n.t(`nav.${utils.getProduct()}_teacher_dashboard`)
     }
   },
 
@@ -338,10 +357,11 @@ export default {
       v-else-if="showOnboardingModal"
       @close="closeOnboardingModal"
     />
-    <modal-new-class
+    <modal-edit-class
       v-if="showNewClassModal"
+      :classroom="newClassroom"
       @close="closeShowNewModal"
-      @class-created="handleCreatedClass"
+      @created="handleCreatedClass"
     />
     <modal-assign-content
       v-if="showAssignContentModal"

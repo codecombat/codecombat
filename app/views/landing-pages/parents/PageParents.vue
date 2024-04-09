@@ -939,7 +939,7 @@ export default {
     return {
       title: (this.type === 'parents') ? undefined : this.$t('parents_landing_2.live_classes_title'),
       meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' }
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
       ]
     }
   },

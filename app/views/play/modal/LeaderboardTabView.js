@@ -14,6 +14,7 @@ const template = require('app/templates/play/modal/leaderboard-tab-view')
 const CocoCollection = require('collections/CocoCollection')
 const LevelSession = require('models/LevelSession')
 const fetchJson = require('core/api/fetch-json')
+const userUtils = require('lib/user-utils')
 
 class TopScoresCollection extends CocoCollection {
   static initClass () {
@@ -72,6 +73,16 @@ module.exports = (LeaderboardTabView = (function () {
     formatTopScores () {
       if (!(this.sessions != null ? this.sessions.models : undefined)) { return [] }
       const rows = []
+      const getName = (session) => {
+        if (userUtils.isCreatedViaLibrary()) {
+          if (session.id === me.id) {
+            return session.get('creatorName')
+          }
+          return 'anonymous'
+        } else {
+          return session.get('creatorName')
+        }
+      }
       for (const s of Array.from(this.sessions.models)) {
         const row = {}
         const score = _.find(s.get('state').topScores, { type: this.scoreType })
@@ -81,7 +92,7 @@ module.exports = (LeaderboardTabView = (function () {
         }
         row.ago = moment(scoreDate).fromNow()
         row.score = this.formatScore(score)
-        row.creatorName = s.get('creatorName')
+        row.creatorName = getName(s)
         row.creator = s.get('creator')
         row.session = s.id
         row.codeLanguage = s.get('codeLanguage')

@@ -1,5 +1,6 @@
 <script>
 import { mapState } from 'vuex'
+import utils from 'core/utils'
 
 export default {
   props: {
@@ -14,24 +15,12 @@ export default {
       currentSelectedClassroom: state => state.classroomId
     }),
 
+    isCodeCombat () {
+      return utils.isCodeCombat
+    },
+
     classesTabSelected () {
       return this.$route.path.startsWith('/teachers/classes') || this.$route.path === '/teachers'
-    },
-
-    studentProjectsSelected () {
-      return this.$route.path.startsWith('/teachers/projects')
-    },
-
-    licensesSelected () {
-      return this.$route.path.startsWith('/teachers/licenses')
-    },
-
-    resourceHubSelected () {
-      return this.$route.path.startsWith('/teachers/resources')
-    },
-
-    pdSelected () {
-      return this.$route.path.startsWith('/teachers/professional-development')
     },
 
     // Check for the "All Classes" dropdown menu button in the classesTab.
@@ -44,10 +33,35 @@ export default {
         return undefined
       }
       return this.currentSelectedClassroom
-    }
+    },
+
+    showStudentProjects () {
+      // TODO: do show the student projects if it is Code Ninjas, but not in a camp context
+      if (utils.isCodeCombat && me.isCodeNinja()) {
+        return false
+      }
+      return true
+    },
+
+    showPD () {
+      return !me.isCodeNinja()
+    },
+
+    showLicenses () {
+      return !me.isCodeNinja()
+    },
+
+    showAssessments () {
+      // TODO: do show the assessments if it is CodeNinjas, but not in a camp context
+      return utils.isCodeCombat && !me.isCodeNinja()
+    },
   },
 
   methods: {
+    isCurrentRoute (route) {
+      return this.$route.path.startsWith(route)
+    },
+
     trackEvent (e) {
       const eventName = e.target.dataset.action
       const eventLabel = e.target.dataset.label
@@ -75,7 +89,7 @@ export default {
     >
       <a
         id="ClassesDropdown"
-        :class="['dropdown-toggle', classesTabSelected ? 'current-route': '']"
+        :class="['dropdown-toggle', classesTabSelected ? 'current-route' : '']"
         href="#"
         role="button"
         data-toggle="dropdown"
@@ -90,7 +104,7 @@ export default {
         class="dropdown-menu"
         aria-labelledby="ClassesDropdown"
       >
-        <li :class="allClassesSelected ? 'selected': null">
+        <li :class="allClassesSelected ? 'selected' : null">
           <router-link
             tag="a"
             to="/teachers"
@@ -105,7 +119,7 @@ export default {
         <li
           v-for="classroom in classrooms"
           :key="classroom._id"
-          :class="classesTabSelected && classroomSelected === classroom._id ? 'selected': null"
+          :class="classesTabSelected && classroomSelected === classroom._id ? 'selected' : null"
         >
           <router-link
             tag="a"
@@ -122,12 +136,13 @@ export default {
       </ul>
     </li>
     <li
+      v-if="showStudentProjects"
       role="presentation"
       class="dropdown"
     >
       <a
         id="ProjectsDropdown"
-        :class="['dropdown-toggle', studentProjectsSelected ? 'current-route': '']"
+        :class="['dropdown-toggle', isCurrentRoute('/teachers/projects') ? 'current-route' : '']"
         href="#"
         role="button"
         data-toggle="dropdown"
@@ -146,7 +161,7 @@ export default {
         <li
           v-for="classroom in classrooms"
           :key="classroom._id"
-          :class="classroomSelected === classroom._id && studentProjectsSelected ? 'selected': null"
+          :class="classroomSelected === classroom._id && isCurrentRoute('/teachers/projects') ? 'selected' : null"
         >
           <router-link
             :to="`/teachers/projects/${classroom._id}`"
@@ -175,7 +190,7 @@ export default {
       <router-link
         id="ResourceAnchor"
         to="/teachers/resources"
-        :class="{ 'current-route': resourceHubSelected }"
+        :class="{ 'current-route': isCurrentRoute('/teachers/resources') }"
         data-action="Resource Hub: Nav Clicked"
         @click.native="trackEvent"
       >
@@ -183,11 +198,11 @@ export default {
         {{ $t('teacher_dashboard.resource_hub') }}
       </router-link>
     </li>
-    <li>
+    <li v-if="showLicenses">
       <router-link
         id="LicensesAnchor"
         to="/teachers/licenses"
-        :class="{ 'current-route': licensesSelected } "
+        :class="{ 'current-route': isCurrentRoute('/teachers/licenses') }"
         data-action="My Licenses: Nav Clicked"
         @click.native="trackEvent"
       >
@@ -195,11 +210,11 @@ export default {
         {{ $t('teacher_dashboard.my_licenses') }}
       </router-link>
     </li>
-    <li>
+    <li v-if="showPD">
       <router-link
         id="PDAnchor"
         to="/teachers/professional-development"
-        :class="{ 'current-route': pdSelected }"
+        :class="{ 'current-route': isCurrentRoute('/teachers/professional-development') }"
         data-action="PD: Nav Clicked"
         @click.native="trackEvent"
       >
@@ -207,6 +222,53 @@ export default {
         <!-- <div id="IconNew">New!</div> -->
         {{ $t('teacher_dashboard.pd_short') }}
       </router-link>
+    </li>
+    <li v-if="showAssessments">
+      <a
+        id="AssessmentsDropdown"
+        :class="['dropdown-toggle', isCurrentRoute('/teachers/projects') ? 'current-route' : '']"
+        href="#"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <div id="IconRubric" />
+        <span>{{ $t('teacher_dashboard.assessments_tab') }}</span>
+        <span class="caret" />
+      </a>
+      <ul
+        v-if="classrooms.length > 0"
+        class="dropdown-menu"
+        aria-labelledby="AssessmentsDropdown"
+      >
+        <li
+          v-for="classroom in classrooms"
+          :key="classroom._id"
+          :class="classroomSelected === classroom._id && isCurrentRoute('/teachers/assessments') ? 'selected' : null"
+        >
+          <router-link
+            :to="`/teachers/assessments/${classroom._id}`"
+            class="dropdown-item"
+            data-action="Student Assessments: Nav Clicked"
+            data-toggle="dropdown"
+            @click.native="trackEvent"
+          >
+            {{ classroom.name }}
+          </router-link>
+        </li>
+      </ul>
+      <ul
+        v-else
+        class="dropdown-menu"
+        aria-labelledby="AssessmentsDropdown"
+      >
+        <li>
+          <a class="dropdown-item disabled-item">
+            {{ $t('teacher_dashboard.no_classes_yet') }}
+          </a>
+        </li>
+      </ul>
     </li>
   </ul>
 </template>
@@ -227,31 +289,38 @@ export default {
 }
 
 /* Need aria-expanded for when user has mouse in the dropdown */
-#ProjectsDropdown:hover, #ProjectsDropdown.current-route, #ProjectsDropdown[aria-expanded="true"] {
+#ProjectsDropdown:hover,
+#ProjectsDropdown.current-route,
+#ProjectsDropdown[aria-expanded="true"] {
   #IconCapstone {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Blue.svg);
   }
 }
 
-#ClassesDropdown:hover, #ClassesDropdown.current-route, #ClassesDropdown[aria-expanded="true"]  {
+#ClassesDropdown:hover,
+#ClassesDropdown.current-route,
+#ClassesDropdown[aria-expanded="true"] {
   #IconMyClasses {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconMyClasses_Blue.svg);
   }
 }
 
-#LicensesAnchor:hover , #LicensesAnchor.current-route {
+#LicensesAnchor:hover,
+#LicensesAnchor.current-route {
   #IconLicense {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Blue.svg);
   }
 }
 
-#ResourceAnchor:hover, #ResourceAnchor.current-route {
+#ResourceAnchor:hover,
+#ResourceAnchor.current-route {
   #IconResourceHub {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Blue.svg);
   }
 }
 
-#PDAnchor:hover, #PDAnchor.current-route {
+#PDAnchor:hover,
+#PDAnchor.current-route {
   #IconPD {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_Blue.svg);
   }
@@ -272,6 +341,11 @@ export default {
   margin-top: -3px;
 }
 
+#IconAssessments {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/CheckMark.svg);
+  margin-top: -3px;
+}
+
 #IconNew {
   height: 32px;
   width: 32px;
@@ -286,7 +360,12 @@ export default {
   text-transform: capitalize;
 }
 
-#IconCapstone, #IconMyClasses, #IconLicense, #IconResourceHub, #IconPD {
+#IconCapstone,
+#IconMyClasses,
+#IconLicense,
+#IconResourceHub,
+#IconPD,
+#IconAssessments {
   height: 23px;
   width: 23px;
   display: inline-block;
@@ -304,7 +383,7 @@ export default {
   height: 35px;
   min-height: 35px;
 
-  & > li {
+  &>li {
     height: 35px;
     width: 230px;
     text-align: center;
@@ -317,7 +396,9 @@ export default {
     background-color: $twilight;
     border-radius: 10px 10px 0 0;
 
-    &.dropdown.open > a, & > a:hover, a.current-route {
+    &.dropdown.open>a,
+    &>a:hover,
+    a.current-route {
       background-color: #F2F2F2;
       color: $twilight;
       border: 1px solid #d8d8d8;
@@ -332,18 +413,18 @@ export default {
       height: 100%;
       padding: 0;
 
-      display:flex;
+      display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
 
-      & > img {
+      &>img {
         margin-top: -6px;
         margin-right: 13px;
       }
     }
 
-    & > a {
+    &>a {
       white-space: nowrap;
       padding: 3px 5px 0 5px;
       border-radius: 10px 10px 0 0;
@@ -370,6 +451,7 @@ export default {
     li .underline-item {
       border-bottom: 1px solid #ddd;
     }
+
     li .disabled-item {
       color: #979797;
       cursor: default;

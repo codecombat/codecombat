@@ -2,7 +2,6 @@ require('ozaria/site/styles/play/level/tome/spell-palette-view.sass')
 CocoView = require 'views/core/CocoView'
 {me} = require 'core/auth'
 SpellPaletteEntryView = require './SpellPaletteEntryView'
-SpellPaletteThangEntryView = require './SpellPaletteThangEntryView'
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
 ace = require('lib/aceContainer')
@@ -29,7 +28,7 @@ module.exports = class SpellPaletteView extends CocoView
     'transitionend': 'onTransitionEnd'
 
   initialize: (options) ->
-    {@level, @session, @thang, @useHero} = options
+    {@level, @session, @thang} = options
     @aceEditors = []
     @createPalette()
     $(window).on 'resize', @onResize
@@ -121,17 +120,8 @@ module.exports = class SpellPaletteView extends CocoView
 
 
   addEntry: (doc, section, subSection, shortenize=true, isSnippet=false, item=null, showImage=false) ->
-    if doc.type is 'spawnable'
-      thangName = doc.name
-      if @thang.spawnAliases[thangName]
-        thangName = @thang.spawnAliases[thangName][0]
-      info = @thang.buildables[thangName]
-      tt = _.find @tts, (t) -> t.get('original') is info?.thangType
-      if tt
-        new SpellPaletteThangEntryView doc: doc, section: section, subSection: subSection, thang: tt, buildable: info, buildableName: doc.name, shortenize: shortenize, language: @options.language, level: @options.level, useHero: @useHero
-    else
-      writable = (if _.isString(doc) then doc else doc.name) in (@thang.apiUserProperties ? [])
-      new SpellPaletteEntryView doc: doc, section: section, subSection: subSection, thang: @thang, shortenize: shortenize, isSnippet: isSnippet, language: @options.language, writable: writable, level: @options.level, item: item, showImage: showImage, useHero: @useHero
+    writable = (if _.isString(doc) then doc else doc.name) in (@thang.apiUserProperties ? [])
+    new SpellPaletteEntryView doc: doc, section: section, subSection: subSection, thang: @thang, shortenize: shortenize, isSnippet: isSnippet, language: @options.language, writable: writable, level: @options.level, item: item, showImage: showImage
 
   # This uses the legacy logic to publish event for auto completion in the code editor using programmable properties.
   # This can potentially be merged with the logic in organizePalette, but currently doing that makes it behave differently, so keeping it as it is for now

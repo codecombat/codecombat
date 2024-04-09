@@ -10,6 +10,22 @@
     padding-top: 0
     width: 750px
 
+    @media screen and (max-height: 430px)
+      margin-top: -38px
+
+    @media screen and (max-height: 390px)
+      margin-top: -77px
+
+    @media screen and (max-height: 375px)
+      margin-top: -94px
+
+    @media screen and (max-width: 667px)
+      transform: scale(0.8)
+      margin-left: -48px
+
+      @media screen and (max-height: 390px)
+        margin-top: -49px
+
     .modal-content
       position: relative
       margin-top: -251px
@@ -265,6 +281,21 @@
     position: relative
     text-align: left
 
+    &.codecombat-junior .total-wrapper#xp-wrapper
+      .total-label:not(.total-label-icon)
+        float: none
+        position: absolute
+        color: white
+        text-shadow: 0 1px black, 0 -1px black, 1px 0 black, -1px 0 black
+        left: 104px
+        top: 10px
+        z-index: 2
+
+      .xp-bar-outer
+        width: 110px
+        height: 30px
+        margin-top: 17px
+
     .total-wrapper
       position: absolute
       top: 18px
@@ -273,11 +304,23 @@
         left: 117px
         width: 300px
 
+        .total-label-icon
+          position: absolute
+          top: 0
+          right: 25px
+
+          img
+            height: 44px
+
       &#gem-wrapper
         left: 529px
 
         .total-label
           width: 90px
+          white-space: normal
+
+          img
+            height: 44px
 
       .total-count
         float: left
@@ -442,6 +485,16 @@
       line-height: 30px
       margin: 0 10px
 
+      &.codecombat-junior
+        span, img
+          opacity: 1
+
+        img
+          position: absolute
+          right: 49px
+          height: 38px
+          margin-top: -2px
+
     .ladder-submission-view
       display: inline-block
       color: white
@@ -562,28 +615,6 @@
   &.with-achievements
     #victory-text
       display: none
-
-html.no-borderimage
-  #hero-victory-modal
-    .modal-dialog
-      margin-top: 251px
-    .background-wrapper
-      border: 0
-      background: url("/images/pages/play/level/modal/victory_modal_background.png")
-      height: 713px
-
-    &.full-achievements
-      @media only screen and (max-height: 720px)
-        .modal-dialog
-          margin-top: 175px
-          #victory-header
-            background: transparent
-      @media only screen and (max-height: 640px)
-        .modal-dialog
-          margin-top: 121px
-          #victory-header
-            display: none
-
 
 body.ipad
   #hero-victory-modal
