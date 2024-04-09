@@ -270,7 +270,7 @@ export default {
         </li>
       </ul>
     </li>
-    <li>
+    <li v-if="false">
       <router-link
         id="AILeague"
         to="/teachers/ai-league"
