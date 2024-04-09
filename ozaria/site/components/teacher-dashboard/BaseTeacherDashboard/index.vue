@@ -734,6 +734,7 @@ export default {
 
   &__body {
     width: calc(100% - 250px);
+    border-left: 1px solid #979797;
 
     .teacher-dashboard__sidebar.collapsed+& {
       width: calc(100% - 50px);
@@ -748,17 +749,17 @@ export default {
   .collapse-button {
     cursor: pointer;
     position: absolute;
-    color: #f2f2f2;
+    color: #979797;
     right: 0;
     padding: 5px 0 5px 5px;
-    border: 1px solid #f2f2f2;
+    border: 1px solid #979797;
     border-radius: 5px 0 0 5px;
     margin-top: 10px;
     border-right: none;
 
     &:hover {
-      color: #979797;
-      border-color: #979797;
+      color: #000000;
+      border-color: #000000;
     }
 
     .left {
