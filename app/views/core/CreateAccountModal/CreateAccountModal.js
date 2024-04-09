@@ -202,6 +202,9 @@ module.exports = (CreateAccountModal = (function () {
           } else if (this.signupState.get('path') === 'teacher') {
             return this.signupState.set({ screen: 'choose-account-type' })
           } else {
+            if (this.signupState.get('path') === 'individual' && features?.china) {
+              return this.signupState.set({ screen: 'choose-account-type' })
+            }
             return this.signupState.set({ screen: 'segment-check' })
           }
         },
@@ -294,6 +297,10 @@ module.exports = (CreateAccountModal = (function () {
 
     afterRender () {
       super.afterRender()
+
+      if (this.signupState.get('path') === 'individual' && features?.china && this.signupState.get('screen') === 'segment-check') {
+        this.signupState.set({ birthday: '2005-01-01', screen: 'basic-info' })
+      }
       const target = this.$el.find('#teacher-signup-component')
       if (!target[0]) { return }
       if (this.teacherSignupComponent) {
