@@ -5404,6 +5404,7 @@ module.exports = {
       start_application: 'Start Application',
       codequest: 'CodeQuest',
       date: 'Date',
+      date_time: 'July 22 - July 27, 2024',
       supporting_text: 'Join us for an immersive educational experience like no other, designed to inspire and empower the next generation of computer science innovators through coding and AI. Students aged 13-17 are welcome.',
       apply_now: 'Apply Now',
       insight: 'An insightful real-world learning experience!',

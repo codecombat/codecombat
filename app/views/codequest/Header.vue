@@ -8,7 +8,8 @@
             <span class="span">2024 </span>
           </p>
           <p class="date-text">
-            <span class="text-wrapper"> {{ $t('codequest_page.date') }}:</span> July 22 - July 27, 2024
+            <span class="text-wrapper"> {{ $t('codequest_page.date') }}:</span>
+            {{ $t('codequest_page.date_time') }}
           </p>
           <p class="supporting-text">
             {{ $t('codequest_page.supporting_text') }}

@@ -45,7 +45,7 @@
     />
     <DayCard
       :day-title="$t('codequest_page.schedule_day_title_6')"
-      date="07/27/2024"
+      :date="china ? '07/28/2024' : '07/27/2024'"
       :event-title="$t('codequest_page.schedule_event_title_1')"
       :event-subtitle="$t('codequest_page.schedule_event_sub_title_6')"
       image-src="/images/pages/codequest/schedule/arrival.svg"
@@ -61,6 +61,11 @@ export default {
   name: 'ScheduleComponent',
   components: {
     DayCard
+  },
+  computed: {
+    china () {
+      return features?.china
+    }
   }
 }
 </script>
