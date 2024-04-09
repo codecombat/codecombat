@@ -114,37 +114,42 @@ module.exports = class VerifierTest extends CocoClass {
     return this.solution != null ? this.solution : (this.solution = this.levelLoader.session.solution)
   }
 
+  prepareTestingLevel (level) {
+    const hero = this.world.getThangByID('Hero Placeholder')
+    level.constrainHeroHealth = true
+    if (!this.clampedProperties.inited) {
+      this.clampedProperties = {
+        inited: true,
+        // min
+        maxHealth: { prop: 'maxHealth', check: 'min', current: 1, lower: 5, upper: hero.maxHealth },
+        maxSpeed: { prop: 'maxSpeed', check: 'min', current: 1, lower: 3, upper: hero.maxSpeed },
+        attackDamage: { prop: 'attackDamage', check: 'min', current: 1, lower: 4, upper: hero.attackDamage || 13 },
+        // max
+        maxxSpeed: { prop: 'maxSpeed', check: 'max', current: 1, lower: hero.maxSpeed, upper: 50 },
+        maxxAttackDamage: { prop: 'attackDamage', check: 'max', current: 1, lower: hero.attackDamage || 13, upper: 500 }
+      }
+    }
+    const prop = this.checkPropKeys[this.checkPropIndex]
+    // check max/min at first. if that work, we do not need to find better one
+    if (this.clampedProperties[prop].check === 'min') {
+      this.clampedProperties[prop].current = this.clampedProperties[prop].lower
+    } else {
+      this.clampedProperties[prop].current = this.clampedProperties[prop].upper
+    }
+    console.log(prop, 'new current: ', this.clampedProperties[prop].current)
+    // let find min first
+
+    level.recommendedHealth = this.clampedProperties.maxHealth.current
+    level.maximumHealth = this.clampedProperties.maxHealth.current
+    level.clampedProperties = level.clampedProperties || {}
+    level.clampedProperties[this.clampedProperties[prop].prop] = {}
+    level.clampedProperties[this.clampedProperties[prop].prop][this.clampedProperties[prop].check] = this.clampedProperties[prop].current
+  }
+
   setupGod () {
     const level = this.level.serialize({ supermodel: this.supermodel, session: this.session, otherSession: null, headless: true, sessionless: false })
-    const hero = this.world.getThangByID('Hero Placeholder')
     if (this.checkClampedProperties) {
-      level.constrainHeroHealth = true
-      if (!this.clampedProperties.inited) {
-        this.clampedProperties = {
-          inited: true,
-          // min
-          maxHealth: { prop: 'maxHealth', check: 'min', current: 1, lower: 5, upper: hero.maxHealth },
-          maxSpeed: { prop: 'maxSpeed', check: 'min', current: 1, lower: 3, upper: hero.maxSpeed },
-          attackDamage: { prop: 'attackDamage', check: 'min', current: 1, lower: 4, upper: hero.attackDamage || 13 },
-          // max
-          maxxSpeed: { prop: 'maxSpeed', check: 'max', current: 1, lower: hero.maxSpeed, upper: 50 },
-          maxxAttackDamage: { prop: 'attackDamage', check: 'max', current: 1, lower: hero.attackDamage || 13, upper: 500 }
-        }
-      }
-      const prop = this.checkPropKeys[this.checkPropIndex]
-      if (this.clampedProperties[prop].check === 'min') {
-        this.clampedProperties[prop].current = Math.floor((this.clampedProperties[prop].upper + this.clampedProperties[prop].lower) / 2)
-      } else {
-        this.clampedProperties[prop].current = Math.ceil((this.clampedProperties[prop].upper + this.clampedProperties[prop].lower) / 2)
-      }
-      console.log(prop, 'new current: ', this.clampedProperties[prop].current)
-      // let find min first
-
-      level.recommendedHealth = this.clampedProperties.maxHealth.current
-      level.maximumHealth = this.clampedProperties.maxHealth.current
-      level.clampedProperties = level.clampedProperties || {}
-      level.clampedProperties[this.clampedProperties[prop].prop] = {}
-      level.clampedProperties[this.clampedProperties[prop].prop][this.clampedProperties[prop].check] = this.clampedProperties[prop].current
+      this.prepareTestingLevel(level)
     }
     this.god.setLevel(level)
     this.god.setLevelSessionIDs([this.session.id])
@@ -239,9 +244,19 @@ module.exports = class VerifierTest extends CocoClass {
         const mid = this.clampedProperties[prop].current
         if (this.isSuccessful()) {
           if (this.clampedProperties[prop].check === 'min') {
-            this.clampedProperties[prop].upper = mid
+            if (this.clampedProperties[prop].current === this.clampedProperties[prop].lower) {
+              console.log('min value is working, exit')
+              return setTimeout(this.cleanup, 100)
+            } else {
+              this.clampedProperties[prop].upper = mid
+            }
           } else {
-            this.clampedProperties[prop].lower = mid
+            if (this.clampedProperties[prop].current === this.clampedProperties[prop].upper) {
+              console.log('max value is working, exit')
+              return setTimeout(this.cleanup, 100)
+            } else {
+              this.clampedProperties[prop].lower = mid
+            }
           }
         } else {
           if (this.clampedProperties[prop].check === 'min') {
