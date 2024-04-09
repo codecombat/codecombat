@@ -407,7 +407,6 @@ module.exports = (CocoRouter = (function () {
         privacy: go('PrivacyView'),
 
         'professional-development': go('core/SingletonAppVueComponentView'),
-        'ai-league': go('core/SingletonAppVueComponentView'),
 
         pd: go('core/SingletonAppVueComponentView'),
         efficacy: go('core/SingletonAppVueComponentView'),
