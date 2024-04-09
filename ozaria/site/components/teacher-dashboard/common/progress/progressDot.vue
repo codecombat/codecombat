@@ -251,7 +251,7 @@ export default {
 .green-dot {
   background-color: #2dcd38;
   &.locked, &.locked-by-previous, &.locked-with-timeframe {
-    background-color: rgba(#2dcd38, 0.2);
+    background-color: rgba(#2dcd38, 0.35);
   }
 }
 
