@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="title">
-      The Student Experience
+      {{ $t('codequest_page.content_title') }}
     </div>
     <CoreCurriculum />
   </div>
