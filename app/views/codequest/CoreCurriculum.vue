@@ -1,173 +1,110 @@
 <template>
   <div class="core-curriculum">
     <p class="heading">
-      <span class="text-wrapper">Multiple </span>
-      <span class="span">hackathon competitions</span>
-      <span class="text-wrapper"> designed to </span>
-      <span class="span">inspire creativity</span>
-      <span class="text-wrapper"> in coding and </span>
-      <span class="span">teach real world applications of AI</span>.
+      <span class="text-wrapper">{{ $t('codequest_page.core_curriculum_heading_1') }}</span>
+      <span class="span">{{ $t('codequest_page.core_curriculum_heading_2') }}</span>
+      <span class="text-wrapper">{{ $t('codequest_page.core_curriculum_heading_3') }}</span>
+      <span class="span">{{ $t('codequest_page.core_curriculum_heading_4') }}</span>
+      <span class="text-wrapper">{{ $t('codequest_page.core_curriculum_heading_5') }}</span>
+      <span class="span">{{ $t('codequest_page.core_curriculum_heading_6') }}</span>.
     </p>
     <div class="content">
       <Box
         image="/images/pages/codequest/rectangle-233.webp"
-        title="AI HackStack Project Challenge"
-        text="The first generative AI companion tool specifically crafted for those new to AI, enables students to go from text-to-code-to-output instantaneously. <br /><br /> Competitors will be partnered with other students to develop a project using AI prompting and present for judging."
+        :title="$t('codequest_page.core_curriculum_title_1')"
+        :text="$t('codequest_page.core_curriculum_text_1')"
       />
       <Box
         image="/images/pages/codequest/rectangle-233-2.webp"
-        title="AI League CodeQuest Global Final"
-        text="An epic competitive coding esports platform that encourages creative programming in a game-based environment. <br /><br /> Competitors will be partnered with other students to develop the optimal code to outwit the other teams, collect head-to-head wins and finish atop the leaderboard."
+        :title="$t('codequest_page.core_curriculum_title_2')"
+        :text="$t('codequest_page.core_curriculum_text_2')"
       />
     </div>
     <p class="heading">
-      <span class="text-wrapper">Hackathons will be held at </span>
-      <span class="span">renowned universities</span>, offering a unique experience for students to
-      <span class="span">immerse</span>
-      <span class="text-wrapper"> themselves in the </span>
-      <span class="span">collegiate setting</span>.
+      <span class="text-wrapper">{{ $t('codequest_page.core_curriculum_heading_11') }}</span>
+      <span class="span">{{ $t('codequest_page.core_curriculum_heading_12') }}</span>,
+      <span class="text-wrapper">{{ $t('codequest_page.core_curriculum_heading_13') }}</span>
+      <span class="span">{{ $t('codequest_page.core_curriculum_heading_14') }}</span>
+      <span class="text-wrapper">{{ $t('codequest_page.core_curriculum_heading_15') }}</span>
+      <span class="span">{{ $t('codequest_page.core_curriculum_heading_16') }}</span>.
     </p>
     <div class="content">
       <Box
         image="/images/pages/codequest/cc2-1.webp"
         symbol-image="/images/pages/codequest/cc2-b.webp"
-        :text="`Globally acclaimed for its cutting-edge research and innovation, UC Berkeley provides comprehensive and
-              rigorous computer science programs. These programs enhance creative problem-solving skills and encourage
-              a deeper understanding of computational theory, equipping individuals to be transformative leaders in
-              the rapidly evolving tech industry.`"
+        :text="$t('codequest_page.core_curriculum_text_11')"
       />
 
       <Box
         image="/images/pages/codequest/cc2-2.webp"
         symbol-image="/images/pages/codequest/cc2-s.webp"
-        :text="`Recognized worldwide as a leader in technology and innovation, Stanford offers robust programs
-                in
-                computer science, fostering creative thinking and a deep understanding of theoretical
-                foundation,
-                preparing individuals to become pioneering leaders in computer science and technology.`"
+        :text="$t('codequest_page.core_curriculum_text_12')"
       />
     </div>
     <p class="heading">
-      <span class="text-wrapper">Our roster of speakers offer </span>
-      <span class="span">unparalleled insight</span>
-      <span class="text-wrapper">
-        into what it takes to pursue success in computer science and will help judge the competitions.
-      </span>
+      <span class="text-wrapper"> {{ $t('codequest_page.core_curriculum_heading_21') }}</span>
+      <span class="span"> {{ $t('codequest_page.core_curriculum_heading_22') }}</span>
+      <span class="text-wrapper"> {{ $t('codequest_page.core_curriculum_heading_23') }}</span>
     </p>
 
     <div class="content horizontal">
       <Box
         image="/images/pages/codequest/cc3-uc-berkley.webp"
-        title="UC Berkeley Featured Speaker"
-        :text="`
-                            While immersed in the collegiate setting of this storied university, students will be welcomed by
-            representatives from the Department of Electrical Engineering and Computer Sciences at UC Berkeley, who
-            will provide a glimpse into the extensive research and cutting edge developments in computer science
-            happening right here on campus. Students will gain insight into what it is like to be a part of these
-            research programs and what career pathways can be realized.
-            `"
+        :title="$t('codequest_page.core_curriculum_title_21')"
+        :text="$t('codequest_page.core_curriculum_text_21')"
         arrangement="horizontal"
         :has-padding="true"
       />
 
       <Box
         image="/images/pages/codequest/cc3-x.webp"
-        title="Google X - The Moonshot Factory Featured Speaker"
-        :text="`
-                                                        In 2010, Google founders Larry Page and Sergey Brin decided to form a new division of the
-                            company to
-                            work on moonshots: far-out, sci-fi sounding technologies that could one day make the world a
-                            radically
-                            better place. 10 years in, X has incubated hundreds of different moonshot projects, many of
-                            which have
-                            gone on to become independent businesses. Hear how this diverse group of inventors and
-                            entrepreneurs
-                            build and launch technologies that aim to improve the lives of millions, even billions, of
-                            people.
-            `"
+        :title="$t('codequest_page.core_curriculum_title_22')"
+        :text="$t('codequest_page.core_curriculum_text_22')"
         arrangement="horizontal"
         :has-padding="true"
       />
 
       <Box
         image="/images/pages/codequest/cc3-cc.webp"
-        title="Nick Winter, CEO, CodeCombat"
-        :text="`
-                            Nick is the founder and CEO of CodeCombat. A proven leader in the edtech industry, Nick blends
-                            his
-                            passion for education with his technological expertise to make learning programming more
-                            accessible and
-                            engaging for students across the globe. Prior to CodeCombat, he co-founded Skritter, a platform
-                            for
-                            learning Chinese and Japanese characters. With a strong commitment to revolutionize the
-                            education
-                            sector, Nick actively contributes to making coding a fundamental skill for the future
-                            generation. His
-                            dedication and vision continue to inspire and impact the realm of edtech.
-            `"
+        :title="$t('codequest_page.core_curriculum_title_23')"
+        :text="$t('codequest_page.core_curriculum_text_23')"
         arrangement="horizontal"
         :has-padding="true"
       />
 
       <Box
         image="/images/pages/codequest/cc3-apple.webp"
-        title="Apple Tech Development Workshop"
-        :text="`
-                            Hear first hand from a panel of venture capitalists and tech leaders as they detail the process
-                            for
-                            building a global tech platform and creating a successful business plan. This interactive
-                            presentation
-                            will pull back the curtain on what it's like to build the next great piece of tech and how to
-                            launch
-                            it.
-            `"
+        :title="$t('codequest_page.core_curriculum_title_24')"
+        :text="$t('codequest_page.core_curriculum_text_24')"
         arrangement="horizontal"
         :has-padding="true"
       />
     </div>
     <p class="heading">
-      <span class="text-wrapper">San Francisco and Silicon Valley offer students the unique opportunity to </span>
-      <span class="span">experience life at a tech giant</span>
-      <span class="text-wrapper"> and </span>
-      <span class="span">explore the sights of the city</span>.
+      <span class="text-wrapper"> {{ $t('codequest_page.core_curriculum_heading_31') }}</span>
+      <span class="span"> {{ $t('codequest_page.core_curriculum_heading_32') }}</span>
+      <span class="text-wrapper"> {{ $t('codequest_page.core_curriculum_heading_33') }}</span>
+      <span class="span"> {{ $t('codequest_page.core_curriculum_heading_34') }}</span>.
     </p>
     <div class="content">
       <Box
         image="/images/pages/codequest/cc4-1.webp"
-        title="Visit Google HQ &amp; X- The Moonshot Factory"
-        :text="`
-              Located in Mountain View California, the Google campus offers a unique glimpse into the heart of Silicon
-              Valley innovation. Students will encounter whimsical architecture, a multitude of collaborative
-              workspaces, and tech-driven art installations that inspire creativity and provide a peek at what working
-              in tech could be like. This exclusive tour will visit X - The Moonshot Factory to see how this
-              innovative team inside of Google is creating radical new technologies to solve some of the world’s
-              hardest problems.
-            `"
+        :title="$t('codequest_page.core_curriculum_title_31')"
+        :text="$t('codequest_page.core_curriculum_text_31')"
         frame-image="/images/pages/codequest/cc4-google.webp"
       />
       <Box
         image="/images/pages/codequest/cc4-2.webp"
-        title="Apple Park HQ Visit &amp; Workshop"
-        :text="`
-              Apple Park is the global headquarters for the innovative tech&nbsp;&nbsp;giant and a must visit
-              attraction when in San Fransisco. Students will experience Steve Jobs’ “Garage Culture” that inspired
-              Apple to become the largest company in the world, and join a workshop with venture capitalists and tech
-              leaders, to hear first hand what it takes to build a global tech platform and create your own business
-              plan.
-            `"
+        :title="$t('codequest_page.core_curriculum_title_32')"
+        :text="$t('codequest_page.core_curriculum_text_32')"
         frame-image="/images/pages/codequest/cc4-apple.webp"
       />
     </div>
     <div class="content horizontal">
       <Box
         image="/images/pages/codequest/cc4-3.jpeg"
-        title="San Francisco Tour"
-        :text="`
-              Students have the opportunity to immerse themselves in the diverse and dynamic charm of San Francisco.
-              From the iconic Golden Gate Bridge and historic Alcatraz Island to the bustling piers and serene parks,
-              there&#39;s adventure at every turn. A visit to San Francisco is a fascinating blend of natural beauty,
-              urban sophistication, and rich cultural heritage, promising an unforgettable experience.
-            `"
+        :title="$t('codequest_page.core_curriculum_title_33')"
+        :text="$t('codequest_page.core_curriculum_text_33')"
         :main-image-bg="true"
       />
     </div>
