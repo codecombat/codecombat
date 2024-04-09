@@ -208,6 +208,9 @@ export default {
 */
 .size-container {
   display: inline-block;
+  position: sticky;
+  position: -webkit-sticky; /* Safari */
+  left: 0;
 }
 
 #stickyHeader {
