@@ -207,9 +207,9 @@ module.exports = class PlayLevelView extends RootView
         'blocks-and-code': 'blocks-and-code',
         'text-code': 'text-code',
         }[codeFormatOverride] or codeFormat
-    @classroomAceConfig = {liveCompletion: true, codeFormatDefault: codeFormat }  # default (home users, teachers, etc.)
+    @classroomAceConfig = {liveCompletion: true, codeFormatDefault: codeFormat, classroomItems: true }  # default (home users, teachers, etc.)
     if @courseInstanceID
-      fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID")
+      fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID,classroomItems")
       @supermodel.trackRequest fetchAceConfig
       fetchAceConfig.then (classroom) =>
         @classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion ? true
@@ -217,6 +217,7 @@ module.exports = class PlayLevelView extends RootView
         @classroomAceConfig.codeFormats = classroom.aceConfig?.codeFormats ? ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code']
         @tome?.determineCodeFormat()
         @classroomAceConfig.levelChat = classroom.aceConfig?.levelChat ? 'none'
+        @classroomAceConfig.classroomItems = classroom?.classroomItems ? (!features?.china) # china classroomitems default to false and global default to true
         @teacherID = classroom.ownerID
 
         if @teaching and (not @teacherID.equals(me.id))
@@ -537,7 +538,6 @@ module.exports = class PlayLevelView extends RootView
     @surface.camera.setBounds(bounds)
     @surface.camera.zoomTo({x: 0, y: 0}, 0.1, 0)
     @listenTo @surface, 'resize', ({ height }) ->
-      @$('#stop-real-time-playback-button').css({ top: height - 30 })
       @$('#how-to-play-game-dev-panel').css({ height })
 
   findPlayerNames: ->
@@ -800,6 +800,12 @@ module.exports = class PlayLevelView extends RootView
       # Just take up 43.5% of the right side of the screen; that's where level goals will be
       minCodeWidth = 0.435 * windowWidth
       minWorkspaceWidth = minToolboxWidth = 0
+    if @level?.isType('game-dev') and @$el.hasClass 'real-time'
+      # Game dev don't show the editor during playback
+      minCodeWidth = maxCodeWidth = minWorkspaceWidth = maxWorkspaceWidth = minToolboxWidth = maxToolboxWidth = 0
+    else if @$el.hasClass('real-time')  # and $el.hasClass('flags')
+      # Real-time submission (during flag levels or otherwise)
+      minCodeWidth = maxCodeWidth = minWorkspaceWidth = maxWorkspaceWidth = minToolboxWidth = maxToolboxWidth = 0
 
     # Now determine if we should put the control bar as 'none', 'top', 'left', or 'right'.
     # Right vs. left: put it on the right, unless it would lead to empty space below the canvas.
@@ -878,6 +884,9 @@ module.exports = class PlayLevelView extends RootView
     duelStatsLeft = (canvasWidth - 500) / 2
     duelStatsTop = canvasHeight - 60 + (if playbackLocation is 'below' then playbackTopMargin else -32)
     dialogueLeft = if tomeLocation is 'bottom' then (canvasWidth - 417) / 2 else canvasWidth - 417 - 50
+    levelChatBottom = if controlBarLocation is 'right' then 40 else 5
+    gameDevTrackRight = windowWidth - canvasWidth + 12
+    stopRealTimePlaybackTop = canvasHeight - 30 - (if controlBarLocation is 'right' then 50 else 0)
 
     # console.log 'Calculated PlayLevelView dimensions', { @codeFormat, windowWidth, windowHeight, canvasAspectRatio, minCodeChars, maxCodeChars, minCodeCharWidth, maxCodeCharWidth, minCodeWidth, maxCodeWidth, minBlockChars, maxBlockChars, minBlockCharWidth, maxBlockCharWidth, minWorkspaceWidth, maxWorkspaceWidth, minToolboxWidth, maxToolboxWidth, controlBarLocation, controlBarHeight, canvasHeight, canvasWidth, emptyHeightBelowCanvas, emptyWidthLeftOfCanvas, controlBarWidth, controlBarLeft, tomeOverlap, tomeWidth, tomeHeight, tomeTop, playButtonHeight, workspaceWidth, workspaceHeight, toolboxWidth, toolboxHeight, spellPaletteWidth, spellPaletteHeight, codeWidth, codeHeight, playbackLocation, playbackHeight, playbackTopMargin, hudLocation, footerTop, footerShadowTop, duelStatsLeft, duelStatsTop }
 
@@ -907,10 +916,10 @@ module.exports = class PlayLevelView extends RootView
     @$el.find('#code-area #tome-view #spell-view .blockly-container').css width: workspaceWidth + toolboxWidth, height: workspaceHeight, left: codeWidth
     @$el.find('#duel-stats-view').css left: duelStatsLeft, top: duelStatsTop
     @$el.find('#level-dialogue-view').css left: dialogueLeft
-    if controlBarLocation is 'right'
-      @$el.find('#level-chat-view').css bottom: '40px'
-    else
-      @$el.find('#level-chat-view').css bottom: '5px'
+    @$el.find('#level-chat-view').css bottom: levelChatBottom
+    @$el.find('#game-dev-track-view').css right: gameDevTrackRight, top: 12
+    @$el.find('#stop-real-time-playback-button').css top: stopRealTimePlaybackTop
+
     # TODO: figure out how to get workspace and toolbox to share width evenly
 
     # TODO: set the font sizes on the appropriate elements (probably in SpellView)

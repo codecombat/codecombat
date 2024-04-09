@@ -52,6 +52,7 @@ module.exports = (GameMenuModal = (function () {
       let left, left1
       super(options)
       this.level = this.options.level
+      this.classroomAceConfig = this.options.classroomAceConfig
       this.options.levelID = this.options.level.get('slug')
       this.options.codeLanguage = this.options.session?.get('codeLanguage')
       this.options.startingSessionHeroConfig = $.extend({}, true, ((left = this.options.session.get('heroConfig')) != null ? left : {}))
@@ -82,7 +83,11 @@ module.exports = (GameMenuModal = (function () {
     }
 
     showsChooseHero () {
-      return this.level.usesSessionHeroThangType()
+      const useHero = this.level.usesSessionHeroThangType()
+      if (this.classroomAceConfig) {
+        return this.classroomAceConfig.classroomItems && useHero
+      }
+      return useHero
     }
 
     showsChangeLanguage () {

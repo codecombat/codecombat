@@ -43,7 +43,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       propNames.add(prop.name)
     }
     if (/programmaticon/i.test(owner)) continue
-    const userBlocks = mergedPropertyEntryGroups[owner].props.map(prop =>
+    const userBlocks = mergedPropertyEntryGroups[owner].props.filter(prop => !(['for-loop'].includes(prop.name))).map(prop =>
       createBlock({ owner, prop, generator, codeLanguage, codeFormat, level, superBasicLevels })
     )
     userBlockCategories.push({ kind: 'category', name: owner, colour: '190', contents: userBlocks })
@@ -195,8 +195,53 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       'controls_forEach_tooltip',
     ],
   }
-  // TODO: rewrite code gen so we can skip the "1" increment value if needed
   Blockly.Blocks.controls_forEach = { init () { return this.jsonInit(untypedForEachBlock) } }
+
+  const dropdownRepeatBlock = {
+    type: 'controls_repeat_dropdown',
+    message0: `%{BKY_CONTROLS_REPEAT_TITLE}%2%{BKY_CONTROLS_REPEAT_INPUT_DO}%3`,
+    args0: [
+      {
+        type: 'field_dropdown',
+        name: 'TIMES',
+        options: [
+          ['1', '1'],
+          ['2', '2'],
+          ['3', '3'],
+          ['4', '4'],
+          ['5', '5'],
+          ['6', '6'],
+          ['7', '7'],
+        ]
+      },
+      {
+        type: 'input_dummy',
+      },
+      {
+        type: 'input_statement',
+        name: 'DO',
+      },
+    ],
+    previousStatement: null,
+    nextStatement: null,
+    colour: '%{BKY_LOOPS_HUE}',
+    tooltip: '%{BKY_CONTROLS_REPEAT_TOOLTIP}',
+    helpUrl: '%{BKY_CONTROLS_REPEAT_HELPURL}',
+  }
+
+  if (codeFormat === 'blocks-icons') {
+    // Use an image instead of text
+    dropdownRepeatBlock.message0 = `%1%2%3%4`,
+    dropdownRepeatBlock.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-loop.png',
+      width: 42,
+      height: 42,
+      alt: 'repeat'
+    })
+  }
+  Blockly.Blocks.controls_repeat_dropdown = { init () { return this.jsonInit(dropdownRepeatBlock) } }
+  generator.forBlock.controls_repeat_dropdown = generator.forBlock.controls_repeat
 
   const returnBlock = {
     type: 'procedures_return',
@@ -402,7 +447,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
           include () { return propNames.has('while-true loop') }
         },
         // { kind: 'block', type: 'controls_whileUntil', include: -> propNames.has('while-loop') }  # Redundant, since while-true can just delete true
-        { kind: 'block', type: 'controls_repeat_ext', include () { return propNames.has('for-loop') } },
+        { kind: 'block', type: 'controls_repeat_ext', inputs: { TIMES: { block: { type: 'math_number', fields: { NUM: 3 } } } }, include () { return propNames.has('for-loop') && level?.get('product') !== 'codecombat-junior' }, includeCodeToBlocks () { return level?.get('product') !== 'codecombat-junior' } },
+        { kind: 'block', type: 'controls_repeat_dropdown', fields: { TIMES: '3' }, include () { return propNames.has('for-loop') && level?.get('product') === 'codecombat-junior' }, includeCodeToBlocks () { return level?.get('product') === 'codecombat-junior' } },
         // { kind: 'block', type: 'controls_for', include: -> propNames.has('for-loop') }  # Too wide  # TODO: introduce this later than the simpler repeat_ext loop above? Or just use this one, but defaults start at 0 and increment by 1?
         // { kind: 'block', type: 'controls_forEach', include () { return propNames.has('for-in-loop') } },  // TODO: use sometimes?
         { kind: 'block', type: 'controls_forEach', include () { return propNames.has('for-in-loop') } }, // TODO: better targeting of when we introduce this logic? Also, move this. Also, think about Python vs. JS and the general typed array forEach
@@ -475,6 +521,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
 
   for (const category of blockCategories) {
     if (category.contents) {
+      // Hide irrelevant, non-included blocks from the player
       category.contents = category.contents.filter(block => (block.include === undefined) || block.include())
       const numBlocks = category.contents.length
       if (numBlocks && (propNames.size > 12)) {
@@ -486,6 +533,13 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     }
   }
   blockCategories = blockCategories.filter(category => ((category.include === undefined) || category.include()) && ((category.contents === undefined) || (category.contents.length > 0)))
+
+  for (const category of fullBlockCategories) {
+    if (category.contents) {
+      // Hide irrelevant, non-fully-included blocks from the code-to-blocks generator
+      category.contents = category.contents.filter(block => (block.includeCodeToBlocks === undefined) || block.includeCodeToBlocks())
+    }
+  }
 
   const toolbox = {
     kind: 'categoryToolbox',
@@ -1094,6 +1148,16 @@ function rewriteBlocklyJS (code, { product }) {
     return s + 'var ' + n + ' = '
   })
 
+  // Replace count, count2, etc. repeat variables with i, j, etc.
+  code = code.replace(/\bcount(\d*)\b(\+\+)?/g, (match, num, increment) => {
+    const index = num ? parseInt(num) : 1
+    const letter = String.fromCharCode(105 + index - 1) // 105 is ASCII code for 'i'
+    return increment ? `${letter}${increment}` : letter
+  })
+
+  // Replace var with let
+  code = code.replace(/\bvar\b/g, 'let')
+
   return code.trim()
 }
 
@@ -1103,6 +1167,13 @@ function rewriteBlocklyPython (code, { product }) {
     oldCode = code
     code = code.replace(/^[a-zA-Z0-9_-s]+ = None\n/, '')
   } while (code !== oldCode)
+
+  // Replace count, count2, etc. repeat variables with i, j, etc. in Python code
+  code = code.replace(/\bcount(\d*)\b/g, (match, num) => {
+    const index = num ? parseInt(num) : 1
+    const letter = String.fromCharCode(105 + index - 1) // 105 is ASCII code for 'i'
+    return letter
+  })
 
   return code.trim()
 }

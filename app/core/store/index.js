@@ -6,6 +6,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const globalVar = require('core/globalVar');
+const { lowUsageUsers } = require('../api');
 
 const store = new Vuex.Store({
   // Strict in local development preventing accidental store mutations.
@@ -73,7 +74,8 @@ const store = new Vuex.Store({
     podcasts: require('./modules/podcasts').default,
     announcements: require('./modules/announcements').default,
     events: require('./modules/events').default,
-    modalTeacher: require('../../views/core/CreateAccountModal/teacher/TeacherSignupStoreModule').default // TODO: combine with trial-request module
+    modalTeacher: require('../../views/core/CreateAccountModal/teacher/TeacherSignupStoreModule').default, // TODO: combine with trial-request module
+    lowUsageUsers: require('./modules/lowUsageUsers').default
   }
 });
 

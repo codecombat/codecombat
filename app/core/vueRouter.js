@@ -339,6 +339,11 @@ export default function getVueRouter () {
           path: '/',
           name: 'HomeBeta2',
           component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+        },
+        {
+          path: '/admin/low-usage-users',
+          name: 'LowUsageUsersAdmin',
+          component: () => import(/* webpackChunkName: "lowUsageUsersAdmin" */'app/views/admin/low-usage-users/MainDashboardView')
         }
       ],
       scrollBehavior (to) {

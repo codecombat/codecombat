@@ -129,8 +129,10 @@ module.exports = (CoursesView = (function () {
 
         if (me.get('role') === 'student') {
           const tournaments = new CocoCollection([], { url: `/db/tournaments?memberId=${me.id}`, model: Tournament })
+          this.reversedTournaments = []
           this.listenToOnce(tournaments, 'sync', () => {
             this.tournaments = (Array.from(tournaments.models).map((t) => t.toJSON()))
+            this.reversedTournaments = this.tournaments.slice().reverse()
             this.tournamentsByState = _.groupBy(this.tournaments, 'state')
             return this.renderSelectors('.student-profile-area')
           })

@@ -421,7 +421,9 @@ _.extend(UserSchema.properties, {
       isNewDashboardActive: {
         type: 'boolean'
       },
-      ownerDistrictId: c.objectId({ description: 'District ID where user has admin permission to view data like outcome reports' })
+      ownerDistrictId: c.objectId({ description: 'District ID where user has admin permission to view data like outcome reports' }),
+      syncedToSF: { type: 'boolean', description: 'Whether the user has been synced to Salesforce' },
+      syncedToCIO: { type: 'boolean', description: 'Whether the user has been synced to CIO' }
     }
   },
 

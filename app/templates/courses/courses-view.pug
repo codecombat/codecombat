@@ -405,7 +405,7 @@ mixin coco_main_content()
                   else
                     span(data-i18n='league.register')
             if view.tournaments && view.tournaments.length
-              for tournament in view.tournaments.toReversed().slice(0, 2)
+              for tournament in view.reversedTournaments.slice(0, 2)
                 +tournamentTileMixin(tournament)
 
               if view.tournaments.length > 2
