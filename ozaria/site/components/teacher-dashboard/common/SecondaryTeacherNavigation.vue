@@ -1,8 +1,13 @@
 <script>
 import { mapState } from 'vuex'
 import utils from 'core/utils'
+import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
 
 export default {
+  components: {
+    DashboardToggle
+  },
+
   props: {
     classrooms: {
       type: Array,
@@ -293,6 +298,15 @@ export default {
         >
       </router-link>
     </li>
+    <li>
+      <dashboard-toggle
+        v-if="isCodeCombat"
+        class="dashboard-toggle"
+        size="sm"
+        :show-title="true"
+        reload-location="/teachers/classes"
+      />
+    </li>
   </ul>
 </template>
 
@@ -576,5 +590,9 @@ li.open > #AILeague,
       cursor: default;
     }
   }
+}
+
+.dashboard-toggle {
+  margin: 5px 0 10px;
 }
 </style>

@@ -8,7 +8,6 @@ import ClassInfoRow from './ClassInfoRow'
 import moment from 'moment'
 
 import { mapActions, mapGetters } from 'vuex'
-import DashboardToggle from './DashboardToggle.vue'
 
 const Classroom = require('models/Classroom')
 
@@ -19,7 +18,6 @@ export default {
     'licenses-component': LicensesComponent,
     'nav-select-unit': NavSelectUnit,
     'class-info-row': ClassInfoRow,
-    'dashboard-toggle': DashboardToggle
   },
 
   props: {
@@ -227,12 +225,6 @@ export default {
           @click="clickCurriculumGuide"
         />
       </div>
-      <dashboard-toggle
-        v-if="isCodeCombat"
-        size="sm"
-        :show-title="true"
-        reload-location="/teachers/classes"
-      />
     </div>
   </div>
 </template>
