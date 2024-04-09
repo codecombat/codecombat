@@ -83,13 +83,22 @@ export default {
       const promises = []
       promises.push(getLowUsageData(this.user.userId))
       promises.push(getLowUsageData(this.user.userId, { callOz: true }))
-      const data = await Promise.all(promises)
-      this.cocoData = data[0].data
-      this.ozData = data[1].data
+      const data = await Promise.allSettled(promises)
+      if (data[0].status === 'fulfilled') {
+        this.cocoData = data[0].value.data
+      } else {
+        noty({ text: 'Failed to load Coco data', type: 'error', layout: 'center', timeout: 3000 })
+      }
+      if (data[1].status === 'fulfilled') {
+        this.ozData = data[1].value.data
+      } else {
+        noty({ text: 'Failed to load Oz data', type: 'error', layout: 'center', timeout: 3000 })
+      }
       this.loading = false
     },
     formatData (data) {
       const result = []
+      if (!data) return result
       for (const [key, value] of Object.entries(data)) {
         if (['lastLicenseApplied', 'lastVisitedSite', 'lastClickedToolkit', 'lastClickedCourseGuide'].includes(key)) {
           result.push({
