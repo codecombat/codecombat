@@ -510,7 +510,7 @@ export default Vue.extend({
             .overlay-text.mid-text= course.acronym
             .overlay-text.bot-text= Math.round(100 * course.completion) + '% ' + $t('courses.complete')
 
-  .block(v-if="['school', 'teacher'].includes(org.kind) && leagueStats && leagueStats.totalPlayers > 1")
+  .block(v-if="['school', 'teacher', 'school-district'].includes(org.kind) && leagueStats && leagueStats.totalPlayers > 1")
     h1= $t('outcomes.ai_league')
     clan-league-stats-component(:stats="leagueStats")
 
