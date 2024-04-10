@@ -32,7 +32,7 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="clan-selector">
     <label
       v-if="label"
       for="clans"
@@ -62,3 +62,11 @@ export default {
     </select>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.clan-selector {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+</style>

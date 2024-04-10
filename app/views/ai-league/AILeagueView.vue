@@ -1,12 +1,12 @@
 <script>
 import { mapActions, mapMutations } from 'vuex'
-import PageLeagueGlobal from './PageLeagueTeachers.vue'
+import PageLeagueTeachers from './PageLeagueTeachers.vue'
 import { PAGE_TITLES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
 
 export default {
   name: 'AILeague',
   components: {
-    PageLeagueGlobal,
+    PageLeagueTeachers,
   },
 
   state: {
@@ -58,7 +58,7 @@ export default {
 
 <template>
   <div>
-    <PageLeagueGlobal :id-or-slug="idOrSlug" />
+    <PageLeagueTeachers :id-or-slug="idOrSlug" />
   </div>
 </template>
 

@@ -2,13 +2,14 @@
 import { mapGetters, mapActions } from 'vuex'
 import Leaderboard from 'app/views/landing-pages/league/components/Leaderboard'
 import ClanSelector from './ClanSelectorTeachers.vue'
-import { activeArenas } from 'core/utils'
+import RemainingTimeView from './RemainingTimeView.vue'
 
 import ContentBox from 'app/components/common/elements/ContentBox.vue'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
-const _ = require('lodash')
+import QuestionmarkView from './QuestionmarkView'
+import AILeagueResources from './AILeagueResources'
 
-const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular' && a.end > new Date()))
+import { currentRegularArena } from 'app/core/store/modules/seasonalLeague'
 
 export default {
   components: {
@@ -16,6 +17,9 @@ export default {
     ClanSelector,
     ContentBox,
     BaseCloudflareVideo,
+    RemainingTimeView,
+    QuestionmarkView,
+    AILeagueResources
   },
 
   beforeRouteUpdate (to, from, next) {
@@ -181,160 +185,106 @@ export default {
 </script>
 
 <template>
-  <main class="container">
-    <section class="row esports-header section-space">
-      <div class="col-sm-4">
-        <clan-selector
-          v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0"
-          :clans="myClans"
-          :selected="clanIdSelected || clanIdOrSlug"
-          style="margin-bottom: 40px;"
-          @change="e => changeClanSelected(e)"
-        />
-      </div>
-    </section>
+  <div>
+    <header class="header container-fluid">
+      <section class="row esports-header">
+        <div class="header-left">
+          <clan-selector
+            v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0"
+            :clans="myClans"
+            :selected="clanIdSelected || clanIdOrSlug"
+            @change="e => changeClanSelected(e)"
+          />
+          <questionmark-view />
+          <a
+            :href="`/league${idOrSlug ? `/${idOrSlug}` : ''}`"
+            target="_blank"
+          >{{
+            $t('teacher_dashboard.view_team_page') }}</a>
+        </div>
+        <remaining-time-view />
+      </section>
+    </header>
+    <main class="container">
+      <section class="row">
+        <div class="col-lg-3 video-image-container">
+          <base-cloudflare-video
+            ref="video"
+            class="base-coludflare-video"
+            video-cloudflare-id="0bdb79d2ce155d589745f891b087f572"
+            :sound-on="false"
+            preload="none"
+            :loop="false"
+            :autoplay="false"
+            :controls="true"
+          />
+        </div>
+        <div class="col-lg-6">
+          <h1 class="text-h1">
+            {{ $t('league.codecombat_ai_league') }}
+          </h1>
+          <p class="text-p">
+            {{ $t('league.codecombat_ai_league_description') }}
+          </p>
+        </div>
+        <AILeagueResources class="col-lg-3" />
+      </section>
 
-    <section class="row">
-      <div class="col-lg-3 video-image-container">
-        <base-cloudflare-video
-          ref="video"
-          class="base-coludflare-video"
-          video-cloudflare-id="0bdb79d2ce155d589745f891b087f572"
-          :sound-on="false"
-          preload="none"
-          :loop="false"
-          :autoplay="false"
-          :controls="true"
-        />
+      <div class="row text-center">
+        <div class="col-lg-6">
+          <content-box>
+            <template #text>
+              <div class="box-title">
+                {{ $t('league.current_season') }}
+              </div>
+              <leaderboard
+                v-if="currentSelectedClan"
+                :key="`${clanIdSelected}-score`"
+                :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
+                :rankings="selectedClanRankings"
+                :player-count="selectedClanLeaderboardPlayerCount"
+                :clan-id="clanIdSelected"
+                class="leaderboard-component"
+                style="color: black;"
+              />
+              <leaderboard
+                v-else
+                :rankings="globalRankings"
+                :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
+                :player-count="globalLeaderboardPlayerCount"
+                class="leaderboard-component"
+              />
+            </template>
+          </content-box>
+        </div>
+        <div class="col-lg-6">
+          <content-box>
+            <template #text>
+              <div class="box-title">
+                {{ $t('league.all_time') }}
+              </div>
+              <leaderboard
+                :key="`${clanIdSelected}-codepoints`"
+                :title="$t('league.codepoints')"
+                :rankings="selectedClanCodePointsRankings"
+                :clan-id="clanIdSelected"
+                score-type="codePoints"
+                class="leaderboard-component"
+                :player-count="codePointsPlayerCount"
+              />
+            </template>
+          </content-box>
+        </div>
       </div>
-      <div class="col-lg-6">
-        <h1 class="text-h1">
-          {{ $t('league.codecombat_ai_league') }}
-        </h1>
-        <p class="text-p">
-          {{ $t('league.codecombat_ai_league_description') }}
-        </p>
-      </div>
-      <div class="col-lg-3 resources">
-        <a
-          class="resources__item screen"
-          href="https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit#slide=id.gb06b5c7fa4_0_10"
-          target="_blank"
-        >
-          {{ $t('league.teacher_getting_started_guide') }}
-        </a>
-        <a
-          class="resources__item view-exemplar"
-          href="https://codecombat.com/play/ladder/storm-siege"
-          target="_blank"
-        >
-          {{ $t('league.try_ai_league_as_a_teacher') }}
-        </a>
-        <a
-          class="resources__item view-exemplar"
-          href="https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League"
-          target="_blank"
-        >
-          {{ $t('nav.faqs') }}
-        </a>
-      </div>
-    </section>
-
-    <div class="row text-center">
-      <div class="col-lg-6 section-space">
-        <content-box>
-          <template #text>
-            <div class="box-title">
-              {{ $t('league.current_season') }}
-            </div>
-            <leaderboard
-              v-if="currentSelectedClan"
-              :key="`${clanIdSelected}-score`"
-              :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
-              :rankings="selectedClanRankings"
-              :player-count="selectedClanLeaderboardPlayerCount"
-              :clan-id="clanIdSelected"
-              class="leaderboard-component"
-              style="color: black;"
-            />
-            <leaderboard
-              v-else
-              :rankings="globalRankings"
-              :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
-              :player-count="globalLeaderboardPlayerCount"
-              class="leaderboard-component"
-            />
-          </template>
-        </content-box>
-      </div>
-      <div class="col-lg-6 section-space">
-        <content-box>
-          <template #text>
-            <div class="box-title">
-              {{ $t('league.all_time') }}
-            </div>
-            <leaderboard
-              :key="`${clanIdSelected}-codepoints`"
-              :title="$t('league.codepoints')"
-              :rankings="selectedClanCodePointsRankings"
-              :clan-id="clanIdSelected"
-              score-type="codePoints"
-              class="leaderboard-component"
-              :player-count="codePointsPlayerCount"
-            />
-          </template>
-        </content-box>
-      </div>
-    </div>
-  </main>
+    </main>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.resources {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  &__item {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    border-radius: 8px;
-    border: 1px solid #476FB1;
-    background: white;
-    padding: 0 20px;
-    height: 50px;
-
-    color: #000;
-
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: "Work Sans";
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 17px;
-    position: relative;
-
-    &:after {
-      position: absolute;
-      content: '';
-      display: block;
-      width: 30px;
-      height: 30px;
-      background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_ViewExemplar.svg);
-      background-color: #F7D047;
-      background-repeat: no-repeat;
-      background-position: 4px 2px;
-      top: -15px;
-      right: -15px;
-      border-radius: 5px;
-    }
-
-    &.screen:after {
-      background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Screen.svg);
-      background-color: #157A6C;
-    }
-  }
+.header {
+  padding: 20px 0;
+  background: #F2F2F2;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
 }
 
 .container {
@@ -349,7 +299,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  .base-coludflare-video{
+
+  .base-coludflare-video {
     border-radius: 10px;
     overflow: hidden;
   }
@@ -396,13 +347,8 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-feature-settings: 'clig' off, 'liga' off;
   font-family: "Work Sans";
   font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  letter-spacing: 0.56px;
   border-bottom: 1px solid #D8D8D8;
   height: 40px;
   width: 100%;
@@ -413,5 +359,19 @@ export default {
   .table-responsive {
     width: 100%;
   }
+}
+
+.esports-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
 }
 </style>
