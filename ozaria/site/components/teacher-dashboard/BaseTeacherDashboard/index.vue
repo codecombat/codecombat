@@ -734,7 +734,7 @@ export default {
 
   &__body {
     width: calc(100% - 250px);
-    border-left: 1px solid #979797;
+    border-left: 1px solid rgba(#979797, 0.2);
 
     .teacher-dashboard__sidebar.collapsed+& {
       width: calc(100% - 50px);
