@@ -5423,7 +5423,7 @@ module.exports = {
       start_application: '开始申请',
       codequest: '[AI_TRANSLATION]CodeQuest',
       date: '[AI_TRANSLATION]日期',
-      date_time: '2024年7月22日  28日，7天6晚',
+      date_time: '2024年7月22日 - 28日，7天6晚',
       supporting_text: '加入我们独具一格的沉浸式国际创新之旅，旨在激励和赋能下一代计算机科学英才学习编程和人工智能，欢迎13-17岁青少年申请！',
       apply_now: '[AI_TRANSLATION]现在申请',
       insight: '一次富有创造性的全球顶级技术殿堂之旅！',
