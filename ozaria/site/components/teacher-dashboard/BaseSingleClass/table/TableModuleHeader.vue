@@ -9,6 +9,37 @@ import LockOrSkip from './LockOrSkip'
 
 import { mapGetters, mapMutations } from 'vuex'
 
+// The groups defined here are can not be selected individually.
+// They are either all selected or all not selected.
+const selectableGroups = [
+  [
+    // Chapter 1
+    '5efc08940bda4700242d6e3c', // Intro: Trapping Darkness
+    '5efc09910bda4700242d6e47', // Intro: Builder Things
+    '5efc10a40bda4700242d6e9b', // Intro: Finishing Touches
+    '5eddd6a76f7d690028cf4c50', // Capstone Level: Gauntlet
+    '5f0cd339e494e50029521c5e' // Cutscene: Trapping the Dark
+  ],
+  [
+    // Chapter 4
+    '60073a27f849d20027ae6c5e', // Intro: Stage 1
+    '5fdc91598a71e9002485b1f0', // Capstone Level: Curiosity Sandbox
+    '60073a6b23a19d0022f0da62' // Intro: Stage 2
+  ]
+]
+
+const getSelectableGroup = (original) => {
+  if (!original) {
+    return []
+  }
+  for (const group of selectableGroups) {
+    if (group.includes(original)) {
+      return group
+    }
+  }
+  return [original]
+}
+
 export default {
   components: {
     ContentIcon,
@@ -40,7 +71,7 @@ export default {
   data () {
     return {
       lockOrSkipShown: false,
-      hoveredOriginal: null,
+      hoveredOriginals: [],
       userSelectedOriginals: []
     }
   },
@@ -82,12 +113,15 @@ export default {
     },
 
     setHoveredOriginal (original) {
-      this.hoveredOriginal = original
-      this.$emit('updateHoveredLevel', original)
+      this.hoveredOriginals = getSelectableGroup(original)
+      this.$emit('updateHoveredLevels', getSelectableGroup(original))
     },
 
     updateList (event, original) {
-      this.updateSelectedOriginals({ shiftKey: event.shiftKey, original, listOfOriginals: this.listOfOriginals })
+      const group = getSelectableGroup(original)
+      for (const item of group) {
+        this.updateSelectedOriginals({ shiftKey: event.shiftKey, original: item, listOfOriginals: this.listOfOriginals })
+      }
     },
 
     classContentTooltip (type) {
@@ -99,7 +133,7 @@ export default {
     classForContentIconHover (normalizedOriginal) {
       return {
         'hover-trigger-area': true,
-        hoverState: this.hoveredOriginal === normalizedOriginal,
+        hoverState: this.hoveredOriginals.includes(normalizedOriginal),
         'is-selected': this.selectedOriginals.includes(normalizedOriginal)
       }
     },
