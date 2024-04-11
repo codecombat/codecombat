@@ -9,7 +9,7 @@ import LockOrSkip from './LockOrSkip'
 
 import { mapGetters, mapMutations } from 'vuex'
 
-// The groups defined here are can not be selected individually.
+// The levels in the groups defined here are can not be selected individually.
 // They are either all selected or all not selected.
 const selectableGroups = [
   [
