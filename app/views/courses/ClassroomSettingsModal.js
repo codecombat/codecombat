@@ -115,13 +115,13 @@ module.exports = (ClassroomSettingsModal = (function () {
       }
 
       if (attrs.defaultCodeFormat) {
-        attrs.aceConfig.defaultCodeFormat = attrs.defaultCodeFormat
+        attrs.aceConfig.codeFormatDefault = attrs.defaultCodeFormat
         delete attrs.defaultCodeFormat
       }
 
       // Make sure that codeFormats includes defaultCodeFormat, including when these aren't specified
       const codeFormats = attrs.aceConfig.codeFormats || ['text-code']
-      const defaultCodeFormat = attrs.aceConfig.defaultCodeFormat || 'text-code'
+      const defaultCodeFormat = attrs.aceConfig.codeFormatDefault || 'text-code'
       if (!codeFormats.includes(defaultCodeFormat)) {
         attrs.aceConfig.codeFormats = attrs.aceConfig.codeFormats || codeFormats
         attrs.aceConfig.codeFormats.push(defaultCodeFormat)
