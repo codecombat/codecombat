@@ -183,7 +183,8 @@ export default Vue.extend({
     ...mapActions({
       updateClassroom: 'classrooms/updateClassroom',
       createClassroom: 'classrooms/createClassroom',
-      fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers'
+      fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers',
+      createFreeCourseInstances: 'courseInstances/createFreeCourseInstances'
     }),
     updateGrades (event) {
       const grade = event.target.name
