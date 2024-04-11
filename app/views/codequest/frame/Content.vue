@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <p class="heading">
-      Included in most package options
+      {{ $t('codequest_page.frame_content_heading') }}
     </p>
     <div class="data-text">
       <div class="data">
@@ -13,11 +13,11 @@
               src="/images/pages/codequest/frame/flight.svg"
             >
             <div class="title">
-              Airfare &amp; Local Transportation
+              {{ $t('codequest_page.frame_content_flight_title') }}
             </div>
           </div>
           <p class="supporting-text">
-            Round-trip flights on major carriers and transportation to and from airport, hotel and event locations.
+            {{ $t('codequest_page.frame_content_flight_text') }}
           </p>
         </div>
       </div>
@@ -30,11 +30,11 @@
               src="/images/pages/codequest/frame/hotel.svg"
             >
             <div class="title">
-              Hotel Accommodations
+              {{ $t('codequest_page.frame_content_hotel_title') }}
             </div>
           </div>
           <p class="supporting-text">
-            All hotels must meet our high standards for quality, safety, and cleanliness.
+            {{ $t('codequest_page.frame_content_hotel_text') }}
           </p>
         </div>
       </div>
@@ -47,11 +47,11 @@
               src="/images/pages/codequest/frame/meal.svg"
             >
             <div class="title">
-              Meals
+              {{ $t('codequest_page.frame_content_meal_title') }}
             </div>
           </div>
           <p class="supporting-text">
-            Minimum three meals per day, as well as snacks and water available throughout each activity filled day.
+            {{ $t('codequest_page.frame_content_meal_text') }}
           </p>
         </div>
       </div>

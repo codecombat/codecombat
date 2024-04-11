@@ -52,7 +52,7 @@ module.exports = {
 
     fetchOther ({ commit, state }, other) {
       if (state.loadedOther) { return Promise.resolve() }
-      return api.courses.getAll({}, other).then(courses => commit('addOtherCourses', courses))
+      return api.courses.getAll({}, other).then(courses => commit('addOtherCourses', courses)).catch(_err => console.log('other product seems offline, skipping...'))
     },
 
     fetchReleased ({ commit, state }, options) {

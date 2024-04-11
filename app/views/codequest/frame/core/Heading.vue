@@ -1,11 +1,11 @@
 <template>
   <div>
     <p class="heading">
-      <span class="text-wrapper">This Opportunity is Open to </span>
-      <span class="span">International</span>
-      <span class="text-wrapper"> and </span>
-      <span class="span">Domestic</span>
-      <span class="text-wrapper"> Participants</span>
+      <span class="text-wrapper">{{ $t('codequest_page.frame_core_heading_1') }}</span>
+      <span class="span">{{ $t('codequest_page.frame_core_heading_2') }}</span>
+      <span class="text-wrapper">{{ $t('codequest_page.frame_core_heading_3') }}</span>
+      <span class="span">{{ $t('codequest_page.frame_core_heading_4') }}</span>
+      <span class="text-wrapper">{{ $t('codequest_page.frame_core_heading_5') }}</span>
     </p>
   </div>
 </template>
