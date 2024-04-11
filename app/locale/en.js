@@ -4409,7 +4409,9 @@ module.exports = {
       switch_off: 'Off',
       version_old: 'Old',
       version_new: 'New',
-      dashboard_version: 'Dashboard Version'
+      dashboard_version: 'Dashboard Version',
+      no_modifiers_changed: 'Levels already modified for these students',
+      no_modifiers_changed_unlocks_skipped: 'It appears you attempted to unlock levels that aren\'t currently locked. Please note, if your selected level appears as locked, it might be due to a preceding level being locked. To proceed, ensure to unlock the prior level first.'
     },
 
     outcomes: {
