@@ -1,5 +1,5 @@
 <script>
-import { coursesWithProjects, isOzaria } from 'core/utils'
+import { coursesWithProjects, isOzaria, isCodeCombat } from 'core/utils'
 import PrimaryButton from '../common/buttons/PrimaryButton'
 import ButtonCurriculumGuide from '../common/ButtonCurriculumGuide'
 import LicensesComponent from '../common/LicensesComponent'
@@ -8,6 +8,7 @@ import ClassInfoRow from './ClassInfoRow'
 import moment from 'moment'
 
 import { mapActions, mapGetters } from 'vuex'
+import DashboardToggle from './DashboardToggle.vue'
 
 const Classroom = require('models/Classroom')
 
@@ -17,7 +18,8 @@ export default {
     'button-curriculum-guide': ButtonCurriculumGuide,
     'licenses-component': LicensesComponent,
     'nav-select-unit': NavSelectUnit,
-    'class-info-row': ClassInfoRow
+    'class-info-row': ClassInfoRow,
+    'dashboard-toggle': DashboardToggle
   },
 
   props: {
@@ -52,6 +54,10 @@ export default {
       activeClassrooms: 'teacherDashboard/getActiveClassrooms'
     }),
 
+    isCodeCombat () {
+      return isCodeCombat
+    },
+
     filteredCourses () {
       if (isOzaria) {
         return this.courses
@@ -72,6 +78,14 @@ export default {
       } else {
         return ''
       }
+    },
+    classroomStartDate () {
+      if (!this.classroom.classDateStart) { return '' }
+      return moment(this.classroom.classDateStart).format('ll')
+    },
+    classroomEndDate () {
+      if (!this.classroom.classDateEnd) { return '' }
+      return moment(this.classroom.classDateEnd).format('ll')
     },
     classroomLanguage () {
       return (this.classroom.aceConfig || {}).language
@@ -97,6 +111,9 @@ export default {
       const kind = this.allClassesPage ? 'teacher' : 'classroom'
       const org = this.allClassesPage ? me.get('_id') : this.classroom._id
       return `/outcomes-report/${kind}/${org}`
+    },
+    showLicenses () {
+      return !me.isCodeNinja()
     }
   },
 
@@ -141,6 +158,8 @@ export default {
         :language="classroomLanguage"
         :num-students="classroomStudentsLength"
         :date-created="classroomCreationDate"
+        :date-start="classroomStartDate"
+        :date-end="classroomEndDate"
         :share-permission="sharePermission"
       />
       <div
@@ -168,6 +187,7 @@ export default {
       </div>
       <!--  we want to use classroom ownerID always even when class is not owned by teacher in case of shared classes since license is cut from owner -->
       <licenses-component
+        v-if="showLicenses"
         class="btn-margins-height"
         :selected-teacher-id="allClassesPage ? null : classroom.ownerID"
         :shared-classroom-id="sharedClassroomId"
@@ -207,6 +227,12 @@ export default {
           @click="clickCurriculumGuide"
         />
       </div>
+      <dashboard-toggle
+        v-if="isCodeCombat"
+        size="sm"
+        :show-title="true"
+        reload-location="/teachers/classes"
+      />
     </div>
   </div>
 </template>

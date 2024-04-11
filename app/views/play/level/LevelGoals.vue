@@ -1,27 +1,44 @@
 <template lang="pug">
-  div
+  div(:class=product)
     // TODO: Split this into two components, one the ul, the other the goals-status
-    ul#primary-goals-list(dir="auto")
+    ul#primary-goals-list(dir="auto" :class="product === 'codecombat-junior' ? 'list-inline' : ''")
       level-goal(
         v-for="goal in levelGoals",
         :goal="goal",
         :key="goal.name",
         :state="goalStates[goal.id]",
+        :product="product",
       )
+      li.goals-status.rtl-allowed(v-if="showStatus && product === 'codecombat-junior'")
+        span(v-if="classToShow === 'running'").goal-status.running …
+        span(v-if="classToShow === 'success'").goal-status.success(:title="$t('play_level.next_level')")
+          button.btn.btn-xs.btn-success.btn-illustrated#level-done-button
+            i.glyphicon.glyphicon-ok
+        span(v-if="classToShow === 'incomplete'").goal-status.incomplete
+          //i.glyphicon.glyphicon-remove
+          | …
+        span(v-if="classToShow === 'timed-out'").goal-status.timed-out
+          //i.glyphicon.glyphicon-remove
+          | …
+        span(v-if="classToShow === 'failing'").goal-status.failure
+          //i.glyphicon.glyphicon-remove
+          | …
     level-goal(
       v-if="conceptGoals.length",
       :goal="{ name: $t('play_level.use_at_least_one_concept') }",
       :state="{ status: conceptStatus }",
+      :product="product",
     )
-    ul#concept-goals-list(dir="auto" v-if="conceptGoals.length")
+    ul#concept-goals-list(dir="auto" v-if="conceptGoals.length" :class="product === 'codecombat-junior' ? 'list-inline' : ''")
       level-goal.concept-goal(
         v-for="goal in conceptGoals",
         :goal="goal",
         :key="goal.name",
         :state="goalStates[goal.id]",
+        :product="product",
       )
       
-    div.goals-status.rtl-allowed(v-if="showStatus")
+    div.goals-status.rtl-allowed(v-if="showStatus && product !== 'codecombat-junior'")
       span {{ $t("play_level.goals") }}
       span.spr :
       span(v-if="classToShow === 'running'").goal-status.running {{ $t("play_level.running") }}
@@ -38,7 +55,7 @@
   LevelGoal = require('./LevelGoal').default
 
   module.exports = Vue.extend({
-    props: ['showStatus']
+    props: ['showStatus', 'product']
     
     data: -> {
       overallStatus: ''
@@ -96,6 +113,27 @@
       color: rgb(245, 170, 49)
     .running
       color: rgb(200, 200, 200)
+
+    .codecombat-junior &
+      display: inline-block
+      margin: 0 10px 0 10px
+      position: static
+      .success
+        color: darkgreen
+        text-shadow: 1px 0px white, -1px 0px white, 0px -1px white, 0px 1px white, 0 0 10px darkgreen
+      .failure, .incomplete, .timed-out
+        color: darkred
+        text-shadow: 1px 0px white, -1px 0px white, 0px -1px white, 0px 1px white, 0 0 4px darkred
+      .running
+        color: #333
+
+      span
+        min-width: 32px
+        display: inline-block
+        text-align: center
+
+      #level-done-button
+        margin-top: -5px
   
   ul
     padding-left: 0
@@ -104,6 +142,9 @@
 
     body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
       padding-right: 0
+
+    &.list-inline
+      display: inline-block
   
   #concept-goals-list
     margin-left: 20px

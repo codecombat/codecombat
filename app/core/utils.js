@@ -222,13 +222,16 @@ var titleize = s => // Turns things like 'dungeons-of-kithgard' into 'Dungeons o
   )
 
 if (isCodeCombat) {
-  campaignIDs =
-    { INTRO: '55b29efd1cd6abe8ce07db0d' }
+  campaignIDs = {
+    JUNIOR: '65c56663d2ca2055e65676af',
+    INTRO: '55b29efd1cd6abe8ce07db0d',
+  }
 
-  freeCampaignIds = [campaignIDs.INTRO] // CS1 campaign
+  freeCampaignIds = [campaignIDs.JUNIOR, campaignIDs.INTRO] // Junior, CS1 campaign
   internalCampaignIds = [] // Ozaria has one of these, CoCo doesn't
 
   courseIDs = {
+    JUNIOR: '65f32b6c87c07dbeb5ba1936',
     INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
     GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
     WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
@@ -260,6 +263,7 @@ if (isCodeCombat) {
   }
 
   CSCourseIDs = [
+    courseIDs.JUNIOR,
     courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     courseIDs.COMPUTER_SCIENCE_2,
     courseIDs.COMPUTER_SCIENCE_3,
@@ -272,6 +276,7 @@ if (isCodeCombat) {
     courseIDs.WEB_DEVELOPMENT_2
   ]
   orderedCourseIDs = [
+    courseIDs.JUNIOR,
     courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     courseIDs.GAME_DEVELOPMENT_1,
     courseIDs.WEB_DEVELOPMENT_1,
@@ -293,6 +298,122 @@ if (isCodeCombat) {
 
   courseModules = {}
   courseModuleLevels = {}
+
+  courseModules[courseIDs.JUNIOR] = {
+    1: 'The `go()` Function',
+    2: 'Arguments',
+    3: 'The `hit()` Function',
+    4: 'The `spin()` Function',
+    5: 'The `zap()` Function',
+    6: 'For Loops',
+    7: 'Loop Combinations',
+    8: 'If Statements'
+    // 9: 'Variables'
+  }
+
+  // TODO: move all the level/module data to database
+  // structure: [courseId][moduleNumber]: [levelName1, levelName2, ...]
+  courseModuleLevels[courseIDs.JUNIOR] = {
+    1: [
+      'The Gem',
+      'Go Go Go',
+      'Two Gems',
+      'Elbow',
+      'Shiny',
+      'Gem Square',
+      'The X',
+      'X Marks the Spot',
+      'Gems First',
+      'Walk It Off',
+    ],
+    2: [
+      'Go Smart',
+      'Steps',
+      'Hiker',
+      'Long Hall',
+      'Step Change',
+      'Go Around',
+      'Big Gem Square',
+      'Turns',
+      'Snake Maze',
+      'One Block',
+    ],
+    3: [
+      'Knock Knock',
+      'Open and Shut',
+      'Doors',
+      'Open Up',
+      'Airlock',
+      'No Keys',
+      'Bad Guys',
+      'Hall Monitor',
+      'Clean Up',
+      'Just a Scratch',
+      'Brave',
+      'Wise',
+      'Careful',
+      'Heart Up',
+      'Tough',
+      'One at a Time',
+      'Choose Your Battles',
+    ],
+    4: [
+      'Spin to Win',
+      'Whirlwind',
+      'Twister',
+      'Vortex',
+      'Busy Intersection',
+      'Badder Guy',
+      'Two Big',
+      'Tornado',
+      'Cyclone',
+      'Hit and Spin',
+      'Hurricane',
+    ],
+    5: [
+      'Zap Gap',
+      'Easy Pickings',
+      'Advantage',
+      'Hit Me Up',
+      'Zap It',
+      'Target Practice',
+      'TNT',
+      'Kaboom',
+      'Back Up',
+      'Monster',
+      'Lure It',
+      'It\'s a Trap',
+      'Friends',
+      'Careful Aim',
+      'Chain Reaction',
+      'Zap Master',
+    ],
+    6: [
+      'Loopy',
+      'More Times',
+      'Right Up',
+      'Square Wave',
+      'Grabber',
+      'Smasher',
+      'Spin Eternally',
+      'Down the Line',
+      'Tall Wave',
+      'Clearing the Way',
+      'Restraint',
+      'Fern',
+      'Scratch Loop',
+      'Regular Path',
+      'Detonations',
+      'Showdown',
+    ],
+    7: [
+      'Gem Weave',
+    ],
+    8: [
+      'Zap Smart',
+    ],
+  }
+
   courseModules[courseIDs.COMPUTER_SCIENCE_2] = {
     1: 'Coordinate Systems',
     2: 'Conditionals Part 1',
@@ -303,8 +424,6 @@ if (isCodeCombat) {
     7: 'Events'
   }
 
-    // TODO: move all the level/module data to database
-    // structure: [courseId][moduleNumber]: [levelName1, levelName2, ...]
   courseModuleLevels[courseIDs.COMPUTER_SCIENCE_2] = {
     1: [
       'Defense of Plainswood',
@@ -436,7 +555,7 @@ if (isCodeCombat) {
       'Game of Coins Step 4: Power-Ups',
       'Game of Coins Step 5: Balance',
       'Game Dev 2 Final Project',
-    ]    
+    ]
   }
 
   courseModules[courseIDs.WEB_DEVELOPMENT_2] = {
@@ -586,7 +705,7 @@ if (isCodeCombat) {
       'Dangerous Key',
       'Olympic Race',
       'Cross Bones',
-    ]    
+    ]
   }
 
   courseModules[courseIDs.GAME_DEVELOPMENT_3] = {
@@ -615,7 +734,7 @@ if (isCodeCombat) {
       'Runner Step 3: Enemies',
       'Runner Step 4: Balance',
       'Game Dev 3 Final Project',
-    ]    
+    ]
   }
 
   courseModules[courseIDs.COMPUTER_SCIENCE_4] = {
@@ -673,7 +792,7 @@ if (isCodeCombat) {
       'Hunting Party',
       'Borrowed Sword',
       'Summation Summit',
-    ]    
+    ]
   }
 
   courseModules[courseIDs.COMPUTER_SCIENCE_5] = {
@@ -790,7 +909,7 @@ if (isCodeCombat) {
   }
 
   hourOfCodeOptions = {
-    campaignId: freeCampaignIds[0],
+    campaignId: freeCampaignIds[1],
     courseId: courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     name: 'Introduction to Computer Science',
     progressModalAfter: 1500000 // 25 mins
@@ -810,6 +929,7 @@ if (isCodeCombat) {
   }
 
   otherCourseIDs = {
+    JUNIOR: '65f32b6c87c07dbeb5ba1936',
     INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
     GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
     WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
@@ -837,6 +957,7 @@ if (isCodeCombat) {
     courseIDs.CHAPTER_FOUR
   ]
   otherOrderedCourseIDs = [
+    otherCourseIDs.JUNIOR,
     otherCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     otherCourseIDs.GAME_DEVELOPMENT_1,
     otherCourseIDs.WEB_DEVELOPMENT_1,
@@ -888,6 +1009,7 @@ if (isCodeCombat) {
 }
 
 const allCourseIDs = _.assign(courseIDs, otherCourseIDs)
+const allFreeCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.CHAPTER_ONE]
 
 const courseNumericalStatus = {};
 (function () {
@@ -901,6 +1023,7 @@ const courseNumericalStatus = {};
 })()
 
 const courseAcronyms = {}
+courseAcronyms[allCourseIDs.JUNIOR] = 'JR'
 courseAcronyms[allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'CS1'
 courseAcronyms[allCourseIDs.GAME_DEVELOPMENT_1] = 'GD1'
 courseAcronyms[allCourseIDs.WEB_DEVELOPMENT_1] = 'WD1'
@@ -1049,8 +1172,27 @@ var i18n = function (say, target, language, fallback) {
   const matches = (/\w+/gi).exec(language)
   if (matches) { generalName = matches[0] }
 
+  const removeAI = function (str) {
+    // we have some objects as return value.
+    // when ai translation finished we can know how to deal with them
+    // now return first
+    if (!str) {
+      return str
+    }
+    if (typeof str === 'object') {
+      const newObject = {}
+      Object.keys(str).forEach((key) => {
+        newObject[key] = removeAI(str[key])
+      })
+      return newObject
+    }
+    if (typeof str !== 'string') {
+      return str
+    }
+    return str.replace(/^\[AI_TRANSLATION\]/, '')
+  }
   // Lets us safely attempt to translate undefined objects
-  if (!(say != null ? say.i18n : undefined)) { return (say != null ? say[target] : undefined) }
+  if (!(say != null ? say.i18n : undefined)) { return removeAI(say != null ? say[target] : undefined) }
 
   for (const localeName in say.i18n) {
     var result
@@ -1059,18 +1201,18 @@ var i18n = function (say, target, language, fallback) {
     if (target in locale) {
       result = locale[target]
     } else { continue }
-    if (localeName === language) { return result }
+    if (localeName === language) { return removeAI(result) }
     if (localeName === generalName) { generalResult = result }
     if (localeName === fallback) { fallBackResult = result }
     if ((localeName.indexOf(language) === 0) && (fallForwardResult == null)) { fallForwardResult = result }
     if ((localeName.indexOf(generalName) === 0) && (fallSidewaysResult == null)) { fallSidewaysResult = result }
   }
 
-  if (generalResult != null) { return generalResult }
-  if (fallForwardResult != null) { return fallForwardResult }
-  if (fallSidewaysResult != null) { return fallSidewaysResult }
-  if (fallBackResult != null) { return fallBackResult }
-  if (target in say) { return say[target] }
+  if (generalResult != null) { return removeAI(generalResult) }
+  if (fallForwardResult != null) { return removeAI(fallForwardResult) }
+  if (fallSidewaysResult != null) { return removeAI(fallSidewaysResult) }
+  if (fallBackResult != null) { return removeAI(fallBackResult) }
+  if (target in say) { return removeAI(say[target]) }
   return null
 }
 
@@ -1458,6 +1600,12 @@ const sortCourses = courses => _.sortBy(courses, function (course) {
   return index
 })
 
+const sortOtherCourses = courses => _.sortBy(courses, function (course) {
+  let index = otherOrderedCourseIDs.indexOf(course.id != null ? course.id : course._id)
+  if (index === -1) { index = 9001 }
+  return index
+})
+
 const sortCoursesByAcronyms = function (courses) {
   const orderedCourseAcronyms = _.sortBy(courseAcronyms)
   return _.sortBy(courses, function (course) {
@@ -1805,7 +1953,7 @@ const arenas = [
   { season: 9, slug: 'storm-siege', type: 'regular', start: new Date('2023-09-01T00:00:00.000-07:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '64c792d1562b9a008d3e2e1a', tournament: '658cfc449ac7fb700b08d815', image: '/file/db/level/64c792d1562b9a008d3e2e1a/StormSiegeBannerv3.png' },
   { season: 9, slug: 'snowhold', type: 'championship', start: new Date('2023-12-01T00:00:00.000-08:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '654a306ba0c557007a807ead', tournament: '658cfc869ac7fb700b08d82c', image: '/file/db/level/654a306ba0c557007a807ead/SnowholdClashBannerv2.png' },
   { season: 10, slug: 'fierce-forces', type: 'regular', start: new Date('2024-01-01T00:00:00.000-08:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-10T07:00:00.000-07:00'), levelOriginal: '6576ff2b1457f600193d2cc9', image: '/file/db/level/6576ff2b1457f600193d2cc9/FierceForcesBannerNew.png' },
-  { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-10T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-10T07:00:00.000-07:00'), levelOriginal: '65f2618f757a82bcc90b7c9e', image: '/file/db/level/65f2618f757a82bcc90b7c9e/AntiGravityBanner.png' },
   { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
@@ -1901,33 +2049,85 @@ const freeAccessLevels = [
   { access: 'short', slug: '1fhm1l1l8b' },
   // Test set of free CoCo Jr levels
   { access: 'short', slug: 'the-gem' },
+  { access: 'short', slug: 'go-go-go' },
   { access: 'short', slug: 'two-gems' },
+  { access: 'short', slug: 'elbow' },
+  { access: 'short', slug: 'shiny' },
   { access: 'short', slug: 'gem-square' },
+  { access: 'short', slug: 'the-x' },
   { access: 'short', slug: 'x-marks-the-spot' },
   { access: 'short', slug: 'gems-first' },
+  { access: 'short', slug: 'walk-it-off' },
+  { access: 'short', slug: 'go-smart' },
   { access: 'short', slug: 'steps' },
+  { access: 'short', slug: 'hiker' },
   { access: 'short', slug: 'long-hall' },
+  { access: 'short', slug: 'step-change' },
+  { access: 'short', slug: 'go-around' },
   { access: 'short', slug: 'big-gem-square' },
+  { access: 'short', slug: 'turns' },
   { access: 'short', slug: 'snake-maze' },
   { access: 'short', slug: 'one-block' },
   { access: 'short', slug: 'knock-knock' },
   { access: 'short', slug: 'open-and-shut' },
-  { access: 'short', slug: 'open-up' },
   { access: 'short', slug: 'doors' },
+  { access: 'short', slug: 'open-up' },
+  { access: 'short', slug: 'airlock' },
+  { access: 'short', slug: 'no-keys' },
   { access: 'short', slug: 'bad-guys' },
   { access: 'short', slug: 'hall-monitor' },
+  { access: 'short', slug: 'clean-up' },
+  { access: 'short', slug: 'just-a-scratch' },
+  { access: 'short', slug: 'brave' },
+  { access: 'short', slug: 'wise' },
+  { access: 'short', slug: 'careful' },
+  { access: 'short', slug: 'heart-up' },
+  { access: 'short', slug: 'tough' },
   { access: 'short', slug: 'one-at-a-time' },
   { access: 'short', slug: 'choose-your-battles' },
   { access: 'short', slug: 'spin-to-win' },
+  { access: 'short', slug: 'whirlwind' },
+  { access: 'short', slug: 'twister' },
+  { access: 'short', slug: 'vortex' },
   { access: 'short', slug: 'busy-intersection' },
   { access: 'short', slug: 'badder-guy' },
   { access: 'short', slug: 'two-big' },
+  { access: 'short', slug: 'tornado' },
+  { access: 'short', slug: 'cyclone' },
   { access: 'short', slug: 'hit-and-spin' },
-  { access: 'short', slug: 'zap-it' },
+  { access: 'short', slug: 'hurricane' },
   { access: 'short', slug: 'zap-gap' },
+  { access: 'short', slug: 'easy-pickings' },
+  { access: 'short', slug: 'advantage' },
+  { access: 'short', slug: 'hit-me-up' },
+  { access: 'short', slug: 'zap-it' },
+  { access: 'short', slug: 'target-practice' },
+  { access: 'short', slug: 'tnt' },
   { access: 'short', slug: 'kaboom' },
+  { access: 'short', slug: 'back-up' },
+  { access: 'short', slug: 'monster' },
+  { access: 'short', slug: 'lure-it' },
+  { access: 'short', slug: 'its-a-trap' },
+  { access: 'short', slug: 'friends' },
+  { access: 'short', slug: 'careful-aim' },
+  { access: 'short', slug: 'chain-reaction' },
+  { access: 'short', slug: 'zap-master' },
   { access: 'short', slug: 'loopy' },
+  { access: 'short', slug: 'more-times' },
+  { access: 'short', slug: 'right-up' },
+  { access: 'short', slug: 'square-wave' },
+  { access: 'short', slug: 'grabber' },
+  { access: 'short', slug: 'smasher' },
   { access: 'short', slug: 'spin-eternally' },
+  { access: 'short', slug: 'down-the-line' },
+  { access: 'short', slug: 'tall-wave' },
+  { access: 'short', slug: 'clearing-the-way' },
+  { access: 'short', slug: 'restraint' },
+  { access: 'short', slug: 'fern' },
+  { access: 'short', slug: 'scratch-loop' },
+  { access: 'short', slug: 'regular-path' },
+  { access: 'short', slug: 'detonations' },
+  { access: 'short', slug: 'showdown' },
   { access: 'short', slug: 'gem-weave' },
   { access: 'short', slug: 'zap-smart' },
 ]
@@ -2069,10 +2269,6 @@ const getModuleNumberForLevelName = function (courseId, levelName) {
   return moduleNumberByLevelName[levelName] && Number(moduleNumberByLevelName[levelName])
 }
 
-const getNewDashboardToggleKey = function () {
-  return `new-dashboard-${me.id}`
-}
-
 module.exports = {
   activeAndPastArenas,
   activeArenas,
@@ -2100,6 +2296,7 @@ module.exports = {
   courseAcronyms,
   courseIDs,
   allCourseIDs,
+  allFreeCourseIDs,
   courseModules,
   courseModuleLevels,
   courseNumericalStatus,
@@ -2123,7 +2320,6 @@ module.exports = {
   getCoursePraise,
   getDocumentSearchString,
   getModuleNumberForLevelName,
-  getNewDashboardToggleKey,
   getPrepaidCodeAmount,
   getProduct,
   getProductName,
@@ -2162,6 +2358,7 @@ module.exports = {
   round,
   AILeagueSeasons,
   sortCourses,
+  sortOtherCourses,
   sortCoursesByAcronyms,
   stripIndentation,
   teamSpells,

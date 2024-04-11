@@ -143,5 +143,14 @@ module.exports = {
     }))
   },
 
-  getMembersByClassCode (code) { return fetchJson(`/db/classroom/${code}/members-by-code`) }
+  getMembersByClassCode (code) {
+    return fetchJson(`/db/classroom/${code}/members-by-code`)
+  },
+
+  addOrUpdateCourse ({ classroomId, courseId }) {
+    return fetchJson(`/db/classroom/${classroomId}/update-course`, _.assign({}, {
+      method: 'POST',
+      json: { courseId }
+    }))
+  },
 }

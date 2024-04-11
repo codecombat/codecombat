@@ -38,7 +38,8 @@ export default Vue.extend({
       newProgrammingLanguage: '',
       newLiveCompletion: true,
       newClassroomItems: true,
-      newBlocks: 'hidden',
+      newCodeFormats: ['text-code'],
+      newDefaultCodeFormat: 'text-code',
       newLevelChat: false,
       newClassroomDescription: '',
       newAverageStudentExp: '',
@@ -48,7 +49,7 @@ export default Vue.extend({
       newClassesPerWeek: '',
       newMinutesPerClass: '',
       saving: false,
-      classGrades: utils.isOzaria ? [] : null,
+      classGrades: (utils.isOzaria && !me.isCodeNinja()) ? [] : null,
       googleClassId: '',
       googleClassrooms: null,
       isGoogleClassroomForm: false,
@@ -66,7 +67,7 @@ export default Vue.extend({
     newProgrammingLanguage: {
       required
     },
-    ...(utils.isOzaria
+    ...(utils.isOzaria && !me.isCodeNinja()
       ? {
         classGrades: {
           required
@@ -116,8 +117,21 @@ export default Vue.extend({
     classroomItems () {
       return (this.classroom || {}).classroomItems
     },
-    blocks () {
-      return ((this.classroom || {}).aceConfig || {}).blocks || 'hidden'
+    enableBlocks () {
+      return ['python', 'javascript', 'lua'].includes(this.language || 'python') && (this.me.isBetaTester() || this.me.isAdmin())
+    },
+    allCodeFormats () {
+      // TODO: only show blocks-icons if a Junior course is included
+      return ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']
+    },
+    codeFormats () {
+      // Later, we can turn everything on by default
+      // const defaultCodeFormats = isJunior ? this.allCodeFormats : _.omit(this.allCodeFormats, 'blocks-icons')
+      const defaultCodeFormats = ['text-code']
+      return ((this.classroom || {}).aceConfig || {}).codeFormats || defaultCodeFormats
+    },
+    defaultCodeFormat () {
+      return ((this.classroom || {}).aceConfig || {}).defaultCodeFormat || 'text-code'
     },
     levelChat () {
       return _.assign({ levelChat: false }, (this.classroom || {}).aceConfig).levelChat
@@ -145,7 +159,7 @@ export default Vue.extend({
     },
     classroomInstance () {
       return new Classroom(this.classroom)
-    }
+    },
   },
 
   mounted () {
@@ -153,7 +167,8 @@ export default Vue.extend({
     this.newProgrammingLanguage = this.language
     this.newLiveCompletion = this.liveCompletion
     this.newClassroomItems = this.classroomItems
-    this.newBlocks = this.blocks
+    this.newCodeFormats = this.codeFormats
+    this.newDefaultCodeFormat = this.defaultCodeFormat
     this.newLevelChat = this.levelChat
     this.newClassroomDescription = this.classroomDescription
     this.newAverageStudentExp = this.averageStudentExp
@@ -227,10 +242,20 @@ export default Vue.extend({
       if (this.newClassroomItems !== this.classroomItems) {
         updates.classroomItems = this.newClassroomItems
       }
-      if (this.newBlocks !== this.blocks) {
-        aceConfig.blocks = this.newBlocks
+
+      // Make sure that codeFormats includes defaultCodeFormat, including when these aren't specified
+      if (!this.newCodeFormats.includes(this.newDefaultCodeFormat)) {
+        this.newCodeFormats.push(this.newDefaultCodeFormat)
+      }
+      if (this.newCodeFormats !== this.codeFormats) {
+        aceConfig.codeFormats = this.newCodeFormats
         updates.aceConfig = aceConfig
       }
+      if (this.newDefaultCodeFormat !== this.defaultCodeFormat) {
+        aceConfig.defaultCodeFormat = this.newDefaultCodeFormat
+        updates.aceConfig = aceConfig
+      }
+
       if (this.newLevelChat !== this.levelChat) {
         aceConfig.levelChat = this.newLevelChat
       }
@@ -459,30 +484,55 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
+          v-if="isCodeCombat && enableBlocks"
           class="form-group row"
         >
           <div class="col-xs-12">
-            <label for="blocks-select">
-              <span class="control-label"> {{ $t("teachers.classroom_blocks") }} </span>
+            <label>
+              <span class="control-label"> {{ $t("teachers.code_formats") }} </span>
+            </label>
+            <div class="form-group">
+              <label
+                v-for="codeFormat in allCodeFormats"
+                :key="codeFormat"
+                :value="codeFormat"
+                class="checkbox-inline"
+              >
+                <input
+                  v-model="newCodeFormats"
+                  :value="codeFormat"
+                  name="codeFormats"
+                  type="checkbox"
+                >
+                <span>{{ $t(`choose_hero.${codeFormat.replace(/-/g, '_')}`) }}</span>
+              </label>
+              <span class="help-block small text-navy">{{ $t("teachers.code_formats_description") }}</span>
+            </div>
+          </div>
+        </div>
+        <div
+          v-if="isCodeCombat && enableBlocks"
+          class="form-group row"
+        >
+          <div class="col-xs-12">
+            <label for="default-code-format-select">
+              <span class="control-label"> {{ $t("teachers.default_code_format") }} </span>
             </label>
             <select
-              id="blocks-select"
-              v-model="newBlocks"
+              id="default-code-format-select"
+              v-model="newDefaultCodeFormat"
               class="form-control"
-              name="blocks"
+              name="defaultCodeFormat"
             >
-              <option value="hidden">
-                {{ $t("teachers.classroom_blocks_hidden") }}
-              </option>
-              <option value="opt-in">
-                {{ $t("teachers.classroom_blocks_opt_in") }}
-              </option>
-              <option value="opt-out">
-                {{ $t("teachers.classroom_blocks_opt_out") }}
+              <option
+                v-for="codeFormat in allCodeFormats"
+                :key="codeFormat"
+                :value="codeFormat"
+              >
+                {{ $t(`choose_hero.${codeFormat.replace(/-/g, '_')}`) }}
               </option>
             </select>
-            <span class="help-block small text-navy">{{ $t("teachers.classroom_blocks_description") }}</span>
+            <span class="help-block small text-navy">{{ $t("teachers.default_code_format_description") }}</span>
           </div>
         </div>
         <div
@@ -559,7 +609,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
+          v-if="isCodeCombat || me.isCodeNinja()"
           class="form-group row"
         >
           <div class="col-md-12">
@@ -579,29 +629,56 @@ export default Vue.extend({
               <option value="">
                 {{ $t('courses.avg_student_exp_select') }}
               </option>
-              <option value="in-school">
+              <option
+                v-if="!me.isCodeNinja()"
+                value="in-school"
+              >
                 {{ $t('courses.class_type_in_school') }}
               </option>
               <option value="after-school">
                 {{ $t('courses.class_type_after_school') }}
               </option>
-              <option value="online">
+              <option
+                v-if="!me.isCodeNinja()"
+                value="online"
+              >
                 {{ $t('courses.class_type_online') }}
               </option>
-              <option value="camp">
+              <option
+                v-if="!me.isCodeNinja()"
+                value="camp"
+              >
                 {{ $t('courses.class_type_camp') }}
               </option>
-              <option value="homeschool">
+              <option
+                v-if="me.isCodeNinja()"
+                value="camp-esports"
+              >
+                {{ $t('courses.class_type_camp_esports') }}
+              </option>
+              <option
+                v-if="me.isCodeNinja()"
+                value="camp-junior"
+              >
+                {{ $t('courses.class_type_camp_junior') }}
+              </option>
+              <option
+                v-if="!me.isCodeNinja()"
+                value="homeschool"
+              >
                 {{ $t('courses.class_type_homeschool') }}
               </option>
-              <option value="other">
+              <option
+                v-if="!me.isCodeNinja()"
+                value="other"
+              >
                 {{ $t('courses.class_type_other') }}
               </option>
             </select>
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
+          v-if="isCodeCombat || me.isCodeNinja()"
           class="form-group row"
         >
           <div class="col-xs-12">
@@ -628,7 +705,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
+          v-if="isCodeCombat && !me.isCodeNinja()"
           class="form-group row"
         >
           <div class="col-sm-12">
@@ -679,7 +756,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isOzaria"
+          v-if="isOzaria && !me.isCodeNinja()"
           class="form-group row class-grades"
           :class="{ 'has-error': $v.classGrades.$error }"
         >
@@ -889,7 +966,13 @@ export default Vue.extend({
 .form-checkbox-input {
   @include font-p-4-paragraph-smallest-gray;
   input {
-    width: 6%
+    width: 6%;
+  }
+}
+
+.checkbox-inline {
+  input[type=checkbox] {
+    margin-top: 8px;
   }
 }
 </style>

@@ -36,7 +36,11 @@ module.exports = {
       // Number of times state.levelSolution has been auto filled into the code editor.
       autoFillCount: 0,
       source: ''
-    }
+    },
+    heroHealth: {
+      current: 0,
+      max: 0,
+    },
   },
   mutations: {
     setPlaying (state, playing) {
@@ -65,6 +69,9 @@ module.exports = {
     },
     setTimesAutocompleteUsed (state, times) {
       state.timesAutocompleteUsed = times
+    },
+    setHeroHealth (state, health) {
+      state.heroHealth = health
     },
     addTutorialStep (state, step) {
       if (state.tutorial.find(s => // There is a function property that needs to be omitted because they don't compare

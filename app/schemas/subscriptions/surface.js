@@ -68,6 +68,11 @@ module.exports = { // /app/lib/surface
 
   'level:sprite-clear-dialogue': c.object({}),
 
+  'sprite:hero-health-updated': c.object({ required: ['health', 'maxHealth'] }, {
+    health: { type: 'number' },
+    maxHealth: { type: 'number' }
+  }),
+
   'surface:gold-changed': c.object({ required: ['team', 'gold'] }, {
     team: { type: 'string' },
     gold: { type: 'number' },

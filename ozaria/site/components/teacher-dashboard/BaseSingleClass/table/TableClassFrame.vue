@@ -207,7 +207,10 @@ export default {
  which messes up sticky header and student row.
 */
 .size-container {
-  display: block;
+  display: inline-block;
+  position: sticky;
+  position: -webkit-sticky; /* Safari */
+  left: 0;
 }
 
 #stickyHeader {

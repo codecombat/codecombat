@@ -47,7 +47,7 @@ function findOne (array, pred, why = 'Expected exactly one match') {
       return matches[0]
     }
     // There are multiple matching non-snippets; maybe this is bad and we should error out?
-    console.log('Multiple block matches:', matches + '\nfrom possibilities:', array)
+    console.log('Multiple block matches:', matches, '\nfrom possibilities:', array)
     throw new Error(why + ', found ' + matches.length)
   }
   if (matches.length === 0) {
@@ -189,11 +189,19 @@ class Converters {
     convert(n.init, { ...ctx, nospace: true })
     const body = convert(n.body, { ...ctx, nospace: true, context: 'statement' })
 
-    const o = {
-      type: found[0].type,
-      inputs: {
-        TIMES: { block: convert(n.test.right, ctx) }
-      }
+    // Only handles most basic cases for now, like standard for (let i = 0; i < 3; i++)
+    const start = n.init?.declarations?.[0]?.init?.value ?? 0
+    const end = n.test?.right?.value ?? 1
+    const times = end - start
+    // For Junior, we have simplified dropdown block if the range is in 1-7
+    const type = times >= 1 && times <= 7 && _.find(ctx.plan, p => p[0].type === 'controls_repeat_dropdown') ? 'controls_repeat_dropdown' : found[0].type
+    let o
+    if (type === 'controls_repeat_dropdown') {
+      // Change input to field
+      o = { type, inputs: {}, fields: { TIMES: '' + times } }
+    } else {
+      // TODO: figure out how to always include controls_repeat_ext so that we can handle if the number is outside our target range
+      o = { type, inputs: { TIMES: { block: convert(n.test.right, ctx) } } }
     }
 
     if (body) o.inputs.DO = { block: body[0] }
@@ -203,15 +211,51 @@ class Converters {
   static ConvertForOfStatement (n, ctx) {
     ctx.scope[n.left.name] = { type: 'var' }
     const body = convert(n.body, { ...ctx, nospace: true, context: 'statement' })
-    const o = {
-      // type: 'controls_untyped_for_each',
-      type: 'controls_forEach',
-      fields: {
-        VAR: { id: n.left.name }
-      },
-      inputs: {
-        LIST: { block: convert(n.right, { ...ctx, context: 'value' }) }
-
+    let o
+    if (n.right?.type === 'CallExpression' && n.right.callee?.name === 'range' && n.right.arguments?.length && (!n.right.arguments[2] || n.right.arguments[2].value === 1)) {
+      try {
+        // Use controls_repeat_ext block instead of a controls_forEach block for Python ranges that are just repeating N times
+        let start, end, endNode
+        if (n.right.arguments.length > 1) {
+          start = n.right.arguments[0].value
+          end = n.right.arguments[1].value
+          endNode = n.right.arguments[1]
+        } else {
+          start = 0
+          end = n.right.arguments[0].value
+          endNode = n.right.arguments[0]
+        }
+        const times = end - start
+        // For Junior, we have simplified dropdown block if the range is in 1-7
+        const type = times >= 1 && times <= 7 && _.find(ctx.plan, p => p[0].type === 'controls_repeat_dropdown') ? 'controls_repeat_dropdown' : 'controls_repeat_ext'
+        if (type === 'controls_repeat_ext' && !_.find(ctx.plan, p => p[0].type === 'controls_repeat_ext')) {
+          // TODO: figure out how to include both block definitions without breaking code-to-blocks finding right one in its planning
+          throw new Error('controls_repeat_ext block not available for loop with range', start, 'to', end)
+        }
+        if (type === 'controls_repeat_dropdown') {
+          // Change input to field
+          o = { type, inputs: {}, fields: { TIMES: '' + times } }
+        } else {
+          const fakeTimesNode = _.cloneDeep(endNode)
+          fakeTimesNode.raw = '' + times
+          fakeTimesNode.value = times
+          const fakeBlock = convert(fakeTimesNode, ctx)
+          o = { type, inputs: { TIMES: { block: fakeBlock } } }
+        }
+      } catch (err) {
+        console.error("Couldn't convert for-in range to simple repeat block:", n, err)
+      }
+    }
+    if (!o) {
+      o = {
+        // type: 'controls_untyped_for_each',
+        type: 'controls_forEach',
+        fields: {
+          VAR: { id: n.left.name }
+        },
+        inputs: {
+          LIST: { block: convert(n.right, { ...ctx, context: 'value' }) }
+        }
       }
     }
 

@@ -24,6 +24,7 @@ module.exports = class LevelGoalsView extends CocoView
     'surface:playback-restarted': 'onSurfacePlaybackRestarted'
     'surface:playback-ended': 'onSurfacePlaybackEnded'
     'level:gather-chat-message-context': 'onGatherChatMessageContext'
+    'sprite:hero-health-updated': 'onHeroHealthUpdated'
 
   events:
     'mouseenter': ->
@@ -43,8 +44,10 @@ module.exports = class LevelGoalsView extends CocoView
     @levelGoalsComponent = new LevelGoals({
       el: @$('.goals-component')[0],
       store
-      propsData: { showStatus: true }
+      propsData: { showStatus: true, product: @level.get('product', true) }
     })
+    @$el.toggleClass('codecombat-junior', @level.get('product', true) is 'codecombat-junior')
+    null
 
   onNewGoalStates: (e) ->
     _.assign(@levelGoalsComponent, _.pick(e, 'overallStatus', 'timedOut', 'goals', 'goalStates'))
@@ -111,6 +114,9 @@ module.exports = class LevelGoalsView extends CocoView
         context.goalStates[goal.id].status = $.i18n.t("play_level.#{statusKey}")
     null
 
+  onHeroHealthUpdated: (e) ->
+    store.commit 'game/setHeroHealth', current: e.health, max: e.maxHealth
+
   updateHeight: ->
     return if @$el.hasClass('brighter') or @$el.hasClass('secret')
     return if (new Date() - @lastSizeTweenTime) < 500  # Don't measure this while still animating, might get the wrong value. Should match sass transition time.
@@ -118,7 +124,7 @@ module.exports = class LevelGoalsView extends CocoView
 
   updatePlacement: ->
     # Expand it if it's at the end. Mousing over reverses this.
-    expand = @playbackEnded isnt @mouseEntered
+    expand = @playbackEnded isnt @mouseEntered or @level.get('product', true) is 'codecombat-junior'
     return if expand is @expanded
     @updateHeight()
     sound = if expand then 'goals-expand' else 'goals-collapse'

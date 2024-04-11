@@ -57,10 +57,10 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     constructor (options) {
+      if (options == null) { options = {} }
       super(options)
       this.options = options
       this.animateHeroes = this.animateHeroes.bind(this)
-      if (options == null) { options = {} }
       this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : 'common.save'
       this.heroes = new CocoCollection([], { model: ThangType })
       this.heroes.url = '/db/thang.type?view=heroes'
@@ -177,15 +177,17 @@ module.exports = (PlayHeroesModal = (function () {
       this.$el.find(`.hero-item:nth-child(${heroIndex + 1}), .hero-indicator:nth-child(${heroIndex + 1})`).addClass('active')
       this.onHeroChanged({ direction: null, relatedTarget: this.$el.find('.hero-item')[heroIndex] })
       this.$el.find('.hero-stat').addClass('has-tooltip').tooltip()
-      console.log('afterRender')
     }
 
     rerenderFooter () {
+      if (this.destroyed) { return }
       if (this.visibleHero) {
         this.formatHero(this.visibleHero)
       }
       this.renderSelectors('#hero-footer')
-      this.insertSubView(this.changeLanguageView = new ChangeLanguageTab({ options: this.options }))
+      const changeLanguageOptions = _.clone(this.options)
+      changeLanguageOptions.classroomAceConfig = this.classroomAceConfig
+      this.insertSubView(this.changeLanguageView = new ChangeLanguageTab(changeLanguageOptions))
       return this.$el.find('#gems-count-container').toggle(Boolean(this.visibleHero?.purchasable))
     }
 

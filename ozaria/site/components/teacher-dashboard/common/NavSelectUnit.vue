@@ -1,4 +1,6 @@
 <script>
+import utils from 'core/utils'
+
 export default {
   props: {
     courses: {
@@ -11,6 +13,12 @@ export default {
     }
   },
 
+  computed: {
+    isCodeCombat () {
+      return utils.isCodeCombat
+    },
+  },
+
   methods: {
     onChange (event) {
       this.$emit('change-course', event.target.value)
@@ -21,7 +29,7 @@ export default {
 
 <template>
   <div>
-    <label>{{ $t('teacher_dashboard.select_chapter') }}</label>
+    <label>{{ $t('teacher_dashboard.select_' + (isCodeCombat ? 'course' : 'chapter')) }}</label>
     <select @change="onChange($event)">
       <option
         v-for="course in courses"

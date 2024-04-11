@@ -114,7 +114,10 @@ module.exports = class SpellView extends CocoView
     @createACEShortcuts()
     @hookACECustomBehavior()
     unless @spectateView
-      @fillACESolution()
+      try
+        @fillACESolution()
+      catch err
+        console.error("Could not fill ace solution:", err)
     @fillACE()
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
@@ -488,7 +491,7 @@ module.exports = class SpellView extends CocoView
     @resizeBlockly()
 
   getBlocklySource: ->
-    blocklyUtils.getBlocklySource @blockly, @spell.language
+    blocklyUtils.getBlocklySource @blockly, { codeLanguage: @spell.language, product: @options.level.get('product', true) or 'codecombat' }
 
   onClickedBlock: (e) ->
     # We monkey-patch Blockly egregiously to make this work
@@ -528,9 +531,16 @@ module.exports = class SpellView extends CocoView
       @awaitingBlocklySerialization = false
 
     return unless e.type in blocklyUtils.blocklyMutationEvents
-    newSource = @blocklyToAce e
+    { blocklySource, blocklySourceRaw } = @blocklyToAce e
 
-    return unless newSource and e.type in blocklyUtils.blocklyFinishedMutationEvents and newSource.trim().replace(/\n\s*\n/g, '\n') isnt @spell.source.trim().replace(/\n\s*\n/g, '\n')
+    return unless blocklySource and e.type in blocklyUtils.blocklyFinishedMutationEvents and blocklySource.trim().replace(/\n\s*\n/g, '\n') isnt @spell.source.trim().replace(/\n\s*\n/g, '\n')
+    return if e.type is Blockly.Events.BLOCK_MOVE and not ('drag' in (e.reason or []))  # Sometimes move event happens when blocks are moving around during a drag, but the drag isn't done
+
+    if blocklySourceRaw isnt blocklySource
+      # Blocks -> code processing introduced a significant change and should rewrite the blocks to match that change
+      # Example: removing newlines so that blocks snap together
+      @aceToBlockly(true)
+
     if @options.level.get('product') is 'codecombat-junior'
       # Immediate code execution on each significant block change that produces a program that differs by more than newlines
       @recompile()
@@ -539,10 +549,10 @@ module.exports = class SpellView extends CocoView
     return
 
   blocklyToAce: ->
-    return if @awaitingBlocklySerialization
-    return if @eventsSuppressed
-    return unless @blockly
-    { blocklyState, blocklySource, combined } = @getBlocklySource()
+    return {} if @awaitingBlocklySerialization
+    return {} if @eventsSuppressed
+    return {} unless @blockly
+    { blocklyState, blocklySource, combined, blocklySourceRaw } = @getBlocklySource()
     @lastBlocklyState = blocklyState
     aceSource = @getSource()
 
@@ -552,19 +562,19 @@ module.exports = class SpellView extends CocoView
     #@updateACEText combined
 
     # Just the code
-    return blocklySource if blocklySource is aceSource
+    return { blocklySource, blocklySourceRaw } if blocklySource is aceSource
     #console.log 'B2A: Changing ace source from', aceSource, 'to', blocklySource, 'with state', blocklyState
     @updateACEText blocklySource
 
     if PERSIST_BLOCK_STATE and not @session.fake
       storage.save "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}", blocklyState
 
-    return blocklySource
+    return { blocklySource, blocklySourceRaw }
 
   aceToBlockly: (force) =>
     return if @eventsSuppressed and not force
     return unless @blockly
-    { blocklyState, blocklySource } = @getBlocklySource()
+    { blocklyState, blocklySource, blocklySourceRaw } = @getBlocklySource()
     unless @codeToBlocksPrepData
       try
         @codeToBlocksPrepData = prepareBlockIntelligence { toolbox: @blocklyToolboxJS, blocklyState, workspace: @blockly }
@@ -572,7 +582,7 @@ module.exports = class SpellView extends CocoView
         console.error 'Error preparing Blockly code to blocks conversion:', err
         return
     aceSource = @ace.getValue()
-    return if aceSource and aceSource is blocklySource
+    return if aceSource and aceSource is blocklySourceRaw
     try
       newBlocklyState = codeToBlocks { code: @ace.getValue(), originalCode: @spell.originalSource, codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
     catch err
@@ -938,7 +948,7 @@ module.exports = class SpellView extends CocoView
       longestLineChars = (if isJunior then 30 else 40) + wrapperIndentationChars
     longestLineChars = Math.max(longestLineChars, 40) if isWebDev
     hardMinCodeChars = switch
-      when isJunior then 12 + wrapperIndentationChars
+      when isJunior then 16 + wrapperIndentationChars
       when @blocklyActive then 18 + wrapperIndentationChars
       else 29  # Enough for two spell palette columns
     hardMaxCodeChars = (if isJunior is 'codecombat-junior' then 40 else 80) + wrapperIndentationChars
@@ -1969,6 +1979,7 @@ module.exports = class SpellView extends CocoView
     @aceDoc?.off 'change', @onCodeChangeMetaHandler
     @aceSession?.selection.off 'changeCursor', @onCursorActivity
     @destroyAceEditor(@ace)
+    @destroyAceEditor(@aceSolution)
     @debugView?.destroy()
     @translationView?.destroy()
     @toolbarView?.destroy()

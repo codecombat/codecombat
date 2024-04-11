@@ -52,6 +52,7 @@ module.exports = (GameMenuModal = (function () {
       let left, left1
       super(options)
       this.level = this.options.level
+      this.classroomAceConfig = this.options.classroomAceConfig
       this.options.levelID = this.options.level.get('slug')
       this.options.codeLanguage = this.options.session?.get('codeLanguage')
       this.options.startingSessionHeroConfig = $.extend({}, true, ((left = this.options.session.get('heroConfig')) != null ? left : {}))
@@ -82,7 +83,11 @@ module.exports = (GameMenuModal = (function () {
     }
 
     showsChooseHero () {
-      return this.level.usesSessionHeroThangType()
+      const useHero = this.level.usesSessionHeroThangType()
+      if (this.classroomAceConfig) {
+        return this.classroomAceConfig.classroomItems && useHero
+      }
+      return useHero
     }
 
     showsChangeLanguage () {
@@ -94,10 +99,16 @@ module.exports = (GameMenuModal = (function () {
     afterRender () {
       super.afterRender()
       for (const SubmenuView of Array.from(submenuViews)) { this.insertSubView(new SubmenuView(this.options)) }
-      const firstView = this.subviews.my_code_view
-      firstView.$el.addClass('active')
-      if (typeof firstView.onShown === 'function') {
-        firstView.onShown()
+      let firstView = this.subviews.my_code_view
+      if (utils.isOzaria) {
+        // ozaria still uses options_view
+        firstView = this.subviews.options_view
+      }
+      if (firstView) {
+        firstView.$el.addClass('active')
+        if (typeof firstView.onShown === 'function') {
+          firstView.onShown()
+        }
       }
       this.playSound('game-menu-open')
       return this.$el.find('.nano:visible').nanoScroller()

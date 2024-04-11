@@ -3,10 +3,10 @@
     <ButtonA
       class="button-a-instance"
       property1="default"
-      text="Download Schedule"
+      :text="$t('codequest_page.frame_cta_text')"
     />
     <p class="supporting-text">
-      All experience details are subject to change.
+      {{ $t('codequest_page.frame_cta_supporting') }}
     </p>
   </div>
 </template>

@@ -188,7 +188,7 @@ export default function getVueRouter () {
         {
           path: '/teachers',
           component: () => {
-            if (utils.isCodeCombat && localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true') {
+            if (utils.isCodeCombat && !me.isNewDashboardActive()) {
               return import(/* webpackChunkName: "teachers" */ 'app/components/common/PassThrough')
             }
             return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/index.vue')
@@ -206,7 +206,7 @@ export default function getVueRouter () {
             {
               path: 'licenses',
               component: () => {
-                if (utils.isCodeCombat && localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true') {
+                if (utils.isCodeCombat && !me.isNewDashboardActive()) {
                   return import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/StudentLicensesMainComponent')
                 } else {
                   return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherLicenses/index.vue')
@@ -220,7 +220,7 @@ export default function getVueRouter () {
             {
               path: 'resources',
               component: () => {
-                if (utils.isCodeCombat && localStorage.getItem(utils.getNewDashboardToggleKey()) !== 'true') {
+                if (utils.isCodeCombat && !me.isNewDashboardActive()) {
                   return import(/* webpackChunkName: "teachers" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue')
                 } else {
                   return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue')
@@ -322,15 +322,24 @@ export default function getVueRouter () {
           name: 'StandardsPage',
           component: () => import(/* webpackChunkName: "standardsPage" */'app/views/standards/PageStandards')
         },
+        ...(
+          me.getHomePageExperimentValue() === 'beta'
+            ? [{
+                path: '/home',
+                name: 'HomeBeta1',
+                component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+              },
+              {
+                path: '/',
+                name: 'HomeBeta2',
+                component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+              }]
+            : []
+        ),
         {
-          path: '/home',
-          name: 'HomeBeta1',
-          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
-        },
-        {
-          path: '/',
-          name: 'HomeBeta2',
-          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+          path: '/admin/low-usage-users',
+          name: 'LowUsageUsersAdmin',
+          component: () => import(/* webpackChunkName: "lowUsageUsersAdmin" */'app/views/admin/low-usage-users/MainDashboardView')
         }
       ],
       scrollBehavior (to) {

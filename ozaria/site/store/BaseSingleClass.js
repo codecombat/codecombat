@@ -236,16 +236,18 @@ export default {
       const clonedClass = JSON.parse(JSON.stringify(classroom))
 
       let numberStudentsChanged = 0
+      const skippedModifications = []
 
       for (const modifier of modifiers) {
         for (const { _id } of students) {
           // let's filter out the levels that are already has the same modifier
           const levelsToHandle = levels.filter((level) => {
-            if (modifierValue) {
-              return !ClassroomLib.isModifierActiveForStudent(clonedClass, _id, currentCourseId, level, modifier, date)
-            } else {
-              return ClassroomLib.isModifierActiveForStudent(clonedClass, _id, currentCourseId, level, modifier, date)
+            const isModifierActive = ClassroomLib.isModifierActiveForStudent(clonedClass, _id, currentCourseId, level, modifier, date)
+            const shouldBeHandled = modifierValue ? !isModifierActive : isModifierActive
+            if (!shouldBeHandled) {
+              skippedModifications.push({ studentId: _id, level, modifier, modifierValue })
             }
+            return shouldBeHandled
           })
 
           if (
@@ -259,8 +261,9 @@ export default {
       }
 
       if (numberStudentsChanged === 0) {
+        const skippedUnlocks = skippedModifications.filter(({ modifierValue, modifier }) => modifierValue === false && modifier === 'locked')
         noty({
-          text: 'Levels already modified for these students',
+          text: skippedUnlocks.length > 0 ? $.i18n.t('teacher_dashboard.no_modifiers_changed_unlocks_skipped') : $.i18n.t('teacher_dashboard.no_modifiers_changed'),
           layout: 'center',
           type: 'information',
           killer: true,

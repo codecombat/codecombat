@@ -7,7 +7,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 const api = require('core/api')
-const { sortCourses } = require('core/utils')
+const { sortCourses, sortOtherCourses } = require('core/utils')
 
 // This module should eventually include things such as: session, player code, score, thangs, etc
 module.exports = {
@@ -15,14 +15,21 @@ module.exports = {
 
   state: {
     loaded: false,
-    byId: {}
+    loadedOther: false,
+    byId: {},
+    otherById: {}
   },
 
   getters: {
     sorted (state) {
       const courses = _.values(state.byId)
       return sortCourses(courses)
-    }
+    },
+    sortedAll (state) {
+      const courses = _.values(state.byId)
+      const otherCourses = _.values(state.otherById)
+      return [...sortCourses(courses), ...sortOtherCourses(otherCourses)]
+    },
   },
 
   mutations: {
@@ -30,6 +37,10 @@ module.exports = {
     addCourses (state, courses) {
       courses.forEach(c => Vue.set(state.byId, c._id, c))
       state.loaded = true
+    },
+    addOtherCourses (state, courses) {
+      courses.forEach(c => Vue.set(state.otherById, c._id, c))
+      state.loadedOther = true
     }
   },
 
@@ -37,6 +48,11 @@ module.exports = {
     fetch ({ commit, state }) {
       if (state.loaded) { return Promise.resolve() }
       return api.courses.getAll().then(courses => commit('addCourses', courses))
+    },
+
+    fetchOther ({ commit, state }, other) {
+      if (state.loadedOther) { return Promise.resolve() }
+      return api.courses.getAll({}, other).then(courses => commit('addOtherCourses', courses)).catch(_err => console.log('other product seems offline, skipping...'))
     },
 
     fetchReleased ({ commit, state }, options) {
