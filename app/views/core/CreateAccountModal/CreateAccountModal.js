@@ -299,7 +299,7 @@ module.exports = (CreateAccountModal = (function () {
       super.afterRender()
 
       if (this.signupState.get('path') === 'individual' && features?.china && this.signupState.get('screen') === 'segment-check') {
-        this.signupState.set({ birthday: '2005-01-01', screen: 'basic-info' })
+        this.signupState.set({ screen: 'basic-info' })
       }
       const target = this.$el.find('#teacher-signup-component')
       if (!target[0]) { return }
