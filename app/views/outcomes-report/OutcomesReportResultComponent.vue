@@ -386,6 +386,9 @@ export default Vue.extend({
         if included && isAdmin && editing && org.kind == 'school-district' && org['administrative-region']
           span ,&nbsp;
           a(:href="'/outcomes-report/administrative-region/' + org['administrative-region'].region.toLowerCase()" target="_blank")= org['administrative-region'].region
+        if included && isAdmin && editing && org.kind == 'school-district' && org['administrative-country']
+          span ,&nbsp;
+          a(:href="'/outcomes-report/administrative-country/' + org['administrative-country'].country.toLowerCase()" target="_blank")= org['administrative-country'].country
       if org.email
         span  (#{org.email})
       if org.kind == 'student' && org.displayName && org.name && (org.name.replace(/\W/g, '').toLowerCase() != org.displayName.replace(/\W/g, '').toLowerCase())
