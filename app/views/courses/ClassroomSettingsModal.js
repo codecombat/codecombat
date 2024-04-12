@@ -114,17 +114,17 @@ module.exports = (ClassroomSettingsModal = (function () {
         delete attrs.codeFormats
       }
 
-      if (attrs.defaultCodeFormat) {
-        attrs.aceConfig.codeFormatDefault = attrs.defaultCodeFormat
-        delete attrs.defaultCodeFormat
+      if (attrs.codeFormatDefault) {
+        attrs.aceConfig.codeFormatDefault = attrs.codeFormatDefault
+        delete attrs.codeFormatDefault
       }
 
-      // Make sure that codeFormats includes defaultCodeFormat, including when these aren't specified
+      // Make sure that codeFormats includes codeFormatDefault, including when these aren't specified
       const codeFormats = attrs.aceConfig.codeFormats || ['text-code']
-      const defaultCodeFormat = attrs.aceConfig.codeFormatDefault || 'text-code'
-      if (!codeFormats.includes(defaultCodeFormat)) {
+      const codeFormatDefault = attrs.aceConfig.codeFormatDefault || 'text-code'
+      if (!codeFormats.includes(codeFormatDefault)) {
         attrs.aceConfig.codeFormats = attrs.aceConfig.codeFormats || codeFormats
-        attrs.aceConfig.codeFormats.push(defaultCodeFormat)
+        attrs.aceConfig.codeFormats.push(codeFormatDefault)
       }
 
       if (attrs.levelChat) {

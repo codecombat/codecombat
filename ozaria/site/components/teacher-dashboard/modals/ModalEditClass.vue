@@ -39,7 +39,7 @@ export default Vue.extend({
       newLiveCompletion: true,
       newClassroomItems: true,
       newCodeFormats: ['text-code'],
-      newDefaultCodeFormat: 'text-code',
+      newCodeFormatDefault: 'text-code',
       newLevelChat: false,
       newClassroomDescription: '',
       newAverageStudentExp: '',
@@ -130,8 +130,8 @@ export default Vue.extend({
       const defaultCodeFormats = ['text-code']
       return ((this.classroom || {}).aceConfig || {}).codeFormats || defaultCodeFormats
     },
-    defaultCodeFormat () {
-      return ((this.classroom || {}).aceConfig || {}).defaultCodeFormat || 'text-code'
+    codeFormatDefault () {
+      return ((this.classroom || {}).aceConfig || {}).codeFormatDefault || 'text-code'
     },
     levelChat () {
       return _.assign({ levelChat: false }, (this.classroom || {}).aceConfig).levelChat
@@ -168,7 +168,7 @@ export default Vue.extend({
     this.newLiveCompletion = this.liveCompletion
     this.newClassroomItems = this.classroomItems
     this.newCodeFormats = this.codeFormats
-    this.newDefaultCodeFormat = this.defaultCodeFormat
+    this.newCodeFormatDefault = this.codeFormatDefault
     this.newLevelChat = this.levelChat
     this.newClassroomDescription = this.classroomDescription
     this.newAverageStudentExp = this.averageStudentExp
@@ -244,16 +244,16 @@ export default Vue.extend({
         updates.classroomItems = this.newClassroomItems
       }
 
-      // Make sure that codeFormats includes defaultCodeFormat, including when these aren't specified
-      if (!this.newCodeFormats.includes(this.newDefaultCodeFormat)) {
-        this.newCodeFormats.push(this.newDefaultCodeFormat)
+      // Make sure that codeFormats includes codeFormatDefault, including when these aren't specified
+      if (!this.newCodeFormats.includes(this.newCodeFormatDefault)) {
+        this.newCodeFormats.push(this.newCodeFormatDefault)
       }
       if (this.newCodeFormats !== this.codeFormats) {
         aceConfig.codeFormats = this.newCodeFormats
         updates.aceConfig = aceConfig
       }
-      if (this.newDefaultCodeFormat !== this.defaultCodeFormat) {
-        aceConfig.defaultCodeFormat = this.newDefaultCodeFormat
+      if (this.newCodeFormatDefault !== this.codeFormatDefault) {
+        aceConfig.codeFormatDefault = this.newCodeFormatDefault
         updates.aceConfig = aceConfig
       }
 
@@ -521,9 +521,9 @@ export default Vue.extend({
             </label>
             <select
               id="default-code-format-select"
-              v-model="newDefaultCodeFormat"
+              v-model="newCodeFormatDefault"
               class="form-control"
-              name="defaultCodeFormat"
+              name="codeFormatDefault"
             >
               <option
                 v-for="codeFormat in allCodeFormats"
