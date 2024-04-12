@@ -37,7 +37,7 @@ export default {
     isTouchingRight: false,
     isTouchingLeft: false,
     selectedLevels: [],
-    hoveredLevel: null
+    hoveredLevels: []
   }),
 
   computed: {
@@ -86,8 +86,8 @@ export default {
       this.isTouchingLeft = table.scrollLeft() <= 0.1
     },
 
-    updateHoveredLevel (level) {
-      this.hoveredLevel = level
+    updateHoveredLevels (levels) {
+      this.hoveredLevels = levels
     }
   }
 }
@@ -125,7 +125,7 @@ export default {
             :class-summary-progress="classSummaryProgress"
             :display-only="displayOnly"
 
-            @updateHoveredLevel="updateHoveredLevel"
+            @updateHoveredLevels="updateHoveredLevels"
           />
         </div>
       </div>
@@ -141,7 +141,7 @@ export default {
             v-for="({ studentSessions, displayName }) of modules"
             :key="displayName"
             :student-sessions="studentSessions"
-            :hovered-level="hoveredLevel"
+            :hovered-levels="hoveredLevels"
           />
 
           <!-- Fade on the right to signal more -->
