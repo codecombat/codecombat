@@ -2241,6 +2241,7 @@ module.exports = {
       course_membership_required_to_play: "You'll need to join a course to play this level.",
       license_required_to_play_coco: 'Ask your teacher to assign a license to you so you can continue to play CodeCombat!',
       license_required_to_play_ozar: 'Ask your teacher to assign you a license so you can continue to play Ozaria!',
+      level_locked: 'This level is locked.',
       update_old_classroom: 'New school year, new levels!',
       update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your",
       teacher_dashboard: 'teacher dashboard',
@@ -4407,9 +4408,18 @@ module.exports = {
       assessments_tab: 'Assessments',
       switch_on: 'On',
       switch_off: 'Off',
+      ai_league: 'AI League',
       version_old: 'Old',
       version_new: 'New',
       dashboard_version: 'Dashboard Version',
+      arena_days_left: 'Days left in Season __season__, __arenaName__:',
+      global_stats_vs_team_stats: 'Global stats vs team stats',
+      global_stats: 'Global stats',
+      show_stats_for_all_players_and_teams: 'show stats for all players and teams.',
+      team_stats: 'Team stats',
+      show_stats_for_individuals_playing_on_the_same_team: 'show stats for individuals playing on the same team.',
+      for_each_class_you_add_a_team_will_be_automatically_created_for_the_students_in_that_class: 'For each class you add, a team will be automatically created for the students in that class.',
+      view_team_page: 'View Team Page',
       no_modifiers_changed: 'Levels already modified for these students',
       no_modifiers_changed_unlocks_skipped: 'It appears you attempted to unlock levels that aren\'t currently locked. Please note, if your selected level appears as locked, it might be due to a preceding level being locked. To proceed, ensure to unlock the prior level first.'
     },
@@ -4705,7 +4715,14 @@ module.exports = {
       promotion_part1: 'Join coding teams with friends and family',
       promotion_part2: 'Access global coding arenas and leaderboards',
       promotion_part3: 'Showcase your coding skills and win prizes',
-      promotion_part4: 'Earn points through practice and head-to-head matches'
+      promotion_part4: 'Earn points through practice and head-to-head matches',
+      codecombat_ai_league_description: 'The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an academic competition unlike any other.',
+      teacher_getting_started_guide: 'Teacher Getting Started Guide',
+      try_ai_league_as_a_teacher: 'Try AI League as a Teacher',
+      current_season: 'Current Season',
+      all_time: 'All Time',
+      view_leaderboards_for_team: 'View leaderboards for team:',
+      global_stats: 'GLOBAL STATS'
     },
 
     tournament: {

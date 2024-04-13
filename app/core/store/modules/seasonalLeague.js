@@ -8,10 +8,10 @@ import { activeArenas } from '../../utils'
 import { getUsableArenas } from '../../api/arenas'
 import _ from 'lodash'
 
-const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular'))
-const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type === 'championship'))
-const currentRegularArenaOriginal = currentRegularArena ? currentRegularArena.levelOriginal : null
-const currentChampionshipArenaOriginal = currentChampionshipArena ? currentChampionshipArena.levelOriginal : null
+export const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular'))
+export const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type === 'championship'))
+export const currentRegularArenaOriginal = currentRegularArena ? currentRegularArena.levelOriginal : null
+export const currentChampionshipArenaOriginal = currentChampionshipArena ? currentChampionshipArena.levelOriginal : null
 
 /**
  * We want to be able to fetch and store rankings for
