@@ -3,12 +3,13 @@ import { mapGetters, mapActions, mapMutations } from 'vuex'
 import Leaderboard from 'app/views/landing-pages/league/components/Leaderboard'
 import ClanSelector from './ClanSelectorTeachers.vue'
 import RemainingTimeView from './RemainingTimeView.vue'
+import { AILeagueSeasons } from 'core/utils'
 
 import ContentBox from 'app/components/common/elements/ContentBox.vue'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
 import QuestionmarkView from './QuestionmarkView'
 import AILeagueResources from './AILeagueResources'
-import { findArena } from 'app/core/store/modules/seasonalLeague.js'
+import { findArena, currentRegularArena } from 'app/core/store/modules/seasonalLeague.js'
 
 export default {
   components: {
@@ -100,6 +101,15 @@ export default {
       const season = this.getCurrentRegularArena.season
       const previousArena = findArena(season - 1, this.getCurrentRegularArena.type)
       return !!previousArena
+    },
+
+    boardTitle () {
+      if (currentRegularArena.slug === this.getCurrentRegularArena.slug) {
+        return $.i18n.t('league.current_season')
+      }
+      const season = AILeagueSeasons.find(s => s.number === this.getCurrentRegularArena.season)
+      const seasonTitle = $.i18n.t('league.season_label', { seasonNumber: season.number, seasonName: $.i18n.t(`league.season_${season.number}`), interpolation: { escapeValue: false } })
+      return `${seasonTitle}, ${this.getCurrentRegularArena.start.getFullYear()}`
     }
 
   },
@@ -275,7 +285,7 @@ export default {
                   :class="{ disabled: !previousArenaAvailable }"
                   @click="goPreviousArena"
                 >&larr;</span>
-                {{ $t('league.current_season') }}
+                {{ boardTitle }}
                 <span
                   class="image-next"
                   :class="{ disabled: !nextArenaAvailable }"
