@@ -4430,6 +4430,7 @@ module.exports = {
       done_customizing: 'Done Customizing',
       start_date: 'Start date',
       end_date: 'End date',
+      country: 'Country',
       school_admin: 'School Administrator',
       school_network: 'School Network',
       school_subnetwork: 'School Subnetwork',
