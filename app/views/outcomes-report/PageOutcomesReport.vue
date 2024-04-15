@@ -9,7 +9,7 @@ import Clan from '../../models/Clan'
 const JOB_TYPE = 'outcomes-report'
 
 const orgKinds = {
-  'administrative-country': { childKinds: ['school-district'] },
+  country: { childKinds: ['administrative-region', 'school-district', 'school'] },
   'administrative-region': { childKinds: ['school-district'] },
   'school-district': { childKinds: ['school'] },
   'school-admin': { childKinds: ['teacher'] },
