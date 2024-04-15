@@ -1,15 +1,15 @@
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 import Leaderboard from 'app/views/landing-pages/league/components/Leaderboard'
 import ClanSelector from './ClanSelectorTeachers.vue'
 import RemainingTimeView from './RemainingTimeView.vue'
+import { AILeagueSeasons } from 'core/utils'
 
 import ContentBox from 'app/components/common/elements/ContentBox.vue'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
 import QuestionmarkView from './QuestionmarkView'
 import AILeagueResources from './AILeagueResources'
-
-import { currentRegularArena } from 'app/core/store/modules/seasonalLeague'
+import { findArena, currentRegularArena } from 'app/core/store/modules/seasonalLeague.js'
 
 export default {
   components: {
@@ -39,12 +39,13 @@ export default {
 
   data: () => ({
     clanIdOrSlug: '',
-    regularArenaSlug: currentRegularArena ? currentRegularArena.slug : null,
     anonymousPlayerName: false,
   }),
 
   computed: {
     ...mapGetters({
+      getCurrentRegularArena: 'seasonalLeague/currentRegularArena',
+      getCurrentChampionshipArena: 'seasonalLeague/currentChampionshipArena',
       globalRankings: 'seasonalLeague/globalRankings',
       globalLeaderboardPlayerCount: 'seasonalLeague/globalLeaderboardPlayerCount',
       clanRankings: 'seasonalLeague/clanRankings',
@@ -56,6 +57,10 @@ export default {
       isLoading: 'clans/isLoading',
       codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount'
     }),
+
+    regularArenaSlug () {
+      return this.getCurrentRegularArena ? this.getCurrentRegularArena.slug : null
+    },
 
     currentSelectedClan () {
       return this.clanByIdOrSlug(this.clanIdOrSlug) || null
@@ -85,6 +90,27 @@ export default {
     selectedClanCodePointsRankings () {
       return this.codePointsRankings(this.clanIdSelected) || []
     },
+
+    nextArenaAvailable () {
+      const season = this.getCurrentRegularArena.season
+      const nextArena = findArena(season + 1, this.getCurrentRegularArena.type)
+      return !!nextArena
+    },
+
+    previousArenaAvailable () {
+      const season = this.getCurrentRegularArena.season
+      const previousArena = findArena(season - 1, this.getCurrentRegularArena.type)
+      return !!previousArena
+    },
+
+    boardTitle () {
+      if (currentRegularArena.slug === this.getCurrentRegularArena.slug) {
+        return $.i18n.t('league.current_season')
+      }
+      const season = AILeagueSeasons.find(s => s.number === this.getCurrentRegularArena.season)
+      const seasonTitle = $.i18n.t('league.season_label', { seasonNumber: season.number, seasonName: $.i18n.t(`league.season_${season.number}`), interpolation: { escapeValue: false } })
+      return `${seasonTitle}, ${this.getCurrentRegularArena.start.getFullYear()}`
+    }
 
   },
 
@@ -121,6 +147,25 @@ export default {
       fetchClan: 'clans/fetchClan',
       fetchChildClanDetails: 'clans/fetchChildClanDetails'
     }),
+    ...mapMutations({
+      paginateArenas: 'seasonalLeague/paginateArenas'
+    }),
+
+    goPreviousArena () {
+      if (!this.previousArenaAvailable) {
+        return
+      }
+      this.paginateArenas('previous')
+      this.loadRequiredData()
+    },
+
+    goNextArena () {
+      if (!this.nextArenaAvailable) {
+        return
+      }
+      this.paginateArenas('next')
+      this.loadRequiredData()
+    },
 
     changeClanSelected (e) {
       let newSelectedClan = ''
@@ -235,20 +280,19 @@ export default {
           <content-box>
             <template #text>
               <div class="box-title">
-                {{ $t('league.current_season') }}
+                <span
+                  class="image-prev"
+                  :class="{ disabled: !previousArenaAvailable }"
+                  @click="goPreviousArena"
+                >&larr;</span>
+                {{ boardTitle }}
+                <span
+                  class="image-next"
+                  :class="{ disabled: !nextArenaAvailable }"
+                  @click="goNextArena"
+                >&rarr;</span>
               </div>
               <leaderboard
-                v-if="currentSelectedClan"
-                :key="`${clanIdSelected}-score`"
-                :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
-                :rankings="selectedClanRankings"
-                :player-count="selectedClanLeaderboardPlayerCount"
-                :clan-id="clanIdSelected"
-                class="leaderboard-component"
-                style="color: black;"
-              />
-              <leaderboard
-                v-else
                 :rankings="globalRankings"
                 :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
                 :player-count="globalLeaderboardPlayerCount"
@@ -344,15 +388,37 @@ export default {
 .box-title {
   color: #000;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   text-align: center;
   font-family: "Work Sans";
   font-size: 24px;
   border-bottom: 1px solid #D8D8D8;
+  padding-bottom: 10px;
   height: 40px;
   width: 100%;
   margin-bottom: 40px;
+  span {
+    cursor: pointer;
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+    color: #F7D047;
+    background-color: #476FB1;
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    &:hover:not(.disabled) {
+      box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.5);
+    }
+    &.disabled {
+      cursor: default;
+      background-color: #ADADAD;
+      color: #fff;
+    }
+  }
 }
 
 ::v-deep {
