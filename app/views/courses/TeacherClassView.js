@@ -340,7 +340,15 @@ module.exports = (TeacherClassView = (function () {
 
     onLoaded () {
       // Get latest courses for student assignment dropdowns
-      this.latestReleasedCourses = me.isAdmin() ? this.courses.models : this.courses.where({ releasePhase: 'released' })
+      if (me.isAdmin()) {
+        this.latestReleasedCourses = this.courses.models
+      } else if (me.isBetaTester()) {
+        const released = this.courses.where({ releasePhase: 'released' })
+        const beta = this.courses.where({ releasePhase: 'beta' })
+        this.latestReleasedCourses = released.concat(beta)
+      } else {
+        this.latestReleasedCourses = this.courses.where({ releasePhase: 'released' })
+      }
       this.latestReleasedCourses = utils.sortCourses(this.latestReleasedCourses)
       this.removeDeletedStudents() // TODO: Move this to mediator listeners? For both classroom and students?
       this.calculateProgressAndLevels()
