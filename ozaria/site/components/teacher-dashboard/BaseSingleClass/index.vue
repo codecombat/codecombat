@@ -72,13 +72,10 @@ export default {
 
     sortMethod: {
       get () {
-        const method = storage.load('sortMethod') || 'Last Name'
-        console.log('get sort methods: ', method, storage.load('sortMethod'))
-        return method
+        return storage.load('sortMethod') || 'Last Name'
       },
       set (method) {
         storage.save('sortMethod', method)
-        console.log('setting sort methods:', method, storage.load('sortMethod'))
       }
     },
 
