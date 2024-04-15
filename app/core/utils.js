@@ -2135,6 +2135,7 @@ const freeAccessLevels = [
 const orgKindString = function (kind, org = null) {
   if ((kind === 'administrative-region') && ((org != null ? org.country : undefined) === 'US') && /^en/.test(me.get('preferredLanguage'))) { return 'State' }
   const key = {
+    country: 'outcomes.country',
     'administrative-region': 'teachers_quote.state',
     'school-district': 'teachers_quote.district_label',
     'school-admin': 'outcomes.school_admin',
