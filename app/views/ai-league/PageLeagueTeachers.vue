@@ -9,6 +9,8 @@ import ContentBox from 'app/components/common/elements/ContentBox.vue'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
 import QuestionmarkView from './QuestionmarkView'
 import AILeagueResources from './AILeagueResources'
+import LadderView from 'app/views/ladder/MainLadderViewV2'
+
 import { findArena, currentRegularArena } from 'app/core/store/modules/seasonalLeague.js'
 
 export default {
@@ -19,7 +21,8 @@ export default {
     BaseCloudflareVideo,
     RemainingTimeView,
     QuestionmarkView,
-    AILeagueResources
+    AILeagueResources,
+    LadderView
   },
 
   beforeRouteUpdate (to, from, next) {
@@ -40,6 +43,7 @@ export default {
   data: () => ({
     clanIdOrSlug: '',
     anonymousPlayerName: false,
+    toPage: 'custom',
   }),
 
   computed: {
@@ -179,6 +183,9 @@ export default {
 
       application.router.navigate(leagueURL, { trigger: true })
     },
+    toggleLeague () {
+      this.toPage = this.toPage === 'global' ? 'custom' : 'global'
+    },
 
     async loadRequiredData () {
       if (this.clanIdOrSlug) {
@@ -246,11 +253,20 @@ export default {
             target="_blank"
           >{{
             $t('teacher_dashboard.view_team_page') }}</a>
+          <button
+            class="toggle-league"
+            @click="toggleLeague"
+          >
+            {{ $t(`teacher_dashboard.view_${toPage}_league`) }}
+          </button>
         </div>
         <remaining-time-view />
       </section>
     </header>
-    <main class="container">
+    <main
+      v-if="toPage === 'custom'"
+      class="container"
+    >
       <section class="row">
         <div class="col-lg-3 video-image-container">
           <base-cloudflare-video
@@ -320,6 +336,14 @@ export default {
           </content-box>
         </div>
       </div>
+    </main>
+    <main
+      v-else
+      class="container black-background"
+    >
+      <ladder-view
+        :id-or-slug="clanIdOrSlug || 'global'"
+      />
     </main>
   </div>
 </template>
@@ -439,5 +463,29 @@ export default {
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
+}
+
+.toggle-league {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 8px;
+    border: 1px solid #476FB1;
+    background: white;
+    padding: 0 20px;
+    height: 50px;
+
+    color: #000;
+
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: "Work Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 17px;
+    position: relative;
+}
+.black-background {
+  background-color: #0c1016;
 }
 </style>
