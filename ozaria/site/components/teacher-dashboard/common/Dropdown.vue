@@ -8,6 +8,10 @@ export default {
     options: {
       type: Array,
       default: () => []
+    },
+    value: {
+      type: String,
+      default: () => this.options[0]
     }
   }
 }
@@ -19,6 +23,7 @@ export default {
       <option
         v-for="option in options"
         :key="option"
+        :selected="option === value"
       >
         {{ option }}
       </option>

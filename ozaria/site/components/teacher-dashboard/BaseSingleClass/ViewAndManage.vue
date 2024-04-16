@@ -7,6 +7,7 @@ import LockOrSkip from './table/LockOrSkip'
 import studentProgressCalculator from 'lib/studentProgressCalculator'
 
 import { mapActions, mapGetters } from 'vuex'
+import storage from '../../../../../app/core/storage'
 
 const Classroom = require('models/Classroom')
 const Users = require('collections/Users')
@@ -55,6 +56,10 @@ export default {
 
     showLicenses () {
       return !me.isCodeNinja()
+    },
+
+    sortBy () {
+      return storage.load('sortMethod') || 'Last Name'
     }
   },
   methods: {
@@ -116,6 +121,7 @@ export default {
         :label-text="$t('teacher.sort_by')"
         class="dropdowns"
         :options="['Last Name', 'First Name', 'Progress (High to Low)', 'Progress (Low to High)']"
+        :value="sortBy"
 
         @change="changeSortBy"
       />

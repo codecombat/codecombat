@@ -16,10 +16,10 @@ export default {
       required: true,
       type: Object
     },
-    hoveredLevel: {
+    hoveredLevels: {
       required: false,
-      type: String,
-      default: null
+      type: Array,
+      default: () => []
     }
   },
   computed: {
@@ -98,7 +98,7 @@ export default {
         :is-optional="isOptional"
         :track-category="getTrackCategory"
         :selected="selectedOriginals.includes(normalizedOriginal) && selectedStudentIds.includes(_id)"
-        :hovered="hoveredLevel===normalizedOriginal && selectedStudentIds.includes(_id)"
+        :hovered="hoveredLevels.includes(normalizedOriginal) && selectedStudentIds.includes(_id)"
       />
     </div>
   </div>

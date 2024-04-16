@@ -6,6 +6,7 @@ import ViewAndMange from './ViewAndManage'
 import TableClassFrame from './table/TableClassFrame'
 import ModalEditStudent from '../modals/ModalEditStudent'
 import Classroom from 'models/Classroom'
+import storage from '../../../../../app/core/storage'
 
 import utils from 'app/core/utils'
 import { getGameContentDisplayNameWithType } from 'ozaria/site/common/ozariaUtils.js'
@@ -48,7 +49,6 @@ export default {
 
   data: () => ({
     isGuidelinesVisible: true,
-    sortMethod: 'Last Name'
   }),
 
   computed: {
@@ -69,6 +69,15 @@ export default {
       getSelectableOriginals: 'baseSingleClass/getSelectableOriginals',
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom'
     }),
+
+    sortMethod: {
+      get () {
+        return storage.load('sortMethod') || 'Last Name'
+      },
+      set (method) {
+        storage.save('sortMethod', method)
+      }
+    },
 
     modules () {
       const selectedCourseId = this.selectedCourseId
