@@ -343,6 +343,7 @@ export default {
     >
       <ladder-view
         :id-or-slug="clanIdOrSlug || 'global'"
+        :inside-teacher-dashboard="true"
       />
     </main>
   </div>
