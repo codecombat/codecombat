@@ -4456,7 +4456,9 @@ module.exports = {
       for_each_class_you_add_a_team_will_be_automatically_created_for_the_students_in_that_class: 'For each class you add, a team will be automatically created for the students in that class.',
       view_team_page: 'View Team Page',
       no_modifiers_changed: 'Levels already modified for these students',
-      no_modifiers_changed_unlocks_skipped: 'It appears you attempted to unlock levels that aren\'t currently locked. Please note, if your selected level appears as locked, it might be due to a preceding level being locked. To proceed, ensure to unlock the prior level first.'
+      no_modifiers_changed_unlocks_skipped: 'It appears you attempted to unlock levels that aren\'t currently locked. Please note, if your selected level appears as locked, it might be due to a preceding level being locked. To proceed, ensure to unlock the prior level first.',
+      view_custom_league: 'View Custom League',
+      view_global_league: 'View Global League'
     },
 
     outcomes: {
