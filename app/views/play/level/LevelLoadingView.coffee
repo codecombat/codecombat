@@ -24,7 +24,6 @@ module.exports = class LevelLoadingView extends CocoView
     'level:subscription-required': 'onSubscriptionRequired'  # If they'd need a subscription.
     'level:course-membership-required': 'onCourseMembershipRequired'  # If they need to be added to a course.
     'level:license-required': 'onLicenseRequired' # If they need a license.
-    'level:locked': 'onLevelLocked'
     'subscribe-modal:subscribed': 'onSubscribed'
 
   shortcuts:
@@ -303,10 +302,6 @@ module.exports = class LevelLoadingView extends CocoView
   onLicenseRequired: (e) ->
     @$el.find('.level-loading-goals, .tip, .progress-or-start-container').hide()
     @$el.find('.license-required').show()
-
-  onLevelLocked: (e) ->
-    @$el.find('.level-loading-goals, .tip, .progress-or-start-container').hide()
-    @$el.find('.level-locked').show()    
 
   onLoadError: (resource) ->
     startCase = (str) -> str.charAt(0).toUpperCase() + str.slice(1)

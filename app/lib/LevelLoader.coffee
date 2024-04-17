@@ -3,8 +3,6 @@ LevelComponent = require 'models/LevelComponent'
 LevelSystem = require 'models/LevelSystem'
 Article = require 'models/Article'
 LevelSession = require 'models/LevelSession'
-CourseInstance = require 'models/CourseInstance'
-Classroom = require 'models/Classroom'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 ThangNamesCollection = require 'collections/ThangNamesCollection'
@@ -86,23 +84,6 @@ module.exports = class LevelLoader extends CocoClass
       console.debug 'LevelLoader: loading level:', @level if LOG
       @level = @supermodel.loadModel(@level, 'level', { data: { cacheEdge: true } }).model
       @listenToOnce @level, 'sync', @onLevelLoaded
-    
-    if not @classroomId
-      @courseInstance = new CourseInstance({_id: @courseInstanceID})
-      @courseInstance.fetch().then () =>
-        @classroomId = @courseInstance.get('classroomID')
-        @classroomIdLoaded()
-    else 
-      @classroomIdLoaded()
-
-  classroomIdLoaded: ->
-    @classroom = new Classroom({_id: @classroomId})
-    @classroom.fetch().then () =>
-      @classroomLoaded()
-
-  classroomLoaded: ->
-    locked = @classroom.isStudentOnLockedLevel(me.get('_id'), @courseID, @level.get('original'))
-    Backbone.Mediator.publish 'level:locked', level: @level, session: @session
 
   reportLoadError: ->
     return if @destroyed
