@@ -451,7 +451,16 @@ module.exports = {
       my_dashborads: 'My Dashboards',
       resources: 'Resources',
       curriculum: 'Curriculum',
-      company: 'Company'
+      company: 'Company',
+      coco_home_description: 'With access to all 530 levels and exclusive features like pets, premium only items, and heroes, your child can fully immerse themselves in the world of coding.',
+      coco_classroom_description: 'A full CS curriculum that builds from core concepts all the way through web development, game development and AP CSP.',
+      coco_junior_description: 'Our flagship K-5 curriculum features a progression of learning levels that teach basic coding concepts at a slower pace, modeled specifically for elementary students.',
+      oz_classroom_description: 'An enchanting narrative coding adventure that establishes the fundamentals of computer science.',
+      ap_csp_description: 'Endorsed by the College Board, our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam.',
+      ai_league_description: 'An epic competitive coding esports platform that encourages creative programming practice in a game-based environment.',
+      roblox_description: 'This MMORPG teaches Lua coding and provides a real-world platform to create amazing games and experiences.',
+      ai_hackstack_description: 'The first generative AI companion tool specifically crafted for those new to AI with a focus on student privacy and safety.',
+      ai_hackstack_junior_description: 'Introduces multimodal generative AI in a simple and intuitive platform designed specifically for K-5 students.'
     },
 
     modal: {

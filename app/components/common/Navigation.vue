@@ -222,42 +222,42 @@ export default Vue.extend({
           children: [
             {
               ...items.COCO_HOME,
-              description: 'With access to all 530 levels and exclusive features like pets, premium only items, and heroes, your child can fully immerse themselves in the world of coding. '
+              description: 'nav.coco_home_description'
             },
             {
               ...items.COCO_CLASSROOM,
               class: 'signup-button',
               url: null,
-              description: 'A full CS curriculum that builds from core concepts all the way through web development, game development and AP CSP.'
+              description: 'nav.coco_classroom_description'
             },
             {
               ...items.COCO_JUNIOR,
-              description: 'Our flagship K-5 curriculum features a progression of learning levels that teach basic coding concepts at a slower pace, modeled specifically for elementary students. '
+              description: 'nav.coco_junior_description'
             },
             {
               ...items.OZ_CLASSROOM,
-              description: 'An enchanting narrative coding adventure that establishes the fundamentals of computer science.'
+              description: 'nav.oz_classroom_description'
             },
             {
               ...items.AP_CSP,
-              description: 'Endorsed by the College Board, our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam.'
+              description: 'nav.ap_csp_description'
             },
             {
               ...items.AI_LEAGUE,
-              description: 'An epic competitive coding esports platform that encourages creative programming practice in a game-based environment.'
+              description: 'nav.ai_league_description'
             },
             {
               ...items.ROBLOX,
-              description: ' this MMORPG teaches Lua coding and provides a real-world platform to create amazing games and experiences.'
+              description: 'nav.roblox_description'
             },
             {
               ...items.AI_HACKSTACK,
-              description: 'The first generative AI companion tool specifically crafted for those new to AI with a focus on student privacy and safety. '
+              description: 'nav.ai_hackstack_description'
             },
             {
               ...items.AI_HACKSTACK_JUNIOR,
-              description: 'Introduces multimodal generative AI in a simple and intuitive platform designed specifically for K-5 students. '
-            },
+              description: 'nav.ai_hackstack_junior_description'
+            }
           ]
         },
       }
@@ -444,7 +444,7 @@ export default Vue.extend({
                     ul(class="dropdown-menu" :class="navItem.children.some(child => child.description) && 'text-wide'")
                       li(v-for="child in navItem.children.filter(child => child.hide!==true)")
                         a.text-p(:href="child.url" :class="[child.class, child.url && checkLocation(child.url) && 'text-teal'].filter(Boolean)" v-bind="child.attrs") {{ $t(child.title) }}
-                          div.text-description(v-if="child.description") {{ child.description }}
+                          div.text-description(v-if="child.description") {{ $t(child.description) }}
 
                 a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
 
