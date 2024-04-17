@@ -2241,7 +2241,6 @@ module.exports = {
       course_membership_required_to_play: "You'll need to join a course to play this level.",
       license_required_to_play_coco: 'Ask your teacher to assign a license to you so you can continue to play CodeCombat!',
       license_required_to_play_ozar: 'Ask your teacher to assign you a license so you can continue to play Ozaria!',
-      level_locked: 'This level is locked.',
       update_old_classroom: 'New school year, new levels!',
       update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your",
       teacher_dashboard: 'teacher dashboard',
