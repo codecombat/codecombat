@@ -10,6 +10,41 @@ import { COCO_CHINA_CONST } from 'core/constants'
  * Unified footer component between CodeCombat and Ozaria.
  */
 export default Vue.extend({
+  data () {
+    return {
+      socialLinks: [
+        {
+          href: 'https://www.facebook.com/codecombat',
+          img: '/images/footer/facebook.svg',
+          alt: 'Facebook'
+        }, {
+          href: 'https://twitter.com/CodeCombat',
+          img: '/images/footer/twitter.svg',
+          alt: 'Twitter'
+        }, {
+          href: 'https://www.instagram.com/codecombat/',
+          img: '/images/footer/instagram.svg',
+          alt: 'Instagram'
+        }, {
+          href: 'https://www.linkedin.com/company/codecombat',
+          img: '/images/footer/linkedin.svg',
+          alt: 'LinkedIn'
+        }, {
+          href: 'https://www.youtube.com/@CodeCombat1',
+          img: '/images/footer/youtube.svg',
+          alt: 'YouTube'
+        }, {
+          href: 'https://www.tiktok.com/@codecombat_tiktok',
+          img: '/images/footer/tiktok.svg',
+          alt: 'TikTok'
+        }, {
+          href: 'https://discord.gg/vkW2dCYaxe',
+          img: '/images/footer/discord.svg',
+          alt: 'Discord'
+        }
+      ]
+    }
+  },
   computed: {
     isCodeCombat () {
       return isCodeCombat
@@ -34,6 +69,9 @@ export default Vue.extend({
     picture(v-else)
       source(srcset="/images/pages/base/logo.webp" type="image/webp")
       img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+    .social-links
+      a(v-for="socialLink in socialLinks" :href="socialLink.href" :key="socialLink.href" target="_blank")
+        img(:src="socialLink.img" :alt="socialLink.alt")
     .copyright
       if me.showChinaResourceInfo()
         span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
@@ -86,4 +124,8 @@ export default Vue.extend({
 
   .contact
     margin-right: 20px
+
+  .social-links
+    img
+      height: 24px
 </style>
