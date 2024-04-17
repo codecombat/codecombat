@@ -3,6 +3,8 @@ import { cocoBaseURL, getQueryVariable, isCodeCombat, isOzaria, ozBaseURL } from
 import { mapGetters } from 'vuex'
 import FinalFooter from './FinalFooter'
 
+import { items } from 'app/components/common/Navigation'
+
 /**
  * Unified footer component between CodeCombat and Ozaria.
  */
@@ -59,62 +61,48 @@ export default Vue.extend({
        */
       const globalFooter = [
         {
-          title: '',
-          condition: me.isStudent(),
-          lists: []
-        },
-        {
-          title: 'nav.general',
+          title: 'nav.company',
           condition: true, // always display
           lists: [
             { url: this.cocoPath('/about'), title: 'nav.about', attrs: { 'data-event-action': 'Click: Footer About' } },
             { url: 'https://codecombat.zendesk.com/hc/en-us', title: 'nav.help_center', attrs: { target: '_blank', 'data-event-action': 'Click: Footer Help Center' } },
+            { title: 'general.contact_us', attrs: { class: 'contact-modal', tabindex: -1 } },
             { url: this.cocoPath('/about#careers'), title: 'nav.careers' },
-            { title: 'nav.contact', attrs: { class: 'contact-modal', tabindex: -1 } },
-            { url: 'https://blog.codecombat.com/', title: 'nav.blog' }
+            { url: 'https://blog.codecombat.com/', title: 'nav.blog' },
+            { url: this.cocoPath('/podcast'), title: 'nav.podcast_simple' }
           ]
         },
         {
-          title: 'nav.educators',
-          condition: !me.isStudent() && !me.isRegisteredHomeUser(),
-          lists: [
-            { url: '/efficacy', title: 'nav.research_efficacy', hide: this.isCodeCombat },
-            { url: '/impact', title: 'nav.research_impact', hide: this.isOzaria },
-            { url: '/teachers/resources', title: 'nav.resource_hub' },
-            { url: '/teachers/classes', title: 'nav.my_classrooms' },
-            { url: '/pricing', title: 'nav.pricing', hide: true },
-            { url: this.ozPath('/'), title: 'new_home.try_ozaria', attrs: { 'data-event-action': 'Click: Footer Try Ozaria' }, hide: this.isOzaria },
-            { url: this.cocoPath('/'), title: 'nav.return_coco', attrs: { 'data-event-action': 'Click: Footer Return to CodeCombat' }, hide: this.isCodeCombat },
-            { url: this.cocoPath('/podcast'), title: 'nav.podcast' }
-          ]
-        },
-        {
-          title: 'nav.products',
+          title: 'nav.curriculum',
           condition: true,
           lists: [
-            { url: this.ozPath('/'), title: 'nav.ozaria_classroom' },
-            { url: this.cocoPath('/impact'), title: 'nav.codecombat_classroom' },
-            { url: this.ozPath('/professional-development'), title: 'nav.professional_development' },
-            { url: this.cocoPath('/parents'), title: 'nav.live_online_classes' },
-            { url: this.cocoPath('/premium'), title: 'nav.codecombat_home' },
+            { ...items.COCO_HOME, url: null, attrs: { class: 'signup-button' } },
+            items.COCO_CLASSROOM,
+            items.COCO_JUNIOR,
+            items.OZ_CLASSROOM,
+            items.AP_CSP,
+            items.AI_LEAGUE,
+            items.ROBLOX,
+            items.AI_HACKSTACK,
+            items.AI_HACKSTACK_JUNIOR,
           ]
         },
         {
-          title: '',
+          title: 'nav.resources',
           condition: true,
           lists: [
-            { url: this.cocoPath('/league'), title: 'nav.esports' },
-            { url: this.cocoPath('/partners'), title: 'nav.partnerships' },
-            { url: this.cocoPath('/libraries'), title: 'nav.libraries' },
-            { url: this.cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' }
-          ]
-        },
-        {
-          title: 'nav.terms',
-          condition: true,
-          lists: [
-            { url: '/legal', title: 'nav.term_of_service' },
-            { url: '/privacy', title: 'nav.privacy' }
+            items.LIVE_ONLINE_CLASSES,
+            items.LIBRARY_SOLUTIONS,
+            items.PARTNER_SOLUTIONS,
+            items.TEACHING_SOLUTIONS,
+            items.STANDARDS,
+            items.EFFICACY,
+            items.SUCCESS,
+            items.PD,
+            items.HOC,
+            items.GRANTS,
+            items.PRIVACY,
+            items.CODEQUEST,
           ]
         }
       ]

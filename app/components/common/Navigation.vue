@@ -15,6 +15,44 @@ import { mapActions, mapGetters } from 'vuex'
 import CTAButton from '../../components/common/buttons/CTAButton'
 import CaretDown from '../../components/common/elements/CaretDown'
 
+const cocoPath = function (relativePath) {
+  return `${cocoBaseURL()}${relativePath}`
+}
+
+const ozPath = function (relativePath) {
+  return `${ozBaseURL()}${relativePath}`
+}
+
+export const items = {
+  CREATE_FREE_ACCOUNT: { class: 'signup-button', title: 'nav.create_free_account' },
+  SCHOOL_AND_DISTRICT: { url: cocoPath('/schools'), title: 'nav.school_district_solutions' },
+  TEACHER_TOOLKIT_PREVIEW: { url: '/teachers/resources', title: 'nav.teacher_toolkit_preview' },
+  TEACHER_TOOLKIT: { url: '/teachers/resources', title: 'nav.teacher_toolkit' },
+  STANDARDS: { url: cocoPath('/standards'), title: 'teacher_dashboard.standards_alignment' },
+  EFFICACY: { url: ozPath('/efficacy'), title: 'nav.efficacy_studies' },
+  SUCCESS: { url: '/impact', title: 'nav.success_stories' },
+  PD: { url: '/pd', title: 'teacher_dashboard.pd' },
+  HOC: { url: cocoPath('/teachers/hour-of-code'), title: 'nav.hoc' },
+  GRANTS: { url: cocoPath('/grants'), title: 'nav.grants_funding_resources' },
+  DEMO: { url: '/teachers/quote', title: 'nav.request_quote_demo' },
+  COCO_CLASSROOM: { url: cocoPath('/schools'), title: 'nav.codecombat_classroom' },
+  COCO_JUNIOR: { url: cocoPath('/play/junior'), title: 'nav.coco_junior_beta' },
+  COCO_HOME: { url: cocoPath('/play'), title: 'nav.codecombat_home' },
+  OZ_CLASSROOM: { url: ozPath('/'), title: 'nav.ozaria_classroom' },
+  AP_CSP: { url: cocoPath('/apcsp'), title: 'nav.ap_csp' },
+  AI_LEAGUE: { url: cocoPath('/league'), title: 'nav.ai_league_esports' },
+  ROBLOX: { url: cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' },
+  AI_HACKSTACK: { url: cocoPath('/ai'), title: 'nav.ai_hackstack_beta' },
+  AI_HACKSTACK_JUNIOR: { url: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform', attrs: { target: '_blank' }, title: 'nav.ai_hackstack_junior_beta' },
+  LIVE_ONLINE_CLASSES: { url: cocoPath('/parents'), title: 'nav.live_online_classes' },
+  PREMIUM: { url: cocoPath('/premium'), title: 'nav.premium_self_paced' },
+  CODEQUEST: { url: cocoPath('/codequest'), title: 'nav.codequest' },
+  LIBRARY_SOLUTIONS: { url: cocoPath('/libraries'), title: 'nav.library_solutions' },
+  PARTNER_SOLUTIONS: { url: cocoPath('/partners'), title: 'nav.partner_solutions' },
+  TEACHING_SOLUTIONS: { url: cocoPath('/schools'), title: 'nav.teaching_solutions' },
+  PRIVACY: { url: '/privacy', title: 'nav.privacy' }
+}
+
 /**
  * Unified navigation bar component between CodeCombat and Ozaria.
  */
@@ -154,6 +192,192 @@ export default Vue.extend({
 
     readAnnouncement () {
       return application.router.navigate('/announcements', { trigger: true })
+    },
+
+    getNavbarData () {
+      const anonymous = {
+        educators: {
+          url: isCodeCombat ? '/schools' : '/',
+          title: 'Educators',
+          children: [
+            items.CREATE_FREE_ACCOUNT,
+            items.SCHOOL_AND_DISTRICT,
+            items.TEACHER_TOOLKIT_PREVIEW,
+            items.STANDARDS,
+            items.EFFICACY,
+            items.SUCCESS,
+            items.PD,
+            items.HOC,
+            items.GRANTS,
+            items.DEMO
+          ]
+        },
+        parents: {
+          url: this.cocoPath('/parents'),
+          title: 'nav.parent'
+        },
+        play: {
+          url: this.cocoPath('/play'),
+          title: 'nav.play2',
+          children: [
+            {
+              ...items.COCO_HOME,
+              description: 'With access to all 530 levels and exclusive features like pets, premium only items, and heroes, your child can fully immerse themselves in the world of coding. '
+            },
+            {
+              ...items.COCO_CLASSROOM,
+              class: 'signup-button',
+              url: null,
+              description: 'A full CS curriculum that builds from core concepts all the way through web development, game development and AP CSP.'
+            },
+            {
+              ...items.COCO_JUNIOR,
+              description: 'Our flagship K-5 curriculum features a progression of learning levels that teach basic coding concepts at a slower pace, modeled specifically for elementary students. '
+            },
+            {
+              ...items.OZ_CLASSROOM,
+              description: 'An enchanting narrative coding adventure that establishes the fundamentals of computer science.'
+            },
+            {
+              ...items.AP_CSP,
+              description: 'Endorsed by the College Board, our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam.'
+            },
+            {
+              ...items.AI_LEAGUE,
+              description: 'An epic competitive coding esports platform that encourages creative programming practice in a game-based environment.'
+            },
+            {
+              ...items.ROBLOX,
+              description: ' this MMORPG teaches Lua coding and provides a real-world platform to create amazing games and experiences.'
+            },
+            {
+              ...items.AI_HACKSTACK,
+              description: 'The first generative AI companion tool specifically crafted for those new to AI with a focus on student privacy and safety. '
+            },
+            {
+              ...items.AI_HACKSTACK_JUNIOR,
+              description: 'Introduces multimodal generative AI in a simple and intuitive platform designed specifically for K-5 students. '
+            },
+          ]
+        },
+      }
+
+      const educator = {
+        'my-dashboards': {
+          title: 'nav.my_dashborads',
+          children: [
+            { url: this.cocoPath('/teachers/classes'), hide: me.isSchoolAdmin(), title: 'CodeCombat Teacher Dashboard' },
+            { url: this.ozPath('/teachers/classes'), hide: me.isSchoolAdmin(), title: 'Ozaria Teacher Dashboard' },
+            { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'CodeCombat Admin Dashboard' },
+            { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'Ozaria Admin Dashboard' },
+          ]
+        },
+        resources: {
+          title: 'nav.resources',
+          children: [
+            items.TEACHER_TOOLKIT,
+            items.SCHOOL_AND_DISTRICT,
+            items.STANDARDS,
+            { ...items.EFFICACY, filter: isOzaria },
+            { ...items.SUCCESS, filter: isCodeCombat },
+            items.PD,
+            items.HOC,
+            items.GRANTS,
+            items.DEMO
+          ]
+        },
+        curriculum: {
+          title: 'nav.curriculum',
+          children: [
+            items.COCO_CLASSROOM,
+            items.COCO_JUNIOR,
+            items.OZ_CLASSROOM,
+            items.AP_CSP,
+            items.AI_LEAGUE,
+            items.ROBLOX,
+            items.AI_HACKSTACK,
+            items.AI_HACKSTACK_JUNIOR
+          ]
+        }
+      }
+
+      const student = {
+        'my-courses': {
+          title: 'nav.my_courses',
+          children: [
+            items.COCO_CLASSROOM,
+            items.OZ_CLASSROOM,
+            items.AI_LEAGUE,
+            items.ROBLOX,
+            items.AI_HACKSTACK,
+          ]
+        }
+      }
+
+      const parent = {
+        dashboard: {
+          title: 'nav.dashboard',
+          url: me.hasNoVerifiedChild() ? this.cocoPath('/parents/add-another-child') : this.cocoPath('/parents/dashboard')
+        },
+        'learning-options': {
+          title: 'nav.learning_options',
+          children: [
+            items.LIVE_ONLINE_CLASSES,
+            items.PREMIUM,
+            items.CODEQUEST,
+          ]
+        },
+        curriculum: {
+          title: 'nav.curriculum',
+          children: [
+            items.COCO_HOME,
+            items.COCO_JUNIOR,
+            items.AI_LEAGUE,
+            items.ROBLOX,
+            items.AI_HACKSTACK,
+            items.AI_HACKSTACK
+          ]
+        }
+      }
+      const individual = {
+        'learning-options': {
+          title: 'nav.learning_options',
+          children: [
+            items.LIVE_ONLINE_CLASSES,
+            items.PREMIUM,
+            items.CODEQUEST,
+          ]
+        },
+        play: {
+          title: 'nav.play2',
+          children: [
+            items.COCO_HOME,
+            items.COCO_JUNIOR,
+            items.AI_LEAGUE,
+            items.ROBLOX,
+            items.AI_HACKSTACK,
+            items.AI_HACKSTACK_JUNIOR,
+          ]
+        }
+      }
+
+      if (me.isAnonymous()) {
+        return anonymous
+      }
+
+      if (me.isTeacher()) {
+        return educator
+      }
+
+      if (me.isStudent()) {
+        return student
+      }
+
+      if (me.isParentHome()) {
+        return parent
+      }
+
+      return individual
     }
   }
 })
@@ -211,60 +435,18 @@ export default Vue.extend({
                 li
                   a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
 
-              li(v-if="me.isAnonymous()")
-                ul.nav.navbar-nav
+              li(v-for="navItem in getNavbarData()")
+                ul.nav.navbar-nav(v-if="navItem.children")
                   li.dropdown.dropdown-hover
-                    a.text-p(:href="isCodeCombat ? '/schools' : '/'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
-                      span {{ $t('nav.educators') }}
-                      caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/')")
-                          span(:class="isOzaria && !checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                      li
-                        a.text-p(:href="cocoPath('/schools')" :class="checkLocation('/schools', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
-                      li
-                        a.text-p(:href="ozPath('/professional-development')")
-                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
+                    a.text-p(:href="navItem.url", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                      span {{ $t(navItem.title) }}
+                      caret.dropdown-caret
+                    ul(class="dropdown-menu" :class="navItem.children.some(child => child.description) && 'text-wide'")
+                      li(v-for="child in navItem.children.filter(child => child.hide!==true)")
+                        a.text-p(:href="child.url" :class="[child.class, child.url && checkLocation(child.url) && 'text-teal'].filter(Boolean)" v-bind="child.attrs") {{ $t(child.title) }}
+                          div.text-description(v-if="child.description") {{ child.description }}
 
-              li(v-if="!me.isStudent() && !me.isTeacher() && (me.get('country') !== 'hong-kong') && !me.isParentHome()")
-                a.text-p(:class="checkLocation('/parents') && !checkLocation('/parents/signup') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
-
-              li(v-if="me.isParentHome()")
-                a.text-p(:class="checkLocation('/parents/dashboard') && 'text-teal'" :href="me.hasNoVerifiedChild() ? cocoPath('/parents/add-another-child') : cocoPath('/parents/dashboard')") {{ $t('nav.dashboard') }}
-
-              li
-                a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
-
-              li(v-if="me.isTeacher()")
-                ul.nav.navbar-nav
-                  li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span {{ $t('nav.dashboard') }}
-                      caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/teachers/classes')")
-                      li
-
-                      li(v-if="me.isSchoolAdmin()")
-                        a.text-p(:href="ozPath('/school-administrator')")
-                          span(:class="checkLocation('/school-administrator', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria_admin_dashboard`) }}
-                      li(v-if="me.isSchoolAdmin()")
-                        a.text-p(:class="checkLocation('/school-administrator', CODECOMBAT) && 'text-teal'" :href="cocoPath('/school-administrator')") {{ $t(`nav.codecombat_admin_dashboard`) }}
-
-              li(v-else-if="me.isStudent()")
-                ul.nav.navbar-nav
-                  li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span {{ $t('nav.my_courses') }}
-                      caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/students')")
-                          span(:class="checkLocation('/students', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                      li
-                        a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") {{ $t('nav.codecombat_classroom') }}
+                a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
 
               li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
                 a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
@@ -277,8 +459,8 @@ export default Vue.extend({
                   img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}")
                   span.unreadMessage(v-if="unread")
                   span {{ $t('nav.my_account') }}
-                  caret
-                ul.dropdown-menu.pull-right
+                  caret.dropdown-caret
+                ul.dropdown-menu
                   li.user-dropdown-header.text-center.hidden-xs.hidden-sm
                     a(:href="cocoPath(`/user/${me.getSlugOrID()}`)")
                       img.img-circle(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
@@ -292,7 +474,7 @@ export default Vue.extend({
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
                     a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")
-                      caret(v-if="this.announcements.length")
+                      caret.rotate-left(v-if="this.announcements.length")
                       span {{ $t('announcement.notifications') }}
                       span.unread(v-if="unread") {{ unread }}
                     announcement-nav.announcement-nav(v-if="this.announcements.length")
@@ -390,6 +572,10 @@ export default Vue.extend({
     }
   }
 
+  .dropdown-menu.text-wide {
+    width: 400px;
+  }
+
   .dropdown-menu,
   ::v-deep .language-dropdown {
     @media (max-width: 991px) {
@@ -419,10 +605,15 @@ export default Vue.extend({
 
   .navbar-collapse {
     max-height: min(600px, 50vh);
+
+    .nav.navbar-nav {
+      max-width: 100%;
+    }
   }
 
   .language-dropdown {
-    transform: translateX(-60%);
+    left: unset;
+    right: 0;
     @media screen and (min-width: $screen-md-min) {
       max-height: calc(100vh - 80px);
       overflow-y: scroll;
@@ -452,6 +643,7 @@ export default Vue.extend({
       align-items: center;
 
       .nav.navbar-nav {
+        max-width: 100%;
         flex-grow: 1;
         display: flex;
         justify-content: center;
@@ -461,13 +653,15 @@ export default Vue.extend({
         margin-left: auto;
         display: flex;
         align-items: center;
-        > .login-buttons {
-          position:relative;
+
+        >.login-buttons {
+          position: relative;
           padding-right: 6px;
           margin-right: 6px;
+
           &:after {
             border-right: 1px solid $light-grey-2;
-            content:'';
+            content: '';
             position: absolute;
             right: 0;
             top: 5px;
@@ -499,10 +693,84 @@ export default Vue.extend({
     }
   }
 
+  a.text-p {}
+
+  .text-description {
+    font-size: 12px;
+    color: $dark-grey-2;
+    white-space: normal;
+  }
+
   .login-buttons {
     li {
       margin: auto 10px;
     }
+  }
+
+  .img-circle {
+    border: $gold 8px solid;
+    width: 98px;
+    height: 98px; // Includes the border
+  }
+
+  .img-circle-small {
+    border: $gold 3px solid;
+    width: 33px;
+    height: 33px;
+  }
+
+  // For teacher avatars
+  .border-burgundy {
+    border-color: $navy;
+  }
+
+  .border-navy {
+    border-color: $navy;
+  }
+
+  span.unreadMessage {
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    top: 10px;
+    left: 45px;
+    border-radius: 50%;
+    background-color: $yellow;
+    box-shadow: 0 0 2px 2px $yellow;
+  }
+
+  .dropleft {
+    .announcement-nav {
+      position: absolute;
+      left: auto;
+      right: 100%;
+      top: 0;
+    }
+    .rotate-left {
+      transform: rotate(90deg);
+    }
+  }
+
+  span.unread {
+    width: 1.2em;
+    height: 1.2em;
+    margin-left: 1em;
+    line-height: 1.2em;
+    border-radius: 50%;
+    background-color: $yellow;
+    color: white;
+    display: inline-block;
+    margin-left: 0.5em;
+  }
+
+  .dropdown-caret {
+    margin-left: 5px;
+  }
+
+  .account-dropdown-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>
