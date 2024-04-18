@@ -51,7 +51,8 @@ export default {
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
       getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
       getLevelsForClassroom: 'levels/getLevelsForClassroom',
-      getSessionsForClassroom: 'levelSessions/getSessionsForClassroom'
+      getSessionsForClassroom: 'levelSessions/getSessionsForClassroom',
+      getLoading: 'teacherDashboard/getLoadingState'
     }),
 
     showLicenses () {
@@ -106,6 +107,9 @@ export default {
         classroom, sortedCourses, students, courses, courseInstances, levels, progressData
       })
       this.exportingProgress = false
+    },
+    onRefresh () {
+      this.$emit('refresh')
     }
   }
 }
@@ -124,6 +128,14 @@ export default {
         :value="sortBy"
 
         @change="changeSortBy"
+      />
+      <icon-button-with-text
+        class="icon-with-text larger-icon"
+        :inactive="getLoading"
+        :spinning="getLoading"
+        :icon-name="'IconReload'"
+        :text="$t('teacher_dashboard.refresh_progress')"
+        @click="onRefresh"
       />
       <!-- TODO - enable and use jQuery to scroll. -->
       <!-- TODO - use the store to send the signal. -->
