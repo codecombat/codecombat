@@ -351,7 +351,6 @@ module.exports = (TeacherClassView = (function () {
           this.latestReleasedCourses = this.courses.where({ releasePhase: 'released' })
         }
         this.latestReleasedCourses = utils.sortCourses(this.latestReleasedCourses)
-        console.log('getLatestcourses', this.latestReleasedCourses, this.courses.first())
       }
     }
 
