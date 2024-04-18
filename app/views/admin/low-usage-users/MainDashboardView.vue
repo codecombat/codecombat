@@ -93,4 +93,11 @@ export default {
     font-size: 1.5rem;
   }
 }
+
+.low-usage__title {
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 </style>
