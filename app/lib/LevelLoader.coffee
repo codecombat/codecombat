@@ -102,7 +102,8 @@ module.exports = class LevelLoader extends CocoClass
 
   classroomLoaded: ->
     locked = @classroom.isStudentOnLockedLevel(me.get('_id'), @courseID, @level.get('original'))
-    Backbone.Mediator.publish 'level:locked', level: @level, session: @session
+    if locked
+      Backbone.Mediator.publish 'level:locked', level: @level, session: @session
 
   reportLoadError: ->
     return if @destroyed
