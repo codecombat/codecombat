@@ -49,6 +49,7 @@ export default {
 
   data: () => ({
     isGuidelinesVisible: true,
+    refreshKey: 0
   }),
 
   computed: {
@@ -80,6 +81,9 @@ export default {
     },
 
     modules () {
+      // Reference below required to trigger a re-render when the refresh button is clicked.
+      this.refreshKey // eslint-disable-line no-unused-expressions
+
       const selectedCourseId = this.selectedCourseId
       const modules = (this.gameContent[selectedCourseId] || {}).modules
       if (modules === undefined) {
@@ -429,6 +433,11 @@ export default {
       this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
     },
 
+    async onRefresh () {
+      await this.fetchClassroomData(this.classroomId)
+      this.refreshKey += 1
+    },
+
     onChangeStudentSort (sortMethod) {
       this.sortMethod = sortMethod
     },
@@ -540,6 +549,7 @@ export default {
       @assignContent="$emit('assignContent')"
       @addStudents="$emit('addStudents')"
       @removeStudents="$emit('removeStudents')"
+      @refresh="onRefresh"
     />
 
     <table-class-frame

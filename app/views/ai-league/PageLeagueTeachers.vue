@@ -70,6 +70,10 @@ export default {
       return this.clanByIdOrSlug(this.clanIdOrSlug) || null
     },
 
+    hasEsportsProduct () {
+      return me.getProductsByType('esports').length > 0
+    },
+
     currentSelectedClanChildDetails () {
       const selectedId = this.clanIdSelected
       if (selectedId === '') {
@@ -254,6 +258,7 @@ export default {
           >{{
             $t('teacher_dashboard.view_team_page') }}</a>
           <button
+            v-if="hasEsportsProduct"
             class="toggle-league"
             @click="toggleLeague"
           >
