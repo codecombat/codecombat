@@ -49,7 +49,8 @@ export default {
 
   data: () => ({
     isGuidelinesVisible: true,
-    refreshKey: 0
+    refreshKey: 0,
+    sortMethod: storage.load('sortMethod') || 'Last Name'
   }),
 
   computed: {
@@ -70,15 +71,6 @@ export default {
       getSelectableOriginals: 'baseSingleClass/getSelectableOriginals',
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom'
     }),
-
-    sortMethod: {
-      get () {
-        return storage.load('sortMethod') || 'Last Name'
-      },
-      set (method) {
-        storage.save('sortMethod', method)
-      }
-    },
 
     modules () {
       // Reference below required to trigger a re-render when the refresh button is clicked.
@@ -439,6 +431,7 @@ export default {
     },
 
     onChangeStudentSort (sortMethod) {
+      storage.save('sortMethod', sortMethod)
       this.sortMethod = sortMethod
     },
 
