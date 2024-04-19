@@ -29,7 +29,6 @@ const ClassroomLib = {
 
     if (!classroom.studentLockMap[studentId]) {
       classroom.studentLockMap[studentId] = {
-        courseId,
         lockedLevels: {}
       }
     }
