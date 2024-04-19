@@ -198,7 +198,7 @@ export default Vue.extend({
       const anonymous = {
         educators: {
           url: isCodeCombat ? '/schools' : '/',
-          title: 'Educators',
+          title: 'nav.educators',
           children: [
             items.CREATE_FREE_ACCOUNT,
             items.SCHOOL_AND_DISTRICT,
