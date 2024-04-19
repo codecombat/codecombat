@@ -451,7 +451,7 @@ export default Vue.extend({
               li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
                 a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
 
-            ul.nav.navbar-nav(v-if="!me.isAnonymous()")
+            ul.nav.navbar-nav.loggedin(v-if="!me.isAnonymous()")
               li(v-if="me.isTarena()")
                 a.text-p#logout-button {{ $t('login.log_out') }}
               li.dropdown(v-else)
@@ -647,6 +647,21 @@ export default Vue.extend({
         flex-grow: 1;
         display: flex;
         justify-content: center;
+        &.loggedin {
+          flex-grow: 0;
+          position: relative;
+          padding-right: 6px;
+          margin-right: 6px;
+          &:after {
+            border-right: 1px solid $light-grey-2;
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 27px;
+          }
+        }
       }
 
       .right {
