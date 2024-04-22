@@ -448,9 +448,6 @@ export default Vue.extend({
 
                 a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
 
-              li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
-                a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
-
             ul.nav.navbar-nav.loggedin(v-if="!me.isAnonymous()")
               li(v-if="me.isTarena()")
                 a.text-p#logout-button {{ $t('login.log_out') }}
