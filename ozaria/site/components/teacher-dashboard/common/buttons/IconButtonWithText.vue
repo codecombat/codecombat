@@ -1,4 +1,3 @@
-
 <script>
 export default {
   props: {
@@ -15,6 +14,11 @@ export default {
     inactive: {
       type: Boolean,
       default: false
+    },
+    spinning: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
   methods: {
@@ -36,7 +40,8 @@ export default {
   >
     <img
       v-if="iconName"
-      :src="'/images/ozaria/teachers/dashboard/svg_icons/'+iconName+'.svg'"
+      :class="{spinning}"
+      :src="'/images/ozaria/teachers/dashboard/svg_icons/' + iconName + '.svg'"
     >
     <span> {{ text }} </span>
   </div>
@@ -69,9 +74,24 @@ export default {
 
   &.disabled {
     cursor: default;
+
     span {
       color: #ADADAD;
     }
   }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
 }
 </style>

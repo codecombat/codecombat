@@ -49,6 +49,8 @@ export default {
 
   data: () => ({
     isGuidelinesVisible: true,
+    refreshKey: 0,
+    sortMethod: storage.load('sortMethod') || 'Last Name'
   }),
 
   computed: {
@@ -70,16 +72,10 @@ export default {
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom'
     }),
 
-    sortMethod: {
-      get () {
-        return storage.load('sortMethod') || 'Last Name'
-      },
-      set (method) {
-        storage.save('sortMethod', method)
-      }
-    },
-
     modules () {
+      // Reference below required to trigger a re-render when the refresh button is clicked.
+      this.refreshKey // eslint-disable-line no-unused-expressions
+
       const selectedCourseId = this.selectedCourseId
       const modules = (this.gameContent[selectedCourseId] || {}).modules
       if (modules === undefined) {
@@ -429,7 +425,13 @@ export default {
       this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
     },
 
+    async onRefresh () {
+      await this.fetchClassroomData(this.classroomId)
+      this.refreshKey += 1
+    },
+
     onChangeStudentSort (sortMethod) {
+      storage.save('sortMethod', sortMethod)
       this.sortMethod = sortMethod
     },
 
@@ -540,6 +542,7 @@ export default {
       @assignContent="$emit('assignContent')"
       @addStudents="$emit('addStudents')"
       @removeStudents="$emit('removeStudents')"
+      @refresh="onRefresh"
     />
 
     <table-class-frame
