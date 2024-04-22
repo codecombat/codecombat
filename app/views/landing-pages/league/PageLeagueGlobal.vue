@@ -819,6 +819,11 @@ export default {
           class="btn btn-large btn-primary btn-moon play-btn-cta"
         >{{ $t('league.earn_codepoints') }}</a>
         <a
+          v-else-if="isTeacher()"
+          href="/teachers/classes"
+          class="btn btn-large btn-primary btn-moon play-btn-cta"
+        >{{ $t('league.earn_codepoints') }}</a>
+        <a
           v-else
           href="/play"
           class="btn btn-large btn-primary btn-moon play-btn-cta"
