@@ -7,6 +7,7 @@ import LockOrSkip from './table/LockOrSkip'
 import studentProgressCalculator from 'lib/studentProgressCalculator'
 
 import { mapActions, mapGetters } from 'vuex'
+import storage from '../../../../../app/core/storage'
 
 const Classroom = require('models/Classroom')
 const Users = require('collections/Users')
@@ -50,11 +51,16 @@ export default {
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
       getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
       getLevelsForClassroom: 'levels/getLevelsForClassroom',
-      getSessionsForClassroom: 'levelSessions/getSessionsForClassroom'
+      getSessionsForClassroom: 'levelSessions/getSessionsForClassroom',
+      getLoading: 'teacherDashboard/getLoadingState'
     }),
 
     showLicenses () {
       return !me.isCodeNinja()
+    },
+
+    sortBy () {
+      return storage.load('sortMethod') || 'Last Name'
     }
   },
   methods: {
@@ -101,6 +107,9 @@ export default {
         classroom, sortedCourses, students, courses, courseInstances, levels, progressData
       })
       this.exportingProgress = false
+    },
+    onRefresh () {
+      this.$emit('refresh')
     }
   }
 }
@@ -116,8 +125,17 @@ export default {
         :label-text="$t('teacher.sort_by')"
         class="dropdowns"
         :options="['Last Name', 'First Name', 'Progress (High to Low)', 'Progress (Low to High)']"
+        :value="sortBy"
 
         @change="changeSortBy"
+      />
+      <icon-button-with-text
+        class="icon-with-text larger-icon"
+        :inactive="getLoading"
+        :spinning="getLoading"
+        :icon-name="'IconReload'"
+        :text="$t('teacher_dashboard.refresh_progress')"
+        @click="onRefresh"
       />
       <!-- TODO - enable and use jQuery to scroll. -->
       <!-- TODO - use the store to send the signal. -->

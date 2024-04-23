@@ -210,6 +210,9 @@ export default {
   h2 {
     @include font-h-4-nav-uppercase-black;
     padding-right: 24px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 30px;
   }
 
   #class-summary-row {

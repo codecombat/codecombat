@@ -273,7 +273,8 @@ module.exports = (TeacherClassView = (function () {
         this.setCourseMembers() // Is this necessary?
         if (!this.state.get('selectedCourse')) {
           const courseId = localStorage.getItem(getLastSelectedCourseKey(this.classroom.id))
-          this.state.set('selectedCourse', courseId ? this.courses.get(courseId) : this.courses.first())
+          this.getLatestCourses()
+          this.state.set('selectedCourse', courseId ? this.courses.get(courseId) : this.latestReleasedCourses[0])
         }
         return this.setSelectedCourseInstance()
       })
@@ -345,10 +346,24 @@ module.exports = (TeacherClassView = (function () {
       })
     }
 
+    getLatestCourses () {
+      if (!this.latestReleasedCourses.length) {
+        if (me.isAdmin()) {
+          this.latestReleasedCourses = this.courses.models
+        } else if (me.isBetaTester()) {
+          const released = this.courses.where({ releasePhase: 'released' })
+          const beta = this.courses.where({ releasePhase: 'beta' })
+          this.latestReleasedCourses = released.concat(beta)
+        } else {
+          this.latestReleasedCourses = this.courses.where({ releasePhase: 'released' })
+        }
+        this.latestReleasedCourses = utils.sortCourses(this.latestReleasedCourses)
+      }
+    }
+
     onLoaded () {
       // Get latest courses for student assignment dropdowns
-      this.latestReleasedCourses = me.isAdmin() ? this.courses.models : this.courses.where({ releasePhase: 'released' })
-      this.latestReleasedCourses = utils.sortCourses(this.latestReleasedCourses)
+      this.getLatestCourses()
       this.removeDeletedStudents() // TODO: Move this to mediator listeners? For both classroom and students?
       this.calculateProgressAndLevels()
       this.paidTeacher = this.prepaids.find((p) => ['course', 'starter_license'].includes(p.get('type')) && p.get('maxRedeemers') > 0 && (me.showChinaResourceInfo() ? (new Date() < new Date(p.get('endDate'))) : true)) || false

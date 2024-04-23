@@ -227,8 +227,16 @@ export default function getVueRouter () {
                 }
               }
             },
-            { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDView.vue') }
+            { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDView.vue') },
+            {
+              path: 'ai-league',
+              component: () => import(/* webpackChunkName: "ai-league" */ '../views/ai-league/AILeagueView.vue'),
+              children: [
+                { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueViewTeachers" */ 'app/views/ai-league/PageLeagueTeachers') }
+              ]
+            }
           ]
+
         },
         {
           path: '/roblox',
@@ -322,16 +330,20 @@ export default function getVueRouter () {
           name: 'StandardsPage',
           component: () => import(/* webpackChunkName: "standardsPage" */'app/views/standards/PageStandards')
         },
-        {
-          path: '/home',
-          name: 'HomeBeta1',
-          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
-        },
-        {
-          path: '/',
-          name: 'HomeBeta2',
-          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
-        },
+        ...(
+          me.getHomePageExperimentValue() === 'beta'
+            ? [{
+                path: '/home',
+                name: 'HomeBeta1',
+                component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+              },
+              {
+                path: '/',
+                name: 'HomeBeta2',
+                component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+              }]
+            : []
+        ),
         {
           path: '/admin/low-usage-users',
           name: 'LowUsageUsersAdmin',

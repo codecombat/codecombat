@@ -8,7 +8,6 @@ import ClassInfoRow from './ClassInfoRow'
 import moment from 'moment'
 
 import { mapActions, mapGetters } from 'vuex'
-import DashboardToggle from './DashboardToggle.vue'
 
 const Classroom = require('models/Classroom')
 
@@ -19,7 +18,6 @@ export default {
     'licenses-component': LicensesComponent,
     'nav-select-unit': NavSelectUnit,
     'class-info-row': ClassInfoRow,
-    'dashboard-toggle': DashboardToggle
   },
 
   props: {
@@ -200,7 +198,7 @@ export default {
         @change-course=" (courseId) => $emit('change-course', courseId)"
       />
 
-      <div style="display: flex;">
+      <div class="main-buttons-container">
         <a :href="outcomesReportLink">
           <primary-button
             v-if="showOutcomesReportButton"
@@ -227,12 +225,6 @@ export default {
           @click="clickCurriculumGuide"
         />
       </div>
-      <dashboard-toggle
-        v-if="isCodeCombat"
-        size="sm"
-        :show-title="true"
-        reload-location="/teachers/classes"
-      />
     </div>
   </div>
 </template>
@@ -250,6 +242,19 @@ export default {
 .btn-margins-height {
   margin: 0 12.5px;
   white-space: nowrap;
+}
+
+.main-buttons-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  .btn-margins-height {
+    margin: 0;
+  }
+  .btn-title-padding {
+    padding: 8px 12px;
+  }
 }
 
 .sub-nav {
@@ -286,7 +291,6 @@ export default {
   border: 1px solid #d8d8d8;
   border-left: unset;
   border-right: unset;
-  min-width: 1260px;
 
   display: flex;
   flex-direction: row;
@@ -303,10 +307,6 @@ export default {
   -webkit-box-shadow: 0 8px 6px -6px #D2D2D2;
     -moz-box-shadow: 0 8px 6px -6px #D2D2D2;
         box-shadow: 0 8px 6px -6px #D2D2D2;
-
-  @media (max-width: 1280px) {
-    min-width: 1000px;
-  }
 }
 
 h1 {

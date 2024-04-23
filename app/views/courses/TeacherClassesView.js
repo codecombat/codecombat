@@ -44,6 +44,7 @@ const TrialRequest = require('models/TrialRequest')
 const TrialRequests = require('collections/TrialRequests')
 const PodcastItemContainer = require('./PodcastItemContainer').default
 const globalVar = require('core/globalVar')
+const DashboardToggle = require('ozaria/site/components/teacher-dashboard/common/DashboardToggle.vue').default
 
 const translateWithMarkdown = label => marked.inlineLexer($.i18n.t(label), [])
 
@@ -293,9 +294,11 @@ module.exports = (TeacherClassesView = (function () {
           el: this.$('.banner-hoc')[0]
         })
 
-        new PodcastItemContainer({
+        this.podcastItemContainer = new PodcastItemContainer({
           el: this.$('.podcast-item-container')[0]
         })
+
+        this.dashboardToggle = new DashboardToggle({ propsData: { size: 'sm', showTitle: true }, el: this.$el.find('#dashboard-toggle')[0] })
       }
 
       return $('.progress-dot').each(function (i, el) {
@@ -309,6 +312,9 @@ module.exports = (TeacherClassesView = (function () {
 
     destroy () {
       this.cleanupEncouragementModal()
+      if (this.dashboardToggle != null) {
+        this.dashboardToggle.$destroy()
+      }
       return super.destroy()
     }
 

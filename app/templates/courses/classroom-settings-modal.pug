@@ -109,10 +109,10 @@ block modal-body-content
             label
               span(data-i18n="teachers.default_code_format")
             - var aceConfig = view.classroom.get('aceConfig') || {}
-            - var defaultCodeFormat = aceConfig.defaultCodeFormat
-            if defaultCodeFormat === undefined
-              - defaultCodeFormat = 'text-code'
-            select.form-control(name="defaultCodeFormat" value=defaultCodeFormat)
+            - var codeFormatDefault = aceConfig.codeFormatDefault
+            if codeFormatDefault === undefined
+              - codeFormatDefault = 'text-code'
+            select.form-control(name="codeFormatDefault" value=codeFormatDefault)
               each format in allCodeFormats
                 - var i18nPrefix = 'choose_hero.' + format.replace(/-/g, '_')
                 option(value=format)= $.i18n.t(i18nPrefix) + ' - ' + $.i18n.t(i18nPrefix + '_blurb')
