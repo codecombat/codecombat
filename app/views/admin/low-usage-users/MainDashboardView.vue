@@ -6,6 +6,7 @@
     <filter-component
       @show-done="onShowDone"
       @user-search="onUserSearch"
+      @show-sort="onShowSorted"
     />
     <div class="count">
       {{ filteredLowUsageUsers.length }} users found
@@ -32,6 +33,7 @@ export default {
   data () {
     return {
       showDone: false,
+      showSorted: false,
       search: ''
     }
   },
@@ -40,7 +42,10 @@ export default {
       lowUsageUsers: 'lowUsageUsers/getLowUsageUsers'
     }),
     filteredLowUsageUsers () {
-      let users = this.lowUsageUsers
+      let users = [...this.lowUsageUsers]
+      if (this.showSorted) {
+        users.sort((a, b) => b.licenseInfo.maxRedeemers - a.licenseInfo.maxRedeemers)
+      }
       if (this.showDone) {
         users = users.filter(u => isMarkedDone(u))
       } else {
@@ -67,6 +72,9 @@ export default {
     }),
     onShowDone (val) {
       this.showDone = val
+    },
+    onShowSorted (value) {
+      this.showSorted = value
     },
     onUserSearch (value) {
       this.search = value
