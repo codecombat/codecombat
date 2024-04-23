@@ -402,7 +402,7 @@ module.exports = (CampaignView = (function () {
               onDestroy: () => {
                 if (this.destroyed) { return }
                 delayMusicStart()
-                return this.highlightElement('.level.next', { delay: 500, duration: 60000, rotation: 0, sides: ['top'] })
+                this.highlightNextLevel()
               }
             })
             )
@@ -823,7 +823,7 @@ module.exports = (CampaignView = (function () {
       this.updateVolume()
       this.updateHero()
       if (!window.currentModal && !!this.fullyRendered) {
-        this.highlightElement('.level.next', { delay: 500, duration: 60000, rotation: 0, sides: ['top'] })
+        this.highlightNextLevel()
         if (this.editorMode) { this.createLines() }
         if (this.options.showLeaderboard) {
           this.showLeaderboard(this.options.justBeatLevel != null ? this.options.justBeatLevel.get('slug') : undefined)
@@ -1345,13 +1345,17 @@ ${problem.category} - ${problem.score} points\
       return levelElement.toggleClass('has-loading-error', true)
     }
 
+    highlightNextLevel () {
+      this.highlightElement('.level.next', { delay: 500, duration: 60000, rotation: 0, sides: ['top'] })
+    }
+
     onClickMap (e) {
       if (this.$levelInfo != null) {
         this.$levelInfo.hide()
       }
       if ((this.sessions != null ? this.sessions.models.length : undefined) < 3) {
         // Restore the next level higlight for very new players who might otherwise get lost.
-        return this.highlightElement('.level.next', { delay: 500, duration: 60000, rotation: 0, sides: ['top'] })
+        this.highlightNextLevel()
       }
     }
 
@@ -1520,7 +1524,10 @@ ${problem.category} - ${problem.score} points\
       }
       const resultingMarginX = (pageWidth - resultingWidth) / 2
       const resultingMarginY = (pageHeight - resultingHeight) / 2
-      return this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
+      this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
+      if (this.pointerInterval) {
+        this.highlightNextLevel()
+      }
     }
 
     playAmbientSound () {
