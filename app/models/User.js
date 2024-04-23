@@ -161,8 +161,9 @@ module.exports = (User = (function () {
     isIndividualUser () { return !this.isStudent() && !User.isTeacher(this.attributes) }
 
     isNewDashboardActive () {
+      const china = window.features?.china
       const features = {
-        isNewDashboardActive: true,
+        isNewDashboardActive: !china,
         ...(this.get('features') || {})
       }
       return features.isNewDashboardActive

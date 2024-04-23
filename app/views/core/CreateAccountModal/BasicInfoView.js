@@ -407,7 +407,7 @@ module.exports = (BasicInfoView = (function () {
 
           me.set('features', {
             ...(me.get('features') || {}),
-            isNewDashboardActive: true
+            isNewDashboardActive: !me.showChinaResourceInfo()
           })
 
           const jqxhr = me.save()
