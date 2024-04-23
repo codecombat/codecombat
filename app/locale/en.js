@@ -452,7 +452,7 @@ module.exports = {
       resources: 'Resources',
       curriculum: 'Curriculum',
       company: 'Company',
-      coco_home_description: 'With access to all 530 levels and exclusive features like pets, premium only items, and heroes, your child can fully immerse themselves in the world of coding.',
+      coco_home_description: 'With access to all 530 levels and exclusive features like pets, premium only items, and heroes, anyone can fully immerse themselves in the world of coding.',
       coco_classroom_description: 'A full CS curriculum that builds from core concepts all the way through web development, game development and AP CSP.',
       coco_junior_description: 'Our flagship K-5 curriculum features a progression of learning levels that teach basic coding concepts at a slower pace, modeled specifically for elementary students.',
       oz_classroom_description: 'An enchanting narrative coding adventure that establishes the fundamentals of computer science.',
