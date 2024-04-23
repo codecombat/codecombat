@@ -611,6 +611,7 @@ export default Vue.extend({
   .language-dropdown {
     left: unset;
     right: 0;
+
     @media screen and (min-width: $screen-md-min) {
       max-height: calc(100vh - 80px);
       overflow-y: scroll;
@@ -644,11 +645,13 @@ export default Vue.extend({
         flex-grow: 1;
         display: flex;
         justify-content: center;
+
         &.loggedin {
           flex-grow: 0;
           position: relative;
           padding-right: 6px;
           margin-right: 6px;
+
           &:after {
             border-right: 1px solid $light-grey-2;
             content: '';
@@ -705,12 +708,19 @@ export default Vue.extend({
     }
   }
 
-  a.text-p {}
+  li {
+    >.text-p>.text-description {
+      font-size: 12px;
+      color: $dark-grey-2;
+      white-space: normal;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease-in-out;
+    }
 
-  .text-description {
-    font-size: 12px;
-    color: $dark-grey-2;
-    white-space: normal;
+    &:hover>.text-p>.text-description {
+      max-height: 100px;
+    }
   }
 
   .login-buttons {
@@ -758,6 +768,7 @@ export default Vue.extend({
       right: 100%;
       top: 0;
     }
+
     .rotate-left {
       transform: rotate(90deg);
     }
