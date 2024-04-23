@@ -60,6 +60,7 @@ module.exports = (AdministerUserModal = (function () {
         'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox',
         'click #beta-tester-checkbox': 'onClickBetaTesterCheckbox',
         'click #edit-school-admins-link': 'onClickEditSchoolAdmins',
+        'click #edit-online-teacher-link': 'onClickEditOnlineTeacher',
         'submit #teacher-search-form': 'onSubmitTeacherSearchForm',
         'click .add-administer-teacher': 'onClickAddAdministeredTeacher',
         'click #clear-teacher-search-button': 'onClearTeacherSearchResults',
@@ -589,6 +590,23 @@ module.exports = (AdministerUserModal = (function () {
         return this.user.fetch({ cache: false }).then(() => this.render())
       })
       return true
+    }
+
+    onClickEditOnlineTeacher (e) {
+      if (typeof this.editingOnlineTeacher === 'undefined') {
+        api.admin.fetchOnlineTeacherInfo(this.user.id).then(info => {
+          this.onlineTeacherInfo = info
+          return this.updateOnlineTeacherInfo()
+        }).catch(jqxhr => {
+          const errorString = 'There was an error getting existing onlineTeacherInfo, see the console'
+          this.userSaveState = errorString
+          this.render()
+          return console.error(errorString, jqxhr)
+        })
+      }
+
+      this.editingOnlineTeacher = !this.editingOnlineTeacher
+      return this.render()
     }
 
     onClickEditSchoolAdmins (e) {

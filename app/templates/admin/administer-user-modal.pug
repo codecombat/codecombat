@@ -83,11 +83,15 @@ block modal-header-content
         input#online-teacher-checkbox(type='checkbox', checked=view.userIsOnlineTeacher())
         span.p-l-1
           | Enable Online Teacher
+        if view.userIsOnlineTeacher()
+          span.p-l-1
+            a#edit-online-teacher-link edit
       div
         if view.userSaveState == 'saving'
           | Saving...
         else if view.userSaveState == 'saved'
           | Saved!
+      div.edit-online-teacher
 
   if view.user.isTeacher() && me.isAdmin()
     div.m-t-1
