@@ -1964,8 +1964,11 @@ ${problem.category} - ${problem.score} points\
         level.noFlag = !level.next
 
         let lockSkippedLevel = false
-        if ((level.slug === this.courseInstance.get('startLockedLevel')) || // lock level begin from startLockedLevel
-        this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original, this.courseInstance.get('startLockedLevel'))) {
+        const startLockedLevel = this.courseInstance.get('startLockedLevel')
+        const legacyLock = startLockedLevel && level.slug === startLockedLevel
+
+        if (legacyLock ||
+        this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original)) {
           if (!this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
             lockedByTeacher = true
           } else {
