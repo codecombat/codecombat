@@ -429,7 +429,18 @@ export default {
       }
       this.inProgress = false
     }
-  }
+  },
+
+  metaInfo () {
+    return {
+      title: this.$t('roblox_landing.meta_title'),
+      meta: [
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+        { vmid: 'meta-description', name: 'description', content: this.$t('roblox_landing.subhead') },
+      ]
+    }
+  },
+
 }
 </script>
 

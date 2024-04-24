@@ -41,7 +41,7 @@ export default {
         v-if="isAssigned"
         class="assigned"
       >
-        ✅ Assigned
+        {{ '✅ ' + $t('teacher.assigned') }}
       </p>
     </div>
     <div class="outer-loading-bar">

@@ -18,6 +18,15 @@
       >
       <label for="filter-done">Marked as done</label>
     </div>
+    <div class="filter">
+      <input
+        id="filter-sort"
+        v-model="showSorted"
+        type="checkbox"
+        class="filter__done"
+      >
+      <label for="filter-sort">Sort by licenses</label>
+    </div>
   </div>
 </template>
 
@@ -27,13 +36,19 @@ export default {
   data () {
     return {
       search: '',
-      showDone: false
+      showDone: false,
+      showSorted: false
     }
   },
   watch: {
     showDone (newVal, oldVal) {
       if (newVal !== oldVal) {
         this.$emit('show-done', newVal)
+      }
+    },
+    showSorted (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.$emit('show-sort', newVal)
       }
     }
   },
