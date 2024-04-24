@@ -1659,7 +1659,6 @@ module.exports = {
       jobs_benefit_10: '产假：10周工资及未来6周55%工资',
       jobs_benefit_11: '陪产假: 10周工资',
       //    jobs_benefit_12: "$50/mo internet & biz services benefit",
-      //    jobs_benefit_13: "$50/mo health and wellness benefit",
       //    jobs_benefit_14: "100% distributed team",
       jobs_custom_title: '创造你自己的工作',
       jobs_custom_description: '对 CodeCombat 充满激情却没找到适合自己的职业？给我们写信说明你该如何做出贡献。我们期待你的建议！',
@@ -5044,6 +5043,7 @@ module.exports = {
     },
 
     roblox_landing: {
+      //    meta_title: "CodeCombat Worlds on Roblox: Play, Code and Create",
       //    headline: "Empowering Every Player to Become a Creator!",
       //    subhead: "Experience the easiest and most enjoyable way to code and create your own Roblox games",
       //    join_the_beta: "Join the Beta",
@@ -5241,6 +5241,7 @@ module.exports = {
     },
 
     schools_page: {
+      //    meta_title: "CodeCombat: the most effective computer science solution for schools",
       //    most_effective_computer_science_solution: "The most effective computer science solution for **schools**",
       //    our_comprehensive_implementation: "Our comprehensive implementation empowers teachers, engages students and delivers successful outcomes.",
       //    get_my_solution: "Get My Solution",
