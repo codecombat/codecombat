@@ -460,7 +460,7 @@ module.exports = {
       ai_league_description: 'An epic competitive coding esports platform that encourages creative programming practice in a game-based environment.',
       roblox_description: 'This MMORPG teaches Lua coding and provides a real-world platform to create amazing games and experiences.',
       ai_hackstack_description: 'The first generative AI companion tool specifically crafted for those new to AI with a focus on student privacy and safety.',
-      ai_hackstack_junior_description: 'Introduces multimodal generative AI in a simple and intuitive platform designed specifically for K-5 students.',
+      ai_junior_description: 'Introduces multimodal generative AI in a simple and intuitive platform designed specifically for K-5 students.',
       learning_options: 'Learning Options'
     },
 
