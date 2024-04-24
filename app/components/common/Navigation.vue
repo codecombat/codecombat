@@ -255,8 +255,8 @@ export default Vue.extend({
               description: 'nav.ai_hackstack_description'
             },
             {
-              ...items.AI_HACKSTACK_JUNIOR,
-              description: 'nav.ai_hackstack_junior_description'
+              ...items.AI_JUNIOR,
+              description: 'nav.ai_junior_description'
             }
           ]
         },
