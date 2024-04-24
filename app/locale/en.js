@@ -441,7 +441,7 @@ module.exports = {
       ap_csp: 'AP CSP',
       ai_league_esports: 'AI League Esports',
       ai_hackstack_beta: 'AI HackStack (Beta)',
-      ai_hackstack_junior_beta: 'AI HackStack Junior (Beta)',
+      ai_junior_beta: 'AI Junior (Beta)',
       premium_self_paced: 'Premium Self-Paced',
       codequest: 'CodeQuest',
       library_solutions: 'Library Solutions',
