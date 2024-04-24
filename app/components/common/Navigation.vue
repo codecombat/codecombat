@@ -335,7 +335,7 @@ export default Vue.extend({
             items.AI_LEAGUE,
             items.ROBLOX,
             items.AI_HACKSTACK,
-            items.AI_HACKSTACK
+            items.AI_JUNIOR
           ]
         }
       }
