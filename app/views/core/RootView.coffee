@@ -14,8 +14,6 @@ errors = require 'core/errors'
 utils = require 'core/utils'
 userUtils = require '../../lib/user-utils'
 
-languages = require("language-flag-colors")
-
 BackboneVueMetaBinding = require('app/core/BackboneVueMetaBinding').default
 Navigation = require('app/components/common/Navigation.vue').default
 Footer = require('app/components/common/Footer.vue').default
