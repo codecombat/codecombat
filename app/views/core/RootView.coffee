@@ -200,11 +200,10 @@ module.exports = class RootView extends CocoView
     $('body').attr('lang', preferred)
 
   initializeLanguageDropdown: (newLang) ->
-    emoji = languages.getEmoji(newLang)
-    if not emoji or newLang isnt 'en-US'
+    if newLang isnt 'en-US'
       @$el.find('.language-dropdown-current')?.text(locale[newLang].nativeDescription)
     else
-      @$el.find('.language-dropdown-current')?.html("<span class=\"emoji-flag\">#{emoji}</span>")
+      @$el.find('.language-dropdown-current')?.html("<span class=\"emoji-flag\">🇺🇸</span>")
 
   addLanguagesToSelect: ($select, initialVal) ->
     # For now, we only want to support a few languages for Ozaria that we have people working to translate.
