@@ -1695,7 +1695,6 @@ module.exports = {
       jobs_benefit_10: 'Maternity leave: 12 weeks paid, next 6 @ 55% salary',
       jobs_benefit_11: '12 weeks paid parental leave',
       jobs_benefit_12: '$50/mo internet & biz services benefit',
-      jobs_benefit_13: '$50/mo health and wellness benefit',
       jobs_benefit_14: '100% distributed team',
       jobs_custom_title: 'Create Your Own',
       jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!",
@@ -5080,6 +5079,7 @@ module.exports = {
     },
 
     roblox_landing: {
+      meta_title: 'CodeCombat Worlds on Roblox: Play, Code and Create',
       headline: 'Empowering Every Player to Become a Creator!',
       subhead: 'Experience the easiest and most enjoyable way to code and create your own Roblox games',
       join_the_beta: 'Join the Beta',
@@ -5274,6 +5274,7 @@ module.exports = {
       try_it_now: 'Try it now'
     },
     schools_page: {
+      meta_title: 'CodeCombat: the most effective computer science solution for schools',
       most_effective_computer_science_solution: 'The most effective computer science solution for **schools**',
       our_comprehensive_implementation: 'Our comprehensive implementation empowers teachers, engages students and delivers successful outcomes.',
       get_my_solution: 'Get My Solution',

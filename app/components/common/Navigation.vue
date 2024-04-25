@@ -467,7 +467,7 @@ export default Vue.extend({
                     a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                   li
                     a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                  li(v-if="isCodeCombat && (me.isAdmin() || me.isTeacher() || me.isParentHome() || me.isRegisteredHomeUser())")
+                  li(v-if="isCodeCombat && (me.isAdmin() || me.isParentHome() || me.isRegisteredHomeUser())")
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
                     a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")

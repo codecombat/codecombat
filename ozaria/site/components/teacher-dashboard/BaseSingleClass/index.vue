@@ -107,7 +107,7 @@ export default {
         let moduleDisplayName
         if (!utils.courseModules[this.selectedCourseId]?.[moduleNum]) {
           const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
-          moduleDisplayName = course.name
+          moduleDisplayName = utils.i18n(course, 'name')
         } else {
           // Todo: Ozaria-i18n
           moduleDisplayName = `${utils.isOzaria ? this.$t(`teacher.module${moduleNum}`) : ''}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
