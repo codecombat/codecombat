@@ -214,6 +214,7 @@ export default {
 }
 
 #stickyHeader {
+  min-width: 100%;
   display: inline-block;
   position: sticky;
   position: -webkit-sticky; /* Safari */
