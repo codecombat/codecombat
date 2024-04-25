@@ -237,6 +237,9 @@ export default Vue.extend({
             </button>
           </div>
         </div>
+        <div class="age-restriciton-warning">
+          {{ $t('roblox_landing.age_restriction') }}
+        </div>
         <vue-confirm-dialog />
       </div>
     </div>
@@ -460,5 +463,11 @@ export default Vue.extend({
             }
         }
     }
+}
+
+.age-restriciton-warning {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 5px;
 }
 </style>
