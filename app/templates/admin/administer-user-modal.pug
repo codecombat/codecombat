@@ -83,9 +83,9 @@ block modal-header-content
         input#online-teacher-checkbox(type='checkbox', checked=view.userIsOnlineTeacher())
         span.p-l-1
           | Enable Online Teacher
-        if view.userIsOnlineTeacher()
-          span.p-l-1
-            a#edit-online-teacher-link edit
+      if view.userIsOnlineTeacher()
+        span.p-l-1
+          a#edit-online-teacher-link edit Info
       div
         if view.userSaveState == 'saving'
           | Saving...
@@ -128,7 +128,62 @@ block modal-body-content
     br
     table.table.table-condensed
       #school-admin-result
-
+  
+  if view.editingOnlineTeacher
+    .form#online-teacher-info
+      - info = view.onlineTeacherInfo
+      if info
+        h3.m-t-3.online-teacher-title Edit Online Teacher's Info
+        h6 Spoken Languages
+        .form-group.languages
+          - languageInfo = info.languages || []
+          each lang in view.onlineTeacherSchema.properties.languages.items.enum
+            .checkbox
+              label(class="languages-"+lang)
+                input(type='checkbox' name="languages" value=lang checked=languageInfo.includes(lang))
+                span= lang
+        h6 Trials Only
+        .form-group
+          .checkbox
+            label
+              input(type='checkbox', name='trialsOnly' value='1' checked=info.trialsOnly)
+              | Yes
+        h5 Can Teach
+        h6 Products
+        .form-group.products
+          - productInfo = info.products || []
+          each product in view.onlineTeacherSchema.properties.products.items.enum
+            .checkbox
+              label(class="products-"+product)
+                input(type='checkbox' name="products" value=product checked=productInfo.includes(product))
+                span= product
+        h6 Code Languages
+        .form-group
+          - codeLanguageInfo = info.codeLanguages || []
+          each lang in view.onlineTeacherSchema.properties.codeLanguages.items.properties.language.enum
+            span.codeLanguages= lang
+            h7 - Levels:
+            - langInfo = (codeLanguageInfo.filter(l => l.language === lang))[0] || {}
+            - levelsInfo = langInfo.level || []
+            each level, index in ['Beginners', 'Intermediate', 'Advanced']
+              .checkbox
+                label
+                  input(type='checkbox' name=lang + ".level" value=index checked=levelsInfo.includes(index))
+                  span= level
+            br
+        h6 Availability
+        .form-group
+          - scheduleInfo = info.schedule || []
+          each day in view.onlineTeacherSchema.properties.schedule.items.properties.day.enum
+            span.day= day
+            h7 - Times:
+            - dayInfo = (scheduleInfo.filter(s => s.day === day))[0] || {}
+            - timeInfo = dayInfo.time || []
+            input.day-time(type='text' name=day + '.time' placeholder="Input available start time(0-23), like 1,2,5,17-19" value=timeInfo.join(','))
+            br
+        .form-group
+          button#save-online-teacher-info.btn.btn-primay Save
+ 
   if view.prepaids.size()
     h3.m-t-3#prepaids(data-toggle="collapse" data-target="#prepaids-table" aria-expanded="true" aria-controls="prepaids-table") Existing Prepaids
       span.small click to toggle collapse

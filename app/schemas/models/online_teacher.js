@@ -13,15 +13,9 @@ const OnlineTeacherSchema = schema.object(
       type: 'array',
       description: 'Languages the teacher can speak',
       items: {
-        type: 'string'
+        type: 'string',
+        enum: ['English', 'espanol']
       }
-    },
-    levels: {
-      type: 'array',
-      description: 'Levels the teacher can teach, 0 for beginners, 1 for intermediate, 2 for advanced',
-      items: {
-        type: 'number',
-      },
     },
     products: {
       type: 'array',
@@ -35,8 +29,20 @@ const OnlineTeacherSchema = schema.object(
       type: 'array',
       description: 'Code languages the teacher can teach',
       items: {
-        type: 'string',
-        enum: ['python', 'javascript', 'html', 'css', 'lua', 'java', 'cpp', 'coffeescript']
+        type: 'object',
+        properties: {
+          language: {
+            type: 'string',
+            enum: ['python', 'javascript', 'html', 'css', 'lua', 'java', 'cpp', 'coffeescript']
+          },
+          level: {
+            type: 'array',
+            items: {
+              type: 'number',
+              description: '0 for beginners, 1 for intermediate, 2 for advanced'
+            }
+          }
+        }
       }
     },
     trialsOnly: {
@@ -52,20 +58,18 @@ const OnlineTeacherSchema = schema.object(
             type: 'string',
             enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
           },
-          timeStart: {
-            type: 'string',
-            description: 'Time in 24 hour format',
-            pattern: '^([01]?[0-9]|2[0-3]):[0-5][0-9]$'
+          time: {
+            type: 'array',
+            items: {
+              type: 'number',
+              description: 'Time in 24 hour format, from 0 to 23, PDT timezone'
+            }
           },
-          timeEnd: {
-            type: 'string',
-            description: 'Time in 24 hour format',
-            pattern: '^([01]?[0-9]|2[0-3]):[0-5][0-9]$'
-          }
         }
       }
     }
   }
 )
 
+schema.extendBasicProperties(OnlineTeacherSchema, 'online.teacher')
 module.exports = OnlineTeacherSchema
