@@ -275,7 +275,7 @@ export default {
         </li>
       </ul>
     </li>
-    <li v-if="false">
+    <li v-if="isCodeCombat">
       <router-link
         id="AILeague"
         to="/teachers/ai-league"
