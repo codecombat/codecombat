@@ -364,7 +364,7 @@ module.exports = (AdministerUserModal = (function () {
           }).flat()
           parsedAttrs.schedule.push({
             day: prefix,
-            time
+            time: Array.from(new Set(time)) // Remove duplicates
           })
         } else if (suffix === 'level') {
           if (attrs[key].length === 0) {
