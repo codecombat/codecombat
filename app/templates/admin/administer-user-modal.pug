@@ -172,6 +172,8 @@ block modal-body-content
                   span= level
             br
         h6 Availability
+        span note: use PDT timezone please
+        // todo: adding timezone switcher here
         .form-group
           - scheduleInfo = info.schedule || []
           each day in view.onlineTeacherSchema.properties.schedule.items.properties.day.enum
