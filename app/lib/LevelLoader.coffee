@@ -86,18 +86,23 @@ module.exports = class LevelLoader extends CocoClass
       console.debug 'LevelLoader: loading level:', @level if LOG
       @level = @supermodel.loadModel(@level, 'level', { data: { cacheEdge: true } }).model
       @listenToOnce @level, 'sync', @onLevelLoaded
-    
-    if not @classroomId
+
+    @loadClassroomIfNecessary()
+
+  loadClassroomIfNecessary: ->
+    return if not @classroomId and not @courseInstanceId
+    return if @headless and not @level?.isType('web-dev')
+    if @courseInstanceID and not @classroomId
       @courseInstance = new CourseInstance({_id: @courseInstanceID})
-      @courseInstance.fetch().then () =>
+      @courseInstance.fetch().then =>
         @classroomId = @courseInstance.get('classroomID')
         @classroomIdLoaded()
-    else 
+    else
       @classroomIdLoaded()
 
   classroomIdLoaded: ->
     @classroom = new Classroom({_id: @classroomId})
-    @classroom.fetch().then () =>
+    @classroom.fetch().then =>
       return if @destroyed
       @classroomLoaded()
 
