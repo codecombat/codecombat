@@ -469,5 +469,6 @@ export default Vue.extend({
   font-size: 12px;
   text-align: center;
   margin-top: 5px;
+  line-height: 16px;
 }
 </style>
