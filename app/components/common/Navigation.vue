@@ -108,6 +108,9 @@ export default Vue.extend({
       if (me.isTarena()) { return 'http://kidtts.tmooc.cn/ttsPage/login.html' }
       if (this.hideNav) { return '#' }
       return '/home'
+    },
+    isWideScreen () {
+      return window.innerWidth >= 991
     }
   },
 
@@ -438,7 +441,7 @@ export default Vue.extend({
               li(v-for="navItem in getNavbarData()")
                 ul.nav.navbar-nav(v-if="navItem.children")
                   li.dropdown.dropdown-hover
-                    a.text-p(:href="navItem.url", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                    a.text-p(:href="isWideScreen ? navItem.url : null" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                       span {{ $t(navItem.title) }}
                       caret.dropdown-caret
                     ul(class="dropdown-menu" :class="navItem.children.some(child => child.description) && 'text-wide'")
@@ -571,6 +574,9 @@ export default Vue.extend({
 
   .dropdown-menu.text-wide {
     width: 400px;
+    @media (max-width: 991px) {
+      width: 100%
+    }
   }
 
   .dropdown-menu,
