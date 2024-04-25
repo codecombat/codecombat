@@ -299,10 +299,6 @@ export default Vue.extend({
                       span {{ $t('announcement.notifications') }}
                       span.unread(v-if="unread") {{ unread }}
                     announcement-nav.announcement-nav(v-if="this.announcements.length")
-                  li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
-                    a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
-                  li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
-                    a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
                   li(v-if="me.isAPIClient()")
                     a.account-dropdown-item(href="/partner-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                   li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")

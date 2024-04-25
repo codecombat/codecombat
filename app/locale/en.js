@@ -3259,7 +3259,8 @@ module.exports = {
       unsubscribe_button: 'Yes, unsubscribe',
       unsubscribe_failed: 'Failed',
       unsubscribe_success: 'Success',
-      manage_billing: 'Manage Billing'
+      manage_billing: 'Manage Payments',
+      payments_history: 'Payments History',
     },
 
     account_invoices: {
