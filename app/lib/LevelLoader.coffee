@@ -98,6 +98,7 @@ module.exports = class LevelLoader extends CocoClass
   classroomIdLoaded: ->
     @classroom = new Classroom({_id: @classroomId})
     @classroom.fetch().then () =>
+      return if @destroyed
       @classroomLoaded()
 
   classroomLoaded: ->
