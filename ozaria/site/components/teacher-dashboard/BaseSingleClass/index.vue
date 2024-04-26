@@ -114,6 +114,11 @@ export default {
         }
 
         const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, translatedModuleContent, intros, moduleNum)
+        const levelsByOriginal = translatedModuleContent
+          .reduce((acc, content) => {
+            acc[content.original] = content
+            return acc
+          }, {})
 
         // Track summary stats to display in the header of the table
         const classSummaryProgressMap = new Map(translatedModuleContent.map((content) => {
@@ -133,7 +138,13 @@ export default {
           moduleStatsForTable.studentSessions[student._id] = translatedModuleContent.map((content) => {
             const { original, fromIntroLevelOriginal } = content
             const normalizedOriginal = original || fromIntroLevelOriginal
-            const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'locked')
+
+            const level = levelsByOriginal[normalizedOriginal]
+            const selectedCourseInstance = courseInstances.find(({ courseID }) => courseID === this.selectedCourseId)
+            const startLockedLevel = selectedCourseInstance?.startLockedLevel
+            const lockedByOldDashboard = startLockedLevel && startLockedLevel === level?.slug
+
+            const isLocked = lockedByOldDashboard || ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'locked')
             const lockDate = ClassroomLib.getStudentLockDate(this.classroom, student._id, normalizedOriginal)
             const isOptional = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'optional')
 
