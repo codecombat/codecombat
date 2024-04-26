@@ -814,4 +814,9 @@ export default Vue.extend({
     align-items: center;
   }
 }
+
+.tecmilenio-logo {
+  height: 41px;
+}
+
 </style>
