@@ -308,8 +308,14 @@ export default Vue.extend({
         'my-courses': {
           title: 'nav.my_courses',
           children: [
-            items.COCO_CLASSROOM,
-            items.OZ_CLASSROOM,
+            {
+              ...items.COCO_CLASSROOM,
+              url: '/students'
+            },
+            {
+              ...items.OZ_CLASSROOM,
+              url: '/students'
+            },
             items.AI_LEAGUE,
             items.ROBLOX,
             items.AI_HACKSTACK,
