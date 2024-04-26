@@ -265,12 +265,14 @@ export default Vue.extend({
         },
       }
 
+      const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), hide: me.isSchoolAdmin(), title: 'CodeCombat Teacher Dashboard' }
+      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), hide: me.isSchoolAdmin(), title: 'Ozaria Teacher Dashboard' }
+
       const educator = {
         'my-dashboards': {
           title: 'nav.my_dashborads',
           children: [
-            { url: this.cocoPath('/teachers/classes'), hide: me.isSchoolAdmin(), title: 'CodeCombat Teacher Dashboard' },
-            { url: this.ozPath('/teachers/classes'), hide: me.isSchoolAdmin(), title: 'Ozaria Teacher Dashboard' },
+            ...(isCodeCombat ? [teacherCocoCllasses, teacherOzarClasses] : [teacherOzarClasses, teacherCocoCllasses]),
             { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'CodeCombat Admin Dashboard' },
             { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'Ozaria Admin Dashboard' },
           ]
@@ -292,9 +294,10 @@ export default Vue.extend({
         curriculum: {
           title: 'nav.curriculum',
           children: [
-            items.COCO_CLASSROOM,
-            items.COCO_JUNIOR,
-            items.OZ_CLASSROOM,
+            ...(isCodeCombat
+              ? [items.COCO_CLASSROOM, items.COCO_JUNIOR, items.OZ_CLASSROOM]
+              : [items.OZ_CLASSROOM, items.COCO_CLASSROOM, items.COCO_JUNIOR]
+            ),
             items.AP_CSP,
             items.AI_LEAGUE,
             items.ROBLOX,
@@ -304,12 +307,25 @@ export default Vue.extend({
         }
       }
 
+      const studentCocoClassroom = {
+        ...items.COCO_CLASSROOM,
+        url: this.cocoPath('/students')
+      }
+
+      const studentOzarClassroom = {
+        ...items.OZ_CLASSROOM,
+        url: this.ozPath('/students')
+      }
+
       const student = {
         'my-courses': {
           title: 'nav.my_courses',
           children: [
-            items.COCO_CLASSROOM,
-            items.OZ_CLASSROOM,
+            ...(
+              isCodeCombat
+                ? [studentCocoClassroom, studentOzarClassroom]
+                : [studentOzarClassroom, studentCocoClassroom]
+            ),
             items.AI_LEAGUE,
             items.ROBLOX,
             items.AI_HACKSTACK,
