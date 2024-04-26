@@ -475,7 +475,7 @@ export default {
             normalizedType = 'challengelvl'
           }
 
-          if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].includes(normalizedType)) {
+          if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev', 'ladder'].includes(normalizedType)) {
             throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
           }
 
