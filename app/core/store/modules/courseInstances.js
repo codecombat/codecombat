@@ -160,7 +160,7 @@ export default {
       } else {
         courseInstance = new CourseInstance(courseInstance)
       }
-
+      /*
       // Automatically apply licenses to students if necessary
       const prepaids = rootGetters['prepaids/getPrepaidsByTeacher'](classroom.ownerID)
       const availablePrepaids = prepaids.available.map(data => new Prepaid(data))
@@ -231,7 +231,7 @@ export default {
       }
 
       await Promise.all(requests)
-
+      */
       try {
         noty({ text: $.i18n.t('teacher.assigning_course'), layout: 'center', type: 'information', killer: true })
         await courseInstance.addMembers(members.map(({ _id }) => _id))
@@ -241,16 +241,16 @@ export default {
             .replace('{{numberAssigned}}', members.length)
             .replace('{{courseName}}', course.name)
         ]
-        if (numberEnrolled > 0) {
-          lines.push(
-            $.i18n.t('teacher.assigned_msg_2')
-              .replace('{{numberEnrolled}}', numberEnrolled)
-          )
-          lines.push(
-            $.i18n.t('teacher.assigned_msg_3')
-              .replace('{{remainingSpots}}', remainingSpots)
-          )
-        }
+        // if (numberEnrolled > 0) {
+        //   lines.push(
+        //     $.i18n.t('teacher.assigned_msg_2')
+        //       .replace('{{numberEnrolled}}', numberEnrolled)
+        //   )
+        //   lines.push(
+        //     $.i18n.t('teacher.assigned_msg_3')
+        //       .replace('{{remainingSpots}}', remainingSpots)
+        //   )
+        // }
         noty({ text: lines.join('<br />'), layout: 'center', type: 'information', killer: true, timeout: 5000 })
       } catch (e) {
         throw e
