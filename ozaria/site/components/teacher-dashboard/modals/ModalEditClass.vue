@@ -134,7 +134,7 @@ export default Vue.extend({
       return ((this.classroom || {}).aceConfig || {}).codeFormatDefault || 'text-code'
     },
     levelChat () {
-      return _.assign({ levelChat: false }, (this.classroom || {}).aceConfig).levelChat
+      return _.assign({ levelChat: 'none' }, (this.classroom || {}).aceConfig).levelChat
     },
     classroomDescription () {
       return (this.classroom || {}).description
@@ -169,7 +169,7 @@ export default Vue.extend({
     this.newClassroomItems = this.classroomItems
     this.newCodeFormats = this.codeFormats
     this.newCodeFormatDefault = this.codeFormatDefault
-    this.newLevelChat = this.levelChat
+    this.newLevelChat = this.levelChat === 'fixed_prompt_only'
     this.newClassroomDescription = this.classroomDescription
     this.newAverageStudentExp = this.averageStudentExp
     this.newClassroomType = this.classroomType
@@ -257,8 +257,8 @@ export default Vue.extend({
         updates.aceConfig = aceConfig
       }
 
-      if (this.newLevelChat !== this.levelChat) {
-        aceConfig.levelChat = this.newLevelChat
+      if (this.newLevelChat !== (this.levelChat === 'fixed_prompt_only')) {
+        aceConfig.levelChat = this.newLevelChat ? 'fixed_prompt_only' : 'none'
       }
       if (this.newClassroomDescription !== this.classroomDescription) {
         updates.description = this.newClassroomDescription
