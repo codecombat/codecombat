@@ -3261,6 +3261,8 @@ module.exports = {
       unsubscribe_success: 'Success',
       manage_billing: 'Manage Payments',
       payments_history: 'Payments History',
+      no_payments_found: 'No payments found',
+
     },
 
     account_invoices: {

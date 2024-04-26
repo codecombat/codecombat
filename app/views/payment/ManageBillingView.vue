@@ -21,7 +21,7 @@
         .history
           h2.billing-portal
             | {{ $t('account.payments_history') }}
-          table.table.table-striped
+          table.table.table-striped(v-if="paymentModels.length > 0")
             tr
               th {{ $t('account.purchased') }}
               th {{ $t('account.paid_on') }}
@@ -34,6 +34,8 @@
               td {{ '$' + ((payment.amount || 0) / 100).toFixed(2) }}
               td {{ payment.gems || 'n/a' }}
               td {{ paymentDescription[payment._id] || '' }}
+          div(v-else)
+            p {{ $t('account.no_payments_found') }}
 </template>
 
 <script>
@@ -95,18 +97,6 @@ export default {
       const payments = await paymentApi.fetchByRecipient(me.id)
       this.paymentModels = payments
       for (const payment of payments) {
-        const payPal = payment.payPal
-        let transactionId = payPal?.transactions?.[0]?.related_resources?.[0]?.sale?.id
-        if (transactionId) {
-          console.log('PayPal Payment', transactionId, payment.amount)
-        }
-
-        const payPalSale = payment.payPalSale
-        transactionId = payPalSale != null ? payPalSale.id : undefined
-        if (transactionId) {
-          console.log('PayPal Subscription Payment', transactionId)
-        }
-
         const description = payment.description
         if (payment.productID === 'online-classes') {
           this.paymentDescription[payment._id] = description.slice(0, 22)
@@ -117,7 +107,6 @@ export default {
     },
 
     paymentI18n (payment) {
-      console.log('what?', payment)
       const prepaidID = payment.prepaidID
       const productID = payment.productID
       const service = payment.service
@@ -193,6 +182,8 @@ export default {
   font-weight: bold;
 }
 .history {
+  margin-top: 20px;
+
   td {
     text-align: left;
   }
