@@ -5103,7 +5103,8 @@ module.exports = {
       faq_bottom: 'See more <a href="https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-" target="_blank">frequently asked questions in our help center</a>. <br />If you have any other questions, please <a href="mailto:support@codecombat.com">Contact Us</a>.',
       modal_title: 'CodeCombat Worlds<br> Now Live on Roblox!',
       modal_play_now: 'PLAY NOW!',
-      modal_button_link_roblox_account: 'Link Roblox Account'
+      modal_button_link_roblox_account: 'Link Roblox Account',
+      age_restriction: 'You must be 13 years or older to link your Roblox account.',
     },
 
     ai: {
