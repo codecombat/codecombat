@@ -1,5 +1,9 @@
 <template>
-  <div class="cta-container">
+  <div
+    class="cta-container"
+    :class="{ [size]: true }"
+    :style="`--size: ${size};--type: ${type}`"
+  >
     <component
       :is="href ? 'a' : 'button'"
       class="CTA"
@@ -47,6 +51,22 @@ export default {
       type: String,
       required: false,
       default: null
+    },
+    size: {
+      type: String,
+      required: false,
+      validator: function (value) {
+        return ['small', 'medium'].includes(value)
+      },
+      default: 'medium'
+    },
+    type: {
+      type: String,
+      required: false,
+      default: 'normal',
+      validator: function (value) {
+        return ['normal', 'no-background'].includes(value)
+      }
     }
   }
 }
@@ -80,12 +100,28 @@ export default {
 
   &__button {
     @extend %font-18-24;
+
+    [style*="--size: small"] & {
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 150%;
+    }
+
     align-items: center;
     background-color: $purple;
     @extend %text-contrast;
 
+    [style*="--type: no-background"] & {
+      background-color: transparent;
+    }
+
     &:hover {
       background-color: $purple-2;
+
+      [style*="--type: no-background"] & {
+        background-color: rgba($purple, 0.3)
+      }
     }
 
     border-radius: 8px;
@@ -94,8 +130,22 @@ export default {
     justify-content: center;
     overflow: hidden;
     padding: 12px 20px;
+
+    [style*="--size: small"] & {
+      padding: 8px 12px;
+    }
+
     position: relative;
     color: white;
+    [style*="--type: no-background"] & {
+      color: $dark-grey-2;
+      text-shadow: none;
+      ::v-deep {
+        .dark-mode & {
+          color: white;
+        }
+      }
+    }
     font-weight: 500;
     position: relative;
     white-space: nowrap;
@@ -103,6 +153,10 @@ export default {
 
     @media screen and (min-width: $screen-md-min) {
       min-width: 260px;
+
+      [style*="--size: small"] & {
+        min-width: unset;
+      }
     }
   }
 }
