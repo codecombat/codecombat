@@ -238,10 +238,29 @@ export default {
       let numberStudentsChanged = 0
       const skippedModifications = []
 
+      await dispatch('levels/fetchForClassroom', clonedClass._id, { root: true })
+      const courseInstances = rootGetters['courseInstances/getCourseInstancesOfClass'](clonedClass._id)
+      const selectedCourseId = rootGetters['teacherDashboard/getSelectedCourseIdCurrentClassroom']
+      const courseInstance = courseInstances.find(ci => ci.courseID === selectedCourseId)
+      const levelRecords = rootGetters['levels/getLevelsForClassroom'](clonedClass._id)
+      const levelRecordsById = levelRecords.reduce((acc, level) => {
+        acc[level.original] = level
+        return acc
+      }, {})
+
+      const courseInstancesToClearLegacyLocks = []
+
       for (const modifier of modifiers) {
         for (const { _id } of students) {
           // let's filter out the levels that are already has the same modifier
           const levelsToHandle = levels.filter((level) => {
+            if (modifier === 'locked' && modifierValue === false) {
+              const levelRecord = levelRecordsById[level]
+              if (courseInstance.startLockedLevel === levelRecord.slug) {
+                courseInstancesToClearLegacyLocks.push(courseInstance)
+              }
+            }
+
             const isModifierActive = ClassroomLib.isModifierActiveForStudent(clonedClass, _id, currentCourseId, level, modifier, date)
             const shouldBeHandled = modifierValue ? !isModifierActive : isModifierActive
             if (!shouldBeHandled) {
@@ -260,7 +279,7 @@ export default {
         }
       }
 
-      if (numberStudentsChanged === 0) {
+      if (numberStudentsChanged === 0 && courseInstancesToClearLegacyLocks.length === 0) {
         const skippedUnlocks = skippedModifications.filter(({ modifierValue, modifier }) => modifierValue === false && modifier === 'locked')
         noty({
           text: skippedUnlocks.length > 0 ? $.i18n.t('teacher_dashboard.no_modifiers_changed_unlocks_skipped') : $.i18n.t('teacher_dashboard.no_modifiers_changed'),
@@ -270,6 +289,17 @@ export default {
           timeout: 5000
         })
         return
+      }
+
+      if (courseInstancesToClearLegacyLocks.length > 0) {
+        await Promise.all(courseInstancesToClearLegacyLocks.map((courseInstance) => {
+          return dispatch('courseInstances/updateCourseInstance', {
+            courseInstance,
+            updates: {
+              startLockedLevel: 'none'
+            }
+          }, { root: true })
+        }))
       }
 
       onSuccess?.()

@@ -293,9 +293,7 @@ export default Vue.extend({
         let savedClassroom
         if (this.classroomInstance.isNew()) {
           savedClassroom = await this.createClassroom({ ...this.classroom.attributes, ...updates })
-          if (this.isOzaria) {
-            await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
-          }
+          await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
 
           this.$emit('created')
         } else {

@@ -3,6 +3,8 @@ import { cocoBaseURL, getQueryVariable, isCodeCombat, isOzaria, ozBaseURL } from
 import { mapGetters } from 'vuex'
 import FinalFooter from './FinalFooter'
 
+import { items } from 'app/components/common/Navigation'
+
 /**
  * Unified footer component between CodeCombat and Ozaria.
  */
@@ -59,48 +61,48 @@ export default Vue.extend({
        */
       const globalFooter = [
         {
-          title: '',
-          condition: me.isStudent(),
-          lists: []
-        },
-        {
-          title: 'nav.general',
+          title: 'nav.company',
           condition: true, // always display
           lists: [
             { url: this.cocoPath('/about'), title: 'nav.about', attrs: { 'data-event-action': 'Click: Footer About' } },
             { url: 'https://codecombat.zendesk.com/hc/en-us', title: 'nav.help_center', attrs: { target: '_blank', 'data-event-action': 'Click: Footer Help Center' } },
+            { title: 'general.contact_us', attrs: { class: 'contact-modal', tabindex: -1 } },
             { url: this.cocoPath('/about#careers'), title: 'nav.careers' },
-            { title: 'nav.contact', attrs: { class: 'contact-modal', tabindex: -1 } },
-            { url: 'https://blog.codecombat.com/', title: 'nav.blog' }
+            { url: 'https://blog.codecombat.com/', title: 'nav.blog' },
+            { url: this.cocoPath('/podcast'), title: 'nav.podcast_simple' }
           ]
         },
         {
-          title: 'nav.educators',
-          condition: !me.isStudent() && !me.isRegisteredHomeUser(),
-          lists: [
-            { url: '/efficacy', title: 'nav.research_efficacy', hide: this.isCodeCombat },
-            { url: '/impact', title: 'nav.research_impact', hide: this.isOzaria },
-            { url: '/teachers/resources', title: 'nav.resource_hub' },
-            { url: '/teachers/classes', title: 'nav.my_classrooms' },
-            { url: '/pricing', title: 'nav.pricing', hide: true },
-            { url: this.ozPath('/'), title: 'new_home.try_ozaria', attrs: { 'data-event-action': 'Click: Footer Try Ozaria' }, hide: this.isOzaria },
-            { url: this.cocoPath('/'), title: 'nav.return_coco', attrs: { 'data-event-action': 'Click: Footer Return to CodeCombat' }, hide: this.isCodeCombat },
-            { url: this.cocoPath('/podcast'), title: 'nav.podcast' }
-          ]
-        },
-        {
-          title: 'nav.products',
+          title: 'nav.curriculum',
           condition: true,
           lists: [
-            { url: this.ozPath('/'), title: 'nav.ozaria_classroom' },
-            { url: this.cocoPath('/impact'), title: 'nav.codecombat_classroom' },
-            { url: this.ozPath('/professional-development'), title: 'nav.professional_development' },
-            { url: this.cocoPath('/parents'), title: 'nav.live_online_classes' },
-            { url: this.cocoPath('/premium'), title: 'nav.codecombat_home' },
-            { url: this.cocoPath('/league'), title: 'nav.esports' },
-            { url: this.cocoPath('/partners'), title: 'nav.partnerships' },
-            { url: this.cocoPath('/libraries'), title: 'nav.libraries' },
-            { url: this.cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' }
+            { ...items.COCO_HOME, url: null, attrs: { class: 'signup-button' } },
+            items.COCO_CLASSROOM,
+            items.COCO_JUNIOR,
+            items.OZ_CLASSROOM,
+            items.AP_CSP,
+            items.AI_LEAGUE,
+            items.ROBLOX,
+            items.AI_HACKSTACK,
+            items.AI_JUNIOR,
+          ]
+        },
+        {
+          title: 'nav.resources',
+          condition: true,
+          lists: [
+            items.LIVE_ONLINE_CLASSES,
+            items.LIBRARY_SOLUTIONS,
+            items.PARTNER_SOLUTIONS,
+            items.TEACHING_SOLUTIONS,
+            items.STANDARDS,
+            items.EFFICACY,
+            items.SUCCESS,
+            items.PD,
+            items.HOC,
+            items.GRANTS,
+            items.PRIVACY,
+            items.CODEQUEST,
           ]
         }
       ]
@@ -217,9 +219,9 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
     .row
       .col-lg-12.footer-links
         .row.footer-links__row
-          .col.footer-links__col(v-for="col in footerUrls" v-if="col.condition" :class="!col.lists.length ? 'shrunken-empty-column' : ''")
+          .col.footer-links__col(v-for="col in footerUrls" v-if="col.condition && col.lists.length" :class="!col.lists.length ? 'shrunken-empty-column' : ''")
             h1.text-h3 {{ $t(col.title) }}
-            ul.list-unstyled
+            ul.list-unstyled(:class="col.class")
               li(v-for="l in col.lists" v-if="!l.hide")
                 span.hover-link(v-if="!l.url" v-bind="l.attrs") {{ $t(l.title) }}
                   span.spr(v-if="l.extra") {{ l.extra }}
@@ -227,19 +229,35 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
                   span.spr(v-if="l.extra") {{ l.extra }}
                 span.active(v-if="checkLocation(l.url)") {{ $t(l.title) }}
                   span.spr(v-if="l.extra") {{ l.extra }}
-  final-footer
+    final-footer
 </template>
 
 <style lang="sass" scoped>
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
 @import "app/styles/style-flat-variables"
+@import "app/styles/component_variables"
 
 footer#site-footer
-  background-color: $navy
-  color: white
-  padding-top: 20px
-  margin-top: 50px
+
+  background: url(/images/components/footer-bg.webp) bottom center
+
+  &.dark-mode
+    background-color: #0C1016
+    background-image: url(/images/components/footer-bg-dark.webp)
+
+  overflow: hidden
+  background-size: contain
+  background-repeat: repeat-x
+
+  .container
+    border-radius: 8px
+    background: linear-gradient(100deg, #F6F4FF 0%, #FFF 100%)
+    margin-bottom: 80px
+    margin-top: 300px
+
+  &.dark-mode .container
+    background: linear-gradient(100deg, #193640 0%, #021E27 100%)
 
   @media print
     display: none
@@ -252,22 +270,33 @@ footer#site-footer
     letter-spacing: 0.58px
 
   .text-h3
-    color: $teal
-    font-family: Arvo
-    font-size: 24px
-    font-weight: bold
-    letter-spacing: 0.48px
-    line-height: 30px
+
+    &:empty
+      min-height: 1em
+
     margin: 20px auto
     display: block
     font-variant: normal
+    color: $purple
+    font-family: $main-font-family
+    @extend %font-14
+    font-style: normal
+    font-weight: 800
+    line-height: 150%
+    text-transform: uppercase
+  &.dark-mode .text-h3
+    color: #4DECF0
 
   li
-    font-family: "Open Sans"
-    font-size: 18px
-    letter-spacing: 0.75px
-    line-height: 26px
-    font-weight: 200
+    color: $dark-grey
+    font-family: $main-font-family
+    @extend %font-16
+    font-style: normal
+    font-weight: 400
+    line-height: 150%
+    margin: 16px 0
+  &.dark-mode li
+    color: white
 
   .col-lg-3
     padding-bottom: 15px
@@ -278,11 +307,11 @@ footer#site-footer
       margin-right: -12.5%
 
   @media (max-width: $screen-sm-min)
-    background-color: #201a15
-    background-image: none
     height: auto
 
   a
+    color: $dark-grey
+  &.dark-mode a
     color: white
 
   .social-buttons > a
@@ -367,8 +396,6 @@ footer#site-footer
 
   #final-footer
     padding: 20px 70px 14px
-    color: rgba(255,255,255,0.8)
-    background-color: $navy
     font-size: 14px
 
     .float-right
@@ -380,9 +407,6 @@ footer#site-footer
       height: auto
       .float-right
         float: none
-
-    @media (max-width: $screen-sm-min)
-      background-color: #201a15
 
     a
       color: rgba(255,255,255,0.8)

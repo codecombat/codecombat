@@ -54,5 +54,13 @@ module.exports = {
         userID: options.memberId
       }
     }))
-  }
+  },
+
+  update ({ courseInstanceID, updates }, options) {
+    if (options == null) { options = {} }
+    return fetchJson(`/db/course_instance/${courseInstanceID}`, _.assign({}, options, {
+      method: 'PUT',
+      json: updates
+    }))
+  },
 }
