@@ -1854,6 +1854,7 @@ module.exports = {
       evaluate_recommend: 'Evaluate/Recommend',
       approve_funds: 'Approve Funds',
       no_purchaser_role: 'No role in purchase decisions',
+      teacher_account_details: 'Teacher Account Details',
       district_label: 'District',
       district_name: 'District Name',
       district_na: 'Enter N/A if not applicable',

@@ -221,14 +221,13 @@ export default {
       <b>Roblox Camp Quick Links</b>
       <ul class="list-inline">
         <li>
-          <!-- TODO: sensei guide URL -->
           <a
             v-tooltip.top="{
-              content: 'Comprehensive Sensei guide to running the Roblox: Intro to Coding and Game Design camp with CodeCombat Junior and CodeCombat Worlds. (Sensei guide coming soon.)',
+              content: 'Comprehensive Sensei guide to running the Roblox: Intro to Coding and Game Design camp with CodeCombat Junior and CodeCombat Worlds.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="#"
+            href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
             class="dusk-btn disabled"
             disabled
           >
