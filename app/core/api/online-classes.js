@@ -27,9 +27,17 @@ function bookTime (options) {
   })
 }
 
+function confirmBooking (options) {
+  const { eventId, code } = options
+  return fetchJson(`/db/trial-classes/${eventId}/confirm/${code}`, {
+    method: 'POST',
+  })
+}
+
 module.exports = {
   scheduleClassEmail,
   fetchAvailableTime,
   tempBookTime,
-  bookTime
+  bookTime,
+  confirmBooking
 }

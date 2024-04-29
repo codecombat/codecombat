@@ -52,6 +52,12 @@ export default function getVueRouter () {
           ]
         },
         {
+          path: '/trial-classes/:eventId/confirm/:token',
+          name: 'TrialClassConfirm',
+          component: () => import(/* webpackChunName: 'TrialClassConfirm' */ 'app/views/online-classes/trialClassConfirm'),
+          props: (route) => ({ ...route.params })
+        },
+        {
           path: '/live-classes',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
           props: (route) => ({ showPremium: false, type: route.query.type || 'live-classes' })
