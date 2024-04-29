@@ -2,26 +2,54 @@
   <div>
     <div class="form">
       <div class="form-group">
-        <select name="codeLanguage" class="form-control" v-model="codeLanguage">
-          <option v-for="lang in codeLanguages" :value="lang">
+        <select
+          v-model="codeLanguage"
+          name="codeLanguage"
+          class="form-control"
+        >
+          <option
+            v-for="lang in codeLanguages"
+            :key="`cl-${lang}`"
+            :value="lang"
+          >
             {{ lang }}
           </option>
         </select>
       </div>
       <div class="form-group">
-        <select name="level" class="form-control" v-model="level">
-          <option v-for="l in levels" :value="l">
+        <select
+          v-model="level"
+          name="level"
+          class="form-control"
+        >
+          <option
+            v-for="l in levels"
+            :key="`cl-${lang}-level-${l}`"
+            :value="l"
+          >
             {{ l }}
           </option>
         </select>
       </div>
       <div class="form-group">
-        <select name="language" class="form-control" v-model="language">
-          <option v-for="lang in languages" :value="lang">
+        <select
+          v-model="language"
+          name="language"
+          class="form-control"
+        >
+          <option
+            v-for="lang in languages"
+            :key="`l-${lang}`"
+            :value="lang"
+          >
             {{ lang }}
+          </option>
         </select>
       </div>
-      <button class="btn btn-primary" @click="emitInfo">
+      <button
+        class="btn btn-primary"
+        @click="emitInfo"
+      >
         Show Available Times
       </button>
     </div>
@@ -53,7 +81,7 @@ export default {
     emitInfo () {
       this.$emit('change-class-info', {
         codeLanguage: this.codeLanguage,
-        level: this.level,
+        level: this.levels.indexOf(this.level),
         language: this.language
       })
     }

@@ -56,12 +56,21 @@
           Please confirm the booking by clicking on the link sent to the parent's email.
         </p>
       </div>
-      <button
-        class="btn btn-primary"
-        @click="emitInfo"
-      >
-        Book
-      </button>
+
+      <div class="buttons">
+        <button
+          class="btn btn-primary"
+          @click="back"
+        >
+          Back
+        </button>
+        <button
+          class="btn btn-primary"
+          @click="emitInfo"
+        >
+          Book
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -78,6 +87,9 @@ export default {
     }
   },
   methods: {
+    back () {
+      this.$emit('back')
+    },
     emitInfo () {
       this.$emit('change-student-info', {
         studentName: this.studentName,
