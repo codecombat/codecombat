@@ -10,6 +10,41 @@ import { COCO_CHINA_CONST } from 'core/constants'
  * Unified footer component between CodeCombat and Ozaria.
  */
 export default Vue.extend({
+  data () {
+    return {
+      socialLinks: [
+        {
+          href: 'https://www.facebook.com/codecombat',
+          img: '/images/footer/facebook.svg',
+          alt: 'Facebook'
+        }, {
+          href: 'https://twitter.com/CodeCombat',
+          img: '/images/footer/twitter.svg',
+          alt: 'Twitter'
+        }, {
+          href: 'https://www.instagram.com/codecombat/',
+          img: '/images/footer/instagram.svg',
+          alt: 'Instagram'
+        }, {
+          href: 'https://www.linkedin.com/company/codecombat',
+          img: '/images/footer/linkedin.svg',
+          alt: 'LinkedIn'
+        }, {
+          href: 'https://www.youtube.com/@CodeCombat1',
+          img: '/images/footer/youtube.svg',
+          alt: 'YouTube'
+        }, {
+          href: 'https://www.tiktok.com/@codecombat_tiktok',
+          img: '/images/footer/tiktok.svg',
+          alt: 'TikTok'
+        }, {
+          href: 'https://discord.gg/vkW2dCYaxe',
+          img: '/images/footer/discord.svg',
+          alt: 'Discord'
+        }
+      ]
+    }
+  },
   computed: {
     isCodeCombat () {
       return isCodeCombat
@@ -34,7 +69,10 @@ export default Vue.extend({
     picture(v-else)
       source(srcset="/images/pages/base/logo.webp" type="image/webp")
       img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-    .float-right
+    .social-links
+      a(v-for="socialLink in socialLinks" :href="socialLink.href" :key="socialLink.href" target="_blank")
+        img(:src="socialLink.img" :alt="socialLink.alt")
+    .copyright
       if me.showChinaResourceInfo()
         span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
       span {{ $t("nav.copyright_prefix") }}
@@ -53,38 +91,28 @@ export default Vue.extend({
           a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619")
             img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
             span='京公网安备 11010802038619号'
-
-      a.small(href="/legal") {{ $t("nav.term_of_service") }}
-      a.small(href="/privacy") {{ $t("nav.privacy") }}
 </template>
 
 <style lang="sass" scoped>
 @import "app/styles/bootstrap/variables"
 @import "app/styles/mixins"
 @import "app/styles/style-flat-variables"
+@import "app/styles/component_variables"
 
 #final-footer
   padding: 20px 70px 14px
-  color: rgba(255,255,255,0.8)
-  background-color: $navy
+  color: rgba($light-grey, 0.5)
   font-size: 14px
 
-  .float-right
-    padding-top: 15px
-    float: right
+  display: flex
+  flex-direction: column
+  justify-content: center
+  gap: 20px
+  text-align: center
 
   @media (max-width: $screen-md-min)
     position: inherit
     height: auto
-    .float-right
-      float: none
-
-  @media (max-width: $screen-sm-min)
-    background-color: #201a15
-
-  a
-    color: rgba(255,255,255,0.8)
-    margin-left: 20px
 
   img
     height: 40px
@@ -94,9 +122,10 @@ export default Vue.extend({
     height: 1em
     margin-right: 0
 
-  .small
-    color: rgba(255,255,255,0.8)
-
   .contact
     margin-right: 20px
+
+  .social-links
+    img
+      height: 24px
 </style>
