@@ -1,4 +1,4 @@
-<script> // eslint-disable-line vue/multi-word-component-names
+<script>// eslint-disable-line vue/multi-word-component-names
 import {
   cocoBaseURL,
   CODECOMBAT,
@@ -12,11 +12,57 @@ import {
 import AnnouncementModal from '../../views/announcement/announcementModal'
 import AnnouncementNav from '../../views/announcement/AnnouncementNav'
 import { mapActions, mapGetters } from 'vuex'
+import CTAButton from '../../components/common/buttons/CTAButton'
+import CaretDown from '../../components/common/elements/CaretDown'
+
+const cocoPath = function (relativePath) {
+  return `${cocoBaseURL()}${relativePath}`
+}
+
+const ozPath = function (relativePath) {
+  return `${ozBaseURL()}${relativePath}`
+}
+
+export const items = {
+  CREATE_FREE_ACCOUNT: { class: 'signup-button', title: 'nav.create_free_account' },
+  SCHOOL_AND_DISTRICT: { url: cocoPath('/schools'), title: 'nav.school_district_solutions' },
+  TEACHER_TOOLKIT_PREVIEW: { url: '/teachers/resources', title: 'nav.teacher_toolkit_preview' },
+  TEACHER_TOOLKIT: { url: '/teachers/resources', title: 'nav.teacher_toolkit' },
+  STANDARDS: { url: cocoPath('/standards'), title: 'teacher_dashboard.standards_alignment' },
+  EFFICACY: { url: ozPath('/efficacy'), title: 'nav.efficacy_studies' },
+  SUCCESS: { url: '/impact', title: 'nav.success_stories' },
+  PD: { url: '/pd', title: 'teacher_dashboard.pd' },
+  HOC: { url: cocoPath('/teachers/hour-of-code'), title: 'nav.hoc' },
+  GRANTS: { url: cocoPath('/grants'), title: 'nav.grants_funding_resources' },
+  DEMO: { url: '/teachers/quote', title: 'nav.request_quote_demo' },
+  COCO_CLASSROOM: { url: cocoPath('/schools'), title: 'nav.codecombat_classroom' },
+  COCO_JUNIOR: { url: cocoPath('/play/junior'), title: 'nav.coco_junior_beta' },
+  COCO_HOME: { url: cocoPath('/play'), title: 'nav.codecombat_home' },
+  OZ_CLASSROOM: { url: ozPath('/'), title: 'nav.ozaria_classroom' },
+  AP_CSP: { url: cocoPath('/apcsp'), title: 'nav.ap_csp' },
+  AI_LEAGUE: { url: cocoPath('/league'), title: 'nav.ai_league_esports' },
+  ROBLOX: { url: cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' },
+  AI_HACKSTACK: { url: cocoPath('/ai'), title: 'nav.ai_hackstack_beta' },
+  AI_JUNIOR: { url: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform', attrs: { target: '_blank' }, title: 'nav.ai_junior_beta' },
+  LIVE_ONLINE_CLASSES: { url: cocoPath('/parents'), title: 'nav.live_online_classes' },
+  PREMIUM: { url: cocoPath('/premium'), title: 'nav.premium_self_paced' },
+  CODEQUEST: { url: cocoPath('/codequest'), title: 'nav.codequest' },
+  LIBRARY_SOLUTIONS: { url: cocoPath('/libraries'), title: 'nav.library_solutions' },
+  PARTNER_SOLUTIONS: { url: cocoPath('/partners'), title: 'nav.partner_solutions' },
+  TEACHING_SOLUTIONS: { url: cocoPath('/schools'), title: 'nav.teaching_solutions' },
+  PRIVACY: { url: '/privacy', title: 'nav.privacy' }
+}
 
 /**
  * Unified navigation bar component between CodeCombat and Ozaria.
  */
 export default Vue.extend({
+  components: {
+    AnnouncementModal,
+    AnnouncementNav,
+    'cta-button': CTAButton,
+    caret: CaretDown
+  },
   computed: {
     ...mapGetters('announcements', [
       'announcements',
@@ -25,6 +71,9 @@ export default Vue.extend({
       'announcementModalOpen',
       'announcementDisplay'
     ]),
+    languageCode () {
+      return me.get('preferredLanguage')
+    },
     isChinaOldBrowser () {
       return isChinaOldBrowser()
     },
@@ -59,6 +108,9 @@ export default Vue.extend({
       if (me.isTarena()) { return 'http://kidtts.tmooc.cn/ttsPage/login.html' }
       if (this.hideNav) { return '#' }
       return '/home'
+    },
+    isWideScreen () {
+      return window.innerWidth >= 991
     }
   },
 
@@ -143,11 +195,209 @@ export default Vue.extend({
 
     readAnnouncement () {
       return application.router.navigate('/announcements', { trigger: true })
+    },
+
+    getNavbarData () {
+      const anonymous = {
+        educators: {
+          url: isCodeCombat ? '/schools' : '/',
+          title: 'nav.educators',
+          children: [
+            items.CREATE_FREE_ACCOUNT,
+            items.SCHOOL_AND_DISTRICT,
+            items.TEACHER_TOOLKIT_PREVIEW,
+            items.STANDARDS,
+            items.EFFICACY,
+            items.SUCCESS,
+            items.PD,
+            items.HOC,
+            items.GRANTS,
+            items.DEMO
+          ]
+        },
+        parents: {
+          url: this.cocoPath('/parents'),
+          title: 'nav.parent'
+        },
+        play: {
+          url: this.cocoPath('/play'),
+          title: 'nav.play2',
+          children: [
+            {
+              ...items.COCO_HOME,
+              description: 'nav.coco_home_description'
+            },
+            {
+              ...items.COCO_CLASSROOM,
+              class: 'signup-button',
+              url: null,
+              description: 'nav.coco_classroom_description'
+            },
+            {
+              ...items.COCO_JUNIOR,
+              description: 'nav.coco_junior_description'
+            },
+            {
+              ...items.OZ_CLASSROOM,
+              description: 'nav.oz_classroom_description'
+            },
+            {
+              ...items.AP_CSP,
+              description: 'nav.ap_csp_description'
+            },
+            {
+              ...items.AI_LEAGUE,
+              description: 'nav.ai_league_description'
+            },
+            {
+              ...items.ROBLOX,
+              description: 'nav.roblox_description'
+            },
+            {
+              ...items.AI_HACKSTACK,
+              description: 'nav.ai_hackstack_description'
+            },
+            {
+              ...items.AI_JUNIOR,
+              description: 'nav.ai_junior_description'
+            }
+          ]
+        },
+      }
+
+      const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), hide: me.isSchoolAdmin(), title: 'CodeCombat Teacher Dashboard' }
+      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), hide: me.isSchoolAdmin(), title: 'Ozaria Teacher Dashboard' }
+
+      const educator = {
+        'my-dashboards': {
+          title: 'nav.my_dashborads',
+          children: [
+            ...(isCodeCombat ? [teacherCocoCllasses, teacherOzarClasses] : [teacherOzarClasses, teacherCocoCllasses]),
+            { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'CodeCombat Admin Dashboard' },
+            { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'Ozaria Admin Dashboard' },
+          ]
+        },
+        resources: {
+          title: 'nav.resources',
+          children: [
+            items.TEACHER_TOOLKIT,
+            items.SCHOOL_AND_DISTRICT,
+            items.STANDARDS,
+            { ...items.EFFICACY, filter: isOzaria },
+            { ...items.SUCCESS, filter: isCodeCombat },
+            items.PD,
+            items.HOC,
+            items.GRANTS,
+            items.DEMO
+          ]
+        },
+        curriculum: {
+          title: 'nav.curriculum',
+          children: [
+            ...(isCodeCombat
+              ? [items.COCO_CLASSROOM, items.COCO_JUNIOR, items.OZ_CLASSROOM]
+              : [items.OZ_CLASSROOM, items.COCO_CLASSROOM, items.COCO_JUNIOR]
+            ),
+            items.AP_CSP,
+            items.AI_LEAGUE,
+            items.ROBLOX,
+            items.AI_HACKSTACK,
+            items.AI_JUNIOR
+          ]
+        }
+      }
+
+      const studentCocoClassroom = {
+        ...items.COCO_CLASSROOM,
+        url: this.cocoPath('/students')
+      }
+
+      const studentOzarClassroom = {
+        ...items.OZ_CLASSROOM,
+        url: this.ozPath('/students')
+      }
+
+      const student = {
+        'my-courses': {
+          title: 'nav.my_courses',
+          children: [
+            ...(
+              isCodeCombat
+                ? [studentCocoClassroom, studentOzarClassroom]
+                : [studentOzarClassroom, studentCocoClassroom]
+            ),
+            items.AI_LEAGUE,
+            items.ROBLOX,
+            items.AI_HACKSTACK,
+          ]
+        }
+      }
+
+      const parent = {
+        dashboard: {
+          title: 'nav.dashboard',
+          url: me.hasNoVerifiedChild() ? this.cocoPath('/parents/add-another-child') : this.cocoPath('/parents/dashboard')
+        },
+        'learning-options': {
+          title: 'nav.learning_options',
+          children: [
+            items.LIVE_ONLINE_CLASSES,
+            items.PREMIUM,
+            items.CODEQUEST,
+          ]
+        },
+        curriculum: {
+          title: 'nav.curriculum',
+          children: [
+            items.COCO_HOME,
+            items.COCO_JUNIOR,
+            items.AI_LEAGUE,
+            items.ROBLOX,
+            items.AI_HACKSTACK,
+            items.AI_JUNIOR
+          ]
+        }
+      }
+      const individual = {
+        'learning-options': {
+          title: 'nav.learning_options',
+          children: [
+            items.LIVE_ONLINE_CLASSES,
+            items.PREMIUM,
+            items.CODEQUEST,
+          ]
+        },
+        play: {
+          title: 'nav.play2',
+          children: [
+            items.COCO_HOME,
+            items.COCO_JUNIOR,
+            items.AI_LEAGUE,
+            items.ROBLOX,
+            items.AI_HACKSTACK,
+            items.AI_JUNIOR,
+          ]
+        }
+      }
+
+      if (me.isAnonymous()) {
+        return anonymous
+      }
+
+      if (me.isTeacher()) {
+        return educator
+      }
+
+      if (me.isStudent()) {
+        return student
+      }
+
+      if (me.isParentHome()) {
+        return parent
+      }
+
+      return individual
     }
-  },
-  components: {
-    AnnouncementModal,
-    AnnouncementNav
   }
 })
 </script>
@@ -155,9 +405,9 @@ export default Vue.extend({
 <template lang="pug">
   nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
     announcement-modal(v-if="announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
-    .container-fluid
+    .container
       .row
-        .col-md-12
+        .col-md-12.header-container
           .navbar-header
             button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
               span.sr-only {{ $t('nav.toggle_nav') }}
@@ -204,75 +454,20 @@ export default Vue.extend({
                 li
                   a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
 
-              li(v-if="me.isAnonymous()")
-                ul.nav.navbar-nav
+              li(v-for="navItem in getNavbarData()")
+                ul.nav.navbar-nav(v-if="navItem.children")
                   li.dropdown.dropdown-hover
-                    a.text-p(:href="isCodeCombat ? '/impact' : '/'", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" :class="isOzaria && 'text-teal'")
-                      span {{ $t('nav.educators') }}
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/')")
-                          span(:class="isOzaria && !checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                      li
-                        a.text-p(:href="cocoPath('/impact')" :class="checkLocation('/impact', CODECOMBAT) && 'text-teal'") {{ $t('nav.codecombat_classroom') }}
-                      li
-                        a.text-p(:href="ozPath('/professional-development')")
-                          span(:class="checkLocation('/professional-development') && 'text-teal'") {{ $t('nav.professional_development') }}
+                    a.text-p(:href="isWideScreen ? navItem.url : null" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                      span {{ $t(navItem.title) }}
+                      caret.dropdown-caret
+                    ul(class="dropdown-menu" :class="navItem.children.some(child => child.description) && 'text-wide'")
+                      li(v-for="child in navItem.children.filter(child => child.hide!==true)")
+                        a.text-p(:href="child.url" :class="[child.class, child.url && checkLocation(child.url) && 'text-teal'].filter(Boolean)" v-bind="child.attrs") {{ $t(child.title) }}
+                          div.text-description(v-if="child.description") {{ $t(child.description) }}
 
-              li(v-if="!me.isStudent() && !me.isTeacher() && (me.get('country') !== 'hong-kong') && !me.isParentHome()")
-                a.text-p(:class="checkLocation('/parents') && !checkLocation('/parents/signup') && 'text-teal'" :href="cocoPath('/parents')") {{ $t('nav.parent') }}
+                a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
 
-              li(v-if="me.isParentHome()")
-                a.text-p(:class="checkLocation('/parents/dashboard') && 'text-teal'" :href="me.hasNoVerifiedChild() ? cocoPath('/parents/add-another-child') : cocoPath('/parents/dashboard')") {{ $t('nav.dashboard') }}
-
-              li
-                a.text-p(:class="checkLocation('/league') && 'text-teal'" :href="cocoPath('/league')") {{ $t('nav.esports') }}
-
-              li(v-if="me.isTeacher()")
-                ul.nav.navbar-nav
-                  li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span {{ $t('nav.dashboard') }}
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/teachers/classes')")
-                          span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria${me.isSchoolAdmin()?'_teacher':''}_dashboard`) }}
-                      li
-                        a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t(`nav.codecombat${me.isSchoolAdmin()?'_teacher':''}_dashboard`) }}
-
-                      li(v-if="me.isSchoolAdmin()")
-                        a.text-p(:href="ozPath('/school-administrator')")
-                          span(:class="checkLocation('/school-administrator', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria_admin_dashboard`) }}
-                      li(v-if="me.isSchoolAdmin()")
-                        a.text-p(:class="checkLocation('/school-administrator', CODECOMBAT) && 'text-teal'" :href="cocoPath('/school-administrator')") {{ $t(`nav.codecombat_admin_dashboard`) }}
-
-              li(v-else-if="me.isStudent()")
-                ul.nav.navbar-nav
-                  li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span {{ $t('nav.my_courses') }}
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/students')")
-                          span(:class="checkLocation('/students', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                      li
-                        a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") {{ $t('nav.codecombat_classroom') }}
-
-              li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
-                a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
-
-            ul.nav.navbar-nav
-              li.dropdown
-                a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                  //- string replaced in RootView
-                  span.language-dropdown-current Language
-                  span.caret
-                ul(class="dropdown-menu language-dropdown")
-
-            ul.nav.navbar-nav(v-if="!me.isAnonymous()")
+            ul.nav.navbar-nav.loggedin(v-if="!me.isAnonymous()")
               li(v-if="me.isTarena()")
                 a.text-p#logout-button {{ $t('login.log_out') }}
               li.dropdown(v-else)
@@ -280,8 +475,8 @@ export default Vue.extend({
                   img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}")
                   span.unreadMessage(v-if="unread")
                   span {{ $t('nav.my_account') }}
-                  span.caret
-                ul.dropdown-menu.pull-right
+                  caret.dropdown-caret
+                ul.dropdown-menu
                   li.user-dropdown-header.text-center.hidden-xs.hidden-sm
                     a(:href="cocoPath(`/user/${me.getSlugOrID()}`)")
                       img.img-circle(:src="me.getPhotoURL()" :class="me.isTeacher() ? 'border-navy' : ''")
@@ -291,18 +486,14 @@ export default Vue.extend({
                     a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                   li
                     a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                  li(v-if="isCodeCombat && (me.isAdmin() || me.isTeacher() || me.isParentHome() || me.isRegisteredHomeUser())")
+                  li(v-if="isCodeCombat && (me.isAdmin() || me.isParentHome() || me.isRegisteredHomeUser())")
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
                     a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")
-                      span.caret(v-if="this.announcements.length")
+                      caret.rotate-left(v-if="this.announcements.length")
                       span {{ $t('announcement.notifications') }}
                       span.unread(v-if="unread") {{ unread }}
                     announcement-nav.announcement-nav(v-if="this.announcements.length")
-                  li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
-                    a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
-                  li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription())")
-                    a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
                   li(v-if="me.isAPIClient()")
                     a.account-dropdown-item(href="/partner-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                   li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")
@@ -317,265 +508,245 @@ export default Vue.extend({
                     a.account-dropdown-item#nav-stop-switching-button(href="#") {{ $t('login.stop_switching') }}
                   li
                     a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
-
-            ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
-              li
-                button#create-account-link.signup-button(data-event-action="Header Sign Up CTA") {{ $t('signup.sign_up') }}
-              li
-                button#login-link.login-button(data-event-action="Header Login CTA") {{ $t('signup.login') }}
+            .right
+              ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
+                li
+                  cta-button#login-link.login-button(data-event-action="Header Login CTA" size="small" type="no-background") {{ $t('signup.login') }}
+                li
+                  cta-button#create-account-link.signup-button(data-event-action="Header Sign Up CTA" size="small") {{ $t('signup.sign_up') }}
+              ul.nav.navbar-nav
+                li.dropdown
+                  a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                    //- string replaced in RootView
+                    span.language-dropdown-current Language
+                  ul(class="dropdown-menu language-dropdown")
 </template>
 
 <style lang="scss" scoped>
 /* These styles are global. This is required so bootstrap.... :( */
+
 @import "app/styles/bootstrap/variables";
 @import "app/styles/mixins";
 @import "app/styles/style-flat-variables";
+@import "app/styles/component_variables.scss";
 
 #main-nav.navbar {
   background: white;
-  margin-bottom: 0;
-  white-space: nowrap; // prevent home icon from going under brand
-  box-shadow: unset;
-  font-weight: 400;
 
-  @media print {
-    display: none;
+  ::v-deep .emoji-flag {
+    font-size: 30px
   }
 
-  h5 {
-    font-family: "Arvo", serif;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 31px;
-    font-variant: normal;
-    color: black;
-    margin: 0;
-  }
+  // Add dark mode styles
+  &.dark-mode {
 
-  p, .text-p, .text-p button {
-    font-family: $body-font;
-    font-size: 18px;
-    font-weight: 400;
-    letter-spacing: 0.75px;
-    line-height: 26px;
-  }
-
-  #create-account-link {
-    background-color: $teal-dark;
-    color: white;
-    border: 1px solid $teal-dark;
-    border-radius: 4px 0 0 4px;
-    width: 131px;
-
-    &:hover {
-      background-color: #2DCEC8;
-      border: 1px solid #2DCEC8;
-      color: $teal-dark;
-      transition: background-color .35s, border .35s;
-    }
-  }
-
-  #login-link {
-    width: 94px;
-    border: 1px solid $teal;
-    border-radius: 0 4px 4px 0;
-    /*color: $teal;*/
-    /* too faint for WCAG AAA */
-    color: #16837f; /* increased contrast by lowering luminance */
-    background: transparent;
-
-    &:hover {
-      background-color: #1FBAB4;
-      color: white;
-      transition: color .35s, background-color .35s;
-    }
-  }
-
-  .nav-spacer {
-    height: 12px;
-  }
-
-  .navbar-browser-recommendation {
-    margin-left: 1em;
-    padding-top: 15px;
-
-    a {
-      font-size: 16px;
-      padding: 10px 15px;
-      float: left;
-
-      &:hover {
-        color: $teal;
-        text-decoration: none;
-      }
-    }
-  }
-
-  .login-buttons {
-    margin: 2px 70px 0px 10px;
-    @media (max-width: $screen-md-min) {
-      display: inline-block;
-      margin: 2px 10px 29.5px;
-    }
-    @media (max-width: $wider-breakpoint) {
-      margin-right: 10px;
-    }
-
-    & li {
-      display: inline-block;
-    }
-
-    & button {
-      line-height: 20px;
-    }
-  }
-
-  a.navbar-brand {
-    padding: 14px 0 16px 70px;
-    margin: 0px;
-    @media (max-width: $wider-breakpoint) {
-      padding-left: 10px;
-    }
-
-    #logo-img {
-      height: 40px;
-
-      &.powered-by {
-        height: 30px;
-        width: auto;
-        margin-top: -5px;
-      }
-    }
-
-    .code-ninjas-logo, #tarena-logo, .tecmilenio-logo {
-      height: 40px;
-      width: auto;
-      margin-right: 10px;
-    }
-  }
-
-  .navbar-toggle {
-    color: black;
-    margin: 30px 70px 0;
-    border-color: $navy;
-    @media (max-width: 767px) {
-      margin: 15px 10px 0;
-    }
-
-    .icon-bar {
-      background-color: $navy;
-    }
-  }
-
-  @media (min-width: $grid-float-breakpoint) {
-    #navbar-collapse {
-      float: right;
+    &,
+    .dropdown-menu {
+      background: $dark-grey-2;
     }
 
     .dropdown-menu {
-      max-width: 330px;
-      overflow-x: visible;
+      h5 {
+        color: white;
+      }
+
+      ::v-deep {
+        li {
+          background: $dark-grey-2;
+
+          a {
+            color: white;
+            background: $dark-grey-2;
+
+            &:hover {
+              background: lighten($dark-grey-2, 10%);
+            }
+          }
+        }
+      }
+    }
+
+    p,
+    li,
+    span,
+    a,
+    button,
+    div {
+      color: white;
+    }
+
+    .nav {
+      >li {
+        >a {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .dropdown-menu.text-wide {
+    width: 400px;
+    @media (max-width: 991px) {
+      width: 100%
+    }
+  }
+
+  .dropdown-menu,
+  ::v-deep .language-dropdown {
+    @media (max-width: 991px) {
+      li>a {
+        color: $dark-grey-2;
+      }
+    }
+  }
+
+  p,
+  li,
+  span,
+  a,
+  button,
+  div {
+    font-family: $main-font-family;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  .navbar-brand {
+    #logo-img {
+      max-height: 41px;
+    }
+  }
+
+  .navbar-collapse {
+    max-height: min(600px, 50vh);
+
+    .nav.navbar-nav {
+      max-width: 100%;
     }
   }
 
   .language-dropdown {
-    max-height: 60vh;
-    overflow-y: auto;
-    left: -55px;
-  }
+    left: unset;
+    right: 0;
 
-  #navbar-collapse {
-    max-height: 100vh;
-
-    .text-teal {
-      /*color: $teal;*/
-      /* too faint for WCAG AAA */
-      color: #16837f; /* increased contrast by lowering luminance */
-      font-weight: 600; /* increased contrast by increasing weight */
+    @media screen and (min-width: $screen-md-min) {
+      max-height: calc(100vh - 80px);
+      overflow-y: scroll;
     }
   }
 
-  .nav > li > a, .nav > li > button {
-    // TODO: Move this to bootstrap variables for navbars
+  .header-container {
+    @media (min-width: 992px) {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-    // TODO: getting overridden by .navbar .nav > li > a for some reason
-    font-family: $body-font;
-    text-shadow: unset;
-    padding: 10px 15px;
-    @media (max-width: $wider-breakpoint) {
-      padding: 10px 10px;
-    }
+      .navbar-header {
+        flex-grow: 0;
+      }
 
-    color: $navy;
-
-    &:hover {
-      color: $teal;
+      .navbar-collapse {
+        flex-grow: 1;
+      }
     }
   }
 
-  // TODO: what is this for?
-  .nav > li.disabled > a, .nav > li.disabled > button {
-    color: black;
+  .navbar-collapse {
+    @media (min-width: 992px) {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
 
-    &:hover {
-      background: white;
-      color: black;
-      cursor: default;
+      .nav.navbar-nav {
+        max-width: 100%;
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+
+        &.loggedin {
+          flex-grow: 0;
+          position: relative;
+          padding-right: 6px;
+          margin-right: 6px;
+
+          &:after {
+            border-right: 1px solid $light-grey-2;
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 27px;
+          }
+        }
+      }
+
+      .right {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+
+        >.login-buttons {
+          position: relative;
+          padding-right: 6px;
+          margin-right: 6px;
+
+          &:after {
+            border-right: 1px solid $light-grey-2;
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 5px;
+            height: calc(100% - 10px);
+          }
+        }
+      }
     }
-  }
-
-  .new-pill {
-    font-size: 16px;
-    font-weight: 600;
-    background-color: #ff76c1;
-    border-radius: 14px;
-    padding: 4px;
-    margin-left: 5px;
-  }
-
-  .dropdown-hover .dropdown-menu {
-    padding: 0;
   }
 
   @media (min-width: $grid-float-breakpoint) {
     .dropdown-hover:hover {
-      & > ul {
+      &>ul {
         /* Allows for mouse over to expand dropdown */
         display: unset;
       }
     }
   }
 
-  .dropdown-hover .dropdown-menu li a {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    color: #0E4C60;
-  }
-
-  @media (max-width: $grid-float-breakpoint) {
-    .nav > li > a, .nav > li > button {
-      padding: 10px 20px;
-      height: 45px;
-    }
-    .language-dropdown-item {
-      color: $navy;
-    }
-    .account-dropdown-item {
-      color: $navy;
-    }
-
-    .dropdown-hover .dropdown-menu li a {
-      justify-content: center;
-    }
-
-    .dropdown-menu.pull-right {
-      /* Important required for bootstrap overwriting */
-      float: unset !important;
+  .nav {
+    >li {
+      >a {
+        color: $dark-grey-2;
+        text-align: center;
+        font-family: $main-font-family;
+        font-style: normal;
+        text-shadow: none;
+      }
     }
   }
 
-  // TODO: still used?
+  li {
+    >.text-p>.text-description {
+      font-size: 12px;
+      color: $dark-grey-2;
+      white-space: normal;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.3s ease-in-out;
+    }
+
+    &:hover>.text-p>.text-description {
+      max-height: 100px;
+    }
+  }
+
+  .login-buttons {
+    li {
+      margin: auto 10px;
+    }
+  }
+
   .img-circle {
     border: $gold 8px solid;
     width: 98px;
@@ -616,7 +787,7 @@ export default Vue.extend({
       top: 0;
     }
 
-    .caret {
+    .rotate-left {
       transform: rotate(90deg);
     }
   }
@@ -633,43 +804,19 @@ export default Vue.extend({
     margin-left: 0.5em;
   }
 
-}
-
-nav#main-nav.navbar.dark-mode {
-  background-color: #0C1016;
-
-  .nav > li > a {
-    color: #FCBB00;
-
-    &:hover {
-      color: #FF39A6;
-    }
+  .dropdown-caret {
+    margin-left: 5px;
   }
 
-  .dropdown-menu {
-    background-color: white;
-  }
-
-  #create-account-link {
-    background-color: #FCBB00;
-    border: 1px solid #FCBB00;
-    color: #0C1016;
-
-    &:hover {
-      background-color: #FF39A6;
-      border: 1px solid #FF39A6;
-    }
-  }
-
-  #login-link {
-    color: #FCBB00;
-    border: 1px solid #FCBB00;
-
-    &:hover {
-      background-color: #FF39A6;
-      border: 1px solid #FF39A6;
-      color: #0C1016;
-    }
+  .account-dropdown-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
+
+.tecmilenio-logo {
+  height: 41px;
+}
+
 </style>

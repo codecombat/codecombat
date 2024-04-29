@@ -275,7 +275,7 @@ export default {
         </li>
       </ul>
     </li>
-    <li v-if="false">
+    <li v-if="isCodeCombat">
       <router-link
         id="AILeague"
         to="/teachers/ai-league"
@@ -561,15 +561,22 @@ li.open > #AILeague,
         background-color: #C5D4ED;
       }
 
+      li {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
       a {
         color: #131B25;
-        height: 50px;
+        line-height: 50px;
+        height: auto;
         text-align: left;
-
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
         padding-left: 30px;
-
-        justify-content: start;
-        justify-content: flex-start;
         &:hover {
           background-color: transparent;
         }

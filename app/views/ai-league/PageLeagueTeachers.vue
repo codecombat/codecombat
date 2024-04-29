@@ -70,6 +70,10 @@ export default {
       return this.clanByIdOrSlug(this.clanIdOrSlug) || null
     },
 
+    hasEsportsProduct () {
+      return me.getProductsByType('esports').length > 0
+    },
+
     currentSelectedClanChildDetails () {
       const selectedId = this.clanIdSelected
       if (selectedId === '') {
@@ -254,6 +258,7 @@ export default {
           >{{
             $t('teacher_dashboard.view_team_page') }}</a>
           <button
+            v-if="hasEsportsProduct"
             class="toggle-league"
             @click="toggleLeague"
           >
@@ -309,6 +314,17 @@ export default {
                 >&rarr;</span>
               </div>
               <leaderboard
+                v-if="currentSelectedClan"
+                :key="`${clanIdSelected}-score`"
+                :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
+                :rankings="selectedClanRankings"
+                :player-count="selectedClanLeaderboardPlayerCount"
+                :clan-id="clanIdSelected"
+                class="leaderboard-component"
+                style="color: black;"
+              />
+              <leaderboard
+                v-else
                 :rankings="globalRankings"
                 :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
                 :player-count="globalLeaderboardPlayerCount"

@@ -28,9 +28,9 @@ export default class SingletonAppVueComponentView extends VueComponentView {
   setupHashHandlers(){
     let modalOpened = false
     if (me.isAnonymous()) {
-      const hash = document.location.hash;
-      const registering = utils.getQueryVariable('registering');
-      const createAccount = utils.getQueryVariable('create-account');
+      const hash = document.location.hash
+      const registering = utils.getQueryVariable('registering')
+      const createAccount = utils.getQueryVariable('create-account')
     
       const paths = {
         '#create-account': null,
@@ -38,31 +38,37 @@ export default class SingletonAppVueComponentView extends VueComponentView {
         '#create-account-home': 'individual-basic',
         '#create-account-student': 'student',
         '#create-account-teacher': 'teacher'
-      };
+      }
     
       if ((hash === '#create-account' && registering === true) || paths[hash] || createAccount === 'teacher') {
-        const startOnPath = paths[hash] || createAccount;
+        const startOnPath = paths[hash] || createAccount
         _.defer(() => { 
           if (!this.destroyed) { 
             return this.openCreateAccountModal({ startOnPath })
           } 
-        });
-        modalOpened = true;
+        })
+        modalOpened = true
       }
     
       if (hash === '#login') {
-        const url = new URLSearchParams(window.location.search);
+        const url = new URLSearchParams(window.location.search)
         _.defer(() => { 
           if (!this.destroyed) { 
             return this.openAuthModal({ initialValues: { email: url.get('email') } }) 
           } 
-        });
-        modalOpened = true;
+        })
+        modalOpened = true
       }
     }
 
-    // only open modal if no other modal is open
-    if(!modalOpened && !this.destroyed){
+    if ($('.ozaria-modal, .modal-dialog').length) {
+      modalOpened = true
+    }
+
+    const onTeacherDashboard = document.location.pathname.startsWith('/teachers/')
+
+    // only open modal if no other modal is open, and not on the teacher dashboard
+    if(!modalOpened && !this.destroyed && !onTeacherDashboard) {
       _.defer(() => {
         const MineModal = require('views/core/MineModal') // Roblox modal
         if (!storage.load('roblox-clicked') && !this.destroyed) { return this.openModalView(new MineModal()) } 

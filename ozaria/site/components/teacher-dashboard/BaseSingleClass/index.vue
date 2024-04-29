@@ -49,6 +49,8 @@ export default {
 
   data: () => ({
     isGuidelinesVisible: true,
+    refreshKey: 0,
+    sortMethod: storage.load('sortMethod') || 'Last Name'
   }),
 
   computed: {
@@ -70,16 +72,10 @@ export default {
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom'
     }),
 
-    sortMethod: {
-      get () {
-        return storage.load('sortMethod') || 'Last Name'
-      },
-      set (method) {
-        storage.save('sortMethod', method)
-      }
-    },
-
     modules () {
+      // Reference below required to trigger a re-render when the refresh button is clicked.
+      this.refreshKey // eslint-disable-line no-unused-expressions
+
       const selectedCourseId = this.selectedCourseId
       const modules = (this.gameContent[selectedCourseId] || {}).modules
       if (modules === undefined) {
@@ -111,13 +107,18 @@ export default {
         let moduleDisplayName
         if (!utils.courseModules[this.selectedCourseId]?.[moduleNum]) {
           const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
-          moduleDisplayName = course.name
+          moduleDisplayName = utils.i18n(course, 'name')
         } else {
           // Todo: Ozaria-i18n
           moduleDisplayName = `${utils.isOzaria ? this.$t(`teacher.module${moduleNum}`) : ''}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
         }
 
         const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, translatedModuleContent, intros, moduleNum)
+        const levelsByOriginal = translatedModuleContent
+          .reduce((acc, content) => {
+            acc[content.original] = content
+            return acc
+          }, {})
 
         // Track summary stats to display in the header of the table
         const classSummaryProgressMap = new Map(translatedModuleContent.map((content) => {
@@ -137,7 +138,13 @@ export default {
           moduleStatsForTable.studentSessions[student._id] = translatedModuleContent.map((content) => {
             const { original, fromIntroLevelOriginal } = content
             const normalizedOriginal = original || fromIntroLevelOriginal
-            const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'locked')
+
+            const level = levelsByOriginal[normalizedOriginal]
+            const selectedCourseInstance = courseInstances.find(({ courseID }) => courseID === this.selectedCourseId)
+            const startLockedLevel = selectedCourseInstance?.startLockedLevel
+            const lockedByOldDashboard = startLockedLevel && startLockedLevel === level?.slug
+
+            const isLocked = lockedByOldDashboard || ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'locked')
             const lockDate = ClassroomLib.getStudentLockDate(this.classroom, student._id, normalizedOriginal)
             const isOptional = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'optional')
 
@@ -429,7 +436,13 @@ export default {
       this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
     },
 
+    async onRefresh () {
+      await this.fetchClassroomData(this.classroomId)
+      this.refreshKey += 1
+    },
+
     onChangeStudentSort (sortMethod) {
+      storage.save('sortMethod', sortMethod)
       this.sortMethod = sortMethod
     },
 
@@ -473,7 +486,7 @@ export default {
             normalizedType = 'challengelvl'
           }
 
-          if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].includes(normalizedType)) {
+          if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev', 'ladder'].includes(normalizedType)) {
             throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
           }
 
@@ -540,6 +553,7 @@ export default {
       @assignContent="$emit('assignContent')"
       @addStudents="$emit('addStudents')"
       @removeStudents="$emit('removeStudents')"
+      @refresh="onRefresh"
     />
 
     <table-class-frame

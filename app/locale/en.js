@@ -425,7 +425,43 @@ module.exports = {
       pricing: 'Pricing',
       help_center: 'Help Center',
       research_efficacy: 'Research - Efficacy',
-      research_impact: 'Research - Impact'
+      research_impact: 'Research - Impact',
+      terms: 'Terms',
+      podcast_simple: 'Podcast',
+      create_free_account: 'Create Free Account',
+      school_district_solutions: 'School & District Solutions',
+      teacher_toolkit_preview: 'Teacher Toolkit Preview',
+      teacher_toolkit: 'Teacher Toolkit',
+      efficacy_studies: 'Efficacy Studies',
+      success_stories: 'Success Stories',
+      hoc: 'Hour of Code',
+      grants_funding_resources: 'Grants & Funding Resources',
+      request_quote_demo: 'Request a Demo or Quote',
+      coco_junior_beta: 'CodeCombat Junior (Beta)',
+      ap_csp: 'AP CSP',
+      ai_league_esports: 'AI League Esports',
+      ai_hackstack_beta: 'AI HackStack (Beta)',
+      ai_junior_beta: 'AI Junior (Beta)',
+      premium_self_paced: 'Premium Self-Paced',
+      codequest: 'CodeQuest',
+      library_solutions: 'Library Solutions',
+      partner_solutions: 'Partner Solutions',
+      teaching_solutions: 'Teaching Solutions',
+      play2: 'Play',
+      my_dashborads: 'My Dashboards',
+      resources: 'Resources',
+      curriculum: 'Curriculum',
+      company: 'Company',
+      coco_home_description: 'With access to all 530 levels and exclusive features like pets, premium only items, and heroes, anyone can fully immerse themselves in the world of coding.',
+      coco_classroom_description: 'A full CS curriculum that builds from core concepts all the way through web development, game development and AP CSP.',
+      coco_junior_description: 'Our flagship K-5 curriculum features a progression of learning levels that teach basic coding concepts at a slower pace, modeled specifically for elementary students.',
+      oz_classroom_description: 'An enchanting narrative coding adventure that establishes the fundamentals of computer science.',
+      ap_csp_description: 'Endorsed by the College Board, our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam.',
+      ai_league_description: 'An epic competitive coding esports platform that encourages creative programming practice in a game-based environment.',
+      roblox_description: 'This MMORPG teaches Lua coding and provides a real-world platform to create amazing games and experiences.',
+      ai_hackstack_description: 'The first generative AI companion tool specifically crafted for those new to AI with a focus on student privacy and safety.',
+      ai_junior_description: 'Introduces multimodal generative AI in a simple and intuitive platform designed specifically for K-5 students.',
+      learning_options: 'Learning Options'
     },
 
     modal: {
@@ -1659,7 +1695,6 @@ module.exports = {
       jobs_benefit_10: 'Maternity leave: 12 weeks paid, next 6 @ 55% salary',
       jobs_benefit_11: '12 weeks paid parental leave',
       jobs_benefit_12: '$50/mo internet & biz services benefit',
-      jobs_benefit_13: '$50/mo health and wellness benefit',
       jobs_benefit_14: '100% distributed team',
       jobs_custom_title: 'Create Your Own',
       jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!",
@@ -1819,6 +1854,7 @@ module.exports = {
       evaluate_recommend: 'Evaluate/Recommend',
       approve_funds: 'Approve Funds',
       no_purchaser_role: 'No role in purchase decisions',
+      teacher_account_details: 'Teacher Account Details',
       district_label: 'District',
       district_name: 'District Name',
       district_na: 'Enter N/A if not applicable',
@@ -2241,6 +2277,7 @@ module.exports = {
       course_membership_required_to_play: "You'll need to join a course to play this level.",
       license_required_to_play_coco: 'Ask your teacher to assign a license to you so you can continue to play CodeCombat!',
       license_required_to_play_ozar: 'Ask your teacher to assign you a license so you can continue to play Ozaria!',
+      level_locked: 'This level is locked.',
       update_old_classroom: 'New school year, new levels!',
       update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your",
       teacher_dashboard: 'teacher dashboard',
@@ -3259,7 +3296,10 @@ module.exports = {
       unsubscribe_button: 'Yes, unsubscribe',
       unsubscribe_failed: 'Failed',
       unsubscribe_success: 'Success',
-      manage_billing: 'Manage Billing'
+      manage_billing: 'Manage Payments',
+      payments_history: 'Payments History',
+      no_payments_found: 'No payments found',
+
     },
 
     account_invoices: {
@@ -4422,7 +4462,8 @@ module.exports = {
       no_modifiers_changed: 'Levels already modified for these students',
       no_modifiers_changed_unlocks_skipped: 'It appears you attempted to unlock levels that aren\'t currently locked. Please note, if your selected level appears as locked, it might be due to a preceding level being locked. To proceed, ensure to unlock the prior level first.',
       view_custom_league: 'View Custom League',
-      view_global_league: 'View Global League'
+      view_global_league: 'View Global League',
+      refresh_progress: 'Refresh Progress'
     },
 
     outcomes: {
@@ -5042,6 +5083,7 @@ module.exports = {
     },
 
     roblox_landing: {
+      meta_title: 'CodeCombat Worlds on Roblox: Play, Code and Create',
       headline: 'Empowering Every Player to Become a Creator!',
       subhead: 'Experience the easiest and most enjoyable way to code and create your own Roblox games',
       join_the_beta: 'Join the Beta',
@@ -5098,7 +5140,8 @@ module.exports = {
       faq_bottom: 'See more <a href="https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-" target="_blank">frequently asked questions in our help center</a>. <br />If you have any other questions, please <a href="mailto:support@codecombat.com">Contact Us</a>.',
       modal_title: 'CodeCombat Worlds<br> Now Live on Roblox!',
       modal_play_now: 'PLAY NOW!',
-      modal_button_link_roblox_account: 'Link Roblox Account'
+      modal_button_link_roblox_account: 'Link Roblox Account',
+      age_restriction: 'You must be 13 years or older to link your Roblox account.',
     },
 
     ai: {
@@ -5212,7 +5255,7 @@ module.exports = {
       young_learners_2_linkText: 'Sign up for Beta Access',
       solutions_1_title: 'Professional Development',
       solutions_1_text: 'Built to empower all teachers with the skills, knowledge, and confidence to effectively teach computer science.',
-      solutions_1_middleText: 'Earn up to 3 graduate credits.',
+      solutions_1_middleText: 'Earn up to 6 graduate credits.',
       solutions_1_linkText: 'Try it now',
       solutions_2_title: 'AP CSP Exam Preperations',
       solutions_2_text: 'We are recognized by the College Board as an endorsed provider of curriculum and professional development for AP® Computer Science Principles (AP CSP). Our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam.',
@@ -5236,6 +5279,7 @@ module.exports = {
       try_it_now: 'Try it now'
     },
     schools_page: {
+      meta_title: 'CodeCombat: the most effective computer science solution for schools',
       most_effective_computer_science_solution: 'The most effective computer science solution for **schools**',
       our_comprehensive_implementation: 'Our comprehensive implementation empowers teachers, engages students and delivers successful outcomes.',
       get_my_solution: 'Get My Solution',
@@ -5248,7 +5292,7 @@ module.exports = {
       accessible_data_insights_text: 'We provide administrators the insight they need with real-time usage data and progress reports at the class, school, district and state level. Student level progress tracking enables educators to easily identify when intervention is needed and the built in pre and post module assessments measure student comprehension.',
       high_quality_professional_development_title: 'High Quality Professional Development',
       high_quality_professional_development_text: '**[https://csteachers.org/pd-opportunities/accredited-pd/]Endorsed by the Computer Science Teachers Association (CSTA)**, the course provides 44+ hours of self-directed, web-based, and on-demand learning. The program is self-paced and designed to fit any busy schedule. The course prepares anyone with or without teaching experience to successfully implement a CS curriculum.',
-      earn_up_to_3_graduate_credits: 'Earn up to 3 graduate credits with this course.',
+      earn_up_to_3_graduate_credits: 'Earn up to 6 graduate credits with this course.',
       request_a_demo: 'Request a Demo',
       maximize_your_impact: 'All the tools to maximize learning outcomes',
       core_curriculum: 'Core Curriculum',
