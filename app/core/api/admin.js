@@ -44,10 +44,10 @@ module.exports = {
   },
 
   fetchOnlineTeacherInfo (userId) {
-    return fetchJson(`/db/user/${userId}/onlineTeacher`)
+    return fetchJson(`/db/user/${userId}/online-teacher-info`)
   },
 
   putOnlineTeacherInfo (_id, data) {
-    return fetchJson(`/db/online-teacher/${_id}`, { method: 'PUT', json: data })
+    return fetchJson(`/db/online-teachers/${_id}`, { method: 'PUT', json: data })
   }
 }
