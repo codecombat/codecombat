@@ -11,7 +11,6 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
   if fullCode and not /;\n/.test(jsCode)
     # This JS code doesn't use semicolons, relying instead on ASI. Add semicolons where they will be needed in Java and C++.
     patterns = [
-      # Quick GPT-4 try #1
       # Insert semicolon after variable declarations if missing
       { regex: /(\b(let|var|const)\s+\w+\s*=.*[^;])\s*$/gm, replacement: "$1;" }
       # Insert semicolon after standalone expressions or function calls if missing
@@ -21,13 +20,11 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
       # Correct lines ending with a semicolon followed by whitespace (avoid duplications)
       { regex: /;\s+$/gm, replacement: ";" }
       # Insert semicolon after closing brace if the next non-whitespace character isn't a semicolon or closing brace
-      { regex: /(\})\s*([^\n;{}\s])/g, replacement: "$1;\n$2" }
+      #{ regex: /(\})\s*([^\n;{}\s])/g, replacement: "$1;\n$2" }  # Has problem with empty blocks like {} -> {}; and after function declarations
       # Ensure loops and conditionals are properly terminated
       { regex: /(\b(for|if|while|do)\s*\(.*\)\s*{[^\n}]*})\s*([^\n;{}\s])/gm, replacement: "$1;\n$3" }
-      # Quick GPT-4 try #2
-      # { regex: /(?<!for\s*\([^)]*\))([^\s{;][^\n{}]*[^\s};])\s*$/gm, replacement: "$1;" }  # Variable width lookbehind not supported in mobile Safari
-      # Quick GPT-4 try #3, I probably should have just written it myself at this point
-      { regex: /^.*[^;\s{}]\s*$/gm, replacement: "$&;" }
+      # General
+      { regex: /^(?!\s*\/\/).*[^;\s{}]\s*$/gm, replacement: "$&;" }
     ]
     for { regex, replacement } in patterns
       jsCode = jsCode.replace regex, replacement
@@ -99,7 +96,7 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     jsCodes = _.filter jsCodes, (piece) -> piece.replace(/\s/g, '').length
   len = jsCodes.length
   if len
-    lines = jsCodes[len-1].trimStart().split '\n'
+    lines = (jsCodes[len-1] || '').trimStart().split '\n'
   else
     lines = []
   #console.log "Split code segments into", _.cloneDeep(jsCodes)
@@ -370,17 +367,16 @@ translateJSWhitespace = (jsCode, language='lua') ->
 
   if language is 'lua'
     # Convert : to =. {x:1, y:1} -> {x=1, y=1}
-    s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,]+)\}/g, '{$1=$2}'  # 1 element
-    s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)\}/g, '{$1=$2, $3=$4}'  # 2 elements
-    s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)\}/g, '{$1=$2, $3=$4, $4=6}'  # 3 elements
-    # TODO: something flexible for arbitrary n elements
+    # Exclude argument placeholders ${...} from this conversion
+    s = s.replace /(\$\{[^}]*\})|(\{[^\}]*\})/g, (match, p1, p2) ->
+      # If it's a template, then return as-is, else replace colons with equals
+      p1 or p2.replace(/(['"])?(\w+)\1?\s*:\s*/g, '$2=')
   else if language is 'python'
     # Add quotes. {x:1, y:1} -> {"x": 1, "y": 1}
     # Exclude argument placeholders ${...} from being quoted
-    s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,\}]+)(?<!'\$\{[^}]+)\}/g, '{"$1": $2}'  # 1 element
-    s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,\}]+)(?<!'\$\{[^}]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)(?<!'\$\{[^}]+)\}/g, '{"$1": $2, "$3": $4}'  # 2 elements
-    s = s.replace /\{\s*['"]?(\S+?)['"]?\s*:\s*([^,\}]+)(?<!'\$\{[^}]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)(?<!'\$\{[^}]+),\s*['"]?(\S+?)['"]?\s*:\s*([^\}]*)(?<!'\$\{[^}]+)\}/g, '{"$1": $2, "$3": $4, "$5": $6}'  # 3 elements
-    # TODO: something flexible for arbitrary n elements
+    s = s.replace /(\$\{[^}]*\})|(\{[^\}]*\})/g, (match, p1, p2) ->
+      # If it's a template, then return as-is, else quote the keys
+      p1 or p2.replace(/(['"])?(\w+)\1?\s*:\s*/g, '"$2": ')
 
   if language is 'lua'
     # Try incrementing all literal array indexes under, say, 10 by 1 to offset 1-based indexing. Hack, but most of those levels will need manual attention anyway.

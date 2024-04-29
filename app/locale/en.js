@@ -425,7 +425,43 @@ module.exports = {
       pricing: 'Pricing',
       help_center: 'Help Center',
       research_efficacy: 'Research - Efficacy',
-      research_impact: 'Research - Impact'
+      research_impact: 'Research - Impact',
+      terms: 'Terms',
+      podcast_simple: 'Podcast',
+      create_free_account: 'Create Free Account',
+      school_district_solutions: 'School & District Solutions',
+      teacher_toolkit_preview: 'Teacher Toolkit Preview',
+      teacher_toolkit: 'Teacher Toolkit',
+      efficacy_studies: 'Efficacy Studies',
+      success_stories: 'Success Stories',
+      hoc: 'Hour of Code',
+      grants_funding_resources: 'Grants & Funding Resources',
+      request_quote_demo: 'Request a Demo or Quote',
+      coco_junior_beta: 'CodeCombat Junior (Beta)',
+      ap_csp: 'AP CSP',
+      ai_league_esports: 'AI League Esports',
+      ai_hackstack_beta: 'AI HackStack (Beta)',
+      ai_junior_beta: 'AI Junior (Beta)',
+      premium_self_paced: 'Premium Self-Paced',
+      codequest: 'CodeQuest',
+      library_solutions: 'Library Solutions',
+      partner_solutions: 'Partner Solutions',
+      teaching_solutions: 'Teaching Solutions',
+      play2: 'Play',
+      my_dashborads: 'My Dashboards',
+      resources: 'Resources',
+      curriculum: 'Curriculum',
+      company: 'Company',
+      coco_home_description: 'With access to all 530 levels and exclusive features like pets, premium only items, and heroes, anyone can fully immerse themselves in the world of coding.',
+      coco_classroom_description: 'A full CS curriculum that builds from core concepts all the way through web development, game development and AP CSP.',
+      coco_junior_description: 'Our flagship K-5 curriculum features a progression of learning levels that teach basic coding concepts at a slower pace, modeled specifically for elementary students.',
+      oz_classroom_description: 'An enchanting narrative coding adventure that establishes the fundamentals of computer science.',
+      ap_csp_description: 'Endorsed by the College Board, our AP CSP curriculum provides game-based and turnkey tools to prepare students for the AP exam.',
+      ai_league_description: 'An epic competitive coding esports platform that encourages creative programming practice in a game-based environment.',
+      roblox_description: 'This MMORPG teaches Lua coding and provides a real-world platform to create amazing games and experiences.',
+      ai_hackstack_description: 'The first generative AI companion tool specifically crafted for those new to AI with a focus on student privacy and safety.',
+      ai_junior_description: 'Introduces multimodal generative AI in a simple and intuitive platform designed specifically for K-5 students.',
+      learning_options: 'Learning Options'
     },
 
     modal: {
@@ -1818,6 +1854,7 @@ module.exports = {
       evaluate_recommend: 'Evaluate/Recommend',
       approve_funds: 'Approve Funds',
       no_purchaser_role: 'No role in purchase decisions',
+      teacher_account_details: 'Teacher Account Details',
       district_label: 'District',
       district_name: 'District Name',
       district_na: 'Enter N/A if not applicable',
@@ -3259,7 +3296,10 @@ module.exports = {
       unsubscribe_button: 'Yes, unsubscribe',
       unsubscribe_failed: 'Failed',
       unsubscribe_success: 'Success',
-      manage_billing: 'Manage Billing'
+      manage_billing: 'Manage Payments',
+      payments_history: 'Payments History',
+      no_payments_found: 'No payments found',
+
     },
 
     account_invoices: {
@@ -5100,7 +5140,8 @@ module.exports = {
       faq_bottom: 'See more <a href="https://codecombat.zendesk.com/hc/en-us/categories/18084251471383-CodeCombat-Worlds-Roblox-" target="_blank">frequently asked questions in our help center</a>. <br />If you have any other questions, please <a href="mailto:support@codecombat.com">Contact Us</a>.',
       modal_title: 'CodeCombat Worlds<br> Now Live on Roblox!',
       modal_play_now: 'PLAY NOW!',
-      modal_button_link_roblox_account: 'Link Roblox Account'
+      modal_button_link_roblox_account: 'Link Roblox Account',
+      age_restriction: 'You must be 13 years or older to link your Roblox account.',
     },
 
     ai: {

@@ -8,7 +8,16 @@ export default class ZendeskTracker extends BaseTracker {
   }
 
   get isChatEnabled () {
-    return !this.onNoZendeskPage && !this.store.getters['me/isStudent'] && !this.store.getters['me/isHomePlayer'] && this.store.getters['me/isTeacher']
+    return !this.onNoZendeskPage && (
+      (
+        !this.store.getters['me/isStudent'] &&
+        !this.store.getters['me/isHomePlayer'] &&
+        this.store.getters['me/isTeacher']
+      ) || (
+        this.store.getters['me/isHomePlayer'] &&
+        this.store.getters['me/isPremium']
+      )
+    )
   }
 
   get onNoZendeskPage () {
