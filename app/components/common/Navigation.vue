@@ -429,7 +429,7 @@ export default Vue.extend({
                 source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
               img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-2.png" alt="Tecmilenio logo")
-            a.navbar-brand(v-else-if="showHackStackLogo" :href="homeLink")
+            a.navbar-brand(v-else-if="showHackStackLogo" href="/ai")
               img#logo-img(src="/images/pages/base/logo+hs.png" alt="CodeCombat and HackStack logo")
             a.navbar-brand(v-else-if="me.showChinaResourceInfo()" :href="homeLink")
               img#logo-img(src="/images/pages/base/logo-en+cn.png" alt="CodeCombat logo")
