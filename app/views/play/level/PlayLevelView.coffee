@@ -756,6 +756,7 @@ module.exports = class PlayLevelView extends RootView
     minTomeHeight = switch
       when cinematic then Math.max(windowHeight * 0.15, 150)
       else Math.max(windowHeight * 0.25, 250)
+    hasManyAPIs = @tome?.spellPaletteView?.entries?.length > 16
     # Used to think min/max/desired code/workspace/toolbox width would be handled here, but actually currently SpellView is figuring that out and changing block zoom levels as needed.
     # Future work could be to also change font size and to move the relevant logic just to one place.
     minCodeChars = @tome?.spellView?.codeChars?.desired  # Also have min available. TODO: be smart here about min vs. desired based on how much space we have
@@ -774,6 +775,15 @@ module.exports = class PlayLevelView extends RootView
     acePaddingGutterAndMargin = 30 + 41 + 30  # 30px left and right padding, 41px gutter with 10-99 lines of code
     minCodeWidth = if codeLocation is 'none' then 0 else minCodeChars * minCodeCharWidth + acePaddingGutterAndMargin
     maxCodeWidth = if codeLocation is 'none' then 0 else maxCodeChars * maxCodeCharWidth + acePaddingGutterAndMargin
+    if minCodeWidth and hasManyAPIs and @codeFormat is 'text-code' and not @level?.isType('web-dev')
+      spellPaletteColumnWidth = 137
+      spellPaletteMargin = 54
+      minimumSpellPaletteColumns = 3
+      if @tome?.spellPaletteView?.entries?.length > 32 and windowWidth >= 1480 and windowAspectRatio >= 1.8
+        # We have a _lot_ of APIs and the window is very wide, so make sure to have even more spell palette columns
+        minimumSpellPaletteColumns = 4
+      minCodeWidth = Math.max minCodeWidth, spellPaletteColumnWidth * minimumSpellPaletteColumns + spellPaletteMargin
+      maxCodeWidth = Math.max maxCodeWidth, minCodeWidth
     minBlockChars = switch
       when @codeFormat is 'blocks-icons' and product is 'codecombat-junior' then 4
       when @codeFormat is 'blocks-icons' and cinematic then 6
@@ -817,6 +827,7 @@ module.exports = class PlayLevelView extends RootView
       when @level?.isType('web-dev') then 'left'
       when cinematic then 'none'
       when tomeLocation is 'bottom' then 'top'
+      when hasManyAPIs then 'left'  # Make more space for APIs
       when tomeWidthWhenControlBarRight > 160 and emptyHeightBelowCanvasWhenControlBarRight <= 0 then 'right'
       else 'left'
     controlBarHeight = if cinematic then 0 else 50
