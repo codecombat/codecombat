@@ -138,6 +138,12 @@ module.exports = {
     }))
   },
 
+  provisionEsports ({ userId }) {
+    return fetchJson(`/db/user/${userId}/provision-esports`, _.assign({}, {
+      method: 'PUT'
+    }))
+  },
+
   provisionSubscription ({ userId }) {
     return fetchJson(`/db/user/${userId}/provision-subscription`, _.assign({}, {
       method: 'PUT'

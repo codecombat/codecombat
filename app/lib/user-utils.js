@@ -1,6 +1,16 @@
 const usersApi = require('../core/api').users
 const localStorage = require('../core/storage')
 
+function provisionEsports () {
+  usersApi.provisionEsports({ userId: me.get('_id') })
+    .then(({ esportsAdded }) => {
+      if (esportsAdded) me.fetch({ cache: false })
+    })
+    .catch((err) => {
+      console.error('provision err', err)
+    })
+}
+
 function provisionPremium () {
   usersApi.provisionSubscription({ userId: me.get('_id') })
     .then(({ premiumAdded, isInLibraryNetwork, hideEmail, libraryName, showLoginModal, isCreatedViaLibrary }) => {
@@ -113,6 +123,7 @@ function markParentBuyingForSelfPromptSeen () {
 }
 
 module.exports = {
+  provisionEsports,
   provisionPremium,
   isInLibraryNetwork,
   shouldHideEmail,
