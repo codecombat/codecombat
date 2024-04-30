@@ -499,6 +499,8 @@ module.exports = (CocoRouter = (function () {
           return this.routeDirectly('teachers/ConvertToTeacherAccountView', [])
         },
 
+        'trial-classes/:eventId/confirm/:token': go('core/SingletonAppVueComponentView'),
+
         'school-administrator(/*subpath)': go('core/SingletonAppVueComponentView'),
         'cinematicplaceholder/:levelSlug': go('core/SingletonAppVueComponentView'),
 
