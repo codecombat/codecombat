@@ -54,7 +54,7 @@ export default function getVueRouter () {
         {
           path: '/trial-classes/:eventId/confirm/:token',
           name: 'TrialClassConfirm',
-          component: () => import(/* webpackChunName: 'TrialClassConfirm' */ 'app/views/online-classes/trialClassConfirm'),
+          component: () => import(/* webpackChunName: 'TrialClassConfirm' */ 'app/views/online-class/trialClassConfirm'),
           props: (route) => ({ ...route.params })
         },
         {

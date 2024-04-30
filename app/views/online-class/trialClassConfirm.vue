@@ -16,8 +16,7 @@
     template(v-else)
       div
         | This really shouldn't happen
-      div
-        {{ verifyStatus }}
+      div {{ verifyStatus }}
 </template>
 
 <script>
