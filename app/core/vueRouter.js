@@ -52,6 +52,10 @@ export default function getVueRouter () {
           ]
         },
         {
+          path: '/trial-classes',
+          component: () => import(/* webpackChunkName: "TrialClassView" */ 'app/views/online-class/trialClassesView')
+        },
+        {
           path: '/trial-classes/:eventId/confirm/:token',
           name: 'TrialClassConfirm',
           component: () => import(/* webpackChunName: 'TrialClassConfirm' */ 'app/views/online-class/trialClassConfirm'),

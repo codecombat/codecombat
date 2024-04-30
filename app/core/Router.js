@@ -500,6 +500,7 @@ module.exports = (CocoRouter = (function () {
         },
 
         'trial-classes/:eventId/confirm/:token': go('core/SingletonAppVueComponentView'),
+        'trial-classes': go('core/SingletonAppVueComponentView'),
 
         'school-administrator(/*subpath)': go('core/SingletonAppVueComponentView'),
         'cinematicplaceholder/:levelSlug': go('core/SingletonAppVueComponentView'),

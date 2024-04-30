@@ -8,21 +8,21 @@
         class="class"
       >
         <div class="title">
-          <h2>{{ tr.title }}</h2>
+          <h2>{{ tr.name }}</h2>
           <p>{{ tr.description }}</p>
         </div>
 
         <div class="teacher">
-          <p>{{ tr.teacher.name }}</p>
+          <p>teacher: {{ tr.ownerName }}</p>
         </div>
         <div class="students">
-          <p>{{ tr.properties.studentInfo.studentName }}</p>
-          <p>{{ tr.properties.studentInfo.guardianName }}</p>
-          <p>{{ tr.properties.studentInfo.guardianPhone }}</p>
+          <p>student: {{ tr.properties.studentInfo.studentName }}</p>
+          <p>guardian: {{ tr.properties.studentInfo.guardianName }}</p>
+          <p>phone: {{ tr.properties.studentInfo.guardianPhone }}</p>
         </div>
         <div class="time-and-status">
-          <p>{{ tr.date }}</p>
-          <p>{{ tr.status }}</p>
+          <p>{{ tr.startDate }}</p>
+          <p>state: {{ tr.state }}</p>
         </div>
       </div>
     </div>
@@ -43,8 +43,7 @@ export default {
   },
   methods: {
     async fetchTrialClasses () {
-      const res = await getTrialClasses()
-      this.trialClasses = res.data
+      this.trialClasses = await getTrialClasses()
     }
   }
 }
@@ -54,10 +53,15 @@ export default {
 .trial-classes {
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 20px;
 
   .class {
+    margin: 20px;
     display: flex;
+    width: 1200px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
 
     .title {
       flex-basis: 25%;
