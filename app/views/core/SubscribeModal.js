@@ -96,6 +96,7 @@ module.exports = (SubscribeModal = (function () {
       }
       this.lifetimeProduct = this.products.getLifetimeSubscriptionForUser(me)
       this.paymentProcessor = 'stripe' // Always use Stripe
+      this.isParentHomeAccount = me.isParentHome()
       super.onLoaded()
       return this.render()
     }
