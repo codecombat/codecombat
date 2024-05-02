@@ -280,13 +280,10 @@ module.exports = (AnalyticsView = (function () {
         url,
         method: 'GET',
         success: data => {
-          let annualDurationMonths, dailyGroup, day, group, i, lifetimeDurationMonths, monthlyGroup, revenue, week
+          let dailyGroup, day, group, i, monthlyGroup, revenue, week
           const revenueGroupFromPayment = function (payment, price) {
-            let lifetimeToAnnualChange
             let product = payment.productID || payment.service
-            if (utils.isCodeCombat) {
-              lifetimeToAnnualChange = '2020-11-09'
-            }
+            const lifetimeToAnnualChange = '2020-11-09'
             if (payment.productID === 'lifetime_subscription') {
               product = 'usa lifetime'
             } else if (/_lifetime_subscription/.test(payment.productID)) {
@@ -302,7 +299,7 @@ module.exports = (AnalyticsView = (function () {
             } else if (/gems/.test(payment.productID)) {
               product = 'gems'
             } else if (payment.prepaidID) {
-              if ((price % 9.99) === 0) {
+              if ((price % 9.99) === 0 || (price % 999) === 0) {
                 product = 'usa monthly'
               } else {
                 // NOTE: assumed to be classroom starter licenses
@@ -314,9 +311,15 @@ module.exports = (AnalyticsView = (function () {
                   product = 'usa monthly'
                 } else if (payment.gems === 42000) {
                   product = 'usa annual'
+                } else if (payment.gems === 1500) {
+                  product = 'intl monthly'
+                } else if (payment.gems === 42000) {
+                  product = 'intl annual'
                 }
               } else if (payment.currency && (payment.currency !== 'usd')) {
-                if (payment.gems === 1500) {
+                if (payment.gems === 3500) {
+                  product = 'intl monthly'
+                } else if (payment.gems === 1500) {
                   product = 'intl monthly'
                 } else if (payment.gems === 42000) {
                   product = 'intl annual'
@@ -327,12 +330,33 @@ module.exports = (AnalyticsView = (function () {
                 product = 'usa monthly'
               } else if ((price === 599) && (payment.gems === 3500) && !payment.currency) {
                 product = 'intl monthly'
+              } else if ((price === 9900) || ((price >= 5999 && price <= 11000) && (payment.gems === 42000))) {
+                if (payment.created > lifetimeToAnnualChange) {
+                  product = 'usa annual'
+                } else {
+                  product = 'usa lifetime'
+                }
+              } else if (price <= 11000 && (payment.gems === 42000 || payment.gems === 18000)) {
+                if (payment.created > lifetimeToAnnualChange) {
+                  product = 'intl annual'
+                } else {
+                  product = 'intl lifetime'
+                }
+              } else if (payment.gems === 3500 && price >= 990 && price <= 1104) {
+                // No currency tagged but is probably USD and including sales tax; just first couple months of 2023
+                product = 'usa monthly'
               }
-            } else if ((price === 9900) || ((price >= 5999) && (payment.gems === 42000))) {
-              if (utils.isCodeCombat && (payment.created > lifetimeToAnnualChange)) {
+            } else if ((price === 9900) || ((price >= 5999 && price <= 11000) && (payment.gems === 42000))) {
+              if (payment.created > lifetimeToAnnualChange) {
                 product = 'usa annual'
               } else {
                 product = 'usa lifetime'
+              }
+            } else if (price <= 11000 && (payment.gems === 42000 || payment.gems === 18000)) {
+              if (payment.created > lifetimeToAnnualChange) {
+                product = 'intl annual'
+              } else {
+                product = 'intl lifetime'
               }
             } else if (price === 0) {
               product = 'free'
@@ -351,11 +375,7 @@ module.exports = (AnalyticsView = (function () {
 
             if (product === 'ios') { product = 'gems' }
             // product = 'usa lifetime' if product is 'stripe'
-            if (utils.isOzaria) {
-              if (['external', 'bitcoin', 'iem', 'paypal'].includes(product)) { product = 'unknown' }
-            } else {
-              if (['external', 'bitcoin', 'iem', 'paypal', 'stripe'].includes(product)) { product = 'unknown' }
-            }
+            if (['external', 'bitcoin', 'iem', 'paypal', 'stripe'].includes(product)) { product = 'unknown' }
 
             return product
           }
@@ -385,12 +405,13 @@ module.exports = (AnalyticsView = (function () {
             const price = getPriceInUsd(payment.amount, payment.currency)
             if (dayGroupCountMap[day] == null) { dayGroupCountMap[day] = { 'DRR Total': 0 } }
             if (dayGroupCountMap[day]['DRR Total'] == null) { dayGroupCountMap[day]['DRR Total'] = 0 }
-            if (utils.isOzaria) {
-              group = revenueGroupFromPayment(payment)
-            } else {
-              group = revenueGroupFromPayment(payment, price)
+            group = revenueGroupFromPayment(payment, price)
+            if (['free', 'classroom', 'unknown'].includes(group)) {
+              if (group === 'unknown' && payment.gems) {
+                console.log('Skipping non-home-subscription payment', day, group, payment, price, 'from', payment.amount, payment.currency)
+              }
+              continue
             }
-            if (['free', 'classroom', 'unknown'].includes(group)) { continue }
             group = 'DRR ' + group
             groupMap[group] = true
             if (dayGroupCountMap[day][group] == null) { dayGroupCountMap[day][group] = 0 }
@@ -400,14 +421,9 @@ module.exports = (AnalyticsView = (function () {
           this.revenueGroups = Object.keys(groupMap)
           this.revenueGroups.push('DRR Total')
 
-          if (utils.isOzaria) {
-            // Split lifetime values across 8 months based on 12% monthly churn
-            lifetimeDurationMonths = 8 // Needs to be an integer
-          } else {
-            // Used to split lifetime values across 8 months; now 12 for easy comparison to annual, unless we pass ?bookings=true (hack)
-            annualDurationMonths = utils.getQueryVariable('bookings') ? 1 : 12 // Needs to be an integer
-            lifetimeDurationMonths = annualDurationMonths // Easy comparison
-          }
+          // Used to split lifetime values across 8 months; now 12 for easy comparison to annual, unless we pass ?bookings=true (hack)
+          const annualDurationMonths = utils.getQueryVariable('bookings') ? 1 : 12 // Needs to be an integer
+          const lifetimeDurationMonths = annualDurationMonths // Easy comparison
 
           const daysPerMonth = 30 // Close enough (needs to be an integer)
           const lifetimeDaySplit = lifetimeDurationMonths * daysPerMonth
