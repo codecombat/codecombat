@@ -328,7 +328,7 @@ export default {
           layout: 'center'
         })
       }
-      if (window.confirm(`Do you want to reset progress of ${students.length} users in ${selectedCourse.name}?`)) {
+      if (window.confirm(`Do you want to reset progress of ${students.length} users in ${selectedCourse.name}? Warning: student progress for this chapter will be deleted and cannot be recovered. Are you sure?`)) {
         noty({
           text: 'Deleting progress',
           timeout: 200,
