@@ -4,8 +4,9 @@ import PrimaryButton from '../common/buttons/PrimaryButton'
 import SecondaryButton from '../common/buttons/SecondaryButton'
 import User from 'models/User'
 import Classroom from 'models/Classroom'
+import Level from 'models/Level'
 
-import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 export default {
   components: {
     Modal,
@@ -22,14 +23,17 @@ export default {
 
   data: () => ({
     newPassword: '',
-    changingPassword: false
+    changingPassword: false,
+    levels: []
   }),
 
   computed: {
     ...mapGetters({
       classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
+      getLevelsForClassroom: 'levels/getLevelsForClassroom',
       editingStudent: 'baseSingleClass/currentEditingStudent',
-      classroom: 'teacherDashboard/getCurrentClassroom'
+      classroom: 'teacherDashboard/getCurrentClassroom',
+      levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom'
     }),
 
     selectedStudent () {
@@ -47,12 +51,50 @@ export default {
 
     email () {
       return this.selectedStudent.get('email')
+    },
+
+    lastPlayed () {
+      const levels = this.levels
+      const playedSessions = this.levelSessionsMapByUser[this.editingStudent]
+      const lastPlayed = Object.values(playedSessions).reduce((acc, session) => {
+        if (!acc) {
+          return session
+        }
+        return session.changed > acc.changed ? session : acc
+      }, null)
+      return { session: lastPlayed, level: levels.find(l => l.original === lastPlayed.level.original) }
+    },
+
+    lastPlayedString () {
+      let lastPlayedString = ''
+      if (this.lastPlayed.level) {
+        const level = new Level(this.lastPlayed.level)
+        lastPlayedString += level.getTranslatedName()
+      }
+      if (this.lastPlayed) {
+        if (me.get('preferredLanguage', true) === 'en-US') {
+          lastPlayedString += ', on '
+        } else {
+          lastPlayedString += ', '
+        }
+      }
+      if (this.lastPlayed.session) { lastPlayedString += moment(this.lastPlayed.session.changed).format('LLLL') }
+      return lastPlayedString
     }
+  },
+
+  async mounted () {
+    await this.fetchLevelsForClassroom(this.classroom._id)
+    this.levels = this.getLevelsForClassroom(this.classroom._id)
   },
 
   methods: {
     ...mapMutations({
       closeModalEditStudent: 'baseSingleClass/closeModalEditStudent'
+    }),
+
+    ...mapActions({
+      fetchLevelsForClassroom: 'levels/fetchForClassroom',
     }),
 
     async changePassword () {
@@ -112,6 +154,11 @@ export default {
           v-if="email"
         >
           <b>{{ $t('general.email') }}:</b> {{ email }}
+        </p>
+        <p>
+          <b>{{ $t('user.last_played') }}:</b> {{ lastPlayed ?
+            lastPlayedString :
+            $t('teacher.never_played') }}
         </p>
 
         <form
