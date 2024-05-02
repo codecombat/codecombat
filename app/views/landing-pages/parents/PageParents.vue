@@ -34,7 +34,7 @@
     >
       <div class="row">
         <div class="col-xs-12">
-          <span>Kids: show this to your parents to get your free coding class and premium heroes!</span>
+          <span>{{ $t('parents_landing_1.kids_message') }}</span>
         </div>
       </div>
     </div>
@@ -59,7 +59,7 @@
             >
               <div class="col-lg-12 text-center">
                 <h2>
-                  CodeCombat combines the power of gameplay and personalized instruction to deliver online coding classes that your child will look forward to every week!
+                  {{ $t('parents_landing_1.codecombat_intro') }}
                 </h2>
               </div>
             </div>
@@ -102,7 +102,7 @@
           class="text-center pixelated"
           style="padding: 0 5px;"
         >
-          Remote Learning That Works
+          {{ $t('parents_landing_1.remote_learning_works') }}
         </h1>
         <div class="col-xs-12 video-container">
           <div style="position: relative; padding-top: 56.25%;">
@@ -142,7 +142,7 @@
         <div class="row">
           <div class="col-lg-12">
             <h1 class="text-center pixelated">
-              Invest in Your Child’s Future While They Have Fun!
+              {{ $t('parents_landing_1.invest_in_future') }}
             </h1>
           </div>
         </div>
@@ -160,8 +160,8 @@
             >
           </div>
           <div class="col-md-6 col-sm-12">
-            <h3>Personalized Learning</h3>
-            <p>Our dedicated teachers offer individualized attention through a structured curriculum.  Your child will become a confident life-long coder as they conquer challenges and celebrate successes together!</p>
+            <h3>{{ $t('parents_landing_1.personalized_learning_header') }}</h3>
+            <p>{{ $t('parents_landing_1.personalized_learning_details') }}</p>
           </div>
         </div>
 
@@ -174,8 +174,8 @@
             >
           </div>
           <div class="col-md-6 col-sm-12 col-md-pull-6">
-            <h3>The Power of Play</h3>
-            <p>Our students type real Python and JavaScript while playing a game from beginning to end! Our engaging curriculum ensures that you’ll never have to force your child to show up to class. We promise.</p>
+            <h3>{{ $t('parents_landing_1.power_of_play_header') }}</h3>
+            <p>{{ $t('parents_landing_1.power_of_play_details') }}</p>
           </div>
         </div>
 
@@ -187,8 +187,8 @@
             >
           </div>
           <div class="col-md-6 col-sm-12">
-            <h3>Early Exposure to Coding</h3>
-            <p>Coding is a highly sought-after job skill, and this demand will only grow. Exposing your child to coding at an early age increases the chance that they’ll pursue Computer Science later in life.</p>
+            <h3>{{ $t('parents_landing_1.early_coding_exposure') }}</h3>
+            <p>{{ $t('parents_landing_1.early_coding_exposure_details') }}</p>
           </div>
         </div>
       </div>
@@ -229,8 +229,8 @@
               height="73"
               loading="lazy"
             >
-            <p>Even though the class starts every Saturday at 7am, my son is so excited that he wakes up before me! CodeCombat creates a pathway for my son to advance his coding skills.</p>
-            <p><b>Latthaphon Pohpon, Parent</b></p>
+            <p>{{ $t('parents_landing_1.quote_1') }}</p>
+            <p><b>{{ $t('parents_landing_1.parent_name') }}</b></p>
           </div>
           <div class="col-md-6">
             <img
@@ -275,20 +275,18 @@
               alt="&quot;30 Day Money back Guarantee Transparent&quot; by transparentpng.com is licensed under CC BY 4.0 - source: https://www.transparentpng.com/details/30-day-money-back-guarantee-transparent_15977.html"
               loading="lazy"
             >
-            <h1 class="pixelated">
-              Course Offerings
-            </h1>
+            <h1 class="pixelated">{{ $t('parents_landing_1.course_offering') }}</h1>
             <p
               v-if="trialClassExperiment == 'trial-class'"
               style="margin: 0 auto;"
             >
-              With individual or small group class options and flexible scheduling available, this is the easiest way to get started in computer science.
+              {{ $t('parents_landing_1.flexible_scheduling') }}
             </p>
             <p
               v-else
               style="margin: 0 auto;"
+              v-html="$t('parents_landing_1.private_instructions')"
             >
-              All classes feature private, individualized instruction. To enroll a group of students, contact <a href="mailto:classes@codecombat.com">classes@codecombat.com</a> for a custom plan.
             </p>
           </div>
         </div>
@@ -306,13 +304,13 @@
           v-if="showPricing"
           class="value-topper"
         >
-          Most popular
+          {{ $t('parents_landing_1.most_popular') }}
         </div>
         <div
           v-if="showPricing"
           class="value-topper"
         >
-          Best Value
+          {{ $t('parents_landing_1.best_value') }}
         </div>
         <!-- First Row -->
         <div class="grid-item" />
@@ -320,13 +318,13 @@
           <a
             href="/premium"
             target="_blank"
-          >Self-Paced</a>
+          >{{ $t('parents_landing_1.self_paced') }}</a>
         </div>
         <div class="grid-item">
-          Private
+          {{ $t('parents_landing_1.private') }}
         </div>
         <div class="grid-item">
-          Private
+          {{ $t('parents_landing_1.private') }}
         </div>
         <!-- End First Row -->
         <!-- Second Row -->
@@ -335,58 +333,58 @@
           v-if="showPricing"
           class="grid-item"
         >
-          Subscription plan
+          {{ $t('parents_landing_1.subscription_plan') }}
         </div>
         <div
           v-if="showPricing"
           class="grid-item"
         >
-          ${{ basicAnnualSubscriptionPrice }} per year
+          ${{ basicAnnualSubscriptionPrice }} {{ $t('parents_landing_1.per_year') }}
         </div>
         <div
           v-if="showPricing"
           class="grid-item"
         >
-          $219 per month
+          {{ $t('parents_landing_1.price_per_year_1') }}
         </div>
         <div
           v-if="showPricing"
           class="grid-item"
         >
-          $399 per month
+          {{ $t('parents_landing_1.price_per_year_2') }}
         </div>
         <!-- End Second Row -->
         <!-- Third Row -->
         <div class="grid-item">
-          60-minute sessions via Zoom
+          {{ $t('parents_landing_1.benefit_1') }}
         </div>
         <div class="grid-item">
-          N/A
+          {{ $t('parents_landing_1.not_available') }}
         </div>
         <div class="grid-item">
-          1 private session per week
+          {{ $t('parents_landing_1.private_sessions_1') }}
         </div>
         <div class="grid-item">
-          2 private sessions per week
+          {{ $t('parents_landing_1.private_sessions_2') }}
         </div>
         <!-- End Third Row -->
         <!-- Fourth Row -->
         <div class="grid-item">
-          Student to Instructor Ratio
+          {{ $t('parents_landing_1.benefit_2') }}
         </div>
         <div class="grid-item">
-          N/A
+          {{ $t('parents_landing_1.not_available') }}
         </div>
         <div class="grid-item">
-          1:1
+          {{ $t('parents_landing_1.one_to_one') }}
         </div>
         <div class="grid-item">
-          1:1
+          {{ $t('parents_landing_1.one_to_one') }}
         </div>
         <!-- End Fourth Row -->
         <!-- Fifth Row -->
         <div class="grid-item">
-          CodeCombat premium license included
+          {{ $t('parents_landing_1.benefit_3') }}
         </div>
         <div class="grid-item">
           <icon-gem />
@@ -400,7 +398,7 @@
         <!-- End Fifth Row -->
         <!-- Sixth Row -->
         <div class="grid-item">
-          Immediate and personalized feedback
+          {{ $t('parents_landing_1.benefit_4') }}
         </div>
         <div class="grid-item" />
         <div class="grid-item">
@@ -412,7 +410,7 @@
         <!-- End Sixth Row -->
         <!-- Seventh Row -->
         <div class="grid-item">
-          Bonus activities, rewards, and course completion certificates
+          {{ $t('parents_landing_1.benefit_5') }}
         </div>
         <div class="grid-item" />
         <div class="grid-item">
@@ -424,7 +422,7 @@
         <!-- End Eighth Row -->
         <!-- Ninth Row -->
         <div class="grid-item">
-          End of course projects that demonstrate concepts learned
+          {{ $t('parents_landing_1.benefit_6') }}
         </div>
         <div class="grid-item" />
         <div class="grid-item">
@@ -436,7 +434,7 @@
         <!-- End Ninth Row -->
         <!-- Ninth Row -->
         <div class="grid-item">
-          Monthly progress updates from instructor
+          {{ $t('parents_landing_1.benefit_7') }}
         </div>
         <div class="grid-item" />
         <div class="grid-item">
@@ -448,7 +446,7 @@
         <!-- End Ninth Row -->
         <!-- Tenth Row -->
         <div class="grid-item">
-          Flexible schedule adapted to each student's learning needs
+          {{ $t('parents_landing_1.benefit_8') }}
         </div>
         <div class="grid-item" />
         <div class="grid-item">
@@ -460,7 +458,7 @@
         <!-- End Tenth Row -->
         <!-- Eleventh Row -->
         <div class="grid-item">
-          1:1 support in tackling difficult coding concepts
+          {{ $t('parents_landing_1.benefit_9') }}
         </div>
         <div class="grid-item" />
         <div class="grid-item">
@@ -472,7 +470,7 @@
         <!-- End Eleventh Row -->
         <!-- Twelth Row -->
         <div class="grid-item">
-          Automatic qualification into AI League coding tournaments
+          {{ $t('parents_landing_1.benefit_10') }}
         </div>
         <div class="grid-item" />
         <div class="grid-item" />
@@ -486,7 +484,7 @@
         v-if="showPricing"
         class="text-below-pricing-table"
       >
-        <p>All subscriptions are billed on a monthly basis and may be paused, cancelled, or resumed with no fees. Your subscription purchase is 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">contact us</a> within 30 days of purchase and we will promptly refund 100% of your payment, no questions asked. All plans are automatically renewed at the same level and billing cycle unless otherwise changed or canceled.</p>
+        <p v-html="$t('parents_landing_1.subscription_details')"></p>
       </div>
     </div>
 
@@ -521,7 +519,7 @@
         <div class="row">
           <div class="col-lg-12 text-center">
             <h1 class="pixelated">
-              Our Curriculum
+              {{ $t('parents_landing_1.curriculum') }}
             </h1>
           </div>
         </div>
@@ -538,7 +536,7 @@
         <div class="row">
           <div class="col-lg-12 text-center">
             <p>
-              Trusted by over 140,000 educators worldwide, our scaffolded curriculum is critical to helping students persevere. Our students type real code from the start, become more confident with each class, and learn how Computer Science is relevant to their daily lives.
+              {{ $t('parents_landing_1.curriculum_description') }}
             </p>
           </div>
         </div>
@@ -564,7 +562,7 @@
         <div class="row carousel-row">
           <div class="col-lg-12 text-center student-outcomes">
             <h1 class="pixelated">
-              Student Outcomes
+              {{ $t('parents_landing_1.student_outcomes') }}
             </h1>
           </div>
           <div
@@ -583,8 +581,8 @@
                     >
                   </div>
                   <div class="col-sm-5">
-                    <h3>Grit</h3>
-                    <p>CodeCombat challenges students to embrace and learn from their mistakes. Built-in hints help students identify and fix bugs, leading to greater coding confidence.</p>
+                    <h3>{{ $t('parents_landing_1.grit_header') }}</h3>
+                    <p>{{ $t('parents_landing_1.grit_description') }}</p>
                   </div>
                 </div>
               </div>
@@ -598,8 +596,8 @@
                     >
                   </div>
                   <div class="col-sm-5">
-                    <h3>Problem Solving Skills</h3>
-                    <p>Through an iterative problem solving process, our students solve coding challenges and flex their creativity to build their own games, websites, and apps for end-of-course projects.</p>
+                    <h3>{{ $t('parents_landing_1.problem_solving_header') }}</h3>
+                    <p>{{ $t('parents_landing_1.problem_solving_description') }}</p>
                   </div>
                 </div>
               </div>
@@ -613,8 +611,8 @@
                     >
                   </div>
                   <div class="col-sm-5">
-                    <h3>Technological Literacy</h3>
-                    <p>Students gain a deep understanding of Computer Science and technological literacy skills that will transfer to other disciplines as well as future careers.</p>
+                    <h3>{{ $t('parents_landing_1.technological_literacy') }}</h3>
+                    <p>{{ $t('parents_landing_1.technological_literacy_description') }}</p>
                   </div>
                 </div>
               </div>
@@ -670,7 +668,7 @@
         <div class="row">
           <div class="col-lg-12 text-center">
             <h1 class="pixelated">
-              Concepts Covered
+              {{ $t('parents_landing_1.concepts_covered') }}
             </h1>
           </div>
         </div>
@@ -680,18 +678,18 @@
               src="/images/pages/parents/trophy_bronze.svg"
               loading="lazy"
             >
-            <h3>Beginner</h3>
-            <p><b>For students with little to no text-based coding experience.</b></p>
+            <h3>{{ $t('parents_landing_1.beginner') }}</h3>
+            <p><b>{{ $t('parents_landing_1.beginner_description') }}</b></p>
             <div class="topics">
               <ul>
-                <li>Sequences</li>
-                <li>Algorithms</li>
-                <li>Syntax</li>
-                <li>Strings</li>
-                <li>Arguments</li>
-                <li>Loops</li>
-                <li>Variables</li>
-                <li>Cartesian coordinates</li>
+                <li>{{ $t('parents_landing_1.beginner_concepts_1') }}</li>
+                <li>{{ $t('parents_landing_1.beginner_concepts_2') }}</li>
+                <li>{{ $t('parents_landing_1.beginner_concepts_3') }}</li>
+                <li>{{ $t('parents_landing_1.beginner_concepts_4') }}</li>
+                <li>{{ $t('parents_landing_1.beginner_concepts_5') }}</li>
+                <li>{{ $t('parents_landing_1.beginner_concepts_6') }}</li>
+                <li>{{ $t('parents_landing_1.beginner_concepts_7') }}</li>
+                <li>{{ $t('parents_landing_1.beginner_concepts_8') }}</li>
               </ul>
             </div>
           </div>
@@ -700,18 +698,18 @@
               src="/images/pages/parents/trophy_silver.svg"
               loading="lazy"
             >
-            <h3>Intermediate</h3>
-            <p><b>For students with some text-based coding experience.</b></p>
+            <h3>{{ $t('parents_landing_1.intermediate_header') }}</h3>
+            <p><b>{{ $t('parents_landing_1.itermediate_details') }}</b></p>
             <div class="topics">
               <ul>
-                <li>Boolean logic</li>
-                <li>Properties</li>
-                <li>Advanced loops</li>
-                <li>Conditionals</li>
-                <li>Nested conditionals</li>
-                <li>Functions</li>
-                <li>Events</li>
-                <li>Basic game AI</li>
+                <li>{{ $t('parents_landing_1.intermediate_concepts_1') }}</li>
+                <li>{{ $t('parents_landing_1.intermediate_concepts_2') }}</li>
+                <li>{{ $t('parents_landing_1.intermediate_concepts_3') }}</li>
+                <li>{{ $t('parents_landing_1.intermediate_concepts_4') }}</li>
+                <li>{{ $t('parents_landing_1.intermediate_concepts_5') }}</li>
+                <li>{{ $t('parents_landing_1.intermediate_concepts_6') }}</li>
+                <li>{{ $t('parents_landing_1.intermediate_concepts_7') }}</li>
+                <li>{{ $t('parents_landing_1.intermediate_concepts_8') }}</li>
               </ul>
             </div>
           </div>
@@ -720,18 +718,18 @@
               src="/images/pages/parents/trophy_gold.svg"
               loading="lazy"
             >
-            <h3>Advanced</h3>
-            <p><b>For students with substantial experience in text-based code and a good grasp of complex concepts.</b></p>
+            <h3>{{ $t('parents_landing_1.advanced_header') }}</h3>
+            <p><b>{{ $t('parents_landing_1.advanced_details') }}</b></p>
             <div class="topics">
               <ul>
-                <li>Advanced strings</li>
-                <li>Computer arithmetic</li>
-                <li>Functions with returns</li>
-                <li>Complex conditionals</li>
-                <li>Arrays</li>
-                <li>Break/continue statements</li>
-                <li>Recursion</li>
-                <li>Stacks and Queues</li>
+                <li>{{ $t('parents_landing_1.advanced_concepts_1') }}</li>
+                <li>{{ $t('parents_landing_1.advanced_concepts_2') }}</li>
+                <li>{{ $t('parents_landing_1.advanced_concepts_3') }}</li>
+                <li>{{ $t('parents_landing_1.advanced_concepts_4') }}</li>
+                <li>{{ $t('parents_landing_1.advanced_concepts_5') }}</li>
+                <li>{{ $t('parents_landing_1.advanced_concepts_6') }}</li>
+                <li>{{ $t('parents_landing_1.advanced_concepts_7') }}</li>
+                <li>{{ $t('parents_landing_1.advanced_concepts_8') }}</li>
               </ul>
             </div>
           </div>
@@ -767,17 +765,15 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <h1 class="pixelated">
-            AI Hints
+            {{ $t('parents_landing_1.ai_hints') }}
           </h1>
         </div>
       </div>
       <div class="row">
         <div class="col-lg-12 text-center">
+          <p v-html="$t('parents_landing_1.ai_hints_details')"></p>
           <p>
-            Our instructors offer the guidance and support your child needs, but can’t always be there. That’s where our innovative AI hints feature helps the learning continue between sessions. This support feature can evaluate code, point out errors, and explain how to fix them. Most importantly, it provides all the context needed to understand the why, without providing the entire solution. With only current code problem assistance available students will still need to work through each level's coding challenge. Subscribers receive an allocation of <b>20 AI hints per day</b> to ensure they always have the support they need.
-          </p>
-          <p>
-            {{ $t('premium_features.ai_bot_notice') }}
+              {{ $t('premium_features.ai_bot_notice') }}
           </p>
         </div>
       </div>
@@ -809,61 +805,56 @@
         <div class="row">
           <div class="col-lg-12 text-center container-background-header">
             <h1 class="pixelated">
-              FAQs
+              {{ $t('parents_landing_1.faq_header') }}
             </h1>
           </div>
         </div>
         <div class="row row-eq-height">
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              How are instructors matched with my child?
+              {{ $t('parents_landing_1.faq_q_1') }}
             </h4>
             <p v-if="trialClassExperiment == 'trial-class'">
-              After the initial trial class, our team carefully matches our online instructors to each student based on their experience level, personality, interests, and schedule. Our team will work with you to improve your experience if you or your child doesn’t love learning with your instructor.
+              {{ $t('parents_landing_1.faq_a_1_trial_class') }}
             </p>
             <p v-else>
-              Each of our instructors were hand-picked to represent CodeCombat and provide a fun and personalized learning experience tailored to each student. We believe that your child will enjoy learning with any of our instructors, but if for any reason you would like to change teachers, we are happy to accommodate.
+              {{ $t('parents_landing_1.faq_a_1') }}
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              Are there any student age limits?
+              {{ $t('parents_landing_1.faq_q_2') }}
             </h4>
             <p>
-              We recommend our online classes for students aged 7 through 16. However, if your child can type, use a mouse, and is comfortable using a computer, they are welcome to join our class.
+              {{ $t('parents_landing_1.faq_a_2') }}
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              What kind of technology do I need to join the class?
+              {{ $t('parents_landing_1.faq_q_3') }}
             </h4>
             <p>
-              Any internet-connected device with a full keyboard. Laptops, PCs, and Chromebooks are recommended, however iPads will work with an external keyboard.
+              {{ $t('parents_landing_1.faq_a_3') }}
             </p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              What is the cancellation policy?
+              {{ $t('parents_landing_1.faq_q_4') }}
             </h4>
-            <p>
-              Your subscription purchase is 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply <a href="mailto:classes@codecombat.com">contact us</a> within 30 days of purchase and we will promptly refund 100% of your purchase, no questions asked. You can also freeze your subscription at any time and re-activate when it works for you.
-            </p>
+            <p
+            v-html="$t('parents_landing_1.faq_a_4')"></p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              What if I need to reschedule a class?
+              {{ $t('parents_landing_1.faq_q_5') }}
             </h4>
-            <p>
-              Once you have booked a weekly class with us, we have reserved time in our schedule exclusively for you, so we require 48 hours' advance notice for rescheduling classes. You can reschedule your class by emailing <a href="mailto:classes@codecombat.com">classes@codecombat.com</a>. Classes missed or canceled with less than 48 hours' notice will not be rescheduled or refunded.
-            </p>
+            <p v-html="$t('parents_landing_1.faq_a_5')"></p>
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
-              What should I expect in the trial class?
+              {{ $t('parents_landing_1.faq_q_6') }}
             </h4>
-            <p>
-              Each trial class is a private 60 minute session with <strong>45 minutes of instruction</strong> for the student followed by <strong>15 minutes for discussion with a parent or guardian</strong>. These 15 minutes are important and are set aside to answer any questions, provide insight into how the ongoing curriculum progresses, and help you select the right skill level and coding language for your child. If available, one of our remote learning advisors may join for this part of the session.
-            </p>
+            <p v-html="$t('parents_landing_1.faq_a_6')"></p>
           </div>
         </div>
         <div class="text-center">
@@ -874,8 +865,7 @@
               target="_blank"
             >{{ $t('new_home_faq.see_faq_link') }}</a><span>{{ $t('new_home_faq.see_faq_suffix') }}</span>
           </p>
-          <p>
-            If you have any other questions about our online classes, please <a href="mailto:classes@codecombat.com">contact us.</a>
+          <p v-html="$t('parents_landing_1.other_questions')">
           </p>
         </div>
       </div>
