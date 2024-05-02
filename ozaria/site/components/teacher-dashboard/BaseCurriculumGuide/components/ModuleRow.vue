@@ -63,7 +63,9 @@ export default {
     }),
 
     clearDescription () {
-      return marked(this.description).replace(/<[^>]*>/g, '')
+      const description = marked(this.description).replace(/<[^>]*>/g, '')
+      const doc = new DOMParser().parseFromString(description, 'text/html')
+      return doc.documentElement.textContent
     },
 
     moduleRowClass () {
