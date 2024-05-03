@@ -144,7 +144,7 @@ export default {
     <div class="title-card">
       <span style="width: 59px">{{ $t('teacher_dashboard.manage_class') }}</span>
     </div>
-    <div class="spacer align-section-left">
+    <div class="spacer">
       <div class="manage-container">
         <primary-button
           class="primary-btn"
@@ -322,8 +322,6 @@ export default {
 
     justify-content: center;
     align-items: center;
-
-    margin-right: 5px;
 
     @include font-p-4-paragraph-smallest-gray;
     font-weight: 600;
