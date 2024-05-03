@@ -256,7 +256,7 @@ export default {
           const levelsToHandle = levels.filter((level) => {
             if (modifier === 'locked' && modifierValue === false) {
               const levelRecord = levelRecordsById[level]
-              if (courseInstance.startLockedLevel === levelRecord.slug) {
+              if (courseInstance?.startLockedLevel === levelRecord.slug) {
                 courseInstancesToClearLegacyLocks.push(courseInstance)
               }
             }
