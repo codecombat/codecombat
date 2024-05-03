@@ -54,6 +54,7 @@ export default {
       showRemoveStudentsModal: false,
       showOnboardingModal: false,
       showTeacherDetailsModal: false,
+      showPreviewMode: false,
       // // We may want to pull this out. For locality with dashboard this reduces abstraction.
       runningTour: null,
       createdFirstClass: false,
@@ -134,9 +135,11 @@ export default {
   },
   created () {
     if (!me.isTeacher()) { // TODO Restrict this from Router itself similar to how `RestrictedToTeachersView` works
+      this.showPreviewMode = true
       this.showRestrictedDiv = true
       this.showOnboardingModal = !me.get('seenNewDashboardModal')
     } else {
+      this.showPreviewMode = false
       this.showRestrictedDiv = false
       this.updateStoreOnNavigation()
       this.handleTrialRequest()
@@ -325,14 +328,7 @@ export default {
 </script>
 
 <template>
-  <div
-    v-if="showRestrictedDiv"
-    class="restricted-div"
-  >
-    <h5> {{ $t('teacher.access_restricted') }} </h5>
-    <p> {{ $t('teacher.teacher_account_required') }} </p>
-  </div>
-  <div v-else>
+  <div>
     <base-curriculum-guide :default-language="getLanguage" />
     <panel />
     <div class="teacher-dashboard">
@@ -356,6 +352,7 @@ export default {
           :courses="classroomCourses"
           :selected-course-id="selectedCourseId"
           :all-classes-page="isAllClassesPage"
+          :show-preview-mode="showPreviewMode"
           @change-course="onChangeCourse"
           @newClass="openNewClassModal"
           @addStudentsClicked="showAddStudentsModal = true"
