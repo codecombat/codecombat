@@ -275,7 +275,9 @@
               alt="&quot;30 Day Money back Guarantee Transparent&quot; by transparentpng.com is licensed under CC BY 4.0 - source: https://www.transparentpng.com/details/30-day-money-back-guarantee-transparent_15977.html"
               loading="lazy"
             >
-            <h1 class="pixelated">{{ $t('parents_landing_1.course_offering') }}</h1>
+            <h1 class="pixelated">
+              {{ $t('parents_landing_1.course_offering') }}
+            </h1>
             <p
               v-if="trialClassExperiment == 'trial-class'"
               style="margin: 0 auto;"
@@ -286,8 +288,7 @@
               v-else
               style="margin: 0 auto;"
               v-html="$t('parents_landing_1.private_instructions')"
-            >
-            </p>
+            />
           </div>
         </div>
       </div>
@@ -484,7 +485,7 @@
         v-if="showPricing"
         class="text-below-pricing-table"
       >
-        <p v-html="$t('parents_landing_1.subscription_details')"></p>
+        <p v-html="$t('parents_landing_1.subscription_details')" />
       </div>
     </div>
 
@@ -771,9 +772,9 @@
       </div>
       <div class="row">
         <div class="col-lg-12 text-center">
-          <p v-html="$t('parents_landing_1.ai_hints_details')"></p>
+          <p v-html="$t('parents_landing_1.ai_hints_details')" />
           <p>
-              {{ $t('premium_features.ai_bot_notice') }}
+            {{ $t('premium_features.ai_bot_notice') }}
           </p>
         </div>
       </div>
@@ -842,19 +843,20 @@
               {{ $t('parents_landing_1.faq_q_4') }}
             </h4>
             <p
-            v-html="$t('parents_landing_1.faq_a_4')"></p>
+              v-html="$t('parents_landing_1.faq_a_4')"
+            />
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
               {{ $t('parents_landing_1.faq_q_5') }}
             </h4>
-            <p v-html="$t('parents_landing_1.faq_a_5')"></p>
+            <p v-html="$t('parents_landing_1.faq_a_5')" />
           </div>
           <div class="col-md-4 col-sm-6 col-xs-12">
             <h4>
               {{ $t('parents_landing_1.faq_q_6') }}
             </h4>
-            <p v-html="$t('parents_landing_1.faq_a_6')"></p>
+            <p v-html="$t('parents_landing_1.faq_a_6')" />
           </div>
         </div>
         <div class="text-center">
@@ -865,8 +867,7 @@
               target="_blank"
             >{{ $t('new_home_faq.see_faq_link') }}</a><span>{{ $t('new_home_faq.see_faq_suffix') }}</span>
           </p>
-          <p v-html="$t('parents_landing_1.other_questions')">
-          </p>
+          <p v-html="$t('parents_landing_1.other_questions')" />
         </div>
       </div>
     </div>
