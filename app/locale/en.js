@@ -1389,7 +1389,7 @@ module.exports = {
       currently_not_free: "You don't have a Subscription yet.",
       online_classes: 'Online Classes',
       feature_ai_level_bot: 'Accelerate learning with AI powered support',
-      sure_buy_as_parent: 'You are buying premium access for your account instead of your child\'s. Are you sure?'
+      sure_buy_as_parent: 'Are you sure you want premium access for yourself instead of your child?'
     },
 
     announcement: {

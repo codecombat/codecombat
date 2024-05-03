@@ -95,6 +95,10 @@ mixin price(name, p, nameWithoutCurrency)
                   span.buy-now-text(data-i18n="subscribe.buy_now")
                   span.buy-lock-icon &#x1F512;
 
+        if view.isParentHomeAccount
+          div.parent-account.text-center
+            p.warning-blurb(data-i18n="subscribe.sure_buy_as_parent")
+
         div.support-blurb.text-center
           p
             span(data-i18n="subscribe.support_part1")

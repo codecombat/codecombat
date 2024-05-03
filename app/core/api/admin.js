@@ -41,5 +41,13 @@ module.exports = {
     if (role != null) { data.role = role }
     if (permissions != null) { data.permissions = permissions }
     return fetchJson('/db/user', { data })
+  },
+
+  fetchOnlineTeacherInfo (userId) {
+    return fetchJson(`/db/online-teachers/${userId}`)
+  },
+
+  putOnlineTeacherInfo (_id, data) {
+    return fetchJson(`/db/online-teachers/${_id}`, { method: 'PUT', json: data })
   }
 }

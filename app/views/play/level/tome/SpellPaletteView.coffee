@@ -94,7 +94,7 @@ module.exports = class SpellPaletteView extends CocoView
       when @shortenize then 175
       else 212
     nColumns = Math.floor availableWidth / columnWidth   # Aim to always have at least 2 columns
-    @hideImages = nColumns < 2 or @options.level.isType('game-dev', 'ladder')  # Don't show 38px images if really short on space or we don't need images
+    @hideImages = nColumns < 2 or @options.level.isType('game-dev', 'ladder') or @entries.length > 32  # Don't show 38px images if really short on space or we don't need images
     if @hideImages
       columnWidth -= 38
       nColumns = Math.floor availableWidth / columnWidth

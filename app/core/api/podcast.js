@@ -1,6 +1,6 @@
 const fetchJson = require('./fetch-json')
 
-const getPodcasts = () => fetchJson('/db/podcast')
+const getPodcasts = () => fetchJson('/db/podcast', { data: { cacheEdge: true } })
 
 const getPodcast = (podcastId) => fetchJson(`/db/podcast/${podcastId}`)
 
