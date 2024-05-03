@@ -23,14 +23,15 @@
       .col.col.xs-8
         span.action-help Clean up and reformat current code
 
-  .row.action-row
-    .col.col-xs-4
-      .btn.btn-block.btn-illustrated.btn-primary.ai-hint(data-i18n="[title]play_level.problem_alert_ask_the_ai")
-        .glyphicon.glyphicon-question-sign
-        span= ' '
-        span(data-i18n="play_level.problem_alert_ask_the_ai")
-    .col.col.xs-8
-      span.action-help(data-i18n="play_level.problem_alert_need_hint")
+  if view.askAiBot
+    .row.action-row
+      .col.col-xs-4
+        .btn.btn-block.btn-illustrated.btn-primary.ai-hint(data-i18n="[title]play_level.problem_alert_ask_the_ai")
+          .glyphicon.glyphicon-question-sign
+          span= ' '
+          span(data-i18n="play_level.problem_alert_ask_the_ai")
+      .col.col.xs-8
+        span.action-help(data-i18n="play_level.problem_alert_need_hint")
 
   if view.options.courseID && me.isStudent() && view.teacherOnline()
     .row.action-row
