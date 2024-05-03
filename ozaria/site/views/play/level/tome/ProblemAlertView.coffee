@@ -47,8 +47,10 @@ module.exports = class ProblemAlertView extends CocoView
     if @aceConfig.levelChat != 'none'
       if me.isHomeUser() && me.getLevelChatExperimentValue() == 'beta'
         @showAiBotHelp = true
-      else if not me.isHomeUser()
+      else if me.isTeacher()
         @showAiBotHelp = true
+      else if me.isStudent()
+        @showAiBotHelp = @aceConfig.levelChat and @aceConfig.levelChat != 'none' and typeof @aceConfig.levelChat == 'string'
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
