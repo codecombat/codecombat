@@ -183,7 +183,7 @@ export default {
           h2 Meets ESSA Criteria
           p Our PD was designed to meet the 6 criteria for exemplary professional learning established by the Every Student Succeeds Act.
           .row.flex-row.text-center(style="justify-content: center; margin: 30px 0 0;")
-            a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Presentation" style="margin: 20px; padding: 15px;" href="https://files.ozaria.com/pd/Ozaria+Professional+Development+Table+of+Contents.pdf" target="_blank" rel="noopener") Download Table of Contents
+            a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Presentation" style="margin: 20px; padding: 15px;" href="https://files.ozaria.com/pd/Ozaria+Professional+Development+Table+of+Contents+v2.pdf" target="_blank" rel="noopener") Download Table of Contents
             a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Flyer" style="margin: 20px;" href="https://files.ozaria.com/pd/Ozaria+Professional+Development+Overview.pdf" target="_blank" rel="noopener") Download Flyer
 
     //section.section-spacer#speech-bubble-testimonial-1(style="padding-top:130px;")
@@ -245,7 +245,7 @@ export default {
 
       img(src="/images/pages/pd/pd-shareable-resources.png" class="img-responsive" loading="lazy" alt="Slide with following text. What is Ozaria? Flexible and personalized core computer science curriculum. Teaches authentic text-based coding in Python and Javascript. Highly engaging game-based learning. Self-paced and scaffolded instruction. Real world project-based applications. Promotes 21st Century Skills and lifelong learning behaviors." style="display: block; margin: 15px auto 0 auto;")
       .row.flex-row.text-center(style="justify-content: center; margin: 30px 0 100px;")
-        a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Presentation" style="margin: 20px; padding: 15px;" href="https://files.ozaria.com/pd/Ozaria+Professional+Development+Table+of+Contents.pdf" target="_blank" rel="noopener") Download Table of Contents
+        a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Presentation" style="margin: 20px; padding: 15px;" href="https://files.ozaria.com/pd/Ozaria+Professional+Development+Table+of+Contents+v2.pdf" target="_blank" rel="noopener") Download Table of Contents
         a.btn.btn-primary.btn-large.btn-moon(data-event-action="Click: Download Flyer" style="margin: 20px;" href="https://files.ozaria.com/pd/Ozaria+Professional+Development+Overview.pdf" target="_blank" rel="noopener") Download Flyer
 
     section.full-width#back_cta_2
