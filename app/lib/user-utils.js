@@ -1,22 +1,28 @@
 const usersApi = require('../core/api').users
 const localStorage = require('../core/storage')
 
-function provisionPremium () {
-  usersApi.provisionSubscription({ userId: me.get('_id') })
-    .then(({ premiumAdded, isInLibraryNetwork, hideEmail, libraryName, showLoginModal, isCreatedViaLibrary }) => {
-      handleStorage(libraryNetworkLSKey(), isInLibraryNetwork, 24 * 60)
-      handleStorage(hideEmailLibraryKey(), hideEmail, 24 * 60)
-      handleStorage(showLibraryLoginModalKey(), showLoginModal, 60)
-      handleStorage(isCreatedViaLibraryKey(), isCreatedViaLibrary, 24 * 60)
-      handleStorage(libraryNameKey(), libraryName, 24 * 60)
+function extraProvisions () {
+  usersApi.extraProvisions({ userId: me.get('_id') })
+    .then(({ provisionType, ...obj }) => {
+      if (provisionType === 'library') {
+        const { premiumAdded, isInLibraryNetwork, hideEmail, libraryName, showLoginModal, isCreatedViaLibrary } = obj
+        handleStorage(libraryNetworkLSKey(), isInLibraryNetwork, 24 * 60)
+        handleStorage(hideEmailLibraryKey(), hideEmail, 24 * 60)
+        handleStorage(showLibraryLoginModalKey(), showLoginModal, 60)
+        handleStorage(isCreatedViaLibraryKey(), isCreatedViaLibrary, 24 * 60)
+        handleStorage(libraryNameKey(), libraryName, 24 * 60)
 
-      const lib = me.get('library') || {}
-      if (!lib.name && libraryName) {
-        lib.name = libraryName
-        me.set('library', lib)
-        me.save()
+        const lib = me.get('library') || {}
+        if (!lib.name && libraryName) {
+          lib.name = libraryName
+          me.set('library', lib)
+          me.save()
+        }
+        if (premiumAdded) me.fetch({ cache: false })
+      } else if (provisionType === 'teacher') {
+        const { esportsAdded } = obj
+        if (esportsAdded) me.fetch({ cache: false })
       }
-      if (premiumAdded) me.fetch({ cache: false })
     })
     .catch((err) => {
       console.error('provision err', err)
@@ -113,7 +119,7 @@ function markParentBuyingForSelfPromptSeen () {
 }
 
 module.exports = {
-  provisionPremium,
+  extraProvisions,
   isInLibraryNetwork,
   shouldHideEmail,
   libraryName,
