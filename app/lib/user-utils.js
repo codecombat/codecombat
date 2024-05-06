@@ -2,6 +2,15 @@ const usersApi = require('../core/api').users
 const localStorage = require('../core/storage')
 
 function provisionEsports () {
+  if (features?.china) {
+    return
+  }
+  if (!me?.isTeacher()) {
+    return
+  }
+  if (me.activeProducts('esports')) {
+    return
+  }
   usersApi.provisionEsports({ userId: me.get('_id') })
     .then(({ esportsAdded }) => {
       if (esportsAdded) me.fetch({ cache: false })
