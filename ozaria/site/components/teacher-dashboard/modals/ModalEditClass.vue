@@ -257,9 +257,13 @@ export default Vue.extend({
         updates.aceConfig = aceConfig
       }
 
-      if (this.newLevelChat !== (this.levelChat === 'fixed_prompt_only')) {
-        aceConfig.levelChat = this.newLevelChat ? 'fixed_prompt_only' : 'none'
+      if (this.newLevelChat) {
+        aceConfig.levelChat = 'fixed_prompt_only'
+      } else {
+        aceConfig.levelChat = 'none'
       }
+      updates.aceConfig = aceConfig
+
       if (this.newClassroomDescription !== this.classroomDescription) {
         updates.description = this.newClassroomDescription
       }
@@ -543,7 +547,6 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
           class="form-group row"
         >
           <div class="col-xs-12">
@@ -555,7 +558,6 @@ export default Vue.extend({
               v-model="newLevelChat"
               type="checkbox"
               name="levelChat"
-              value="fixed_prompt_only"
             >
             <span class="help-block small text-navy">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
           </div>
@@ -825,7 +827,6 @@ export default Vue.extend({
             </tertiary-button>
             <secondary-button
               :disabled="saving"
-              :inactive="!isFormValid"
               @click="saveClass"
             >
               {{ classroomInstance.isNew() ? $t("courses.create_class") : $t("common.save_changes") }}

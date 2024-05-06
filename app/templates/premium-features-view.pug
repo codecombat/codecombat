@@ -22,6 +22,9 @@ block content
           br
           div(data-i18n="subscribe.premium_already_subscribed")
       .col-sm-12.center-text
+        if !me.hasSubscription() && view.isParentHomeAccount
+          .parent-account
+            p.warning-blurb(data-i18n="subscribe.sure_buy_as_parent")
         if !me.isAnonymous()
           .continue-playing
             a(href='/play', data-i18n="courses.continue_playing")
