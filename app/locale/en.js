@@ -5690,7 +5690,7 @@ module.exports = {
       'HowItWorksPage_yeah-thats-why-those-are-free-they-feed-': "Yeah, that's why those are free. They feed your data into their next AI so it can learn to make better love rap battles. But when you use me, they don't store it or train on it. So if you're in a school or you're under 18 with parental consent or under 13 in general, you technically can't use ChatGPT directly. With AI HackStack you're safe, secure, and good to go.",
       'HowItWorksPage_yep-im-here-to-accelerate-your-creative-': "Yep! I'm here to accelerate your creative potential, supercharge your dreams, provide rocket fuel for your imagination! Games, music, movies, apps, art, websites, code and anything else rattling around in that amazing head of yours are all possible right here.",
       'HowItWorksPage_you-could-but-i-answer-faster-dont-rate-': "You could BUT I… - answer faster - don't rate -limit you - give you more AI models - teach you how to use AI - automatically build and host projects for you - have a simpler yet more powerful UI - give built -in ethics guidance so you don't inadvertently rip off artists - let you view the source code and remix anyone's projects Oh, and I don't… SEND ALL YOUR CHATS TO OPENAI/MICROSOFT/GOOGLE TO TRAIN ON!!!!!",
-      LeftSidebar_new: '+ New',
+      LeftSidebar_new: '+ New ',
       LeftSidebar_projects: 'Projects',
       LeftSidebar_scenarios: 'Scenarios',
       'LeftSidebarItem_untitled-isprojectprojectscenario': 'Untitled __isProjectProjectScenario__',
