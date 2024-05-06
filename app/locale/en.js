@@ -5639,6 +5639,7 @@ module.exports = {
       'ChatMessage_update-a-messageactorteacherteacherendof': 'Update a __messageActorTeacherTeacherEndOfLesson__ Lesson',
       CodeThumbnail_copy: 'Copy',
       'CodeThumbnail_open-in-editor': 'Open in editor',
+      'CodeThumbnail_run-code': 'Run Code',
       'ConfirmDeleteChatMessageButton_confirm-delete': 'Confirm Delete',
       ContinueRenderer_continue: 'Continue →',
       EditAlternatePromptChoicesPage_cancel: 'Cancel',
