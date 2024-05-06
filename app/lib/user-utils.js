@@ -19,7 +19,7 @@ function extraProvisions () {
           me.save()
         }
         if (premiumAdded) me.fetch({ cache: false })
-      } else if (provisionType === 'esports') {
+      } else if (provisionType === 'teacher') {
         const { esportsAdded } = obj
         if (esportsAdded) me.fetch({ cache: false })
       }
