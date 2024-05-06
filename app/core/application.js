@@ -108,8 +108,7 @@ const Application = {
       this.checkForNewAchievement()
     }
     this.remindPlayerToTakeBreaks()
-    if (utils.isCodeCombat) { userUtils.provisionPremium() }
-    userUtils.provisionEsports()
+    userUtils.extraProvisions()
     window.i18n = (i18nextInstance = i18next.default.createInstance({
       lng: me.get('preferredLanguage', true),
       fallbackLng: locale.mapFallbackLanguages(),
