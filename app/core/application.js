@@ -48,7 +48,7 @@ if (console.debug == null) { console.debug = console.log } // Needed for IE10 an
 
 const Application = {
   initialize () {
-    let i18nextInstance, userUtils
+    let i18nextInstance
     const { me } = require('core/auth')
     const i18next = require('i18next')
     const jqueryI18next = require('jquery-i18next')
@@ -59,7 +59,7 @@ const Application = {
     const Tracker = require('core/Tracker2').default
     const api = require('core/api')
     const utils = require('core/utils')
-    if (utils.isCodeCombat) { userUtils = require('../lib/user-utils') }
+    const userUtils = require('../lib/user-utils')
     const wsBus = require('lib/wsBus')
 
     const Router = require('core/Router')
@@ -108,7 +108,7 @@ const Application = {
       this.checkForNewAchievement()
     }
     this.remindPlayerToTakeBreaks()
-    if (utils.isCodeCombat) { userUtils.provisionPremium() }
+    userUtils.extraProvisions()
     window.i18n = (i18nextInstance = i18next.default.createInstance({
       lng: me.get('preferredLanguage', true),
       fallbackLng: locale.mapFallbackLanguages(),
