@@ -54,7 +54,6 @@ export default {
       showRemoveStudentsModal: false,
       showOnboardingModal: false,
       showTeacherDetailsModal: false,
-      showPreviewMode: false,
       // // We may want to pull this out. For locality with dashboard this reduces abstraction.
       runningTour: null,
       createdFirstClass: false,
@@ -92,6 +91,16 @@ export default {
         return this.classroom.name || ''
       } else {
         return this.getPageTitle
+      }
+    },
+
+    showNonTeacherPreview () {
+      if (!me.isTeacher() && this.$route.path.startsWith(('/teachers/resources'))) {
+        console.log('yes preview')
+        return true
+      } else {
+        console.log('no preview')
+        return false
       }
     },
 
@@ -135,11 +144,9 @@ export default {
   },
   created () {
     if (!me.isTeacher()) { // TODO Restrict this from Router itself similar to how `RestrictedToTeachersView` works
-      this.showPreviewMode = true
       this.showRestrictedDiv = true
       this.showOnboardingModal = !me.get('seenNewDashboardModal')
     } else {
-      this.showPreviewMode = false
       this.showRestrictedDiv = false
       this.updateStoreOnNavigation()
       this.handleTrialRequest()
@@ -328,11 +335,21 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div
+    v-if="showRestrictedDiv && !showNonTeacherPreview"
+    class="restricted-div"
+  >
+    <h5> {{ $t('teacher.access_restricted') }} </h5>
+    <p> {{ $t('teacher.teacher_account_required') }} </p>
+  </div>
+  <div v-else>
     <base-curriculum-guide :default-language="getLanguage" />
     <panel />
     <div class="teacher-dashboard">
-      <div :class="['teacher-dashboard__sidebar', { 'collapsed': sidebarCollapsed }]">
+      <div
+        v-if="!showNonTeacherPreview"
+        :class="['teacher-dashboard__sidebar', { 'collapsed': sidebarCollapsed }]"
+      >
         <div class="content">
           <secondary-teacher-navigation :classrooms="allClassrooms" />
         </div>
@@ -352,7 +369,7 @@ export default {
           :courses="classroomCourses"
           :selected-course-id="selectedCourseId"
           :all-classes-page="isAllClassesPage"
-          :show-preview-mode="showPreviewMode"
+          :show-preview-mode="showNonTeacherPreview"
           @change-course="onChangeCourse"
           @newClass="openNewClassModal"
           @addStudentsClicked="showAddStudentsModal = true"
