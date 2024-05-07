@@ -427,7 +427,7 @@ if (isCodeCombat) {
   courseModuleLevels[courseIDs.COMPUTER_SCIENCE_2] = {
     1: [
       'Defense of Plainswood',
-      'Winding Trail',
+      'Course: Winding Trail',
       'One Wrong Step',
       'Forest Evasion',
       'Gem Berries',
