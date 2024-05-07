@@ -34,7 +34,8 @@ module.exports = (ScriptsTabView = (function () {
 
       this.prototype.subscriptions = {
         'editor:level-loaded': 'onLevelLoaded',
-        'editor:thangs-edited': 'onThangsEdited'
+        'editor:thangs-edited': 'onThangsEdited',
+        'editor:migrate-junior': 'onMigrateJunior',
       }
     }
 
@@ -186,6 +187,19 @@ module.exports = (ScriptsTabView = (function () {
     onThangsEdited (e) {
       // Update in-place so existing Treema nodes refer to the same array.
       return (this.thangIDs != null ? this.thangIDs.splice(0, this.thangIDs.length, ...Array.from(this.getThangIDs())) : undefined)
+    }
+
+    onMigrateJunior (e) {
+      // Zoom out by the equivalent of one tile so we can see the ocean bordering the beach, maintaining aspect ratio
+      const intro = this.scriptsTreema.data[0]
+      intro.noteChain[0].surface.focus.bounds[0].x -= 4
+      intro.noteChain[0].surface.focus.bounds[0].y -= 4 * 17 / 20
+      intro.noteChain[0].surface.focus.bounds[1].x += 4
+      intro.noteChain[0].surface.focus.bounds[1].y += 4 * 17 / 20
+      this.scriptsTreema.set('/0', intro)
+      this.onScriptChanged()
+      this.onScriptSelected(null, [])
+      this.scriptsTreema.childrenTreemas[0].select() // Doesn't work to reselect it, have to click it again
     }
 
     onWindowResize (e) {
