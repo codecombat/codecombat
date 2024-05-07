@@ -59,11 +59,11 @@ export default {
     <div class="row">
       <div class="col-lg-12">
         <h1 class="pixelated parents-header-text">
-          Live Online Coding Classes
+          {{ $t('parents_landing_1.online_coding_classes') }}
         </h1>
         <!--<h1 class="pixelated parents-header-text">Your Child Will Love</h1>--><!-- Original; didn't convert as well -->
         <h1 class="pixelated parents-header-text">
-          Powered by Play
+          {{ $t('parents_landing_1.powered_by_play') }}
         </h1>
       </div>
     </div>
@@ -84,7 +84,7 @@ export default {
     >
       <div class="col-lg-12 text-center">
         <h1 class="pixelated parents-header-text">
-          in partnership with
+          {{ $t('parents_landing_1.partnership') }}
         </h1>
         <img
           class="img-responsive"
