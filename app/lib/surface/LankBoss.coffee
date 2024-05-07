@@ -86,7 +86,7 @@ module.exports = class LankBoss extends CocoClass
     console.error 'Lank collision! Already have:', id if @lanks[id]
     @lanks[id] = lank
     @lankArray.push lank
-    layer ?= @layerAdapters['Obstacle'] if lank.thang?.spriteName.search(/(dungeon|indoor|ice|classroom|vr).wall/i) isnt -1
+    layer ?= @layerAdapters['Obstacle'] if lank.thang?.spriteName.search(/(dungeon|indoor|ice|classroom|vr|junior).wall/i) isnt -1
     layer ?= @layerForChild lank.sprite, lank
     layer.addLank lank
     layer.updateLayerOrder()
@@ -245,8 +245,7 @@ module.exports = class LankBoss extends CocoClass
 
   cacheObstacles: (updatedObstacles=null) ->
     return if @cachedObstacles and not updatedObstacles
-    lankArray = @lankArray
-    wallLanks = (lank for lank in lankArray when lank.thangType?.get('name').search(/(dungeon|indoor|ice|classroom|vr).wall/i) isnt -1)
+    wallLanks = (lank for lank in @lankArray when lank.thangType?.get('name').search(/(dungeon|indoor|ice|classroom|vr|junior).wall/i) isnt -1)
     return if _.any (s.stillLoading for s in wallLanks)
     walls = (lank.thang for lank in wallLanks)
     @world.calculateBounds()
@@ -255,7 +254,7 @@ module.exports = class LankBoss extends CocoClass
       possiblyUpdatedWallLanks = (lank for lank in wallLanks when _.find updatedObstacles, (w2) -> lank is w2 or (Math.abs(lank.thang.pos.x - w2.thang.pos.x) + Math.abs(lank.thang.pos.y - w2.thang.pos.y)) <= 16)
     else
       possiblyUpdatedWallLanks = wallLanks
-#    console.log 'updating up to', possiblyUpdatedWallLanks.length, 'of', wallLanks.length, 'wall lanks from updatedObstacles', updatedObstacles
+    # console.log 'updating up to', possiblyUpdatedWallLanks.length, 'of', wallLanks.length, 'wall lanks from updatedObstacles', updatedObstacles
     for wallLank in possiblyUpdatedWallLanks
       wallLank.queueAction 'idle' if not wallLank.currentRootAction
       wallLank.lockAction(false)
@@ -263,8 +262,22 @@ module.exports = class LankBoss extends CocoClass
       wallLank.lockAction(true)
       wallLank.updateScale()
       wallLank.updatePosition()
-#    console.log wallGrid.toString()
+    # console.log wallGrid.toString()
     @cachedObstacles = true
+
+  migrateJunior: ->
+    # This helps convert old-style Junior levels to new beach tiles
+    walls = (lank.thang for lank in @lankArray when lank.thangType?.get('name').search(/indoor wall/i) isnt -1)
+    wallGrid = new Grid walls, @world.width, @world.height, 0, 0, 0, false, 4
+    newThangs = []
+    for x in [-2 .. @world.width + 6] by 8
+      for y in [-2 .. @world.height + 6] by 8
+        if x < 0 or x > @world.width or y < 0 or y > @world.height or wallGrid.contents(x, y, 4, 4).length
+          newThangs.push spriteName: 'Junior Wall', pos: {x, y}
+        else
+          newThangs.push spriteName: 'Junior Beach Floor', pos: {x, y}
+    newThangs.push spriteName: 'Junior Ocean Background', pos: {x: 40, y: 32}
+    return newThangs
 
   lankFor: (thangID) -> @lanks[thangID]
 
