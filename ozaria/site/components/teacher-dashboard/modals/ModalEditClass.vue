@@ -228,6 +228,11 @@ export default Vue.extend({
     },
     async saveClass () {
       this.saving = true
+      if (!this.isFormValid) {
+        this.$v.$touch()
+        this.saving = false
+        return
+      }
       const updates = {}
       if (this.newClassName && this.newClassName !== this.classroomName) {
         updates.name = this.newClassName
