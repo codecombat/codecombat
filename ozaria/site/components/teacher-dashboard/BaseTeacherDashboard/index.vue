@@ -95,6 +95,7 @@ export default {
     },
 
     showNonTeacherPreview () {
+      console.log('hi, testing')
       if (!me.isTeacher() && this.$route.path.startsWith(('/teachers/resources'))) {
         console.log('yes preview')
         return true
@@ -361,7 +362,7 @@ export default {
           <span class="right">&#x25B6;</span>
         </div>
       </div>
-      <div class="teacher-dashboard__body">
+      <div :class="['teacher-dashboard__body', { 'sidebar-hidden': showNonTeacherPreview }]">
         <title-bar
           :title="pageTitle"
           :show-class-info="showClassInfo"
@@ -762,6 +763,10 @@ export default {
       width: 250px;
       height: max-content;
     }
+  }
+
+  .sidebar-hidden {
+  width: calc(100% - 0px);
   }
 
   &__body {
