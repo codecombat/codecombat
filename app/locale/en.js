@@ -4553,6 +4553,7 @@ module.exports = {
       version_new: 'New',
       dashboard_version: 'Dashboard Version',
       arena_days_left: 'Days left in Season __season__, __arenaName__:',
+      arena_days_elapse: 'Season __season__, __arenaName__ ended __time__',
       global_stats_vs_team_stats: 'Global stats vs team stats',
       global_stats: 'Global stats',
       show_stats_for_all_players_and_teams: 'show stats for all players and teams.',

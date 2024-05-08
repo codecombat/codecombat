@@ -1,12 +1,29 @@
 <template>
   <div class="time-container">
-    <div class="title">
+    <div
+      v-if="days >= 0"
+      class="title"
+    >
       {{ $t('teacher_dashboard.arena_days_left', {
         arenaName:
           $t(`league.${currentArena.slug.replaceAll('-', '_')}`), season: currentArena.season
       }) }}
     </div>
-    <div class="frame">
+    <div
+      v-else
+      class="title elapse"
+    >
+      {{ $t('teacher_dashboard.arena_days_elapse', {
+        arenaName:
+          $t(`league.${currentArena.slug.replaceAll('-', '_')}`),
+        season: currentArena.season,
+        time: elapse
+      }) }}
+    </div>
+    <div
+      v-if="days >= 0"
+      class="frame"
+    >
       <div class="overlap-group">
         <div class="text-wrapper">
           {{ days }}
@@ -37,6 +54,8 @@
 
 <script>
 import { currentRegularArena, currentChampionshipArena } from 'app/core/store/modules/seasonalLeague'
+import moment from 'moment'
+
 export default {
   name: 'RemainingTimeView',
   data () {
@@ -44,6 +63,7 @@ export default {
       days: '26',
       hours: '6',
       minutes: '43',
+      elapse: ''
     }
   },
   computed: {
@@ -62,6 +82,7 @@ export default {
       this.days = Math.floor(remainingTime / (1000 * 60 * 60 * 24))
       this.hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
       this.minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60))
+      this.elapse = moment(arena.end).fromNow()
       setTimeout(this.updateTime, 1000 * 60)
     }
   }
@@ -86,6 +107,10 @@ export default {
         line-height: 16px;
         letter-spacing: 0.333px;
         max-width: 140px;
+
+      &.elapse {
+        max-width: 320px;
+      }
     }
 
     .frame {
