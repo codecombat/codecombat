@@ -248,6 +248,17 @@ export default {
         return acc
       }, {})
 
+      if (!courseInstance) {
+        noty({
+          text: $.i18n.t('teacher_dashboard.assign_content_first'),
+          layout: 'center',
+          type: 'information',
+          killer: true,
+          timeout: 5000
+        })
+        return
+      }
+
       const courseInstancesToClearLegacyLocks = []
 
       for (const modifier of modifiers) {
