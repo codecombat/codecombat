@@ -2769,7 +2769,8 @@ module.exports = {
       from_the_podcast: 'From the Podcast',
       edit_student_access_title: 'Edit Student Access to Levels',
       edit_student_access_subtitle: 'You have selected __levels__ levels for __students__ students.',
-      student_ask_for_help: 'Your studnet __name__ asking for your help.'
+      student_ask_for_help: 'Your studnet __name__ asking for your help.',
+      never_played: 'Never Played'
     },
 
     teacher_licenses: {
