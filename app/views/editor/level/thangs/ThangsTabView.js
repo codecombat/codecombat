@@ -65,7 +65,8 @@ module.exports = (ThangsTabView = (function () {
         'sprite:double-clicked': 'onSpriteDoubleClicked',
         'surface:stage-mouse-down': 'onStageMouseDown',
         'surface:stage-mouse-up': 'onStageMouseUp',
-        'editor:random-terrain-generated': 'onRandomTerrainGenerated'
+        'editor:random-terrain-generated': 'onRandomTerrainGenerated',
+        'editor:migrate-junior': 'onMigrateJunior',
       }
 
       this.prototype.events = {
@@ -1219,6 +1220,20 @@ module.exports = (ThangsTabView = (function () {
 
     toggleThangsPalette (e) {
       $('#add-thangs-view').toggleClass('hide')
+    }
+
+    onMigrateJunior (e) {
+      const newThangs = this.surface.lankBoss.migrateJunior()
+      const filteredThangs = _.filter(this.flattenThangs(this.thangsTreema.data), (t) => !/(Junior Floor|Indoor Wall)/.test(t.id))
+      this.hush = true
+      this.thangsTreema.set('', this.groupThangs(filteredThangs))
+      this.thangsBatch = []
+      for (const newThang of newThangs) {
+        const thangType = _.find(this.thangTypes.models, (m) => m.get('name') === newThang.spriteName)
+        this.addThang(thangType, newThang.pos, true)
+      }
+      this.hush = false
+      this.onThangsChanged()
     }
   }
   ThangsTabView.initClass()

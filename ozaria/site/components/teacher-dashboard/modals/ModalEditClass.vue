@@ -177,6 +177,7 @@ export default Vue.extend({
     this.newClassDateEnd = this.classDateEnd
     this.newClassesPerWeek = this.classesPerWeek
     this.newMinutesPerClass = this.minutesPerClass
+    this.classGrades = this.classroom.grades || []
   },
 
   methods: {
@@ -228,6 +229,11 @@ export default Vue.extend({
     },
     async saveClass () {
       this.saving = true
+      if (!this.isFormValid) {
+        this.$v.$touch() // $touch updates the validation state of all fields and scroll to the wrong input
+        this.saving = false
+        return
+      }
       const updates = {}
       if (this.newClassName && this.newClassName !== this.classroomName) {
         updates.name = this.newClassName
@@ -291,7 +297,9 @@ export default Vue.extend({
         updates.name = this.googleClassrooms.find((c) => c.id === this.googleClassId).name
       }
 
-      updates.aceConfig = aceConfig
+      if (this.classGrades?.length > 0) {
+        updates.grades = this.classGrades
+      }
 
       if (_.size(updates)) {
         let savedClassroom
@@ -803,7 +811,7 @@ export default Vue.extend({
             </div>
             <span
               v-if="!$v.classGrades.required"
-              class="form-error"
+              class="form-error ml-small"
             >
               {{ $t("form_validation_errors.required") }}
             </span>
@@ -958,7 +966,7 @@ export default Vue.extend({
     .form-error {
       @include font-p-4-paragraph-smallest-gray;
       display: inline-block;
-      color: #0170E9;
+      color: $color-concept-flag-color !important;
     }
   }
 }
@@ -982,5 +990,9 @@ export default Vue.extend({
   input[type=checkbox] {
     margin-top: 8px;
   }
+}
+
+.ml-small {
+  margin-left: 5px;
 }
 </style>
