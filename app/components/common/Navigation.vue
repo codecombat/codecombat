@@ -464,7 +464,8 @@ export default Vue.extend({
                   li.dropdown.dropdown-hover
                     a.text-p(:href="isWideScreen ? navItem.url : null" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                       span {{ $t(navItem.title) }}
-                      caret.dropdown-caret
+                      caret.dropdown-caret(v-if="/^\\/(league|play\\/ladder)/.test(document.location.pathname)" color="white")
+                      caret.dropdown-caret(v-else color="black")
                     ul(class="dropdown-menu" :class="navItem.children.some(child => child.description) && 'text-wide'")
                       li(v-for="child in navItem.children.filter(child => child.hide!==true)")
                         a.text-p(:href="child.url" :class="[child.class, child.url && checkLocation(child.url) && 'text-teal'].filter(Boolean)" v-bind="child.attrs") {{ $t(child.title) }}
