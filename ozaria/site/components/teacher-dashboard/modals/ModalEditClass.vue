@@ -229,7 +229,7 @@ export default Vue.extend({
     async saveClass () {
       this.saving = true
       if (!this.isFormValid) {
-        this.$v.$touch()
+        this.$v.$touch() // $touch updates the validation state of all fields and scroll to the wrong input
         this.saving = false
         return
       }
