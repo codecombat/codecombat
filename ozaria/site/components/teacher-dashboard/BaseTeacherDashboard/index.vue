@@ -95,14 +95,7 @@ export default {
     },
 
     showNonTeacherPreview () {
-      console.log('hi, testing')
-      if (!me.isTeacher() && this.$route.path.startsWith(('/teachers/resources'))) {
-        console.log('yes preview')
-        return true
-      } else {
-        console.log('no preview')
-        return false
-      }
+      return !me.isTeacher() && this.$route.path.startsWith(('/teachers/resources'))
     },
 
     getLanguage () {
