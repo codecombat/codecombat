@@ -81,7 +81,7 @@ module.exports = (SubscribeModal = (function () {
       }
       this.trackTimeVisible({ trackViewLifecycle: true })
       payPal.loadPayPal().then(() => this.render())
-      this.purchasingForId = options != null ? options.purchasingForId : undefined
+      this.purchasingForId = options?.purchasingForId
     }
 
     onLoaded () {
