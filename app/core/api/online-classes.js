@@ -34,10 +34,17 @@ function confirmBooking (options) {
   })
 }
 
+function getTrialClasses (options) {
+  return fetchJson('/db/trial-classes', {
+    data: options
+  })
+}
+
 module.exports = {
   scheduleClassEmail,
   fetchAvailableTime,
   tempBookTime,
   bookTime,
-  confirmBooking
+  confirmBooking,
+  getTrialClasses
 }
