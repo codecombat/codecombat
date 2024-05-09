@@ -7,6 +7,7 @@ CourseInstance = require 'models/CourseInstance'
 Classroom = require 'models/Classroom'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
+ThangTypeConstants = require 'lib/ThangTypeConstants'
 ThangNamesCollection = require 'collections/ThangNamesCollection'
 LZString = require 'lz-string'
 
@@ -344,6 +345,14 @@ module.exports = class LevelLoader extends CocoClass
       else
         # Default to Tharin in home mode
         ThangType.heroes.knight
+    if @level.get('product', true) is 'codecombat-junior'
+      # If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
+      juniorHeroReplacement = ThangTypeConstants.juniorHeroReplacements[_.invert(ThangTypeConstants.heroes)[heroThangType]]
+    else
+      # If we got into a codecombat level with a codecombat-junior hero, pick an equivalent codecombat hero to use instead
+      juniorHeroReplacement = _.invert(ThangTypeConstants.juniorHeroReplacements)[_.invert(ThangTypeConstants.heroes)[heroThangType]]
+    heroThangType = ThangTypeConstants.heroes[juniorHeroReplacement] if juniorHeroReplacement
+
     url = "/db/thang.type/#{heroThangType}/version"
     if heroResource = @maybeLoadURL(url, ThangType, 'thang')
       console.debug "Pushing hero ThangType resource: ", heroResource if LOG
