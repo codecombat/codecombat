@@ -67,10 +67,12 @@
           <span>Please confirm the booking by clicking on the link sent to the parent's email.</span>
         </label>
       </div>
-      <div class="tips">
-        Class Details: {{ classDetails }}
-      </div>
-
+      <!-- eslint-disable -->
+      <div
+        class="tips"
+        v-html="classDetails"
+      />
+      <!-- eslint-enable -->
       <div class="buttons">
         <button
           class="btn btn-secondary"
@@ -132,7 +134,10 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-.tips {
+.checkbox {
   margin-top: 20px;
+}
+.tips {
+  margin-bottom: 20px;
 }
 </style>

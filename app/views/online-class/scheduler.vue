@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import pageTemplate from '../parents/PageTemplate.vue'
 import classInfo from './components/classInfo.vue'
 import availableTime from './components/availableTime.vue'
@@ -73,8 +74,9 @@ export default {
       const lang = this.classInfo.language
       const codeLang = this.codeLanguageMap[this.classInfo.codeLanguage]
       const level = this.levels[this.classInfo.level]
-      const dateTime = `${this.time.date.slice(0, 10)} ${this.time.time}:00`
-      return [lang, codeLang, level, dateTime].join(' . ')
+      const date = moment(this.time.date).set({ hour: this.time.time, minute: 0 })
+      const dateTime = date.format('YYYY-MM-DD HH:mm A')
+      return [lang, codeLang, level, dateTime].join(' &bull; ')
     }
   },
   methods: {
