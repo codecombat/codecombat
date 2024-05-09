@@ -65,29 +65,26 @@
 import schema from '../../../schemas/models/online_teacher'
 export default {
   name: 'ClassInfo',
+  props: {
+    codeLanguageMap: {
+      type: Object,
+      required: true
+    },
+    levels: {
+      type: Array,
+      required: true
+    }
+  },
   data () {
     return {
       codeLanguage: '',
       level: '',
       language: 'English',
-      codeLanguageMap: {
-        python: 'Python',
-        javascript: 'JavaScript',
-        html: 'HTML',
-        css: 'CSS',
-        lua: 'Lua',
-        java: 'Java',
-        cpp: 'C++',
-        coffeescript: 'CoffeeScript',
-      },
     }
   },
   computed: {
     codeLanguages () {
       return schema.properties.codeLanguages.items.properties.language.enum
-    },
-    levels () {
-      return ['Beginner', 'Intermediate', 'Advanced']
     },
     languages () {
       return schema.properties.languages.items.enum

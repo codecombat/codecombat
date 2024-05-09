@@ -57,11 +57,18 @@
           class="form-control"
         >
       </div>
+      <div class="form-group checkbox">
+        <label>
+          <input
+            v-model="confirmInfo"
+            name="confirm"
+            type="checkbox"
+          >
+          <span>Please confirm the booking by clicking on the link sent to the parent's email.</span>
+        </label>
+      </div>
       <div class="tips">
-        <p>
-          <!-- make it a checkbox -->
-          Please confirm the booking by clicking on the link sent to the parent's email.
-        </p>
+        Class Details: {{ classDetails }}
       </div>
 
       <div class="buttons">
@@ -73,6 +80,7 @@
         </button>
         <button
           class="btn btn-primary"
+          :disabled="!confirmInfo || !studentName || !guardianEmail"
           @click="emitInfo"
         >
           Confirm
@@ -84,13 +92,21 @@
 <script>
 export default {
   name: 'StudentInfo',
+  props: {
+    classDetails: {
+      type: String,
+      default: '',
+      required: false
+    }
+  },
   data () {
     return {
       studentName: '',
       studentEmail: '',
       guardianName: '',
       guardianEmail: '',
-      guardianPhone: ''
+      guardianPhone: '',
+      confirmInfo: false
     }
   },
   methods: {

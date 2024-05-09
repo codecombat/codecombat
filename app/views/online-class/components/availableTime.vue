@@ -118,8 +118,15 @@ export default {
     min-width: 600px;
   }
   .times {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    .radio {
+      margin-top: 0;
+      flex-basis: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
 }

@@ -7,6 +7,8 @@
       <div class="body">
         <class-info
           v-if="step === 'class'"
+          :code-language-map="codeLanguageMap"
+          :levels="levels"
           @change-class-info="changClassInfo"
         />
         <available-time
@@ -17,6 +19,7 @@
         />
         <student-info
           v-else-if="step === 'student'"
+          :class-details="classDetails"
           @change-student-info="changeStudentInfo"
           @back="step = 'available'"
         />
@@ -51,7 +54,27 @@ export default {
       step: 'class',
       classInfo: {},
       time: {},
-      studentInfo: {}
+      studentInfo: {},
+      codeLanguageMap: {
+        python: 'Python',
+        javascript: 'JavaScript',
+        html: 'HTML',
+        css: 'CSS',
+        lua: 'Lua',
+        java: 'Java',
+        cpp: 'C++',
+        coffeescript: 'CoffeeScript',
+      },
+      levels: ['Beginner', 'Intermediate', 'Advanced']
+    }
+  },
+  computed: {
+    classDetails () {
+      const lang = this.classInfo.language
+      const codeLang = this.codeLanguageMap[this.classInfo.codeLanguage]
+      const level = this.levels[this.classInfo.level]
+      const dateTime = `${this.time.date.slice(0, 10)} ${this.time.time}:00`
+      return [lang, codeLang, level, dateTime].join(' . ')
     }
   },
   methods: {
