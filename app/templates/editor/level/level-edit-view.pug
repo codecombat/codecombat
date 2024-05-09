@@ -117,6 +117,9 @@ block header
               a(data-toggle="coco-modal", data-target="editor/level/modals/GenerateTerrainModal", data-i18n="editor.generate_terrain", disabled=anonymous).generate-terrain-button Generate Terrain
             li(class=anonymous ? "disabled": "")
               a.generate-level-button(data-i18n="editor.generate_level", disabled=anonymous)
+            if me.isAdmin() && level.get('product') == 'codecombat-junior'
+              li
+                a.migrate-junior-button Migrate Junior Level
             li(class=anonymous ? "disabled": "")
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
             if view.courseID

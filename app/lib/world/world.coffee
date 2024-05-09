@@ -357,7 +357,8 @@ module.exports = class World
   calculateBounds: ->
     bounds = {left: 0, top: 0, right: 0, bottom: 0}
     hasLand = _.some @thangs, 'isLand'
-    for thang in @thangs when thang.isLand or (not hasLand and thang.rectangle)  # Look at Lands only
+    hasBeach = _.some @thangs, (t) -> t.spriteName is 'Junior Beach Floor'
+    for thang in @thangs when thang.isLand or (not hasLand and thang.rectangle) or thang.spriteName is 'Junior Wall'  # Look at Lands only
       rect = thang.rectangle().axisAlignedBoundingBox()
       bounds.left = Math.min(bounds.left, rect.x - rect.width / 2)
       bounds.right = Math.max(bounds.right, rect.x + rect.width / 2)
@@ -367,7 +368,7 @@ module.exports = class World
       # For a default-sized CodeCombat Junior level, trim the space created by extra lands
       bounds.left = 0 if bounds.left is -6
       bounds.bottom = 0 if bounds.bottom is -6
-      if ((bounds.right - 2) % 8) is 0
+      if ((bounds.right - 2) % 8) is 0 and not hasBeach
         bounds.right = bounds.right - 6  # Ex.: 66 -> 60
         bounds.top = bounds.top - 6  # Ex.: 58 -> 52
     @width = bounds.right - bounds.left

@@ -76,6 +76,8 @@ module.exports = {
     }
   }),
 
+  'editor:migrate-junior': c.object({}, {}),
+
   'editor:thang-type-kind-changed': c.object({ required: ['kind'] },
     { kind: { type: 'string' } }),
 

@@ -63,6 +63,13 @@ module.exports = (CourseVictoryModal = (function () {
       }).then(({ level, assessment }) => {
         this.nextLevel.set(level)
         return this.nextAssessment.set(assessment)
+      }).catch((error) => {
+        if (error.code === 404) {
+          console.info('Next level not found:', error)
+          // Handle the 404 error, e.g., show an error message or take appropriate action
+        } else {
+          console.error('Error fetching next level:', error)
+        }
       })
       this.supermodel.trackPromise(nextLevelPromise)
 
