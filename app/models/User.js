@@ -1272,7 +1272,7 @@ module.exports = (User = (function () {
 
     showChinaRegistration () { return features?.china != null ? features?.china : false }
     enableCpp () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || this.isTeacher()) }
-    enableJava () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || (this.isTeacher() && this.isBetaTester())) }
+    enableJava () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || this.isTeacher()) }
 
     getEnabledLanguages () {
       const languages = ['javascript', 'python']
