@@ -2,6 +2,7 @@
   <div>
     <div class="form">
       <div class="form-group">
+        <label>Code Language:</label>
         <select
           v-model="codeLanguage"
           name="codeLanguage"
@@ -16,6 +17,7 @@
           </option>
         </select>
       </div>
+      <label>Coding Levels:</label>
       <div class="form-group">
         <select
           v-model="level"
@@ -31,6 +33,7 @@
           </option>
         </select>
       </div>
+      <label>Spoken Langauge:</label>
       <div class="form-group">
         <select
           v-model="language"

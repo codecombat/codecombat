@@ -1,32 +1,35 @@
 <template>
-  <div class="scheduler">
-    <div class="header">
-      {{ header }}
+  <page-template>
+    <div class="scheduler">
+      <div class="header">
+        {{ header }}
+      </div>
+      <div class="body">
+        <class-info
+          v-if="step === 'class'"
+          @change-class-info="changClassInfo"
+        />
+        <available-time
+          v-else-if="step === 'available'"
+          :class-info="classInfo"
+          @back="step = 'class'"
+          @next="selectTime"
+        />
+        <student-info
+          v-else-if="step === 'student'"
+          @change-student-info="changeStudentInfo"
+          @back="step = 'available'"
+        />
+        <next-step
+          v-else
+        />
+      </div>
     </div>
-    <div class="body">
-      <class-info
-        v-if="step === 'class'"
-        @change-class-info="changClassInfo"
-      />
-      <available-time
-        v-else-if="step === 'available'"
-        :class-info="classInfo"
-        @back="step = 'class'"
-        @next="selectTime"
-      />
-      <student-info
-        v-else-if="step === 'student'"
-        @change-student-info="changeStudentInfo"
-        @back="step = 'available'"
-      />
-      <next-step
-        v-else
-      />
-    </div>
-  </div>
+  </page-template>
 </template>
 
 <script>
+import pageTemplate from '../parents/PageTemplate.vue'
 import classInfo from './components/classInfo.vue'
 import availableTime from './components/availableTime.vue'
 import studentInfo from './components/studentInfo.vue'
@@ -36,6 +39,7 @@ import { tempBookTime, bookTime } from '../../core/api/online-classes'
 export default {
   name: 'SchedulerView',
   components: {
+    pageTemplate,
     classInfo,
     studentInfo,
     nextStep,
@@ -89,5 +93,35 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="scss">
+.scheduler {
+  background: #FFFFFF;
+  border: 5px solid #1FBAB4;
+  border-radius: 3rem;
+  padding: 4rem;
+  z-index: 1;
+  min-height: 400px;
+  min-width: 400px;
+
+  .header{
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    line-height: 2.5rem;
+    color: #232323;
+    margin-bottom: 2rem;
+  }
+
+  .body {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.9rem;
+
+    label {
+      font-weight: 400;
+    }
+  }
+}
+
 </style>

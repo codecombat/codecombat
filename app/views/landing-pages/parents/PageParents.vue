@@ -25,10 +25,6 @@
       :availability-p-d-t="availabilityPDT"
       @close="showScheduleFreeClassModal = false"
     />
-    <ModalScheduleTrialClass
-      v-if="showScheduleTrialClassModal"
-      @close="showScheduleTrialClassModal = false"
-    />
     <!-- END Modals -->
 
     <div
@@ -886,7 +882,6 @@ import PageParentsJumbotron from './PageParentsJumbotron'
 import ModalTimetapSchedule from './ModalTimetapSchedule'
 import ModalTimetapConfirmation from './ModalTimetapConfirmation'
 import ModalScheduleFreeClass from './ModalScheduleFreeClass'
-import ModalScheduleTrialClass from './ModalScheduleTrialClass'
 import ButtonMainCta from './ButtonMainCta'
 import IconGem from './IconGem'
 import ButtonArrow from './ButtonArrow'
@@ -897,7 +892,6 @@ export default {
   components: {
     ModalTimetapSchedule,
     ModalScheduleFreeClass,
-    ModalScheduleTrialClass,
     PageParentsSectionPremium,
     PageParentsJumbotron,
     ModalTimetapConfirmation,
@@ -924,7 +918,6 @@ export default {
     showTimetapConfirmationModal: false,
     modalClassType: undefined,
     showScheduleFreeClassModal: false,
-    showScheduleTrialClassModal: false,
     availabilityPDT: []
   }),
 
@@ -983,7 +976,7 @@ export default {
     async onClickMainCta () {
       this.trackCtaClicked()
       // todo: remove this and do ab test
-      this.showScheduleTrialClassModal = true
+      application.router.navigate('/parents/book-trial-classes', { trigger: true })
       return
 
       const { isAvailable, availabilityPDT } = await getAvailability()

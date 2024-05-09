@@ -320,6 +320,11 @@ export default function getVueRouter () {
           props: (route) => ({ ...route.query, ...route.params })
         },
         {
+          path: '/parents/book-trial-classes',
+          name: 'TrialClassesScheduler',
+          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/online-class/scheduler'),
+        },
+        {
           path: '/parents/:viewName/:childId?/:product?',
           name: 'ParentDashboard',
           component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/DashboardMainView'),
