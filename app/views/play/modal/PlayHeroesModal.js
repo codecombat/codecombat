@@ -109,7 +109,8 @@ module.exports = (PlayHeroesModal = (function () {
       hero.unlockBySubscribing = ['samurai', 'ninja', 'librarian'].includes(hero.attributes.slug)
       hero.premium = !hero.free && !hero.unlockBySubscribing
       hero.locked = !me.ownsHero(original) && !(hero.unlockBySubscribing && me.isPremium())
-      if (me.isStudent() && me.showHeroAndInventoryModalsToStudents() && (hero.get('heroClass') === 'Warrior')) { hero.locked = false }
+      if ((me.isStudent() || me.isTeacher()) && me.showHeroAndInventoryModalsToStudents() && (hero.get('heroClass') === 'Warrior')) { hero.locked = false }
+      if ((me.isStudent() || me.isTeacher()) && this.options.level?.get('product') === 'codecombat-junior') { hero.locked = false }
       hero.purchasable = hero.locked && me.isPremium()
       if (this.options.level && (allowedHeroes = this.options.level.get('allowedHeroes'))) {
         let needle
