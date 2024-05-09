@@ -1749,7 +1749,7 @@ module.exports = {
       default_code_format_description: 'The code format that students will start with.',
       not_allow_to_solution: '# Licenses needed to view solutions',
       classroom_level_chat: 'AI Level Hints',
-      classroom_level_chat_blurb: 'Control whether students can interact with the AI in level chat.',
+      classroom_level_chat_blurb: 'Whether students can ask for AI hints and error explanations.',
       classroom_level_chat_option_free_form: 'Free form',
       classroom_level_chat_option_fixed_prompt_only: 'Fixed prompt only',
       classroom_level_chat_option_none: 'No chat'
@@ -2933,7 +2933,7 @@ module.exports = {
       generate_level: 'Generate Level',
       more: 'More',
       wiki: 'Wiki',
-      live_chat: 'Live Chat',
+      live_chat: 'Slack',
       thang_main: 'Main',
       thang_spritesheets: 'Spritesheets',
       thang_colors: 'Colors',
