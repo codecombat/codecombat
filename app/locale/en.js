@@ -2769,7 +2769,8 @@ module.exports = {
       from_the_podcast: 'From the Podcast',
       edit_student_access_title: 'Edit Student Access to Levels',
       edit_student_access_subtitle: 'You have selected __levels__ levels for __students__ students.',
-      student_ask_for_help: 'Your studnet __name__ asking for your help.'
+      student_ask_for_help: 'Your student __name__ asking for your help.',
+      never_played: 'Never Played'
     },
 
     teacher_licenses: {
@@ -4553,6 +4554,7 @@ module.exports = {
       version_new: 'New',
       dashboard_version: 'Dashboard Version',
       arena_days_left: 'Days left in Season __season__, __arenaName__:',
+      arena_days_elapse: 'Season __season__, __arenaName__ ended __time__',
       global_stats_vs_team_stats: 'Global stats vs team stats',
       global_stats: 'Global stats',
       show_stats_for_all_players_and_teams: 'show stats for all players and teams.',

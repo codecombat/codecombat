@@ -55,7 +55,7 @@ export default {
 
     lastPlayed () {
       const levels = this.levels
-      const playedSessions = this.levelSessionsMapByUser[this.editingStudent]
+      const playedSessions = this.levelSessionsMapByUser[this.editingStudent] || {}
       const lastPlayed = Object.values(playedSessions).reduce((acc, session) => {
         if (!acc) {
           return session
@@ -71,7 +71,7 @@ export default {
         const level = new Level(this.lastPlayed.level)
         lastPlayedString += level.getTranslatedName()
       }
-      if (this.lastPlayed) {
+      if (this.lastPlayed?.level && this.lastPlayed?.session) {
         if (me.get('preferredLanguage', true) === 'en-US') {
           lastPlayedString += ', on '
         } else {
@@ -156,7 +156,7 @@ export default {
           <b>{{ $t('general.email') }}:</b> {{ email }}
         </p>
         <p>
-          <b>{{ $t('user.last_played') }}:</b> {{ lastPlayed ?
+          <b>{{ $t('user.last_played') }}:</b> {{ lastPlayed?.session ?
             lastPlayedString :
             $t('teacher.never_played') }}
         </p>
