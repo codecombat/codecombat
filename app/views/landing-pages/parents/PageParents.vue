@@ -975,9 +975,6 @@ export default {
 
     async onClickMainCta () {
       this.trackCtaClicked()
-      // todo: remove this and do ab test
-      application.router.navigate('/parents/book-trial-classes', { trigger: true })
-      return
 
       const { isAvailable, availabilityPDT } = await getAvailability()
       this.availabilityPDT = availabilityPDT
