@@ -4452,6 +4452,7 @@ module.exports = {
       optional: 'Optional',
       assigned: 'Assigned',
       unlocked: 'Unlocked',
+      unassigned: 'Unassigned',
       choose_course: 'Click to Select from Dropdown',
       teacher_locked_message: 'Your teacher has locked the next level',
       plan_your_class_title: 'Plan your first class by',
