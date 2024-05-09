@@ -100,6 +100,8 @@ module.exports = (ThangsTabView = (function () {
         'shift+right' () { this.resizeSelectedThangBy(1, 0) },
         'shift+up' () { this.resizeSelectedThangBy(0, 1) },
         'shift+down' () { this.resizeSelectedThangBy(0, -1) },
+        'shift+=' () { this.scaleSelectedThangBy(1) },
+        'shift+-' () { this.scaleSelectedThangBy(-1) },
         w () { this.panSurfaceBy(0, -1) },
         a () { this.panSurfaceBy(-1, 0) },
         s () { this.panSurfaceBy(0, 1) },
@@ -1183,6 +1185,20 @@ module.exports = (ThangsTabView = (function () {
           component.config.height = (component.config.height != null ? component.config.height : 4) + (0.5 * yDir)
           selectedThang.width = component.config.width
           selectedThang.height = component.config.height
+        })
+      }
+    }
+
+    scaleSelectedThangBy (scaleDir) {
+      if (!this.surfaceHasFocus()) { return }
+      for (const singleSelected of this.gameUIState.get('selected')) {
+        const selectedThang = singleSelected.thang
+        this.modifySelectedThangComponentConfig(selectedThang, LevelComponent.ScalesID, component => {
+          if (component.config == null) { component.config = {} }
+          const oldScaleFactor = (component.config.scaleFactor || 1)
+          component.config.scaleFactor = oldScaleFactor + 0.1 * scaleDir
+          selectedThang.scaleFactor = oldScaleFactor + 0.1 * scaleDir
+          singleSelected.sprite.updateScale(true)
         })
       }
     }

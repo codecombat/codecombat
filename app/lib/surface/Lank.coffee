@@ -366,7 +366,7 @@ module.exports = Lank = class Lank extends CocoClass
     else
       newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
       newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
-      if @layer?.name is 'Land' or @thang?.isLand or @thang?.spriteName is 'Beam' or @isCinematicLank or @thang?.quickScale
+      if @layer?.name is 'Land' or @thang?.isLand or @thang?.spriteName is 'Beam' or @isCinematicLank or @thang?.quickScale or force
         @scaleFactorX = newScaleFactorX
         @scaleFactorY = newScaleFactorY
       else if @thang and (newScaleFactorX isnt @targetScaleFactorX or newScaleFactorY isnt @targetScaleFactorY)
