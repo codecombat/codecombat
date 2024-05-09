@@ -12,7 +12,7 @@
             :key="`cl-${lang}`"
             :value="lang"
           >
-            {{ lang }}
+            {{ codeLanguageMap[lang] }}
           </option>
         </select>
       </div>
@@ -63,7 +63,17 @@ export default {
     return {
       codeLanguage: '',
       level: '',
-      language: ''
+      language: '',
+      codeLanguageMap: {
+        python: 'Python',
+        javascript: 'JavaScript',
+        html: 'HTML',
+        css: 'CSS',
+        lua: 'Lua',
+        java: 'Java',
+        cpp: 'C++',
+        coffeescript: 'CoffeeScript',
+      },
     }
   },
   computed: {
