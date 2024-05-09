@@ -118,7 +118,7 @@ export default Vue.extend({
       return (this.classroom || {}).classroomItems
     },
     enableBlocks () {
-      return ['python', 'javascript', 'lua'].includes(this.language || 'python') && (this.me.isBetaTester() || this.me.isAdmin())
+      return ['python', 'javascript', 'lua'].includes(this.language || 'python')
     },
     allCodeFormats () {
       // TODO: only show blocks-icons if a Junior course is included
