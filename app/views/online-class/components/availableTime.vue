@@ -74,8 +74,20 @@ export default {
       this.$emit('next', { date: this.date, time: this.time })
     },
     async checkTime () {
-      const times = await fetchAvailableTime(this.classInfo)
-      this.events = times.map((t, i) => this.formatEvent(t, i))
+      try {
+        const times = await fetchAvailableTime(this.classInfo)
+        this.events = times.map((t, i) => this.formatEvent(t, i))
+      } catch (e) {
+        if (e.code === 404) {
+          window.noty({
+            type: 'warning',
+            text: 'Sorry, no available time for this class, please select another one.',
+            timeout: 5000,
+            layout: 'center'
+          })
+          this.$emit('back')
+        }
+      }
     },
     formatEvent (time, index) {
       return {

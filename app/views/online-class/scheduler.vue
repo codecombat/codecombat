@@ -34,7 +34,7 @@ import nextStep from './components/nextStep.vue'
 
 import { tempBookTime, bookTime } from '../../core/api/online-classes'
 export default {
-  name: 'Scheduler',
+  name: 'SchedulerView',
   components: {
     classInfo,
     studentInfo,
