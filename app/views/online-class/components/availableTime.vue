@@ -25,16 +25,17 @@
     </div>
     <div class="buttons">
       <button
-        class="btn btn-primary"
+        class="btn btn-secondary"
         @click="back"
       >
         Back
       </button>
       <button
         class="btn btn-primary"
+        :disabled="!time"
         @click="emitInfo"
       >
-        Next
+        Continue
       </button>
     </div>
   </div>
@@ -106,17 +107,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import "common";
 .timeInfo {
-  width: 800px;
+  min-width: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
 
   .calendar {
-    width: 500px;
+    min-width: 600px;
   }
   .times {
-    align-self: flex-start;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 
 }

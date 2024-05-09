@@ -2,7 +2,10 @@
   <div>
     <div class="form">
       <div class="form-group">
-        <label for="studentName">
+        <label
+          class="required"
+          for="studentName"
+        >
           Student Name:
         </label>
         <input
@@ -32,7 +35,10 @@
         >
       </div>
       <div class="form-group">
-        <label for="guardianEmail">
+        <label
+          class="required"
+          for="guardianEmail"
+        >
           Guardian Email:
         </label>
         <input
@@ -53,13 +59,14 @@
       </div>
       <div class="tips">
         <p>
+          <!-- make it a checkbox -->
           Please confirm the booking by clicking on the link sent to the parent's email.
         </p>
       </div>
 
       <div class="buttons">
         <button
-          class="btn btn-primary"
+          class="btn btn-secondary"
           @click="back"
         >
           Back
@@ -68,7 +75,7 @@
           class="btn btn-primary"
           @click="emitInfo"
         >
-          Book
+          Confirm
         </button>
       </div>
     </div>
@@ -102,3 +109,14 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "common";
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+.tips {
+  margin-top: 20px;
+}
+</style>

@@ -47,7 +47,7 @@ export default {
   },
   data () {
     return {
-      header: 'Book live online class',
+      header: 'Book Live Online Classes',
       step: 'class',
       classInfo: {},
       time: {},
@@ -93,23 +93,24 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .scheduler {
   background: #FFFFFF;
   border: 5px solid #1FBAB4;
   border-radius: 3rem;
   padding: 4rem;
   z-index: 1;
-  min-height: 400px;
-  min-width: 400px;
+  // min-height: 450px;
+  min-width: 500px;
 
   .header{
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Arvo", sans-serif;
     font-weight: 700;
-    font-size: 1.8rem;
+    font-size: 2rem;
     line-height: 2.5rem;
     color: #232323;
     margin-bottom: 2rem;
+    text-align: center;
   }
 
   .body {
@@ -117,11 +118,6 @@ export default {
     font-weight: 400;
     font-size: 1.6rem;
     line-height: 1.9rem;
-
-    label {
-      font-weight: 400;
-    }
   }
 }
-
 </style>

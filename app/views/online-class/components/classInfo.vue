@@ -26,7 +26,7 @@
         >
           <option
             v-for="l in levels"
-            :key="`cl-${lang}-level-${l}`"
+            :key="`cl-${codeLanguage}-level-${l}`"
             :value="l"
           >
             {{ l }}
@@ -49,12 +49,15 @@
           </option>
         </select>
       </div>
-      <button
-        class="btn btn-primary"
-        @click="emitInfo"
-      >
-        Show Available Times
-      </button>
+      <div class="buttons">
+        <button
+          class="btn btn-primary"
+          :disabled="!codeLanguage || !level || !language"
+          @click="emitInfo"
+        >
+          Show Available Times
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -66,7 +69,7 @@ export default {
     return {
       codeLanguage: '',
       level: '',
-      language: '',
+      language: 'English',
       codeLanguageMap: {
         python: 'Python',
         javascript: 'JavaScript',
@@ -101,3 +104,15 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "common";
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+label {
+  font-weight: 400;
+}
+</style>
