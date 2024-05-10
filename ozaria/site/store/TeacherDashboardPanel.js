@@ -463,6 +463,15 @@ export default {
       }
     },
 
+    showPanelProjectsContent ({ commit, dispatch, rootGetters }, { student, classroomId, selectedCourseId, moduleName }) {
+      const panelHeader = moduleName
+      dispatch('setPanelSessionContent', {
+        header: panelHeader,
+        studentName: student.displayName,
+        dateFirstCompleted: '2021'
+      })
+    },
+
     setPanelSessionContent ({ commit }, { sessionContentObject, header, studentName, dateFirstCompleted }) {
       commit('setPanelSessionContent', sessionContentObject)
       commit('setPanelHeader', header)

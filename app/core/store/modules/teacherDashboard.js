@@ -149,6 +149,12 @@ export default {
       }
       return {}
     },
+    getAiProjectsMapCurrentClassroom (state, _getters, _rootState, rootGetters) {
+      if (state.classroomId) {
+        return rootGetters['aiProjects/getAiProjectsMapForClassroom'](state.classroomId) || {}
+      }
+      return {}
+    },
     getGameContentCurrentClassroom (state, _getters, _rootState, rootGetters) {
       if (state.classroomId) {
         return rootGetters['gameContent/getContentForClassroom'](state.classroomId) || {}
@@ -417,9 +423,12 @@ export default {
           project: (options.data || {}).levelSessions
         }
         fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
+        fetchPromises.push(dispatch('aiProjects/fetchForClassroomMembers', { classroom }, { root: true }))
         if (options.fetchInteractiveSessions) {
           fetchPromises.push(dispatch('interactives/fetchSessionsForClassroomMembers', classroom, { root: true }))
         }
+
+        fetchPromises.push(dispatch('aiScenarios/fetchReleased', { classroom }, { root: true }))
       }
 
       // TODO If classroom already loaded, load it asynchronously without blocking UI, i.e. without `await` to optimize performance

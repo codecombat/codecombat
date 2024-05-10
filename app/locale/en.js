@@ -2768,7 +2768,9 @@ module.exports = {
       latest_podcast_episode: 'Latest Podcast Episode',
       from_the_podcast: 'From the Podcast',
       edit_student_access_title: 'Edit Student Access to Levels',
+      edit_student_access_title_scenarios: 'Edit Student Access to Projects',
       edit_student_access_subtitle: 'You have selected __levels__ levels for __students__ students.',
+      edit_student_access_subtitle_scenarios: 'You have selected __levels__ projects for __students__ students.',
       student_ask_for_help: 'Your student __name__ asking for your help.',
       never_played: 'Never Played'
     },

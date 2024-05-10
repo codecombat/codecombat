@@ -58,6 +58,7 @@ export default {
       classroom: 'teacherDashboard/getCurrentClassroom',
       selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
       levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
+      aiProjectsMapByUser: 'teacherDashboard/getAiProjectsMapCurrentClassroom',
       getInteractiveSessionsForClass: 'interactives/getInteractiveSessionsForClass',
       classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
       gameContent: 'teacherDashboard/getGameContentCurrentClassroom',
@@ -69,7 +70,8 @@ export default {
       getActiveClassrooms: 'teacherDashboard/getActiveClassrooms',
       selectableStudentIds: 'baseSingleClass/selectableStudentIds',
       getSelectableOriginals: 'baseSingleClass/getSelectableOriginals',
-      classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom'
+      classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
+      aiScenarios: 'aiScenarios/getScenarios',
     }),
 
     modules () {
@@ -77,6 +79,90 @@ export default {
       this.refreshKey // eslint-disable-line no-unused-expressions
 
       const selectedCourseId = this.selectedCourseId
+      const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
+
+      if (selectedCourseId === utils.courseIDs.HACKSTACK) {
+        const hackStakModules = this.aiScenarios.reduce((acc, scenario) => {
+          acc.add(scenario.tool)
+          return acc
+        }, new Set())
+
+        const hackStackModels = [...hackStakModules].map((moduleName, key) => {
+          const moduleNum = key + 1
+          const classSummaryProgress = []
+          const moduleScenarios = (this.aiScenarios || [])
+            .filter(scenario => scenario.tool === moduleName)
+
+          return {
+            moduleNum,
+            displayName: moduleName,
+            contentList: moduleScenarios
+              .map((scenario, index) => {
+                return {
+                  displayName: scenario.name,
+                  type: 'challengelvl',
+                  _id: scenario._id,
+                  tooltipName: `${index + 1}: ${scenario.name}`,
+                  description: '',
+                  contentKey: scenario._id,
+                  normalizedOriginal: scenario._id,
+                  normalizedType: 'challengelvl',
+                  contentLevelSlug: scenario.slug,
+                  isPractice: false
+                }
+              }),
+            studentSessions: this.students.reduce((studentSessions, student) => {
+              studentSessions[student._id] = moduleScenarios
+                .map((scenario, index) => {
+                  const details = {}
+                  classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
+                  // const summary = classSummaryProgress[index]
+                  const scenarios = this.aiProjectsMapByUser[student._id]?.[scenario._id]
+                  if (scenarios) {
+                    details.status = 'progress'
+                    classSummaryProgress[index].status = 'progress'
+
+                    details.clickHandler = () => {
+                      this.showPanelProjectsContent({
+                        student,
+                        classroomId: this.classroomId, // TODO remove and use classroomId from teacherDashboard vuex
+                        selectedCourseId: this.selectedCourseId,
+                        moduleNum
+                      })
+                    }
+
+                    if (scenarios.some(scenario => scenario.actionQueue.length === 0)) {
+                      details.status = 'complete'
+                    }
+                  }
+                  const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, scenario._id, 'lockedScenario')
+                  const isPlayable = !isLocked
+
+                  return {
+                    status: 'assigned',
+                    normalizedType: 'challengelvl',
+                    isLocked,
+                    isSkipped: false,
+                    lockDate: null,
+                    lastLockDate: null,
+                    original: scenario._id,
+                    normalizedOriginal: scenario._id,
+                    isOptional: false,
+                    isPlayable,
+                    isPractice: false,
+                    ...details
+                  }
+                })
+
+              return studentSessions
+            }, {}),
+            classSummaryProgress
+          }
+        })
+
+        return hackStackModels
+      }
+
       const modules = (this.gameContent[selectedCourseId] || {}).modules
       if (modules === undefined) {
         return []
@@ -85,7 +171,6 @@ export default {
       const intros = (this.gameContent[selectedCourseId] || {}).introLevels
 
       const modulesForTable = []
-      const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
       const assignmentMap = new Map()
       for (const { courseID, members } of courseInstances) {
         assignmentMap.set(courseID, new Set(members || []))
@@ -413,6 +498,7 @@ export default {
       fetchData: 'baseSingleClass/fetchData',
       setPanelSessionContent: 'teacherDashboardPanel/setPanelSessionContent',
       showPanelSessionContent: 'teacherDashboardPanel/showPanelSessionContent',
+      showPanelProjectsContent: 'teacherDashboardPanel/showPanelProjectsContent',
       clearSelectedStudents: 'baseSingleClass/clearSelectedStudents',
       addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
       fetchClassroomById: 'classrooms/fetchClassroomForId',

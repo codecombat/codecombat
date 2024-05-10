@@ -37,6 +37,10 @@ const ClassroomLib = {
       classroom.studentLockMap[studentId].lockedLevels = {}
     }
 
+    if (!classroom.studentLockMap[studentId].lockedScenarioLevels) {
+      classroom.studentLockMap[studentId].lockedScenarioLevels = {}
+    }
+
     if (!classroom.studentLockMap[studentId].optionalLevels) {
       classroom.studentLockMap[studentId].optionalLevels = {}
     }

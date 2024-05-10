@@ -90,16 +90,16 @@ export default {
     },
 
     updateCourseInstance: async ({ commit, state }, { courseInstance, updates }) => {
-      const res = await courseInstancesApi.update({ courseInstanceID: courseInstance._id, updates })
-      if (res) {
+      const response = await courseInstancesApi.update({ courseInstanceID: courseInstance._id, updates })
+      if (response) {
         commit('setCourseInstanceForId', {
           id: courseInstance._id,
-          instance: res
+          instance: response
         })
-        const classroomId = res.classroomID
+        const classroomId = response.classroomID
         Vue.set(state.courseInstanceByClassroom, classroomId, state.courseInstanceByClassroom[classroomId].map(ci => {
           if (ci._id === courseInstance._id) {
-            return res
+            return response
           }
           return ci
         }))
