@@ -4453,6 +4453,8 @@ module.exports = {
       assigned: 'Assigned',
       unlocked: 'Unlocked',
       unassigned: 'Unassigned',
+      complete: 'Complete',
+      progress: 'In Progress',
       choose_course: 'Click to Select from Dropdown',
       teacher_locked_message: 'Your teacher has locked the next level',
       plan_your_class_title: 'Plan your first class by',
@@ -4567,7 +4569,8 @@ module.exports = {
       no_modifiers_changed_unlocks_skipped: 'It appears you attempted to unlock levels that aren\'t currently locked. Please note, if your selected level appears as locked, it might be due to a preceding level being locked. To proceed, ensure to unlock the prior level first.',
       view_custom_league: 'View Custom League',
       view_global_league: 'View Global League',
-      refresh_progress: 'Refresh Progress'
+      refresh_progress: 'Refresh Progress',
+      assign_content_first: 'Please ensure that content is assigned to students before adjusting access levels',
     },
 
     outcomes: {

@@ -91,7 +91,7 @@ export default {
         'green-dot': this.status === 'complete',
         'teal-dot': this.status === 'progress',
         'assigned-dot': this.levelAccessStatus === 'assigned',
-        [this.levelAccessStatus]: true
+        [this.levelAccessStatus]: this.levelAccessStatus !== 'progress'
       }
     },
 
