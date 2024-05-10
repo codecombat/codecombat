@@ -1,10 +1,6 @@
 extends /templates/base
 
 block content
-  if view.isAILeagueArena() && !features.china
-    a(href="/league")
-      img.ai-league-logo(src="/images/pages/league/hyperx-cobranded-logo.png")
-
   div#ladder-top
 
     if view.leagueType === 'course' && view.course

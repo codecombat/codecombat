@@ -81,6 +81,8 @@ module.exports = class ThangsTabView extends CocoView
     'shift+right': -> @resizeSelectedThangBy 1, 0
     'shift+up': -> @resizeSelectedThangBy 0, 1
     'shift+down': -> @resizeSelectedThangBy 0, -1
+    'shift+=': -> @scaleSelectedThangBy 1
+    'shift+-': -> @scaleSelectedThangBy -1
 
   constructor: (options) ->
     super options
@@ -837,6 +839,13 @@ module.exports = class ThangsTabView extends CocoView
         component.config.height = (component.config.height ? 4) + 0.5 * yDir
         selectedThang.width = component.config.width
         selectedThang.height = component.config.height
+
+  scaleSelectedThangBy: (scaleDir) ->
+    for singleSelected in @gameUIState.get('selected')
+      selectedThang = singleSelected.thang
+      @modifySelectedThangComponentConfig selectedThang, LevelComponent.ScalesID, (component) =>
+        oldScaleFactor = (component.config.scaleFactor ? 1)
+        component.config.scaleFactor = oldScaleFactor + 0.1 * scaleDir
 
   toggleSelectedThangCollision: ->
     for singleSelected in @gameUIState.get('selected')

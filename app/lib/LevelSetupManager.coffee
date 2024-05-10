@@ -75,7 +75,7 @@ module.exports = class LevelSetupManager extends CocoClass
       return
 
     # Build modals and prevent them from disappearing.
-    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero, courseInstanceID: @options.courseInstanceID })
+    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, campaign: @options.campaign, hadEverChosenHero: @options.hadEverChosenHero, courseInstanceID: @options.courseInstanceID })
     @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level})
     @heroesModalDestroy = @heroesModal.destroy
     @inventoryModalDestroy = @inventoryModal.destroy
@@ -144,6 +144,8 @@ module.exports = class LevelSetupManager extends CocoClass
     route += "&codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
     if @options.courseID? and @options.courseInstanceID?
       route += "&course=#{@options.courseID}&course-instance=#{@options.courseInstanceID}"
+    else if @options.courseID?
+      route += "&course=#{@options.courseID}"
     @supermodel.registerModel(@session)
     Backbone.Mediator.publish 'router:navigate', {
       route, viewClass
