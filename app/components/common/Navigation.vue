@@ -102,6 +102,10 @@ export default Vue.extend({
       return window.location.pathname.startsWith('/ai')
     },
 
+    useDarkMode () {
+      return /^\/(league|play\/ladder)/.test(document.location.pathname)
+    },
+
     homeLink () {
       if (me.isCodeNinja() && me.isStudent()) { return '/students' }
       if (me.isCodeNinja() && me.isTeacher()) { return '/teachers/classes' }
@@ -265,8 +269,8 @@ export default Vue.extend({
         },
       }
 
-      const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), hide: me.isSchoolAdmin(), title: 'CodeCombat Teacher Dashboard' }
-      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), hide: me.isSchoolAdmin(), title: 'Ozaria Teacher Dashboard' }
+      const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), title: 'CodeCombat Teacher Dashboard' }
+      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), title: 'Ozaria Teacher Dashboard' }
 
       const educator = {
         'my-dashboards': {
@@ -403,7 +407,7 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-  nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="navEvent")
+  nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="{ 'dark-mode': useDarkMode }" @click="navEvent")
     announcement-modal(v-if="announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
     .container
       .row
@@ -464,7 +468,8 @@ export default Vue.extend({
                   li.dropdown.dropdown-hover
                     a.text-p(:href="isWideScreen ? navItem.url : null" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                       span {{ $t(navItem.title) }}
-                      caret.dropdown-caret
+                      caret.dropdown-caret(v-if="useDarkMode" color="white")
+                      caret.dropdown-caret(v-else color="black")
                     ul(class="dropdown-menu" :class="navItem.children.some(child => child.description) && 'text-wide'")
                       li(v-for="child in navItem.children.filter(child => child.hide!==true)")
                         a.text-p(:href="child.url" :class="[child.class, child.url && checkLocation(child.url) && 'text-teal'].filter(Boolean)" v-bind="child.attrs") {{ $t(child.title) }}

@@ -5,7 +5,6 @@ filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './SpellPaletteEntryView'
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
-LevelSetupManager = require 'lib/LevelSetupManager'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
 

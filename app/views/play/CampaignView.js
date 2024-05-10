@@ -463,7 +463,7 @@ module.exports = (CampaignView = (function () {
 
     openPlayHeroesModal (e) {
       e.stopPropagation()
-      return this.openModalView(new PlayHeroesModal())
+      return this.openModalView(new PlayHeroesModal({ campaign: this.campaign }))
     }
 
     openPlayAchievementsModal (e) {
@@ -1459,7 +1459,7 @@ ${problem.category} - ${problem.score} points\
       const classroomLevel = this.classroomLevelMap ? this.classroomLevelMap[levelOriginal] : undefined
       const session = this.preloadedSession?.loaded && this.preloadedSession.levelSlug === levelSlug ? this.preloadedSession : null
       const codeLanguage = classroomLevel?.get('primerLanguage') || this.classroom?.get('aceConfig')?.language || session?.get('codeLanguage')
-      const options = { supermodel: this.supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: this.hadEverChosenHero, parent: this, session, courseID, courseInstanceID, codeLanguage }
+      const options = { supermodel: this.supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), campaign: this.campaign, hadEverChosenHero: this.hadEverChosenHero, parent: this, session, courseID, courseInstanceID, codeLanguage }
       this.setupManager = new LevelSetupManager(options)
       if (!(this.setupManager != null ? this.setupManager.navigatingToPlay : undefined)) {
         if (this.$levelInfo != null) {

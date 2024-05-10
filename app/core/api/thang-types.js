@@ -45,7 +45,7 @@ export const getThangTypeOriginal = original => {
 
 export const getHeroes = (options) => {
   const data = {
-    view: 'heroes'
+    view: options.product === 'codecombat-junior' ? 'heroes-junior' : 'heroes'
   }
   if (options && options.project) {
     _.assign(data, {
