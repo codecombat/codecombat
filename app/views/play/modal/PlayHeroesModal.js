@@ -63,7 +63,8 @@ module.exports = (PlayHeroesModal = (function () {
       this.animateHeroes = this.animateHeroes.bind(this)
       this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : 'common.save'
       this.heroes = new CocoCollection([], { model: ThangType })
-      this.heroes.url = '/db/thang.type?view=heroes'
+      this.isJunior = this.options.level?.get('product') === 'codecombat-junior' || this.options.campaign?.get('slug') === 'junior'
+      this.heroes.url = '/db/thang.type?view=' + (this.isJunior ? 'heroes-junior' : 'heroes')
       this.heroes.setProjection(['original', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'shortName', 'unlockLevelName', 'i18n', 'poseImage', 'tier', 'releasePhase', 'ozaria'])
       this.heroes.comparator = 'gems'
       this.listenToOnce(this.heroes, 'sync', this.onHeroesLoaded)
@@ -93,7 +94,7 @@ module.exports = (PlayHeroesModal = (function () {
         this.heroes.reset(this.heroes.filter(hero => !hero.locked))
       }
       if (!me.isAdmin()) {
-        return this.heroes.reset(this.heroes.filter(hero => hero.get('releasePhase') !== 'beta'))
+        this.heroes.reset(this.heroes.filter(hero => hero.get('releasePhase') !== 'beta'))
       }
     }
 
@@ -105,12 +106,12 @@ module.exports = (PlayHeroesModal = (function () {
       hero.description = utils.i18n(hero.attributes, 'description')
       hero.unlockLevelName = utils.i18n(hero.attributes, 'unlockLevelName')
       const original = hero.get('original')
-      hero.free = ['captain', 'knight', 'champion', 'duelist'].includes(hero.attributes.slug)
-      hero.unlockBySubscribing = ['samurai', 'ninja', 'librarian'].includes(hero.attributes.slug)
+      hero.free = ['captain', 'knight', 'champion', 'duelist', 'wolf-pup-hero', 'cougar-hero', 'polar-bear-cub-hero', 'frog-hero', 'turtle-hero', 'blue-fox-hero', 'panther-cub-hero', 'brown-rat-hero', 'duck-hero', 'tiger-cub-hero'].includes(hero.attributes.slug)
+      hero.unlockBySubscribing = ['samurai', 'ninja', 'librarian', 'pugicorn-hero', 'raven-hero', 'baby-griffin-hero'].includes(hero.attributes.slug)
       hero.premium = !hero.free && !hero.unlockBySubscribing
       hero.locked = !me.ownsHero(original) && !(hero.unlockBySubscribing && me.isPremium())
       if ((me.isStudent() || me.isTeacher()) && me.showHeroAndInventoryModalsToStudents() && (hero.get('heroClass') === 'Warrior')) { hero.locked = false }
-      if ((me.isStudent() || me.isTeacher()) && this.options.level?.get('product') === 'codecombat-junior') { hero.locked = false }
+      if ((me.isStudent() || me.isTeacher()) && this.isJunior) { hero.locked = false }
       hero.purchasable = hero.locked && me.isPremium()
       if (this.options.level && (allowedHeroes = this.options.level.get('allowedHeroes'))) {
         let needle
@@ -151,6 +152,7 @@ module.exports = (PlayHeroesModal = (function () {
       context.level = this.options.level
       context.confirmButtonI18N = this.confirmButtonI18N
       context.visibleHero = this.visibleHero
+      context.isJunior = this.isJunior
       context.gems = me.gems()
       return context
     }
