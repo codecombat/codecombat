@@ -53,12 +53,12 @@ export default function getVueRouter () {
         },
         {
           path: '/trial-classes',
-          component: () => import(/* webpackChunkName: "TrialClassView" */ 'app/views/online-class/trialClassesView')
+          component: () => import(/* webpackChunkName: "TrialClassView" */ 'app/views/online-class/TrialClassesView')
         },
         {
           path: '/trial-classes/:eventId/confirm/:token',
           name: 'TrialClassConfirm',
-          component: () => import(/* webpackChunName: 'TrialClassConfirm' */ 'app/views/online-class/trialClassConfirm'),
+          component: () => import(/* webpackChunName: 'TrialClassConfirm' */ 'app/views/online-class/TrialClassConfirm'),
           props: (route) => ({ ...route.params })
         },
         {
@@ -322,7 +322,7 @@ export default function getVueRouter () {
         {
           path: '/parents/book-trial-classes',
           name: 'TrialClassesScheduler',
-          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/online-class/scheduler'),
+          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/online-class/SchedulerView'),
         },
         {
           path: '/parents/:viewName/:childId?/:product?',

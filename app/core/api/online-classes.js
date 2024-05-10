@@ -8,29 +8,39 @@ function scheduleClassEmail (options) {
 }
 
 function fetchAvailableTime (options) {
-  return fetchJson('/db/trial-classes/available', {
-    data: options
+  return fetchJson('/db/events', {
+    data: Object.assign({
+      type: 'trial-classes',
+      status: 'available'
+    }, options)
   })
 }
 
 function tempBookTime (options) {
-  return fetchJson('/db/trial-classes/book/temp', {
+  return fetchJson('/db/trial-classes', {
     method: 'POST',
-    json: options
+    json: Object.assign({
+      action: 'book',
+      actionType: 'temp'
+    }, options)
   })
 }
 
 function bookTime (options) {
-  return fetchJson('/db/trial-classes/book', {
+  return fetchJson('/db/trial-classes', {
     method: 'POST',
-    json: options
+    json: Object.assign({
+      action: 'book'
+    }, options)
   })
 }
 
 function confirmBooking (options) {
-  const { eventId, code } = options
-  return fetchJson(`/db/trial-classes/${eventId}/confirm/${code}`, {
+  return fetchJson('/db/trial-classes', {
     method: 'POST',
+    json: Object.assign({
+      action: 'confirm'
+    }, options)
   })
 }
 

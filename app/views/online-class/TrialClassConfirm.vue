@@ -35,7 +35,7 @@ export default {
   },
   data () {
     return {
-      verifyStatus: 'unkown'
+      verifyStatus: 'unknown'
     }
   },
   mounted () {

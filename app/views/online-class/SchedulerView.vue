@@ -33,21 +33,21 @@
 
 <script>
 import moment from 'moment'
-import pageTemplate from '../parents/PageTemplate.vue'
-import classInfo from './components/classInfo.vue'
-import availableTime from './components/availableTime.vue'
-import studentInfo from './components/studentInfo.vue'
-import nextStep from './components/nextStep.vue'
+import PageTemplate from '../parents/PageTemplate.vue'
+import ClassInfo from './components/ClassInfo.vue'
+import AvailableTime from './components/AvailableTime.vue'
+import StudentInfo from './components/StudentInfo.vue'
+import NextStep from './components/NextStep.vue'
 
 import { tempBookTime, bookTime } from '../../core/api/online-classes'
 export default {
   name: 'SchedulerView',
   components: {
-    pageTemplate,
-    classInfo,
-    studentInfo,
-    nextStep,
-    availableTime
+    PageTemplate,
+    ClassInfo,
+    StudentInfo,
+    NextStep,
+    AvailableTime
   },
   data () {
     return {
@@ -74,6 +74,7 @@ export default {
       const lang = this.classInfo.language
       const codeLang = this.codeLanguageMap[this.classInfo.codeLanguage]
       const level = this.levels[this.classInfo.level]
+      // todo: confirm with timezones
       const date = moment(this.time.date).set({ hour: this.time.time, minute: 0 })
       const dateTime = date.format('YYYY-MM-DD HH:mm A')
       return [lang, codeLang, level, dateTime].join(' &bull; ')

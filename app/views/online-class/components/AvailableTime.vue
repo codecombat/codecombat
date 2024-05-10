@@ -43,7 +43,7 @@
 
 <script>
 import { fetchAvailableTime } from '../../../core/api/online-classes'
-import StylishCalendar from '../../events/components//stylishCalendar'
+import StylishCalendar from '../../events/components/StylishCalendar'
 
 export default {
   name: 'AvailableTime',
@@ -77,9 +77,7 @@ export default {
     async checkTime () {
       try {
         const times = await fetchAvailableTime(this.classInfo)
-        this.events = times.map((t, i) => this.formatEvent(t, i))
-      } catch (e) {
-        if (e.code === 404) {
+        if (times.length === 0) {
           window.noty({
             type: 'warning',
             text: 'Sorry, no available time for this class, please select another one.',
@@ -88,6 +86,9 @@ export default {
           })
           this.$emit('back')
         }
+        this.events = times.map((t, i) => this.formatEvent(t, i))
+      } catch (e) {
+        console.error(e)
       }
     },
     formatEvent (time, index) {
