@@ -524,7 +524,14 @@ module.exports = (CoursesView = (function () {
       if (window.tracker != null) {
         window.tracker.trackEvent('Students Change Hero Started', { category: 'Students' })
       }
-      const modal = new HeroSelectModal({ currentHeroID: this.hero.id })
+      let hasOnlyJuniorCourses = true
+      for (const courseInstance of this.courseInstances.models) {
+        if (courseInstance.get('courseID') !== utils.courseIDs.JUNIOR) {
+          hasOnlyJuniorCourses = false
+          break
+        }
+      }
+      const modal = new HeroSelectModal({ currentHeroID: this.hero.id, product: hasOnlyJuniorCourses ? 'codecombat-junior' : null })
       this.openModalView(modal)
       this.listenTo(modal, 'hero-select:success', newHero => {
         // @hero.url = "/db/thang.type/#{me.get('heroConfig').thangType}/version"

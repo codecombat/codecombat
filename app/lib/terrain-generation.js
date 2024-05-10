@@ -609,7 +609,7 @@ function generateEnemies (result, defeatThangsGoal) {
   let i
   for (i = 0; i < Math.ceil(Math.random() * 8);) {
     const enemy = {
-      id: getRandomThang(['Skeleton Junior']),
+      id: getRandomThang(['Crab Monster Junior']),
       pos: getRandomPosition(result),
       margin: 0
     }
