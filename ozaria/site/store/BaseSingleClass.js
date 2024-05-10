@@ -252,7 +252,7 @@ export default {
         noty({
           text: $.i18n.t('teacher_dashboard.assign_content_first'),
           layout: 'center',
-          type: 'information',
+          type: 'error',
           killer: true,
           timeout: 5000
         })
