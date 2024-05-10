@@ -265,8 +265,8 @@ export default Vue.extend({
         },
       }
 
-      const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), hide: me.isSchoolAdmin(), title: 'CodeCombat Teacher Dashboard' }
-      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), hide: me.isSchoolAdmin(), title: 'Ozaria Teacher Dashboard' }
+      const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), title: 'CodeCombat Teacher Dashboard' }
+      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), title: 'Ozaria Teacher Dashboard' }
 
       const educator = {
         'my-dashboards': {
