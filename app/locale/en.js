@@ -4568,7 +4568,7 @@ module.exports = {
       view_custom_league: 'View Custom League',
       view_global_league: 'View Global League',
       refresh_progress: 'Refresh Progress',
-      assign_content_first: 'Content Not Assigned! Please assign the content to students before modifying access levels.',
+      assign_content_first: 'Please ensure that content is assigned to students before adjusting access levels',
     },
 
     outcomes: {
