@@ -14,7 +14,7 @@ const OnlineTeacherSchema = schema.object(
       description: 'Languages the teacher can speak',
       items: {
         type: 'string',
-        enum: ['English', 'espanol']
+        enum: ['English', 'Spanish']
       }
     },
     products: {
