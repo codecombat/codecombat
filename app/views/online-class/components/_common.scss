@@ -1,0 +1,24 @@
+.btn-primary {
+  &:hover {
+    background-color: #176077;
+    transition: background-color .35s;
+  }
+}
+.btn-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+
+  &:hover {
+    color: #fff;
+    background-color: #5a6268;
+    border-color: #545b62;
+  }
+}
+
+.required {
+  &:after {
+    content: " *";
+    color: #ff0000;
+  }
+}
