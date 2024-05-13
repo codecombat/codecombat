@@ -40,6 +40,14 @@
       span(data-i18n="options.editor_config_behaviors_label") Enable Smart Behaviors
     span.help-block(data-i18n="options.editor_config_behaviors_description") Autocompletes brackets, braces, and quotes.
 
+  .form-group.checkbox
+    label(for="option-wide-editor")
+      input#option-wide-editor(name="wide-editor", type="checkbox", checked=aceConfig.preferWideEditor)
+      span.custom-checkbox
+        .glyphicon.glyphicon-ok
+      span(data-i18n="options.editor_config_wide_editor_label") Enable Wide Editor
+    span.help-block(data-i18n="options.editor_config_wide_editor_description") Make the min size of editor wider like old style
+
   if view.utils.isOzaria
     .form-group.checkbox
       label(for="option-screen-reader-mode")

@@ -835,9 +835,17 @@ module.exports = class PlayLevelView extends RootView
       when @level?.isType('web-dev') then windowHeight - controlBarHeight
       when tomeLocation is 'bottom' then Math.min(windowHeight - minTomeHeight - controlBarHeight, windowWidth / canvasAspectRatio)
       else Math.min(windowHeight - (if controlBarLocation is 'left' then controlBarHeight else 0), (windowWidth - minCodeWidth - minWorkspaceWidth - minToolboxWidth) / canvasAspectRatio)
-    canvasWidth = switch
-      when @level?.isType('web-dev') then windowWidth - minCodeWidth
-      else canvasHeight * canvasAspectRatio
+    if me.get('aceConfig').preferWideEditor or features?.china
+      desiredCanvasWidth = canvasHeight * canvasAspectRatio
+      if windowWidth - desiredCanvasWidth < 500 and tomeLocation is 'right'
+        canvasWidth =  Math.max(windowWidth / 1.82, windowWidth - 500)
+      else
+        canvasWidth = desiredCanvasWidth
+      canvasHeight = canvasWidth / canvasAspectRatio
+    else
+      canvasWidth = switch
+        when @level?.isType('web-dev') then windowWidth - minCodeWidth
+        else canvasHeight * canvasAspectRatio
     emptyHeightBelowCanvas = switch
       when tomeLocation is 'bottom' then 0
       else windowHeight - canvasHeight - (if controlBarLocation is 'left' then controlBarHeight else 0)
