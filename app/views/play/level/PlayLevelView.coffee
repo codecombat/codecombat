@@ -824,8 +824,10 @@ module.exports = class PlayLevelView extends RootView
       when @level?.isType('web-dev') then windowHeight - controlBarHeight
       when tomeLocation is 'bottom' then Math.min(windowHeight - minTomeHeight - controlBarHeight, windowWidth / canvasAspectRatio)
       else Math.min(windowHeight - (if controlBarLocation is 'left' then controlBarHeight else 0), (windowWidth - minCodeWidth - minWorkspaceWidth - minToolboxWidth) / canvasAspectRatio)
+    desiredCanvasWidth = canvasHeight * canvasAspectRatio
     canvasWidth = switch
       when @level?.isType('web-dev') then windowWidth - minCodeWidth
+      when windowWidth > 1000 and windowWidth - desiredCanvasWidth < 500 then windowWidth - 500
       else canvasHeight * canvasAspectRatio
     emptyHeightBelowCanvas = switch
       when tomeLocation is 'bottom' then 0
