@@ -871,8 +871,6 @@
         </div>
       </div>
     </div>
-
-    <div class="container-footer-mountains" />
   </div>
 </template>
 
@@ -1730,16 +1728,6 @@ export default {
   top: 0;
   right: -4px;
   border-radius: 0px 40px 0 0;
-}
-
-.container-footer-mountains {
-  width: 100%;
-  background: url(/images/pages/parents/parents_footer_mountain_compressed.svg);
-  background-repeat: no-repeat;
-  background-position: top;
-  background-size: cover;
-  height: 170px;
-  margin-bottom: -50px;
 }
 
 .power-of-play-gif {
