@@ -149,7 +149,7 @@ export default {
           v-if="administratedTeachers.length === 0"
           class="no-teachers"
         >
-          {{ $t('school_administrator.no_teachers') }}
+          <span v-html="$t('school_administrator.no_teachers')" />
         </div>
       </div>
 
