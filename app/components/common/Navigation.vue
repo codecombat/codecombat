@@ -485,7 +485,8 @@ export default Vue.extend({
                   img.img-circle.img-circle-small.m-r-1(:src="me.getPhotoURL()" :class="{'border-navy': me.isTeacher()}")
                   span.unreadMessage(v-if="unread")
                   span {{ $t('nav.my_account') }}
-                  caret.dropdown-caret
+                      caret.dropdown-caret(v-if="useDarkMode" color="white")
+                      caret.dropdown-caret(v-else color="black")
                 ul.dropdown-menu
                   li.user-dropdown-header.text-center.hidden-xs.hidden-sm
                     a(:href="cocoPath(`/user/${me.getSlugOrID()}`)")
@@ -500,7 +501,8 @@ export default Vue.extend({
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
                     a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")
-                      caret.rotate-left(v-if="this.announcements.length")
+                      caret.rotate-left(v-if="this.announcements.length && useDarkMode" color="white")
+                      caret.rotate-left(v-if="this.announcements.length && !useDarkMode" color="black")
                       span {{ $t('announcement.notifications') }}
                       span.unread(v-if="unread") {{ unread }}
                     announcement-nav.announcement-nav(v-if="this.announcements.length")

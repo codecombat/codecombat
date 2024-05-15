@@ -246,7 +246,7 @@ export default {
       <section class="row esports-header">
         <div class="header-left">
           <clan-selector
-            v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0"
+            v-if="!isLoading && Array.isArray(myClans)"
             :clans="myClans"
             :selected="clanIdSelected || clanIdOrSlug"
             @change="e => changeClanSelected(e)"
