@@ -1584,6 +1584,8 @@ module.exports = {
       editor_config_indentguides_description: 'Displays vertical lines to see indentation better.',
       editor_config_behaviors_label: 'Enable Smart Behaviors',
       editor_config_behaviors_description: 'Autocompletes brackets, braces, and quotes.',
+      editor_config_wide_editor_label: 'Enable Wide Editor',
+      editor_config_wide_editor_description: 'Increase the width of editor like old style',
       editor_config_screen_reader_mode_label: 'Enable Screen Reader Mode',
       editor_config_screen_reader_mode_label_disable: 'Disable Screen Reader Mode',
       editor_config_screen_reader_mode_description: 'Display levels in text rather than visually.',
