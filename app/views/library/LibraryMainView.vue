@@ -360,7 +360,6 @@
         </section>
       </div>
     </div>
-    <div class="container-footer-mountains" />
     <modal-get-licenses
       v-if="showLicenseModal"
       :subtitle="$t('library.license_modal_subtitle')"
@@ -677,16 +676,5 @@ export default {
     .library__sub-image {
     }
   }
-}
-
-.container-footer-mountains {
-  width: 100%;
-  background-color: #DCF1F3;
-  background-image: url(/images/pages/parents/parents_footer_mountain_compressed.svg);
-  background-repeat: no-repeat;
-  background-position: top;
-  background-size: cover;
-  height: 170px;
-  margin-bottom: -50px;
 }
 </style>
