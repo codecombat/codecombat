@@ -7,12 +7,12 @@ block modal-body-content
   p
     span(data-i18n="contact.welcome")
     span.spl(data-i18n="contact.forum_prefix")
-    a(href="https://discourse.codecombat.com/", data-i18n="contact.forum_page")
     if me.isHomeUser()
+      a(href="https://discourse.codecombat.com/", data-i18n="contact.forum_page")
       span(data-i18n="contact.forum_suffix")
       span.spl.spr(data-i18n="contact.faq_prefix")
-      a(data-i18n="contact.faq", href="https://codecombat.zendesk.com/hc/en-us")
-      span(data-i18n="contact.faq_suffix")
+    a(data-i18n="contact.faq", href="https://codecombat.zendesk.com/hc/en-us")
+    span(data-i18n="contact.faq_suffix")
     span(data-i18n="contact.prefer_email_prefix")
     - email = 'support@codecombat.com'
     a(href="mailto:"+email)= email
