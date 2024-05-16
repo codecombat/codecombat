@@ -84,7 +84,10 @@ export default Vue.extend({
     }),
     moreOptionsText () {
       const i18n = this.moreOptions ? 'hide_options' : 'more_options'
-      return this.$t(`courses.${i18n}`) + (this.moreOptions ? '&and;' : '&or;')
+      return this.$t(`courses.${i18n}`)
+    },
+    moreOptionsIcon () {
+      return this.moreOptions ? '&and;' : '&or;'
     },
     googleClassroomDisabled () {
       return !me.googleClassroomEnabled()
@@ -840,8 +843,10 @@ export default Vue.extend({
           <a
             class="more-options-text"
             @click="toggleMoreOptions"
-            v-html="moreOptionsText"
-          />
+          >
+            {{ moreOptionsText }}
+            <span v-html="moreOptionsIcon" />
+          </a>
           <!--eslint-enable-->
         </div>
         <div class="form-group row buttons">
@@ -1025,6 +1030,11 @@ export default Vue.extend({
 
 .more-options-text {
   font-size: 15px;
+
+  span {
+    font-size: 18px;
+    line-height: 15px;
+  }
 }
 
 .more-options-collapse {
