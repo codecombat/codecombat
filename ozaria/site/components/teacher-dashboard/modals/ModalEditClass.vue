@@ -87,7 +87,7 @@ export default Vue.extend({
       return this.$t(`courses.${i18n}`)
     },
     moreOptionsIcon () {
-      return this.moreOptions ? '&and;' : '&or;'
+      return this.moreOptions ? '&nbsp;&and;' : '&nbsp;&or;'
     },
     googleClassroomDisabled () {
       return !me.googleClassroomEnabled()
