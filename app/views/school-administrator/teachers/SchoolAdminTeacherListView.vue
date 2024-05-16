@@ -149,7 +149,8 @@ export default {
           v-if="administratedTeachers.length === 0"
           class="no-teachers"
         >
-          {{ $t('school_administrator.no_teachers') }}
+          <!-- eslint-disable vue/no-v-html -->
+          <span v-html="$t('school_administrator.no_teachers')" />
         </div>
       </div>
 

@@ -40,6 +40,15 @@
       span(data-i18n="options.editor_config_behaviors_label") Enable Smart Behaviors
     span.help-block(data-i18n="options.editor_config_behaviors_description") Autocompletes brackets, braces, and quotes.
 
+  if !(features.china)
+    .form-group.checkbox
+      label(for="option-wide-editor")
+        input#option-wide-editor(name="wide-editor", type="checkbox", checked=aceConfig.preferWideEditor)
+        span.custom-checkbox
+          .glyphicon.glyphicon-ok
+        span(data-i18n="options.editor_config_wide_editor_label")
+      span.help-block(data-i18n="options.editor_config_wide_editor_description")
+
   if view.utils.isOzaria
     .form-group.checkbox
       label(for="option-screen-reader-mode")
