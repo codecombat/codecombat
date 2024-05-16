@@ -33,6 +33,7 @@ module.exports = (OptionsView = (function () {
         'change #option-music': 'updateMusic',
         'change #option-behaviors': 'updateBehaviors',
         'change #option-live-completion': 'updateLiveCompletion',
+        'change #option-wide-editor': 'updateWideEditor',
         'click .profile-photo': 'onEditProfilePhoto',
         'click .editable-icon': 'onEditProfilePhoto'
       }
@@ -95,6 +96,10 @@ module.exports = (OptionsView = (function () {
 
     updateBehaviors () {
       this.aceConfig.behaviors = this.$el.find('#option-behaviors').prop('checked')
+    }
+
+    updateWideEditor () {
+      this.aceConfig.preferWideEditor = this.$el.find('#option-wide-editor').prop('checked')
     }
 
     updateLiveCompletion () {

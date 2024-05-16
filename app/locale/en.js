@@ -1584,6 +1584,8 @@ module.exports = {
       editor_config_indentguides_description: 'Displays vertical lines to see indentation better.',
       editor_config_behaviors_label: 'Enable Smart Behaviors',
       editor_config_behaviors_description: 'Autocompletes brackets, braces, and quotes.',
+      editor_config_wide_editor_label: 'Enable Wide Editor',
+      editor_config_wide_editor_description: 'Increase the width of editor like old style',
       editor_config_screen_reader_mode_label: 'Enable Screen Reader Mode',
       editor_config_screen_reader_mode_label_disable: 'Disable Screen Reader Mode',
       editor_config_screen_reader_mode_description: 'Display levels in text rather than visually.',
@@ -1616,7 +1618,7 @@ module.exports = {
       dois_title: 'Director of Inside Sales',
       ism_title: 'Inside Sales Manager',
       sism_title: 'Senior Inside Sales Manager',
-      shan_title: 'Head of Marketing, CodeCombat Greater China',
+      shan_title: 'Inside Sales, Europe',
       run_title: 'Head of Operations, CodeCombat Greater China',
       lance_title: 'Head of Technology, CodeCombat Greater China',
       zhiran_title: 'Head of Curriculum, CodeCombat Greater China',
@@ -1644,6 +1646,7 @@ module.exports = {
       oa_title: 'Operations Associate',
       ac_title: 'Administrative Coordinator',
       sac_title: 'Senior Administrative Coordinator',
+      oss_title: 'Operations Support Specialist',
       ea_title: 'Executive Assistant',
       om_title: 'Operations Manager',
       som_title: 'Senior Operations Manager',
@@ -1916,12 +1919,14 @@ module.exports = {
 
     contact: {
       contact_us: 'Contact CodeCombat',
-      welcome: "Good to hear from you! Let us know how we can help, and we'll get back to you in 1-2 business days.",
+      welcome: "Good to hear from you! Let us know how we can help, and we'll get back to you within a day.",
       forum_prefix: 'You can check out our ',
       forum_page: 'public forum here ',
       faq_prefix: 'and our ',
       faq: 'FAQs here',
       faq_suffix: ' for additional assistance.',
+      prefer_email_prefix: 'If you prefer, you can email ',
+      prefer_email_suffix: ' instead.',
       subscribe_prefix: 'If you need help figuring out a level, please',
       subscribe: 'buy a CodeCombat subscription',
       subscribe_suffix: "and we'll be happy to help you with your code.",
@@ -2334,7 +2339,9 @@ module.exports = {
       learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>.",
       learn_without_classroom_blurb_coco: "Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>.",
       all_courses_completed: 'All Courses Completed!',
-      all_units_completed: 'All Units Completed!'
+      all_units_completed: 'All Units Completed!',
+      hide_options: 'Hide Options',
+      more_options: 'More Options',
     },
 
     project_gallery: {
