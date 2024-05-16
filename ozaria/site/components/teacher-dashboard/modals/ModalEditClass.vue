@@ -536,6 +536,51 @@ export default Vue.extend({
             <span class="help-block small text-navy">{{ $t("teachers.default_code_format_description") }}</span>
           </div>
         </div>
+        <div
+          v-if="isOzaria && !me.isCodeNinja()"
+          class="form-group row class-grades"
+          :class="{ 'has-error': $v.classGrades.$error }"
+        >
+          <div class="col-xs-12">
+            <span class="control-label"> {{ $t("teachers.grades") }} </span>
+            <span class="control-label-desc"> {{ $t("teachers.select_all_that_apply") }} </span>
+            <div class="btn-group class-grades-input">
+              <button
+                type="button"
+                class="btn elementary"
+                name="elementary"
+                :class="{ selected: classGrades.includes('elementary')}"
+                @click="updateGrades"
+              >
+                {{ $t('teachers.elementary') }}
+              </button>
+              <button
+                type="button"
+                class="btn middle"
+                name="middle"
+                :class="{ selected: classGrades.includes('middle')}"
+                @click="updateGrades"
+              >
+                {{ $t('teachers.middle') }}
+              </button>
+              <button
+                type="button"
+                class="btn high"
+                name="high"
+                :class="{ selected: classGrades.includes('high')}"
+                @click="updateGrades"
+              >
+                {{ $t('teachers.high_school') }}
+              </button>
+            </div>
+            <span
+              v-if="!$v.classGrades.required"
+              class="form-error ml-small"
+            >
+              {{ $t("form_validation_errors.required") }}
+            </span>
+          </div>
+        </div>
         <transition name="more-options-collapse">
           <div v-if="moreOptions">
             <div
@@ -789,51 +834,6 @@ export default Vue.extend({
                   </select>
                   <span class="help-block small text-navy m-l-1">{{ $t("courses.minutes_per_class") }}</span>
                 </div>
-              </div>
-            </div>
-            <div
-              v-if="isOzaria && !me.isCodeNinja()"
-              class="form-group row class-grades"
-              :class="{ 'has-error': $v.classGrades.$error }"
-            >
-              <div class="col-xs-12">
-                <span class="control-label"> {{ $t("teachers.grades") }} </span>
-                <span class="control-label-desc"> {{ $t("teachers.select_all_that_apply") }} </span>
-                <div class="btn-group class-grades-input">
-                  <button
-                    type="button"
-                    class="btn elementary"
-                    name="elementary"
-                    :class="{ selected: classGrades.includes('elementary')}"
-                    @click="updateGrades"
-                  >
-                    {{ $t('teachers.elementary') }}
-                  </button>
-                  <button
-                    type="button"
-                    class="btn middle"
-                    name="middle"
-                    :class="{ selected: classGrades.includes('middle')}"
-                    @click="updateGrades"
-                  >
-                    {{ $t('teachers.middle') }}
-                  </button>
-                  <button
-                    type="button"
-                    class="btn high"
-                    name="high"
-                    :class="{ selected: classGrades.includes('high')}"
-                    @click="updateGrades"
-                  >
-                    {{ $t('teachers.high_school') }}
-                  </button>
-                </div>
-                <span
-                  v-if="!$v.classGrades.required"
-                  class="form-error ml-small"
-                >
-                  {{ $t("form_validation_errors.required") }}
-                </span>
               </div>
             </div>
           </div>
