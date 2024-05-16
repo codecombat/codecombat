@@ -170,6 +170,7 @@ module.exports = (CampaignView = (function () {
       this.levelPlayCountMap = {}
       this.levelDifficultyMap = {}
       this.levelScoreMap = {}
+      this.courseLevelsLoaded = false
 
       if (this.terrain === 'hoc-2018') {
         $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
@@ -317,63 +318,11 @@ module.exports = (CampaignView = (function () {
                 data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n' }
               })
               )
-              return this.listenToOnce(this.courseLevels, 'sync', () => {
-                return this.listenToOnce(this.campaign, 'sync', () => {
-                  let idx, k, v
-                  const existing = this.campaign.get('levels')
-                  const courseLevels = this.courseLevels.toArray()
-                  const classroomCourse = _.find(globalVar.currentView.classroom.get('courses'), { _id: globalVar.currentView.course.id })
-                  const levelPositions = {}
-                  for (const level of Array.from(classroomCourse.levels)) {
-                    if (level.position) { levelPositions[level.original] = level.position }
-                  }
-                  for (k in courseLevels) {
-                    v = courseLevels[k]
-                    idx = v.get('original')
-                    if (!existing[idx]) {
-                      // a level which has been removed from the campaign but is saved in the course
-                      this.courseLevelsFake[idx] = v.toJSON()
-                    } else {
-                      this.courseLevelsFake[idx] = existing[idx]
-                      // carry over positions stored in course, if there are any
-                      if (levelPositions[idx]) {
-                        this.courseLevelsFake[idx].position = levelPositions[idx]
-                      }
-                    }
-                    this.courseLevelsFake[idx].courseIdx = parseInt(k)
-                    this.courseLevelsFake[idx].requiresSubscription = false
-                  }
-                  // Fill in missing positions, for courses which have levels that no longer exist in campaigns
-                  for (k in courseLevels) {
-                    v = courseLevels[k]
-                    k = parseInt(k)
-                    idx = v.get('original')
-                    if (!this.courseLevelsFake[idx].position) {
-                      let nextPosition, prevPosition
-                      const prevLevel = courseLevels[k - 1]
-                      const nextLevel = courseLevels[k + 1]
-                      if (prevLevel && nextLevel) {
-                        const prevIdx = prevLevel.get('original')
-                        const nextIdx = nextLevel.get('original')
-                        prevPosition = this.courseLevelsFake[prevIdx].position
-                        nextPosition = this.courseLevelsFake[nextIdx].position
-                      }
-                      if (prevPosition && nextPosition) {
-                        // split the diff between the previous, next levels
-                        this.courseLevelsFake[idx].position = {
-                          x: (prevPosition.x + nextPosition.x) / 2,
-                          y: (prevPosition.y + nextPosition.y) / 2
-                        }
-                      } else {
-                        // otherwise just line them up along the bottom
-                        const x = 10 + ((k / courseLevels.length) * 80)
-                        this.courseLevelsFake[idx].position = { x, y: 10 }
-                      }
-                    }
-                  }
-                  return this.render()
-                })
+              this.listenToOnce(this.courseLevels, 'sync', () => {
+                this.courseLevelsLoaded = true
+                return this.updateCourseLevels()
               })
+              this.listenToOnce(this.campaign, 'sync', () => this.updateCourseLevels())
             })
           }
         })
@@ -592,6 +541,65 @@ module.exports = (CampaignView = (function () {
 
       // Roblox Modal:
       return this.maybeShowRobloxModal()
+    }
+
+    updateCourseLevels () {
+      if (!this.campaign.loaded || !this.courseLevelsLoaded) {
+        return false
+      }
+      let idx, k, v
+      const existing = this.campaign.get('levels')
+      const courseLevels = this.courseLevels.toArray()
+      const classroomCourse = _.find(globalVar.currentView.classroom.get('courses'), { _id: globalVar.currentView.course.id })
+      const levelPositions = {}
+      for (const level of Array.from(classroomCourse.levels)) {
+        if (level.position) { levelPositions[level.original] = level.position }
+      }
+      for (k in courseLevels) {
+        v = courseLevels[k]
+        idx = v.get('original')
+        if (!existing[idx]) {
+          // a level which has been removed from the campaign but is saved in the course
+          this.courseLevelsFake[idx] = v.toJSON()
+        } else {
+          this.courseLevelsFake[idx] = existing[idx]
+          // carry over positions stored in course, if there are any
+          if (levelPositions[idx]) {
+            this.courseLevelsFake[idx].position = levelPositions[idx]
+          }
+        }
+        this.courseLevelsFake[idx].courseIdx = parseInt(k)
+        this.courseLevelsFake[idx].requiresSubscription = false
+      }
+      // Fill in missing positions, for courses which have levels that no longer exist in campaigns
+      for (k in courseLevels) {
+        v = courseLevels[k]
+        k = parseInt(k)
+        idx = v.get('original')
+        if (!this.courseLevelsFake[idx].position) {
+          let nextPosition, prevPosition
+          const prevLevel = courseLevels[k - 1]
+          const nextLevel = courseLevels[k + 1]
+          if (prevLevel && nextLevel) {
+            const prevIdx = prevLevel.get('original')
+            const nextIdx = nextLevel.get('original')
+            prevPosition = this.courseLevelsFake[prevIdx].position
+            nextPosition = this.courseLevelsFake[nextIdx].position
+          }
+          if (prevPosition && nextPosition) {
+            // split the diff between the previous, next levels
+            this.courseLevelsFake[idx].position = {
+              x: (prevPosition.x + nextPosition.x) / 2,
+              y: (prevPosition.y + nextPosition.y) / 2
+            }
+          } else {
+            // otherwise just line them up along the bottom
+            const x = 10 + ((k / courseLevels.length) * 80)
+            this.courseLevelsFake[idx].position = { x, y: 10 }
+          }
+        }
+      }
+      return this.render()
     }
 
     updateClassroomSessions () {
