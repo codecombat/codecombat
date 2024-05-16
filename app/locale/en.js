@@ -1919,12 +1919,14 @@ module.exports = {
 
     contact: {
       contact_us: 'Contact CodeCombat',
-      welcome: "Good to hear from you! Let us know how we can help, and we'll get back to you in 1-2 business days.",
+      welcome: "Good to hear from you! Let us know how we can help, and we'll get back to you within a day.",
       forum_prefix: 'You can check out our ',
       forum_page: 'public forum here ',
       faq_prefix: 'and our ',
       faq: 'FAQs here',
       faq_suffix: ' for additional assistance.',
+      prefer_email_prefix: 'If you prefer, you can email ',
+      prefer_email_suffix: ' instead.',
       subscribe_prefix: 'If you need help figuring out a level, please',
       subscribe: 'buy a CodeCombat subscription',
       subscribe_suffix: "and we'll be happy to help you with your code.",
