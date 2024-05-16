@@ -156,7 +156,7 @@
               .col.col-md-6.col-xs-12
                 p.text-p {{ $t('apcsp_marketing.professional_development_description') }}
             .text-center
-              a.btn.btn-primary.btn-lg.btn-light-shadow.uppercase(href="https://drive.google.com/file/d/1ACNZVW6Kqs6wGf_WMjOUjBC1Mh5PiBRW/view?usp=drive_link", target="_blank") {{ $t('apcsp_marketing.learn_more') }}
+              a.btn.btn-margin.btn-primary.btn-lg.btn-light-shadow.uppercase(href="https://drive.google.com/file/d/1ACNZVW6Kqs6wGf_WMjOUjBC1Mh5PiBRW/view?usp=drive_link", target="_blank") {{ $t('general.learn_more') }}
 
     //- html structure copied and modified from home page
     #teachers-love-codecombat.width-container.row.text-center
@@ -407,6 +407,10 @@ p, .text-p {
     background-color: $yellow-light;
     transition: background-color .35s;
   }
+}
+
+.btn-margin {
+  margin-top: 10px;
 }
 
 #apcsp-marketing-page {

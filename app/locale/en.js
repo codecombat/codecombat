@@ -3966,7 +3966,6 @@ module.exports = {
       get_full_course: 'Get the full course here',
       professional_development: 'Professional Development',
       professional_development_description: 'CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat learning designers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential.',
-      learn_more: 'Learn More',
       more_information: 'For More Information',
       contact_us: 'Contact Us',
       question_1: 'How can I learn more about the AP CSP Course?',
