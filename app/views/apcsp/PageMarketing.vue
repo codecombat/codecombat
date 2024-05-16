@@ -155,6 +155,8 @@
                 img.image18(src="/images/pages/apcsp/IMAGE18.png")
               .col.col-md-6.col-xs-12
                 p.text-p {{ $t('apcsp_marketing.professional_development_description') }}
+            .text-center
+              a.btn.btn-primary.btn-lg.btn-light-shadow.uppercase(href="https://drive.google.com/file/d/1ACNZVW6Kqs6wGf_WMjOUjBC1Mh5PiBRW/view?usp=drive_link", target="_blank") {{ $t('apcsp_marketing.learn_more') }}
 
     //- html structure copied and modified from home page
     #teachers-love-codecombat.width-container.row.text-center
@@ -1289,6 +1291,10 @@ p, .text-p {
 
   .btn-shadow {
     filter: drop-shadow(0px 0px 20px #000000);
+  }
+
+  .btn-light-shadow {
+    filter: drop-shadow(0px 0px 20px #0E4C60);
   }
 
   .text-footer-blurb {
