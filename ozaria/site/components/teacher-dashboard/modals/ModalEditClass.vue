@@ -83,7 +83,8 @@ export default Vue.extend({
       courses: 'courses/sorted'
     }),
     moreOptionsText () {
-      return this.moreOptions ? 'Less Options' : 'More Options'
+      const i18n = this.moreOptions ? 'hide_options' : 'more_options'
+      return this.$t(`courses.${i18n}`) + (this.moreOptions ? '&and;' : '&or;')
     },
     googleClassroomDisabled () {
       return !me.googleClassroomEnabled()
@@ -835,12 +836,13 @@ export default Vue.extend({
           </div>
         </transition>
         <div>
+          <!-- eslint-disable vue/no-v-html -->
           <a
             class="more-options-text"
             @click="toggleMoreOptions"
-          >
-            {{ moreOptionsText }}
-          </a>
+            v-html="moreOptionsText"
+          />
+          <!--eslint-enable-->
         </div>
         <div class="form-group row buttons">
           <div class="col-xs-12 buttons">

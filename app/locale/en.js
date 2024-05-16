@@ -2339,7 +2339,9 @@ module.exports = {
       learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>.",
       learn_without_classroom_blurb_coco: "Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>.",
       all_courses_completed: 'All Courses Completed!',
-      all_units_completed: 'All Units Completed!'
+      all_units_completed: 'All Units Completed!',
+      hide_options: 'Hide Options',
+      more_options: 'More Options',
     },
 
     project_gallery: {
