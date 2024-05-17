@@ -581,263 +581,260 @@ export default Vue.extend({
             </span>
           </div>
         </div>
-        <transition name="more-options-collapse">
-          <div v-if="moreOptions">
-            <div
-              v-if="isCodeCombat"
-              class="form-group row classroom-items"
+        <div
+          v-if="moreOptions && isCodeCombat"
+          class="form-group row classroom-items"
+        >
+          <div class="col-xs-12">
+            <label for="classroom-items">
+              <span class="control-label">{{ $t('courses.classroom_items') }}:</span>
+            </label>
+            <input
+              id="classroom-items"
+              v-model="newClassroomItems"
+              name="classroomItems"
+              type="checkbox"
             >
-              <div class="col-xs-12">
-                <label for="classroom-items">
-                  <span class="control-label">{{ $t('courses.classroom_items') }}:</span>
-                </label>
-                <input
-                  id="classroom-items"
-                  v-model="newClassroomItems"
-                  name="classroomItems"
-                  type="checkbox"
-                >
-                <div class="help-block small text-navy">
-                  {{ $t('teachers.classroom_items_description') }}
-                </div>
-              </div>
-            </div>
-            <div
-              v-if="isCodeCombat"
-              class="form-group row autoComplete"
-            >
-              <div class="col-xs-12">
-                <label for="liveCompletion">
-                  <span class="control-label"> {{ $t('courses.classroom_live_completion') }}</span>
-                </label>
-                <input
-                  id="liveCompletion"
-                  v-model="newLiveCompletion"
-                  type="checkbox"
-                >
-                <span class="help-block small text-navy">{{ $t("teachers.classroom_live_completion") }}</span>
-              </div>
-            </div>
-            <div
-              class="form-group row level-chat"
-            >
-              <div class="col-xs-12">
-                <label for="level-chat">
-                  <span class="control-label"> {{ $t("teachers.classroom_level_chat") }} </span>
-                </label>
-                <input
-                  id="level-chat"
-                  v-model="newLevelChat"
-                  type="checkbox"
-                  name="levelChat"
-                >
-                <span class="help-block small text-navy">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
-              </div>
-            </div>
-            <div
-              v-if="isCodeCombat"
-              class="form-group row announcement"
-            >
-              <div class="col-md-12">
-                <label>
-                  <span class="control-label"> {{ $t("courses.classroom_announcement") }} </span>
-                  <i class="spl text-muted">{{ $t("signup.optional") }}</i>
-                  <button class="pick-image-button btn btn-middle btn-forest">{{ $t("common.pick_image") }}</button>
-                </label>
-                <textarea
-                  id="classroom-announcement"
-                  v-model="newClassroomDescription"
-                  name="description"
-                  rows="2"
-                  class="form-control"
-                />
-              </div>
-            </div>
-            <div
-              v-if="isCodeCombat"
-              class="form-group row hide"
-            >
-              <div class="col-md-12">
-                <label>
-                  <span class="control-label"> {{ $t("courses.avg_student_exp_label") }} </span>
-                  <i class="spl text-muted">{{ $t("signup.optional") }}</i>
-                </label>
-                <select
-                  id="average-student-exp"
-                  v-model="newAverageStudentExp"
-                  name="averageStudentExp"
-                  class="form-control"
-                >
-                  <option value="">
-                    {{ $t('courses.avg_student_exp_select') }}
-                  </option>
-                  <option value="none">
-                    {{ $t('courses.avg_student_exp_none') }}
-                  </option>
-                  <option value="beginner">
-                    {{ $t('courses.avg_student_exp_beginner') }}
-                  </option>
-                  <option value="intermediate">
-                    {{ $t('courses.avg_student_exp_intermediate') }}
-                  </option>
-                  <option value="advanced">
-                    {{ $t('courses.avg_student_exp_advanced') }}
-                  </option>
-                  <option value="varied">
-                    {{ $t('courses.avg_student_exp_varied') }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div
-              v-if="isCodeCombat || me.isCodeNinja()"
-              class="form-group row"
-            >
-              <div class="col-md-12">
-                <label for="type">
-                  <span class="control-label"> {{ $t("courses.class_type_label") }} </span>
-                  <i
-                    v-if="!me.isILK()"
-                    class="spl text-muted"
-                  >{{ $t("signup.optional") }}</i>
-                </label>
-                <select
-                  id="type"
-                  v-model="newClassroomType"
-                  name="type"
-                  class="form-control"
-                >
-                  <option value="">
-                    {{ $t('courses.avg_student_exp_select') }}
-                  </option>
-                  <option
-                    v-if="!me.isCodeNinja()"
-                    value="in-school"
-                  >
-                    {{ $t('courses.class_type_in_school') }}
-                  </option>
-                  <option value="after-school">
-                    {{ $t('courses.class_type_after_school') }}
-                  </option>
-                  <option
-                    v-if="!me.isCodeNinja()"
-                    value="online"
-                  >
-                    {{ $t('courses.class_type_online') }}
-                  </option>
-                  <option
-                    v-if="!me.isCodeNinja()"
-                    value="camp"
-                  >
-                    {{ $t('courses.class_type_camp') }}
-                  </option>
-                  <option
-                    v-if="me.isCodeNinja()"
-                    value="camp-esports"
-                  >
-                    {{ $t('courses.class_type_camp_esports') }}
-                  </option>
-                  <option
-                    v-if="me.isCodeNinja()"
-                    value="camp-junior"
-                  >
-                    {{ $t('courses.class_type_camp_junior') }}
-                  </option>
-                  <option
-                    v-if="!me.isCodeNinja()"
-                    value="homeschool"
-                  >
-                    {{ $t('courses.class_type_homeschool') }}
-                  </option>
-                  <option
-                    v-if="!me.isCodeNinja()"
-                    value="other"
-                  >
-                    {{ $t('courses.class_type_other') }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div
-              v-if="isCodeCombat || me.isCodeNinja()"
-              class="form-group row"
-            >
-              <div class="col-xs-12">
-                <label for="form-new-class-date-start">
-                  <span class="control-label"> {{ $t("courses.estimated_class_dates_label") }} </span>
-                </label>
-                <div class="estimated-date-fields">
-                  <input
-                    id="form-new-class-date-start"
-                    v-model="newClassDateStart"
-                    type="date"
-                    class="form-control"
-                  >
-                  <label for="form-new-class-date-end">
-                    <span class="spl.spr">{{ $t("courses.student_age_range_to") }}</span>
-                  </label>
-                  <input
-                    id="form-new-class-date-end"
-                    v-model="newClassDateEnd"
-                    type="date"
-                    class="form-control"
-                  >
-                </div>
-              </div>
-            </div>
-            <div
-              v-if="isCodeCombat && !me.isCodeNinja()"
-              class="form-group row"
-            >
-              <div class="col-sm-12">
-                <label for="form-new-classes-per-week">
-                  <span class="control-label"> {{ $t("courses.estimated_class_frequency_label") }} </span>
-                </label>
-              </div>
-              <div class="col-sm-12 new-classes-per-week-container">
-                <div>
-                  <select
-                    id="form-new-classes-per-week"
-                    v-model="newClassesPerWeek"
-                    class="form-control"
-                  >
-                    <option
-                      v-for="i in range(1,6)"
-                      :key="i"
-                      :value="i"
-                    >
-                      {{ i }}
-                    </option>
-                  </select>
-                  <span class="help-block small text-navy m-l-1">{{ $t("courses.classes_per_week") }}</span>
-                </div>
-                <div>
-                  <select
-                    v-model="newMinutesPerClass"
-                    class="form-control"
-                  >
-                    <option value="<30">
-                      &lt;30
-                    </option>
-                    <option value="30">
-                      30
-                    </option>
-                    <option value="50">
-                      50
-                    </option>
-                    <option value="75">
-                      75
-                    </option>
-                    <option value=">75">
-                      &gt;75
-                    </option>
-                  </select>
-                  <span class="help-block small text-navy m-l-1">{{ $t("courses.minutes_per_class") }}</span>
-                </div>
-              </div>
+            <div class="help-block small text-navy">
+              {{ $t('teachers.classroom_items_description') }}
             </div>
           </div>
-        </transition>
+        </div>
+        <div
+          v-if="moreOptions && isCodeCombat"
+          class="form-group row autoComplete"
+        >
+          <div class="col-xs-12">
+            <label for="liveCompletion">
+              <span class="control-label"> {{ $t('courses.classroom_live_completion') }}</span>
+            </label>
+            <input
+              id="liveCompletion"
+              v-model="newLiveCompletion"
+              type="checkbox"
+            >
+            <span class="help-block small text-navy">{{ $t("teachers.classroom_live_completion") }}</span>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions"
+          class="form-group row level-chat"
+        >
+          <div class="col-xs-12">
+            <label for="level-chat">
+              <span class="control-label"> {{ $t("teachers.classroom_level_chat") }} </span>
+            </label>
+            <input
+              id="level-chat"
+              v-model="newLevelChat"
+              type="checkbox"
+              name="levelChat"
+            >
+            <span class="help-block small text-navy">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions && isCodeCombat"
+          class="form-group row announcement"
+        >
+          <div class="col-md-12">
+            <label>
+              <span class="control-label"> {{ $t("courses.classroom_announcement") }} </span>
+              <i class="spl text-muted">{{ $t("signup.optional") }}</i>
+              <button class="pick-image-button btn btn-middle btn-forest">{{ $t("common.pick_image") }}</button>
+            </label>
+            <textarea
+              id="classroom-announcement"
+              v-model="newClassroomDescription"
+              name="description"
+              rows="2"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div
+          v-if="moreOptions && isCodeCombat"
+          class="form-group row hide"
+        >
+          <div class="col-md-12">
+            <label>
+              <span class="control-label"> {{ $t("courses.avg_student_exp_label") }} </span>
+              <i class="spl text-muted">{{ $t("signup.optional") }}</i>
+            </label>
+            <select
+              id="average-student-exp"
+              v-model="newAverageStudentExp"
+              name="averageStudentExp"
+              class="form-control"
+            >
+              <option value="">
+                {{ $t('courses.avg_student_exp_select') }}
+              </option>
+              <option value="none">
+                {{ $t('courses.avg_student_exp_none') }}
+              </option>
+              <option value="beginner">
+                {{ $t('courses.avg_student_exp_beginner') }}
+              </option>
+              <option value="intermediate">
+                {{ $t('courses.avg_student_exp_intermediate') }}
+              </option>
+              <option value="advanced">
+                {{ $t('courses.avg_student_exp_advanced') }}
+              </option>
+              <option value="varied">
+                {{ $t('courses.avg_student_exp_varied') }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions && isCodeCombat || me.isCodeNinja()"
+          class="form-group row"
+        >
+          <div class="col-md-12">
+            <label for="type">
+              <span class="control-label"> {{ $t("courses.class_type_label") }} </span>
+              <i
+                v-if="!me.isILK()"
+                class="spl text-muted"
+              >{{ $t("signup.optional") }}</i>
+            </label>
+            <select
+              id="type"
+              v-model="newClassroomType"
+              name="type"
+              class="form-control"
+            >
+              <option value="">
+                {{ $t('courses.avg_student_exp_select') }}
+              </option>
+              <option
+                v-if="!me.isCodeNinja()"
+                value="in-school"
+              >
+                {{ $t('courses.class_type_in_school') }}
+              </option>
+              <option value="after-school">
+                {{ $t('courses.class_type_after_school') }}
+              </option>
+              <option
+                v-if="!me.isCodeNinja()"
+                value="online"
+              >
+                {{ $t('courses.class_type_online') }}
+              </option>
+              <option
+                v-if="!me.isCodeNinja()"
+                value="camp"
+              >
+                {{ $t('courses.class_type_camp') }}
+              </option>
+              <option
+                v-if="me.isCodeNinja()"
+                value="camp-esports"
+              >
+                {{ $t('courses.class_type_camp_esports') }}
+              </option>
+              <option
+                v-if="me.isCodeNinja()"
+                value="camp-junior"
+              >
+                {{ $t('courses.class_type_camp_junior') }}
+              </option>
+              <option
+                v-if="!me.isCodeNinja()"
+                value="homeschool"
+              >
+                {{ $t('courses.class_type_homeschool') }}
+              </option>
+              <option
+                v-if="!me.isCodeNinja()"
+                value="other"
+              >
+                {{ $t('courses.class_type_other') }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions && isCodeCombat || me.isCodeNinja()"
+          class="form-group row"
+        >
+          <div class="col-xs-12">
+            <label for="form-new-class-date-start">
+              <span class="control-label"> {{ $t("courses.estimated_class_dates_label") }} </span>
+            </label>
+            <div class="estimated-date-fields">
+              <input
+                id="form-new-class-date-start"
+                v-model="newClassDateStart"
+                type="date"
+                class="form-control"
+              >
+              <label for="form-new-class-date-end">
+                <span class="spl.spr">{{ $t("courses.student_age_range_to") }}</span>
+              </label>
+              <input
+                id="form-new-class-date-end"
+                v-model="newClassDateEnd"
+                type="date"
+                class="form-control"
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions && isCodeCombat && !me.isCodeNinja()"
+          class="form-group row"
+        >
+          <div class="col-sm-12">
+            <label for="form-new-classes-per-week">
+              <span class="control-label"> {{ $t("courses.estimated_class_frequency_label") }} </span>
+            </label>
+          </div>
+          <div class="col-sm-12 new-classes-per-week-container">
+            <div>
+              <select
+                id="form-new-classes-per-week"
+                v-model="newClassesPerWeek"
+                class="form-control"
+              >
+                <option
+                  v-for="i in range(1,6)"
+                  :key="i"
+                  :value="i"
+                >
+                  {{ i }}
+                </option>
+              </select>
+              <span class="help-block small text-navy m-l-1">{{ $t("courses.classes_per_week") }}</span>
+            </div>
+            <div>
+              <select
+                v-model="newMinutesPerClass"
+                class="form-control"
+              >
+                <option value="<30">
+                  &lt;30
+                </option>
+                <option value="30">
+                  30
+                </option>
+                <option value="50">
+                  50
+                </option>
+                <option value="75">
+                  75
+                </option>
+                <option value=">75">
+                  &gt;75
+                </option>
+              </select>
+              <span class="help-block small text-navy m-l-1">{{ $t("courses.minutes_per_class") }}</span>
+            </div>
+          </div>
+        </div>
         <div>
           <!-- eslint-disable vue/no-v-html -->
           <a
@@ -1034,22 +1031,6 @@ export default Vue.extend({
   span {
     font-size: 18px;
     line-height: 15px;
-  }
-}
-
-.more-options-collapse {
-  &-enter-to, &-leave {
-    max-height: 1000px;
-    transition: max-height 0.5s ease-out;
-  }
-
-  &-enter-active, &-leave-active {
-    transition: max-height 0.5s ease-in;
-  }
-
-  &-enter, &-leave-to {
-    max-height: 0;
-    overflow: hidden;
   }
 }
 </style>
