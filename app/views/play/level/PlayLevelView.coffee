@@ -836,7 +836,7 @@ module.exports = class PlayLevelView extends RootView
       when tomeLocation is 'bottom' then Math.min(windowHeight - minTomeHeight - controlBarHeight, windowWidth / canvasAspectRatio)
       else Math.min(windowHeight - (if controlBarLocation is 'left' then controlBarHeight else 0), (windowWidth - minCodeWidth - minWorkspaceWidth - minToolboxWidth) / canvasAspectRatio)
     desiredCanvasWidth = canvasHeight * canvasAspectRatio
-    if me.get('aceConfig').preferWideEditor or features?.china
+    if me.get('aceConfig')?.preferWideEditor or features?.china
       if windowWidth - desiredCanvasWidth < 500 and tomeLocation is 'right'
         # windowWidth / 1.82 get 55% of the screen width for canvas -- our old style
         # windowWidth - 500 get 500px for editor so won't get a really narrow editor
