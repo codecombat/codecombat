@@ -4474,6 +4474,7 @@ module.exports = {
       resource_hub: 'Teacher Toolkit',
       pd: 'Professional Development',
       pd_short: 'PD',
+      apcsp: 'APCSP',
       curriculum_guide: 'Curriculum Guide',
       add_class: 'Add New Class',
       no_licenses_yet: 'No licenses yet',

@@ -209,7 +209,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { PAGE_TITLES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
 import ModalAPCSPContact from 'app/components/common/ModalAPCSPContact.vue'
 
 export default Vue.extend({
@@ -273,21 +274,29 @@ export default Vue.extend({
       hasLicense: false
     }
   },
+  computed: {
+    ...mapGetters({
+      teacherPrepaids: 'prepaids/getPrepaidsByTeacher'
+    })
+  },
+  mounted () {
+    this.setPageTitle(PAGE_TITLES[this.$options.name])
+  },
   async created () {
     this.me = me
     if (me.isTeacher()) {
       this.updateLicenseStatus()
     }
   },
-  computed: {
-    ...mapGetters({
-      teacherPrepaids: 'prepaids/getPrepaidsByTeacher'
-    })
-  },
   methods: {
     ...mapActions({
       fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher'
     }),
+
+    ...mapMutations({
+      setPageTitle: 'teacherDashboard/setPageTitle'
+    }),
+
     async updateLicenseStatus () {
       if (me.isPaidTeacher()) {
         this.hasLicense = true
@@ -299,7 +308,7 @@ export default Vue.extend({
         this.hasLicense = true
       }
     }
-  }
+  },
 })
 </script>
 
