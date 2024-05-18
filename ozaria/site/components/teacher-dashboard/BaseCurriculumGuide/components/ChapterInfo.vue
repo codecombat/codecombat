@@ -148,9 +148,15 @@ export default {
     },
 
     curriculumUrl () {
-      if (Object.hasOwn(this.courseLinks, this.getCurrentCourse.slug)) {
-        return this.courseLinks[this.getCurrentCourse.slug]
+      if (!this.getCurrentCourse) {
+        return this.courseLinks['introduction-to-computer-science']
       }
+
+      const slugName = this.getCurrentCourse.slug
+      if (Object.hasOwn(this.courseLinks, slugName)) {
+        return this.courseLinks[slugName]
+      }
+
       return ''
     },
 
