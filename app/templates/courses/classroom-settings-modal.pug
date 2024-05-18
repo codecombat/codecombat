@@ -65,12 +65,12 @@ block modal-body-content
           select#programming-language-select.form-control(name="language" value=aceConfig.language)
             - var aceConfig = view.classroom.get('aceConfig') || {};
             option(value="" data-i18n="courses.language_select")
-            option(value="python") Python
-            option(value="javascript") JavaScript
+            option(value="python" data-i18n="courses.python") Python
+            option(value="javascript" data-i18n="courses.javascript") JavaScript
             if view.enableCpp
               option(value="cpp") C++
             if view.enableJava
-              option(value="java") Java (Beta)
+              option(value="java" data-i18n="courses.java") Java (Beta)
 
         .form-group
           label

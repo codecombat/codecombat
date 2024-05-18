@@ -95,7 +95,7 @@ module.exports = (CoursesView = (function () {
       this.utils = utils
       this.classCodeQueryVar = utils.getQueryVariable('_cc', false)
       this.courseInstances = new CocoCollection([], { url: `/db/user/${me.id}/course-instances`, model: CourseInstance })
-      this.courseInstances.comparator = ci => parseInt(ci.get('classroomID'), 16) + utils.orderedCourseIDs.indexOf(ci.get('courseID'))
+      this.courseInstances.comparator = ci => parseInt(ci.get('classroomID').substr(0, 8), 16) + utils.orderedCourseIDs.indexOf(ci.get('courseID'))
       this.listenToOnce(this.courseInstances, 'sync', this.onCourseInstancesLoaded)
       this.supermodel.loadCollection(this.courseInstances, { cache: false })
       this.classrooms = new CocoCollection([], { url: '/db/classroom', model: Classroom })
