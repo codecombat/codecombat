@@ -70,8 +70,9 @@ export default Vue.extend({
       source(srcset="/images/pages/base/logo.webp" type="image/webp")
       img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
     .social-links
-      a(v-for="socialLink in socialLinks" :href="socialLink.href" :key="socialLink.href" target="_blank")
-        img(:src="socialLink.img" :alt="socialLink.alt")
+      if !me.showChinaResourceInfo()
+        a(v-for="socialLink in socialLinks" :href="socialLink.href" :key="socialLink.href" target="_blank")
+          img(:src="socialLink.img" :alt="socialLink.alt")
     .copyright
       if me.showChinaResourceInfo()
         span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
