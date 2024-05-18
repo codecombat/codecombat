@@ -334,7 +334,7 @@ module.exports = class LevelChatView extends CocoView
     @fetchChatMessageStream chatMessage.id
 
   fetchChatMessageStream: (chatMessageId) ->
-    model = utils.getQueryVariable('model') or 'gpt-4-turbo-preview' # or 'gpt-4'
+    model = utils.getQueryVariable('model') or 'gpt-4o'
     fetch("/db/chat_message/#{chatMessageId}/ai-response?model=#{model}").then co.wrap (response) =>
       reader = response.body.getReader()
       decoder = new TextDecoder('utf-8')

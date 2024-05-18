@@ -135,7 +135,7 @@ export default {
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://codecombat.com/play/ladder/fierce-forces/clan/65fa5bc654652e2ad959548e?tournament=65fcadf032f2005645fba186"
+            href="https://codecombat.com/play/ladder/tundra-tower/clan/65fa5bc654652e2ad959548e?tournament=65fcadf032f2005645fba186"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-arena" />
@@ -221,14 +221,13 @@ export default {
       <b>Roblox Camp Quick Links</b>
       <ul class="list-inline">
         <li>
-          <!-- TODO: sensei guide URL -->
           <a
             v-tooltip.top="{
-              content: 'Comprehensive Sensei guide to running the Roblox: Intro to Coding and Game Design camp with CodeCombat Junior and CodeCombat Worlds. (Sensei guide coming soon.)',
+              content: 'Comprehensive Sensei guide to running the Roblox: Intro to Coding and Game Design camp with CodeCombat Junior and CodeCombat Worlds.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="#"
+            href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
             class="dusk-btn disabled"
             disabled
           >
@@ -272,7 +271,7 @@ export default {
         <li>
           <a
             v-tooltip.top="{
-              content: 'Lesson slides for Day 1: Intro to Coding with CodeCombat Junior and CodeCombat Worlds on Roblox.',
+              content: 'Lesson slides for Day 1: Sequences & Arguments.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
@@ -286,7 +285,7 @@ export default {
         <li>
           <a
             v-tooltip.top="{
-              content: 'Lesson slides for Day 2: Rift Village.',
+              content: 'Lesson slides for Day 2: Rift Village Quests.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
@@ -300,11 +299,11 @@ export default {
         <li>
           <a
             v-tooltip.top="{
-              content: 'Lesson slides for Day 3: Learning Levels.',
+              content: 'Lesson slides for Day 3: Design Thinking Part 1.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g26c4a941b7b_0_0"
+            href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g26ce47520c2_0_503"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -314,7 +313,7 @@ export default {
         <li>
           <a
             v-tooltip.top="{
-              content: 'Lesson slides for Day 4: Creative Mode.',
+              content: 'Lesson slides for Day 4: Design Thinking Part 2.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
@@ -328,7 +327,7 @@ export default {
         <li>
           <a
             v-tooltip.top="{
-              content: 'Lesson slides for Day 5: Showcase.',
+              content: 'Lesson slides for Day 5: Showcase Project.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"

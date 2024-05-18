@@ -1845,6 +1845,7 @@ module.exports = class SpellView extends CocoView
     @ace.setBehavioursEnabled aceConfig.behaviors
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @updateAutocomplete(aceConfig.liveCompletion ? false)
+    $(window).trigger('resize') unless @destroyed
 
   onChangeLanguage: (e) ->
     return unless @spell.canWrite()

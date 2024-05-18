@@ -113,6 +113,10 @@ module.exports = (CreateAccountModal = (function () {
         wantInSchool: false
       })
 
+      this.signupState.on('change:screen', (model, screen) => {
+        window.tracker?.trackEvent('CreateAccountModal Screen Changed', { screen })
+      })
+
       const { startOnPath } = options
       switch (startOnPath) {
         case 'student': this.signupState.set({ path: 'student', screen: 'segment-check' }); break

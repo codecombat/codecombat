@@ -864,11 +864,11 @@ export default {
       <div class="col-sm-10 video-backer video-iframe">
         <div style="position: relative; padding-top: 56.14583333333333%;">
           <iframe
-            src="https://iframe.videodelivery.net/5ee0896f86d690840104adaaa7ec96b6?poster=https://videodelivery.net/5ee0896f86d690840104adaaa7ec96b6/thumbnails/thumbnail.jpg%3Ftime%3D1730s"
+            src="https://iframe.videodelivery.net/72d0ffc93599cf8cb5b0f7fed7861d0f?poster=https://videodelivery.net/72d0ffc93599cf8cb5b0f7fed7861d0f/thumbnails/thumbnail.jpg%3Ftime%3D188s"
             style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"
             allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
             allowfullscreen="true"
-            title="CodeCombat AI League Winners - Season 9 - Reign of Code"
+            title="CodeCombat AI League Winners - Season 10 - Gravity Games"
           />
         </div>
       </div>

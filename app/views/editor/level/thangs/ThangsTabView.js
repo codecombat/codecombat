@@ -65,7 +65,8 @@ module.exports = (ThangsTabView = (function () {
         'sprite:double-clicked': 'onSpriteDoubleClicked',
         'surface:stage-mouse-down': 'onStageMouseDown',
         'surface:stage-mouse-up': 'onStageMouseUp',
-        'editor:random-terrain-generated': 'onRandomTerrainGenerated'
+        'editor:random-terrain-generated': 'onRandomTerrainGenerated',
+        'editor:migrate-junior': 'onMigrateJunior',
       }
 
       this.prototype.events = {
@@ -99,6 +100,8 @@ module.exports = (ThangsTabView = (function () {
         'shift+right' () { this.resizeSelectedThangBy(1, 0) },
         'shift+up' () { this.resizeSelectedThangBy(0, 1) },
         'shift+down' () { this.resizeSelectedThangBy(0, -1) },
+        'shift+=' () { this.scaleSelectedThangBy(1) },
+        'shift+-' () { this.scaleSelectedThangBy(-1) },
         w () { this.panSurfaceBy(0, -1) },
         a () { this.panSurfaceBy(-1, 0) },
         s () { this.panSurfaceBy(0, 1) },
@@ -1186,6 +1189,20 @@ module.exports = (ThangsTabView = (function () {
       }
     }
 
+    scaleSelectedThangBy (scaleDir) {
+      if (!this.surfaceHasFocus()) { return }
+      for (const singleSelected of this.gameUIState.get('selected')) {
+        const selectedThang = singleSelected.thang
+        this.modifySelectedThangComponentConfig(selectedThang, LevelComponent.ScalesID, component => {
+          if (component.config == null) { component.config = {} }
+          const oldScaleFactor = (component.config.scaleFactor || 1)
+          component.config.scaleFactor = oldScaleFactor + 0.1 * scaleDir
+          selectedThang.scaleFactor = oldScaleFactor + 0.1 * scaleDir
+          singleSelected.sprite.updateScale(true)
+        })
+      }
+    }
+
     toggleSelectedThangCollision () {
       if (!this.surfaceHasFocus()) { return }
       for (const singleSelected of this.gameUIState.get('selected')) {
@@ -1219,6 +1236,20 @@ module.exports = (ThangsTabView = (function () {
 
     toggleThangsPalette (e) {
       $('#add-thangs-view').toggleClass('hide')
+    }
+
+    onMigrateJunior (e) {
+      const newThangs = this.surface.lankBoss.migrateJunior()
+      const filteredThangs = _.filter(this.flattenThangs(this.thangsTreema.data), (t) => !/(Junior Floor|Indoor Wall)/.test(t.id))
+      this.hush = true
+      this.thangsTreema.set('', this.groupThangs(filteredThangs))
+      this.thangsBatch = []
+      for (const newThang of newThangs) {
+        const thangType = _.find(this.thangTypes.models, (m) => m.get('name') === newThang.spriteName)
+        this.addThang(thangType, newThang.pos, true)
+      }
+      this.hush = false
+      this.onThangsChanged()
     }
   }
   ThangsTabView.initClass()

@@ -103,6 +103,7 @@ module.exports = (LevelEditView = (function () {
         'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal',
         'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal',
         'click .generate-level-button': 'onClickGenerateLevel',
+        'click .migrate-junior-button': 'onClickMigrateJunior',
       }
 
       this.prototype.subscriptions = {
@@ -487,6 +488,10 @@ module.exports = (LevelEditView = (function () {
       if (this.initializedDocs) { return }
       this.initializedDocs = true
       return this.$el.find('a[href="#components-documentation-view"]').click()
+    }
+
+    onClickMigrateJunior (e) {
+      Backbone.Mediator.publish('editor:migrate-junior', {})
     }
 
     incrementBuildTime () {

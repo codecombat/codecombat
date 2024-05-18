@@ -5,7 +5,7 @@ export default {
   props: {
     status: {
       type: String,
-      default: 'assigned',
+      default: 'unassigned',
       validator: value => {
         const index = ['assigned', 'progress', 'complete', 'unassigned'].indexOf(value)
         if (index === -1) {
@@ -91,7 +91,7 @@ export default {
         'green-dot': this.status === 'complete',
         'teal-dot': this.status === 'progress',
         'assigned-dot': this.levelAccessStatus === 'assigned',
-        [this.levelAccessStatus]: true
+        [this.levelAccessStatus]: this.levelAccessStatus !== 'progress'
       }
     },
 
@@ -137,7 +137,7 @@ export default {
       } else if (this.isOptional && this.isPlayable) {
         return 'optional'
       }
-      return 'assigned'
+      return this.status
     },
 
     hasClockIcon () {

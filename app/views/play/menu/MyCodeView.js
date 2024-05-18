@@ -40,6 +40,7 @@ module.exports = (MyCodeView = (function () {
       super(options)
       this.wsBus = globalVar.application.wsBus
       this.teaching = utils.getQueryVariable('teaching')
+      this.askAiBot = options.classroomAceConfig?.levelChat !== 'none'
     }
 
     getRenderData (c) {

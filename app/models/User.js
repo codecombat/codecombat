@@ -389,8 +389,24 @@ module.exports = (User = (function () {
     }
 
     heroes () {
-      let left
-      const heroes = ((left = this.get('purchased')?.heroes) != null ? left : []).concat([ThangTypeConstants.heroes.captain, ThangTypeConstants.heroes.knight, ThangTypeConstants.heroes.champion, ThangTypeConstants.heroes.duelist])
+      const heroes = (this.get('purchased')?.heroes || []).concat([
+        // Free CodeCombat heroes
+        ThangTypeConstants.heroes.captain,
+        ThangTypeConstants.heroes.knight,
+        ThangTypeConstants.heroes.champion,
+        ThangTypeConstants.heroes.duelist,
+        // Free CodeCombat Junior heroes
+        ThangTypeConstants.heroes['wolf-pup-hero'],
+        ThangTypeConstants.heroes['cougar-hero'],
+        ThangTypeConstants.heroes['polar-bear-cub-hero'],
+        ThangTypeConstants.heroes['frog-hero'],
+        ThangTypeConstants.heroes['turtle-hero'],
+        ThangTypeConstants.heroes['blue-fox-hero'],
+        ThangTypeConstants.heroes['panther-cub-hero'],
+        ThangTypeConstants.heroes['brown-rat-hero'],
+        ThangTypeConstants.heroes['duck-hero'],
+        ThangTypeConstants.heroes['tiger-cub-hero'],
+      ])
       if (window.serverConfig.codeNinjas) { heroes.push(ThangTypeConstants.heroes['code-ninja']) }
       for (const clanHero of utils.clanHeroes) {
         if ((this.get('clans') || []).includes(clanHero.clanId)) {
@@ -1277,7 +1293,7 @@ module.exports = (User = (function () {
 
     showChinaRegistration () { return features?.china != null ? features?.china : false }
     enableCpp () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || this.isTeacher()) }
-    enableJava () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || (this.isTeacher() && this.isBetaTester())) }
+    enableJava () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || this.isTeacher()) }
 
     getEnabledLanguages () {
       const languages = ['javascript', 'python']

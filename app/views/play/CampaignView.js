@@ -405,7 +405,7 @@ module.exports = (CampaignView = (function () {
               onDestroy: () => {
                 if (this.destroyed) { return }
                 delayMusicStart()
-                return this.highlightElement('.level.next', { delay: 500, duration: 60000, rotation: 0, sides: ['top'] })
+                this.highlightNextLevel()
               }
             })
             )
@@ -466,7 +466,7 @@ module.exports = (CampaignView = (function () {
 
     openPlayHeroesModal (e) {
       e.stopPropagation()
-      return this.openModalView(new PlayHeroesModal())
+      return this.openModalView(new PlayHeroesModal({ campaign: this.campaign }))
     }
 
     openPlayAchievementsModal (e) {
@@ -826,7 +826,7 @@ module.exports = (CampaignView = (function () {
       this.updateVolume()
       this.updateHero()
       if (!window.currentModal && !!this.fullyRendered) {
-        this.highlightElement('.level.next', { delay: 500, duration: 60000, rotation: 0, sides: ['top'] })
+        this.highlightNextLevel()
         if (this.editorMode) { this.createLines() }
         if (this.options.showLeaderboard) {
           this.showLeaderboard(this.options.justBeatLevel != null ? this.options.justBeatLevel.get('slug') : undefined)
@@ -1350,13 +1350,17 @@ ${problem.category} - ${problem.score} points\
       return levelElement.toggleClass('has-loading-error', true)
     }
 
+    highlightNextLevel () {
+      this.highlightElement('.level.next', { delay: 500, duration: 60000, rotation: 0, sides: ['top'] })
+    }
+
     onClickMap (e) {
       if (this.$levelInfo != null) {
         this.$levelInfo.hide()
       }
       if ((this.sessions != null ? this.sessions.models.length : undefined) < 3) {
         // Restore the next level higlight for very new players who might otherwise get lost.
-        return this.highlightElement('.level.next', { delay: 500, duration: 60000, rotation: 0, sides: ['top'] })
+        this.highlightNextLevel()
       }
     }
 
@@ -1470,7 +1474,7 @@ ${problem.category} - ${problem.score} points\
       const classroomLevel = this.classroomLevelMap ? this.classroomLevelMap[levelOriginal] : undefined
       const session = this.preloadedSession?.loaded && this.preloadedSession.levelSlug === levelSlug ? this.preloadedSession : null
       const codeLanguage = classroomLevel?.get('primerLanguage') || this.classroom?.get('aceConfig')?.language || session?.get('codeLanguage')
-      const options = { supermodel: this.supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: this.hadEverChosenHero, parent: this, session, courseID, courseInstanceID, codeLanguage }
+      const options = { supermodel: this.supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), campaign: this.campaign, hadEverChosenHero: this.hadEverChosenHero, parent: this, session, courseID, courseInstanceID, codeLanguage }
       this.setupManager = new LevelSetupManager(options)
       if (!(this.setupManager != null ? this.setupManager.navigatingToPlay : undefined)) {
         if (this.$levelInfo != null) {
@@ -1535,7 +1539,10 @@ ${problem.category} - ${problem.score} points\
       }
       const resultingMarginX = (pageWidth - resultingWidth) / 2
       const resultingMarginY = (pageHeight - resultingHeight) / 2
-      return this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
+      this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
+      if (this.pointerInterval) {
+        this.highlightNextLevel()
+      }
     }
 
     playAmbientSound () {
@@ -1979,8 +1986,11 @@ ${problem.category} - ${problem.score} points\
         level.noFlag = !level.next
 
         let lockSkippedLevel = false
-        if ((level.slug === this.courseInstance.get('startLockedLevel')) || // lock level begin from startLockedLevel
-        this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original, this.courseInstance.get('startLockedLevel'))) {
+        const startLockedLevel = this.courseInstance.get('startLockedLevel')
+        const legacyLock = startLockedLevel && level.slug === startLockedLevel
+
+        if (legacyLock ||
+        this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original)) {
           if (!this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
             lockedByTeacher = true
           } else {

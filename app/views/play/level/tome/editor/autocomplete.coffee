@@ -326,11 +326,6 @@ module.exports = class Autocomplete
         doc.snippets[lang] = _.cloneDeep(doc.snippets.javascript)
         doc.snippets[lang].tab = translateJS(doc.snippets[lang].tab, lang, false)
         doc.snippets[lang].code = translateJS(doc.snippets[lang].code, lang, false)
-        if lang is 'python'
-          # Undo addition of quotes around object keys when it's actually autocomplete argument interpolation
-          # Ex.: hit('${1:up}') -> hit('${"1": up}') -> hit('${1:up}')
-          #      go('${1:up}', ${2:1}) -> go('${"1": up}', ${"2": 1}) -> go('${1:up}', ${2:1})
-          doc.snippets[lang].code = doc.snippets[lang].code.replace(/\${"(\d)": ?/g, '${$1:')
       else if lang in ['lua', 'coffeescript', 'python'] and not doc?.snippets?[lang] and doc?.snippets?.python
         # These are mostly the same, so use the Python if JavaScript or language-specific ones aren't available
         doc.snippets[lang] = doc.snippets.python

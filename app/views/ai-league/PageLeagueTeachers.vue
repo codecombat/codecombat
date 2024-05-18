@@ -246,7 +246,7 @@ export default {
       <section class="row esports-header">
         <div class="header-left">
           <clan-selector
-            v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0"
+            v-if="!isLoading && Array.isArray(myClans)"
             :clans="myClans"
             :selected="clanIdSelected || clanIdOrSlug"
             @change="e => changeClanSelected(e)"
@@ -314,6 +314,17 @@ export default {
                 >&rarr;</span>
               </div>
               <leaderboard
+                v-if="currentSelectedClan"
+                :key="`${clanIdSelected}-score`"
+                :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
+                :rankings="selectedClanRankings"
+                :player-count="selectedClanLeaderboardPlayerCount"
+                :clan-id="clanIdSelected"
+                class="leaderboard-component"
+                style="color: black;"
+              />
+              <leaderboard
+                v-else
                 :rankings="globalRankings"
                 :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
                 :player-count="globalLeaderboardPlayerCount"

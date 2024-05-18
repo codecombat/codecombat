@@ -210,7 +210,8 @@ _.extend(UserSchema.properties, {
     behaviors: { type: 'boolean' },
     liveCompletion: { type: 'boolean' },
     screenReaderMode: { type: 'boolean' },
-    codeFormat: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option. Default if unset: text-code.' }
+    codeFormat: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option. Default if unset: text-code.' },
+    preferWideEditor: { type: 'boolean', description: 'Whether the user prefers a wide editor.' }
   }),
 
   simulatedBy: { type: 'integer', minimum: 0 },

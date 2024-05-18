@@ -53,7 +53,8 @@ export default Vue.extend({
       googleClassId: '',
       googleClassrooms: null,
       isGoogleClassroomForm: false,
-      googleSyncInProgress: false
+      googleSyncInProgress: false,
+      moreOptions: false
     }
   },
 
@@ -81,6 +82,13 @@ export default Vue.extend({
       getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
       courses: 'courses/sorted'
     }),
+    moreOptionsText () {
+      const i18n = this.moreOptions ? 'hide_options' : 'more_options'
+      return this.$t(`courses.${i18n}`)
+    },
+    moreOptionsIcon () {
+      return this.moreOptions ? '&nbsp;&and;' : '&nbsp;&or;'
+    },
     googleClassroomDisabled () {
       return !me.googleClassroomEnabled()
     },
@@ -118,7 +126,7 @@ export default Vue.extend({
       return (this.classroom || {}).classroomItems
     },
     enableBlocks () {
-      return ['python', 'javascript', 'lua'].includes(this.language || 'python') && (this.me.isBetaTester() || this.me.isAdmin())
+      return ['python', 'javascript', 'lua'].includes(this.language || 'python')
     },
     allCodeFormats () {
       // TODO: only show blocks-icons if a Junior course is included
@@ -134,7 +142,7 @@ export default Vue.extend({
       return ((this.classroom || {}).aceConfig || {}).codeFormatDefault || 'text-code'
     },
     levelChat () {
-      return _.assign({ levelChat: false }, (this.classroom || {}).aceConfig).levelChat
+      return _.assign({ levelChat: 'none' }, (this.classroom || {}).aceConfig).levelChat
     },
     classroomDescription () {
       return (this.classroom || {}).description
@@ -169,7 +177,7 @@ export default Vue.extend({
     this.newClassroomItems = this.classroomItems
     this.newCodeFormats = this.codeFormats
     this.newCodeFormatDefault = this.codeFormatDefault
-    this.newLevelChat = this.levelChat
+    this.newLevelChat = this.levelChat === 'fixed_prompt_only'
     this.newClassroomDescription = this.classroomDescription
     this.newAverageStudentExp = this.averageStudentExp
     this.newClassroomType = this.classroomType
@@ -177,6 +185,10 @@ export default Vue.extend({
     this.newClassDateEnd = this.classDateEnd
     this.newClassesPerWeek = this.classesPerWeek
     this.newMinutesPerClass = this.minutesPerClass
+    this.classGrades = this.classroom.grades || []
+    if (!this.classroomInstance.isNew()) {
+      this.moreOptions = true
+    }
   },
 
   methods: {
@@ -226,8 +238,16 @@ export default Vue.extend({
         })
       this.googleSyncInProgress = false
     },
+    toggleMoreOptions () {
+      this.moreOptions = !this.moreOptions
+    },
     async saveClass () {
       this.saving = true
+      if (!this.isFormValid) {
+        this.$v.$touch() // $touch updates the validation state of all fields and scroll to the wrong input
+        this.saving = false
+        return
+      }
       const updates = {}
       if (this.newClassName && this.newClassName !== this.classroomName) {
         updates.name = this.newClassName
@@ -257,9 +277,13 @@ export default Vue.extend({
         updates.aceConfig = aceConfig
       }
 
-      if (this.newLevelChat !== this.levelChat) {
-        aceConfig.levelChat = this.newLevelChat
+      if (this.newLevelChat) {
+        aceConfig.levelChat = 'fixed_prompt_only'
+      } else {
+        aceConfig.levelChat = 'none'
       }
+      updates.aceConfig = aceConfig
+
       if (this.newClassroomDescription !== this.classroomDescription) {
         updates.description = this.newClassroomDescription
       }
@@ -287,15 +311,15 @@ export default Vue.extend({
         updates.name = this.googleClassrooms.find((c) => c.id === this.googleClassId).name
       }
 
-      updates.aceConfig = aceConfig
+      if (this.classGrades?.length > 0) {
+        updates.grades = this.classGrades
+      }
 
       if (_.size(updates)) {
         let savedClassroom
         if (this.classroomInstance.isNew()) {
           savedClassroom = await this.createClassroom({ ...this.classroom.attributes, ...updates })
-          if (this.isOzaria) {
-            await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
-          }
+          await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
 
           this.$emit('created')
         } else {
@@ -461,40 +485,8 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
-          class="form-group row"
-        >
-          <div class="col-xs-12">
-            <label for="classroom-items">
-              <span class="control-label">{{ $t('courses.classroom_items') }}:</span>
-            </label>
-            <input
-              id="classroom-items"
-              v-model="newClassroomItems"
-              name="classroomItems"
-              type="checkbox"
-            >
-            <div class="help-block small text-navy">
-              {{ $t('teachers.classroom_items_description') }}
-            </div>
-          </div>
-        </div>
-        <div class="form-group row autoComplete">
-          <div class="col-xs-12">
-            <label for="liveCompletion">
-              <span class="control-label"> {{ $t('courses.classroom_live_completion') }}</span>
-            </label>
-            <input
-              id="liveCompletion"
-              v-model="newLiveCompletion"
-              type="checkbox"
-            >
-            <span class="help-block small text-navy">{{ $t("teachers.classroom_live_completion") }}</span>
-          </div>
-        </div>
-        <div
           v-if="isCodeCombat && enableBlocks"
-          class="form-group row"
+          class="form-group row code-format"
         >
           <div class="col-xs-12">
             <label>
@@ -521,7 +513,7 @@ export default Vue.extend({
         </div>
         <div
           v-if="isCodeCombat && enableBlocks"
-          class="form-group row"
+          class="form-group row default-code-format"
         >
           <div class="col-xs-12">
             <label for="default-code-format-select">
@@ -545,8 +537,88 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
-          class="form-group row"
+          v-if="isOzaria && !me.isCodeNinja()"
+          class="form-group row class-grades"
+          :class="{ 'has-error': $v.classGrades.$error }"
+        >
+          <div class="col-xs-12">
+            <span class="control-label"> {{ $t("teachers.grades") }} </span>
+            <span class="control-label-desc"> {{ $t("teachers.select_all_that_apply") }} </span>
+            <div class="btn-group class-grades-input">
+              <button
+                type="button"
+                class="btn elementary"
+                name="elementary"
+                :class="{ selected: classGrades.includes('elementary')}"
+                @click="updateGrades"
+              >
+                {{ $t('teachers.elementary') }}
+              </button>
+              <button
+                type="button"
+                class="btn middle"
+                name="middle"
+                :class="{ selected: classGrades.includes('middle')}"
+                @click="updateGrades"
+              >
+                {{ $t('teachers.middle') }}
+              </button>
+              <button
+                type="button"
+                class="btn high"
+                name="high"
+                :class="{ selected: classGrades.includes('high')}"
+                @click="updateGrades"
+              >
+                {{ $t('teachers.high_school') }}
+              </button>
+            </div>
+            <span
+              v-if="!$v.classGrades.required"
+              class="form-error ml-small"
+            >
+              {{ $t("form_validation_errors.required") }}
+            </span>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions && isCodeCombat"
+          class="form-group row classroom-items"
+        >
+          <div class="col-xs-12">
+            <label for="classroom-items">
+              <span class="control-label">{{ $t('courses.classroom_items') }}:</span>
+            </label>
+            <input
+              id="classroom-items"
+              v-model="newClassroomItems"
+              name="classroomItems"
+              type="checkbox"
+            >
+            <div class="help-block small text-navy">
+              {{ $t('teachers.classroom_items_description') }}
+            </div>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions && isCodeCombat"
+          class="form-group row autoComplete"
+        >
+          <div class="col-xs-12">
+            <label for="liveCompletion">
+              <span class="control-label"> {{ $t('courses.classroom_live_completion') }}</span>
+            </label>
+            <input
+              id="liveCompletion"
+              v-model="newLiveCompletion"
+              type="checkbox"
+            >
+            <span class="help-block small text-navy">{{ $t("teachers.classroom_live_completion") }}</span>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions"
+          class="form-group row level-chat"
         >
           <div class="col-xs-12">
             <label for="level-chat">
@@ -557,14 +629,13 @@ export default Vue.extend({
               v-model="newLevelChat"
               type="checkbox"
               name="levelChat"
-              value="fixed_prompt_only"
             >
             <span class="help-block small text-navy">{{ $t("teachers.classroom_level_chat_blurb") }}</span>
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
-          class="form-group row"
+          v-if="moreOptions && isCodeCombat"
+          class="form-group row announcement"
         >
           <div class="col-md-12">
             <label>
@@ -582,7 +653,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
+          v-if="moreOptions && isCodeCombat"
           class="form-group row hide"
         >
           <div class="col-md-12">
@@ -618,7 +689,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat || me.isCodeNinja()"
+          v-if="moreOptions && isCodeCombat || me.isCodeNinja()"
           class="form-group row"
         >
           <div class="col-md-12">
@@ -687,7 +758,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat || me.isCodeNinja()"
+          v-if="moreOptions && isCodeCombat || me.isCodeNinja()"
           class="form-group row"
         >
           <div class="col-xs-12">
@@ -714,7 +785,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat && !me.isCodeNinja()"
+          v-if="moreOptions && isCodeCombat && !me.isCodeNinja()"
           class="form-group row"
         >
           <div class="col-sm-12">
@@ -764,50 +835,16 @@ export default Vue.extend({
             </div>
           </div>
         </div>
-        <div
-          v-if="isOzaria && !me.isCodeNinja()"
-          class="form-group row class-grades"
-          :class="{ 'has-error': $v.classGrades.$error }"
-        >
-          <div class="col-xs-12">
-            <span class="control-label"> {{ $t("teachers.grades") }} </span>
-            <span class="control-label-desc"> {{ $t("teachers.select_all_that_apply") }} </span>
-            <div class="btn-group class-grades-input">
-              <button
-                type="button"
-                class="btn elementary"
-                name="elementary"
-                :class="{ selected: classGrades.includes('elementary')}"
-                @click="updateGrades"
-              >
-                {{ $t('teachers.elementary') }}
-              </button>
-              <button
-                type="button"
-                class="btn middle"
-                name="middle"
-                :class="{ selected: classGrades.includes('middle')}"
-                @click="updateGrades"
-              >
-                {{ $t('teachers.middle') }}
-              </button>
-              <button
-                type="button"
-                class="btn high"
-                name="high"
-                :class="{ selected: classGrades.includes('high')}"
-                @click="updateGrades"
-              >
-                {{ $t('teachers.high_school') }}
-              </button>
-            </div>
-            <span
-              v-if="!$v.classGrades.required"
-              class="form-error"
-            >
-              {{ $t("form_validation_errors.required") }}
-            </span>
-          </div>
+        <div>
+          <!-- eslint-disable vue/no-v-html -->
+          <a
+            class="more-options-text"
+            @click="toggleMoreOptions"
+          >
+            {{ moreOptionsText }}
+            <span v-html="moreOptionsIcon" />
+          </a>
+          <!--eslint-enable-->
         </div>
         <div class="form-group row buttons">
           <div class="col-xs-12 buttons">
@@ -827,7 +864,6 @@ export default Vue.extend({
             </tertiary-button>
             <secondary-button
               :disabled="saving"
-              :inactive="!isFormValid"
               @click="saveClass"
             >
               {{ classroomInstance.isNew() ? $t("courses.create_class") : $t("common.save_changes") }}
@@ -959,7 +995,7 @@ export default Vue.extend({
     .form-error {
       @include font-p-4-paragraph-smallest-gray;
       display: inline-block;
-      color: #0170E9;
+      color: $color-concept-flag-color !important;
     }
   }
 }
@@ -982,6 +1018,19 @@ export default Vue.extend({
 .checkbox-inline {
   input[type=checkbox] {
     margin-top: 8px;
+  }
+}
+
+.ml-small {
+  margin-left: 5px;
+}
+
+.more-options-text {
+  font-size: 15px;
+
+  span {
+    font-size: 18px;
+    line-height: 15px;
   }
 }
 </style>

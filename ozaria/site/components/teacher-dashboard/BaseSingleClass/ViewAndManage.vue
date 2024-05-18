@@ -144,7 +144,7 @@ export default {
     <div class="title-card">
       <span style="width: 59px">{{ $t('teacher_dashboard.manage_class') }}</span>
     </div>
-    <div class="spacer">
+    <div class="spacer align-to-left">
       <div class="manage-container">
         <primary-button
           class="primary-btn"
@@ -261,7 +261,6 @@ export default {
 
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
     align-items: center;
   }
 
@@ -272,6 +271,10 @@ export default {
     max-width: 700px;
     align-items: center;
     justify-content: space-between;
+  }
+
+  .align-to-left {
+    margin-left: 5px;
   }
 
   .align-section-left {

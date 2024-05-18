@@ -89,6 +89,26 @@ export default {
         .finally(() => commit('toggleTeacherLoading', teacherId))
     },
 
+    updateCourseInstance: async ({ commit, state }, { courseInstance, updates }) => {
+      const res = await courseInstancesApi.update({ courseInstanceID: courseInstance._id, updates })
+      if (res) {
+        commit('setCourseInstanceForId', {
+          id: courseInstance._id,
+          instance: res
+        })
+        const classroomId = res.classroomID
+        Vue.set(state.courseInstanceByClassroom, classroomId, state.courseInstanceByClassroom[classroomId].map(ci => {
+          if (ci._id === courseInstance._id) {
+            return res
+          }
+          return ci
+        }))
+
+      } else {
+        throw new Error('Unexpected response from course instances update API.')
+      }
+    },
+
     fetchCourseInstancesForClassroom: ({ commit }, classroomId) => {
       return courseInstancesApi
         .fetchByClassroom(classroomId)

@@ -26,6 +26,7 @@ const utils = require('core/utils')
 const api = require('core/api')
 const NameLoader = require('core/NameLoader')
 const momentTimezone = require('moment-timezone')
+const OnlineTeacherSchema = require('schemas/models/online_teacher')
 const { LICENSE_PRESETS, ESPORTS_PRODUCT_STATS } = require('core/constants')
 
 // TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
@@ -42,6 +43,7 @@ module.exports = (AdministerUserModal = (function () {
         'click #create-payment-btn': 'onClickCreatePayment',
         'click #add-seats-btn': 'onClickAddSeatsButton',
         'click #add-esports-product-btn': 'onClickAddEsportsProductButton',
+        'click #save-online-teacher-info': 'onClickSaveOnlineTeacherInfo',
         'click #user-spy-btn': 'onClickUserSpyButton',
         'click #destudent-btn': 'onClickDestudentButton',
         'click #deteacher-btn': 'onClickDeteacherButton',
@@ -60,6 +62,7 @@ module.exports = (AdministerUserModal = (function () {
         'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox',
         'click #beta-tester-checkbox': 'onClickBetaTesterCheckbox',
         'click #edit-school-admins-link': 'onClickEditSchoolAdmins',
+        'click #edit-online-teacher-link': 'onClickEditOnlineTeacher',
         'submit #teacher-search-form': 'onSubmitTeacherSearchForm',
         'click .add-administer-teacher': 'onClickAddAdministeredTeacher',
         'click #clear-teacher-search-button': 'onClearTeacherSearchResults',
@@ -82,6 +85,7 @@ module.exports = (AdministerUserModal = (function () {
       }
       options.models = [user]
       super(options)
+      this.onlineTeacherSchema = OnlineTeacherSchema
       this.onSearchRequestSuccess = this.onSearchRequestSuccess.bind(this)
       this.onSearchRequestFailure = this.onSearchRequestFailure.bind(this)
       this.userHandle = userHandle
@@ -332,6 +336,51 @@ module.exports = (AdministerUserModal = (function () {
           return $('#esports-product-form').addClass('in')
         }
         , 1000)
+      })
+    }
+
+    onClickSaveOnlineTeacherInfo () {
+      const attrs = forms.formToObject(this.$('#online-teacher-info'))
+      const parsedAttrs = _.pick(attrs, ['languages', 'products'])
+      if (attrs.trialsOnly.length) {
+        parsedAttrs.trialsOnly = true
+      }
+      parsedAttrs.schedule = []
+      parsedAttrs.codeLanguages = []
+
+      for (const key in attrs) {
+        if (!key.includes('.')) {
+          continue
+        }
+        const [prefix, suffix] = key.split('.')
+        if (suffix === 'time') {
+          const times = attrs[key].split(',')
+          const time = times.map(t => {
+            let [start, end] = t.split('-').map(t => parseInt(t))
+            if (!end) {
+              end = start
+            }
+            return Array.from({ length: end - start + 1 }, (_, a) => a + start)
+          }).flat()
+          parsedAttrs.schedule.push({
+            day: prefix,
+            time: Array.from(new Set(time)) // Remove duplicates
+          })
+        } else if (suffix === 'level') {
+          if (attrs[key].length === 0) {
+            continue
+          }
+          parsedAttrs.codeLanguages.push({
+            language: prefix,
+            level: attrs[key].map(l => parseInt(l))
+          })
+        } else {
+          console.warn('Unknown key', key)
+        }
+      }
+      api.admin.putOnlineTeacherInfo(this.onlineTeacherInfo._id, parsedAttrs).then(res => {
+        this.editingOnlineTeacher = false
+        this.render()
       })
     }
 
@@ -589,6 +638,23 @@ module.exports = (AdministerUserModal = (function () {
         return this.user.fetch({ cache: false }).then(() => this.render())
       })
       return true
+    }
+
+    onClickEditOnlineTeacher (e) {
+      if (typeof this.editingOnlineTeacher === 'undefined') {
+        api.admin.fetchOnlineTeacherInfo(this.user.id).then(info => {
+          this.onlineTeacherInfo = info.data
+          this.renderSelectors('#online-teacher-info')
+        }).catch(jqxhr => {
+          const errorString = 'There was an error getting existing onlineTeacherInfo, see the console'
+          this.userSaveState = errorString
+          this.render()
+          return console.error(errorString, jqxhr)
+        })
+      }
+
+      this.editingOnlineTeacher = !this.editingOnlineTeacher
+      return this.render()
     }
 
     onClickEditSchoolAdmins (e) {

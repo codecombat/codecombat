@@ -686,7 +686,16 @@ export default Vue.extend({
     me () {
       return me
     }
-  }
+  },
+  metaInfo () {
+    return {
+      title: this.$t('schools_page.meta_title'),
+      meta: [
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+        { vmid: 'meta-description', name: 'description', content: this.$t('schools_page.our_comprehensive_implementation') },
+      ]
+    }
+  },
 })
 </script>
 

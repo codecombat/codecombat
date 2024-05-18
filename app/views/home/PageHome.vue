@@ -152,6 +152,7 @@
             <template #image>
               <base-cloudflare-video
                 video-cloudflare-id="bb2e8bf84df5c2cfa0fcdab9517f1d9e"
+                thumbnail-url="https://cloudflarestream.com/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg?height=720&time=42s"
                 :controls="true"
                 :autoplay="false"
               />
