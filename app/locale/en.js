@@ -2161,6 +2161,8 @@ module.exports = {
       complete: 'complete',
       practice: 'practice',
       required: 'required',
+      python: 'Python (support Blocks)',
+      javascript: 'JavaScript (support Blocks)',
       welcome_to_courses_coco: 'Adventurer, welcome to CodeCombat!',
       welcome_to_courses_ozar: 'Adventurers, welcome to Courses!',
       ready_to_play: 'Ready to play?',
