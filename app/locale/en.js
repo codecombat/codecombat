@@ -4479,6 +4479,8 @@ module.exports = {
       pd: 'Professional Development',
       pd_short: 'PD',
       curriculum_guide: 'Curriculum Guide',
+      curriculum: 'Curriculum',
+      coming_soon: 'Coming Soon!',
       add_class: 'Add New Class',
       no_licenses_yet: 'No licenses yet',
       req_licenses: 'Request Licenses',
