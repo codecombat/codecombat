@@ -22,7 +22,7 @@ export default {
     :class="{'disable-hover': curriculumUrl == ''}"
     @click="onClick"
   >
-    <div id="IconSolution" />
+    <div id="IconRubric" />
     <span v-if="curriculumUrl !== ''">{{ $t('teacher_dashboard.curriculum') }}</span>
     <span v-else>{{ $t('teacher_dashboard.coming_soon') }}</span>
   </button>
@@ -33,7 +33,7 @@ export default {
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 
-#IconSolution {
+#IconRubric {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconRubric.svg);
   height: 23px;
   width: 18px;
