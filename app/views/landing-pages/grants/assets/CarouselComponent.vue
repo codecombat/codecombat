@@ -58,6 +58,7 @@
             <img
               class="content-icon"
               :src="item.image"
+              loading="lazy"
             >
             <button
               class="btn next-button"

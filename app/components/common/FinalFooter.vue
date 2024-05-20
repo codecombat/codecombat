@@ -71,7 +71,7 @@ export default Vue.extend({
       img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
     .social-links
       a(v-for="socialLink in socialLinks" :href="socialLink.href" :key="socialLink.href" target="_blank")
-        img(:src="socialLink.img" :alt="socialLink.alt")
+        img(:src="socialLink.img" :alt="socialLink.alt" loading="lazy")
     .copyright
       if me.showChinaResourceInfo()
         span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
