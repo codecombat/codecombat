@@ -359,10 +359,10 @@ module.exports = (CampaignEditorView = (function () {
           achievementUpdated: this.onAchievementUpdated
         },
         nodeClasses: {
-          levels: utils.isCodeCombat ? CocoLevelsNode : OzarLevelsNode,
+          levels: LevelsNode,
           level: LevelNode,
           nextLevel: NextLevelNode,
-          campaigns: utils.isCodeCombat ? CocoCampaignsNode : OzarCampaignsNode,
+          campaigns: CampaignsNode,
           campaign: CampaignNode,
           achievement: AchievementNode,
           rewards: RewardsNode
@@ -483,7 +483,8 @@ module.exports = (CampaignEditorView = (function () {
 // Do Nothing
 // This is a override method to RootView, so that only CampaignView is listenting to signup button click
 
-// todo: can we use ozar levels node for coco too?
+// CocoLevelsNode searches each time you update term; OzarLevelsNode searches once at the beginning
+// I think there are too many CodeCombat levels to use the latter approach; won't find them all
 class CocoLevelsNode extends TreemaObjectNode {
   constructor (...args) {
     super(...args)
@@ -525,7 +526,6 @@ class CocoLevelsNode extends TreemaObjectNode {
     })
   }
 }
-CocoLevelsNode.initClass()
 
 class OzarLevelsNode extends TreemaObjectNode {
   static initClass () {
@@ -547,7 +547,7 @@ class OzarLevelsNode extends TreemaObjectNode {
         LevelsNode.levels[level.get('original')] = level
         this.settings.supermodel.registerModel(level)
       }
-      return this.mapped = (Array.from(collection.models).map((r) => ({ label: r.get('name'), value: r.get('original') })))
+      LevelsNode.mapped = (Array.from(collection.models).map((r) => ({ label: r.get('name'), value: r.get('original') })))
     })
   }
 
@@ -560,15 +560,15 @@ class OzarLevelsNode extends TreemaObjectNode {
   childSource (req, res) {
     // Sort the results. Prioritize names that start with the search term, then contain the search term.
     const lowerTerm = req.term.toLowerCase()
-    const sorted = _.filter(this.mapped, item => _.string.contains(item.label.toLowerCase(), lowerTerm))
+    const sorted = _.filter(LevelsNode.mapped, item => _.string.contains(item.label.toLowerCase(), lowerTerm))
     const startsWithTerm = _.filter(sorted, item => _.string.startsWith(item.label.toLowerCase(), lowerTerm))
     _.pull(sorted, ...Array.from(startsWithTerm))
     return res(_.flatten([startsWithTerm, sorted]))
   }
 }
-OzarLevelsNode.initClass()
 
-var LevelsNode = utils.isCodeCombat ? CocoLevelsNode : OzarLevelsNode
+const LevelsNode = utils.isCodeCombat ? CocoLevelsNode : OzarLevelsNode
+LevelsNode.initClass()
 
 class LevelNode extends TreemaObjectNode {
   static initClass () {
@@ -638,37 +638,7 @@ class NextLevelNode extends LevelNode {
   }
 }
 
-class CocoCampaignsNode extends TreemaObjectNode {
-  constructor (...args) {
-    super(...args)
-    this.childSource = this.childSource.bind(this)
-  }
-
-  static initClass () {
-    this.prototype.valueClass = 'treema-campaigns'
-    this.campaigns = {}
-  }
-
-  buildValueForDisplay (valEl, data) {
-    return this.buildValueForDisplaySimply(valEl, '' + _.size(data))
-  }
-
-  childPropertiesAvailable () { return this.childSource }
-
-  childSource (req, res) {
-    const s = new Backbone.Collection([], { model: Campaign })
-    s.url = '/db/campaign'
-    s.fetch({ data: { term: req.term, project: Campaign.denormalizedCampaignProperties } })
-    return s.once('sync', function (collection) {
-      for (const campaign of Array.from(collection.models)) { CampaignsNode.campaigns[campaign.id] = campaign }
-      const mapped = (Array.from(collection.models).map((r) => ({ label: r.get('name'), value: r.id })))
-      return res(mapped)
-    })
-  }
-}
-CocoCampaignsNode.initClass()
-
-class OzarCampaignsNode extends TreemaObjectNode {
+class CampaignsNode extends TreemaObjectNode {
   static initClass () {
     this.prototype.valueClass = 'treema-campaigns'
     this.campaigns = {}
@@ -683,7 +653,7 @@ class OzarCampaignsNode extends TreemaObjectNode {
     s.fetch({ data: { project: Campaign.denormalizedCampaignProperties } })
     s.once('sync', function (collection) {
       for (const campaign of Array.from(collection.models)) { CampaignsNode.campaigns[campaign.id] = campaign }
-      return this.mapped = (Array.from(collection.models).map((r) => ({ label: r.get('name'), value: r.id })))
+      CampaignsNode.mapped = (Array.from(collection.models).map((r) => ({ label: r.get('name'), value: r.id })))
     })
   }
 
@@ -696,13 +666,13 @@ class OzarCampaignsNode extends TreemaObjectNode {
   childSource (req, res) {
     // Sort the results. Prioritize names that start with the search term, then contain the search term.
     const lowerTerm = req.term.toLowerCase()
-    const sorted = _.filter(this.mapped, item => _.string.contains(item.label.toLowerCase(), lowerTerm))
+    const sorted = _.filter(CampaignsNode.mapped, item => _.string.contains(item.label.toLowerCase(), lowerTerm))
     const startsWithTerm = _.filter(sorted, item => _.string.startsWith(item.label.toLowerCase(), lowerTerm))
     _.pull(sorted, ...Array.from(startsWithTerm))
     return res(_.flatten([startsWithTerm, sorted]))
   }
 }
-OzarCampaignsNode.initClass()
+CampaignsNode.initClass()
 
 class CampaignNode extends TreemaObjectNode {
   static initClass () {

@@ -642,6 +642,9 @@ module.exports = (CocoRouter = (function () {
         if ((ViewClass === SingletonAppVueComponentView) && globalVar.currentView instanceof SingletonAppVueComponentView) {
           // The SingletonAppVueComponentView maintains its own Vue app with its own routing layer.  If it
           // is already routed we do not need to route again
+          // but let's remove backbone modal anyway
+          globalVar.currentView.modalClosed()
+          $('.modal-backdrop').remove()
           console.debug('Skipping route in Backbone - delegating to Vue app')
           return
         } else if (options.vueRoute) { // Routing to a vue component using VueComponentView

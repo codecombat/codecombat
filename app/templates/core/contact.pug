@@ -1,4 +1,4 @@
-extends /templates/core/modal-base
+extends /templates/core/modal-base-flat
 
 block modal-header-content
   h3(data-i18n="contact.contact_us") Contact CodeCombat...
@@ -7,12 +7,16 @@ block modal-body-content
   p
     span(data-i18n="contact.welcome")
     span.spl(data-i18n="contact.forum_prefix")
-    a(href="https://discourse.codecombat.com/", data-i18n="contact.forum_page")
-    span(data-i18n="contact.forum_suffix")
-    span.spl.spr(data-i18n="contact.faq_prefix")
+    if me.isHomeUser()
+      a(href="https://discourse.codecombat.com/", data-i18n="contact.forum_page")
+      span.spl.spr(data-i18n="contact.faq_prefix")
     a(data-i18n="contact.faq", href="https://codecombat.zendesk.com/hc/en-us")
     span(data-i18n="contact.faq_suffix")
-    | .
+    span= ' '
+    span(data-i18n="contact.prefer_email_prefix")
+    - email = 'support@codecombat.com'
+    a(href="mailto:"+email)= email
+    span(data-i18n="contact.prefer_email_suffix")
   .form
     .form-group
       label.control-label(for="contact-email", data-i18n="general.email") Email

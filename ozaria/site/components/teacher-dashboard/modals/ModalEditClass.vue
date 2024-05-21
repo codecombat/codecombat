@@ -53,7 +53,8 @@ export default Vue.extend({
       googleClassId: '',
       googleClassrooms: null,
       isGoogleClassroomForm: false,
-      googleSyncInProgress: false
+      googleSyncInProgress: false,
+      moreOptions: false
     }
   },
 
@@ -81,6 +82,13 @@ export default Vue.extend({
       getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
       courses: 'courses/sorted'
     }),
+    moreOptionsText () {
+      const i18n = this.moreOptions ? 'hide_options' : 'more_options'
+      return this.$t(`courses.${i18n}`)
+    },
+    moreOptionsIcon () {
+      return this.moreOptions ? '&nbsp;&and;' : '&nbsp;&or;'
+    },
     googleClassroomDisabled () {
       return !me.googleClassroomEnabled()
     },
@@ -178,6 +186,9 @@ export default Vue.extend({
     this.newClassesPerWeek = this.classesPerWeek
     this.newMinutesPerClass = this.minutesPerClass
     this.classGrades = this.classroom.grades || []
+    if (!this.classroomInstance.isNew()) {
+      this.moreOptions = true
+    }
   },
 
   methods: {
@@ -226,6 +237,9 @@ export default Vue.extend({
           noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
         })
       this.googleSyncInProgress = false
+    },
+    toggleMoreOptions () {
+      this.moreOptions = !this.moreOptions
     },
     async saveClass () {
       this.saving = true
@@ -471,40 +485,8 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
-          class="form-group row"
-        >
-          <div class="col-xs-12">
-            <label for="classroom-items">
-              <span class="control-label">{{ $t('courses.classroom_items') }}:</span>
-            </label>
-            <input
-              id="classroom-items"
-              v-model="newClassroomItems"
-              name="classroomItems"
-              type="checkbox"
-            >
-            <div class="help-block small text-navy">
-              {{ $t('teachers.classroom_items_description') }}
-            </div>
-          </div>
-        </div>
-        <div class="form-group row autoComplete">
-          <div class="col-xs-12">
-            <label for="liveCompletion">
-              <span class="control-label"> {{ $t('courses.classroom_live_completion') }}</span>
-            </label>
-            <input
-              id="liveCompletion"
-              v-model="newLiveCompletion"
-              type="checkbox"
-            >
-            <span class="help-block small text-navy">{{ $t("teachers.classroom_live_completion") }}</span>
-          </div>
-        </div>
-        <div
           v-if="isCodeCombat && enableBlocks"
-          class="form-group row"
+          class="form-group row code-format"
         >
           <div class="col-xs-12">
             <label>
@@ -531,7 +513,7 @@ export default Vue.extend({
         </div>
         <div
           v-if="isCodeCombat && enableBlocks"
-          class="form-group row"
+          class="form-group row default-code-format"
         >
           <div class="col-xs-12">
             <label for="default-code-format-select">
@@ -555,7 +537,88 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          class="form-group row"
+          v-if="isOzaria && !me.isCodeNinja()"
+          class="form-group row class-grades"
+          :class="{ 'has-error': $v.classGrades.$error }"
+        >
+          <div class="col-xs-12">
+            <span class="control-label"> {{ $t("teachers.grades") }} </span>
+            <span class="control-label-desc"> {{ $t("teachers.select_all_that_apply") }} </span>
+            <div class="btn-group class-grades-input">
+              <button
+                type="button"
+                class="btn elementary"
+                name="elementary"
+                :class="{ selected: classGrades.includes('elementary')}"
+                @click="updateGrades"
+              >
+                {{ $t('teachers.elementary') }}
+              </button>
+              <button
+                type="button"
+                class="btn middle"
+                name="middle"
+                :class="{ selected: classGrades.includes('middle')}"
+                @click="updateGrades"
+              >
+                {{ $t('teachers.middle') }}
+              </button>
+              <button
+                type="button"
+                class="btn high"
+                name="high"
+                :class="{ selected: classGrades.includes('high')}"
+                @click="updateGrades"
+              >
+                {{ $t('teachers.high_school') }}
+              </button>
+            </div>
+            <span
+              v-if="!$v.classGrades.required"
+              class="form-error ml-small"
+            >
+              {{ $t("form_validation_errors.required") }}
+            </span>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions && isCodeCombat"
+          class="form-group row classroom-items"
+        >
+          <div class="col-xs-12">
+            <label for="classroom-items">
+              <span class="control-label">{{ $t('courses.classroom_items') }}:</span>
+            </label>
+            <input
+              id="classroom-items"
+              v-model="newClassroomItems"
+              name="classroomItems"
+              type="checkbox"
+            >
+            <div class="help-block small text-navy">
+              {{ $t('teachers.classroom_items_description') }}
+            </div>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions && isCodeCombat"
+          class="form-group row autoComplete"
+        >
+          <div class="col-xs-12">
+            <label for="liveCompletion">
+              <span class="control-label"> {{ $t('courses.classroom_live_completion') }}</span>
+            </label>
+            <input
+              id="liveCompletion"
+              v-model="newLiveCompletion"
+              type="checkbox"
+            >
+            <span class="help-block small text-navy">{{ $t("teachers.classroom_live_completion") }}</span>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions"
+          class="form-group row level-chat"
         >
           <div class="col-xs-12">
             <label for="level-chat">
@@ -571,8 +634,8 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
-          class="form-group row"
+          v-if="moreOptions && isCodeCombat"
+          class="form-group row announcement"
         >
           <div class="col-md-12">
             <label>
@@ -590,7 +653,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat"
+          v-if="moreOptions && isCodeCombat"
           class="form-group row hide"
         >
           <div class="col-md-12">
@@ -626,7 +689,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat || me.isCodeNinja()"
+          v-if="moreOptions && isCodeCombat || me.isCodeNinja()"
           class="form-group row"
         >
           <div class="col-md-12">
@@ -695,7 +758,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat || me.isCodeNinja()"
+          v-if="moreOptions && isCodeCombat || me.isCodeNinja()"
           class="form-group row"
         >
           <div class="col-xs-12">
@@ -722,7 +785,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat && !me.isCodeNinja()"
+          v-if="moreOptions && isCodeCombat && !me.isCodeNinja()"
           class="form-group row"
         >
           <div class="col-sm-12">
@@ -772,50 +835,16 @@ export default Vue.extend({
             </div>
           </div>
         </div>
-        <div
-          v-if="isOzaria && !me.isCodeNinja()"
-          class="form-group row class-grades"
-          :class="{ 'has-error': $v.classGrades.$error }"
-        >
-          <div class="col-xs-12">
-            <span class="control-label"> {{ $t("teachers.grades") }} </span>
-            <span class="control-label-desc"> {{ $t("teachers.select_all_that_apply") }} </span>
-            <div class="btn-group class-grades-input">
-              <button
-                type="button"
-                class="btn elementary"
-                name="elementary"
-                :class="{ selected: classGrades.includes('elementary')}"
-                @click="updateGrades"
-              >
-                {{ $t('teachers.elementary') }}
-              </button>
-              <button
-                type="button"
-                class="btn middle"
-                name="middle"
-                :class="{ selected: classGrades.includes('middle')}"
-                @click="updateGrades"
-              >
-                {{ $t('teachers.middle') }}
-              </button>
-              <button
-                type="button"
-                class="btn high"
-                name="high"
-                :class="{ selected: classGrades.includes('high')}"
-                @click="updateGrades"
-              >
-                {{ $t('teachers.high_school') }}
-              </button>
-            </div>
-            <span
-              v-if="!$v.classGrades.required"
-              class="form-error ml-small"
-            >
-              {{ $t("form_validation_errors.required") }}
-            </span>
-          </div>
+        <div>
+          <!-- eslint-disable vue/no-v-html -->
+          <a
+            class="more-options-text"
+            @click="toggleMoreOptions"
+          >
+            {{ moreOptionsText }}
+            <span v-html="moreOptionsIcon" />
+          </a>
+          <!--eslint-enable-->
         </div>
         <div class="form-group row buttons">
           <div class="col-xs-12 buttons">
@@ -994,5 +1023,14 @@ export default Vue.extend({
 
 .ml-small {
   margin-left: 5px;
+}
+
+.more-options-text {
+  font-size: 15px;
+
+  span {
+    font-size: 18px;
+    line-height: 15px;
+  }
 }
 </style>

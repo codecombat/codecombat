@@ -835,9 +835,23 @@ module.exports = class PlayLevelView extends RootView
       when @level?.isType('web-dev') then windowHeight - controlBarHeight
       when tomeLocation is 'bottom' then Math.min(windowHeight - minTomeHeight - controlBarHeight, windowWidth / canvasAspectRatio)
       else Math.min(windowHeight - (if controlBarLocation is 'left' then controlBarHeight else 0), (windowWidth - minCodeWidth - minWorkspaceWidth - minToolboxWidth) / canvasAspectRatio)
-    canvasWidth = switch
-      when @level?.isType('web-dev') then windowWidth - minCodeWidth
-      else canvasHeight * canvasAspectRatio
+    desiredCanvasWidth = canvasHeight * canvasAspectRatio
+    if me.get('aceConfig')?.preferWideEditor or features?.china
+      if windowWidth - desiredCanvasWidth < 500 and tomeLocation is 'right'
+        # windowWidth / 1.82 get 55% of the screen width for canvas -- our old style
+        # windowWidth - 500 get 500px for editor so won't get a really narrow editor
+        canvasWidth =  Math.max(windowWidth / 1.82, windowWidth - 500)
+      else
+        canvasWidth = desiredCanvasWidth
+      if @$el.hasClass('real-time') and @level?.isType('game-dev')
+        # how-to-play-game-dev-panel width is 20%
+        canvasWidth = Math.min(windowWidth * 0.8, desiredCanvasWidth)
+      canvasHeight = canvasWidth / canvasAspectRatio
+    else
+      canvasWidth = switch
+        when @level?.isType('game-dev') and @$el.hasClass('real-time') then Math.min(windowWidth * 0.8, desiredCanvasWidth)
+        when @level?.isType('web-dev') then windowWidth - minCodeWidth
+        else desiredCanvasWidth
     emptyHeightBelowCanvas = switch
       when tomeLocation is 'bottom' then 0
       else windowHeight - canvasHeight - (if controlBarLocation is 'left' then controlBarHeight else 0)
