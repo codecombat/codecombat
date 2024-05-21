@@ -254,7 +254,7 @@ export default Vue.extend({
     let teacherModalPath = 'teacher'
     let teacherLink = null
     if (me.isTeacher()) {
-      teacherLink = 'https://codecombat.com/teachers/classes'
+      teacherLink = '/teachers/classes'
       teacherSignupModal = false
       teacherModalPath = null
     }
