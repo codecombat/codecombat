@@ -461,7 +461,8 @@ module.exports = {
       roblox_description: 'This MMORPG teaches Lua coding and provides a real-world platform to create amazing games and experiences.',
       ai_hackstack_description: 'The first generative AI companion tool specifically crafted for those new to AI with a focus on student privacy and safety.',
       ai_junior_description: 'Introduces multimodal generative AI in a simple and intuitive platform designed specifically for K-5 students.',
-      learning_options: 'Learning Options'
+      learning_options: 'Learning Options',
+      ai_hackstack: 'AI HackStack'
     },
 
     modal: {

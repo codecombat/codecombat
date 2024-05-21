@@ -2273,7 +2273,15 @@ const getModuleNumberForLevelName = function (courseId, levelName) {
   return moduleNumberByLevelName[levelName] && Number(moduleNumberByLevelName[levelName])
 }
 
+module.exports.aiToolToImage = {
+  'gpt-4-turbo-preview': '/images/ai/ChatGPT.svg',
+  'stable-diffusion-xl': '/images/ai/Stable_Diffusion.png',
+  'dall-e-3': '/images/ai/DALL-E.webp',
+}
+
+
 module.exports = {
+  ...module.exports,
   activeAndPastArenas,
   activeArenas,
   addIntroLevelContent,

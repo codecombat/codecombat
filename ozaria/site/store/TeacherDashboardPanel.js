@@ -206,7 +206,8 @@ export default {
     //       { text: 'code.statement(example4)' }
     //     ]
     //   })
-    panelSessionContent: undefined
+    panelSessionContent: undefined,
+    panelProjectContent: undefined
   },
 
   mutations: {
@@ -224,6 +225,9 @@ export default {
     },
     setPanelSessionContent (state, sessionContentObject) {
       state.panelSessionContent = sessionContentObject
+    },
+    setPanelProjectContent (state, projectContentObject) {
+      state.panelProjectContent = projectContentObject
     },
     setLearningGoal (state, learningGoal) {
       Vue.set(state.conceptCheck, 'learningGoal', learningGoal)
@@ -249,6 +253,8 @@ export default {
       Vue.set(state.conceptCheck, 'timeSpent', -1)
       Vue.set(state.conceptCheck, 'classAverage', -1)
       Vue.set(state.studentInfo, 'completedContent', '')
+      state.panelSessionContent = undefined
+      state.panelProjectContent = undefined
       state.selectedProgressKey = undefined
       state.panelFooter = {
         icon: undefined,
@@ -284,6 +290,10 @@ export default {
 
     panelSessionContent (state) {
       return state.panelSessionContent
+    },
+
+    panelProjectContent (state) {
+      return state.panelProjectContent
     }
   },
 
@@ -463,13 +473,25 @@ export default {
       }
     },
 
-    showPanelProjectsContent ({ commit, dispatch, rootGetters }, { student, classroomId, selectedCourseId, moduleName }) {
-      const panelHeader = moduleName
-      dispatch('setPanelSessionContent', {
-        header: panelHeader,
+    showPanelProjectContent ({ commit, dispatch, rootGetters }, { student, header, classroomId, selectedCourseId, moduleName, aiScenario, aiProjects }) {
+      commit('resetState')
+      dispatch('setPanelProjectContent', {
+        header,
         studentName: student.displayName,
-        dateFirstCompleted: '2021'
+        projectContentObject: {
+          aiScenario,
+          aiProjects
+        }
       })
+    },
+
+    setPanelProjectContent ({ commit }, { projectContentObject, header, studentName, dateFirstCompleted }) {
+      commit('setPanelProjectContent', projectContentObject)
+      commit('setPanelHeader', header)
+      commit('setStudentInfo', {
+        name: studentName,
+      })
+      commit('openPanel')
     },
 
     setPanelSessionContent ({ commit }, { sessionContentObject, header, studentName, dateFirstCompleted }) {

@@ -31,6 +31,7 @@ export default {
     'table-class-frame': TableClassFrame,
     ModalEditStudent
   },
+
   props: {
     classroomId: {
       type: String,
@@ -44,6 +45,10 @@ export default {
     displayOnly: { // sent from DSA
       type: Boolean,
       default: false
+    },
+    defaultCourseId: {
+      type: String,
+      default: null
     }
   },
 
@@ -82,12 +87,12 @@ export default {
       const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
 
       if (selectedCourseId === utils.courseIDs.HACKSTACK) {
-        const hackStakModules = this.aiScenarios.reduce((acc, scenario) => {
+        const hackStackModuleNames = this.aiScenarios.reduce((acc, scenario) => {
           acc.add(scenario.tool)
           return acc
         }, new Set())
 
-        const hackStackModels = [...hackStakModules].map((moduleName, key) => {
+        const hackStackModels = [...hackStackModuleNames].map((moduleName, key) => {
           const moduleNum = key + 1
           const classSummaryProgress = []
           const moduleScenarios = (this.aiScenarios || [])
@@ -96,6 +101,7 @@ export default {
           return {
             moduleNum,
             displayName: moduleName,
+            displayLogo: utils.aiToolToImage[moduleName] || null,
             contentList: moduleScenarios
               .map((scenario, index) => {
                 return {
@@ -113,29 +119,32 @@ export default {
               }),
             studentSessions: this.students.reduce((studentSessions, student) => {
               studentSessions[student._id] = moduleScenarios
-                .map((scenario, index) => {
+                .map((aiScenario, index) => {
                   const details = {}
                   classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
                   // const summary = classSummaryProgress[index]
-                  const scenarios = this.aiProjectsMapByUser[student._id]?.[scenario._id]
-                  if (scenarios) {
+                  const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario._id]
+                  if (aiProjects) {
                     details.status = 'progress'
                     classSummaryProgress[index].status = 'progress'
 
                     details.clickHandler = () => {
-                      this.showPanelProjectsContent({
+                      this.showPanelProjectContent({
+                        header: 'HackStack Project',
                         student,
                         classroomId: this.classroomId, // TODO remove and use classroomId from teacherDashboard vuex
                         selectedCourseId: this.selectedCourseId,
-                        moduleNum
+                        moduleNum,
+                        aiScenario,
+                        aiProjects
                       })
                     }
 
-                    if (scenarios.some(scenario => scenario.actionQueue.length === 0)) {
+                    if (aiProjects.some(scenario => scenario.actionQueue.length === 0)) {
                       details.status = 'complete'
                     }
                   }
-                  const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, scenario._id, 'lockedScenario')
+                  const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario._id, 'lockedScenario')
                   const isPlayable = !isLocked
 
                   return {
@@ -145,8 +154,8 @@ export default {
                     isSkipped: false,
                     lockDate: null,
                     lastLockDate: null,
-                    original: scenario._id,
-                    normalizedOriginal: scenario._id,
+                    original: aiScenario._id,
+                    normalizedOriginal: aiScenario._id,
                     isOptional: false,
                     isPlayable,
                     isPractice: false,
@@ -466,6 +475,9 @@ export default {
   mounted () {
     const areTeacherClassesFetched = this.getActiveClassrooms.length !== 0
     this.setClassroomId(this.classroomId)
+    if (this.defaultCourseId) {
+      this.setSelectedCourseId({ courseId: this.defaultCourseId })
+    }
     this.fetchClassroomById(this.classroomId)
       .then(() => {
         this.setTeacherId(me.get('_id'))
@@ -480,6 +492,8 @@ export default {
   beforeRouteUpdate (to, from, next) {
     this.closePanel()
     this.clearSelectedStudents()
+    this.setClassroomId(to.params.classroomId)
+    this.setSelectedCourseIdCurrentClassroom({ courseId: utils.courseIDs.HACKSTACK })
     next()
   },
 
@@ -498,7 +512,7 @@ export default {
       fetchData: 'baseSingleClass/fetchData',
       setPanelSessionContent: 'teacherDashboardPanel/setPanelSessionContent',
       showPanelSessionContent: 'teacherDashboardPanel/showPanelSessionContent',
-      showPanelProjectsContent: 'teacherDashboardPanel/showPanelProjectsContent',
+      showPanelProjectContent: 'teacherDashboardPanel/showPanelProjectContent',
       clearSelectedStudents: 'baseSingleClass/clearSelectedStudents',
       addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
       fetchClassroomById: 'classrooms/fetchClassroomForId',

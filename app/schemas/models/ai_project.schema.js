@@ -43,6 +43,17 @@ _.extend(AIProjectSchema.properties, {
     description: 'Actions left to perform in this project, represented as AI Chat Messages',
     items: { type: ['object', 'string'], format: 'chat-message-link' },
   },
+  wrongChoices: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        actionMessageId: { type: 'string' },
+        choiceIndex: { type: 'number' },
+        answerIndex: { type: 'number' }
+      }
+    }
+  }
 })
 
 AIProjectSchema.required = ['visibility', 'user', 'scenario', 'actionQueue']
