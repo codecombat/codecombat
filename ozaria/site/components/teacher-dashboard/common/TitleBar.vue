@@ -140,8 +140,8 @@ export default {
     },
 
     clickEditClass (classroom) {
-      this.showEditClassModal = true
       this.editClassroomObject = classroom
+      this.showEditClassModal = true
     },
 
     clickNewClass () {
