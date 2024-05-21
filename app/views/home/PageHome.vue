@@ -250,6 +250,15 @@ export default Vue.extend({
     BaseCloudflareVideo
   },
   data () {
+    let teacherSignupModal = true
+    let teacherModalPath = 'teacher'
+    let teacherLink = null
+    if (me.isTeacher()) {
+      teacherLink = 'https://codecombat.com/teachers/classes'
+      teacherSignupModal = false
+      teacherModalPath = null
+    }
+
     return {
       testimonals: [
         {
@@ -318,8 +327,9 @@ export default Vue.extend({
         {
           title: this.$t('schools_page.core_curriculum_2_title'),
           text: this.$t('schools_page.core_curriculum_2_text'),
-          signupModal: true,
-          signupModalPath: 'teacher',
+          signupModal: teacherSignupModal,
+          signupModalPath: teacherModalPath,
+          link: teacherLink,
           linkText: this.$t('schools_page.core_curriculum_2_link_text'),
           video: {
             videoId: '16b8482dc4d9b96c7d827fb788e64368'
