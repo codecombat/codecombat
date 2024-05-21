@@ -205,13 +205,14 @@ export default Vue.extend({
               placeholder="How many licenses do you need?"
               @keyup="onLicensesNeededUpdate"
               @keydown="onLicensesNeededUpdate"
+              @blur="$v.licensesNeeded.$touch()"
             >
             <span
-              v-if="!$v.licensesNeeded.required"
+              v-if="!$v.licensesNeeded.required && $v.licensesNeeded.$dirty"
               class="form-error"
             > {{ $t("form_validation_errors.required") }} </span>
             <span
-              v-else-if="!$v.licensesNeeded.numeric || !$v.licensesNeeded.mustBeGreaterThanZero"
+              v-else-if="(!$v.licensesNeeded.numeric || !$v.licensesNeeded.mustBeGreaterThanZero) && $v.licensesNeeded.$dirty"
               class="form-error"
             > {{ $t("form_validation_errors.numberGreaterThanZero") }} </span>
             <p
@@ -276,6 +277,12 @@ export default Vue.extend({
   align-items: center;
   margin: 15px 15px 0px 15px;
   max-width: 600px;
+}
+
+.form-error {
+  color: #a94442;
+  font-style: italic;
+  font-size: 15px;
 }
 
 .sub-title {
