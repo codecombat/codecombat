@@ -298,7 +298,7 @@ export default Vue.extend({
     }),
 
     checkUsingRoute () {
-      return this.$route
+      return this.$route?.path === '/teachers/apcsp'
     },
 
     async updateLicenseStatus () {
