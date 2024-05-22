@@ -220,6 +220,11 @@ export default {
       this.triggerCreateClassTour()
     },
 
+    openEditClassModal (cls) {
+      this.newClassroom = cls
+      this.showNewClassModal = true
+    },
+
     /**
      * Track when a teacher has actively created their first class.
      */
@@ -347,6 +352,7 @@ export default {
           @change-course="onChangeCourse"
           @newClass="openNewClassModal"
           @addStudentsClicked="showAddStudentsModal = true"
+          @editClass="openEditClassModal"
         />
         <loading-bar
           :key="loading"

@@ -5,7 +5,6 @@ import ButtonCurriculumGuide from '../common/ButtonCurriculumGuide'
 import LicensesComponent from '../common/LicensesComponent'
 import NavSelectUnit from '../common/NavSelectUnit'
 import ClassInfoRow from './ClassInfoRow'
-import ModalEditClass from '../modals/ModalEditClass'
 import moment from 'moment'
 
 import { mapActions, mapGetters } from 'vuex'
@@ -19,7 +18,6 @@ export default {
     'licenses-component': LicensesComponent,
     'nav-select-unit': NavSelectUnit,
     'class-info-row': ClassInfoRow,
-    'modal-edit-class': ModalEditClass
   },
 
   props: {
@@ -46,13 +44,6 @@ export default {
     allClassesPage: {
       type: Boolean,
       default: false
-    }
-  },
-
-  data () {
-    return {
-      showEditClassModal: false,
-      editClassroomObject: {},
     }
   },
 
@@ -139,9 +130,9 @@ export default {
       this.$emit('outcomesReport')
     },
 
-    clickEditClass (classroom) {
-      this.editClassroomObject = classroom
-      this.showEditClassModal = true
+    clickEditClass () {
+      console.log('clickEditClass')
+      this.$emit('editClass', this.classroom)
     },
 
     clickNewClass () {
@@ -164,11 +155,6 @@ export default {
 
 <template>
   <div class="teacher-title-bar">
-    <modal-edit-class
-      v-if="showEditClassModal"
-      :classroom="editClassroomObject"
-      @close="showEditClassModal = false"
-    />
     <div class="sub-nav">
       <h1 :class="showClassInfo ? 'short' : 'long'">
         {{ title }}
@@ -177,7 +163,7 @@ export default {
         v-if="showClassInfo"
         class="edit-class"
       >
-        <a @click="clickEditClass(classroom)">
+        <a @click="clickEditClass()">
           <img
             class="pencil-svg"
             :src="editClassImgSrc"
