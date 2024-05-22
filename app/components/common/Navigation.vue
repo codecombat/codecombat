@@ -423,7 +423,7 @@ export default Vue.extend({
                 source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
               img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
-            a.navbar-brand(v-else-if="serverConfig.codeNinjas || me.isCodeNinja()" :href="homeLink")
+            a.navbar-brand(v-else-if="(serverConfig.codeNinjas || me.isCodeNinja())" :href="homeLink")
               picture
                 source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
@@ -827,8 +827,15 @@ export default Vue.extend({
   }
 }
 
-.tecmilenio-logo {
-  height: 41px;
+.tecmilenio-logo, #tarena-logo {
+  height: 36px;
+  margin-left: 20px;
+  margin-top: 5px;
+}
+
+.code-ninjas-logo {
+  height: 51px;
+  margin: -5px 0 -5px 20px;
 }
 
 </style>

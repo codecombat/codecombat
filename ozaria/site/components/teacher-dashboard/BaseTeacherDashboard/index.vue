@@ -94,7 +94,7 @@ export default {
 
     getLanguage () {
       if (this.classroom && this.classroom.aceConfig) {
-        return this.classroom.aceConfig.language
+        return this.classroom.aceConfig?.language || 'python'
       }
 
       if (this.activeClassrooms.length > 0) {
@@ -165,7 +165,7 @@ export default {
 
     getMostCommonLanguage () {
       const languagesCount = this.activeClassrooms.reduce((map, classroom) => {
-        const language = classroom.aceConfig.language
+        const language = classroom.aceConfig?.language || 'python'
         map[language] = (map[language] || 0) + 1
         return map
       }, {})
