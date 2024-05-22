@@ -226,8 +226,8 @@ export default {
       this.triggerCreateClassTour()
     },
 
-    openEditClassModal (cls) {
-      this.editClassroomObject = cls
+    openEditClassModal (claz) {
+      this.editClassroomObject = claz
       this.editCurrent = true
       this.showNewClassModal = true
     },
@@ -386,15 +386,15 @@ export default {
       @close="closeOnboardingModal"
     />
     <modal-edit-class
-      v-if="showNewClassModal && !editingCurrent"
+      v-if="showNewClassModal && !editCurrent"
       :classroom="newClassroom"
       @close="closeShowNewModal"
       @created="handleCreatedClass"
     />
     <modal-edit-class
-      v-if="showEditClassModal && editingCurrent"
+      v-if="showNewClassModal && editCurrent"
       :classroom="editClassroomObject"
-      @close="showEditClassModal = false"
+      @close="closeShowNewModal"
     />
     <modal-assign-content
       v-if="showAssignContentModal"
