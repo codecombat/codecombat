@@ -1,4 +1,6 @@
 <script>
+import Classroom from 'models/Classroom'
+
 import ModuleHeader from './ModuleHeader'
 import ModuleRow from './ModuleRow'
 import IntroModuleRow from './IntroModuleRow'
@@ -56,8 +58,14 @@ export default {
       getContentDescription: 'baseCurriculumGuide/getContentDescription',
       getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
       isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign',
-      getTrackCategory: 'teacherDashboard/getTrackCategory'
+      getTrackCategory: 'teacherDashboard/getTrackCategory',
+      classroom: 'teacherDashboard/classroom'
     }),
+
+    classroomInstance () {
+      const classroom = new Classroom(this.classroom)
+      return classroom
+    },
 
     courseName () {
       return this.getCurrentCourse?.name || ''
@@ -75,6 +83,10 @@ export default {
   },
 
   methods: {
+    getLevelNumber (original, index) {
+      const levelNumber = this.classroomInstance.getLevelNumber(original, index)
+      return levelNumber
+    },
     trackEvent (eventName) {
       if (eventName) {
         window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
@@ -112,7 +124,7 @@ export default {
       class="content-rows"
     >
       <a
-        v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, slug, fromIntroLevelOriginal } in getContentTypes"
+        v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, original, slug, fromIntroLevelOriginal }, key in getContentTypes"
         :key="_id"
         :href="url"
         target="_blank"
@@ -126,7 +138,7 @@ export default {
         <module-row
           v-else
           :icon-type="icon"
-          :display-name="name"
+          :display-name="`${getLevelNumber(original,key +1 )} ${name}`"
           :description="description"
           :is-part-of-intro="isPartOfIntro"
           @click.native="trackEvent('Curriculum Guide: Individual content row clicked')"

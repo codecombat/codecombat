@@ -62,7 +62,8 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       isPartOfIntro: !!introLevelSlug && icon !== 'cutscene',
       isIntroHeadingRow: false,
       slug,
-      fromIntroLevelOriginal
+      fromIntroLevelOriginal,
+      original: content.original
     })
   }
   return curriculumGuideContentList
