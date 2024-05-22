@@ -60,7 +60,7 @@ export default {
     }
   },
   mounted () {
-    if (!this.allTournamentsLoaded) {
+    if (me.isCodeNinja() && !this.allTournamentsLoaded) {
       this.fetchAllTournaments({ userId: me.get('_id') })
     }
   },
