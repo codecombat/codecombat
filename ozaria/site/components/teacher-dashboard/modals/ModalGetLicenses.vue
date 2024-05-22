@@ -280,9 +280,7 @@ export default Vue.extend({
 }
 
 .form-error {
-  color: #a94442;
-  font-style: italic;
-  font-size: 15px;
+  color: $color-concept-flag-color;
 }
 
 .sub-title {
