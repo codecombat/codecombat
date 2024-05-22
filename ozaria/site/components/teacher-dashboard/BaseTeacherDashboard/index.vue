@@ -59,7 +59,9 @@ export default {
       createdFirstClass: false,
       trialRequestLoading: true,
       newClassroom: new Classroom({ ownerID: me.id }),
-      sidebarCollapsed: false
+      sidebarCollapsed: false,
+      editCurrent: false,
+      editClassroomObject: {}
     }
   },
 
@@ -211,6 +213,10 @@ export default {
      **/
     closeShowNewModal () {
       this.showNewClassModal = false
+      if (this.editCurrent) {
+        this.editCurrent = false
+        return
+      }
 
       if (this.createdFirstClass) {
         this.triggerFirstClassTour()
@@ -221,7 +227,8 @@ export default {
     },
 
     openEditClassModal (cls) {
-      this.newClassroom = cls
+      this.editClassroomObject = cls
+      this.editCurrent = true
       this.showNewClassModal = true
     },
 
@@ -379,10 +386,15 @@ export default {
       @close="closeOnboardingModal"
     />
     <modal-edit-class
-      v-if="showNewClassModal"
+      v-if="showNewClassModal && !editingCurrent"
       :classroom="newClassroom"
       @close="closeShowNewModal"
       @created="handleCreatedClass"
+    />
+    <modal-edit-class
+      v-if="showEditClassModal && editingCurrent"
+      :classroom="editClassroomObject"
+      @close="showEditClassModal = false"
     />
     <modal-assign-content
       v-if="showAssignContentModal"

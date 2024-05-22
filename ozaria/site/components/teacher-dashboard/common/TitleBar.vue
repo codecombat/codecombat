@@ -131,7 +131,6 @@ export default {
     },
 
     clickEditClass () {
-      console.log('clickEditClass')
       this.$emit('editClass', this.classroom)
     },
 
