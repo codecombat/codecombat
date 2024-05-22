@@ -1,6 +1,7 @@
 <script>
 import ClassSummaryRow from './components/ClassSummaryRow'
 import ClassChapterSummaries from './components/ClassChapterSummaries'
+import { mapActions, mapGetters } from 'vuex'
 import utils from 'core/utils'
 
 export default {
@@ -24,8 +25,18 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      tournamentsByClan: 'clans/tournamentsByClan',
+      tournaments: 'clans/tournaments',
+      allTournamentsLoaded: 'clans/allTournamentsLoaded'
+    }),
+
     showEsportsCampInfoCoCo () {
       return utils.isCodeCombat && me.isCodeNinja() && !this.chapterStats.length
+    },
+
+    me () {
+      return me
     },
 
     showEsportsCampInfoOz () {
@@ -35,6 +46,28 @@ export default {
     showJuniorCampInfo () {
       return utils.isCodeCombat && me.isCodeNinja() && this.chapterStats.length === 1
     },
+
+    currentTournaments () {
+      return _.flatten(Object.values(this.tournaments))
+    },
+
+    equinoxTournament () {
+      return this.currentTournaments.find(tournament => tournament.slug === 'equinox') || {}
+    },
+
+    ttTournament () {
+      return this.currentTournaments.find(tournament => tournament.slug === 'tundar-tower') || {}
+    }
+  },
+  mounted () {
+    if (!this.allTournamentsLoaded) {
+      this.fetchAllTournaments({ userId: me.get('_id') })
+    }
+  },
+  methods: {
+    ...mapActions({
+      fetchAllTournaments: 'clans/fetchAllTournaments'
+    }),
   }
 }
 </script>
@@ -112,7 +145,7 @@ export default {
             <span>Ozaria Dashboard</span>
           </a>
         </li>
-        <li>
+        <li v-if="me.isCodeNinja() && equinoxTournament.clan">
           <!-- TODO: specific tournament link -->
           <a
             v-tooltip.top="{
@@ -120,14 +153,14 @@ export default {
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://codecombat.com/play/ladder/equinox/clan/65fa5bc654652e2ad959548e?tournament=65fcadac32f2005645fba16b"
+            :href="`/play/ladder/equinox/clan/${equinoxTournament.clan}?tournament=${equinoxTournament._id}`"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-arena" />
             <span>Equinox Arena</span>
           </a>
         </li>
-        <li>
+        <li v-if="me.isCodeNinja() && ttTournament.clan">
           <!-- TODO: specific tournament link -->
           <a
             v-tooltip.top="{
@@ -135,7 +168,7 @@ export default {
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://codecombat.com/play/ladder/tundra-tower/clan/65fa5bc654652e2ad959548e?tournament=65fcadf032f2005645fba186"
+            :href="`/play/ladder/tundra-tower/clan/${ttTournament.clan}?tournament=${ttTournament._id}`"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-arena" />
