@@ -5,7 +5,6 @@ import ButtonCurriculumGuide from '../common/ButtonCurriculumGuide'
 import LicensesComponent from '../common/LicensesComponent'
 import NavSelectUnit from '../common/NavSelectUnit'
 import ClassInfoRow from './ClassInfoRow'
-import ModalEditClass from '../modals/ModalEditClass'
 import moment from 'moment'
 
 import { mapActions, mapGetters } from 'vuex'
@@ -19,7 +18,6 @@ export default {
     'licenses-component': LicensesComponent,
     'nav-select-unit': NavSelectUnit,
     'class-info-row': ClassInfoRow,
-    'modal-edit-class': ModalEditClass
   },
 
   props: {
@@ -49,21 +47,10 @@ export default {
     }
   },
 
-  data () {
-    return {
-      showEditClassModal: false,
-      editClassroomObject: {},
-    }
-  },
-
   computed: {
     ...mapGetters({
       activeClassrooms: 'teacherDashboard/getActiveClassrooms'
     }),
-
-    editClassImgSrc () {
-      return '/images/ozaria/teachers/dashboard/svg_icons/iconPencil.svg'
-    },
 
     isCodeCombat () {
       return isCodeCombat
@@ -139,11 +126,6 @@ export default {
       this.$emit('outcomesReport')
     },
 
-    clickEditClass (classroom) {
-      this.editClassroomObject = classroom
-      this.showEditClassModal = true
-    },
-
     clickNewClass () {
       window.tracker?.trackEvent('Add New Class Clicked', { category: 'Teachers', label: this.$route.path })
       this.$emit('newClass')
@@ -164,26 +146,10 @@ export default {
 
 <template>
   <div class="teacher-title-bar">
-    <modal-edit-class
-      v-if="showEditClassModal"
-      :classroom="editClassroomObject"
-      @close="showEditClassModal = false"
-    />
     <div class="sub-nav">
       <h1 :class="showClassInfo ? 'short' : 'long'">
         {{ title }}
       </h1>
-      <div
-        v-if="showClassInfo"
-        class="edit-class"
-      >
-        <a @click="clickEditClass(classroom)">
-          <img
-            class="pencil-svg"
-            :src="editClassImgSrc"
-          >
-        </a>
-      </div>
       <class-info-row
         v-if="showClassInfo"
         class="class-info-row"
@@ -367,8 +333,4 @@ h1 {
   }
 }
 
-  .pencil-svg {
-    width: 20px;
-    margin-right: 10px;
-  }
 </style>
