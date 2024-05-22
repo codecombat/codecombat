@@ -272,13 +272,14 @@ export default Vue.extend({
       const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), title: 'CodeCombat Teacher Dashboard' }
       const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), title: 'Ozaria Teacher Dashboard' }
 
+      const cocoAdmin = { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'CodeCombat Admin Dashboard' }
+      const ozarAdmin = { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'Ozaria Admin Dashboard' }
+
       const educator = {
         'my-dashboards': {
           title: 'nav.my_dashborads',
           children: [
-            ...(isCodeCombat ? [teacherCocoCllasses, teacherOzarClasses] : [teacherOzarClasses, teacherCocoCllasses]),
-            { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'CodeCombat Admin Dashboard' },
-            { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'Ozaria Admin Dashboard' },
+            ...(isCodeCombat ? [teacherCocoCllasses, teacherOzarClasses, cocoAdmin, ozarAdmin] : [teacherOzarClasses, teacherCocoCllasses, ozarAdmin, cocoAdmin]),
           ]
         },
         resources: {
