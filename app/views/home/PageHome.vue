@@ -250,15 +250,6 @@ export default Vue.extend({
     BaseCloudflareVideo
   },
   data () {
-    let teacherSignupModal = true
-    let teacherModalPath = 'teacher'
-    let teacherLink = null
-    if (me.isTeacher()) {
-      teacherLink = '/teachers/classes'
-      teacherSignupModal = false
-      teacherModalPath = null
-    }
-
     return {
       testimonals: [
         {
@@ -327,9 +318,8 @@ export default Vue.extend({
         {
           title: this.$t('schools_page.core_curriculum_2_title'),
           text: this.$t('schools_page.core_curriculum_2_text'),
-          signupModal: teacherSignupModal,
-          signupModalPath: teacherModalPath,
-          link: teacherLink,
+          signupModal: true,
+          signupModalPath: 'teacher',
           linkText: this.$t('schools_page.core_curriculum_2_link_text'),
           video: {
             videoId: '16b8482dc4d9b96c7d827fb788e64368'
@@ -457,6 +447,11 @@ export default Vue.extend({
   },
   mounted () {
     this.checkPaymentTracking()
+    if (me.isTeacher()) {
+      this.engagingBoxes[1].signupModal = false
+      this.engagingBoxes[1].signupModalPath = null
+      this.engagingBoxes[1].link = '/teachers/classes'
+    }
   },
   methods: {
     checkPaymentTracking () {
