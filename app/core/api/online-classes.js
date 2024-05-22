@@ -50,11 +50,18 @@ function getTrialClasses (options) {
   })
 }
 
+function getGoogleCalendarSync (options) {
+  return fetchJson('/db/trial-classes/google-calendar-sync', {
+    method: 'PUT'
+  })
+}
+
 module.exports = {
   scheduleClassEmail,
   fetchAvailableTime,
   tempBookTime,
   bookTime,
   confirmBooking,
-  getTrialClasses
+  getTrialClasses,
+  getGoogleCalendarSync
 }

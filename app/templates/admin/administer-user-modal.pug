@@ -134,6 +134,12 @@ block modal-body-content
       - info = view.onlineTeacherInfo
       if info
         h3.m-t-3.online-teacher-title Edit Online Teacher's Info
+        h6 Google Calendar Id 
+        span the email they share calendar to classes@codecombat.com
+        .form-group.google-calendar-id
+          - gmailInfo = info.googleCalendarId || ''
+          label
+            input(type='text' name='googleCalendarId' value=gmailInfo)
         h6 Spoken Languages
         .form-group.languages
           - languageInfo = info.languages || []
