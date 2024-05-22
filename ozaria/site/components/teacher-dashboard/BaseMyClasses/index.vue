@@ -106,7 +106,6 @@ export default {
 
     openEditModal (classroom) {
       this.showEditClassModal = true
-      console.log("what?", classroom)
       this.editClassroomObject = classroom
     },
 
