@@ -56,7 +56,7 @@ export default {
     },
 
     ttTournament () {
-      return this.currentTournaments.find(tournament => tournament.slug === 'tundar-tower') || {}
+      return this.currentTournaments.find(tournament => tournament.slug === 'tundra-tower') || {}
     }
   },
   mounted () {
