@@ -287,6 +287,16 @@ export default {
               @click.native="trackEvent('Curriculum Guide: Add Course to Classroom Clicked')"
             />
             <button-curriculum
+              v-if="!curriculumUrl"
+              v-tooltip.top="{
+                content: $t('teacher_dashboard.coming_soon'),
+                classes: 'teacher-dashboard-tooltip lighter-p'
+              }"
+              :curriculum-url="curriculumUrl"
+              @click.native="trackEvent('Curriculum Guide: Curriculum Clicked')"
+            />
+            <button-curriculum
+              v-else
               :curriculum-url="curriculumUrl"
               @click.native="trackEvent('Curriculum Guide: Curriculum Clicked')"
             />

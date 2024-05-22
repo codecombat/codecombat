@@ -23,8 +23,7 @@ export default {
     @click="onClick"
   >
     <div id="IconRubric" />
-    <span v-if="curriculumUrl !== ''">{{ $t('teacher_dashboard.curriculum') }}</span>
-    <span v-else>{{ $t('teacher_dashboard.coming_soon') }}</span>
+    <span>{{ $t('teacher_dashboard.curriculum') }}</span>
   </button>
 </template>
 
