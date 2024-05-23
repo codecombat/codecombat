@@ -19,7 +19,8 @@ export default {
 
 <template>
   <button
-    :class="{'disable-hover': curriculumUrl == ''}"
+    :class="{'disable-hover': !curriculumUrl }"
+    :disabled="!curriculumUrl"
     @click="onClick"
   >
     <div id="IconRubric" />
@@ -41,11 +42,11 @@ export default {
   background-position: center;
   background-size: 100% 100%;
 
-  margin-right: 7px;
+  margin-right: 5px;
 }
 
 button {
-  background-color: #f7d047;
+  background-color: $moon;
   border-radius: 4px;
   border-width: 0;
   text-shadow: unset;
@@ -56,8 +57,8 @@ button {
   line-height: 16px;
   background-image: unset;
 
-  &:hover {
-    background-color: #d1b147;
+  &:hover, &:disabled {
+    background-color: $goldenlight;
     transition: background-color .35s;
   }
 
@@ -67,11 +68,4 @@ button {
   justify-content: center;
   align-items: center;
 }
-
-.disable-hover {
-  &:hover {
-    background-color: #f7d047;
-  }
-}
-
 </style>
