@@ -52,11 +52,29 @@ export default {
     },
 
     equinoxTournament () {
-      return this.currentTournaments.find(tournament => tournament.slug === 'equinox') || {}
+      const eq = this.currentTournaments.filter(tournament => tournament.slug === 'equinox')
+      if (eq.length === 0) {
+        return {}
+      } else if (eq.length === 1) {
+        return eq[0]
+      } else {
+        eq.sort((a, b) => new Date(a.endDate) - new Date(b.endDate))
+        // find the first tournament that has not ended
+        return eq.find(tournament => new Date(tournament.endDate) >= new Date()) || eq[eq.length - 1]
+      }
     },
 
     ttTournament () {
-      return this.currentTournaments.find(tournament => tournament.slug === 'tundra-tower') || {}
+      const tt = this.currentTournaments.filter(tournament => tournament.slug === 'tundra-tower')
+      if (tt.length === 0) {
+        return {}
+      } else if (tt.length === 1) {
+        return tt[0]
+      } else {
+        tt.sort((a, b) => new Date(a.endDate) - new Date(b.endDate))
+        // find the first tournament that has not ended
+        return tt.find(tournament => new Date(tournament.endDate) >= new Date()) || tt[tt.length - 1]
+      }
     }
   },
   mounted () {
@@ -153,7 +171,7 @@ export default {
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            :href="`/play/ladder/equinox/clan/${equinoxTournament.clan}?tournament=${equinoxTournament._id}`"
+            :href="`https://codecombat.com/play/ladder/equinox/clan/${equinoxTournament.clan}?tournament=${equinoxTournament._id}`"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-arena" />
@@ -168,7 +186,7 @@ export default {
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            :href="`/play/ladder/tundra-tower/clan/${ttTournament.clan}?tournament=${ttTournament._id}`"
+            :href="`https://codecombat.com/play/ladder/tundra-tower/clan/${ttTournament.clan}?tournament=${ttTournament._id}`"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-arena" />
