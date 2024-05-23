@@ -1,0 +1,24 @@
+.modal-dialog
+  .modal-content
+    img#modal-background(src="/images/pages/play/modal/announcement_modal_bg.png")
+    h1 Choose Your Adventure
+    #close-modal
+      span.glyphicon.glyphicon-remove
+    
+    #junior-content
+      .row
+        .col-xs-6.junior-column
+          img.hero-image.junior(src="/file/db/thang.type/58a2712b0b43652f00dae5a4/blue-fox-paper-doll.png" alt="")
+          img.product-logo(src="/images/pages/base/codecombat-junior-logo-345.png" alt="CodeCombat Junior logo")
+          h2 Ages 5-8
+          p Blocks or simple text coding for beginners
+        .col-xs-6.codecombat-column
+          img.hero-image.codecombat(src="/file/db/thang.type/529ec584c423d4e83b000014/captain-pose.png" alt="")
+          img.product-logo(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+          h2 Ages 8+
+          p Real Python or JavaScript coding for everyone
+
+      #button-container
+        a(href="/play/junior").submit-button.btn.btn-lg.btn-illustrated.play-button.junior-button !{$.i18n.t("play.play_codecombat_junior")}
+        | &nbsp;
+        a(href="#").submit-button.btn.btn-lg.btn-illustrated.play-button !{$.i18n.t("play.play_codecombat")}
