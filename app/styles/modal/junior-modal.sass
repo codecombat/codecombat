@@ -20,6 +20,9 @@
     @media screen and (max-height: 520px)
       margin-top: -125px
 
+      img.hero-image
+        display: none
+
   //- Header
   h1
     position: absolute
@@ -147,11 +150,29 @@
       margin: 20% auto
       position: absolute
 
+    img.hero-image
+      position: absolute
+
+      &.junior
+        left: 17%
+        top: -18%
+        width: 40%
+
+      &.codecombat
+        right: 4%
+        top: -25%
+        width: 25%
+
     h2
       color: rgb(254,188,68)
       text-align: center
       font-size: 32px
       text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0, black 4px 4px 4px
       font-variant: normal
-      margin-top: 75%
+      margin-top: 65%
+
+    p
+      color: black
+      text-align: center
+      font-size: 22px
 

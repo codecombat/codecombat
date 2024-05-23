@@ -1194,7 +1194,7 @@ module.exports = (User = (function () {
         // Don't include users other than home users
         value = 'control'
       }
-      if ((value == null) && (new Date(me.get('dateCreated')) < new Date('2024-05-19'))) {
+      if ((value == null) && (new Date(me.get('dateCreated')) < new Date('2024-05-23'))) {
         // Don't include users created before experiment start date
         value = 'control'
       }
