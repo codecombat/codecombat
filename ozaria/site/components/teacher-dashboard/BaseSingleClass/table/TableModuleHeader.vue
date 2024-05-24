@@ -177,6 +177,11 @@ export default {
 
       <img
         v-if="moduleHeadingImage"
+        v-tooltip="{
+          content: moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>'),
+          placement: 'bottom',
+          classes: 'layoutChromeTooltip',
+        }"
         class="module-logo"
         :src="moduleHeadingImage"
       >
@@ -195,7 +200,7 @@ export default {
       >
         <!-- Triggers the tooltip -->
         <div v-if="!displayOnly">
-          <span class="btn btn-sm btn-default"><img :src="lockIconUrl"></span>
+          <span class="btn btn-sm btn-default lock-button"><img :src="lockIconUrl"></span>
         </div>
         <!-- The tooltip -->
         <template slot="popover">
@@ -207,7 +212,7 @@ export default {
       </v-popover>
     </div>
     <div
-      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal, normalizedType }, idx) of listOfContent"
+      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal }, idx) of listOfContent"
       :key="`${idx}-${type}`"
       class="content-icons"
     >
@@ -430,6 +435,10 @@ h3 {
 
 .popover .btn {
   width: auto;
+}
+
+.lock-button {
+  padding: 2px 2px;
 }
 
 </style>

@@ -4591,6 +4591,8 @@ module.exports = {
       view_global_league: 'View Global League',
       refresh_progress: 'Refresh Progress',
       assign_content_first: 'Please ensure that content is assigned to students before adjusting access levels',
+      failed_attempts: 'Failed Attempts',
+      no_failed_attempts: 'No Failed Attempts'
     },
 
     outcomes: {
@@ -5884,7 +5886,8 @@ module.exports = {
       'stable-diffusion-description': 'Creates photorealistic images from text.',
       'dall-e-3-description': 'Quickly and easily creates images from text.',
       'gpt-4-description': 'Writes code for web games and apps.',
-      'claude-description': 'Writes stories and summarizes documents.'
+      'claude-description': 'Writes stories and summarizes documents.',
+      locked: 'LOCKED',
     }
   }
 }

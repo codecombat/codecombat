@@ -86,6 +86,11 @@ export default {
       const selectedCourseId = this.selectedCourseId
       const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
 
+      const assignmentMap = new Map()
+      for (const { courseID, members } of courseInstances) {
+        assignmentMap.set(courseID, new Set(members || []))
+      }
+
       if (selectedCourseId === utils.courseIDs.HACKSTACK) {
         const hackStackModuleNames = this.aiScenarios.reduce((acc, scenario) => {
           acc.add(scenario.tool)
@@ -147,6 +152,12 @@ export default {
                   const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario._id, 'lockedScenario')
                   const isPlayable = !isLocked
 
+                  if (!assignmentMap.get(selectedCourseId)?.has(student._id)) {
+                    // Return unassigned progress dot if the student isn't in the course-instance.
+                    details.status = 'unassigned'
+                    return details
+                  }
+
                   return {
                     status: 'assigned',
                     normalizedType: 'challengelvl',
@@ -180,10 +191,6 @@ export default {
       const intros = (this.gameContent[selectedCourseId] || {}).introLevels
 
       const modulesForTable = []
-      const assignmentMap = new Map()
-      for (const { courseID, members } of courseInstances) {
-        assignmentMap.set(courseID, new Set(members || []))
-      }
 
       // Get the name and content list of a module.
       for (const [moduleNum, moduleContent] of Object.entries(modules)) {

@@ -3,7 +3,10 @@
     <h4>{{ aiProject.name }}</h4>
     <p>Progress: {{ progress }}%</p>
     <p v-if="failedAttempts">
-      Failed attempts: {{ failedAttempts }}
+      {{ $t('teacher_dashboard.failed_attempts') }}: {{ failedAttempts }}
+    </p>
+    <p v-else>
+      {{ $t('teacher_dashboard.no_failed_attempts') }}
     </p>
     <a
       :href="`/ai/project/${aiProject._id}`"
