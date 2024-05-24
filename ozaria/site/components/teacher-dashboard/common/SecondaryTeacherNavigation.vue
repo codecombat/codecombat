@@ -72,6 +72,12 @@ export default {
       // TODO: do show the assessments if it is CodeNinjas, but not in a camp context
       return utils.isCodeCombat && !me.isCodeNinja()
     },
+
+    sortedClasses () {
+      const classrooms = [...this.classrooms]
+      classrooms.sort(this.classroomSortById)
+      return classrooms
+    },
   },
 
   methods: {
@@ -82,6 +88,10 @@ export default {
     setHackStackClassroom (classroomId) {
       this.$store.commit('teacherDashboard/setClassroomId', classroomId)
       this.$store.commit('teacherDashboard/setSelectedCourseIdCurrentClassroom', { courseId: utils.courseIDs.HACKSTACK })
+    },
+
+    classroomSortById (a, b) {
+      return moment(parseInt(b._id.substring(0, 8), 16) * 1000).diff(moment(parseInt(a._id.substring(0, 8), 16) * 1000))
     },
 
     trackEvent (e) {
@@ -144,7 +154,7 @@ export default {
           </router-link>
         </li>
         <li
-          v-for="classroom in classrooms"
+          v-for="classroom in sortedClasses"
           :key="classroom._id"
           :class="classesTabSelected && classroomSelected === classroom._id ? 'selected' : null"
         >
