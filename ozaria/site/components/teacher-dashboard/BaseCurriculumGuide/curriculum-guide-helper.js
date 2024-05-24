@@ -33,6 +33,12 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
 
     if (!ozariaType) {
       icon = type
+      if (content.shareable === 'project') {
+        icon = 'capstone'
+      } else if (content.practice) {
+        icon = 'practicelvl'
+      }
+
       url = `/play/intro/${introLevelSlug}?course=${currentCourseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
     } else if (ozariaType) {
       if (ozariaType === 'practice') {
@@ -63,7 +69,8 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       isIntroHeadingRow: false,
       slug,
       fromIntroLevelOriginal,
-      original: content.original
+      original: content.original,
+      assessment: content.assessment
     })
   }
   return curriculumGuideContentList
