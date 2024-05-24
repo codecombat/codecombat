@@ -448,6 +448,11 @@ export default Vue.extend({
   },
   mounted () {
     this.checkPaymentTracking()
+    if (me.isTeacher()) {
+      this.engagingBoxes[1].signupModal = false
+      this.engagingBoxes[1].signupModalPath = null
+      this.engagingBoxes[1].link = '/teachers/classes'
+    }
   },
   methods: {
     checkPaymentTracking () {

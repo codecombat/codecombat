@@ -30,6 +30,7 @@ module.exports = (ChangeLanguageTab = (function () {
     constructor (options) {
       super(options)
       this.session = options.session
+      this.isJunior = this.options.level?.get('product') === 'codecombat-junior' || this.options.campaign?.get('slug') === 'junior'
       this.utils = utils
       this.initCodeLanguageList()
       this.classroomAceConfig = options.classroomAceConfig
@@ -54,7 +55,8 @@ module.exports = (ChangeLanguageTab = (function () {
       context.codeLanguages = this.codeLanguageList
       context.codeLanguage = this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
       context.codeFormats = this.codeFormatList
-      context.codeFormat = this.codeFormat = me.get('aceConfig')?.codeFormat || 'text-code'
+      const defaultCodeFormat = this.isJunior ? 'blocks-icons' : 'text-code'
+      context.codeFormat = this.codeFormat = me.get('aceConfig')?.codeFormat || defaultCodeFormat
       return context
     }
 
