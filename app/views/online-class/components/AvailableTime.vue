@@ -9,7 +9,7 @@
     <div class="times">
       <div
         v-for="t in times"
-        :key="t"
+        :key="t.format('HH:mm')"
         class="radio"
       >
         <label>
@@ -17,9 +17,9 @@
             v-model="time"
             name="time"
             type="radio"
-            :value="t"
+            :value="t.get('hour') + t.get('minute') / 60"
           >
-          <span> {{ `${t}:00` }}</span>
+          <span> {{ t.clone().tz(userTz).format('hh:mm(A)') }}</span>
         </label>
       </div>
     </div>
@@ -32,7 +32,7 @@
       </button>
       <button
         class="btn btn-primary"
-        :disabled="!time"
+        :disabled="time === null"
         @click="emitInfo"
       >
         Continue
@@ -44,6 +44,8 @@
 <script>
 import { fetchAvailableTime } from '../../../core/api/online-classes'
 import StylishCalendar from '../../events/components/StylishCalendar'
+import { getUserTimeZone } from '../../../core/utils'
+import moment from 'moment-timezone'
 
 export default {
   name: 'AvailableTime',
@@ -60,9 +62,19 @@ export default {
     return {
       events: [],
       times: [],
+      allTimes: [],
       time: null,
       date: null
     }
+  },
+  computed: {
+    serverTz () {
+      return 'America/Los_Angeles'
+      /* return features?.chinaInfra ? 'Asia/Shanghai' : 'America/Los_Angeles' */
+    },
+    userTz () {
+      return getUserTimeZone(me)
+    },
   },
   mounted () {
     this.checkTime()
@@ -70,6 +82,13 @@ export default {
   methods: {
     back () {
       this.$emit('back')
+    },
+    getDates () {
+      const dates = new Set()
+      this.allTimes.forEach(t => {
+        dates.add(t.tz(this.userTz).format('YYYY-MM-DD'))
+      })
+      return Array.from(dates)
     },
     async emitInfo () {
       this.$emit('next', { date: this.date, time: this.time })
@@ -86,23 +105,46 @@ export default {
           })
           this.$emit('back')
         }
-        this.events = times.map((t, i) => this.formatEvent(t, i))
+        this.allTimes = this.convertLocaleTime(times)
+        this.events = this.getDates().map((d, i) => this.formatEvent(d, i))
       } catch (e) {
         console.error(e)
       }
     },
-    formatEvent (time, index) {
+    convertLocaleTime (times) {
+      const localeTime = []
+      times.forEach(t => {
+        t.times.forEach(ti => {
+          localeTime.push(moment.tz(t.date, this.serverTz).set({
+            hour: Math.floor(ti),
+            minute: Math.floor((ti - Math.floor(ti)) * 60),
+            second: 0,
+            millisecond: 0
+          }))
+        })
+      })
+      return localeTime
+    },
+    formatEvent (date, index) {
       return {
         id: 'available-time-' + index,
-        start: new Date(time.date),
-        end: new Date(time.date),
+        start: new Date(date),
+        end: new Date(date),
         title: '',
-        extendedProps: time,
+        extendedProps: date,
+      }
+    },
+    getTimesIDay () {
+      if (this.date) {
+        return this.allTimes.filter(t => t.tz(this.userTz).format('YYYY-MM-DD') === this.date)
+      } else {
+        return []
       }
     },
     selectDate (info) {
-      this.date = info.event.extendedProps.date
-      this.times = info.event.extendedProps.times
+      this.date = info.event.extendedProps
+      this.times = this.getTimesIDay()
+      this.time = null
     }
   }
 }

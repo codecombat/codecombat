@@ -2350,6 +2350,15 @@ const getModuleNumberForLevelName = function (courseId, levelName) {
   return moduleNumberByLevelName[levelName] && Number(moduleNumberByLevelName[levelName])
 }
 
+const getUserTimeZone = function (user) {
+  const geo = user.get('geo')
+  if (geo?.timeZone) {
+    return geo.timeZone
+  } else {
+    return moment.tz.guess()
+  }
+}
+
 module.exports = {
   activeAndPastArenas,
   activeArenas,
@@ -2413,6 +2422,7 @@ module.exports = {
   getAnonymizationStatus,
   getCorrectName,
   grayscale,
+  getUserTimeZone,
   hexToHSL,
   hourOfCodeOptions,
   hslToHex,
