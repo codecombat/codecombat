@@ -280,6 +280,10 @@ export default {
               defaultProgressDot.normalizedType = 'practicelvl'
             }
 
+            if (content.shareable === 'project') {
+              defaultProgressDot.normalizedType = 'capstone'
+            }
+
             if (!assignmentMap.get(selectedCourseId)?.has(student._id)) {
               // Return unassigned progress dot if the student isn't in the course-instance.
               defaultProgressDot.status = 'unassigned'
@@ -586,6 +590,12 @@ export default {
             normalizedType = 'challengelvl'
           }
 
+          if (utils.isCodeCombat) {
+            if (content.shareable === 'project') {
+              normalizedType = 'capstone'
+            }
+          }
+
           if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev', 'ladder'].includes(normalizedType)) {
             throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
           }
@@ -614,7 +624,7 @@ export default {
           const isPractice = Boolean(content.practice)
 
           if (utils.isCodeCombat) {
-            normalizedType = isPractice ? 'practicelvl' : 'challengelvl'
+            normalizedType = isPractice ? 'practicelvl' : normalizedType
           }
 
           return ({

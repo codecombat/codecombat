@@ -6,6 +6,9 @@
 import ContentIcon from '../../common/icons/ContentIcon'
 import ProgressDot from '../../common/progress/progressDot'
 import LockOrSkip from './LockOrSkip'
+import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
+
+import utils from 'core/utils'
 
 import { mapGetters, mapMutations } from 'vuex'
 
@@ -87,6 +90,10 @@ export default {
       selectedOriginals: 'baseSingleClass/selectedOriginals'
     }),
 
+    isCodeCombat () {
+      return utils.isCodeCombat
+    },
+
     listOfOriginals () {
       return [...new Set(Object.values(this.listOfContent).map(item => item.normalizedOriginal))] // array of unique original ids
     },
@@ -114,6 +121,10 @@ export default {
       replaceSelectedOriginals: 'baseSingleClass/replaceSelectedOriginals',
       updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals'
     }),
+
+    getGameContentDisplayType (type) {
+      return getGameContentDisplayType(type, true, true)
+    },
 
     toggleDatepicker () {
       this.showDatepicker = !this.showDatepicker
@@ -196,7 +207,7 @@ export default {
       </v-popover>
     </div>
     <div
-      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal }, idx) of listOfContent"
+      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal, normalizedType }, idx) of listOfContent"
       :key="`${idx}-${type}`"
       class="content-icons"
     >
@@ -217,13 +228,14 @@ export default {
         >
           <ContentIcon
             class="content-icon"
-            :icon="type"
+            :icon="isCodeCombat ? normalizedType : type"
           />
         </div>
         <!-- The tooltip -->
         <template slot="popover">
           <div class="level-popover-locking">
-            <span v-if="isPractice">{{ $t('play_level.level_type_practice') }}</span>
+            <span v-if="isCodeCombat">{{ getGameContentDisplayType(normalizedType) }}</span>
+            <span v-if="!isCodeCombat && isPractice">{{ $t('play_level.level_type_practice') }}</span>
             <h3
               v-if="type !== 'cutscene'"
               style="margin-bottom: 15px;"
