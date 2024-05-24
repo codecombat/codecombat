@@ -1,4 +1,7 @@
 <script>
+import Classroom from 'models/Classroom'
+import utils from 'core/utils'
+
 import ModuleHeader from './ModuleHeader'
 import ModuleRow from './ModuleRow'
 import IntroModuleRow from './IntroModuleRow'
@@ -56,8 +59,15 @@ export default {
       getContentDescription: 'baseCurriculumGuide/getContentDescription',
       getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
       isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign',
-      getTrackCategory: 'teacherDashboard/getTrackCategory'
+      getTrackCategory: 'teacherDashboard/getTrackCategory',
+      classroom: 'teacherDashboard/classroom',
+      classroomId: 'teacherDashboard/classroomId'
     }),
+
+    classroomInstance () {
+      const classroom = new Classroom(this.classroom)
+      return classroom
+    },
 
     courseName () {
       return this.getCurrentCourse?.name || ''
@@ -71,10 +81,25 @@ export default {
         currentCourseId: this.getCurrentCourse._id,
         codeLanguage: this.getSelectedLanguage
       })
+    },
+
+    levelNumberMap () {
+      const levels = this.getContentTypes
+        .map(({ original, assessment, icon }) => ({ original, key: original, assessment, practice: icon === 'practicelvl' }))
+      return utils.createLevelNumberMap(levels)
     }
   },
 
   methods: {
+    getLevelNumber (original, index) {
+      if (this.classroomId) {
+        const levelNumber = this.classroomInstance.getLevelNumber(original, index)
+        return levelNumber
+      } else {
+        const map = this.levelNumberMap
+        return map[original] || index
+      }
+    },
     trackEvent (eventName) {
       if (eventName) {
         window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
@@ -112,7 +137,7 @@ export default {
       class="content-rows"
     >
       <a
-        v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, slug, fromIntroLevelOriginal } in getContentTypes"
+        v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, original, assessment, slug, fromIntroLevelOriginal }, key in getContentTypes"
         :key="_id"
         :href="url"
         target="_blank"
@@ -126,6 +151,8 @@ export default {
         <module-row
           v-else
           :icon-type="icon"
+          :name-type="assessment ? null : icon"
+          :level-number="getLevelNumber(original, key + 1 )"
           :display-name="name"
           :description="description"
           :is-part-of-intro="isPartOfIntro"
