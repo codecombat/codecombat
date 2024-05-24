@@ -96,8 +96,12 @@ export default {
         const levelNumber = this.classroomInstance.getLevelNumber(original, index)
         return levelNumber
       } else {
-        const map = this.levelNumberMap
-        return map[original] || index
+        if (utils.isOzaria) {
+          return ''
+        } else {
+          const map = this.levelNumberMap
+          return map[original] || index
+        }
       }
     },
     trackEvent (eventName) {
