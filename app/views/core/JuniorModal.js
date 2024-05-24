@@ -5,23 +5,23 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let MineModal
-require('app/styles/modal/mine-modal.sass')
+let JuniorModal
+require('app/styles/modal/junior-modal.sass')
 const ModalView = require('views/core/ModalView')
-const template = require('app/templates/core/mine-modal')
+const template = require('app/templates/core/junior-modal')
 const storage = require('core/storage')
 
 // define expectations for good rates before releasing
 
-module.exports = (MineModal = (function () {
-  MineModal = class MineModal extends ModalView {
+module.exports = (JuniorModal = (function () {
+  JuniorModal = class JuniorModal extends ModalView {
     static initClass () {
-      this.prototype.id = 'mine-modal'
+      this.prototype.id = 'junior-modal'
       this.prototype.template = template
       this.prototype.hasAnimated = false
       this.prototype.events = {
         'click #close-modal': 'hide',
-        'click #submit-button': 'onSubmitButtonClick'
+        'click .submit-button': 'onSubmitButtonClick'
       }
     }
 
@@ -53,6 +53,6 @@ module.exports = (MineModal = (function () {
       super.destroy()
     }
   }
-  MineModal.initClass()
-  return MineModal
+  JuniorModal.initClass()
+  return JuniorModal
 })())

@@ -88,6 +88,10 @@ export default {
           moduleNumber = parseInt(moduleNum)
         }
 
+        if (utils.isCodeCombat) {
+          return utils.courseModuleInfo[course._id]?.[moduleNum]?.[_state.selectedLanguage] || {}
+        }
+
         const moduleInfo = Object.values(course.modules || {}).find(({ number }) => number === moduleNumber)
         return moduleInfo || {}
       }

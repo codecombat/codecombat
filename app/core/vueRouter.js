@@ -254,7 +254,8 @@ export default function getVueRouter () {
               children: [
                 { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueViewTeachers" */ 'app/views/ai-league/PageLeagueTeachers') }
               ]
-            }
+            },
+            { path: 'apcsp', component: () => import(/* webpackChunkName: "apcsp" */ '../views/apcsp/PageMarketing.vue') },
           ]
 
         },

@@ -352,6 +352,18 @@ export default {
         </li>
       </ul>
     </li>
+    <li v-if="showPD">
+      <router-link
+        id="PDAnchor"
+        to="/teachers/apcsp"
+        :class="{ 'current-route': isCurrentRoute('/teachers/apcsp') }"
+        data-action="APCSP: Nav Clicked"
+        @click.native="trackEvent"
+      >
+        <div id="IconPD" />
+        {{ $t('teacher_dashboard.apcsp') }}
+      </router-link>
+    </li>
     <li>
       <dashboard-toggle
         v-if="isCodeCombat"

@@ -59,7 +59,9 @@ export default {
       createdFirstClass: false,
       trialRequestLoading: true,
       newClassroom: new Classroom({ ownerID: me.id }),
-      sidebarCollapsed: false
+      sidebarCollapsed: false,
+      editCurrent: false,
+      editClassroomObject: {}
     }
   },
 
@@ -94,7 +96,7 @@ export default {
 
     getLanguage () {
       if (this.classroom && this.classroom.aceConfig) {
-        return this.classroom.aceConfig.language
+        return this.classroom.aceConfig?.language || 'python'
       }
 
       if (this.activeClassrooms.length > 0) {
@@ -165,7 +167,7 @@ export default {
 
     getMostCommonLanguage () {
       const languagesCount = this.activeClassrooms.reduce((map, classroom) => {
-        const language = classroom.aceConfig.language
+        const language = classroom.aceConfig?.language || 'python'
         map[language] = (map[language] || 0) + 1
         return map
       }, {})
@@ -211,6 +213,10 @@ export default {
      **/
     closeShowNewModal () {
       this.showNewClassModal = false
+      if (this.editCurrent) {
+        this.editCurrent = false
+        return
+      }
 
       if (this.createdFirstClass) {
         this.triggerFirstClassTour()
@@ -218,6 +224,12 @@ export default {
       }
 
       this.triggerCreateClassTour()
+    },
+
+    openEditClassModal (claz) {
+      this.editClassroomObject = claz
+      this.editCurrent = true
+      this.showNewClassModal = true
     },
 
     /**
@@ -347,6 +359,7 @@ export default {
           @change-course="onChangeCourse"
           @newClass="openNewClassModal"
           @addStudentsClicked="showAddStudentsModal = true"
+          @editClass="openEditClassModal"
         />
         <loading-bar
           :key="loading"
@@ -373,10 +386,15 @@ export default {
       @close="closeOnboardingModal"
     />
     <modal-edit-class
-      v-if="showNewClassModal"
+      v-if="showNewClassModal && !editCurrent"
       :classroom="newClassroom"
       @close="closeShowNewModal"
       @created="handleCreatedClass"
+    />
+    <modal-edit-class
+      v-if="showNewClassModal && editCurrent"
+      :classroom="editClassroomObject"
+      @close="closeShowNewModal"
     />
     <modal-assign-content
       v-if="showAssignContentModal"

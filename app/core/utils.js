@@ -12,7 +12,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 
-let campaignIDs, compare, courseIDs, courseModules, courseModuleLevels, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
+let campaignIDs, compare, courseIDs, courseModules, courseModuleInfo, courseModuleLevels, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
 const product = ((left = typeof COCO_PRODUCT !== 'undefined' && COCO_PRODUCT !== null ? COCO_PRODUCT : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.COCO_PRODUCT))) != null ? left : 'codecombat'
 const shaTag = ((left = typeof SHA_TAG !== 'undefined' && SHA_TAG !== null ? SHA_TAG : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.SHA_TAG))) != null ? left : 'unknown'
 const isCodeCombat = product === 'codecombat'
@@ -245,6 +245,86 @@ if (isCodeCombat) {
     COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d',
     COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447',
     COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
+  }
+
+  courseModuleInfo = {
+    [courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]: {
+      1: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1wApGYfq9gM3C9G3_zkkyWDijiEYyEcgX?usp=sharing'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1asYzKfqDHWLK2ibxWPgRKkq8_VEN667c?usp=sharing'
+        }
+      }
+    },
+    [courseIDs.GAME_DEVELOPMENT_1]: {},
+    [courseIDs.WEB_DEVELOPMENT_1]: {},
+    [courseIDs.COMPUTER_SCIENCE_2]: {
+      1: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1y8yTPgOg-_S8v_J5zbXpbQQ9hP4rZHXE?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1hzrex4_AMpredS748hlEv_zSjwHaN210?usp=drive_link'
+        }
+      },
+      2: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1WNz-vxVxsy7MpbYMf-Reo1P-jOQ6vW94?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1AomycHLH5axRIguXKEdi2rMk95URbHWG?usp=drive_link'
+        }
+      },
+      3: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1r2nWGfTyHZrUvFeNyfnbN_A06ZYn2CRk?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1ihBZmQp74wfg92bapWV0PuYH296TmkyZ?usp=sharing'
+        }
+      },
+      4: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1CuXgk0i_z7lZ0W5gEkU3L2how-ZlYaeM?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1L80QV9Wv6J3IQx_lnQpB51Gfzb4VB05w?usp=drive_link'
+        }
+      },
+      5: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1SRzgEcIbOX7jozBL-oDhfoLVWU1oEu1Y?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1whhA6ehkZcJweoAH0c27SK4yR8OMLv3j?usp=drive_link'
+        }
+      },
+      6: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1cdO9C1k9N5x6BdbohVaAzncuzBSItv7z?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1mWy01Zz-6_G6jBEYYaxr1zkvq660McHp?usp=drive_link'
+        }
+      },
+      7: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1HAxoKk6oNQwPm0OolRvf_vWISBrb_LSd?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/16HAarJNeM2EpFOfRS95BoOE-GQjendHB?usp=drive_link'
+        }
+      },
+    },
+    [courseIDs.GAME_DEVELOPMENT_2]: {},
+    [courseIDs.WEB_DEVELOPMENT_2]: {},
+    [courseIDs.COMPUTER_SCIENCE_3]: {},
+    [courseIDs.GAME_DEVELOPMENT_3]: {},
+    [courseIDs.COMPUTER_SCIENCE_4]: {},
+    [courseIDs.COMPUTER_SCIENCE_5]: {},
+    [courseIDs.COMPUTER_SCIENCE_6]: {}
   }
 
 
@@ -1052,7 +1132,7 @@ const registerHocProgressModalCheck = function () {
       return clearInterval(hocProgressModalCheck)
     }
   }
-  , 60000) // every 1 min
+    , 60000) // every 1 min
 }
 
 const petThangIDs = [
@@ -1880,7 +1960,7 @@ var currentSeason = function () {
 }
 
 const ageToBracket = function (age) {
-// Convert years to an age bracket
+  // Convert years to an age bracket
   if (!age) { return 'open' }
   for (const bracket of Array.from(ageBrackets)) {
     if (age <= bracket.max) {
@@ -2260,7 +2340,7 @@ const getProductUrl = function (product, url) {
   return url
 }
 
-const allowedLanguages= ({
+const allowedLanguages = ({
   [OZARIA]: ['javascript', 'python'],
   [CODECOMBAT]: ['javascript', 'python', 'java', 'cpp']
 })[product]
@@ -2310,6 +2390,7 @@ module.exports = {
   allCourseIDs,
   allFreeCourseIDs,
   courseModules,
+  courseModuleInfo,
   courseModuleLevels,
   courseNumericalStatus,
   coursesWithProjects,
