@@ -50,6 +50,11 @@ export default Vue.extend({
 <template>
   <div id="modal-base-flat">
     <div class="body">
+      <h3>Notes:</h3>
+      <p>A stop means no one can book trial-classes in that period, so be careful to set them.</p>
+      <p>The timezone is base on the PDT.</p>
+      <p>The past stops will be auto removed.</p>
+      <p>The stop can be lost. so don't set the stop for too long, better to only set within a month.</p>
       <h2>Existed Stops</h2>
       <div class="exists">
         <div
