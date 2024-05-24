@@ -52,6 +52,10 @@ export default {
       activeClassrooms: 'teacherDashboard/getActiveClassrooms'
     }),
 
+    editClassImgSrc () {
+      return '/images/ozaria/teachers/dashboard/svg_icons/iconPencil.svg'
+    },
+
     isCodeCombat () {
       return isCodeCombat
     },
@@ -126,6 +130,10 @@ export default {
       this.$emit('outcomesReport')
     },
 
+    clickEditClass () {
+      this.$emit('editClass', this.classroom)
+    },
+
     clickNewClass () {
       window.tracker?.trackEvent('Add New Class Clicked', { category: 'Teachers', label: this.$route.path })
       this.$emit('newClass')
@@ -150,6 +158,17 @@ export default {
       <h1 :class="showClassInfo ? 'short' : 'long'">
         {{ title }}
       </h1>
+      <div
+        v-if="showClassInfo"
+        class="edit-class"
+      >
+        <a @click="clickEditClass()">
+          <img
+            class="pencil-svg"
+            :src="editClassImgSrc"
+          >
+        </a>
+      </div>
       <class-info-row
         v-if="showClassInfo"
         class="class-info-row"
@@ -333,4 +352,8 @@ h1 {
   }
 }
 
+  .pencil-svg {
+    width: 20px;
+    margin-right: 10px;
+  }
 </style>

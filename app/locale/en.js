@@ -583,7 +583,9 @@ module.exports = {
       teacher_vega_message: 'Students are guided by these tutorial messages. In order to view these messages and to save your progress as you play through the game, please create a student account and play Ozaria as a student.',
       beta_levels_on: 'beta levels on',
       beta_levels_turn_off: 'turn off',
-      confirm_m7_off: 'Are you sure to turn beta levels off?'
+      confirm_m7_off: 'Are you sure to turn beta levels off?',
+      play_codecombat: 'Play CodeCombat',
+      play_codecombat_junior: 'Play CodeCombat Junior'
     },
 
     code: {
@@ -1160,6 +1162,7 @@ module.exports = {
       level_status_optional: 'Optional',
       level_type_practice: 'Practice',
       level_type_challenge: 'Challenge',
+      level_type_level: 'Level',
       level_type_cutscene: 'Cutscene',
       level_type_capstone: 'Capstone',
       level_type_intro: 'Intro',
@@ -1172,6 +1175,7 @@ module.exports = {
       content_type_avatar: 'Avatar Selection',
       content_type_cinematic: 'Cinematic',
       content_type_interactive: 'Concept Check',
+      content_type_arena: 'Arena',
       feedback: 'Feedback',
       ask_teacher_for_help: 'Ask your teacher for help',
       ask_teacher_for_help_offline: 'Your Teacher is currently offline',
@@ -4481,7 +4485,10 @@ module.exports = {
       resource_hub: 'Teacher Toolkit',
       pd: 'Professional Development',
       pd_short: 'PD',
+      apcsp: 'APCSP',
       curriculum_guide: 'Curriculum Guide',
+      curriculum: 'Curriculum',
+      coming_soon: 'Coming Soon!',
       add_class: 'Add New Class',
       no_licenses_yet: 'No licenses yet',
       req_licenses: 'Request Licenses',

@@ -38,7 +38,7 @@ export default {
     <IconCapstone v-else-if="icon=='capstone'" />
     <IconInteractive v-else-if="icon=='interactive'" />
     <IconPracticeLevel v-else-if="icon=='practicelvl'" />
-    <IconChallengeLevel v-else-if="icon=='challengelvl'" />
+    <IconChallengeLevel v-else-if="['challengelvl', 'hero'].includes(icon)" />
     <IconIntro v-else-if="icon=='intro'" />
     <IconIntro v-else />
   </div>

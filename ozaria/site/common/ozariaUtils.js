@@ -1,5 +1,5 @@
 import { merge } from 'lodash'
-import { i18n } from 'app/core/utils'
+import { i18n, isCodeCombat } from 'app/core/utils'
 
 /**
  Utility functions for ozaria
@@ -316,8 +316,10 @@ export function internationalizeContentType (type) {
       return $.i18n.t('play_level.content_type_cinematic')
     case 'interactive':
       return $.i18n.t('play_level.content_type_interactive')
+    case 'course-ladder':
+      return $.i18n.t('play_level.content_type_arena')
     default:
-      return $.i18n.t('play_level.level_type_challenge') // show everything else as "challenge" for now
+      return $.i18n.t(isCodeCombat ? 'play_level.level_type_level' : 'play_level.level_type_challenge') // show everything else as "challenge" for now
   }
 }
 
