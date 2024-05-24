@@ -19,6 +19,7 @@ const ConfirmModal = require('views/core/ConfirmModal')
 const User = require('models/User')
 const algolia = require('core/services/algolia')
 const State = require('models/State')
+const contact = require('core/contact')
 const {
   parseFullName
 } = require('parse-full-name')
@@ -322,17 +323,28 @@ module.exports = (RequestQuoteView = (function () {
     }
 
     onTrialRequestSubmit () {
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Teachers Request Demo Form Submitted', { category: 'Teachers' })
-      }
+      window.tracker?.trackEvent('Teachers Request Demo Form Submitted', { category: 'Teachers' })
       this.formChanged = false
       const trialRequestProperties = this.trialRequest.get('properties')
       me.setRole(trialRequestProperties.role.toLowerCase(), true)
       const defaultName = [trialRequestProperties.firstName, trialRequestProperties.lastName].join(' ')
       this.$('input[name="name"]').val(defaultName)
       this.$('#request-form, #form-submit-success').toggleClass('hide')
+      this.createLicenseRequest(trialRequestProperties)
       this.scrollToTop(0)
       return $('#flying-focus').css({ top: 0, left: 0 }) // Hack copied from Router.coffee#187. Ideally we'd swap out the view and have view-swapping logic handle this
+    }
+
+    createLicenseRequest (trialRequestProperties) {
+      const licenseRequest = {
+        name: trialRequestProperties.firstName,
+        email: trialRequestProperties.email,
+        licensesNeeded: parseInt(trialRequestProperties.numStudents, 10),
+        message: `
+          ${trialRequestProperties.role} ${trialRequestProperties.firstName || ''} from ${trialRequestProperties.organization} in ${trialRequestProperties.city || ''}, ${trialRequestProperties.state || ''} (${trialRequestProperties.country}) has requested a demo.
+        `
+      }
+      contact.send({ data: licenseRequest })
     }
 
     onClickGPlusSignupButton () {
