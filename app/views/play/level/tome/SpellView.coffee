@@ -477,7 +477,7 @@ module.exports = class SpellView extends CocoView
     @lastBlocklyState = if PERSIST_BLOCK_STATE and not @session.fake then storage.load "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}" else null
     if @lastBlocklyState
       @awaitingBlocklySerialization = true
-      blocklyUtils.loadBlocklyState @lastBlocklyState, @blockly
+      blocklyUtils.loadBlocklyState { blocklyState: @lastBlocklyState, blockly: @blockly }
       for block in @blockly.getAllBlocks() when block.type is 'comment'
         # Make long comments not so long. (The full comments will be visible, wrapped, in text version anyway.)
         # TODO: do we like this?
@@ -562,8 +562,9 @@ module.exports = class SpellView extends CocoView
     #console.log 'B2A: Changing ace source from', aceSource, 'to', combined
     #@updateACEText combined
 
-    # Just the code
+    # Don't update Ace if BLockly output code hasn't changed or only differs by Blockly removing newlines
     return { blocklySource, blocklySourceRaw } if blocklySource is aceSource
+    return { blocklySource, blocklySourceRaw } if blocklySource.replace(/(?:[ \t]*\r?\n){2,}/g, '\n') is aceSource.replace(/(?:[ \t]*\r?\n){2,}/g, '\n')
     #console.log 'B2A: Changing ace source from', aceSource, 'to', blocklySource, 'with state', blocklyState
     @updateACEText blocklySource
 
@@ -583,9 +584,13 @@ module.exports = class SpellView extends CocoView
         console.error 'Error preparing Blockly code to blocks conversion:', err
         return
     aceSource = @ace.getValue()
+    if @options.level.get('product') is 'codecombat-junior'
+      # Remove extra newlines so that Junior blocks stay together
+      aceSource = aceSource.replace(/(?:[ \t]*\r?\n){2,}/g, '\n')
+    # Don't update Blockly if code hasn't changed
     return if aceSource and aceSource is blocklySourceRaw
     try
-      newBlocklyState = codeToBlocks { code: @ace.getValue(), originalCode: @spell.originalSource, codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
+      newBlocklyState = codeToBlocks { code: aceSource, originalCode: @spell.originalSource, codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
     catch err
       console.log "Couldn't parse code to get new blockly state:", err, '\nCode:', aceSource
       return
@@ -599,7 +604,7 @@ module.exports = class SpellView extends CocoView
     @eventsSuppressed = true
     @awaitingBlocklySerialization = true
     #console.log 'would set to', newBlocklyState
-    blocklyUtils.loadBlocklyState newBlocklyState, @blockly
+    blocklyUtils.loadBlocklyState { blocklyState: newBlocklyState, blockly: @blockly }
     #@resizeBlockly()  # Needed?
     @eventsSuppressed = false
     @lastBlocklyState = newBlocklyState
@@ -1958,16 +1963,12 @@ module.exports = class SpellView extends CocoView
   onCinematicPlaybackStarted: (e) ->
     return if @cinematic
     @cinematic = true
-    console.log 'cinematic started, tb visible?', @blockly?.getToolbox()?.visible
-    console.log 'cinematic started, fo visible?', @blockly?.getFlyout()?.visible
     @blockly?.getToolbox()?.setVisible false
     @blockly?.getFlyout()?.setVisible false
 
   onCinematicPlaybackEnded: (e) ->
     return unless @cinematic
     @cinematic = false
-    console.log 'cinematic ended, tb visible?', @blockly?.getToolbox()?.visible
-    console.log 'cinematic ended, fo visible?', @blockly?.getFlyout()?.visible
     @blockly?.getToolbox()?.setVisible true
     @blockly?.getFlyout()?.setVisible true
     null
