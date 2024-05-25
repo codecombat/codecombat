@@ -534,7 +534,8 @@ module.exports = class SpellView extends CocoView
     { blocklySource, blocklySourceRaw } = @blocklyToAce e
 
     return unless blocklySource and e.type in blocklyUtils.blocklyFinishedMutationEvents and blocklySource.trim().replace(/\n\s*\n/g, '\n') isnt @spell.source.trim().replace(/\n\s*\n/g, '\n')
-    return if e.type is Blockly.Events.BLOCK_MOVE and not ('drag' in (e.reason or []))  # Sometimes move event happens when blocks are moving around during a drag, but the drag isn't done
+    # Sometimes move event happens when blocks are moving around during a drag, but the drag isn't done. e.reason including 'drag' means it's done, 'connect' happens when clicked-to-insert.
+    return if e.type is Blockly.Events.BLOCK_MOVE and not ('drag' in (e.reason or [])) and not ('connect' in (e.reason or []))
 
     if blocklySourceRaw isnt blocklySource
       # Blocks -> code processing introduced a significant change and should rewrite the blocks to match that change
