@@ -850,6 +850,7 @@ export default Vue.extend({
           <div class="col-xs-12 buttons">
             <tertiary-button
               v-if="archived"
+              class="class-unarchive"
               @click="unarchiveClass"
             >
               <img src="/images/ozaria/teachers/dashboard/svg_icons/IconUnarchive.svg">
@@ -857,6 +858,7 @@ export default Vue.extend({
             </tertiary-button>
             <tertiary-button
               v-if="!classroomInstance.isNew() && !archived"
+              class="class-archive"
               @click="archiveClass"
             >
               <img src="/images/ozaria/teachers/dashboard/svg_icons/IconArchive.svg">
@@ -864,6 +866,7 @@ export default Vue.extend({
             </tertiary-button>
             <secondary-button
               :disabled="saving"
+              class="class-submit"
               @click="saveClass"
             >
               {{ classroomInstance.isNew() ? $t("courses.create_class") : $t("common.save_changes") }}
