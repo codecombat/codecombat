@@ -35,14 +35,14 @@
       activeMethod = function() {
         return activity.onActive();
       };
-      window.addEventListener('click', activeMethod);
-      window.addEventListener('mousemove', activeMethod);
-      window.addEventListener('mouseenter', activeMethod);
-      window.addEventListener('keydown', activeMethod);
-      window.addEventListener('scroll', activeMethod);
-      window.addEventListener('mousewheel', activeMethod);
-      window.addEventListener('touchmove', activeMethod);
-      window.addEventListener('touchstart', activeMethod);
+      window.addEventListener('click', activeMethod, { passive: true });
+      window.addEventListener('mousemove', activeMethod, { passive: true });
+      window.addEventListener('mouseenter', activeMethod, { passive: true });
+      window.addEventListener('keydown', activeMethod, { passive: true });
+      window.addEventListener('scroll', activeMethod, { passive: true });
+      window.addEventListener('mousewheel', activeMethod, { passive: true });
+      window.addEventListener('touchmove', activeMethod, { passive: true });
+      window.addEventListener('touchstart', activeMethod, { passive: true });
     }
 
     Idle.prototype.onActive = function() {

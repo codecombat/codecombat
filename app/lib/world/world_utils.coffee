@@ -115,7 +115,7 @@ module.exports.consolidateThangs = consolidateThangs = (thangs) ->
   dissectRectangles grid, addStructuralThang, false, debug
 
   # Now add the new structural thangs back to thangs and return the ones not in the dissection.
-  console.log 'Turned', structural.length, 'structural Thangs into', dissection.length, 'dissecting Thangs.'
+  #console.log 'Turned', structural.length, 'structural Thangs into', dissection.length, 'dissecting Thangs.'
   thangs.push dissection...
   structural[dissection.length ... structural.length]
 

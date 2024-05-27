@@ -13,7 +13,7 @@
           "type": "image/png"
       }
   ],
-  "start_url": "/play",
+  "start_url": "/play/",
   "display": "standalone",
   "orientation": "landscape",
   "scope": "/play/",
