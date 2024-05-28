@@ -85,8 +85,4 @@ export default Vue.extend({
   line-height: 21px;
   margin-left: 10px;
 }
-.inactive-text {
-  @include font-p-4-paragraph-smallest-gray;
-  margin-top: 5px;
-}
 </style>
