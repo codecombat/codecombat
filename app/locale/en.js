@@ -5888,6 +5888,8 @@ module.exports = {
       'gpt-4-description': 'Writes code for web games and apps.',
       'claude-description': 'Writes stories and summarizes documents.',
       locked: 'LOCKED',
+      view: 'View',
+      continue: 'Continue'
     }
   }
 }

@@ -91,13 +91,14 @@ export default {
         assignmentMap.set(courseID, new Set(members || []))
       }
 
-      if (selectedCourseId === utils.courseIDs.HACKSTACK) {
+      if (this.isHackStackCourse(selectedCourseId)) {
         const hackStackModuleNames = this.aiScenarios.reduce((acc, scenario) => {
           acc.add(scenario.tool)
           return acc
         }, new Set())
 
         const hackStackModels = [...hackStackModuleNames].map((moduleName, key) => {
+          const createModeUnlocked = false
           const moduleNum = key + 1
           const classSummaryProgress = []
           const moduleScenarios = (this.aiScenarios || [])
@@ -125,53 +126,16 @@ export default {
             studentSessions: this.students.reduce((studentSessions, student) => {
               studentSessions[student._id] = moduleScenarios
                 .map((aiScenario, index) => {
-                  const details = {}
-                  classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
-                  // const summary = classSummaryProgress[index]
-                  const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario._id]
-                  if (aiProjects) {
-                    details.status = 'progress'
-                    classSummaryProgress[index].status = 'progress'
-
-                    details.clickHandler = () => {
-                      this.showPanelProjectContent({
-                        header: 'HackStack Project',
-                        student,
-                        classroomId: this.classroomId, // TODO remove and use classroomId from teacherDashboard vuex
-                        selectedCourseId: this.selectedCourseId,
-                        moduleNum,
-                        aiScenario,
-                        aiProjects
-                      })
-                    }
-
-                    if (aiProjects.some(scenario => scenario.actionQueue.length === 0)) {
-                      details.status = 'complete'
-                    }
-                  }
-                  const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario._id, 'lockedScenario')
-                  const isPlayable = !isLocked
-
-                  if (!assignmentMap.get(selectedCourseId)?.has(student._id)) {
-                    // Return unassigned progress dot if the student isn't in the course-instance.
-                    details.status = 'unassigned'
-                    return details
-                  }
-
-                  return {
-                    status: 'assigned',
-                    normalizedType: 'challengelvl',
-                    isLocked,
-                    isSkipped: false,
-                    lockDate: null,
-                    lastLockDate: null,
-                    original: aiScenario._id,
-                    normalizedOriginal: aiScenario._id,
-                    isOptional: false,
-                    isPlayable,
-                    isPractice: false,
-                    ...details
-                  }
+                  return this.createProgressDetailsByAiScenario({
+                    aiScenario,
+                    index,
+                    student,
+                    classSummaryProgress,
+                    moduleNum,
+                    createModeUnlocked,
+                    assignmentMap,
+                    selectedCourseId
+                  })
                 })
 
               return studentSessions
@@ -504,7 +468,7 @@ export default {
     this.closePanel()
     this.clearSelectedStudents()
     this.setClassroomId(to.params.classroomId)
-    this.setSelectedCourseIdCurrentClassroom({ courseId: utils.courseIDs.HACKSTACK })
+    this.setSelectedCourseIdCurrentClassroom({ courseId: to.params.courseId || utils.courseIDs.HACKSTACK })
     next()
   },
 
@@ -540,6 +504,10 @@ export default {
       closePanel: 'teacherDashboardPanel/closePanel'
     }),
 
+    isHackStackCourse (selectedCourseId) {
+      return selectedCourseId === utils.courseIDs.HACKSTACK
+    },
+
     async fetchClassroomData (classroomId) {
       if (!this.getClassroomById(classroomId)) {
         await this.fetchClassroomById(classroomId)
@@ -568,6 +536,72 @@ export default {
         }
       } else {
         this.clearSelectedStudents()
+      }
+    },
+
+    setProgressDetails (details, classSummaryProgress, index) {
+      details.status = 'progress'
+      classSummaryProgress[index].status = 'progress'
+    },
+
+    setClickHandler (details, student, moduleNum, aiScenario, aiProjects) {
+      details.clickHandler = () => {
+        this.showPanelProjectContent({
+          header: 'HackStack Project',
+          student,
+          classroomId: this.classroomId,
+          selectedCourseId: this.selectedCourseId,
+          moduleNum,
+          aiScenario,
+          aiProjects
+        })
+      }
+    },
+
+    checkIfComplete (aiProjects, details) {
+      if (aiProjects.some(scenario => scenario.actionQueue.length === 0)) {
+        details.status = 'complete'
+        return true
+      }
+      return false
+    },
+
+    createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum, createModeUnlocked, assignmentMap, selectedCourseId }) {
+      const details = {}
+      classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
+      const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario._id]
+
+      if (aiProjects) {
+        this.setProgressDetails(details, classSummaryProgress, index)
+        this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
+        createModeUnlocked = this.checkIfComplete(aiProjects, details)
+      }
+
+      let isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario._id, 'lockedScenario')
+      if (aiScenario.mode === 'use' && !createModeUnlocked) {
+        isLocked = true
+      }
+
+      const isPlayable = !isLocked
+
+      if (!assignmentMap.get(selectedCourseId)?.has(student._id)) {
+        details.status = 'unassigned'
+        return details
+      }
+
+      return {
+        status: 'assigned',
+        normalizedType: 'challengelvl',
+        isLocked,
+        isSkipped: false,
+        lockDate: null,
+        lastLockDate: null,
+        original: aiScenario._id,
+        normalizedOriginal: aiScenario._id,
+        isOptional: false,
+        isPlayable,
+        isPractice: false,
+        ...details
       }
     },
 

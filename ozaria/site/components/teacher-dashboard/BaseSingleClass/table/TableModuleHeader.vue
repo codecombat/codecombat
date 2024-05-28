@@ -212,7 +212,7 @@ export default {
       </v-popover>
     </div>
     <div
-      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal }, idx) of listOfContent"
+      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal, normalizedType }, idx) of listOfContent"
       :key="`${idx}-${type}`"
       class="content-icons"
     >

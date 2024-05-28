@@ -95,6 +95,7 @@ _.extend(ClassroomSchema.properties, {
         courseId: c.objectId(),
         levelOriginal: c.objectId(),
         lockedScenarioLevels: c.object({
+          description: 'AI Scenario levels that can be locked or unlocked',
           additionalProperties: ['boolean', c.stringDate()]
         }),
         lockedLevels: c.object({

@@ -17,16 +17,17 @@ export default {
 
   mutations: {
     addScenarios (state, scenarios) {
-      scenarios.forEach(c => Vue.set(state.byId, c._id, c))
+      for (const scenario of scenarios) {
+        Vue.set(state.byId, scenario._id, scenario)
+      }
     },
   },
 
   actions: {
     async fetchReleased ({ commit, state }, options) {
-      if (options == null) { options = {} }
-      const scenarios = await api.aiScenarios.getReleased(options)
-      const filteredScenarios = scenarios.filter(scenario => scenario.releasePhase === 'released')
-      commit('addScenarios', filteredScenarios)
+      const effectiveOptions = options || {}
+      const scenarios = await api.aiScenarios.getReleased(effectiveOptions)
+      commit('addScenarios', scenarios)
     }
   }
 }

@@ -77,14 +77,13 @@ export default {
         dispatch('computeAiProjectMapForClassroom', classroom._id)
       } catch (e) {
         console.log(e)
-        noty({ text: 'Fetch ai projects failure' + e, type: 'error' })
+        noty({ text: `Fetch ai projects failure: ${e}`, type: 'error' })
       } finally {
         commit('toggleClassroomLoading', classroom._id)
       }
     },
 
     computeAiProjectCompletionByUserForClassroom ({ commit, state }, classroomId) {
-      // todo
       const classroomSessionsState = state.levelSessionsByClassroom[classroomId]
       if (!classroomSessionsState || !classroomSessionsState.sessions) {
         throw new Error('Sessions not loaded')

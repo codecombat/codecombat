@@ -44,6 +44,7 @@ _.extend(AIProjectSchema.properties, {
     items: { type: ['object', 'string'], format: 'chat-message-link' },
   },
   wrongChoices: {
+    description: 'List of incorrect choices made in the project',
     type: 'array',
     items: {
       type: 'object',

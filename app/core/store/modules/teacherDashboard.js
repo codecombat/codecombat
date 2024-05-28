@@ -423,7 +423,10 @@ export default {
           project: (options.data || {}).levelSessions
         }
         fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
+
+        // todo: optimize this to fetch only if needed
         fetchPromises.push(dispatch('aiProjects/fetchForClassroomMembers', { classroom }, { root: true }))
+
         if (options.fetchInteractiveSessions) {
           fetchPromises.push(dispatch('interactives/fetchSessionsForClassroomMembers', classroom, { root: true }))
         }
