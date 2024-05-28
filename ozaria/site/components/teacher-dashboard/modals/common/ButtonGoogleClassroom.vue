@@ -29,6 +29,9 @@ export default Vue.extend({
 <template>
   <div class="google-classroom-button">
     <div
+      v-tooltip.bottom="{
+        content: inactive ? $t('teachers.google_classroom_disabled_text') : null
+      }"
       class="link-google-classroom"
       :class="{ disabled: inactive || inProgress }"
       @click="onClick"
@@ -43,10 +46,6 @@ export default Vue.extend({
       >
       <span class="google-classroom-text"> {{ text }} </span>
     </div>
-    <span
-      v-if="inactive"
-      class="inactive-text"
-    > {{ $t("teachers.google_classroom_disabled_text") }} </span>
   </div>
 </template>
 
@@ -71,6 +70,11 @@ export default Vue.extend({
     cursor: default;
     box-shadow: none;
     color: #757575;
+    padding: 5px;
+    .google-classroom-text {
+      font-size: 14px;
+      line-height: 16px;
+    }
   }
 }
 .google-classroom-text {

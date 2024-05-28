@@ -846,7 +846,7 @@ export default Vue.extend({
           </a>
           <!--eslint-enable-->
         </div>
-        <div class="form-group row buttons">
+        <div class="form-group row">
           <div class="col-xs-12 buttons">
             <tertiary-button
               v-if="archived"
@@ -922,8 +922,8 @@ export default Vue.extend({
 }
 
 .buttons {
-  align-self: flex-end;
   display: flex;
+  justify-content: flex-end;
   margin-top: 15px;
 
   button {
