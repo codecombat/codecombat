@@ -62,6 +62,7 @@
                 class="content-icon"
                 :src="item.image"
                 :alt="item.alt || item.title"
+                :loading="lazyLoad ? 'lazy': ''"
               >
             </div>
             <div class="content-text">
@@ -114,6 +115,10 @@ export default {
     hasBackground: {
       type: Boolean,
       default: true
+    },
+    lazyLoad: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
