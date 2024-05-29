@@ -39,6 +39,7 @@
           :show-tabs="false"
           :show-dots="true"
           :has-background="false"
+          :lazy-load="true"
         >
           <template
             v-for="(item, index) in testimonals"
@@ -59,7 +60,10 @@
     </background-container>
 
     <div class="container main-carousel">
-      <carousel-component :show-tabs="true">
+      <carousel-component
+        :show-tabs="true"
+        :lazy-load="true"
+      >
         <template
           v-for="(item, index) in carouselItems"
           #[`${index}`]
@@ -102,10 +106,12 @@
     <box-panel
       :title="$t('home_v3.engaging_play_experiences')"
       :items="engagingBoxes"
+      :lazy-load="true"
     />
     <box-panel
       :title="$t('home_v3.for_younger_learners')"
       :items="youngLearners"
+      :lazy-load="true"
     />
 
     <background-container type="sides">
@@ -140,6 +146,7 @@
     <box-panel
       :title="$t('home_v3.your_turnkey_solutions')"
       :items="solutions"
+      :lazy-load="true"
     />
 
     <div

@@ -45,6 +45,7 @@
               v-else
               :src="item.image"
               :alt="`Image to illustrate ${item.title}`"
+              :loading="lazyLoad ? 'lazy' : ''"
             >
           </template>
           <template #title>
@@ -105,6 +106,10 @@ export default {
       validator: function (value) {
         return ARRANGEMENT_OPTIONS.includes(value)
       }
+    },
+    lazyLoad: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
