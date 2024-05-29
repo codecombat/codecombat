@@ -2358,6 +2358,14 @@ module.exports.aiToolToImage = {
   'dall-e-3': '/images/ai/DALL-E.webp',
 }
 
+const getUserTimeZone = function (user) {
+  const geo = user.get('geo')
+  if (geo?.timeZone) {
+    return geo.timeZone
+  } else {
+    return moment.tz.guess()
+  }
+}
 
 module.exports = {
   ...module.exports,
@@ -2423,6 +2431,7 @@ module.exports = {
   getAnonymizationStatus,
   getCorrectName,
   grayscale,
+  getUserTimeZone,
   hexToHSL,
   hourOfCodeOptions,
   hslToHex,

@@ -36,7 +36,7 @@ const EventSchema = schema.object(
       type: 'string',
       description: 'meeting link of the event, i.e. zoom link'
     },
-    state: { type: 'string', description: 'state of the event', enum: ['pending', 'active'] },
+    state: { type: 'string', description: 'state of the event', enum: ['pending', 'active', 'cancelled'] },
     properties: {
       type: 'object',
       additionalProperties: true,
