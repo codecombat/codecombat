@@ -44,7 +44,6 @@
 <script>
 import { fetchAvailableTime } from '../../../core/api/online-classes'
 import StylishCalendar from '../../events/components/StylishCalendar'
-import { getUserTimeZone } from '../../../core/utils'
 import moment from 'moment-timezone'
 
 export default {
@@ -55,6 +54,14 @@ export default {
   props: {
     classInfo: {
       type: Object,
+      required: true
+    },
+    serverTz: {
+      type: String,
+      required: true
+    },
+    userTz: {
+      type: String,
       required: true
     }
   },
@@ -67,15 +74,6 @@ export default {
       date: null
     }
   },
-  computed: {
-    serverTz () {
-      return 'America/Los_Angeles'
-      /* return features?.chinaInfra ? 'Asia/Shanghai' : 'America/Los_Angeles' */
-    },
-    userTz () {
-      return getUserTimeZone(me)
-    },
-  },
   mounted () {
     this.checkTime()
   },
@@ -86,12 +84,21 @@ export default {
     getDates () {
       const dates = new Set()
       this.allTimes.forEach(t => {
-        dates.add(t.tz(this.userTz).format('YYYY-MM-DD'))
+        dates.add(t.clone().tz(this.userTz).format('YYYY-MM-DD'))
       })
       return Array.from(dates)
     },
-    async emitInfo () {
-      this.$emit('next', { date: this.date, time: this.time })
+    serverDate (date, time) {
+      return moment.tz(date, this.userTz).set({
+        hour: Math.floor(time),
+        minute: Math.floor((time - Math.floor(time)) * 60),
+        second: 0,
+        millisecond: 0
+      }).tz(this.serverTz).format('YYYY-MM-DD')
+    },
+    emitInfo () {
+      const serverDate = this.serverDate(this.date, this.time)
+      this.$emit('next', { date: serverDate, time: this.time })
     },
     async checkTime () {
       try {
@@ -105,17 +112,17 @@ export default {
           })
           this.$emit('back')
         }
-        this.allTimes = this.convertLocaleTime(times)
+        this.allTimes = this.convertTimeAsServerTime(times)
         this.events = this.getDates().map((d, i) => this.formatEvent(d, i))
       } catch (e) {
         console.error(e)
       }
     },
-    convertLocaleTime (times) {
-      const localeTime = []
+    convertTimeAsServerTime (times) {
+      const serverTime = []
       times.forEach(t => {
         t.times.forEach(ti => {
-          localeTime.push(moment.tz(t.date, this.serverTz).set({
+          serverTime.push(moment.tz(t.date, this.serverTz).set({
             hour: Math.floor(ti),
             minute: Math.floor((ti - Math.floor(ti)) * 60),
             second: 0,
@@ -123,7 +130,7 @@ export default {
           }))
         })
       })
-      return localeTime
+      return serverTime
     },
     formatEvent (date, index) {
       return {
@@ -136,7 +143,7 @@ export default {
     },
     getTimesIDay () {
       if (this.date) {
-        return this.allTimes.filter(t => t.tz(this.userTz).format('YYYY-MM-DD') === this.date)
+        return this.allTimes.filter(t => t.clone().tz(this.userTz).format('YYYY-MM-DD') === this.date)
       } else {
         return []
       }
