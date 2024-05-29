@@ -1,4 +1,3 @@
-import SegmentTracker from './SegmentTracker'
 import CookieConsentTracker from './CookieConsentTracker'
 import InternalTracker from './InternalTracker'
 import BaseTracker from './BaseTracker'
@@ -31,7 +30,6 @@ export default class Tracker2 extends BaseTracker {
 
     this.cookieConsentTracker = new CookieConsentTracker(this.store)
     this.internalTracker = new InternalTracker(this.store)
-    this.segmentTracker = new SegmentTracker(this.store)
     this.googleAnalyticsTracker = new GoogleAnalyticsTracker(this.store)
     this.fullStoryTracker = new FullStoryTracker(this.store, this)
     this.facebookPixelTracker = new FacebookPixelTracker(this.store)
@@ -49,7 +47,6 @@ export default class Tracker2 extends BaseTracker {
       // add trackers we don't want china to enable here.
       this.trackers = [
         ...this.trackers,
-        this.segmentTracker,
         this.googleAnalyticsTracker,
         this.fullStoryTracker,
         this.facebookPixelTracker,

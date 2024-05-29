@@ -39,6 +39,7 @@ const AnnouncementModal = require('views/play/modal/AnnouncementModal')
 const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
 const MineModal = require('views/core/MineModal') // Roblox modal
+const JuniorModal = require('views/core/JuniorModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
 const Course = require('models/Course')
@@ -436,19 +437,19 @@ module.exports = (CampaignView = (function () {
       clearTimeout(this.playMusicTimeout)
       clearInterval(this.portalScrollInterval)
       Backbone.Mediator.unsubscribe('audio-player:loaded', this.playAmbientSound, this)
-      return super.destroy()
+      super.destroy()
     }
 
     showLoading ($el) {
       if (!this.campaign) {
         this.$el.find('.game-controls, .user-status').addClass('hidden')
-        return this.$el.find('.portal .campaign-name span').text($.i18n.t('common.loading'))
+        this.$el.find('.portal .campaign-name span').text($.i18n.t('common.loading'))
       }
     }
 
     hideLoading () {
       if (!this.campaign) {
-        return this.$el.find('.game-controls, .user-status').removeClass('hidden')
+        this.$el.find('.game-controls, .user-status').removeClass('hidden')
       }
     }
 
@@ -456,90 +457,87 @@ module.exports = (CampaignView = (function () {
       if (e) {
         window.tracker?.trackEvent('Click Promotion Modal Button')
       }
-      return this.openModalView(new PromotionModal())
+      this.openModalView(new PromotionModal())
+    }
+
+    openJuniorPromotionModal (e) {
+      window.tracker?.trackEvent('Junior Explored')
+      this.openModalView(new JuniorModal())
     }
 
     openPlayItemsModal (e) {
       e.stopPropagation()
-      return this.openModalView(new PlayItemsModal())
+      this.openModalView(new PlayItemsModal())
     }
 
     openPlayHeroesModal (e) {
       e.stopPropagation()
-      return this.openModalView(new PlayHeroesModal({ campaign: this.campaign }))
+      this.openModalView(new PlayHeroesModal({ campaign: this.campaign }))
     }
 
     openPlayAchievementsModal (e) {
       e.stopPropagation()
-      return this.openModalView(new PlayAchievementsModal())
+      this.openModalView(new PlayAchievementsModal())
     }
 
     openBuyGemsModal (e) {
       e.stopPropagation()
-      return this.openModalView(new BuyGemsModal())
+      this.openModalView(new BuyGemsModal())
     }
 
     openContactModal (e) {
       e.stopPropagation()
-      return this.openModalView(new ContactModal())
+      this.openModalView(new ContactModal())
     }
 
     openCreateAccountModal (e) {
       e?.stopPropagation?.()
-      return this.openModalView(new CreateAccountModal())
+      this.openModalView(new CreateAccountModal())
     }
 
     openAnonymousTeacherModal (e) {
       e.stopPropagation()
       this.openModalView(new AnonymousTeacherModal())
-      return this.endHighlight()
+      this.endHighlight()
     }
 
     onClickAmazonCampaign (e) {
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Click Amazon Modal Button')
-      }
-      return this.openModalView(new AmazonHocModal({ hideCongratulation: true }))
+      window.tracker?.trackEvent('Click Amazon Modal Button')
+      this.openModalView(new AmazonHocModal({ hideCongratulation: true }))
     }
 
-    onClickAnonClassroomClose () { return __guard__(this.$el.find('#anonymous-classroom-signup-dialog'), x => x.hide()) }
+    onClickAnonClassroomClose () {
+      this.$el.find('#anonymous-classroom-signup-dialog').hide()
+      storage.save('hid-anonymous-classroom-signup-dialog', true)
+    }
 
     onClickAnonClassroomJoin () {
       const classCode = __guard__(this.$el.find('#anon-classroom-signup-code'), x => x.val())
       if (_.isEmpty(classCode)) { return }
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Anonymous Classroom Signup Modal Join Class', { category: 'Signup' }, classCode)
-      }
-      return application.router.navigate(`/students?_cc=${classCode}`, { trigger: true })
+      window.tracker?.trackEvent('Anonymous Classroom Signup Modal Join Class', { category: 'Signup' }, classCode)
+      application.router.navigate(`/students?_cc=${classCode}`, { trigger: true })
     }
 
     onClickAnonClassroomSignup () {
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Anonymous Classroom Signup Modal Create Teacher', { category: 'Signup' })
-      }
-      return this.openModalView(new CreateAccountModal({ startOnPath: 'teacher' }))
+      window.tracker?.trackEvent('Anonymous Classroom Signup Modal Create Teacher', { category: 'Signup' })
+      this.openModalView(new CreateAccountModal({ startOnPath: 'teacher' }))
     }
 
     onClickVideosButton () {
-      return this.openModalView(new CourseVideosModal({ courseInstanceID: this.courseInstanceID, courseID: this.course.get('_id') }))
+      this.openModalView(new CourseVideosModal({ courseInstanceID: this.courseInstanceID, courseID: this.course.get('_id') }))
     }
 
     onClickEsportsButton (e) {
-      if (this.$levelInfo != null) {
-        this.$levelInfo.hide()
-      }
+      this.$levelInfo?.hide()
       const arenaSlug = $(e.target).data('arena')
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Click LevelInfo AI League Button', { category: 'World Map', label: arenaSlug })
-      }
+      window.tracker?.trackEvent('Click LevelInfo AI League Button', { category: 'World Map', label: arenaSlug })
       this.$levelInfo = this.$el.find(`.level-info-container.league-arena-tooltip[data-arena='${arenaSlug}']`).show()
-      console.log(this.$levelInfo, 'click it', arenaSlug)
-      return this.adjustLevelInfoPosition(e)
+      this.adjustLevelInfoPosition(e)
     }
 
     onClickEsportsLink (e) {
       const arenaSlug = $(e.target).data('arena')
-      return (window.tracker != null ? window.tracker.trackEvent('Click Play AI League Button', { category: 'World Map', label: arenaSlug }) : undefined)
+      window.tracker?.trackEvent('Click Play AI League Button', { category: 'World Map', label: arenaSlug })
     }
 
     onLoaded () {
@@ -592,7 +590,7 @@ module.exports = (CampaignView = (function () {
       }
 
       // Roblox Modal:
-      return this.maybeShowRobloxModal()
+      this.maybeShowRobloxModal()
     }
 
     updateClassroomSessions () {
@@ -654,15 +652,13 @@ module.exports = (CampaignView = (function () {
 
     maybeShowRobloxModal () {
       if (this.userQualifiesForRobloxModal()) {
-        return $('.roblox-level').show()
+        $('.roblox-level').show()
       }
     }
 
     onRobloxLevelClick (e) {
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Mine Explored', { engageAction: 'campaign_level_click' })
-      }
-      return this.openModalView(new MineModal())
+      window.tracker?.trackEvent('Mine Explored', { engageAction: 'campaign_level_click' })
+      this.openModalView(new MineModal())
     }
 
     onHackStackLevelClick (e) {
@@ -673,12 +669,12 @@ module.exports = (CampaignView = (function () {
 
     setCampaign (campaign) {
       this.campaign = campaign
-      return this.render()
+      this.render()
     }
 
     onSubscribed () {
       this.requiresSubscription = false
-      return this.render()
+      this.render()
     }
 
     getRenderData (context) {
@@ -839,6 +835,8 @@ module.exports = (CampaignView = (function () {
             this.$el.find('button.promotion-menu-icon').addClass('highlighted').tooltip('show')
             storage.save('pointed-out-promotion', timesPointedOutPromotion + 1)
           }
+        } else if (this.shouldShow('junior-promotion')) {
+          this.openJuniorPromotionModal()
         }
       }
       return this.applyCampaignStyles()
@@ -1745,7 +1743,7 @@ ${problem.category} - ${problem.score} points\
     }
 
     activatePoll (forceShowPoll) {
-      if (this.shouldShow('promotion')) { return }
+      if (this.shouldShow('promotion') || this.shouldShow('junior-promotion')) { return }
       if (!this.poll) { return }
       const pollTitle = utils.i18n(this.poll.attributes, 'name')
       const $pollButton = this.$el.find('button.poll').removeClass('hidden').addClass('highlighted').attr({ title: pollTitle }).addClass('has-tooltip').tooltip({ title: pollTitle })
@@ -2042,6 +2040,10 @@ ${problem.category} - ${problem.score} points\
         return me.finishedAnyLevels() && !features.noAds && !isStudentOrTeacher && (me.get('country') === 'united-states') && (me.get('preferredLanguage', true) === 'en-US') && (new Date() < new Date(2019, 11, 20))
       }
 
+      if (what === 'junior-promotion') {
+        return !me.finishedAnyLevels() && !this.terrain && me.getJuniorExperimentValue() === 'beta'
+      }
+
       if (['status-line'].includes(what)) {
         return (me.showGemsAndXpInClassroom() || !isStudentOrTeacher) && !this.editorMode
       }
@@ -2067,7 +2069,7 @@ ${problem.category} - ${problem.score} points\
       }
 
       if (['videos'].includes(what)) {
-        return me.isStudent() && ((this.course != null ? this.course.get('_id') : undefined) === utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE)
+        return me.isStudent() && this.course?.get('_id') === utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
       }
 
       if (['buy-gems'].includes(what)) {
@@ -2079,11 +2081,11 @@ ${problem.category} - ${problem.score} points\
       }
 
       if (what === 'anonymous-classroom-signup') {
-        return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() && !this.editorMode
+        return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() && !this.editorMode && this.terrain !== 'junior' && !storage.load('hid-anonymous-classroom-signup-dialog')
       }
 
       if (what === 'amazon-campaign') {
-        return (this.campaign != null ? this.campaign.get('slug') : undefined) === 'game-dev-hoc'
+        return this.campaign?.get('slug') === 'game-dev-hoc'
       }
 
       if (what === 'santa-clara-logo') {

@@ -272,13 +272,14 @@ export default Vue.extend({
       const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), title: 'CodeCombat Teacher Dashboard' }
       const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), title: 'Ozaria Teacher Dashboard' }
 
+      const cocoAdmin = { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'CodeCombat Admin Dashboard' }
+      const ozarAdmin = { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'Ozaria Admin Dashboard' }
+
       const educator = {
         'my-dashboards': {
           title: 'nav.my_dashborads',
           children: [
-            ...(isCodeCombat ? [teacherCocoCllasses, teacherOzarClasses] : [teacherOzarClasses, teacherCocoCllasses]),
-            { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'CodeCombat Admin Dashboard' },
-            { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'Ozaria Admin Dashboard' },
+            ...(isCodeCombat ? [teacherCocoCllasses, teacherOzarClasses, cocoAdmin, ozarAdmin] : [teacherOzarClasses, teacherCocoCllasses, ozarAdmin, cocoAdmin]),
           ]
         },
         resources: {
@@ -423,7 +424,7 @@ export default Vue.extend({
                 source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
               img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
-            a.navbar-brand(v-else-if="serverConfig.codeNinjas || me.isCodeNinja()" :href="homeLink")
+            a.navbar-brand(v-else-if="(serverConfig.codeNinjas || me.isCodeNinja())" :href="homeLink")
               picture
                 source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
@@ -875,8 +876,15 @@ nav#main-nav.navbar.dark-mode {
   }
 }
 
-.tecmilenio-logo {
-  height: 41px;
+.tecmilenio-logo, #tarena-logo {
+  height: 36px;
+  margin-left: 20px;
+  margin-top: 5px;
+}
+
+.code-ninjas-logo {
+  height: 51px;
+  margin: -5px 0 -5px 20px;
 }
 
 </style>

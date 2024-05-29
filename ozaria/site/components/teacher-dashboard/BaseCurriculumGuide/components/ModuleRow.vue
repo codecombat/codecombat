@@ -18,8 +18,19 @@ export default {
       }
     },
 
+    nameType: {
+      type: String,
+      required: false,
+      default: null
+    },
+
     displayName: {
       type: String,
+      required: true
+    },
+
+    levelNumber: {
+      type: [String, Number],
       required: true
     },
 
@@ -77,8 +88,9 @@ export default {
     },
 
     getContentTypeHeader () {
-      if (this.iconType) {
-        return getGameContentDisplayType(this.iconType, true, true)
+      if (this.nameType) {
+        const name = getGameContentDisplayType(this.nameType, true, true)
+        return `${name}:`
       } else {
         return ''
       }
@@ -108,7 +120,7 @@ export default {
         :icon="iconType"
       />
       <p class="content-heading">
-        <b>{{ getContentTypeHeader }}: {{ displayName }}</b>
+        <b>{{ `${levelNumber }${levelNumber ? (nameType ? '.' : ':') : ''} ${getContentTypeHeader} ${ displayName.replace('Course: ', '')}` }}</b>
       </p>
       <p class="content-desc">
         {{ clearDescription }}
@@ -205,6 +217,8 @@ export default {
   .content-icon {
     width: 18px;
     height: 18px;
+    min-width: 18px;
+    min-height: 18px;
   }
 
   .content-desc {

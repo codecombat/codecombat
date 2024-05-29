@@ -145,8 +145,6 @@ block content
           .col-md-offset-2.col-md-4
             .form-group
               span.control-label(data-i18n="courses.number_programming_students")
-              .help-block.small
-                em.text-info(data-i18n="teachers_quote.num_students_help", data-i18n-options=JSON.stringify({ product }))
               select.form-control(name="numStudents")
                 option(data-i18n="teachers_quote.num_students_default", value='')
                 option 1-10
@@ -156,6 +154,8 @@ block content
                 option 201-500
                 option 501-1000
                 option 1000+
+              .help-block.small
+                em.text-info(data-i18n="teachers_quote.num_students_help", data-i18n-options=JSON.stringify({ product })) 
 
           .col-md-4.col-sm-6
             .form-group

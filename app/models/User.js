@@ -1098,7 +1098,7 @@ module.exports = (User = (function () {
       }
       if ((value == null)) {
         let valueProbability
-        const probability = window.serverConfig?.experimentProbabilities?.m7?.beta != null ? window.serverConfig?.experimentProbabilities?.m7?.beta : 0
+        const probability = window.serverConfig?.experimentProbabilities?.m7?.beta != null ? window.serverConfig.experimentProbabilities.m7.beta : 0
         if ((me.get('testGroupNumber') / 256) < probability) {
           value = 'beta'
           valueProbability = probability
@@ -1163,7 +1163,7 @@ module.exports = (User = (function () {
       }
       if ((!value)) {
         let valueProbability
-        const probability = window.serverConfig?.experimentProbabilities?.hackstack?.beta != null ? window.serverConfig?.experimentProbabilities?.hackstack?.beta : 0.05
+        const probability = window.serverConfig?.experimentProbabilities?.hackstack?.beta != null ? window.serverConfig.experimentProbabilities.hackstack.beta : 0.05
         if (Math.random() < probability) {
           value = 'beta'
           valueProbability = probability
@@ -1173,6 +1173,51 @@ module.exports = (User = (function () {
         }
         console.log('starting hackstack experiment with value', value, 'prob', valueProbability)
         me.startExperiment('hackstack', value, valueProbability)
+      }
+      return value
+    }
+
+    getJuniorExperimentValue () {
+      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('junior')]
+      if (value == null) { value = me.getExperimentValue('junior', null, 'beta') }
+      if ((value == null) && utils.isOzaria) {
+        // Don't include Ozaria for now
+        value = 'control'
+      }
+      if (userUtils.isInLibraryNetwork()) {
+        value = 'control'
+      }
+      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
+        // Don't include non-English-speaking users before we fine-tune for other languages
+        value = 'control'
+      }
+      if ((value == null) && me.get('hourOfCode')) {
+        // Don't include users coming in through Hour of Code
+        value = 'control'
+      }
+      if ((value == null) && me.get('role')) {
+        // Don't include users other than home users
+        value = 'control'
+      }
+      if ((value == null) && (new Date(me.get('dateCreated')) < new Date('2024-05-23'))) {
+        // Don't include users created before experiment start date
+        value = 'control'
+      }
+      if (me.isAdmin()) {
+        value = 'beta'
+      }
+      if ((!value)) {
+        let valueProbability
+        const probability = window.serverConfig?.experimentProbabilities?.junior?.beta != null ? window.serverConfig.experimentProbabilities.junior.beta : 0.1
+        if (Math.random() < probability) {
+          value = 'beta'
+          valueProbability = probability
+        } else {
+          value = 'control'
+          valueProbability = 1 - probability
+        }
+        console.log('starting junior experiment with value', value, 'prob', valueProbability)
+        me.startExperiment('junior', value, valueProbability)
       }
       return value
     }

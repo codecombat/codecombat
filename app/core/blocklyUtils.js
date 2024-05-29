@@ -965,7 +965,7 @@ module.exports.getBlocklySource = function (blockly, { codeLanguage, product }) 
   return { blocklyState, blocklySource, combined, blocklySourceRaw }
 }
 
-module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
+module.exports.loadBlocklyState = function ({ blocklyState, blockly, tries }) {
   if (tries == null) { tries = 0 }
   if (tries > 10) { return false }
   if (!blocklyState?.blocks) { return false }
@@ -978,9 +978,7 @@ module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
       mergeBlocklyStates(oldBlocklyState?.blocks?.blocks?.[i], blocklyState.blocks.blocks[i], mergeProgress)
     }
     Blockly.serialization.workspaces.load(blocklyState, blockly)
-    if (mergeProgress.unmatched) {
-      blockly.cleanUp()
-    }
+    blockly.cleanUp()
     return true
   } catch (err) {
     // Example error: Invalid block definition for type: Esper.str_undefined
@@ -988,7 +986,7 @@ module.exports.loadBlocklyState = function (blocklyState, blockly, tries) {
     const blockType = err.message.match(/Invalid block definition for type: (.*)/)?.[1]
     if (blockType) {
       blocklyState = filterBlocklyState(blocklyState, blockType)
-      return module.exports.loadBlocklyState(blocklyState, blockly, tries + 1)
+      return module.exports.loadBlocklyState({ blocklyState, blockly, tries: tries + 1 })
     } else {
       console.error('Error loading Blockly state', err)
       return false
@@ -1003,7 +1001,6 @@ function mergeBlocklyStates (oldState, newState, mergeProgress) {
   }
   if (!oldState) {
     // We will make up a height, but it's probably wrong, so we'll automatically clean up workspace at the end.
-    mergeProgress.unmatched = true
     // This logic will get y-ordering right, at least.
     if (mergeProgress.lastX === undefined) {
       mergeProgress.lastX = 20

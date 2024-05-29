@@ -91,6 +91,7 @@ const channelSchemas = {
   god: require('schemas/subscriptions/god'),
   scripts: require('schemas/subscriptions/scripts'),
   'web-dev': require('schemas/subscriptions/web-dev'),
+  websocket: require('schemas/subscriptions/websocket'),
   world: require('schemas/subscriptions/world')
 }
 

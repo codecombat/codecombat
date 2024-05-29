@@ -1,6 +1,7 @@
 <script>
 import ClassSummaryRow from './components/ClassSummaryRow'
 import ClassChapterSummaries from './components/ClassChapterSummaries'
+import { mapActions, mapGetters } from 'vuex'
 import utils from 'core/utils'
 
 export default {
@@ -24,8 +25,18 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      tournamentsByClan: 'clans/tournamentsByClan',
+      tournaments: 'clans/tournaments',
+      allTournamentsLoaded: 'clans/allTournamentsLoaded'
+    }),
+
     showEsportsCampInfoCoCo () {
       return utils.isCodeCombat && me.isCodeNinja() && !this.chapterStats.length
+    },
+
+    me () {
+      return me
     },
 
     showEsportsCampInfoOz () {
@@ -35,6 +46,46 @@ export default {
     showJuniorCampInfo () {
       return utils.isCodeCombat && me.isCodeNinja() && this.chapterStats.length === 1
     },
+
+    currentTournaments () {
+      return _.flatten(Object.values(this.tournaments))
+    },
+
+    equinoxTournament () {
+      const eq = this.currentTournaments.filter(tournament => tournament.slug === 'equinox')
+      if (eq.length === 0) {
+        return {}
+      } else if (eq.length === 1) {
+        return eq[0]
+      } else {
+        eq.sort((a, b) => new Date(a.endDate) - new Date(b.endDate))
+        // find the first tournament that has not ended
+        return eq.find(tournament => new Date(tournament.endDate) >= new Date()) || eq[eq.length - 1]
+      }
+    },
+
+    ttTournament () {
+      const tt = this.currentTournaments.filter(tournament => tournament.slug === 'tundra-tower')
+      if (tt.length === 0) {
+        return {}
+      } else if (tt.length === 1) {
+        return tt[0]
+      } else {
+        tt.sort((a, b) => new Date(a.endDate) - new Date(b.endDate))
+        // find the first tournament that has not ended
+        return tt.find(tournament => new Date(tournament.endDate) >= new Date()) || tt[tt.length - 1]
+      }
+    }
+  },
+  mounted () {
+    if (me.isCodeNinja() && !this.allTournamentsLoaded) {
+      this.fetchAllTournaments({ userId: me.get('_id') })
+    }
+  },
+  methods: {
+    ...mapActions({
+      fetchAllTournaments: 'clans/fetchAllTournaments'
+    }),
   }
 }
 </script>
@@ -112,7 +163,7 @@ export default {
             <span>Ozaria Dashboard</span>
           </a>
         </li>
-        <li>
+        <li v-if="me.isCodeNinja() && equinoxTournament.clan">
           <!-- TODO: specific tournament link -->
           <a
             v-tooltip.top="{
@@ -120,14 +171,14 @@ export default {
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://codecombat.com/play/ladder/equinox/clan/65fa5bc654652e2ad959548e?tournament=65fcadac32f2005645fba16b"
+            :href="`https://codecombat.com/play/ladder/equinox/clan/${equinoxTournament.clan}?tournament=${equinoxTournament._id}`"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-arena" />
             <span>Equinox Arena</span>
           </a>
         </li>
-        <li>
+        <li v-if="me.isCodeNinja() && ttTournament.clan">
           <!-- TODO: specific tournament link -->
           <a
             v-tooltip.top="{
@@ -135,7 +186,7 @@ export default {
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://codecombat.com/play/ladder/tundra-tower/clan/65fa5bc654652e2ad959548e?tournament=65fcadf032f2005645fba186"
+            :href="`https://codecombat.com/play/ladder/tundra-tower/clan/${ttTournament.clan}?tournament=${ttTournament._id}`"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-arena" />
