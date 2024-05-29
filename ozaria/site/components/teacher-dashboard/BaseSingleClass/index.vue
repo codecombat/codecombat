@@ -183,7 +183,7 @@ export default {
               isPractice,
               playTime: playTimeMap[normalizedOriginal],
               completionDate: completionDateMap[normalizedOriginal],
-              tooltipName: levelNameMap[normalizedOriginal].tooltipName
+              tooltipName: levelNameMap[content._id].tooltipName
             }
 
             if (content.type === 'game-dev') {
@@ -474,8 +474,7 @@ export default {
 
     getLevelNameMap (moduleContent, intros) {
       return moduleContent.reduce((acc, content, index) => {
-        const { fromIntroLevelOriginal, original } = content
-        const normalizedOriginal = original || fromIntroLevelOriginal
+        const { _id, fromIntroLevelOriginal, original } = content
 
         let description = getLearningGoalsDocumentation(content)
 
@@ -493,7 +492,7 @@ export default {
           tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${utils.i18n(introLevel, 'displayName') || utils.i18n(introLevel, 'name')}`
         }
 
-        acc[normalizedOriginal] = { tooltipName, description }
+        acc[_id] = { tooltipName, description }
 
         return acc
       }, {})
@@ -502,7 +501,7 @@ export default {
     // Creates summary stats table for the content. These are the icons along
     // the top of the track progress table.
     createModuleStatsTable (moduleDisplayName, moduleContent, intros, moduleNum) {
-      const levelMap = this.getLevelNameMap(moduleContent, intros)
+      const levelNameMap = this.getLevelNameMap(moduleContent, intros)
       return {
         moduleNum,
         displayName: moduleDisplayName,
@@ -556,7 +555,7 @@ export default {
             normalizedType,
             contentLevelSlug,
             isPractice,
-            ...levelMap[normalizedOriginal]
+            ...levelNameMap[_id]
           })
         }),
         studentSessions: {},
