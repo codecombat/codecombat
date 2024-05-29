@@ -1543,7 +1543,7 @@ const createLevelNumberMap = function (levels) {
   for (let i = 0; i < levels.length; i++) {
     const level = levels[i]
     let levelNumber = (i - practiceLevelTotalCount) + 1
-    if (level.practice) {
+    if (isCodeCombat && level.practice) {
       levelNumber = (i - practiceLevelTotalCount) + String.fromCharCode('a'.charCodeAt(0) + practiceLevelCurrentCount)
       practiceLevelTotalCount++
       practiceLevelCurrentCount++
@@ -1558,7 +1558,11 @@ const createLevelNumberMap = function (levels) {
     } else {
       practiceLevelCurrentCount = 0
     }
-    levelNumberMap[level.key] = levelNumber
+    if (level.key) {
+      levelNumberMap[level.key] = levelNumber
+    } else {
+      levelNumberMap[level.key] = ''
+    }
   }
   return levelNumberMap
 }
