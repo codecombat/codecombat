@@ -44,7 +44,6 @@
 <script>
 import { fetchAvailableTime } from '../../../core/api/online-classes'
 import StylishCalendar from '../../events/components/StylishCalendar'
-import { getUserTimeZone } from '../../../core/utils'
 import moment from 'moment-timezone'
 
 export default {
@@ -56,6 +55,14 @@ export default {
     classInfo: {
       type: Object,
       required: true
+    },
+    serverTz: {
+      type: String,
+      required: true
+    },
+    userTz: {
+      type: String,
+      required: true
     }
   },
   data () {
@@ -66,15 +73,6 @@ export default {
       time: null,
       date: null
     }
-  },
-  computed: {
-    serverTz () {
-      return 'America/Los_Angeles'
-      /* return features?.chinaInfra ? 'Asia/Shanghai' : 'America/Los_Angeles' */
-    },
-    userTz () {
-      return getUserTimeZone(me)
-    },
   },
   mounted () {
     this.checkTime()
