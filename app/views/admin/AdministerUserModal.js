@@ -341,7 +341,7 @@ module.exports = (AdministerUserModal = (function () {
 
     onClickSaveOnlineTeacherInfo () {
       const attrs = forms.formToObject(this.$('#online-teacher-info'))
-      const parsedAttrs = _.pick(attrs, ['languages', 'products'])
+      const parsedAttrs = _.pick(attrs, ['languages', 'products', 'googleCalendarId'])
       if (attrs.trialsOnly.length) {
         parsedAttrs.trialsOnly = true
       }

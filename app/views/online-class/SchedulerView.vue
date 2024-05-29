@@ -1,6 +1,15 @@
 <template>
   <page-template>
-    <div class="scheduler">
+    <div
+      v-if="loading"
+      class="scheduler"
+    >
+      Loading ...
+    </div>
+    <div
+      v-else
+      class="scheduler"
+    >
       <div class="header">
         {{ header }}
       </div>
@@ -39,7 +48,7 @@ import AvailableTime from './components/AvailableTime.vue'
 import StudentInfo from './components/StudentInfo.vue'
 import NextStep from './components/NextStep.vue'
 
-import { tempBookTime, bookTime } from '../../core/api/online-classes'
+import { tempBookTime, bookTime, getGoogleCalendarSync } from '../../core/api/online-classes'
 export default {
   name: 'SchedulerView',
   components: {
@@ -51,6 +60,7 @@ export default {
   },
   data () {
     return {
+      loading: true,
       header: 'Book Live Online Classes',
       step: 'class',
       classInfo: {},
@@ -79,6 +89,14 @@ export default {
       const dateTime = date.format('YYYY-MM-DD HH:mm A')
       return [lang, codeLang, level, dateTime].join(' &bull; ')
     }
+  },
+  created () {
+    getGoogleCalendarSync().then(res => {
+      this.loading = false
+    }).catch(err => {
+      this.loading = false
+      console.log(err)
+    })
   },
   methods: {
     changClassInfo (data) {
