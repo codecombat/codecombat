@@ -80,7 +80,7 @@ export default {
   >
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
     <div
-      v-for="({_id, status, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
+      v-for="({_id, status, playTime, tooltipName, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
       :key="selectedKey"
       :class="cellClass(index)"
     >
@@ -99,6 +99,9 @@ export default {
         :track-category="getTrackCategory"
         :selected="selectedOriginals.includes(normalizedOriginal) && selectedStudentIds.includes(_id)"
         :hovered="hoveredLevels.includes(normalizedOriginal) && selectedStudentIds.includes(_id)"
+        :play-time="playTime"
+        :completion-date="completionDate"
+        :tooltip-name="tooltipName"
       />
     </div>
   </div>

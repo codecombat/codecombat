@@ -78,6 +78,18 @@ export default {
     isOptional: {
       type: Boolean,
       default: false
+    },
+    playTime: {
+      type: Number,
+      default: 0
+    },
+    completionDate: {
+      type: [Boolean, String],
+      default: null
+    },
+    tooltipName: {
+      type: String,
+      default: null
     }
   },
 
@@ -122,7 +134,14 @@ export default {
         'locked-with-timeframe': 'locked_with_timeframe'
       }[this.levelAccessStatus] || this.levelAccessStatus
 
-      return $.i18n.t(`teacher_dashboard.${label}`) + (!this.isSkipped && date ? ' ' + $.i18n.t('teacher_dashboard.until_date', { date: dateString }) : '')
+      const status = $.i18n.t(`teacher_dashboard.${label}`) + (!this.isSkipped && date ? ' ' + $.i18n.t('teacher_dashboard.until_date', { date: dateString }) : '')
+
+      return `
+        ${status}
+        ${this.tooltipName ? `<br><strong>${this.tooltipName}</strong>` : ''}
+        ${this.status === 'complete' && this.completionDate ? `<br>${$.i18n.t('teacher.completed')}: ${moment(this.completionDate).format('lll')}` : ''}
+        ${this.playTime ? `<br>${$.i18n.t('teacher.time_played_label')} ${moment.duration({ seconds: this.playTime }).humanize()}` : ''}
+      `
     },
 
     levelAccessStatus () {
@@ -180,7 +199,7 @@ export default {
     v-tooltip="tooltipContent && {
       content: tooltipContent,
       placement: 'right',
-      classes: 'layoutChromeTooltip',
+      classes: 'layoutChromeTooltip progress-dot-tooltip',
     }"
     :class="isClickedClasses"
     @click="clickHandler"
@@ -202,6 +221,15 @@ export default {
     </div>
   </div>
 </template>
+
+<style lang="scss">
+.progress-dot-tooltip {
+  max-width: max-content;
+  .tooltip-inner {
+    max-width: max-content;
+  }
+}
+</style>
 
 <style lang="scss" scoped>
 
