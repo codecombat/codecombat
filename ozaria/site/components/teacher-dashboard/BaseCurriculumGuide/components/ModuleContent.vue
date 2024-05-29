@@ -85,7 +85,7 @@ export default {
 
     levelNumberMap () {
       const levels = this.getContentTypes
-        .map(({ original, assessment, icon }) => ({ original, key: original, assessment, practice: icon === 'practicelvl' }))
+        .map(({ original, assessment, icon, fromIntroLevelOriginal }) => ({ original, key: (original || fromIntroLevelOriginal), assessment, practice: icon === 'practicelvl' }))
       return utils.createLevelNumberMap(levels)
     }
   },
@@ -96,12 +96,8 @@ export default {
         const levelNumber = this.classroomInstance.getLevelNumber(original, index)
         return levelNumber
       } else {
-        if (utils.isOzaria) {
-          return ''
-        } else {
-          const map = this.levelNumberMap
-          return map[original] || index
-        }
+        const map = this.levelNumberMap
+        return map[original] || index
       }
     },
     trackEvent (eventName) {
