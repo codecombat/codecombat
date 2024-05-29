@@ -86,7 +86,7 @@ export default {
       const level = this.levels[this.classInfo.level]
       // todo: confirm with timezones
       const date = moment(this.time.date).set({ hour: this.time.time, minute: 0 })
-      const dateTime = date.format('YYYY-MM-DD HH:mm A')
+      const dateTime = date.format('YYYY-MM-DD hh:mm A')
       return [lang, codeLang, level, dateTime].join(' &bull; ')
     }
   },
