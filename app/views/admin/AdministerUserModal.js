@@ -349,9 +349,9 @@ module.exports = (AdministerUserModal = (function () {
       parsedAttrs.codeLanguages = []
 
       const schedule = {}
-      this.DAYS_OF_WEEK.forEach(day => {
+      for (const day of this.DAYS_OF_WEEK) {
         schedule[day] = new Set()
-      })
+      }
 
       // this offsets is server_tz - user_tz
       const getOffsets = () => {

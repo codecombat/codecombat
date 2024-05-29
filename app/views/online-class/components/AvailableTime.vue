@@ -9,7 +9,7 @@
     <div class="times">
       <div
         v-for="t in times"
-        :key="t.format('HH:mm')"
+        :key="t.format('LT')"
         class="radio"
       >
         <label>
@@ -19,7 +19,7 @@
             type="radio"
             :value="t.get('hour') + t.get('minute') / 60"
           >
-          <span> {{ t.clone().tz(userTz).format('hh:mm(A)') }}</span>
+          <span> {{ t.clone().tz(userTz).format('LT') }}</span>
         </label>
       </div>
     </div>
@@ -146,7 +146,7 @@ export default {
       this.times = this.getTimesIDay()
       this.time = null
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>
