@@ -55,6 +55,11 @@ export default {
       required: true
     },
 
+    moduleHeadingImage: {
+      type: String,
+      default: null
+    },
+
     listOfContent: {
       type: Array,
       required: true
@@ -95,7 +100,9 @@ export default {
 
     cssVariables () {
       return {
-        '--cols': this.listOfContent.length
+        '--cols': this.listOfContent.length,
+        '--columnWidth': this.listOfContent.length > 2 ? '28px' : (this.listOfContent.length > 1 ? '42px' : '84px')
+
       }
     },
 
@@ -167,7 +174,21 @@ export default {
   >
     <div class="title">
       <!-- eslint-disable vue/no-v-html -->
-      <h3 v-html="moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>')" />
+
+      <img
+        v-if="moduleHeadingImage"
+        v-tooltip="{
+          content: moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>'),
+          placement: 'bottom',
+          classes: 'layoutChromeTooltip',
+        }"
+        class="module-logo"
+        :src="moduleHeadingImage"
+      >
+      <h3
+        v-else
+        v-html="moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>')"
+      />
       <!-- eslint-enable vue/no-v-html -->
       <v-popover
         v-if="!displayOnly"
@@ -179,7 +200,7 @@ export default {
       >
         <!-- Triggers the tooltip -->
         <div v-if="!displayOnly">
-          <span class="btn btn-sm btn-default"><img :src="lockIconUrl"></span>
+          <span class="btn btn-sm btn-default lock-button"><img :src="lockIconUrl"></span>
         </div>
         <!-- The tooltip -->
         <template slot="popover">
@@ -255,7 +276,7 @@ export default {
 
 .moduleHeading {
   display: grid;
-  grid-template-columns: repeat(var(--cols), 28px);
+  grid-template-columns: repeat(var(--cols), var(--columnWidth));
   grid-template-rows: repeat(3, 38px);
   align-items: center;
   justify-items: center;
@@ -282,6 +303,14 @@ export default {
 
   overflow: hidden;
   text-overflow: ellipsis;
+
+  img.module-logo {
+    height: calc(100% - 4px);
+    width: auto;
+    background: white;
+    border-radius: 8px;
+    margin: 2px 0;
+  }
 
   .v-popover {
     display: none;
@@ -406,6 +435,10 @@ h3 {
 
 .popover .btn {
   width: auto;
+}
+
+.lock-button {
+  padding: 2px 2px;
 }
 
 </style>

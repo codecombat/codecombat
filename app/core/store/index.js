@@ -75,7 +75,9 @@ const store = new Vuex.Store({
     announcements: require('./modules/announcements').default,
     events: require('./modules/events').default,
     modalTeacher: require('../../views/core/CreateAccountModal/teacher/TeacherSignupStoreModule').default, // TODO: combine with trial-request module
-    lowUsageUsers: require('./modules/lowUsageUsers').default
+    lowUsageUsers: require('./modules/lowUsageUsers').default,
+    aiScenarios: require('./modules/aiScenarios').default,
+    aiProjects: require('./modules/aiProjects').default,
   }
 });
 

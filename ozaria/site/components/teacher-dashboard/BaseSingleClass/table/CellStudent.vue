@@ -1,5 +1,5 @@
 <script>
-import { isOzaria } from 'core/utils'
+import { isOzaria, courseIDs } from 'core/utils'
 import { mapMutations, mapGetters } from 'vuex'
 export default {
   props: {
@@ -37,6 +37,9 @@ export default {
       return (courseInstance || {})._id
     },
     hasCompletedCourse () {
+      if (this.selectedCourseId === courseIDs.HACKSTACK) {
+        return false
+      }
       if (!this.studentSessions || this.studentSessions.length === 0) {
         return false
       }

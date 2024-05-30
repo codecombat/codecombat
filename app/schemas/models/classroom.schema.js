@@ -94,6 +94,10 @@ _.extend(ClassroomSchema.properties, {
       { title: 'Student Lock Object', description: 'Key value of student id tied to the lock data.' }, {
         courseId: c.objectId(),
         levelOriginal: c.objectId(),
+        lockedScenarioLevels: c.object({
+          description: 'AI Scenario levels that can be locked or unlocked',
+          additionalProperties: ['boolean', c.stringDate()]
+        }),
         lockedLevels: c.object({
           additionalProperties: ['boolean', c.stringDate()]
         }),

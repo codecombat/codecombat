@@ -3,6 +3,8 @@
  * DS102: Remove unnecessary code created because of implicit returns
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
+const utils = require('core/utils')
+
 module.exports = {
   projectGallery ({ courseInstanceID }) {
     return `/students/project-gallery/${courseInstanceID}`
@@ -46,6 +48,9 @@ module.exports = {
       param.courseInstance?.id ||
       param.courseInstance?._id ||
       param.courseInstance
+    if (courseId === utils.courseIDs.HACKSTACK) {
+      return `/ai/course-instance/${courseInstanceId}`
+    }
     const campaignId =
       param.campaignId ||
       param.course?.attributes?.campaignID ||
