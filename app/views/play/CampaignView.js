@@ -37,7 +37,7 @@ const PollModal = require('views/play/modal/PollModal')
 const AnnouncementModal = require('views/play/modal/AnnouncementModal')
 const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
-const MineModal = require('views/core/MineModal') // Roblox modal
+const RobloxModal = require('views/core/MineModal') // Roblox modal
 const JuniorModal = require('views/core/JuniorModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
@@ -665,7 +665,11 @@ module.exports = (CampaignView = (function () {
 
     onRobloxLevelClick (e) {
       window.tracker?.trackEvent('Mine Explored', { engageAction: 'campaign_level_click' })
-      this.openModalView(new MineModal())
+    }
+
+    showRobloxModal () {
+      storage.save('roblox-modal-shown')
+      this.openModalView(new RobloxModal())
     }
 
     onHackStackLevelClick (e) {
@@ -921,12 +925,31 @@ module.exports = (CampaignView = (function () {
         const campaignSlug = window.location.pathname.split('/')[2]
         return this.promptForSubscription(campaignSlug, 'premium campaign visited')
       }
+
+      if (
+        !me.get('email') &&
+        (storage.load('prompted-for-signup') || storage.load('prompted-for-subscription'))
+      ) {
+        if (!storage.load('roblox-modal-shown')) {
+          this.showRobloxModal()
+        } else {
+          this.showAiLeagueModal()
+        }
+      }
+    }
+
+    showAiLeagueModal () {
+      if (!storage.load('ai-league-modal-shown')) {
+        this.openModalView(new AILeaguePromotionModal(), true)
+        storage.save('ai-league-modal-shown')
+      }
     }
 
     promptForSignup () {
       if (this.terrain && Array.from(this.terrain).includes('hoc')) { return }
       if (features.noAuth || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc')) { return }
       this.endHighlight()
+      storage.save('prompted-for-signup', true)
       return this.openModalView(new CreateAccountModal({ supermodel: this.supermodel }))
     }
 
@@ -940,10 +963,15 @@ module.exports = (CampaignView = (function () {
         this.handleParentAccountPremiumPurchase({ trackProperties })
         return
       }
+
+      if (!me.get('email')) {
+        this.promptForSignup()
+        return
+      }
+      storage.save('prompted-for-subscription', true)
       this.openModalView(new SubscribeModal())
       // TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
       window.tracker?.trackEvent('Show subscription modal', trackProperties)
-      this.openModalView(new AILeaguePromotionModal(), true)
     }
 
     isPremiumCampaign (slug) {
@@ -955,7 +983,6 @@ module.exports = (CampaignView = (function () {
 
     paywallReached () {
       storage.save('paywall-reached', true)
-      return this.maybeShowRobloxModal()
     }
 
     annotateLevels (orderedLevels) {
