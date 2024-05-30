@@ -36,6 +36,13 @@
         {{ $t('new_home.go_to_my_classes') }}
       </CTAButton>
       <CTAButton
+        v-if="me.isTeacher()"
+        href="/teachers/quote"
+        @click="homePageEvent('Homepage Click Request A Quote CTA')"
+      >
+        {{ $t('new_home.request_quote') }}
+      </CTAButton>
+      <CTAButton
         v-else-if="me.isStudent()"
         href="/students"
         @click="homePageEvent('Homepage Click My Courses CTA')"
