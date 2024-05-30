@@ -31,6 +31,7 @@
       <CTAButton
         v-if="me.isTeacher()"
         href="/teachers/classes"
+        target=""
         @click="homePageEvent('Homepage Click My Classes CTA')"
       >
         {{ $t('new_home.go_to_my_classes') }}
@@ -45,6 +46,7 @@
       <CTAButton
         v-else-if="me.isStudent()"
         href="/students"
+        target=""
         @click="homePageEvent('Homepage Click My Courses CTA')"
       >
         {{ $t('new_home.go_to_courses') }}
@@ -52,6 +54,7 @@
       <CTAButton
         v-else
         href="/play"
+        target=""
         @click="homePageEvent('Homepage Click Continue Playing CTA')"
       >
         {{ $t('courses.continue_playing') }}
