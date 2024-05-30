@@ -4,6 +4,8 @@ module.exports = {
   admin: require('./admin'),
   apcsp: require('./apcsp'),
   analyticsLogEvents: require('./analytics-log-events'),
+  aiScenarios: require('./ai_scenarios'),
+  aiProjects: require('./ai_projects'),
   campaigns: require('./campaigns'),
   chats: require('./chat_message'),
   clas: require('./clas'),

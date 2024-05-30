@@ -452,6 +452,7 @@ module.exports = (CocoRouter = (function () {
             return this.routeDirectly('core/SingletonAppVueComponentView', arguments, { redirectStudents: true, teachersOnly: true })
           }
         },
+        'teachers/hackstack-classes/:classroomID': go('core/SingletonAppVueComponentView'),
         'teachers/courses' () {
           if (utils.isCodeCombat && !me.isNewDashboardActive()) {
             return this.routeDirectly('courses/TeacherCoursesView', arguments, { redirectStudents: true })

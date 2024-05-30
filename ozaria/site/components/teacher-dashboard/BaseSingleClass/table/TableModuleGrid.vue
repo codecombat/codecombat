@@ -37,7 +37,8 @@ export default {
     cssVariables () {
       return {
         // This is the width or number of content pieces in the module.
-        '--cols': this.cols
+        '--cols': this.cols,
+        '--columnWidth': this.cols > 2 ? '28px' : (this.cols > 1 ? '42px' : '84px')
       }
     },
 
@@ -107,7 +108,7 @@ export default {
 <style lang="scss" scoped>
   .moduleGrid {
     display: grid;
-    grid-template-columns: repeat(var(--cols), 28px);
+    grid-template-columns: repeat(var(--cols), var(--columnWidth));
     grid-template-rows: repeat(auto, 38px);
 
     border-right: 2px solid #d8d8d8;
@@ -120,5 +121,7 @@ export default {
   .cell-style {
     border-bottom: 1px solid #d8d8d8;
     height: 29px;
+    display: flex;
+    justify-content: center;
   }
 </style>
