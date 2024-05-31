@@ -461,7 +461,8 @@ module.exports = {
       roblox_description: 'This MMORPG teaches Lua coding and provides a real-world platform to create amazing games and experiences.',
       ai_hackstack_description: 'The first generative AI companion tool specifically crafted for those new to AI with a focus on student privacy and safety.',
       ai_junior_description: 'Introduces multimodal generative AI in a simple and intuitive platform designed specifically for K-5 students.',
-      learning_options: 'Learning Options'
+      learning_options: 'Learning Options',
+      ai_hackstack: 'AI HackStack'
     },
 
     modal: {
@@ -2782,7 +2783,9 @@ module.exports = {
       latest_podcast_episode: 'Latest Podcast Episode',
       from_the_podcast: 'From the Podcast',
       edit_student_access_title: 'Edit Student Access to Levels',
+      edit_student_access_title_scenarios: 'Edit Student Access to Projects',
       edit_student_access_subtitle: 'You have selected __levels__ levels for __students__ students.',
+      edit_student_access_subtitle_scenarios: 'You have selected __levels__ projects for __students__ students.',
       student_ask_for_help: 'Your student __name__ asking for your help.',
       never_played: 'Never Played'
     },
@@ -4588,6 +4591,8 @@ module.exports = {
       view_global_league: 'View Global League',
       refresh_progress: 'Refresh Progress',
       assign_content_first: 'Please ensure that content is assigned to students before adjusting access levels',
+      failed_attempts: 'Failed Attempts',
+      no_failed_attempts: 'No Failed Attempts'
     },
 
     outcomes: {
@@ -5881,7 +5886,10 @@ module.exports = {
       'stable-diffusion-description': 'Creates photorealistic images from text.',
       'dall-e-3-description': 'Quickly and easily creates images from text.',
       'gpt-4-description': 'Writes code for web games and apps.',
-      'claude-description': 'Writes stories and summarizes documents.'
+      'claude-description': 'Writes stories and summarizes documents.',
+      locked: 'LOCKED',
+      view: 'View',
+      continue: 'Continue'
     }
   }
 }

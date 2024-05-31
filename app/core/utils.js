@@ -225,6 +225,7 @@ if (isCodeCombat) {
   campaignIDs = {
     JUNIOR: '65c56663d2ca2055e65676af',
     INTRO: '55b29efd1cd6abe8ce07db0d',
+    HACKSTACK: '663b25881c568468efc7b51c'
   }
 
   freeCampaignIds = [campaignIDs.JUNIOR, campaignIDs.INTRO] // Junior, CS1 campaign
@@ -232,6 +233,7 @@ if (isCodeCombat) {
 
   courseIDs = {
     JUNIOR: '65f32b6c87c07dbeb5ba1936',
+    HACKSTACK: '663b25f11c568468efc8adde',
     INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
     GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
     WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
@@ -1119,6 +1121,7 @@ courseAcronyms[allCourseIDs.CHAPTER_ONE] = 'CH1'
 courseAcronyms[allCourseIDs.CHAPTER_TWO] = 'CH2'
 courseAcronyms[allCourseIDs.CHAPTER_THREE] = 'CH3'
 courseAcronyms[allCourseIDs.CHAPTER_FOUR] = 'CH4'
+courseAcronyms[allCourseIDs.HACKSTACK] = 'HS'
 
 const registerHocProgressModalCheck = function () {
   let hocProgressModalCheck
@@ -2038,8 +2041,7 @@ const arenas = [
   { season: 9, slug: 'snowhold', type: 'championship', start: new Date('2023-12-01T00:00:00.000-08:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '654a306ba0c557007a807ead', tournament: '658cfc869ac7fb700b08d82c', image: '/file/db/level/654a306ba0c557007a807ead/SnowholdClashBannerv2.png' },
   { season: 10, slug: 'fierce-forces', type: 'regular', start: new Date('2024-01-01T00:00:00.000-08:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '6576ff2b1457f600193d2cc9', tournament: '6631155d27d051fef8412658', image: '/file/db/level/6576ff2b1457f600193d2cc9/FierceForcesBannerNew.png' },
   { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '65f2618f757a82bcc90b7c9e', tournament: '66311610236b3e1e9dcfd9f3', image: '/file/db/level/65f2618f757a82bcc90b7c9e/AntiGravityBanner.png' },
-  { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '661f6cf6525db0fb41870360', tournament: '66311a29856d99556fa14326', image: '/file/db/level/661f6cf6525db0fb41870360/SolarSkirmishBanner.png' },
-  { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '661f6cf6525db0fb41870360', tournament: '66311a29856d99556fa14326', image: '/file/db/level/661f6cf6525db0fb41870360/SolarSkirmishBanner.png' },  { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
 ]
@@ -2354,6 +2356,12 @@ const getModuleNumberForLevelName = function (courseId, levelName) {
   return moduleNumberByLevelName[levelName] && Number(moduleNumberByLevelName[levelName])
 }
 
+module.exports.aiToolToImage = {
+  'gpt-4-turbo-preview': '/images/ai/ChatGPT.svg',
+  'stable-diffusion-xl': '/images/ai/Stable_Diffusion.png',
+  'dall-e-3': '/images/ai/DALL-E.webp',
+}
+
 const getUserTimeZone = function (user) {
   const geo = user.get('geo')
   if (geo?.timeZone) {
@@ -2364,6 +2372,7 @@ const getUserTimeZone = function (user) {
 }
 
 module.exports = {
+  ...module.exports,
   activeAndPastArenas,
   activeArenas,
   addIntroLevelContent,

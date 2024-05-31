@@ -28,6 +28,10 @@ export default {
       return this.$route.path.startsWith('/teachers/classes') || this.$route.path === '/teachers'
     },
 
+    hackstackClassesTabSelected () {
+      return this.$route.path.startsWith('/teachers/hackstack-classes')
+    },
+
     // Check for the "All Classes" dropdown menu button in the classesTab.
     allClassesSelected () {
       return this.$route.path === '/teachers' || this.$route.path === '/teachers/classes'
@@ -48,6 +52,10 @@ export default {
       return true
     },
 
+    showHackStack () {
+      return me.isInternal()
+    },
+
     showPD () {
       return !me.isCodeNinja()
     },
@@ -65,6 +73,11 @@ export default {
   methods: {
     isCurrentRoute (route) {
       return this.$route.path.startsWith(route)
+    },
+
+    setHackStackClassroom (classroomId) {
+      this.$store.commit('teacherDashboard/setClassroomId', classroomId)
+      this.$store.commit('teacherDashboard/setSelectedCourseIdCurrentClassroom', { courseId: utils.courseIDs.HACKSTACK })
     },
 
     trackEvent (e) {
@@ -297,6 +310,47 @@ export default {
           src="/images/pages/league/ai-league-name_blue.svg"
         >
       </router-link>
+    </li>
+    <li
+      v-if="showHackStack"
+      role="presentation"
+      class="dropdown"
+    >
+      <a
+        id="HackstackClassesDropdown"
+        :class="['dropdown-toggle', hackstackClassesTabSelected ? 'current-route' : '']"
+        href="#"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <div id="IconMyClasses" />
+        <span>{{ $t('nav.ai_hackstack') }}</span>
+        <span class="caret" />
+      </a>
+      <ul
+        class="dropdown-menu"
+        aria-labelledby="HackstackClassesDropdown"
+      >
+        <li
+          v-for="classroom in classrooms"
+          :key="classroom._id"
+          :class="hackstackClassesTabSelected && classroomSelected === classroom._id ? 'selected' : null"
+        >
+          <router-link
+            tag="a"
+            :to="`/teachers/hackstack-classes/${classroom._id}`"
+            class="dropdown-item"
+            data-action="Track Progress: Nav Clicked"
+            data-toggle="dropdown"
+            :data-label="$route.path"
+            @click.native="trackEvent($event); setHackStackClassroom(classroom._id)"
+          >
+            {{ classroom.name }}
+          </router-link>
+        </li>
+      </ul>
     </li>
     <li v-if="showPD">
       <router-link
