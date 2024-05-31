@@ -386,7 +386,7 @@ export default {
       @close="closeOnboardingModal"
     />
     <modal-edit-class
-      v-if="showNewClassModal && !editCurrent"
+      v-if="showNewClassModal && !editCurrent && !showNonTeacherPreview"
       :classroom="newClassroom"
       @close="closeShowNewModal"
       @created="handleCreatedClass"
