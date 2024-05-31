@@ -183,7 +183,7 @@ export default {
               isPractice,
               playTime: playTimeMap[normalizedOriginal],
               completionDate: completionDateMap[normalizedOriginal],
-              tooltipName: levelNameMap[content._id].tooltipName
+              tooltipName: levelNameMap[content._id].levelName
             }
 
             if (content.type === 'game-dev') {
@@ -479,20 +479,24 @@ export default {
         let description = getLearningGoalsDocumentation(content)
 
         let tooltipName
+        let levelName
         if (utils.isCodeCombat) {
           const classroom = new Classroom(this.classroom)
           const levelNumber = classroom.getLevelNumber(original, index + 1)
           tooltipName = `${levelNumber}: ${utils.i18n(content, 'displayName') || utils.i18n(content, 'name')}`
+          levelName = tooltipName
         } else {
           tooltipName = getGameContentDisplayNameWithType(content)
+          levelName = tooltipName
         }
         if (fromIntroLevelOriginal) {
           const introLevel = intros[fromIntroLevelOriginal] || {}
+          levelName = tooltipName
           description = `<h3>${tooltipName}</h3><p>${utils.i18n(content, 'description') || getLearningGoalsDocumentation(content) || ''}</p>`
           tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${utils.i18n(introLevel, 'displayName') || utils.i18n(introLevel, 'name')}`
         }
 
-        acc[_id] = { tooltipName, description }
+        acc[_id] = { tooltipName, description, levelName }
 
         return acc
       }, {})
