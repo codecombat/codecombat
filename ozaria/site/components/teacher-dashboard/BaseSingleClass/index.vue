@@ -77,6 +77,7 @@ export default {
       getSelectableOriginals: 'baseSingleClass/getSelectableOriginals',
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
       aiScenarios: 'aiScenarios/getScenarios',
+      modelsByName: 'aiModels/getModelsByName',
     }),
 
     modules () {
@@ -104,9 +105,11 @@ export default {
           const moduleScenarios = (this.aiScenarios || [])
             .filter(scenario => scenario.tool === moduleName)
 
+          const aiModel = this.modelsByName[moduleName]
+
           return {
             moduleNum,
-            displayName: moduleName,
+            displayName: `<strong>${aiModel.displayName}</strong><br>${aiModel.description}`,
             displayLogo: utils.aiToolToImage[moduleName] || null,
             contentList: moduleScenarios
               .map((scenario, index) => {
@@ -114,7 +117,7 @@ export default {
                   displayName: scenario.name,
                   type: 'challengelvl',
                   _id: scenario._id,
-                  tooltipName: `${index + 1}: ${scenario.name}`,
+                  tooltipName: scenario.name,
                   description: '',
                   contentKey: scenario._id,
                   normalizedOriginal: scenario._id,
