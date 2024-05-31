@@ -27,7 +27,7 @@ _.extend(AIChatMessageSchema.properties, {
     enum: ['scenario', 'project'],
   },
   sentAt: { title: 'Sent At', type: 'number' },
-  text: { title: 'Text', type: 'string', description: 'The content text of the chat message' },
+  text: { title: 'Text', type: ['string', 'object'], description: 'The content text of the chat message' },
   documents: {
     title: 'Documents',
     type: 'array',
