@@ -49,7 +49,7 @@ block content
         - var levelCount = 0;
         each level in view.levels.models
           - var levelStatus = null;
-          - var levelNumber = view.classroom.getLevelNumber(level.get('original'), ++levelCount);
+          - var levelNumber = view.classroom.getLevelNumber(level.get('original'), ++levelCount, view.course.id);
           if view.userLevelStateMap[me.id]
             - levelStatus = view.userLevelStateMap[me.id][level.get('original')]
           tr

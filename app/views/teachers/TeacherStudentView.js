@@ -659,7 +659,7 @@ module.exports = (TeacherStudentView = (function () {
               result1.push(this.levelData.push({
                 assessment: versionedLevel.assessment,
                 levelID: versionedLevel.original,
-                levelIndex: this.classroom.getLevelNumber(versionedLevel.original),
+                levelIndex: this.classroom.getLevelNumber(versionedLevel.original, -1, course.get('_id')),
                 levelName: versionedLevel.name,
                 courseModel: course,
                 courseID: course.get('_id'),
