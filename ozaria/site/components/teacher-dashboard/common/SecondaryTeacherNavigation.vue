@@ -52,8 +52,12 @@ export default {
       return true
     },
 
+    hackStackClassrooms () {
+      return this.classrooms.filter(classroom => classroom.courses.map(course => course._id).includes(utils.courseIDs.HACKSTACK))
+    },
+
     showHackStack () {
-      return me.isInternal()
+      return utils.isCodeCombat && this.hackStackClassrooms.length > 0 && me.isInternal()
     },
 
     showPD () {
@@ -334,7 +338,7 @@ export default {
         aria-labelledby="HackstackClassesDropdown"
       >
         <li
-          v-for="classroom in classrooms"
+          v-for="classroom in hackStackClassrooms"
           :key="classroom._id"
           :class="hackstackClassesTabSelected && classroomSelected === classroom._id ? 'selected' : null"
         >
