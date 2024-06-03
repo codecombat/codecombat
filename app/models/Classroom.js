@@ -99,7 +99,7 @@ module.exports = (Classroom = (function () {
         }
       }
 
-      if (courseID && this.levelNumberMap[`${courseID}:${levelID}`] != null) {
+      if (courseID && this.levelNumberMap[`${courseID}:${levelID}`]) {
         return this.levelNumberMap[`${courseID}:${levelID}`]
       }
       return this.levelNumberMap[levelID] != null ? this.levelNumberMap[levelID] : defaultNumber
