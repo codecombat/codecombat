@@ -4592,7 +4592,9 @@ module.exports = {
       refresh_progress: 'Refresh Progress',
       assign_content_first: 'Please ensure that content is assigned to students before adjusting access levels',
       failed_attempts: 'Failed Attempts',
-      no_failed_attempts: 'No Failed Attempts'
+      no_failed_attempts: 'No Failed Attempts',
+      failed_attempts_subtext: 'Number of times incorrect option was selected',
+      open_project: 'Open Project'
     },
 
     outcomes: {
