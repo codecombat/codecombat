@@ -82,21 +82,25 @@ module.exports = (Classroom = (function () {
       return this.fetch(options)
     }
 
-    getLevelNumber (levelID, defaultNumber) {
+    getLevelNumber (levelID, defaultNumber, courseID) {
+      // deal with duplicated levels in different course
       if (!this.levelNumberMap) {
-        let left
         this.levelNumberMap = {}
-        const language = __guard__(this.get('aceConfig'), x => x.language)
-        for (const course of Array.from((left = this.get('courses')) != null ? left : [])) {
+        const language = this.get('aceConfig')?.language
+        for (const course of (this.get('courses') || [])) {
           const levels = []
-          for (const level of Array.from(course.levels)) {
+          for (const level of course.levels) {
             if (level.original) {
               if ((language != null) && (level.primerLanguage === language)) { continue }
               levels.push({ key: level.original, practice: level.practice != null ? level.practice : false, assessment: level.assessment != null ? level.assessment : false })
             }
           }
-          _.assign(this.levelNumberMap, utils.createLevelNumberMap(levels))
+          _.assign(this.levelNumberMap, utils.createLevelNumberMap(levels, course._id))
         }
+      }
+
+      if (courseID && this.levelNumberMap[`${courseID}:${levelID}`] != null) {
+        return this.levelNumberMap[`${courseID}:${levelID}`]
       }
       return this.levelNumberMap[levelID] != null ? this.levelNumberMap[levelID] : defaultNumber
     }
@@ -255,7 +259,7 @@ module.exports = (Classroom = (function () {
           playtime += (left1 = session.get('playtime')) != null ? left1 : 0
           linesOfCode += session.countOriginalLinesOfCode(level)
           lastPlayed = level
-          lastPlayedNumber = this.getLevelNumber(level.get('original'), index + 1)
+          lastPlayedNumber = this.getLevelNumber(level.get('original'), index + 1, courseID)
           if (complete) {
             currentIndex = index
           } else {
@@ -295,7 +299,7 @@ module.exports = (Classroom = (function () {
         if (nextLevel == null) { nextLevel = _.find(courseLevels.models, level => !__guard__(__guard__(levelSessionMap[level.get('original')], x2 => x2.get('state')), x1 => x1.complete)) }
       }
       if (nextLevel) {
-        nextLevelNumber = this.getLevelNumber(nextLevel.get('original'), nextIndex + 1)
+        nextLevelNumber = this.getLevelNumber(nextLevel.get('original'), nextIndex + 1, courseID)
       }
       // eslint-disable-next-line no-unused-vars
       const [_userStarted, courseComplete, _totalComplete] = Array.from(coursesHelper.hasUserCompletedCourse(userLevels, levelsInCourse))
