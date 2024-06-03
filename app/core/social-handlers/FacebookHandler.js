@@ -78,6 +78,8 @@ module.exports = (FacebookHandler = (FacebookHandler = (function () {
           js.id = id
           js.async = true
           js.src = '//connect.facebook.net/en_US/sdk.js'
+          js.defer = true
+          js.crossorigin = 'anonymous'
 
           // js.src = '//connect.facebook.net/en_US/all/debug.js'
           ref.parentNode.insertBefore(js, ref)
@@ -89,7 +91,7 @@ module.exports = (FacebookHandler = (FacebookHandler = (function () {
             channelUrl: document.location.origin + '/channel.html', // Channel File
             cookie: true, // enable cookies to allow the server to access the session
             xfbml: true, // parse XFBML
-            version: 'v3.2'
+            version: 'v20.0'
           })
           return FB.getLoginStatus(response => {
             if (response.status === 'connected') {
