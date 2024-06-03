@@ -78,7 +78,7 @@ module.exports = class ControlBarView extends CocoView
 
   onLoaded: ->
     if @classroom
-      @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber)
+      @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber, @courseID)
     else if @campaign
       @levelNumber = @campaign.getLevelNumber(@level.get('original'), @levelNumber)
     if application.getHocCampaign() or @level.get('assessment')

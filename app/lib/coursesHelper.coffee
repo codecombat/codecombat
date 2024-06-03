@@ -73,7 +73,7 @@ module.exports =
         if userIDs.length > 0
           users = _.map userIDs, (id) ->
             students.get(id)
-          levelNumber = classroom.getLevelNumber(level.get('original'), levelIndex + 1)
+          levelNumber = classroom.getLevelNumber(level.get('original'), levelIndex + 1, course.id)
           return {
             courseName: utils.i18n(course.attributes, 'name')
             courseNumber: courseIndex + 1
@@ -102,7 +102,7 @@ module.exports =
         if userIDs.length > 0
           users = _.map userIDs, (id) ->
             students.get(id)
-          levelNumber = classroom.getLevelNumber(level.get('original'), levelIndex + 1)
+          levelNumber = classroom.getLevelNumber(level.get('original'), levelIndex + 1, course.id)
           return {
             courseName: utils.i18n(course.attributes, 'name')
             courseNumber: courseIndex + 1

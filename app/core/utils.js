@@ -1536,7 +1536,7 @@ const capitalLanguages = {
   html: 'HTML'
 }
 
-const createLevelNumberMap = function (levels) {
+const createLevelNumberMap = function (levels, courseID) {
   const levelNumberMap = {}
   let practiceLevelTotalCount = 0
   let practiceLevelCurrentCount = 0
@@ -1562,6 +1562,10 @@ const createLevelNumberMap = function (levels) {
       levelNumberMap[level.key] = levelNumber
     } else {
       levelNumberMap[level.key] = ''
+    }
+
+    if (courseID) {
+      levelNumberMap[courseID + ':' + level.key] = levelNumberMap[level.key]
     }
   }
   return levelNumberMap
