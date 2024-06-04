@@ -8,6 +8,12 @@ module.exports = {
 
   getAll (options = {}) {
     const url = '/db/ai_model'
-    return fetchJson(url, options)
+    return fetchJson(url, {
+      ...options,
+      data: {
+        cacheEdge: true,
+        ...(options.data || {})
+      }
+    })
   }
 }
