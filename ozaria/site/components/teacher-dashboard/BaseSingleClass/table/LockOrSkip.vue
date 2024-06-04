@@ -178,7 +178,7 @@ export default {
       <LevelAccessStatusButton
         :active="isActionActive(isHackStack ? UNLOCK_SCENARIO : UNLOCK)"
         :text="$t('teacher_dashboard.unlock')"
-        @click="action=isHackStack ? UNLOCK_SCENARIO : LOCK"
+        @click="action=isHackStack ? UNLOCK_SCENARIO : UNLOCK"
       />
 
       <div
