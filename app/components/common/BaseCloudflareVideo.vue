@@ -1,4 +1,5 @@
 <script>
+const BASE_CLOUDFLARE_STREAM = 'https://customer-burj9xtby325x4f1.cloudflarestream.com'
 export default {
   props: {
     videoCloudflareId: {
@@ -45,14 +46,21 @@ export default {
       type: String,
       default: 'Your descriptive text here',
       required: false
+    },
+    thumbnailUrlTime: {
+      type: Number,
+      default: null,
+      description: 'Time from which the thumbnail should be taken for the video in seconds'
     }
   },
   computed: {
     videoUrl () {
-      const baseUrl = `https://customer-burj9xtby325x4f1.cloudflarestream.com/${this.videoCloudflareId}/iframe`
+      const baseUrl = `${BASE_CLOUDFLARE_STREAM}/${this.videoCloudflareId}/iframe`
       const params = {}
       if (this.thumbnailUrl) {
         params.poster = encodeURIComponent(this.thumbnailUrl)
+      } else if (this.thumbnailUrlTime) {
+        params.poster = `${BASE_CLOUDFLARE_STREAM}/${this.videoCloudflareId}/thumbnails/thumbnail.jpg?time=${this.thumbnailUrlTime}s`
       }
       if (this.autoplay) {
         params.autoplay = true

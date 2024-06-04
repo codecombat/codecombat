@@ -15,6 +15,7 @@
                 class="header__video"
                 video-id="da0d63c489741f4bd20448af1846292a"
                 title="Video to illustrate the header"
+                :thumbnail-url-time="2"
               />
             </template>
           </content-box>
