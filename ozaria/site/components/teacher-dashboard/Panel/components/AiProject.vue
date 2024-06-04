@@ -4,7 +4,7 @@
     <p>Progress: {{ progress }}%</p>
     <p v-if="failedAttempts">
       {{ $t('teacher_dashboard.failed_attempts') }}: {{ failedAttempts }}
-      <br><span class="subtext">Number of times incorrect option was selected'</span>
+      <br><span class="subtext">{{ $t('teacher_dashboard.failed_attempts_subtext') }}</span>
     </p>
     <p v-else>
       {{ $t('teacher_dashboard.no_failed_attempts') }}
