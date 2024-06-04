@@ -683,10 +683,9 @@ if (isCodeCombat) {
     2: 'Properties',
     3: 'Return',
     4: 'Comparisons',
-    5: 'Compound Comparisons',
-    6: 'Movement',
-    7: 'Properties Revisted',
-    8: 'Break and Continue'
+    5: 'Movement',
+    6: 'Properties Revisted',
+    7: 'Break and Continue'
   }
 
   courseModuleLevels[courseIDs.COMPUTER_SCIENCE_3] = {
@@ -730,8 +729,6 @@ if (isCodeCombat) {
       'Wild Alliance',
       'Gems or Death',
       'Burls Beets Booleans',
-    ],
-    5: [
       'Salted Earth',
       'Star Shower',
       'Forest Shadow',
@@ -746,7 +743,7 @@ if (isCodeCombat) {
       'Logical Conclusion',
       'Nonandor',
     ],
-    6: [
+    5: [
       'The Mighty Sand Yak',
       'Oasis',
       'Sarven Road',
@@ -758,7 +755,7 @@ if (isCodeCombat) {
       'Friendly Minefield',
       'Kithgard Enchanter',
     ],
-    7: [
+    6: [
       'Minesweeper',
       'Operation \'Killdeer\'',
       'Medical Attention',
@@ -767,13 +764,13 @@ if (isCodeCombat) {
       'Keeping Time',
       'Crux of the Desert',
     ],
-    8: [
+    7: [
       'Hoarding Gold',
       'Decoy Drill',
       'Greed Protection',
       'Continuous Alchemy',
-      'Master of Camouflage',
-      'Escape of the Spring',
+      'Master Of Camouflage',
+      'Escape to the Spring',
       'Fast and Furry-ous',
       'Sand Mushrooms',
       'Mushroom Noise',
@@ -1539,7 +1536,7 @@ const capitalLanguages = {
   html: 'HTML'
 }
 
-const createLevelNumberMap = function (levels) {
+const createLevelNumberMap = function (levels, courseID) {
   const levelNumberMap = {}
   let practiceLevelTotalCount = 0
   let practiceLevelCurrentCount = 0
@@ -1565,6 +1562,10 @@ const createLevelNumberMap = function (levels) {
       levelNumberMap[level.key] = levelNumber
     } else {
       levelNumberMap[level.key] = ''
+    }
+
+    if (courseID) {
+      levelNumberMap[courseID + ':' + level.key] = levelNumberMap[level.key]
     }
   }
   return levelNumberMap

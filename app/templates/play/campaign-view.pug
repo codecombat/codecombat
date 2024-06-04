@@ -129,7 +129,9 @@ if showGameDevAlert
           else if level.assessment
             - levelNumber = $.t('play_level.concept_challenge') + ': '
           else
-            - levelNumber = view.classroom.getLevelNumber(level.original, '');
+            if view.course
+              - courseID = view.course.id
+            - levelNumber = view.classroom.getLevelNumber(level.original, '', courseID);
             if (levelNumber)
               - levelNumber += '. ';
         div(

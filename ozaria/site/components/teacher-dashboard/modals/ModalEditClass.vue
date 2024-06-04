@@ -601,7 +601,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="moreOptions && isCodeCombat"
+          v-if="moreOptions"
           class="form-group row autoComplete"
         >
           <div class="col-xs-12">

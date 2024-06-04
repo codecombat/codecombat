@@ -7,6 +7,7 @@ import ContentIcon from '../../common/icons/ContentIcon'
 import ProgressDot from '../../common/progress/progressDot'
 import LockOrSkip from './LockOrSkip'
 import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
+import { courseArenaLadder } from 'core/urls'
 
 import utils from 'core/utils'
 
@@ -87,7 +88,10 @@ export default {
   computed: {
     ...mapGetters({
       showingTooltipOfThisOriginal: 'baseSingleClass/getShowingTooltipOfThisOriginal',
-      selectedOriginals: 'baseSingleClass/selectedOriginals'
+      selectedOriginals: 'baseSingleClass/selectedOriginals',
+      selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+      getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
+      classroom: 'teacherDashboard/getCurrentClassroom',
     }),
 
     isCodeCombat () {
@@ -119,8 +123,14 @@ export default {
     ...mapMutations({
       setShowingTooltipOfThisOriginal: 'baseSingleClass/setShowingTooltipOfThisOriginal',
       replaceSelectedOriginals: 'baseSingleClass/replaceSelectedOriginals',
-      updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals'
+      updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals',
     }),
+
+    arenaLadderUrl (slug) {
+      const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
+      const courseInstance = courseInstances.find(({ courseID }) => courseID === this.selectedCourseId)
+      return courseArenaLadder({ level: { slug }, courseInstance })
+    },
 
     getGameContentDisplayType (type) {
       return getGameContentDisplayType(type, true, true)
@@ -212,7 +222,7 @@ export default {
       </v-popover>
     </div>
     <div
-      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal, normalizedType }, idx) of listOfContent"
+      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal, normalizedType, contentLevelSlug }, idx) of listOfContent"
       :key="`${idx}-${type}`"
       class="content-icons"
     >
@@ -252,6 +262,14 @@ export default {
               style="margin-bottom: 15px;"
               v-html="description"
             />
+            <a
+              v-if="type === 'course-ladder'"
+              :href="arenaLadderUrl(contentLevelSlug)"
+              target="_blank"
+              class="arena-ladder-link"
+            >
+              {{ $t('teacher.view_arena_ladder') }}
+            </a>
           </div>
         </template>
       </v-popover>
@@ -441,4 +459,8 @@ h3 {
   padding: 2px 2px;
 }
 
+.arena-ladder-link {
+  display: block;
+  margin-bottom: 15px;
+}
 </style>
