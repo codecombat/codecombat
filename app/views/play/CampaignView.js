@@ -86,6 +86,11 @@ class CampaignsCollection extends CocoCollection {
 }
 CampaignsCollection.initClass()
 
+const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
+const PROMPTED_FOR_SIGNUP = 'prompted-for-signup'
+const PROMPTED_FOR_SUBSCRIPTION = 'prompted-for-subscription'
+const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
+
 module.exports = (CampaignView = (function () {
   CampaignView = class CampaignView extends RootView {
     static initClass () {
@@ -668,7 +673,7 @@ module.exports = (CampaignView = (function () {
     }
 
     showRobloxModal () {
-      storage.save('roblox-modal-shown')
+      storage.save(ROBLOX_MODAL_SHOWN)
       this.openModalView(new RobloxModal())
     }
 
@@ -928,9 +933,9 @@ module.exports = (CampaignView = (function () {
 
       if (
         !me.get('email') &&
-        (storage.load('prompted-for-signup') || storage.load('prompted-for-subscription'))
+        (storage.load(PROMPTED_FOR_SIGNUP) || storage.load(PROMPTED_FOR_SUBSCRIPTION))
       ) {
-        if (!storage.load('roblox-modal-shown')) {
+        if (!storage.load(ROBLOX_MODAL_SHOWN)) {
           this.showRobloxModal()
         } else {
           this.showAiLeagueModal()
@@ -939,9 +944,9 @@ module.exports = (CampaignView = (function () {
     }
 
     showAiLeagueModal () {
-      if (!storage.load('ai-league-modal-shown')) {
+      if (!storage.load(AI_LEAGUE_MODAL_SHOWN)) {
         this.openModalView(new AILeaguePromotionModal(), true)
-        storage.save('ai-league-modal-shown')
+        storage.save(AI_LEAGUE_MODAL_SHOWN, true)
       }
     }
 
@@ -949,7 +954,7 @@ module.exports = (CampaignView = (function () {
       if (this.terrain && Array.from(this.terrain).includes('hoc')) { return }
       if (features.noAuth || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc')) { return }
       this.endHighlight()
-      storage.save('prompted-for-signup', true)
+      storage.save(PROMPTED_FOR_SIGNUP, true)
       return this.openModalView(new CreateAccountModal({ supermodel: this.supermodel }))
     }
 
@@ -968,7 +973,7 @@ module.exports = (CampaignView = (function () {
         this.promptForSignup()
         return
       }
-      storage.save('prompted-for-subscription', true)
+      storage.save(PROMPTED_FOR_SUBSCRIPTION, true)
       this.openModalView(new SubscribeModal())
       // TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
       window.tracker?.trackEvent('Show subscription modal', trackProperties)
