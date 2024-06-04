@@ -66,11 +66,6 @@ module.exports = (CocoRouter = (function () {
               return this.routeDirectly('HomeCNView', [])
             }
           }
-          if (me.isTeacher()) {
-            return this.navigate('/schools', { trigger: true, replace: true })
-          } else if (me.isParentHome()) {
-            return this.navigate('/parents', { trigger: true, replace: true })
-          }
           if (me.getHomePageExperimentValue() === 'beta') {
             return this.routeDirectly('HomeBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
           } else {
