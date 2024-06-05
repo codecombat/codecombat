@@ -58,11 +58,11 @@ export default {
 @import "app/styles/component_variables.scss";
 .mixed-color-label {
   &__normal {
-    color: $dark-grey;
+    color: var(--color-dark-grey);
   }
 
   &__highlight {
-    color: $purple;
+    color: var(--color-primary);
   }
 }
 </style>

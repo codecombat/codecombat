@@ -717,7 +717,9 @@ export default Vue.extend({
 }
 
 #page-schools {
-  @extend %frontend-page;
+  ::v-deep {
+    @extend %frontend-page;
+  }
 
   #request-a-demo {
     margin-bottom: -40px;

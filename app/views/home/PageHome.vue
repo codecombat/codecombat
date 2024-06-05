@@ -557,7 +557,9 @@ export default Vue.extend({
   gap: 80px;
   flex-direction: column;
 
-  @extend %frontend-page;
+  ::v-deep {
+    @extend %frontend-page;
+  }
 
   ::v-deep .text-h1 {
     @extend %font-32-46;

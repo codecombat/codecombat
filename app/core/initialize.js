@@ -29,6 +29,8 @@ const VueAsyncComputed = require('vue-async-computed')
 
 const { datadogRum } = require('@datadog/browser-rum')
 
+const { $themePath } = require('./initialize-themes')
+Vue.prototype.$themePath = $themePath
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
 Vue.use(VueMoment.default)

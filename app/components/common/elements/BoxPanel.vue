@@ -14,6 +14,7 @@
         :key="index"
         :class="{
           'col-md-6': arrangement === 'vertical',
+          'col-lg-4': parseInt(columns, 10) === 3 && arrangement === 'vertical',
           'col-md-12': arrangement === 'horizontal'
         }"
       >
@@ -30,6 +31,7 @@
           :middle-text="item.middleText"
           :middle-image="item.middleImage"
           :middle-image-alt="item.middleImageAlt"
+          :labels="item.labels"
         >
           <template #image>
             <div v-if="item.video">
@@ -99,6 +101,10 @@ export default {
     items: {
       type: Array,
       required: true
+    },
+    columns: {
+      type: [String, Number],
+      default: 2
     },
     arrangement: {
       type: String,

@@ -9,7 +9,7 @@
           <img
             class="cubes"
             alt="Cubes"
-            src="/images/components/cubes.webp"
+            :src="$themePath('/images/components/cubes.webp')"
           >
 
           <div class="image">
@@ -18,22 +18,22 @@
           <img
             class="overlap-cubes overlap-cubes-2"
             alt="Overlap cubes"
-            src="/images/components/cube001_4.webp"
+            :src="$themePath('/images/components/cube001_4.webp')"
           >
           <img
             class="overlap-cubes overlap-cubes-3"
             alt="Overlap cubes"
-            src="/images/components/cube001_2.webp"
+            :src="$themePath('/images/components/cube001_2.webp')"
           >
           <img
             class="overlap-cubes overlap-cubes-4"
             alt="Overlap cubes"
-            src="/images/components/cube001_1.webp"
+            :src="$themePath('/images/components/cube001_1.webp')"
           >
           <img
             class="overlap-cubes overlap-cubes-5"
             alt="Overlap cubes"
-            src="/images/components/cube001_3.webp"
+            :src="$themePath('/images/components/cube001_3.webp')"
           >
         </div>
       </div>

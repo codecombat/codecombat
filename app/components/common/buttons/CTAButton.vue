@@ -77,7 +77,7 @@ export default {
 
 %text-contrast {
   // for better lighthouse score (better contrast ratio)
-  text-shadow: -1px 0 darken($purple, 20%), 0 1px darken($purple, 20%), 1px 0 darken($purple, 20%), 0 -1px darken($purple, 20%);
+  text-shadow: var(--text-shadow);
 }
 
 .cta-container {
@@ -109,7 +109,7 @@ export default {
     }
 
     align-items: center;
-    background-color: $purple;
+    background-color: var(--color-primary);
     @extend %text-contrast;
 
     [style*="--type: no-background"] & {
@@ -117,10 +117,10 @@ export default {
     }
 
     &:hover {
-      background-color: $purple-2;
+      background-color: var(--color-primary-2);
 
       [style*="--type: no-background"] & {
-        background-color: rgba($purple, 0.3)
+        background-color: rgba(var(--color-primary), 0.3)
       }
     }
 
@@ -163,7 +163,7 @@ export default {
 
 .description {
   margin-top: 8px;
-  color: darken($purple, 10%); // darken for better contrast
+  color: var(--color-primary__darken_10);
   text-align: center;
   @extend %font-16;
   font-style: normal;

@@ -119,7 +119,7 @@ export default {
     }
 
     .text-wrapper-2 {
-        color: $purple;
+        color: var(--color-primary);
     }
 }
 </style>
