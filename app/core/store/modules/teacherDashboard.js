@@ -432,6 +432,7 @@ export default {
         }
 
         fetchPromises.push(dispatch('aiScenarios/fetchReleased', { classroom }, { root: true }))
+        fetchPromises.push(dispatch('aiModels/fetch', {}, { root: true }))
       }
 
       // TODO If classroom already loaded, load it asynchronously without blocking UI, i.e. without `await` to optimize performance
