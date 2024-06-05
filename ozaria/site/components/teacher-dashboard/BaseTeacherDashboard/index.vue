@@ -94,6 +94,10 @@ export default {
       }
     },
 
+    showNonTeacherPreview () {
+      return !me.isTeacher() && this.$route.path.startsWith(('/teachers/resources'))
+    },
+
     getLanguage () {
       if (this.classroom && this.classroom.aceConfig) {
         return this.classroom.aceConfig?.language || 'python'
@@ -326,7 +330,7 @@ export default {
 
 <template>
   <div
-    v-if="showRestrictedDiv"
+    v-if="showRestrictedDiv && !showNonTeacherPreview"
     class="restricted-div"
   >
     <h5> {{ $t('teacher.access_restricted') }} </h5>
@@ -336,7 +340,10 @@ export default {
     <base-curriculum-guide :default-language="getLanguage" />
     <panel />
     <div class="teacher-dashboard">
-      <div :class="['teacher-dashboard__sidebar', { 'collapsed': sidebarCollapsed }]">
+      <div
+        v-if="!showNonTeacherPreview"
+        :class="['teacher-dashboard__sidebar', { 'collapsed': sidebarCollapsed }]"
+      >
         <div class="content">
           <secondary-teacher-navigation :classrooms="allClassrooms" />
         </div>
@@ -348,7 +355,7 @@ export default {
           <span class="right">&#x25B6;</span>
         </div>
       </div>
-      <div class="teacher-dashboard__body">
+      <div :class="['teacher-dashboard__body', { 'sidebar-hidden': showNonTeacherPreview }]">
         <title-bar
           :title="pageTitle"
           :show-class-info="showClassInfo"
@@ -356,6 +363,7 @@ export default {
           :courses="classroomCourses"
           :selected-course-id="selectedCourseId"
           :all-classes-page="isAllClassesPage"
+          :show-preview-mode="showNonTeacherPreview"
           @change-course="onChangeCourse"
           @newClass="openNewClassModal"
           @addStudentsClicked="showAddStudentsModal = true"
@@ -386,7 +394,7 @@ export default {
       @close="closeOnboardingModal"
     />
     <modal-edit-class
-      v-if="showNewClassModal && !editCurrent"
+      v-if="showNewClassModal && !editCurrent && !showNonTeacherPreview"
       :classroom="newClassroom"
       @close="closeShowNewModal"
       @created="handleCreatedClass"
@@ -748,6 +756,10 @@ export default {
       width: 250px;
       height: max-content;
     }
+  }
+
+  .sidebar-hidden {
+  width: calc(100% - 0px);
   }
 
   &__body {
