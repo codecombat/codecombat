@@ -21,12 +21,14 @@ import { mapMutations, mapGetters } from 'vuex'
 import { FIRST_CLASS_STEPS, CREATE_CLASS_STEPS } from './teacherDashboardTours'
 import ModalTeacherDetails from '../modals/ModalTeacherDetails'
 import { hasSeenTeacherDetailModalRecently, markTeacherDetailsModalAsSeen } from '../../../common/utils'
+import TryOzariaModal from 'app/components/teacher/TryOzariaModal.vue'
 
 const Classroom = require('models/Classroom')
 const VueShepherd = require('vue-shepherd')
 
 const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
 const SEEN_TEACHER_DETAILS_MODAL = 'seen-teacher-details-modal'
+const TRY_OZ_MODAL_VIEWED_KEY = 'try-oz-modal-viewed'
 
 export default {
   components: {
@@ -40,7 +42,8 @@ export default {
     SecondaryTeacherNavigation,
     TitleBar,
     LoadingBar,
-    ModalTeacherDetails
+    ModalTeacherDetails,
+    TryOzariaModal
   },
 
   data () {
@@ -61,7 +64,8 @@ export default {
       newClassroom: new Classroom({ ownerID: me.id }),
       sidebarCollapsed: false,
       editCurrent: false,
-      editClassroomObject: {}
+      editClassroomObject: {},
+      showTryOzariaModal: false
     }
   },
 
@@ -106,6 +110,7 @@ export default {
       if (this.activeClassrooms.length > 0) {
         return this.getMostCommonLanguage()
       }
+      return null
     },
 
     isAllClassesPage () {
@@ -319,11 +324,27 @@ export default {
         })
         .finally(() => {
           this.showOnboardingModal = !me.get('seenNewDashboardModal')
+          this.handleTryOzariaModal()
         })
     },
     toggleSidebar () {
       this.sidebarCollapsed = !this.sidebarCollapsed
     },
+    handleTryOzariaModal () {
+      if (this.isCodeCombat &&
+        !this.showOnboardingModal &&
+        !this.showTeacherDetailsModal &&
+        !me.get('activity')?.['visit-ozaria'] &&
+        !storage.load(TRY_OZ_MODAL_VIEWED_KEY)
+      ) {
+        this.showTryOzariaModal = true
+      }
+    },
+    closeTryOzariaModal () {
+      const oneMonth = 30 * 24 * 7 * 60
+      storage.save(TRY_OZ_MODAL_VIEWED_KEY, true, oneMonth)
+      this.showTryOzariaModal = false
+    }
   }
 }
 </script>
@@ -416,6 +437,10 @@ export default {
     <modal-remove-students
       v-if="showRemoveStudentsModal"
       @close="showRemoveStudentsModal = false"
+    />
+    <try-ozaria-modal
+      v-if="showTryOzariaModal"
+      @close="closeTryOzariaModal"
     />
   </div>
 </template>
