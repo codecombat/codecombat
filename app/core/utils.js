@@ -2361,6 +2361,7 @@ module.exports.aiToolToImage = {
   'gpt-4-turbo-preview': '/images/ai/ChatGPT.svg',
   'stable-diffusion-xl': '/images/ai/Stable_Diffusion.png',
   'dall-e-3': '/images/ai/DALL-E.webp',
+  'claude-3': '/images/ai/claude.webp'
 }
 
 const getUserTimeZone = function (user) {

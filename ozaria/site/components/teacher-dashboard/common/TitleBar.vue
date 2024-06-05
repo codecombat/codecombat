@@ -29,6 +29,10 @@ export default {
       type: Boolean,
       default: false
     },
+    showPreviewMode: {
+      type: Boolean,
+      default: false
+    },
     classroom: {
       type: Object,
       default: () => {}
@@ -195,7 +199,10 @@ export default {
         </button>
       </div>
     </div>
-    <div class="sub-nav">
+    <div
+      v-if="!showPreviewMode"
+      class="sub-nav"
+    >
       <div
         v-if="sharePermission"
         class="small-text"
