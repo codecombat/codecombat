@@ -4592,6 +4592,8 @@ module.exports = {
       //    assign_content_first: "Please ensure that content is assigned to students before adjusting access levels",
       //    failed_attempts: "Failed Attempts",
       //    no_failed_attempts: "No Failed Attempts",
+      //    failed_attempts_subtext: "Number of times incorrect option was selected",
+      //    open_project: "Open Project",
     },
 
     outcomes: {
@@ -5413,8 +5415,8 @@ module.exports = {
     //    meta_title: "CodeCombat: the most effective computer science solution for schools",
     //    most_effective_computer_science_solution: "The most effective computer science solution for **schools**",
     //    our_comprehensive_implementation: "Our comprehensive implementation empowers teachers, engages students and delivers successful outcomes.",
+    //    start_teach_trial: "Start teaching today with free trial access to all games and teaching resources.",
     //    get_my_solution: "Get My Solution",
-    //    let_us_craft_a_custom_program: "Let us craft a custom program for you!",
     //    flexible_standards_aligned_curriculum_title: "A Flexible Standards Aligned Curriculum",
     //    flexible_standards_aligned_curriculum_text: "Our scaffolded approach covers computer science fundamentals up through advanced courses and features **[https://codecombat.com/apcsp]College Board endorsed AP CSP**, web and game development. We build customized pathways to deliver a personalized learning experience that meets **[https://codecombat.com/standards]CSTA, ISTE and Common Core State Standards**. The flexible curriculum offers the ability to teach Python, JavaScript, C++, Luau and more.",
     //    comprehensive_tools_resources_title: "Comprehensive Tools & Resources",
