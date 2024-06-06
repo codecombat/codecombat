@@ -10,6 +10,14 @@
             {{ $t('schools_page.start_teach_trial') }}
           </p>
           <CTAButton
+            v-if="me.isAnonymous()"
+            class="contact-solution signup-button"
+            data-start-on-path="teacher"
+          >
+            {{ $t('schools_page.try_it_free') }}
+          </CTAButton>
+          <CTAButton
+            v-else
             class="contact-solution"
             @clickedCTA="showContactModal = true"
           >
