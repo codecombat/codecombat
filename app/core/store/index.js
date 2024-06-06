@@ -78,6 +78,7 @@ const store = new Vuex.Store({
     lowUsageUsers: require('./modules/lowUsageUsers').default,
     aiScenarios: require('./modules/aiScenarios').default,
     aiProjects: require('./modules/aiProjects').default,
+    aiModels: require('./modules/aiModels').default,
   }
 });
 

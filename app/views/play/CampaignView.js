@@ -756,12 +756,11 @@ module.exports = (CampaignView = (function () {
       if (this.campaigns) {
         let campaign, levels
         context.campaigns = {}
-        for (campaign of Array.from(this.campaigns.models)) {
+        for (campaign of this.campaigns.models) {
           if (campaign.get('slug') !== 'auditions') {
             context.campaigns[campaign.get('slug')] = campaign
-            if (this.sessions != null ? this.sessions.loaded : undefined) {
-              var left1
-              levels = _.values($.extend(true, {}, (left1 = campaign.get('levels')) != null ? left1 : {}))
+            if (this.sessions?.loaded) {
+              levels = _.values($.extend(true, {}, campaign.get('levels') || {}))
               if ((me.level() < 12) && (campaign.get('slug') === 'dungeon') && !this.editorMode) {
                 levels = _.reject(levels, { slug: 'signs-and-portents' })
               }
@@ -781,16 +780,22 @@ module.exports = (CampaignView = (function () {
             }
           }
         }
-        for (campaign of Array.from(this.campaigns.models)) {
-          var left2
-          const object = (left2 = campaign.get('adjacentCampaigns')) != null ? left2 : {}
-          for (const acID in object) {
-            const ac = object[acID]
+        for (campaign of this.campaigns.models) {
+          for (const [acID, ac] of Object.entries(campaign.get('adjacentCampaigns') || {})) {
             if (_.isString(ac.showIfUnlocked)) {
-              var needle
-              if ((needle = ac.showIfUnlocked, Array.from(me.levels()).includes(needle))) { __guard__(_.find(this.campaigns.models, { id: acID }), x => x.locked = false) }
+              if (me.levels().includes(ac.showIfUnlocked)) {
+                const campaign = _.find(this.campaigns.models, { id: acID })
+                if (campaign) {
+                  campaign.locked = false
+                }
+              }
             } else if (_.isArray(ac.showIfUnlocked)) {
-              if (_.intersection(ac.showIfUnlocked, me.levels()).length > 0) { __guard__(_.find(this.campaigns.models, { id: acID }), x1 => x1.locked = false) }
+              if (_.intersection(ac.showIfUnlocked, me.levels()).length > 0) {
+                const campaign = _.find(this.campaigns.models, { id: acID })
+                if (campaign) {
+                  campaign.locked = false
+                }
+              }
             }
           }
         }

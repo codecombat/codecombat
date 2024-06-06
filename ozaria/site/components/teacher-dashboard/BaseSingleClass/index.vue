@@ -77,6 +77,7 @@ export default {
       getSelectableOriginals: 'baseSingleClass/getSelectableOriginals',
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
       aiScenarios: 'aiScenarios/getScenarios',
+      modelsByName: 'aiModels/getModelsByName',
     }),
 
     modules () {
@@ -104,9 +105,11 @@ export default {
           const moduleScenarios = (this.aiScenarios || [])
             .filter(scenario => scenario.tool === moduleName)
 
+          const aiModel = this.modelsByName[moduleName]
+
           return {
             moduleNum,
-            displayName: moduleName,
+            displayName: `<strong>${aiModel.displayName}</strong><br>${aiModel.description}`,
             displayLogo: utils.aiToolToImage[moduleName] || null,
             contentList: moduleScenarios
               .map((scenario, index) => {
@@ -114,7 +117,7 @@ export default {
                   displayName: scenario.name,
                   type: 'challengelvl',
                   _id: scenario._id,
-                  tooltipName: `${index + 1}: ${scenario.name}`,
+                  tooltipName: scenario.name,
                   description: '',
                   contentKey: scenario._id,
                   normalizedOriginal: scenario._id,
@@ -179,6 +182,7 @@ export default {
         }
 
         const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, translatedModuleContent, intros, moduleNum)
+        const levelNameMap = this.getLevelNameMap(translatedModuleContent, intros)
         const levelsByOriginal = translatedModuleContent
           .reduce((acc, content) => {
             acc[content.original] = content
@@ -193,9 +197,13 @@ export default {
         for (const student of this.students) {
           const studentSessions = this.levelSessionsMapByUser[student._id] || {}
           const levelOriginalCompletionMap = {}
+          const playTimeMap = {}
+          const completionDateMap = {}
 
           for (const session of Object.values(studentSessions)) {
             levelOriginalCompletionMap[session.level.original] = session.state
+            playTimeMap[session.level.original] = session.playtime
+            completionDateMap[session.level.original] = session.state.complete && session.changed
           }
 
           let isPlayable = true
@@ -240,7 +248,10 @@ export default {
               fromIntroLevelOriginal,
               isOptional,
               isPlayable,
-              isPractice
+              isPractice,
+              playTime: playTimeMap[normalizedOriginal],
+              completionDate: completionDateMap[normalizedOriginal],
+              tooltipName: levelNameMap[content._id].levelName
             }
 
             if (content.type === 'game-dev') {
@@ -539,6 +550,36 @@ export default {
       }
     },
 
+    getLevelNameMap (moduleContent, intros) {
+      return moduleContent.reduce((acc, content, index) => {
+        const { _id, fromIntroLevelOriginal, original } = content
+
+        let description = getLearningGoalsDocumentation(content)
+
+        let tooltipName
+        let levelName
+        if (utils.isCodeCombat) {
+          const classroom = new Classroom(this.classroom)
+          const levelNumber = classroom.getLevelNumber(original, index + 1)
+          tooltipName = `${levelNumber}: ${utils.i18n(content, 'displayName') || utils.i18n(content, 'name')}`
+          levelName = tooltipName
+        } else {
+          tooltipName = getGameContentDisplayNameWithType(content)
+          levelName = tooltipName
+        }
+        if (fromIntroLevelOriginal) {
+          const introLevel = intros[fromIntroLevelOriginal] || {}
+          levelName = tooltipName
+          description = `<h3>${tooltipName}</h3><p>${utils.i18n(content, 'description') || getLearningGoalsDocumentation(content) || ''}</p>`
+          tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${utils.i18n(introLevel, 'displayName') || utils.i18n(introLevel, 'name')}`
+        }
+
+        acc[_id] = { tooltipName, description, levelName }
+
+        return acc
+      }, {})
+    },
+
     setProgressDetails (details, classSummaryProgress, index) {
       details.status = 'progress'
       classSummaryProgress[index].status = 'progress'
@@ -608,6 +649,7 @@ export default {
     // Creates summary stats table for the content. These are the icons along
     // the top of the track progress table.
     createModuleStatsTable (moduleDisplayName, moduleContent, intros, moduleNum) {
+      const levelNameMap = this.getLevelNameMap(moduleContent, intros)
       return {
         moduleNum,
         displayName: moduleDisplayName,
@@ -641,25 +683,9 @@ export default {
             throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
           }
 
-          let description = getLearningGoalsDocumentation(content)
           let contentLevelSlug = slug
           if (fromIntroLevelOriginal) {
-            description = getLearningGoalsDocumentation(intros[fromIntroLevelOriginal])
             contentLevelSlug = intros[fromIntroLevelOriginal]?.slug
-          }
-
-          let tooltipName
-          if (utils.isCodeCombat) {
-            const classroom = new Classroom(this.classroom)
-            const levelNumber = classroom.getLevelNumber(content.original, index + 1)
-            tooltipName = `${levelNumber}: ${utils.i18n(content, 'displayName') || utils.i18n(content, 'name')}`
-          } else {
-            tooltipName = getGameContentDisplayNameWithType(content)
-          }
-          if (fromIntroLevelOriginal) {
-            const introLevel = intros[fromIntroLevelOriginal] || {}
-            description = `<h3>${tooltipName}</h3><p>${utils.i18n(content, 'description') || getLearningGoalsDocumentation(content) || ''}</p>`
-            tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${utils.i18n(introLevel, 'displayName') || utils.i18n(introLevel, 'name')}`
           }
 
           const isPractice = Boolean(content.practice)
@@ -672,13 +698,12 @@ export default {
             displayName: utils.i18n(content, 'displayName') || utils.i18n(content, 'name'),
             type: normalizedType,
             _id,
-            tooltipName,
-            description: description || '',
             contentKey: original || fromIntroLevelOriginal, // Currently use the original as the key that groups levels together.
             normalizedOriginal,
             normalizedType,
             contentLevelSlug,
-            isPractice
+            isPractice,
+            ...levelNameMap[_id]
           })
         }),
         studentSessions: {},
