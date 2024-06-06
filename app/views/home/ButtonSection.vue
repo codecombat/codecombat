@@ -5,7 +5,7 @@
       class="button-section"
     >
       <CTAButton
-        href="/schools"
+        :href="`/schools${educatorSignupExperiment? '#create-account-teacher' : ''}`"
         @click="homePageEvent(isCodeCombat ? 'Homepage Click Teacher Button #1 CTA' : 'Started Signup')"
       >
         {{ $t('new_home.im_an_educator') }}
@@ -83,7 +83,11 @@ export default {
     },
     me () {
       return me
-    }
+    },
+    educatorSignupExperiment () {
+      const value = me.getEducatorSignupExperimentValue()
+      return value === 'beta'
+    },
   },
   beforeDestroy () {
     if (this.modal) {

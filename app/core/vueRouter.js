@@ -107,6 +107,10 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "pd" */ 'app/views/funding/FundingView.vue')
         },
         {
+          path: '/schools',
+          component: () => import(/* webpackChunkName: "SchoolsView" */ 'app/views/schools/PageSchools.vue')
+        },
+        {
           path: '/school-administrator',
           component: () => {
             if (utils.isCodeCombat) {

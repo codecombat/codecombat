@@ -5328,6 +5328,7 @@ module.exports = {
       stat_card_6_description: 'ESports Players',
       learn_to_code: 'Learn to **code** and use **AI**, all through the **power of play**.',
       innovative_play_experiences: 'We create innovative play experiences to make computer science engaging and accessible to all.',
+      sing_up_today: 'Sign-up today to play for free and explore our games and resources.',
       im_an_educator: 'I’m an Educator',
       im_a_parent: 'I’m a Parent',
       im_a_student: 'I’m a Student',
