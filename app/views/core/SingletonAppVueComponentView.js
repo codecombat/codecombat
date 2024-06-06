@@ -64,16 +64,6 @@ export default class SingletonAppVueComponentView extends VueComponentView {
     if ($('.ozaria-modal, .modal-dialog').length) {
       modalOpened = true
     }
-
-    const onTeacherDashboard = document.location.pathname.startsWith('/teachers/')
-
-    // only open modal if no other modal is open, and not on the teacher dashboard
-    if(!modalOpened && !this.destroyed && !onTeacherDashboard) {
-      _.defer(() => {
-        const MineModal = require('views/core/MineModal') // Roblox modal
-        if (!storage.load('roblox-clicked') && !this.destroyed) { return this.openModalView(new MineModal()) } 
-      })
-    }
   }
 
   buildVueComponent () {
