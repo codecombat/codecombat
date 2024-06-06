@@ -18,7 +18,10 @@
         <template #image>
           <content-box :main-image-bg="true">
             <template #image>
-              <video-box video-id="da0d63c489741f4bd20448af1846292a" />
+              <video-box 
+                video-id="da0d63c489741f4bd20448af1846292a"
+                :thumbnail-url-time="2"
+              />
             </template>
           </content-box>
         </template>
