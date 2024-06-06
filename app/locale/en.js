@@ -462,7 +462,8 @@ module.exports = {
       ai_hackstack_description: 'The first generative AI companion tool specifically crafted for those new to AI with a focus on student privacy and safety.',
       ai_junior_description: 'Introduces multimodal generative AI in a simple and intuitive platform designed specifically for K-5 students.',
       learning_options: 'Learning Options',
-      ai_hackstack: 'AI HackStack'
+      ai_hackstack: 'AI HackStack',
+      beta: 'Beta'
     },
 
     modal: {
@@ -4594,7 +4595,8 @@ module.exports = {
       failed_attempts: 'Failed Attempts',
       no_failed_attempts: 'No Failed Attempts',
       failed_attempts_subtext: 'Number of times incorrect option was selected',
-      open_project: 'Open Project'
+      open_project: 'Open Project',
+      create_class_hackstack: 'Please create a New Class to access AI HackStack'
     },
 
     outcomes: {
