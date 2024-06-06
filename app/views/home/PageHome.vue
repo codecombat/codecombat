@@ -8,7 +8,7 @@
               <mixed-color-label :text="$t('home_v3.learn_to_code')" />
             </h1>
             <p class="text-24">
-              {{ $t(educatorSignupExperiment ? 'home_v3.sing_up_today' :'home_v3.innovative_play_experiences') }}
+              {{ $t(educatorSignupExperiment ? 'home_v3.sign_up_today' :'home_v3.innovative_play_experiences') }}
             </p>
             <div class="buttons">
               <ButtonSection />

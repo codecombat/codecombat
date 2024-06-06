@@ -5,7 +5,7 @@
       class="button-section"
     >
       <CTAButton
-        :href="`/schools${educatorSignupExperiment? '#create-account-teacher' : ''}`"
+        :href="`/schools${ educatorSignupExperiment ? '#create-account-teacher' : '' }`"
         @click="homePageEvent(isCodeCombat ? 'Homepage Click Teacher Button #1 CTA' : 'Started Signup')"
       >
         {{ $t('new_home.im_an_educator') }}
