@@ -17,19 +17,14 @@ const ChooseAccountTypeView = require('./ChooseAccountTypeView')
 const SegmentCheckView = require('./SegmentCheckView')
 const CoppaDenyView = require('./CoppaDenyView')
 const EUConfirmationView = require('./EUConfirmationView')
-const OzVsCocoView = require('./OzVsCocoView')
 const BasicInfoView = require('./BasicInfoView')
 const SingleSignOnAlreadyExistsView = require('./SingleSignOnAlreadyExistsView')
 const SingleSignOnConfirmView = require('./SingleSignOnConfirmView')
 const ExtrasView = require('./ExtrasView')
 const ConfirmationView = require('./ConfirmationView')
 const TeacherSignupComponent = require('./teacher/TeacherSignupComponent')
-const TeacherSignupStoreModule = require('./teacher/TeacherSignupStoreModule')
 const State = require('models/State')
 const template = require('app/templates/core/create-account-modal/create-account-modal')
-const forms = require('core/forms')
-const User = require('models/User')
-const errors = require('core/errors')
 const utils = require('core/utils')
 const store = require('core/store')
 const storage = require('core/storage')
@@ -120,7 +115,7 @@ module.exports = (CreateAccountModal = (function () {
       const { startOnPath } = options
       switch (startOnPath) {
         case 'student': this.signupState.set({ path: 'student', screen: 'segment-check' }); break
-        case 'oz-vs-coco': this.signupState.set({ path: 'oz-vs-coco', screen: 'oz-vs-coco' }); break
+        case 'oz-vs-coco': this.signupState.set({ path: 'teacher', screen: this.euConfirmationRequiredInCountry() ? 'eu-confirmation' : 'basic-info' }); break
         case 'individual': this.signupState.set({ path: 'individual', screen: 'segment-check' }); break
         case 'individual-basic': this.signupState.set({ path: 'individual', screen: 'basic-info' }); break
         case 'teacher':
@@ -155,7 +150,7 @@ module.exports = (CreateAccountModal = (function () {
               return this.navigateToTeacherOnboarding()
             }
           } else if (path === 'oz-vs-coco') {
-            return this.signupState.set({ path, screen: 'oz-vs-coco' })
+            return this.signupState.set({ path: 'teacher', screen: this.euConfirmationRequiredInCountry() ? 'eu-confirmation' : 'basic-info' })
           } else {
             if (path === 'student') {
               if (window.tracker != null) {
@@ -190,11 +185,6 @@ module.exports = (CreateAccountModal = (function () {
           }
         },
         'nav-forward' (screen) { return this.signupState.set({ screen: screen || 'basic-info' }) }
-      })
-
-      this.listenTo(this.insertSubView(new OzVsCocoView({ signupState: this.signupState })), {
-        'nav-forward' (path) { return this.signupState.set({ path: 'teacher', screen: this.euConfirmationRequiredInCountry() ? 'eu-confirmation' : 'basic-info' }) },
-        'nav-back' (path) { return this.signupState.set({ path: null, screen: 'choose-account-type' }) }
       })
 
       this.listenTo(this.insertSubView(new BasicInfoView({ signupState: this.signupState })), {
