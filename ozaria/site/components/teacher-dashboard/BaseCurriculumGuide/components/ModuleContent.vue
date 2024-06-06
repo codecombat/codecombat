@@ -92,7 +92,7 @@ export default {
 
   methods: {
     getLevelNumber (original, index) {
-      if (this.classroomId) {
+      if (utils.isCodeCombat && this.classroomId) {
         const levelNumber = this.classroomInstance.getLevelNumber(original, index, this.getCurrentCourse?._id)
         return levelNumber
       } else {
