@@ -156,21 +156,20 @@ mixin classrooms_content()
                a.view-announcement-link(data-classroom-id=classroom.get('_id'), data-i18n="courses.classroom_announcement")
          else
            //- sigh
-           div(class=classroomClass).rtl-allowed
-             h5(dir="auto")
-               span.spr= classroom.get('name')
-               - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java'}
-               span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
-             p
-               span(data-i18n="courses.teacher")
-               span :
-               if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
-                 span.spl= view.ownerNameMap[classroom.get('ownerID')]
+           h5(dir="auto")
+             span.spr= classroom.get('name')
+             - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java'}
+             span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
+           p
+             span(data-i18n="courses.teacher")
+             span :
+             if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
+               span.spl= view.ownerNameMap[classroom.get('ownerID')]
 
-         - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-esports' && view.utils.isCodeCombat) { continue }
          - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
          - var allCoursesComplete = true
          - var coursesData = courseInstances.map(courseInstance => ({courseId: courseInstance.get('courseID'), courseInstanceId: courseInstance.get('_id')}))
+         - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-esports' && view.utils.isCodeCombat) { courseInstances = [] }
          for courseInstance in courseInstances
            - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-junior' && view.utils.isCodeCombat && courseInstance.get('courseID') !== view.utils.allCourseIDs.JUNIOR) { continue }
            .course-instance-entry.rtl-allowed
