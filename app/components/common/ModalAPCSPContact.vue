@@ -70,6 +70,7 @@ export default Vue.extend({
 
     this.email = me.get('email') || props.email
     this.geo = me.get('geo')
+    this.$v.location.$model = me.get('geo')?.country
 
     this.message = ''
   },
@@ -79,9 +80,6 @@ export default Vue.extend({
       this.$emit('close')
     },
     askLocation () {
-      if (this.geo && this.geo.country) {
-        this.$v.location.$model = this.geo.country
-      }
       return !this.geo || !this.geo.country
     },
     async onClickSubmit () {
@@ -189,7 +187,7 @@ export default Vue.extend({
         >
           <div class="col-xs-12">
             <span class="control-label">
-              {{ $t('apcsp_curriculum.location') }} <span class="text-muted"> {{ $t('apcsp_curriculum.state_and_country') }} </span>
+              Location <span class="text-muted"> (state and country) </span>
             </span>
             <input
               v-model="$v.location.$model"
