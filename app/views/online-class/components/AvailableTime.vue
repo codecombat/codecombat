@@ -19,7 +19,7 @@
             type="radio"
             :value="t.get('hour') + t.get('minute') / 60"
           >
-          <span> {{ t.clone().tz(userTz).format('LT') }}</span>
+          <span> {{ t.format('LT') }}</span>
         </label>
       </div>
     </div>
@@ -84,21 +84,22 @@ export default {
     getDates () {
       const dates = new Set()
       this.allTimes.forEach(t => {
-        dates.add(t.clone().tz(this.userTz).format('YYYY-MM-DD'))
+        dates.add(t.format('YYYY-MM-DD'))
       })
       return Array.from(dates)
     },
-    serverDate (date, time) {
-      return moment.tz(date, this.userTz).set({
+    toServerDateTime (date, time) {
+      const serverTime = moment.tz(date, this.userTz).set({
         hour: Math.floor(time),
         minute: Math.floor((time - Math.floor(time)) * 60),
         second: 0,
         millisecond: 0
-      }).tz(this.serverTz).format('YYYY-MM-DD')
+      }).tz(this.serverTz)
+      return [serverTime.format('YYYY-MM-DD'), serverTime.get('hour') + serverTime.get('minute') / 60]
     },
     emitInfo () {
-      const serverDate = this.serverDate(this.date, this.time)
-      this.$emit('next', { date: serverDate, time: this.time })
+      const [serverDate, serverTime] = this.toServerDateTime(this.date, this.time)
+      this.$emit('next', { date: serverDate, time: serverTime })
     },
     async checkTime () {
       try {
@@ -112,25 +113,25 @@ export default {
           })
           this.$emit('back')
         }
-        this.allTimes = this.convertTimeAsServerTime(times)
+        this.allTimes = this.convertTimeToLocaleTime(times)
         this.events = this.getDates().map((d, i) => this.formatEvent(d, i))
       } catch (e) {
         console.error(e)
       }
     },
-    convertTimeAsServerTime (times) {
-      const serverTime = []
+    convertTimeToLocaleTime (times) {
+      const localeTime = []
       times.forEach(t => {
         t.times.forEach(ti => {
-          serverTime.push(moment.tz(t.date, this.serverTz).set({
+          localeTime.push(moment.tz(t.date.replace('Z', ''), this.serverTz).set({
             hour: Math.floor(ti),
             minute: Math.floor((ti - Math.floor(ti)) * 60),
             second: 0,
             millisecond: 0
-          }))
+          }).tz(this.userTz))
         })
       })
-      return serverTime
+      return localeTime
     },
     formatEvent (date, index) {
       return {
@@ -143,7 +144,7 @@ export default {
     },
     getTimesIDay () {
       if (this.date) {
-        return this.allTimes.filter(t => t.clone().tz(this.userTz).format('YYYY-MM-DD') === this.date)
+        return this.allTimes.filter(t => t.format('YYYY-MM-DD') === this.date)
       } else {
         return []
       }
