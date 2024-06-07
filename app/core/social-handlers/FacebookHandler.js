@@ -93,14 +93,15 @@ module.exports = (FacebookHandler = (FacebookHandler = (function () {
             xfbml: true, // parse XFBML
             version: 'v20.0'
           })
-          return FB.getLoginStatus(response => {
-            if (response.status === 'connected') {
-              this.connected = true
-              this.trigger('connect', { response })
-            }
-            this.apiLoaded = true
-            return this.trigger('load-api')
-          })
+          return this.trigger('load-api')
+          // return FB.getLoginStatus(response => {
+          //   if (response.status === 'connected') {
+          //     this.connected = true
+          //     this.trigger('connect', { response })
+          //   }
+          //   this.apiLoaded = true
+          //   return this.trigger('load-api')
+          // })
         }
         return window.fbAsyncInit
       }
