@@ -35,7 +35,7 @@ module.exports = (FacebookHandler = (FacebookHandler = (function () {
       super()
     }
 
-    token () { return (this.authResponse != null ? this.authResponse.accessToken : undefined) }
+    token () { return null }
 
     fakeAPI () {
       window.FB = {
@@ -96,7 +96,6 @@ module.exports = (FacebookHandler = (FacebookHandler = (function () {
           return FB.getLoginStatus(response => {
             if (response.status === 'connected') {
               this.connected = true
-              this.authResponse = response.authResponse
               this.trigger('connect', { response })
             }
             this.apiLoaded = true
@@ -114,9 +113,8 @@ module.exports = (FacebookHandler = (FacebookHandler = (function () {
       return FB.login(response => {
         if (response.status === 'connected') {
           this.connected = true
-          this.authResponse = response.authResponse
           this.trigger('connect', { response })
-          return options.success.bind(options.context)()
+          return options.success.bind(options.context)(response)
         }
       }
       , { scope: 'email' })

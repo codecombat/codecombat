@@ -240,16 +240,16 @@ module.exports = (AuthModal = (function () {
       const btn = this.$('#facebook-login-btn')
       return application.facebookHandler.connect({
         context: this,
-        success () {
+        success (response) {
           btn.find('.sign-in-blurb').text($.i18n.t('login.logging_in'))
           btn.attr('disabled', true)
           return application.facebookHandler.loadPerson({
             context: this,
             success (facebookAttrs) {
               const existingUser = new User()
-              return existingUser.fetchFacebookUser(facebookAttrs.facebookID, {
+              return existingUser.fetchFacebookUser(facebookAttrs.facebookID, response?.authResponse?.accessToken, {
                 success: () => {
-                  return me.loginFacebookUser(facebookAttrs.facebookID, {
+                  return me.loginFacebookUser(facebookAttrs.facebookID, response?.authResponse?.accessToken, {
                     success: () => {
                       application.tracker.identifyAfterNextPageLoad()
                       return application.tracker.identify().then(() => {
