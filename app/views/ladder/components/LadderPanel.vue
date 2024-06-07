@@ -28,7 +28,7 @@
           class="arena__helpers__bottom__tournament_status"
         >
           <div class="clan">
-            {{ $t('tournament.team_name', {name: clan.displayName || clan.name }) }}
+            {{ $t('tournament.team_name', { name: (clan.displayName || clan.name), interpolation: { escapeValue: false } }) }}
           </div>
           <div class="status">
             {{ $t('tournament.status', { state: tournament.state }) }}

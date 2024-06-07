@@ -18,15 +18,12 @@ const RootView = require('views/core/RootView')
 const cocoTemplate = require('templates/coco-home-view')
 const ozarTemplate = require('templates/ozar-home-view')
 const utils = require('core/utils')
-let storage = require('core/storage')
 const { logoutUser, me } = require('core/auth')
 const CreateAccountModal = require('views/core/CreateAccountModal/CreateAccountModal')
 const GetStartedSignupModal = require('app/views/teachers/GetStartedSignupModal').default
 const paymentUtils = require('app/lib/paymentUtils')
 const fetchJson = require('core/api/fetch-json')
 const DOMPurify = require('dompurify')
-const MineModal = require('views/core/MineModal') // Roblox modal
-storage = require('core/storage')
 
 const PRODUCT_SUFFIX = utils.isCodeCombat ? 'coco' : 'ozar'
 module.exports = (HomeView = (function () {
@@ -302,8 +299,6 @@ module.exports = (HomeView = (function () {
           _.defer(() => { if (!this.destroyed) { return this.openModalView(new AuthModal({ initialValues: { email: url.get('email') } })) } })
         }
       }
-
-      _.defer(() => { if (!storage.load('roblox-clicked') && !this.destroyed) { return this.openModalView(new MineModal()) } })
 
       if (utils.isCodeCombat) {
         let needle, needle1, paymentResult, title, type

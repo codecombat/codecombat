@@ -212,7 +212,7 @@ module.exports = (CampaignEditorView = (function () {
         }
         // do not propagate campaignIndex for non-course campaigns
         let propsToPropagate = Campaign.denormalizedLevelProperties
-        if (this.campaign.get('type') !== 'course') {
+        if (this.campaign.get('type') !== 'course' && this.campaign.get('slug') !== 'junior') {
           propsToPropagate = _.without(propsToPropagate, 'campaignIndex')
         }
         for (const key of Array.from(propsToPropagate)) {
@@ -292,7 +292,7 @@ module.exports = (CampaignEditorView = (function () {
         const result = []
         for (const levelOriginal in campaignLevels) {
           const campaignLevel = campaignLevels[levelOriginal]
-          if (this.campaign.get('type') === 'course') {
+          if (this.campaign.get('type') === 'course' || this.campaign.get('slug') === 'junior') {
             const level = this.levels.findWhere({ original: levelOriginal })
             if (level && (level.get('campaignIndex') !== index)) {
               level.set('campaignIndex', index)

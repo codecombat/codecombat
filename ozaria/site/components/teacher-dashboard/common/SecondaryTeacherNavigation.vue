@@ -57,7 +57,7 @@ export default {
     },
 
     showHackStack () {
-      return utils.isCodeCombat && this.hackStackClassrooms.length > 0 && me.isInternal()
+      return utils.isCodeCombat && (me.isInternal() || me.isBetaTester())
     },
 
     showPD () {
@@ -93,6 +93,11 @@ export default {
         } else {
           window.tracker?.trackEvent(eventName, { category: 'Teachers' })
         }
+      }
+    },
+    hackstackClicked () {
+      if (this.hackStackClassrooms.length === 0) {
+        noty({ text: $.i18n.t('teacher_dashboard.create_class_hackstack'), type: 'warning', layout: 'center', timeout: 5000 })
       }
     }
   }
@@ -319,6 +324,7 @@ export default {
       v-if="showHackStack"
       role="presentation"
       class="dropdown"
+      @click="hackstackClicked"
     >
       <a
         id="HackstackClassesDropdown"
@@ -330,7 +336,7 @@ export default {
         aria-expanded="false"
       >
         <div id="IconMyClasses" />
-        <span>{{ $t('nav.ai_hackstack') }}</span>
+        <span>{{ $t('nav.ai_hackstack') }}</span><span class="beta">({{ $t('nav.beta') }})</span>
         <span class="caret" />
       </a>
       <ul
@@ -671,5 +677,12 @@ li.open > #AILeague,
 
 .dashboard-toggle {
   margin: 5px 0 10px;
+}
+
+.beta {
+  font-size: 12px;
+  line-height: 15px;
+  position: relative;
+  bottom: 5px;
 }
 </style>

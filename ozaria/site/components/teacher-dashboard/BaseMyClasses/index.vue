@@ -6,11 +6,8 @@ import ModalEditClass from '../modals/ModalEditClass'
 import ModalAddStudents from '../modals/ModalAddStudents'
 import moment from 'moment'
 import ModalShareWithTeachers from '../modals/ModalShareWithTeachers'
-
 import BannerHoC from 'app/views/courses/BannerHoC'
-
 import ButtonsSchoolAdmin from './ButtonsSchoolAdmin'
-
 import PodcastItemContainer from 'app/views/courses/PodcastItemContainer'
 
 export default {
