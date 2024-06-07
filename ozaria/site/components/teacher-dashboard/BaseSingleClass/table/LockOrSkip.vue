@@ -37,6 +37,8 @@ export default {
       userSelectedStudents: null,
       LOCK: { modifiers: ['locked'], value: true },
       UNLOCK: { modifiers: ['locked'], value: false },
+      LOCK_SCENARIO: { modifiers: ['lockedScenario'], value: true },
+      UNLOCK_SCENARIO: { modifiers: ['lockedScenario'], value: false },
       SKIP: { modifiers: ['locked', 'optional'], value: true },
       UNSKIP: { modifiers: ['locked', 'optional'], value: false },
       MAKE_OPTIONAL: { modifiers: ['optional'], value: true },
@@ -56,6 +58,10 @@ export default {
 
     originals () {
       return this.defaultOriginals.length ? this.defaultOriginals : this.selectedOriginals
+    },
+
+    isHackStack () {
+      return this.selectedCourseId === utils.courseIDs.HACKSTACK
     }
   },
 
@@ -88,6 +94,7 @@ export default {
   methods: {
     ...mapActions({
       updateLevelAccessStatusForSelectedStudents: 'baseSingleClass/updateLevelAccessStatusForSelectedStudents',
+      updateScenarioAccessStatusForSelectedStudents: 'baseSingleClass/updateScenarioAccessStatusForSelectedStudents',
       addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
       removeStudentSelectedId: 'baseSingleClass/removeStudentSelectedId'
     }),
@@ -113,7 +120,7 @@ export default {
 
     updateLevelAccessStatus () {
       const date = (this.action === this.LOCK && this.showDatepicker && this.selectedDate) || null
-      this.updateLevelAccessStatusForSelectedStudents({
+      const args = {
         classroom: this.classroom,
         currentCourseId: this.selectedCourseId,
         levels: this.originals,
@@ -126,7 +133,12 @@ export default {
         },
         modifierValue: this.action.value,
         date
-      })
+      }
+      if (this.isHackStack) {
+        this.updateScenarioAccessStatusForSelectedStudents(args)
+      } else {
+        this.updateLevelAccessStatusForSelectedStudents(args)
+      }
     },
     selectAllOriginals () {
       this.replaceSelectedOriginals(this.allOriginals || this.selectableOriginals)
@@ -147,30 +159,30 @@ export default {
 <template>
   <div id="lock-or-skip">
     <h3 class="text-h3">
-      {{ $t('teacher.edit_student_access_title') }}
+      {{ $t(`teacher.edit_student_access_title${isHackStack? '_scenarios': ''}`) }}
     </h3>
 
     <p class="text-p">
       {{
-        $t('teacher.edit_student_access_subtitle', { levels: originals.length, students: selectedStudentIds.length })
+        $t(`teacher.edit_student_access_subtitle${isHackStack? '_scenarios': ''}`, { levels: originals.length, students: selectedStudentIds.length })
       }}
     </p>
 
     <div class="buttons">
       <LevelAccessStatusButton
-        :active="isActionActive(LOCK)"
+        :active="isActionActive(isHackStack ? LOCK_SCENARIO : LOCK)"
         :text="$t('teacher_dashboard.lock')"
         icon-name="IconLock"
-        @click="action=LOCK"
+        @click="action=isHackStack ? LOCK_SCENARIO : LOCK"
       />
       <LevelAccessStatusButton
-        :active="isActionActive(UNLOCK)"
+        :active="isActionActive(isHackStack ? UNLOCK_SCENARIO : UNLOCK)"
         :text="$t('teacher_dashboard.unlock')"
-        @click="action=UNLOCK"
+        @click="action=isHackStack ? UNLOCK_SCENARIO : UNLOCK"
       />
 
       <div
-        v-if="action===LOCK"
+        v-if="action===LOCK || action===LOCK_SCENARIO"
         class="datepicker-container"
       >
         <div class="btn-group btn-toggle btn-group-xs">
@@ -188,23 +200,27 @@ export default {
       </div>
 
       <LevelAccessStatusButton
+        v-if="!isHackStack"
         :active="isActionActive(SKIP)"
         :text="$t('teacher_dashboard.skip')"
         icon-name="IconSkippedLevel"
         @click="action=SKIP"
       />
       <LevelAccessStatusButton
+        v-if="!isHackStack"
         :active="isActionActive(UNSKIP)"
         :text="$t('teacher_dashboard.unskip')"
         @click="action=UNSKIP"
       />
       <LevelAccessStatusButton
+        v-if="!isHackStack"
         :active="isActionActive(MAKE_OPTIONAL)"
         :text="$t('teacher_dashboard.make_optional')"
         icon-name="IconOptionalLevel"
         @click="action=MAKE_OPTIONAL"
       />
       <LevelAccessStatusButton
+        v-if="!isHackStack"
         :active="isActionActive(REMOVE_OPTIONAL)"
         :text="$t('teacher_dashboard.remove_optional')"
         @click="action=REMOVE_OPTIONAL"
@@ -218,7 +234,10 @@ export default {
       >{{ $t('common.submit') }}</a>
     </div>
 
-    <div class="level-access-status-blurb">
+    <div
+      v-if="!isHackStack"
+      class="level-access-status-blurb"
+    >
       <p>{{ $t('teacher_dashboard.level_access_status_blurb') }}</p>
     </div>
   </div>

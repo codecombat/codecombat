@@ -28,6 +28,10 @@ export default {
       return this.$route.path.startsWith('/teachers/classes') || this.$route.path === '/teachers'
     },
 
+    hackstackClassesTabSelected () {
+      return this.$route.path.startsWith('/teachers/hackstack-classes')
+    },
+
     // Check for the "All Classes" dropdown menu button in the classesTab.
     allClassesSelected () {
       return this.$route.path === '/teachers' || this.$route.path === '/teachers/classes'
@@ -46,6 +50,14 @@ export default {
         return false
       }
       return true
+    },
+
+    hackStackClassrooms () {
+      return this.classrooms.filter(classroom => classroom.courses.map(course => course._id).includes(utils.courseIDs.HACKSTACK))
+    },
+
+    showHackStack () {
+      return utils.isCodeCombat && (me.isInternal() || me.isBetaTester())
     },
 
     showPD () {
@@ -67,6 +79,11 @@ export default {
       return this.$route.path.startsWith(route)
     },
 
+    setHackStackClassroom (classroomId) {
+      this.$store.commit('teacherDashboard/setClassroomId', classroomId)
+      this.$store.commit('teacherDashboard/setSelectedCourseIdCurrentClassroom', { courseId: utils.courseIDs.HACKSTACK })
+    },
+
     trackEvent (e) {
       const eventName = e.target.dataset.action
       const eventLabel = e.target.dataset.label
@@ -76,6 +93,11 @@ export default {
         } else {
           window.tracker?.trackEvent(eventName, { category: 'Teachers' })
         }
+      }
+    },
+    hackstackClicked () {
+      if (this.hackStackClassrooms.length === 0) {
+        noty({ text: $.i18n.t('teacher_dashboard.create_class_hackstack'), type: 'warning', layout: 'center', timeout: 5000 })
       }
     }
   }
@@ -297,6 +319,48 @@ export default {
           src="/images/pages/league/ai-league-name_blue.svg"
         >
       </router-link>
+    </li>
+    <li
+      v-if="showHackStack"
+      role="presentation"
+      class="dropdown"
+      @click="hackstackClicked"
+    >
+      <a
+        id="HackstackClassesDropdown"
+        :class="['dropdown-toggle', hackstackClassesTabSelected ? 'current-route' : '']"
+        href="#"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <div id="IconMyClasses" />
+        <span>{{ $t('nav.ai_hackstack') }}</span><span class="beta">({{ $t('nav.beta') }})</span>
+        <span class="caret" />
+      </a>
+      <ul
+        class="dropdown-menu"
+        aria-labelledby="HackstackClassesDropdown"
+      >
+        <li
+          v-for="classroom in hackStackClassrooms"
+          :key="classroom._id"
+          :class="hackstackClassesTabSelected && classroomSelected === classroom._id ? 'selected' : null"
+        >
+          <router-link
+            tag="a"
+            :to="`/teachers/hackstack-classes/${classroom._id}`"
+            class="dropdown-item"
+            data-action="Track Progress: Nav Clicked"
+            data-toggle="dropdown"
+            :data-label="$route.path"
+            @click.native="trackEvent($event); setHackStackClassroom(classroom._id)"
+          >
+            {{ classroom.name }}
+          </router-link>
+        </li>
+      </ul>
     </li>
     <li v-if="showPD">
       <router-link
@@ -613,5 +677,12 @@ li.open > #AILeague,
 
 .dashboard-toggle {
   margin: 5px 0 10px;
+}
+
+.beta {
+  font-size: 12px;
+  line-height: 15px;
+  position: relative;
+  bottom: 5px;
 }
 </style>

@@ -5,7 +5,7 @@
       class="button-section"
     >
       <CTAButton
-        href="/schools"
+        :href="`/schools${ educatorSignupExperiment ? '#create-account-teacher' : '' }`"
         @click="homePageEvent(isCodeCombat ? 'Homepage Click Teacher Button #1 CTA' : 'Started Signup')"
       >
         {{ $t('new_home.im_an_educator') }}
@@ -31,13 +31,22 @@
       <CTAButton
         v-if="me.isTeacher()"
         href="/teachers/classes"
+        target=""
         @click="homePageEvent('Homepage Click My Classes CTA')"
       >
         {{ $t('new_home.go_to_my_classes') }}
       </CTAButton>
       <CTAButton
+        v-if="me.isTeacher()"
+        href="/teachers/quote"
+        @click="homePageEvent('Homepage Click Request A Quote CTA')"
+      >
+        {{ $t('new_home.request_quote') }}
+      </CTAButton>
+      <CTAButton
         v-else-if="me.isStudent()"
         href="/students"
+        target=""
         @click="homePageEvent('Homepage Click My Courses CTA')"
       >
         {{ $t('new_home.go_to_courses') }}
@@ -45,6 +54,7 @@
       <CTAButton
         v-else
         href="/play"
+        target=""
         @click="homePageEvent('Homepage Click Continue Playing CTA')"
       >
         {{ $t('courses.continue_playing') }}
@@ -73,7 +83,11 @@ export default {
     },
     me () {
       return me
-    }
+    },
+    educatorSignupExperiment () {
+      const value = me.getEducatorSignupExperimentValue()
+      return value === 'beta'
+    },
   },
   beforeDestroy () {
     if (this.modal) {

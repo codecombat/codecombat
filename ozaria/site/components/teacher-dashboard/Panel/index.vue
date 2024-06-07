@@ -1,6 +1,7 @@
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 
+import AiScenario from './components/AiScenario'
 import StudentInfo from './components/StudentInfo'
 import ConceptCheckInfo from './components/ConceptCheckInfo'
 import PracticeLevel from './components/PracticeLevel'
@@ -20,7 +21,8 @@ export default {
     DraggableOrdering,
     DraggableStatementCompletion,
     InsertCode,
-    ContentIcon
+    ContentIcon,
+    AiScenario
   },
 
   computed: {
@@ -31,7 +33,8 @@ export default {
       studentInfo: 'teacherDashboardPanel/studentInfo',
       conceptCheck: 'teacherDashboardPanel/conceptCheck',
       panelSessionContent: 'teacherDashboardPanel/panelSessionContent',
-      getTrackCategory: 'teacherDashboard/getTrackCategory'
+      getTrackCategory: 'teacherDashboard/getTrackCategory',
+      panelProjectContent: 'teacherDashboardPanel/panelProjectContent'
     }),
 
     footerLinkText () {
@@ -81,6 +84,7 @@ export default {
         :completed="studentInfo.completedContent"
       />
       <concept-check-info
+        v-if="conceptCheck"
         :concept-check="conceptCheck"
       />
       <practice-level
@@ -102,6 +106,11 @@ export default {
       <insert-code
         v-if="panelSessionContent && panelSessionContent.type === 'INSERT_CODE'"
         :panel-session-content="panelSessionContent"
+      />
+      <ai-scenario
+        v-if="panelProjectContent && panelProjectContent.aiScenario"
+        :ai-scenario="panelProjectContent.aiScenario"
+        :ai-projects="panelProjectContent.aiProjects"
       />
     </div>
     <div class="footer">

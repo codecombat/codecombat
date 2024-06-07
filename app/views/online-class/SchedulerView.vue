@@ -1,6 +1,15 @@
 <template>
   <page-template>
-    <div class="scheduler">
+    <div
+      v-if="loading"
+      class="scheduler"
+    >
+      Loading ...
+    </div>
+    <div
+      v-else
+      class="scheduler"
+    >
       <div class="header">
         {{ header }}
       </div>
@@ -14,6 +23,8 @@
         <available-time
           v-else-if="step === 'available'"
           :class-info="classInfo"
+          :server-tz="serverTz"
+          :user-tz="userTz"
           @back="step = 'class'"
           @next="selectTime"
         />
@@ -32,14 +43,16 @@
 </template>
 
 <script>
-import moment from 'moment'
+import moment from 'moment-timezone'
 import PageTemplate from '../parents/PageTemplate.vue'
 import ClassInfo from './components/ClassInfo.vue'
 import AvailableTime from './components/AvailableTime.vue'
 import StudentInfo from './components/StudentInfo.vue'
 import NextStep from './components/NextStep.vue'
 
-import { tempBookTime, bookTime } from '../../core/api/online-classes'
+import { getUserTimeZone } from '../../core/utils'
+import { tempBookTime, bookTime, getGoogleCalendarSync } from '../../core/api/online-classes'
+
 export default {
   name: 'SchedulerView',
   components: {
@@ -51,6 +64,7 @@ export default {
   },
   data () {
     return {
+      loading: true,
       header: 'Book Live Online Classes',
       step: 'class',
       classInfo: {},
@@ -70,15 +84,35 @@ export default {
     }
   },
   computed: {
+    serverTz () {
+      return features?.chinaInfra ? 'Asia/Shanghai' : 'America/Los_Angeles'
+    },
+    userTz () {
+      return getUserTimeZone(me)
+    },
     classDetails () {
       const lang = this.classInfo.language
       const codeLang = this.codeLanguageMap[this.classInfo.codeLanguage]
       const level = this.levels[this.classInfo.level]
       // todo: confirm with timezones
-      const date = moment(this.time.date).set({ hour: this.time.time, minute: 0 })
-      const dateTime = date.format('YYYY-MM-DD HH:mm A')
+      const time = this.time.time
+      const date = moment.tz(this.time.date, this.serverTz).set({
+        hour: Math.floor(time),
+        minute: Math.floor((time - Math.floor(time)) * 60),
+        second: 0,
+        millisecond: 0
+      }).tz(this.userTz)
+      const dateTime = date.format('YYYY-MM-DD hh:mm A')
       return [lang, codeLang, level, dateTime].join(' &bull; ')
     }
+  },
+  created () {
+    getGoogleCalendarSync().then(res => {
+      this.loading = false
+    }).catch(err => {
+      this.loading = false
+      console.log(err)
+    })
   },
   methods: {
     changClassInfo (data) {

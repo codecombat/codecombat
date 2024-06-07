@@ -9,7 +9,7 @@
     <div class="times">
       <div
         v-for="t in times"
-        :key="t"
+        :key="t.format('LT')"
         class="radio"
       >
         <label>
@@ -17,9 +17,9 @@
             v-model="time"
             name="time"
             type="radio"
-            :value="t"
+            :value="t.get('hour') + t.get('minute') / 60"
           >
-          <span> {{ `${t}:00` }}</span>
+          <span> {{ t.format('LT') }}</span>
         </label>
       </div>
     </div>
@@ -32,7 +32,7 @@
       </button>
       <button
         class="btn btn-primary"
-        :disabled="!time"
+        :disabled="time === null"
         @click="emitInfo"
       >
         Continue
@@ -44,6 +44,7 @@
 <script>
 import { fetchAvailableTime } from '../../../core/api/online-classes'
 import StylishCalendar from '../../events/components/StylishCalendar'
+import moment from 'moment-timezone'
 
 export default {
   name: 'AvailableTime',
@@ -54,12 +55,21 @@ export default {
     classInfo: {
       type: Object,
       required: true
+    },
+    serverTz: {
+      type: String,
+      required: true
+    },
+    userTz: {
+      type: String,
+      required: true
     }
   },
   data () {
     return {
       events: [],
       times: [],
+      allTimes: [],
       time: null,
       date: null
     }
@@ -71,8 +81,25 @@ export default {
     back () {
       this.$emit('back')
     },
-    async emitInfo () {
-      this.$emit('next', { date: this.date, time: this.time })
+    getDates () {
+      const dates = new Set()
+      this.allTimes.forEach(t => {
+        dates.add(t.format('YYYY-MM-DD'))
+      })
+      return Array.from(dates)
+    },
+    toServerDateTime (date, time) {
+      const serverTime = moment.tz(date, this.userTz).set({
+        hour: Math.floor(time),
+        minute: Math.floor((time - Math.floor(time)) * 60),
+        second: 0,
+        millisecond: 0
+      }).tz(this.serverTz)
+      return [serverTime.format('YYYY-MM-DD'), serverTime.get('hour') + serverTime.get('minute') / 60]
+    },
+    emitInfo () {
+      const [serverDate, serverTime] = this.toServerDateTime(this.date, this.time)
+      this.$emit('next', { date: serverDate, time: serverTime })
     },
     async checkTime () {
       try {
@@ -86,25 +113,48 @@ export default {
           })
           this.$emit('back')
         }
-        this.events = times.map((t, i) => this.formatEvent(t, i))
+        this.allTimes = this.convertTimeToLocaleTime(times)
+        this.events = this.getDates().map((d, i) => this.formatEvent(d, i))
       } catch (e) {
         console.error(e)
       }
     },
-    formatEvent (time, index) {
+    convertTimeToLocaleTime (times) {
+      const localeTime = []
+      times.forEach(t => {
+        t.times.forEach(ti => {
+          localeTime.push(moment.tz(t.date.replace('Z', ''), this.serverTz).set({
+            hour: Math.floor(ti),
+            minute: Math.floor((ti - Math.floor(ti)) * 60),
+            second: 0,
+            millisecond: 0
+          }).tz(this.userTz))
+        })
+      })
+      return localeTime
+    },
+    formatEvent (date, index) {
       return {
         id: 'available-time-' + index,
-        start: new Date(time.date),
-        end: new Date(time.date),
+        start: new Date(date),
+        end: new Date(date),
         title: '',
-        extendedProps: time,
+        extendedProps: date,
+      }
+    },
+    getTimesIDay () {
+      if (this.date) {
+        return this.allTimes.filter(t => t.format('YYYY-MM-DD') === this.date)
+      } else {
+        return []
       }
     },
     selectDate (info) {
-      this.date = info.event.extendedProps.date
-      this.times = info.event.extendedProps.times
+      this.date = info.event.extendedProps
+      this.times = this.getTimesIDay()
+      this.time = null
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

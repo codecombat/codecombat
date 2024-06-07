@@ -156,21 +156,20 @@ mixin classrooms_content()
                a.view-announcement-link(data-classroom-id=classroom.get('_id'), data-i18n="courses.classroom_announcement")
          else
            //- sigh
-           div(class=classroomClass).rtl-allowed
-             h5(dir="auto")
-               span.spr= classroom.get('name')
-               - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java'}
-               span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
-             p
-               span(data-i18n="courses.teacher")
-               span :
-               if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
-                 span.spl= view.ownerNameMap[classroom.get('ownerID')]
+           h5(dir="auto")
+             span.spr= classroom.get('name')
+             - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java'}
+             span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
+           p
+             span(data-i18n="courses.teacher")
+             span :
+             if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
+               span.spl= view.ownerNameMap[classroom.get('ownerID')]
 
-         - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-esports' && view.utils.isCodeCombat) { continue }
          - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
          - var allCoursesComplete = true
          - var coursesData = courseInstances.map(courseInstance => ({courseId: courseInstance.get('courseID'), courseInstanceId: courseInstance.get('_id')}))
+         - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-esports' && view.utils.isCodeCombat) { courseInstances = [] }
          for courseInstance in courseInstances
            - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-junior' && view.utils.isCodeCombat && courseInstance.get('courseID') !== view.utils.allCourseIDs.JUNIOR) { continue }
            .course-instance-entry.rtl-allowed
@@ -192,7 +191,8 @@ mixin classrooms_content()
                h6
                  span.spr= i18n(course, 'name')
                  small
-                   a.view-levels-btn(data-href=mapUrl, data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
+                   if courseInstance.get('courseID') !== view.utils.courseIDs.HACKSTACK
+                     a.view-levels-btn(data-href=mapUrl, data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
                    if view.courseInstanceHasProject(courseInstance)
                      a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
                    if view.utils.isCodeCombat && classroom.hasAssessments({courseId: course._id})
@@ -201,10 +201,16 @@ mixin classrooms_content()
                    if view.showVideosLinkForCourse(course._id)
                      = " "
                      a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
-               if view.utils.isCodeCombat
-                 +course-instance-body(courseInstance, classroom)
-               else
-                 +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, course.campaignID, isLocked)
+               if courseInstance.get('courseID') === view.utils.allCourseIDs.HACKSTACK
+                 - var hackstackUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id')})
+                 .pull-right
+                   a.btn.btn-navy.btn-lg.m-b-1(href=hackstackUrl data-event-action="Students Start HackStack Course")
+                     span(data-i18n="courses.start")
+               else    
+                 if view.utils.isCodeCombat
+                   +course-instance-body(courseInstance, classroom)
+                 else
+                   +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, course.campaignID, isLocked)
                .clearfix
          - var classroomCourseIds = classroom.get('courses').map(i=>i._id).sort().join()
          - var courseInstancesCourseIds = courseInstances.map(i=>i.get('courseID')).sort().join()

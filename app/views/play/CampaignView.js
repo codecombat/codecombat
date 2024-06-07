@@ -38,7 +38,7 @@ const PollModal = require('views/play/modal/PollModal')
 const AnnouncementModal = require('views/play/modal/AnnouncementModal')
 const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
-const MineModal = require('views/core/MineModal') // Roblox modal
+const RobloxModal = require('views/core/MineModal') // Roblox modal
 const JuniorModal = require('views/core/JuniorModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
@@ -86,6 +86,11 @@ class CampaignsCollection extends CocoCollection {
   }
 }
 CampaignsCollection.initClass()
+
+const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
+const PROMPTED_FOR_SIGNUP = 'prompted-for-signup'
+const PROMPTED_FOR_SUBSCRIPTION = 'prompted-for-subscription'
+const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
 
 module.exports = (CampaignView = (function () {
   CampaignView = class CampaignView extends RootView {
@@ -172,8 +177,8 @@ module.exports = (CampaignView = (function () {
       this.levelPlayCountMap = {}
       this.levelDifficultyMap = {}
       this.levelScoreMap = {}
-
       this.DEEP_API_LIST = constants.DEEP_API_LIST
+      this.courseLevelsLoaded = false
 
       if (this.terrain === 'hoc-2018') {
         $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
@@ -321,61 +326,11 @@ module.exports = (CampaignView = (function () {
                 data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n' }
               })
               )
-              return this.listenToOnce(this.courseLevels, 'sync', () => {
-                let idx, k, v
-                const existing = this.campaign.get('levels')
-                const courseLevels = this.courseLevels.toArray()
-                const classroomCourse = _.find(globalVar.currentView.classroom.get('courses'), { _id: globalVar.currentView.course.id })
-                const levelPositions = {}
-                for (const level of Array.from(classroomCourse.levels)) {
-                  if (level.position) { levelPositions[level.original] = level.position }
-                }
-                for (k in courseLevels) {
-                  v = courseLevels[k]
-                  idx = v.get('original')
-                  if (!existing[idx]) {
-                    // a level which has been removed from the campaign but is saved in the course
-                    this.courseLevelsFake[idx] = v.toJSON()
-                  } else {
-                    this.courseLevelsFake[idx] = existing[idx]
-                    // carry over positions stored in course, if there are any
-                    if (levelPositions[idx]) {
-                      this.courseLevelsFake[idx].position = levelPositions[idx]
-                    }
-                  }
-                  this.courseLevelsFake[idx].courseIdx = parseInt(k)
-                  this.courseLevelsFake[idx].requiresSubscription = false
-                }
-                // Fill in missing positions, for courses which have levels that no longer exist in campaigns
-                for (k in courseLevels) {
-                  v = courseLevels[k]
-                  k = parseInt(k)
-                  idx = v.get('original')
-                  if (!this.courseLevelsFake[idx].position) {
-                    var nextPosition, prevPosition
-                    const prevLevel = courseLevels[k - 1]
-                    const nextLevel = courseLevels[k + 1]
-                    if (prevLevel && nextLevel) {
-                      const prevIdx = prevLevel.get('original')
-                      const nextIdx = nextLevel.get('original')
-                      prevPosition = this.courseLevelsFake[prevIdx].position
-                      nextPosition = this.courseLevelsFake[nextIdx].position
-                    }
-                    if (prevPosition && nextPosition) {
-                      // split the diff between the previous, next levels
-                      this.courseLevelsFake[idx].position = {
-                        x: (prevPosition.x + nextPosition.x) / 2,
-                        y: (prevPosition.y + nextPosition.y) / 2
-                      }
-                    } else {
-                      // otherwise just line them up along the bottom
-                      const x = 10 + ((k / courseLevels.length) * 80)
-                      this.courseLevelsFake[idx].position = { x, y: 10 }
-                    }
-                  }
-                }
-                return this.render()
+              this.listenToOnce(this.courseLevels, 'sync', () => {
+                this.courseLevelsLoaded = true
+                return this.updateCourseLevels()
               })
+              this.listenToOnce(this.campaign, 'sync', () => this.updateCourseLevels())
             })
           }
         })
@@ -593,6 +548,65 @@ module.exports = (CampaignView = (function () {
       this.maybeShowRobloxModal()
     }
 
+    updateCourseLevels () {
+      if (!this.campaign.loaded || !this.courseLevelsLoaded) {
+        return false
+      }
+      let idx, k, v
+      const existing = this.campaign.get('levels')
+      const courseLevels = this.courseLevels.toArray()
+      const classroomCourse = _.find(globalVar.currentView.classroom.get('courses'), { _id: globalVar.currentView.course.id })
+      const levelPositions = {}
+      for (const level of Array.from(classroomCourse.levels)) {
+        if (level.position) { levelPositions[level.original] = level.position }
+      }
+      for (k in courseLevels) {
+        v = courseLevels[k]
+        idx = v.get('original')
+        if (!existing[idx]) {
+          // a level which has been removed from the campaign but is saved in the course
+          this.courseLevelsFake[idx] = v.toJSON()
+        } else {
+          this.courseLevelsFake[idx] = existing[idx]
+          // carry over positions stored in course, if there are any
+          if (levelPositions[idx]) {
+            this.courseLevelsFake[idx].position = levelPositions[idx]
+          }
+        }
+        this.courseLevelsFake[idx].courseIdx = parseInt(k)
+        this.courseLevelsFake[idx].requiresSubscription = false
+      }
+      // Fill in missing positions, for courses which have levels that no longer exist in campaigns
+      for (k in courseLevels) {
+        v = courseLevels[k]
+        k = parseInt(k)
+        idx = v.get('original')
+        if (!this.courseLevelsFake[idx].position) {
+          let nextPosition, prevPosition
+          const prevLevel = courseLevels[k - 1]
+          const nextLevel = courseLevels[k + 1]
+          if (prevLevel && nextLevel) {
+            const prevIdx = prevLevel.get('original')
+            const nextIdx = nextLevel.get('original')
+            prevPosition = this.courseLevelsFake[prevIdx].position
+            nextPosition = this.courseLevelsFake[nextIdx].position
+          }
+          if (prevPosition && nextPosition) {
+            // split the diff between the previous, next levels
+            this.courseLevelsFake[idx].position = {
+              x: (prevPosition.x + nextPosition.x) / 2,
+              y: (prevPosition.y + nextPosition.y) / 2
+            }
+          } else {
+            // otherwise just line them up along the bottom
+            const x = 10 + ((k / courseLevels.length) * 80)
+            this.courseLevelsFake[idx].position = { x, y: 10 }
+          }
+        }
+      }
+      return this.render()
+    }
+
     updateClassroomSessions () {
       if (this.classroom) {
         let session
@@ -658,7 +672,11 @@ module.exports = (CampaignView = (function () {
 
     onRobloxLevelClick (e) {
       window.tracker?.trackEvent('Mine Explored', { engageAction: 'campaign_level_click' })
-      this.openModalView(new MineModal())
+    }
+
+    showRobloxModal () {
+      storage.save(ROBLOX_MODAL_SHOWN)
+      this.openModalView(new RobloxModal())
     }
 
     onHackStackLevelClick (e) {
@@ -740,12 +758,11 @@ module.exports = (CampaignView = (function () {
       if (this.campaigns) {
         let campaign, levels
         context.campaigns = {}
-        for (campaign of Array.from(this.campaigns.models)) {
+        for (campaign of this.campaigns.models) {
           if (campaign.get('slug') !== 'auditions') {
             context.campaigns[campaign.get('slug')] = campaign
-            if (this.sessions != null ? this.sessions.loaded : undefined) {
-              var left1
-              levels = _.values($.extend(true, {}, (left1 = campaign.get('levels')) != null ? left1 : {}))
+            if (this.sessions?.loaded) {
+              levels = _.values($.extend(true, {}, campaign.get('levels') || {}))
               if ((me.level() < 12) && (campaign.get('slug') === 'dungeon') && !this.editorMode) {
                 levels = _.reject(levels, { slug: 'signs-and-portents' })
               }
@@ -765,16 +782,22 @@ module.exports = (CampaignView = (function () {
             }
           }
         }
-        for (campaign of Array.from(this.campaigns.models)) {
-          var left2
-          const object = (left2 = campaign.get('adjacentCampaigns')) != null ? left2 : {}
-          for (const acID in object) {
-            const ac = object[acID]
+        for (campaign of this.campaigns.models) {
+          for (const [acID, ac] of Object.entries(campaign.get('adjacentCampaigns') || {})) {
             if (_.isString(ac.showIfUnlocked)) {
-              var needle
-              if ((needle = ac.showIfUnlocked, Array.from(me.levels()).includes(needle))) { __guard__(_.find(this.campaigns.models, { id: acID }), x => x.locked = false) }
+              if (me.levels().includes(ac.showIfUnlocked)) {
+                const campaign = _.find(this.campaigns.models, { id: acID })
+                if (campaign) {
+                  campaign.locked = false
+                }
+              }
             } else if (_.isArray(ac.showIfUnlocked)) {
-              if (_.intersection(ac.showIfUnlocked, me.levels()).length > 0) { __guard__(_.find(this.campaigns.models, { id: acID }), x1 => x1.locked = false) }
+              if (_.intersection(ac.showIfUnlocked, me.levels()).length > 0) {
+                const campaign = _.find(this.campaigns.models, { id: acID })
+                if (campaign) {
+                  campaign.locked = false
+                }
+              }
             }
           }
         }
@@ -914,12 +937,32 @@ module.exports = (CampaignView = (function () {
         const campaignSlug = window.location.pathname.split('/')[2]
         return this.promptForSubscription(campaignSlug, 'premium campaign visited')
       }
+
+      if (
+        (
+          (!me.get('email') && storage.load(PROMPTED_FOR_SIGNUP)) || // already prompted for signup, but not signed up
+          (!me.isPremium() && storage.load(PROMPTED_FOR_SUBSCRIPTION))) // already prompted for subscription, but not subscribed
+      ) {
+        if (!storage.load(ROBLOX_MODAL_SHOWN)) {
+          this.showRobloxModal()
+        } else {
+          this.showAiLeagueModal()
+        }
+      }
+    }
+
+    showAiLeagueModal () {
+      if (!storage.load(AI_LEAGUE_MODAL_SHOWN)) {
+        this.openModalView(new AILeaguePromotionModal(), true)
+        storage.save(AI_LEAGUE_MODAL_SHOWN, true)
+      }
     }
 
     promptForSignup () {
       if (this.terrain && Array.from(this.terrain).includes('hoc')) { return }
       if (features.noAuth || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc')) { return }
       this.endHighlight()
+      storage.save(PROMPTED_FOR_SIGNUP, true)
       return this.openModalView(new CreateAccountModal({ supermodel: this.supermodel }))
     }
 
@@ -933,6 +976,12 @@ module.exports = (CampaignView = (function () {
         this.handleParentAccountPremiumPurchase({ trackProperties })
         return
       }
+
+      if (!me.get('email')) {
+        this.promptForSignup()
+        return
+      }
+      storage.save(PROMPTED_FOR_SUBSCRIPTION, true)
       this.openModalView(new SubscribeModal())
       // TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
       if (!me.useChinaResourceInfo()) {
@@ -950,7 +999,6 @@ module.exports = (CampaignView = (function () {
 
     paywallReached () {
       storage.save('paywall-reached', true)
-      return this.maybeShowRobloxModal()
     }
 
     annotateLevels (orderedLevels) {

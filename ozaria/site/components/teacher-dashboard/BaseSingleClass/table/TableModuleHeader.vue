@@ -7,6 +7,7 @@ import ContentIcon from '../../common/icons/ContentIcon'
 import ProgressDot from '../../common/progress/progressDot'
 import LockOrSkip from './LockOrSkip'
 import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
+import { courseArenaLadder } from 'core/urls'
 
 import utils from 'core/utils'
 
@@ -55,6 +56,11 @@ export default {
       required: true
     },
 
+    moduleHeadingImage: {
+      type: String,
+      default: null
+    },
+
     listOfContent: {
       type: Array,
       required: true
@@ -82,7 +88,10 @@ export default {
   computed: {
     ...mapGetters({
       showingTooltipOfThisOriginal: 'baseSingleClass/getShowingTooltipOfThisOriginal',
-      selectedOriginals: 'baseSingleClass/selectedOriginals'
+      selectedOriginals: 'baseSingleClass/selectedOriginals',
+      selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+      getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
+      classroom: 'teacherDashboard/getCurrentClassroom',
     }),
 
     isCodeCombat () {
@@ -95,7 +104,9 @@ export default {
 
     cssVariables () {
       return {
-        '--cols': this.listOfContent.length
+        '--cols': this.listOfContent.length,
+        '--columnWidth': this.listOfContent.length > 2 ? '28px' : (this.listOfContent.length > 1 ? '42px' : '84px')
+
       }
     },
 
@@ -112,8 +123,14 @@ export default {
     ...mapMutations({
       setShowingTooltipOfThisOriginal: 'baseSingleClass/setShowingTooltipOfThisOriginal',
       replaceSelectedOriginals: 'baseSingleClass/replaceSelectedOriginals',
-      updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals'
+      updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals',
     }),
+
+    arenaLadderUrl (slug) {
+      const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
+      const courseInstance = courseInstances.find(({ courseID }) => courseID === this.selectedCourseId)
+      return courseArenaLadder({ level: { slug }, courseInstance })
+    },
 
     getGameContentDisplayType (type) {
       return getGameContentDisplayType(type, true, true)
@@ -167,7 +184,21 @@ export default {
   >
     <div class="title">
       <!-- eslint-disable vue/no-v-html -->
-      <h3 v-html="moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>')" />
+
+      <img
+        v-if="moduleHeadingImage"
+        v-tooltip="{
+          content: moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>'),
+          placement: 'bottom',
+          classes: 'layoutChromeTooltip',
+        }"
+        class="module-logo"
+        :src="moduleHeadingImage"
+      >
+      <h3
+        v-else
+        v-html="moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>')"
+      />
       <!-- eslint-enable vue/no-v-html -->
       <v-popover
         v-if="!displayOnly"
@@ -179,7 +210,7 @@ export default {
       >
         <!-- Triggers the tooltip -->
         <div v-if="!displayOnly">
-          <span class="btn btn-sm btn-default"><img :src="lockIconUrl"></span>
+          <span class="btn btn-sm btn-default lock-button"><img :src="lockIconUrl"></span>
         </div>
         <!-- The tooltip -->
         <template slot="popover">
@@ -191,7 +222,7 @@ export default {
       </v-popover>
     </div>
     <div
-      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal, normalizedType }, idx) of listOfContent"
+      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal, normalizedType, contentLevelSlug }, idx) of listOfContent"
       :key="`${idx}-${type}`"
       class="content-icons"
     >
@@ -231,6 +262,14 @@ export default {
               style="margin-bottom: 15px;"
               v-html="description"
             />
+            <a
+              v-if="type === 'course-ladder'"
+              :href="arenaLadderUrl(contentLevelSlug)"
+              target="_blank"
+              class="arena-ladder-link"
+            >
+              {{ $t('teacher.view_arena_ladder') }}
+            </a>
           </div>
         </template>
       </v-popover>
@@ -255,7 +294,7 @@ export default {
 
 .moduleHeading {
   display: grid;
-  grid-template-columns: repeat(var(--cols), 28px);
+  grid-template-columns: repeat(var(--cols), var(--columnWidth));
   grid-template-rows: repeat(3, 38px);
   align-items: center;
   justify-items: center;
@@ -282,6 +321,14 @@ export default {
 
   overflow: hidden;
   text-overflow: ellipsis;
+
+  img.module-logo {
+    height: calc(100% - 4px);
+    width: auto;
+    background: white;
+    border-radius: 8px;
+    margin: 2px 0;
+  }
 
   .v-popover {
     display: none;
@@ -408,4 +455,12 @@ h3 {
   width: auto;
 }
 
+.lock-button {
+  padding: 2px 2px;
+}
+
+.arena-ladder-link {
+  display: block;
+  margin-bottom: 15px;
+}
 </style>

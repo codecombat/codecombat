@@ -13,6 +13,7 @@
           class="vector"
           :src="item.src"
           :alt="`Vector image to illustrate ${item.text}`"
+          loading="lazy"
         >
         <div
           class="text-wrapper"

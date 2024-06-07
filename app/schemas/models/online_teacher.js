@@ -9,6 +9,7 @@ const OnlineTeacherSchema = schema.object(
     name: { type: 'string', description: 'Teacher Name' },
     email: { type: 'string', description: 'Teacher Email' },
     userId: schema.objectId({ description: '_id of the teacher' }),
+    googleCalendarId: { type: 'string', description: 'Google Calendar Id' },
     languages: {
       type: 'array',
       description: 'Languages the teacher can speak',

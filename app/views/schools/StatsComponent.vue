@@ -12,6 +12,7 @@
               class="vector"
               alt="Vector"
               src="/images/pages/schools/stats/stats_1.svg"
+              loading="lazy"
             >
             <div class="div">
               <p class="text">
@@ -30,6 +31,7 @@
               class="vector"
               alt="Vector"
               src="/images/pages/schools/stats/stats_2.svg"
+              loading="lazy"
             >
             <div class="div">
               <testimonial-component

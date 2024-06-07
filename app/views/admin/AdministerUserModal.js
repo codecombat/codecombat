@@ -86,6 +86,7 @@ module.exports = (AdministerUserModal = (function () {
       options.models = [user]
       super(options)
       this.onlineTeacherSchema = OnlineTeacherSchema
+      this.DAYS_OF_WEEK = OnlineTeacherSchema.properties.schedule.items.properties.day.enum
       this.onSearchRequestSuccess = this.onSearchRequestSuccess.bind(this)
       this.onSearchRequestFailure = this.onSearchRequestFailure.bind(this)
       this.userHandle = userHandle
@@ -119,6 +120,7 @@ module.exports = (AdministerUserModal = (function () {
       this.trialRequests = new TrialRequests()
       if (me.isAdmin()) { this.supermodel.trackRequest(this.trialRequests.fetchByApplicant(this.userHandle)) }
       this.timeZone = features?.chinaInfra ? 'Asia/Shanghai' : 'America/Los_Angeles'
+      this.userTimeZone = utils.getUserTimeZone(this.user)
       this.licenseType = 'all'
       this.licensePresets = LICENSE_PRESETS
       this.esportsType = 'basic'
@@ -239,11 +241,9 @@ module.exports = (AdministerUserModal = (function () {
       if (!(attrs.maxRedeemers > 0)) { return }
       if (!attrs.endDate || !attrs.startDate || !(attrs.endDate > attrs.startDate)) { return }
       attrs.endDate = attrs.endDate + ' ' + '23:59' // Otherwise, it ends at 12 am by default which does not include the date indicated
-      let {
-        timeZone
-      } = this
+      let timeZone = this.timeZone
       if (attrs.userTimeZone?.[0] === 'on') {
-        timeZone = this.getUserTimeZone()
+        timeZone = this.userTimeZone
       }
       attrs.startDate = momentTimezone.tz(attrs.startDate, timeZone).toISOString()
       attrs.endDate = momentTimezone.tz(attrs.endDate, timeZone).toISOString()
@@ -341,13 +341,26 @@ module.exports = (AdministerUserModal = (function () {
 
     onClickSaveOnlineTeacherInfo () {
       const attrs = forms.formToObject(this.$('#online-teacher-info'))
-      const parsedAttrs = _.pick(attrs, ['languages', 'products'])
+      const parsedAttrs = _.pick(attrs, ['languages', 'products', 'googleCalendarId'])
       if (attrs.trialsOnly.length) {
         parsedAttrs.trialsOnly = true
       }
       parsedAttrs.schedule = []
       parsedAttrs.codeLanguages = []
 
+      const schedule = {}
+      for (const day of this.DAYS_OF_WEEK) {
+        schedule[day] = new Set()
+      }
+
+      // this offsets is server_tz - user_tz
+      const getOffsets = () => {
+        const now = momentTimezone().utc()
+        const userTz = momentTimezone.tz.zone(this.userTimeZone).utcOffset(now)
+        const serverTz = momentTimezone.tz.zone(this.timeZone).utcOffset(now)
+        return (userTz - serverTz) / 60 // in hours
+      }
+      const tzOffset = getOffsets()
       for (const key in attrs) {
         if (!key.includes('.')) {
           continue
@@ -362,9 +375,35 @@ module.exports = (AdministerUserModal = (function () {
             }
             return Array.from({ length: end - start + 1 }, (_, a) => a + start)
           }).flat()
-          parsedAttrs.schedule.push({
-            day: prefix,
-            time: Array.from(new Set(time)) // Remove duplicates
+
+          // handle timezone
+          if (attrs.userTimeZone?.[0] === 'on') {
+            Array.from(time).forEach(t => {
+              const serverTime = t + tzOffset
+              if (serverTime < 0) {
+                const index = (this.DAYS_OF_WEEK.indexOf(prefix) + 7 - 1) % 7
+                const day = this.DAYS_OF_WEEK[index]
+                const newT = serverTime + 24
+                schedule[day].add(newT)
+              } else if (serverTime >= 24) {
+                const index = (this.DAYS_OF_WEEK.indexOf(prefix) + 1) % 7
+                const day = this.DAYS_OF_WEEK[index]
+                const newT = serverTime - 24
+                schedule[day].add(newT)
+              } else {
+                schedule[prefix].add(serverTime)
+              }
+            })
+          } else {
+            schedule[prefix] = new Set(time)
+          }
+          Object.keys(schedule).forEach(day => {
+            if (schedule[day].size) {
+              parsedAttrs.schedule.push({
+                day,
+                time: Array.from(schedule[day])
+              })
+            }
           })
         } else if (suffix === 'level') {
           if (attrs[key].length === 0) {
@@ -862,15 +901,6 @@ ${teachers.join('\n')} \
       this.user.set('volume', val)
       this.user.patch()
       return this.modelTreemas[this.user.id].set('volume', val)
-    }
-
-    getUserTimeZone () {
-      const geo = this.user.get('geo')
-      if (geo?.timeZone) {
-        return geo.timeZone
-      } else {
-        return this.timeZone
-      }
     }
   }
   AdministerUserModal.initClass()

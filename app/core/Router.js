@@ -304,9 +304,7 @@ module.exports = (CocoRouter = (function () {
 
         standards: go('core/SingletonAppVueComponentView'),
 
-        'schools' () {
-          return this.routeDirectly('SchoolsView', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
-        },
+        schools: go('core/SingletonAppVueComponentView'),
 
         'league/academica': redirect('/league/autoclan-school-network-academica'), // Redirect for Academica.
         'league/kipp': redirect('/league/autoclan-school-network-kipp'), // Redirect for KIPP.
@@ -457,6 +455,7 @@ module.exports = (CocoRouter = (function () {
             return this.routeDirectly('core/SingletonAppVueComponentView', arguments, { redirectStudents: true, teachersOnly: true })
           }
         },
+        'teachers/hackstack-classes/:classroomID': go('core/SingletonAppVueComponentView'),
         'teachers/courses' () {
           if (utils.isCodeCombat && !me.isNewDashboardActive()) {
             return this.routeDirectly('courses/TeacherCoursesView', arguments, { redirectStudents: true })

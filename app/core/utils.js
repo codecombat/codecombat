@@ -225,6 +225,7 @@ if (isCodeCombat) {
   campaignIDs = {
     JUNIOR: '65c56663d2ca2055e65676af',
     INTRO: '55b29efd1cd6abe8ce07db0d',
+    HACKSTACK: '663b25881c568468efc7b51c'
   }
 
   freeCampaignIds = [campaignIDs.JUNIOR, campaignIDs.INTRO] // Junior, CS1 campaign
@@ -232,6 +233,7 @@ if (isCodeCombat) {
 
   courseIDs = {
     JUNIOR: '65f32b6c87c07dbeb5ba1936',
+    HACKSTACK: '663b25f11c568468efc8adde',
     INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
     GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
     WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
@@ -681,10 +683,9 @@ if (isCodeCombat) {
     2: 'Properties',
     3: 'Return',
     4: 'Comparisons',
-    5: 'Compound Comparisons',
-    6: 'Movement',
-    7: 'Properties Revisted',
-    8: 'Break and Continue'
+    5: 'Movement',
+    6: 'Properties Revisted',
+    7: 'Break and Continue'
   }
 
   courseModuleLevels[courseIDs.COMPUTER_SCIENCE_3] = {
@@ -728,8 +729,6 @@ if (isCodeCombat) {
       'Wild Alliance',
       'Gems or Death',
       'Burls Beets Booleans',
-    ],
-    5: [
       'Salted Earth',
       'Star Shower',
       'Forest Shadow',
@@ -744,7 +743,7 @@ if (isCodeCombat) {
       'Logical Conclusion',
       'Nonandor',
     ],
-    6: [
+    5: [
       'The Mighty Sand Yak',
       'Oasis',
       'Sarven Road',
@@ -756,7 +755,7 @@ if (isCodeCombat) {
       'Friendly Minefield',
       'Kithgard Enchanter',
     ],
-    7: [
+    6: [
       'Minesweeper',
       'Operation \'Killdeer\'',
       'Medical Attention',
@@ -765,13 +764,13 @@ if (isCodeCombat) {
       'Keeping Time',
       'Crux of the Desert',
     ],
-    8: [
+    7: [
       'Hoarding Gold',
       'Decoy Drill',
       'Greed Protection',
       'Continuous Alchemy',
-      'Master of Camouflage',
-      'Escape of the Spring',
+      'Master Of Camouflage',
+      'Escape to the Spring',
       'Fast and Furry-ous',
       'Sand Mushrooms',
       'Mushroom Noise',
@@ -1119,6 +1118,7 @@ courseAcronyms[allCourseIDs.CHAPTER_ONE] = 'CH1'
 courseAcronyms[allCourseIDs.CHAPTER_TWO] = 'CH2'
 courseAcronyms[allCourseIDs.CHAPTER_THREE] = 'CH3'
 courseAcronyms[allCourseIDs.CHAPTER_FOUR] = 'CH4'
+courseAcronyms[allCourseIDs.HACKSTACK] = 'HS'
 
 const registerHocProgressModalCheck = function () {
   let hocProgressModalCheck
@@ -1536,14 +1536,14 @@ const capitalLanguages = {
   html: 'HTML'
 }
 
-const createLevelNumberMap = function (levels) {
+const createLevelNumberMap = function (levels, courseID) {
   const levelNumberMap = {}
   let practiceLevelTotalCount = 0
   let practiceLevelCurrentCount = 0
   for (let i = 0; i < levels.length; i++) {
     const level = levels[i]
     let levelNumber = (i - practiceLevelTotalCount) + 1
-    if (level.practice) {
+    if (isCodeCombat && level.practice) {
       levelNumber = (i - practiceLevelTotalCount) + String.fromCharCode('a'.charCodeAt(0) + practiceLevelCurrentCount)
       practiceLevelTotalCount++
       practiceLevelCurrentCount++
@@ -1558,7 +1558,15 @@ const createLevelNumberMap = function (levels) {
     } else {
       practiceLevelCurrentCount = 0
     }
-    levelNumberMap[level.key] = levelNumber
+    if (level.key) {
+      levelNumberMap[level.key] = levelNumber
+    } else {
+      levelNumberMap[level.key] = ''
+    }
+
+    if (courseID) {
+      levelNumberMap[courseID + ':' + level.key] = levelNumberMap[level.key]
+    }
   }
   return levelNumberMap
 }
@@ -2034,8 +2042,7 @@ const arenas = [
   { season: 9, slug: 'snowhold', type: 'championship', start: new Date('2023-12-01T00:00:00.000-08:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '654a306ba0c557007a807ead', tournament: '658cfc869ac7fb700b08d82c', image: '/file/db/level/654a306ba0c557007a807ead/SnowholdClashBannerv2.png' },
   { season: 10, slug: 'fierce-forces', type: 'regular', start: new Date('2024-01-01T00:00:00.000-08:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '6576ff2b1457f600193d2cc9', tournament: '6631155d27d051fef8412658', image: '/file/db/level/6576ff2b1457f600193d2cc9/FierceForcesBannerNew.png' },
   { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '65f2618f757a82bcc90b7c9e', tournament: '66311610236b3e1e9dcfd9f3', image: '/file/db/level/65f2618f757a82bcc90b7c9e/AntiGravityBanner.png' },
-  { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '661f6cf6525db0fb41870360', tournament: '66311a29856d99556fa14326', image: '/file/db/level/661f6cf6525db0fb41870360/SolarSkirmishBanner.png' },
-  { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '661f6cf6525db0fb41870360', tournament: '66311a29856d99556fa14326', image: '/file/db/level/661f6cf6525db0fb41870360/SolarSkirmishBanner.png' },  { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
 ]
@@ -2353,7 +2360,24 @@ const getModuleNumberForLevelName = function (courseId, levelName) {
   return moduleNumberByLevelName[levelName] && Number(moduleNumberByLevelName[levelName])
 }
 
+module.exports.aiToolToImage = {
+  'gpt-4-turbo-preview': '/images/ai/ChatGPT.svg',
+  'stable-diffusion-xl': '/images/ai/Stable_Diffusion.png',
+  'dall-e-3': '/images/ai/DALL-E.webp',
+  'claude-3': '/images/ai/claude.webp'
+}
+
+const getUserTimeZone = function (user) {
+  const geo = user.get('geo')
+  if (geo?.timeZone) {
+    return geo.timeZone
+  } else {
+    return moment.tz.guess()
+  }
+}
+
 module.exports = {
+  ...module.exports,
   activeAndPastArenas,
   activeArenas,
   addIntroLevelContent,
@@ -2416,6 +2440,7 @@ module.exports = {
   getAnonymizationStatus,
   getCorrectName,
   grayscale,
+  getUserTimeZone,
   hexToHSL,
   hourOfCodeOptions,
   hslToHex,

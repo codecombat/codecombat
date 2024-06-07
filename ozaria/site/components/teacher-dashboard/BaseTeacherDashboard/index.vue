@@ -21,12 +21,14 @@ import { mapMutations, mapGetters } from 'vuex'
 import { FIRST_CLASS_STEPS, CREATE_CLASS_STEPS } from './teacherDashboardTours'
 import ModalTeacherDetails from '../modals/ModalTeacherDetails'
 import { hasSeenTeacherDetailModalRecently, markTeacherDetailsModalAsSeen } from '../../../common/utils'
+import TryOzariaModal from 'app/components/teacher/TryOzariaModal.vue'
 
 const Classroom = require('models/Classroom')
 const VueShepherd = require('vue-shepherd')
 
 const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
 const SEEN_TEACHER_DETAILS_MODAL = 'seen-teacher-details-modal'
+const TRY_OZ_MODAL_VIEWED_KEY = 'try-oz-modal-viewed'
 
 export default {
   components: {
@@ -40,7 +42,8 @@ export default {
     SecondaryTeacherNavigation,
     TitleBar,
     LoadingBar,
-    ModalTeacherDetails
+    ModalTeacherDetails,
+    TryOzariaModal
   },
 
   data () {
@@ -61,7 +64,8 @@ export default {
       newClassroom: new Classroom({ ownerID: me.id }),
       sidebarCollapsed: false,
       editCurrent: false,
-      editClassroomObject: {}
+      editClassroomObject: {},
+      showTryOzariaModal: false
     }
   },
 
@@ -94,6 +98,10 @@ export default {
       }
     },
 
+    showNonTeacherPreview () {
+      return !me.isTeacher() && this.$route.path.startsWith(('/teachers/resources'))
+    },
+
     getLanguage () {
       if (this.classroom && this.classroom.aceConfig) {
         return this.classroom.aceConfig?.language || 'python'
@@ -102,6 +110,7 @@ export default {
       if (this.activeClassrooms.length > 0) {
         return this.getMostCommonLanguage()
       }
+      return null
     },
 
     isAllClassesPage () {
@@ -315,18 +324,34 @@ export default {
         })
         .finally(() => {
           this.showOnboardingModal = !me.get('seenNewDashboardModal')
+          this.handleTryOzariaModal()
         })
     },
     toggleSidebar () {
       this.sidebarCollapsed = !this.sidebarCollapsed
     },
+    handleTryOzariaModal () {
+      if (this.isCodeCombat &&
+        !this.showOnboardingModal &&
+        !this.showTeacherDetailsModal &&
+        !me.get('activity')?.['visit-ozaria'] &&
+        !storage.load(TRY_OZ_MODAL_VIEWED_KEY)
+      ) {
+        this.showTryOzariaModal = true
+      }
+    },
+    closeTryOzariaModal () {
+      const oneMonth = 30 * 24 * 7 * 60
+      storage.save(TRY_OZ_MODAL_VIEWED_KEY, true, oneMonth)
+      this.showTryOzariaModal = false
+    }
   }
 }
 </script>
 
 <template>
   <div
-    v-if="showRestrictedDiv"
+    v-if="showRestrictedDiv && !showNonTeacherPreview"
     class="restricted-div"
   >
     <h5> {{ $t('teacher.access_restricted') }} </h5>
@@ -336,7 +361,10 @@ export default {
     <base-curriculum-guide :default-language="getLanguage" />
     <panel />
     <div class="teacher-dashboard">
-      <div :class="['teacher-dashboard__sidebar', { 'collapsed': sidebarCollapsed }]">
+      <div
+        v-if="!showNonTeacherPreview"
+        :class="['teacher-dashboard__sidebar', { 'collapsed': sidebarCollapsed }]"
+      >
         <div class="content">
           <secondary-teacher-navigation :classrooms="allClassrooms" />
         </div>
@@ -348,7 +376,7 @@ export default {
           <span class="right">&#x25B6;</span>
         </div>
       </div>
-      <div class="teacher-dashboard__body">
+      <div :class="['teacher-dashboard__body', { 'sidebar-hidden': showNonTeacherPreview }]">
         <title-bar
           :title="pageTitle"
           :show-class-info="showClassInfo"
@@ -356,6 +384,7 @@ export default {
           :courses="classroomCourses"
           :selected-course-id="selectedCourseId"
           :all-classes-page="isAllClassesPage"
+          :show-preview-mode="showNonTeacherPreview"
           @change-course="onChangeCourse"
           @newClass="openNewClassModal"
           @addStudentsClicked="showAddStudentsModal = true"
@@ -386,7 +415,7 @@ export default {
       @close="closeOnboardingModal"
     />
     <modal-edit-class
-      v-if="showNewClassModal && !editCurrent"
+      v-if="showNewClassModal && !editCurrent && !showNonTeacherPreview"
       :classroom="newClassroom"
       @close="closeShowNewModal"
       @created="handleCreatedClass"
@@ -408,6 +437,10 @@ export default {
     <modal-remove-students
       v-if="showRemoveStudentsModal"
       @close="showRemoveStudentsModal = false"
+    />
+    <try-ozaria-modal
+      v-if="showTryOzariaModal"
+      @close="closeTryOzariaModal"
     />
   </div>
 </template>
@@ -748,6 +781,10 @@ export default {
       width: 250px;
       height: max-content;
     }
+  }
+
+  .sidebar-hidden {
+  width: calc(100% - 0px);
   }
 
   &__body {

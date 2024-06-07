@@ -59,8 +59,11 @@ export default {
   async mounted () {
     this.setTeacherId(me.get('_id'))
     this.setPageTitle(PAGE_TITLES[this.$options.name])
-    await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
-    this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Resource Hub: Loaded' } })
+
+    if (me.isTeacher()) {
+      await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
+      this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Resource Hub: Loaded' } })
+    }
 
     getResourceHubResources().then(allResources => {
       if (!Array.isArray(allResources) || allResources.length === 0) {
