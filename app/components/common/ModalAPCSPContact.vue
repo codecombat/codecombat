@@ -187,7 +187,7 @@ export default Vue.extend({
         >
           <div class="col-xs-12">
             <span class="control-label">
-              Location <span class="text-muted"> (state and country) </span>
+              {{ $t('apcsp_curriculum.location') }} <span class="text-muted"> ({{ $t('apcsp_curriculum.state_and_country') }}) </span>
             </span>
             <input
               v-model="$v.location.$model"

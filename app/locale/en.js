@@ -3997,6 +3997,8 @@ module.exports = {
       professional_development_description: 'CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.',
       contact: 'Contact __apcsp_email__ to get access.',
       role: 'Role',
+      location: 'Location',
+      state_and_country: 'state and country',
       no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
       request_license: 'Join Pilot Program',
       page_title: 'AP Computer Science Principles Curriculum',
