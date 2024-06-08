@@ -74,7 +74,7 @@ module.exports = class Angel extends CocoClass
       # First step: worker has to load the scripts.
       when 'worker-initialized'
         unless @initialized
-          @log "Worker initialized after #{(new Date()) - @worker.creationTime}ms"
+          #@log "Worker initialized after #{(new Date()) - @worker.creationTime}ms"
           @initialized = true
           @doWork()
 

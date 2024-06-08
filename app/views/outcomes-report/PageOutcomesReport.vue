@@ -2,13 +2,14 @@
 import { mapGetters, mapActions, mapState } from 'vuex'
 import OutcomesReportResultComponent from './OutcomesReportResultComponent'
 import { getOutcomesReportStats } from '../../core/api/outcomes-reports'
-import { getAILeagueStats } from '../../core/api/clans'
+import { getClanByDistrictId, getAILeagueStats } from '../../core/api/clans'
 import utils from 'core/utils'
 import { create as createJob, get as getJob } from '../../core/api/background-job'
 import Clan from '../../models/Clan'
 const JOB_TYPE = 'outcomes-report'
 
 const orgKinds = {
+  country: { childKinds: ['administrative-region', 'school-district', 'school'] },
   'administrative-region': { childKinds: ['school-district'] },
   'school-district': { childKinds: ['school'] },
   'school-admin': { childKinds: ['teacher'] },
@@ -203,9 +204,15 @@ export default {
     // TODO: date range
     async fetchOutcomesReportStats ({ kind, orgIdOrSlug, includeSubOrgs, country, startDate, endDate }) {
       let stats
-      if (['classroom', 'teacher'].includes(kind) && orgIdOrSlug) {
-        const clanSlug = Clan.getAutoClanSlug(orgIdOrSlug, kind)
-        const leagueStats = await getAILeagueStats(clanSlug)
+      if (['classroom', 'teacher', 'school-district'].includes(kind) && orgIdOrSlug) {
+        let clanIdOrSlug
+        if (kind === 'school-district') {
+          const clan = await getClanByDistrictId(orgIdOrSlug)
+          clanIdOrSlug = clan._id
+        } else {
+          clanIdOrSlug = Clan.getAutoClanSlug(orgIdOrSlug, kind)
+        }
+        const leagueStats = await getAILeagueStats(clanIdOrSlug)
         try {
           this.aiLeagueStats = JSON.parse(leagueStats)
         } catch (e) {

@@ -710,7 +710,7 @@ export default {
         <div>
           <img
             class="img-responsive"
-            src="/images/pages/league/snowhold-clash.png"
+            src="/images/pages/league/anti-gravity-cup.png"
             loading="lazy"
             style="max-height: 200px; float: right; margin: 0 15px 15px;"
             alt=""
@@ -719,11 +719,11 @@ export default {
             class="subheader1"
             style="margin-bottom: 32px;"
           >
-            <span class="esports-green">Season 9 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span>
+            <span class="esports-green">Season 10 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span>
           </h1>
         </div>
-        <p>{{ $t('league.season9_announcement_1') }}</p>
-        <p>{{ $t('league.season6_announcement_2') }}</p>
+        <p>{{ $t('league.season10_announcement_1') }}</p>
+        <p>{{ $t('league.season4_announcement_2') }}</p>
       </div>
     </div>
 
@@ -819,6 +819,11 @@ export default {
           class="btn btn-large btn-primary btn-moon play-btn-cta"
         >{{ $t('league.earn_codepoints') }}</a>
         <a
+          v-else-if="isTeacher()"
+          href="/teachers/classes"
+          class="btn btn-large btn-primary btn-moon play-btn-cta"
+        >{{ $t('league.earn_codepoints') }}</a>
+        <a
           v-else
           href="/play"
           class="btn btn-large btn-primary btn-moon play-btn-cta"
@@ -859,11 +864,11 @@ export default {
       <div class="col-sm-10 video-backer video-iframe">
         <div style="position: relative; padding-top: 56.14583333333333%;">
           <iframe
-            src="https://iframe.videodelivery.net/5ee0896f86d690840104adaaa7ec96b6?poster=https://videodelivery.net/5ee0896f86d690840104adaaa7ec96b6/thumbnails/thumbnail.jpg%3Ftime%3D1730s"
+            src="https://iframe.videodelivery.net/72d0ffc93599cf8cb5b0f7fed7861d0f?poster=https://videodelivery.net/72d0ffc93599cf8cb5b0f7fed7861d0f/thumbnails/thumbnail.jpg%3Ftime%3D188s"
             style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"
             allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
             allowfullscreen="true"
-            title="CodeCombat AI League Winners - Season 9 - Reign of Code"
+            title="CodeCombat AI League Winners - Season 10 - Gravity Games"
           />
         </div>
       </div>

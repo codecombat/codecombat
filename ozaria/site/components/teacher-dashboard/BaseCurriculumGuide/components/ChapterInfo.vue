@@ -5,6 +5,7 @@ import { isOzaria } from 'core/utils'
 import ButtonAddCourseToClassroom from './ButtonAddCourseToClassroom'
 import ButtonPlayChapter from './ButtonPlayChapter'
 import ButtonSolutionGuide from './ButtonSolutionGuide'
+import ButtonCurriculum from './ButtonCurriculum'
 import { getOzariaAssetUrl } from 'ozaria/site/common/ozariaUtils'
 
 import { mapGetters } from 'vuex'
@@ -18,12 +19,22 @@ export default {
     IconHelp,
     ButtonAddCourseToClassroom,
     ButtonPlayChapter,
-    ButtonSolutionGuide
+    ButtonSolutionGuide,
+    ButtonCurriculum
   },
 
   data () {
     return {
-      levelsNameMap: {}
+      levelsNameMap: {},
+      courseLinks: {
+        'introduction-to-computer-science': 'https://drive.google.com/drive/folders/1-ww3rLkxj1cZwSvBm6_ThXqsEjwnu6Wn?usp=sharing',
+        'game-development-1': 'https://drive.google.com/drive/folders/1YSJ9wcfHRJ2854F-vUdSWqoLBuSJye7V?usp=sharing',
+        'computer-science-2': 'https://drive.google.com/drive/folders/1J3ywGVgDKtRBDaK_cK106Jn-l9GaKd3n?usp=sharing',
+        'game-development-2': 'https://drive.google.com/drive/folders/1Mks2MA-WGMrwNpZj6VtKkL3loPnHp_bs?usp=sharing',
+        'computer-science-3': 'https://drive.google.com/drive/folders/1x9EgA6TO1N4ePnzgnFK2kNn8ujIEKe3B?usp=sharing',
+        'game-development-3': 'https://drive.google.com/drive/folders/1FUFGxI3-GzYx38wNanof2K7BVI_ffp1d?usp=sharing',
+        'computer-science-4': 'https://drive.google.com/drive/folders/1WUEL82hSDJ1mzqkfouZVkbOmrJvfMqkG?usp=sharing',
+      }
     }
   },
 
@@ -134,6 +145,19 @@ export default {
       }
 
       return `/teachers/course-solution/${this.getCurrentCourse._id}/${this.getSelectedLanguage}?from-new-dashboard=true`
+    },
+
+    curriculumUrl () {
+      if (!this.getCurrentCourse) {
+        return this.courseLinks['introduction-to-computer-science']
+      }
+
+      const slugName = this.getCurrentCourse.slug
+      if (Object.hasOwn(this.courseLinks, slugName)) {
+        return this.courseLinks[slugName]
+      }
+
+      return ''
     },
 
     playChapterUrl () {
@@ -261,6 +285,20 @@ export default {
               :course="getCurrentCourse"
               :classroom="getCurrentClassroom"
               @click.native="trackEvent('Curriculum Guide: Add Course to Classroom Clicked')"
+            />
+            <button-curriculum
+              v-if="!curriculumUrl"
+              v-tooltip.top="{
+                content: $t('teacher_dashboard.coming_soon'),
+                classes: 'teacher-dashboard-tooltip lighter-p'
+              }"
+              :curriculum-url="curriculumUrl"
+              @click.native="trackEvent('Curriculum Guide: Curriculum Clicked')"
+            />
+            <button-curriculum
+              v-else
+              :curriculum-url="curriculumUrl"
+              @click.native="trackEvent('Curriculum Guide: Curriculum Clicked')"
             />
             <a
               :href="playChapterUrl"

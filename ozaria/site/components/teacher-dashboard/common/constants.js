@@ -9,6 +9,7 @@ export const COMPONENT_NAMES = {
   PD: 'PD',
   STUDENT_ASSESSMENTS: 'BaseStudentAssessments',
   AI_HACKSTACK_JUNIOR: 'BaseAIHackStackJunior',
+  AI_LEAGUE: 'AILeague'
   // CURRICULUM_GUIDE: 'BaseCurriculumGuide'
 }
 
@@ -16,5 +17,7 @@ export const PAGE_TITLES = {
   [COMPONENT_NAMES.MY_CLASSES_ALL]: 'all_classes',
   [COMPONENT_NAMES.MY_LICENSES]: 'my_licenses',
   [COMPONENT_NAMES.RESOURCE_HUB]: 'resource_hub',
-  [COMPONENT_NAMES.PD]: 'pd'
+  [COMPONENT_NAMES.PD]: 'pd',
+  [COMPONENT_NAMES.AI_LEAGUE]: 'ai_league',
+  [COMPONENT_NAMES.APCSP]: 'apcsp'
 }

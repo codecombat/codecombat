@@ -6,8 +6,43 @@
 import ContentIcon from '../../common/icons/ContentIcon'
 import ProgressDot from '../../common/progress/progressDot'
 import LockOrSkip from './LockOrSkip'
+import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
+import { courseArenaLadder } from 'core/urls'
+
+import utils from 'core/utils'
 
 import { mapGetters, mapMutations } from 'vuex'
+
+// The levels in the groups defined here are can not be selected individually.
+// They are either all selected or all not selected.
+const selectableGroups = [
+  [
+    // Chapter 1
+    '5efc08940bda4700242d6e3c', // Intro: Trapping Darkness
+    '5efc09910bda4700242d6e47', // Intro: Builder Things
+    '5efc10a40bda4700242d6e9b', // Intro: Finishing Touches
+    '5eddd6a76f7d690028cf4c50', // Capstone Level: Gauntlet
+    '5f0cd339e494e50029521c5e' // Cutscene: Trapping the Dark
+  ],
+  [
+    // Chapter 4
+    '60073a27f849d20027ae6c5e', // Intro: Stage 1
+    '5fdc91598a71e9002485b1f0', // Capstone Level: Curiosity Sandbox
+    '60073a6b23a19d0022f0da62' // Intro: Stage 2
+  ]
+]
+
+const getSelectableGroup = (original) => {
+  if (!original) {
+    return []
+  }
+  for (const group of selectableGroups) {
+    if (group.includes(original)) {
+      return group
+    }
+  }
+  return [original]
+}
 
 export default {
   components: {
@@ -19,6 +54,11 @@ export default {
     moduleHeading: {
       type: String,
       required: true
+    },
+
+    moduleHeadingImage: {
+      type: String,
+      default: null
     },
 
     listOfContent: {
@@ -40,7 +80,7 @@ export default {
   data () {
     return {
       lockOrSkipShown: false,
-      hoveredOriginal: null,
+      hoveredOriginals: [],
       userSelectedOriginals: []
     }
   },
@@ -48,8 +88,15 @@ export default {
   computed: {
     ...mapGetters({
       showingTooltipOfThisOriginal: 'baseSingleClass/getShowingTooltipOfThisOriginal',
-      selectedOriginals: 'baseSingleClass/selectedOriginals'
+      selectedOriginals: 'baseSingleClass/selectedOriginals',
+      selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+      getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
+      classroom: 'teacherDashboard/getCurrentClassroom',
     }),
+
+    isCodeCombat () {
+      return utils.isCodeCombat
+    },
 
     listOfOriginals () {
       return [...new Set(Object.values(this.listOfContent).map(item => item.normalizedOriginal))] // array of unique original ids
@@ -57,7 +104,9 @@ export default {
 
     cssVariables () {
       return {
-        '--cols': this.listOfContent.length
+        '--cols': this.listOfContent.length,
+        '--columnWidth': this.listOfContent.length > 2 ? '28px' : (this.listOfContent.length > 1 ? '42px' : '84px')
+
       }
     },
 
@@ -74,20 +123,33 @@ export default {
     ...mapMutations({
       setShowingTooltipOfThisOriginal: 'baseSingleClass/setShowingTooltipOfThisOriginal',
       replaceSelectedOriginals: 'baseSingleClass/replaceSelectedOriginals',
-      updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals'
+      updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals',
     }),
+
+    arenaLadderUrl (slug) {
+      const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
+      const courseInstance = courseInstances.find(({ courseID }) => courseID === this.selectedCourseId)
+      return courseArenaLadder({ level: { slug }, courseInstance })
+    },
+
+    getGameContentDisplayType (type) {
+      return getGameContentDisplayType(type, true, true)
+    },
 
     toggleDatepicker () {
       this.showDatepicker = !this.showDatepicker
     },
 
     setHoveredOriginal (original) {
-      this.hoveredOriginal = original
-      this.$emit('updateHoveredLevel', original)
+      this.hoveredOriginals = getSelectableGroup(original)
+      this.$emit('updateHoveredLevels', getSelectableGroup(original))
     },
 
     updateList (event, original) {
-      this.updateSelectedOriginals({ shiftKey: event.shiftKey, original, listOfOriginals: this.listOfOriginals })
+      const group = getSelectableGroup(original)
+      for (const item of group) {
+        this.updateSelectedOriginals({ shiftKey: event.shiftKey, original: item, listOfOriginals: this.listOfOriginals })
+      }
     },
 
     classContentTooltip (type) {
@@ -99,7 +161,7 @@ export default {
     classForContentIconHover (normalizedOriginal) {
       return {
         'hover-trigger-area': true,
-        hoverState: this.hoveredOriginal === normalizedOriginal,
+        hoverState: this.hoveredOriginals.includes(normalizedOriginal),
         'is-selected': this.selectedOriginals.includes(normalizedOriginal)
       }
     },
@@ -122,7 +184,21 @@ export default {
   >
     <div class="title">
       <!-- eslint-disable vue/no-v-html -->
-      <h3 v-html="moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>')" />
+
+      <img
+        v-if="moduleHeadingImage"
+        v-tooltip="{
+          content: moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>'),
+          placement: 'bottom',
+          classes: 'layoutChromeTooltip',
+        }"
+        class="module-logo"
+        :src="moduleHeadingImage"
+      >
+      <h3
+        v-else
+        v-html="moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>')"
+      />
       <!-- eslint-enable vue/no-v-html -->
       <v-popover
         v-if="!displayOnly"
@@ -134,7 +210,7 @@ export default {
       >
         <!-- Triggers the tooltip -->
         <div v-if="!displayOnly">
-          <span class="btn btn-sm btn-default"><img :src="lockIconUrl"></span>
+          <span class="btn btn-sm btn-default lock-button"><img :src="lockIconUrl"></span>
         </div>
         <!-- The tooltip -->
         <template slot="popover">
@@ -146,7 +222,7 @@ export default {
       </v-popover>
     </div>
     <div
-      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal }, idx) of listOfContent"
+      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal, normalizedType, contentLevelSlug }, idx) of listOfContent"
       :key="`${idx}-${type}`"
       class="content-icons"
     >
@@ -167,13 +243,14 @@ export default {
         >
           <ContentIcon
             class="content-icon"
-            :icon="type"
+            :icon="isCodeCombat ? normalizedType : type"
           />
         </div>
         <!-- The tooltip -->
         <template slot="popover">
           <div class="level-popover-locking">
-            <span v-if="isPractice">{{ $t('play_level.level_type_practice') }}</span>
+            <span v-if="isCodeCombat">{{ getGameContentDisplayType(normalizedType) }}</span>
+            <span v-if="!isCodeCombat && isPractice">{{ $t('play_level.level_type_practice') }}</span>
             <h3
               v-if="type !== 'cutscene'"
               style="margin-bottom: 15px;"
@@ -185,6 +262,14 @@ export default {
               style="margin-bottom: 15px;"
               v-html="description"
             />
+            <a
+              v-if="type === 'course-ladder'"
+              :href="arenaLadderUrl(contentLevelSlug)"
+              target="_blank"
+              class="arena-ladder-link"
+            >
+              {{ $t('teacher.view_arena_ladder') }}
+            </a>
           </div>
         </template>
       </v-popover>
@@ -209,7 +294,7 @@ export default {
 
 .moduleHeading {
   display: grid;
-  grid-template-columns: repeat(var(--cols), 28px);
+  grid-template-columns: repeat(var(--cols), var(--columnWidth));
   grid-template-rows: repeat(3, 38px);
   align-items: center;
   justify-items: center;
@@ -236,6 +321,14 @@ export default {
 
   overflow: hidden;
   text-overflow: ellipsis;
+
+  img.module-logo {
+    height: calc(100% - 4px);
+    width: auto;
+    background: white;
+    border-radius: 8px;
+    margin: 2px 0;
+  }
 
   .v-popover {
     display: none;
@@ -362,4 +455,12 @@ h3 {
   width: auto;
 }
 
+.lock-button {
+  padding: 2px 2px;
+}
+
+.arena-ladder-link {
+  display: block;
+  margin-bottom: 15px;
+}
 </style>

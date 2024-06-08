@@ -6,6 +6,7 @@ import ViewAndMange from './ViewAndManage'
 import TableClassFrame from './table/TableClassFrame'
 import ModalEditStudent from '../modals/ModalEditStudent'
 import Classroom from 'models/Classroom'
+import storage from '../../../../../app/core/storage'
 
 import utils from 'app/core/utils'
 import { getGameContentDisplayNameWithType } from 'ozaria/site/common/ozariaUtils.js'
@@ -30,6 +31,7 @@ export default {
     'table-class-frame': TableClassFrame,
     ModalEditStudent
   },
+
   props: {
     classroomId: {
       type: String,
@@ -43,12 +45,17 @@ export default {
     displayOnly: { // sent from DSA
       type: Boolean,
       default: false
+    },
+    defaultCourseId: {
+      type: String,
+      default: null
     }
   },
 
   data: () => ({
     isGuidelinesVisible: true,
-    sortMethod: 'Last Name'
+    refreshKey: 0,
+    sortMethod: storage.load('sortMethod') || 'Last Name'
   }),
 
   computed: {
@@ -56,6 +63,7 @@ export default {
       classroom: 'teacherDashboard/getCurrentClassroom',
       selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
       levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
+      aiProjectsMapByUser: 'teacherDashboard/getAiProjectsMapCurrentClassroom',
       getInteractiveSessionsForClass: 'interactives/getInteractiveSessionsForClass',
       classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
       gameContent: 'teacherDashboard/getGameContentCurrentClassroom',
@@ -67,11 +75,81 @@ export default {
       getActiveClassrooms: 'teacherDashboard/getActiveClassrooms',
       selectableStudentIds: 'baseSingleClass/selectableStudentIds',
       getSelectableOriginals: 'baseSingleClass/getSelectableOriginals',
-      classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom'
+      classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
+      aiScenarios: 'aiScenarios/getScenarios',
+      modelsByName: 'aiModels/getModelsByName',
     }),
 
     modules () {
+      // Reference below required to trigger a re-render when the refresh button is clicked.
+      this.refreshKey // eslint-disable-line no-unused-expressions
+
       const selectedCourseId = this.selectedCourseId
+      const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
+
+      const assignmentMap = new Map()
+      for (const { courseID, members } of courseInstances) {
+        assignmentMap.set(courseID, new Set(members || []))
+      }
+
+      if (this.isHackStackCourse(selectedCourseId)) {
+        const hackStackModuleNames = this.aiScenarios.reduce((acc, scenario) => {
+          acc.add(scenario.tool)
+          return acc
+        }, new Set())
+
+        const hackStackModels = [...hackStackModuleNames].map((moduleName, key) => {
+          const createModeUnlocked = false
+          const moduleNum = key + 1
+          const classSummaryProgress = []
+          const moduleScenarios = (this.aiScenarios || [])
+            .filter(scenario => scenario.tool === moduleName)
+
+          const aiModel = this.modelsByName[moduleName]
+
+          return {
+            moduleNum,
+            displayName: `<strong>${aiModel.displayName}</strong><br>${aiModel.description}`,
+            displayLogo: utils.aiToolToImage[moduleName] || null,
+            contentList: moduleScenarios
+              .map((scenario, index) => {
+                return {
+                  displayName: scenario.name,
+                  type: 'challengelvl',
+                  _id: scenario._id,
+                  tooltipName: scenario.name,
+                  description: '',
+                  contentKey: scenario._id,
+                  normalizedOriginal: scenario._id,
+                  normalizedType: 'challengelvl',
+                  contentLevelSlug: scenario.slug,
+                  isPractice: false
+                }
+              }),
+            studentSessions: this.students.reduce((studentSessions, student) => {
+              studentSessions[student._id] = moduleScenarios
+                .map((aiScenario, index) => {
+                  return this.createProgressDetailsByAiScenario({
+                    aiScenario,
+                    index,
+                    student,
+                    classSummaryProgress,
+                    moduleNum,
+                    createModeUnlocked,
+                    assignmentMap,
+                    selectedCourseId
+                  })
+                })
+
+              return studentSessions
+            }, {}),
+            classSummaryProgress
+          }
+        })
+
+        return hackStackModels
+      }
+
       const modules = (this.gameContent[selectedCourseId] || {}).modules
       if (modules === undefined) {
         return []
@@ -80,11 +158,6 @@ export default {
       const intros = (this.gameContent[selectedCourseId] || {}).introLevels
 
       const modulesForTable = []
-      const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
-      const assignmentMap = new Map()
-      for (const { courseID, members } of courseInstances) {
-        assignmentMap.set(courseID, new Set(members || []))
-      }
 
       // Get the name and content list of a module.
       for (const [moduleNum, moduleContent] of Object.entries(modules)) {
@@ -102,13 +175,19 @@ export default {
         let moduleDisplayName
         if (!utils.courseModules[this.selectedCourseId]?.[moduleNum]) {
           const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
-          moduleDisplayName = course.name
+          moduleDisplayName = utils.i18n(course, 'name')
         } else {
           // Todo: Ozaria-i18n
           moduleDisplayName = `${utils.isOzaria ? this.$t(`teacher.module${moduleNum}`) : ''}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
         }
 
         const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, translatedModuleContent, intros, moduleNum)
+        const levelNameMap = this.getLevelNameMap(translatedModuleContent, intros)
+        const levelsByOriginal = translatedModuleContent
+          .reduce((acc, content) => {
+            acc[content.original] = content
+            return acc
+          }, {})
 
         // Track summary stats to display in the header of the table
         const classSummaryProgressMap = new Map(translatedModuleContent.map((content) => {
@@ -118,9 +197,13 @@ export default {
         for (const student of this.students) {
           const studentSessions = this.levelSessionsMapByUser[student._id] || {}
           const levelOriginalCompletionMap = {}
+          const playTimeMap = {}
+          const completionDateMap = {}
 
           for (const session of Object.values(studentSessions)) {
             levelOriginalCompletionMap[session.level.original] = session.state
+            playTimeMap[session.level.original] = session.playtime
+            completionDateMap[session.level.original] = session.state.complete && session.changed
           }
 
           let isPlayable = true
@@ -128,7 +211,13 @@ export default {
           moduleStatsForTable.studentSessions[student._id] = translatedModuleContent.map((content) => {
             const { original, fromIntroLevelOriginal } = content
             const normalizedOriginal = original || fromIntroLevelOriginal
-            const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'locked')
+
+            const level = levelsByOriginal[normalizedOriginal]
+            const selectedCourseInstance = courseInstances.find(({ courseID }) => courseID === this.selectedCourseId)
+            const startLockedLevel = selectedCourseInstance?.startLockedLevel
+            const lockedByOldDashboard = startLockedLevel && startLockedLevel === level?.slug
+
+            const isLocked = lockedByOldDashboard || ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'locked')
             const lockDate = ClassroomLib.getStudentLockDate(this.classroom, student._id, normalizedOriginal)
             const isOptional = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, normalizedOriginal, 'optional')
 
@@ -159,7 +248,10 @@ export default {
               fromIntroLevelOriginal,
               isOptional,
               isPlayable,
-              isPractice
+              isPractice,
+              playTime: playTimeMap[normalizedOriginal],
+              completionDate: completionDateMap[normalizedOriginal],
+              tooltipName: levelNameMap[content._id].levelName
             }
 
             if (content.type === 'game-dev') {
@@ -168,6 +260,10 @@ export default {
               defaultProgressDot.normalizedType = 'practicelvl'
             } else if (content.type === 'course' || content.type === 'hero') {
               defaultProgressDot.normalizedType = 'practicelvl'
+            }
+
+            if (content.shareable === 'project') {
+              defaultProgressDot.normalizedType = 'capstone'
             }
 
             if (!assignmentMap.get(selectedCourseId)?.has(student._id)) {
@@ -365,6 +461,9 @@ export default {
   mounted () {
     const areTeacherClassesFetched = this.getActiveClassrooms.length !== 0
     this.setClassroomId(this.classroomId)
+    if (this.defaultCourseId) {
+      this.setSelectedCourseId({ courseId: this.defaultCourseId })
+    }
     this.fetchClassroomById(this.classroomId)
       .then(() => {
         this.setTeacherId(me.get('_id'))
@@ -379,6 +478,8 @@ export default {
   beforeRouteUpdate (to, from, next) {
     this.closePanel()
     this.clearSelectedStudents()
+    this.setClassroomId(to.params.classroomId)
+    this.setSelectedCourseIdCurrentClassroom({ courseId: to.params.courseId || utils.courseIDs.HACKSTACK })
     next()
   },
 
@@ -397,6 +498,7 @@ export default {
       fetchData: 'baseSingleClass/fetchData',
       setPanelSessionContent: 'teacherDashboardPanel/setPanelSessionContent',
       showPanelSessionContent: 'teacherDashboardPanel/showPanelSessionContent',
+      showPanelProjectContent: 'teacherDashboardPanel/showPanelProjectContent',
       clearSelectedStudents: 'baseSingleClass/clearSelectedStudents',
       addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
       fetchClassroomById: 'classrooms/fetchClassroomForId',
@@ -413,6 +515,10 @@ export default {
       closePanel: 'teacherDashboardPanel/closePanel'
     }),
 
+    isHackStackCourse (selectedCourseId) {
+      return selectedCourseId === utils.courseIDs.HACKSTACK
+    },
+
     async fetchClassroomData (classroomId) {
       if (!this.getClassroomById(classroomId)) {
         await this.fetchClassroomById(classroomId)
@@ -420,7 +526,13 @@ export default {
       this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
     },
 
+    async onRefresh () {
+      await this.fetchClassroomData(this.classroomId)
+      this.refreshKey += 1
+    },
+
     onChangeStudentSort (sortMethod) {
+      storage.save('sortMethod', sortMethod)
       this.sortMethod = sortMethod
     },
 
@@ -438,9 +550,106 @@ export default {
       }
     },
 
+    getLevelNameMap (moduleContent, intros) {
+      return moduleContent.reduce((acc, content, index) => {
+        const { _id, fromIntroLevelOriginal, original } = content
+
+        let description = getLearningGoalsDocumentation(content)
+
+        let tooltipName
+        let levelName
+        if (utils.isCodeCombat) {
+          const classroom = new Classroom(this.classroom)
+          const levelNumber = classroom.getLevelNumber(original, index + 1)
+          tooltipName = `${levelNumber}: ${utils.i18n(content, 'displayName') || utils.i18n(content, 'name')}`
+          levelName = tooltipName
+        } else {
+          tooltipName = getGameContentDisplayNameWithType(content)
+          levelName = tooltipName
+        }
+        if (fromIntroLevelOriginal) {
+          const introLevel = intros[fromIntroLevelOriginal] || {}
+          levelName = tooltipName
+          description = `<h3>${tooltipName}</h3><p>${utils.i18n(content, 'description') || getLearningGoalsDocumentation(content) || ''}</p>`
+          tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${utils.i18n(introLevel, 'displayName') || utils.i18n(introLevel, 'name')}`
+        }
+
+        acc[_id] = { tooltipName, description, levelName }
+
+        return acc
+      }, {})
+    },
+
+    setProgressDetails (details, classSummaryProgress, index) {
+      details.status = 'progress'
+      classSummaryProgress[index].status = 'progress'
+    },
+
+    setClickHandler (details, student, moduleNum, aiScenario, aiProjects) {
+      details.clickHandler = () => {
+        this.showPanelProjectContent({
+          header: 'HackStack Project',
+          student,
+          classroomId: this.classroomId,
+          selectedCourseId: this.selectedCourseId,
+          moduleNum,
+          aiScenario,
+          aiProjects
+        })
+      }
+    },
+
+    checkIfComplete (aiProjects, details) {
+      if (aiProjects.some(scenario => scenario.actionQueue.length === 0)) {
+        details.status = 'complete'
+        return true
+      }
+      return false
+    },
+
+    createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum, createModeUnlocked, assignmentMap, selectedCourseId }) {
+      const details = {}
+      classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
+      const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario._id]
+
+      if (aiProjects) {
+        this.setProgressDetails(details, classSummaryProgress, index)
+        this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
+        createModeUnlocked = this.checkIfComplete(aiProjects, details)
+      }
+
+      let isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario._id, 'lockedScenario')
+      if (aiScenario.mode === 'use' && !createModeUnlocked) {
+        isLocked = true
+      }
+
+      const isPlayable = !isLocked
+
+      if (!assignmentMap.get(selectedCourseId)?.has(student._id)) {
+        details.status = 'unassigned'
+        return details
+      }
+
+      return {
+        status: 'assigned',
+        normalizedType: 'challengelvl',
+        isLocked,
+        isSkipped: false,
+        lockDate: null,
+        lastLockDate: null,
+        original: aiScenario._id,
+        normalizedOriginal: aiScenario._id,
+        isOptional: false,
+        isPlayable,
+        isPractice: false,
+        ...details
+      }
+    },
+
     // Creates summary stats table for the content. These are the icons along
     // the top of the track progress table.
     createModuleStatsTable (moduleDisplayName, moduleContent, intros, moduleNum) {
+      const levelNameMap = this.getLevelNameMap(moduleContent, intros)
       return {
         moduleNum,
         displayName: moduleDisplayName,
@@ -464,48 +673,37 @@ export default {
             normalizedType = 'challengelvl'
           }
 
-          if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev'].includes(normalizedType)) {
+          if (utils.isCodeCombat) {
+            if (content.shareable === 'project') {
+              normalizedType = 'capstone'
+            }
+          }
+
+          if (!['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev', 'ladder'].includes(normalizedType)) {
             throw new Error(`Didn't handle normalized content type: '${normalizedType}'`)
           }
 
-          let description = getLearningGoalsDocumentation(content)
           let contentLevelSlug = slug
           if (fromIntroLevelOriginal) {
-            description = getLearningGoalsDocumentation(intros[fromIntroLevelOriginal])
             contentLevelSlug = intros[fromIntroLevelOriginal]?.slug
-          }
-
-          let tooltipName
-          if (utils.isCodeCombat) {
-            const classroom = new Classroom(this.classroom)
-            const levelNumber = classroom.getLevelNumber(content.original, index + 1)
-            tooltipName = `${levelNumber}: ${utils.i18n(content, 'displayName') || utils.i18n(content, 'name')}`
-          } else {
-            tooltipName = getGameContentDisplayNameWithType(content)
-          }
-          if (fromIntroLevelOriginal) {
-            const introLevel = intros[fromIntroLevelOriginal] || {}
-            description = `<h3>${tooltipName}</h3><p>${utils.i18n(content, 'description') || getLearningGoalsDocumentation(content) || ''}</p>`
-            tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${utils.i18n(introLevel, 'displayName') || utils.i18n(introLevel, 'name')}`
           }
 
           const isPractice = Boolean(content.practice)
 
           if (utils.isCodeCombat) {
-            normalizedType = isPractice ? 'practicelvl' : 'challengelvl'
+            normalizedType = isPractice ? 'practicelvl' : normalizedType
           }
 
           return ({
             displayName: utils.i18n(content, 'displayName') || utils.i18n(content, 'name'),
             type: normalizedType,
             _id,
-            tooltipName,
-            description: description || '',
             contentKey: original || fromIntroLevelOriginal, // Currently use the original as the key that groups levels together.
             normalizedOriginal,
             normalizedType,
             contentLevelSlug,
-            isPractice
+            isPractice,
+            ...levelNameMap[_id]
           })
         }),
         studentSessions: {},
@@ -531,6 +729,7 @@ export default {
       @assignContent="$emit('assignContent')"
       @addStudents="$emit('addStudents')"
       @removeStudents="$emit('removeStudents')"
+      @refresh="onRefresh"
     />
 
     <table-class-frame

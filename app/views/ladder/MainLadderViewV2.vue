@@ -40,7 +40,10 @@
         {{ $t('league.more_details') }}
       </div>
     </div>
-    <div class="clan-selector">
+    <div
+      v-if="!insideTeacherDashboard"
+      class="clan-selector"
+    >
       <div>
         {{ $t('tournament.select_team_desc') }}
       </div>
@@ -147,6 +150,10 @@ export default {
     idOrSlug: {
       type: String,
       default: 'global'
+    },
+    insideTeacherDashboard: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

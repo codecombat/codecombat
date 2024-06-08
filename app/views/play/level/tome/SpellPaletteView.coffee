@@ -5,7 +5,6 @@ filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './SpellPaletteEntryView'
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
-LevelSetupManager = require 'lib/LevelSetupManager'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
 
@@ -94,7 +93,7 @@ module.exports = class SpellPaletteView extends CocoView
       when @shortenize then 175
       else 212
     nColumns = Math.floor availableWidth / columnWidth   # Aim to always have at least 2 columns
-    @hideImages = nColumns < 2 or @options.level.isType('game-dev', 'ladder')  # Don't show 38px images if really short on space or we don't need images
+    @hideImages = nColumns < 2 or @options.level.isType('game-dev', 'ladder') or @entries.length > 32  # Don't show 38px images if really short on space or we don't need images
     if @hideImages
       columnWidth -= 38
       nColumns = Math.floor availableWidth / columnWidth
@@ -103,10 +102,20 @@ module.exports = class SpellPaletteView extends CocoView
   updateMaxHeight: ->
     # We figure out how many columns we can fit, width-wise, and then guess how many rows will be needed.
     # We can then assign a height based on the number of rows, and the flex layout will do the rest.
+    calculateEntriesHeight = (entryLens) ->
+      # single item entry has 38 height
+      # each entry group has 2px margin
+      height = 0
+      for len in entryLens
+        if len == 1
+          height += 38 + 2
+        else
+          height += 19 * len + 2
+      height
     nColumns = @calculateNColumns()
-    columns = ({items: [], nEntries: 0} for i in [0 ... nColumns])
+    columns = ({items: [], nEntries: 0, entryLens: []} for i in [0 ... nColumns])
     orderedColumns = []
-    nRows = 0
+    desiredHeight = 0
     entryGroupsByLength = _.sortBy _.keys(@entryGroups), (group) => @entryGroups[group].length
     entryGroupsByLength.reverse()
     for group in entryGroupsByLength
@@ -115,12 +124,12 @@ module.exports = class SpellPaletteView extends CocoView
       minEntriesPerGroup = if @hideImages then 1 else 2  # Item portrait is two rows tall
       shortestColumn.nEntries += Math.max minEntriesPerGroup, entries.length
       shortestColumn.items.push @entryGroupElements[group]
+      shortestColumn.entryLens.push entries.length
       orderedColumns.push shortestColumn unless shortestColumn in orderedColumns
-      nRows = Math.max nRows, shortestColumn.nEntries
+      desiredHeight = Math.max desiredHeight, calculateEntriesHeight(shortestColumn.entryLens)
     for column in orderedColumns
       for item in column.items
         item.detach().appendTo @$el.find('.properties-this')
-    desiredHeight = 19 * (nRows + 1)
     @$el.find('.properties').css('height', desiredHeight).toggleClass 'hide-images', @hideImages
 
   onResize: (e) =>

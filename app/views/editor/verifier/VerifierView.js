@@ -64,8 +64,8 @@ module.exports = (VerifierView = (function () {
 
       if (this.levelID) {
         this.levelIDs = [this.levelID]
-        this.testLanguages = ['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript']
-        this.codeLanguages = (Array.from(this.testLanguages).map((c) => ({ id: c, checked: true })))
+        this.testLanguages = (utils.getQueryVariable('languages') || 'python,javascript,java,cpp,lua,coffeescript').split(',')
+        this.codeLanguages = this.testLanguages.map((c) => ({ id: c, checked: true }))
         this.cores = 1
         this.startTestingLevels()
       } else {
@@ -117,7 +117,7 @@ module.exports = (VerifierView = (function () {
 
     filterCodeLanguages () {
       const defaultLanguages = utils.getQueryVariable('languages', 'python,javascript').split(/, ?/)
-      return this.codeLanguages != null ? this.codeLanguages : (this.codeLanguages = (['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript'].map((c) => ({ id: c, checked: Array.from(defaultLanguages).includes(c) }))))
+      this.codeLanguage = this.codeLanguages || ['python', 'javascript', 'java', 'cpp', 'lua', 'coffeescript'].map(c => ({ id: c, checked: defaultLanguages.includes(c) }))
     }
 
     onClickGoButton (e) {
@@ -181,12 +181,10 @@ module.exports = (VerifierView = (function () {
       for (const levelID of Array.from(this.levelIDs)) {
         level = this.supermodel.getModel(Level, levelID)
         for (const codeLanguage of Array.from(this.testLanguages)) {
-          var left
-          let solutions = _.filter((left = (level != null ? level.getSolutions() : undefined)) != null ? left : [], { language: codeLanguage })
+          let solutions = _.filter((level?.getSolutions() || []), { language: codeLanguage })
           // If there are no target language solutions yet, generate them from JavaScript.
           if (['cpp', 'java', 'python', 'lua', 'coffeescript'].includes(codeLanguage) && (solutions.length === 0)) {
-            var left1
-            const transpiledSolutions = _.filter((left1 = (level != null ? level.getSolutions() : undefined)) != null ? left1 : [], { language: 'javascript' })
+            const transpiledSolutions = _.filter((level?.getSolutions() || []), { language: 'javascript' })
             for (const s of Array.from(transpiledSolutions)) {
               s.language = codeLanguage
               s.source = translateUtils.translateJS(s.source, codeLanguage)

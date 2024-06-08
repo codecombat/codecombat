@@ -77,7 +77,7 @@ module.exports = class ControlBarView extends CocoView
 
   onLoaded: ->
     if @classroom
-      @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber)
+      @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber, @courseID)
       newClassroomItemsSetting = @classroom.get('classroomItems', true)
       oldClassroomItemsSetting = me.lastClassroomItems()
       me.setLastClassroomItems @classroom.get('classroomItems', true)

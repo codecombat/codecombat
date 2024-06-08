@@ -9,6 +9,7 @@ export const getUserClans = (userId) => fetchJson(`/db/user/${userId}/clans`)
 export const getClan = idOrSlug => fetchJson(`/db/clan/${idOrSlug}`)
 export const getClanBySchool = ncesId => fetchJson(`/db/clan/school/${ncesId}`)
 export const getClanByDistrict = ncesId => fetchJson(`/db/clan/district/${ncesId}`)
+export const getClanByDistrictId = Id => fetchJson(`/db/clan/districtId/${Id}`)
 
 export const joinClan = clanId => fetchJson(`/db/clan/${clanId}/join`, {
   method: 'PUT'

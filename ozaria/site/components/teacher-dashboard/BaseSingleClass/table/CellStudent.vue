@@ -1,4 +1,5 @@
 <script>
+import { isOzaria, courseIDs } from 'core/utils'
 import { mapMutations, mapGetters } from 'vuex'
 export default {
   props: {
@@ -36,11 +37,24 @@ export default {
       return (courseInstance || {})._id
     },
     hasCompletedCourse () {
+      if (this.selectedCourseId === courseIDs.HACKSTACK) {
+        return false
+      }
       if (!this.studentSessions || this.studentSessions.length === 0) {
         return false
       }
-      const completedSessions = this.studentSessions.filter(session => session.status === 'complete')
-      return completedSessions.length === this.studentSessions.length
+
+      if (isOzaria) {
+        const completedSessions = this.studentSessions.filter(session => session.status === 'complete')
+        return completedSessions.length === this.studentSessions.length
+      }
+      let courseFinished = false
+      this.studentSessions.forEach(session => {
+        if (!session.isPractice) {
+          courseFinished = session.status === 'complete'
+        }
+      })
+      return courseFinished
     }
   },
   methods: {

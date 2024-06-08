@@ -262,5 +262,10 @@ module.exports = {
   'level:close-solution': c.object({},
     { removeButton: { type: 'boolean' } }),
 
-  'level:click-ai-hint': c.object({})
+  'level:click-ai-hint': c.object({}),
+
+  'level:locked': c.object({}, {
+    session: { type: 'object' },
+    level: { type: 'object' }
+  }),
 }

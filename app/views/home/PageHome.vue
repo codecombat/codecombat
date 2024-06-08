@@ -1,34 +1,32 @@
 <template>
   <div id="page-home">
-    <background-container class="header">
-      <div class="container">
-        <h1 class="text-h1">
-          <mixed-color-label :text="$t('home_v3.learn_to_code')" />
-        </h1>
-        <div class="top-video-container">
-          <content-box
-            :main-image-bg="true"
-            class="main-image"
-          >
-            <template #image>
-              <video-box
-                class="header__video"
-                video-id="da0d63c489741f4bd20448af1846292a"
-                title="Video to illustrate the header"
-              />
-            </template>
-          </content-box>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <p>{{ $t('home_v3.innovative_play_experiences') }}</p>
+    <div class="container">
+      <header-component class="container__header">
+        <template #header-text>
+          <div>
+            <h1 class="text-h1">
+              <mixed-color-label :text="$t('home_v3.learn_to_code')" />
+            </h1>
+            <p class="text-24">
+              {{ $t(educatorSignupExperiment ? 'home_v3.sign_up_today' :'home_v3.innovative_play_experiences') }}
+            </p>
             <div class="buttons">
               <ButtonSection />
             </div>
           </div>
-        </div>
-      </div>
-    </background-container>
+        </template>
+        <template #image>
+          <content-box :main-image-bg="true">
+            <template #image>
+              <video-box
+                video-id="da0d63c489741f4bd20448af1846292a"
+                :thumbnail-url-time="2"
+              />
+            </template>
+          </content-box>
+        </template>
+      </header-component>
+    </div>
 
     <background-container
       type="colored"
@@ -39,6 +37,7 @@
           :show-tabs="false"
           :show-dots="true"
           :has-background="false"
+          :lazy-load="true"
         >
           <template
             v-for="(item, index) in testimonals"
@@ -59,7 +58,10 @@
     </background-container>
 
     <div class="container main-carousel">
-      <carousel-component :show-tabs="true">
+      <carousel-component
+        :show-tabs="true"
+        :lazy-load="true"
+      >
         <template
           v-for="(item, index) in carouselItems"
           #[`${index}`]
@@ -90,9 +92,7 @@
     >
       <div class="row">
         <div class="col-md-12">
-          <CTAButton
-            class="signup-button"
-          >
+          <CTAButton class="signup-button">
             {{ $t('home_v3.sign_up_free') }}
           </CTAButton>
         </div>
@@ -102,10 +102,12 @@
     <box-panel
       :title="$t('home_v3.engaging_play_experiences')"
       :items="engagingBoxes"
+      :lazy-load="true"
     />
     <box-panel
       :title="$t('home_v3.for_younger_learners')"
       :items="youngLearners"
+      :lazy-load="true"
     />
 
     <background-container type="sides">
@@ -128,9 +130,7 @@
     >
       <div class="row">
         <div class="col-md-12">
-          <CTAButton
-            class="signup-button"
-          >
+          <CTAButton class="signup-button">
             {{ $t('schools_page.try_it_free') }}
           </CTAButton>
         </div>
@@ -140,6 +140,7 @@
     <box-panel
       :title="$t('home_v3.your_turnkey_solutions')"
       :items="solutions"
+      :lazy-load="true"
     />
 
     <div
@@ -152,6 +153,7 @@
             <template #image>
               <base-cloudflare-video
                 video-cloudflare-id="bb2e8bf84df5c2cfa0fcdab9517f1d9e"
+                thumbnail-url="https://cloudflarestream.com/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg?height=720&time=42s"
                 :controls="true"
                 :autoplay="false"
               />
@@ -226,6 +228,7 @@ import PartnersList from './PartnersList.vue'
 import ButtonSection from './ButtonSection.vue'
 import TrendsAndInsights from '../common/TrendsAndInsights.vue'
 import BaseCloudflareVideo from '../../components/common/BaseCloudflareVideo.vue'
+import HeaderComponent from '../../components/common/elements/HeaderComponent.vue'
 
 const utils = require('core/utils')
 const paymentUtils = require('app/lib/paymentUtils')
@@ -247,7 +250,8 @@ export default Vue.extend({
     ButtonSection,
     TrendsAndInsights,
     VideoBox,
-    BaseCloudflareVideo
+    BaseCloudflareVideo,
+    HeaderComponent
   },
   data () {
     return {
@@ -443,10 +447,20 @@ export default Vue.extend({
   computed: {
     me () {
       return me
-    }
+    },
+
+    educatorSignupExperiment () {
+      const value = me.getEducatorSignupExperimentValue()
+      return value === 'beta'
+    },
   },
   mounted () {
     this.checkPaymentTracking()
+    if (me.isTeacher()) {
+      this.engagingBoxes[1].signupModal = false
+      this.engagingBoxes[1].signupModalPath = null
+      this.engagingBoxes[1].link = '/teachers/classes'
+    }
   },
   methods: {
     checkPaymentTracking () {
@@ -547,16 +561,12 @@ export default Vue.extend({
   @extend %frontend-page;
 
   ::v-deep .text-h1 {
-    @extend %font-32-46;
+    @extend %font-44;
     color: $dark-grey;
     text-align: center;
     font-style: normal;
     font-weight: 500;
-    margin: 80px auto 40px auto;
-
-    @media screen and (max-height: $small-screen-height) and (orientation: landscape) {
-      margin: 20px auto 20px auto;
-    }
+    margin: 0;
   }
 
   ::v-deep .text-h2 {
@@ -565,6 +575,11 @@ export default Vue.extend({
   }
 
   .header {
+
+    ::v-deep .header-image {
+      display: flex;
+      align-items: center;
+    }
 
     .top-video-container {
       display: flex;
@@ -595,8 +610,8 @@ export default Vue.extend({
       margin: 40px auto;
 
       @media screen and (max-height: $small-screen-height) and (orientation: landscape) {
-          margin: 15px auto;
-        }
+        margin: 15px auto;
+      }
     }
   }
 

@@ -14,7 +14,7 @@
                 p.text-p {{ $t('apcsp_marketing.page_description_endorsed') }}
             .row.row-request-access
               .col-lg-12
-                a.btn.btn-primary.btn-lg.uppercase(v-if="hasLicense" href="/apcsportal") {{ $t('apcsp_marketing.ap_csp_portal') }}
+                a.btn.btn-primary.btn-lg.uppercase(v-if="hasLicense" href="/apcsportal" :target="checkUsingRoute() ? '_blank' : ''") {{ $t('apcsp_marketing.ap_csp_portal') }}
                 .btn.btn-primary.btn-lg.uppercase(v-if="!hasLicense" @click="showModal=true") {{ $t('apcsp_marketing.request_access') }}
 
     .container-fluid.vector-flow
@@ -141,7 +141,7 @@
     #get-full-course.container-fluid
       .width-container.row
         .col.col-lg-12
-          a.btn.btn-primary.btn-lg.btn-shadow.uppercase(v-if="hasLicense" href="/apcsportal") {{ $t('apcsp_marketing.get_full_course') }}
+          a.btn.btn-primary.btn-lg.btn-shadow.uppercase(v-if="hasLicense" href="/apcsportal" :target="checkUsingRoute() ? '_blank' : ''") {{ $t('apcsp_marketing.get_full_course') }}
           .btn.btn-primary.btn-lg.btn-shadow.uppercase(v-else @click="showModal=true") {{ $t('apcsp_marketing.get_full_course') }}
     #professional-development.container-fluid.container-fluid-gradient
       .width-container.row
@@ -155,6 +155,8 @@
                 img.image18(src="/images/pages/apcsp/IMAGE18.png")
               .col.col-md-6.col-xs-12
                 p.text-p {{ $t('apcsp_marketing.professional_development_description') }}
+            .text-center
+              a.btn.btn-margin.btn-primary.btn-lg.btn-light-shadow.uppercase(href="https://drive.google.com/file/d/1ACNZVW6Kqs6wGf_WMjOUjBC1Mh5PiBRW/view?usp=drive_link", target="_blank") {{ $t('general.learn_more') }}
 
     //- html structure copied and modified from home page
     #teachers-love-codecombat.width-container.row.text-center
@@ -209,7 +211,8 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { PAGE_TITLES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
 import ModalAPCSPContact from 'app/components/common/ModalAPCSPContact.vue'
 
 export default Vue.extend({
@@ -273,21 +276,33 @@ export default Vue.extend({
       hasLicense: false
     }
   },
+  computed: {
+    ...mapGetters({
+      teacherPrepaids: 'prepaids/getPrepaidsByTeacher'
+    })
+  },
+  mounted () {
+    this.setPageTitle(PAGE_TITLES[this.$options.name])
+  },
   async created () {
     this.me = me
     if (me.isTeacher()) {
       this.updateLicenseStatus()
     }
   },
-  computed: {
-    ...mapGetters({
-      teacherPrepaids: 'prepaids/getPrepaidsByTeacher'
-    })
-  },
   methods: {
     ...mapActions({
       fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher'
     }),
+
+    ...mapMutations({
+      setPageTitle: 'teacherDashboard/setPageTitle'
+    }),
+
+    checkUsingRoute () {
+      return this.$route?.path === '/teachers/apcsp'
+    },
+
     async updateLicenseStatus () {
       if (me.isPaidTeacher()) {
         this.hasLicense = true
@@ -299,7 +314,7 @@ export default Vue.extend({
         this.hasLicense = true
       }
     }
-  }
+  },
 })
 </script>
 
@@ -405,6 +420,10 @@ p, .text-p {
     background-color: $yellow-light;
     transition: background-color .35s;
   }
+}
+
+.btn-margin {
+  margin-top: 10px;
 }
 
 #apcsp-marketing-page {
@@ -1289,6 +1308,10 @@ p, .text-p {
 
   .btn-shadow {
     filter: drop-shadow(0px 0px 20px #000000);
+  }
+
+  .btn-light-shadow {
+    filter: drop-shadow(0px 0px 20px #0E4C60);
   }
 
   .text-footer-blurb {

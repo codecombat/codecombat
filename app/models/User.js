@@ -161,7 +161,11 @@ module.exports = (User = (function () {
     isIndividualUser () { return !this.isStudent() && !User.isTeacher(this.attributes) }
 
     isNewDashboardActive () {
-      return this.get('features')?.isNewDashboardActive
+      const features = {
+        isNewDashboardActive: true,
+        ...(this.get('features') || {})
+      }
+      return features.isNewDashboardActive
     }
 
     isInternal () {
@@ -384,8 +388,24 @@ module.exports = (User = (function () {
     }
 
     heroes () {
-      let left
-      const heroes = ((left = this.get('purchased')?.heroes) != null ? left : []).concat([ThangTypeConstants.heroes.captain, ThangTypeConstants.heroes.knight, ThangTypeConstants.heroes.champion, ThangTypeConstants.heroes.duelist])
+      const heroes = (this.get('purchased')?.heroes || []).concat([
+        // Free CodeCombat heroes
+        ThangTypeConstants.heroes.captain,
+        ThangTypeConstants.heroes.knight,
+        ThangTypeConstants.heroes.champion,
+        ThangTypeConstants.heroes.duelist,
+        // Free CodeCombat Junior heroes
+        ThangTypeConstants.heroes['wolf-pup-hero'],
+        ThangTypeConstants.heroes['cougar-hero'],
+        ThangTypeConstants.heroes['polar-bear-cub-hero'],
+        ThangTypeConstants.heroes['frog-hero'],
+        ThangTypeConstants.heroes['turtle-hero'],
+        ThangTypeConstants.heroes['blue-fox-hero'],
+        ThangTypeConstants.heroes['panther-cub-hero'],
+        ThangTypeConstants.heroes['brown-rat-hero'],
+        ThangTypeConstants.heroes['duck-hero'],
+        ThangTypeConstants.heroes['tiger-cub-hero'],
+      ])
       if (window.serverConfig.codeNinjas) { heroes.push(ThangTypeConstants.heroes['code-ninja']) }
       for (const clanHero of utils.clanHeroes) {
         if ((this.get('clans') || []).includes(clanHero.clanId)) {
@@ -401,8 +421,9 @@ module.exports = (User = (function () {
     }
 
     levels () {
-      let left, left1
-      return ((left = this.get('earned')?.levels) != null ? left : []).concat((left1 = this.get('purchased')?.levels) != null ? left1 : []).concat(LevelConstants.levels['dungeons-of-kithgard']).concat(LevelConstants.levels['the-gem'])
+      const earned = this.get('earned')?.levels || []
+      const purchased = this.get('purchased')?.levels || []
+      return earned.concat(purchased).concat(LevelConstants.levels['dungeons-of-kithgard']).concat(LevelConstants.levels['the-gem'])
     }
 
     ownsHero (heroOriginal) {
@@ -1020,7 +1041,39 @@ module.exports = (User = (function () {
       }
 
       if (value === null) {
-        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.2
+        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
+        let valueProbability
+        const rand = Math.random()
+        if (rand < probability) {
+          value = 'beta'
+          valueProbability = probability
+        } else {
+          value = 'control'
+          valueProbability = 1 - probability
+        }
+        me.startExperiment(experimentName, value, valueProbability)
+      }
+
+      return value
+    }
+
+    getEducatorSignupExperimentValue () {
+      const experimentName = 'educator-signup-modal'
+      let value = me.getExperimentValue(experimentName, null)
+
+      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
+        // Don't include non-English-speaking users
+        value = 'control'
+      }
+
+      const oneDayAgo = new Date(new Date() - 24 * 60 * 60 * 1000)
+      if ((value == null) && (new Date(me.get('dateCreated')) < oneDayAgo)) {
+        // Don't include users created more than a day ago; they've probably seen the old homepage before without having started the experiment somehow
+        value = 'control'
+      }
+
+      if (value === null) {
+        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
         let valueProbability
         const rand = Math.random()
         if (rand < probability) {
@@ -1073,7 +1126,7 @@ module.exports = (User = (function () {
       }
       if ((value == null)) {
         let valueProbability
-        const probability = window.serverConfig?.experimentProbabilities?.m7?.beta != null ? window.serverConfig?.experimentProbabilities?.m7?.beta : 0
+        const probability = window.serverConfig?.experimentProbabilities?.m7?.beta != null ? window.serverConfig.experimentProbabilities.m7.beta : 0
         if ((me.get('testGroupNumber') / 256) < probability) {
           value = 'beta'
           valueProbability = probability
@@ -1138,7 +1191,7 @@ module.exports = (User = (function () {
       }
       if ((!value)) {
         let valueProbability
-        const probability = window.serverConfig?.experimentProbabilities?.hackstack?.beta != null ? window.serverConfig?.experimentProbabilities?.hackstack?.beta : 0.05
+        const probability = window.serverConfig?.experimentProbabilities?.hackstack?.beta != null ? window.serverConfig.experimentProbabilities.hackstack.beta : 0.05
         if (Math.random() < probability) {
           value = 'beta'
           valueProbability = probability
@@ -1148,6 +1201,51 @@ module.exports = (User = (function () {
         }
         console.log('starting hackstack experiment with value', value, 'prob', valueProbability)
         me.startExperiment('hackstack', value, valueProbability)
+      }
+      return value
+    }
+
+    getJuniorExperimentValue () {
+      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('junior')]
+      if (value == null) { value = me.getExperimentValue('junior', null, 'beta') }
+      if ((value == null) && utils.isOzaria) {
+        // Don't include Ozaria for now
+        value = 'control'
+      }
+      if (userUtils.isInLibraryNetwork()) {
+        value = 'control'
+      }
+      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
+        // Don't include non-English-speaking users before we fine-tune for other languages
+        value = 'control'
+      }
+      if ((value == null) && me.get('hourOfCode')) {
+        // Don't include users coming in through Hour of Code
+        value = 'control'
+      }
+      if ((value == null) && me.get('role')) {
+        // Don't include users other than home users
+        value = 'control'
+      }
+      if ((value == null) && (new Date(me.get('dateCreated')) < new Date('2024-05-23'))) {
+        // Don't include users created before experiment start date
+        value = 'control'
+      }
+      if (me.isAdmin()) {
+        value = 'beta'
+      }
+      if ((!value)) {
+        let valueProbability
+        const probability = window.serverConfig?.experimentProbabilities?.junior?.beta != null ? window.serverConfig.experimentProbabilities.junior.beta : 0.1
+        if (Math.random() < probability) {
+          value = 'beta'
+          valueProbability = probability
+        } else {
+          value = 'control'
+          valueProbability = 1 - probability
+        }
+        console.log('starting junior experiment with value', value, 'prob', valueProbability)
+        me.startExperiment('junior', value, valueProbability)
       }
       return value
     }
@@ -1268,7 +1366,7 @@ module.exports = (User = (function () {
 
     showChinaRegistration () { return features?.china != null ? features?.china : false }
     enableCpp () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || this.isTeacher()) }
-    enableJava () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || (this.isTeacher() && this.isBetaTester())) }
+    enableJava () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || this.isTeacher()) }
 
     getEnabledLanguages () {
       const languages = ['javascript', 'python']

@@ -138,8 +138,8 @@ module.exports = {
     }))
   },
 
-  provisionSubscription ({ userId }) {
-    return fetchJson(`/db/user/${userId}/provision-subscription`, _.assign({}, {
+  extraProvisions ({ userId }) {
+    return fetchJson(`/db/user/${userId}/extra-provisions`, _.assign({}, {
       method: 'PUT'
     }))
   },
@@ -221,5 +221,8 @@ module.exports = {
     return fetchJson(`/db/user-credits/${operation}`, _.assign({}, {
       method: 'GET'
     }))
+  },
+  getLowUsageData (userId, options) {
+    return fetchJson(`/db/users/${userId}/low-usage-data`, options)
   }
 }

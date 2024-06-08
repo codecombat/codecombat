@@ -9,32 +9,30 @@
     </div>
     <div class="content">
       <div class="title">
-        Health and Safety Precautions
+        {{ $t('codequest_page.accessibility_title') }}
       </div>
       <ul class="flexcontainer">
         <li class="text">
           <span class="text-wrapper">
-            Students will remain in secure facilities guided by our team of education advisors.
+            {{ $t('codequest_page.accessibility_text_1') }}
             <br>
           </span>
         </li>
         <li class="text">
           <span class="text-wrapper">
-            All chaperones and education advisors have completed background checks.
+            {{ $t('codequest_page.accessibility_text_2') }}
             <br>
           </span>
         </li>
         <li class="text">
           <span class="text-wrapper">
-            All facilities will be approved for safety, on-site quality control, and cleanliness.
+            {{ $t('codequest_page.accessibility_text_3') }}
             <br>
           </span>
         </li>
         <li class="text">
           <span class="text-wrapper">
-            At this time there are no travel restrictions due to Covid or another illness. If a travel restriction is
-            reinstated or if our team deems there to be a concern for the health of the participants, the experience
-            may be changed or cancelled.
+            {{ $t('codequest_page.accessibility_text_4') }}
           </span>
         </li>
       </ul>

@@ -1,5 +1,6 @@
 <template>
   <div
+    id="dashboard-toggle"
     class="dashboard-toggle"
   >
     <div
@@ -83,6 +84,10 @@ export default Vue.extend({
   },
   methods: {
     async saveValue (newValue) {
+      window.tracker.trackEvent('Dashboard Version Switched', {
+        category: 'Teachers',
+        value: newValue
+      })
       me.set('features', {
         ...me.get('features'),
         isNewDashboardActive: newValue

@@ -59,7 +59,7 @@
         for key, icon of goalIconImageMap when @goal[key]
           if key is 'saveThangs' and not (_.values(@state.killed).length > 1) and @$store.state.game.heroHealth.max
             # saveThangs with just the hero; show hearts
-            fullHearts = @$store.state.game.heroHealth.current || 0
+            fullHearts = Math.max 0, @$store.state.game.heroHealth.current || 0
             emptyHearts = (@$store.state.game.heroHealth.max || 1) - fullHearts
             result.push(icon) for i in [0 ... fullHearts]
             result.push(goalIconImageMap.saveThangsEmpty) for i in [0 ... emptyHearts]

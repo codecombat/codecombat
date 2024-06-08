@@ -20,6 +20,7 @@ const RootView = require('views/core/RootView')
 const template = require('app/templates/admin')
 const AdministerUserModal = require('views/admin/AdministerUserModal')
 const MaintenanceModal = require('views/admin/MaintenanceModal')
+const StopTrialClassesModal = require('views/admin/StopTrialClassesModal')
 const TeacherLicenseCodeModal = require('views/admin/TeacherLicenseCodeModal')
 const ModelModal = require('views/modal/ModelModal')
 const forms = require('core/forms')
@@ -85,6 +86,7 @@ module.exports = (MainAdminView = (function () {
         'click #clear-feature-mode-btn': 'onClickClearFeatureModeButton',
         'click .edit-mandate': 'onClickEditMandate',
         'click #maintenance-mode': 'onClickMaintenanceMode',
+        'click #stop-trial-classes': 'onClickStopTrialClasses',
         'click #teacher-license-code': 'onClickTeacherLicenseCode',
         'click #toggle-admin-availability': 'onClickToggleAdminAvailability'
       }
@@ -559,6 +561,10 @@ ${new User(user).isTeacher() && !utils.isOzaria ? "<button class='teacher-dashbo
 
     onClickMaintenanceMode (e) {
       if (me.isAdmin()) { return (typeof this.openModalView === 'function' ? this.openModalView(new MaintenanceModal()) : undefined) }
+    }
+
+    onClickStopTrialClasses (e) {
+      if (me.isAdmin()) { return (typeof this.openModalView === 'function' ? this.openModalView(new StopTrialClassesModal()) : undefined) }
     }
 
     onClickTeacherLicenseCode (e) {

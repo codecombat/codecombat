@@ -19,7 +19,7 @@ _.extend(ClassroomSchema.properties, {
   description: { type: 'string' },
   code: c.shortString({ title: 'Unique code to redeem' }),
   codeCamel: c.shortString({ title: 'UpperCamelCase version of code for display purposes' }),
-  aceConfig: {
+  aceConfig: c.object({}, {
     language: { type: 'string', enum: ['python', 'javascript', 'cpp', 'java'] },
     liveCompletion: { type: 'boolean', default: true },
     codeFormats: c.array({ title: 'Code Formats', description: 'Enable these code formats for students', minitems: 1, uniqueItems: true }, {
@@ -28,7 +28,7 @@ _.extend(ClassroomSchema.properties, {
     }),
     codeFormatDefault: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option for students. Default if unset: text-code.' },
     levelChat: { type: 'string', enum: ['fixed_prompt_only', 'none'] }
-  },
+  }),
   averageStudentExp: { type: 'string' },
   ageRangeMin: { type: 'string' },
   ageRangeMax: { type: 'string' },
@@ -94,6 +94,10 @@ _.extend(ClassroomSchema.properties, {
       { title: 'Student Lock Object', description: 'Key value of student id tied to the lock data.' }, {
         courseId: c.objectId(),
         levelOriginal: c.objectId(),
+        lockedScenarioLevels: c.object({
+          description: 'AI Scenario levels that can be locked or unlocked',
+          additionalProperties: ['boolean', c.stringDate()]
+        }),
         lockedLevels: c.object({
           additionalProperties: ['boolean', c.stringDate()]
         }),

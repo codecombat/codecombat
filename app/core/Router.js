@@ -119,6 +119,7 @@ module.exports = (CocoRouter = (function () {
         'admin/outcomes-report-result': go('admin/OutcomeReportResultView'),
         'admin/outcomes-report': go('admin/OutcomesReportView'),
         'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView'),
+        'admin/low-usage-users': go('core/SingletonAppVueComponentView'),
 
         announcements: go('core/SingletonAppVueComponentView'),
         'event-calendar(/*subpath)': go('core/SingletonAppVueComponentView'),
@@ -303,9 +304,7 @@ module.exports = (CocoRouter = (function () {
 
         standards: go('core/SingletonAppVueComponentView'),
 
-        'schools' () {
-          return this.routeDirectly('SchoolsView', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
-        },
+        schools: go('core/SingletonAppVueComponentView'),
 
         'league/academica': redirect('/league/autoclan-school-network-academica'), // Redirect for Academica.
         'league/kipp': redirect('/league/autoclan-school-network-kipp'), // Redirect for KIPP.
@@ -411,6 +410,7 @@ module.exports = (CocoRouter = (function () {
         privacy: go('PrivacyView'),
 
         'professional-development': go('core/SingletonAppVueComponentView'),
+
         pd: go('core/SingletonAppVueComponentView'),
         efficacy: go('core/SingletonAppVueComponentView'),
 
@@ -456,6 +456,7 @@ module.exports = (CocoRouter = (function () {
             return this.routeDirectly('core/SingletonAppVueComponentView', arguments, { redirectStudents: true, teachersOnly: true })
           }
         },
+        'teachers/hackstack-classes/:classroomID': go('core/SingletonAppVueComponentView'),
         'teachers/courses' () {
           if (utils.isCodeCombat && !me.isNewDashboardActive()) {
             return this.routeDirectly('courses/TeacherCoursesView', arguments, { redirectStudents: true })
@@ -489,6 +490,10 @@ module.exports = (CocoRouter = (function () {
         'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true }),
         'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true }),
         'teachers/professional-development': teacherProxyRoute(go('pd/PDView', { redirectStudents: true })),
+        'teachers/apcsp': teacherProxyRoute(go('apcsp/PageMarketing', { redirectStudents: true })),
+        'teachers/ai-league': teacherProxyRoute(go('ai-league/AILeagueView', { redirectStudents: true })),
+        'teachers/ai-league(/*subpath)': go('core/SingletonAppVueComponentView'),
+
         'teachers/signup' () {
           if (me.isAnonymous()) { return this.routeDirectly('teachers/CreateTeacherAccountView', []) }
           if (me.isStudent() && !me.isAdmin()) { return this.navigate('/students', { trigger: true, replace: true }) }
@@ -499,6 +504,9 @@ module.exports = (CocoRouter = (function () {
           if (me.isStudent() && !me.isAdmin()) { return this.navigate('/students', { trigger: true, replace: true }) }
           return this.routeDirectly('teachers/ConvertToTeacherAccountView', [])
         },
+
+        'trial-classes/:eventId/confirm/:token': go('core/SingletonAppVueComponentView'),
+        'trial-classes': go('core/SingletonAppVueComponentView'),
 
         'school-administrator(/*subpath)': go('core/SingletonAppVueComponentView'),
         'cinematicplaceholder/:levelSlug': go('core/SingletonAppVueComponentView'),
@@ -639,6 +647,9 @@ module.exports = (CocoRouter = (function () {
         if ((ViewClass === SingletonAppVueComponentView) && globalVar.currentView instanceof SingletonAppVueComponentView) {
           // The SingletonAppVueComponentView maintains its own Vue app with its own routing layer.  If it
           // is already routed we do not need to route again
+          // but let's remove backbone modal anyway
+          globalVar.currentView.modalClosed()
+          $('.modal-backdrop').remove()
           console.debug('Skipping route in Backbone - delegating to Vue app')
           return
         } else if (options.vueRoute) { // Routing to a vue component using VueComponentView

@@ -52,6 +52,16 @@ export default function getVueRouter () {
           ]
         },
         {
+          path: '/trial-classes',
+          component: () => import(/* webpackChunkName: "TrialClassView" */ 'app/views/online-class/TrialClassesView')
+        },
+        {
+          path: '/trial-classes/:eventId/confirm/:token',
+          name: 'TrialClassConfirm',
+          component: () => import(/* webpackChunName: 'TrialClassConfirm' */ 'app/views/online-class/TrialClassConfirm'),
+          props: (route) => ({ ...route.params })
+        },
+        {
           path: '/live-classes',
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
           props: (route) => ({ showPremium: false, type: route.query.type || 'live-classes' })
@@ -95,6 +105,10 @@ export default function getVueRouter () {
         {
           path: '/funding',
           component: () => import(/* webpackChunkName: "pd" */ 'app/views/funding/FundingView.vue')
+        },
+        {
+          path: '/schools',
+          component: () => import(/* webpackChunkName: "SchoolsView" */ 'app/views/schools/PageSchools.vue')
         },
         {
           path: '/school-administrator',
@@ -197,6 +211,16 @@ export default function getVueRouter () {
             { path: '', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseMyClasses/index.vue') },
             { path: 'classes', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseMyClasses/index.vue') },
             { path: 'classes/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseSingleClass/index.vue'), props: true },
+            {
+              path: 'hackstack-classes/:classroomId',
+              component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseSingleClass/index.vue'),
+              props: (route) => {
+                return {
+                  classroomId: route.params.classroomId,
+                  defaultCourseId: utils.courseIDs.HACKSTACK
+                }
+              }
+            },
             { path: 'projects/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseStudentProjects/index.vue'), props: true },
             { path: 'assessments/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseStudentAssessments/index.vue'), props: true },
             { path: 'ai-hackstack-junior/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseAIHackstackJunior/index.vue'), props: true },
@@ -228,8 +252,17 @@ export default function getVueRouter () {
                 }
               }
             },
-            { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDView.vue') }
+            { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDView.vue') },
+            {
+              path: 'ai-league',
+              component: () => import(/* webpackChunkName: "ai-league" */ '../views/ai-league/AILeagueView.vue'),
+              children: [
+                { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueViewTeachers" */ 'app/views/ai-league/PageLeagueTeachers') }
+              ]
+            },
+            { path: 'apcsp', component: () => import(/* webpackChunkName: "apcsp" */ '../views/apcsp/PageMarketing.vue') },
           ]
+
         },
         {
           path: '/roblox',
@@ -303,6 +336,11 @@ export default function getVueRouter () {
           props: (route) => ({ ...route.query, ...route.params })
         },
         {
+          path: '/parents/book-trial-classes',
+          name: 'TrialClassesScheduler',
+          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/online-class/SchedulerView'),
+        },
+        {
           path: '/parents/:viewName/:childId?/:product?',
           name: 'ParentDashboard',
           component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/DashboardMainView'),
@@ -323,15 +361,24 @@ export default function getVueRouter () {
           name: 'StandardsPage',
           component: () => import(/* webpackChunkName: "standardsPage" */'app/views/standards/PageStandards')
         },
+        ...(
+          me.getHomePageExperimentValue() === 'beta'
+            ? [{
+                path: '/home',
+                name: 'HomeBeta1',
+                component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+              },
+              {
+                path: '/',
+                name: 'HomeBeta2',
+                component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+              }]
+            : []
+        ),
         {
-          path: '/home',
-          name: 'HomeBeta1',
-          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
-        },
-        {
-          path: '/',
-          name: 'HomeBeta2',
-          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+          path: '/admin/low-usage-users',
+          name: 'LowUsageUsersAdmin',
+          component: () => import(/* webpackChunkName: "lowUsageUsersAdmin" */'app/views/admin/low-usage-users/MainDashboardView')
         }
       ],
       scrollBehavior (to) {

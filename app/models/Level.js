@@ -68,8 +68,8 @@ module.exports = (Level = (function () {
       o.thangTypes = []
       for (const tt of Array.from(supermodel.getModels('ThangType'))) {
         if (tmap[tt.get('original')] ||
-          ((tt.get('kind') !== 'Hero') && (tt.get('kind') != null) && tt.get('components') && !tt.notInLevel) ||
-          ((tt.get('kind') === 'Hero') && (this.isType('course', 'course-ladder', 'game-dev') || Array.from(sessionHeroes).includes(tt.get('original'))))) {
+          ((tt.get('kind') !== 'Hero' && tt.get('kind') !== 'Junior Hero') && (tt.get('kind') != null) && tt.get('components') && !tt.notInLevel) ||
+          ((tt.get('kind') === 'Hero' || tt.get('kind') === 'Junior Hero') && (this.isType('course', 'course-ladder', 'game-dev') || Array.from(sessionHeroes).includes(tt.get('original'))))) {
           o.thangTypes.push(({ original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')), kind: tt.get('kind') }))
         }
       }
@@ -240,12 +240,29 @@ module.exports = (Level = (function () {
       } else {
         if (/Hero Placeholder/.test(levelThang.id) && this.usesSessionHeroThangType() && !this.usesSessionHeroInventory() && !this.headless && !this.isEditorPreview) {
           // Grab the hero from my config, not the session hero config (so that switching heroes globally applies to existing sessions), when we are using configured heroes but not their inventory.
-          heroThangType = session.get('heroConfig')?.thangType || me.get('heroConfig')?.thangType || ThangTypeConstants.heroes.captain
+          heroThangType = session.get('heroConfig')?.thangType || me.get('heroConfig')?.thangType
+          if (!heroThangType && this.isType('course')) {
+            heroThangType = ThangTypeConstants.heroes.captain
+          }
+          if (!heroThangType) {
+            heroThangType = ThangTypeConstants.heroes.knight
+          }
           // For assessments, use default hero in class if classroomItems is on
           if (this.isAssessment() && me.showHeroAndInventoryModalsToStudents()) {
             heroThangType = ThangTypeConstants.heroes.captain
           }
           if (heroThangType) {
+            let juniorHeroReplacement
+            if (this.get('product', true) === 'codecombat-junior') {
+              // If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
+              juniorHeroReplacement = ThangTypeConstants.juniorHeroReplacements[_.invert(ThangTypeConstants.heroes)[heroThangType]]
+            } else {
+              // If we got into a codecombat level with a codecombat-junior hero, pick an equivalent codecombat hero to use instead
+              juniorHeroReplacement = _.invert(ThangTypeConstants.juniorHeroReplacements)[_.invert(ThangTypeConstants.heroes)[heroThangType]]
+            }
+            if (juniorHeroReplacement) {
+              heroThangType = ThangTypeConstants.heroes[juniorHeroReplacement]
+            }
             levelThang.thangType = heroThangType
           }
         }
@@ -514,7 +531,7 @@ module.exports = (Level = (function () {
       return true
     }
 
-    isAssessment () { return (this.get('assessment') != null) }
+    isAssessment () { return Boolean(this.get('assessment')) }
 
     isCapstone () { return this.get('ozariaType') === 'capstone' }
 

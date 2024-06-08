@@ -236,16 +236,50 @@ export default {
       const clonedClass = JSON.parse(JSON.stringify(classroom))
 
       let numberStudentsChanged = 0
+      const skippedModifications = []
+
+      await dispatch('levels/fetchForClassroom', clonedClass._id, { root: true })
+      const courseInstances = rootGetters['courseInstances/getCourseInstancesOfClass'](clonedClass._id)
+      const selectedCourseId = rootGetters['teacherDashboard/getSelectedCourseIdCurrentClassroom']
+      const courseInstance = courseInstances.find(ci => ci.courseID === selectedCourseId)
+      const levelRecords = rootGetters['levels/getLevelsForClassroom'](clonedClass._id)
+      const levelRecordsById = levelRecords.reduce((acc, level) => {
+        acc[level.original] = level
+        return acc
+      }, {})
+
+      if (!courseInstance) {
+        noty({
+          text: $.i18n.t('teacher_dashboard.assign_content_first'),
+          layout: 'center',
+          type: 'error',
+          killer: true,
+          timeout: 5000
+        })
+        return
+      }
+
+      const courseInstancesToClearLegacyLocks = []
 
       for (const modifier of modifiers) {
         for (const { _id } of students) {
           // let's filter out the levels that are already has the same modifier
           const levelsToHandle = levels.filter((level) => {
-            if (modifierValue) {
-              return !ClassroomLib.isModifierActiveForStudent(clonedClass, _id, currentCourseId, level, modifier, date)
-            } else {
-              return ClassroomLib.isModifierActiveForStudent(clonedClass, _id, currentCourseId, level, modifier, date)
+            if (modifier === 'locked' && modifierValue === false) {
+              const levelRecord = levelRecordsById[level]
+              // for some reason we don't always have the level among the levelRecords.
+              // since this logic is only for the legacy lock, we can safely ignore it.
+              if (levelRecord && courseInstance?.startLockedLevel === levelRecord.slug) {
+                courseInstancesToClearLegacyLocks.push(courseInstance)
+              }
             }
+
+            const isModifierActive = ClassroomLib.isModifierActiveForStudent(clonedClass, _id, currentCourseId, level, modifier, date)
+            const shouldBeHandled = modifierValue ? !isModifierActive : isModifierActive
+            if (!shouldBeHandled) {
+              skippedModifications.push({ studentId: _id, level, modifier, modifierValue })
+            }
+            return shouldBeHandled
           })
 
           if (
@@ -258,15 +292,110 @@ export default {
         }
       }
 
-      if (numberStudentsChanged === 0) {
+      if (numberStudentsChanged === 0 && courseInstancesToClearLegacyLocks.length === 0) {
+        const skippedUnlocks = skippedModifications.filter(({ modifierValue, modifier }) => modifierValue === false && modifier === 'locked')
         noty({
-          text: 'Levels already modified for these students',
+          text: skippedUnlocks.length > 0 ? $.i18n.t('teacher_dashboard.no_modifiers_changed_unlocks_skipped') : $.i18n.t('teacher_dashboard.no_modifiers_changed'),
           layout: 'center',
           type: 'information',
           killer: true,
           timeout: 5000
         })
         return
+      }
+
+      if (courseInstancesToClearLegacyLocks.length > 0) {
+        await Promise.all(courseInstancesToClearLegacyLocks.map((courseInstance) => {
+          return dispatch('courseInstances/updateCourseInstance', {
+            courseInstance,
+            updates: {
+              startLockedLevel: 'none'
+            }
+          }, { root: true })
+        }))
+      }
+
+      onSuccess?.()
+      dispatch('classrooms/updateClassroom', {
+        classroom,
+        updates: {
+          studentLockMap: clonedClass.studentLockMap
+        }
+      },
+      { root: true })
+    },
+
+    async updateScenarioAccessStatusForSelectedStudents ({ rootGetters, getters, dispatch }, {
+      classroom,
+      currentCourseId,
+      onSuccess,
+      modifiers = [],
+      modifierValue = true, // true, false or Date
+      levels = [],
+      date
+    }) {
+      const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id))
+      if (students.length === 0) {
+        noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
+        window.tracker?.trackEvent('Failure to lock', { category: 'Teachers' })
+        return
+      }
+
+      if (!currentCourseId) {
+        throw new Error('You cannot lock an undefined course.')
+      }
+
+      // Cloning the classroom so we aren't mutating a vue store object.
+      const clonedClass = JSON.parse(JSON.stringify(classroom))
+
+      let numberStudentsChanged = 0
+      const skippedModifications = []
+
+      const courseInstancesToClearLegacyLocks = []
+
+      for (const modifier of modifiers) {
+        for (const { _id } of students) {
+          // let's filter out the levels that are already has the same modifier
+          const levelsToHandle = levels.filter((level) => {
+            const isModifierActive = ClassroomLib.isModifierActiveForStudent(clonedClass, _id, currentCourseId, level, modifier, date)
+            const shouldBeHandled = modifierValue ? !isModifierActive : isModifierActive
+            if (!shouldBeHandled) {
+              skippedModifications.push({ studentId: _id, level, modifier, modifierValue })
+            }
+            return shouldBeHandled
+          })
+
+          if (
+            levelsToHandle.length > 0 ||
+            ((!levels || levels.length === 0) && !ClassroomLib.isStudentOnLockedCourse(clonedClass, _id, currentCourseId))
+          ) {
+            numberStudentsChanged += 1
+            ClassroomLib.setModifierForStudent({ classroom: clonedClass, studentId: _id, courseId: currentCourseId, levels: levelsToHandle, date, modifier, value: modifierValue })
+          }
+        }
+      }
+
+      if (numberStudentsChanged === 0 && courseInstancesToClearLegacyLocks.length === 0) {
+        const skippedUnlocks = skippedModifications.filter(({ modifierValue, modifier }) => modifierValue === false && modifier === 'lockedScenario')
+        noty({
+          text: skippedUnlocks.length > 0 ? $.i18n.t('teacher_dashboard.no_modifiers_changed_unlocks_skipped') : $.i18n.t('teacher_dashboard.no_modifiers_changed'),
+          layout: 'center',
+          type: 'information',
+          killer: true,
+          timeout: 5000
+        })
+        return
+      }
+
+      if (courseInstancesToClearLegacyLocks.length > 0) {
+        await Promise.all(courseInstancesToClearLegacyLocks.map((courseInstance) => {
+          return dispatch('courseInstances/updateCourseInstance', {
+            courseInstance,
+            updates: {
+              startLockedLevel: 'none'
+            }
+          }, { root: true })
+        }))
       }
 
       onSuccess?.()
@@ -295,7 +424,7 @@ export default {
           layout: 'center'
         })
       }
-      if (window.confirm(`Do you want to reset progress of ${students.length} users in ${selectedCourse.name}?`)) {
+      if (window.confirm(`Warning: student progress for ${selectedCourse.name} will be deleted and cannot be recovered. Are you sure?`)) {
         noty({
           text: 'Deleting progress',
           timeout: 200,

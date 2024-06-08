@@ -1,10 +1,10 @@
 <template>
   <div>
     <p class="heading">
-      <span class="text-wrapper">The paced schedule will fill the days with a mixture of </span>
-      <span class="span">learning</span>
-      <span class="text-wrapper"> and </span>
-      <span class="span">fun</span><span class="text-wrapper-2">.</span>
+      <span class="text-wrapper">{{ $t('codequest_page.frame_heading_1') }}</span>
+      <span class="span">{{ $t('codequest_page.frame_heading_2') }}</span>
+      <span class="text-wrapper">{{ $t('codequest_page.frame_heading_3') }}</span>
+      <span class="span">{{ $t('codequest_page.frame_heading_4') }}</span>.
     </p>
   </div>
 </template>
@@ -18,7 +18,6 @@ export default {
 <style scoped>
 
 .heading {
-  color: transparent;
   font-family: "Plus Jakarta Sans-Medium", Helvetica;
   font-size: 36px;
   font-weight: 500;

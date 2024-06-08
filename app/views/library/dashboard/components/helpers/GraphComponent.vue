@@ -182,7 +182,7 @@ export default {
       const arr = []
       for (const ageRange in this.stats.ageStats) {
         const val = this.stats.ageStats[ageRange]
-        if (val > 0) arr.push({ name: ageRange, count: val })
+        if (val > 0) arr.push({ name: `${ageRange} -> ${val} users`, count: val })
       }
       return arr
     }

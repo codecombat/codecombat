@@ -95,7 +95,7 @@ module.exports = (CoursesView = (function () {
       this.utils = utils
       this.classCodeQueryVar = utils.getQueryVariable('_cc', false)
       this.courseInstances = new CocoCollection([], { url: `/db/user/${me.id}/course-instances`, model: CourseInstance })
-      this.courseInstances.comparator = ci => parseInt(ci.get('classroomID'), 16) + utils.orderedCourseIDs.indexOf(ci.get('courseID'))
+      this.courseInstances.comparator = ci => parseInt(ci.get('classroomID').substr(0, 8), 16) + utils.orderedCourseIDs.indexOf(ci.get('courseID'))
       this.listenToOnce(this.courseInstances, 'sync', this.onCourseInstancesLoaded)
       this.supermodel.loadCollection(this.courseInstances, { cache: false })
       this.classrooms = new CocoCollection([], { url: '/db/classroom', model: Classroom })
@@ -129,8 +129,10 @@ module.exports = (CoursesView = (function () {
 
         if (me.get('role') === 'student') {
           const tournaments = new CocoCollection([], { url: `/db/tournaments?memberId=${me.id}`, model: Tournament })
+          this.reversedTournaments = []
           this.listenToOnce(tournaments, 'sync', () => {
             this.tournaments = (Array.from(tournaments.models).map((t) => t.toJSON()))
+            this.reversedTournaments = this.tournaments.slice().reverse()
             this.tournamentsByState = _.groupBy(this.tournaments, 'state')
             return this.renderSelectors('.student-profile-area')
           })
@@ -522,7 +524,14 @@ module.exports = (CoursesView = (function () {
       if (window.tracker != null) {
         window.tracker.trackEvent('Students Change Hero Started', { category: 'Students' })
       }
-      const modal = new HeroSelectModal({ currentHeroID: this.hero.id })
+      let hasOnlyJuniorCourses = true
+      for (const courseInstance of this.courseInstances.models) {
+        if (courseInstance.get('courseID') !== utils.courseIDs.JUNIOR) {
+          hasOnlyJuniorCourses = false
+          break
+        }
+      }
+      const modal = new HeroSelectModal({ currentHeroID: this.hero.id, product: hasOnlyJuniorCourses ? 'codecombat-junior' : null })
       this.openModalView(modal)
       this.listenTo(modal, 'hero-select:success', newHero => {
         // @hero.url = "/db/thang.type/#{me.get('heroConfig').thangType}/version"

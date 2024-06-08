@@ -20,6 +20,10 @@ export default {
   },
 
   methods: {
+    i18n (body, key) {
+      return utils.i18n(body, key)
+    },
+
     onChange (event) {
       this.$emit('change-course', event.target.value)
     }
@@ -37,7 +41,7 @@ export default {
         :value="course._id"
         :selected="course._id == selectedCourseId"
       >
-        {{ course.name }}
+        {{ i18n(course, 'name') }}
       </option>
     </select>
   </div>

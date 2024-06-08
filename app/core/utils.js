@@ -12,7 +12,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 
-let campaignIDs, compare, courseIDs, courseModules, courseModuleLevels, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
+let campaignIDs, compare, courseIDs, courseModules, courseModuleInfo, courseModuleLevels, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
 const product = ((left = typeof COCO_PRODUCT !== 'undefined' && COCO_PRODUCT !== null ? COCO_PRODUCT : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.COCO_PRODUCT))) != null ? left : 'codecombat'
 const shaTag = ((left = typeof SHA_TAG !== 'undefined' && SHA_TAG !== null ? SHA_TAG : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.SHA_TAG))) != null ? left : 'unknown'
 const isCodeCombat = product === 'codecombat'
@@ -225,6 +225,7 @@ if (isCodeCombat) {
   campaignIDs = {
     JUNIOR: '65c56663d2ca2055e65676af',
     INTRO: '55b29efd1cd6abe8ce07db0d',
+    HACKSTACK: '663b25881c568468efc7b51c'
   }
 
   freeCampaignIds = [campaignIDs.JUNIOR, campaignIDs.INTRO] // Junior, CS1 campaign
@@ -232,6 +233,7 @@ if (isCodeCombat) {
 
   courseIDs = {
     JUNIOR: '65f32b6c87c07dbeb5ba1936',
+    HACKSTACK: '663b25f11c568468efc8adde',
     INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
     GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
     WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
@@ -243,6 +245,86 @@ if (isCodeCombat) {
     COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d',
     COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447',
     COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
+  }
+
+  courseModuleInfo = {
+    [courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]: {
+      1: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1wApGYfq9gM3C9G3_zkkyWDijiEYyEcgX?usp=sharing'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1asYzKfqDHWLK2ibxWPgRKkq8_VEN667c?usp=sharing'
+        }
+      }
+    },
+    [courseIDs.GAME_DEVELOPMENT_1]: {},
+    [courseIDs.WEB_DEVELOPMENT_1]: {},
+    [courseIDs.COMPUTER_SCIENCE_2]: {
+      1: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1y8yTPgOg-_S8v_J5zbXpbQQ9hP4rZHXE?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1hzrex4_AMpredS748hlEv_zSjwHaN210?usp=drive_link'
+        }
+      },
+      2: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1WNz-vxVxsy7MpbYMf-Reo1P-jOQ6vW94?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1AomycHLH5axRIguXKEdi2rMk95URbHWG?usp=drive_link'
+        }
+      },
+      3: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1r2nWGfTyHZrUvFeNyfnbN_A06ZYn2CRk?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1ihBZmQp74wfg92bapWV0PuYH296TmkyZ?usp=sharing'
+        }
+      },
+      4: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1CuXgk0i_z7lZ0W5gEkU3L2how-ZlYaeM?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1L80QV9Wv6J3IQx_lnQpB51Gfzb4VB05w?usp=drive_link'
+        }
+      },
+      5: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1SRzgEcIbOX7jozBL-oDhfoLVWU1oEu1Y?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1whhA6ehkZcJweoAH0c27SK4yR8OMLv3j?usp=drive_link'
+        }
+      },
+      6: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1cdO9C1k9N5x6BdbohVaAzncuzBSItv7z?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1mWy01Zz-6_G6jBEYYaxr1zkvq660McHp?usp=drive_link'
+        }
+      },
+      7: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1HAxoKk6oNQwPm0OolRvf_vWISBrb_LSd?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/16HAarJNeM2EpFOfRS95BoOE-GQjendHB?usp=drive_link'
+        }
+      },
+    },
+    [courseIDs.GAME_DEVELOPMENT_2]: {},
+    [courseIDs.WEB_DEVELOPMENT_2]: {},
+    [courseIDs.COMPUTER_SCIENCE_3]: {},
+    [courseIDs.GAME_DEVELOPMENT_3]: {},
+    [courseIDs.COMPUTER_SCIENCE_4]: {},
+    [courseIDs.COMPUTER_SCIENCE_5]: {},
+    [courseIDs.COMPUTER_SCIENCE_6]: {}
   }
 
 
@@ -306,8 +388,9 @@ if (isCodeCombat) {
     4: 'The `spin()` Function',
     5: 'The `zap()` Function',
     6: 'For Loops',
-    7: 'If Statements',
-    // 8: 'Variables'
+    7: 'Loop Combinations',
+    8: 'If Statements'
+    // 9: 'Variables'
   }
 
   // TODO: move all the level/module data to database
@@ -315,46 +398,100 @@ if (isCodeCombat) {
   courseModuleLevels[courseIDs.JUNIOR] = {
     1: [
       'The Gem',
+      'Go Go Go',
       'Two Gems',
+      'Elbow',
+      'Shiny',
       'Gem Square',
+      'The X',
       'X Marks the Spot',
       'Gems First',
+      'Walk It Off',
     ],
     2: [
+      'Go Smart',
       'Steps',
+      'Hiker',
       'Long Hall',
+      'Step Change',
+      'Go Around',
       'Big Gem Square',
+      'Turns',
       'Snake Maze',
       'One Block',
     ],
     3: [
       'Knock Knock',
       'Open and Shut',
-      'Open Up',
       'Doors',
+      'Open Up',
+      'Airlock',
+      'No Keys',
       'Bad Guys',
       'Hall Monitor',
+      'Clean Up',
+      'Just a Scratch',
+      'Brave',
+      'Wise',
+      'Careful',
+      'Heart Up',
+      'Tough',
       'One at a Time',
       'Choose Your Battles',
     ],
     4: [
       'Spin to Win',
+      'Whirlwind',
+      'Twister',
+      'Vortex',
       'Busy Intersection',
       'Badder Guy',
       'Two Big',
+      'Tornado',
+      'Cyclone',
       'Hit and Spin',
+      'Hurricane',
     ],
     5: [
-      'Zap It',
       'Zap Gap',
+      'Easy Pickings',
+      'Advantage',
+      'Hit Me Up',
+      'Zap It',
+      'Target Practice',
+      'TNT',
       'Kaboom',
+      'Back Up',
+      'Monster',
+      'Lure It',
+      'It\'s a Trap',
+      'Friends',
+      'Careful Aim',
+      'Chain Reaction',
+      'Zap Master',
     ],
     6: [
       'Loopy',
+      'More Times',
+      'Right Up',
+      'Square Wave',
+      'Grabber',
+      'Smasher',
       'Spin Eternally',
-      'Gem Weave',
+      'Down the Line',
+      'Tall Wave',
+      'Clearing the Way',
+      'Restraint',
+      'Fern',
+      'Scratch Loop',
+      'Regular Path',
+      'Detonations',
+      'Showdown',
     ],
     7: [
+      'Gem Weave',
+    ],
+    8: [
       'Zap Smart',
     ],
   }
@@ -372,7 +509,7 @@ if (isCodeCombat) {
   courseModuleLevels[courseIDs.COMPUTER_SCIENCE_2] = {
     1: [
       'Defense of Plainswood',
-      'Winding Trail',
+      'Course: Winding Trail',
       'One Wrong Step',
       'Forest Evasion',
       'Gem Berries',
@@ -546,10 +683,9 @@ if (isCodeCombat) {
     2: 'Properties',
     3: 'Return',
     4: 'Comparisons',
-    5: 'Compound Comparisons',
-    6: 'Movement',
-    7: 'Properties Revisted',
-    8: 'Break and Continue'
+    5: 'Movement',
+    6: 'Properties Revisted',
+    7: 'Break and Continue'
   }
 
   courseModuleLevels[courseIDs.COMPUTER_SCIENCE_3] = {
@@ -593,8 +729,6 @@ if (isCodeCombat) {
       'Wild Alliance',
       'Gems or Death',
       'Burls Beets Booleans',
-    ],
-    5: [
       'Salted Earth',
       'Star Shower',
       'Forest Shadow',
@@ -609,7 +743,7 @@ if (isCodeCombat) {
       'Logical Conclusion',
       'Nonandor',
     ],
-    6: [
+    5: [
       'The Mighty Sand Yak',
       'Oasis',
       'Sarven Road',
@@ -621,7 +755,7 @@ if (isCodeCombat) {
       'Friendly Minefield',
       'Kithgard Enchanter',
     ],
-    7: [
+    6: [
       'Minesweeper',
       'Operation \'Killdeer\'',
       'Medical Attention',
@@ -630,13 +764,13 @@ if (isCodeCombat) {
       'Keeping Time',
       'Crux of the Desert',
     ],
-    8: [
+    7: [
       'Hoarding Gold',
       'Decoy Drill',
       'Greed Protection',
       'Continuous Alchemy',
-      'Master of Camouflage',
-      'Escape of the Spring',
+      'Master Of Camouflage',
+      'Escape to the Spring',
       'Fast and Furry-ous',
       'Sand Mushrooms',
       'Mushroom Noise',
@@ -984,6 +1118,7 @@ courseAcronyms[allCourseIDs.CHAPTER_ONE] = 'CH1'
 courseAcronyms[allCourseIDs.CHAPTER_TWO] = 'CH2'
 courseAcronyms[allCourseIDs.CHAPTER_THREE] = 'CH3'
 courseAcronyms[allCourseIDs.CHAPTER_FOUR] = 'CH4'
+courseAcronyms[allCourseIDs.HACKSTACK] = 'HS'
 
 const registerHocProgressModalCheck = function () {
   let hocProgressModalCheck
@@ -994,7 +1129,7 @@ const registerHocProgressModalCheck = function () {
       return clearInterval(hocProgressModalCheck)
     }
   }
-  , 60000) // every 1 min
+    , 60000) // every 1 min
 }
 
 const petThangIDs = [
@@ -1401,14 +1536,14 @@ const capitalLanguages = {
   html: 'HTML'
 }
 
-const createLevelNumberMap = function (levels) {
+const createLevelNumberMap = function (levels, courseID) {
   const levelNumberMap = {}
   let practiceLevelTotalCount = 0
   let practiceLevelCurrentCount = 0
   for (let i = 0; i < levels.length; i++) {
     const level = levels[i]
     let levelNumber = (i - practiceLevelTotalCount) + 1
-    if (level.practice) {
+    if (isCodeCombat && level.practice) {
       levelNumber = (i - practiceLevelTotalCount) + String.fromCharCode('a'.charCodeAt(0) + practiceLevelCurrentCount)
       practiceLevelTotalCount++
       practiceLevelCurrentCount++
@@ -1423,7 +1558,15 @@ const createLevelNumberMap = function (levels) {
     } else {
       practiceLevelCurrentCount = 0
     }
-    levelNumberMap[level.key] = levelNumber
+    if (level.key) {
+      levelNumberMap[level.key] = levelNumber
+    } else {
+      levelNumberMap[level.key] = ''
+    }
+
+    if (courseID) {
+      levelNumberMap[courseID + ':' + level.key] = levelNumberMap[level.key]
+    }
   }
   return levelNumberMap
 }
@@ -1822,7 +1965,7 @@ var currentSeason = function () {
 }
 
 const ageToBracket = function (age) {
-// Convert years to an age bracket
+  // Convert years to an age bracket
   if (!age) { return 'open' }
   for (const bracket of Array.from(ageBrackets)) {
     if (age <= bracket.max) {
@@ -1897,10 +2040,9 @@ const arenas = [
   { season: 8, slug: 'farmscape', type: 'championship', start: new Date('2023-07-01T00:00:00.000-07:00'), end: new Date('2023-09-01T00:00:00.000-07:00'), results: new Date('2023-09-14T07:00:00.000-07:00'), levelOriginal: '649ab0387be08b00fdf31e8a', tournament: '64c836c5d95277dfd69f9af1', image: '/file/db/level/649ab0387be08b00fdf31e8a/AILeague-Banner-Farmer\'s-Feud-03.jpg' },
   { season: 9, slug: 'storm-siege', type: 'regular', start: new Date('2023-09-01T00:00:00.000-07:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '64c792d1562b9a008d3e2e1a', tournament: '658cfc449ac7fb700b08d815', image: '/file/db/level/64c792d1562b9a008d3e2e1a/StormSiegeBannerv3.png' },
   { season: 9, slug: 'snowhold', type: 'championship', start: new Date('2023-12-01T00:00:00.000-08:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '654a306ba0c557007a807ead', tournament: '658cfc869ac7fb700b08d82c', image: '/file/db/level/654a306ba0c557007a807ead/SnowholdClashBannerv2.png' },
-  { season: 10, slug: 'fierce-forces', type: 'regular', start: new Date('2024-01-01T00:00:00.000-08:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-10T07:00:00.000-07:00'), levelOriginal: '6576ff2b1457f600193d2cc9', image: '/file/db/level/6576ff2b1457f600193d2cc9/FierceForcesBannerNew.png' },
-  { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-10T07:00:00.000-07:00'), levelOriginal: '', image: '' },
-  { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
-  { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 10, slug: 'fierce-forces', type: 'regular', start: new Date('2024-01-01T00:00:00.000-08:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '6576ff2b1457f600193d2cc9', tournament: '6631155d27d051fef8412658', image: '/file/db/level/6576ff2b1457f600193d2cc9/FierceForcesBannerNew.png' },
+  { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '65f2618f757a82bcc90b7c9e', tournament: '66311610236b3e1e9dcfd9f3', image: '/file/db/level/65f2618f757a82bcc90b7c9e/AntiGravityBanner.png' },
+  { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '661f6cf6525db0fb41870360', tournament: '66311a29856d99556fa14326', image: '/file/db/level/661f6cf6525db0fb41870360/SolarSkirmishBanner.png' },  { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
 ]
@@ -1916,7 +2058,7 @@ const AILeagueSeasons = [
   { number: 7, championshipType: 'cup', image: '/images/pages/league/equinox-cup.png', video: '4832912db10162e24cb2eb86df6c36d7', videoThumbnailTime: '1021s' },
   { number: 8, championshipType: 'blitz', image: '/images/pages/league/farmscape-blitz.png', video: 'eae72056cd1e54f77ec35612c2d0c4b5', videoThumbnailTime: '2681s' },
   { number: 9, championshipType: 'clash', image: '/images/pages/league/snowhold-clash.png', video: '5ee0896f86d690840104adaaa7ec96b6', videoThumbnailTime: '1730s' },
-  { number: 10, championshipType: 'cup', image: '/images/pages/league/anti-gravity-cup.png', video: '', videoThumbnailTime: '' },
+  { number: 10, championshipType: 'cup', image: '/images/pages/league/anti-gravity-cup.png', video: '72d0ffc93599cf8cb5b0f7fed7861d0f', videoThumbnailTime: '188s' },
   { number: 11, championshipType: 'blitz', image: '/images/pages/league/sunfire-blitz.png', video: '', videoThumbnailTime: '' },
   { number: 12, championshipType: 'clash', image: '/images/pages/league/supercharged-clash.png', video: '', videoThumbnailTime: '' },
 ]
@@ -1994,33 +2136,85 @@ const freeAccessLevels = [
   { access: 'short', slug: '1fhm1l1l8b' },
   // Test set of free CoCo Jr levels
   { access: 'short', slug: 'the-gem' },
+  { access: 'short', slug: 'go-go-go' },
   { access: 'short', slug: 'two-gems' },
+  { access: 'short', slug: 'elbow' },
+  { access: 'short', slug: 'shiny' },
   { access: 'short', slug: 'gem-square' },
+  { access: 'short', slug: 'the-x' },
   { access: 'short', slug: 'x-marks-the-spot' },
   { access: 'short', slug: 'gems-first' },
+  { access: 'short', slug: 'walk-it-off' },
+  { access: 'short', slug: 'go-smart' },
   { access: 'short', slug: 'steps' },
+  { access: 'short', slug: 'hiker' },
   { access: 'short', slug: 'long-hall' },
+  { access: 'short', slug: 'step-change' },
+  { access: 'short', slug: 'go-around' },
   { access: 'short', slug: 'big-gem-square' },
+  { access: 'short', slug: 'turns' },
   { access: 'short', slug: 'snake-maze' },
   { access: 'short', slug: 'one-block' },
   { access: 'short', slug: 'knock-knock' },
   { access: 'short', slug: 'open-and-shut' },
-  { access: 'short', slug: 'open-up' },
   { access: 'short', slug: 'doors' },
+  { access: 'short', slug: 'open-up' },
+  { access: 'short', slug: 'airlock' },
+  { access: 'short', slug: 'no-keys' },
   { access: 'short', slug: 'bad-guys' },
   { access: 'short', slug: 'hall-monitor' },
+  { access: 'short', slug: 'clean-up' },
+  { access: 'short', slug: 'just-a-scratch' },
+  { access: 'short', slug: 'brave' },
+  { access: 'short', slug: 'wise' },
+  { access: 'short', slug: 'careful' },
+  { access: 'short', slug: 'heart-up' },
+  { access: 'short', slug: 'tough' },
   { access: 'short', slug: 'one-at-a-time' },
   { access: 'short', slug: 'choose-your-battles' },
   { access: 'short', slug: 'spin-to-win' },
+  { access: 'short', slug: 'whirlwind' },
+  { access: 'short', slug: 'twister' },
+  { access: 'short', slug: 'vortex' },
   { access: 'short', slug: 'busy-intersection' },
   { access: 'short', slug: 'badder-guy' },
   { access: 'short', slug: 'two-big' },
+  { access: 'short', slug: 'tornado' },
+  { access: 'short', slug: 'cyclone' },
   { access: 'short', slug: 'hit-and-spin' },
-  { access: 'short', slug: 'zap-it' },
+  { access: 'short', slug: 'hurricane' },
   { access: 'short', slug: 'zap-gap' },
+  { access: 'short', slug: 'easy-pickings' },
+  { access: 'short', slug: 'advantage' },
+  { access: 'short', slug: 'hit-me-up' },
+  { access: 'short', slug: 'zap-it' },
+  { access: 'short', slug: 'target-practice' },
+  { access: 'short', slug: 'tnt' },
   { access: 'short', slug: 'kaboom' },
+  { access: 'short', slug: 'back-up' },
+  { access: 'short', slug: 'monster' },
+  { access: 'short', slug: 'lure-it' },
+  { access: 'short', slug: 'its-a-trap' },
+  { access: 'short', slug: 'friends' },
+  { access: 'short', slug: 'careful-aim' },
+  { access: 'short', slug: 'chain-reaction' },
+  { access: 'short', slug: 'zap-master' },
   { access: 'short', slug: 'loopy' },
+  { access: 'short', slug: 'more-times' },
+  { access: 'short', slug: 'right-up' },
+  { access: 'short', slug: 'square-wave' },
+  { access: 'short', slug: 'grabber' },
+  { access: 'short', slug: 'smasher' },
   { access: 'short', slug: 'spin-eternally' },
+  { access: 'short', slug: 'down-the-line' },
+  { access: 'short', slug: 'tall-wave' },
+  { access: 'short', slug: 'clearing-the-way' },
+  { access: 'short', slug: 'restraint' },
+  { access: 'short', slug: 'fern' },
+  { access: 'short', slug: 'scratch-loop' },
+  { access: 'short', slug: 'regular-path' },
+  { access: 'short', slug: 'detonations' },
+  { access: 'short', slug: 'showdown' },
   { access: 'short', slug: 'gem-weave' },
   { access: 'short', slug: 'zap-smart' },
 ]
@@ -2028,6 +2222,7 @@ const freeAccessLevels = [
 const orgKindString = function (kind, org = null) {
   if ((kind === 'administrative-region') && ((org != null ? org.country : undefined) === 'US') && /^en/.test(me.get('preferredLanguage'))) { return 'State' }
   const key = {
+    country: 'outcomes.country',
     'administrative-region': 'teachers_quote.state',
     'school-district': 'teachers_quote.district_label',
     'school-admin': 'outcomes.school_admin',
@@ -2149,7 +2344,7 @@ const getProductUrl = function (product, url) {
   return url
 }
 
-const allowedLanguages= ({
+const allowedLanguages = ({
   [OZARIA]: ['javascript', 'python'],
   [CODECOMBAT]: ['javascript', 'python', 'java', 'cpp']
 })[product]
@@ -2162,7 +2357,24 @@ const getModuleNumberForLevelName = function (courseId, levelName) {
   return moduleNumberByLevelName[levelName] && Number(moduleNumberByLevelName[levelName])
 }
 
+module.exports.aiToolToImage = {
+  'gpt-4-turbo-preview': '/images/ai/ChatGPT.svg',
+  'stable-diffusion-xl': '/images/ai/Stable_Diffusion.png',
+  'dall-e-3': '/images/ai/DALL-E.webp',
+  'claude-3': '/images/ai/claude.webp'
+}
+
+const getUserTimeZone = function (user) {
+  const geo = user.get('geo')
+  if (geo?.timeZone) {
+    return geo.timeZone
+  } else {
+    return moment.tz.guess()
+  }
+}
+
 module.exports = {
+  ...module.exports,
   activeAndPastArenas,
   activeArenas,
   addIntroLevelContent,
@@ -2191,6 +2403,7 @@ module.exports = {
   allCourseIDs,
   allFreeCourseIDs,
   courseModules,
+  courseModuleInfo,
   courseModuleLevels,
   courseNumericalStatus,
   coursesWithProjects,
@@ -2224,6 +2437,7 @@ module.exports = {
   getAnonymizationStatus,
   getCorrectName,
   grayscale,
+  getUserTimeZone,
   hexToHSL,
   hourOfCodeOptions,
   hslToHex,

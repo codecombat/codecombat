@@ -6,6 +6,9 @@ module.exports = {
   aiJuniorProjects: require('./ai-junior-projects'),
   apcsp: require('./apcsp'),
   analyticsLogEvents: require('./analytics-log-events'),
+  aiScenarios: require('./ai_scenarios'),
+  aiModels: require('./ai_models'),
+  aiProjects: require('./ai_projects'),
   campaigns: require('./campaigns'),
   chats: require('./chat_message'),
   clas: require('./clas'),
@@ -30,5 +33,6 @@ module.exports = {
   oauth: require('./o-auth'),
   outcomesReports: require('./outcomes-reports'),
   archivedElements: require('./archived-elements'),
-  backgroundJob: require('./background-job')
+  backgroundJob: require('./background-job'),
+  lowUsageUsers: require('./low-usage-users')
 };

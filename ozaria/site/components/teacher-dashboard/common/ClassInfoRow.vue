@@ -154,5 +154,6 @@ export default {
 
     margin: 0 5px;
     @include font-p-4-paragraph-smallest-gray;
+    white-space: nowrap;
   }
 </style>

@@ -104,15 +104,15 @@ function generateProperty (property, fn) {
 //   return `Autolevel ${parameters.terrain} ${parameters.kind} ${parameters.difficulty}`
 // })
 
-// description: {title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown', inEditor: true},
-generateProperty('description', function (level, parameters) {
-  return `${parameters.terrain} ${parameters.kind} level with difficulty ${parameters.difficulty} / 5`
-})
+// // description: {title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown', inEditor: true},
+// generateProperty('description', function (level, parameters) {
+//   return `${parameters.terrain} ${parameters.kind} level with difficulty ${parameters.difficulty} / 5`
+// })
 
-// loadingTip: { type: 'string', title: 'Loading Tip', description: 'What to show for this level while it\'s loading.', inEditor: 'codecombat' },
-generateProperty('loadingTip', function (level, parameters) {
-  return `This is a ${parameters.terrain} ${parameters.kind} level with difficulty ${parameters.difficulty} / 5`
-})
+// // loadingTip: { type: 'string', title: 'Loading Tip', description: 'What to show for this level while it\'s loading.', inEditor: 'codecombat' },
+// generateProperty('loadingTip', function (level, parameters) {
+//   return `This is a ${parameters.terrain} ${parameters.kind} level with difficulty ${parameters.difficulty} / 5`
+// })
 
 // goals: c.array({title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.', inEditor: true}, GoalSchema),
 generateProperty('goals', function (level, parameters) {
@@ -405,10 +405,10 @@ generateProperty('i18n', function (level, parameters) {
   return {}
 })
 
-// banner: {type: 'string', format: 'image-file', title: 'Banner', inEditor: 'codecombat'},
-generateProperty('banner', function (level, parameters) {
-  return undefined
-})
+// // banner: {type: 'string', format: 'image-file', title: 'Banner', inEditor: 'codecombat'},
+// generateProperty('banner', function (level, parameters) {
+//   return undefined
+// })
 
 // type: c.shortString({title: 'Type', description: 'What type of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'intro'], inEditor: true}),
 generateProperty('type', function (level, parameters) {
@@ -435,35 +435,35 @@ generateProperty('tasks', function (level, parameters) {
   return []
 })
 
-// practice: { type: 'boolean', inEditor: 'codecombat' },
-generateProperty('practice', function (level, parameters) {
-  return false
-})
+// // practice: { type: 'boolean', inEditor: 'codecombat' },
+// generateProperty('practice', function (level, parameters) {
+//   return false
+// })
 
-// assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended', 'cumulative'], description: 'Set to true if this is an assessment level.', inEditor: true }, // ozaria has a few, needed?
-generateProperty('assessment', function (level, parameters) {
-  return false
-})
+// // assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended', 'cumulative'], description: 'Set to true if this is an assessment level.', inEditor: true }, // ozaria has a few, needed?
+// generateProperty('assessment', function (level, parameters) {
+//   return false
+// })
 
-// adventurer: { type: 'boolean', inEditor: 'codecombat' },
-generateProperty('adventurer', function (level, parameters) {
-  return false
-})
+// // adventurer: { type: 'boolean', inEditor: 'codecombat' },
+// generateProperty('adventurer', function (level, parameters) {
+//   return false
+// })
 
-// adminOnly: { type: 'boolean', inEditor: 'codecombat' },
-generateProperty('adminOnly', function (level, parameters) {
-  return false
-})
+// // adminOnly: { type: 'boolean', inEditor: 'codecombat' },
+// generateProperty('adminOnly', function (level, parameters) {
+//   return false
+// })
 
 // releasePhase: { enum: ['beta', 'internalRelease', 'released'], title: 'Release status', description: "Release status of the level, determining who sees it.", default: 'internalRelease', inEditor: true },
 generateProperty('releasePhase', function (level, parameters) {
   return 'released'
 })
 
-// disableSpaces: { type: ['boolean','integer'], inEditor: 'codecombat' },
-generateProperty('disableSpaces', function (level, parameters) {
-  return false
-})
+// // disableSpaces: { type: ['boolean','integer'], inEditor: 'codecombat' },
+// generateProperty('disableSpaces', function (level, parameters) {
+//   return false
+// })
 
 // hidesSubmitUntilRun: { type: 'boolean', inEditor: 'codecombat' },
 generateProperty('hidesSubmitUntilRun', function (level, parameters) {
@@ -505,15 +505,15 @@ generateProperty('backspaceThrottle', function (level, parameters) {
   return true
 })
 
-// lockDefaultCode: { type: ['boolean','integer'], inEditor: 'codecombat' },
-generateProperty('lockDefaultCode', function (level, parameters) {
-  return false
-})
+// // lockDefaultCode: { type: ['boolean','integer'], inEditor: 'codecombat' },
+// generateProperty('lockDefaultCode', function (level, parameters) {
+//   return false
+// })
 
-// moveRightLoopSnippet: { type: 'boolean', inEditor: 'codecombat' },
-generateProperty('moveRightLoopSnippet', function (level, parameters) {
-  return false
-})
+// // moveRightLoopSnippet: { type: 'boolean', inEditor: 'codecombat' },
+// generateProperty('moveRightLoopSnippet', function (level, parameters) {
+//   return false
+// })
 
 // realTimeSpeedFactor: { type: 'number', inEditor: 'codecombat' },
 generateProperty('realTimeSpeedFactor', function (level, parameters) {
@@ -525,50 +525,50 @@ generateProperty('autocompleteFontSizePx', function (level, parameters) {
   return 20
 })
 
-// requiredCode: c.array({ inEditor: true }, {
-generateProperty('requiredCode', function (level, parameters) {
-  return []
-})
+// // requiredCode: c.array({ inEditor: true }, {
+// generateProperty('requiredCode', function (level, parameters) {
+//   return []
+// })
 
-// suspectCode: c.array({ inEditor: true }, {
-generateProperty('suspectCode', function (level, parameters) {
-  return []
-})
+// // suspectCode: c.array({ inEditor: true }, {
+// generateProperty('suspectCode', function (level, parameters) {
+//   return []
+// })
 
-// autocompleteReplacement: c.array({ inEditor: true }, {
-generateProperty('autocompleteReplacement', function (level, parameters) {
-  return []
-})
+// // autocompleteReplacement: c.array({ inEditor: true }, {
+// generateProperty('autocompleteReplacement', function (level, parameters) {
+//   return []
+// })
 
-// requiredGear: { type: 'object', title: 'Required Gear', description: 'Slots that should require one of a set array of items for that slot', inEditor: 'codecombat', additionalProperties: {
-generateProperty('requiredGear', function (level, parameters) {
-  return {}
-})
+// // requiredGear: { type: 'object', title: 'Required Gear', description: 'Slots that should require one of a set array of items for that slot', inEditor: 'codecombat', additionalProperties: {
+// generateProperty('requiredGear', function (level, parameters) {
+//   return {}
+// })
 
-// restrictedGear: { type: 'object', title: 'Restricted Gear', description: 'Slots that should restrict all of a set array of items for that slot', inEditor: 'codecombat', additionalProperties: {
-generateProperty('restrictedGear', function (level, parameters) {
-  return {}
-})
+// // restrictedGear: { type: 'object', title: 'Restricted Gear', description: 'Slots that should restrict all of a set array of items for that slot', inEditor: 'codecombat', additionalProperties: {
+// generateProperty('restrictedGear', function (level, parameters) {
+//   return {}
+// })
 
-// requiredProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must have equipped to play.', format: 'solution-gear', title: 'Required Properties', inEditor: 'codecombat' },
-generateProperty('requiredProperties', function (level, parameters) {
-  return []
-})
+// // requiredProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must have equipped to play.', format: 'solution-gear', title: 'Required Properties', inEditor: 'codecombat' },
+// generateProperty('requiredProperties', function (level, parameters) {
+//   return []
+// })
 
-// restrictedProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must not have equipped to play.', title: 'Restricted Properties', inEditor: 'codecombat' },
-generateProperty('restrictedProperties', function (level, parameters) {
-  return []
-})
+// // restrictedProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must not have equipped to play.', title: 'Restricted Properties', inEditor: 'codecombat' },
+// generateProperty('restrictedProperties', function (level, parameters) {
+//   return []
+// })
 
-// clampedProperties: { type: 'object', title: 'Clamped Properties', description: 'Other non-health properties that should be clamped to a range of values (attackDamage, maxSpeed, etc.). Only applies for classroom players with classroom items enabled.', inEditor: 'codecombat', additionalProperties: {
-generateProperty('clampedProperties', function (level, parameters) {
-  return {}
-})
+// // clampedProperties: { type: 'object', title: 'Clamped Properties', description: 'Other non-health properties that should be clamped to a range of values (attackDamage, maxSpeed, etc.). Only applies for classroom players with classroom items enabled.', inEditor: 'codecombat', additionalProperties: {
+// generateProperty('clampedProperties', function (level, parameters) {
+//   return {}
+// })
 
-// allowedHeroes: { type: 'array', title: 'Allowed Heroes', description: 'Which heroes can play this level. For any hero, leave unset.', inEditor: 'codecombat', items: {
-generateProperty('allowedHeroes', function (level, parameters) {
-  return undefined
-})
+// // allowedHeroes: { type: 'array', title: 'Allowed Heroes', description: 'Which heroes can play this level. For any hero, leave unset.', inEditor: 'codecombat', items: {
+// generateProperty('allowedHeroes', function (level, parameters) {
+//   return undefined
+// })
 
 // scoreTypes: c.array({title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).'}, {inEditor: 'codecombat'}, {
 generateProperty('scoreTypes', function (level, parameters) {

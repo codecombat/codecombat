@@ -20,6 +20,10 @@ module.exports = (ChangeLanguageView = (function () {
       this.prototype.id = 'change-language-view'
       this.prototype.className = 'tab-pane'
       this.prototype.template = require('templates/play/menu/change-language-view')
+
+      this.prototype.events = {
+        'click .confirm': 'onConfirm'
+      }
     }
 
     constructor (options) {
@@ -33,7 +37,7 @@ module.exports = (ChangeLanguageView = (function () {
       this.insertSubView(this.changeLanguageTab = new ChangeLanguageTab(this.options))
     }
 
-    onHidden () {
+    onConfirm () {
       this.codeLanguage = this.changeLanguageTab.codeLanguage
       this.codeFormat = this.changeLanguageTab.codeFormat
       let changed

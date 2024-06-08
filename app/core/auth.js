@@ -29,14 +29,7 @@ const init = function () {
   }
 
   // set country and geo fields for returning users if not set during account creation (/server/models/User - makeNew)
-  if (!me.get('country')) {
-    api.users.setCountryGeo()
-      .then(function (res) {
-        me.set(res)
-        return setTestGroupNumberUS()
-      }).catch(e => console.error('Error in setting country and geo:', e))
-  }
-  if (!__guard__(me.get('geo'), x => x.timeZone)) {
+  if (!me.get('country') || !me.get('geo')?.timeZone) {
     api.users.setCountryGeo()
       .then(function (res) {
         me.set(res)
@@ -100,7 +93,3 @@ const setTestGroupNumberUS = function () {
 }
 
 init()
-
-function __guard__ (value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
-}

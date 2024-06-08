@@ -9,6 +9,7 @@
     :controls="false"
     :play-when-visible="true"
     :title="title"
+    :thumbnail-url-time="thumbnailUrlTime"
     @loaded="onVideoLoaded"
   />
 </template>
@@ -30,6 +31,10 @@ export default {
       type: String,
       default: 'Your descriptive text here',
       required: false
+    },
+    thumbnailUrlTime: {
+      type: Number,
+      default: null
     }
   },
   methods: {

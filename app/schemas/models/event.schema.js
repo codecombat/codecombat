@@ -12,7 +12,7 @@ const EventSchema = schema.object(
     name: { type: 'string', description: 'event Title' },
     description: { type: 'string', format: 'markdown' },
     owner: schema.objectId({ description: 'owner of event, i.e. teacher for online-classes' }),
-    type: { enum: ['online-classes'], type: 'string' },
+    type: { enum: ['online-classes', 'trial-classes'], type: 'string' },
     members: schema.array({
       description: 'members in event, i.e. students for online-classes'
     }, schema.object({ required: ['userId'] }, {
@@ -35,6 +35,11 @@ const EventSchema = schema.object(
     meetingLink: {
       type: 'string',
       description: 'meeting link of the event, i.e. zoom link'
+    },
+    state: { type: 'string', description: 'state of the event', enum: ['pending', 'active', 'cancelled'] },
+    properties: {
+      type: 'object',
+      additionalProperties: true,
     }
   }
 )

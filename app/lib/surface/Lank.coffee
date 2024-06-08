@@ -366,7 +366,7 @@ module.exports = Lank = class Lank extends CocoClass
     else
       newScaleFactorX = @thang?.scaleFactorX ? @thang?.scaleFactor ? 1
       newScaleFactorY = @thang?.scaleFactorY ? @thang?.scaleFactor ? 1
-      if @layer?.name is 'Land' or @thang?.isLand or @thang?.spriteName is 'Beam' or @isCinematicLank or @thang?.quickScale
+      if @layer?.name is 'Land' or @thang?.isLand or @thang?.spriteName is 'Beam' or @isCinematicLank or @thang?.quickScale or force
         @scaleFactorX = newScaleFactorX
         @scaleFactorY = newScaleFactorY
       else if @thang and (newScaleFactorX isnt @targetScaleFactorX or newScaleFactorY isnt @targetScaleFactorY)
@@ -490,6 +490,55 @@ module.exports = Lank = class Lank extends CocoClass
         keys = _.keys relatedActions
         index = Math.max 0, Math.floor((179 + rotation) / 360 * keys.length)
         #console.log 'Showing', relatedActions[keys[index]]
+        return relatedActions[keys[index]]
+    else if relatedActions['111111111']  # has beach-tile-grid-like actions; 0 and 1 are flipped compared to other walls
+      if @wallGrid
+        @hadWallGrid = true
+        action = ''
+        tileSize = 8
+        [gx, gy] = [@thang.pos.x, @thang.pos.y]
+        for y in [gy + tileSize, gy, gy - tileSize]
+          for x in [gx - tileSize, gx, gx + tileSize]
+            if x >= 0 and y >= 0 and x < @wallGrid.width and y < @wallGrid.height
+              wallThangs = @wallGrid.contents x, y
+            else
+              wallThangs = ['outside of the map yo']
+            if wallThangs.length is 0
+              if y is gy and x is gx
+                action += '1'  # the center wall we're placing
+              else
+                action += '0'
+            else if wallThangs.length is 1
+              action += '1'
+            else
+              console.error 'Overlapping walls at', x, y, '...', wallThangs
+              action += '1'
+        # If we have a 0 on an edge, propagate that to the touching corners, because the fringes of land will go around those corners
+        if action[1] is '0'  # N edge -> N corners
+          action = _.string.splice(action, 0, 1, '0')
+          action = _.string.splice(action, 2, 1, '0')
+        if action[3] is '0'  # W edge -> W corners
+          action = _.string.splice(action, 0, 1, '0')
+          action = _.string.splice(action, 6, 1, '0')
+        if action[5] is '0'  # E edge -> E corners
+          action = _.string.splice(action, 2, 1, '0')
+          action = _.string.splice(action, 8, 1, '0')
+        if action[7] is '0'  # S edge -> S corners
+          action = _.string.splice(action, 6, 1, '0')
+          action = _.string.splice(action, 8, 1, '0')
+        matchedAction = '111111111'
+        for relatedAction of relatedActions
+          if action.match(relatedAction.replace(/\?/g, '.'))
+            matchedAction = relatedAction
+            break
+        # console.log 'returning', matchedAction, 'for', @thang.id, 'at', gx, gy, 'while going for', action
+        return relatedActions[matchedAction]
+      else if @hadWallGrid
+        return null
+      else
+        keys = _.keys relatedActions
+        index = Math.max 0, Math.floor((179 + rotation) / 360 * keys.length)
+        # console.log 'Showing', relatedActions[keys[index]]
         return relatedActions[keys[index]]
     value = Math.abs(rotation)
     direction = null

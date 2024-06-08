@@ -1,7 +1,7 @@
 <template>
   <div class="testimonials">
     <p class="heading">
-      This rare opportunity brings together students from around the globe. Here’s the student experience at a glance.
+      {{ $t('codequest_page.testimonials_heading') }}
     </p>
     <div class="menu-content">
       <div class="list-item">
@@ -11,7 +11,7 @@
           src="/images/pages/codequest/testimonals/vector.svg"
         >
         <div class="text">
-          Engaging Hackathons
+          {{ $t('codequest_page.engaging_hackathongs') }}
         </div>
       </div>
       <div class="list-item">
@@ -21,7 +21,7 @@
           src="/images/pages/codequest/testimonals/image.svg"
         >
         <div class="text">
-          Insightful Speakers
+          {{ $t('codequest_page.insightful_speakers') }}
         </div>
       </div>
       <div class="list-item">
@@ -31,7 +31,7 @@
           src="/images/pages/codequest/testimonals/layer-1.svg"
         >
         <div class="text">
-          University Campus Visits
+          {{ $t('codequest_page.university_visits') }}
         </div>
       </div>
       <div class="list-item">
@@ -41,7 +41,7 @@
           src="/images/pages/codequest/testimonals/layer-1-2.svg"
         >
         <div class="text">
-          Silicon Valley Experience
+          {{ $t('codequest_page.silicon_valley_experience') }}
         </div>
       </div>
     </div>

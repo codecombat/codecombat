@@ -119,7 +119,7 @@ export default Vue.extend({
 
 <template>
   <modal
-    title="Teacher Account Details"
+    :title="$t('teachers_quote.teacher_account_details')"
     :backbone-dismiss-modal="true"
     @close="onClose"
   >

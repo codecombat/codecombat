@@ -4,6 +4,7 @@
       class="vector"
       alt="Vector"
       :src="imgSrc"
+      loading="lazy"
     >
     <div class="content">
       <div class="text-wrapper">

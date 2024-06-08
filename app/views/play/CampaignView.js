@@ -37,7 +37,8 @@ const PollModal = require('views/play/modal/PollModal')
 const AnnouncementModal = require('views/play/modal/AnnouncementModal')
 const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
-const MineModal = require('views/core/MineModal') // Roblox modal
+const RobloxModal = require('views/core/MineModal') // Roblox modal
+const JuniorModal = require('views/core/JuniorModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
 const Course = require('models/Course')
@@ -84,6 +85,11 @@ class CampaignsCollection extends CocoCollection {
   }
 }
 CampaignsCollection.initClass()
+
+const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
+const PROMPTED_FOR_SIGNUP = 'prompted-for-signup'
+const PROMPTED_FOR_SUBSCRIPTION = 'prompted-for-subscription'
+const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
 
 module.exports = (CampaignView = (function () {
   CampaignView = class CampaignView extends RootView {
@@ -170,6 +176,7 @@ module.exports = (CampaignView = (function () {
       this.levelPlayCountMap = {}
       this.levelDifficultyMap = {}
       this.levelScoreMap = {}
+      this.courseLevelsLoaded = false
 
       if (this.terrain === 'hoc-2018') {
         $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
@@ -317,61 +324,11 @@ module.exports = (CampaignView = (function () {
                 data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n' }
               })
               )
-              return this.listenToOnce(this.courseLevels, 'sync', () => {
-                let idx, k, v
-                const existing = this.campaign.get('levels')
-                const courseLevels = this.courseLevels.toArray()
-                const classroomCourse = _.find(globalVar.currentView.classroom.get('courses'), { _id: globalVar.currentView.course.id })
-                const levelPositions = {}
-                for (const level of Array.from(classroomCourse.levels)) {
-                  if (level.position) { levelPositions[level.original] = level.position }
-                }
-                for (k in courseLevels) {
-                  v = courseLevels[k]
-                  idx = v.get('original')
-                  if (!existing[idx]) {
-                    // a level which has been removed from the campaign but is saved in the course
-                    this.courseLevelsFake[idx] = v.toJSON()
-                  } else {
-                    this.courseLevelsFake[idx] = existing[idx]
-                    // carry over positions stored in course, if there are any
-                    if (levelPositions[idx]) {
-                      this.courseLevelsFake[idx].position = levelPositions[idx]
-                    }
-                  }
-                  this.courseLevelsFake[idx].courseIdx = parseInt(k)
-                  this.courseLevelsFake[idx].requiresSubscription = false
-                }
-                // Fill in missing positions, for courses which have levels that no longer exist in campaigns
-                for (k in courseLevels) {
-                  v = courseLevels[k]
-                  k = parseInt(k)
-                  idx = v.get('original')
-                  if (!this.courseLevelsFake[idx].position) {
-                    var nextPosition, prevPosition
-                    const prevLevel = courseLevels[k - 1]
-                    const nextLevel = courseLevels[k + 1]
-                    if (prevLevel && nextLevel) {
-                      const prevIdx = prevLevel.get('original')
-                      const nextIdx = nextLevel.get('original')
-                      prevPosition = this.courseLevelsFake[prevIdx].position
-                      nextPosition = this.courseLevelsFake[nextIdx].position
-                    }
-                    if (prevPosition && nextPosition) {
-                      // split the diff between the previous, next levels
-                      this.courseLevelsFake[idx].position = {
-                        x: (prevPosition.x + nextPosition.x) / 2,
-                        y: (prevPosition.y + nextPosition.y) / 2
-                      }
-                    } else {
-                      // otherwise just line them up along the bottom
-                      const x = 10 + ((k / courseLevels.length) * 80)
-                      this.courseLevelsFake[idx].position = { x, y: 10 }
-                    }
-                  }
-                }
-                return this.render()
+              this.listenToOnce(this.courseLevels, 'sync', () => {
+                this.courseLevelsLoaded = true
+                return this.updateCourseLevels()
               })
+              this.listenToOnce(this.campaign, 'sync', () => this.updateCourseLevels())
             })
           }
         })
@@ -402,7 +359,7 @@ module.exports = (CampaignView = (function () {
               onDestroy: () => {
                 if (this.destroyed) { return }
                 delayMusicStart()
-                return this.highlightElement('.level.next', { delay: 500, duration: 60000, rotation: 0, sides: ['top'] })
+                this.highlightNextLevel()
               }
             })
             )
@@ -433,19 +390,19 @@ module.exports = (CampaignView = (function () {
       clearTimeout(this.playMusicTimeout)
       clearInterval(this.portalScrollInterval)
       Backbone.Mediator.unsubscribe('audio-player:loaded', this.playAmbientSound, this)
-      return super.destroy()
+      super.destroy()
     }
 
     showLoading ($el) {
       if (!this.campaign) {
         this.$el.find('.game-controls, .user-status').addClass('hidden')
-        return this.$el.find('.portal .campaign-name span').text($.i18n.t('common.loading'))
+        this.$el.find('.portal .campaign-name span').text($.i18n.t('common.loading'))
       }
     }
 
     hideLoading () {
       if (!this.campaign) {
-        return this.$el.find('.game-controls, .user-status').removeClass('hidden')
+        this.$el.find('.game-controls, .user-status').removeClass('hidden')
       }
     }
 
@@ -453,90 +410,87 @@ module.exports = (CampaignView = (function () {
       if (e) {
         window.tracker?.trackEvent('Click Promotion Modal Button')
       }
-      return this.openModalView(new PromotionModal())
+      this.openModalView(new PromotionModal())
+    }
+
+    openJuniorPromotionModal (e) {
+      window.tracker?.trackEvent('Junior Explored')
+      this.openModalView(new JuniorModal())
     }
 
     openPlayItemsModal (e) {
       e.stopPropagation()
-      return this.openModalView(new PlayItemsModal())
+      this.openModalView(new PlayItemsModal())
     }
 
     openPlayHeroesModal (e) {
       e.stopPropagation()
-      return this.openModalView(new PlayHeroesModal())
+      this.openModalView(new PlayHeroesModal({ campaign: this.campaign }))
     }
 
     openPlayAchievementsModal (e) {
       e.stopPropagation()
-      return this.openModalView(new PlayAchievementsModal())
+      this.openModalView(new PlayAchievementsModal())
     }
 
     openBuyGemsModal (e) {
       e.stopPropagation()
-      return this.openModalView(new BuyGemsModal())
+      this.openModalView(new BuyGemsModal())
     }
 
     openContactModal (e) {
       e.stopPropagation()
-      return this.openModalView(new ContactModal())
+      this.openModalView(new ContactModal())
     }
 
     openCreateAccountModal (e) {
-      e.stopPropagation()
-      return this.openModalView(new CreateAccountModal())
+      e?.stopPropagation?.()
+      this.openModalView(new CreateAccountModal())
     }
 
     openAnonymousTeacherModal (e) {
       e.stopPropagation()
       this.openModalView(new AnonymousTeacherModal())
-      return this.endHighlight()
+      this.endHighlight()
     }
 
     onClickAmazonCampaign (e) {
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Click Amazon Modal Button')
-      }
-      return this.openModalView(new AmazonHocModal({ hideCongratulation: true }))
+      window.tracker?.trackEvent('Click Amazon Modal Button')
+      this.openModalView(new AmazonHocModal({ hideCongratulation: true }))
     }
 
-    onClickAnonClassroomClose () { return __guard__(this.$el.find('#anonymous-classroom-signup-dialog'), x => x.hide()) }
+    onClickAnonClassroomClose () {
+      this.$el.find('#anonymous-classroom-signup-dialog').hide()
+      storage.save('hid-anonymous-classroom-signup-dialog', true)
+    }
 
     onClickAnonClassroomJoin () {
       const classCode = __guard__(this.$el.find('#anon-classroom-signup-code'), x => x.val())
       if (_.isEmpty(classCode)) { return }
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Anonymous Classroom Signup Modal Join Class', { category: 'Signup' }, classCode)
-      }
-      return application.router.navigate(`/students?_cc=${classCode}`, { trigger: true })
+      window.tracker?.trackEvent('Anonymous Classroom Signup Modal Join Class', { category: 'Signup' }, classCode)
+      application.router.navigate(`/students?_cc=${classCode}`, { trigger: true })
     }
 
     onClickAnonClassroomSignup () {
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Anonymous Classroom Signup Modal Create Teacher', { category: 'Signup' })
-      }
-      return this.openModalView(new CreateAccountModal({ startOnPath: 'teacher' }))
+      window.tracker?.trackEvent('Anonymous Classroom Signup Modal Create Teacher', { category: 'Signup' })
+      this.openModalView(new CreateAccountModal({ startOnPath: 'teacher' }))
     }
 
     onClickVideosButton () {
-      return this.openModalView(new CourseVideosModal({ courseInstanceID: this.courseInstanceID, courseID: this.course.get('_id') }))
+      this.openModalView(new CourseVideosModal({ courseInstanceID: this.courseInstanceID, courseID: this.course.get('_id') }))
     }
 
     onClickEsportsButton (e) {
-      if (this.$levelInfo != null) {
-        this.$levelInfo.hide()
-      }
+      this.$levelInfo?.hide()
       const arenaSlug = $(e.target).data('arena')
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Click LevelInfo AI League Button', { category: 'World Map', label: arenaSlug })
-      }
+      window.tracker?.trackEvent('Click LevelInfo AI League Button', { category: 'World Map', label: arenaSlug })
       this.$levelInfo = this.$el.find(`.level-info-container.league-arena-tooltip[data-arena='${arenaSlug}']`).show()
-      console.log(this.$levelInfo, 'click it', arenaSlug)
-      return this.adjustLevelInfoPosition(e)
+      this.adjustLevelInfoPosition(e)
     }
 
     onClickEsportsLink (e) {
       const arenaSlug = $(e.target).data('arena')
-      return (window.tracker != null ? window.tracker.trackEvent('Click Play AI League Button', { category: 'World Map', label: arenaSlug }) : undefined)
+      window.tracker?.trackEvent('Click Play AI League Button', { category: 'World Map', label: arenaSlug })
     }
 
     onLoaded () {
@@ -589,7 +543,66 @@ module.exports = (CampaignView = (function () {
       }
 
       // Roblox Modal:
-      return this.maybeShowRobloxModal()
+      this.maybeShowRobloxModal()
+    }
+
+    updateCourseLevels () {
+      if (!this.campaign.loaded || !this.courseLevelsLoaded) {
+        return false
+      }
+      let idx, k, v
+      const existing = this.campaign.get('levels')
+      const courseLevels = this.courseLevels.toArray()
+      const classroomCourse = _.find(globalVar.currentView.classroom.get('courses'), { _id: globalVar.currentView.course.id })
+      const levelPositions = {}
+      for (const level of Array.from(classroomCourse.levels)) {
+        if (level.position) { levelPositions[level.original] = level.position }
+      }
+      for (k in courseLevels) {
+        v = courseLevels[k]
+        idx = v.get('original')
+        if (!existing[idx]) {
+          // a level which has been removed from the campaign but is saved in the course
+          this.courseLevelsFake[idx] = v.toJSON()
+        } else {
+          this.courseLevelsFake[idx] = existing[idx]
+          // carry over positions stored in course, if there are any
+          if (levelPositions[idx]) {
+            this.courseLevelsFake[idx].position = levelPositions[idx]
+          }
+        }
+        this.courseLevelsFake[idx].courseIdx = parseInt(k)
+        this.courseLevelsFake[idx].requiresSubscription = false
+      }
+      // Fill in missing positions, for courses which have levels that no longer exist in campaigns
+      for (k in courseLevels) {
+        v = courseLevels[k]
+        k = parseInt(k)
+        idx = v.get('original')
+        if (!this.courseLevelsFake[idx].position) {
+          let nextPosition, prevPosition
+          const prevLevel = courseLevels[k - 1]
+          const nextLevel = courseLevels[k + 1]
+          if (prevLevel && nextLevel) {
+            const prevIdx = prevLevel.get('original')
+            const nextIdx = nextLevel.get('original')
+            prevPosition = this.courseLevelsFake[prevIdx].position
+            nextPosition = this.courseLevelsFake[nextIdx].position
+          }
+          if (prevPosition && nextPosition) {
+            // split the diff between the previous, next levels
+            this.courseLevelsFake[idx].position = {
+              x: (prevPosition.x + nextPosition.x) / 2,
+              y: (prevPosition.y + nextPosition.y) / 2
+            }
+          } else {
+            // otherwise just line them up along the bottom
+            const x = 10 + ((k / courseLevels.length) * 80)
+            this.courseLevelsFake[idx].position = { x, y: 10 }
+          }
+        }
+      }
+      return this.render()
     }
 
     updateClassroomSessions () {
@@ -651,15 +664,17 @@ module.exports = (CampaignView = (function () {
 
     maybeShowRobloxModal () {
       if (this.userQualifiesForRobloxModal()) {
-        return $('.roblox-level').show()
+        $('.roblox-level').show()
       }
     }
 
     onRobloxLevelClick (e) {
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Mine Explored', { engageAction: 'campaign_level_click' })
-      }
-      return this.openModalView(new MineModal())
+      window.tracker?.trackEvent('Mine Explored', { engageAction: 'campaign_level_click' })
+    }
+
+    showRobloxModal () {
+      storage.save(ROBLOX_MODAL_SHOWN)
+      this.openModalView(new RobloxModal())
     }
 
     onHackStackLevelClick (e) {
@@ -670,12 +685,12 @@ module.exports = (CampaignView = (function () {
 
     setCampaign (campaign) {
       this.campaign = campaign
-      return this.render()
+      this.render()
     }
 
     onSubscribed () {
       this.requiresSubscription = false
-      return this.render()
+      this.render()
     }
 
     getRenderData (context) {
@@ -741,12 +756,11 @@ module.exports = (CampaignView = (function () {
       if (this.campaigns) {
         let campaign, levels
         context.campaigns = {}
-        for (campaign of Array.from(this.campaigns.models)) {
+        for (campaign of this.campaigns.models) {
           if (campaign.get('slug') !== 'auditions') {
             context.campaigns[campaign.get('slug')] = campaign
-            if (this.sessions != null ? this.sessions.loaded : undefined) {
-              var left1
-              levels = _.values($.extend(true, {}, (left1 = campaign.get('levels')) != null ? left1 : {}))
+            if (this.sessions?.loaded) {
+              levels = _.values($.extend(true, {}, campaign.get('levels') || {}))
               if ((me.level() < 12) && (campaign.get('slug') === 'dungeon') && !this.editorMode) {
                 levels = _.reject(levels, { slug: 'signs-and-portents' })
               }
@@ -766,16 +780,22 @@ module.exports = (CampaignView = (function () {
             }
           }
         }
-        for (campaign of Array.from(this.campaigns.models)) {
-          var left2
-          const object = (left2 = campaign.get('adjacentCampaigns')) != null ? left2 : {}
-          for (const acID in object) {
-            const ac = object[acID]
+        for (campaign of this.campaigns.models) {
+          for (const [acID, ac] of Object.entries(campaign.get('adjacentCampaigns') || {})) {
             if (_.isString(ac.showIfUnlocked)) {
-              var needle
-              if ((needle = ac.showIfUnlocked, Array.from(me.levels()).includes(needle))) { __guard__(_.find(this.campaigns.models, { id: acID }), x => x.locked = false) }
+              if (me.levels().includes(ac.showIfUnlocked)) {
+                const campaign = _.find(this.campaigns.models, { id: acID })
+                if (campaign) {
+                  campaign.locked = false
+                }
+              }
             } else if (_.isArray(ac.showIfUnlocked)) {
-              if (_.intersection(ac.showIfUnlocked, me.levels()).length > 0) { __guard__(_.find(this.campaigns.models, { id: acID }), x1 => x1.locked = false) }
+              if (_.intersection(ac.showIfUnlocked, me.levels()).length > 0) {
+                const campaign = _.find(this.campaigns.models, { id: acID })
+                if (campaign) {
+                  campaign.locked = false
+                }
+              }
             }
           }
         }
@@ -823,7 +843,7 @@ module.exports = (CampaignView = (function () {
       this.updateVolume()
       this.updateHero()
       if (!window.currentModal && !!this.fullyRendered) {
-        this.highlightElement('.level.next', { delay: 500, duration: 60000, rotation: 0, sides: ['top'] })
+        this.highlightNextLevel()
         if (this.editorMode) { this.createLines() }
         if (this.options.showLeaderboard) {
           this.showLeaderboard(this.options.justBeatLevel != null ? this.options.justBeatLevel.get('slug') : undefined)
@@ -836,6 +856,8 @@ module.exports = (CampaignView = (function () {
             this.$el.find('button.promotion-menu-icon').addClass('highlighted').tooltip('show')
             storage.save('pointed-out-promotion', timesPointedOutPromotion + 1)
           }
+        } else if (this.shouldShow('junior-promotion')) {
+          this.openJuniorPromotionModal()
         }
       }
       return this.applyCampaignStyles()
@@ -913,12 +935,32 @@ module.exports = (CampaignView = (function () {
         const campaignSlug = window.location.pathname.split('/')[2]
         return this.promptForSubscription(campaignSlug, 'premium campaign visited')
       }
+
+      if (
+        (
+          (!me.get('email') && storage.load(PROMPTED_FOR_SIGNUP)) || // already prompted for signup, but not signed up
+          (!me.isPremium() && storage.load(PROMPTED_FOR_SUBSCRIPTION))) // already prompted for subscription, but not subscribed
+      ) {
+        if (!storage.load(ROBLOX_MODAL_SHOWN)) {
+          this.showRobloxModal()
+        } else {
+          this.showAiLeagueModal()
+        }
+      }
+    }
+
+    showAiLeagueModal () {
+      if (!storage.load(AI_LEAGUE_MODAL_SHOWN)) {
+        this.openModalView(new AILeaguePromotionModal(), true)
+        storage.save(AI_LEAGUE_MODAL_SHOWN, true)
+      }
     }
 
     promptForSignup () {
       if (this.terrain && Array.from(this.terrain).includes('hoc')) { return }
       if (features.noAuth || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc')) { return }
       this.endHighlight()
+      storage.save(PROMPTED_FOR_SIGNUP, true)
       return this.openModalView(new CreateAccountModal({ supermodel: this.supermodel }))
     }
 
@@ -932,10 +974,15 @@ module.exports = (CampaignView = (function () {
         this.handleParentAccountPremiumPurchase({ trackProperties })
         return
       }
+
+      if (!me.get('email')) {
+        this.promptForSignup()
+        return
+      }
+      storage.save(PROMPTED_FOR_SUBSCRIPTION, true)
       this.openModalView(new SubscribeModal())
       // TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
       window.tracker?.trackEvent('Show subscription modal', trackProperties)
-      this.openModalView(new AILeaguePromotionModal(), true)
     }
 
     isPremiumCampaign (slug) {
@@ -947,7 +994,6 @@ module.exports = (CampaignView = (function () {
 
     paywallReached () {
       storage.save('paywall-reached', true)
-      return this.maybeShowRobloxModal()
     }
 
     annotateLevels (orderedLevels) {
@@ -1345,13 +1391,17 @@ ${problem.category} - ${problem.score} points\
       return levelElement.toggleClass('has-loading-error', true)
     }
 
+    highlightNextLevel () {
+      this.highlightElement('.level.next', { delay: 500, duration: 60000, rotation: 0, sides: ['top'] })
+    }
+
     onClickMap (e) {
       if (this.$levelInfo != null) {
         this.$levelInfo.hide()
       }
       if ((this.sessions != null ? this.sessions.models.length : undefined) < 3) {
         // Restore the next level higlight for very new players who might otherwise get lost.
-        return this.highlightElement('.level.next', { delay: 500, duration: 60000, rotation: 0, sides: ['top'] })
+        this.highlightNextLevel()
       }
     }
 
@@ -1455,7 +1505,7 @@ ${problem.category} - ${problem.score} points\
       const classroomLevel = this.classroomLevelMap ? this.classroomLevelMap[levelOriginal] : undefined
       const session = this.preloadedSession?.loaded && this.preloadedSession.levelSlug === levelSlug ? this.preloadedSession : null
       const codeLanguage = classroomLevel?.get('primerLanguage') || this.classroom?.get('aceConfig')?.language || session?.get('codeLanguage')
-      const options = { supermodel: this.supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: this.hadEverChosenHero, parent: this, session, courseID, courseInstanceID, codeLanguage }
+      const options = { supermodel: this.supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), campaign: this.campaign, hadEverChosenHero: this.hadEverChosenHero, parent: this, session, courseID, courseInstanceID, codeLanguage }
       this.setupManager = new LevelSetupManager(options)
       if (!(this.setupManager != null ? this.setupManager.navigatingToPlay : undefined)) {
         if (this.$levelInfo != null) {
@@ -1520,7 +1570,10 @@ ${problem.category} - ${problem.score} points\
       }
       const resultingMarginX = (pageWidth - resultingWidth) / 2
       const resultingMarginY = (pageHeight - resultingHeight) / 2
-      return this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
+      this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
+      if (this.pointerInterval) {
+        this.highlightNextLevel()
+      }
     }
 
     playAmbientSound () {
@@ -1723,7 +1776,7 @@ ${problem.category} - ${problem.score} points\
     }
 
     activatePoll (forceShowPoll) {
-      if (this.shouldShow('promotion')) { return }
+      if (this.shouldShow('promotion') || this.shouldShow('junior-promotion')) { return }
       if (!this.poll) { return }
       const pollTitle = utils.i18n(this.poll.attributes, 'name')
       const $pollButton = this.$el.find('button.poll').removeClass('hidden').addClass('highlighted').attr({ title: pollTitle }).addClass('has-tooltip').tooltip({ title: pollTitle })
@@ -1964,8 +2017,11 @@ ${problem.category} - ${problem.score} points\
         level.noFlag = !level.next
 
         let lockSkippedLevel = false
-        if ((level.slug === this.courseInstance.get('startLockedLevel')) || // lock level begin from startLockedLevel
-        this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original, this.courseInstance.get('startLockedLevel'))) {
+        const startLockedLevel = this.courseInstance.get('startLockedLevel')
+        const legacyLock = startLockedLevel && level.slug === startLockedLevel
+
+        if (legacyLock ||
+        this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original)) {
           if (!this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
             lockedByTeacher = true
           } else {
@@ -2017,6 +2073,10 @@ ${problem.category} - ${problem.score} points\
         return me.finishedAnyLevels() && !features.noAds && !isStudentOrTeacher && (me.get('country') === 'united-states') && (me.get('preferredLanguage', true) === 'en-US') && (new Date() < new Date(2019, 11, 20))
       }
 
+      if (what === 'junior-promotion') {
+        return !me.finishedAnyLevels() && !this.terrain && me.getJuniorExperimentValue() === 'beta'
+      }
+
       if (['status-line'].includes(what)) {
         return (me.showGemsAndXpInClassroom() || !isStudentOrTeacher) && !this.editorMode
       }
@@ -2042,7 +2102,7 @@ ${problem.category} - ${problem.score} points\
       }
 
       if (['videos'].includes(what)) {
-        return me.isStudent() && ((this.course != null ? this.course.get('_id') : undefined) === utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE)
+        return me.isStudent() && this.course?.get('_id') === utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
       }
 
       if (['buy-gems'].includes(what)) {
@@ -2054,11 +2114,11 @@ ${problem.category} - ${problem.score} points\
       }
 
       if (what === 'anonymous-classroom-signup') {
-        return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() && !this.editorMode
+        return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() && !this.editorMode && this.terrain !== 'junior' && !storage.load('hid-anonymous-classroom-signup-dialog')
       }
 
       if (what === 'amazon-campaign') {
-        return (this.campaign != null ? this.campaign.get('slug') : undefined) === 'game-dev-hoc'
+        return this.campaign?.get('slug') === 'game-dev-hoc'
       }
 
       if (what === 'santa-clara-logo') {

@@ -9,33 +9,38 @@
             src="/images/pages/codequest/frame/full-week.svg"
           >
           <p class="title">
-            <span class="text-wrapper">International: </span>
-            <span class="span">FULL WEEK</span>
+            <span class="text-wrapper">{{ $t('codequest_page.frame_core_international_title_text') }}</span>
+            <span class="span">{{ $t('codequest_page.frame_core_international_title_span') }}</span>
           </p>
         </div>
         <p class="text">
-          The complete experience including all three hackathon days, multiple university campus experiences and two
-          days of San Francisco and Silicon Valley immersion.
+          {{ $t('codequest_page.frame_core_international_text') }}
         </p>
       </div>
       <div class="text-button-link">
         <div class="flexcontainer">
           <p class="div">
             <span class="text-wrapper-2">
-              Pricing: $ 10,000
+              {{ $t('codequest_page.frame_core_international_price') }}
               <br>
             </span>
           </p>
           <p class="div">
-            <span class="text-wrapper-3">For our </span>
-            <span class="text-wrapper-4">international participants</span>
             <span class="text-wrapper-3">
-              coming from outside the US
+              {{ $t('codequest_page.frame_core_international_price_text_1') }}
+            </span>
+            <span class="text-wrapper-4">
+              {{ $t('codequest_page.frame_core_international_price_text_2') }}
+            </span>
+            <span class="text-wrapper-3">
+              {{ $t('codequest_page.frame_core_international_price_text_3') }}
               <br>
             </span>
           </p>
           <p class="div">
-            <span class="text-wrapper-3">Includes air-travel and accommodations</span>
+            <span class="text-wrapper-3">
+              {{ $t('codequest_page.frame_core_international_price_text_4') }}
+            </span>
           </p>
         </div>
       </div>

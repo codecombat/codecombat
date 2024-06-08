@@ -386,6 +386,9 @@ export default Vue.extend({
         if included && isAdmin && editing && org.kind == 'school-district' && org['administrative-region']
           span ,&nbsp;
           a(:href="'/outcomes-report/administrative-region/' + org['administrative-region'].region.toLowerCase()" target="_blank")= org['administrative-region'].region
+        if included && isAdmin && editing && org.kind == 'school-district' && org['country']
+          span ,&nbsp;
+          a(:href="'/outcomes-report/country/' + org['country'].country.toLowerCase()" target="_blank")= org['country'].country
       if org.email
         span  (#{org.email})
       if org.kind == 'student' && org.displayName && org.name && (org.name.replace(/\W/g, '').toLowerCase() != org.displayName.replace(/\W/g, '').toLowerCase())
@@ -510,10 +513,6 @@ export default Vue.extend({
             .overlay-text.mid-text= course.acronym
             .overlay-text.bot-text= Math.round(100 * course.completion) + '% ' + $t('courses.complete')
 
-  .block(v-if="['school', 'teacher'].includes(org.kind) && leagueStats && leagueStats.totalPlayers > 1")
-    h1= $t('outcomes.ai_league')
-    clan-league-stats-component(:stats="leagueStats")
-
   .block(v-if="org.progress && programs > 1 && included && codeLanguageStats.length > 1 && !codeLanguageString")
     // TODO: somehow note the code language if we are skipping this section (like 100% Python at school level)
     .course.dont-break.full-row
@@ -576,6 +575,10 @@ export default Vue.extend({
           small= $t('outcomes.report_content_1') + (projects == 1 ? $t('outcomes.project') : $t('outcomes.projects'))
     if org.progress && sampleSize < populationSize
       em=  "* " + $t('outcomes.progress_stats', {sampleSize: formatNumber(sampleSize), populationSize: formatNumber(populationSize)})
+
+  .block(v-if="['school', 'teacher', 'school-district'].includes(org.kind) && leagueStats && leagueStats.totalPlayers > 1")
+    h1= $t('outcomes.ai_league')
+    clan-league-stats-component(:stats="leagueStats")
 
   .block(v-if="included && false")
     h1 Uncategorized Info

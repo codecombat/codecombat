@@ -7,11 +7,19 @@
             <mixed-color-label :text="$t('schools_page.most_effective_computer_science_solution')" />
           </h1>
           <p class="text-24">
-            {{ $t('schools_page.our_comprehensive_implementation') }}
+            {{ $t('schools_page.start_teach_trial') }}
           </p>
           <CTAButton
-            href="https://codecombat.com/teachers/quote"
-            :description="$t('schools_page.let_us_craft_a_custom_program')"
+            v-if="me.isAnonymous()"
+            class="contact-solution signup-button"
+            data-start-on-path="teacher"
+          >
+            {{ $t('schools_page.try_it_free') }}
+          </CTAButton>
+          <CTAButton
+            v-else
+            class="contact-solution"
+            @clickedCTA="showContactModal = true"
           >
             {{ $t('schools_page.get_my_solution') }}
           </CTAButton>
@@ -147,8 +155,8 @@
       <div class="row">
         <div class="col-md-12">
           <CTAButton
-            href="https://codecombat.com/teachers/quote"
-            target="_blank"
+            class="request-demo"
+            @clickedCTA="showContactModal = true"
           >
             {{ $t('schools_page.request_a_demo') }}
           </CTAButton>
@@ -189,19 +197,23 @@
         <box-panel
           :title="$t('schools_page.student_acceleration_ap_csp')"
           :items="studentAcceleration"
+          :lazy-load="true"
         />
         <box-panel
           :title="$t('schools_page.young_learners')"
           :items="youngLearners"
+          :lazy-load="true"
         />
         <box-panel
           :title="$t('schools_page.funding_solutions')"
           :items="fundingSolutions"
           arrangement="horizontal"
+          :lazy-load="true"
         />
         <box-panel
           :title="$t('schools_page.support_development')"
           :items="supportDevelopment"
+          :lazy-load="true"
         />
       </div>
     </background-container>
@@ -211,11 +223,13 @@
         :title="$t('schools_page.ai_support_acceleration_title')"
         :text="$t('schools_page.ai_support_acceleration_text')"
         image="/images/pages/schools/boxes/aisupport_1.webp"
+        :lazy-load="true"
       />
       <image-and-text
         :text="$t('schools_page.codecombat_ai_hackstack_text')"
         image="/images/pages/schools/boxes/aisupport_2.webp"
         :reverse="true"
+        :lazy-load="true"
       />
     </div>
 
@@ -417,6 +431,7 @@
         :title="$t('schools_page.accessibility_representation_title')"
         :text="$t('schools_page.accessibility_representation_text')"
         image="/images/pages/schools/boxes/box_access.webp"
+        :lazy-load="true"
       />
       <image-and-text
         :title="$t('schools_page.privacy_security_title')"
@@ -424,6 +439,7 @@
         image="/images/pages/schools/boxes/box_privacy.webp"
         link="https://codecombat.com/privacy"
         :reverse="true"
+        :lazy-load="true"
       />
     </div>
 
@@ -433,8 +449,8 @@
       <div class="row">
         <div class="col-md-12">
           <CTAButton
-            href="https://codecombat.com/teachers/quote"
-            target="_blank"
+            class="contact-us-quote"
+            @clickedCTA="showContactModal = true"
           >
             {{ $t('new_home.request_quote') }}
           </CTAButton>
@@ -457,14 +473,19 @@
       <div class="row">
         <div class="col-md-12">
           <CTAButton
-            class="contact-modal"
+            class="contact-modal-schools"
             :description="$t('schools_page.for_turnkey_solutions')"
+            @clickedCTA="showContactModal = true"
           >
             {{ $t('schools_page.contact_our_team') }}
           </CTAButton>
         </div>
       </div>
     </div>
+    <modal-get-licenses
+      v-if="showContactModal"
+      @close="showContactModal = false"
+    />
   </div>
 </template>
 
@@ -487,6 +508,7 @@ import VideoBox from '../../components/common/image-containers/VideoBox.vue'
 import TurnkeySolutions from './TurnkeySolutions.vue'
 import StatsComponent from './StatsComponent.vue'
 import CustomTable from './CustomTable.vue'
+import ModalGetLicenses from '../../components/common/ModalGetLicenses.vue'
 
 export default Vue.extend({
   name: 'PageHome',
@@ -507,7 +529,8 @@ export default Vue.extend({
     TestimonialComponent,
     FaqComponent,
     TrendsAndInsights,
-    VideoBox
+    VideoBox,
+    ModalGetLicenses
   },
   data () {
     return {
@@ -679,14 +702,24 @@ export default Vue.extend({
           middleImageAlt: 'Southern New Hampshire University logo',
           image: '/images/pages/home-v3/solutions/box_1.webp'
         }
-      ]
+      ],
+      showContactModal: false
     }
   },
   computed: {
     me () {
       return me
     }
-  }
+  },
+  metaInfo () {
+    return {
+      title: this.$t('schools_page.meta_title'),
+      meta: [
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+        { vmid: 'meta-description', name: 'description', content: this.$t('schools_page.our_comprehensive_implementation') },
+      ]
+    }
+  },
 })
 </script>
 

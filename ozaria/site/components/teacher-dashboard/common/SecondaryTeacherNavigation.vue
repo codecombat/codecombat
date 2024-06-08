@@ -1,8 +1,13 @@
 <script>
 import { mapState } from 'vuex'
 import utils from 'core/utils'
+import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
 
 export default {
+  components: {
+    DashboardToggle
+  },
+
   props: {
     classrooms: {
       type: Array,
@@ -23,6 +28,10 @@ export default {
       return this.$route.path.startsWith('/teachers/classes') || this.$route.path === '/teachers'
     },
 
+    hackstackClassesTabSelected () {
+      return this.$route.path.startsWith('/teachers/hackstack-classes')
+    },
+
     // Check for the "All Classes" dropdown menu button in the classesTab.
     allClassesSelected () {
       return this.$route.path === '/teachers' || this.$route.path === '/teachers/classes'
@@ -41,6 +50,14 @@ export default {
         return false
       }
       return true
+    },
+
+    hackStackClassrooms () {
+      return this.classrooms.filter(classroom => classroom.courses.map(course => course._id).includes(utils.courseIDs.HACKSTACK))
+    },
+
+    showHackStack () {
+      return utils.isCodeCombat && (me.isInternal() || me.isBetaTester())
     },
 
     showPD () {
@@ -66,6 +83,11 @@ export default {
       return this.$route.path.startsWith(route)
     },
 
+    setHackStackClassroom (classroomId) {
+      this.$store.commit('teacherDashboard/setClassroomId', classroomId)
+      this.$store.commit('teacherDashboard/setSelectedCourseIdCurrentClassroom', { courseId: utils.courseIDs.HACKSTACK })
+    },
+
     trackEvent (e) {
       const eventName = e.target.dataset.action
       const eventLabel = e.target.dataset.label
@@ -75,6 +97,11 @@ export default {
         } else {
           window.tracker?.trackEvent(eventName, { category: 'Teachers' })
         }
+      }
+    },
+    hackstackClicked () {
+      if (this.hackStackClassrooms.length === 0) {
+        noty({ text: $.i18n.t('teacher_dashboard.create_class_hackstack'), type: 'warning', layout: 'center', timeout: 5000 })
       }
     }
   }
@@ -279,6 +306,71 @@ export default {
         </li>
       </ul>
     </li>
+    <li v-if="isCodeCombat">
+      <router-link
+        id="AILeague"
+        to="/teachers/ai-league"
+        :class="{ 'current-route': isCurrentRoute('/teachers/ai-league') }"
+        data-action="AI League: Nav Clicked"
+        @click.native="trackEvent"
+      >
+        <div id="IconKeepPlaying" />
+        <img
+          class="league-name league-name__gray"
+          src="/images/pages/league/ai-league-name.svg"
+        >
+        <img
+          class="league-name league-name__moon"
+          src="/images/pages/league/ai-league-name_moon.svg"
+        >
+        <img
+          class="league-name league-name__blue"
+          src="/images/pages/league/ai-league-name_blue.svg"
+        >
+      </router-link>
+    </li>
+    <li
+      v-if="showHackStack"
+      role="presentation"
+      class="dropdown"
+      @click="hackstackClicked"
+    >
+      <a
+        id="HackstackClassesDropdown"
+        :class="['dropdown-toggle', hackstackClassesTabSelected ? 'current-route' : '']"
+        href="#"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <div id="IconMyClasses" />
+        <span>{{ $t('nav.ai_hackstack') }}</span><span class="beta">({{ $t('nav.beta') }})</span>
+        <span class="caret" />
+      </a>
+      <ul
+        class="dropdown-menu"
+        aria-labelledby="HackstackClassesDropdown"
+      >
+        <li
+          v-for="classroom in hackStackClassrooms"
+          :key="classroom._id"
+          :class="hackstackClassesTabSelected && classroomSelected === classroom._id ? 'selected' : null"
+        >
+          <router-link
+            tag="a"
+            :to="`/teachers/hackstack-classes/${classroom._id}`"
+            class="dropdown-item"
+            data-action="Track Progress: Nav Clicked"
+            data-toggle="dropdown"
+            :data-label="$route.path"
+            @click.native="trackEvent($event); setHackStackClassroom(classroom._id)"
+          >
+            {{ classroom.name }}
+          </router-link>
+        </li>
+      </ul>
+    </li>
 
     <li v-if="showAIHackStackJunior">
       <a
@@ -327,6 +419,28 @@ export default {
         </li>
       </ul>
     </li>
+
+    <li v-if="showPD">
+      <router-link
+        id="PDAnchor"
+        to="/teachers/apcsp"
+        :class="{ 'current-route': isCurrentRoute('/teachers/apcsp') }"
+        data-action="APCSP: Nav Clicked"
+        @click.native="trackEvent"
+      >
+        <div id="IconPD" />
+        {{ $t('teacher_dashboard.apcsp') }}
+      </router-link>
+    </li>
+    <li>
+      <dashboard-toggle
+        v-if="isCodeCombat"
+        class="dashboard-toggle"
+        size="sm"
+        :show-title="true"
+        reload-location="/teachers/classes"
+      />
+    </li>
   </ul>
 </template>
 
@@ -341,12 +455,18 @@ export default {
 }
 
 #IconMyClasses {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconMyClasses.svg);
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconMyClasses_Gray.svg);
   margin-top: -6px;
 }
 
 /* Need aria-expanded for when user has mouse in the dropdown */
-#ProjectsDropdown:hover,
+#ProjectsDropdown:hover {
+  #IconCapstone {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Moon.svg);
+  }
+}
+
+li.open > #ProjectsDropdown,
 #ProjectsDropdown.current-route,
 #ProjectsDropdown[aria-expanded="true"] {
   #IconCapstone {
@@ -354,7 +474,13 @@ export default {
   }
 }
 
-#ClassesDropdown:hover,
+#ClassesDropdown:hover {
+  #IconMyClasses {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconMyClasses_Moon.svg);
+  }
+}
+
+li.open > #ClassesDropdown,
 #ClassesDropdown.current-route,
 #ClassesDropdown[aria-expanded="true"] {
   #IconMyClasses {
@@ -362,44 +488,115 @@ export default {
   }
 }
 
-#LicensesAnchor:hover,
+#LicensesAnchor:hover{
+  #IconLicense {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Moon.svg);
+  }
+}
+
+li.open > #LicensesAnchor,
 #LicensesAnchor.current-route {
   #IconLicense {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Blue.svg);
   }
 }
 
-#ResourceAnchor:hover,
+#ResourceAnchor:hover{
+  #IconResourceHub {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Moon.svg);
+  }
+}
+
+li.open > #ResourceAnchor,
 #ResourceAnchor.current-route {
   #IconResourceHub {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Blue.svg);
   }
 }
 
-#PDAnchor:hover,
+#PDAnchor:hover {
+  #IconPD {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_Moon.svg);
+  }
+}
+
+li.open > #PDAnchor,
 #PDAnchor.current-route {
   #IconPD {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_Blue.svg);
   }
 }
 
-#IconLicense {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense.svg);
+#AssessmentsDropdown:hover {
+  #IconAssessments {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Moon.svg);
+  }
+}
+
+li.open > #AssessmentsDropdown,
+#AssessmentsDropdown.current-route,
+#AssessmentsDropdown[aria-expanded="true"] {
+  #IconAssessments {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Blue.svg);
+  }
+}
+
+#AILeague{
+  .league-name {
+    display: none;
+    &__gray {
+      display: block;
+    }
+  }
+}
+
+#AILeague:hover{
+  .league-name {
+    display: none;
+    &__moon {
+      display: block;
+    }
+  }
+  #IconKeepPlaying {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconKeepPlaying_Moon.svg);
+  }
+}
+
+li.open > #AILeague,
+#AILeague.current-route {
+  .league-name {
+    display: none;
+    &__blue {
+      display: block;
+    }
+  }
+  #IconKeepPlaying {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconKeepPlaying_Blue.svg);
+  }
+}
+
+#IconKeepPlaying {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconKeepPlaying_Gray.svg);
   margin-top: -2px;
 }
 
+#IconLicense {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg);
+  margin-top: -3px;
+}
+
 #IconResourceHub {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_White.svg);
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Gray.svg);
   margin-top: -3px;
 }
 
 #IconPD {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_White.svg);
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_Gray.svg);
   margin-top: -3px;
 }
 
 #IconAssessments {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/CheckMark.svg);
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Gray.svg);
   margin-top: -3px;
 }
 
@@ -436,9 +633,10 @@ export default {
 #IconResourceHub,
 #IconPD,
 #IconAssessments,
-#IconAIHackStackJunior {
+#IconAIHackStackJunior,
+#IconKeepPlaying {
   height: 23px;
-  width: 23px;
+  width: 29px;
   display: inline-block;
   background-repeat: no-repeat;
   background-position: center;
@@ -448,46 +646,44 @@ export default {
 
 #secondaryNav {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
-  padding-left: 23.5px;
-  height: 35px;
-  min-height: 35px;
+  height: min-content;
 
   &>li {
-    height: 35px;
-    width: 230px;
-    text-align: center;
-    margin: 0 6.5px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-color: $twilight;
-    border-radius: 10px 10px 0 0;
+    &:hover{
+      >a {
+        background-color: #355EA0;
+        color: #f7d047;
+      }
+    }
 
     &.dropdown.open>a,
-    &>a:hover,
     a.current-route {
-      background-color: #F2F2F2;
-      color: $twilight;
-      border: 1px solid #d8d8d8;
-      border-bottom: unset;
+      border: none;
+      background: #E2EBFA;
+      color: #476FB1;
     }
 
     a {
-      @include font-h-4-navbar-uppercase-white;
-      font-size: 14px;
+      height: 60px;
+      color: #545B64;
+      background-color: transparent;
+      font-size: 18px;
+      font-weight: 600;
+      font-family: "Work Sans", sans-serif;
 
       width: 100%;
-      height: 100%;
       padding: 0;
 
+      padding-left: 10px;
+
       display: flex;
+      gap: 10px;
       flex-direction: row;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
 
       &>img {
         margin-top: -6px;
@@ -497,26 +693,47 @@ export default {
 
     &>a {
       white-space: nowrap;
-      padding: 3px 5px 0 5px;
-      border-radius: 10px 10px 0 0;
     }
 
     .dropdown-menu {
-      a {
-        color: $twilight;
-        height: 35px;
-        text-align: left;
+      position: relative;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      border: none;
+      border-radius: none;
+      background: transparent;
+      box-shadow: none;
 
-        justify-content: start;
+      li:hover {
+        background-color: #C5D4ED;
+      }
+
+      li {
+        height: 50px;
+        display: flex;
+        align-items: center;
         justify-content: flex-start;
       }
 
-      min-width: 230px;
-      padding: 0 20px;
+      a {
+        color: #131B25;
+        line-height: 50px;
+        height: auto;
+        text-align: left;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 30px;
+        &:hover {
+          background-color: transparent;
+        }
+      }
     }
 
     li.selected a {
-      color: #979797
+      color: #476FB1;
+      background: #E2EBFA;
     }
 
     li .underline-item {
@@ -528,5 +745,16 @@ export default {
       cursor: default;
     }
   }
+}
+
+.dashboard-toggle {
+  margin: 5px 0 10px;
+}
+
+.beta {
+  font-size: 12px;
+  line-height: 15px;
+  position: relative;
+  bottom: 5px;
 }
 </style>

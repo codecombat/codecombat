@@ -2,9 +2,7 @@
 // Sanity-check the conversion and remove this comment.
 /*
  * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
  * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let MineModal
@@ -30,31 +28,29 @@ module.exports = (MineModal = (function () {
     afterRender () {
       super.afterRender()
       this.setCSSVariables()
-      return window.addEventListener('resize', this.setCSSVariables)
+      window.addEventListener('resize', this.setCSSVariables)
     }
 
     onSubmitButtonClick (e) {
       storage.save('roblox-clicked', true)
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Roblox Explored', { engageAction: 'submit_button_click' })
-      }
-      return this.hide()
+      window.tracker?.trackEvent('Roblox Explored', { engageAction: 'submit_button_click' })
+      this.hide()
     }
 
     setCSSVariables () {
       const viewportWidth = window.innerWidth || document.documentElement.clientWidth
-      return document.documentElement.style.setProperty('--vw', `${viewportWidth}`)
+      document.documentElement.style.setProperty('--vw', `${viewportWidth}`)
     }
 
     hide () {
       storage.save('roblox-clicked', true)
-      return super.hide()
+      super.hide()
     }
 
     destroy () {
       $('#modal-wrapper').off('mousemove')
       window.removeEventListener('resize', this.setCSSVariables)
-      return super.destroy()
+      super.destroy()
     }
   }
   MineModal.initClass()

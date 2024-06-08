@@ -26,6 +26,7 @@ const utils = require('core/utils')
 const api = require('core/api')
 const NameLoader = require('core/NameLoader')
 const momentTimezone = require('moment-timezone')
+const OnlineTeacherSchema = require('schemas/models/online_teacher')
 const { LICENSE_PRESETS, ESPORTS_PRODUCT_STATS } = require('core/constants')
 
 // TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
@@ -42,6 +43,7 @@ module.exports = (AdministerUserModal = (function () {
         'click #create-payment-btn': 'onClickCreatePayment',
         'click #add-seats-btn': 'onClickAddSeatsButton',
         'click #add-esports-product-btn': 'onClickAddEsportsProductButton',
+        'click #save-online-teacher-info': 'onClickSaveOnlineTeacherInfo',
         'click #user-spy-btn': 'onClickUserSpyButton',
         'click #destudent-btn': 'onClickDestudentButton',
         'click #deteacher-btn': 'onClickDeteacherButton',
@@ -60,6 +62,7 @@ module.exports = (AdministerUserModal = (function () {
         'click #online-teacher-checkbox': 'onClickOnlineTeacherCheckbox',
         'click #beta-tester-checkbox': 'onClickBetaTesterCheckbox',
         'click #edit-school-admins-link': 'onClickEditSchoolAdmins',
+        'click #edit-online-teacher-link': 'onClickEditOnlineTeacher',
         'submit #teacher-search-form': 'onSubmitTeacherSearchForm',
         'click .add-administer-teacher': 'onClickAddAdministeredTeacher',
         'click #clear-teacher-search-button': 'onClearTeacherSearchResults',
@@ -82,6 +85,8 @@ module.exports = (AdministerUserModal = (function () {
       }
       options.models = [user]
       super(options)
+      this.onlineTeacherSchema = OnlineTeacherSchema
+      this.DAYS_OF_WEEK = OnlineTeacherSchema.properties.schedule.items.properties.day.enum
       this.onSearchRequestSuccess = this.onSearchRequestSuccess.bind(this)
       this.onSearchRequestFailure = this.onSearchRequestFailure.bind(this)
       this.userHandle = userHandle
@@ -115,6 +120,7 @@ module.exports = (AdministerUserModal = (function () {
       this.trialRequests = new TrialRequests()
       if (me.isAdmin()) { this.supermodel.trackRequest(this.trialRequests.fetchByApplicant(this.userHandle)) }
       this.timeZone = features?.chinaInfra ? 'Asia/Shanghai' : 'America/Los_Angeles'
+      this.userTimeZone = utils.getUserTimeZone(this.user)
       this.licenseType = 'all'
       this.licensePresets = LICENSE_PRESETS
       this.esportsType = 'basic'
@@ -235,11 +241,9 @@ module.exports = (AdministerUserModal = (function () {
       if (!(attrs.maxRedeemers > 0)) { return }
       if (!attrs.endDate || !attrs.startDate || !(attrs.endDate > attrs.startDate)) { return }
       attrs.endDate = attrs.endDate + ' ' + '23:59' // Otherwise, it ends at 12 am by default which does not include the date indicated
-      let {
-        timeZone
-      } = this
+      let timeZone = this.timeZone
       if (attrs.userTimeZone?.[0] === 'on') {
-        timeZone = this.getUserTimeZone()
+        timeZone = this.userTimeZone
       }
       attrs.startDate = momentTimezone.tz(attrs.startDate, timeZone).toISOString()
       attrs.endDate = momentTimezone.tz(attrs.endDate, timeZone).toISOString()
@@ -332,6 +336,90 @@ module.exports = (AdministerUserModal = (function () {
           return $('#esports-product-form').addClass('in')
         }
         , 1000)
+      })
+    }
+
+    onClickSaveOnlineTeacherInfo () {
+      const attrs = forms.formToObject(this.$('#online-teacher-info'))
+      const parsedAttrs = _.pick(attrs, ['languages', 'products', 'googleCalendarId'])
+      if (attrs.trialsOnly.length) {
+        parsedAttrs.trialsOnly = true
+      }
+      parsedAttrs.schedule = []
+      parsedAttrs.codeLanguages = []
+
+      const schedule = {}
+      for (const day of this.DAYS_OF_WEEK) {
+        schedule[day] = new Set()
+      }
+
+      // this offsets is server_tz - user_tz
+      const getOffsets = () => {
+        const now = momentTimezone().utc()
+        const userTz = momentTimezone.tz.zone(this.userTimeZone).utcOffset(now)
+        const serverTz = momentTimezone.tz.zone(this.timeZone).utcOffset(now)
+        return (userTz - serverTz) / 60 // in hours
+      }
+      const tzOffset = getOffsets()
+      for (const key in attrs) {
+        if (!key.includes('.')) {
+          continue
+        }
+        const [prefix, suffix] = key.split('.')
+        if (suffix === 'time') {
+          const times = attrs[key].split(',')
+          const time = times.map(t => {
+            let [start, end] = t.split('-').map(t => parseInt(t))
+            if (!end) {
+              end = start
+            }
+            return Array.from({ length: end - start + 1 }, (_, a) => a + start)
+          }).flat()
+
+          // handle timezone
+          if (attrs.userTimeZone?.[0] === 'on') {
+            Array.from(time).forEach(t => {
+              const serverTime = t + tzOffset
+              if (serverTime < 0) {
+                const index = (this.DAYS_OF_WEEK.indexOf(prefix) + 7 - 1) % 7
+                const day = this.DAYS_OF_WEEK[index]
+                const newT = serverTime + 24
+                schedule[day].add(newT)
+              } else if (serverTime >= 24) {
+                const index = (this.DAYS_OF_WEEK.indexOf(prefix) + 1) % 7
+                const day = this.DAYS_OF_WEEK[index]
+                const newT = serverTime - 24
+                schedule[day].add(newT)
+              } else {
+                schedule[prefix].add(serverTime)
+              }
+            })
+          } else {
+            schedule[prefix] = new Set(time)
+          }
+          Object.keys(schedule).forEach(day => {
+            if (schedule[day].size) {
+              parsedAttrs.schedule.push({
+                day,
+                time: Array.from(schedule[day])
+              })
+            }
+          })
+        } else if (suffix === 'level') {
+          if (attrs[key].length === 0) {
+            continue
+          }
+          parsedAttrs.codeLanguages.push({
+            language: prefix,
+            level: attrs[key].map(l => parseInt(l))
+          })
+        } else {
+          console.warn('Unknown key', key)
+        }
+      }
+      api.admin.putOnlineTeacherInfo(this.onlineTeacherInfo._id, parsedAttrs).then(res => {
+        this.editingOnlineTeacher = false
+        this.render()
       })
     }
 
@@ -591,6 +679,23 @@ module.exports = (AdministerUserModal = (function () {
       return true
     }
 
+    onClickEditOnlineTeacher (e) {
+      if (typeof this.editingOnlineTeacher === 'undefined') {
+        api.admin.fetchOnlineTeacherInfo(this.user.id).then(info => {
+          this.onlineTeacherInfo = info.data
+          this.renderSelectors('#online-teacher-info')
+        }).catch(jqxhr => {
+          const errorString = 'There was an error getting existing onlineTeacherInfo, see the console'
+          this.userSaveState = errorString
+          this.render()
+          return console.error(errorString, jqxhr)
+        })
+      }
+
+      this.editingOnlineTeacher = !this.editingOnlineTeacher
+      return this.render()
+    }
+
     onClickEditSchoolAdmins (e) {
       if (typeof this.editingSchoolAdmins === 'undefined') {
         const administrated = this.user.get('administratedTeachers')
@@ -796,15 +901,6 @@ ${teachers.join('\n')} \
       this.user.set('volume', val)
       this.user.patch()
       return this.modelTreemas[this.user.id].set('volume', val)
-    }
-
-    getUserTimeZone () {
-      const geo = this.user.get('geo')
-      if (geo?.timeZone) {
-        return geo.timeZone
-      } else {
-        return this.timeZone
-      }
     }
   }
   AdministerUserModal.initClass()

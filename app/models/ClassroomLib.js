@@ -29,13 +29,16 @@ const ClassroomLib = {
 
     if (!classroom.studentLockMap[studentId]) {
       classroom.studentLockMap[studentId] = {
-        courseId,
         lockedLevels: {}
       }
     }
 
     if (!classroom.studentLockMap[studentId].lockedLevels) {
       classroom.studentLockMap[studentId].lockedLevels = {}
+    }
+
+    if (!classroom.studentLockMap[studentId].lockedScenarioLevels) {
+      classroom.studentLockMap[studentId].lockedScenarioLevels = {}
     }
 
     if (!classroom.studentLockMap[studentId].optionalLevels) {

@@ -298,7 +298,7 @@ module.exports = (BlockTestingView = (function () {
         }
         // Input ace -> Blockly
         testCase.inputBlocklyState = newBlocklyState
-        blocklyUtils.loadBlocklyState(newBlocklyState, testBlockly.workspace)
+        blocklyUtils.loadBlocklyState({ blocklyState: newBlocklyState, blockly: testBlockly.workspace })
       }
       inputAce.getSession().getDocument().on('change', onAceChange)
       onAceChange()

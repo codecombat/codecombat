@@ -35,6 +35,7 @@ module.exports = (PremiumFeaturesView = (function () {
       if (options == null) { options = {} }
       super(options)
       this.hasTemporaryPremiumAccess = paymentUtils.hasTemporaryPremiumAccess()
+      this.isParentHomeAccount = me.isParentHome()
     }
 
     afterInsert () {

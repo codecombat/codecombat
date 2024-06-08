@@ -1,6 +1,7 @@
 <script>
 import ClassSummaryRow from './components/ClassSummaryRow'
 import ClassChapterSummaries from './components/ClassChapterSummaries'
+import { mapActions, mapGetters } from 'vuex'
 import utils from 'core/utils'
 
 export default {
@@ -24,8 +25,18 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      tournamentsByClan: 'clans/tournamentsByClan',
+      tournaments: 'clans/tournaments',
+      allTournamentsLoaded: 'clans/allTournamentsLoaded'
+    }),
+
     showEsportsCampInfoCoCo () {
       return utils.isCodeCombat && me.isCodeNinja() && !this.chapterStats.length
+    },
+
+    me () {
+      return me
     },
 
     showEsportsCampInfoOz () {
@@ -35,6 +46,46 @@ export default {
     showJuniorCampInfo () {
       return utils.isCodeCombat && me.isCodeNinja() && this.chapterStats.length === 1
     },
+
+    currentTournaments () {
+      return _.flatten(Object.values(this.tournaments))
+    },
+
+    equinoxTournament () {
+      const eq = this.currentTournaments.filter(tournament => tournament.slug === 'equinox')
+      if (eq.length === 0) {
+        return {}
+      } else if (eq.length === 1) {
+        return eq[0]
+      } else {
+        eq.sort((a, b) => new Date(a.endDate) - new Date(b.endDate))
+        // find the first tournament that has not ended
+        return eq.find(tournament => new Date(tournament.endDate) >= new Date()) || eq[eq.length - 1]
+      }
+    },
+
+    ttTournament () {
+      const tt = this.currentTournaments.filter(tournament => tournament.slug === 'tundra-tower')
+      if (tt.length === 0) {
+        return {}
+      } else if (tt.length === 1) {
+        return tt[0]
+      } else {
+        tt.sort((a, b) => new Date(a.endDate) - new Date(b.endDate))
+        // find the first tournament that has not ended
+        return tt.find(tournament => new Date(tournament.endDate) >= new Date()) || tt[tt.length - 1]
+      }
+    }
+  },
+  mounted () {
+    if (me.isCodeNinja() && !this.allTournamentsLoaded) {
+      this.fetchAllTournaments({ userId: me.get('_id') })
+    }
+  },
+  methods: {
+    ...mapActions({
+      fetchAllTournaments: 'clans/fetchAllTournaments'
+    }),
   }
 }
 </script>
@@ -68,14 +119,13 @@ export default {
       <b>Esports Camp Quick Links</b>
       <ul class="list-inline">
         <li>
-          <!-- TODO: sensei guide URL -->
           <a
             v-tooltip.top="{
               content: 'Comprehensive Sensei guide to running the Competitive Coding: Esports and Game Design camp with Ozaria and the CodeCombat AI League. (Sensei guide coming soon.)',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="#"
+            href="https://drive.google.com/file/d/1Zdh9-jh1UP81nasfan3H98mcYrRwvszn/view?usp=drive_link"
             class="dusk-btn disabled"
             target="_blank"
             disabled
@@ -113,7 +163,7 @@ export default {
             <span>Ozaria Dashboard</span>
           </a>
         </li>
-        <li>
+        <li v-if="me.isCodeNinja() && equinoxTournament.clan">
           <!-- TODO: specific tournament link -->
           <a
             v-tooltip.top="{
@@ -121,14 +171,14 @@ export default {
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://codecombat.com/play/ladder/equinox/clan/65fa5bc654652e2ad959548e?tournament=65fcadac32f2005645fba16b"
+            :href="`https://codecombat.com/play/ladder/equinox/clan/${equinoxTournament.clan}?tournament=${equinoxTournament._id}`"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-arena" />
             <span>Equinox Arena</span>
           </a>
         </li>
-        <li>
+        <li v-if="me.isCodeNinja() && ttTournament.clan">
           <!-- TODO: specific tournament link -->
           <a
             v-tooltip.top="{
@@ -136,7 +186,7 @@ export default {
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://codecombat.com/play/ladder/fierce-forces/clan/65fa5bc654652e2ad959548e?tournament=65fcadf032f2005645fba186"
+            :href="`https://codecombat.com/play/ladder/tundra-tower/clan/${ttTournament.clan}?tournament=${ttTournament._id}`"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-arena" />
@@ -222,14 +272,13 @@ export default {
       <b>Roblox Camp Quick Links</b>
       <ul class="list-inline">
         <li>
-          <!-- TODO: sensei guide URL -->
           <a
             v-tooltip.top="{
-              content: 'Comprehensive Sensei guide to running the Roblox: Intro to Coding and Game Design camp with CodeCombat Junior and CodeCombat Worlds. (Sensei guide coming soon.)',
+              content: 'Comprehensive Sensei guide to running the Roblox: Intro to Coding and Game Design camp with CodeCombat Junior and CodeCombat Worlds.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="#"
+            href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
             class="dusk-btn disabled"
             disabled
           >
@@ -273,7 +322,7 @@ export default {
         <li>
           <a
             v-tooltip.top="{
-              content: 'Lesson slides for Day 1: Intro to Coding with CodeCombat Junior and CodeCombat Worlds on Roblox.',
+              content: 'Lesson slides for Day 1: Sequences & Arguments.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
@@ -287,7 +336,7 @@ export default {
         <li>
           <a
             v-tooltip.top="{
-              content: 'Lesson slides for Day 2: Rift Village.',
+              content: 'Lesson slides for Day 2: Rift Village Quests.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
@@ -301,11 +350,11 @@ export default {
         <li>
           <a
             v-tooltip.top="{
-              content: 'Lesson slides for Day 3: Learning Levels.',
+              content: 'Lesson slides for Day 3: Design Thinking Part 1.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g26c4a941b7b_0_0"
+            href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g26ce47520c2_0_503"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -315,7 +364,7 @@ export default {
         <li>
           <a
             v-tooltip.top="{
-              content: 'Lesson slides for Day 4: Creative Mode.',
+              content: 'Lesson slides for Day 4: Design Thinking Part 2.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
@@ -329,7 +378,7 @@ export default {
         <li>
           <a
             v-tooltip.top="{
-              content: 'Lesson slides for Day 5: Showcase.',
+              content: 'Lesson slides for Day 5: Showcase Project.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"

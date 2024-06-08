@@ -1,53 +1,53 @@
 <template>
   <div class="schedule">
     <DayCard
-      day-title="Monday"
+      :day-title="$t('codequest_page.schedule_day_title_1')"
       date="07/22/2024"
-      event-title="Travel Day"
-      event-subtitle="Arrival"
+      :event-title="$t('codequest_page.schedule_event_title_1')"
+      :event-subtitle="$t('codequest_page.schedule_event_sub_title_1')"
       image-src="/images/pages/codequest/schedule/arrival.svg"
       title-class="title-2"
     />
     <DayCard
-      day-title="Tuesday"
+      :day-title="$t('codequest_page.schedule_day_title_2')"
       date="07/23/2024"
-      event-title="San Francisco"
-      event-subtitle="Tour"
+      :event-title="$t('codequest_page.schedule_event_title_2')"
+      :event-subtitle="$t('codequest_page.schedule_event_sub_title_2')"
       image-src="/images/pages/codequest/schedule/tour.svg"
       title-class="title-3"
     />
     <DayCard
-      day-title="Wednesday"
+      :day-title="$t('codequest_page.schedule_day_title_3')"
       date="07/24/2024"
-      event-title="UC Berkeley"
-      event-subtitle="Hackathon"
+      :event-title="$t('codequest_page.schedule_event_title_3')"
+      :event-subtitle="$t('codequest_page.schedule_event_sub_title_3')"
       image-src="/images/pages/codequest/schedule/hackathon.svg"
       title-class="title-2"
       :for-all="true"
     />
     <DayCard
-      day-title="Thursday"
+      :day-title="$t('codequest_page.schedule_day_title_4')"
       date="07/25/2024"
-      event-title="Silicon Valley"
-      event-subtitle="Tours &amp; Speakers"
+      :event-title="$t('codequest_page.schedule_event_title_4')"
+      :event-subtitle="$t('codequest_page.schedule_event_sub_title_4')"
       image-src="/images/pages/codequest/schedule/speakers.svg"
       title-class="title-4"
       :for-all="true"
     />
     <DayCard
-      day-title="Friday"
+      :day-title="$t('codequest_page.schedule_day_title_5')"
       date="07/26/2024"
-      event-title="Stanford"
-      event-subtitle="Hackathon"
+      :event-title="$t('codequest_page.schedule_event_title_5')"
+      :event-subtitle="$t('codequest_page.schedule_event_sub_title_3')"
       image-src="/images/pages/codequest/schedule/hackathon.svg"
       title-class="title-2"
       :for-all="true"
     />
     <DayCard
-      day-title="Saturday"
-      date="07/27/2024"
-      event-title="Travel Day"
-      event-subtitle="Departure"
+      :day-title="$t('codequest_page.schedule_day_title_6')"
+      :date="china ? '07/28/2024' : '07/27/2024'"
+      :event-title="$t('codequest_page.schedule_event_title_1')"
+      :event-subtitle="$t('codequest_page.schedule_event_sub_title_6')"
       image-src="/images/pages/codequest/schedule/arrival.svg"
       title-class="title-2"
     />
@@ -61,6 +61,11 @@ export default {
   name: 'ScheduleComponent',
   components: {
     DayCard
+  },
+  computed: {
+    china () {
+      return features?.china
+    }
   }
 }
 </script>

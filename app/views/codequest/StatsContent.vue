@@ -1,38 +1,38 @@
 <template>
   <div class="content">
     <div class="title">
-      How it Works
+      {{ $t('codequest_page.how_it_works') }}
     </div>
     <div class="data-text">
       <ContentBlock
-        title="Apply"
-        supporting-text="January-February"
+        :title="$t('codequest_page.apply')"
+        :supporting-text="$t('codequest_page.apply_time')"
         :steps="[
-          'Students interested in participating will fill out an application.',
-          'A skills assessment or evaluation may be needed to confirm your ability to participate.'
+          $t('codequest_page.apply_steps_1'),
+          $t('codequest_page.apply_steps_2'),
         ]"
         image-src="/images/pages/codequest/stats/confirm.svg"
         number="1"
       />
       <ContentBlock
-        title="Confirm"
-        supporting-text="March-April"
+        :title="$t('codequest_page.confirm')"
+        :supporting-text="$t('codequest_page.confirm_time')"
         :steps="[
-          'If you are accepted, a program advisor will contact you to confirm the additional details.',
-          'An initial deposit will be required to hold your spot in the program.',
-          'Your travel will be coordinated and booked.',
-          'A liability waiver will be required for all participants.'
+          $t('codequest_page.confirm_steps_1'),
+          $t('codequest_page.confirm_steps_2'),
+          $t('codequest_page.confirm_steps_3'),
+          $t('codequest_page.confirm_steps_4'),
         ]"
         image-src="/images/pages/codequest/stats/confirm.svg"
         number="2"
       />
       <ContentBlock
-        title="Travel"
-        supporting-text="July"
+        :title="$t('codequest_page.travel')"
+        :supporting-text="$t('codequest_page.travel_time')"
         :steps="[
-          'Prior to departure you will receive a comprehensive travel packet with all the information you will need to know.',
-          'Preparations have been made to shuttle participants from the airport to the hotel and to and from the activities throughout the week. Transportation back to the airport for departure will also be arranged.',
-          'The full package fee will be due prior to travel, minus the initial deposit fee.'
+          $t('codequest_page.travel_steps_1'),
+          $t('codequest_page.travel_steps_2'),
+          $t('codequest_page.travel_steps_3'),
         ]"
         image-src="/images/pages/codequest/stats/travel.svg"
         number="3"

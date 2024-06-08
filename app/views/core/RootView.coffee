@@ -199,6 +199,12 @@ module.exports = class RootView extends CocoView
     @addLanguagesToSelect($select, preferred)
     $('body').attr('lang', preferred)
 
+  initializeLanguageDropdown: (newLang) ->
+    if newLang isnt 'en-US'
+      @$el.find('.language-dropdown-current')?.text(locale[newLang].nativeDescription)
+    else
+      @$el.find('.language-dropdown-current')?.html("<span class=\"emoji-flag\">🇺🇸</span>")
+
   addLanguagesToSelect: ($select, initialVal) ->
     # For now, we only want to support a few languages for Ozaria that we have people working to translate.
     filteredLocale = locale
@@ -210,7 +216,7 @@ module.exports = class RootView extends CocoView
       initialVal = 'en-US'
 
     if $select.is('ul') # base-flat
-      @$el.find('.language-dropdown-current')?.text(locale[initialVal].nativeDescription)
+      @initializeLanguageDropdown(initialVal)
 
     genericCodes = _.filter codes, (code) ->
       _.find(codes, (code2) ->
@@ -232,7 +238,7 @@ module.exports = class RootView extends CocoView
     targetElem = $(event.currentTarget)
     if targetElem.is('li') # base-flat template
       newLang = targetElem.data('code')
-      @$el.find('.language-dropdown-current')?.text(locale[newLang].nativeDescription)
+      @initializeLanguageDropdown(newLang)
     else # base template
       newLang = $('.language-dropdown').val()
     $.i18n.changeLanguage newLang, =>

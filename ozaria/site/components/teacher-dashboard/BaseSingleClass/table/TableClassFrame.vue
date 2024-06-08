@@ -37,7 +37,7 @@ export default {
     isTouchingRight: false,
     isTouchingLeft: false,
     selectedLevels: [],
-    hoveredLevel: null
+    hoveredLevels: []
   }),
 
   computed: {
@@ -86,8 +86,8 @@ export default {
       this.isTouchingLeft = table.scrollLeft() <= 0.1
     },
 
-    updateHoveredLevel (level) {
-      this.hoveredLevel = level
+    updateHoveredLevels (levels) {
+      this.hoveredLevels = levels
     }
   }
 }
@@ -117,15 +117,16 @@ export default {
 
           <!-- Module Headers -->
           <table-module-header
-            v-for="({ displayName, contentList, classSummaryProgress, moduleNum }) of modules"
+            v-for="({ displayName, contentList, classSummaryProgress, displayLogo, moduleNum }) of modules"
 
             :key="`${displayName}`"
+            :module-heading-image="displayLogo"
             :module-heading="displayName"
             :list-of-content="contentList"
             :class-summary-progress="classSummaryProgress"
             :display-only="displayOnly"
 
-            @updateHoveredLevel="updateHoveredLevel"
+            @updateHoveredLevels="updateHoveredLevels"
           />
         </div>
       </div>
@@ -141,7 +142,7 @@ export default {
             v-for="({ studentSessions, displayName }) of modules"
             :key="displayName"
             :student-sessions="studentSessions"
-            :hovered-level="hoveredLevel"
+            :hovered-levels="hoveredLevels"
           />
 
           <!-- Fade on the right to signal more -->
@@ -207,10 +208,14 @@ export default {
  which messes up sticky header and student row.
 */
 .size-container {
-  display: block;
+  display: inline-block;
+  position: sticky;
+  position: -webkit-sticky; /* Safari */
+  left: 0;
 }
 
 #stickyHeader {
+  min-width: 100%;
   display: inline-block;
   position: sticky;
   position: -webkit-sticky; /* Safari */

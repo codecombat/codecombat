@@ -11,11 +11,6 @@ require('app/styles/courses/hero-select-modal.sass')
 const ModalView = require('views/core/ModalView')
 const HeroSelectView = require('views/core/HeroSelectView')
 const template = require('app/templates/courses/hero-select-modal')
-const Classroom = require('models/Classroom')
-const ThangTypes = require('collections/ThangTypes')
-const State = require('models/State')
-const ThangType = require('models/ThangType')
-const User = require('models/User')
 
 module.exports = (HeroSelectModal = (function () {
   HeroSelectModal = class HeroSelectModal extends ModalView {
@@ -28,9 +23,9 @@ module.exports = (HeroSelectModal = (function () {
         { 'click .select-hero-btn': 'onClickSelectHeroButton' }
     }
 
-    constructor () {
-      super()
-      this.listenTo(this.insertSubView(new HeroSelectView({ showCurrentHero: true })),
+    constructor (options) {
+      super(options)
+      this.listenTo(this.insertSubView(new HeroSelectView({ showCurrentHero: true, product: (options || {}).product })),
         'hero-select:success', function (hero) {
           if (!this.destroyed) { return this.trigger('hero-select:success', hero) }
         })

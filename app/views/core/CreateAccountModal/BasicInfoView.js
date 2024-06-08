@@ -399,7 +399,7 @@ module.exports = (BasicInfoView = (function () {
           me.set('emails', emails)
           me.set(_.pick(data, 'firstName', 'lastName'))
 
-          if (!_.isNaN(this.signupState.get('birthday').getTime())) {
+          if (!_.isNaN(this.signupState.get('birthday')?.getTime())) {
             me.set('birthday', this.signupState.get('birthday').toISOString().slice(0, 7))
           }
 

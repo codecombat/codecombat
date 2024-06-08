@@ -2,15 +2,15 @@
   <div class="cta-wrapper">
     <div class="jumbotron">
       <p class="supporting-text supporting-text-normal">
-        The specifics regarding the planned series of activities are subject to changes due. We commit to keeping you informed of such changes as much as possible, although they may occur without advance notice.
+        {{ $t('codequest_page.cta_supporting') }}
       </p>
     </div>
     <ButtonA
       class="contact-modal button-a-instance"
-      text="Contact Our Team"
+      :text="$t('codequest_page.contact')"
     />
     <p class="supporting-text">
-      If you have any questions
+      {{ $t('codequest_page.if_question') }}
     </p>
   </div>
 </template>

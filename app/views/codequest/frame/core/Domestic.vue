@@ -9,32 +9,34 @@
             src="/images/pages/codequest/frame/3-days.svg"
           >
           <p class="title">
-            <span class="text-wrapper">Domestic (US): </span>
-            <span class="span">3 DAYS</span>
+            <span class="text-wrapper">{{ $t('codequest_page.frame_core_domestic_title_text') }}</span>
+            <span class="span">{{ $t('codequest_page.frame_core_domestic_title_span') }}</span>
           </p>
         </div>
         <p class="text">
-          Includes participation in all three hackathon days and features multiple university campus experiences.
+          {{ $t('codequest_page.frame_core_domestic_text') }}
         </p>
       </div>
       <div class="text-button-link">
         <div class="flexcontainer">
           <p class="div">
             <span class="text-wrapper-2">
-              Pricing: $3,750 (Early bird price: $2,950 if you book before 3/31)
-              <br>
-            </span>
-          </p>
-          <p class="div">
-            <span class="text-wrapper-3">For </span>
-            <span class="text-wrapper-4">
-              US-based participants
+              {{ $t('codequest_page.frame_core_domestic_price') }}
               <br>
             </span>
           </p>
           <p class="div">
             <span class="text-wrapper-3">
-              Includes air-travel and accommodations
+              {{ $t('codequest_page.frame_core_domestic_price_text_1') }}
+            </span>
+            <span class="text-wrapper-4">
+              {{ $t('codequest_page.frame_core_domestic_price_text_2') }}
+              <br>
+            </span>
+          </p>
+          <p class="div">
+            <span class="text-wrapper-3">
+              {{ $t('codequest_page.frame_core_domestic_price_text_3') }}
               <br>
             </span>
           </p>
@@ -45,20 +47,22 @@
           </p>
           <p class="div">
             <span class="text-wrapper-2">
-              Pricing: $2,175 (Early bird price: $1,675 if you book before 3/31)
-              <br>
-            </span>
-          </p>
-          <p class="div">
-            <span class="text-wrapper-3">For</span>
-            <span class="text-wrapper-4">
-              local participants
+              {{ $t('codequest_page.frame_core_domestic_price_2') }}
               <br>
             </span>
           </p>
           <p class="div">
             <span class="text-wrapper-3">
-              Does not include travel or accommodations. Students will need to meet at each event site to participate
+              {{ $t('codequest_page.frame_core_domestic_price_text_1') }}
+            </span>
+            <span class="text-wrapper-4">
+              {{ $t('codequest_page.frame_core_domestic_price_text_4') }}
+              <br>
+            </span>
+          </p>
+          <p class="div">
+            <span class="text-wrapper-3">
+              {{ $t('codequest_page.frame_core_domestic_price_text_5') }}
             </span>
           </p>
         </div>
