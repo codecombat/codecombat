@@ -3,7 +3,7 @@ const c = require('./../schemas')
 
 const AIJuniorProjectSchema = c.object({
   title: 'AI Junior Project',
-  description: 'A generative AI project for AI HackStack Junior',
+  description: 'A generative AI project for AI Junior',
   required: ['user', 'scenario'],
 })
 

@@ -8,7 +8,7 @@ export const COMPONENT_NAMES = {
   RESOURCE_HUB: 'BaseResourceHub',
   PD: 'PD',
   STUDENT_ASSESSMENTS: 'BaseStudentAssessments',
-  AI_HACKSTACK_JUNIOR: 'BaseAIHackStackJunior',
+  AI_JUNIOR: 'BaseAIJunior',
   AI_LEAGUE: 'AILeague'
   // CURRICULUM_GUIDE: 'BaseCurriculumGuide'
 }

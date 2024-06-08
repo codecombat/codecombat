@@ -447,7 +447,7 @@ module.exports = (CocoRouter = (function () {
         },
         'teachers/projects/:classroomId': go('core/SingletonAppVueComponentView'),
         'teachers/assessments/:classroomId': go('core/SingletonAppVueComponentView'),
-        'teachers/ai-hackstack-junior/:classroomId': go('core/SingletonAppVueComponentView'),
+        'teachers/ai-junior/:classroomId': go('core/SingletonAppVueComponentView'),
         'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true }),
         'teachers/classes/:classroomID' () {
           if (utils.isCodeCombat && !me.isNewDashboardActive()) {

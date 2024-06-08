@@ -5473,7 +5473,7 @@ module.exports = {
       block_based_text: 'Block-Based & Text',
       grade_5: 'Grade 5',
       text: 'Text',
-      our_k_5_implementation_pathway: 'Our K-5 Implementation Pathway will introduce two new **beginner friendly** platforms which include CodeCombat Junior, our flagship elementary level curriculum features a progression of learning levels that **teach basic coding concepts at a slower pace**, and AI HackStack Junior, a **multimodal  AI tool** that allows students to sketch, write, and design their own digital products.This scaffolded progression will let students grow with our immersive content and explore a wide variety of computational thinking and computer science concepts',
+      our_k_5_implementation_pathway: 'Our K-5 Implementation Pathway will introduce two new **beginner friendly** platforms which include CodeCombat Junior, our flagship elementary level curriculum features a progression of learning levels that **teach basic coding concepts at a slower pace**, and AI Junior, a **multimodal  AI tool** that allows students to sketch, write, and design their own digital products.This scaffolded progression will let students grow with our immersive content and explore a wide variety of computational thinking and computer science concepts',
       middle_school: 'Middle School',
       high_school: 'High School',
       ozaria: 'Ozaria',

@@ -2,8 +2,8 @@ const _ = require('lodash')
 const c = require('./../schemas')
 
 const AIJuniorScenarioSchema = c.object({
-  title: 'AI HackStack Junior Scenario',
-  description: 'A generative AI scenario for AI HackStack Junior',
+  title: 'AI Junior Scenario',
+  description: 'A generative AI scenario for AI Junior',
   required: ['name'],
 })
 

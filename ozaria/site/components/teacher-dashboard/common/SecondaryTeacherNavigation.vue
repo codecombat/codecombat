@@ -73,7 +73,7 @@ export default {
       return utils.isCodeCombat && !me.isCodeNinja()
     },
 
-    showAIHackStackJunior () {
+    showAIJunior () {
       return me.isAdmin()
     }
   },
@@ -372,34 +372,34 @@ export default {
       </ul>
     </li>
 
-    <li v-if="showAIHackStackJunior">
+    <li v-if="showAIJunior">
       <a
-        id="AIHackStackJuniorDropdown"
-        :class="['dropdown-toggle', isCurrentRoute('/teachers/ai-hackstack-junior') ? 'current-route' : '']"
+        id="AIJuniorDropdown"
+        :class="['dropdown-toggle', isCurrentRoute('/teachers/ai-junior') ? 'current-route' : '']"
         href="#"
         role="button"
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
       >
-        <div id="IconAIHackStackJunior" />
-        <span>{{ $t('teacher_dashboard.ai_hackstack_junior_tab') }}</span>
+        <div id="IconAIJunior" />
+        <span>{{ $t('teacher_dashboard.ai_junior_tab') }}</span>
         <span class="caret" />
       </a>
       <ul
         v-if="classrooms.length > 0"
         class="dropdown-menu"
-        aria-labelledby="AIHackStackJuniorDropdown"
+        aria-labelledby="AIJuniorDropdown"
       >
         <li
           v-for="classroom in classrooms"
           :key="classroom._id"
-          :class="classroomSelected === classroom._id && isCurrentRoute('/teachers/ai-hackstack-junior') ? 'selected' : null"
+          :class="classroomSelected === classroom._id && isCurrentRoute('/teachers/ai-junior') ? 'selected' : null"
         >
           <router-link
-            :to="`/teachers/ai-hackstack-junior/${classroom._id}`"
+            :to="`/teachers/ai-junior/${classroom._id}`"
             class="dropdown-item"
-            data-action="AIHackStackJunior: Nav Clicked"
+            data-action="AIJunior: Nav Clicked"
             data-toggle="dropdown"
             @click.native="trackEvent"
           >
@@ -410,7 +410,7 @@ export default {
       <ul
         v-else
         class="dropdown-menu"
-        aria-labelledby="AIHackStackJuniorDropdown"
+        aria-labelledby="AIJuniorDropdown"
       >
         <li>
           <a class="dropdown-item disabled-item">
@@ -600,15 +600,15 @@ li.open > #AILeague,
   margin-top: -3px;
 }
 
-#IconAIHackStackJunior {
+#IconAIJunior {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone.svg);
   margin-top: -1px;
 }
 
-#AIHackStackJuniorDropdown:hover,
-#AIHackStackJuniorDropdown.current-route,
-#AIHackStackJuniorDropdown[aria-expanded="true"] {
-  #IconAIHackStackJunior {
+#AIJuniorDropdown:hover,
+#AIJuniorDropdown.current-route,
+#AIJuniorDropdown[aria-expanded="true"] {
+  #IconAIJunior {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Blue.svg);
   }
 }
@@ -633,7 +633,7 @@ li.open > #AILeague,
 #IconResourceHub,
 #IconPD,
 #IconAssessments,
-#IconAIHackStackJunior,
+#IconAIJunior,
 #IconKeepPlaying {
   height: 23px;
   width: 29px;
