@@ -26,7 +26,6 @@ const fetchJson = require('core/api/fetch-json')
 const DOMPurify = require('dompurify')
 const Mandate = require('models/Mandate')
 const MineModal = require('views/core/MineModal') // Roblox modal
-storage = require('core/storage')
 
 const PRODUCT_SUFFIX = utils.isCodeCombat ? 'coco' : 'ozar'
 module.exports = (HomeView = (function () {
