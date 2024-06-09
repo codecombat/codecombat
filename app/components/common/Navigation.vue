@@ -499,14 +499,6 @@ export default Vue.extend({
               li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
                 a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
 
-            ul.nav.navbar-nav
-              li.dropdown
-                a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                  //- string replaced in RootView
-                  span.language-dropdown-current Language
-                  span.caret
-                ul(class="dropdown-menu language-dropdown")
-
             ul.nav.navbar-nav(v-if="!me.isAnonymous()")
               li(v-if="me.isTarena()")
                 a.text-p#logout-button {{ $t('login.log_out') }}
