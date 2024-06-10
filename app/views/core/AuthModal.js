@@ -73,7 +73,8 @@ module.exports = (AuthModal = (function () {
         }
       }
       this.subModalContinue = options.subModalContinue
-      return this.showLibraryModal = userUtils.shouldShowLibraryLoginModal()
+      this.showLibraryModal = userUtils.shouldShowLibraryLoginModal()
+      this.onFacebookLoginError = this.onFacebookLoginError.bind(this)
     }
 
     afterRender () {
