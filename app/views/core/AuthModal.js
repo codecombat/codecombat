@@ -268,10 +268,12 @@ module.exports = (AuthModal = (function () {
     }
 
     onFacebookLoginError (res) {
-      this.$('#unknown-error-alert').addClass('hide')
+      this?.$('#unknown-error-alert').addClass('hide')
       if (res.errorID && (res.errorID === 'individuals-not-supported')) {
         forms.setErrorToProperty(this.$el, 'emailOrUsername', $.i18n.t('login.individual_users_not_supported'))
-        const showingError = true
+        this.$('#unknown-error-alert').removeClass('hide')
+      } else if (res.code === 404) {
+        forms.setErrorToProperty(this.$el, 'emailOrUsername', $.i18n.t('loading_error.user_not_found'))
         this.$('#unknown-error-alert').removeClass('hide')
       }
 
