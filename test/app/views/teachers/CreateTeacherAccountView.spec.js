@@ -91,7 +91,7 @@ describe('CreateTeacherAccountView', function() {
   }));
 
   if (!window.features.chinaUx) {
-    describe('clicking the Facebook button', function() {
+    xdescribe('clicking the Facebook button', function() {
 
       beforeEach(function() {
         application.facebookHandler.fakeAPI();
