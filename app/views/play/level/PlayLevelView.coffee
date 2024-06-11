@@ -448,7 +448,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new SurfaceContextMenuView {@session, @level}
     @insertSubView new DuelStatsView {@level, @session, @otherSession, @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView} if @level.isLadder()
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), @session, @level, @supermodel, @courseID, @courseInstanceID, @classroomAceConfig, @hintsState, @teacherID, @team }
-    @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
+    @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState,  aceConfig: @classroomAceConfig }), @$('.hints-view')
     @insertSubView @webSurface = new WebSurfaceView {@level, @goalManager} if @level.isType('web-dev')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
 
