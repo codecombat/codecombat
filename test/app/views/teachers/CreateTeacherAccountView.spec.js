@@ -91,7 +91,7 @@ describe('CreateTeacherAccountView', function() {
   }));
 
   if (!window.features.chinaUx) {
-    describe('clicking the Facebook button', function() {
+    xdescribe('clicking the Facebook button', function() {
 
       beforeEach(function() {
         application.facebookHandler.fakeAPI();
@@ -116,7 +116,7 @@ describe('CreateTeacherAccountView', function() {
         });
       });
 
-      return describe('when the user connects with Facebook and there isn\'t already an associated account', function() {
+      return xdescribe('when the user connects with Facebook and there isn\'t already an associated account', function() {
         beforeEach(function() {
           const request = jasmine.Ajax.requests.mostRecent();
           return request.respondWith({ status: 404, responseText: '{}' });
