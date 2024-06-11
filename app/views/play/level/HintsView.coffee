@@ -4,6 +4,7 @@ ace = require('lib/aceContainer')
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
 aetherUtils = require 'lib/aether_utils'
+userUtils = require 'app/lib/user-utils'
 
 module.exports = class HintsView extends CocoView
   template: require('app/templates/play/level/hints-view')
@@ -35,23 +36,24 @@ module.exports = class HintsView extends CocoView
     @listenTo(@hintsState, 'change', debouncedRender)
     @listenTo(@state, 'change:hintIndex', @updateHint)
     @listenTo(@hintsState, 'change:hidden', @visibilityChanged)
-    @showAiBotHelp = false
-    console.log("???Kjla,", @aceConfig.levelChat)
-    if @aceConfig.levelChat != 'none'
-      if me.isAdmin()
-        @showAiBotHelp = true
-      else if me.isHomeUser() && me.getLevelChatExperimentValue() == 'beta'
-        @showAiBotHelp = true
-      else if not me.isHomeUser()
-        @showAiBotHelp = true
-    console.log("???Kjla,", @showAiBotHelp)
+    @creditMessage = ''
+    @showAiBotHelp = utils.shouldShowAiBotHelp(@aceConfig)
 
   destroy: ->
     clearInterval(@timerIntervalID)
     super()
 
+  handleUserCreditsMessage: ->
+    userUtils.levelChatCreditsString().then (res) =>
+      if @creditMessage != res
+        @creditMessage = res
+        @render()
+
   afterRender: ->
     @$el.toggleClass('hide', @hintsState.get('hidden'))
+    unless @creditMessage
+      @handleUserCreditsMessage()
+
     super()
     @playSound 'game-menu-open'
     @$('a').attr 'target', '_blank'
@@ -63,6 +65,7 @@ module.exports = class HintsView extends CocoView
     @$el.find('pre:has(code[class*="lang-"])').each ->
       aceEditor = aceUtils.initializeACE @, codeLanguage
       aceEditors.push aceEditor
+
 
   getProcessedHint: ->
     language = @session.get('codeLanguage')

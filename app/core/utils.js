@@ -2373,6 +2373,21 @@ const getUserTimeZone = function (user) {
   }
 }
 
+const shouldShowAiBotHelp = function (aceConfig) {
+  if (aceConfig.levelChat != 'none') {
+    if(me.isAdmin()) {
+      return true
+    }
+    else if(me.isHomeUser() && me.getLevelChatExperimentValue() == 'beta') {
+      return true
+    }
+    else if(!me.isHomeUser()) {
+      return true
+    }
+  }
+  return false
+}
+
 module.exports = {
   ...module.exports,
   activeAndPastArenas,
@@ -2468,6 +2483,7 @@ module.exports = {
   sortOtherCourses,
   sortCoursesByAcronyms,
   stripIndentation,
+  shouldShowAiBotHelp,
   teamSpells,
   titleize,
   usStateCodes,
