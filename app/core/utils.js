@@ -2374,14 +2374,12 @@ const getUserTimeZone = function (user) {
 }
 
 const shouldShowAiBotHelp = function (aceConfig) {
-  if (aceConfig.levelChat != 'none') {
-    if(me.isAdmin()) {
+  if (aceConfig.levelChat !== 'none') {
+    if (me.isAdmin()) {
       return true
-    }
-    else if(me.isHomeUser() && me.getLevelChatExperimentValue() == 'beta') {
+    } else if(me.isHomeUser() && me.getLevelChatExperimentValue() === 'beta') {
       return true
-    }
-    else if(!me.isHomeUser()) {
+    } else if(!me.isHomeUser()) {
       return true
     }
   }
