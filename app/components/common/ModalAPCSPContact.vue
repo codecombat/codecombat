@@ -27,6 +27,7 @@ export default Vue.extend({
     name: '',
     email: '',
     role: '',
+    location: '',
     message: '',
     state: '',
     sendingInProgress: false
@@ -43,6 +44,9 @@ export default Vue.extend({
       email
     },
     message: {
+      required
+    },
+    location: {
       required
     }
   },
@@ -65,6 +69,8 @@ export default Vue.extend({
     this.state = props.state
 
     this.email = me.get('email') || props.email
+    this.geo = me.get('geo')
+    this.$v.location.$model = me.get('geo')?.country
 
     this.message = ''
   },
@@ -73,13 +79,17 @@ export default Vue.extend({
       window.location.href = '#license-interest'
       this.$emit('close')
     },
+    askLocation () {
+      return !this.geo || !this.geo.country
+    },
     async onClickSubmit () {
       if (this.isFormValid) {
         const sendObject = {
           name: this.name,
           email: this.email,
           role: this.role,
-          message: this.message
+          message: this.message,
+          location: this.location
         }
         this.sendingInProgress = true
         try {
@@ -169,6 +179,28 @@ export default Vue.extend({
             > {{ $t('form_validation_errors.required') }} </span>
           </div>
         </div>
+
+        <div
+          v-if="askLocation()"
+          class="form-group row role"
+          :class="{ 'has-error': $v.location.$error }"
+        >
+          <div class="col-xs-12">
+            <span class="control-label">
+              {{ $t('apcsp_curriculum.location') }} <span class="text-muted"> ({{ $t('apcsp_curriculum.state_and_country') }}) </span>
+            </span>
+            <input
+              v-model="$v.location.$model"
+              type="text"
+              class="form-control"
+            >
+            <span
+              v-if="!$v.location.required"
+              class="form-error"
+            > {{ $t('form_validation_errors.required') }} </span>
+          </div>
+        </div>
+
         <div
           class="form-group row message"
           :class="{ 'has-error': $v.message.$error }"
@@ -177,7 +209,7 @@ export default Vue.extend({
             <span class="control-label"> {{ $t('general.message') }} </span>
             <textarea
               v-model="$v.message.$model"
-              rows="10"
+              rows="6"
               class="form-control"
             />
             <span

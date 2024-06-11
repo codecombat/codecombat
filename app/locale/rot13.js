@@ -4592,7 +4592,9 @@ module.exports = {
       refresh_progress: 'Erserfu Cebterff',
       assign_content_first: 'Cyrnfr rafher gung pbagrag vf nffvtarq gb fghqragf orsber nqwhfgvat npprff yriryf',
       failed_attempts: 'Snvyrq Nggrzcgf',
-      no_failed_attempts: 'Ab Snvyrq Nggrzcgf'
+      no_failed_attempts: 'Ab Snvyrq Nggrzcgf',
+      failed_attempts_subtext: 'Ahzore bs gvzrf vapbeerpg bcgvba jnf fryrpgrq',
+      open_project: 'Bcra Cebwrpg'
     },
 
     outcomes: {
@@ -5411,8 +5413,8 @@ module.exports = {
       meta_title: 'PbqrPbzong: gur zbfg rssrpgvir pbzchgre fpvrapr fbyhgvba sbe fpubbyf',
       most_effective_computer_science_solution: 'Gur zbfg rssrpgvir pbzchgre fpvrapr fbyhgvba sbe **fpubbyf**',
       our_comprehensive_implementation: 'Bhe pbzcerurafvir vzcyrzragngvba rzcbjref grnpuref, ratntrf fghqragf naq qryviref fhpprffshy bhgpbzrf.',
+      start_teach_trial: 'Fgneg grnpuvat gbqnl jvgu serr gevny npprff gb nyy tnzrf naq grnpuvat erfbheprf.',
       get_my_solution: 'Trg Zl Fbyhgvba',
-      let_us_craft_a_custom_program: 'Yrg hf pensg n phfgbz cebtenz sbe lbh!',
       flexible_standards_aligned_curriculum_title: 'N Syrkvoyr Fgnaqneqf Nyvtarq Pheevphyhz',
       flexible_standards_aligned_curriculum_text: 'Bhe fpnssbyqrq nccebnpu pbiref pbzchgre fpvrapr shaqnzragnyf hc guebhtu nqinaprq pbhefrf naq srngherf **[uggcf://pbqrpbzong.pbz/ncpfc]Pbyyrtr Obneq raqbefrq NC PFC**, jro naq tnzr qrirybczrag. Jr ohvyq phfgbzvmrq cngujnlf gb qryvire n crefbanyvmrq yrneavat rkcrevrapr gung zrrgf **[uggcf://pbqrpbzong.pbz/fgnaqneqf]PFGN, VFGR naq Pbzzba Pber Fgngr Fgnaqneqf**. Gur syrkvoyr pheevphyhz bssref gur novyvgl gb grnpu Clguba, WninFpevcg, P++, Yhnh naq zber.',
       comprehensive_tools_resources_title: 'Pbzcerurafvir Gbbyf & Erfbheprf',

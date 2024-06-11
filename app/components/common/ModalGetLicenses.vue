@@ -5,6 +5,7 @@ import SecondaryButton from './SecondaryButton'
 import Modal from './Modal'
 import api from 'core/api'
 import contact from 'core/contact'
+import { getProductName } from 'core/utils'
 
 export default Vue.extend({
   components: {
@@ -20,7 +21,7 @@ export default Vue.extend({
     emailMessage: {
       type: String,
       // default to DT text
-      default: 'Hi Ozaria! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 2 and on.'
+      default: `Hi ${getProductName()}! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 2 and on.`
     },
     askSchoolInfo: {
       type: Boolean,
@@ -206,7 +207,7 @@ export default Vue.extend({
             <span class="control-label"> {{ $t("general.message") }} </span>
             <textarea
               v-model="$v.message.$model"
-              rows="10"
+              rows="7"
               class="form-control"
             />
             <span
@@ -267,12 +268,16 @@ export default Vue.extend({
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-end;
-  margin-top: 30px;
+  margin-top: 10px;
 
   button {
     width: 150px;
     height: 35px;
     margin: 0 10px;
   }
+}
+
+.control-label {
+  font-size: 18px;
 }
 </style>

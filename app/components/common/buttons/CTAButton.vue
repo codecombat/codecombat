@@ -10,6 +10,7 @@
       :href="href"
       :rel="rel"
       :target="target"
+      @click="$emit('clickedCTA')"
     >
       <span class="CTA__button">
         <slot />

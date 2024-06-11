@@ -7,6 +7,7 @@
             v-if="image"
             :src="image"
             :alt="alt || `Image to illustrate ${title}`"
+            :loading="lazyLoad ? 'lazy' : ''"
           >
           <slot
             v-else
@@ -74,6 +75,10 @@ export default {
       type: String,
       required: false,
       default: null
+    },
+    lazyLoad: {
+      type: Boolean,
+      default: false
     }
   }
 }
