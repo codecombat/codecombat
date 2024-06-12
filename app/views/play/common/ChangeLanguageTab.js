@@ -56,7 +56,6 @@ module.exports = (ChangeLanguageTab = (function () {
       context.codeLanguages = this.codeLanguageList
       context.codeLanguage = this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
       context.codeFormats = this.codeFormatList.filter(({ id }) => (this.classroomAceConfig?.codeFormats || ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']).includes(id))
-      console.log('codeFormatList', context.codeFormats)
       const defaultCodeFormat = this.isJunior ? 'blocks-icons' : 'text-code'
       context.codeFormat = this.codeFormat = this.propCodeFormat || me.get('aceConfig')?.codeFormat || defaultCodeFormat
       return context
