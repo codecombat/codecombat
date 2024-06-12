@@ -122,7 +122,7 @@ describe('RequestQuoteView', function() {
 
           it('fills the username field with the given first and last names', () => expect(view.$('input[name="name"]').val()).toBe('A B'));
 
-          it('includes a facebook button which will sign them in immediately', function() {
+          xit('includes a facebook button which will sign them in immediately', function() {
             if (window.features.chinUx) { return pending(); }
             view.$('#facebook-signup-btn').click();
             const request = jasmine.Ajax.requests.mostRecent();

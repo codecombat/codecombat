@@ -306,6 +306,7 @@ export default {
               rel="noreferrer"
             >
               <button-play-chapter
+                v-if="isOzaria"
                 v-tooltip.top="{
                   content: $t(isOzaria ? 'teacher_dashboard.want_to_save_tooltip': 'teacher_dashboard.want_to_save_tooltip_coco'),
                   classes: 'teacher-dashboard-tooltip lighter-p'

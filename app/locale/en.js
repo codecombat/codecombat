@@ -587,7 +587,8 @@ module.exports = {
       beta_levels_turn_off: 'turn off',
       confirm_m7_off: 'Are you sure to turn beta levels off?',
       play_codecombat: 'Play CodeCombat',
-      play_codecombat_junior: 'Play CodeCombat Junior'
+      play_codecombat_junior: 'Play CodeCombat Junior',
+      want_more_hints: 'Want more hints?',
     },
 
     code: {
