@@ -126,11 +126,18 @@ export default Vue.extend({
       return (this.classroom || {}).classroomItems
     },
     enableBlocks () {
-      return ['python', 'javascript', 'lua'].includes(this.language || 'python')
+      return ['python', 'javascript', 'lua'].includes(this.newProgrammingLanguage || 'python')
     },
     allCodeFormats () {
       // TODO: only show blocks-icons if a Junior course is included
-      return ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']
+      if (this.enableBlocks) {
+        return ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']
+      } else {
+        return ['text-code']
+      }
+    },
+    enabledCodeFormats () {
+      return this.newCodeFormats
     },
     codeFormats () {
       // Later, we can turn everything on by default
@@ -262,6 +269,11 @@ export default Vue.extend({
 
       if (this.newClassroomItems !== this.classroomItems) {
         updates.classroomItems = this.newClassroomItems
+      }
+
+      if (!this.enableBlocks) {
+        this.newCodeFormats = ['text-code']
+        this.newCodeFormatDefault = 'text-code'
       }
 
       // Make sure that codeFormats includes codeFormatDefault, including when these aren't specified
@@ -526,7 +538,7 @@ export default Vue.extend({
               name="codeFormatDefault"
             >
               <option
-                v-for="codeFormat in allCodeFormats"
+                v-for="codeFormat in enabledCodeFormats"
                 :key="codeFormat"
                 :value="codeFormat"
               >
