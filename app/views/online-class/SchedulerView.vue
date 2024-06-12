@@ -73,12 +73,7 @@ export default {
       codeLanguageMap: {
         python: 'Python',
         javascript: 'JavaScript',
-        html: 'HTML',
-        css: 'CSS',
-        lua: 'Lua',
-        java: 'Java',
-        cpp: 'C++',
-        coffeescript: 'CoffeeScript',
+        lua: 'Lua'
       },
       levels: ['Beginner', 'Intermediate', 'Advanced']
     }
