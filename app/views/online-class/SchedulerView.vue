@@ -73,7 +73,7 @@ export default {
       codeLanguageMap: {
         python: 'Python',
         javascript: 'JavaScript',
-        html: 'HTML',
+        lua: 'Lua'
       },
       levels: ['Beginner', 'Intermediate', 'Advanced']
     }
