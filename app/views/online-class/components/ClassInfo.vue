@@ -84,7 +84,7 @@ export default {
   },
   computed: {
     codeLanguages () {
-      return schema.properties.codeLanguages.items.properties.language.enum
+      return schema.properties.codeLanguages.items.properties.language.enum.filter(lang => this.codeLanguageMap[lang])
     },
     languages () {
       return schema.properties.languages.items.enum

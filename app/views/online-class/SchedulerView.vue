@@ -74,11 +74,6 @@ export default {
         python: 'Python',
         javascript: 'JavaScript',
         html: 'HTML',
-        css: 'CSS',
-        lua: 'Lua',
-        java: 'Java',
-        cpp: 'C++',
-        coffeescript: 'CoffeeScript',
       },
       levels: ['Beginner', 'Intermediate', 'Advanced']
     }

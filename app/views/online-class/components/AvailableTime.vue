@@ -123,7 +123,7 @@ export default {
       const localeTime = []
       times.forEach(t => {
         t.times.forEach(ti => {
-          localeTime.push(moment.tz(t.date.replace('Z', ''), this.serverTz).set({
+          localeTime.push(moment.tz(t.date, this.serverTz).set({
             hour: Math.floor(ti),
             minute: Math.floor((ti - Math.floor(ti)) * 60),
             second: 0,
