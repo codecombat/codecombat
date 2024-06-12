@@ -62,11 +62,11 @@ const getAnonymizationStatus = function (league, supermodel) {
 const anonymizingUser = function (user) {
   const id = (user != null ? user.id : undefined) != null ? (user != null ? user.id : undefined) : user
   const hashString = str => // hash * 33 + c
-    (__range__(0, str.length, false).map((i) => str.charCodeAt(i))).reduce((hash, char) => ((hash << 5) + hash) + char, 5381)
+        (__range__(0, str.length, false).map((i) => str.charCodeAt(i))).reduce((hash, char) => ((hash << 5) + hash) + char, 5381)
   return $.i18n.t('general.player') + ' ' + (Math.abs(hashString(id)) % 10000)
 }
 
-var clone = function (obj) {
+const clone = function (obj) {
   if ((obj === null) || (typeof (obj) !== 'object')) { return obj }
   const temp = obj.constructor()
   for (const key in obj) {
@@ -216,10 +216,10 @@ const countryCodeToName = function (code) {
 const countryNameToCode = country => __guard__(_.find(countries, { country: (country != null ? country.toLowerCase() : undefined) }), x1 => x1.countryCode)
 
 var titleize = s => // Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
-  _.string.titleize(_.string.humanize(s)).replace(
-    / (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig,
-    word => word.toLowerCase()
-  )
+    _.string.titleize(_.string.humanize(s)).replace(
+      / (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig,
+      word => word.toLowerCase()
+    )
 
 if (isCodeCombat) {
   campaignIDs = {
@@ -320,13 +320,69 @@ if (isCodeCombat) {
     },
     [courseIDs.GAME_DEVELOPMENT_2]: {},
     [courseIDs.WEB_DEVELOPMENT_2]: {},
-    [courseIDs.COMPUTER_SCIENCE_3]: {},
+    [courseIDs.COMPUTER_SCIENCE_3]: {
+      1: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1ZjhjlqcIGHOWENIpAn0Kz5DaJFHZJMTd?usp=sharing'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/10JaIo3NFXvaB9dEPo9hYSZ9z9owzmVQ9?usp=drive_link'
+        }
+      },
+      2: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1SDTVOD2tTfe5eM7rrJ4BqFPSFwL3Xb19?usp=sharing'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Ub6AwI6XRP7LKcWzVdFOSZ7n8f-oE1Ck?usp=drive_link'
+        }
+      },
+      3: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1TdLym5_SNIGoEDKyzVSAk0fw1XQCe_Be?usp=sharing'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1AAzbz-nZi4g9dQvs-fJKGtVAZv7sjfhJ?usp=drive_link'
+        }
+      },
+      4: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1JapqAXlXFjz9Qgp4sL3rJpnZkv1S6ASk?usp=sharing'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1DPeWPZrhXHQC4pBJDb-kn0-bOv6gIiw4?usp=drive_link'
+        }
+      },
+      5: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1sm6gKudpfWnO3OAeu5DdOt-3ACp4ouqQ?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Q6wRGMunTM5CH68YtqdqHFl2udEmS-L0?usp=sharing'
+        }
+      },
+      6: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/178Gt7U2Oxvo0bIDXlYqiepHUqDu0ZwzG?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1i__s8tGAuPVhnic6LuNNKBubqrelrQYb?usp=sharing'
+        }
+      },
+      7: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1m2E9wo3ZF1FGR2jQhQ16rCIsjCuvnH1i?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1kdH7_VVlnXqXVSP0KDWGghRcAP6y-lUC?usp=sharing'
+        }
+      }
+    },
     [courseIDs.GAME_DEVELOPMENT_3]: {},
     [courseIDs.COMPUTER_SCIENCE_4]: {},
     [courseIDs.COMPUTER_SCIENCE_5]: {},
     [courseIDs.COMPUTER_SCIENCE_6]: {}
   }
-
 
   coursesWithProjects = [
     courseIDs.GAME_DEVELOPMENT_1,
@@ -335,7 +391,6 @@ if (isCodeCombat) {
     courseIDs.WEB_DEVELOPMENT_2,
     courseIDs.GAME_DEVELOPMENT_3
   ]
-
 
   otherCourseIDs = {
     CHAPTER_ONE: '5d41d731a8d1836b5aa3cba1',
@@ -1129,7 +1184,7 @@ const registerHocProgressModalCheck = function () {
       return clearInterval(hocProgressModalCheck)
     }
   }
-    , 60000) // every 1 min
+                                             , 60000) // every 1 min
 }
 
 const petThangIDs = [
@@ -1428,7 +1483,7 @@ if (typeof document !== 'undefined' && document !== null ? document.createElemen
 const userAgent = () => window.navigator.userAgent
 
 const getDocumentSearchString = () => // moved to a separate function so it can be mocked for testing
-  document.location.search
+      document.location.search
 
 const getQueryVariables = function () {
   const query = module.exports.getDocumentSearchString().substring(1) // use module.exports so spy is used in testing
@@ -1715,106 +1770,106 @@ const tournamentSortFn = function (ta, tb) {
 }
 
 const usStateCodes =
-  // https://github.com/mdzhang/us-state-codes
-  // generated by js2coffee 2.2.0
-  (function () {
-    const stateNamesByCode = {
-      AL: 'Alabama',
-      AK: 'Alaska',
-      AZ: 'Arizona',
-      AR: 'Arkansas',
-      CA: 'California',
-      CO: 'Colorado',
-      CT: 'Connecticut',
-      DE: 'Delaware',
-      DC: 'District of Columbia',
-      FL: 'Florida',
-      GA: 'Georgia',
-      HI: 'Hawaii',
-      ID: 'Idaho',
-      IL: 'Illinois',
-      IN: 'Indiana',
-      IA: 'Iowa',
-      KS: 'Kansas',
-      KY: 'Kentucky',
-      LA: 'Louisiana',
-      ME: 'Maine',
-      MD: 'Maryland',
-      MA: 'Massachusetts',
-      MI: 'Michigan',
-      MN: 'Minnesota',
-      MS: 'Mississippi',
-      MO: 'Missouri',
-      MT: 'Montana',
-      NE: 'Nebraska',
-      NV: 'Nevada',
-      NH: 'New Hampshire',
-      NJ: 'New Jersey',
-      NM: 'New Mexico',
-      NY: 'New York',
-      NC: 'North Carolina',
-      ND: 'North Dakota',
-      OH: 'Ohio',
-      OK: 'Oklahoma',
-      OR: 'Oregon',
-      PA: 'Pennsylvania',
-      RI: 'Rhode Island',
-      SC: 'South Carolina',
-      SD: 'South Dakota',
-      TN: 'Tennessee',
-      TX: 'Texas',
-      UT: 'Utah',
-      VT: 'Vermont',
-      VA: 'Virginia',
-      WA: 'Washington',
-      WV: 'West Virginia',
-      WI: 'Wisconsin',
-      WY: 'Wyoming'
-    }
-    const stateCodesByName = _.invert(stateNamesByCode)
-    // normalizes case and removes invalid characters
-    // returns null if can't find sanitized code in the state map
+      // https://github.com/mdzhang/us-state-codes
+      // generated by js2coffee 2.2.0
+      (function () {
+        const stateNamesByCode = {
+          AL: 'Alabama',
+          AK: 'Alaska',
+          AZ: 'Arizona',
+          AR: 'Arkansas',
+          CA: 'California',
+          CO: 'Colorado',
+          CT: 'Connecticut',
+          DE: 'Delaware',
+          DC: 'District of Columbia',
+          FL: 'Florida',
+          GA: 'Georgia',
+          HI: 'Hawaii',
+          ID: 'Idaho',
+          IL: 'Illinois',
+            IN: 'Indiana',
+          IA: 'Iowa',
+          KS: 'Kansas',
+          KY: 'Kentucky',
+          LA: 'Louisiana',
+          ME: 'Maine',
+          MD: 'Maryland',
+          MA: 'Massachusetts',
+          MI: 'Michigan',
+          MN: 'Minnesota',
+          MS: 'Mississippi',
+          MO: 'Missouri',
+          MT: 'Montana',
+          NE: 'Nebraska',
+          NV: 'Nevada',
+          NH: 'New Hampshire',
+          NJ: 'New Jersey',
+          NM: 'New Mexico',
+          NY: 'New York',
+          NC: 'North Carolina',
+          ND: 'North Dakota',
+          OH: 'Ohio',
+          OK: 'Oklahoma',
+          OR: 'Oregon',
+          PA: 'Pennsylvania',
+          RI: 'Rhode Island',
+          SC: 'South Carolina',
+          SD: 'South Dakota',
+          TN: 'Tennessee',
+          TX: 'Texas',
+          UT: 'Utah',
+          VT: 'Vermont',
+          VA: 'Virginia',
+          WA: 'Washington',
+          WV: 'West Virginia',
+          WI: 'Wisconsin',
+          WY: 'Wyoming'
+        }
+        const stateCodesByName = _.invert(stateNamesByCode)
+        // normalizes case and removes invalid characters
+        // returns null if can't find sanitized code in the state map
 
-    const sanitizeStateCode = function (code) {
-      code = _.isString(code) ? code.trim().toUpperCase().replace(/[^A-Z]/g, '') : null
-      if (stateNamesByCode[code]) { return code } else { return null }
-    }
+        const sanitizeStateCode = function (code) {
+          code = _.isString(code) ? code.trim().toUpperCase().replace(/[^A-Z]/g, '') : null
+          if (stateNamesByCode[code]) { return code } else { return null }
+        }
 
-    // returns a valid state name else null
+        // returns a valid state name else null
 
-    const getStateNameByStateCode = code => stateNamesByCode[sanitizeStateCode(code)] || null
+        const getStateNameByStateCode = code => stateNamesByCode[sanitizeStateCode(code)] || null
 
-    // normalizes case and removes invalid characters
-    // returns null if can't find sanitized name in the state map
+        // normalizes case and removes invalid characters
+        // returns null if can't find sanitized name in the state map
 
-    const sanitizeStateName = function (name) {
-      if (!_.isString(name)) {
-        return null
-      }
-      // bad whitespace remains bad whitespace e.g. "O  hi o" is not valid
-      name = name.trim().toLowerCase().replace(/[^a-z\s]/g, '').replace(/\s+/g, ' ')
-      let tokens = name.split(/\s+/)
-      tokens = _.map(tokens, token => token.charAt(0).toUpperCase() + token.slice(1))
-      // account for District of Columbia
-      if (tokens.length > 2) {
-        tokens[1] = tokens[1].toLowerCase()
-      }
-      name = tokens.join(' ')
-      if (stateCodesByName[name]) { return name } else { return null }
-    }
+        const sanitizeStateName = function (name) {
+          if (!_.isString(name)) {
+            return null
+          }
+          // bad whitespace remains bad whitespace e.g. "O  hi o" is not valid
+          name = name.trim().toLowerCase().replace(/[^a-z\s]/g, '').replace(/\s+/g, ' ')
+          let tokens = name.split(/\s+/)
+          tokens = _.map(tokens, token => token.charAt(0).toUpperCase() + token.slice(1))
+          // account for District of Columbia
+          if (tokens.length > 2) {
+            tokens[1] = tokens[1].toLowerCase()
+          }
+          name = tokens.join(' ')
+          if (stateCodesByName[name]) { return name } else { return null }
+        }
 
-    // returns a valid state code else null
+        // returns a valid state code else null
 
-    const getStateCodeByStateName = name => stateCodesByName[sanitizeStateName(name)] || null
+        const getStateCodeByStateName = name => stateCodesByName[sanitizeStateName(name)] || null
 
-    return {
-      sanitizeStateCode,
-      getStateNameByStateCode,
-      sanitizeStateName,
-      getStateCodeByStateName,
-      codes: Object.keys(stateNamesByCode)
-    }
-  })()
+        return {
+          sanitizeStateCode,
+          getStateNameByStateCode,
+          sanitizeStateName,
+          getStateCodeByStateName,
+          codes: Object.keys(stateNamesByCode)
+        }
+      })()
 
 const emailRegex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,63}/
 const isValidEmail = email => emailRegex.test(email != null ? email.trim().toLowerCase() : undefined)
@@ -1822,9 +1877,9 @@ const isValidEmail = email => emailRegex.test(email != null ? email.trim().toLow
 const formatStudentLicenseStatusDate = function (status, date) {
   const string = (() => {
     switch (status) {
-      case 'not-enrolled': return $.i18n.t('teacher.status_not_enrolled')
-      case 'enrolled': if (date) { return $.i18n.t('teacher.status_enrolled') } else { return '-' }
-      case 'expired': return $.i18n.t('teacher.status_expired')
+    case 'not-enrolled': return $.i18n.t('teacher.status_not_enrolled')
+    case 'enrolled': if (date) { return $.i18n.t('teacher.status_enrolled') } else { return '-' }
+    case 'expired': return $.i18n.t('teacher.status_expired')
     }
   })()
   return string.replace('{{date}}', date || 'Never')
@@ -1888,9 +1943,9 @@ const videoLevels = {
 // Reference Library: https://github.com/rpkilby/vue-nonreactive
 const vueNonReactiveInstall = function (Vue) {
   const Observer = (new Vue())
-    .$data
-    .__ob__
-    .constructor
+        .$data
+        .__ob__
+        .constructor
 
   return Vue.nonreactive = function (value) {
     // Vue sees the noop Observer and stops traversing the structure.
@@ -2042,7 +2097,7 @@ const arenas = [
   { season: 9, slug: 'snowhold', type: 'championship', start: new Date('2023-12-01T00:00:00.000-08:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '654a306ba0c557007a807ead', tournament: '658cfc869ac7fb700b08d82c', image: '/file/db/level/654a306ba0c557007a807ead/SnowholdClashBannerv2.png' },
   { season: 10, slug: 'fierce-forces', type: 'regular', start: new Date('2024-01-01T00:00:00.000-08:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '6576ff2b1457f600193d2cc9', tournament: '6631155d27d051fef8412658', image: '/file/db/level/6576ff2b1457f600193d2cc9/FierceForcesBannerNew.png' },
   { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '65f2618f757a82bcc90b7c9e', tournament: '66311610236b3e1e9dcfd9f3', image: '/file/db/level/65f2618f757a82bcc90b7c9e/AntiGravityBanner.png' },
-  { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '661f6cf6525db0fb41870360', tournament: '66311a29856d99556fa14326', image: '/file/db/level/661f6cf6525db0fb41870360/SolarSkirmishBanner.png' },  { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '661f6cf6525db0fb41870360', tournament: '66311a29856d99556fa14326', image: '/file/db/level/661f6cf6525db0fb41870360/SolarSkirmishBanner.png' }, { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
 ]
@@ -2306,7 +2361,7 @@ const getScreenRefreshRate = function (callback, runIndefinitely) {
   if (window.requestAnimationFrame == null) { window.requestAnimationFrame = window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame }
   const DOMHighResTimeStampCollection = []
 
-  var triggerAnimation = function (DOMHighResTimeStamp) {
+  const triggerAnimation = function (DOMHighResTimeStamp) {
     DOMHighResTimeStampCollection.unshift(DOMHighResTimeStamp)
     if (DOMHighResTimeStampCollection.length > 10) {
       const t0 = DOMHighResTimeStampCollection.pop()
@@ -2377,9 +2432,9 @@ const shouldShowAiBotHelp = function (aceConfig) {
   if (aceConfig.levelChat !== 'none') {
     if (me.isAdmin()) {
       return true
-    } else if(me.isHomeUser() && me.getLevelChatExperimentValue() === 'beta') {
+    } else if (me.isHomeUser() && me.getLevelChatExperimentValue() === 'beta') {
       return true
-    } else if(!me.isHomeUser()) {
+    } else if (!me.isHomeUser()) {
       return true
     }
   }
