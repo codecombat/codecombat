@@ -3,6 +3,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'app/templates/play/level/tome/problem_alert'
 {me} = require 'core/auth'
 userUtils = require 'app/lib/user-utils'
+{ shouldShowAiBotHelp } = require 'app/core/utils'
 
 module.exports = class ProblemAlertView extends CocoView
   id: 'problem-alert-view'
@@ -57,11 +58,7 @@ module.exports = class ProblemAlertView extends CocoView
     @creditMessage = ''
     @showAiBotHelp = false
     if !me.showChinaResourceInfo()
-      if @aceConfig.levelChat != 'none'
-        if me.isHomeUser() && me.getLevelChatExperimentValue() == 'beta'
-          @showAiBotHelp = true
-        else if not me.isHomeUser()
-          @showAiBotHelp = true
+      @showAiBotHelp = shouldShowAiBotHelp(@aceConfig)
 
   destroy: ->
     $(window).off 'resize', @onWindowResize

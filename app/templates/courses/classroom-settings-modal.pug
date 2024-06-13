@@ -87,35 +87,35 @@ block modal-body-content
             input#live-completion(name="liveCompletion" checked=liveCompletion type='checkbox')
           .help-block.small.text-navy(data-i18n="teachers.classroom_live_completion")
 
-        if view.enableBlocks
-          // Icon blocks only ready for Junior, which isn't in classroom yet
-          // - var allCodeFormats = ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']
-          - var allCodeFormats = ['text-code', 'blocks-and-code', 'blocks-text']
-          label
-            span(data-i18n="teachers.code_formats")
-          .form-group
-            - var aceConfig = view.classroom.get('aceConfig') || {}
-            - var codeFormats = aceConfig.codeFormats
-            if codeFormats === undefined
-              - codeFormats = ['text-code']
-              // Later, we can turn everything on by default
-              // - codeFormats = isJunior ? allCodeFormats : _.omit(allCodeFormats, 'blocks-icons')
-            each format in allCodeFormats
-              - var i18nPrefix = 'choose_hero.' + format.replace(/-/g, '_')
-              label.checkbox-inline(data-i18n="[title]" + i18nPrefix + "_blurb")
-                input(name="codeFormats" value=format checked=codeFormats.includes(format) type='checkbox')
-                span(data-i18n="choose_hero." + format.replace(/-/g, '_'))
-            .help-block.small.text-navy(data-i18n="teachers.code_formats_description")
+        .code-formats-part
+          if view.enableBlocks
+            // TODO: check is junior course included
+            - var allCodeFormats = ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']
             label
-              span(data-i18n="teachers.default_code_format")
-            - var aceConfig = view.classroom.get('aceConfig') || {}
-            - var codeFormatDefault = aceConfig.codeFormatDefault
-            if codeFormatDefault === undefined
-              - codeFormatDefault = 'text-code'
-            select.form-control(name="codeFormatDefault" value=codeFormatDefault)
+              span(data-i18n="teachers.code_formats")
+            .form-group
+              - var aceConfig = view.classroom.get('aceConfig') || {}
+              - var codeFormats = aceConfig.codeFormats
+              if codeFormats === undefined
+                - codeFormats = ['text-code']
+                // Later, we can turn everything on by default
+                // - codeFormats = isJunior ? allCodeFormats : _.omit(allCodeFormats, 'blocks-icons')
               each format in allCodeFormats
                 - var i18nPrefix = 'choose_hero.' + format.replace(/-/g, '_')
-                option(value=format)= $.i18n.t(i18nPrefix) + ' - ' + $.i18n.t(i18nPrefix + '_blurb')
+                label.checkbox-inline(data-i18n="[title]" + i18nPrefix + "_blurb")
+                  input.codeformats-checkbox(name="codeFormats" value=format checked=codeFormats.includes(format) type='checkbox')
+                  span(data-i18n="choose_hero." + format.replace(/-/g, '_'))
+              .help-block.small.text-navy(data-i18n="teachers.code_formats_description")
+              label
+                span(data-i18n="teachers.default_code_format")
+              - var aceConfig = view.classroom.get('aceConfig') || {}
+              - var codeFormatDefault = aceConfig.codeFormatDefault
+              if codeFormatDefault === undefined
+                - codeFormatDefault = 'text-code'
+              select.form-control#default-codeformat-select(name="codeFormatDefault" value=codeFormatDefault)
+                each format in view.enabledCodeFormats
+                  - var i18nPrefix = 'choose_hero.' + format.replace(/-/g, '_')
+                  option(value=format)= $.i18n.t(i18nPrefix) + ' - ' + $.i18n.t(i18nPrefix + '_blurb')
             .help-block.small.text-navy(data-i18n="teachers.default_code_format_description")
 
         if !me.showChinaResourceInfo()

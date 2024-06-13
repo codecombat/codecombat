@@ -855,20 +855,20 @@ module.exports = (User = (function () {
       return this.fetch(options)
     }
 
-    fetchFacebookUser (facebookID, options = {}) {
+    fetchFacebookUser (facebookID, fbAccessToken, options = {}) {
       if (options.data == null) { options.data = {} }
       options.data.facebookID = facebookID
-      options.data.facebookAccessToken = application.facebookHandler.token()
+      options.data.facebookAccessToken = fbAccessToken
       return this.fetch(options)
     }
 
-    loginFacebookUser (facebookID, options = {}) {
+    loginFacebookUser (facebookID, fbAccessToken, options = {}) {
       options.url = '/auth/login-facebook'
       options.type = 'POST'
       options.xhrFields = { withCredentials: true }
       if (options.data == null) { options.data = {} }
       options.data.facebookID = facebookID
-      options.data.facebookAccessToken = application.facebookHandler.token()
+      options.data.facebookAccessToken = fbAccessToken
       return this.fetch(options)
     }
 
