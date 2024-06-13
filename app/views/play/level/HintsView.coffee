@@ -37,7 +37,9 @@ module.exports = class HintsView extends CocoView
     @listenTo(@state, 'change:hintIndex', @updateHint)
     @listenTo(@hintsState, 'change:hidden', @visibilityChanged)
     @creditMessage = ''
-    @showAiBotHelp = utils.shouldShowAiBotHelp(@aceConfig)
+    @showAiBotHelp = false
+    if !me.showChinaResourceInfo()
+      @showAiBotHelp = utils.shouldShowAiBotHelp(@aceConfig)
 
   destroy: ->
     clearInterval(@timerIntervalID)
