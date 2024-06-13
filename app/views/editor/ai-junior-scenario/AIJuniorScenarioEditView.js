@@ -13,6 +13,7 @@ const RootView = require('views/core/RootView')
 const template = require('app/templates/editor/ai-junior-scenario/edit')
 const AIJuniorScenario = require('models/AIJuniorScenario')
 const ConfirmModal = require('views/core/ConfirmModal')
+const AIJuniorWorksheet = require('components/common/elements/AIJuniorWorksheet').default
 
 const nodes = require('views/editor/level/treema_nodes')
 
@@ -37,11 +38,32 @@ module.exports = (AIJuniorScenarioEditView = (function () {
 
     constructor (options, scenarioID) {
       super(options)
+      this.pushChangesToPreview = this.pushChangesToPreview.bind(this)
+      this.pushChangesToPreview = _.throttle(this.pushChangesToPreview, 500)
       this.deleteAIJuniorScenario = this.deleteAIJuniorScenario.bind(this)
       this.scenarioID = scenarioID
       this.scenario = new AIJuniorScenario({ _id: this.scenarioID })
       this.scenario.saveBackups = true
+      this.propsData = {
+        slug: scenarioID
+      }
       this.supermodel.loadModel(this.scenario)
+    }
+
+    afterRender () {
+      this.initVueComponent()
+      return super.afterRender(...arguments)
+    }
+
+    initVueComponent () {
+      if (this.vueComponent) {
+        this.$el.find('#ai-junior-worksheet').replaceWith(this.vueComponent.$el)
+      } else {
+        this.vueComponent = new AIJuniorWorksheet({
+          el: this.$el.find('#ai-junior-worksheet')[0],
+          propsData: this.propsData,
+        })
+      }
     }
 
     onLoaded () {
@@ -50,6 +72,7 @@ module.exports = (AIJuniorScenarioEditView = (function () {
       this.listenTo(this.scenario, 'change', () => {
         this.scenario.updateI18NCoverage()
         this.treema.set('/', this.scenario.attributes)
+        this.updateVueComponent()
       })
     }
 
@@ -64,11 +87,25 @@ module.exports = (AIJuniorScenarioEditView = (function () {
         supermodel: this.supermodel,
         nodeClasses: {
           'chat-message-link': nodes.ChatMessageLinkNode
+        },
+        callbacks: {
+          change: this.pushChangesToPreview
         }
       }
       this.treema = this.$el.find('#ai-junior-scenario-treema').treema(options)
       this.treema.build()
       this.treema.open(5)
+      this.pushChangesToPreview()
+    }
+
+    pushChangesToPreview () {
+      this.updateVueComponent()
+    }
+
+    updateVueComponent () {
+      const updatedScenario = this.treema.get('/')
+      this.propsData.scenario = updatedScenario
+      this.vueComponent.scenario = updatedScenario
     }
 
     onPopulateI18N () {
@@ -130,10 +167,16 @@ module.exports = (AIJuniorScenarioEditView = (function () {
             layout: 'topCenter'
           })
         },
-        url: `/db/ai_junior__scenario/${this.scenario.id}`
+        url: `/db/ai_junior_scenario/${this.scenario.id}`
       })
     }
+
+    destroy () {
+      this.vueComponent.$destroy()
+      return super.destroy()
+    }
   }
+
   AIJuniorScenarioEditView.initClass()
   return AIJuniorScenarioEditView
 })())

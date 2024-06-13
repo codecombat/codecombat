@@ -1,4 +1,4 @@
-extends /templates/base
+extends /templates/base-flat
 
 block content
   div
@@ -19,8 +19,9 @@ block content
     span(data-i18n="editor.ai_junior_scenario_edit_title")
     |: #{view.scenario.attributes._id}
 
-  #ai-junior-scenario-treema
+  .row
+    .col-md-6.col-lg-5.left-col
+      #ai-junior-scenario-treema
+    .col-md-6.col-lg-7.right-col
+      #ai-junior-worksheet
 
-  hr
-
-  // TODO: visualize the scenario here

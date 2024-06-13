@@ -1,13 +1,11 @@
 import fetchJson from 'app/core/api/fetch-json'
 
-/**
- * Creates a new AI Junior Scenario in the database.
- * @async
- */
-export const createNewAIJuniorScenario = ({ ...opts }, options = {}) =>
+export const createAIJuniorScenario = ({ ...opts }, options = {}) =>
   fetchJson('/db/ai_junior_scenario', _.assign({}, options, {
     method: 'POST',
     json: { ...opts }
   }))
 
-export const getAIJuniorScenarios = () => fetchJson('/db/ai_junior_scenario')
+export const getAIJuniorScenarios = (options = {}) => fetchJson('/db/ai_junior_scenario', options)
+
+export const getAIJuniorScenario = ({ scenarioHandle }, options = {}) => fetchJson(`/db/ai_junior_scenario/${scenarioHandle}`, options)
