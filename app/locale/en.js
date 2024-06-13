@@ -587,7 +587,8 @@ module.exports = {
       beta_levels_turn_off: 'turn off',
       confirm_m7_off: 'Are you sure to turn beta levels off?',
       play_codecombat: 'Play CodeCombat',
-      play_codecombat_junior: 'Play CodeCombat Junior'
+      play_codecombat_junior: 'Play CodeCombat Junior',
+      want_more_hints: 'Want more hints?',
     },
 
     code: {
@@ -1992,7 +1993,8 @@ module.exports = {
       saved: 'Changes Saved',
       password_mismatch: 'Password does not match.',
       password_repeat: 'Please repeat your password.',
-      switch_new_teacher_dashboard: 'Try the new Teacher Dashboard'
+      switch_new_teacher_dashboard: 'Try the new Teacher Dashboard',
+      view_trial_class_bookings: 'View Trial Class Bookings'
     },
 
     keyboard_shortcuts: {

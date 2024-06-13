@@ -40,6 +40,7 @@ module.exports = (ChangeLanguageTab = (function () {
         { id: 'blocks-text', name: `${$.i18n.t('choose_hero.blocks_text')}` },
         { id: 'blocks-icons', name: `${$.i18n.t('choose_hero.blocks_icons')}` },
       ]
+      this.propCodeFormat = this.options.codeFormat
     }
 
     afterRender () {
@@ -54,9 +55,9 @@ module.exports = (ChangeLanguageTab = (function () {
       context = super.getRenderData(context)
       context.codeLanguages = this.codeLanguageList
       context.codeLanguage = this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
-      context.codeFormats = this.codeFormatList
+      context.codeFormats = this.codeFormatList.filter(({ id }) => (this.classroomAceConfig?.codeFormats || ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']).includes(id))
       const defaultCodeFormat = this.isJunior ? 'blocks-icons' : 'text-code'
-      context.codeFormat = this.codeFormat = me.get('aceConfig')?.codeFormat || defaultCodeFormat
+      context.codeFormat = this.codeFormat = this.propCodeFormat || me.get('aceConfig')?.codeFormat || defaultCodeFormat
       return context
     }
 

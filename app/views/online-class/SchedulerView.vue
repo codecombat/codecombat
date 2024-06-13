@@ -52,6 +52,7 @@ import NextStep from './components/NextStep.vue'
 
 import { getUserTimeZone } from '../../core/utils'
 import { tempBookTime, bookTime, getGoogleCalendarSync } from '../../core/api/online-classes'
+import { CODE_LANGUAGE_MAP } from './online-class-util'
 
 export default {
   name: 'SchedulerView',
@@ -70,16 +71,7 @@ export default {
       classInfo: {},
       time: {},
       studentInfo: {},
-      codeLanguageMap: {
-        python: 'Python',
-        javascript: 'JavaScript',
-        html: 'HTML',
-        css: 'CSS',
-        lua: 'Lua',
-        java: 'Java',
-        cpp: 'C++',
-        coffeescript: 'CoffeeScript',
-      },
+      codeLanguageMap: { ...CODE_LANGUAGE_MAP },
       levels: ['Beginner', 'Intermediate', 'Advanced']
     }
   },

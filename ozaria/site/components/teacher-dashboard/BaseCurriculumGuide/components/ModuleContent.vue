@@ -166,7 +166,7 @@ export default {
       class="content-rows"
     >
       <template
-        v-for="{ icon, name, _id, description, isPartOfIntro, isIntroHeadingRow, slug, fromIntroLevelOriginal } in getContentTypes"
+        v-for="{ icon, name, _id, description, isPartOfIntro, isIntroHeadingRow, original, slug, fromIntroLevelOriginal }, key in getContentTypes"
       >
         <intro-module-row
           v-if="isIntroHeadingRow"
@@ -185,6 +185,7 @@ export default {
           :show-code-btn="getProgressStatus({ slug, fromIntroLevelOriginal }) !== 'not-started' && icon !== 'cutscene'"
           :progress-status="getProgressStatus({ slug, fromIntroLevelOriginal })"
           :identifier="slug"
+          :level-number="getLevelNumber(original, key + 1 )"
           @showCodeClicked="onShowCodeClicked"
         />
         <code-diff

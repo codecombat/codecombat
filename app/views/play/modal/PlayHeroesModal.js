@@ -190,6 +190,7 @@ module.exports = (PlayHeroesModal = (function () {
       this.renderSelectors('#hero-footer')
       const changeLanguageOptions = _.clone(this.options)
       changeLanguageOptions.classroomAceConfig = this.classroomAceConfig
+      changeLanguageOptions.codeFormat = this.changeLanguageView?.codeFormat
       this.insertSubView(this.changeLanguageView = new ChangeLanguageTab(changeLanguageOptions))
       return this.$el.find('#gems-count-container').toggle(Boolean(this.visibleHero?.purchasable))
     }

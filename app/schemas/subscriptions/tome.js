@@ -191,4 +191,6 @@ module.exports = {
   'tome:fix-code-preview-end': c.object({}),
 
   'blockly:clicked-block': c.object({ required: ['block', 'text'] }, { block: { type: 'object' }, text: { type: 'string' } }),
+
+  'tome:game-menu-opened': c.object({}),
 }
