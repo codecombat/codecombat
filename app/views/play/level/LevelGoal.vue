@@ -1,8 +1,8 @@
 <template lang="pug">
   li(:class="goalClass" v-if="showGoal" :title="goalTitle")
     i(v-if="state.status === 'incomplete' && isConceptGoal")=" • "
-    i(v-else-if="product === 'codecombat-junior' && !iconClass") …
-    i.glyphicon(:class="iconClass" v-else)
+    img(v-else-if="product === 'codecombat-junior' && iconImageSrc" :src="iconImageSrc" alt="" class="goal-icon goal-icon-status")
+    i.glyphicon(v-else-if="product !== 'codecombat-junior'" :class="iconClass")
     span(v-if="goalIconImages && goalIconImages.length")
       img.goal-icon(
         v-for="goalIconImage in goalIconImages"
@@ -19,20 +19,21 @@
     success: 'glyphicon-ok'
     failure: 'glyphicon-remove'
 
-  goalIconImageMap =
-    saveThangs: '/images/level/goal-icons/save-thangs.png'
-    saveThangsEmpty: '/images/level/goal-icons/save-thangs-empty.png'
-    killThangs: '/images/level/blocks/block-hit.png'
-    collectThangs: '/images/pages/play/level/modal/reward_icon_gems.png'
-    getToLocations: '/images/level/goal-icons/get-to-locations.png'  # TODO: raft
-    getAllToLocations: '/images/level/goal-icons/get-to-locations.png'  # TODO: raft
-    #codeProblems: ''
-    linesOfCode: '/images/level/goal-icons/lines-of-code.png'
+  stateIconImageMap =
+    success: '/images/level/goal-icons/checkmark.png'
+    failure: '/images/level/goal-icons/red-x.png'
 
-  goalIconMap =
-    #getToLocations: '⛵'
-    #getAllToLocations: '⛵'
-    codeProblems: '🐛'
+  goalIconImageMap =
+    heart: '/images/level/goal-icons/heart.png'
+    heartEmpty: '/images/level/goal-icons/heart-empty.png'
+    # saveThangs: '/images/level/goal-icons/save-thangs.png'
+    saveThangs: '/file/db/thang.type/529f9026dacd325127000005/portrait.png'  # Peasant for now, until we have chicken
+    killThangs: '/images/level/goal-icons/kill-thangs.png'
+    collectThangs: '/images/level/goal-icons/collect-thangs.png'
+    getToLocations: '/images/level/goal-icons/get-to-locations.png'
+    getAllToLocations: '/images/level/goal-icons/get-to-locations.png'
+    codeProblems: '/images/level/goal-icons/clean-code.png'
+    linesOfCode: '/images/level/goal-icons/lines-of-code.png'
 
   module.exports = Vue.extend({
     props: {
@@ -61,8 +62,8 @@
             # saveThangs with just the hero; show hearts
             fullHearts = Math.max 0, @$store.state.game.heroHealth.current || 0
             emptyHearts = (@$store.state.game.heroHealth.max || 1) - fullHearts
-            result.push(icon) for i in [0 ... fullHearts]
-            result.push(goalIconImageMap.saveThangsEmpty) for i in [0 ... emptyHearts]
+            result.push(goalIconImageMap.heart) for i in [0 ... fullHearts]
+            result.push(goalIconImageMap.heartEmpty) for i in [0 ... emptyHearts]
           else
             result.push(icon)
           break
@@ -72,10 +73,7 @@
 
       goalText: ->
         text = ''
-        if @product is 'codecombat-junior'
-          for key, value of goalIconMap when @goal[key] and not text
-            text = value
-        else
+        if @product isnt 'codecombat-junior'
           text = utils.i18n @goal, 'name'
         if @state.killed
           dead = _.filter(_.values(@state.killed)).length
@@ -104,6 +102,8 @@
       goalClass: -> "status-#{@state.status} #{@product}"
 
       iconClass: -> stateIconMap[@state.status] or ''
+
+      iconImageSrc: -> stateIconImageMap[@state.status] or ''
     }
   })
 </script>
@@ -114,9 +114,14 @@
     margin-right: 5px
     i
       margin-right: 5px
+    position: relative
 
   li.codecombat-junior
     margin-right: 15px
+    background-color: rgb(166, 144, 115)
+    border-radius: 8px
+    padding-left: 9px
+    padding-right: 9px
 
   li.status-incomplete
     color: #333
@@ -130,4 +135,10 @@
   img.goal-icon
     width: 1.3em
     margin-top: -0.4em
+
+  img.goal-icon.goal-icon-status
+    position: absolute
+    top: 0.3em
+    right: -0.3em
+    width: 0.8em
 </style>
