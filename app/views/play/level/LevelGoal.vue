@@ -134,11 +134,11 @@
 
   img.goal-icon
     width: 1.3em
-    margin-top: -0.4em
+    margin-top: -0.2em
 
   img.goal-icon.goal-icon-status
     position: absolute
-    top: 0.3em
+    top: 0.1em
     right: -0.3em
     width: 0.8em
 </style>
