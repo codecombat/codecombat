@@ -83,7 +83,7 @@ module.exports = class SpellTopBarView extends CocoView
 
   onGameMenuOpened: ->
     hintState = @hintsState.get('hidden')
-    if (!hintState)
+    unless hintState
       @hintsState.set('hidden', not hintState)
 
   onClickHintsButton: ->
