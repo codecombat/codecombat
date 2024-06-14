@@ -5,6 +5,7 @@ utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
 aetherUtils = require 'lib/aether_utils'
 userUtils = require 'app/lib/user-utils'
+globalVar = require 'core/globalVar'
 
 module.exports = class HintsView extends CocoView
   template: require('app/templates/play/level/hints-view')
@@ -20,6 +21,7 @@ module.exports = class HintsView extends CocoView
   subscriptions:
     'level:show-victory': 'hideView'
     'tome:manual-cast': 'hideView'
+    'auth:user-credits-message-updates': 'onUserCreditsMessageUpdates'
 
   initialize: (options) ->
     {@level, @session, @hintsState} = options
@@ -36,7 +38,9 @@ module.exports = class HintsView extends CocoView
     @listenTo(@hintsState, 'change', debouncedRender)
     @listenTo(@state, 'change:hintIndex', @updateHint)
     @listenTo(@hintsState, 'change:hidden', @visibilityChanged)
-    @creditMessage = ''
+    unless globalVar.userCreditsMessage
+      globalVar.userCredtisMessage = ''
+    @creditMessage = globalVar.userCreditsMessage
     @showAiBotHelp = utils.shouldShowAiBotHelp(@aceConfig)
 
   destroy: ->
@@ -46,13 +50,21 @@ module.exports = class HintsView extends CocoView
   handleUserCreditsMessage: ->
     userUtils.levelChatCreditsString().then (res) =>
       if @creditMessage != res
-        @creditMessage = res
-        @render()
+        globalVar.userCreditsMessage = res
+        globalVar.fetchingCreditsString = false
+        Backbone.Mediator.publish 'auth:user-credits-message-updates', {}
+
+  onUserCreditsMessageUpdates: ->
+    @creditMessage = globalVar.userCreditsMessage
+    @render()
 
   afterRender: ->
     @$el.toggleClass('hide', @hintsState.get('hidden'))
-    unless @creditMessage
-      @handleUserCreditsMessage()
+    @$('[data-toggle="popover"]').popover()
+    unless me.showChinaResourceInfo()
+      unless @creditMessage or globalVar.fetchingCreditsString
+        globalVar.fetchingCreditsString = true
+        @handleUserCreditsMessage()
 
     super()
     @playSound 'game-menu-open'
