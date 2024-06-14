@@ -51,8 +51,10 @@ module.exports = class HintsView extends CocoView
 
   afterRender: ->
     @$el.toggleClass('hide', @hintsState.get('hidden'))
-    unless @creditMessage
-      @handleUserCreditsMessage()
+    @$('[data-toggle="popover"]').popover()
+    unless me.showChinaResourceInfo()
+      unless @creditMessage
+        @handleUserCreditsMessage()
 
     super()
     @playSound 'game-menu-open'
