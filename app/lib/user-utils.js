@@ -108,6 +108,8 @@ async function levelChatCreditsString () {
 }
 
 function updateUserCreditsMessage () {
+  if (globalVar.fetchingCreditsString) return
+
   globalVar.fetchingCreditsString = true
   levelChatCreditsString().then(msg => {
     if (msg !== globalVar.userCreditsMessage) {

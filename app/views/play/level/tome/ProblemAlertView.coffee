@@ -69,7 +69,7 @@ module.exports = class ProblemAlertView extends CocoView
   afterRender: ->
     @$('[data-toggle="popover"]').popover()
     unless me.showChinaResourceInfo()
-      unless @creditMessage or globalVar.fetchingCreditsString
+      unless @creditMessage
         @handleUserCreditsMessage()
 
     super()

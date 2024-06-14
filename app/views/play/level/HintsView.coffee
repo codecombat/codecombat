@@ -58,7 +58,7 @@ module.exports = class HintsView extends CocoView
     @$el.toggleClass('hide', @hintsState.get('hidden'))
     @$('[data-toggle="popover"]').popover()
     unless me.showChinaResourceInfo()
-      unless @creditMessage or globalVar.fetchingCreditsString
+      unless @creditMessage
         @handleUserCreditsMessage()
 
     super()
