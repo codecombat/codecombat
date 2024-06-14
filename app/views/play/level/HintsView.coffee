@@ -54,7 +54,7 @@ module.exports = class HintsView extends CocoView
     @$('[data-toggle="popover"]').popover()
     unless me.showChinaResourceInfo()
       unless @creditMessage
-        @handleUserCreditsMessage()
+        _.delay (=> @handleUserCreditsMessage()), 2000
 
     super()
     @playSound 'game-menu-open'
