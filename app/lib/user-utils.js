@@ -1,5 +1,6 @@
 const usersApi = require('../core/api').users
 const localStorage = require('../core/storage')
+const globalVar = require('../core/globalVar')
 
 function extraProvisions () {
   usersApi.extraProvisions({ userId: me.get('_id') })
@@ -106,6 +107,16 @@ async function levelChatCreditsString () {
   }
 }
 
+function updateUserCreditsMessage () {
+  globalVar.fetchingCreditsString = true
+  levelChatCreditsString().then(msg => {
+    if (msg !== globalVar.userCreditsMessage) {
+      globalVar.userCreditsMessage = msg
+      Backbone.Mediator.publish('auth:user-credits-message-updates', {})
+    }
+    globalVar.fetchingCreditsString = false
+  })
+}
 function hasSeenParentBuyingforSelfPrompt () {
   return !!localStorage.load(parentBuyingforSelfPromptKey())
 }
@@ -128,5 +139,6 @@ module.exports = {
   levelChatCreditsString,
   isCreatedViaLibrary,
   hasSeenParentBuyingforSelfPrompt,
-  markParentBuyingForSelfPromptSeen
+  markParentBuyingForSelfPromptSeen,
+  updateUserCreditsMessage
 }

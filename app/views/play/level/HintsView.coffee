@@ -48,11 +48,7 @@ module.exports = class HintsView extends CocoView
     super()
 
   handleUserCreditsMessage: ->
-    userUtils.levelChatCreditsString().then (res) =>
-      if @creditMessage != res
-        globalVar.userCreditsMessage = res
-        globalVar.fetchingCreditsString = false
-        Backbone.Mediator.publish 'auth:user-credits-message-updates', {}
+    userUtils.updateUserCreditsMessage()
 
   onUserCreditsMessageUpdates: ->
     @creditMessage = globalVar.userCreditsMessage
@@ -63,7 +59,6 @@ module.exports = class HintsView extends CocoView
     @$('[data-toggle="popover"]').popover()
     unless me.showChinaResourceInfo()
       unless @creditMessage or globalVar.fetchingCreditsString
-        globalVar.fetchingCreditsString = true
         @handleUserCreditsMessage()
 
     super()
