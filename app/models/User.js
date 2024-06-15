@@ -798,7 +798,7 @@ module.exports = (User = (function () {
       options.url = _.result(this, 'url') + '/signup-with-facebook'
       options.type = 'POST'
       if (options.data == null) { options.data = {} }
-      _.extend(options.data, { name, email, facebookID, facebookAccessToken: application.facebookHandler.token() })
+      _.extend(options.data, { name, email, facebookID, facebookAccessToken: options.facebookAccessToken })
       options.contentType = 'application/json'
       options.xhrFields = { withCredentials: true }
       options.data = JSON.stringify(options.data)

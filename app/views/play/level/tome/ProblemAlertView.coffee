@@ -4,6 +4,7 @@ template = require 'app/templates/play/level/tome/problem_alert'
 {me} = require 'core/auth'
 userUtils = require 'app/lib/user-utils'
 { shouldShowAiBotHelp } = require 'app/core/utils'
+globalVar = require 'core/globalVar'
 
 module.exports = class ProblemAlertView extends CocoView
   id: 'problem-alert-view'
@@ -36,6 +37,7 @@ module.exports = class ProblemAlertView extends CocoView
     'level:restart': 'onHideProblemAlert'
     'tome:jiggle-problem-alert': 'onJiggleProblemAlert'
     'tome:manual-cast': 'onHideProblemAlert'
+    'auth:user-credits-message-updates': 'onUserCreditsMessageUpdates'
 
   events:
     'click .close': 'onRemoveClicked'
@@ -55,10 +57,11 @@ module.exports = class ProblemAlertView extends CocoView
       @$el.hide()
     @duckImg = _.sample(@duckImages)
     $(window).on 'resize', @onWindowResize
-    @creditMessage = ''
-    @showAiBotHelp = false
-    if !me.showChinaResourceInfo()
-      @showAiBotHelp = shouldShowAiBotHelp(@aceConfig)
+    unless globalVar.userCreditsMessage
+      globalVar.userCredtisMessage = ''
+    @creditMessage = globalVar.userCreditsMessage
+    unless me.showChinaResourceInfo()
+        @showAiBotHelp = shouldShowAiBotHelp(@aceConfig)
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
@@ -66,8 +69,10 @@ module.exports = class ProblemAlertView extends CocoView
 
   afterRender: ->
     @$('[data-toggle="popover"]').popover()
-    unless @creditMessage
-      @handleUserCreditsMessage()
+    unless me.showChinaResourceInfo()
+      unless @creditMessage or globalVar.fetchingCreditsString
+        globalVar.fetchingCreditsString = true
+        @handleUserCreditsMessage()
 
     super()
     if @problem?
@@ -150,5 +155,10 @@ module.exports = class ProblemAlertView extends CocoView
   handleUserCreditsMessage: ->
     userUtils.levelChatCreditsString().then (res) =>
       if @creditMessage != res
-        @creditMessage = res
-        @render()
+        globalVar.userCreditsMessage = res
+        globalVar.fetchingCreditsString = false
+        Backbone.Mediator.publish 'auth:user-credits-message-updates', {}
+
+  onUserCreditsMessageUpdates: ->
+    @creditMessage = globalVar.userCreditsMessage
+    @render()

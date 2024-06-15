@@ -440,19 +440,23 @@ module.exports = (BasicInfoView = (function () {
           }
 
           switch (this.signupState.get('ssoUsed')) {
-            case 'gplus':
+            case 'gplus': {
               var { email, gplusID } = this.signupState.get('ssoAttrs')
               var { name } = forms.formToObject(this.$el)
               jqxhr = me.signupWithGPlus(name, email, gplusID)
               break
-            case 'facebook':
+            }
+            case 'facebook': {
               ({ email, facebookID } = this.signupState.get('ssoAttrs'));
               ({ name } = forms.formToObject(this.$el))
-              jqxhr = me.signupWithFacebook(name, email, facebookID)
+              const facebookAccessToken = this.signupState.get('ssoResp')?.authResponse?.accessToken
+              jqxhr = me.signupWithFacebook(name, email, facebookID, { facebookAccessToken })
               break
-            default:
+            }
+            default: {
               ({ name, email, password } = forms.formToObject(this.$el))
               jqxhr = me.signupWithPassword(name, email, password)
+            }
           }
 
           return new Promise(jqxhr.then)
@@ -576,7 +580,7 @@ module.exports = (BasicInfoView = (function () {
             resp,
             context: this,
             success (ssoAttrs) {
-              this.signupState.set({ ssoAttrs })
+              this.signupState.set({ ssoAttrs, ssoResp: resp })
               const { email } = ssoAttrs
               return User.checkEmailExists(email).then(({ exists }) => {
                 this.signupState.set({

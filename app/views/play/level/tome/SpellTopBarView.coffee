@@ -20,6 +20,7 @@ module.exports = class SpellTopBarView extends CocoView
     'tome:spell-loaded': 'onSpellLoaded'
     'tome:spell-changed': 'onSpellChanged'
     'tome:spell-changed-language': 'onSpellChangedLanguage'
+    'tome:game-menu-opened': 'onGameMenuOpened'
     'websocket:user-online': 'onUserOnlineChanged'
 
   events:
@@ -85,6 +86,11 @@ module.exports = class SpellTopBarView extends CocoView
 
   onClickImageGalleryButton: (e) ->
     @openModalView new ImageGalleryModal()
+
+  onGameMenuOpened: ->
+    hintState = @hintsState.get('hidden')
+    unless hintState
+      @hintsState.set('hidden', not hintState)
 
   onClickHintsButton: ->
     return unless @hintsState?
