@@ -46,8 +46,7 @@ _.extend(AIJuniorScenarioSchema.properties, {
     required: ['type'],
   }, {
     id: c.shortString(),
-    type: { type: 'string', enum: ['image-field', 'checkbox', 'radio'] },
-    styles: c.object({}, c.shortString()),
+    type: { type: 'string', enum: ['image-field', 'checkbox', 'radio', 'label'] },
     label: c.shortString({ format: 'markdown' }),
     text: { type: 'string', format: 'markdown' },
     left: { type: 'number', format: 'percent' },
@@ -69,6 +68,7 @@ _.extend(AIJuniorScenarioSchema.properties, {
     },
     i18n: { type: 'object', format: 'i18n', props: ['label', 'text'] }
   })),
+  inputCss: { type: 'string', format: 'code', aceMode: 'ace/mode/css', description: 'Add extra CSS styles here, like .scenario-input-image-field .input-label { font-size: 24px; }' },
   prompts: c.array({ title: 'Prompts', description: 'AI prompts that process the input fields' }, c.object({
     required: ['id', 'model', 'text']
   }, {
