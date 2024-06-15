@@ -1,0 +1,31 @@
+extends /templates/common/table
+
+block tableResultsHeader
+  tr
+    th(colspan=me.isAdmin() ? 7 : 6)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
+
+block tableHeader
+  tr
+    th(data-i18n="general.date")
+    th Owner
+    th Scenario 
+    if me.isAdmin()
+      th(data-i18n="editor.delete")
+
+block tableBody
+  for project in documents
+    tr(data-project=project.get('_id') data-name=project.get('_id'))
+      td(title=project.get('created'))
+        a(href='/editor/' + page + '/' + project.get('_id'))
+          | #{moment(project.get('created')).format('lll')}
+      td #{project.get('owner')}
+      td
+        a(href='/db/ai_junior_scenario/#{project.get("scenario")}')= project.get("scenario")
+      if me.isAdmin()
+        td
+          button.ai-junior-project-tool-button.btn.btn-primary.btn-sm#delete-button(data-i18n="editor.delete")
+
