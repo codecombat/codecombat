@@ -23,8 +23,8 @@
 </template>
 
 <script>
+import QrcodeVue from 'qrcode.vue'
 import Modal from 'app/components/common/Modal'
-import QrcodeVue from 'qrcode'
 import { querySession } from 'core/api/wechat'
 
 export default Vue.extend({
