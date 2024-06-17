@@ -454,6 +454,33 @@ mixin coco_main_content()
                         span= stats.playerCount.toLocaleString()
                         span= ' '
                         span(data-i18n='play.players')
+      if view.showTournament || view.awaitingTournament
+        .text-center.special-tournaments
+          h1#tournament-title(data-i18n="ladder.live_tournament")
+          #tournament-rules-content.hide.rtl-allowed
+            if /^zh/.test(me.get('preferredLanguage', true))
+              p 欢迎参加 CodeCombat 锦标赛。
+
+            else
+              p Welcome to the CodeCombat tournament!
+      if view.awaitingTournament
+        .text-center.special-tournaments
+          h2(data-i18n="ladder.awaiting_tournament_title")
+          p(data-i18n="ladder.awaiting_tournament_blurb")
+          br
+          br
+      else if view.showTournament
+        for level in view.tournamentArenas()
+          .special-tournaments
+            a(href=level.disabled ? "/play/ladder" : level.url, disabled=level.disabled, title=level.description)
+              .level
+                if level.image
+                  img.level-image(src="#{level.image}", alt="#{level.name}").img-rounded
+                else
+                  img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt="#{level.name}").img-rounded
+                  h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
+                .play-text-container
+                  .overlay-text.play-text(data-i18n="common.play")
       +classrooms_content()
 
 mixin ozar_main_content()
