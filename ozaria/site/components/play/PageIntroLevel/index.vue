@@ -7,7 +7,7 @@ import cutsceneVideoComponent from '../../cutscene/PageCutscene'
 import { defaultCodeLanguage } from 'ozaria/site/common/ozariaUtils'
 import utils from 'core/utils'
 import modalTransition from 'ozaria/site/components/common/ModalTransition'
-import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 import { log } from 'ozaria/site/common/logger'
 import { HTTP_STATUS_CODES } from 'core/constants'
 
@@ -51,8 +51,14 @@ export default Vue.extend({
     showVictoryModal: false,
     introLevelComplete: false,
     currentContentData: {},
-    reloadKey: {}
+    reloadKey: {},
+    levelNumber: ''
   }),
+  computed: {
+    ...mapGetters({
+      getLevelNumber: 'gameContent/getLevelNumber'
+    }),
+  },
   watch: {
     introLevelIdOrSlug: async function () {
       await this.loadIntroLevel()
@@ -75,6 +81,9 @@ export default Vue.extend({
     }),
     ...mapGetters({
       getCampaignData: 'campaigns/getCampaignData'
+    }),
+    ...mapActions({
+      generateLevelNumberMap: 'gameContent/generateLevelNumberMap'
     }),
     loadIntroLevel: async function () {
       this.dataLoaded = false
@@ -112,6 +121,7 @@ export default Vue.extend({
         this.introContent = this.introLevelData.introContent
         // Set current campaign id and unit map URL details for acodus chrome
         this.campaignId = this.introLevelData.campaign
+        this.fetchLevelNumber()
         this.setUnitMapUrlDetails({ courseId: this.courseId, courseInstanceId: this.courseInstanceId })
       } catch (err) {
         console.error('Error in creating data for intro level', err)
@@ -136,6 +146,13 @@ export default Vue.extend({
       this.currentContent = this.introContent[this.currentIndex]
       this.setCurrentContentId(this.currentContent)
       this.dataLoaded = true
+    },
+    fetchLevelNumber () {
+      this.generateLevelNumberMap({
+        campaignId: this.campaignId
+      }).then(() => {
+        this.levelNumber = this.getLevelNumber(this.introLevelData.original)
+      })
     },
     onContentCompleted: async function (data, cinematicActionLog) {
       this.currentContentData = data || {}
@@ -289,6 +306,7 @@ export default Vue.extend({
       v-else-if="currentContent.type == 'cutscene-video'"
       :key="currentContentId + `${reloadKey[currentContent.type]}`"
       :cutscene-id="currentContentId"
+      :level-number="levelNumber"
       @completed="onContentCompleted"
     />
     <avatar-selection-screen

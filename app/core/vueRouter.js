@@ -63,6 +63,11 @@ export default function getVueRouter () {
           ]
         },
         {
+          path: '/admin/trial-classes',
+          component: () => import(/* webpackChunkName: "TrialClassView" */ 'app/views/online-class/TrialClassesView'),
+          props: (_route) => ({ isAdminView: true })
+        },
+        {
           path: '/trial-classes',
           component: () => import(/* webpackChunkName: "TrialClassView" */ 'app/views/online-class/TrialClassesView')
         },

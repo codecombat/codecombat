@@ -1993,7 +1993,8 @@ module.exports = {
       saved: 'Changes Saved',
       password_mismatch: 'Password does not match.',
       password_repeat: 'Please repeat your password.',
-      switch_new_teacher_dashboard: 'Try the new Teacher Dashboard'
+      switch_new_teacher_dashboard: 'Try the new Teacher Dashboard',
+      view_trial_class_bookings: 'View Trial Class Bookings'
     },
 
     keyboard_shortcuts: {

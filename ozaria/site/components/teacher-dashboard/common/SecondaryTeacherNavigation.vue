@@ -2,11 +2,16 @@
 import { mapState } from 'vuex'
 import utils from 'core/utils'
 import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
+import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
 
 export default {
   components: {
     DashboardToggle
   },
+
+  mixins: [
+    sortClassroomMixin
+  ],
 
   props: {
     classrooms: {
@@ -71,6 +76,12 @@ export default {
     showAssessments () {
       // TODO: do show the assessments if it is CodeNinjas, but not in a camp context
       return utils.isCodeCombat && !me.isCodeNinja()
+    },
+
+    sortedClasses () {
+      const classrooms = [...this.classrooms]
+      classrooms.sort(this.classroomSortById)
+      return classrooms
     },
   },
 
@@ -144,7 +155,7 @@ export default {
           </router-link>
         </li>
         <li
-          v-for="classroom in classrooms"
+          v-for="classroom in sortedClasses"
           :key="classroom._id"
           :class="classesTabSelected && classroomSelected === classroom._id ? 'selected' : null"
         >

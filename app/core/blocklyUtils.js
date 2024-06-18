@@ -46,7 +46,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     const userBlocks = mergedPropertyEntryGroups[owner].props.filter(prop => !(['for-loop'].includes(prop.name))).map(prop =>
       createBlock({ owner, prop, generator, codeLanguage, codeFormat, level, superBasicLevels })
     )
-    userBlockCategories.push({ kind: 'category', name: owner, colour: '190', contents: userBlocks })
+    userBlockCategories.push({ kind: 'category', name: owner === 'Hero' ? '' : owner, colour: '190', contents: userBlocks })
   }
 
   const newlineBlock = {
@@ -648,10 +648,11 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-go.png',
-      width: 36,
-      height: 36,
+      width: 44,
+      height: 44,
       alt: 'go'
     })
+    setup.colour = 240
   }
 
   if (codeFormat === 'blocks-icons' && setup.message0.startsWith('hit ')) {
@@ -661,23 +662,11 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-hit.png',
-      width: 36,
-      height: 36,
+      width: 44,
+      height: 44,
       alt: 'hit'
     })
-  }
-
-  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('zap ')) {
-    // Use an image instead of text
-    setup.message0 = setup.message0.replace(/zap %1 %2/, '%1%2 %3') // With times
-    setup.message0 = setup.message0.replace(/zap %1/, '%1%2') // Without times
-    setup.args0.unshift({
-      type: 'field_image',
-      src: '/images/level/blocks/block-zap.png',
-      width: 36,
-      height: 36,
-      alt: 'zap'
-    })
+    setup.colour = 240
   }
 
   if (codeFormat === 'blocks-icons' && setup.message0.startsWith('spin ')) {
@@ -691,6 +680,21 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
       height: 36,
       alt: 'spin'
     })
+    setup.colour = 240
+  }
+
+  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('zap ')) {
+    // Use an image instead of text
+    setup.message0 = setup.message0.replace(/zap %1 %2/, '%1%2 %3') // With times
+    setup.message0 = setup.message0.replace(/zap %1/, '%1%2') // Without times
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-zap.png',
+      width: 44,
+      height: 44,
+      alt: 'zap'
+    })
+    setup.colour = 240
   }
 
   if (codeFormat === 'blocks-icons' && setup.message0.startsWith('look ')) {
@@ -700,8 +704,8 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-look.png',
-      width: 36,
-      height: 36,
+      width: 44,
+      height: 44,
       alt: 'look'
     })
   }
@@ -719,10 +723,10 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
       ]
     } else {
       dropdownArg.options = [
-        ['up', 'up'],
-        ['down', 'down'],
-        ['left', 'left'],
-        ['right', 'right']
+        [{ src: '/images/level/blocks/block-up.png', width: 24, height: 24 }, 'up'],
+        [{ src: '/images/level/blocks/block-down.png', width: 24, height: 24 }, 'down'],
+        [{ src: '/images/level/blocks/block-left.png', width: 24, height: 24 }, 'left'],
+        [{ src: '/images/level/blocks/block-right.png', width: 24, height: 24 }, 'right']
       ]
     }
     dropdownArg.default = args[0].default

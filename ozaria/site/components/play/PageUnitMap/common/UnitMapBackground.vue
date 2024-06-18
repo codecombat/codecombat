@@ -2,7 +2,7 @@
 
 import levelDot from './UnitMapLevelDot'
 import ModalCharCustomization from 'ozaria/site/components/char-customization/ModalCharCustomization'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import urls from 'app/core/urls'
 import UnitMapNav from '../Nav'
 
@@ -52,7 +52,8 @@ export default Vue.extend({
     ...mapGetters({
       isAnonymous: 'me/isAnonymous',
       isTeacher: 'me/isTeacher',
-      isStudent: 'me/isStudent'
+      isStudent: 'me/isStudent',
+      getLevelNumber: 'gameContent/getLevelNumber'
     }),
     backgroundImage: function () {
       if (this.campaignData.backgroundImage) {
@@ -90,8 +91,14 @@ export default Vue.extend({
     // heroName is not working as computed property for some reason
     // TODO move heroName to Vuex store `me` and use its getter as computed property.
     this.heroName = (me.get('ozariaUserOptions') || {}).playerHeroName
+
+    this.generateLevelNumberMap({ campaignId: this.campaignData._id })
   },
   methods: {
+    ...mapActions({
+      generateLevelNumberMap: 'gameContent/generateLevelNumberMap'
+    }),
+
     customizeHero () {
       this.showCharCx = true
     },
@@ -131,6 +138,7 @@ export default Vue.extend({
       :course-instance-id="courseInstanceId"
       :code-language="codeLanguage"
       :classroom-id="classroomId"
+      :level-number="getLevelNumber(level.original)"
     />
     <unit-map-nav
       :back-button-link="backButtonLink"

@@ -30,6 +30,7 @@ import LayoutChrome from 'ozaria/site/components/common/LayoutChrome'
 import LayoutCenterContent from '../../common/LayoutCenterContent'
 import store from 'core/store'
 import utils from 'core/utils'
+import { mapGetters, mapActions } from 'vuex'
 
 module.exports = Vue.extend({
   components: {
@@ -46,22 +47,40 @@ module.exports = Vue.extend({
   },
   data () {
     return {
-      backboneView: PlayLevelView
+      backboneView: PlayLevelView,
+      levelNumber: ''
     }
   },
   computed: {
+    ...mapGetters({
+      getLevelNumber: 'gameContent/getLevelNumber'
+    }),
     title () {
       const levelData = store.state.game.level || {}
-      return utils.i18n(levelData, 'displayName') || utils.i18n(levelData, 'name')
+      const title = utils.i18n(levelData, 'displayName') || utils.i18n(levelData, 'name') || ''
+      return `${this.levelNumber ? `${this.levelNumber}.` : ''} ${title || ''}`
     },
     isChromeOn () {
       return (store.state.game.level || {}).ozariaType === 'capstone'
     },
     hasAIEnabled () {
       return store.state.game.aiHintVisible
+    },
+    campaignId () {
+      return (store.state.game.level || {}).campaign
+    },
+  },
+  watch: {
+    campaignId (newCampaign) {
+      if (newCampaign) {
+        this.fetchLevelNumber()
+      }
     }
   },
   methods: {
+    ...mapActions({
+      generateLevelNumberMap: 'gameContent/generateLevelNumberMap'
+    }),
     clickRestart () {
       if (this.canRestart()) {
         Backbone.Mediator.publish('level:open-restart-modal', {})
@@ -76,7 +95,14 @@ module.exports = Vue.extend({
     },
     getSupermodel () {
       return window.temporarilyPreservedSupermodel // May be undefined, or may be set for one frame when transitioning from previous level
-    }
+    },
+    fetchLevelNumber () {
+      this.generateLevelNumberMap({
+        campaignId: store.state.game.level.campaign
+      }).then(() => {
+        this.levelNumber = this.getLevelNumber(store.state.game.level.original)
+      })
+    },
   }
 })
 </script>

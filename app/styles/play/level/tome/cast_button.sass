@@ -122,8 +122,17 @@
       width: 100%
       border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
 
+      &.cast-button
+        @include opacity(0.95)
+
+        &:hover, &.castable
+          filter: brightness(1.5)
+
       &:active
         border-image: url(/images/level/code_toolbar_submit_button_active_pressed.png) 14 20 20 20 fill round
+
+      .glyphicon
+        font-size: 28px
 
     &:not(.winnable)
       .btn.btn-illustrated
