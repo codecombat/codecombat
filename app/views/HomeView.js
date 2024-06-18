@@ -113,6 +113,9 @@ module.exports = (HomeView = (function () {
       e.preventDefault()
       e.stopImmediatePropagation()
       this.homePageEvent($(e.target).data('event-action'))
+      if (utils.isCodeCombat && me.isTeacher()) {
+        return application.router.navigate('/teachers/quote', { trigger: true })
+      }
       if (me.isTeacher()) {
         return application.router.navigate('/teachers/update-account', { trigger: true })
       } else {
