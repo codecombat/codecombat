@@ -37,6 +37,7 @@ export default Vue.extend({
         console.log('Scenario updated:', newScenario)
         this.generateQRCode()
         this.updateDynamicCss()
+        this.scaleWorksheet()
       },
       deep: true
     },
@@ -62,10 +63,21 @@ export default Vue.extend({
         this.error = 'An error occurred while fetching the scenario.'
       }
     }
+
+    this.scaleWorksheet()
+    window.addEventListener('resize', this.scaleWorksheet)
+  },
+
+  beforeDestroy () {
+    if (this.styleElement) {
+      this.styleElement.remove()
+    }
+    window.removeEventListener('resize', this.scaleWorksheet)
   },
 
   methods: {
     markedInline,
+
     async generateQRCode () {
       if (this.scenario && this.scenario.slug) {
         const url = `https://codecombat.com/ai-junior/project/${this.slug}/${this.me.id}`
@@ -76,6 +88,7 @@ export default Vue.extend({
         }
       }
     },
+
     updateDynamicCss (newCss = this.scenario?.inputCss) {
       if (this.styleElement) {
         this.styleElement.remove()
@@ -88,11 +101,17 @@ export default Vue.extend({
       }
     },
 
-    beforeDestroy () {
-      if (this.styleElement) {
-        this.styleElement.remove()
+    scaleWorksheet () {
+      const worksheet = this.$el
+      const container = $(worksheet).parent()
+      const scaleX = container.width() / (11 * 96) // 11 inches * 96 pixels per inch
+      const scaleY = container.height() / (8.5 * 96) // 8.5 inches * 96 pixels per inch
+      const scale = Math.min(scaleX, scaleY)
+      if (scale > 0) {
+        worksheet.style.transform = `scale(${scale})`
+        worksheet.style.transformOrigin = 'top left'
       }
-    }
+    },
   },
 })
 </script>
@@ -211,13 +230,13 @@ export default Vue.extend({
 </template>
 
 <style scoped lang="scss">
-$paper-width: 11;
-$paper-height: 8.5;
-$top-margin: 0.5 / $paper-height * 100%;
-$bottom-margin: 0.5 / $paper-height * 100%;
-$left-margin: 0.5 / $paper-width * 100%;
-$right-margin: 0.5 / $paper-width * 100%;
-$header-height: 0.85 / $paper-height * 100%;
+$paper-width: 11in;
+$paper-height: 8.5in;
+$top-margin: 0.5in;
+$bottom-margin: 0.5in;
+$left-margin: 0.5in;
+$right-margin: 0.5in;
+$header-height: 0.85in;
 $input-border-size: 2px;
 $input-size: 30px;
 $input-margin-right: 5px;
@@ -245,12 +264,12 @@ $input-text-font-size: 18px;
 }
 
 .worksheet-outer-container {
-  width: 100%;
-  height: 0;
-  padding-top: calc(100% * $paper-height / $paper-width); /* Maintain paper aspect ratio */
+  width: $paper-width;
+  height: $paper-height;
   position: relative;
   background-color: white;
   border: 4px solid black;
+  overflow: hidden;
 }
 
 .worksheet-header-container {
