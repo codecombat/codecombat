@@ -95,10 +95,6 @@ export default {
       this.$store.commit('teacherDashboard/setSelectedCourseIdCurrentClassroom', { courseId: utils.courseIDs.HACKSTACK })
     },
 
-    classroomSortById (a, b) {
-      return moment(parseInt(b._id.substring(0, 8), 16) * 1000).diff(moment(parseInt(a._id.substring(0, 8), 16) * 1000))
-    },
-
     trackEvent (e) {
       const eventName = e.target.dataset.action
       const eventLabel = e.target.dataset.label
