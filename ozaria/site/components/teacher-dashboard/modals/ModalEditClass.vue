@@ -38,9 +38,11 @@ export default Vue.extend({
       newProgrammingLanguage: 'python',
       newLiveCompletion: true,
       newClassroomItems: true,
+      defaultClassroomItems: true,
       newCodeFormats: ['text-code'],
       newCodeFormatDefault: 'text-code',
       newLevelChat: false,
+      defaultLevelChat: true,
       newClassroomDescription: '',
       newAverageStudentExp: '',
       newClassroomType: '',
@@ -123,7 +125,7 @@ export default Vue.extend({
       return _.assign({ liveCompletion: true }, (this.classroom || {}).aceConfig).liveCompletion
     },
     classroomItems () {
-      return utils.isCodeCombat || ((this.classroom || {}).classroomItems)
+      return (this.classroom || {}).classroomItems
     },
     enableBlocks () {
       return ['python', 'javascript', 'lua'].includes(this.language || 'python')
@@ -142,9 +144,6 @@ export default Vue.extend({
       return ((this.classroom || {}).aceConfig || {}).codeFormatDefault || 'text-code'
     },
     levelChat () {
-      if (utils.isCodeCombat) {
-        return 'fixed_prompt_only'
-      }
       return _.assign({ levelChat: 'none' }, (this.classroom || {}).aceConfig).levelChat
     },
     classroomDescription () {
@@ -190,6 +189,9 @@ export default Vue.extend({
     this.classGrades = this.classroom.grades || []
     if (!this.classroomInstance.isNew()) {
       this.moreOptions = true
+    } else {
+      this.newClassroomItems = this.defaultClassroomItems
+      this.newLevelChat = this.defaultLevelChat
     }
   },
 
