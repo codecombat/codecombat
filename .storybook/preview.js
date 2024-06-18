@@ -71,6 +71,21 @@ i18next.init({
     en: require('app/locale/en')
   }
 });
+
+const jqueryI18next = require('jquery-i18next')
+
+jqueryI18next.init(i18next, $, {
+  tName: 't', // --> appends $.t = i18next.t
+  i18nName: 'i18n', // --> appends $.i18n = i18next
+  handleName: 'i18n', // --> appends $(selector).i18n(opts)
+  selectorAttr: 'data-i18n', // selector for translating elements
+  targetAttr: 'i18n-target', // data-() attribute to grab target element to translate (if different than itself)
+  optionsAttr: 'i18n-options', // data-() attribute that contains options, will load/set if useOptionsAttr = true
+  useOptionsAttr: true, // see optionsAttr
+  parseDefaultValueFromContent: true
+}) 
+
+
 Vue.prototype.$t = (...args) => {
   return i18next.t(...args)
 }
