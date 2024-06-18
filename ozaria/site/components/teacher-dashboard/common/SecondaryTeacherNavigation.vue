@@ -2,11 +2,16 @@
 import { mapState } from 'vuex'
 import utils from 'core/utils'
 import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
+import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
 
 export default {
   components: {
     DashboardToggle
   },
+
+  mixins: [
+    sortClassroomMixin
+  ],
 
   props: {
     classrooms: {
