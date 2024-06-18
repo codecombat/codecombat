@@ -9,6 +9,11 @@ export default Vue.extend({
       type: Object,
       required: true
     },
+    levelNumber: {
+      type: [Number, String],
+      required: false,
+      default: ''
+    },
     courseId: {
       type: String,
       default: undefined
@@ -185,7 +190,7 @@ export default Vue.extend({
           </div>
           <div class="tooltip-body">
             <div class="level-title">
-              {{ displayName }}
+              {{ levelNumber && (levelData.type !== 'intro' || isCutsceneLevel) ? `${levelNumber}.` : '' }} {{ displayName }}
             </div>
 
             <div class="level-status">
