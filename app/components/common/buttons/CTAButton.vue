@@ -20,7 +20,9 @@
       v-if="description"
       class="description"
     >
-      {{ description }}
+      <mixed-color-label
+        :text="description"
+      />
     </p>
   </div>
 </template>
@@ -110,8 +112,14 @@ export default {
     }
 
     align-items: center;
-    background-color: var(--color-primary);
-    @extend %text-contrast;
+    background-color: var(--color-primary-1);
+
+    body:not(.teal-theme) [style*="--type: normal"] & {
+      @extend %text-contrast;
+    }
+    .teal-theme & {
+      font-weight: bold;
+    }
 
     [style*="--type: no-background"] & {
       background-color: transparent;
@@ -121,7 +129,7 @@ export default {
       background-color: var(--color-primary-2);
 
       [style*="--type: no-background"] & {
-        background-color: rgba(var(--color-primary), 0.3)
+        background-color: rgba(var(--color-primary-1), 0.3)
       }
     }
 
@@ -138,6 +146,9 @@ export default {
 
     position: relative;
     color: white;
+    .teal-theme & {
+      color: var(--color-dark-grey)
+    }
     [style*="--type: no-background"] & {
       color: $dark-grey-2;
       text-shadow: none;
@@ -164,7 +175,7 @@ export default {
 
 .description {
   margin-top: 8px;
-  color: var(--color-primary__darken_10);
+  color: var(--color-primary-1__darken_10);
   text-align: center;
   @extend %font-16;
   font-style: normal;

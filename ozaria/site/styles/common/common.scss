@@ -2,43 +2,59 @@
 @import "app/styles/component_variables.scss";
 
 :root {
+  $light-grey: #6b7280;
+
   --color-primary: #{$purple};
+  --color-primary-1: #{$purple};
   --color-primary-2: #{$purple-2};
   --color-primary-middle: #{$middle-purple};
   --color-primary-light: #{$light-purple};
+  --color-primary-light-2: #{$light-purple};
   --color-dark-grey: #{$dark-grey};
+  --color-dark-grey-2: #{$dark-grey-2};
+  --color-light-grey: #{$light-grey};
 
   --color-box-shadow: #{rgba(122, 101, 252, 0.15)};
   --color-light-background: #{$light-background};
-  --color-bg-gradient: #{linear-gradient(100deg, #F6F4FF 0%, #FFF 100%)};
+  --color-bg-gradient: #{linear-gradient(100deg, #f6f4ff 0%, #fff 100%)};
 
-  $text-shadow: -1px 0 darken($purple, 20%), 0 1px darken($purple, 20%), 1px 0 darken($purple, 20%), 0 -1px darken($purple, 20%);
+  $text-shadow: -1px 0 darken($purple, 20%), 0 1px darken($purple, 20%),
+    1px 0 darken($purple, 20%), 0 -1px darken($purple, 20%);
 
   --text-shadow: #{$text-shadow};
   --color-primary__darken_10: #{darken($purple, 10%)};
+  --color-primary-1__darken_10: #{darken($purple, 10%)};
 }
 
 body.teal-theme {
   $dark-grey: #0a2239;
-  $blue: #4799A9;
+  $light-grey: #6b7280;
+  $blue: #4799a9;
+  $blue-1: #4decf0;
   $blue-2: #6feff3;
   $middle-blue: #bdf7fa;
   $light-blue: #e6fbfc;
-  $light-background: #F0FDFD;
+  $light-blue-2: #e9e8fd;
+  $light-background: #f0fdfd;
 
+  --color-primary-1: #{$blue-1};
   --color-primary: #{$blue};
   --color-primary-2: #{$blue-2};
   --color-primary-middle: #{$middle-blue};
   --color-primary-light: #{$light-blue};
+  --color-primary-light-2: #{$light-blue-2};
   --color-dark-grey: #{$dark-grey};
+  --color-dark-grey-2: #{$dark-grey-2};
+  --color-light-grey: #{$light-grey};
 
   --color-box-shadow: #{rgba(77, 236, 240, 0.3)};
   --color-light-background: #{$light-background};
-  --color-bg-gradient: #{linear-gradient(100deg, #F0FDFD 0%, #FFF 100%)};
+  --color-bg-gradient: #{linear-gradient(100deg, #f0fdfd 0%, #fff 100%)};
 
-
-  --text-shadow: #{-1px 0 darken($blue, 20%), 0 1px darken($blue, 20%), 1px 0 darken($blue, 20%), 0 -1px darken($blue, 20%)};
+  --text-shadow: #{-1px 0 darken($blue, 20%), 0 1px darken($blue, 20%),
+    1px 0 darken($blue, 20%), 0 -1px darken($blue, 20%)};
   --color-primary__darken_10: #{darken($blue, 10%)};
+  --color-primary-1__darken_10: #{darken($blue-1, 10%)};
 }
 
 @if not $is-codecombat {

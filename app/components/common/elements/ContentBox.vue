@@ -20,7 +20,10 @@
       v-if="!onlyMainImage"
       class="box__div"
     >
-      <div class="info">
+      <div
+        class="info"
+        :class="{'no-main-image':!hasMainImage}"
+      >
         <div
           v-if="hasSymbolImage"
           class="symbol-image"
@@ -299,6 +302,10 @@ export default {
     margin-top: auto;
   }
 
+  &.no-main-image >:last-child {
+    margin-bottom: auto;
+  }
+
   .middle-text {
     display: flex;
     align-items: center;
@@ -309,7 +316,7 @@ export default {
   &__label {
     @extend %font-14;
     color: var(--color-primary);
-    padding: 0 14px;
+    padding: 0 12px;
     border-right: 1px solid var(--color-primary);
     &:first-child {
       padding-left: 0;

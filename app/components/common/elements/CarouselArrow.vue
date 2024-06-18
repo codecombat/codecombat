@@ -22,5 +22,28 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+path {
+  stroke: var(--color-primary);
+
+  .teal-theme & {
+    stroke: var(--color-primary-2);
+  }
+}
+
+.light {
+  cursor: default;
+
+  path {
+    stroke: var(--color-primary-light);
+  }
+}
+
+.grey {
+  cursor: default;
+
+  path {
+    stroke: var(--color-primary-light-2);
+  }
+}
 </style>

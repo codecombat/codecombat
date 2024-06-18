@@ -7,14 +7,23 @@
 
       <a
         v-if="word.isPurple && word.link"
-        :class="{ 'mixed-color-label__highlight': word.isPurple, 'mixed-color-label__normal': !word.isPurple }"
+        :class="{
+          inherit: inheritDefaultColor,
+          'mixed-color-label__highlight': word.isPurple,
+          'mixed-color-label__normal': !word.isPurple
+        }"
         :href="word.link"
         :target="target"
       >{{ word.text }}</a>
       <span
         v-else
-        :class="{ 'mixed-color-label__highlight': word.isPurple, 'mixed-color-label__normal': !word.isPurple }"
-      >{{ word.text }}</span>
+        :class="{
+          inherit: inheritDefaultColor,
+          'mixed-color-label__highlight': word.isPurple,
+          'mixed-color-label__normal': !word.isPurple
+        }"
+      >{{
+        word.text }}</span>
     </span>
   </span>
 </template>
@@ -37,6 +46,11 @@ export default {
       type: String,
       required: false,
       default: '_blank'
+    },
+    inheritDefaultColor: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   computed: {
@@ -56,9 +70,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "app/styles/component_variables.scss";
+
 .mixed-color-label {
   &__normal {
     color: var(--color-dark-grey);
+    &.inherit {
+      color: inherit;
+    }
   }
 
   &__highlight {

@@ -29,7 +29,10 @@
           </ul>
         </FaqItem>
       </div>
-      <p class="p">
+      <p
+        v-if="showFooter"
+        class="p"
+      >
         <mixed-color-label
           :text="$t('schools_page.faq_see_more')"
           target="_blank"
@@ -53,6 +56,11 @@ export default {
     faqItems: {
       type: Array,
       required: true
+    },
+    showFooter: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   data () {

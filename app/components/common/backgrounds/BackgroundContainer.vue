@@ -85,7 +85,13 @@ export default {
 
   &__overlap-default {
     background-color: #F9F9FF;
+    .teal-theme & {
+      background-color: transparent;
+    }
     background-image: url('/images/components/bg-image.webp');
+    .teal-theme & {
+      background-image: url('/images/components/bg-image__teal.webp');
+    }
     background-position: center;
     background-repeat: no-repeat;
     width: 100%;

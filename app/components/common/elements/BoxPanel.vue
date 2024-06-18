@@ -33,7 +33,10 @@
           :middle-image-alt="item.middleImageAlt"
           :labels="item.labels"
         >
-          <template #image>
+          <template
+            v-if="item.video || item.image"
+            #image
+          >
             <div v-if="item.video">
               <video-box
                 :ref="`video-${index}`"
@@ -44,7 +47,7 @@
               />
             </div>
             <img
-              v-else
+              v-else-if="item.image"
               :src="item.image"
               :alt="`Image to illustrate ${item.title}`"
               :loading="lazyLoad ? 'lazy' : ''"

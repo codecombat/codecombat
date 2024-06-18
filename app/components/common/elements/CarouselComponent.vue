@@ -84,7 +84,7 @@
       <div :class="{ 'carousel-dots': true, 'carousel-tabs-default': showDots }">
         <CarouselArrow
           class="arrow-img"
-          :class="{light:currentIndex <=0 }"
+          :class="{grey:currentIndex <=0 }"
           @click="goTo(currentIndex - 1)"
         />
         <button
@@ -97,7 +97,7 @@
         </button>
         <CarouselArrow
           class="arrow-img"
-          :class="{light:currentIndex >= items.length - 1 }"
+          :class="{grey:currentIndex >= items.length - 1 }"
           @click="goTo(currentIndex + 1)"
         />
       </div>
@@ -176,16 +176,6 @@ export default {
 
   .arrow-img ::v-deep {
     cursor: pointer;
-    path {
-      stroke: var(--color-primary);
-    }
-
-    &.light {
-      cursor: default;
-      path {
-        stroke: var(--color-primary-light);
-      }
-    }
 
     &:first-child {
       transform: rotate(180deg);
@@ -199,10 +189,10 @@ export default {
     border-radius: 16px;
     border: none;
     color: transparent;
-    background-color: var(--color-primary-light);
+    background-color: var(--color-primary-light-2);
 
     &.active {
-      background-color: var(--color-primary);
+      background-color: var(--color-primary-2);
     }
   }
 }
