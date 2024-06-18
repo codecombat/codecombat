@@ -33,6 +33,11 @@ export default function getVueRouter () {
           meta: { theme: 'teal' }
         },
         {
+          path: '/codequest',
+          component: () => import(/* webpackChunkName: "CodequestView" */ 'app/views/codequest/PageCodequest.vue'),
+          meta: { theme: 'teal' }
+        },
+        {
           path: '/diversity-equity-and-inclusion',
           component: () => import(/* webpackChunkName: "dei" */ 'app/views/dei/DEIView.vue')
         },
