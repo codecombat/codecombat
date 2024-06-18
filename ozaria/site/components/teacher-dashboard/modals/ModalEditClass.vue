@@ -38,11 +38,11 @@ export default Vue.extend({
       newProgrammingLanguage: 'python',
       newLiveCompletion: true,
       newClassroomItems: true,
-      defaultClassroomItems: true,
+      cocoDefaultClassroomItems: true,
       newCodeFormats: ['text-code'],
       newCodeFormatDefault: 'text-code',
       newLevelChat: false,
-      defaultLevelChat: true,
+      cocoDefaultLevelChat: true,
       newClassroomDescription: '',
       newAverageStudentExp: '',
       newClassroomType: '',
@@ -189,9 +189,9 @@ export default Vue.extend({
     this.classGrades = this.classroom.grades || []
     if (!this.classroomInstance.isNew()) {
       this.moreOptions = true
-    } else {
-      this.newClassroomItems = this.defaultClassroomItems
-      this.newLevelChat = this.defaultLevelChat
+    } else if (utils.isCodeCombat) {
+      this.newClassroomItems = this.cocoDefaultClassroomItems
+      this.newLevelChat = this.cocoDefaultLevelChat
     }
   },
 
