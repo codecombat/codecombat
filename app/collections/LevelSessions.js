@@ -58,6 +58,7 @@ module.exports = (LevelSessionCollection = (function () {
       let skip = 0
       const size = _.size(classroom.get('members'))
       if (options.data == null) { options.data = {} }
+      options.data.project = options.data.project || 'state.complete,state.introContentSessionComplete,state.goalStates,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts,code,codeLanguage,introContentSessionComplete,playtime'
       options.data.memberLimit = limit
       options.remove = false
       const jqxhrs = []
