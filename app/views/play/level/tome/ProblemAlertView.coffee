@@ -69,8 +69,7 @@ module.exports = class ProblemAlertView extends CocoView
   afterRender: ->
     @$('[data-toggle="popover"]').popover()
     unless me.showChinaResourceInfo()
-      unless @creditMessage or globalVar.fetchingCreditsString
-        globalVar.fetchingCreditsString = true
+      unless @creditMessage
         @handleUserCreditsMessage()
 
     super()
@@ -152,11 +151,7 @@ module.exports = class ProblemAlertView extends CocoView
     null
 
   handleUserCreditsMessage: ->
-    userUtils.levelChatCreditsString().then (res) =>
-      if @creditMessage != res
-        globalVar.userCreditsMessage = res
-        globalVar.fetchingCreditsString = false
-        Backbone.Mediator.publish 'auth:user-credits-message-updates', {}
+    userUtils.updateUserCreditsMessage()
 
   onUserCreditsMessageUpdates: ->
     @creditMessage = globalVar.userCreditsMessage
