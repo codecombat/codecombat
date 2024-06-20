@@ -1,416 +1,424 @@
+
 <template>
-  <div id="parent-page">
-    <div class="container">
-      <header-component class="container__header">
-        <template #header-text>
-          <h1 class="text-h1">
-            <mixed-color-label :text="$t('parents_v2.play_code_create')" />
-          </h1>
-          <p class="text-24">
-            {{ $t('parents_v2.unlock_passion') }}
-          </p>
-          <two-column-block>
-            <template #column-one>
-              <p class="text-p">
-                <CTAButton href="https://codecombat.com/teachers/quote">
-                  {{ $t('parents_v2.schedule_free_class') }}
-                </CTAButton>
-                <mixed-color-label
-                  :text="$t('parents_v2.enroll_now')"
-                  :inherit-default-color="true"
-                />
+  <PageParentsLanding
+    ref="parent"
+    class="page-parents-landing"
+  >
+    <template #contents>
+      <div id="parent-page-v2">
+        <div class="container">
+          <header-component class="container__header">
+            <template #header-text>
+              <h1 class="text-h1">
+                <mixed-color-label :text="$t('parents_v2.play_code_create')" />
+              </h1>
+              <p class="text-24">
+                {{ $t('parents_v2.unlock_passion') }}
               </p>
+              <two-column-block>
+                <template #column-one>
+                  <p class="text-p">
+                    <CTAButton
+                      @clickedCTA="onClickMainCta"
+                    >
+                      {{ $t('parents_v2.schedule_free_class') }}
+                    </CTAButton>
+                    <mixed-color-label
+                      :text="$t('parents_v2.enroll_now')"
+                      :inherit-default-color="true"
+                    />
+                  </p>
+                </template>
+                <template #column-two>
+                  <p class="text-p">
+                    <CTAButton href="/parents/signup">
+                      {{ $t('parents_v2.create_parent_account') }}
+                    </CTAButton>
+                    {{ $t('parents_v2.to_explore') }}
+                  </p>
+                </template>
+              </two-column-block>
             </template>
-            <template #column-two>
+            <template #image>
+              <content-box :main-image-bg="true">
+                <template #image>
+                  <video-box video-id="3443ecdf023c925e100a938dcae73f47" />
+                </template>
+              </content-box>
+            </template>
+          </header-component>
+        </div>
+
+        <background-container
+          type="colored"
+          class="testimonials"
+        >
+          <div class="container">
+            <carousel-component
+              :show-tabs="false"
+              :show-dots="true"
+              :has-background="false"
+            >
+              <template
+                v-for="(item, index) in testimonials"
+                #[`${index}`]
+              >
+                <carousel-item :key="index">
+                  <testimonial-component
+                    class="testimonials__item"
+                    :quote="$t(`parents_v2.testimonials_${index + 1}_quote`)"
+                    :name="$t(`parents_v2.testimonials_${index + 1}_name`)"
+                    :title="$t(`parents_v2.testimonials_${index + 1}_title`)"
+                    :image="item.image"
+                    :link="item.link"
+                    :full-review-link="item.fullReviewLink"
+                    :full-review-text="$t(`parents_v2.testimonials_${index + 1}_full_review_text`)"
+                  />
+                </carousel-item>
+              </template>
+            </carousel-component>
+          </div>
+        </background-container>
+
+        <div class="container">
+          <box-panel
+            :title="$t('schools_page.student_acceleration_ap_csp')"
+            :items="personalizedInstruction"
+            columns="3"
+          />
+        </div>
+
+        <div class="container video-container">
+          <div class="row">
+            <div class="col-md-12">
               <p class="text-p">
-                <CTAButton href="https://codecombat.com/teachers/quote">
-                  {{ $t('parents_v2.create_parent_account') }}
-                </CTAButton>
-                {{ $t('parents_v2.to_explore') }}
+                {{ $t('parents_v2.see_how') }}
               </p>
-            </template>
-          </two-column-block>
-        </template>
-        <template #image>
-          <content-box :main-image-bg="true">
-            <template #image>
-              <video-box video-id="3443ecdf023c925e100a938dcae73f47" />
-            </template>
-          </content-box>
-        </template>
-      </header-component>
-    </div>
-
-    <background-container
-      type="colored"
-      class="testimonials"
-    >
-      <div class="container">
-        <carousel-component
-          :show-tabs="false"
-          :show-dots="true"
-          :has-background="false"
-        >
-          <template
-            v-for="(item, index) in testimonials"
-            #[`${index}`]
-          >
-            <carousel-item :key="index">
-              <testimonial-component
-                class="testimonials__item"
-                :quote="$t(`parents_v2.testimonials_${index + 1}_quote`)"
-                :name="$t(`parents_v2.testimonials_${index + 1}_name`)"
-                :title="$t(`parents_v2.testimonials_${index + 1}_title`)"
-                :image="item.image"
-                :link="item.link"
-                :full-review-link="item.fullReviewLink"
-                :full-review-text="$t(`parents_v2.testimonials_${index + 1}_full_review_text`)"
-              />
-            </carousel-item>
-          </template>
-        </carousel-component>
-      </div>
-    </background-container>
-
-    <div class="container">
-      <box-panel
-        :title="$t('schools_page.student_acceleration_ap_csp')"
-        :items="personalizedInstruction"
-        columns="3"
-      />
-    </div>
-
-    <div class="container video-container">
-      <div class="row">
-        <div class="col-md-12">
-          <p class="text-p">
-            {{ $t('parents_v2.see_how') }}
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <content-box>
-            <template #image>
-              <base-cloudflare-video
-                video-cloudflare-id="bb2e8bf84df5c2cfa0fcdab9517f1d9e"
-                thumbnail-url="https://cloudflarestream.com/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg?height=720&time=2s"
-                :controls="true"
-                :autoplay="false"
-              />
-            </template>
-          </content-box>
-        </div>
-      </div>
-    </div>
-
-    <background-container class="main-carousel">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <h2 class="text-h2">
-              {{ $t('parents_v2.adapt_interests') }}
-            </h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <content-box>
+                <template #image>
+                  <base-cloudflare-video
+                    video-cloudflare-id="bb2e8bf84df5c2cfa0fcdab9517f1d9e"
+                    thumbnail-url="https://cloudflarestream.com/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg?height=720&time=2s"
+                    :controls="true"
+                    :autoplay="false"
+                  />
+                </template>
+              </content-box>
+            </div>
           </div>
         </div>
-        <carousel-component
-          :show-tabs="true"
-          :lazy-load="true"
-        >
-          <template
-            v-for="(item, index) in carouselItems"
-            #[`${index}`]
-          >
-            <carousel-item
-              :key="index"
-              :title="item.title"
-              :title-prefix="item.titlePrefix"
-              :image="item.image"
+
+        <background-container class="main-carousel">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <h2 class="text-h2">
+                  {{ $t('parents_v2.adapt_interests') }}
+                </h2>
+              </div>
+            </div>
+            <carousel-component
+              :show-tabs="true"
+              :lazy-load="true"
             >
-              <mixed-color-label :text="item.text" />
-            </carousel-item>
-          </template>
-        </carousel-component>
-      </div>
-    </background-container>
-
-    <div class="container">
-      <comprehensive-package :title="$t('parents_v2.comprehensive_packages')" />
-    </div>
-
-    <div class="container">
-      <features-grid />
-    </div>
-
-    <div class="container">
-      <p class="footnote">
-        &ast;<mixed-color-label
-          :inherit-default-color="true"
-          :text="$t('parents_v2.classes_recorded')"
-        />
-        <br>
-        &ast;&ast;<mixed-color-label
-          :inherit-default-color="true"
-          :text="$t('parents_v2.subscriptions_billed')"
-        />
-        <br>
-        &ast;&ast;&ast;<mixed-color-label
-          :inherit-default-color="true"
-          :text="$t('parents_v2.ai_hints')"
-        />
-      </p>
-    </div>
-
-    <div class="container">
-      <CTAButton
-        class="signup-button"
-        data-start-on-path="teacher"
-        :description="$t('parents_v2.signup_description')"
-      >
-        {{ $t('parents_v2.schedule_free_class') }}
-      </CTAButton>
-    </div>
-    <background-container
-      type="colored"
-      class="testimonials"
-    >
-      <step-boxes />
-    </background-container>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h2 class="text-h2">
-            <BookHouse />
-            {{ $t('parents_v2.homeschool_solution') }}
-          </h2>
-        </div>
-      </div>
-      <image-and-text
-        :text="$t('parents_v2.teach_child')"
-        image="/images/pages/parents/tiles/homeschool.webp"
-        :reverse="false"
-        :lazy-load="true"
-      />
-    </div>
-
-    <background-container type="colored">
-      <div class="container instructors">
-        <div class="row">
-          <div class="col-md-12">
-            <h2 class="text-h2">
-              <mixed-color-label :text="$t('parents_v2.meet_instructors')" />
-            </h2>
+              <template
+                v-for="(item, index) in carouselItems"
+                #[`${index}`]
+              >
+                <carousel-item
+                  :key="index"
+                  :title="item.title"
+                  :title-prefix="item.titlePrefix"
+                  :image="item.image"
+                >
+                  <mixed-color-label :text="item.text" />
+                </carousel-item>
+              </template>
+            </carousel-component>
           </div>
-        </div>
-        <carousel-component
-          :show-tabs="false"
-          :show-dots="true"
-          :lazy-load="true"
-          :has-background="false"
-        >
-          <template
-            v-for="(item, index) in instructors"
-            #[`${index}`]
-          >
-            <carousel-item
-              :key="index"
-              :title="item.title"
-              :title-prefix="item.titlePrefix"
-              :image="item.image"
-            >
-              <mixed-color-label :text="item.text" />
-            </carousel-item>
-          </template>
-        </carousel-component>
-      </div>
-    </background-container>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h2 class="text-h2">
-            <ScreenIcon />
-            {{ $t('parents_v2.why_cs_important') }}
-          </h2>
-          <p>
-            <mixed-color-label
-              :text="$t('parents_v2.cs_benefits')"
-            />
-          </p>
-          <p>
-            <mixed-color-label
-              :text="$t('parents_v2.curriculum_design')"
-            />
-          </p>
-        </div>
-      </div>
-    </div>
-    <background-container
-      class="container concepts-covered"
-      type="colored"
-    >
-      <div class="">
-        <div class="row">
-          <h2 class="text-h2">
-            {{ $t('parents_v2.concepts_covered') }}
-          </h2>
-        </div>
-        <div class="concept-items row equal-height">
-          <concept-item
-            class="col col-md-4"
-            goblet="/images/pages/parents/goblets/bronze.svg"
-            :level="$t('parents_v2.beginner_level')"
-            :title="$t('parents_v2.beginner_title')"
-            :concepts="[
-              'Sequences', 'Algorithms', 'Syntax', 'Strings', 'Arguments', 'Loops', 'Variables', 'Cartesian Coordinates'
-            ]"
-          />
-          <concept-item
-            class="col col-md-4"
-            goblet="/images/pages/parents/goblets/silver.svg"
-            :level="$t('parents_v2.intermediate_level')"
-            :title="$t('parents_v2.intermediate_title')"
-            :concepts="[
-              'Boolean logic',
-              'Properties',
-              'Advanced loops',
-              'Conditionals',
-              'Nested conditionals',
-              'Functions',
-              'Events',
-              'Basic game AI'
-            ]"
-          />
-          <concept-item
-            class="col col-md-4"
-            goblet="/images/pages/parents/goblets/gold.svg"
-            :level="$t('parents_v2.advanced_level')"
-            :title="$t('parents_v2.advanced_title')"
-            :concepts="[
-              'Advanced strings',
-              'Computer arithmetic',
-              'Functions and returns',
-              'Complex conditionals',
-              'Arrays',
-              'Break/continue statements',
-              'Recursions',
-              'Stacks and Queues'
-            ]"
-          />
-        </div>
-        <div class="row cta-row">
-          <div class="col-lg-12">
-            <CTAButton href="https://codecombat.com/teachers/quote">
-              {{ $t('parents_v2.schedule_free_class') }}
-            </CTAButton>
-          </div>
-        </div>
-      </div>
-    </background-container>
-    <div class="container">
-      <image-and-text
-        :text="$t('parents_v2.cs_careers')"
-        image="/images/pages/parents/tiles/wbox_1.webp"
-        :reverse="false"
-        :lazy-load="true"
-      />
-    </div>
+        </background-container>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h2 class="text-h2">
-            <BookHouse />
-            {{ $t('parents_v2.why_game_based') }}
-          </h2>
+        <div class="container">
+          <comprehensive-package :title="$t('parents_v2.comprehensive_packages')" />
         </div>
-      </div>
-      <image-and-text
-        :text="$t('parents_v2.game_based_effective')"
-        image="/images/pages/parents/tiles/wbox_2.webp"
-        :reverse="true"
-        :lazy-load="true"
-      />
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h2 class="text-h2">
-            <IntegrateAi />
-            {{ $t('parents_v2.how_integrate_ai') }}
-          </h2>
+
+        <div class="container">
+          <features-grid />
         </div>
-        <div class="col-md-12">
-          <p class="text-p">
-            <mixed-color-label
-              :text="$t('parents_v2.ai_technology_description')"
+
+        <div class="container">
+          <p class="footnote">
+            &ast;<mixed-color-label
+              :inherit-default-color="true"
+              :text="$t('parents_v2.classes_recorded')"
+            />
+            <br>
+            &ast;&ast;<mixed-color-label
+              :inherit-default-color="true"
+              :text="$t('parents_v2.subscriptions_billed')"
+            />
+            <br>
+            &ast;&ast;&ast;<mixed-color-label
+              :inherit-default-color="true"
+              :text="$t('parents_v2.ai_hints')"
             />
           </p>
         </div>
-      </div>
-      <image-and-text
-        :text="$t('parents_v2.instructors_offer_guidance')"
-        image="/images/pages/parents/tiles/wbox_3.webp"
-        :reverse="false"
-        :lazy-load="true"
-      />
-      <image-and-text
-        :text="$t('parents_v2.new_to_ai')"
-        :reverse="true"
-        :lazy-load="true"
-        class="video-container"
-      >
-        <template #image>
-          <video-box
-            video-id="50770b9a2fb36de457a37693a3f632c7"
-          />
-        </template>
-      </image-and-text>
-    </div>
 
-    <div class="container apcsp-prep">
-      <div class="row">
-        <div class="col-md-12">
-          <h2 class="text-h2">
-            <BookIcon />
-            {{ $t('parents_v2.ap_csp_preparation') }}
-          </h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-4 apcsp-prep__img-container">
-          <img
-            src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png"
-            loading="lazy"
-          >
-        </div>
-        <div class="col-lg-8">
-          <p>
-            {{ $t('parents_v2.ap_csp_description') }}
-          </p>
-          <CTAButton
-            class="signup-button"
-            data-start-on-path="teacher"
-            :description="$t('parents_v2.get_prepared_for_ap_csp_exam')"
-          >
-            {{ $t('parents_v2.schedule_a_free_class') }}
+        <div class="container">
+          <CTAButton @clickedCTA="onClickMainCta">
+            {{ $t('parents_v2.schedule_free_class') }}
+            <template #description>
+              <page-parents-section-premium :description="$t('parents_v2.signup_description')" />
+            </template>
           </CTAButton>
         </div>
-      </div>
-    </div>
-    <trends-and-insights />
+        <background-container type="colored">
+          <step-boxes />
+        </background-container>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="text-h2">
+                <BookHouse />
+                {{ $t('parents_v2.homeschool_solution') }}
+              </h2>
+            </div>
+          </div>
+          <image-and-text
+            :text="$t('parents_v2.teach_child')"
+            image="/images/pages/parents/tiles/homeschool.webp"
+            :reverse="false"
+            :lazy-load="true"
+          />
+        </div>
 
-    <background-container type="colored">
-      <div class="container">
-        <faq-component
-          :faq-items="faqItems"
-          :show-footer="false"
-        />
+        <background-container type="colored">
+          <div class="container instructors">
+            <div class="row">
+              <div class="col-md-12">
+                <h2 class="text-h2">
+                  <mixed-color-label :text="$t('parents_v2.meet_instructors')" />
+                </h2>
+              </div>
+            </div>
+            <carousel-component
+              :show-tabs="false"
+              :show-dots="true"
+              :lazy-load="true"
+              :has-background="false"
+            >
+              <template
+                v-for="(item, index) in instructors"
+                #[`${index}`]
+              >
+                <carousel-item
+                  :key="index"
+                  :title="item.title"
+                  :title-prefix="item.titlePrefix"
+                  :image="item.image"
+                >
+                  <mixed-color-label :text="item.text" />
+                </carousel-item>
+              </template>
+            </carousel-component>
+          </div>
+        </background-container>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="text-h2">
+                <ScreenIcon />
+                {{ $t('parents_v2.why_cs_important') }}
+              </h2>
+              <p>
+                <mixed-color-label :text="$t('parents_v2.cs_benefits')" />
+              </p>
+              <p>
+                <mixed-color-label :text="$t('parents_v2.curriculum_design')" />
+              </p>
+            </div>
+          </div>
+        </div>
+        <background-container
+          class="container concepts-covered"
+          type="colored"
+        >
+          <div class="">
+            <div class="row">
+              <h2 class="text-h2">
+                {{ $t('parents_v2.concepts_covered') }}
+              </h2>
+            </div>
+            <div class="concept-items row equal-height">
+              <concept-item
+                class="col col-md-4"
+                goblet="/images/pages/parents/goblets/bronze.svg"
+                :level="$t('parents_v2.beginner_level')"
+                :title="$t('parents_v2.beginner_title')"
+                :concepts="[
+                  'Sequences', 'Algorithms', 'Syntax', 'Strings', 'Arguments', 'Loops', 'Variables', 'Cartesian Coordinates'
+                ]"
+              />
+              <concept-item
+                class="col col-md-4"
+                goblet="/images/pages/parents/goblets/silver.svg"
+                :level="$t('parents_v2.intermediate_level')"
+                :title="$t('parents_v2.intermediate_title')"
+                :concepts="[
+                  'Boolean logic',
+                  'Properties',
+                  'Advanced loops',
+                  'Conditionals',
+                  'Nested conditionals',
+                  'Functions',
+                  'Events',
+                  'Basic game AI'
+                ]"
+              />
+              <concept-item
+                class="col col-md-4"
+                goblet="/images/pages/parents/goblets/gold.svg"
+                :level="$t('parents_v2.advanced_level')"
+                :title="$t('parents_v2.advanced_title')"
+                :concepts="[
+                  'Advanced strings',
+                  'Computer arithmetic',
+                  'Functions and returns',
+                  'Complex conditionals',
+                  'Arrays',
+                  'Break/continue statements',
+                  'Recursions',
+                  'Stacks and Queues'
+                ]"
+              />
+            </div>
+            <div class="row cta-row">
+              <div class="col-lg-12">
+                <CTAButton
+                  @clickedCTA="onClickMainCta"
+                >
+                  {{ $t('parents_v2.schedule_free_class') }}
+                </CTAButton>
+              </div>
+            </div>
+          </div>
+        </background-container>
+        <div class="container">
+          <image-and-text
+            :text="$t('parents_v2.cs_careers')"
+            image="/images/pages/parents/tiles/wbox_1.webp"
+            :reverse="false"
+            :lazy-load="true"
+          />
+        </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="text-h2">
+                <BookHouse />
+                {{ $t('parents_v2.why_game_based') }}
+              </h2>
+            </div>
+          </div>
+          <image-and-text
+            :text="$t('parents_v2.game_based_effective')"
+            image="/images/pages/parents/tiles/wbox_2.webp"
+            :reverse="true"
+            :lazy-load="true"
+          />
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="text-h2">
+                <IntegrateAi />
+                {{ $t('parents_v2.how_integrate_ai') }}
+              </h2>
+            </div>
+            <div class="col-md-12">
+              <p class="text-p">
+                <mixed-color-label :text="$t('parents_v2.ai_technology_description')" />
+              </p>
+            </div>
+          </div>
+          <image-and-text
+            :text="$t('parents_v2.instructors_offer_guidance')"
+            image="/images/pages/parents/tiles/wbox_3.webp"
+            :reverse="false"
+            :lazy-load="true"
+          />
+          <image-and-text
+            :text="$t('parents_v2.new_to_ai')"
+            :reverse="true"
+            :lazy-load="true"
+            class="video-container"
+          >
+            <template #image>
+              <video-box video-id="50770b9a2fb36de457a37693a3f632c7" />
+            </template>
+          </image-and-text>
+        </div>
+
+        <div class="container apcsp-prep">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="text-h2">
+                <BookIcon />
+                {{ $t('parents_v2.ap_csp_preparation') }}
+              </h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 apcsp-prep__img-container">
+              <img
+                src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png"
+                loading="lazy"
+              >
+            </div>
+            <div class="col-lg-8">
+              <p>
+                {{ $t('parents_v2.ap_csp_description') }}
+              </p>
+
+              <CTAButton
+                class="apcsp-prep__cta"
+                @clickedCTA="onClickMainCta"
+              >
+                {{ $t('parents_v2.schedule_a_free_class') }}
+                <template #description>
+                  <mixed-color-label
+                    :text="$t('parents_v2.get_prepared_for_ap_csp_exam')"
+                    :inherit-default-color="true"
+                  />
+                </template>
+              </CTAButton>
+            </div>
+          </div>
+        </div>
+        <trends-and-insights />
+
+        <background-container type="colored">
+          <div class="container">
+            <faq-component
+              :faq-items="faqItems"
+              :show-footer="false"
+            />
+          </div>
+        </background-container>
       </div>
-    </background-container>
-  </div>
+    </template>
+  </PageParentsLanding>
 </template>
 
 <script>
+import PageParentsLanding from 'app/views/landing-pages/parents/PageParents'
+
 import HeaderComponent from 'app/components/common/elements/HeaderComponent.vue'
 import ContentBox from 'app/components/common/elements/ContentBox.vue'
 import CTAButton from 'app/components/common/buttons/CTAButton.vue'
@@ -434,6 +442,7 @@ import FaqComponent from 'app/components/common/elements/FaqComponent.vue'
 import StepBoxes from './StepBoxes.vue'
 import ConceptItem from './ConceptItem.vue'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
+import PageParentsSectionPremium from 'app/views/landing-pages/parents/PageParentsSectionPremium.vue'
 
 export default {
   name: 'PageParentsV2',
@@ -460,8 +469,11 @@ export default {
     StepBoxes,
     ConceptItem,
     IntegrateAi,
-    BaseCloudflareVideo
+    BaseCloudflareVideo,
+    PageParentsSectionPremium,
+    PageParentsLanding
   },
+  extends: PageParentsLanding,
 
   props: {
     type: {
@@ -477,6 +489,7 @@ export default {
 
   data () {
     return {
+
       testimonials: [
         {
           image: '/images/pages/schools/avatar/avatar_seth.webp'
@@ -657,6 +670,21 @@ export default {
     }
   },
 
+  computed: {
+  },
+
+  watch: {
+    // the modals will open and close based on the data in the parent component
+    $data: {
+      handler (newVal) {
+        for (const key in newVal) {
+          this.$refs.parent.updateData(key, newVal[key])
+        }
+      },
+      deep: true
+    }
+  },
+
   metaInfo () {
     return {
       title: (this.type === 'parents') ? undefined : this.$t('parents_landing_2.live_classes_title'),
@@ -664,9 +692,6 @@ export default {
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
       ]
     }
-  },
-
-  computed: {
   },
 
   mounted () {
@@ -680,8 +705,13 @@ export default {
 <style scoped lang="scss">
 @import 'app/styles/component_variables.scss';
 
-#parent-page {
+.page-parents-landing#parent-page {
+  background: none;
+}
+
+#parent-page-v2 {
   overflow: hidden;
+
   ::v-deep {
     @extend %frontend-page;
   }
@@ -689,6 +719,7 @@ export default {
   .container {
     &__header {
       .text-h1 {
+        margin-top: 10px;
         @extend %font-44;
         text-align: left;
       }
@@ -725,12 +756,14 @@ export default {
 
   ::v-deep {
     .two-column-block {
+
       .column-one,
       .column-two {
         display: flex;
         justify-content: center;
         align-items: center;
       }
+
       &.video-container .column-one {
         display: block;
       }
@@ -750,11 +783,12 @@ export default {
         }
       }
 
-      .content-details > .content-text {
+      .content-details>.content-text {
         flex: 1;
         display: flex;
         justify-content: center;
         align-items: center;
+
         .content-text {
           max-height: max-content;
           height: max-content;
@@ -828,11 +862,26 @@ export default {
   }
 
   .apcsp-prep {
-    .apcsp-prep__img-container {
+    &__img-container {
       @media screen and (max-width: $screen-lg) {
         display: flex;
         justify-content: center;
         margin-bottom: 40px;
+      }
+    }
+
+    &__cta {
+      margin-top: 10px;
+      align-items: flex-start;
+    }
+  }
+
+  ::v-deep {
+    .container-course-offering-heading {
+      .text-center a {
+        color: var(--color-primary);
+        font-weight: bold;
+        cursor: pointer;
       }
     }
   }

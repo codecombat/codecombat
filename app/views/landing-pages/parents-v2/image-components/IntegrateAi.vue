@@ -29,7 +29,7 @@
 
 <script>
 export default {
-  name: 'TextBubbleComponent',
+  name: 'IntegrateAiComponent',
 }
 </script>
 

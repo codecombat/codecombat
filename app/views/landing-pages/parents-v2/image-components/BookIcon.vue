@@ -140,6 +140,6 @@ export default {
 
 svg {
     fill: var(--color-primary);
-    stroke: var(--color-primary)
+    stroke: var(--color-primary);
 }
 </style>

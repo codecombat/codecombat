@@ -24,6 +24,14 @@
         :text="description"
       />
     </p>
+    <p
+      v-else
+      class="description"
+    >
+      <slot
+        name="description"
+      />
+    </p>
   </div>
 </template>
 
