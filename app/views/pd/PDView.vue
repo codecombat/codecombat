@@ -1,7 +1,7 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { COMPONENT_NAMES, PAGE_TITLES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
-import ModalGetLicenses from '../../../ozaria/site/components/teacher-dashboard/modals/ModalGetLicenses'
+import ModalGetLicenses from 'app/components/common/ModalGetLicenses'
 
 export default {
   name: COMPONENT_NAMES.PD,

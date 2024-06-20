@@ -4,7 +4,7 @@ import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
 
 import PageNoLicenses from './PageNoLicenses'
 import PageLicenses from './PageLicenses'
-import ModalGetLicenses from 'ozaria/site/components/teacher-dashboard/modals/ModalGetLicenses'
+import ModalGetLicenses from 'app/components/common/ModalGetLicenses'
 import ModalShareLicenses from 'ozaria/site/components/teacher-dashboard/modals/ModalShareLicenses/index'
 
 export default {

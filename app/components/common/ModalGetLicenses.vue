@@ -5,7 +5,6 @@ import SecondaryButton from './SecondaryButton'
 import Modal from './Modal'
 import api from 'core/api'
 import contact from 'core/contact'
-import { getProductName } from 'core/utils'
 
 export default Vue.extend({
   components: {
@@ -21,7 +20,7 @@ export default Vue.extend({
     emailMessage: {
       type: String,
       // default to DT text
-      default: `Hi ${getProductName()}! I want to learn more about the Classroom experience and get licenses so that my students can access Chapter 2 and on.`
+      default: ''
     },
     askSchoolInfo: {
       type: Boolean,
@@ -47,6 +46,10 @@ export default Vue.extend({
     licensesNeeded: null,
     message: '',
     state: '',
+    school: '',
+    district: '',
+    role: '',
+    phone: '',
     sendingInProgress: false
   }),
   validations: {
@@ -62,9 +65,11 @@ export default Vue.extend({
       numeric,
       mustBeGreaterThanZero: (value) => value > 0
     },
-    message: {
-      required
-    }
+    message: {},
+    school: {},
+    district: {},
+    role: {},
+    phone: {}
   },
   computed: {
     isFormValid () {
@@ -86,15 +91,12 @@ export default Vue.extend({
 
     this.email = me.get('email') || props.email
 
-    this.message = this.emailMessage + (this.askSchoolInfo
-      ? `
+    this.message = this.emailMessage
 
-      Name of School: ${props.nces_name || props.organization || ''}
-      Name of District: ${props.nces_district || props.district || ''}
-      Role: ${props.role || ''}
-      Phone Number: ${props.phoneNumber || ''}
-      `
-      : '')
+    this.school = props.nces_name || props.organization || ''
+    this.district = props.nces_district || props.district || ''
+    this.role = props.role || ''
+    this.phone = props.phoneNumber || ''
   },
   methods: {
     closeModal () {
@@ -109,7 +111,11 @@ export default Vue.extend({
           name: this.name,
           email: this.email,
           licensesNeeded: this.licensesNeeded,
-          message: this.message
+          message: this.message,
+          school: this.school,
+          district: this.district,
+          role: this.role,
+          phone: this.phone
         }
         this.sendingInProgress = true
         try {
@@ -199,6 +205,52 @@ export default Vue.extend({
             > {{ $t("form_validation_errors.numberGreaterThanZero") }} </span>
           </div>
         </div>
+
+        <div
+          v-if="askSchoolInfo"
+          class="form-group row school-district"
+        >
+          <div class="col-xs-6">
+            <span class="control-label"> {{ $t('teachers_quote.organization_label') }} </span>
+            <input
+              v-model="$v.school.$model"
+              type="text"
+              class="form-control"
+            >
+          </div>
+          <div class="col-xs-6">
+            <span class="control-label"> {{ $t('teachers_quote.district_label') }} </span>
+            <input
+              v-model="$v.district.$model"
+              type="text"
+              class="form-control"
+            >
+          </div>
+        </div>
+
+        <div
+          v-if="askSchoolInfo"
+          class="form-group row phone-role"
+        >
+          <div class="col-xs-6">
+            <span class="control-label"> {{ $t('modal_free_class.phone_number') }} </span>
+            <input
+              v-model="$v.phone.$model"
+              type="text"
+              class="form-control"
+            >
+          </div>
+          <div class="col-xs-6">
+            <span class="control-label"> {{ $t('teachers_quote.primary_role_label') }} </span>
+            <input
+              v-model="$v.role.$model"
+              type="text"
+              class="form-control"
+              placeholder="Teacher, Principal, etc."
+            >
+          </div>
+        </div>
+
         <div
           class="form-group row message"
           :class="{ 'has-error': $v.message.$error }"
@@ -207,13 +259,10 @@ export default Vue.extend({
             <span class="control-label"> {{ $t("general.message") }} </span>
             <textarea
               v-model="$v.message.$model"
-              rows="7"
+              :rows="askSchoolInfo ? 2 : 7"
               class="form-control"
+              placeholder="Any notes..."
             />
-            <span
-              v-if="!$v.message.required"
-              class="form-error"
-            > {{ $t("form_validation_errors.required") }} </span>
           </div>
         </div>
         <div class="form-group row">
