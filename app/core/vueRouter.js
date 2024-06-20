@@ -269,6 +269,10 @@ export default function getVueRouter () {
 
         },
         {
+          path: '/roblox-beta',
+          component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/NewPageRoblox')
+        },
+        {
           path: '/roblox',
           component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox')
         },

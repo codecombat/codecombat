@@ -414,6 +414,7 @@ module.exports = (CocoRouter = (function () {
         'social-and-emotional-learning': go('core/SingletonAppVueComponentView'),
 
         roblox: go('core/SingletonAppVueComponentView'),
+        'roblox-beta': go('core/SingletonAppVueComponentView'),
         grants: go('core/SingletonAppVueComponentView'),
 
         seen: me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),

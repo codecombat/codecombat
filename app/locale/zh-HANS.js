@@ -5558,7 +5558,7 @@ module.exports = {
       //    support_development_1_text: "Want to provide high-quality CS instruction, but don’t have the staff to execute? Our team of master instructors can provide engaging virtual lessons perfect for in-class or after school programs.",
       //    support_development_1_link_text: "Sign up for Beta Access",
       //    faq_header: "Frequently Asked Questions",
-      //    faq_see_more: "See more frequently asked questions in our **[https://codecombat.zendesk.com/hc/en-us]help center**.",
+      faq_see_more: '查看更多',
       //    trends_1_title: "AI isn’t Replacing Coding, It’s Accelerating it!",
       //    trends_1_text: "We've officially entered the AI era. Along with hype and hyperbole comes a wave of fear and uncertainty concerning the future of computer science. Videos of AI writing code with simple inputs and stories of engineers replaced by AI bots fueled a dramatic yet ultimately flawed narrative. The truth is, AI isn’t replacing coding; it’s accelerating it!",
       //    trends_1_linkText: "Read the Blog",

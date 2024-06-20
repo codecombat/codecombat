@@ -25,38 +25,28 @@
         </ul>
       </FaqItem>
     </template>
-    <template #tail>
-      <p class="p">
-        <mixed-color-label
-          :text="$t('schools_page.faq_see_more')"
-          target="_blank"
-        />
-      </p>
-    </template>
   </page-section>
 </template>
 
 <script>
-import PageSection from './PageSection.vue'
-import MixedColorLabel from '../labels/MixedColorLabel.vue'
-import FaqItem from './FaqItem.vue'
+import PageSection from '../../../../components/common/elements/PageSection.vue'
+import MixedColorLabel from '../../../../components/common/labels/MixedColorLabel.vue'
+import FaqItem from '../../../../components/common/elements/FaqItem.vue'
 
 export default {
-  name: 'NewFaqComponent',
+  name: 'FaqComponent',
   components: {
     PageSection,
     FaqItem,
     MixedColorLabel
   },
-  props: {
-    faqItems: {
-      type: Array,
-      required: true
-    }
-  },
   data () {
     return {
-      openItemId: null
+      openItemId: null,
+      faqItems: Array.from(6).map((_, index) => ({
+        question: $.i18n.t(`roblox.faq_${index + 1}_question`),
+        answer: $.i18n.t(`roblox.faq_${index + 1}_answer`)
+      }))
     }
   }
 }

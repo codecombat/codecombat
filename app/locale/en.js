@@ -5899,6 +5899,30 @@ module.exports = {
       locked: 'LOCKED',
       view: 'View',
       continue: 'Continue'
+    },
+
+    roblox: {
+      pcc_on_roblox: 'Play, Code and Create on Roblox',
+      play_title: 'Play',
+      play_desc: 'Explore the 3D immersive experience of CodeCombat Worlds. Program your pets and adventure into a universe of creativity and shared experiences with friends.',
+      code_title: 'Code',
+      code_desc: 'Learn real Lua coding, from beginner to advanced. Use code to explore, gather resources, build, and discover your path to glory.',
+      create_title: 'Create',
+      create_desc: 'No Roblox Studio? No problem. Code in-game in Creative Mode to make full Roblox games to share with your friends.',
+
+      what_create: 'What will you create?',
+      access_guidebook: 'Access Guidebook',
+      guidebook_description: 'Everything you need to know to get started',
+      faq_1_question: 'Do I need to know Luau or Roblox Studio?',
+      faq_1_answer: 'No. This experience will allow anyone to play, code and create from the very start of their adventure, without any coding experience.',
+      faq_2_question: 'Can I create my own games?',
+      faq_2_answer: 'Yes. Game development is at the core of this experience and after completing the essential learning levels you will have the opportunity to create your own.',
+      faq_3_question: 'Will my creations be available on Roblox?',
+      faq_3_answer: 'Yes. Players can share their experiences within CodeCombat Worlds and import their experiences to Studio for publishing via a plugin, maintaining Studio compatibility.',
+      faq_4_question: 'Do I need a Roblox account?',
+      faq_4_answer: 'Yes. All players can sign-up for free at roblox.com. Don’t forget to link your CodeCombat account and Roblox account to access all the features and rewards.',
+      faq_5_question: 'Will it work on my Chromebook or mobile device? ',
+      faq_5_answer: 'Yes. CodeCombat Worlds allows you to play, type real code and create games on PC, Mac, Chromebooks, tablets, phones, and consoles.',
     }
   }
 }
