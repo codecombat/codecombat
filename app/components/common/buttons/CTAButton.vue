@@ -25,7 +25,7 @@
       />
     </p>
     <p
-      v-else
+      v-else-if="$slots.description"
       class="description"
     >
       <slot

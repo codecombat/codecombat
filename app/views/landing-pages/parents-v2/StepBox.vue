@@ -76,6 +76,7 @@ export default {
         position: relative;
         border-radius: 24px 24px 0px 0px;
         background-color: var(--color-primary-2);
+        flex:1;
 
         &.footer {
             border-radius: 0px 0px 24px 24px;

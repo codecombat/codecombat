@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-12 text-center self-sign-up">
-            Or,
+            {{ $t('parents_v2.prefix_or') }}
             <a @click="subscribeYearly">
               {{ description }}
             </a>

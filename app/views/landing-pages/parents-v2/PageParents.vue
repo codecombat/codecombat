@@ -170,10 +170,18 @@
         </div>
 
         <div class="container">
-          <CTAButton @clickedCTA="onClickMainCta">
+          <CTAButton
+            :description="me.isAnonymous() ? `${$t('parents_v2.prefix_or')} **[/parents/signup]${$t('parents_v2.signup_description')}**` : null"
+            @clickedCTA="onClickMainCta"
+          >
             {{ $t('parents_v2.schedule_free_class') }}
-            <template #description>
-              <page-parents-section-premium :description="$t('parents_v2.signup_description')" />
+            <template
+              v-if="!me.isAnonymous()"
+              #description
+            >
+              <page-parents-section-premium
+                :description="$t('parents_v2.signup_description')"
+              />
             </template>
           </CTAButton>
         </div>
@@ -524,7 +532,7 @@ export default {
           title: this.$t('parents_v2.codecombat_worlds_title'),
           text: this.$t('parents_v2.codecombat_worlds_text'),
           image: '/images/pages/parents/tiles/pbox_4.webp',
-          labels: ['Luau']
+          labels: ['Lua']
         },
         {
           title: this.$t('parents_v2.ai_hackstack_title'),
@@ -671,6 +679,9 @@ export default {
   },
 
   computed: {
+    me () {
+      return me
+    }
   },
 
   watch: {
