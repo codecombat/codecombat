@@ -61,12 +61,21 @@
         <p>
           {{ $t('roblox.link_encouragement') }}
         </p>
-        <CTAButton
+        <div
           v-if="isConnected"
-          @clickedCTA="disconnectFromRoblox(identity)"
+          class="identities"
         >
-          {{ $t('account_settings.disconnect_roblox_button') }}
-        </CTAButton>
+          <!-- eslint-disable vue/no-v-html -->
+          <p
+            v-html="$t('account_settings.roblox_connected', { username: identity.get('profile').preferred_username })"
+          />
+          <!--eslint-enable-->
+          <CTAButton
+            @clickedCTA="disconnectFromRoblox(identity)"
+          >
+            {{ $t('account_settings.disconnect_roblox_button') }}
+          </CTAButton>
+        </div>
         <CTAButton
           v-else
           :class="{ 'login-button': isAnonymous }"
