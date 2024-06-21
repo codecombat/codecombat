@@ -462,7 +462,8 @@ module.exports = {
       ai_hackstack_description: 'Gur svefg trarengvir NV pbzcnavba gbby fcrpvsvpnyyl pensgrq sbe gubfr arj gb NV jvgu n sbphf ba fghqrag cevinpl naq fnsrgl.',
       ai_junior_description: 'Vagebqhprf zhygvzbqny trarengvir NV va n fvzcyr naq vaghvgvir cyngsbez qrfvtarq fcrpvsvpnyyl sbe X-5 fghqragf.',
       learning_options: 'Yrneavat Bcgvbaf',
-      ai_hackstack: 'NV UnpxFgnpx'
+      ai_hackstack: 'NV UnpxFgnpx',
+      beta: 'Orgn'
     },
 
     modal: {
@@ -586,7 +587,8 @@ module.exports = {
       beta_levels_turn_off: 'ghea bss',
       confirm_m7_off: 'Ner lbh fher gb ghea orgn yriryf bss?',
       play_codecombat: 'Cynl PbqrPbzong',
-      play_codecombat_junior: 'Cynl PbqrPbzong Whavbe'
+      play_codecombat_junior: 'Cynl PbqrPbzong Whavbe',
+      want_more_hints: 'Jnag zber uvagf?',
     },
 
     code: {
@@ -1991,7 +1993,8 @@ module.exports = {
       saved: 'Punatrf Fnirq',
       password_mismatch: 'Cnffjbeq qbrf abg zngpu.',
       password_repeat: 'Cyrnfr ercrng lbhe cnffjbeq.',
-      switch_new_teacher_dashboard: 'Gel gur arj Grnpure Qnfuobneq'
+      switch_new_teacher_dashboard: 'Gel gur arj Grnpure Qnfuobneq',
+      view_trial_class_bookings: 'Ivrj Gevny Pynff Obbxvatf'
     },
 
     keyboard_shortcuts: {
@@ -4004,6 +4007,8 @@ module.exports = {
       professional_development_description: 'PbqrPbzong bssref na bayvar, frys-cnprq cebsrffvbany qrirybczrag pbhefr sbe rqhpngbef bs nyy yriryf bs NC PFC rkcregvfr. Cnegvpvcnagf jvyy rkcyber gur PbqrPbzong pheevphyhz naq yrnea ubj vg pna or hfrq gb cercner fghqragf gb fhpprrq ba gur NC PFC rknz. Guebhtu nflapuebabhf qvfphffvbaf jvgu sryybj grnpuref naq ivqrb pbasreraprf jvgu PbqrPbzong pheevphyhz qrirybcref, lbh jvyy or rdhvccrq jvgu gur gbbyf naq grpuavdhrf lbh arrq gb fhccbeg nyy bs lbhe fghqragf va NC PFC. Ng gur raq bs gur pbhefr, lbh jvyy rnea n Pregvsvpngr bs Pbzcyrgvba gung pna or hfrq sbe gur erarjny bs lbhe grnpuvat perqragvny. Jr bssre bhe Pheevphyhz ba __rqncc__.',
       contact: 'Pbagnpg __ncpfc_rznvy__ gb trg npprff.',
       role: 'Ebyr',
+      location: 'Ybpngvba',
+      state_and_country: 'fgngr naq pbhagel',
       no_license: "Bhe NC PFC pheevphyhz erdhverf n cnvq yvprafr gb ivrj. Yrnea zber nobhg PbqrPbzong'f NC PFC pheevphyhz ol ivfvgvat bhe Nobhg cntr, yvaxrq orybj.",
       request_license: 'Wbva Cvybg Cebtenz',
       page_title: 'NC Pbzchgre Fpvrapr Cevapvcyrf Pheevphyhz',
@@ -4594,7 +4599,8 @@ module.exports = {
       failed_attempts: 'Snvyrq Nggrzcgf',
       no_failed_attempts: 'Ab Snvyrq Nggrzcgf',
       failed_attempts_subtext: 'Ahzore bs gvzrf vapbeerpg bcgvba jnf fryrpgrq',
-      open_project: 'Bcra Cebwrpg'
+      open_project: 'Bcra Cebwrpg',
+      create_class_hackstack: 'Cyrnfr perngr n Arj Pynff gb npprff NV UnpxFgnpx'
     },
 
     outcomes: {
@@ -5328,6 +5334,7 @@ module.exports = {
       stat_card_6_description: 'RFcbegf Cynlref',
       learn_to_code: 'Yrnea gb **pbqr** naq hfr **NV**, nyy guebhtu gur **cbjre bs cynl**.',
       innovative_play_experiences: 'Jr perngr vaabingvir cynl rkcrevraprf gb znxr pbzchgre fpvrapr ratntvat naq npprffvoyr gb nyy.',
+      sign_up_today: 'Fvta-hc gbqnl gb cynl sbe serr naq rkcyber bhe tnzrf naq erfbheprf.',
       im_an_educator: 'V’z na Rqhpngbe',
       im_a_parent: 'V’z n Cnerag',
       im_a_student: 'V’z n Fghqrag',

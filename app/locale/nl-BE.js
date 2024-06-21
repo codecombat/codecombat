@@ -463,6 +463,7 @@ module.exports = {
       //    ai_junior_description: "Introduces multimodal generative AI in a simple and intuitive platform designed specifically for K-5 students.",
       //    learning_options: "Learning Options",
       //    ai_hackstack: "AI HackStack",
+      //    beta: "Beta",
     },
 
     modal: {
@@ -587,6 +588,7 @@ module.exports = {
       //    confirm_m7_off: "Are you sure to turn beta levels off?",
       //    play_codecombat: "Play CodeCombat",
       //    play_codecombat_junior: "Play CodeCombat Junior",
+      //    want_more_hints: "Want more hints?",
     },
 
     code: {
@@ -1992,6 +1994,7 @@ module.exports = {
       //    password_mismatch: "Password does not match.",
       password_repeat: 'Gelieve je wachtwoord te herhalen.',
       //    switch_new_teacher_dashboard: "Try the new Teacher Dashboard",
+      //    view_trial_class_bookings: "View Trial Class Bookings",
     },
 
     keyboard_shortcuts: {
@@ -4003,6 +4006,8 @@ module.exports = {
     //    professional_development_description: "CodeCombat offers an online, self-paced professional development course for educators of all levels of AP CSP expertise. Participants will explore the CodeCombat curriculum and learn how it can be used to prepare students to succeed on the AP CSP exam. Through asynchronous discussions with fellow teachers and video conferences with CodeCombat curriculum developers, you will be equipped with the tools and techniques you need to support all of your students in AP CSP. At the end of the course, you will earn a Certificate of Completion that can be used for the renewal of your teaching credential. We offer our Curriculum on __edapp__.",
     //    contact: "Contact __apcsp_email__ to get access.",
     //    role: "Role",
+    //    location: "Location",
+    //    state_and_country: "state and country",
     //    no_license: "Our AP CSP curriculum requires a paid license to view. Learn more about CodeCombat's AP CSP curriculum by visiting our About page, linked below.",
     //    request_license: "Join Pilot Program",
     //    page_title: "AP Computer Science Principles Curriculum",
@@ -4594,6 +4599,7 @@ module.exports = {
     //    no_failed_attempts: "No Failed Attempts",
     //    failed_attempts_subtext: "Number of times incorrect option was selected",
     //    open_project: "Open Project",
+    //    create_class_hackstack: "Please create a New Class to access AI HackStack",
     //  },
 
     //  outcomes: {
@@ -5329,6 +5335,7 @@ module.exports = {
     //    stat_card_6_description: "ESports Players",
     //    learn_to_code: "Learn to **code** and use **AI**, all through the **power of play**.",
     //    innovative_play_experiences: "We create innovative play experiences to make computer science engaging and accessible to all.",
+    //    sign_up_today: "Sign-up today to play for free and explore our games and resources.",
     //    im_an_educator: "I’m an Educator",
     //    im_a_parent: "I’m a Parent",
     //    im_a_student: "I’m a Student",
