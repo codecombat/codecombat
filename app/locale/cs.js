@@ -485,18 +485,18 @@ module.exports = {
       subscribe_as_diplomat: 'Přihlásit se jako Diplomat',
     },
 
-    //  new_home_faq: {
+    new_home_faq: {
     //    what_programming_languages: "What programming languages are available?",
     //    python_and_javascript: "We currently support Python, JavaScript, C++, Java, and Lua.",
-    why_python: 'Proč si vybrat Python?',
-    //    why_python_blurb: "Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python.",
-    why_javascript: 'Proč si vybrat JavaScript?',
-    //    why_javascript_blurb: "JavaScript is the language of the web and is used across nearly every website. You may prefer to choose JavaScript if you are planning to also study web development. We’ve also made it easy for students to transition from Python to JavaScript-based web development.",
-    //    javascript_versus_python: "JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python.",
-    how_do_i_get_started: 'Jak mám začít?',
-    getting_started_1: 'Vytvořit nový Učitelský účet',
-    getting_started_2: 'Vytvořit třídu',
-    getting_started_3: 'Přidat studenty',
+      why_python: 'Proč si vybrat Python?',
+      //    why_python_blurb: "Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python.",
+      why_javascript: 'Proč si vybrat JavaScript?',
+      //    why_javascript_blurb: "JavaScript is the language of the web and is used across nearly every website. You may prefer to choose JavaScript if you are planning to also study web development. We’ve also made it easy for students to transition from Python to JavaScript-based web development.",
+      //    javascript_versus_python: "JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python.",
+      how_do_i_get_started: 'Jak mám začít?',
+      getting_started_1: 'Vytvořit nový Učitelský účet',
+      getting_started_2: 'Vytvořit třídu',
+      getting_started_3: 'Přidat studenty',
     //    getting_started_4: "Sit back and watch your students have fun learning to code",
     //    main_curriculum: "Can I use CodeCombat or Ozaria as my main curriculum?",
     //    main_curriculum_blurb: "Absolutely! We’ve spent time consulting with education specialists to craft classroom curriculum and materials specifically for teachers who are using CodeCombat or Ozaria without any prior computer science experience themselves. Many schools are implementing CodeCombat and/or Ozaria as the main computer science curriculum.",
@@ -516,7 +516,7 @@ module.exports = {
     //    see_faq_suffix: ".",
     //    ai_bot_faq_title: "What is the AI Level Help Bot and what measures are in place to ensure safety?",
     //    ai_bot_faq_blurb: "The AI Chat Level Help Bot in CodeCombat empowers learners with AI-driven hints for coding challenges, ensuring a guided yet independent learning experience. Safety is paramount, as the AI filters out personal data and is trained to handle improper requests.",
-    //  },
+    },
 
     play: {
       //    title: "Play CodeCombat Levels - Learn Python, JavaScript, and HTML",
