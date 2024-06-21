@@ -14,6 +14,7 @@ const ModalView = require('views/core/ModalView')
 const template = require('app/templates/core/recover-modal')
 const forms = require('core/forms')
 const { genericFailure } = require('core/errors')
+const utils = require('core/utils')
 
 const filterKeyboardEvents = (allowedEvents, func) => function (...splat) {
   const e = splat[0]
@@ -29,11 +30,18 @@ module.exports = (RecoverModal = (function () {
 
       this.prototype.events = {
         'click #recover-button': 'recoverAccount',
-        'keydown input': 'recoverAccount'
+        'keyup input': 'recoverAccount'
       }
 
       this.prototype.subscriptions =
         { 'errors:server-error': 'onServerError' }
+    }
+
+    afterRender = function () {
+      setTimeout(() => {
+        const input = this.$el.find('input')
+        input.focus()
+      }, 500)
     }
 
     onServerError (e) { // TODO: work error handling into a separate forms system
@@ -50,13 +58,16 @@ module.exports = (RecoverModal = (function () {
           email
         } = forms.formToObject(this.$el)
         if (!email) { return }
+        if (!utils.isValidEmail(email)) {
+          return noty({ text: $.i18n.t('form_validation_errors.invalidEmail'), layout: 'center', type: 'error', timeout: 3000 })
+        }
         const res = $.post('/auth/reset', { email }, this.successfullyRecovered)
         res.fail(genericFailure)
         return this.enableModalInProgress(this.$el)
       }) // TODO: part of forms
     }
 
-    recoverAccount(e){
+    recoverAccount (e) {
       return this.recoverAccountHandler(e)
     }
 

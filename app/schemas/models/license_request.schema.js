@@ -13,7 +13,11 @@ _.extend(LicenseRequestSchema.properties, {
   requester: c.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }),
   requesterEmail: c.shortString({ title: 'From email', format: 'email' }),
   receiverEmail: c.shortString({ title: 'To email', format: 'email' }),
-  message: { type: 'string', maxLength: 2000 }
+  message: { type: 'string', maxLength: 2000 },
+  phone: c.shortString({ title: 'Phone number' }),
+  district: c.shortString({ title: 'District' }),
+  role: c.shortString({ title: 'Teacher, principal etc' }),
+  school: c.shortString({ title: 'School' })
 })
 
 c.extendBasicProperties(LicenseRequestSchema, 'LicenseRequest')

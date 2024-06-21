@@ -1,5 +1,5 @@
 <script>
-import ModalGetLicenses from '../../../ozaria/site/components/teacher-dashboard/modals/ModalGetLicenses'
+import ModalGetLicenses from 'app/components/common/ModalGetLicenses'
 
 export default {
   name: 'DEI',
