@@ -65,16 +65,22 @@
           v-if="isConnected"
           class="identities"
         >
-          <!-- eslint-disable vue/no-v-html -->
-          <p
-            v-html="$t('account_settings.roblox_connected', { username: identity.get('profile').preferred_username })"
-          />
-          <!--eslint-enable-->
-          <CTAButton
-            @clickedCTA="disconnectFromRoblox(identity)"
+          <div
+            v-for="identity in robloxIdentities"
+            :key="identity.sub"
+            class="identity"
           >
-            {{ $t('account_settings.disconnect_roblox_button') }}
-          </CTAButton>
+            <!-- eslint-disable vue/no-v-html -->
+            <p
+              v-html="$t('account_settings.roblox_connected', { username: identity.get('profile').preferred_username })"
+            />
+            <!--eslint-enable-->
+            <CTAButton
+              @clickedCTA="disconnectFromRoblox(identity)"
+            >
+              {{ $t('account_settings.disconnect_roblox_button') }}
+            </CTAButton>
+          </div>
         </div>
         <CTAButton
           v-else
@@ -197,6 +203,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped lang="scss">
