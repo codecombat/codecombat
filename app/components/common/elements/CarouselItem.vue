@@ -12,6 +12,11 @@ export default {
       required: false,
       default: null
     },
+    titlePrefix: {
+      type: String,
+      required: false,
+      default: null
+    },
     image: {
       type: String,
       required: false,

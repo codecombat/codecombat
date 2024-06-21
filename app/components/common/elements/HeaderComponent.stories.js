@@ -10,7 +10,7 @@ const Template = (args, { argTypes }) => ({
   components: { HeaderComponent },
   template: `<header-component v-bind="$props">
     <template v-slot:header-text>
-        <h1>This is my long title</h1>
+        <h1 class="text-h1">This is my long title</h1>
         <p>Our comprehensive implementation  empowers teachers, engages students and delivers successful outcomes.</p>
     </template>
     <template v-slot:image>

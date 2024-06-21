@@ -1,13 +1,14 @@
 @import "app/styles/bootstrap/variables";
 
-$dark-grey:     #0a2239;
-$dark-grey-2:   #111928;
-$light-grey:    #6b7280;
-$light-grey-2:  #C7C7C7;
-$purple:        #7a65fc;
-$purple-2:      #9487FF;
+$dark-grey: #0a2239;
+$dark-grey-2: #111928;
+$light-grey: #6b7280;
+$light-grey-2: #c7c7c7;
+$purple: #7a65fc;
+$purple-2: #9487ff;
 $middle-purple: #d5d5fc;
-$light-purple:  #e9e8fd;
+$light-purple: #e9e8fd;
+$light-background: #F9F9FF;
 
 $main-font-family: "Plus Jakarta Sans";
 
@@ -151,22 +152,23 @@ $small-screen-height: 768px;
   gap: 80px;
   flex-direction: column;
 
-  ::v-deep &,
-  ::v-deep p,
-  ::v-deep span,
-  ::v-deep h1,
-  ::v-deep h2,
-  ::v-deep h3,
-  ::v-deep h4,
-  ::v-deep h5,
-  ::v-deep h6,
-  ::v-deep a,
-  ::v-deep button,
-  ::v-deep div {
+  &,
+  p,
+  span,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  a,
+  button,
+  div {
     font-family: $main-font-family;
+    font-variant: normal;
   }
 
-  ::v-deep .text-h1 {
+  .text-h1 {
     @extend %font-32-46;
     color: $dark-grey;
     text-align: center;
@@ -174,8 +176,8 @@ $small-screen-height: 768px;
     font-weight: 500;
     margin: 80px auto 40px auto;
   }
-  
-  ::v-deep .text-h2 {
+
+  .text-h2 {
     text-align: center;
     margin: 40px auto;
   }
@@ -188,11 +190,8 @@ $small-screen-height: 768px;
   p.text-14 {
     @extend %font-14;
   }
-  
-  ::v-deep .text-highlight {
+
+  .text-highlight {
     color: $purple;
   }
-
 }
-
-

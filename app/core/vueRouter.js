@@ -27,6 +27,17 @@ export default function getVueRouter () {
           props: (route) => ({ showPremium: true, type: route.query.type })
         },
         {
+          path: '/parents-v2',
+          component: () => import(/* webpackChunkName: "ParentsViewV2" */ 'app/views/landing-pages/parents-v2/PageParents'),
+          props: (route) => ({ showPremium: true, type: route.query.type }),
+          meta: { theme: 'teal' }
+        },
+        {
+          path: '/codequest',
+          component: () => import(/* webpackChunkName: "CodequestView" */ 'app/views/codequest/PageCodequest.vue'),
+          meta: { theme: 'teal' }
+        },
+        {
           path: '/diversity-equity-and-inclusion',
           component: () => import(/* webpackChunkName: "dei" */ 'app/views/dei/DEIView.vue')
         },
@@ -391,6 +402,17 @@ export default function getVueRouter () {
         return scroll
       }
 
+    })
+
+    vueRouter.beforeEach((to, from, next) => {
+      if (from.meta?.theme) {
+        document.body.classList.remove(`${from.meta.theme}-theme`)
+      }
+
+      if (to.meta?.theme) {
+        document.body.classList.add(`${to.meta.theme}-theme`)
+      }
+      next()
     })
 
     vueRouter.afterEach((to, from) => {

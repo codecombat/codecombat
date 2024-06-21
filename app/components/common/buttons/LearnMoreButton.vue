@@ -7,19 +7,19 @@
       :target="target"
     >
       <slot />
-      <img
+      <CarouselArrow
         v-if="hasArrow"
         class="text-button-link__vector"
-        alt="arrow pointing right"
-        src="/images/components/arrow.svg"
-      >
+      />
     </component>
   </button>
 </template>
 
 <script>
+import CarouselArrow from 'app/components/common/elements/CarouselArrow.vue'
 export default {
   name: 'LearnMoreButton',
+  components: { CarouselArrow },
   props: {
     link: {
       type: String,
@@ -52,7 +52,7 @@ export default {
     position: relative;
 
     &__link {
-        color: $purple;
+        color: var(--color-primary);
         letter-spacing: 0;
         width: fit-content;
         &:hover {
@@ -63,6 +63,9 @@ export default {
     &__vector {
         height: 100%;
         aspect-ratio: 15.25 / 12.75;
+        ::v-deep path {
+          stroke: var(--color-primary);
+        }
     }
 }
 </style>

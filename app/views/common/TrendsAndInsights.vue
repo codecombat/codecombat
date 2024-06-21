@@ -8,7 +8,7 @@
 <script>
 import BoxPanel from 'app/components/common/elements/BoxPanel.vue'
 
-export default Vue.extend({
+export default {
   name: 'TrendsAndInsights',
   components: {
     BoxPanel
@@ -33,5 +33,5 @@ export default Vue.extend({
       ]
     }
   }
-})
+}
 </script>

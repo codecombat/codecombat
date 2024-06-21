@@ -241,6 +241,9 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
 footer#site-footer
 
   background: url(/images/components/footer-bg.webp) bottom center
+  .teal-theme &
+    background: url(/images/components/footer-bg__teal.webp) bottom center
+    background-repeat: repeat-x
 
   &.dark-mode
     background-color: #0C1016
@@ -252,7 +255,7 @@ footer#site-footer
 
   .container
     border-radius: 8px
-    background: linear-gradient(100deg, #F6F4FF 0%, #FFF 100%)
+    background: var(--color-bg-gradient)
     margin-bottom: 80px
     margin-top: 300px
 
@@ -277,7 +280,7 @@ footer#site-footer
     margin: 20px auto
     display: block
     font-variant: normal
-    color: $purple
+    color: var(--color-primary)
     font-family: $main-font-family
     @extend %font-14
     font-style: normal

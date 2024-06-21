@@ -20,6 +20,33 @@ export const globalTypes = {
     toolbar: {
       icon: 'circlehollow',
       items: ['codecombat', 'ozaria'],
+      dynamicTitle: true
+    },
+  },
+  theme: {
+    name: 'Theme',
+    description: 'Global theme for components',
+    defaultValue: 'blue-theme',
+    toolbar: {
+      icon: 'paintbrush',
+      items: [
+        { value: 'blue-theme', title: 'Blue' },
+        { value: 'teal-theme', title: 'Teal' },
+      ],
+      dynamicTitle: true
+    },
+  },
+  style: {
+    name: 'Style',
+    description: 'Global style',
+    defaultValue: 'style-flat',
+    toolbar: {
+      icon: 'paintbrush',
+      items: [
+        { value: 'style-flat', title: 'style-flat' },
+        { value: '', title: 'none' },
+      ],
+      dynamicTitle: true
     },
   },
 };
@@ -28,12 +55,70 @@ global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
 
 import '../app/app.sass'
 
-import(/* webpackChunkName: "UsFont" */ 'app/styles/common/fontUS.sass');
+import('app/styles/common/fontUS.sass');
+
+import './container.scss'
+
+import Vue from 'vue'
+
+
+// TODO: make i18n work for all languages & add language selector to toolbar
+import i18next from 'i18next';
+i18next.init({
+  lng: 'en',
+  debug: true,
+  resources: {
+    en: require('app/locale/en')
+  }
+});
+
+const jqueryI18next = require('jquery-i18next')
+
+jqueryI18next.init(i18next, $, {
+  tName: 't', // --> appends $.t = i18next.t
+  i18nName: 'i18n', // --> appends $.i18n = i18next
+  handleName: 'i18n', // --> appends $(selector).i18n(opts)
+  selectorAttr: 'data-i18n', // selector for translating elements
+  targetAttr: 'i18n-target', // data-() attribute to grab target element to translate (if different than itself)
+  optionsAttr: 'i18n-options', // data-() attribute that contains options, will load/set if useOptionsAttr = true
+  useOptionsAttr: true, // see optionsAttr
+  parseDefaultValueFromContent: true
+}) 
+
+
+Vue.prototype.$t = (...args) => {
+  return i18next.t(...args)
+}
+
+const { $themePath } = require('app/core/initialize-themes')
+Vue.prototype.$themePath = $themePath
 
 export const decorators = [
-  (storyFn, context) => {
-    // Set the CSS variable
-    fetch(`/product-update?product=${context.globals.product}`);
-    return storyFn();
-  },
+  (() => {
+    let oldContext = null;
+
+    return (storyFn, context) => {
+
+      const theme = context.globals.theme;
+      const style = context.globals.style;
+
+      // If the product has changed, fetch the new product
+      if (!oldContext || oldContext.globals.product !== context.globals.product) {
+        fetch(`/product-update?product=${context.globals.product}`);
+      }
+
+      document.body.classList.remove(
+        'blue-theme', 'teal-theme', 'dark-theme',
+        'style-flat'
+      );
+      document.body.classList.add(theme);
+      if (style) {
+        document.body.classList.add(style);
+      }
+
+      oldContext = context;
+
+      return storyFn();
+    };
+  })(),
 ];
