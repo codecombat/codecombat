@@ -28,7 +28,7 @@ export default function getVueRouter () {
         },
         {
           path: '/parents-v2',
-          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents-v2/PageParents'),
+          component: () => import(/* webpackChunkName: "ParentsViewV2" */ 'app/views/landing-pages/parents-v2/PageParents'),
           props: (route) => ({ showPremium: true, type: route.query.type }),
           meta: { theme: 'teal' }
         },
