@@ -42,7 +42,7 @@ $primary-background: #31636F;
 ::v-deep p {
   color: white;
   &.description {
-    color: white;
+    color:  #B4B4B4;
   }
 }
 ::v-deep .CTA {

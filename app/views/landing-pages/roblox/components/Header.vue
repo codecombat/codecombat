@@ -69,7 +69,11 @@ $primary-background: #31636F;
 .section {
   background-color: #021e27;
   background-image: url(/images/pages/roblox/header-background.png);
-  background: linear-gradient(to top, #021e27 0%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) center -500px / cover no-repeat;
+  background: linear-gradient(to top, #021e27 0%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) 0px -400px / 120% no-repeat;
+
+  @media (max-width: 768px) {
+    background: linear-gradient(to top, #021e27 0%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) center -200px / 250% no-repeat;
+  }
 }
 
 .header-title {
@@ -106,5 +110,6 @@ $primary-background: #31636F;
 .content {
   @extend %font-24-30;
   color:  #B4B4B4;
+  margin-bottom: 40px;
 }
 </style>

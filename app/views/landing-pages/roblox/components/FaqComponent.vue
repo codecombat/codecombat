@@ -63,7 +63,7 @@ export default {
   .text {
     &.collapsed {
       .q {
-        color: #397A88;
+        color: lighten(#397A88, 20%);
       }
     }
   }

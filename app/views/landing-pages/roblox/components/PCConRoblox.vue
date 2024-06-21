@@ -65,7 +65,7 @@ export default {
     return {
       blocks: [
         {
-          reverse: false,
+          reverse: true,
           image: {
             src: '/images/pages/roblox/pcc/pcc-play.png',
           },
@@ -93,7 +93,7 @@ export default {
           }
         },
         {
-          reverse: true,
+          reverse: false,
           image: {
             src: '/images/pages/roblox/pcc/pcc-code.png',
           },
@@ -120,7 +120,7 @@ export default {
           }
         },
         {
-          reverse: false,
+          reverse: true,
           image: {
             src: '/images/pages/roblox/pcc/pcc-create.png',
           },

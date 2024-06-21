@@ -49,7 +49,7 @@ export default {
     display: inline-flex;
     flex: 0 0 auto;
     flex-direction: column;
-    gap: 80px;
+    gap: 60px;
     justify-content: center;
     position: relative;
     width: 100%;

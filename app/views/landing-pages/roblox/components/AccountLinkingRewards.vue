@@ -58,7 +58,7 @@
             </li>
           </ul>
         </div>
-        <p>
+        <p class="content">
           {{ $t('roblox.link_encouragement') }}
         </p>
         <div
@@ -91,6 +91,9 @@
         >
           {{ $t('roblox.link_now') }}
         </CTAButton>
+        <div class="age-restriciton-warning">
+          {{ $t('roblox_landing.age_restriction') }}
+        </div>
       </div>
     </template>
     <vue-confirm-dialog />
@@ -261,6 +264,14 @@ export default {
       @extend %font-18-24;
       text-align: start;
     }
+  }
+  .content {
+    margin-bottom: 40px;
+  }
+  .age-restriciton-warning {
+    @extend %font-14;
+    color:  #B4B4B4;
+    margin-top: 20px;
   }
 }
 </style>

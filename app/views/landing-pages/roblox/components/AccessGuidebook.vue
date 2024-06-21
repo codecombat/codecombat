@@ -2,6 +2,15 @@
   <page-section class="section">
     <template #heading>
       {{ $t('roblox.what_create') }}
+    </template>
+    <template #body>
+      <div class="video">
+        <youtube-box
+          :video-id="videoId"
+        />
+      </div>
+    </template>
+    <template #tail>
       <div class="cta">
         <cta-button
           href="https://ccworlds.gitbook.io/welcome/"
@@ -9,13 +18,6 @@
         >
           {{ $t('roblox.access_guidebook') }}
         </cta-button>
-      </div>
-    </template>
-    <template #body>
-      <div class="video">
-        <youtube-box
-          :video-id="videoId"
-        />
       </div>
     </template>
   </page-section>

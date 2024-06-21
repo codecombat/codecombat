@@ -43,11 +43,15 @@ export default {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 40px;
   width: 100%;
 
   .video {
     width: 40%;
+
+    @media (max-width: 768px) {
+      width: 90%;
+    }
   }
 }
 </style>

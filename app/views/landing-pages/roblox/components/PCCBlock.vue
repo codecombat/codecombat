@@ -3,7 +3,7 @@
     :reverse="block.reverse"
     class="block"
   >
-    <template #column-one>
+    <template #column-two>
       <content-box :main-image-bg="true">
         <template #image>
           <img
@@ -14,10 +14,10 @@
         </template>
       </content-box>
     </template>
-    <template #column-two>
+    <template #column-one>
       <div
         class="col-two"
-        :class="{reverse: block.reverse}"
+        :class="{reverse: !block.reverse}"
       >
         <div class="img-group">
           <img
