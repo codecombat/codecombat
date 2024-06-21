@@ -5,7 +5,7 @@
     </template>
     <template #body>
       <ProgressBar
-        :progress="progress/10000"
+        :progress="progress"
         :dots="3"
         class="roblox-progress-bar"
       >
@@ -123,12 +123,12 @@ export default {
       })),
 
       robloxIdentities: [],
-      progress: 3800,
+      progress: 3800 / 10000,
       nextURL: window.location.href,
       isAnonymous: me.isAnonymous()
     }
   },
-  compouted: {
+  computed: {
     isConnected: {
       get () {
         return this.robloxIdentities.length > 0
