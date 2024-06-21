@@ -20,7 +20,10 @@
       v-if="!onlyMainImage"
       class="box__div"
     >
-      <div class="info">
+      <div
+        class="info"
+        :class="{'no-main-image':!hasMainImage}"
+      >
         <div
           v-if="hasSymbolImage"
           class="symbol-image"
@@ -47,6 +50,15 @@
           >
         </p>
         <slot name="button" />
+        <p v-if="labels.length">
+          <span
+            v-for="label in labels"
+            :key="label"
+            class="info__label"
+          >
+            {{ label }}
+          </span>
+        </p>
       </div>
       <div
         v-if="hasFrameImage"
@@ -111,6 +123,10 @@ export default {
     middleImageAlt: {
       type: String,
       default: null
+    },
+    labels: {
+      type: Array,
+      default: () => []
     }
   },
   computed: {
@@ -286,11 +302,29 @@ export default {
     margin-top: auto;
   }
 
+  &.no-main-image >:last-child {
+    margin-bottom: auto;
+  }
+
   .middle-text {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+  }
+
+  &__label {
+    @extend %font-14;
+    color: var(--color-primary);
+    padding: 0 12px;
+    border-right: 1px solid var(--color-primary);
+    &:first-child {
+      padding-left: 0;
+    }
+    &:last-child {
+      padding-right: 0;
+      border-right: none;
+    }
   }
 }
 

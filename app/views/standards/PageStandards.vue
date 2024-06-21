@@ -182,7 +182,9 @@ export default Vue.extend({
   max-width: 100vw;
   overflow:hidden;
 
-  @extend %frontend-page;
+  ::v-deep {
+    @extend %frontend-page;
+  }
 
   ::v-deep .text-h2 {
     text-align: center;

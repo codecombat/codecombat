@@ -63,8 +63,8 @@ export default {
 
   &__colored {
     min-height: unset;
-    background: #F9F9FF;
-    box-shadow: 0px 4px 22px 0px rgba(122, 101, 252, 0.15);
+    background: var(--color-light-background);
+    box-shadow: 0px 4px 22px 0px var(--color-box-shadow);
     padding-bottom: 80px;
   }
 
@@ -85,7 +85,13 @@ export default {
 
   &__overlap-default {
     background-color: #F9F9FF;
+    .teal-theme & {
+      background-color: transparent;
+    }
     background-image: url('/images/components/bg-image.webp');
+    .teal-theme & {
+      background-image: url('/images/components/bg-image__teal.webp');
+    }
     background-position: center;
     background-repeat: no-repeat;
     width: 100%;
