@@ -1348,7 +1348,7 @@ var i18n = function (say, target, language, fallback) {
   if (fallSidewaysResult != null) { return removeAI(fallSidewaysResult) }
   if (fallBackResult != null) { return removeAI(fallBackResult) }
   if (target in say) { return removeAI(say[target]) }
-  return '' // should never happen, but who knows
+  return null // if we call i18n for a unexisting key
 }
 
 const getByPath = function (target, path) {
