@@ -2,9 +2,9 @@
   <div class="youtube-video">
     <youtube
       :video-id="videoId"
-    />
-    <LazyYoutubeVideo
-      :src="url"
+      :player-vars="playVars"
+      :resize="true"
+      :fit-parent="true"
     />
   </div>
 </template>
@@ -12,12 +12,8 @@
 <script>
 import VueYoutube from 'vue-youtube'
 import Vue from 'vue'
-import LazyYoutubeVideo from 'vue-lazy-youtube-video'
 Vue.use(VueYoutube)
 export default {
-  components: {
-    LazyYoutubeVideo,
-  },
   props: {
     videoId: {
       type: String,
@@ -28,24 +24,18 @@ export default {
       required: false,
       default: () => {
         return {
-          autoplay: 1,
+          autoplay: 0,
           controls: 1,
         }
       }
     }
   },
-  computed: {
-    url () {
-      return `https://www.youtube.com/embed/${this.videoId}`
-    }
-  },
-  methods: {
-    onPlayerError (event) {
-      console.log('Error', event)
-    }
-  }
 }
 </script>
 
 <style scoped lalng="scss">
+.youtube-video {
+  border-radius: 10px;
+  overflow: hidden;
+}
 </style>

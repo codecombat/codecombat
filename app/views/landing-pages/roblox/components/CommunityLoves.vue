@@ -1,27 +1,53 @@
 <template>
-  <PageSection>
+  <PageSection class="section">
     <template #heading>
       The Roblox community loves it!
     </template>
     <template #body>
       <div class="videos">
-        Videos
+        <youtube-box
+          v-for="video in videos"
+          :key="video"
+          class="video"
+          :video-id="video"
+        />
       </div>
     </template>
   </PageSection>
 </template>
 <script>
 import PageSection from '../../../../components/common/elements/PageSection'
+import YoutubeBox from '../../../../components/common/image-containers/YoutubeBox.vue'
 export default {
   components: {
-    PageSection
+    PageSection,
+    YoutubeBox
   },
   data () {
     return {
-      title: 'Page Title',
-      subtitle: 'Page Subtitle',
-      content: 'Page Content'
+      videos: [
+        'ovCHupmNXjQ',
+        '7lgzK0y5x8o',
+      ]
     }
   }
 }
 </script>
+
+<style scoped lang="scss">
+.section {
+  background: #021E27;
+}
+.videos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+
+  .video {
+    width: 40%;
+  }
+}
+</style>

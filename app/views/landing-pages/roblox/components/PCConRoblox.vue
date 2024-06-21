@@ -1,5 +1,5 @@
 <template>
-  <PageSection>
+  <PageSection class="section">
     <template #heading>
       {{ $t('roblox.pcc_on_roblox') }}
     </template>
@@ -143,3 +143,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.section {
+  background: linear-gradient(141.17deg, #193640 0%, #021E27 100%);
+}
+</style>

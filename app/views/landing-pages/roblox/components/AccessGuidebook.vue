@@ -1,6 +1,6 @@
 <template>
-  <page-section>
-    <template slot="heading">
+  <page-section class="section">
+    <template #heading>
       {{ $t('roblox.what_create') }}
       <div class="cta">
         <cta-button
@@ -11,10 +11,10 @@
         </cta-button>
       </div>
     </template>
-    <template slot="body">
+    <template #body>
       <div class="video">
         <youtube-box
-          video-id="7lgzK0y5x8o"
+          :video-id="videoId"
         />
       </div>
     </template>
@@ -22,7 +22,6 @@
 </template>
 <script>
 import PageSection from '../../../../components/common/elements/PageSection.vue'
-/* import VideoBox from '../../../../components/common/image-containers/VideoBox.vue' */
 import YoutubeBox from '../../../../components/common/image-containers/YoutubeBox.vue'
 import CTAButton from '../../../../components/common/buttons/CTAButton.vue'
 export default {
@@ -33,20 +32,24 @@ export default {
   },
   data () {
     return {
-      //
+      videoId: 'Tk41dK9NYKo'
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.section {
+  background: #021E27;
+}
+
 .cta {
   display: flex;
   align-items: center;
   margin-top: 10px;
 }
 .video {
-  height: min(650px, 40vw);
+  width: 80%;
 }
 
 </style>

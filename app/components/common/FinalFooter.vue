@@ -52,6 +52,10 @@ export default Vue.extend({
 
     isOzaria () {
       return isOzaria
+    },
+
+    robloxPage () {
+      return /^\/roblox/.test(document.location.pathname)
     }
   },
   created () {
@@ -71,7 +75,7 @@ export default Vue.extend({
       img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
     .social-links
       a(v-for="socialLink in socialLinks" :href="socialLink.href" :key="socialLink.href" target="_blank")
-        img(:src="socialLink.img" :alt="socialLink.alt" loading="lazy")
+        img(:src="socialLink.img" :alt="socialLink.alt" loading="lazy" :class="{roblox: robloxPage}")
     .copyright
       if me.showChinaResourceInfo()
         span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
@@ -117,6 +121,8 @@ export default Vue.extend({
   img
     height: 40px
     margin-right: 20px
+    &.roblox
+      filter: invert(85%) sepia(57%) saturate(2482%) hue-rotate(147deg) brightness(97%) contrast(95%)
 
   img#mps
     height: 1em

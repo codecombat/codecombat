@@ -62,7 +62,10 @@ export default {
   }
 
   .body {
-    align-items: flex-start;
+    max-width: 1440px;
+    padding-left: 5%;
+    padding-right: 5%;
+    align-items: center;
     display: inline-flex;
     flex: 0 0 auto;
     flex-direction: column;
