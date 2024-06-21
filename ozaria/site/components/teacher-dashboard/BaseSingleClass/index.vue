@@ -32,6 +32,22 @@ export default {
     ModalEditStudent
   },
 
+  beforeRouteUpdate (to, from, next) {
+    this.closePanel()
+    this.clearSelectedStudents()
+    this.setClassroomId(to.params.classroomId)
+    if (to.params.courseId) {
+      this.setSelectedCourseId({ courseId: to.params.courseId })
+    }
+    next()
+  },
+
+  beforeRouteLeave (to, from, next) {
+    this.closePanel()
+    this.clearSelectedStudents()
+    next()
+  },
+
   props: {
     classroomId: {
       type: String,
@@ -473,20 +489,6 @@ export default {
           this.fetchClassroomsForTeacher({ teacherId: me.get('_id') })
         }
       })
-  },
-
-  beforeRouteUpdate (to, from, next) {
-    this.closePanel()
-    this.clearSelectedStudents()
-    this.setClassroomId(to.params.classroomId)
-    this.setSelectedCourseIdCurrentClassroom({ courseId: to.params.courseId || utils.courseIDs.HACKSTACK })
-    next()
-  },
-
-  beforeRouteLeave (to, from, next) {
-    this.closePanel()
-    this.clearSelectedStudents()
-    next()
   },
 
   destroyed () {
