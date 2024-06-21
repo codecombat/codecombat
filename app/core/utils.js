@@ -1333,7 +1333,7 @@ var i18n = function (say, target, language, fallback) {
     var result
     const locale = say.i18n[localeName]
     if (localeName === '-') { continue }
-    if (target in locale) {
+    if (target in locale && locale[target]) {
       result = locale[target]
     } else { continue }
     if (localeName === language) { return removeAI(result) }
