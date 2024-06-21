@@ -29,10 +29,12 @@
           >
         </div>
         <div class="content">
+          <!-- eslint-disable vue/no-v-html -->
           <div
             class="svg"
             v-html="block.colTwo.vector"
           />
+          <!--eslint-enable-->
           <div class="title">
             {{ block.colTwo.title }}
           </div>
