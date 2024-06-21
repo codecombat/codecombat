@@ -1312,7 +1312,7 @@ var i18n = function (say, target, language, fallback) {
     // when ai translation finished we can know how to deal with them
     // now return first
     if (!str) {
-      return str
+      return ''
     }
     if (typeof str === 'object') {
       const newObject = {}
@@ -1348,7 +1348,7 @@ var i18n = function (say, target, language, fallback) {
   if (fallSidewaysResult != null) { return removeAI(fallSidewaysResult) }
   if (fallBackResult != null) { return removeAI(fallBackResult) }
   if (target in say) { return removeAI(say[target]) }
-  return null
+  return '' // should never happen, but who knows
 }
 
 const getByPath = function (target, path) {
