@@ -887,7 +887,6 @@ module.exports = class SpellView extends CocoView
     linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
     lines = Math.max linesAtMinHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), hardMinLines
     lines = 8 if _.isNaN lines
-    console.log "Setting Ace to #{lines} lines"
 
     ace.setOptions minLines: lines, maxLines: lines
 
