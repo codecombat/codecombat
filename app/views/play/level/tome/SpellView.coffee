@@ -867,14 +867,15 @@ module.exports = class SpellView extends CocoView
     windowHeight = $(window).innerHeight()
     topOffset = $(aceCls).offset()?.top or 0
     spellPaletteAllowedMinHeight = Math.min spellPaletteHeight, 0.4 * (windowHeight  - topOffset)
-    spellPaletteAllowedMinHeight = Math.max 150, spellPaletteAllowedMinHeight if spellPaletteHeight > 0  # At least room for four props
+    spellPaletteAllowedMinHeight = Math.max 75, spellPaletteAllowedMinHeight if spellPaletteHeight > 0  # At least room for four props
+    runButtonHeight = if aceCls == '.ace' then 75 else 0
     gameHeight = $('#game-area').innerHeight()
     heightScale = if aceCls == '.ace' then 1 else 0.5
 
     # If the spell palette is too tall, we'll need to shrink it.
     maxHeightOffset = 0
     minHeightOffset = if hasBlocks or isCinematic then 0 else 100
-    maxHeight = windowHeight - topOffset - spellPaletteAllowedMinHeight - maxHeightOffset
+    maxHeight = windowHeight - topOffset - spellPaletteAllowedMinHeight - maxHeightOffset - runButtonHeight
     minHeight = Math.min maxHeight * heightScale, Math.min(gameHeight, windowHeight) - spellPaletteHeight - minHeightOffset
     minHeight = maxHeight if hasBlocks or isCinematic
 
@@ -886,6 +887,7 @@ module.exports = class SpellView extends CocoView
     linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
     lines = Math.max linesAtMinHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), hardMinLines
     lines = 8 if _.isNaN lines
+    console.log "Setting Ace to #{lines} lines"
 
     ace.setOptions minLines: lines, maxLines: lines
 
