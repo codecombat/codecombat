@@ -34,7 +34,10 @@
                     <CTAButton href="/parents/signup">
                       {{ $t('parents_v2.create_parent_account') }}
                     </CTAButton>
-                    {{ $t('parents_v2.to_explore') }}
+                    <mixed-color-label
+                      :text="$t('parents_v2.to_explore')"
+                      :inherit-default-color="true"
+                    />
                   </p>
                 </template>
               </two-column-block>
@@ -82,7 +85,7 @@
 
         <div class="container">
           <box-panel
-            :title="$t('schools_page.student_acceleration_ap_csp')"
+            :title="$t('parents_v2.personalized_instruction')"
             :items="personalizedInstruction"
             columns="3"
           />
@@ -385,7 +388,7 @@
           <div class="row">
             <div class="col-lg-4 apcsp-prep__img-container">
               <img
-                src="/images/pages/apcsp/APCSP_ProviderBadge_lg.png"
+                src="/images/pages/apcsp/apcsp_logo.webp"
                 loading="lazy"
               >
             </div>
@@ -630,10 +633,6 @@ export default {
         title: 'Sergio',
         text: this.$t('parents_v2.instructors_12_text'),
         image: '/images/pages/parents/instructors/sergio.webp',
-      }, {
-        title: 'Bella',
-        text: this.$t('parents_v2.instructors_13_text'),
-        image: '/images/pages/parents/instructors/bella.webp'
       }],
       faqItems: [{
         question: this.$t('parents_v2.faq_1_question'),
@@ -723,16 +722,28 @@ export default {
 
   .container {
     &__header {
+      .header-text {
+        gap: 30px;
+      }
+
       .text-h1 {
         margin-top: 10px;
         @extend %font-44;
         text-align: left;
+        margin-bottom: 10px;
+        .mixed-color-label__highlight {
+          display: inline-block
+        }
       }
 
       .text-p {
         @extend %font-14;
         margin-top: 8px;
         color: var(--color-light-grey);
+        .mixed-color-label {
+          display: block;
+          margin-top: 10px;
+        }
       }
     }
   }
@@ -783,8 +794,10 @@ export default {
         width: 285px;
         max-width: 40%;
 
-        img {
+        img.content-icon {
           border-radius: 285px;
+          aspect-ratio: 1 / 1;
+          object-fit: cover;
         }
       }
 
