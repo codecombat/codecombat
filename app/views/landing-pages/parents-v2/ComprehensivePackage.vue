@@ -103,7 +103,6 @@ export default {
 
     .vector {
         position: relative;
-        width: 70px;
         height: 70px;
     }
 
@@ -114,6 +113,8 @@ export default {
         text-align: center;
         color: var(--color-dark-grey);
         width: max-content;
+        display: block;
+        margin: 0 auto;
     }
 }
 </style>
