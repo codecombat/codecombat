@@ -132,6 +132,7 @@ export default {
 
         &.text-wrapper {
             @extend %font-36;
+            font-weight: 500;
             color: var(--color-dark-grey);
         }
     }

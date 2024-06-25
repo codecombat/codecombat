@@ -43,7 +43,10 @@
               </two-column-block>
             </template>
             <template #image>
-              <content-box :main-image-bg="true">
+              <content-box
+                :main-image-bg="true"
+                :transparent="true"
+              >
                 <template #image>
                   <video-box video-id="3443ecdf023c925e100a938dcae73f47" />
                 </template>
@@ -108,6 +111,7 @@
                     thumbnail-url="https://cloudflarestream.com/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg?height=720&time=2s"
                     :controls="true"
                     :autoplay="false"
+                    :background-color="'transparent'"
                   />
                 </template>
               </content-box>
@@ -731,7 +735,7 @@ export default {
         @extend %font-44;
         text-align: left;
         margin-bottom: 10px;
-        .mixed-color-label__highlight {
+        ::v-deep .mixed-color-label__highlight {
           display: inline-block
         }
       }
@@ -764,6 +768,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: 500;
 
     svg {
       margin-right: 30px;
@@ -771,6 +776,9 @@ export default {
   }
 
   ::v-deep {
+    .text-h2 {
+      font-weight: 500;
+    }
     .two-column-block {
 
       .column-one,
@@ -799,6 +807,10 @@ export default {
           aspect-ratio: 1 / 1;
           object-fit: cover;
         }
+      }
+
+      .content-details {
+        padding-top: 20px;
       }
 
       .content-details>.content-text {

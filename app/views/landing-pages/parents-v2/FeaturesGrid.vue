@@ -4,6 +4,7 @@
       v-for="(row, index) in rows"
       :key="index"
       :type="row.type"
+      :gridless="row.gridless || false"
       :col1-content="row.content[0]"
       :col2-content="row.content[1]"
       :col3-content="row.content[2]"
@@ -25,11 +26,11 @@ export default {
       { type: 'links', content: [null, $.i18n.t('parents_v2.grid_self_paced'), $.i18n.t('parents_v2.grid_1_sessions_weekly'), $.i18n.t('parents_v2.grid_2_sessions_weekly')] },
       { type: 'header', content: [$.i18n.t('parents_v2.grid_features'), $.i18n.t('parents_v2.grid_99_annual'), $.i18n.t('parents_v2.grid_219_monthly'), $.i18n.t('parents_v2.grid_399_monthly')] },
       { content: [$.i18n.t('parents_v2.grid_personalized_instruction'), null, '✓', '✓'] },
-      { content: [$.i18n.t('parents_v2.grid_premium_access'), null, null, null] },
-      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_codecombat'), '✓', '✓', '✓'] },
-      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_ozaria'), null, '✓', '✓'] },
-      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_ai_league'), null, '✓', '✓'] },
-      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_codecombat_worlds'), null, '✓', '✓'] },
+      { content: [$.i18n.t('parents_v2.grid_premium_access'), null, null, null], gridless: true },
+      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_codecombat'), '✓', '✓', '✓'], gridless: true },
+      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_ozaria'), null, '✓', '✓'], gridless: true },
+      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_ai_league'), null, '✓', '✓'], gridless: true },
+      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_codecombat_worlds'), null, '✓', '✓'], gridless: true },
       { type: 'subitem', content: [$.i18n.t('parents_v2.grid_ai_hackstack'), null, '✓', '✓'] },
       { content: [$.i18n.t('parents_v2.grid_parent_dashboard'), null, '✓', '✓'] },
       { content: [$.i18n.t('parents_v2.grid_lesson_slides'), null, '✓', '✓'] },
