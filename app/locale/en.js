@@ -5898,7 +5898,8 @@ module.exports = {
       'claude-description': 'Writes stories and summarizes documents.',
       locked: 'LOCKED',
       view: 'View',
-      continue: 'Continue'
+      continue: 'Continue',
+      no_assigned_projects: 'Your teacher has not assigned any AI projects yet.'
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',
