@@ -21,6 +21,7 @@ const utils = require('core/utils')
 const { logoutUser, me } = require('core/auth')
 const CreateAccountModal = require('views/core/CreateAccountModal/CreateAccountModal')
 const GetStartedSignupModal = require('app/views/teachers/GetStartedSignupModal').default
+const GetLicensesModal = require('app/views/core/GetLicensesModal').default
 const paymentUtils = require('app/lib/paymentUtils')
 const fetchJson = require('core/api/fetch-json')
 const DOMPurify = require('dompurify')
@@ -56,6 +57,7 @@ module.exports = (HomeView = (function () {
         'click .carousel-dot': 'onCarouselDirectMove',
         'click .carousel-tab': 'onCarouselDirectMovev2',
         'click .request-quote': 'onClickRequestQuote',
+        'click .modal-request-quote': 'onClickRequestQuoteModal',
         'click .logout-btn': 'logoutAccount',
         'click .setup-class-btn': 'onClickSetupClass',
         'click .try-chapter-1': 'onClickGenericTryChapter1',
@@ -108,14 +110,16 @@ module.exports = (HomeView = (function () {
       })
     }
 
+    onClickRequestQuoteModal () {
+      const modal = new GetLicensesModal()
+      return this.openModalView(modal)
+    }
+
     onClickRequestQuote (e) {
       this.playSound('menu-button-click')
       e.preventDefault()
       e.stopImmediatePropagation()
       this.homePageEvent($(e.target).data('event-action'))
-      if (utils.isCodeCombat && me.isTeacher()) {
-        return application.router.navigate('/teachers/quote', { trigger: true })
-      }
       if (me.isTeacher()) {
         return application.router.navigate('/teachers/update-account', { trigger: true })
       } else {
