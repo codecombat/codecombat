@@ -88,7 +88,7 @@
 
         <div class="container">
           <box-panel
-            :title="$t('parents_v2.personalized_instruction')"
+            :title="$t('parents_v2.boxes_title')"
             :items="personalizedInstruction"
             columns="3"
           />
@@ -165,6 +165,7 @@
             />
             <br>
             &ast;&ast;<mixed-color-label
+              ref="contactFootnote"
               :inherit-default-color="true"
               :text="$t('parents_v2.subscriptions_billed')"
             />
@@ -178,18 +179,10 @@
 
         <div class="container">
           <CTAButton
-            :description="me.isAnonymous() ? `${$t('parents_v2.prefix_or')} **[/parents/signup]${$t('parents_v2.signup_description')}**` : null"
+            :description="`${$t('parents_v2.prefix_or')} **[/premium]${$t('parents_v2.signup_description')}**`"
             @clickedCTA="onClickMainCta"
           >
             {{ $t('parents_v2.schedule_free_class') }}
-            <template
-              v-if="!me.isAnonymous()"
-              #description
-            >
-              <page-parents-section-premium
-                :description="$t('parents_v2.signup_description')"
-              />
-            </template>
           </CTAButton>
         </div>
         <background-container type="colored">
@@ -457,7 +450,6 @@ import FaqComponent from 'app/components/common/elements/FaqComponent.vue'
 import StepBoxes from './StepBoxes.vue'
 import ConceptItem from './ConceptItem.vue'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
-import PageParentsSectionPremium from 'app/views/landing-pages/parents/PageParentsSectionPremium.vue'
 
 export default {
   name: 'PageParentsV2',
@@ -485,7 +477,6 @@ export default {
     ConceptItem,
     IntegrateAi,
     BaseCloudflareVideo,
-    PageParentsSectionPremium,
     PageParentsLanding
   },
   extends: PageParentsLanding,
@@ -507,10 +498,10 @@ export default {
 
       testimonials: [
         {
-          image: '/images/pages/schools/avatar/avatar_seth.webp'
+          image: '/images/pages/schools/avatar/avatar_student.webp'
         },
         {
-          image: '/images/pages/schools/avatar/avatar_seth.webp'
+          image: '/images/pages/schools/avatar/avatar_andrew.webp'
         },
         {
           image: '/images/pages/schools/avatar/avatar_seth.webp'
@@ -696,6 +687,14 @@ export default {
         }
       },
       deep: true
+    }
+  },
+
+  mounted () {
+    // add the contact-modal trigger one to `contact us` in the footnote
+    const element = this.$refs?.contactFootnote?.$el
+    if (element) {
+      $('.mixed-color-label__highlight', element).addClass('contact-modal')
     }
   },
 
@@ -907,6 +906,9 @@ export default {
   }
 
   ::v-deep {
+    .contact-modal {
+      cursor: pointer;
+    }
     .container-course-offering-heading {
       .text-center a {
         color: var(--color-primary);
