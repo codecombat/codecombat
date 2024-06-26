@@ -48,6 +48,8 @@ block content
               p
                 if me.isTeacher()
                   a.btn.btn-lg.btn-primary.my-classes-btn(href="/teachers/classes", data-event-action="Homepage Click My Classes CTA", data-i18n="new_home.go_to_my_classes")
+                  p
+                  a.btn.btn-lg.btn-primary.modal-request-quote(data-event-action="Homepage Click Request A Quote CTA", data-i18n="new_home.request_quote")
                 else if me.isStudent()
                   a.btn.btn-lg.btn-primary.my-courses-btn(href="/students", data-event-action="Homepage Click My Courses CTA", data-i18n="new_home.go_to_courses")
                 else
