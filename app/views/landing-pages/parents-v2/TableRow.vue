@@ -5,7 +5,7 @@
       v-for="(content, index) in [col1Content, col2Content, col3Content, col4Content]"
       :key="index"
       class="cell"
-      :class="{ empty: !content }"
+      :class="{ empty: !content, gridless }"
     >
       <mixed-color-label
         v-if="type === 'links' && content"
@@ -29,6 +29,7 @@ export default {
   },
   props: {
     type: { type: String, default: null, required: false },
+    gridless: { type: Boolean, default: false, required: false },
     col1Content: { type: [String, Number, null], default: null, required: false },
     col2Content: { type: [String, Number, null], default: null, required: false },
     col3Content: { type: [String, Number, null], default: null, required: false },
@@ -59,6 +60,9 @@ export default {
     }
 
     border-bottom: 1px solid var(--color-primary-1);
+    &.gridless {
+      border-bottom: none;
+    }
     min-height: 70px;
     min-width: 140px;
     @media screen and (max-width: $screen-md) {

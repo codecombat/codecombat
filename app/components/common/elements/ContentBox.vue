@@ -6,6 +6,7 @@
     :class="{ box: true,
               horizontal: arrangement === 'horizontal',
               clickable: link || signupModal,
+              transparent: transparent,
               'signup-button': signupModal}"
     :style="boxStyle"
   >
@@ -96,6 +97,10 @@ export default {
       type: Boolean,
       default: false
     },
+    transparent: {
+      type: Boolean,
+      default: false
+    },
     mainImageOriginal: {
       type: Boolean,
       default: false
@@ -177,6 +182,9 @@ export default {
   box-shadow: 0px 6px 22px 0px rgba(0, 0, 0, 0.10);
   backdrop-filter: blur(2px);
   background: linear-gradient(90deg, rgb(245, 255, 255) 0%, rgb(255, 255, 255) 100%);
+  &.transparent {
+    background: transparent;
+  }
   display: flex;
   flex-direction: column;
   position: relative;
