@@ -103,7 +103,7 @@ export const globalTypes = {
         }
       }),
     },
-  }
+  },
   theme: {
     name: 'Theme',
     description: 'Global theme for components',
@@ -224,6 +224,11 @@ export const decorators = [
 
       const theme = context.globals.theme;
       const style = context.globals.style;
+      const lang = context.globals.langs;
+      $.i18n.changeLanguage(lang, (err, t) => {
+        if (err) return console.log('something went wrong loading', err);
+        globalLang = lang
+      })
 
       // If the product has changed, fetch the new product
       if (!oldContext || oldContext.globals.product !== context.globals.product) {
@@ -235,18 +240,13 @@ export const decorators = [
         'style-flat'
       );
       document.body.classList.add(theme);
+
       if (style) {
         document.body.classList.add(style);
       }
 
       oldContext = context;
-      const lang = context.globals.langs;
-      $.i18n.changeLanguage(lang, (err, t) => {
-        if (err) return console.log('something went wrong loading', err);
-        globalLang = lang
-      })
- 
-      return storyFn();
+          return storyFn();
     };
   })(),
 ];
