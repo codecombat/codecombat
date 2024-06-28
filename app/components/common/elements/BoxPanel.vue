@@ -14,6 +14,7 @@
         :key="index"
         :class="{
           'col-md-6': arrangement === 'vertical',
+          'col-lg-4': parseInt(columns, 10) === 3 && arrangement === 'vertical',
           'col-md-12': arrangement === 'horizontal'
         }"
       >
@@ -30,8 +31,12 @@
           :middle-text="item.middleText"
           :middle-image="item.middleImage"
           :middle-image-alt="item.middleImageAlt"
+          :labels="item.labels"
         >
-          <template #image>
+          <template
+            v-if="item.video || item.image"
+            #image
+          >
             <div v-if="item.video">
               <video-box
                 :ref="`video-${index}`"
@@ -42,7 +47,7 @@
               />
             </div>
             <img
-              v-else
+              v-else-if="item.image"
               :src="item.image"
               :alt="`Image to illustrate ${item.title}`"
               :loading="lazyLoad ? 'lazy' : ''"
@@ -99,6 +104,10 @@ export default {
     items: {
       type: Array,
       required: true
+    },
+    columns: {
+      type: [String, Number],
+      default: 2
     },
     arrangement: {
       type: String,

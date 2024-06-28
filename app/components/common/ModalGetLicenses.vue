@@ -136,6 +136,7 @@ export default Vue.extend({
 <template>
   <modal
     :title="modalTitle"
+    :backbone-dismiss-modal="true"
     @close="closeModal"
   >
     <div class="style-ozaria teacher-form">

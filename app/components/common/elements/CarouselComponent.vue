@@ -67,6 +67,10 @@
             </div>
             <div class="content-text">
               <p class="content-title">
+                <mixed-color-label
+                  v-if="item.titlePrefix"
+                  :text="item.titlePrefix"
+                />
                 {{ String(item.title || '').replace('[NEWLINE]', ' ') }}
               </p>
               <div class="content-text">
@@ -78,11 +82,11 @@
       </div>
 
       <div :class="{ 'carousel-dots': true, 'carousel-tabs-default': showDots }">
-        <img
-          :src="`/images/components/arrow${currentIndex <= 0 ? '-light' : ''}.svg`"
-          :alt="`Arrow to go to the previous item in the carousel${currentIndex <= 0 ? ' - disabled' : ''}`"
+        <CarouselArrow
+          class="arrow-img"
+          :class="{grey:currentIndex <=0 }"
           @click="goTo(currentIndex - 1)"
-        >
+        />
         <button
           v-for="(item, index) in items"
           :key="'dot' + index"
@@ -91,18 +95,21 @@
         >
           {{ index + 1 }}
         </button>
-        <img
-          :src="`/images/components/arrow${currentIndex >= items.length - 1 ? '-light' : ''}.svg`"
-          :alt="`Arrow to go to the next item in the carousel${currentIndex >= items.length - 1 ? ' - disabled' : ''}`"
+        <CarouselArrow
+          class="arrow-img"
+          :class="{grey:currentIndex >= items.length - 1 }"
           @click="goTo(currentIndex + 1)"
-        >
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import MixedColorLabel from '../labels/MixedColorLabel.vue'
+import CarouselArrow from './CarouselArrow.vue'
 export default {
+  components: { MixedColorLabel, CarouselArrow },
   props: {
     showTabs: {
       type: Boolean,
@@ -132,6 +139,7 @@ export default {
         return {
           key,
           title: value[0].componentOptions.propsData.title,
+          titlePrefix: value[0].componentOptions.propsData.titlePrefix,
           image: value[0].componentOptions.propsData.image,
           tabImage: value[0].componentOptions.propsData.tabImage,
         }
@@ -166,7 +174,7 @@ export default {
     display: flex;
   }
 
-  img {
+  .arrow-img ::v-deep {
     cursor: pointer;
 
     &:first-child {
@@ -181,10 +189,10 @@ export default {
     border-radius: 16px;
     border: none;
     color: transparent;
-    background-color: $light-purple;
+    background-color: var(--color-primary-light-2);
 
     &.active {
-      background-color: $purple;
+      background-color: var(--color-primary-2);
     }
   }
 }
@@ -221,7 +229,7 @@ export default {
   border-radius: 24px;
 
   &.has-background {
-    background: #F9F9FF;
+    background: var(--color-light-background);
     box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.12);
   }
 
@@ -332,14 +340,14 @@ export default {
       color: $light-grey;
       font-weight: 500;
       font-feature-settings: 'clig' off, 'liga' off;
-      border-bottom: 2px solid $light-purple;
+      border-bottom: 2px solid var(--color-primary-light);
       font-style: normal;
       font-size: 20px;
 
       &.active {
         color: #170f49;
         font-weight: 700;
-        border-bottom-color: $purple;
+        border-bottom-color: var(--color-primary);
       }
 
       &:not(.active):hover {
@@ -353,12 +361,12 @@ export default {
         width: 20px;
         height: 20px;
         border-radius: 20px;
-        border: 2px solid $light-purple;
-        background: $light-purple;
+        border: 2px solid var(--color-primary-light);
+        background: var(--color-primary-light);
 
         &.active {
-          border-color: $purple;
-          background: $purple;
+          border-color: var(--color-primary);
+          background: var(--color-primary);
         }
       }
 

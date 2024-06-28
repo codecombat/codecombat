@@ -29,6 +29,6 @@ export default {
     width: 24px;
     height: 24px;
     border-radius: 24px;
-    border: 1px solid $purple;
+    border: 1px solid var(--color-primary);
 }
 </style>

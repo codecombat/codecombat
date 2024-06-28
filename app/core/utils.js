@@ -1312,7 +1312,7 @@ var i18n = function (say, target, language, fallback) {
     // when ai translation finished we can know how to deal with them
     // now return first
     if (!str) {
-      return str
+      return ''
     }
     if (typeof str === 'object') {
       const newObject = {}
@@ -1333,7 +1333,7 @@ var i18n = function (say, target, language, fallback) {
     var result
     const locale = say.i18n[localeName]
     if (localeName === '-') { continue }
-    if (target in locale) {
+    if (target in locale && locale[target]) {
       result = locale[target]
     } else { continue }
     if (localeName === language) { return removeAI(result) }
@@ -1348,7 +1348,7 @@ var i18n = function (say, target, language, fallback) {
   if (fallSidewaysResult != null) { return removeAI(fallSidewaysResult) }
   if (fallBackResult != null) { return removeAI(fallBackResult) }
   if (target in say) { return removeAI(say[target]) }
-  return null
+  return null // if we call i18n for a unexisting key
 }
 
 const getByPath = function (target, path) {

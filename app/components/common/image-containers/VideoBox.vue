@@ -10,6 +10,7 @@
     :play-when-visible="true"
     :title="title"
     :thumbnail-url-time="thumbnailUrlTime"
+    :background-color="'transparent'"
     @loaded="onVideoLoaded"
   />
 </template>

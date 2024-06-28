@@ -88,6 +88,7 @@ export const globalTypes = {
     toolbar: {
       icon: 'circlehollow',
       items: ['codecombat', 'ozaria'],
+      dynamicTitle: true
     },
   },
   langs: {
@@ -103,11 +104,39 @@ export const globalTypes = {
       }),
     },
   }
+  theme: {
+    name: 'Theme',
+    description: 'Global theme for components',
+    defaultValue: 'blue-theme',
+    toolbar: {
+      icon: 'paintbrush',
+      items: [
+        { value: 'blue-theme', title: 'Blue' },
+        { value: 'teal-theme', title: 'Teal' },
+      ],
+      dynamicTitle: true
+    },
+  },
+  style: {
+    name: 'Style',
+    description: 'Global style',
+    defaultValue: 'style-flat',
+    toolbar: {
+      icon: 'paintbrush',
+      items: [
+        { value: 'style-flat', title: 'style-flat' },
+        { value: '', title: 'none' },
+      ],
+      dynamicTitle: true
+    },
+  }
 };
 
 global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
 
 import '../app/app.sass'
+
+import './container.scss'
 
 import(/* webpackChunkName: "UsFont" */ 'app/styles/common/fontUS.sass');
 
@@ -184,17 +213,40 @@ const VueI18Next = {
 }
 Vue.use(VueI18Next)
 
-export const decorators = [
-  (storyFn, context) => {
-    // Set the CSS variable
-    fetch(`/product-update?product=${context.globals.product}`);
+const { $themePath } = require('app/core/initialize-themes')
+Vue.prototype.$themePath = $themePath
 
-    const lang = context.globals.langs;
-    $.i18n.changeLanguage(lang, (err, t) => {
-      if (err) return console.log('something went wrong loading', err);
-      globalLang = lang
-      console.log('try refresh again')
-    })
-    return storyFn()
-  },
+export const decorators = [
+  (() => {
+    let oldContext = null;
+
+    return (storyFn, context) => {
+
+      const theme = context.globals.theme;
+      const style = context.globals.style;
+
+      // If the product has changed, fetch the new product
+      if (!oldContext || oldContext.globals.product !== context.globals.product) {
+        fetch(`/product-update?product=${context.globals.product}`);
+      }
+
+      document.body.classList.remove(
+        'blue-theme', 'teal-theme', 'dark-theme',
+        'style-flat'
+      );
+      document.body.classList.add(theme);
+      if (style) {
+        document.body.classList.add(style);
+      }
+
+      oldContext = context;
+      const lang = context.globals.langs;
+      $.i18n.changeLanguage(lang, (err, t) => {
+        if (err) return console.log('something went wrong loading', err);
+        globalLang = lang
+      })
+ 
+      return storyFn();
+    };
+  })(),
 ];

@@ -6,6 +6,7 @@
     :class="{ box: true,
               horizontal: arrangement === 'horizontal',
               clickable: link || signupModal,
+              transparent: transparent,
               'signup-button': signupModal}"
     :style="boxStyle"
   >
@@ -20,7 +21,10 @@
       v-if="!onlyMainImage"
       class="box__div"
     >
-      <div class="info">
+      <div
+        class="info"
+        :class="{'no-main-image':!hasMainImage}"
+      >
         <div
           v-if="hasSymbolImage"
           class="symbol-image"
@@ -47,6 +51,15 @@
           >
         </p>
         <slot name="button" />
+        <p v-if="labels.length">
+          <span
+            v-for="label in labels"
+            :key="label"
+            class="info__label"
+          >
+            {{ label }}
+          </span>
+        </p>
       </div>
       <div
         v-if="hasFrameImage"
@@ -84,6 +97,10 @@ export default {
       type: Boolean,
       default: false
     },
+    transparent: {
+      type: Boolean,
+      default: false
+    },
     mainImageOriginal: {
       type: Boolean,
       default: false
@@ -111,6 +128,10 @@ export default {
     middleImageAlt: {
       type: String,
       default: null
+    },
+    labels: {
+      type: Array,
+      default: () => []
     }
   },
   computed: {
@@ -161,6 +182,9 @@ export default {
   box-shadow: 0px 6px 22px 0px rgba(0, 0, 0, 0.10);
   backdrop-filter: blur(2px);
   background: linear-gradient(90deg, rgb(245, 255, 255) 0%, rgb(255, 255, 255) 100%);
+  &.transparent {
+    background: transparent;
+  }
   display: flex;
   flex-direction: column;
   position: relative;
@@ -286,11 +310,29 @@ export default {
     margin-top: auto;
   }
 
+  &.no-main-image >:last-child {
+    margin-bottom: auto;
+  }
+
   .middle-text {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+  }
+
+  &__label {
+    @extend %font-14;
+    color: var(--color-primary);
+    padding: 0 12px;
+    border-right: 1px solid var(--color-primary);
+    &:first-child {
+      padding-left: 0;
+    }
+    &:last-child {
+      padding-right: 0;
+      border-right: none;
+    }
   }
 }
 

@@ -514,7 +514,7 @@ export default Vue.extend({
                   li(v-if="me.isAdmin() || me.isOnlineTeacher()")
                     a.account-dropdown-item(href="/event-calendar/classes") {{ $t('events.calendar') }}
                   li(v-if="serverSession && serverSession.amActually")
-                    a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}
+                    a.account-dropdown-item#nav-stop-spying-button(href="#") Stop Spying
                   li(v-if="me.isTeacher()")
                     a.account-dropdown-item#nav-student-mode(href="#") {{ $t('login.test_as_student') }}
                   li(v-else-if="serverSession && serverSession.switchingUserActualId && me.isTestStudent()")

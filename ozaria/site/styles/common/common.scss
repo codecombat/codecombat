@@ -1,4 +1,61 @@
 @import "ozaria/site/styles/common/variables";
+@import "app/styles/component_variables.scss";
+
+:root {
+  $light-grey: #6b7280;
+
+  --color-primary: #{$purple};
+  --color-primary-1: #{$purple};
+  --color-primary-2: #{$purple-2};
+  --color-primary-middle: #{$middle-purple};
+  --color-primary-light: #{$light-purple};
+  --color-primary-light-2: #{$light-purple};
+  --color-dark-grey: #{$dark-grey};
+  --color-dark-grey-2: #{$dark-grey-2};
+  --color-light-grey: #{$light-grey};
+
+  --color-box-shadow: #{rgba(122, 101, 252, 0.15)};
+  --color-light-background: #{$light-background};
+  --color-bg-gradient: #{linear-gradient(100deg, #f6f4ff 0%, #fff 100%)};
+
+  $text-shadow: -1px 0 darken($purple, 20%), 0 1px darken($purple, 20%),
+    1px 0 darken($purple, 20%), 0 -1px darken($purple, 20%);
+
+  --text-shadow: #{$text-shadow};
+  --color-primary__darken_10: #{darken($purple, 10%)};
+  --color-primary-1__darken_10: #{darken($purple, 10%)};
+}
+
+body.teal-theme {
+  $dark-grey: #0a2239;
+  $light-grey: #6b7280;
+  $blue: #4799a9;
+  $blue-1: #4decf0;
+  $blue-2: #6feff3;
+  $middle-blue: #bdf7fa;
+  $light-blue: #e6fbfc;
+  $light-blue-2: #e9e8fd;
+  $light-background: #f0fdfd;
+
+  --color-primary-1: #{$blue-1};
+  --color-primary: #{$blue};
+  --color-primary-2: #{$blue-2};
+  --color-primary-middle: #{$middle-blue};
+  --color-primary-light: #{$light-blue};
+  --color-primary-light-2: #{$light-blue-2};
+  --color-dark-grey: #{$dark-grey};
+  --color-dark-grey-2: #{$dark-grey-2};
+  --color-light-grey: #{$light-grey};
+
+  --color-box-shadow: #{rgba(77, 236, 240, 0.3)};
+  --color-light-background: #{$light-background};
+  --color-bg-gradient: #{linear-gradient(100deg, #f0fdfd 0%, #fff 100%)};
+
+  --text-shadow: #{-1px 0 darken($blue, 20%), 0 1px darken($blue, 20%),
+    1px 0 darken($blue, 20%), 0 -1px darken($blue, 20%)};
+  --color-primary__darken_10: #{darken($blue, 10%)};
+  --color-primary-1__darken_10: #{darken($blue-1, 10%)};
+}
 
 @if not $is-codecombat {
   .ozaria-button {
@@ -7,7 +64,8 @@
     box-sizing: border-box;
   }
 
-  .ozaria-primary-button, .style-ozaria .ozaria-primary-button {
+  .ozaria-primary-button,
+  .style-ozaria .ozaria-primary-button {
     background-color: $teal;
     padding: 11px 19px;
     color: #f7f9f9;
@@ -18,7 +76,8 @@
     line-height: 24px;
   }
 
-  .ozaria-secondary-button, .style-ozaria .ozaria-secondary-button {
+  .ozaria-secondary-button,
+  .style-ozaria .ozaria-secondary-button {
     padding: 11px 19px;
     color: $teal;
     font-family: $body-font-style;
@@ -28,7 +87,6 @@
     line-height: 24px;
     border: 2px solid $teal;
   }
-
 
   .style-ozaria {
     h1 {
@@ -71,7 +129,8 @@
       }
     }
 
-    p, li {
+    p,
+    li {
       @include font-p-2-paragraph-medium-white;
 
       &.large-twilight {
@@ -85,7 +144,6 @@
       &.large-gray {
         @include font-p-1-paragraph-large-gray;
       }
-
     }
 
     .small-details {
@@ -128,28 +186,31 @@
       border-radius: 5px;
     }
 
-    &.educator-sign-up, &.teacher-form {
+    &.educator-sign-up,
+    &.teacher-form {
       .form-container {
         .form-control {
           border-radius: 0px;
-          border: 1px solid #379B8D;
-          background: #FFFFFF;
+          border: 1px solid #379b8d;
+          background: #ffffff;
           &.placeholder-text {
-            color: #ADADAD
+            color: #adadad;
           }
           &.disabled-input {
-            background: #F2F2F2;
-            color: #ADADAD;
+            background: #f2f2f2;
+            color: #adadad;
           }
         }
 
-        .inline-flex-form-label-div { // to display label and error on same line (eg: teacher onboarding forms)
+        .inline-flex-form-label-div {
+          // to display label and error on same line (eg: teacher onboarding forms)
           display: inline-flex;
           justify-content: space-between;
           width: 100%;
         }
 
-        .control-label, .control-label-desc {
+        .control-label,
+        .control-label-desc {
           @include font-p-3-small-button-text-black;
           font-weight: normal;
         }
@@ -164,7 +225,7 @@
             .form-error {
               @include font-p-4-paragraph-smallest-gray;
               display: inline-block;
-              color: #0170E9;
+              color: #0170e9;
             }
           }
         }
@@ -180,7 +241,7 @@
         .form-checkbox-input {
           @include font-p-4-paragraph-smallest-gray;
           input {
-            width: 6%
+            width: 6%;
           }
         }
       }
