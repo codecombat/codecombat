@@ -209,7 +209,7 @@ export default Vue.extend({
               :type="input.type"
               :name="input.id"
             >
-            <label for="${input.id}-free-choice">Other:</label>
+            <label :for="`${input.id}-free-choice`">Other:</label>
             <input
               id="free-choice-text"
               type="text"
@@ -249,8 +249,11 @@ $input-text-font-size: 18px;
   appearance: none; /* Remove default appearance */
   width: $input-size;
   height: $input-size;
+  min-width: $input-size;
+  min-height: $input-size;
   border: $input-border-size solid #000; /* Black border */
   margin-right: $input-margin-right;
+  margin-top: 0;
 
   &:checked {
     background-color: #000; /* Black background when checked */
@@ -299,18 +302,21 @@ $input-text-font-size: 18px;
 
 .scenario-name {
   display: inline-block;
-  margin-bottom: -2%;
+  margin-bottom: -3%;
   margin-top: -3%;
+  font-size: 40px;
+  font-weight: bold;
 }
 
 .scenario-name-subhead {
   display: inline-block;
   margin-top: -1%;
+  font-size: 24px;
 }
 
 .student-name-container {
   width: 37%;
-  top: 27%;
+  top: 45%;
   right: 13%;
   position: absolute;
   display: inline-block;
@@ -318,6 +324,12 @@ $input-text-font-size: 18px;
 
 .student-name {
   display: inline;
+  font-weight: lighter;
+}
+
+h2.student-name-header {
+  font-size: 24px;
+  text-align: right;
 }
 
 .student-name-field {
@@ -337,7 +349,7 @@ $input-text-font-size: 18px;
     padding: 5px 5px 0 5px;
     margin-left: 8px;
     font-size: $label-font-size;
-    line-height: 1.5em; /* Height of the underline */
+    line-height: 0em; /* Height of the underline */
     width: auto; /* Adjust width to take remaining space */
   }
 }
@@ -409,7 +421,6 @@ $input-text-font-size: 18px;
     .input-free-choice {
       display: flex;
       align-items: center;
-      margin-top: 10px;
       flex-grow: 1; /* Allow it to take up remaining space */
 
       input[type="checkbox"], input[type="radio"] {
