@@ -101,7 +101,7 @@ module.exports = (HomeView = (function () {
     }
 
     getBanner () {
-      return fetchJson('/db/banner').then(data => {
+      return fetchJson('/db/banner', { data: { cacheEdge: true } }).then(data => {
         if (!data) { return }
         this.banner = data
         const content = utils.i18n(data, 'content')
