@@ -27,6 +27,7 @@
         {{ $t('roblox.header_content') }}
       </p>
       <CTAButton
+        class="cta-button"
         href="https://www.roblox.com/games/11704713454/CodeCombat-Worlds"
       >
         {{ $t('new_home.play_now') }}
@@ -69,10 +70,10 @@ $primary-background: #31636F;
 .section {
   background-color: #021e27;
   background-image: url(/images/pages/roblox/header-background.png);
-  background: linear-gradient(to top, #021e27 0%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) 0px -400px / 120% no-repeat;
+  background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) 0px -400px / 120% no-repeat;
 
   @media (max-width: 768px) {
-    background: linear-gradient(to top, #021e27 0%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) center -200px / 250% no-repeat;
+    background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) center -200px / 250% no-repeat;
   }
 }
 
@@ -111,5 +112,8 @@ $primary-background: #31636F;
   @extend %font-24-30;
   color:  #B4B4B4;
   margin-bottom: 40px;
+}
+.cta-button {
+  margin-bottom: 80px;
 }
 </style>

@@ -49,9 +49,9 @@ $primary-background: #31636F;
   $black: #0A2239;
 
   &__button {
-    color: $black;
+    color: $black !important;
     background-color: $primary-color;
-    text-shadow: unset;
+    text-shadow: unset !important;
     font-weight: bold;
 
     &:hover {

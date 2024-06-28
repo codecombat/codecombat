@@ -252,6 +252,8 @@ export default {
     display: flex;
     justify-content: space-between;
     max-width: 900px;
+    margin-top: 40px;
+    margin-bottom: 40px;
 
     .roblox-logo {
       max-width: min(20%, 100px);

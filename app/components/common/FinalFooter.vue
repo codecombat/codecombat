@@ -140,8 +140,6 @@ export default Vue.extend({
   img
     height: 40px
     margin-right: 20px
-    &.roblox
-      filter: invert(85%) sepia(57%) saturate(2482%) hue-rotate(147deg) brightness(97%) contrast(95%)
 
   img#mps
     height: 1em
@@ -155,6 +153,8 @@ export default Vue.extend({
       height: 24px
       display: inline-block
       margin-right: 20px
+      &.roblox
+        filter: invert(85%) sepia(57%) saturate(2482%) hue-rotate(147deg) brightness(97%) contrast(95%)
       ::v-deep
         svg
           height: 100%
