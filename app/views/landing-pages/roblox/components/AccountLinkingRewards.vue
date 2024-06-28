@@ -95,8 +95,8 @@
           {{ $t('roblox_landing.age_restriction') }}
         </div>
       </div>
+      <vue-confirm-dialog />
     </template>
-    <vue-confirm-dialog />
   </PageSection>
 </template>
 <script>
@@ -109,13 +109,12 @@ import roblox from 'core/api/roblox'
 const OAuth2Identities = require('collections/OAuth2Identities')
 Vue.use(VueConfirmDialog)
 Vue.component('VueConfirmDialog', VueConfirmDialog.default)
-
 export default {
   name: 'AccountLinkingRewards',
   components: {
     PageSection,
     CTAButton,
-    ProgressBar
+    ProgressBar,
   },
   data () {
     return {
@@ -191,7 +190,7 @@ export default {
 
     async disconnectFromRoblox (identity) {
       this.$confirm({
-        message: $.i18n.t('account_settings.roblox_disconnect_confirm', { email: this.email }),
+        message: $.i18n.t('account_settings.roblox_disconnect_confirm'),
         button: {
           no: $.i18n.t('modal.cancel'),
           yes: $.i18n.t('modal.okay')
@@ -275,5 +274,8 @@ export default {
     color:  #B4B4B4;
     margin-top: 20px;
   }
+}
+::v-deep .vc-text {
+  color: black;
 }
 </style>
