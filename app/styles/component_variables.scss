@@ -71,6 +71,16 @@ $small-screen-height: 768px;
   }
 }
 
+%font-24-30 {
+  font-size: 24px;
+  line-height: 30px;
+
+  @media screen and (max-width: $screen-sm) {
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
+
 %font-24-34 {
   font-size: 24px;
   line-height: 34px;
