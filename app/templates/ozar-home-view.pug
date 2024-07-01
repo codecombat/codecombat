@@ -35,7 +35,10 @@ block content
         h1(data-i18n="ozaria_home.subtitle" style="margin-bottom:15px;")
         h2.subtitle-mid(data-i18n="ozaria_home.heading_subtitle")
         if me.isTeacher()
-          a.btn.btn-primary.btn-large.btn-moon(href="/teachers/classes", data-i18n="new_home.go_to_my_classes")
+          div
+            a.btn.btn-primary.btn-large.btn-moon(href="/teachers/classes", data-i18n="new_home.go_to_my_classes")
+          div
+            a.btn.btn-primary.btn-large.btn-moon.modal-request-quote(data-i18n="new_home.request_quote")
         else if me.isStudent()
           a.btn.btn-primary.btn-large.btn-moon(href="/students", data-i18n="new_home.go_to_my_dashboard")
         else if me.isHomeUser() && !me.isAnonymous()
