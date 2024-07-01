@@ -21,6 +21,7 @@ const utils = require('core/utils')
 const { logoutUser, me } = require('core/auth')
 const CreateAccountModal = require('views/core/CreateAccountModal/CreateAccountModal')
 const GetStartedSignupModal = require('app/views/teachers/GetStartedSignupModal').default
+const GetLicensesModal = require('app/views/core/GetLicensesModal').default
 const paymentUtils = require('app/lib/paymentUtils')
 const fetchJson = require('core/api/fetch-json')
 const DOMPurify = require('dompurify')
@@ -56,6 +57,7 @@ module.exports = (HomeView = (function () {
         'click .carousel-dot': 'onCarouselDirectMove',
         'click .carousel-tab': 'onCarouselDirectMovev2',
         'click .request-quote': 'onClickRequestQuote',
+        'click .modal-request-quote': 'onClickRequestQuoteModal',
         'click .logout-btn': 'logoutAccount',
         'click .setup-class-btn': 'onClickSetupClass',
         'click .try-chapter-1': 'onClickGenericTryChapter1',
@@ -99,13 +101,18 @@ module.exports = (HomeView = (function () {
     }
 
     getBanner () {
-      return fetchJson('/db/banner').then(data => {
+      return fetchJson('/db/banner', { data: { cacheEdge: true } }).then(data => {
         if (!data) { return }
         this.banner = data
         const content = utils.i18n(data, 'content')
         this.banner.display = DOMPurify.sanitize(marked(content != null ? content : ''))
         return this.renderSelectors('#top-banner')
       })
+    }
+
+    onClickRequestQuoteModal () {
+      const modal = new GetLicensesModal()
+      return this.openModalView(modal)
     }
 
     onClickRequestQuote (e) {

@@ -4,19 +4,24 @@
       <div class="header">
         Last Found on
       </div>
-      <div class="header">
+      <div class="header header__mid">
         User
       </div>
       <div class="header header__criteria">
         Criterias
       </div>
       <div class="header">
-        Licenses <span class="header__sub">(used / available)</span>
+        Licenses <p class="header__sub">
+          (used / available)
+        </p>
       </div>
       <div class="header">
-        Mark done
+        Location
       </div>
-      <div class="header">
+      <div class="header header__small">
+        Mark
+      </div>
+      <div class="header header__small">
         Actions
       </div>
     </div>
@@ -53,6 +58,8 @@ export default {
 
 <style scoped lang="scss">
 .data {
+  margin-top: 2rem;
+
   &__headers {
     display: flex;
     justify-content: space-around;
@@ -68,9 +75,19 @@ export default {
   .header {
     font-weight: bold;
     font-size: 1.8rem;
+    line-height: 2rem;
 
     &__sub {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
+      line-height: 1.4rem;
+    }
+
+    &__small {
+      width: 8%;
+    }
+
+    &__mid {
+      width: 20%;
     }
   }
 

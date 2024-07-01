@@ -11,13 +11,10 @@ let EditView
 require('app/styles/editor/common/edit.scss')
 const RootView = require('views/core/RootView')
 const template = require('app/templates/editor/common/edit')
-const ConfirmModal = require('views/core/ConfirmModal')
 const PatchesView = require('views/editor/PatchesView')
-const errors = require('core/errors')
 
 require('lib/game-libraries')
 require('lib/setupTreema')
-const treemaExt = require('core/treema-ext')
 
 module.exports = (EditView = (function () {
   EditView = class EditView extends RootView {
@@ -36,10 +33,6 @@ module.exports = (EditView = (function () {
         'click #save-button': 'onClickSaveButton',
         'click #i18n-button': 'onPopulateI18N'
       }
-    }
-
-    constructor (options) {
-      super(options)
     }
 
     onLoaded () {
@@ -99,7 +92,7 @@ module.exports = (EditView = (function () {
 
       return res.success(() => {
         const url = `${this.redirectPathOnSuccess}/${this.resource.get('slug') || this.resource.id}`
-        return document.location.href = url
+        document.location.href = url
       })
     }
   }

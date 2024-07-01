@@ -1744,7 +1744,7 @@ module.exports = {
       class_url: 'Class Url',
       class_url_desc: 'Share URL to have students join your class after signing up',
       class_code: 'Class Code',
-      class_code_desc: 'Students can enter this code when they sign up at www.ozaria.com',
+      class_code_desc: 'Students can enter this code when they sign up at',
       invite_by_email: 'Invite by Email',
       regenerate_class_code: 'Regenerate',
       invite_modal_sub_title: 'Separate each email address by a line break or commas',
@@ -5898,7 +5898,8 @@ module.exports = {
       'claude-description': 'Writes stories and summarizes documents.',
       locked: 'LOCKED',
       view: 'View',
-      continue: 'Continue'
+      continue: 'Continue',
+      no_assigned_projects: 'Your teacher has not assigned any AI projects yet.'
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',

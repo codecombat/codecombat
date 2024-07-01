@@ -43,7 +43,10 @@
               </two-column-block>
             </template>
             <template #image>
-              <content-box :main-image-bg="true">
+              <content-box
+                :main-image-bg="true"
+                :transparent="true"
+              >
                 <template #image>
                   <video-box video-id="3443ecdf023c925e100a938dcae73f47" />
                 </template>
@@ -85,7 +88,7 @@
 
         <div class="container">
           <box-panel
-            :title="$t('parents_v2.personalized_instruction')"
+            :title="$t('parents_v2.boxes_title')"
             :items="personalizedInstruction"
             columns="3"
           />
@@ -108,6 +111,7 @@
                     thumbnail-url="https://cloudflarestream.com/bb2e8bf84df5c2cfa0fcdab9517f1d9e/thumbnails/thumbnail.jpg?height=720&time=2s"
                     :controls="true"
                     :autoplay="false"
+                    :background-color="'transparent'"
                   />
                 </template>
               </content-box>
@@ -161,6 +165,7 @@
             />
             <br>
             &ast;&ast;<mixed-color-label
+              ref="contactFootnote"
               :inherit-default-color="true"
               :text="$t('parents_v2.subscriptions_billed')"
             />
@@ -174,18 +179,10 @@
 
         <div class="container">
           <CTAButton
-            :description="me.isAnonymous() ? `${$t('parents_v2.prefix_or')} **[/parents/signup]${$t('parents_v2.signup_description')}**` : null"
+            :description="`${$t('parents_v2.prefix_or')} **[/premium]${$t('parents_v2.signup_description')}**`"
             @clickedCTA="onClickMainCta"
           >
             {{ $t('parents_v2.schedule_free_class') }}
-            <template
-              v-if="!me.isAnonymous()"
-              #description
-            >
-              <page-parents-section-premium
-                :description="$t('parents_v2.signup_description')"
-              />
-            </template>
           </CTAButton>
         </div>
         <background-container type="colored">
@@ -453,7 +450,6 @@ import FaqComponent from 'app/components/common/elements/FaqComponent.vue'
 import StepBoxes from './StepBoxes.vue'
 import ConceptItem from './ConceptItem.vue'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
-import PageParentsSectionPremium from 'app/views/landing-pages/parents/PageParentsSectionPremium.vue'
 
 export default {
   name: 'PageParentsV2',
@@ -481,7 +477,6 @@ export default {
     ConceptItem,
     IntegrateAi,
     BaseCloudflareVideo,
-    PageParentsSectionPremium,
     PageParentsLanding
   },
   extends: PageParentsLanding,
@@ -503,10 +498,10 @@ export default {
 
       testimonials: [
         {
-          image: '/images/pages/schools/avatar/avatar_seth.webp'
+          image: '/images/pages/schools/avatar/avatar_student.webp'
         },
         {
-          image: '/images/pages/schools/avatar/avatar_seth.webp'
+          image: '/images/pages/schools/avatar/avatar_andrew.webp'
         },
         {
           image: '/images/pages/schools/avatar/avatar_seth.webp'
@@ -695,6 +690,14 @@ export default {
     }
   },
 
+  mounted () {
+    // add the contact-modal trigger one to `contact us` in the footnote
+    const element = this.$refs?.contactFootnote?.$el
+    if (element) {
+      $('.mixed-color-label__highlight', element).addClass('contact-modal')
+    }
+  },
+
   metaInfo () {
     return {
       title: (this.type === 'parents') ? undefined : this.$t('parents_landing_2.live_classes_title'),
@@ -731,7 +734,7 @@ export default {
         @extend %font-44;
         text-align: left;
         margin-bottom: 10px;
-        .mixed-color-label__highlight {
+        ::v-deep .mixed-color-label__highlight {
           display: inline-block
         }
       }
@@ -764,6 +767,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: 500;
 
     svg {
       margin-right: 30px;
@@ -771,6 +775,9 @@ export default {
   }
 
   ::v-deep {
+    .text-h2 {
+      font-weight: 500;
+    }
     .two-column-block {
 
       .column-one,
@@ -799,6 +806,10 @@ export default {
           aspect-ratio: 1 / 1;
           object-fit: cover;
         }
+      }
+
+      .content-details {
+        padding-top: 20px;
       }
 
       .content-details>.content-text {
@@ -895,6 +906,9 @@ export default {
   }
 
   ::v-deep {
+    .contact-modal {
+      cursor: pointer;
+    }
     .container-course-offering-heading {
       .text-center a {
         color: var(--color-primary);

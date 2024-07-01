@@ -35,12 +35,14 @@ export default Vue.extend({
     return {
       showGoogleClassroom: me.showGoogleClassroom(),
       newClassName: '',
-      newProgrammingLanguage: '',
+      newProgrammingLanguage: 'python',
       newLiveCompletion: true,
       newClassroomItems: true,
+      cocoDefaultClassroomItems: true,
       newCodeFormats: ['text-code'],
       newCodeFormatDefault: 'text-code',
       newLevelChat: false,
+      cocoDefaultLevelChat: true,
       newClassroomDescription: '',
       newAverageStudentExp: '',
       newClassroomType: '',
@@ -179,7 +181,6 @@ export default Vue.extend({
 
   mounted () {
     this.newClassName = this.classroomName
-    this.newProgrammingLanguage = this.language
     this.newLiveCompletion = this.liveCompletion
     this.newClassroomItems = this.classroomItems
     this.newCodeFormats = this.codeFormats
@@ -195,6 +196,9 @@ export default Vue.extend({
     this.classGrades = this.classroom.grades || []
     if (!this.classroomInstance.isNew()) {
       this.moreOptions = true
+    } else if (utils.isCodeCombat) {
+      this.newClassroomItems = this.cocoDefaultClassroomItems
+      this.newLevelChat = this.cocoDefaultLevelChat
     }
   },
 
