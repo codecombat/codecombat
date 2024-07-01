@@ -1744,7 +1744,7 @@ module.exports = {
       class_url: 'Class Url',
       class_url_desc: 'Share URL to have students join your class after signing up',
       class_code: 'Class Code',
-      class_code_desc: 'Students can enter this code when they sign up at www.ozaria.com',
+      class_code_desc: 'Students can enter this code when they sign up at',
       invite_by_email: 'Invite by Email',
       regenerate_class_code: 'Regenerate',
       invite_modal_sub_title: 'Separate each email address by a line break or commas',

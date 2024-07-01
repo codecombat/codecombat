@@ -43,6 +43,9 @@ export default Vue.extend({
   computed: {
     classroomUrl () {
       return `${document.location.origin}/students?_cc=${this.classroomCode}`
+    },
+    classCodeDescription () {
+      return `${i18n.t('teachers.class_code_desc')} ${document.location.hostname}`
     }
   },
   methods: {
@@ -113,7 +116,7 @@ export default Vue.extend({
           >
         </div>
       </div>
-      <span class="sub-text"> {{ $t("teachers.class_code_desc") }} </span>
+      <span class="sub-text"> {{ classCodeDescription }} </span>
       <primary-button
         :inactive="regenerationInProgress"
         class="regenerate-code-button"

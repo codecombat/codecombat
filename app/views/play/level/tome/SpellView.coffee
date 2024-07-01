@@ -888,7 +888,11 @@ module.exports = class SpellView extends CocoView
     lines = Math.max linesAtMinHeight, Math.min(screenLineCount + 2, linesAtMaxHeight), hardMinLines
     lines = 8 if _.isNaN lines
 
-    ace.setOptions minLines: lines, maxLines: lines
+    if aceCls is '.ace'
+      ace.setOptions minLines: lines, maxLines: lines
+    else
+      solutionLines = Math.min(lines, screenLineCount + 2)
+      ace.setOptions minLines: solutionLines, maxLines: solutionLines
 
     return unless spellPaletteShown and aceCls is '.ace'
     # Move spell palette up, overlapping us a bit
@@ -1733,8 +1737,8 @@ module.exports = class SpellView extends CocoView
 
   fillACESolution: ->
     @aceSolution = ace.edit document.querySelector('.ace-solution')
-    aceSSession = @aceSolution.getSession()
-    aceSSession.setMode aceUtils.aceEditModes[@spell.language]
+    aceSession = @aceSolution.getSession()
+    aceSession.setMode aceUtils.aceEditModes[@spell.language]
     @aceSolution.setTheme 'ace/theme/textmate'
     if @teaching
       solution = store.getters['game/getSolutionSrc'](@spell.language)
@@ -1761,7 +1765,7 @@ module.exports = class SpellView extends CocoView
       }
     })
 
-    aceSSession.on('changeBackMarker', =>
+    aceSession.on('changeBackMarker', =>
       if @aceDiff and @aceDiff.getNumDiffs() == 0
         Backbone.Mediator.publish 'level:close-solution', { removeButton: true }
     )
@@ -1782,17 +1786,14 @@ module.exports = class SpellView extends CocoView
       @aceDiff.setOptions({showDiffs: e.finish?})
 
   onToggleSolution: (e)->
-    console.log('on toggle solution', e, @aceDiff)
-    return unless @aceDiff
+    return unless @aceDiff and not @blocklyActive
     if e.code
       @onUpdateSolution(e)
     solution = document.querySelector('#solution-area')
     if solution.classList.contains('display')
       solution.classList.remove('display')
-      solution.style.opacity = 0
     else
       solution.classList.add('display')
-      solution.style.opacity = 1
       Backbone.Mediator.publish 'tome:hide-problem-alert', {}
     return if @solutionStreaming
     @aceDiff.setOptions showDiffs: solution.classList.contains('display')
