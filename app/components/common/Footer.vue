@@ -208,13 +208,18 @@ export default Vue.extend({
 
     ozPath (relativePath) {
       return `${this.ozBaseURL}${relativePath}`
-    }
+    },
+
+    darkMode () {
+      return /^\/(roblox|league|play\/ladder)/.test(document.location.pathname)
+    },
+
   }
 })
 </script>
 
 <template lang="pug">
-footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="footerEvent")
+footer#site-footer.small(:class="{'dark-mode': darkMode}" @click="footerEvent")
   .container(v-if="!hideFooter")
     .row
       .col-lg-12.footer-links

@@ -200,6 +200,9 @@ export default Vue.extend({
       this.newClassroomItems = this.cocoDefaultClassroomItems
       this.newLevelChat = this.cocoDefaultLevelChat
     }
+    if (this.language) {
+      this.newProgrammingLanguage = this.language
+    }
   },
 
   methods: {
