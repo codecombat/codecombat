@@ -54,10 +54,10 @@ module.exports = {
     return new Promise(jqxhr.then)
   },
 
-  sendAPCSPContactMail ({ email, name, role, message }) {
+  sendAPCSPContactMail ({ email, name, role, location, message }) {
     const jqxhr = $.ajax('/contact/apcsp', {
       method: 'POST',
-      data: { email, name, role, message }
+      data: { email, name, role, location, message }
     })
     return new Promise(jqxhr.then)
   },

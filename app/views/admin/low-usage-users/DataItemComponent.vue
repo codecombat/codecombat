@@ -6,7 +6,7 @@
       <div class="item__date">
         {{ index + 1 }}.  {{ foundOnString(user) }}
       </div>
-      <div class="item__user">
+      <div class="item__user item__mid">
         {{ user.email || user.userId }}
       </div>
       <div class="item__criterias">
@@ -15,7 +15,10 @@
       <div class="item__licenses">
         {{ licensesString(user.licenseInfo) }}
       </div>
-      <div class="item__done">
+      <div class="item__location">
+        {{ user.country }} - {{ user.state }}
+      </div>
+      <div class="item__done item__small">
         <button
           v-if="!isUserMarkedDone(user)"
           class="btn btn-success"
@@ -32,10 +35,10 @@
         </button>
       </div>
       <button
-        class="item__actions btn btn-primary"
+        class="item__actions btn btn-primary item__small"
         @click="showDetails = !showDetails"
       >
-        {{ showDetails ? 'Hide Details' : 'Current Details' }}
+        {{ showDetails ? 'Hide' : 'Details' }}
       </button>
     </div>
     <data-details-component
@@ -103,6 +106,14 @@ export default {
 
     &__criterias {
       width: 25%;
+    }
+
+    &__small {
+      width: 8%;
+    }
+
+    &__mid {
+      width: 20%;
     }
   }
   .details {
