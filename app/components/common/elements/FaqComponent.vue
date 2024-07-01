@@ -31,7 +31,10 @@
       </div>
     </template>
     <template #tail>
-      <p class="p" v-if="showFooter">
+      <p
+        v-if="showFooter"
+        class="p"
+      >
         <mixed-color-label
           :text="$t('schools_page.faq_see_more')"
           target="_blank"
