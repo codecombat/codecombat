@@ -224,10 +224,12 @@ module.exports = class LevelPlaybackView extends CocoView
   onProgressTapStart: (e, touchData) ->
     return unless application.isIPadApp or utils.isMobile()
     @onProgressEnter e
-    if e.handleObj.type == 'tapstart'
+    if e.handleObj?.type == 'tapstart'
       screenOffsetX = e.clientX ? touchData?.position.x ? 0
-    else
-      screenOffsetX = e.originalEvent.touches[0].clientX
+    else if e.handleObj?.type == 'touchstart'
+      screenOffsetX = e.originalEvent?.touches?[0]?.clientX ? 0
+    else  # unknown event type
+      return
     offsetX = screenOffsetX - $(e.target).closest('#timeProgress').offset().left
     offsetX = Math.max offsetX, 0
     @scrubTo offsetX / @$progressScrubber.width()
@@ -239,10 +241,12 @@ module.exports = class LevelPlaybackView extends CocoView
 
   onProgressTapMove: (e, touchData) ->
     return unless application.isIPadApp or utils.isMobile() # Not sure why the tap events would fire when it's not one.
-    if e.handleObj.type == 'tapmove'
+    if e.handleObj?.type == 'tapmove'
       screenOffsetX = e.clientX ? touchData?.position.x ? 0
-    else
-      screenOffsetX = e.originalEvent.touches[0].clientX
+    else if e.handleObj?.type == 'touchmove'
+      screenOffsetX = e.originalEvent?.touches?[0]?.clientX ? 0
+    else # unknown event type
+      return
     offsetX = screenOffsetX - $(e.target).closest('#timeProgress').offset().left
     offsetX = Math.max offsetX, 0
     @onProgressHover e, offsetX
