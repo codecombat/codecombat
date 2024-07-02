@@ -40,7 +40,7 @@ export default Vue.extend({
     },
     backboneDismissModal: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   mixins: [validationMixin],

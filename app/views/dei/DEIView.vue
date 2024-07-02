@@ -97,7 +97,7 @@ export default {
             a.contact-modal {{ $t("general.contact_us") }}
             | .
 
-    modal-get-licenses(v-if="showModalGetLicenses" @close="showModalGetLicenses = false" :backboneDismissModal="false" subtitle="To learn more about Ozaria and DEI, send us a message and our classroom success team will be in touch!" email-message="Hi Ozaria! I'm interested in promoting DEI through my computer science program.")
+    modal-get-licenses(v-if="showModalGetLicenses" @close="showModalGetLicenses = false" subtitle="To learn more about Ozaria and DEI, send us a message and our classroom success team will be in touch!" email-message="Hi Ozaria! I'm interested in promoting DEI through my computer science program.")
 </template>
 
 <style lang="scss" scoped>
