@@ -1143,7 +1143,9 @@ if (isCodeCombat) {
 }
 
 const allCourseIDs = _.assign(courseIDs, otherCourseIDs)
-const allFreeCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.CHAPTER_ONE]
+
+const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]
+const allFreeCourseIDs = [...freeCocoCourseIDs, allCourseIDs.CHAPTER_ONE]
 
 const courseNumericalStatus = {};
 (function () {
@@ -2470,6 +2472,7 @@ module.exports = {
   courseIDs,
   allCourseIDs,
   allFreeCourseIDs,
+  freeCocoCourseIDs,
   courseModules,
   courseModuleInfo,
   courseModuleLevels,
