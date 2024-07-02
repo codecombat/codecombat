@@ -711,6 +711,11 @@ export default Vue.extend({
       return me
     }
   },
+  mounted () {
+    if (window.location.hash === '#license-modal') {
+      this.showContactModal = true
+    }
+  },
   metaInfo () {
     return {
       title: this.$t('schools_page.meta_title'),
