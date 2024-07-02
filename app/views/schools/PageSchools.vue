@@ -712,7 +712,9 @@ export default Vue.extend({
     }
   },
   mounted () {
-    if (window.location.hash === '#license-modal') {
+    const params = new URLSearchParams(window.location.search)
+    const shouldOpenModal = params.get('openContactModal')
+    if (shouldOpenModal === 'true') {
       this.showContactModal = true
     }
   },

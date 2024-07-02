@@ -480,7 +480,7 @@ module.exports = (CocoRouter = (function () {
         'teachers/licenses/v0': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true }),
 
         'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true }),
-        'teachers/quote': redirect('/schools#license-modal'),
+        'teachers/quote': redirect('/schools?openContactModal=true'),
         'teachers/resources_old': go('teachers/ResourceHubView', { redirectStudents: true }),
         'teachers/resources': utils.isCodeCombat && me.useChinaHomeView() ? go('teachers/ResourceHubView', { redirectStudents: true }) : go('core/SingletonAppVueComponentView', { redirectStudents: true }),
         'teachers/resources_new': go('core/SingletonAppVueComponentView'),
