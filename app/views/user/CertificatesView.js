@@ -37,7 +37,7 @@ module.exports = (CertificatesView = (function () {
     }
 
     getTitle () {
-      if (this.user.broadName() === 'Anonymous') { return 'Certificate' }
+      if (this.user?.broadName() === 'Anonymous' || !this.user) { return 'Certificate' }
       return `Certificate: ${this.user.broadName()}`
     }
 
@@ -199,7 +199,10 @@ module.exports = (CertificatesView = (function () {
 
         // use session.countOriginalLinesOfCode to count later
         const code = session.get('code')
-        const codeStr = (code['hero-placeholder-1'] != null ? code['hero-placeholder-1'].plan : undefined) || (code['hero-placeholder'] != null ? code['hero-placeholder'].plan : undefined)
+        let codeStr = ''
+        if (code) {
+          codeStr = (code['hero-placeholder-1'] != null ? code['hero-placeholder-1'].plan : undefined) || (code['hero-placeholder'] != null ? code['hero-placeholder'].plan : undefined)
+        }
         const lines = (codeStr || '').split(/\n+/).length
         linesOfCode += (lines > 1) ? (lines - 1) : 0
       }
