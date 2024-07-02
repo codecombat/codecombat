@@ -2,7 +2,9 @@ extends /templates/core/modal-base
 block modal-header-content
   #victory-header.out
     #victory-title
-      if !me.get('preferredLanguage') || me.get('preferredLanguage').split('-')[0] == 'en'
+      if view.level.get('product', true) === 'codecombat-junior'
+        img(src="/images/pages/play/modal/level_complete.png")
+      else if !me.get('preferredLanguage') || me.get('preferredLanguage').split('-')[0] == 'en'
         img(src="/images/pages/play/level/modal/victory_word.png", draggable="false", data-i18n="[alt]play_level.victory")
       else
         h1(data-i18n="play_level.victory") Victory
