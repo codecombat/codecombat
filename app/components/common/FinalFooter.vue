@@ -72,9 +72,9 @@ export default Vue.extend({
       return isOzaria
     },
 
-    robloxPage () {
-      return /^\/roblox/.test(document.location.pathname)
-    }
+    darkMode () {
+      return /^\/(roblox|league|play\/ladder)/.test(document.location.pathname)
+    },
   },
   created () {
     // Bind the global values to the vue component.
@@ -87,13 +87,14 @@ export default Vue.extend({
 
 <template lang="pug">
   #final-footer(dir="ltr")
-    img(v-if="isOzaria" src="/images/ozaria/home/ozaria-wordmark-500px.png" alt="Ozaria logo")
+    img(v-if="isOzaria && darkMode" src="/images/ozaria/home/ozaria-wordmark-500px.png" alt="Ozaria logo")
+    img(v-else-if="isOzaria && !darkMode" src="/images/ozaria/home/ozaria_logo_sun.png" alt="Ozaria logo")
     picture(v-else)
       source(srcset="/images/pages/base/logo.webp" type="image/webp")
       img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
     .social-links
       a(v-for="socialLink in socialLinks" :href="socialLink.href" :alt="socialLink.alt" :key="socialLink.href" target="_blank")
-        div.img(:class="{ roblox: robloxPage }")
+        div.img
           component(:is="socialLink.component")
     .copyright
       if me.showChinaResourceInfo()
@@ -130,6 +131,7 @@ export default Vue.extend({
   display: flex
   flex-direction: column
   justify-content: center
+  align-items: center
   gap: 20px
   text-align: center
 
@@ -153,8 +155,6 @@ export default Vue.extend({
       height: 24px
       display: inline-block
       margin-right: 20px
-      &.roblox
-        filter: invert(85%) sepia(57%) saturate(2482%) hue-rotate(147deg) brightness(97%) contrast(95%)
       ::v-deep
         svg
           height: 100%
