@@ -38,6 +38,9 @@ module.exports = class LevelPlaybackView extends CocoView
     'tapstart #timeProgress': 'onProgressTapStart'
     'tapend #timeProgress': 'onProgressTapEnd'
     'tapmove #timeProgress': 'onProgressTapMove'
+    'touchstart #timeProgress': 'onProgressTapStart'
+    'touchend #timeProgress': 'onProgressTapEnd'
+    'touchmove #timeProgress': 'onProgressTapMove'
 
   shortcuts:
     '⌘+p, p, ctrl+p': 'onTogglePlay'
@@ -219,21 +222,31 @@ module.exports = class LevelPlaybackView extends CocoView
       @timePopup.show()
 
   onProgressTapStart: (e, touchData) ->
-    return unless application.isIPadApp
+    return unless application.isIPadApp or utils.isMobile()
     @onProgressEnter e
-    screenOffsetX = e.clientX ? touchData?.position.x ? 0
+    if e.handleObj?.type == 'tapstart'
+      screenOffsetX = e.clientX ? touchData?.position.x ? 0
+    else if e.handleObj?.type == 'touchstart'
+      screenOffsetX = e.originalEvent?.touches?[0]?.clientX ? 0
+    else  # unknown event type
+      return
     offsetX = screenOffsetX - $(e.target).closest('#timeProgress').offset().left
     offsetX = Math.max offsetX, 0
     @scrubTo offsetX / @$progressScrubber.width()
     @onTogglePlay() if @$el.find('#play-button').hasClass 'playing'
 
   onProgressTapEnd: (e, touchData) ->
-    return unless application.isIPadApp
+    return unless application.isIPadApp or utils.isMobile()
     @onProgressLeave e
 
   onProgressTapMove: (e, touchData) ->
-    return unless application.isIPadApp  # Not sure why the tap events would fire when it's not one.
-    screenOffsetX = e.clientX ? touchData?.position.x ? 0
+    return unless application.isIPadApp or utils.isMobile() # Not sure why the tap events would fire when it's not one.
+    if e.handleObj?.type == 'tapmove'
+      screenOffsetX = e.clientX ? touchData?.position.x ? 0
+    else if e.handleObj?.type == 'touchmove'
+      screenOffsetX = e.originalEvent?.touches?[0]?.clientX ? 0
+    else # unknown event type
+      return
     offsetX = screenOffsetX - $(e.target).closest('#timeProgress').offset().left
     offsetX = Math.max offsetX, 0
     @onProgressHover e, offsetX
