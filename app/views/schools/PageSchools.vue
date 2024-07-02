@@ -711,6 +711,13 @@ export default Vue.extend({
       return me
     }
   },
+  mounted () {
+    const params = new URLSearchParams(window.location.search)
+    const shouldOpenModal = params.get('openContactModal')
+    if (shouldOpenModal === 'true') {
+      this.showContactModal = true
+    }
+  },
   metaInfo () {
     return {
       title: this.$t('schools_page.meta_title'),
