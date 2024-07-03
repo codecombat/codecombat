@@ -1028,8 +1028,9 @@ module.exports = (User = (function () {
       return true
     }
 
-    getHomePageExperimentValue () {
-      const experimentName = 'home-page-filtered'
+    getFilteredExperimentValue ({
+      experimentName,
+    }) {
       let value = me.getExperimentValue(experimentName, null)
 
       if (value === null && !utils.isCodeCombat) {
@@ -1067,6 +1068,14 @@ module.exports = (User = (function () {
       }
 
       return value
+    }
+
+    getHomePageExperimentValue () {
+      return this.getFilteredExperimentValue({ experimentName: 'home-page-filtered' })
+    }
+
+    getParentsPageExperimentValue () {
+      return this.getFilteredExperimentValue({ experimentName: 'parents-page-filtered' })
     }
 
     getEducatorSignupExperimentValue () {
