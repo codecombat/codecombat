@@ -1762,7 +1762,10 @@ module.exports = {
       classroom_level_chat_blurb: 'Whether students can ask for AI hints and error explanations.',
       classroom_level_chat_option_free_form: 'Free form',
       classroom_level_chat_option_fixed_prompt_only: 'Fixed prompt only',
-      classroom_level_chat_option_none: 'No chat'
+      classroom_level_chat_option_none: 'No chat',
+      initial_free_courses: 'Initial Courses',
+      free_course_blurb_junior: 'Great for grades K-5, CodeCombat Junior can flex down to block-based and mobile options for pre-readers, up to Python or JavaScript text code for upper elementary, or to parallel blocks-and-code to help with the transition.',
+      'free_course_blurb_introduction-to-computer-science': 'Great for grades 6-12, CodeCombat\'s core CS courses progress from the beginner-friendly Introduction to Computer Science, through AP Computer Science Principles, and beyond into advanced CS courses. Start here for middle and high school students.'
     },
 
     no_licenses_page: {
