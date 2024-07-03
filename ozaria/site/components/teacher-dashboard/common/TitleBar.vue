@@ -302,17 +302,6 @@ export default {
         />
       </div>
     </div>
-    <div
-      v-else-if="teacherToolkitView"
-      class="sub-nav main-buttons-container"
-    >
-      <primary-button
-        id="new-class-btn-shepherd"
-        class="btn-title-padding btn-margins-height contact-modal"
-      >
-        {{ $t('general.contact_us') }}
-      </primary-button>
-    </div>
   </div>
 </template>
 
