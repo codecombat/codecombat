@@ -183,11 +183,14 @@ export default Vue.extend({
     },
     initialFreeCourses () {
       return [
-        ...utils.freeCocoCourseIDs.map(id => ({
-          id,
-          name: utils.i18n(this.courses.find(({ _id }) => _id === id), 'name'),
-          blurb: $.i18n.t(`teachers.free_course_blurb_${id}`)
-        })),
+        ...utils.freeCocoCourseIDs.map(id => {
+          const course = this.courses.find(({ _id }) => _id === id)
+          return {
+            id,
+            name: utils.i18n(course, 'name'),
+            blurb: $.i18n.t(`teachers.free_course_blurb_${course.slug}`)
+          }
+        }),
       ]
     }
   },
@@ -1110,8 +1113,12 @@ export default Vue.extend({
     line-height: 15px;
   }
 }
-
-.initial-course-name {
-  font-size: 0.85em;
+.initial-free-courses {
+  .initial-course-blurb {
+    margin-bottom: 0;
+  }
+  .initial-course-name {
+    font-size: 0.85em;
+  }
 }
 </style>
