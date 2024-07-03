@@ -137,6 +137,16 @@ module.exports = (ChangeLanguageTab = (function () {
         this.$el.find('#option-code-language').val('javascript').change()
       }
     }
+
+    showChangeLanguage () {
+      // web-dev change language do nothing
+      // student cannot change language unless they're playing ai-leauge ladder
+      if (this.options.level) {
+        return !this.options.level.isType('web-dev') && !(me.isStudent() && !this.options.level.isType('ladder'))
+      } else {
+        return !me.isStudent()
+      }
+    }
   }
   ChangeLanguageTab.initClass()
   return ChangeLanguageTab
