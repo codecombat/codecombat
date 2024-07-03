@@ -1,0 +1,5 @@
+@import "app/styles/component_variables.scss";
+
+#storybook-root, .sb-story {
+    @extend %frontend-page;
+}

@@ -711,6 +711,13 @@ export default Vue.extend({
       return me
     }
   },
+  mounted () {
+    const params = new URLSearchParams(window.location.search)
+    const shouldOpenModal = params.get('openContactModal')
+    if (shouldOpenModal === 'true') {
+      this.showContactModal = true
+    }
+  },
   metaInfo () {
     return {
       title: this.$t('schools_page.meta_title'),
@@ -741,7 +748,9 @@ export default Vue.extend({
 }
 
 #page-schools {
-  @extend %frontend-page;
+  ::v-deep {
+    @extend %frontend-page;
+  }
 
   #request-a-demo {
     margin-bottom: -40px;

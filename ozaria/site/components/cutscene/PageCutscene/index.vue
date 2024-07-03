@@ -25,6 +25,11 @@ module.exports = Vue.extend({
     cutsceneId: {
       type: String,
       required: true
+    },
+    levelNumber: {
+      type: [String, Number],
+      required: false,
+      default: ''
     }
   },
 
@@ -36,21 +41,21 @@ module.exports = Vue.extend({
     cloudflareID: null
   }),
 
-  mounted () {
-    this.loadCutscene()
-  },
-
-  beforeDestroy () {
-    cutsceneEvent('Unloaded Cutscene', { cutsceneId: this.cutsceneId })
-  },
-
   computed: {
     ...mapGetters({
       soundOn: 'layoutChrome/soundOn'
     }),
     title () {
-      return utils.i18n(this.cutscene, 'displayName') || utils.i18n(this.cutscene, 'name')
+      const levelTitle = utils.i18n(this.cutscene, 'displayName') || utils.i18n(this.cutscene, 'name')
+      return `${this.levelNumber ? `${this.levelNumber}.` : ''} ${levelTitle || ''}`
     }
+  },
+
+  mounted () {
+    this.loadCutscene()
+  },
+  beforeDestroy () {
+    cutsceneEvent('Unloaded Cutscene', { cutsceneId: this.cutsceneId })
   },
 
   methods: {

@@ -87,10 +87,11 @@ module.exports = (HomeCNView = (function () {
     }
 
     getBanner () {
-      return fetchJson('/db/banner').then(data => {
+      return fetchJson('/db/banner', { data: { cacheEdge: true } }).then(data => {
         this.banner = data
         const content = utils.i18n(data, 'content')
-        return this.banner.display = DOMPurify.sanitize(marked(content != null ? content : ''))
+        this.banner.display = DOMPurify.sanitize(marked(content != null ? content : ''))
+        return this.banner.display
       })
     }
 

@@ -4,9 +4,9 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-12 text-center self-sign-up">
-            Or,
+            {{ $t('parents_v2.prefix_or') }}
             <a @click="subscribeYearly">
-              sign up for self-paced access to CodeCombat
+              {{ description }}
             </a>
           </div>
         </div>
@@ -32,6 +32,14 @@ import BackboneModalHarness from '../../common/BackboneModalHarness'
 export default {
   components: {
     BackboneModalHarness
+  },
+
+  props: {
+    description: {
+      type: String,
+      required: false,
+      default: 'sign up for self-paced access to CodeCombat'
+    }
   },
 
   data: () => ({

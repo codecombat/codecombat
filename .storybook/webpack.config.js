@@ -1,8 +1,7 @@
 const path = require('path')
 const webpack = require('webpack');
 
-
-module.exports = function({ config }) {
+module.exports = function ({ config }) {
   // Add support for sass style in Vue components.
   config.module.rules.push({
     test: /\.sass$/,
@@ -58,7 +57,7 @@ module.exports = function({ config }) {
     path.resolve(__dirname, '../'), // Or you can use the full path /app/whatever
   ]
 
-  config.devServer = {hot:true}
+  config.devServer = { hot: true }
   config.plugins.push(new webpack.HotModuleReplacementPlugin())
 
   config.resolve.alias['/images'] = path.resolve(__dirname, '../app/assets/images/')

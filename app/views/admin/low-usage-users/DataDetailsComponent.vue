@@ -112,7 +112,23 @@ export default {
           })
         }
       }
-      return result
+      const addDates = (licenseInfo) => {
+        const res = []
+        if (licenseInfo?.startDate) {
+          res.push({
+            key: 'License Start Date',
+            value: new Date(licenseInfo.startDate).toDateString()
+          })
+        }
+        if (licenseInfo?.endDate) {
+          res.push({
+            key: 'License End Date',
+            value: new Date(licenseInfo.endDate).toDateString()
+          })
+        }
+        return res
+      }
+      return [...result, ...addDates(this.user.licenseInfo)]
     }
   }
 }

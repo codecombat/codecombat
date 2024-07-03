@@ -1,6 +1,8 @@
 import classroomsApi from 'core/api/classrooms'
 import campaignsApi from 'core/api/campaigns'
 
+import { getCurriculumGuideContentList, generateLevelNumberMap } from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper.js'
+
 // These default projections ensure that all the pages of the teacher dashboard that need gameContent data have all the info they need,
 // since gameContent is static in nature and we dont want to fetch it over and over again on every page
 // Currently used for single class page, student projects, and curriculum guide.
@@ -18,7 +20,7 @@ export default {
   state: {
     loading: {
       byClassroom: {},
-      byCampaign: {}
+      byCampaign: {},
     },
 
     // gameContent: {
@@ -44,7 +46,8 @@ export default {
     gameContent: {
       byClassroom: {},
       byCampaign: {}
-    }
+    },
+    levelNumberMap: {}
   },
 
   mutations: {
@@ -70,6 +73,10 @@ export default {
 
     addContentForCampaign: (state, { campaignId, contentData }) => {
       Vue.set(state.gameContent.byCampaign, campaignId, contentData)
+    },
+
+    addLevelNumber: (state, { levelId, levelNumber }) => {
+      Vue.set(state.levelNumberMap, levelId, levelNumber)
     }
   },
 
@@ -79,6 +86,9 @@ export default {
     },
     getContentForCampaign: (state) => (id) => {
       return state.gameContent.byCampaign[id]
+    },
+    getLevelNumber: (state) => (id) => {
+      return state.levelNumberMap?.[id]
     }
   },
 
@@ -137,6 +147,28 @@ export default {
         })
         .catch((e) => noty({ text: 'Fetch content failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
         .finally(() => commit('toggleLoadingForCampaign', campaignId))
+    },
+
+    async generateLevelNumberMap ({ commit, state, dispatch, getters }, { campaignId }) {
+      let gameContent = state.gameContent.byCampaign[campaignId]
+
+      if (!gameContent) {
+        await dispatch('fetchGameContentForCampaign', {
+          campaignId,
+        })
+      }
+      gameContent = getters.getContentForCampaign(campaignId)
+      for (const [moduleNum] of Object.entries(gameContent.modules)) {
+        const levelsList = getCurriculumGuideContentList({
+          introLevels: gameContent.introLevels,
+          moduleInfo: gameContent.modules,
+          moduleNum,
+        })
+
+        Object.entries(generateLevelNumberMap(levelsList)).forEach(([key, value]) => {
+          commit('addLevelNumber', { levelId: key, levelNumber: value })
+        })
+      }
     }
   }
 }

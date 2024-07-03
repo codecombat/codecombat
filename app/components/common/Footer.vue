@@ -207,13 +207,18 @@ export default Vue.extend({
 
     ozPath (relativePath) {
       return `${this.ozBaseURL}${relativePath}`
-    }
+    },
+
+    darkMode () {
+      return /^\/(roblox|league|play\/ladder)/.test(document.location.pathname)
+    },
+
   }
 })
 </script>
 
 <template lang="pug">
-footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.location.pathname) ? 'dark-mode' : ''" @click="footerEvent")
+footer#site-footer.small(:class="{'dark-mode': darkMode}" @click="footerEvent")
   .container(v-if="!hideFooter")
     .row
       .col-lg-12.footer-links
@@ -262,6 +267,9 @@ footer#site-footer.small(:class="/^\\/(league|play\\/ladder)/.test(document.loca
 footer#site-footer
 
   background: url(/images/components/footer-bg.webp) bottom center
+  .teal-theme &
+    background: url(/images/components/footer-bg__teal.webp) bottom center
+    background-repeat: repeat-x
 
   &.dark-mode
     background-color: #0C1016
@@ -273,7 +281,7 @@ footer#site-footer
 
   .container
     border-radius: 8px
-    background: linear-gradient(100deg, #F6F4FF 0%, #FFF 100%)
+    background: var(--color-bg-gradient)
     margin-bottom: 80px
     margin-top: 300px
 
@@ -298,7 +306,7 @@ footer#site-footer
     margin: 20px auto
     display: block
     font-variant: normal
-    color: $purple
+    color: var(--color-primary)
     font-family: $main-font-family
     @extend %font-14
     font-style: normal
