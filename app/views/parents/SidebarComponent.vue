@@ -76,6 +76,22 @@
             <span class="sidebar__tabs__name">Online Classes</span>
           </li>
         </router-link>
+        <router-link
+          tag="a"
+          to="/roblox"
+          target="_blank"
+        >
+          <li
+            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'roblox' }"
+          >
+            <img
+              src="/images/ozaria/teachers/dashboard/svg_icons/IconComputer.svg"
+              alt="Roblox"
+              class="sidebar__tabs__img"
+            >
+            <span class="sidebar__tabs__name">Roblox</span>
+          </li>
+        </router-link>
         <!--        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'ai-league', childId: this.selectedChildrenId } }">-->
         <!--          <li-->
         <!--            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'ai-league' }"-->
