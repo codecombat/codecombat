@@ -1765,7 +1765,12 @@ module.exports = {
       classroom_level_chat_option_none: 'No chat',
       initial_free_courses: 'Initial Courses',
       free_course_blurb_junior: 'Great for grades K-5, CodeCombat Junior can flex down to block-based and mobile options for pre-readers, up to Python or JavaScript text code for upper elementary, or to parallel blocks-and-code to help with the transition.',
-      'free_course_blurb_introduction-to-computer-science': 'Great for grades 6-12, CodeCombat\'s core CS courses progress from the beginner-friendly Introduction to Computer Science, through AP Computer Science Principles, and beyond into advanced CS courses. Start here for middle and high school students.'
+      'free_course_blurb_introduction-to-computer-science': 'Great for grades 6-12, CodeCombat\'s core CS courses progress from the beginner-friendly Introduction to Computer Science, through AP Computer Science Principles, and beyond into advanced CS courses. Start here for middle and high school students.',
+      start_teaching_ai_today: 'Start Teaching AI Today!',
+      hackstack_beta_release: 'HackStack Beta Release',
+      introducing_ai_hackstack: 'Introducing AI HackStack, a generative AI teaching tool for beginners. It provides safe access to top AI models like ChatGPT, Claude, and DALL-E.',
+      our_curriculum_empowers_students: 'Our curriculum empowers students to use AI to create websites, games, art, and more. Currently in beta.',
+      try_it_now: 'Try it Now'
     },
 
     no_licenses_page: {

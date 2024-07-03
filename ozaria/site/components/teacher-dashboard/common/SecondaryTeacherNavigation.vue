@@ -3,10 +3,12 @@ import { mapState } from 'vuex'
 import utils from 'core/utils'
 import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
 import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
+import ModalHackStackBeta from 'ozaria/site/components/teacher-dashboard/modals/ModalHackStackBeta.vue'
 
 export default {
   components: {
-    DashboardToggle
+    DashboardToggle,
+    ModalHackStackBeta
   },
 
   mixins: [
@@ -62,7 +64,7 @@ export default {
     },
 
     showHackStack () {
-      return utils.isCodeCombat && (me.isInternal() || me.isBetaTester())
+      return utils.isCodeCombat
     },
 
     showPD () {
@@ -109,6 +111,11 @@ export default {
     hackstackClicked () {
       if (this.hackStackClassrooms.length === 0) {
         noty({ text: $.i18n.t('teacher_dashboard.create_class_hackstack'), type: 'warning', layout: 'center', timeout: 5000 })
+      }
+    },
+    hackStackModalClicked () {
+      if (this.hackStackClassrooms.length === 0) {
+        this.hackstackClicked()
       }
     }
   }
@@ -394,6 +401,11 @@ export default {
         reload-location="/teachers/classes"
       />
     </li>
+    <ModalHackStackBeta
+      v-if="showHackStack"
+      :href="hackStackClassrooms.length>0 ? `/teachers/hackstack-classes/${hackStackClassrooms[0]._id}` : '#'"
+      @tryClicked="hackStackModalClicked"
+    />
   </ul>
 </template>
 
