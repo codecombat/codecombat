@@ -82,6 +82,7 @@ const ozariaHeroes = {
 }
 
 module.exports = Vue.extend({
+  name: 'CharacterCustomization',
   components: {
     surface: Surface,
     BaseModalContainer
@@ -141,6 +142,9 @@ module.exports = Vue.extend({
   },
 
   mounted () {
+    if (!this.isInModal) {
+      return
+    }
     // TODO: do this generally for all modals
     this.focusTrap = focusTrap.createFocusTrap(this.$el, {
       initialFocus: 'input',

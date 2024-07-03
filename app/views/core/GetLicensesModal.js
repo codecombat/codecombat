@@ -6,7 +6,7 @@ class GetLicensesModal extends ModalComponent {}
 GetLicensesModal.prototype.id = 'get-licenses-modal'
 GetLicensesModal.prototype.template = require('app/templates/core/modal-empty')
 GetLicensesModal.prototype.VueComponent = component
-GetLicensesModal.prototype.propsData = null
+GetLicensesModal.prototype.propsData = { backboneDismissModal: true }
 GetLicensesModal.prototype.closesOnClickOutside = true
 GetLicensesModal.prototype.closesOnEscape = true
 
