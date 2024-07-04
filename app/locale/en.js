@@ -6097,7 +6097,7 @@ module.exports = {
       what_create: 'What will you create?',
       access_guidebook: 'Access Guidebook',
       guidebook_description: 'Everything you need to know to get started',
-      faq_1_question: 'Do I need to know Luau or Roblox Studio?',
+      faq_1_question: 'Do I need to know Lua or Roblox Studio?',
       faq_1_answer: 'No. This experience will allow anyone to play, code and create from the very start of their adventure, without any coding experience.',
       faq_2_question: 'Can I create my own games?',
       faq_2_answer: 'Yes. Game development is at the core of this experience and after completing the essential learning levels you will have the opportunity to create your own.',

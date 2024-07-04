@@ -32,6 +32,9 @@ export default {
 <style scoped lang="scss">
 $primary-color: #4DECF0;
 $primary-background: #31636F;
+::v-deep * {
+  font-family: Plus Jakarta Sans;
+}
 ::v-deep div{
   color: white;
 

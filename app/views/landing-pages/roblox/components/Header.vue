@@ -68,12 +68,10 @@ $primary-color: #4DECF0;
 $primary-background: #31636F;
 
 .section {
-  background-color: #021e27;
-  background-image: url(/images/pages/roblox/header-background.png);
-  background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) 0px -400px / 120% no-repeat;
+  background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) 0px -400px / 120% no-repeat, #021e27;
 
   @media (max-width: 768px) {
-    background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) center -200px / 250% no-repeat;
+    background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) center -200px / 250% no-repeat, #021e27;
   }
 }
 
@@ -104,7 +102,11 @@ $primary-background: #31636F;
   justify-content: center;
 
   img {
-    width: 80%
+    width: 80%;
+    object-fit: cover;
+    object-position: top;
+    height: 65%;
+    filter: drop-shadow(1px 2px 3px rgba(77, 236, 240, 0.8));
   }
 }
 
