@@ -88,8 +88,9 @@ export default {
     },
 
     getContentTypeHeader () {
-      if (this.nameType) {
-        const name = getGameContentDisplayType(this.nameType, true, true)
+      if (this.nameType || this.iconType) {
+        const type = this.nameType ? this.nameType : this.iconType
+        const name = getGameContentDisplayType(type, true, true)
         return `${name}:`
       } else {
         return ''
@@ -120,7 +121,7 @@ export default {
         :icon="iconType"
       />
       <p class="content-heading">
-        <b>{{ `${levelNumber ? levelNumber : 'Practice' }${levelNumber ? (nameType ? '.' : ':') : ''} ${getContentTypeHeader} ${ displayName.replace('Course: ', '')}` }}</b>
+        <b>{{ `${levelNumber ? levelNumber : '' }${levelNumber ? (nameType ? '.' : ':') : ''} ${getContentTypeHeader} ${ displayName.replace('Course: ', '')}` }}</b>
       </p>
       <p class="content-desc">
         {{ clearDescription }}
