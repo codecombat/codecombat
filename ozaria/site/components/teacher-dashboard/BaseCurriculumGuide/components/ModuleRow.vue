@@ -120,7 +120,7 @@ export default {
         :icon="iconType"
       />
       <p class="content-heading">
-        <b>{{ `${levelNumber }${levelNumber ? (nameType ? '.' : ':') : ''} ${getContentTypeHeader} ${ displayName.replace('Course: ', '')}` }}</b>
+        <b>{{ `${levelNumber ? levelNumber : 'Practice' }${levelNumber ? (nameType ? '.' : ':') : ''} ${getContentTypeHeader} ${ displayName.replace('Course: ', '')}` }}</b>
       </p>
       <p class="content-desc">
         {{ clearDescription }}
