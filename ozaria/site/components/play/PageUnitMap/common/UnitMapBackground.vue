@@ -92,7 +92,7 @@ export default Vue.extend({
     // TODO move heroName to Vuex store `me` and use its getter as computed property.
     this.heroName = (me.get('ozariaUserOptions') || {}).playerHeroName
 
-    this.generateLevelNumberMap({ campaignId: this.campaignData._id })
+    this.generateLevelNumberMap({ campaignId: this.campaignData._id, language: this.codeLanguage })
   },
   methods: {
     ...mapActions({
