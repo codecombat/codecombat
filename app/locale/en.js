@@ -5511,6 +5511,7 @@ module.exports = {
       testimonials_3_name: 'Steve Kong',
       testimonials_3_title: 'Instructional Services Specialist, Riverside Unified School District',
       testimonials_4_quote: '“One thing I am able to do now that I could not do before is actually believe I can code.”',
+      testimonials_4_name: '',
       testimonials_4_title: 'Mountain Ridge Middle School Student',
       testimonials_5_quote: '“CodeCombat has transformed how I teach coding...I utilize the great teacher resources including Curriculum Guides, Project Guides, and Solutions. Using CodeCombat has helped me to teach fairly advanced concepts in a way the students enjoy and understand. What I love the most about CodeCombat is that it does not simplify coding. The students are learning to write actual code, yet doing it in such a way that they are having fun.”',
       testimonials_5_name: 'Sandra Ahlstrom',
