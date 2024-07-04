@@ -56,7 +56,8 @@ export default Vue.extend({
       googleClassrooms: null,
       isGoogleClassroomForm: false,
       googleSyncInProgress: false,
-      moreOptions: false
+      moreOptions: false,
+      newInitialFreeCourses: [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE],
     }
   },
 
@@ -108,6 +109,9 @@ export default Vue.extend({
     },
     isOzaria () {
       return utils.isOzaria
+    },
+    i18n () {
+      return utils.i18n
     },
     capitalLanguages () {
       return utils.capitalLanguages
@@ -176,6 +180,28 @@ export default Vue.extend({
     },
     classroomInstance () {
       return new Classroom(this.classroom)
+    },
+    initialFreeCourses () {
+      return [
+        ...utils.freeCocoCourseIDs.map(id => {
+          const course = this.courses.find(({ _id }) => _id === id)
+          return {
+            id,
+            name: utils.i18n(course, 'name'),
+            blurb: $.i18n.t(`teachers.free_course_blurb_${course.slug}`)
+          }
+        }),
+      ]
+    }
+  },
+
+  watch: {
+    newInitialFreeCourses (newInitialFreeCourses) {
+      if (newInitialFreeCourses.length === 0) {
+        this.$nextTick(() => {
+          this.$set(this, 'newInitialFreeCourses', [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE])
+        })
+      }
     },
   },
 
@@ -332,6 +358,10 @@ export default Vue.extend({
 
       if (this.classGrades?.length > 0) {
         updates.grades = this.classGrades
+      }
+
+      if (utils.isCodeCombat) {
+        updates.initialFreeCourses = this.newInitialFreeCourses
       }
 
       if (_.size(updates)) {
@@ -501,6 +531,34 @@ export default Vue.extend({
               {{ $t("form_validation_errors.required") }}
             </span>
             <span class="help-block small text-navy"> {{ $t("teachers.programming_language_edit_desc_new") }} </span>
+          </div>
+        </div>
+        <div
+          v-if="isCodeCombat && classroomInstance.isNew()"
+          class="form-group row initial-free-courses"
+        >
+          <div class="col-xs-12">
+            <label class="control-label">
+              {{ $t("teachers.initial_free_courses") }}
+            </label>
+            <div
+              v-for="initialFreeCourse in initialFreeCourses"
+              :key="initialFreeCourse.id"
+              class="form-group"
+            >
+              <label
+                class="checkbox-inline"
+              >
+                <input
+                  v-model="newInitialFreeCourses"
+                  :value="initialFreeCourse.id"
+                  type="checkbox"
+                  name="initialFreeCourses"
+                >
+                <span class="initial-course-name">{{ initialFreeCourse.name }}</span>
+                <p class="initial-course-blurb help-block small text-navy">{{ initialFreeCourse.blurb }}</p>
+              </label>
+            </div>
           </div>
         </div>
         <div
@@ -1053,6 +1111,14 @@ export default Vue.extend({
   span {
     font-size: 18px;
     line-height: 15px;
+  }
+}
+.initial-free-courses {
+  .initial-course-blurb {
+    margin-bottom: 0;
+  }
+  .initial-course-name {
+    font-size: 0.85em;
   }
 }
 </style>

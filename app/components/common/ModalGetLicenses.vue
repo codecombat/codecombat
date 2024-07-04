@@ -37,6 +37,10 @@ export default Vue.extend({
     modalTitle: {
       type: String,
       default: 'Contact Our Classroom Team'
+    },
+    backboneDismissModal: {
+      type: Boolean,
+      default: false
     }
   },
   mixins: [validationMixin],
@@ -136,7 +140,7 @@ export default Vue.extend({
 <template>
   <modal
     :title="modalTitle"
-    :backbone-dismiss-modal="true"
+    :backbone-dismiss-modal="backboneDismissModal"
     @close="closeModal"
   >
     <div class="style-ozaria teacher-form">
