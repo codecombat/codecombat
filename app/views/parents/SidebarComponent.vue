@@ -92,6 +92,22 @@
             <span class="sidebar__tabs__name">Roblox</span>
           </li>
         </router-link>
+        <router-link
+          tag="a"
+          to="/ai"
+          target="_blank"
+        >
+          <li
+            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'ai-hackstack' }"
+          >
+            <img
+              src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Progress_Black.svg"
+              alt="AI Hackstack"
+              class="sidebar__tabs__img"
+            >
+            <span class="sidebar__tabs__name">AI Hackstack Beta</span>
+          </li>
+        </router-link>
         <!--        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'ai-league', childId: this.selectedChildrenId } }">-->
         <!--          <li-->
         <!--            :class="{ sidebar__tabs__item: true, sidebar__tabs__item__sel: selectedTab === 'ai-league' }"-->
