@@ -151,7 +151,10 @@ export default Vue.extend({
       } else {
         return globalFooter
       }
-    }
+    },
+    darkMode () {
+      return /^\/(roblox|league|play\/ladder)/.test(document.location.pathname)
+    },
   },
 
   created () {
@@ -207,12 +210,7 @@ export default Vue.extend({
 
     ozPath (relativePath) {
       return `${this.ozBaseURL}${relativePath}`
-    },
-
-    darkMode () {
-      return /^\/(roblox|league|play\/ladder)/.test(document.location.pathname)
-    },
-
+    }
   }
 })
 </script>
