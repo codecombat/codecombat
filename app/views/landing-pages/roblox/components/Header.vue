@@ -54,7 +54,7 @@ export default {
   data () {
     return {
       header: '/images/pages/roblox/header.png',
-      logo: '/images/pages/roblox/coco-worlds-high.png'
+      logo: '/images/pages/roblox/coco-worlds-no-desc.png'
     }
   }
 }
@@ -103,9 +103,6 @@ $primary-background: #31636F;
 
   img {
     width: 80%;
-    object-fit: cover;
-    object-position: top;
-    height: 65%;
     filter: drop-shadow(1px 2px 3px rgba(77, 236, 240, 0.8));
   }
 }

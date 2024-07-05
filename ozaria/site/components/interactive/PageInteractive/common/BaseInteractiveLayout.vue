@@ -1,4 +1,5 @@
 <script>
+import { mapGetters } from 'vuex'
 import InteractiveTitle from './InteractiveTitle'
 import LayoutAspectRatioContainer from '../../../common/LayoutAspectRatioContainer'
 import LayoutChrome from '../../../common/LayoutChrome'
@@ -23,8 +24,18 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      soundOn: 'layoutChrome/soundOn',
+      getLevelNumber: 'gameContent/getLevelNumber'
+    }),
     title () {
-      return utils.i18n(this.interactive, 'displayName') || utils.i18n(this.interactive, 'name')
+      if (!this.interactive) {
+        return ''
+      }
+      const id = this.interactive._id
+      const levelNumber = this.getLevelNumber(id) || this.getLevelNumber(this.interactive.original)
+      const levelName = utils.i18n(this.interactive, 'displayName') || utils.i18n(this.interactive, 'name')
+      return `${levelNumber ? `${levelNumber}.` : ''} ${levelName}`
     }
   }
 }

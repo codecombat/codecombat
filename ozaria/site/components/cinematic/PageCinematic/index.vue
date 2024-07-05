@@ -30,21 +30,31 @@ module.exports = Vue.extend({
     cinematicData: null
   }),
 
-  async created () {
-    await this.getCinematicData()
-    this.handleSoundMuted()
-  },
-
   computed: {
     ...mapGetters({
-      soundOn: 'layoutChrome/soundOn'
+      soundOn: 'layoutChrome/soundOn',
+      getLevelNumber: 'gameContent/getLevelNumber'
     }),
     title () {
       if (this.cinematicData === null) {
         return ''
       }
-      return utils.i18n(this.cinematicData, 'displayName') || utils.i18n(this.cinematicData, 'name')
+      const id = this.cinematicData._id
+      const levelNumber = this.getLevelNumber(id)
+      const levelName = utils.i18n(this.cinematicData, 'displayName') || utils.i18n(this.cinematicData, 'name')
+      return `${levelNumber ? `${levelNumber}.` : ''} ${levelName}`
     }
+  },
+
+  watch: {
+    soundOn () {
+      this.handleSoundMuted()
+    }
+  },
+
+  async created () {
+    await this.getCinematicData()
+    this.handleSoundMuted()
   },
 
   methods: {
@@ -71,12 +81,6 @@ module.exports = Vue.extend({
       } else {
         Howler.mute(true)
       }
-    }
-  },
-
-  watch: {
-    soundOn () {
-      this.handleSoundMuted()
     }
   }
 })

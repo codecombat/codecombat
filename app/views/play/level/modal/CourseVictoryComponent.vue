@@ -152,7 +152,9 @@
         else
           { 'btn-success': true , 'btn-glow': true  }
       headerImage: ->
-        if @level.assessment
+        if @course._id is utils.courseIDs.COCO_JUNIOR
+          return "/images/pages/play/modal/level_complete.png"
+        else if @level.assessment
           return "/images/pages/play/modal/challenge_complete.png"
         else if @assessmentNext
           return "/images/pages/play/modal/challenge_unlocked.png"
