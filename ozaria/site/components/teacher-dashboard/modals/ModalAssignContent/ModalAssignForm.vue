@@ -29,7 +29,7 @@ export default {
     }),
 
     filteredCourses () {
-      return this.courses.filter(({ campaignID }) => !utils.freeCampaignIds.includes(campaignID))
+      return this.courses.filter(({ _id, campaignID }) => (this.classroom.initialFreeCourses ? !this.classroom.initialFreeCourses.includes(_id) : !utils.freeCampaignIds.includes(campaignID)))
     }
   },
 

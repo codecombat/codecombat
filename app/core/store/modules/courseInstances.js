@@ -171,7 +171,7 @@ export default {
       const totalSpotsAvailable = availablePrepaids.reduce((acc, prepaid) => acc + prepaid.openSpots(), 0)
       const canAssignCourses = totalSpotsAvailable >= unenrolledStudents.length
 
-      if (!canAssignCourses) {
+      if (!course.free && !canAssignCourses) {
         const additionalLicensesNum = unenrolledStudents.length - totalSpotsAvailable
         noty({
           text: `Oops! It looks like you need ${additionalLicensesNum} more license${additionalLicensesNum > 1 ? 's' : ''} to access the remaining chapters. Visit My Licenses to learn more!`,
@@ -184,7 +184,7 @@ export default {
       }
 
       const numberEnrolled = unenrolledStudents.length
-      if (numberEnrolled) {
+      if (numberEnrolled && !course.free) {
         let confirmed = false
         await new Promise((resolve) => noty({
           text: `Please confirm that you'd like to assign ${course.name} to ${members.length} student(s). ${numberEnrolled} license(s) will be applied.`,
@@ -215,22 +215,23 @@ export default {
       }
       const remainingSpots = totalSpotsAvailable - numberEnrolled
 
+      if(!course.free) {
       const requests = []
+        for (const prepaid of availablePrepaids) {
+          if (!Math.min(unenrolledStudents.length, prepaid.openSpots()) > 0) {
+            // Not able to assign to this prepaid.
+            continue
+          }
 
-      for (const prepaid of availablePrepaids) {
-        if (!Math.min(unenrolledStudents.length, prepaid.openSpots()) > 0) {
-          // Not able to assign to this prepaid.
-          continue
+          const availableLicenses = Math.min(unenrolledStudents.length, prepaid.openSpots())
+          for (let i = 0; i < availableLicenses; i++) {
+            const user = unenrolledStudents.pop()
+            requests.push(prepaid.redeem(user.get('_id'), { data: { sharedClassroomId } }))
+          }
         }
 
-        const availableLicenses = Math.min(unenrolledStudents.length, prepaid.openSpots())
-        for (let i = 0; i < availableLicenses; i++) {
-          const user = unenrolledStudents.pop()
-          requests.push(prepaid.redeem(user.get('_id'), { data: { sharedClassroomId } }))
-        }
+        await Promise.all(requests)
       }
-
-      await Promise.all(requests)
 
       try {
         noty({ text: $.i18n.t('teacher.assigning_course'), layout: 'center', type: 'information', killer: true })
@@ -241,7 +242,7 @@ export default {
             .replace('{{numberAssigned}}', members.length)
             .replace('{{courseName}}', course.name)
         ]
-        if (numberEnrolled > 0) {
+        if (!course.free && numberEnrolled > 0) {
           lines.push(
             $.i18n.t('teacher.assigned_msg_2')
               .replace('{{numberEnrolled}}', numberEnrolled)
@@ -286,8 +287,17 @@ export default {
     // TODO move to server in the classroom creation flow
     async createFreeCourseInstances ({ state, commit }, { classroom, courses }) {
       const freeCourses = courses.filter((c) => c.free === true)
+      const initialFreeCourses = classroom.initialFreeCourses
       const courseInstancePromises = []
       freeCourses.forEach((c) => {
+        if(initialFreeCourses && !initialFreeCourses.includes(c._id)) {
+          return
+        }
+
+        if(!initialFreeCourses && c._id === utils.courseIDs.JUNIOR) {
+          return
+        }
+
         courseInstancePromises.push(courseInstancesApi.post({ classroomID: classroom._id, courseID: c._id }).then((ci) => {
           commit('addCourseInstancesForTeacher', { // update course-instance state
             teacherId: classroom.ownerID,
