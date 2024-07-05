@@ -978,6 +978,11 @@ export default {
     async onClickMainCta () {
       this.trackCtaClicked()
 
+      if (me.getNewLOCExperimentValue() === 'beta') {
+        application.router.navigate('/parents/book-trial-classes', { trigger: true })
+        return
+      }
+
       const { isAvailable, availabilityPDT } = await getAvailability()
       this.availabilityPDT = availabilityPDT
 

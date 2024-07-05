@@ -1066,6 +1066,33 @@ module.exports = (User = (function () {
       return this.getFilteredExperimentValue({ experimentName: 'parents-page-filtered' })
     }
 
+    getNewLOCExperimentValue () {
+      console.log('getNewLOCExperimentValue')
+      const experimentName = 'new-loc-filtered'
+      let value = me.getExperimentValue(experimentName, null)
+
+      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true)) && !/^es/.test(me.get('preferredLanguage', true))) {
+        // Only include English-speaking and Spanish-speaking users
+        value = 'control'
+      }
+
+      if (value === null) {
+        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
+        let valueProbability
+        const rand = Math.random()
+        if (rand < probability) {
+          value = 'beta'
+          valueProbability = probability
+        } else {
+          value = 'control'
+          valueProbability = 1 - probability
+        }
+        me.startExperiment(experimentName, value, valueProbability)
+      }
+
+      return value
+    }
+
     getEducatorSignupExperimentValue () {
       const experimentName = 'educator-signup-modal'
       let value = me.getExperimentValue(experimentName, null)
