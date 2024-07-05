@@ -287,14 +287,10 @@ export default {
     // TODO move to server in the classroom creation flow
     async createFreeCourseInstances ({ state, commit }, { classroom, courses }) {
       const freeCourses = courses.filter((c) => c.free === true)
-      const initialFreeCourses = classroom.initialFreeCourses
+      const initialFreeCourses = classroom.initialFreeCourses || [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]
       const courseInstancePromises = []
       freeCourses.forEach((c) => {
-        if(initialFreeCourses && !initialFreeCourses.includes(c._id)) {
-          return
-        }
-
-        if(!initialFreeCourses && c._id === utils.courseIDs.JUNIOR) {
+        if(!initialFreeCourses.includes(c._id)) {
           return
         }
 
