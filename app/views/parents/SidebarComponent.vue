@@ -105,7 +105,8 @@
               alt="AI Hackstack"
               class="sidebar__tabs__img"
             >
-            <span class="sidebar__tabs__name">AI Hackstack Beta</span>
+            <span class="sidebar__tabs__name"> {{ $t('nav.ai_hackstack') }}</span>
+            <span class="beta">({{ $t('nav.beta') }})</span>
           </li>
         </router-link>
         <!--        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'ai-league', childId: this.selectedChildrenId } }">-->
@@ -291,6 +292,13 @@ export default {
   a {
     color: inherit;
     text-decoration: none;
+  }
+  .beta {
+    font-size: 12px;
+    line-height: 15px;
+    position: relative;
+    bottom: 5px;
+    margin-left: 5px;
   }
 }
 </style>
