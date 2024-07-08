@@ -244,10 +244,6 @@ export default {
             class="dusk-btn"
             @click="$emit('addStudentsClicked')"
           >
-            <img
-              class="add-students__icon"
-              src="/images/ozaria/teachers/dashboard/svg_icons/IconAddStudents_Black.svg"
-            >
             <span> {{ $t('courses.add_students') }} </span>
           </button>
         </div>
