@@ -183,21 +183,6 @@ export default {
         :date-end="classroomEndDate"
         :share-permission="sharePermission"
       />
-      <div
-        v-if="showClassInfo"
-        class="add-students"
-      >
-        <button
-          class="dusk-btn"
-          @click="$emit('addStudentsClicked')"
-        >
-          <img
-            class="add-students__icon"
-            src="/images/ozaria/teachers/dashboard/svg_icons/IconAddStudents_Black.svg"
-          >
-          <span> {{ $t('courses.add_students') }} </span>
-        </button>
-      </div>
     </div>
     <div
       v-if="!showPreviewMode"
@@ -211,7 +196,7 @@ export default {
       </div>
       <!--  we want to use classroom ownerID always even when class is not owned by teacher in case of shared classes since license is cut from owner -->
       <licenses-component
-        v-if="showLicenses"
+        v-if="showLicenses && !showClassInfo"
         class="btn-margins-height"
         :selected-teacher-id="allClassesPage ? null : classroom.ownerID"
         :shared-classroom-id="sharedClassroomId"
@@ -246,10 +231,26 @@ export default {
         </primary-button>
 
         <button-curriculum-guide
+          v-if="!showClassInfo"
           id="curriculum-guide-btn-shepherd"
           class="btn-margins-height"
           @click="clickCurriculumGuide"
         />
+        <div
+          v-if="showClassInfo"
+          class="add-students"
+        >
+          <button
+            class="dusk-btn"
+            @click="$emit('addStudentsClicked')"
+          >
+            <img
+              class="add-students__icon"
+              src="/images/ozaria/teachers/dashboard/svg_icons/IconAddStudents_Black.svg"
+            >
+            <span> {{ $t('courses.add_students') }} </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
