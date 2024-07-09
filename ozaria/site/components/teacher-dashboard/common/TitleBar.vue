@@ -196,7 +196,7 @@ export default {
       </div>
       <!--  we want to use classroom ownerID always even when class is not owned by teacher in case of shared classes since license is cut from owner -->
       <licenses-component
-        v-if="showLicenses && !showClassInfo"
+        v-if="showLicenses"
         class="btn-margins-height"
         :selected-teacher-id="allClassesPage ? null : classroom.ownerID"
         :shared-classroom-id="sharedClassroomId"
@@ -231,7 +231,6 @@ export default {
         </primary-button>
 
         <button-curriculum-guide
-          v-if="!showClassInfo"
           id="curriculum-guide-btn-shepherd"
           class="btn-margins-height"
           @click="clickCurriculumGuide"
