@@ -84,6 +84,12 @@ export default Vue.extend({
 .video {
   width: 100%;
   padding: 20px 0px;
+
+  ::v-deep iframe {
+    position: relative !important;
+    width: 100%;
+    min-height: 300px;
+  }
 }
 
 .buttons {
