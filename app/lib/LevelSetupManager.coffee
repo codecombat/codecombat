@@ -118,7 +118,7 @@ module.exports = class LevelSetupManager extends CocoClass
      @inventoryModal.setHero(e.hero) if window.currentModal is @inventoryModal
 
   onHeroesModalConfirmClicked: (e) ->
-    if @level.get('product', true) is 'codecombat-junior' or (@options.courseID and !@options.classroomItems?)
+    if @level.get('product', true) is 'codecombat-junior' or (@options.courseID and !@options.classroomItems)
       # Skip inventory screen
       return @onInventoryModalPlayClicked()
     @options.parent.openModalView(@inventoryModal)
