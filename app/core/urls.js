@@ -25,8 +25,11 @@ module.exports = {
   },
 
   courseArenaLadder ({ level, courseInstance }) {
-    level = level.attributes || level
-    courseInstance = courseInstance.attributes || courseInstance
+    level = level?.attributes || level
+    courseInstance = courseInstance?.attributes || courseInstance
+    if (!level || !courseInstance) {
+      return
+    }
     return `/play/ladder/${level.slug}/course/${courseInstance._id}`
   },
 
