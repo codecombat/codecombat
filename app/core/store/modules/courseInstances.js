@@ -3,6 +3,7 @@ import courseInstancesApi from 'core/api/course-instances'
 const CourseInstance = require('models/CourseInstance')
 const User = require('models/User')
 const Prepaid = require('models/Prepaid')
+const utils = require('core/utils')
 
 export default {
   namespaced: true,
