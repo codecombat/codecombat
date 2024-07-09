@@ -187,7 +187,7 @@
           .modal-body
             button.close(type='button' data-dismiss='modal' aria-label='Close')
               span(aria-hidden='true') &times;
-            base-cloudflare-video(:video-cloudflare-id="videoId" ref="video" width="100%" aspect-ratio="16 / 9")
+            base-cloudflare-video.video(:video-cloudflare-id="videoId" ref="video" width="100%" aspect-ratio="16 / 9")
 
 </template>
 
@@ -203,10 +203,18 @@ module.exports = Vue.extend({
 
   mounted: function () {
     $(this.$refs.modal).on('shown.bs.modal',() => {
-      this.player.playVideo();
+      try {
+        this.player.playVideo();
+      } catch (e) {
+        console.error(e);
+      }
     })
     $(this.$refs.modal).on('hide.bs.modal',() => {
-      this.player.pauseVideo();
+      try {
+        this.player.pauseVideo();
+      } catch (e) {
+        console.error(e);
+      }
     })
   },
 
@@ -398,7 +406,12 @@ module.exports = Vue.extend({
       position: absolute
       right: 4px
 
+    .video
+      position: relative
+
     iframe
+      position: relative !important
+      min-height: 400px
       height: auto
       aspect-ratio: 16 / 9
 
