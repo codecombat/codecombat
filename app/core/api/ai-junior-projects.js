@@ -9,3 +9,5 @@ export const createNewAIJuniorProject = ({ ...opts }, options = {}) =>
 export const getAIJuniorProjects = (options = {}) => fetchJson('/db/ai_junior_project', options)
 
 export const getAIJuniorProject = ({ projectHandle }, options = {}) => fetchJson(`/db/ai_junior_project/${projectHandle}`, options)
+
+export const getAIJuniorProjectsForScenarioAndUser = ({ scenarioHandle, userId }, options = {}) => fetchJson(`/db/ai_junior_project?scenarioHandle=${scenarioHandle}&userId=${userId}`, options)

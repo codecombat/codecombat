@@ -20,12 +20,6 @@ _.extend(AIJuniorProjectSchema.properties, {
     description: 'The scenario ID of the project',
     links: [{ rel: 'db', href: '/db/ai_junior_scenario/{($)}' }],
   },
-  classroom: {
-    title: 'Classroom',
-    type: ['object', 'string'],
-    description: 'The classroom ID of the classroom, if any',
-    links: [{ rel: 'db', href: '/db/classroom/{{$}}' }],
-  },
   inputValues: {
     title: 'Input Values',
     description: 'The images, choices, text, etc. the user has made, by input field id',

@@ -1,5 +1,6 @@
 <script>
 // import { getAIJuniorScenario } from 'core/api/ai-junior-scenarios'
+import { createNewAIJuniorProject } from 'core/api/ai-junior-projects'
 import QRCode from 'qrcode'
 import { markedInline } from 'core/utils'
 
@@ -22,7 +23,15 @@ export default Vue.extend({
   data: () => ({
     error: null,
     qrCodeUrl: '',
-    styleElement: null, // Add this to keep track of the style element
+    styleElement: null,
+    isDrawing: false,
+    currentColor: '#33CC33',
+    lineWidth: 8,
+    canvasRefs: {},
+    scale: 1,
+    lastX: 0,
+    lastY: 0,
+    canvasContents: {}, // Store canvas content for each input
   }),
 
   computed: {
@@ -46,7 +55,14 @@ export default Vue.extend({
         this.updateDynamicCss(newCss)
       },
       immediate: true
-    }
+    },
+    scale () {
+      this.$nextTick(() => {
+        Object.keys(this.canvasRefs).forEach(inputId => {
+          this.initializeCanvas(inputId)
+        })
+      })
+    },
   },
 
   async mounted () {
@@ -64,15 +80,21 @@ export default Vue.extend({
       }
     }
 
-    this.scaleWorksheet()
-    window.addEventListener('resize', this.scaleWorksheet)
+    this.initializeCanvases()
+    window.addEventListener('resize', this.onResize)
+  },
+
+  updated () {
+    this.$nextTick(() => {
+      this.initializeCanvases()
+    })
   },
 
   beforeDestroy () {
     if (this.styleElement) {
       this.styleElement.remove()
     }
-    window.removeEventListener('resize', this.scaleWorksheet)
+    window.removeEventListener('resize', this.onResize)
   },
 
   methods: {
@@ -106,10 +128,190 @@ export default Vue.extend({
       const container = $(worksheet).parent()
       const scaleX = container.width() / (11 * 96) // 11 inches * 96 pixels per inch
       const scaleY = container.height() / (8.5 * 96) // 8.5 inches * 96 pixels per inch
-      const scale = Math.min(scaleX, scaleY)
-      if (scale > 0) {
-        worksheet.style.transform = `scale(${scale})`
+      this.scale = Math.min(scaleX, scaleY)
+      if (this.scale > 0) {
+        worksheet.style.transform = `scale(${this.scale})`
         worksheet.style.transformOrigin = 'top left'
+      }
+    },
+
+    initializeCanvases () {
+      this.$nextTick(() => {
+        this.scenario?.inputs.forEach(input => {
+          if (input.type === 'image-field') {
+            this.initializeCanvas(input.id)
+          }
+        })
+      })
+    },
+
+    initializeCanvas (inputId) {
+      const canvasRef = this.$refs[`canvas-${inputId}`]
+      if (canvasRef && canvasRef[0]) {
+        const canvas = canvasRef[0]
+        const ctx = canvas.getContext('2d')
+
+        // Set canvas size to match its display size
+        const rect = canvas.getBoundingClientRect()
+        canvas.width = rect.width
+        canvas.height = rect.height
+
+        ctx.lineJoin = 'round'
+        ctx.lineCap = 'round'
+        this.canvasRefs[inputId] = canvas
+
+        // Restore previous content if available
+        if (this.canvasContents[inputId]) {
+          ctx.putImageData(this.canvasContents[inputId], 0, 0)
+        }
+      }
+    },
+
+    startDrawing (event) {
+      this.isDrawing = true
+      const { x, y } = this.getCoordinates(event)
+      this.lastX = x
+      this.lastY = y
+    },
+
+    draw (event) {
+      if (!this.isDrawing) return
+      const canvas = event.target
+      const ctx = canvas.getContext('2d')
+      const { x, y } = this.getCoordinates(event)
+
+      ctx.beginPath()
+      ctx.moveTo(this.lastX, this.lastY)
+      ctx.lineTo(x, y)
+      ctx.strokeStyle = this.currentColor
+      ctx.lineWidth = this.lineWidth
+      ctx.stroke()
+
+      this.lastX = x
+      this.lastY = y
+
+      // Store the updated canvas content
+      this.canvasContents[canvas.id] = ctx.getImageData(0, 0, canvas.width, canvas.height)
+    },
+
+    stopDrawing () {
+      this.isDrawing = false
+    },
+
+    getCoordinates (event) {
+      const canvas = event.target
+      const rect = canvas.getBoundingClientRect()
+      const scaleX = canvas.width / rect.width
+      const scaleY = canvas.height / rect.height
+      const x = (event.clientX - rect.left) * scaleX
+      const y = (event.clientY - rect.top) * scaleY
+      return { x, y }
+    },
+
+    clearCanvas (inputId) {
+      const canvas = this.canvasRefs[inputId]
+      if (canvas) {
+        const ctx = canvas.getContext('2d')
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        // Clear stored content
+        this.canvasContents[inputId] = null
+      }
+    },
+
+    onResize () {
+      this.scaleWorksheet()
+      this.$nextTick(() => {
+        Object.keys(this.canvasRefs).forEach(inputId => {
+          this.resizeCanvas(inputId)
+        })
+      })
+    },
+
+    resizeCanvas (inputId) {
+      const canvas = this.canvasRefs[inputId]
+      if (canvas) {
+        const ctx = canvas.getContext('2d')
+        const oldWidth = canvas.width
+        const oldHeight = canvas.height
+
+        // Store the current drawing
+        const imageData = ctx.getImageData(0, 0, oldWidth, oldHeight)
+
+        // Resize canvas
+        const rect = canvas.getBoundingClientRect()
+        canvas.width = rect.width
+        canvas.height = rect.height
+
+        // Scale and restore the drawing
+        ctx.save()
+        ctx.scale(canvas.width / oldWidth, canvas.height / oldHeight)
+        ctx.putImageData(imageData, 0, 0)
+        ctx.restore()
+
+        // Update stored content
+        this.canvasContents[inputId] = ctx.getImageData(0, 0, canvas.width, canvas.height)
+
+        ctx.lineJoin = 'round'
+        ctx.lineCap = 'round'
+      }
+    },
+
+    async submitWorksheet () {
+      const inputValues = {}
+      // Collect input fields' values
+      for (const input of this.scenario.inputs) {
+        if (input.type === 'label') {
+          // Ignore label type inputs
+          continue
+        }
+        if (input.type === 'checkbox' || input.type === 'radio') {
+          let selectedValue = document.querySelector(`input[name="${input.id}"]:checked`)?.value
+          if (selectedValue === 'other') {
+            selectedValue = document.querySelector(`input#${input.id}-free-choice-text`)?.value
+          }
+          inputValues[input.id] = selectedValue || ''
+        } else if (input.type === 'image-field') {
+          const canvas = this.canvasRefs[input.id]
+          if (canvas) {
+            try {
+              const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'))
+              // Convert blob to base64
+              const base64 = await new Promise((resolve) => {
+                const reader = new FileReader()
+                reader.onloadend = () => resolve(reader.result)
+                reader.readAsDataURL(blob)
+              })
+              inputValues[input.id] = base64
+              console.log('got base64 for', input.id)
+            } catch (error) {
+              console.error('Error getting base64 for', input.id, error)
+            }
+          } else {
+            console.log('no canvas for', input.id, this.canvasRefs)
+          }
+        } else {
+          const inputElement = document.getElementById(input.id)
+          if (inputElement) {
+            inputValues[input.id] = inputElement.value
+          }
+        }
+      }
+
+      const studentName = document.querySelector('input.student-name-input')?.value
+
+      const projectData = {
+        scenarioId: this.scenario._id,
+        userId: this.me.id,
+        inputValues,
+        studentName
+      }
+
+      try {
+        const result = await createNewAIJuniorProject(projectData)
+        window.open(`/ai-junior/project/${this.slug}/${this.me.id}/${result._id}`, '_blank')
+      } catch (error) {
+        console.error('Error submitting worksheet:', error)
+        alert('An error occurred while submitting the worksheet. Please try again.')
       }
     },
   },
@@ -155,6 +357,12 @@ export default Vue.extend({
       >
         Error: {{ error }}
       </p>
+      <button
+        class="submit-button no-print"
+        @click="submitWorksheet"
+      >
+        Submit
+      </button>
       <img
         v-if="qrCodeUrl"
         :src="qrCodeUrl"
@@ -197,6 +405,7 @@ export default Vue.extend({
               :id="`${input.id}-choice-${choice.id}`"
               :type="input.type"
               :name="input.id"
+              :value="choice.id"
             >
             <label :for="`${input.id}-choice-${choice.id}`">{{ choice.text }}</label>
           </div>
@@ -208,16 +417,48 @@ export default Vue.extend({
               :id="`${input.id}-free-choice`"
               :type="input.type"
               :name="input.id"
+              value="other"
             >
             <label :for="`${input.id}-free-choice`">Other:</label>
             <input
-              id="free-choice-text"
+              :id="`${input.id}-free-choice-text`"
               type="text"
               :name="`${input.id}-free-choice-text`"
             >
           </div>
         </div>
         <!-- eslint-enable vue/no-v-html -->
+        <div
+          v-if="input.type === 'image-field'"
+          class="drawing-container"
+        >
+          <canvas
+            :ref="`canvas-${input.id}`"
+            class="drawing-canvas"
+            @mousedown="startDrawing"
+            @mousemove="draw"
+            @mouseup="stopDrawing"
+            @mouseleave="stopDrawing"
+          />
+          <div
+            class="drawing-controls no-print"
+            :style="{ transform: `scale(${1/scale})`, transformOrigin: 'bottom left' }"
+          >
+            <button @click="clearCanvas(input.id)">
+              Clear
+            </button>
+            <input
+              v-model="currentColor"
+              type="color"
+            >
+            <input
+              v-model.number="lineWidth"
+              type="range"
+              min="1"
+              max="20"
+            >
+          </div>
+        </div>
       </div>
     </div>
     <div
@@ -443,6 +684,121 @@ h2.student-name-header {
         width: auto; /* Adjust width to take remaining space */
       }
     }
+  }
+}
+
+.drawing-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.drawing-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #ccc;
+}
+
+.drawing-controls {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  display: flex;
+  gap: 10px;
+
+  button, input {
+    font-size: 14px;
+    padding: 0px;
+    border: 0;
+    background-color: transparent;
+  }
+
+  input {
+    height: 30px;
+  }
+
+  /* Styles for the range input */
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 30px;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Styles for the range input thumb */
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+    margin-top: -5px; /* Offset to center the thumb on the track */
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+  }
+
+  /* Styles for the range input track */
+  input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 10px;
+    background: #ddd;
+    border-radius: 5px;
+  }
+
+  input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 10px;
+    background: #ddd;
+    border-radius: 5px;
+  }
+
+  /* Focus styles */
+  input[type="range"]:focus {
+    outline: none;
+  }
+
+  input[type="range"]:focus::-webkit-slider-thumb {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  }
+
+  input[type="range"]:focus::-moz-range-thumb {
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  }
+}
+
+.submit-button {
+  position: absolute;
+  top: -40px;
+  right: 0px; // Positioned above the QR code
+  padding: 5px 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 10;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
   }
 }
 </style>

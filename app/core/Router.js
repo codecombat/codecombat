@@ -90,6 +90,11 @@ module.exports = (CocoRouter = (function () {
         ai: go('ai/AIView'),
         'ai/*path': go('ai/AIView'),
 
+        'ai-junior': go('core/SingletonAppVueComponentView'),
+        'ai-junior/project/:scenarioId': go('core/SingletonAppVueComponentView'),
+        'ai-junior/project/:scenarioId/:userId': go('core/SingletonAppVueComponentView'),
+        'ai-junior/project/:scenarioId/:userId/:projectId': go('core/SingletonAppVueComponentView'),
+
         licensor: go('LicensorView'),
 
         admin: go('admin/MainAdminView'),

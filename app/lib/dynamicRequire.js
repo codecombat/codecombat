@@ -1,4 +1,9 @@
 module.exports = {
+  'views/ai-junior/AIJuniorView': function () { return import(/* webpackChunkName: 'aiJunior' */ 'views/ai-junior/AIJuniorView') },
+  'views/ai-junior/AIJuniorLandingView': function () { return import(/* webpackChunkName: 'aiJunior' */ 'views/ai-junior/AIJuniorLandingView') },
+  'views/ai-junior/AIJuniorScenarioView': function () { return import(/* webpackChunkName: 'aiJunior' */ 'views/ai-junior/AIJuniorScenarioView') },
+  'views/ai-junior/AIJuniorScenarioUserView': function () { return import(/* webpackChunkName: 'aiJunior' */ 'views/ai-junior/AIJuniorScenarioUserView') },
+  'views/ai-junior/AIJuniorScenarioUserProjectView': function () { return import(/* webpackChunkName: 'aiJunior' */ 'views/ai-junior/AIJuniorScenarioUserProjectView') },
   'views/AboutView': function () { return import(/* webpackChunkName: "AboutView" */ 'views/AboutView') },
   'views/HomeView': function () { return import(/* webpackChunkName: "HomeView" */ 'views/HomeView') },
   'views/HomeCNView': function () { return import(/* webpackChunkName: "HomeCNView" */ 'views/HomeCNView') },
