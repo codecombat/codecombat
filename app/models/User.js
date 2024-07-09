@@ -1282,16 +1282,16 @@ module.exports = (User = (function () {
     getTestStudentId () {
       const testStudentRelation = (this.get('related') || []).filter(related => related.relation === 'TestStudent')[0]
       if (testStudentRelation) {
-        return Promise.resolve(testStudentRelation.userId)
+        return Promise.resolve({ id: testStudentRelation.userId, new: false })
       } else {
         return this.createTestStudentAccount().then(response => {
-          return response.relatedUserId
+          return { id: response.relatedUserId, new: true }
         })
       }
     }
 
     switchToStudentMode () {
-      return this.getTestStudentId().then(testStudentId => this.spy({ id: testStudentId }))
+      return this.getTestStudentId().then(({ id }) => this.spy({ id }))
     }
 
     switchToTeacherMode () {

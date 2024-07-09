@@ -104,9 +104,17 @@ module.exports = class RootView extends CocoView
   switchToStudentMode: ->
     text = 'Switching to test student account..'
     noty({ text, type: 'success', timeout: 5000, killer: true })
-    me.switchToStudentMode()
-      .then(() -> window.location.reload())
-      .catch((err) -> errors.showNotyNetworkError(err))
+    me.getTestStudentId()
+      .then (student) =>
+        if student.new
+          @openNewTestStudentModal(student.id)
+        else
+          me.spy({ id: student.id })
+            # .then(() -> document.location.reload())
+
+  openNewTestStudentModal: (id) ->
+    NewTestStudentModal = require 'views/core/NewTestStudentModal'
+    @openModalView new NewTestStudentModal(id)
 
   onClickSignupButton: (e) ->
     switch @id
