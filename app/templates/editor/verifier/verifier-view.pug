@@ -34,7 +34,7 @@ block content
               input(id=campaignID, type="checkbox", checked=campaignInfo.checked, disabled=!!view.testsByLevelAndLanguage)
               label(for=campaignID)= campaign + ': ' + campaignInfo.levels.length
         .row
-          each codeLanguage in view.codeLanguages
+          each codeLanguage in view.codeLanguages || []
             .form-group.code-language-mix
               - var codeLanguageID = "code-language-" + codeLanguage.id + "-checkbox";
               input(id=codeLanguageID, type="checkbox", checked=codeLanguage.checked, disabled=!!view.testsByLevelAndLanguage)

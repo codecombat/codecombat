@@ -111,6 +111,18 @@ module.exports = class VerifierTest extends CocoClass {
     this.world = this.levelLoader.world
     this.level = this.levelLoader.level
     this.session = this.levelLoader.session
+    this.originalLevel = {
+      recommendedHealth: this.level.recommendedHealth,
+      maximumHealth: this.level.maximumHealth,
+      clampedProperties: this.level.clampedProperties
+    }
+    const hero = this.world.getThangByID('Hero Placeholder')
+    this.originalHero = {
+      maxHealth: hero.maxHealth,
+      maxSpeed: hero.maxSpeed,
+      attackDamage: hero.attackDamage
+    }
+
     return this.solution != null ? this.solution : (this.solution = this.levelLoader.session.solution)
   }
 
@@ -121,29 +133,42 @@ module.exports = class VerifierTest extends CocoClass {
       this.clampedProperties = {
         inited: true,
         // min
-        maxHealth: { prop: 'maxHealth', check: 'min', current: 1, lower: 5, upper: hero.maxHealth },
-        maxSpeed: { prop: 'maxSpeed', check: 'min', current: 1, lower: 3, upper: hero.maxSpeed },
-        attackDamage: { prop: 'attackDamage', check: 'min', current: 1, lower: 4, upper: hero.attackDamage || 13 },
+        maxHealth: { prop: 'maxHealth', check: 'min', change: false, current: 1, lower: 5, upper: hero.maxHealth },
+        maxSpeed: { prop: 'maxSpeed', check: 'min', change: false, current: 1, lower: 3, upper: hero.maxSpeed },
+        attackDamage: { prop: 'attackDamage', check: 'min', change: false, current: 1, lower: 4, upper: hero.attackDamage || 13 },
         // max
-        maxxSpeed: { prop: 'maxSpeed', check: 'max', current: 1, lower: hero.maxSpeed, upper: 50 },
-        maxxAttackDamage: { prop: 'attackDamage', check: 'max', current: 1, lower: hero.attackDamage || 13, upper: 500 }
+        maxxSpeed: { prop: 'maxSpeed', check: 'max', change: false, current: 1, lower: hero.maxSpeed, upper: 20 },
+        maxxAttackDamage: { prop: 'attackDamage', check: 'max', change: false, current: 1, lower: hero.attackDamage || 13, upper: 500 }
       }
     }
+    hero.maxHealth = this.originalHero.maxHealth
+    hero.maxSpeed = this.originalHero.maxSpeed
+    hero.attackDamage = this.originalHero.attackDamage
     const prop = this.checkPropKeys[this.checkPropIndex]
     // check max/min at first. if that work, we do not need to find better one
-    if (this.clampedProperties[prop].check === 'min') {
-      this.clampedProperties[prop].current = this.clampedProperties[prop].lower
+    if (!this.clampedProperties[prop].change) {
+      if (this.clampedProperties[prop].check === 'min') {
+        this.clampedProperties[prop].current = this.clampedProperties[prop].lower
+      } else {
+        this.clampedProperties[prop].current = this.clampedProperties[prop].upper
+      }
     } else {
-      this.clampedProperties[prop].current = this.clampedProperties[prop].upper
+      this.clampedProperties[prop].current = parseInt((this.clampedProperties[prop].lower + this.clampedProperties[prop].upper) / 2)
     }
     console.log(prop, 'new current: ', this.clampedProperties[prop].current)
     // let find min first
 
-    level.recommendedHealth = this.clampedProperties.maxHealth.current
-    level.maximumHealth = this.clampedProperties.maxHealth.current
-    level.clampedProperties = level.clampedProperties || {}
-    level.clampedProperties[this.clampedProperties[prop].prop] = {}
-    level.clampedProperties[this.clampedProperties[prop].prop][this.clampedProperties[prop].check] = this.clampedProperties[prop].current
+    level.recommendedHealth = this.originalLevel.recommendedHealth
+    level.maximumHealth = this.originalLevel.maximumHealth
+    level.clampedProperties = this.originalLevel.clampedProperties
+
+    if (prop === 'maxHealth') {
+      level.recommendedHealth = this.clampedProperties.maxHealth.current
+      level.maximumHealth = this.clampedProperties.maxHealth.current
+    } else {
+      level.clampedProperties = level.clampedProperties || {}
+      level.clampedProperties[this.clampedProperties[prop].prop] = { test: this.clampedProperties[prop].current }
+    }
   }
 
   setupGod () {
@@ -246,19 +271,20 @@ module.exports = class VerifierTest extends CocoClass {
           if (this.clampedProperties[prop].check === 'min') {
             if (this.clampedProperties[prop].current === this.clampedProperties[prop].lower) {
               console.log('min value is working, exit')
-              return setTimeout(this.cleanup, 100)
+              return this.checkClampedRoundFinish()
             } else {
               this.clampedProperties[prop].upper = mid
             }
           } else {
             if (this.clampedProperties[prop].current === this.clampedProperties[prop].upper) {
               console.log('max value is working, exit')
-              return setTimeout(this.cleanup, 100)
+              return this.checkClampedRoundFinish()
             } else {
               this.clampedProperties[prop].lower = mid
             }
           }
         } else {
+          this.clampedProperties[prop].change = true
           if (this.clampedProperties[prop].check === 'min') {
             this.clampedProperties[prop].lower = mid + 1
           } else {
@@ -272,22 +298,27 @@ module.exports = class VerifierTest extends CocoClass {
           this.error = 'Could not find a solution within the clamped properties'
           console.log("error, couldn't find a solution within the clamped properties")
         } else {
-          while (this.checkPropKeys.length > this.checkPropIndex + 1) {
-            this.checkPropIndex += 1
-            const newProp = this.checkPropKeys[this.checkPropIndex]
-            const trueProp = this.clampedProperties[newProp].prop
-            const check = this.clampedProperties[newProp].check
-            const clampedProperties = this.level.get('clampedProperties') || {}
-            if (trueProp in clampedProperties && (check in clampedProperties[trueProp])) {
-              continue
-            }
-            console.log('checking .. ', this.checkPropKeys[this.checkPropIndex])
-            return setTimeout(this.load, 500)
-          }
+          return this.checkClampedRoundFinish()
         }
         return setTimeout(this.cleanup, 100)
       }
     }
+  }
+
+  checkClampedRoundFinish () {
+    while (this.checkPropKeys.length > this.checkPropIndex + 1) {
+      this.checkPropIndex += 1
+      const newProp = this.checkPropKeys[this.checkPropIndex]
+      const trueProp = this.clampedProperties[newProp].prop
+      const check = this.clampedProperties[newProp].check
+      const clampedProperties = this.level.get('clampedProperties') || {}
+      if (trueProp in clampedProperties && (check in clampedProperties[trueProp])) {
+        continue
+      }
+      console.log('checking .. ', this.checkPropKeys[this.checkPropIndex])
+      return setTimeout(this.load, 500)
+    }
+    return setTimeout(this.cleanup, 100)
   }
 
   printClampedPropertiesResult () {
@@ -302,7 +333,7 @@ module.exports = class VerifierTest extends CocoClass {
       }
       const trueProp = this.clampedProperties[prop].prop
       const check = this.clampedProperties[prop].check
-      if (this.clampedProperties[prop].upper === this.clampedProperties[prop].lower) {
+      if (this.clampedProperties[prop].change) {
         clampedProperties[trueProp] = clampedProperties[trueProp] || {}
         clampedProperties[trueProp][check] = this.clampedProperties[prop].current
       }
