@@ -249,9 +249,9 @@ export default {
       return this.getSelectedPrice().unit_amount * this.licenseNum
     }
   },
-  watch: {
-    studentNameConfirm (newValue) {
-      this.studentEmail = `al${newValue}@tecmilenio.mx`
+  mounted () {
+    if (this.isTecmilenioPartner) {
+      this.handleEmail()
     }
   },
   methods: {
@@ -264,6 +264,21 @@ export default {
         this.sendVerificationLink()
         break
       }
+    },
+    handleEmail () {
+      if (this.isTecmilenioConfirmedLink) {
+        const email = this.getConfirmedEmail()
+        if (email) {
+          this.studentEmail = email
+        } else {
+          window.location.href = '/payments/tecmilenio/'
+        }
+      }
+    },
+    getConfirmedEmail () {
+      const params = new URLSearchParams(window.location.search)
+      const email = params.get('email')
+      return email
     },
     getCurrency (price) {
       return price.currency === 'usd' ? '$' : price.currency
