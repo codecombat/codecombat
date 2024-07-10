@@ -183,21 +183,6 @@ export default {
         :date-end="classroomEndDate"
         :share-permission="sharePermission"
       />
-      <div
-        v-if="showClassInfo"
-        class="add-students"
-      >
-        <button
-          class="dusk-btn"
-          @click="$emit('addStudentsClicked')"
-        >
-          <img
-            class="add-students__icon"
-            src="/images/ozaria/teachers/dashboard/svg_icons/IconAddStudents_Black.svg"
-          >
-          <span> {{ $t('courses.add_students') }} </span>
-        </button>
-      </div>
     </div>
     <div
       v-if="!showPreviewMode"
@@ -250,6 +235,17 @@ export default {
           class="btn-margins-height"
           @click="clickCurriculumGuide"
         />
+        <div
+          v-if="showClassInfo"
+          class="add-students"
+        >
+          <button
+            class="dusk-btn"
+            @click="$emit('addStudentsClicked')"
+          >
+            <span> {{ $t('courses.add_students') }} </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
