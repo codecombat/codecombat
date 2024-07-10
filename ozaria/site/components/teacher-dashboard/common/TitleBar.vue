@@ -6,10 +6,19 @@ import LicensesComponent from '../common/LicensesComponent'
 import NavSelectUnit from '../common/NavSelectUnit'
 import ClassInfoRow from './ClassInfoRow'
 import moment from 'moment'
+import zendeskResourceMixin from 'ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue'
 
 import { mapActions, mapGetters } from 'vuex'
 
 const Classroom = require('models/Classroom')
+
+const resourceHubSections = [
+  { sectionName: 'gettingStarted', slug: 'getting-started', i18nKey: 'teacher.getting_started' },
+  { sectionName: 'educatorResources', slug: 'educator-resources', i18nKey: 'new_home.educator_resources' },
+  { sectionName: 'lessonSlides', slug: 'lesson-slides', i18nKey: 'teacher.curriculum' },
+  { sectionName: 'studentResources', slug: 'student-resources', i18nKey: 'teacher.student_resources' },
+  { sectionName: 'faq', slug: 'faq', i18nKey: 'nav.faq' }
+]
 
 export default {
   components: {
@@ -19,6 +28,10 @@ export default {
     'nav-select-unit': NavSelectUnit,
     'class-info-row': ClassInfoRow,
   },
+
+  mixins: [
+    zendeskResourceMixin
+  ],
 
   props: {
     title: {
@@ -51,6 +64,12 @@ export default {
     }
   },
 
+  data () {
+    return {
+      resourceHubResources: {}
+    }
+  },
+
   computed: {
     ...mapGetters({
       activeClassrooms: 'teacherDashboard/getActiveClassrooms'
@@ -62,6 +81,18 @@ export default {
 
     isCodeCombat () {
       return isCodeCombat
+    },
+
+    resourceHubSections () {
+      return resourceHubSections
+    },
+
+    resourceHubLinks () {
+      return this.resourceHubLinksHelper(this.resourceHubResources)
+    },
+
+    teacherToolkitView () {
+      return this.$route.path.startsWith('/teachers/resources')
     },
 
     filteredCourses () {
@@ -163,6 +194,25 @@ export default {
         {{ title }}
       </h1>
       <div
+        v-if="teacherToolkitView"
+        class="resource-hub-container"
+      >
+        <div
+          v-for="(resourceHubSection, index) in resourceHubSections"
+          :key="resourceHubSection.slug"
+        >
+          <div
+            v-if="resourceHubLinks(resourceHubSection.sectionName).length"
+            class="resource-hub-section"
+          >
+            <a
+              :href="'#' + resourceHubSection.slug"
+            >{{ $t(resourceHubSection.i18nKey) }}</a>
+            <span v-if="index < resourceHubSections.length - 1">|</span>
+          </div>
+        </div>
+      </div>
+      <div
         v-if="showClassInfo"
         class="edit-class"
       >
@@ -185,7 +235,7 @@ export default {
       />
     </div>
     <div
-      v-if="!showPreviewMode"
+      v-if="!showPreviewMode && !teacherToolkitView"
       class="sub-nav"
     >
       <div
@@ -266,6 +316,29 @@ export default {
   white-space: nowrap;
 }
 
+.resource-hub-container {
+  display: flex;
+  gap: 0px;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  a {
+    text-decoration: underline;
+  }
+}
+
+.resource-hub-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.resource-hub-section * {
+  margin-left: 5px;
+  margin-right: 5px;
+  color: $blue;
+}
+
 .main-buttons-container {
   display: flex;
   flex-direction: row;
@@ -289,7 +362,7 @@ export default {
   }
 
   &>h1:first-child {
-    margin-right: 4.5px;
+    margin-right: 10px;
   }
 
   @media (max-width: 1280px) {
@@ -332,7 +405,7 @@ export default {
 }
 
 h1 {
-  @include font-h-2-subtitle-twilight;
+  @include font-h-2-subtitle-black;
   max-width: calc(100vw - 650px);
   overflow-y: hidden;
   white-space: nowrap;
