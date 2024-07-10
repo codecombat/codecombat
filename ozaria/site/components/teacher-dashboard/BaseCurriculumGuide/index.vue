@@ -1,6 +1,7 @@
 <script>
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 
+import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
 import utils from 'core/utils'
 
 import ChapterNav from './components/ChapterNav'
@@ -10,6 +11,7 @@ import CstaStandards from './components/CstaStandards'
 import ModuleContent from './components/ModuleContent'
 
 export default {
+  name: COMPONENT_NAMES.CURRICULUM_GUIDE,
   components: {
     ChapterNav,
     ChapterInfo,
@@ -54,13 +56,21 @@ export default {
     }
   },
 
+  mounted () {
+    this.setTeacherId(me.get('_id'))
+    this.setPageTitle(PAGE_TITLES[this.$options.name])
+    this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Curriculum Guide: Loaded' } })
+  },
+
   methods: {
     ...mapActions({
-      toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide'
+      fetchData: 'teacherDashboard/fetchData'
     }),
     ...mapMutations({
       setSelectedLanguage: 'baseCurriculumGuide/setSelectedLanguage',
-      closeCurriculumGuide: 'baseCurriculumGuide/closeCurriculumGuide'
+      resetLoadingState: 'teacherDashboard/resetLoadingState',
+      setTeacherId: 'teacherDashboard/setTeacherId',
+      setPageTitle: 'teacherDashboard/setPageTitle'
     }),
     changeLanguage (e) {
       window.tracker?.trackEvent('Curriculum Guide: Language Changed from dropdown', { category: this.getTrackCategory, label: this.courseName })
@@ -86,71 +96,55 @@ export default {
 
 <template>
   <div>
-    <transition name="slide">
-      <div
-        v-if="isVisible"
-        id="curriculum-guide"
-      >
-        <div class="header">
-          <div class="header-icon">
-            <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg">
-            <h2>{{ $t('teacher_dashboard.curriculum_guide') }}</h2>
-          </div>
-          <div
-            class="header-right"
-          >
-            <div class="code-language-dropdown">
-              <span class="select-language">{{ $t('courses.select_language') }}</span>
-              <select @change="changeLanguage">
-                <option
-                  value="python"
-                  :selected="getSelectedLanguage === 'python'"
-                >
-                  Python
-                </option>
-                <option
-                  value="javascript"
-                  :selected="getSelectedLanguage === 'javascript'"
-                >
-                  JavaScript
-                </option>
-              </select>
-            </div>
-            <img
-              class="close-btn"
-              src="/images/ozaria/teachers/dashboard/svg_icons/Icon_Exit.svg"
-              @click="toggleCurriculumGuide"
-            >
-          </div>
+    <div id="curriculum-guide">
+      <div class="header">
+        <div class="header-icon">
+          <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg">
+          <h2>{{ $t('teacher_dashboard.curriculum_guide') }}</h2>
         </div>
-
-        <chapter-nav />
-        <chapter-info />
-
-        <div class="fluid-container">
-          <div class="row">
-            <div class="col-md-9">
-              <module-content
-                v-for="num in moduleNumbers"
-                :key="num"
-                :module-num="num"
-                :is-capstone="isCapstoneModule(num)"
-              />
-            </div>
-            <div class="col-md-3">
-              <concepts-covered :concept-list="conceptsCovered" />
-              <csta-standards :csta-list="cstaStandards" />
-            </div>
+        <div
+          class="header-right"
+        >
+          <div class="code-language-dropdown">
+            <span class="select-language">{{ $t('courses.select_language') }}</span>
+            <select @change="changeLanguage">
+              <option
+                value="python"
+                :selected="getSelectedLanguage === 'python'"
+              >
+                Python
+              </option>
+              <option
+                value="javascript"
+                :selected="getSelectedLanguage === 'javascript'"
+              >
+                JavaScript
+              </option>
+            </select>
           </div>
         </div>
       </div>
-    </transition>
-    <div
-      v-if="isVisible"
-      class="clickable-hide-area"
 
-      @click="closeCurriculumGuide"
-    />
+      <chapter-nav />
+      <chapter-info />
+
+      <div class="fluid-container">
+        <div class="row">
+          <div class="col-md-9">
+            <module-content
+              v-for="num in moduleNumbers"
+              :key="num"
+              :module-num="num"
+              :is-capstone="isCapstoneModule(num)"
+            />
+          </div>
+          <div class="col-md-3">
+            <concepts-covered :concept-list="conceptsCovered" />
+            <csta-standards :csta-list="cstaStandards" />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -161,37 +155,7 @@ export default {
 
 /* TODO: use app/styles/common/transition? */
   #curriculum-guide {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-
-    max-width: 1116px;
-    width: 90vw;
-    width: 1116px;
-    z-index: 1200;
-
-    max-height: 100vh;
-    overflow-y: scroll;
-
     background-color: white;
-    box-shadow: -8px 4px 20px rgba(0, 0, 0, 0.25);
-
-     /* For animating the panel sliding in and out. */
-    &.slide-enter-active, &.slide-leave-active {
-      -webkit-transition: right 0.7s ease;
-      -moz-transition: right 0.7s ease;
-      -o-transition: right 0.7s ease;
-      -ms-transition: right 0.7s ease;
-      transition: right 0.7s ease;
-    }
-
-    &.slide-enter, &.slide-leave-to {
-      right: -1116px;
-    }
-
-    &.slide-enter-to, &.slide-leave {
-      right: 0;
-    }
   }
 
   .fluid-container {
@@ -200,8 +164,13 @@ export default {
 
   .header {
     height: 60px;
-    border: 1px solid rgba(0, 0, 0, 0.13);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.06);
+
+    background-color: #f2f2f2;
+    border: 1px solid #d8d8d8;
+    /* Drop shadow bottom ref: https://css-tricks.com/snippets/css/css-box-shadow/ */
+    -webkit-box-shadow: 0 8px 6px -6px #D2D2D2;
+      -moz-box-shadow: 0 8px 6px -6px #D2D2D2;
+          box-shadow: 0 8px 6px -6px #D2D2D2;
 
     display: flex;
     flex-direction: row;
@@ -229,6 +198,7 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
+      margin-right: 12px;
     }
 
     .code-language-dropdown {
