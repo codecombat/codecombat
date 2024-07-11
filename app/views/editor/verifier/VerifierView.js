@@ -145,6 +145,13 @@ module.exports = (VerifierView = (function () {
           codeLanguage.checked = false
         }
       }
+
+      this.enableFuzzy = this.$('#enable-fuzzy-verifier').is(':checked')
+      if (this.enableFuzzy) {
+        this.skip = this.$('#fuzzy-batch-skip').val() || 0
+        this.limit = this.$('#fuzzy-batch-limit').val() || 1
+        this.levelIDs = this.levelIDs.splice(this.skip, this.limit)
+      }
       return this.startTestingLevels()
     }
 
@@ -238,7 +245,7 @@ module.exports = (VerifierView = (function () {
                 return next()
               }
             }
-            , chunkSupermodel, task.language, { solution: task.solution })
+            , chunkSupermodel, task.language, { solution: task.solution, enableFuzzyVerifier: this.enableFuzzy })
             this.tests.push(test)
             if (this.testsByLevelAndLanguage[task.level] == null) { this.testsByLevelAndLanguage[task.level] = {} }
             if (this.testsByLevelAndLanguage[task.level][task.language] == null) { this.testsByLevelAndLanguage[task.level][task.language] = [] }

@@ -41,6 +41,17 @@ block content
               label(for=codeLanguageID)= codeLanguage.id
           .pull-right
             button.btn.btn-primary#go-button(disabled=!!view.testsByLevelAndLanguage) Start Tests
+        .row
+          .form-group
+            input(id='enable-fuzzy-verifier' type='checkbox')
+            label(for='enable-fuzzy-verifier') Enable Fuzzy Verifier
+          .form-group
+            label(for='fuzzy-batch-skip') Skip
+            input(id='fuzzy-batch-skip' type='number' step="1")
+          .form-group
+            label(for='fuzzy-batch-limit') Limit
+            input(id='fuzzy-batch-limit' type='number' step="1")
+
 
     if view.levelsToLoad && !view.testsByLevelAndLanguage
       .progress
