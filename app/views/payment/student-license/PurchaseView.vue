@@ -152,6 +152,9 @@
         </p>
       </div>
     </div>
+    <p class="success">
+      {{ successMsg }}
+    </p>
     <p class="error">
       {{ errMsg }}
     </p>
@@ -186,6 +189,7 @@
 </template>
 
 <script>
+import { getQueryVariable } from 'core/utils'
 import { handleCheckoutSession } from '../paymentPriceHelper'
 import IconLoading from 'app/core/components/IconLoading'
 import priceHelperMixin from './price-helper-mixin'
@@ -223,6 +227,7 @@ export default {
       licenseNum: this.isTecmilenioPartner ? 1 : null,
       selectedPrice: this.priceData[0].id,
       errMsg: '',
+      successMsg: '',
       parentEmail: null,
       studentEmail: null,
       studentName: null, // this is actually id
@@ -271,14 +276,12 @@ export default {
         if (email) {
           this.studentEmail = email
         } else {
-          window.location.href = '/payments/tecmilenio/'
+          noty({ text: 'Couldn\'t find verified email', type: 'error', layout: 'center', timeout: 2000 })
         }
       }
     },
     getConfirmedEmail () {
-      const params = new URLSearchParams(window.location.search)
-      const email = params.get('email')
-      return email
+      return getQueryVariable('email')
     },
     getCurrency (price) {
       return price.currency === 'usd' ? '$' : price.currency
@@ -316,10 +319,23 @@ export default {
       return this.priceData.find((p) => p.id === this.selectedPrice)
     },
     async sendVerificationLink () {
+      this.showLoading = true
       if (!this.isTecmilenioEmailValid()) {
+        this.errMsg = 'inválido Correo institucional del alumno'
+        this.successMsg = ''
+        this.showLoading = false
         return false
       }
-      await fetchJson('/db/tecmilenio/payment-link', { json: { email: this.studentEmail }, method: 'POST' })
+      try {
+        await fetchJson('/db/tecmilenio/payment-link', { json: { email: this.studentEmail }, method: 'POST' }).then(res => {
+          this.errMsg = ''
+          this.successMsg = 'Por favor revise su correo electrónico para obtener el enlace de pago para completar el proceso de pago.'
+        })
+      } catch (error) {
+        this.errMsg = 'inválido Correo institucional del alumno'
+        this.successMsg = ''
+      }
+      this.showLoading = false
     },
     async onPurchaseNow () {
       this.errMsg = ''
@@ -409,6 +425,11 @@ export default {
 
 .error {
   color: red;
+  font-weight: bold;
+}
+
+.success {
+  color: #0B6125;
   font-weight: bold;
 }
 
