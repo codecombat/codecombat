@@ -62,10 +62,11 @@ module.exports = (VerifierView = (function () {
       this.cores = window.navigator.hardwareConcurrency || 4
       this.careAboutFrames = utils.getQueryVariable('frames', true)
 
+      this.testLanguages = (utils.getQueryVariable('languages') || 'python,javascript,java,cpp,lua,coffeescript').split(',')
+      this.codeLanguages = this.testLanguages.map((c) => ({ id: c, checked: true }))
+
       if (this.levelID) {
         this.levelIDs = [this.levelID]
-        this.testLanguages = (utils.getQueryVariable('languages') || 'python,javascript,java,cpp,lua,coffeescript').split(',')
-        this.codeLanguages = this.testLanguages.map((c) => ({ id: c, checked: true }))
         this.cores = 1
         this.startTestingLevels()
       } else {
