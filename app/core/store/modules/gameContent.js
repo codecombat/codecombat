@@ -121,7 +121,7 @@ export default {
         .finally(() => commit('toggleLoadingForClassroom', classroomId))
     },
 
-    fetchGameContentForCampaign: ({ commit, state }, { campaignId, options = {} }) => {
+    fetchGameContentForCampaign: ({ commit, state }, { campaignId, language, options = {} }) => {
       if (state.gameContent.byCampaign[campaignId]) {
         return Promise.resolve()
       }
@@ -131,10 +131,10 @@ export default {
         cinematics: (options.project || {}).cinematics || defaultProjections.cinematics,
         interactives: (options.project || {}).interactives || defaultProjections.interactives,
         cutscenes: (options.project || {}).cutscenes || defaultProjections.cutscenes,
-        levels: (options.project || {}).levels || defaultProjections.levels
+        levels: (options.project || {}).levels || defaultProjections.levels,
       }
 
-      return campaignsApi.fetchGameContent(campaignId, { data: { project: projectData, cacheEdge: true }, callOz: options.callOz })
+      return campaignsApi.fetchGameContent(campaignId, { data: { project: projectData, cacheEdge: true, language: language || 'python' }, callOz: options.callOz })
         .then(res => {
           if (res) {
             commit('addContentForCampaign', {
@@ -149,12 +149,13 @@ export default {
         .finally(() => commit('toggleLoadingForCampaign', campaignId))
     },
 
-    async generateLevelNumberMap ({ commit, state, dispatch, getters }, { campaignId }) {
+    async generateLevelNumberMap ({ commit, state, dispatch, getters }, { campaignId, language }) {
       let gameContent = state.gameContent.byCampaign[campaignId]
 
       if (!gameContent) {
         await dispatch('fetchGameContentForCampaign', {
           campaignId,
+          language
         })
       }
       gameContent = getters.getContentForCampaign(campaignId)

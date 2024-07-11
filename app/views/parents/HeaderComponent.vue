@@ -66,12 +66,20 @@
               Access to all learning resources
             </li>
           </ul>
-          <button
-            class="header__premium-btn header__btn"
-            @click="onGetPremium"
-          >
-            Get Premium
-          </button>
+          <div class="header__buttons">
+            <button
+              class="header__premium-btn header__btn"
+              @click="onTryPlay"
+            >
+              Try Now
+            </button>
+            <button
+              class="header__premium-btn header__btn"
+              @click="onGetPremium"
+            >
+              Get Premium
+            </button>
+          </div>
         </div>
       </div>
       <div
@@ -165,6 +173,9 @@ export default {
       this.selectedProduct = product
       this.$emit('onSelectedProductChange', product)
     },
+    onTryPlay () {
+      window.location.href = '/play'
+    },
     onGetPremium () {
       this.onChildPremiumPurchaseClick()
       this.isSubscribeModalOpen = true
@@ -186,6 +197,11 @@ export default {
   display: flex;
 
   max-height: 18rem;
+
+  &__buttons {
+    display: flex;
+    margin-left: 1rem;
+  }
 
   &__products {
     display: flex;

@@ -84,9 +84,9 @@ module.exports = (GameMenuModal = (function () {
 
     showsChooseHero () {
       const useHero = this.level.usesSessionHeroThangType()
-      if (this.classroomAceConfig) {
-        return this.classroomAceConfig.classroomItems && useHero
-      }
+      // if (this.classroomAceConfig) {
+      //   return this.classroomAceConfig.classroomItems && useHero
+      // }
       return useHero
     }
 
