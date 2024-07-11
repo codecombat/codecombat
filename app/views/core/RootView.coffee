@@ -109,8 +109,7 @@ module.exports = class RootView extends CocoView
         if student.new
           @openNewTestStudentModal(student.id)
         else
-          me.spy({ id: student.id })
-            # .then(() -> document.location.reload())
+          me.spy({ id: student.id }).then(() -> document.location.reload())
 
   openNewTestStudentModal: (id) ->
     NewTestStudentModal = require 'views/core/NewTestStudentModal'

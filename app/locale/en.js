@@ -2793,7 +2793,11 @@ module.exports = {
       edit_student_access_subtitle: 'You have selected __levels__ levels for __students__ students.',
       edit_student_access_subtitle_scenarios: 'You have selected __levels__ projects for __students__ students.',
       student_ask_for_help: 'Your student __name__ asking for your help.',
-      never_played: 'Never Played'
+      never_played: 'Never Played',
+      test_student_modal_header: 'Creating Test Student',
+      test_student_modal_p1: 'You\'ll be creating a unique test account that mimics the student journey and saves your progress.',
+      test_student_modal_choose_class: 'Choose a class to join:',
+      test_student_modal_redirect: 'You will be redirected to your test student account!',
     },
 
     teacher_licenses: {
