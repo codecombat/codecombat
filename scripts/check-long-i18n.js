@@ -17,7 +17,7 @@ function checkLang (lang) {
         return
       }
       const enLength = en[key][subKey].length
-      const langLength = language[key][subKey].length
+      const langLength = language[key][subKey].replace('[AI_TRANSLATION]', '').length
       if (langLength - enLength > 20 && langLength > enLength * 2) {
         console.log(`${lang} Too long:  ${key}.${subKey} - ${langLength} vs ${enLength}`)
       }
