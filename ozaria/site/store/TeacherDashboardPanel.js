@@ -361,7 +361,7 @@ export default {
           sessionContentObject: practiceLevelData({
             starterCode: level.getSampleCode()?.[language] || '',
             studentCode: studentSessions[normalizedOriginal]?.code?.['hero-placeholder']?.plan || '',
-            solutionCode: solutionCode.source || '',
+            solutionCode: solutionCode?.source || '',
             language
           })
         })
