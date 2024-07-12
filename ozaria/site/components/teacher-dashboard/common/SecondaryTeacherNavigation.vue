@@ -233,7 +233,7 @@ export default {
         @click.native="trackEvent"
       >
         <div id="IconResourceHub" />
-        {{ $t('teacher_dashboard.resource_hub') }}
+        <span>{{ $t('teacher_dashboard.resource_hub') }}</span>
       </router-link>
     </li>
     <li v-if="showLicenses">
@@ -245,7 +245,7 @@ export default {
         @click.native="trackEvent"
       >
         <div id="IconLicense" />
-        {{ $t('teacher_dashboard.my_licenses') }}
+        <span>{{ $t('teacher_dashboard.my_licenses') }}</span>
       </router-link>
     </li>
     <li v-if="showPD">
@@ -627,6 +627,11 @@ li.open > #AILeague,
       &>img {
         margin-top: -6px;
         margin-right: 13px;
+      }
+
+      &>span {
+        max-width: 180px;
+        text-wrap: wrap;
       }
     }
 
