@@ -320,20 +320,24 @@ export default {
     },
     async sendVerificationLink () {
       this.showLoading = true
+      this.successMsg = ''
+      this.errMsg = ''
       if (!this.isTecmilenioEmailValid()) {
         this.errMsg = 'inválido Correo institucional del alumno'
-        this.successMsg = ''
         this.showLoading = false
         return false
       }
       try {
         await fetchJson('/db/tecmilenio/payment-link', { json: { email: this.studentEmail }, method: 'POST' }).then(res => {
-          this.errMsg = ''
           this.successMsg = 'Por favor revise su correo electrónico para obtener el enlace de pago para completar el proceso de pago.'
         })
       } catch (error) {
-        this.errMsg = 'inválido Correo institucional del alumno'
-        this.successMsg = ''
+        if (error?.code === 422) {
+          this.errMsg = 'inválido Correo institucional del alumno'
+        } else {
+          this.errMsg = 'Internal Server Error'
+        }
+        console.log('Couldn\'t send verification link:', error)
       }
       this.showLoading = false
     },
