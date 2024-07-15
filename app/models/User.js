@@ -668,7 +668,6 @@ module.exports = (User = (function () {
       const seenPromotions = this.get('seenPromotions') || {}
       Object.assign(seenPromotions, { [key]: true })
       this.set('seenPromotions', seenPromotions)
-      this.save()
     }
 
     activeProducts (type) {
