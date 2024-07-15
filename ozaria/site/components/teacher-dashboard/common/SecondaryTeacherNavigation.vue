@@ -112,11 +112,6 @@ export default {
       if (this.hackStackClassrooms.length === 0) {
         noty({ text: $.i18n.t('teacher_dashboard.create_class_hackstack'), type: 'warning', layout: 'center', timeout: 5000 })
       }
-    },
-    hackStackModalClicked () {
-      if (this.hackStackClassrooms.length === 0) {
-        this.hackstackClicked()
-      }
     }
   }
 }
@@ -404,7 +399,7 @@ export default {
     <ModalHackStackBeta
       v-if="showHackStack"
       :href="hackStackClassrooms.length>0 ? `/teachers/hackstack-classes/${hackStackClassrooms[0]._id}` : '#'"
-      @tryClicked="hackStackModalClicked"
+      @tryClicked="hackstackClicked"
     />
   </ul>
 </template>

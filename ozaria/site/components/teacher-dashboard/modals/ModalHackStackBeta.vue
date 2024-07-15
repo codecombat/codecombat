@@ -53,11 +53,11 @@ export default Vue.extend({
           </p>
 
           <a
-            class="btn btn-primary btn-lg"
+            class="btn btn-primary btn-lg btn-moon"
             :href="href"
             @click="onTryItNow()"
           >
-            {{ $t('teachers.try_it_now') }}
+            {{ $t('home_v3.try_it_now') }}
           </a>
         </div>
       </template>
@@ -67,6 +67,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import 'app/styles/core/variables.scss';
+@import 'app/styles/common/_button.scss';
 
 .ai-modal-content-container {
   display: flex;
@@ -84,15 +85,6 @@ export default Vue.extend({
     width: 100%;
     max-width: 600px;
     margin: 20px auto;
-  }
-
-  .btn {
-    background-color: $moon;
-    color: #000;
-
-    &:hover {
-      background-color: lighten($moon, 10%);
-    }
   }
 }
 </style>

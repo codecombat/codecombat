@@ -64,6 +64,7 @@ export default Vue.extend({
     close () {
       if (this.seenPromotionsProperty) {
         me.setSeenPromotion(this.seenPromotionsProperty)
+        me.save()
       }
       this.hideModal()
     },
@@ -83,16 +84,28 @@ export default Vue.extend({
     <modal
       v-if="showModal"
       :title="title"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
       @close="onClose"
     >
       <slot name="content" />
     </modal>
     <slot
       name="opener"
-      @click="showModal=true"
+      @click="showModal = true"
     />
   </div>
 </template>
 
 <style lang="scss" scoped>
+$header-height: 71px;
+::v-deep {
+  .modal-mask-fade {
+    padding-top: $header-height
+  }
+  .ozaria-modal-content {
+    max-height: calc(95vh - #{$header-height});
+  }
+}
 </style>

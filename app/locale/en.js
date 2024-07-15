@@ -1773,8 +1773,7 @@ module.exports = {
       start_teaching_ai_today: 'Start Teaching AI Today!',
       hackstack_beta_release: 'HackStack Beta Release',
       introducing_ai_hackstack: 'Introducing AI HackStack, a generative AI teaching tool for beginners. It provides safe access to top AI models like ChatGPT, Claude, and DALL-E.',
-      our_curriculum_empowers_students: 'Our curriculum empowers students to use AI to create websites, games, art, and more. Currently in beta.',
-      try_it_now: 'Try it Now'
+      our_curriculum_empowers_students: 'Our curriculum empowers students to use AI to create websites, games, art, and more. Currently in beta.'
     },
 
     no_licenses_page: {
