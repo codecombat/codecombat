@@ -38,7 +38,7 @@ export default Vue.extend({
     >
       <template #content>
         <div class="ai-modal-content-container">
-          <h2 class="text-h1">
+          <h2 class="text-h2">
             {{ $t('teachers.start_teaching_ai_today') }}
           </h2>
           <img
@@ -77,6 +77,10 @@ export default Vue.extend({
   padding: 10px 60px;
   text-align: center;
 
+  .text-h2 {
+    font-weight: bold;
+  }
+
   >* {
     max-width: 800px;
   }
@@ -84,7 +88,7 @@ export default Vue.extend({
   img {
     width: 100%;
     max-width: 600px;
-    margin: 20px auto;
+    margin: 10px auto;
   }
 }
 </style>
