@@ -1528,7 +1528,11 @@ module.exports = {
       speed_2: 'meters per second.',
       available_for_purchase: 'Available for Purchase', // Shows up when you have unlocked, but not purchased, a hero in the hero store
       level_to_unlock: 'Level to unlock:', // Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
-      restricted_to_certain_heroes: 'Only certain heroes can play this level.'
+      restricted_to_certain_heroes: 'Only certain heroes can play this level.',
+      code_format_not_supported: 'Not Supported',
+      code_format_disable_by_teacher: 'Disabled by Teacher',
+      code_language_subscriber_only: 'Subscriber Only',
+      code_language_not_support_by_blocks: 'Not Supported with Blocks',
     },
 
     char_customization_modal: {
