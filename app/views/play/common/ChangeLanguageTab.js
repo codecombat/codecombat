@@ -13,6 +13,12 @@ const template = require('app/templates/play/common/change-language-tab')
 const { me } = require('core/auth')
 const utils = require('core/utils')
 
+const CODE_FORMAT_ALL = ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']
+const CODE_FORMAT_BLOCKS = ['blocks-and-code', 'blocks-text', 'blocks-icons']
+const CODE_FORMAT_IPAD = ['blocks-text', 'blocks-icons']
+const CODE_FORMAT_TEXT = ['text-code', 'blocks-and-code']
+const JUNIOR_LANGUAGES = ['python', 'javascript']
+
 let ChangeLanguageTab
 module.exports = (ChangeLanguageTab = (function () {
   ChangeLanguageTab = class ChangeLanguageTab extends CocoView {
@@ -109,7 +115,7 @@ module.exports = (ChangeLanguageTab = (function () {
       const classroomFormats = this.options?.classroomAceConfig?.codeFormats
       // non-junior should only have text-code
       if (this.isJunior) {
-        if (['python', 'javascript'].includes(this.codeLanguage)) {
+        if (JUNIOR_LANGUAGES.includes(this.codeLanguage)) {
           if (me.isStudent()) {
             if (classroomFormats?.length) {
               if (classroomFormats.length > 1 || classroomFormats[0] !== 'text-code') {
@@ -125,16 +131,16 @@ module.exports = (ChangeLanguageTab = (function () {
       }
 
       if (onlyText) {
-        ['blocks-and-code', 'blocks-text', 'blocks-icons'].forEach(format => {
+        CODE_FORMAT_BLOCKS.forEach(format => {
           this.codeFormatObject[format].disabled = true
-          this.codeFormatObject[format].reason = 'not supported'
+          this.codeFormatObject[format].reason = $.i18n.t('choose_hero.code_format_not_supported')
         })
       } else {
         if (me.isStudent() && classroomFormats.length) {
-          ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons'].forEach(format => {
+          CODE_FORMAT_ALL.forEach(format => {
             if (!classroomFormats.includes(format)) {
               this.codeFormatObject[format].disabled = true
-              this.codeFormatObject[format].reason = 'disabled by teacher'
+              this.codeFormatObject[format].reason = $.i18n.t('choose_hero.code_format_disable_by_teacher')
             }
           })
         }
@@ -142,10 +148,10 @@ module.exports = (ChangeLanguageTab = (function () {
 
       // todo: better check mobile
       if (application.isIPadApp) {
-        Array.from(['text-code', 'blocks-and-code']).forEach(format => {
+        CODE_FORMAT_TEXT.forEach(format => {
           this.codeFormatObject[format].disabled = true
         })
-        Array.from(['blocks-text', 'blocks-icons']).forEach(format => {
+        CODE_FORMAT_IPAD.forEach(format => {
           this.codeFormatObject[format].disabled = false
         })
       }
@@ -184,13 +190,13 @@ module.exports = (ChangeLanguageTab = (function () {
         if (!premium) {
           Array.from(['cpp', 'java']).forEach(language => {
             this.codeLanguageObject[language].disabled = true
-            this.codeLanguageObject[language].reason = 'Subscriber Only'
+            this.codeLanguageObject[language].reason = $.i18n.t('choose_hero.code_language_subscriber_only')
           })
         }
         if (this.codeFormat !== 'text-code') {
           Array.from(['lua', 'cpp', 'java']).forEach(language => {
             this.codeLanguageObject[language].disabled = true
-            this.codeLanguageObject[language].reason = 'Not supported with blocks'
+            this.codeLanguageObject[language].reason = $.i18n.t('choose_hero.code_language_not_support_by_blocks')
           })
         }
       } else {

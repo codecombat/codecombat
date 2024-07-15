@@ -33,7 +33,7 @@ module.exports = class VerifierTest extends CocoClass {
     if (this.language == null) { this.language = 'python' }
     this.userCodeProblems = []
 
-    this.checkClampedProperties = utils.getQueryVariable('check_prop') || false
+    this.checkClampedProperties = utils.getQueryVariable('check_prop') || options.enableFuzzyVerifier || false
     this.checkPropKeys = ['maxHealth', 'maxSpeed', 'attackDamage', 'maxxSpeed', 'maxxAttackDamage']
     this.checkPropIndex = 0
     this.clampedProperties = {
@@ -155,7 +155,7 @@ module.exports = class VerifierTest extends CocoClass {
     } else {
       this.clampedProperties[prop].current = parseInt((this.clampedProperties[prop].lower + this.clampedProperties[prop].upper) / 2)
     }
-    console.log(prop, 'new current: ', this.clampedProperties[prop].current)
+    console.log(prop, 'new current: ', this.clampedProperties[prop].current, ' in (', this.clampedProperties[prop].lower, ',', this.clampedProperties[prop].upper, ')')
     // let find min first
 
     level.recommendedHealth = this.originalLevel.recommendedHealth
@@ -267,7 +267,7 @@ module.exports = class VerifierTest extends CocoClass {
       const prop = this.checkPropKeys[this.checkPropIndex]
       if (this.clampedProperties[prop].upper > this.clampedProperties[prop].lower) {
         const mid = this.clampedProperties[prop].current
-        if (this.isSuccessful()) {
+        if (this.isSuccessful(false)) {
           if (this.clampedProperties[prop].check === 'min') {
             if (this.clampedProperties[prop].current === this.clampedProperties[prop].lower) {
               console.log('min value is working, exit')
@@ -280,7 +280,7 @@ module.exports = class VerifierTest extends CocoClass {
               console.log('max value is working, exit')
               return this.checkClampedRoundFinish()
             } else {
-              this.clampedProperties[prop].lower = mid
+              this.clampedProperties[prop].lower = mid + 1
             }
           }
         } else {
@@ -288,12 +288,12 @@ module.exports = class VerifierTest extends CocoClass {
           if (this.clampedProperties[prop].check === 'min') {
             this.clampedProperties[prop].lower = mid + 1
           } else {
-            this.clampedProperties[prop].upper = mid - 1
+            this.clampedProperties[prop].upper = mid
           }
         }
         return setTimeout(this.load, 500)
       } else {
-        if (!this.isSuccessful()) {
+        if (!this.isSuccessful(false)) {
           this.state = 'error'
           this.error = 'Could not find a solution within the clamped properties'
           console.log("error, couldn't find a solution within the clamped properties")
@@ -322,11 +322,8 @@ module.exports = class VerifierTest extends CocoClass {
   }
 
   printClampedPropertiesResult () {
-    console.log('==============================================')
-    console.log('find a solution within the clamped properties  for level: ', this.level.get('slug'))
-    console.log('current clamped properties:', this.level.get('clampedProperties'))
-
     const clampedProperties = {}
+    let hasSuggestion = false
     for (const prop in this.clampedProperties) {
       if (prop === 'inited') {
         continue
@@ -334,12 +331,19 @@ module.exports = class VerifierTest extends CocoClass {
       const trueProp = this.clampedProperties[prop].prop
       const check = this.clampedProperties[prop].check
       if (this.clampedProperties[prop].change) {
+        hasSuggestion = true
         clampedProperties[trueProp] = clampedProperties[trueProp] || {}
         clampedProperties[trueProp][check] = this.clampedProperties[prop].current
       }
     }
-    console.log('suggested adding properties as:', clampedProperties)
-    console.log('==============================================')
+
+    if (hasSuggestion) {
+      console.log('==============================================')
+      console.log('find a solution within the clamped properties  for level: ', this.level.get('slug'))
+      console.log('current clamped properties:', this.level.get('clampedProperties'))
+      console.log('suggested adding properties as:', clampedProperties)
+      console.log('==============================================')
+    }
   }
 
   cleanup () {
