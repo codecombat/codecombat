@@ -205,7 +205,7 @@ export default Vue.extend({
     },
   },
 
-  mounted () {
+  async mounted () {
     this.newClassName = this.classroomName
     this.newLiveCompletion = this.liveCompletion
     this.newClassroomItems = this.classroomItems
@@ -229,6 +229,7 @@ export default Vue.extend({
     if (this.language) {
       this.newProgrammingLanguage = this.language
     }
+    await this.fetchCourses()
   },
 
   methods: {
@@ -236,7 +237,8 @@ export default Vue.extend({
       updateClassroom: 'classrooms/updateClassroom',
       createClassroom: 'classrooms/createClassroom',
       fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers',
-      createFreeCourseInstances: 'courseInstances/createFreeCourseInstances'
+      createFreeCourseInstances: 'courseInstances/createFreeCourseInstances',
+      fetchCourses: 'courses/fetchReleased'
     }),
     updateGrades (event) {
       const grade = event.target.name

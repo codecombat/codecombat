@@ -1269,7 +1269,7 @@ module.exports = {
       inventory_caption: 'Equip your hero',
       choose_hero_caption: 'Choose hero, language',
       change_langugae_caption: 'Choose language',
-      change_language_tab: 'Language',
+      change_language_tab: 'Code Format',
       options_caption: 'Configure settings',
       my_code_caption: 'Quick Code Actions',
       guide_caption: 'Docs and tips',
@@ -1528,7 +1528,11 @@ module.exports = {
       speed_2: 'meters per second.',
       available_for_purchase: 'Available for Purchase', // Shows up when you have unlocked, but not purchased, a hero in the hero store
       level_to_unlock: 'Level to unlock:', // Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
-      restricted_to_certain_heroes: 'Only certain heroes can play this level.'
+      restricted_to_certain_heroes: 'Only certain heroes can play this level.',
+      code_format_not_supported: 'Not Supported',
+      code_format_disable_by_teacher: 'Disabled by Teacher',
+      code_language_subscriber_only: 'Subscriber Only',
+      code_language_not_support_by_blocks: 'Not Supported with Blocks',
     },
 
     char_customization_modal: {
@@ -5516,6 +5520,7 @@ module.exports = {
       testimonials_3_name: 'Steve Kong',
       testimonials_3_title: 'Instructional Services Specialist, Riverside Unified School District',
       testimonials_4_quote: '“One thing I am able to do now that I could not do before is actually believe I can code.”',
+      testimonials_4_name: '',
       testimonials_4_title: 'Mountain Ridge Middle School Student',
       testimonials_5_quote: '“CodeCombat has transformed how I teach coding...I utilize the great teacher resources including Curriculum Guides, Project Guides, and Solutions. Using CodeCombat has helped me to teach fairly advanced concepts in a way the students enjoy and understand. What I love the most about CodeCombat is that it does not simplify coding. The students are learning to write actual code, yet doing it in such a way that they are having fun.”',
       testimonials_5_name: 'Sandra Ahlstrom',
@@ -6101,7 +6106,7 @@ module.exports = {
       what_create: 'What will you create?',
       access_guidebook: 'Access Guidebook',
       guidebook_description: 'Everything you need to know to get started',
-      faq_1_question: 'Do I need to know Luau or Roblox Studio?',
+      faq_1_question: 'Do I need to know Lua or Roblox Studio?',
       faq_1_answer: 'No. This experience will allow anyone to play, code and create from the very start of their adventure, without any coding experience.',
       faq_2_question: 'Can I create my own games?',
       faq_2_answer: 'Yes. Game development is at the core of this experience and after completing the essential learning levels you will have the opportunity to create your own.',

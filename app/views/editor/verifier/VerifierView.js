@@ -62,10 +62,11 @@ module.exports = (VerifierView = (function () {
       this.cores = window.navigator.hardwareConcurrency || 4
       this.careAboutFrames = utils.getQueryVariable('frames', true)
 
+      this.testLanguages = (utils.getQueryVariable('languages') || 'python,javascript,java,cpp,lua,coffeescript').split(',')
+      this.codeLanguages = this.testLanguages.map((c) => ({ id: c, checked: true }))
+
       if (this.levelID) {
         this.levelIDs = [this.levelID]
-        this.testLanguages = (utils.getQueryVariable('languages') || 'python,javascript,java,cpp,lua,coffeescript').split(',')
-        this.codeLanguages = this.testLanguages.map((c) => ({ id: c, checked: true }))
         this.cores = 1
         this.startTestingLevels()
       } else {
@@ -143,6 +144,13 @@ module.exports = (VerifierView = (function () {
         } else {
           codeLanguage.checked = false
         }
+      }
+
+      this.enableFuzzy = this.$('#enable-fuzzy-verifier').is(':checked')
+      if (this.enableFuzzy) {
+        this.skip = this.$('#fuzzy-batch-skip').val() || 0
+        this.limit = this.$('#fuzzy-batch-limit').val() || 1
+        this.levelIDs = this.levelIDs.splice(this.skip, this.limit)
       }
       return this.startTestingLevels()
     }
@@ -237,7 +245,7 @@ module.exports = (VerifierView = (function () {
                 return next()
               }
             }
-            , chunkSupermodel, task.language, { solution: task.solution })
+            , chunkSupermodel, task.language, { solution: task.solution, enableFuzzyVerifier: this.enableFuzzy })
             this.tests.push(test)
             if (this.testsByLevelAndLanguage[task.level] == null) { this.testsByLevelAndLanguage[task.level] = {} }
             if (this.testsByLevelAndLanguage[task.level][task.language] == null) { this.testsByLevelAndLanguage[task.level][task.language] = [] }

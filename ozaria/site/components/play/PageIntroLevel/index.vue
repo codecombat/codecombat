@@ -149,7 +149,8 @@ export default Vue.extend({
     },
     fetchLevelNumber () {
       this.generateLevelNumberMap({
-        campaignId: this.campaignId
+        campaignId: this.campaignId,
+        language: this.language
       }).then(() => {
         this.levelNumber = this.getLevelNumber(this.introLevelData.original)
       })

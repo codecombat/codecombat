@@ -732,7 +732,8 @@ module.exports = class World
     return unless level.constrainHeroHealth
     hero = _.find @thangs, id: 'Hero Placeholder'
     if hero?
-      for prop, {min, max} of level.clampedProperties ? {}
+      for prop, {min, max, test} of level.clampedProperties ? {}
+        hero[prop] = test if test?
         hero[prop] = Math.min(hero[prop], max) if max?
         hero[prop] = Math.max(hero[prop], min) if min?
         hero.keepTrackedProperty prop

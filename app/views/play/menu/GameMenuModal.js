@@ -69,7 +69,7 @@ module.exports = (GameMenuModal = (function () {
         options: 'cog',
         'save-load': 'floppy-disk',
       }
-      if (!this.showsChooseHero() && this.showsChangeLanguage()) {
+      if (!this.showsChooseHero()) {
         submenus.push('change-language')
         context.iconMap['change-language'] = 'globe'
       }
@@ -84,16 +84,10 @@ module.exports = (GameMenuModal = (function () {
 
     showsChooseHero () {
       const useHero = this.level.usesSessionHeroThangType()
-      if (this.classroomAceConfig) {
-        return this.classroomAceConfig.classroomItems && useHero
-      }
+      // if (this.classroomAceConfig) {
+      //   return this.classroomAceConfig.classroomItems && useHero
+      // }
       return useHero
-    }
-
-    showsChangeLanguage () {
-      // web-dev change language do nothing
-      // student cannot change language unless they're playing ai-leauge ladder
-      return !this.level.isType('web-dev') && !(me.isStudent() && !this.level.isType('ladder'))
     }
 
     afterRender () {
