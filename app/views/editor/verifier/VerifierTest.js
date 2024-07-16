@@ -50,6 +50,14 @@ module.exports = class VerifierTest extends CocoClass {
   load () {
     this.supermodel.resetProgress()
     this.loadStartTime = new Date()
+    if (this.levelLoader) {
+      this.stopListening(this.levelLoader)
+      this.levelLoader.destroy()
+    }
+    if (this.god) {
+      this.stopListening(this.god)
+      this.god.destroy()
+    }
     this.god = new God({ maxAngels: 1, headless: true })
     this.levelLoader = new LevelLoader({ supermodel: this.supermodel, levelID: this.levelID, headless: true, fakeSessionConfig: { codeLanguage: this.language, callback: this.configureSession } })
     this.listenToOnce(this.levelLoader, 'world-necessities-loaded', function () { return _.defer(this.onWorldNecessitiesLoaded) })
@@ -342,6 +350,8 @@ module.exports = class VerifierTest extends CocoClass {
       console.log('find a solution within the clamped properties  for level: ', this.level.get('slug'))
       console.log('current clamped properties:', this.level.get('clampedProperties'))
       console.log('suggested adding properties as:', clampedProperties)
+      this.fuzzyResults = clampedProperties
+      this.reportResults()
       console.log('==============================================')
     }
   }
