@@ -2165,6 +2165,10 @@ ${problem.category} - ${problem.score} points\
         return userUtils.libraryName() === 'okanagan-library'
       }
 
+      if (what === 'east-baton-library-logo') {
+        return userUtils.libraryName() === 'east-baton-library'
+      }
+
       if (what === 'league-arena') {
         // Note: Currently the tooltips don't work in the campaignView overworld.
         return !me.isAnonymous() && (this.campaign != null ? this.campaign.get('slug') : undefined) && !this.editorMode && !userUtils.isCreatedViaLibrary()
