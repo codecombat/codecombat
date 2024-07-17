@@ -252,7 +252,7 @@ module.exports = (VerifierView = (function () {
             this.testsByLevelAndLanguage[task.level][task.language].push(test)
             this.renderSelectors(`.tasks-group[data-task-slug='${task.level}'][data-task-language='${task.language}']`)
             this.renderSelectors('.verifier-row')
-            return this.renderSelectors('.progress')
+            this.renderSelectors('.progress')
           }
           , () => {
             if (!this.testsRemaining()) {
