@@ -623,17 +623,17 @@ export default Vue.extend({
                 <span>{{ codeFormat.name }}</span>
               </label>
               <span class="help-block small text-navy">{{ $t("teachers.code_formats_description") }}</span>
-              <p class="help-block small text-navy">
-                {{ $t("teachers.code_formats_text") }}
+              <p
+                v-if="!enableBlocks"
+                class="help-block small text-navy"
+              >
+                {{ $t("teachers.code_formats_disabled_by", { language: codeLanguageObject[newProgrammingLanguage]?.name }) }}
               </p>
               <p class="help-block small text-navy">
-                {{ $t("teachers.code_formats_block_text") }}
+                {{ $t('teachers.code_formats_mobile') }}
               </p>
               <p class="help-block small text-navy">
-                {{ $t("teachers.code_formats_block") }}
-              </p>
-              <p class="help-block small text-navy">
-                {{ $t("teachers.code_formats_block_icon") }}
+                {{ $t('teachers.code_formats_fallback') }}
               </p>
             </div>
           </div>
@@ -1170,5 +1170,8 @@ export default Vue.extend({
   .initial-course-name {
     font-size: 0.85em;
   }
+}
+p.help-block {
+  margin-bottom: 0;
 }
 </style>
