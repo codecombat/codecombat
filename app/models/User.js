@@ -1069,6 +1069,10 @@ module.exports = (User = (function () {
       return value
     }
 
+    getRobloxPageExperimentValue () {
+      return this.getFilteredExperimentValue({ experimentName: 'roblox-page-filtered' })
+    }
+
     getHomePageExperimentValue () {
       return this.getFilteredExperimentValue({ experimentName: 'home-page-filtered' })
     }

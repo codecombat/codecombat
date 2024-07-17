@@ -289,7 +289,15 @@ export default function getVueRouter () {
         },
         {
           path: '/roblox',
-          component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox'),
+          ...(
+            me.getRobloxPageExperimentValue() === 'control'
+              ? {
+                  component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox'),
+                }
+              : {
+                  component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/NewPageRoblox'),
+                }
+          ),
           meta: { theme: 'teal' }
         },
         {
