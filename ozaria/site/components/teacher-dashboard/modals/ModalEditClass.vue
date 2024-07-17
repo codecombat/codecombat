@@ -136,7 +136,7 @@ export default Vue.extend({
       if (this.classroomInstance.isNew()) {
         return this.newInitialFreeCourses.includes(utils.courseIDs.JUNIOR)
       } else {
-        return this.getCourseInstances(this.classroomInstance._id).some(ci => ci.courseID === utils.courseIDs.JUNIOR_COURSE)
+        return this.getCourseInstances(this.classroomInstance._id)?.some(ci => ci.courseID === utils.courseIDs.JUNIOR_COURSE)
       }
     },
     codeLanguageObject () {
@@ -168,7 +168,7 @@ export default Vue.extend({
       return Object.values(languages)
     },
     enabledCodeFormats () {
-      return this.availableCodeFormats.filter(cf => !cf.disabled)
+      return this.availableCodeFormats.filter(cf => !cf.disabled && this.newCodeFormats.includes(cf.id))
     },
     codeFormats () {
       // Later, we can turn everything on by default
@@ -228,9 +228,8 @@ export default Vue.extend({
         })
       }
     },
-    enabledCodeFormats () {
-      console.log()
-      const ava = this.enabledCodeFormats.map(cf => cf.id)
+    availableCodeFormats () {
+      const ava = this.availableCodeFormats.filter(cf => !cf.disabled).map(cf => cf.id)
       this.newCodeFormats = this.newCodeFormats.filter(cf => ava.includes(cf))
       if (!this.newCodeFormats.includes(this.newCodeFormatDefault)) {
         this.newCodeFormatDefault = this.newCodeFormats[0]
