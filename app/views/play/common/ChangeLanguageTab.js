@@ -89,7 +89,7 @@ module.exports = (ChangeLanguageTab = (function () {
           this.codeFormatObject[format].reason = $.i18n.t('choose_hero.code_format_not_supported')
         })
       } else {
-        if (me.isStudent() && classroomFormats.length) {
+        if (me.isStudent() && classroomFormats?.length) {
           CODE_FORMAT_ALL.forEach(format => {
             if (!classroomFormats.includes(format)) {
               this.codeFormatObject[format].disabled = true

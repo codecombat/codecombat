@@ -254,10 +254,10 @@ export default Vue.extend({
     this.classGrades = this.classroom.grades || []
     if (!this.classroomInstance.isNew()) {
       this.moreOptions = true
+      await this.fetchCourseInstances(this.classroomInstance._id)
     } else if (utils.isCodeCombat) {
       this.newClassroomItems = this.cocoDefaultClassroomItems
       this.newLevelChat = this.cocoDefaultLevelChat
-      await this.fetchCourseInstances(this.classroomInstance._id)
     }
     if (this.language) {
       this.newProgrammingLanguage = this.language
