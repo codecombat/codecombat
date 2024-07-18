@@ -27,7 +27,8 @@ export default {
   data: () => {
     return {
       showCurriculumPromotion: false,
-      curriculumPromoClicked: false
+      curriculumPromoClicked: false,
+      hackstackModalVisibility: false,
     }
   },
 
@@ -135,6 +136,13 @@ export default {
     },
     unhighlightCurriculumPromotion () {
       this.showCurriculumPromotion = false
+    },
+    hackstackModalShowing () {
+      this.hackstackModalVisibility = true
+    },
+    hackstackModalClose () {
+      console.log('hackstack close')
+      this.hackstackModalVisibility = false
     }
   }
 }
@@ -249,11 +257,11 @@ export default {
         </li>
       </ul>
     </li>
-    <li :class="{ 'modal-highlight': showCurriculumPromotion }">
+    <li :class="{ 'modal-highlight': showCurriculumPromotion && !hackstackModalVisibility }">
       <router-link
         id="CurriculumAnchor"
         to="/teachers/curriculum"
-        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') || showCurriculumPromotion }"
+        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') || (showCurriculumPromotion && !hackstackModalVisibility) }"
         data-action="Curriculum Guide: Nav Clicked"
         @click.native="onCurriculumClicked"
       >
@@ -434,12 +442,14 @@ export default {
     <ModalCurriculumPromotion
       :curriculum-clicked="curriculumPromoClicked"
       @show="highlightCurriculum"
-      @hide="unhighlightCurriculumPromotion"
+      @close="unhighlightCurriculumPromotion"
     />
     <ModalHackStackBeta
       v-if="showHackStack"
       :href="hackStackClassrooms.length>0 ? `/teachers/hackstack-classes/${hackStackClassrooms[0]._id}` : '#'"
       @tryClicked="hackstackClicked"
+      @show="hackstackModalShowing"
+      @close="hackstackModalClose"
     />
   </ul>
 </template>

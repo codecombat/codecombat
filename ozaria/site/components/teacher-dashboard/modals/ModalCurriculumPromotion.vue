@@ -42,7 +42,7 @@ export default Vue.extend({
     },
     onClose () {
       this.showModal = false
-      this.$emit('hide')
+      this.$emit('close')
     }
   }
 })
