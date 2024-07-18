@@ -30,3 +30,12 @@
     line-height: 2rem;
   }
 }
+
+.btn-teal {
+    background-color: #1FBAB4;
+    color: $gray;
+    &:hover {
+      background-color: #2DCEC8;
+      transition: background-color .35s;
+    }
+}
