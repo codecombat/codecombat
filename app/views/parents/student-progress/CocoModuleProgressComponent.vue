@@ -77,8 +77,10 @@ export default {
   },
   methods: {
     getIconType (level) {
-      if (level.kind === 'practice' || level.practice !== false) return 'practicelvl'
-      return (['hero', 'hero-ladder', 'game-dev'].includes(level.type) ? 'challengelvl' : (level.type || 'challengelvl'))
+      if (level.kind === 'challenge' || level.assessment) {
+        return 'challengelvl'
+      }
+      return 'practicelvl'
     },
     formatDescription (desc) {
       if (!desc) return ''
