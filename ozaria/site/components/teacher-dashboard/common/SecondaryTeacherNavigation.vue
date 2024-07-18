@@ -4,10 +4,12 @@ import utils from 'core/utils'
 import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
 import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
 import ModalHackStackBeta from 'ozaria/site/components/teacher-dashboard/modals/ModalHackStackBeta.vue'
+import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 
 export default {
   components: {
     DashboardToggle,
+    ModalCurriculumPromotion,
     ModalHackStackBeta
   },
 
@@ -19,6 +21,13 @@ export default {
     classrooms: {
       type: Array,
       default: () => []
+    }
+  },
+
+  data: () => {
+    return {
+      showCurriculumPromotion: false,
+      curriculumPromoClicked: false
     }
   },
 
@@ -97,6 +106,14 @@ export default {
       this.$store.commit('teacherDashboard/setSelectedCourseIdCurrentClassroom', { courseId: utils.courseIDs.HACKSTACK })
     },
 
+    onCurriculumClicked (e) {
+      if (this.showCurriculumPromotion) {
+        this.curriculumPromoClicked = true
+        this.unhighlightCurriculumPromotion()
+      }
+      this.trackEvent(e)
+    },
+
     trackEvent (e) {
       const eventName = e.target.dataset.action
       const eventLabel = e.target.dataset.label
@@ -112,6 +129,12 @@ export default {
       if (this.hackStackClassrooms.length === 0) {
         noty({ text: $.i18n.t('teacher_dashboard.create_class_hackstack'), type: 'warning', layout: 'center', timeout: 5000 })
       }
+    },
+    highlightCurriculum () {
+      this.showCurriculumPromotion = true
+    },
+    unhighlightCurriculumPromotion () {
+      this.showCurriculumPromotion = false
     }
   }
 }
@@ -226,13 +249,13 @@ export default {
         </li>
       </ul>
     </li>
-    <li>
+    <li :class="{ 'modal-highlight': showCurriculumPromotion }">
       <router-link
         id="CurriculumAnchor"
         to="/teachers/curriculum"
-        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') }"
+        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') || showCurriculumPromotion }"
         data-action="Curriculum Guide: Nav Clicked"
-        @click.native="trackEvent"
+        @click.native="onCurriculumClicked"
       >
         <div id="IconCurriculum" />
         {{ $t('teacher_dashboard.curriculum') }}
@@ -408,6 +431,11 @@ export default {
         reload-location="/teachers/classes"
       />
     </li>
+    <ModalCurriculumPromotion
+      :curriculum-clicked="curriculumPromoClicked"
+      @show="highlightCurriculum"
+      @hide="unhighlightCurriculumPromotion"
+    />
     <ModalHackStackBeta
       v-if="showHackStack"
       :href="hackStackClassrooms.length>0 ? `/teachers/hackstack-classes/${hackStackClassrooms[0]._id}` : '#'"
@@ -726,7 +754,12 @@ li.open > #AILeague,
       color: #979797;
       cursor: default;
     }
+
   }
+}
+
+.modal-highlight {
+  z-index: 10000;
 }
 
 .dashboard-toggle {
