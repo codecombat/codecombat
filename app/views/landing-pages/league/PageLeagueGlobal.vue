@@ -544,7 +544,7 @@ export default {
         <div>
           <img
             class="ai-league-logo"
-            src="/images/pages/league/hyperx-cobranded-logo-1.png"
+            src="/images/pages/league/logo_badge.png"
           >
         </div>
       </div>
@@ -649,7 +649,7 @@ export default {
     </div>
 
     <section
-      v-if="currentSelectedClanName === 'HyperX'"
+      v-if="false && currentSelectedClanName === 'HyperX'"
       class="row text-center partner-banner"
     >
       <div class="col-sm-12">
@@ -956,10 +956,13 @@ export default {
     <div class="row prize-section">
       <div class="prize-section__heading subheader1">
         <h1 class="prize-section__heading-text esports-pink">
-          <span class="esports-aqua">{{ $t('league.you_win') }}</span> {{ $t('league.great_prizes') }}
+          <span class="esports-aqua">{{ $t('league.code_your_way') }}</span> {{ $t('league.to_win_the_price') }}
         </h1>
       </div>
-      <div class="prize-section__sponsor">
+      <div
+        v-if="false"
+        class="prize-section__sponsor"
+      >
         <div class="prize-section__sponsor-block">
           <span class="prize-section__sponsor-text">{{ $t('league.powered_by') }}</span>
           <img
@@ -973,11 +976,17 @@ export default {
         <div class="prize-section__info-1">
           {{ $t('league.grand_prize') }}: {{ $t('league.season1_prize_1') }}<span class="prize-section__small-top">1</span>
         </div>
-        <div class="prize-section__info-2">
+        <div
+          v-if="false"
+          class="prize-section__info-2"
+        >
           {{ $t('league.top_players_win') }} <span class="prize-section__small-top">2</span>
         </div>
       </div>
-      <div class="prize-section__winners clearfix">
+      <div
+        v-if="false"
+        class="prize-section__winners clearfix"
+      >
         <div class="prize-section__winners-container">
           <div class="col-sm-4 prize-section__winners-1 prize-section-box">
             <div class="prize-section__winners-text">
@@ -1034,14 +1043,20 @@ export default {
           </div>
         </div>
       </div>
-      <div class="prize-section__promo">
+      <div
+        v-if="false"
+        class="prize-section__promo"
+      >
         {{ $t('courses.join') }} <a
           href="/league/hyperx"
           class="prize-section__promo-link esports-aqua"
         >{{ $t('league.team_hyperx') }}</a>
         {{ $t('code.and') }} {{ $t('league.earn_more_gear') }}
       </div>
-      <div class="prize-section__footer">
+      <div
+        v-if="false"
+        class="prize-section__footer"
+      >
         <p class="prize-section__footer-text">
           <span class="prize-section__terms">1</span> {{ $t('league.prize_footer1') }}
         </p>
@@ -1545,8 +1560,9 @@ export default {
 
   .esports-header {
     .ai-league-logo {
-      width: 20vw;
-      max-width: 296px;
+      width: 15vw;
+      max-width: 206px;
+      margin-left: 60px;
     }
 
     &-powered-by {
@@ -1563,7 +1579,7 @@ export default {
       position: relative;
       top: 40px;
       left: calc(50% - 10vw);
-      width: 20vw;
+      width: 15vw;
     }
 
     .esports-header.section-space {
@@ -2061,7 +2077,7 @@ export default {
       padding: 30px;
 
       &-1 {
-        font-size: 45px;
+        font-size: 65px;
         padding-bottom: 10px;
       }
 
