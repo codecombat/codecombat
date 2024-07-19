@@ -83,7 +83,8 @@ export default Vue.extend({
   computed: {
     ...mapGetters({
       getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
-      courses: 'courses/sorted'
+      courses: 'courses/sorted',
+      getCourseInstances: 'courseInstances/getCourseInstancesOfClass'
     }),
     moreOptionsText () {
       const i18n = this.moreOptions ? 'hide_options' : 'more_options'
@@ -131,19 +132,43 @@ export default Vue.extend({
     classroomItems () {
       return (this.classroom || {}).classroomItems
     },
+    hasJunior () {
+      if (this.classroomInstance.isNew()) {
+        return this.newInitialFreeCourses.includes(utils.courseIDs.JUNIOR)
+      } else {
+        return this.getCourseInstances(this.classroomInstance._id)?.some(ci => ci.courseID === utils.courseIDs.JUNIOR_COURSE)
+      }
+    },
+    codeLanguageObject () {
+      return utils.getCodeLanguages()
+    },
+    codeFormatObject () {
+      return utils.getCodeFormats()
+    },
     enableBlocks () {
       return ['python', 'javascript', 'lua'].includes(this.newProgrammingLanguage || 'python')
     },
-    allCodeFormats () {
-      // TODO: only show blocks-icons if a Junior course is included
-      if (this.enableBlocks) {
-        return ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']
-      } else {
-        return ['text-code']
+    availableCodeFormats () {
+      const codeFormats = JSON.parse(JSON.stringify(this.codeFormatObject))
+      if (!this.hasJunior) {
+        codeFormats['blocks-icons'].disabled = true
       }
+      if (!this.enableBlocks) {
+        codeFormats['blocks-and-code'].disabled = true
+        codeFormats['blocks-text'].disabled = true
+      }
+      return Object.values(codeFormats)
+    },
+    availableLanguages () {
+      const languages = JSON.parse(JSON.stringify(this.codeLanguageObject))
+      // ozaria do not have these 2 langs
+      delete languages.coffeescript
+      delete languages.lua
+
+      return Object.values(languages)
     },
     enabledCodeFormats () {
-      return this.newCodeFormats
+      return this.availableCodeFormats.filter(cf => !cf.disabled && this.newCodeFormats.includes(cf.id))
     },
     codeFormats () {
       // Later, we can turn everything on by default
@@ -203,6 +228,13 @@ export default Vue.extend({
         })
       }
     },
+    availableCodeFormats () {
+      const ava = this.availableCodeFormats.filter(cf => !cf.disabled).map(cf => cf.id)
+      this.newCodeFormats = this.newCodeFormats.filter(cf => ava.includes(cf))
+      if (!this.newCodeFormats.includes(this.newCodeFormatDefault)) {
+        this.newCodeFormatDefault = this.newCodeFormats[0]
+      }
+    }
   },
 
   async mounted () {
@@ -222,6 +254,7 @@ export default Vue.extend({
     this.classGrades = this.classroom.grades || []
     if (!this.classroomInstance.isNew()) {
       this.moreOptions = true
+      await this.fetchCourseInstances(this.classroomInstance._id)
     } else if (utils.isCodeCombat) {
       this.newClassroomItems = this.cocoDefaultClassroomItems
       this.newLevelChat = this.cocoDefaultLevelChat
@@ -238,7 +271,8 @@ export default Vue.extend({
       createClassroom: 'classrooms/createClassroom',
       fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers',
       createFreeCourseInstances: 'courseInstances/createFreeCourseInstances',
-      fetchCourses: 'courses/fetchReleased'
+      fetchCourses: 'courses/fetchReleased',
+      fetchCourseInstances: 'courseInstances/fetchCourseInstancesForClassroom'
     }),
     updateGrades (event) {
       const grade = event.target.name
@@ -503,39 +537,6 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          class="form-group row language"
-          :class="{ 'has-error': $v.newProgrammingLanguage.$error }"
-        >
-          <div class="col-xs-12">
-            <label for="form-lang-item">
-              <span class="control-label"> {{ $t("teachers.programming_language") }} </span>
-            </label>
-            <select
-              id="form-lang-item"
-              v-model="$v.newProgrammingLanguage.$model"
-              class="form-control"
-              :class="{ 'placeholder-text': !newProgrammingLanguage }"
-              name="classLanguage"
-            >
-              <option
-                v-for="enabledLanguage in me.getEnabledLanguages()"
-                :key="enabledLanguage"
-                :value="enabledLanguage"
-              >
-                {{ capitalLanguages[enabledLanguage] }}
-                {{ enabledLanguage === 'java' ? ' (beta)' : '' }}
-              </option>
-            </select>
-            <span
-              v-if="!$v.newProgrammingLanguage.required"
-              class="form-error"
-            >
-              {{ $t("form_validation_errors.required") }}
-            </span>
-            <span class="help-block small text-navy"> {{ $t("teachers.programming_language_edit_desc_new") }} </span>
-          </div>
-        </div>
-        <div
           v-if="isCodeCombat && classroomInstance.isNew()"
           class="form-group row initial-free-courses"
         >
@@ -564,7 +565,41 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat && enableBlocks"
+          class="form-group row language"
+          :class="{ 'has-error': $v.newProgrammingLanguage.$error }"
+        >
+          <div class="col-xs-12">
+            <label for="form-lang-item">
+              <span class="control-label"> {{ $t("teachers.programming_language") }} </span>
+            </label>
+            <select
+              id="form-lang-item"
+              v-model="$v.newProgrammingLanguage.$model"
+              class="form-control"
+              :class="{ 'placeholder-text': !newProgrammingLanguage }"
+              name="classLanguage"
+            >
+              <option
+                v-for="enabledLanguage in availableLanguages"
+                :key="enabledLanguage.id"
+                :value="enabledLanguage.id"
+                :disabled="enabledLanguage.disabled"
+              >
+                {{ enabledLanguage.name }}
+              </option>
+            </select>
+            <span
+              v-if="!$v.newProgrammingLanguage.required"
+              class="form-error"
+            >
+              {{ $t("form_validation_errors.required") }}
+            </span>
+            <span class="help-block small text-navy"> {{ $t("teachers.programming_language_edit_desc_new") }} </span>
+          </div>
+        </div>
+
+        <div
+          v-if="isCodeCombat"
           class="form-group row code-format"
         >
           <div class="col-xs-12">
@@ -573,25 +608,38 @@ export default Vue.extend({
             </label>
             <div class="form-group">
               <label
-                v-for="codeFormat in allCodeFormats"
-                :key="codeFormat"
-                :value="codeFormat"
+                v-for="codeFormat in availableCodeFormats"
+                :key="codeFormat.id"
                 class="checkbox-inline"
+                :disabled="codeFormat.disabled"
               >
                 <input
                   v-model="newCodeFormats"
-                  :value="codeFormat"
+                  :value="codeFormat.id"
+                  :disabled="codeFormat.disabled"
                   name="codeFormats"
                   type="checkbox"
                 >
-                <span>{{ $t(`choose_hero.${codeFormat.replace(/-/g, '_')}`) }}</span>
+                <span>{{ codeFormat.name }}</span>
               </label>
               <span class="help-block small text-navy">{{ $t("teachers.code_formats_description") }}</span>
+              <p
+                v-if="!enableBlocks"
+                class="help-block small text-navy"
+              >
+                {{ $t("teachers.code_formats_disabled_by", { language: codeLanguageObject[newProgrammingLanguage]?.name }) }}
+              </p>
+              <p class="help-block small text-navy">
+                {{ $t('teachers.code_formats_mobile') }}
+              </p>
+              <p class="help-block small text-navy">
+                {{ $t('teachers.code_formats_fallback') }}
+              </p>
             </div>
           </div>
         </div>
         <div
-          v-if="isCodeCombat && enableBlocks"
+          v-if="isCodeCombat"
           class="form-group row default-code-format"
         >
           <div class="col-xs-12">
@@ -606,10 +654,10 @@ export default Vue.extend({
             >
               <option
                 v-for="codeFormat in enabledCodeFormats"
-                :key="codeFormat"
-                :value="codeFormat"
+                :key="codeFormat.id"
+                :value="codeFormat.id"
               >
-                {{ $t(`choose_hero.${codeFormat.replace(/-/g, '_')}`) }}
+                {{ codeFormat.name }}
               </option>
             </select>
             <span class="help-block small text-navy">{{ $t("teachers.default_code_format_description") }}</span>
@@ -1122,5 +1170,8 @@ export default Vue.extend({
   .initial-course-name {
     font-size: 0.85em;
   }
+}
+p.help-block {
+  margin-bottom: 0;
 }
 </style>

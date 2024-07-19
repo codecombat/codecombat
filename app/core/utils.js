@@ -2452,6 +2452,52 @@ const isMobile = () => {
   return mobileRELong.test(ua) || mobileREShort.test(ua.substr(0, 4))
 }
 
+module.exports.getCodeLanguages = () => ({
+  python: {
+    id: 'python',
+    name: `Python (${$.i18n.t('choose_hero.default')})`
+  },
+  javascript: {
+    id: 'javascript',
+    name: 'JavaScript'
+  },
+  coffeescript: {
+    id: 'coffeescript',
+    name: 'CoffeeScript'
+  },
+  lua: {
+    id: 'lua',
+    name: 'Lua'
+  },
+  cpp: {
+    id: 'cpp',
+    name: 'C++'
+  },
+  java: {
+    id: 'java',
+    name: `Java (${$.i18n.t('choose_hero.experimental')})`
+  }
+})
+
+module.exports.getCodeFormats = () => ({
+  'text-code': {
+    id: 'text-code',
+    name: `${$.i18n.t('choose_hero.text_code')} (${$.i18n.t('choose_hero.default')})`
+  },
+  'blocks-and-code': {
+    id: 'blocks-and-code',
+    name: `${$.i18n.t('choose_hero.blocks_and_code')}`
+  },
+  'blocks-text': {
+    id: 'blocks-text',
+    name: `${$.i18n.t('choose_hero.blocks_text')}`
+  },
+  'blocks-icons': {
+    id: 'blocks-icons',
+    name: `${$.i18n.t('choose_hero.blocks_icons')}`
+  }
+})
+
 module.exports = {
   ...module.exports,
   activeAndPastArenas,
