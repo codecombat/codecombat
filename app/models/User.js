@@ -1299,8 +1299,14 @@ module.exports = (User = (function () {
       if (testStudentRelation) {
         return Promise.resolve(testStudentRelation.userId)
       } else {
-        return this.createTestStudentAccount().then(response => {
-          return response.relatedUserId
+        return new Promise((resolve, reject) => {
+          try {
+            this.createTestStudentAccount().then(response => {
+              resolve(response.relatedUserId)
+            })
+          } catch (e) {
+            reject(e)
+          }
         })
       }
     }
