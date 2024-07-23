@@ -141,7 +141,6 @@ export default {
       this.hackstackModalVisibility = true
     },
     hackstackModalClose () {
-      console.log('hackstack close')
       this.hackstackModalVisibility = false
     }
   }

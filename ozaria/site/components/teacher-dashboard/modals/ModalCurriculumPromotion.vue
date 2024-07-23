@@ -19,21 +19,23 @@ export default Vue.extend({
     }
   },
   computed: {
-    isOld () {
+    showToOldUsers () {
       const twoDaysAgo = new Date(new Date() - 2 * 24 * 60 * 60 * 1000)
-      return new Date(me.get('dateCreated')) < twoDaysAgo
+      const dateCreated = new Date(me.get('dateCreated'))
+      return dateCreated < twoDaysAgo && dateCreated <= new Date('2024-08-07')
     }
   },
   watch: {
     curriculumClicked (newVal, oldVal) {
       if (newVal) {
         this.showModal = false
+        this.$refs.modal.close()
       }
     },
   },
   methods: {
     onShow () {
-      if (this.isOld) {
+      if (this.showToOldUsers) {
         this.showModal = true
         this.$emit('show')
       } else {
@@ -61,7 +63,7 @@ export default Vue.extend({
       <template #content>
         <div class="modal-content-container">
           <img
-            src="/images/common/modal/curriculum-guide-screenshot.png"
+            src="/images/common/modal/curriculum-guide-screenshot.webp"
             :alt="$t('teachers.dashboard_update')"
           >
           <p class="text-p">
@@ -69,7 +71,7 @@ export default Vue.extend({
           </p>
           <img
             class="arrow-img"
-            src="/images/common/modal/right-arrow.png"
+            src="/images/common/modal/right-arrow.webp"
             :alt="$t('teachers.dashboard_update')"
           >
         </div>
