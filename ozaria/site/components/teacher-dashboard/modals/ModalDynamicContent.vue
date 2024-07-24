@@ -20,10 +20,14 @@ export default Vue.extend({
       required: false
     },
     seenPromotionsProperty: {
+      // reference to user.seenPromotions property
+      // the value passed here should be added to
+      // possible props of user.seenPromotions object.
       validator: function (value) {
         return typeof value === 'string' || value === null
       },
-      required: true
+      required: false,
+      default: null
     },
     cocoOnly: {
       type: Boolean,

@@ -1,6 +1,18 @@
 const path = require('path')
 const webpack = require('webpack');
 
+function insertAfterUse(content, importStatement) {
+  if (content.includes('@use')) {
+    const indexOfUse = content.indexOf('@use');
+    const endOfUseStatement = content.indexOf('\n', indexOfUse);
+    const beforeUse = content.slice(0, endOfUseStatement);
+    const afterUse = content.slice(endOfUseStatement);
+    return `${beforeUse}\n${importStatement}\n${afterUse}`;
+  } else {
+    return `${importStatement}\n${content}`;
+  }
+}
+
 module.exports = function ({ config }) {
   // Add support for sass style in Vue components.
   config.module.rules.push({
@@ -22,17 +34,9 @@ module.exports = function ({ config }) {
             includePaths: ['./node_modules'],
           },
           additionalData: (content, loaderContext) => {
-            const { resourcePath } = loaderContext;
-            if (content.includes('@use')) {
-              const indexOfUse = content.indexOf('@use');
-              const endOfUseStatement = content.indexOf('\n', indexOfUse);
-              const beforeUse = content.slice(0, endOfUseStatement);
-              const afterUse = content.slice(endOfUseStatement);
-              return `${beforeUse}\n@import "./.storybook/temp.sass"\n${afterUse}`;
-            } else {
-              return `@import "./.storybook/temp.sass"\n${content}`;
-            }
-          },        }
+            return insertAfterUse(content, '@import "./.storybook/temp.sass"')
+          },        
+        }
       }
     ],
   });
@@ -52,16 +56,7 @@ module.exports = function ({ config }) {
         options: {
           implementation: require("sass"),
           additionalData: (content, loaderContext) => {
-            const { resourcePath } = loaderContext;
-            if (content.includes('@use')) {
-              const indexOfUse = content.indexOf('@use');
-              const endOfUseStatement = content.indexOf('\n', indexOfUse);
-              const beforeUse = content.slice(0, endOfUseStatement);
-              const afterUse = content.slice(endOfUseStatement);
-              return `${beforeUse}@import "./.storybook/temp.scss"; ${afterUse}`;
-            } else {
-              return `@import "./.storybook/temp.scss"; ${content}`;
-            }
+            return insertAfterUse(content, '@import "./.storybook/temp.scss"; ')
           },
           sassOptions: {
             includePaths: ['./node_modules'],

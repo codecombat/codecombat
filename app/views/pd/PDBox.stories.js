@@ -13,5 +13,7 @@ const Template = (args, { argTypes }) => ({
 
 export const Primary = Template.bind({})
 Primary.args = {
+  title: 'Example box title',
+  blurb: 'Example box blurb text goes here. This is a short description of the box contents. It should be a few sentences long.',
   image: '/images/pages/pd/algorithms.webp'
 }

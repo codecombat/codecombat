@@ -1,8 +1,7 @@
 <template>
-  <ModalDynamicPromotion
+  <ModalDynamicContent
     v-if="src"
     :auto-show="false"
-    :seen-promotions-property="null"
     @open="isLoading = true"
   >
     <template #content>
@@ -21,17 +20,17 @@
         :open-modal="openModal"
       />
     </template>
-  </ModalDynamicPromotion>
+  </ModalDynamicContent>
 </template>
 
 <script>
-import ModalDynamicPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalDynamicPromotion.vue'
+import ModalDynamicContent from 'ozaria/site/components/teacher-dashboard/modals/ModalDynamicContent.vue'
 import LoadingSpinner from 'app/components/common/elements/LoadingSpinner'
 
 export default {
   name: 'SampleLessonModal',
   components: {
-    ModalDynamicPromotion,
+    ModalDynamicContent,
     LoadingSpinner
   },
   props: {

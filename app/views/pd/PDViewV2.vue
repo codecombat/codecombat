@@ -17,6 +17,7 @@
         subtitle: $t('pd_page.modal_subtitle'),
         emailMessage: $t('pd_page.email_message')
       }"
+      image="/images/pages/pd/implementation.webp"
     />
     <a name="professional" />
     <pd-box
@@ -74,12 +75,7 @@ export default {
   components: {
     TrophyHeader,
     'pd-box': PDBox
-  },
-
-  state: {
-    pageTitle: 'pd'
-  },
-
+  }
 }
 </script>
 

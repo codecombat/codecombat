@@ -2,7 +2,7 @@
   <div class="pd-box">
     <div class="box-header">
       <h2 class="text-h2">
-        {{ title.replace('[NEWLINE]', ' ') }}
+        {{ formattedTitle }}
         <span class="badge-container">
           <img
             v-if="logoBadge"
@@ -120,9 +120,9 @@ export default {
       default: null
     }
   },
-  data () {
-    return {
-      isLoading: true
+  computed: {
+    formattedTitle () {
+      return this.title.replace('[NEWLINE]', ' ')
     }
   }
 }
