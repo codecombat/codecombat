@@ -12,7 +12,7 @@ import UnitMapBackground from './common/UnitMapBackground'
 import HoC2019Modal from './hoc2019modal/index'
 import ClassroomLib from '../../../../../app/models/ClassroomLib'
 import Classroom from 'models/Classroom'
-import MapOptionsModal from 'ozaria/site/views/play/menu/MapOptionsModal.js'
+import GameMenuModal from 'app/views/play/menu/GameMenuModal.js'
 import ModalView from 'views/core/ModalView'
 
 export default Vue.extend({
@@ -64,7 +64,7 @@ export default Vue.extend({
     hocCourseInstanceId: undefined,
     openHoC2019Modal: true,
     ModalViewInstance: undefined,
-    MapOptionsModal
+    GameMenuModal
   }),
 
   computed: {
@@ -228,7 +228,7 @@ export default Vue.extend({
     },
 
     clickOptions () {
-      this.ModalViewInstance.openModalView(new MapOptionsModal({ classroomAceConfig: this.classroomAceConfig }))
+      this.ModalViewInstance.openModalView(new GameMenuModal({ classroomAceConfig: this.classroomAceConfig, inOzariaMap: true }))
     },
 
     closeHocModal () {
