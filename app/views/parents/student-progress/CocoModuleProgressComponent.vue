@@ -76,11 +76,8 @@ export default {
     }
   },
   methods: {
-    getIconType (level) {
-      if (level.kind === 'challenge' || level.assessment) {
-        return 'challengelvl'
-      }
-      return 'practicelvl'
+    getIconType () {
+      return 'challengelvl'
     },
     formatDescription (desc) {
       if (!desc) return ''
