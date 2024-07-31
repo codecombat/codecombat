@@ -1,14 +1,13 @@
 <script>
 import { coursesWithProjects, isOzaria, isCodeCombat } from 'core/utils'
 import PrimaryButton from '../common/buttons/PrimaryButton'
-import ButtonCurriculumGuide from '../common/ButtonCurriculumGuide'
 import LicensesComponent from '../common/LicensesComponent'
 import NavSelectUnit from '../common/NavSelectUnit'
 import ClassInfoRow from './ClassInfoRow'
 import moment from 'moment'
 import zendeskResourceMixin from 'ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue'
 
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 const Classroom = require('models/Classroom')
 
@@ -23,7 +22,6 @@ const resourceHubSections = [
 export default {
   components: {
     'primary-button': PrimaryButton,
-    'button-curriculum-guide': ButtonCurriculumGuide,
     'licenses-component': LicensesComponent,
     'nav-select-unit': NavSelectUnit,
     'class-info-row': ClassInfoRow,
@@ -109,6 +107,10 @@ export default {
       }
     },
 
+    inCurriculum () {
+      return this.$route.path.startsWith('/teachers/curriculum')
+    },
+
     classroomCreationDate () {
       if ((this.classroom || {})._id) {
         return moment(parseInt(this.classroom._id.substring(0, 8), 16) * 1000).format('ll')
@@ -155,11 +157,6 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide',
-      setCurriculumAccessViaSharedClass: 'baseCurriculumGuide/setAccessViaSharedClass'
-    }),
-
     clickOutcomesReport () {
       window.tracker?.trackEvent('Outcomes Report Clicked', { category: 'Teachers', label: this.$route.path })
       this.$emit('outcomesReport')
@@ -173,22 +170,15 @@ export default {
       window.tracker?.trackEvent('Add New Class Clicked', { category: 'Teachers', label: this.$route.path })
       this.$emit('newClass')
     },
-
-    clickCurriculumGuide () {
-      let hasAccess = false
-      if (this.sharePermission) {
-        hasAccess = true
-      }
-      this.setCurriculumAccessViaSharedClass(hasAccess)
-      window.tracker?.trackEvent('Curriculum Guide Clicked', { category: 'Teachers', label: this.$route.path })
-      this.toggleCurriculumGuide()
-    }
   }
 }
 </script>
 
 <template>
-  <div class="teacher-title-bar">
+  <div
+    v-if="!inCurriculum"
+    class="teacher-title-bar"
+  >
     <div class="sub-nav">
       <h1 :class="showClassInfo ? 'short' : 'long'">
         {{ title }}
@@ -279,12 +269,6 @@ export default {
         >
           {{ $t('teacher_dashboard.add_class') }}
         </primary-button>
-
-        <button-curriculum-guide
-          id="curriculum-guide-btn-shepherd"
-          class="btn-margins-height"
-          @click="clickCurriculumGuide"
-        />
         <div
           v-if="showClassInfo"
           class="add-students"

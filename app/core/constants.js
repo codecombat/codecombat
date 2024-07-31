@@ -94,6 +94,12 @@ const HTML5_FMT_TIME_LOCAL = 'hh:mm A'
 
 const ANNOUNCEMENT_LIMIT = 11 // fetch 11 and display 10 only, so that we can check if all announcements loaded
 
+const CODE_FORMAT_ALL = ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']
+const CODE_FORMAT_BLOCKS = ['blocks-and-code', 'blocks-text', 'blocks-icons']
+const CODE_FORMAT_IPAD = ['blocks-text', 'blocks-icons']
+const CODE_FORMAT_TEXT = ['text-code', 'blocks-and-code']
+const JUNIOR_LANGUAGES = ['python', 'javascript']
+
 module.exports = {
   STARTER_LICENSE_COURSE_IDS,
   FREE_COURSE_IDS,
@@ -107,5 +113,10 @@ module.exports = {
   HTML5_FMT_DATE_LOCAL,
   HTML5_FMT_TIME_LOCAL,
   LEADERBOARDNAME,
-  ANNOUNCEMENT_LIMIT
+  ANNOUNCEMENT_LIMIT,
+  CODE_FORMAT_ALL,
+  CODE_FORMAT_BLOCKS,
+  CODE_FORMAT_IPAD,
+  CODE_FORMAT_TEXT,
+  JUNIOR_LANGUAGES
 }

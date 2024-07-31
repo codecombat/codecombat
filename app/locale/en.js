@@ -1500,7 +1500,7 @@ module.exports = {
       text_code: 'Text code',
       blocks_and_code: 'Blocks and code',
       blocks_text: 'Blocks',
-      blocks_icons: 'Blocks (icons)',
+      blocks_icons: 'Blocks (icons) (Junior only)',
       text_code_blurb: 'Type text-based code in a real code editor',
       blocks_and_code_blurb: 'Blocks and text code side-by-side',
       blocks_text_blurb: 'Drag and drop blocks for tablets or younger learners',
@@ -1759,6 +1759,13 @@ module.exports = {
       classroom_live_completion: 'Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.',
       code_formats: 'Code Formats (beta)',
       code_formats_description: 'Which code formats students can choose from.',
+      code_formats_disabled_by: 'Blocks and code, Blocks are not supported with __language__ language',
+      code_formats_mobile: '* Students on mobile will be set to block-based mode',
+      code_formats_fallback: '* Students will fallback to text-mode for courses without blocks support',
+      code_formats_text: 'text code: real code editor',
+      code_formats_block: 'blocks: block-based editor (python, javascript only)',
+      code_formats_block_text: 'blocks and code: block-based editor with text code(python, javascript only)',
+      code_formats_block_icon: 'blocks(icons): icons editor without text (Junior only) ',
       default_code_format: 'Default Code Format',
       default_code_format_description: 'The code format that students will start with.',
       not_allow_to_solution: '# Licenses needed to view solutions',
@@ -1773,7 +1780,9 @@ module.exports = {
       start_teaching_ai_today: 'Start Teaching AI Today!',
       hackstack_beta_release: 'HackStack Beta Release',
       introducing_ai_hackstack: 'Introducing AI HackStack, a generative AI teaching tool for beginners. It provides safe access to top AI models like ChatGPT, Claude, and DALL-E.',
-      our_curriculum_empowers_students: 'Our curriculum empowers students to use AI to create websites, games, art, and more. Currently in beta.'
+      our_curriculum_empowers_students: 'Our curriculum empowers students to use AI to create websites, games, art, and more. Currently in beta.',
+      dashboard_update: 'Dashboard Update',
+      dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.'
     },
 
     no_licenses_page: {
