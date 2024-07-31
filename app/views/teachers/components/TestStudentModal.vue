@@ -6,9 +6,7 @@
   >
     <div id="test-student-modal">
       <div class="modal-body">
-        <!-- todo: i18n and styles -->
         <p> {{ $t('teacher.test_student_modal_p1') }}</p>
-
         <template v-if="classLoading">
           <p>{{ $t('common.loading') }}</p>
         </template>
@@ -72,7 +70,6 @@ export default Vue.extend({
     }
   },
   created () {
-    // todo: show class loading...
     this.classLoading = true
     fetchJson(`/db/classroom?ownerID=${me.id}&project=code,name,ownerID`)
       .then(data => {
