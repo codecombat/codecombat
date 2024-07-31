@@ -228,6 +228,18 @@ export default {
     </li>
     <li>
       <router-link
+        id="CurriculumAnchor"
+        to="/teachers/curriculum"
+        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') }"
+        data-action="Curriculum Guide: Nav Clicked"
+        @click.native="trackEvent"
+      >
+        <div id="IconCurriculum" />
+        {{ $t('teacher_dashboard.curriculum') }}
+      </router-link>
+    </li>
+    <li>
+      <router-link
         id="ResourceAnchor"
         to="/teachers/resources"
         :class="{ 'current-route': isCurrentRoute('/teachers/resources') }"
@@ -461,6 +473,19 @@ li.open > #LicensesAnchor,
   }
 }
 
+#CurriculumAnchor:hover{
+  #IconCurriculum {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Moon.svg);
+  }
+}
+
+li.open > #CurriculumAnchor,
+#CurriculumAnchor.current-route {
+  #IconCurriculum {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Blue.svg);
+  }
+}
+
 #ResourceAnchor:hover{
   #IconResourceHub {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Moon.svg);
@@ -540,6 +565,11 @@ li.open > #AILeague,
   margin-top: -2px;
 }
 
+#IconCurriculum {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Gray.svg);
+  margin-top: -3px;
+}
+
 #IconLicense {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg);
   margin-top: -3px;
@@ -576,6 +606,7 @@ li.open > #AILeague,
 
 #IconCapstone,
 #IconMyClasses,
+#IconCurriculum,
 #IconLicense,
 #IconResourceHub,
 #IconPD,
