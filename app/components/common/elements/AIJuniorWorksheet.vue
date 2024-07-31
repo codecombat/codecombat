@@ -1,6 +1,6 @@
 <script>
 // import { getAIJuniorScenario } from 'core/api/ai-junior-scenarios'
-import { createNewAIJuniorProject } from 'core/api/ai-junior-projects'
+import { createNewAIJuniorProject, processAIJuniorProject } from 'core/api/ai-junior-projects'
 import QRCode from 'qrcode'
 import { markedInline } from 'core/utils'
 
@@ -307,8 +307,10 @@ export default Vue.extend({
       }
 
       try {
-        const result = await createNewAIJuniorProject(projectData)
-        window.open(`/ai-junior/project/${this.slug}/${this.me.id}/${result._id}`, '_blank')
+        const project = await createNewAIJuniorProject(projectData)
+        processAIJuniorProject({ projectHandle: project._id, force: true })
+        // TODO: I had the new page start processing, but it wasn't set up right, so starting processing here, waiting a bit, and then opening it.
+        _.delay(() => window.open(`/ai-junior/project/${this.slug || this.scenario?._id}/${this.me.id}/${project._id}`, '_blank'), 500)
       } catch (error) {
         console.error('Error submitting worksheet:', error)
         alert('An error occurred while submitting the worksheet. Please try again.')

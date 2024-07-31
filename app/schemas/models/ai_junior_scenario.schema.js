@@ -75,7 +75,7 @@ _.extend(AIJuniorScenarioSchema.properties, {
     id: c.shortString(),
     model: c.shortString(),
     text: { type: 'string', format: 'markdown' },
-    modelOptions: {},
+    modelOptions: { type: 'object' },
     files: c.array({ title: 'Files', description: 'Files to include with this prompt' }, c.shortString()),
     exampleResponse: { type: 'string', format: 'markdown' },
     exampleImage: { type: 'string', format: 'image-file' },

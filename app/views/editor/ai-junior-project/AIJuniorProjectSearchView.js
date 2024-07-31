@@ -18,7 +18,7 @@ module.exports = (AIJuniorProjectSearchView = (function () {
       this.prototype.model = require('models/AIJuniorProject')
       this.prototype.modelURL = '/db/ai_junior_project'
       this.prototype.tableTemplate = require('app/templates/editor/ai-junior-project/table')
-      this.prototype.projection = ['user', 'scenario', 'classroom', 'spokenLanguage', 'created', 'inputValues', 'promptsResponses']
+      this.prototype.projection = ['user', 'scenario', 'classroom', 'spokenLanguage', 'created', 'inputValues', 'promptResponses']
       this.prototype.page = 'ai-junior-project'
       this.prototype.canMakeNew = false
 

@@ -32,7 +32,7 @@ _.extend(AIJuniorProjectSchema.properties, {
       ]
     }
   },
-  promptsResponses: c.array({
+  promptResponses: c.array({
     title: 'Prompt Responses',
     description: 'The text and file responses received from the AI models',
   }, c.object({}, {
@@ -46,6 +46,19 @@ _.extend(AIJuniorProjectSchema.properties, {
     type: 'string',
     title: 'Spoken Language',
     description: 'The spoken language of the player, when this project was made'
+  },
+  processingStatus: {
+    type: 'string',
+    enum: ['pending', 'processing', 'completed', 'failed'],
+    default: 'pending',
+    title: 'Processing Status',
+  },
+  processingStartTime: c.stringDate({ title: 'Processing Start Time' }),
+  uploadedWorksheet: {
+    type: 'string',
+    format: 'image-file',
+    title: 'Uploaded Worksheet',
+    description: 'Path to the uploaded worksheet file',
   },
 })
 

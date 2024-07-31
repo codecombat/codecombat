@@ -6,6 +6,12 @@ export const createNewAIJuniorProject = ({ ...opts }, options = {}) =>
     json: { ...opts }
   }))
 
+export const processAIJuniorProject = ({ projectHandle, ...opts }, options = {}) =>
+  fetchJson(`/db/ai_junior_project/${projectHandle}/process`, _.assign({}, options, {
+    method: 'POST',
+    json: { ...opts }
+  }))
+
 export const getAIJuniorProjects = (options = {}) => fetchJson('/db/ai_junior_project', options)
 
 export const getAIJuniorProject = ({ projectHandle }, options = {}) => fetchJson(`/db/ai_junior_project/${projectHandle}`, options)
