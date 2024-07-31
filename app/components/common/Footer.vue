@@ -102,7 +102,7 @@ export default Vue.extend({
             items.HOC,
             items.GRANTS,
             items.PRIVACY,
-            items.CODEQUEST,
+            // items.CODEQUEST,
           ]
         }
       ]
