@@ -26,12 +26,14 @@ export default {
 
     displayName: {
       type: String,
-      required: true
+      required: true,
+      default: ''
     },
 
     levelNumber: {
       type: [String, Number],
-      required: true
+      required: false,
+      default: ''
     },
 
     description: {

@@ -659,6 +659,17 @@ module.exports = (User = (function () {
       return 'expired'
     }
 
+    getSeenPromotion (key) {
+      const seenPromotions = this.get('seenPromotions') || {}
+      return seenPromotions[key]
+    }
+
+    setSeenPromotion (key) {
+      const seenPromotions = this.get('seenPromotions') || {}
+      Object.assign(seenPromotions, { [key]: true })
+      this.set('seenPromotions', seenPromotions)
+    }
+
     activeProducts (type) {
       const now = new Date()
       return _.filter(this.get('products'), p => (p.product === type) && ((new Date(p.endDate) > now) || !p.endDate))
@@ -1056,6 +1067,10 @@ module.exports = (User = (function () {
       }
 
       return value
+    }
+
+    getRobloxPageExperimentValue () {
+      return this.getFilteredExperimentValue({ experimentName: 'roblox-page-filtered' })
     }
 
     getHomePageExperimentValue () {

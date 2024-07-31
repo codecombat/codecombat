@@ -12,6 +12,7 @@ const CocoView = require('views/core/CocoView')
 const template = require('app/templates/play/common/change-language-tab')
 const { me } = require('core/auth')
 const utils = require('core/utils')
+const { CODE_FORMAT_ALL, CODE_FORMAT_BLOCKS, CODE_FORMAT_IPAD, CODE_FORMAT_TEXT, JUNIOR_LANGUAGES } = require('core/constants')
 
 let ChangeLanguageTab
 module.exports = (ChangeLanguageTab = (function () {
@@ -33,50 +34,8 @@ module.exports = (ChangeLanguageTab = (function () {
       this.isJunior = this.options.level?.get('product') === 'codecombat-junior' || this.options.campaign?.get('slug') === 'junior'
       this.classroomAceConfig = options.classroomAceConfig
       this.utils = utils
-      this.codeLanguageObject = {
-        python: {
-          id: 'python',
-          name: `Python (${$.i18n.t('choose_hero.default')})`
-        },
-        javascript: {
-          id: 'javascript',
-          name: 'JavaScript'
-        },
-        coffeescript: {
-          id: 'coffeescript',
-          name: 'CoffeeScript'
-        },
-        lua: {
-          id: 'lua',
-          name: 'Lua'
-        },
-        cpp: {
-          id: 'cpp',
-          name: 'C++'
-        },
-        java: {
-          id: 'java',
-          name: `Java (${$.i18n.t('choose_hero.experimental')})`
-        }
-      }
-      this.codeFormatObject = {
-        'text-code': {
-          id: 'text-code',
-          name: `${$.i18n.t('choose_hero.text_code')} (${$.i18n.t('choose_hero.default')})`
-        },
-        'blocks-and-code': {
-          id: 'blocks-and-code',
-          name: `${$.i18n.t('choose_hero.blocks_and_code')}`
-        },
-        'blocks-text': {
-          id: 'blocks-text',
-          name: `${$.i18n.t('choose_hero.blocks_text')}`
-        },
-        'blocks-icons': {
-          id: 'blocks-icons',
-          name: `${$.i18n.t('choose_hero.blocks_icons')}`
-        }
-      }
+      this.codeLanguageObject = utils.getCodeLanguages()
+      this.codeFormatObject = utils.getCodeFormats()
       this.codeFormat = this.options.codeFormat || me.get('aceConfig')?.codeFormat || 'text-code'
       this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
 
@@ -109,7 +68,7 @@ module.exports = (ChangeLanguageTab = (function () {
       const classroomFormats = this.options?.classroomAceConfig?.codeFormats
       // non-junior should only have text-code
       if (this.isJunior) {
-        if (['python', 'javascript'].includes(this.codeLanguage)) {
+        if (JUNIOR_LANGUAGES.includes(this.codeLanguage)) {
           if (me.isStudent()) {
             if (classroomFormats?.length) {
               if (classroomFormats.length > 1 || classroomFormats[0] !== 'text-code') {
@@ -125,16 +84,16 @@ module.exports = (ChangeLanguageTab = (function () {
       }
 
       if (onlyText) {
-        ['blocks-and-code', 'blocks-text', 'blocks-icons'].forEach(format => {
+        CODE_FORMAT_BLOCKS.forEach(format => {
           this.codeFormatObject[format].disabled = true
-          this.codeFormatObject[format].reason = 'not supported'
+          this.codeFormatObject[format].reason = $.i18n.t('choose_hero.code_format_not_supported')
         })
       } else {
-        if (me.isStudent() && classroomFormats.length) {
-          ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons'].forEach(format => {
+        if (me.isStudent() && classroomFormats?.length) {
+          CODE_FORMAT_ALL.forEach(format => {
             if (!classroomFormats.includes(format)) {
               this.codeFormatObject[format].disabled = true
-              this.codeFormatObject[format].reason = 'disabled by teacher'
+              this.codeFormatObject[format].reason = $.i18n.t('choose_hero.code_format_disable_by_teacher')
             }
           })
         }
@@ -142,10 +101,10 @@ module.exports = (ChangeLanguageTab = (function () {
 
       // todo: better check mobile
       if (application.isIPadApp) {
-        Array.from(['text-code', 'blocks-and-code']).forEach(format => {
+        CODE_FORMAT_TEXT.forEach(format => {
           this.codeFormatObject[format].disabled = true
         })
-        Array.from(['blocks-text', 'blocks-icons']).forEach(format => {
+        CODE_FORMAT_IPAD.forEach(format => {
           this.codeFormatObject[format].disabled = false
         })
       }
@@ -184,13 +143,13 @@ module.exports = (ChangeLanguageTab = (function () {
         if (!premium) {
           Array.from(['cpp', 'java']).forEach(language => {
             this.codeLanguageObject[language].disabled = true
-            this.codeLanguageObject[language].reason = 'Subscriber Only'
+            this.codeLanguageObject[language].reason = $.i18n.t('choose_hero.code_language_subscriber_only')
           })
         }
         if (this.codeFormat !== 'text-code') {
           Array.from(['lua', 'cpp', 'java']).forEach(language => {
             this.codeLanguageObject[language].disabled = true
-            this.codeLanguageObject[language].reason = 'Not supported with blocks'
+            this.codeLanguageObject[language].reason = $.i18n.t('choose_hero.code_language_not_support_by_blocks')
           })
         }
       } else {
