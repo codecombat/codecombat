@@ -4826,6 +4826,7 @@ module.exports = {
       cup: 'Cup',
       blitz: 'Blitz',
       clash: 'Clash',
+      season11_announcement_1: 'The competition is getting more heated! As the sun shines above, place down and upgrade your solar panels, avoid shock traps, place down robot crabs, and phase through portals, get as much solar as possible and claim victory!',
       season10_announcement_1: "It's fiery hot, and magma boulders are radiating powerful energies! Summon units and cast spells to push the magma boulders to your opponent's area. Adapt to the ever-changing gravity of the battlefield!",
       season9_announcement_1: 'An epic battle is being waged atop the wintry peaks of Snowhold Clash for the Season 9 championship arena! Draw your cloak close and your code closer as you wield strategy and algorithms to achieve victory in this land beyond the sky.',
       season8_announcement_1: "It's harvesting season in Farmscape Blitz Season 8! As the leaves change, it's time to code your way around wild and impenetrable obstacles on the farm. Strategically collect vital boosts to empower your robot worker and utilize special abilities to boost productivity and out-farm your opponents!",
