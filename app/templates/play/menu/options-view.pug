@@ -40,7 +40,7 @@
       span(data-i18n="options.editor_config_behaviors_label") Enable Smart Behaviors
     span.help-block(data-i18n="options.editor_config_behaviors_description") Autocompletes brackets, braces, and quotes.
 
-  if !(features.china)
+  if !(features.china) && view.utils.isCodeCombat
     .form-group.checkbox
       label(for="option-wide-editor")
         input#option-wide-editor(name="wide-editor", type="checkbox", checked=aceConfig.preferWideEditor)
@@ -57,5 +57,5 @@
           .glyphicon.glyphicon-ok
         span(data-i18n="options.editor_config_screen_reader_mode_label") Enable Screen Reader Mode
       span.help-block(data-i18n="options.editor_config_screen_reader_mode_description") Display levels in text rather than visually.
-  
+
     button.ozaria-button.ozaria-primary-button.done-button(data-i18n="play_level.done") Done
