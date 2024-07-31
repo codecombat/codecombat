@@ -2100,7 +2100,7 @@ const arenas = [
   { season: 10, slug: 'fierce-forces', type: 'regular', start: new Date('2024-01-01T00:00:00.000-08:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '6576ff2b1457f600193d2cc9', tournament: '6631155d27d051fef8412658', image: '/file/db/level/6576ff2b1457f600193d2cc9/FierceForcesBannerNew.png' },
   { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '65f2618f757a82bcc90b7c9e', tournament: '66311610236b3e1e9dcfd9f3', image: '/file/db/level/65f2618f757a82bcc90b7c9e/AntiGravityBanner.png' },
   { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '661f6cf6525db0fb41870360', tournament: '66311a29856d99556fa14326', image: '/file/db/level/661f6cf6525db0fb41870360/SolarSkirmishBanner.png' },
-  { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-08-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '6682089bb98780c672659043', image: '/file/db/level/6682089bb98780c672659043/SunfireBanner.png' },
+  { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-08-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '6682089bb98780c672659043', tournament: '669aa78fcca07ea127d445d6', image: '/file/db/level/6682089bb98780c672659043/SunfireBanner.png' },
   { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
 ]
@@ -2451,6 +2451,52 @@ const isMobile = () => {
   const ua = navigator.userAgent || navigator.vendor || window.opera
   return mobileRELong.test(ua) || mobileREShort.test(ua.substr(0, 4))
 }
+
+module.exports.getCodeLanguages = () => ({
+  python: {
+    id: 'python',
+    name: `Python (${$.i18n.t('choose_hero.default')})`
+  },
+  javascript: {
+    id: 'javascript',
+    name: 'JavaScript'
+  },
+  coffeescript: {
+    id: 'coffeescript',
+    name: 'CoffeeScript'
+  },
+  lua: {
+    id: 'lua',
+    name: 'Lua'
+  },
+  cpp: {
+    id: 'cpp',
+    name: 'C++'
+  },
+  java: {
+    id: 'java',
+    name: `Java (${$.i18n.t('choose_hero.experimental')})`
+  }
+})
+
+module.exports.getCodeFormats = () => ({
+  'text-code': {
+    id: 'text-code',
+    name: `${$.i18n.t('choose_hero.text_code')} (${$.i18n.t('choose_hero.default')})`
+  },
+  'blocks-and-code': {
+    id: 'blocks-and-code',
+    name: `${$.i18n.t('choose_hero.blocks_and_code')}`
+  },
+  'blocks-text': {
+    id: 'blocks-text',
+    name: `${$.i18n.t('choose_hero.blocks_text')}`
+  },
+  'blocks-icons': {
+    id: 'blocks-icons',
+    name: `${$.i18n.t('choose_hero.blocks_icons')}`
+  }
+})
 
 module.exports = {
   ...module.exports,

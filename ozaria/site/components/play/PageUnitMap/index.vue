@@ -12,6 +12,8 @@ import UnitMapBackground from './common/UnitMapBackground'
 import HoC2019Modal from './hoc2019modal/index'
 import ClassroomLib from '../../../../../app/models/ClassroomLib'
 import Classroom from 'models/Classroom'
+import GameMenuModal from 'app/views/play/menu/GameMenuModal.js'
+import ModalView from 'views/core/ModalView'
 
 export default Vue.extend({
   components: {
@@ -60,7 +62,9 @@ export default Vue.extend({
     nextLevelOriginal: '',
     ambientSound: undefined,
     hocCourseInstanceId: undefined,
-    openHoC2019Modal: true
+    openHoC2019Modal: true,
+    ModalViewInstance: undefined,
+    GameMenuModal
   }),
 
   computed: {
@@ -135,6 +139,7 @@ export default Vue.extend({
   },
 
   async mounted () {
+    this.ModalViewInstance = new ModalView()
     await this.loadCampaign()
 
     // Fetch the hoc course instance for students playing hoc activity
@@ -144,6 +149,17 @@ export default Vue.extend({
 
     if (this.redirectUrl) {
       return application.router.navigate(this.redirectUrl, { trigger: true })
+    }
+
+    this.classroomAceConfig = { liveCompletion: true } // default (home users, teachers, etc.)
+    const courseInstanceID = utils.getQueryVariable('course-instance')
+    if (courseInstanceID) {
+      const fetchAceConfig = $.get(`/db/course_instance/${courseInstanceID}/classroom?project=aceConfig,members`)
+      fetchAceConfig.then(classroom => {
+        this.classroomAceConfig.liveCompletion = classroom.aceConfig?.liveCompletion != null ? classroom.aceConfig.liveCompletion : true
+        const levelChat = classroom.aceConfig?.levelChat || 'none'
+        this.classroomAceConfig.levelChat = levelChat
+      })
     }
 
     await this.buildUnitMapData()
@@ -209,6 +225,10 @@ export default Vue.extend({
       }
       // Note: Once the interval is registered and if hoc modal is opened again, or page is refreshed
       // then, this interval will still keep running -> It might result in some rare edge cases
+    },
+
+    clickOptions () {
+      this.ModalViewInstance.openModalView(new GameMenuModal({ classroomAceConfig: this.classroomAceConfig, inOzariaMap: true }))
     },
 
     closeHocModal () {
@@ -378,6 +398,8 @@ export default Vue.extend({
 <template>
   <layout-chrome
     :title="title"
+    :display-options-menu-item="true"
+    @click-options="clickOptions"
   >
     <layout-center-content>
       <layout-aspect-ratio-container
