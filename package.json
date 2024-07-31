@@ -54,7 +54,7 @@
     "coco-pre-commit-lint": "npx @automattic/eslint-changed --git --git-staged --ext .js,.vue",
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
-    "storybook-inspect": "node --inspect node_modules/.bin/start-storybook -p 6006",
+    "storybook-inspect": "node --inspect node_modules/.bin/storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "main": "index.js",
@@ -202,7 +202,6 @@
     "@babel/eslint-plugin": "^7.17.7",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/preset-env": "^7.22.4",
-    "@esbuild/linux-x64": "^0.21.5",
     "@event-calendar/core": "^0.13.4",
     "@event-calendar/day-grid": "^0.13.4",
     "@event-calendar/interaction": "^0.13.4",

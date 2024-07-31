@@ -136,7 +136,7 @@ global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
 
 import '../app/app.sass'
 
-import './container.scss'
+import './styles.js'
 
 import(/* webpackChunkName: "UsFont" */ 'app/styles/common/fontUS.sass');
 
@@ -169,6 +169,19 @@ jqueryI18next.init(i18nextInstance, $, {
 
 import Vue from 'vue'
 import { i18n } from 'core/utils'
+import _ from 'lodash'
+
+window.Vue = Vue
+
+window.me = {
+  get() {
+    return 'test value'
+  }
+}
+
+window._ = _
+window._.string = require('underscore.string')
+
 const VueI18Next = {
   install (Vue, options) {
     /*  determine options  */
@@ -216,11 +229,16 @@ Vue.use(VueI18Next)
 const { $themePath } = require('app/core/initialize-themes')
 Vue.prototype.$themePath = $themePath
 
+import api from 'core/api'
+
+
 export const decorators = [
   (() => {
     let oldContext = null;
 
     return (storyFn, context) => {
+
+      api.trialRequests = {getOwn: () => Promise.resolve({ data: 'mockedData' })};
 
       const theme = context.globals.theme;
       const style = context.globals.style;
@@ -246,7 +264,8 @@ export const decorators = [
       }
 
       oldContext = context;
-          return storyFn();
+
+      return storyFn();
     };
   })(),
 ];
