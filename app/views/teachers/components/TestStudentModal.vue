@@ -1,7 +1,7 @@
 <template>
   <modal
     :title="$t('teacher.test_student_modal_header')"
-    backbone-dismiss-modal="true"
+    :backbone-dismiss-modal="true"
     @close="$emit('close')"
   >
     <div id="test-student-modal">
@@ -12,7 +12,7 @@
         </template>
         <template v-else>
           <template v-if="classrooms.length">
-            <p>{{ $t('teacher.test_student_modal_choose_class') }}</p>
+            <span class="bold-span">{{ $t('teacher.test_student_modal_choose_class') }}</span>
             <select v-model="classCode">
               <option
                 v-for="classroom in classrooms"
@@ -27,7 +27,9 @@
             <p>{{ $t('teacher.test_student_modal_no_class') }}</p>
           </template>
         </template>
-        <p>{{ $t('teacher.stop_spying_student') }}</p>
+        <p class="small-p">
+          {{ $t('teacher.stop_spying_student') }}
+        </p>
       </div>
       <div
         v-if="classCode"
@@ -49,8 +51,8 @@
 
 <script>
 import Modal from 'app/components/common/Modal.vue'
+import Api from 'app/core/api/classrooms'
 
-const fetchJson = require('../../../core/api/fetch-json')
 export default Vue.extend({
   name: 'TestStudentModal',
   components: {
@@ -71,16 +73,18 @@ export default Vue.extend({
   },
   created () {
     this.classLoading = true
-    fetchJson(`/db/classroom?ownerID=${me.id}&project=code,name,ownerID`)
+    Api.fetchByOwner(me.id, { project: ['code', 'name', 'ownerID'] })
       .then(data => {
         this.classLoading = false
         this.classrooms = data
-        this.classCode = data[0].code
+        this.classCode = data?.[0].code
       })
   },
 
   methods: {
     joinClassroom () {
+      const text = 'Switching to test student account..'
+      window.noty({ text, type: 'success', timeout: 5000, killer: true })
       me.spy({ id: this.id }).then(() => {
         application.router.navigate(`/courses?_cc=${this.classCode}`, { trigger: true })
       })
@@ -97,8 +101,18 @@ export default Vue.extend({
   font-size: 20px;
   padding: 20px;
 
+  .small-p {
+    font-size: 16px;
+    margin-top: 5px;
+  }
+
   .small-font {
     font-size: 14px;
+    margin-top: 5px;
+  }
+
+  .bold-span {
+    font-weight: bold;
   }
 
   .dusk-btn {

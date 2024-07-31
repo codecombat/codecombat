@@ -102,13 +102,13 @@ module.exports = class RootView extends CocoView
       .catch((err) -> errors.showNotyNetworkError(err))
 
   switchToStudentMode: ->
-    text = 'Switching to test student account..'
-    noty({ text, type: 'success', timeout: 5000, killer: true })
     me.getTestStudentId()
       .then (student) =>
         if student.new
           @openNewTestStudentModal(student.id)
         else
+          text = 'Switching to test student account..'
+          noty({ text, type: 'success', timeout: 5000, killer: true })
           me.spy({ id: student.id }).then(() -> document.location.reload())
 
   openNewTestStudentModal: (id) ->
