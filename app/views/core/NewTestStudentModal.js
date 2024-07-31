@@ -6,8 +6,10 @@ module.exports = (TestStudentModal = (function () {
   TestStudentModal = class TestStudentModal extends ModalComponent {
     static initClass () {
       this.prototype.id = 'test-student-modal'
-      this.prototype.template = require('app/templates/core/modal-base-flat')
+      this.prototype.template = require('app/templates/core/modal-empty')
       this.prototype.VueComponent = component
+      this.prototype.closesOnClickOutside = true
+      this.prototype.closesOnEscape = true
     }
 
     constructor (id) {

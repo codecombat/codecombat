@@ -2796,8 +2796,10 @@ module.exports = {
       never_played: 'Never Played',
       test_student_modal_header: 'Creating Test Student',
       test_student_modal_p1: 'You\'ll be creating a unique test account that mimics the student journey and saves your progress.',
+      test_student_modal_no_class: 'Please create a class to join as a student',
       test_student_modal_choose_class: 'Choose a class to join:',
       test_student_modal_redirect: 'You will be redirected to your test student account!',
+      stop_spying_student: 'You can return to the teacher account by clicking `Stop Spying` in the user dropdown'
     },
 
     teacher_licenses: {
