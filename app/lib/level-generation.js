@@ -118,7 +118,7 @@ function generateProperty (property, fn) {
 generateProperty('goals', function (level, parameters) {
   const exampleGoals = {
     heroSurvives: {
-      hiddenGoal: false,
+      hiddenGoal: true,
       worldEndsAfter: 1,
       howMany: 1,
       saveThangs: ['humans'],
@@ -126,28 +126,11 @@ generateProperty('goals', function (level, parameters) {
       id: 'hero-survives'
     },
 
-    avoidSpikes: {
-      saveThangs: ['humans'],
-      hiddenGoal: false,
-      howMany: 1,
-      worldEndsAfter: 3,
-      id: 'humans-survive',
-      name: 'Avoid the spikes.'
-    },
-
-    // TODO: can you just do saveThangs: ["humans"] with no count and have it work?
     saveFriends: {
       name: 'Friends must survive.',
       id: 'humans-survive',
-      saveThangs: [
-        'Giselle',
-        'Brandy',
-        'Gwendolin',
-        'Yorik',
-        'Durfkor',
-        'Charles'
-      ],
-      worldEndsAfter: 5,
+      saveThangs: ['Chicken Junior'], // Placeholder
+      worldEndsAfter: 1,
     },
 
     cleanCode: {
@@ -168,7 +151,7 @@ generateProperty('goals', function (level, parameters) {
     moveToTarget: {
       worldEndsAfter: 1,
       getToLocations: {
-        targets: ['Goal Junior'], // Placeholder
+        targets: ['Goal Junior'],
         who: ['Hero Placeholder']
       },
       id: 'touch-goal',
@@ -189,7 +172,6 @@ generateProperty('goals', function (level, parameters) {
     },
 
     collectGems: {
-      // worldEndsAfter: 2, // TODO: make this happen after all positive goals are achieved, not just one
       collectThangs: {
         targets: ['Gem Junior'], // Placeholder
         who: ['humans']
@@ -199,18 +181,37 @@ generateProperty('goals', function (level, parameters) {
     },
   }
 
-  const goals = [exampleGoals.heroSurvives, exampleGoals.cleanCode]
-  if (!parameters.combat && Math.random() < 0.75) {
-    goals.push(exampleGoals.defeatEnemies)
-  }
-  if (Math.random() < 0.5) {
-    goals.push(exampleGoals.collectGems)
-  }
-  if (Math.random() < 0.5 || goals.length === 2) {
-    goals.push(exampleGoals.moveToTarget)
+  const goals = []
+  function addGoal (goal, config) {
+    goal = _.cloneDeep(goal)
+    for (const key in config || {}) {
+      goal[key] = config[key]
+    }
+    goals.push(goal)
   }
 
-  return _.cloneDeep(goals)
+  addGoal(exampleGoals.heroSurvives)
+  addGoal(exampleGoals.cleanCode)
+  if (parameters.combat && Math.random() < 0.75) {
+    addGoal(exampleGoals.defeatEnemies)
+    _.find(goals, { id: 'hero-survives' }).hiddenGoal = false
+
+    if (Math.random() < 0.25) {
+      addGoal(exampleGoals.saveFriends)
+    }
+  }
+  // TODO: break doors goal
+  if (Math.random() < 0.5) {
+    addGoal(exampleGoals.collectGems)
+  }
+  if (Math.random() < 0.5 || goals.length === 2) {
+    addGoal(exampleGoals.moveToTarget)
+  } else {
+    const lastGoal = _.find(goals, { id: 'collect-gems' }) || _.find(goals, { id: 'ogres-die' }) || _.find(goals, { id: 'break-door' }) || {}
+    lastGoal.worldEndsAfter = 1
+  }
+
+  return goals
 })
 
 // documentation: c.object({title: 'Documentation', description: 'Documentation articles relating to this level.', 'default': {specificArticles: [], generalArticles: []}, inEditor: true}, {
@@ -268,6 +269,7 @@ generateProperty('scripts', function (level, parameters) {
 // const LevelComponent = require('../models/LevelComponent')
 const PhysicalID = '524b75ad7fc0f6d519000001' // LevelComponent.ExistsID
 const ExistsID = '524b4150ff92f1f4f8000024' // LevelComponent.PhysicalID
+const SelectableID = '524b7bb67fc0f6d519000018' // LevelComponent.SelectableID
 
 const defaultHeroComponentIDs = {
   Programmable: '524b7b5a7fc0f6d51900000e',
@@ -698,5 +700,12 @@ generateProperty(null, function (level, parameters) {
   const physical = _.find(hero.components, (component) => component.original === PhysicalID)
   physical.config = {
     pos: { x: 6, y: 14, z: 0.5 }
+  }
+
+  const heroSurvives = _.find(level.goals, { id: 'hero-survives' })
+  if (heroSurvives && !heroSurvives.hiddenGoal) {
+    // Show health bar if we might be attacked, by adding Selectable component
+    const selectable = { original: SelectableID, majorVersion: 0 }
+    hero.components.push(selectable)
   }
 })

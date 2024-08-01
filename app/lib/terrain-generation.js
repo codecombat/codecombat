@@ -497,7 +497,6 @@ function generateBorder (result) {
     rightX = (result.presetSize.cols + 2) * borderSize.x + borderOffset.x
     topY = (result.presetSize.rows + 2) * borderSize.y + borderOffset.y
   }
-  console.log({ bofsx: borderOffset.x, bofsy: borderOffset.y, rightX, topY, bsx: borderSize.x, bsy: borderSize.y })
   for (const i of _.range(borderOffset.x, rightX, borderSize.x)) {
     for (const j of _.range(result.preset.borderThickness)) { // eslint-disable-line no-unused-vars
       // Bottom wall
@@ -696,19 +695,29 @@ function generateCollectThangs (result, collectThangsGoal) {
 }
 
 function generateDefendThangs (result, defendThangsGoal) {
+  let lastThangCount = result.thangs.length
+  let addedThangCount = 0
   for (let i = 0; i <= Math.floor(Math.random() * 8);) {
     const defendThang = {
-      id: getRandomThang(['Soldier M', 'Soldier F', 'Archer M', 'Archer F', 'Peasant M', 'Peasant F']),
+      id: getRandomThang(['Chicken Junior']),
       pos: getRandomPosition(result),
       margin: 0
     }
     if (addThang(result, defendThang)) {
+      if (result.thangs.length === lastThangCount) { break }
+      lastThangCount = result.thangs.length
+      if (i === 0) {
+        defendThangsGoal.saveThangs = []
+      }
+      const newID = defendThang.id + (addedThangCount ? ' ' + addedThangCount : '')
+      defendThangsGoal.saveThangs.push(newID)
+      ++addedThangCount
       ++i
     }
-    // if (addThang(result, defendThang)) {
-    //   defendThangsGoal.thangIDs.push(defendThang.id)
-    //   ++i
-    // }
+    if (!defendThangsGoal.saveThangs.length) {
+      console.log("Couldn't find space for a chicken; removing defendThangsGoal")
+      result.goals = _.without(result.goals, defendThangsGoal)
+    }
   }
 }
 
