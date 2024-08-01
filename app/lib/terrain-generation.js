@@ -77,12 +77,20 @@ const clusters = {
     thangs: ['Indoor Wall'],
     margin: 2
   },
+  junior_wall: {
+    thangs: ['Junior Wall'],
+    margin: 2
+  },
   indoor_floor: {
     thangs: ['Indoor Floor'],
     margin: -1
   },
   junior_floor: {
-    thangs: ['Junior Floor'],
+    thangs: ['Junior Beach Floor'],
+    margin: -1
+  },
+  junior_ocean_background: {
+    thangs: ['Junior Ocean Background'],
     margin: -1
   },
   furniture: {
@@ -121,15 +129,16 @@ const clusters = {
 
 const presets = {
   junior: {
-    terrainName: 'Indoor',
-    type: 'indoor',
-    borders: 'indoor_wall',
+    terrainName: 'Junior',
+    type: 'junior',
+    borders: 'junior_wall',
     borderNoise: 0,
-    borderSize: 4,
+    borderSize: 8,
     borderThickness: 1,
+    borderOffset: { x: -6, y: -6 },
     floors: 'junior_floor',
     floorSize: { x: 8, y: 8 },
-    floorOffset: { x: -6, y: -6 },
+    floorOffset: { x: 2, y: 2 },
     decorations: {
       hero: {
         num: [1, 1],
@@ -139,6 +148,12 @@ const presets = {
           hero: [1, 1]
         }
       },
+      junior_ocean_background: {
+        num: [1, 1],
+        clusters: {
+          junior_ocean_background: [1, 1]
+        }
+      }
     }
   },
   dungeon: {
@@ -148,6 +163,7 @@ const presets = {
     borderNoise: 0,
     borderSize: 4,
     borderThickness: 1,
+    doubleTopWall: true,
     floors: 'dungeon_floor',
     decorations: {
       room: {
@@ -339,7 +355,6 @@ const presetSizes = {
     x: 28,
     y: 23.8,
     sizeFactor: 0.35,
-    doubleTopWall: true,
     cols: 3,
     rows: 2,
   },
@@ -347,7 +362,6 @@ const presetSizes = {
     x: 36,
     y: 30.6,
     sizeFactor: 0.45,
-    doubleTopWall: true,
     cols: 4,
     rows: 3,
   },
@@ -355,7 +369,6 @@ const presetSizes = {
     x: 44,
     y: 37.4,
     sizeFactor: 0.55,
-    doubleTopWall: true,
     cols: 5,
     rows: 4,
   },
@@ -363,7 +376,6 @@ const presetSizes = {
     x: 52,
     y: 44.2,
     sizeFactor: 0.65,
-    doubleTopWall: true,
     cols: 6,
     rows: 5,
   },
@@ -385,7 +397,6 @@ const presetSizes = {
     x: 76,
     y: 64.6,
     sizeFactor: 0.95,
-    doubleTopWall: true,
     cols: 9,
     rows: 7,
   },
@@ -413,6 +424,7 @@ const thangSizes = {
     x: 20,
     y: 17
   },
+  // TODO: some confusion on relationship between thangSizes.borderSize and preset.borderSize
   borderSize: {
     x: 4,
     y: 4
@@ -454,13 +466,16 @@ function generateThangs ({ presetName, presetSize, goals }) {
 }
 
 function generateFloor (result) {
-  _.range(result.preset.floorOffset?.x || 0, result.presetSize.x, result.preset.floorSize?.x || thangSizes.floorSize.x).forEach(i => {
-    _.range(result.preset.floorOffset?.y || 0, result.presetSize.y, result.preset.floorSize?.y || thangSizes.floorSize.y).forEach(j => {
+  const floorSize = { x: result.preset.floorSize?.x || thangSizes.floorSize.x, y: result.preset.floorSize?.y || thangSizes.floorSize.y }
+  _.range(result.preset.floorOffset?.x || 0, result.presetSize.x, floorSize.x).forEach(i => {
+    if (result.presetSize.cols && i / floorSize.x >= result.presetSize.cols) return
+    _.range(result.preset.floorOffset?.y || 0, result.presetSize.y, floorSize.y).forEach(j => {
+      if (result.presetSize.rows && j / floorSize.y >= result.presetSize.rows) return
       result.thangs.push({
         id: getRandomThang(clusters[result.preset.floors].thangs),
         pos: {
-          x: i + ((result.preset.floorSize?.x || thangSizes.floorSize.x) / 2),
-          y: j + ((result.preset.floorSize?.y || thangSizes.floorSize.y) / 2)
+          x: i + floorSize.x / 2,
+          y: j + floorSize.y / 2
         },
         margin: clusters[result.preset.floors].margin
       })
@@ -473,16 +488,24 @@ function generateBorder (result) {
   if (noiseFactor === undefined) {
     noiseFactor = 1
   }
-  const topY = Math.ceil(result.presetSize.y / thangSizes.borderSize.y) * thangSizes.borderSize.y
-  const rightX = Math.ceil(result.presetSize.x / thangSizes.borderSize.x) * thangSizes.borderSize.x
-  for (const i of _.range(0, rightX, thangSizes.borderSize.x)) {
+  const borderOffset = { x: result.preset.borderOffset?.x || 0, y: result.preset.borderOffset?.y || 0 }
+  const borderSize = result.preset.borderSize ? { x: result.preset.borderSize, y: result.preset.borderSize } : thangSizes.borderSize
+  let rightX = Math.ceil((result.presetSize.x - borderOffset.x * 2) / borderSize.x) * borderSize.x + borderOffset.x
+  let topY = Math.ceil((result.presetSize.y - borderOffset.y * 2) / borderSize.y) * borderSize.y + borderOffset.y
+  // Actually, for junior, just cheat and use the rows/cols, since the viewable area might be bigger than the playable area
+  if (result.presetSize.rows && result.presetSize.cols) {
+    rightX = (result.presetSize.cols + 2) * borderSize.x + borderOffset.x
+    topY = (result.presetSize.rows + 2) * borderSize.y + borderOffset.y
+  }
+  console.log({ bofsx: borderOffset.x, bofsy: borderOffset.y, rightX, topY, bsx: borderSize.x, bsy: borderSize.y })
+  for (const i of _.range(borderOffset.x, rightX, borderSize.x)) {
     for (const j of _.range(result.preset.borderThickness)) { // eslint-disable-line no-unused-vars
       // Bottom wall
       while (!addThang(result, {
         id: getRandomThang(clusters[result.preset.borders].thangs),
         pos: {
-          x: i + (result.preset.borderSize / 2) + (noiseFactor * _.random(-thangSizes.borderSize.x / 2, thangSizes.borderSize.x / 2)),
-          y: 0 + (result.preset.borderSize / 2) + (noiseFactor * _.random(-thangSizes.borderSize.y / 2, thangSizes.borderSize.y))
+          x: i + (result.preset.borderSize / 2) + (noiseFactor * _.random(-borderSize.x / 2, borderSize.x / 2)),
+          y: 0 + (result.preset.borderSize / 2) + (noiseFactor * _.random(-borderSize.y / 2, borderSize.y)) + borderOffset.y
         },
         margin: clusters[result.preset.borders].margin
       })) {
@@ -493,8 +516,8 @@ function generateBorder (result) {
       while (!addThang(result, {
         id: getRandomThang(clusters[result.preset.borders].thangs),
         pos: {
-          x: i + (result.preset.borderSize / 2) + (noiseFactor * _.random(-thangSizes.borderSize.x / 2, thangSizes.borderSize.x / 2)),
-          y: (topY - (result.preset.borderSize / 2)) + (noiseFactor * _.random(-thangSizes.borderSize.y, thangSizes.borderSize.y / 2))
+          x: i + (result.preset.borderSize / 2) + (noiseFactor * _.random(-borderSize.x / 2, borderSize.x / 2)),
+          y: (topY - (result.preset.borderSize / 2)) + (noiseFactor * _.random(-borderSize.y, borderSize.y / 2))
         },
         margin: clusters[result.preset.borders].margin
       })) {
@@ -502,24 +525,24 @@ function generateBorder (result) {
       }
 
       // Double wall on top
-      if (['dungeon'].includes(result.preset.type) || result.presetSize.doubleTopWall) {
+      if (result.presetSize.doubleTopWall) {
         addThang(result, {
           id: getRandomThang(clusters[result.preset.borders].thangs),
           pos: {
-            x: i + (result.preset.borderSize / 2),
-            y: topY - ((3 * result.preset.borderSize) / 2)
+            x: i + (result.preset.borderSize / 2) + borderOffset.x,
+            y: topY - ((3 * result.preset.borderSize) / 2) - borderOffset.y
           },
           margin: clusters[result.preset.borders].margin
         })
       }
       // Dungeon wall decorations
       if (['dungeon'].includes(result.preset.type)) {
-        if (((i / result.preset.borderSize) % 2) && (i !== (rightX - thangSizes.borderSize.x))) {
+        if (((i / result.preset.borderSize) % 2) && (i !== (rightX - borderSize.x))) {
           addThang(result, {
             id: getRandomThang(clusters.torch.thangs),
             pos: {
-              x: i + result.preset.borderSize,
-              y: topY - (result.preset.borderSize / 2)
+              x: i + result.preset.borderSize + borderOffset.x,
+              y: topY - (result.preset.borderSize / 2) - borderOffset.y
             },
             margin: clusters.torch.margin
           })
@@ -527,8 +550,8 @@ function generateBorder (result) {
           addThang(result, {
             id: getRandomThang(clusters.chains.thangs),
             pos: {
-              x: i + result.preset.borderSize,
-              y: topY - (result.preset.borderSize / 2)
+              x: i + result.preset.borderSize + borderOffset.x,
+              y: topY - (result.preset.borderSize / 2) - borderOffset.y
             },
             margin: clusters.chains.margin
           })
@@ -537,14 +560,14 @@ function generateBorder (result) {
     }
   }
 
-  for (const i of _.range(0, topY, thangSizes.borderSize.y)) {
+  for (const i of _.range(borderOffset.y, topY, borderSize.y)) {
     for (const j of _.range(result.preset.borderThickness)) { // eslint-disable-line no-unused-vars
       // Left wall
       while (!addThang(result, {
         id: getRandomThang(clusters[result.preset.borders].thangs),
         pos: {
-          x: 0 + (result.preset.borderSize / 2) + (noiseFactor * _.random(-thangSizes.borderSize.x / 2, thangSizes.borderSize.x)),
-          y: i + (result.preset.borderSize / 2) + (noiseFactor * _.random(-thangSizes.borderSize.y / 2, thangSizes.borderSize.y / 2))
+          x: 0 + (result.preset.borderSize / 2) + (noiseFactor * _.random(-borderSize.x / 2, borderSize.x)) + borderOffset.x,
+          y: i + (result.preset.borderSize / 2) + (noiseFactor * _.random(-borderSize.y / 2, borderSize.y / 2))
         },
         margin: clusters[result.preset.borders].margin
       })) {
@@ -555,8 +578,8 @@ function generateBorder (result) {
       while (!addThang(result, {
         id: getRandomThang(clusters[result.preset.borders].thangs),
         pos: {
-          x: (rightX - (result.preset.borderSize / 2)) + (noiseFactor * _.random(-thangSizes.borderSize.x, thangSizes.borderSize.x / 2)),
-          y: i + (result.preset.borderSize / 2) + (noiseFactor * _.random(-thangSizes.borderSize.y / 2, thangSizes.borderSize.y / 2))
+          x: (rightX - (result.preset.borderSize / 2)) + (noiseFactor * _.random(-borderSize.x, borderSize.x / 2)),
+          y: i + (result.preset.borderSize / 2) + (noiseFactor * _.random(-borderSize.y / 2, borderSize.y / 2))
         },
         margin: clusters[result.preset.borders].margin
       })) {
@@ -828,6 +851,15 @@ buildFunctions.barrels = function (result, decoration) {
       }
     })
   })
+}
+
+buildFunctions.junior_ocean_background = function (result, decoration) {
+  const backgroundThang = {
+    id: 'Junior Ocean Background',
+    pos: { x: 40, y: 34 },
+    margin: -1
+  }
+  addThang(result, backgroundThang)
 }
 
 function addThang (result, thang) {
