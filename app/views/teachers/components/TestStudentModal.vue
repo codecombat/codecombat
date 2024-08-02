@@ -83,7 +83,7 @@ export default Vue.extend({
 
   methods: {
     joinClassroom () {
-      const text = 'Switching to test student account..'
+      const text = $.i18n.t('teachers.switch_to_test_student')
       window.noty({ text, type: 'success', timeout: 5000, killer: true })
       me.spy({ id: this.id }).then(() => {
         application.router.navigate(`/courses?_cc=${this.classCode}`, { trigger: true })

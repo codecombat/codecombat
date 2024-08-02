@@ -1782,7 +1782,8 @@ module.exports = {
       introducing_ai_hackstack: 'Introducing AI HackStack, a generative AI teaching tool for beginners. It provides safe access to top AI models like ChatGPT, Claude, and DALL-E.',
       our_curriculum_empowers_students: 'Our curriculum empowers students to use AI to create websites, games, art, and more. Currently in beta.',
       dashboard_update: 'Dashboard Update',
-      dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.'
+      dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.',
+      switch_to_test_student: 'Switching to test student account..'
     },
 
     no_licenses_page: {

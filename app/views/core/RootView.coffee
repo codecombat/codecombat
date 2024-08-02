@@ -107,7 +107,7 @@ module.exports = class RootView extends CocoView
         if student.new
           @openNewTestStudentModal(student.id)
         else
-          text = 'Switching to test student account..'
+          text = $.i18n.t('teachers.switch_to_test_student')
           noty({ text, type: 'success', timeout: 5000, killer: true })
           me.spy({ id: student.id }).then(() -> document.location.reload())
 
