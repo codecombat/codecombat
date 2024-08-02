@@ -1782,7 +1782,8 @@ module.exports = {
       introducing_ai_hackstack: 'Introducing AI HackStack, a generative AI teaching tool for beginners. It provides safe access to top AI models like ChatGPT, Claude, and DALL-E.',
       our_curriculum_empowers_students: 'Our curriculum empowers students to use AI to create websites, games, art, and more. Currently in beta.',
       dashboard_update: 'Dashboard Update',
-      dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.'
+      dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.',
+      switch_to_test_student: 'Switching to test student account..'
     },
 
     no_licenses_page: {
@@ -2810,7 +2811,13 @@ module.exports = {
       edit_student_access_subtitle: 'You have selected __levels__ levels for __students__ students.',
       edit_student_access_subtitle_scenarios: 'You have selected __levels__ projects for __students__ students.',
       student_ask_for_help: 'Your student __name__ asking for your help.',
-      never_played: 'Never Played'
+      never_played: 'Never Played',
+      test_student_modal_header: 'Creating Test Student',
+      test_student_modal_p1: 'You\'ll be creating a unique test account that mimics the student journey and saves your progress.',
+      test_student_modal_no_class: 'Please create a class to join as a student',
+      test_student_modal_choose_class: 'Choose a class to join:',
+      test_student_modal_redirect: 'You will be redirected to your test student account!',
+      stop_spying_student: 'You can return to the teacher account by clicking `Stop Spying` in the user dropdown'
     },
 
     teacher_licenses: {
