@@ -11,7 +11,7 @@ export default {
   components: {
     DashboardToggle,
     ModalHackStackBeta,
-    ModalTestStudentPromotion
+    ModalTestStudentPromotion,
     ModalCurriculumPromotion,
   },
 
