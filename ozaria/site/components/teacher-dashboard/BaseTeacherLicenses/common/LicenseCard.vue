@@ -39,6 +39,10 @@ export default {
       type: Boolean,
       default: false
     },
+    properties: {
+      type: Object,
+      default: () => {}
+    },
     disableApplyLicenses: {
       type: Boolean,
       default: false
@@ -82,6 +86,9 @@ export default {
     },
     licenseStatsIcon () {
       return 'IconLicense_Blue'
+    },
+    testStudentOnly () {
+      return this.properties.testStudentOnly
     }
   }
 }
@@ -112,6 +119,11 @@ export default {
       <div class="dates">
         <div>{{ $t('teacher_dashboard.start_date', { date: startDateFormat }) }}</div>
         <div>{{ $t('teacher_dashboard.end_date', { date: endDateFormat }) }}</div>
+      </div>
+      <div class="special">
+        <div v-if="testStudentOnly">
+          {{ $t('teacher_dashboard.test_student_only') }}
+        </div>
       </div>
     </div>
     <div
@@ -188,6 +200,13 @@ export default {
   text-align: center;
   margin: 10px 0px 20px 0px;
   font-weight: 600;
+}
+
+.special {
+    font-size: 12px;
+    color: white;
+    text-align: center;
+    height: 0;
 }
 
 .dates {

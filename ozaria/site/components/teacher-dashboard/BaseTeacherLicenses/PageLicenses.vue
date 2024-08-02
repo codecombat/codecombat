@@ -42,6 +42,18 @@ export default {
         label: 'How To: Manage Licenses',
         link: 'https://docs.google.com/presentation/d/1SfM5ZMjae8wm8HESHoXXO0wBnKJmJD53BgtG9XwVW9k/edit?usp=sharing'
       }
+    },
+    showGetTestLicense () {
+      const testStudentRelation = (me.get('related') || []).filter(related => related.relation === 'TestStudent')[0]
+      if (!testStudentRelation) {
+        return false
+      }
+      const testLicense = _.find(this.activeLicenses, (prepaid) => prepaid.properties.testStudentOnly)
+      if (testLicense) {
+        return false
+      } else {
+        return true
+      }
     }
   },
   methods: {
@@ -80,6 +92,14 @@ export default {
       >
         {{ $t("courses.get_enrollments") }}
       </primary-button>
+      <primary-button
+        v-if="showGetTestLicense"
+        class="get-test-license"
+        @click="$emit('getTestLicense', { teacherId } )"
+        @click.native="trackEvent('My Licenses: Get Test Student Licenses Clicked')"
+      >
+        {{ $t('courses.get_test_license') }}
+      </primary-button>
       <div class="side-bar-text">
         {{ $t('teacher_dashboard.see_also_our') }} <a href="/funding">{{ $t('nav.funding_resources_guide') }}</a> {{ $t('teacher_dashboard.for_more_funding_resources') }}
       </div>
@@ -101,6 +121,7 @@ export default {
           :end-date="license.endDate"
           :owner="getUserById(license.creator)"
           :teacher-id="teacherId"
+          :properties="license.properties"
           @apply="$emit('apply')"
           @share="$emit('share', license)"
           @stats="$emit('stats', license)"
@@ -122,6 +143,7 @@ export default {
           :end-date="license.endDate"
           :owner="getUserById(license.creator)"
           :teacher-id="teacherId"
+          :properties="license.properties"
           :expired="true"
           @stats="$emit('stats', license)"
         />
@@ -166,7 +188,7 @@ export default {
   margin: 10px 0px;
 }
 
-.get-licenses-btn {
+.get-licenses-btn, .get-test-license {
   width: 100%;
   max-width: 220px;
   height: 50px;
