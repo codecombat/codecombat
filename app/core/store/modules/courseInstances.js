@@ -76,7 +76,7 @@ export default {
 
       return courseInstancesApi
         .fetchByOwner(teacherId)
-        .then(res =>  {
+        .then(res => {
           if (res) {
             commit('setCourseInstancesForTeacher', {
               teacherId,
@@ -113,7 +113,7 @@ export default {
     fetchCourseInstancesForClassroom: ({ commit }, classroomId) => {
       return courseInstancesApi
         .fetchByClassroom(classroomId)
-        .then(res =>  {
+        .then(res => {
           if (res) {
             commit('setCourseInstancesForClassroom', {
               classroomId,

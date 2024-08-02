@@ -1500,7 +1500,7 @@ module.exports = {
       text_code: 'Text code',
       blocks_and_code: 'Blocks and code',
       blocks_text: 'Blocks',
-      blocks_icons: 'Blocks (icons)',
+      blocks_icons: 'Blocks (icons) (Junior only)',
       text_code_blurb: 'Type text-based code in a real code editor',
       blocks_and_code_blurb: 'Blocks and text code side-by-side',
       blocks_text_blurb: 'Drag and drop blocks for tablets or younger learners',
@@ -1759,6 +1759,13 @@ module.exports = {
       classroom_live_completion: 'Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.',
       code_formats: 'Code Formats (beta)',
       code_formats_description: 'Which code formats students can choose from.',
+      code_formats_disabled_by: 'Blocks and code, Blocks are not supported with __language__ language',
+      code_formats_mobile: '* Students on mobile will be set to block-based mode',
+      code_formats_fallback: '* Students will fallback to text-mode for courses without blocks support',
+      code_formats_text: 'text code: real code editor',
+      code_formats_block: 'blocks: block-based editor (python, javascript only)',
+      code_formats_block_text: 'blocks and code: block-based editor with text code(python, javascript only)',
+      code_formats_block_icon: 'blocks(icons): icons editor without text (Junior only) ',
       default_code_format: 'Default Code Format',
       default_code_format_description: 'The code format that students will start with.',
       not_allow_to_solution: '# Licenses needed to view solutions',
@@ -1776,7 +1783,10 @@ module.exports = {
       our_curriculum_empowers_students: 'Our curriculum empowers students to use AI to create websites, games, art, and more. Currently in beta.',
       test_student_promotion_1: 'Ready to walk a mile in your students\' coding shoes? Clicking "Test as Student" lets you dive into the learning experience firsthand. ',
       test_student_promotion_2: 'You\'ll be creating a unique test account that not only mimics the student journey but also saves your progress — unlike the quick previews in our curriculum guide, which are great for a sneak-peek but don\'t keep track of where you\'ve been.',
-      test_student_promotion_3: 'Your first course is free. Ready for more? We\'ll guide you on adding a license for continued learning adventures.'
+      test_student_promotion_3: 'Your first course is free. Ready for more? We\'ll guide you on adding a license for continued learning adventures.',
+      dashboard_update: 'Dashboard Update',
+      dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.',
+      switch_to_test_student: 'Switching to test student account..'
     },
 
     no_licenses_page: {
@@ -2804,7 +2814,13 @@ module.exports = {
       edit_student_access_subtitle: 'You have selected __levels__ levels for __students__ students.',
       edit_student_access_subtitle_scenarios: 'You have selected __levels__ projects for __students__ students.',
       student_ask_for_help: 'Your student __name__ asking for your help.',
-      never_played: 'Never Played'
+      never_played: 'Never Played',
+      test_student_modal_header: 'Creating Test Student',
+      test_student_modal_p1: 'You\'ll be creating a unique test account that mimics the student journey and saves your progress.',
+      test_student_modal_no_class: 'Please create a class to join as a student',
+      test_student_modal_choose_class: 'Choose a class to join:',
+      test_student_modal_redirect: 'You will be redirected to your test student account!',
+      stop_spying_student: 'You can return to the teacher account by clicking `Stop Spying` in the user dropdown'
     },
 
     teacher_licenses: {
@@ -4820,6 +4836,7 @@ module.exports = {
       cup: 'Cup',
       blitz: 'Blitz',
       clash: 'Clash',
+      season11_announcement_1: 'The competition is getting more heated! As the sun shines above, place down and upgrade your solar panels, avoid shock traps, place down robot crabs, and phase through portals, get as much solar as possible and claim victory!',
       season10_announcement_1: "It's fiery hot, and magma boulders are radiating powerful energies! Summon units and cast spells to push the magma boulders to your opponent's area. Adapt to the ever-changing gravity of the battlefield!",
       season9_announcement_1: 'An epic battle is being waged atop the wintry peaks of Snowhold Clash for the Season 9 championship arena! Draw your cloak close and your code closer as you wield strategy and algorithms to achieve victory in this land beyond the sky.',
       season8_announcement_1: "It's harvesting season in Farmscape Blitz Season 8! As the leaves change, it's time to code your way around wild and impenetrable obstacles on the farm. Strategically collect vital boosts to empower your robot worker and utilize special abilities to boost productivity and out-farm your opponents!",
@@ -4916,7 +4933,9 @@ module.exports = {
       current_season: 'Current Season',
       all_time: 'All Time',
       view_leaderboards_for_team: 'View leaderboards for team:',
-      global_stats: 'GLOBAL STATS'
+      global_stats: 'GLOBAL STATS',
+      code_your_way: 'Code your way',
+      to_win_the_price: 'to first place to win'
     },
 
     tournament: {

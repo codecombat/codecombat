@@ -421,13 +421,6 @@ export default Vue.extend({
           link: '/parents'
         },
         {
-          title: this.$t('home_v3.solutions_6_title'),
-          text: this.$t('home_v3.solutions_6_text'),
-          image: '/images/pages/home-v3/solutions/box_6.webp',
-          link: '/codequest',
-          linkText: this.$t('home_v3.solutions_6_linkText')
-        },
-        {
           title: this.$t('home_v3.solutions_7_title'),
           text: this.$t('home_v3.solutions_7_text'),
           image: '/images/pages/home-v3/solutions/box_7.webp',

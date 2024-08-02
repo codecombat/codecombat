@@ -12,12 +12,7 @@ const CocoView = require('views/core/CocoView')
 const template = require('app/templates/play/common/change-language-tab')
 const { me } = require('core/auth')
 const utils = require('core/utils')
-
-const CODE_FORMAT_ALL = ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons']
-const CODE_FORMAT_BLOCKS = ['blocks-and-code', 'blocks-text', 'blocks-icons']
-const CODE_FORMAT_IPAD = ['blocks-text', 'blocks-icons']
-const CODE_FORMAT_TEXT = ['text-code', 'blocks-and-code']
-const JUNIOR_LANGUAGES = ['python', 'javascript']
+const { CODE_FORMAT_ALL, CODE_FORMAT_BLOCKS, CODE_FORMAT_IPAD, CODE_FORMAT_TEXT, JUNIOR_LANGUAGES } = require('core/constants')
 
 let ChangeLanguageTab
 module.exports = (ChangeLanguageTab = (function () {
@@ -39,50 +34,8 @@ module.exports = (ChangeLanguageTab = (function () {
       this.isJunior = this.options.level?.get('product') === 'codecombat-junior' || this.options.campaign?.get('slug') === 'junior'
       this.classroomAceConfig = options.classroomAceConfig
       this.utils = utils
-      this.codeLanguageObject = {
-        python: {
-          id: 'python',
-          name: `Python (${$.i18n.t('choose_hero.default')})`
-        },
-        javascript: {
-          id: 'javascript',
-          name: 'JavaScript'
-        },
-        coffeescript: {
-          id: 'coffeescript',
-          name: 'CoffeeScript'
-        },
-        lua: {
-          id: 'lua',
-          name: 'Lua'
-        },
-        cpp: {
-          id: 'cpp',
-          name: 'C++'
-        },
-        java: {
-          id: 'java',
-          name: `Java (${$.i18n.t('choose_hero.experimental')})`
-        }
-      }
-      this.codeFormatObject = {
-        'text-code': {
-          id: 'text-code',
-          name: `${$.i18n.t('choose_hero.text_code')} (${$.i18n.t('choose_hero.default')})`
-        },
-        'blocks-and-code': {
-          id: 'blocks-and-code',
-          name: `${$.i18n.t('choose_hero.blocks_and_code')}`
-        },
-        'blocks-text': {
-          id: 'blocks-text',
-          name: `${$.i18n.t('choose_hero.blocks_text')}`
-        },
-        'blocks-icons': {
-          id: 'blocks-icons',
-          name: `${$.i18n.t('choose_hero.blocks_icons')}`
-        }
-      }
+      this.codeLanguageObject = utils.getCodeLanguages()
+      this.codeFormatObject = utils.getCodeFormats()
       this.codeFormat = this.options.codeFormat || me.get('aceConfig')?.codeFormat || 'text-code'
       this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
 
@@ -136,7 +89,7 @@ module.exports = (ChangeLanguageTab = (function () {
           this.codeFormatObject[format].reason = $.i18n.t('choose_hero.code_format_not_supported')
         })
       } else {
-        if (me.isStudent() && classroomFormats.length) {
+        if (me.isStudent() && classroomFormats?.length) {
           CODE_FORMAT_ALL.forEach(format => {
             if (!classroomFormats.includes(format)) {
               this.codeFormatObject[format].disabled = true

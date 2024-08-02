@@ -5,12 +5,14 @@ import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/Das
 import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
 import ModalHackStackBeta from 'ozaria/site/components/teacher-dashboard/modals/ModalHackStackBeta.vue'
 import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalTestStudentPromotion.vue'
+import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 
 export default {
   components: {
     DashboardToggle,
     ModalHackStackBeta,
     ModalTestStudentPromotion
+    ModalCurriculumPromotion,
   },
 
   mixins: [
@@ -21,6 +23,14 @@ export default {
     classrooms: {
       type: Array,
       default: () => []
+    }
+  },
+
+  data: () => {
+    return {
+      showCurriculumPromotion: false,
+      curriculumPromoClicked: false,
+      hackstackModalVisibility: false,
     }
   },
 
@@ -99,6 +109,14 @@ export default {
       this.$store.commit('teacherDashboard/setSelectedCourseIdCurrentClassroom', { courseId: utils.courseIDs.HACKSTACK })
     },
 
+    onCurriculumClicked (e) {
+      if (this.showCurriculumPromotion) {
+        this.curriculumPromoClicked = true
+        this.unhighlightCurriculumPromotion()
+      }
+      this.trackEvent(e)
+    },
+
     trackEvent (e) {
       const eventName = e.target.dataset.action
       const eventLabel = e.target.dataset.label
@@ -114,6 +132,18 @@ export default {
       if (this.hackStackClassrooms.length === 0) {
         noty({ text: $.i18n.t('teacher_dashboard.create_class_hackstack'), type: 'warning', layout: 'center', timeout: 5000 })
       }
+    },
+    highlightCurriculum () {
+      this.showCurriculumPromotion = true
+    },
+    unhighlightCurriculumPromotion () {
+      this.showCurriculumPromotion = false
+    },
+    hackstackModalShowing () {
+      this.hackstackModalVisibility = true
+    },
+    hackstackModalClose () {
+      this.hackstackModalVisibility = false
     }
   }
 }
@@ -227,6 +257,30 @@ export default {
           </a>
         </li>
       </ul>
+    </li>
+    <li :class="{ 'modal-highlight': showCurriculumPromotion && !hackstackModalVisibility }">
+      <router-link
+        id="CurriculumAnchor"
+        to="/teachers/curriculum"
+        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') || (showCurriculumPromotion && !hackstackModalVisibility) }"
+        data-action="Curriculum Guide: Nav Clicked"
+        @click.native="onCurriculumClicked"
+      >
+        <div id="IconCurriculum" />
+        {{ $t('teacher_dashboard.curriculum') }}
+      </router-link>
+    </li>
+    <li>
+      <router-link
+        id="CurriculumAnchor"
+        to="/teachers/curriculum"
+        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') }"
+        data-action="Curriculum Guide: Nav Clicked"
+        @click.native="trackEvent"
+      >
+        <div id="IconCurriculum" />
+        {{ $t('teacher_dashboard.curriculum') }}
+      </router-link>
     </li>
     <li>
       <router-link
@@ -398,10 +452,17 @@ export default {
         reload-location="/teachers/classes"
       />
     </li>
+    <ModalCurriculumPromotion
+      :curriculum-clicked="curriculumPromoClicked"
+      @show="highlightCurriculum"
+      @close="unhighlightCurriculumPromotion"
+    />
     <ModalHackStackBeta
       v-if="showHackStack"
       :href="hackStackClassrooms.length>0 ? `/teachers/hackstack-classes/${hackStackClassrooms[0]._id}` : '#'"
       @tryClicked="hackstackClicked"
+      @show="hackstackModalShowing"
+      @close="hackstackModalClose"
     />
     <ModalTestStudentPromotion />
   </ul>
@@ -461,6 +522,19 @@ li.open > #LicensesAnchor,
 #LicensesAnchor.current-route {
   #IconLicense {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Blue.svg);
+  }
+}
+
+#CurriculumAnchor:hover{
+  #IconCurriculum {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Moon.svg);
+  }
+}
+
+li.open > #CurriculumAnchor,
+#CurriculumAnchor.current-route {
+  #IconCurriculum {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Blue.svg);
   }
 }
 
@@ -543,6 +617,11 @@ li.open > #AILeague,
   margin-top: -2px;
 }
 
+#IconCurriculum {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Gray.svg);
+  margin-top: -3px;
+}
+
 #IconLicense {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg);
   margin-top: -3px;
@@ -579,6 +658,7 @@ li.open > #AILeague,
 
 #IconCapstone,
 #IconMyClasses,
+#IconCurriculum,
 #IconLicense,
 #IconResourceHub,
 #IconPD,
@@ -698,7 +778,12 @@ li.open > #AILeague,
       color: #979797;
       cursor: default;
     }
+
   }
+}
+
+.modal-highlight {
+  z-index: 10000;
 }
 
 .dashboard-toggle {
