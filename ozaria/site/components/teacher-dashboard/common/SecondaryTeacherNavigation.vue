@@ -272,18 +272,6 @@ export default {
     </li>
     <li>
       <router-link
-        id="CurriculumAnchor"
-        to="/teachers/curriculum"
-        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') }"
-        data-action="Curriculum Guide: Nav Clicked"
-        @click.native="trackEvent"
-      >
-        <div id="IconCurriculum" />
-        {{ $t('teacher_dashboard.curriculum') }}
-      </router-link>
-    </li>
-    <li>
-      <router-link
         id="ResourceAnchor"
         to="/teachers/resources"
         :class="{ 'current-route': isCurrentRoute('/teachers/resources') }"
