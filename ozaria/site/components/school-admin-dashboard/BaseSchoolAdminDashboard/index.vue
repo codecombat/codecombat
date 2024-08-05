@@ -6,6 +6,7 @@ import TitleBar from '../common/TitleBar'
 import { mapMutations, mapGetters } from 'vuex'
 import { COMPONENT_NAMES } from '../common/constants'
 import Panel from 'ozaria/site/components/teacher-dashboard/Panel/index.vue'
+import ModalRosterClassrooms from 'app/components/common/ModalRosterClassrooms.vue'
 
 export default {
   components: {
@@ -13,12 +14,14 @@ export default {
     LoadingBar,
     SecondaryNavigation,
     TitleBar,
-    Panel
+    Panel,
+    ModalRosterClassrooms
   },
 
   data () {
     return {
-      showRestrictedDiv: false
+      showRestrictedDiv: false,
+      showRosteringModal: false
     }
   },
 
@@ -79,6 +82,10 @@ export default {
 
     onChangeCourse (courseId) {
       this.setSelectedCourseId({ courseId })
+    },
+    onClickRosterClassroom () {
+      console.log('roster modal')
+      this.showRosteringModal = true
     }
   }
 }
@@ -104,10 +111,15 @@ export default {
       :courses="classroomCourses"
       :selected-course-id="selectedCourseId"
       @change-course="onChangeCourse"
+      @rosterClassroom="onClickRosterClassroom"
     />
     <loading-bar
       :key="loading"
       :loading="loading"
+    />
+    <modal-roster-classrooms
+      v-if="showRosteringModal"
+      @close="showRosteringModal = false"
     />
     <router-view />
   </div>

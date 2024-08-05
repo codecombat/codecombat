@@ -96,7 +96,10 @@ export default {
 
 <template>
   <div>
-    <div id="curriculum-guide">
+    <div
+      v-if="isVisible"
+      id="curriculum-guide"
+    >
       <div class="header">
         <div class="header-icon">
           <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg">
