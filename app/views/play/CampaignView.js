@@ -2007,9 +2007,14 @@ ${problem.category} - ${problem.score} points\
             }
           } else if (level.assessment) {
             level.hidden = false
-            level.locked = this.levelStatusMap[lastNormalLevel != null ? lastNormalLevel.slug : undefined] !== 'complete'
+            const isLastNormalLevelCompleted = this.levelStatusMap[lastNormalLevel != null ? lastNormalLevel.slug : undefined] === 'complete'
+            level.locked = !isLastNormalLevelCompleted && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), prev.original)
           } else {
-            level.locked = found
+            if (prev) {
+              level.locked = prev.locked && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), prev.original)
+            } else {
+              level.locked = found
+            }
             level.hidden = false
           }
         }
@@ -2046,6 +2051,7 @@ ${problem.category} - ${problem.score} points\
         }
         level.unlocksHero = false
         level.unlocksItem = false
+        console.log('--- LOCKED --- ', level.slug, level.locked)
         prev = level
         if (!this.campaign.levelIsPractice(level) && !this.campaign.levelIsAssessment(level) && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
           lastNormalLevel = level
