@@ -2051,7 +2051,6 @@ ${problem.category} - ${problem.score} points\
         }
         level.unlocksHero = false
         level.unlocksItem = false
-        console.log('--- LOCKED --- ', level.slug, level.locked)
         prev = level
         if (!this.campaign.levelIsPractice(level) && !this.campaign.levelIsAssessment(level) && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
           lastNormalLevel = level
