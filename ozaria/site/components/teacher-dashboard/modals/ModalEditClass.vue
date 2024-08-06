@@ -99,6 +99,18 @@ export default Vue.extend({
       courses: 'courses/sorted',
       getCourseInstances: 'courseInstances/getCourseInstancesOfClass'
     }),
+    title () {
+      let title = ''
+      if (this.classroomInstance.isNew()) {
+        title += $.i18n.t('courses.create_new_class')
+      } else {
+        title += $.i18n.t('courses.edit_settings1')
+      }
+      if (this.asClub) {
+        title += '(As Club)'
+      }
+      return title
+    },
     moreOptionsText () {
       const i18n = this.moreOptions ? 'hide_options' : 'more_options'
       return this.$t(`courses.${i18n}`)
@@ -481,7 +493,7 @@ export default Vue.extend({
 
 <template>
   <modal
-    :title="(classroomInstance.isNew() ? $t('courses.create_new_class') : $t('courses.edit_settings1'))"
+    :title="title"
     @close="$emit('close')"
   >
     <div class="style-ozaria teacher-form edit-class container">
