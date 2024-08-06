@@ -79,7 +79,8 @@ module.exports = (User = (function () {
         API_CLIENT: 'apiclient',
         ONLINE_TEACHER: 'onlineTeacher',
         BETA_TESTER: 'betaTester',
-        PARENT_ADMIN: 'parentAdmin'
+        PARENT_ADMIN: 'parentAdmin',
+        NAPERVILLE_ADMIN: 'napervilleAdmin'
       }
 
       a = 5
@@ -154,6 +155,10 @@ module.exports = (User = (function () {
     isParentAdmin () {
       const needle = this.constructor.PERMISSIONS.PARENT_ADMIN
       return this.get('permissions', true).includes(needle)
+    }
+
+    isNapervilleAdmin () {
+      return this.get('permissions', true).includes(this.constructor.PERMISSIONS.NAPERVILLE_ADMIN)
     }
 
     isAnonymous () { return this.get('anonymous', true) }
