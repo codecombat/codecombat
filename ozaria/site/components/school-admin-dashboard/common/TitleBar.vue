@@ -71,7 +71,8 @@ export default {
 
     clickCurriculumGuide () {
       window.tracker?.trackEvent('Curriculum Guide Clicked', { category: 'SchoolAdmin', label: this.$route.path })
-      this.toggleCurriculumGuide()
+      // this.toggleCurriculumGuide()
+      window.open('teachers/curriculum', '_blank')
     },
     isNapervilleAdmin () {
       return me.isNapervilleAdmin()
