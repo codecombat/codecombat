@@ -1781,9 +1781,6 @@ module.exports = {
       hackstack_beta_release: 'HackStack Beta Release',
       introducing_ai_hackstack: 'Introducing AI HackStack, a generative AI teaching tool for beginners. It provides safe access to top AI models like ChatGPT, Claude, and DALL-E.',
       our_curriculum_empowers_students: 'Our curriculum empowers students to use AI to create websites, games, art, and more. Currently in beta.',
-      test_student_promotion_1: 'Ready to walk a mile in your students\' coding shoes? Clicking "Test as Student" lets you dive into the learning experience firsthand. ',
-      test_student_promotion_2: 'You\'ll be creating a unique test account that not only mimics the student journey but also saves your progress — unlike the quick previews in our curriculum guide, which are great for a sneak-peek but don\'t keep track of where you\'ve been.',
-      test_student_promotion_3: 'Your first course is free. Ready for more? We\'ll guide you on adding a license for continued learning adventures.',
       dashboard_update: 'Dashboard Update',
       dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.',
       switch_to_test_student: 'Switching to test student account..'
