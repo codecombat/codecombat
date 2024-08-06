@@ -1,5 +1,4 @@
 <script>
-import BaseCurriculumGuide from '../../teacher-dashboard/BaseCurriculumGuide'
 import LoadingBar from 'ozaria/site/components/common/LoadingBar'
 import SecondaryNavigation from '../common/SecondaryNavigation'
 import TitleBar from '../common/TitleBar'
@@ -10,7 +9,6 @@ import ModalRosterClassrooms from 'app/components/common/ModalRosterClassrooms.v
 
 export default {
   components: {
-    BaseCurriculumGuide,
     LoadingBar,
     SecondaryNavigation,
     TitleBar,
@@ -100,7 +98,6 @@ export default {
     <p> {{ $t('teacher.teacher_account_required') }} </p>
   </div>
   <div v-else>
-    <base-curriculum-guide />
     <panel />
     <secondary-navigation />
     <title-bar
