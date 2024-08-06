@@ -28,6 +28,10 @@ export default Vue.extend({
       type: Object,
       required: true,
       default: () => {}
+    },
+    asClub: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -58,6 +62,7 @@ export default Vue.extend({
       googleSyncInProgress: false,
       moreOptions: false,
       newInitialFreeCourses: [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE],
+      newClubType: 'club',
     }
   },
 
@@ -77,9 +82,17 @@ export default Vue.extend({
           required
         }
       }
-      : {})
+      : {}),
+    newClubType: {
+      required: requiredIf(function () { return this.asClub })
+    },
+    newClassDateStart: {
+      required: requiredIf(function () { return this.asClub })
+    },
+    newClassDateEnd: {
+      required: requiredIf(function () { return this.asClub })
+    },
   },
-
   computed: {
     ...mapGetters({
       getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
@@ -136,7 +149,7 @@ export default Vue.extend({
       if (this.classroomInstance.isNew()) {
         return this.newInitialFreeCourses.includes(utils.courseIDs.JUNIOR)
       } else {
-        return this.getCourseInstances(this.classroomInstance._id)?.some(ci => ci.courseID === utils.courseIDs.JUNIOR_COURSE)
+        return this.getCourseInstances(this.classroomInstance._id)?.some(ci => ci.courseID === utils.courseIDs.JUNIOR)
       }
     },
     codeLanguageObject () {
@@ -217,6 +230,22 @@ export default Vue.extend({
           }
         }),
       ]
+    },
+    clubTypes () {
+      if (this.isOzaria) {
+        return [
+          { id: 'club', name: 'Ozaria' },
+          { id: 'club-roblox', name: 'Roblox' },
+          { id: 'club-hackstack', name: 'Hackstack' },
+        ]
+      } else {
+        return [
+          { id: 'club-esports', name: 'Esports' },
+          { id: 'club-junior', name: 'Junior' },
+          { id: 'club-roblox', name: 'Roblox' },
+          { id: 'club-hackstack', name: 'Hackstack' },
+        ]
+      }
     }
   },
 
@@ -325,6 +354,14 @@ export default Vue.extend({
         return
       }
       const updates = {}
+      if (this.asClub) {
+        if (this.newClubType) {
+          updates.type = this.newClubType
+        }
+        if (this.newClubType === 'club-junior') {
+          this.newInitialFreeCourses = [utils.courseIDs.JUNIOR]
+        }
+      }
       if (this.newClassName && this.newClassName !== this.classroomName) {
         updates.name = this.newClassName
       }
@@ -537,7 +574,59 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="isCodeCombat && classroomInstance.isNew()"
+          v-if="asClub"
+          class="form-group row class-club-type"
+        >
+          <div class="col-xs-12">
+            <label for="default-code-format-select">
+              <span class="control-label"> {{ $t("teachers.club_type") }} </span>
+            </label>
+            <select
+              id="club-type-select"
+              v-model="newClubType"
+              class="form-control"
+              name="clubType"
+              :disabled="!classroomInstance.isNew()"
+            >
+              <option
+                v-for="clubType in clubTypes"
+                :key="clubType.id"
+                :value="clubType.id"
+              >
+                {{ clubType.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          v-if="asClub"
+          class="form-group row"
+        >
+          <div class="col-xs-12">
+            <label for="form-new-class-date-start">
+              <span class="control-label"> {{ $t("courses.estimated_class_dates_label") }} </span>
+            </label>
+            <div class="estimated-date-fields">
+              <input
+                id="form-new-class-date-start"
+                v-model="newClassDateStart"
+                type="date"
+                class="form-control"
+              >
+              <label for="form-new-class-date-end">
+                <span class="spl.spr">{{ $t("courses.student_age_range_to") }}</span>
+              </label>
+              <input
+                id="form-new-class-date-end"
+                v-model="newClassDateEnd"
+                type="date"
+                class="form-control"
+              >
+            </div>
+          </div>
+        </div>
+        <div
+          v-if="isCodeCombat && classroomInstance.isNew() && !asClub"
           class="form-group row initial-free-courses"
         >
           <div class="col-xs-12">
@@ -816,7 +905,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="moreOptions && isCodeCombat || me.isCodeNinja()"
+          v-if="!asClub && (moreOptions && isCodeCombat || me.isCodeNinja())"
           class="form-group row"
         >
           <div class="col-md-12">
@@ -885,7 +974,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="moreOptions && isCodeCombat || me.isCodeNinja()"
+          v-if="!asClub && (moreOptions && isCodeCombat || me.isCodeNinja())"
           class="form-group row"
         >
           <div class="col-xs-12">

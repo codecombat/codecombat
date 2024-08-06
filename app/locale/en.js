@@ -1786,7 +1786,8 @@ module.exports = {
       test_student_promotion_3: 'Your first course is free. Ready for more? We\'ll guide you on adding a license for continued learning adventures.',
       dashboard_update: 'Dashboard Update',
       dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.',
-      switch_to_test_student: 'Switching to test student account..'
+      switch_to_test_student: 'Switching to test student account..',
+      club_type: 'Club Type',
     },
 
     no_licenses_page: {
@@ -4630,7 +4631,8 @@ module.exports = {
       no_failed_attempts: 'No Failed Attempts',
       failed_attempts_subtext: 'Number of times incorrect option was selected',
       open_project: 'Open Project',
-      create_class_hackstack: 'Please create a New Class to access AI HackStack'
+      create_class_hackstack: 'Please create a New Class to access AI HackStack',
+      add_club: 'Add New Club',
     },
 
     outcomes: {
