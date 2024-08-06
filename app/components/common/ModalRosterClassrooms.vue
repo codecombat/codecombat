@@ -9,18 +9,24 @@
       </p>
       <div class="actions">
         <primary-button
-          @click="rosterStudents"
+          @click="() => roster('students')"
         >
           Sync Students
         </primary-button>
 
-        <secondary-button>
+        <secondary-button
+          @click="() => roster('teachers')"
+        >
           Sync Teachers
         </secondary-button>
-        <primary-button>
+        <primary-button
+          @click="() => roster('classes')"
+        >
           Sync Classrooms
         </primary-button>
-        <secondary-button>
+        <secondary-button
+          @click="() => roster('classes-students')"
+        >
           Sync Student & Classroom
         </secondary-button>
         <p class="info">
@@ -59,18 +65,22 @@ export default Vue.extend({
     }
   },
   methods: {
-    async rosterStudents () {
+    async roster (type) {
       this.jobInfo = ''
+      this.errorMsg = ''
+      const jType = `roster-${type}`
       try {
-        this.jobInfo = 'Uploading csv...'
+        this.jobInfo = `Uploading csv for ${type}...`
         const { filename, metadata } = await this.uploadCsv()
         this.jobInfo = 'Uploaded'
-        const job = await backgroundJobApi.create('naperville-roster', { filename, metadata, type: 'roster-students' })
-        this.jobInfo = 'Syncing students start....'
+        const job = await backgroundJobApi.create('naperville-roster', { filename, metadata, type: jType })
+        this.jobInfo = `Syncing ${type} start....`
         await this.pollJob(job?.job)
-        this.jobInfo = 'Syncing students completed'
+        if (!this.errorMsg) {
+          this.jobInfo = `Syncing ${type} completed, refresh the page to see the changes.`
+        }
       } catch (err) {
-        this.jobInfo = 'Error syncing students'
+        this.jobInfo = `Error syncing ${type}`
       }
     },
     uploadCsv () {
@@ -87,17 +97,18 @@ export default Vue.extend({
         return new Promise(resolve => setTimeout(resolve, ms))
       }
       let poll = true
+      this.errorMsg = ''
       while (poll) {
         const job = await backgroundJobApi.get(jobId)
-        if (job.status === 'failed') {
-          this.errorMsg = job.error
-          poll = false
-        }
-        if (job.status === 'completed') {
-          poll = false
-        }
         if (job.message) {
           this.jobInfo = job.message
+        }
+        if (job.status === 'failed') {
+          this.jobInfo = ''
+          this.errorMsg = job.message
+          poll = false
+        } else if (job.status === 'completed') {
+          poll = false
         }
         console.log('jobInfo', this.jobInfo)
         await sleep(3000)
@@ -127,6 +138,7 @@ export default Vue.extend({
 
 .error {
   color: red;
+  font-weight: bold;
 }
 .info {
   font-weight: bold;
