@@ -2,6 +2,7 @@
 import Panel from '../Panel/index.vue'
 import ModalAssignContent from '../modals/ModalAssignContent/index'
 import ModalAddStudents from '../modals/ModalAddStudents'
+import ModalCreateStudents from '../modals/ModalCreateStudents'
 import ModalRemoveStudents from '../modals/ModalRemoveStudents'
 import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
 import ModalEditClass from '../modals/ModalEditClass'
@@ -35,6 +36,7 @@ export default {
     ModalEditClass,
     ModalAssignContent,
     ModalAddStudents,
+    ModalCreateStudents,
     ModalRemoveStudents,
     ModalOnboardingVideo,
     SecondaryTeacherNavigation,
@@ -52,6 +54,7 @@ export default {
       showNewClassModal: false,
       showAssignContentModal: false,
       showAddStudentsModal: false,
+      showCreateStudentsModal: false,
       showRemoveStudentsModal: false,
       showOnboardingModal: false,
       showTeacherDetailsModal: false,
@@ -402,6 +405,7 @@ export default {
           @newClass="openNewClassModal"
           @newClub="openNewClubModal"
           @addStudentsClicked="showAddStudentsModal = true"
+          @createStudentsClicked="showCreateStudentsModal = true"
           @editClass="openEditClassModal"
         />
         <loading-bar
@@ -411,6 +415,7 @@ export default {
         <router-view
           @assignContent="showAssignContentModal = true"
           @addStudents="showAddStudentsModal = true"
+          @createStudents="showCreateStudentsModal = true"
           @removeStudents="showRemoveStudentsModal = true"
         />
       </div>
@@ -448,6 +453,11 @@ export default {
       v-if="showAddStudentsModal"
       :classroom="classroom"
       @close="showAddStudentsModal = false"
+    />
+    <modal-create-students
+      v-if="showCreateStudentsModal"
+      :classroom="classroom"
+      @close="showCreateStudentsModal = false"
     />
     <modal-remove-students
       v-if="showRemoveStudentsModal"

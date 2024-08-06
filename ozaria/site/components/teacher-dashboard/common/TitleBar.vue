@@ -297,6 +297,17 @@ export default {
             <span> {{ $t('courses.add_students') }} </span>
           </button>
         </div>
+        <div
+          v-if="showClassInfo && isCodeNinja"
+          class="create-students"
+        >
+          <button
+            class="dusk-btn"
+            @click="$emit('createStudentsClicked')"
+          >
+            <span> {{ $t('courses.create_students') }} </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
