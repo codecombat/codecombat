@@ -237,37 +237,38 @@ module.exports = (AdministerUserModal = (function () {
 
     onClickAddCreditsButton () {
       const attrs = forms.formToObject(this.$('#credit-form'))
-      attrs.addCredits = parseInt(attrs.addCredits)
-      if (!_.all(_.values(attrs))) { return }
-      if (!(attrs.addCredits > 0)) { return }
+      const creditType = this.$el.find('#credit-type-select').val()
+
+      attrs.credits = parseInt(attrs.credits)
+      if (!(attrs.credits > 0)) { return }
       if (!attrs.endDate) { return }
-      if (!attrs.creditType) { return }
+      if (!creditType) { return }
       attrs.endDate = attrs.endDate + ' ' + '23:59'
       attrs.endDate = momentTimezone.tz(attrs.endDate, this.timeZone).toISOString()
 
       this.state = 'creating-credits'
       this.renderSelectors('#credit-form')
-
-      fetchJson('/db/user-credits/extra-credits', {
-        method: 'POST',
-        json: {
-          credits: attrs.addCredits,
-          endDate: attrs.endDate,
-          operation: attrs.creditType,
-          userId: this.user.id
-        }
+      api.userCredits.addCredits({
+        operation: creditType,
+        credits: attrs.credits,
+        endDate: attrs.endDate,
+        userId: this.user.id
       }).then(res => {
         this.state = 'made-credits'
         this.renderSelectors('#credit-form')
-
         return setTimeout(() => {
           this.state = ''
           return this.renderSelectors('#credit-form')
         }, 1000)
       }).catch(jqxhr => {
         this.state = ''
-        const errorString = 'There was an error adding the credits.'
+        this.renderSelectors('#credit-form')
+        const errorString = 'There was an error adding the credits. See the console.'
         console.error(errorString, jqxhr)
+        noty({
+          text: errorString,
+          type: 'error'
+        })
       })
     }
 
@@ -876,11 +877,6 @@ ${teachers.join('\n')} \
     onSelectLicenseType (e) {
       this.licenseType = $(e.target).parent().children('input').val()
       return this.renderSelectors('#license-type-select')
-    }
-
-    onSelectCreditType (e) {
-      this.esportsType = $(e.target).parent().children('input').val()
-      return this.renderSelectors('#credits-type-select')
     }
 
     onSelectEsportsType (e) {

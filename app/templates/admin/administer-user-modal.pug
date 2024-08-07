@@ -268,26 +268,18 @@ block modal-body-content
       .alert.alert-success Credits created!
 
     else
-      div(style="display: flex; gap: 20px; align-items: flex-start")
-        +license-form-group('Number of Credits')(id="credit-input" type="number", name="addCredits", min="1")
+      div(style="display: flex; gap: 10px; align-items: flex-start")
+        +license-form-group('Number of Credits')(id="credit-input" type="number", name="credits", min="1")
           h4.small(style="max-width: 700px") Credits end at 11:59pm PT of the end date selected
           +license-form-group('End Date')(type="date" name="endDate" value=view.momentTimezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
         .form-group
           - creditType = view.creditType
           label
             span Credit Types
-            =":"
-            #credits-type-select
-              .radio
-                label.product-type
-                  input(type='radio', name='creditType', value='HACKSTACK_QUERY', checked=creditType==='HACKSTACK_QUERY')
-                  span Hackstack
-              .radio
-                label.product-type
-                  input(type='radio', name='creditType', value='LEVEL_CHAT_BOT', checked=creditType==='LEVEL_CHAT_BOT')
-                  span Level Chat Bot
-
-        - userTimeZone = view.userTimeZone
+            =": "
+            select#credit-type-select
+              option(value='HACKSTACK_QUERY' selected=creditType==='HACKSTACK_QUERY') Hackstack
+              option(value='LEVEL_CHAT_BOT' selected=creditType==='LEVEL_CHAT_BOT') Level Chat Bot
         .form-group
           button#add-credits-btn.btn.btn-primary Add Credits
     hr
