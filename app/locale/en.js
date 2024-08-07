@@ -4411,7 +4411,8 @@ module.exports = {
       select_time_range: 'Select the time range:',
       export: 'Export',
       preview: 'Here is a preview for top 200 lines, Click the Export to get full stats',
-      empty_results: 'Empty Results.'
+      empty_results: 'Empty Results.',
+      roster: 'Roster'
     },
 
     interactives: {
