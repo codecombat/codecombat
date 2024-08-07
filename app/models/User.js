@@ -25,6 +25,7 @@ const fetchJson = require('core/api/fetch-json')
 const userUtils = require('lib/user-utils')
 const _ = require('lodash')
 const moment = require('moment')
+const NAPERVILLE_UNIQUE_KEY = 'naperville'
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -161,6 +162,10 @@ module.exports = (User = (function () {
       return this.get('permissions', true).includes(this.constructor.PERMISSIONS.NAPERVILLE_ADMIN)
     }
 
+    isNapervilleUser () {
+      return this.get('library')?.name === NAPERVILLE_UNIQUE_KEY
+    }
+
     isAnonymous () { return this.get('anonymous', true) }
     isSmokeTestUser () { return User.isSmokeTestUser(this.attributes) }
     isIndividualUser () { return !this.isStudent() && !User.isTeacher(this.attributes) }
@@ -237,6 +242,10 @@ module.exports = (User = (function () {
         error (jqxhr) { return reject(jqxhr.responseJSON) }
       }
       ))
+    }
+
+    static getNapervilleDomain () {
+      return '@naperville203.org'
     }
 
     getEnabledEmails () {

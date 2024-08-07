@@ -82,7 +82,6 @@ export default {
       this.setSelectedCourseId({ courseId })
     },
     onClickRosterClassroom () {
-      console.log('roster modal')
       this.showRosteringModal = true
     }
   }
