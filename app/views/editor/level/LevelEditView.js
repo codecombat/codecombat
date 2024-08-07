@@ -103,6 +103,7 @@ module.exports = (LevelEditView = (function () {
         'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal',
         'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal',
         'click .generate-level-button': 'onClickGenerateLevel',
+        'click .generate-practice-level-button': 'onClickGeneratePracticeLevel',
         'click .migrate-junior-button': 'onClickMigrateJunior',
       }
 
@@ -113,6 +114,7 @@ module.exports = (LevelEditView = (function () {
 
       this.prototype.shortcuts = {
         'ctrl+g': 'generateLevel',
+        'ctrl+shift+g': 'generatePracticeLevel',
       }
     }
 
@@ -170,7 +172,7 @@ module.exports = (LevelEditView = (function () {
           this.checkPresenceIntervalID = setInterval(this.checkPresence, 15000)
           this.checkPresence()
           if (me.isAdmin()) {
-            return presenceApi.setPresence({ levelOriginalId: this.level.get('original') })
+            presenceApi.setPresence({ levelOriginalId: this.level.get('original') })
           }
         }
       })
@@ -283,6 +285,11 @@ module.exports = (LevelEditView = (function () {
       this.openModalView(new GenerateLevelModal())
     }
 
+    onClickGeneratePracticeLevel (e) {
+      e.stopPropagation()
+      this.generatePracticeLevel()
+    }
+
     async generateLevel (e) {
       const parameters = {} // Temp: totally random parameters
       if (e?.size) {
@@ -294,28 +301,42 @@ module.exports = (LevelEditView = (function () {
       levelGeneration.generateLevel(parameters).then(level => {
         if (this.destroyed) return
         console.log('generated level', level)
-        for (const key in level) {
-          if (Level.schema.properties[key]) {
-            this.level.set(key, level[key])
-          }
-        }
-
-        this.previouslyLoadedSubviewData = {}
-        for (const subview of Object.values(this.subviews)) {
-          if (subview.getDataForReplacementView) {
-            const subviewData = subview.getDataForReplacementView()
-            this.previouslyLoadedSubviewData = { ...this.previouslyLoadedSubviewData, ...subviewData }
-            if (subviewData.addThangsView) {
-              // Don't destroy this one, we are going to reuse it
-              delete subview.subviews.add_thangs_view
-              subviewData.addThangsView.willDisappear()
-            }
-          }
-          this.removeSubView(subview)
-        }
-        this.render()
-        this.previouslyLoadedSubviewData.addThangsView?.didReappear()
+        this.setGeneratedLevel(level)
       })
+    }
+
+    async generatePracticeLevel () {
+      this.level.revert()
+      const parameters = { sourceLevel: this.level }
+      levelGeneration.generateLevel(parameters).then(level => {
+        if (this.destroyed) return
+        console.log('generated practice level', level)
+        this.setGeneratedLevel(level)
+      })
+    }
+
+    setGeneratedLevel (level) {
+      for (const key in level) {
+        if (Level.schema.properties[key]) {
+          this.level.set(key, level[key])
+        }
+      }
+
+      this.previouslyLoadedSubviewData = {}
+      for (const subview of Object.values(this.subviews)) {
+        if (subview.getDataForReplacementView) {
+          const subviewData = subview.getDataForReplacementView()
+          this.previouslyLoadedSubviewData = { ...this.previouslyLoadedSubviewData, ...subviewData }
+          if (subviewData.addThangsView) {
+            // Don't destroy this one, we are going to reuse it
+            delete subview.subviews.add_thangs_view
+            subviewData.addThangsView.willDisappear()
+          }
+        }
+        this.removeSubView(subview)
+      }
+      this.render()
+      this.previouslyLoadedSubviewData.addThangsView?.didReappear()
     }
 
     onPlayLevelTeamSelect (e) {
