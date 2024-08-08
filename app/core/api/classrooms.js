@@ -56,6 +56,14 @@ module.exports = {
     }))
   },
 
+  createStudentsForCodeNinja ({ classroomID, num }, options) {
+    if (options == null) { options = {} }
+    return fetchJson(`/db/classroom/${classroomID}/codeninja-create-students`, _.assign({}, options, {
+      method: 'POST',
+      json: { num }
+    }))
+  },
+
   fetchByOwner (ownerId, options) {
     if (options == null) { options = {} }
     let projectionString = ''

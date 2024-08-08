@@ -1,10 +1,9 @@
 <script>
-import { mapGetters } from 'vuex'
-import Modal from '../../common/Modal'
-
+import PrimaryButton from '../common/buttons/PrimaryButton'
+import classroomAPI from 'app/core/api/classrooms'
 export default Vue.extend({
   components: {
-    Modal,
+    PrimaryButton
   },
   props: {
     classroom: {
@@ -14,21 +13,10 @@ export default Vue.extend({
   },
   data: () => {
     return {
-      studentsNumber: 0
+      studentsNumber: 1
     }
   },
   computed: {
-    ...mapGetters({
-      // TODO: Almost certain this can be cut, but leaving in as this will be quickly merged
-      // for HoC and there's no one around to review... :)
-      selectedStudentIds: 'baseSingleClass/selectedStudentIds'
-    }),
-    showClassInfoModal () {
-      return !this.showInviteStudentsModal
-    },
-    showGoogleClassroom () {
-      return me.showGoogleClassroom() && (this.classroom.googleClassroomId || '').length > 0
-    },
     modalTitle () {
       return 'Create Students'
     }
@@ -41,35 +29,68 @@ export default Vue.extend({
   },
   methods: {
     submit () {
-
+      classroomAPI.createStudents({ classroomID: this.classroom.id, num: this.studentsNumber })
+        .then(response => {
+          const students = response.data.userLogin
+          let csvContent = 'userName,password\n'
+          for (const student of students) {
+            csvContent += `${student.name},${student.password}\n`
+          }
+          const file = new Blob([csvContent], { type: 'text/csv;charset=utf-8' })
+          window.saveAs(file, 'StudentsLoginCredentials.csv')
+          this.$emit('close')
+        })
+        .catch(error => {
+          console.error(error)
+          this.$emit('close')
+        })
     }
   }
 })
 </script>
 
 <template>
-  <modal
-    :title="modalTitle"
-    @close="$emit('close')"
-  >
-    <div class="style-ozaria teacher-form">
-      <div class="form-container">
-        <span class="sub-title">
-          {{ $t('teachers.create_students_prompt') }}
-        </span>
-        <div class="form-group">
+  <div class="style-ozaria teacher-form">
+    <div class="form-container">
+      <span class="sub-title">
+        {{ $t('teachers.create_students_prompt') }}
+      </span>
+      <div class="form-group">
+        <div class="form-input">
           <input
-            v-modal="studentsNumber"
+            v-model="studentsNumber"
             type="number"
           >
-          <button
-            class="btn btn-primary"
-            @click="submit"
-          >
-            {{ $t('play.confirm') }}
-          </button>
         </div>
+        <span class="sub-text">
+          students login credentials would be downloaded in a CSV file
+        </span>
+        <primary-button
+          class="submit-button"
+          @click="submit"
+        >
+          {{ $t('play.confirm') }}
+        </primary-button>
       </div>
     </div>
-  </modal>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+
+.sub-title {
+  @include font-p-2-paragraph-medium-gray;
+}
+
+.sub-text {
+  @include font-p-4-paragraph-smallest-gray;
+}
+
+.submit-button {
+  display: block;
+  width: 190px;
+  height: 35px;
+  margin-top: 20px;
+}
+</style>
