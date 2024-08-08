@@ -74,7 +74,7 @@ export default {
     },
 
     showHackStack () {
-      return utils.isCodeCombat
+      return true
     },
 
     showPD () {
