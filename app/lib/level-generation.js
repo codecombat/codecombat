@@ -782,7 +782,7 @@ generateProperty(null, function (level, parameters) {
         console.log('Repeating because layout was same', level.thangs, thangsNew, tries)
       }
       if (valid) {
-        ({ offset, size } = shiftLayout(thangsNew))
+        ({ offset, size } = shiftLayout({ thangs: thangsNew, visitedPositions }))
         if (size.cols > 9 || size.rows > 8) {
           valid = false
           console.log(`Level would be too big at ${size.cols}x${size.rows}`)
@@ -1189,8 +1189,19 @@ function layoutsAreEquivalent (thangsA, thangsB) {
   return true
 }
 
-function shiftLayout (thangs) {
+function shiftLayout ({ thangs, visitedPositions }) {
+  // Keep track of the min/max position of all significant Thangs plus places the hero visits
+  // Once we know the needed bounds and offset of the level, we can shift everything to start from row 0, col 0
+  // We maintain standard level viewport aspect ratio, so we may center the level along the major axis
   let [minCol, minRow, maxCol, maxRow] = [9001, 9001, -9001, -9001]
+
+  for (const pos of visitedPositions) {
+    minCol = Math.min(minCol, pos.x)
+    minRow = Math.min(minRow, pos.y)
+    maxCol = Math.max(maxCol, pos.x)
+    maxRow = Math.max(maxRow, pos.y)
+  }
+
   for (const thang of thangs) {
     const spriteName = thangTypesToSpriteNames[thang.thangType]
     if (!significantSpriteNames.concat(['Hero Placeholder']).includes(spriteName)) {
