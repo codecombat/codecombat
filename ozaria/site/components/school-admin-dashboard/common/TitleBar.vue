@@ -3,6 +3,7 @@ import PrimaryButton from '../../teacher-dashboard/common/buttons/PrimaryButton'
 import ButtonCurriculumGuide from '../../teacher-dashboard/common/ButtonCurriculumGuide'
 import NavSelectUnit from '../../teacher-dashboard/common/NavSelectUnit'
 import BreadcrumbComponent from 'app/views/common/BreadcrumbComponent'
+import SecondaryButton from '../../teacher-dashboard/common/buttons/SecondaryButton.vue'
 
 import { mapActions } from 'vuex'
 
@@ -11,7 +12,8 @@ export default {
     'primary-button': PrimaryButton,
     'button-curriculum-guide': ButtonCurriculumGuide,
     'nav-select-unit': NavSelectUnit,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    'secondary-button': SecondaryButton
   },
 
   props: {
@@ -69,8 +71,16 @@ export default {
 
     clickCurriculumGuide () {
       window.tracker?.trackEvent('Curriculum Guide Clicked', { category: 'SchoolAdmin', label: this.$route.path })
-      this.toggleCurriculumGuide()
+      // this.toggleCurriculumGuide()
+      window.open('teachers/curriculum', '_blank')
+    },
+    isNapervilleAdmin () {
+      return me.isNapervilleAdmin()
+    },
+    clickRosterClassroom () {
+      this.$emit('rosterClassroom')
     }
+
   }
 }
 </script>
@@ -96,6 +106,16 @@ export default {
         @change-course=" (courseId) => $emit('change-course', courseId)"
       />
       <div style="display: flex;">
+        <span
+          v-if="isNapervilleAdmin()"
+        >
+          <secondary-button
+            class="btn-title-padding btn-margins-height"
+            @click="clickRosterClassroom"
+          >
+            {{ $t('school_administrator.roster') }}
+          </secondary-button>
+        </span>
         <a :href="outcomesReportLink">
           <primary-button
             id="outcomes-report-btn"

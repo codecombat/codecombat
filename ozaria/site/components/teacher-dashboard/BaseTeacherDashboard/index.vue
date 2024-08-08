@@ -6,8 +6,6 @@ import ModalRemoveStudents from '../modals/ModalRemoveStudents'
 import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
 import ModalEditClass from '../modals/ModalEditClass'
 
-import BaseCurriculumGuide from '../BaseCurriculumGuide'
-
 import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
 import TitleBar from '../common/TitleBar'
 import LoadingBar from 'ozaria/site/components/common/LoadingBar'
@@ -37,7 +35,6 @@ export default {
     ModalAssignContent,
     ModalAddStudents,
     ModalRemoveStudents,
-    BaseCurriculumGuide,
     ModalOnboardingVideo,
     SecondaryTeacherNavigation,
     TitleBar,
@@ -159,9 +156,6 @@ export default {
   },
 
   beforeRouteUpdate (to, from, next) {
-    // Ensures we close curriculum guide when navigating between pages in the
-    // teacher dashboard.
-    this.closeCurriculumGuide()
     next()
   },
 
@@ -169,7 +163,6 @@ export default {
     ...mapMutations({
       setClassroomId: 'teacherDashboard/setClassroomId',
       setTeacherId: 'teacherDashboard/setTeacherId',
-      closeCurriculumGuide: 'baseCurriculumGuide/closeCurriculumGuide',
       setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom',
       setTeacherPagesTrackCategory: 'teacherDashboard/setTrackCategory'
     }),
@@ -201,7 +194,9 @@ export default {
       me.set('seenNewDashboardModal', true)
       me.save()
       this.showOnboardingModal = false
-      this.openNewClassModal()
+      if (!me.isNapervilleUser()) {
+        this.openNewClassModal()
+      }
     },
 
     openNewClassModal () {
@@ -311,7 +306,7 @@ export default {
       this.showTeacherDetailsModal = false
     },
     shouldShowTeacherDetailsModal () {
-      return !this.trialRequestLoading && !this.trialRequest?.organization && !hasSeenTeacherDetailModalRecently(me.get('_id'))
+      return !this.trialRequestLoading && !this.trialRequest?.organization && !hasSeenTeacherDetailModalRecently(me.get('_id')) && !me.isNapervilleUser()
     },
     handleTrialRequest () {
       this.$store.dispatch('trialRequest/fetchCurrentTrialRequest')
@@ -358,7 +353,6 @@ export default {
     <p> {{ $t('teacher.teacher_account_required') }} </p>
   </div>
   <div v-else>
-    <base-curriculum-guide :default-language="getLanguage" />
     <panel />
     <div class="teacher-dashboard">
       <div
