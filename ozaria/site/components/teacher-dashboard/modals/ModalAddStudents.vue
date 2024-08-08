@@ -3,15 +3,13 @@ import { mapGetters } from 'vuex'
 import Modal from '../../common/Modal'
 import ModalClassInfo from './ModalClassInfo'
 import ModalInviteStudents from './ModalInviteStudents'
-import ModalCreateStudents from './ModalCreateStudents'
 import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 
 export default Vue.extend({
   components: {
     Modal,
     ModalClassInfo,
-    ModalInviteStudents,
-    ModalCreateStudents
+    ModalInviteStudents
   },
   props: {
     classroom: {
@@ -92,6 +90,7 @@ export default Vue.extend({
       :classroom="classroom"
       :show-google-classroom="showGoogleClassroom"
       :google-sync-in-progress="googleSyncInProgress"
+      :create-students="createStudents"
       from="ModalAddStudents"
       @inviteStudents="showInviteStudentsModal = true"
       @syncGoogleClassroom="syncGoogleClassroom"
@@ -103,12 +102,6 @@ export default Vue.extend({
       :classroom-id="classroom._id"
       from="ModalAddStudents"
       @back="showInviteStudentsModal = false"
-      @done="$emit('close')"
-    />
-    <modal-create-students
-      v-if="createStudents"
-      :classroom="classroom"
-      from="ModalAddStudents"
       @done="$emit('close')"
     />
   </modal>

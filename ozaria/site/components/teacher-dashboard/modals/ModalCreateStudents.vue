@@ -13,7 +13,7 @@ export default Vue.extend({
   },
   data: () => {
     return {
-      studentsNumber: 1
+      studentsNumber: null
     }
   },
   computed: {
@@ -50,16 +50,18 @@ export default Vue.extend({
 </script>
 
 <template>
-  <div class="style-ozaria teacher-form">
+  <div class="create-students-modal">
     <div class="form-container">
-      <span class="sub-title">
-        {{ $t('teachers.create_students_prompt') }}
-      </span>
+      <p class="form-label">
+        Create Students
+      </p>
       <div class="form-group">
         <div class="form-input">
           <input
             v-model="studentsNumber"
             type="number"
+            :placeholder="$t('teachers.create_students_prompt')"
+            class="form-control"
           >
         </div>
         <span class="sub-text">
@@ -69,7 +71,7 @@ export default Vue.extend({
           class="submit-button"
           @click="submit"
         >
-          {{ $t('play.confirm') }}
+          {{ $t('common.create') }}
         </primary-button>
       </div>
     </div>
@@ -78,6 +80,15 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import "app/styles/ozaria/_ozaria-style-params.scss";
+
+.create-students-modal {
+  margin-top: 20px;
+}
+
+.form-label {
+  @include font-h-4-nav-uppercase-black;
+  text-align: left;
+}
 
 .sub-title {
   @include font-p-2-paragraph-medium-gray;
