@@ -26,7 +26,7 @@ export default {
         style="max-width: 800px;"
       >
         <span v-if="championshipActive">
-          {{ $t('league.championship_summary', { championshipArena: $t('league.anti_gravity'), championshipMonth: $t('calendar.april'), championshipType: $t('league.cup') }) }}
+          {{ $t('league.championship_summary', { championshipArena: $t('league.sunfire'), championshipMonth: $t('calendar.august'), championshipType: $t('league.blitz') }) }}
         </span>
         <span v-else>
           {{ $t('league.summary') }}

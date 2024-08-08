@@ -29,6 +29,7 @@
         :price-data="priceData"
         :payment-group-id="paymentGroupId"
         :is-tecmilenio-partner="isTecmilenioPartner"
+        :is-tecmilenio-confirmed-link="isTecmilenioConfirmedLink"
         :is-b-d-partner="isBDPartner"
       />
       <footer-component
@@ -74,6 +75,9 @@ export default {
   computed: {
     isTecmilenioPartner () {
       return !!(this.paymentGroupMetadata ? this.paymentGroupMetadata.isTecmilenioPartner : false)
+    },
+    isTecmilenioConfirmedLink () {
+      return !!(this.paymentGroupMetadata ? this.paymentGroupMetadata.isTecmilenioConfirmedLink : false)
     },
     isBDPartner () {
       return !!(this.paymentGroupMetadata ? this.paymentGroupMetadata.isBDPartner : false)

@@ -213,6 +213,9 @@ export default {
         } else if (componentName === COMPONENT_NAMES.PD) {
           // PD page
           await dispatch('fetchDataPDAsync', options)
+        } else if (componentName === COMPONENT_NAMES.CURRICULUM_GUIDE) {
+          // Curriculum page
+          await dispatch('fetchDataCurriculumGuideAsync', options) // does not block loading indicator
         } else if (componentName === COMPONENT_NAMES.STUDENT_ASSESSMENTS) {
           // Assessments page
           await dispatch('fetchDataStudentAssessments', options)
@@ -358,6 +361,13 @@ export default {
         fetchPromises.push(dispatch('users/fetchCreatorOfPrepaid', id, { root: true }))
         fetchPromises.push(dispatch('prepaids/fetchJoinersForPrepaid', id, { root: true }))
       })
+      await Promise.all(fetchPromises)
+    },
+
+    async fetchDataCurriculumGuideAsync ({ state, dispatch, rootGetters }, options = {}) {
+      const fetchPromises = []
+      fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.teacherId }, { root: true }))
+      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       await Promise.all(fetchPromises)
     },
 

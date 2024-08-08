@@ -544,7 +544,7 @@ export default {
         <div>
           <img
             class="ai-league-logo"
-            src="/images/pages/league/hyperx-cobranded-logo-1.png"
+            src="/images/pages/league/logo_badge.png"
           >
         </div>
       </div>
@@ -648,33 +648,6 @@ export default {
       </div>
     </div>
 
-    <section
-      v-if="currentSelectedClanName === 'HyperX'"
-      class="row text-center partner-banner"
-    >
-      <div class="col-sm-12">
-        <h1>
-          Deal: 20% off with code <a
-            href="https://hyperx.com/discount/HXCODECOMBAT"
-            target="_blank"
-          ><strong>HXCODECOMBAT</strong></a>
-        </h1>
-        <p>
-          <em>Offer cannot be used on already discounted items and cannot be combined with any other offer. No item limit. Discount does not impact  shipping charges. Code is for the U.S. site only. Code valid through March 31, 2023.</em>
-        </p>
-        <a
-          href="https://hyperx.com/discount/HXCODECOMBAT"
-          target="_blank"
-        >
-          <img
-            class="custom-esports-image-banner"
-            alt=""
-            src="/images/pages/league/hyperx-banner.jpg"
-          >
-        </a>
-      </div>
-    </section>
-
     <a id="standings" />
     <div
       v-if="championshipActive"
@@ -710,7 +683,7 @@ export default {
         <div>
           <img
             class="img-responsive"
-            src="/images/pages/league/anti-gravity-cup.png"
+            src="/images/pages/league/sunfire-blitz.png"
             loading="lazy"
             style="max-height: 200px; float: right; margin: 0 15px 15px;"
             alt=""
@@ -719,11 +692,11 @@ export default {
             class="subheader1"
             style="margin-bottom: 32px;"
           >
-            <span class="esports-green">Season 10 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span>
+            <span class="esports-green">Season 11 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span>
           </h1>
         </div>
-        <p>{{ $t('league.season10_announcement_1') }}</p>
-        <p>{{ $t('league.season4_announcement_2') }}</p>
+        <p>{{ $t('league.season11_announcement_1') }}</p>
+        <p>{{ $t('league.season8_announcement_2') }}</p>
       </div>
     </div>
 
@@ -956,110 +929,13 @@ export default {
     <div class="row prize-section">
       <div class="prize-section__heading subheader1">
         <h1 class="prize-section__heading-text esports-pink">
-          <span class="esports-aqua">{{ $t('league.you_win') }}</span> {{ $t('league.great_prizes') }}
+          <span class="esports-aqua">{{ $t('league.code_your_way') }}</span> {{ $t('league.to_win_the_price') }}
         </h1>
-      </div>
-      <div class="prize-section__sponsor">
-        <div class="prize-section__sponsor-block">
-          <span class="prize-section__sponsor-text">{{ $t('league.powered_by') }}</span>
-          <img
-            src="/images/pages/league/hyperx-red-logo.png"
-            alt="HyperX logo"
-            class="prize-section__sponsor-img"
-          >
-        </div>
       </div>
       <div class="prize-section__info">
         <div class="prize-section__info-1">
           {{ $t('league.grand_prize') }}: {{ $t('league.season1_prize_1') }}<span class="prize-section__small-top">1</span>
         </div>
-        <div class="prize-section__info-2">
-          {{ $t('league.top_players_win') }} <span class="prize-section__small-top">2</span>
-        </div>
-      </div>
-      <div class="prize-section__winners clearfix">
-        <div class="prize-section__winners-container">
-          <div class="col-sm-4 prize-section__winners-1 prize-section-box">
-            <div class="prize-section__winners-text">
-              1<span class="prize-section__small-top">st</span> {{ $t('league.place') }}
-            </div>
-            <div class="prize-section__winners--product-link">
-              <div>
-                <img
-                  src="/images/pages/league/prizes/hyperx-2024-1st-grouped-glow.png"
-                  alt="HyperX prizes: Cloud Alpha S Headset, Alloy Origins Keyboard, Pulsefire Haste Mouse, Pulsefire Mat Mousepad, and Solocast Microphone"
-                  class="prize-section__winners-1--img"
-                >
-              </div>
-              Cloud Alpha S Headset,
-              Alloy Origins Keyboard,
-              Pulsefire Haste Mouse,
-              Pulsefire Mat Mousepad, and
-              Solocast Microphone
-            </div>
-          </div>
-          <div class="prize-section__winners-2">
-            <div class="col-sm-4 prize-section-box">
-              <div class="prize-section__winners-text">
-                2<span class="prize-section__small-top">nd</span> {{ $t('league.place') }}
-              </div>
-              <div class="row">
-                <div class="prize-section__winners--product-link">
-                  <div>
-                    <img
-                      src="/images/pages/league/prizes/hyperx-2024-2nd-grouped-glow.png"
-                      alt="Cloud II Headset"
-                      class="prize-section__winners-2--img"
-                    >
-                  </div>
-                  Cloud Core 7.1 Headset and Alloy Origins Core Keyboard
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4 prize-section-box">
-              <div class="prize-section__winners-text">
-                3<span class="prize-section__small-top">rd</span> {{ $t('league.place') }}
-              </div>
-              <div class="prize-section__winners--product-link">
-                <div>
-                  <img
-                    src="/images/pages/league/prizes/hyperx-cloud-core-71-headset-glow.png"
-                    alt="Cloud Stinger Core Headset"
-                    class="prize-section__winners-2--img"
-                  >
-                </div>
-                Cloud Core 7.1 Headset
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="prize-section__promo">
-        {{ $t('courses.join') }} <a
-          href="/league/hyperx"
-          class="prize-section__promo-link esports-aqua"
-        >{{ $t('league.team_hyperx') }}</a>
-        {{ $t('code.and') }} {{ $t('league.earn_more_gear') }}
-      </div>
-      <div class="prize-section__footer">
-        <p class="prize-section__footer-text">
-          <span class="prize-section__terms">1</span> {{ $t('league.prize_footer1') }}
-        </p>
-        <p class="prize-section__footer-text">
-          <span class="prize-section__terms">2</span> {{ $t('league.prize_footer2') }}
-        </p>
-        <p class="prize-section__footer-text">
-          {{ $t('league.prize_footer3') }}
-        </p>
-        <p class="prize-section__footer-text">
-          {{ $t('league.prize_footer4_1') }}
-          <a
-            href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view"
-            class="prize_section__reserves-link esports-aqua"
-            target="_blank"
-          >{{ $t('league.coco_reserves') }}</a>
-          {{ $t('league.prize_footer4_2') }}
-        </p>
       </div>
     </div>
 
@@ -1545,8 +1421,9 @@ export default {
 
   .esports-header {
     .ai-league-logo {
-      width: 20vw;
-      max-width: 296px;
+      width: 15vw;
+      max-width: 206px;
+      margin-left: 60px;
     }
 
     &-powered-by {
@@ -1563,7 +1440,7 @@ export default {
       position: relative;
       top: 40px;
       left: calc(50% - 10vw);
-      width: 20vw;
+      width: 15vw;
     }
 
     .esports-header.section-space {
@@ -2061,7 +1938,7 @@ export default {
       padding: 30px;
 
       &-1 {
-        font-size: 45px;
+        font-size: 65px;
         padding-bottom: 10px;
       }
 

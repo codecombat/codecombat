@@ -136,3 +136,7 @@ block content
                         div.test-running ~ #{test.simulationFrameRate.toFixed(1)} FPS
                       else
                         div.test-failed ✘ #{test.simulationFrameRate.toFixed(1)} FPS
+                if test.fuzzyResults
+                  div.row.fuzzy-results
+                    span Suggest new ClampedProperties: 
+                    span= JSON.stringify(test.fuzzyResults)

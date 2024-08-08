@@ -1,24 +1,25 @@
 <script>
-import BaseCurriculumGuide from '../../teacher-dashboard/BaseCurriculumGuide'
 import LoadingBar from 'ozaria/site/components/common/LoadingBar'
 import SecondaryNavigation from '../common/SecondaryNavigation'
 import TitleBar from '../common/TitleBar'
 import { mapMutations, mapGetters } from 'vuex'
 import { COMPONENT_NAMES } from '../common/constants'
 import Panel from 'ozaria/site/components/teacher-dashboard/Panel/index.vue'
+import ModalRosterClassrooms from 'app/components/common/ModalRosterClassrooms.vue'
 
 export default {
   components: {
-    BaseCurriculumGuide,
     LoadingBar,
     SecondaryNavigation,
     TitleBar,
-    Panel
+    Panel,
+    ModalRosterClassrooms
   },
 
   data () {
     return {
-      showRestrictedDiv: false
+      showRestrictedDiv: false,
+      showRosteringModal: false
     }
   },
 
@@ -79,6 +80,9 @@ export default {
 
     onChangeCourse (courseId) {
       this.setSelectedCourseId({ courseId })
+    },
+    onClickRosterClassroom () {
+      this.showRosteringModal = true
     }
   }
 }
@@ -93,7 +97,6 @@ export default {
     <p> {{ $t('teacher.teacher_account_required') }} </p>
   </div>
   <div v-else>
-    <base-curriculum-guide />
     <panel />
     <secondary-navigation />
     <title-bar
@@ -104,10 +107,15 @@ export default {
       :courses="classroomCourses"
       :selected-course-id="selectedCourseId"
       @change-course="onChangeCourse"
+      @rosterClassroom="onClickRosterClassroom"
     />
     <loading-bar
       :key="loading"
       :loading="loading"
+    />
+    <modal-roster-classrooms
+      v-if="showRosteringModal"
+      @close="showRosteringModal = false"
     />
     <router-view />
   </div>

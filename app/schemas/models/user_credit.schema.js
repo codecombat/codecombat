@@ -26,6 +26,20 @@ const UserCreditSchema = c.object({
           uid: c.shortString()
         }
       )
+    ),
+    extras: c.array(
+      {
+        title: 'Extra credits'
+      },
+      c.object(
+        {
+          title: 'Extra credits'
+        }, {
+          credits: c.int(),
+          endDate: c.date(),
+          operation: c.shortString(),
+        }
+      )
     )
   }
 })
