@@ -116,7 +116,7 @@ _.extend(ClassroomSchema.properties, {
   }, {}),
   stats: c.object({ additionalProperties: true }),
   initializedOuterStats: { type: 'boolean', default: true, description: 'whether the classroom.stats for the classroom is initialized' },
-  type: { title: 'Class Type', type: 'string', enum: ['', 'in-school', 'after-school', 'online', 'camp', 'camp-esports', 'camp-junior', 'homeschool', 'other', 'club', 'club-esports', 'club-roblox', 'club-hackstack', 'club-junior'] }
+  type: { title: 'Class Type', type: 'string', enum: ['', 'in-school', 'after-school', 'online', 'camp', 'camp-esports', 'camp-junior', 'homeschool', 'other', 'club-ozaria', 'club-esports', 'club-roblox', 'club-hackstack'] }
 })
 
 c.extendBasicProperties(ClassroomSchema, 'Classroom')

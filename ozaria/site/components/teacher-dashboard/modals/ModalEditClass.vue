@@ -244,20 +244,12 @@ export default Vue.extend({
       ]
     },
     clubTypes () {
-      if (this.isOzaria) {
-        return [
-          { id: 'club', name: 'Ozaria' },
-          { id: 'club-roblox', name: 'Roblox' },
-          { id: 'club-hackstack', name: 'Hackstack' },
-        ]
-      } else {
-        return [
-          { id: 'club-esports', name: 'Esports' },
-          { id: 'club-junior', name: 'Junior' },
-          { id: 'club-roblox', name: 'Roblox' },
-          { id: 'club-hackstack', name: 'Hackstack' },
-        ]
-      }
+      return [
+        { id: 'club-ozaria', name: 'Ozaria' },
+        { id: 'club-esports', name: 'Esports' },
+        { id: 'club-roblox', name: 'Roblox' },
+        { id: 'club-hackstack', name: 'Hackstack' },
+      ]
     }
   },
 
@@ -370,8 +362,9 @@ export default Vue.extend({
         if (this.newClubType) {
           updates.type = this.newClubType
         }
-        if (this.newClubType === 'club-junior') {
-          this.newInitialFreeCourses = [utils.courseIDs.JUNIOR]
+        if (this.newClubType === 'club-ozaria' && this.isCodeCombat) {
+          noty({ text: 'Error creating ozaria club in CodeCombat', layout: 'topCenter', type: 'error', timeout: 2000 })
+          return
         }
       }
       if (this.newClassName && this.newClassName !== this.classroomName) {
@@ -608,6 +601,9 @@ export default Vue.extend({
                 {{ clubType.name }}
               </option>
             </select>
+            <span v-if="isCodeCombat && newClubType === 'club-ozaria'">
+              Please login on <a href="https://ozaria.com">ozaria.com</a> with same credentials to create ozaria club and continue playing
+            </span>
           </div>
         </div>
         <div
