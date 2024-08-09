@@ -29,7 +29,7 @@ export default class InternalTracker extends BaseTracker {
     } else {
       traits = _.omit(traits, 'firstName', 'lastName')
     }
-    traits.deviceMemory = typeof(navigator.deviceMemory) === "number" ? navigator.deviceMemory : undefined;
+    traits.deviceMemory = typeof (navigator.deviceMemory) === 'number' ? navigator.deviceMemory : undefined
     this.trackEventInternal('Identify', { id: me.id, traits })
   }
 
