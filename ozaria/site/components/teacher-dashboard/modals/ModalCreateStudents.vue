@@ -29,9 +29,9 @@ export default Vue.extend({
   },
   methods: {
     submit () {
-      classroomAPI.createStudents({ classroomID: this.classroom.id, num: this.studentsNumber })
+      classroomAPI.createStudentsForCodeNinja({ classroomID: this.classroom._id, num: this.studentsNumber })
         .then(response => {
-          const students = response.data.userLogin
+          const students = response.userLogin
           let csvContent = 'userName,password\n'
           for (const student of students) {
             csvContent += `${student.name},${student.password}\n`
