@@ -71,6 +71,17 @@ module.exports = {
 
   joinByCodes (options) {
     if (options == null) { options = {} }
-    return fetchJson('/db/prepaids/-/join-by-codes', options)
-  }
+    return fetchJson('/db/prepaids/-/join-by-codes', _.assign({}, {
+      method: 'POST',
+      json: options
+    }))
+  },
+
+  getOrCreateTestLicense (options) {
+    if (options == null) { options = {} }
+    return fetchJson('/db/prepaids/-/test-student-license', _.assign({}, {
+      method: 'POST',
+      json: options
+    }))
+  },
 }

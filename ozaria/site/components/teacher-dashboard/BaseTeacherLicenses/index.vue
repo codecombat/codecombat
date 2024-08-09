@@ -65,7 +65,8 @@ export default {
 
   methods: {
     ...mapActions({
-      fetchData: 'teacherDashboard/fetchData'
+      fetchData: 'teacherDashboard/fetchData',
+      getTestLicense: 'prepaids/getTestLicense'
     }),
     ...mapMutations({
       resetLoadingState: 'teacherDashboard/resetLoadingState',
@@ -102,6 +103,7 @@ export default {
       :teacher-id="getTeacherId"
       :display-only="displayOnly"
       @getLicenses="getLicenses"
+      @getTestLicense="getTestLicense"
       @apply="applyLicenses"
       @share="shareLicenses"
       @stats="seeLicenseStats"

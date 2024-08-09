@@ -2374,6 +2374,7 @@ module.exports = {
       all_units_completed: 'All Units Completed!',
       hide_options: 'Hide Options',
       more_options: 'More Options',
+      get_test_license: 'Get Test Student License'
     },
 
     project_gallery: {
@@ -4628,7 +4629,8 @@ module.exports = {
       no_failed_attempts: 'No Failed Attempts',
       failed_attempts_subtext: 'Number of times incorrect option was selected',
       open_project: 'Open Project',
-      create_class_hackstack: 'Please create a New Class to access AI HackStack'
+      create_class_hackstack: 'Please create a New Class to access AI HackStack',
+      test_student_only: 'Test Student Only',
     },
 
     outcomes: {
