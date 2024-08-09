@@ -264,7 +264,7 @@ export default {
         <primary-button
           v-if="!showClassInfo"
           id="new-class-btn-shepherd"
-          class="btn-title-padding btn-margins-height"
+          class="btn-title-padding btn-margins-height dusk-btn"
           @click="clickNewClass"
         >
           {{ $t('teacher_dashboard.add_class') }}
