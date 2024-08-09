@@ -13,7 +13,8 @@ export default Vue.extend({
   },
   data: () => {
     return {
-      studentsNumber: null
+      studentsNumber: null,
+      successMsg: ''
     }
   },
   computed: {
@@ -37,7 +38,9 @@ export default Vue.extend({
             csvContent += `${student.name},${student.password}\n`
           }
           const file = new Blob([csvContent], { type: 'text/csv;charset=utf-8' })
-          window.saveAs(file, 'StudentsLoginCredentials.csv')
+          const filename = `StudentsCredentials-${this.classroom.name}-${Date.now()}.csv`
+          window.saveAs(file, filename)
+          this.successMsg = `Students credentials downloaded in ${filename}`
           this.$emit('close')
         })
         .catch(error => {
@@ -73,6 +76,17 @@ export default Vue.extend({
         >
           {{ $t('common.create') }}
         </primary-button>
+        <div
+          v-if="successMsg"
+          class="success-msg sub-text"
+        >
+          <p>
+            {{ successMsg }}
+          </p>
+          <p>
+            Refresh the page to see the students in the class.
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -103,5 +117,14 @@ export default Vue.extend({
   width: 190px;
   height: 35px;
   margin-top: 20px;
+}
+
+.success-msg {
+  color: green;
+  margin-top: 10px;
+
+  p {
+    color: inherit;
+  }
 }
 </style>

@@ -1255,6 +1255,20 @@ export default Vue.extend({
       display: inline-block;
       color: $color-concept-flag-color !important;
     }
+    .form-control {
+      color: $color-concept-flag-color !important;
+    }
+  }
+}
+
+.has-error {
+  .form-control {
+    border-color: #a94442 !important;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  }
+  .control-label {
+    color: #a94442 !important;
   }
 }
 

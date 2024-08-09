@@ -2376,11 +2376,8 @@ module.exports = {
       all_units_completed: 'All Units Completed!',
       hide_options: 'Hide Options',
       more_options: 'More Options',
-<<<<<<< HEAD
-      get_test_license: 'Get Test Student License'
-=======
+      get_test_license: 'Get Test Student License',
       create_students: 'Generate Students'
->>>>>>> 1576b60503 (temp save since student need create after classroom type set)
     },
 
     project_gallery: {
