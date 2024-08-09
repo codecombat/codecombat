@@ -1783,7 +1783,14 @@ module.exports = {
       our_curriculum_empowers_students: 'Our curriculum empowers students to use AI to create websites, games, art, and more. Currently in beta.',
       dashboard_update: 'Dashboard Update',
       dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.',
-      switch_to_test_student: 'Switching to test student account..'
+      switch_to_test_student: 'Switching to test student account..',
+      import_ozaria_classroom: 'Import Ozaria Classroom',
+      import_codecombat_classroom: 'Import Codecombat Classroom',
+      select_ozaria_classroom: 'Select Ozaria Classroom',
+      select_codecombat_classroom: 'Select Codecombat Classroom',
+      select_to_import_from_ozaria: 'Select to Import from Ozaria',
+      select_to_import_from_codecombat: 'Select to Import from Codecombat',
+      all_classrooms_imported: 'All classrooms already imported'
     },
 
     no_licenses_page: {

@@ -9,9 +9,9 @@
 const fetchJson = require('./fetch-json')
 
 module.exports = {
-  get ({ classroomID }, options) {
+  get ({ classroomID }, options, urlPrefix = '') {
     if (options == null) { options = {} }
-    return fetchJson(`/db/classroom/${classroomID}`, options)
+    return fetchJson(`${urlPrefix}/db/classroom/${classroomID}`, options)
   },
 
   // TODO: Set this up to allow using classroomID instead
@@ -56,7 +56,7 @@ module.exports = {
     }))
   },
 
-  fetchByOwner (ownerId, options) {
+  fetchByOwner (ownerId, options, urlPrefix = '') {
     if (options == null) { options = {} }
     let projectionString = ''
     if (Array.isArray(options.project)) {
@@ -65,7 +65,7 @@ module.exports = {
     if (options.includeShared) {
       projectionString += '&includeShared=true'
     }
-    return fetchJson(`/db/classroom?ownerID=${ownerId}${projectionString}`, {
+    return fetchJson(`${urlPrefix}/db/classroom?ownerID=${ownerId}${projectionString}`, {
       method: 'GET'
     })
   },
@@ -109,9 +109,9 @@ module.exports = {
   },
 
   // updates = { archived: '', name: ''}
-  update ({ classroomID, updates }, options) {
+  update ({ classroomID, updates }, options, urlPrefix = '') {
     if (options == null) { options = {} }
-    return fetchJson(`/db/classroom/${classroomID}`, _.assign({}, options, {
+    return fetchJson(`${urlPrefix}/db/classroom/${classroomID}`, _.assign({}, options, {
       method: 'PUT',
       json: updates
     }))
