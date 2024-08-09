@@ -2022,9 +2022,14 @@ ${problem.category} - ${problem.score} points\
             }
           } else if (level.assessment) {
             level.hidden = false
-            level.locked = this.levelStatusMap[lastNormalLevel != null ? lastNormalLevel.slug : undefined] !== 'complete'
+            const isLastNormalLevelCompleted = this.levelStatusMap[lastNormalLevel != null ? lastNormalLevel.slug : undefined] === 'complete'
+            level.locked = !isLastNormalLevelCompleted && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), prev.original)
           } else {
-            level.locked = found
+            if (prev) {
+              level.locked = prev.locked && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), prev.original)
+            } else {
+              level.locked = found
+            }
             level.hidden = false
           }
         }
@@ -2178,6 +2183,10 @@ ${problem.category} - ${problem.score} points\
 
       if (what === 'okanagan-library-logo') {
         return userUtils.libraryName() === 'okanagan-library'
+      }
+
+      if (what === 'east-baton-library-logo') {
+        return userUtils.libraryName() === 'east-baton-library'
       }
 
       if (what === 'league-arena') {

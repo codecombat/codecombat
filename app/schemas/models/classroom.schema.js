@@ -83,6 +83,14 @@ _.extend(ClassroomSchema.properties, {
       introContent: c.array()
     }))
   })),
+  initialFreeCourses: {
+    description: 'Courses that are free and will be automatically assigned to any joining student',
+    type: 'array',
+    items: {
+      type: ['string'],
+      links: [{ rel: 'db', href: '/db/course/{($)}/version' }],
+    }
+  },
   googleClassroomId: { title: 'Google classroom id', type: 'string' },
   lmsClassroomId: { title: 'LMS classroom id', type: 'string' },
   grades: c.array({ title: 'Class Grades' }, { type: 'string', enum: ['elementary', 'middle', 'high'] }),

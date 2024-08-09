@@ -102,11 +102,18 @@ module.exports = class RootView extends CocoView
       .catch((err) -> errors.showNotyNetworkError(err))
 
   switchToStudentMode: ->
-    text = 'Switching to test student account..'
-    noty({ text, type: 'success', timeout: 5000, killer: true })
-    me.switchToStudentMode()
-      .then(() -> window.location.reload())
-      .catch((err) -> errors.showNotyNetworkError(err))
+    me.getTestStudentId()
+      .then (student) =>
+        if student.new
+          @openNewTestStudentModal(student.id)
+        else
+          text = $.i18n.t('teachers.switch_to_test_student')
+          noty({ text, type: 'success', timeout: 5000, killer: true })
+          me.spy({ id: student.id }).then(() -> document.location.reload())
+
+  openNewTestStudentModal: (id) ->
+    NewTestStudentModal = require 'views/core/NewTestStudentModal'
+    @openModalView new NewTestStudentModal(id)
 
   onClickSignupButton: (e) ->
     switch @id

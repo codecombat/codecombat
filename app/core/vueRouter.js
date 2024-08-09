@@ -271,6 +271,7 @@ export default function getVueRouter () {
               }
             },
             { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDView.vue') },
+            { path: 'curriculum', component: () => import(/* webpackChunkName: "curriculum" */ '../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/index.vue') },
             {
               path: 'ai-league',
               component: () => import(/* webpackChunkName: "ai-league" */ '../views/ai-league/AILeagueView.vue'),
@@ -289,7 +290,15 @@ export default function getVueRouter () {
         },
         {
           path: '/roblox',
-          component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox'),
+          ...(
+            me.getRobloxPageExperimentValue() === 'control'
+              ? {
+                  component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox'),
+                }
+              : {
+                  component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/NewPageRoblox'),
+                }
+          ),
           meta: { theme: 'teal' }
         },
         {

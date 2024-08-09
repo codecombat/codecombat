@@ -98,7 +98,8 @@ module.exports = Vue.extend({
     },
     fetchLevelNumber () {
       this.generateLevelNumberMap({
-        campaignId: store.state.game.level.campaign
+        campaignId: store.state.game.level.campaign,
+        language: utils.getQueryVariable('codeLanguage') || 'python'
       }).then(() => {
         this.levelNumber = this.getLevelNumber(store.state.game.level.original)
       })

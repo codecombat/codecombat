@@ -34,13 +34,24 @@ block content
               input(id=campaignID, type="checkbox", checked=campaignInfo.checked, disabled=!!view.testsByLevelAndLanguage)
               label(for=campaignID)= campaign + ': ' + campaignInfo.levels.length
         .row
-          each codeLanguage in view.codeLanguages
+          each codeLanguage in view.codeLanguages || []
             .form-group.code-language-mix
               - var codeLanguageID = "code-language-" + codeLanguage.id + "-checkbox";
               input(id=codeLanguageID, type="checkbox", checked=codeLanguage.checked, disabled=!!view.testsByLevelAndLanguage)
               label(for=codeLanguageID)= codeLanguage.id
           .pull-right
             button.btn.btn-primary#go-button(disabled=!!view.testsByLevelAndLanguage) Start Tests
+        .row
+          .form-group
+            input(id='enable-fuzzy-verifier' type='checkbox')
+            label(for='enable-fuzzy-verifier') Enable Fuzzy Verifier
+          .form-group
+            label(for='fuzzy-batch-skip') Skip
+            input(id='fuzzy-batch-skip' type='number' step="1")
+          .form-group
+            label(for='fuzzy-batch-limit') Limit
+            input(id='fuzzy-batch-limit' type='number' step="1")
+
 
     if view.levelsToLoad && !view.testsByLevelAndLanguage
       .progress
@@ -125,3 +136,7 @@ block content
                         div.test-running ~ #{test.simulationFrameRate.toFixed(1)} FPS
                       else
                         div.test-failed ✘ #{test.simulationFrameRate.toFixed(1)} FPS
+                if test.fuzzyResults
+                  div.row.fuzzy-results
+                    span Suggest new ClampedProperties: 
+                    span= JSON.stringify(test.fuzzyResults)

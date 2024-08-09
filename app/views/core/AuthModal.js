@@ -184,6 +184,23 @@ module.exports = (AuthModal = (function () {
                 },
                 error: (res, jqxhr) => {
                   if ((jqxhr.status === 409) && jqxhr.responseJSON.errorID && (jqxhr.responseJSON.errorID === 'account-with-email-exists')) {
+                    const mergeLogin = (gplusAttrs) => {
+                      return me.loginGPlusUser(gplusAttrs.gplusID, {
+                        data: { merge: true, email: gplusAttrs.email },
+                        success: () => {
+                          application.tracker.identifyAfterNextPageLoad()
+                          return application.tracker.identify().finally(() => {
+                            return loginNavigate(this.subModalContinue)
+                          })
+                        },
+                        error: this.onGPlusLoginError
+                      })
+                    }
+
+                    // auto-merge since we roster and create accounts for them
+                    if (gplusAttrs.email?.includes(User.getNapervilleDomain())) {
+                      return mergeLogin(gplusAttrs)
+                    }
                     return noty({
                       text: $.i18n.t('login.accounts_merge_confirmation'),
                       layout: 'topCenter',
@@ -193,16 +210,7 @@ module.exports = (AuthModal = (function () {
                           text: 'Yes',
                           onClick ($noty) {
                             $noty.close()
-                            return me.loginGPlusUser(gplusAttrs.gplusID, {
-                              data: { merge: true, email: gplusAttrs.email },
-                              success: () => {
-                                application.tracker.identifyAfterNextPageLoad()
-                                return application.tracker.identify().finally(() => {
-                                  return loginNavigate(this.subModalContinue)
-                                })
-                              },
-                              error: this.onGPlusLoginError
-                            })
+                            return mergeLogin(gplusAttrs)
                           }
                         }, { text: 'No', onClick ($noty) { return $noty.close() } }]
                     })

@@ -11,7 +11,7 @@ const defaultProjections = {
   cinematics: '_id,i18n,name,slug,displayName,description',
   interactives: '_id,i18n,name,slug,displayName,interactiveType,unitCodeLanguage,documentation,draggableOrderingData,insertCodeData,draggableStatementCompletionData,defaultArtAsset,promptText',
   cutscenes: '_id,i18n,name,slug,displayName,description',
-  levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation,thangs,screenshot,exemplarProjectUrl,exemplarCodeUrl,projectRubricUrl,totalStages'
+  levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation,heroThang,screenshot,exemplarProjectUrl,exemplarCodeUrl,projectRubricUrl,totalStages'
 }
 
 export default {
@@ -121,7 +121,7 @@ export default {
         .finally(() => commit('toggleLoadingForClassroom', classroomId))
     },
 
-    fetchGameContentForCampaign: ({ commit, state }, { campaignId, options = {} }) => {
+    fetchGameContentForCampaign: ({ commit, state }, { campaignId, language, options = {} }) => {
       if (state.gameContent.byCampaign[campaignId]) {
         return Promise.resolve()
       }
@@ -131,10 +131,10 @@ export default {
         cinematics: (options.project || {}).cinematics || defaultProjections.cinematics,
         interactives: (options.project || {}).interactives || defaultProjections.interactives,
         cutscenes: (options.project || {}).cutscenes || defaultProjections.cutscenes,
-        levels: (options.project || {}).levels || defaultProjections.levels
+        levels: (options.project || {}).levels || defaultProjections.levels,
       }
 
-      return campaignsApi.fetchGameContent(campaignId, { data: { project: projectData, cacheEdge: true }, callOz: options.callOz })
+      return campaignsApi.fetchGameContent(campaignId, { data: { project: projectData, cacheEdge: true, language: language || 'python' }, callOz: options.callOz })
         .then(res => {
           if (res) {
             commit('addContentForCampaign', {
@@ -149,12 +149,13 @@ export default {
         .finally(() => commit('toggleLoadingForCampaign', campaignId))
     },
 
-    async generateLevelNumberMap ({ commit, state, dispatch, getters }, { campaignId }) {
+    async generateLevelNumberMap ({ commit, state, dispatch, getters }, { campaignId, language }) {
       let gameContent = state.gameContent.byCampaign[campaignId]
 
       if (!gameContent) {
         await dispatch('fetchGameContentForCampaign', {
           campaignId,
+          language
         })
       }
       gameContent = getters.getContentForCampaign(campaignId)

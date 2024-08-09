@@ -136,6 +136,7 @@ module.exports = (GPlusHandler = (GPlusHandler = (function () {
       if (options.context == null) { options.context = options }
       window.google.accounts.id.initialize({
         client_id: clientID,
+        use_fedcm_for_prompt: true,
         callback: resp => {
           this.trigger('connect')
           return options.success.bind(options.context)(resp)
@@ -145,7 +146,7 @@ module.exports = (GPlusHandler = (GPlusHandler = (function () {
       if (document.getElementById(elementId)) {
         window.google.accounts.id.renderButton(
           document.getElementById(elementId),
-          { theme: 'outline', size: 'large' }
+          { theme: 'outline', size: 'large', use_fedcm_for_prompt: true }
         )
       }
       return window.google.accounts.id.prompt()

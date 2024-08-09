@@ -11,6 +11,9 @@
 let GameMenuModal
 const utils = require('core/utils')
 
+require('vendor/scripts/jquery-ui-1.11.1.custom')
+require('vendor/styles/jquery-ui-1.11.1.custom.css')
+
 const submenuViews = []
 require('app/styles/play/menu/game-menu-modal.sass')
 
@@ -53,10 +56,12 @@ module.exports = (GameMenuModal = (function () {
       super(options)
       this.level = this.options.level
       this.classroomAceConfig = this.options.classroomAceConfig
-      this.options.levelID = this.options.level.get('slug')
-      this.options.codeLanguage = this.options.session?.get('codeLanguage')
-      this.options.startingSessionHeroConfig = $.extend({}, true, ((left = this.options.session.get('heroConfig')) != null ? left : {}))
-      Backbone.Mediator.publish('music-player:enter-menu', { terrain: (left1 = this.options.level.get('terrain', true)) != null ? left1 : 'Dungeon' })
+      this.options.levelID = this.options.level?.get('slug')
+      if (!this.options.inOzariaMap) {
+        this.options.codeLanguage = this.options.session?.get('codeLanguage')
+        this.options.startingSessionHeroConfig = $.extend({}, true, ((left = this.options.session.get('heroConfig')) != null ? left : {}))
+        Backbone.Mediator.publish('music-player:enter-menu', { terrain: (left1 = this.options.level.get('terrain', true)) != null ? left1 : 'Dungeon' })
+      }
     }
 
     getRenderData (context) {
@@ -69,7 +74,7 @@ module.exports = (GameMenuModal = (function () {
         options: 'cog',
         'save-load': 'floppy-disk',
       }
-      if (!this.showsChooseHero()) {
+      if (!this.options.inOzariaMap && !this.showsChooseHero()) {
         submenus.push('change-language')
         context.iconMap['change-language'] = 'globe'
       }
@@ -84,9 +89,9 @@ module.exports = (GameMenuModal = (function () {
 
     showsChooseHero () {
       const useHero = this.level.usesSessionHeroThangType()
-      if (this.classroomAceConfig) {
-        return this.classroomAceConfig.classroomItems && useHero
-      }
+      // if (this.classroomAceConfig) {
+      //   return this.classroomAceConfig.classroomItems && useHero
+      // }
       return useHero
     }
 
