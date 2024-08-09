@@ -41,6 +41,7 @@ module.exports = (AdministerUserModal = (function () {
       this.prototype.events = {
         'click #save-changes': 'onClickSaveChanges',
         'click #create-payment-btn': 'onClickCreatePayment',
+        'click #add-credits-btn': 'onClickAddCreditsButton',
         'click #add-seats-btn': 'onClickAddSeatsButton',
         'click #add-esports-product-btn': 'onClickAddEsportsProductButton',
         'click #save-online-teacher-info': 'onClickSaveOnlineTeacherInfo',
@@ -232,6 +233,43 @@ module.exports = (AdministerUserModal = (function () {
         return this.render?.()
       }
       return this.user.patch(options)
+    }
+
+    onClickAddCreditsButton () {
+      const attrs = forms.formToObject(this.$('#credit-form'))
+      const creditType = this.$el.find('#credit-type-select').val()
+
+      attrs.credits = parseInt(attrs.credits)
+      if (!(attrs.credits > 0)) { return }
+      if (!attrs.endDate) { return }
+      if (!creditType) { return }
+      attrs.endDate = attrs.endDate + ' ' + '23:59'
+      attrs.endDate = momentTimezone.tz(attrs.endDate, this.timeZone).toISOString()
+
+      this.state = 'creating-credits'
+      this.renderSelectors('#credit-form')
+      api.userCredits.addCredits({
+        operation: creditType,
+        credits: attrs.credits,
+        endDate: attrs.endDate,
+        userId: this.user.id
+      }).then(res => {
+        this.state = 'made-credits'
+        this.renderSelectors('#credit-form')
+        return setTimeout(() => {
+          this.state = ''
+          return this.renderSelectors('#credit-form')
+        }, 1000)
+      }).catch(jqxhr => {
+        this.state = ''
+        this.renderSelectors('#credit-form')
+        const errorString = 'There was an error adding the credits. See the console.'
+        console.error(errorString, jqxhr)
+        noty({
+          text: errorString,
+          type: 'error'
+        })
+      })
     }
 
     onClickAddSeatsButton () {
