@@ -89,6 +89,10 @@ export default {
       return utils.isCodeCombat
     },
 
+    isCodeNinja () {
+      return me.isCodeNinja()
+    },
+
     pageTitle () {
       if (this.showClassInfo) {
         return this.classroom.name || ''
@@ -358,6 +362,9 @@ export default {
       const oneMonth = 30 * 24 * 7 * 60
       storage.save(TRY_OZ_MODAL_VIEWED_KEY, true, oneMonth)
       this.showTryOzariaModal = false
+    },
+    shouldShowCreateStudents (classroom) {
+      return me.isCodeNinja() && classroom.type?.includes('club')
     }
   }
 }
@@ -447,6 +454,7 @@ export default {
     <modal-add-students
       v-if="showAddStudentsModal"
       :classroom="classroom"
+      :create-students="shouldShowCreateStudents(classroom)"
       @close="showAddStudentsModal = false"
     />
     <modal-remove-students

@@ -1785,6 +1785,7 @@ module.exports = {
       dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.',
       switch_to_test_student: 'Switching to test student account..',
       club_type: 'Club Type',
+      create_students_prompt: 'How many students would you like to create?'
     },
 
     no_licenses_page: {
@@ -2375,7 +2376,8 @@ module.exports = {
       all_units_completed: 'All Units Completed!',
       hide_options: 'Hide Options',
       more_options: 'More Options',
-      get_test_license: 'Get Test Student License'
+      get_test_license: 'Get Test Student License',
+      create_students: 'Generate Students'
     },
 
     project_gallery: {

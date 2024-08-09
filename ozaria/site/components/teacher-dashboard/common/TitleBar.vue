@@ -231,6 +231,7 @@ export default {
         :date-start="classroomStartDate"
         :date-end="classroomEndDate"
         :share-permission="sharePermission"
+        :class-type="classroom.type"
       />
     </div>
     <div
