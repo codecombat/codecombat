@@ -749,8 +749,18 @@ generateProperty(null, async function (level, parameters) {
       const checkHitTurns = tries < 0.6 * permutationTriesOverall // If it's not working, we can relax this constraint
       ;({ actions: actionsNew, thangs: thangsNew, visitedPositions } = permuteActions({ actions, thangs: level.thangs, checkDistanceTraveled, checkZapTurns, checkHitTurns }))
       solutionCode = compileActions(actionsNew)
-      const numStarterCodeLines = starterCodeSource.length > 0 ? starterCodeSource.trim().split('\n').length : 0
-      starterCode = solutionCode.split('\n').slice(0, numStarterCodeLines).join('\n')
+      const starterCodeLinesSrc = starterCodeSource.trim().split('\n')
+      const numStarterCodeLines = starterCodeSource.length > 0 ? starterCodeLinesSrc.length : 0
+      const starterCodeLinesNew = solutionCode.split('\n').slice(0, numStarterCodeLines)
+      // Adjust any loop counts, in case the difference in starter code was in changing those. Also preserve empty loop lines.
+      for (let lineIndex = 0; lineIndex < numStarterCodeLines; ++lineIndex) {
+        const lineSrc = starterCodeLinesSrc[lineIndex]
+        const lineNew = starterCodeLinesNew[lineIndex]
+        if (/^for \(/.test(lineNew) || !lineSrc.trim()) {
+          starterCodeLinesNew[lineIndex] = lineSrc
+        }
+      }
+      starterCode = starterCodeLinesNew.join('\n')
       if (_.find(actionsNew, (a) => a.invalid)) {
         valid = false
         // console.log('Repeating because an action was invalid')
@@ -761,6 +771,11 @@ generateProperty(null, async function (level, parameters) {
         valid = false
         console.log('Repeating because code was same')
         console.log(solutionCodeSource)
+        console.log(solutionCode)
+      }
+      if (valid && starterCode.trim() === solutionCode.trim()) {
+        valid = false
+        console.log('Repeating because starter code and solution code were the same')
         console.log(solutionCode)
       }
       if (valid && layoutsAreEquivalent(level.thangs, thangsNew)) {
@@ -778,6 +793,8 @@ generateProperty(null, async function (level, parameters) {
         if (size.cols > maxCols || size.rows > maxRows) {
           valid = false
           console.log(`Level would be too big at ${size.cols}x${size.rows}`)
+          // console.log(solutionCodeSource)
+          // console.log(solutionCode)
         }
       }
       if (valid) {
@@ -898,20 +915,37 @@ function parseActions (code) {
 
 function compileActions (actions) {
   // TODO: handle wrapper, like while-loop or if-statement
-  const code = actions.map(actionToCode).join('\n')
-  return code
+  const lines = []
+  let indent = ''
+  for (const action of actions) {
+    let line = actionToCode(action)
+    if (action.type === '}') {
+      indent = indent.replace(/ {4}$/, '')
+    }
+    line = indent + line
+    if (action.type === 'for') {
+      indent += '    '
+    }
+    lines.push(line)
+  }
+  return lines.join('\n')
 }
 
 function codeToAction (line) {
-  const type = line.trim().split('(')[0]
+  const type = line.trim().split('(')[0].trim()
   const directionStr = line.match(/'(up|down|left|right)'/)?.[1]
   const direction = directionStr ? new Direction(directionStr) : undefined
   const distanceStr = line.match(/(\d+)/)?.[1]
   const distance = distanceStr ? parseInt(distanceStr, 10) : undefined
-  return new Action({ type, direction, distance })
+  const forLoop = line.match(/for \(let (.+?) = 0; .+? < (\d+); \+?\+?.+?\+?\+?\) {/)
+  const loopVariable = forLoop?.[1]
+  const loopCountStr = forLoop?.[2]
+  const loopCount = loopCountStr ? parseInt(loopCountStr, 10) : undefined
+  return new Action({ type, direction, distance, loopVariable, loopCount })
 }
 
 function actionToCode (action) {
+  // This could be a method of Action class
   let line
   if (action.type === 'go' && action.distance) {
     line = `${action.type}('${action.direction.name}', ${action.distance})`
@@ -926,6 +960,10 @@ function actionToCode (action) {
     line = `${action.type}('${action.direction.name}')`
   } else if (action.type === 'spin') {
     line = `${action.type}()`
+  } else if (action.type === 'for') {
+    line = `for (let ${action.loopVariable} = 0; ${action.loopVariable} < ${action.loopCount}; ++${action.loopVariable}) {`
+  } else if (action.type === '}') {
+    line = '}'
   }
   if (action.invalid) {
     line += ' // invalid'
@@ -1021,14 +1059,16 @@ class Direction {
 }
 
 class Action {
-  constructor ({ type, direction, distance }) {
-    this.type = type // 'move', 'hit', 'zap', 'spin', 'look'
-    this.direction = direction // A Direction like 'up', 'down', 'left', 'right', or undefined for spin
+  constructor ({ type, direction, distance, loopVariable, loopCount }) {
+    this.type = type // 'move', 'hit', 'zap', 'spin', 'look', 'for'
+    this.direction = direction // A Direction like 'up', 'down', 'left', 'right', or undefined for spin/for
     this.distance = distance
+    this.loopVariable = loopVariable
+    this.loopCount = loopCount
   }
 
   clone () {
-    return new Action({ type: this.type, direction: this.direction, distance: this.distance })
+    return new Action({ type: this.type, direction: this.direction, distance: this.distance, loopVariable: this.loopVariable, loopCount: this.loopCount })
   }
 }
 
@@ -1052,9 +1092,39 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns
   const visitedPositions = [startPos.copy()]
   let hasSeenZap = false
   let lastAction
-  for (const actionSrc of actionsSrc) {
-    const actionNew = actionSrc.clone()
+  const loopStack = []
+  let actionIndex = 0
+  while (actionIndex < actionsSrc.length) {
+    const inRepeatedLoop = _.find(loopStack, (loop) => loop.currentIteration > 0)
+    const actionSrc = actionsSrc[actionIndex]
+    const actionNew = inRepeatedLoop ? actionsNew[actionIndex] : actionSrc.clone()
     const lastDirectionSrc = lastDirectionsPerActionSrc[actionSrc.type]
+
+    if (actionSrc.type === 'for') {
+      loopStack.push({ startIndex: actionIndex, iterations: actionSrc.loopCount, currentIteration: 0 })
+      if (!inRepeatedLoop) {
+        actionsNew.push(actionNew)
+      }
+      ++actionIndex
+      continue
+    }
+
+    if (actionSrc.type === '}') {
+      if (loopStack.length > 0) {
+        const currentLoop = loopStack[loopStack.length - 1]
+        if (++currentLoop.currentIteration < currentLoop.iterations) {
+          actionIndex = currentLoop.startIndex
+        } else {
+          loopStack.pop()
+        }
+      }
+      if (!inRepeatedLoop) {
+        actionsNew.push(actionNew)
+      }
+      actionIndex++
+      continue
+    }
+
     const lastDirectionNew = lastDirectionsPerActionNew[actionNew.type]
     const currentDirectionRelationshipSrc = lastDirectionSrc ? actionSrc.direction.getRelationship(lastDirectionSrc) : undefined
     if (actionSrc.type === 'go') {
@@ -1064,6 +1134,7 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns
       let tries = 0
       do {
         valid = true
+        if (inRepeatedLoop) continue
         actionNew.direction = new Direction()
         const currentDirectionRelationshipNew = lastDirectionNew ? actionNew.direction.getRelationship(lastDirectionNew) : undefined
         // console.log(' Checking', { lastDirectionSrc, lastDirectionNew, currentDirectionRelationshipSrc, currentDirectionRelationshipNew })
@@ -1138,6 +1209,7 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns
       let tries = 0
       do {
         valid = true
+        if (inRepeatedLoop) continue
         if (lastAction && lastAction.type === 'zap') {
           // Hit the same way we were just zapping (some monster has probably run up to us)
           actionNew.direction = lastDirectionsPerActionNew.zap
@@ -1181,6 +1253,7 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns
       let tries = 0
       do {
         valid = true
+        if (inRepeatedLoop) continue
         actionNew.direction = new Direction()
         const currentDirectionRelationshipNew = lastDirectionNew ? actionNew.direction.getRelationship(lastDirectionNew) : undefined
         if (currentDirectionRelationshipNew !== currentDirectionRelationshipSrc && (checkZapTurns || currentDirectionRelationshipSrc === 'forward')) {
@@ -1233,6 +1306,8 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns
     } else if (actionSrc.type === 'look') {
       // TODO: update lots of things for look to work, when look is fully implemented with levels that use it
       // TODO: probably add positions in between currentPosNew and any targets to visitedPositions
+    } else if (actionSrc.type === '') {
+      // Don't need to do anything for newlines
     }
 
     if (actionSrc.type === 'go') {
@@ -1246,8 +1321,11 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns
       // console.log('Setting lastDirection for', actionSrc.type, 'to source', _.cloneDeep(actionSrc.direction), 'and new', _.cloneDeep(actionNew.direction))
     }
 
-    actionsNew.push(actionNew)
+    if (!inRepeatedLoop) {
+      actionsNew.push(actionNew)
+    }
     lastAction = actionNew
+    ++actionIndex
   }
 
   return { actions: actionsNew, thangs: thangsNew, visitedPositions }
@@ -1564,6 +1642,7 @@ async function verifyLevel ({ sourceLevel, thangs, solutionCode, starterCode, su
       const childSupermodel = new SuperModel()
       childSupermodel.models = _.clone(supermodel.models)
       childSupermodel.collections = _.clone(supermodel.collections)
+      // TODO: make sure this cleans up and doesn't crash us
       return new VerifierTest(sourceLevel.get('slug'), onVerifierTestUpdate, childSupermodel, 'javascript', { devMode: false, solution, thangsOverride: thangs })
     })
   })
@@ -1572,9 +1651,10 @@ async function verifyLevel ({ sourceLevel, thangs, solutionCode, starterCode, su
 function constructSolutions ({ solutionCode, starterCode }) {
   const solutions = []
   solutions.push({ source: solutionCode, language: 'javascript', succeeds: true })
+  solutions.push({ source: starterCode, language: 'javascript', succeeds: false })
   const solutionCodeLines = solutionCode.split('\n')
   for (let i = 0; i < solutionCodeLines.length; ++i) {
-    if (i !== starterCode.split('\n').length && i !== solutionCodeLines.length - 1) {
+    if (i !== solutionCodeLines.length - 1) {
       // Maybe we don't need to test all the intermediate lines, and just testing starter code plus solution less last line is enough
       continue
     }
