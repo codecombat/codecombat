@@ -56,6 +56,7 @@ const storage = require('core/storage')
 const utils = require('core/utils')
 const loadAetherLanguage = require('lib/loadAetherLanguage')
 const presenceApi = require(utils.isOzaria ? '../../../../ozaria/site/api/presence' : 'core/api/presence')
+const { fetchPracticeLevels } = require('core/api/levels')
 const globalVar = require('core/globalVar')
 
 require('vendor/scripts/coffeescript') // this is tenuous, since the LevelSession and LevelComponent models are what compile the code
@@ -104,6 +105,7 @@ module.exports = (LevelEditView = (function () {
         'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal',
         'click .generate-level-button': 'onClickGenerateLevel',
         'click .generate-practice-level-button': 'onClickGeneratePracticeLevel',
+        'click .generate-all-practice-levels-button': 'onClickGenerateAllPracticeLevels',
         'click .migrate-junior-button': 'onClickMigrateJunior',
       }
 
@@ -290,6 +292,11 @@ module.exports = (LevelEditView = (function () {
       this.generatePracticeLevel()
     }
 
+    onClickGenerateAllPracticeLevels (e) {
+      e.stopPropagation()
+      this.generatePracticeLevels()
+    }
+
     async generateLevel (e) {
       const parameters = {} // Temp: totally random parameters
       if (e?.size) {
@@ -305,14 +312,29 @@ module.exports = (LevelEditView = (function () {
       })
     }
 
-    async generatePracticeLevel () {
+    async generatePracticeLevels (limit = 26) {
+      const existingPracticeLevels = await fetchPracticeLevels(this.level.get('slug'))
+      const newPracticeLevels = []
+      const generateUntil = Math.min(26, existingPracticeLevels.length + limit)
       this.level.revert()
-      const parameters = { sourceLevel: this.level }
-      levelGeneration.generateLevel({ parameters, supermodel: this.supermodel }).then(level => {
+      const originalThangs = _.cloneDeep(this.level.get('thangs'))
+      console.log('Have existing practice levels', existingPracticeLevels)
+      for (let levelIndex = existingPracticeLevels.length; levelIndex < generateUntil; ++levelIndex) {
+        this.level.revert()
+        const parameters = { sourceLevel: this.level, levelIndex, existingPracticeLevels, newPracticeLevels, originalThangs }
+        const level = await levelGeneration.generateLevel({ parameters, supermodel: this.supermodel })
         if (this.destroyed) return
+        if (!level) break
         console.log('generated practice level', level)
         this.setGeneratedLevel(level)
-      })
+        newPracticeLevels.push(level)
+      }
+      console.log('Have new practice levels', newPracticeLevels)
+      window.newPracticeLevels = newPracticeLevels
+    }
+
+    async generatePracticeLevel () {
+      await this.generatePracticeLevels(1)
     }
 
     setGeneratedLevel (level) {

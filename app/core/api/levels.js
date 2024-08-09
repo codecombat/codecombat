@@ -92,5 +92,9 @@ module.exports = {
         })
         return introLevelsContentMap
       })
+  },
+
+  fetchPracticeLevels (levelId) {
+    return fetchJson(`/db/level/${levelId}/practice-levels`)
   }
 }

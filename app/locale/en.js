@@ -2972,6 +2972,7 @@ module.exports = {
       generate_terrain: 'Generate Terrain',
       generate_level: 'Generate Level',
       generate_practice_level: 'Generate Practice Level',
+      generate_all_practice_levels: 'Generate All Practice Levels',
       more: 'More',
       wiki: 'Wiki',
       live_chat: 'Slack',

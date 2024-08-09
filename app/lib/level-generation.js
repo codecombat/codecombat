@@ -25,6 +25,10 @@ async function generateLevel ({ parameters, supermodel }) {
     await generationFunction(level, parameters)
   }
 
+  if (level.invalid) {
+    return null
+  }
+
   return level
 }
 
@@ -107,10 +111,8 @@ function generateProperty (property, fn) {
 generateProperty('name', function (level, parameters) {
   if (!parameters.sourceLevel) { return undefined }
   // Add parameters.sourceLevel.get('name') with ' A', ' B', ' C', etc., stripping existing suffix if needed
-  // TODO: this will need to take into account the multiple other extant levels, not just the source level
   const sourceName = parameters.sourceLevel.get('name')
-  const existingLetter = name.replace(/^.*? ([A-Z])$/, '$1')
-  const newLetter = existingLetter ? String.fromCharCode(existingLetter.charCodeAt(0) + 1) : 'A'
+  const newLetter = String.fromCharCode('A'.charCodeAt(0) + parameters.levelIndex || 0)
   return sourceName.replace(/ [A-Z]$/, '') + ' ' + newLetter
 })
 
@@ -767,7 +769,7 @@ generateProperty(null, async function (level, parameters) {
         // console.log(solutionCodeSource)
         // console.log(solutionCode)
       }
-      if (solutionCode.trim() === solutionCodeSource.trim()) {
+      if (valid && solutionCode.trim() === solutionCodeSource.trim()) {
         valid = false
         console.log('Repeating because code was same')
         console.log(solutionCodeSource)
@@ -777,10 +779,6 @@ generateProperty(null, async function (level, parameters) {
         valid = false
         console.log('Repeating because starter code and solution code were the same')
         console.log(solutionCode)
-      }
-      if (valid && layoutsAreEquivalent(level.thangs, thangsNew)) {
-        valid = false
-        console.log('Repeating because layout was same', level.thangs, thangsNew, tries)
       }
       if (valid) {
         for (const pos of visitedPositions) {
@@ -798,6 +796,37 @@ generateProperty(null, async function (level, parameters) {
         }
       }
       if (valid) {
+        for (const otherLevel of (parameters.existingPracticeLevels || []).concat(parameters.newPracticeLevels || [])) {
+          const otherThangs = otherLevel.thangs || otherLevel.get('thangs')
+          const otherHero = _.find(otherThangs, { id: 'Hero Placeholder' })
+          const otherProgrammable = _.find(otherHero.components, { original: defaultHeroComponentIDs.Programmable })
+          const otherSolution = _.find(otherProgrammable.config.programmableMethods.plan.solutions, { succeeds: true })
+          if (solutionCode.trim() === otherSolution.source.trim()) {
+            valid = false
+            console.log('Repeating because solution code was same as in', otherLevel.name || otherLevel.get('name'))
+            console.log(solutionCode)
+            break
+          }
+          if (valid && layoutsAreEquivalent(otherLevel.thangs || otherLevel.get('thangs'), thangsNew)) {
+            valid = false
+            console.log('Repeating because layout was same as in', otherLevel.name || otherLevel.get('name'))
+            break
+          }
+        }
+      }
+      if (valid && layoutsAreEquivalent(level.thangs, thangsNew)) {
+        valid = false
+        console.log('Repeating because layout was same as source level')
+      }
+      if (valid) {
+        const oldThangsOffset = _.cloneDeep(parameters.originalThangs) // May not be right because of visitedPositions, but will catch some cases
+        shiftLayout({ thangs: oldThangsOffset, visitedPositions: [] })
+        if (layoutsAreEquivalent(oldThangsOffset, thangsNew)) {
+          valid = false
+          console.log('Repeating because layout was same as source level after shifting')
+        }
+      }
+      if (valid) {
         updateProgrammableConfig({ thangs: thangsNew, solutionCode, starterCode, apis })
         if (!(await verifyLevel({ sourceLevel, thangs: thangsNew, solutionCode, starterCode, supermodel: parameters.supermodel }))) {
           valid = false
@@ -812,6 +841,7 @@ generateProperty(null, async function (level, parameters) {
     } while (!valid && tries < permutationTriesOverall)
     if (!valid) {
       console.log('Could not find valid overall permutation', { actionsNew, thangsNew, solutionCode, starterCode, solutionCodeSource, starterCodeSource })
+      level.invalid = true
     } else {
       console.log('Generated new level', { actionsNew, thangsNew, solutionCode, starterCode, solutionCodeSource, starterCodeSource })
       console.log(solutionCodeSource)
@@ -908,13 +938,11 @@ function manhattanDistance (a, b) {
 }
 
 function parseActions (code) {
-  // TODO: handle wrapper, like while-loop or if-statement
   const actions = code.trim().split('\n').map(codeToAction)
   return actions
 }
 
 function compileActions (actions) {
-  // TODO: handle wrapper, like while-loop or if-statement
   const lines = []
   let indent = ''
   for (const action of actions) {
@@ -1642,7 +1670,6 @@ async function verifyLevel ({ sourceLevel, thangs, solutionCode, starterCode, su
       const childSupermodel = new SuperModel()
       childSupermodel.models = _.clone(supermodel.models)
       childSupermodel.collections = _.clone(supermodel.collections)
-      // TODO: make sure this cleans up and doesn't crash us
       return new VerifierTest(sourceLevel.get('slug'), onVerifierTestUpdate, childSupermodel, 'javascript', { devMode: false, solution, thangsOverride: thangs })
     })
   })

@@ -271,6 +271,9 @@ module.exports = class VerifierTest extends CocoClass {
   }
 
   scheduleCleanup () {
+    if (!this.checkClampedProperties) {
+      return setTimeout(this.cleanup, 100)
+    }
     if (this.checkClampedProperties && this.state !== 'running') {
       const prop = this.checkPropKeys[this.checkPropIndex]
       if (this.clampedProperties[prop].upper > this.clampedProperties[prop].lower) {
