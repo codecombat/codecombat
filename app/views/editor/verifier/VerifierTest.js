@@ -59,7 +59,7 @@ module.exports = class VerifierTest extends CocoClass {
       this.god.destroy()
     }
     this.god = new God({ maxAngels: 1, headless: true })
-    this.levelLoader = new LevelLoader({ supermodel: this.supermodel, levelID: this.levelID, headless: true, fakeSessionConfig: { codeLanguage: this.language, callback: this.configureSession } })
+    this.levelLoader = new LevelLoader({ supermodel: this.supermodel, levelID: this.levelID, headless: true, fakeSessionConfig: { codeLanguage: this.language, callback: this.configureSession }, thangsOverride: this.options.thangsOverride })
     this.listenToOnce(this.levelLoader, 'world-necessities-loaded', function () { return _.defer(this.onWorldNecessitiesLoaded) })
   }
 
