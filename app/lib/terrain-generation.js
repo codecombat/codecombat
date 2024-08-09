@@ -407,6 +407,14 @@ const presetSizes = {
     cols: 9,
     rows: 8,
   },
+  junior18x16: {
+    // A big one for practice level generation; gets shrunk down afterwards
+    x: 76 * 2,
+    y: 66.1 * 2,
+    sizeFactor: 0.95,
+    cols: 9 * 2,
+    rows: 8 * 2,
+  },
   small: {
     x: 80,
     y: 68,

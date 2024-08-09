@@ -12,7 +12,7 @@ module.exports = {
 
 async function generateLevel ({ parameters, supermodel }) {
   parameters.terrain = parameters.terrain || 'Junior'
-  extractPracticeLevelParameters(parameters)
+  parameters.size = juniorSizes[juniorSizes.length - 1]
   parameters = fillRandomParameters(parameters)
   parameters.supermodel = supermodel
 
@@ -30,7 +30,9 @@ async function generateLevel ({ parameters, supermodel }) {
 
 // ---- Input Parameters ----
 
-const juniorSizes = ['junior3x2', 'junior4x3', 'junior5x4', 'junior6x5', 'junior7x6', 'junior8x7', 'junior9x7', 'junior9x8']
+const maxCols = 18
+const maxRows = 16
+const juniorSizes = ['junior3x2', 'junior4x3', 'junior5x4', 'junior6x5', 'junior7x6', 'junior8x7', 'junior9x7', 'junior9x8', `junior${maxCols}x${maxRows}`]
 const ParametersSchema = schemas.object({ required: ['difficulty', 'kind'] }, {
   terrain: schemas.terrainString,
   kind: schemas.shortString({ title: 'Kind', description: 'Similar to type, but just for our organization.', enum: ['demo', 'usage', 'mastery', 'advanced', 'practice', 'challenge'] }),
@@ -50,38 +52,6 @@ const ParametersSchema = schemas.object({ required: ['difficulty', 'kind'] }, {
   skillForLoops: { type: 'number', minimum: 0, maximum: 1 },
 })
 
-function extractPracticeLevelParameters (parameters) {
-  if (!parameters.sourceLevel) { return }
-  // Find the size of the existing level, and pick one a similar size or maybe one bigger
-  // let rows, cols
-  // const floorThangType = '66340645d79810f8365343e1' // Junior Beach Floor
-  // for (let col = 8; col >= 0; --col) {
-  //   if (_.find(parameters.sourceLevel.get('thangs'), (t) =>
-  //     t.thangType === floorThangType &&
-  //       t.components[1].config?.pos.x === 6 + 8 * col
-  //   )) {
-  //     cols = col + 1
-  //     break
-  //   }
-  // }
-  // for (let row = 8; row >= 0; --row) {
-  //   if (_.find(parameters.sourceLevel.get('thangs'), (t) =>
-  //     t.thangType === floorThangType &&
-  //       t.components[1].config?.pos.y === 6 + 8 * row
-  //   )) {
-  //     rows = row + 1
-  //     break
-  //   }
-  // }
-  // const sourceSize = `junior${cols}x${rows}`
-  // const sourceSizeIndex = juniorSizes.indexOf(sourceSize)
-  // if (sourceSizeIndex !== -1) {
-  //   parameters.size = _.sample(juniorSizes.slice(sourceSizeIndex, sourceSizeIndex + 2))
-  // }
-  // Actually, just always make a big one; we will cut it down later, in adjustTerrain
-  parameters.size = juniorSizes[juniorSizes.length - 1]
-}
-
 function fillRandomParameters (parameters) {
   parameters = parameters || {}
 
@@ -94,7 +64,8 @@ function fillRandomParameters (parameters) {
     if (value.type === 'boolean') {
       parameters[key] = !(Math.random() < 0.5)
     } else if (value.enum) {
-      parameters[key] = value.enum[Math.floor(Math.random() * value.enum.length)]
+      const enumLength = key === 'size' ? value.enum.length - 1 : value.enum.length
+      parameters[key] = value.enum[Math.floor(Math.random() * enumLength)]
     } else if (value.type === 'integer') {
       parameters[key] = Math.floor(Math.random() * (value.maximum - value.minimum + 1)) + value.minimum
     } else if (value.type === 'number') {
@@ -319,6 +290,7 @@ generateProperty('scripts', function (level, parameters) {
 const PhysicalID = '524b75ad7fc0f6d519000001' // LevelComponent.ExistsID
 const ExistsID = '524b4150ff92f1f4f8000024' // LevelComponent.PhysicalID
 const SelectableID = '524b7bb67fc0f6d519000018' // LevelComponent.SelectableID
+const ScalesID = '52a399b98537a70000000003' // LevelComponent.ScalesID
 
 const defaultHeroComponentIDs = {
   Programmable: '524b7b5a7fc0f6d51900000e',
@@ -722,8 +694,8 @@ generateProperty(null, function (level, parameters) {
   }
 })
 
-const permutationTriesPerMove = 50
-const permutationTriesOverall = 200
+const permutationTriesPerMove = 150
+const permutationTriesOverall = 500
 
 generateProperty(null, async function (level, parameters) {
   // Configure hero's APIs and starter/solution code
@@ -781,9 +753,9 @@ generateProperty(null, async function (level, parameters) {
       starterCode = solutionCode.split('\n').slice(0, numStarterCodeLines).join('\n')
       if (_.find(actionsNew, (a) => a.invalid)) {
         valid = false
-        console.log('Repeating because an action was invalid')
-        console.log(solutionCodeSource)
-        console.log(solutionCode)
+        // console.log('Repeating because an action was invalid')
+        // console.log(solutionCodeSource)
+        // console.log(solutionCode)
       }
       if (solutionCode.trim() === solutionCodeSource.trim()) {
         valid = false
@@ -803,7 +775,7 @@ generateProperty(null, async function (level, parameters) {
         }
         repositionFriendsAndExplosives({ thangsSrc: level.thangs, thangsNew, visitedPositions })
         ;({ offset, size } = shiftLayout({ thangs: thangsNew, visitedPositions }))
-        if (size.cols > 9 || size.rows > 8) {
+        if (size.cols > maxCols || size.rows > maxRows) {
           valid = false
           console.log(`Level would be too big at ${size.cols}x${size.rows}`)
         }
@@ -962,7 +934,7 @@ function actionToCode (action) {
 }
 
 const significantSpriteNames = ['Chicken Junior', 'Crab Monster Junior', 'Crates Junior', 'Cube Monster Junior', 'Explosive Junior', 'Dragonfly Junior', 'Gem Junior', 'Goal Junior']
-const hittableSpriteNames = _.without(significantSpriteNames, 'Gen Junior', 'Goal Junior') // Is chicken hittable?
+const hittableSpriteNames = _.without(significantSpriteNames, 'Gem Junior', 'Goal Junior') // Is chicken hittable or zappable?
 const floorSpriteNames = ['Junior Beach Floor', 'Junior Wall']
 function findThangAt (simplePos, thangs, relevantSpriteNames) {
   // Return what thang is at the given position, or a floor that's there, or undefined if nothing is there
@@ -974,7 +946,7 @@ function findThangAt (simplePos, thangs, relevantSpriteNames) {
     relevantSpriteNames = relevantSpriteNames || significantSpriteNames
     if (relevantSpriteNames.includes(spriteName) || isFloor) {
       const physicalComponent = _.find(thang.components || [], { original: PhysicalID })
-      if (physicalComponent && physicalComponent.config && physicalComponent.config.pos.x === complexPos.x && physicalComponent.config.pos.y === complexPos.y) {
+      if (physicalComponent && physicalComponent.config && Math.abs(physicalComponent.config.pos.x - complexPos.x) < 0.1 && Math.abs(physicalComponent.config.pos.y - complexPos.y) < 0.1) {
         if (isFloor) {
           floorThang = thang
         } else {
@@ -1226,21 +1198,23 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns
       }
 
       // Find the targets that it would hit and put them in the right places
-      let hasZappedSomething = false
       const processedPositions = new Set()
-      for (let distance = 1; distance < 9; ++distance) {
+      const maxZapDistance = 8
+      const zapVisitedPositions = []
+      for (let distance = 1; distance < maxZapDistance; ++distance) {
         const zapTargetPosSrc = currentPosSrc.copy().add(actionSrc.direction.vector.copy().multiply(distance))
         const zapTargetPosNew = currentPosNew.copy().add(actionNew.direction.vector.copy().multiply(distance))
         const zappableThangSrc = findThangAt(zapTargetPosSrc, thangsSrc)
         const zappableSpriteName = thangTypesToSpriteNames[zappableThangSrc?.thangType]
-        if (!hasZappedSomething) {
-          visitedPositions.push(zapTargetPosNew.copy())
-        }
+        zapVisitedPositions.push(zapTargetPosNew.copy())
         if (zappableThangSrc && hittableSpriteNames.includes(zappableSpriteName)) {
           if (!moveThang({ at: zapTargetPosSrc, to: zapTargetPosNew, thangsSrc, thangsNew })) {
             actionNew.invalid = true
           }
-          hasZappedSomething = true
+          for (const visitedPosition of zapVisitedPositions) {
+            // Whenever we hit something, we know that all visited positions up to that point are important to be able to zap over
+            visitedPositions.push(visitedPosition)
+          }
 
           // If it's TNT, also move any hittables next to it (recursively for other TNT)
           if (zappableSpriteName === 'Explosive Junior') {
@@ -1250,7 +1224,8 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns
           // Move all the Thangs in this line, in case some would be killed out of the way in between start of level and when the zap would happen.
           // This could result in slightly wrong behavior, because perhaps we are counting on the zap only hitting the first one?
           // We randomly break or not here, so that we can test it both ways and eventually get a valid layout in either scenario.
-          if (Math.random() < 0.5) {
+          const chanceZapStopsOnHit = 0.05
+          if (Math.random() < chanceZapStopsOnHit) {
             break
           }
         }
@@ -1279,8 +1254,8 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns
 }
 
 function layoutsAreEquivalent (thangsA, thangsB) {
-  for (let col = 0; col < 9; ++col) {
-    for (let row = 0; row < 8; ++row) {
+  for (let col = 0; col < maxCols; ++col) {
+    for (let row = 0; row < maxRows; ++row) {
       const pos = { x: col, y: row }
       let thangA = findThangAt(pos, thangsA)
       let thangB = findThangAt(pos, thangsB)
@@ -1441,7 +1416,9 @@ function shiftLayout ({ thangs, visitedPositions }) {
     minRow = Math.min(minRow, simplePos.y)
     maxCol = Math.max(maxCol, simplePos.x)
     maxRow = Math.max(maxRow, simplePos.y)
-    // console.log('Found', spriteName, thang.id, 'at', simplePos.x, simplePos.y)
+    // if (simplePos.x >= placeholderPositionSimple || simplePos.y >= placeholderPositionSimple) {
+    //   console.log('Found unmoved', spriteName, thang.id, 'at', simplePos.x, simplePos.y)
+    // }
   }
 
   const size = { cols: maxCol - minCol + 1, rows: maxRow - minRow + 1 }
@@ -1521,8 +1498,8 @@ function adjustTerrain ({ offset, size, level, visitedPositions }) {
   }
 
   // Cut off unnecessary squares on top & right
-  for (let col = -1; col <= 9; ++col) {
-    for (let row = -1; row <= 8; ++row) {
+  for (let col = -1; col <= maxCols; ++col) {
+    for (let row = -1; row <= maxRows; ++row) {
       if (col <= size.cols && row <= size.rows) { continue }
       const pos = { x: col, y: row }
       const thang = findThangAt(pos, level.thangs)
@@ -1540,9 +1517,25 @@ function adjustTerrain ({ offset, size, level, visitedPositions }) {
     bounds[1].x = (4 + 8 * largest + 4) * 20 / 17
     bounds[1].y = 4 + 8 * largest + 4
   }
+
+  // Adjust ocean background scale if it's a really big one
+  const ocean = _.find(level.thangs, (thang) => thang.id === 'Junior Ocean Background')
+  let scales = _.find(ocean.components, (component) => component.original === ScalesID)
+  if (!scales) {
+    scales = { original: ScalesID, majorVersion: 0 }
+    ocean.components.push(scales)
+  }
+  const colsAt1X = 9
+  const rowsAt1X = 8
+  scales.config = { scaleFactor: Math.max(1, size.cols / colsAt1X, size.rows / rowsAt1X) }
+  // Move it to center it, if needed. (Don't adjust from default center of 40, 34 otherwise.)
+  const oceanPhysicalConfig = _.find(ocean.components, (component) => component.original === PhysicalID).config
+  oceanPhysicalConfig.pos.x = Math.max(40, (6 + 8 * size.cols) / 2)
+  oceanPhysicalConfig.pos.y = Math.max(34, (6 + 8 * size.rows) / 2)
 }
 
-const placeholderPosition = 6 + 50 * 8
+const placeholderPositionSimple = 50
+const placeholderPosition = 6 + placeholderPositionSimple * 8
 function setPositionPlaceholders (thangs) {
   // Move all signifiant Thangs out of the way, so any Thangs in the actual level layout will have to have been moved there deliberately
   for (const thang of thangs) {
