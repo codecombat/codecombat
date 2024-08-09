@@ -2375,6 +2375,7 @@ module.exports = {
       all_units_completed: 'All Units Completed!',
       hide_options: 'Hide Options',
       more_options: 'More Options',
+      get_test_license: 'Get Test Student License'
     },
 
     project_gallery: {
@@ -4631,6 +4632,7 @@ module.exports = {
       open_project: 'Open Project',
       create_class_hackstack: 'Please create a New Class to access AI HackStack',
       add_club: 'Add New Club',
+      test_student_only: 'Test Student Only'
     },
 
     outcomes: {
