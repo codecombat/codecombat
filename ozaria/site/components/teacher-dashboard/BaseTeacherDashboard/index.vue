@@ -196,7 +196,9 @@ export default {
       me.set('seenNewDashboardModal', true)
       me.save()
       this.showOnboardingModal = false
-      this.openNewClassModal()
+      if (!me.isNapervilleUser()) {
+        this.openNewClassModal()
+      }
     },
 
     openNewClassModal () {
@@ -323,7 +325,7 @@ export default {
       this.showTeacherDetailsModal = false
     },
     shouldShowTeacherDetailsModal () {
-      return !this.trialRequestLoading && !this.trialRequest?.organization && !hasSeenTeacherDetailModalRecently(me.get('_id'))
+      return !this.trialRequestLoading && !this.trialRequest?.organization && !hasSeenTeacherDetailModalRecently(me.get('_id')) && !me.isNapervilleUser()
     },
     handleTrialRequest () {
       this.$store.dispatch('trialRequest/fetchCurrentTrialRequest')

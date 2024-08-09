@@ -120,6 +120,14 @@ export default {
             success: resolve,
             error: function (user, jqxhr) {
               if (jqxhr.status === 409 && jqxhr.responseJSON.errorID && jqxhr.responseJSON.errorID === 'account-with-email-exists') {
+                // auto-merge since we roster and create accounts for them
+                if (gplusAttrs.email?.includes(User.getNapervilleDomain())) {
+                  loginOptions = {
+                    merge: true,
+                    email: gplusAttrs.email
+                  }
+                  return resolve()
+                }
                 noty({
                   text: $.i18n.t('login.accounts_merge_confirmation'),
                   layout: 'topCenter',

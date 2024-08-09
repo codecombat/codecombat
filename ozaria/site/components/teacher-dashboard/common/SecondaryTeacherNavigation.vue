@@ -4,15 +4,13 @@ import utils from 'core/utils'
 import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
 import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
 import ModalHackStackBeta from 'ozaria/site/components/teacher-dashboard/modals/ModalHackStackBeta.vue'
-import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalTestStudentPromotion.vue'
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 
 export default {
   components: {
     DashboardToggle,
-    ModalHackStackBeta,
-    ModalTestStudentPromotion,
     ModalCurriculumPromotion,
+    ModalHackStackBeta
   },
 
   mixins: [
@@ -272,18 +270,6 @@ export default {
     </li>
     <li>
       <router-link
-        id="CurriculumAnchor"
-        to="/teachers/curriculum"
-        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') }"
-        data-action="Curriculum Guide: Nav Clicked"
-        @click.native="trackEvent"
-      >
-        <div id="IconCurriculum" />
-        {{ $t('teacher_dashboard.curriculum') }}
-      </router-link>
-    </li>
-    <li>
-      <router-link
         id="ResourceAnchor"
         to="/teachers/resources"
         :class="{ 'current-route': isCurrentRoute('/teachers/resources') }"
@@ -464,7 +450,6 @@ export default {
       @show="hackstackModalShowing"
       @close="hackstackModalClose"
     />
-    <ModalTestStudentPromotion />
   </ul>
 </template>
 
