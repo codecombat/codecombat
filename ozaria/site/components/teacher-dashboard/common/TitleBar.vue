@@ -81,6 +81,10 @@ export default {
       return isCodeCombat
     },
 
+    isCodeNinja () {
+      return me.isCodeNinja()
+    },
+
     resourceHubSections () {
       return resourceHubSections
     },
@@ -170,6 +174,11 @@ export default {
       window.tracker?.trackEvent('Add New Class Clicked', { category: 'Teachers', label: this.$route.path })
       this.$emit('newClass')
     },
+
+    clickNewClub () {
+      window.tracker?.trackEvent('Add New Class Clicked', { category: 'Teachers', label: this.$route.path })
+      this.$emit('newClub')
+    }
   }
 }
 </script>
@@ -222,6 +231,7 @@ export default {
         :date-start="classroomStartDate"
         :date-end="classroomEndDate"
         :share-permission="sharePermission"
+        :class-type="classroom.type"
       />
     </div>
     <div
@@ -264,10 +274,18 @@ export default {
         <primary-button
           v-if="!showClassInfo"
           id="new-class-btn-shepherd"
-          class="btn-title-padding btn-margins-height"
+          class="btn-title-padding btn-margins-height dusk-btn"
           @click="clickNewClass"
         >
           {{ $t('teacher_dashboard.add_class') }}
+        </primary-button>
+        <primary-button
+          v-if="!showClassInfo && isCodeNinja"
+          id="new-club-btn-shepherd"
+          class="btn-title-padding btn-margins-height"
+          @click="clickNewClub"
+        >
+          {{ $t('teacher_dashboard.add_club') }}
         </primary-button>
         <div
           v-if="showClassInfo"

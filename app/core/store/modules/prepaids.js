@@ -31,15 +31,36 @@ export default {
       )
     },
 
+    addTestLicenseToTeacher: (state, { teacherId, prepaid }) => {
+      const teacherPrepaids = state.prepaids.byTeacher[teacherId] || {
+        expired: [],
+        pending: [],
+        empty: [],
+        available: [],
+        testOnlyAvaliable: [],
+        testOnlyExpired: []
+      }
+      teacherPrepaids.testOnlyAvaliable.push(prepaid)
+      Vue.set(state.prepaids.byTeacher, teacherId, teacherPrepaids)
+    },
+
     addPrepaidsForTeacher: (state, { teacherId, prepaids }) => {
       const teacherPrepaids = {
         expired: [],
         pending: [],
         empty: [],
-        available: []
+        available: [],
+        testOnlyAvaliable: [],
+        testOnlyExpired: []
       }
       prepaids.forEach((prepaid) => {
-        if (prepaid.endDate && new Date(prepaid.endDate) < new Date()) {
+        if (prepaid.properties?.testStudentOnly) {
+          if (prepaid.endDate && new Date(prepaid.endDate) < new Date()) {
+            teacherPrepaids.testOnlyExpired.push(prepaid)
+          } else {
+            teacherPrepaids.testOnlyAvaliable.push(prepaid)
+          }
+        } else if (prepaid.endDate && new Date(prepaid.endDate) < new Date()) {
           teacherPrepaids.expired.push(prepaid)
         } else if (prepaid.startDate && new Date(prepaid.startDate) > new Date()) {
           teacherPrepaids.pending.push(prepaid)
@@ -96,7 +117,7 @@ export default {
         return []
       }
       let active = []
-      active = active.concat(prepaids.available).concat(prepaids.empty).concat(prepaids.pending)
+      active = active.concat(prepaids.available).concat(prepaids.empty).concat(prepaids.pending).concat(prepaids.testOnlyAvaliable)
       return active
     },
 
@@ -105,7 +126,9 @@ export default {
       if (!prepaids) {
         return []
       }
-      return prepaids.expired
+      let expired = []
+      expired = expired.concat(prepaids.expired).concat(prepaids.testOnlyExpired)
+      return expired
     },
 
     getJoinersForPrepaid: (state) => (id) => {
@@ -357,6 +380,14 @@ export default {
           }
         })
       }
+    },
+    async getTestLicense ({ commit }, { teacherId }) {
+      return prepaidsApi.getOrCreateTestLicense()
+        .then(res => {
+          if (res) {
+            commit('addTestLicenseToTeacher', { teacherId, prepaid: res })
+          }
+        })
     }
   }
 }

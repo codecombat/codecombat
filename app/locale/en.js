@@ -1783,7 +1783,9 @@ module.exports = {
       our_curriculum_empowers_students: 'Our curriculum empowers students to use AI to create websites, games, art, and more. Currently in beta.',
       dashboard_update: 'Dashboard Update',
       dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.',
-      switch_to_test_student: 'Switching to test student account..'
+      switch_to_test_student: 'Switching to test student account..',
+      club_type: 'Club Type',
+      create_students_prompt: 'How many students would you like to create?'
     },
 
     no_licenses_page: {
@@ -2374,6 +2376,8 @@ module.exports = {
       all_units_completed: 'All Units Completed!',
       hide_options: 'Hide Options',
       more_options: 'More Options',
+      get_test_license: 'Get Test Student License',
+      create_students: 'Generate Students'
     },
 
     project_gallery: {
@@ -4628,7 +4632,9 @@ module.exports = {
       no_failed_attempts: 'No Failed Attempts',
       failed_attempts_subtext: 'Number of times incorrect option was selected',
       open_project: 'Open Project',
-      create_class_hackstack: 'Please create a New Class to access AI HackStack'
+      create_class_hackstack: 'Please create a New Class to access AI HackStack',
+      add_club: 'Add New Club',
+      test_student_only: 'Test Student Only'
     },
 
     outcomes: {

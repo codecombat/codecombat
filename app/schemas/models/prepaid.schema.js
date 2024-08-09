@@ -28,7 +28,10 @@ const PrepaidSchema = c.object({ title: 'Prepaid', required: ['type'] }, {
   code: c.shortString({ title: 'Unique code to redeem' }),
   type: { type: 'string' },
   properties: c.object({ additionalProperties: true },
-    { activatedByTeacher: { type: 'boolean', description: 'if this Prepaid used for teacher-activation code.' } }),
+    {
+      activatedByTeacher: { type: 'boolean', description: 'if this Prepaid used for teacher-activation code.' },
+      testStudentOnly: { type: 'boolean', description: 'if this Prepaid is for test-student only' }
+    }),
   exhausted: { type: 'boolean' },
   startDate: c.stringDate(),
   vendorPurchased: c.object({}, {
