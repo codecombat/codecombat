@@ -3,15 +3,18 @@ const schemas = require('../schemas/schemas')
 const levelSchema = require('../schemas/models/level')
 const terrainGeneration = require('./terrain-generation')
 const Vector = require('./world/vector')
+const VerifierTest = require('views/editor/verifier/VerifierTest')
+const SuperModel = require('models/SuperModel')
 
 module.exports = {
   generateLevel,
 }
 
-async function generateLevel (parameters) {
+async function generateLevel ({ parameters, supermodel }) {
   parameters.terrain = parameters.terrain || 'Junior'
   extractPracticeLevelParameters(parameters)
   parameters = fillRandomParameters(parameters)
+  parameters.supermodel = supermodel
 
   const level = {
     parameters,
@@ -719,7 +722,10 @@ generateProperty(null, function (level, parameters) {
   }
 })
 
-generateProperty(null, function (level, parameters) {
+const permutationTriesPerMove = 50
+const permutationTriesOverall = 200
+
+generateProperty(null, async function (level, parameters) {
   // Configure hero's APIs and starter/solution code
   // Also permute the level's layout based on source level, if given
   const sourceLevel = parameters.sourceLevel
@@ -766,11 +772,19 @@ generateProperty(null, function (level, parameters) {
     let actionsNew, thangsNew, valid, offset, size, visitedPositions
     do {
       valid = true
-      const checkDistanceTraveled = tries < 50 // If it's not working, we can relax this constraint
-      ;({ actions: actionsNew, thangs: thangsNew, visitedPositions } = permuteActions({ actions, thangs: level.thangs, checkDistanceTraveled }))
+      const checkDistanceTraveled = tries < 0.4 * permutationTriesOverall // If it's not working, we can relax this constraint
+      const checkZapTurns = tries < 0.5 * permutationTriesOverall // If it's not working, we can relax this constraint
+      const checkHitTurns = tries < 0.6 * permutationTriesOverall // If it's not working, we can relax this constraint
+      ;({ actions: actionsNew, thangs: thangsNew, visitedPositions } = permuteActions({ actions, thangs: level.thangs, checkDistanceTraveled, checkZapTurns, checkHitTurns }))
       solutionCode = compileActions(actionsNew)
       const numStarterCodeLines = starterCodeSource.length > 0 ? starterCodeSource.trim().split('\n').length : 0
       starterCode = solutionCode.split('\n').slice(0, numStarterCodeLines).join('\n')
+      if (_.find(actionsNew, (a) => a.invalid)) {
+        valid = false
+        console.log('Repeating because an action was invalid')
+        console.log(solutionCodeSource)
+        console.log(solutionCode)
+      }
       if (solutionCode.trim() === solutionCodeSource.trim()) {
         valid = false
         console.log('Repeating because code was same')
@@ -782,18 +796,33 @@ generateProperty(null, function (level, parameters) {
         console.log('Repeating because layout was same', level.thangs, thangsNew, tries)
       }
       if (valid) {
-        ({ offset, size } = shiftLayout({ thangs: thangsNew, visitedPositions }))
+        for (const pos of visitedPositions) {
+          // Not sure why floating point instability is getting in here, but fix it
+          pos.x = Math.round(pos.x)
+          pos.y = Math.round(pos.y)
+        }
+        repositionFriendsAndExplosives({ thangsSrc: level.thangs, thangsNew, visitedPositions })
+        ;({ offset, size } = shiftLayout({ thangs: thangsNew, visitedPositions }))
         if (size.cols > 9 || size.rows > 8) {
           valid = false
           console.log(`Level would be too big at ${size.cols}x${size.rows}`)
         }
       }
+      if (valid) {
+        updateProgrammableConfig({ thangs: thangsNew, solutionCode, starterCode, apis })
+        if (!(await verifyLevel({ sourceLevel, thangs: thangsNew, solutionCode, starterCode, supermodel: parameters.supermodel }))) {
+          valid = false
+          console.log('Repeating because level did not verify')
+          console.log(solutionCodeSource)
+          console.log(solutionCode)
+        }
+      }
       // TODO: check to see if this matches any other previously generated practice levels
       // TODO: load up the verifier and do all our checks
       ++tries
-    } while (!valid && tries < 100)
+    } while (!valid && tries < permutationTriesOverall)
     if (!valid) {
-      console.log('Could not find valid permutation', { actionsNew, thangsNew, solutionCode, starterCode, solutionCodeSource, starterCodeSource })
+      console.log('Could not find valid overall permutation', { actionsNew, thangsNew, solutionCode, starterCode, solutionCodeSource, starterCodeSource })
     } else {
       console.log('Generated new level', { actionsNew, thangsNew, solutionCode, starterCode, solutionCodeSource, starterCodeSource })
       console.log(solutionCodeSource)
@@ -803,34 +832,7 @@ generateProperty(null, function (level, parameters) {
     }
   } else {
     ({ solutionCode, starterCode } = generateRandomCodeForApis(apis))
-  }
-
-  const hero = _.find(level.thangs, (thang) => thang.id === 'Hero Placeholder')
-  const programmable = _.find(hero.components, (component) => component.original === defaultHeroComponentIDs.Programmable)
-
-  programmable.config = {
-    programmableMethods: {
-      plan: {
-        name: 'plan',
-        source: starterCode,
-        languages: {},
-        solutions: [
-          {
-            source: solutionCode,
-            language: 'javascript',
-            succeeds: true,
-            // goals: ...
-          },
-          {
-            source: starterCode,
-            language: 'javascript',
-            succeeds: false,
-            // goals: ...
-          },
-        ]
-      }
-    },
-    programmableProperties: apis,
+    updateProgrammableConfig({ thangs: level.thangs, solutionCode, starterCode, apis })
   }
 })
 
@@ -871,14 +873,45 @@ function generateRandomCodeForApis (apis) {
   return { solutionCode, starterCode }
 }
 
+function updateProgrammableConfig ({ thangs, solutionCode, starterCode, apis }) {
+  const hero = _.find(thangs, (thang) => thang.id === 'Hero Placeholder')
+  const programmable = _.find(hero.components, (component) => component.original === defaultHeroComponentIDs.Programmable)
+
+  programmable.config = {
+    programmableMethods: {
+      plan: {
+        name: 'plan',
+        source: starterCode,
+        languages: {},
+        solutions: [
+          {
+            source: solutionCode,
+            language: 'javascript',
+            succeeds: true,
+            // goals: ...
+          },
+          {
+            source: starterCode,
+            language: 'javascript',
+            succeeds: false,
+            // goals: ...
+          },
+        ]
+      }
+    },
+    programmableProperties: apis,
+  }
+}
+
 function simplifyPos (pos) {
   // Go from { x: 6, y: 6 } as middle of lower left square to { x: 0, y: 0 }
-  return new Vector((pos.x - 6) / 8, (pos.y - 6) / 8)
+  // Round it in case some of the existing source level positions are slightly off
+  return new Vector(Math.round((pos.x - 6) / 8), Math.round((pos.y - 6) / 8))
 }
 
 function complexifyPos (pos) {
   // Go from { x: 0, y: 0 } as middle of lower left square to { x: 6, y: 6 }
-  return new Vector(pos.x * 8 + 6, pos.y * 8 + 6)
+  return new Vector(Math.round(pos.x * 8 + 6), Math.round(pos.y * 8 + 6))
 }
 
 function manhattanDistance (a, b) {
@@ -922,19 +955,24 @@ function actionToCode (action) {
   } else if (action.type === 'spin') {
     line = `${action.type}()`
   }
+  if (action.invalid) {
+    line += ' // invalid'
+  }
   return line
 }
 
 const significantSpriteNames = ['Chicken Junior', 'Crab Monster Junior', 'Crates Junior', 'Cube Monster Junior', 'Explosive Junior', 'Dragonfly Junior', 'Gem Junior', 'Goal Junior']
+const hittableSpriteNames = _.without(significantSpriteNames, 'Gen Junior', 'Goal Junior') // Is chicken hittable?
 const floorSpriteNames = ['Junior Beach Floor', 'Junior Wall']
-function findThangAt (simplePos, thangs) {
+function findThangAt (simplePos, thangs, relevantSpriteNames) {
   // Return what thang is at the given position, or a floor that's there, or undefined if nothing is there
   const complexPos = complexifyPos(simplePos)
   let floorThang, foundThang
   for (const thang of thangs) {
     const spriteName = thangTypesToSpriteNames[thang.thangType]
     const isFloor = floorSpriteNames.includes(spriteName)
-    if (significantSpriteNames.includes(spriteName) || isFloor) {
+    relevantSpriteNames = relevantSpriteNames || significantSpriteNames
+    if (relevantSpriteNames.includes(spriteName) || isFloor) {
       const physicalComponent = _.find(thang.components || [], { original: PhysicalID })
       if (physicalComponent && physicalComponent.config && physicalComponent.config.pos.x === complexPos.x && physicalComponent.config.pos.y === complexPos.y) {
         if (isFloor) {
@@ -949,13 +987,27 @@ function findThangAt (simplePos, thangs) {
 }
 
 function moveThang ({ at, to, thangsSrc, thangsNew }) {
+  // Move a new thang we found at the given position in the source thangs list to the new position
+  // If there's already something significant there, return false
   const targetThangSrc = findThangAt(at, thangsSrc)
-  if (!targetThangSrc || floorSpriteNames.includes(thangTypesToSpriteNames[targetThangSrc.thangType])) return
-  const targetThangNew = _.find(thangsNew, { id: targetThangSrc.id })
-  const targetThangNewPhysical = _.find(targetThangNew.components, (component) => component.original === PhysicalID)
+  const spriteName = thangTypesToSpriteNames[targetThangSrc?.thangType]
+  if (!targetThangSrc || floorSpriteNames.includes(spriteName)) {
+    // console.log('There was nothing at', at)
+    return false
+  }
   const toComplex = complexifyPos(to)
+  const targetThangNew = _.find(thangsNew, { id: targetThangSrc.id })
+  const existingThangNew = findThangAt(to, thangsNew, significantSpriteNames.concat(['Hero Placeholder']))
+  const existingSpriteName = thangTypesToSpriteNames[existingThangNew?.thangType]
+  if (existingSpriteName && !floorSpriteNames.includes(existingSpriteName) && targetThangNew.id !== existingThangNew.id) {
+    // console.log('Already had', existingThangNew, existingSpriteName, 'at', to, toComplex)
+    return false
+  }
+  // console.log('Moving', spriteName, targetThangNew, existingThangNew, 'from', at, 'to', to, toComplex, 'where there was', existingThangNew, 'of', _.cloneDeep(thangsNew))
+  const targetThangNewPhysical = _.find(targetThangNew.components, (component) => component.original === PhysicalID)
   targetThangNewPhysical.config.pos.x = toComplex.x
   targetThangNewPhysical.config.pos.y = toComplex.y
+  return true
 }
 
 const directionNames = ['up', 'down', 'left', 'right']
@@ -1012,7 +1064,7 @@ class Action {
 // - Manhattan distance of hero from start to current should always be same after each move
 // - Should turn when hero turns, go forward when it goes forward, goes backwards when it goes backwards
 // - Should follow similar patterns for hit and zap
-function permuteActions ({ actions, thangs, checkDistanceTraveled }) {
+function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns, checkHitTurns }) {
   const hero = _.find(thangs, { id: 'Hero Placeholder' })
   const heroPhysical = _.find(hero.components, (component) => component.original === PhysicalID)
   const startPos = simplifyPos(heroPhysical.config.pos)
@@ -1024,7 +1076,10 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled }) {
   const actionsNew = []
   const thangsSrc = thangs
   const thangsNew = _.cloneDeep(thangs)
+  setPositionPlaceholders(thangsNew)
   const visitedPositions = [startPos.copy()]
+  let hasSeenZap = false
+  let lastAction
   for (const actionSrc of actionsSrc) {
     const actionNew = actionSrc.clone()
     const lastDirectionSrc = lastDirectionsPerActionSrc[actionSrc.type]
@@ -1053,9 +1108,10 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled }) {
           valid = false // Don't end up moving a different distance from the start position
         }
         ++tries
-      } while (!valid && tries < 100)
+      } while (!valid && tries < permutationTriesPerMove)
       if (!valid) {
-        console.log('Could not find valid permutation', { actionSrc, actionNew, lastDirectionSrc, lastDirectionNew, currentDirectionRelationshipSrc })
+        console.log('Could not find valid permutation for go', { actionSrc, actionNew, lastDirectionSrc, lastDirectionNew, currentDirectionRelationshipSrc })
+        actionNew.invalid = true
       }
       for (let distance = 1; distance <= (actionNew.distance || 1); ++distance) {
         // Put any gems or rafts we crossed in the right places
@@ -1065,7 +1121,9 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled }) {
         const spriteName = thangTypesToSpriteNames[thang?.thangType]
         if (['Gem Junior', 'Goal Junior'].includes(spriteName)) {
           // console.log('Moving', thang.id, spriteName, 'from', currentPosSrc, complexifyPos(currentPosSrc), 'to', currentPosNew, complexifyPos(currentPosNew))
-          moveThang({ at: currentPosSrc, to: currentPosNew, thangsSrc, thangsNew })
+          if (!moveThang({ at: currentPosSrc, to: currentPosNew, thangsSrc, thangsNew })) {
+            actionNew.invalid = true
+          }
         } else {
           // console.log('Got', spriteName, thang, 'at', currentPosSrc)
         }
@@ -1077,8 +1135,29 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled }) {
       // Find the targets that it would hit and put them in the right places
       for (const directionName of directionNames) {
         const targetPosSrc = currentPosSrc.copy().add(new Direction(directionName).vector)
-        const targetPosNew = currentPosNew.copy().add(new Direction(directionName).vector)
-        moveThang({ at: targetPosSrc, to: targetPosNew, thangsSrc, thangsNew })
+        const lastGoDirectionSrc = lastDirectionsPerActionSrc.go
+        const lastGoDirectionNew = lastDirectionsPerActionNew.go
+        const lastGoDirectionRelationship = lastGoDirectionNew?.getRelationship(lastGoDirectionSrc)
+        const directionNew = new Direction(directionName)
+        // console.log({ lastGoDirectionSrc, lastGoDirectionNew, lastGoDirectionRelationship })
+        if (!lastGoDirectionRelationship || lastGoDirectionRelationship === 'forward') {
+          // No change needed
+        } else if (lastGoDirectionRelationship === 'backward') {
+          directionNew.vector.multiply(-1)
+        } else {
+          // How to tell which way to rotate?
+          // directionNew.vector.rotate(Math.PI / 2)
+          // Claude thinks this
+          directionNew.vector.rotate(Math.PI / 2 * (lastGoDirectionNew.vector.x * lastGoDirectionSrc.vector.y - lastGoDirectionNew.vector.y * lastGoDirectionSrc.vector.x > 0 ? 1 : -1))
+        }
+        const targetPosNew = currentPosNew.copy().add(directionNew.vector)
+        const thang = findThangAt(targetPosSrc, thangsSrc)
+        const spriteName = thangTypesToSpriteNames[thang?.thangType]
+        if (thang && hittableSpriteNames.includes(spriteName)) {
+          if (!moveThang({ at: targetPosSrc, to: targetPosNew, thangsSrc, thangsNew })) {
+            actionNew.invalid = true
+          }
+        }
       }
     } else if (actionSrc.type === 'hit') {
       const targetPosSrc = currentPosSrc.copy().add(actionSrc.direction.vector)
@@ -1087,24 +1166,43 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled }) {
       let tries = 0
       do {
         valid = true
-        actionNew.direction = new Direction()
+        if (lastAction && lastAction.type === 'zap') {
+          // Hit the same way we were just zapping (some monster has probably run up to us)
+          actionNew.direction = lastDirectionsPerActionNew.zap
+        } else {
+          actionNew.direction = new Direction()
+        }
         const currentDirectionRelationshipNew = lastDirectionNew ? actionNew.direction.getRelationship(lastDirectionNew) : undefined
-        if (currentDirectionRelationshipNew !== currentDirectionRelationshipSrc) {
+        if (currentDirectionRelationshipNew !== currentDirectionRelationshipSrc && (checkHitTurns || currentDirectionRelationshipSrc === 'forward')) {
+          // console.log('  ', 'Not valid because relationship is different', { lastDirectionSrc, lastDirectionNew, currentDirectionRelationshipSrc, currentDirectionRelationshipNew })
           valid = false // Don't hit in a different sort of way than we previously did
         }
         targetPosNew = currentPosNew.copy().add(actionNew.direction.vector)
         if (valid && checkDistanceTraveled && manhattanDistance(startPos, targetPosNew) !== targetDistanceFromStart) {
+          // console.log('  ', 'Not valid because distance from start is different', { targetDistanceFromStart, newDistance: manhattanDistance(startPos, targetPosNew), startPos, targetPosNew, currentPosSrc, actionSrc, actionNew: _.cloneDeep(actionNew) })
           valid = false // Don't end up hitting a target at a different distance from the start position
         }
         ++tries
-      } while (!valid && tries < 100)
+      } while (!valid && tries < permutationTriesPerMove)
       if (!valid) {
-        console.log('Could not find valid permutation', { actionSrc, actionNew, lastDirectionSrc, lastDirectionNew, currentDirectionRelationshipSrc })
+        console.log('Could not find valid permutation for hit', { actionSrc, actionNew, lastDirectionSrc, lastDirectionNew, currentDirectionRelationshipSrc })
+        actionNew.invalid = true
       }
 
       // Find the target that it would hit and put it in the right place
-      moveThang({ at: targetPosSrc, to: targetPosNew, thangsSrc, thangsNew })
+      const thang = findThangAt(targetPosSrc, thangsSrc)
+      const spriteName = thangTypesToSpriteNames[thang?.thangType]
+      if (thang && hittableSpriteNames.includes(spriteName)) {
+        if (!moveThang({ at: targetPosSrc, to: targetPosNew, thangsSrc, thangsNew })) {
+          actionNew.invalid = true
+        }
+      } else if (!hasSeenZap) {
+        // If we haven't zapped (which might have aggro'd a monster and brought it to us), then our hits should be hitting something next to us
+        console.log('Only found', spriteName, thang, 'at', currentPosSrc, 'but expected to find a hittable sprite')
+        actionNew.invalid = true
+      }
     } else if (actionSrc.type === 'zap') {
+      hasSeenZap = true
       const targetPosSrc = currentPosSrc.copy().add(actionSrc.direction.vector)
       const targetDistanceFromStart = manhattanDistance(startPos, targetPosSrc)
       let targetPosNew, valid
@@ -1113,7 +1211,7 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled }) {
         valid = true
         actionNew.direction = new Direction()
         const currentDirectionRelationshipNew = lastDirectionNew ? actionNew.direction.getRelationship(lastDirectionNew) : undefined
-        if (currentDirectionRelationshipNew !== currentDirectionRelationshipSrc) {
+        if (currentDirectionRelationshipNew !== currentDirectionRelationshipSrc && (checkZapTurns || currentDirectionRelationshipSrc === 'forward')) {
           valid = false // Don't zap in a different sort of way than we previously did
         }
         targetPosNew = currentPosNew.copy().add(actionNew.direction.vector)
@@ -1121,18 +1219,34 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled }) {
           valid = false // Don't end up zapping a target at a different distance from the start position
         }
         ++tries
-      } while (!valid && tries < 100)
+      } while (!valid && tries < permutationTriesPerMove)
       if (!valid) {
-        console.log('Could not find valid permutation', { actionSrc, actionNew, lastDirectionSrc, lastDirectionNew, currentDirectionRelationshipSrc })
+        console.log('Could not find valid permutation for zap', { actionSrc, actionNew, lastDirectionSrc, lastDirectionNew, currentDirectionRelationshipSrc })
+        actionNew.invalid = true
       }
 
       // Find the targets that it would hit and put them in the right places
+      let hasZappedSomething = false
+      const processedPositions = new Set()
       for (let distance = 1; distance < 9; ++distance) {
-        const zapTargetPos = currentPosSrc.copy().add(actionSrc.direction.vector.copy().multiply(distance))
-        const newZapTargetPos = currentPosNew.copy().add(actionNew.direction.vector.copy().multiply(distance))
-        const zappableThang = findThangAt(zapTargetPos, thangsSrc)
-        if (zappableThang && floorSpriteNames.includes(thangTypesToSpriteNames[zappableThang.thangType])) {
-          moveThang({ at: zapTargetPos, to: newZapTargetPos, thangsSrc, thangsNew })
+        const zapTargetPosSrc = currentPosSrc.copy().add(actionSrc.direction.vector.copy().multiply(distance))
+        const zapTargetPosNew = currentPosNew.copy().add(actionNew.direction.vector.copy().multiply(distance))
+        const zappableThangSrc = findThangAt(zapTargetPosSrc, thangsSrc)
+        const zappableSpriteName = thangTypesToSpriteNames[zappableThangSrc?.thangType]
+        if (!hasZappedSomething) {
+          visitedPositions.push(zapTargetPosNew.copy())
+        }
+        if (zappableThangSrc && hittableSpriteNames.includes(zappableSpriteName)) {
+          if (!moveThang({ at: zapTargetPosSrc, to: zapTargetPosNew, thangsSrc, thangsNew })) {
+            actionNew.invalid = true
+          }
+          hasZappedSomething = true
+
+          // If it's TNT, also move any hittables next to it (recursively for other TNT)
+          if (zappableSpriteName === 'Explosive Junior') {
+            processExplosiveChain({ zapTargetPosSrc, zapTargetPosNew, thangsSrc, thangsNew, processedPositions, visitedPositions, actionSrc, actionNew })
+          }
+
           // Move all the Thangs in this line, in case some would be killed out of the way in between start of level and when the zap would happen.
           // This could result in slightly wrong behavior, because perhaps we are counting on the zap only hitting the first one?
           // We randomly break or not here, so that we can test it both ways and eventually get a valid layout in either scenario.
@@ -1153,11 +1267,12 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled }) {
       // console.log('Setting lastDirectionsPerAction to source', _.cloneDeep(lastDirectionsPerActionSrc), 'and new', _.cloneDeep(lastDirectionsPerActionNew))
     } else {
       lastDirectionsPerActionSrc[actionSrc.type] = actionSrc.direction
-      lastDirectionsPerActionSrc[actionNew.type] = actionNew.direction
+      lastDirectionsPerActionNew[actionNew.type] = actionNew.direction
       // console.log('Setting lastDirection for', actionSrc.type, 'to source', _.cloneDeep(actionSrc.direction), 'and new', _.cloneDeep(actionNew.direction))
     }
 
     actionsNew.push(actionNew)
+    lastAction = actionNew
   }
 
   return { actions: actionsNew, thangs: thangsNew, visitedPositions }
@@ -1189,6 +1304,119 @@ function layoutsAreEquivalent (thangsA, thangsB) {
   return true
 }
 
+function processExplosiveChain ({ zapTargetPosSrc, zapTargetPosNew, thangsSrc, thangsNew, processedPositions, visitedPositions, actionSrc, actionNew }) {
+  const directions = [
+    new Direction('up'),
+    new Direction('right'),
+    new Direction('down'),
+    new Direction('left'),
+    { name: 'upleft', vector: new Vector(-1, 1) },
+    { name: 'upright', vector: new Vector(1, 1) },
+    { name: 'downleft', vector: new Vector(-1, -1) },
+    { name: 'downright', vector: new Vector(1, -1) }
+  ]
+
+  for (const direction of directions) {
+    const nearbyPosSrc = zapTargetPosSrc.copy().add(direction.vector)
+    const posKey = `${nearbyPosSrc.x},${nearbyPosSrc.y}`
+
+    if (processedPositions.has(posKey)) continue
+    processedPositions.add(posKey)
+
+    const nearbyThangSrc = findThangAt(nearbyPosSrc, thangsSrc)
+    const nearbySpriteName = thangTypesToSpriteNames[nearbyThangSrc?.thangType]
+
+    if (nearbyThangSrc && hittableSpriteNames.includes(nearbySpriteName)) {
+      const zapDirectionRelationship = actionNew.direction.getRelationship(actionSrc.direction)
+      const directionNew = new Vector(direction.vector.x, direction.vector.y)
+
+      if (zapDirectionRelationship === 'backward') {
+        directionNew.multiply(-1)
+      } else if (zapDirectionRelationship === 'turn') {
+        const rotationFactor = actionNew.direction.vector.x * actionSrc.direction.vector.y - actionNew.direction.vector.y * actionSrc.direction.vector.x > 0 ? 1 : -1
+        directionNew.rotate(Math.PI / 2 * rotationFactor)
+      }
+
+      const nearbyPosNew = zapTargetPosNew.copy().add(directionNew)
+      visitedPositions.push(nearbyPosNew.copy())
+
+      if (!moveThang({ at: nearbyPosSrc, to: nearbyPosNew, thangsSrc, thangsNew })) {
+        actionNew.invalid = true
+      }
+
+      if (nearbySpriteName === 'Explosive Junior') {
+        // console.log('Processing explosive chain', nearbyThangSrc, posKey)
+        processExplosiveChain({ zapTargetPosSrc: nearbyPosSrc, zapTargetPosNew: nearbyPosNew, thangsSrc, thangsNew, processedPositions, visitedPositions, actionSrc, actionNew })
+      }
+    }
+  }
+}
+
+function repositionFriendsAndExplosives ({ thangsSrc, thangsNew, visitedPositions }) {
+  // Find any TNT or chickens that weren't moved into position (x == y == placeholderPosition), and try to put them where they might go
+  // Perhaps there is an accurate way to do this, but we can also try semi-randomly until it works:
+  // - For each leftover exposive:
+  //   - Place explosive same manhattan distance from hero start point as in the source
+  //     - Pick a random rotation and use that, maybe bias towards the one we used first in this sequence
+  //   - For each nearby chicken (also explosives but let me just not make to-avoid chain reactions)
+  //     - Use the same rotation and distance to preserve offset
+  // Technically, we would want to move standalone friends, too, but I don't think I've used those (only friends next to TNT)
+
+  // Draft Claude implementation below - TODO
+  const heroSrc = _.find(thangsSrc, { id: 'Hero Placeholder' })
+  const heroNew = _.find(thangsNew, { id: 'Hero Placeholder' })
+  const heroStartPosSrc = simplifyPos(_.find(heroSrc.components, (component) => component.original === PhysicalID).config.pos)
+  const heroStartPosNew = simplifyPos(_.find(heroNew.components, (component) => component.original === PhysicalID).config.pos)
+
+  const explosivesAndFriends = thangsNew.filter(thang => {
+    const spriteName = thangTypesToSpriteNames[thang.thangType]
+    return (spriteName === 'Explosive Junior' || spriteName === 'Chicken Junior') &&
+           simplifyPos(_.find(thang.components, (component) => component.original === PhysicalID).config.pos).equals(new Vector(placeholderPosition, placeholderPosition))
+  })
+
+  for (const thang of explosivesAndFriends) {
+    const thangSrc = _.find(thangsSrc, { id: thang.id })
+    const posSrc = simplifyPos(_.find(thangSrc.components, (component) => component.original === PhysicalID).config.pos)
+    const distanceFromHero = manhattanDistance(heroStartPosSrc, posSrc)
+
+    let placed = false
+    let attempts = 0
+    while (!placed && attempts < 50) {
+      const randomDirection = new Direction()
+      const posNew = heroStartPosNew.copy().add(randomDirection.vector.multiply(distanceFromHero))
+
+      if (!findThangAt(posNew, thangsNew, significantSpriteNames.concat(['Hero Placeholder'])) &&
+          !visitedPositions.some(pos => pos.equals(posNew))) {
+        const physicalConfig = _.find(thang.components, (component) => component.original === PhysicalID).config
+        physicalConfig.pos = complexifyPos(posNew)
+        placed = true
+
+        // Move nearby friends or explosives
+        for (const nearbyDirectionName of directionNames) {
+          const nearbyPosSrc = posSrc.copy().add(new Direction(nearbyDirectionName).vector)
+          const nearbyThangSrc = findThangAt(nearbyPosSrc, thangsSrc)
+          if (nearbyThangSrc) {
+            const nearbySpriteName = thangTypesToSpriteNames[nearbyThangSrc.thangType]
+            if (nearbySpriteName === 'Explosive Junior' || nearbySpriteName === 'Chicken Junior') {
+              const nearbyThangNew = _.find(thangsNew, { id: nearbyThangSrc.id })
+              const nearbyPosNew = posNew.copy().add(randomDirection.vector.rotate(Math.PI / 2 * directionNames.indexOf(nearbyDirectionName)))
+              if (!findThangAt(nearbyPosNew, thangsNew, significantSpriteNames.concat(['Hero Placeholder'])) &&
+                  !visitedPositions.some(pos => pos.equals(nearbyPosNew))) {
+                const nearbyPhysicalConfig = _.find(nearbyThangNew.components, (component) => component.original === PhysicalID).config
+                nearbyPhysicalConfig.pos = complexifyPos(nearbyPosNew)
+              }
+            }
+          }
+        }
+      }
+      attempts++
+    }
+    if (!placed) {
+      console.warn(`Could not place ${thang.id} after 50 attempts`)
+    }
+  }
+}
+
 function shiftLayout ({ thangs, visitedPositions }) {
   // Keep track of the min/max position of all significant Thangs plus places the hero visits
   // Once we know the needed bounds and offset of the level, we can shift everything to start from row 0, col 0
@@ -1213,6 +1441,7 @@ function shiftLayout ({ thangs, visitedPositions }) {
     minRow = Math.min(minRow, simplePos.y)
     maxCol = Math.max(maxCol, simplePos.x)
     maxRow = Math.max(maxRow, simplePos.y)
+    // console.log('Found', spriteName, thang.id, 'at', simplePos.x, simplePos.y)
   }
 
   const size = { cols: maxCol - minCol + 1, rows: maxRow - minRow + 1 }
@@ -1310,5 +1539,90 @@ function adjustTerrain ({ offset, size, level, visitedPositions }) {
   } else {
     bounds[1].x = (4 + 8 * largest + 4) * 20 / 17
     bounds[1].y = 4 + 8 * largest + 4
+  }
+}
+
+const placeholderPosition = 6 + 50 * 8
+function setPositionPlaceholders (thangs) {
+  // Move all signifiant Thangs out of the way, so any Thangs in the actual level layout will have to have been moved there deliberately
+  for (const thang of thangs) {
+    const spriteName = thangTypesToSpriteNames[thang.thangType]
+    if (significantSpriteNames.includes(spriteName)) {
+      const physicalConfig = _.find(thang.components, (component) => component.original === PhysicalID).config
+      physicalConfig.pos.x = placeholderPosition
+      physicalConfig.pos.y = placeholderPosition
+    }
+  }
+}
+
+async function verifyLevel ({ sourceLevel, thangs, solutionCode, starterCode, supermodel }) {
+  // console.log('Should verify', { sourceLevel, thangs, solutionCode, starterCode })
+  const solutions = constructSolutions({ solutionCode, starterCode })
+  const testContext = { running: 0, problems: 0, failed: 0, passedExceptFrames: 0, passed: 0, waiting: solutions.length, completed: 0, total: solutions.length }
+
+  return new Promise((resolve) => {
+    const onVerifierTestUpdate = createVerifierTestListener(testContext, () => {
+      if (testContext.completed === solutions.length || testContext.aborted) {
+        resolve(testContext.passed + testContext.passedExceptFrames === solutions.length)
+      }
+    })
+
+    solutions.map(solution => {
+      const childSupermodel = new SuperModel()
+      childSupermodel.models = _.clone(supermodel.models)
+      childSupermodel.collections = _.clone(supermodel.collections)
+      return new VerifierTest(sourceLevel.get('slug'), onVerifierTestUpdate, childSupermodel, 'javascript', { devMode: false, solution, thangsOverride: thangs })
+    })
+  })
+}
+
+function constructSolutions ({ solutionCode, starterCode }) {
+  const solutions = []
+  solutions.push({ source: solutionCode, language: 'javascript', succeeds: true })
+  const solutionCodeLines = solutionCode.split('\n')
+  for (let i = 0; i < solutionCodeLines.length; ++i) {
+    if (i !== starterCode.split('\n').length && i !== solutionCodeLines.length - 1) {
+      // Maybe we don't need to test all the intermediate lines, and just testing starter code plus solution less last line is enough
+      continue
+    }
+    solutions.push({ source: solutionCodeLines.slice(0, i).join('\n'), language: 'javascript', succeeds: false })
+  }
+  return solutions
+}
+
+function createVerifierTestListener (testContext, onAllTestsCompleted) {
+  return (e) => {
+    if (testContext.aborted) { return }
+    if (e.state === 'running') {
+      --testContext.waiting
+      ++testContext.running
+    } else if (['complete', 'error', 'no-solution'].includes(e.state)) {
+      --testContext.running
+      ++testContext.completed
+      if (e.state === 'complete') {
+        if (e.test.isSuccessful(true)) {
+          ++testContext.passed
+        } else if (e.test.isSuccessful(false)) {
+          ++testContext.passedExceptFrames
+        } else {
+          ++testContext.failed
+        }
+      } else if (e.state === 'no-solution') {
+        console.warn('Solution problem for', e.test.language)
+        ++testContext.problems
+      } else {
+        ++testContext.problems
+      }
+    }
+
+    if (testContext.failed || testContext.problems) {
+      // As soon as one test fails, end early and stop paying attention to any others
+      testContext.aborted = true
+      onAllTestsCompleted()
+    }
+
+    if (testContext.completed === testContext.total) {
+      onAllTestsCompleted()
+    }
   }
 }

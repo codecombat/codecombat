@@ -298,7 +298,7 @@ module.exports = (LevelEditView = (function () {
       } else if (this.lastLevelGenerationSize) {
         parameters.size = this.lastLevelGenerationSize
       }
-      levelGeneration.generateLevel(parameters).then(level => {
+      levelGeneration.generateLevel({ parameters, supermodel: this.supermodel }).then(level => {
         if (this.destroyed) return
         console.log('generated level', level)
         this.setGeneratedLevel(level)
@@ -308,7 +308,7 @@ module.exports = (LevelEditView = (function () {
     async generatePracticeLevel () {
       this.level.revert()
       const parameters = { sourceLevel: this.level }
-      levelGeneration.generateLevel(parameters).then(level => {
+      levelGeneration.generateLevel({ parameters, supermodel: this.supermodel }).then(level => {
         if (this.destroyed) return
         console.log('generated practice level', level)
         this.setGeneratedLevel(level)
