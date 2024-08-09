@@ -203,10 +203,10 @@ export default {
 }
 
 .special {
-    font-size: 12px;
-    color: white;
-    text-align: center;
-    height: 0;
+  font-size: 12px;
+  color: white;
+  text-align: center;
+  height: 0;
 }
 
 .dates {

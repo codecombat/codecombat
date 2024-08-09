@@ -49,11 +49,7 @@ export default {
         return false
       }
       const testLicense = _.find(this.activeLicenses, (prepaid) => prepaid.properties.testStudentOnly)
-      if (testLicense) {
-        return false
-      } else {
-        return true
-      }
+      return !testLicense
     }
   },
   methods: {
