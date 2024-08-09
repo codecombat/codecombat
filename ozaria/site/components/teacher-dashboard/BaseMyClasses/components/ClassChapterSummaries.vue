@@ -1,5 +1,6 @@
 <script>
 import UnitProgress from './UnitProgress'
+import { isCodeCombat } from 'core/utils'
 
 export default {
   components: {
@@ -11,7 +12,16 @@ export default {
       type: Array,
       required: true
     }
-  }
+  },
+
+  computed: {
+    getLogoSrc () {
+      if (isCodeCombat) {
+        return '/images/pages/base/logo_square_250.png'
+      }
+      return '/images/ozaria/home/ozaria-logo.png'
+    }
+  },
 }
 </script>
 
@@ -20,6 +30,11 @@ export default {
     id="class-chapter-summary"
     class="flex-row"
   >
+    <img
+      class="logo"
+      alt="logo"
+      :src="getLogoSrc"
+    >
     <div
       id="classes"
       class="flex-row"
@@ -43,6 +58,11 @@ export default {
     align-items: center;
   }
 
+  .logo {
+    height: 50px;
+    margin-left: 15px;
+  }
+
   #classes {
     flex-wrap: wrap;
     height: 100%;
@@ -53,6 +73,6 @@ export default {
     background-color: #f2f2f2;
     border: 1px solid #d8d8d8;
 
-    justify-content: space-between;
+    justify-content: start;
   }
 </style>

@@ -1177,6 +1177,25 @@ courseAcronyms[allCourseIDs.CHAPTER_THREE] = 'CH3'
 courseAcronyms[allCourseIDs.CHAPTER_FOUR] = 'CH4'
 courseAcronyms[allCourseIDs.HACKSTACK] = 'HS'
 
+const courseNameShort = {}
+courseNameShort[allCourseIDs.JUNIOR] = 'Junior'
+courseNameShort[allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'Intro to CS'
+courseNameShort[allCourseIDs.GAME_DEVELOPMENT_1] = 'Game Dev 1'
+courseNameShort[allCourseIDs.WEB_DEVELOPMENT_1] = 'Web Dev 1'
+courseNameShort[allCourseIDs.COMPUTER_SCIENCE_2] = 'Comp Sci 2'
+courseNameShort[allCourseIDs.GAME_DEVELOPMENT_2] = 'Game Dev 2'
+courseNameShort[allCourseIDs.WEB_DEVELOPMENT_2] = 'Web Dev 2'
+courseNameShort[allCourseIDs.COMPUTER_SCIENCE_3] = 'Comp Sci 3'
+courseNameShort[allCourseIDs.GAME_DEVELOPMENT_3] = 'Game Dev 3'
+courseNameShort[allCourseIDs.COMPUTER_SCIENCE_4] = 'Comp Sci 4'
+courseNameShort[allCourseIDs.COMPUTER_SCIENCE_5] = 'Comp Sci 5'
+courseNameShort[allCourseIDs.COMPUTER_SCIENCE_6] = 'Comp Sci 6'
+courseNameShort[allCourseIDs.CHAPTER_ONE] = 'Chapter 1'
+courseNameShort[allCourseIDs.CHAPTER_TWO] = 'Chapter 2'
+courseNameShort[allCourseIDs.CHAPTER_THREE] = 'Chapter 3'
+courseNameShort[allCourseIDs.CHAPTER_FOUR] = 'Chapter 4'
+courseNameShort[allCourseIDs.HACKSTACK] = 'Hackstack'
+
 const registerHocProgressModalCheck = function () {
   let hocProgressModalCheck
   return hocProgressModalCheck = setInterval(() => {
@@ -2524,6 +2543,7 @@ module.exports = {
   countryCodeToName,
   countryNameToCode,
   courseAcronyms,
+  courseNameShort,
   courseIDs,
   allCourseIDs,
   allFreeCourseIDs,
