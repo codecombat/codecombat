@@ -44,6 +44,7 @@ export default {
     clanIdOrSlug: '',
     anonymousPlayerName: false,
     toPage: 'custom',
+    regularOrChampionship: 'regular',
   }),
 
   computed: {
@@ -51,9 +52,13 @@ export default {
       getCurrentRegularArena: 'seasonalLeague/currentRegularArena',
       getCurrentChampionshipArena: 'seasonalLeague/currentChampionshipArena',
       globalRankings: 'seasonalLeague/globalRankings',
+      globalChampionshipRankings: 'seasonalLeague/globalChampionshipRankings',
       globalLeaderboardPlayerCount: 'seasonalLeague/globalLeaderboardPlayerCount',
+      globalChampionshipLeaderboardPlayerCount: 'seasonalLeague/globalChampionshipLeaderboardPlayerCount',
       clanRankings: 'seasonalLeague/clanRankings',
+      clanChampionshipRankings: 'seasonalLeague/clanChampionshipRankings',
       clanLeaderboardPlayerCount: 'seasonalLeague/clanLeaderboardPlayerCount',
+      clanChampionshipLeaderboardPlayerCount: 'seasonalLeague/clanChampionshipLeaderboardPlayerCount',
       codePointsRankings: 'seasonalLeague/codePointsRankings',
       myClans: 'clans/myClans',
       childClanDetails: 'clans/childClanDetails',
@@ -62,8 +67,15 @@ export default {
       codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount'
     }),
 
+    championshipAvailable () {
+      return !!this.getCurrentChampionshipArena
+    },
+
     regularArenaSlug () {
-      return this.getCurrentRegularArena ? this.getCurrentRegularArena.slug : null
+      if (this.regularOrChampionship === 'regular') {
+        return this.getCurrentRegularArena.slug
+      }
+      return this.getCurrentChampionshipArena?.slug
     },
 
     currentSelectedClan () {
@@ -88,11 +100,31 @@ export default {
     },
 
     selectedClanRankings () {
-      return this.clanRankings(this.clanIdSelected)
+      if (this.regularOrChampionship === 'regular') {
+        return this.clanRankings(this.clanIdSelected)
+      }
+      return this.clanChampionshipRankings(this.clanIdSelected)
     },
 
     selectedClanLeaderboardPlayerCount () {
-      return this.clanLeaderboardPlayerCount(this.clanIdSelected)
+      if (this.regularOrChampionship === 'regular') {
+        return this.clanLeaderboardPlayerCount(this.clanIdSelected)
+      }
+      return this.clanChampionshipLeaderboardPlayerCount(this.clanIdSelected)
+    },
+
+    selectedGlobalRankings () {
+      if (this.regularOrChampionship === 'regular') {
+        return this.globalRankings
+      }
+      return this.globalChampionshipRankings
+    },
+
+    selectedGlobalLeaderboardPlayerCount () {
+      if (this.regularOrChampionship === 'regular') {
+        return this.globalLeaderboardPlayerCount
+      }
+      return this.globalChampionshipLeaderboardPlayerCount
     },
 
     selectedClanCodePointsRankings () {
@@ -100,6 +132,9 @@ export default {
     },
 
     nextArenaAvailable () {
+      if (this.regularOrChampionship === 'regular') {
+        return this.championshipAvailable
+      }
       const season = this.getCurrentRegularArena.season
       const nextArena = findArena(season + 1, this.getCurrentRegularArena.type)
       return !!nextArena
@@ -145,6 +180,12 @@ export default {
     this.clanIdOrSlug = this.$route?.params?.idOrSlug || this.idOrSlug
   },
 
+  mounted () {
+    if (this.championshipAvailable) {
+      this.regularOrChampionship = 'championship'
+    }
+  },
+
   methods: {
     ...mapActions({
       loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
@@ -163,6 +204,11 @@ export default {
       if (!this.previousArenaAvailable) {
         return
       }
+      if (this.regularOrChampionship === 'championship') {
+        this.regularOrChampionship = 'regular'
+        return
+      }
+      this.regularOrChampionship = 'championship'
       this.paginateArenas('previous')
       this.loadRequiredData()
     },
@@ -171,6 +217,11 @@ export default {
       if (!this.nextArenaAvailable) {
         return
       }
+      if (this.regularOrChampionship === 'regular') {
+        this.regularOrChampionship = 'championship'
+        return
+      }
+      this.regularOrChampionship = 'regular'
       this.paginateArenas('next')
       this.loadRequiredData()
     },
@@ -325,9 +376,9 @@ export default {
               />
               <leaderboard
                 v-else
-                :rankings="globalRankings"
+                :rankings="selectedGlobalRankings"
                 :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
-                :player-count="globalLeaderboardPlayerCount"
+                :player-count="selectedGlobalLeaderboardPlayerCount"
                 class="leaderboard-component"
               />
             </template>
