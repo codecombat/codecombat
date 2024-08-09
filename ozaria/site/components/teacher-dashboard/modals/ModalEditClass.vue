@@ -475,6 +475,8 @@ export default Vue.extend({
               _id: memberId,
               role: 'student'
             }))
+
+          // set linkink in both classrooms
           ClassroomsApi.update({
             classroomID: this.otherProductClassroom._id,
             updates: { otherProductId: savedClassroom._id }
@@ -517,13 +519,13 @@ export default Vue.extend({
         <modal-divider />
       </div>
       <div
-        v-if="!isGoogleClassroomForm && !isOtherProductForm"
+        v-if="!classroom.otherProductId && !isGoogleClassroomForm && !isOtherProductForm"
         class="google-classroom-div"
       >
         <button-import-classroom
           :in-progress="otherProductSyncInProgress"
           icon-src="/images/ozaria/home/ozaria-logo.png"
-          icon-src-inactive="/images/ozaria/home/ozaria-logo.png"
+          :icon-src-inactive="isCodeCombat ? '/images/ozaria/home/ozaria-logo.png' : '/images/pages/base/logo_square_250.png'"
           :text="$t(isCodeCombat ? 'teachers.import_ozaria_classroom' : 'teachers.import_codecombat_classroom')"
           @click="linkOtherProductClassroom"
         />
