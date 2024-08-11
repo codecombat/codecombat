@@ -1325,7 +1325,10 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns
           // Move all the Thangs in this line, in case some would be killed out of the way in between start of level and when the zap would happen.
           // This could result in slightly wrong behavior, because perhaps we are counting on the zap only hitting the first one?
           // We randomly break or not here, so that we can test it both ways and eventually get a valid layout in either scenario.
-          const chanceZapStopsOnHit = 0.05
+          let chanceZapStopsOnHit = 0.05
+          if (zappableSpriteName === 'Explosive Junior') {
+            chanceZapStopsOnHit = 0.5 // Don't often need to shoot one of these out of the way
+          }
           if (Math.random() < chanceZapStopsOnHit) {
             break
           }
@@ -1436,64 +1439,77 @@ function processExplosiveChain ({ zapTargetPosSrc, zapTargetPosNew, thangsSrc, t
 function repositionFriendsAndExplosives ({ thangsSrc, thangsNew, visitedPositions }) {
   // Find any TNT or chickens that weren't moved into position (x == y == placeholderPosition), and try to put them where they might go
   // Perhaps there is an accurate way to do this, but we can also try semi-randomly until it works:
-  // - For each leftover exposive:
+  // - For each leftover explosive:
   //   - Place explosive same manhattan distance from hero start point as in the source
   //     - Pick a random rotation and use that, maybe bias towards the one we used first in this sequence
   //   - For each nearby chicken (also explosives but let me just not make to-avoid chain reactions)
   //     - Use the same rotation and distance to preserve offset
   // Technically, we would want to move standalone friends, too, but I don't think I've used those (only friends next to TNT)
 
-  // Draft Claude implementation below - TODO
   const heroSrc = _.find(thangsSrc, { id: 'Hero Placeholder' })
   const heroNew = _.find(thangsNew, { id: 'Hero Placeholder' })
   const heroStartPosSrc = simplifyPos(_.find(heroSrc.components, (component) => component.original === PhysicalID).config.pos)
   const heroStartPosNew = simplifyPos(_.find(heroNew.components, (component) => component.original === PhysicalID).config.pos)
 
-  const explosivesAndFriends = thangsNew.filter(thang => {
+  const explosives = thangsNew.filter(thang => {
     const spriteName = thangTypesToSpriteNames[thang.thangType]
-    return (spriteName === 'Explosive Junior' || spriteName === 'Chicken Junior') &&
-           simplifyPos(_.find(thang.components, (component) => component.original === PhysicalID).config.pos).equals(new Vector(placeholderPosition, placeholderPosition))
+    if (spriteName !== 'Explosive Junior') return false
+    const pos = simplifyPos(_.find(thang.components, (component) => component.original === PhysicalID).config.pos)
+    return pos.x >= placeholderPositionSimple || pos.y >= placeholderPositionSimple
   })
+  // console.log('Found unplaced explosives', explosives)
 
-  for (const thang of explosivesAndFriends) {
-    const thangSrc = _.find(thangsSrc, { id: thang.id })
-    const posSrc = simplifyPos(_.find(thangSrc.components, (component) => component.original === PhysicalID).config.pos)
-    const distanceFromHero = manhattanDistance(heroStartPosSrc, posSrc)
+  const processedFriendsAndExplosives = []
+  for (const explosiveThang of explosives) {
+    const explosiveThangSrc = _.find(thangsSrc, { id: explosiveThang.id })
+    const explosivePosSrc = simplifyPos(_.find(explosiveThangSrc.components, (component) => component.original === PhysicalID).config.pos)
 
-    let placed = false
-    let attempts = 0
-    while (!placed && attempts < 50) {
-      const randomDirection = new Direction()
-      const posNew = heroStartPosNew.copy().add(randomDirection.vector.multiply(distanceFromHero))
+    const directions = [
+      new Direction('up'),
+      new Direction('right'),
+      new Direction('down'),
+      new Direction('left'),
+      { name: 'upleft', vector: new Vector(-1, 1) },
+      { name: 'upright', vector: new Vector(1, 1) },
+      { name: 'downleft', vector: new Vector(-1, -1) },
+      { name: 'downright', vector: new Vector(1, -1) }
+    ]
 
-      if (!findThangAt(posNew, thangsNew, significantSpriteNames.concat(['Hero Placeholder'])) &&
-          !visitedPositions.some(pos => pos.equals(posNew))) {
-        const physicalConfig = _.find(thang.components, (component) => component.original === PhysicalID).config
-        physicalConfig.pos = complexifyPos(posNew)
-        placed = true
-
-        // Move nearby friends or explosives
-        for (const nearbyDirectionName of directionNames) {
-          const nearbyPosSrc = posSrc.copy().add(new Direction(nearbyDirectionName).vector)
-          const nearbyThangSrc = findThangAt(nearbyPosSrc, thangsSrc)
-          if (nearbyThangSrc) {
-            const nearbySpriteName = thangTypesToSpriteNames[nearbyThangSrc.thangType]
-            if (nearbySpriteName === 'Explosive Junior' || nearbySpriteName === 'Chicken Junior') {
-              const nearbyThangNew = _.find(thangsNew, { id: nearbyThangSrc.id })
-              const nearbyPosNew = posNew.copy().add(randomDirection.vector.rotate(Math.PI / 2 * directionNames.indexOf(nearbyDirectionName)))
-              if (!findThangAt(nearbyPosNew, thangsNew, significantSpriteNames.concat(['Hero Placeholder'])) &&
-                  !visitedPositions.some(pos => pos.equals(nearbyPosNew))) {
-                const nearbyPhysicalConfig = _.find(nearbyThangNew.components, (component) => component.original === PhysicalID).config
-                nearbyPhysicalConfig.pos = complexifyPos(nearbyPosNew)
-              }
-            }
-          }
-        }
+    const adjacentFriendsAndExplosives = [{ thang: explosiveThang, offset: new Vector(0, 0) }]
+    for (const direction of directions) {
+      const nearbyPosSrc = explosivePosSrc.copy().add(direction.vector)
+      const nearbyThang = findThangAt(nearbyPosSrc, thangsSrc, ['Explosive Junior', 'Chicken Junior'])
+      if (nearbyThang && !floorSpriteNames.includes(thangTypesToSpriteNames[nearbyThang.thangType]) && processedFriendsAndExplosives.indexOf(nearbyThang) === -1) {
+        adjacentFriendsAndExplosives.push({ thang: nearbyThang, offset: direction.vector })
+        processedFriendsAndExplosives.push(nearbyThang)
       }
-      attempts++
     }
-    if (!placed) {
-      console.warn(`Could not place ${thang.id} after 50 attempts`)
+
+    let allPlaced = false
+    let tries = 0
+    while (!allPlaced && tries < 50) {
+      const permutationVector = new Vector(Math.random() < 0.5 ? -1 : 1, Math.random() < 0.5 ? -1 : 1)
+      let placed = true
+      for (const { offset } of adjacentFriendsAndExplosives) {
+        const posSrc = explosivePosSrc.copy().add(offset)
+        const heroToThangVectorSrc = posSrc.copy().subtract(heroStartPosSrc)
+        const heroToThangVectorNew = heroToThangVectorSrc.copy()
+        heroToThangVectorNew.x *= permutationVector.x
+        heroToThangVectorNew.y *= permutationVector.y
+        const posNew = heroStartPosNew.copy().add(heroToThangVectorNew)
+        if (!moveThang({ at: posSrc, to: posNew, thangsSrc, thangsNew })) {
+          placed = false
+          break
+        }
+        placed = true
+      }
+      if (placed) {
+        allPlaced = true
+      }
+      tries++
+    }
+    if (!allPlaced) {
+      console.warn(`Could not place ${adjacentFriendsAndExplosives.map((t) => t.id).join(', ')} after 50 tries`)
     }
   }
 }
