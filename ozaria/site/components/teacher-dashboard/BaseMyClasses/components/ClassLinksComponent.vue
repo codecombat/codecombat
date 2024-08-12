@@ -289,7 +289,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
+            href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
             class="dusk-btn disabled"
             disabled
           >
@@ -361,7 +361,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
+            href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
             class="dusk-btn disabled"
             disabled
           >
@@ -420,7 +420,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
+            href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
             class="dusk-btn disabled"
             disabled
           >
@@ -492,7 +492,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
+            href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
             class="dusk-btn disabled"
             disabled
           >
