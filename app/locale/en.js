@@ -6145,7 +6145,7 @@ module.exports = {
     pd_page: {
       implementation_training_title: 'Implementation Training',
       implementation_training_blurb: 'Educators are provided with a live, online 60 minute onboarding training and guidance on how to use CodeCombat or Ozaria to support specific institutional and instructional goals. The implementation is focused on a comprehensive teacher dashboard walkthrough that covers:',
-      list_1: 'How to add add classes & students',
+      list_1: 'How to add classes & students',
       list_2: 'How to track & lock student progress',
       list_3: 'An overview of how to use the resources available in the Resource Hub, including: Course Guide, Lesson Plans, Lesson Slides, & Educator FAQ',
       modal_subtitle: 'To get licenses for our professional development course, send us a message and our classroom success team will be in touch!',
