@@ -14,9 +14,20 @@ export default Vue.extend({
       default: null,
       required: false
     },
+    autoShow: {
+      type: Boolean,
+      default: true,
+      required: false
+    },
     seenPromotionsProperty: {
-      type: String,
-      required: true
+      // reference to user.seenPromotions property
+      // the value passed here should be added to
+      // possible props of user.seenPromotions object.
+      validator: function (value) {
+        return typeof value === 'string' || value === null
+      },
+      required: false,
+      default: null
     },
     cocoOnly: {
       type: Boolean,
@@ -55,7 +66,9 @@ export default Vue.extend({
   },
 
   created () {
-    if (this.seenPromotionsProperty) {
+    if (!this.autoShow) {
+      this.showModal = false
+    } else if (this.seenPromotionsProperty) {
       this.showModal = !me.getSeenPromotion(this.seenPromotionsProperty)
     }
     if (this.showModal) {
@@ -78,6 +91,10 @@ export default Vue.extend({
     onClose () {
       this.close()
     },
+    openModal () {
+      this.$emit('open')
+      this.showModal = true
+    }
   }
 })
 </script>
@@ -96,7 +113,7 @@ export default Vue.extend({
     </modal>
     <slot
       name="opener"
-      @click="showModal = true"
+      :open-modal="openModal"
     />
   </div>
 </template>
