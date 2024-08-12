@@ -1,10 +1,10 @@
 <script>
-import ModalDynamicPromotion from './ModalDynamicPromotion'
+import ModalDynamicContent from './ModalDynamicContent'
 import trackable from 'app/components/mixins/trackable.js'
 
 export default Vue.extend({
   components: {
-    ModalDynamicPromotion
+    ModalDynamicContent
   },
   mixins: [trackable],
   props: {
@@ -52,7 +52,7 @@ export default Vue.extend({
 
 <template>
   <div>
-    <ModalDynamicPromotion
+    <ModalDynamicContent
       v-if="showModal"
       ref="modal"
       seen-promotions-property="curriculum-sidebar-promotion-modal"
@@ -76,7 +76,7 @@ export default Vue.extend({
           >
         </div>
       </template>
-    </ModalDynamicPromotion>
+    </ModalDynamicContent>
   </div>
 </template>
 

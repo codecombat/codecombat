@@ -6141,6 +6141,30 @@ module.exports = {
       faq_4_answer: "Yes. All players can sign-up for free at roblox.com. Don't forget to link your CodeCombat account and Roblox account to access all the features and rewards.",
       faq_5_question: 'Will it work on my Chromebook or mobile device?',
       faq_5_answer: 'Yes. CodeCombat Worlds allows you to play, type real code and create games on PC, Mac, Chromebooks, tablets, phones, and consoles.'
+    },
+    pd_page: {
+      implementation_training_title: 'Implementation Training',
+      implementation_training_blurb: 'Educators are provided with a live, online 60 minute onboarding training and guidance on how to use CodeCombat or Ozaria to support specific institutional and instructional goals. The implementation is focused on a comprehensive teacher dashboard walkthrough that covers:',
+      list_1: 'How to add classes & students',
+      list_2: 'How to track & lock student progress',
+      list_3: 'An overview of how to use the resources available in the Resource Hub, including: Course Guide, Lesson Plans, Lesson Slides, & Educator FAQ',
+      modal_subtitle: 'To get licenses for our professional development course, send us a message and our classroom success team will be in touch!',
+      email_message: 'Hi! I’m interested in learning more about your professional development course and discussing pricing options.',
+      professional_development_title: 'Professional Development[NEWLINE](With Ozaria)',
+      professional_development_blurb: 'This 40+ hour online, self-directed course provides educators with the knowledge, skills and resources to implement high-quality CS instruction.',
+      list_4: 'It adheres to the ESSA guidelines for exemplary professional learning, is endorsed by the CSTA and qualifies for valuable professional education credit hours.',
+      list_5: 'The course is built on a Learn It, Try It, Teach It model ensuring teachers have a solid foundation of the concepts before they implement it in the classroom.',
+      list_6: 'Earn up to 3 graduate-level education credit hours while exploring core CS concepts and teaching strategies that include computational thinking, inquiry-based learning, SEL and DEI.',
+      download_table_of_contents: 'Download Table of Contents',
+      ap_csp_professional_development_title: 'AP CSP Professional Development[NEWLINE](With CodeCombat)',
+      ap_csp_professional_development_blurb: 'This 40+ hour online, largely self-directed course is ideal for any educator who wants to prepare their students to succeed on the AP Computer Science Principles exam using CodeCombat.',
+      list_7: 'Both this course and the CodeCombat AP CSP curriculum are endorsed by the College Board. The hours completed in this course can be used to qualify for valuable professional education credit.',
+      list_8: 'The course leverages synchronous, small group conversations with AP CSP teachers from across the globe in order to deepen one’s CS knowledge and enrich one’s classroom practices.',
+      list_9: 'Through CodeCombat’s partnership with Southern New Hampshire University (SNHU), you can earn up to 3 graduate-level credit hours while learning how to best prepare your students to take the AP CSP exam.',
+      download_syllabus: 'Download Syllabus',
+      get_full_course: 'Get Full Course',
+      try_sample_lesson: 'Try Sample Lesson',
+      trophy_header: 'Level up as a Computer Science Teacher with our Professional Development offerings!'
     }
   }
 }
