@@ -60,7 +60,8 @@ export default {
         classDateEnd: this.classroomEndDate,
         archived: this.classroomState.archived,
         codeCamel: this.classroomState.codeCamel,
-        sharePermission: this.sharePermission
+        sharePermission: this.sharePermission,
+        type: this.classroomState.type
       }
     },
 

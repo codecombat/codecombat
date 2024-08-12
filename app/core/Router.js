@@ -485,6 +485,7 @@ module.exports = (CocoRouter = (function () {
         'teachers/resources_old': go('teachers/ResourceHubView', { redirectStudents: true }),
         'teachers/resources': utils.isCodeCombat && me.useChinaHomeView() ? go('teachers/ResourceHubView', { redirectStudents: true }) : go('core/SingletonAppVueComponentView', { redirectStudents: true }),
         'teachers/resources_new': go('core/SingletonAppVueComponentView'),
+        'teachers/curriculum': teacherProxyRoute(go('teachers/curriculum', { redirectStudents: true })),
         'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true }),
         'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true }),
         'teachers/professional-development': teacherProxyRoute(go('pd/PDView', { redirectStudents: true })),

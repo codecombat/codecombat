@@ -71,6 +71,9 @@ export default Vue.extend({
     } else if (this.seenPromotionsProperty) {
       this.showModal = !me.getSeenPromotion(this.seenPromotionsProperty)
     }
+    if (this.showModal) {
+      this.$emit('show')
+    }
   },
 
   methods: {

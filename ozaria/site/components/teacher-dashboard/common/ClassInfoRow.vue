@@ -32,11 +32,16 @@ export default {
       default: ''
     },
     sharePermission: {
-      type: String
+      type: String,
+      default: undefined
     },
     archived: {
       type: Boolean,
       default: false
+    },
+    classType: {
+      type: String,
+      default: ''
     }
   },
 
@@ -119,6 +124,12 @@ export default {
       <span>{{ classDateString }}</span>
     </div>
     <div
+      v-if="classType"
+      class="stats-tab class-type"
+    >
+      {{ classType }}
+    </div>
+    <div
       v-if="sharePermission === 'read' || sharePermission === 'write'"
       class="stats-tab"
     >
@@ -155,5 +166,9 @@ export default {
     margin: 0 5px;
     @include font-p-4-paragraph-smallest-gray;
     white-space: nowrap;
+  }
+
+  .class-type {
+    text-transform: capitalize;
   }
 </style>

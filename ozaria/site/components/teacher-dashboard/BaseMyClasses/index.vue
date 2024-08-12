@@ -128,6 +128,9 @@ export default {
       this.showShareClassWithTeacherModal = true
       this.editClassroomObject = classroom
     },
+    showCreateStudents (classroom) {
+      return me.isCodeNinja() && classroom.type?.includes('club')
+    }
   }
 }
 </script>
@@ -245,6 +248,7 @@ export default {
     <modal-add-students
       v-if="showAddStudentsModal"
       :classroom="editClassroomObject"
+      :create-students="showCreateStudents(editClassroomObject)"
       @close="showAddStudentsModal = false"
     />
     <modal-share-with-teachers

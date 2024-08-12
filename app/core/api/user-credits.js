@@ -19,8 +19,19 @@ const updateCreditUid = ({ operation, uid, newId }) => fetchJson('/db/user-credi
   }
 })
 
+const addCredits = ({ operation, credits, endDate, userId }) => fetchJson('/db/user-credits/extra-credits', {
+  method: 'POST',
+  json: {
+    operation,
+    credits,
+    endDate,
+    userId
+  }
+})
+
 module.exports = {
   getCredits,
   redeemCredits,
-  updateCreditUid
+  updateCreditUid,
+  addCredits
 }
