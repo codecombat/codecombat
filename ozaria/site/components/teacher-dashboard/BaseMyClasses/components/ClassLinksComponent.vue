@@ -276,11 +276,560 @@
         </li>
       </ul>
     </div>
+    <div
+      v-if="clubType === 'club-hackstack'"
+      class="class-link"
+    >
+      <b>AI HackStack Quick Links</b>
+      <ul class="list-inline">
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Comprehensive Sensei guide',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
+            class="dusk-btn disabled"
+            disabled
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Sensei Guide</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Day-by-day slides',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://drive.google.com/drive/folders/1v1rcEj_sDJQCQSrSCp3yd9vovtK3BQWE"
+            target="_blank"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Club Curriculum</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://codecombat.com/ai/"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-external-link" />
+            <span>AI HackStack</span>
+          </a>
+        </li>
+      </ul>
+      <b>Lessons</b>
+      <ul class="list-inline">
+        <li
+          v-for="(lesson, index) in hackstackClubLessons"
+          :key="`hs-${index}`"
+        >
+          <a
+            v-tooltip.top="{
+              content: `Lesson slides for ${lesson.title}`,
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            :href="lesson.link"
+            class="dusk-btn"
+            target="_blank"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>{{ lesson.title }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div
+      v-if="clubType === 'club-ozaria'"
+      class="class-link"
+    >
+      <b>Ozaria Quick Links</b>
+      <ul class="list-inline">
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Comprehensive Sensei guide to running the Roblox: Intro to Coding and Game Design camp with CodeCombat Junior and CodeCombat Worlds.',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
+            class="dusk-btn disabled"
+            disabled
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Sensei Guide</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Day-by-day slides',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://drive.google.com/drive/folders/1okwLkEkHre6y81Yx-CQXsZfz3JJABfuZ?usp=drive_link"
+            target="_blank"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Club Curriculum</span>
+          </a>
+        </li>
+      </ul>
+      <b>Lessons</b>
+      <ul class="list-inline">
+        <li
+          v-for="(lesson, index) in ozariaClubLessons"
+          :key="`oz-${index}`"
+        >
+          <a
+            v-tooltip.top="{
+              content: `Lesson slides for ${lesson.title}`,
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            :href="lesson.link"
+            class="dusk-btn"
+            target="_blank"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>{{ lesson.title }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div
+      v-if="clubType === 'club-roblox'"
+      class="class-link"
+    >
+      <b>CodeCombat Worlds(Roblox) Quick Links</b>
+      <ul class="list-inline">
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Comprehensive Sensei guide',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
+            class="dusk-btn disabled"
+            disabled
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Sensei Guide</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Week-by-week slides',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://drive.google.com/drive/folders/15vF1jIq5yx7zQ8yZih_rNpuc21tfUsl-?usp=drive_link"
+            target="_blank"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Club Curriculum</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://www.roblox.com/games/11704713454"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-external-link" />
+            <span>Join Roblox Server</span>
+          </a>
+        </li>
+      </ul>
+      <b>Lessons</b>
+      <ul class="list-inline">
+        <li
+          v-for="(lesson, index) in robloxClubLessons"
+          :key="`rob-${index}`"
+        >
+          <a
+            v-tooltip.top="{
+              content: `Lesson slides for ${lesson.title}`,
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            :href="lesson.link"
+            class="dusk-btn"
+            target="_blank"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>{{ lesson.title }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div
+      v-if="clubType === 'club-esports'"
+      class="class-link"
+    >
+      <b>AI League Quick Links</b>
+      <ul class="list-inline">
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Comprehensive Sensei guide',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
+            class="dusk-btn disabled"
+            disabled
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Sensei Guide</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              content: 'Week-by-week slides',
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://drive.google.com/drive/folders/1BeJeMjY4D7a4YBeUVGSGCFe009Wod6cn?usp=drive_link"
+            target="_blank"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>Club Curriculum</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://codecombat.com/play/ladder/equinox"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-external-link" />
+            <span>Equinox Arena</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://codecombat.com/play/ladder/tundra-tower"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-external-link" />
+            <span>Tundra Tower Arena</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://codecombat.com/play/ladder/sandstorm"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-external-link" />
+            <span>Sandstorm Arena</span>
+          </a>
+        </li>
+        <li>
+          <a
+            v-tooltip.top="{
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            href="https://codecombat.com/play/ladder/solar-skirmish"
+            class="dusk-btn"
+          >
+            <div class="quick-link-icon icon-external-link" />
+            <span>Solar Skirmish Arena</span>
+          </a>
+        </li>
+      </ul>
+      <b>Lessons</b>
+      <ul class="list-inline">
+        <li
+          v-for="(lesson, index) in aiLeagueClubLessons"
+          :key="`ai-league-${index}`"
+        >
+          <a
+            v-tooltip.top="{
+              content: `Lesson slides for ${lesson.title}`,
+              classes: 'teacher-dashboard-tooltip lighter-p',
+              autoHide: false
+            }"
+            :href="lesson.link"
+            class="dusk-btn"
+            target="_blank"
+          >
+            <div class="quick-link-icon icon-curriculum" />
+            <span>{{ lesson.title }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+const AI_HACKSTACK_CLUB_LESSONS = [
+  {
+    title: 'Week 1',
+    link: 'https://docs.google.com/presentation/d/1OvvW1HT22Q-vNnYcJTlRTbl1qSdU_2JmaaLcRaWoEFk/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 2',
+    link: 'https://docs.google.com/presentation/d/127VRzq6ZMbD0elWEuJnkyJjM8yiOOXM4rc9eB1rFy8U/edit?usp=sharing'
+  },
+  {
+    title: 'Week 3',
+    link: 'https://docs.google.com/presentation/d/1zdkgokkq5GSjxiANXU5nApPVyPLOzkTVoAN79TgefXY/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 4',
+    link: 'https://docs.google.com/presentation/d/1c_BEPNpRtepR_Gkl7Ue_NG-aRhDldFbq2r45UfxWtpM/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 5',
+    link: 'https://docs.google.com/presentation/d/11i3upl9jw6PuhMiwlvxDVzr-gBA9buMahbObcpcD6pQ/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 6',
+    link: 'https://docs.google.com/presentation/d/1Bcg2BSHcBUPGR3RBuqi5-zXdGVphLqaSmICoaymdX4o/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 7',
+    link: 'https://docs.google.com/presentation/d/1NQrFXnDtVZME9sJT54k8x6GWC3Rl2ps8OTpXazd2oyY/edit?usp=sharing'
+  },
+  {
+    title: 'Week 8',
+    link: 'https://docs.google.com/presentation/d/1gt2ttx7PNkduLzj_6T5X9Fm49I5NiDdWl_S554KPTDg/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 9',
+    link: 'https://docs.google.com/presentation/d/1dKWY1HAizdmh-7MHht42rm26mO0tn8qr_wMN_OpWoXk/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 10',
+    link: 'https://docs.google.com/presentation/d/1MvU21ry5lc9eQ1zoRwnYw7ojjOkBSVo253e9OcGSNZk/edit?usp=sharing'
+  },
+  {
+    title: 'Week 11',
+    link: 'https://docs.google.com/presentation/d/1g88Fexb7FdrA-2OAvFwwjRtZ2rMvDsYg8VG0tl0msaI/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 12',
+    link: 'https://docs.google.com/presentation/d/1NGrCMrGl8Ep4pBQZNN5DgRNBUbnsjxijVrQkNe__TAQ/edit?usp=sharing'
+  }
+]
+
+const OZARIA_CLUB_LESSONS = [
+  {
+    title: 'Week 1',
+    link: 'https://docs.google.com/presentation/d/10vGNse-9_LeQdn2nnWIb6-AbDBo_OyBMYu_qHKztqtw/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 2',
+    link: 'https://docs.google.com/presentation/d/10yrlsu9Lji-U_Qd63zt0kpEp9BSa3UXPNYtwps6poSA/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 3',
+    link: 'https://docs.google.com/presentation/d/10yrlsu9Lji-U_Qd63zt0kpEp9BSa3UXPNYtwps6poSA/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 4',
+    link: 'https://docs.google.com/presentation/d/1MuMQc61MeR1z8-jZY0LQBreA9nUgDQxnkVG504YXUX8/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 5',
+    link: 'https://docs.google.com/presentation/d/1_yFfxCurga8UZGI2ZQ7VF-NXLWUy3gBqiWSwHm-N66U/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 6',
+    link: 'https://docs.google.com/presentation/d/1a-p2EDfbBGEwndhaeqeCzB8LZwh-xoYKQ0fWZmcJma8/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 7',
+    link: 'https://docs.google.com/presentation/d/15XpAqPquOXmzZmRQWNMpRo6boB1DFTFm_4r-IfOlokc/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 8',
+    link: 'https://docs.google.com/presentation/d/1aQ_wCR5VRzC5aZHFOSk07Rkubcyxql-BssIybiGgedo/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 9',
+    link: 'https://docs.google.com/presentation/d/16q4O3t_YWjvB9Pdx6vU1pbXlZJh9YCKBxRcTgNoLF0k/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 10',
+    link: 'https://docs.google.com/presentation/d/16q4O3t_YWjvB9Pdx6vU1pbXlZJh9YCKBxRcTgNoLF0k/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 11',
+    link: 'https://docs.google.com/presentation/d/1dEB25aMiNuYqPGt-4F-BdN1--djWUvPXd701vXIEqp0/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 12',
+    link: 'https://docs.google.com/presentation/d/1tMa8rC_e6_7Kxq94ASsD8xndYrE_rT-TYM9cep-GfX4/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 13',
+    link: 'https://docs.google.com/presentation/d/1I3S2KieaEpMi4T90c-t39PerXjV-4Nco6lVbV17Tkpw/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 14',
+    link: 'https://docs.google.com/presentation/d/1oz6GFzMWPgBB6y6QwxH0BxSttytRIeWtN0l-xPHE1l8/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 15',
+    link: 'https://docs.google.com/presentation/d/1WdR6vpJtMvvrNrv5xF2sIOK_Th5oEWxMQwNq9cp8krw/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 16',
+    link: 'https://docs.google.com/presentation/d/1-AofjTqEfEMQVdONB0OT_hrDDLoYNT_qua8aN3gTzKc/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 17',
+    link: 'https://docs.google.com/presentation/d/18yx2n-cYk8urX0i2C08mtMXqtvcC236mGW0aNQpfiZ8/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 18',
+    link: 'https://docs.google.com/presentation/d/1KSomKBFQ8L9E8EOZpaqZZ30fGKgJSATUIKzTtMAmaUQ/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 19',
+    link: 'https://docs.google.com/presentation/d/1Q6Yq2YqSOOcM9W3JHre_agBGbBeTjDr0so7Z6PNofzg/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 20',
+    link: 'https://docs.google.com/presentation/d/1DLc45uDhSeIihXlfELWFG5ucQzextHrGdCocVA5HJiA/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 21',
+    link: 'https://docs.google.com/presentation/d/1ayruYmO1E3oBfzhmxHEtUHnvl4Ff8h7MwlZLcOOki9A/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 22',
+    link: 'https://docs.google.com/presentation/d/1DYpxhpCuHMv87i4h6YRidltVRsTNdOU1vueI39Pr21Q/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 23',
+    link: 'https://docs.google.com/presentation/d/1DYpxhpCuHMv87i4h6YRidltVRsTNdOU1vueI39Pr21Q/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 24',
+    link: 'https://docs.google.com/presentation/d/1IpZa16G5B7li7vtdZwEkYjzmWv6P9x3bVeaVum20hyw/edit?usp=drive_link'
+  }
+]
+
+const ROBLOX_CLUB_LESSONS = [
+  {
+    title: 'Week 1',
+    link: 'https://docs.google.com/presentation/d/1orH2X8ujRXZBAq73vV-FCVS5hl88oMdaCnRfsi7uzfY/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 2',
+    link: 'https://docs.google.com/presentation/d/1uJSsCLxRAJycaR9UqC4auzxBS3u8IH8r8kVQryBfB5w/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 3',
+    link: 'https://docs.google.com/presentation/d/1uJSsCLxRAJycaR9UqC4auzxBS3u8IH8r8kVQryBfB5w/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 4',
+    link: 'https://docs.google.com/presentation/d/1l8vn4kTdQTuFr4PyoYXU6nQajHwngDdAW-mqo2tLFc8/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 5',
+    link: 'https://docs.google.com/presentation/d/1Dd7S9Jvo8iPCCQhYAjsUtjf2qcpUsRl9epa0hRLKQUE/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 6',
+    link: 'https://docs.google.com/presentation/d/1MZ6jv0L4jQwr4yKCg9c4WVyC-w2g7_CSRE1yEp_9CUM/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 7',
+    link: 'https://docs.google.com/presentation/d/1RSbnkwfAQNSVhJWJfzS81xp8--ssaSMyg22XhyZgQJk/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 8',
+    link: 'https://docs.google.com/presentation/d/1EoH2qSwvZIuaiwbKP0JvJRaEnueZn_sxyhVANATfdRA/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 9',
+    link: 'https://docs.google.com/presentation/d/10YeHE1whJJ4Xzblegn4titWGkaT2FHRUfEVNSR4De1s/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 10',
+    link: 'https://docs.google.com/presentation/d/10YeHE1whJJ4Xzblegn4titWGkaT2FHRUfEVNSR4De1s/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 11',
+    link: 'https://docs.google.com/presentation/d/1RxgXWJx1L9c_cRLoUrIT990stvVz0-7J06_yOLeNMnM/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 12',
+    link: 'https://docs.google.com/presentation/d/1ul0Vsrp1eMbT0CNNO-qBXabe6y3ZBlNQb_GSpDkPvVU/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 13- Harvest',
+    link: 'https://docs.google.com/presentation/d/1X_CZXphWV62TnrMmEfvyX5X0O1WB1EXwzTAXeX4VeP8/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 13 - Combat',
+    link: 'https://docs.google.com/presentation/d/1fnWYojZSPEG9l-cbSJIBZsHwh_dgMcm94M_8uKYV-WE/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 14',
+    link: 'https://docs.google.com/presentation/d/1ZUTKyrMsRsmj8hXUCTPGbknL6ZK_wdoAEJBm_rRBxsc/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 15',
+    link: 'https://docs.google.com/presentation/d/1DKX5NXDElzGlK8vJoCwJyYuz4R947dY87nbrdCxv9Fo/edit?usp=drive_link'
+  },
+  {
+    title: 'Week 16',
+    link: 'https://docs.google.com/presentation/d/1AGYkTnVzI-PWGSUuzJsMLP_C7H0NJPRwRe-3voL7rQk/edit?usp=drive_link'
+  }
+]
+
+const AI_LEAGUE_CLUB_LESSONS = [
+  {
+    title: 'Equinox',
+    link: 'https://drive.google.com/drive/folders/16lYF5Bt_WupEUv9rNfTN_byL8DSJK3iX?usp=drive_link'
+  },
+  {
+    title: 'Tundra Tower',
+    link: 'https://drive.google.com/drive/folders/1xhl8oMNLU5gwuEChg1wCair2VKK-A3ln?usp=drive_link'
+  },
+  {
+    title: 'Sandstorm',
+    link: 'https://drive.google.com/drive/folders/1gXBG1tpuAhYkJKX5GvvHZHX48duPnZ7O?usp=drive_link'
+  }
+]
 
 export default {
   name: 'ClassLinksComponent',
@@ -296,6 +845,18 @@ export default {
     showJuniorCampInfo: {
       type: Boolean,
       default: false
+    },
+    clubType: {
+      type: String,
+      default: ''
+    }
+  },
+  data () {
+    return {
+      hackstackClubLessons: AI_HACKSTACK_CLUB_LESSONS,
+      ozariaClubLessons: OZARIA_CLUB_LESSONS,
+      robloxClubLessons: ROBLOX_CLUB_LESSONS,
+      aiLeagueClubLessons: AI_LEAGUE_CLUB_LESSONS
     }
   },
   computed: {

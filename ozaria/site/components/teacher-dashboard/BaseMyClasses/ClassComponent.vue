@@ -71,6 +71,7 @@ export default {
       :show-esports-camp-info-coco="showEsportsCampInfoCoco"
       :show-esports-camp-info-oz="showEsportsCampInfoOz"
       :show-junior-camp-info="showJuniorCampInfo"
+      :club-type="classroomStats.type"
     />
   </div>
 </template>
