@@ -56,6 +56,10 @@ export default {
     sharePermission: {
       type: String,
       default: undefined
+    },
+    classType: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -94,6 +98,7 @@ export default {
             :date-end="dateEnd"
             :share-permission="sharePermission"
             :archived="archived"
+            :class-type="classType"
           />
         </router-link>
         <div
@@ -111,6 +116,7 @@ export default {
             :date-end="dateEnd"
             :share-permission="sharePermission"
             :archived="archived"
+            :class-type="classType"
           />
         </div>
         <div

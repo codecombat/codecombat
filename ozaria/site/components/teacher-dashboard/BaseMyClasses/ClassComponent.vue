@@ -104,6 +104,7 @@ export default {
       :archived="classroomStats.archived"
       :display-only="displayOnly"
       :share-permission="classroomStats.sharePermission"
+      :class-type="classroomStats.type"
       @clickTeacherArchiveModalButton="$emit('clickTeacherArchiveModalButton')"
       @clickAddStudentsModalButton="$emit('clickAddStudentsModalButton')"
       @clickShareClassWithTeacherModalButton="$emit('clickShareClassWithTeacherModalButton')"

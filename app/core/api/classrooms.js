@@ -55,6 +55,14 @@ module.exports = {
       json: { members }
     }))
   },
+  
+  createStudentsForCodeNinja ({ classroomID, num }, options) {
+    if (options == null) { options = {} }
+    return fetchJson(`/db/classrooms/${classroomID}/codeninja-create-students`, _.assign({}, options, {
+      method: 'POST',
+      json: { num }
+    }))
+  },  
 
   fetchByOwner (ownerId, options, urlPrefix = '') {
     if (options == null) { options = {} }

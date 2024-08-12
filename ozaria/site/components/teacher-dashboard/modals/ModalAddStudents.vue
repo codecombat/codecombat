@@ -15,12 +15,16 @@ export default Vue.extend({
     classroom: {
       type: Object,
       required: true
+    },
+    createStudents: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => {
     return {
       showInviteStudentsModal: false,
-      googleSyncInProgress: false
+      googleSyncInProgress: false,
     }
   },
   computed: {
@@ -86,6 +90,7 @@ export default Vue.extend({
       :classroom="classroom"
       :show-google-classroom="showGoogleClassroom"
       :google-sync-in-progress="googleSyncInProgress"
+      :create-students="createStudents"
       from="ModalAddStudents"
       @inviteStudents="showInviteStudentsModal = true"
       @syncGoogleClassroom="syncGoogleClassroom"

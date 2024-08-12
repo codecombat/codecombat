@@ -288,7 +288,7 @@ export default {
       try {
         res = await classroomsApi.get({ classroomID })
       } catch (err) {
-        noty({ text: 'failed to fetch classroom:' + e, type: 'error', layout: 'topCenter', timeout: 5000 })
+        noty({ text: 'failed to fetch classroom:' + err?.message, type: 'error', layout: 'topCenter', timeout: 5000 })
         return
       }
       if (res) {

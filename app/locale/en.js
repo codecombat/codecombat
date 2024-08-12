@@ -1790,7 +1790,9 @@ module.exports = {
       select_codecombat_classroom: 'Select Codecombat Classroom',
       select_to_import_from_ozaria: 'Select to Import from Ozaria',
       select_to_import_from_codecombat: 'Select to Import from Codecombat',
-      all_classrooms_imported: 'All classrooms already imported'
+      all_classrooms_imported: 'All classrooms already imported',
+      club_type: 'Club Type',
+      create_students_prompt: 'How many students would you like to create?'
     },
 
     no_licenses_page: {
@@ -2381,7 +2383,8 @@ module.exports = {
       all_units_completed: 'All Units Completed!',
       hide_options: 'Hide Options',
       more_options: 'More Options',
-      get_test_license: 'Get Test Student License'
+      get_test_license: 'Get Test Student License',
+      create_students: 'Generate Students'
     },
 
     project_gallery: {
@@ -4637,7 +4640,8 @@ module.exports = {
       failed_attempts_subtext: 'Number of times incorrect option was selected',
       open_project: 'Open Project',
       create_class_hackstack: 'Please create a New Class to access AI HackStack',
-      test_student_only: 'Test Student Only',
+      add_club: 'Add New Club',
+      test_student_only: 'Test Student Only'
     },
 
     outcomes: {
