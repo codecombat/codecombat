@@ -2022,14 +2022,9 @@ ${problem.category} - ${problem.score} points\
             }
           } else if (level.assessment) {
             level.hidden = false
-            const isLastNormalLevelCompleted = this.levelStatusMap[lastNormalLevel != null ? lastNormalLevel.slug : undefined] === 'complete'
-            level.locked = !isLastNormalLevelCompleted && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), prev.original)
+            level.locked = this.levelStatusMap[lastNormalLevel != null ? lastNormalLevel.slug : undefined] !== 'complete'
           } else {
-            if (prev) {
-              level.locked = prev.locked && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), prev.original)
-            } else {
-              level.locked = found
-            }
+            level.locked = found
             level.hidden = false
           }
         }

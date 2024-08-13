@@ -412,6 +412,7 @@ module.exports = (CocoRouter = (function () {
         privacy: go('PrivacyView'),
 
         'professional-development': go('core/SingletonAppVueComponentView'),
+        'professional-development-v2': go('core/SingletonAppVueComponentView'),
 
         pd: go('core/SingletonAppVueComponentView'),
         efficacy: go('core/SingletonAppVueComponentView'),
