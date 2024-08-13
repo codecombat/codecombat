@@ -245,7 +245,8 @@ module.exports = (User = (function () {
     }
 
     static getNapervilleDomain () {
-      return '@naperville203.org'
+      // it can be stu.naperville203.org or naperville203.org and there are no premium benefits directly so safe to check without @
+      return 'naperville203.org'
     }
 
     getEnabledEmails () {

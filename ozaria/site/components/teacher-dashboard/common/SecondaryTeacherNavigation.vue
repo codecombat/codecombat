@@ -4,14 +4,16 @@ import utils from 'core/utils'
 import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
 import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
 import ModalHackStackBeta from 'ozaria/site/components/teacher-dashboard/modals/ModalHackStackBeta.vue'
+import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalTestStudentPromotion.vue'
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
 
 export default {
   components: {
     DashboardToggle,
-    ModalCurriculumPromotion,
     ModalHackStackBeta,
+    ModalTestStudentPromotion,
+    ModalCurriculumPromotion,
     ModalOzariaHackStack
   },
 
@@ -452,6 +454,7 @@ export default {
       v-if="isOzaria"
       ref="modalOzariaHackStack"
     />
+    <ModalTestStudentPromotion />
   </ul>
 </template>
 
