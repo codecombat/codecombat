@@ -9,9 +9,9 @@
 const fetchJson = require('./fetch-json')
 
 module.exports = {
-  get ({ classroomID }, options, urlPrefix = '') {
+  get ({ classroomID }, options) {
     if (options == null) { options = {} }
-    return fetchJson(`${urlPrefix}/db/classroom/${classroomID}`, options)
+    return fetchJson(`/db/classroom/${classroomID}`, options)
   },
 
   // TODO: Set this up to allow using classroomID instead
@@ -55,17 +55,16 @@ module.exports = {
       json: { members }
     }))
   },
-  
+
   createStudentsForCodeNinja ({ classroomID, num }, options) {
     if (options == null) { options = {} }
     return fetchJson(`/db/classrooms/${classroomID}/codeninja-create-students`, _.assign({}, options, {
       method: 'POST',
       json: { num }
     }))
-  },  
+  },
 
-  fetchByOwner (ownerId, options, urlPrefix = '') {
-    if (options == null) { options = {} }
+  fetchByOwner (ownerId, options = {}) {
     let projectionString = ''
     if (Array.isArray(options.project)) {
       projectionString += `&project=${options.project.join(',')}`
@@ -73,7 +72,8 @@ module.exports = {
     if (options.includeShared) {
       projectionString += '&includeShared=true'
     }
-    return fetchJson(`${urlPrefix}/db/classroom?ownerID=${ownerId}${projectionString}`, {
+    return fetchJson(`/db/classroom?ownerID=${ownerId}${projectionString}`, {
+      callOz: options.callOz,
       method: 'GET'
     })
   },
@@ -117,9 +117,9 @@ module.exports = {
   },
 
   // updates = { archived: '', name: ''}
-  update ({ classroomID, updates }, options, urlPrefix = '') {
+  update ({ classroomID, updates }, options) {
     if (options == null) { options = {} }
-    return fetchJson(`${urlPrefix}/db/classroom/${classroomID}`, _.assign({}, options, {
+    return fetchJson(`/db/classroom/${classroomID}`, _.assign({}, options, {
       method: 'PUT',
       json: updates
     }))

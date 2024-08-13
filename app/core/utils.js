@@ -2402,13 +2402,6 @@ const getProductUrl = function (product, url) {
   return url
 }
 
-const getOtherProductUrlPrefix = function(){
-  if(isCodeCombat) {
-    return '/ozaria'
-  }
-  return '/codecombat'
-}
-
 const allowedLanguages = ({
   [OZARIA]: ['javascript', 'python'],
   [CODECOMBAT]: ['javascript', 'python', 'java', 'cpp']
@@ -2624,7 +2617,6 @@ module.exports = {
   ozBaseURL,
   useWebsocket,
   getProductUrl,
-  getOtherProductUrlPrefix,
   shaTag
 }
 

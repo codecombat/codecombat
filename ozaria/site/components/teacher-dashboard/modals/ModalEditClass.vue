@@ -254,11 +254,10 @@ export default Vue.extend({
         }),
       ]
     },
-
     otherProductClassroom () {
       return (this.otherProductClassrooms || [])
         .find((classroom) => classroom._id === this.otherProductClassroomId)
-    },    
+    },
 
     clubTypes () {
       return [
@@ -267,6 +266,17 @@ export default Vue.extend({
         { id: 'club-roblox', name: 'Roblox' },
         { id: 'club-hackstack', name: 'Hackstack' },
       ]
+    },
+
+    linkGoogleButtonAllowed () {
+      return this.showGoogleClassroom && !this.isGoogleClassroomForm && !this.isOtherProductForm
+    },
+
+    linkOtherProductButtonAllowed () {
+      return utils.isCodeCombat &&
+        !this.classroom.otherProductId &&
+        !this.isGoogleClassroomForm &&
+        !this.isOtherProductForm
     }
   },
 
@@ -377,7 +387,7 @@ export default Vue.extend({
       this.otherProductSyncInProgress = true
 
       try {
-        this.otherProductClassrooms = (await ClassroomsApi.fetchByOwner(me.get('_id'), {}, utils.getOtherProductUrlPrefix()))
+        this.otherProductClassrooms = (await ClassroomsApi.fetchByOwner(me.get('_id'), { callOz: true }))
           .filter(otherClassroom => !otherClassroom.otherProductId)
         this.isOtherProductForm = true
         window.tracker?.trackEvent('Add New Class: Link Google Classroom Successful', { category: 'Teachers' })
@@ -543,7 +553,7 @@ export default Vue.extend({
           ClassroomsApi.update({
             classroomID: this.otherProductClassroom._id,
             updates: { otherProductId: savedClassroom._id }
-          }, {}, utils.getOtherProductUrlPrefix()).catch(console.log)
+          }, { callOz: true }).catch(console.log)
           await this.addMembersToClassroom({ classroom: savedClassroom, members })
         }
 
@@ -569,31 +579,32 @@ export default Vue.extend({
     @close="$emit('close')"
   >
     <div class="style-ozaria teacher-form edit-class container">
-      <div
-        v-if="showGoogleClassroom && !isGoogleClassroomForm && !isOtherProductForm"
-        class="google-classroom-div"
-      >
-        <button-google-classroom
-          :inactive="googleClassroomDisabled"
-          :in-progress="googleSyncInProgress"
-          text="Link Google Classroom"
-          @click="linkGoogleClassroom"
-        />
-        <modal-divider />
+      <div class="link-buttons-container">
+        <div
+          v-if="linkGoogleButtonAllowed"
+          class="google-classroom-div"
+        >
+          <button-google-classroom
+            :inactive="googleClassroomDisabled"
+            :in-progress="googleSyncInProgress"
+            text="Link Google Classroom"
+            @click="linkGoogleClassroom"
+          />
+        </div>
+        <div
+          v-if="linkOtherProductButtonAllowed"
+          class="google-classroom-div"
+        >
+          <button-import-classroom
+            :in-progress="otherProductSyncInProgress"
+            icon-src="/images/ozaria/home/ozaria-logo.png"
+            :icon-src-inactive="isCodeCombat ? '/images/ozaria/home/ozaria-logo.png' : '/images/pages/base/logo_square_250.png'"
+            :text="$t(isCodeCombat ? 'teachers.import_ozaria_classroom' : 'teachers.import_codecombat_classroom')"
+            @click="linkOtherProductClassroom"
+          />
+        </div>
       </div>
-      <div
-        v-if="!classroom.otherProductId && !isGoogleClassroomForm && !isOtherProductForm"
-        class="google-classroom-div"
-      >
-        <button-import-classroom
-          :in-progress="otherProductSyncInProgress"
-          icon-src="/images/ozaria/home/ozaria-logo.png"
-          :icon-src-inactive="isCodeCombat ? '/images/ozaria/home/ozaria-logo.png' : '/images/pages/base/logo_square_250.png'"
-          :text="$t(isCodeCombat ? 'teachers.import_ozaria_classroom' : 'teachers.import_codecombat_classroom')"
-          @click="linkOtherProductClassroom"
-        />
-        <modal-divider />
-      </div>
+      <modal-divider v-if="linkGoogleButtonAllowed || linkOtherProductButtonAllowed" />
       <div class="form-container container">
         <div
           v-if="isGoogleClassroomForm"
@@ -1248,6 +1259,13 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import "app/styles/ozaria/_ozaria-style-params.scss";
+
+.link-buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
 
 .edit-class {
   display: flex;
