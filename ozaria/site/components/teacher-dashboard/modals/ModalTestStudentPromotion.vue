@@ -1,5 +1,5 @@
 <script>
-import ModalDynamicPromotion from './ModalDynamicPromotion'
+import ModalDynamicPromotion from './ModalDynamicContent'
 import trackable from 'app/components/mixins/trackable.js'
 import { mapGetters } from 'vuex'
 
@@ -19,8 +19,10 @@ export default Vue.extend({
       return [...this.activeClassrooms, ...this.sharedClassrooms]
     },
     showModal () {
-      const oneDaysAgo = new Date(new Date() - 24 * 60 * 60 * 1000)
-      return new Date(me.get('dateCreated')) < oneDaysAgo && this.allClassrooms.length > 0
+      const threeDaysAgo = new Date(new Date() - 3 * 24 * 60 * 60 * 1000)
+      const startDate = new Date('2024-08-16')
+      const currentDate = new Date()
+      return currentDate > startDate && new Date(me.get('dateCreated')) < threeDaysAgo && this.allClassrooms.length > 0
     },
     hasLicense () {
       return !this.loadingLicenses && this.activeLicenses.length > 0
@@ -84,11 +86,15 @@ export default Vue.extend({
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px 60px;
+  padding: 5px 20px;
   text-align: center;
 
   .text-h2 {
     font-weight: bold;
+  }
+
+  .text-p {
+    font-size: 18px;
   }
 
   >* {
