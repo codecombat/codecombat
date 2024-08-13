@@ -2,13 +2,23 @@
   <ModalDynamicContent
     ref="modal"
     :auto-show="false"
-    :title="$t('teacher_dashboard.ozaria_hs_modal_title')"
   >
     <template #content>
       <div class="ozar-hs-modal-content">
-        <mixed-color-label
-          :text="$t('teacher_dashboard.ozaria_hs_modal_blurb')"
-        />
+        <h3 class="text-h3">
+          {{ $t('teacher_dashboard.ozaria_hs_modal_title') }}
+        </h3>
+        <p>
+          <mixed-color-label
+            :text="$t('teacher_dashboard.ozaria_hs_modal_blurb')"
+          />
+        </p>
+        <a
+          href="https://codecombat.com/teachers/classes"
+          target="_blank"
+        >
+          <img src="/images/ozaria/teachers/dashboard/png_img/import-classroom.webp">
+        </a>
       </div>
     </template>
   </ModalDynamicContent>
@@ -35,5 +45,12 @@ export default {
 <style lang="scss" scoped>
 .ozar-hs-modal-content {
     max-width: min(600px, 90vw);
+    .text-h3 {
+      font-size: 24px;
+      margin: 10px auto 10px;
+    }
+    img {
+      max-width: 100%;
+    }
 }
 </style>
