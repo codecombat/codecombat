@@ -37,6 +37,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
       getCurrentModuleNames: 'baseCurriculumGuide/getCurrentModuleNames',
       getCurrentModuleHeadingInfo: 'baseCurriculumGuide/getCurrentModuleHeadingInfo',
       getCapstoneInfo: 'baseCurriculumGuide/getCapstoneInfo',
@@ -99,7 +100,12 @@ export default {
   <div class="header">
     <div class="module-header">
       <h3>
-        <span>{{ $t('teacher_dashboard.module') }} {{ moduleNum }}: </span>
+        <span>{{ $t('teacher_dashboard.module') }} </span>
+        <span
+          v-if="getCurrentCourse.slug !== 'junior'"
+        >
+          {{ moduleNum }}:
+        </span>
         <!-- eslint-disable vue/no-v-html -->
         <span v-html="renderModuleName(moduleName || getCurrentModuleNames(moduleNum))" />
         <!-- eslint-enable vue/no-v-html -->
