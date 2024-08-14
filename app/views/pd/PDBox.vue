@@ -42,23 +42,21 @@
           :email-message="modal.emailMessage"
         >
           <template #opener="{ openModal }">
-            <button
-              class="btn btn-md btn-moon"
-              @click="openModal"
+            <CTAButton
+              @clickedCTA="openModal"
             >
               {{ $t('pd_page.get_full_course') }}
-            </button>
+            </CTAButton>
           </template>
         </ModalGetLicenses>
-        <a
+        <CTAButton
           v-for="button, key in buttons"
           :key="key"
-          class="btn btn-md btn-moon"
           :href="button.href"
           :target="button.target || '_blank'"
         >
           {{ button.text }}
-        </a>
+        </CTAButton>
       </div>
       <div class="col col-lg-5 col-md-12 buttons-container right">
         <IframeModal :src="sampleLessonSrc">
@@ -79,12 +77,14 @@
 <script>
 import ModalGetLicenses from 'app/components/common/ModalGetLicenses'
 import IframeModal from './IframeModal.vue'
+import CTAButton from 'app/components/common/buttons/CTAButton'
 
 export default {
   name: 'PDBox',
   components: {
     ModalGetLicenses,
-    IframeModal
+    IframeModal,
+    CTAButton
   },
   props: {
     title: {
@@ -152,8 +152,8 @@ export default {
 
   .box-header {
     .text-h2 {
-      color: $goldenlight;
-      border-bottom: 2px solid $goldenlight;
+      color: black;
+      border-bottom: 2px solid black;
 
       font-size: 18px;
       font-weight: 600;
@@ -179,7 +179,7 @@ export default {
 
   .bordered-image {
     border-radius: 30px;
-    border: 5px solid $goldenlight;
+    border: 5px solid var(--color-primary);
     width: 100%;
     aspect-ratio: 16 / 9;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.20) 36%, rgba(0, 0, 0, 0.07) 100%);
@@ -206,7 +206,7 @@ export default {
     height: 10px;
     margin-right: 10px;
     border-radius: 50%;
-    background-color: $moon;
+    background-color: var(--color-primary);
     min-width: 10px;
     margin-top: 9px;
   }
