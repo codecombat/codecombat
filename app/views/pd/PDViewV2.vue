@@ -80,9 +80,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "app/styles/component_variables.scss";
 #pd-view {
   display: flex;
   flex-direction: column;
   gap: 40px;
+  ::v-deep {
+    @extend %frontend-page;
+  }
 }
 </style>
