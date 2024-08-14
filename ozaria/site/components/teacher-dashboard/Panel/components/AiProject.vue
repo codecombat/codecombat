@@ -1,14 +1,23 @@
 <template>
   <div class="ai-project">
     <h4>{{ aiProject.name }}</h4>
-    <p>Progress: {{ progress }}%</p>
-    <p v-if="failedAttempts">
-      {{ $t('teacher_dashboard.failed_attempts') }}: {{ failedAttempts }}
-      <br><span class="subtext">{{ $t('teacher_dashboard.failed_attempts_subtext') }}</span>
+
+    <p v-if="mode === 'use'">
+      {{ aiProject.isReadyToReview ? $t('teacher_dashboard.ready_to_review') : $t('teacher.in_progress') }}
     </p>
-    <p v-else>
-      {{ $t('teacher_dashboard.no_failed_attempts') }}
-    </p>
+    <div v-else>
+      <p>
+        Progress: {{ progress }}%
+      </p>
+
+      <p v-if="failedAttempts">
+        {{ $t('teacher_dashboard.failed_attempts') }}: {{ failedAttempts }}
+        <br><span class="subtext">{{ $t('teacher_dashboard.failed_attempts_subtext') }}</span>
+      </p>
+      <p v-else-if="mode === 'learn to use'">
+        {{ $t('teacher_dashboard.no_failed_attempts') }}
+      </p>
+    </div>
     <a
       :href="`/ai/project/${aiProject._id}`"
       target="_blank"
@@ -24,12 +33,18 @@ export default {
       type: Object,
       required: true,
     },
-    initialActionCount: {
-      type: Number,
+    aiScenario: {
+      type: Object,
       required: true,
     },
   },
   computed: {
+    initialActionCount () {
+      return this.aiScenario.initialActionQueue.length
+    },
+    mode () {
+      return this.aiScenario.mode
+    },
     progress () {
       const remainingActions = this.aiProject.actionQueue.length
       const completedActions = this.initialActionCount - remainingActions

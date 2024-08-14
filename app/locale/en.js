@@ -1189,6 +1189,8 @@ module.exports = {
       ask_teacher_for_credits: 'Ask your teacher for an AI Hackstack license.',
       get_credits: 'Get Credits',
       get_ai_hs_license: 'Get AI Hackstack License',
+      use: 'Use',
+      learn_to_use: 'Learn to Use',
     },
 
     apis: {
