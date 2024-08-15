@@ -5971,7 +5971,9 @@ module.exports = {
       locked: 'LOCKED',
       view: 'View',
       continue: 'Continue',
-      no_assigned_projects: 'Your teacher has not assigned any AI projects yet.'
+      no_assigned_projects: 'Your teacher has not assigned any AI projects yet.',
+      continue_here: 'Continue Here',
+      start_new: 'Start New'
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',
