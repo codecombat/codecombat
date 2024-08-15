@@ -27,6 +27,7 @@ const VueShepherd = require('vue-shepherd')
 const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
 const SEEN_TEACHER_DETAILS_MODAL = 'seen-teacher-details-modal'
 const TRY_OZ_MODAL_VIEWED_KEY = 'try-oz-modal-viewed'
+const SIDEBAR_COLLAPSED_KEY = 'teacher-dashboard-sidebar-collapsed'
 
 export default {
   name: 'BaseTeacherDashboardIndex',
@@ -60,7 +61,7 @@ export default {
       createdFirstClass: false,
       trialRequestLoading: true,
       newClassroom: new Classroom({ ownerID: me.id }),
-      sidebarCollapsed: false,
+      sidebarCollapsed: storage.load(SIDEBAR_COLLAPSED_KEY) || false,
       editCurrent: false,
       editClassroomObject: {},
       showTryOzariaModal: false,
@@ -347,6 +348,7 @@ export default {
     },
     toggleSidebar () {
       this.sidebarCollapsed = !this.sidebarCollapsed
+      storage.save(SIDEBAR_COLLAPSED_KEY, this.sidebarCollapsed)
     },
     handleTryOzariaModal () {
       if (this.isCodeCombat &&
