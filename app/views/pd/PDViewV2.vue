@@ -40,6 +40,7 @@
       }"
       image="/images/pages/pd/conditionals.webp"
       sample-lesson-src="https://web.edapp.com/lessons/6047c494b8c984000128e504/"
+      :logo-badges="['/images/pages/schools/logo/SNHU-Logo.webp']"
     />
     <a name="apcsp" />
     <pd-box
@@ -60,7 +61,7 @@
       }"
       image="/images/pages/pd/algorithms.webp"
       sample-lesson-src="https://trainingpreview.edapp.com/p/1GvFJ98La2KPvduiz5QK2ifR"
-      logo-badge="/images/pages/apcsp/apcsp_logo.webp"
+      :logo-badges="['/images/pages/apcsp/apcsp_logo.webp','/images/pages/schools/logo/SNHU-Logo.webp']"
     />
   </div>
 </template>
@@ -80,9 +81,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "app/styles/component_variables.scss";
 #pd-view {
   display: flex;
   flex-direction: column;
   gap: 40px;
+  ::v-deep {
+    @extend %frontend-page;
+  }
 }
 </style>
