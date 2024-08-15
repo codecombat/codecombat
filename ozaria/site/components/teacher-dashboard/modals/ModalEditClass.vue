@@ -10,7 +10,9 @@ import { validationMixin } from 'vuelidate'
 import { required, requiredIf } from 'vuelidate/lib/validators'
 import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 import ButtonGoogleClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonGoogleClassroom.vue'
+import ButtonImportClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonImportClassroom.vue'
 import ModalDivider from 'ozaria/site/components/common/ModalDivider.vue'
+import ClassroomsApi from 'app/core/api/classrooms.js'
 import moment from 'moment'
 
 export default Vue.extend({
@@ -19,6 +21,7 @@ export default Vue.extend({
     SecondaryButton,
     TertiaryButton,
     ButtonGoogleClassroom,
+    ButtonImportClassroom,
     ModalDivider
   },
 
@@ -58,8 +61,12 @@ export default Vue.extend({
       saving: false,
       classGrades: (utils.isOzaria && !me.isCodeNinja()) ? [] : null,
       googleClassId: '',
+      otherProductClassroomId: '',
       googleClassrooms: null,
+      otherProductClassrooms: null,
       isGoogleClassroomForm: false,
+      isOtherProductForm: false,
+      otherProductSyncInProgress: false,
       googleSyncInProgress: false,
       moreOptions: false,
       newInitialFreeCourses: [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE],
@@ -69,10 +76,13 @@ export default Vue.extend({
 
   validations: {
     newClassName: {
-      required: requiredIf(function () { return !this.isGoogleClassroomForm })
+      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm })
     },
     googleClassId: {
       required: requiredIf(function () { return this.isGoogleClassroomForm })
+    },
+    otherProductClassroomId: {
+      required: requiredIf(function () { return this.isOtherProductForm })
     },
     newProgrammingLanguage: {
       required
@@ -244,6 +254,11 @@ export default Vue.extend({
         }),
       ]
     },
+    otherProductClassroom () {
+      return (this.otherProductClassrooms || [])
+        .find((classroom) => classroom._id === this.otherProductClassroomId)
+    },
+
     clubTypes () {
       return [
         { id: 'club-ozaria', name: 'Ozaria' },
@@ -251,6 +266,17 @@ export default Vue.extend({
         { id: 'club-roblox', name: 'Roblox' },
         { id: 'club-hackstack', name: 'Hackstack' },
       ]
+    },
+
+    linkGoogleButtonAllowed () {
+      return this.showGoogleClassroom && !this.isGoogleClassroomForm && !this.isOtherProductForm
+    },
+
+    linkOtherProductButtonAllowed () {
+      return utils.isCodeCombat &&
+        !this.classroom.otherProductId &&
+        !this.isGoogleClassroomForm &&
+        !this.isOtherProductForm
     }
   },
 
@@ -268,6 +294,13 @@ export default Vue.extend({
       if (!this.newCodeFormats.includes(this.newCodeFormatDefault)) {
         this.newCodeFormatDefault = this.newCodeFormats[0]
       }
+    },
+    otherProductClassroom (newOtherProductClassroom) {
+      // update settings that are available on both coco and ozar
+      const { language, levelChat, liveCompletion } = newOtherProductClassroom.aceConfig
+      this.newProgrammingLanguage = utils.allowedLanguages.includes(language) ? language : 'python'
+      this.newLevelChat = levelChat === 'fixed_prompt_only'
+      this.newLiveCompletion = liveCompletion
     }
   },
 
@@ -303,6 +336,7 @@ export default Vue.extend({
     ...mapActions({
       updateClassroom: 'classrooms/updateClassroom',
       createClassroom: 'classrooms/createClassroom',
+      addMembersToClassroom: 'classrooms/addMembersToClassroom',
       fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers',
       createFreeCourseInstances: 'courseInstances/createFreeCourseInstances',
       fetchCourses: 'courses/fetchReleased',
@@ -347,6 +381,21 @@ export default Vue.extend({
           noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
         })
       this.googleSyncInProgress = false
+    },
+    async linkOtherProductClassroom () {
+      window.tracker?.trackEvent('Add New Class: Link Other Product Classroom Clicked', { category: 'Teachers' })
+      this.otherProductSyncInProgress = true
+
+      try {
+        this.otherProductClassrooms = (await ClassroomsApi.fetchByOwner(me.get('_id'), { callOz: true }))
+          .filter(otherClassroom => !otherClassroom.otherProductId)
+        this.isOtherProductForm = true
+        window.tracker?.trackEvent('Add New Class: Link Google Classroom Successful', { category: 'Teachers' })
+      } catch (error) {
+        console.log(error)
+        noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
+      }
+      this.otherProductSyncInProgress = false
     },
     toggleMoreOptions () {
       this.moreOptions = !this.moreOptions
@@ -443,6 +492,12 @@ export default Vue.extend({
         updates.name = this.googleClassrooms.find((c) => c.id === this.googleClassId).name
       }
 
+      if (this.isOtherProductForm) {
+        updates.name = this.otherProductClassroom.name
+        updates.members = this.otherProductClassroom.members
+        updates.otherProductId = this.otherProductClassroom._id
+      }
+
       if (this.classGrades?.length > 0) {
         updates.grades = this.classGrades
       }
@@ -487,6 +542,21 @@ export default Vue.extend({
             })
         }
 
+        if (this.isOtherProductForm) {
+          const members = updates.members
+            .map(memberId => ({
+              _id: memberId,
+              role: 'student'
+            }))
+
+          // set linkink in both classrooms
+          ClassroomsApi.update({
+            classroomID: this.otherProductClassroom._id,
+            updates: { otherProductId: savedClassroom._id }
+          }, { callOz: true }).catch(console.log)
+          await this.addMembersToClassroom({ classroom: savedClassroom, members })
+        }
+
         this.$emit('close')
 
         // redirect to classes if user was not on classes page when creating a new class
@@ -509,18 +579,32 @@ export default Vue.extend({
     @close="$emit('close')"
   >
     <div class="style-ozaria teacher-form edit-class container">
-      <div
-        v-if="showGoogleClassroom && !isGoogleClassroomForm"
-        class="google-classroom-div"
-      >
-        <button-google-classroom
-          :inactive="googleClassroomDisabled"
-          :in-progress="googleSyncInProgress"
-          text="Link Google Classroom"
-          @click="linkGoogleClassroom"
-        />
-        <modal-divider />
+      <div class="link-buttons-container">
+        <div
+          v-if="linkGoogleButtonAllowed"
+          class="google-classroom-div"
+        >
+          <button-google-classroom
+            :inactive="googleClassroomDisabled"
+            :in-progress="googleSyncInProgress"
+            text="Link Google Classroom"
+            @click="linkGoogleClassroom"
+          />
+        </div>
+        <div
+          v-if="linkOtherProductButtonAllowed"
+          class="google-classroom-div"
+        >
+          <button-import-classroom
+            :in-progress="otherProductSyncInProgress"
+            icon-src="/images/ozaria/home/ozaria-logo.png"
+            :icon-src-inactive="isCodeCombat ? '/images/ozaria/home/ozaria-logo.png' : '/images/pages/base/logo_square_250.png'"
+            :text="$t(isCodeCombat ? 'teachers.import_ozaria_classroom' : 'teachers.import_codecombat_classroom')"
+            @click="linkOtherProductClassroom"
+          />
+        </div>
       </div>
+      <modal-divider v-if="linkGoogleButtonAllowed || linkOtherProductButtonAllowed" />
       <div class="form-container container">
         <div
           v-if="isGoogleClassroomForm"
@@ -574,8 +658,48 @@ export default Vue.extend({
             </span>
           </div>
         </div>
+        <div v-else-if="isOtherProductForm">
+          {{ $t(isCodeCombat? "teachers.select_ozaria_classroom": "teachers.select_codecombat_classroom") }}
+          <select
+            v-model="$v.otherProductClassroomId.$model"
+            class="form-control"
+            :class="{ 'placeholder-text': !otherProductClassroomId }"
+            name="otherProductClassroomId"
+            :disabled="otherProductClassrooms.length === 0"
+          >
+            <option
+              v-if="otherProductClassrooms.length === 0"
+              disabled
+              selected
+              value=""
+            >
+              {{ $t('teachers.all_classrooms_imported') }}
+            </option>
+            <option
+              v-else
+              disabled
+              selected
+              value=""
+            >
+              {{ $t(isCodeCombat? 'teachers.select_to_import_from_ozaria': 'teachers.select_to_import_from_codecombat') }}
+            </option>
+            <option
+              v-for="imortableClassroom in otherProductClassrooms"
+              :key="imortableClassroom._id"
+              :value="imortableClassroom._id"
+            >
+              {{ imortableClassroom.name }}
+            </option>
+          </select>
+          <span
+            v-if="!$v.otherProductClassroomId.required"
+            class="form-error"
+          >
+            {{ $t("form_validation_errors.required") }}
+          </span>
+        </div>
         <div
-          v-if="!isGoogleClassroomForm"
+          v-else
           class="form-group row class-name"
           :class="{ 'has-error': $v.newClassName.$error }"
         >
@@ -1135,6 +1259,13 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 @import "app/styles/ozaria/_ozaria-style-params.scss";
+
+.link-buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
 
 .edit-class {
   display: flex;
