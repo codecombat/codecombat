@@ -3,9 +3,13 @@
     <div class="box-header">
       <h2 class="text-h2">
         {{ formattedTitle }}
-        <span class="badge-container">
+        <span
+          v-for="logoBadge in logoBadges"
+          :key="logoBadge"
+          class="badge-container"
+        >
           <img
-            v-if="logoBadge"
+
             :src="logoBadge"
             class="logo-badge"
           >
@@ -115,9 +119,9 @@ export default {
       type: String,
       default: null
     },
-    logoBadge: {
-      type: String,
-      default: null
+    logoBadges: {
+      type: Array,
+      default: () => []
     }
   },
   computed: {
@@ -155,9 +159,9 @@ export default {
 
   .box-header {
     .text-h2 {
+      display: flex;
       color: black;
       border-bottom: 2px solid black;
-
       font-size: 18px;
       font-weight: 600;
       line-height: 166%;
@@ -234,13 +238,14 @@ export default {
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 70px;
+  width: max-content;
   margin: auto 10px;
+  filter: drop-shadow(0px 5px 5px #fff) drop-shadow(0px 5px 5px #fff) drop-shadow(0px 5px 5px #fff) drop-shadow(0px 5px 5px #fff)
 }
 
 .logo-badge {
-  width: 70px;
   height: 70px;
-  position: absolute;
+  max-width: 140px;
+  object-fit: contain;
 }
 </style>
