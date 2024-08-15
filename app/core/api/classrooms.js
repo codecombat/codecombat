@@ -64,8 +64,7 @@ module.exports = {
     }))
   },
 
-  fetchByOwner (ownerId, options) {
-    if (options == null) { options = {} }
+  fetchByOwner (ownerId, options = {}) {
     let projectionString = ''
     if (Array.isArray(options.project)) {
       projectionString += `&project=${options.project.join(',')}`
@@ -74,6 +73,7 @@ module.exports = {
       projectionString += '&includeShared=true'
     }
     return fetchJson(`/db/classroom?ownerID=${ownerId}${projectionString}`, {
+      callOz: options.callOz,
       method: 'GET'
     })
   },
