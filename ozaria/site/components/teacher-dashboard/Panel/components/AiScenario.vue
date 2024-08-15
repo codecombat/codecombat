@@ -5,6 +5,7 @@
       v-for="aiProject in aiProjects"
       :key="aiProject._id"
       :ai-project="aiProject"
+      :ai-scenario="aiScenario"
       :initial-action-count="aiScenario.initialActionQueue.length"
     />
   </div>

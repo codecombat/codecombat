@@ -560,9 +560,10 @@ export default {
       }
     },
 
-    checkIfComplete (aiProjects, details) {
-      if (aiProjects.some(scenario => scenario.actionQueue.length === 0)) {
-        details.status = 'complete'
+    checkIfComplete (aiScenario, aiProjects) {
+      if (aiScenario.mode === 'learn to use' && aiProjects.some(project => (project.actionQueue.length === 0))) {
+        return true
+      } else if (aiScenario.mode === 'use' && aiProjects.some(project => (project.isReadyToReview))) {
         return true
       }
       return false
@@ -576,11 +577,15 @@ export default {
       if (aiProjects) {
         this.setProgressDetails(details, classSummaryProgress, index)
         this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
-        createModeUnlocked = this.checkIfComplete(aiProjects, details)
+        const completed = this.checkIfComplete(aiScenario, aiProjects)
+        if (completed) {
+          details.status = 'complete'
+          createModeUnlocked.unlocked = completed
+        }
       }
 
       let isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario._id, 'lockedScenario')
-      if (aiScenario.mode === 'use' && !createModeUnlocked) {
+      if (aiScenario.mode === 'use' && !createModeUnlocked.unlocked) {
         isLocked = true
       }
 
@@ -673,7 +678,6 @@ export default {
     },
 
     generateHackStackModule (moduleName, key) {
-      const createModeUnlocked = false
       const moduleNum = key + 1
       const classSummaryProgress = []
       const moduleScenarios = (this.aiScenarios || [])
@@ -689,21 +693,26 @@ export default {
         displayName: `<strong>${aiModel.displayName}</strong><br>${aiModel.description}`,
         displayLogo: utils.aiToolToImage[moduleName] || null,
         contentList: moduleScenarios
+          .sort((a, b) => {
+            return a.mode === 'use' ? 1 : -1 // Use scenarios should be at the end
+          })
           .map((scenario, index) => {
+            const type = scenario.mode === 'use' ? 'ai-use' : 'ai-learn'
             return {
               displayName: scenario.name,
-              type: 'challengelvl',
+              type,
               _id: scenario._id,
               tooltipName: scenario.name,
               description: '',
               contentKey: scenario._id,
               normalizedOriginal: scenario._id,
-              normalizedType: 'challengelvl',
+              normalizedType: type,
               contentLevelSlug: scenario.slug,
               isPractice: false
             }
           }),
         studentSessions: this.students.reduce((studentSessions, student) => {
+          const createModeUnlocked = { unlocked: false }
           studentSessions[student._id] = moduleScenarios
             .map((aiScenario, index) => {
               return this.createProgressDetailsByAiScenario({

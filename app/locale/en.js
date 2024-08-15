@@ -1189,6 +1189,8 @@ module.exports = {
       ask_teacher_for_credits: 'Ask your teacher for an AI Hackstack license.',
       get_credits: 'Get Credits',
       get_ai_hs_license: 'Get AI Hackstack License',
+      use: 'Use',
+      learn_to_use: 'Learn to Use',
     },
 
     apis: {
@@ -4645,6 +4647,7 @@ module.exports = {
       create_class_hackstack: 'Please create a New Class to access AI HackStack',
       add_club: 'Add New Club',
       test_student_only: 'Test Student Only',
+      ready_to_review: 'Ready to Review',
       ozaria_hs_modal_title: 'Access AI Hackstack Exclusively on CodeCombat',
       ozaria_hs_modal_blurb: 'Educators can now access AI Hackstack directly on **[https://codecombat.com/teachers/classes]CodeCombat** using the same credentials as Ozaria. For added convenience, you can easily import your classes from Ozaria into CodeCombat.'
     },

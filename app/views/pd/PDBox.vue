@@ -3,9 +3,13 @@
     <div class="box-header">
       <h2 class="text-h2">
         {{ formattedTitle }}
-        <span class="badge-container">
+        <span
+          v-for="logoBadge in logoBadges"
+          :key="logoBadge"
+          class="badge-container"
+        >
           <img
-            v-if="logoBadge"
+
             :src="logoBadge"
             class="logo-badge"
           >
@@ -42,29 +46,27 @@
           :email-message="modal.emailMessage"
         >
           <template #opener="{ openModal }">
-            <button
-              class="btn btn-md btn-moon"
-              @click="openModal"
+            <CTAButton
+              @clickedCTA="openModal"
             >
               {{ $t('pd_page.get_full_course') }}
-            </button>
+            </CTAButton>
           </template>
         </ModalGetLicenses>
-        <a
+        <CTAButton
           v-for="button, key in buttons"
           :key="key"
-          class="btn btn-md btn-moon"
           :href="button.href"
           :target="button.target || '_blank'"
         >
           {{ button.text }}
-        </a>
+        </CTAButton>
       </div>
       <div class="col col-lg-5 col-md-12 buttons-container right">
         <IframeModal :src="sampleLessonSrc">
           <template #opener="{ openModal }">
             <button
-              class="btn btn-md btn-teal"
+              class="btn btn-md btn-teal btn-rounded"
               @click="openModal"
             >
               {{ $t('pd_page.try_sample_lesson') }}
@@ -79,12 +81,14 @@
 <script>
 import ModalGetLicenses from 'app/components/common/ModalGetLicenses'
 import IframeModal from './IframeModal.vue'
+import CTAButton from 'app/components/common/buttons/CTAButton'
 
 export default {
   name: 'PDBox',
   components: {
     ModalGetLicenses,
-    IframeModal
+    IframeModal,
+    CTAButton
   },
   props: {
     title: {
@@ -115,9 +119,9 @@ export default {
       type: String,
       default: null
     },
-    logoBadge: {
-      type: String,
-      default: null
+    logoBadges: {
+      type: Array,
+      default: () => []
     }
   },
   computed: {
@@ -144,6 +148,9 @@ export default {
     font-weight: 600;
     border-radius: 0;
     padding: 1rem;
+    &.btn-rounded {
+      border-radius: 8px;
+    }
   }
 
   .row {
@@ -152,9 +159,9 @@ export default {
 
   .box-header {
     .text-h2 {
-      color: $goldenlight;
-      border-bottom: 2px solid $goldenlight;
-
+      display: flex;
+      color: black;
+      border-bottom: 2px solid black;
       font-size: 18px;
       font-weight: 600;
       line-height: 166%;
@@ -179,7 +186,7 @@ export default {
 
   .bordered-image {
     border-radius: 30px;
-    border: 5px solid $goldenlight;
+    border: 5px solid var(--color-primary);
     width: 100%;
     aspect-ratio: 16 / 9;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.20) 36%, rgba(0, 0, 0, 0.07) 100%);
@@ -206,7 +213,7 @@ export default {
     height: 10px;
     margin-right: 10px;
     border-radius: 50%;
-    background-color: $moon;
+    background-color: var(--color-primary);
     min-width: 10px;
     margin-top: 9px;
   }
@@ -231,13 +238,14 @@ export default {
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 70px;
+  width: max-content;
   margin: auto 10px;
+  filter: drop-shadow(0px 5px 5px #fff) drop-shadow(0px 5px 5px #fff) drop-shadow(0px 5px 5px #fff) drop-shadow(0px 5px 5px #fff)
 }
 
 .logo-badge {
-  width: 70px;
   height: 70px;
-  position: absolute;
+  max-width: 140px;
+  object-fit: contain;
 }
 </style>
