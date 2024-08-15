@@ -371,7 +371,11 @@ export default {
       const teacherId = getTeacherIdBasedOnSharedWritePermission(classroom)
       commit('addMembersForClassroom', { teacherId, classroomId: classroom._id, memberIds: memberIds })
       // Load classroom data
-      dispatch('baseSingleClass/fetchData', {}, { root: true })
+      const opt = {}
+      if (options?.componentName) {
+        opt.componentName = options.componentName
+      }
+      dispatch('baseSingleClass/fetchData', opt, { root: true })
     },
     // Updates the classroom and its vuex state
     updateClassroom: async ({ commit }, options) => {
