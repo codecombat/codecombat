@@ -62,7 +62,7 @@
         <IframeModal :src="sampleLessonSrc">
           <template #opener="{ openModal }">
             <button
-              class="btn btn-md btn-teal"
+              class="btn btn-md btn-teal btn-rounded"
               @click="openModal"
             >
               {{ $t('pd_page.try_sample_lesson') }}
@@ -144,6 +144,9 @@ export default {
     font-weight: 600;
     border-radius: 0;
     padding: 1rem;
+    &.btn-rounded {
+      border-radius: 8px;
+    }
   }
 
   .row {
