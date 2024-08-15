@@ -2,6 +2,7 @@
 import Modal from '../../common/Modal'
 import utils from 'core/utils'
 import trackable from 'app/components/mixins/trackable.js'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default Vue.extend({
   components: {
@@ -9,6 +10,14 @@ export default Vue.extend({
   },
   mixins: [trackable],
   props: {
+    name: {
+      // this name will be stored in modals store
+      type: String,
+      required: false,
+      default () {
+        return `modal-${Math.random().toString(36).substring(7)}`
+      }
+    },
     title: {
       type: String,
       default: null,
@@ -39,45 +48,51 @@ export default Vue.extend({
     }
   },
 
-  data: () => {
+  data () {
     return {
       showModal: true
     }
   },
 
   computed: {
+    ...mapGetters({
+      topModal: 'modals/getTopModal'
+    }),
     isCodeCombat () {
       return utils.isCodeCombat
     },
     isOzaria () {
       return utils.isOzaria
-    }
-  },
-
-  watch: {
-    showModal (newVal) {
-      if (this.cocoOnly && this.isOzaria && newVal) {
-        this.hideModal()
-      }
-      if (this.ozarOnly && this.isCodeCombat && newVal) {
-        this.hideModal()
-      }
+    },
+    modalVisible () {
+      return this.topModal && this.topModal.name === this.name
     }
   },
 
   created () {
-    if (!this.autoShow) {
-      this.showModal = false
-    } else if (this.seenPromotionsProperty) {
-      this.showModal = !me.getSeenPromotion(this.seenPromotionsProperty)
-    }
-    if (this.showModal) {
-      this.$emit('show')
+    if (
+      this.autoShow &&
+      (
+        !this.seenPromotionsProperty ||
+        !me.getSeenPromotion(this.seenPromotionsProperty)
+      )
+    ) {
+      this.openModal()
     }
   },
 
   methods: {
-    close () {
+    ...mapMutations({
+      addModal: 'modals/addModal',
+      removeModal: 'modals/removeModal'
+    }),
+    addModalToStore () {
+      this.addModal({ name: this.name })
+    },
+    removeModalFromStore () {
+      this.removeModal(this.name)
+    },
+    onClose () {
       if (this.seenPromotionsProperty) {
         me.setSeenPromotion(this.seenPromotionsProperty)
         me.save()
@@ -85,15 +100,18 @@ export default Vue.extend({
       this.hideModal()
     },
     hideModal () {
-      this.showModal = false
+      this.removeModalFromStore()
       this.$emit('close')
     },
-    onClose () {
-      this.close()
-    },
     openModal () {
-      this.$emit('open')
-      this.showModal = true
+      if ((this.cocoOnly && this.isOzaria) || (this.ozarOnly && this.isCodeCombat)) {
+        return
+      }
+
+      this.addModalToStore()
+      if (this.modalVisible) {
+        this.$emit('open')
+      }
     }
   }
 })
@@ -102,7 +120,7 @@ export default Vue.extend({
 <template>
   <div>
     <modal
-      v-if="showModal"
+      v-if="modalVisible"
       :title="title"
       role="dialog"
       aria-modal="true"
