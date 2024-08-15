@@ -999,7 +999,7 @@ function actionToCode (action) {
   return line
 }
 
-const significantSpriteNames = ['Chicken Junior', 'Crab Monster Junior', 'Crates Junior', 'Cube Monster Junior', 'Explosive Junior', 'Dragonfly Junior', 'Gem Junior', 'Goal Junior']
+const significantSpriteNames = ['Chicken Junior', 'Crab Monster Junior', 'Crates Junior', 'Cube Monster Junior', 'Explosive Junior', 'Dragonfly Monster Junior', 'Gem Junior', 'Goal Junior']
 const hittableSpriteNames = _.without(significantSpriteNames, 'Gem Junior', 'Goal Junior') // Is chicken hittable or zappable?
 const floorSpriteNames = ['Junior Beach Floor', 'Junior Wall']
 function findThangAt (simplePos, thangs, relevantSpriteNames) {
@@ -1011,8 +1011,8 @@ function findThangAt (simplePos, thangs, relevantSpriteNames) {
     const isFloor = floorSpriteNames.includes(spriteName)
     relevantSpriteNames = relevantSpriteNames || significantSpriteNames
     if (relevantSpriteNames.includes(spriteName) || isFloor) {
-      const physicalComponent = _.find(thang.components || [], { original: PhysicalID })
-      if (physicalComponent && physicalComponent.config && Math.abs(physicalComponent.config.pos.x - complexPos.x) < 0.1 && Math.abs(physicalComponent.config.pos.y - complexPos.y) < 0.1) {
+      const thangComplexPos = _.find(thang.components || [], { original: PhysicalID })?.config?.pos
+      if (thangComplexPos && Math.abs(thangComplexPos.x - complexPos.x) < 0.1 && Math.abs(thangComplexPos.y - complexPos.y) < 0.1) {
         if (isFloor) {
           floorThang = thang
         } else {
@@ -1062,7 +1062,9 @@ class Direction {
     } else if (this.name === 'right') {
       this.vector = new Vector(1, 0)
     } else {
-      return new Direction(_.sample(directionNames))
+      const randomDirection = new Direction(_.sample(directionNames))
+      this.name = randomDirection.name
+      this.vector = randomDirection.vector
     }
   }
 
