@@ -6,7 +6,7 @@
       {{ aiProject.isReadyToReview ? $t('teacher_dashboard.ready_to_review') : $t('teacher.in_progress') }}
     </p>
     <div v-else>
-      <p>
+      <p class="highlighted">
         Progress: {{ progress }}%
       </p>
 
@@ -75,6 +75,10 @@ export default {
     color: #666666;
     margin-bottom: 15px;
     line-height: 1.2em;
+
+    &.highlighted {
+      font-weight: bold;
+    }
 
     &:last-child {
       margin-bottom: 0;

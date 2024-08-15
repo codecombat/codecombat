@@ -4639,7 +4639,8 @@ module.exports = {
       open_project: 'Open Project',
       create_class_hackstack: 'Please create a New Class to access AI HackStack',
       add_club: 'Add New Club',
-      test_student_only: 'Test Student Only'
+      test_student_only: 'Test Student Only',
+      ready_to_review: 'Ready to Review',
     },
 
     outcomes: {
