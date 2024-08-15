@@ -79,6 +79,7 @@ const store = new Vuex.Store({
     aiScenarios: require('./modules/aiScenarios').default,
     aiProjects: require('./modules/aiProjects').default,
     aiModels: require('./modules/aiModels').default,
+    modals: require('./modules/modals').default
   }
 });
 
