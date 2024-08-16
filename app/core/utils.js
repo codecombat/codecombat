@@ -62,11 +62,11 @@ const getAnonymizationStatus = function (league, supermodel) {
 const anonymizingUser = function (user) {
   const id = (user != null ? user.id : undefined) != null ? (user != null ? user.id : undefined) : user
   const hashString = str => // hash * 33 + c
-    (__range__(0, str.length, false).map((i) => str.charCodeAt(i))).reduce((hash, char) => ((hash << 5) + hash) + char, 5381)
+        (__range__(0, str.length, false).map((i) => str.charCodeAt(i))).reduce((hash, char) => ((hash << 5) + hash) + char, 5381)
   return $.i18n.t('general.player') + ' ' + (Math.abs(hashString(id)) % 10000)
 }
 
-var clone = function (obj) {
+const clone = function (obj) {
   if ((obj === null) || (typeof (obj) !== 'object')) { return obj }
   const temp = obj.constructor()
   for (const key in obj) {
@@ -216,10 +216,10 @@ const countryCodeToName = function (code) {
 const countryNameToCode = country => __guard__(_.find(countries, { country: (country != null ? country.toLowerCase() : undefined) }), x1 => x1.countryCode)
 
 var titleize = s => // Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
-  _.string.titleize(_.string.humanize(s)).replace(
-    / (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig,
-    word => word.toLowerCase()
-  )
+    _.string.titleize(_.string.humanize(s)).replace(
+      / (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig,
+      word => word.toLowerCase()
+    )
 
 if (isCodeCombat) {
   campaignIDs = {
@@ -248,6 +248,72 @@ if (isCodeCombat) {
   }
 
   courseModuleInfo = {
+    [courseIDs.JUNIOR]: {
+      1: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Y5_Eu5uVPrHpnqcoSuGfFR8qeAYkTIyE'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Y5_Eu5uVPrHpnqcoSuGfFR8qeAYkTIyE'
+        }
+      },
+      2: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/18cse7g50mdcEwLiTovHR_edPhYd77UDM'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/18cse7g50mdcEwLiTovHR_edPhYd77UDM'
+        }
+      },
+      3: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1iQJEvgaQ0z3AMw64fTOwcZOYKu0zOqOr'
+        },  
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1iQJEvgaQ0z3AMw64fTOwcZOYKu0zOqOr'
+        }
+      },
+      4: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1v6DZfzb3zp_lmjM00vZvjTSRoUpBSqq8'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1v6DZfzb3zp_lmjM00vZvjTSRoUpBSqq8'
+        }
+      },
+      5: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-kKodhaMC1oL1OVnolQ5V9OVM0VEI7kF'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-kKodhaMC1oL1OVnolQ5V9OVM0VEI7kF'
+        }
+      },
+      6: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/11SIA1sYVRdq69u0o0w0ihAF65MjoIq2W'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/11SIA1sYVRdq69u0o0w0ihAF65MjoIq2W'
+        }
+      },
+      7: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-U3aJggcZibizu8fZPdT8veKOqby9uBj'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-U3aJggcZibizu8fZPdT8veKOqby9uBj'
+        }
+      },
+      8: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1hnLLCpxF4HeAhO3WVAaB9tYmoYQ9aKx1'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1hnLLCpxF4HeAhO3WVAaB9tYmoYQ9aKx1'
+        }
+      }
+    },
     [courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]: {
       1: {
         python: {
@@ -320,13 +386,69 @@ if (isCodeCombat) {
     },
     [courseIDs.GAME_DEVELOPMENT_2]: {},
     [courseIDs.WEB_DEVELOPMENT_2]: {},
-    [courseIDs.COMPUTER_SCIENCE_3]: {},
+    [courseIDs.COMPUTER_SCIENCE_3]: {
+      1: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1ZjhjlqcIGHOWENIpAn0Kz5DaJFHZJMTd?usp=sharing'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/10JaIo3NFXvaB9dEPo9hYSZ9z9owzmVQ9?usp=drive_link'
+        }
+      },
+      2: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1SDTVOD2tTfe5eM7rrJ4BqFPSFwL3Xb19?usp=sharing'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Ub6AwI6XRP7LKcWzVdFOSZ7n8f-oE1Ck?usp=drive_link'
+        }
+      },
+      3: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1TdLym5_SNIGoEDKyzVSAk0fw1XQCe_Be?usp=sharing'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1AAzbz-nZi4g9dQvs-fJKGtVAZv7sjfhJ?usp=drive_link'
+        }
+      },
+      4: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1JapqAXlXFjz9Qgp4sL3rJpnZkv1S6ASk?usp=sharing'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1DPeWPZrhXHQC4pBJDb-kn0-bOv6gIiw4?usp=drive_link'
+        }
+      },
+      5: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1sm6gKudpfWnO3OAeu5DdOt-3ACp4ouqQ?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Q6wRGMunTM5CH68YtqdqHFl2udEmS-L0?usp=sharing'
+        }
+      },
+      6: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/178Gt7U2Oxvo0bIDXlYqiepHUqDu0ZwzG?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1i__s8tGAuPVhnic6LuNNKBubqrelrQYb?usp=sharing'
+        }
+      },
+      7: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1m2E9wo3ZF1FGR2jQhQ16rCIsjCuvnH1i?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1kdH7_VVlnXqXVSP0KDWGghRcAP6y-lUC?usp=sharing'
+        }
+      }
+    },
     [courseIDs.GAME_DEVELOPMENT_3]: {},
     [courseIDs.COMPUTER_SCIENCE_4]: {},
     [courseIDs.COMPUTER_SCIENCE_5]: {},
     [courseIDs.COMPUTER_SCIENCE_6]: {}
   }
-
 
   coursesWithProjects = [
     courseIDs.GAME_DEVELOPMENT_1,
@@ -335,7 +457,6 @@ if (isCodeCombat) {
     courseIDs.WEB_DEVELOPMENT_2,
     courseIDs.GAME_DEVELOPMENT_3
   ]
-
 
   otherCourseIDs = {
     CHAPTER_ONE: '5d41d731a8d1836b5aa3cba1',
@@ -382,14 +503,14 @@ if (isCodeCombat) {
   courseModuleLevels = {}
 
   courseModules[courseIDs.JUNIOR] = {
-    1: 'The `go()` Function',
-    2: 'Arguments',
-    3: 'The `hit()` Function',
-    4: 'The `spin()` Function',
-    5: 'The `zap()` Function',
-    6: 'For Loops',
-    7: 'Loop Combinations',
-    8: 'If Statements'
+    1: 'A1: Sequences',
+    2: 'A2: Arguments',
+    3: 'B1: Complex Arguments (Hit)',
+    4: 'B2: Complex Arguments (Spin)',
+    5: 'C1: Complex Arguments (Zap)',
+    6: 'C2: Intro to Loops',
+    7: 'D1: Complex Loops',
+    8: 'D2: Intro to Conditionals',
     // 9: 'Variables'
   }
 
@@ -1088,7 +1209,9 @@ if (isCodeCombat) {
 }
 
 const allCourseIDs = _.assign(courseIDs, otherCourseIDs)
-const allFreeCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.CHAPTER_ONE]
+
+const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]
+const allFreeCourseIDs = [...freeCocoCourseIDs, allCourseIDs.CHAPTER_ONE]
 
 const courseNumericalStatus = {};
 (function () {
@@ -1129,7 +1252,7 @@ const registerHocProgressModalCheck = function () {
       return clearInterval(hocProgressModalCheck)
     }
   }
-    , 60000) // every 1 min
+                                             , 60000) // every 1 min
 }
 
 const petThangIDs = [
@@ -1257,7 +1380,7 @@ var i18n = function (say, target, language, fallback) {
     // when ai translation finished we can know how to deal with them
     // now return first
     if (!str) {
-      return str
+      return ''
     }
     if (typeof str === 'object') {
       const newObject = {}
@@ -1278,7 +1401,7 @@ var i18n = function (say, target, language, fallback) {
     var result
     const locale = say.i18n[localeName]
     if (localeName === '-') { continue }
-    if (target in locale) {
+    if (target in locale && locale[target]) {
       result = locale[target]
     } else { continue }
     if (localeName === language) { return removeAI(result) }
@@ -1293,7 +1416,7 @@ var i18n = function (say, target, language, fallback) {
   if (fallSidewaysResult != null) { return removeAI(fallSidewaysResult) }
   if (fallBackResult != null) { return removeAI(fallBackResult) }
   if (target in say) { return removeAI(say[target]) }
-  return null
+  return null // if we call i18n for a unexisting key
 }
 
 const getByPath = function (target, path) {
@@ -1428,7 +1551,7 @@ if (typeof document !== 'undefined' && document !== null ? document.createElemen
 const userAgent = () => window.navigator.userAgent
 
 const getDocumentSearchString = () => // moved to a separate function so it can be mocked for testing
-  document.location.search
+      document.location.search
 
 const getQueryVariables = function () {
   const query = module.exports.getDocumentSearchString().substring(1) // use module.exports so spy is used in testing
@@ -1715,106 +1838,106 @@ const tournamentSortFn = function (ta, tb) {
 }
 
 const usStateCodes =
-  // https://github.com/mdzhang/us-state-codes
-  // generated by js2coffee 2.2.0
-  (function () {
-    const stateNamesByCode = {
-      AL: 'Alabama',
-      AK: 'Alaska',
-      AZ: 'Arizona',
-      AR: 'Arkansas',
-      CA: 'California',
-      CO: 'Colorado',
-      CT: 'Connecticut',
-      DE: 'Delaware',
-      DC: 'District of Columbia',
-      FL: 'Florida',
-      GA: 'Georgia',
-      HI: 'Hawaii',
-      ID: 'Idaho',
-      IL: 'Illinois',
-      IN: 'Indiana',
-      IA: 'Iowa',
-      KS: 'Kansas',
-      KY: 'Kentucky',
-      LA: 'Louisiana',
-      ME: 'Maine',
-      MD: 'Maryland',
-      MA: 'Massachusetts',
-      MI: 'Michigan',
-      MN: 'Minnesota',
-      MS: 'Mississippi',
-      MO: 'Missouri',
-      MT: 'Montana',
-      NE: 'Nebraska',
-      NV: 'Nevada',
-      NH: 'New Hampshire',
-      NJ: 'New Jersey',
-      NM: 'New Mexico',
-      NY: 'New York',
-      NC: 'North Carolina',
-      ND: 'North Dakota',
-      OH: 'Ohio',
-      OK: 'Oklahoma',
-      OR: 'Oregon',
-      PA: 'Pennsylvania',
-      RI: 'Rhode Island',
-      SC: 'South Carolina',
-      SD: 'South Dakota',
-      TN: 'Tennessee',
-      TX: 'Texas',
-      UT: 'Utah',
-      VT: 'Vermont',
-      VA: 'Virginia',
-      WA: 'Washington',
-      WV: 'West Virginia',
-      WI: 'Wisconsin',
-      WY: 'Wyoming'
-    }
-    const stateCodesByName = _.invert(stateNamesByCode)
-    // normalizes case and removes invalid characters
-    // returns null if can't find sanitized code in the state map
+      // https://github.com/mdzhang/us-state-codes
+      // generated by js2coffee 2.2.0
+      (function () {
+        const stateNamesByCode = {
+          AL: 'Alabama',
+          AK: 'Alaska',
+          AZ: 'Arizona',
+          AR: 'Arkansas',
+          CA: 'California',
+          CO: 'Colorado',
+          CT: 'Connecticut',
+          DE: 'Delaware',
+          DC: 'District of Columbia',
+          FL: 'Florida',
+          GA: 'Georgia',
+          HI: 'Hawaii',
+          ID: 'Idaho',
+          IL: 'Illinois',
+            IN: 'Indiana',
+          IA: 'Iowa',
+          KS: 'Kansas',
+          KY: 'Kentucky',
+          LA: 'Louisiana',
+          ME: 'Maine',
+          MD: 'Maryland',
+          MA: 'Massachusetts',
+          MI: 'Michigan',
+          MN: 'Minnesota',
+          MS: 'Mississippi',
+          MO: 'Missouri',
+          MT: 'Montana',
+          NE: 'Nebraska',
+          NV: 'Nevada',
+          NH: 'New Hampshire',
+          NJ: 'New Jersey',
+          NM: 'New Mexico',
+          NY: 'New York',
+          NC: 'North Carolina',
+          ND: 'North Dakota',
+          OH: 'Ohio',
+          OK: 'Oklahoma',
+          OR: 'Oregon',
+          PA: 'Pennsylvania',
+          RI: 'Rhode Island',
+          SC: 'South Carolina',
+          SD: 'South Dakota',
+          TN: 'Tennessee',
+          TX: 'Texas',
+          UT: 'Utah',
+          VT: 'Vermont',
+          VA: 'Virginia',
+          WA: 'Washington',
+          WV: 'West Virginia',
+          WI: 'Wisconsin',
+          WY: 'Wyoming'
+        }
+        const stateCodesByName = _.invert(stateNamesByCode)
+        // normalizes case and removes invalid characters
+        // returns null if can't find sanitized code in the state map
 
-    const sanitizeStateCode = function (code) {
-      code = _.isString(code) ? code.trim().toUpperCase().replace(/[^A-Z]/g, '') : null
-      if (stateNamesByCode[code]) { return code } else { return null }
-    }
+        const sanitizeStateCode = function (code) {
+          code = _.isString(code) ? code.trim().toUpperCase().replace(/[^A-Z]/g, '') : null
+          if (stateNamesByCode[code]) { return code } else { return null }
+        }
 
-    // returns a valid state name else null
+        // returns a valid state name else null
 
-    const getStateNameByStateCode = code => stateNamesByCode[sanitizeStateCode(code)] || null
+        const getStateNameByStateCode = code => stateNamesByCode[sanitizeStateCode(code)] || null
 
-    // normalizes case and removes invalid characters
-    // returns null if can't find sanitized name in the state map
+        // normalizes case and removes invalid characters
+        // returns null if can't find sanitized name in the state map
 
-    const sanitizeStateName = function (name) {
-      if (!_.isString(name)) {
-        return null
-      }
-      // bad whitespace remains bad whitespace e.g. "O  hi o" is not valid
-      name = name.trim().toLowerCase().replace(/[^a-z\s]/g, '').replace(/\s+/g, ' ')
-      let tokens = name.split(/\s+/)
-      tokens = _.map(tokens, token => token.charAt(0).toUpperCase() + token.slice(1))
-      // account for District of Columbia
-      if (tokens.length > 2) {
-        tokens[1] = tokens[1].toLowerCase()
-      }
-      name = tokens.join(' ')
-      if (stateCodesByName[name]) { return name } else { return null }
-    }
+        const sanitizeStateName = function (name) {
+          if (!_.isString(name)) {
+            return null
+          }
+          // bad whitespace remains bad whitespace e.g. "O  hi o" is not valid
+          name = name.trim().toLowerCase().replace(/[^a-z\s]/g, '').replace(/\s+/g, ' ')
+          let tokens = name.split(/\s+/)
+          tokens = _.map(tokens, token => token.charAt(0).toUpperCase() + token.slice(1))
+          // account for District of Columbia
+          if (tokens.length > 2) {
+            tokens[1] = tokens[1].toLowerCase()
+          }
+          name = tokens.join(' ')
+          if (stateCodesByName[name]) { return name } else { return null }
+        }
 
-    // returns a valid state code else null
+        // returns a valid state code else null
 
-    const getStateCodeByStateName = name => stateCodesByName[sanitizeStateName(name)] || null
+        const getStateCodeByStateName = name => stateCodesByName[sanitizeStateName(name)] || null
 
-    return {
-      sanitizeStateCode,
-      getStateNameByStateCode,
-      sanitizeStateName,
-      getStateCodeByStateName,
-      codes: Object.keys(stateNamesByCode)
-    }
-  })()
+        return {
+          sanitizeStateCode,
+          getStateNameByStateCode,
+          sanitizeStateName,
+          getStateCodeByStateName,
+          codes: Object.keys(stateNamesByCode)
+        }
+      })()
 
 const emailRegex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,63}/
 const isValidEmail = email => emailRegex.test(email != null ? email.trim().toLowerCase() : undefined)
@@ -1822,9 +1945,9 @@ const isValidEmail = email => emailRegex.test(email != null ? email.trim().toLow
 const formatStudentLicenseStatusDate = function (status, date) {
   const string = (() => {
     switch (status) {
-      case 'not-enrolled': return $.i18n.t('teacher.status_not_enrolled')
-      case 'enrolled': if (date) { return $.i18n.t('teacher.status_enrolled') } else { return '-' }
-      case 'expired': return $.i18n.t('teacher.status_expired')
+    case 'not-enrolled': return $.i18n.t('teacher.status_not_enrolled')
+    case 'enrolled': if (date) { return $.i18n.t('teacher.status_enrolled') } else { return '-' }
+    case 'expired': return $.i18n.t('teacher.status_expired')
     }
   })()
   return string.replace('{{date}}', date || 'Never')
@@ -1888,9 +2011,9 @@ const videoLevels = {
 // Reference Library: https://github.com/rpkilby/vue-nonreactive
 const vueNonReactiveInstall = function (Vue) {
   const Observer = (new Vue())
-    .$data
-    .__ob__
-    .constructor
+        .$data
+        .__ob__
+        .constructor
 
   return Vue.nonreactive = function (value) {
     // Vue sees the noop Observer and stops traversing the structure.
@@ -2042,7 +2165,8 @@ const arenas = [
   { season: 9, slug: 'snowhold', type: 'championship', start: new Date('2023-12-01T00:00:00.000-08:00'), end: new Date('2024-01-01T00:00:00.000-08:00'), results: new Date('2024-01-10T07:00:00.000-08:00'), levelOriginal: '654a306ba0c557007a807ead', tournament: '658cfc869ac7fb700b08d82c', image: '/file/db/level/654a306ba0c557007a807ead/SnowholdClashBannerv2.png' },
   { season: 10, slug: 'fierce-forces', type: 'regular', start: new Date('2024-01-01T00:00:00.000-08:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '6576ff2b1457f600193d2cc9', tournament: '6631155d27d051fef8412658', image: '/file/db/level/6576ff2b1457f600193d2cc9/FierceForcesBannerNew.png' },
   { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '65f2618f757a82bcc90b7c9e', tournament: '66311610236b3e1e9dcfd9f3', image: '/file/db/level/65f2618f757a82bcc90b7c9e/AntiGravityBanner.png' },
-  { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '661f6cf6525db0fb41870360', tournament: '66311a29856d99556fa14326', image: '/file/db/level/661f6cf6525db0fb41870360/SolarSkirmishBanner.png' },  { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-07-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '661f6cf6525db0fb41870360', tournament: '66311a29856d99556fa14326', image: '/file/db/level/661f6cf6525db0fb41870360/SolarSkirmishBanner.png' },
+  { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-08-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '6682089bb98780c672659043', tournament: '669aa78fcca07ea127d445d6', image: '/file/db/level/6682089bb98780c672659043/SunfireBanner.png' },
   { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
   { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
 ]
@@ -2311,7 +2435,7 @@ const getScreenRefreshRate = function (callback, runIndefinitely) {
   if (window.requestAnimationFrame == null) { window.requestAnimationFrame = window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame }
   const DOMHighResTimeStampCollection = []
 
-  var triggerAnimation = function (DOMHighResTimeStamp) {
+  const triggerAnimation = function (DOMHighResTimeStamp) {
     DOMHighResTimeStampCollection.unshift(DOMHighResTimeStamp)
     if (DOMHighResTimeStampCollection.length > 10) {
       const t0 = DOMHighResTimeStampCollection.pop()
@@ -2378,6 +2502,73 @@ const getUserTimeZone = function (user) {
   }
 }
 
+const shouldShowAiBotHelp = function (aceConfig) {
+  if (aceConfig.levelChat !== 'none') {
+    if (me.isAdmin()) {
+      return true
+    } else if (me.isHomeUser() && me.getLevelChatExperimentValue() === 'beta') {
+      return true
+    } else if (!me.isHomeUser()) {
+      return true
+    }
+  }
+  return false
+}
+
+const isMobile = () => {
+  const mobileRELong = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|iPhone|iPad|iPod|Android|webos/i
+
+  const mobileREShort = /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i
+  const ua = navigator.userAgent || navigator.vendor || window.opera
+  return mobileRELong.test(ua) || mobileREShort.test(ua.substr(0, 4))
+}
+
+module.exports.getCodeLanguages = () => ({
+  python: {
+    id: 'python',
+    name: `Python (${$.i18n.t('choose_hero.default')})`
+  },
+  javascript: {
+    id: 'javascript',
+    name: 'JavaScript'
+  },
+  coffeescript: {
+    id: 'coffeescript',
+    name: 'CoffeeScript'
+  },
+  lua: {
+    id: 'lua',
+    name: 'Lua'
+  },
+  cpp: {
+    id: 'cpp',
+    name: 'C++'
+  },
+  java: {
+    id: 'java',
+    name: `Java (${$.i18n.t('choose_hero.experimental')})`
+  }
+})
+
+module.exports.getCodeFormats = () => ({
+  'text-code': {
+    id: 'text-code',
+    name: `${$.i18n.t('choose_hero.text_code')} (${$.i18n.t('choose_hero.default')})`
+  },
+  'blocks-and-code': {
+    id: 'blocks-and-code',
+    name: `${$.i18n.t('choose_hero.blocks_and_code')}`
+  },
+  'blocks-text': {
+    id: 'blocks-text',
+    name: `${$.i18n.t('choose_hero.blocks_text')}`
+  },
+  'blocks-icons': {
+    id: 'blocks-icons',
+    name: `${$.i18n.t('choose_hero.blocks_icons')}`
+  }
+})
+
 module.exports = {
   ...module.exports,
   activeAndPastArenas,
@@ -2407,6 +2598,7 @@ module.exports = {
   courseIDs,
   allCourseIDs,
   allFreeCourseIDs,
+  freeCocoCourseIDs,
   courseModules,
   courseModuleInfo,
   courseModuleLevels,
@@ -2474,6 +2666,7 @@ module.exports = {
   sortOtherCourses,
   sortCoursesByAcronyms,
   stripIndentation,
+  shouldShowAiBotHelp,
   teamSpells,
   titleize,
   usStateCodes,
@@ -2489,6 +2682,7 @@ module.exports = {
   isChinaOldBrowser,
   isCodeCombat,
   isOzaria,
+  isMobile,
   supportEmail,
   tournamentSortFn,
   cocoBaseURL,

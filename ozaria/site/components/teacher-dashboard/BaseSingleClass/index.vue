@@ -32,6 +32,22 @@ export default {
     ModalEditStudent
   },
 
+  beforeRouteUpdate (to, from, next) {
+    this.closePanel()
+    this.clearSelectedStudents()
+    this.setClassroomId(to.params.classroomId)
+    if (to.params.courseId) {
+      this.setSelectedCourseId({ courseId: to.params.courseId })
+    }
+    next()
+  },
+
+  beforeRouteLeave (to, from, next) {
+    this.closePanel()
+    this.clearSelectedStudents()
+    next()
+  },
+
   props: {
     classroomId: {
       type: String,
@@ -80,17 +96,23 @@ export default {
       modelsByName: 'aiModels/getModelsByName',
     }),
 
+    courseInstances () {
+      return this.getCourseInstancesOfClass(this.classroom._id) || []
+    },
+
+    assignmentMap () {
+      const assignmentMap = new Map()
+      for (const { courseID, members } of this.courseInstances) {
+        assignmentMap.set(courseID, new Set(members || []))
+      }
+      return assignmentMap
+    },
+
     modules () {
       // Reference below required to trigger a re-render when the refresh button is clicked.
       this.refreshKey // eslint-disable-line no-unused-expressions
 
       const selectedCourseId = this.selectedCourseId
-      const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
-
-      const assignmentMap = new Map()
-      for (const { courseID, members } of courseInstances) {
-        assignmentMap.set(courseID, new Set(members || []))
-      }
 
       if (this.isHackStackCourse(selectedCourseId)) {
         const hackStackModuleNames = this.aiScenarios.reduce((acc, scenario) => {
@@ -98,56 +120,9 @@ export default {
           return acc
         }, new Set())
 
-        const hackStackModels = [...hackStackModuleNames].map((moduleName, key) => {
-          const createModeUnlocked = false
-          const moduleNum = key + 1
-          const classSummaryProgress = []
-          const moduleScenarios = (this.aiScenarios || [])
-            .filter(scenario => scenario.tool === moduleName)
+        const hackStackModules = [...hackStackModuleNames].map(this.generateHackStackModule.bind(this)).filter(Boolean)
 
-          const aiModel = this.modelsByName[moduleName]
-
-          return {
-            moduleNum,
-            displayName: `<strong>${aiModel.displayName}</strong><br>${aiModel.description}`,
-            displayLogo: utils.aiToolToImage[moduleName] || null,
-            contentList: moduleScenarios
-              .map((scenario, index) => {
-                return {
-                  displayName: scenario.name,
-                  type: 'challengelvl',
-                  _id: scenario._id,
-                  tooltipName: scenario.name,
-                  description: '',
-                  contentKey: scenario._id,
-                  normalizedOriginal: scenario._id,
-                  normalizedType: 'challengelvl',
-                  contentLevelSlug: scenario.slug,
-                  isPractice: false
-                }
-              }),
-            studentSessions: this.students.reduce((studentSessions, student) => {
-              studentSessions[student._id] = moduleScenarios
-                .map((aiScenario, index) => {
-                  return this.createProgressDetailsByAiScenario({
-                    aiScenario,
-                    index,
-                    student,
-                    classSummaryProgress,
-                    moduleNum,
-                    createModeUnlocked,
-                    assignmentMap,
-                    selectedCourseId
-                  })
-                })
-
-              return studentSessions
-            }, {}),
-            classSummaryProgress
-          }
-        })
-
-        return hackStackModels
+        return hackStackModules
       }
 
       const modules = (this.gameContent[selectedCourseId] || {}).modules
@@ -213,7 +188,7 @@ export default {
             const normalizedOriginal = original || fromIntroLevelOriginal
 
             const level = levelsByOriginal[normalizedOriginal]
-            const selectedCourseInstance = courseInstances.find(({ courseID }) => courseID === this.selectedCourseId)
+            const selectedCourseInstance = this.courseInstances.find(({ courseID }) => courseID === this.selectedCourseId)
             const startLockedLevel = selectedCourseInstance?.startLockedLevel
             const lockedByOldDashboard = startLockedLevel && startLockedLevel === level?.slug
 
@@ -266,7 +241,7 @@ export default {
               defaultProgressDot.normalizedType = 'capstone'
             }
 
-            if (!assignmentMap.get(selectedCourseId)?.has(student._id)) {
+            if (!this.assignmentMap.get(selectedCourseId)?.has(student._id)) {
               // Return unassigned progress dot if the student isn't in the course-instance.
               defaultProgressDot.status = 'unassigned'
               return defaultProgressDot
@@ -475,20 +450,6 @@ export default {
       })
   },
 
-  beforeRouteUpdate (to, from, next) {
-    this.closePanel()
-    this.clearSelectedStudents()
-    this.setClassroomId(to.params.classroomId)
-    this.setSelectedCourseIdCurrentClassroom({ courseId: to.params.courseId || utils.courseIDs.HACKSTACK })
-    next()
-  },
-
-  beforeRouteLeave (to, from, next) {
-    this.closePanel()
-    this.clearSelectedStudents()
-    next()
-  },
-
   destroyed () {
     this.resetLoadingState()
   },
@@ -599,15 +560,16 @@ export default {
       }
     },
 
-    checkIfComplete (aiProjects, details) {
-      if (aiProjects.some(scenario => scenario.actionQueue.length === 0)) {
-        details.status = 'complete'
+    checkIfComplete (aiScenario, aiProjects) {
+      if (aiScenario.mode === 'learn to use' && aiProjects.some(project => (project.actionQueue.length === 0))) {
+        return true
+      } else if (aiScenario.mode === 'use' && aiProjects.some(project => (project.isReadyToReview))) {
         return true
       }
       return false
     },
 
-    createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum, createModeUnlocked, assignmentMap, selectedCourseId }) {
+    createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum, createModeUnlocked }) {
       const details = {}
       classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
       const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario._id]
@@ -615,17 +577,21 @@ export default {
       if (aiProjects) {
         this.setProgressDetails(details, classSummaryProgress, index)
         this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
-        createModeUnlocked = this.checkIfComplete(aiProjects, details)
+        const completed = this.checkIfComplete(aiScenario, aiProjects)
+        if (completed) {
+          details.status = 'complete'
+          createModeUnlocked.unlocked = completed
+        }
       }
 
       let isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario._id, 'lockedScenario')
-      if (aiScenario.mode === 'use' && !createModeUnlocked) {
+      if (aiScenario.mode === 'use' && !createModeUnlocked.unlocked) {
         isLocked = true
       }
 
       const isPlayable = !isLocked
 
-      if (!assignmentMap.get(selectedCourseId)?.has(student._id)) {
+      if (!this.assignmentMap.get(this.selectedCourseId)?.has(student._id)) {
         details.status = 'unassigned'
         return details
       }
@@ -708,6 +674,60 @@ export default {
         }),
         studentSessions: {},
         classSummaryProgress: []
+      }
+    },
+
+    generateHackStackModule (moduleName, key) {
+      const moduleNum = key + 1
+      const classSummaryProgress = []
+      const moduleScenarios = (this.aiScenarios || [])
+        .filter(scenario => scenario.tool === moduleName)
+
+      const aiModel = this.modelsByName[moduleName]
+
+      if (!aiModel) {
+        return null
+      }
+      return {
+        moduleNum,
+        displayName: `<strong>${aiModel.displayName}</strong><br>${aiModel.description}`,
+        displayLogo: utils.aiToolToImage[moduleName] || null,
+        contentList: moduleScenarios
+          .sort((a, b) => {
+            return a.mode === 'use' ? 1 : -1 // Use scenarios should be at the end
+          })
+          .map((scenario, index) => {
+            const type = scenario.mode === 'use' ? 'ai-use' : 'ai-learn'
+            return {
+              displayName: scenario.name,
+              type,
+              _id: scenario._id,
+              tooltipName: scenario.name,
+              description: '',
+              contentKey: scenario._id,
+              normalizedOriginal: scenario._id,
+              normalizedType: type,
+              contentLevelSlug: scenario.slug,
+              isPractice: false
+            }
+          }),
+        studentSessions: this.students.reduce((studentSessions, student) => {
+          const createModeUnlocked = { unlocked: false }
+          studentSessions[student._id] = moduleScenarios
+            .map((aiScenario, index) => {
+              return this.createProgressDetailsByAiScenario({
+                aiScenario,
+                index,
+                student,
+                classSummaryProgress,
+                moduleNum,
+                createModeUnlocked
+              })
+            })
+
+          return studentSessions
+        }, {}),
+        classSummaryProgress
       }
     }
   }

@@ -104,9 +104,8 @@
             span.spr(data-i18n="subscribe.subscribe_title") Subscribe
 
         else if visibleHero.loaded
-          if !me.isStudent() || (view.classroomAceConfig && (view.classroomAceConfig.codeFormats || ['text-code']).length > 1)
-            #hero-footer-text-background
-              .image-block
-                img(src= "/images/pages/play/modal/language-selector-background.png")
-            #change-language-tab-view
+          #hero-footer-text-background
+            .image-block
+              img(src= "/images/pages/play/modal/language-selector-background.png")
+          #change-language-tab-view
           a#confirm-button(data-i18n=confirmButtonI18N)

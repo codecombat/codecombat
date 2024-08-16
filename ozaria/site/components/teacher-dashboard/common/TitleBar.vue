@@ -1,24 +1,35 @@
 <script>
 import { coursesWithProjects, isOzaria, isCodeCombat } from 'core/utils'
 import PrimaryButton from '../common/buttons/PrimaryButton'
-import ButtonCurriculumGuide from '../common/ButtonCurriculumGuide'
 import LicensesComponent from '../common/LicensesComponent'
 import NavSelectUnit from '../common/NavSelectUnit'
 import ClassInfoRow from './ClassInfoRow'
 import moment from 'moment'
+import zendeskResourceMixin from 'ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue'
 
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 const Classroom = require('models/Classroom')
+
+const resourceHubSections = [
+  { sectionName: 'gettingStarted', slug: 'getting-started', i18nKey: 'teacher.getting_started' },
+  { sectionName: 'educatorResources', slug: 'educator-resources', i18nKey: 'new_home.educator_resources' },
+  { sectionName: 'lessonSlides', slug: 'lesson-slides', i18nKey: 'teacher.curriculum' },
+  { sectionName: 'studentResources', slug: 'student-resources', i18nKey: 'teacher.student_resources' },
+  { sectionName: 'faq', slug: 'faq', i18nKey: 'nav.faq' }
+]
 
 export default {
   components: {
     'primary-button': PrimaryButton,
-    'button-curriculum-guide': ButtonCurriculumGuide,
     'licenses-component': LicensesComponent,
     'nav-select-unit': NavSelectUnit,
     'class-info-row': ClassInfoRow,
   },
+
+  mixins: [
+    zendeskResourceMixin
+  ],
 
   props: {
     title: {
@@ -51,6 +62,12 @@ export default {
     }
   },
 
+  data () {
+    return {
+      resourceHubResources: {}
+    }
+  },
+
   computed: {
     ...mapGetters({
       activeClassrooms: 'teacherDashboard/getActiveClassrooms'
@@ -62,6 +79,22 @@ export default {
 
     isCodeCombat () {
       return isCodeCombat
+    },
+
+    isCodeNinja () {
+      return me.isCodeNinja()
+    },
+
+    resourceHubSections () {
+      return resourceHubSections
+    },
+
+    resourceHubLinks () {
+      return this.resourceHubLinksHelper(this.resourceHubResources)
+    },
+
+    teacherToolkitView () {
+      return this.$route.path.startsWith('/teachers/resources')
     },
 
     filteredCourses () {
@@ -76,6 +109,10 @@ export default {
       } else {
         return this.courses
       }
+    },
+
+    inCurriculum () {
+      return this.$route.path.startsWith('/teachers/curriculum')
     },
 
     classroomCreationDate () {
@@ -124,11 +161,6 @@ export default {
   },
 
   methods: {
-    ...mapActions({
-      toggleCurriculumGuide: 'baseCurriculumGuide/toggleCurriculumGuide',
-      setCurriculumAccessViaSharedClass: 'baseCurriculumGuide/setAccessViaSharedClass'
-    }),
-
     clickOutcomesReport () {
       window.tracker?.trackEvent('Outcomes Report Clicked', { category: 'Teachers', label: this.$route.path })
       this.$emit('outcomesReport')
@@ -143,25 +175,42 @@ export default {
       this.$emit('newClass')
     },
 
-    clickCurriculumGuide () {
-      let hasAccess = false
-      if (this.sharePermission) {
-        hasAccess = true
-      }
-      this.setCurriculumAccessViaSharedClass(hasAccess)
-      window.tracker?.trackEvent('Curriculum Guide Clicked', { category: 'Teachers', label: this.$route.path })
-      this.toggleCurriculumGuide()
+    clickNewClub () {
+      window.tracker?.trackEvent('Add New Class Clicked', { category: 'Teachers', label: this.$route.path })
+      this.$emit('newClub')
     }
   }
 }
 </script>
 
 <template>
-  <div class="teacher-title-bar">
+  <div
+    v-if="!inCurriculum"
+    class="teacher-title-bar"
+  >
     <div class="sub-nav">
       <h1 :class="showClassInfo ? 'short' : 'long'">
         {{ title }}
       </h1>
+      <div
+        v-if="teacherToolkitView"
+        class="resource-hub-container"
+      >
+        <div
+          v-for="(resourceHubSection, index) in resourceHubSections"
+          :key="resourceHubSection.slug"
+        >
+          <div
+            v-if="resourceHubLinks(resourceHubSection.sectionName).length"
+            class="resource-hub-section"
+          >
+            <a
+              :href="'#' + resourceHubSection.slug"
+            >{{ $t(resourceHubSection.i18nKey) }}</a>
+            <span v-if="index < resourceHubSections.length - 1">|</span>
+          </div>
+        </div>
+      </div>
       <div
         v-if="showClassInfo"
         class="edit-class"
@@ -182,25 +231,11 @@ export default {
         :date-start="classroomStartDate"
         :date-end="classroomEndDate"
         :share-permission="sharePermission"
+        :class-type="classroom.type"
       />
-      <div
-        v-if="showClassInfo"
-        class="add-students"
-      >
-        <button
-          class="dusk-btn"
-          @click="$emit('addStudentsClicked')"
-        >
-          <img
-            class="add-students__icon"
-            src="/images/ozaria/teachers/dashboard/svg_icons/IconAddStudents_Black.svg"
-          >
-          <span> {{ $t('courses.add_students') }} </span>
-        </button>
-      </div>
     </div>
     <div
-      v-if="!showPreviewMode"
+      v-if="!showPreviewMode && !teacherToolkitView"
       class="sub-nav"
     >
       <div
@@ -239,17 +274,30 @@ export default {
         <primary-button
           v-if="!showClassInfo"
           id="new-class-btn-shepherd"
-          class="btn-title-padding btn-margins-height"
+          class="btn-title-padding btn-margins-height dusk-btn"
           @click="clickNewClass"
         >
           {{ $t('teacher_dashboard.add_class') }}
         </primary-button>
-
-        <button-curriculum-guide
-          id="curriculum-guide-btn-shepherd"
-          class="btn-margins-height"
-          @click="clickCurriculumGuide"
-        />
+        <primary-button
+          v-if="!showClassInfo && isCodeNinja"
+          id="new-club-btn-shepherd"
+          class="btn-title-padding btn-margins-height"
+          @click="clickNewClub"
+        >
+          {{ $t('teacher_dashboard.add_club') }}
+        </primary-button>
+        <div
+          v-if="showClassInfo"
+          class="add-students"
+        >
+          <button
+            class="dusk-btn"
+            @click="$emit('addStudentsClicked')"
+          >
+            <span> {{ $t('courses.add_students') }} </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -268,6 +316,29 @@ export default {
 .btn-margins-height {
   margin: 0 12.5px;
   white-space: nowrap;
+}
+
+.resource-hub-container {
+  display: flex;
+  gap: 0px;
+  font-size: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  a {
+    text-decoration: underline;
+  }
+}
+
+.resource-hub-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.resource-hub-section * {
+  margin-left: 5px;
+  margin-right: 5px;
+  color: $blue;
 }
 
 .main-buttons-container {
@@ -293,7 +364,7 @@ export default {
   }
 
   &>h1:first-child {
-    margin-right: 4.5px;
+    margin-right: 10px;
   }
 
   @media (max-width: 1280px) {
@@ -336,7 +407,7 @@ export default {
 }
 
 h1 {
-  @include font-h-2-subtitle-twilight;
+  @include font-h-2-subtitle-black;
   max-width: calc(100vw - 650px);
   overflow-y: hidden;
   white-space: nowrap;

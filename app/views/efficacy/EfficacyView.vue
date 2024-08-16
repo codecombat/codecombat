@@ -1,9 +1,9 @@
 <script>
-import ModalGetLicenses from '../../../ozaria/site/components/teacher-dashboard/modals/ModalGetLicenses'
+import ModalGetLicenses from 'app/components/common/ModalGetLicenses'
 import OzariaStats from './OzariaStats'
 
 export default {
-  name: 'Efficacy',
+  name: 'EfficacyView',
   components: {
     ModalGetLicenses,
     OzariaStats

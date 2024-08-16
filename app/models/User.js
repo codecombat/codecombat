@@ -25,6 +25,7 @@ const fetchJson = require('core/api/fetch-json')
 const userUtils = require('lib/user-utils')
 const _ = require('lodash')
 const moment = require('moment')
+const NAPERVILLE_UNIQUE_KEY = 'naperville'
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -79,7 +80,8 @@ module.exports = (User = (function () {
         API_CLIENT: 'apiclient',
         ONLINE_TEACHER: 'onlineTeacher',
         BETA_TESTER: 'betaTester',
-        PARENT_ADMIN: 'parentAdmin'
+        PARENT_ADMIN: 'parentAdmin',
+        NAPERVILLE_ADMIN: 'napervilleAdmin'
       }
 
       a = 5
@@ -154,6 +156,14 @@ module.exports = (User = (function () {
     isParentAdmin () {
       const needle = this.constructor.PERMISSIONS.PARENT_ADMIN
       return this.get('permissions', true).includes(needle)
+    }
+
+    isNapervilleAdmin () {
+      return this.get('permissions', true).includes(this.constructor.PERMISSIONS.NAPERVILLE_ADMIN)
+    }
+
+    isNapervilleUser () {
+      return this.get('library')?.name === NAPERVILLE_UNIQUE_KEY
     }
 
     isAnonymous () { return this.get('anonymous', true) }
@@ -232,6 +242,11 @@ module.exports = (User = (function () {
         error (jqxhr) { return reject(jqxhr.responseJSON) }
       }
       ))
+    }
+
+    static getNapervilleDomain () {
+      // it can be stu.naperville203.org or naperville203.org and there are no premium benefits directly so safe to check without @
+      return 'naperville203.org'
     }
 
     getEnabledEmails () {
@@ -659,6 +674,17 @@ module.exports = (User = (function () {
       return 'expired'
     }
 
+    getSeenPromotion (key) {
+      const seenPromotions = this.get('seenPromotions') || {}
+      return seenPromotions[key]
+    }
+
+    setSeenPromotion (key) {
+      const seenPromotions = this.get('seenPromotions') || {}
+      Object.assign(seenPromotions, { [key]: true })
+      this.set('seenPromotions', seenPromotions)
+    }
+
     activeProducts (type) {
       const now = new Date()
       return _.filter(this.get('products'), p => (p.product === type) && ((new Date(p.endDate) > now) || !p.endDate))
@@ -797,7 +823,7 @@ module.exports = (User = (function () {
       options.url = _.result(this, 'url') + '/signup-with-facebook'
       options.type = 'POST'
       if (options.data == null) { options.data = {} }
-      _.extend(options.data, { name, email, facebookID, facebookAccessToken: application.facebookHandler.token() })
+      _.extend(options.data, { name, email, facebookID, facebookAccessToken: options.facebookAccessToken })
       options.contentType = 'application/json'
       options.xhrFields = { withCredentials: true }
       options.data = JSON.stringify(options.data)
@@ -854,20 +880,20 @@ module.exports = (User = (function () {
       return this.fetch(options)
     }
 
-    fetchFacebookUser (facebookID, options = {}) {
+    fetchFacebookUser (facebookID, fbAccessToken, options = {}) {
       if (options.data == null) { options.data = {} }
       options.data.facebookID = facebookID
-      options.data.facebookAccessToken = application.facebookHandler.token()
+      options.data.facebookAccessToken = fbAccessToken
       return this.fetch(options)
     }
 
-    loginFacebookUser (facebookID, options = {}) {
+    loginFacebookUser (facebookID, fbAccessToken, options = {}) {
       options.url = '/auth/login-facebook'
       options.type = 'POST'
       options.xhrFields = { withCredentials: true }
       if (options.data == null) { options.data = {} }
       options.data.facebookID = facebookID
-      options.data.facebookAccessToken = application.facebookHandler.token()
+      options.data.facebookAccessToken = fbAccessToken
       return this.fetch(options)
     }
 
@@ -1016,8 +1042,9 @@ module.exports = (User = (function () {
       return true
     }
 
-    getHomePageExperimentValue () {
-      const experimentName = 'home-page-filtered'
+    getFilteredExperimentValue ({
+      experimentName,
+    }) {
       let value = me.getExperimentValue(experimentName, null)
 
       if (value === null && !utils.isCodeCombat) {
@@ -1055,6 +1082,18 @@ module.exports = (User = (function () {
       }
 
       return value
+    }
+
+    getRobloxPageExperimentValue () {
+      return this.getFilteredExperimentValue({ experimentName: 'roblox-page-filtered' })
+    }
+
+    getHomePageExperimentValue () {
+      return this.getFilteredExperimentValue({ experimentName: 'home-page-filtered' })
+    }
+
+    getParentsPageExperimentValue () {
+      return this.getFilteredExperimentValue({ experimentName: 'parents-page-filtered' })
     }
 
     getEducatorSignupExperimentValue () {
@@ -1273,16 +1312,22 @@ module.exports = (User = (function () {
     getTestStudentId () {
       const testStudentRelation = (this.get('related') || []).filter(related => related.relation === 'TestStudent')[0]
       if (testStudentRelation) {
-        return Promise.resolve(testStudentRelation.userId)
+        return Promise.resolve({ id: testStudentRelation.userId, new: false })
       } else {
-        return this.createTestStudentAccount().then(response => {
-          return response.relatedUserId
+        return new Promise((resolve, reject) => {
+          try {
+            this.createTestStudentAccount().then(response => {
+              resolve({ id: response.relatedUserId, new: true })
+            })
+          } catch (e) {
+            reject(e)
+          }
         })
       }
     }
 
     switchToStudentMode () {
-      return this.getTestStudentId().then(testStudentId => this.spy({ id: testStudentId }))
+      return this.getTestStudentId().then(({ id }) => this.spy({ id }))
     }
 
     switchToTeacherMode () {

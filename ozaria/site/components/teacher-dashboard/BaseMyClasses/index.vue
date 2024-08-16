@@ -4,11 +4,11 @@ import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
 import ClassStatCalculator from './components/ClassStatCalculator'
 import ModalEditClass from '../modals/ModalEditClass'
 import ModalAddStudents from '../modals/ModalAddStudents'
-import moment from 'moment'
 import ModalShareWithTeachers from '../modals/ModalShareWithTeachers'
 import BannerHoC from 'app/views/courses/BannerHoC'
 import ButtonsSchoolAdmin from './ButtonsSchoolAdmin'
 import PodcastItemContainer from 'app/views/courses/PodcastItemContainer'
+import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
 
 export default {
   name: COMPONENT_NAMES.MY_CLASSES_ALL,
@@ -21,6 +21,10 @@ export default {
     ModalShareWithTeachers,
     PodcastItemContainer
   },
+
+  mixins: [
+    sortClassroomMixin
+  ],
 
   props: {
     teacherId: { // sent from DSA
@@ -124,8 +128,8 @@ export default {
       this.showShareClassWithTeacherModal = true
       this.editClassroomObject = classroom
     },
-    classroomSortById (a, b) {
-      return moment(parseInt(b._id.substring(0, 8), 16) * 1000).diff(moment(parseInt(a._id.substring(0, 8), 16) * 1000))
+    showCreateStudents (classroom) {
+      return me.isCodeNinja() && classroom.type?.includes('club')
     }
   }
 }
@@ -244,6 +248,7 @@ export default {
     <modal-add-students
       v-if="showAddStudentsModal"
       :classroom="editClassroomObject"
+      :create-students="showCreateStudents(editClassroomObject)"
       @close="showAddStudentsModal = false"
     />
     <modal-share-with-teachers

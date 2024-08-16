@@ -1,4 +1,13 @@
 <script>
+
+import FacebookIcon from 'app/components/common/social/FacebookIcon.vue'
+import TwitterIcon from 'app/components/common/social/TwitterIcon.vue'
+import InstagramIcon from 'app/components/common/social/InstagramIcon.vue'
+import LinkedInIcon from 'app/components/common/social/LinkedInIcon.vue'
+import YouTubeIcon from 'app/components/common/social/YouTubeIcon.vue'
+import TikTokIcon from 'app/components/common/social/TikTokIcon.vue'
+import DiscordIcon from 'app/components/common/social/DiscordIcon.vue'
+
 import {
   isCodeCombat,
   isOzaria
@@ -10,36 +19,45 @@ import { COCO_CHINA_CONST } from 'core/constants'
  * Unified footer component between CodeCombat and Ozaria.
  */
 export default Vue.extend({
+  components: {
+    FacebookIcon,
+    TwitterIcon,
+    InstagramIcon,
+    LinkedInIcon,
+    YouTubeIcon,
+    TikTokIcon,
+    DiscordIcon
+  },
   data () {
     return {
       socialLinks: [
         {
           href: 'https://www.facebook.com/codecombat',
-          img: '/images/footer/facebook.svg',
+          component: 'facebook-icon',
           alt: 'Facebook'
         }, {
           href: 'https://twitter.com/CodeCombat',
-          img: '/images/footer/twitter.svg',
+          component: 'twitter-icon',
           alt: 'Twitter'
         }, {
           href: 'https://www.instagram.com/codecombat/',
-          img: '/images/footer/instagram.svg',
+          component: 'instagram-icon',
           alt: 'Instagram'
         }, {
           href: 'https://www.linkedin.com/company/codecombat',
-          img: '/images/footer/linkedin.svg',
+          component: 'linked-in-icon',
           alt: 'LinkedIn'
         }, {
           href: 'https://www.youtube.com/@CodeCombat1',
-          img: '/images/footer/youtube.svg',
+          component: 'you-tube-icon',
           alt: 'YouTube'
         }, {
           href: 'https://www.tiktok.com/@codecombat_tiktok',
-          img: '/images/footer/tiktok.svg',
+          component: 'tik-tok-icon',
           alt: 'TikTok'
         }, {
           href: 'https://discord.gg/vkW2dCYaxe',
-          img: '/images/footer/discord.svg',
+          component: 'discord-icon',
           alt: 'Discord'
         }
       ]
@@ -52,7 +70,11 @@ export default Vue.extend({
 
     isOzaria () {
       return isOzaria
-    }
+    },
+
+    darkMode () {
+      return /^\/(roblox|league|play\/ladder)/.test(document.location.pathname)
+    },
   },
   created () {
     // Bind the global values to the vue component.
@@ -65,13 +87,15 @@ export default Vue.extend({
 
 <template lang="pug">
   #final-footer(dir="ltr")
-    img(v-if="isOzaria" src="/images/ozaria/home/ozaria-wordmark-500px.png" alt="Ozaria logo")
+    img(v-if="isOzaria && darkMode" src="/images/ozaria/home/ozaria-wordmark-500px.png" alt="Ozaria logo")
+    img(v-else-if="isOzaria && !darkMode" src="/images/ozaria/home/ozaria_logo_sun.png" alt="Ozaria logo")
     picture(v-else)
       source(srcset="/images/pages/base/logo.webp" type="image/webp")
       img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
     .social-links
-      a(v-for="socialLink in socialLinks" :href="socialLink.href" :key="socialLink.href" target="_blank")
-        img(:src="socialLink.img" :alt="socialLink.alt" loading="lazy")
+      a(v-for="socialLink in socialLinks" :href="socialLink.href" :alt="socialLink.alt" :key="socialLink.href" target="_blank")
+        div.img
+          component(:is="socialLink.component")
     .copyright
       if me.showChinaResourceInfo()
         span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
@@ -107,6 +131,7 @@ export default Vue.extend({
   display: flex
   flex-direction: column
   justify-content: center
+  align-items: center
   gap: 20px
   text-align: center
 
@@ -126,6 +151,13 @@ export default Vue.extend({
     margin-right: 20px
 
   .social-links
-    img
+    .img
       height: 24px
+      display: inline-block
+      margin-right: 20px
+      ::v-deep
+        svg
+          height: 100%
+          path
+            fill: var(--color-primary)
 </style>

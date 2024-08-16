@@ -1,0 +1,5 @@
+@import "app/styles/component_variables.scss";
+
+.sb-show-main, .sb-story {
+    @extend %frontend-page;
+}

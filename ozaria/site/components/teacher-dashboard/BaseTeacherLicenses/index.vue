@@ -3,7 +3,7 @@ import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
 import PageNoLicenses from './PageNoLicenses'
 import PageLicenses from './PageLicenses'
-import ModalGetLicenses from '../modals/ModalGetLicenses'
+import ModalGetLicenses from 'app/components/common/ModalGetLicenses'
 import ModalApplyLicenses from '../modals/ModalApplyLicenses'
 import ModalShareLicenses from '../modals/ModalShareLicenses/index'
 import ModalLicenseStats from '../modals/ModalLicenseStats'
@@ -65,7 +65,8 @@ export default {
 
   methods: {
     ...mapActions({
-      fetchData: 'teacherDashboard/fetchData'
+      fetchData: 'teacherDashboard/fetchData',
+      getTestLicense: 'prepaids/getTestLicense'
     }),
     ...mapMutations({
       resetLoadingState: 'teacherDashboard/resetLoadingState',
@@ -102,6 +103,7 @@ export default {
       :teacher-id="getTeacherId"
       :display-only="displayOnly"
       @getLicenses="getLicenses"
+      @getTestLicense="getTestLicense"
       @apply="applyLicenses"
       @share="shareLicenses"
       @stats="seeLicenseStats"

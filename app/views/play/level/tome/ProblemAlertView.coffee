@@ -3,6 +3,8 @@ CocoView = require 'views/core/CocoView'
 template = require 'app/templates/play/level/tome/problem_alert'
 {me} = require 'core/auth'
 userUtils = require 'app/lib/user-utils'
+{ shouldShowAiBotHelp } = require 'app/core/utils'
+globalVar = require 'core/globalVar'
 
 module.exports = class ProblemAlertView extends CocoView
   id: 'problem-alert-view'
@@ -35,6 +37,7 @@ module.exports = class ProblemAlertView extends CocoView
     'level:restart': 'onHideProblemAlert'
     'tome:jiggle-problem-alert': 'onJiggleProblemAlert'
     'tome:manual-cast': 'onHideProblemAlert'
+    'auth:user-credits-message-updates': 'onUserCreditsMessageUpdates'
 
   events:
     'click .close': 'onRemoveClicked'
@@ -54,13 +57,10 @@ module.exports = class ProblemAlertView extends CocoView
       @$el.hide()
     @duckImg = _.sample(@duckImages)
     $(window).on 'resize', @onWindowResize
-    @creditMessage = ''
-    @showAiBotHelp = false
-    if @aceConfig.levelChat != 'none'
-      if me.isHomeUser() && me.getLevelChatExperimentValue() == 'beta'
-        @showAiBotHelp = true
-      else if not me.isHomeUser()
-        @showAiBotHelp = true
+    unless globalVar.userCreditsMessage
+      globalVar.userCredtisMessage = ''
+    @creditMessage = globalVar.userCreditsMessage
+    @showAiBotHelp = shouldShowAiBotHelp(@aceConfig)
 
   destroy: ->
     $(window).off 'resize', @onWindowResize
@@ -68,8 +68,9 @@ module.exports = class ProblemAlertView extends CocoView
 
   afterRender: ->
     @$('[data-toggle="popover"]').popover()
-    unless @creditMessage
-      @handleUserCreditsMessage()
+    unless me.showChinaResourceInfo()
+      unless @creditMessage
+        @handleUserCreditsMessage()
 
     super()
     if @problem?
@@ -150,7 +151,8 @@ module.exports = class ProblemAlertView extends CocoView
     null
 
   handleUserCreditsMessage: ->
-    userUtils.levelChatCreditsString().then (res) =>
-      if @creditMessage != res
-        @creditMessage = res
-        @render()
+    userUtils.updateUserCreditsMessage()
+
+  onUserCreditsMessageUpdates: ->
+    @creditMessage = globalVar.userCreditsMessage
+    @render()

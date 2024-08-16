@@ -54,7 +54,7 @@
     "coco-pre-commit-lint": "npx @automattic/eslint-changed --git --git-staged --ext .js,.vue",
     "prepare": "husky install",
     "storybook": "storybook dev -p 6006",
-    "storybook-inspect": "node --inspect node_modules/.bin/start-storybook -p 6006",
+    "storybook-inspect": "node --inspect node_modules/.bin/storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "main": "index.js",
@@ -177,6 +177,7 @@
     "vue-codemirror": "^4.0.6",
     "vue-confirm-dialog": "~1.0.2",
     "vue-d3-charts": "^0.2.8",
+    "vue-lazy-youtube-video": "^2.4.0",
     "vue-meta": "^1.6.0",
     "vue-moment": "^4.0.0",
     "vue-phone-number-input": "^1.12.13",

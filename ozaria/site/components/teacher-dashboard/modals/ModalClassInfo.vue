@@ -6,13 +6,15 @@ import { tryCopy } from 'ozaria/site/common/ozariaUtils'
 
 import ButtonGoogleClassroom from './common/ButtonGoogleClassroom'
 import ModalDivider from '../../common/ModalDivider'
+import ModalCreateStudents from './ModalCreateStudents'
 
 export default Vue.extend({
   components: {
     PrimaryButton,
     SecondaryButton,
     ButtonGoogleClassroom,
-    ModalDivider
+    ModalDivider,
+    ModalCreateStudents
   },
   props: {
     classroomCode: {
@@ -35,6 +37,10 @@ export default Vue.extend({
     from: {
       type: String,
       default: null
+    },
+    createStudents: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -43,6 +49,9 @@ export default Vue.extend({
   computed: {
     classroomUrl () {
       return `${document.location.origin}/students?_cc=${this.classroomCode}`
+    },
+    classCodeDescription () {
+      return `${i18n.t('teachers.class_code_desc')} ${document.location.hostname}`
     }
   },
   methods: {
@@ -113,7 +122,7 @@ export default Vue.extend({
           >
         </div>
       </div>
-      <span class="sub-text"> {{ $t("teachers.class_code_desc") }} </span>
+      <span class="sub-text"> {{ classCodeDescription }} </span>
       <primary-button
         :inactive="regenerationInProgress"
         class="regenerate-code-button"
@@ -145,6 +154,16 @@ export default Vue.extend({
       >
         {{ $t("teachers.invite_by_email") }}
       </primary-button>
+      <div
+        v-if="createStudents"
+        class="create-students"
+      >
+        <modal-create-students
+          :classroom="classroom"
+          from="ModalAddStudents"
+          @done="$emit('close')"
+        />
+      </div>
     </div>
     <secondary-button
       class="done-button"
@@ -165,7 +184,7 @@ export default Vue.extend({
   align-items: center;
 }
 .form-container {
-  margin-bottom: 170px;
+  margin-bottom: 50px;
 }
 
 .google-classroom-div {

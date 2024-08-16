@@ -125,6 +125,7 @@ module.exports = (CocoRouter = (function () {
         'admin/outcomes-report': go('admin/OutcomesReportView'),
         'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView'),
         'admin/low-usage-users': go('core/SingletonAppVueComponentView'),
+        'admin/trial-classes': go('core/SingletonAppVueComponentView'),
 
         announcements: go('core/SingletonAppVueComponentView'),
         'event-calendar(/*subpath)': go('core/SingletonAppVueComponentView'),
@@ -326,6 +327,7 @@ module.exports = (CocoRouter = (function () {
         },
 
         parents: go('core/SingletonAppVueComponentView'),
+        'parents-v2': go('core/SingletonAppVueComponentView'),
         'parents/*path': go('core/SingletonAppVueComponentView'),
         'live-classes': go('core/SingletonAppVueComponentView'),
         live: go('core/SingletonAppVueComponentView'),
@@ -415,6 +417,7 @@ module.exports = (CocoRouter = (function () {
         privacy: go('PrivacyView'),
 
         'professional-development': go('core/SingletonAppVueComponentView'),
+        'professional-development-v2': go('core/SingletonAppVueComponentView'),
 
         pd: go('core/SingletonAppVueComponentView'),
         efficacy: go('core/SingletonAppVueComponentView'),
@@ -423,6 +426,7 @@ module.exports = (CocoRouter = (function () {
         'social-and-emotional-learning': go('core/SingletonAppVueComponentView'),
 
         roblox: go('core/SingletonAppVueComponentView'),
+        'roblox-beta': go('core/SingletonAppVueComponentView'),
         grants: go('core/SingletonAppVueComponentView'),
 
         seen: me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),
@@ -488,10 +492,11 @@ module.exports = (CocoRouter = (function () {
         'teachers/licenses/v0': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true }),
 
         'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true }),
-        'teachers/quote': go('teachers/RequestQuoteView', { redirectStudents: true }),
+        'teachers/quote': redirect('/schools?openContactModal=true'),
         'teachers/resources_old': go('teachers/ResourceHubView', { redirectStudents: true }),
         'teachers/resources': utils.isCodeCombat && me.useChinaHomeView() ? go('teachers/ResourceHubView', { redirectStudents: true }) : go('core/SingletonAppVueComponentView', { redirectStudents: true }),
         'teachers/resources_new': go('core/SingletonAppVueComponentView'),
+        'teachers/curriculum': teacherProxyRoute(go('teachers/curriculum', { redirectStudents: true })),
         'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true }),
         'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true }),
         'teachers/professional-development': teacherProxyRoute(go('pd/PDView', { redirectStudents: true })),

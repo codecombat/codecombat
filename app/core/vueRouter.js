@@ -48,8 +48,22 @@ export default function getVueRouter () {
         },
         {
           path: '/parents',
-          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
-          props: (route) => ({ showPremium: true, type: route.query.type })
+          props: (route) => ({ showPremium: true, type: route.query.type }),
+          ...(
+            me.getParentsPageExperimentValue() === 'control'
+              ? {
+                  component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
+                }
+              : {
+                  component: () => import(/* webpackChunkName: "ParentsViewV2" */ 'app/views/landing-pages/parents-v2/PageParents'),
+                  meta: { theme: 'teal' }
+                }
+          )
+        },
+        {
+          path: '/codequest',
+          component: () => import(/* webpackChunkName: "CodequestView" */ 'app/views/codequest/PageCodequest.vue'),
+          meta: { theme: 'teal' }
         },
         {
           path: '/diversity-equity-and-inclusion',
@@ -75,6 +89,11 @@ export default function getVueRouter () {
             },
             { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') }
           ]
+        },
+        {
+          path: '/admin/trial-classes',
+          component: () => import(/* webpackChunkName: "TrialClassView" */ 'app/views/online-class/TrialClassesView'),
+          props: (_route) => ({ isAdminView: true })
         },
         {
           path: '/trial-classes',
@@ -277,7 +296,8 @@ export default function getVueRouter () {
                 }
               }
             },
-            { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDView.vue') },
+            { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDViewV2.vue') },
+            { path: 'curriculum', component: () => import(/* webpackChunkName: "curriculum" */ '../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/index.vue') },
             {
               path: 'ai-league',
               component: () => import(/* webpackChunkName: "ai-league" */ '../views/ai-league/AILeagueView.vue'),
@@ -290,8 +310,22 @@ export default function getVueRouter () {
 
         },
         {
+          path: '/roblox-beta',
+          component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/NewPageRoblox'),
+          meta: { theme: 'teal' }
+        },
+        {
           path: '/roblox',
-          component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox')
+          ...(
+            me.getRobloxPageExperimentValue() === 'control'
+              ? {
+                  component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox'),
+                }
+              : {
+                  component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/NewPageRoblox'),
+                }
+          ),
+          meta: { theme: 'teal' }
         },
         {
           path: '/grants',
@@ -313,6 +347,10 @@ export default function getVueRouter () {
         {
           path: '/professional-development',
           component: () => import(/* webpackChunkName: "pd" */ 'app/views/pd/PDView.vue')
+        },
+        {
+          path: '/professional-development-v2',
+          component: () => import(/* webpackChunkName: "pd" */ 'app/views/pd/PDViewV2.vue')
         },
         { path: '/pd', redirect: '/professional-development' }, // TODO: doesn't actually update to /professional-development URL, just adds alias
         {
@@ -412,6 +450,17 @@ export default function getVueRouter () {
         return scroll
       }
 
+    })
+
+    vueRouter.beforeEach((to, from, next) => {
+      if (from.meta?.theme) {
+        document.body.classList.remove(`${from.meta.theme}-theme`)
+      }
+
+      if (to.meta?.theme) {
+        document.body.classList.add(`${to.meta.theme}-theme`)
+      }
+      next()
     })
 
     vueRouter.afterEach((to, from) => {

@@ -112,7 +112,7 @@ module.exports = class TomeView extends CocoView
 
   determineCodeFormat: ->
     language = @options.session.get('codeLanguage') ? me.get('aceConfig')?.language ? 'python'
-    if @options.level.isType('web-dev') or (language not in ['python', 'javascript', 'lua'])
+    if @options.level.isType('web-dev') or (language not in ['python', 'javascript', 'lua']) or @options.level.get('product') != 'codecombat-junior'
       # TODO: eventually we could get game-dev working, if we figure out how to list spawnables
       newCodeFormat = 'text-code'
     else

@@ -51,6 +51,11 @@ export default {
       type: Number,
       default: null,
       description: 'Time from which the thumbnail should be taken for the video in seconds'
+    },
+    backgroundColor: {
+      type: String,
+      default: null,
+      description: 'Background color for the video'
     }
   },
   computed: {
@@ -71,7 +76,13 @@ export default {
       if (!this.soundOn) {
         params.muted = true
       }
+
       params.preload = this.preload
+
+      if (this.backgroundColor) {
+        params.letterboxColor = encodeURIComponent(this.backgroundColor)
+      }
+
       const arr = []
       for (const [key, val] of Object.entries(params)) {
         arr.push(`${key}=${val}`)

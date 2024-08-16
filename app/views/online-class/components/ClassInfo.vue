@@ -84,7 +84,7 @@ export default {
   },
   computed: {
     codeLanguages () {
-      return schema.properties.codeLanguages.items.properties.language.enum
+      return ['python', 'javascript', 'lua']
     },
     languages () {
       return schema.properties.languages.items.enum

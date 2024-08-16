@@ -1,9 +1,13 @@
 <template>
   <form
     class="purchase-form"
-    @submit.prevent="onPurchaseNow"
+    action="#"
+    @submit.prevent=""
   >
-    <div class="form-group">
+    <div
+      v-if="!tecmilenioNotConfirmed"
+      class="form-group"
+    >
       <label for="licenseType">{{ isTecmilenioPartner ? 'Seleccionar licencia' : 'Select License' }}</label>
       <select
         id="licenseType"
@@ -19,7 +23,10 @@
         </option>
       </select>
     </div>
-    <div class="form-group">
+    <div
+      v-if="!tecmilenioNotConfirmed"
+      class="form-group"
+    >
       <label for="licenseNum">{{ isTecmilenioPartner ? 'Número de Licencias' : 'Number of Licenses' }}</label>
       <input
         id="licenseNum"
@@ -39,7 +46,10 @@
       v-if="isTecmilenioPartner"
       class="tecmilenio"
     >
-      <div class="form-group">
+      <div
+        v-if="!tecmilenioNotConfirmed"
+        class="form-group"
+      >
         <label for="parentEmail">Correo electrónico del padre, madre o tutor</label>
         <input
           id="parentEmail"
@@ -49,7 +59,10 @@
           required
         >
       </div>
-      <div class="form-group">
+      <div
+        v-if="!tecmilenioNotConfirmed"
+        class="form-group"
+      >
         <label for="studentName">Nombre del estuadiante</label>
         <input
           id="studentNameV2"
@@ -59,7 +72,10 @@
           required
         >
       </div>
-      <div class="form-group">
+      <div
+        v-if="!tecmilenioNotConfirmed"
+        class="form-group"
+      >
         <label for="studentName">Matrícula del alumno</label>
         <input
           id="studentName"
@@ -69,7 +85,10 @@
           required
         >
       </div>
-      <div class="form-group">
+      <div
+        v-if="!tecmilenioNotConfirmed"
+        class="form-group"
+      >
         <label for="studentNameConfirm">Confirmar Matrícula del alumno</label>
         <input
           id="studentNameConfirm"
@@ -86,13 +105,16 @@
         <input
           id="studentEmail"
           v-model="studentEmail"
-          disabled="true"
+          :disabled="!tecmilenioNotConfirmed"
           type="email"
           class="form-control"
           required
         >
       </div>
-      <div class="form-group">
+      <div
+        v-if="!tecmilenioNotConfirmed"
+        class="form-group"
+      >
         <label for="campusName">Nombre del campus</label>
         <select
           id="campusName"
@@ -115,20 +137,49 @@
           </option>
         </select>
       </div>
-      <div class="forn-group">
-        <p class="tecmilenio-pay-warning">
+      <div class="form-group">
+        <p
+          v-if="tecmilenioNotConfirmed"
+          class="tecmilenio-pay-warning"
+        >
+          Recibirá un enlace de pago en su correo electrónico que podrá utilizar para completar el pago.
+        </p>
+        <p
+          v-else
+          class="tecmilenio-pay-warning"
+        >
           Por favor verifica la matrícula del alumno pues con esta información se validará tu pago y se generará tu licencia.
         </p>
       </div>
     </div>
+    <p class="success">
+      {{ successMsg }}
+    </p>
     <p class="error">
       {{ errMsg }}
     </p>
-    <div class="form-group">
+    <div
+      v-if="tecmilenioNotConfirmed"
+      class="form-group"
+    >
+      <button
+        type="submit"
+        class="btn btn-primary btn-lg purchase-btn"
+        @click="handleSubmit('sendVerificationLink')"
+      >
+        Obtener enlace de pago
+      </button>
+      <icon-loading v-if="showLoading" />
+    </div>
+    <div
+      v-else
+      class="form-group"
+    >
       <button
         type="submit"
         class="btn btn-primary btn-lg purchase-btn"
         :class="licenseNum ? '' : 'disabled'"
+        @click="handleSubmit('onPurchaseNow')"
       >
         {{ isTecmilenioPartner ? 'Comprar ahora' : 'Purchase Now' }}
       </button>
@@ -138,12 +189,18 @@
 </template>
 
 <script>
+import { getQueryVariable } from 'core/utils'
 import { handleCheckoutSession } from '../paymentPriceHelper'
 import IconLoading from 'app/core/components/IconLoading'
 import priceHelperMixin from './price-helper-mixin'
-const TECMILENIO_CAMPUS_NAMES = ['Central', 'Online', 'Las Torres', 'Ferrería', 'Cuautitlán lzcalli', 'Toluca', 'Culiacán', 'Zapopan', 'Guadalajara', 'Querétaro', 'Ciudad Juárez', 'San Luis Potosí',
-                                 'Villahermosa', 'Cancún', 'Cumbres', 'Hermosillo', 'Cuernavaca', 'Veracruz', 'San Nicolás', 'Chihuahua',
-                                 'Puebla', 'Reynosa', 'Guadalupe', 'Mazatlán', 'Laguna', 'Mérida', 'Durango', 'Ciudad Obregón', 'Los Mochis', 'Nuevo Laredo']
+
+const fetchJson = require('app/core/api/fetch-json')
+const TECMILENIO_CAMPUS_NAMES = [
+  'Central', 'Online', 'Las Torres', 'Ferrería', 'Cuautitlán lzcalli', 'Toluca', 'Culiacán', 'Zapopan', 'Guadalajara', 'Querétaro', 'Ciudad Juárez', 'San Luis Potosí',
+  'Villahermosa', 'Cancún', 'Cumbres', 'Hermosillo', 'Cuernavaca', 'Veracruz', 'San Nicolás', 'Chihuahua',
+  'Puebla', 'Reynosa', 'Guadalupe', 'Mazatlán', 'Laguna', 'Mérida', 'Durango', 'Ciudad Obregón', 'Los Mochis', 'Nuevo Laredo',
+  'Morelia', 'Zacatecas'
+].sort()
 export default {
   name: 'PaymentStudentLicensePurchaseView',
   components: {
@@ -159,6 +216,10 @@ export default {
       type: Boolean,
       default: false
     },
+    isTecmilenioConfirmedLink: {
+      type: Boolean,
+      default: false
+    },
     isBDPartner: {
       type: Boolean,
       default: false
@@ -169,6 +230,7 @@ export default {
       licenseNum: this.isTecmilenioPartner ? 1 : null,
       selectedPrice: this.priceData[0].id,
       errMsg: '',
+      successMsg: '',
       parentEmail: null,
       studentEmail: null,
       studentName: null, // this is actually id
@@ -180,6 +242,9 @@ export default {
     }
   },
   computed: {
+    tecmilenioNotConfirmed () {
+      return this.isTecmilenioPartner && !this.isTecmilenioConfirmedLink
+    },
     totalPrice () {
       const price = this.getSelectedPrice()
       return (this.getUnitPrice(price) * this.licenseNum).toFixed(2)
@@ -192,12 +257,35 @@ export default {
       return this.getSelectedPrice().unit_amount * this.licenseNum
     }
   },
-  watch: {
-    studentNameConfirm (newValue) {
-      this.studentEmail = `al${newValue}@tecmilenio.mx`
+  mounted () {
+    if (this.isTecmilenioPartner) {
+      this.handleEmail()
     }
   },
   methods: {
+    handleSubmit (action) {
+      switch (action) {
+      case 'onPurchaseNow':
+        this.onPurchaseNow()
+        break
+      case 'sendVerificationLink':
+        this.sendVerificationLink()
+        break
+      }
+    },
+    handleEmail () {
+      if (this.isTecmilenioConfirmedLink) {
+        const email = this.getConfirmedEmail()
+        if (email) {
+          this.studentEmail = email
+        } else {
+          noty({ text: 'Couldn\'t find verified email', type: 'error', layout: 'center', timeout: 2000 })
+        }
+      }
+    },
+    getConfirmedEmail () {
+      return getQueryVariable('email')
+    },
     getCurrency (price) {
       return price.currency === 'usd' ? '$' : price.currency
     },
@@ -233,6 +321,29 @@ export default {
     getSelectedPrice () {
       return this.priceData.find((p) => p.id === this.selectedPrice)
     },
+    async sendVerificationLink () {
+      this.showLoading = true
+      this.successMsg = ''
+      this.errMsg = ''
+      if (!this.isTecmilenioEmailValid()) {
+        this.errMsg = 'inválido Correo institucional del alumno'
+        this.showLoading = false
+        return false
+      }
+      try {
+        await fetchJson('/db/tecmilenio/payment-link', { json: { email: this.studentEmail }, method: 'POST' }).then(res => {
+          this.successMsg = 'Por favor revise su correo electrónico para obtener el enlace de pago para completar el proceso de pago.'
+        })
+      } catch (error) {
+        if (error?.code === 422) {
+          this.errMsg = 'inválido Correo institucional del alumno'
+        } else {
+          this.errMsg = 'Internal Server Error'
+        }
+        console.log('Couldn\'t send verification link:', error)
+      }
+      this.showLoading = false
+    },
     async onPurchaseNow () {
       this.errMsg = ''
       this.showLoading = true
@@ -259,9 +370,15 @@ export default {
       this.errMsg = errMsg
       this.showLoading = false
     },
+    isTecmilenioEmailValid () {
+      if (!this.studentEmail || !this.studentEmail.includes('@tecmilenio.mx')) {
+        return false
+      }
+      return true
+    },
     isFormDataValid () {
       if (this.isTecmilenioPartner) {
-        if (!this.studentEmail || !this.studentEmail.includes('@tecmilenio.mx')) {
+        if (!this.isTecmilenioEmailValid()) {
           this.errMsg = 'inválido Correo institucional del alumno'
           this.showLoading = false
           return false
@@ -315,6 +432,11 @@ export default {
 
 .error {
   color: red;
+  font-weight: bold;
+}
+
+.success {
+  color: #0B6125;
   font-weight: bold;
 }
 

@@ -9,20 +9,10 @@
         :state="goalStates[goal.id]",
         :product="product",
       )
-      li.goals-status.rtl-allowed(v-if="showStatus && product === 'codecombat-junior'")
-        span(v-if="classToShow === 'running'").goal-status.running …
-        span(v-if="classToShow === 'success'").goal-status.success(:title="$t('play_level.next_level')")
+      li.goals-status.rtl-allowed(v-if="showStatus && product === 'codecombat-junior' && classToShow === 'success'")
+        span(v-if="classToShow === 'success'" :title="$t('play_level.next_level')").goal-status.success
           button.btn.btn-xs.btn-success.btn-illustrated#level-done-button
-            i.glyphicon.glyphicon-ok
-        span(v-if="classToShow === 'incomplete'").goal-status.incomplete
-          //i.glyphicon.glyphicon-remove
-          | …
-        span(v-if="classToShow === 'timed-out'").goal-status.timed-out
-          //i.glyphicon.glyphicon-remove
-          | …
-        span(v-if="classToShow === 'failing'").goal-status.failure
-          //i.glyphicon.glyphicon-remove
-          | …
+            img.success-icon(src="/images/level/goal-icons/next-level.png" alt="")
     level-goal(
       v-if="conceptGoals.length",
       :goal="{ name: $t('play_level.use_at_least_one_concept') }",
@@ -149,6 +139,7 @@
   #concept-goals-list
     margin-left: 20px
 
-
+  img.success-icon
+    width: 2.4em
 
 </style>

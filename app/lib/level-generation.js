@@ -172,7 +172,7 @@ generateProperty('goals', function (level, parameters) {
         who: ['Hero Placeholder']
       },
       id: 'touch-goal',
-      name: 'Go to the X.'
+      name: 'Go to the raft.' // TODO: update generation to put it on water
     },
 
     defeatEnemies: {
@@ -184,7 +184,7 @@ generateProperty('goals', function (level, parameters) {
     defeatDoor: {
       name: 'Break the door.',
       id: 'break-door',
-      killThangs: ['Weak Door'],
+      killThangs: ['Crates Junior'],
       howMany: 1,
     },
 

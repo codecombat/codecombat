@@ -15,7 +15,13 @@
       </ul>
     </div>
     <div class="tips">
-      You can access the bookings by clicking on Online classes booking from Settings
+      You can access the bookings by clicking on Online classes booking from
+      <a
+        href="/account/settings"
+        target="_blank"
+      >
+        Settings
+      </a>
     </div>
   </div>
 </template>

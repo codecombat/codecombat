@@ -42,7 +42,9 @@ module.exports = (ClassroomSettingsModal = (function () {
         'click .create-manually': 'onClickCreateManually',
         'click .pick-image-button': 'onPickImage',
         'click #link-lms-classroom-btn': 'onClickLinkLMSClassroom',
-        'change #classroom-items': 'onChangeClassroomItems'
+        'change #classroom-items': 'onChangeClassroomItems',
+        'change #programming-language-select': 'onChangeProgrammingLanguage',
+        'change .codeformats-checkbox': 'onChangeCodeFormats'
       }
     }
 
@@ -67,6 +69,7 @@ module.exports = (ClassroomSettingsModal = (function () {
         })
       }
       this.showLMSDropDown = false
+      this.enabledCodeFormats = this.classroom.get('aceConfig')?.codeFormats || ['text-code']
     }
 
     afterRender () {
@@ -77,6 +80,18 @@ module.exports = (ClassroomSettingsModal = (function () {
     onChangeClassroomItems (e) {
       // Unless we manually change this, we're not saving it, so that we can easily change the schema default later
       this.hasChangedClassroomItems = true
+    }
+
+    onChangeProgrammingLanguage (e) {
+      const language = $(e.target).val()
+      this.enableBlocks = ['python', 'javascript', 'lua'].includes(language)
+      this.renderSelectors('.code-formats-part')
+    }
+
+    onChangeCodeFormats (e) {
+      const codeFormats = this.$('.codeformats-checkbox:checked').map((i, el) => $(el).val()).get()
+      this.enabledCodeFormats = codeFormats
+      this.renderSelectors('#default-codeformat-select')
     }
 
     onSubmitForm (e) {
@@ -107,6 +122,11 @@ module.exports = (ClassroomSettingsModal = (function () {
       if (attrs.liveCompletion) {
         attrs.aceConfig.liveCompletion = attrs.liveCompletion[0] === 'on'
         delete attrs.liveCompletion
+      }
+
+      if (!this.enableBlocks) {
+        attrs.codeFormats = ['text-code']
+        attrs.codeFormatDefault = 'text-code'
       }
 
       if (attrs.codeFormats) {

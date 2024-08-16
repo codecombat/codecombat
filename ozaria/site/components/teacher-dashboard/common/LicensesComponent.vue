@@ -1,6 +1,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import ModalGetLicenses from '../modals/ModalGetLicenses'
+import ModalGetLicenses from 'app/components/common/ModalGetLicenses'
 export default {
   components: {
     ModalGetLicenses

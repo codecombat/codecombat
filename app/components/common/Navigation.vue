@@ -46,7 +46,6 @@ export const items = {
   AI_JUNIOR: { url: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform', attrs: { target: '_blank' }, title: 'nav.ai_junior_beta' },
   LIVE_ONLINE_CLASSES: { url: cocoPath('/parents'), title: 'nav.live_online_classes' },
   PREMIUM: { url: cocoPath('/premium'), title: 'nav.premium_self_paced' },
-  CODEQUEST: { url: cocoPath('/codequest'), title: 'nav.codequest' },
   LIBRARY_SOLUTIONS: { url: cocoPath('/libraries'), title: 'nav.library_solutions' },
   PARTNER_SOLUTIONS: { url: cocoPath('/partners'), title: 'nav.partner_solutions' },
   TEACHING_SOLUTIONS: { url: cocoPath('/schools'), title: 'nav.teaching_solutions' },
@@ -103,7 +102,7 @@ export default Vue.extend({
     },
 
     useDarkMode () {
-      return /^\/(league|play\/ladder)/.test(document.location.pathname)
+      return /^\/(roblox|league|play\/ladder)/.test(document.location.pathname)
     },
 
     homeLink () {
@@ -348,7 +347,6 @@ export default Vue.extend({
           children: [
             items.LIVE_ONLINE_CLASSES,
             items.PREMIUM,
-            items.CODEQUEST,
           ]
         },
         curriculum: {
@@ -369,7 +367,6 @@ export default Vue.extend({
           children: [
             items.LIVE_ONLINE_CLASSES,
             items.PREMIUM,
-            items.CODEQUEST,
           ]
         },
         play: {
@@ -514,7 +511,7 @@ export default Vue.extend({
                   li(v-if="me.isAdmin() || me.isOnlineTeacher()")
                     a.account-dropdown-item(href="/event-calendar/classes") {{ $t('events.calendar') }}
                   li(v-if="serverSession && serverSession.amActually")
-                    a.account-dropdown-item#nav-stop-spying-button(href="#") {{ $t('login.stop_spying') }}
+                    a.account-dropdown-item#nav-stop-spying-button(href="#") Stop Spying
                   li(v-if="me.isTeacher()")
                     a.account-dropdown-item#nav-student-mode(href="#") {{ $t('login.test_as_student') }}
                   li(v-else-if="serverSession && serverSession.switchingUserActualId && me.isTestStudent()")

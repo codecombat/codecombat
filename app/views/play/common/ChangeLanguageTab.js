@@ -12,6 +12,7 @@ const CocoView = require('views/core/CocoView')
 const template = require('app/templates/play/common/change-language-tab')
 const { me } = require('core/auth')
 const utils = require('core/utils')
+const { CODE_FORMAT_ALL, CODE_FORMAT_BLOCKS, CODE_FORMAT_IPAD, CODE_FORMAT_TEXT, JUNIOR_LANGUAGES } = require('core/constants')
 
 let ChangeLanguageTab
 module.exports = (ChangeLanguageTab = (function () {
@@ -31,15 +32,15 @@ module.exports = (ChangeLanguageTab = (function () {
       super(options)
       this.session = options.session
       this.isJunior = this.options.level?.get('product') === 'codecombat-junior' || this.options.campaign?.get('slug') === 'junior'
-      this.utils = utils
-      this.initCodeLanguageList()
       this.classroomAceConfig = options.classroomAceConfig
-      this.codeFormatList = [
-        { id: 'text-code', name: `${$.i18n.t('choose_hero.text_code')} (${$.i18n.t('choose_hero.default')})` },
-        { id: 'blocks-and-code', name: `${$.i18n.t('choose_hero.blocks_and_code')}` },
-        { id: 'blocks-text', name: `${$.i18n.t('choose_hero.blocks_text')}` },
-        { id: 'blocks-icons', name: `${$.i18n.t('choose_hero.blocks_icons')}` },
-      ]
+      this.utils = utils
+      this.codeLanguageObject = utils.getCodeLanguages()
+      this.codeFormatObject = utils.getCodeFormats()
+      this.codeFormat = this.options.codeFormat || me.get('aceConfig')?.codeFormat || 'text-code'
+      this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
+
+      this.updateCodeFormatList()
+      this.updateCodeLanguageList()
     }
 
     afterRender () {
@@ -52,37 +53,118 @@ module.exports = (ChangeLanguageTab = (function () {
     getRenderData (context) {
       if (context == null) { context = {} }
       context = super.getRenderData(context)
-      context.codeLanguages = this.codeLanguageList
-      context.codeLanguage = this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
-      context.codeFormats = this.codeFormatList
-      const defaultCodeFormat = this.isJunior ? 'blocks-icons' : 'text-code'
-      context.codeFormat = this.codeFormat = me.get('aceConfig')?.codeFormat || defaultCodeFormat
+      context.codeLanguages = Object.values(this.codeLanguageObject)
+      context.codeLanguage = this.codeLanguage
+      context.codeFormats = Object.values(this.codeFormatObject)
+      context.codeFormat = this.codeFormat
       return context
     }
 
-    initCodeLanguageList () {
-      if (application.isIPadApp) {
-        this.codeLanguageList = [
-          { id: 'python', name: `Python (${$.i18n.t('choose_hero.default')})` },
-          { id: 'javascript', name: 'JavaScript' }
-        ]
-      } else {
-        this.subscriberCodeLanguageList = [
-          { id: 'cpp', name: 'C++' },
-          { id: 'java', name: `Java (${$.i18n.t('choose_hero.experimental')})` }
-        ]
-        this.codeLanguageList = [
-          { id: 'python', name: `Python (${$.i18n.t('choose_hero.default')})` },
-          { id: 'javascript', name: 'JavaScript' },
-          { id: 'coffeescript', name: 'CoffeeScript' },
-          { id: 'lua', name: 'Lua' },
-          ...this.subscriberCodeLanguageList
-        ]
-        if (this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language !== 'coffeescript') {
-          // Not really useful to show this any more. Let's get rid of it unless they're currently using it.
-          this.codeLanguageList = _.filter(this.codeLanguageList, language => language.id !== 'coffeescript')
+    updateCodeFormatList () {
+      for (const format in this.codeFormatObject) {
+        this.codeFormatObject[format].disabled = false
+      }
+      let onlyText = true
+      const classroomFormats = this.options?.classroomAceConfig?.codeFormats
+      // non-junior should only have text-code
+      if (this.isJunior) {
+        if (JUNIOR_LANGUAGES.includes(this.codeLanguage)) {
+          if (me.isStudent()) {
+            if (classroomFormats?.length) {
+              if (classroomFormats.length > 1 || classroomFormats[0] !== 'text-code') {
+                onlyText = false
+              }
+            } else {
+              onlyText = false
+            }
+          } else {
+            onlyText = false
+          }
         }
       }
+
+      if (onlyText) {
+        CODE_FORMAT_BLOCKS.forEach(format => {
+          this.codeFormatObject[format].disabled = true
+          this.codeFormatObject[format].reason = $.i18n.t('choose_hero.code_format_not_supported')
+        })
+      } else {
+        if (me.isStudent() && classroomFormats?.length) {
+          CODE_FORMAT_ALL.forEach(format => {
+            if (!classroomFormats.includes(format)) {
+              this.codeFormatObject[format].disabled = true
+              this.codeFormatObject[format].reason = $.i18n.t('choose_hero.code_format_disable_by_teacher')
+            }
+          })
+        }
+      }
+
+      // todo: better check mobile
+      if (application.isIPadApp) {
+        CODE_FORMAT_TEXT.forEach(format => {
+          this.codeFormatObject[format].disabled = true
+        })
+        CODE_FORMAT_IPAD.forEach(format => {
+          this.codeFormatObject[format].disabled = false
+        })
+      }
+
+      if (this.codeFormatObject[this.codeFormat].disabled) {
+        this.codeFormat = _.find(this.codeFormatObject, { disabled: false })?.id
+      }
+      this.renderSelectors('.code-format-form')
+      this.buildCodeFormats()
+    }
+
+    updateCodeLanguageList () {
+      for (const lang in this.codeLanguageObject) {
+        this.codeLanguageObject[lang].disabled = false
+      }
+      if ((this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language) !== 'coffeescript') {
+        // Not really useful to show this any more. Let's get rid of it unless they're currently using it.
+        delete this.codeLanguageObject.coffeescript
+      }
+
+      let canChangeLanguage = true
+      if (me.isStudent() && this.options?.level?.get('type') !== 'ladder') {
+        canChangeLanguage = false
+      }
+
+      if (canChangeLanguage) {
+        let premium = false
+        if (me.isHomeUser() && me.isPremium()) {
+          premium = true
+        } else if (me.isStudent() && me.isEnrolled()) {
+          premium = true
+        } else if (me.isTeacher()) {
+          // allow teacher to test cpp/java
+          premium = true
+        }
+        if (!premium) {
+          Array.from(['cpp', 'java']).forEach(language => {
+            this.codeLanguageObject[language].disabled = true
+            this.codeLanguageObject[language].reason = $.i18n.t('choose_hero.code_language_subscriber_only')
+          })
+        }
+        if (this.codeFormat !== 'text-code') {
+          Array.from(['lua', 'cpp', 'java']).forEach(language => {
+            this.codeLanguageObject[language].disabled = true
+            this.codeLanguageObject[language].reason = $.i18n.t('choose_hero.code_language_not_support_by_blocks')
+          })
+        }
+      } else {
+        for (const language in this.codeLanguageObject) {
+          if (language !== this.codeLanguage) {
+            this.codeLanguageObject[language].disabled = true
+          }
+        }
+      }
+
+      if (this.codeLanguageObject[this.codeLanguage].disabled) {
+        this.codeLanguage = _.find(this.codeLanguageObject, { disabled: false }).id
+      }
+      this.renderSelectors('.code-language-form')
+      this.buildCodeLanguages()
     }
 
     buildCodeFormats () {
@@ -98,6 +180,11 @@ module.exports = (ChangeLanguageTab = (function () {
           return $(this).text(`${formatName} - ${blurb}`)
         }
       })
+      if ($select.parent().find('.options li').length === 1) {
+        $select.trigger('disable.fs')
+      } else {
+        $select.trigger('enable.fs')
+      }
     }
 
     buildCodeLanguages () {
@@ -113,11 +200,17 @@ module.exports = (ChangeLanguageTab = (function () {
           return $(this).text(`${languageName} - ${blurb}`)
         }
       })
+      if ($select.parent().find('.options li').length === 1) {
+        $select.trigger('disable.fs')
+      } else {
+        $select.trigger('enable.fs')
+      }
     }
 
     onCodeLanguageChanged (e) {
       this.codeLanguage = this.$el.find('#option-code-language').val()
       this.codeLanguageChanged = true
+      this.updateCodeFormatList()
       window.tracker?.trackEvent('Campaign changed code language', { category: 'Campaign Hero Select', codeLanguage: this.codeLanguage, levelSlug: this.options.level?.get('slug') })
       if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
         // Blockly can't support languages like C++/Java. (Some day we'll have Lua.)
@@ -129,6 +222,7 @@ module.exports = (ChangeLanguageTab = (function () {
     onCodeFormatChanged (e) {
       this.codeFormat = this.$el.find('#option-code-format').val()
       this.codeFormatChanged = true
+      this.updateCodeLanguageList()
       window.tracker?.trackEvent('Campaign changed code format', { category: 'Campaign Hero Select', codeFormat: this.codeFormat, levelSlug: this.options.level?.get('slug') })
       if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
         // Blockly can't support languages like C++/Java. (Some day we'll have Lua.)

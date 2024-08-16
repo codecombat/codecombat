@@ -6,7 +6,7 @@ const BackgroundJobSchema = c.object({
   properties: {
     type: {
       type: 'string',
-      enum: ['outcomes-report'],
+      enum: ['outcomes-report', 'naperville-roster'],
       description: 'The type of the job'
     },
     status: {

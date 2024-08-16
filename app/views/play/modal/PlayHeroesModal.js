@@ -190,6 +190,7 @@ module.exports = (PlayHeroesModal = (function () {
       this.renderSelectors('#hero-footer')
       const changeLanguageOptions = _.clone(this.options)
       changeLanguageOptions.classroomAceConfig = this.classroomAceConfig
+      changeLanguageOptions.codeFormat = this.changeLanguageView?.codeFormat
       this.insertSubView(this.changeLanguageView = new ChangeLanguageTab(changeLanguageOptions))
       return this.$el.find('#gems-count-container').toggle(Boolean(this.visibleHero?.purchasable))
     }
@@ -355,7 +356,7 @@ module.exports = (PlayHeroesModal = (function () {
     saveAndHide () {
       this.codeLanguage = this.changeLanguageView.codeLanguage
       this.codeFormat = this.changeLanguageView.codeFormat
-      this.subscriberCodeLanguageList = this.changeLanguageView.subscriberCodeLanguageList
+      this.subscriberCodeLanguageList = [{ id: 'cpp' }, { id: 'java' }]
       let changed
       if (!me.hasSubscription() && this.subscriberCodeLanguageList.find(l => l.id === this.codeLanguage) && !me.isStudent()) {
         this.openModalView(new SubscribeModal())

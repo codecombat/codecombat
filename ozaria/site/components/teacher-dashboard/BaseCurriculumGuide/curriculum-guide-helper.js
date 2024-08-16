@@ -76,6 +76,27 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
   return curriculumGuideContentList
 }
 
+export function generateLevelNumberMap (contentTypes) {
+  const levels = contentTypes
+    .map(({ original, assessment, icon, fromIntroLevelOriginal, _id }) => ({ _id, original, key: (original || fromIntroLevelOriginal), assessment, practice: icon === 'practicelvl' }))
+
+  const levelNumberMap = utils.createLevelNumberMap(levels)
+
+  const map = contentTypes.reduce((acc, level, index) => {
+    const original = level.original || level.fromIntroLevelOriginal
+    acc[original] = levelNumberMap[level.original] || index + 1
+    return acc
+  }, {})
+
+  // add index for ids that are missing from levelNumberMap
+  contentTypes.forEach(({ original, _id }, index) => {
+    map[original] = map[original] || index + 1
+    map[_id] = map[_id] || index + 1
+  })
+
+  return map
+}
+
 function getContentDescription (content) {
   return utils.i18n((content?.documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals'), 'body') ||
     utils.i18n(content, 'description') ||

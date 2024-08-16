@@ -28,6 +28,7 @@ module.exports = {
   thangTypes: require('./thang-types'),
   trialRequests: require('./trial-requests'),
   userCodeProblems: require('./user-code-problems'),
+  userCredits: require('./user-credits'),
   users: require('./users'),
   apiClients: require('./api-clients'),
   oauth: require('./o-auth'),

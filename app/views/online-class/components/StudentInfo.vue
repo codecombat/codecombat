@@ -64,7 +64,7 @@
             name="confirm"
             type="checkbox"
           >
-          <span>Please confirm the booking by clicking on the link sent to the parent's email.</span>
+          <b>Please confirm the booking by clicking on the link sent to the parent's email.</b>
         </label>
       </div>
       <!-- eslint-disable -->

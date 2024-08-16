@@ -4,6 +4,8 @@ ace = require('lib/aceContainer')
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
 aetherUtils = require 'lib/aether_utils'
+userUtils = require 'app/lib/user-utils'
+globalVar = require 'core/globalVar'
 
 module.exports = class HintsView extends CocoView
   template: require('app/templates/play/level/hints-view')
@@ -14,13 +16,16 @@ module.exports = class HintsView extends CocoView
     'click .next-btn': 'onClickNextButton'
     'click .previous-btn': 'onClickPreviousButton'
     'click .close-hint-btn': 'hideView'
+    'click .ai-help-button': 'onAIHelpClicked'
 
   subscriptions:
     'level:show-victory': 'hideView'
     'tome:manual-cast': 'hideView'
+    'auth:user-credits-message-updates': 'onUserCreditsMessageUpdates'
 
   initialize: (options) ->
     {@level, @session, @hintsState} = options
+    @aceConfig = options.aceConfig or {}
     @state = new State({
       hintIndex: 0
       hintsViewTime: {}
@@ -33,13 +38,29 @@ module.exports = class HintsView extends CocoView
     @listenTo(@hintsState, 'change', debouncedRender)
     @listenTo(@state, 'change:hintIndex', @updateHint)
     @listenTo(@hintsState, 'change:hidden', @visibilityChanged)
+    unless globalVar.userCreditsMessage
+      globalVar.userCredtisMessage = ''
+    @creditMessage = globalVar.userCreditsMessage
+    @showAiBotHelp = utils.shouldShowAiBotHelp(@aceConfig)
 
   destroy: ->
     clearInterval(@timerIntervalID)
     super()
 
+  handleUserCreditsMessage: ->
+    userUtils.updateUserCreditsMessage()
+
+  onUserCreditsMessageUpdates: ->
+    @creditMessage = globalVar.userCreditsMessage
+    @render()
+
   afterRender: ->
     @$el.toggleClass('hide', @hintsState.get('hidden'))
+    @$('[data-toggle="popover"]').popover()
+    unless me.showChinaResourceInfo()
+      unless @creditMessage
+        @handleUserCreditsMessage()
+
     super()
     @playSound 'game-menu-open'
     @$('a').attr 'target', '_blank'
@@ -51,6 +72,7 @@ module.exports = class HintsView extends CocoView
     @$el.find('pre:has(code[class*="lang-"])').each ->
       aceEditor = aceUtils.initializeACE @, codeLanguage
       aceEditors.push aceEditor
+
 
   getProcessedHint: ->
     language = @session.get('codeLanguage')
@@ -106,3 +128,9 @@ module.exports = class HintsView extends CocoView
       @state.set('hintsUsed', hintsUsed)
       clearInterval(@timerIntervalID)
     @state.set('hintsViewTime', hintsViewTime)
+
+  onAIHelpClicked: (e) ->
+    rand = _.random(1, 13)
+    message = $.i18n.t('ai.prompt_level_chat_' + rand)
+    Backbone.Mediator.publish 'level:add-user-chat', { message }
+    _.delay (=> @handleUserCreditsMessage()), 5000
