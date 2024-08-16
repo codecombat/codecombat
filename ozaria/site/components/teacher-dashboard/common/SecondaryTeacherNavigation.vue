@@ -108,7 +108,7 @@ export default {
 
     showAIJunior () {
       return me.isAdmin()
-    }
+    },
 
     sortedClasses () {
       const classrooms = [...this.classrooms]
