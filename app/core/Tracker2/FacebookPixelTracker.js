@@ -77,7 +77,7 @@ export default class FacebookPixelTracker extends BaseTracker {
       return
     }
 
-    this.log('tracking event', fbEvent, this.mapToFbProperties(fbEvent, properties))
+    this.log('tracking event', fbEvent, this.mapToFbProperties(fbEvent, properties, false))
     if (fbEvent === true) {
       window.fbq('trackCustom', action, this.mapToFbProperties(fbEvent, properties))
     } else if (typeof fbEvent === 'string') {
@@ -86,7 +86,7 @@ export default class FacebookPixelTracker extends BaseTracker {
     }
   }
 
-  mapToFbProperties (fbEvent, properties) {
+  mapToFbProperties (fbEvent, properties, toFb = true) {
     if (!properties || Object.keys(properties).length === 0) { return {} }
     let result = {}
     if (fbEvent === SUBSCRIBE_EVENT) {
@@ -100,6 +100,11 @@ export default class FacebookPixelTracker extends BaseTracker {
       result.currency = currency
     } else {
       result = { ...properties }
+      if (toFb) {
+        delete result.email
+        delete result.name
+        delete result.emails
+      }
       if (properties.category) result.content_category = properties.category
       if (properties.label) result.content_name = properties.label
       if (fbEvent === 'CompleteRegistration') result.status = true
