@@ -149,7 +149,11 @@ export default {
     },
 
     fetchData ({ dispatch }, options) {
-      dispatch('teacherDashboard/fetchData', { componentName: COMPONENT_NAMES.MY_CLASSES_SINGLE, options: _.assign({ data: projectionData }, options) }, { root: true })
+      let cmptName = COMPONENT_NAMES.MY_CLASSES_SINGLE
+      if (options?.componentName) {
+        cmptName = options.componentName
+      }
+      dispatch('teacherDashboard/fetchData', { componentName: cmptName, options: _.assign({ data: projectionData }, options) }, { root: true })
     },
 
     async applyLicenses ({ state, rootGetters, dispatch, getters }) {

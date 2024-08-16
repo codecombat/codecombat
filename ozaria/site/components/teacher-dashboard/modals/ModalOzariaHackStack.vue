@@ -19,6 +19,15 @@
         >
           <img src="/images/ozaria/teachers/dashboard/png_img/import-classroom.webp">
         </a>
+        <div class="continue">
+          <a
+            class="btn btn-primary btn-lg dusk-btn"
+            href="https://codecombat.com/teachers/classes"
+            target="_blank"
+          >
+            {{ $t('home_v3.try_it_now') }}
+          </a>
+        </div>
       </div>
     </template>
   </ModalDynamicContent>
@@ -43,14 +52,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "ozaria/site/styles/common/variables.scss";
+@import "ozaria/site/components/teacher-dashboard/common/_dusk-button";
 .ozar-hs-modal-content {
-    max-width: min(600px, 90vw);
-    .text-h3 {
-      font-size: 24px;
-      margin: 10px auto 10px;
-    }
-    img {
-      max-width: 100%;
-    }
+  max-width: min(600px, 90vw);
+  .text-h3 {
+    font-size: 24px;
+    margin: 10px auto 10px;
+  }
+  img {
+    max-width: 100%;
+  }
+
+  .continue {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
 }
 </style>

@@ -37,12 +37,12 @@ export default {
 
     classroomStartDate () {
       if (!this.classroomState.classDateStart) { return '' }
-      return moment(this.classroomState.classDateStart).format('ll')
+      return this.classroomState.classDateStart
     },
 
     classroomEndDate () {
       if (!this.classroomState.classDateEnd) { return '' }
-      return moment(this.classroomState.classDateEnd).format('ll')
+      return this.classroomState.classDateEnd
     },
 
     sharePermission () {

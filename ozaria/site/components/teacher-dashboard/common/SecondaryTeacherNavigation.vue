@@ -106,6 +106,10 @@ export default {
       return utils.isCodeCombat && !me.isCodeNinja()
     },
 
+    showAIJunior () {
+      return me.isAdmin()
+    },
+
     sortedClasses () {
       const classrooms = [...this.classrooms]
       classrooms.sort(this.classroomSortById)
@@ -214,6 +218,7 @@ export default {
         </li>
       </ul>
     </li>
+
     <li
       v-if="showStudentProjects"
       role="presentation"
@@ -289,6 +294,7 @@ export default {
         <span>{{ $t('teacher_dashboard.resource_hub') }}</span>
       </router-link>
     </li>
+
     <li v-if="showLicenses">
       <router-link
         id="LicensesAnchor"
@@ -301,6 +307,7 @@ export default {
         <span>{{ $t('teacher_dashboard.my_licenses') }}</span>
       </router-link>
     </li>
+
     <li v-if="showPD">
       <router-link
         id="PDAnchor"
@@ -314,6 +321,7 @@ export default {
         {{ $t('teacher_dashboard.pd_short') }}
       </router-link>
     </li>
+
     <li v-if="showAssessments">
       <a
         id="AssessmentsDropdown"
@@ -349,7 +357,7 @@ export default {
           <router-link
             :to="`/teachers/assessments/${classroom._id}`"
             class="dropdown-item"
-            data-action="Student Assessments: Nav Clicked"
+            data-action="Assessments: Nav Clicked"
             data-toggle="dropdown"
             @click.native="trackEvent"
           >
@@ -445,6 +453,55 @@ export default {
         </li>
       </ul>
     </li>
+
+    <li v-if="showAIJunior">
+      <a
+        id="AIJuniorDropdown"
+        :class="['dropdown-toggle', isCurrentRoute('/teachers/ai-junior') ? 'current-route' : '']"
+        href="#"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <div id="IconAIJunior" />
+        <span>{{ $t('teacher_dashboard.ai_junior_tab') }}</span>
+        <span class="caret" />
+      </a>
+      <ul
+        v-if="classrooms.length > 0"
+        class="dropdown-menu"
+        aria-labelledby="AIJuniorDropdown"
+      >
+        <li
+          v-for="classroom in classrooms"
+          :key="classroom._id"
+          :class="classroomSelected === classroom._id && isCurrentRoute('/teachers/ai-junior') ? 'selected' : null"
+        >
+          <router-link
+            :to="`/teachers/ai-junior/${classroom._id}`"
+            class="dropdown-item"
+            data-action="AIJunior: Nav Clicked"
+            data-toggle="dropdown"
+            @click.native="trackEvent"
+          >
+            {{ classroom.name }}
+          </router-link>
+        </li>
+      </ul>
+      <ul
+        v-else
+        class="dropdown-menu"
+        aria-labelledby="AIJuniorDropdown"
+      >
+        <li>
+          <a class="dropdown-item disabled-item">
+            {{ $t('teacher_dashboard.no_classes_yet') }}
+          </a>
+        </li>
+      </ul>
+    </li>
+
     <li v-if="showPD">
       <router-link
         id="PDAnchor"
@@ -703,6 +760,19 @@ li.open>#AILeague,
   margin-top: -3px;
 }
 
+#IconAIJunior {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone.svg);
+  margin-top: -1px;
+}
+
+#AIJuniorDropdown:hover,
+#AIJuniorDropdown.current-route,
+#AIJuniorDropdown[aria-expanded="true"] {
+  #IconAIJunior {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Blue.svg);
+  }
+}
+
 #IconNew {
   height: 32px;
   width: 32px;
@@ -724,6 +794,7 @@ li.open>#AILeague,
 #IconResourceHub,
 #IconPD,
 #IconAssessments,
+#IconAIJunior,
 #IconKeepPlaying {
   height: 23px;
   width: 29px;
