@@ -86,7 +86,10 @@ export default {
     },
 
     hackStackClassrooms () {
-      return this.classrooms.filter(classroom => classroom.courses.map(course => course._id).includes(utils.courseIDs.HACKSTACK))
+      const classrooms = this.classrooms
+        .filter(classroom => classroom.courses.map(course => course._id).includes(utils.courseIDs.HACKSTACK))
+      classrooms.sort(this.classroomSortById)
+      return classrooms
     },
 
     showHackStack () {
@@ -243,7 +246,7 @@ export default {
         aria-labelledby="ProjectsDropdown"
       >
         <li
-          v-for="classroom in classrooms"
+          v-for="classroom in sortedClasses"
           :key="classroom._id"
           :class="classroomSelected === classroom._id && isCurrentRoute('/teachers/projects') ? 'selected' : null"
         >
