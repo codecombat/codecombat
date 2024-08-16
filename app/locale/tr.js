@@ -6,7 +6,7 @@ module.exports = {
     //  ozaria_home: {
     //    subtitle: "Computer Science that Captivates",
     //    heading_subtitle: "A coding adventure for students and your turnkey solution for teaching Computer Science.",
-    //    item_list_p: "Try Chapter 1 for Free Today!",
+    item_list_p: 'Bölüm 1\'i Bugün Ücretsiz Deneyin!',
     //    engaging_heading_corner: "A solution to Engage Students and Support Teachers",
     //    engaging_row1_h2: "Easy Implementation",
     //    engaging_row1_p: "Even with no coding experience, you can teach a full Computer Science curriculum with Ozaria. Our ready-to-go lesson plans and intuitive dashboard will provide you with the tools you need to be ready to teach on day one.",
