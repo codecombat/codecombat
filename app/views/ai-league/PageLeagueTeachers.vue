@@ -44,7 +44,11 @@ export default {
     clanIdOrSlug: '',
     anonymousPlayerName: false,
     toPage: 'custom',
-    regularOrChampionship: 'regular',
+    TYPES: {
+      REGULAR: 'regular',
+      CHAMPIONSHIP: 'championship'
+    },
+    regularOrChampionship: 'regular'
   }),
 
   computed: {
@@ -72,7 +76,7 @@ export default {
     },
 
     regularArenaSlug () {
-      if (this.regularOrChampionship === 'regular') {
+      if (this.regularOrChampionship === this.TYPES.REGULAR) {
         return this.getCurrentRegularArena.slug
       }
       return this.getCurrentChampionshipArena?.slug
@@ -100,28 +104,28 @@ export default {
     },
 
     selectedClanRankings () {
-      if (this.regularOrChampionship === 'regular') {
+      if (this.regularOrChampionship === this.TYPES.REGULAR) {
         return this.clanRankings(this.clanIdSelected)
       }
       return this.clanChampionshipRankings(this.clanIdSelected)
     },
 
     selectedClanLeaderboardPlayerCount () {
-      if (this.regularOrChampionship === 'regular') {
+      if (this.regularOrChampionship === this.TYPES.REGULAR) {
         return this.clanLeaderboardPlayerCount(this.clanIdSelected)
       }
       return this.clanChampionshipLeaderboardPlayerCount(this.clanIdSelected)
     },
 
     selectedGlobalRankings () {
-      if (this.regularOrChampionship === 'regular') {
+      if (this.regularOrChampionship === this.TYPES.REGULAR) {
         return this.globalRankings
       }
       return this.globalChampionshipRankings
     },
 
     selectedGlobalLeaderboardPlayerCount () {
-      if (this.regularOrChampionship === 'regular') {
+      if (this.regularOrChampionship === this.TYPES.REGULAR) {
         return this.globalLeaderboardPlayerCount
       }
       return this.globalChampionshipLeaderboardPlayerCount
@@ -132,9 +136,6 @@ export default {
     },
 
     nextArenaAvailable () {
-      if (this.regularOrChampionship === 'regular') {
-        return this.championshipAvailable
-      }
       const season = this.getCurrentRegularArena.season
       const nextArena = findArena(season + 1, this.getCurrentRegularArena.type)
       return !!nextArena
@@ -182,7 +183,7 @@ export default {
 
   mounted () {
     if (this.championshipAvailable) {
-      this.regularOrChampionship = 'championship'
+      this.regularOrChampionship = this.TYPES.CHAMPIONSHIP
     }
   },
 
@@ -204,11 +205,6 @@ export default {
       if (!this.previousArenaAvailable) {
         return
       }
-      if (this.regularOrChampionship === 'championship') {
-        this.regularOrChampionship = 'regular'
-        return
-      }
-      this.regularOrChampionship = 'championship'
       this.paginateArenas('previous')
       this.loadRequiredData()
     },
@@ -217,13 +213,12 @@ export default {
       if (!this.nextArenaAvailable) {
         return
       }
-      if (this.regularOrChampionship === 'regular') {
-        this.regularOrChampionship = 'championship'
-        return
-      }
-      this.regularOrChampionship = 'regular'
       this.paginateArenas('next')
       this.loadRequiredData()
+    },
+
+    changeLeagueType (leagueType) {
+      this.regularOrChampionship = leagueType
     },
 
     changeClanSelected (e) {
@@ -363,6 +358,28 @@ export default {
                   :class="{ disabled: !nextArenaAvailable }"
                   @click="goNextArena"
                 >&rarr;</span>
+              </div>
+              <div class="box-content league-type-buttons">
+                <div class="button-group">
+                  <div
+                    class="btn"
+                    :class="regularOrChampionship === TYPES.REGULAR ? 'btn-primary' : 'btn-default'"
+                    @click="changeLeagueType(TYPES.REGULAR)"
+                  >
+                    {{ $t('league.regular') }}
+                  </div>
+                  <div
+                    class="btn"
+                    :class="{
+                      disabled: !championshipAvailable,
+                      'btn-primary': regularOrChampionship === TYPES.CHAMPIONSHIP,
+                      'btn-default': regularOrChampionship !== TYPES.CHAMPIONSHIP
+                    }"
+                    @click="changeLeagueType(TYPES.CHAMPIONSHIP)"
+                  >
+                    {{ $t('league.championship') }}
+                  </div>
+                </div>
               </div>
               <leaderboard
                 v-if="currentSelectedClan"
@@ -555,5 +572,20 @@ export default {
 }
 .black-background {
   background-color: #0c1016;
+}
+.league-type-buttons {
+  position: relative;
+  height: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+
+  .button-group {
+    position: absolute;
+    height: 10px;
+    bottom: 12px;
+  }
 }
 </style>

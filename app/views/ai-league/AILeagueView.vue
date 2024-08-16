@@ -34,6 +34,7 @@ export default {
       }
     }
   },
+
   created () {
     this.fetchRequiredInitialData({ optionalIdOrSlug: this.$route.params.idOrSlug })
   },
