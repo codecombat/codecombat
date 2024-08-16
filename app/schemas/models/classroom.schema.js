@@ -92,6 +92,7 @@ _.extend(ClassroomSchema.properties, {
     }
   },
   googleClassroomId: { title: 'Google classroom id', type: 'string' },
+  otherProductId: { title: 'Id in other product', type: 'string' },
   lmsClassroomId: { title: 'LMS classroom id', type: 'string' },
   grades: c.array({ title: 'Class Grades' }, { type: 'string', enum: ['elementary', 'middle', 'high'] }),
   classroomItems: { title: 'Items & Gems', type: 'boolean', description: 'Whether students should earn gems and equip items during gameplay' },
@@ -116,7 +117,7 @@ _.extend(ClassroomSchema.properties, {
   }, {}),
   stats: c.object({ additionalProperties: true }),
   initializedOuterStats: { type: 'boolean', default: true, description: 'whether the classroom.stats for the classroom is initialized' },
-  type: { title: 'Class Type', type: 'string', enum: ['', 'in-school', 'after-school', 'online', 'camp', 'camp-esports', 'camp-junior', 'homeschool', 'other'] }
+  type: { title: 'Class Type', type: 'string', enum: ['', 'in-school', 'after-school', 'online', 'camp', 'camp-esports', 'camp-junior', 'homeschool', 'other', 'club-ozaria', 'club-esports', 'club-roblox', 'club-hackstack'] }
 })
 
 c.extendBasicProperties(ClassroomSchema, 'Classroom')

@@ -195,9 +195,12 @@ import IconLoading from 'app/core/components/IconLoading'
 import priceHelperMixin from './price-helper-mixin'
 
 const fetchJson = require('app/core/api/fetch-json')
-const TECMILENIO_CAMPUS_NAMES = ['Central', 'Online', 'Las Torres', 'Ferrería', 'Cuautitlán lzcalli', 'Toluca', 'Culiacán', 'Zapopan', 'Guadalajara', 'Querétaro', 'Ciudad Juárez', 'San Luis Potosí',
-                                 'Villahermosa', 'Cancún', 'Cumbres', 'Hermosillo', 'Cuernavaca', 'Veracruz', 'San Nicolás', 'Chihuahua',
-                                 'Puebla', 'Reynosa', 'Guadalupe', 'Mazatlán', 'Laguna', 'Mérida', 'Durango', 'Ciudad Obregón', 'Los Mochis', 'Nuevo Laredo']
+const TECMILENIO_CAMPUS_NAMES = [
+  'Central', 'Online', 'Las Torres', 'Ferrería', 'Cuautitlán lzcalli', 'Toluca', 'Culiacán', 'Zapopan', 'Guadalajara', 'Querétaro', 'Ciudad Juárez', 'San Luis Potosí',
+  'Villahermosa', 'Cancún', 'Cumbres', 'Hermosillo', 'Cuernavaca', 'Veracruz', 'San Nicolás', 'Chihuahua',
+  'Puebla', 'Reynosa', 'Guadalupe', 'Mazatlán', 'Laguna', 'Mérida', 'Durango', 'Ciudad Obregón', 'Los Mochis', 'Nuevo Laredo',
+  'Morelia', 'Zacatecas'
+].sort()
 export default {
   name: 'PaymentStudentLicensePurchaseView',
   components: {

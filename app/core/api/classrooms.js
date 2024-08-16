@@ -56,8 +56,15 @@ module.exports = {
     }))
   },
 
-  fetchByOwner (ownerId, options) {
+  createStudentsForCodeNinja ({ classroomID, num }, options) {
     if (options == null) { options = {} }
+    return fetchJson(`/db/classrooms/${classroomID}/codeninja-create-students`, _.assign({}, options, {
+      method: 'POST',
+      json: { num }
+    }))
+  },
+
+  fetchByOwner (ownerId, options = {}) {
     let projectionString = ''
     if (Array.isArray(options.project)) {
       projectionString += `&project=${options.project.join(',')}`
@@ -66,6 +73,7 @@ module.exports = {
       projectionString += '&includeShared=true'
     }
     return fetchJson(`/db/classroom?ownerID=${ownerId}${projectionString}`, {
+      callOz: options.callOz,
       method: 'GET'
     })
   },

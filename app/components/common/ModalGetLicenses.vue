@@ -41,6 +41,11 @@ export default Vue.extend({
     backboneDismissModal: {
       type: Boolean,
       default: false
+    },
+    showModalInitially: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   mixins: [validationMixin],
@@ -54,7 +59,8 @@ export default Vue.extend({
     district: '',
     role: '',
     phone: '',
-    sendingInProgress: false
+    sendingInProgress: false,
+    showModal: false
   }),
   validations: {
     name: {
@@ -101,11 +107,19 @@ export default Vue.extend({
     this.district = props.nces_district || props.district || ''
     this.role = props.role || ''
     this.phone = props.phoneNumber || ''
+
+    this.showModal = this.showModalInitially
   },
   methods: {
     closeModal () {
       window.location.href = '#license-interest'
+      if (this.showModalInitially === false) {
+        this.showModal = false
+      }
       this.$emit('close')
+    },
+    openModal () {
+      this.showModal = true
     },
     async onClickSubmit () {
       if (this.isFormValid) {
@@ -138,159 +152,166 @@ export default Vue.extend({
 </script>
 
 <template>
-  <modal
-    :title="modalTitle"
-    :backbone-dismiss-modal="backboneDismissModal"
-    @close="closeModal"
-  >
-    <div class="style-ozaria teacher-form">
-      <span class="sub-title"> {{ subtitle }} </span>
-      <form
-        class="form-container"
-        @submit.prevent="onClickSubmit"
-      >
-        <div
-          class="form-group row name"
-          :class="{ 'has-error': $v.name.$error }"
+  <div>
+    <modal
+      v-if="showModal"
+      :title="modalTitle"
+      :backbone-dismiss-modal="backboneDismissModal"
+      @close="closeModal"
+    >
+      <div class="style-ozaria teacher-form">
+        <span class="sub-title"> {{ subtitle }} </span>
+        <form
+          class="form-container"
+          @submit.prevent="onClickSubmit"
         >
-          <div class="col-xs-12">
-            <span class="control-label"> {{ $t("general.name") }} </span>
-            <input
-              v-model="$v.name.$model"
-              type="text"
-              class="form-control"
-            >
-            <span
-              v-if="!$v.name.required"
-              class="form-error"
-            > {{ $t("form_validation_errors.required") }} </span>
+          <div
+            class="form-group row name"
+            :class="{ 'has-error': $v.name.$error }"
+          >
+            <div class="col-xs-12">
+              <span class="control-label"> {{ $t("general.name") }} </span>
+              <input
+                v-model="$v.name.$model"
+                type="text"
+                class="form-control"
+              >
+              <span
+                v-if="!$v.name.required"
+                class="form-error"
+              > {{ $t("form_validation_errors.required") }} </span>
+            </div>
           </div>
-        </div>
-        <div
-          class="form-group row email"
-          :class="{ 'has-error': $v.email.$error }"
-        >
-          <div class="col-xs-12">
-            <span class="control-label"> {{ $t("general.email") }} </span>
-            <input
-              v-model="$v.email.$model"
-              type="text"
-              class="form-control"
-            >
-            <span
-              v-if="!$v.email.required"
-              class="form-error"
-            > {{ $t("form_validation_errors.required") }} </span>
-            <span
-              v-if="!$v.email.email"
-              class="form-error"
-            > {{ $t("form_validation_errors.invalidEmail") }} </span>
+          <div
+            class="form-group row email"
+            :class="{ 'has-error': $v.email.$error }"
+          >
+            <div class="col-xs-12">
+              <span class="control-label"> {{ $t("general.email") }} </span>
+              <input
+                v-model="$v.email.$model"
+                type="text"
+                class="form-control"
+              >
+              <span
+                v-if="!$v.email.required"
+                class="form-error"
+              > {{ $t("form_validation_errors.required") }} </span>
+              <span
+                v-if="!$v.email.email"
+                class="form-error"
+              > {{ $t("form_validation_errors.invalidEmail") }} </span>
+            </div>
           </div>
-        </div>
-        <div
-          class="form-group row licensesNeeded"
-          :class="{ 'has-error': $v.licensesNeeded.$error }"
-        >
-          <div class="col-xs-12">
-            <span class="control-label"> {{ licensesNeededText }} </span>
-            <input
-              v-model="$v.licensesNeeded.$model"
-              type="text"
-              class="form-control"
-              :class="{ 'placeholder-text': !licensesNeeded }"
-              :placeholder="licensesNeededPlaceholder"
-            >
-            <span
-              v-if="!$v.licensesNeeded.required"
-              class="form-error"
-            > {{ $t("form_validation_errors.required") }} </span>
-            <span
-              v-else-if="!$v.licensesNeeded.numeric || !$v.licensesNeeded.mustBeGreaterThanZero"
-              class="form-error"
-            > {{ $t("form_validation_errors.numberGreaterThanZero") }} </span>
+          <div
+            class="form-group row licensesNeeded"
+            :class="{ 'has-error': $v.licensesNeeded.$error }"
+          >
+            <div class="col-xs-12">
+              <span class="control-label"> {{ licensesNeededText }} </span>
+              <input
+                v-model="$v.licensesNeeded.$model"
+                type="text"
+                class="form-control"
+                :class="{ 'placeholder-text': !licensesNeeded }"
+                :placeholder="licensesNeededPlaceholder"
+              >
+              <span
+                v-if="!$v.licensesNeeded.required"
+                class="form-error"
+              > {{ $t("form_validation_errors.required") }} </span>
+              <span
+                v-else-if="!$v.licensesNeeded.numeric || !$v.licensesNeeded.mustBeGreaterThanZero"
+                class="form-error"
+              > {{ $t("form_validation_errors.numberGreaterThanZero") }} </span>
+            </div>
           </div>
-        </div>
 
-        <div
-          v-if="askSchoolInfo"
-          class="form-group row school-district"
-        >
-          <div class="col-xs-6">
-            <span class="control-label"> {{ $t('teachers_quote.organization_label') }} </span>
-            <input
-              v-model="$v.school.$model"
-              type="text"
-              class="form-control"
-            >
+          <div
+            v-if="askSchoolInfo"
+            class="form-group row school-district"
+          >
+            <div class="col-xs-6">
+              <span class="control-label"> {{ $t('teachers_quote.organization_label') }} </span>
+              <input
+                v-model="$v.school.$model"
+                type="text"
+                class="form-control"
+              >
+            </div>
+            <div class="col-xs-6">
+              <span class="control-label"> {{ $t('teachers_quote.district_label') }} </span>
+              <input
+                v-model="$v.district.$model"
+                type="text"
+                class="form-control"
+              >
+            </div>
           </div>
-          <div class="col-xs-6">
-            <span class="control-label"> {{ $t('teachers_quote.district_label') }} </span>
-            <input
-              v-model="$v.district.$model"
-              type="text"
-              class="form-control"
-            >
-          </div>
-        </div>
 
-        <div
-          v-if="askSchoolInfo"
-          class="form-group row phone-role"
-        >
-          <div class="col-xs-6">
-            <span class="control-label"> {{ $t('modal_free_class.phone_number') }} </span>
-            <input
-              v-model="$v.phone.$model"
-              type="text"
-              class="form-control"
-            >
+          <div
+            v-if="askSchoolInfo"
+            class="form-group row phone-role"
+          >
+            <div class="col-xs-6">
+              <span class="control-label"> {{ $t('modal_free_class.phone_number') }} </span>
+              <input
+                v-model="$v.phone.$model"
+                type="text"
+                class="form-control"
+              >
+            </div>
+            <div class="col-xs-6">
+              <span class="control-label"> {{ $t('teachers_quote.primary_role_label') }} </span>
+              <input
+                v-model="$v.role.$model"
+                type="text"
+                class="form-control"
+                placeholder="Teacher, Principal, etc."
+              >
+            </div>
           </div>
-          <div class="col-xs-6">
-            <span class="control-label"> {{ $t('teachers_quote.primary_role_label') }} </span>
-            <input
-              v-model="$v.role.$model"
-              type="text"
-              class="form-control"
-              placeholder="Teacher, Principal, etc."
-            >
-          </div>
-        </div>
 
-        <div
-          class="form-group row message"
-          :class="{ 'has-error': $v.message.$error }"
-        >
-          <div class="col-xs-12">
-            <span class="control-label"> {{ $t("general.message") }} </span>
-            <textarea
-              v-model="$v.message.$model"
-              :rows="askSchoolInfo ? 2 : 7"
-              class="form-control"
-              placeholder="Any notes..."
-            />
+          <div
+            class="form-group row message"
+            :class="{ 'has-error': $v.message.$error }"
+          >
+            <div class="col-xs-12">
+              <span class="control-label"> {{ $t("general.message") }} </span>
+              <textarea
+                v-model="$v.message.$model"
+                :rows="askSchoolInfo ? 2 : 7"
+                class="form-control"
+                placeholder="Any notes..."
+              />
+            </div>
           </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-xs-12 buttons">
-            <secondary-button
-              v-if="!sendingInProgress"
-              type="submit"
-              :inactive="!isFormValid"
-            >
-              {{ $t("common.submit") }}
-            </secondary-button>
-            <secondary-button
-              v-else-if="sendingInProgress"
-              type="submit"
-              :inactive="true"
-            >
-              {{ $t("common.sending") }}
-            </secondary-button>
+          <div class="form-group row">
+            <div class="col-xs-12 buttons">
+              <secondary-button
+                v-if="!sendingInProgress"
+                type="submit"
+                :inactive="!isFormValid"
+              >
+                {{ $t("common.submit") }}
+              </secondary-button>
+              <secondary-button
+                v-else-if="sendingInProgress"
+                type="submit"
+                :inactive="true"
+              >
+                {{ $t("common.sending") }}
+              </secondary-button>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
-  </modal>
+        </form>
+      </div>
+    </modal>
+    <slot
+      name="opener"
+      :open-modal="openModal"
+    />
+  </div>
 </template>
 
 <style lang="scss" scoped>

@@ -248,6 +248,72 @@ if (isCodeCombat) {
   }
 
   courseModuleInfo = {
+    [courseIDs.JUNIOR]: {
+      1: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Y5_Eu5uVPrHpnqcoSuGfFR8qeAYkTIyE'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Y5_Eu5uVPrHpnqcoSuGfFR8qeAYkTIyE'
+        }
+      },
+      2: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/18cse7g50mdcEwLiTovHR_edPhYd77UDM'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/18cse7g50mdcEwLiTovHR_edPhYd77UDM'
+        }
+      },
+      3: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1iQJEvgaQ0z3AMw64fTOwcZOYKu0zOqOr'
+        },  
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1iQJEvgaQ0z3AMw64fTOwcZOYKu0zOqOr'
+        }
+      },
+      4: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1v6DZfzb3zp_lmjM00vZvjTSRoUpBSqq8'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1v6DZfzb3zp_lmjM00vZvjTSRoUpBSqq8'
+        }
+      },
+      5: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-kKodhaMC1oL1OVnolQ5V9OVM0VEI7kF'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-kKodhaMC1oL1OVnolQ5V9OVM0VEI7kF'
+        }
+      },
+      6: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/11SIA1sYVRdq69u0o0w0ihAF65MjoIq2W'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/11SIA1sYVRdq69u0o0w0ihAF65MjoIq2W'
+        }
+      },
+      7: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-U3aJggcZibizu8fZPdT8veKOqby9uBj'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-U3aJggcZibizu8fZPdT8veKOqby9uBj'
+        }
+      },
+      8: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1hnLLCpxF4HeAhO3WVAaB9tYmoYQ9aKx1'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1hnLLCpxF4HeAhO3WVAaB9tYmoYQ9aKx1'
+        }
+      }
+    },
     [courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]: {
       1: {
         python: {
@@ -437,14 +503,14 @@ if (isCodeCombat) {
   courseModuleLevels = {}
 
   courseModules[courseIDs.JUNIOR] = {
-    1: 'The `go()` Function',
-    2: 'Arguments',
-    3: 'The `hit()` Function',
-    4: 'The `spin()` Function',
-    5: 'The `zap()` Function',
-    6: 'For Loops',
-    7: 'Loop Combinations',
-    8: 'If Statements'
+    1: 'A1: Sequences',
+    2: 'A2: Arguments',
+    3: 'B1: Complex Arguments (Hit)',
+    4: 'B2: Complex Arguments (Spin)',
+    5: 'C1: Complex Arguments (Zap)',
+    6: 'C2: Intro to Loops',
+    7: 'D1: Complex Loops',
+    8: 'D2: Intro to Conditionals',
     // 9: 'Variables'
   }
 

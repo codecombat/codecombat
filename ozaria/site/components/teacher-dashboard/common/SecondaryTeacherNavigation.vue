@@ -1,16 +1,26 @@
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import utils from 'core/utils'
 import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
 import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
 import ModalHackStackBeta from 'ozaria/site/components/teacher-dashboard/modals/ModalHackStackBeta.vue'
+import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalTestStudentPromotion.vue'
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
+import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
+import IconAI from 'ozaria/site/components/teacher-dashboard/common/NavIconAI'
+import IconAPCSP from 'ozaria/site/components/teacher-dashboard/common/NavIconAPCSP'
+import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/NavIconAssessments'
 
 export default {
   components: {
     DashboardToggle,
+    ModalHackStackBeta,
+    ModalTestStudentPromotion,
     ModalCurriculumPromotion,
-    ModalHackStackBeta
+    ModalOzariaHackStack,
+    IconAI,
+    IconAPCSP,
+    IconAssessments
   },
 
   mixins: [
@@ -26,9 +36,7 @@ export default {
 
   data: () => {
     return {
-      showCurriculumPromotion: false,
       curriculumPromoClicked: false,
-      hackstackModalVisibility: false,
     }
   },
 
@@ -37,8 +45,16 @@ export default {
       currentSelectedClassroom: state => state.classroomId
     }),
 
+    ...mapGetters({
+      topModal: 'modals/getTopModal'
+    }),
+
     isCodeCombat () {
       return utils.isCodeCombat
+    },
+
+    isOzaria () {
+      return utils.isOzaria
     },
 
     classesTabSelected () {
@@ -95,6 +111,10 @@ export default {
       classrooms.sort(this.classroomSortById)
       return classrooms
     },
+
+    isCurriculumModalVisible () {
+      return this.topModal?.name === 'curriculum-sidebar-promotion-modal'
+    }
   },
 
   methods: {
@@ -108,10 +128,7 @@ export default {
     },
 
     onCurriculumClicked (e) {
-      if (this.showCurriculumPromotion) {
-        this.curriculumPromoClicked = true
-        this.unhighlightCurriculumPromotion()
-      }
+      this.$refs.modalCurriculumPromotion.close()
       this.trackEvent(e)
     },
 
@@ -127,22 +144,14 @@ export default {
       }
     },
     hackstackClicked () {
+      if (utils.isOzaria) {
+        this.$refs.modalOzariaHackStack.openModal()
+        return
+      }
       if (this.hackStackClassrooms.length === 0) {
         noty({ text: $.i18n.t('teacher_dashboard.create_class_hackstack'), type: 'warning', layout: 'center', timeout: 5000 })
       }
     },
-    highlightCurriculum () {
-      this.showCurriculumPromotion = true
-    },
-    unhighlightCurriculumPromotion () {
-      this.showCurriculumPromotion = false
-    },
-    hackstackModalShowing () {
-      this.hackstackModalVisibility = true
-    },
-    hackstackModalClose () {
-      this.hackstackModalVisibility = false
-    }
   }
 }
 </script>
@@ -256,11 +265,11 @@ export default {
         </li>
       </ul>
     </li>
-    <li :class="{ 'modal-highlight': showCurriculumPromotion && !hackstackModalVisibility }">
+    <li :class="{ 'modal-highlight': isCurriculumModalVisible }">
       <router-link
         id="CurriculumAnchor"
         to="/teachers/curriculum"
-        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') || (showCurriculumPromotion && !hackstackModalVisibility) }"
+        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') || isCurriculumModalVisible }"
         data-action="Curriculum Guide: Nav Clicked"
         @click.native="onCurriculumClicked"
       >
@@ -308,14 +317,22 @@ export default {
     <li v-if="showAssessments">
       <a
         id="AssessmentsDropdown"
-        :class="['dropdown-toggle', isCurrentRoute('/teachers/projects') ? 'current-route' : '']"
+        :class="['dropdown-toggle', isCurrentRoute('/teachers/assessments') ? 'current-route' : '']"
         href="#"
         role="button"
         data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false"
       >
-        <div id="IconAssessments" />
+        <IconAssessments class="icon-assessments svgicon default" />
+        <IconAssessments
+          class="icon-assessments svgicon hovered"
+          theme="moon"
+        />
+        <IconAssessments
+          class="icon-assessments svgicon selected"
+          theme="blue"
+        />
         <span>{{ $t('teacher_dashboard.assessments_tab') }}</span>
         <span class="caret" />
       </a>
@@ -376,7 +393,6 @@ export default {
       </router-link>
     </li>
     <li
-      v-if="showHackStack"
       role="presentation"
       class="dropdown"
       @click="hackstackClicked"
@@ -390,11 +406,23 @@ export default {
         aria-haspopup="true"
         aria-expanded="false"
       >
-        <div id="IconMyClasses" />
+        <IconAI class="icon-ai svgicon default" />
+        <IconAI
+          class="icon-ai svgicon hovered"
+          theme="moon"
+        />
+        <IconAI
+          class="icon-ai svgicon selected"
+          theme="blue"
+        />
         <span>{{ $t('nav.ai_hackstack') }}</span><span class="beta">({{ $t('nav.beta') }})</span>
-        <span class="caret" />
+        <span
+          v-if="showHackStack && hackStackClassrooms?.length > 0"
+          class="caret"
+        />
       </a>
       <ul
+        v-if="showHackStack"
         class="dropdown-menu"
         aria-labelledby="HackstackClassesDropdown"
       >
@@ -425,7 +453,15 @@ export default {
         data-action="APCSP: Nav Clicked"
         @click.native="trackEvent"
       >
-        <div id="IconPD" />
+        <IconAPCSP class="icon-apcsp svgicon default" />
+        <IconAPCSP
+          class="icon-apcsp svgicon hovered"
+          theme="moon"
+        />
+        <IconAPCSP
+          class="icon-apcsp svgicon selected"
+          theme="blue"
+        />
         {{ $t('teacher_dashboard.apcsp') }}
       </router-link>
     </li>
@@ -438,18 +474,17 @@ export default {
         reload-location="/teachers/classes"
       />
     </li>
-    <ModalCurriculumPromotion
-      :curriculum-clicked="curriculumPromoClicked"
-      @show="highlightCurriculum"
-      @close="unhighlightCurriculumPromotion"
-    />
+    <ModalCurriculumPromotion ref="modalCurriculumPromotion" />
     <ModalHackStackBeta
       v-if="showHackStack"
-      :href="hackStackClassrooms.length>0 ? `/teachers/hackstack-classes/${hackStackClassrooms[0]._id}` : '#'"
+      :href="hackStackClassrooms.length > 0 ? `/teachers/hackstack-classes/${hackStackClassrooms[0]._id}` : '#'"
       @tryClicked="hackstackClicked"
-      @show="hackstackModalShowing"
-      @close="hackstackModalClose"
     />
+    <ModalOzariaHackStack
+      v-if="isOzaria"
+      ref="modalOzariaHackStack"
+    />
+    <ModalTestStudentPromotion />
   </ul>
 </template>
 
@@ -468,6 +503,56 @@ export default {
   margin-top: -6px;
 }
 
+.svgicon {
+  background-image: none;
+  width: 37px;
+  height: 37px;
+}
+
+.icon-ai {
+  margin-top: -6px;
+  margin-left: -2px;
+}
+
+.icon-apcsp {
+  margin-top: -3px;
+  transform: scale(1.6);
+}
+
+.icon-assessments {
+  transform: scale(0.75) translateX(-4px);
+}
+
+.svgicon {
+  display: block;
+  &.hovered,
+  &.selected {
+    display: none;
+  }
+}
+
+li:hover:not(.open)>*,
+li:not(.open)>*:hover:not(.current-route) {
+  > .svgicon {
+    display: block;
+    &.default,
+    &.selected {
+      display: none;
+    }
+  }
+}
+
+li.open>*,
+li>*.current-route {
+ > .svgicon {
+    display: block;
+    &.default,
+    &.hovered {
+      display: none;
+    }
+  }
+}
+
 /* Need aria-expanded for when user has mouse in the dropdown */
 #ProjectsDropdown:hover {
   #IconCapstone {
@@ -475,7 +560,7 @@ export default {
   }
 }
 
-li.open > #ProjectsDropdown,
+li.open>#ProjectsDropdown,
 #ProjectsDropdown.current-route,
 #ProjectsDropdown[aria-expanded="true"] {
   #IconCapstone {
@@ -489,7 +574,7 @@ li.open > #ProjectsDropdown,
   }
 }
 
-li.open > #ClassesDropdown,
+li.open>#ClassesDropdown,
 #ClassesDropdown.current-route,
 #ClassesDropdown[aria-expanded="true"] {
   #IconMyClasses {
@@ -497,39 +582,39 @@ li.open > #ClassesDropdown,
   }
 }
 
-#LicensesAnchor:hover{
+#LicensesAnchor:hover {
   #IconLicense {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Moon.svg);
   }
 }
 
-li.open > #LicensesAnchor,
+li.open>#LicensesAnchor,
 #LicensesAnchor.current-route {
   #IconLicense {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Blue.svg);
   }
 }
 
-#CurriculumAnchor:hover{
+#CurriculumAnchor:hover {
   #IconCurriculum {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Moon.svg);
   }
 }
 
-li.open > #CurriculumAnchor,
+li.open>#CurriculumAnchor,
 #CurriculumAnchor.current-route {
   #IconCurriculum {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Blue.svg);
   }
 }
 
-#ResourceAnchor:hover{
+#ResourceAnchor:hover {
   #IconResourceHub {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Moon.svg);
   }
 }
 
-li.open > #ResourceAnchor,
+li.open>#ResourceAnchor,
 #ResourceAnchor.current-route {
   #IconResourceHub {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Blue.svg);
@@ -542,56 +627,47 @@ li.open > #ResourceAnchor,
   }
 }
 
-li.open > #PDAnchor,
+li.open>#PDAnchor,
 #PDAnchor.current-route {
   #IconPD {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_Blue.svg);
   }
 }
 
-#AssessmentsDropdown:hover {
-  #IconAssessments {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Moon.svg);
-  }
-}
-
-li.open > #AssessmentsDropdown,
-#AssessmentsDropdown.current-route,
-#AssessmentsDropdown[aria-expanded="true"] {
-  #IconAssessments {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Blue.svg);
-  }
-}
-
-#AILeague{
+#AILeague {
   .league-name {
     display: none;
+
     &__gray {
       display: block;
     }
   }
 }
 
-#AILeague:hover{
+#AILeague:hover {
   .league-name {
     display: none;
+
     &__moon {
       display: block;
     }
   }
+
   #IconKeepPlaying {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconKeepPlaying_Moon.svg);
   }
 }
 
-li.open > #AILeague,
+li.open>#AILeague,
 #AILeague.current-route {
   .league-name {
     display: none;
+
     &__blue {
       display: block;
     }
   }
+
   #IconKeepPlaying {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconKeepPlaying_Blue.svg);
   }
@@ -666,7 +742,7 @@ li.open > #AILeague,
 
   &>li {
 
-    &:hover{
+    &:hover {
       >a {
         background-color: #355EA0;
         color: #f7d047;
@@ -744,6 +820,7 @@ li.open > #AILeague,
         overflow: hidden;
         text-overflow: ellipsis;
         padding-left: 30px;
+
         &:hover {
           background-color: transparent;
         }

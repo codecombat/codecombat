@@ -1,18 +1,12 @@
 <script>
-import ModalDynamicPromotion from './ModalDynamicPromotion'
+import ModalDynamicContent from './ModalDynamicContent'
 import trackable from 'app/components/mixins/trackable.js'
 
 export default Vue.extend({
   components: {
-    ModalDynamicPromotion
+    ModalDynamicContent
   },
   mixins: [trackable],
-  props: {
-    curriculumClicked: {
-      type: Boolean,
-      required: false
-    }
-  },
   data: () => {
     return {
       showModal: true
@@ -25,59 +19,39 @@ export default Vue.extend({
       return dateCreated < twoDaysAgo && dateCreated <= new Date('2024-08-07')
     }
   },
-  watch: {
-    curriculumClicked (newVal, oldVal) {
-      if (newVal) {
-        this.showModal = false
-        this.$refs.modal.close()
-      }
-    },
-  },
   methods: {
-    onShow () {
-      if (this.showToOldUsers) {
-        this.showModal = true
-        this.$emit('show')
-      } else {
-        this.showModal = false
-      }
+    close () {
+      this.$refs.modal.onClose()
     },
-    onClose () {
-      this.showModal = false
-      this.$emit('close')
-    }
   }
 })
 </script>
 
 <template>
-  <div>
-    <ModalDynamicPromotion
-      v-if="showModal"
-      ref="modal"
-      seen-promotions-property="curriculum-sidebar-promotion-modal"
-      :title="$t('teachers.dashboard_update')"
-      @show="onShow"
-      @close="onClose"
-    >
-      <template #content>
-        <div class="modal-content-container">
-          <img
-            src="/images/common/modal/curriculum-guide-screenshot.webp"
-            :alt="$t('teachers.dashboard_update')"
-          >
-          <p class="text-p">
-            {{ $t('teachers.dashboard_update_message') }}
-          </p>
-          <img
-            class="arrow-img"
-            src="/images/common/modal/right-arrow.webp"
-            :alt="$t('teachers.dashboard_update')"
-          >
-        </div>
-      </template>
-    </ModalDynamicPromotion>
-  </div>
+  <ModalDynamicContent
+    v-if="showToOldUsers"
+    ref="modal"
+    seen-promotions-property="curriculum-sidebar-promotion-modal"
+    name="curriculum-sidebar-promotion-modal"
+    :title="$t('teachers.dashboard_update')"
+  >
+    <template #content>
+      <div class="modal-content-container">
+        <img
+          src="/images/common/modal/curriculum-guide-screenshot.webp"
+          :alt="$t('teachers.dashboard_update')"
+        >
+        <p class="text-p">
+          {{ $t('teachers.dashboard_update_message') }}
+        </p>
+        <img
+          class="arrow-img"
+          src="/images/common/modal/right-arrow.webp"
+          :alt="$t('teachers.dashboard_update')"
+        >
+      </div>
+    </template>
+  </ModalDynamicContent>
 </template>
 
 <style lang="scss" scoped>

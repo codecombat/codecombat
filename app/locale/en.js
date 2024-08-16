@@ -1189,6 +1189,8 @@ module.exports = {
       ask_teacher_for_credits: 'Ask your teacher for an AI Hackstack license.',
       get_credits: 'Get Credits',
       get_ai_hs_license: 'Get AI Hackstack License',
+      use: 'Use',
+      learn_to_use: 'Learn to Use',
     },
 
     apis: {
@@ -1781,9 +1783,21 @@ module.exports = {
       hackstack_beta_release: 'HackStack Beta Release',
       introducing_ai_hackstack: 'Introducing AI HackStack, a generative AI teaching tool for beginners. It provides safe access to top AI models like ChatGPT, Claude, and DALL-E.',
       our_curriculum_empowers_students: 'Our curriculum empowers students to use AI to create websites, games, art, and more. Currently in beta.',
+      test_student_promotion_1: 'Ready to walk a mile in your students\' coding shoes? Clicking "Test as Student" lets you dive into the learning experience firsthand. ',
+      test_student_promotion_2: 'You\'ll be creating a unique test account that not only mimics the student journey but also saves your progress — unlike the quick previews in our curriculum guide, which are great for a sneak-peek but don\'t keep track of where you\'ve been.',
+      test_student_promotion_3: 'Your first course is free. Ready for more? We\'ll guide you on adding a license for continued learning adventures.',
       dashboard_update: 'Dashboard Update',
       dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.',
-      switch_to_test_student: 'Switching to test student account..'
+      switch_to_test_student: 'Switching to test student account..',
+      import_ozaria_classroom: 'Import Ozaria Classroom',
+      import_codecombat_classroom: 'Import Codecombat Classroom',
+      select_ozaria_classroom: 'Select Ozaria Classroom',
+      select_codecombat_classroom: 'Select Codecombat Classroom',
+      select_to_import_from_ozaria: 'Select to Import from Ozaria',
+      select_to_import_from_codecombat: 'Select to Import from Codecombat',
+      all_classrooms_imported: 'All classrooms already imported',
+      club_type: 'Club Type',
+      create_students_prompt: 'How many students would you like to create?'
     },
 
     no_licenses_page: {
@@ -2374,7 +2388,8 @@ module.exports = {
       all_units_completed: 'All Units Completed!',
       hide_options: 'Hide Options',
       more_options: 'More Options',
-      get_test_license: 'Get Test Student License'
+      get_test_license: 'Get Test Student License',
+      create_students: 'Generate Students'
     },
 
     project_gallery: {
@@ -4630,7 +4645,11 @@ module.exports = {
       failed_attempts_subtext: 'Number of times incorrect option was selected',
       open_project: 'Open Project',
       create_class_hackstack: 'Please create a New Class to access AI HackStack',
+      add_club: 'Add New Club',
       test_student_only: 'Test Student Only',
+      ready_to_review: 'Ready to Review',
+      ozaria_hs_modal_title: 'Access AI Hackstack Exclusively on CodeCombat',
+      ozaria_hs_modal_blurb: 'Educators can now access AI Hackstack directly on **[https://codecombat.com/teachers/classes]CodeCombat** using the same credentials as Ozaria. For added convenience, you can easily import your classes from Ozaria into CodeCombat.'
     },
 
     outcomes: {
@@ -6137,6 +6156,30 @@ module.exports = {
       faq_4_answer: "Yes. All players can sign-up for free at roblox.com. Don't forget to link your CodeCombat account and Roblox account to access all the features and rewards.",
       faq_5_question: 'Will it work on my Chromebook or mobile device?',
       faq_5_answer: 'Yes. CodeCombat Worlds allows you to play, type real code and create games on PC, Mac, Chromebooks, tablets, phones, and consoles.'
+    },
+    pd_page: {
+      implementation_training_title: 'Implementation Training',
+      implementation_training_blurb: 'Educators are provided with a live, online 60 minute onboarding training and guidance on how to use CodeCombat or Ozaria to support specific institutional and instructional goals. The implementation is focused on a comprehensive teacher dashboard walkthrough that covers:',
+      list_1: 'How to add classes & students',
+      list_2: 'How to track & lock student progress',
+      list_3: 'An overview of how to use the resources available in the Resource Hub, including: Course Guide, Lesson Plans, Lesson Slides, & Educator FAQ',
+      modal_subtitle: 'To get licenses for our professional development course, send us a message and our classroom success team will be in touch!',
+      email_message: 'Hi! I’m interested in learning more about your professional development course and discussing pricing options.',
+      professional_development_title: 'Professional Development[NEWLINE](With Ozaria)',
+      professional_development_blurb: 'This 40+ hour online, self-directed course provides educators with the knowledge, skills and resources to implement high-quality CS instruction.',
+      list_4: 'It adheres to the ESSA guidelines for exemplary professional learning, is endorsed by the CSTA and qualifies for valuable professional education credit hours.',
+      list_5: 'The course is built on a Learn It, Try It, Teach It model ensuring teachers have a solid foundation of the concepts before they implement it in the classroom.',
+      list_6: 'Earn up to 3 graduate-level education credit hours while exploring core CS concepts and teaching strategies that include computational thinking, inquiry-based learning, SEL and DEI.',
+      download_table_of_contents: 'Download Table of Contents',
+      ap_csp_professional_development_title: 'AP CSP Professional Development[NEWLINE](With CodeCombat)',
+      ap_csp_professional_development_blurb: 'This 40+ hour online, largely self-directed course is ideal for any educator who wants to prepare their students to succeed on the AP Computer Science Principles exam using CodeCombat.',
+      list_7: 'Both this course and the CodeCombat AP CSP curriculum are endorsed by the College Board. The hours completed in this course can be used to qualify for valuable professional education credit.',
+      list_8: 'The course leverages synchronous, small group conversations with AP CSP teachers from across the globe in order to deepen one’s CS knowledge and enrich one’s classroom practices.',
+      list_9: 'Through CodeCombat’s partnership with Southern New Hampshire University (SNHU), you can earn up to 3 graduate-level credit hours while learning how to best prepare your students to take the AP CSP exam.',
+      download_syllabus: 'Download Syllabus',
+      get_full_course: 'Get Full Course',
+      try_sample_lesson: 'Try Sample Lesson',
+      trophy_header: 'Level up as a Computer Science Teacher with our Professional Development offerings!'
     }
   }
 }
