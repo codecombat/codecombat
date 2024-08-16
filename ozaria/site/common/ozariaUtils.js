@@ -269,6 +269,7 @@ function internationalizeConfigAux (obj, userLocale) {
     return
   }
 
+  if (!obj) return
   for (const values of Object.values(obj)) {
     if (Array.isArray(values)) {
       for (const arrayVal of values) {
