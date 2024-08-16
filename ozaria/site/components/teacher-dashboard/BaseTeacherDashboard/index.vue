@@ -122,7 +122,7 @@ export default {
     },
 
     showClassInfo () {
-      return this.componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE || this.componentName === COMPONENT_NAMES.STUDENT_PROJECTS || this.componentName === COMPONENT_NAMES.STUDENT_ASSESSMENTS
+      return this.componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE || this.componentName === COMPONENT_NAMES.STUDENT_PROJECTS || this.componentName === COMPONENT_NAMES.STUDENT_ASSESSMENTS || this.componentName === COMPONENT_NAMES.AI_JUNIOR
     },
     allClassrooms () {
       return [...this.activeClassrooms, ...this.sharedClassrooms]

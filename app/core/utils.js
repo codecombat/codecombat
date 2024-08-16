@@ -2417,6 +2417,11 @@ const markdownToPlainText = function (text) {
   return plainText
 }
 
+const markedInline = function (text) {
+  // Like marked, but inline (no wrapper <p></p>); this is an option in newer marked versions
+  return marked(text).replace(/^<p>|<\/p>$/g, '')
+}
+
 /*
  * Get the estimated Hz of the primary monitor in the system.
  *
@@ -2644,6 +2649,7 @@ module.exports = {
   keepDoingUntil,
   kindaEqual,
   markdownToPlainText,
+  markedInline,
   needsPractice,
   normalizeFunc,
   objectIdToDate,

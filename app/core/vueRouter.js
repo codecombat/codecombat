@@ -12,6 +12,31 @@ export default function getVueRouter () {
 
       routes: [
         {
+          path: '/ai-junior',
+          component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorView'),
+          children: [
+            {
+              path: '',
+              component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorLandingView')
+            },
+            {
+              path: 'project/:scenarioId',
+              component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorScenarioView'),
+              props: true
+            },
+            {
+              path: 'project/:scenarioId/:userId',
+              component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorScenarioUserView'),
+              props: true
+            },
+            {
+              path: 'project/:scenarioId/:userId/:projectId',
+              component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorScenarioUserProjectView'),
+              props: true
+            }
+          ]
+        },
+        {
           path: '/announcements',
           component: () => import(/* webpackChunkName: "AnnouncementView" */ 'app/views/announcement/AnnouncementView')
         },
@@ -242,6 +267,7 @@ export default function getVueRouter () {
             },
             { path: 'projects/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseStudentProjects/index.vue'), props: true },
             { path: 'assessments/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseStudentAssessments/index.vue'), props: true },
+            { path: 'ai-junior/:classroomId', component: () => import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseAIJunior/index.vue'), props: true },
             {
               path: 'licenses/join',
               component: () => import(/* webpackChunkName: "teachers" */'app/views/teachers/JoinLicensesByCode.vue')
