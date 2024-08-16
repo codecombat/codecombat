@@ -14,6 +14,7 @@ import ButtonImportClassroom from 'ozaria/site/components/teacher-dashboard/moda
 import ModalDivider from 'ozaria/site/components/common/ModalDivider.vue'
 import ClassroomsApi from 'app/core/api/classrooms.js'
 import moment from 'moment'
+import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 
 export default Vue.extend({
   components: {
@@ -321,7 +322,7 @@ export default Vue.extend({
     this.classGrades = this.classroom.grades || []
     if (!this.classroomInstance.isNew()) {
       this.moreOptions = true
-      await this.fetchCourseInstances(this.classroomInstance._id)
+      await this.fetchCourseInstances(this.classroomInstance?._id || this.classroomInstance?.id)
     } else if (utils.isCodeCombat) {
       this.newClassroomItems = this.cocoDefaultClassroomItems
       this.newLevelChat = this.cocoDefaultLevelChat
@@ -390,7 +391,7 @@ export default Vue.extend({
         this.otherProductClassrooms = (await ClassroomsApi.fetchByOwner(me.get('_id'), { callOz: true }))
           .filter(otherClassroom => !otherClassroom.otherProductId)
         this.isOtherProductForm = true
-        window.tracker?.trackEvent('Add New Class: Link Google Classroom Successful', { category: 'Teachers' })
+        window.tracker?.trackEvent('Add New Class: Link Other Product Classroom Successful', { category: 'Teachers' })
       } catch (error) {
         console.log(error)
         noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
@@ -554,7 +555,9 @@ export default Vue.extend({
             classroomID: this.otherProductClassroom._id,
             updates: { otherProductId: savedClassroom._id }
           }, { callOz: true }).catch(console.log)
-          await this.addMembersToClassroom({ classroom: savedClassroom, members })
+          if (members.length > 0) {
+            await this.addMembersToClassroom({ classroom: savedClassroom, members, componentName: COMPONENT_NAMES.MY_CLASSES_ALL })
+          }
         }
 
         this.$emit('close')
