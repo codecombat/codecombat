@@ -77,16 +77,16 @@ export default class FacebookPixelTracker extends BaseTracker {
       return
     }
 
-    this.log('tracking event', fbEvent, this.mapToFbProperties(fbEvent, properties))
+    this.log('tracking event', fbEvent, this.mapToFbProperties(fbEvent, properties, false))
     if (fbEvent === true) {
-      window.fbq('trackCustom', action, this.mapToFbProperties(fbEvent, properties, true))
+      window.fbq('trackCustom', action, this.mapToFbProperties(fbEvent, properties))
     } else if (typeof fbEvent === 'string') {
       // Track as standard event name
-      window.fbq('track', fbEvent, this.mapToFbProperties(fbEvent, properties, true))
+      window.fbq('track', fbEvent, this.mapToFbProperties(fbEvent, properties))
     }
   }
 
-  mapToFbProperties (fbEvent, properties, toFb = false) {
+  mapToFbProperties (fbEvent, properties, toFb = true) {
     if (!properties || Object.keys(properties).length === 0) { return {} }
     let result = {}
     if (fbEvent === SUBSCRIBE_EVENT) {
