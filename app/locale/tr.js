@@ -103,7 +103,7 @@ module.exports = {
     //  },
 
     new_home: {
-      //    title_coco: "CodeCombat - Coding games to learn Python and JavaScript",
+      title_coco: 'CodeCombat - Python ve JavaScript öğrenmek için oyun kodlama',
       //    title_ozar: "Ozaria - Computer science that captivates",
       //    title_cn_home: "CodeCombat|Python, Javascript",
       //    meta_keywords_coco: "CodeCombat, python, javascript, Coding Games",
@@ -117,9 +117,9 @@ module.exports = {
       built_for_teachers_subtitle1: 'Bilgisayar Bilimleri',
       built_for_teachers_subblurb1: 'Öğrenciler ücretsiz Bilgisayar Bilimleri Giriş kursumuzdan başlayarak, döngüler, fonksiyonlar ve algoritmalar gibi temel kodlama kavramlarını öğrenir.',
       built_for_teachers_subtitle2: 'Oyun Geliştirme',
-      //    built_for_teachers_subblurb2: "Learners construct mazes and use basic input handling to code their own games that can be shared with friends and family.",
+      built_for_teachers_subblurb2: 'Öğrenciler labirentler oluşturur ve temel giriş işlemlerini kullanarak arkadaşları ve aileleriyle paylaşabilecekleri kendi oyunlarını kodlarlar.',
       built_for_teachers_subtitle3: 'Web Geliştirme',
-      //    built_for_teachers_subblurb3: "Using HTML, CSS, and jQuery, learners flex their creative muscles to program their own webpages with a custom URL to share with their classmates.",
+      built_for_teachers_subblurb3: 'HTML, CSS ve jQuery kullanarak, öğrenciler kendi yaratıcı becerilerini geliştirir ve sınıf arkadaşlarıyla paylaşabilecekleri özel bir URL\'ye sahip kendi web sayfalarını programlarlar.',
       century_skills_title: '21.Yüzyılın Yetenekleri',
       century_skills_blurb1: 'Öğrenciler Sadece Kahramanlarının Seviyelerini Arttırmazlar, Kendi Seviyelerini Arttırırlar',
       //    century_skills_quote1: "You mess up…so then you think about all of the possible ways to fix it, and then try again. I wouldn't be able to get here without trying hard.",
