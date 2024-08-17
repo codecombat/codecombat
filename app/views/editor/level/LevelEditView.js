@@ -56,7 +56,7 @@ const storage = require('core/storage')
 const utils = require('core/utils')
 const loadAetherLanguage = require('lib/loadAetherLanguage')
 const presenceApi = require(utils.isOzaria ? '../../../../ozaria/site/api/presence' : 'core/api/presence')
-const { fetchPracticeLevels } = require('core/api/levels')
+const { fetchPracticeLevels, fetchLevelStats } = require('core/api/levels')
 const globalVar = require('core/globalVar')
 
 require('vendor/scripts/coffeescript') // this is tenuous, since the LevelSession and LevelComponent models are what compile the code
@@ -106,6 +106,7 @@ module.exports = (LevelEditView = (function () {
         'click .generate-level-button': 'onClickGenerateLevel',
         'click .generate-practice-level-button': 'onClickGeneratePracticeLevel',
         'click .generate-all-practice-levels-button': 'onClickGenerateAllPracticeLevels',
+        'click .save-all-practice-levels-button': 'onClickSaveAllPracticeLevels',
         'click .migrate-junior-button': 'onClickMigrateJunior',
       }
 
@@ -195,7 +196,7 @@ module.exports = (LevelEditView = (function () {
         // Give it a fake course ID so we can test it in course mode before it's in a course.
         this.courseID = '560f1a9f22961295f9427742'
       }
-      return this.getLevelCompletionRate()
+      this.getLevelCompletionRate()
     }
 
     getRenderData (context) {
@@ -288,13 +289,15 @@ module.exports = (LevelEditView = (function () {
     }
 
     onClickGeneratePracticeLevel (e) {
-      e.stopPropagation()
       this.generatePracticeLevel()
     }
 
     onClickGenerateAllPracticeLevels (e) {
-      e.stopPropagation()
       this.generatePracticeLevels()
+    }
+
+    onClickSaveAllPracticeLevels (e) {
+      this.savePracticeLevels()
     }
 
     async generateLevel (e) {
@@ -314,23 +317,23 @@ module.exports = (LevelEditView = (function () {
 
     async generatePracticeLevels (limit = 26) {
       const existingPracticeLevels = await fetchPracticeLevels(this.level.get('slug'))
-      const newPracticeLevels = []
+      this.newPracticeLevels = []
       const generateUntil = Math.min(26, existingPracticeLevels.length + limit)
       this.level.revert()
       const originalThangs = _.cloneDeep(this.level.get('thangs'))
       console.log('Have existing practice levels', existingPracticeLevels)
       for (let levelIndex = existingPracticeLevels.length; levelIndex < generateUntil; ++levelIndex) {
         this.level.revert()
-        const parameters = { sourceLevel: this.level, levelIndex, existingPracticeLevels, newPracticeLevels, originalThangs }
+        const parameters = { sourceLevel: this.level, levelIndex, existingPracticeLevels, newPracticeLevels: this.newPracticeLevels, originalThangs, levelStats: this.levelStats }
         const level = await levelGeneration.generateLevel({ parameters, supermodel: this.supermodel })
         if (this.destroyed) return
         if (!level) break
         console.log('generated practice level', level)
         this.setGeneratedLevel(level)
-        newPracticeLevels.push(level)
+        this.newPracticeLevels.push(level)
       }
-      console.log('Have new practice levels', newPracticeLevels)
-      window.newPracticeLevels = newPracticeLevels
+      console.log('Have new practice levels', this.newPracticeLevels)
+      this.$el.find('.save-all-practice-levels-button').toggleClass('hide', this.newPracticeLevels.length).text(`Save ${this.newPracticeLevels.length} New Practice Levels`)
     }
 
     async generatePracticeLevel () {
@@ -359,6 +362,37 @@ module.exports = (LevelEditView = (function () {
       }
       this.render()
       this.previouslyLoadedSubviewData.addThangsView?.didReappear()
+    }
+
+    async savePracticeLevels () {
+      if (!this.newPracticeLevels.length) { return }
+      for (const level of this.newPracticeLevels) {
+        const newLevel = new Level($.extend(true, {}, this.level.attributes))
+        newLevel.unset('_id')
+        newLevel.unset('version')
+        newLevel.unset('creator')
+        newLevel.unset('created')
+        newLevel.unset('original')
+        newLevel.unset('parent')
+        newLevel.unset('i18n')
+        newLevel.unset('i18nCoverage')
+        newLevel.unset('tasks')
+        newLevel.set('commitMessage', `Generated as practice from ${this.level.get('name')}`)
+        newLevel.set('permissions', [{ access: 'owner', target: me.id }])
+        for (const key in level) {
+          if (Level.schema.properties[key]) {
+            newLevel.set(key, level[key])
+          }
+        }
+        const res = newLevel.save(null, { type: 'POST' }) // Override PUT so we can trigger postFirstVersion logic
+        res.error(() => {
+          this.hideLoading()
+          noty({ timeout: 8000, text: `Error creating ${newLevel.get('name')}: ${res.responseText}`, type: 'error', layout: 'top' })
+        })
+        res.success(() => {
+          noty({ timeout: 2000, text: `Created ${newLevel.get('name')}`, type: 'info', layout: 'top' })
+        })
+      }
     }
 
     onPlayLevelTeamSelect (e) {
@@ -572,31 +606,12 @@ module.exports = (LevelEditView = (function () {
       }
     }
 
-    getLevelCompletionRate () {
+    async getLevelCompletionRate () {
       if (!me.isAdmin()) { return }
-      const startDay = utils.getUTCDay(-14)
-      const startDayDashed = `${startDay.slice(0, 4)}-${startDay.slice(4, 6)}-${startDay.slice(6, 8)}`
-      const endDay = utils.getUTCDay(-1)
-      const endDayDashed = `${endDay.slice(0, 4)}-${endDay.slice(4, 6)}-${endDay.slice(6, 8)}`
-      const success = data => {
-        if (this.destroyed) { return }
-        let started = 0
-        let finished = 0
-        for (const day of Array.from(data)) {
-          started += day.started != null ? day.started : 0
-          finished += day.finished != null ? day.finished : 0
-        }
-        const rate = finished / started
-        const rateDisplay = (rate * 100).toFixed(1) + '%'
-        return this.$('#completion-rate').text(rateDisplay)
-      }
-      const request = this.supermodel.addRequestResource('level_completions', {
-        url: '/db/analytics_perday/-/level_completions',
-        data: { startDay, endDay, slug: this.level.get('slug') },
-        method: 'POST',
-        success
-      }, 0)
-      return request.load()
+      this.levelStats = await fetchLevelStats(this.level.get('original'))
+      const rateDisplay = (this.levelStats.completionRate * 100).toFixed(1) + '%'
+      this.$('#completion-rate').text(rateDisplay).removeClass('hide')
+      this.$('#completion-time').text(this.levelStats.playtime.p50 + 's').attr('title', JSON.stringify(this.levelStats.playtime)).removeClass('hide')
     }
   }
   LevelEditView.initClass()

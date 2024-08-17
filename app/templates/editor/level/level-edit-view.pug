@@ -52,7 +52,8 @@ block header
       .navbar-header
         span.navbar-brand
           span.level-title= level.attributes.name
-          span#completion-rate.spl
+          span#completion-rate.spl.hide
+          span#completion-time.spl.hide
 
       ul.nav.navbar-nav.navbar-right
         li#undo-button
@@ -127,6 +128,8 @@ block header
               li
                 a.generate-all-practice-levels-button
                   span(data-i18n="editor.generate_all_practice_levels")
+              li
+                a.save-all-practice-levels-button.hide Save All Practice Levels
               li
                 a.migrate-junior-button Migrate Junior Level
             li(class=anonymous ? "disabled": "")

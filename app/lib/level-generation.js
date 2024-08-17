@@ -488,6 +488,23 @@ generateProperty('practice', function (level, parameters) {
   return Boolean(parameters.sourceLevel)
 })
 
+// practiceThresholdMinutes: { type: 'number', description: 'Players with larger playtimes may be directed to a practice level.', inEditor: 'codecombat' },
+generateProperty('practiceThresholdMinutes', function (level, parameters) {
+  let sourceP50 = parameters.levelStats?.playtime?.p50
+  if (!sourceP50) {
+    // Experimental data very roughly suggests 10s + 5s/line p50 completion time. We can come up with a better fit if important.
+    const hero = _.find(parameters.sourceLevel?.get('thangs') || level.thangs, { id: 'Hero Placeholder' })
+    const programmableConfig = _.find(hero.components, { original: defaultHeroComponentIDs.Programmable }).config
+    const solutionLines = _.find(programmableConfig.programmableMethods.plan.solutions, { succeeds: true }).source.trim().split('\n').length
+    const startLines = programmableConfig.programmableMethods.plan.source.trim().split('\n').length
+    sourceP50 = 10 + 5 * (solutionLines - startLines)
+  }
+  const levelIndex = parameters.levelIndex || 0
+  // Increase by 10% + 10s with each level, so that slow players eventually move on
+  // console.log('Setting practice threshold to', Math.round(Math.max(60, sourceP50 * (1 + 0.1 * levelIndex) + 10 * levelIndex)) + 's for level index', levelIndex, 'with source level p50', sourceP50)
+  return Math.round(Math.max(60, sourceP50 * (1 + 0.1 * levelIndex) + 10 * levelIndex)) / 60
+})
+
 // // assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended', 'cumulative'], description: 'Set to true if this is an assessment level.', inEditor: true }, // ozaria has a few, needed?
 // generateProperty('assessment', function (level, parameters) {
 //   return false
