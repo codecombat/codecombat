@@ -422,6 +422,9 @@ generateProperty('thangs', async function (level, parameters) {
 
 // systems: c.array({title: 'Systems', description: 'Levels are configured by changing the Systems attached to them.', uniqueItems: true }, LevelSystemSchema),  // TODO: uniqueness should be based on 'original', not whole thing
 generateProperty('systems', function (level, parameters) {
+  if (parameters.sourceLevel) {
+    return _.cloneDeep(parameters.sourceLevel.get('systems'))
+  }
   const pathfindingAndLineOfSight = ['Dungeon', 'Indoor', 'Mountain', 'Glacier', 'Volcano', 'Junior'].includes(parameters.terrain)
   const systems = [
     // Copied from default systems list in SystemsTabView
@@ -1016,7 +1019,7 @@ function actionToCode (action) {
   return line
 }
 
-const significantSpriteNames = ['Chicken Junior', 'Crab Monster Junior', 'Crates Junior', 'Cube Monster Junior', 'Explosive Junior', 'Dragonfly Monster Junior', 'Gem Junior', 'Goal Junior']
+const significantSpriteNames = ['Chicken Junior', 'Crab Monster Junior', 'Crates Junior', 'Gelatinous Cube Junior', 'Explosive Junior', 'Dragonfly Monster Junior', 'Gem Junior', 'Goal Junior']
 const hittableSpriteNames = _.without(significantSpriteNames, 'Gem Junior', 'Goal Junior') // Is chicken hittable or zappable?
 const floorSpriteNames = ['Junior Beach Floor', 'Junior Wall']
 function findThangAt (simplePos, thangs, relevantSpriteNames) {
