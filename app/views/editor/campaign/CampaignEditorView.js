@@ -56,6 +56,18 @@ module.exports = (CampaignEditorView = (function () {
 
       this.prototype.subscriptions =
         { 'editor:campaign-analytics-modal-closed': 'onAnalyticsModalClosed' }
+
+      this.prototype.shortcuts = {
+        'shift+1': function (e) { this.assignModuleToSelectedLevels(1) },
+        'shift+2': function (e) { this.assignModuleToSelectedLevels(2) },
+        'shift+3': function (e) { this.assignModuleToSelectedLevels(3) },
+        'shift+4': function (e) { this.assignModuleToSelectedLevels(4) },
+        'shift+5': function (e) { this.assignModuleToSelectedLevels(5) },
+        'shift+6': function (e) { this.assignModuleToSelectedLevels(6) },
+        'shift+7': function (e) { this.assignModuleToSelectedLevels(7) },
+        'shift+8': function (e) { this.assignModuleToSelectedLevels(8) },
+        'shift+9': function (e) { this.assignModuleToSelectedLevels(9) },
+      }
     }
 
     constructor (options, campaignHandle, campaignPage) {
@@ -71,7 +83,7 @@ module.exports = (CampaignEditorView = (function () {
       this.supermodel.loadModel(this.campaign)
       this.listenToOnce(this.campaign, 'sync', function (model, response, jqXHR) {
         this.campaign.set('_id', response._id)
-        return this.campaign.url = function () { return '/db/campaign/' + this.id }
+        this.campaign.url = function () { return '/db/campaign/' + this.id }
       })
 
       // Save reference to data used by anlytics modal so it persists across modal open/closes.
@@ -142,8 +154,8 @@ module.exports = (CampaignEditorView = (function () {
     loadMissingLevelsAndRelatedModels () {
       const promises = []
       for (const level of Array.from(_.values(this.campaign.get('levels')))) {
-        var model
-        if (model = this.levels.findWhere({ original: level.original })) { continue }
+        let model = this.levels.findWhere({ original: level.original })
+        if (model) { continue }
         model = new Level({})
         model.setProjection(Campaign.denormalizedLevelProperties)
         model.setURL(`/db/level/${level.original}/version`)
@@ -252,7 +264,7 @@ module.exports = (CampaignEditorView = (function () {
         for (const rewardType in object) {
           const rewardArray = object[rewardType]
           for (const reward of Array.from(rewardArray)) {
-            var thangType
+            let thangType
             const rewardObject = { achievement: achievement.id }
 
             if (rewardType === 'heroes') {
@@ -476,6 +488,14 @@ module.exports = (CampaignEditorView = (function () {
     // This is a override method to RootView, so that only CampaignView is listenting to login button click
 
     onClickSignupButton () {}
+
+    assignModuleToSelectedLevels (moduleNum) {
+      const selectedLevelTreemas = this.treema.childrenTreemas.levels.getSelectedTreemas()
+      for (const selectedLevelTreema of selectedLevelTreemas) {
+        selectedLevelTreema.set('/moduleNum', moduleNum)
+      }
+      noty({ timeout: 2000, text: `Set module ${moduleNum} on ${selectedLevelTreemas.length} levels`, type: 'info', layout: 'top' })
+    }
   }
   CampaignEditorView.initClass()
   return CampaignEditorView
@@ -715,7 +735,7 @@ class RewardsNode extends TreemaArrayNode {
   }
 }
 
-var addAchievementEditorLink = function (node, valEl, achievementId) {
+const addAchievementEditorLink = function (node, valEl, achievementId) {
   const anchor = $('<a class="spl">(e)</a>')
   anchor.on('click', function (event) {
     const childWindow = window.open(`/editor/achievement/${achievementId}`, achievementId, 'width=1040,height=900,left=1600,top=0,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)

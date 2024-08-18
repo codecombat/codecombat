@@ -12,7 +12,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 
-let campaignIDs, compare, courseIDs, courseModules, courseModuleInfo, courseModuleLevels, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
+let campaignIDs, compare, courseIDs, courseModules, courseModuleInfo, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
 const product = ((left = typeof COCO_PRODUCT !== 'undefined' && COCO_PRODUCT !== null ? COCO_PRODUCT : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.COCO_PRODUCT))) != null ? left : 'codecombat'
 const shaTag = ((left = typeof SHA_TAG !== 'undefined' && SHA_TAG !== null ? SHA_TAG : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.SHA_TAG))) != null ? left : 'unknown'
 const isCodeCombat = product === 'codecombat'
@@ -434,7 +434,6 @@ if (isCodeCombat) {
   ]
 
   courseModules = {}
-  courseModuleLevels = {}
 
   courseModules[courseIDs.JUNIOR] = {
     1: 'The `go()` Function',
@@ -448,109 +447,6 @@ if (isCodeCombat) {
     // 9: 'Variables'
   }
 
-  // TODO: move all the level/module data to database
-  // structure: [courseId][moduleNumber]: [levelName1, levelName2, ...]
-  courseModuleLevels[courseIDs.JUNIOR] = {
-    1: [
-      'The Gem',
-      'Go Go Go',
-      'Two Gems',
-      'Elbow',
-      'Shiny',
-      'Gem Square',
-      'The X',
-      'X Marks the Spot',
-      'Gems First',
-      'Walk It Off',
-    ],
-    2: [
-      'Go Smart',
-      'Steps',
-      'Hiker',
-      'Long Hall',
-      'Step Change',
-      'Go Around',
-      'Big Gem Square',
-      'Turns',
-      'Snake Maze',
-      'One Block',
-    ],
-    3: [
-      'Knock Knock',
-      'Open and Shut',
-      'Doors',
-      'Open Up',
-      'Airlock',
-      'No Keys',
-      'Bad Guys',
-      'Hall Monitor',
-      'Clean Up',
-      'Just a Scratch',
-      'Brave',
-      'Wise',
-      'Careful',
-      'Heart Up',
-      'Tough',
-      'One at a Time',
-      'Choose Your Battles',
-    ],
-    4: [
-      'Spin to Win',
-      'Whirlwind',
-      'Twister',
-      'Vortex',
-      'Busy Intersection',
-      'Badder Guy',
-      'Two Big',
-      'Tornado',
-      'Cyclone',
-      'Hit and Spin',
-      'Hurricane',
-    ],
-    5: [
-      'Zap Gap',
-      'Easy Pickings',
-      'Advantage',
-      'Hit Me Up',
-      'Zap It',
-      'Target Practice',
-      'TNT',
-      'Kaboom',
-      'Back Up',
-      'Monster',
-      'Lure It',
-      'It\'s a Trap',
-      'Friends',
-      'Careful Aim',
-      'Chain Reaction',
-      'Zap Master',
-    ],
-    6: [
-      'Loopy',
-      'More Times',
-      'Right Up',
-      'Square Wave',
-      'Grabber',
-      'Smasher',
-      'Spin Eternally',
-      'Down the Line',
-      'Tall Wave',
-      'Clearing the Way',
-      'Restraint',
-      'Fern',
-      'Scratch Loop',
-      'Regular Path',
-      'Detonations',
-      'Showdown',
-    ],
-    7: [
-      'Gem Weave',
-    ],
-    8: [
-      'Zap Smart',
-    ],
-  }
-
   courseModules[courseIDs.COMPUTER_SCIENCE_2] = {
     1: 'Coordinate Systems',
     2: 'Conditionals Part 1',
@@ -561,96 +457,6 @@ if (isCodeCombat) {
     7: 'Events'
   }
 
-  courseModuleLevels[courseIDs.COMPUTER_SCIENCE_2] = {
-    1: [
-      'Defense of Plainswood',
-      'Course: Winding Trail',
-      'One Wrong Step',
-      'Forest Evasion',
-      'Gem Berries',
-    ],
-    2: [
-      'Woodland Cubbies',
-      'Backwoods Ambush',
-      'Patrol Buster',
-      'Patrol Buster A',
-      'Picnic Buster',
-      'Eagle Eye',
-      'If-stravaganza',
-      'Village Guard',
-      'Thornbush Farm',
-      'Cleanup',
-      'Middle Point',
-    ],
-    3: [
-      'Back to Back',
-      'Ogre Encampment',
-      'Sacred Glade',
-      'Woodland Cleaver',
-      'Elseweyr',
-      'Backwoods Standoff',
-      'Backwoods Standoff A',
-      'Backwoods Standoff B',
-      'Range Finder',
-      'Peasant Protection',
-      'Munchkin Swarm',
-      'Brave Ogres',
-    ],
-    4: [
-      'Maniac Munchkins',
-      'Free Billy',
-      'Forest Fire Dancing',
-      'Stillness in Motion',
-      'The Agrippa Defense',
-      'The Agrippa Defense A',
-      'The Agrippa Defense B',
-      'Dangerous Tree',
-      'Last Guardian',
-    ],
-    5: [
-      'Village Rover',
-      'Village Warder',
-      'Village Champion',
-      'A Fine Mint',
-      'Silent Village',
-    ],
-    6: [
-      'Backwoods Fork',
-      'Tomb Raider',
-      'Tomb Ghost',
-      'Seek-and-Hide',
-      'Forest Miners',
-      'Leave it to Cleaver',
-      'Timberland Trap',
-      'Return to Thornbush Farm',
-      'Return to Thornbush Farm A',
-      'Return to Thornbush Farm B',
-      'Agrippa Refactored',
-      'Closed Crossroad',
-      'Greed Traps',
-      'Last Cannon',
-      'Functional Patrol',
-    ],
-    7: [
-      'Backwoods Buddy',
-      'Buddy\'s Name A',
-      'Buddy\'s Name B',
-      'Buddy\'s Name',
-      'Phd Kitty',
-      'Pet Quiz',
-      'Timely Word',
-      'Go Fetch',
-      'Guard Dog',
-      'Long Road',
-      'Tough Bait',
-      'Forest Jogging',
-      'Forest Cannon Dancing',
-      'Sharp Bait',
-      'Eventful Skirmish',
-      'Power Peak',
-    ]
-  }
-
   courseModules[courseIDs.GAME_DEVELOPMENT_2] = {
     1: 'Events',
     2: 'Random Numbers',
@@ -658,79 +464,11 @@ if (isCodeCombat) {
     4: 'Input'
   }
 
-  courseModuleLevels[courseIDs.GAME_DEVELOPMENT_2] = {
-    1: [
-      'Guard Duty',
-      'Army Training 2',
-      'Standard Operating Procedure',
-      'Center Formation',
-      'Chokepoint',
-      'Adventure Time',
-      'Teatime',
-      'Random Riposte',
-      'Agony of Defeat',
-    ],
-    2: [
-      'Lernaean Hydra',
-      'Stick Shift',
-      'Don\'t Touch Them',
-      'From Dust to Dust',
-      'Cages',
-    ],
-    3: [
-      'Accounts Department',
-      'Hot Gems',
-      'Berserker',
-      'Freeze Tag',
-    ],
-    4: [
-      'Run for Gold',
-      'Disintegration Arrow',
-      'Game of Coins Step 1: Layout',
-      'Game of Coins Step 2: Score',
-      'Game of Coins Step 3: Enemies',
-      'Game of Coins Step 4: Power-Ups',
-      'Game of Coins Step 5: Balance',
-      'Game Dev 2 Final Project',
-    ]
-  }
-
   courseModules[courseIDs.WEB_DEVELOPMENT_2] = {
     1: 'JavaScript',
     2: 'jQuery',
     3: 'CSS',
     4: 'Input'
-  }
-
-  courseModuleLevels[courseIDs.WEB_DEVELOPMENT_2] = {
-    1: [
-      'True Names',
-      'Fire Dancing',
-      'Lost in the Stacks',
-      'Master of Names',
-      'Patrol Buster',
-      'Back to Back',
-      'Maniac Munchkins',
-      'Stillness in Motion',
-      'A Fine Mint',
-      'Return to Thornbush Farm',
-    ],
-    2: [
-      'Query Confirmed',
-      'Clickthrough',
-      'Disappearing Act',
-      'Toggulation',
-      'Eventful Selectors',
-      'Sibling Rivalry',
-    ],
-    3: [
-      'Border Patrol',
-      'Marginal Utility',
-      'Transformative Properties',
-      'Animania',
-      'Precision Coloring',
-      'Quizlet',
-    ]
   }
 
   courseModules[courseIDs.COMPUTER_SCIENCE_3] = {
@@ -743,132 +481,11 @@ if (isCodeCombat) {
     7: 'Break and Continue'
   }
 
-  courseModuleLevels[courseIDs.COMPUTER_SCIENCE_3] = {
-    1: [
-      'Friend and Foe',
-      'Deja Brew',
-      'Reward and Ruination',
-      'Air Rescue Service',
-      'The Wizard\'s Door',
-      'The Wizard\'s Haunt',
-      'The Wizard\'s Plane',
-      'True Alchemy',
-    ],
-    2: [
-      'Coincrumbs',
-      'White Rabbit',
-      'Chameleons',
-      'Rich and Safe',
-      'Wind Correction',
-      'Backwoods Bombardier',
-      'Thumb Biter',
-      'Endangered Burl',
-      'Taunting',
-      'Wrong Type',
-    ],
-    3: [
-      'Burlbole Grove',
-      'Blind Distance',
-      'Hit and Freeze',
-      'Coin Hunter',
-      'Agrippa Returned',
-      'Metal Detector',
-      'Ogre Invaders',
-      'Forest Storm',
-    ],
-    4: [
-      'Passing Through',
-      'Useful Competitors',
-      'Wonderglade',
-      'Cursed Wonderglade',
-      'Wild Alliance',
-      'Gems or Death',
-      'Burls Beets Booleans',
-      'Salted Earth',
-      'Star Shower',
-      'Forest Shadow',
-      'Warders',
-      'Spring Thunder',
-      'Teleport Lasso',
-      'Brawler Hunt',
-      'Helpful Hunting',
-      'Usual Day',
-      'Logical Path',
-      'Logical Circle',
-      'Logical Conclusion',
-      'Nonandor',
-    ],
-    5: [
-      'The Mighty Sand Yak',
-      'Oasis',
-      'Sarven Road',
-      'Dried Irrigation',
-      'Sarven Gaps',
-      'Crossroads',
-      'Interception',
-      'Thunderhooves',
-      'Friendly Minefield',
-      'Kithgard Enchanter',
-    ],
-    6: [
-      'Minesweeper',
-      'Operation \'Killdeer\'',
-      'Medical Attention',
-      'Valley of the King',
-      'Valley of a Thousand Rocks',
-      'Keeping Time',
-      'Crux of the Desert',
-    ],
-    7: [
-      'Hoarding Gold',
-      'Decoy Drill',
-      'Greed Protection',
-      'Continuous Alchemy',
-      'Master Of Camouflage',
-      'Escape to the Spring',
-      'Fast and Furry-ous',
-      'Sand Mushrooms',
-      'Mushroom Noise',
-      'Key Traps',
-      'Chain of Command',
-      'Pet Engineer',
-      'Pet Translator',
-      'Pet Adjutant',
-      'Alchemic Power',
-      'Pet Explorer',
-      'Dangerous Key',
-      'Olympic Race',
-      'Cross Bones',
-    ]
-  }
-
   courseModules[courseIDs.GAME_DEVELOPMENT_3] = {
     1: 'Frames',
     2: 'Position',
     3: 'Movement',
     4: 'Bring It Together'
-  }
-
-  courseModuleLevels[courseIDs.GAME_DEVELOPMENT_3] = {
-    1: [
-      'The Rule of the Square',
-      'The Big Guy',
-    ],
-    2: [
-      'Quantum Jump',
-      'Looping Forest',
-    ],
-    3: [
-      'Smooth Run',
-      'Looney Gems',
-    ],
-    4: [
-      'Runner Step 1: Environment',
-      'Runner Step 2: Scoring',
-      'Runner Step 3: Enemies',
-      'Runner Step 4: Balance',
-      'Game Dev 3 Final Project',
-    ]
   }
 
   courseModules[courseIDs.COMPUTER_SCIENCE_4] = {
@@ -879,56 +496,6 @@ if (isCodeCombat) {
     5: 'For Loops'
   }
 
-  courseModuleLevels[courseIDs.COMPUTER_SCIENCE_4] = {
-    1: [
-      'Dust',
-      'Double Check',
-      'Canyon of Storms',
-      'No Pain No Gain',
-      'Desert Combat',
-      'Bait and Switch',
-      'Mirage Maker',
-      'Spinach Power',
-    ],
-    2: [
-      'Team Work',
-      'Coordinated Defense',
-      'Recruiting Queue',
-      'Second Gem',
-    ],
-    3: [
-      'Sarven Savior',
-      'Bank Raid',
-      'Wandering Souls',
-      'Lurkers',
-      'Preferential Treatment',
-      'Sarven Shepherd',
-      'Shine Getter',
-      'Marauder',
-      'Sand Snakes',
-      'Odd Sandstorm',
-      'Mad Maxer',
-    ],
-    4: [
-      'Brittle Morale',
-      'Mad Maxer Strikes Back',
-      'Wishing Well',
-      'Crag Tag',
-      'Slalom',
-      'Ogre Gorge Gouger',
-      'Cloudrip Commander',
-      'Mountain Mercenaries',
-    ],
-    5: [
-      'Timber Guard',
-      'Zoo Keeper',
-      'Noble Sacrifice',
-      'Hunting Party',
-      'Borrowed Sword',
-      'Summation Summit',
-    ]
-  }
-
   courseModules[courseIDs.COMPUTER_SCIENCE_5] = {
     1: 'Functions Revisited',
     2: 'Modulo',
@@ -937,109 +504,12 @@ if (isCodeCombat) {
     5: 'Matrices'
   }
 
-  courseModuleLevels[courseIDs.COMPUTER_SCIENCE_5] = {
-    1: [
-      'Vital Powers',
-      'The Two Flowers',
-      'Hunters and Prey',
-      'Reaping Fire',
-      'Toil and Trouble',
-      'Mixed Unit Tactics',
-    ],
-    2: [
-      'Ring Bearer',
-      'Library Tactician',
-      'The Geometry of Flowers',
-    ],
-    3: [
-      'The Spy Among Us',
-      'In My Name',
-      'Highlanders',
-    ],
-    4: [
-      'Perimeter Defense',
-      'Dangerous Tracks',
-      'Resource Valleys',
-      'Flawless Pairs',
-      'Twins Power',
-      'Think Ahead',
-      'Grid Search',
-      'Grid Minefield',
-      'To Arms!',
-    ],
-    5: [
-      'Power Points',
-      'Danger Valley',
-      'Sleepwalkers',
-      'Cannon Landing Force',
-      'Snowdrops',
-      'Reindeer Wakeup',
-      'Reindeer Spotter',
-      'Reindeer Tender',
-      'Ritual of Rectangling',
-      'Square Shield',
-      'Area of Yetis',
-      'Bits and Trits',
-    ]
-  }
-
   courseModules[courseIDs.COMPUTER_SCIENCE_6] = {
     1: 'Common Algorithms',
     2: 'Vectors',
     3: 'More Algorithms',
     4: 'Data Structures',
     5: 'Advanced Algorithms'
-  }
-
-  courseModuleLevels[courseIDs.COMPUTER_SCIENCE_6] = {
-    1: [
-      'Misty Island Mine',
-      'Grim Determination',
-      'Yeti Eater',
-      'Antipodes',
-      'The Hunt Begins',
-      'Yak Heist',
-      'Slumbering Sample',
-    ],
-    2: [
-      'Circle Walking',
-      'Skating Away',
-      'Brewball',
-      'Precision Kicking',
-      'Ice Soccer',
-      'Serpent Savings',
-      'Snowflakes on the Ice',
-    ],
-    3: [
-      'Ice Life',
-      'Coded Orders',
-      'Guess My Number',
-      'Form Up!',
-    ],
-    4: [
-      'First Out',
-      'Double Queue',
-      'Queue Manager',
-      'Key Stack',
-      'Stack Triage',
-      'Alchemic Stack',
-      'Linked Keys',
-      'Count Links',
-      'Gem by Gem',
-      'Wireless',
-      'Hashed Yaks',
-      'Hashing Magic',
-    ],
-    5: [
-      'Match Cord',
-      'Golden Choice',
-      'Kelvintaph Pillars',
-      'Fragile Maze',
-      'Treasured in Ice',
-      'Broken Circles',
-      'Bombing Run',
-      'Ace of Coders',
-    ]
   }
 
   hourOfCodeOptions = {
@@ -1108,7 +578,6 @@ if (isCodeCombat) {
   // Harcoding module names for simplicity
   // Use db to store these later when we add sophisticated module functionality, right now its only used for UI
   courseModules = {}
-  courseModuleLevels = {}
   courseModules[courseIDs.CHAPTER_ONE] = {
     1: 'Introduction to Coding'
   }
@@ -2407,14 +1876,6 @@ const allowedLanguages = ({
   [CODECOMBAT]: ['javascript', 'python', 'java', 'cpp']
 })[product]
 
-const getModuleNumberForLevelName = function (courseId, levelName) {
-  const moduleNumberByLevelName = Object.entries(courseModuleLevels[courseId]).reduce((acc, [k, v]) => {
-    v.forEach(l => acc[l] = k)
-    return acc
-  }, {})
-  return moduleNumberByLevelName[levelName] && Number(moduleNumberByLevelName[levelName])
-}
-
 module.exports.aiToolToImage = {
   'gpt-4-turbo-preview': '/images/ai/ChatGPT.svg',
   'stable-diffusion-xl': '/images/ai/Stable_Diffusion.png',
@@ -2530,7 +1991,6 @@ module.exports = {
   freeCocoCourseIDs,
   courseModules,
   courseModuleInfo,
-  courseModuleLevels,
   courseNumericalStatus,
   coursesWithProjects,
   CSCourseIDs,
@@ -2551,7 +2011,6 @@ module.exports = {
   getCourseBundlePrice,
   getCoursePraise,
   getDocumentSearchString,
-  getModuleNumberForLevelName,
   getPrepaidCodeAmount,
   getProduct,
   getProductName,
