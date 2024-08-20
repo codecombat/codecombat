@@ -646,6 +646,25 @@ courseAcronyms[allCourseIDs.CHAPTER_THREE] = 'CH3'
 courseAcronyms[allCourseIDs.CHAPTER_FOUR] = 'CH4'
 courseAcronyms[allCourseIDs.HACKSTACK] = 'HS'
 
+const courseCampaignSlugs = {}
+courseCampaignSlugs[allCourseIDs.JUNIOR] = 'junior'
+courseCampaignSlugs[allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] = 'intro'
+courseCampaignSlugs[allCourseIDs.GAME_DEVELOPMENT_1] = 'game-dev-1'
+courseCampaignSlugs[allCourseIDs.WEB_DEVELOPMENT_1] = 'web-dev-1'
+courseCampaignSlugs[allCourseIDs.COMPUTER_SCIENCE_2] = 'course-2'
+courseCampaignSlugs[allCourseIDs.GAME_DEVELOPMENT_2] = 'game-dev-2'
+courseCampaignSlugs[allCourseIDs.WEB_DEVELOPMENT_2] = 'web-dev-2'
+courseCampaignSlugs[allCourseIDs.COMPUTER_SCIENCE_3] = 'course-3'
+courseCampaignSlugs[allCourseIDs.GAME_DEVELOPMENT_3] = 'game-dev-3'
+courseCampaignSlugs[allCourseIDs.COMPUTER_SCIENCE_4] = 'course-4'
+courseCampaignSlugs[allCourseIDs.COMPUTER_SCIENCE_5] = 'course-5'
+courseCampaignSlugs[allCourseIDs.COMPUTER_SCIENCE_6] = 'course-6'
+courseCampaignSlugs[allCourseIDs.CHAPTER_ONE] = 'chapter-1-sky-mountain'
+courseCampaignSlugs[allCourseIDs.CHAPTER_TWO] = 'chapter-2-the-moon-dancers'
+courseCampaignSlugs[allCourseIDs.CHAPTER_THREE] = 'chapter-3-the-phoenix-lands'
+courseCampaignSlugs[allCourseIDs.CHAPTER_FOUR] = 'chapter-4-the-final-code'
+courseCampaignSlugs[allCourseIDs.HACKSTACK] = 'hackstack'
+
 const registerHocProgressModalCheck = function () {
   let hocProgressModalCheck
   return hocProgressModalCheck = setInterval(() => {
@@ -1985,6 +2004,7 @@ module.exports = {
   countryCodeToName,
   countryNameToCode,
   courseAcronyms,
+  courseCampaignSlugs,
   courseIDs,
   allCourseIDs,
   allFreeCourseIDs,
