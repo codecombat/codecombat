@@ -445,7 +445,48 @@ if (isCodeCombat) {
       }
     },
     [courseIDs.GAME_DEVELOPMENT_3]: {},
-    [courseIDs.COMPUTER_SCIENCE_4]: {},
+    [courseIDs.COMPUTER_SCIENCE_4]: {
+      1: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/11Ado8ng4qw1oMS9q6Dxpky-sJ5ZtiiHb?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1G7r1PUacwY6vQf5sUjFqceKjrO4nWNkN?usp=drive_link'
+        }
+      },
+      2: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1KPwgtyyXLcHsPbPz6WX8AOQwZjJfFs23?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Np1sgITGydQKA05W3RqmolYnhjS0_07s?usp=drive_link'
+        }
+      },
+      3: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1pPWtmEa7YF2dd3T6PILE63Kn1rG2szYP?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1yl0K8nBA6lzwuni6t4WPViNRXQnwvtTR?usp=drive_link'
+        }
+      },
+      4: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1w8LvBvh9z-uzmdowDqXRrhxUnQ21-cfm?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1eohfiHpmUDBdpSNaRr8QLRLmwuUMnFZi?usp=drive_link'
+        }
+      },
+      5: {
+        python: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1cV8sqZsII6BMF4Okp4qDqlIM88ZVCCoX?usp=drive_link'
+        },
+        javascript: {
+          lessonSlidesUrl: 'https://drive.google.com/drive/folders/10SemFGm0UU7SfOjPSGAnmbOchWdx7Oj_?usp=drive_link'
+        }
+      }
+    },
     [courseIDs.COMPUTER_SCIENCE_5]: {},
     [courseIDs.COMPUTER_SCIENCE_6]: {}
   }
