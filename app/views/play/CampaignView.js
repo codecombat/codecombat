@@ -295,6 +295,7 @@ module.exports = (CampaignView = (function () {
         const jqxhr = this.courseInstance.fetch()
         this.supermodel.trackRequest(jqxhr)
         new Promise(jqxhr.then).then(() => {
+          if (this.destroyed) return
           const courseID = this.courseInstance.get('courseID')
 
           this.course = new Course({ _id: courseID })
@@ -319,16 +320,20 @@ module.exports = (CampaignView = (function () {
                 this.courseStats = this.classroom.statsForSessions(this.courseInstance.sessions, this.course.id)
                 return this.render()
               })
-              this.courseLevels = new Levels()
-              this.supermodel.trackRequest(this.courseLevels.fetchForClassroomAndCourse(classroomID, courseID, {
-                data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n' }
-              })
-              )
-              this.listenToOnce(this.courseLevels, 'sync', () => {
-                this.courseLevelsLoaded = true
-                return this.updateCourseLevels()
-              })
-              this.listenToOnce(this.campaign, 'sync', () => this.updateCourseLevels())
+              if (!['junior', '65c56663d2ca2055e65676af'].includes(this.terrain)) {
+                // Fetch the version of the campaign levels for this course.
+                // TODO: fully rip this out once we get rid of classroom versioning.
+                this.courseLevels = new Levels()
+                this.supermodel.trackRequest(this.courseLevels.fetchForClassroomAndCourse(classroomID, courseID, {
+                  data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n' }
+                })
+                )
+                this.listenToOnce(this.courseLevels, 'sync', () => {
+                  this.courseLevelsLoaded = true
+                  return this.updateCourseLevels()
+                })
+                this.listenToOnce(this.campaign, 'sync', () => this.updateCourseLevels())
+              }
             })
           }
         })
