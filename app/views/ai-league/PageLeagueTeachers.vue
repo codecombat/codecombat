@@ -359,25 +359,23 @@ export default {
                   @click="goNextArena"
                 >&rarr;</span>
               </div>
-              <div class="box-content league-type-buttons">
-                <div class="button-group">
-                  <div
-                    class="btn"
-                    :class="regularOrChampionship === TYPES.REGULAR ? 'btn-primary' : 'btn-default'"
-                    @click="changeLeagueType(TYPES.REGULAR)"
-                  >
-                    {{ $t('league.regular') }}
-                  </div>
-                  <div
-                    class="btn"
-                    :class="{
-                      disabled: !championshipAvailable,
-                      'btn-primary': regularOrChampionship === TYPES.CHAMPIONSHIP,
-                      'btn-default': regularOrChampionship !== TYPES.CHAMPIONSHIP
-                    }"
-                    @click="changeLeagueType(TYPES.CHAMPIONSHIP)"
-                  >
-                    {{ $t('league.championship') }}
+              <div class="box-content">
+                <div class="league-type-buttons">
+                  <div class="button-group">
+                    <button
+                      class="btn toggle-btn"
+                      :class="{ 'active': regularOrChampionship === TYPES.REGULAR }"
+                      @click="changeLeagueType(TYPES.REGULAR)"
+                    >
+                      {{ $t('league.regular') }}
+                    </button>
+                    <button
+                      class="btn toggle-btn"
+                      :class="{ 'active': regularOrChampionship === TYPES.CHAMPIONSHIP, 'disabled': !championshipAvailable }"
+                      @click="changeLeagueType(TYPES.CHAMPIONSHIP)"
+                    >
+                      {{ $t('league.championship') }}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -506,7 +504,7 @@ export default {
   padding-bottom: 10px;
   height: 40px;
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
   span {
     cursor: pointer;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
@@ -551,41 +549,82 @@ export default {
 }
 
 .toggle-league {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    border-radius: 8px;
-    border: 1px solid #476FB1;
-    background: white;
-    padding: 0 20px;
-    height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 8px;
+  border: 1px solid #476FB1;
+  background: white;
+  padding: 0 20px;
+  height: 50px;
 
-    color: #000;
+  color: #000;
 
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: "Work Sans";
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 17px;
-    position: relative;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: "Work Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 17px;
+  position: relative;
 }
 .black-background {
   background-color: #0c1016;
 }
-.league-type-buttons {
-  position: relative;
-  height: 0;
+.box-content {
   width: 100%;
-  margin: 0;
-  padding: 0;
+}
+
+.league-type-buttons {
+  width: 100%;
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
+}
 
-  .button-group {
-    position: absolute;
-    height: 10px;
-    bottom: 12px;
+.button-group {
+  display: inline-flex;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-btn {
+  padding: 10px 20px;
+  border: none;
+  background-color: #f0f0f0;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0;
+
+  &:first-child {
+    border-radius: 8px 0 0 8px;
+  }
+
+  &:last-child {
+    border-radius: 0 8px 8px 0;
+    margin-left: -1px;
+  }
+
+  &.active {
+    background-color: #476FB1;
+    color: white;
+    position: relative;
+    z-index: 1;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:not(.disabled):hover {
+    background-color: #e0e0e0;
+  }
+
+  &.active:hover {
+    background-color: #3a5d94;
   }
 }
 </style>
