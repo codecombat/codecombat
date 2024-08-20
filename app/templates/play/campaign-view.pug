@@ -125,6 +125,7 @@ if showGameDevAlert
       each level in levels
         if ((campaign.levelIsPractice(level) || !level.unlockedInSameCampaign) && level.hidden)
           - continue;
+        - var levelStatus = levelStatusMap[level.slug] || ''
         - var levelNumber = '';
         if view.shouldShow('back-to-classroom') && view.classroom
           if level.assessment === 'cumulative'
@@ -143,15 +144,15 @@ if showGameDevAlert
               - levelNumber += '. ';
         div(
           style="left: " + level.position.x + "%; bottom: " + level.position.y + "%; background-color: " + level.color,
-          class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""),
+          class="level" + (level.next || _.any(level.practiceLevels || [], { next: true }) ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatus,
           data-level-slug=level.slug,
           data-level-original=level.original,
           title=levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : ""))
         )
-          if level.unlocksHero && (!level.purchasedHero || editorMode) && (level.hidden || levelStatusMap[level.slug] === 'complete')
+          if level.unlocksHero && (!level.purchasedHero || editorMode) && (level.hidden || levelStatus === 'complete')
             img.hero-portrait(src="/file/db/thang.type/" + level.unlocksHero + "/portrait.png")
           a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/" + (level.levelPath || 'level') + "/" + level.slug, disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
-          if levelStatusMap[level.slug] === 'complete'
+          if levelStatus === 'complete'
             img.star(src="/images/pages/play/star.png")
           if editorMode
             - var kindKey = ((level.kind && level.kind[0]) || "").toUpperCase();
@@ -164,24 +165,24 @@ if showGameDevAlert
               img.banner(src="/images/pages/play/level-banner-replayable.png")
             else if level.type === 'hero-ladder' || level.type === 'course-ladder' || level.type === 'ladder'
               img.banner(src="/images/pages/play/level-banner-multiplayer.png")
-            else if ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate', 'kithgard-mastery'].indexOf(level.slug) !== -1 && levelStatusMap[level.slug] !== 'complete'
+            else if ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate', 'kithgard-mastery'].indexOf(level.slug) !== -1 && levelStatus !== 'complete'
               img.banner(src="/images/pages/play/level-banner-special.png")
-            else if level.unlocksHero && levelStatusMap[level.slug] !== 'complete'
+            else if level.unlocksHero && levelStatus !== 'complete'
               img.banner(src="/images/pages/play/level-banner-unlock" + (level.requiresSubscription?'-subscriber':'') + ".png")
               img.premium-hero-banner(src="/db/thang.type/" + level.unlocksHero + "/toFile/poseImage")
               img.treasure-chest(src="/images/pages/play/gold-chest.png")
-            else if level.unlocksItem && levelStatusMap[level.slug] !== 'complete'
+            else if level.unlocksItem && levelStatus !== 'complete'
               img.banner(src="/images/pages/play/level-banner-unlock" + (level.requiresSubscription?'-subscriber':'') + ".png")
               if level.unlocksPet
                 img.pet-banner(src="/db/thang.type/" + level.unlocksItem + "/toFile/dollImages.pet")
               else
                 img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/" + level.unlocksItem + "/portrait.png")
               img.treasure-chest(src="/images/pages/play/" + (level.requiresSubscription?'silver':'bronze') + "-chest.png")
-            else if levelStatusMap[level.slug] !== 'complete' && level.assessment
+            else if levelStatus !== 'complete' && level.assessment
               img.banner(src="/images/pages/play/level-banner-unstarted-subscriber.png")
-            else if levelStatusMap[level.slug] === 'started'
+            else if levelStatus === 'started'
               img.banner(src="/images/pages/play/level-banner-started.png")
-            else if levelStatusMap[level.slug] !== 'complete'
+            else if levelStatus !== 'complete'
               img.banner(src="/images/pages/play/level-banner-unstarted" + (level.requiresSubscription?'-subscriber':'') + ".png")
             if levelDifficultyMap[level.slug]
               .level-difficulty-banner-text= levelDifficultyMap[level.slug]
@@ -190,18 +191,23 @@ if showGameDevAlert
               img.treasure-chest(src="/images/pages/play/" + (level.requiresSubscription?'silver':'bronze') + "-chest.png")
             else if level.unlocksHero
               img.treasure-chest(src="/images/pages/play/gold-chest.png")
-        div(style="left: " + level.position.x + "%; bottom: " + level.position.y + "%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""))
-        .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name, data-level-original=level.original)
+        div(style="left: " + level.position.x + "%; bottom: " + level.position.y + "%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + levelStatus)
+        .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name, data-level-original=level.original, class=(level.practiceLevels && level.practiceLevels.length ? "has-practice-levels" : ""))
           - var playCount = levelPlayCountMap[level.slug]
           .progress.progress-striped.active.hide
             .progress-bar(style="width: 100%")
-          - var showsLeaderboard = view.shouldShow('leaderboard') && (levelStatusMap[level.slug] === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder', 'ladder'].indexOf(level.type) !== -1));
+          - var showsLeaderboard = view.shouldShow('leaderboard') && (levelStatus === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder', 'ladder'].indexOf(level.type) !== -1));
 
-          div(class="level-info rtl-allowed " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
+          div(class="level-info rtl-allowed " + levelStatus + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
             .level-status.rtl-allowed(dir="auto")
             - var levelName = levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + (level.lockedByTeacher ? translate('play.locked_by_teacher') : translate('play.locked')) + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")));
-            h3(dir=view.isRTL(levelName) ? "rtl" : "ltr")= levelName
-            if level.assessment === 'open-ended' && view.levelScoreMap[level.original] && levelStatusMap[level.slug] === 'complete'
+            h3(dir=view.isRTL(levelName) ? "rtl" : "ltr")
+              span= levelName
+              if view.shouldShow('classroom-level-play-button') && level.practiceLevels && level.practiceLevels.length
+                span.course-version.hidden(data-level-original=level.original)
+                  button.btn.btn-md.btn-illustrated(data-i18n="[title]common.play", class=(levelStatus === "complete" ? "btn-primary" : "btn-success"))
+                    span.glyphicon.glyphicon-play
+            if level.assessment === 'open-ended' && view.levelScoreMap[level.original] && levelStatus === 'complete'
               - topScore = view.levelScoreMap[level.original]
               if topScore.thresholdAchieved
                 img.threshold-icon(src="/images/pages/courses/star-" + topScore.thresholdAchieved + ".png")
@@ -231,11 +237,25 @@ if showGameDevAlert
                   span(data-i18n="leaderboard.scores")
 
               if view.shouldShow('classroom-level-play-button')
-                .course-version.hidden(data-level-original=level.original)
-                  button.btn.btn-primary.btn.btn-lg.btn-block.btn-illustrated
-                    span(data-i18n="common.play") Play
+                if (!level.practiceLevels || !level.practiceLevels.length)
+                  .course-version.hidden(data-level-original=level.original)
+                    button.btn.btn-primary.btn.btn-lg.btn-block.btn-illustrated
+                      span(data-i18n="common.play") Play
               else
                 button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
+
+              for practiceLevel in level.practiceLevels || []
+                - var practiceLevelStatus = levelStatusMap[practiceLevel.slug] || ''
+                .practice-level(class=practiceLevelStatus)
+                  - var practiceLevelNumber = view.campaign.getLevelNumber(practiceLevel.original, true);
+                  - var practiceLevelName = practiceLevelNumber + '. ' + i18n(practiceLevel, 'name') + (practiceLevel.disabled ? " (" + translate('common.coming_soon') + ")" : (practiceLevel.locked ? " (" + (practiceLevel.lockedByTeacher ? translate('play.locked_by_teacher') : translate('play.locked')) + ")" : (practiceLevel.practice ? " (" + translate('courses.practice') + ")" : "")));
+                  h3(dir=view.isRTL(practiceLevelName) ? "rtl" : "ltr")
+                    span= practiceLevelName
+                    span.course-version.hidden(data-level-original=practiceLevel.original)
+                      button.btn.btn-md.btn-illustrated(data-i18n="[title]common.play", class=(practiceLevelStatus === "complete" ? "btn-primary" : "btn-success"))
+                        span.glyphicon.glyphicon-play
+                if practiceLevelStatus !== 'complete'
+                  - break
 
       if view.shouldShow('league-arena')
         for arena in view.activeArenas()

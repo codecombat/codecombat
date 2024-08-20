@@ -613,11 +613,6 @@ class CampaignView extends RootView {
             this.levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty
           }
         }
-        if (this.courseInstance.get('classroomID') === '5d12e7e36eea5a00ac71dc8f') { // Tarena national final classroom
-          if (!this.levelStatusMap['game-dev-2-final-project']) { // make sure all players could access GD2 final on competition day
-            this.levelStatusMap['game-dev-2-final-project'] = 'started'
-          }
-        }
       }
     }
   }
@@ -704,6 +699,8 @@ class CampaignView extends RootView {
     if (this.sessions?.loaded || this.editorMode) {
       this.determineNextLevel(context.levels)
     }
+    context.levels = this.collapsePracticeLevels(context.levels)
+
     // put lower levels in last, so in the world map they layer over one another properly.
     context.levels = _.sortBy(context.levels, l => l.position.y).reverse()
     if (this.campaign) {
@@ -969,6 +966,27 @@ class CampaignView extends RootView {
 
   paywallReached () {
     storage.save('paywall-reached', true)
+  }
+
+  collapsePracticeLevels (levels) {
+    if (!['junior', '65c56663d2ca2055e65676af'].includes(this.terrain)) {
+      // Only do this for Junior levels for now
+      return
+    }
+    // Collapse practice levels into their parent levels.
+    const collapsedLevels = []
+    let lastSourceLevel
+    for (const level of levels) {
+      if (level.practice) {
+        lastSourceLevel.practiceLevels = lastSourceLevel.practiceLevels || []
+        lastSourceLevel.practiceLevels.push(level)
+      } else {
+        collapsedLevels.push(level)
+        lastSourceLevel = level
+      }
+    }
+
+    return collapsedLevels
   }
 
   annotateLevels (orderedLevels) {
@@ -1561,13 +1579,13 @@ class CampaignView extends RootView {
 
   checkForCourseOption (levelOriginal) {
     const showButton = courseInstance => {
-      return this.$el.find(`.course-version[data-level-original='${levelOriginal}']`)
+      this.$el.find(`.level-info-container[data-level-original='${levelOriginal}'] .course-version`)
         .removeClass('hidden')
         .data({ 'course-id': courseInstance.get('courseID'), 'course-instance-id': courseInstance.id })
     }
 
     if (this.courseInstance) {
-      return showButton(this.courseInstance)
+      showButton(this.courseInstance)
     } else {
       if (!me.get('courseInstances')?.length) { return }
       this.courseOptionsChecked = this.courseOptionsChecked ?? {}
@@ -1929,7 +1947,7 @@ class CampaignView extends RootView {
     const nextSlug = this.courseStats.levels.next?.get('slug') || this.courseStats.levels.first?.get('slug')
     if (!nextSlug) { return }
 
-    const courseOrder = _.sortBy(orderedLevels, 'courseIdx')
+    const courseOrder = ['junior', '65c56663d2ca2055e65676af'].includes(this.terrain) ? orderedLevels : _.sortBy(orderedLevels, 'courseIdx')
     let found = false
     let prev = null
     let lastNormalLevel = null
