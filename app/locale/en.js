@@ -4967,7 +4967,9 @@ module.exports = {
       view_leaderboards_for_team: 'View leaderboards for team:',
       global_stats: 'GLOBAL STATS',
       code_your_way: 'Code your way',
-      to_win_the_price: 'to first place to win'
+      to_win_the_price: 'to first place to win',
+      regular: 'Regular',
+      championship: 'Championship',
     },
 
     tournament: {
