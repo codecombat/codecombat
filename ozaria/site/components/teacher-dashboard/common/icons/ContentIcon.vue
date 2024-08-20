@@ -22,7 +22,7 @@ export default {
     icon: {
       type: String,
       required: true,
-      validator: value => { return ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev', 'ladder', 'challenge'].indexOf(value) !== -1 }
+      validator: value => { return ['ai-use', 'ai-learn', 'cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev', 'ladder', 'challenge'].indexOf(value) !== -1 }
     }
   }
 }
@@ -35,10 +35,10 @@ export default {
   >
     <IconCutscene v-if="icon=='cutscene'" />
     <IconCinematic v-else-if="icon=='cinematic'" />
-    <IconCapstone v-else-if="icon=='capstone'" />
+    <IconCapstone v-else-if="['capstone', 'ai-use'].includes(icon)" />
     <IconInteractive v-else-if="icon=='interactive'" />
     <IconPracticeLevel v-else-if="icon=='practicelvl'" />
-    <IconChallengeLevel v-else-if="['challengelvl', 'hero'].includes(icon)" />
+    <IconChallengeLevel v-else-if="['challengelvl', 'hero', 'ai-learn'].includes(icon)" />
     <IconIntro v-else-if="icon=='intro'" />
     <IconIntro v-else />
   </div>

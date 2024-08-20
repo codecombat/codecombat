@@ -246,7 +246,8 @@ module.exports = (User = (function () {
     }
 
     static getNapervilleDomain () {
-      return '@naperville203.org'
+      // it can be stu.naperville203.org or naperville203.org and there are no premium benefits directly so safe to check without @
+      return 'naperville203.org'
     }
 
     getEnabledEmails () {
@@ -1318,8 +1319,14 @@ module.exports = (User = (function () {
       if (testStudentRelation) {
         return Promise.resolve({ id: testStudentRelation.userId, new: false })
       } else {
-        return this.createTestStudentAccount().then(response => {
-          return { id: response.relatedUserId, new: true }
+        return new Promise((resolve, reject) => {
+          try {
+            this.createTestStudentAccount().then(response => {
+              resolve({ id: response.relatedUserId, new: true })
+            })
+          } catch (e) {
+            reject(e)
+          }
         })
       }
     }

@@ -1,0 +1,34 @@
+extends /templates/common/table
+
+block tableResultsHeader
+  tr
+    th(colspan=me.isAdmin() ? 6 : 5)
+      span(data-i18n="general.results")
+        | Results
+      span
+        |: #{documents.length}
+
+block tableHeader
+  tr
+    th(data-i18n="general.date")
+    th Published
+    th(data-i18n="general.name")
+    th(data-i18n="general.description")
+    if me.isAdmin()
+      th(data-i18n="editor.delete")
+
+block tableBody
+  for scenario in documents
+    tr(data-scenario=scenario.get('_id') data-name=scenario.get('name'))
+      td(title=scenario.get('created'))
+        a(href='/editor/' + page + '/' + scenario.get('_id'))
+          | #{moment(scenario.get('created')).format('lll')}
+      td
+        if scenario.get('releasePhase') == 'released'
+          span ✅
+      td #{scenario.get('name')}
+      td !{marked(scenario.get('description') || '')}
+      if me.isAdmin() && scenario.get('releasePhase') != 'released'
+        td
+          button.ai-junior-scenario-tool-button.btn.btn-primary.btn-sm#delete-button(data-i18n="editor.delete")
+

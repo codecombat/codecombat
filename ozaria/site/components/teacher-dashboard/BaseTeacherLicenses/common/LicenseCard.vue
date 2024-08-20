@@ -112,6 +112,11 @@ export default {
         <div class="sub-text">
           {{ $t('teacher_dashboard.licenses_applied') }}
         </div>
+        <div class="special">
+          <div v-if="testStudentOnly">
+            {{ $t('teacher_dashboard.test_student_only') }}
+          </div>
+        </div>
       </div>
       <div class="remaining">
         {{ $t('teacher_dashboard.remaining_licenses', { remaining }) }}
@@ -119,11 +124,6 @@ export default {
       <div class="dates">
         <div>{{ $t('teacher_dashboard.start_date', { date: startDateFormat }) }}</div>
         <div>{{ $t('teacher_dashboard.end_date', { date: endDateFormat }) }}</div>
-      </div>
-      <div class="special">
-        <div v-if="testStudentOnly">
-          {{ $t('teacher_dashboard.test_student_only') }}
-        </div>
       </div>
     </div>
     <div
@@ -198,13 +198,13 @@ export default {
   @include font-p-4-paragraph-smallest-gray;
   color: #FFFFFF;
   text-align: center;
-  margin: 10px 0px 20px 0px;
+  margin: 30px 0px 20px 0px;
   font-weight: 600;
 }
 
 .special {
-  font-size: 12px;
-  color: white;
+  font-size: 14px;
+  line-height: 14px;
   text-align: center;
   height: 0;
 }

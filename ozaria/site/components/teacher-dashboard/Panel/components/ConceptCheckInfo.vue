@@ -10,7 +10,10 @@ export default {
 </script>
 <template>
   <div id="concept-check-info">
-    <div class="row-icon">
+    <div
+      v-if="conceptCheck.learningGoal"
+      class="row-icon"
+    >
       <img src="/images/ozaria/teachers/dashboard/svg_icons/IconLearningGoal.svg">
       <p>
         <b>{{ 'Learning Goal: ' }}</b>

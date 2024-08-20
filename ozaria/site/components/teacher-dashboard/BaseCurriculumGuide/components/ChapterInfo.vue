@@ -27,6 +27,7 @@ export default {
     return {
       levelsNameMap: {},
       courseLinks: {
+        junior: 'https://drive.google.com/drive/folders/1R2iON3JW2kWZpy8HUACl7Dw7BdVROwaq?usp=drive_link',
         'introduction-to-computer-science': 'https://drive.google.com/drive/folders/1-ww3rLkxj1cZwSvBm6_ThXqsEjwnu6Wn?usp=sharing',
         'game-development-1': 'https://drive.google.com/drive/folders/1YSJ9wcfHRJ2854F-vUdSWqoLBuSJye7V?usp=sharing',
         'computer-science-2': 'https://drive.google.com/drive/folders/1J3ywGVgDKtRBDaK_cK106Jn-l9GaKd3n?usp=sharing',

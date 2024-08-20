@@ -25,16 +25,6 @@ export default Vue.extend({
       this.$refs.modal.onClose()
       this.trackEvent('AI HackStack Promo Modal: Try It Now clicked', { category: 'Teachers' })
     },
-    showSignal () {
-      if (this.showModal) {
-        this.$emit('show')
-      } else {
-        this.$emit('close')
-      }
-    },
-    onClose () {
-      this.$emit('close')
-    }
   }
 })
 </script>
@@ -45,8 +35,6 @@ export default Vue.extend({
       v-if="showModal"
       ref="modal"
       seen-promotions-property="hackstack-beta-release-modal"
-      @show="showSignal"
-      @close="onClose"
     >
       <template #content>
         <div class="ai-modal-content-container">
