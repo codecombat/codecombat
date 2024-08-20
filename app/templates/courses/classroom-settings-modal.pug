@@ -116,17 +116,18 @@ block modal-body-content
                 each format in view.enabledCodeFormats
                   - var i18nPrefix = 'choose_hero.' + format.replace(/-/g, '_')
                   option(value=format)= $.i18n.t(i18nPrefix) + ' - ' + $.i18n.t(i18nPrefix + '_blurb')
-              .help-block.small.text-navy(data-i18n="teachers.default_code_format_description")
-  
-        .form-group
-          label
-            span(data-i18n="teachers.classroom_level_chat")
-            span= ': '
-            - var aceConfig = _.assign({levelChat: 'fixed_prompt_only'},  view.classroom.get('aceConfig'))
-            - var levelChat = aceConfig.levelChat
-            - var levelChatAllowed = levelChat === 'fixed_prompt_only'
-            input#level-chat(name="levelChat" checked=levelChatAllowed value='fixed_prompt_only' type='checkbox')
-          .help-block.small.text-navy(data-i18n="teachers.classroom_level_chat_blurb")
+            .help-block.small.text-navy(data-i18n="teachers.default_code_format_description")
+
+        if !me.showChinaResourceInfo()
+          .form-group
+            label
+              span(data-i18n="teachers.classroom_level_chat")
+              span= ': '
+              - var aceConfig = _.assign({levelChat: 'fixed_prompt_only'},  view.classroom.get('aceConfig'))
+              - var levelChat = aceConfig.levelChat
+              - var levelChatAllowed = levelChat === 'fixed_prompt_only'
+              input#level-chat(name="levelChat" checked=levelChatAllowed value='fixed_prompt_only' type='checkbox')
+            .help-block.small.text-navy(data-i18n="teachers.classroom_level_chat_blurb")
 
       .col-lg-6.col-md-12
         .form-group

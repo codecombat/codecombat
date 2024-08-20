@@ -28,6 +28,8 @@ const store = require('core/store')
 const paymentUtils = require('app/lib/paymentUtils')
 const fetchJson = require('core/api/fetch-json')
 const DOMPurify = require('dompurify')
+const Mandate = require('models/Mandate')
+const MineModal = require('views/core/MineModal') // Roblox modal
 
 const PRODUCT_SUFFIX = utils.isCodeCombat ? 'coco' : 'ozar'
 module.exports = (HomeView = (function () {
@@ -37,6 +39,9 @@ module.exports = (HomeView = (function () {
       this.onCarouselSlide = this.onCarouselSlide.bind(this)
       this.activateCarousels = this.activateCarousels.bind(this)
       this.renderedPaymentNoty = false
+      this.homeCN = {}
+      this.mandate = this.supermodel.loadModel(new Mandate()).model
+      this.listenTo(this.mandate, 'sync', this.getMandate)
       this.getBanner()
     }
 
@@ -46,6 +51,7 @@ module.exports = (HomeView = (function () {
 
       this.prototype.events = {
         'click .continue-playing-btn': 'onClickTrackEvent',
+        'click .start-playing-btn': 'onClickIndividualButton',
         'click .student-btn': 'onClickStudentButton',
         'click .teacher-btn': 'onClickTeacherButton',
         'click .parent-btn': 'onClickParentButton',
@@ -92,7 +98,7 @@ module.exports = (HomeView = (function () {
 
     getMeta () {
       return {
-        title: $.i18n.t('new_home.title_' + PRODUCT_SUFFIX),
+        title: $.i18n.t('new_home.title_' + (features?.chinaHome ? 'cn_home' : PRODUCT_SUFFIX)),
         meta: [
           { vmid: 'meta-description', name: 'description', content: $.i18n.t('new_home.meta_description_' + PRODUCT_SUFFIX) },
           { vmid: 'viewport', name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
@@ -101,6 +107,17 @@ module.exports = (HomeView = (function () {
           { vmid: 'rel-canonical', rel: 'canonical', href: '/' }
         ]
       }
+    }
+
+    onClickIndividualButton (e) {
+      this.homePageEvent('Started Signup')
+      this.homePageEvent($(e.target).data('event-action'))
+      this.openModalView(new CreateAccountModal({startOnPath: 'individual'}))
+    }
+
+    getMandate () {
+      this.homeCN = this.mandate.get('0').homeCN
+      this.renderSelectors('.aiyouth')
     }
 
     getBanner () {

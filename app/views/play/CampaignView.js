@@ -16,6 +16,7 @@ const SubscribeModal = require('views/core/SubscribeModal')
 const LeaderboardModal = require('views/play/modal/LeaderboardModal')
 const Level = require('models/Level')
 const utils = require('core/utils')
+const constants = require('core/constants')
 const ShareProgressModal = require('views/play/modal/ShareProgressModal')
 const UserPollsRecord = require('models/UserPollsRecord')
 const Poll = require('models/Poll')
@@ -154,6 +155,7 @@ class CampaignView extends RootView {
     this.levelPlayCountMap = {}
     this.levelDifficultyMap = {}
     this.levelScoreMap = {}
+    this.DEEP_API_LIST = constants.DEEP_API_LIST
     this.courseLevelsLoaded = false
 
     if (this.terrain === 'hoc-2018') {
@@ -266,7 +268,7 @@ class CampaignView extends RootView {
       this.courseLevelsFake = {}
       this.courseInstanceID = utils.getQueryVariable('course-instance')
       this.courseInstance = new CourseInstance({ _id: this.courseInstanceID })
-      const jqxhr = this.courseInstance.fetch()
+      const jqxhr = this.courseInstance.fetch({ data: $.param({ time: +new Date() }) })
       this.supermodel.trackRequest(jqxhr)
       new Promise(jqxhr.then).then(() => {
         if (this.destroyed) return
@@ -2118,11 +2120,11 @@ class CampaignView extends RootView {
     }
 
     if (what === 'roblox-level') {
-      return this.userQualifiesForRobloxModal()
+      return this.userQualifiesForRobloxModal() && !me.showChinaResourceInfo()
     }
 
     if (what === 'hackstack') {
-      return me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary()
+      return me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary() && !me.showChinaResourceInfo()
     }
 
     return true

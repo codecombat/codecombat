@@ -432,7 +432,7 @@ describe('when logged in', function() {
       beforeEach(function(done) {
         this.courseInstance = this.view.courseInstances.first();
         this.courseInstance.set('members', []);
-        this.view.assignCourse(this.courseInstance.get('courseID'), this.students.pluck('_id').slice(2, 4));
+        this.view.assignCourse(this.courseInstance.get('courseID'), this.students.pluck('_id').slice(2, 3));
         return this.view.wait('begin-assign-course').then(done);
       });
 

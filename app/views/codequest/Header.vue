@@ -20,6 +20,7 @@
               href="https://docs.google.com/forms/d/e/1FAIpQLSf-Hq5e5COINPxh5soG0XIF0UNH9HjnAjXKz4EBinLmcmp2sw/viewform"
               property1="default"
               :text="$t('codequest_page.apply_now')"
+              :apply="true"
             />
             <p class="div">
               {{ $t('codequest_page.insight') }}

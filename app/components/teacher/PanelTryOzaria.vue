@@ -27,7 +27,7 @@ export default Vue.extend({
       </div>
       <a
         class="try-oz-btn"
-        href="https://ozaria.com/teachers"
+        href="https://aojiarui.com/teachers"
         rel="external"
         target="_blank"
       >

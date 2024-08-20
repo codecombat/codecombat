@@ -31,6 +31,10 @@ module.exports = (Products = (function () {
     getByName (name) { return this.findWhere({ name }) }
 
     getBasicSubscriptionForUser (user) {
+      if (features.chinaHome) {
+        return this.findWhere({ name: 'china_seasonly_subscription' })
+      } else if (features.chinaInfra) { return null }
+
       let countrySpecificProduct
       const coupon = __guard__(user != null ? user.get('stripe') : undefined, x => x.couponID)
       if (coupon) {
@@ -47,6 +51,10 @@ module.exports = (Products = (function () {
     }
 
     getBasicAnnualSubscriptionForUser () {
+      if (features.chinaHome) {
+        return this.findWhere({ name: 'china_annual_subscription' })
+      } else if (features.chinaInfra) { return null }
+
       const corrilyAnnual = this.findWhere({ name: 'corrily_basic_subscription_annual' })
       console.log('product annual sel', corrilyAnnual)
       return corrilyAnnual || this.findWhere({ name: 'basic_subscription_annual' })

@@ -76,7 +76,7 @@ module.exports = (TeacherCoursesView = (function () {
         })
         return this.campaignLevelNumberMap[campaign.id] = utils.createLevelNumberMap(levels)
       })
-      this.paidTeacher = this.paidTeacher || (this.prepaids.find(p => (needle = p.get('type'), ['course', 'starter_license'].includes(needle)) && (p.get('maxRedeemers') > 0)) != null)
+      this.paidTeacher = this.paidTeacher || (this.prepaids.find(p => (needle = p.get('type'), ['course', 'starter_license'].includes(needle)) && (p.get('maxRedeemers') > 0) && (me.showChinaResourceInfo() ? (new Date() < new Date(p.get('endDate'))) : true)) != null)
       this.fetchChangeLog()
       this.fetchResourceHubResources()
       __guard__(me.getClientCreatorPermissions(), x => x.then(() => (typeof this.render === 'function' ? this.render() : undefined)))

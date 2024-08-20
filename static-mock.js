@@ -45,6 +45,7 @@ exports.me = {
   showChinaResourceInfo () { return false },
   hideDiplomatModal () { return false },
   showOpenResourceLink () { return true },
+  showChinaHomeVersion() { return false },
   useStripe () { return true },
   getHackStackExperimentValue () { return false }
 }

@@ -171,8 +171,9 @@ module.exports = (User = (function () {
     isIndividualUser () { return !this.isStudent() && !User.isTeacher(this.attributes) }
 
     isNewDashboardActive () {
+      const china = window.features?.china
       const features = {
-        isNewDashboardActive: true,
+        isNewDashboardActive: !china,
         ...(this.get('features') || {})
       }
       return features.isNewDashboardActive
@@ -1048,6 +1049,10 @@ module.exports = (User = (function () {
       forcedValue
     }) {
       let value = me.getExperimentValue(experimentName, null)
+
+      if (features?.china) {
+        return 'control'
+      }
 
       if (value === null && !utils.isCodeCombat) {
         // Don't include non-CodeCombat users

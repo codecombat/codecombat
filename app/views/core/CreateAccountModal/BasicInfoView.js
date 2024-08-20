@@ -302,8 +302,8 @@ module.exports = (BasicInfoView = (function () {
           },
           required: (() => {
             switch (this.signupState.get('path')) {
-              case 'student': return ['name', 'password', 'firstName', 'lastName']
-              case 'teacher': return ['password', 'email', 'firstName', 'lastName']
+              case 'student': return ['name', 'password', 'firstName'].concat(me.showChinaRegistration() ? [] : ['lastName'])
+              case 'teacher': return ['password', 'email', 'firstName'].concat(me.showChinaRegistration() ? [] : ['lastName'])
               default: return ['name', 'password', 'email']
             }
           })()
@@ -407,7 +407,7 @@ module.exports = (BasicInfoView = (function () {
 
           me.set('features', {
             ...(me.get('features') || {}),
-            isNewDashboardActive: true
+            isNewDashboardActive: !me.showChinaResourceInfo()
           })
 
           const jqxhr = me.save()

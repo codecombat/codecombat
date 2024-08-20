@@ -60,7 +60,8 @@ module.exports = class ProblemAlertView extends CocoView
     unless globalVar.userCreditsMessage
       globalVar.userCredtisMessage = ''
     @creditMessage = globalVar.userCreditsMessage
-    @showAiBotHelp = shouldShowAiBotHelp(@aceConfig)
+    unless me.showChinaResourceInfo()
+        @showAiBotHelp = shouldShowAiBotHelp(@aceConfig)
 
   destroy: ->
     $(window).off 'resize', @onWindowResize

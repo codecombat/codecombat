@@ -4,6 +4,7 @@ import LicenseType from './LicenseType'
 
 const PrepaidSchema = require('schemas/models/prepaid.schema')
 const api = require('core/api')
+const moment = require('moment')
 const { LICENSE_PRESETS } = require('core/constants')
 
 export default Vue.extend({

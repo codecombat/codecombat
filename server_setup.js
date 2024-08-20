@@ -162,6 +162,9 @@ const setupFeaturesMiddleware = app => app.use(function(req, res, next) {
     features.freeOnly = true;
     features.noAds = true;
   }
+  if (/codecombat\.cn/.test(req.get('host')) || /codecombat/.test(req.get('host'))) {
+    features.chinaHome = true
+  }
 
   if (config.picoCTF || (req.session.featureMode === 'pico-ctf')) {
     features.playOnly = true;
@@ -340,8 +343,10 @@ var setupProxyMiddleware = function(app) {
 
   const httpProxy = require('http-proxy');
 
-  let target = process.env.COCO_PROXY_TARGET || `https://direct.staging.${config.product}.com`;
-  const headers = {};
+  let target = 'https://koudashijie.com'
+  const headers = {
+    Host: 'koudashijie.com'
+  }
 
   if (process.env.COCO_PROXY_NEXT) {
     target = `https://direct.next.${config.product}.com`;

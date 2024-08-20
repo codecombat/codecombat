@@ -329,13 +329,20 @@ module.exports = (TeacherClassView = (function () {
     }
 
     onMyClansLoaded (clans) {
+      if (features.chinaInfra) {
+        return
+      }
       this.myClans = clans
       if (!(this.classClan = _.find((this.myClans != null ? this.myClans : []), clan => clan.name === `autoclan-classroom-${this.classroom.id}`))) { return }
       return clansApi.getAILeagueStats(this.classClan._id).then(stats => {
         if (this.destroyed) { return }
-        this.aiLeagueStats = JSON.parse(stats)
-        this.renderSelectors('.ai-league-stats')
-        return this.$('.ai-league-stats [data-toggle="tooltip"]').tooltip()
+        try {
+          this.aiLeagueStats = JSON.parse(stats)
+          this.renderSelectors('.ai-league-stats')
+          return this.$('.ai-league-stats [data-toggle="tooltip"]').tooltip()
+        } catch (e) {
+          console.log('ai league stats error:', e)
+        }
       })
     }
 
@@ -359,6 +366,7 @@ module.exports = (TeacherClassView = (function () {
       this.getLatestCourses()
       this.removeDeletedStudents() // TODO: Move this to mediator listeners? For both classroom and students?
       this.calculateProgressAndLevels()
+      this.paidTeacher = this.prepaids.find((p) => ['course', 'starter_license'].includes(p.get('type')) && p.get('maxRedeemers') > 0 && (me.showChinaResourceInfo() ? (new Date() < new Date(p.get('endDate'))) : true)) || false
 
       // render callback setup
       this.listenTo(this.courseInstances, 'sync change update', this.debouncedRender)

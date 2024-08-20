@@ -19,7 +19,7 @@ module.exports = (ChooseAccountTypeView = (function () {
       this.prototype.template = template
 
       this.prototype.events = {
-        'click .teacher-path-button' () { return this.trigger('choose-path', utils.isOzaria ? 'teacher' : 'oz-vs-coco') },
+        'click .teacher-path-button' () { return this.trigger('choose-path', 'teacher') },
         'click .student-path-button' () { return this.trigger('choose-path', 'student') },
         'click .individual-path-button' () { return this.trigger('choose-path', 'individual') },
         'input .class-code-input': 'onInputClassCode',
@@ -31,6 +31,12 @@ module.exports = (ChooseAccountTypeView = (function () {
             return application.router.navigate('/parents/signup', { trigger: true })
           }
         }
+      }
+    }
+
+    afterRender () {
+      if (me.showChinaHomeVersion()) {
+        this.trigger('choose-path', 'individual')
       }
     }
 

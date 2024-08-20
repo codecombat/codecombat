@@ -160,9 +160,11 @@ block modal-body-content
     .col-sm-4
       .text-center
         span.change-tab(data-i18n='teacher.apply_licenses', data-tab='apply', class=(activeTab == 'apply' ? 'focus' : ''))
-    .col-sm-4
-      .text-center
-        span.change-tab(data-i18n='teacher.check_and_revoke_license', data-tab='revoke', class=(activeTab == 'revoke'? 'focus': ''))
+    // hide revoke for China normal teacher now
+    if (me.isAdmin() || (serverSession && serverSession.amActually))
+      .col-sm-4
+        .text-center
+          span.change-tab(data-i18n='teacher.check_and_revoke_license', data-tab='revoke', class=(activeTab == 'revoke'? 'focus': ''))
     .col-sm-2
       | .
 

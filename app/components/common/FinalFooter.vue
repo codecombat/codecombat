@@ -93,9 +93,9 @@ export default Vue.extend({
       source(srcset="/images/pages/base/logo.webp" type="image/webp")
       img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
     .social-links
-      a(v-for="socialLink in socialLinks" :href="socialLink.href" :alt="socialLink.alt" :key="socialLink.href" target="_blank")
-        div.img
-          component(:is="socialLink.component")
+      if !me.showChinaResourceInfo()
+        a(v-for="socialLink in socialLinks" :href="socialLink.href" :key="socialLink.href" target="_blank")
+          img(:src="socialLink.img" :alt="socialLink.alt")
     .copyright
       if me.showChinaResourceInfo()
         span.contact= "商务合作："+COCO_CHINA_CONST.CONTACT_EMAIL
@@ -103,7 +103,9 @@ export default Vue.extend({
       span= ' ©2024 CodeCombat Inc. '
       span {{ $t("nav.copyright_suffix") }}
       if me.showChinaResourceInfo()
-        if me.showChinaHomeVersion()
+        if isOzaria
+          a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-7
+        else if me.showChinaHomeVersion()
           a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-20
         else
           a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号

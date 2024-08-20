@@ -380,9 +380,9 @@ mixin bulkAssignControls
           if !view.availableCourseMap[course.id]
             = " " + translate('teacher.paren_new')
     if !state.get('readOnly')
-      button.btn.btn-primary.assign-to-selected-students(disabled=!view.allStatsLoaded())
+      button.btn.btn-primary.assign-to-selected-students(disabled=!(view.allStatsLoaded() && view.paidTeacher))
         span(data-i18n='teacher.assign_course')
-      button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!view.allStatsLoaded())
+      button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!(view.allStatsLoaded() && view.paidTeacher))
         span(data-i18n='teacher.remove_course')
 
 mixin assessmentsTab
@@ -448,7 +448,8 @@ mixin enrollmentStatusTab
       th(width='30%')
         span(data-i18n='teacher.owned_license')
       th(width='25%')
-      if me.canRevokeLicensesViaUI() && !state.get('readOnly')
+      if me.canRevokeLicensesViaUI() && !state.get('readOnly') && !me.showChinaResourceInfo()
+        // hide revoke in China now
         th
           button.revoke-all-students-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_licenses")
     tbody
@@ -532,7 +533,7 @@ if classroom.loaded
             span.spl(data-i18n="courses.update_old_classroom_detail_2")
 
     h3.m-t-2(dir="auto")= classroom.get('name')
-    if classroom.isOwner()
+    if !me.showChinaResourceInfo() && classroom.isOwner()
       a.label.view-ai-league(data-event-action="Teachers Classes View AI League Team")
         span(data-i18n='teacher.view_ai_league_team')
     if !state.get('readOnly') && classroom.hasWritePermission()
@@ -649,7 +650,7 @@ if classroom.loaded
           span(data-i18n='courses.add_students')
           span :
         +copyCodes
-        if !state.get('readOnly')
+        if !state.get('readOnly') && !me.showChinaResourceInfo()
           +addStudentsButton
 
     if view.students.length > 0
@@ -672,10 +673,11 @@ if classroom.loaded
           a.course-progress-tab-btn(href='#license-status-tab')
             .small-details.text-center(data-i18n='teacher.license_status')
         .tab-spacer
-        li(class=(activeTab === "#ai-league-stats-tab" ? 'active' : ''))
-          a.course-progress-tab-btn(href='#ai-league-stats-tab')
-            .small-details.text-center AI League
-        .tab-filler
+        if !me.showChinaResourceInfo()
+          li(class=(activeTab === "#ai-league-stats-tab" ? 'active' : ''))
+            a.course-progress-tab-btn(href='#ai-league-stats-tab')
+              .small-details.text-center AI League
+          .tab-filler
 
       .tab-content
         if activeTab === '#students-tab'

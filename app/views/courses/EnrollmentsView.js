@@ -235,6 +235,7 @@ module.exports = (EnrollmentsView = (function () {
       )
 
       const shouldUpsellParent = (
+        me.useStripe() &&
         (me.get('role') === 'parent') &&
         (needle2 = me.get('country'), !['australia', 'taiwan', 'hong-kong', 'netherlands', 'indonesia', 'singapore', 'malaysia'].includes(needle2)) &&
         !skipUpsellDueToExistingLicenses
