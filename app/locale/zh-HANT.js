@@ -3859,7 +3859,7 @@ module.exports = {
       error_you_said_achoo: '[AI_TRANSLATION]你說的是: `$1`，但密碼是: `$2`。（大小寫字母很重要哦）',
       indentation_error_unindent_does: '[AI_TRANSLATION]縮排錯誤：取消縮排不匹配任何外部縮排級別',
       indentation_error: '[AI_TRANSLATION]縮排錯誤。',
-      need_a_on_the: '[AI_TRANSLATION]需要在這行的末尾加上 `:`。  ',
+      need_a_on_the: '需要在 `$1` 這行的末尾加上 `:`。',
       attempt_to_call_undefined: '[AI_TRANSLATION]嘗試調用 `$1` （一個空值）',
       unterminated: '[AI_TRANSLATION]遺漏終止符 `$1`',
       target_an_enemy_variable: '[AI_TRANSLATION]目標是 `$1` 變量，而不是字符串 `$2`。（試試用 `$3` 吧。）',
