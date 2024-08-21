@@ -289,6 +289,7 @@ module.exports = (User = (function () {
 
     isPaidTeacher () {
       // TODO: this doesn't actually check to see if they are paid (having prepaids), confusing
+      // use isPaidTeacher from me.js in vuex store for vue
       if (!this.isTeacher()) { return false }
       return this.isCreatedByClient() || (/@codeninjas.com$/i.test(this.get('email')))
     }
