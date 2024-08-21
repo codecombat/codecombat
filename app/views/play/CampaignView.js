@@ -2093,52 +2093,14 @@ class CampaignView extends RootView {
       return this.campaign?.get('slug') === 'game-dev-hoc'
     }
 
-    if (what === 'santa-clara-logo') {
-      return userUtils.libraryName() === 'santa-clara'
-    }
+    const libraryLogos = [
+      'santa-clara', 'garfield', 'arapahoe', 'houston', 'burnaby',
+      'liverpool-library', 'lafourche-library', 'shreve-library', 'vaughan-library',
+      'surrey-library', 'okanagan-library', 'east-baton-library',
+    ]
 
-    if (what === 'garfield-logo') {
-      return userUtils.libraryName() === 'garfield'
-    }
-
-    if (what === 'arapahoe-logo') {
-      return userUtils.libraryName() === 'arapahoe'
-    }
-
-    if (what === 'houston-logo') {
-      return userUtils.libraryName() === 'houston'
-    }
-
-    if (what === 'burnaby-logo') {
-      return userUtils.libraryName() === 'burnaby'
-    }
-
-    if (what === 'liverpool-library-logo') {
-      return userUtils.libraryName() === 'liverpool-library'
-    }
-
-    if (what === 'lafourche-library-logo') {
-      return userUtils.libraryName() === 'lafourche'
-    }
-
-    if (what === 'shreve-library-logo') {
-      return userUtils.libraryName() === 'shreve'
-    }
-
-    if (what === 'vaughan-library-logo') {
-      return userUtils.libraryName() === 'vaughan-library'
-    }
-
-    if (what === 'surrey-library-logo') {
-      return userUtils.libraryName() === 'surrey-library'
-    }
-
-    if (what === 'okanagan-library-logo') {
-      return userUtils.libraryName() === 'okanagan-library'
-    }
-
-    if (what === 'east-baton-library-logo') {
-      return userUtils.libraryName() === 'east-baton-library'
+    if (libraryLogos.includes(what.replace('-logo', ''))) {
+      return userUtils.libraryName() === what.replace('-logo', '')
     }
 
     if (what === 'league-arena') {
