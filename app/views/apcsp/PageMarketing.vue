@@ -279,7 +279,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters({
       teacherPrepaids: 'prepaids/getPrepaidsByTeacher',
-      hasActivePrepaid: 'prepaids/hasActivePrepaid'
+      isPaidTeacher: 'me/isPaidTeacher'
     })
   },
   mounted () {
@@ -305,12 +305,8 @@ export default Vue.extend({
     },
 
     async updateLicenseStatus () {
-      if (me.isPaidTeacher()) {
-        this.hasLicense = true
-        return
-      }
       await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
-      if (this.hasActivePrepaid(me.id)) {
+      if (this.isPaidTeacher) {
         this.hasLicense = true
       }
     }

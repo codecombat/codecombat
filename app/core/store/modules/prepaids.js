@@ -133,10 +133,6 @@ export default {
 
     getJoinersForPrepaid: (state) => (id) => {
       return state.joiners.byPrepaid[id] || []
-    },
-    hasActivePrepaid: (state) => (teacherId) => {
-      const prepaids = state.prepaids.byTeacher[teacherId]
-      return prepaids && (prepaids.available.length > 0 || prepaids.empty.length > 0)
     }
   },
 
