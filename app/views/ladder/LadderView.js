@@ -315,7 +315,7 @@ module.exports = (LadderView = (function () {
         this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, tournament: this.tournamentId, leagueType: 'clan', myTournamentSubmission: this.myTournamentSubmission }, this.level, this.sessions)) // classroom ladder do not have tournament for now
       } else if (['initializing', 'ranking', 'waiting'].includes(this.tournamentState)) {
         null
-      } else if(this.level.get('slug') === 'farmers-feud' && ! this.league) {
+      } else if(me.showChinaResourceInfo() && this.level.get('slug') === 'farmers-feud' && ! this.league) {
         null
       } else { // starting, or unset
         if (this.level.isType('ladder')) {

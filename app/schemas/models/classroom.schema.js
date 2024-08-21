@@ -1,10 +1,16 @@
 const c = require('./../schemas')
+let china = false
+if (typeof window !== 'undefined') {
+  china = window.features?.china
+} else {
+  china = !!process?.env.COCO_CHINA_INFRASTRUCTURE
+}
 
 const ClassroomSchema = c.object({
   title: 'Classroom',
   required: ['name'],
   default: {
-    classroomItems: false,
+    classroomItems: !china,
     initializedOuterStats: true,
   }
 })

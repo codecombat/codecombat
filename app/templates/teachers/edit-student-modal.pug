@@ -38,7 +38,7 @@ block modal-body-content
           span )
       
 
-      if me.canManageLicensesViaUI() && (me.isAdmin() || (serverSession && serverSession.amActually))
+      if enrolledCourseBits === 0 && me.canManageLicensesViaUI() && (!me.showChinaResourceInfo() || me.isAdmin() || (serverSession && serverSession.amActually))
         if enrolledCourseBits === 0 
           .small-details
             if view.prepaids.totalAvailable() === 0

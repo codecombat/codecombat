@@ -8,10 +8,25 @@
 
     <title>My CodeCombat Website</title>
 
-    <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.1/lodash.min.js"></script>
-
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-
+    <script>
+    const conditionalScript1 = document.createElement('script')
+    const conditionalScript2 = document.createElement('script')
+    if (features?.china) {
+      conditionalScript1.src = 'https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.1/lodash.min.js'
+      conditionalScript2.src = 'https://cdn.bootcdn.net/ajax/libs/jquery/2.2.4/jquery.min.js'
+      conditionalScript2.integrity = 'sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44'
+      conditionalScript2.crossorigin = 'anonymous'
+    } else {
+      conditionalScript1.src='https://cdn.jsdelivr.net/lodash/4.13.1/lodash.min.js'
+      conditionalScript1.integrity='sha256-8SeyqJ7ZAZx8WnIgP/bgK6LGIjKjhojNPHSMV/fo29Y='
+      conditionalScript1.crossorigin='anonymous'
+      conditionalScript2.src='https://code.jquery.com/jquery-2.2.4.min.js'
+      conditionalScript2.integrity='sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44='
+      conditionalScript2.crossorigin='anonymous'
+    }
+    document.head.appendChild(conditionalScript1)
+    document.head.appendChild(conditionalScript2)
+    </script>
     <script src="/javascripts/web-dev-listener.js"></script>
     
     <script src="/javascripts/app/vendor/aether-html.js"></script>

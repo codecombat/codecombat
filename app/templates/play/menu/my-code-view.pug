@@ -1,4 +1,4 @@
-.form
+form
 
   h3(data-i18n="game_menu.my_code_caption")
 
@@ -23,7 +23,7 @@
       .col.col.xs-8
         span.action-help Clean up and reformat current code
 
-  if !me.showChinaResourceInfo()
+  if !me.showChinaResourceInfo() && view.askAiBot
     .row.action-row
       .col.col-xs-4
         .btn.btn-block.btn-illustrated.btn-primary.ai-hint(data-i18n="[title]play_level.problem_alert_ask_the_ai")

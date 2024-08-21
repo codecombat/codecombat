@@ -431,11 +431,16 @@ export default Vue.extend({
                 source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
               img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-2.png" alt="Tecmilenio logo")
+            a.navbar-brand(v-else-if="showHackStackLogo")
+              a(:href="homeLink")
+                picture
+                  source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
+                  img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+              a(href="/ai")
+                img#logo-img(src="/images/pages/base/hs-logo.png" alt="HackStack logo")
             a.navbar-brand(v-else-if="me.showChinaResourceInfo()&&!me.showChinaHomeVersion()" href="/home")
               img#logo-img(src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
-            a.navbar-brand(v-else-if="showHackStackLogo" href="/home")
-              img#logo-img(src="/images/pages/base/logo+hs.png" alt="CodeCombat and HackStack logo")
-            a.navbar-brand(v-else :href="hideNav ? '#' : '/home'")
+            a.navbar-brand(v-else :href="homeLink")
               picture
                 source#logo-img(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
@@ -461,40 +466,56 @@ export default Vue.extend({
                     a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
                   li
                     a.text-p(href="/events", data-i18n="nav.events", class='')
-              li(v-if="me.isTeacher()")
-                ul.nav.navbar-nav
-                  li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span {{ $t('nav.dashboard') }}
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/teachers/classes')")
-                          span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria${me.isSchoolAdmin()?'_teacher':''}_dashboard`) }}
-                      li
-                        a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t(`nav.codecombat${me.isSchoolAdmin()?'_teacher':''}_dashboard`) }}
 
-                      li(v-if="me.isSchoolAdmin()")
-                        a.text-p(:href="ozPath('/school-administrator')")
-                          span(:class="checkLocation('/school-administrator', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria_admin_dashboard`) }}
-                      li(v-if="me.isSchoolAdmin()")
-                        a.text-p(:class="checkLocation('/school-administrator', CODECOMBAT) && 'text-teal'" :href="cocoPath('/school-administrator')") {{ $t(`nav.codecombat_admin_dashboard`) }}
+              template(v-if="me.showChinaResourceInfo()")
+                li(v-if="me.isTeacher()")
+                  ul.nav.navbar-nav
+                    li.dropdown.dropdown-hover
+                      a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                        span {{ $t('nav.dashboard') }}
+                        span.caret
+                      ul(class="dropdown-menu")
+                        li
+                          a.text-p(:href="ozPath('/teachers/classes')")
+                            span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria${me.isSchoolAdmin()?'_teacher':''}_dashboard`) }}
+                        li
+                          a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t(`nav.codecombat${me.isSchoolAdmin()?'_teacher':''}_dashboard`) }}
 
-              li(v-else-if="me.isStudent()")
-                ul.nav.navbar-nav
-                  li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span {{ $t('nav.my_courses') }}
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/students')")
-                          span(:class="checkLocation('/students', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                      li
-                        a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") {{ $t('nav.codecombat_classroom') }}
+                        li(v-if="me.isSchoolAdmin()")
+                          a.text-p(:href="ozPath('/school-administrator')")
+                            span(:class="checkLocation('/school-administrator', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria_admin_dashboard`) }}
+                        li(v-if="me.isSchoolAdmin()")
+                          a.text-p(:class="checkLocation('/school-administrator', CODECOMBAT) && 'text-teal'" :href="cocoPath('/school-administrator')") {{ $t(`nav.codecombat_admin_dashboard`) }}
 
-              li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
-                a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
+                li(v-else-if="me.isStudent()")
+                  ul.nav.navbar-nav
+                    li.dropdown.dropdown-hover
+                      a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                        span {{ $t('nav.my_courses') }}
+                        span.caret
+                      ul(class="dropdown-menu")
+                        li
+                          a.text-p(:href="ozPath('/students')")
+                            span(:class="checkLocation('/students', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
+                        li
+                          a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") {{ $t('nav.codecombat_classroom') }}
+
+                li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
+                  a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
+              template(v-else)
+                li(v-for="navItem in getNavbarData()")
+                 ul.nav.navbar-nav(v-if="navItem.children")
+                   li.dropdown.dropdown-hover
+                     a.text-p(:href="isWideScreen ? navItem.url : null" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                       span {{ $t(navItem.title) }}
+                       caret.dropdown-caret(v-if="useDarkMode" color="white")
+                       caret.dropdown-caret(v-else color="black")
+                     ul(class="dropdown-menu" :class="navItem.children.some(child => child.description) && 'text-wide'")
+                       li(v-for="child in navItem.children.filter(child => child.hide!==true)")
+                         a.text-p(:href="child.url" :class="[child.class, child.url && checkLocation(child.url) && 'text-teal'].filter(Boolean)" v-bind="child.attrs") {{ $t(child.title) }}
+                           div.text-description(v-if="child.description") {{ $t(child.description) }}
+
+                 a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
 
             ul.nav.navbar-nav(v-if="!me.isAnonymous()")
               li(v-if="me.isTarena()")
@@ -516,7 +537,7 @@ export default Vue.extend({
                     a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                   li
                     a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                  li(v-if="me.isAdmin() || (me.get('emailVerified') && (!me.showChinaHomeVersion()) && (me.isTeacher() || (!me.get('role') && !me.isAnonymous())))")
+                  li(v-if="isCodeCombat && !me.showChinaResourceInfo() && (me.isAdmin() || me.isParentHome() || me.isRegisteredHomeUser())")
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
                     a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")
@@ -525,10 +546,6 @@ export default Vue.extend({
                       span {{ $t('announcement.notifications') }}
                       span.unread(v-if="unread") {{ unread }}
                     announcement-nav.announcement-nav(v-if="this.announcements.length")
-                  li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
-                    a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
-                  li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()|| (me.showChinaHomeVersion() && me.isHomeUser()))")
-                    a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
                   li(v-if="me.isAPIClient()")
                     a.account-dropdown-item(href="/partner-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                   li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")

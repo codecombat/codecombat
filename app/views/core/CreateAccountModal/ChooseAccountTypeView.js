@@ -19,7 +19,7 @@ module.exports = (ChooseAccountTypeView = (function () {
       this.prototype.template = template
 
       this.prototype.events = {
-        'click .teacher-path-button' () { return this.trigger('choose-path', 'teacher') },
+        'click .teacher-path-button' () { return this.trigger('choose-path', (utils.isOzaria || me.showChinaResourceInfo()) ? 'teacher' : 'oz-vs-coco') },
         'click .student-path-button' () { return this.trigger('choose-path', 'student') },
         'click .individual-path-button' () { return this.trigger('choose-path', 'individual') },
         'input .class-code-input': 'onInputClassCode',

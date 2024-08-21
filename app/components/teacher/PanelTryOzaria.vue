@@ -4,6 +4,11 @@ import OzariaCTA from './OzariaCTA'
 export default Vue.extend({
   components: {
     OzariaCTA
+  },
+  computed: {
+    ozariaUrl () {
+      return features.chinaInfra ? 'https://aojiarui.com/teachers' : 'https://www.ozaria.com/teachers'
+    }
   }
 })
 </script>
@@ -27,7 +32,7 @@ export default Vue.extend({
       </div>
       <a
         class="try-oz-btn"
-        href="https://aojiarui.com/teachers"
+        :href="ozariaUrl"
         rel="external"
         target="_blank"
       >

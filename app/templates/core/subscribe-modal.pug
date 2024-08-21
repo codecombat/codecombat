@@ -68,7 +68,10 @@ mixin price(name, p, nameWithoutCurrency)
           - var secondRowClass = '.col-xs-5'
           if view.basicProduct && !view.hideMonthlySub
             .col-xs-5.option-col.col-xs-offset-1
-              +price("subscribe.season_price", view.basicProduct, 'subscribe.month_price_without_currency')
+              if me.showChinaResourceInfo()
+                +price("subscribe.season_price", view.basicProduct, 'subscribe.month_price_without_currency')
+              else
+                +price("subscribe.month_price", view.basicProduct, 'subscribe.month_price_without_currency')
               .option-header.price-subtext.text-center(data-i18n="subscribe.stripe_description")
               button.btn.btn-lg.btn-illustrated.purchase-button
                 span.buy-now-text(data-i18n="subscribe.buy_now")
@@ -106,7 +109,7 @@ mixin price(name, p, nameWithoutCurrency)
         div.support-blurb.text-center
           p
             if !features.chinaHome
-              span 付款时需要帮助? Email 
+              span(data-i18n="subscribe.support_part1")
               =" "
               a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
  

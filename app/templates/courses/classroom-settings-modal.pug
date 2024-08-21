@@ -116,7 +116,7 @@ block modal-body-content
                 each format in view.enabledCodeFormats
                   - var i18nPrefix = 'choose_hero.' + format.replace(/-/g, '_')
                   option(value=format)= $.i18n.t(i18nPrefix) + ' - ' + $.i18n.t(i18nPrefix + '_blurb')
-            .help-block.small.text-navy(data-i18n="teachers.default_code_format_description")
+              .help-block.small.text-navy(data-i18n="teachers.default_code_format_description")
 
         if !me.showChinaResourceInfo()
           .form-group
