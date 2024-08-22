@@ -54,7 +54,12 @@ _.extend(AIProjectSchema.properties, {
         answerIndex: { type: 'number' }
       }
     }
-  }
+  },
+  isReadyToReview: {
+    title: 'Ready to Review',
+    type: 'boolean',
+    description: 'Whether this project is ready for review by the teacher',
+  },
 })
 
 AIProjectSchema.required = ['visibility', 'user', 'scenario', 'actionQueue']

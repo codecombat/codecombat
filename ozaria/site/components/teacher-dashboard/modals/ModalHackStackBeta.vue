@@ -1,10 +1,10 @@
 <script>
-import ModalDynamicPromotion from './ModalDynamicPromotion'
+import ModalDynamicContent from './ModalDynamicContent'
 import trackable from 'app/components/mixins/trackable.js'
 
 export default Vue.extend({
   components: {
-    ModalDynamicPromotion
+    ModalDynamicContent
   },
   mixins: [trackable],
   props: {
@@ -25,28 +25,16 @@ export default Vue.extend({
       this.$refs.modal.onClose()
       this.trackEvent('AI HackStack Promo Modal: Try It Now clicked', { category: 'Teachers' })
     },
-    showSignal () {
-      if (this.showModal) {
-        this.$emit('show')
-      } else {
-        this.$emit('close')
-      }
-    },
-    onClose () {
-      this.$emit('close')
-    }
   }
 })
 </script>
 
 <template>
   <div>
-    <ModalDynamicPromotion
+    <ModalDynamicContent
       v-if="showModal"
       ref="modal"
       seen-promotions-property="hackstack-beta-release-modal"
-      @show="showSignal"
-      @close="onClose"
     >
       <template #content>
         <div class="ai-modal-content-container">
@@ -73,7 +61,7 @@ export default Vue.extend({
           </a>
         </div>
       </template>
-    </ModalDynamicPromotion>
+    </ModalDynamicContent>
   </div>
 </template>
 

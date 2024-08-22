@@ -7,7 +7,6 @@ import { AILeagueSeasons } from 'core/utils'
 
 import ContentBox from 'app/components/common/elements/ContentBox.vue'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
-import QuestionmarkView from './QuestionmarkView'
 import AILeagueResources from './AILeagueResources'
 import LadderView from 'app/views/ladder/MainLadderViewV2'
 
@@ -20,7 +19,6 @@ export default {
     ContentBox,
     BaseCloudflareVideo,
     RemainingTimeView,
-    QuestionmarkView,
     AILeagueResources,
     LadderView
   },
@@ -44,6 +42,11 @@ export default {
     clanIdOrSlug: '',
     anonymousPlayerName: false,
     toPage: 'custom',
+    TYPES: {
+      REGULAR: 'regular',
+      CHAMPIONSHIP: 'championship'
+    },
+    regularOrChampionship: 'regular'
   }),
 
   computed: {
@@ -51,9 +54,13 @@ export default {
       getCurrentRegularArena: 'seasonalLeague/currentRegularArena',
       getCurrentChampionshipArena: 'seasonalLeague/currentChampionshipArena',
       globalRankings: 'seasonalLeague/globalRankings',
+      globalChampionshipRankings: 'seasonalLeague/globalChampionshipRankings',
       globalLeaderboardPlayerCount: 'seasonalLeague/globalLeaderboardPlayerCount',
+      globalChampionshipLeaderboardPlayerCount: 'seasonalLeague/globalChampionshipLeaderboardPlayerCount',
       clanRankings: 'seasonalLeague/clanRankings',
+      clanChampionshipRankings: 'seasonalLeague/clanChampionshipRankings',
       clanLeaderboardPlayerCount: 'seasonalLeague/clanLeaderboardPlayerCount',
+      clanChampionshipLeaderboardPlayerCount: 'seasonalLeague/clanChampionshipLeaderboardPlayerCount',
       codePointsRankings: 'seasonalLeague/codePointsRankings',
       myClans: 'clans/myClans',
       childClanDetails: 'clans/childClanDetails',
@@ -62,8 +69,15 @@ export default {
       codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount'
     }),
 
+    championshipAvailable () {
+      return !!this.getCurrentChampionshipArena
+    },
+
     regularArenaSlug () {
-      return this.getCurrentRegularArena ? this.getCurrentRegularArena.slug : null
+      if (this.regularOrChampionship === this.TYPES.REGULAR) {
+        return this.getCurrentRegularArena.slug
+      }
+      return this.getCurrentChampionshipArena?.slug
     },
 
     currentSelectedClan () {
@@ -88,11 +102,31 @@ export default {
     },
 
     selectedClanRankings () {
-      return this.clanRankings(this.clanIdSelected)
+      if (this.regularOrChampionship === this.TYPES.REGULAR) {
+        return this.clanRankings(this.clanIdSelected)
+      }
+      return this.clanChampionshipRankings(this.clanIdSelected)
     },
 
     selectedClanLeaderboardPlayerCount () {
-      return this.clanLeaderboardPlayerCount(this.clanIdSelected)
+      if (this.regularOrChampionship === this.TYPES.REGULAR) {
+        return this.clanLeaderboardPlayerCount(this.clanIdSelected)
+      }
+      return this.clanChampionshipLeaderboardPlayerCount(this.clanIdSelected)
+    },
+
+    selectedGlobalRankings () {
+      if (this.regularOrChampionship === this.TYPES.REGULAR) {
+        return this.globalRankings
+      }
+      return this.globalChampionshipRankings
+    },
+
+    selectedGlobalLeaderboardPlayerCount () {
+      if (this.regularOrChampionship === this.TYPES.REGULAR) {
+        return this.globalLeaderboardPlayerCount
+      }
+      return this.globalChampionshipLeaderboardPlayerCount
     },
 
     selectedClanCodePointsRankings () {
@@ -145,6 +179,12 @@ export default {
     this.clanIdOrSlug = this.$route?.params?.idOrSlug || this.idOrSlug
   },
 
+  mounted () {
+    if (this.championshipAvailable) {
+      this.regularOrChampionship = this.TYPES.CHAMPIONSHIP
+    }
+  },
+
   methods: {
     ...mapActions({
       loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
@@ -175,6 +215,10 @@ export default {
       this.loadRequiredData()
     },
 
+    changeLeagueType (leagueType) {
+      this.regularOrChampionship = leagueType
+    },
+
     changeClanSelected (e) {
       let newSelectedClan = ''
       if (e.target.value === 'global') {
@@ -187,8 +231,8 @@ export default {
 
       application.router.navigate(leagueURL, { trigger: true })
     },
-    toggleLeague () {
-      this.toPage = this.toPage === 'global' ? 'custom' : 'global'
+    toggleLeague (page) {
+      this.toPage = page
     },
 
     async loadRequiredData () {
@@ -249,20 +293,24 @@ export default {
             v-if="!isLoading && Array.isArray(myClans)"
             :clans="myClans"
             :selected="clanIdSelected || clanIdOrSlug"
+            :id-or-slug="idOrSlug"
             @change="e => changeClanSelected(e)"
           />
-          <questionmark-view />
-          <a
-            :href="`/league${idOrSlug ? `/${idOrSlug}` : ''}`"
-            target="_blank"
-          >{{
-            $t('teacher_dashboard.view_team_page') }}</a>
+        </div>
+        <div class="toggle-switch button-group league-switch">
           <button
-            v-if="hasEsportsProduct"
-            class="toggle-league"
-            @click="toggleLeague"
+            class="btn toggle-btn"
+            :class="{ 'active': toPage === 'custom' }"
+            @click="toggleLeague('custom')"
           >
-            {{ $t(`teacher_dashboard.view_${toPage}_league`) }}
+            {{ $t('league.global') }}
+          </button>
+          <button
+            class="btn toggle-btn"
+            :class="{ 'active': toPage === 'global' }"
+            @click="toggleLeague('global')"
+          >
+            {{ $t('league.custom') }}
           </button>
         </div>
         <remaining-time-view />
@@ -313,6 +361,26 @@ export default {
                   @click="goNextArena"
                 >&rarr;</span>
               </div>
+              <div class="box-content">
+                <div class="league-type-buttons">
+                  <div class="button-group">
+                    <button
+                      class="btn toggle-btn"
+                      :class="{ 'active': regularOrChampionship === TYPES.REGULAR }"
+                      @click="changeLeagueType(TYPES.REGULAR)"
+                    >
+                      {{ $t('league.regular') }}
+                    </button>
+                    <button
+                      class="btn toggle-btn"
+                      :class="{ 'active': regularOrChampionship === TYPES.CHAMPIONSHIP, 'disabled': !championshipAvailable }"
+                      @click="changeLeagueType(TYPES.CHAMPIONSHIP)"
+                    >
+                      {{ $t('league.championship') }}
+                    </button>
+                  </div>
+                </div>
+              </div>
               <leaderboard
                 v-if="currentSelectedClan"
                 :key="`${clanIdSelected}-score`"
@@ -325,9 +393,9 @@ export default {
               />
               <leaderboard
                 v-else
-                :rankings="globalRankings"
+                :rankings="selectedGlobalRankings"
                 :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
-                :player-count="globalLeaderboardPlayerCount"
+                :player-count="selectedGlobalLeaderboardPlayerCount"
                 class="leaderboard-component"
               />
             </template>
@@ -385,6 +453,8 @@ export default {
   justify-content: center;
   align-items: center;
 
+  min-height: 200px;
+
   .base-coludflare-video {
     border-radius: 10px;
     overflow: hidden;
@@ -438,7 +508,7 @@ export default {
   padding-bottom: 10px;
   height: 40px;
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
   span {
     cursor: pointer;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
@@ -483,26 +553,102 @@ export default {
 }
 
 .toggle-league {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    border-radius: 8px;
-    border: 1px solid #476FB1;
-    background: white;
-    padding: 0 20px;
-    height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border-radius: 8px;
+  border: 1px solid #476FB1;
+  background: white;
+  padding: 0 20px;
+  height: 50px;
 
-    color: #000;
+  color: #000;
 
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: "Work Sans";
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 17px;
-    position: relative;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: "Work Sans";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 17px;
+  position: relative;
 }
 .black-background {
   background-color: #0c1016;
+}
+.box-content {
+  width: 100%;
+}
+
+.button-group {
+  display: inline-flex;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-btn {
+  padding: 10px 20px;
+  border: none;
+  background-color: #f0f0f0;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0;
+
+  &:first-child {
+    border-radius: 8px 0 0 8px;
+  }
+
+  &:last-child {
+    border-radius: 0 8px 8px 0;
+    margin-left: -1px;
+  }
+
+  &.active {
+    background-color: #476FB1;
+    color: white;
+    position: relative;
+    z-index: 1;
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:not(.disabled):hover {
+    background-color: #e0e0e0;
+  }
+
+  &.active:hover {
+    background-color: #3a5d94;
+  }
+}
+
+.toggle-switch {
+  margin-left: 10px;
+}
+
+.league-type-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.box-content {
+  width: 100%;
+}
+
+.league-switch {
+  .toggle-btn {
+    &:not(.active) {
+      background-color: #fff;
+
+      &:hover {
+        background-color: #e0e0e0;
+      }
+    }
+  }
 }
 </style>

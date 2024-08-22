@@ -473,6 +473,8 @@ export default {
 
     showPanelProjectContent ({ commit, dispatch, rootGetters }, { student, header, classroomId, selectedCourseId, moduleName, aiScenario, aiProjects }) {
       commit('resetState')
+      commit('setLearningGoal', aiScenario.mode === 'learn to use' ? aiScenario?.name : '')
+
       dispatch('setPanelProjectContent', {
         header,
         studentName: student.displayName,

@@ -96,7 +96,7 @@ export default {
 
 <template>
   <div>
-    <div id="curriculum-guide">
+    <div>
       <div class="header">
         <div class="header-icon">
           <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg">

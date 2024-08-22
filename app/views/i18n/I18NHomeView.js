@@ -24,6 +24,7 @@ if (utils.isOzaria) {
 const ResourceHubResource = require('models/ResourceHubResource')
 const ChatMessage = require('models/ChatMessage')
 const AIScenario = require('models/AIScenario')
+const AIJuniorScenario = require('models/AIJuniorScenario')
 const Concept = require('models/Concept')
 const StandardsCorrelation = require('models/StandardsCorrelation')
 
@@ -102,6 +103,7 @@ module.exports = (I18NHomeView = (function () {
       this.resourceHubResource = new CocoCollection([], { url: `/db/resource_hub_resource${QUERY_PARAMS}`, project, model: ResourceHubResource })
       this.chatMessage = new CocoCollection([], { url: `/db/chat_message${QUERY_PARAMS}`, project, model: ChatMessage })
       this.aiScenario = new CocoCollection([], { url: `/db/ai_scenario${QUERY_PARAMS}`, project, model: AIScenario })
+      this.aiJuniorScenario = new CocoCollection([], { url: `/db/ai_junior_scenario${QUERY_PARAMS}`, project, model: AIJuniorScenario })
       // @aiChatMessage = new CocoCollection([], { url: "/db/ai_chat_message#{QUERY_PARAMS}", project: project, model: AIChatMessage })
       // @aiDocument = new CocoCollection([], { url: "/db/ai_document#{QUERY_PARAMS}", project: project, model: AIDocument })
       this.concepts = new CocoCollection([], { url: `/db/concept${QUERY_PARAMS}`, project, model: Concept })
@@ -144,6 +146,7 @@ module.exports = (I18NHomeView = (function () {
             case 'AIScenario': return '/i18n/ai/scenario/'
             case 'AIChatMessage': return '/i18n/ai/chat_message/'
             case 'AIDocument': return '/i18n/ai/document/'
+            case 'AIJuniorScenario': return '/i18n/ai/junior_scenario/'
           }
         })()
       }

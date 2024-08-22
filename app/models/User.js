@@ -25,6 +25,7 @@ const fetchJson = require('core/api/fetch-json')
 const userUtils = require('lib/user-utils')
 const _ = require('lodash')
 const moment = require('moment')
+const NAPERVILLE_UNIQUE_KEY = 'naperville'
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -79,7 +80,8 @@ module.exports = (User = (function () {
         API_CLIENT: 'apiclient',
         ONLINE_TEACHER: 'onlineTeacher',
         BETA_TESTER: 'betaTester',
-        PARENT_ADMIN: 'parentAdmin'
+        PARENT_ADMIN: 'parentAdmin',
+        NAPERVILLE_ADMIN: 'napervilleAdmin'
       }
 
       a = 5
@@ -154,6 +156,14 @@ module.exports = (User = (function () {
     isParentAdmin () {
       const needle = this.constructor.PERMISSIONS.PARENT_ADMIN
       return this.get('permissions', true).includes(needle)
+    }
+
+    isNapervilleAdmin () {
+      return this.get('permissions', true).includes(this.constructor.PERMISSIONS.NAPERVILLE_ADMIN)
+    }
+
+    isNapervilleUser () {
+      return this.get('library')?.name === NAPERVILLE_UNIQUE_KEY
     }
 
     isAnonymous () { return this.get('anonymous', true) }
@@ -234,6 +244,11 @@ module.exports = (User = (function () {
       ))
     }
 
+    static getNapervilleDomain () {
+      // it can be stu.naperville203.org or naperville203.org and there are no premium benefits directly so safe to check without @
+      return 'naperville203.org'
+    }
+
     getEnabledEmails () {
       return (() => {
         const result = []
@@ -274,6 +289,7 @@ module.exports = (User = (function () {
 
     isPaidTeacher () {
       // TODO: this doesn't actually check to see if they are paid (having prepaids), confusing
+      // use isPaidTeacher from me.js in vuex store for vue
       if (!this.isTeacher()) { return false }
       return this.isCreatedByClient() || (/@codeninjas.com$/i.test(this.get('email')))
     }
@@ -1297,16 +1313,22 @@ module.exports = (User = (function () {
     getTestStudentId () {
       const testStudentRelation = (this.get('related') || []).filter(related => related.relation === 'TestStudent')[0]
       if (testStudentRelation) {
-        return Promise.resolve(testStudentRelation.userId)
+        return Promise.resolve({ id: testStudentRelation.userId, new: false })
       } else {
-        return this.createTestStudentAccount().then(response => {
-          return response.relatedUserId
+        return new Promise((resolve, reject) => {
+          try {
+            this.createTestStudentAccount().then(response => {
+              resolve({ id: response.relatedUserId, new: true })
+            })
+          } catch (e) {
+            reject(e)
+          }
         })
       }
     }
 
     switchToStudentMode () {
-      return this.getTestStudentId().then(testStudentId => this.spy({ id: testStudentId }))
+      return this.getTestStudentId().then(({ id }) => this.spy({ id }))
     }
 
     switchToTeacherMode () {

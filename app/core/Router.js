@@ -90,6 +90,11 @@ module.exports = (CocoRouter = (function () {
         ai: go('ai/AIView'),
         'ai/*path': go('ai/AIView'),
 
+        'ai-junior': go('core/SingletonAppVueComponentView'),
+        'ai-junior/project/:scenarioId': go('core/SingletonAppVueComponentView'),
+        'ai-junior/project/:scenarioId/:userId': go('core/SingletonAppVueComponentView'),
+        'ai-junior/project/:scenarioId/:userId/:projectId': go('core/SingletonAppVueComponentView'),
+
         licensor: go('LicensorView'),
 
         admin: go('admin/MainAdminView'),
@@ -220,6 +225,10 @@ module.exports = (CocoRouter = (function () {
         'editor/ai-document/:documentID': go('editor/ai-document/AIDocumentEditView'),
         'editor/ai-chat-message': go('editor/ai-chat-message/AIChatMessageSearchView'),
         'editor/ai-chat-message/:chatMessageID': go('editor/ai-chat-message/AIChatMessageEditView'),
+        'editor/ai-junior-scenario': go('editor/ai-junior-scenario/AIJuniorScenarioSearchView'),
+        'editor/ai-junior-scenario/:chatID': go('editor/ai-junior-scenario/AIJuniorScenarioEditView'),
+        'editor/ai-junior-project': go('editor/ai-junior-project/AIJuniorProjectSearchView'),
+        'editor/ai-junior-project/:chatID': go('editor/ai-junior-project/AIJuniorProjectEditView'),
 
         etc: redirect('/teachers/demo'),
         demo: redirect('/teachers/demo'),
@@ -268,6 +277,7 @@ module.exports = (CocoRouter = (function () {
         'i18n/ai/scenario/:handle': go('i18n/I18NEditAIScenarioView'),
         'i18n/ai/chat_message/:handle': go('i18n/I18NEditAIChatMessageView'),
         'i18n/ai/document/:handle': go('i18n/I18NEditAIDocumentView'),
+        'i18n/ai/junior_scenario/:handle': go('i18n/I18NEditAIJuniorScenarioView'),
 
         identify: go('user/IdentifyView'),
         'il-signup': go('account/IsraelSignupView'),
@@ -407,6 +417,7 @@ module.exports = (CocoRouter = (function () {
         privacy: go('PrivacyView'),
 
         'professional-development': go('core/SingletonAppVueComponentView'),
+        'professional-development-v2': go('core/SingletonAppVueComponentView'),
 
         pd: go('core/SingletonAppVueComponentView'),
         efficacy: go('core/SingletonAppVueComponentView'),
@@ -445,6 +456,7 @@ module.exports = (CocoRouter = (function () {
         },
         'teachers/projects/:classroomId': go('core/SingletonAppVueComponentView'),
         'teachers/assessments/:classroomId': go('core/SingletonAppVueComponentView'),
+        'teachers/ai-junior/:classroomId': go('core/SingletonAppVueComponentView'),
         'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true }),
         'teachers/classes/:classroomID' () {
           if (utils.isCodeCombat && !me.isNewDashboardActive()) {

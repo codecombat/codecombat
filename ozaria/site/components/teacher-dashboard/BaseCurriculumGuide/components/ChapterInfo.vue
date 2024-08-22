@@ -27,6 +27,7 @@ export default {
     return {
       levelsNameMap: {},
       courseLinks: {
+        junior: 'https://drive.google.com/drive/folders/1R2iON3JW2kWZpy8HUACl7Dw7BdVROwaq?usp=drive_link',
         'introduction-to-computer-science': 'https://drive.google.com/drive/folders/1-ww3rLkxj1cZwSvBm6_ThXqsEjwnu6Wn?usp=sharing',
         'game-development-1': 'https://drive.google.com/drive/folders/1YSJ9wcfHRJ2854F-vUdSWqoLBuSJye7V?usp=sharing',
         'computer-science-2': 'https://drive.google.com/drive/folders/1J3ywGVgDKtRBDaK_cK106Jn-l9GaKd3n?usp=sharing',
@@ -34,6 +35,10 @@ export default {
         'computer-science-3': 'https://drive.google.com/drive/folders/1x9EgA6TO1N4ePnzgnFK2kNn8ujIEKe3B?usp=sharing',
         'game-development-3': 'https://drive.google.com/drive/folders/1FUFGxI3-GzYx38wNanof2K7BVI_ffp1d?usp=sharing',
         'computer-science-4': 'https://drive.google.com/drive/folders/1WUEL82hSDJ1mzqkfouZVkbOmrJvfMqkG?usp=sharing',
+        'chapter-1-sky-mountain': 'https://drive.google.com/drive/folders/1MFbuhuJ5HELMC_eRXkWipqDek1x3XaAB?usp=sharing',
+        'chapter-2-the-moon-dancers': 'https://drive.google.com/drive/folders/1u78qNwBmGXkKxw3qzqSimoUbMCNv_IMn?usp=sharing',
+        'chapter-3-the-phoenix-lands': 'https://drive.google.com/drive/folders/1D_SNer9frRiFlH3gt1T20FHLdMbbllkP?usp=sharing',
+        'chapter-4-the-final-code': 'https://drive.google.com/drive/folders/1hSAum1Rcu0-uyTxvBch1_c5QPB1hQ2ly?usp=sharing'
       }
     }
   },

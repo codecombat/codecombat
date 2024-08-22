@@ -27,8 +27,10 @@ const VueShepherd = require('vue-shepherd')
 const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
 const SEEN_TEACHER_DETAILS_MODAL = 'seen-teacher-details-modal'
 const TRY_OZ_MODAL_VIEWED_KEY = 'try-oz-modal-viewed'
+const SIDEBAR_COLLAPSED_KEY = 'teacher-dashboard-sidebar-collapsed'
 
 export default {
+  name: 'BaseTeacherDashboardIndex',
   components: {
     Panel,
     ModalEditClass,
@@ -59,10 +61,11 @@ export default {
       createdFirstClass: false,
       trialRequestLoading: true,
       newClassroom: new Classroom({ ownerID: me.id }),
-      sidebarCollapsed: false,
+      sidebarCollapsed: storage.load(SIDEBAR_COLLAPSED_KEY) || false,
       editCurrent: false,
       editClassroomObject: {},
-      showTryOzariaModal: false
+      showTryOzariaModal: false,
+      newClassroomAsClub: false
     }
   },
 
@@ -85,6 +88,10 @@ export default {
 
     isCodeCombat () {
       return utils.isCodeCombat
+    },
+
+    isCodeNinja () {
+      return me.isCodeNinja()
     },
 
     pageTitle () {
@@ -115,7 +122,7 @@ export default {
     },
 
     showClassInfo () {
-      return this.componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE || this.componentName === COMPONENT_NAMES.STUDENT_PROJECTS || this.componentName === COMPONENT_NAMES.STUDENT_ASSESSMENTS
+      return this.componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE || this.componentName === COMPONENT_NAMES.STUDENT_PROJECTS || this.componentName === COMPONENT_NAMES.STUDENT_ASSESSMENTS || this.componentName === COMPONENT_NAMES.AI_JUNIOR
     },
     allClassrooms () {
       return [...this.activeClassrooms, ...this.sharedClassrooms]
@@ -194,7 +201,9 @@ export default {
       me.set('seenNewDashboardModal', true)
       me.save()
       this.showOnboardingModal = false
-      this.openNewClassModal()
+      if (!me.isNapervilleUser()) {
+        this.openNewClassModal()
+      }
     },
 
     openNewClassModal () {
@@ -208,6 +217,18 @@ export default {
       this.showNewClassModal = true
     },
 
+    openNewClubModal () {
+      if (this.showNewClassModal) {
+        return
+      }
+
+      // Handle tour accidentally obscuring user opening new class modal
+      this.runningTour?.complete?.()
+
+      this.newClassroomAsClub = true
+      this.showNewClassModal = true
+    },
+
     /**
      * When a user closes the show new modal there are 2 possible states.
      * 1. They cancelled out and didn't create a class.
@@ -217,6 +238,11 @@ export default {
       this.showNewClassModal = false
       if (this.editCurrent) {
         this.editCurrent = false
+        return
+      }
+
+      if (this.newClassroomAsClub) {
+        this.newClassroomAsClub = false
         return
       }
 
@@ -304,7 +330,7 @@ export default {
       this.showTeacherDetailsModal = false
     },
     shouldShowTeacherDetailsModal () {
-      return !this.trialRequestLoading && !this.trialRequest?.organization && !hasSeenTeacherDetailModalRecently(me.get('_id'))
+      return !this.trialRequestLoading && !this.trialRequest?.organization && !hasSeenTeacherDetailModalRecently(me.get('_id')) && !me.isNapervilleUser()
     },
     handleTrialRequest () {
       this.$store.dispatch('trialRequest/fetchCurrentTrialRequest')
@@ -322,6 +348,7 @@ export default {
     },
     toggleSidebar () {
       this.sidebarCollapsed = !this.sidebarCollapsed
+      storage.save(SIDEBAR_COLLAPSED_KEY, this.sidebarCollapsed)
     },
     handleTryOzariaModal () {
       if (this.isCodeCombat &&
@@ -337,6 +364,9 @@ export default {
       const oneMonth = 30 * 24 * 7 * 60
       storage.save(TRY_OZ_MODAL_VIEWED_KEY, true, oneMonth)
       this.showTryOzariaModal = false
+    },
+    shouldShowCreateStudents (classroom) {
+      return me.isCodeNinja() && classroom.type?.includes('club')
     }
   }
 }
@@ -379,6 +409,7 @@ export default {
           :show-preview-mode="showNonTeacherPreview"
           @change-course="onChangeCourse"
           @newClass="openNewClassModal"
+          @newClub="openNewClubModal"
           @addStudentsClicked="showAddStudentsModal = true"
           @editClass="openEditClassModal"
         />
@@ -409,6 +440,7 @@ export default {
     <modal-edit-class
       v-if="showNewClassModal && !editCurrent && !showNonTeacherPreview"
       :classroom="newClassroom"
+      :as-club="newClassroomAsClub"
       @close="closeShowNewModal"
       @created="handleCreatedClass"
     />
@@ -424,6 +456,7 @@ export default {
     <modal-add-students
       v-if="showAddStudentsModal"
       :classroom="classroom"
+      :create-students="shouldShowCreateStudents(classroom)"
       @close="showAddStudentsModal = false"
     />
     <modal-remove-students

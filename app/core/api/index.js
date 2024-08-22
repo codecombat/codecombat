@@ -2,6 +2,8 @@
 // Sanity-check the conversion and remove this comment.
 module.exports = {
   admin: require('./admin'),
+  aiJuniorScenarios: require('./ai-junior-scenarios'),
+  aiJuniorProjects: require('./ai-junior-projects'),
   apcsp: require('./apcsp'),
   analyticsLogEvents: require('./analytics-log-events'),
   aiScenarios: require('./ai_scenarios'),
@@ -26,6 +28,7 @@ module.exports = {
   thangTypes: require('./thang-types'),
   trialRequests: require('./trial-requests'),
   userCodeProblems: require('./user-code-problems'),
+  userCredits: require('./user-credits'),
   users: require('./users'),
   apiClients: require('./api-clients'),
   oauth: require('./o-auth'),

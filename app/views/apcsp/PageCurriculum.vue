@@ -184,17 +184,10 @@ export default Vue.extend({
       hasLicense: false
     }
   },
-
-  async created () {
-    window.nextURL = window.location.href
-    this.me = me
-    if (me.isTeacher()) {
-      this.updateLicenseStatus()
-    }
-  },
   computed: {
     ...mapGetters({
-      teacherPrepaids: 'prepaids/getPrepaidsByTeacher'
+      teacherPrepaids: 'prepaids/getPrepaidsByTeacher',
+      isPaidTeacher: 'me/isPaidTeacher'
     }),
     i18nData () {
       return {
@@ -206,18 +199,20 @@ export default Vue.extend({
       }
     }
   },
+  async created () {
+    window.nextURL = window.location.href
+    this.me = me
+    if (me.isTeacher()) {
+      this.updateLicenseStatus()
+    }
+  },
   methods: {
     ...mapActions({
       fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher'
     }),
     async updateLicenseStatus () {
-      if (me.isPaidTeacher()) {
-        this.hasLicense = true
-        return
-      }
       await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
-      const prepaids = this.teacherPrepaids(me.get('_id'))
-      if (prepaids.available.length > 0) {
+      if (this.isPaidTeacher) {
         this.hasLicense = true
       }
     }
