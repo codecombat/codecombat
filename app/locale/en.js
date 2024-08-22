@@ -4646,7 +4646,7 @@ module.exports = {
       team_stats: 'Team stats',
       show_stats_for_individuals_playing_on_the_same_team: 'show stats for individuals playing on the same team.',
       for_each_class_you_add_a_team_will_be_automatically_created_for_the_students_in_that_class: 'For each class you add, a team will be automatically created for the students in that class.',
-      view_team_page: 'View Team Page',
+      view_team_page: 'Team Page',
       no_modifiers_changed: 'Levels already modified for these students',
       no_modifiers_changed_unlocks_skipped: 'It appears you attempted to unlock levels that aren\'t currently locked. Please note, if your selected level appears as locked, it might be due to a preceding level being locked. To proceed, ensure to unlock the prior level first.',
       view_custom_league: 'View Custom League',
@@ -4962,12 +4962,17 @@ module.exports = {
       codecombat_ai_league_description: 'The CodeCombat AI League combines our project-based standards-aligned curriculum, engaging adventure-based coding game, and our annual AI coding global tournament into an academic competition unlike any other.',
       teacher_getting_started_guide: 'Teacher Getting Started Guide',
       try_ai_league_as_a_teacher: 'Try AI League as a Teacher',
+      ai_league_curriculum: 'AI League Curriculum',
       current_season: 'Current Season',
       all_time: 'All Time',
-      view_leaderboards_for_team: 'View leaderboards for team:',
+      view_leaderboards_for_team: 'Team Leaderboard:',
       global_stats: 'GLOBAL STATS',
       code_your_way: 'Code your way',
-      to_win_the_price: 'to first place to win'
+      to_win_the_price: 'to first place to win',
+      regular: 'Regular',
+      championship: 'Championship',
+      global: 'Global',
+      custom: 'Custom'
     },
 
     tournament: {

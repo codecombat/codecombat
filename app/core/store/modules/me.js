@@ -59,6 +59,7 @@ export default {
     },
 
     isPaidTeacher (_state, _getters, _rootState, rootGetters) {
+      // should fetch prepaids before if they haven't been
       const prepaids = rootGetters['prepaids/getPrepaidsByTeacher'](me.get('_id'))
       if (me.isPaidTeacher()) {
         return true
