@@ -350,16 +350,14 @@ export default {
 
         commit('setTimeSpent', Math.ceil(studentSessions[normalizedOriginal].playtime / 60))
 
-        const solutionCode = level.getSolutions()
-          .filter((s) => s.language === language)
-          .find((s) => !s.testOnly)
+        const solutionCode = level.getSolutionForLanguage(language)
 
         dispatch('setPanelSessionContent', {
           header: panelHeader,
           studentName: student.displayName,
           dateFirstCompleted: studentSessions[normalizedOriginal].dateFirstCompleted,
           sessionContentObject: practiceLevelData({
-            starterCode: level.getSampleCode()?.[language] || '',
+            starterCode: level.getSampleCodeForLanguage(language) || '',
             studentCode: studentSessions[normalizedOriginal]?.code?.['hero-placeholder']?.plan || '',
             solutionCode: solutionCode?.source || '',
             language
