@@ -1,5 +1,10 @@
 <script>
+import QuestionmarkView from 'app/views/ai-league/QuestionmarkView.vue'
+
 export default {
+  components: {
+    QuestionmarkView
+  },
   props: {
     clans: {
       type: Array,
@@ -8,6 +13,12 @@ export default {
     },
 
     selected: {
+      type: String,
+      required: false,
+      default: ''
+    },
+
+    idOrSlug: {
       type: String,
       required: false,
       default: ''
@@ -33,12 +44,21 @@ export default {
 
 <template>
   <div class="clan-selector">
-    <label
-      v-if="label"
-      for="clans"
-    >
-      {{ $t('league.view_leaderboards_for_team') }}
-    </label>
+    <div class="label-and-link">
+      <label for="clans">
+        {{ $t('league.view_leaderboards_for_team') }}
+      </label>
+      <div class="team-container">
+        <a
+          :href="`/league${idOrSlug ? `/${idOrSlug}` : ''}`"
+          target="_blank"
+          class="view-team-page"
+        >
+          {{ $t('teacher_dashboard.view_team_page') }}
+        </a>
+        <questionmark-view />
+      </div>
+    </div>
     <select
       id="clans"
       name="clans"
@@ -68,5 +88,39 @@ export default {
   display: flex;
   flex-direction: row;
   gap: 10px;
+}
+
+.label-and-link {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  white-space: nowrap;
+  color: #666;
+  margin-bottom: 0;
+}
+
+select {
+  flex-grow: 1;
+  padding: 5px;
+}
+
+.view-team-page {
+  text-decoration: none;
+  color: #007bff;
+  font-size: 0.8em;
+  text-align: center;
+  margin-right: 5px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.team-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 </style>
