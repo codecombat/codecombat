@@ -1409,6 +1409,9 @@ class CampaignView extends RootView {
   onClickStartLevel (e) {
     const levelElement = $(e.target).closest('.level-info-container')
     const levelSlug = levelElement.data('level-slug')
+    const levelOriginal = levelElement.data('level-original')
+    const levelPath = levelElement.data('level-path')
+    const levelName = levelElement.data('level-name')
     const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
 
     let defaultAccess = me.get('hourOfCode') || (this.campaign?.get('type') === 'hoc') || (this.campaign?.get('slug') === 'intro') ? 'long' : 'short'
@@ -1441,24 +1444,26 @@ class CampaignView extends RootView {
     if (requiresSubscription && !canPlayAnyway) {
       return this.promptForSubscription(levelSlug, 'map level clicked')
     } else {
-      this.startLevel(levelElement)
+      this.startLevel({ levelSlug, levelOriginal, levelPath, levelName })
       window.tracker?.trackEvent('Clicked Start Level', { category: 'World Map', levelID: levelSlug })
     }
   }
 
   onClickCourseVersion (e) {
-    const levelElement = $(e.target).parents('.level-info-container')
-    const levelSlug = $(e.target).parents('.level-info-container').data('level-slug')
-    const levelOriginal = levelElement.data('level-original')
-    const courseID = $(e.target).parents('.course-version').data('course-id')
-    const courseInstanceID = $(e.target).parents('.course-version').data('course-instance-id')
+    const courseVersionElement = $(e.target).closest('.course-version')
+    const levelSlug = courseVersionElement.data('level-slug')
+    const levelOriginal = courseVersionElement.data('level-original')
+    const courseID = courseVersionElement.data('course-id')
+    const courseInstanceID = courseVersionElement.data('course-instance-id')
+    const levelPath = courseVersionElement.data('level-path')
+    const levelName = courseVersionElement.data('level-name')
 
     const classroomLevel = this.classroomLevelMap?.[levelOriginal]
 
     // If classroomItems is on, don't go to PlayLevelView directly.
     // Go through LevelSetupManager which will load required modals before going to PlayLevelView.
     if (me.showHeroAndInventoryModalsToStudents() && (!classroomLevel || classroomLevel.usesSessionHeroInventory())) {
-      this.startLevel(levelElement, courseID, courseInstanceID)
+      this.startLevel({ levelSlug, levelOriginal, courseID, courseInstanceID, levelPath, levelName })
       window.tracker?.trackEvent('Clicked Start Level', { category: 'World Map', levelID: levelSlug })
     } else {
       const url = `/play/level/${levelSlug}?course=${courseID}&course-instance=${courseInstanceID}`
@@ -1466,18 +1471,16 @@ class CampaignView extends RootView {
     }
   }
 
-  startLevel (levelElement, courseID = null, courseInstanceID = null) {
+  startLevel ({ levelOriginal, levelSlug, courseID, courseInstanceID, levelPath, levelName }) {
     this.setupManager?.destroy()
-    const levelSlug = levelElement.data('level-slug')
-    const levelOriginal = levelElement.data('level-original')
     const classroomLevel = this.classroomLevelMap?.[levelOriginal]
     const session = this.preloadedSession?.loaded && this.preloadedSession.levelSlug === levelSlug ? this.preloadedSession : null
     const codeLanguage = classroomLevel?.get('primerLanguage') || this.classroom?.get('aceConfig')?.language || session?.get('codeLanguage')
     const options = {
       supermodel: this.supermodel,
       levelID: levelSlug,
-      levelPath: levelElement.data('level-path'),
-      levelName: levelElement.data('level-name'),
+      levelPath,
+      levelName,
       campaign: this.campaign,
       hadEverChosenHero: this.hadEverChosenHero,
       parent: this,

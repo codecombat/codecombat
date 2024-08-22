@@ -204,7 +204,7 @@ if showGameDevAlert
             h3(dir=view.isRTL(levelName) ? "rtl" : "ltr")
               span= levelName
               if view.shouldShow('classroom-level-play-button') && level.practiceLevels && level.practiceLevels.length
-                span.course-version.hidden(data-level-original=level.original)
+                span.course-version.hidden(data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
                   button.btn.btn-md.btn-illustrated(data-i18n="[title]common.play", class=(levelStatus === "complete" ? "btn-primary" : "btn-success"))
                     span.glyphicon.glyphicon-play
             if level.assessment === 'open-ended' && view.levelScoreMap[level.original] && levelStatus === 'complete'
@@ -238,7 +238,7 @@ if showGameDevAlert
 
               if view.shouldShow('classroom-level-play-button')
                 if (!level.practiceLevels || !level.practiceLevels.length)
-                  .course-version.hidden(data-level-original=level.original)
+                  .course-version.hidden(data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
                     button.btn.btn-primary.btn.btn-lg.btn-block.btn-illustrated
                       span(data-i18n="common.play") Play
               else
@@ -251,7 +251,7 @@ if showGameDevAlert
                   - var practiceLevelName = practiceLevelNumber + '. ' + i18n(practiceLevel, 'name') + (practiceLevel.disabled ? " (" + translate('common.coming_soon') + ")" : (practiceLevel.locked ? " (" + (practiceLevel.lockedByTeacher ? translate('play.locked_by_teacher') : translate('play.locked')) + ")" : (practiceLevel.practice ? " (" + translate('courses.practice') + ")" : "")));
                   h3(dir=view.isRTL(practiceLevelName) ? "rtl" : "ltr")
                     span= practiceLevelName
-                    span.course-version.hidden(data-level-original=practiceLevel.original)
+                    span.course-version.hidden(data-level-original=practiceLevel.original data-level-slug=practiceLevel.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
                       button.btn.btn-md.btn-illustrated(data-i18n="[title]common.play", class=(practiceLevelStatus === "complete" ? "btn-primary" : "btn-success"))
                         span.glyphicon.glyphicon-play
                 if practiceLevelStatus !== 'complete'
