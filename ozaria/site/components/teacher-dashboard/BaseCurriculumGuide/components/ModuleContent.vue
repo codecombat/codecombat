@@ -7,7 +7,7 @@ import ModuleRow from './ModuleRow'
 import IntroModuleRow from './IntroModuleRow'
 import { mapGetters } from 'vuex'
 import CodeDiff from '../../../../../../app/components/common/CodeDiff'
-import { getProgressStatusHelper, getStudentAndSolutionCode } from '../../../../../../app/views/parents/helpers/levelCompletionHelper'
+import { getSolutionCode, getSampleCode } from '../../../../../../app/views/parents/helpers/levelCompletionHelper'
 import { getCurriculumGuideContentList } from '../curriculum-guide-helper'
 
 export default {
@@ -27,10 +27,6 @@ export default {
       type: Boolean,
       default: false
     },
-    showProgressDot: {
-      type: Boolean,
-      default: false
-    },
     levelSessions: {
       type: Array,
       default () {
@@ -45,9 +41,9 @@ export default {
   },
   data () {
     return {
-      showCodeLevelSlug: null,
-      solutionCode: null,
-      studentCode: null
+      showCodeLevelSlugs: [],
+      solutionCodeByLevel: {},
+      sampleCodeByLevel: {},
     }
   },
 
@@ -105,21 +101,22 @@ export default {
         window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
       }
     },
-    getProgressStatus ({ slug, fromIntroLevelOriginal }) {
-      if (!this.showProgressDot) return
-      return getProgressStatusHelper(this.levelSessions, { slug, fromIntroLevelOriginal })
-    },
     onShowCodeClicked ({ identifier, hideCode = false }) {
+      event.stopPropagation()
+      event.preventDefault()
       const level = this.getModuleInfo?.[this.moduleNum].find(l => l.slug === identifier)
       if (hideCode) {
-        this.showCodeLevelSlug = null
+        this.showCodeLevelSlugs = _.without(this.showCodeLevelSlugs, identifier)
         return
       }
-      this.showCodeLevelSlug = identifier
-      const { solutionCode, studentCode } = getStudentAndSolutionCode(level, this.levelSessions)
-      this.studentCode = studentCode
-      this.solutionCode = solutionCode
-      console.log('l', level, this.levelSessions, identifier, this.getModuleInfo?.[this.moduleNum])
+      this.showCodeLevelSlugs = this.showCodeLevelSlugs.concat([identifier])
+      this.solutionCodeByLevel[identifier] = getSolutionCode(level, { lang: this.getSelectedLanguage }) || ''
+      this.sampleCodeByLevel[identifier] = getSampleCode(level, { lang: this.getSelectedLanguage }) || ''
+    },
+    onClickedCodeDiff (event) {
+      // Stop it from triggering its parent <a> to start the level
+      event.stopPropagation()
+      event.preventDefault()
     }
   }
 }
@@ -132,14 +129,11 @@ export default {
       :is-capstone="isCapstone"
     />
 
-    <div
-      v-if="!isOnLockedCampaign && !showProgressDot"
-      class="content-rows"
-    >
+    <div class="content-rows">
       <a
         v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, original, assessment, slug, fromIntroLevelOriginal }, key in getContentTypes"
         :key="_id"
-        :href="url"
+        :href="isOnLockedCampaign ? '#' : url"
         target="_blank"
         rel="noreferrer"
       >
@@ -156,46 +150,20 @@ export default {
           :display-name="name"
           :description="description"
           :is-part-of-intro="isPartOfIntro"
-          @click.native="trackEvent('Curriculum Guide: Individual content row clicked')"
-        />
-      </a>
-    </div>
-    <!-- If curriculum guide is locked -->
-    <div
-      v-else
-      class="content-rows"
-    >
-      <template
-        v-for="{ icon, name, _id, description, isPartOfIntro, isIntroHeadingRow, original, slug, fromIntroLevelOriginal }, key in getContentTypes"
-      >
-        <intro-module-row
-          v-if="isIntroHeadingRow"
-          :key="_id"
-          :icon-type="icon"
-          :display-name="name"
-        />
-        <module-row
-          v-else
-          :key="_id"
-          :icon-type="icon"
-          :display-name="name"
-          :description="description"
-          :is-part-of-intro="isPartOfIntro"
-          :show-progress-dot="showProgressDot"
-          :show-code-btn="getProgressStatus({ slug, fromIntroLevelOriginal }) !== 'not-started' && icon !== 'cutscene'"
-          :progress-status="getProgressStatus({ slug, fromIntroLevelOriginal })"
+          :show-code-btn="icon !== 'cutscene'"
           :identifier="slug"
-          :level-number="getLevelNumber(original, key + 1 )"
+          @click.native="trackEvent('Curriculum Guide: Individual content row clicked')"
           @showCodeClicked="onShowCodeClicked"
         />
         <code-diff
-          v-if="showCodeLevelSlug === slug"
+          v-if="showCodeLevelSlugs.includes(slug)"
           :key="slug"
           :language="language"
-          :code-right="solutionCode"
-          :code-left="studentCode"
+          :code-right="solutionCodeByLevel[slug]"
+          :code-left="sampleCodeByLevel[slug]"
+          @click.native="onClickedCodeDiff"
         />
-      </template>
+      </a>
     </div>
   </div>
 </template>

@@ -23,9 +23,14 @@ export function getStudentCode (levelSession) {
 export function getSolutionCode (level, { lang = null }) {
   const levelModel = new Level(level)
   if (lang) {
-    return levelModel.getSolutionForLanguage(lang)
+    return levelModel.getSolutionForLanguage(lang)?.source
   }
   return levelModel.getSolutions()[0]?.source
+}
+
+export function getSampleCode (level, { lang = null }) {
+  const levelModel = new Level(level)
+  return levelModel.getSampleCodeForLanguage(lang || 'javascript')
 }
 
 export function getStudentAndSolutionCode (level, levelSessions) {
