@@ -7,7 +7,6 @@ import { AILeagueSeasons } from 'core/utils'
 
 import ContentBox from 'app/components/common/elements/ContentBox.vue'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
-import QuestionmarkView from './QuestionmarkView'
 import AILeagueResources from './AILeagueResources'
 import LadderView from 'app/views/ladder/MainLadderViewV2'
 
@@ -20,7 +19,6 @@ export default {
     ContentBox,
     BaseCloudflareVideo,
     RemainingTimeView,
-    QuestionmarkView,
     AILeagueResources,
     LadderView
   },
@@ -233,8 +231,8 @@ export default {
 
       application.router.navigate(leagueURL, { trigger: true })
     },
-    toggleLeague () {
-      this.toPage = this.toPage === 'global' ? 'custom' : 'global'
+    toggleLeague (page) {
+      this.toPage = page
     },
 
     async loadRequiredData () {
@@ -295,20 +293,24 @@ export default {
             v-if="!isLoading && Array.isArray(myClans)"
             :clans="myClans"
             :selected="clanIdSelected || clanIdOrSlug"
+            :id-or-slug="idOrSlug"
             @change="e => changeClanSelected(e)"
           />
-          <questionmark-view />
-          <a
-            :href="`/league${idOrSlug ? `/${idOrSlug}` : ''}`"
-            target="_blank"
-          >{{
-            $t('teacher_dashboard.view_team_page') }}</a>
+        </div>
+        <div class="toggle-switch button-group league-switch">
           <button
-            v-if="hasEsportsProduct"
-            class="toggle-league"
-            @click="toggleLeague"
+            class="btn toggle-btn"
+            :class="{ 'active': toPage === 'custom' }"
+            @click="toggleLeague('custom')"
           >
-            {{ $t(`teacher_dashboard.view_${toPage}_league`) }}
+            {{ $t('league.global') }}
+          </button>
+          <button
+            class="btn toggle-btn"
+            :class="{ 'active': toPage === 'global' }"
+            @click="toggleLeague('global')"
+          >
+            {{ $t('league.custom') }}
           </button>
         </div>
         <remaining-time-view />
@@ -451,6 +453,8 @@ export default {
   justify-content: center;
   align-items: center;
 
+  min-height: 200px;
+
   .base-coludflare-video {
     border-radius: 10px;
     overflow: hidden;
@@ -575,13 +579,6 @@ export default {
   width: 100%;
 }
 
-.league-type-buttons {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
 .button-group {
   display: inline-flex;
   border-radius: 8px;
@@ -625,6 +622,33 @@ export default {
 
   &.active:hover {
     background-color: #3a5d94;
+  }
+}
+
+.toggle-switch {
+  margin-left: 10px;
+}
+
+.league-type-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.box-content {
+  width: 100%;
+}
+
+.league-switch {
+  .toggle-btn {
+    &:not(.active) {
+      background-color: #fff;
+
+      &:hover {
+        background-color: #e0e0e0;
+      }
+    }
   }
 }
 </style>
