@@ -418,6 +418,15 @@ $gameControlMargin: 30px
         .course-version
           float: right
 
+          .btn
+            height: 33px
+
+          .btn-success
+            @include animation(winnablePulse 3s infinite)
+
+            span
+              opacity: 1
+
       .practice-level
         h3
           margin-left: 0
@@ -1049,3 +1058,14 @@ body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdow
     &:hover
       cursor: pointer
       color: white
+
++keyframes(currentPracticeLevel)
+  from
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+  50%
+    @include box-shadow(0px 0px 35px #87CEFF)
+    color: #87CEFF
+  to
+    @include box-shadow(0px 0px 8px #333)
+    color: white
