@@ -65,7 +65,7 @@ _.extend(AIChatMessageSchema.properties, {
     },
   },
   i18n: { title: 'I18n', type: 'object', description: 'Help translate this property', format: 'i18n', props: ['text'] },
-  ownerID: { title: 'Owner Id', type: 'string', description: 'The user who created this chat message' },
+  ownerID: { title: 'Owner Id', type: ['object', 'string'], description: 'The user who created this chat message' },
 })
 
 AIChatMessageSchema.required = ['actor', 'parent', 'parentKind', 'sentAt', 'text', 'documents', 'ownerID']
