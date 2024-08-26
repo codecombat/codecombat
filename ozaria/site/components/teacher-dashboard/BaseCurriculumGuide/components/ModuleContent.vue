@@ -69,6 +69,10 @@ export default {
       return this.getCurrentCourse?.name || ''
     },
 
+    isJunior () {
+      return this.courseName === 'Junior'
+    },
+
     getContentTypes () {
       return getCurriculumGuideContentList({
         introLevels: this.getModuleIntroLevels,
@@ -112,7 +116,6 @@ export default {
       event.preventDefault()
       const level = this.getModuleInfo?.[this.moduleNum].find(l => l.slug === identifier)
       const relatedLevels = this.relatedLevels(level)
-      console.log('relatedLevels', relatedLevels)
       for (const relatedLevel of relatedLevels) {
         const identifier = relatedLevel.slug
         if (hideCode) {
@@ -128,6 +131,14 @@ export default {
       // Stop it from triggering its parent <a> to start the level
       event.stopPropagation()
       event.preventDefault()
+    },
+    calculateLevelDescription (description, levelNumber) {
+      const practiceChar = /^(\d+)([a-z])$/.exec(levelNumber)?.[2]
+      if (!this.isJunior || !practiceChar) {
+        return description
+      }
+      const practiceNumber = practiceChar.charCodeAt(0) - 'a'.charCodeAt(0) + 1
+      return `${description}. ${$.i18n.t('play_level.level_type_practice_level')}: ${practiceNumber}`
     }
   }
 }
@@ -155,12 +166,12 @@ export default {
         />
         <template v-else>
           <module-row
-            v-if="courseName !== 'Junior' || icon !== 'practicelvl' || showCodeLevelSlugs.includes(slug)"
+            v-if="!isJunior || icon !== 'practicelvl' || showCodeLevelSlugs.includes(slug)"
             :icon-type="icon"
             :name-type="assessment ? null : icon"
             :level-number="getLevelNumber(original, key + 1 )"
             :display-name="name"
-            :description="description"
+            :description="calculateLevelDescription(description, getLevelNumber(original, key + 1))"
             :is-part-of-intro="isPartOfIntro"
             :show-code-btn="icon !== 'cutscene'"
             :identifier="slug"
