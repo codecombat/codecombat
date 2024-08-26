@@ -244,9 +244,16 @@ export default Vue.extend({
       return new Classroom(this.classroom)
     },
     initialFreeCourses () {
+      if (!this.isCodeCombat) {
+        return []
+      }
       return [
         ...utils.freeCocoCourseIDs.map(id => {
           const course = this.courses.find(({ _id }) => _id === id)
+          if (!course) {
+            // computed value uses in template before mounted, so no courses yet
+            return {}
+          }
           return {
             id,
             name: utils.i18n(course, 'name'),
