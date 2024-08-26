@@ -42,6 +42,7 @@
             <button
               v-if="!canEdit"
               class="btn btn-secondary btn-moon"
+              :disabled="disabled"
               @click="$emit('create-tournament')"
             >
               {{ $t('tournament.create_tournament') }}
@@ -51,6 +52,7 @@
             <button
               v-if="canEdit"
               class="btn btn-secondary btn-moon"
+              :disabled="disabled"
               @click="$emit('edit-tournament')"
             >
               {{ $t('tournament.edit_tournament') }}
@@ -89,6 +91,10 @@ export default {
     clanId: {
       type: String,
       default: ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
