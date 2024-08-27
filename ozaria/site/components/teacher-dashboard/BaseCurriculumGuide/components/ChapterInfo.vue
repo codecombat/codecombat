@@ -92,7 +92,7 @@ export default {
 
     getCourseThumbnail () {
       if (this.getCurrentCourse?.screenshot) {
-        if (utils.isCodeCombat) {
+        if (utils.isCodeCombat && !this.getCurrentCourse.screenshot) {
           // return this.getCurrentCourse.screenshot
           return null // TODO: bring back once we have refreshed screenshots
         } else {
