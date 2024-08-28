@@ -40,6 +40,14 @@
         <div class="arena__helpers__bottom__permission">
           <span class="arena__helpers-element">
             <button
+              v-if="arenaCurriculum"
+              class="btn btn-secondary dusk-btn"
+              :disabled="disabled"
+              @click="openCurriculum"
+            >
+              {{ $t('nav.curriculum') }}
+            </button>
+            <button
               v-if="!canEdit"
               class="btn btn-secondary btn-moon"
               :disabled="disabled"
@@ -47,16 +55,23 @@
             >
               {{ $t('tournament.create_tournament') }}
             </button>
-          </span>
-          <span class="arena__helpers-element">
-            <button
+            <template
               v-if="canEdit"
-              class="btn btn-secondary btn-moon"
-              :disabled="disabled"
-              @click="$emit('edit-tournament')"
             >
-              {{ $t('tournament.edit_tournament') }}
-            </button>
+              <button
+                class="btn btn-secondary btn-moon"
+                :disabled="disabled"
+                @click="$emit('edit-tournament')"
+              >
+                {{ $t('tournament.edit_tournament') }}
+              </button>
+              <button
+                class="btn btn-secondary btn-moon"
+                @click="goTournament"
+              >
+                {{ $t('tournament.access_tournament') }}
+              </button>
+            </template>
           </span>
         </div>
       </div>
@@ -67,6 +82,7 @@
 <script>
 import moment from 'moment'
 import { mapGetters } from 'vuex'
+import { ARENA_CURRICULUM } from 'app/core/constants'
 export default {
   name: 'LadderPanel',
   props: {
@@ -140,6 +156,9 @@ export default {
         return baseUrl + `/clan/${this.clanId}`
       }
       return baseUrl
+    },
+    arenaCurriculum () {
+      return ARENA_CURRICULUM?.[this.arena.slug]
     }
   },
   methods: {
@@ -153,6 +172,12 @@ export default {
       if (imgExtensionIndex === -1) return description
       const startPosition = imgExtensionIndex + imgExtension.length + 1
       return description.slice(startPosition) || null
+    },
+    goTournament () {
+      return application.router.navigate(this.url, { trigger: true })
+    },
+    openCurriculum () {
+      window.open(this.arenaCurriculum, '_blank')
     }
   }
 }
@@ -160,10 +185,18 @@ export default {
 
 <style scoped lang="scss">
 @import "app/styles/common/button";
+@import "ozaria/site/styles/common/variables.scss";
+@import "ozaria/site/components/teacher-dashboard/common/dusk-button";
 
-/* .btn-moon {
-   padding: 0.5rem 0 !important;
-   } */
+.btn-moon {
+  font-size: 14px;
+  padding: 0.5rem 1rem;
+  min-width: 120px;
+}
+
+.dusk-btn {
+  display: unset !important;
+}
 
 .arena {
   &__info {
