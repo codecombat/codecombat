@@ -1,5 +1,6 @@
 <script>
 import moment from 'moment'
+import { mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -90,10 +91,74 @@ export default {
     tooltipName: {
       type: String,
       default: null
+    },
+    moduleNumber: {
+      required: false,
+      type: [Number, String],
+      default: null
+    },
+    normalizedOriginal: {
+      required: false,
+      type: String,
+      default: null
+    },
+    studentId: {
+      type: String,
+      default: null,
+      required: false
     }
   },
 
   computed: {
+    ...mapGetters({
+      getContentForClassroom: 'gameContent/getContentForClassroom',
+      classroomId: 'teacherDashboard/classroomId',
+      courseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+      getLevelSessionMap: 'levelSessions/getSessionsMapForClassroom',
+    }),
+
+    extraPracticeLevels () {
+      const classroomsContent = this.getContentForClassroom(this.classroomId)
+      const courseId = this.courseId
+
+      if (!classroomsContent || !courseId) {
+        return []
+      }
+
+      const level = classroomsContent[courseId]?.modules[this.moduleNumber]?.find(content => {
+        const { original, fromIntroLevelOriginal } = content
+        const normalizedOriginal = original || fromIntroLevelOriginal
+        return normalizedOriginal === this.normalizedOriginal
+      })
+
+      if (level?.practiceLevels) {
+        const sessionMap = this.getLevelSessionMap(this.classroomId)
+        const sessions = sessionMap[this.studentId]
+
+        if (sessions) {
+          return level.practiceLevels.map(level => {
+            const session = sessions[level.original]
+
+            return {
+              ...level,
+              inProgress: Boolean(session),
+              isCompleted: Boolean(session?.dateFirstCompleted)
+            }
+          })
+        }
+      }
+
+      return level?.practiceLevels || []
+    },
+
+    activePracticeLevels () {
+      return this.extraPracticeLevels.filter(({ inProgress }) => inProgress)
+    },
+
+    allPracticeLevelsCompleted () {
+      return this.extraPracticeLevels.length > 0 && this.extraPracticeLevels.every(({ isCompleted }) => isCompleted)
+    },
+
     isClicked () {
       return this.clickState || false
     },
@@ -113,7 +178,9 @@ export default {
         'border-red': this.border === 'red',
         'border-gray': this.border === 'gray',
         selected: this.selected,
-        hovered: this.hovered
+        hovered: this.hovered,
+        'has-active-practice-levels': this.activePracticeLevels.length > 0,
+        'all-practice-levels-completed': this.allPracticeLevelsCompleted
       }
     },
 
@@ -141,7 +208,11 @@ export default {
         ${this.tooltipName ? `<br><strong>${this.tooltipName}</strong>` : ''}
         ${this.status === 'complete' && this.completionDate ? `<br>${$.i18n.t('teacher.completed')}: ${moment(this.completionDate).format('lll')}` : ''}
         ${this.playTime ? `<br>${$.i18n.t('teacher.time_played_label')} ${moment.duration({ seconds: this.playTime }).humanize()}` : ''}
-      `
+        ${this.extraPracticeLevels?.length ? '<br><br>' : ''}
+        ${this.extraPracticeLevels.map(
+        level => `
+          ${$.i18n.t('teacher_dashboard.practice_level')}: ${level.name} - ${level.inProgress ? (level.isCompleted ? $.i18n.t('teacher_dashboard.complete') : $.i18n.t('teacher_dashboard.progress')) : $.i18n.t('teacher_dashboard.assigned')}
+        `).join('<br>')}`
     },
 
     levelAccessStatus () {
@@ -335,6 +406,13 @@ export default {
 
 .border-gray {
   border: 1px solid #828282;
+}
+
+.has-active-practice-levels {
+  border: 1px dotted blue;
+  &.all-practice-levels-completed {
+    border-style: solid;
+  }
 }
 
 .clicked {

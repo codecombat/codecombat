@@ -1,5 +1,6 @@
 import classroomsApi from 'core/api/classrooms'
 import campaignsApi from 'core/api/campaigns'
+import { courseIDs } from 'core/utils'
 
 import { getCurriculumGuideContentList, generateLevelNumberMap } from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper.js'
 
@@ -109,6 +110,26 @@ export default {
       return classroomsApi.fetchGameContent(classroomId, { data: { project: projectData } })
         .then(res => {
           if (res) {
+            if (res[courseIDs.JUNIOR]) {
+              //
+              // Move practice levels into the previous level's practiceLevels array
+              //
+              const juniorCourseData = res[courseIDs.JUNIOR]
+              const moduleEntries = Object.entries(juniorCourseData.modules)
+              for (const [moduleNum, moduleData] of moduleEntries) {
+                juniorCourseData.modules[moduleNum] = moduleData.reduce((acc, item) => {
+                  const { practice } = item
+                  if (practice) {
+                    const previous = acc[acc.length - 1]
+                    previous.practiceLevels = acc[acc.length - 1].practiceLevels || []
+                    previous.practiceLevels.push(item)
+                  } else {
+                    acc.push(item)
+                  }
+                  return acc
+                }, [])
+              }
+            }
             commit('addContentForClassroom', {
               classroomId,
               contentData: res

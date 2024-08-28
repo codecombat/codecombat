@@ -184,7 +184,7 @@ export default {
           let isPlayable = true
           let lastLockDate = null
           moduleStatsForTable.studentSessions[student._id] = translatedModuleContent.map((content) => {
-            const { original, fromIntroLevelOriginal } = content
+            const { original, fromIntroLevelOriginal, practiceLevels } = content
             const normalizedOriginal = original || fromIntroLevelOriginal
 
             const level = levelsByOriginal[normalizedOriginal]
@@ -226,7 +226,8 @@ export default {
               isPractice,
               playTime: playTimeMap[normalizedOriginal],
               completionDate: completionDateMap[normalizedOriginal],
-              tooltipName: levelNameMap[content._id].levelName
+              tooltipName: levelNameMap[content._id].levelName,
+              practiceLevels
             }
 
             if (content.type === 'game-dev') {
@@ -620,7 +621,7 @@ export default {
         moduleNum,
         displayName: moduleDisplayName,
         contentList: moduleContent.map((content, index) => {
-          const { type, _id, ozariaType, original, fromIntroLevelOriginal, slug } = content
+          const { type, _id, ozariaType, original, fromIntroLevelOriginal, slug, practiceLevels } = content
           const normalizedOriginal = original || fromIntroLevelOriginal
           let normalizedType = type
           if (ozariaType) {
@@ -669,6 +670,7 @@ export default {
             normalizedType,
             contentLevelSlug,
             isPractice,
+            practiceLevels,
             ...levelNameMap[_id]
           })
         }),

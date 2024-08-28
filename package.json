@@ -88,6 +88,7 @@
     "@stripe/stripe-js": "^1.32.0",
     "@usesuperflow/client": "^1.0.2",
     "@vimeo/player": "^2.17.1",
+    "ace-builds": "^1.36.0",
     "ace-diff": "github:smallst/ace-diff#v1.06",
     "acorn-loose": "^8.0.1",
     "adobe-animate-parser": "github:codecombat/adobe-animate-parser#master",
