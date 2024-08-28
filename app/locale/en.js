@@ -5972,10 +5972,10 @@ module.exports = {
       view: 'View',
       continue: 'Continue',
       no_assigned_projects: 'Your teacher has not assigned any AI projects yet.',
-      continue_here: 'Continue current',
-      start_new: 'Start New',
-      choice_prompt_1: 'Congratulations! You have completed the Learn to use AI project.',
-      choice_prompt_2: 'Now you can decide to continue with current chat history or start a new conversation with the AI tool.',
+      continue_here: 'Continue',
+      start_new: 'Start from scratch',
+      choice_prompt_1: 'Congratulations on completing the project!',
+      choice_prompt_2: 'You can continue with your project or start a new one from scratch!'
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',
