@@ -4987,7 +4987,7 @@ module.exports = {
       no_tournaments: 'There is no tournament now',
       edit_tournament: 'Edit Tournament',
       create_tournament: 'Create a Tournament',
-      access_tournament: 'Access',
+      view_tournament: 'View Tournament',
       upcoming: 'Upcoming',
       starting: 'Starting',
       ended: 'Ended',

@@ -66,10 +66,10 @@
                 {{ $t('tournament.edit_tournament') }}
               </button>
               <button
-                class="btn btn-secondary btn-moon"
+                class="btn btn-secondary dusk-btn"
                 @click="goTournament"
               >
-                {{ $t('tournament.access_tournament') }}
+                {{ $t('tournament.view_tournament') }}
               </button>
             </template>
           </span>
@@ -188,7 +188,7 @@ export default {
 @import "ozaria/site/styles/common/variables.scss";
 @import "ozaria/site/components/teacher-dashboard/common/dusk-button";
 
-.btn-moon {
+.btn-moon, .dusk-btn {
   font-size: 14px;
   padding: 0.5rem 1rem;
   min-width: 120px;
