@@ -24,6 +24,7 @@ const World = require('lib/world/world')
 const DocumentFiles = require('collections/DocumentFiles')
 const LevelLoader = require('lib/LevelLoader')
 
+const Achievement = require('models/Achievement')
 const Campaigns = require('collections/Campaigns')
 const CocoCollection = require('collections/CocoCollection')
 const Course = require('models/Course')
@@ -57,6 +58,7 @@ const utils = require('core/utils')
 const loadAetherLanguage = require('lib/loadAetherLanguage')
 const presenceApi = require(utils.isOzaria ? '../../../../ozaria/site/api/presence' : 'core/api/presence')
 const { fetchPracticeLevels, fetchLevelStats } = require('core/api/levels')
+const fetchJson = require('core/api/fetch-json')
 const globalVar = require('core/globalVar')
 
 require('vendor/scripts/coffeescript') // this is tenuous, since the LevelSession and LevelComponent models are what compile the code
@@ -366,7 +368,15 @@ module.exports = (LevelEditView = (function () {
 
     async savePracticeLevels () {
       if (!this.newPracticeLevels.length) { return }
-      for (const level of this.newPracticeLevels) {
+
+      // Fetch the main Achievement for the source level
+      const sourceLevelAchievement = await fetchJson(`/db/achievement?related=${this.level.get('original')}`)?.[0]
+      const sourceAchievementWorth = sourceLevelAchievement?.get('worth') || 10
+      const practiceAchievementWorth = Math.ceil(sourceAchievementWorth / 3)
+
+      // Create and save the practice levels and their achievements
+      for (let i = 0; i < this.newPracticeLevels.length; i++) {
+        const level = this.newPracticeLevels[i]
         const newLevel = new Level($.extend(true, {}, this.level.attributes))
         newLevel.unset('_id')
         newLevel.unset('version')
@@ -391,6 +401,56 @@ module.exports = (LevelEditView = (function () {
         })
         res.success(() => {
           noty({ timeout: 2000, text: `Created ${newLevel.get('name')}`, type: 'info', layout: 'top' })
+
+          // Create Achievement for this practice level
+          const achievement = new Achievement({
+            name: `${newLevel.get('name')} Complete`,
+            query: {
+              'state.complete': true,
+              'level.original': newLevel.get('original')
+            },
+            collection: 'level.sessions',
+            userField: 'creator',
+            related: newLevel.get('original'),
+            worth: practiceAchievementWorth,
+            rewards: {
+              gems: practiceAchievementWorth,
+              levels: []
+            }
+          })
+
+          // Set the next level to unlock, if it's not the last practice level
+          if (i < this.newPracticeLevels.length - 1) {
+            const rewards = achievement.get('rewards')
+            rewards.levels.push(this.newPracticeLevels[i + 1].get('original'))
+          }
+
+          achievement.save(null, {
+            success: () => {
+              noty({ timeout: 2000, text: `Created achievement for ${newLevel.get('name')}`, type: 'info', layout: 'top' })
+            },
+            error: (model, response) => {
+              noty({ timeout: 8000, text: `Error creating achievement for ${newLevel.get('name')}: ${response.responseText}`, type: 'error', layout: 'top' })
+            }
+          })
+
+          // Update main Achievement to unlock the first practice level
+          if (i === 0) {
+            const rewards = sourceLevelAchievement.get('rewards') || { levels: [] }
+            if (!rewards.levels.includes(newLevel.get('original'))) {
+              rewards.levels.push(newLevel.get('original'))
+              sourceLevelAchievement.set('rewards', rewards)
+              sourceLevelAchievement.save(null, {
+                patch: true,
+                success: () => {
+                  noty({ timeout: 2000, text: 'Updated main achievement to unlock first practice level', type: 'info', layout: 'top' })
+                },
+                error: (model, response) => {
+                  noty({ timeout: 8000, text: `Error updating main achievement: ${response.responseText}`, type: 'error', layout: 'top' })
+                }
+              })
+            }
+          }
         })
       }
     }
