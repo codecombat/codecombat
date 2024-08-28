@@ -756,27 +756,26 @@ module.exports = (CampaignView = (function () {
       if (this.campaigns) {
         let campaign, levels
         context.campaigns = {}
-        for (campaign of this.campaigns.models) {
-          if (campaign.get('slug') !== 'auditions') {
-            context.campaigns[campaign.get('slug')] = campaign
-            if (this.sessions?.loaded) {
-              levels = _.values($.extend(true, {}, campaign.get('levels') || {}))
-              if ((me.level() < 12) && (campaign.get('slug') === 'dungeon') && !this.editorMode) {
-                levels = _.reject(levels, { slug: 'signs-and-portents' })
-              }
-              if (me.freeOnly()) {
-                levels = _.reject(levels, level => level.requiresSubscription)
-              }
-              count = this.countLevels(levels)
-              campaign.levelsTotal = count.total
-              campaign.levelsCompleted = count.completed
-              if (campaign.get('slug') === 'dungeon') {
-                campaign.locked = false
-              } else if (!campaign.levelsTotal) {
-                campaign.locked = true
-              } else {
-                campaign.locked = true
-              }
+        const homeCampaigns = _.without(this.campaigns.models, (c) => ['tests', 'auditions', 'hackstack'].includes(c.get('slug')))
+        for (campaign of homeCampaigns) {
+          context.campaigns[campaign.get('slug')] = campaign
+          if (this.sessions?.loaded) {
+            levels = _.values($.extend(true, {}, campaign.get('levels') || {}))
+            if ((me.level() < 12) && (campaign.get('slug') === 'dungeon') && !this.editorMode) {
+              levels = _.reject(levels, { slug: 'signs-and-portents' })
+            }
+            if (me.freeOnly()) {
+              levels = _.reject(levels, level => level.requiresSubscription)
+            }
+            count = this.countLevels(levels)
+            campaign.levelsTotal = count.total
+            campaign.levelsCompleted = count.completed
+            if (campaign.get('slug') === 'dungeon') {
+              campaign.locked = false
+            } else if (!campaign.levelsTotal) {
+              campaign.locked = true
+            } else {
+              campaign.locked = true
             }
           }
         }

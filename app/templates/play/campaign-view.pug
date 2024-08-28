@@ -264,7 +264,7 @@ if showGameDevAlert
     .portal
       .portals
         - var godmode = me.isInGodMode();
-        for campaignSlug in features.campaignSlugs || ['dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'beta-campaigns-3', 'mountain', 'glacier', 'volcano']
+        for campaignSlug in features.campaignSlugs || ['junior', 'dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'beta-campaigns-3', 'mountain', 'glacier', 'volcano']
           if /beta-campaigns/.test(campaignSlug)
             - if (me.freeOnly()) continue;
             - var betaSlugs = campaignSlug === 'beta-campaigns-1' ? _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']) : campaignSlug === 'beta-campaigns-2' ? _.shuffle(['campaign-game-dev-2', 'campaign-web-dev-2']) : ['campaign-game-dev-3'];
@@ -318,6 +318,12 @@ if showGameDevAlert
                     btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
                 if campaign && campaign.get('description')
                   p.campaign-description(dir="auto")
+                    if ['junior', 'dungeon'].includes(campaignSlug)
+                      - var campaignProductName = campaignSlug == 'junior' ? 'codecombat_junior' : 'codecombat'
+                      strong.campaign-age(data-i18n="play.age_" + campaignProductName)
+                      br
+                      span.campaign-age-description(data-i18n="play.age_description_" + campaignProductName)
+                      br
                     span= i18n(campaign.attributes, 'description')
 
   .game-controls.header-font.picoctf-hide
