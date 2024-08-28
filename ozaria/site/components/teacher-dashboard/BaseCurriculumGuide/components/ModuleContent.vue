@@ -132,13 +132,14 @@ export default {
       event.stopPropagation()
       event.preventDefault()
     },
-    calculateLevelDescription (description, levelNumber) {
-      const practiceChar = /^(\d+)([a-z])$/.exec(levelNumber)?.[2]
-      if (!this.isJunior || !practiceChar) {
+    calculateLevelDescription (description, slug) {
+      const level = this.getModuleInfo?.[this.moduleNum].find(l => l.slug === slug)
+      const relatedLevels = this.relatedLevels(level)
+      const practiceNumber = relatedLevels.length - 1
+      if (!this.isJunior || practiceNumber === 0) {
         return description
       }
-      const practiceNumber = practiceChar.charCodeAt(0) - 'a'.charCodeAt(0) + 1
-      return `${description}. ${$.i18n.t('play_level.level_type_practice_level')}: ${practiceNumber}`
+      return `${description}. ${$.i18n.t('teacher_dashboard.practice_levels')}: ${practiceNumber}`
     }
   }
 }
@@ -171,9 +172,9 @@ export default {
             :name-type="assessment ? null : icon"
             :level-number="getLevelNumber(original, key + 1 )"
             :display-name="name"
-            :description="calculateLevelDescription(description, getLevelNumber(original, key + 1))"
+            :description="calculateLevelDescription(description, slug)"
             :is-part-of-intro="isPartOfIntro"
-            :show-code-btn="icon !== 'cutscene'"
+            :show-code-btn="icon !== 'cutscene' && !(isJunior && icon === 'practicelvl')"
             :identifier="slug"
             @click.native="trackEvent('Curriculum Guide: Individual content row clicked')"
             @showCodeClicked="onShowCodeClicked"
