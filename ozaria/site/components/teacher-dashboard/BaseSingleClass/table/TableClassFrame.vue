@@ -139,10 +139,11 @@ export default {
 
           <!-- List of student solutions per module -->
           <table-module-grid
-            v-for="({ studentSessions, displayName }) of modules"
+            v-for="({ studentSessions, displayName, moduleNum }) of modules"
             :key="displayName"
             :student-sessions="studentSessions"
             :hovered-levels="hoveredLevels"
+            :module-number="moduleNum"
           />
 
           <!-- Fade on the right to signal more -->
