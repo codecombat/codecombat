@@ -21,7 +21,7 @@ async function main () {
   const options = parseOptions()
   for (let i = 0; i < 1; ++i) {
     const parameters = {}
-    const level = await levelGeneration.generateLevel(parameters)
+    const level = await levelGeneration.generateLevel({ parameters })
     debug(level)
     await saveLevel(level, options)
   }

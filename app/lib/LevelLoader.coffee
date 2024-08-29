@@ -53,6 +53,7 @@ module.exports = class LevelLoader extends CocoClass
     @courseID = options.courseID
     @courseInstanceID = options.courseInstanceID
     @classroomId = options.classroomId
+    @thangsOverride = options.thangsOverride
 
     @worldNecessities = []
     @listenTo @supermodel, 'resource-loaded', @onWorldNecessityLoaded
@@ -121,6 +122,7 @@ module.exports = class LevelLoader extends CocoClass
 
   onLevelLoaded: ->
     console.debug 'LevelLoader: loaded level:', @level if LOG
+    @level.set('thangs', @thangsOverride) if @thangsOverride
     if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
       @sessionDependenciesRegistered = {}
     if @level.isType('web-dev')
