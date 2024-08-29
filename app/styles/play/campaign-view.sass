@@ -414,6 +414,22 @@ $gameControlMargin: 30px
           right: -13px
           top: -17px
 
+      &.has-practice-levels
+        .course-version
+          float: right
+
+          .btn
+            height: 33px
+
+          .btn-success
+            @include animation(winnablePulse 3s infinite)
+
+            span
+              opacity: 1
+
+      .practice-level
+        h3
+          margin-left: 0
 
     .campaign-switch
       color: purple
@@ -963,7 +979,7 @@ $gameControlMargin: 30px
     height: 55px
     border-radius: 10%
 
-  #liverpool-logo, #shreve-logo
+  #liverpool-logo, #shreve-logo, #lafourche-logo
     cursor: pointer
     width: 100px
     border-radius: 5%
@@ -1042,3 +1058,14 @@ body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdow
     &:hover
       cursor: pointer
       color: white
+
++keyframes(currentPracticeLevel)
+  from
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+  50%
+    @include box-shadow(0px 0px 35px #87CEFF)
+    color: #87CEFF
+  to
+    @include box-shadow(0px 0px 8px #333)
+    color: white

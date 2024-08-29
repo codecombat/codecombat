@@ -4,8 +4,8 @@
   border-radius: 4px;
   border-width: 0;
   text-shadow: unset;
-  font-weight: bold;
   @include font-p-3-small-button-text-black;
+  font-weight: bold;
   background-image: unset;
 
   &:hover {
@@ -18,4 +18,5 @@
   padding: 0 17px;
   justify-content: center;
   align-items: center;
+  text-transform: uppercase;
 }

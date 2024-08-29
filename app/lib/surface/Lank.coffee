@@ -389,6 +389,10 @@ module.exports = Lank = class Lank extends CocoClass
     rotationType = @thangType.get('rotationType')
     return if rotationType is 'fixed'
     rotation = @getRotation()
+    if @thangType.get('name') is 'Junior Beach Floor'
+      # Randomly rotate so that we get twice the variety
+      @rotationVariation ?= if Math.random() < 0.5 then 180 else 0
+      rotation = @rotationVariation
     if @isMissile and @thang.velocity
       # Rotates the arrow to see it arc based on velocity.z.
       # Notice that rotation here does not affect thang's state - it is just the effect.
@@ -435,6 +439,11 @@ module.exports = Lank = class Lank extends CocoClass
     action = thang.action if thang?.acts
     action ?= @currentRootAction.name if @currentRootAction?
     action ?= 'idle'
+    if action is 'idle' and @thangType.get('name') is 'Junior Beach Floor'
+      # Randomly pick idle or idle-1 through idle-6
+      @idleVariation ?= Math.floor(Math.random() * 7)
+      if @idleVariation > 0
+        action = "idle-#{@idleVariation}"
     unless @actions[action]?
       @warnedFor ?= {}
       console.info 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]

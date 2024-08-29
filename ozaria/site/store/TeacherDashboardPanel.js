@@ -17,13 +17,10 @@ export function practiceLevelData (content, studentSessions) {
   const normalizedOriginal = original || fromIntroLevelOriginal
   const level = new Level(content)
 
-  const solutionCode = level.getSolutions()
-    .filter((s) => s.language === language)
-    .find((s) => !s.testOnly)
-    ?.source || ''
+  const solutionCode = level.getSolutionForLanguage(language)?.source || ''
   const language = studentSessions[normalizedOriginal]?.codeLanguage || 'python'
 
-  const starterCode = level.getSampleCode()?.[language] || ''
+  const starterCode = level.getSampleCodeForLanguage(language) || ''
   const studentCode = studentSessions[normalizedOriginal]?.code?.['hero-placeholder']?.plan || ''
 
   return {
