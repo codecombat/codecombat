@@ -1,4 +1,4 @@
-FROM node:8.15.1-jessie
+FROM node:16
 
 ARG RUBY_VERSION=2.6.1
 ENV NPM_GLOBAL_PREFIX=/npm

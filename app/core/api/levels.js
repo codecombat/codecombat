@@ -92,5 +92,14 @@ module.exports = {
         })
         return introLevelsContentMap
       })
-  }
+  },
+
+  fetchPracticeLevels (levelId) {
+    return fetchJson(`/db/level/${levelId}/practice-levels`)
+  },
+
+  fetchLevelStats (levelId) {
+    return fetchJson(`/db/level/${levelId}/stats`)
+  },
+
 }

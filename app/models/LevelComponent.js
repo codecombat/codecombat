@@ -32,6 +32,7 @@ module.exports = (LevelComponent = (function () {
       this.RefereeID = '54977ce657e90bd1903dea72'
       this.JuniorPlayerID = '65b29e528f43392e778c9433'
       this.ScalesID = '52a399b98537a70000000003'
+      this.SelectableID = '524b7bb67fc0f6d519000018'
 
       this.ProgrammableIDs = [
         '524b7b5a7fc0f6d51900000e',
