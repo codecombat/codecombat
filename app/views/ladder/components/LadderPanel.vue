@@ -196,6 +196,8 @@ export default {
 
 .dusk-btn {
   display: unset !important;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .arena {

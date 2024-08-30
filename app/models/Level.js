@@ -475,6 +475,7 @@ module.exports = (Level = (function () {
     }
 
     getSolutionForLanguage (language) {
+      if (!language) { return '' }
       const solutions = this.getSolutions()
       let solution = _.find(solutions, { language, succeeds: true })
       if (solution || language === 'javascript') return solution
@@ -486,6 +487,7 @@ module.exports = (Level = (function () {
     }
 
     getSampleCodeForLanguage (language) {
+      if (!language) { return '' }
       const sampleCodeByLanguage = this.getSampleCode()
       const sampleCode = sampleCodeByLanguage[language]
       if (sampleCode || language === 'javascript' || !sampleCodeByLanguage.javascript) return sampleCode
