@@ -490,8 +490,10 @@ module.exports = (Level = (function () {
       if (!language) { return '' }
       const sampleCodeByLanguage = this.getSampleCode()
       const sampleCode = sampleCodeByLanguage[language]
-      if (sampleCode || language === 'javascript' || !sampleCodeByLanguage.javascript) return sampleCode
-      return translateUtils.translateJS(sampleCodeByLanguage.javascript, language)
+      if (sampleCode || language === 'javascript' || !sampleCodeByLanguage.javascript) {
+        return sampleCode || ''
+      }
+      return translateUtils.translateJS(sampleCodeByLanguage.javascript, language) || ''
     }
 
     getProgrammablePlan (team = 'humans') {
