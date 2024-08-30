@@ -68,20 +68,23 @@ _.extend(AIChatMessageSchema.properties, {
   ownerID: { title: 'Owner Id', type: ['object', 'string'], description: 'The user who created this chat message' },
   safetyValidation: {
     title: 'AI Safety validation',
-    type: 'object',
+    type: 'array',
     description: 'The safety validation of the AI generated message',
-    properties: {
-      failureType: {
-        title: 'Failure Type',
-        type: 'string',
-        description: 'The type of failure that occurred when generating this message',
-        enum: ['Adults', 'Inappropriate', 'Spam', 'Violence', 'Other', 'None'],
-      },
-      failureDetails: {
-        title: 'Failure Details',
-        type: 'string',
-        description: 'Details about the failure that occurred when generating this message',
-      },
+    items: {
+      type: 'object',
+      properties: {
+        failureType: {
+          title: 'Failure Type',
+          type: 'string',
+          description: 'The type of failure that occurred when generating this message',
+          enum: ['Adults', 'Inappropriate', 'Spam', 'Violence', 'Other'],
+        },
+        failureDetails: {
+          title: 'Failure Details',
+          type: 'string',
+          description: 'Details about the failure that occurred when generating this message',
+        },
+      }
     }
   }
 })
