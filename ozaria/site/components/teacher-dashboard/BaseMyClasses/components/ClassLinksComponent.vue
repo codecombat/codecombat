@@ -140,7 +140,7 @@
         <li>
           <a
             v-tooltip.top="{
-              content: 'Lesson slidse for Day 5: AI League Tournament.',
+              content: 'Lesson slides for Day 5: AI League Tournament.',
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
