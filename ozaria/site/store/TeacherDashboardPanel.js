@@ -17,8 +17,8 @@ export function practiceLevelData (content, studentSessions) {
   const normalizedOriginal = original || fromIntroLevelOriginal
   const level = new Level(content)
 
-  const solutionCode = level.getSolutionForLanguage(language)?.source || ''
   const language = studentSessions[normalizedOriginal]?.codeLanguage || 'python'
+  const solutionCode = level.getSolutionForLanguage(language)?.source || ''
 
   const starterCode = level.getSampleCodeForLanguage(language) || ''
   const studentCode = studentSessions[normalizedOriginal]?.code?.['hero-placeholder']?.plan || ''
