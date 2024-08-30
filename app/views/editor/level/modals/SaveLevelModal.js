@@ -86,12 +86,13 @@ class SaveLevelModal extends SaveVersionModal {
     return false
   }
 
-  commitLevel (e) {
-    let form, model, newModel
+  async commitLevel (e) {
     e.preventDefault()
     this.level.set('buildTime', this.buildTime)
     let modelsToSave = []
     const formsToSave = []
+
+    // Process forms
     this.$el.find('form').each((index, form) => {
       // Level form is first, then LevelComponents' forms, then LevelSystems' forms
       const fields = {}
@@ -99,14 +100,15 @@ class SaveLevelModal extends SaveVersionModal {
         fields[field.name] = field.value === 'on' ? true : field.value
       }
       const isLevelForm = $(form).attr('id') === 'save-level-form'
+      let model
       if (isLevelForm) {
         model = this.level
       } else {
-        const [kind, klass] = $(form.hasClass('component-form') ? ['component', LevelComponent] : ['system', LevelSystem])
+        const [kind, klass] = $(form).hasClass('component-form') ? ['component', LevelComponent] : ['system', LevelSystem]
         model = this.supermodel.getModelByOriginalAndMajorVersion(klass, fields[`${kind}-original`], parseInt(fields[`${kind}-parent-major-version`], 10))
         if (!model) { console.log('Couldn\'t find model for', kind, fields, 'from', this.supermodel.models) }
       }
-      newModel = fields.major ? model.cloneNewMajorVersion() : model.cloneNewMinorVersion()
+      const newModel = fields.major ? model.cloneNewMajorVersion() : model.cloneNewMinorVersion()
       newModel.set('commitMessage', fields['commit-message'])
       modelsToSave.push(newModel)
       if (isLevelForm) {
@@ -120,7 +122,8 @@ class SaveLevelModal extends SaveVersionModal {
       formsToSave.push(form)
     })
 
-    for (model of modelsToSave) {
+    // Validate models
+    for (const model of modelsToSave) {
       const errors = model.getValidationErrors()
       if (errors) {
         let messages = (errors.map((error) => `\t ${error.dataPath}: ${error.message}`))
@@ -133,24 +136,30 @@ class SaveLevelModal extends SaveVersionModal {
 
     this.showLoading()
     const tuples = _.zip(modelsToSave, formsToSave)
-    for ([newModel, form] of tuples) {
-      if (newModel.get('i18nCoverage')) { newModel.updateI18NCoverage() }
-      const res = newModel.save(null, { type: 'POST' }) // Override PUT so we can trigger postNewVersion logic
-      res.error(() => {
-        this.hideLoading()
-        console.log('Got errors:', JSON.parse(res.responseText))
-        forms.applyErrorsToForm($(form), JSON.parse(res.responseText))
-      })
-      res.success(() => {
-        modelsToSave = _.without(modelsToSave, newModel)
-        const oldModel = _.find(this.supermodel.models, m => m.get('original') === newModel.get('original'))
-        oldModel.clearBackup() // Otherwise looking at old versions is confusing.
-        if (!modelsToSave.length) {
-          const url = `/editor/level/${this.level.get('slug') || this.level.id}`
-          document.location.href = url
-          this.hide()
+
+    try {
+      for (const [newModel, form] of tuples) {
+        if (newModel.get('i18nCoverage')) { newModel.updateI18NCoverage() }
+        try {
+          await newModel.save(null, { type: 'POST' }) // Override PUT so we can trigger postNewVersion logic
+          modelsToSave = _.without(modelsToSave, newModel)
+          const oldModel = _.find(this.supermodel.models, m => m.get('original') === newModel.get('original'))
+          oldModel.clearBackup() // Otherwise looking at old versions is confusing.
+        } catch (error) {
+          console.log('Got errors:', error)
+          forms.applyErrorsToForm($(form), error)
+          this.hideLoading()
+          return
         }
-      }) // This will destroy everything, so do it last
+      }
+
+      // All models saved successfully
+      const url = `/editor/level/${this.level.get('slug') || this.level.id}`
+      document.location.href = url
+      this.hide()
+    } catch (error) {
+      console.error('An unexpected error occurred:', error)
+      this.hideLoading()
     }
   }
 
