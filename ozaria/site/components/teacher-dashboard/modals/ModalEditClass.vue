@@ -762,7 +762,7 @@ export default Vue.extend({
               class="error"
             >
               Please login on <a
-                href="https://www.ozaria.com"
+                href="https://www.ozaria.com/teachers/classes"
                 target="_blank"
               >ozaria.com</a> instead with same credentials to create ozaria club and continue playing
             </span>
