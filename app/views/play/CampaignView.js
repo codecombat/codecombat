@@ -735,25 +735,24 @@ class CampaignView extends RootView {
 
     if (this.campaigns) {
       context.campaigns = {}
-      for (const campaign of this.campaigns.models) {
-        if (campaign.get('slug') !== 'auditions') {
-          context.campaigns[campaign.get('slug')] = campaign
-          if (this.sessions?.loaded) {
-            let levels = _.values($.extend(true, {}, campaign.get('levels') ?? {}))
-            if ((me.level() < 12) && (campaign.get('slug') === 'dungeon') && !this.editorMode) {
-              levels = levels.filter(level => level.slug !== 'signs-and-portents')
-            }
-            if (me.freeOnly()) {
-              levels = levels.filter(level => !level.requiresSubscription)
-            }
-            const count = this.countLevels(levels)
-            campaign.levelsTotal = count.total
-            campaign.levelsCompleted = count.completed
-            campaign.locked = campaign.get('slug') !== 'dungeon' && !campaign.levelsTotal
+      const publicCampaigns = _.without(this.campaigns.models, (c) => ['tests', 'auditions', 'hackstack'].includes(c.get('slug')))
+      for (const campaign of publicCampaigns) {
+        context.campaigns[campaign.get('slug')] = campaign
+        if (this.sessions?.loaded) {
+          let levels = _.values($.extend(true, {}, campaign.get('levels') ?? {}))
+          if ((me.level() < 12) && (campaign.get('slug') === 'dungeon') && !this.editorMode) {
+            levels = levels.filter(level => level.slug !== 'signs-and-portents')
           }
+          if (me.freeOnly()) {
+            levels = levels.filter(level => !level.requiresSubscription)
+          }
+          const count = this.countLevels(levels)
+          campaign.levelsTotal = count.total
+          campaign.levelsCompleted = count.completed
+          campaign.locked = campaign.get('slug') !== 'dungeon' && !campaign.levelsTotal
         }
       }
-      for (const campaign of this.campaigns.models) {
+      for (const campaign of publicCampaigns) {
         for (const [acID, ac] of Object.entries(campaign.get('adjacentCampaigns') ?? {})) {
           if (_.isString(ac.showIfUnlocked)) {
             if (me.levels().includes(ac.showIfUnlocked)) {

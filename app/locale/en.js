@@ -588,6 +588,10 @@ module.exports = {
       confirm_m7_off: 'Are you sure to turn beta levels off?',
       play_codecombat: 'Play CodeCombat',
       play_codecombat_junior: 'Play CodeCombat Junior',
+      age_codecombat: 'Ages 8+',
+      age_codecombat_junior: 'Ages 5-8',
+      age_description_codecombat: 'Real Python or JavaScript coding for everyone',
+      age_description_codecombat_junior: 'Blocks or simple text coding for beginners',
       want_more_hints: 'Want more hints?',
     },
 
