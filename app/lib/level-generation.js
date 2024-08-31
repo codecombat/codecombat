@@ -675,7 +675,10 @@ generateProperty('codePoints', function (level, parameters) {
 // })
 
 generateProperty('permissions', function (level, parameters) {
-  return [{ access: 'owner', target: '512ef4805a67a8c507000001' }] // Nick's id
+  return [
+    { access: 'owner', target: '512ef4805a67a8c507000001' }, // Nick's id
+    { access: 'read', target: 'public' },
+  ]
 })
 
 generateProperty('product', function (level, parameters) {
@@ -1259,7 +1262,10 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns
       let tries = 0
       do {
         valid = true
-        if (inRepeatedLoop) continue
+        if (inRepeatedLoop) {
+          targetPosNew = currentPosNew.copy().add(actionNew.direction.vector)
+          continue
+        }
         if (lastAction && lastAction.type === 'zap') {
           // Hit the same way we were just zapping (some monster has probably run up to us)
           actionNew.direction = lastDirectionsPerActionNew.zap
@@ -1303,7 +1309,10 @@ function permuteActions ({ actions, thangs, checkDistanceTraveled, checkZapTurns
       let tries = 0
       do {
         valid = true
-        if (inRepeatedLoop) continue
+        if (inRepeatedLoop) {
+          targetPosNew = currentPosNew.copy().add(actionNew.direction.vector)
+          continue
+        }
         actionNew.direction = new Direction()
         const currentDirectionRelationshipNew = lastDirectionNew ? actionNew.direction.getRelationship(lastDirectionNew) : undefined
         if (currentDirectionRelationshipNew !== currentDirectionRelationshipSrc && (checkZapTurns || currentDirectionRelationshipSrc === 'forward')) {
