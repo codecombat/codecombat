@@ -91,11 +91,22 @@ export default {
   },
 
   methods: {
-    relatedLevels (level) {
-      const levelNumber = this.getLevelNumber(level.original)
+    relatedLevels (level, defaultIndex) {
+      const levelNumber = this.getLevelNumber(level.original, defaultIndex)
       const regex = new RegExp(`^${levelNumber}[a-z]?$`)
-      const levelOriginals = Object.entries(this.levelNumberMap).filter(([_k, value]) => regex.test(value.toString()))
-      return levelOriginals.map(([key, _v]) => this.getModuleInfo[this.moduleNum].find(l => l.original === key))
+      let levelOriginals
+      if (utils.isCodeCombat && this.classroomId) {
+        const levelNumberMap = this.classroomInstance.levelNumberMap
+        const courseRegex = new RegExp(`^${this.getCurrentCourse?._id}:`)
+        levelOriginals = Object.entries(levelNumberMap).filter(([key, value]) => regex.test(value.toString()) && courseRegex.test(key))
+        return levelOriginals.map(([key, _v]) => {
+          const levelKey = key.split(':')[1]
+          return this.getModuleInfo[this.moduleNum].find(l => l.original === levelKey)
+        })
+      } else {
+        levelOriginals = Object.entries(this.levelNumberMap).filter(([key, value]) => regex.test(value.toString()))
+        return levelOriginals.map(([key, _v]) => this.getModuleInfo[this.moduleNum].find(l => l.original === key))
+      }
     },
     getLevelNumber (original, index) {
       if (utils.isCodeCombat && this.classroomId) {
@@ -132,11 +143,11 @@ export default {
       event.stopPropagation()
       event.preventDefault()
     },
-    calculateLevelDescription (description, slug) {
+    calculateLevelDescription (description, slug, defaultIndex) {
       const level = this.getModuleInfo?.[this.moduleNum].find(l => l.slug === slug)
-      const relatedLevels = this.relatedLevels(level)
+      const relatedLevels = this.relatedLevels(level, defaultIndex)
       const practiceNumber = relatedLevels.length - 1
-      if (!this.isJunior || practiceNumber === 0) {
+      if (!this.isJunior || practiceNumber <= 0) {
         return description
       }
       return `${description}. ${$.i18n.t('teacher_dashboard.practice_levels')}: ${practiceNumber}`
@@ -172,7 +183,7 @@ export default {
             :name-type="assessment ? null : icon"
             :level-number="getLevelNumber(original, key + 1 )"
             :display-name="name"
-            :description="calculateLevelDescription(description, slug)"
+            :description="calculateLevelDescription(description, slug, key + 1)"
             :is-part-of-intro="isPartOfIntro"
             :show-code-btn="icon !== 'cutscene' && !(isJunior && icon === 'practicelvl')"
             :identifier="slug"
