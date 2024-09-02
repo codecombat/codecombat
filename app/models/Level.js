@@ -19,6 +19,7 @@ const LevelSystem = require('./LevelSystem')
 const LevelConstants = require('lib/LevelConstants')
 const ThangTypeConstants = require('lib/ThangTypeConstants')
 const utils = require('core/utils')
+const translateUtils = require('lib/translate-utils')
 const store = require('core/store')
 
 // Pure functions for use in Vue
@@ -439,47 +440,77 @@ module.exports = (Level = (function () {
     }
 
     getSolutions () {
-      let hero, left, plan
-      if (!(hero = _.find(((left = this.get('thangs')) != null ? left : []), { id: 'Hero Placeholder' }))) { return [] }
-      if (!(plan = __guard__(_.find(hero.components != null ? hero.components : [], x => __guard__(__guard__(x != null ? x.config : undefined, x2 => x2.programmableMethods), x1 => x1.plan)), x => x.config.programmableMethods.plan))) { return [] }
-      const solutions = _.cloneDeep(plan.solutions != null ? plan.solutions : [])
-      for (const solution of Array.from(solutions)) {
-        let context = utils.i18n(plan, 'context')
-        if (utils.isOzaria) {
-          context = _.merge({ external_ch1_avatar: __guard__(store.getters != null ? store.getters['me/getCh1Avatar'] : undefined, x1 => x1.avatarCodeString) || 'crown' }, context)
-        }
+      const plan = this.getProgrammablePlan()
+      const solutions = _.cloneDeep(plan?.solutions || [])
+      const context = this.getCodeContext(plan)
+
+      return _.map(solutions, solution => {
         try {
-          solution.source = _.template(solution != null ? solution.source : undefined)(context)
+          return {
+            ...solution,
+            source: _.template(solution.source)(context)
+          }
         } catch (e) {
-          console.error(`Problem with template and solution comments for '${this.get('slug') || this.get('name')}'\n`, e)
+          console.error(`Problem with template and solution comments for '${this.get('slug') || this.get('name')}'`, e)
+          return solution
         }
-      }
-      return solutions
+      })
     }
 
-    getSampleCode (team) {
-      let hero, left, plan
-      if (team == null) { team = 'humans' }
-      const heroThangID = team === 'ogres' ? 'Hero Placeholder 1' : 'Hero Placeholder'
-      if (!(hero = _.find(((left = this.get('thangs')) != null ? left : []), { id: heroThangID }))) { return {} }
-      if (!(plan = __guard__(_.find(hero.components != null ? hero.components : [], x => __guard__(__guard__(x != null ? x.config : undefined, x2 => x2.programmableMethods), x1 => x1.plan)), x => x.config.programmableMethods.plan))) { return {} }
-      const sampleCode = _.cloneDeep(plan.languages != null ? plan.languages : {})
-      sampleCode.javascript = plan.source
-      for (const language in sampleCode) {
-        const code = sampleCode[language]
-        let {
-          context
-        } = plan
-        if (utils.isOzaria) {
-          context = _.merge({ external_ch1_avatar: __guard__(store.getters != null ? store.getters['me/getCh1Avatar'] : undefined, x1 => x1.avatarCodeString) || 'crown' }, context)
-        }
+    getSampleCode (team = 'humans') {
+      const plan = this.getProgrammablePlan(team)
+      const sampleCode = _.cloneDeep(plan?.languages || {})
+      sampleCode.javascript = plan?.source
+      const context = this.getCodeContext(plan)
+
+      _.forEach(sampleCode, (code, language) => {
         try {
           sampleCode[language] = _.template(code)(context)
         } catch (e) {
-          console.error(`Problem with template and solution comments for '${this.get('slug') || this.get('name')}'\n`, e)
+          console.error(`Problem with template and solution comments for '${this.get('slug') || this.get('name')}'`, e)
         }
-      }
+      })
+
       return sampleCode
+    }
+
+    getSolutionForLanguage (language) {
+      if (!language) { return '' }
+      const solutions = this.getSolutions()
+      let solution = _.find(solutions, { language, succeeds: true })
+      if (solution || language === 'javascript') return solution
+      const jsSolution = _.find(solutions, { language: 'javascript', succeeds: true })
+      if (!jsSolution) return null
+      solution = _.cloneDeep(jsSolution)
+      solution.source = translateUtils.translateJS(jsSolution.source, language)
+      return solution
+    }
+
+    getSampleCodeForLanguage (language) {
+      if (!language) { return '' }
+      const sampleCodeByLanguage = this.getSampleCode()
+      const sampleCode = sampleCodeByLanguage[language]
+      if (sampleCode || language === 'javascript' || !sampleCodeByLanguage.javascript) {
+        return sampleCode || ''
+      }
+      return translateUtils.translateJS(sampleCodeByLanguage.javascript, language) || ''
+    }
+
+    getProgrammablePlan (team = 'humans') {
+      const heroThangID = team === 'ogres' ? 'Hero Placeholder 1' : 'Hero Placeholder'
+      const hero = _.find(this.get('thangs') || [], { id: heroThangID })
+      return _.find(hero?.components || [], comp => comp.config?.programmableMethods?.plan)?.config.programmableMethods.plan
+    }
+
+    getCodeContext (plan) {
+      if (!plan) return {}
+      let context = utils.i18n(plan, 'context')
+      if (utils.isOzaria) {
+        context = _.merge({
+          external_ch1_avatar: _.get(store.getters, 'me/getCh1Avatar.avatarCodeString', 'crown')
+        }, context)
+      }
+      return context
     }
 
     static thresholdForScore ({ level, type, score }) {

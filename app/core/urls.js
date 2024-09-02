@@ -65,7 +65,8 @@ module.exports = {
       console.error('courseWorldMap: campaign id is not defined')
       return ''
     }
-    let url = `/play/${encodeURIComponent(campaignId)}`
+    const courseCampaignSlug = utils.courseCampaignSlugs[courseId]
+    let url = `/play/${encodeURIComponent(courseCampaignSlug || campaignId)}`
     const queryParams = {}
     if (courseId) {
       queryParams.course = encodeURIComponent(courseId)

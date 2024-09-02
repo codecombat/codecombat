@@ -182,6 +182,8 @@ window.me = {
 window._ = _
 window._.string = require('underscore.string')
 
+window.moment = require('moment')
+
 const VueI18Next = {
   install (Vue, options) {
     /*  determine options  */

@@ -65,9 +65,10 @@ module.exports = (LevelCollection = (function () {
         } else if ((lang !== 'javascript') && !_.find(allSolutions, { language: lang })) {
           for (s of Array.from(allSolutions)) {
             if (s.language === 'javascript') {
-              s.language = lang
-              s.source = translateUtils.translateJS(s.source, lang)
-              solutions.push(s)
+              const translatedSolution = _.cloneDeep(s)
+              translatedSolution.language = lang
+              translatedSolution.source = translateUtils.translateJS(s.source, lang)
+              solutions.push(translatedSolution)
             }
           }
         } else {

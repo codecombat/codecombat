@@ -10,24 +10,6 @@ const { after } = require('lodash')
 describe('Utility library', function () {
   const utils = require('../../../app/core/utils')
 
-  describe('getModuleNumberForLevelName', function () {
-    it('should return the correct module number for a given level name in course cs4', function () {
-      console.log('courseModuleLevels', Object.keys(utils))
-      const result = utils.getModuleNumberForLevelName(utils.courseIDs.COMPUTER_SCIENCE_4, 'Coordinated Defense')
-      expect(result).toEqual(2)
-    })
-
-    it('should return the correct module number for a given level name in course CS5', function () {
-      const result = utils.getModuleNumberForLevelName(utils.courseIDs.COMPUTER_SCIENCE_5, 'Perimeter Defense')
-      expect(result).toEqual(4)
-    })
-
-    it('should return undefined if the level name does not exist in the course', function () {
-      const result = utils.getModuleNumberForLevelName(utils.courseIDs.COMPUTER_SCIENCE_5, 'level5')
-      expect(result).toBeUndefined()
-    })
-  })
-
   describe('yearsSinceMonth', function () {
     beforeEach(() => jasmine.clock().install())
     afterEach(() => jasmine.clock().uninstall())

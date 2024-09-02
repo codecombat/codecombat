@@ -588,6 +588,10 @@ module.exports = {
       confirm_m7_off: 'Are you sure to turn beta levels off?',
       play_codecombat: 'Play CodeCombat',
       play_codecombat_junior: 'Play CodeCombat Junior',
+      age_codecombat: 'Ages 8+',
+      age_codecombat_junior: 'Ages 5-8',
+      age_description_codecombat: 'Real Python or JavaScript coding for everyone',
+      age_description_codecombat_junior: 'Blocks or simple text coding for beginners',
       want_more_hints: 'Want more hints?',
     },
 
@@ -2996,6 +3000,8 @@ module.exports = {
       fork_creating: 'Creating Fork...',
       generate_terrain: 'Generate Terrain',
       generate_level: 'Generate Level',
+      generate_practice_level: 'Generate Practice Level',
+      generate_all_practice_levels: 'Generate All Practice Levels',
       more: 'More',
       wiki: 'Wiki',
       live_chat: 'Slack',
@@ -4578,7 +4584,9 @@ module.exports = {
       cutscenes_tooltip: '<h3>Cutscene</h3><p>Short videos that explain parts of the epic Ozaria narrative.</p>',
       cinematics: 'Cinematics',
       concept_checks: 'Concept Checks',
+      practice_level: 'Practice Level',
       practice_levels: 'Practice Levels',
+      extra_practice: 'Extra Practice',
       challenge_levels: 'Challenge Levels',
       capstone_levels: 'Capstone Levels',
       intro: 'Intro',
@@ -5973,7 +5981,11 @@ module.exports = {
       locked: 'LOCKED',
       view: 'View',
       continue: 'Continue',
-      no_assigned_projects: 'Your teacher has not assigned any AI projects yet.'
+      no_assigned_projects: 'Your teacher has not assigned any AI projects yet.',
+      continue_here: 'Continue',
+      start_new: 'Start from scratch',
+      choice_prompt_1: 'Congratulations on completing the project!',
+      choice_prompt_2: 'You can continue with your project or start a new one from scratch!'
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',

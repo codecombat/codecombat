@@ -1,7 +1,7 @@
 const PLAN_FIRST_CLASS_STEP = {
   attachTo: {
-    element: '#curriculum-guide-btn-shepherd',
-    on: 'top'
+    element: '#CurriculumAnchor',
+    on: 'right'
   },
   text: () => {
     const planYourClassDiv = document.createElement('div')

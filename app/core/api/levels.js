@@ -38,8 +38,10 @@ module.exports = {
     return fetchJson(url, options)
   },
 
-  fetchNextForCampaign ({ campaignSlug, levelOriginal }, options) {
+  fetchNextForCampaign ({ campaignSlug, levelOriginal, includePractice = false }, options) {
     if (options == null) { options = {} }
+    options.data = options.data || {}
+    options.data.includePractice = includePractice
     const url = `/db/campaign/${campaignSlug}/levels/${levelOriginal}/next`
     return fetchJson(url, options)
   },
@@ -92,5 +94,14 @@ module.exports = {
         })
         return introLevelsContentMap
       })
-  }
+  },
+
+  fetchPracticeLevels (levelId) {
+    return fetchJson(`/db/level/${levelId}/practice-levels`)
+  },
+
+  fetchLevelStats (levelId) {
+    return fetchJson(`/db/level/${levelId}/stats`)
+  },
+
 }

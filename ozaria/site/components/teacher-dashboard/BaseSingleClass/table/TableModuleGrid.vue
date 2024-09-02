@@ -20,6 +20,11 @@ export default {
       required: false,
       type: Array,
       default: () => []
+    },
+    moduleNumber: {
+      required: false,
+      type: [Number, String],
+      default: null
     }
   },
   computed: {
@@ -48,7 +53,7 @@ export default {
         return acc.concat(studentSessions.map(session => {
           return {
             ...session,
-            _id: studentId
+            studentId
           }
         }))
       }, [])
@@ -81,7 +86,7 @@ export default {
   >
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
     <div
-      v-for="({_id, status, playTime, tooltipName, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
+      v-for="({studentId, status, playTime, tooltipName, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
       :key="selectedKey"
       :class="cellClass(index)"
     >
@@ -98,11 +103,14 @@ export default {
         :last-lock-date="lastLockDate"
         :is-optional="isOptional"
         :track-category="getTrackCategory"
-        :selected="selectedOriginals.includes(normalizedOriginal) && selectedStudentIds.includes(_id)"
-        :hovered="hoveredLevels.includes(normalizedOriginal) && selectedStudentIds.includes(_id)"
+        :selected="selectedOriginals.includes(normalizedOriginal) && selectedStudentIds.includes(studentId)"
+        :hovered="hoveredLevels.includes(normalizedOriginal) && selectedStudentIds.includes(studentId)"
         :play-time="playTime"
         :completion-date="completionDate"
         :tooltip-name="tooltipName"
+        :normalized-original="normalizedOriginal"
+        :module-number="moduleNumber"
+        :student-id="studentId"
       />
     </div>
   </div>

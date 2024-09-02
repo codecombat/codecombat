@@ -796,7 +796,8 @@ const nextLevelBannerImages = {
   'game-dev.png': { courses: ['GD1', 'GD2', 'GD3'] },
   'heroes-vs-ogres.png': { heroes: ['raider', 'champion', 'captain', 'ninja'], courses: ['CS1', 'CS2', 'CS3', 'CS4', 'CS5', 'CS6', 'GD1', 'GD2', 'GD3'] },
   'mountain-heroes.png': { heroes: ['goliath', 'guardian', 'knight', 'stalwart', 'duelist'], courses: ['CS4', 'CS5', 'CS6'] },
-  'wizard-heroes.png': { heroes: ['potion-master', 'master-wizard', 'librarian', 'sorcerer', 'necromancer'], courses: ['CS1'], levels: ['the-wizards-door', 'the-wizards-haunt', 'the-wizards-plane'] }
+  'wizard-heroes.png': { heroes: ['potion-master', 'master-wizard', 'librarian', 'sorcerer', 'necromancer'], courses: ['CS1'], levels: ['the-wizards-door', 'the-wizards-haunt', 'the-wizards-plane'] },
+  'banner-junior.png': { courses: ['JR'] },
 }
 
 function __guard__ (value, transform) {

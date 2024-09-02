@@ -13,12 +13,61 @@ export default {
       type: Object,
       required: true
     }
+  },
+
+  computed: {
+    dateFirstCompleted () {
+      return this.panelSessionContent.session?.dateFirstCompleted ? moment(this.panelSessionContent.session.dateFirstCompleted).format('lll') : null
+    }
   }
 }
 </script>
 
 <template>
-  <div class="practice-level">
+  <div
+    class="practice-level"
+    :class="{extra:panelSessionContent.isExtra}"
+  >
+    <div v-if="panelSessionContent.isExtra">
+      <h3
+        class="text-h3"
+      >
+        {{ $t('teacher_dashboard.extra_practice') }} {{ panelSessionContent.levelTitle }}
+      </h3>
+      <div class="row-icon">
+        <div
+          v-if="panelSessionContent.session"
+          class="left-items"
+        >
+          <img src="/images/ozaria/teachers/dashboard/svg_icons/Icon_TimeSpent.svg">
+          <span>
+            <b>{{ $t('teacher.time_played_label') }}</b>
+            {{ Math.ceil(panelSessionContent.session.playtime / 60) }} min
+          </span>
+        </div>
+        <div v-else />
+        <div class="right-item">
+          <span
+            v-if="panelSessionContent.session && dateFirstCompleted"
+            class="status completed"
+          >
+            {{ $t('teacher.completed') }}: {{ dateFirstCompleted }}
+          </span>
+          <span
+            v-else-if="panelSessionContent.session"
+            class="status in-progress"
+          >
+            {{ $t('teacher.in_progress') }}
+          </span>
+          <span
+            v-else
+            class="status assigned"
+          >
+            {{ $t('teacher.assigned') }}
+          </span>
+        </div>
+      </div>
+    </div>
     <div class="flex-row">
       <div>
         <h4>Starter Code</h4>
@@ -49,6 +98,12 @@ export default {
   @import "app/styles/ozaria/_ozaria-style-params.scss";
   .practice-level {
     padding: 23px 14px;
+
+    &.extra {
+      background: $mist;
+      margin: 15px;
+      padding: 10px;
+    }
   }
 
   h4 {
@@ -58,6 +113,12 @@ export default {
     line-height: 18px;
 
     margin-bottom: 10px;
+  }
+
+  .text-h3 {
+    @include font-p-4-paragraph-smallest-gray;
+    font-weight: 600;
+    margin: 5px auto;
   }
 
   .flex-row {
@@ -74,6 +135,20 @@ export default {
   .extra-title {
     padding-right: 35%;
     margin-top: 50px;
+  }
+
+  .row-icon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 7px 0;
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .left-items {
+    display: flex;
+    align-items: center;
   }
 
 </style>

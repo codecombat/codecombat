@@ -189,15 +189,13 @@ module.exports = (LevelSession = (function () {
     countOriginalLinesOfCode (level) {
       // Count non-whitespace, non-comment lines starting at first unique code line
       // TODO: diff better to find truly changed lines
-      let left, left1, left2, left3
-      const sampleCodeByLanguage = level.getSampleCode(this.get('team'))
-      let sampleCode = (left = (left1 = (left2 = sampleCodeByLanguage[this.get('codeLanguage')]) != null ? left2 : sampleCodeByLanguage.html) != null ? left1 : sampleCodeByLanguage.python) != null ? left : ''
+      let sampleCode = level.getSampleCodeForLanguage(this.get('codeLanguage'))
       sampleCode = sampleCode.replace(this.singleLineCommentOnlyRegex(), '')
       let sampleCodeLines = sampleCode.split(/\n+/)
       sampleCodeLines = _.filter(sampleCodeLines)
 
       const thang = this.get('team') === 'ogres' ? 'hero-placeholder-1' : 'hero-placeholder'
-      let code = (left3 = this.getSourceFor(`${thang}/plan`)) != null ? left3 : ''
+      let code = this.getSourceFor(`${thang}/plan`) || ''
       code = code.replace(this.singleLineCommentOnlyRegex(), '')
       let codeLines = code.split(/\n+/)
       codeLines = _.filter(codeLines)

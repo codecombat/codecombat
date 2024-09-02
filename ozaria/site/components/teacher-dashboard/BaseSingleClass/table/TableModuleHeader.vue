@@ -222,7 +222,7 @@ export default {
       </v-popover>
     </div>
     <div
-      v-for="({ type, isPractice, tooltipName, description, normalizedOriginal, normalizedType, contentLevelSlug }, idx) of listOfContent"
+      v-for="({ type, isPractice, practiceLevels, tooltipName, description, normalizedOriginal, normalizedType, contentLevelSlug }, idx) of listOfContent"
       :key="`${idx}-${type}`"
       class="content-icons"
     >
@@ -262,6 +262,11 @@ export default {
               style="margin-bottom: 15px;"
               v-html="description"
             />
+            <p
+              v-if="practiceLevels?.length"
+            >
+              {{ $t('teacher_dashboard.practice_levels') }}: {{ practiceLevels.length }}
+            </p>
             <a
               v-if="type === 'course-ladder'"
               :href="arenaLadderUrl(contentLevelSlug)"
