@@ -134,8 +134,8 @@ export default {
           continue
         }
         this.showCodeLevelSlugs = this.showCodeLevelSlugs.concat([identifier])
-        this.solutionCodeByLevel[identifier] = getSolutionCode(level, { lang: this.getSelectedLanguage }) || ''
-        this.sampleCodeByLevel[identifier] = getSampleCode(level, { lang: this.getSelectedLanguage }) || ''
+        this.solutionCodeByLevel[identifier] = getSolutionCode(relatedLevel, { lang: this.getSelectedLanguage }) || ''
+        this.sampleCodeByLevel[identifier] = getSampleCode(relatedLevel, { lang: this.getSelectedLanguage }) || ''
       }
     },
     onClickedCodeDiff (event) {

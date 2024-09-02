@@ -507,7 +507,7 @@ module.exports = (Level = (function () {
       let context = utils.i18n(plan, 'context')
       if (utils.isOzaria) {
         context = _.merge({
-          external_ch1_avatar: _.get(store.getters, 'me/getCh1Avatar.avatarCodeString', 'crown')
+          external_ch1_avatar: store.getters?.['me/getCh1Avatar.avatarCodeString']?.crown
         }, context)
       }
       return context
