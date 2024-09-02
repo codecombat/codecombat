@@ -5495,7 +5495,9 @@ module.exports = {
       learn_more_text: 'Discover More',
       best_homeschool_curriculum: 'Best Homeschool[NEWLINE]Curriculum',
       sign_up_free: 'Sign Up Free',
-      try_it_now: 'Try it now'
+      try_it_now: 'Try it now',
+      junior_modal_header: 'Try Our New K-5 Curriculum Today!',
+      junior_modal_body: 'Perfect for K-5 classrooms, this new curriculum features real coding with icons, drag-and-drop blocks, parallel blocks with text, or purely text-based options. Plus, it’s fully accessible on tablets making it easy to support all learners.'
     },
     schools_page: {
       meta_title: 'CodeCombat: the most effective computer science solution for schools',
