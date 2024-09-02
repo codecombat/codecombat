@@ -683,7 +683,7 @@ export default {
         <div>
           <img
             class="img-responsive"
-            src="/images/pages/league/sunfire-blitz.png"
+            src="/images/pages/league/supercharged.png"
             loading="lazy"
             style="max-height: 200px; float: right; margin: 0 15px 15px;"
             alt=""
@@ -692,11 +692,11 @@ export default {
             class="subheader1"
             style="margin-bottom: 32px;"
           >
-            <span class="esports-green">Season 11 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span>
+            <span class="esports-green">Season 12 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span>
           </h1>
         </div>
-        <p>{{ $t('league.season11_announcement_1') }}</p>
-        <p>{{ $t('league.season8_announcement_2') }}</p>
+        <p>{{ $t('league.season12_announcement_1') }}</p>
+        <p>{{ $t('league.season6_announcement_2') }}</p>
       </div>
     </div>
 

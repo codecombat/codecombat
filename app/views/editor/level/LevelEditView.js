@@ -28,6 +28,7 @@ const Achievement = require('models/Achievement')
 const Campaigns = require('collections/Campaigns')
 const CocoCollection = require('collections/CocoCollection')
 const Course = require('models/Course')
+const Campaign = require('models/Campaign')
 
 const RevertModal = require('views/modal/RevertModal')
 const GenerateTerrainModal = require('views/editor/level/modals/GenerateTerrainModal')
@@ -370,11 +371,13 @@ module.exports = (LevelEditView = (function () {
       if (!this.newPracticeLevels.length) { return }
 
       // Fetch the main Achievement for the source level
-      const sourceLevelAchievement = await fetchJson(`/db/achievement?related=${this.level.get('original')}`)?.[0]
-      const sourceAchievementWorth = sourceLevelAchievement?.get('worth') || 10
+      const relatedAchievements = await fetchJson(`/db/achievement?related=${this.level.get('original')}`) || []
+      const sourceLevelAchievement = relatedAchievements[0]
+      const sourceAchievementWorth = sourceLevelAchievement?.worth || 10
       const practiceAchievementWorth = Math.ceil(sourceAchievementWorth / 3)
 
-      // Create and save the practice levels and their achievements
+      // Create and save the practice levels
+      const savedPracticeLevels = []
       for (let i = 0; i < this.newPracticeLevels.length; i++) {
         const level = this.newPracticeLevels[i]
         const newLevel = new Level($.extend(true, {}, this.level.attributes))
@@ -394,64 +397,126 @@ module.exports = (LevelEditView = (function () {
             newLevel.set(key, level[key])
           }
         }
-        const res = newLevel.save(null, { type: 'POST' }) // Override PUT so we can trigger postFirstVersion logic
-        res.error(() => {
-          this.hideLoading()
-          noty({ timeout: 8000, text: `Error creating ${newLevel.get('name')}: ${res.responseText}`, type: 'error', layout: 'top' })
-        })
-        res.success(() => {
+        try {
+          await saveModel(newLevel, null, { type: 'POST' }) // Override PUT so we can trigger postFirstVersion logic
+          savedPracticeLevels.push(newLevel)
           noty({ timeout: 2000, text: `Created ${newLevel.get('name')}`, type: 'info', layout: 'top' })
+        } catch (error) {
+          noty({ timeout: 8000, text: `Error creating ${newLevel.get('name')}: ${error.responseText || error.message}`, type: 'error', layout: 'top' })
+        }
+      }
 
-          // Create Achievement for this practice level
-          const achievement = new Achievement({
-            name: `${newLevel.get('name')} Complete`,
-            query: {
-              'state.complete': true,
-              'level.original': newLevel.get('original')
-            },
-            collection: 'level.sessions',
-            userField: 'creator',
-            related: newLevel.get('original'),
-            worth: practiceAchievementWorth,
-            rewards: {
-              gems: practiceAchievementWorth,
-              levels: []
-            }
-          })
-
-          // Set the next level to unlock, if it's not the last practice level
-          if (i < this.newPracticeLevels.length - 1) {
-            const rewards = achievement.get('rewards')
-            rewards.levels.push(this.newPracticeLevels[i + 1].get('original'))
-          }
-
-          achievement.save(null, {
-            success: () => {
-              noty({ timeout: 2000, text: `Created achievement for ${newLevel.get('name')}`, type: 'info', layout: 'top' })
-            },
-            error: (model, response) => {
-              noty({ timeout: 8000, text: `Error creating achievement for ${newLevel.get('name')}: ${response.responseText}`, type: 'error', layout: 'top' })
-            }
-          })
-
-          // Update main Achievement to unlock the first practice level
-          if (i === 0) {
-            const rewards = sourceLevelAchievement.get('rewards') || { levels: [] }
-            if (!rewards.levels.includes(newLevel.get('original'))) {
-              rewards.levels.push(newLevel.get('original'))
-              sourceLevelAchievement.set('rewards', rewards)
-              sourceLevelAchievement.save(null, {
-                patch: true,
-                success: () => {
-                  noty({ timeout: 2000, text: 'Updated main achievement to unlock first practice level', type: 'info', layout: 'top' })
-                },
-                error: (model, response) => {
-                  noty({ timeout: 8000, text: `Error updating main achievement: ${response.responseText}`, type: 'error', layout: 'top' })
-                }
-              })
-            }
-          }
+      // Now create and save achievements for all practice levels
+      for (let i = 0; i < savedPracticeLevels.length; i++) {
+        const practiceLevel = savedPracticeLevels[i]
+        const achievement = new Achievement({
+          name: `${practiceLevel.get('name')} Complete`,
+          description: '',
+          query: {
+            'state.complete': true,
+            'level.original': practiceLevel.get('original')
+          },
+          collection: 'level.sessions',
+          userField: 'creator',
+          related: practiceLevel.get('original'),
+          worth: practiceAchievementWorth,
+          rewards: {
+            gems: practiceAchievementWorth,
+            levels: []
+          },
         })
+
+        // Set the next level to unlock, if it's not the last practice level
+        if (i < savedPracticeLevels.length - 1) {
+          achievement.get('rewards').levels.push(savedPracticeLevels[i + 1].get('original'))
+        }
+
+        try {
+          await saveModel(achievement, null, { type: 'POST' })
+          noty({ timeout: 2000, text: `Created achievement for ${practiceLevel.get('name')}`, type: 'info', layout: 'top' })
+        } catch (error) {
+          noty({ timeout: 8000, text: `Error creating achievement for ${practiceLevel.get('name')}: ${error.responseText || error.message}`, type: 'error', layout: 'top' })
+        }
+      }
+
+      // Update main Achievement to unlock the first practice level
+      if (savedPracticeLevels.length > 0) {
+        const rewards = sourceLevelAchievement.rewards || { levels: [] }
+        if (!rewards.levels.includes(savedPracticeLevels[0].get('original'))) {
+          rewards.levels.push(savedPracticeLevels[0].get('original'))
+
+          const sourceLevelAchievementModel = new Achievement({ _id: sourceLevelAchievement._id })
+          sourceLevelAchievementModel.set(sourceLevelAchievement)
+          sourceLevelAchievementModel.set('rewards', rewards)
+          try {
+            await saveModel(sourceLevelAchievementModel, null, { patch: true, type: 'PUT' })
+            noty({ timeout: 2000, text: 'Updated main achievement to unlock first practice level', type: 'info', layout: 'top' })
+          } catch (error) {
+            noty({ timeout: 8000, text: `Error updating main achievement: ${error.responseText || error.message}`, type: 'error', layout: 'top' })
+          }
+        }
+      }
+
+      // Update the campaign with practice levels
+      await this.updateCampaignWithPracticeLevels(savedPracticeLevels)
+    }
+
+    async updateCampaignWithPracticeLevels (practiceLevels) {
+      try {
+        const campaignId = '65c56663d2ca2055e65676af'
+        const sourceLevelOriginal = this.level.get('original')
+        const updatedCampaign = await this.insertPracticeLevelsIntoCampaign(campaignId, sourceLevelOriginal, practiceLevels)
+        console.log('Updated campaign', updatedCampaign)
+        noty({ timeout: 2000, text: 'Updated campaign with practice levels', type: 'success', layout: 'top' })
+      } catch (error) {
+        noty({ timeout: 8000, text: `Error updating campaign: ${error.message}`, type: 'error', layout: 'top' })
+        console.error(error)
+      }
+    }
+
+    async insertPracticeLevelsIntoCampaign (campaignId, sourceLevelOriginal, practiceLevels) {
+      try {
+        // Fetch the campaign
+        const campaignAttrs = await fetchJson(`/db/campaign/${campaignId}`)
+        if (!campaignAttrs) {
+          throw new Error('Campaign not found')
+        }
+
+        const campaign = new Campaign({ _id: campaignId })
+        campaign.set(campaignAttrs)
+
+        // Put the new practice levels in it, after the source level
+        const levels = campaign.get('levels') || {}
+        const newLevels = {}
+        let levelIndex = 0
+        for (const [levelOriginal, levelData] of Object.entries(levels)) {
+          newLevels[levelOriginal] = levelData
+          if (levelOriginal === sourceLevelOriginal) {
+            let practiceLevelIndex = 0
+            for (const practiceLevel of practiceLevels) {
+              const campaignPracticeLevel = _.pick(practiceLevel.attributes, Campaign.denormalizedLevelProperties)
+              // Just put it on the bottom, we don't really use the position except in campagin editor
+              // x, y, are % of width, height of the campaign map
+              campaignPracticeLevel.position = { x: levelIndex / _.size(levels), y: practiceLevelIndex }
+              newLevels[practiceLevel.get('original')] = campaignPracticeLevel
+              ++practiceLevelIndex
+            }
+          }
+          ++levelIndex
+        }
+        campaign.set('levels', newLevels)
+
+        try {
+          await saveModel(campaign, { levels: newLevels }, { patch: true, type: 'PUT' })
+          noty({ timeout: 2000, text: 'Updated campaign to include new practice levels', type: 'info', layout: 'top' })
+        } catch (error) {
+          noty({ timeout: 8000, text: `Error updating campaign: ${error.responseText || error.message}`, type: 'error', layout: 'top' })
+        }
+
+        return campaign
+      } catch (error) {
+        console.error('Error inserting practice levels into campaign:', error)
+        throw error
       }
     }
 
@@ -687,4 +752,14 @@ function __guardMethod__ (obj, methodName, transform) {
   } else {
     return undefined
   }
+}
+
+function saveModel (model, attributes, options = {}) {
+  return new Promise((resolve, reject) => {
+    model.save(attributes, {
+      ...options,
+      success: (model, response) => resolve(response),
+      error: (model, response) => reject(response)
+    })
+  })
 }
