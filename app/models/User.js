@@ -1045,6 +1045,7 @@ module.exports = (User = (function () {
 
     getFilteredExperimentValue ({
       experimentName,
+      forcedValue
     }) {
       let value = me.getExperimentValue(experimentName, null)
 
@@ -1071,13 +1072,19 @@ module.exports = (User = (function () {
       if (value === null) {
         const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
         let valueProbability
-        const rand = Math.random()
-        if (rand < probability) {
-          value = 'beta'
-          valueProbability = probability
+
+        if (forcedValue) {
+          value = forcedValue
+          valueProbability = 1
         } else {
-          value = 'control'
-          valueProbability = 1 - probability
+          const rand = Math.random()
+          if (rand < probability) {
+            value = 'beta'
+            valueProbability = probability
+          } else {
+            value = 'control'
+            valueProbability = 1 - probability
+          }
         }
         me.startExperiment(experimentName, value, valueProbability)
       }
@@ -1090,7 +1097,14 @@ module.exports = (User = (function () {
     }
 
     getHomePageExperimentValue () {
-      return this.getFilteredExperimentValue({ experimentName: 'home-page-filtered' })
+      return this.getFilteredExperimentValue({ experimentName: 'home-page-filtered-v2' })
+    }
+
+    startHomeControlExperiment (forcedValue) {
+      return this.getFilteredExperimentValue({
+        experimentName: 'home-page-filtered-control-experiment',
+        forcedValue
+      })
     }
 
     getParentsPageExperimentValue () {

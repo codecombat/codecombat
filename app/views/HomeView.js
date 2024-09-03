@@ -346,6 +346,8 @@ module.exports = (HomeView = (function () {
           return $('[data-slide-to=\'' + nextActiveSlide + '\']').addClass('active')
         })))
       }
+
+      me.startHomeControlExperiment('control')
       return super.afterRender()
     }
 
