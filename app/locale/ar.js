@@ -588,6 +588,10 @@ module.exports = {
       confirm_m7_off: '[AI_TRANSLATION]هل أنت متأكد من إيقاف المستويات التجريبية؟  ',
       play_codecombat: '[AI_TRANSLATION]العب CodeCombat  ',
       play_codecombat_junior: '[AI_TRANSLATION]العب CodeCombat Junior',
+      //    age_codecombat: "Ages 8+",
+      //    age_codecombat_junior: "Ages 5-8",
+      //    age_description_codecombat: "Real Python or JavaScript coding for everyone",
+      //    age_description_codecombat_junior: "Blocks or simple text coding for beginners",
       want_more_hints: '[AI_TRANSLATION]تريد المزيد من التلميحات؟',
     },
 
@@ -2996,6 +3000,8 @@ module.exports = {
       fork_creating: '[AI_TRANSLATION]إنشاء شوكة...',
       generate_terrain: '[AI_TRANSLATION]توليد التضاريس',
       generate_level: '[AI_TRANSLATION]Generate Level',
+      //    generate_practice_level: "Generate Practice Level",
+      //    generate_all_practice_levels: "Generate All Practice Levels",
       more: '[AI_TRANSLATION]المزيد',
       wiki: '[AI_TRANSLATION]ويكي',
       live_chat: '[AI_TRANSLATION]Slack  ',
@@ -3523,16 +3529,22 @@ module.exports = {
     },
 
     concepts: {
+      advanced_css: '[AI_TRANSLATION]CSS متقدم',
       advanced_css_rules: '[AI_TRANSLATION]قواعد CSS المتقدمة',
       advanced_css_selectors: '[AI_TRANSLATION]محددات CSS المتقدمة',
+      advanced_html: '[AI_TRANSLATION]HTML المتقدمة',
       advanced_html_attributes: '[AI_TRANSLATION]سمات HTML المتقدمة',
       advanced_html_tags: '[AI_TRANSLATION]علامات HTML المتقدمة',
+      advanced_strings: '[AI_TRANSLATION]السلاسل النصية المتقدمة',
+      advanced_web_scripting: '[AI_TRANSLATION]برمجة الويب المتقدمة',
+      algorithms: '[AI_TRANSLATION]الخوارزميات',
       algorithm_average: '[AI_TRANSLATION]معدل الخوارزمية',
       algorithm_find_minmax: '[AI_TRANSLATION]خوارزمية العثور على الحد الأدنى/الأقصى',
       algorithm_search_binary: '[AI_TRANSLATION]بحث الخوارزمية الثنائية',
       algorithm_search_graph: '[AI_TRANSLATION]بحث الخوارزمية الوافقة',
       algorithm_sort: '[AI_TRANSLATION]ترتيب الخوارزمية',
       algorithm_sum: '[AI_TRANSLATION]مجموع الخوارزمية',
+      alter_existing_web_pages: '[AI_TRANSLATION]تعديل الصفحات ويب الحالية',
       arguments: '[AI_TRANSLATION]المعاملات',
       arithmetic: '[AI_TRANSLATION]حسابي',
       array_2d: '[AI_TRANSLATION]مصفوفة ثنائية الأبعاد',
@@ -3542,16 +3554,24 @@ module.exports = {
       array_searching: '[AI_TRANSLATION]البحث عن المصفوفة',
       array_sorting: '[AI_TRANSLATION]ترتيب المصفوفات',
       arrays: '[AI_TRANSLATION]مصفوفات',
+      basic_css: '[AI_TRANSLATION]CSS أساسي',
       basic_css_rules: '[AI_TRANSLATION]قواعد CSS الأساسية',
       basic_css_selectors: '[AI_TRANSLATION]محددات CSS الأساسية',
+      basic_event_handling: '[AI_TRANSLATION]التعامل الأساسي مع الأحداث\n',
+      basic_game_ai: '[AI_TRANSLATION]ذكاء اصطناعي بسيط للعبة',
+      basic_html: '[AI_TRANSLATION]HTML الأساسي',
       basic_html_attributes: '[AI_TRANSLATION]سمات HTML الأساسية',
       basic_html_tags: '[AI_TRANSLATION]علامات HTML الأساسية',
+      basic_input_handling: '[AI_TRANSLATION]التعامل الأساسي مع المدخلات',
+      basic_javascript: '[AI_TRANSLATION]أساسيات JavaScript',
       basic_syntax: '[AI_TRANSLATION]الصياغة الأساسية',
+      basic_web_scripting: '[AI_TRANSLATION]البرمجة الأساسية للويب',
       binary: '[AI_TRANSLATION]ثنائي',
       boolean_and: '[AI_TRANSLATION]Boolean و',
-      boolean_inequality: '[AI_TRANSLATION]عدم المساواة المنطقي',
       boolean_equality: '[AI_TRANSLATION]مساواة قيمة الـ Boolean',
       boolean_greater_less: '[AI_TRANSLATION]بوليان أكبر/أصغر',
+      boolean_inequality: '[AI_TRANSLATION]عدم المساواة المنطقي',
+      boolean_logic: '[AI_TRANSLATION]منطق البوليان',
       boolean_logic_shortcircuit: '[AI_TRANSLATION]منطق Boolean Shortcircuiting',
       boolean_not: '[AI_TRANSLATION]Boolean Not',
       boolean_operator_precedence: '[AI_TRANSLATION]أسبقية العمليات البوليانية',
@@ -3560,8 +3580,16 @@ module.exports = {
       bootstrap: '[AI_TRANSLATION]🚀 Bootstrap 🚀',
       break_statements: '[AI_TRANSLATION]البيانات الفاصلة',
       classes: '[AI_TRANSLATION]الفصول الدراسية',
+      comparators: '[AI_TRANSLATION]مقارنات',
+      compound_conditionals: '[AI_TRANSLATION]الشرطيات المركبة',
       conditionals: '[AI_TRANSLATION]الشرطيات',
+      construct_mazes: '[AI_TRANSLATION]إنشاء المتاهات',
       continue_statements: '[AI_TRANSLATION]عبارات متابعة',
+      create_playable_game: '[AI_TRANSLATION]أنشئ مشروع لعبة قابل للعب والمشاركة',
+      create_sharable_interactive_web_page: '[AI_TRANSLATION]أنشئ صفحة ويب تفاعلية قابلة للمشاركة',
+      create_sharable_web_page: '[AI_TRANSLATION]إنشاء صفحة ويب قابلة للمشاركة',
+      data_and_analysis: '[AI_TRANSLATION]البيانات والتحليل  ',
+      data_types: '[AI_TRANSLATION]أنواع البيانات  ',
       debugging: '[AI_TRANSLATION]تصحيح الأخطاء',
       dom_events: '[AI_TRANSLATION]أحداث DOM',
       dynamic_styling: '[AI_TRANSLATION]تصميم ديناميكي',
@@ -3589,25 +3617,35 @@ module.exports = {
       if_statements: '[AI_TRANSLATION]جمل الشرط.',
       if_statements_nested: '[AI_TRANSLATION]عبارات If المتداخلة',
       indexing: '[AI_TRANSLATION]مؤشرات المصفوفة',
+      input_handling: '[AI_TRANSLATION]معالجة المدخلات',
       input_handling_flags: '[AI_TRANSLATION]التعامل مع المدخلات - الأعلام',
       input_handling_keyboard: '[AI_TRANSLATION]استكشف فصول البرمجة الحية عبر الإنترنت',
       input_handling_mouse: '[AI_TRANSLATION]Input Handling - Mouse',
+      intermediate_css: '[AI_TRANSLATION]CSS متوسط',
       intermediate_css_rules: '[AI_TRANSLATION]قواعد CSS المتوسطة',
       intermediate_css_selectors: '[AI_TRANSLATION]محددات CSS المتوسطة',
+      intermediate_html: '[AI_TRANSLATION]Intermediate HTML',
       intermediate_html_attributes: '[AI_TRANSLATION]خصائص HTML المتوسطة',
       intermediate_html_tags: '[AI_TRANSLATION]علامات HTML المتوسطة',
+      intermediate_web_scripting: '[AI_TRANSLATION]كتابة ويب متوسطة',
+      iteration: '[AI_TRANSLATION]التكرار',
       jquery: '[AI_TRANSLATION]jQuery',
       jquery_animations: '[AI_TRANSLATION]تحريك jQuery',
       jquery_filtering: '[AI_TRANSLATION]تصفية عناصر jQuery',
       jquery_selectors: '[AI_TRANSLATION]محددات jQuery',
       length: '[AI_TRANSLATION]طول المصفوفة',
+      //    loops: "Loops",
       math_coordinates: '[AI_TRANSLATION]حساب الإحداثيات',
       math_geometry: '[AI_TRANSLATION]الهندسة  \n',
       math_operations: '[AI_TRANSLATION]عمليات مكتبة الرياضيات',
       math_proportions: '[AI_TRANSLATION]الرياضيات التناسبية',
       math_trigonometry: '[AI_TRANSLATION]حساب المثلثات',
+      methods: '[AI_TRANSLATION]الطرق',
+      nesting: '[AI_TRANSLATION]التعشيش',
+      objects: '[AI_TRANSLATION]الكائنات',
       object_literals: '[AI_TRANSLATION]الكائنات الحرفية',
       parameters: '[AI_TRANSLATION]المعلمات',
+      place_game_objects: '[AI_TRANSLATION]ضع كائنات اللعبة',
       problem_solving: '[AI_TRANSLATION]حل المشكلات',
       programs: '[AI_TRANSLATION]البرامج',
       properties: '[AI_TRANSLATION]الخصائص',
@@ -3629,41 +3667,10 @@ module.exports = {
       variables: '[AI_TRANSLATION]المتغيرات',
       vectors: '[AI_TRANSLATION]المتجهات',
       while_condition_loops: '[AI_TRANSLATION]الحلقات الشرطية',
+      while_loops: '[AI_TRANSLATION]حلقات التكرار While  ',
       while_loops_simple: '[AI_TRANSLATION]حلقات التكرار While  ',
       while_loops_nested: '[AI_TRANSLATION]الحلقات المتداخلة بينما',
       xy_coordinates: '[AI_TRANSLATION]إحداثيات الأزواج',
-      advanced_strings: '[AI_TRANSLATION]السلاسل النصية المتقدمة',
-      algorithms: '[AI_TRANSLATION]الخوارزميات',
-      boolean_logic: '[AI_TRANSLATION]منطق البوليان',
-      basic_html: '[AI_TRANSLATION]HTML الأساسي',
-      basic_css: '[AI_TRANSLATION]CSS أساسي',
-      basic_web_scripting: '[AI_TRANSLATION]البرمجة الأساسية للويب',
-      intermediate_html: '[AI_TRANSLATION]Intermediate HTML',
-      intermediate_css: '[AI_TRANSLATION]CSS متوسط',
-      intermediate_web_scripting: '[AI_TRANSLATION]كتابة ويب متوسطة',
-      advanced_html: '[AI_TRANSLATION]HTML المتقدمة',
-      advanced_css: '[AI_TRANSLATION]CSS متقدم',
-      advanced_web_scripting: '[AI_TRANSLATION]برمجة الويب المتقدمة',
-      input_handling: '[AI_TRANSLATION]معالجة المدخلات',
-      while_loops: '[AI_TRANSLATION]حلقات التكرار While  ',
-      place_game_objects: '[AI_TRANSLATION]ضع كائنات اللعبة',
-      construct_mazes: '[AI_TRANSLATION]إنشاء المتاهات',
-      create_playable_game: '[AI_TRANSLATION]أنشئ مشروع لعبة قابل للعب والمشاركة',
-      alter_existing_web_pages: '[AI_TRANSLATION]تعديل الصفحات ويب الحالية',
-      create_sharable_web_page: '[AI_TRANSLATION]إنشاء صفحة ويب قابلة للمشاركة',
-      basic_input_handling: '[AI_TRANSLATION]التعامل الأساسي مع المدخلات',
-      basic_game_ai: '[AI_TRANSLATION]ذكاء اصطناعي بسيط للعبة',
-      basic_javascript: '[AI_TRANSLATION]أساسيات JavaScript',
-      basic_event_handling: '[AI_TRANSLATION]التعامل الأساسي مع الأحداث\n',
-      create_sharable_interactive_web_page: '[AI_TRANSLATION]أنشئ صفحة ويب تفاعلية قابلة للمشاركة',
-      iteration: '[AI_TRANSLATION]التكرار',
-      nesting: '[AI_TRANSLATION]التعشيش',
-      data_types: '[AI_TRANSLATION]أنواع البيانات  ',
-      objects: '[AI_TRANSLATION]الكائنات',
-      methods: '[AI_TRANSLATION]الطرق',
-      compound_conditionals: '[AI_TRANSLATION]الشرطيات المركبة',
-      comparators: '[AI_TRANSLATION]مقارنات',
-      data_and_analysis: '[AI_TRANSLATION]البيانات والتحليل  ',
     },
 
     anonymous_teacher: {
@@ -4576,7 +4583,9 @@ module.exports = {
       cutscenes_tooltip: '[AI_TRANSLATION]<h3>القصة المصورة</h3><p>فيديوهات قصيرة تشرح أجزاء من قصة أزاريا الملحمية.</p>',
       cinematics: '[AI_TRANSLATION]مشاهد سينمائية',
       concept_checks: '[AI_TRANSLATION]اختبارات المفاهيم',
+      //    practice_level: "Practice Level",
       practice_levels: '[AI_TRANSLATION]مستويات التدريب',
+      //    extra_practice: "Extra Practice",
       challenge_levels: '[AI_TRANSLATION]مستويات التحدي',
       capstone_levels: '[AI_TRANSLATION]مستويات كابستون  ',
       //    intro: "Intro",
@@ -4867,6 +4876,7 @@ module.exports = {
       cup: '[AI_TRANSLATION]كوب\n',
       blitz: '[AI_TRANSLATION]هجوم مباغت',
       clash: '[AI_TRANSLATION]صراع',
+      //    season12_announcement_1: "Deep in the dungeons, mythical crystals stand tall, collecting energy and mana from abandoned ruins. Summon units, cast spells, and claim victory!",
       season11_announcement_1: '[AI_TRANSLATION]المنافسة أصبحت أكثر حرارة! مع إشراق الشمس فوقك، ضع وطور الألواح الشمسية، تجنب الفخاخ الكهربائية، ضع السرطانات الروبوتية، ومر عبر البوابات، احصل على أكبر قدر ممكن من الطاقة الشمسية وحقق النصر!',
       season10_announcement_1: '[AI_TRANSLATION]الجو حار جداً، والصخور البركانية تشع طاقات قوية! استدعي الوحدات وألقي التعويذات لدفع الصخور البركانية إلى منطقة خصمك. تأقلم مع قوة الجاذبية المتغيرة بشكل مستمر في ساحة المعركة!',
       season9_announcement_1: '[AI_TRANSLATION]تُخاض معركة ملحمية على قمم سنوهولد الثلجية للمنافسة على بطولة الموسم التاسع! امسك عباءتك وقرب شيفرتك بينما تستخدم الاستراتيجية والخوارزميات لتحقيق النصر في هذه الأرض الواقعة خلف السماء.',
@@ -4961,12 +4971,17 @@ module.exports = {
       codecombat_ai_league_description: '[AI_TRANSLATION]تجمع دوري الذكاء الاصطناعي لـ CodeCombat بين مناهجنا المستندة إلى المشاريع والمطابقة للمعايير، ولعبة البرمجة المشوقة القائمة على المغامرة، ومسابقات البرمجة السنوية العالمية للذكاء الاصطناعي في منافسة أكاديمية لا مثيل لها.',
       teacher_getting_started_guide: '[AI_TRANSLATION]دليل المعلم للبدء',
       try_ai_league_as_a_teacher: '[AI_TRANSLATION]جرّب AI League كمعلم',
+      //    ai_league_curriculum: "AI League Curriculum",
       current_season: '[AI_TRANSLATION]الموسم الحالي',
       all_time: '[AI_TRANSLATION]في كل الأوقات',
       view_leaderboards_for_team: '[AI_TRANSLATION]عرض اللوائح للفريق:',
       global_stats: '[AI_TRANSLATION]إحصاءات عالمية',
       code_your_way: '[AI_TRANSLATION]كود على طريقتك.  ',
       //    to_win_the_price: "to first place to win",
+      //    regular: "Regular",
+      //    championship: "Championship",
+      //    global: "Global",
+      //    custom: "Custom",
     },
 
     tournament: {
@@ -4980,6 +4995,7 @@ module.exports = {
       no_tournaments: '[AI_TRANSLATION]لا توجد بطولة الآن.',
       edit_tournament: '[AI_TRANSLATION]تعديل مسابقة',
       create_tournament: '[AI_TRANSLATION]أنشئ بطولة',
+      //    view_tournament: "View Tournament",
       upcoming: '[AI_TRANSLATION]قادم',
       starting: '[AI_TRANSLATION]بدءًا',
       ended: '[AI_TRANSLATION]انتهى',
@@ -5970,6 +5986,10 @@ module.exports = {
       view: '[AI_TRANSLATION]عرض',
       continue: '[AI_TRANSLATION]متابعة',
       no_assigned_projects: '[AI_TRANSLATION]معلمك لم يكلفك بأي مشاريع ذكاء صناعي حتى الآن.',
+      //    continue_here: "Continue",
+      //    start_new: "Start from scratch",
+      //    choice_prompt_1: "Congratulations on completing the project!",
+      //    choice_prompt_2: "You can continue with your project or start a new one from scratch!",
     },
 
     parents_v2: {
