@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     progressWidth () {
-      return this.completionPercentage * 185
+      return this.completionPercentage * 120
     },
 
     barColor () {
@@ -41,7 +41,7 @@ export default {
         v-if="isAssigned"
         class="assigned"
       >
-        {{ '✅ ' + $t('teacher.assigned') }}
+        ✅
       </p>
     </div>
     <div class="outer-loading-bar">
@@ -70,7 +70,7 @@ export default {
   }
 
   .outer-loading-bar {
-    width: 185px;
+    width: 120px;
     height: 16px;
 
     border: 1px solid #adadad;
@@ -93,6 +93,7 @@ export default {
     color: #545b64;
     letter-spacing: 0.3333px;
     font-weight: 600;
+    margin-bottom: 5px;
   }
 
   .assigned {
