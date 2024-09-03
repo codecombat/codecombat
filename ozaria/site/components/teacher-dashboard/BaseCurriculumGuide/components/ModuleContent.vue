@@ -88,14 +88,35 @@ export default {
         .map(({ original, assessment, icon, fromIntroLevelOriginal }) => ({ original, key: (original || fromIntroLevelOriginal), assessment, practice: icon === 'practicelvl' }))
       return utils.createLevelNumberMap(levels)
     },
+
+    courseRegex () {
+      return new RegExp(`^${this.getCurrentCourse?._id}:`)
+    }
   },
 
   methods: {
-    relatedLevels (level) {
-      const levelNumber = this.getLevelNumber(level.original)
+    findRelatedOriginalsByLevelNumber (levelNumber, levelNumberMap) {
       const regex = new RegExp(`^${levelNumber}[a-z]?$`)
-      const levelOriginals = Object.entries(this.levelNumberMap).filter(([_k, value]) => regex.test(value.toString()))
-      return levelOriginals.map(([key, _v]) => this.getModuleInfo[this.moduleNum].find(l => l.original === key))
+      const courseRegex = this.courseRegex
+      const levelEntries = Object.entries(levelNumberMap)
+      let levelOriginals
+      if (utils.isCodeCombat && this.classroomId) {
+        levelOriginals = levelEntries.filter(([key, value]) => regex.test(value.toString()) && courseRegex.test(key))
+      } else {
+        levelOriginals = levelEntries.filter(([key, value]) => regex.test(value.toString()))
+      }
+      return levelOriginals.map(([key, _v]) => key)
+    },
+    relatedLevels (levelNumber) {
+      let levelNumberMap = this.levelNumberMap
+      if (utils.isCodeCombat && this.classroomId) {
+        levelNumberMap = this.classroomInstance.levelNumberMap
+      }
+      const levelOriginals = this.findRelatedOriginalsByLevelNumber(levelNumber, levelNumberMap)
+      return levelOriginals.map((key) => {
+        const levelKey = key.split(':')?.[1] || key
+        return this.getModuleInfo[this.moduleNum].find(l => l.original === levelKey)
+      })
     },
     getLevelNumber (original, index) {
       if (utils.isCodeCombat && this.classroomId) {
@@ -111,11 +132,10 @@ export default {
         window.tracker?.trackEvent(eventName, { category: this.getTrackCategory, label: this.courseName })
       }
     },
-    onShowCodeClicked ({ identifier, hideCode = false }) {
+    onShowCodeClicked ({ identifier, levelNumber, hideCode = false }) {
       event.stopPropagation()
       event.preventDefault()
-      const level = this.getModuleInfo?.[this.moduleNum].find(l => l.slug === identifier)
-      const relatedLevels = this.relatedLevels(level)
+      const relatedLevels = this.relatedLevels(levelNumber)
       for (const relatedLevel of relatedLevels) {
         const identifier = relatedLevel.slug
         if (hideCode) {
@@ -123,8 +143,8 @@ export default {
           continue
         }
         this.showCodeLevelSlugs = this.showCodeLevelSlugs.concat([identifier])
-        this.solutionCodeByLevel[identifier] = getSolutionCode(level, { lang: this.getSelectedLanguage }) || ''
-        this.sampleCodeByLevel[identifier] = getSampleCode(level, { lang: this.getSelectedLanguage }) || ''
+        this.solutionCodeByLevel[identifier] = getSolutionCode(relatedLevel, { lang: this.getSelectedLanguage }) || ''
+        this.sampleCodeByLevel[identifier] = getSampleCode(relatedLevel, { lang: this.getSelectedLanguage }) || ''
       }
     },
     onClickedCodeDiff (event) {
@@ -132,11 +152,10 @@ export default {
       event.stopPropagation()
       event.preventDefault()
     },
-    calculateLevelDescription (description, slug) {
-      const level = this.getModuleInfo?.[this.moduleNum].find(l => l.slug === slug)
-      const relatedLevels = this.relatedLevels(level)
+    calculateLevelDescription (description, slug, levelNumber) {
+      const relatedLevels = this.relatedLevels(levelNumber)
       const practiceNumber = relatedLevels.length - 1
-      if (!this.isJunior || practiceNumber === 0) {
+      if (!this.isJunior || practiceNumber <= 0) {
         return description
       }
       return `${description}. ${$.i18n.t('teacher_dashboard.practice_levels')}: ${practiceNumber}`
@@ -168,11 +187,12 @@ export default {
         <template v-else>
           <module-row
             v-if="!isJunior || icon !== 'practicelvl' || showCodeLevelSlugs.includes(slug)"
+            :set="levelNumber = getLevelNumber(original, key + 1)"
             :icon-type="icon"
             :name-type="assessment ? null : icon"
-            :level-number="getLevelNumber(original, key + 1 )"
+            :level-number="levelNumber"
             :display-name="name"
-            :description="calculateLevelDescription(description, slug)"
+            :description="calculateLevelDescription(description, slug, levelNumber)"
             :is-part-of-intro="isPartOfIntro"
             :show-code-btn="icon !== 'cutscene' && !(isJunior && icon === 'practicelvl')"
             :identifier="slug"

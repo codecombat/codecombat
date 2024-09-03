@@ -97,7 +97,7 @@ export default {
   methods: {
     onShowCodeClicked () {
       this.showCode = !this.showCode
-      this.$emit('showCodeClicked', { identifier: this.identifier, hideCode: !this.showCode })
+      this.$emit('showCodeClicked', { identifier: this.identifier, hideCode: !this.showCode, levelNumber: this.levelNumber })
     }
   }
 }

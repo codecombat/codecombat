@@ -116,7 +116,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://docs.google.com/presentation/d/1s551TjfXHcKZ9VxAcJDppEVSee7jQffQiCBPlQSjafs/edit#slide=id.g26c5c0ddf08_0_233"
+            href="https://drive.google.com/drive/folders/1eCzl7gi-PkuAQHLLVQhy2nhKDugm004W?usp=drive_link"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -130,7 +130,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://docs.google.com/presentation/d/1s551TjfXHcKZ9VxAcJDppEVSee7jQffQiCBPlQSjafs/edit#slide=id.g26c5c0ddf08_0_346"
+            href="https://drive.google.com/drive/folders/1j70Iqtle-ZoTYLK6RVaY9Fb7f_c0EjMm?usp=sharing"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -144,7 +144,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            href="https://docs.google.com/presentation/d/1s551TjfXHcKZ9VxAcJDppEVSee7jQffQiCBPlQSjafs/edit#slide=id.g26c5c0ddf08_0_459"
+            href="https://drive.google.com/drive/folders/14BUC0BjPREeuvsI8a_bHgpUPqBfhbsGX?usp=sharing"
             class="dusk-btn"
           >
             <div class="quick-link-icon icon-curriculum" />
