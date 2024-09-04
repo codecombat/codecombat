@@ -10,6 +10,7 @@ import SecondaryTeacherNavigation from '../common/SecondaryTeacherNavigation'
 import TitleBar from '../common/TitleBar'
 import LoadingBar from 'ozaria/site/components/common/LoadingBar'
 import { COMPONENT_NAMES } from '../common/constants.js'
+import TopBanner from './TopBanner'
 
 import utils from 'core/utils'
 
@@ -42,7 +43,8 @@ export default {
     TitleBar,
     LoadingBar,
     ModalTeacherDetails,
-    TryOzariaModal
+    TryOzariaModal,
+    TopBanner
   },
 
   data () {
@@ -382,6 +384,7 @@ export default {
   </div>
   <div v-else>
     <panel />
+    <top-banner />
     <div class="teacher-dashboard">
       <div
         v-if="!showNonTeacherPreview"

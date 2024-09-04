@@ -14,6 +14,7 @@
         }"
         :href="word.link"
         :target="target"
+        @click="$emit('link-clicked')"
       >{{ word.text }}</a>
       <span
         v-else
