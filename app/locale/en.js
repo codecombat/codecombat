@@ -2393,7 +2393,8 @@ module.exports = {
       hide_options: 'Hide Options',
       more_options: 'More Options',
       get_test_license: 'Get Test Student License',
-      create_students: 'Generate Students'
+      create_students: 'Generate Students',
+      custom_tournaments: 'Custom Tournaments'
     },
 
     project_gallery: {
