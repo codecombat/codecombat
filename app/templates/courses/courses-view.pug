@@ -410,12 +410,6 @@ mixin coco_main_content()
                     span(data-i18n='courses.view_standings')
                   else
                     span(data-i18n='league.register')
-            if view.tournaments && view.tournaments.length
-              for tournament in view.reversedTournaments.slice(0, 2)
-                +tournamentTileMixin(tournament)
-
-              if view.tournaments.length > 2
-                a.more-tournaments(data-i18n="general.more")
 
           .school-stats.col-md-5
             if view.myClans
@@ -438,6 +432,17 @@ mixin coco_main_content()
                       span= stats.playerCount.toLocaleString()
                       span= ' '
                       span(data-i18n='play.players')
+
+      if view.tournaments && view.tournaments.length
+        .custom-tournaments
+          br
+          h3(data-i18n="courses.custom_tournaments")
+          for tournament in view.reversedTournaments.slice(0, 2)
+            +tournamentTileMixin(tournament)
+
+        if view.tournaments.length > 2
+          a.more-tournaments(data-i18n="general.more")
+
       +classrooms_content()
 
 mixin ozar_main_content()
