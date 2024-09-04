@@ -897,11 +897,11 @@ class CampaignView extends RootView {
     const preloadImages = ['/images/pages/base/modal_background.png', '/images/level/popover_background.png', '/images/level/code_palette_wood_background.png', '/images/level/code_editor_background_border.png']
     _.delay(() => preloadImages.forEach(img => ($('<img/>')[0].src = img)), 2000)
 
-    if (utils.getQueryVariable('signup') && !me.get('email')) {
+    if (utils.getQueryVariable('signup') && me.get('anonymous')) {
       return this.promptForSignup()
     }
     if (!me.isPremium() && (this.isPremiumCampaign() || (this.options.worldComplete && !features.noAuth && !me.isInHourOfCode()))) {
-      if (!me.get('email')) {
+      if (me.get('anonymous')) {
         return this.promptForSignup()
       }
       const campaignSlug = window.location.pathname.split('/')[2]
@@ -909,7 +909,7 @@ class CampaignView extends RootView {
     }
 
     if (
-      (!me.get('email') && storage.load(PROMPTED_FOR_SIGNUP)) || // already prompted for signup, but not signed up
+      (me.get('anonymous') && storage.load(PROMPTED_FOR_SIGNUP)) || // already prompted for signup, but not signed up
       (!me.isPremium() && storage.load(PROMPTED_FOR_SUBSCRIPTION)) // already prompted for subscription, but not subscribed
     ) {
       if (!storage.load(ROBLOX_MODAL_SHOWN)) {
@@ -946,7 +946,7 @@ class CampaignView extends RootView {
       return
     }
 
-    if (!me.get('email')) {
+    if (me.get('anonymous')) {
       this.promptForSignup()
       return
     }
