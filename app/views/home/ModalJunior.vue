@@ -75,7 +75,7 @@ export default Vue.extend({
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px 60px;
+  margin: 10px 60px;
   text-align: center;
 
   .text-h2 {
@@ -87,9 +87,10 @@ export default Vue.extend({
   }
 
   img {
-    width: 100%;
-    max-width: 600px;
+    max-width: min(600px,80vw);
+    aspect-ratio: 1080 / 698;
     margin: 10px auto;
+    max-height: min(28vh, 390px);
   }
 }
 </style>
