@@ -260,7 +260,6 @@ export default {
       }
 
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.teacherId }, { root: true }))
-      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
 
       await Promise.all(fetchPromises)
     },
@@ -293,7 +292,6 @@ export default {
         }
       }
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId, sharedClassroomId: (isSharedClass ? state.classroomId : null) }, { root: true }))
-      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
 
       await Promise.all(fetchPromises)
     },
@@ -313,7 +311,6 @@ export default {
     async fetchDataStudentProjectsAsync ({ state, dispatch }, options = {}) {
       const fetchPromises = []
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.teacherId }, { root: true }))
-      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       await Promise.all(fetchPromises)
     },
 
@@ -351,7 +348,6 @@ export default {
     async fetchDataMyLicensesAsync ({ state, dispatch, getters }, options = {}) {
       const fetchPromises = []
 
-      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true }))
 
       const licenses = getters.getActiveLicenses.concat(getters.getExpiredLicenses)
@@ -375,7 +371,6 @@ export default {
     async fetchDataResourceHubAsync ({ state, dispatch }, options = {}) {
       const fetchPromises = []
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.teacherId }, { root: true }))
-      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
       // Note: Why do we need all the classes on the resource page?
       fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true }))
       await Promise.all(fetchPromises)
