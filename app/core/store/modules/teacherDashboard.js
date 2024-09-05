@@ -401,9 +401,6 @@ export default {
         selectedCourse = selectedCourse || sortedCourses[0]
         dispatch('baseCurriculumGuide/setSelectedCampaign', selectedCourse.campaignID, { root: true })
       }
-      sortedCourses.forEach(({ campaignID }) => {
-        dispatch('gameContent/fetchGameContentForCampaign', { campaignId: campaignID }, { root: true })
-      })
     },
 
     // Fetches classroom data for current state.classroomId
