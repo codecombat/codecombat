@@ -64,7 +64,7 @@ module.exports = {
     }))
   },
 
-  fetchByOwner (ownerId, options = {}) {
+  async fetchByOwner (ownerId, options = {}) {
     let projectionString = ''
     if (Array.isArray(options.project)) {
       projectionString += `&project=${options.project.join(',')}`
@@ -72,10 +72,27 @@ module.exports = {
     if (options.includeShared) {
       projectionString += '&includeShared=true'
     }
-    return fetchJson(`/db/classroom?ownerID=${ownerId}${projectionString}`, {
+    const classrooms = await fetchJson(`/db/classroom?ownerID=${ownerId}${projectionString}`, {
       callOz: options.callOz,
       method: 'GET'
     })
+
+    if (classrooms.length > 0) {
+      const classroomLanguages = [...classrooms.reduce((acc, classroom) => {
+        acc.add(classroom.aceConfig.language)
+        return acc
+      }, new Set())]
+
+      const coursesByLanguage = {}
+      for (const lang of classroomLanguages) {
+        coursesByLanguage[lang] = await fetchJson(`/db/classroom-courses-data?language=${lang}`)
+      }
+      classrooms.forEach(classroom => {
+        classroom.courses = coursesByLanguage[classroom.aceConfig.language]
+      })
+    }
+
+    return classrooms
   },
 
   fetchByCourseInstanceId (courseInstanceId) {
