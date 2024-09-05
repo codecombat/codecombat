@@ -142,8 +142,9 @@ export default {
       }
     },
 
-    setSelectedCampaign ({ state, commit }, campaignID) {
+    setSelectedCampaign ({ state, commit, dispatch }, campaignID) {
       commit('setSelectedCampaignId', campaignID)
+      dispatch('gameContent/fetchGameContentForCampaign', { campaignId: campaignID }, { root: true })
     },
     setAccessViaSharedClass ({ commit }, access) {
       commit('setAccessViaSharedClass', access)

@@ -9,6 +9,7 @@ import ChapterInfo from './components/ChapterInfo'
 import ConceptsCovered from './components/ConceptsCovered'
 import CstaStandards from './components/CstaStandards'
 import ModuleContent from './components/ModuleContent'
+import LoadingSpinner from 'app/components/common/elements/LoadingSpinner'
 
 export default {
   name: COMPONENT_NAMES.CURRICULUM_GUIDE,
@@ -17,7 +18,8 @@ export default {
     ChapterInfo,
     ConceptsCovered,
     CstaStandards,
-    ModuleContent
+    ModuleContent,
+    LoadingSpinner
   },
 
   props: {
@@ -137,6 +139,12 @@ export default {
               :module-num="num"
               :is-capstone="isCapstoneModule(num)"
             />
+            <div
+              v-if="moduleNumbers.length==0"
+              class="spinner-container"
+            >
+              <LoadingSpinner />
+            </div>
           </div>
           <div class="col-md-3">
             <concepts-covered :concept-list="conceptsCovered" />
@@ -242,5 +250,10 @@ export default {
 
     /* Sets this under the curriculum guide and over everything else */
     z-index: 1100;
+  }
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>
