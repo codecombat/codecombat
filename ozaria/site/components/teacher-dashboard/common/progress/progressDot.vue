@@ -106,50 +106,25 @@ export default {
       type: String,
       default: null,
       required: false
+    },
+    classroomGameContent: {
+      type: Object,
+      default: null
+    },
+    levelSessionMap: {
+      type: Object,
+      default: null
+    },
+    extraPracticeLevels: {
+      type: Array,
+      default: () => []
     }
   },
 
   computed: {
     ...mapGetters({
-      getContentForClassroom: 'gameContent/getContentForClassroom',
       classroomId: 'teacherDashboard/classroomId',
-      courseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
-      getLevelSessionMap: 'levelSessions/getSessionsMapForClassroom',
     }),
-
-    extraPracticeLevels () {
-      const classroomsContent = this.getContentForClassroom(this.classroomId)
-      const courseId = this.courseId
-
-      if (!classroomsContent || !courseId) {
-        return []
-      }
-
-      const level = classroomsContent[courseId]?.modules[this.moduleNumber]?.find(content => {
-        const { original, fromIntroLevelOriginal } = content
-        const normalizedOriginal = original || fromIntroLevelOriginal
-        return normalizedOriginal === this.normalizedOriginal
-      })
-
-      if (level?.practiceLevels) {
-        const sessionMap = this.getLevelSessionMap(this.classroomId)
-        const sessions = sessionMap[this.studentId]
-
-        if (sessions) {
-          return level.practiceLevels.map(level => {
-            const session = sessions[level.original]
-
-            return {
-              ...level,
-              inProgress: Boolean(session),
-              isCompleted: Boolean(session?.dateFirstCompleted)
-            }
-          })
-        }
-      }
-
-      return level?.practiceLevels || []
-    },
 
     activePracticeLevels () {
       return this.extraPracticeLevels.filter(({ inProgress }) => inProgress)
