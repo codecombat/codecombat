@@ -84,8 +84,13 @@ export default {
     },
 
     levelNumberMap () {
-      const levels = this.getContentTypes
-        .map(({ original, assessment, icon, fromIntroLevelOriginal }) => ({ original, key: (original || fromIntroLevelOriginal), assessment, practice: icon === 'practicelvl' }))
+      // get levels from all modules to calculate level numbers
+      const levels = Object.values(this.getModuleInfo)
+        .reduce((acc, list) => {
+          return acc.concat(list)
+        }, [])
+        .map(({ original, assessment, practice, fromIntroLevelOriginal }) => ({ original, key: (original || fromIntroLevelOriginal), assessment, practice }))
+
       return utils.createLevelNumberMap(levels)
     },
 
