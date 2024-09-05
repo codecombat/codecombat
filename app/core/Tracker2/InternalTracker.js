@@ -21,8 +21,8 @@ export default class InternalTracker extends BaseTracker {
 
   async identify (traits = {}) {
     await this.initializationComplete
-    const { me } = this.store.state
-    traits = _.merge(extractDefaultUserTraits(me), traits)
+    const { me: user } = this.store.state
+    traits = _.merge(extractDefaultUserTraits(user), traits)
     traits.host = document.location.host
     if (me.isTeacher(true)) {
       traits.teacher = true
@@ -45,7 +45,9 @@ export default class InternalTracker extends BaseTracker {
   }
 
   trackEventInternal (event, properties) {
-    if (this.disableAllTracking) return this.log('not tracking', event, 'because of disableAllTtracking')
+    if (this.disableAllTracking) {
+      return this.log('not tracking', event, 'because of disableAllTtracking')
+    }
     if (this.store.state.me.isAdmin) return this.log('not tracking', event, 'because of admin')
     // Skipping heavily logged actions we don't use internally
     if (['Simulator Result', 'Started Level Load', 'Finished Level Load', 'View Load'].indexOf(event) !== -1) return this.log('not tracking common event', event)
