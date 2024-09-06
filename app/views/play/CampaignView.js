@@ -94,6 +94,7 @@ class CampaignView extends RootView {
       'click .roblox-level': 'onRobloxLevelClick',
       'click .hackstack-level': 'onHackStackLevelClick',
       'click .hackstack-menu-icon': 'onHackStackLevelClick',
+      'click .junior-menu-icon': 'onJuniorIconClick',
       'click .map-background': 'onClickMap',
       'click .level': 'onClickLevel',
       'dblclick .level': 'onDoubleClickLevel',
@@ -647,11 +648,17 @@ class CampaignView extends RootView {
 
   onRobloxLevelClick (e) {
     window.tracker?.trackEvent('Mine Explored', { engageAction: 'campaign_level_click' })
+    this.showRobloxModal()
   }
 
   showRobloxModal () {
     storage.save(ROBLOX_MODAL_SHOWN)
     this.openModalView(new RobloxModal())
+  }
+
+  onJuniorIconClick (e) {
+    window.tracker?.trackEvent('Junior Icon Explored', { engageAction: 'campaign_level_click' })
+    this.openModalView(new JuniorModal())
   }
 
   onHackStackLevelClick (e) {
