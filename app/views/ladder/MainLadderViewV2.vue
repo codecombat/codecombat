@@ -283,7 +283,7 @@ export default {
       const products = me.activeProducts('esports')
       return products.reduce((s, c) => {
         const t = c.productOptions.tournaments
-        const upperType = c.productOptions.type.toUpperCase()
+        const upperType = c.productOptions?.type?.toUpperCase()
         const tournaments = typeof t === 'undefined' ? (ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType] || 0) : t
         const createdTournaments = c.productOptions.createdTournaments || 0
         return s + (tournaments - createdTournaments)
