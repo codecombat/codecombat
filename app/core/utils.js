@@ -268,7 +268,7 @@ if (isCodeCombat) {
       3: {
         python: {
           lessonSlidesUrl: 'https://drive.google.com/drive/folders/1iQJEvgaQ0z3AMw64fTOwcZOYKu0zOqOr'
-        },  
+        },
         javascript: {
           lessonSlidesUrl: 'https://drive.google.com/drive/folders/1iQJEvgaQ0z3AMw64fTOwcZOYKu0zOqOr'
         }
