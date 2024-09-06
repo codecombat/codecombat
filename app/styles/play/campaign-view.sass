@@ -556,6 +556,19 @@ $gameControlMargin: 30px
         &:hover
           filter: drop-shadow(0 0 2px #bbf)
 
+      &.junior-menu-icon
+        background: url(/images/pages/play/campaign/coco-junior-square-menu-icon.webp) no-repeat
+        background-position: 50% 50%
+        background-size: 110%
+        transform: scale(1.2) translateX(-10px)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.78) translateY(-1px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
+
         // Jiggle animation
         +keyframes(jiggle)
           0%
