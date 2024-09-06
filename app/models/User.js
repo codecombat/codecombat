@@ -1075,7 +1075,7 @@ module.exports = (User = (function () {
 
         if (forcedValue) {
           value = forcedValue
-          valueProbability = 1
+          valueProbability = value === 'beta' ? probability : 1 - probability
         } else {
           const rand = Math.random()
           if (rand < probability) {
