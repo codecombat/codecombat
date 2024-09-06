@@ -83,10 +83,14 @@ module.exports = {
         return acc
       }, new Set())]
 
-      const coursesByLanguage = {}
-      for (const lang of classroomLanguages) {
-        coursesByLanguage[lang] = await fetchJson(`/db/classroom-courses-data?language=${lang}`)
-      }
+      const coursesByLanguagePromises = classroomLanguages.map(lang =>
+        fetchJson(`/db/classroom-courses-data?language=${lang}`)
+          .then(courses => ({ [lang]: courses }))
+      )
+
+      const coursesResults = await Promise.all(coursesByLanguagePromises)
+      const coursesByLanguage = Object.assign({}, ...coursesResults)
+
       classrooms.forEach(classroom => {
         classroom.courses = coursesByLanguage[classroom.aceConfig.language]
       })
