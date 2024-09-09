@@ -256,7 +256,17 @@ module.exports = (CocoRouter = (function () {
         },
 
         'play/hoc-2020' () { return this.navigate('/play/hoc-2018', { trigger: true, replace: true }) }, // Added to handle HoC PDF
-        home: utils.isCodeCombat && me.useChinaHomeView() ? go('HomeCNView') : (me.getHomePageExperimentValue() === 'beta' ? go('core/SingletonAppVueComponentView') : go('HomeView')),
+        home (...args) {
+          if (utils.isCodeCombat && me.useChinaHomeView()) {
+            return go('HomeCNView').call(this, ...args)
+          } else {
+            if (me.getHomePageExperimentValue() === 'beta') {
+              return this.routeDirectly('HomeBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+            } else {
+              return go('HomeView').call(this, ...args)
+            }
+          }
+        },
 
         i18n: go('i18n/I18NHomeView'),
         'i18n/thang/:handle': go('i18n/I18NEditThangTypeView'),
