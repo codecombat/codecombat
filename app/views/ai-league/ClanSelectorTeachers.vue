@@ -1,5 +1,6 @@
 <script>
 import QuestionmarkView from 'app/views/ai-league/QuestionmarkView.vue'
+import ClassroomsApi from 'app/core/api/classrooms.js'
 
 export default {
   components: {
@@ -33,10 +34,24 @@ export default {
       default: () => false
     }
   },
-
+  data () {
+    return {
+      ozClassrooms: []
+    }
+  },
   computed: {
     clansSanitized () {
-      return this.clans.filter(v => v !== undefined)
+      return this.clans.filter(v => v !== undefined).filter(v => !this.ozClassroomsSlugs.includes(v.slug))
+    },
+    ozClassroomsSlugs () {
+      return this.ozClassrooms.map(c => `autoclan-classroom-${c._id}`)
+    }
+  },
+  async created () {
+    try {
+      this.ozClassrooms = (await ClassroomsApi.fetchByOwner(me.get('_id'), { callOz: true, project: '_id' }))
+    } catch (e) {
+      console.error('Error fetching oz classrooms', e)
     }
   }
 }
