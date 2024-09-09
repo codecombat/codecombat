@@ -21,12 +21,16 @@ export function getStudentCode (levelSession) {
 }
 
 export function getSolutionCode (level, { lang = null }) {
-  const solutions = getSolutions(level)
+  const levelModel = new Level(level)
   if (lang) {
-    const sol = solutions.find(s => s.language === lang)
-    if (sol) return sol.source
+    return levelModel.getSolutionForLanguage(lang)?.source
   }
-  return solutions.length ? solutions[0].source : null
+  return levelModel.getSolutions()[0]?.source
+}
+
+export function getSampleCode (level, { lang = null }) {
+  const levelModel = new Level(level)
+  return levelModel.getSampleCodeForLanguage(lang || 'javascript')
 }
 
 export function getStudentAndSolutionCode (level, levelSessions) {
@@ -35,9 +39,4 @@ export function getStudentAndSolutionCode (level, levelSessions) {
   const solutionCode = getSolutionCode(level, { lang: studentCodeObj?.codeLanguage })
 
   return { studentCode: studentCodeObj?.code, solutionCode }
-}
-
-function getSolutions (level) {
-  const levelModel = new Level(level)
-  return levelModel.getSolutions()
 }

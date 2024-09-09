@@ -109,7 +109,7 @@
       class="ladder-view container"
     >
       <div class="ladder-view__text">
-        {{ $t('tournament.can_create_tournaments_num', {num: tournamentsLeft }) }}
+        {{ $t('tournament.can_create_tournaments_num', { num: tournamentsLeft }) }}
       </div>
       <ladder-panel
         v-for="arena in usableArenas"
@@ -119,6 +119,7 @@
         :clan-id="currentSelectedClan?._id"
         :can-create="canUseArenaHelpers && tournamentsLeft > 0"
         :can-edit="false"
+        :disabled="tournamentsLeft <= 0"
         @create-tournament="handleCreateTournament(arena)"
       />
     </div>
@@ -282,7 +283,7 @@ export default {
       const products = me.activeProducts('esports')
       return products.reduce((s, c) => {
         const t = c.productOptions.tournaments
-        const upperType = c.productOptions.type.toUpperCase()
+        const upperType = c.productOptions?.type?.toUpperCase()
         const tournaments = typeof t === 'undefined' ? (ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType] || 0) : t
         const createdTournaments = c.productOptions.createdTournaments || 0
         return s + (tournaments - createdTournaments)
@@ -313,11 +314,14 @@ export default {
 }
 
 .ladder-view {
-  padding: 5rem 20rem;
+  padding: 2rem 20rem;
   color: #ffffff;
 
   &__text {
-    font-size: 1.8rem;
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: #30efd3;
+    margin-bottom: 2rem;
   }
 }
 
@@ -430,5 +434,8 @@ export default {
       transform: rotate(70deg);
     }
   }
+}
+.ladder-view-v2.container {
+  gap: 20px;
 }
 </style>

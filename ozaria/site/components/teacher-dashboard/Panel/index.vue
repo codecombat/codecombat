@@ -32,7 +32,7 @@ export default {
       panelHeader: 'teacherDashboardPanel/panelHeader',
       studentInfo: 'teacherDashboardPanel/studentInfo',
       conceptCheck: 'teacherDashboardPanel/conceptCheck',
-      panelSessionContent: 'teacherDashboardPanel/panelSessionContent',
+      panelSessionContents: 'teacherDashboardPanel/panelSessionContents',
       getTrackCategory: 'teacherDashboard/getTrackCategory',
       panelProjectContent: 'teacherDashboardPanel/panelProjectContent'
     }),
@@ -59,6 +59,21 @@ export default {
 
     clickFooterLink () {
       window.tracker?.trackEvent('Track Progress: Progress Modal Footer Link Clicked', { category: this.getTrackCategory, label: this.panelFooter.icon })
+    },
+
+    getComponentName (type) {
+      switch (type) {
+      case 'PRACTICE_LEVEL':
+        return 'PracticeLevel'
+      case 'CAPSTONE_LEVEL':
+        return 'CapstoneLevel'
+      case 'DRAGGABLE_ORDERING':
+        return 'DraggableOrdering'
+      case 'DRAGGABLE_STATEMENT_COMPLETION':
+        return 'DraggableStatementCompletion'
+      default:
+        return null
+      }
     }
   }
 }
@@ -87,24 +102,10 @@ export default {
         v-if="conceptCheck"
         :concept-check="conceptCheck"
       />
-      <practice-level
-        v-if="panelSessionContent && panelSessionContent.type === 'PRACTICE_LEVEL'"
-        :panel-session-content="panelSessionContent"
-      />
-      <capstone-level
-        v-if="panelSessionContent && panelSessionContent.type === 'CAPSTONE_LEVEL'"
-        :panel-session-content="panelSessionContent"
-      />
-      <draggable-ordering
-        v-if="panelSessionContent && panelSessionContent.type === 'DRAGGABLE_ORDERING'"
-        :panel-session-content="panelSessionContent"
-      />
-      <draggable-statement-completion
-        v-if="panelSessionContent && panelSessionContent.type === 'DRAGGABLE_STATEMENT_COMPLETION'"
-        :panel-session-content="panelSessionContent"
-      />
-      <insert-code
-        v-if="panelSessionContent && panelSessionContent.type === 'INSERT_CODE'"
+      <component
+        :is="getComponentName(panelSessionContent.type)"
+        v-for="panelSessionContent in panelSessionContents"
+        :key="panelSessionContent.id"
         :panel-session-content="panelSessionContent"
       />
       <ai-scenario

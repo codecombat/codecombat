@@ -22,6 +22,9 @@ const { logoutUser, me } = require('core/auth')
 const CreateAccountModal = require('views/core/CreateAccountModal/CreateAccountModal')
 const GetStartedSignupModal = require('app/views/teachers/GetStartedSignupModal').default
 const GetLicensesModal = require('app/views/core/GetLicensesModal').default
+const ModalJunior = require('app/views/home/ModalJunior').default
+const store = require('core/store')
+
 const paymentUtils = require('app/lib/paymentUtils')
 const fetchJson = require('core/api/fetch-json')
 const DOMPurify = require('dompurify')
@@ -184,6 +187,9 @@ module.exports = (HomeView = (function () {
       if (this.getStartedSignupContainer) {
         this.getStartedSignupContainer.$destroy()
         return this.getStartedSignupModal.remove()
+      }
+      if (this.juniorModal) {
+        this.juniorModal.$destroy()
       }
     }
 
@@ -363,6 +369,8 @@ module.exports = (HomeView = (function () {
           return $('[data-slide-to=\'' + nextActiveSlide + '\']').addClass('active')
         })))
       }
+
+      me.startHomeControlExperiment('control')
       return super.afterRender()
     }
 
@@ -381,6 +389,10 @@ module.exports = (HomeView = (function () {
 
     afterInsert () {
       super.afterInsert()
+
+      const juniorModalContaniner = document.getElementById('junior-modal')
+      this.juniorModal = new ModalJunior({ el: juniorModalContaniner, store })
+
       // scroll to the current hash, once everything in the browser is set up
       const f = () => {
         if (this.destroyed) { return }

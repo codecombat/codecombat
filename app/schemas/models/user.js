@@ -407,7 +407,8 @@ _.extend(UserSchema.properties, {
     type: 'object',
     properties: {
       'hackstack-beta-release-modal': { type: 'boolean' },
-      'curriculum-sidebar-promotion-modal': { type: 'boolean' }
+      'curriculum-sidebar-promotion-modal': { type: 'boolean' },
+      'hp-junior-modal': { type: 'boolean' }
     }
   },
 

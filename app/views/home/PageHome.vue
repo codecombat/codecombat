@@ -209,6 +209,7 @@
         </div>
       </div>
     </div>
+    <ModalJunior />
   </div>
 </template>
 
@@ -229,6 +230,7 @@ import ButtonSection from './ButtonSection.vue'
 import TrendsAndInsights from '../common/TrendsAndInsights.vue'
 import BaseCloudflareVideo from '../../components/common/BaseCloudflareVideo.vue'
 import HeaderComponent from '../../components/common/elements/HeaderComponent.vue'
+import ModalJunior from './ModalJunior'
 
 const utils = require('core/utils')
 const paymentUtils = require('app/lib/paymentUtils')
@@ -251,7 +253,8 @@ export default Vue.extend({
     TrendsAndInsights,
     VideoBox,
     BaseCloudflareVideo,
-    HeaderComponent
+    HeaderComponent,
+    ModalJunior
   },
   data () {
     return {
@@ -454,6 +457,7 @@ export default Vue.extend({
       this.engagingBoxes[1].signupModalPath = null
       this.engagingBoxes[1].link = '/teachers/classes'
     }
+    me.startHomeControlExperiment('beta')
   },
   methods: {
     checkPaymentTracking () {

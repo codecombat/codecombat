@@ -244,9 +244,16 @@ export default Vue.extend({
       return new Classroom(this.classroom)
     },
     initialFreeCourses () {
+      if (!this.isCodeCombat) {
+        return []
+      }
       return [
         ...utils.freeCocoCourseIDs.map(id => {
           const course = this.courses.find(({ _id }) => _id === id)
+          if (!course) {
+            // computed value uses in template before mounted, so no courses yet
+            return {}
+          }
           return {
             id,
             name: utils.i18n(course, 'name'),
@@ -755,7 +762,7 @@ export default Vue.extend({
               class="error"
             >
               Please login on <a
-                href="https://www.ozaria.com"
+                href="https://www.ozaria.com/teachers/classes"
                 target="_blank"
               >ozaria.com</a> instead with same credentials to create ozaria club and continue playing
             </span>

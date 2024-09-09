@@ -29,6 +29,13 @@ export default {
       {{ $t('league.try_ai_league_as_a_teacher') }}
     </a>
     <a
+      class="resources__item screen"
+      href="https://drive.google.com/drive/folders/1BeJeMjY4D7a4YBeUVGSGCFe009Wod6cn?usp=sharing"
+      target="_blank"
+    >
+      {{ $t('league.ai_league_curriculum') }}
+    </a>
+    <a
       class="resources__item view-exemplar"
       href="https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League"
       target="_blank"
@@ -43,7 +50,7 @@ export default {
 .resources {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 
   &__item {
     display: flex;

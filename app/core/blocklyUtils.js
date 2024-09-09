@@ -723,10 +723,15 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
       ]
     } else {
       dropdownArg.options = [
-        [{ src: '/images/level/blocks/block-up.png', width: 24, height: 24 }, 'up'],
-        [{ src: '/images/level/blocks/block-down.png', width: 24, height: 24 }, 'down'],
-        [{ src: '/images/level/blocks/block-left.png', width: 24, height: 24 }, 'left'],
-        [{ src: '/images/level/blocks/block-right.png', width: 24, height: 24 }, 'right']
+        // Charlotte reocmmended going back to using words instead of icons in text block mode
+        // [{ src: '/images/level/blocks/block-up.png', width: 24, height: 24 }, 'up'],
+        // [{ src: '/images/level/blocks/block-down.png', width: 24, height: 24 }, 'down'],
+        // [{ src: '/images/level/blocks/block-left.png', width: 24, height: 24 }, 'left'],
+        // [{ src: '/images/level/blocks/block-right.png', width: 24, height: 24 }, 'right']
+        ['up', 'up'],
+        ['down', 'down'],
+        ['left', 'left'],
+        ['right', 'right']
       ]
     }
     dropdownArg.default = args[0].default

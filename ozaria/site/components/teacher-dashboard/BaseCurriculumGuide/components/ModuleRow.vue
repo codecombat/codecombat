@@ -52,6 +52,7 @@ export default {
       default: false
     },
     showProgressDot: {
+      // uses in parent dashboard. do not remove
       type: Boolean,
       default: false
     },
@@ -102,7 +103,7 @@ export default {
   methods: {
     onShowCodeClicked () {
       this.showCode = !this.showCode
-      this.$emit('showCodeClicked', { identifier: this.identifier, hideCode: !this.showCode })
+      this.$emit('showCodeClicked', { identifier: this.identifier, hideCode: !this.showCode, levelNumber: this.levelNumber })
     }
   }
 }

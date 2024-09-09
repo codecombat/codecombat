@@ -290,6 +290,7 @@ module.exports = (User = (function () {
 
     isPaidTeacher () {
       // TODO: this doesn't actually check to see if they are paid (having prepaids), confusing
+      // use isPaidTeacher from me.js in vuex store for vue
       if (!this.isTeacher()) { return false }
       return this.isCreatedByClient() || (/@codeninjas.com$/i.test(this.get('email')))
     }
@@ -1045,6 +1046,7 @@ module.exports = (User = (function () {
 
     getFilteredExperimentValue ({
       experimentName,
+      forcedValue
     }) {
       let value = me.getExperimentValue(experimentName, null)
 
@@ -1075,13 +1077,19 @@ module.exports = (User = (function () {
       if (value === null) {
         const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
         let valueProbability
-        const rand = Math.random()
-        if (rand < probability) {
-          value = 'beta'
-          valueProbability = probability
+
+        if (forcedValue) {
+          value = forcedValue
+          valueProbability = value === 'beta' ? probability : 1 - probability
         } else {
-          value = 'control'
-          valueProbability = 1 - probability
+          const rand = Math.random()
+          if (rand < probability) {
+            value = 'beta'
+            valueProbability = probability
+          } else {
+            value = 'control'
+            valueProbability = 1 - probability
+          }
         }
         me.startExperiment(experimentName, value, valueProbability)
       }
@@ -1094,7 +1102,14 @@ module.exports = (User = (function () {
     }
 
     getHomePageExperimentValue () {
-      return this.getFilteredExperimentValue({ experimentName: 'home-page-filtered' })
+      return this.getFilteredExperimentValue({ experimentName: 'home-page-filtered-v2' })
+    }
+
+    startHomeControlExperiment (forcedValue) {
+      return this.getFilteredExperimentValue({
+        experimentName: 'home-page-filtered-control-experiment',
+        forcedValue
+      })
     }
 
     getParentsPageExperimentValue () {
@@ -1280,7 +1295,7 @@ module.exports = (User = (function () {
       }
       if ((!value)) {
         let valueProbability
-        const probability = window.serverConfig?.experimentProbabilities?.junior?.beta != null ? window.serverConfig.experimentProbabilities.junior.beta : 0.1
+        const probability = window.serverConfig?.experimentProbabilities?.junior?.beta != null ? window.serverConfig.experimentProbabilities.junior.beta : 0.5
         if (Math.random() < probability) {
           value = 'beta'
           valueProbability = probability

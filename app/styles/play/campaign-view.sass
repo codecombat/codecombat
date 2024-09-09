@@ -414,6 +414,22 @@ $gameControlMargin: 30px
           right: -13px
           top: -17px
 
+      &.has-practice-levels
+        .course-version
+          float: right
+
+          .btn
+            height: 33px
+
+          .btn-success
+            @include animation(winnablePulse 3s infinite)
+
+            span
+              opacity: 1
+
+      .practice-level
+        h3
+          margin-left: 0
 
     .campaign-switch
       color: purple
@@ -532,6 +548,19 @@ $gameControlMargin: 30px
         background-position: 50% 50%
         background-size: 100%
         transform: scale(1.2) translateY(-3px) translateX(-10px)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.78) translateY(-1px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
+
+      &.junior-menu-icon
+        background: url(/images/pages/play/campaign/coco-junior-square-menu-icon.webp) no-repeat
+        background-position: 50% 50%
+        background-size: 110%
+        transform: scale(1.2) translateX(-10px)
         @media only screen and (max-height: 650px)
           transform: scale(0.78) translateY(-1px)
         box-shadow: initial
@@ -807,6 +836,8 @@ $gameControlMargin: 30px
           background-position: (-4 * $campaignWidth) 0
         &.volcano
           background-position: (-5 * $campaignWidth) 0
+        &.junior
+          background-position: (-6 * $campaignWidth) 0
 
         .campaign-label
           position: absolute
@@ -828,6 +859,12 @@ $gameControlMargin: 30px
             background-size: 100% 100%
             padding: 12px
             color: black
+
+          .campaign-age
+            font-size: 22px
+
+          .campaign-age-description
+            font-style: italic
 
           .levels-completed
             font-size: 22px
@@ -963,7 +1000,7 @@ $gameControlMargin: 30px
     height: 55px
     border-radius: 10%
 
-  #liverpool-logo, #shreve-logo
+  #liverpool-logo, #shreve-logo, #lafourche-logo
     cursor: pointer
     width: 100px
     border-radius: 5%
@@ -1042,3 +1079,14 @@ body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdow
     &:hover
       cursor: pointer
       color: white
+
++keyframes(currentPracticeLevel)
+  from
+    @include box-shadow(0px 0px 8px #333)
+    color: white
+  50%
+    @include box-shadow(0px 0px 35px #87CEFF)
+    color: #87CEFF
+  to
+    @include box-shadow(0px 0px 8px #333)
+    color: white

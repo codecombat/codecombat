@@ -346,10 +346,6 @@ export default function getVueRouter () {
         },
         {
           path: '/professional-development',
-          component: () => import(/* webpackChunkName: "pd" */ 'app/views/pd/PDView.vue')
-        },
-        {
-          path: '/professional-development-v2',
           component: () => import(/* webpackChunkName: "pd" */ 'app/views/pd/PDViewV2.vue')
         },
         { path: '/pd', redirect: '/professional-development' }, // TODO: doesn't actually update to /professional-development URL, just adds alias

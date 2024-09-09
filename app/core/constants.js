@@ -107,6 +107,12 @@ const CODE_FORMAT_IPAD = ['blocks-text', 'blocks-icons']
 const CODE_FORMAT_TEXT = ['text-code', 'blocks-and-code']
 const JUNIOR_LANGUAGES = ['python', 'javascript']
 
+const ARENA_CURRICULUM = {
+  equinox: 'https://drive.google.com/drive/folders/16lYF5Bt_WupEUv9rNfTN_byL8DSJK3iX?usp=drive_link',
+  'tundra-tower': 'https://drive.google.com/drive/folders/1xhl8oMNLU5gwuEChg1wCair2VKK-A3ln?usp=drive_link',
+  sandstorm: 'https://drive.google.com/drive/folders/1gXBG1tpuAhYkJKX5GvvHZHX48duPnZ7O?usp=drive_link'
+}
+
 module.exports = {
   STARTER_LICENSE_COURSE_IDS,
   FREE_COURSE_IDS,
@@ -126,5 +132,6 @@ module.exports = {
   CODE_FORMAT_BLOCKS,
   CODE_FORMAT_IPAD,
   CODE_FORMAT_TEXT,
-  JUNIOR_LANGUAGES
+  JUNIOR_LANGUAGES,
+  ARENA_CURRICULUM
 }

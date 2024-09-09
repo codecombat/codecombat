@@ -20,6 +20,11 @@ export default {
       required: false,
       type: Array,
       default: () => []
+    },
+    moduleNumber: {
+      required: false,
+      type: [Number, String],
+      default: null
     }
   },
   computed: {
@@ -27,8 +32,21 @@ export default {
       selectedProgressKey: 'teacherDashboardPanel/selectedProgressKey',
       getTrackCategory: 'teacherDashboard/getTrackCategory',
       selectedStudentIds: 'baseSingleClass/selectedStudentIds',
-      selectedOriginals: 'baseSingleClass/selectedOriginals'
+      selectedOriginals: 'baseSingleClass/selectedOriginals',
+      getContentForClassroom: 'gameContent/getContentForClassroom',
+      classroomId: 'teacherDashboard/classroomId',
+      getLevelSessionMap: 'levelSessions/getSessionsMapForClassroom',
+      courseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+
     }),
+
+    classroomGameContent () {
+      return this.getContentForClassroom(this.classroomId)
+    },
+
+    levelSessionMap () {
+      return this.getLevelSessionMap(this.classroomId)
+    },
 
     cols () {
       return Object.values(this.studentSessions)[0]?.length || 0
@@ -48,13 +66,49 @@ export default {
         return acc.concat(studentSessions.map(session => {
           return {
             ...session,
-            _id: studentId
+            studentId
           }
         }))
       }, [])
-    }
+    },
   },
   methods: {
+    extraPracticeLevels (normalizedOriginalX, studentId) {
+      const classroomsContent = this.classroomGameContent
+      if (!classroomsContent) {
+        return []
+      }
+      const courseId = this.courseId
+
+      if (!classroomsContent || !courseId) {
+        return []
+      }
+
+      const level = classroomsContent[courseId]?.modules[this.moduleNumber]?.find(content => {
+        const { original, fromIntroLevelOriginal } = content
+        const normalizedOriginal = original || fromIntroLevelOriginal
+        return normalizedOriginal === normalizedOriginalX
+      })
+
+      if (level?.practiceLevels) {
+        const sessionMap = this.levelSessionMap
+        const sessions = sessionMap[studentId]
+
+        if (sessions) {
+          return level.practiceLevels.map(level => {
+            const session = sessions[level.original]
+
+            return {
+              ...level,
+              inProgress: Boolean(session),
+              isCompleted: Boolean(session?.dateFirstCompleted)
+            }
+          })
+        }
+      }
+
+      return level?.practiceLevels || []
+    },
     cellClass (idx) {
       return {
         'gray-backer': Math.floor(idx / this.cols) % 2 === 1,
@@ -81,7 +135,7 @@ export default {
   >
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
     <div
-      v-for="({_id, status, playTime, tooltipName, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
+      v-for="({studentId, status, playTime, tooltipName, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
       :key="selectedKey"
       :class="cellClass(index)"
     >
@@ -98,11 +152,17 @@ export default {
         :last-lock-date="lastLockDate"
         :is-optional="isOptional"
         :track-category="getTrackCategory"
-        :selected="selectedOriginals.includes(normalizedOriginal) && selectedStudentIds.includes(_id)"
-        :hovered="hoveredLevels.includes(normalizedOriginal) && selectedStudentIds.includes(_id)"
+        :selected="selectedOriginals.includes(normalizedOriginal) && selectedStudentIds.includes(studentId)"
+        :hovered="hoveredLevels.includes(normalizedOriginal) && selectedStudentIds.includes(studentId)"
         :play-time="playTime"
         :completion-date="completionDate"
         :tooltip-name="tooltipName"
+        :normalized-original="normalizedOriginal"
+        :module-number="moduleNumber"
+        :student-id="studentId"
+        :classroom-game-content="classroomGameContent"
+        :level-session-map="levelSessionMap"
+        :extra-practice-levels="extraPracticeLevels(normalizedOriginal, studentId)"
       />
     </div>
   </div>

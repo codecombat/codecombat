@@ -27,6 +27,10 @@ export default {
       byCourseInstanceId: {}
     },
 
+    loaded: {
+      byTeacher: {}
+    },
+
     classrooms: {
       byClassroom: {},
       // Classrooms by teacher ID
@@ -41,7 +45,7 @@ export default {
 
     // TODO: Handle HoC classrooms and "most recent classroom" better. This is a hack
     // for HoC 2020, so classCode is shown in the LayoutChrome
-    mostRecentClassCode: ''
+    mostRecentClassCode: '',
   },
 
   mutations: {
@@ -51,6 +55,10 @@ export default {
         teacherId,
         !state.loading.byTeacher[teacherId]
       )
+    },
+
+    setLoadedForTeacher(state, { teacherId, loaded }) {
+      Vue.set(state.loaded.byTeacher, teacherId, loaded);
     },
 
     toggleLoadingForClassroom: (state, classroomID) => {
@@ -255,28 +263,48 @@ export default {
   },
 
   actions: {
-    fetchClassroomsForTeacher: ({ commit }, { teacherId, project }) => {
-      commit('toggleLoadingForTeacher', teacherId)
+    async fetchClassroomsForTeacher ({ commit, state }, { teacherId, project }) {
+      if (state.loaded.byTeacher[teacherId]) return;
+      if (state.loading.byTeacher[teacherId]) {
+        await new Promise(resolve => {
+          const unwatch = this.watch(
+            () => {
+              return state.loaded.byTeacher[teacherId]
+            },
+            () => {
+              if (state.loaded.byTeacher[teacherId]) {
+                unwatch();
+                resolve();
+              }
+            }
+          );
+        });
+      } else {
+        commit('toggleLoadingForTeacher', teacherId)
 
-      // We used to limit the default projection in Ozaria but not in CodeCombat, but it was easy to miss new properties, and Ozaria still fetched almost all the data, so now both products fetch all fields by default.
-      project = project || null
+        // We used to limit the default projection in Ozaria but not in CodeCombat, but it was easy to miss new properties, and Ozaria still fetched almost all the data, so now both products fetch all fields by default.
+        project = project || null
 
-      return classroomsApi.fetchByOwner(teacherId, {
-        project,
-        includeShared: true,
-      })
-        .then(res =>  {
-          if (res) {
-            commit('addClassroomsForTeacher', {
-              teacherId,
-              classrooms: res
-            })
-          } else {
-            throw new Error('Unexpected response from fetch classrooms API.')
-          }
+        await classroomsApi.fetchByOwner(teacherId, {
+          project,
+          includeShared: true,
         })
-        .catch((e) => noty({ text: 'Fetch classrooms failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
-        .finally(() => commit('toggleLoadingForTeacher', teacherId))
+          .then(async res =>  {
+            if (res) {
+              commit('addClassroomsForTeacher', {
+                teacherId,
+                classrooms: res
+              })
+              commit('setLoadedForTeacher', { teacherId, loaded: true });
+            } else {
+              throw new Error('Unexpected response from fetch classrooms API.')
+            }
+          })
+          .catch((e) => noty({ text: 'Fetch classrooms failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
+          .finally(() => {
+            commit('toggleLoadingForTeacher', teacherId)
+          })
+      }
     },
     fetchClassroomForId: async ({ commit, getters }, classroomID) => {
       if (getters.getClassroomById(classroomID)) {

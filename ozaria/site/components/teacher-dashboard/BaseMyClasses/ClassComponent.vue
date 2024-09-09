@@ -37,6 +37,20 @@ export default {
     showJuniorCampInfo () {
       return utils.isCodeCombat && me.isCodeNinja() && this.chapterStats.length === 1
     },
+
+    limitedChapterStats () {
+      switch (this.classroomStats.type) {
+      case 'club-esports':
+      case 'club-roblox':
+        return []
+      case 'club-junior':
+        return this.chapterStats.filter(chapter => chapter.name === 'Junior')
+      case 'club-hackstack':
+        return this.chapterStats.filter(chapter => chapter.name === 'HackStack')
+      default:
+        return this.chapterStats
+      }
+    }
   }
 }
 </script>
@@ -65,7 +79,7 @@ export default {
     -->
     <class-chapter-summaries
       v-if="!classroomStats.sharePermission"
-      :chapter-progress="chapterStats"
+      :chapter-progress="limitedChapterStats"
     />
     <class-links-component
       :show-esports-camp-info-coco="showEsportsCampInfoCoco"

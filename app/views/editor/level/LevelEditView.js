@@ -24,9 +24,11 @@ const World = require('lib/world/world')
 const DocumentFiles = require('collections/DocumentFiles')
 const LevelLoader = require('lib/LevelLoader')
 
+const Achievement = require('models/Achievement')
 const Campaigns = require('collections/Campaigns')
 const CocoCollection = require('collections/CocoCollection')
 const Course = require('models/Course')
+const Campaign = require('models/Campaign')
 
 const RevertModal = require('views/modal/RevertModal')
 const GenerateTerrainModal = require('views/editor/level/modals/GenerateTerrainModal')
@@ -56,6 +58,8 @@ const storage = require('core/storage')
 const utils = require('core/utils')
 const loadAetherLanguage = require('lib/loadAetherLanguage')
 const presenceApi = require(utils.isOzaria ? '../../../../ozaria/site/api/presence' : 'core/api/presence')
+const { fetchPracticeLevels, fetchLevelStats } = require('core/api/levels')
+const fetchJson = require('core/api/fetch-json')
 const globalVar = require('core/globalVar')
 
 require('vendor/scripts/coffeescript') // this is tenuous, since the LevelSession and LevelComponent models are what compile the code
@@ -103,6 +107,9 @@ module.exports = (LevelEditView = (function () {
         'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal',
         'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal',
         'click .generate-level-button': 'onClickGenerateLevel',
+        'click .generate-practice-level-button': 'onClickGeneratePracticeLevel',
+        'click .generate-all-practice-levels-button': 'onClickGenerateAllPracticeLevels',
+        'click .save-all-practice-levels-button': 'onClickSaveAllPracticeLevels',
         'click .migrate-junior-button': 'onClickMigrateJunior',
       }
 
@@ -113,6 +120,7 @@ module.exports = (LevelEditView = (function () {
 
       this.prototype.shortcuts = {
         'ctrl+g': 'generateLevel',
+        'ctrl+shift+g': 'generatePracticeLevel',
       }
     }
 
@@ -170,7 +178,7 @@ module.exports = (LevelEditView = (function () {
           this.checkPresenceIntervalID = setInterval(this.checkPresence, 15000)
           this.checkPresence()
           if (me.isAdmin()) {
-            return presenceApi.setPresence({ levelOriginalId: this.level.get('original') })
+            presenceApi.setPresence({ levelOriginalId: this.level.get('original') })
           }
         }
       })
@@ -191,7 +199,7 @@ module.exports = (LevelEditView = (function () {
         // Give it a fake course ID so we can test it in course mode before it's in a course.
         this.courseID = '560f1a9f22961295f9427742'
       }
-      return this.getLevelCompletionRate()
+      this.getLevelCompletionRate()
     }
 
     getRenderData (context) {
@@ -283,6 +291,18 @@ module.exports = (LevelEditView = (function () {
       this.openModalView(new GenerateLevelModal())
     }
 
+    onClickGeneratePracticeLevel (e) {
+      this.generatePracticeLevel()
+    }
+
+    onClickGenerateAllPracticeLevels (e) {
+      this.generatePracticeLevels()
+    }
+
+    onClickSaveAllPracticeLevels (e) {
+      this.savePracticeLevels()
+    }
+
     async generateLevel (e) {
       const parameters = {} // Temp: totally random parameters
       if (e?.size) {
@@ -291,31 +311,213 @@ module.exports = (LevelEditView = (function () {
       } else if (this.lastLevelGenerationSize) {
         parameters.size = this.lastLevelGenerationSize
       }
-      levelGeneration.generateLevel(parameters).then(level => {
+      levelGeneration.generateLevel({ parameters, supermodel: this.supermodel }).then(level => {
         if (this.destroyed) return
         console.log('generated level', level)
+        this.setGeneratedLevel(level)
+      })
+    }
+
+    async generatePracticeLevels (limit = 26) {
+      const existingPracticeLevels = await fetchPracticeLevels(this.level.get('slug'))
+      this.newPracticeLevels = []
+      const generateUntil = Math.min(26, existingPracticeLevels.length + limit)
+      this.level.revert()
+      const originalThangs = _.cloneDeep(this.level.get('thangs'))
+      console.log('Have existing practice levels', existingPracticeLevels)
+      for (let levelIndex = existingPracticeLevels.length; levelIndex < generateUntil; ++levelIndex) {
+        this.level.revert()
+        const parameters = { sourceLevel: this.level, levelIndex, existingPracticeLevels, newPracticeLevels: this.newPracticeLevels, originalThangs, levelStats: this.levelStats }
+        const level = await levelGeneration.generateLevel({ parameters, supermodel: this.supermodel })
+        if (this.destroyed) return
+        if (!level) break
+        console.log('generated practice level', level)
+        this.setGeneratedLevel(level)
+        this.newPracticeLevels.push(level)
+      }
+      console.log('Have new practice levels', this.newPracticeLevels)
+      this.$el.find('.save-all-practice-levels-button').toggleClass('hide', this.newPracticeLevels.length).text(`Save ${this.newPracticeLevels.length} New Practice Levels`)
+    }
+
+    async generatePracticeLevel () {
+      await this.generatePracticeLevels(1)
+    }
+
+    setGeneratedLevel (level) {
+      for (const key in level) {
+        if (Level.schema.properties[key]) {
+          this.level.set(key, level[key])
+        }
+      }
+
+      this.previouslyLoadedSubviewData = {}
+      for (const subview of Object.values(this.subviews)) {
+        if (subview.getDataForReplacementView) {
+          const subviewData = subview.getDataForReplacementView()
+          this.previouslyLoadedSubviewData = { ...this.previouslyLoadedSubviewData, ...subviewData }
+          if (subviewData.addThangsView) {
+            // Don't destroy this one, we are going to reuse it
+            delete subview.subviews.add_thangs_view
+            subviewData.addThangsView.willDisappear()
+          }
+        }
+        this.removeSubView(subview)
+      }
+      this.render()
+      this.previouslyLoadedSubviewData.addThangsView?.didReappear()
+    }
+
+    async savePracticeLevels () {
+      if (!this.newPracticeLevels.length) { return }
+
+      // Fetch the main Achievement for the source level
+      const relatedAchievements = await fetchJson(`/db/achievement?related=${this.level.get('original')}`) || []
+      const sourceLevelAchievement = relatedAchievements[0]
+      const sourceAchievementWorth = sourceLevelAchievement?.worth || 10
+      const practiceAchievementWorth = Math.ceil(sourceAchievementWorth / 3)
+
+      // Create and save the practice levels
+      const savedPracticeLevels = []
+      for (let i = 0; i < this.newPracticeLevels.length; i++) {
+        const level = this.newPracticeLevels[i]
+        const newLevel = new Level($.extend(true, {}, this.level.attributes))
+        newLevel.unset('_id')
+        newLevel.unset('version')
+        newLevel.unset('creator')
+        newLevel.unset('created')
+        newLevel.unset('original')
+        newLevel.unset('parent')
+        newLevel.unset('i18n')
+        newLevel.unset('i18nCoverage')
+        newLevel.unset('tasks')
+        newLevel.set('commitMessage', `Generated as practice from ${this.level.get('name')}`)
+        newLevel.set('permissions', [{ access: 'owner', target: me.id }])
         for (const key in level) {
           if (Level.schema.properties[key]) {
-            this.level.set(key, level[key])
+            newLevel.set(key, level[key])
           }
+        }
+        try {
+          await saveModel(newLevel, null, { type: 'POST' }) // Override PUT so we can trigger postFirstVersion logic
+          savedPracticeLevels.push(newLevel)
+          noty({ timeout: 2000, text: `Created ${newLevel.get('name')}`, type: 'info', layout: 'top' })
+        } catch (error) {
+          noty({ timeout: 8000, text: `Error creating ${newLevel.get('name')}: ${error.responseText || error.message}`, type: 'error', layout: 'top' })
+        }
+      }
+
+      // Now create and save achievements for all practice levels
+      for (let i = 0; i < savedPracticeLevels.length; i++) {
+        const practiceLevel = savedPracticeLevels[i]
+        const achievement = new Achievement({
+          name: `${practiceLevel.get('name')} Complete`,
+          description: '',
+          query: {
+            'state.complete': true,
+            'level.original': practiceLevel.get('original')
+          },
+          collection: 'level.sessions',
+          userField: 'creator',
+          related: practiceLevel.get('original'),
+          worth: practiceAchievementWorth,
+          rewards: {
+            gems: practiceAchievementWorth,
+            levels: []
+          },
+        })
+
+        // Set the next level to unlock, if it's not the last practice level
+        if (i < savedPracticeLevels.length - 1) {
+          achievement.get('rewards').levels.push(savedPracticeLevels[i + 1].get('original'))
         }
 
-        this.previouslyLoadedSubviewData = {}
-        for (const subview of Object.values(this.subviews)) {
-          if (subview.getDataForReplacementView) {
-            const subviewData = subview.getDataForReplacementView()
-            this.previouslyLoadedSubviewData = { ...this.previouslyLoadedSubviewData, ...subviewData }
-            if (subviewData.addThangsView) {
-              // Don't destroy this one, we are going to reuse it
-              delete subview.subviews.add_thangs_view
-              subviewData.addThangsView.willDisappear()
+        try {
+          await saveModel(achievement, null, { type: 'POST' })
+          noty({ timeout: 2000, text: `Created achievement for ${practiceLevel.get('name')}`, type: 'info', layout: 'top' })
+        } catch (error) {
+          noty({ timeout: 8000, text: `Error creating achievement for ${practiceLevel.get('name')}: ${error.responseText || error.message}`, type: 'error', layout: 'top' })
+        }
+      }
+
+      // Update main Achievement to unlock the first practice level
+      if (savedPracticeLevels.length > 0) {
+        const rewards = sourceLevelAchievement.rewards || { levels: [] }
+        if (!rewards.levels.includes(savedPracticeLevels[0].get('original'))) {
+          rewards.levels.push(savedPracticeLevels[0].get('original'))
+
+          const sourceLevelAchievementModel = new Achievement({ _id: sourceLevelAchievement._id })
+          sourceLevelAchievementModel.set(sourceLevelAchievement)
+          sourceLevelAchievementModel.set('rewards', rewards)
+          try {
+            await saveModel(sourceLevelAchievementModel, null, { patch: true, type: 'PUT' })
+            noty({ timeout: 2000, text: 'Updated main achievement to unlock first practice level', type: 'info', layout: 'top' })
+          } catch (error) {
+            noty({ timeout: 8000, text: `Error updating main achievement: ${error.responseText || error.message}`, type: 'error', layout: 'top' })
+          }
+        }
+      }
+
+      // Update the campaign with practice levels
+      await this.updateCampaignWithPracticeLevels(savedPracticeLevels)
+    }
+
+    async updateCampaignWithPracticeLevels (practiceLevels) {
+      try {
+        const campaignId = '65c56663d2ca2055e65676af'
+        const sourceLevelOriginal = this.level.get('original')
+        const updatedCampaign = await this.insertPracticeLevelsIntoCampaign(campaignId, sourceLevelOriginal, practiceLevels)
+        console.log('Updated campaign', updatedCampaign)
+        noty({ timeout: 2000, text: 'Updated campaign with practice levels', type: 'success', layout: 'top' })
+      } catch (error) {
+        noty({ timeout: 8000, text: `Error updating campaign: ${error.message}`, type: 'error', layout: 'top' })
+        console.error(error)
+      }
+    }
+
+    async insertPracticeLevelsIntoCampaign (campaignId, sourceLevelOriginal, practiceLevels) {
+      try {
+        // Fetch the campaign
+        const campaignAttrs = await fetchJson(`/db/campaign/${campaignId}`)
+        if (!campaignAttrs) {
+          throw new Error('Campaign not found')
+        }
+
+        const campaign = new Campaign({ _id: campaignId })
+        campaign.set(campaignAttrs)
+
+        // Put the new practice levels in it, after the source level
+        const levels = campaign.get('levels') || {}
+        const newLevels = {}
+        let levelIndex = 0
+        for (const [levelOriginal, levelData] of Object.entries(levels)) {
+          newLevels[levelOriginal] = levelData
+          if (levelOriginal === sourceLevelOriginal) {
+            let practiceLevelIndex = 0
+            for (const practiceLevel of practiceLevels) {
+              const campaignPracticeLevel = _.pick(practiceLevel.attributes, Campaign.denormalizedLevelProperties)
+              // Just put it on the bottom, we don't really use the position except in campagin editor
+              // x, y, are % of width, height of the campaign map
+              campaignPracticeLevel.position = { x: levelIndex / _.size(levels), y: practiceLevelIndex }
+              newLevels[practiceLevel.get('original')] = campaignPracticeLevel
+              ++practiceLevelIndex
             }
           }
-          this.removeSubView(subview)
+          ++levelIndex
         }
-        this.render()
-        this.previouslyLoadedSubviewData.addThangsView?.didReappear()
-      })
+        campaign.set('levels', newLevels)
+
+        try {
+          await saveModel(campaign, { levels: newLevels }, { patch: true, type: 'PUT' })
+          noty({ timeout: 2000, text: 'Updated campaign to include new practice levels', type: 'info', layout: 'top' })
+        } catch (error) {
+          noty({ timeout: 8000, text: `Error updating campaign: ${error.responseText || error.message}`, type: 'error', layout: 'top' })
+        }
+
+        return campaign
+      } catch (error) {
+        console.error('Error inserting practice levels into campaign:', error)
+        throw error
+      }
     }
 
     onPlayLevelTeamSelect (e) {
@@ -529,31 +731,12 @@ module.exports = (LevelEditView = (function () {
       }
     }
 
-    getLevelCompletionRate () {
+    async getLevelCompletionRate () {
       if (!me.isAdmin()) { return }
-      const startDay = utils.getUTCDay(-14)
-      const startDayDashed = `${startDay.slice(0, 4)}-${startDay.slice(4, 6)}-${startDay.slice(6, 8)}`
-      const endDay = utils.getUTCDay(-1)
-      const endDayDashed = `${endDay.slice(0, 4)}-${endDay.slice(4, 6)}-${endDay.slice(6, 8)}`
-      const success = data => {
-        if (this.destroyed) { return }
-        let started = 0
-        let finished = 0
-        for (const day of Array.from(data)) {
-          started += day.started != null ? day.started : 0
-          finished += day.finished != null ? day.finished : 0
-        }
-        const rate = finished / started
-        const rateDisplay = (rate * 100).toFixed(1) + '%'
-        return this.$('#completion-rate').text(rateDisplay)
-      }
-      const request = this.supermodel.addRequestResource('level_completions', {
-        url: '/db/analytics_perday/-/level_completions',
-        data: { startDay, endDay, slug: this.level.get('slug') },
-        method: 'POST',
-        success
-      }, 0)
-      return request.load()
+      this.levelStats = await fetchLevelStats(this.level.get('original'))
+      const rateDisplay = (this.levelStats.completionRate * 100).toFixed(1) + '%'
+      this.$('#completion-rate').text(rateDisplay).removeClass('hide')
+      this.$('#completion-time').text(this.levelStats.playtime.p50 + 's').attr('title', JSON.stringify(this.levelStats.playtime)).removeClass('hide')
     }
   }
   LevelEditView.initClass()
@@ -569,4 +752,14 @@ function __guardMethod__ (obj, methodName, transform) {
   } else {
     return undefined
   }
+}
+
+function saveModel (model, attributes, options = {}) {
+  return new Promise((resolve, reject) => {
+    model.save(attributes, {
+      ...options,
+      success: (model, response) => resolve(response),
+      error: (model, response) => reject(response)
+    })
+  })
 }

@@ -1,8 +1,8 @@
 <script>
-  /** Given a class id, generates and populates the stats for the class component */
+/** Given a class id, generates and populates the stats for the class component */
 import { mapGetters } from 'vuex'
 import ClassComponent from '../ClassComponent'
-import { allCourseIDs, i18n } from 'core/utils'
+import { allCourseIDs, courseAcronyms, i18n } from 'core/utils'
 
 export default {
   components: {
@@ -106,12 +106,15 @@ export default {
         .filter((course) => me.hasCampaignAccess(course))
         .filter((course) => !me.isCodeNinja() || !selectedCodeNinjasCampCourses || selectedCodeNinjasCampCourses.includes(course._id))
         .map((course) => {
-          // Splits off the "Chapter 1" part of the name
-          // Expects the course name to have 'Chapter <int>:' structure.
           const splitName = course.name.split(':')
           let name = i18n(course, 'name')
           if (splitName.length > 1) {
             name = splitName[0]
+          }
+
+          const translateKey = `teacher.${courseAcronyms[course._id]}_short`
+          if ($.i18n.exists(translateKey)) {
+            name = $.i18n.t(translateKey)
           }
 
           const result = {
