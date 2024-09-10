@@ -99,6 +99,7 @@ class CampaignView extends RootView {
       'click .level': 'onClickLevel',
       'dblclick .level': 'onDoubleClickLevel',
       'click .level-info-container .start-level': 'onClickStartLevel',
+      'click .level-info-container .home-version button': 'onClickStartLevel',
       'click .level-info-container .view-solutions': 'onClickViewSolutions',
       'click .level-info-container .course-version button': 'onClickCourseVersion',
       'click #volume-button': 'onToggleVolume',
@@ -687,7 +688,7 @@ class CampaignView extends RootView {
     if (me.freeOnly()) {
       context.levels = _.reject(context.levels, level => {
         if ((['course', 'course-ladder'].includes(level.type)) && me.isStudent() && !this.courseInstance) { return true } // Too much hassle to get Wakka Maul working for CS1 with no classroom
-        return level.requiresSubscription
+        return level.requiresSubscription && !me.isStudent()
       })
     }
     if (features.brainPop) {
@@ -750,7 +751,7 @@ class CampaignView extends RootView {
           if ((me.level() < 12) && (campaign.get('slug') === 'dungeon') && !this.editorMode) {
             levels = levels.filter(level => level.slug !== 'signs-and-portents')
           }
-          if (me.freeOnly()) {
+          if (me.freeOnly() && !me.isStudent()) {
             levels = levels.filter(level => !level.requiresSubscription)
           }
           const count = this.countLevels(levels)
@@ -1413,7 +1414,7 @@ class CampaignView extends RootView {
   }
 
   onClickStartLevel (e) {
-    const levelElement = $(e.target).closest('.level-info-container')
+    const levelElement = $(e.target).closest('.btn')
     const levelSlug = levelElement.data('level-slug')
     const levelOriginal = levelElement.data('level-original')
     const levelPath = levelElement.data('level-path')
@@ -1424,7 +1425,11 @@ class CampaignView extends RootView {
     if (new Date(me.get('dateCreated')) < new Date('2021-09-21')) {
       defaultAccess = 'all'
     }
-    let access = me.getExperimentValue('home-content', defaultAccess)
+    let access
+    if (this.terrain === 'junior') {
+      access = 'all' // CodeCombat Junior level access is managed the old way, with level.requiresSubscription, no hardcoded overrides
+    }
+    access = access || me.getExperimentValue('home-content', defaultAccess)
     if (me.showChinaResourceInfo() || (me.get('country') === 'japan')) {
       access = 'short'
     }
@@ -2068,6 +2073,10 @@ class CampaignView extends RootView {
 
     if (['level', 'xp'].includes(what)) {
       return me.showGemsAndXpInClassroom() || !isStudentOrTeacher
+    }
+
+    if (['leaderboard'].includes(what) && this.terrain === 'junior') {
+      return false
     }
 
     if (['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements'].includes(what)) {
