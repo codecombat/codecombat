@@ -34,10 +34,6 @@ export default {
       },
       required: false
     },
-    language: {
-      type: String,
-      default: 'javascript'
-    }
   },
   data () {
     return {
@@ -96,6 +92,15 @@ export default {
 
     courseRegex () {
       return new RegExp(`^${this.getCurrentCourse?._id}:`)
+    }
+  },
+  watch: {
+    getSelectedLanguage () {
+      console.log('getSelectedLanguage changed')
+      for (const slug in this.solutionCodeByLevel) {
+        this.solutionCodeByLevel[slug] = getSolutionCode(this.getModuleInfo[this.moduleNum].find(l => l.slug === slug), { lang: this.getSelectedLanguage }) || ''
+        this.sampleCodeByLevel[slug] = getSampleCode(this.getModuleInfo[this.moduleNum].find(l => l.slug === slug), { lang: this.getSelectedLanguage }) || ''
+      }
     }
   },
 
@@ -208,7 +213,7 @@ export default {
         <code-diff
           v-if="showCodeLevelSlugs.includes(slug)"
           :key="slug"
-          :language="language"
+          :language="getSelectedLanguage"
           :code-right="solutionCodeByLevel[slug]"
           :code-left="sampleCodeByLevel[slug]"
           @click.native="onClickedCodeDiff"
