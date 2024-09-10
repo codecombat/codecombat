@@ -1380,7 +1380,7 @@ module.exports = {
       unsubscribing: '取消訂閱中…',
       subscribe_prepaid: '點擊訂閱來使用預付代碼',
       using_prepaid: '使用預付費代碼進行每月訂閱',
-      feature_level_access: '存取多達500+個關卡',
+      feature_level_access: '存取多達600+個關卡',
       feature_heroes: '[AI_TRANSLATION]解鎖專屬英雄和寵物',
       feature_learn: '[AI_TRANSLATION]學習製作遊戲和網站\n',
       feature_languages: '[AI_TRANSLATION]獲取所有支持的語言',

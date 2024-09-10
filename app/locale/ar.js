@@ -1380,7 +1380,7 @@ module.exports = {
       unsubscribing: '[AI_TRANSLATION]إلغاء الاشتراك',
       subscribe_prepaid: '[AI_TRANSLATION]اضغط على Subscribe لاستخدام كود مسبق الدفع',
       using_prepaid: '[AI_TRANSLATION]استخدام كود مسبق الدفع للاشتراك الشهري',
-      feature_level_access: '[AI_TRANSLATION]الوصول إلى 500+ مستوى متاح',
+      feature_level_access: '[AI_TRANSLATION]الوصول إلى 600+ مستوى متاح',
       feature_heroes: '[AI_TRANSLATION]افتح الأبطال والحيوانات الأليفة الحصرية',
       feature_learn: '[AI_TRANSLATION]تعلم كيفية صنع الألعاب والمواقع',
       feature_languages: '[AI_TRANSLATION]الحصول على جميع اللغات المدعومة\n',

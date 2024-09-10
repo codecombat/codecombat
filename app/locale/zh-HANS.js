@@ -1380,7 +1380,7 @@ module.exports = {
       unsubscribing: '取消订阅中',
       subscribe_prepaid: '点击订阅来使用预付费代码',
       using_prepaid: '使用预付费代码进行每月订阅',
-      feature_level_access: '开放可达500+的更多关卡',
+      feature_level_access: '开放可达600+的更多关卡',
       feature_heroes: '解锁独家英雄和宠物角色',
       feature_learn: '学习游戏和网页项目实践',
       feature_languages: '畅学多种主流语言，可随时切换',
