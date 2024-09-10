@@ -107,7 +107,7 @@ module.exports = (HeroVictoryModal = (function () {
       if (this.level.get('product', true) === 'codecombat-junior' && this.level.get('campaign')) {
         this.nextLevel = new Level()
         const practiceThresholdSeconds = (this.level.get('practiceThresholdMinutes') || 60) * 60
-        const includePractice = (this.session.get('playtime') || 0) > practiceThresholdSeconds
+        const includePractice = (this.session.get('playtime') || 0) > practiceThresholdSeconds && me.isPremium()
         api.levels.fetchNextForCampaign({
           campaignSlug: this.level.get('campaign'),
           levelOriginal: this.level.get('original'),
