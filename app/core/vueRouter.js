@@ -49,16 +49,9 @@ export default function getVueRouter () {
         {
           path: '/parents',
           props: (route) => ({ showPremium: true, type: route.query.type }),
-          ...(
-            me.getParentsPageExperimentValue() === 'control'
-              ? {
-                  component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
-                }
-              : {
-                  component: () => import(/* webpackChunkName: "ParentsViewV2" */ 'app/views/landing-pages/parents-v2/PageParents'),
-                  meta: { theme: 'teal' }
-                }
-          )
+          component: () => import(/* webpackChunkName: "ParentsView" */ `app/views/landing-pages/parents${me.getParentsPageExperimentValue() === 'control' ? '' : '-v2'}/PageParents`),
+          meta: { theme: 'teal' }
+
         },
         {
           path: '/codequest',
@@ -316,15 +309,7 @@ export default function getVueRouter () {
         },
         {
           path: '/roblox',
-          ...(
-            me.getRobloxPageExperimentValue() === 'control'
-              ? {
-                  component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox'),
-                }
-              : {
-                  component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/NewPageRoblox'),
-                }
-          ),
+          component: () => import(/* webpackChunkName: "RobloxView" */ `app/views/landing-pages/roblox/${me.getRobloxPageExperimentValue() === 'beta' ? 'New' : ''}PageRoblox`),
           meta: { theme: 'teal' }
         },
         {
@@ -420,20 +405,16 @@ export default function getVueRouter () {
           name: 'StandardsPage',
           component: () => import(/* webpackChunkName: "standardsPage" */'app/views/standards/PageStandards')
         },
-        ...(
-          me.getHomePageExperimentValue() === 'beta'
-            ? [{
-                path: '/home',
-                name: 'HomeBeta1',
-                component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
-              },
-              {
-                path: '/',
-                name: 'HomeBeta2',
-                component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
-              }]
-            : []
-        ),
+        {
+          path: '/home',
+          name: 'HomeBeta1',
+          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+        },
+        {
+          path: '/',
+          name: 'HomeBeta2',
+          component: () => import(/* webpackChunkName: "homeBeta2" */'app/views/home/PageHome')
+        },
         {
           path: '/admin/low-usage-users',
           name: 'LowUsageUsersAdmin',

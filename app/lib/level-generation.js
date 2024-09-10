@@ -777,6 +777,10 @@ generateProperty(null, async function (level, parameters) {
       const starterCodeLinesSrc = starterCodeSource.trim().split('\n')
       const numStarterCodeLines = starterCodeSource.length > 0 ? starterCodeLinesSrc.length : 0
       const starterCodeLinesNew = solutionCode.split('\n').slice(0, numStarterCodeLines)
+      if (_.last(solutionCode.split('\n')) === '}' && numStarterCodeLines) {
+        // Simple way to close loop. TODO: make this general to various loop closures, not just the most basic case.
+        starterCodeLinesNew[starterCodeLinesNew.length - 1] = '}'
+      }
       // Adjust any loop counts, in case the difference in starter code was in changing those. Also preserve empty loop lines.
       for (let lineIndex = 0; lineIndex < numStarterCodeLines; ++lineIndex) {
         const lineSrc = starterCodeLinesSrc[lineIndex]
