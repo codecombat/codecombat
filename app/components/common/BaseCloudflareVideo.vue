@@ -77,6 +77,8 @@ export default {
         params.muted = true
       }
 
+      params.controls = Boolean(this.controls)
+
       params.preload = this.preload
 
       if (this.backgroundColor) {
