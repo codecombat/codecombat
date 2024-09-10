@@ -1,6 +1,6 @@
 <script>
 import QuestionmarkView from 'app/views/ai-league/QuestionmarkView.vue'
-import ClassroomsApi from 'app/core/api/classrooms.js'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -34,24 +34,17 @@ export default {
       default: () => false
     }
   },
-  data () {
-    return {
-      ozClassrooms: []
-    }
-  },
   computed: {
+    ...mapGetters({
+      activeCls: 'teacherDashboard/getActiveClassrooms',
+      archivedCls: 'teacherDashboard/getArchivedClassrooms',
+      sharedCls: 'teacherDashboard/getSharedClassrooms'
+    }),
     clansSanitized () {
-      return this.clans.filter(v => v !== undefined).filter(v => !this.ozClassroomsSlugs.includes(v.slug))
+      return this.clans.filter(v => v !== undefined).filter(v => !v.slug.startsWith('autoclan-classroom-') || this.cocoClassroomsSlugs.includes(v.slug))
     },
-    ozClassroomsSlugs () {
-      return this.ozClassrooms.map(c => `autoclan-classroom-${c._id}`)
-    }
-  },
-  async created () {
-    try {
-      this.ozClassrooms = (await ClassroomsApi.fetchByOwner(me.get('_id'), { callOz: true, project: '_id' }))
-    } catch (e) {
-      console.error('Error fetching oz classrooms', e)
+    cocoClassroomsSlugs () {
+      return [...this.activeCls, ...this.archivedCls, ...this.sharedCls].map(c => `autoclan-classroom-${c._id}`)
     }
   }
 }
