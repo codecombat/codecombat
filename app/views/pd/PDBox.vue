@@ -1,94 +1,98 @@
 <template>
-  <div class="pd-box">
-    <div class="box-header">
-      <h2 class="text-h2">
-        {{ formattedTitle }}
-        <span
-          v-for="logoBadge in logoBadges"
-          :key="logoBadge"
-          class="badge-container"
-        >
-          <img
+  <content-box class="pd-box">
+    <template #text>
+      <div class="box-header">
+        <h2 class="text-h2">
+          {{ formattedTitle }}
+          <span
+            v-for="logoBadge in logoBadges"
+            :key="logoBadge"
+            class="badge-container"
+          >
+            <img
 
-            :src="logoBadge"
-            class="logo-badge"
+              :src="logoBadge"
+              class="logo-badge"
+            >
+          </span>
+        </h2>
+      </div>
+      <div class="row">
+        <div class="col col-lg-7 col-md-12">
+          <p class="text-p">
+            {{ blurb }}
+          </p>
+          <ul class="golden-bullets">
+            <li
+              v-for="item, key in list"
+              :key="key"
+            >
+              {{ item }}
+            </li>
+          </ul>
+        </div>
+        <div class="col col-lg-5 col-md-12">
+          <div
+            class="bordered-image"
+            :style="image ? `background-image:url(${image})` : ''"
+            alt="placeholder"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-lg-7 col-md-12 buttons-container">
+          <ModalGetLicenses
+            :show-modal-initially="false"
+            :subtitle="modal.subtitle"
+            :email-message="modal.emailMessage"
           >
-        </span>
-      </h2>
-    </div>
-    <div class="row">
-      <div class="col col-lg-7 col-md-12">
-        <p class="text-p">
-          {{ blurb }}
-        </p>
-        <ul class="golden-bullets">
-          <li
-            v-for="item, key in list"
+            <template #opener="{ openModal }">
+              <CTAButton
+                @clickedCTA="openModal"
+              >
+                {{ $t('pd_page.get_full_course') }}
+              </CTAButton>
+            </template>
+          </ModalGetLicenses>
+          <CTAButton
+            v-for="button, key in buttons"
             :key="key"
+            :href="button.href"
+            :target="button.target || '_blank'"
           >
-            {{ item }}
-          </li>
-        </ul>
+            {{ button.text }}
+          </CTAButton>
+        </div>
+        <div class="col col-lg-5 col-md-12 buttons-container right">
+          <IframeModal :src="sampleLessonSrc">
+            <template #opener="{ openModal }">
+              <button
+                class="btn btn-md btn-teal btn-rounded"
+                @click="openModal"
+              >
+                {{ $t('pd_page.try_sample_lesson') }}
+              </button>
+            </template>
+          </IframeModal>
+        </div>
       </div>
-      <div class="col col-lg-5 col-md-12">
-        <div
-          class="bordered-image"
-          :style="image ? `background-image:url(${image})` : ''"
-          alt="placeholder"
-        />
-      </div>
-    </div>
-    <div class="row">
-      <div class="col col-lg-7 col-md-12 buttons-container">
-        <ModalGetLicenses
-          :show-modal-initially="false"
-          :subtitle="modal.subtitle"
-          :email-message="modal.emailMessage"
-        >
-          <template #opener="{ openModal }">
-            <CTAButton
-              @clickedCTA="openModal"
-            >
-              {{ $t('pd_page.get_full_course') }}
-            </CTAButton>
-          </template>
-        </ModalGetLicenses>
-        <CTAButton
-          v-for="button, key in buttons"
-          :key="key"
-          :href="button.href"
-          :target="button.target || '_blank'"
-        >
-          {{ button.text }}
-        </CTAButton>
-      </div>
-      <div class="col col-lg-5 col-md-12 buttons-container right">
-        <IframeModal :src="sampleLessonSrc">
-          <template #opener="{ openModal }">
-            <button
-              class="btn btn-md btn-teal btn-rounded"
-              @click="openModal"
-            >
-              {{ $t('pd_page.try_sample_lesson') }}
-            </button>
-          </template>
-        </IframeModal>
-      </div>
-    </div>
-  </div>
+    </template>
+  </content-box>
 </template>
 
 <script>
 import ModalGetLicenses from 'app/components/common/ModalGetLicenses'
 import IframeModal from './IframeModal.vue'
 import CTAButton from 'app/components/common/buttons/CTAButton'
+import ContentBox from 'app/components/common/elements/ContentBox'
 
 export default {
   name: 'PDBox',
   components: {
     ModalGetLicenses,
     IframeModal,
-    CTAButton
+    CTAButton,
+    ContentBox
   },
   props: {
     title: {
@@ -155,9 +159,11 @@ export default {
 
   .row {
     margin: 10px auto;
+    width: 100%;
   }
 
   .box-header {
+    width: 100%;
     .text-h2 {
       display: flex;
       color: black;
@@ -170,11 +176,6 @@ export default {
       margin: 10px auto 30px;
     }
   }
-
-  border-radius: 14px;
-  box-shadow: 3px 0px 8px 0px rgba(0, 0, 0, 0.15),
-  -1px 0px 1px 0px rgba(0, 0, 0, 0.06);
-  padding: 20px;
 
   .text-p {
     color: $grey-6-dark;
@@ -247,5 +248,11 @@ export default {
   height: 70px;
   max-width: 140px;
   object-fit: contain;
+}
+
+::v-deep {
+  .CTA__button {
+    font-weight: bold;
+  }
 }
 </style>
