@@ -133,7 +133,6 @@ class CampaignView extends RootView {
     }
 
     this.prototype.activeArenas = utils.activeArenas
-    this.DEEP_API_LIST = constants.DEEP_API_LIST
   }
 
   constructor (options, terrain) {
@@ -157,6 +156,7 @@ class CampaignView extends RootView {
     this.levelDifficultyMap = {}
     this.levelScoreMap = {}
     this.courseLevelsLoaded = false
+    this.DEEP_API_LIST = constants.DEEP_API_LIST
 
     if (this.terrain === 'hoc-2018') {
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
