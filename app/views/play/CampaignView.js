@@ -133,6 +133,7 @@ class CampaignView extends RootView {
     }
 
     this.prototype.activeArenas = utils.activeArenas
+    this.DEEP_API_LIST = constants.DEEP_API_LIST
   }
 
   constructor (options, terrain) {
