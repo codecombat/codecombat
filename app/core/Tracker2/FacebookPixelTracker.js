@@ -104,6 +104,7 @@ export default class FacebookPixelTracker extends BaseTracker {
         delete result.email
         delete result.name
         delete result.emails
+        delete result.emailOrUsername
       }
       if (properties.category) result.content_category = properties.category
       if (properties.label) result.content_name = properties.label
