@@ -1727,7 +1727,6 @@ module.exports = {
       jobs_benefit_4: '无限制假期',
       jobs_benefit_5: '专业开发以及继续教育的支持 - 免费书籍/游戏！',
       jobs_benefit_6: '医疗 (金), 牙科, 视力，交通费',
-      //    jobs_benefit_7: "",
       jobs_benefit_9: '10年公司期权',
       jobs_benefit_10: '产假：10周工资及未来6周55%工资',
       jobs_benefit_11: '陪产假: 10周工资',

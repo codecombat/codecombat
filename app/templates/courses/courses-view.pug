@@ -269,7 +269,7 @@ mixin coco_main_content()
     else
       .student-profile-area
         .row
-          .current-hero.col-md-3.text-center
+          .current-hero.col-md-2.text-center
             h2
               if view.hero.getHeroShortName()
                 span(data-i18n='resources.hero')
@@ -289,7 +289,7 @@ mixin coco_main_content()
             .rtl-allowed
               a.change-hero-btn(data-i18n="play.change_hero")
 
-          div(class='student-stats col-md-6' + (view.shouldEmphasizeAILeague() ? '' : ' deemphasize-ai-league'))
+          div(class='student-stats col-md-5' + (view.shouldEmphasizeAILeague() ? '' : ' deemphasize-ai-league'))
             h2
               span(data-i18n='general.player')
               span= ': '
@@ -474,6 +474,16 @@ mixin coco_main_content()
                   h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
                 .play-text-container
                   .overlay-text.play-text(data-i18n="common.play")
+
+      if view.tournaments && view.tournaments.length
+        .custom-tournaments
+          br
+          h3.custom-tournaments-header(data-i18n="courses.custom_tournaments")
+          for tournament in view.reversedTournaments.slice(0, 2)
+            +tournamentTileMixin(tournament)
+
+        if view.tournaments.length > 2
+          a.more-tournaments(data-i18n="general.more")
       +classrooms_content()
 
 mixin ozar_main_content()
