@@ -1422,51 +1422,46 @@ class CampaignView extends RootView {
     const levelName = levelElement.data('level-name')
     const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
 
-      let requiresSubscription
-      if (me.showChinaResourceInfo() && !me.showChinaHomeVersion()) {
-        let defaultAccess = ['short', 'china-classroom']
-        if (me.get('hourOfCode') || this.campaign?.get('type') === 'hoc' || this.campaign?.get('slug') === 'intro') {
-          defaultAccess = defaultAccess.concat(['medium', 'long'])
-        }
-        const freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
-        requiresSubscription = level.requiresSubscription || (!(freeAccessLevels.includes(level.slug)))
-      } else {
-        let defaultAccess = (me.get('hourOfCode') || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') || ((this.campaign != null ? this.campaign.get('slug') : undefined) === 'intro')) ? 'long' : 'short'
-        if (new Date(me.get('dateCreated')) < new Date('2021-09-21') && (!me.showChinaHomeVersion())) {
-          defaultAccess = 'all'
-        }
-        let access = me.getExperimentValue('home-content', defaultAccess)
-        if (me.showChinaResourceInfo() || (me.get('country') === 'japan')) {
-          access = 'short'
-        }
-        const freeAccessLevels = ((() => {
-          const result = []
-          for (const fal of Array.from(utils.freeAccessLevels)) {
-            if (_.any([
-              fal.access === 'short',
-              (fal.access === 'medium') && ['medium', 'long', 'extended'].includes(access),
-              (fal.access === 'long') && ['long', 'extended'].includes(access),
-              (fal.access === 'extended') && (access === 'extended')
-            ])) {
-              result.push(fal.slug)
-            }
-          }
-          return result
-        })())
-        requiresSubscription = level.requiresSubscription || ((access !== 'all') && !Array.from(freeAccessLevels).includes(level.slug))
+    let requiresSubscription
+    if (me.showChinaResourceInfo() && !me.showChinaHomeVersion()) {
+      let defaultAccess = ['short', 'china-classroom']
+      if (me.get('hourOfCode') || this.campaign?.get('type') === 'hoc' || this.campaign?.get('slug') === 'intro') {
+        defaultAccess = defaultAccess.concat(['medium', 'long'])
       }
-      const canPlayAnyway = _.any([
-        !this.requiresSubscription,
-        // level.adventurer  # Disable adventurer stuff for now
-        this.levelStatusMap[level.slug],
-        this.campaign.get('type') === 'hoc',
-        (level.releasePhase === 'beta') && (me.getM7ExperimentValue() === 'beta')
-      ])
-      if (requiresSubscription && !canPlayAnyway) {
-        return this.promptForSubscription(levelSlug, 'map level clicked')
-      } else {
-        this.startLevel(levelElement)
-        return (window.tracker != null ? window.tracker.trackEvent('Clicked Start Level', { category: 'World Map', levelID: levelSlug }) : undefined)
+      const freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
+      requiresSubscription = level.requiresSubscription || (!(freeAccessLevels.includes(level.slug)))
+    } else {
+      let defaultAccess = (me.get('hourOfCode') || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') || ((this.campaign != null ? this.campaign.get('slug') : undefined) === 'intro')) ? 'long' : 'short'
+      if (new Date(me.get('dateCreated')) < new Date('2021-09-21') && (!me.showChinaHomeVersion())) {
+        defaultAccess = 'all'
+      }
+      let access = me.getExperimentValue('home-content', defaultAccess)
+      if (me.showChinaResourceInfo() || (me.get('country') === 'japan')) {
+        access = 'short'
+      }
+      const freeAccessLevels = utils.freeAccessLevels
+        .filter(fal => {
+          if (fal.access === 'short') return true
+          if (fal.access === 'medium' && ['medium', 'long', 'extended'].includes(access)) return true
+          if (fal.access === 'long' && ['long', 'extended'].includes(access)) return true
+          if (fal.access === 'extended' && access === 'extended') return true
+          return false
+        })
+        .map(fal => fal.slug)
+      requiresSubscription = level.requiresSubscription || ((access !== 'all') && !freeAccessLevels.includes(level.slug))
+    }
+    const canPlayAnyway = [
+      !this.requiresSubscription,
+      // level.adventurer  # Disable adventurer stuff for now
+      this.levelStatusMap[level.slug],
+      this.campaign.get('type') === 'hoc',
+      (level.releasePhase === 'beta') && (me.getM7ExperimentValue() === 'beta')
+    ].some(Boolean)
+    if (requiresSubscription && !canPlayAnyway) {
+      return this.promptForSubscription(levelSlug, 'map level clicked')
+    } else {
+      this.startLevel({ levelSlug, levelOriginal, levelPath, levelName })
+      window.tracker?.trackEvent('Clicked Start Level', { category: 'World Map', levelID: levelSlug })
     }
   }
 
