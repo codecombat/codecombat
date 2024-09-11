@@ -62,7 +62,7 @@ const getAnonymizationStatus = function (league, supermodel) {
 const anonymizingUser = function (user) {
   const id = (user != null ? user.id : undefined) != null ? (user != null ? user.id : undefined) : user
   const hashString = str => // hash * 33 + c
-        (__range__(0, str.length, false).map((i) => str.charCodeAt(i))).reduce((hash, char) => ((hash << 5) + hash) + char, 5381)
+    (__range__(0, str.length, false).map((i) => str.charCodeAt(i))).reduce((hash, char) => ((hash << 5) + hash) + char, 5381)
   return $.i18n.t('general.player') + ' ' + (Math.abs(hashString(id)) % 10000)
 }
 
@@ -216,10 +216,10 @@ const countryCodeToName = function (code) {
 const countryNameToCode = country => __guard__(_.find(countries, { country: (country != null ? country.toLowerCase() : undefined) }), x1 => x1.countryCode)
 
 var titleize = s => // Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
-    _.string.titleize(_.string.humanize(s)).replace(
-      / (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig,
-      word => word.toLowerCase()
-    )
+  _.string.titleize(_.string.humanize(s)).replace(
+    / (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig,
+    word => word.toLowerCase()
+  )
 
 if (isCodeCombat) {
   campaignIDs = {
@@ -781,7 +781,7 @@ const registerHocProgressModalCheck = function () {
       return clearInterval(hocProgressModalCheck)
     }
   }
-                                             , 60000) // every 1 min
+  , 60000) // every 1 min
 }
 
 const petThangIDs = [
@@ -1080,7 +1080,7 @@ if (typeof document !== 'undefined' && document !== null ? document.createElemen
 const userAgent = () => window.navigator.userAgent
 
 const getDocumentSearchString = () => // moved to a separate function so it can be mocked for testing
-      document.location.search
+  document.location.search
 
 const getQueryVariables = function () {
   const query = module.exports.getDocumentSearchString().substring(1) // use module.exports so spy is used in testing
@@ -1385,7 +1385,7 @@ const usStateCodes =
           HI: 'Hawaii',
           ID: 'Idaho',
           IL: 'Illinois',
-            IN: 'Indiana',
+          IN: 'Indiana',
           IA: 'Iowa',
           KS: 'Kansas',
           KY: 'Kentucky',
@@ -1474,9 +1474,9 @@ const isValidEmail = email => emailRegex.test(email != null ? email.trim().toLow
 const formatStudentLicenseStatusDate = function (status, date) {
   const string = (() => {
     switch (status) {
-    case 'not-enrolled': return $.i18n.t('teacher.status_not_enrolled')
-    case 'enrolled': if (date) { return $.i18n.t('teacher.status_enrolled') } else { return '-' }
-    case 'expired': return $.i18n.t('teacher.status_expired')
+      case 'not-enrolled': return $.i18n.t('teacher.status_not_enrolled')
+      case 'enrolled': if (date) { return $.i18n.t('teacher.status_enrolled') } else { return '-' }
+      case 'expired': return $.i18n.t('teacher.status_expired')
     }
   })()
   return string.replace('{{date}}', date || 'Never')
@@ -1540,9 +1540,9 @@ const videoLevels = {
 // Reference Library: https://github.com/rpkilby/vue-nonreactive
 const vueNonReactiveInstall = function (Vue) {
   const Observer = (new Vue())
-        .$data
-        .__ob__
-        .constructor
+    .$data
+    .__ob__
+    .constructor
 
   return Vue.nonreactive = function (value) {
     // Vue sees the noop Observer and stops traversing the structure.
@@ -2044,32 +2044,41 @@ const isMobile = () => {
   return mobileRELong.test(ua) || mobileREShort.test(ua.substr(0, 4))
 }
 
-module.exports.getCodeLanguages = () => ({
-  python: {
-    id: 'python',
-    name: `Python (${$.i18n.t('choose_hero.default')})`
-  },
-  javascript: {
-    id: 'javascript',
-    name: 'JavaScript'
-  },
-  coffeescript: {
-    id: 'coffeescript',
-    name: 'CoffeeScript'
-  },
-  lua: {
-    id: 'lua',
-    name: 'Lua'
-  },
-  cpp: {
-    id: 'cpp',
-    name: 'C++'
-  },
-  java: {
-    id: 'java',
-    name: `Java (${$.i18n.t('choose_hero.experimental')})`
+module.exports.getCodeLanguages = () => {
+  const codeLanguages = {
+    python: {
+      id: 'python',
+      name: `Python (${$.i18n.t('choose_hero.default')})`
+    },
+    javascript: {
+      id: 'javascript',
+      name: 'JavaScript'
+    }
   }
-})
+  if (isCodeCombat) {
+    return {
+      ...codeLanguages,
+      coffeescript: {
+        id: 'coffeescript',
+        name: 'CoffeeScript'
+      },
+      lua: {
+        id: 'lua',
+        name: 'Lua'
+      },
+      cpp: {
+        id: 'cpp',
+        name: 'C++'
+      },
+      java: {
+        id: 'java',
+        name: `Java (${$.i18n.t('choose_hero.experimental')})`
+      }
+    }
+  } else {
+    return codeLanguages
+  }
+}
 
 module.exports.getCodeFormats = () => ({
   'text-code': {
