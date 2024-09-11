@@ -96,15 +96,17 @@ export default {
   },
   watch: {
     getSelectedLanguage () {
-      console.log('getSelectedLanguage changed')
       for (const slug in this.solutionCodeByLevel) {
-        this.solutionCodeByLevel[slug] = getSolutionCode(this.getModuleInfo[this.moduleNum].find(l => l.slug === slug), { lang: this.getSelectedLanguage }) || ''
-        this.sampleCodeByLevel[slug] = getSampleCode(this.getModuleInfo[this.moduleNum].find(l => l.slug === slug), { lang: this.getSelectedLanguage }) || ''
+        this.solutionCodeByLevel[slug] = getSolutionCode(this.findLevelBySlug(slug), { lang: this.getSelectedLanguage }) || ''
+        this.sampleCodeByLevel[slug] = getSampleCode(this.findLevelBySlug(slug), { lang: this.getSelectedLanguage }) || ''
       }
     }
   },
 
   methods: {
+    findLevelBySlug (slug) {
+      return this.getModuleInfo[this.moduleNum].find(l => l.slug === slug)
+    },
     findRelatedOriginalsByLevelNumber (levelNumber, levelNumberMap) {
       const regex = new RegExp(`^${levelNumber}[a-z]?$`)
       const courseRegex = this.courseRegex
