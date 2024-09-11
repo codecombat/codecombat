@@ -2056,7 +2056,8 @@ module.exports.getCodeLanguages = () => {
     }
   }
   if (isCodeCombat) {
-    return Object.assign({}, codeLanguages, {
+    return {
+      ...codeLanguages,
       coffeescript: {
         id: 'coffeescript',
         name: 'CoffeeScript'
@@ -2073,7 +2074,7 @@ module.exports.getCodeLanguages = () => {
         id: 'java',
         name: `Java (${$.i18n.t('choose_hero.experimental')})`
       }
-    })
+    }
   } else {
     return codeLanguages
   }
