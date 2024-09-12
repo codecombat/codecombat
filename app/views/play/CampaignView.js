@@ -155,8 +155,8 @@ class CampaignView extends RootView {
     this.levelPlayCountMap = {}
     this.levelDifficultyMap = {}
     this.levelScoreMap = {}
-    this.DEEP_API_LIST = constants.DEEP_API_LIST
     this.courseLevelsLoaded = false
+    this.DEEP_API_LIST = constants.DEEP_API_LIST
 
     if (this.terrain === 'hoc-2018') {
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
@@ -268,7 +268,7 @@ class CampaignView extends RootView {
       this.courseLevelsFake = {}
       this.courseInstanceID = utils.getQueryVariable('course-instance')
       this.courseInstance = new CourseInstance({ _id: this.courseInstanceID })
-      const jqxhr = this.courseInstance.fetch({ data: $.param({ time: +new Date() }) })
+      const jqxhr = this.courseInstance.fetch()
       this.supermodel.trackRequest(jqxhr)
       new Promise(jqxhr.then).then(() => {
         if (this.destroyed) return
@@ -1422,25 +1422,34 @@ class CampaignView extends RootView {
     const levelName = levelElement.data('level-name')
     const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
 
-    let defaultAccess = me.get('hourOfCode') || (this.campaign?.get('type') === 'hoc') || (this.campaign?.get('slug') === 'intro') ? 'long' : 'short'
-    if (new Date(me.get('dateCreated')) < new Date('2021-09-21')) {
-      defaultAccess = 'all'
+    let requiresSubscription
+    if (me.showChinaResourceInfo() && !me.showChinaHomeVersion()) {
+      let defaultAccess = ['short', 'china-classroom']
+      if (me.get('hourOfCode') || this.campaign?.get('type') === 'hoc' || this.campaign?.get('slug') === 'intro') {
+        defaultAccess = defaultAccess.concat(['medium', 'long'])
+      }
+      const freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
+      requiresSubscription = level.requiresSubscription || (!(freeAccessLevels.includes(level.slug)))
+    } else {
+      let defaultAccess = (me.get('hourOfCode') || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') || ((this.campaign != null ? this.campaign.get('slug') : undefined) === 'intro')) ? 'long' : 'short'
+      if (new Date(me.get('dateCreated')) < new Date('2021-09-21') && (!me.showChinaHomeVersion())) {
+        defaultAccess = 'all'
+      }
+      let access = me.getExperimentValue('home-content', defaultAccess)
+      if (me.showChinaResourceInfo() || (me.get('country') === 'japan')) {
+        access = 'short'
+      }
+      const freeAccessLevels = utils.freeAccessLevels
+        .filter(fal => {
+          if (fal.access === 'short') return true
+          if (fal.access === 'medium' && ['medium', 'long', 'extended'].includes(access)) return true
+          if (fal.access === 'long' && ['long', 'extended'].includes(access)) return true
+          if (fal.access === 'extended' && access === 'extended') return true
+          return false
+        })
+        .map(fal => fal.slug)
+      requiresSubscription = level.requiresSubscription || ((access !== 'all') && !freeAccessLevels.includes(level.slug))
     }
-    let access = me.getExperimentValue('home-content', defaultAccess)
-    if (me.showChinaResourceInfo() || (me.get('country') === 'japan')) {
-      access = 'short'
-    }
-    const freeAccessLevels = utils.freeAccessLevels
-      .filter(fal => {
-        if (fal.access === 'short') return true
-        if (fal.access === 'medium' && ['medium', 'long', 'extended'].includes(access)) return true
-        if (fal.access === 'long' && ['long', 'extended'].includes(access)) return true
-        if (fal.access === 'extended' && access === 'extended') return true
-        return false
-      })
-      .map(fal => fal.slug)
-
-    const requiresSubscription = level.requiresSubscription || ((access !== 'all') && !freeAccessLevels.includes(level.slug))
     const canPlayAnyway = [
       !this.requiresSubscription,
       // level.adventurer  # Disable adventurer stuff for now
@@ -1448,7 +1457,6 @@ class CampaignView extends RootView {
       this.campaign.get('type') === 'hoc',
       (level.releasePhase === 'beta') && (me.getM7ExperimentValue() === 'beta')
     ].some(Boolean)
-
     if (requiresSubscription && !canPlayAnyway) {
       return this.promptForSubscription(levelSlug, 'map level clicked')
     } else {
@@ -2124,7 +2132,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'hackstack') {
-      return me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary() && !me.showChinaResourceInfo()
+      return !me.showChinaResourceInfo() && me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary()
     }
 
     return true
