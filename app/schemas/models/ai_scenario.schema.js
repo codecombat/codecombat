@@ -66,7 +66,7 @@ _.extend(AIScenarioSchema.properties, {
   },
 })
 
-AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue', 'archived']
+AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']
 
 c.extendNamedProperties(AIScenarioSchema, 'ai_scenario')
 c.extendBasicProperties(AIScenarioSchema, 'ai_scenario')

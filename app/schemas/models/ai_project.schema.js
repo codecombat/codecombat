@@ -48,15 +48,7 @@ _.extend(AIProjectSchema.properties, {
   archived: { title: 'Archived', type: 'boolean' },
 })
 
-AIProjectSchema.required = [
-  'visibility',
-  'user',
-  'scenario',
-  'actionQueue',
-  'wrongChoices',
-  'isReadyToReview',
-  'archived',
-]
+AIProjectSchema.required = ['visibility', 'user', 'scenario', 'actionQueue']
 
 c.extendBasicProperties(AIProjectSchema, 'ai_project')
 c.extendPermissionsProperties(AIProjectSchema, 'ai_project')
