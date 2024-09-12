@@ -20,7 +20,7 @@ export default {
     },
 
     myClans (state) {
-      return (me.get('clans') || []).map(id => state.clans[id])
+      return (me.get('clans') || []).map(id => state.clans[id]).sort((a, b) => b._id.localeCompare(a._id))
     },
 
     clanByIdOrSlug (state) {
