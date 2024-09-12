@@ -3,6 +3,7 @@
     <a
       class="arena__info"
       :href="url"
+      target="_blank"
     >
       <img
         :src="arena.image"
@@ -174,7 +175,7 @@ export default {
       return description.slice(startPosition) || null
     },
     goTournament () {
-      return application.router.navigate(this.url, { trigger: true })
+      window.open(this.url, '_blank')
     },
     openCurriculum () {
       window.open(this.arenaCurriculum, '_blank')
