@@ -38,9 +38,11 @@ module.exports = (HomeView = (function () {
       this.onCarouselSlide = this.onCarouselSlide.bind(this)
       this.activateCarousels = this.activateCarousels.bind(this)
       this.renderedPaymentNoty = false
-      this.homeCN = {}
-      this.mandate = this.supermodel.loadModel(new Mandate()).model
-      this.listenTo(this.mandate, 'sync', this.getMandate)
+      if (me.showChinaResourceInfo()) {
+        this.homeCN = {}
+        this.mandate = this.supermodel.loadModel(new Mandate()).model
+        this.listenTo(this.mandate, 'sync', this.getMandate)
+      }
       this.getBanner()
     }
 
