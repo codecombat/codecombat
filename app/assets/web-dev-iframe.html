@@ -9,26 +9,31 @@
     <title>My CodeCombat Website</title>
 
     <script>
+    window.chinaUx = new URLSearchParams(window.location.search).get('chinaUx') === 'true'
     const conditionalScript1 = document.createElement('script')
     const conditionalScript2 = document.createElement('script')
-    if (features?.china) {
+    if (chinaUx) {
       conditionalScript1.src = 'https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.1/lodash.min.js'
       conditionalScript2.src = 'https://cdn.bootcdn.net/ajax/libs/jquery/2.2.4/jquery.min.js'
       conditionalScript2.integrity = 'sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44'
-      conditionalScript2.crossorigin = 'anonymous'
+      conditionalScript2.crossOrigin = 'anonymous'
     } else {
       conditionalScript1.src='https://cdn.jsdelivr.net/lodash/4.13.1/lodash.min.js'
       conditionalScript1.integrity='sha256-8SeyqJ7ZAZx8WnIgP/bgK6LGIjKjhojNPHSMV/fo29Y='
-      conditionalScript1.crossorigin='anonymous'
+      conditionalScript1.crossOrigin='anonymous'
       conditionalScript2.src='https://code.jquery.com/jquery-2.2.4.min.js'
       conditionalScript2.integrity='sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44='
-      conditionalScript2.crossorigin='anonymous'
+      conditionalScript2.crossOrigin='anonymous'
     }
     document.head.appendChild(conditionalScript1)
     document.head.appendChild(conditionalScript2)
+    conditionalScript2.onload = function() {
+      $.fn.isTransparent = function(attr){
+        return this.css(attr) === 'rgba(0, 0, 0, 0)' || this.css(attr) === 'transparent' || this.css(attr) === '';
+      }
+    }
     </script>
     <script src="/javascripts/web-dev-listener.js"></script>
-    
     <script src="/javascripts/app/vendor/aether-html.js"></script>
     <script>
       /* Import that font for demoing web-dev levels until @import ordering bug is fixed */
@@ -36,7 +41,7 @@
       const styleEl = document.createElement('style')
       styleEl.type = "text/css"
       let styleText = '';
-      if (new URLSearchParams(window.location.search).get('chinaUx') === 'true') {
+      if (chinaUx) {
         styleText = `@import 'https://fonts.loli.net/css?family=Holtwood+One+SC';`
       } else {
         styleText = `@import 'https://fonts.googleapis.com/css?family=Holtwood+One+SC';`
@@ -48,21 +53,32 @@
       transition: all 1s ease-in-out, box-shadow 1ms;
       }
     </style>
-    <script>
-      $.fn.isTransparent = function(attr){
-        return this.css(attr) === 'rgba(0, 0, 0, 0)' || this.css(attr) === 'transparent' || this.css(attr) === '';
-      }
+   <script>
+    const conditionalStyle1 = document.createElement('link')
+    const conditionalStyle2 = document.createElement('link')
+    const conditionalScript3 = document.createElement('script')
+    if (chinaUx) {
+      conditionalStyle1.href = 'https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css'
+      conditionalStyle2.href = 'https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap-theme.min.css'
+      conditionalScript3.src = 'https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js'
+    } else {
+      conditionalStyle1.href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'
+      conditionalStyle1.integrity='sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7'
+      conditionalStyle1.crossOrigin='anonymous'
+      conditionalStyle2.href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css'
+      conditionalStyle2.integrity='sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r'
+      conditionalStyle2.crossOrigin='anonymous'
+      conditionalStyle3.src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js'
+      conditionalScript3.integrity='sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS'
+      conditionalScript3.crossOrigin='anonymous'
+    }
+    conditionalStyle1.rel = 'stylesheet'
+    conditionalStyle2.rel = 'stylesheet'
+    document.head.appendChild(conditionalStyle1)
+    document.head.appendChild(conditionalStyle2)
+    document.head.appendChild(conditionalScript3)
     </script>
 
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-    
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    
     <!-- Extracted player/level styles and scripts -->
     <style for="level-styles">
     </style>
