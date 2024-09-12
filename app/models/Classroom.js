@@ -236,7 +236,7 @@ module.exports = (Classroom = (function () {
       const courseLevels = this.getLevels({ courseID, withoutLadderLevels: true, levelsCollection })
       const levelSessionMap = {}
       for (const session of Array.from(sessions)) { levelSessionMap[session.get('level').original] = session }
-      let currentIndex = -1
+      let currentIndex = 0
       let lastStarted = null
       let levelsTotal = 0
       let levelsLeft = 0
@@ -272,7 +272,8 @@ module.exports = (Classroom = (function () {
         levels.push({
           assessment: (left2 = level.get('assessment')) != null ? left2 : false,
           practice: (left3 = level.get('practice')) != null ? left3 : false,
-          complete
+          complete,
+          optional: this.isStudentOnOptionalLevel(me.id, courseID, level.get('original'))
         })
         if (!level.get('practice') && !level.get('assessment')) { levelsInCourse.add(level.get('original')) }
         userLevels[level.get('original')] = complete
