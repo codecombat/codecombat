@@ -12,7 +12,7 @@ const AIChatMessageSchema = c.object({
 })
 
 _.extend(AIChatMessageSchema.properties, {
-  actor: { title: 'Actor', type: 'string', enum: ['user', 'model', 'teacher', 'celebrate'] },
+  actor: { title: 'Actor', type: 'string', enum: ['user', 'model', 'teacher', 'celebrate', 'alert'] },
   parent: {
     title: 'Parent',
     type: ['object', 'string'],
