@@ -93,9 +93,9 @@ module.exports = (InventoryModal = (function () {
           '53e22aa153457600003e3ef5', // wooden shield
           '5744e3683af6bf590cd27371' // cougar
         ]
-        for (const item of Array.from(baseItems)) {
+        for (const item of baseItems) {
           var needle
-          if ((needle = item, !Array.from(me.get('earned').items).includes(needle))) {
+          if ((needle = item, !me.get('earned').items.includes(needle))) {
             me.get('earned').items.push(item) // Allow HoC players to access the cat
           }
         }
@@ -125,7 +125,7 @@ module.exports = (InventoryModal = (function () {
     onItemsLoaded () {
       let item
       if (debugInventory) { console.log('Inside onItemsLoaded') }
-      for (item of Array.from(this.items.models)) {
+      for (item of this.items.models) {
         item.notInLevel = true
         const programmableConfig = __guard__(_.find(item.get('components'), c => c.config != null ? c.config.programmableProperties : undefined), x => x.config)
         item.programmableProperties = ((programmableConfig != null ? programmableConfig.programmableProperties : undefined) || []).concat((programmableConfig != null ? programmableConfig.moreProgrammableProperties : undefined) || [])
@@ -145,7 +145,7 @@ module.exports = (InventoryModal = (function () {
       this.itemGroups.restrictedItems = new Backbone.Collection()
       this.itemGroups.lockedItems = new Backbone.Collection()
       this.itemGroups.subscriberItems = new Backbone.Collection()
-      for (const itemGroup of Array.from(_.values(this.itemGroups))) {
+      for (const itemGroup of _.values(this.itemGroups)) {
         itemGroup.comparator = function (m) {
           let left
           return (left = m.get('tier')) != null ? left : m.get('gems')
@@ -155,7 +155,7 @@ module.exports = (InventoryModal = (function () {
       const equipped = _.values(this.equipment)
       return (() => {
         const result = []
-        for (item of Array.from(this.items.models)) {
+        for (item of this.items.models) {
           result.push(this.sortItem(item, equipped))
         }
         return result
@@ -169,10 +169,10 @@ module.exports = (InventoryModal = (function () {
 
       // general starting classes
       item.classes = _.clone(item.getAllowedSlots())
-      for (const heroClass of Array.from(item.getAllowedHeroClasses())) {
+      for (const heroClass of item.getAllowedHeroClasses()) {
         item.classes.push(heroClass)
       }
-      if ((needle = item.get('original'), Array.from(equipped).includes(needle))) { item.classes.push('equipped') }
+      if ((needle = item.get('original'), equipped.includes(needle))) { item.classes.push('equipped') }
 
       // sort into one of the five groups
       let locked = !me.ownsItem(item.get('original'))
@@ -180,17 +180,17 @@ module.exports = (InventoryModal = (function () {
       const subscriber = (!me.isStudent()) && (!me.isPremium()) && item.get('subscriber')
       const restrictedGear = this.calculateRestrictedGearPerSlot()
       const allRestrictedGear = _.flatten(_.values(restrictedGear))
-      const restricted = (needle1 = item.get('original'), Array.from(allRestrictedGear).includes(needle1))
+      const restricted = (needle1 = item.get('original'), allRestrictedGear.includes(needle1))
 
       // TODO: make this re-use result of computation of updateLevelRequiredItems, which we can only do after heroClass is ready...
       let requiredToPurchase = false
       const inCampaignView = $('#campaign-view').length
       if ((gearSlugs[item.get('original')] !== 'tarnished-bronze-breastplate') || !inCampaignView || (this.options.level.get('slug') !== 'the-raised-sword')) {
         const requiredGear = this.calculateRequiredGearPerSlot()
-        for (const slot of Array.from(item.getAllowedSlots())) {
+        for (const slot of item.getAllowedSlots()) {
           var requiredItems
           if (!(requiredItems = requiredGear[slot])) { continue }
-          if (this.equipment[slot] && !Array.from(allRestrictedGear).includes(this.equipment[slot]) && !Array.from(this.ringSlots).includes(slot)) { continue }
+          if (this.equipment[slot] && !allRestrictedGear.includes(this.equipment[slot]) && !this.ringSlots.includes(slot)) { continue }
           // Point out that they must buy it if they haven't bought any of the required items for that slot, and it's the first one.
           if ((item.get('original') === requiredItems[0]) && !_.find(requiredItems, requiredItem => me.ownsItem(requiredItem))) {
             requiredToPurchase = true
@@ -199,7 +199,7 @@ module.exports = (InventoryModal = (function () {
         }
       }
 
-      if (requiredToPurchase && locked && !item.get('gems')) {
+      if (requiredToPurchase && locked) {
         // Either one of two things has happened:
         // 1. There's a bug and the player doesn't have a required item they should have.
         // 2. The player is trying to play a level they haven't unlocked.
@@ -446,7 +446,7 @@ module.exports = (InventoryModal = (function () {
       if (!selectedItem) { return }
       const allowedSlots = selectedItem.getAllowedSlots()
       let firstSlot = (unequippedSlot = null)
-      for (const allowedSlot of Array.from(allowedSlots)) {
+      for (const allowedSlot of allowedSlots) {
         slotEl = this.$el.find(`.item-slot[data-slot='${allowedSlot}']`)
         if (firstSlot == null) { firstSlot = slotEl }
         if (!slotEl.find('img').length) { if (unequippedSlot == null) { unequippedSlot = slotEl } }
@@ -583,7 +583,7 @@ module.exports = (InventoryModal = (function () {
         for (const slot in object) {
           const item = object[slot]
           const itemModel = this.items.findWhere({ original: item })
-          if (!itemModel || !Array.from(itemModel.classes).includes(heroClass)) {
+          if (!itemModel || !itemModel.classes.includes(heroClass)) {
             if (debugInventory) { console.log('Unequipping', itemModel.get('heroClass'), 'item', itemModel.get('name'), 'from slot due to class restrictions.') }
             this.unequipItemFromSlot(this.$el.find(`.item-slot[data-slot='${slot}']`))
             result.push(delete equipment[slot])
@@ -603,24 +603,44 @@ module.exports = (InventoryModal = (function () {
       const requiredProperties = (left1 = this.options.level.get('requiredProperties')) != null ? left1 : []
       const restrictedProperties = (left2 = this.options.level.get('restrictedProperties')) != null ? left2 : []
       const requiredPropertiesPerSlot = {}
-      for (const item of Array.from(this.items.models)) {
+      // First, sort items by highest to lowest tier, so we can figure out from the best items what requiredPropertiesPerSlot are
+      for (const item of _.sortBy(this.items.models, (item) => -item.get('tier'))) {
         const requiredPropertiesOnThisItem = _.intersection(item.programmableProperties, requiredProperties)
         const restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties)
-        if (!requiredPropertiesOnThisItem.length || !!restrictedPropertiesOnThisItem.length) { continue }
-        for (const slot of Array.from(item.getAllowedSlots())) {
-          var needle
-          const requiredPropertiesNotOnThisItem = _.without(requiredPropertiesPerSlot[slot] != null ? requiredPropertiesPerSlot[slot] : [], ...Array.from(item.programmableProperties))
+        if (!requiredPropertiesOnThisItem.length || restrictedPropertiesOnThisItem.length) { continue }
+        for (const slot of item.getAllowedSlots()) {
+          const requiredPropertiesNotOnThisItem = _.without(requiredPropertiesPerSlot[slot] != null ? requiredPropertiesPerSlot[slot] : [], ...item.programmableProperties)
           if ((slot !== 'right-hand') && _.isEqual(requiredPropertiesOnThisItem, ['buildXY'])) { continue } // Don't require things like caltrops belt
           if (requiredPropertiesNotOnThisItem.length) { continue }
-          if (requiredGear[slot] == null) { requiredGear[slot] = [] }
-          if ((needle = item.get('original'), !Array.from(requiredGear[slot]).includes(needle))) { requiredGear[slot].push(item.get('original')) }
           if (requiredPropertiesPerSlot[slot] == null) { requiredPropertiesPerSlot[slot] = [] }
-          for (const prop of Array.from(requiredPropertiesOnThisItem)) { if (!Array.from(requiredPropertiesPerSlot[slot]).includes(prop)) { requiredPropertiesPerSlot[slot].push(prop) } }
+          for (const prop of requiredPropertiesOnThisItem) { if (!requiredPropertiesPerSlot[slot].includes(prop)) { requiredPropertiesPerSlot[slot].push(prop) } }
+          if (requiredGear[slot] == null) { requiredGear[slot] = [] }
+          if (!requiredGear[slot].includes(item.get('original'))) { requiredGear[slot].push(item.get('original')) }
           if (debugInventory) { console.log(slot, 'has required item', item, 'because restrictedPropertiesOnThisItem is', restrictedPropertiesOnThisItem, 'and requiredPropertiesOnThisItem is', requiredPropertiesOnThisItem) }
         }
       }
+
+      // Now sort required gear, first by free then paid, within each category sorting by higher tier to lower tier, so that we can require items in a sensible order
+      this.requiredGearPerSlot = {}
+      for (const slot in requiredGear) {
+        this.requiredGearPerSlot[slot] = _.sortBy(requiredGear[slot], original => {
+          const item = _.find(this.items.models, (item) => item.get('original') === original)
+          if (me.ownsItem(item.get('original'))) {
+            // For items we own, suggest best first
+            return -9001 - item.get('tier')
+          }
+          if (!item.get('gems') && item.get('tier') < 10) {
+            // Then, suggest free items, worst first (but not free items with tier 10+, which are probably unreleased)
+            return item.get('tier')
+          }
+          if (item.get('gems')) {
+            // Last, for items we have to buy, suggest worst first
+            return 9001 + item.get('tier')
+          }
+        })
+      }
+
       this.requiredPropertiesPerSlot = requiredPropertiesPerSlot
-      this.requiredGearPerSlot = requiredGear
       return this.requiredGearPerSlot
     }
 
@@ -631,17 +651,17 @@ module.exports = (InventoryModal = (function () {
       if (!this.requiredGearPerSlot) { this.calculateRequiredGearPerSlot() }
       const restrictedGear = (left = _.clone(this.options.level.get('restrictedGear'))) != null ? left : {}
       const restrictedProperties = (left1 = this.options.level.get('restrictedProperties')) != null ? left1 : []
-      for (const item of Array.from(this.items.models)) {
+      for (const item of this.items.models) {
         const restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties)
-        for (const slot of Array.from(item.getAllowedSlots())) {
+        for (const slot of item.getAllowedSlots()) {
           var needle
-          const requiredPropertiesNotOnThisItem = _.without(this.requiredPropertiesPerSlot[slot], ...Array.from(item.programmableProperties))
-          // Let Rangers/Wizards use class specific weapon in 'cleave' levelsm, if it's not restricted
-          if (Array.from(requiredPropertiesNotOnThisItem).includes('cleave') && (needle = 'Warrior', !Array.from(item.getAllowedHeroClasses()).includes(needle)) && !restrictedPropertiesOnThisItem.length) { continue }
+          const requiredPropertiesNotOnThisItem = _.without(this.requiredPropertiesPerSlot[slot], ...item.programmableProperties)
+          // Let Rangers/Wizards use class specific weapon in 'cleave' levels, if it's not restricted
+          if (requiredPropertiesNotOnThisItem.includes('cleave') && (needle = 'Warrior', !item.getAllowedHeroClasses().includes(needle)) && !restrictedPropertiesOnThisItem.length) { continue }
           if (restrictedPropertiesOnThisItem.length || requiredPropertiesNotOnThisItem.length) {
             var needle1
             if (restrictedGear[slot] == null) { restrictedGear[slot] = [] }
-            if ((needle1 = item.get('original'), !Array.from(restrictedGear[slot]).includes(needle1))) { restrictedGear[slot].push(item.get('original')) }
+            if ((needle1 = item.get('original'), !restrictedGear[slot].includes(needle1))) { restrictedGear[slot].push(item.get('original')) }
             if (debugInventory) { console.log(slot, 'has restricted item', item, 'because restrictedPropertiesOnThisItem is', restrictedPropertiesOnThisItem, 'and requiredPropertiesNotOnThisItem is', requiredPropertiesNotOnThisItem) }
           }
         }
@@ -655,7 +675,7 @@ module.exports = (InventoryModal = (function () {
       const restrictedGear = this.calculateRestrictedGearPerSlot()
       for (const slot in restrictedGear) {
         const items = restrictedGear[slot]
-        for (const item of Array.from(items)) {
+        for (const item of items) {
           const equipped = equipment[slot]
           if (equipped && (equipped === item)) {
             if (debugInventory) { console.log('Unequipping restricted item', equipped, 'for', slot, 'before level', this.options.level.get('slug')) }
@@ -680,7 +700,7 @@ module.exports = (InventoryModal = (function () {
           let left1
           let validSlots
 
-          if (Array.from(this.ringSlots).includes(slot)) {
+          if (this.ringSlots.includes(slot)) {
             validSlots = this.ringSlots
           } else {
             validSlots = [slot]
@@ -688,16 +708,16 @@ module.exports = (InventoryModal = (function () {
 
           if (validSlots.some(function (slot) {
             const equipped = equipment[slot]
-            return Array.from(items).includes(equipped)
+            return items.includes(equipped)
           })) { continue }
 
           // Actually, just let them play if they have equipped anything in that slot (and we haven't unequipped it due to restrictions).
           // Rings often have unique effects, so this rule does not apply to them (they are still required even if there is a non-restricted ring equipped in the slot).
-          if (equipment[slot] && !Array.from(this.ringSlots).includes(slot)) { continue }
+          if (equipment[slot] && !this.ringSlots.includes(slot)) { continue }
 
           items = ((() => {
             const result = []
-            for (item of Array.from(items)) {
+            for (item of items) {
               var left, needle
               if ((needle = heroClass, Array.from(((left = __guard__(this.items.findWhere({ original: item }), x => x.classes)) != null ? left : [])).includes(needle))) {
                 result.push(item)
@@ -847,7 +867,7 @@ module.exports = (InventoryModal = (function () {
         this.itemGroups.requiredPurchaseItems.remove(item)
         // Redo all item sorting to make sure that we don't clobber state changes since last render.
         const equipped = _.values(this.getCurrentEquipmentConfig())
-        for (const otherItem of Array.from(this.items.models)) { this.sortItem(otherItem, equipped) }
+        for (const otherItem of this.items.models) { this.sortItem(otherItem, equipped) }
         this.renderSelectors('#unequipped', '#gems-count')
 
         this.requireLevelEquipment()
@@ -972,8 +992,8 @@ module.exports = (InventoryModal = (function () {
         const didAdd = this.addDollImage(slot, dollImages, heroClass, gender, item)
         if (item.get('original') !== '54ea39342b7506e891ca70f2') { if (didAdd) { slotsWithImages.push(slot) } }
       } // Circlet of the Magi needs hair under it
-      this.$el.find('#hero-image-hair').toggle(!(Array.from(slotsWithImages).includes('head')))
-      this.$el.find('#hero-image-thumb').toggle(!(Array.from(slotsWithImages).includes('gloves')))
+      this.$el.find('#hero-image-hair').toggle(!(slotsWithImages.includes('head')))
+      this.$el.find('#hero-image-thumb').toggle(!(slotsWithImages.includes('gloves')))
 
       this.equipment = (this.options.equipment = equipment)
       if (me.isStudent() && !application.getHocCampaign()) { return this.updateConfig(function () { }, true) } // Save the player's heroConfig if they're a student, whenever they change gear.
@@ -1008,7 +1028,7 @@ module.exports = (InventoryModal = (function () {
       } else {
         imageKeys = [gender]
       }
-      for (const imageKey of Array.from(imageKeys)) {
+      for (const imageKey of imageKeys) {
         const imageURL = dollImages[imageKey]
         if (!imageURL) {
           console.log(`Hmm, should have ${slot} ${imageKey} paper doll image, but don't have it.`)
