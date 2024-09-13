@@ -494,7 +494,7 @@ module.exports = {
       why_javascript: 'なぜJavaScriptを選ぶべきですか？',
       why_javascript_blurb: 'JavaScriptはウェブの言語であり、ほぼすべてのウェブサイトで使用されています。もしウェブ開発も学びたいと考えているなら、JavaScriptを選ぶのが良いかもしれません。また、PythonからJavaScriptベースのウェブ開発に移行しやすいようにしています。',
       javascript_versus_python: 'JavaScriptの文法は初心者にとってPythonより少し難しいため、どちらを選ぶか迷っているならPythonをお勧めします。',
-    //    javascript_versus_python: "JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python.",
+      //    javascript_versus_python: "JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python.",
       how_do_i_get_started: 'どうやって始めればいいですか？',
       getting_started_1: '先生のアカウントを作成する',
       getting_started_2: 'クラスを作成する',
@@ -518,7 +518,7 @@ module.exports = {
     //    see_faq_suffix: ".",
     //    ai_bot_faq_title: "What is the AI Level Help Bot and what measures are in place to ensure safety?",
     //    ai_bot_faq_blurb: "The AI Chat Level Help Bot in CodeCombat empowers learners with AI-driven hints for coding challenges, ensuring a guided yet independent learning experience. Safety is paramount, as the AI filters out personal data and is trained to handle improper requests.",
-    //  },
+    },
 
     play: {
       title: 'CodeCombatであそぶ - Python、JavaScript、HTMLを学ぼう',
@@ -2935,13 +2935,13 @@ module.exports = {
       copy_the_url_description: '既存の画像を置き換える場合に便利です。',
       copy_the_img_tag: '<img> タグをコピーしてください。',
       copy_the_img_tag_description: '新しい画像を挿入する場合に便利です。',
-      copy_url: 'URLをコピー',     
+      copy_url: 'URLをコピー',
       copy_img: '画像をコピー',
       how_to_copy_paste: 'コピー＆ペーストのやり方',
       copy: 'コピー',
       paste: 'ペースト',
       back_to_editing: '編集画面に戻ります。',
-      },
+    },
 
     classes: {
       archmage_title: 'アークメイジ',
