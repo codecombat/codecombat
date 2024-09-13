@@ -307,7 +307,7 @@ module.exports = class CocoView extends Backbone.View
       @openModalView confirmModal
 
     confirmOOOMessage =>
-      if (me.isTeacher(true) and window.zE) or me.showChinaResourceInfo()
+      if (me.isTeacher(true) and window.zE) and !me.showChinaResourceInfo()
         openDirectContactModal()
       else if utils.isCodeCombat
         openContactModal()

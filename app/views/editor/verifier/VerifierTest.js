@@ -92,7 +92,11 @@ module.exports = class VerifierTest extends CocoClass {
     }
 
     const headers = { Accept: 'application/json', 'Content-Type': 'application/json' }
-    const service = window.localStorage?.kodeKeeperService || 'https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper'
+    const service = window?.localStorage?.kodeKeeperService || 'https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper'
+    if(me.useChinaServices()) {
+      headers['Authorization'] = 'APPCODE b3e285d032a343db8bd2b51a05a5ff1d'
+      service = window?.localStorage?.kodeKeeperService || "https://kodekeeper.koudashijie.com/parse-code-kodekeeper"
+    }
     return fetch(service, { method: 'POST', mode: 'cors', headers, body: JSON.stringify({ code: source, language }) })
       .then(x => x.json())
       .then(x => x.token)

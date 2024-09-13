@@ -236,6 +236,7 @@ module.exports = class PlayLevelView extends RootView
       # TODO: Add a general way for standalone levels to be accessed by students, teachers
       not @hasAccessThroughClan(e.level)
       e.level.get('slug') not in ['peasants-and-munchkins',
+                                  'resource-tycoon',
                                   'game-dev-2-tournament-project',
                                   'game-dev-3-tournament-project']
     ])

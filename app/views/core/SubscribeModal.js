@@ -22,6 +22,8 @@ const CreateAccountModal = require('views/core/CreateAccountModal')
 const Products = require('collections/Products')
 const payPal = require('core/services/paypal')
 const { handleHomeSubscription } = require('../../lib/stripeUtil')
+const wechatPay = require('core/api/wechat')
+const WechatPayModal = require('./WechatPayModal.js').default
 
 module.exports = (SubscribeModal = (function () {
   SubscribeModal = class SubscribeModal extends ModalView {
@@ -38,7 +40,8 @@ module.exports = (SubscribeModal = (function () {
         'click .purchase-button': 'onClickPurchaseButton',
         'click .stripe-lifetime-button': 'onClickStripeLifetimeButton',
         'click .stripe-annual-button': 'onClickAnnualPurchaseButton',
-        'click .back-to-products': 'onClickBackToProducts'
+        'click .back-to-products': 'onClickBackToProducts',
+        'click .go-prepaid': 'onClickGoPrepaid'
       }
     }
 
@@ -155,6 +158,7 @@ module.exports = (SubscribeModal = (function () {
     onClickPurchaseButton (e) {
       if (!this.basicProduct) { return }
       this.playSound('menu-button-click')
+
       if (me.get('anonymous')) {
         const service = this.basicProduct.isRegionalSubscription() ? 'paypal' : 'stripe'
         if (application.tracker != null) {
@@ -162,6 +166,14 @@ module.exports = (SubscribeModal = (function () {
         }
         return this.openModalView(new CreateAccountModal({ startOnPath: 'individual', subModalContinue: 'monthly' }))
       }
+
+      if (features.chinaHome) {
+        wechatPay.pay(this.basicProduct.get('planID')).then((res) => {
+          this.openModalView(new WechatPayModal({ propsData: { url: res.wechat.code_url, sessionId: res.sessionId } }))
+        })
+        return
+      }
+
       // if @basicProduct.isRegionalSubscription()
       //   @startPayPalSubscribe()
       // else
@@ -172,11 +184,19 @@ module.exports = (SubscribeModal = (function () {
     onClickAnnualPurchaseButton (e) {
       if (!this.basicProductAnnual) { return }
       this.playSound('menu-button-click')
+
       if (me.get('anonymous')) {
         if (application.tracker != null) {
           application.tracker.trackEvent('Started Signup from buy yearly', { service: 'stripe' })
         }
         return this.openModalView(new CreateAccountModal({ startOnPath: 'individual', subModalContinue: 'yearly' }))
+      }
+
+      if (features.chinaHome) {
+        wechatPay.pay(this.basicProductAnnual.get('planID')).then((res) => {
+          this.openModalView(new WechatPayModal({ propsData: { url: res.wechat.code_url, sessionId: res.sessionId } }))
+        })
+        return
       }
 
       return this.startYearlyStripeSubscription()
@@ -388,6 +408,10 @@ module.exports = (SubscribeModal = (function () {
         this.stateMessage = $.i18n.t('loading_error.unknown')
       }
       return this.render()
+    }
+
+    onClickGoPrepaid () {
+      window.location.href = '/account/prepaid'
     }
 
     onHidden () {

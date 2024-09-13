@@ -41,7 +41,8 @@ module.exports = class HintsView extends CocoView
     unless globalVar.userCreditsMessage
       globalVar.userCredtisMessage = ''
     @creditMessage = globalVar.userCreditsMessage
-    @showAiBotHelp = utils.shouldShowAiBotHelp(@aceConfig)
+    unless me.showChinaResourceInfo()
+        @showAiBotHelp = utils.shouldShowAiBotHelp(@aceConfig)
 
   destroy: ->
     clearInterval(@timerIntervalID)

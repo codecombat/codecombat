@@ -56,9 +56,14 @@ module.exports = class JavaScript extends Language
 
   # Return an array of problems detected during linting.
   lint: (rawCode, aether) ->
+    try
+      if features.chinaInfra && btoa(atob(rawCode)) == rawCode
+        return [] # dont lint other session
+    catch e
+      null # do nothing
     lintProblems = super(rawCode, aether)
     try
-      if btoa(atob(rawCode)) == rawCode
+      if features.chinaInfra && btoa(atob(rawCode)) == rawCode
         return [] # dont lint other session
     catch e
       null # do nothing

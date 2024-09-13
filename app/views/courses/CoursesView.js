@@ -106,6 +106,19 @@ module.exports = (CoursesView = (function () {
       this.hocCodeLanguage = (me.get('hourOfCodeOptions') || {}).hocCodeLanguage || 'python'
       this.hocStats = {}
       this.listenTo(this.classrooms, 'sync', function () {
+        const filterClasses = _.filter(this.classrooms.models, c => {
+          return ['666b9b0196c30d2d565b5eed', '666b9b26b83da493ef296553', '666b9b171c6b3fbf89c26075'].includes(c.id)
+        })
+        if (filterClasses.length) {
+          if (moment().isBefore('2024-06-22 17:30')) {
+            if (moment().isBefore('2024-06-12 16:00')) {
+              this.awaitingTournament = true
+            } else {
+              this.showTournament = true
+              this.tournamentClass = filterClasses[0]
+            }
+          }
+        }
         if (utils.isOzaria && this.showHocProgress()) {
           const campaign = this.hourOfCodeOptions.campaignId
           const sessionFetchOptions = {
@@ -759,6 +772,21 @@ module.exports = (CoursesView = (function () {
     onLaddersLoaded (e) {
       return Array.from(this.ladders.models).map((ladder) =>
         (this.ladderImageMap[ladder.get('original')] = ladder.get('image')))
+    }
+
+    tournamentArenas () {
+      const courseMap = {
+        '666b9b171c6b3fbf89c26075': '6670006ba6121d0187c798fe',
+        '666b9b26b83da493ef296553': '667001408966cdb2380623a0',
+        '666b9b0196c30d2d565b5eed': '6670062accd8dd1f8fc760a5'
+      }
+      return [
+        {
+          id: 'power-peak',
+          name: 'Power Peak',
+          url: '/play/ladder/power-peak/course/' + courseMap[this.tournamentClass.id]
+        }
+      ]
     }
   }
   CoursesView.initClass()

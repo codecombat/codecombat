@@ -46,7 +46,11 @@ export default Vue.extend({
       default () {
         return []
       }
-    }
+    },
+    showContactUs: {
+      type: Boolean,
+      default: false
+    },
   },
   data () {
     return {

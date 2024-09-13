@@ -91,6 +91,8 @@ module.exports = (TeacherClassesView = (function () {
             .then(results => {
               if (this.destroyed) { return }
               helper.calculateDots(this.classrooms, this.courses, this.courseInstances)
+              if(this.sharedCourseInstances)
+                helper.calculateDots(this.classrooms, this.courses, this.sharedCourseInstances)
               this.calculateQuestCompletion()
               return this.render()
             })
@@ -287,15 +289,17 @@ module.exports = (TeacherClassesView = (function () {
         el: this.$('.try-ozaria')[0]
       })
 
-      this.bannerHoC = new BannerHoC({
-        el: this.$('.banner-hoc')[0]
-      })
+      if(!me.showChinaResourceInfo()) {
+        this.bannerHoC = new BannerHoC({
+          el: this.$('.banner-hoc')[0]
+        })
 
-      this.podcastItemContainer = new PodcastItemContainer({
-        el: this.$('.podcast-item-container')[0]
-      })
+        this.podcastItemContainer = new PodcastItemContainer({
+          el: this.$('.podcast-item-container')[0]
+        })
 
-      this.dashboardToggle = new DashboardToggle({ propsData: { size: 'sm', showTitle: true }, el: this.$el.find('#dashboard-toggle')[0] })
+        this.dashboardToggle = new DashboardToggle({ propsData: { size: 'sm', showTitle: true }, el: this.$el.find('#dashboard-toggle')[0] })
+      }
 
       return $('.progress-dot').each(function (i, el) {
         const dot = $(el)
@@ -380,6 +384,9 @@ module.exports = (TeacherClassesView = (function () {
     }
 
     onMyClansLoaded (clans) {
+      if (features.chinaInfra) {
+        return
+      }
       this.myClans = clans
       if (!(this.teacherClan = _.find((clans != null ? clans : []), c => /teacher/.test(c.name)))) { return }
       return clansApi.getAILeagueStats(this.teacherClan._id).then(stats => {

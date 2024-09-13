@@ -16,6 +16,7 @@
         <ButtonA
           class="button-a-instance"
           :text="$t('codequest_page.join_us')"
+          :apply="true"
           href="https://docs.google.com/forms/d/e/1FAIpQLSf-Hq5e5COINPxh5soG0XIF0UNH9HjnAjXKz4EBinLmcmp2sw/viewform"
         />
       </div>
@@ -31,6 +32,7 @@
         <ButtonA
           class="button-a-instance"
           :text="$t('codequest_page.start_application')"
+          :apply="true"
           href="https://docs.google.com/forms/d/e/1FAIpQLSf-Hq5e5COINPxh5soG0XIF0UNH9HjnAjXKz4EBinLmcmp2sw/viewform"
         />
       </div>
