@@ -119,7 +119,10 @@ export default {
       }
       return levelOriginals.map(([key, _v]) => key)
     },
-    relatedLevels (levelNumber) {
+    relatedLevels (levelNumber, slug) {
+      if (!/^[0-9]/.test(levelNumber) || !this.isJunior) {
+        return [this.findLevelBySlug(slug)]
+      }
       let levelNumberMap = this.levelNumberMap
       if (utils.isCodeCombat && this.classroomId) {
         levelNumberMap = this.classroomInstance.levelNumberMap
@@ -147,16 +150,16 @@ export default {
     onShowCodeClicked ({ identifier, levelNumber, hideCode = false }) {
       event.stopPropagation()
       event.preventDefault()
-      const relatedLevels = this.relatedLevels(levelNumber)
+      const relatedLevels = this.relatedLevels(levelNumber, identifier)
       for (const relatedLevel of relatedLevels) {
-        const identifier = relatedLevel.slug
+        const id = relatedLevel.slug
         if (hideCode) {
-          this.showCodeLevelSlugs = _.without(this.showCodeLevelSlugs, identifier)
+          this.showCodeLevelSlugs = _.without(this.showCodeLevelSlugs, id)
           continue
         }
-        this.showCodeLevelSlugs = this.showCodeLevelSlugs.concat([identifier])
-        this.solutionCodeByLevel[identifier] = getSolutionCode(relatedLevel, { lang: this.getSelectedLanguage }) || ''
-        this.sampleCodeByLevel[identifier] = getSampleCode(relatedLevel, { lang: this.getSelectedLanguage }) || ''
+        this.showCodeLevelSlugs = this.showCodeLevelSlugs.concat([id])
+        this.solutionCodeByLevel[id] = getSolutionCode(relatedLevel, { lang: this.getSelectedLanguage }) || ''
+        this.sampleCodeByLevel[id] = getSampleCode(relatedLevel, { lang: this.getSelectedLanguage }) || ''
       }
     },
     onClickedCodeDiff (event) {
@@ -165,12 +168,15 @@ export default {
       event.preventDefault()
     },
     calculateLevelDescription (description, slug, levelNumber) {
-      const relatedLevels = this.relatedLevels(levelNumber)
+      const relatedLevels = this.relatedLevels(levelNumber, slug)
       const practiceNumber = relatedLevels.length - 1
       if (!this.isJunior || practiceNumber <= 0) {
         return description
       }
       return `${description}. ${$.i18n.t('teacher_dashboard.practice_levels')}: ${practiceNumber}`
+    },
+    isOzariaNoCodeLevel (icon) {
+      return ['cutscene', 'cinematic', 'interactive'].includes(icon)
     }
   }
 }
@@ -206,7 +212,7 @@ export default {
             :display-name="name"
             :description="calculateLevelDescription(description, slug, levelNumber)"
             :is-part-of-intro="isPartOfIntro"
-            :show-code-btn="icon !== 'cutscene' && !(isJunior && icon === 'practicelvl')"
+            :show-code-btn="!isOzariaNoCodeLevel(icon) && !(isJunior && icon === 'practicelvl')"
             :identifier="slug"
             @click.native="trackEvent('Curriculum Guide: Individual content row clicked')"
             @showCodeClicked="onShowCodeClicked"
