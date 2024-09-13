@@ -160,7 +160,7 @@ if showGameDevAlert
             div(class="level-kind " + level.kind)= kindKey
             - var acronym = level.name.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
             .level-acronym= acronym
-          if !level.hidden && !level.noFlag
+          if !level.hidden && !level.noFlag && !level.locked
             if level.replayable
               img.banner(src="/images/pages/play/level-banner-replayable.png")
             else if level.type === 'hero-ladder' || level.type === 'course-ladder' || level.type === 'ladder'
