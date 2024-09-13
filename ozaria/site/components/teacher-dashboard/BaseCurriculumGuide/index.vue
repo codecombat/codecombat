@@ -26,6 +26,11 @@ export default {
     defaultLanguage: {
       type: String,
       default: 'python'
+    },
+    campaign: {
+      type: String,
+      default: '',
+      required: false
     }
   },
 
@@ -127,7 +132,7 @@ export default {
         </div>
       </div>
 
-      <chapter-nav />
+      <chapter-nav :campaign-url="campaign" />
       <chapter-info />
 
       <div class="fluid-container">
