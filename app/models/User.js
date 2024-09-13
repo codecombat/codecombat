@@ -1416,6 +1416,18 @@ module.exports = (User = (function () {
       return ['57fff652b0783842003fed00', '5b9af3a99c27360047dd2123'].includes(this.get('clientCreator')) || (this.get('clientPermissions') || []).some(p => ['57fff652b0783842003fed00', '5b9af3a99c27360047dd2123'].includes(p.client))
     }
 
+    isMtoStem () {
+      return [utils.MTOClients.MTO_STEM_DEV, utils.MTOClients.MTO_STEM_PROD].includes(this.get('clientCreator'))
+    }
+
+    isMtoNeo () {
+      return [utils.MTOClients.MTO_NEO_DEV, utils.MTOClients.MTO_NEO_PROD].includes(this.get('clientCreator'))
+    }
+
+    isMto () {
+      return this.isMtoStem() || this.isMtoNeo()
+    }
+
     showForumLink () { return !(features?.china != null ? features?.china : false) }
     showChinaResourceInfo () { return features?.china != null ? features?.china : false }
     showChinaHomeVersion () { return features?.chinaHome != null ? features?.chinaHome : false }

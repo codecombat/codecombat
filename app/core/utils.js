@@ -1712,7 +1712,7 @@ const AILeagueSeasons = [
   { number: 8, championshipType: 'blitz', image: '/images/pages/league/farmscape-blitz.png', video: 'eae72056cd1e54f77ec35612c2d0c4b5', videoThumbnailTime: '2681s' },
   { number: 9, championshipType: 'clash', image: '/images/pages/league/snowhold-clash.png', video: '5ee0896f86d690840104adaaa7ec96b6', videoThumbnailTime: '1730s' },
   { number: 10, championshipType: 'cup', image: '/images/pages/league/anti-gravity-cup.png', video: '72d0ffc93599cf8cb5b0f7fed7861d0f', videoThumbnailTime: '188s' },
-  { number: 11, championshipType: 'blitz', image: '/images/pages/league/sunfire-blitz.png', video: '', videoThumbnailTime: '' },
+  { number: 11, championshipType: 'blitz', image: '/images/pages/league/sunfire-blitz.png', video: '', videoThumbnailTime: '', imagePath: '/images/pages/league/sunfire-results.webp' },
   { number: 12, championshipType: 'clash', image: '/images/pages/league/supercharged-clash.png', video: '', videoThumbnailTime: '' },
 ]
 
@@ -2098,6 +2098,13 @@ module.exports.getCodeFormats = () => ({
     name: `${$.i18n.t('choose_hero.blocks_icons')}`
   }
 })
+
+module.exports.MTOClients = {
+  MTO_STEM_DEV: '66d8d68b7fb24e9567588139',
+  MTO_STEM_PROD: '66d8d72143881e9eebcf0cc9',
+  MTO_NEO_DEV: '66d8d794f81368cbd77f5bca',
+  MTO_NEO_PROD: '66d8d750f81368cbd77f4ab2'
+}
 
 module.exports = {
   ...module.exports,

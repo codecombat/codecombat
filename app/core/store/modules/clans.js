@@ -2,6 +2,15 @@ import { getPublicClans, getMyClans, getClan, getChildClanDetails, getTournament
 import { getTournamentsByMember } from '../../api/tournaments'
 const _ = require('lodash')
 
+const sortClan = (clans) => {
+  const firstClassClan = _.findIndex(clans, (clan) => clan.slug.startsWith('autoclan-classroom'))
+  const classClans = clans.filter((clan) => clan.slug.startsWith('autoclan-classroom'))
+  const otherClans = clans.filter((clan) => !clan.slug.startsWith('autoclan-classroom'))
+  classClans.sort((a, b) => b._id.localeCompare(a._id))
+  otherClans.splice(firstClassClan, 0, ...classClans)
+  return otherClans
+}
+
 export default {
   namespaced: true,
   state: {
@@ -20,7 +29,7 @@ export default {
     },
 
     myClans (state) {
-      return (me.get('clans') || []).map(id => state.clans[id])
+      return sortClan((me.get('clans') || []).map(id => state.clans[id]))
     },
 
     clanByIdOrSlug (state) {
