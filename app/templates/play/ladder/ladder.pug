@@ -183,7 +183,24 @@ block content
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.early-results-button(href='#results')
               span.glyphicon.glyphicon-star
               span.spl(data-i18n="tournament.view_results")
-
+    if view.level.isType('ladder')
+      div#spectate-row.row
+        span Spectate
+        div.spectate-players
+          input(type='search' id='spectate-player-1' list="spectate-players-1")
+          datalist(id='spectate-players-1')
+            each rk in view.leaderboardRankings
+              option(value=`${rk[2]}-${rk[3]}`)
+        span VS.
+        div.spectate-players
+          input(type='search' id='spectate-player-2' list="spectate-players-2")
+          datalist(id='spectate-players-2')
+            each rk in view.leaderboardRankings
+              option(value=`${rk[2]}-${rk[3]}`)
+        a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href='/play/spectate/' + view.level.get('slug') + '?tournament=' + view.tournamentId + (view.league ? "&league=" + view.league.id : ""))
+          span.glyphicon.glyphicon-eye-open
+          span.spl(data-i18n="play.spectate")
+      
   if view.level.isType('ladder')
     if view.winners
       ul.nav.nav-pills

@@ -139,6 +139,7 @@ module.exports = (LeaderboardView = (function () {
         })
       }
 
+      Backbone.Mediator.publish('ladder:refresh', {})
       return super.afterRender(...arguments)
     }
 
@@ -224,7 +225,8 @@ module.exports = (LeaderboardView = (function () {
       const teamSession = _.find(this.sessions.models, session => session.get('team') === 'humans')
       this.leaderboards = new LeaderboardData(this.level, 'humans', teamSession, this.ladderLimit, this.league, this.tournament, this.ageBracket, this.options.myTournamentSubmission)
       this.leaderboardRes = this.supermodel.addModelResource(this.leaderboards, 'leaderboard', { cache: false }, 3)
-      return this.leaderboardRes.load()
+      this.leaderboardRes.load()
+      Backbone.Mediator.publish('ladder:refresh', {})
     }
 
     onClickLoadMore () {

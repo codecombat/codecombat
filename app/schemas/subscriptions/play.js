@@ -268,4 +268,6 @@ module.exports = {
     session: { type: 'object' },
     level: { type: 'object' }
   }),
+
+  'ladder:refresh': c.object({})
 }

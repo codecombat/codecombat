@@ -71,6 +71,7 @@ module.exports = (LadderView = (function () {
       this.leagueType = leagueType
       this.leagueID = leagueID
       this.refreshViews = this.refreshViews.bind(this)
+      this.leaderboardRankings = []
 
       let tournamentEndDate, tournamentStartDate
       this.level = this.supermodel.loadModel(new Level({ _id: this.levelID })).model
@@ -130,7 +131,10 @@ module.exports = (LadderView = (function () {
       this.prototype.showBackground = false
 
       this.prototype.subscriptions =
-        { 'application:idle-changed': 'onIdleChanged' }
+        {
+          'application:idle-changed': 'onIdleChanged',
+          'ladder:refresh': 'updateSpectateList'
+        }
 
       this.prototype.events = {
         'click .play-button': 'onClickPlayButton',
@@ -308,7 +312,7 @@ module.exports = (LadderView = (function () {
         null
       } else { // starting, or unset
         if (this.level.isType('ladder')) {
-          this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, leagueType: this.leagueType, course: this.course, myTournamentSubmission: this.myTournamentSubmission }, this.level, this.sessions, this.anonymousPlayerName))
+          this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, leagueType: this.leagueType, course: this.course, myTournamentSubmission: this.myTournamentSubmission, updateSpectateList: this.updateSpectateList }, this.level, this.sessions, this.anonymousPlayerName))
         } else {
           this.insertSubView(this.ladderTab = new LadderTabView({ league: this.league, tournament: this.tournamentId }, this.level, this.sessions))
         }
@@ -476,6 +480,12 @@ module.exports = (LadderView = (function () {
     }
 
     isAILeagueArena () { return _.find(utils.arenas, { slug: this.levelID }) }
+
+    updateSpectateList () {
+      if (!this.level?.isType('ladder')) return
+      this.leaderboardRankings = this.ladderTab?.rankings || []
+      this.renderSelectors('.spectate-players')
+    }
 
     destroy () {
       clearInterval(this.refreshInterval)
