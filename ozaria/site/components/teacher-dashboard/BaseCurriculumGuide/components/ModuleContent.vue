@@ -152,14 +152,14 @@ export default {
       event.preventDefault()
       const relatedLevels = this.relatedLevels(levelNumber, identifier)
       for (const relatedLevel of relatedLevels) {
-        const id = relatedLevel.slug
+        const slug = relatedLevel.slug
         if (hideCode) {
-          this.showCodeLevelSlugs = _.without(this.showCodeLevelSlugs, id)
+          this.showCodeLevelSlugs = _.without(this.showCodeLevelSlugs, slug)
           continue
         }
-        this.showCodeLevelSlugs = this.showCodeLevelSlugs.concat([id])
-        this.solutionCodeByLevel[id] = getSolutionCode(relatedLevel, { lang: this.getSelectedLanguage }) || ''
-        this.sampleCodeByLevel[id] = getSampleCode(relatedLevel, { lang: this.getSelectedLanguage }) || ''
+        this.showCodeLevelSlugs = this.showCodeLevelSlugs.concat([slug])
+        this.solutionCodeByLevel[slug] = getSolutionCode(relatedLevel, { lang: this.getSelectedLanguage }) || ''
+        this.sampleCodeByLevel[slug] = getSampleCode(relatedLevel, { lang: this.getSelectedLanguage }) || ''
       }
     },
     onClickedCodeDiff (event) {
