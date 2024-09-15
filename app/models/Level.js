@@ -232,7 +232,7 @@ module.exports = (Level = (function () {
           if (equips.config == null) { equips.config = {} }
           // If we somehow don't have all our required properties, then grant the rest of them.
           if (!this.headless && !this.isEditorPreview) {
-            for (const [slot, defaultItemOriginal] of Object.entries(defaultEquipsConfig?.inventory)) {
+            for (const [slot, defaultItemOriginal] of Object.entries(defaultEquipsConfig?.inventory || {})) {
               // Look through this ThangType's components for one with config.programmableProperties, see if there's intersection between those and this.get('requiredProperties') and there is NOT such intersection for whatever item we would otherwise have in this slot, and if so, put that item in this slot.
               if (!defaultItemOriginal) { continue }
               const defaultItemThangType = thangTypesByOriginal[defaultItemOriginal]
