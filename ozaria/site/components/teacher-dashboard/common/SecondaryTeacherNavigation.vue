@@ -7,6 +7,7 @@ import ModalHackStackBeta from 'ozaria/site/components/teacher-dashboard/modals/
 import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalTestStudentPromotion.vue'
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
+import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
 import IconAI from 'ozaria/site/components/teacher-dashboard/common/NavIconAI'
 import IconAPCSP from 'ozaria/site/components/teacher-dashboard/common/NavIconAPCSP'
 import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/NavIconAssessments'
@@ -18,6 +19,7 @@ export default {
     ModalTestStudentPromotion,
     ModalCurriculumPromotion,
     ModalOzariaHackStack,
+    ModalOzariaAILeague,
     IconAI,
     IconAPCSP,
     IconAssessments
@@ -157,6 +159,11 @@ export default {
       }
       if (this.hackStackClassrooms.length === 0) {
         noty({ text: $.i18n.t('teacher_dashboard.create_class_hackstack'), type: 'warning', layout: 'center', timeout: 5000 })
+      }
+    },
+    AILeaugeClicked () {
+      if (utils.isOzaria) {
+        this.$refs.ModalOzariaAILeague.openModal()
       }
     },
   }
@@ -404,6 +411,31 @@ export default {
       </router-link>
     </li>
     <li
+      v-else
+      @click="AILeaugeClicked"
+    >
+      <a
+        id="AILeague"
+        :class="{ 'current-route': isCurrentRoute('/teachers/ai-league') }"
+        data-action="AI League: Nav Clicked"
+        @click.native="trackEvent"
+      >
+        <div id="IconKeepPlaying" />
+        <img
+          class="league-name league-name__gray"
+          src="/images/pages/league/ai-league-name.svg"
+        >
+        <img
+          class="league-name league-name__moon"
+          src="/images/pages/league/ai-league-name_moon.svg"
+        >
+        <img
+          class="league-name league-name__blue"
+          src="/images/pages/league/ai-league-name_blue.svg"
+        >
+      </a>
+    </li>
+    <li
       role="presentation"
       class="dropdown"
       @click="hackstackClicked"
@@ -543,6 +575,10 @@ export default {
     <ModalOzariaHackStack
       v-if="isOzaria"
       ref="modalOzariaHackStack"
+    />
+    <ModalOzariaAILeague
+      v-if="isOzaria"
+      ref="ModalOzariaAILeague"
     />
     <ModalTestStudentPromotion />
   </ul>
