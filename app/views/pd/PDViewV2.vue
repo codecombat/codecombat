@@ -67,7 +67,8 @@
 </template>
 
 <script>
-import { COMPONENT_NAMES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
+import { COMPONENT_NAMES, PAGE_TITLES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
+import { mapActions, mapMutations } from 'vuex'
 import TrophyHeader from './TrophyHeader.vue'
 import PDBox from './PDBox.vue'
 
@@ -76,7 +77,21 @@ export default {
   components: {
     TrophyHeader,
     'pd-box': PDBox
-  }
+  },
+  mounted () {
+    if (this.$route.path.startsWith('/teachers/professional-development')) {
+      this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'PD View: Loaded' } })
+      this.setPageTitle(PAGE_TITLES[this.$options.name])
+    }
+  },
+  methods: {
+    ...mapMutations({
+      setPageTitle: 'teacherDashboard/setPageTitle'
+    }),
+    ...mapActions({
+      fetchData: 'teacherDashboard/fetchData',
+    })
+  },
 }
 </script>
 
