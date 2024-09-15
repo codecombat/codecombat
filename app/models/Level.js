@@ -153,7 +153,20 @@ module.exports = (Level = (function () {
             }
             levelThang.components = [] // We have stored the placeholder values, so we can inherit everything else.
             heroThangType = __guard__(session != null ? session.get('heroConfig') : undefined, x => x.thangType)
-            if (heroThangType) { levelThang.thangType = heroThangType }
+            if (heroThangType) {
+              let juniorHeroReplacement
+              if (this.get('product', true) === 'codecombat-junior') {
+                // If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
+                juniorHeroReplacement = ThangTypeConstants.juniorHeroReplacements[_.invert(ThangTypeConstants.heroes)[heroThangType]]
+              } else {
+                // If we got into a codecombat level with a codecombat-junior hero, pick an equivalent codecombat hero to use instead
+                juniorHeroReplacement = _.invert(ThangTypeConstants.juniorHeroReplacements)[_.invert(ThangTypeConstants.heroes)[heroThangType]]
+              }
+              if (juniorHeroReplacement) {
+                heroThangType = ThangTypeConstants.heroes[juniorHeroReplacement]
+              }
+              levelThang.thangType = heroThangType
+            }
           }
         }
       }
