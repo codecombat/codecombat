@@ -38,7 +38,7 @@ import ModalDynamicContent from 'ozaria/site/components/teacher-dashboard/modals
 import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
 
 export default {
-  name: 'OzariaHackStackModal',
+  name: 'OzariaAILeagueModal',
   components: {
     ModalDynamicContent,
     MixedColorLabel
