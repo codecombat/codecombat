@@ -161,7 +161,7 @@ export default {
         noty({ text: $.i18n.t('teacher_dashboard.create_class_hackstack'), type: 'warning', layout: 'center', timeout: 5000 })
       }
     },
-    AILeaugeClicked () {
+    AILeagueClicked () {
       if (utils.isOzaria) {
         this.$refs.ModalOzariaAILeague.openModal()
       }
@@ -412,7 +412,7 @@ export default {
     </li>
     <li
       v-else
-      @click="AILeaugeClicked"
+      @click="AILeagueClicked"
     >
       <a
         id="AILeague"

@@ -6,11 +6,11 @@
     <template #content>
       <div class="ozar-hs-modal-content">
         <h3 class="text-h3">
-          {{ $t('teacher_dashboard.ozaria_ai_leauge_modal_title') }}
+          {{ $t('teacher_dashboard.ozaria_ai_league_modal_title') }}
         </h3>
         <p>
           <mixed-color-label
-            :text="$t('teacher_dashboard.ozaria_ai_leauge_modal_blurb')"
+            :text="$t('teacher_dashboard.ozaria_ai_league_modal_blurb')"
           />
         </p>
         <a
