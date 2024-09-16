@@ -6002,7 +6002,8 @@ module.exports = {
       start_new: 'Start from scratch',
       choice_prompt_1: 'Congratulations on completing the project!',
       choice_prompt_2: 'You can continue with your project or start a new one from scratch!',
-      create_from_scratch: 'Create from scratch'
+      create_from_scratch: 'Create from scratch',
+      complete_to_unlock: 'Complete a __model__ learn mode project to unlock'
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',
