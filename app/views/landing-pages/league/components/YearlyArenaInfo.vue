@@ -47,14 +47,18 @@
               v-else-if="season.imagePath"
               class="col-xs-12 video-backer video-iframe"
             >
-              <div style="position: relative;">
+              <a
+                :href="season.topMatchUrlPath"
+                target="_blank"
+                style="position: relative;"
+              >
                 <img
                   class="img-responsive season-img results-img"
                   :src="season.imagePath"
                   loading="lazy"
                   :alt="`CodeCombat AI League Winners - Season ${$t('league.season_' + season.number)}`"
                 >
-              </div>
+              </a>
             </div>
           </div>
           <div class="row text-center">
