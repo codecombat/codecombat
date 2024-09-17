@@ -1380,7 +1380,7 @@ module.exports = {
       unsubscribing: 'Hafhofpevovat',
       subscribe_prepaid: 'Pyvpx Fhofpevor gb hfr cercnvq pbqr',
       using_prepaid: 'Hfvat cercnvq pbqr sbe zbaguyl fhofpevcgvba',
-      feature_level_access: 'Npprff 500+ yriryf ninvynoyr',
+      feature_level_access: 'Npprff 600+ yriryf ninvynoyr',
       feature_heroes: 'Haybpx rkpyhfvir urebrf naq crgf',
       feature_learn: 'Yrnea gb znxr tnzrf naq jrofvgrf',
       feature_languages: 'Trg nyy fhccbegrq ynathntrf',

@@ -1380,7 +1380,7 @@ module.exports = {
       unsubscribing: '[AI_TRANSLATION]ยกเลิกการสมัครสมาชิก',
       subscribe_prepaid: '[AI_TRANSLATION]คลิกติดตามเพื่อใช้โค้ดที่จ่ายล่วงหน้า',
       using_prepaid: '[AI_TRANSLATION]การใช้รหัสเติมเงินเพื่อสมัครสมาชิกรายเดือน',
-      feature_level_access: '[AI_TRANSLATION]เข้าถึงระดับอล 500+ ที่มีให้เล่น',
+      feature_level_access: '[AI_TRANSLATION]เข้าถึงระดับอล 600+ ที่มีให้เล่น',
       feature_heroes: '[AI_TRANSLATION]ปลดล็อกฮีโร่และสัตว์เลี้ยงสุดพิเศษ',
       feature_learn: '[AI_TRANSLATION]เรียนรู้การสร้างเกมและเว็บไซต์',
       feature_languages: '[AI_TRANSLATION]รับภาษาที่รองรับทั้งหมด',

@@ -1380,7 +1380,7 @@ module.exports = {
       unsubscribing: 'Leiratkozás',
       subscribe_prepaid: 'Az előre utalt előfizetési kód használatához kattints az Előfizetés lehetőségre',
       using_prepaid: 'Előre utalt előfizetési kód használata havi előfizetéshez',
-      feature_level_access: '[AI_TRANSLATION]Hozzáférés 500+ elérhető szinthez',
+      feature_level_access: '[AI_TRANSLATION]Hozzáférés 600+ elérhető szinthez',
       feature_heroes: '[AI_TRANSLATION]Oldj fel exkluzív hősöket és kedvenceket',
       feature_learn: '[AI_TRANSLATION]Tanulj játékokat és weboldalakat készíteni',
       feature_languages: '[AI_TRANSLATION]Szerezd meg az összes támogatott nyelvet',

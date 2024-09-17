@@ -1380,7 +1380,7 @@ module.exports = {
       unsubscribing: '[AI_TRANSLATION]رکنیت ختم کرنا',
       subscribe_prepaid: '[AI_TRANSLATION]پری پیڈ کوڈ استعمال کرنے کے لئے سبسکرائب پر کلک کریں',
       using_prepaid: '[AI_TRANSLATION]ماہانہ سبسکرپشن کے لیے پری پیڈ کوڈ استعمال کریں۔',
-      feature_level_access: '[AI_TRANSLATION]500+ لیولز تک رسائی حاصل کریں',
+      feature_level_access: '[AI_TRANSLATION]600+ لیولز تک رسائی حاصل کریں',
       feature_heroes: '[AI_TRANSLATION]خصوصی ہیرو اور پالتو جانور ان لاک کریں',
       feature_learn: '[AI_TRANSLATION]کھیل اور ویب سائٹس بنانا سیکھو',
       feature_languages: '[AI_TRANSLATION]تمام معاون زبانیں حاصل کریں',
