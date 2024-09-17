@@ -8,11 +8,7 @@ export default {
       const index = state.modals.findIndex(m => m.name === modal.name)
       if (index === -1) {
         state.modals.push(modal)
-      } else {
-        // Remove the modal from its current position
-        const [existingModal] = state.modals.splice(index, 1)
-        // Push the existing modal to the end of the array
-        state.modals.push(existingModal)
+        state.modals.sort((a, b) => b.priority - a.priority)
       }
     },
     removeModal (state, modalName) {
@@ -24,7 +20,25 @@ export default {
   },
   getters: {
     getTopModal: (state) => {
-      return state.modals[state.modals.length - 1]
+      const topModal = state.modals[0]
+
+      // If there's no top modal, return null
+      if (!topModal) {
+        return null
+      }
+
+      // If the top modal isn't restricted  by a seenPromotionsProperty, show it
+      if (!topModal.seenPromotionsProperty) {
+        return topModal
+      }
+
+      // If the user should see the promotion, return the top modal
+      if (me.shouldSeePromotion(topModal.seenPromotionsProperty)) {
+        return topModal
+      }
+
+      // If none of the above conditions are met, return null
+      return null
     },
   },
 }

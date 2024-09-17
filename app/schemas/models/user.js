@@ -406,9 +406,9 @@ _.extend(UserSchema.properties, {
   seenPromotions: {
     type: 'object',
     properties: {
-      'hackstack-beta-release-modal': { type: 'boolean' },
-      'curriculum-sidebar-promotion-modal': { type: 'boolean' },
-      'hp-junior-modal': { type: 'boolean' }
+      'hackstack-beta-release-modal': c.date(),
+      'curriculum-sidebar-promotion-modal': c.date(),
+      'hp-junior-modal': c.date()
     }
   },
 
