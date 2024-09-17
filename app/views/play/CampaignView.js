@@ -2040,6 +2040,10 @@ class CampaignView extends RootView {
     const isStudentOrTeacher = me.isStudent() || me.isTeacher()
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
+    if (what === 'junior-level') {
+      return me.isHomeUser()
+    }
+
     if (what === 'classroom-level-play-button') {
       const isValidStudent = me.isStudent() && (this.courseInstance || (me.get('courseInstances')?.length && (this.campaign.get('slug') !== 'intro')))
       const isValidTeacher = me.isTeacher()
