@@ -40,7 +40,7 @@ export default {
   },
 
   mounted () {
-    this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'AI Leauge: Loaded' } })
+    this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'AI League: Loaded' } })
     this.setPageTitle(PAGE_TITLES[this.$options.name])
   },
 
