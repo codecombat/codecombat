@@ -4654,7 +4654,7 @@ module.exports = {
       reset_progress: 'Reset Progress',
       export_progress: 'Export Progress',
       assessments_tab: 'Assessments',
-      ai_hackstack_junior_tab: 'AI HackStack Jr',
+      ai_hackstack_junior_tab: 'AI Junior',
       switch_on: 'On',
       switch_off: 'Off',
       ai_league: 'AI League',
