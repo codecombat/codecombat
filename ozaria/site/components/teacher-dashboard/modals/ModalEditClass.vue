@@ -572,10 +572,7 @@ export default Vue.extend({
         // redirect to classes if user was not on classes page when creating a new class
         if (this.classroomInstance.isNew()) {
           const path = window.location.pathname
-          if (path !== '/teachers' &&
-            !path.match('/teachers/classes') &&
-            !path.match('/teachers/ai-league')
-          ) {
+          if (path !== '/teachers' && !path.match('/teachers/classes')) {
             window.location.href = '/teachers/classes'
           }
         }
