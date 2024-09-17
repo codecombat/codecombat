@@ -31,6 +31,12 @@ module.exports = (CourseVictoryModal = (function () {
       this.prototype.id = 'course-victory-modal'
       this.prototype.template = template
       this.prototype.closesOnClickOutside = false
+
+      this.prototype.subscriptions = {
+        'level:course-membership-required': 'onCourseMembershipRequired', // If they need to be added to a course.
+        'level:license-required': 'onLicenseRequired', // If they need a license.
+        'level:locked': 'onLevelLocked',
+      }
     }
 
     constructor (options) {
@@ -101,9 +107,7 @@ module.exports = (CourseVictoryModal = (function () {
         const succeededConcepts = concepts.filter(c => (goalStates[c] != null ? goalStates[c].status : undefined) === 'success')
         _.assign(properties, { concepts, succeededConcepts })
       }
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Play Level Victory Modal Loaded', properties)
-      }
+      window.tracker?.trackEvent('Play Level Victory Modal Loaded', properties)
 
       if (this.level.isType('hero', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')) {
         this.achievements = options.achievements
@@ -244,9 +248,7 @@ module.exports = (CourseVictoryModal = (function () {
 
     onNextLevel () {
       let link
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Play Level Victory Modal Next Level', { category: 'Students', levelSlug: this.level.get('slug'), nextLevelSlug: this.nextLevel.get('slug') })
-      }
+      window.tracker?.trackEvent('Play Level Victory Modal Next Level', { category: 'Students', levelSlug: this.level.get('slug'), nextLevelSlug: this.nextLevel.get('slug') })
       if (me.isSessionless()) {
         link = `/play/level/${this.nextLevel.get('slug')}?course=${this.courseID}&codeLanguage=${utils.getQueryVariable('codeLanguage', 'python')}`
       } else {
@@ -264,17 +266,13 @@ module.exports = (CourseVictoryModal = (function () {
       } else {
         link = `/play/${this.course.get('campaignID')}?course-instance=${this.courseInstanceID}`
       }
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Play Level Victory Modal Back to Map', { category: 'Students', levelSlug: this.level.get('slug') })
-      }
+      window.tracker?.trackEvent('Play Level Victory Modal Back to Map', { category: 'Students', levelSlug: this.level.get('slug') })
       return application.router.navigate(link, { trigger: true })
     }
 
     onDone () {
       let link
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Play Level Victory Modal Done', { category: 'Students', levelSlug: this.level.get('slug') })
-      }
+      window.tracker?.trackEvent('Play Level Victory Modal Done', { category: 'Students', levelSlug: this.level.get('slug') })
       if (me.isSessionless()) {
         link = '/teachers/courses'
       } else {
@@ -285,9 +283,7 @@ module.exports = (CourseVictoryModal = (function () {
     }
 
     onPublish () {
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Play Level Victory Modal Publish', { category: 'Students', levelSlug: this.level.get('slug') })
-      }
+      window.tracker?.trackEvent('Play Level Victory Modal Publish', { category: 'Students', levelSlug: this.level.get('slug') })
       if (this.session.isFake()) {
         return application.router.navigate(this.galleryURL, { trigger: true })
       } else {
@@ -324,6 +320,24 @@ module.exports = (CourseVictoryModal = (function () {
       if (((this.level.get('type') === 'course-ladder') && this.session.readyToRank()) || !this.session.inLeague(this.courseInstanceID)) {
         return api.levelSessions.submitToRank({ session: this.session.id, courseInstanceId: this.courseInstanceID })
       }
+    }
+
+    onCourseMembershipRequired (e) {
+      window.tracker?.trackEvent('Course Victory Modal Course Membership Required', { category: 'Students', levelSlug: this.level.get('slug') })
+      console.info('Course Membership Required', e)
+      this.onNextLevel() // We won't otherwise do anything when LevelSetupManager fails to create session, so at least go to the next level and let it show the message
+    }
+
+    onLicenseRequired (e) {
+      window.tracker?.trackEvent('Course Victory Modal License Required', { category: 'Students', levelSlug: this.level.get('slug') })
+      console.info('License Required', e)
+      this.onNextLevel() // We won't otherwise do anything when LevelSetupManager fails to create session, so at least go to the next level and let it show the message
+    }
+
+    onLevelLocked (e) {
+      window.tracker?.trackEvent('Course Victory Modal Level Locked', { category: 'Students', levelSlug: this.level.get('slug') })
+      console.info('Level Locked', e)
+      this.onNextLevel() // We won't otherwise do anything when LevelSetupManager fails to create session, so at least go to the next level and let it show the message
     }
   }
   CourseVictoryModal.initClass()

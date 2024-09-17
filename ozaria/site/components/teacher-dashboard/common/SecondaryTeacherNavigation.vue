@@ -468,7 +468,7 @@ export default {
         aria-expanded="false"
       >
         <div id="IconAIJunior" />
-        <span>{{ $t('teacher_dashboard.ai_junior_tab') }}</span>
+        <span>{{ $t('teacher_dashboard.ai_hackstack_junior_tab') }}</span>
         <span class="caret" />
       </a>
       <ul

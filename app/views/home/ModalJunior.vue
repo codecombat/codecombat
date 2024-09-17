@@ -44,7 +44,10 @@ export default Vue.extend({
   >
     <template #content>
       <div class="junior-modal-content-container">
-        <h2 class="text-h2">
+        <h2
+          id="junior-modal-title"
+          class="text-h2"
+        >
           {{ $t('home_v3.junior_modal_header') }}
         </h2>
         <img
@@ -69,6 +72,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 @import 'app/styles/core/variables.scss';
 @import 'app/styles/common/_button.scss';
+@import 'app/styles/component_variables.scss';
 
 .junior-modal-content-container {
   display: flex;
@@ -78,7 +82,8 @@ export default Vue.extend({
   margin: 10px 60px;
   text-align: center;
 
-  .text-h2 {
+  .text-h2#junior-modal-title {
+    font-family: $main-font-family;
     font-weight: bold;
   }
 

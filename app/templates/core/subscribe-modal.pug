@@ -49,6 +49,8 @@ mixin price(name, p, nameWithoutCurrency)
                   li(data-i18n="subscribe.feature_gems", data-i18n-options={gems: view.basicProduct.get('gems').toLocaleString(), gems12: (view.basicProduct.get('gems') * 12).toLocaleString()})
                 li(data-i18n="subscribe.feature_ai_level_bot")
 
+        div.benefits-footer.text-center(data-i18n="subscribe.feature_all_products")
+
         hr
 
         if view.lifetimeProduct
@@ -99,11 +101,13 @@ mixin price(name, p, nameWithoutCurrency)
           div.parent-account.text-center
             p.warning-blurb(data-i18n="subscribe.sure_buy_as_parent")
 
-        div.support-blurb.text-center
-          p
-            span(data-i18n="subscribe.support_part1")
-            =" "
-            a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
+        if me.get('country') && me.get('country') != 'united-states'
+          // Probably not worth including in US, so many Stripe options
+          div.support-blurb.text-center
+            p
+              span(data-i18n="subscribe.support_part1")
+              =" "
+              a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
 
       if view.state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible

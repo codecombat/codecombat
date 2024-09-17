@@ -170,11 +170,14 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
           }
           try {
             if (utils.isCodeCombat) {
-              defaultCode = programmableMethod.languages[solutionLanguage] || ((this.language === 'cpp') && translateUtils.translateJS(programmableMethod.source, 'cpp')) || programmableMethod.source
+              defaultCode = programmableMethod.languages?.[solutionLanguage] || ((this.language === 'cpp') && translateUtils.translateJS(programmableMethod.source, 'cpp')) || programmableMethod.source
             } else {
-              defaultCode = programmableMethod.languages[level.get('primerLanguage') || this.language] || ((this.language === 'cpp') && translateUtils.translateJS(programmableMethod.source, 'cpp')) || programmableMethod.source
+              defaultCode = programmableMethod.languages?.[level.get('primerLanguage') || this.language] || ((this.language === 'cpp') && translateUtils.translateJS(programmableMethod.source, 'cpp')) || programmableMethod.source
             }
             translatedDefaultCode = _.template(defaultCode)(utils.i18n(programmableMethod, 'context'))
+            if (!translatedDefaultCode) {
+              translatedDefaultCode = '\n' // Distinguish empty starter code from nothing so it's not falsy
+            }
           } catch (e) {
             console.error('Broken solution for level:', level.get('name'))
             console.log(e)
