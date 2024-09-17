@@ -1428,6 +1428,13 @@ module.exports = (User = (function () {
       return this.isMtoStem() || this.isMtoNeo()
     }
 
+    isManualClassroomJoinAllowed () {
+      if (this.isMto()) {
+        return false
+      }
+      return true
+    }
+
     showForumLink () { return !(features?.china != null ? features?.china : false) }
     showChinaResourceInfo () { return features?.china != null ? features?.china : false }
     showChinaHomeVersion () { return features?.chinaHome != null ? features?.chinaHome : false }
