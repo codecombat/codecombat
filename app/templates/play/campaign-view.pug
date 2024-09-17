@@ -352,7 +352,8 @@ if showGameDevAlert
 
   .game-controls.header-font.picoctf-hide
     if !(features.picoCtf || features.brainPop)
-      button.btn.junior-level.junior-menu-icon(title='CodeCombat Junior')
+      if view.shouldShow('junior-level')
+        button.btn.junior-level.junior-menu-icon(title='CodeCombat Junior')
       if view.shouldShow('hackstack')
         span.btn.hackstack-menu-icon(title='CodeCombat AI HackStack')
       button.btn.roblox-level.roblox-menu-icon(title='CodeCombat Worlds on Roblox')
