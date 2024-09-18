@@ -2,12 +2,6 @@
 import { mapGetters, mapActions } from 'vuex'
 import utils from 'core/utils'
 export default {
-  data () {
-    return {
-      loadPageToUrl: false,
-    }
-  },
-
   computed: {
     ...mapGetters({
       chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
