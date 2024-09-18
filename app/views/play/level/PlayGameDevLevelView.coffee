@@ -120,7 +120,9 @@ module.exports = class PlayGameDevLevelView extends RootView
       @surface.setWorld(@world)
       @scriptManager.initializeCamera()
       @renderSelectors '#info-col'
-      @spells = aetherUtils.generateSpellsObject level: @level, levelSession: @session
+      code = @session.get('code')['hero-placeholder']?.plan
+      @fetchToken(code, @session.get('codeLanguage'))
+        .then((token) => @spells = aetherUtils.generateSpellsObject level: @level, levelSession: @session, token: token)
       goalNames = (utils.i18n(goal, 'name') for goal in @goalManager.goals)
 
       course = if @courseID then new Course({_id: @courseID}) else null
@@ -165,6 +167,16 @@ module.exports = class PlayGameDevLevelView extends RootView
         { vmid: 'rel-canonical', rel: 'canonical', href: '/play'}
       ]
     }
+
+  fetchToken: (source, language) =>
+    if language not in ['java', 'cpp'] or /^\u56E7[a-zA-Z0-9+/=]+\f$/.test source
+      return Promise.resolve(source)
+
+    headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+    service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
+    fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
+      .then (x) => x.json()
+      .then (x) => x.token
 
   onEditLevelButton: ->
     viewClass = 'views/play/level/PlayLevelView'
