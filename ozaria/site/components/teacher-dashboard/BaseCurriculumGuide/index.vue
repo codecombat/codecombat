@@ -66,7 +66,7 @@ export default {
   mounted () {
     this.setTeacherId(me.get('_id'))
     this.setPageTitle(PAGE_TITLES[this.$options.name])
-    this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Curriculum Guide: Loaded' } })
+    this.fetchData({ componentName: this.$options.name, options: { campaignUrl: this.campaign, loadedEventName: 'Curriculum Guide: Loaded' } })
   },
 
   methods: {
@@ -132,7 +132,7 @@ export default {
         </div>
       </div>
 
-      <chapter-nav :campaign-url="campaign" />
+      <chapter-nav />
       <chapter-info />
 
       <div class="fluid-container">

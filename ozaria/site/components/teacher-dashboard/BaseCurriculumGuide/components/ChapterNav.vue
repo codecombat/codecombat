@@ -2,14 +2,6 @@
 import { mapGetters, mapActions } from 'vuex'
 import utils from 'core/utils'
 export default {
-  props: {
-    campaignUrl: {
-      type: String,
-      default: '',
-      required: false
-    }
-  },
-
   data () {
     return {
       loadPageToUrl: false,
@@ -43,21 +35,6 @@ export default {
 
     courseName () {
       return this.getCurrentCourse?.name || ''
-    }
-  },
-
-  watch: {
-    getCurrentCourse () {
-      if (!this.loadPageToUrl) {
-        if (this.getCurrentCourse && this.courses) {
-          const courses = this.courses
-          const course = courses.find(course => course.slug === this.campaignUrl)
-          if (course) {
-            this.setSelectedCampaign(course.campaignID)
-          }
-          this.loadPageToUrl = true
-        }
-      }
     }
   },
 
