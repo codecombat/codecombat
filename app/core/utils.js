@@ -2025,6 +2025,15 @@ module.exports.MTOClients = {
   MTO_NEO_PROD: '66d8d750f81368cbd77f4ab2'
 }
 
+module.exports.secondsToMinutesAndSeconds = function (seconds) {
+  if(!seconds){
+    return ''
+  }
+  const minutes = Math.floor(seconds / 60)
+  const remainingSeconds = seconds % 60
+  return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`
+}
+
 module.exports = {
   ...module.exports,
   activeAndPastArenas,

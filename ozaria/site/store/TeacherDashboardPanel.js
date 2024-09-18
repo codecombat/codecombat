@@ -13,7 +13,7 @@ export const DRAGGABLE_STATEMENT_COMPLETION = 'DRAGGABLE_STATEMENT_COMPLETION'
  * Payload for practiceLevelData for displaying on the teacher dashboard panel.
  */
 export function practiceLevelData (content, studentSessions) {
-  const { original, fromIntroLevelOriginal } = content
+  const { original, fromIntroLevelOriginal, practiceThresholdMinutes } = content
   const normalizedOriginal = original || fromIntroLevelOriginal
   const level = new Level(content)
 
@@ -29,6 +29,7 @@ export function practiceLevelData (content, studentSessions) {
     studentCode,
     solutionCode,
     language,
+    practiceThresholdMinutes
   }
 }
 
@@ -238,8 +239,8 @@ export default {
     setPanelHeader (state, header) {
       state.panelHeader = header
     },
-    setStudentInfo (state, { name, completedContent }) {
-      state.studentInfo = { name, completedContent }
+    setStudentInfo (state, { name, completedContent, practiceThresholdMinutes }) {
+      state.studentInfo = { name, completedContent, practiceThresholdMinutes }
     },
     setPanelSessionContents (state, sessionContentObjects) {
       state.panelSessionContents = sessionContentObjects
@@ -326,7 +327,7 @@ export default {
       const moduleContent = modules[moduleNum]
       const content = moduleContent.find(({ _id }) => _id === contentId)
 
-      const { introContent, ozariaType, original, fromIntroLevelOriginal, type } = content
+      const { introContent, ozariaType, original, fromIntroLevelOriginal, type, practiceThresholdMinutes } = content
 
       let icon, url
 
@@ -364,11 +365,12 @@ export default {
       if (['hero', 'course', undefined].includes(content.type)) {
         // For practice levels and challenge levels
 
-        commit('setTimeSpent', Math.ceil(studentSessions[normalizedOriginal].playtime / 60))
+        commit('setTimeSpent', utils.secondsToMinutesAndSeconds(Math.ceil(studentSessions[normalizedOriginal].playtime)))
 
         dispatch('setPanelSessionContent', {
           header: panelHeader,
           studentName: student.displayName,
+          practiceThresholdMinutes,
           dateFirstCompleted: studentSessions[normalizedOriginal].dateFirstCompleted,
           sessionContentObjects: [practiceLevelData(content, studentSessions)]
         })
@@ -378,7 +380,7 @@ export default {
           ...(content.goals || []), ...(content.additionalGoals || []).map(({ goals }) => goals).flat()
         ]
 
-        commit('setTimeSpent', Math.ceil(studentSessions[normalizedOriginal].playtime / 60))
+        commit('setTimeSpent', utils.secondsToMinutesAndSeconds(Math.ceil(studentSessions[normalizedOriginal].playtime)))
 
         const studentSolved = new Set(Object.entries(studentSessions[normalizedOriginal]?.state?.goalStates || {})
           .filter(([_, { status }]) => status === 'success')
@@ -517,13 +519,14 @@ export default {
       commit('openPanel')
     },
 
-    setPanelSessionContent ({ commit }, { sessionContentObjects, header, studentName, dateFirstCompleted }) {
+    setPanelSessionContent ({ commit }, { sessionContentObjects, header, studentName, practiceThresholdMinutes, dateFirstCompleted }) {
       commit('setPanelSessionContents', sessionContentObjects)
       commit('setPanelHeader', header)
       commit('setStudentInfo', {
         name: studentName,
         // Handle undefined dateFirstCompleted for in progress content
-        completedContent: dateFirstCompleted ? moment(dateFirstCompleted).format('lll') : ''
+        completedContent: dateFirstCompleted ? moment(dateFirstCompleted).format('lll') : '',
+        practiceThresholdMinutes
       })
       commit('openPanel')
     }

@@ -1,6 +1,7 @@
 <script>
 import CodeArea from '../../common/CodeArea'
 import CodeDiff from '../../../../../../app/components/common/CodeDiff'
+import utils from 'core/utils'
 
 export default {
   components: {
@@ -18,6 +19,9 @@ export default {
   computed: {
     dateFirstCompleted () {
       return this.panelSessionContent.session?.dateFirstCompleted ? moment(this.panelSessionContent.session.dateFirstCompleted).format('lll') : null
+    },
+    playTime () {
+      return utils.secondsToMinutesAndSeconds(Math.ceil(this.panelSessionContent.session.playtime))
     }
   }
 }
@@ -42,7 +46,10 @@ export default {
           <img src="/images/ozaria/teachers/dashboard/svg_icons/Icon_TimeSpent.svg">
           <span>
             <b>{{ $t('teacher.time_played_label') }}</b>
-            {{ Math.ceil(panelSessionContent.session.playtime / 60) }} min
+            {{ playTime }}
+            <span v-if="panelSessionContent.practiceThresholdMinutes">
+              <b>{{ $t('teacher.practice_threshold_label') }}</b> {{ panelSessionContent.practiceThresholdMinutes }} min
+            </span>
           </span>
         </div>
         <div v-else />

@@ -101,6 +101,7 @@ export default {
       <concept-check-info
         v-if="conceptCheck"
         :concept-check="conceptCheck"
+        :practice-threshold-minutes="studentInfo.practiceThresholdMinutes"
       />
       <component
         :is="getComponentName(panelSessionContent.type)"

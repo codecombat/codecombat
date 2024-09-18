@@ -567,7 +567,7 @@ describe('Utility library', function () {
     })
   })
 
-  return describe('findNextLevel and findNextAssessmentForLevel', function () {
+  describe('findNextLevel and findNextAssessmentForLevel', function () {
     // r=required p=practice c=complete *=current a=assessment l=locked
     // utils.findNextLevel returns next level 0-based index
     // utils.findNextAssessmentForLevel returns next level 0-based index
@@ -1289,4 +1289,28 @@ describe('Utility library', function () {
       })
     })
   })
+  describe('secondsToMinutesAndSeconds', () => {
+    it('should return an empty string if no seconds are provided', () => {
+      expect(utils.secondsToMinutesAndSeconds()).toEqual('');
+    });
+  
+    it('should correctly convert seconds to minutes and seconds', () => {
+      expect(utils.secondsToMinutesAndSeconds(90)).toEqual('1:30');
+      expect(utils.secondsToMinutesAndSeconds(45)).toEqual('0:45');
+      expect(utils.secondsToMinutesAndSeconds(120)).toEqual('2:00');
+    });
+  
+    it('should handle seconds less than 60 correctly', () => {
+      expect(utils.secondsToMinutesAndSeconds(59)).toEqual('0:59');
+    });
+  
+    it('should handle seconds equal to 60 correctly', () => {
+      expect(utils.secondsToMinutesAndSeconds(60)).toEqual('1:00');
+    });
+
+    it('should pad seconds less than 10 with a leading zero', () => {
+      expect(secondsToMinutesAndSeconds(65)).toEqual('1:05');
+      expect(secondsToMinutesAndSeconds(9)).toEqual('0:09');
+    });
+  });
 })
