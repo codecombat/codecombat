@@ -21,6 +21,7 @@ TokenIterator = ace.require('ace/token_iterator').TokenIterator
 LZString = require 'lz-string'
 utils = require 'core/utils'
 Aether = require 'lib/aether/aether'
+aetherUtils = require 'lib/aether_utils'
 Blockly = require 'blockly'
 blocklyUtils.registerBlocklyTheme()
 storage = require 'core/storage'
@@ -1157,20 +1158,9 @@ module.exports = class SpellView extends CocoView
   # - Problem alerts and ranges will only show on fully cast worlds. Annotations will show continually.
 
   fetchToken: (source, language) =>
-    if language not in ['java', 'cpp']
-      return Promise.resolve(source)
-    else if source of @loadedToken
+    if source of @loadedToken
       return Promise.resolve(@loadedToken[source])
-
-    headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-    m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
-    service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
-    fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
-    .then (x) => x.json()
-    .then (x) =>
-      @loadedToken = {} # only cache 1 source
-      @loadedToken[source] = x.token;
-      return x.token
+    return aetherUtils.fetchToken(source, language)
 
   fetchTokenForSource: () =>
     source = @ace.getValue()
