@@ -16,6 +16,7 @@ AudioPlayer = require 'lib/AudioPlayer'
 World = require 'lib/world/world'
 utils = require 'core/utils'
 loadAetherLanguage = require 'lib/loadAetherLanguage'
+aetherUtils = require 'lib/aether_utils'
 
 LOG = false
 
@@ -279,16 +280,12 @@ module.exports = class LevelLoader extends CocoClass
       uncompressed = LZString.decompressFromUTF16 compressed
       code = session.get 'code'
 
-      headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-      m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
-      service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
-      fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: uncompressed, language: language})}
-      .then (x) => x.json()
-      .then (x) =>
-        code[if session.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan = x.token
+      aetherUtils.fetchToken(uncompressed, language).then((token) =>
+        code[if session.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan = token
         session.set 'code', code
         session.unset 'interpret'
         @loadDependenciesForSession session
+      )
 
   loadDependenciesForSession: (session) ->
     console.debug "Loading dependencies for session: ", session if LOG
