@@ -387,13 +387,14 @@ export default {
         </li>
       </ul>
     </li>
-    <li v-if="isCodeCombat">
-      <router-link
+    <li>
+      <component
+        :is="isCodeCombat ? 'router-link' : 'a'"
         id="AILeague"
         to="/teachers/ai-league"
         :class="{ 'current-route': isCurrentRoute('/teachers/ai-league') }"
         data-action="AI League: Nav Clicked"
-        @click.native="trackEvent"
+        @click="AILeagueClicked"
       >
         <div id="IconKeepPlaying" />
         <img
@@ -408,32 +409,7 @@ export default {
           class="league-name league-name__blue"
           src="/images/pages/league/ai-league-name_blue.svg"
         >
-      </router-link>
-    </li>
-    <li
-      v-else
-      @click="AILeagueClicked"
-    >
-      <a
-        id="AILeague"
-        :class="{ 'current-route': isCurrentRoute('/teachers/ai-league') }"
-        data-action="AI League: Nav Clicked"
-        @click.native="trackEvent"
-      >
-        <div id="IconKeepPlaying" />
-        <img
-          class="league-name league-name__gray"
-          src="/images/pages/league/ai-league-name.svg"
-        >
-        <img
-          class="league-name league-name__moon"
-          src="/images/pages/league/ai-league-name_moon.svg"
-        >
-        <img
-          class="league-name league-name__blue"
-          src="/images/pages/league/ai-league-name_blue.svg"
-        >
-      </a>
+      </component>
     </li>
     <li
       role="presentation"
