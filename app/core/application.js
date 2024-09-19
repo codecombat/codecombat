@@ -155,19 +155,21 @@ const Application = {
     this.setReferrerTracking()
   },
 
-  checkForNewAchievement () {
-    let startFrom
-    const utils = require('core/utils')
+  checkForNewAchievement (limit = 2) {
+    if (limit <= 0) return; // Base case to stop recursion after 'limit' calls
+
+    let startFrom;
+    const utils = require('core/utils');
     if (utils.isOzaria) { return } // Not needed until/unlesss we start using achievements in Ozaria
     if (me.get('lastAchievementChecked')) {
-      startFrom = new Date(me.get('lastAchievementChecked'))
+      startFrom = new Date(me.get('lastAchievementChecked'));
     } else {
-      startFrom = me.created()
+      startFrom = me.created();
     }
 
-    const daysSince = moment.duration(new Date() - startFrom).asDays()
+    const daysSince = moment.duration(new Date() - startFrom).asDays();
     if (daysSince > 1) {
-      return me.checkForNewAchievement().then(() => this.checkForNewAchievement())
+      return me.checkForNewAchievement().then(() => this.checkForNewAchievement(limit - 1));
     }
   },
 
