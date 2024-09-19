@@ -44,7 +44,8 @@ if (utils.isOzaria) {
   Vue.directive('mask', VueMaskDirective)
 }
 
-if(utils.shaTag !== 'dev') { // tracking only in production
+if(false && utils.shaTag !== 'dev') { // tracking only in production 
+  // we can turn it off for now, since we're not using its data.
   const DD_RUM_RANDOM_NUMBER_KEY = 'ddRumRandomNumber'
   if (!sessionStorage.getItem(DD_RUM_RANDOM_NUMBER_KEY)) {
     const RANDOM_NUMBER = Math.floor(Math.random() * 100) + 1; // random number between 1 and 100
