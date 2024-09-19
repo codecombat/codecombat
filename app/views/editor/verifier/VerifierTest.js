@@ -10,7 +10,6 @@ module.exports = class VerifierTest extends CocoClass {
   constructor (levelID, updateCallback, supermodel, language, options) {
     super()
     this.onWorldNecessitiesLoaded = this.onWorldNecessitiesLoaded.bind(this)
-    this.fetchToken = this.fetchToken.bind(this)
     this.configureSession = this.configureSession.bind(this)
     this.cleanup = this.cleanup.bind(this)
     this.load = this.load.bind(this)
@@ -82,20 +81,8 @@ module.exports = class VerifierTest extends CocoClass {
     me.team = (this.team = 'humans')
     this.setupGod()
     this.initGoalManager()
-    this.fetchToken(this.solution.source, this.language)
+    aetherUtils.fetchToken(this.solution.source, this.language)
       .then(token => this.register(token))
-  }
-
-  fetchToken (source, language) {
-    if (!['java', 'cpp'].includes(language)) {
-      return Promise.resolve(source)
-    }
-
-    const headers = { Accept: 'application/json', 'Content-Type': 'application/json' }
-    const service = window.localStorage?.kodeKeeperService || 'https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper'
-    return fetch(service, { method: 'POST', mode: 'cors', headers, body: JSON.stringify({ code: source, language }) })
-      .then(x => x.json())
-      .then(x => x.token)
   }
 
   configureSession (session, level) {
