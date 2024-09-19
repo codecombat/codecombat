@@ -6251,7 +6251,7 @@ module.exports = {
       with_our_tablet_friendly_platform: 'With our tablet friendly platform and icon-based coding blocks, no reading or typing is required for our youngest learners to successfully code on **CodeCombat Junior**! CodeCombat Junior is also browser-based and chromebook compatible, making it equitably accessible at schools.',
       adaptive_to_each_student: 'Adaptive to Each Student',
       codecombat_junior_automatically_assesses: '**CodeCombat Junior** automatically assesses learner’s coding success and recommends custom-generated practice levels when they need extra support. This provides a personalized learning pathway for every student while offering a dashboard for educators to track the progress of their entire classroom.',
-      coding_fundamentals_and_cross_curricular_connections: '**Coding Fundamentals** and **Cross-Curricular Connections**',
+      coding_fundamentals_and_cross_curricular_connections: 'Coding Fundamentals and Cross-Curricular Connections',
       our_curriculum_offers_student_facing: 'Our curriculum offers student-facing lesson slides and approachable activities to teach both core K-5 coding concepts and cross-curricular connections. Cross-curricular connections are lessons and unplugged activities that integrate coding concepts with other disciplines like Math and ELA. Topics include sequencing stories, visualizing and graphing data, narratives, and number sentences. All of our lessons are designed to meet **Computer Science Teachers Association (CSTA) Standards** and **Common Core Standards**.',
       request_a_quote: 'Request a Quote',
       scope_and_sequence: 'Scope and Sequence',
