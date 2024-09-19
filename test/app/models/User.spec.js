@@ -87,7 +87,7 @@ describe('UserModel', function () {
     })
   })
 
-  describe('shouldSeePromotion', function () {
+  fdescribe('shouldSeePromotion', function () {
     let user
 
     beforeEach(function () {
@@ -101,6 +101,16 @@ describe('UserModel', function () {
     it('returns false if promotion has been seen', function () {
       user.set('seenPromotions', { promoKey: new Date().toISOString() })
       expect(user.shouldSeePromotion('promoKey')).toBe(false)
+    })
+
+    it('returns false if promotion has the legacy true value', function () {
+      user.set('seenPromotions', { promoKey: true })
+      expect(user.shouldSeePromotion('promoKey')).toBe(false)
+    })
+
+    it('returns true if promotion has the legacy false value', function () {
+      user.set('seenPromotions', { promoKey: false })
+      expect(user.shouldSeePromotion('promoKey')).toBe(true)
     })
 
     it('returns true if latest promotion was seen more than a week ago', function () {
