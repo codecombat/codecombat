@@ -141,6 +141,7 @@ module.exports = (LadderView = (function () {
         'click a:not([data-toggle])': 'onClickedLink',
         'click .publish-button': 'onClickPublishButton',
         'click .spectate-button': 'onClickSpectateButton',
+        'click .new-spectate-button': 'onClickNewSpectateButton',
         'click .simulate-all-button': 'onClickSimulateAllButton',
         'click .early-results-button': 'onClickEarlyResultsButton',
         'click .join-clan-button': 'onClickJoinClanButton'
@@ -485,6 +486,21 @@ module.exports = (LadderView = (function () {
       if (!this.level?.isType('ladder')) return
       this.leaderboardRankings = this.ladderTab?.rankings || []
       this.renderSelectors('.spectate-players')
+    }
+
+    onClickNewSpectateButton () {
+      const player1Index = parseInt(this.$el.find('#spectate-player-1').val().split(':')[0]) - 1
+      const player2Index = parseInt(this.$el.find('#spectate-player-2').val().split(':')[0]) - 1
+      const player1 = this.leaderboardRankings[player1Index]
+      const player2 = this.leaderboardRankings[player2Index]
+      const humanSession = player1 != null ? player1[player1.length - 1] : undefined
+      const ogreSession = player2 != null ? player2[player2.length - 1] : undefined
+      let url = `/play/spectate/${this.level.get('slug')}?`
+      if (humanSession && ogreSession) { url += `session-one=${humanSession}&session-two=${ogreSession}` }
+      if (this.league) { url += '&league=' + this.league.id }
+      if (key.command) { url += '&autoplay=false' }
+      if (this.tournamentState === 'ended') { url += '&tournament=' + this.tournamentId }
+      return window.open(url, key.command ? '_blank' : 'spectate') // New tab for spectating specific matches
     }
 
     destroy () {
