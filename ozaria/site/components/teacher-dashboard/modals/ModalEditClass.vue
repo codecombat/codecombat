@@ -285,7 +285,10 @@ export default Vue.extend({
         !this.classroom.otherProductId &&
         !this.isGoogleClassroomForm &&
         !this.isOtherProductForm
-    }
+    },
+    hideCodeLanguageAndFormat () {
+      return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack'].includes(this.newClubType)
+    },
   },
 
   watch: {
@@ -429,6 +432,7 @@ export default Vue.extend({
           this.saving = false
           return
         }
+
         if (this.newClubType) {
           updates.type = this.newClubType
         }
@@ -739,7 +743,7 @@ export default Vue.extend({
             class="col-xs-12"
             :class="{ 'has-error': $v.newClubType.$error }"
           >
-            <label for="default-code-format-select">
+            <label for="club-type-select">
               <span class="control-label"> {{ $t("teachers.club_type") }} </span>
             </label>
             <select
@@ -827,6 +831,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
+          v-if="!hideCodeLanguageAndFormat"
           class="form-group row language"
           :class="{ 'has-error': $v.newProgrammingLanguage.$error }"
         >
@@ -861,7 +866,7 @@ export default Vue.extend({
         </div>
 
         <div
-          v-if="isCodeCombat"
+          v-if="isCodeCombat && !hideCodeLanguageAndFormat"
           class="form-group row code-format"
         >
           <div class="col-xs-12">
