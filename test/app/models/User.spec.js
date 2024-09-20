@@ -87,7 +87,7 @@ describe('UserModel', function () {
     })
   })
 
-  fdescribe('shouldSeePromotion', function () {
+  describe('shouldSeePromotion', function () {
     let user
 
     beforeEach(function () {
