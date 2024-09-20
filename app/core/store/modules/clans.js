@@ -2,7 +2,8 @@ import { getPublicClans, getMyClans, getClan, getChildClanDetails, getTournament
 import { getTournamentsByMember } from '../../api/tournaments'
 const _ = require('lodash')
 
-const sortClan = (clans) => {
+const sortClan = (clns) => {
+  const clans = clns.filter(c => c)
   const firstClassClan = _.findIndex(clans, (clan) => clan.slug.startsWith('autoclan-classroom'))
   const classClans = clans.filter((clan) => clan.slug.startsWith('autoclan-classroom'))
   const otherClans = clans.filter((clan) => !clan.slug.startsWith('autoclan-classroom'))
