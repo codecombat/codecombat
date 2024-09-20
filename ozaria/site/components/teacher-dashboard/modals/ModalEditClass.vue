@@ -1125,13 +1125,13 @@ export default Vue.extend({
                 {{ $t('courses.class_type_camp') }}
               </option>
               <option
-                v-if="me.isCodeNinja()"
+                v-if="me.isCodeNinja() && false"
                 value="camp-esports"
               >
                 {{ $t('courses.class_type_camp_esports') }}
               </option>
               <option
-                v-if="me.isCodeNinja()"
+                v-if="me.isCodeNinja() && false"
                 value="camp-junior"
               >
                 {{ $t('courses.class_type_camp_junior') }}
