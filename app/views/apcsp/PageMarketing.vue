@@ -207,17 +207,17 @@
               .col-md-6
                 .question {{ $t('apcsp_marketing.question_3') }}
                 .answer(v-html="$t('apcsp_marketing.answer_3', i18nData)")
-    modal-apcsp-contact(v-if="showModal" @close="showModal = false")
+    modal-get-licenses(v-if="showModal" @close="showModal = false" :subtitle="'Let us know if you have any questions or requests regarding our AP CSP curriculum.'")
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { PAGE_TITLES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
-import ModalAPCSPContact from 'app/components/common/ModalAPCSPContact.vue'
+import ModalGetLicenses from '../../components/common/ModalGetLicenses.vue'
 
 export default Vue.extend({
   components: {
-    'modal-apcsp-contact': ModalAPCSPContact
+    'modal-get-licenses': ModalGetLicenses,
   },
   data () {
     return {
