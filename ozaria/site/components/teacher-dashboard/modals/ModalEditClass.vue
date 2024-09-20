@@ -287,7 +287,7 @@ export default Vue.extend({
         !this.isOtherProductForm
     },
     hideCodeLanguageAndFormat () {
-      return this.asClub && ['club-roblox', 'club-hackstack'].includes(this.newClubType)
+      return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack'].includes(this.newClubType)
     },
   },
 
