@@ -81,7 +81,7 @@ export default {
 
     showStudentProjects () {
       // TODO: do show the student projects if it is Code Ninjas, but not in a camp context
-      if (utils.isCodeCombat && me.isCodeNinja()) {
+      if (utils.isCodeCombat) {
         return false
       }
       return true
