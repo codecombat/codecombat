@@ -15,7 +15,7 @@
             .row.row-request-access
               .col-lg-12
                 a.btn.btn-primary.btn-lg.uppercase(v-if="hasLicense" href="/apcsportal" :target="checkUsingRoute() ? '_blank' : ''") {{ $t('apcsp_marketing.ap_csp_portal') }}
-                .btn.btn-primary.btn-lg.uppercase(v-if="!hasLicense" @click="showRequestModal=true") {{ $t('apcsp_marketing.request_access') }}
+                .btn.btn-primary.btn-lg.uppercase(v-if="!hasLicense" @click="showModal=true") {{ $t('apcsp_marketing.request_access') }}
 
     .container-fluid.vector-flow
       .vector.vector-0
@@ -142,7 +142,7 @@
       .width-container.row
         .col.col-lg-12
           a.btn.btn-primary.btn-lg.btn-shadow.uppercase(v-if="hasLicense" href="/apcsportal" :target="checkUsingRoute() ? '_blank' : ''") {{ $t('apcsp_marketing.get_full_course') }}
-          .btn.btn-primary.btn-lg.btn-shadow.uppercase(v-else @click="showRequestModal=true") {{ $t('apcsp_marketing.get_full_course') }}
+          .btn.btn-primary.btn-lg.btn-shadow.uppercase(v-else @click="showModal=true") {{ $t('apcsp_marketing.get_full_course') }}
     #professional-development.container-fluid.container-fluid-gradient
       .width-container.row
         .col.col-lg-12
@@ -188,7 +188,7 @@
       .width-container.row.text-center
         .col.col-md-12
           h3.text-h3 {{ $t('apcsp_marketing.more_information') }}
-          a.btn.btn-primary.btn-lg.btn-shadow.uppercase(@click="showContactModal=true") {{ $t('apcsp_marketing.contact_us') }}
+          a.btn.btn-primary.btn-lg.btn-shadow.uppercase(@click="showModal=true") {{ $t('apcsp_marketing.contact_us') }}
 
     #faq.container-fluid
       .width-container.row
@@ -207,25 +207,21 @@
               .col-md-6
                 .question {{ $t('apcsp_marketing.question_3') }}
                 .answer(v-html="$t('apcsp_marketing.answer_3', i18nData)")
-    modal-get-licenses(v-if="showRequestModal" @close="showRequestModal = false" :subtitle="'Let us know if you have any questions or requests regarding our AP CSP curriculum.'")
-    modal-apcsp-contact(v-if="showContactModal" @close="showContactModal = false")
+    modal-get-licenses(v-if="showModal" @close="showModal = false" :subtitle="'Let us know if you have any questions or requests regarding our AP CSP curriculum.'")
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { PAGE_TITLES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
-import ModalAPCSPContact from 'app/components/common/ModalAPCSPContact.vue'
 import ModalGetLicenses from '../../components/common/ModalGetLicenses.vue'
 
 export default Vue.extend({
   components: {
-    'modal-apcsp-contact': ModalAPCSPContact,
     'modal-get-licenses': ModalGetLicenses,
   },
   data () {
     return {
-      showContactModal: false,
-      showRequestModal: false,
+      showModal: false,
       icons: [
         {
           img: '/images/pages/apcsp/small-images/01-coding-levels.png',
