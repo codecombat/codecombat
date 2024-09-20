@@ -291,6 +291,7 @@ export default function getVueRouter () {
             },
             { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDViewV2.vue') },
             { path: 'curriculum', component: () => import(/* webpackChunkName: "curriculum" */ '../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/index.vue') },
+            { path: 'curriculum/:campaign', component: () => import(/* webpackChunkName: "curriculum" */ '../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/index.vue'), props: true },
             {
               path: 'ai-league',
               component: () => import(/* webpackChunkName: "ai-league" */ '../views/ai-league/AILeagueView.vue'),

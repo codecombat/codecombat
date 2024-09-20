@@ -363,7 +363,7 @@ export default {
     async fetchDataCurriculumGuideAsync ({ state, dispatch, rootGetters }, options = {}) {
       const fetchPromises = []
       fetchPromises.push(dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId: state.teacherId }, { root: true }))
-      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', undefined, { root: true }))
+      fetchPromises.push(dispatch('teacherDashboard/fetchDataCurriculumGuide', options, { root: true }))
       await Promise.all(fetchPromises)
     },
 
@@ -384,7 +384,7 @@ export default {
     },
 
     // Curriculum guides panel
-    async fetchDataCurriculumGuide ({ dispatch, rootGetters, getters }) {
+    async fetchDataCurriculumGuide ({ dispatch, rootGetters, getters }, options = {}) {
       let sortedCourses = rootGetters['courses/sorted'] || []
       if (sortedCourses.length === 0) {
         await dispatch('courses/fetchReleased', undefined, { root: true })
@@ -397,6 +397,12 @@ export default {
         let selectedCourse
         if (classroomCourseIds.length) {
           selectedCourse = sortedCourses.find((c) => classroomCourseIds.includes(c._id))
+        }
+        if (options.campaignUrl) {
+          const course = sortedCourses.find(c => c.slug === options.campaignUrl)
+          if (course) {
+            selectedCourse = course
+          }
         }
         selectedCourse = selectedCourse || sortedCourses[0]
         dispatch('baseCurriculumGuide/setSelectedCampaign', selectedCourse.campaignID, { root: true })
