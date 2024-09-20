@@ -83,5 +83,9 @@ export default {
   &__highlight {
     color: var(--color-primary);
   }
+
+  a {
+    text-decoration: underline;
+  }
 }
 </style>

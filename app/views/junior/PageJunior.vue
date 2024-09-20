@@ -97,7 +97,7 @@
         :title="$t('junior_page.coding_fundamentals_and_cross_curricular_connections')"
         :text="$t('junior_page.our_curriculum_offers_student_facing')"
         :reverse="true"
-        image="/images/pages/junior/activity.webp"
+        image="/images/pages/junior/missing.webp"
       />
     </div>
 
@@ -123,6 +123,24 @@
       <p class="text-p text-center">
         <mixed-color-label :text=" $t('junior_page.check_out_this_resource')" />
       </p>
+    </div>
+
+    <div class="container">
+      <h2 class="text-h2">
+        {{ $t('junior_page.get_a_headstart') }}
+      </h2>
+      <p class="text-p text-center">
+        <mixed-color-label :text="$t('junior_page.parents_junior_perfect')" />
+      </p>
+      <div class="row">
+        <div class="col-md-12">
+          <CTAButton
+            href="https://codecombat.com/parents"
+          >
+            {{ $t('junior_page.explore_learning_options') }}
+          </CTAButton>
+        </div>
+      </div>
     </div>
 
     <div class="container">
@@ -194,7 +212,6 @@ export default Vue.extend({
     return {
       testimonials: [
         {
-          image: '/images/pages/schools/avatar/avatar_seth.webp'
         },
       ],
       faqItems: [
@@ -232,7 +249,7 @@ export default Vue.extend({
   },
   metaInfo () {
     return {
-      title: this.$t('schools_page.meta_title'),
+      title: this.$t('junior_page.meta_title'),
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
         { vmid: 'meta-description', name: 'description', content: this.$t('schools_page.our_comprehensive_implementation') },
@@ -269,6 +286,9 @@ export default Vue.extend({
   .container {
     &__header {
       padding-top: 200px;
+      @media (max-width: $screen-md-max) {
+        padding-top: 80px;
+      }
 
       .text-h1 {
         margin-top: 0;
@@ -301,6 +321,14 @@ export default Vue.extend({
       font-style: normal;
       font-weight: 700;
       line-height: 32px;
+    }
+  }
+  .contact-solution {
+    cursor: pointer;
+    ::v-deep {
+      .description:hover {
+        text-decoration: underline
+      }
     }
   }
 }
