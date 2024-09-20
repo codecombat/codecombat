@@ -680,9 +680,26 @@ module.exports = (User = (function () {
       return seenPromotions[key]
     }
 
+    shouldSeePromotion (key) {
+      if (!key) {
+        return true
+      }
+
+      const seenPromotion = this.getSeenPromotion(key)
+      if (seenPromotion) {
+        return false
+      }
+      const latestDate = Object.values(this.get('seenPromotions') || {})
+        .reduce((a, b) => new Date(a) > new Date(b) ? new Date(a) : new Date(b), new Date(0))
+
+      const aWeekAgo = new Date()
+      aWeekAgo.setDate(aWeekAgo.getDate() - 7)
+      return latestDate < aWeekAgo
+    }
+
     setSeenPromotion (key) {
       const seenPromotions = this.get('seenPromotions') || {}
-      Object.assign(seenPromotions, { [key]: true })
+      Object.assign(seenPromotions, { [key]: new Date() })
       this.set('seenPromotions', seenPromotions)
     }
 
