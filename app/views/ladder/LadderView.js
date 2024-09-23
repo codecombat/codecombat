@@ -133,7 +133,7 @@ module.exports = (LadderView = (function () {
       this.prototype.subscriptions =
         {
           'application:idle-changed': 'onIdleChanged',
-          'ladder:refresh': 'updateSpectateList'
+          'ladder:refresh': 'updateSpectateList',
         }
 
       this.prototype.events = {
@@ -144,7 +144,7 @@ module.exports = (LadderView = (function () {
         'click .new-spectate-button': 'onClickNewSpectateButton',
         'click .simulate-all-button': 'onClickSimulateAllButton',
         'click .early-results-button': 'onClickEarlyResultsButton',
-        'click .join-clan-button': 'onClickJoinClanButton'
+        'click .join-clan-button': 'onClickJoinClanButton',
       }
 
       this.prototype.onCourseInstanceLoaded = co.wrap(function * (courseInstance) {
@@ -161,7 +161,7 @@ module.exports = (LadderView = (function () {
 
       this.prototype.teamOffers = [
         { slug: 'hyperx', clanId: '60a4378875b540004c78f121', name: 'Team HyperX', clanSlug: 'hyperx' },
-        { slug: 'derbezt', clanId: '601351bb4b79b4013e198fbe', name: 'Team DerBezt', clanSlug: 'team-derbezt' }
+        { slug: 'derbezt', clanId: '601351bb4b79b4013e198fbe', name: 'Team DerBezt', clanSlug: 'team-derbezt' },
       ]
     }
 
@@ -169,8 +169,8 @@ module.exports = (LadderView = (function () {
       return $.ajax({
         type: 'HEAD',
         success: (result, status, xhr) => {
-          return this.timeOffset = new Date(xhr.getResponseHeader('Date')).getTime() - Date.now()
-        }
+          return (this.timeOffset = new Date(xhr.getResponseHeader('Date')).getTime() - Date.now())
+        },
       })
     }
 
