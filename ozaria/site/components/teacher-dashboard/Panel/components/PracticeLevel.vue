@@ -22,6 +22,9 @@ export default {
     },
     playTime () {
       return utils.secondsToMinutesAndSeconds(Math.ceil(this.panelSessionContent.session.playtime))
+    },
+    formattedPracticeThreshold () {
+      return utils.secondsToMinutesAndSeconds(this.panelSessionContent.practiceThresholdMinutes * 60)
     }
   }
 }
@@ -48,7 +51,7 @@ export default {
             <b>{{ $t('teacher.time_played_label') }}</b>
             {{ playTime }}
             <span v-if="panelSessionContent.practiceThresholdMinutes">
-              <b>{{ $t('teacher.practice_threshold_label') }}</b> {{ panelSessionContent.practiceThresholdMinutes }} min
+              <b>{{ $t('teacher.practice_threshold_label') }}</b> {{ formattedPracticeThreshold }}
             </span>
           </span>
         </div>

@@ -5,8 +5,8 @@ export default {
       type: Object,
       required: true
     },
-    practiceThresholdMinutes: {
-      type: Number,
+    practiceThreshold: {
+      type: String,
       require: false,
       default: null
     }
@@ -45,11 +45,11 @@ export default {
         {{ `${conceptCheck.timeSpent}` }}
       </p>
       <p
-        v-if="practiceThresholdMinutes"
+        v-if="practiceThreshold"
         class="practice-threshold"
       >
         <b>{{ $t('teacher.practice_threshold_label') }}</b>
-        {{ `${practiceThresholdMinutes} min` }}
+        {{ practiceThreshold }}
       </p>
     </div>
     <div
