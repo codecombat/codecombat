@@ -3,14 +3,14 @@ export default {
   props: {
     conceptCheck: {
       type: Object,
-      required: true
+      required: true,
     },
     practiceThreshold: {
       type: String,
       require: false,
-      default: null
-    }
-  }
+      default: null,
+    },
+  },
 }
 </script>
 <template>
