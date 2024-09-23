@@ -1309,8 +1309,8 @@ describe('Utility library', function () {
     });
 
     it('should pad seconds less than 10 with a leading zero', () => {
-      expect(secondsToMinutesAndSeconds(65)).toEqual('1:05');
-      expect(secondsToMinutesAndSeconds(9)).toEqual('0:09');
+      expect(utils.secondsToMinutesAndSeconds(65)).toEqual('1:05');
+      expect(utils.secondsToMinutesAndSeconds(9)).toEqual('0:09');
     });
   });
 })
