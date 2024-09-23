@@ -40,7 +40,8 @@ export default {
   },
 
   mounted () {
-    this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'AI League: Loaded' } })
+    this.startLoading()
+    this.setComponentName(this.$options.name)
     this.setPageTitle(PAGE_TITLES[this.$options.name])
   },
 
@@ -48,11 +49,12 @@ export default {
     ...mapMutations({
       resetLoadingState: 'teacherDashboard/resetLoadingState',
       setTeacherId: 'teacherDashboard/setTeacherId',
-      setPageTitle: 'teacherDashboard/setPageTitle'
+      setPageTitle: 'teacherDashboard/setPageTitle',
+      setComponentName: 'teacherDashboard/setComponentName',
+      startLoading: 'teacherDashboard/startLoading'
     }),
     ...mapActions({
       fetchRequiredInitialData: 'clans/fetchRequiredInitialData',
-      fetchData: 'teacherDashboard/fetchData',
     })
   }
 }

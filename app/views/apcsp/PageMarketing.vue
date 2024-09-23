@@ -283,6 +283,10 @@ export default Vue.extend({
     })
   },
   mounted () {
+    if (this.$route.path.startsWith('/teachers/apcsp')) {
+      this.startLoading()
+      this.setComponentName(this.$options.name)
+    }
     this.setPageTitle(PAGE_TITLES[this.$options.name])
   },
   async created () {
@@ -297,7 +301,9 @@ export default Vue.extend({
     }),
 
     ...mapMutations({
-      setPageTitle: 'teacherDashboard/setPageTitle'
+      setPageTitle: 'teacherDashboard/setPageTitle',
+      setComponentName: 'teacherDashboard/setComponentName',
+      startLoading: 'teacherDashboard/startLoading'
     }),
 
     checkUsingRoute () {

@@ -80,13 +80,16 @@ export default {
   },
   mounted () {
     if (this.$route.path.startsWith('/teachers/professional-development')) {
-      this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'PD View: Loaded' } })
+      this.startLoading()
+      this.setComponentName(this.$options.name)
       this.setPageTitle(PAGE_TITLES[this.$options.name])
     }
   },
   methods: {
     ...mapMutations({
-      setPageTitle: 'teacherDashboard/setPageTitle'
+      setPageTitle: 'teacherDashboard/setPageTitle',
+      setComponentName: 'teacherDashboard/setComponentName',
+      startLoading: 'teacherDashboard/startLoading'
     }),
     ...mapActions({
       fetchData: 'teacherDashboard/fetchData',
