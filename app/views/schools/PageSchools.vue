@@ -669,7 +669,7 @@ export default Vue.extend({
           text: this.$t('home_v3.young_learners_2_text'),
           link: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform',
           linkText: this.$t('home_v3.young_learners_2_linkText'),
-          image: '/images/pages/home-v3/young-learners/box_2.webp',
+          image: '/images/pages/home-v3/young-learners/box-bg-ai-hs.webp',
         },
       ],
       fundingSolutions: [
