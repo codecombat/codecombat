@@ -1,9 +1,5 @@
-import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import modalsModule from 'app/core/store/modules/modals'
-
-const localVue = createLocalVue()
-localVue.use(Vuex)
 
 describe('Vuex Modals Module', () => {
   let store
@@ -11,8 +7,8 @@ describe('Vuex Modals Module', () => {
   beforeEach(() => {
     store = new Vuex.Store({
       modules: {
-        modals: modalsModule
-      }
+        modals: modalsModule,
+      },
     })
   })
 
