@@ -11,8 +11,9 @@
           </p>
           <CTAButton
             v-if="me.isAnonymous()"
-            class="contact-solution signup-button"
-            data-start-on-path="teacher"
+            class="contact-solution"
+            button-class="signup-button"
+            start-on-path="teacher"
             :description="$t('junior_page.sign_up_to_start_today')"
           >
             {{ $t('schools_page.try_it_free') }}
@@ -126,24 +127,6 @@
     </div>
 
     <div class="container">
-      <h2 class="text-h2">
-        {{ $t('junior_page.get_a_headstart') }}
-      </h2>
-      <p class="text-p text-center">
-        <mixed-color-label :text="$t('junior_page.parents_junior_perfect')" />
-      </p>
-      <div class="row">
-        <div class="col-md-12">
-          <CTAButton
-            href="https://codecombat.com/parents"
-          >
-            {{ $t('junior_page.explore_learning_options') }}
-          </CTAButton>
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
       <trends-and-insights />
     </div>
 
@@ -206,39 +189,40 @@ export default Vue.extend({
     ImageAndText,
     FaqComponent,
     TrendsAndInsights,
-    ModalGetLicenses
+    ModalGetLicenses,
   },
   data () {
     return {
       testimonials: [
         {
+          image: '/images/pages/schools/avatar/avatar_seth.webp',
         },
       ],
       faqItems: [
         {
           question: this.$t('junior_page.faq_1_question'),
-          answer: this.$t('junior_page.faq_1_answer')
+          answer: this.$t('junior_page.faq_1_answer'),
         },
         {
           question: this.$t('junior_page.faq_2_question'),
-          answer: this.$t('junior_page.faq_2_answer')
+          answer: this.$t('junior_page.faq_2_answer'),
         },
         {
           question: this.$t('junior_page.faq_3_question'),
-          answer: this.$t('junior_page.faq_3_answer')
+          answer: this.$t('junior_page.faq_3_answer'),
         },
         {
           question: this.$t('junior_page.faq_4_question'),
-          answer: this.$t('junior_page.faq_4_answer')
+          answer: this.$t('junior_page.faq_4_answer'),
         },
       ],
-      showContactModal: false
+      showContactModal: false,
     }
   },
   computed: {
     me () {
       return me
-    }
+    },
   },
   mounted () {
     const params = new URLSearchParams(window.location.search)
@@ -253,7 +237,7 @@ export default Vue.extend({
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
         { vmid: 'meta-description', name: 'description', content: this.$t('schools_page.our_comprehensive_implementation') },
-      ]
+      ],
     }
   },
 })
@@ -325,11 +309,6 @@ export default Vue.extend({
   }
   .contact-solution {
     cursor: pointer;
-    ::v-deep {
-      .description:hover {
-        text-decoration: underline
-      }
-    }
   }
 }
 </style>

@@ -530,53 +530,53 @@ export default Vue.extend({
     FaqComponent,
     TrendsAndInsights,
     VideoBox,
-    ModalGetLicenses
+    ModalGetLicenses,
   },
   data () {
     return {
       testimonials: [
         {
-          image: '/images/pages/schools/avatar/avatar_seth.webp'
+          image: '/images/pages/schools/avatar/avatar_seth.webp',
         },
         {
           link: 'https://www.youtube.com/watch?v=hCbn7viOf7A&t=60s&ab_channel=CommonSenseEducation',
           image: '/images/pages/schools/avatar/avatar_tanner.webp',
-          fullReviewLink: 'https://www.youtube.com/watch?v=hCbn7viOf7A&t=60s'
+          fullReviewLink: 'https://www.youtube.com/watch?v=hCbn7viOf7A&t=60s',
         },
         {
-          image: '/images/pages/schools/avatar/avatar_steve.webp'
+          image: '/images/pages/schools/avatar/avatar_steve.webp',
         },
         {
-          image: '/images/pages/schools/avatar/avatar_student.webp'
+          image: '/images/pages/schools/avatar/avatar_student.webp',
         },
         {
-          image: '/images/pages/schools/avatar/avataar_sandra.webp'
-        }
+          image: '/images/pages/schools/avatar/avataar_sandra.webp',
+        },
       ],
       faqItems: [
         {
           question: this.$t('schools_page.faq_1_question'),
-          answer: this.$t('schools_page.faq_1_answer')
+          answer: this.$t('schools_page.faq_1_answer'),
         },
         {
           question: this.$t('schools_page.faq_2_question'),
-          answer: this.$t('schools_page.faq_2_answer')
+          answer: this.$t('schools_page.faq_2_answer'),
         },
         {
           question: this.$t('schools_page.faq_3_question'),
-          answer: this.$t('schools_page.faq_3_answer')
+          answer: this.$t('schools_page.faq_3_answer'),
         },
         {
           question: this.$t('schools_page.faq_4_question'),
-          answer: this.$t('schools_page.faq_4_answer')
+          answer: this.$t('schools_page.faq_4_answer'),
         },
         {
           question: this.$t('schools_page.faq_5_question'),
-          answer: this.$t('schools_page.faq_5_answer')
+          answer: this.$t('schools_page.faq_5_answer'),
         },
         {
           question: this.$t('schools_page.faq_6_question'),
-          answer: this.$t('schools_page.faq_6_answer')
+          answer: this.$t('schools_page.faq_6_answer'),
         },
         {
           question: this.$t('schools_page.faq_7_question'),
@@ -584,17 +584,17 @@ export default Vue.extend({
             this.$t('schools_page.faq_7_answer_1'),
             this.$t('schools_page.faq_7_answer_2'),
             this.$t('schools_page.faq_7_answer_3'),
-            this.$t('schools_page.faq_7_answer_4')
-          ]
+            this.$t('schools_page.faq_7_answer_4'),
+          ],
         },
         {
           question: this.$t('schools_page.faq_8_question'),
-          answer: this.$t('schools_page.faq_8_answer')
+          answer: this.$t('schools_page.faq_8_answer'),
         },
         {
           question: this.$t('schools_page.faq_9_question'),
-          answer: this.$t('schools_page.faq_9_answer')
-        }
+          answer: this.$t('schools_page.faq_9_answer'),
+        },
       ],
       coreCurriculum: [
         {
@@ -603,8 +603,8 @@ export default Vue.extend({
           link: 'https://ozaria.com',
           linkText: this.$t('schools_page.core_curriculum_1_link_text'),
           video: {
-            videoId: '177fb5ba412b8fee21928e3353a9e469'
-          }
+            videoId: '177fb5ba412b8fee21928e3353a9e469',
+          },
         },
         {
           title: this.$t('schools_page.core_curriculum_2_title'),
@@ -613,9 +613,9 @@ export default Vue.extend({
           signupModalPath: 'teacher',
           linkText: this.$t('schools_page.core_curriculum_2_link_text'),
           video: {
-            videoId: '16b8482dc4d9b96c7d827fb788e64368'
-          }
-        }
+            videoId: '16b8482dc4d9b96c7d827fb788e64368',
+          },
+        },
       ],
       practiceEnrichment: [
         {
@@ -624,8 +624,8 @@ export default Vue.extend({
           link: 'https://codecombat.com/league',
           linkText: this.$t('schools_page.practice_enrichment_1_link_text'),
           video: {
-            videoId: '1b3bcd237a9dda25a042493d799e7278'
-          }
+            videoId: '1b3bcd237a9dda25a042493d799e7278',
+          },
         },
         {
           title: this.$t('schools_page.practice_enrichment_2_title'),
@@ -633,9 +633,9 @@ export default Vue.extend({
           link: 'https://codecombat.com/roblox',
           linkText: this.$t('schools_page.practice_enrichment_2_link_text'),
           video: {
-            videoId: 'a50758af1eeeb12f241472beca961424'
-          }
-        }
+            videoId: 'a50758af1eeeb12f241472beca961424',
+          },
+        },
       ],
       studentAcceleration: [
         {
@@ -644,8 +644,8 @@ export default Vue.extend({
           link: 'https://codecombat.com/ai/',
           linkText: this.$t('schools_page.student_acceleration_1_link_text'),
           video: {
-            videoId: '50770b9a2fb36de457a37693a3f632c7'
-          }
+            videoId: '50770b9a2fb36de457a37693a3f632c7',
+          },
         },
         {
           title: this.$t('schools_page.student_acceleration_2_title'),
@@ -653,24 +653,24 @@ export default Vue.extend({
           image: '/images/pages/schools/boxes/maximize_6.webp',
           linkText: this.$t('schools_page.learn_more_text'),
           link: 'https://codecombat.com/apcsp',
-          mainImageOriginal: true
-        }
+          mainImageOriginal: true,
+        },
       ],
       youngLearners: [
         {
           title: this.$t('home_v3.young_learners_1_title'),
           text: this.$t('home_v3.young_learners_1_text'),
-          link: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform',
-          linkText: this.$t('home_v3.young_learners_1_linkText'),
-          image: '/images/pages/home-v3/young-learners/box_1.webp'
+          link: 'https://codecombat.com/junior',
+          linkText: this.$t('home_v3.try_it_now'),
+          image: '/images/pages/home-v3/young-learners/box-bg-coco-jr.webp',
         },
         {
           title: this.$t('home_v3.young_learners_2_title'),
           text: this.$t('home_v3.young_learners_2_text'),
           link: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform',
           linkText: this.$t('home_v3.young_learners_2_linkText'),
-          image: '/images/pages/home-v3/young-learners/box_2.webp'
-        }
+          image: '/images/pages/home-v3/young-learners/box_2.webp',
+        },
       ],
       fundingSolutions: [
         {
@@ -681,8 +681,8 @@ export default Vue.extend({
           hasPadding: false,
           mainImageBg: true,
           equalWidth: true,
-          image: '/images/pages/schools/boxes/maximize_9.webp'
-        }
+          image: '/images/pages/schools/boxes/maximize_9.webp',
+        },
       ],
       supportDevelopment: [
         {
@@ -690,7 +690,7 @@ export default Vue.extend({
           text: this.$t('schools_page.support_development_1_text'),
           link: 'https://codecombat.com/teachers/quote',
           linkText: this.$t('schools_page.learn_more_text'),
-          image: '/images/pages/schools/boxes/maximize_10.webp'
+          image: '/images/pages/schools/boxes/maximize_10.webp',
         },
         {
           title: this.$t('home_v3.solutions_1_title'),
@@ -700,16 +700,16 @@ export default Vue.extend({
           middleText: this.$t('home_v3.solutions_1_middleText'),
           middleImage: '/images/pages/schools/logo/southern-new-hampshire-university_small.webp',
           middleImageAlt: 'Southern New Hampshire University logo',
-          image: '/images/pages/home-v3/solutions/box_1.webp'
-        }
+          image: '/images/pages/home-v3/solutions/box_1.webp',
+        },
       ],
-      showContactModal: false
+      showContactModal: false,
     }
   },
   computed: {
     me () {
       return me
-    }
+    },
   },
   mounted () {
     const params = new URLSearchParams(window.location.search)
@@ -724,7 +724,7 @@ export default Vue.extend({
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
         { vmid: 'meta-description', name: 'description', content: this.$t('schools_page.our_comprehensive_implementation') },
-      ]
+      ],
     }
   },
 })

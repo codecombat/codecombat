@@ -36,7 +36,7 @@ export const items = {
   GRANTS: { url: cocoPath('/grants'), title: 'nav.grants_funding_resources' },
   DEMO: { url: '/teachers/quote', title: 'nav.request_quote_demo' },
   COCO_CLASSROOM: { url: cocoPath('/schools'), title: 'nav.codecombat_classroom' },
-  COCO_JUNIOR: { url: cocoPath('/play/junior'), title: 'nav.coco_junior_beta' },
+  COCO_JUNIOR: { url: cocoPath('/play/junior'), title: 'nav.coco_junior' },
   COCO_HOME: { url: cocoPath('/play'), title: 'nav.codecombat_home' },
   OZ_CLASSROOM: { url: ozPath('/'), title: 'nav.ozaria_classroom' },
   AP_CSP: { url: cocoPath('/apcsp'), title: 'nav.ap_csp' },
@@ -49,7 +49,7 @@ export const items = {
   LIBRARY_SOLUTIONS: { url: cocoPath('/libraries'), title: 'nav.library_solutions' },
   PARTNER_SOLUTIONS: { url: cocoPath('/partners'), title: 'nav.partner_solutions' },
   TEACHING_SOLUTIONS: { url: cocoPath('/schools'), title: 'nav.teaching_solutions' },
-  PRIVACY: { url: '/privacy', title: 'nav.privacy' }
+  PRIVACY: { url: '/privacy', title: 'nav.privacy' },
 }
 
 /**
