@@ -13,7 +13,7 @@ export const DRAGGABLE_STATEMENT_COMPLETION = 'DRAGGABLE_STATEMENT_COMPLETION'
  * Payload for practiceLevelData for displaying on the teacher dashboard panel.
  */
 export function practiceLevelData (content, studentSessions) {
-  const { original, fromIntroLevelOriginal } = content
+  const { original, fromIntroLevelOriginal, practiceThresholdMinutes } = content
   const normalizedOriginal = original || fromIntroLevelOriginal
   const level = new Level(content)
 
@@ -29,6 +29,7 @@ export function practiceLevelData (content, studentSessions) {
     studentCode,
     solutionCode,
     language,
+    practiceThresholdMinutes,
   }
 }
 
@@ -40,7 +41,7 @@ export function extraPracticeLevelData (content, studentSessions) {
     ...practiceLevelData(content, studentSessions),
     session: studentSessions[normalizedOriginal],
     levelTitle: getGameContentDisplayNameWithType(content),
-    isExtra: true
+    isExtra: true,
   }
 }
 
@@ -50,13 +51,13 @@ export function extraPracticeLevelData (content, studentSessions) {
 export function capstoneLevelData ({
   studentCode,
   gameGoals,
-  language
+  language,
 }) {
   return {
     type: CAPSTONE_LEVEL,
     studentCode,
     gameGoals,
-    language
+    language,
   }
 }
 
@@ -64,14 +65,14 @@ export function draggableOrderingData ({
   prompt,
   submissionText,
   solutionText,
-  lastColText
+  lastColText,
 }) {
   return {
     type: DRAGGABLE_ORDERING,
     prompt,
     submissionText,
     solutionText,
-    lastColText
+    lastColText,
   }
 }
 
@@ -79,14 +80,14 @@ export function draggableStatementCompletionData ({
   prompt,
   submissionText,
   solutionText,
-  labels
+  labels,
 }) {
   return {
     type: DRAGGABLE_STATEMENT_COMPLETION,
     prompt,
     submissionText,
     solutionText,
-    labels
+    labels,
   }
 }
 export function insertCodeData ({
@@ -95,7 +96,7 @@ export function insertCodeData ({
   studentSubmission,
   solution,
   options,
-  interactiveArt
+  interactiveArt,
 }) {
   return {
     type: INSERT_CODE,
@@ -104,7 +105,7 @@ export function insertCodeData ({
     studentSubmission,
     solution,
     options,
-    interactiveArt
+    interactiveArt,
   }
 }
 
@@ -115,18 +116,18 @@ export default {
     panelHeader: 'Module 1 | Hard Coded',
     panelFooter: {
       icon: undefined,
-      url: ''
+      url: '',
     },
     studentInfo: {
       name: 'Student Name',
-      completedContent: ''
+      completedContent: '',
     },
     selectedProgressKey: undefined,
     conceptCheck: {
       learningGoal: undefined,
       totalSubmissions: -1,
       timeSpent: -1,
-      classAverage: -1 // TODO: Punt this temporarily.
+      classAverage: -1, // TODO: Punt this temporarily.
     },
     //     panelSessionContent: practiceLevelData({
     //       starterCode: `var name = hero.length('codestatement');`,
@@ -225,7 +226,7 @@ export default {
     //     ]
     //   })
     panelSessionContents: undefined,
-    panelProjectContent: undefined
+    panelProjectContent: undefined,
   },
 
   mutations: {
@@ -238,8 +239,8 @@ export default {
     setPanelHeader (state, header) {
       state.panelHeader = header
     },
-    setStudentInfo (state, { name, completedContent }) {
-      state.studentInfo = { name, completedContent }
+    setStudentInfo (state, { name, completedContent, practiceThresholdMinutes }) {
+      state.studentInfo = { name, completedContent, practiceThresholdMinutes }
     },
     setPanelSessionContents (state, sessionContentObjects) {
       state.panelSessionContents = sessionContentObjects
@@ -262,7 +263,7 @@ export default {
     setPanelFooter (state, { icon, url }) {
       state.panelFooter = {
         icon,
-        url
+        url,
       }
     },
     resetState (state) {
@@ -276,9 +277,9 @@ export default {
       state.selectedProgressKey = undefined
       state.panelFooter = {
         icon: undefined,
-        url: ''
+        url: '',
       }
-    }
+    },
   },
 
   getters: {
@@ -312,7 +313,7 @@ export default {
 
     panelProjectContent (state) {
       return state.panelProjectContent
-    }
+    },
   },
 
   actions: {
@@ -326,7 +327,7 @@ export default {
       const moduleContent = modules[moduleNum]
       const content = moduleContent.find(({ _id }) => _id === contentId)
 
-      const { introContent, ozariaType, original, fromIntroLevelOriginal, type } = content
+      const { introContent, ozariaType, original, fromIntroLevelOriginal, type, practiceThresholdMinutes } = content
 
       let icon, url
 
@@ -364,21 +365,22 @@ export default {
       if (['hero', 'course', undefined].includes(content.type)) {
         // For practice levels and challenge levels
 
-        commit('setTimeSpent', Math.ceil(studentSessions[normalizedOriginal].playtime / 60))
+        commit('setTimeSpent', utils.secondsToMinutesAndSeconds(Math.ceil(studentSessions[normalizedOriginal].playtime)))
 
         dispatch('setPanelSessionContent', {
           header: panelHeader,
           studentName: student.displayName,
+          practiceThresholdMinutes,
           dateFirstCompleted: studentSessions[normalizedOriginal].dateFirstCompleted,
-          sessionContentObjects: [practiceLevelData(content, studentSessions)]
+          sessionContentObjects: [practiceLevelData(content, studentSessions)],
         })
       } else if (content.type === 'game-dev') {
         const language = studentSessions[normalizedOriginal]?.codeLanguage || 'python'
         const gameGoals = [
-          ...(content.goals || []), ...(content.additionalGoals || []).map(({ goals }) => goals).flat()
+          ...(content.goals || []), ...(content.additionalGoals || []).map(({ goals }) => goals).flat(),
         ]
 
-        commit('setTimeSpent', Math.ceil(studentSessions[normalizedOriginal].playtime / 60))
+        commit('setTimeSpent', utils.secondsToMinutesAndSeconds(Math.ceil(studentSessions[normalizedOriginal].playtime)))
 
         const studentSolved = new Set(Object.entries(studentSessions[normalizedOriginal]?.state?.goalStates || {})
           .filter(([_, { status }]) => status === 'success')
@@ -393,11 +395,11 @@ export default {
             gameGoals: gameGoals.map((result) => {
               return {
                 description: result.name,
-                completed: studentSolved.has(result.id)
+                completed: studentSolved.has(result.id),
               }
             }),
-            language
-          })]
+            language,
+          })],
         })
       } else if (content.type === 'interactive') {
         const firstSolution = rootGetters['interactives/getInteractiveSessionsForClass'](classroomId)?.[student._id]?.[contentId]
@@ -416,16 +418,16 @@ export default {
               submissionText: firstSolution.submissions[0].submittedSolution.map((id, idx) => {
                 return {
                   text: utils.i18n(elementsMap.get(id), 'text'),
-                  correct: content.draggableStatementCompletionData.solution[idx] === id
+                  correct: content.draggableStatementCompletionData.solution[idx] === id,
                 }
               }),
               solutionText: content.draggableStatementCompletionData.solution.map((id) => ({
-                text: utils.i18n(elementsMap.get(id), 'text')
+                text: utils.i18n(elementsMap.get(id), 'text'),
               })),
               labels: content.draggableStatementCompletionData.labels.map((label) => ({
-                text: utils.i18n(label, 'text')
-              }))
-            })]
+                text: utils.i18n(label, 'text'),
+              })),
+            })],
           })
         } else if (content.interactiveType === 'draggable-ordering') {
           const interactiveData = content.draggableOrderingData
@@ -440,16 +442,16 @@ export default {
               submissionText: firstSolution.submissions[0].submittedSolution.map((id, idx) => {
                 return {
                   text: utils.i18n(elementsMap.get(id), 'text'),
-                  correct: interactiveData.solution[idx] === id
+                  correct: interactiveData.solution[idx] === id,
                 }
               }),
               solutionText: interactiveData.solution.map((id) => ({
-                text: utils.i18n(elementsMap.get(id), 'text')
+                text: utils.i18n(elementsMap.get(id), 'text'),
               })),
               lastColText: interactiveData.labels.map((label) => ({
-                text: utils.i18n(label, 'text')
-              }))
-            })]
+                text: utils.i18n(label, 'text'),
+              })),
+            })],
           })
         } else if (content.interactiveType === 'insert-code') {
           const interactiveData = content.insertCodeData
@@ -465,14 +467,14 @@ export default {
               code: interactiveData.starterCode,
               studentSubmission: {
                 text: utils.i18n(elementsMap.get(firstSolution.submissions[0].submittedSolution), 'text'),
-                correct: firstSolution.submissions[0].correct
+                correct: firstSolution.submissions[0].correct,
               },
               solution: { text: utils.i18n(elementsMap.get(interactiveData.solution), 'text') },
               options: interactiveData.choices.map(element => ({
-                text: utils.i18n(element, 'text')
+                text: utils.i18n(element, 'text'),
               })),
-              interactiveArt: content.defaultArtAsset
-            })]
+              interactiveArt: content.defaultArtAsset,
+            })],
           })
         } else {
           console.error(`Unhandled interactive type in TeacherDashboardPanel: '${content.interactiveType}'`)
@@ -485,11 +487,11 @@ export default {
             ...state.panelSessionContents,
             ...content.practiceLevels
               .map((practiceLevelContent) => ({
-                ...extraPracticeLevelData(practiceLevelContent, studentSessions)
+                ...extraPracticeLevelData(practiceLevelContent, studentSessions),
               }))
               // include levels that are completed or in-progress AND only the next one, but no further ones
-              .filter(({ session }, index, array) => session || array[index - 1]?.session)
-          ]
+              .filter(({ session }, index, array) => session || array[index - 1]?.session),
+          ],
         )
       }
     },
@@ -503,8 +505,8 @@ export default {
         studentName: student.displayName,
         projectContentObject: {
           aiScenario,
-          aiProjects
-        }
+          aiProjects,
+        },
       })
     },
 
@@ -517,15 +519,16 @@ export default {
       commit('openPanel')
     },
 
-    setPanelSessionContent ({ commit }, { sessionContentObjects, header, studentName, dateFirstCompleted }) {
+    setPanelSessionContent ({ commit }, { sessionContentObjects, header, studentName, practiceThresholdMinutes, dateFirstCompleted }) {
       commit('setPanelSessionContents', sessionContentObjects)
       commit('setPanelHeader', header)
       commit('setStudentInfo', {
         name: studentName,
         // Handle undefined dateFirstCompleted for in progress content
-        completedContent: dateFirstCompleted ? moment(dateFirstCompleted).format('lll') : ''
+        completedContent: dateFirstCompleted ? moment(dateFirstCompleted).format('lll') : '',
+        practiceThresholdMinutes,
       })
       commit('openPanel')
-    }
-  }
+    },
+  },
 }

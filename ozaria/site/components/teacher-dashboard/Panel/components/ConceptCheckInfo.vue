@@ -3,9 +3,14 @@ export default {
   props: {
     conceptCheck: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+    practiceThreshold: {
+      type: String,
+      require: false,
+      default: null,
+    },
+  },
 }
 </script>
 <template>
@@ -36,8 +41,15 @@ export default {
     >
       <img src="/images/ozaria/teachers/dashboard/svg_icons/Icon_TimeSpent.svg">
       <p>
-        <b>{{ 'Time Spent: ' }}</b>
-        {{ `${conceptCheck.timeSpent} min` }}
+        <b>{{ $t('teacher.time_played_label') }}</b>
+        {{ `${conceptCheck.timeSpent}` }}
+      </p>
+      <p
+        v-if="practiceThreshold"
+        class="practice-threshold"
+      >
+        <b>{{ $t('teacher.practice_threshold_label') }}</b>
+        {{ practiceThreshold }}
       </p>
     </div>
     <div
@@ -94,5 +106,9 @@ export default {
     @include font-p-4-paragraph-smallest-gray;
     color: #545b64;
     margin: 0;
+  }
+
+  .practice-threshold {
+    padding-left: 10px;
   }
 </style>
