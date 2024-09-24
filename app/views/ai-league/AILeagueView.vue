@@ -40,6 +40,8 @@ export default {
   },
 
   mounted () {
+    this.startLoading()
+    this.setComponentName(this.$options.name)
     this.setPageTitle(PAGE_TITLES[this.$options.name])
   },
 
@@ -47,10 +49,12 @@ export default {
     ...mapMutations({
       resetLoadingState: 'teacherDashboard/resetLoadingState',
       setTeacherId: 'teacherDashboard/setTeacherId',
-      setPageTitle: 'teacherDashboard/setPageTitle'
+      setPageTitle: 'teacherDashboard/setPageTitle',
+      setComponentName: 'teacherDashboard/setComponentName',
+      startLoading: 'teacherDashboard/startLoading'
     }),
     ...mapActions({
-      fetchRequiredInitialData: 'clans/fetchRequiredInitialData'
+      fetchRequiredInitialData: 'clans/fetchRequiredInitialData',
     })
   }
 }
