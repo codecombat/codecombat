@@ -2780,6 +2780,7 @@ module.exports = {
       explain_open_ended: 'Note: Students are encouraged to solve this level creatively — one possible solution is provided below.',
       level_label: 'Level:',
       time_played_label: 'Time Spent:',
+      practice_threshold_label: 'Practice Threshold:',
       back_to_resource_hub: 'Back to Teacher Toolkit',
       back_to_course_guides: 'Back to Course Guides',
       print_guide: 'Print this guide',
