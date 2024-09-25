@@ -146,11 +146,11 @@
       </div>
     </div>
 
-    <background-container type="colored">
+    <!-- <background-container type="colored">
       <div class="container">
         <faq-component :faq-items="faqItems" />
       </div>
-    </background-container>
+    </background-container> -->
 
     <modal-get-licenses
       v-if="showContactModal"
@@ -170,7 +170,7 @@ import CarouselItem from '../../components/common/elements/CarouselItem.vue'
 import BackgroundContainer from '../../components/common/backgrounds/BackgroundContainer.vue'
 import ImageAndText from '../../components/common/elements/ImageAndText.vue'
 import TestimonialComponent from '../../components/common/elements/TestimonialComponent.vue'
-import FaqComponent from '../../components/common/elements/FaqComponent.vue'
+// import FaqComponent from '../../components/common/elements/FaqComponent.vue'
 import TrendsAndInsights from './TrendsAndInsights.vue'
 import ModalGetLicenses from '../../components/common/ModalGetLicenses.vue'
 
@@ -187,7 +187,7 @@ export default Vue.extend({
     TestimonialComponent,
     CarouselComponent,
     ImageAndText,
-    FaqComponent,
+    // FaqComponent,
     TrendsAndInsights,
     ModalGetLicenses,
   },
@@ -306,9 +306,6 @@ export default Vue.extend({
       font-weight: 700;
       line-height: 32px;
     }
-  }
-  .contact-solution {
-    cursor: pointer;
   }
 }
 </style>
