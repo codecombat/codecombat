@@ -317,7 +317,7 @@ export default {
 
               // Level types that teacher can open TeacherDashboardPanel on.
               // We also need to make sure that teachers can only click if a session exists.
-              if (['practicelvl', 'capstone', 'interactive'].includes(defaultProgressDot.normalizedType) && defaultProgressDot.status !== 'assigned') {
+              if (['practicelvl', 'capstone', 'interactive', 'web-dev'].includes(defaultProgressDot.normalizedType) && defaultProgressDot.status !== 'assigned') {
                 defaultProgressDot.clickHandler = () => {
                   this.showPanelSessionContent({
                     student,
