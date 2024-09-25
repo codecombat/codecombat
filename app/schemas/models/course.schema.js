@@ -22,21 +22,21 @@ _.extend(CourseSchema.properties, {
             title: 'i18n',
             format: 'i18n',
             props: [
-              'total', 'inGame', 'totalTimeRange'
-            ]
-          }
-        }
+              'total', 'inGame', 'totalTimeRange',
+            ],
+          },
+        },
       },
-      { type: 'number', description: 'Approximate hours of content' } // deprecated
-    ]
+      { type: 'number', description: 'Approximate hours of content' }, // deprecated
+    ],
   },
   pricePerSeat: { type: 'number', description: 'Price per seat in USD cents.' }, // deprecated
   free: { type: 'boolean' },
   screenshot: {
     oneOf: [
       { type: 'string', format: 'image-file', title: 'Thumbnail image', description: 'Relevant for teacher dashboard', pattern: /^db.*/ },
-      c.path({ title: 'URL', description: 'Link to course screenshot.' }) // deprecated
-    ]
+      c.path({ title: 'URL', description: 'Link to course screenshot.' }), // deprecated
+    ],
   },
   adminOnly: { type: 'boolean', description: 'Deprecated in favor of releasePhase.' },
   releasePhase: { enum: ['beta', 'internalRelease', 'released'], description: "How far along the course's development is, determining who sees it." },
@@ -53,10 +53,10 @@ _.extend(CourseSchema.properties, {
         title: 'i18n',
         format: 'i18n',
         props: [
-          'name', 'description'
-        ]
-      }
-    }
+          'name', 'description',
+        ],
+      },
+    },
   }),
   modules: {
     title: 'Modules',
@@ -67,23 +67,37 @@ _.extend(CourseSchema.properties, {
       type: 'object',
       title: 'Module',
       description: 'Relevant for information displayed on curriculum guides in teacher dashboard for each module',
+      default: { access: 'paid' },
       properties: {
-        number: { type: 'number', title: 'Module number' },
+        number: { anyOf: [{ type: 'number', title: 'Module number' }, { type: 'string', title: 'Module number string' }], title: 'Module number', description: '(like 1, 2, 3, or A1, A2, B1)' },
         duration: {
           type: 'object',
           title: 'Module duration',
           properties: {
             total: { type: 'string', title: 'Total class time (overall)' },
             inGame: { type: 'string', title: 'In-game time' },
-            totalTimeRange: { type: 'string', title: 'Total class time (range)', description: 'Relevant for curriculum guides hover tooltip' }
-          }
+            totalTimeRange: { type: 'string', title: 'Total class time (range)', description: 'Relevant for curriculum guides hover tooltip' },
+          },
         },
-        lessonSlidesUrl: c.url({ title: 'Lesson Slides URL' }),
+        lessonSlidesUrl: {
+          title: 'Lesson Slides URLs',
+          oneOf: [
+            c.url({ title: 'Lesson Slides URL' }),
+            {
+              type: 'object',
+              title: 'Lesson Slides URLs by Language',
+              additionalProperties: c.url(),
+              format: 'code-languages-object',
+            },
+          ],
+        },
         concepts: c.array({ title: 'Programming Concepts', uniqueItems: true }, c.concept),
-        primaryConcepts: c.array({ title: 'Primary Concepts', description: 'The main 1-3 concepts this module focuses on.', uniqueItems: true, inEditor: true }, c.concept)
-      }
-    } // TODO move module name from utils.coffee to schema
-  }
+        primaryConcepts: c.array({ title: 'Primary Concepts', description: 'The main 1-3 concepts this module focuses on.', uniqueItems: true, inEditor: true }, c.concept),
+        name: c.shortString({ title: 'Module Name' }),
+        access: { type: 'string', enum: ['free', 'sales-call', 'paid'], title: 'Access', description: 'Whether this module is free, free with a sales call, or paid.' },
+      },
+    },
+  },
 })
 
 c.extendBasicProperties(CourseSchema, 'Course')

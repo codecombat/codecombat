@@ -148,6 +148,7 @@ export default {
         })
 
         let moduleDisplayName
+        // TODO: get dynamic name from course.modules.name
         if (!utils.courseModules[this.selectedCourseId]?.[moduleNum]) {
           const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
           moduleDisplayName = utils.i18n(course, 'name')

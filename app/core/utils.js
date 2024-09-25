@@ -12,7 +12,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 
-let campaignIDs, compare, courseIDs, courseModules, courseModuleInfo, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
+let campaignIDs, compare, courseIDs, courseModules, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
 const product = ((left = typeof COCO_PRODUCT !== 'undefined' && COCO_PRODUCT !== null ? COCO_PRODUCT : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.COCO_PRODUCT))) != null ? left : 'codecombat'
 const shaTag = ((left = typeof SHA_TAG !== 'undefined' && SHA_TAG !== null ? SHA_TAG : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.SHA_TAG))) != null ? left : 'unknown'
 const isCodeCombat = product === 'codecombat'
@@ -247,250 +247,6 @@ if (isCodeCombat) {
     COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
   }
 
-  courseModuleInfo = {
-    [courseIDs.JUNIOR]: {
-      1: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Y5_Eu5uVPrHpnqcoSuGfFR8qeAYkTIyE'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Y5_Eu5uVPrHpnqcoSuGfFR8qeAYkTIyE'
-        }
-      },
-      2: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/18cse7g50mdcEwLiTovHR_edPhYd77UDM'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/18cse7g50mdcEwLiTovHR_edPhYd77UDM'
-        }
-      },
-      3: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1iQJEvgaQ0z3AMw64fTOwcZOYKu0zOqOr'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1iQJEvgaQ0z3AMw64fTOwcZOYKu0zOqOr'
-        }
-      },
-      4: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1v6DZfzb3zp_lmjM00vZvjTSRoUpBSqq8'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1v6DZfzb3zp_lmjM00vZvjTSRoUpBSqq8'
-        }
-      },
-      5: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-kKodhaMC1oL1OVnolQ5V9OVM0VEI7kF'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-kKodhaMC1oL1OVnolQ5V9OVM0VEI7kF'
-        }
-      },
-      6: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/11SIA1sYVRdq69u0o0w0ihAF65MjoIq2W'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/11SIA1sYVRdq69u0o0w0ihAF65MjoIq2W'
-        }
-      },
-      7: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-U3aJggcZibizu8fZPdT8veKOqby9uBj'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-U3aJggcZibizu8fZPdT8veKOqby9uBj'
-        }
-      },
-      8: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1hnLLCpxF4HeAhO3WVAaB9tYmoYQ9aKx1'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1hnLLCpxF4HeAhO3WVAaB9tYmoYQ9aKx1'
-        }
-      }
-    },
-    [courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]: {
-      1: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1wApGYfq9gM3C9G3_zkkyWDijiEYyEcgX?usp=sharing'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1asYzKfqDHWLK2ibxWPgRKkq8_VEN667c?usp=sharing'
-        }
-      }
-    },
-    [courseIDs.GAME_DEVELOPMENT_1]: {},
-    [courseIDs.WEB_DEVELOPMENT_1]: {},
-    [courseIDs.COMPUTER_SCIENCE_2]: {
-      1: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1y8yTPgOg-_S8v_J5zbXpbQQ9hP4rZHXE?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1hzrex4_AMpredS748hlEv_zSjwHaN210?usp=drive_link'
-        }
-      },
-      2: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1WNz-vxVxsy7MpbYMf-Reo1P-jOQ6vW94?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1AomycHLH5axRIguXKEdi2rMk95URbHWG?usp=drive_link'
-        }
-      },
-      3: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1r2nWGfTyHZrUvFeNyfnbN_A06ZYn2CRk?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1ihBZmQp74wfg92bapWV0PuYH296TmkyZ?usp=sharing'
-        }
-      },
-      4: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1CuXgk0i_z7lZ0W5gEkU3L2how-ZlYaeM?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1L80QV9Wv6J3IQx_lnQpB51Gfzb4VB05w?usp=drive_link'
-        }
-      },
-      5: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1SRzgEcIbOX7jozBL-oDhfoLVWU1oEu1Y?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1whhA6ehkZcJweoAH0c27SK4yR8OMLv3j?usp=drive_link'
-        }
-      },
-      6: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1cdO9C1k9N5x6BdbohVaAzncuzBSItv7z?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1mWy01Zz-6_G6jBEYYaxr1zkvq660McHp?usp=drive_link'
-        }
-      },
-      7: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1HAxoKk6oNQwPm0OolRvf_vWISBrb_LSd?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/16HAarJNeM2EpFOfRS95BoOE-GQjendHB?usp=drive_link'
-        }
-      },
-    },
-    [courseIDs.GAME_DEVELOPMENT_2]: {},
-    [courseIDs.WEB_DEVELOPMENT_2]: {},
-    [courseIDs.COMPUTER_SCIENCE_3]: {
-      1: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1ZjhjlqcIGHOWENIpAn0Kz5DaJFHZJMTd?usp=sharing'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/10JaIo3NFXvaB9dEPo9hYSZ9z9owzmVQ9?usp=drive_link'
-        }
-      },
-      2: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1SDTVOD2tTfe5eM7rrJ4BqFPSFwL3Xb19?usp=sharing'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Ub6AwI6XRP7LKcWzVdFOSZ7n8f-oE1Ck?usp=drive_link'
-        }
-      },
-      3: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1TdLym5_SNIGoEDKyzVSAk0fw1XQCe_Be?usp=sharing'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1AAzbz-nZi4g9dQvs-fJKGtVAZv7sjfhJ?usp=drive_link'
-        }
-      },
-      4: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1JapqAXlXFjz9Qgp4sL3rJpnZkv1S6ASk?usp=sharing'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1DPeWPZrhXHQC4pBJDb-kn0-bOv6gIiw4?usp=drive_link'
-        }
-      },
-      5: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1sm6gKudpfWnO3OAeu5DdOt-3ACp4ouqQ?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Q6wRGMunTM5CH68YtqdqHFl2udEmS-L0?usp=sharing'
-        }
-      },
-      6: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/178Gt7U2Oxvo0bIDXlYqiepHUqDu0ZwzG?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1i__s8tGAuPVhnic6LuNNKBubqrelrQYb?usp=sharing'
-        }
-      },
-      7: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1m2E9wo3ZF1FGR2jQhQ16rCIsjCuvnH1i?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1kdH7_VVlnXqXVSP0KDWGghRcAP6y-lUC?usp=sharing'
-        }
-      }
-    },
-    [courseIDs.GAME_DEVELOPMENT_3]: {},
-    [courseIDs.COMPUTER_SCIENCE_4]: {
-      1: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/11Ado8ng4qw1oMS9q6Dxpky-sJ5ZtiiHb?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1G7r1PUacwY6vQf5sUjFqceKjrO4nWNkN?usp=drive_link'
-        }
-      },
-      2: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1KPwgtyyXLcHsPbPz6WX8AOQwZjJfFs23?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Np1sgITGydQKA05W3RqmolYnhjS0_07s?usp=drive_link'
-        }
-      },
-      3: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1pPWtmEa7YF2dd3T6PILE63Kn1rG2szYP?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1yl0K8nBA6lzwuni6t4WPViNRXQnwvtTR?usp=drive_link'
-        }
-      },
-      4: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1w8LvBvh9z-uzmdowDqXRrhxUnQ21-cfm?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1eohfiHpmUDBdpSNaRr8QLRLmwuUMnFZi?usp=drive_link'
-        }
-      },
-      5: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1cV8sqZsII6BMF4Okp4qDqlIM88ZVCCoX?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/10SemFGm0UU7SfOjPSGAnmbOchWdx7Oj_?usp=drive_link'
-        }
-      }
-    },
-    [courseIDs.COMPUTER_SCIENCE_5]: {},
-    [courseIDs.COMPUTER_SCIENCE_6]: {}
-  }
-
   coursesWithProjects = [
     courseIDs.GAME_DEVELOPMENT_1,
     courseIDs.WEB_DEVELOPMENT_1,
@@ -540,6 +296,7 @@ if (isCodeCombat) {
     otherCourseIDs.CHAPTER_FOUR
   ]
 
+  // All courseModules can be deleted once course.modules data has been populated in database
   courseModules = {}
 
   courseModules[courseIDs.JUNIOR] = {
@@ -549,9 +306,12 @@ if (isCodeCombat) {
     4: 'B2: Complex Arguments (Spin)',
     5: 'C1: Complex Arguments (Zap)',
     6: 'C2: Intro to Loops',
-    7: 'D1: Complex Loops',
-    8: 'D2: Intro to Conditionals',
-    // 9: 'Variables'
+    7: 'D1: Complex Loops (coming soon)',
+    8: 'D2: Intro to Conditionals (coming soon)',
+    9: 'E1: Complex Conditionals (coming soon)',
+    10: 'E2: Intro to Variables (coming soon)',
+    11: 'F1: Complex Structures (coming soon)',
+    12: 'F2: Advanced (coming soon)',
   }
 
   courseModules[courseIDs.COMPUTER_SCIENCE_2] = {
@@ -2066,7 +1826,6 @@ module.exports = {
   allFreeCourseIDs,
   freeCocoCourseIDs,
   courseModules,
-  courseModuleInfo,
   courseNumericalStatus,
   coursesWithProjects,
   CSCourseIDs,

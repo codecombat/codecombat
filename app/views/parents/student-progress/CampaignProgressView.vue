@@ -94,9 +94,11 @@ export default {
   },
   methods: {
     moduleName (num) {
+      // TODO: handle module names dynamically from database
       return ozariaCourseUtils.courseModules[this.campaign._id][num]
     },
     lessonSlidesUrl (num) {
+      // TODO: handle by language, dynamically from database
       return this.campaign.modules[num]?.lessonSlidesUrl
     },
     isCapstone (num) {
