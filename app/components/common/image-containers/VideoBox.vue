@@ -11,6 +11,7 @@
     :title="title"
     :thumbnail-url-time="thumbnailUrlTime"
     :background-color="'transparent'"
+    :aspect-ratio="aspectRatio"
     @loaded="onVideoLoaded"
   />
 </template>
@@ -36,6 +37,10 @@ export default {
     thumbnailUrlTime: {
       type: Number,
       default: null
+    },
+    aspectRatio: {
+      type: String,
+      default: '16 / 9'
     }
   },
   methods: {

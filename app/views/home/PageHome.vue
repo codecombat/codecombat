@@ -254,7 +254,7 @@ export default Vue.extend({
     VideoBox,
     BaseCloudflareVideo,
     HeaderComponent,
-    ModalJunior
+    ModalJunior,
   },
   data () {
     return {
@@ -262,55 +262,55 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.testimonals_1_title'),
           name: this.$t('home_v3.testimonals_1_name'),
-          image: '/images/pages/home-v3/testimonal/avatar.svg'
+          image: '/images/pages/home-v3/testimonal/avatar.svg',
         },
         {
           title: this.$t('home_v3.testimonals_2_title'),
           name: this.$t('home_v3.testimonals_2_name'),
-          image: '/images/pages/home-v3/testimonal/scott.webp'
+          image: '/images/pages/home-v3/testimonal/scott.webp',
         },
         {
           title: this.$t('home_v3.testimonals_3_title'),
           name: this.$t('home_v3.testimonals_3_name'),
-          image: '/images/pages/home-v3/testimonal/avatar.svg'
+          image: '/images/pages/home-v3/testimonal/avatar.svg',
         },
         {
           title: this.$t('home_v3.testimonals_4_title'),
           name: this.$t('home_v3.testimonals_4_name'),
-          image: '/images/pages/home-v3/testimonal/sandra.webp'
-        }
+          image: '/images/pages/home-v3/testimonal/sandra.webp',
+        },
       ],
       carouselItems: [
         {
           title: this.$t('home_v3.carousel_1_title'),
           text: this.$t('home_v3.carousel_1_text'),
-          image: '/images/pages/home-v3/carousel/1.webp'
+          image: '/images/pages/home-v3/carousel/1.webp',
         },
         {
           title: this.$t('home_v3.carousel_2_title'),
           text: this.$t('home_v3.carousel_2_text'),
-          image: '/images/pages/home-v3/carousel/2.webp'
+          image: '/images/pages/home-v3/carousel/2.webp',
         },
         {
           title: this.$t('home_v3.carousel_3_title'),
           text: this.$t('home_v3.carousel_3_text'),
-          image: '/images/pages/home-v3/carousel/3.webp'
+          image: '/images/pages/home-v3/carousel/3.webp',
         },
         {
           title: this.$t('home_v3.carousel_4_title'),
           text: this.$t('home_v3.carousel_4_text'),
-          image: '/images/pages/home-v3/carousel/4.webp'
+          image: '/images/pages/home-v3/carousel/4.webp',
         },
         {
           title: this.$t('home_v3.carousel_5_title'),
           text: this.$t('home_v3.carousel_5_text'),
-          image: '/images/pages/home-v3/carousel/5.webp'
+          image: '/images/pages/home-v3/carousel/5.webp',
         },
         {
           title: this.$t('home_v3.carousel_6_title'),
           text: this.$t('home_v3.carousel_6_text'),
-          image: '/images/pages/home-v3/carousel/6.webp'
-        }
+          image: '/images/pages/home-v3/carousel/6.webp',
+        },
       ],
       engagingBoxes: [
         {
@@ -319,8 +319,8 @@ export default Vue.extend({
           link: 'https://ozaria.com',
           linkText: this.$t('schools_page.core_curriculum_1_link_text'),
           video: {
-            videoId: '177fb5ba412b8fee21928e3353a9e469'
-          }
+            videoId: '177fb5ba412b8fee21928e3353a9e469',
+          },
         },
         {
           title: this.$t('schools_page.core_curriculum_2_title'),
@@ -329,8 +329,8 @@ export default Vue.extend({
           signupModalPath: 'teacher',
           linkText: this.$t('schools_page.core_curriculum_2_link_text'),
           video: {
-            videoId: '16b8482dc4d9b96c7d827fb788e64368'
-          }
+            videoId: '16b8482dc4d9b96c7d827fb788e64368',
+          },
         },
         {
           title: this.$t('schools_page.practice_enrichment_2_title'),
@@ -338,8 +338,8 @@ export default Vue.extend({
           link: 'https://codecombat.com/roblox',
           linkText: this.$t('schools_page.practice_enrichment_2_link_text'),
           video: {
-            videoId: 'a50758af1eeeb12f241472beca961424'
-          }
+            videoId: 'a50758af1eeeb12f241472beca961424',
+          },
         },
         {
           title: this.$t('schools_page.practice_enrichment_1_title'),
@@ -347,40 +347,38 @@ export default Vue.extend({
           link: 'https://codecombat.com/league',
           linkText: this.$t('schools_page.practice_enrichment_1_link_text'),
           video: {
-            videoId: '1b3bcd237a9dda25a042493d799e7278'
-          }
+            videoId: '1b3bcd237a9dda25a042493d799e7278',
+          },
         },
         {
           title: this.$t('schools_page.student_acceleration_1_title'),
           text: this.$t('schools_page.student_acceleration_1_text'),
           link: 'https://codecombat.com/ai/',
           linkText: this.$t('schools_page.student_acceleration_1_link_text'),
-          video: {
-            videoId: '50770b9a2fb36de457a37693a3f632c7'
-          }
+          image: '/images/pages/home-v3/young-learners/box-bg-ai-hs.webp',
         },
         {
           title: this.$t('home_v3.engaging_boxes_6_title'),
           text: this.$t('home_v3.engaging_boxes_6_text'),
           link: 'https://codecombat.com/premium',
-          image: '/images/pages/home-v3/engaging-boxes/box_6.webp'
-        }
+          image: '/images/pages/home-v3/engaging-boxes/box_6.webp',
+        },
       ],
       youngLearners: [
         {
           title: this.$t('home_v3.young_learners_1_title'),
           text: this.$t('home_v3.young_learners_1_text'),
-          link: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform',
-          linkText: this.$t('home_v3.young_learners_1_linkText'),
-          image: '/images/pages/home-v3/young-learners/box_1.webp'
+          link: 'https://codecombat.com/play/junior',
+          linkText: this.$t('home_v3.try_it_now'),
+          image: '/images/pages/home-v3/young-learners/box-bg-coco-jr.webp',
         },
         {
           title: this.$t('home_v3.young_learners_2_title'),
           text: this.$t('home_v3.young_learners_2_text'),
           link: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform',
           linkText: this.$t('home_v3.young_learners_2_linkText'),
-          image: '/images/pages/home-v3/young-learners/box_2.webp'
-        }
+          image: '/images/pages/home-v3/young-learners/box-bg-ai-jr.webp',
+        },
       ],
       solutions: [
         {
@@ -391,7 +389,7 @@ export default Vue.extend({
           middleText: this.$t('home_v3.solutions_1_middleText'),
           middleImage: '/images/pages/schools/logo/southern-new-hampshire-university_small.webp',
           middleImageAlt: 'Southern New Hampshire University logo',
-          image: '/images/pages/home-v3/solutions/box_1.webp'
+          image: '/images/pages/home-v3/solutions/box_1.webp',
         },
         {
           title: this.$t('schools_page.student_acceleration_2_title'),
@@ -399,45 +397,45 @@ export default Vue.extend({
           image: '/images/pages/schools/boxes/maximize_6.webp',
           linkText: this.$t('home_v3.try_it_now'),
           link: 'https://codecombat.com/apcsp',
-          mainImageOriginal: true
+          mainImageOriginal: true,
         },
         {
           title: this.$t('home_v3.solutions_3_title'),
           text: this.$t('home_v3.solutions_3_text'),
           image: '/images/pages/home-v3/solutions/box_3.webp',
           linkText: this.$t('home_v3.solutions_6_linkText'),
-          link: '/grants'
+          link: '/grants',
         },
         {
           title: this.$t('home_v3.solutions_4_title'),
           text: this.$t('home_v3.solutions_4_text'),
           link: '/schools',
           video: {
-            videoId: 'cb37e75e3af57c91bab8af6ea85481d3'
-          }
+            videoId: 'cb37e75e3af57c91bab8af6ea85481d3',
+          },
         },
         {
           title: this.$t('home_v3.solutions_5_title'),
           text: this.$t('home_v3.solutions_5_text'),
           image: '/images/pages/home-v3/solutions/box_5.webp',
           linkText: this.$t('home_v3.solutions_6_linkText'),
-          link: '/parents'
+          link: '/parents',
         },
         {
           title: this.$t('home_v3.solutions_7_title'),
           text: this.$t('home_v3.solutions_7_text'),
           image: '/images/pages/home-v3/solutions/box_7.webp',
           linkText: this.$t('home_v3.solutions_6_linkText'),
-          link: '/partners'
+          link: '/partners',
         },
         {
           title: this.$t('home_v3.solutions_8_title'),
           text: this.$t('home_v3.solutions_8_text'),
           image: '/images/pages/home-v3/solutions/box_8.webp',
           linkText: this.$t('home_v3.solutions_6_linkText'),
-          link: '/libraries'
-        }
-      ]
+          link: '/libraries',
+        },
+      ],
     }
   },
   computed: {
@@ -509,12 +507,12 @@ export default Vue.extend({
       action = action || 'unknown'
       const defaults = {
         category: utils.isCodeCombat ? 'Homepage' : 'Home',
-        user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser'
+        user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser',
       }
       const properties = _.merge(defaults, extraProperties)
       return (window.tracker != null ? window.tracker.trackEvent(action, properties) : undefined)
-    }
-  }
+    },
+  },
 })
 </script>
 
