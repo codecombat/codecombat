@@ -52,7 +52,8 @@ module.exports = (LeaderboardView = (function () {
         { slug: 'win-rate', col: 1, title: $.i18n.t('ladder.win_rate') },
         { slug: 'clan', col: 2, title: $.i18n.t('league.team') },
         { slug: 'age', col: 1, title: $.i18n.t('ladder.age_bracket') },
-        { slug: 'country', col: 1, title: '🏴‍☠️' }
+        { slug: 'country', col: 1, title: '🏴‍☠️' },
+        { slug: 'hide', col: 0, title: '' },
       ]
       if (this.hidesTeams) {
         _.remove(this.tableTitles, { slug: 'clan' })
@@ -68,7 +69,7 @@ module.exports = (LeaderboardView = (function () {
           { slug: 'clan', col: 2, title: $.i18n.t('league.team') },
           { slug: 'age', col: 1, title: $.i18n.t('ladder.age') },
           { slug: 'when', col: 1, title: $.i18n.t('general.when') },
-          { slug: 'fight', col: 1, title: '' }
+          { slug: 'fight', col: 1, title: '' },
         ]
         if (this.hidesTeams) {
           _.remove(this.propsData.tableTitles, { slug: 'clan' })
@@ -139,6 +140,7 @@ module.exports = (LeaderboardView = (function () {
         })
       }
 
+      Backbone.Mediator.publish('ladder:refresh', {})
       return super.afterRender(...arguments)
     }
 
@@ -190,7 +192,8 @@ module.exports = (LeaderboardView = (function () {
             (((wins || 0) / (((wins || 0) + (losses || 0)) || 1)) * 100).toFixed(2) + '%',
             this.hidesTeams ? '__hide' : this.getClanName(model),
             this.getAgeBracket(model),
-            model.get('creatorCountryCode')
+            model.get('creatorCountryCode'),
+            model.get('levelSession'),
           ].filter(x => x !== '__hide')
         } else {
           return [
@@ -202,7 +205,7 @@ module.exports = (LeaderboardView = (function () {
             this.hidesTeams ? '__hide' : this.getClanName(model),
             this.getAgeBracket(model),
             moment(model.get('submitDate')).fromNow().replace('a few ', ''),
-            model.get('_id')
+            model.get('_id'),
           ].filter(x => x !== '__hide')
         }
       })
@@ -224,7 +227,8 @@ module.exports = (LeaderboardView = (function () {
       const teamSession = _.find(this.sessions.models, session => session.get('team') === 'humans')
       this.leaderboards = new LeaderboardData(this.level, 'humans', teamSession, this.ladderLimit, this.league, this.tournament, this.ageBracket, this.options.myTournamentSubmission)
       this.leaderboardRes = this.supermodel.addModelResource(this.leaderboards, 'leaderboard', { cache: false }, 3)
-      return this.leaderboardRes.load()
+      this.leaderboardRes.load()
+      Backbone.Mediator.publish('ladder:refresh', {})
     }
 
     onClickLoadMore () {
