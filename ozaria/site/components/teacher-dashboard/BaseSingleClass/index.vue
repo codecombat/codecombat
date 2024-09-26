@@ -671,7 +671,8 @@ export default {
             contentLevelSlug,
             isPractice,
             practiceLevels,
-            ...levelNameMap[_id]
+            slug: content.slug,
+            ...levelNameMap[_id],
           })
         }),
         studentSessions: {},
