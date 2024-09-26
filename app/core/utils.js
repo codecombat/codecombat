@@ -12,7 +12,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 
-let campaignIDs, compare, courseIDs, courseModules, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
+let campaignIDs, compare, courseIDs, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
 const product = ((left = typeof COCO_PRODUCT !== 'undefined' && COCO_PRODUCT !== null ? COCO_PRODUCT : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.COCO_PRODUCT))) != null ? left : 'codecombat'
 const shaTag = ((left = typeof SHA_TAG !== 'undefined' && SHA_TAG !== null ? SHA_TAG : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.SHA_TAG))) != null ? left : 'unknown'
 const isCodeCombat = product === 'codecombat'
@@ -296,89 +296,6 @@ if (isCodeCombat) {
     otherCourseIDs.CHAPTER_FOUR
   ]
 
-  // All courseModules can be deleted once course.modules data has been populated in database
-  courseModules = {}
-
-  courseModules[courseIDs.JUNIOR] = {
-    1: 'A1: Sequences',
-    2: 'A2: Arguments',
-    3: 'B1: Complex Arguments (Hit)',
-    4: 'B2: Complex Arguments (Spin)',
-    5: 'C1: Complex Arguments (Zap)',
-    6: 'C2: Intro to Loops',
-    7: 'D1: Complex Loops (coming soon)',
-    8: 'D2: Intro to Conditionals (coming soon)',
-    9: 'E1: Complex Conditionals (coming soon)',
-    10: 'E2: Intro to Variables (coming soon)',
-    11: 'F1: Complex Structures (coming soon)',
-    12: 'F2: Advanced (coming soon)',
-  }
-
-  courseModules[courseIDs.COMPUTER_SCIENCE_2] = {
-    1: 'Coordinate Systems',
-    2: 'Conditionals Part 1',
-    3: 'Conditionals Part 2',
-    4: 'Conditionals Part 3',
-    5: 'Functions Part 1',
-    6: 'Functions Part 2',
-    7: 'Events'
-  }
-
-  courseModules[courseIDs.GAME_DEVELOPMENT_2] = {
-    1: 'Events',
-    2: 'Random Numbers',
-    3: 'Manual Goals',
-    4: 'Input'
-  }
-
-  courseModules[courseIDs.WEB_DEVELOPMENT_2] = {
-    1: 'JavaScript',
-    2: 'jQuery',
-    3: 'CSS',
-    4: 'Input'
-  }
-
-  courseModules[courseIDs.COMPUTER_SCIENCE_3] = {
-    1: 'Expressions',
-    2: 'Properties',
-    3: 'Return',
-    4: 'Comparisons',
-    5: 'Movement',
-    6: 'Properties Revisted',
-    7: 'Break and Continue'
-  }
-
-  courseModules[courseIDs.GAME_DEVELOPMENT_3] = {
-    1: 'Frames',
-    2: 'Position',
-    3: 'Movement',
-    4: 'Bring It Together'
-  }
-
-  courseModules[courseIDs.COMPUTER_SCIENCE_4] = {
-    1: 'While Loops Revisited',
-    2: 'Lists Part 1',
-    3: 'Lists Part 2',
-    4: 'Movement Revisited',
-    5: 'For Loops'
-  }
-
-  courseModules[courseIDs.COMPUTER_SCIENCE_5] = {
-    1: 'Functions Revisited',
-    2: 'Modulo',
-    3: 'Strings',
-    4: 'For Loops Revisited',
-    5: 'Matrices'
-  }
-
-  courseModules[courseIDs.COMPUTER_SCIENCE_6] = {
-    1: 'Common Algorithms',
-    2: 'Vectors',
-    3: 'More Algorithms',
-    4: 'Data Structures',
-    5: 'Advanced Algorithms'
-  }
-
   hourOfCodeOptions = {
     campaignId: freeCampaignIds[1],
     courseId: courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
@@ -441,34 +358,6 @@ if (isCodeCombat) {
     otherCourseIDs.COMPUTER_SCIENCE_5,
     otherCourseIDs.COMPUTER_SCIENCE_6
   ]
-
-  // Harcoding module names for simplicity
-  // Use db to store these later when we add sophisticated module functionality, right now its only used for UI
-  courseModules = {}
-  courseModules[courseIDs.CHAPTER_ONE] = {
-    1: 'Introduction to Coding'
-  }
-  courseModules[courseIDs.CHAPTER_TWO] = {
-    1: 'Algorithms and Syntax',
-    2: 'Debugging',
-    3: 'Variables',
-    4: 'Conditionals',
-    5: 'Capstone Intro',
-    6: 'Capstone Project'
-  }
-  courseModules[courseIDs.CHAPTER_THREE] = {
-    1: 'Review',
-    2: 'For Loops',
-    3: 'Nesting',
-    4: 'While Loops',
-    5: 'Capstone'
-  }
-  courseModules[courseIDs.CHAPTER_FOUR] = {
-    1: 'Compound Conditionals',
-    2: 'Functions and Data Analysis',
-    3: 'Writing Functions',
-    4: 'Capstone'
-  }
 
   hourOfCodeOptions = {
     campaignId: freeCampaignIds[0],
@@ -1825,7 +1714,6 @@ module.exports = {
   allCourseIDs,
   allFreeCourseIDs,
   freeCocoCourseIDs,
-  courseModules,
   courseNumericalStatus,
   coursesWithProjects,
   CSCourseIDs,

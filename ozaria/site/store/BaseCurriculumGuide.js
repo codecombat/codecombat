@@ -80,7 +80,7 @@ export default {
           // Just match indexes in order, since module might not be numbered 1, 2, 3, but rather A1, A2, B1. Zero-indexed vs. one-indexed moduleNum.
           moduleInfo = Object.values(course.modules)[parseInt(moduleNum) - 1]
         }
-        return moduleInfo?.name || utils.courseModules[course._id]?.[moduleNum]
+        return utils.i18n(moduleInfo || {}, 'name')
       }
     },
 
@@ -93,10 +93,13 @@ export default {
           // Just match indexes in order, since module might not be numbered 1, 2, 3, but rather A1, A2, B1. Zero-indexed vs. one-indexed moduleNum.
           moduleInfo = Object.values(course.modules)[parseInt(moduleNum) - 1]
         }
-        if (moduleInfo && typeof moduleInfo.lessonSlidesUrl === 'object') {
-          const languageSpecificLessonSlidesUrl = moduleInfo.lessonSlidesUrl[_state?.selectedLanguage || 'javascript'] || moduleInfo.lessonSlidesUrl.javascript
+        let lessonSlidesUrl = utils.i18n(moduleInfo || {}, 'lessonSlidesUrl')
+        if (lessonSlidesUrl) {
+          if (typeof lessonSlidesUrl === 'object') {
+            lessonSlidesUrl = lessonSlidesUrl[_state?.selectedLanguage || 'javascript'] || lessonSlidesUrl.javascript
+          }
           moduleInfo = _.cloneDeep(moduleInfo)
-          moduleInfo.lessonSlidesUrl = languageSpecificLessonSlidesUrl
+          moduleInfo.lessonSlidesUrl = lessonSlidesUrl
         }
         return moduleInfo || {}
       }

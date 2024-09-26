@@ -147,14 +147,11 @@ export default {
           }
         })
 
-        let moduleDisplayName
-        // TODO: get dynamic name from course.modules.name
-        if (!utils.courseModules[this.selectedCourseId]?.[moduleNum]) {
-          const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
-          moduleDisplayName = utils.i18n(course, 'name')
-        } else {
-          // Todo: Ozaria-i18n
-          moduleDisplayName = `${utils.isOzaria ? this.$t(`teacher.module${moduleNum}`) : ''}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
+        const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
+        const module = course?.modules?.[moduleNum] || {}
+        let moduleDisplayName = utils.i18n(module, 'name') || utils.i18n(course, 'name') || ''
+        if (utils.isOzaria) {
+          moduleDisplayName = this.$t(`teacher.module${moduleNum}`) + moduleDisplayName
         }
 
         const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, translatedModuleContent, intros, moduleNum)

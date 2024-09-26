@@ -77,6 +77,12 @@ _.extend(CourseSchema.properties, {
             total: { type: 'string', title: 'Total class time (overall)' },
             inGame: { type: 'string', title: 'In-game time' },
             totalTimeRange: { type: 'string', title: 'Total class time (range)', description: 'Relevant for curriculum guides hover tooltip' },
+            i18n: {
+              type: 'object',
+              title: 'i18n',
+              format: 'i18n',
+              props: ['total', 'inGame', 'totalTimeRange'],
+            },
           },
         },
         lessonSlidesUrl: {
@@ -95,6 +101,12 @@ _.extend(CourseSchema.properties, {
         primaryConcepts: c.array({ title: 'Primary Concepts', description: 'The main 1-3 concepts this module focuses on.', uniqueItems: true, inEditor: true }, c.concept),
         name: c.shortString({ title: 'Module Name' }),
         access: { type: 'string', enum: ['free', 'sales-call', 'paid'], title: 'Access', description: 'Whether this module is free, free with a sales call, or paid.' },
+        i18n: {
+          type: 'object',
+          title: 'i18n',
+          format: 'i18n',
+          props: ['name', 'lessonSlidesUrl'],
+        },
       },
     },
   },
