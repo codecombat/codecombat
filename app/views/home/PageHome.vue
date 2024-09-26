@@ -355,9 +355,7 @@ export default Vue.extend({
           text: this.$t('schools_page.student_acceleration_1_text'),
           link: 'https://codecombat.com/ai/',
           linkText: this.$t('schools_page.student_acceleration_1_link_text'),
-          video: {
-            videoId: '50770b9a2fb36de457a37693a3f632c7',
-          },
+          image: '/images/pages/home-v3/young-learners/box-bg-ai-hs.webp',
         },
         {
           title: this.$t('home_v3.engaging_boxes_6_title'),
@@ -379,7 +377,7 @@ export default Vue.extend({
           text: this.$t('home_v3.young_learners_2_text'),
           link: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform',
           linkText: this.$t('home_v3.young_learners_2_linkText'),
-          image: '/images/pages/home-v3/young-learners/box-bg-ai-hs.webp',
+          image: '/images/pages/home-v3/young-learners/box-bg-ai-jr.webp',
         },
       ],
       solutions: [
