@@ -1,18 +1,10 @@
 import utils from '../../../../../app/core/utils'
 
 export function getLevelUrl ({ ozariaType, introLevelSlug, courseId, codeLanguage, slug, introContent }) {
-  let url
-  if (!ozariaType) {
-    url = `/play/intro/${introLevelSlug}?course=${courseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
-  } else if (ozariaType) {
-    url = `/play/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`
+  if (utils.isOzaria && !ozariaType) {
+    return `/play/intro/${introLevelSlug}?course=${courseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
   }
-
-  if (utils.isCodeCombat) {
-    url = `/play/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`
-  }
-
-  return url
+  return `/play/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`
 }
 
 export function getCurriculumGuideContentList ({ introLevels, moduleInfo, moduleNum, currentCourseId, codeLanguage }) {
