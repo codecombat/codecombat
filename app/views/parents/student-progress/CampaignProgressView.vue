@@ -101,7 +101,6 @@ export default {
   methods: {
     moduleName (num) {
       let moduleInfo = this.getCurrentCourse?.modules
-      moduleInfo = undefined
       moduleInfo = moduleInfo || this.campaign.modules[num] // Fallback method. Do we need it?
       return utils.i18n(moduleInfo?.[num] || {}, 'name')
     },
