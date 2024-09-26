@@ -153,7 +153,20 @@ module.exports = (Level = (function () {
             }
             levelThang.components = [] // We have stored the placeholder values, so we can inherit everything else.
             heroThangType = __guard__(session != null ? session.get('heroConfig') : undefined, x => x.thangType)
-            if (heroThangType) { levelThang.thangType = heroThangType }
+            if (heroThangType) {
+              let juniorHeroReplacement
+              if (this.get('product', true) === 'codecombat-junior') {
+                // If we got into a codecombat-junior level with a codecombat hero, pick an equivalent codecombat-junior hero to use instead
+                juniorHeroReplacement = ThangTypeConstants.juniorHeroReplacements[_.invert(ThangTypeConstants.heroes)[heroThangType]]
+              } else {
+                // If we got into a codecombat level with a codecombat-junior hero, pick an equivalent codecombat hero to use instead
+                juniorHeroReplacement = _.invert(ThangTypeConstants.juniorHeroReplacements)[_.invert(ThangTypeConstants.heroes)[heroThangType]]
+              }
+              if (juniorHeroReplacement) {
+                heroThangType = ThangTypeConstants.heroes[juniorHeroReplacement]
+              }
+              levelThang.thangType = heroThangType
+            }
           }
         }
       }
@@ -165,6 +178,7 @@ module.exports = (Level = (function () {
         configs[thangComponent.original] = thangComponent
       }
 
+      let defaultEquipsConfig
       for (const defaultThangComponent of Array.from((thangType != null ? thangType.get('components') : undefined) || [])) {
         let copy
         let levelThangComponent = configs[defaultThangComponent.original]
@@ -181,11 +195,9 @@ module.exports = (Level = (function () {
         if (utils.isCodeCombat) {
           if (isHero && (placeholderComponent = placeholders[defaultThangComponent.original])) {
             placeholdersUsed[placeholderComponent.original] = true
-            const placeholderConfig = placeholderComponent.config != null ? placeholderComponent.config : {}
+            const placeholderConfig = placeholderComponent.config || {}
             if (levelThangComponent.config == null) { levelThangComponent.config = {} }
-            ({
-              config
-            } = levelThangComponent)
+            config = levelThangComponent.config
             if (placeholderConfig.pos) { // Pull in Physical pos x and y
               if (config.pos == null) { config.pos = {} }
               config.pos.x = placeholderConfig.pos.x
@@ -198,14 +210,16 @@ module.exports = (Level = (function () {
             } else if (placeholderConfig.programmableMethods) {
               // Take the ThangType default Programmable and merge level-specific Component config into it
               copy = $.extend(true, {}, placeholderConfig)
-              const programmableProperties = (config != null ? config.programmableProperties : undefined) != null ? (config != null ? config.programmableProperties : undefined) : []
-              copy.programmableProperties = _.union(programmableProperties, copy.programmableProperties != null ? copy.programmableProperties : [])
+              const programmableProperties = config?.programmableProperties || []
+              copy.programmableProperties = _.union(programmableProperties, copy.programmableProperties || [])
               levelThangComponent.config = (config = _.merge(copy, config))
             } else if (placeholderConfig.extraHUDProperties) {
               config.extraHUDProperties = _.union(config.extraHUDProperties != null ? config.extraHUDProperties : [], placeholderConfig.extraHUDProperties)
             } else if (placeholderConfig.voiceRange) { // Pull in voiceRange
               config.voiceRange = placeholderConfig.voiceRange
               config.cooldown = placeholderConfig.cooldown
+            } else if (placeholderConfig.inventory) {
+              defaultEquipsConfig = placeholderConfig
             }
           }
         }
@@ -214,8 +228,59 @@ module.exports = (Level = (function () {
       if (utils.isCodeCombat && isHero) {
         const equips = _.find(levelThang.components, { original: LevelComponent.EquipsID })
         if (equips) {
-          const inventory = __guard__(session != null ? session.get('heroConfig') : undefined, x1 => x1.inventory)
+          const inventory = session?.get('heroConfig')?.inventory || {}
           if (equips.config == null) { equips.config = {} }
+          // If we somehow don't have all our required properties, then grant the rest of them.
+          if (!this.headless && !this.isEditorPreview) {
+            for (const [slot, defaultItemOriginal] of Object.entries(defaultEquipsConfig?.inventory || {})) {
+              // Look through this ThangType's components for one with config.programmableProperties, see if there's intersection between those and this.get('requiredProperties') and there is NOT such intersection for whatever item we would otherwise have in this slot, and if so, put that item in this slot.
+              if (!defaultItemOriginal) { continue }
+              const defaultItemThangType = thangTypesByOriginal[defaultItemOriginal]
+              if (!defaultItemThangType) { continue }
+
+              // Initialize the default item properties
+              let defaultItemProperties = []
+              for (const component of defaultItemThangType.get('components') || []) {
+                defaultItemProperties = defaultItemProperties.concat(component.config?.programmableProperties || [])
+              }
+
+              // Get the player's item in this slot
+              const playerItemOriginal = inventory[slot]
+
+              // Initialize player's item properties
+              let playerItemProperties = []
+              let playerItemThangType
+              if (playerItemOriginal) {
+                playerItemThangType = thangTypesByOriginal[playerItemOriginal]
+                if (playerItemThangType) {
+                  for (const component of playerItemThangType.get('components') || []) {
+                    playerItemProperties = playerItemProperties.concat(component.config?.programmableProperties || [])
+                  }
+                }
+              }
+
+              // Get required properties from the level
+              const requiredProperties = this.get('requiredProperties') || []
+              const requiredPropertiesForSlot = _.intersection(requiredProperties, defaultItemProperties)
+              const requiredGear = this.get('requiredGear')?.[slot]
+              const restrictedGear = this.get('restrictedGear')?.[slot]
+
+              // Check if the player's item covers all the required properties for this slot
+              const playerItemRequiredPropertiesForSlot = _.intersection(playerItemProperties, requiredPropertiesForSlot)
+              if (playerItemRequiredPropertiesForSlot.length === 0 && playerItemRequiredPropertiesForSlot.length < requiredPropertiesForSlot.length) {
+                // Player's item does not cover required properties, so equip the default item
+                console.log(`Auto-equipping default item ${defaultItemOriginal} ${defaultItemThangType.get('name')} in slot ${slot} to get required properties ${requiredPropertiesForSlot} out of requiredProperties ${requiredProperties}, because player item ${playerItemOriginal} ${playerItemThangType?.get('name')} only has properties ${playerItemProperties}`)
+                inventory[slot] = defaultItemOriginal
+              } else if (requiredGear?.length && !playerItemOriginal) {
+                // Player's item does not exist, so equip the default item. (Note that we do let them play with different items equipped in the slot.)
+                console.log(`Auto-equipping default item ${defaultItemOriginal} in slot ${slot} because player has no item equipped there and a required item is there`)
+                inventory[slot] = defaultItemOriginal
+              } else if (restrictedGear?.length && restrictedGear.includes(playerItemOriginal)) {
+                console.log(`Auto-equipping default item ${defaultItemOriginal} ${defaultItemThangType.get('name')} in slot ${slot} because player item ${playerItemOriginal} ${playerItemThangType?.get('name')} is in restricted list`)
+                inventory[slot] = defaultItemOriginal
+              }
+            }
+          }
           if (inventory) { equips.config.inventory = $.extend(true, {}, inventory) }
         }
         for (const original in placeholders) {
