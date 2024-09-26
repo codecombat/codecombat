@@ -87,6 +87,8 @@ export default Vue.extend({
     }
   },
   async mounted () {
+    this.showModal = this.showModalInitially
+
     const trialRequests = await api.trialRequests.getOwn()
     const trialRequest = _.last(_.sortBy(trialRequests, (t) => t.id)) || {}
     const props = trialRequest.properties || {}
@@ -107,8 +109,6 @@ export default Vue.extend({
     this.district = props.nces_district || props.district || ''
     this.role = props.role || ''
     this.phone = props.phoneNumber || ''
-
-    this.showModal = this.showModalInitially
   },
   methods: {
     closeModal () {

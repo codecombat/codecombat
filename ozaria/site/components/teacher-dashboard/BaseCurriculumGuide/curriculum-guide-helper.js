@@ -1,5 +1,12 @@
 import utils from '../../../../../app/core/utils'
 
+export function getLevelUrl ({ ozariaType, introLevelSlug, courseId, codeLanguage, slug, introContent }) {
+  if (utils.isOzaria && !ozariaType) {
+    return `/play/intro/${introLevelSlug}?course=${courseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
+  }
+  return `/play/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`
+}
+
 export function getCurriculumGuideContentList ({ introLevels, moduleInfo, moduleNum, currentCourseId, codeLanguage }) {
   const curriculumGuideContentList = []
   let lastIntroLevelSlug = null
@@ -11,7 +18,7 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       fromIntroLevelOriginal,
       slug,
       introContent,
-      _id
+      _id,
     } = { type: content.practice ? 'practicelvl' : 'challengelvl', ...content }
 
     // Potentially this intro doesn't have a header in the curriculum guide yet
@@ -22,12 +29,12 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       curriculumGuideContentList.push({
         isIntroHeadingRow: true,
         name: utils.i18n(introLevels[fromIntroLevelOriginal], 'displayName'),
-        icon: 'intro'
+        icon: 'intro',
       })
       lastIntroLevelSlug = introLevelSlug
     }
 
-    let icon, url
+    let icon
 
     // TODO: Where is the language chosen in the curriculum guide?
 
@@ -38,8 +45,6 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       } else if (content.practice) {
         icon = 'practicelvl'
       }
-
-      url = `/play/intro/${introLevelSlug}?course=${currentCourseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
     } else if (ozariaType) {
       if (ozariaType === 'practice') {
         icon = 'practicelvl'
@@ -48,12 +53,9 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       } else if (ozariaType === 'challenge') {
         icon = 'challengelvl'
       }
-      url = `/play/level/${slug}?course=${currentCourseId}&codeLanguage=${codeLanguage}`
     }
 
-    if (utils.isCodeCombat) {
-      url = `/play/level/${slug}?course=${currentCourseId}&codeLanguage=${codeLanguage}`
-    }
+    const url = getLevelUrl({ ozariaType, introLevelSlug, courseId: currentCourseId, codeLanguage, slug, introContent })
 
     if (!url || !icon) {
       console.error('missing url or icon in curriculum guide')
@@ -70,7 +72,7 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       slug,
       fromIntroLevelOriginal,
       original: content.original,
-      assessment: content.assessment
+      assessment: content.assessment,
     })
   }
   return curriculumGuideContentList
