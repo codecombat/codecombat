@@ -130,15 +130,15 @@ export default {
   margin: 0;
 }
 .season-img {
-  width: 300px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
   object-fit: scale-down;
   margin-left: auto;
   margin-right: auto;
 }
 .results-img {
-  width: 350px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
 }
 .season-name {
   font-size: 28px;
