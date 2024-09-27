@@ -87,7 +87,7 @@ export default {
       validator: value => {
         return CourseSchema.properties.modules.additionalProperties.properties.access.enum.includes(value)
       },
-      default: null,
+      default: undefined,
     },
   },
 
