@@ -154,7 +154,13 @@ export default {
           moduleDisplayName = this.$t(`teacher.module${moduleNum}`) + moduleDisplayName
         }
 
-        const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, translatedModuleContent, intros, moduleNum)
+        const moduleStatsForTable = this.createModuleStatsTable({
+          moduleDisplayName,
+          intros,
+          moduleNum,
+          moduleContent: translatedModuleContent,
+          access: module.access,
+        })
         const levelNameMap = this.getLevelNameMap(translatedModuleContent, intros)
         const levelsByOriginal = translatedModuleContent
           .reduce((acc, content) => {
@@ -613,10 +619,11 @@ export default {
 
     // Creates summary stats table for the content. These are the icons along
     // the top of the track progress table.
-    createModuleStatsTable (moduleDisplayName, moduleContent, intros, moduleNum) {
+    createModuleStatsTable ({ moduleDisplayName, moduleContent, intros, moduleNum, access }) {
       const levelNameMap = this.getLevelNameMap(moduleContent, intros)
       return {
         moduleNum,
+        access,
         displayName: moduleDisplayName,
         contentList: moduleContent.map((content, index) => {
           const { type, _id, ozariaType, original, fromIntroLevelOriginal, slug, practiceLevels } = content

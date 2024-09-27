@@ -170,6 +170,10 @@ module.exports = (User = (function () {
     isSmokeTestUser () { return User.isSmokeTestUser(this.attributes) }
     isIndividualUser () { return !this.isStudent() && !User.isTeacher(this.attributes) }
 
+    getSubscriptionLevel () {
+      return 'free'
+    }
+
     isNewDashboardActive () {
       const features = {
         isNewDashboardActive: true,

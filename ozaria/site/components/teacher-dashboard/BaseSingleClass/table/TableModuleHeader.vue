@@ -9,6 +9,9 @@ import LockOrSkip from './LockOrSkip'
 import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
 import { courseArenaLadder } from 'core/urls'
 import { getLevelUrl } from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper'
+import CourseSchema from 'app/schemas/models/course.schema'
+import CodeRenderer from 'app/components/common/labels/CodeRenderer'
+import AccessLevelIndicator from 'app/components/common/elements/AccessLevelIndicator'
 
 import utils from 'core/utils'
 
@@ -50,6 +53,8 @@ export default {
     ContentIcon,
     ProgressDot,
     LockOrSkip,
+    CodeRenderer,
+    AccessLevelIndicator,
   },
   props: {
     moduleHeading: {
@@ -75,6 +80,14 @@ export default {
     displayOnly: {
       type: Boolean,
       default: false,
+    },
+
+    access: {
+      type: String,
+      validator: value => {
+        return CourseSchema.properties.modules.additionalProperties.properties.access.enum.includes(value)
+      },
+      default: null,
     },
   },
 
@@ -202,8 +215,13 @@ export default {
       >
       <h3
         v-else
-        v-html="moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>')"
-      />
+      >
+        <code-renderer :content="moduleHeading" />
+        <access-level-indicator
+          :level="access"
+          :display-text="false"
+        />
+      </h3>
       <!-- eslint-enable vue/no-v-html -->
       <v-popover
         v-if="!displayOnly"

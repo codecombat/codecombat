@@ -1,0 +1,98 @@
+<template>
+  <span
+    v-if="isDisplayable"
+    v-tooltip.bottom="{
+      content: tooltipText,
+    }"
+    :class="badgeClass"
+  >
+    <span v-if="displayIcon">{{ icon }}</span>
+    <span v-if="displayText">{{ badgeText }}</span>
+  </span>
+</template>
+
+<script>
+import CourseSchema from 'app/schemas/models/course.schema'
+const ACCESS_LEVELS = CourseSchema.properties.modules.additionalProperties.properties.access.enum
+
+export default {
+  name: 'AccessLevelIndicator',
+  props: {
+    level: {
+      type: String,
+      required: true,
+      validator: value => ACCESS_LEVELS.includes(value),
+      default: 'free',
+    },
+    displayText: {
+      type: Boolean,
+      default: true,
+    },
+    displayIcon: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  computed: {
+    isDisplayable () {
+      const userDisplayMap = {
+        free: ['free', 'sales-call'], // non-paying users will see the 'free' and 'sales-call' badges
+        'sales-call': ['paid'], // users after sales call will see the 'paid' badges
+        paid: [], // I'm not sure if we'll have this for users, but if we'll have no badges needed.
+      }
+      return userDisplayMap[me.getSubscriptionLevel()].includes(this.level)
+    },
+    badgeClass () {
+      return {
+        badge: true,
+        [`badge-${this.level}`]: true,
+      }
+    },
+    tooltipText () {
+      const tooltips = {
+        free: 'Explore our levels at no cost!',
+        'sales-call': 'Interested in more? Give us a call and unlock!',
+        paid: 'This content is exclusive to users with a valid license.',
+      }
+      return tooltips[this.level] || ''
+    },
+    badgeText () {
+      const tooltips = {
+        free: 'Free',
+        'sales-call': 'Call Now!',
+        paid: 'Premium',
+      }
+      return tooltips[this.level] || ''
+    },
+    icon () {
+      const icons = {
+        free: '✨',
+        'sales-call': '📞',
+        paid: '🔒',
+      }
+      return icons[this.level] || ''
+    },
+  },
+}
+</script>
+
+<style scoped lang="scss">
+.badge {
+  padding: 5px;
+  border-radius: 3px;
+  color: white;
+  font-size: 12px;
+}
+
+.badge-free {
+  background-color: green;
+}
+
+.badge-sales-call {
+  background-color: orange;
+}
+
+.badge-paid {
+  background-color: red;
+}
+</style>

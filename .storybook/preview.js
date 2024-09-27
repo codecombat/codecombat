@@ -176,6 +176,9 @@ window.Vue = Vue
 window.me = {
   get() {
     return 'test value'
+  },
+  getSubscriptionLevel() {
+    return 'free'
   }
 }
 
