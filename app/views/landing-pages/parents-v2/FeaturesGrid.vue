@@ -15,6 +15,7 @@
 
 <script>
 import TableRow from './TableRow.vue'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -41,9 +42,43 @@ export default {
       { content: [$.i18n.t('parents_v2.grid_class_recording'), null, '✓', '✓'] },
       { content: [$.i18n.t('parents_v2.grid_money_back'), null, '✓', '✓'] },
       { content: [$.i18n.t('parents_v2.grid_ai_hints_allowance'), 10, 20, 20] },
-      { content: [$.i18n.t('parents_v2.grid_prompts_allowance'), 50, 200, 200] }
-    ]
+      { content: [$.i18n.t('parents_v2.grid_prompts_allowance'), 50, 200, 200] },
+    ],
   }),
+  computed: {
+    ...mapGetters('products', ['basicAnnualSubscriptionForCurrentUser']),
+    price () {
+      const p = this.basicAnnualSubscriptionForCurrentUser
+      let origPrice = 99
+      if (p) {
+        origPrice = p.priceStringNoSymbol()
+        if (origPrice % 1 === 0) {
+          origPrice = Math.floor(origPrice)
+        }
+      }
+      // we don't have coupon ID in parent page so no sale price here
+      if (p?.get('formattedAmmount')) {
+        return $.i18n.t('parents_v2.grid_self_paced_year_price_without_currencya', { price: p.get('formattedAmmount') })
+      } else {
+        return $.i18n.t('parents_v2.grid_self_paced_year_price', { price: origPrice })
+      }
+    },
+  },
+  created () {
+    try {
+      this.loadProducts()
+    } catch (e) {
+      console.error('Error loading products in parents-v2', e)
+    }
+  },
+  mounted () {
+    this.rows[2].content[1] = this.price
+  },
+  methods: {
+    ...mapActions({
+      loadProducts: 'products/loadProducts',
+    }),
+  },
 }
 </script>
 
