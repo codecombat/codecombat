@@ -51,17 +51,22 @@ export default {
       const p = this.basicAnnualSubscriptionForCurrentUser
       let origPrice = 99
       if (p) {
-        origPrice = p.priceStringNoSymbol()
+        origPrice = (p.amount / 100).toFixed(2)
         if (origPrice % 1 === 0) {
           origPrice = Math.floor(origPrice)
         }
       }
       // we don't have coupon ID in parent page so no sale price here
-      if (p?.get('formattedAmmount')) {
-        return $.i18n.t('parents_v2.grid_self_paced_year_price_without_currencya', { price: p.get('formattedAmmount') })
+      if (p?.formattedAmmount) {
+        return $.i18n.t('parents_v2.grid_self_paced_year_price_without_currencya', { price: p.formattedAmmount })
       } else {
         return $.i18n.t('parents_v2.grid_self_paced_year_price', { price: origPrice })
       }
+    },
+  },
+  watch: {
+    basicAnnualSubscriptionForCurrentUser () {
+      this.rows[2].content[1] = this.price
     },
   },
   created () {
