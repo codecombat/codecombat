@@ -80,7 +80,7 @@ export default {
     }
   },
   mounted () {
-    this.rows[2].content[1] = this.price
+    this.updatePriceInRows(this.price)
   },
   methods: {
     ...mapActions({
