@@ -5,6 +5,10 @@ export default {
     fade: {
       type: Boolean,
       default: true
+    },
+    transparentBackground: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -14,7 +18,7 @@ export default {
   <!-- Modified from https://vuejs.org/v2/examples/modal.html -->
   <transition name="modal">
     <div :class="`${fade ? 'modal-mask-fade' : 'modal-mask'}`">
-      <div class="modal-container">
+      <div :class="['modal-container', { 'transparent-background': transparentBackground }]">
         <slot />
       </div>
     </div>
@@ -67,6 +71,10 @@ export default {
 
         transition: all .3s ease;
         white-space: normal;
+    }
+
+    .transparent-background {
+      background: none;
     }
 
     /*

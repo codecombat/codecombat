@@ -10,6 +10,7 @@ import ConceptsCovered from './components/ConceptsCovered'
 import CstaStandards from './components/CstaStandards'
 import ModuleContent from './components/ModuleContent'
 import LoadingSpinner from 'app/components/common/elements/LoadingSpinner'
+import CapstoneProject from './components/ModalCapstoneProject.vue'
 
 export default {
   name: COMPONENT_NAMES.CURRICULUM_GUIDE,
@@ -19,7 +20,8 @@ export default {
     ConceptsCovered,
     CstaStandards,
     ModuleContent,
-    LoadingSpinner
+    LoadingSpinner,
+    CapstoneProject
   },
 
   props: {
@@ -72,7 +74,8 @@ export default {
       setSelectedLanguage: 'baseCurriculumGuide/setSelectedLanguage',
       resetLoadingState: 'teacherDashboard/resetLoadingState',
       setTeacherId: 'teacherDashboard/setTeacherId',
-      setPageTitle: 'teacherDashboard/setPageTitle'
+      setPageTitle: 'teacherDashboard/setPageTitle',
+      openCapstoneModal: 'baseCurriculumGuide/openCapstoneModal',
     }),
     changeLanguage (e) {
       window.tracker?.trackEvent('Curriculum Guide: Language Changed from dropdown', { category: this.getTrackCategory, label: this.courseName })
@@ -84,6 +87,9 @@ export default {
       }
       // Assuming that last module is the capstone module, TODO store `isCapstoneModule` with module details in the course schema.
       return moduleNum === this.moduleNumbers[this.moduleNumbers.length - 1]
+    },
+    openCapstoneProject () {
+      this.openCapstoneModal()
     }
   },
   watch: {
@@ -99,6 +105,12 @@ export default {
 <template>
   <div>
     <div>
+      <button
+        @click="openCapstoneProject"
+      >
+        <p>click here to open modal</p>
+      </button>
+      <capstone-project />
       <div class="header">
         <div class="header-icon">
           <img src="/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg">
