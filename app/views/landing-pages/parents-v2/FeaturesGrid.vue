@@ -65,8 +65,11 @@ export default {
     },
   },
   watch: {
-    basicAnnualSubscriptionForCurrentUser () {
-      this.rows[2].content[1] = this.price
+    price: {
+      immediate: true,
+      handler (newPrice) {
+        this.updatePriceInRows(newPrice)
+      },
     },
   },
   created () {
@@ -83,6 +86,14 @@ export default {
     ...mapActions({
       loadProducts: 'products/loadProducts',
     }),
+    updatePriceInRows (newPrice) {
+      this.rows = this.rows.map(row => {
+        if (row.type === 'header') {
+          return { ...row, content: [row.content[0], newPrice, row.content[2], row.content[3]] }
+        }
+        return row
+      })
+    },
   },
 }
 </script>
