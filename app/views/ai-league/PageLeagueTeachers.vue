@@ -345,7 +345,7 @@ export default {
       </section>
 
       <div class="row text-center">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
           <content-box>
             <template #text>
               <div class="box-title">
@@ -397,24 +397,6 @@ export default {
                 :title="$t(`league.${regularArenaSlug.replace(/-/g, '_')}`)"
                 :player-count="selectedGlobalLeaderboardPlayerCount"
                 class="leaderboard-component"
-              />
-            </template>
-          </content-box>
-        </div>
-        <div class="col-lg-6">
-          <content-box>
-            <template #text>
-              <div class="box-title">
-                {{ $t('league.all_time') }}
-              </div>
-              <leaderboard
-                :key="`${clanIdSelected}-codepoints`"
-                :title="$t('league.codepoints')"
-                :rankings="selectedClanCodePointsRankings"
-                :clan-id="clanIdSelected"
-                score-type="codePoints"
-                class="leaderboard-component"
-                :player-count="codePointsPlayerCount"
               />
             </template>
           </content-box>
