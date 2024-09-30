@@ -49,9 +49,8 @@ export default function getVueRouter () {
         {
           path: '/parents',
           props: (route) => ({ showPremium: true, type: route.query.type }),
-          component: () => import(/* webpackChunkName: "ParentsView" */ `app/views/landing-pages/parents${me.getParentsPageExperimentValue() === 'control' ? '' : '-v2'}/PageParents`),
-          meta: { theme: 'teal' }
-
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents-v2/PageParents'),
+          meta: { theme: 'teal' },
         },
         {
           path: '/codequest',
