@@ -339,7 +339,6 @@ module.exports = (CocoRouter = (function () {
         },
 
         parents: go('core/SingletonAppVueComponentView'),
-        'parents-v2': go('core/SingletonAppVueComponentView'),
         'parents/*path': go('core/SingletonAppVueComponentView'),
         'live-classes': go('core/SingletonAppVueComponentView'),
         live: go('core/SingletonAppVueComponentView'),

@@ -1116,12 +1116,8 @@ module.exports = (User = (function () {
     startHomeControlExperiment (forcedValue) {
       return this.getFilteredExperimentValue({
         experimentName: 'home-page-filtered-control-experiment',
-        forcedValue
+        forcedValue,
       })
-    }
-
-    getParentsPageExperimentValue () {
-      return this.getFilteredExperimentValue({ experimentName: 'parents-page-filtered' })
     }
 
     getEducatorSignupExperimentValue () {

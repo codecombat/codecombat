@@ -6037,6 +6037,8 @@ module.exports = {
       grid_99_annual: '$99 Annual',
       grid_219_monthly: '$219 Monthly',
       grid_399_monthly: '$399 Monthly',
+      grid_self_paced_year_price: '$__price__ Annual',
+      grid_self_paced_year_price_without_currency: '__price__ Annual',
       grid_personalized_instruction: '1:1 Personalized Instruction',
       grid_premium_access: 'Premium Access',
       grid_codecombat: 'CodeCombat',
