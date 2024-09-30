@@ -83,6 +83,7 @@ export default {
       this.startLoading()
       this.setComponentName(this.$options.name)
       this.setPageTitle(PAGE_TITLES[this.$options.name])
+      this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'PD: Loaded' } })
     }
   },
   methods: {

@@ -212,10 +212,11 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import { PAGE_TITLES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
+import { COMPONENT_NAMES, PAGE_TITLES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
 import ModalGetLicenses from '../../components/common/ModalGetLicenses.vue'
 
 export default Vue.extend({
+  name: COMPONENT_NAMES.APCSP,
   components: {
     'modal-get-licenses': ModalGetLicenses,
   },
@@ -286,6 +287,7 @@ export default Vue.extend({
     if (this.$route.path.startsWith('/teachers/apcsp')) {
       this.startLoading()
       this.setComponentName(this.$options.name)
+      this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Teacher Dashboard / APCSP: Loaded' } })
     }
     this.setPageTitle(PAGE_TITLES[this.$options.name])
   },
@@ -297,7 +299,8 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions({
-      fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher'
+      fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher',
+      fetchData: 'teacherDashboard/fetchData',
     }),
 
     ...mapMutations({
