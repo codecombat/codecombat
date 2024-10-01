@@ -423,6 +423,11 @@ h3 {
 
 .level-popover-locking {
   padding: 16px 16px 0;
+  ::v-deep {
+    a {
+      color: inherit
+    }
+  }
 }
 
 .lock-btn-row {

@@ -11,6 +11,7 @@ import storage from '../../../../../app/core/storage'
 import utils from 'app/core/utils'
 import { getGameContentDisplayNameWithType } from 'ozaria/site/common/ozariaUtils.js'
 import User from 'models/User'
+import { getLevelUrl } from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper'
 
 import _ from 'lodash'
 import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
@@ -29,7 +30,7 @@ export default {
     Guidelines,
     'view-and-manage': ViewAndMange,
     'table-class-frame': TableClassFrame,
-    ModalEditStudent
+    ModalEditStudent,
   },
 
   beforeRouteUpdate (to, from, next) {
@@ -52,26 +53,26 @@ export default {
     classroomId: {
       type: String,
       default: '',
-      required: true
+      required: true,
     },
     teacherId: { // sent from DSA
       type: String,
-      default: ''
+      default: '',
     },
     displayOnly: { // sent from DSA
       type: Boolean,
-      default: false
+      default: false,
     },
     defaultCourseId: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
 
   data: () => ({
     isGuidelinesVisible: true,
     refreshKey: 0,
-    sortMethod: storage.load('sortMethod') || 'Last Name'
+    sortMethod: storage.load('sortMethod') || 'Last Name',
   }),
 
   computed: {
@@ -143,7 +144,7 @@ export default {
             ...content,
             name: utils.i18n(content, 'name'),
             displayName: utils.i18n(content, 'displayName'),
-            description: utils.i18n(content, 'description')
+            description: utils.i18n(content, 'description'),
           }
         })
 
@@ -227,7 +228,7 @@ export default {
               playTime: playTimeMap[normalizedOriginal],
               completionDate: completionDateMap[normalizedOriginal],
               tooltipName: levelNameMap[content._id].levelName,
-              practiceLevels
+              practiceLevels,
             }
 
             if (content.type === 'game-dev') {
@@ -324,7 +325,7 @@ export default {
                     classroomId: this.classroomId, // TODO remove and use classroomId from teacherDashboard vuex
                     selectedCourseId: this.selectedCourseId,
                     moduleNum,
-                    contentId: content._id
+                    contentId: content._id,
                   })
                 }
 
@@ -343,7 +344,7 @@ export default {
         moduleStatsForTable.classSummaryProgress = Array.from(classSummaryProgressMap.values())
           .map(({ status, flagCount }) => ({
             status,
-            border: flagCount >= (this.classroomMembers?.length || 1) / 2 ? 'red' : ''
+            border: flagCount >= (this.classroomMembers?.length || 1) / 2 ? 'red' : '',
           }))
 
         modulesForTable.push(moduleStatsForTable)
@@ -370,7 +371,7 @@ export default {
           _id: userObj._id,
           isEnrolled,
           firstName: userObj.firstName || displayName,
-          lastName: userObj.lastName || displayName
+          lastName: userObj.lastName || displayName,
         }
       })
 
@@ -392,7 +393,7 @@ export default {
       } else {
         const originalsInModule = Object.values(modules).flat().map(({
           fromIntroLevelOriginal,
-          original
+          original,
         }) => fromIntroLevelOriginal || original)
         const studentProgression = new Map(students.map(({ _id }) => ([_id, 0])))
 
@@ -415,7 +416,7 @@ export default {
 
         return students
       }
-    }
+    },
   },
 
   watch: {
@@ -431,7 +432,7 @@ export default {
         return acc.concat(module.contentList.map(c => c.normalizedOriginal))
       }, [])
       this.setSelectableOriginals(originals)
-    }
+    },
   },
 
   mounted () {
@@ -464,7 +465,7 @@ export default {
       clearSelectedStudents: 'baseSingleClass/clearSelectedStudents',
       addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
       fetchClassroomById: 'classrooms/fetchClassroomForId',
-      fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher'
+      fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher',
     }),
 
     ...mapMutations({
@@ -474,7 +475,7 @@ export default {
       setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom',
       setSelectableStudentIds: 'baseSingleClass/setSelectableStudentIds',
       setSelectableOriginals: 'baseSingleClass/setSelectableOriginals',
-      closePanel: 'teacherDashboardPanel/closePanel'
+      closePanel: 'teacherDashboardPanel/closePanel',
     }),
 
     isHackStackCourse (selectedCourseId) {
@@ -531,8 +532,13 @@ export default {
         }
         if (fromIntroLevelOriginal) {
           const introLevel = intros[fromIntroLevelOriginal] || {}
+          const levelUrl = getLevelUrl({
+            ...content,
+            codeLanguage: this.classroom.aceConfig.language,
+            courseId: this.selectedCourseId,
+          })
           levelName = tooltipName
-          description = `<h3>${tooltipName}</h3><p>${utils.i18n(content, 'description') || getLearningGoalsDocumentation(content) || ''}</p>`
+          description = `<h3><a target="_blank" href="${levelUrl}">${tooltipName}</a></h3><p>${utils.i18n(content, 'description') || getLearningGoalsDocumentation(content) || ''}</p>`
           tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${utils.i18n(introLevel, 'displayName') || utils.i18n(introLevel, 'name')}`
         }
 
@@ -556,7 +562,7 @@ export default {
           selectedCourseId: this.selectedCourseId,
           moduleNum,
           aiScenario,
-          aiProjects
+          aiProjects,
         })
       }
     },
@@ -609,7 +615,7 @@ export default {
         isOptional: false,
         isPlayable,
         isPractice: false,
-        ...details
+        ...details,
       }
     },
 
@@ -672,11 +678,13 @@ export default {
             isPractice,
             practiceLevels,
             slug: content.slug,
+            ozariaType: content.ozariaType,
+            introLevelSlug: content.introLevelSlug,
             ...levelNameMap[_id],
           })
         }),
         studentSessions: {},
-        classSummaryProgress: []
+        classSummaryProgress: [],
       }
     },
 
@@ -711,7 +719,7 @@ export default {
               normalizedOriginal: scenario._id,
               normalizedType: type,
               contentLevelSlug: scenario.slug,
-              isPractice: false
+              isPractice: false,
             }
           }),
         studentSessions: this.students.reduce((studentSessions, student) => {
@@ -724,16 +732,16 @@ export default {
                 student,
                 classSummaryProgress,
                 moduleNum,
-                createModeUnlocked
+                createModeUnlocked,
               })
             })
 
           return studentSessions
         }, {}),
-        classSummaryProgress
+        classSummaryProgress,
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
