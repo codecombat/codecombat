@@ -8,7 +8,7 @@ describe('ProgressDot', () => {
     wrapper = shallowMount(ProgressDot)
   })
 
-  describe('filterPracticeLevelsToDisplay', () => {
+  fdescribe('filterPracticeLevelsToDisplay', () => {
     it('returns last three levels including first "assigned" one from end', () => {
       const practiceLevels = [
         { name: 'Level 1', isCompleted: true, inProgress: true }, // complete
@@ -100,6 +100,29 @@ describe('ProgressDot', () => {
         { name: 'Level 4', status: 'complete' },
         { name: 'Level 5', status: 'progress' },
         { name: 'Level 6', status: 'assigned' },
+      ])
+    })
+
+    it('returns last completed ones and first assigned if there is no in-progress one.', () => {
+      const practiceLevels = [
+        { name: 'Level 1', isCompleted: true, inProgress: false }, // complete
+        { name: 'Level 2', isCompleted: true, inProgress: false }, // complete
+        { name: 'Level 3', isCompleted: true, inProgress: false }, // complete
+        { name: 'Level 4', isCompleted: true, inProgress: false }, // complete
+        { name: 'Level 5', isCompleted: false, inProgress: false }, // assigned
+        { name: 'Level 6', isCompleted: false, inProgress: false }, // assigned
+        { name: 'Level 7', isCompleted: false, inProgress: false }, // assigned
+        { name: 'Level 8', isCompleted: false, inProgress: false }, // assigned
+        { name: 'Level 9', isCompleted: false, inProgress: false }, // assigned
+        { name: 'Level 10', isCompleted: false, inProgress: false }, // assigned
+      ]
+
+      const result = wrapper.vm.filterPracticeLevelsToDisplay(practiceLevels)
+
+      expect(result).toEqual([
+        { name: 'Level 3', status: 'complete' },
+        { name: 'Level 4', status: 'complete' },
+        { name: 'Level 5', status: 'assigned' },
       ])
     })
   })

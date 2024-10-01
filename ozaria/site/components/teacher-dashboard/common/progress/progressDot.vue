@@ -251,12 +251,18 @@ export default {
         return levels.slice(0, 3)
       }
 
-      return [
+      const selectedLevels = [
         levels[mainIndex - 2],
         levels[mainIndex - 1],
         levels[mainIndex],
         levels[mainIndex + 1],
-      ].filter(Boolean).slice(-3)
+      ].filter(Boolean)
+
+      if (mainIndex === firstAssignedLevelIndex) {
+        return selectedLevels.slice(0, 3)
+      }
+
+      return selectedLevels.slice(-3)
     },
 
     getStatus (level) {
