@@ -37,11 +37,8 @@ async function fetchDataByComponent ({ dispatch, state, commit }, { componentNam
         preFetch: async () => dispatch('fetchDataStudentAssessments', options),
         lazy: () => dispatch('fetchDataStudentAssessmentsAsync', options),
       },
-      [COMPONENT_NAMES.STUDENT_ASSESSMENTS]: {
-        preFetch: async () => dispatch('fetchDataStudentAssessments', options),
-        lazy: () => dispatch('fetchDataStudentAssessmentsAsync', options),
-      },
       [COMPONENT_NAMES.APCSP]: {
+        // nothing to fetch for APCSP page for now
       },
     }
     const methods = componentActionMap[componentName]
@@ -53,7 +50,7 @@ async function fetchDataByComponent ({ dispatch, state, commit }, { componentNam
       }
       await Promise.all(fetchPromises)
       if (methods.lazy) {
-        methods.lazy()
+        methods.lazy().catch(console.error)
       }
     } else {
       console.error(`Unknown componentName: ${componentName}`)
