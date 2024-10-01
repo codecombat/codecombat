@@ -75,7 +75,12 @@ export default {
     getCurrentModuleNames (_state, getters, _rootState, _rootGetters) {
       return moduleNum => {
         const course = getters.getCurrentCourse
-        return utils.courseModules[course._id]?.[moduleNum]
+        let moduleInfo = Object.values(course.modules || {}).find(({ number }) => number === moduleNum || number === parseInt(moduleNum))
+        if (!moduleInfo && _.size(course.modules || {})) {
+          // Just match indexes in order, since module might not be numbered 1, 2, 3, but rather A1, A2, B1. Zero-indexed vs. one-indexed moduleNum.
+          moduleInfo = Object.values(course.modules)[parseInt(moduleNum) - 1]
+        }
+        return utils.i18n(moduleInfo || {}, 'name')
       }
     },
 
@@ -83,16 +88,19 @@ export default {
     getCurrentModuleHeadingInfo (_state, getters, _rootState, _rootGetters) {
       return moduleNum => {
         const course = getters.getCurrentCourse
-        let moduleNumber = moduleNum
-        if (typeof moduleNumber === 'string') {
-          moduleNumber = parseInt(moduleNum)
+        let moduleInfo = Object.values(course.modules || {}).find(({ number }) => number === moduleNum || number === parseInt(moduleNum))
+        if (!moduleInfo && _.size(course.modules || {})) {
+          // Just match indexes in order, since module might not be numbered 1, 2, 3, but rather A1, A2, B1. Zero-indexed vs. one-indexed moduleNum.
+          moduleInfo = Object.values(course.modules)[parseInt(moduleNum) - 1]
         }
-
-        if (utils.isCodeCombat) {
-          return utils.courseModuleInfo[course._id]?.[moduleNum]?.[_state.selectedLanguage] || {}
+        let lessonSlidesUrl = utils.i18n(moduleInfo || {}, 'lessonSlidesUrl')
+        if (lessonSlidesUrl) {
+          if (typeof lessonSlidesUrl === 'object') {
+            lessonSlidesUrl = lessonSlidesUrl[_state?.selectedLanguage || 'javascript'] || lessonSlidesUrl.javascript
+          }
+          moduleInfo = _.cloneDeep(moduleInfo)
+          moduleInfo.lessonSlidesUrl = lessonSlidesUrl
         }
-
-        const moduleInfo = Object.values(course.modules || {}).find(({ number }) => number === moduleNumber)
         return moduleInfo || {}
       }
     },

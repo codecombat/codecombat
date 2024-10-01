@@ -111,7 +111,7 @@ export default {
         <!-- eslint-enable vue/no-v-html -->
       </h3>
       <div
-        v-if="getModuleTotalTimeInfo !== undefined"
+        v-if="getModuleTotalTimeInfo"
         class="time-row"
       >
         <p>{{ $t('teacher_dashboard.class_time') }} {{ getModuleTotalTimeInfo }}</p>
