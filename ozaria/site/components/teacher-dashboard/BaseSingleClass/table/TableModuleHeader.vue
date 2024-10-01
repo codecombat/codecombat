@@ -9,6 +9,7 @@ import LockOrSkip from './LockOrSkip'
 import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
 import { courseArenaLadder } from 'core/urls'
 import { getLevelUrl } from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper'
+import DynamicLink from 'app/components/common/elements/DynamicLink.vue'
 
 import utils from 'core/utils'
 
@@ -50,6 +51,7 @@ export default {
     ContentIcon,
     ProgressDot,
     LockOrSkip,
+    DynamicLink,
   },
   props: {
     moduleHeading: {
@@ -261,10 +263,12 @@ export default {
               style="margin-bottom: 15px;"
               :class="classContentTooltip(type)"
             >
-              <a
+              <dynamic-link
                 target="_blank"
                 :href="getLevelUrl({ozariaType, introLevelSlug, courseId: selectedCourseId, codeLanguage: classroom.aceConfig.language, slug, introContent})"
-              >{{ tooltipName }}</a>
+              >
+                {{ tooltipName }}
+              </dynamic-link>
             </h3>
             <p
               style="margin-bottom: 15px;"

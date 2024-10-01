@@ -1,10 +1,12 @@
 import utils from '../../../../../app/core/utils'
 
 export function getLevelUrl ({ ozariaType, introLevelSlug, courseId, codeLanguage, slug, introContent }) {
-  if (utils.isOzaria && !ozariaType) {
+  if (utils.isOzaria && !ozariaType && introLevelSlug) {
     return `/play/intro/${introLevelSlug}?course=${courseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
+  } else if (slug) {
+    return `/play/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`
   }
-  return `/play/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`
+  return null
 }
 
 export function getCurriculumGuideContentList ({ introLevels, moduleInfo, moduleNum, currentCourseId, codeLanguage }) {
