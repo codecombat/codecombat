@@ -13,112 +13,112 @@ export default {
           console.error(`Got progressDot status value of '${value}'`)
         }
         return index !== -1
-      }
+      },
     },
 
     isLocked: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     isSkipped: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     lockDate: {
       type: Date,
-      default: null
+      default: null,
     },
 
     lastLockDate: {
       type: Date,
-      default: null
+      default: null,
     },
 
     border: {
       type: String,
-      default: ''
+      default: '',
     },
 
     clickState: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     clickProgressHandler: {
       type: Function,
       required: false,
-      default: undefined
+      default: undefined,
     },
 
     contentType: {
       type: String,
-      default: null
+      default: null,
     },
 
     trackCategory: {
       type: String,
-      default: ''
+      default: '',
     },
 
     selected: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     hovered: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     isPlayable: {
       type: Boolean,
-      default: true
+      default: true,
     },
     isOptional: {
       type: Boolean,
-      default: false
+      default: false,
     },
     playTime: {
       type: Number,
-      default: 0
+      default: 0,
     },
     completionDate: {
       type: [Boolean, String],
-      default: null
+      default: null,
     },
     tooltipName: {
       type: String,
-      default: null
+      default: null,
     },
     moduleNumber: {
       required: false,
       type: [Number, String],
-      default: null
+      default: null,
     },
     normalizedOriginal: {
       required: false,
       type: String,
-      default: null
+      default: null,
     },
     studentId: {
       type: String,
       default: null,
-      required: false
+      required: false,
     },
     classroomGameContent: {
       type: Object,
-      default: null
+      default: null,
     },
     levelSessionMap: {
       type: Object,
-      default: null
+      default: null,
     },
     extraPracticeLevels: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
 
   computed: {
@@ -143,7 +143,7 @@ export default {
         'green-dot': this.status === 'complete',
         'teal-dot': this.status === 'progress',
         'assigned-dot': this.levelAccessStatus === 'assigned',
-        [this.levelAccessStatus]: this.levelAccessStatus !== 'progress'
+        [this.levelAccessStatus]: this.levelAccessStatus !== 'progress',
       }
     },
 
@@ -155,7 +155,7 @@ export default {
         selected: this.selected,
         hovered: this.hovered,
         'has-active-practice-levels': this.activePracticeLevels.length > 0,
-        'all-practice-levels-completed': this.allPracticeLevelsCompleted
+        'all-practice-levels-completed': this.allPracticeLevelsCompleted,
       }
     },
 
@@ -163,7 +163,7 @@ export default {
       return {
         clicked: this.isClicked,
         'progress-dot': true,
-        clickable: typeof this.clickProgressHandler === 'function'
+        clickable: typeof this.clickProgressHandler === 'function',
       }
     },
 
@@ -173,7 +173,7 @@ export default {
 
       const label = {
         'locked-by-previous': 'locked_by_previous',
-        'locked-with-timeframe': 'locked_with_timeframe'
+        'locked-with-timeframe': 'locked_with_timeframe',
       }[this.levelAccessStatus] || this.levelAccessStatus
 
       const status = $.i18n.t(`teacher_dashboard.${label}`) + (!this.isSkipped && date ? ' ' + $.i18n.t('teacher_dashboard.until_date', { date: dateString }) : '')
@@ -184,10 +184,7 @@ export default {
         ${this.status === 'complete' && this.completionDate ? `<br>${$.i18n.t('teacher.completed')}: ${moment(this.completionDate).format('lll')}` : ''}
         ${this.playTime ? `<br>${$.i18n.t('teacher.time_played_label')} ${moment.duration({ seconds: this.playTime }).humanize()}` : ''}
         ${this.extraPracticeLevels?.length ? '<br><br>' : ''}
-        ${this.extraPracticeLevels.map(
-        level => `
-          ${$.i18n.t('teacher_dashboard.practice_level')}: ${level.name} - ${level.inProgress ? (level.isCompleted ? $.i18n.t('teacher_dashboard.complete') : $.i18n.t('teacher_dashboard.progress')) : $.i18n.t('teacher_dashboard.assigned')}
-        `).join('<br>')}`
+        ${this.filterPracticeLevelsToDisplay(this.extraPracticeLevels).map(({ name, status }) => `${$.i18n.t('teacher_dashboard.practice_level')}: ${name} - ${$.i18n.t(`teacher_dashboard.${status}`)}`).join('<br>')}`
     },
 
     levelAccessStatus () {
@@ -213,7 +210,7 @@ export default {
         return true
       }
       return false
-    }
+    },
   },
 
   methods: {
@@ -232,11 +229,46 @@ export default {
         }
         window.tracker?.trackEvent('Track Progress: Progress Dot Clicked', {
           category: this.trackCategory || 'Teachers',
-          label: eventLabel
+          label: eventLabel,
         })
       }
-    }
-  }
+    },
+    filterPracticeLevelsToDisplay (practiceLevels) {
+      const levels = practiceLevels.map(level => ({ name: level.name, status: this.getStatus(level) }))
+
+      const inProgressLevelIndex = levels.findIndex(level => level.status === 'progress')
+
+      const firstAssignedLevelIndex = levels.findIndex(level => level.status === 'assigned')
+
+      let mainIndex = levels.length - 2
+      if (inProgressLevelIndex !== -1) {
+        mainIndex = inProgressLevelIndex
+      } else if (firstAssignedLevelIndex !== -1) {
+        mainIndex = firstAssignedLevelIndex
+      }
+
+      if (mainIndex === 0) {
+        return levels.slice(0, 3)
+      }
+
+      return [
+        levels[mainIndex - 2],
+        levels[mainIndex - 1],
+        levels[mainIndex],
+        levels[mainIndex + 1],
+      ].filter(Boolean).slice(-3)
+    },
+
+    getStatus (level) {
+      if (level.isCompleted) {
+        return 'complete'
+      } else if (level.inProgress) {
+        return 'progress'
+      } else {
+        return 'assigned'
+      }
+    },
+  },
 }
 </script>
 
