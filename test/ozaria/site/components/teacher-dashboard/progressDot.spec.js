@@ -8,7 +8,7 @@ describe('ProgressDot', () => {
     wrapper = shallowMount(ProgressDot)
   })
 
-  fdescribe('filterPracticeLevelsToDisplay', () => {
+  describe('filterPracticeLevelsToDisplay', () => {
     it('returns last three levels including first "assigned" one from end', () => {
       const practiceLevels = [
         { name: 'Level 1', isCompleted: true, inProgress: true }, // complete
