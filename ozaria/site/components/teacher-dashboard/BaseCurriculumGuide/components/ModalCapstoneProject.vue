@@ -19,13 +19,13 @@ export default Vue.extend({
         'computer-science-2': ['Your game includes at least 3 questions that a user can answer.', 'Different output is generated depending on the input provided by the user.', 'You meaningfully define and call a function that uses at least one parameter.'],
         'computer-science-3': ['At least one input must be randomly generated.', 'Output must change depending on the input randomly generated.', 'Define and call a function that uses at least one parameter and one return statement.'],
         'computer-science-4': ['Users should be able to provide input in order to play the game, and this input should influence game play in some way.', 'Use at least one list in your program.', 'Define and call a function that uses at least one parameter and one return statement.'],
-      }
+      },
     }
   },
   computed: {
     ...mapGetters({
       visible: 'baseCurriculumGuide/isCapstoneModalVisible',
-      getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse'
+      getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
     }),
 
     courseSlug () {
