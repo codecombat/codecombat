@@ -12,6 +12,7 @@ import { getLevelUrl } from 'ozaria/site/components/teacher-dashboard/BaseCurric
 import CourseSchema from 'app/schemas/models/course.schema'
 import CodeRenderer from 'app/components/common/labels/CodeRenderer'
 import AccessLevelIndicator from 'app/components/common/elements/AccessLevelIndicator'
+import DynamicLink from 'app/components/common/elements/DynamicLink.vue'
 
 import utils from 'core/utils'
 
@@ -55,6 +56,7 @@ export default {
     LockOrSkip,
     CodeRenderer,
     AccessLevelIndicator,
+    DynamicLink,
   },
   props: {
     moduleHeading: {
@@ -279,10 +281,12 @@ export default {
               style="margin-bottom: 15px;"
               :class="classContentTooltip(type)"
             >
-              <a
+              <dynamic-link
                 target="_blank"
                 :href="getLevelUrl({ozariaType, introLevelSlug, courseId: selectedCourseId, codeLanguage: classroom.aceConfig.language, slug, introContent})"
-              >{{ tooltipName }}</a>
+              >
+                {{ tooltipName }}
+              </dynamic-link>
             </h3>
             <p
               style="margin-bottom: 15px;"
@@ -441,6 +445,11 @@ h3 {
 
 .level-popover-locking {
   padding: 16px 16px 0;
+  ::v-deep {
+    a {
+      color: inherit
+    }
+  }
 }
 
 .lock-btn-row {
