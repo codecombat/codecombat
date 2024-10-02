@@ -2,12 +2,12 @@
   <span
     v-if="isDisplayable"
     v-tooltip.bottom="{
-      content: tooltipText,
+      content: $t(`paywall.badge_tooltip_${level}`),
     }"
     :class="badgeClass"
   >
     <span v-if="displayIcon">{{ icon }}</span>
-    <span v-if="displayText">{{ badgeText }}</span>
+    <span v-if="displayText">{{ $t(`paywall.badge_${level}`) }}</span>
   </span>
 </template>
 
@@ -20,7 +20,7 @@ export default {
   props: {
     level: {
       type: String,
-      required: true,
+      required: false,
       validator: value => ACCESS_LEVELS.includes(value),
       default: 'free',
     },
@@ -47,22 +47,6 @@ export default {
         badge: true,
         [`badge-${this.level}`]: true,
       }
-    },
-    tooltipText () {
-      const tooltips = {
-        free: 'Explore our levels at no cost!',
-        'sales-call': 'Interested in more? Give us a call and unlock!',
-        paid: 'This content is exclusive to users with a valid license.',
-      }
-      return tooltips[this.level] || ''
-    },
-    badgeText () {
-      const tooltips = {
-        free: 'Free',
-        'sales-call': 'Call Now!',
-        paid: 'Premium',
-      }
-      return tooltips[this.level] || ''
     },
     icon () {
       const icons = {

@@ -171,7 +171,7 @@ module.exports = (User = (function () {
     isIndividualUser () { return !this.isStudent() && !User.isTeacher(this.attributes) }
 
     getSubscriptionLevel () {
-      return 'free'
+      return (this.isPaidTeacher() || this.isPremium()) ? 'paid' : 'free'
     }
 
     isNewDashboardActive () {
