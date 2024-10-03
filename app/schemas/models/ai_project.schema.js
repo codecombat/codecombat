@@ -1,7 +1,7 @@
 // WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
 // Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
 //
-// Last updated: 2024-02-21T12:07:22.413Z
+// Last updated: 2024-10-03T16:13:01.156Z
 
 const _ = require('lodash')
 const c = require('./../schemas')
@@ -44,25 +44,27 @@ _.extend(AIProjectSchema.properties, {
     items: { type: ['object', 'string'], format: 'chat-message-link' },
   },
   wrongChoices: {
-    description: 'List of incorrect choices made in the project',
+    title: 'Wrong Choices',
     type: 'array',
+    description: 'List of incorrect choices made in the project',
     items: {
       type: 'object',
       properties: {
         actionMessageId: { type: 'string' },
         choiceIndex: { type: 'number' },
-        answerIndex: { type: 'number' }
-      }
-    }
+        answerIndex: { type: 'number' },
+      },
+    },
   },
   isReadyToReview: {
-    title: 'Ready to Review',
+    title: 'Is Ready To Review',
     type: 'boolean',
     description: 'Whether this project is ready for review by the teacher',
   },
+  archived: { title: 'Archived', type: 'boolean' },
 })
 
-AIProjectSchema.required = ['visibility', 'user', 'scenario', 'actionQueue']
+AIProjectSchema.required = ['visibility', 'user', 'scenario', 'actionQueue', 'isReadyToReview', 'archived']
 
 c.extendBasicProperties(AIProjectSchema, 'ai_project')
 c.extendPermissionsProperties(AIProjectSchema, 'ai_project')
