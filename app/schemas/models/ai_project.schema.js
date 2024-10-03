@@ -1,7 +1,7 @@
 // WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
 // Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
 //
-// Last updated: 2024-10-03T16:13:01.156Z
+// Last updated: 2024-10-03T19:41:05.121Z
 
 const _ = require('lodash')
 const c = require('./../schemas')
@@ -64,7 +64,7 @@ _.extend(AIProjectSchema.properties, {
   archived: { title: 'Archived', type: 'boolean' },
 })
 
-AIProjectSchema.required = ['visibility', 'user', 'scenario', 'actionQueue', 'isReadyToReview', 'archived']
+AIProjectSchema.required = ['visibility', 'user', 'scenario', 'actionQueue']
 
 c.extendBasicProperties(AIProjectSchema, 'ai_project')
 c.extendPermissionsProperties(AIProjectSchema, 'ai_project')
