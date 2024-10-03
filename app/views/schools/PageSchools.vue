@@ -227,7 +227,7 @@
       />
       <image-and-text
         :text="$t('schools_page.codecombat_ai_hackstack_text')"
-        image="/images/pages/schools/boxes/aisupport_2.webp"
+        image="/images/pages/home-v3/young-learners/box-bg-ai-hs.webp"
         :reverse="true"
         :lazy-load="true"
       />
@@ -643,7 +643,10 @@ export default Vue.extend({
           text: this.$t('schools_page.student_acceleration_1_text'),
           link: 'https://codecombat.com/ai/',
           linkText: this.$t('schools_page.student_acceleration_1_link_text'),
-          image: '/images/pages/home-v3/young-learners/box-bg-ai-hs.webp',
+          video: {
+            videoId: '50770b9a2fb36de457a37693a3f632c7',
+            aspectRatio: '1535 / 1038',
+          },
         },
         {
           title: this.$t('schools_page.student_acceleration_2_title'),
