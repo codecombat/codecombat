@@ -42,6 +42,7 @@
                 :ref="`video-${index}`"
                 class="video-box"
                 :video-id="item.video.videoId"
+                :aspect-ratio="item.video.aspectRatio"
                 :title="`Video to illustrate ${item.title}`"
                 @loaded="onVideoLoaded(`video-${index}`, item.video.videoId)"
               />
