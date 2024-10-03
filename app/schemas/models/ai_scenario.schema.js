@@ -1,7 +1,7 @@
 // WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
 // Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
 //
-// Last updated: 2024-10-03T16:13:01.156Z
+// Last updated: 2024-10-03T19:41:05.121Z
 
 const _ = require('lodash')
 const c = require('./../schemas')
@@ -73,7 +73,7 @@ _.extend(AIScenarioSchema.properties, {
   priority: { title: 'Priority', type: 'integer', description: 'Lower numbers will show earlier.' },
 })
 
-AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue', 'archived']
+AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']
 
 c.extendNamedProperties(AIScenarioSchema, 'ai_scenario')
 c.extendBasicProperties(AIScenarioSchema, 'ai_scenario')
