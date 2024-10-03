@@ -1,7 +1,7 @@
 // WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
 // Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
 //
-// Last updated: 2024-09-05T22:44:26.540Z
+// Last updated: 2024-10-03T16:13:01.156Z
 
 const _ = require('lodash')
 const c = require('./../schemas')
@@ -49,7 +49,6 @@ _.extend(AIScenarioSchema.properties, {
       'Scenarios are initially created as drafts, start off publicly in beta, then are released when they are completed',
     enum: ['beta', 'released', 'draft'],
   },
-  coverImage: { title: 'Cover Image', type: 'string', description: 'The cover image for this scenario' },
   initialActionQueue: {
     title: 'Initial Action Queue',
     type: 'array',
@@ -64,9 +63,17 @@ _.extend(AIScenarioSchema.properties, {
     format: 'i18n',
     props: ['mode', 'task', 'doc', 'name', 'description'],
   },
+  coverImage: {
+    title: 'Cover Image',
+    type: 'string',
+    description: 'The cover image for this scenario',
+    format: 'image-file',
+    inEditor: 'codecombat',
+  },
+  priority: { title: 'Priority', type: 'integer', description: 'Lower numbers will show earlier.' },
 })
 
-AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']
+AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue', 'archived']
 
 c.extendNamedProperties(AIScenarioSchema, 'ai_scenario')
 c.extendBasicProperties(AIScenarioSchema, 'ai_scenario')
