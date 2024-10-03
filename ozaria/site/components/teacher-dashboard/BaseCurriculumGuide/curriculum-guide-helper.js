@@ -32,6 +32,7 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
         isIntroHeadingRow: true,
         name: utils.i18n(introLevels[fromIntroLevelOriginal], 'displayName'),
         icon: 'intro',
+        _id: content._id,
       })
       lastIntroLevelSlug = introLevelSlug
     }
@@ -82,23 +83,18 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
 
 export function generateLevelNumberMap (contentTypes) {
   const levels = contentTypes
-    .map(({ original, assessment, icon, fromIntroLevelOriginal, _id }) => ({ _id, original, key: (original || fromIntroLevelOriginal), assessment, practice: icon === 'practicelvl' }))
+    .map(({ original, assessment, icon, _id, practice }) => ({ _id, original, key: _id, assessment, practice: practice || (icon === 'practicelvl') }))
 
   const levelNumberMap = utils.createLevelNumberMap(levels)
 
-  const map = contentTypes.reduce((acc, level, index) => {
+  contentTypes.forEach((level) => {
     const original = level.original || level.fromIntroLevelOriginal
-    acc[original] = levelNumberMap[level.original] || index + 1
-    return acc
-  }, {})
-
-  // add index for ids that are missing from levelNumberMap
-  contentTypes.forEach(({ original, _id }, index) => {
-    map[original] = map[original] || index + 1
-    map[_id] = map[_id] || index + 1
+    if (!levelNumberMap[original]) {
+      levelNumberMap[original] = levelNumberMap[level._id]
+    }
   })
 
-  return map
+  return levelNumberMap
 }
 
 function getContentDescription (content) {

@@ -5,7 +5,7 @@ import utils from 'core/utils'
 import ModuleHeader from './ModuleHeader'
 import ModuleRow from './ModuleRow'
 import IntroModuleRow from './IntroModuleRow'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import CodeDiff from '../../../../../../app/components/common/CodeDiff'
 import { getSolutionCode, getSampleCode } from '../../../../../../app/views/parents/helpers/levelCompletionHelper'
 import { getCurriculumGuideContentList } from '../curriculum-guide-helper'
@@ -15,24 +15,24 @@ export default {
     ModuleHeader,
     ModuleRow,
     IntroModuleRow,
-    CodeDiff
+    CodeDiff,
   },
 
   props: {
     moduleNum: {
       required: true,
-      type: String
+      type: String,
     },
     isCapstone: {
       type: Boolean,
-      default: false
+      default: false,
     },
     levelSessions: {
       type: Array,
       default () {
         return []
       },
-      required: false
+      required: false,
     },
   },
   data () {
@@ -53,7 +53,9 @@ export default {
       isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign',
       getTrackCategory: 'teacherDashboard/getTrackCategory',
       classroom: 'teacherDashboard/classroom',
-      classroomId: 'teacherDashboard/classroomId'
+      classroomId: 'teacherDashboard/classroomId',
+      getLevelNumber: 'gameContent/getLevelNumber',
+      levelNumberMap: 'gameContent/levelNumberMap',
     }),
 
     classroomInstance () {
@@ -75,24 +77,13 @@ export default {
         moduleInfo: this.getModuleInfo,
         moduleNum: this.moduleNum,
         currentCourseId: this.getCurrentCourse._id,
-        codeLanguage: this.getSelectedLanguage
+        codeLanguage: this.getSelectedLanguage,
       })
-    },
-
-    levelNumberMap () {
-      // get levels from all modules to calculate level numbers
-      const levels = Object.values(this.getModuleInfo)
-        .reduce((acc, list) => {
-          return acc.concat(list)
-        }, [])
-        .map(({ original, assessment, practice, fromIntroLevelOriginal }) => ({ original, key: (original || fromIntroLevelOriginal), assessment, practice }))
-
-      return utils.createLevelNumberMap(levels)
     },
 
     courseRegex () {
       return new RegExp(`^${this.getCurrentCourse?._id}:`)
-    }
+    },
   },
   watch: {
     getSelectedLanguage () {
@@ -100,10 +91,20 @@ export default {
         this.solutionCodeByLevel[slug] = getSolutionCode(this.findLevelBySlug(slug), { lang: this.getSelectedLanguage }) || ''
         this.sampleCodeByLevel[slug] = getSampleCode(this.findLevelBySlug(slug), { lang: this.getSelectedLanguage }) || ''
       }
-    }
+    },
+  },
+
+  async created () {
+    await this.generateLevelNumberMap({
+      campaignId: this.getCurrentCourse.campaignID,
+      language: this.getSelectedLanguage,
+    })
   },
 
   methods: {
+    ...mapActions({
+      generateLevelNumberMap: 'gameContent/generateLevelNumberMap',
+    }),
     findLevelBySlug (slug) {
       return this.getModuleInfo[this.moduleNum].find(l => l.slug === slug)
     },
@@ -132,15 +133,6 @@ export default {
         const levelKey = key.split(':')?.[1] || key
         return this.getModuleInfo[this.moduleNum].find(l => l.original === levelKey)
       })
-    },
-    getLevelNumber (original, index) {
-      if (utils.isCodeCombat && this.classroomId) {
-        const levelNumber = this.classroomInstance.getLevelNumber(original, index, this.getCurrentCourse?._id)
-        return levelNumber
-      } else {
-        const map = this.levelNumberMap
-        return map[original] || index
-      }
     },
     trackEvent (eventName) {
       if (eventName) {
@@ -177,8 +169,8 @@ export default {
     },
     isOzariaNoCodeLevel (icon) {
       return ['cutscene', 'cinematic', 'interactive'].includes(icon)
-    }
-  }
+    },
+  },
 }
 </script>
 <template>
@@ -205,7 +197,7 @@ export default {
         <template v-else>
           <module-row
             v-if="!isJunior || icon !== 'practicelvl' || showCodeLevelSlugs.includes(slug)"
-            :set="levelNumber = getLevelNumber(original, key + 1)"
+            :set="levelNumber = getLevelNumber(_id)"
             :icon-type="icon"
             :name-type="assessment ? null : icon"
             :level-number="levelNumber"
