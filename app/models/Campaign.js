@@ -119,7 +119,7 @@ module.exports = (Campaign = (function () {
       if (forceCourseNumbering) {
         return level.practice
       } else {
-        return level.practice && / [ABCD]$/.test(level.name)
+        return level.practice && / [A-Z]$/.test(level.name)
       }
     }
 
