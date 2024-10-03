@@ -57,8 +57,8 @@ export default {
         }
       }
       // we don't have coupon ID in parent page so no sale price here
-      if (p?.formattedAmmount) {
-        return $.i18n.t('parents_v2.grid_self_paced_year_price_without_currencya', { price: p.formattedAmmount })
+      if (p?.formattedAmount) {
+        return $.i18n.t('parents_v2.grid_self_paced_year_price_without_currency', { price: p.formattedAmount })
       } else {
         return $.i18n.t('parents_v2.grid_self_paced_year_price', { price: origPrice })
       }
