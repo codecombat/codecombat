@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import CourseSchema from 'app/schemas/models/course.schema'
 const ACCESS_LEVELS = CourseSchema.properties.modules.additionalProperties.properties.access.enum
 
@@ -34,13 +35,17 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      isPaidTeacher: 'me/isPaidTeacher',
+    }),
     isDisplayable () {
       const userDisplayMap = {
         free: ['free', 'sales-call'], // non-paying users will see the 'free' and 'sales-call' badges
         'sales-call': ['paid'], // users after sales call will see the 'paid' badges
         paid: [], // I'm not sure if we'll have this for users, but if we'll have no badges needed.
       }
-      return userDisplayMap[me.getSubscriptionLevel()].includes(this.level)
+      const userLevel = this.isPaidTeacher ? 'paid' : 'free'
+      return userDisplayMap[userLevel].includes(this.level)
     },
     badgeClass () {
       return {
@@ -56,6 +61,14 @@ export default {
       }
       return icons[this.level] || ''
     },
+  },
+  async created () {
+    await this.ensurePrepaidsLoadedForTeacher(me.get('_id'))
+  },
+  methods: {
+    ...mapActions({
+      ensurePrepaidsLoadedForTeacher: 'prepaids/ensurePrepaidsLoadedForTeacher',
+    }),
   },
 }
 </script>
