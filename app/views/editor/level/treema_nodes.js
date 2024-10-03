@@ -434,17 +434,18 @@ module.exports.ItemThangTypeNode = (ItemThangTypeNode = (ItemThangTypeNode = (fu
 
 module.exports.ChatMessageLinkNode = (ChatMessageLinkNode = (ChatMessageLinkNode = class ChatMessageLinkNode extends TreemaNode.nodeMap.string {
   buildValueForDisplay (valEl, data) {
-    super.buildValueForDisplay(valEl, data)
+    const chatMessageId = typeof data === 'string' ? data : data._id
+    super.buildValueForDisplay(valEl, chatMessageId)
 
     this.$el.find('.ai-chat-message-link').remove()
-    this.$el.find('.treema-row').prepend($(`<span class='ai-chat-message-link'><a href='/editor/ai-chat-message/${data}' target='_blank' title='Edit'>(e)</a>&nbsp;</span>`))
+    this.$el.find('.treema-row').prepend($(`<span class='ai-chat-message-link'><a href='/editor/ai-chat-message/${chatMessageId}' target='_blank' title='Edit'>(e)</a>&nbsp;</span>`))
 
     const chatMessageCollection = new CocoCollection([], {
       url: '/db/ai_chat_message',
       project: ['actor', 'text'],
       model: AIChatMessage
     })
-    const res = chatMessageCollection.fetch({ url: `/db/ai_chat_message/${data}` })
+    const res = chatMessageCollection.fetch({ url: `/db/ai_chat_message/${chatMessageId}` })
     return chatMessageCollection.once('sync', () => this.processChatMessages(chatMessageCollection))
   }
 

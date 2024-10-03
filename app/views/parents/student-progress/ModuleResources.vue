@@ -62,7 +62,6 @@ export default {
   },
   methods: {
     onLessonSlidesClicked () {
-      console.log('lessonSlide', this.lessonSlidesUrl)
       const url = this.lessonSlidesUrl
       if (this.isFree) {
         window.location = url
