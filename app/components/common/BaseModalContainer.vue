@@ -20,15 +20,14 @@
 
         display: flex;
 
-        align-items: center;
-        justify-content: center;
+        align-items: safe center;
+        justify-content: safe center;
 
         transition: opacity .3s ease;
     }
 
     .modal-container {
         background: #FFF;
-
         transition: all .3s ease;
     }
 
