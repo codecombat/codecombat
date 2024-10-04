@@ -16,7 +16,7 @@ import utils from 'core/utils'
 
 import storage from 'core/storage'
 
-import { mapMutations, mapGetters } from 'vuex'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 import { FIRST_CLASS_STEPS, CREATE_CLASS_STEPS } from './teacherDashboardTours'
 import ModalTeacherDetails from '../modals/ModalTeacherDetails'
 import { hasSeenTeacherDetailModalRecently, markTeacherDetailsModalAsSeen } from '../../../common/utils'
@@ -173,7 +173,11 @@ export default {
       setClassroomId: 'teacherDashboard/setClassroomId',
       setTeacherId: 'teacherDashboard/setTeacherId',
       setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom',
-      setTeacherPagesTrackCategory: 'teacherDashboard/setTrackCategory'
+      setTeacherPagesTrackCategory: 'teacherDashboard/setTrackCategory',
+    }),
+
+    ...mapActions({
+      generateLevelNumberMap: 'gameContent/generateLevelNumberMap',
     }),
 
     getMostCommonLanguage () {
@@ -325,6 +329,12 @@ export default {
 
     onChangeCourse (courseId) {
       this.setSelectedCourseId({ courseId })
+
+      const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
+      this.generateLevelNumberMap({
+        campaignId: course.campaignID,
+        language: this.classroom.aceConfig.language,
+      }).catch(console.error)
     },
 
     closeTeacherDetailsModal () {
