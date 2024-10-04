@@ -5,7 +5,6 @@ import Guidelines from './Guidelines'
 import ViewAndMange from './ViewAndManage'
 import TableClassFrame from './table/TableClassFrame'
 import ModalEditStudent from '../modals/ModalEditStudent'
-import Classroom from 'models/Classroom'
 import storage from '../../../../../app/core/storage'
 
 import utils from 'app/core/utils'
@@ -95,6 +94,7 @@ export default {
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
       aiScenarios: 'aiScenarios/getScenarios',
       modelsByName: 'aiModels/getModelsByName',
+      getLevelNumber: 'gameContent/getLevelNumber',
     }),
 
     courseInstances () {
@@ -440,20 +440,12 @@ export default {
   },
 
   mounted () {
-    const areTeacherClassesFetched = this.getActiveClassrooms.length !== 0
     this.setClassroomId(this.classroomId)
     if (this.defaultCourseId) {
       this.setSelectedCourseId({ courseId: this.defaultCourseId })
     }
-    this.fetchClassroomById(this.classroomId)
-      .then(() => {
-        this.setTeacherId(me.get('_id'))
-        this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
-        // this is for my classes tab showing classnames. If user lands up on a single class page directly, they will only see 1 class in tab if not for this fetch below
-        if (!areTeacherClassesFetched) {
-          this.fetchClassroomsForTeacher({ teacherId: me.get('_id') })
-        }
-      })
+    this.setTeacherId(me.get('_id'))
+    this.fetchClassroomData(this.classroomId).catch(console.error)
   },
 
   destroyed () {
@@ -470,6 +462,7 @@ export default {
       addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
       fetchClassroomById: 'classrooms/fetchClassroomForId',
       fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher',
+      generateLevelNumberMap: 'gameContent/generateLevelNumberMap',
     }),
 
     ...mapMutations({
@@ -490,7 +483,12 @@ export default {
       if (!this.getClassroomById(classroomId)) {
         await this.fetchClassroomById(classroomId)
       }
-      this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
+      await this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
+      const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
+      await this.generateLevelNumberMap({
+        campaignId: course.campaignID,
+        language: this.classroom.aceConfig.language,
+      })
     },
 
     async onRefresh () {
@@ -518,20 +516,19 @@ export default {
     },
 
     getLevelNameMap (moduleContent, intros) {
-      return moduleContent.reduce((acc, content, index) => {
-        const { _id, fromIntroLevelOriginal, original } = content
+      return moduleContent.reduce((acc, content) => {
+        const { _id, fromIntroLevelOriginal } = content
 
         let description = getLearningGoalsDocumentation(content)
 
         let tooltipName
         let levelName
+        const levelNumber = this.getLevelNumber(_id)
         if (utils.isCodeCombat) {
-          const classroom = new Classroom(this.classroom)
-          const levelNumber = classroom.getLevelNumber(original, index + 1)
           tooltipName = `${levelNumber}: ${utils.i18n(content, 'displayName') || utils.i18n(content, 'name')}`
           levelName = tooltipName
         } else {
-          tooltipName = getGameContentDisplayNameWithType(content)
+          tooltipName = `${levelNumber}: ${getGameContentDisplayNameWithType(content)}`
           levelName = tooltipName
         }
         if (fromIntroLevelOriginal) {
