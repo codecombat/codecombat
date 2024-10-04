@@ -90,11 +90,14 @@ module.exports = class LevelLoader extends CocoClass
       @level = @supermodel.loadModel(@level, 'level', { data: { cacheEdge: true } }).model
       @listenToOnce @level, 'sync', @onLevelLoaded
 
-    @loadClassroomIfNecessary()
 
   loadClassroomIfNecessary: ->
-    return if not @classroomId and not @courseInstanceId
-    return if @headless and not @level?.isType('web-dev')
+    if not @classroomId and not @courseInstanceId
+      @onAccessibleLevelLoaded()
+      return
+    if @headless and not @level?.isType('web-dev')
+      @onAccessibleLevelLoaded()
+      return
     if @courseInstanceID and not @classroomId
       @courseInstance = new CourseInstance({_id: @courseInstanceID})
       @courseInstance.fetch().then =>
@@ -112,7 +115,9 @@ module.exports = class LevelLoader extends CocoClass
   classroomLoaded: ->
     locked = @classroom.isStudentOnLockedLevel(me.get('_id'), @courseID, @level.get('original'))
     if locked
-      Backbone.Mediator.publish 'level:locked', level: @level, session: @session
+      Backbone.Mediator.publish 'level:locked', level: @level
+    else 
+      @onAccessibleLevelLoaded()
 
   reportLoadError: ->
     return if @destroyed
@@ -120,8 +125,11 @@ module.exports = class LevelLoader extends CocoClass
       category: 'Error',
       levelSlug: @work?.level?.slug,
       unloaded: JSON.stringify(@supermodel.report().map (m) -> _.result(m.model, 'url'))
-
+  
   onLevelLoaded: ->
+    @loadClassroomIfNecessary()
+
+  onAccessibleLevelLoaded: ->
     console.debug 'LevelLoader: loaded level:', @level if LOG
     @level.set('thangs', @thangsOverride) if @thangsOverride
     if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
