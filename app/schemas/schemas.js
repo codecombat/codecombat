@@ -385,6 +385,12 @@ me.PropertyDocumentationSchema = me.object({
       },
     },
   },
+  hideGrantedBy: {
+    type: 'boolean',
+    title: 'Hide "Granted By"',
+    description: 'Whether to hide the "Granted By" footer section in the documentation.',
+    default: false,
+  },
 })
 
 me.activity = me.object({ description: 'Stats on an activity' }, {
