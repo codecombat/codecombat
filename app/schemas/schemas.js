@@ -21,8 +21,8 @@ me.pct = ext => combine({ type: 'number', maximum: 1.0, minimum: 0.0 }, ext)
 me.passwordString = {
   allOf: [
     { type: 'string', maxLength: 64, minLength: 4, title: 'Password' },
-    { not: { pattern: '([\\s\\S])\\1\\1' } }
-  ]
+    { not: { pattern: '([\\s\\S])\\1\\1' } },
+  ],
 }
 
 // Dates should usually be strings
@@ -40,14 +40,14 @@ me.float = ext => combine({ type: 'number' }, ext)
 
 const PointSchema = me.object({ title: 'Point', description: 'An {x, y} coordinate point.', format: 'point2d', required: ['x', 'y'] }, {
   x: { title: 'x', description: 'The x coordinate.', type: 'number', default: 15 },
-  y: { title: 'y', description: 'The y coordinate.', type: 'number', default: 20 }
+  y: { title: 'y', description: 'The y coordinate.', type: 'number', default: 20 },
 })
 
 me.point2d = ext => combine(_.cloneDeep(PointSchema), ext)
 
 const SoundSchema = me.object({ format: 'sound' }, {
   mp3: { type: 'string', format: 'sound-file' },
-  ogg: { type: 'string', format: 'sound-file' }
+  ogg: { type: 'string', format: 'sound-file' },
 })
 
 me.sound = function (props) {
@@ -61,7 +61,7 @@ me.file = ext => combine({ type: 'string', format: 'file' }, ext)
 const ColorConfigSchema = me.object({ format: 'color-sound' }, {
   hue: { format: 'range', type: 'number', minimum: 0, maximum: 1 },
   saturation: { format: 'range', type: 'number', minimum: 0, maximum: 1 },
-  lightness: { format: 'range', type: 'number', minimum: 0, maximum: 1 }
+  lightness: { format: 'range', type: 'number', minimum: 0, maximum: 1 },
 })
 
 me.colorConfig = function (props) {
@@ -74,7 +74,7 @@ me.colorConfig = function (props) {
 
 const basicProps = linkFragment => ({
   _id: me.objectId({ links: [{ rel: 'self', href: `/db/${linkFragment}/{($)}` }], format: 'hidden' }),
-  __v: { title: 'Mongoose Version', format: 'hidden' }
+  __v: { title: 'Mongoose Version', format: 'hidden' },
 })
 
 me.extendBasicProperties = function (schema, linkFragment) {
@@ -87,13 +87,13 @@ me.extendBasicProperties = function (schema, linkFragment) {
 const patchableProps = () => ({
   patches: me.array({ title: 'Patches' }, {
     _id: me.objectId({ links: [{ rel: 'db', href: '/db/patch/{($)}' }], title: 'Patch ID', description: 'A reference to the patch.' }),
-    status: { enum: ['pending', 'accepted', 'rejected', 'cancelled'] }
+    status: { enum: ['pending', 'accepted', 'rejected', 'cancelled'] },
   }),
 
   allowPatches: { type: 'boolean' },
 
   watchers: me.array({ title: 'Watchers' },
-    me.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }))
+    me.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] })),
 })
 
 me.extendPatchableProperties = function (schema) {
@@ -105,7 +105,7 @@ me.extendPatchableProperties = function (schema) {
 
 const namedProps = () => ({
   name: me.shortString({ title: 'Name' }),
-  slug: me.shortString({ title: 'Slug', format: 'hidden' })
+  slug: me.shortString({ title: 'Slug', format: 'hidden' }),
 })
 
 me.extendNamedProperties = function (schema) {
@@ -127,8 +127,8 @@ const versionedProps = linkFragment => ({
       major: { type: 'number', minimum: 0 },
       minor: { type: 'number', minimum: 0 },
       isLatestMajor: { type: 'boolean' },
-      isLatestMinor: { type: 'boolean' }
-    }
+      isLatestMinor: { type: 'boolean' },
+    },
   },
 
   // TODO: figure out useful 'rel' values here
@@ -137,7 +137,7 @@ const versionedProps = linkFragment => ({
   parent: me.objectId({ links: [{ rel: 'extra', href: `/db/${linkFragment}/{($)}` }], format: 'hidden' }),
   creator: me.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }], format: 'hidden' }),
   created: me.date({ title: 'Created', readOnly: true }),
-  commitMessage: { type: 'string', maxLength: 500, title: 'Commit Message', readOnly: true }
+  commitMessage: { type: 'string', maxLength: 500, title: 'Commit Message', readOnly: true },
 })
 
 me.extendVersionedProperties = function (schema, linkFragment) {
@@ -152,7 +152,7 @@ const searchableProps = () => ({
   index: { format: 'hidden' },
 
   // Ozaria / new
-  _algoliaObjectID: { type: 'string', format: 'hidden' }
+  _algoliaObjectID: { type: 'string', format: 'hidden' },
 })
 
 me.extendSearchableProperties = function (schema) {
@@ -170,11 +170,11 @@ const permissionsProps = () => ({
       additionalProperties: false,
       properties: {
         target: {},
-        access: { type: 'string', enum: ['read', 'write', 'owner'] }
-      }
+        access: { type: 'string', enum: ['read', 'write', 'owner'] },
+      },
     },
-    format: 'hidden'
-  }
+    format: 'hidden',
+  },
 })
 
 me.extendPermissionsProperties = function (schema) {
@@ -211,9 +211,9 @@ me.FunctionArgumentSchema = me.object({
     type: 'object',
     optional: false,
     example: 'this.getNearestEnemy()',
-    description: 'The target of this function.'
+    description: 'The target of this function.',
   },
-  required: ['name', 'type', 'example', 'description']
+  required: ['name', 'type', 'example', 'description'],
 }, {
   name: { type: 'string', pattern: me.identifierPattern, title: 'Name', description: 'Name of the function argument.' },
   i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this argument' },
@@ -228,10 +228,10 @@ me.FunctionArgumentSchema = me.object({
         description: 'Examples by code language.',
         additionalProperties: me.shortString({ description: 'Example value for the argument.' }),
         format: 'code-languages-object',
-        default: { javascript: '', python: '' }
+        default: { javascript: '', python: '' },
       },
-      me.shortString({ title: 'Example', description: 'Example value for the argument.' })
-    ]
+      me.shortString({ title: 'Example', description: 'Example value for the argument.' }),
+    ],
   },
   description: {
     oneOf: [
@@ -241,22 +241,22 @@ me.FunctionArgumentSchema = me.object({
         description: 'Example argument descriptions by code language.',
         additionalProperties: { type: 'string', description: 'Description of the argument.', maxLength: 1000 },
         format: 'code-languages-object',
-        default: { javascript: '', python: '' }
+        default: { javascript: '', python: '' },
       },
-      { title: 'Description', type: 'string', description: 'Description of the argument.', maxLength: 1000 }
-    ]
+      { title: 'Description', type: 'string', description: 'Description of the argument.', maxLength: 1000 },
+    ],
   },
   default: {
     title: 'Default',
     description: 'Default value of the argument. (Your code should set this.)',
-    default: null
-  }
-}
+    default: null,
+  },
+},
 )
 
 me.codeSnippet = me.object({ description: 'A language-specific code snippet' }, {
   code: { type: 'string', format: 'code', title: 'Snippet', default: '', description: 'Code snippet. Use ${1:defaultValue} syntax to add flexible arguments' }, // eslint-disable-line no-template-curly-in-string
-  tab: { type: 'string', title: 'Tab Trigger', description: 'Tab completion text. Will be expanded to the snippet if typed and hit tab.' }
+  tab: { type: 'string', title: 'Tab Trigger', description: 'Tab completion text. Will be expanded to the snippet if typed and hit tab.' },
 })
 
 me.PropertyDocumentationSchema = me.object({
@@ -265,10 +265,10 @@ me.PropertyDocumentationSchema = me.object({
   default: {
     name: 'foo',
     type: 'object',
-    description: 'The `foo` property can satisfy all the #{spriteName}\'s foobar needs. Use it wisely.'
+    description: 'The `foo` property can satisfy all the #{spriteName}\'s foobar needs. Use it wisely.',
   },
   required: ['name', 'type', 'description'],
-  format: 'property-documentation'
+  format: 'property-documentation',
 }, {
   name: { type: 'string', title: 'Name', description: 'Name of the property.' },
   componentName: { type: 'string', description: 'Component Name for ozaria.' },
@@ -276,7 +276,7 @@ me.PropertyDocumentationSchema = me.object({
   context: {
     type: 'object',
     title: 'Example template context',
-    additionalProperties: { type: 'string' }
+    additionalProperties: { type: 'string' },
   },
   codeLanguages: me.array({ title: 'Specific Code Languages', description: 'If present, then only the languages specified will show this documentation. Leave unset for language-independent documentation.', format: 'code-languages-array' }, me.shortString({ title: 'Code Language', description: 'A specific code language to show this documentation for.', format: 'code-language' })),
   // not actual JS types, just whatever they describe...
@@ -290,9 +290,9 @@ me.PropertyDocumentationSchema = me.object({
         description: 'Property short-descriptions by code language.',
         additionalProperties: { type: 'string', description: 'Short Description of the property.', maxLength: 1000, format: 'markdown' },
         format: 'code-languages-object',
-        default: { javascript: '' }
-      }
-    ]
+        default: { javascript: '' },
+      },
+    ],
   },
   description: {
     oneOf: [
@@ -303,9 +303,9 @@ me.PropertyDocumentationSchema = me.object({
         description: 'Property descriptions by code language.',
         additionalProperties: { type: 'string', description: 'Description of the property.', maxLength: 1000, format: 'markdown' },
         format: 'code-languages-object',
-        default: { javascript: '' }
-      }
-    ]
+        default: { javascript: '' },
+      },
+    ],
   },
   args: me.array({ title: 'Arguments', description: 'If this property has type "function", then provide documentation for any function arguments.' }, me.FunctionArgumentSchema),
   owner: { title: 'Owner', type: 'string', description: 'Owner of the property, like "this" or "Math".' },
@@ -317,17 +317,17 @@ me.PropertyDocumentationSchema = me.object({
         description: 'Examples by code language.',
         additionalProperties: { type: 'string', description: 'An example code block.', format: 'code' },
         format: 'code-languages-object',
-        default: { javascript: '' }
+        default: { javascript: '' },
       },
-      { title: 'Example', type: 'string', description: 'An optional example code block.', format: 'javascript' }
-    ]
+      { title: 'Example', type: 'string', description: 'An optional example code block.', format: 'javascript' },
+    ],
   },
   snippets: { type: 'object', title: 'Snippets', description: 'List of snippets for the respective programming languages', additionalProperties: me.codeSnippet, format: 'code-languages-object' },
   returns: me.object({
     title: 'Return Value',
     description: 'Optional documentation of any return value.',
     required: ['type'],
-    default: { type: 'null' }
+    default: { type: 'null' },
   }, {
     type: me.shortString({ title: 'Type', description: 'Type of the return value' }),
     example: {
@@ -338,10 +338,10 @@ me.PropertyDocumentationSchema = me.object({
           description: 'Example return values by code language.',
           additionalProperties: me.shortString({ description: 'Example return value.', format: 'code' }),
           format: 'code-languages-object',
-          default: { javascript: '' }
+          default: { javascript: '' },
         },
-        me.shortString({ title: 'Example', description: 'Example return value' })
-      ]
+        me.shortString({ title: 'Example', description: 'Example return value' }),
+      ],
     },
     description: {
       oneOf: [
@@ -351,19 +351,19 @@ me.PropertyDocumentationSchema = me.object({
           description: 'Example return values by code language.',
           additionalProperties: { type: 'string', description: 'Description of the return value.', maxLength: 1000 },
           format: 'code-languages-object',
-          default: { javascript: '' }
+          default: { javascript: '' },
         },
-        { title: 'Description', type: 'string', description: 'Description of the return value.', maxLength: 1000 }
-      ]
+        { title: 'Description', type: 'string', description: 'Description of the return value.', maxLength: 1000 },
+      ],
     },
-    i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this return value' }
+    i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this return value' },
   }),
   autoCompletePriority: {
     type: 'number',
     title: 'Autocomplete Priority',
     description: 'How important this property is to autocomplete.',
     minimum: 0,
-    default: 1.0
+    default: 1.0,
   },
   userShouldCaptureReturn: {
     type: 'object',
@@ -373,7 +373,7 @@ me.PropertyDocumentationSchema = me.object({
         type: 'string',
         title: 'Variable Name',
         description: 'Variable name this property is autocompleted into.',
-        default: 'result'
+        default: 'result',
       },
       type: {
         type: 'object',
@@ -381,16 +381,16 @@ me.PropertyDocumentationSchema = me.object({
         description: 'Variable return types by code language. Can usually leave blank. Fill in if it is a primitive type and not auto in C++.',
         additionalProperties: { type: 'string', description: 'Description of the return value.', maxLength: 1000 },
         format: 'code-languages-object',
-        default: { cpp: 'auto' }
-      }
-    }
-  }
+        default: { cpp: 'auto' },
+      },
+    },
+  },
 })
 
 me.activity = me.object({ description: 'Stats on an activity' }, {
   first: me.date(),
   last: me.date(),
-  count: { type: 'integer', minimum: 0 }
+  count: { type: 'integer', minimum: 0 },
 })
 
 me.terrainString = me.shortString({ enum: ['Grass', 'Dungeon', 'Indoor', 'Desert', 'Mountain', 'Glacier', 'Volcano', 'Junior'], title: 'Terrain', description: 'Which terrain type this is.', inEditor: 'codecombat' })
@@ -399,10 +399,10 @@ me.HeroConfigSchema = me.object({ description: 'Which hero the player is using, 
   inventory: {
     type: 'object',
     description: 'The inventory of the hero: slots to item ThangTypes.',
-    additionalProperties: me.objectId({ description: 'An item ThangType.' })
+    additionalProperties: me.objectId({ description: 'An item ThangType.' }),
   },
-  thangType: me.objectId({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type' })
-}
+  thangType: me.objectId({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Thang Type', description: 'The ThangType of the hero.', format: 'thang-type' }),
+},
 )
 
 me.RewardSchema = function (descriptionFragment) {
@@ -418,14 +418,14 @@ me.RewardSchema = function (descriptionFragment) {
         me.stringID({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Item ThangType', description: 'A reference to the earned item ThangType.', format: 'thang-type' })),
       levels: me.array({ uniqueItems: true, description: `Levels ${descriptionFragment}.` },
         me.stringID({ links: [{ rel: 'db', href: '/db/level/{($)}/version' }], title: 'Level', description: 'A reference to the earned Level.', format: 'latest-version-original-reference' })),
-      gems: me.float({ description: `Gems ${descriptionFragment}.` })
-    }
+      gems: me.float({ description: `Gems ${descriptionFragment}.` }),
+    },
   }
 }
 
 me.task = me.object({ title: 'Task', description: 'A task to be completed', format: 'task', default: { name: 'TODO', complete: false } }, {
   name: { title: 'Name', description: 'What must be done?', type: 'string' },
-  complete: { title: 'Complete', description: 'Whether this task is done.', type: 'boolean', format: 'checkbox' }
+  complete: { title: 'Complete', description: 'Whether this task is done.', type: 'boolean', format: 'checkbox' },
 })
 
 me.concept = { type: 'string', format: 'concept' }
@@ -441,12 +441,12 @@ me.voiceOver = {
     me.object({
       title: 'Hero VO',
       description: 'This voice over is spoken by the hero',
-      required: ['female', 'male']
+      required: ['female', 'male'],
     }, {
       female: me.sound(),
-      male: me.sound()
-    })
-  ]
+      male: me.sound(),
+    }),
+  ],
 }
 
 me.product = { type: 'string', title: 'Product', description: 'Which product this document is for (codecombat, ozaria, or both)', enum: ['codecombat', 'ozaria', 'both'], default: 'both' } // Older version; for differentiating between codecombat.com and ozaria.com and separate databases (like a ResourceHubResource)
@@ -457,20 +457,20 @@ me.InlineInteractionSchema = me.object({ description: 'An inline interaction', d
   actor: { type: 'string', enum: ['user', 'model', 'teacher', 'system'], description: 'Who is performing this interaction' },
   teacherDialogue: { $ref: '#/definitions/teacherDialogue' },
   repeat: { oneOf: [{ type: 'boolean' }, { type: 'integer', minimum: 1 }] }, // Could also do like script system: enum: [true, false, 'session']
-  condition: { type: 'object', description: 'TODO' }
+  condition: { type: 'object', description: 'TODO' },
 }) // TODO: Think about pulling logic from ScriptSchema eventPrereqs, scriptPrereqs, notAfter
 // delay, duration, etc. could be brought in, too
 
 me.InlineInteractionSchema.definitions.teacherDialogue = me.object({ required: ['text'] }, {
   text: { type: 'string', format: 'markdown' },
   actions: me.array({},
-    me.shortString({}))
+    me.shortString({})),
 })
 
 const ModelResponseInteractionSchema = me.object(({ title: 'Model Response', required: [], default: { type: 'model-response', actor: 'model' } }), {
   type: { type: 'string', const: 'model-response' },
   actor: { type: 'string', const: 'model' },
-  interaction: me.objectId({ links: [{ rel: 'db', href: '/db/ai_interaction/{($)}' }] })
+  interaction: me.objectId({ links: [{ rel: 'db', href: '/db/ai_interaction/{($)}' }] }),
 })
 
 const PromptQuizInteractionSchema = me.object({ title: 'Prompt Quiz', required: ['content'], default: { type: 'prompt-quiz', actor: 'user', content: {} } }, {
@@ -482,29 +482,29 @@ const PromptQuizInteractionSchema = me.object({ title: 'Prompt Quiz', required: 
         text: { type: 'string' },
         isCorrect: { type: 'boolean' },
         teacherDialogue: { $ref: '#/definitions/teacherDialogue' },
-        resultingInteraction: me.objectId({ links: [{ rel: 'db', href: '/db/ai_interaction/{($)}' }] })
-      }))
-  })
+        resultingInteraction: me.objectId({ links: [{ rel: 'db', href: '/db/ai_interaction/{($)}' }] }),
+      })),
+  }),
 })
 
 const FreeChatInteractionSchema = me.object({ title: 'Free Chat', default: { type: 'free-chat', actor: 'user', content: { text: '' } } }, {
   type: { type: 'string', const: 'free-chat' },
   actor: { type: 'string', const: 'user' },
   content: me.object({},
-    { text: { type: 'string', format: 'markdown' } })
+    { text: { type: 'string', format: 'markdown' } }),
 })
 
 const ChatMessageInteractionSchema = me.object({ title: 'Chat Message', default: { type: 'chat-message', actor: 'model', content: { text: '' } } }, {
   type: { type: 'string', const: 'chat-message' },
   content: me.object({},
-    { text: { type: 'string', format: 'markdown' } })
+    { text: { type: 'string', format: 'markdown' } }),
 })
 
 const LoadDocumentInteractionSchema = me.object({ title: 'Load Document', default: { type: 'load-document', actor: 'user', content: {} } }, {
   type: { type: 'string', const: 'load-document' },
   content: me.object({},
-    { document: me.objectId({ links: [{ rel: 'db', href: '/db/ai_document/{($)}' }] }) })
-}
+    { document: me.objectId({ links: [{ rel: 'db', href: '/db/ai_document/{($)}' }] }) }),
+},
 )
 
 me.InlineInteractionSchema.oneOf = [
@@ -512,7 +512,7 @@ me.InlineInteractionSchema.oneOf = [
   PromptQuizInteractionSchema,
   FreeChatInteractionSchema,
   ChatMessageInteractionSchema,
-  LoadDocumentInteractionSchema
+  LoadDocumentInteractionSchema,
 ]
 
 // TODO: Treema doesn't really understand this, maybe worth updating Treema, tweaking things until it's less confusing to Treema, or doing in a less `oneOf` way
@@ -520,5 +520,5 @@ me.InlineInteractionSchema.oneOf = [
 me.InteractionArraySchema = description => ({
   type: 'array',
   description,
-  items: me.InlineInteractionSchema
+  items: me.InlineInteractionSchema,
 })
