@@ -447,7 +447,8 @@ h3 {
   padding: 16px 16px 0;
   ::v-deep {
     a {
-      color: inherit
+      color: inherit;
+      text-decoration: underline;
     }
   }
 }
