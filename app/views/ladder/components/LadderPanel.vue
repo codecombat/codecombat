@@ -14,6 +14,14 @@
     <div
       class="arena__helpers"
     >
+      <span
+        v-if="arena.difficulty"
+        class="arena__difficulty"
+        :class="`difficulty__color__${difficulty} ${tournament ? 'tournament__difficulty' : ''}`"
+      >
+        {{ difficultyI18n }}
+      </span>
+
       <div class="arena__helpers__description">
         {{ readableDescription({ description: arena.description, imgPath: arena.image }) }}
       </div>
@@ -67,13 +75,6 @@
                 {{ $t('tournament.view_tournament') }}
               </button>
             </template>
-          </span>
-          <span
-            v-if="arena.difficulty"
-            class="arena__difficulty"
-            :class="`difficulty__color__${difficulty}`"
-          >
-            {{ difficultyI18n }}
           </span>
         </div>
       </div>
@@ -166,7 +167,7 @@ export default {
       return baseUrl
     },
     arenaCurriculum () {
-      return ARENA_CURRICULUM?.[this.arena.slug]
+      return ARENA_CURRICULUM?.[this.arena.slug] || this.arena.arenaCurriculumUrl
     },
     difficulty () {
       const difficulties = ['beginner', 'intermediate', 'advanced']
@@ -253,8 +254,11 @@ export default {
     background-color: rgba(#808080, 1);
 
     padding: .5rem;
-    box-shadow: 0 1.5rem 4rem rgba(black, 0.4);
     border-radius: 2px;
+
+    &.tournament__difficulty {
+      bottom: 100%;
+    }
 
     &.difficulty__color {
       &__beginner {
@@ -273,10 +277,10 @@ export default {
   }
 
   &__helpers {
+    position: relative;
     background-color: #d3d3d3;
 
     &__bottom {
-      position: relative;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
