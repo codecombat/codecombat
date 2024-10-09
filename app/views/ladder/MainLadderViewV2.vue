@@ -65,7 +65,6 @@
       <ladder-panel
         v-for="t in tournamentsTop3"
         :key="t._id"
-        class="row"
         :arena="arenaMap[t.slug]"
         :clan-id="currentSelectedClan?._id"
         :tournament="t"
@@ -81,7 +80,6 @@
           <ladder-panel
             v-for="t in tournamentsRests"
             :key="t._id"
-            class="row"
             :arena="arenaMap[t.slug]"
             :clan-id="currentSelectedClan?._id"
             :tournament="t"
@@ -111,17 +109,64 @@
       <div class="ladder-view__text">
         {{ $t('tournament.can_create_tournaments_num', { num: tournamentsLeft }) }}
       </div>
-      <ladder-panel
-        v-for="arena in usableArenas"
-        :key="arena.slug"
-        class="row"
-        :arena="arena"
-        :clan-id="currentSelectedClan?._id"
-        :can-create="canUseArenaHelpers && tournamentsLeft > 0"
-        :can-edit="false"
-        :disabled="tournamentsLeft <= 0"
-        @create-tournament="handleCreateTournament(arena)"
-      />
+      <div class="two-col">
+        <div class="ladder-view__text">
+          {{ $t('league.regular') }}
+        </div>
+        <div class="ladder-view__text">
+          {{ $t('league.championship') }}
+        </div>
+      </div>
+      <div class="two-col">
+        <ladder-panel
+          v-if="currentRegular"
+          :championship="false"
+          :arena="currentRegularArena"
+          :clan-id="currentSelectedClan?._id"
+          :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+          :can-edit="false"
+          :disabled="tournamentsLeft <= 0"
+          @create-tournament="handleCreateTournament(currentRegularArena)"
+        />
+        <ladder-panel
+          v-if="currentChampionship"
+          :championship="false"
+          :arena="currentChampionshipArena"
+          :clan-id="currentSelectedClan?._id"
+          :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+          :can-edit="false"
+          :disabled="tournamentsLeft <= 0"
+          @create-tournament="handleCreateTournament(currentChampionshipArena)"
+        />
+      </div>
+      <div
+        v-for="index in maxListLength"
+        :key="`list-${index}`"
+        class="two-col"
+      >
+        <ladder-panel
+          v-if="sortedRegulars.length > index - 1"
+          :set="arena = sortedRegulars[index-1]"
+          :championship="false"
+          :arena="arena"
+          :clan-id="currentSelectedClan?._id"
+          :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+          :can-edit="false"
+          :disabled="tournamentsLeft <= 0"
+          @create-tournament="handleCreateTournament(arena)"
+        />
+        <ladder-panel
+          v-if="sortedChampionships.length > index - 1"
+          :set="arena = sortedChampionships[index-1]"
+          :championship="true"
+          :arena="arena"
+          :clan-id="currentSelectedClan?._id"
+          :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+          :can-edit="false"
+          :disabled="tournamentsLeft <= 0"
+          @create-tournament="handleCreateTournament(arena)"
+        />
+      </div>
     </div>
     <edit-tournament-modal
       v-if="showModal"
@@ -145,35 +190,37 @@ import { ESPORTS_PRODUCT_STATS } from '../../core/constants'
 export default {
   name: 'MainLadderViewV2',
   components: {
-    ClanSelector, LadderPanel, EditTournamentModal
+    ClanSelector, LadderPanel, EditTournamentModal,
   },
   props: {
     idOrSlug: {
       type: String,
-      default: 'global'
+      default: 'global',
     },
     insideTeacherDashboard: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data () {
     return {
       tournamentsLeft: 0,
       showModal: false,
       editableTournament: {},
-      expendRestTournaments: false
+      expendRestTournaments: false,
     }
   },
   computed: {
     ...mapGetters({
       usableArenas: 'seasonalLeague/usableArenas',
+      currentRegular: 'seasonalLeague/currentRegularArena',
+      currentChampionship: 'seasonalLeague/currentChampionshipArena',
       myClans: 'clans/myClans',
       isLoading: 'clans/isLoading',
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       tournamentsByClan: 'clans/tournamentsByClan',
       tournaments: 'clans/tournaments',
-      allTournamentsLoaded: 'clans/allTournamentsLoaded'
+      allTournamentsLoaded: 'clans/allTournamentsLoaded',
     }),
     canUseArenaHelpers () {
       return me.isAdmin() || (me.hasAiLeagueActiveProduct() && (!this.currentSelectedClan || this.currentSelectedClan.ownerID === me.get('_id')))
@@ -194,6 +241,20 @@ export default {
     sortedTournaments () {
       return [...this.currentTournaments].sort(utils.tournamentSortFn)
     },
+    currentRegularArena () {
+      return this.usableArenas.find(a => a.slug === this.currentRegular.slug)
+    },
+    currentChampionshipArena () {
+      return this.usableArenas.find(a => a.slug === this.currentChampionship.slug)
+    },
+    sortedChampionships () {
+      const championships = utils.arenas.filter(a => a.type === 'championship').map(a => a.slug)
+      return this.usableArenas.filter(t => championships.includes(t.slug) && t.slug !== this.currentChampionship?.slug).sort(this.sortArenaFn)
+    },
+    sortedRegulars () {
+      const championships = utils.arenas.filter(a => a.type === 'championship').map(a => a.slug)
+      return this.usableArenas.filter(t => !championships.includes(t.slug) && t.slug !== this.currentRegular?.slug).sort(this.sortArenaFn)
+    },
     tournamentsTop3 () {
       return this.sortedTournaments.slice(0, 3)
     },
@@ -202,7 +263,10 @@ export default {
     },
     arenaMap () {
       return _.indexBy(this.usableArenas, 'slug')
-    }
+    },
+    maxListLength () {
+      return Math.max(this.sortedRegulars.length, this.sortedChampionships.length)
+    },
   },
   async created () {
     await this.fetchUsableArenas()
@@ -218,8 +282,24 @@ export default {
     ...mapActions({
       fetchUsableArenas: 'seasonalLeague/fetchUsableArenas',
       fetchTournamentsForClan: 'clans/fetchTournamentsForClan',
-      fetchAllTournaments: 'clans/fetchAllTournaments'
+      fetchAllTournaments: 'clans/fetchAllTournaments',
     }),
+    sortArenaFn (a, b) {
+      if (a.difficulty === b.difficulty) {
+        if (a.arenaCurriculumUrl) {
+          if (b.arenaCurriculumUrl) {
+            return 0
+          }
+          return -1
+        } else {
+          if (b.arenaCurriculumUrl) {
+            return 1
+          }
+          return 0
+        }
+      }
+      return (a.difficulty || 999) - (b.difficulty || 999)
+    },
     handleCreateTournament (arena) {
       if (!this.tournamentsLeft && !me.isAdmin()) {
         window.open('https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com', '_blank')
@@ -237,7 +317,7 @@ export default {
           reviewResults: false,
           publishImmediately: false,
           simulationPriority: 0,
-          editing: 'new'
+          editing: 'new',
         }
         this.showModal = true
       }
@@ -246,7 +326,7 @@ export default {
       console.log('handle edit', tournament)
       this.editableTournament = Object.assign({}, tournament, {
         publishImmediately: !(tournament.reviewResults || tournament.resultsDate),
-        editing: 'edit'
+        editing: 'edit',
       })
       this.showModal = true
     },
@@ -288,7 +368,7 @@ export default {
         const createdTournaments = c.productOptions.createdTournaments || 0
         return s + (tournaments - createdTournaments)
       }, 0)
-    }
+    },
   },
   mounted () {
     this.tournamentsLeft = this.getCanCreateTournamentNums()
@@ -303,7 +383,7 @@ export default {
         this.fetchAllTournaments({ userId: me.get('_id') })
       }
     }
-  }
+  },
 }
 </script>
 
@@ -314,7 +394,7 @@ export default {
 }
 
 .ladder-view {
-  padding: 2rem 20rem;
+  padding: 2rem auto;
   color: #ffffff;
 
   &__text {
@@ -322,6 +402,17 @@ export default {
     font-weight: bold;
     color: #30efd3;
     margin-bottom: 2rem;
+  }
+
+  .two-col {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    div {
+      flex-basis: 48%;
+    }
   }
 }
 

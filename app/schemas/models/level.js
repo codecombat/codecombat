@@ -426,6 +426,8 @@ _.extend(LevelSchema.properties, {
   projectRubricUrl: c.url({ title: 'Project Rubric URL', description: 'Needed for capstones only. Relevant for teacher dashboard (curriculum guides and projects page)', inEditor: 'ozaria' }),
   totalStages: c.int({ title: 'Capstone Total Stages', description: 'Only needed for chapter 1 capstones. Tells the teacher dashboard (track progress table and curriculum guide) where to display this capstone. Required when we want to offset capstone to display after levels that are between the stages.', inEditor: 'ozaria' }),
 
+  arenaCurriculumUrl: c.url({ title: 'Arena Curriculum URL', description: 'Needed for arena levels only. Relevant for teacher dashboard (ai league page)', inEditor: 'codecombat' }),
+
   nextLevel: {
     type: 'object',
     links: [{ rel: 'extra', href: '/db/level/{($)}' }, { rel: 'db', href: '/db/level/{(original)}/version/{(majorVersion)}' }],
