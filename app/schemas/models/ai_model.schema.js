@@ -1,7 +1,7 @@
 // WARNING: This file is auto-generated from within AI HackStack. Do not edit directly.
 // Instead, edit the corresponding Zod schema in the HackStack repo and run `npm run build` or `npm run build:schemas
 //
-// Last updated: 2024-02-21T12:07:22.413Z
+// Last updated: 2024-10-03T19:41:05.121Z
 
 const _ = require('lodash')
 const c = require('./../schemas')

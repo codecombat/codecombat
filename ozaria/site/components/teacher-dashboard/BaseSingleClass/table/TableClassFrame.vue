@@ -117,11 +117,12 @@ export default {
 
           <!-- Module Headers -->
           <table-module-header
-            v-for="({ displayName, contentList, classSummaryProgress, displayLogo, moduleNum }) of modules"
+            v-for="({ displayName, contentList, classSummaryProgress, displayLogo, access }) of modules"
 
             :key="`${displayName}`"
             :module-heading-image="displayLogo"
             :module-heading="displayName"
+            :access="access"
             :list-of-content="contentList"
             :class-summary-progress="classSummaryProgress"
             :display-only="displayOnly"

@@ -30,9 +30,9 @@ export default {
       { content: [$.i18n.t('parents_v2.grid_premium_access'), null, null, null], gridless: true },
       { type: 'subitem', content: [$.i18n.t('parents_v2.grid_codecombat'), '✓', '✓', '✓'], gridless: true },
       { type: 'subitem', content: [$.i18n.t('parents_v2.grid_ozaria'), null, '✓', '✓'], gridless: true },
-      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_ai_league'), null, '✓', '✓'], gridless: true },
-      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_codecombat_worlds'), null, '✓', '✓'], gridless: true },
-      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_ai_hackstack'), null, '✓', '✓'] },
+      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_ai_league'), '✓', '✓', '✓'], gridless: true },
+      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_codecombat_worlds'), '✓', '✓', '✓'], gridless: true },
+      { type: 'subitem', content: [$.i18n.t('parents_v2.grid_ai_hackstack'), '✓', '✓', '✓'] },
       { content: [$.i18n.t('parents_v2.grid_parent_dashboard'), null, '✓', '✓'] },
       { content: [$.i18n.t('parents_v2.grid_lesson_slides'), null, '✓', '✓'] },
       { content: [$.i18n.t('parents_v2.grid_connections_applications'), null, '✓', '✓'] },
@@ -57,8 +57,8 @@ export default {
         }
       }
       // we don't have coupon ID in parent page so no sale price here
-      if (p?.formattedAmmount) {
-        return $.i18n.t('parents_v2.grid_self_paced_year_price_without_currencya', { price: p.formattedAmmount })
+      if (p?.formattedAmount) {
+        return $.i18n.t('parents_v2.grid_self_paced_year_price_without_currency', { price: p.formattedAmount })
       } else {
         return $.i18n.t('parents_v2.grid_self_paced_year_price', { price: origPrice })
       }

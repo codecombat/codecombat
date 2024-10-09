@@ -1,6 +1,8 @@
 /** @type { import('@storybook/vue').Preview } */
 
 import fetch from 'node-fetch';
+const VTooltip = require('v-tooltip')
+
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -176,6 +178,9 @@ window.Vue = Vue
 window.me = {
   get() {
     return 'test value'
+  },
+  getSubscriptionLevel() {
+    return 'free'
   }
 }
 
@@ -227,6 +232,8 @@ const VueI18Next = {
   }
 }
 Vue.use(VueI18Next)
+Vue.use(VTooltip.default)
+
 
 const { $themePath } = require('app/core/initialize-themes')
 Vue.prototype.$themePath = $themePath

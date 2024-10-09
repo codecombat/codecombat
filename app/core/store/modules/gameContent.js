@@ -12,7 +12,7 @@ const defaultProjections = {
   cinematics: '_id,i18n,name,slug,displayName,description',
   interactives: '_id,i18n,name,slug,displayName,interactiveType,unitCodeLanguage,documentation,draggableOrderingData,insertCodeData,draggableStatementCompletionData,defaultArtAsset,promptText',
   cutscenes: '_id,i18n,name,slug,displayName,description',
-  levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation,heroThang,screenshot,exemplarProjectUrl,exemplarCodeUrl,projectRubricUrl,totalStages,practiceThresholdMinutes'
+  levels: 'original,name,description,slug,concepts,displayName,type,ozariaType,practice,shareable,i18n,assessment,goals,additionalGoals,documentation,heroThang,screenshot,exemplarProjectUrl,exemplarCodeUrl,projectRubricUrl,totalStages,practiceThresholdMinutes',
 }
 
 export default {
@@ -46,9 +46,9 @@ export default {
     // }
     gameContent: {
       byClassroom: {},
-      byCampaign: {}
+      byCampaign: {},
     },
-    levelNumberMap: {}
+    levelNumberMap: {},
   },
 
   mutations: {
@@ -56,7 +56,7 @@ export default {
       Vue.set(
         state.loading.byClassroom,
         classroomId,
-        !state.loading.byClassroom[classroomId]
+        !state.loading.byClassroom[classroomId],
       )
     },
 
@@ -64,7 +64,7 @@ export default {
       Vue.set(
         state.loading.byCampaign,
         campaignId,
-        !state.loading.byCampaign[campaignId]
+        !state.loading.byCampaign[campaignId],
       )
     },
 
@@ -78,7 +78,10 @@ export default {
 
     addLevelNumber: (state, { levelId, levelNumber }) => {
       Vue.set(state.levelNumberMap, levelId, levelNumber)
-    }
+    },
+    setLevelNumberMap (state, newMap) {
+      state.levelNumberMap = newMap
+    },
   },
 
   getters: {
@@ -90,7 +93,10 @@ export default {
     },
     getLevelNumber: (state) => (id) => {
       return state.levelNumberMap?.[id]
-    }
+    },
+    levelNumberMap: (state) => {
+      return state.levelNumberMap
+    },
   },
 
   actions: {
@@ -104,7 +110,7 @@ export default {
         cinematics: (options.project || {}).cinematics || defaultProjections.cinematics,
         interactives: (options.project || {}).interactives || defaultProjections.interactives,
         cutscenes: (options.project || {}).cutscenes || defaultProjections.cutscenes,
-        levels: (options.project || {}).levels || defaultProjections.levels
+        levels: (options.project || {}).levels || defaultProjections.levels,
       }
 
       return classroomsApi.fetchGameContent(classroomId, { data: { project: projectData } })
@@ -132,7 +138,7 @@ export default {
             }
             commit('addContentForClassroom', {
               classroomId,
-              contentData: res
+              contentData: res,
             })
           } else {
             throw new Error('Unexpected response from fetch content API.')
@@ -160,7 +166,7 @@ export default {
           if (res) {
             commit('addContentForCampaign', {
               campaignId,
-              contentData: res
+              contentData: res,
             })
           } else {
             throw new Error('Unexpected response from fetch content API.')
@@ -176,21 +182,22 @@ export default {
       if (!gameContent) {
         await dispatch('fetchGameContentForCampaign', {
           campaignId,
-          language
+          language,
         })
       }
       gameContent = getters.getContentForCampaign(campaignId)
+      const allLevels = []
       for (const [moduleNum] of Object.entries(gameContent.modules)) {
         const levelsList = getCurriculumGuideContentList({
           introLevels: gameContent.introLevels,
           moduleInfo: gameContent.modules,
           moduleNum,
         })
-
-        Object.entries(generateLevelNumberMap(levelsList)).forEach(([key, value]) => {
-          commit('addLevelNumber', { levelId: key, levelNumber: value })
-        })
+        allLevels.push(...levelsList)
       }
-    }
-  }
+
+      const levelNumberMap = generateLevelNumberMap(allLevels)
+      commit('setLevelNumberMap', levelNumberMap)
+    },
+  },
 }
