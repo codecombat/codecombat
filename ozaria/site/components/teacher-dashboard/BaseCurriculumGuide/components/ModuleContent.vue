@@ -56,6 +56,8 @@ export default {
       classroomId: 'teacherDashboard/classroomId',
       getLevelNumber: 'gameContent/getLevelNumber',
       levelNumberMap: 'gameContent/levelNumberMap',
+      getCurrentModuleHeadingInfo: 'baseCurriculumGuide/getCurrentModuleHeadingInfo',
+      isContentAccessible: 'me/isContentAccessible',
     }),
 
     classroomInstance () {
@@ -170,6 +172,13 @@ export default {
     isOzariaNoCodeLevel (icon) {
       return ['cutscene', 'cinematic', 'interactive'].includes(icon)
     },
+    isAccessible (moduleNum) {
+      if (this.isOnLockedCampaign) {
+        return false
+      }
+      const moduleInfo = this.getCurrentModuleHeadingInfo(moduleNum)
+      return this.isContentAccessible(moduleInfo.access)
+    },
   },
 }
 </script>
@@ -182,10 +191,11 @@ export default {
     />
 
     <div class="content-rows">
-      <a
+      <component
+        :is="isAccessible(moduleNum)? 'a' : 'span'"
         v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, original, assessment, slug, fromIntroLevelOriginal }, key in getContentTypes"
         :key="_id"
-        :href="isOnLockedCampaign ? '#' : url"
+        :href="isAccessible(moduleNum) ? url : null"
         target="_blank"
         rel="noreferrer"
       >
@@ -206,6 +216,7 @@ export default {
             :is-part-of-intro="isPartOfIntro"
             :show-code-btn="!isOzariaNoCodeLevel(icon) && !(isJunior && icon === 'practicelvl')"
             :identifier="slug"
+            :locked="!isAccessible(moduleNum)"
             @click.native="trackEvent('Curriculum Guide: Individual content row clicked')"
             @showCodeClicked="onShowCodeClicked"
           />
@@ -218,7 +229,7 @@ export default {
           :code-left="sampleCodeByLevel[slug]"
           @click.native="onClickedCodeDiff"
         />
-      </a>
+      </component>
     </div>
   </div>
 </template>

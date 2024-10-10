@@ -108,6 +108,7 @@ export default {
       selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
       getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
       classroom: 'teacherDashboard/getCurrentClassroom',
+      isContentAccessible: 'me/isContentAccessible',
     }),
 
     isCodeCombat () {
@@ -283,7 +284,7 @@ export default {
             >
               <dynamic-link
                 target="_blank"
-                :href="getLevelUrl({ozariaType, introLevelSlug, courseId: selectedCourseId, codeLanguage: classroom.aceConfig.language, slug, introContent})"
+                :href="isContentAccessible(access) ? getLevelUrl({ozariaType, introLevelSlug, courseId: selectedCourseId, codeLanguage: classroom.aceConfig.language, slug, introContent}) : null"
               >
                 {{ tooltipName }}
               </dynamic-link>
@@ -447,7 +448,8 @@ h3 {
   padding: 16px 16px 0;
   ::v-deep {
     a {
-      color: inherit
+      color: inherit;
+      text-decoration: underline;
     }
   }
 }
