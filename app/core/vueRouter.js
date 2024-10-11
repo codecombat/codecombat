@@ -418,7 +418,30 @@ export default function getVueRouter () {
           path: '/admin/low-usage-users',
           name: 'LowUsageUsersAdmin',
           component: () => import(/* webpackChunkName: "lowUsageUsersAdmin" */'app/views/admin/low-usage-users/MainDashboardView')
-        }
+        },
+        {
+          path: '/exams/:examId',
+          name: 'ExamPage',
+          component: () => import(/* webpackChunkName: "examPage" */'app/views/exams/ExamPage'),
+          props: (route) => ({ ...route.query, ...route.params }),
+          children: [
+            {
+              path: 'start',
+              name: 'ExamStartPage',
+              component: () => import(/* webpackChunkName: "examPage" */'app/views/exams/StartPage'),
+            },
+            {
+              path: 'progress',
+              name: 'ExamProgressPage',
+              component: () => import(/* webpackChunkName: "examPage" */'app/views/exams/ProgressPage'),
+            },
+            {
+              path: 'end',
+              name: 'ExamEndPage',
+              component: () => import(/* webpackChunkName: "examPage" */'app/views/exams/EndPage'),
+            },
+          ],
+        },
       ],
       scrollBehavior (to) {
         const scroll = {}
