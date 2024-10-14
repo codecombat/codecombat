@@ -42,7 +42,6 @@ exports.me = {
   showChinaVideo () { return false },
   showForumLink () { return true },
   showChinaResourceInfo () { return false },
-  hideDiplomatModal () { return false },
   showOpenResourceLink () { return true },
   useStripe () { return true },
   getHackStackExperimentValue () { return false }
