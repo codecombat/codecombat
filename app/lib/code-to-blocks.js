@@ -793,6 +793,7 @@ function guardUnicode ({ code, codeLanguage }) {
   if (!code) { return code }
   const commentStart = { javascript: '//', python: '#', lua: '--' }[codeLanguage] || '//'
   const singleLineCommentWithNonASCIIRegex = new RegExp(`[ \t]*${commentStart}.*?[^ -~]`)
+  const singleLineCommentPartsRegex = new RegExp(`([ \t]*${commentStart})(.+)`)
   // For some reason, Blockly garbles text encoding if you do a comment line like this:
   // # 然后，使用while True循环攻击"Cupboard"（橱柜）。
   // or this
@@ -803,7 +804,9 @@ function guardUnicode ({ code, codeLanguage }) {
     const line = lines[i]
     const hasNonASCII = singleLineCommentWithNonASCIIRegex.test(line)
     if (hasNonASCII) {
-      lines[i] = line.replace(/"/g, "'")
+      lines[i] = line.replace(singleLineCommentPartsRegex, (match, commentStart, commentContent) => {
+        return commentStart + commentContent.replace(/"/g, "'")
+      })
     }
   }
   return lines.join('\n')
