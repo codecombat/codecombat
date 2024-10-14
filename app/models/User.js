@@ -1109,10 +1109,6 @@ module.exports = (User = (function () {
       return value
     }
 
-    getRobloxPageExperimentValue () {
-      return this.getFilteredExperimentValue({ experimentName: 'roblox-page-filtered' })
-    }
-
     getHomePageExperimentValue () {
       return this.getFilteredExperimentValue({ experimentName: 'home-page-filtered-v2' })
     }
@@ -1120,12 +1116,8 @@ module.exports = (User = (function () {
     startHomeControlExperiment (forcedValue) {
       return this.getFilteredExperimentValue({
         experimentName: 'home-page-filtered-control-experiment',
-        forcedValue
+        forcedValue,
       })
-    }
-
-    getParentsPageExperimentValue () {
-      return this.getFilteredExperimentValue({ experimentName: 'parents-page-filtered' })
     }
 
     getEducatorSignupExperimentValue () {

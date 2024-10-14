@@ -322,6 +322,8 @@ module.exports = (CocoRouter = (function () {
 
         schools: go('core/SingletonAppVueComponentView'),
 
+        junior: go('core/SingletonAppVueComponentView'),
+
         'league/academica': redirect('/league/autoclan-school-network-academica'), // Redirect for Academica.
         'league/kipp': redirect('/league/autoclan-school-network-kipp'), // Redirect for KIPP.
         'league(/*subpath)': go('core/SingletonAppVueComponentView'),
@@ -337,7 +339,6 @@ module.exports = (CocoRouter = (function () {
         },
 
         parents: go('core/SingletonAppVueComponentView'),
-        'parents-v2': go('core/SingletonAppVueComponentView'),
         'parents/*path': go('core/SingletonAppVueComponentView'),
         'live-classes': go('core/SingletonAppVueComponentView'),
         live: go('core/SingletonAppVueComponentView'),
@@ -435,7 +436,6 @@ module.exports = (CocoRouter = (function () {
         'social-and-emotional-learning': go('core/SingletonAppVueComponentView'),
 
         roblox: go('core/SingletonAppVueComponentView'),
-        'roblox-beta': go('core/SingletonAppVueComponentView'),
         grants: go('core/SingletonAppVueComponentView'),
 
         seen: me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),

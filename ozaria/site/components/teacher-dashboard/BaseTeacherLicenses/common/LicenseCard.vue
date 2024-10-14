@@ -88,7 +88,7 @@ export default {
       return 'IconLicense_Blue'
     },
     testStudentOnly () {
-      return this.properties.testStudentOnly
+      return this.properties?.testStudentOnly
     }
   }
 }

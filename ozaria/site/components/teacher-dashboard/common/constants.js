@@ -10,7 +10,8 @@ export const COMPONENT_NAMES = {
   STUDENT_ASSESSMENTS: 'BaseStudentAssessments',
   AI_JUNIOR: 'BaseAIJunior',
   AI_LEAGUE: 'AILeague',
-  CURRICULUM_GUIDE: 'BaseCurriculumGuide'
+  CURRICULUM_GUIDE: 'BaseCurriculumGuide',
+  APCSP: 'APCSPPage',
 }
 
 export const PAGE_TITLES = {

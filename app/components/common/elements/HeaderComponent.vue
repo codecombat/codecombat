@@ -83,6 +83,9 @@ export default {
         position: relative;
         flex: 0 0 calc(40% - 15px);
         z-index: 2;
+        @media (max-width: $screen-lg) {
+          align-items: center;
+        }
     }
 
     .header-image {

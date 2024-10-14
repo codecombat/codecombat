@@ -5,6 +5,68 @@ function getLastSelectedCourseKey (state) {
   return `courseId_${state.teacherId}_${state.classroomId}`
 }
 
+async function fetchDataByComponent ({ dispatch, state, commit }, { componentName, options }) {
+  try {
+    const componentActionMap = {
+      [COMPONENT_NAMES.MY_CLASSES_ALL]: {
+        preFetch: async () => dispatch('fetchDataAllClasses', options),
+        lazy: () => dispatch('fetchDataAllClassesAsync', options),
+      },
+      [COMPONENT_NAMES.MY_CLASSES_SINGLE]: {
+        preFetch: async () => dispatch('fetchDataSingleClass', options),
+        lazy: () => dispatch('fetchDataSingleClassAsync', options),
+      },
+      [COMPONENT_NAMES.STUDENT_PROJECTS]: {
+        preFetch: async () => dispatch('fetchDataStudentProjects', options),
+        lazy: () => dispatch('fetchDataStudentProjectsAsync', options),
+      },
+      [COMPONENT_NAMES.MY_LICENSES]: {
+        preFetch: async () => dispatch('fetchDataMyLicenses', options),
+        lazy: () => dispatch('fetchDataMyLicensesAsync', options),
+      },
+      [COMPONENT_NAMES.RESOURCE_HUB]: {
+        lazy: () => dispatch('fetchDataResourceHubAsync', options),
+      },
+      [COMPONENT_NAMES.PD]: {
+        preFetch: async () => dispatch('fetchDataPDAsync', options),
+      },
+      [COMPONENT_NAMES.CURRICULUM_GUIDE]: {
+        preFetch: async () => dispatch('fetchDataCurriculumGuideAsync', options),
+      },
+      [COMPONENT_NAMES.STUDENT_ASSESSMENTS]: {
+        preFetch: async () => dispatch('fetchDataStudentAssessments', options),
+        lazy: () => dispatch('fetchDataStudentAssessmentsAsync', options),
+      },
+      [COMPONENT_NAMES.APCSP]: {
+        // nothing to fetch for APCSP page for now
+      },
+    }
+    const methods = componentActionMap[componentName]
+    if (methods) {
+      const fetchPromises = []
+      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true }))
+      if (methods.preFetch) {
+        fetchPromises.push(methods.preFetch())
+      }
+      await Promise.all(fetchPromises)
+      if (methods.lazy) {
+        methods.lazy().catch(console.error)
+      }
+    } else {
+      console.error(`Unknown componentName: ${componentName}`)
+    }
+  } catch (err) {
+    console.error('Error in fetching data:', err)
+    noty({ text: 'Error in fetching data', type: 'error', layout: 'topCenter', timeout: 2000 })
+  } finally {
+    commit('stopLoading')
+    dispatch('classrooms/setMostRecentClassroomId', state.classroomId, { root: true })
+    if (options.loadedEventName) { // should be set for tracking the loaded event for dashboard pages
+      window.tracker?.trackEvent(options.loadedEventName, { category: state.trackCategory })
+    }
+  }
+}
+
 export default {
   namespaced: true,
 
@@ -15,7 +77,7 @@ export default {
     loading: false,
     pageTitle: '',
     componentName: '',
-    trackCategory: 'Teachers' // used for tracking events on pages shared between DSA and DT
+    trackCategory: 'Teachers', // used for tracking events on pages shared between DSA and DT
   },
 
   mutations: {
@@ -52,7 +114,7 @@ export default {
     },
     setTrackCategory (state, trackCategory) {
       state.trackCategory = trackCategory
-    }
+    },
   },
 
   getters: {
@@ -102,7 +164,7 @@ export default {
       if (state.teacherId && state.classroomId) {
         const classrooms = [
           ...(rootGetters['classrooms/getActiveClassroomsByTeacher'](state.teacherId) || []),
-          ...(rootGetters['classrooms/getSharedClassroomsByTeacher'](state.teacherId) || [])
+          ...(rootGetters['classrooms/getSharedClassroomsByTeacher'](state.teacherId) || []),
         ]
         if (!classrooms || classrooms.length === 0) {
           return rootGetters['classrooms/getClassroomById'](state.classroomId) || {}
@@ -174,7 +236,7 @@ export default {
       } else {
         return []
       }
-    }
+    },
   },
 
   actions: {
@@ -190,47 +252,9 @@ export default {
 
       commit('startLoading')
       commit('setComponentName', componentName)
-      try {
-        if (componentName === COMPONENT_NAMES.MY_CLASSES_ALL) {
-          // My classes page
-          await dispatch('fetchDataAllClasses', options)
-          dispatch('fetchDataAllClassesAsync', options) // does not block loading indicator
-        } else if (componentName === COMPONENT_NAMES.MY_CLASSES_SINGLE) {
-          // Single class progress page
-          await dispatch('fetchDataSingleClass', options)
-          dispatch('fetchDataSingleClassAsync', options) // does not block loading indicator
-        } else if (componentName === COMPONENT_NAMES.STUDENT_PROJECTS) {
-          // Students progress page
-          await dispatch('fetchDataStudentProjects', options)
-          dispatch('fetchDataStudentProjectsAsync', options) // does not block loading indicator
-        } else if (componentName === COMPONENT_NAMES.MY_LICENSES) {
-          // Teacher licenses page
-          await dispatch('fetchDataMyLicenses', options)
-          dispatch('fetchDataMyLicensesAsync', options) // does not block loading indicator
-        } else if (componentName === COMPONENT_NAMES.RESOURCE_HUB) {
-          // Resource Hub page
-          dispatch('fetchDataResourceHubAsync', options) // does not block loading indicator
-        } else if (componentName === COMPONENT_NAMES.PD) {
-          // PD page
-          await dispatch('fetchDataPDAsync', options)
-        } else if (componentName === COMPONENT_NAMES.CURRICULUM_GUIDE) {
-          // Curriculum page
-          await dispatch('fetchDataCurriculumGuideAsync', options) // does not block loading indicator
-        } else if (componentName === COMPONENT_NAMES.STUDENT_ASSESSMENTS) {
-          // Assessments page
-          await dispatch('fetchDataStudentAssessments', options)
-          dispatch('fetchDataStudentAssessmentsAsync', options) // does not block loading indicator
-        }
-      } catch (err) {
-        console.error('Error in fetching data:', err)
-        noty({ text: 'Error in fetching data', type: 'error', layout: 'topCenter', timeout: 2000 })
-      } finally {
-        commit('stopLoading')
-        dispatch('classrooms/setMostRecentClassroomId', state.classroomId, { root: true })
-        if (options.loadedEventName) { // should be set for tracking the loaded event for dashboard pages
-          window.tracker?.trackEvent(options.loadedEventName, { category: state.trackCategory })
-        }
-      }
+      const fetchPromises = []
+      fetchPromises.push(fetchDataByComponent({ dispatch, state, commit }, { componentName, options }))
+      await Promise.all(fetchPromises)
     },
 
     // My classes page
@@ -240,7 +264,6 @@ export default {
 
       fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForTeacher', state.teacherId, { root: true }))
       fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
-      fetchPromises.push(dispatch('classrooms/fetchClassroomsForTeacher', { teacherId: state.teacherId }, { root: true }))
 
       await Promise.all(fetchPromises)
     },
@@ -253,7 +276,7 @@ export default {
       if (((classrooms || {}).active || []).length > 0) {
         classrooms.active.forEach((classroom) => {
           const levelSessionOptions = {
-            project: (options.data || {}).levelSessions
+            project: (options.data || {}).levelSessions,
           }
           fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
         })
@@ -424,11 +447,11 @@ export default {
       const classroom = rootGetters['classrooms/getClassroomById'](state.classroomId)
       if (classroom) {
         const userOptions = {
-          project: (options.data || {}).users
+          project: (options.data || {}).users,
         }
         fetchPromises.push(dispatch('users/fetchClassroomMembers', { classroom, options: userOptions }, { root: true }))
         const levelSessionOptions = {
-          project: (options.data || {}).levelSessions
+          project: (options.data || {}).levelSessions,
         }
         fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
 
@@ -445,6 +468,6 @@ export default {
 
       // TODO If classroom already loaded, load it asynchronously without blocking UI, i.e. without `await` to optimize performance
       await Promise.all(fetchPromises)
-    }
-  }
+    },
+  },
 }

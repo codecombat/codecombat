@@ -78,7 +78,7 @@ module.exports = {
   ur: { nativeDescription: 'اُردُو', englishDescription: 'Urdu' },
   vi: { nativeDescription: 'Tiếng Việt', englishDescription: 'Vietnamese' },
   'zh-WUU-HANS': { nativeDescription: '吴语', englishDescription: 'Wuu (Simplified)' },
-  'zh-WUU-HANT': { nativeDescription: '吳語', englishDescription: 'Wuu (Traditional)' }
+  'zh-WUU-HANT': { nativeDescription: '吳語', englishDescription: 'Wuu (Traditional)' },
 }
 
 // We often iterate over this module to get languages, so we don't want these helper methods to show up.
@@ -97,7 +97,7 @@ Object.defineProperties(module.exports, {
           return this.storeLoadedLanguage(langCode, localeData)
         }).catch(error => {
           return console.error(`Error loading locale '${langCode}':\n`, error)
-        })
+        }),
       ]
       const firstBit = langCode.slice(0, 2)
       if ((firstBit !== langCode) && (this[firstBit] != null)) {
@@ -108,7 +108,7 @@ Object.defineProperties(module.exports, {
         }))
       }
       return Promise.all(promises)
-    }
+    },
   },
 
   storeLoadedLanguage: {
@@ -118,7 +118,7 @@ Object.defineProperties(module.exports, {
       this[langCode] = localeData
       store.commit('addLocaleLoaded', langCode)
       return localeData
-    }
+    },
   },
 
   installVueI18n: {
@@ -172,11 +172,11 @@ Object.defineProperties(module.exports, {
             if (options == null) { options = {} }
             return utils.i18n(source, key, options.language, options.fallback)
           }
-        }
+        },
       }
 
       return Vue.use(VueI18Next)
-    }
+    },
   },
 
   mapFallbackLanguages: {
@@ -204,7 +204,7 @@ Object.defineProperties(module.exports, {
       fallbacksByCode['zh-WUU-HANS'] = ['zh-WUU-HANT', 'zh-HANS', 'zh-HANT', 'en']
       fallbacksByCode['zh-WUU-HANT'] = ['zh-WUU-HANS', 'zh-HANT', 'zh-HANS', 'en']
       return fallbacksByCode
-    }
-  }
-}
+    },
+  },
+},
 )

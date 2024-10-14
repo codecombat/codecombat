@@ -5,12 +5,12 @@ import Guidelines from './Guidelines'
 import ViewAndMange from './ViewAndManage'
 import TableClassFrame from './table/TableClassFrame'
 import ModalEditStudent from '../modals/ModalEditStudent'
-import Classroom from 'models/Classroom'
 import storage from '../../../../../app/core/storage'
 
 import utils from 'app/core/utils'
 import { getGameContentDisplayNameWithType } from 'ozaria/site/common/ozariaUtils.js'
 import User from 'models/User'
+import { getLevelUrl } from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper'
 
 import _ from 'lodash'
 import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
@@ -29,7 +29,7 @@ export default {
     Guidelines,
     'view-and-manage': ViewAndMange,
     'table-class-frame': TableClassFrame,
-    ModalEditStudent
+    ModalEditStudent,
   },
 
   beforeRouteUpdate (to, from, next) {
@@ -52,26 +52,26 @@ export default {
     classroomId: {
       type: String,
       default: '',
-      required: true
+      required: true,
     },
     teacherId: { // sent from DSA
       type: String,
-      default: ''
+      default: '',
     },
     displayOnly: { // sent from DSA
       type: Boolean,
-      default: false
+      default: false,
     },
     defaultCourseId: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
 
   data: () => ({
     isGuidelinesVisible: true,
     refreshKey: 0,
-    sortMethod: storage.load('sortMethod') || 'Last Name'
+    sortMethod: storage.load('sortMethod') || 'Last Name',
   }),
 
   computed: {
@@ -94,6 +94,7 @@ export default {
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
       aiScenarios: 'aiScenarios/getScenarios',
       modelsByName: 'aiModels/getModelsByName',
+      getLevelNumber: 'gameContent/getLevelNumber',
     }),
 
     courseInstances () {
@@ -143,20 +144,24 @@ export default {
             ...content,
             name: utils.i18n(content, 'name'),
             displayName: utils.i18n(content, 'displayName'),
-            description: utils.i18n(content, 'description')
+            description: utils.i18n(content, 'description'),
           }
         })
 
-        let moduleDisplayName
-        if (!utils.courseModules[this.selectedCourseId]?.[moduleNum]) {
-          const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
-          moduleDisplayName = utils.i18n(course, 'name')
-        } else {
-          // Todo: Ozaria-i18n
-          moduleDisplayName = `${utils.isOzaria ? this.$t(`teacher.module${moduleNum}`) : ''}${utils.courseModules[this.selectedCourseId]?.[moduleNum]}`
+        const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
+        const module = course?.modules?.[moduleNum] || {}
+        let moduleDisplayName = utils.i18n(module, 'name') || utils.i18n(course, 'name') || ''
+        if (utils.isOzaria) {
+          moduleDisplayName = this.$t(`teacher.module${moduleNum}`) + moduleDisplayName
         }
 
-        const moduleStatsForTable = this.createModuleStatsTable(moduleDisplayName, translatedModuleContent, intros, moduleNum)
+        const moduleStatsForTable = this.createModuleStatsTable({
+          moduleDisplayName,
+          intros,
+          moduleNum,
+          moduleContent: translatedModuleContent,
+          access: module.access,
+        })
         const levelNameMap = this.getLevelNameMap(translatedModuleContent, intros)
         const levelsByOriginal = translatedModuleContent
           .reduce((acc, content) => {
@@ -227,7 +232,7 @@ export default {
               playTime: playTimeMap[normalizedOriginal],
               completionDate: completionDateMap[normalizedOriginal],
               tooltipName: levelNameMap[content._id].levelName,
-              practiceLevels
+              practiceLevels,
             }
 
             if (content.type === 'game-dev') {
@@ -317,14 +322,14 @@ export default {
 
               // Level types that teacher can open TeacherDashboardPanel on.
               // We also need to make sure that teachers can only click if a session exists.
-              if (['practicelvl', 'capstone', 'interactive'].includes(defaultProgressDot.normalizedType) && defaultProgressDot.status !== 'assigned') {
+              if (['practicelvl', 'capstone', 'interactive', 'web-dev'].includes(defaultProgressDot.normalizedType) && defaultProgressDot.status !== 'assigned') {
                 defaultProgressDot.clickHandler = () => {
                   this.showPanelSessionContent({
                     student,
                     classroomId: this.classroomId, // TODO remove and use classroomId from teacherDashboard vuex
                     selectedCourseId: this.selectedCourseId,
                     moduleNum,
-                    contentId: content._id
+                    contentId: content._id,
                   })
                 }
 
@@ -343,7 +348,7 @@ export default {
         moduleStatsForTable.classSummaryProgress = Array.from(classSummaryProgressMap.values())
           .map(({ status, flagCount }) => ({
             status,
-            border: flagCount >= (this.classroomMembers?.length || 1) / 2 ? 'red' : ''
+            border: flagCount >= (this.classroomMembers?.length || 1) / 2 ? 'red' : '',
           }))
 
         modulesForTable.push(moduleStatsForTable)
@@ -370,7 +375,7 @@ export default {
           _id: userObj._id,
           isEnrolled,
           firstName: userObj.firstName || displayName,
-          lastName: userObj.lastName || displayName
+          lastName: userObj.lastName || displayName,
         }
       })
 
@@ -392,7 +397,7 @@ export default {
       } else {
         const originalsInModule = Object.values(modules).flat().map(({
           fromIntroLevelOriginal,
-          original
+          original,
         }) => fromIntroLevelOriginal || original)
         const studentProgression = new Map(students.map(({ _id }) => ([_id, 0])))
 
@@ -415,7 +420,7 @@ export default {
 
         return students
       }
-    }
+    },
   },
 
   watch: {
@@ -431,24 +436,16 @@ export default {
         return acc.concat(module.contentList.map(c => c.normalizedOriginal))
       }, [])
       this.setSelectableOriginals(originals)
-    }
+    },
   },
 
   mounted () {
-    const areTeacherClassesFetched = this.getActiveClassrooms.length !== 0
     this.setClassroomId(this.classroomId)
     if (this.defaultCourseId) {
       this.setSelectedCourseId({ courseId: this.defaultCourseId })
     }
-    this.fetchClassroomById(this.classroomId)
-      .then(() => {
-        this.setTeacherId(me.get('_id'))
-        this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
-        // this is for my classes tab showing classnames. If user lands up on a single class page directly, they will only see 1 class in tab if not for this fetch below
-        if (!areTeacherClassesFetched) {
-          this.fetchClassroomsForTeacher({ teacherId: me.get('_id') })
-        }
-      })
+    this.setTeacherId(me.get('_id'))
+    this.fetchClassroomData(this.classroomId).catch(console.error)
   },
 
   destroyed () {
@@ -464,7 +461,8 @@ export default {
       clearSelectedStudents: 'baseSingleClass/clearSelectedStudents',
       addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
       fetchClassroomById: 'classrooms/fetchClassroomForId',
-      fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher'
+      fetchClassroomsForTeacher: 'classrooms/fetchClassroomsForTeacher',
+      generateLevelNumberMap: 'gameContent/generateLevelNumberMap',
     }),
 
     ...mapMutations({
@@ -474,7 +472,7 @@ export default {
       setSelectedCourseId: 'teacherDashboard/setSelectedCourseIdCurrentClassroom',
       setSelectableStudentIds: 'baseSingleClass/setSelectableStudentIds',
       setSelectableOriginals: 'baseSingleClass/setSelectableOriginals',
-      closePanel: 'teacherDashboardPanel/closePanel'
+      closePanel: 'teacherDashboardPanel/closePanel',
     }),
 
     isHackStackCourse (selectedCourseId) {
@@ -485,7 +483,12 @@ export default {
       if (!this.getClassroomById(classroomId)) {
         await this.fetchClassroomById(classroomId)
       }
-      this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
+      await this.fetchData({ loadedEventName: 'Track Progress: Loaded' })
+      const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
+      await this.generateLevelNumberMap({
+        campaignId: course.campaignID,
+        language: this.classroom.aceConfig.language,
+      })
     },
 
     async onRefresh () {
@@ -513,26 +516,30 @@ export default {
     },
 
     getLevelNameMap (moduleContent, intros) {
-      return moduleContent.reduce((acc, content, index) => {
-        const { _id, fromIntroLevelOriginal, original } = content
+      return moduleContent.reduce((acc, content) => {
+        const { _id, fromIntroLevelOriginal } = content
 
         let description = getLearningGoalsDocumentation(content)
 
         let tooltipName
         let levelName
+        const levelNumber = this.getLevelNumber(_id)
         if (utils.isCodeCombat) {
-          const classroom = new Classroom(this.classroom)
-          const levelNumber = classroom.getLevelNumber(original, index + 1)
           tooltipName = `${levelNumber}: ${utils.i18n(content, 'displayName') || utils.i18n(content, 'name')}`
           levelName = tooltipName
         } else {
-          tooltipName = getGameContentDisplayNameWithType(content)
+          tooltipName = `${levelNumber}: ${getGameContentDisplayNameWithType(content)}`
           levelName = tooltipName
         }
         if (fromIntroLevelOriginal) {
           const introLevel = intros[fromIntroLevelOriginal] || {}
+          const levelUrl = getLevelUrl({
+            ...content,
+            codeLanguage: this.classroom.aceConfig.language,
+            courseId: this.selectedCourseId,
+          })
           levelName = tooltipName
-          description = `<h3>${tooltipName}</h3><p>${utils.i18n(content, 'description') || getLearningGoalsDocumentation(content) || ''}</p>`
+          description = `<h3><a target="_blank" href="${levelUrl}">${tooltipName}</a></h3><p>${utils.i18n(content, 'description') || getLearningGoalsDocumentation(content) || ''}</p>`
           tooltipName = `${Vue.t('teacher_dashboard.intro')}: ${utils.i18n(introLevel, 'displayName') || utils.i18n(introLevel, 'name')}`
         }
 
@@ -556,7 +563,7 @@ export default {
           selectedCourseId: this.selectedCourseId,
           moduleNum,
           aiScenario,
-          aiProjects
+          aiProjects,
         })
       }
     },
@@ -609,16 +616,17 @@ export default {
         isOptional: false,
         isPlayable,
         isPractice: false,
-        ...details
+        ...details,
       }
     },
 
     // Creates summary stats table for the content. These are the icons along
     // the top of the track progress table.
-    createModuleStatsTable (moduleDisplayName, moduleContent, intros, moduleNum) {
+    createModuleStatsTable ({ moduleDisplayName, moduleContent, intros, moduleNum, access }) {
       const levelNameMap = this.getLevelNameMap(moduleContent, intros)
       return {
         moduleNum,
+        access,
         displayName: moduleDisplayName,
         contentList: moduleContent.map((content, index) => {
           const { type, _id, ozariaType, original, fromIntroLevelOriginal, slug, practiceLevels } = content
@@ -671,11 +679,14 @@ export default {
             contentLevelSlug,
             isPractice,
             practiceLevels,
-            ...levelNameMap[_id]
+            slug: content.slug,
+            ozariaType: content.ozariaType,
+            introLevelSlug: content.introLevelSlug,
+            ...levelNameMap[_id],
           })
         }),
         studentSessions: {},
-        classSummaryProgress: []
+        classSummaryProgress: [],
       }
     },
 
@@ -710,7 +721,7 @@ export default {
               normalizedOriginal: scenario._id,
               normalizedType: type,
               contentLevelSlug: scenario.slug,
-              isPractice: false
+              isPractice: false,
             }
           }),
         studentSessions: this.students.reduce((studentSessions, student) => {
@@ -723,16 +734,16 @@ export default {
                 student,
                 classSummaryProgress,
                 moduleNum,
-                createModeUnlocked
+                createModeUnlocked,
               })
             })
 
           return studentSessions
         }, {}),
-        classSummaryProgress
+        classSummaryProgress,
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

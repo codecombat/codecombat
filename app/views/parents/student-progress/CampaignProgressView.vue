@@ -45,11 +45,12 @@
 <script>
 import CocoModuleProgressComponent from './CocoModuleProgressComponent'
 import OzModuleProgressComponent from './OzModuleProgressComponent'
-import ozariaCourseUtils from '../../../core/ozaria-course-utils'
 import LevelProgressInfoComponent from './LevelProgressInfoComponent'
 import {
   getCurriculumGuideContentList
 } from '../../../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper'
+import { mapGetters } from 'vuex'
+import utils from 'app/core/utils'
 export default {
   name: 'CampaignProgressView',
   components: {
@@ -85,7 +86,12 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
+    }),
     moduleNumbers () {
+      // Wonder if something like this could also work:
+      // return Object.keys(this.getCurrentCourse?.modules || {}).map(n => parseInt(n, 10))
       return Object.keys(this.ozCourseContent?.modules || {}).map(n => parseInt(n, 10))
     },
     isFreelyAvailable () {
@@ -94,10 +100,18 @@ export default {
   },
   methods: {
     moduleName (num) {
-      return ozariaCourseUtils.courseModules[this.campaign._id][num]
+      let moduleInfo = this.getCurrentCourse?.modules
+      moduleInfo = moduleInfo || this.campaign.modules[num] // Fallback method. Do we need it?
+      return utils.i18n(moduleInfo?.[num] || {}, 'name')
     },
     lessonSlidesUrl (num) {
-      return this.campaign.modules[num]?.lessonSlidesUrl
+      let moduleInfo = this.getCurrentCourse?.modules
+      moduleInfo = moduleInfo || this.campaign.modules[num] // Fallback method. Do we need it?
+      let lessonSlidesUrl = utils.i18n(moduleInfo?.[num] || {}, 'lessonSlidesUrl')
+      if (typeof lessonSlidesUrl === 'object') {
+        lessonSlidesUrl = lessonSlidesUrl[this.codeLanguage || 'javascript'] || lessonSlidesUrl.javascript
+      }
+      return lessonSlidesUrl
     },
     isCapstone (num) {
       return num === this.moduleNumbers[this.moduleNumbers.length - 1]

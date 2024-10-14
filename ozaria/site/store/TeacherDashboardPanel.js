@@ -17,7 +17,10 @@ export function practiceLevelData (content, studentSessions) {
   const normalizedOriginal = original || fromIntroLevelOriginal
   const level = new Level(content)
 
-  const language = studentSessions[normalizedOriginal]?.codeLanguage || 'python'
+  let language = studentSessions[normalizedOriginal]?.codeLanguage || 'python'
+  if (content.type === 'web-dev') {
+    language = 'html'
+  }
   const solutionCode = level.getSolutionForLanguage(language)?.source || ''
 
   const starterCode = level.getSampleCodeForLanguage(language) || ''
@@ -362,7 +365,7 @@ export default {
 
       const panelHeader = `Module ${moduleNum} | ${getGameContentDisplayNameWithType(content)}`
 
-      if (['hero', 'course', undefined].includes(content.type)) {
+      if (['hero', 'course', undefined, 'web-dev'].includes(content.type)) {
         // For practice levels and challenge levels
 
         commit('setTimeSpent', utils.secondsToMinutesAndSeconds(Math.ceil(studentSessions[normalizedOriginal].playtime)))
@@ -394,6 +397,7 @@ export default {
             studentCode: studentSessions[normalizedOriginal]?.code?.['hero-placeholder']?.plan || '',
             gameGoals: gameGoals.map((result) => {
               return {
+                goal: result,
                 description: result.name,
                 completed: studentSolved.has(result.id),
               }

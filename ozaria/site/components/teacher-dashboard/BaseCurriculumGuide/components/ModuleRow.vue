@@ -1,6 +1,5 @@
 <script>
 import ContentIcon from '../../common/icons/ContentIcon'
-import { mapGetters } from 'vuex'
 import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
 import marked from 'marked'
 
@@ -62,7 +61,11 @@ export default {
     },
     identifier: {
       type: String
-    }
+    },
+    locked: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data () {
@@ -72,9 +75,6 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      isOnLockedCampaign: 'baseCurriculumGuide/isOnLockedCampaign'
-    }),
 
     clearDescription () {
       const description = marked(this.description).replace(/<[^>]*>/g, '')
@@ -84,7 +84,7 @@ export default {
 
     moduleRowClass () {
       return {
-        locked: this.isOnLockedCampaign,
+        locked: this.locked,
         'part-of-intro': this.isPartOfIntro,
         'show-progress-dot': this.showProgressDot
       }

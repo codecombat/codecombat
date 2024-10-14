@@ -135,11 +135,6 @@ block content
             div.column.column-4
               a.btn.btn-illustrated.btn-block.btn-lg.btn-success.play-button(data-team='humans')
                 span(data-i18n="common.play")
-            if view.ladderTab
-              div.column.column-2
-                a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href='/play/spectate/' + view.level.get('slug') + (view.league ? "?league=" + view.league.id : ""))
-                  span.glyphicon.glyphicon-eye-open
-                  span.spl(data-i18n="play.spectate")
             if !window.features.chinaUx
               div.column.column-2
                 a.btn.btn-illustrated.btn-block.btn-lg.btn-info(data-team='humans' href="https://www.youtube.com/watch?v=niKXOofTckEor" target="_blank")
@@ -169,11 +164,6 @@ block content
           div.column.column-4
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.play-arena-button(href="/play/ladder/"+view.levelID)
               span(data-i18n="courses.play_arena")
-        if view.ladderTab
-          div.column.column-2
-            a.btn.btn-illustrated.btn-block.btn-lg.btn-info.spectate-button(href='/play/spectate/' + view.level.get('slug') + '?tournament=' + view.tournamentId + (view.league ? "&league=" + view.league.id : ""))
-              span.glyphicon.glyphicon-eye-open
-              span.spl(data-i18n="play.spectate")
         if view.tournamentState === 'waiting' && view.league && (me.get('_id') === view.league.get('ownerID') || me.isAdmin())
           div.column.column-2
             a.btn.btn-illustrated.btn-block.btn-lg.btn-success.publish-button
@@ -183,7 +173,25 @@ block content
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.early-results-button(href='#results')
               span.glyphicon.glyphicon-star
               span.spl(data-i18n="tournament.view_results")
-
+    if view.level.isType('ladder')
+      div#spectate-row.row
+        span(data-i18n="play.spectate")
+        span :
+        div.spectate-players
+          input(type='search' id='spectate-player-1' list="spectate-players-1" autocomplete="off")
+          datalist(id='spectate-players-1')
+            each rk in view.leaderboardRankings
+              option(value=`${rk[2]}: ${rk[3]}`)
+        span VS.
+        div.spectate-players
+          input(type='search' id='spectate-player-2' list="spectate-players-2" autocomplete="off")
+          datalist(id='spectate-players-2')
+            each rk in view.leaderboardRankings
+              option(value=`${rk[2]}: ${rk[3]}`)
+        a.btn.btn-illustrated.btn-info.new-spectate-button
+          span.glyphicon.glyphicon-eye-open
+          span.spl(data-i18n="hackstack.view")
+      
   if view.level.isType('ladder')
     if view.winners
       ul.nav.nav-pills

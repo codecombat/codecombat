@@ -19,7 +19,7 @@
                 <template #column-one>
                   <p class="text-p">
                     <CTAButton
-                      @clickedCTA="onClickMainCta"
+                      @clickedCTA="isSubscribeModalOpen = true"
                     >
                       {{ $t('parents_v2.schedule_free_class') }}
                     </CTAButton>
@@ -180,7 +180,7 @@
         <div class="container">
           <CTAButton
             :description="`${$t('parents_v2.prefix_or')} **[/premium]${$t('parents_v2.signup_description')}**`"
-            @clickedCTA="onClickMainCta"
+            @clickedCTA="isSubscribeModalOpen = true"
           >
             {{ $t('parents_v2.schedule_free_class') }}
           </CTAButton>
@@ -308,7 +308,7 @@
             <div class="row cta-row">
               <div class="col-lg-12">
                 <CTAButton
-                  @clickedCTA="onClickMainCta"
+                  @clickedCTA="isSubscribeModalOpen = true"
                 >
                   {{ $t('parents_v2.schedule_free_class') }}
                 </CTAButton>
@@ -396,7 +396,7 @@
 
               <CTAButton
                 class="apcsp-prep__cta"
-                @clickedCTA="onClickMainCta"
+                @clickedCTA="isSubscribeModalOpen = true"
               >
                 {{ $t('parents_v2.schedule_a_free_class') }}
                 <template #description>
@@ -410,6 +410,13 @@
           </div>
         </div>
         <trends-and-insights />
+
+        <backbone-modal-harness
+          :modal-view="SubscribeModal"
+          :open="isSubscribeModalOpen"
+          :modal-options="{ forceShowMonthlySub: true }"
+          @close="isSubscribeModalOpen = false"
+        />
 
         <background-container type="colored">
           <div class="container">
@@ -450,6 +457,8 @@ import FaqComponent from 'app/components/common/elements/FaqComponent.vue'
 import StepBoxes from './StepBoxes.vue'
 import ConceptItem from './ConceptItem.vue'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
+import BackboneModalHarness from 'app/views/common/BackboneModalHarness.vue'
+import SubscribeModal from 'app/views/core/SubscribeModal.js'
 
 export default {
   name: 'PageParentsV2',
@@ -477,7 +486,8 @@ export default {
     ConceptItem,
     IntegrateAi,
     BaseCloudflareVideo,
-    PageParentsLanding
+    PageParentsLanding,
+    BackboneModalHarness,
   },
   extends: PageParentsLanding,
 
@@ -495,7 +505,8 @@ export default {
 
   data () {
     return {
-
+      SubscribeModal,
+      isSubscribeModalOpen: false,
       testimonials: [
         {
           image: '/images/pages/schools/avatar/avatar_student.webp'

@@ -49,9 +49,8 @@ export default function getVueRouter () {
         {
           path: '/parents',
           props: (route) => ({ showPremium: true, type: route.query.type }),
-          component: () => import(/* webpackChunkName: "ParentsView" */ `app/views/landing-pages/parents${me.getParentsPageExperimentValue() === 'control' ? '' : '-v2'}/PageParents`),
-          meta: { theme: 'teal' }
-
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents-v2/PageParents'),
+          meta: { theme: 'teal' },
         },
         {
           path: '/codequest',
@@ -146,6 +145,10 @@ export default function getVueRouter () {
         {
           path: '/schools',
           component: () => import(/* webpackChunkName: "SchoolsView" */ 'app/views/schools/PageSchools.vue')
+        },
+        {
+          path: '/junior',
+          component: () => import(/* webpackChunkName: "JuniorView" */ 'app/views/junior/PageJunior.vue')
         },
         {
           path: '/school-administrator',
@@ -304,14 +307,9 @@ export default function getVueRouter () {
 
         },
         {
-          path: '/roblox-beta',
-          component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/NewPageRoblox'),
-          meta: { theme: 'teal' }
-        },
-        {
           path: '/roblox',
-          component: () => import(/* webpackChunkName: "RobloxView" */ `app/views/landing-pages/roblox/${me.getRobloxPageExperimentValue() === 'beta' ? 'New' : ''}PageRoblox`),
-          meta: { theme: 'teal' }
+          component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/NewPageRoblox'),
+          meta: { theme: 'teal' },
         },
         {
           path: '/grants',
