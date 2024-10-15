@@ -1172,4 +1172,155 @@ describe('Aether / code transpilation utility library', () => {
       }
     }
   })
+
+  describe('translateJS can handle var, let, and const', () => {
+    const sourceByLanguage = {
+      javascript: `\
+var a;
+var b = 1;
+var c = 2, d = 3;
+a = 5;
+
+let e;
+let f = 1;
+let g = 2, h = 3;
+e = 5;
+
+const h = 1;
+const m = 2, n = 3;
+
+var i = 1;
+let j = 2;
+const k = 3;
+
+var x = 4;
+let y = 5;
+const z = 6;
+`,
+      cpp: `\
+auto a;
+auto b = 1;
+auto c = 2, auto d = 3;
+a = 5;
+
+auto e;
+auto f = 1;
+auto g = 2, auto h = 3;
+e = 5;
+
+const auto h = 1;
+const auto m = 2, const auto n = 3;
+
+int i = 1;
+int j = 2;
+const int k = 3;
+
+float x = 4;
+float y = 5;
+const float z = 6;
+`,
+      java: `\
+var b = 1;
+var c = 2, var d = 3;
+var a = 5;
+
+var f = 1;
+var g = 2, var h = 3;
+var e = 5;
+
+final var h = 1;
+final var m = 2, final var n = 3;
+
+int i = 1;
+int j = 2;
+final int k = 3;
+
+float x = 4;
+float y = 5;
+final float z = 6;
+`,
+      python: `\
+b = 1
+c = 2, d = 3
+a = 5
+
+f = 1
+g = 2, h = 3
+e = 5
+
+h = 1
+m = 2, n = 3
+
+i = 1
+j = 2
+k = 3
+
+x = 4
+y = 5
+z = 6
+`,
+      coffeescript: `\
+b = 1
+c = 2, d = 3
+a = 5
+
+f = 1
+g = 2, h = 3
+e = 5
+
+h = 1
+m = 2, n = 3
+
+i = 1
+j = 2
+k = 3
+
+x = 4
+y = 5
+z = 6
+`,
+      lua: `\
+local a
+local b = 1
+local c = 2
+local d = 3
+a = 5
+
+local e
+local f = 1
+local g = 2
+local h = 3
+e = 5
+
+local h = 1
+local m = 2
+local n = 3
+
+local i = 1
+local j = 2
+local k = 3
+
+local x = 4
+local y = 5
+local z = 6
+`,
+    }
+
+    for (const [language, targetSource] of Object.entries(sourceByLanguage)) {
+      // At time of test writing, we don't yet properly handle:
+      // 1. java/cpp/lua multiple variable definitions on one line
+      // 2. java not able to use `var a` for uninitialized variables
+      const func = ['python', 'coffeescript', 'javascript'].includes(language) ? it : xit
+      func(`in ${language}`, () => {
+        const translated = translateUtils.translateJS(sourceByLanguage.javascript, language, false)
+        const editDistance = levenshteinDistance(translated, targetSource)
+        if (translated !== targetSource) {
+          console.log(`\n${translated}`)
+          console.log(`\n${targetSource}`)
+        }
+        expect(translated).toBe(targetSource)
+        expect(editDistance).toEqual(0)
+      })
+    }
+  })
 })
