@@ -10,16 +10,18 @@
         :alt="arena.name"
         class="arena__image"
       >
-      <span
-        v-if="arena.difficulty"
-        class="arena__difficulty"
-      >
-        {{ $t('play.level_difficulty') }} <span class="arena__stars">{{ difficultyStars(arena.difficulty) }}</span>
-      </span>
     </a>
     <div
       class="arena__helpers"
     >
+      <span
+        v-if="arena.difficulty"
+        class="arena__difficulty"
+        :class="`difficulty__color__${difficulty} ${tournament ? 'tournament__difficulty' : ''}`"
+      >
+        {{ difficultyI18n }}
+      </span>
+
       <div class="arena__helpers__description">
         {{ readableDescription({ description: arena.description, imgPath: arena.image }) }}
       </div>
@@ -87,36 +89,40 @@ import { ARENA_CURRICULUM } from 'app/core/constants'
 export default {
   name: 'LadderPanel',
   props: {
+    championship: {
+      type: Boolean,
+      default: false,
+    },
     arena: {
       type: Object,
       default () {
         return {}
-      }
+      },
     },
     tournament: {
       type: Object,
       default () {
         return undefined
-      }
+      },
     },
     canCreate: {
-      type: Boolean
+      type: Boolean,
     },
     canEdit: {
-      type: Boolean
+      type: Boolean,
     },
     clanId: {
       type: String,
-      default: ''
+      default: '',
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
-      clanByIdOrSlug: 'clans/clanByIdOrSlug'
+      clanByIdOrSlug: 'clans/clanByIdOrSlug',
     }),
     tournamentTime () {
       if (this.tournament) {
@@ -159,8 +165,16 @@ export default {
       return baseUrl
     },
     arenaCurriculum () {
-      return ARENA_CURRICULUM?.[this.arena.slug]
-    }
+      return ARENA_CURRICULUM?.[this.arena.slug] || this.arena.arenaCurriculumUrl
+    },
+    difficulty () {
+      const difficulties = ['beginner', 'intermediate', 'advanced']
+      const index = this.championship ? this.arena.difficulty - 3 : this.arena.difficulty - 1
+      return difficulties[index]
+    },
+    difficultyI18n () {
+      return $.i18n.t(`ladder.difficulty_${this.difficulty}`)
+    },
   },
   methods: {
     difficultyStars (difficulty) {
@@ -178,9 +192,11 @@ export default {
       window.open(this.url, '_blank')
     },
     openCurriculum () {
-      window.open(this.arenaCurriculum, '_blank')
-    }
-  }
+      if (this.arenaCurriculum) {
+        window.open(this.arenaCurriculum, '_blank')
+      }
+    },
+  },
 }
 </script>
 
@@ -216,10 +232,6 @@ export default {
     }
   }
 
-  &:not(:last-child) {
-    padding-bottom: 2rem;
-  }
-
   &__name {
     font-size: 1.5rem;
   }
@@ -242,11 +254,30 @@ export default {
     background-color: rgba(#808080, 1);
 
     padding: .5rem;
-    box-shadow: 0 1.5rem 4rem rgba(black, 0.4);
     border-radius: 2px;
+
+    &.tournament__difficulty {
+      bottom: 100%;
+    }
+
+    &.difficulty__color {
+      &__beginner {
+        background-color: #d4edbc;
+        color: #4f8a10;
+      }
+      &__intermediate {
+        background-color: #ffe5a0;
+        color: #9f6000;
+      }
+      &__advanced {
+        background-color: #ffcfc9;
+        color: #9f6000;
+      }
+    }
   }
 
   &__helpers {
+    position: relative;
     background-color: #d3d3d3;
 
     &__bottom {
