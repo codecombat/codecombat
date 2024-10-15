@@ -91,9 +91,7 @@ export default {
   props: {
     championship: {
       type: Boolean,
-      default () {
-        return false
-      },
+      default: false,
     },
     arena: {
       type: Object,
@@ -194,7 +192,9 @@ export default {
       window.open(this.url, '_blank')
     },
     openCurriculum () {
-      window.open(this.arenaCurriculum, '_blank')
+      if (this.arenaCurriculum) {
+        window.open(this.arenaCurriculum, '_blank')
+      }
     },
   },
 }

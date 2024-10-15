@@ -96,8 +96,8 @@
           data-target="#rest-tournaments"
           aria-expanded="false"
           aria-controls="rest-tournaments"
-          :class="{open: expendRestTournaments}"
-          @click="expendRestTournaments = !expendRestTournaments"
+          :class="{open: expandRestTournaments}"
+          @click="expandRestTournaments = !expandRestTournaments"
         >
           <span class="left-bar" />
           <span class="right-bar" />
@@ -132,7 +132,7 @@
         />
         <ladder-panel
           v-if="currentChampionship"
-          :championship="false"
+          :championship="true"
           :arena="currentChampionshipArena"
           :clan-id="currentSelectedClan?._id"
           :can-create="canUseArenaHelpers && tournamentsLeft > 0"
@@ -154,25 +154,23 @@
       >
         <ladder-panel
           v-if="sortedRegulars.length > index - 1"
-          :set="arena = sortedRegulars[index-1]"
           :championship="false"
-          :arena="arena"
+          :arena="sortedRegulars[index-1]"
           :clan-id="currentSelectedClan?._id"
           :can-create="canUseArenaHelpers && tournamentsLeft > 0"
           :can-edit="false"
           :disabled="tournamentsLeft <= 0"
-          @create-tournament="handleCreateTournament(arena)"
+          @create-tournament="handleCreateTournament(sortedRegulars[index-1])"
         />
         <ladder-panel
           v-if="sortedChampionships.length > index - 1"
-          :set="arena = sortedChampionships[index-1]"
           :championship="true"
-          :arena="arena"
+          :arena="sortedChampionships[index-1]"
           :clan-id="currentSelectedClan?._id"
           :can-create="canUseArenaHelpers && tournamentsLeft > 0"
           :can-edit="false"
           :disabled="tournamentsLeft <= 0"
-          @create-tournament="handleCreateTournament(arena)"
+          @create-tournament="handleCreateTournament(sortedChampionships[index-1])"
         />
       </div>
     </div>
@@ -215,7 +213,7 @@ export default {
       tournamentsLeft: 0,
       showModal: false,
       editableTournament: {},
-      expendRestTournaments: false,
+      expandRestTournaments: false,
     }
   },
   computed: {
@@ -250,10 +248,10 @@ export default {
       return [...this.currentTournaments].sort(utils.tournamentSortFn)
     },
     currentRegularArena () {
-      return this.usableArenas.find(a => a.slug === this.currentRegular.slug)
+      return this.usableArenas.find(a => a.slug === this.currentRegular?.slug)
     },
     currentChampionshipArena () {
-      return this.usableArenas.find(a => a.slug === this.currentChampionship.slug)
+      return this.usableArenas.find(a => a.slug === this.currentChampionship?.slug)
     },
     sortedChampionships () {
       const championships = utils.arenas.filter(a => a.type === 'championship').map(a => a.slug)
@@ -293,20 +291,27 @@ export default {
       fetchAllTournaments: 'clans/fetchAllTournaments',
     }),
     sortArenaFn (a, b) {
-      if (a.difficulty === b.difficulty) {
-        if (a.arenaCurriculumUrl) {
-          if (b.arenaCurriculumUrl) {
-            return 0
-          }
-          return -1
-        } else {
-          if (b.arenaCurriculumUrl) {
-            return 1
-          }
-          return 0
-        }
+      // Compare difficulties, defaulting to 999 if undefined
+      const difficultyA = a.difficulty ?? 999
+      const difficultyB = b.difficulty ?? 999
+
+      if (difficultyA !== difficultyB) {
+        return difficultyA - difficultyB
       }
-      return (a.difficulty || 999) - (b.difficulty || 999)
+
+      // Prioritize arenas with a curriculum URL
+      const hasCurriculumA = Boolean(a.arenaCurriculumUrl)
+      const hasCurriculumB = Boolean(b.arenaCurriculumUrl)
+
+      if (hasCurriculumA && !hasCurriculumB) {
+        return -1
+      }
+      if (!hasCurriculumA && hasCurriculumB) {
+        return 1
+      }
+
+      // If all else is equal
+      return 0
     },
     handleCreateTournament (arena) {
       if (!this.tournamentsLeft && !me.isAdmin()) {
