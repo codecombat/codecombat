@@ -10,11 +10,11 @@
     </div>
     <div class="levels">
       <exam-level
-        v-for="level in exam.levels"
+        v-for="(level, index) in problems"
         :key="level._id"
         :level="level"
+        :index="index + 1"
       />
-      <!-- todo: pass in classroom and other info -->
     </div>
 
     <div class="submit center-div">
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import ExamLevel from './components/ExamLevel'
 export default {
   components: {
@@ -59,6 +59,20 @@ export default {
         ],
       }
     },
+    problems () {
+      const problems = this.exam.problems
+      const levels = []
+      Object.entries(problems).forEach(([key, value]) => {
+        value.levels.forEach((level, index) => {
+          levels.push({
+            ...level,
+            courseId: key,
+            instanceId: value.instanceId,
+          })
+        })
+      })
+      return levels
+    },
   },
   mounted () {
     /* this.myExam = me.getExam(this.exam?._id) */
@@ -73,16 +87,29 @@ export default {
     clearInterval(this.counterInterval)
   },
   methods: {
+    ...mapActions('exams', [
+      'submitExam',
+    ]),
     paddingZero (num) {
       return `00${num}`.slice(-2)
     },
     counter () {
-      this.myExam.duration += 1
-      const minsLeft = this.exam.duration - this.myExam.duration
+      const startDate = new Date(this.exam.startDate)
+      const minsElapse = (new Date() - startDate) / 60000
+      let minsLeft = this.exam.duration - minsElapse
+      if (minsLeft <= 0) {
+        clearInterval(this.counterInterval)
+        minsLeft = 0
+        this.submit(true)
+      }
       this.timeLeft = `${this.paddingZero(minsLeft / 60 | 0)}:${this.paddingZero(minsLeft % 60)}`
     },
-    submit () {
+    async submit (expires) {
       // todo: submit exam
+      await this.submitExam({
+        userExamId: this.userExam._id,
+        expires,
+      })
       application.router.navigate(window.location.pathname.replace(/progress$/, 'end'), { trigger: true })
     },
   },
