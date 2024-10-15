@@ -402,7 +402,8 @@ export default {
 }
 
 .ladder-view {
-  padding: 2rem auto;
+  padding: 2rem 0;
+  margin: 0 auto;
   color: #ffffff;
 
   .current-tournaments {
