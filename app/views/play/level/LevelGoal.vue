@@ -26,8 +26,7 @@
   goalIconImageMap =
     heart: '/images/level/goal-icons/heart.png'
     heartEmpty: '/images/level/goal-icons/heart-empty.png'
-    # saveThangs: '/images/level/goal-icons/save-thangs.png'
-    saveThangs: '/file/db/thang.type/529f9026dacd325127000005/portrait.png'  # Peasant for now, until we have chicken
+    saveThangs: '/images/level/goal-icons/save-thangs.png'
     killThangs: '/images/level/goal-icons/kill-thangs.png'
     collectThangs: '/images/level/goal-icons/collect-thangs.png'
     getToLocations: '/images/level/goal-icons/get-to-locations.png'
