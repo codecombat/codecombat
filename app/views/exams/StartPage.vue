@@ -69,7 +69,7 @@ export default {
       return this.getExamById(this.examId)
     },
     avaliableLanguages () {
-      return this.exam?.languages || ['python', 'javascript', 'cpp', 'java']
+      return this.exam?.languages || ['python', 'javascript']
     },
     hasPermission () {
       const clans = me.get('clans')
