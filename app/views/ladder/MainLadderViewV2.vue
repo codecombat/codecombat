@@ -65,6 +65,7 @@
       <ladder-panel
         v-for="t in tournamentsTop3"
         :key="t._id"
+        class="current-tournaments"
         :arena="arenaMap[t.slug]"
         :clan-id="currentSelectedClan?._id"
         :tournament="t"
@@ -80,6 +81,7 @@
           <ladder-panel
             v-for="t in tournamentsRests"
             :key="t._id"
+            class="current-tournaments"
             :arena="arenaMap[t.slug]"
             :clan-id="currentSelectedClan?._id"
             :tournament="t"
@@ -110,10 +112,10 @@
         {{ $t('tournament.can_create_tournaments_num', { num: tournamentsLeft }) }}
       </div>
       <div class="two-col">
-        <div class="ladder-view__text">
+        <div class="ladder-view__text center-text">
           {{ $t('league.regular') }}
         </div>
-        <div class="ladder-view__text">
+        <div class="ladder-view__text center-text">
           {{ $t('league.championship') }}
         </div>
       </div>
@@ -138,6 +140,12 @@
           :disabled="tournamentsLeft <= 0"
           @create-tournament="handleCreateTournament(currentChampionshipArena)"
         />
+        <div
+          v-else
+          class="ladder-view__text center-text coming-soon"
+        >
+          {{ $t('common.coming_soon') }}
+        </div>
       </div>
       <div
         v-for="index in maxListLength"
@@ -397,6 +405,19 @@ export default {
   padding: 2rem auto;
   color: #ffffff;
 
+  .current-tournaments {
+    width: 70%;
+    margin-bottom: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .coming-soon {
+    margin-top: auto;
+    margin-bottom: auto;
+    color: #F7B42C; // coco main yellow
+  }
+
   &__text {
     font-size: 2.4rem;
     font-weight: bold;
@@ -411,7 +432,7 @@ export default {
     margin-bottom: 2rem;
 
     div {
-      flex-basis: 48%;
+      flex-basis: 45%;
     }
   }
 }
@@ -528,5 +549,8 @@ export default {
 }
 .ladder-view-v2.container {
   gap: 20px;
+}
+.center-text {
+  text-align: center;
 }
 </style>
