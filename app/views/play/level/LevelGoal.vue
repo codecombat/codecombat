@@ -26,8 +26,7 @@
   goalIconImageMap =
     heart: '/images/level/goal-icons/heart.png'
     heartEmpty: '/images/level/goal-icons/heart-empty.png'
-    # saveThangs: '/images/level/goal-icons/save-thangs.png'
-    saveThangs: '/file/db/thang.type/529f9026dacd325127000005/portrait.png'  # Peasant for now, until we have chicken
+    saveThangs: '/images/level/goal-icons/save-thangs.png'
     killThangs: '/images/level/goal-icons/kill-thangs.png'
     collectThangs: '/images/level/goal-icons/collect-thangs.png'
     getToLocations: '/images/level/goal-icons/get-to-locations.png'
@@ -58,7 +57,7 @@
         result = []
         return result unless @product is 'codecombat-junior'
         for key, icon of goalIconImageMap when @goal[key]
-          if key is 'saveThangs' and not (_.values(@state.killed).length > 1) and @$store.state.game.heroHealth.max
+          if key is 'saveThangs' and not (_.values(@state.killed).length > 1) and @$store.state.game.heroHealth.max and @goal.saveThangs?[0] in ['Hero Placeholder', 'humans']
             # saveThangs with just the hero; show hearts
             fullHearts = Math.max 0, @$store.state.game.heroHealth.current || 0
             emptyHearts = (@$store.state.game.heroHealth.max || 1) - fullHearts

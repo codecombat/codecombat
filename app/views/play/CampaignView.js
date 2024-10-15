@@ -1541,7 +1541,30 @@ class CampaignView extends RootView {
 
   onWindowResize (e) {
     const mapHeight = 1536
-    const mapWidth = { dungeon: 2350, forest: 2500, auditions: 2500, desert: 2411, mountain: 2422, glacier: 2421, junior: 2214 }[this.terrain] || 2350
+    const mapWidths = {
+      dungeon: 2350,
+      forest: 2500,
+      auditions: 2500,
+      desert: 2411,
+      mountain: 2421,
+      glacier: 2413,
+      junior: 2214,
+      'campaign-game-dev-1': 2500,
+      'campaign-game-dev-2': 2500,
+      'campaign-game-dev-3': 2500,
+      'campaign-web-dev-1': 2500,
+      'campaign-web-dev-2': 2500,
+      'game-dev-1': 2500,
+      'game-dev-2': 2500,
+      'game-dev-3': 2500,
+      'web-dev-1': 2500,
+      'web-dev-2': 2500,
+      'course-3': 2500,
+      'course-4': 2411,
+      'course-5': 2421,
+      'course-6': 2413,
+    }
+    const mapWidth = mapWidths[this.terrain] || 2350
     const aspectRatio = mapWidth / mapHeight
     const pageWidth = this.$el.width()
     const pageHeight = this.$el.height()

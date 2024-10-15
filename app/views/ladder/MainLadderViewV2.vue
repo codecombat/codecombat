@@ -65,7 +65,7 @@
       <ladder-panel
         v-for="t in tournamentsTop3"
         :key="t._id"
-        class="row"
+        class="current-tournaments"
         :arena="arenaMap[t.slug]"
         :clan-id="currentSelectedClan?._id"
         :tournament="t"
@@ -81,7 +81,7 @@
           <ladder-panel
             v-for="t in tournamentsRests"
             :key="t._id"
-            class="row"
+            class="current-tournaments"
             :arena="arenaMap[t.slug]"
             :clan-id="currentSelectedClan?._id"
             :tournament="t"
@@ -96,8 +96,8 @@
           data-target="#rest-tournaments"
           aria-expanded="false"
           aria-controls="rest-tournaments"
-          :class="{open: expendRestTournaments}"
-          @click="expendRestTournaments = !expendRestTournaments"
+          :class="{open: expandRestTournaments}"
+          @click="expandRestTournaments = !expandRestTournaments"
         >
           <span class="left-bar" />
           <span class="right-bar" />
@@ -111,17 +111,68 @@
       <div class="ladder-view__text">
         {{ $t('tournament.can_create_tournaments_num', { num: tournamentsLeft }) }}
       </div>
-      <ladder-panel
-        v-for="arena in usableArenas"
-        :key="arena.slug"
-        class="row"
-        :arena="arena"
-        :clan-id="currentSelectedClan?._id"
-        :can-create="canUseArenaHelpers && tournamentsLeft > 0"
-        :can-edit="false"
-        :disabled="tournamentsLeft <= 0"
-        @create-tournament="handleCreateTournament(arena)"
-      />
+      <div class="two-col">
+        <div class="ladder-view__text center-text">
+          {{ $t('league.regular') }}
+        </div>
+        <div class="ladder-view__text center-text">
+          {{ $t('league.championship') }}
+        </div>
+      </div>
+      <div class="two-col">
+        <ladder-panel
+          v-if="currentRegular"
+          :championship="false"
+          :arena="currentRegularArena"
+          :clan-id="currentSelectedClan?._id"
+          :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+          :can-edit="false"
+          :disabled="tournamentsLeft <= 0"
+          @create-tournament="handleCreateTournament(currentRegularArena)"
+        />
+        <ladder-panel
+          v-if="currentChampionship"
+          :championship="true"
+          :arena="currentChampionshipArena"
+          :clan-id="currentSelectedClan?._id"
+          :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+          :can-edit="false"
+          :disabled="tournamentsLeft <= 0"
+          @create-tournament="handleCreateTournament(currentChampionshipArena)"
+        />
+        <div
+          v-else
+          class="ladder-view__text center-text coming-soon"
+        >
+          {{ $t('common.coming_soon') }}
+        </div>
+      </div>
+      <div
+        v-for="index in maxListLength"
+        :key="`list-${index}`"
+        class="two-col"
+      >
+        <ladder-panel
+          v-if="sortedRegulars.length > index - 1"
+          :championship="false"
+          :arena="sortedRegulars[index-1]"
+          :clan-id="currentSelectedClan?._id"
+          :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+          :can-edit="false"
+          :disabled="tournamentsLeft <= 0"
+          @create-tournament="handleCreateTournament(sortedRegulars[index-1])"
+        />
+        <ladder-panel
+          v-if="sortedChampionships.length > index - 1"
+          :championship="true"
+          :arena="sortedChampionships[index-1]"
+          :clan-id="currentSelectedClan?._id"
+          :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+          :can-edit="false"
+          :disabled="tournamentsLeft <= 0"
+          @create-tournament="handleCreateTournament(sortedChampionships[index-1])"
+        />
+      </div>
     </div>
     <edit-tournament-modal
       v-if="showModal"
@@ -145,35 +196,37 @@ import { ESPORTS_PRODUCT_STATS } from '../../core/constants'
 export default {
   name: 'MainLadderViewV2',
   components: {
-    ClanSelector, LadderPanel, EditTournamentModal
+    ClanSelector, LadderPanel, EditTournamentModal,
   },
   props: {
     idOrSlug: {
       type: String,
-      default: 'global'
+      default: 'global',
     },
     insideTeacherDashboard: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data () {
     return {
       tournamentsLeft: 0,
       showModal: false,
       editableTournament: {},
-      expendRestTournaments: false
+      expandRestTournaments: false,
     }
   },
   computed: {
     ...mapGetters({
       usableArenas: 'seasonalLeague/usableArenas',
+      currentRegular: 'seasonalLeague/currentRegularArena',
+      currentChampionship: 'seasonalLeague/currentChampionshipArena',
       myClans: 'clans/myClans',
       isLoading: 'clans/isLoading',
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       tournamentsByClan: 'clans/tournamentsByClan',
       tournaments: 'clans/tournaments',
-      allTournamentsLoaded: 'clans/allTournamentsLoaded'
+      allTournamentsLoaded: 'clans/allTournamentsLoaded',
     }),
     canUseArenaHelpers () {
       return me.isAdmin() || (me.hasAiLeagueActiveProduct() && (!this.currentSelectedClan || this.currentSelectedClan.ownerID === me.get('_id')))
@@ -194,6 +247,20 @@ export default {
     sortedTournaments () {
       return [...this.currentTournaments].sort(utils.tournamentSortFn)
     },
+    currentRegularArena () {
+      return this.usableArenas.find(a => a.slug === this.currentRegular?.slug)
+    },
+    currentChampionshipArena () {
+      return this.usableArenas.find(a => a.slug === this.currentChampionship?.slug)
+    },
+    sortedChampionships () {
+      const championships = utils.arenas.filter(a => a.type === 'championship').map(a => a.slug)
+      return this.usableArenas.filter(t => championships.includes(t.slug) && t.slug !== this.currentChampionship?.slug).sort(this.sortArenaFn)
+    },
+    sortedRegulars () {
+      const championships = utils.arenas.filter(a => a.type === 'championship').map(a => a.slug)
+      return this.usableArenas.filter(t => !championships.includes(t.slug) && t.slug !== this.currentRegular?.slug).sort(this.sortArenaFn)
+    },
     tournamentsTop3 () {
       return this.sortedTournaments.slice(0, 3)
     },
@@ -202,7 +269,10 @@ export default {
     },
     arenaMap () {
       return _.indexBy(this.usableArenas, 'slug')
-    }
+    },
+    maxListLength () {
+      return Math.max(this.sortedRegulars.length, this.sortedChampionships.length)
+    },
   },
   async created () {
     await this.fetchUsableArenas()
@@ -218,8 +288,31 @@ export default {
     ...mapActions({
       fetchUsableArenas: 'seasonalLeague/fetchUsableArenas',
       fetchTournamentsForClan: 'clans/fetchTournamentsForClan',
-      fetchAllTournaments: 'clans/fetchAllTournaments'
+      fetchAllTournaments: 'clans/fetchAllTournaments',
     }),
+    sortArenaFn (a, b) {
+      // Compare difficulties, defaulting to 999 if undefined
+      const difficultyA = a.difficulty ?? 999
+      const difficultyB = b.difficulty ?? 999
+
+      if (difficultyA !== difficultyB) {
+        return difficultyA - difficultyB
+      }
+
+      // Prioritize arenas with a curriculum URL
+      const hasCurriculumA = Boolean(a.arenaCurriculumUrl)
+      const hasCurriculumB = Boolean(b.arenaCurriculumUrl)
+
+      if (hasCurriculumA && !hasCurriculumB) {
+        return -1
+      }
+      if (!hasCurriculumA && hasCurriculumB) {
+        return 1
+      }
+
+      // If all else is equal
+      return 0
+    },
     handleCreateTournament (arena) {
       if (!this.tournamentsLeft && !me.isAdmin()) {
         window.open('https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com', '_blank')
@@ -237,7 +330,7 @@ export default {
           reviewResults: false,
           publishImmediately: false,
           simulationPriority: 0,
-          editing: 'new'
+          editing: 'new',
         }
         this.showModal = true
       }
@@ -246,7 +339,7 @@ export default {
       console.log('handle edit', tournament)
       this.editableTournament = Object.assign({}, tournament, {
         publishImmediately: !(tournament.reviewResults || tournament.resultsDate),
-        editing: 'edit'
+        editing: 'edit',
       })
       this.showModal = true
     },
@@ -288,7 +381,7 @@ export default {
         const createdTournaments = c.productOptions.createdTournaments || 0
         return s + (tournaments - createdTournaments)
       }, 0)
-    }
+    },
   },
   mounted () {
     this.tournamentsLeft = this.getCanCreateTournamentNums()
@@ -303,7 +396,7 @@ export default {
         this.fetchAllTournaments({ userId: me.get('_id') })
       }
     }
-  }
+  },
 }
 </script>
 
@@ -314,14 +407,39 @@ export default {
 }
 
 .ladder-view {
-  padding: 2rem 20rem;
+  padding: 2rem 0;
+  margin: 0 auto;
   color: #ffffff;
+
+  .current-tournaments {
+    width: 70%;
+    margin-bottom: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .coming-soon {
+    margin-top: auto;
+    margin-bottom: auto;
+    color: #F7B42C; // coco main yellow
+  }
 
   &__text {
     font-size: 2.4rem;
     font-weight: bold;
     color: #30efd3;
     margin-bottom: 2rem;
+  }
+
+  .two-col {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    div {
+      flex-basis: 45%;
+    }
   }
 }
 
@@ -437,5 +555,8 @@ export default {
 }
 .ladder-view-v2.container {
   gap: 20px;
+}
+.center-text {
+  text-align: center;
 }
 </style>
