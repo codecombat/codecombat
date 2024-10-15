@@ -276,7 +276,8 @@ module.exports = class TomeView extends CocoView
     if utils.getQueryVariable 'dev'
       @updateSpellPalette @spellView.thang, @spellView.spell if @spellView
     spell.view.reloadCode false for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
-    @cast false, false
+    _.defer =>
+      @cast false, false unless @destroyed
 
   updateLanguageForAllSpells: (e) ->
     spell.updateLanguageAether e.language for spellKey, spell of @spells when spell.canWrite()
