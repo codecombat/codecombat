@@ -10,6 +10,8 @@ block modal-header-content
         h1(data-i18n="play_level.victory") Victory
 
 block modal-body-content
+  button.close-button.btn.btn-illustrated.btn-lg.btn-warning(type="button", data-dismiss="modal", aria-hidden="true", tabindex=-1) &times;
+
   if victoryText
     #victory-text(dir="auto")= victoryText
 
