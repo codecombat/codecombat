@@ -132,12 +132,12 @@ class AudioPlayer extends CocoClass
   nameForSoundReference: (sound) ->
     sound[@ext.slice(1)]  # mp3 or ogg
 
-  preloadSound: (filename, name) ->
+  preloadSound: (filename, name, channels=1) ->
     return unless filename
     return if filename of cache
     name ?= filename
     # SoundJS flips out if you try to register the same file twice
-    result = createjs.Sound.registerSound(filename, name, 1)  # 1: 1 channel
+    result = createjs.Sound.registerSound(filename, name, channels)
     cache[filename] = new Media(name)
 
   # PROGRESS CALLBACKS
