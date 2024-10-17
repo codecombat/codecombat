@@ -30,6 +30,7 @@ globalVar = require 'core/globalVar'
 fetchJson = require 'core/api/fetch-json'
 store = require 'core/store'
 require('app/styles/play/level/tome/ace-diff-spell.sass')
+AudioPlayer = require 'lib/AudioPlayer'
 
 PERSIST_BLOCK_STATE = false
 
@@ -545,6 +546,8 @@ module.exports = class SpellView extends CocoView
 
     if @options.level.get('product') is 'codecombat-junior'
       # Immediate code execution on each significant block change that produces a program that differs by more than newlines
+      block = blocklyUtils.getBlockById workspace: @blockly, id: e?.blockId
+      @playBlockSound block if block
       @recompile()
     else
       @notifySpellChanged()
@@ -609,6 +612,26 @@ module.exports = class SpellView extends CocoView
     #@resizeBlockly()  # Needed?
     @eventsSuppressed = false
     @lastBlocklyState = newBlocklyState
+
+  playBlockSound: (block) ->
+    code = blocklyUtils.blockToCode({ block, codeLanguage: @spell.language })?.trim()
+    docsCode = block?.docFormatter?.doc?.name
+    return unless code or docsCode
+    lang = me.get('preferedLanguage', true) or 'en-US'
+    if docsCode and (not code or code.replace(/[^a-zA-Z0-9_-]/g, '') is docsCode.replace(/[^a-zA-Z0-9_-]/g, ''))
+      # We can internationalize
+      text = utils.i18n block.docFormatter.doc, 'name'
+      textIsLocalized = text isnt docsCode
+      if not code
+        text = text.replace(/, \d/g, '')  # Don't pronounce step numbers, they won't be right if coming from docsCode
+    else
+      text = code
+    text = text.replace(/, 1/g, '')  # Don't pronounce step number if 1
+    textLanguage = if textIsLocalized or me.get('preferredLanguage') is 'en-GB' then lang else 'en-US'
+    plainText = utils.markdownToPlainText(text.replace(/[[\]()'"]+/g, ' ').trim())
+    ttsPath = "/file/text-to-speech/#{textLanguage}/#{encodeURIComponent(plainText)}.mp3"
+    AudioPlayer.preloadSound ttsPath, ttsPath, 4
+    AudioPlayer.playSound ttsPath
 
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?
