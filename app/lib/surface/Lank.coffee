@@ -872,12 +872,15 @@ module.exports = Lank = class Lank extends CocoClass
         sound = soundTriggers?[sound] or @thangType.get('soundTriggers')?[sound]  # Check localized triggers first, then root sound triggers in case of incomplete localization
       if _.isArray sound
         sound = sound[Math.floor Math.random() * sound.length]
+      if _.isObject(sound) and sound[0]
+        # For some reason, sound arrays are being sent as objects sometimes
+        sound = sound[Math.floor Math.random() * _.values(sound).length]
       return null unless sound
       delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.framerate else 0
       name = AudioPlayer.nameForSoundReference sound
       AudioPlayer.preloadSoundReference sound
       instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
-      #console.log @thang?.id, 'played sound', name, 'with delay', delay, 'volume', volume, 'and got sound instance', instance
+      #console.log @thang?.id, 'played sound', name, 'with delay', delay, 'volume', volume, 'and got sound instance', instance, 'from sound', sound
       instance
     else # Ozaria
       # Sounds are triggered once and play until they complete.
