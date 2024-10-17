@@ -861,7 +861,7 @@ function codeToBlocks ({ code, originalCode, codeLanguage, prepData }) {
   for (const v in ctx.scope) {
     if (ctx.scope[v].type === 'var') out.variables.push({ name: v, id: v })
   }
-  const isJunior = _.find(prepData?.plan || [], (p) => p?.[0]?.type === 'Hero_go')
+  const isJunior = _.find(prepData?.plan || [], (p) => /^Hero_go/.test(p?.[0]?.type))
   if (isJunior) {
     addStartBlock(out)
   }
