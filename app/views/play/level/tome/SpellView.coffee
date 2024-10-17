@@ -475,6 +475,9 @@ module.exports = class SpellView extends CocoView
     if @onCodeChangeMetaHandler
       @blockly.addChangeListener @onBlocklyEvent
 
+    hasFourGoBlocks = _.filter(@propertyEntryGroups.Hero?.props, (prop) -> /^go/.test(prop.name)).length is 4
+    targetDiv.toggleClass 'static-toolbox-dropdowns', hasFourGoBlocks
+
     @lastBlocklyState = if PERSIST_BLOCK_STATE and not @session.fake then storage.load "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}" else null
     if @lastBlocklyState
       @awaitingBlocklySerialization = true

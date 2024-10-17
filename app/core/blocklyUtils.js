@@ -657,8 +657,7 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
 
   if (codeFormat === 'blocks-icons' && setup.message0.startsWith('hit ')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/hit %1 %2/, '%1%2 %3') // With times
-    setup.message0 = setup.message0.replace(/hit %1/, '%1%2') // Without times
+    setup.message0 = setup.message0.replace(/hit %1/, '%1%2')
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-hit.png',
@@ -671,8 +670,7 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
 
   if (codeFormat === 'blocks-icons' && setup.message0.startsWith('spin ')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/spin %1/, '%1 %2') // With times
-    setup.message0 = setup.message0.replace(/spin/, '%1') // Without times
+    setup.message0 = setup.message0.replace(/spin/, '%1')
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-spin.png',
@@ -685,8 +683,7 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
 
   if (codeFormat === 'blocks-icons' && setup.message0.startsWith('zap ')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/zap %1 %2/, '%1%2 %3') // With times
-    setup.message0 = setup.message0.replace(/zap %1/, '%1%2') // Without times
+    setup.message0 = setup.message0.replace(/zap %1/, '%1%2')
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-zap.png',

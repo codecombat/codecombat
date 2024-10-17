@@ -44,3 +44,19 @@
   .blocklyDropdownRect
     fill: rgba(33, 88, 233, 0.75)
 
+  &.static-toolbox-dropdowns .blocklyFlyout
+    .blocklyEditableText:nth-child(3)
+      // This prevents clicks on dropdown elements like "up" or "right" from going through.
+      // We do this in early levels where we provide four go blocks, one for each direction.
+      // We don't want players to mess around changing dropdwon arguments in toolbox, only workspace.
+      // :nth-child(3) happens to be the direction argument (so we don't apply to steps argument)
+      pointer-events: none
+
+      image:last-child
+        // Hide the dropdown arrow next to the block label
+        display: none
+
+      .blocklyDropdownText, image[*|href*="/images/level/blocks/block"]
+        // Move the text over to center it, now that the dropdown arrow on the right is gone
+        transform: translateX(10px)
+
