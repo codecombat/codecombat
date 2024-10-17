@@ -65,7 +65,7 @@ module.exports = (PlayHeroesModal = (function () {
       this.heroes = new CocoCollection([], { model: ThangType })
       this.isJunior = this.options.level?.get('product') === 'codecombat-junior' || this.options.campaign?.get('slug') === 'junior'
       this.heroes.url = '/db/thang.type?view=' + (this.isJunior ? 'heroes-junior' : 'heroes')
-      this.heroes.setProjection(['original', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'shortName', 'unlockLevelName', 'i18n', 'poseImage', 'tier', 'releasePhase', 'ozaria'])
+      this.heroes.setProjection(['original', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'shortName', 'unlockLevelName', 'i18n', 'poseImage', 'tier', 'releasePhase', 'ozaria', 'kind'])
       this.heroes.comparator = 'gems'
       this.listenToOnce(this.heroes, 'sync', this.onHeroesLoaded)
       this.supermodel.loadCollection(this.heroes, 'heroes')
