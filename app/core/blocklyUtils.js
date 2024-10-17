@@ -624,10 +624,17 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     return returnsValue ? [parts.join(''), generator.ORDER_ATOMIC] : parts.join('')
   }
 
+  // Localize the name
+  let localizedPropName = utils.i18n(prop, 'name')?.replace(/["`]/g, '')
+  if (/^go\(/.test(localizedPropName)) {
+    // In first two modules, `go` method is like `go('up')` or `go('down', 1)` snippet and often doesn't get translated because it's a code snippet instead of a single identifier, so use a static translation string instead.
+    localizedPropName = $.t('play_level.block_go')
+  }
+
   // CodeCombat Junior doesn't label arguments. (Should we label them for CodeCombat?)
   const blockMessage = level?.get('product') === 'codecombat-junior'
-    ? `${(propName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `%${v + 1}`).join(' ')
-    : `${(propName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `${a.name}: %${v + 1}`).join(' ')
+    ? `${(localizedPropName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `%${v + 1}`).join(' ')
+    : `${(localizedPropName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `${a.name}: %${v + 1}`).join(' ')
   const setup = {
     message0: blockMessage,
     args0: args.map(a => ({
@@ -728,10 +735,10 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
         // [{ src: '/images/level/blocks/block-down.png', width: 24, height: 24 }, 'down'],
         // [{ src: '/images/level/blocks/block-left.png', width: 24, height: 24 }, 'left'],
         // [{ src: '/images/level/blocks/block-right.png', width: 24, height: 24 }, 'right']
-        ['up', 'up'],
-        ['down', 'down'],
-        ['left', 'left'],
-        ['right', 'right']
+        [$.t('play_level.block_up'), 'up'],
+        [$.t('play_level.block_down'), 'down'],
+        [$.t('play_level.block_left'), 'left'],
+        [$.t('play_level.block_right'), 'right'],
       ]
     }
     dropdownArg.default = args[0].default
@@ -865,18 +872,13 @@ module.exports.registerBlocklyTheme = function () {
 let initializedLanguage = false
 module.exports.initializeBlocklyLanguage = function () {
   if (initializedLanguage) { return }
-  return // TODO: need to fix webpack loading first
   // eslint-disable-function
   initializedLanguage = true
   const language = me.get('preferredLanguage', true).toLowerCase()
-  const languageParts = language.split('-')
+  const languageParts = language.toLowerCase().split('-')
   while (languageParts.length) {
     try {
-      const localePath = `blockly/msg/${languageParts.join('-')}`
-      console.log('trying to load', localePath)
-      // TODO: fix this up with proper webpackery, maybe like https://github.com/codecombat/codecombat/blob/master/app/locale/locale.coffee#L78-L102
-      // blocklyLocale = require(localePath)  // doesn't work
-      // blocklyLocale = require(`blockly/msg/${languageParts.join('-')}`)  // works but throws a ton of errors
+      const blocklyLocale = require(`blockly/msg/${languageParts.join('-')}`)
       Blockly.setLocale(blocklyLocale)
       break
     } catch (e) {
