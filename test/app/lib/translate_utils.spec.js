@@ -1186,7 +1186,7 @@ let f = 1;
 let g = 2, h = 3;
 e = 5;
 
-const h = 1;
+const l = 1;
 const m = 2, n = 3;
 
 var i = 1;
@@ -1208,7 +1208,7 @@ auto f = 1;
 auto g = 2, auto h = 3;
 e = 5;
 
-const auto h = 1;
+const auto l = 1;
 const auto m = 2, const auto n = 3;
 
 int i = 1;
@@ -1228,7 +1228,7 @@ var f = 1;
 var g = 2, var h = 3;
 var e = 5;
 
-final var h = 1;
+final var l = 1;
 final var m = 2, final var n = 3;
 
 int i = 1;
@@ -1248,7 +1248,7 @@ f = 1
 g = 2, h = 3
 e = 5
 
-h = 1
+l = 1
 m = 2, n = 3
 
 i = 1
@@ -1268,7 +1268,7 @@ f = 1
 g = 2, h = 3
 e = 5
 
-h = 1
+l = 1
 m = 2, n = 3
 
 i = 1
@@ -1292,7 +1292,7 @@ local g = 2
 local h = 3
 e = 5
 
-local h = 1
+local l = 1
 local m = 2
 local n = 3
 
