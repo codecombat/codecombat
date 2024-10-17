@@ -80,6 +80,32 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     return text
   }
 
+  const startBlock = {
+    type: 'start',
+    message0: 'Start',
+    args0: [],
+    nextStatement: null,
+    colour: 120,
+    tooltip: 'Start'
+  }
+
+  if (codeFormat === 'blocks-icons') {
+    // Use an image instead of text
+    startBlock.message0 = '%1'
+    startBlock.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-start.png',
+      width: 54,
+      height: 36,
+      alt: 'start'
+    })
+  }
+
+  Blockly.Blocks.start = { init () { return this.jsonInit(startBlock) } }
+  generator.forBlock.start = function (block) {
+    return ''
+  }
+
   const commentBlock = {
     type: 'comment',
     message0: '%1',
@@ -468,6 +494,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'logic_null', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'newline', include () { return false } },
         { kind: 'block', type: 'entry_point', include () { return false } }, // TODO: organize
+        { kind: 'block', type: 'start', include () { return false } },
         { kind: 'block', type: 'comment', include () { return false } },
         { kind: 'block', type: 'code_comment', include () { return false } },
         { kind: 'block', type: 'logic_ternary', include () { return false } },
