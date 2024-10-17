@@ -85,8 +85,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     message0: 'Start',
     args0: [],
     nextStatement: null,
-    tooltip: 'Start',
-    style: 'start_blocks',
+    colour: 120,
+    tooltip: 'Start'
   }
 
   if (codeFormat === 'blocks-icons') {
@@ -95,7 +95,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     startBlock.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-start.png',
-      width: 88,  // Centers it under the top of the cap
+      width: 54,
       height: 36,
       alt: 'start'
     })
@@ -884,12 +884,6 @@ module.exports.registerBlocklyTheme = function () {
     },
     fontStyle: {
       family: 'Menlo, Monaco, Consolas, "Courier New", monospace'
-    },
-    blockStyles: {
-      start_blocks: {
-        hat: 'cap',
-        colourPrimary: 120,
-      }
     }
   }
   )
