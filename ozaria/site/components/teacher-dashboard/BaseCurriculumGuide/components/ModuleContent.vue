@@ -134,7 +134,7 @@ export default {
       return levelOriginals.map((key) => {
         const levelKey = key.split(':')?.[1] || key
         return this.getModuleInfo[this.moduleNum].find(l => l.original === levelKey)
-      })
+      }).filter(Boolean)
     },
     trackEvent (eventName) {
       if (eventName) {
