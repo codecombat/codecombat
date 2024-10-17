@@ -207,7 +207,7 @@ export default {
         <template v-else>
           <module-row
             v-if="!isJunior || icon !== 'practicelvl' || showCodeLevelSlugs.includes(slug)"
-            :set="levelNumber = getLevelNumber(_id)"
+            :set="levelNumber = getLevelNumber(original)"
             :icon-type="icon"
             :name-type="assessment ? null : icon"
             :level-number="levelNumber"
