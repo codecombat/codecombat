@@ -51,7 +51,7 @@ module.exports = (ModalView = (function () {
     render () {
       __guardMethod__(this.focusTrap, 'deactivate', o => o.deactivate())
       super.render()
-      return this.trapFocus()
+      this.trapFocus()
     }
 
     afterRender () {
@@ -83,12 +83,14 @@ module.exports = (ModalView = (function () {
 
     trapFocus () {
       if (!this.trapsFocus) { return }
-      console.log(this.constructor != null ? this.constructor.name : undefined, 'trapping focus within modal')
-      if (this.focusTrap == null) { this.focusTrap = focusTrap.createFocusTrap(this.el) }
+      if (!this.focusTrap) {
+        this.focusTrap = focusTrap.createFocusTrap(this.el)
+      }
       try {
-        return (this.focusTrap != null ? this.focusTrap.activate() : undefined)
+        this.focusTrap?.activate()
+        console.log(this.constructor?.name, 'trapping focus within modal')
       } catch (e) {
-        return console.log(this.constructor != null ? this.constructor.name : undefined, 'not trapping focus for modal with no focusable elements')
+        console.log(this.constructor?.name, 'not trapping focus for modal with no focusable elements')
       }
     }
 
