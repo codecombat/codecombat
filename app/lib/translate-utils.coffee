@@ -165,8 +165,8 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
       s = s.replace /\ let /g, ' var '
       s = s.replace /\(let /g, '(var '
       s = s.replace /\nlet /g, '\var '
-      s = s.replace /\ const /g, ' const var '
-      s = s.replace /\nconst /g, '\nconst var '
+      s = s.replace /\ const /g, ' final var '
+      s = s.replace /\nconst /g, '\nfinal var '
 
     s = s.replace /TEMPCONST/g, constType
 
