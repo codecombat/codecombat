@@ -164,10 +164,9 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
     else if language is 'java'
       s = s.replace /\ let /g, ' var '
       s = s.replace /\(let /g, '(var '
-      s = s.replace /\nlet /g, '\var '
+      s = s.replace /\nlet /g, '\nvar '
       s = s.replace /\ const /g, ' final var '
       s = s.replace /\nconst /g, '\nfinal var '
-
     s = s.replace /TEMPCONST/g, constType
 
     # TODO: figure out how we are going to call other methods in Java
