@@ -305,6 +305,7 @@ module.exports = (env) => {
       new webpack.IgnorePlugin({ resourceRegExp: /\/fonts\/bootstrap\/.*$/ }), // Ignore Bootstrap's fonts
       new webpack.IgnorePlugin({ resourceRegExp: /^memwatch$/ }), // Just used by the headless client on the server side
       new webpack.IgnorePlugin({ resourceRegExp: /.DS_Store$/ }),
+      new webpack.IgnorePlugin({ contextRegExp: /blockly\/msg/, resourceRegExp: /.d\.ts$/ }),
 
       new CopyWebpackPlugin({
         patterns: [
