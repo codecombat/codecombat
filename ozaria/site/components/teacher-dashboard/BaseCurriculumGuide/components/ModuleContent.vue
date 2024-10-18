@@ -1,6 +1,5 @@
 <script>
 import Classroom from 'models/Classroom'
-import utils from 'core/utils'
 
 import ModuleHeader from './ModuleHeader'
 import ModuleRow from './ModuleRow'
@@ -112,24 +111,18 @@ export default {
     },
     findRelatedOriginalsByLevelNumber (levelNumber, levelNumberMap) {
       const regex = new RegExp(`^${levelNumber}[a-z]?$`)
-      const courseRegex = this.courseRegex
-      const levelEntries = Object.entries(levelNumberMap)
-      let levelOriginals
-      if (utils.isCodeCombat && this.classroomId) {
-        levelOriginals = levelEntries.filter(([key, value]) => regex.test(value.toString()) && courseRegex.test(key))
-      } else {
-        levelOriginals = levelEntries.filter(([key, value]) => regex.test(value.toString()))
+      if (!levelNumberMap) {
+        return []
       }
+      const levelEntries = Object.entries(levelNumberMap)
+      const levelOriginals = levelEntries.filter(([key, value]) => regex.test(value.toString()))
       return levelOriginals.map(([key, _v]) => key)
     },
     relatedLevels (levelNumber, slug) {
       if (!/^[0-9]/.test(levelNumber) || !this.isJunior) {
         return [this.findLevelBySlug(slug)]
       }
-      let levelNumberMap = this.levelNumberMap
-      if (utils.isCodeCombat && this.classroomId) {
-        levelNumberMap = this.classroomInstance.levelNumberMap
-      }
+      const levelNumberMap = this.levelNumberMap
       const levelOriginals = this.findRelatedOriginalsByLevelNumber(levelNumber, levelNumberMap)
       return levelOriginals.map((key) => {
         const levelKey = key.split(':')?.[1] || key
