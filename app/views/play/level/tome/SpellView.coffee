@@ -562,6 +562,7 @@ module.exports = class SpellView extends CocoView
 
     if @options.level.get('product') is 'codecombat-junior'
       # Immediate code execution on each significant block change that produces a program that differs by more than newlines
+      @hideProblemAlert()
       block = blocklyUtils.getBlockById workspace: @blockly, id: e?.blockId
       @playBlockSound block if block
       @recompile()
