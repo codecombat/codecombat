@@ -1600,6 +1600,9 @@ module.exports = class SpellView extends CocoView
     showToolbarView = executed.length and @spellThang.castAether.metrics.statementsExecuted > 3 and not @options.level.get 'hidesCodeToolbar'  # Hide for a while
     showToolbarView = false  # TODO: fix toolbar styling in new design to have some space for it
 
+    if @blockly
+      @$el.find('.highlighted-block').attr('class', 'blocklyDraggable')
+
     if showToolbarView
       statementIndex = Math.max 0, lastExecuted.length - 1
       @toolbarView?.toggleFlow true
@@ -1639,6 +1642,15 @@ module.exports = class SpellView extends CocoView
           utils.replaceText $codeLineEl.find('.line-number'), if sourceLineNumber >= 0 then sourceLineNumber + 1 else ''
           utils.replaceText $codeLineEl.find('.indentation'), codeLine.match(/\s*/)[0]
           utils.replaceText $codeLineEl.find('.code-text'), _.string.trim(codeLine)
+
+      if clazz is 'executing' and @blockly
+        # Also highlight actively running block, by matching nth line of this type to nth block of this type
+        trimmedLines = @aceDoc.$lines.slice(0, end.row + 1).map (line) -> line.trim().replace(/.*(look\(.*?\))/, '$1')
+        codeLine = _.last(trimmedLines)
+        sameLineIndex = trimmedLines.filter((line) -> line is codeLine).length - 1
+        block = blocklyUtils.getBlocksByCodeLine({ workspace: @blockly, codeLine, codeLanguage: @spell.language })[sameLineIndex]
+        if block
+          $(block.svgGroup_).attr('class', 'blocklyDraggable highlighted-block')  # addClass doesn't work on svgs I guess
 
     @debugView?.setVariableStates {} unless gotVariableStates
     null
