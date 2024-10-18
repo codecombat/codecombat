@@ -812,6 +812,16 @@ function guardUnicode ({ code, codeLanguage }) {
   return lines.join('\n')
 }
 
+function addStartBlock (state) {
+  const startBlock = { type: 'start' }
+  const firstBlock = state.blocks.blocks?.[0]
+  if (firstBlock) {
+    startBlock.next = { block: firstBlock }
+  }
+  state.blocks.blocks = state.blocks.blocks || []
+  state.blocks.blocks[0] = startBlock
+}
+
 function codeToBlocks ({ code, originalCode, codeLanguage, prepData }) {
   let ast
   try {
@@ -850,6 +860,10 @@ function codeToBlocks ({ code, originalCode, codeLanguage, prepData }) {
   }
   for (const v in ctx.scope) {
     if (ctx.scope[v].type === 'var') out.variables.push({ name: v, id: v })
+  }
+  const isJunior = _.find(prepData?.plan || [], (p) => /^Hero_go/.test(p?.[0]?.type))
+  if (isJunior) {
+    addStartBlock(out)
   }
   // console.log('OUT', out)
   return out
