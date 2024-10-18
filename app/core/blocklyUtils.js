@@ -82,20 +82,20 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
 
   const startBlock = {
     type: 'start',
-    message0: 'Start',
+    message0: $.i18n.t('play_level.start'),
     args0: [],
     nextStatement: null,
     colour: 120,
-    tooltip: 'Start'
+    tooltip: $.i18n.t('play_level.start')
   }
 
   if (codeFormat === 'blocks-icons') {
     // Use an image instead of text
-    startBlock.message0 = '%1'
+    startBlock.message0 = '%1 ' + startBlock.message0
     startBlock.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-start.png',
-      width: 54,
+      width: 34,
       height: 36,
       alt: 'start'
     })
