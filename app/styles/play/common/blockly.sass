@@ -60,3 +60,12 @@
         // Move the text over to center it, now that the dropdown arrow on the right is gone
         transform: translateX(10px)
 
+  .highlighted-block
+    & > path
+      fill: rgba(250, 248, 243, 1) !important
+      stroke: #0099FF !important
+      stroke-width: 2px !important
+
+    & > g > text.blocklyText
+      text-shadow: 0 2px black, 0 -2px black, 2px 0 black, -2px 0 black
+
