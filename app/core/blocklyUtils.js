@@ -657,8 +657,7 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
 
   if (codeFormat === 'blocks-icons' && setup.message0.startsWith('hit ')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/hit %1 %2/, '%1%2 %3') // With times
-    setup.message0 = setup.message0.replace(/hit %1/, '%1%2') // Without times
+    setup.message0 = setup.message0.replace(/hit %1/, '%1%2')
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-hit.png',
@@ -671,8 +670,7 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
 
   if (codeFormat === 'blocks-icons' && setup.message0.startsWith('spin ')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/spin %1/, '%1 %2') // With times
-    setup.message0 = setup.message0.replace(/spin/, '%1') // Without times
+    setup.message0 = setup.message0.replace(/spin/, '%1')
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-spin.png',
@@ -685,8 +683,7 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
 
   if (codeFormat === 'blocks-icons' && setup.message0.startsWith('zap ')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/zap %1 %2/, '%1%2 %3') // With times
-    setup.message0 = setup.message0.replace(/zap %1/, '%1%2') // Without times
+    setup.message0 = setup.message0.replace(/zap %1/, '%1%2')
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-zap.png',
@@ -1226,6 +1223,15 @@ module.exports.createBlockById = function ({ workspace, id, codeLanguage }) {
   newWorkspaceBlock.moveBy(0, 1000, 'Could not automatically connect. Putting this all the way down so that it goes in the right order when we clean up.')
   workspace.cleanUp()
   return newWorkspaceBlock
+}
+
+module.exports.getBlockById = function ({ workspace, id }) {
+  return workspace.getBlockById(id)
+}
+
+module.exports.blockToCode = function ({ block, codeLanguage }) {
+  const generator = module.exports.getBlocklyGenerator(codeLanguage)
+  return generator.forBlock[block.type](block)
 }
 
 module.exports.blocklyMutationEvents = [Blockly.Events.CHANGE, Blockly.Events.CREATE, Blockly.Events.DELETE, Blockly.Events.BLOCK_CHANGE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DELETE, Blockly.Events.BLOCK_DRAG, Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE, Blockly.Events.BLOCK_MOVE, Blockly.Events.VAR_CREATE, Blockly.Events.VAR_DELETE, Blockly.Events.VAR_RENAME]

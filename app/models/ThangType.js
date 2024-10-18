@@ -43,15 +43,9 @@ const loadCreateJs = movieClipUrl => fetch(movieClipUrl, { method: 'GET' })
     const comp = Object.values(AnimateComposition.compositions)[0]
     const lib = comp.getLibrary()
     const ss = comp.getSpriteSheet()
-    const {
-      ssMetadata
-    } = lib
+    const { ssMetadata } = lib
 
-    return {
-      lib,
-      ss,
-      ssMetadata
-    }
+    return { lib, ss, ssMetadata }
   })
 
 let buildQueue = []
@@ -213,9 +207,7 @@ module.exports = (ThangType = (function () {
     addPortrait () {
       // The portrait is built very differently than the other animations, so it gets a separate function.
       if (!this.actions) { return }
-      const {
-        portrait
-      } = this.actions
+      const { portrait } = this.actions
       if (!portrait) { return }
       const scale = portrait.scale || 1
       const pt = portrait.positions != null ? portrait.positions.registration : undefined
@@ -224,9 +216,7 @@ module.exports = (ThangType = (function () {
         const mc = this.vectorParser.buildMovieClip(portrait.animation)
         mc.nominalBounds = (mc.frameBounds = null) // override what the movie clip says on bounding
         this.builder.addMovieClip(mc, rect, scale)
-        let {
-          frames
-        } = this.builder._animations[portrait.animation]
+        let { frames } = this.builder._animations[portrait.animation]
         if (portrait.frames != null) { frames = this.mapFrames(portrait.frames, frames[0]) }
         return this.builder.addAnimation('portrait', frames, true)
       } else if (portrait.container) {
@@ -420,9 +410,7 @@ module.exports = (ThangType = (function () {
       if (!this.actions) { return }
       const canvas = $(`<canvas width='${size}' height='${size}'></canvas>`)
       const stage = new createjs.Stage(canvas[0])
-      const {
-        portrait
-      } = this.actions
+      const { portrait } = this.actions
       if (!portrait || (!portrait.animation && !portrait.container)) { return }
       const scale = portrait.scale || 1
 
@@ -452,7 +440,7 @@ module.exports = (ThangType = (function () {
         mimetype: 'image/png',
         path: `db/thang.type/${this.get('original')}`,
         b64png: src,
-        force: 'true'
+        force: 'true',
       }
       return $.ajax('/file', { type: 'POST', data: body, success: callback || this.onFileUploaded })
     }
@@ -491,40 +479,48 @@ module.exports = (ThangType = (function () {
     getHeroStats () {
       // Translate from raw hero properties into appropriate display values for the PlayHeroesModal.
       // Adapted from https://docs.google.com/a/codecombat.com/spreadsheets/d/1BGI1bzT4xHvWA81aeyIaCKWWw9zxn7-MwDdydmB5vw4/edit#gid=809922675
-      let equipsConfig, movesConfig
       const heroClass = this.get('heroClass')
-      if (!heroClass) { return }
+      if (!heroClass) return
+      if (this.get('kind') === 'Junior Hero') return
+
       const components = this.get('components') || []
-      if (!(equipsConfig = __guard__(_.find(components, { original: LevelComponent.EquipsID }), x => x.config))) {
-        return console.warn(this.get('name'), 'is not an equipping hero, but you are asking for its hero stats. (Did you project away components?)')
+      const equipsConfig = components.find(c => c.original === LevelComponent.EquipsID)?.config
+      const movesConfig = components.find(c => c.original === LevelComponent.MovesID)?.config
+
+      if (!equipsConfig) {
+        console.warn(`${this.get('name')} is not an equipping hero, but you are asking for its hero stats. (Did you project away components?)`)
+        return
       }
-      if (!(movesConfig = __guard__(_.find(components, { original: LevelComponent.MovesID }), x1 => x1.config))) {
-        return console.warn(this.get('name'), 'is not a moving hero, but you are asking for its hero stats.')
+
+      if (!movesConfig) {
+        console.warn(`${this.get('name')} is not a moving hero, but you are asking for its hero stats.`)
+        return
       }
-      let programmableConfig = __guard__(_.find(components, { original: LevelComponent.ProgrammableID }), x2 => x2.config)
-      if (utils.isOzaria) {
-        programmableConfig = __guard__(_.find(components, c => Array.from(LevelComponent.ProgrammableIDs).includes(c.original)), x3 => x3.config)
-      }
+
+      const programmableConfig = components.find(c => LevelComponent.ProgrammableIDs.includes(c.original))?.config
       if (!programmableConfig) {
-        return console.warn(this.get('name'), 'is not a Programmable hero, but you are asking for its hero stats.')
+        console.warn(`${this.get('name')} is not a Programmable hero, but you are asking for its hero stats.`)
+        return
       }
-      if (this.classStatAverages == null) {
-        this.classStatAverages = {
-          attack: { Warrior: 7.5, Ranger: 5, Wizard: 2.5 },
-          health: { Warrior: 7.5, Ranger: 5, Wizard: 3.5 }
-        }
+
+      this.classStatAverages ??= {
+        attack: { Warrior: 7.5, Ranger: 5, Wizard: 2.5 },
+        health: { Warrior: 7.5, Ranger: 5, Wizard: 3.5 },
       }
+
+      const rawNumbers = {
+        attack: equipsConfig.attackDamageFactor ?? 1,
+        health: equipsConfig.maxHealthFactor ?? 1,
+        speed: movesConfig.maxSpeed,
+      }
+
       const stats = {}
-      const rawNumbers = { attack: equipsConfig.attackDamageFactor != null ? equipsConfig.attackDamageFactor : 1, health: equipsConfig.maxHealthFactor != null ? equipsConfig.maxHealthFactor : 1, speed: movesConfig.maxSpeed }
+
       for (const prop of ['attack', 'health']) {
-        let classSpecificScore
         const stat = rawNumbers[prop]
-        if (stat < 1) {
-          classSpecificScore = 10 - (5 / stat)
-        } else {
-          classSpecificScore = stat * 5
-        }
-        const classAverage = this.classStatAverages[prop][this.get('heroClass')]
+        const classSpecificScore = stat < 1 ? 10 - (5 / stat) : stat * 5
+        const classAverage = this.classStatAverages[prop][heroClass]
+
         stats[prop] = {
           relative: Math.round(2 * ((classAverage - 2.5) + (classSpecificScore / 2))) / 2 / 10,
           absolute: stat
@@ -545,15 +541,9 @@ module.exports = (ThangType = (function () {
         description: `${$.i18n.t('choose_hero.speed_1')} ${rawNumbers.speed} ${$.i18n.t('choose_hero.speed_2')}`
       }
 
-      stats.skills = ((() => {
-        const result = []
-        for (const skill of Array.from(programmableConfig.programmableProperties)) {
-          if ((skill !== 'say') && !/(Range|Pos|Radius|Damage)$/.test(skill)) {
-            result.push(_.string.titleize(_.string.humanize(skill)))
-          }
-        }
-        return result
-      })())
+      stats.skills = programmableConfig.programmableProperties
+        .filter(skill => skill !== 'say' && !/(Range|Pos|Radius|Damage)$/.test(skill))
+        .map(skill => _.string.titleize(_.string.humanize(skill)))
 
       return stats
     }
@@ -623,7 +613,7 @@ module.exports = (ThangType = (function () {
         throwDamage: 'attack',
         throwRange: 'range',
         bashDamage: 'attack',
-        backstabDamage: 'backstab'
+        backstabDamage: 'backstab',
       }[name]
 
       if (i18nKey) {
@@ -681,9 +671,7 @@ module.exports = (ThangType = (function () {
       if (!rawAnimation) {
         console.error('thang type', this.get('name'), 'is missing animation', animation, 'from action', action)
       }
-      let {
-        containers
-      } = rawAnimation
+      let { containers } = rawAnimation
       for (animation of Array.from(this.get('raw').animations[animation].animations)) {
         containers = containers.concat(this.getContainersForAnimation(animation.gn, action))
       }
@@ -948,7 +936,7 @@ class PrerenderedSpriteSheet extends CocoModel {
     this.spriteSheet = new createjs.SpriteSheet({
       images: [this.image[0]],
       frames: this.get('frames'),
-      animations: this.get('animations')
+      animations: this.get('animations'),
     })
     return this.spriteSheet
   }
