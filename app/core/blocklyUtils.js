@@ -913,7 +913,10 @@ module.exports.initializeBlocklyLanguage = function () {
   }
 }
 
-module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguage, codeFormat, product }) {
+module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguage, codeFormat, product, maxBlocks }) {
+  if (maxBlocks && maxBlocks !== Infinity && product === 'codecombat-junior') {
+    ++maxBlocks // Allow for start block
+  }
   module.exports.initializeBlocklyLanguage()
   return {
     toolbox,
@@ -926,8 +929,6 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguag
     },
     sounds: me.get('volume') > 0,
     // Renderer choices: 'geras': default, 'thrasos': more modern take on geras, 'zelos': Scratch-like
-    // renderer: 'zelos',
-    // renderer: 'thrasos',
     renderer: renderer || ($(window).innerHeight() > 500 && product === 'codecombat-junior' ? 'zelos' : 'thrasos'),
     zoom: {
       // Hide so that we don't mess with width of toolbox
@@ -937,7 +938,7 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguag
       maxScale: 1.5,
     },
     trashcan: false,
-    // oneBasedIndex: codeLanguage === 'lua' // TODO: Need to test. Default is true.
+    oneBasedIndex: codeLanguage === 'lua',
     move: {
       scrollbars: true,
       drag: true,
@@ -952,6 +953,7 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguag
     // },
     collapse: codeFormat !== 'blocks-icons', // Don't let blocks be collapsed in icon mode
     disable: true, // Do let blocks be disabled
+    maxBlocks, // Defaults to Infinity
   }
 }
 
