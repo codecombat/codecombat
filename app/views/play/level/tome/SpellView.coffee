@@ -617,7 +617,7 @@ module.exports = class SpellView extends CocoView
     code = blocklyUtils.blockToCode({ block, codeLanguage: @spell.language })?.trim()
     docsCode = block?.docFormatter?.doc?.name
     return unless code or docsCode
-    lang = me.get('preferedLanguage', true) or 'en-US'
+    lang = me.get('preferredLanguage', true) or 'en-US'
     if docsCode and (not code or code.replace(/[^a-zA-Z0-9_-]/g, '') is docsCode.replace(/[^a-zA-Z0-9_-]/g, ''))
       # We can internationalize
       text = utils.i18n block.docFormatter.doc, 'name'
