@@ -182,7 +182,7 @@ module.exports = class CastButtonView extends CocoView
 
   updateButtonWidth: ->
     numVisibleButtons = @$el.find('.btn:visible').length
-    @castButton.toggleClass 'full-width', numVisibleButtons is 1
+    @castButton.add('.game-dev-play-btn').toggleClass 'full-width', numVisibleButtons is 1
 
   updateReplayability: =>
     return if @destroyed
