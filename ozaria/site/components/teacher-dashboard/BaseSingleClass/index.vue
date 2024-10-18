@@ -235,7 +235,7 @@ export default {
               practiceLevels,
             }
 
-            if (content.type === 'game-dev') {
+            if (content.type === 'game-dev' || content.type === 'web-dev') {
               defaultProgressDot.normalizedType = 'capstone'
             } else if (content.type === undefined) {
               defaultProgressDot.normalizedType = 'practicelvl'
