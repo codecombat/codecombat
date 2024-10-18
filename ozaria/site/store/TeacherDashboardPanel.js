@@ -337,6 +337,9 @@ export default {
       if (!ozariaType) {
         icon = type
         url = `/play/intro/${fromIntroLevelOriginal}?course=${selectedCourseId}&codeLanguage=${classroomLanguage}&intro-content=${introContent || 0}&original=true`
+        if (utils.isCodeCombat) {
+          url = `/play/level/${content.slug}?course=${selectedCourseId}&codeLanguage=${classroomLanguage}`
+        }
       } else if (ozariaType) {
         if (ozariaType === 'practice') {
           icon = 'practicelvl'
@@ -365,7 +368,7 @@ export default {
 
       const panelHeader = `Module ${moduleNum} | ${getGameContentDisplayNameWithType(content)}`
 
-      if (['hero', 'course', undefined, 'web-dev'].includes(content.type)) {
+      if (['hero', 'course', undefined].includes(content.type)) {
         // For practice levels and challenge levels
 
         commit('setTimeSpent', utils.secondsToMinutesAndSeconds(Math.ceil(studentSessions[normalizedOriginal].playtime)))
@@ -377,7 +380,7 @@ export default {
           dateFirstCompleted: studentSessions[normalizedOriginal].dateFirstCompleted,
           sessionContentObjects: [practiceLevelData(content, studentSessions)],
         })
-      } else if (content.type === 'game-dev') {
+      } else if (content.type === 'game-dev' || content.type === 'web-dev') {
         const language = studentSessions[normalizedOriginal]?.codeLanguage || 'python'
         const gameGoals = [
           ...(content.goals || []), ...(content.additionalGoals || []).map(({ goals }) => goals).flat(),
