@@ -6,9 +6,13 @@ const UserExamSchema = c.object({
   properties: {
     userId: c.objectId({ title: 'User Id' }),
     examId: c.objectId({ title: 'Exam Id' }),
+    codeLanguage: {
+      type: 'string',
+      enum: ['python', 'javascript'],
+    },
     startDate: c.stringDate(),
     endDate: c.stringDate(),
-    submitted: { type: 'boolean', title: 'Submitted' },
+    submitted: { type: 'boolean', title: 'Submitted', description: 'Whether the user has submitted/completed the exam' },
   },
 })
 

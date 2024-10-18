@@ -22,14 +22,17 @@ _.extend(ExamSchema.properties, {
     description: 'Duration of the exam in minutes',
   },
   problems: {
-    type: 'object',
+    type: 'array',
     description: 'Problems that are included in the exam',
-    additionalProperties: {
+    items: {
       type: 'object',
       title: 'ExamProblemCourse',
-      description: 'course and instance',
-      // key is the courseID
+      description: 'by course, includes instanceId and level slugs',
       properties: {
+        courseId: {
+          type: 'string',
+          description: 'ID of the course',
+        },
         instanceId: {
           type: 'string',
           description: 'ID of the course instance',

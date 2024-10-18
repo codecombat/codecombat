@@ -6291,4 +6291,7 @@ module.exports = {
       badge_tooltip_paid: 'This content is exclusive to users with a valid license.',
     },
   },
+  exams: {
+    level_num: 'Level __num__:',
+  },
 }

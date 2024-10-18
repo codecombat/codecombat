@@ -2,7 +2,7 @@
   <div class="progress-page center-div">
     <div class="header">
       <div class="code-language">
-        {{ myExam.codeLanguage }}
+        {{ userExam.codeLanguage }}
       </div>
       <div class="timer">
         Time Left: {{ timeLeft }}
@@ -40,34 +40,26 @@ export default {
   data () {
     return {
       timeLeft: '00:00',
-      myExam: {},
       counterInterval: null,
     }
   },
   computed: {
-    ...mapGetters({
-      /* exam: 'exam/exam', */
-    }),
+    ...mapGetters('exams', [
+      'getExamById',
+      'userExam',
+    ]),
     exam () {
-      return {
-        _id: '123',
-        duration: 120,
-        levels: [
-          { _id: '1', name: 'Level 1', description: 'This is level 1' },
-          { _id: '2', name: 'Level 2', description: 'This is level 2' },
-          { _id: '3', name: 'Level 3', description: 'This is level 3' },
-        ],
-      }
+      return this.getExamById(this.examId)
     },
     problems () {
       const problems = this.exam.problems
       const levels = []
-      Object.entries(problems).forEach(([key, value]) => {
-        value.levels.forEach((level, index) => {
+      problems.forEach((courseLevels) => {
+        courseLevels.levels.forEach((level, index) => {
           levels.push({
             ...level,
-            courseId: key,
-            instanceId: value.instanceId,
+            courseId: courseLevels.courseId,
+            instanceId: courseLevels.instanceId,
           })
         })
       })
@@ -75,11 +67,6 @@ export default {
     },
   },
   mounted () {
-    /* this.myExam = me.getExam(this.exam?._id) */
-    this.myExam = {
-      codeLanguage: 'python',
-      duration: 25, // min
-    }
     this.counter()
     const oneMin = 60 * 1000
     this.counterInterval = setInterval(this.counter, oneMin)

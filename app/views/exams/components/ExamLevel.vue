@@ -1,10 +1,9 @@
 <template>
-  <div>
-    <span v-if="index">{{ index }}.</span>
+  <div class="exam-level">
     <a
       :href="levelLink"
       target="_blank"
-    >{{ makeTitle(level.slug) }}</a>
+    >{{ $t('exams.level_num', {num: index}) }}</a>
   </div>
 </template>
 
@@ -18,7 +17,7 @@ export default {
     },
     index: {
       type: Number,
-      default: 0,
+      required: true,
     },
   },
   computed: {
