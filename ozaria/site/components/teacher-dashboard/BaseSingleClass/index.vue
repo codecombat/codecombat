@@ -517,13 +517,13 @@ export default {
 
     getLevelNameMap (moduleContent, intros) {
       return moduleContent.reduce((acc, content) => {
-        const { _id, fromIntroLevelOriginal } = content
+        const { _id, original, fromIntroLevelOriginal } = content
 
         let description = getLearningGoalsDocumentation(content)
 
         let tooltipName
         let levelName
-        const levelNumber = this.getLevelNumber(_id)
+        const levelNumber = this.getLevelNumber(original)
         if (utils.isCodeCombat) {
           tooltipName = `${levelNumber}: ${utils.i18n(content, 'displayName') || utils.i18n(content, 'name')}`
           levelName = tooltipName
