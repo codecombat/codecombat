@@ -468,7 +468,8 @@ module.exports = class SpellView extends CocoView
     # codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
     @blocklyToolboxJS = if codeLanguage is 'javascript' then @blocklyToolbox else blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage: 'javascript', codeFormat: @options.codeFormat, level: @options.level })
     targetDiv = @$('.blockly-container')
-    blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: @blocklyToolbox, codeLanguage, codeFormat: @options.codeFormat, product: @options.level.get('product') or 'codecombat' })
+    maxBlocks = @determineMaxBlocks()
+    blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: @blocklyToolbox, codeLanguage, codeFormat: @options.codeFormat, product: @options.level.get('product') or 'codecombat', maxBlocks })
     @blockly = Blockly.inject targetDiv[0], blocklyOptions
     @blocklyActive = true
     blocklyUtils.initializeBlocklyTooltips()
@@ -1966,6 +1967,14 @@ module.exports = class SpellView extends CocoView
     @blockly?.getToolbox()?.setVisible true
     @blockly?.getFlyout()?.setVisible true
     null
+
+  determineMaxBlocks: ->
+    return Infinity unless @options.level.get('product') is 'codecombat-junior'
+    goals = @options.level.get('goals') || []
+    lineGoal = _.find goals, (g) -> g.linesOfCode
+    if lineGoal
+      return lineGoal.linesOfCode.humans
+    return Infinity
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click mouseenter', '.ace_error, .ace_warning, .ace_info'
