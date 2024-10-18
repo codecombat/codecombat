@@ -130,6 +130,8 @@ module.exports = (CocoRouter = (function () {
         announcements: go('core/SingletonAppVueComponentView'),
         'event-calendar(/*subpath)': go('core/SingletonAppVueComponentView'),
 
+        'exams/(*subpath)': go('core/SingletonAppVueComponentView'),
+
         //    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
         'library-dashboard': go('core/SingletonAppVueComponentView'),
