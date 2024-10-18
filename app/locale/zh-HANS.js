@@ -1163,7 +1163,7 @@ module.exports = {
       block_up: '上',
       block_down: '下',
       block_left: '左',
-      block_right: '友',
+      block_right: '右',
       share_your_project: '分享你的项目',
       keep_editing_your_project: '即使在分享出去之后，你也一直可以编辑你的项目',
       copy_url: '复制链接',
