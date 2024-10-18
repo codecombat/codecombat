@@ -545,6 +545,7 @@ module.exports = class SpellView extends CocoView
 
     if @options.level.get('product') is 'codecombat-junior'
       # Immediate code execution on each significant block change that produces a program that differs by more than newlines
+      @hideProblemAlert()
       @recompile()
     else
       @notifySpellChanged()
