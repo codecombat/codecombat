@@ -133,14 +133,18 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
 
   functionReturnType = if language is 'cpp' then 'auto' else 'public static var'  # TODO: figure out some auto return types for Java
   functionParamType = if language is 'cpp' then 'auto' else 'Object'  # TODO: figure out some auto/void param types for Java
+  constType = if language is 'cpp' then 'const' else 'final'
   for i in [0...len]
     s = jsCodes[i]
     s = s.replace /function (.+?)\((.*?)\)/g, (match, functionName, functionParams) ->
       typedParameters = _.filter(functionParams.split(/, ?/)).map((e) -> "#{functionParamType} #{e}").join(', ')
       "#{functionReturnType} #{functionName}(#{typedParameters})"
-    s = s.replace /var (x|y|z|dist)/g, 'float $1'
-    s = s.replace /var (\w+)Index/g, 'int $1Index'
-    s = s.replace /var (i|j|k)(?![a-zA-Z0-9_])/g, 'int $1'
+    s = s.replace /(var|let) (x|y|z|dist)/g, 'float $2'
+    s = s.replace /(var|let) (\w+)Index/g, 'int $2Index'
+    s = s.replace /(var|let) (i|j|k)(?![a-zA-Z0-9_])/g, 'int $2'
+    s = s.replace /const (x|y|z|dist)/g, 'TEMPCONST float $1'
+    s = s.replace /const (\w+)Index/g, 'TEMPCONST int $1Index'
+    s = s.replace /const (i|j|k)(?![a-zA-Z0-9_])/g, 'TEMPCONST int $1'
     s = s.replace /\ ===\ /g, ' == '
     s = s.replace /\ !== /g, ' != '
     s = s.replace /hero\.throw\(/g, 'hero.throwEnemy('
@@ -157,6 +161,13 @@ translateJSBrackets = (jsCode, language='cpp', fullCode=true) ->
       s = s.replace /\ const /g, ' const auto '
       s = s.replace /\nconst /g, '\nconst auto '
       s = s.replace /\ return \[([^;]*)\];/g, ' return {$1};'
+    else if language is 'java'
+      s = s.replace /\ let /g, ' var '
+      s = s.replace /\(let /g, '(var '
+      s = s.replace /\nlet /g, '\nvar '
+      s = s.replace /\ const /g, ' final var '
+      s = s.replace /\nconst /g, '\nfinal var '
+    s = s.replace /TEMPCONST/g, constType
 
     # TODO: figure out how we are going to call other methods in Java
     # TODO: figure out how we are going to handle {x: 34, y: 30} object literals in Java
@@ -285,16 +296,16 @@ translateJSWhitespace = (jsCode, language='lua') ->
     s = s.replace /\.shift\(0?\)/g, '.remove(0)'
 
   if language is 'lua'
-    s = s.replace /\ var /g, ' local '
+    s = s.replace /\ (var|let|const) /g, ' local '
     s = s.replace /\ = \[([^;]*)\];/g, ' = {$1};'
-    s = s.replace /\(var /g, '(local '
-    s = s.replace /\nvar /g, '\nlocal '
+    s = s.replace /\((var|let|const) /g, '(local '
+    s = s.replace /\n(var|let|const) /g, '\nlocal '
     s = s.replace /\ return \[([^;]*)\];/g, ' return {$1};'
   else if language in ['python', 'coffeescript']
-    s = s.replace /^ *var [^=\n]*$\n/gm, ''  # Remove variable declarations without initialization
-    s = s.replace /\ var /g, ' '
-    s = s.replace /\(var /g, '('
-    s = s.replace /\nvar /g, '\n'
+    s = s.replace /^ *(var|let) [^=\n]*$\n/gm, ''  # Remove variable declarations without initialization
+    s = s.replace /\ (var|let|const) /g, ' '
+    s = s.replace /\((var|let|const) /g, '('
+    s = s.replace /\n(var|let|const) /g, '\n'
 
   # Don't substitute these within comments
   noComment = '^ *([^/\\r\\n]*?)'
