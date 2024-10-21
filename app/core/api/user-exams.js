@@ -1,6 +1,6 @@
 const fetchJson = require('./fetch-json')
 
-const startExam = async (options, examId) => {
+const startExam = async (examId, options) => {
   return fetchJson(`/db/exam/${examId}/start`, {
     method: 'POST',
     json: options,

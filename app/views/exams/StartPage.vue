@@ -2,6 +2,7 @@
   <div class="start-page center-div">
     <select
       id="language-select"
+      v-model="codeLanguage"
       :disabled="!newUser"
     >
       <option
@@ -29,14 +30,14 @@
         :disabled="!hasPermission || !timer"
         type="button"
         value="Start the Exam"
-        @click="startExam"
+        @click="localStartExam"
       >
       <input
         v-else
         :disabled="!hasPermission"
         type="button"
         value="Take me to the Exam"
-        @click="startExam"
+        @click="localStartExam"
       >
       <div v-if="!hasPermission">
         Only users with permission can take the exam
@@ -56,6 +57,7 @@ export default {
   },
   data () {
     return {
+      codeLanguage: 'python',
       timer: false,
       newUser: true,
     }
@@ -72,7 +74,7 @@ export default {
       return this.exam?.languages || ['python', 'javascript']
     },
     hasPermission () {
-      const clans = me.get('clans')
+      const clans = me.get('clans') || []
       return clans.includes(this.exam?.clanId)
     },
   },
@@ -83,9 +85,9 @@ export default {
     ...mapActions('exams', [
       'startExam',
     ]),
-    async startExam () {
+    async localStartExam () {
       if (this.newUser) {
-        await this.startExam(this.examId)
+        await this.startExam(this.examId, { codeLanguage: this.codeLanguage })
       }
       application.router.navigate(window.location.pathname.replace(/start$/, 'progress'), { trigger: true })
     },

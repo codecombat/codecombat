@@ -13,6 +13,7 @@
         v-for="(level, index) in problems"
         :key="level._id"
         :level="level"
+        :language="userExam.codeLanguage"
         :index="index + 1"
       />
     </div>
@@ -37,6 +38,12 @@ export default {
   components: {
     ExamLevel,
   },
+  props: {
+    examId: {
+      type: String,
+      required: true,
+    },
+  },
   data () {
     return {
       timeLeft: '00:00',
@@ -52,6 +59,9 @@ export default {
       return this.getExamById(this.examId)
     },
     problems () {
+      if (!this.exam) {
+        return []
+      }
       const problems = this.exam.problems
       const levels = []
       problems.forEach((courseLevels) => {

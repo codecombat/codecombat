@@ -3,7 +3,7 @@
     <a
       :href="levelLink"
       target="_blank"
-    >{{ $t('exams.level_num', {num: index}) }}</a>
+    >{{ $t('exams.level_num', { num: index }) }}</a>
   </div>
 </template>
 
@@ -19,10 +19,14 @@ export default {
       type: Number,
       required: true,
     },
+    language: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     levelLink () {
-      return `/play/level/${this.level.slug}?course=${this.level.courseId}&course-instance=${this.level.instanceId}`
+      return `/play/level/${this.level.slug}?course=${this.level.courseId}&course-instance=${this.level.instanceId}&codeLanguage=${this.language}`
     },
   },
   methods: {

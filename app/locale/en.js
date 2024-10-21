@@ -6290,8 +6290,8 @@ module.exports = {
       'badge_tooltip_sales-call': 'Interested in more? Give us a call and unlock!',
       badge_tooltip_paid: 'This content is exclusive to users with a valid license.',
     },
-  },
-  exams: {
-    level_num: 'Level __num__:',
+    exams: {
+      level_num: 'Level __num__',
+    },
   },
 }
