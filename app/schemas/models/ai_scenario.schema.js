@@ -49,6 +49,12 @@ _.extend(AIScenarioSchema.properties, {
       'Scenarios are initially created as drafts, start off publicly in beta, then are released when they are completed',
     enum: ['beta', 'released', 'draft'],
   },
+  labels: {
+    title: 'Labels',
+    type: 'array',
+    description: 'Labels to help categorize this scenario',
+    items: { type: 'string' },
+  },
   initialActionQueue: {
     title: 'Initial Action Queue',
     type: 'array',
