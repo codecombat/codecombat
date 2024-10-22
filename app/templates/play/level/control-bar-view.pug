@@ -24,10 +24,10 @@ if includeHomeLink
         span(dir="auto")= view.levelName
       else
         - var levelNumberLabel = ''
-        if view.level && view.level.get('assessment')
-          - levelNumberLabel = $.i18n.t('courses.challenge') + ' '
-        else if view.levelNumber
+        if view.levelNumber
           - levelNumberLabel = view.levelNumber + '. '
+        else if view.level && view.level.get('assessment')
+          - levelNumberLabel = $.i18n.t('courses.challenge') + ' '
         span(dir="auto") #{levelNumberLabel}#{worldName.replace('Course: ', '')}
       if levelDifficulty
         sup.level-difficulty= levelDifficulty
