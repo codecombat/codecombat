@@ -18,8 +18,6 @@ block content
               button.btn.btn-lg.btn-primary.teacher-btn(data-event-action="Homepage Click Teacher Button #1 CTA", data-i18n="new_home.im_an_educator", style="text-transform: none")
             p
               button.btn.btn-lg.btn-primary.student-btn(data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student", style="text-transform: none")
-            p
-              a.btn.btn-lg.btn-primary.ai-btn(href="https://contributors.codecombat.com/ai" target="_blank" data-event-action="Homepage Click AI Button CTA", data-i18n="schools_page.ai_hackstack", style="text-transform: none")
           else
             p
               if me.isTeacher()
@@ -58,10 +56,10 @@ block content
                       a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA #2", data-i18n="courses.continue_playing")
               .col-lg-6.col-md-12.game-based-col
                 .tile-shadow
-                  img(src="/images/pages/home/ozaria_acodus.png")
-                  h2.text-teal(data-i18n="new_home.ozaria")
-                  p.text-left.text-navy(data-i18n="new_home.ozaria_china_blurb")
-                  a.btn.btn-lg.btn-primary.try-ozaria(href="https://aojiarui.com", data-event-action="Homepage Click Try Ozaria CTA", data-i18n="new_home.try_ozaria")
+                  img(src="/images/pages/home/hackstack_acodus.webp")
+                  h2.text-teal(data-i18n="new_home.hackstack")
+                  p.text-left.text-navy(data-i18n="new_home.hackstack_china_blurb")
+                  a.btn.btn-lg.btn-primary.try-ozaria(href="https://contributors.codecombat.com/ai", data-event-action="Homepage Click Try Hackstack CTA", data-i18n="new_home.try_hackstack")
 
 
     if !me.showingStaticPagesWhileLoading()
