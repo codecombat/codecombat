@@ -6019,6 +6019,7 @@ module.exports = {
       my_class: 'My Class',
       my_creations: 'My Creations',
       my_trainings: 'My Trainings',
+      my_courses: 'My Courses',
       what_do_you_want_to_do_today: 'What do you want to do today?',
       learn_ai: 'Learn AI',
       create_ai: 'Create With AI',
