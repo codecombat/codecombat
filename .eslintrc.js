@@ -1,11 +1,11 @@
 module.exports = {
   plugins: [
-    '@babel'
+    '@babel',
   ],
   extends: [
     'standard',
     'plugin:vue/recommended',
-    'plugin:json/recommended'
+    'plugin:json/recommended',
   ],
 
   globals: {
@@ -34,29 +34,29 @@ module.exports = {
     CoffeeScript: 'readonly',
     i18n: 'readonly',
     marked: 'readonly',
-    key: 'readonly'
+    key: 'readonly',
   },
 
   env: {
     browser: true,
     es2022: true,
-    jquery: true
+    jquery: true,
   },
 
   parserOptions: {
     ecmaVersion: 13,
-    sourceType: 'module'
+    sourceType: 'module',
   },
 
   rules: {
     'vue/script-indent': ['warn', 2, {
       baseIndent: 0,
       switchCase: 0,
-      ignores: []
+      ignores: [],
     }],
     'vue/comment-directive': 1,
     'eol-last': 'off', // Disables the enforcement for having no newline at the end of files
-    'comma-dangle': ['error', 'only-multiline'],
+    'comma-dangle': ['error', 'always-multiline'],
   },
 
   ignorePatterns: [
@@ -69,7 +69,7 @@ module.exports = {
     '*.scss',
     '*.webp',
     '*.webm',
-    '*.mp4'
+    '*.mp4',
   ],
 
   overrides: [
@@ -77,8 +77,8 @@ module.exports = {
     {
       files: ['*.vue'],
       rules: {
-        indent: 'off'
-      }
-    }
-  ]
+        indent: 'off',
+      },
+    },
+  ],
 }

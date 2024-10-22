@@ -43,7 +43,10 @@ module.exports = (LevelCollection = (function () {
       return this.models.reduce((map, level) => {
         const targetLangs = level.get('primerLanguage') ? [level.get('primerLanguage')] : languages
         const allSolutions = _.filter(level.getSolutions(), s => !s.testOnly)
-        const solutions = this.constructor.getSolutionsHelper({ targetLangs, allSolutions })
+        let solutions = this.constructor.getSolutionsHelper({ targetLangs, allSolutions })
+        if (level.get('product') === 'codecombat-junior') {
+          solutions = _.filter(solutions, (s) => s.succeeds) // Don't show unsuccessful test case solutions
+        }
         map[level.get('original')] = solutions != null ? solutions.map(s => ({ source: this.fingerprint(s.source, s.language), description: s.description })) : undefined
         return map
       }

@@ -829,24 +829,6 @@ export default {
       </p>
     </div>
 
-    <div
-      v-if="previousChampionshipArenaResultsPublished"
-      class="row flex-row video-iframe-section section-space"
-      style="margin: 0 0 0 0"
-    >
-      <div class="col-sm-10 video-backer video-iframe">
-        <div style="position: relative; padding-top: 56.14583333333333%;">
-          <iframe
-            src="https://iframe.videodelivery.net/72d0ffc93599cf8cb5b0f7fed7861d0f?poster=https://videodelivery.net/72d0ffc93599cf8cb5b0f7fed7861d0f/thumbnails/thumbnail.jpg%3Ftime%3D188s"
-            style="border: none; position: absolute; top: 0; height: 100%; width: 100%;"
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-            allowfullscreen="true"
-            title="CodeCombat AI League Winners - Season 10 - Gravity Games"
-          />
-        </div>
-      </div>
-    </div>
-
     <div class="row text-center">
       <div class="col-lg-6 section-space">
         <a

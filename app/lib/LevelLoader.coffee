@@ -16,6 +16,7 @@ AudioPlayer = require 'lib/AudioPlayer'
 World = require 'lib/world/world'
 utils = require 'core/utils'
 loadAetherLanguage = require 'lib/loadAetherLanguage'
+aetherUtils = require 'lib/aether_utils'
 
 LOG = false
 
@@ -89,11 +90,14 @@ module.exports = class LevelLoader extends CocoClass
       @level = @supermodel.loadModel(@level, 'level', { data: { cacheEdge: true } }).model
       @listenToOnce @level, 'sync', @onLevelLoaded
 
-    @loadClassroomIfNecessary()
 
   loadClassroomIfNecessary: ->
-    return if not @classroomId and not @courseInstanceId
-    return if @headless and not @level?.isType('web-dev')
+    if not @classroomId and not @courseInstanceId
+      @onAccessibleLevelLoaded()
+      return
+    if @headless and not @level?.isType('web-dev')
+      @onAccessibleLevelLoaded()
+      return
     if @courseInstanceID and not @classroomId
       @courseInstance = new CourseInstance({_id: @courseInstanceID})
       @courseInstance.fetch().then =>
@@ -111,7 +115,9 @@ module.exports = class LevelLoader extends CocoClass
   classroomLoaded: ->
     locked = @classroom.isStudentOnLockedLevel(me.get('_id'), @courseID, @level.get('original'))
     if locked
-      Backbone.Mediator.publish 'level:locked', level: @level, session: @session
+      Backbone.Mediator.publish 'level:locked', level: @level
+    else 
+      @onAccessibleLevelLoaded()
 
   reportLoadError: ->
     return if @destroyed
@@ -119,8 +125,11 @@ module.exports = class LevelLoader extends CocoClass
       category: 'Error',
       levelSlug: @work?.level?.slug,
       unloaded: JSON.stringify(@supermodel.report().map (m) -> _.result(m.model, 'url'))
-
+  
   onLevelLoaded: ->
+    @loadClassroomIfNecessary()
+
+  onAccessibleLevelLoaded: ->
     console.debug 'LevelLoader: loaded level:', @level if LOG
     @level.set('thangs', @thangsOverride) if @thangsOverride
     if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
@@ -279,19 +288,12 @@ module.exports = class LevelLoader extends CocoClass
       uncompressed = LZString.decompressFromUTF16 compressed
       code = session.get 'code'
 
-      headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-      m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
-      service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
-      if me.useChinaServices()
-        headers['Authorization'] = 'APPCODE b3e285d032a343db8bd2b51a05a5ff1d'
-        service = window?.localStorage?.kodeKeeperService or "https://kodekeeper.koudashijie.com/parse-code-kodekeeper"
-      fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: uncompressed, language: language})}
-      .then (x) => x.json()
-      .then (x) =>
-        code[if session.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan = x.token
+      aetherUtils.fetchToken(uncompressed, language).then((token) =>
+        code[if session.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1'].plan = token
         session.set 'code', code
         session.unset 'interpret'
         @loadDependenciesForSession session
+      )
 
   loadDependenciesForSession: (session) ->
     console.debug "Loading dependencies for session: ", session if LOG

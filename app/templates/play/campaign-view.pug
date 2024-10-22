@@ -163,7 +163,7 @@ if showGameDevAlert
             div(class="level-kind " + level.kind)= kindKey
             - var acronym = level.name.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
             .level-acronym= acronym
-          if !level.hidden && !level.noFlag
+          if !level.hidden && !level.noFlag && !level.locked
             if level.replayable
               img.banner(src="/images/pages/play/level-banner-replayable.png")
             else if level.type === 'hero-ladder' || level.type === 'course-ladder' || level.type === 'ladder'
@@ -195,7 +195,7 @@ if showGameDevAlert
             else if level.unlocksHero
               img.treasure-chest(src="/images/pages/play/gold-chest.png")
         div(style="left: " + level.position.x + "%; bottom: " + level.position.y + "%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + levelStatus)
-        .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name, data-level-original=level.original, class=(level.practiceLevels && level.practiceLevels.length ? "has-practice-levels" : ""))
+        .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name, data-level-original=level.original, class=(level.practiceLevels && level.practiceLevels.length && levelStatus == 'complete' ? "has-practice-levels" : ""))
           - var playCount = levelPlayCountMap[level.slug]
           .progress.progress-striped.active.hide
             .progress-bar(style="width: 100%")
@@ -206,9 +206,13 @@ if showGameDevAlert
             - var levelName = levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + (level.lockedByTeacher ? translate('play.locked_by_teacher') : translate('play.locked')) + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")));
             h3(dir=view.isRTL(levelName) ? "rtl" : "ltr")
               span= levelName
-              if view.shouldShow('classroom-level-play-button') && level.practiceLevels && level.practiceLevels.length
+              if view.shouldShow('classroom-level-play-button') && level.practiceLevels && level.practiceLevels.length && levelStatus == 'complete'
                 span.course-version.hidden(data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
                   button.btn.btn-md.btn-illustrated(data-i18n="[title]common.play", class=(levelStatus === "complete" ? "btn-primary" : "btn-success"))
+                    span.glyphicon.glyphicon-play
+              else if level.practiceLevels && level.practiceLevels.length && levelStatus == 'complete'
+                span.home-version
+                  button.btn.btn-md.btn-illustrated(data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name class=(levelStatus === "complete" ? "btn-primary" : "btn-success"))
                     span.glyphicon.glyphicon-play
             if level.assessment === 'open-ended' && view.levelScoreMap[level.original] && levelStatus === 'complete'
               - topScore = view.levelScoreMap[level.original]
@@ -240,23 +244,36 @@ if showGameDevAlert
                   span(data-i18n="leaderboard.scores")
 
               if view.shouldShow('classroom-level-play-button')
-                if (!level.practiceLevels || !level.practiceLevels.length)
+                if !level.practiceLevels || !level.practiceLevels.length || levelStatus != 'complete'
                   .course-version.hidden(data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
                     button.btn.btn-primary.btn.btn-lg.btn-block.btn-illustrated
                       span(data-i18n="common.play") Play
-              else
-                button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
+              else if !level.practiceLevels || !level.practiceLevels.length || levelStatus != 'complete'
+                button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play" data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
 
               for practiceLevel in level.practiceLevels || []
+                if levelStatus != 'complete'
+                  - break
                 - var practiceLevelStatus = levelStatusMap[practiceLevel.slug] || ''
                 .practice-level(class=practiceLevelStatus)
                   - var practiceLevelNumber = view.campaign.getLevelNumber(practiceLevel.original, true);
                   - var practiceLevelName = practiceLevelNumber + '. ' + i18n(practiceLevel, 'name') + (practiceLevel.disabled ? " (" + translate('common.coming_soon') + ")" : (practiceLevel.locked ? " (" + (practiceLevel.lockedByTeacher ? translate('play.locked_by_teacher') : translate('play.locked')) + ")" : (practiceLevel.practice ? " (" + translate('courses.practice') + ")" : "")));
+                  - var disabled = practiceLevel.requiresSubscription && !me.isEnrolled() && !practiceLevelStatus
                   h3(dir=view.isRTL(practiceLevelName) ? "rtl" : "ltr")
                     span= practiceLevelName
-                    span.course-version.hidden(data-level-original=practiceLevel.original data-level-slug=practiceLevel.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
-                      button.btn.btn-md.btn-illustrated(data-i18n="[title]common.play", class=(practiceLevelStatus === "complete" ? "btn-primary" : "btn-success"))
-                        span.glyphicon.glyphicon-play
+                    if view.shouldShow('classroom-level-play-button')
+                      span.course-version.hidden(data-level-original=practiceLevel.original data-level-slug=practiceLevel.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
+                        button.btn.btn-md.btn-illustrated(data-i18n="[title]common.play", class=(disabled ? "btn-warning disabled" : practiceLevelStatus === "complete" ? "btn-primary" : "btn-success") disabled=disabled)
+                          if disabled
+                            span.glyphicon.glyphicon-lock
+                          else
+                            span.glyphicon.glyphicon-play
+                    else
+                      span.home-version
+                        button.btn.btn-md.btn-illustrated(data-level-original=practiceLevel.original data-level-slug=practiceLevel.slug data-level-path=level.levelPath || 'level' data-level-name=level.name class=(practiceLevelStatus === "complete" ? "btn-primary" : "btn-success"))
+                          span.glyphicon.glyphicon-play
+                  if disabled
+                    span.practice-license-message(data-i18n="play.practice-license-required")
                 if practiceLevelStatus !== 'complete'
                   - break
 
@@ -355,7 +372,8 @@ if showGameDevAlert
 
   .game-controls.header-font.picoctf-hide
     if !(features.picoCtf || features.brainPop)
-      button.btn.junior-level.junior-menu-icon(title='CodeCombat Junior')
+      if view.shouldShow('junior-level')
+        button.btn.junior-level.junior-menu-icon(title='CodeCombat Junior')
       if view.shouldShow('hackstack')
         span.btn.hackstack-menu-icon(title='CodeCombat AI HackStack')
       button.btn.roblox-level.roblox-menu-icon(title='CodeCombat Worlds on Roblox')

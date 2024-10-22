@@ -293,20 +293,24 @@ module.exports = class LevelLoadingView extends CocoView
 
   onSubscriptionRequired: (e) ->
     return if utils.isOzaria
-    @$el.find('.level-loading-goals, .tip, .progress-or-start-container').hide()
+    @$el.find('.level-loading-goals, .tip, .progress-or-start-container, .could-not-load').hide()
     @$el.find('.subscription-required').show()
+    @loadingErrorExplained = true
 
   onCourseMembershipRequired: (e) ->
-    @$el.find('.level-loading-goals, .tip, .progress-or-start-container').hide()
+    @$el.find('.level-loading-goals, .tip, .progress-or-start-container, .could-not-load').hide()
     @$el.find('.course-membership-required').show()
+    @loadingErrorExplained = true
 
   onLicenseRequired: (e) ->
-    @$el.find('.level-loading-goals, .tip, .progress-or-start-container').hide()
+    @$el.find('.level-loading-goals, .tip, .progress-or-start-container, .could-not-load').hide()
     @$el.find('.license-required').show()
+    @loadingErrorExplained = true
 
   onLevelLocked: (e) ->
-    @$el.find('.level-loading-goals, .tip, .progress-or-start-container').hide()
-    @$el.find('.level-locked').show()    
+    @$el.find('.level-loading-goals, .tip, .progress-or-start-container, .could-not-load').hide()
+    @$el.find('.level-locked').show()
+    @loadingErrorExplained = true
 
   onLoadError: (resource) ->
     startCase = (str) -> str.charAt(0).toUpperCase() + str.slice(1)
@@ -314,7 +318,7 @@ module.exports = class LevelLoadingView extends CocoView
     if resource.resource.jqxhr.status is 404
       @$el.find('.resource-not-found>span').text($.i18n.t('loading_error.resource_not_found', {resource: startCase(resource.resource.name)}))
       @$el.find('.resource-not-found').show()
-    else
+    else unless @loadingErrorExplained
       @$el.find('.could-not-load').show()
 
   onClickStartSubscription: (e) ->

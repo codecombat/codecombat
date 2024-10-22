@@ -11,6 +11,7 @@ import InsertCode from './components/InsertCode'
 import DraggableStatementCompletion from './components/DraggableStatementCompletion'
 import ContentIcon from '../common/icons/ContentIcon'
 import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
+import { secondsToMinutesAndSeconds } from 'core/utils'
 
 export default {
   components: {
@@ -43,6 +44,13 @@ export default {
       } else {
         return ''
       }
+    },
+
+    formattedPracticeThreshold () {
+      if (!this.studentInfo.practiceThresholdMinutes) {
+        return null
+      }
+      return secondsToMinutesAndSeconds(this.studentInfo.practiceThresholdMinutes * 60)
     }
   },
 
@@ -101,6 +109,7 @@ export default {
       <concept-check-info
         v-if="conceptCheck"
         :concept-check="conceptCheck"
+        :practice-threshold="formattedPracticeThreshold"
       />
       <component
         :is="getComponentName(panelSessionContent.type)"

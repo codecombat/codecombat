@@ -81,7 +81,10 @@
         </div>
       </div>
 
-      <div :class="{ 'carousel-dots': true, 'carousel-tabs-default': showDots }">
+      <div
+        v-if="items.length>1"
+        :class="{ 'carousel-dots': true, 'carousel-tabs-default': showDots }"
+      >
         <CarouselArrow
           class="arrow-img"
           :class="{grey:currentIndex <=0 }"

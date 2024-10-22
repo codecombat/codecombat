@@ -265,7 +265,8 @@ module.exports = {
   'level:click-ai-hint': c.object({}),
 
   'level:locked': c.object({}, {
-    session: { type: 'object' },
-    level: { type: 'object' }
+    level: { type: 'object' },
   }),
+
+  'ladder:refresh': c.object({})
 }

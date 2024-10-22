@@ -56,6 +56,10 @@ export default {
       type: String,
       default: null,
       description: 'Background color for the video'
+    },
+    aspectRatio: {
+      type: String,
+      default: '16 / 9'
     }
   },
   computed: {
@@ -77,6 +81,8 @@ export default {
         params.muted = true
       }
 
+      params.controls = Boolean(this.controls)
+
       params.preload = this.preload
 
       if (this.backgroundColor) {
@@ -94,11 +100,14 @@ export default {
 </script>
 
 <template>
-  <div class="cloudflare-video-div">
+  <div
+    class="cloudflare-video-div"
+    :style="`aspect-ratio:${aspectRatio}`"
+  >
     <iframe
       :src="videoUrl"
       loading="lazy"
-      style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
+      :style="`border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;aspect-ratio:${aspectRatio}`"
       allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
       allowfullscreen="true"
     />

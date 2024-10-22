@@ -21,6 +21,7 @@ TokenIterator = ace.require('ace/token_iterator').TokenIterator
 LZString = require 'lz-string'
 utils = require 'core/utils'
 Aether = require 'lib/aether/aether'
+aetherUtils = require 'lib/aether_utils'
 Blockly = require 'blockly'
 blocklyUtils.registerBlocklyTheme()
 storage = require 'core/storage'
@@ -29,6 +30,7 @@ globalVar = require 'core/globalVar'
 fetchJson = require 'core/api/fetch-json'
 store = require 'core/store'
 require('app/styles/play/level/tome/ace-diff-spell.sass')
+AudioPlayer = require 'lib/AudioPlayer'
 
 PERSIST_BLOCK_STATE = false
 
@@ -474,6 +476,9 @@ module.exports = class SpellView extends CocoView
     if @onCodeChangeMetaHandler
       @blockly.addChangeListener @onBlocklyEvent
 
+    hasFourGoBlocks = _.filter(@propertyEntryGroups.Hero?.props, (prop) -> /^go/.test(prop.name)).length is 4
+    targetDiv.toggleClass 'static-toolbox-dropdowns', hasFourGoBlocks
+
     @lastBlocklyState = if PERSIST_BLOCK_STATE and not @session.fake then storage.load "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}" else null
     if @lastBlocklyState
       @awaitingBlocklySerialization = true
@@ -533,6 +538,19 @@ module.exports = class SpellView extends CocoView
     return unless e.type in blocklyUtils.blocklyMutationEvents
     { blocklySource, blocklySourceRaw } = @blocklyToAce e
 
+    # If a block is moved too far off the screen, then let's delete it
+    metrics = @blockly.getMetricsManager().getViewMetrics(true)
+    if e.type is Blockly.Events.BLOCK_MOVE and
+      ('drag' in (e.reason or [])) and
+      e.newCoordinate and
+      (e.newCoordinate.x < metrics.left - 25 or
+       # Right side is handled by dragging onto the toolbox, which shows a little animation
+       e.newCoordinate.y < metrics.top - 15 or
+       e.newCoordinate.y > metrics.top + metrics.height - 10)
+      block = @blockly.getBlockById e.blockId
+      block.dispose()
+      return
+
     return unless blocklySource and e.type in blocklyUtils.blocklyFinishedMutationEvents and blocklySource.trim().replace(/\n\s*\n/g, '\n') isnt @spell.source.trim().replace(/\n\s*\n/g, '\n')
     # Sometimes move event happens when blocks are moving around during a drag, but the drag isn't done. e.reason including 'drag' means it's done, 'connect' happens when clicked-to-insert.
     return if e.type is Blockly.Events.BLOCK_MOVE and not ('drag' in (e.reason or [])) and not ('connect' in (e.reason or []))
@@ -544,6 +562,9 @@ module.exports = class SpellView extends CocoView
 
     if @options.level.get('product') is 'codecombat-junior'
       # Immediate code execution on each significant block change that produces a program that differs by more than newlines
+      @hideProblemAlert()
+      block = blocklyUtils.getBlockById workspace: @blockly, id: e?.blockId
+      @playBlockSound block if block
       @recompile()
     else
       @notifySpellChanged()
@@ -608,6 +629,26 @@ module.exports = class SpellView extends CocoView
     #@resizeBlockly()  # Needed?
     @eventsSuppressed = false
     @lastBlocklyState = newBlocklyState
+
+  playBlockSound: (block) ->
+    code = blocklyUtils.blockToCode({ block, codeLanguage: @spell.language })?.trim()
+    docsCode = block?.docFormatter?.doc?.name
+    return unless code or docsCode
+    lang = me.get('preferredLanguage', true) or 'en-US'
+    if docsCode and (not code or code.replace(/[^a-zA-Z0-9_-]/g, '') is docsCode.replace(/[^a-zA-Z0-9_-]/g, ''))
+      # We can internationalize
+      text = utils.i18n block.docFormatter.doc, 'name'
+      textIsLocalized = text isnt docsCode
+      if not code
+        text = text.replace(/, \d/g, '')  # Don't pronounce step numbers, they won't be right if coming from docsCode
+    else
+      text = code
+    text = text.replace(/, 1/g, '')  # Don't pronounce step number if 1
+    textLanguage = if textIsLocalized or me.get('preferredLanguage') is 'en-GB' then lang else 'en-US'
+    plainText = utils.markdownToPlainText(text.replace(/[[\]()'"]+/g, ' ').trim())
+    ttsPath = "/file/text-to-speech/#{textLanguage}/#{encodeURIComponent(plainText)}.mp3"
+    AudioPlayer.preloadSound ttsPath, ttsPath, 4
+    AudioPlayer.playSound ttsPath
 
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?
@@ -1157,23 +1198,9 @@ module.exports = class SpellView extends CocoView
   # - Problem alerts and ranges will only show on fully cast worlds. Annotations will show continually.
 
   fetchToken: (source, language) =>
-    if language not in ['java', 'cpp']
-      return Promise.resolve(source)
-    else if source of @loadedToken
+    if source of @loadedToken
       return Promise.resolve(@loadedToken[source])
-
-    headers =  { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-    m = document.cookie.match(/JWT=([a-zA-Z0-9.]+)/)
-    service = window?.localStorage?.kodeKeeperService or "https://asm14w94nk.execute-api.us-east-1.amazonaws.com/service/parse-code-kodekeeper"
-    if me.useChinaServices()
-      headers['Authorization'] = 'APPCODE b3e285d032a343db8bd2b51a05a5ff1d'
-      service = window?.localStorage?.kodeKeeperService or "https://kodekeeper.koudashijie.com/parse-code-kodekeeper"
-    fetch service, {method: 'POST', mode:'cors', headers:headers, body:JSON.stringify({code: source, language: language})}
-    .then (x) => x.json()
-    .then (x) =>
-      @loadedToken = {} # only cache 1 source
-      @loadedToken[source] = x.token;
-      return x.token
+    return aetherUtils.fetchToken(source, language)
 
   fetchTokenForSource: () =>
     source = @ace.getValue()

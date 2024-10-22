@@ -3,3 +3,7 @@
 .sb-show-main, .sb-story {
     @extend %frontend-page;
 }
+
+.tooltip {
+    opacity: 1 !important;
+}

@@ -107,7 +107,7 @@ module.exports = (HeroVictoryModal = (function () {
       if (this.level.get('product', true) === 'codecombat-junior' && this.level.get('campaign')) {
         this.nextLevel = new Level()
         const practiceThresholdSeconds = (this.level.get('practiceThresholdMinutes') || 60) * 60
-        const includePractice = (this.session.get('playtime') || 0) > practiceThresholdSeconds
+        const includePractice = (this.session.get('playtime') || 0) > practiceThresholdSeconds && me.isPremium()
         api.levels.fetchNextForCampaign({
           campaignSlug: this.level.get('campaign'),
           levelOriginal: this.level.get('original'),
@@ -327,6 +327,7 @@ module.exports = (HeroVictoryModal = (function () {
       for (const original in this.thangTypes) { const hero = this.thangTypes[original]; this.playSelectionSound(hero, true) } // Preload them
       this.updateSavingProgressStatus()
       this.initializeAnimations()
+      _.delay(() => this.$el?.find('button.btn-success').last()?.focus(), 200)
       if (this.level.isLadder()) {
         this.ladderSubmissionView = new LadderSubmissionView({ session: this.session, level: this.level })
         return this.insertSubView(this.ladderSubmissionView, this.$el.find('.ladder-submission-view'))

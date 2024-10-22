@@ -17,6 +17,11 @@ healthColors =
   humans: [255, 0, 0]
   neutral: [64, 212, 128]
 
+juniorHealthColors =
+  ogres: [0, 240, 255]
+  humans: [253, 20, 48]
+  neutral: [64, 212, 128]
+
 # Sprite: EaselJS-based view/controller for Thang model
 module.exports = Lank = class Lank extends CocoClass
   thangType: null # ThangType instance
@@ -559,9 +564,14 @@ module.exports = Lank = class Lank extends CocoClass
   updateStats: ->
     return unless @thang and @thang.health isnt @lastHealth
     @lastHealth = @thang.health
-    if bar = @healthBar
-      healthPct = Math.max(@thang.health / @thang.maxHealth, 0)
-      bar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
+    if @healthBar
+      if @thang.healthBarStyle is 'pill-with-ticks'
+        # We have to redraw the health bar
+        @addHealthBar()
+      else
+        # We can just scale the health bar
+        healthPct = Math.max(@thang.health / @thang.maxHealth, 0)
+        @healthBar.scaleX = healthPct / @options.floatingLayer.resolutionFactor
       if @thang.id is 'Hero Placeholder'
         Backbone.Mediator.publish 'sprite:hero-health-updated', health: @thang.health, maxHealth: @thang.maxHealth
     if @thang.showsName
@@ -589,16 +599,22 @@ module.exports = Lank = class Lank extends CocoClass
     @gameUIState.trigger(ourEventName, newEvent)
 
   addHealthBar: ->
-    return unless @thang?.health? and 'health' in (@thang?.hudProperties ? []) and @options.floatingLayer
-    team = @thang?.team or 'neutral'
+    return unless @thang?.health? and 'health' in (@thang.hudProperties || []) and @options.floatingLayer
+    team = @thang.team or 'neutral'
     key = "#{team}-health-bar"
+    if (@thang.healthBarStyle is 'pill-with-ticks') and @thang.maxHealth <= 10
+      health = Math.max(0, Math.ceil(@thang.health))
+      maxHealth = Math.ceil(@thang.maxHealth || @thang.health)
+      key = "#{key}-#{health}-#{maxHealth}"
 
     unless key in @options.floatingLayer.spriteSheet.animations
-      healthColor = healthColors[team]
-      bar = createProgressBar(healthColor)
+      healthColor = (if @thang.healthBarStyle is 'pill-with-ticks' then juniorHealthColors else healthColors)[team]
+      bar = createProgressBar(healthColor, health, maxHealth)
       @options.floatingLayer.addCustomGraphic(key, bar, bar.bounds)
 
     hadHealthBar = @healthBar
+    if hadHealthBar
+      @options.floatingLayer.removeChild @healthBar
     @healthBar = new createjs.Sprite(@options.floatingLayer.spriteSheet)
     @healthBar.gotoAndStop(key)
     offset = @getOffset 'aboveHead'
@@ -856,12 +872,15 @@ module.exports = Lank = class Lank extends CocoClass
         sound = soundTriggers?[sound] or @thangType.get('soundTriggers')?[sound]  # Check localized triggers first, then root sound triggers in case of incomplete localization
       if _.isArray sound
         sound = sound[Math.floor Math.random() * sound.length]
+      if _.isObject(sound) and sound[0]
+        # For some reason, sound arrays are being sent as objects sometimes
+        sound = sound[Math.floor Math.random() * _.values(sound).length]
       return null unless sound
       delay = if withDelay and sound.delay then 1000 * sound.delay / createjs.Ticker.framerate else 0
       name = AudioPlayer.nameForSoundReference sound
       AudioPlayer.preloadSoundReference sound
       instance = AudioPlayer.playSound name, volume, delay, @getWorldPosition()
-      #console.log @thang?.id, 'played sound', name, 'with delay', delay, 'volume', volume, 'and got sound instance', instance
+      #console.log @thang?.id, 'played sound', name, 'with delay', delay, 'volume', volume, 'and got sound instance', instance, 'from sound', sound
       instance
     else # Ozaria
       # Sounds are triggered once and play until they complete.

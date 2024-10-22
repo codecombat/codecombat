@@ -12,7 +12,7 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 
-let campaignIDs, compare, courseIDs, courseModules, courseModuleInfo, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
+let campaignIDs, compare, courseIDs, coursesWithProjects, CSCourseIDs, freeCampaignIds, hourOfCodeOptions, injectCSS, internalCampaignIds, left, orderedCourseIDs, otherCourseIDs, otherOrderedCourseIDs, replaceText, slugify, WDCourseIDs
 const product = ((left = typeof COCO_PRODUCT !== 'undefined' && COCO_PRODUCT !== null ? COCO_PRODUCT : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.COCO_PRODUCT))) != null ? left : 'codecombat'
 const shaTag = ((left = typeof SHA_TAG !== 'undefined' && SHA_TAG !== null ? SHA_TAG : __guard__(typeof process !== 'undefined' && process !== null ? process.env : undefined, x => x.SHA_TAG))) != null ? left : 'unknown'
 const isCodeCombat = product === 'codecombat'
@@ -62,7 +62,7 @@ const getAnonymizationStatus = function (league, supermodel) {
 const anonymizingUser = function (user) {
   const id = (user != null ? user.id : undefined) != null ? (user != null ? user.id : undefined) : user
   const hashString = str => // hash * 33 + c
-        (__range__(0, str.length, false).map((i) => str.charCodeAt(i))).reduce((hash, char) => ((hash << 5) + hash) + char, 5381)
+    (__range__(0, str.length, false).map((i) => str.charCodeAt(i))).reduce((hash, char) => ((hash << 5) + hash) + char, 5381)
   return $.i18n.t('general.player') + ' ' + (Math.abs(hashString(id)) % 10000)
 }
 
@@ -216,10 +216,10 @@ const countryCodeToName = function (code) {
 const countryNameToCode = country => __guard__(_.find(countries, { country: (country != null ? country.toLowerCase() : undefined) }), x1 => x1.countryCode)
 
 var titleize = s => // Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
-    _.string.titleize(_.string.humanize(s)).replace(
-      / (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig,
-      word => word.toLowerCase()
-    )
+  _.string.titleize(_.string.humanize(s)).replace(
+    / (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig,
+    word => word.toLowerCase()
+  )
 
 if (isCodeCombat) {
   campaignIDs = {
@@ -245,250 +245,6 @@ if (isCodeCombat) {
     COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d',
     COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447',
     COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
-  }
-
-  courseModuleInfo = {
-    [courseIDs.JUNIOR]: {
-      1: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Y5_Eu5uVPrHpnqcoSuGfFR8qeAYkTIyE'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Y5_Eu5uVPrHpnqcoSuGfFR8qeAYkTIyE'
-        }
-      },
-      2: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/18cse7g50mdcEwLiTovHR_edPhYd77UDM'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/18cse7g50mdcEwLiTovHR_edPhYd77UDM'
-        }
-      },
-      3: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1iQJEvgaQ0z3AMw64fTOwcZOYKu0zOqOr'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1iQJEvgaQ0z3AMw64fTOwcZOYKu0zOqOr'
-        }
-      },
-      4: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1v6DZfzb3zp_lmjM00vZvjTSRoUpBSqq8'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1v6DZfzb3zp_lmjM00vZvjTSRoUpBSqq8'
-        }
-      },
-      5: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-kKodhaMC1oL1OVnolQ5V9OVM0VEI7kF'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-kKodhaMC1oL1OVnolQ5V9OVM0VEI7kF'
-        }
-      },
-      6: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/11SIA1sYVRdq69u0o0w0ihAF65MjoIq2W'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/11SIA1sYVRdq69u0o0w0ihAF65MjoIq2W'
-        }
-      },
-      7: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-U3aJggcZibizu8fZPdT8veKOqby9uBj'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1-U3aJggcZibizu8fZPdT8veKOqby9uBj'
-        }
-      },
-      8: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1hnLLCpxF4HeAhO3WVAaB9tYmoYQ9aKx1'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1hnLLCpxF4HeAhO3WVAaB9tYmoYQ9aKx1'
-        }
-      }
-    },
-    [courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]: {
-      1: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1wApGYfq9gM3C9G3_zkkyWDijiEYyEcgX?usp=sharing'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1asYzKfqDHWLK2ibxWPgRKkq8_VEN667c?usp=sharing'
-        }
-      }
-    },
-    [courseIDs.GAME_DEVELOPMENT_1]: {},
-    [courseIDs.WEB_DEVELOPMENT_1]: {},
-    [courseIDs.COMPUTER_SCIENCE_2]: {
-      1: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1y8yTPgOg-_S8v_J5zbXpbQQ9hP4rZHXE?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1hzrex4_AMpredS748hlEv_zSjwHaN210?usp=drive_link'
-        }
-      },
-      2: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1WNz-vxVxsy7MpbYMf-Reo1P-jOQ6vW94?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1AomycHLH5axRIguXKEdi2rMk95URbHWG?usp=drive_link'
-        }
-      },
-      3: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1r2nWGfTyHZrUvFeNyfnbN_A06ZYn2CRk?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1ihBZmQp74wfg92bapWV0PuYH296TmkyZ?usp=sharing'
-        }
-      },
-      4: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1CuXgk0i_z7lZ0W5gEkU3L2how-ZlYaeM?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1L80QV9Wv6J3IQx_lnQpB51Gfzb4VB05w?usp=drive_link'
-        }
-      },
-      5: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1SRzgEcIbOX7jozBL-oDhfoLVWU1oEu1Y?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1whhA6ehkZcJweoAH0c27SK4yR8OMLv3j?usp=drive_link'
-        }
-      },
-      6: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1cdO9C1k9N5x6BdbohVaAzncuzBSItv7z?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1mWy01Zz-6_G6jBEYYaxr1zkvq660McHp?usp=drive_link'
-        }
-      },
-      7: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1HAxoKk6oNQwPm0OolRvf_vWISBrb_LSd?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/16HAarJNeM2EpFOfRS95BoOE-GQjendHB?usp=drive_link'
-        }
-      },
-    },
-    [courseIDs.GAME_DEVELOPMENT_2]: {},
-    [courseIDs.WEB_DEVELOPMENT_2]: {},
-    [courseIDs.COMPUTER_SCIENCE_3]: {
-      1: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1ZjhjlqcIGHOWENIpAn0Kz5DaJFHZJMTd?usp=sharing'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/10JaIo3NFXvaB9dEPo9hYSZ9z9owzmVQ9?usp=drive_link'
-        }
-      },
-      2: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1SDTVOD2tTfe5eM7rrJ4BqFPSFwL3Xb19?usp=sharing'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Ub6AwI6XRP7LKcWzVdFOSZ7n8f-oE1Ck?usp=drive_link'
-        }
-      },
-      3: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1TdLym5_SNIGoEDKyzVSAk0fw1XQCe_Be?usp=sharing'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1AAzbz-nZi4g9dQvs-fJKGtVAZv7sjfhJ?usp=drive_link'
-        }
-      },
-      4: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1JapqAXlXFjz9Qgp4sL3rJpnZkv1S6ASk?usp=sharing'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1DPeWPZrhXHQC4pBJDb-kn0-bOv6gIiw4?usp=drive_link'
-        }
-      },
-      5: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1sm6gKudpfWnO3OAeu5DdOt-3ACp4ouqQ?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Q6wRGMunTM5CH68YtqdqHFl2udEmS-L0?usp=sharing'
-        }
-      },
-      6: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/178Gt7U2Oxvo0bIDXlYqiepHUqDu0ZwzG?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1i__s8tGAuPVhnic6LuNNKBubqrelrQYb?usp=sharing'
-        }
-      },
-      7: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1m2E9wo3ZF1FGR2jQhQ16rCIsjCuvnH1i?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1kdH7_VVlnXqXVSP0KDWGghRcAP6y-lUC?usp=sharing'
-        }
-      }
-    },
-    [courseIDs.GAME_DEVELOPMENT_3]: {},
-    [courseIDs.COMPUTER_SCIENCE_4]: {
-      1: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/11Ado8ng4qw1oMS9q6Dxpky-sJ5ZtiiHb?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1G7r1PUacwY6vQf5sUjFqceKjrO4nWNkN?usp=drive_link'
-        }
-      },
-      2: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1KPwgtyyXLcHsPbPz6WX8AOQwZjJfFs23?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1Np1sgITGydQKA05W3RqmolYnhjS0_07s?usp=drive_link'
-        }
-      },
-      3: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1pPWtmEa7YF2dd3T6PILE63Kn1rG2szYP?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1yl0K8nBA6lzwuni6t4WPViNRXQnwvtTR?usp=drive_link'
-        }
-      },
-      4: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1w8LvBvh9z-uzmdowDqXRrhxUnQ21-cfm?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1eohfiHpmUDBdpSNaRr8QLRLmwuUMnFZi?usp=drive_link'
-        }
-      },
-      5: {
-        python: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/1cV8sqZsII6BMF4Okp4qDqlIM88ZVCCoX?usp=drive_link'
-        },
-        javascript: {
-          lessonSlidesUrl: 'https://drive.google.com/drive/folders/10SemFGm0UU7SfOjPSGAnmbOchWdx7Oj_?usp=drive_link'
-        }
-      }
-    },
-    [courseIDs.COMPUTER_SCIENCE_5]: {},
-    [courseIDs.COMPUTER_SCIENCE_6]: {}
   }
 
   coursesWithProjects = [
@@ -539,85 +295,6 @@ if (isCodeCombat) {
     otherCourseIDs.CHAPTER_THREE,
     otherCourseIDs.CHAPTER_FOUR
   ]
-
-  courseModules = {}
-
-  courseModules[courseIDs.JUNIOR] = {
-    1: 'A1: Sequences',
-    2: 'A2: Arguments',
-    3: 'B1: Complex Arguments (Hit)',
-    4: 'B2: Complex Arguments (Spin)',
-    5: 'C1: Complex Arguments (Zap)',
-    6: 'C2: Intro to Loops',
-    7: 'D1: Complex Loops',
-    8: 'D2: Intro to Conditionals',
-    // 9: 'Variables'
-  }
-
-  courseModules[courseIDs.COMPUTER_SCIENCE_2] = {
-    1: 'Coordinate Systems',
-    2: 'Conditionals Part 1',
-    3: 'Conditionals Part 2',
-    4: 'Conditionals Part 3',
-    5: 'Functions Part 1',
-    6: 'Functions Part 2',
-    7: 'Events'
-  }
-
-  courseModules[courseIDs.GAME_DEVELOPMENT_2] = {
-    1: 'Events',
-    2: 'Random Numbers',
-    3: 'Manual Goals',
-    4: 'Input'
-  }
-
-  courseModules[courseIDs.WEB_DEVELOPMENT_2] = {
-    1: 'JavaScript',
-    2: 'jQuery',
-    3: 'CSS',
-    4: 'Input'
-  }
-
-  courseModules[courseIDs.COMPUTER_SCIENCE_3] = {
-    1: 'Expressions',
-    2: 'Properties',
-    3: 'Return',
-    4: 'Comparisons',
-    5: 'Movement',
-    6: 'Properties Revisted',
-    7: 'Break and Continue'
-  }
-
-  courseModules[courseIDs.GAME_DEVELOPMENT_3] = {
-    1: 'Frames',
-    2: 'Position',
-    3: 'Movement',
-    4: 'Bring It Together'
-  }
-
-  courseModules[courseIDs.COMPUTER_SCIENCE_4] = {
-    1: 'While Loops Revisited',
-    2: 'Lists Part 1',
-    3: 'Lists Part 2',
-    4: 'Movement Revisited',
-    5: 'For Loops'
-  }
-
-  courseModules[courseIDs.COMPUTER_SCIENCE_5] = {
-    1: 'Functions Revisited',
-    2: 'Modulo',
-    3: 'Strings',
-    4: 'For Loops Revisited',
-    5: 'Matrices'
-  }
-
-  courseModules[courseIDs.COMPUTER_SCIENCE_6] = {
-    1: 'Common Algorithms',
-    2: 'Vectors',
-    3: 'More Algorithms',
-    4: 'Data Structures',
-    5: 'Advanced Algorithms'
-  }
 
   hourOfCodeOptions = {
     campaignId: freeCampaignIds[1],
@@ -681,34 +358,6 @@ if (isCodeCombat) {
     otherCourseIDs.COMPUTER_SCIENCE_5,
     otherCourseIDs.COMPUTER_SCIENCE_6
   ]
-
-  // Harcoding module names for simplicity
-  // Use db to store these later when we add sophisticated module functionality, right now its only used for UI
-  courseModules = {}
-  courseModules[courseIDs.CHAPTER_ONE] = {
-    1: 'Introduction to Coding'
-  }
-  courseModules[courseIDs.CHAPTER_TWO] = {
-    1: 'Algorithms and Syntax',
-    2: 'Debugging',
-    3: 'Variables',
-    4: 'Conditionals',
-    5: 'Capstone Intro',
-    6: 'Capstone Project'
-  }
-  courseModules[courseIDs.CHAPTER_THREE] = {
-    1: 'Review',
-    2: 'For Loops',
-    3: 'Nesting',
-    4: 'While Loops',
-    5: 'Capstone'
-  }
-  courseModules[courseIDs.CHAPTER_FOUR] = {
-    1: 'Compound Conditionals',
-    2: 'Functions and Data Analysis',
-    3: 'Writing Functions',
-    4: 'Capstone'
-  }
 
   hourOfCodeOptions = {
     campaignId: freeCampaignIds[0],
@@ -781,7 +430,7 @@ const registerHocProgressModalCheck = function () {
       return clearInterval(hocProgressModalCheck)
     }
   }
-                                             , 60000) // every 1 min
+  , 60000) // every 1 min
 }
 
 const petThangIDs = [
@@ -1080,7 +729,7 @@ if (typeof document !== 'undefined' && document !== null ? document.createElemen
 const userAgent = () => window.navigator.userAgent
 
 const getDocumentSearchString = () => // moved to a separate function so it can be mocked for testing
-      document.location.search
+  document.location.search
 
 const getQueryVariables = function () {
   const query = module.exports.getDocumentSearchString().substring(1) // use module.exports so spy is used in testing
@@ -1385,7 +1034,7 @@ const usStateCodes =
           HI: 'Hawaii',
           ID: 'Idaho',
           IL: 'Illinois',
-            IN: 'Indiana',
+          IN: 'Indiana',
           IA: 'Iowa',
           KS: 'Kansas',
           KY: 'Kentucky',
@@ -1474,9 +1123,9 @@ const isValidEmail = email => emailRegex.test(email != null ? email.trim().toLow
 const formatStudentLicenseStatusDate = function (status, date) {
   const string = (() => {
     switch (status) {
-    case 'not-enrolled': return $.i18n.t('teacher.status_not_enrolled')
-    case 'enrolled': if (date) { return $.i18n.t('teacher.status_enrolled') } else { return '-' }
-    case 'expired': return $.i18n.t('teacher.status_expired')
+      case 'not-enrolled': return $.i18n.t('teacher.status_not_enrolled')
+      case 'enrolled': if (date) { return $.i18n.t('teacher.status_enrolled') } else { return '-' }
+      case 'expired': return $.i18n.t('teacher.status_expired')
     }
   })()
   return string.replace('{{date}}', date || 'Never')
@@ -1540,9 +1189,9 @@ const videoLevels = {
 // Reference Library: https://github.com/rpkilby/vue-nonreactive
 const vueNonReactiveInstall = function (Vue) {
   const Observer = (new Vue())
-        .$data
-        .__ob__
-        .constructor
+    .$data
+    .__ob__
+    .constructor
 
   return Vue.nonreactive = function (value) {
     // Vue sees the noop Observer and stops traversing the structure.
@@ -1712,7 +1361,8 @@ const AILeagueSeasons = [
   { number: 8, championshipType: 'blitz', image: '/images/pages/league/farmscape-blitz.png', video: 'eae72056cd1e54f77ec35612c2d0c4b5', videoThumbnailTime: '2681s' },
   { number: 9, championshipType: 'clash', image: '/images/pages/league/snowhold-clash.png', video: '5ee0896f86d690840104adaaa7ec96b6', videoThumbnailTime: '1730s' },
   { number: 10, championshipType: 'cup', image: '/images/pages/league/anti-gravity-cup.png', video: '72d0ffc93599cf8cb5b0f7fed7861d0f', videoThumbnailTime: '188s' },
-  { number: 11, championshipType: 'blitz', image: '/images/pages/league/sunfire-blitz.png', video: '', videoThumbnailTime: '' },
+  // for image instead of video, we link the top match image
+  { number: 11, championshipType: 'blitz', image: '/images/pages/league/sunfire-blitz.png', imagePath: '/images/pages/league/sunfire-results.webp', topMatchUrlPath: '/play/spectate/sunfire?session-one=6688815921af79d80736c0e2&session-two=66c64ee0b522c4f39324d832&tournament=669aa78fcca07ea127d445d6' },
   { number: 12, championshipType: 'clash', image: '/images/pages/league/supercharged-clash.png', video: '', videoThumbnailTime: '' },
 ]
 
@@ -1790,89 +1440,7 @@ const freeAccessLevels = [
   { access: 'short', slug: '1fhm1l1l6b' },
   { access: 'short', slug: '1fhm1l1l7b' },
   { access: 'short', slug: '1fhm1l1l8b' },
-  // Test set of free CoCo Jr levels
-  { access: 'short', slug: 'the-gem' },
-  { access: 'short', slug: 'go-go-go' },
-  { access: 'short', slug: 'two-gems' },
-  { access: 'short', slug: 'elbow' },
-  { access: 'short', slug: 'shiny' },
-  { access: 'short', slug: 'gem-square' },
-  { access: 'short', slug: 'the-x' },
-  { access: 'short', slug: 'x-marks-the-spot' },
-  { access: 'short', slug: 'gems-first' },
-  { access: 'short', slug: 'walk-it-off' },
-  { access: 'short', slug: 'go-smart' },
-  { access: 'short', slug: 'steps' },
-  { access: 'short', slug: 'hiker' },
-  { access: 'short', slug: 'long-hall' },
-  { access: 'short', slug: 'step-change' },
-  { access: 'short', slug: 'go-around' },
-  { access: 'short', slug: 'big-gem-square' },
-  { access: 'short', slug: 'turns' },
-  { access: 'short', slug: 'snake-maze' },
-  { access: 'short', slug: 'one-block' },
-  { access: 'short', slug: 'knock-knock' },
-  { access: 'short', slug: 'open-and-shut' },
-  { access: 'short', slug: 'doors' },
-  { access: 'short', slug: 'open-up' },
-  { access: 'short', slug: 'airlock' },
-  { access: 'short', slug: 'no-keys' },
-  { access: 'short', slug: 'bad-guys' },
-  { access: 'short', slug: 'hall-monitor' },
-  { access: 'short', slug: 'clean-up' },
-  { access: 'short', slug: 'just-a-scratch' },
-  { access: 'short', slug: 'brave' },
-  { access: 'short', slug: 'wise' },
-  { access: 'short', slug: 'careful' },
-  { access: 'short', slug: 'heart-up' },
-  { access: 'short', slug: 'tough' },
-  { access: 'short', slug: 'one-at-a-time' },
-  { access: 'short', slug: 'choose-your-battles' },
-  { access: 'short', slug: 'spin-to-win' },
-  { access: 'short', slug: 'whirlwind' },
-  { access: 'short', slug: 'twister' },
-  { access: 'short', slug: 'vortex' },
-  { access: 'short', slug: 'busy-intersection' },
-  { access: 'short', slug: 'badder-guy' },
-  { access: 'short', slug: 'two-big' },
-  { access: 'short', slug: 'tornado' },
-  { access: 'short', slug: 'cyclone' },
-  { access: 'short', slug: 'hit-and-spin' },
-  { access: 'short', slug: 'hurricane' },
-  { access: 'short', slug: 'zap-gap' },
-  { access: 'short', slug: 'easy-pickings' },
-  { access: 'short', slug: 'advantage' },
-  { access: 'short', slug: 'hit-me-up' },
-  { access: 'short', slug: 'zap-it' },
-  { access: 'short', slug: 'target-practice' },
-  { access: 'short', slug: 'tnt' },
-  { access: 'short', slug: 'kaboom' },
-  { access: 'short', slug: 'back-up' },
-  { access: 'short', slug: 'monster' },
-  { access: 'short', slug: 'lure-it' },
-  { access: 'short', slug: 'its-a-trap' },
-  { access: 'short', slug: 'friends' },
-  { access: 'short', slug: 'careful-aim' },
-  { access: 'short', slug: 'chain-reaction' },
-  { access: 'short', slug: 'zap-master' },
-  { access: 'short', slug: 'loopy' },
-  { access: 'short', slug: 'more-times' },
-  { access: 'short', slug: 'right-up' },
-  { access: 'short', slug: 'square-wave' },
-  { access: 'short', slug: 'grabber' },
-  { access: 'short', slug: 'smasher' },
-  { access: 'short', slug: 'spin-eternally' },
-  { access: 'short', slug: 'down-the-line' },
-  { access: 'short', slug: 'tall-wave' },
-  { access: 'short', slug: 'clearing-the-way' },
-  { access: 'short', slug: 'restraint' },
-  { access: 'short', slug: 'fern' },
-  { access: 'short', slug: 'scratch-loop' },
-  { access: 'short', slug: 'regular-path' },
-  { access: 'short', slug: 'detonations' },
-  { access: 'short', slug: 'showdown' },
-  { access: 'short', slug: 'gem-weave' },
-  { access: 'short', slug: 'zap-smart' },
+  // CodeCombat Junior level access is managed the old way, with level.requiresSubscription, no hardcoded overrides
 ]
 
 const orgKindString = function (kind, org = null) {
@@ -2047,32 +1615,41 @@ const isMobile = () => {
   return mobileRELong.test(ua) || mobileREShort.test(ua.substr(0, 4))
 }
 
-module.exports.getCodeLanguages = () => ({
-  python: {
-    id: 'python',
-    name: `Python (${$.i18n.t('choose_hero.default')})`
-  },
-  javascript: {
-    id: 'javascript',
-    name: 'JavaScript'
-  },
-  coffeescript: {
-    id: 'coffeescript',
-    name: 'CoffeeScript'
-  },
-  lua: {
-    id: 'lua',
-    name: 'Lua'
-  },
-  cpp: {
-    id: 'cpp',
-    name: 'C++'
-  },
-  java: {
-    id: 'java',
-    name: `Java (${$.i18n.t('choose_hero.experimental')})`
+module.exports.getCodeLanguages = () => {
+  const codeLanguages = {
+    python: {
+      id: 'python',
+      name: `Python (${$.i18n.t('choose_hero.default')})`
+    },
+    javascript: {
+      id: 'javascript',
+      name: 'JavaScript'
+    }
   }
-})
+  if (isCodeCombat) {
+    return {
+      ...codeLanguages,
+      coffeescript: {
+        id: 'coffeescript',
+        name: 'CoffeeScript'
+      },
+      lua: {
+        id: 'lua',
+        name: 'Lua'
+      },
+      cpp: {
+        id: 'cpp',
+        name: 'C++'
+      },
+      java: {
+        id: 'java',
+        name: `Java (${$.i18n.t('choose_hero.experimental')})`
+      }
+    }
+  } else {
+    return codeLanguages
+  }
+}
 
 module.exports.getCodeFormats = () => ({
   'text-code': {
@@ -2092,6 +1669,22 @@ module.exports.getCodeFormats = () => ({
     name: `${$.i18n.t('choose_hero.blocks_icons')}`
   }
 })
+
+module.exports.MTOClients = {
+  MTO_STEM_DEV: '66d8d68b7fb24e9567588139',
+  MTO_STEM_PROD: '66d8d72143881e9eebcf0cc9',
+  MTO_NEO_DEV: '66d8d794f81368cbd77f5bca',
+  MTO_NEO_PROD: '66d8d750f81368cbd77f4ab2'
+}
+
+module.exports.secondsToMinutesAndSeconds = function (seconds) {
+  if(!seconds){
+    return ''
+  }
+  const minutes = Math.floor(seconds / 60)
+  const remainingSeconds = seconds % 60
+  return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`
+}
 
 module.exports = {
   ...module.exports,
@@ -2124,8 +1717,6 @@ module.exports = {
   allCourseIDs,
   allFreeCourseIDs,
   freeCocoCourseIDs,
-  courseModules,
-  courseModuleInfo,
   courseNumericalStatus,
   coursesWithProjects,
   CSCourseIDs,

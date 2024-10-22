@@ -36,7 +36,7 @@ export const items = {
   GRANTS: { url: cocoPath('/grants'), title: 'nav.grants_funding_resources' },
   DEMO: { url: '/teachers/quote', title: 'nav.request_quote_demo' },
   COCO_CLASSROOM: { url: cocoPath('/schools'), title: 'nav.codecombat_classroom' },
-  COCO_JUNIOR: { url: cocoPath('/play/junior'), title: 'nav.coco_junior_beta' },
+  COCO_JUNIOR: { url: cocoPath('/play/junior'), title: 'nav.coco_junior' },
   COCO_HOME: { url: cocoPath('/play'), title: 'nav.codecombat_home' },
   OZ_CLASSROOM: { url: ozPath('/'), title: 'nav.ozaria_classroom' },
   AP_CSP: { url: cocoPath('/apcsp'), title: 'nav.ap_csp' },
@@ -49,7 +49,7 @@ export const items = {
   LIBRARY_SOLUTIONS: { url: cocoPath('/libraries'), title: 'nav.library_solutions' },
   PARTNER_SOLUTIONS: { url: cocoPath('/partners'), title: 'nav.partner_solutions' },
   TEACHING_SOLUTIONS: { url: cocoPath('/schools'), title: 'nav.teaching_solutions' },
-  PRIVACY: { url: '/privacy', title: 'nav.privacy' }
+  PRIVACY: { url: '/privacy', title: 'nav.privacy' },
 }
 
 /**
@@ -114,6 +114,35 @@ export default Vue.extend({
     },
     isWideScreen () {
       return window.innerWidth >= 991
+    },
+    partnerLogo () {
+      if (me.useTarenaLogo()) {
+        return {
+          url: '/images/pages/base/logo-tarena.png',
+          className: 'tarena-logo',
+          alt: 'Tarena logo'
+        }
+      } else if (this.serverConfig.codeNinjas || me.isCodeNinja()) {
+        return {
+          url: '/images/pages/base/code-ninjas-logo-right.png',
+          className: 'code-ninjas-logo',
+          alt: 'Code Ninjas logo'
+        }
+      } else if (me.isTecmilenio()) {
+        return {
+          url: '/images/pages/payment/tecmilenio-logo-2.png',
+          className: 'tecmilenio-logo',
+          alt: 'Tecmilenio logo'
+        }
+      } else if (me.isMto()) {
+        const mtoBrand = me.isMtoStem() ? 'STEM' : 'NEO'
+        return {
+          url: `/images/pages/partners/${mtoBrand}_logo.webp`,
+          className: 'mto-logo',
+          alt: `MTO ${mtoBrand} Logo`,
+        }
+      }
+      return null
     }
   },
 
@@ -416,17 +445,7 @@ export default Vue.extend({
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            a.navbar-brand(v-if="me.useTarenaLogo()" :href="homeLink")
-              picture
-                source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
-                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-              img#tarena-logo(src="/images/pages/base/logo-tarena.png" alt="Tarena logo")
-            a.navbar-brand(v-else-if="(serverConfig.codeNinjas || me.isCodeNinja())" :href="homeLink")
-              picture
-                source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
-                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-              img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png" alt="Code Ninjas logo")
-            a.navbar-brand(v-else-if="me.isTecmilenio()" :href="homeLink")
+            a.navbar-brand(v-if="partnerLogo" :href="homeLink")
               picture
                 source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
@@ -651,6 +670,10 @@ export default Vue.extend({
     #logo-img {
       max-height: 41px;
     }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
   }
 
   .navbar-collapse {
@@ -863,15 +886,17 @@ nav#main-nav.navbar.dark-mode {
   }
 }
 
-.tecmilenio-logo, #tarena-logo {
+.tecmilenio-logo, .tarena-logo {
   height: 36px;
-  margin-left: 20px;
-  margin-top: 5px;
+}
+
+.mto-logo {
+  height: 35px;
 }
 
 .code-ninjas-logo {
-  height: 51px;
-  margin: -5px 0 -5px 20px;
+  height: 41px;
+  max-height: 100%;
 }
 
 </style>

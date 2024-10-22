@@ -45,6 +45,10 @@ export default Vue.extend({
     ozarOnly: {
       type: Boolean,
       default: false
+    },
+    priority: {
+      type: Number,
+      default: 5
     }
   },
 
@@ -74,7 +78,7 @@ export default Vue.extend({
       this.autoShow &&
       (
         !this.seenPromotionsProperty ||
-        !me.getSeenPromotion(this.seenPromotionsProperty)
+        me.shouldSeePromotion(this.seenPromotionsProperty)
       )
     ) {
       this.openModal()
@@ -87,7 +91,13 @@ export default Vue.extend({
       removeModal: 'modals/removeModal'
     }),
     addModalToStore () {
-      this.addModal({ name: this.name })
+      if (!this.seenPromotionsProperty || me.shouldSeePromotion(this.seenPromotionsProperty)) {
+        this.addModal({
+          name: this.name,
+          seenPromotionsProperty: this.seenPromotionsProperty,
+          priority: this.priority
+        })
+      }
     },
     removeModalFromStore () {
       this.removeModal(this.name)

@@ -7,6 +7,8 @@
     <component
       :is="href ? 'a' : 'button'"
       class="CTA"
+      :class="buttonClass"
+      :data-start-on-path="startOnPath"
       :href="href"
       :rel="rel"
       :target="target"
@@ -40,28 +42,28 @@ import MixedColorLabel from '../labels/MixedColorLabel.vue'
 export default {
   name: 'CTAButton',
   components: {
-    MixedColorLabel
+    MixedColorLabel,
   },
   props: {
     href: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     target: {
       type: String,
       required: false,
-      default: '_blank'
+      default: '_blank',
     },
     rel: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     description: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     size: {
       type: String,
@@ -69,7 +71,7 @@ export default {
       validator: function (value) {
         return ['small', 'medium'].includes(value)
       },
-      default: 'medium'
+      default: 'medium',
     },
     type: {
       type: String,
@@ -77,9 +79,19 @@ export default {
       default: 'normal',
       validator: function (value) {
         return ['normal', 'no-background'].includes(value)
-      }
-    }
-  }
+      },
+    },
+    buttonClass: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    startOnPath: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
 }
 </script>
 

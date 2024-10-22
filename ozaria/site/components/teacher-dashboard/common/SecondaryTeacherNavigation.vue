@@ -7,6 +7,7 @@ import ModalHackStackBeta from 'ozaria/site/components/teacher-dashboard/modals/
 import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalTestStudentPromotion.vue'
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
+import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
 import IconAI from 'ozaria/site/components/teacher-dashboard/common/NavIconAI'
 import IconAPCSP from 'ozaria/site/components/teacher-dashboard/common/NavIconAPCSP'
 import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/NavIconAssessments'
@@ -18,6 +19,7 @@ export default {
     ModalTestStudentPromotion,
     ModalCurriculumPromotion,
     ModalOzariaHackStack,
+    ModalOzariaAILeague,
     IconAI,
     IconAPCSP,
     IconAssessments
@@ -79,7 +81,7 @@ export default {
 
     showStudentProjects () {
       // TODO: do show the student projects if it is Code Ninjas, but not in a camp context
-      if (utils.isCodeCombat && me.isCodeNinja()) {
+      if (utils.isCodeCombat) {
         return false
       }
       return true
@@ -157,6 +159,11 @@ export default {
       }
       if (this.hackStackClassrooms.length === 0) {
         noty({ text: $.i18n.t('teacher_dashboard.create_class_hackstack'), type: 'warning', layout: 'center', timeout: 5000 })
+      }
+    },
+    AILeagueClicked () {
+      if (utils.isOzaria) {
+        this.$refs.ModalOzariaAILeague.openModal()
       }
     },
   }
@@ -380,13 +387,14 @@ export default {
         </li>
       </ul>
     </li>
-    <li v-if="isCodeCombat">
-      <router-link
+    <li>
+      <component
+        :is="isCodeCombat ? 'router-link' : 'a'"
         id="AILeague"
         to="/teachers/ai-league"
         :class="{ 'current-route': isCurrentRoute('/teachers/ai-league') }"
         data-action="AI League: Nav Clicked"
-        @click.native="trackEvent"
+        @click="AILeagueClicked"
       >
         <div id="IconKeepPlaying" />
         <img
@@ -401,7 +409,7 @@ export default {
           class="league-name league-name__blue"
           src="/images/pages/league/ai-league-name_blue.svg"
         >
-      </router-link>
+      </component>
     </li>
     <li
       role="presentation"
@@ -468,7 +476,7 @@ export default {
         aria-expanded="false"
       >
         <div id="IconAIJunior" />
-        <span>{{ $t('teacher_dashboard.ai_junior_tab') }}</span>
+        <span>{{ $t('teacher_dashboard.ai_hackstack_junior_tab') }}</span>
         <span class="caret" />
       </a>
       <ul
@@ -543,6 +551,10 @@ export default {
     <ModalOzariaHackStack
       v-if="isOzaria"
       ref="modalOzariaHackStack"
+    />
+    <ModalOzariaAILeague
+      v-if="isOzaria"
+      ref="ModalOzariaAILeague"
     />
     <ModalTestStudentPromotion />
   </ul>

@@ -207,17 +207,18 @@
               .col-md-6
                 .question {{ $t('apcsp_marketing.question_3') }}
                 .answer(v-html="$t('apcsp_marketing.answer_3', i18nData)")
-    modal-apcsp-contact(v-if="showModal" @close="showModal = false")
+    modal-get-licenses(v-if="showModal" @close="showModal = false" :subtitle="'Let us know if you have any questions or requests regarding our AP CSP curriculum.'")
 </template>
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
-import { PAGE_TITLES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
-import ModalAPCSPContact from 'app/components/common/ModalAPCSPContact.vue'
+import { COMPONENT_NAMES, PAGE_TITLES } from '../../../ozaria/site/components/teacher-dashboard/common/constants.js'
+import ModalGetLicenses from '../../components/common/ModalGetLicenses.vue'
 
 export default Vue.extend({
+  name: COMPONENT_NAMES.APCSP,
   components: {
-    'modal-apcsp-contact': ModalAPCSPContact
+    'modal-get-licenses': ModalGetLicenses,
   },
   data () {
     return {
@@ -283,6 +284,11 @@ export default Vue.extend({
     })
   },
   mounted () {
+    if (this.$route.path.startsWith('/teachers/apcsp')) {
+      this.startLoading()
+      this.setComponentName(this.$options.name)
+      this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Teacher Dashboard / APCSP: Loaded' } })
+    }
     this.setPageTitle(PAGE_TITLES[this.$options.name])
   },
   async created () {
@@ -293,11 +299,14 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions({
-      fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher'
+      fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher',
+      fetchData: 'teacherDashboard/fetchData',
     }),
 
     ...mapMutations({
-      setPageTitle: 'teacherDashboard/setPageTitle'
+      setPageTitle: 'teacherDashboard/setPageTitle',
+      setComponentName: 'teacherDashboard/setComponentName',
+      startLoading: 'teacherDashboard/startLoading'
     }),
 
     checkUsingRoute () {

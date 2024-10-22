@@ -681,9 +681,26 @@ module.exports = (User = (function () {
       return seenPromotions[key]
     }
 
+    shouldSeePromotion (key) {
+      if (!key) {
+        return true
+      }
+
+      const seenPromotion = this.getSeenPromotion(key)
+      if (seenPromotion) {
+        return false
+      }
+      const latestDate = Object.values(this.get('seenPromotions') || {})
+        .reduce((a, b) => new Date(a) > new Date(b) ? new Date(a) : new Date(b), new Date(0))
+
+      const aWeekAgo = new Date()
+      aWeekAgo.setDate(aWeekAgo.getDate() - 7)
+      return latestDate < aWeekAgo
+    }
+
     setSeenPromotion (key) {
       const seenPromotions = this.get('seenPromotions') || {}
-      Object.assign(seenPromotions, { [key]: true })
+      Object.assign(seenPromotions, { [key]: new Date() })
       this.set('seenPromotions', seenPromotions)
     }
 
@@ -1097,10 +1114,6 @@ module.exports = (User = (function () {
       return value
     }
 
-    getRobloxPageExperimentValue () {
-      return this.getFilteredExperimentValue({ experimentName: 'roblox-page-filtered' })
-    }
-
     getHomePageExperimentValue () {
       return this.getFilteredExperimentValue({ experimentName: 'home-page-filtered-v2' })
     }
@@ -1108,12 +1121,8 @@ module.exports = (User = (function () {
     startHomeControlExperiment (forcedValue) {
       return this.getFilteredExperimentValue({
         experimentName: 'home-page-filtered-control-experiment',
-        forcedValue
+        forcedValue,
       })
-    }
-
-    getParentsPageExperimentValue () {
-      return this.getFilteredExperimentValue({ experimentName: 'parents-page-filtered' })
     }
 
     getEducatorSignupExperimentValue () {
@@ -1419,6 +1428,25 @@ module.exports = (User = (function () {
 
     isCodeNinja () {
       return ['57fff652b0783842003fed00', '5b9af3a99c27360047dd2123'].includes(this.get('clientCreator')) || (this.get('clientPermissions') || []).some(p => ['57fff652b0783842003fed00', '5b9af3a99c27360047dd2123'].includes(p.client))
+    }
+
+    isMtoStem () {
+      return [utils.MTOClients.MTO_STEM_DEV, utils.MTOClients.MTO_STEM_PROD].includes(this.get('clientCreator'))
+    }
+
+    isMtoNeo () {
+      return [utils.MTOClients.MTO_NEO_DEV, utils.MTOClients.MTO_NEO_PROD].includes(this.get('clientCreator'))
+    }
+
+    isMto () {
+      return this.isMtoStem() || this.isMtoNeo()
+    }
+
+    isManualClassroomJoinAllowed () {
+      if (this.isMto()) {
+        return false
+      }
+      return true
     }
 
     showForumLink () { return !(features?.china != null ? features?.china : false) }

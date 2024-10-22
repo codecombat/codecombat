@@ -23,13 +23,16 @@
           {{ season.dates.rangeDisplay }}
         </div>
         <div
-          v-if="season.video && season.published"
+          v-if="season.published"
         >
           <div
             class="row flex-row video-iframe-section"
             style="margin: 10px 0 10px 0"
           >
-            <div class="col-xs-12 video-backer video-iframe">
+            <div
+              v-if="season.video"
+              class="col-xs-12 video-backer video-iframe"
+            >
               <div style="position: relative; padding-top: 56.14583333333333%;">
                 <iframe
                   :src="`https://iframe.videodelivery.net/${season.video}?poster=https://videodelivery.net/${season.video}/thumbnails/thumbnail.jpg%3Ftime%3D${season.videoThumbnailTime || '600s'}`"
@@ -39,6 +42,23 @@
                   :title="`CodeCombat AI League Winners - Season ${$t('league.season_' + season.number)}`"
                 />
               </div>
+            </div>
+            <div
+              v-else-if="season.imagePath"
+              class="col-xs-12 video-backer video-iframe"
+            >
+              <a
+                :href="season.topMatchUrlPath"
+                target="_blank"
+                style="position: relative;"
+              >
+                <img
+                  class="img-responsive season-img results-img"
+                  :src="season.imagePath"
+                  loading="lazy"
+                  :alt="`CodeCombat AI League Winners - Season ${$t('league.season_' + season.number)}`"
+                >
+              </a>
             </div>
           </div>
           <div class="row text-center">
@@ -115,6 +135,10 @@ export default {
   object-fit: scale-down;
   margin-left: auto;
   margin-right: auto;
+}
+.results-img {
+  width: 100%;
+  height: 100%;
 }
 .season-name {
   font-size: 28px;

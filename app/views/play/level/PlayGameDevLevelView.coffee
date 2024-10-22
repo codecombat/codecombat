@@ -120,7 +120,9 @@ module.exports = class PlayGameDevLevelView extends RootView
       @surface.setWorld(@world)
       @scriptManager.initializeCamera()
       @renderSelectors '#info-col'
-      @spells = aetherUtils.generateSpellsObject level: @level, levelSession: @session
+      code = @session.get('code')['hero-placeholder']?.plan
+      aetherUtils.fetchToken(code, @session.get('codeLanguage'))
+        .then((token) => @spells = aetherUtils.generateSpellsObject level: @level, levelSession: @session, token: token)
       goalNames = (utils.i18n(goal, 'name') for goal in @goalManager.goals)
 
       course = if @courseID then new Course({_id: @courseID}) else null

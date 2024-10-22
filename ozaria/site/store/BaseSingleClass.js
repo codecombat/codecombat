@@ -153,7 +153,7 @@ export default {
       if (options?.componentName) {
         cmptName = options.componentName
       }
-      dispatch('teacherDashboard/fetchData', { componentName: cmptName, options: _.assign({ data: projectionData }, options) }, { root: true })
+      return dispatch('teacherDashboard/fetchData', { componentName: cmptName, options: _.assign({ data: projectionData }, options) }, { root: true })
     },
 
     async applyLicenses ({ state, rootGetters, dispatch, getters }) {

@@ -257,7 +257,17 @@ module.exports = (CocoRouter = (function () {
         },
 
         'play/hoc-2020' () { return this.navigate('/play/hoc-2018', { trigger: true, replace: true }) }, // Added to handle HoC PDF
-        home: utils.isCodeCombat && me.useChinaHomeView() ? go('HomeCNView') : (me.getHomePageExperimentValue() === 'beta' ? go('core/SingletonAppVueComponentView') : go('HomeView')),
+        home (...args) {
+          if (utils.isCodeCombat && me.useChinaHomeView()) {
+            return go('HomeCNView').call(this, ...args)
+          } else {
+            if (me.getHomePageExperimentValue() === 'beta') {
+              return this.routeDirectly('HomeBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+            } else {
+              return go('HomeView').call(this, ...args)
+            }
+          }
+        },
 
         i18n: go('i18n/I18NHomeView'),
         'i18n/thang/:handle': go('i18n/I18NEditThangTypeView'),
@@ -317,6 +327,8 @@ module.exports = (CocoRouter = (function () {
 
         schools: go('core/SingletonAppVueComponentView'),
 
+        junior: go('core/SingletonAppVueComponentView'),
+
         'league/academica': redirect('/league/autoclan-school-network-academica'), // Redirect for Academica.
         'league/kipp': redirect('/league/autoclan-school-network-kipp'), // Redirect for KIPP.
         'league(/*subpath)': go('core/SingletonAppVueComponentView'),
@@ -332,7 +344,6 @@ module.exports = (CocoRouter = (function () {
         },
 
         parents: go('core/SingletonAppVueComponentView'),
-        'parents-v2': go('core/SingletonAppVueComponentView'),
         'parents/*path': go('core/SingletonAppVueComponentView'),
         'live-classes': go('core/SingletonAppVueComponentView'),
         live: go('core/SingletonAppVueComponentView'),
@@ -430,7 +441,6 @@ module.exports = (CocoRouter = (function () {
         'social-and-emotional-learning': go('core/SingletonAppVueComponentView'),
 
         roblox: go('core/SingletonAppVueComponentView'),
-        'roblox-beta': go('core/SingletonAppVueComponentView'),
         grants: go('core/SingletonAppVueComponentView'),
 
         seen: me.useChinaHomeView() ? go('HomeCNView') : go('HomeView'),
@@ -501,6 +511,7 @@ module.exports = (CocoRouter = (function () {
         'teachers/resources': utils.isCodeCombat && me.useChinaHomeView() ? go('teachers/ResourceHubView', { redirectStudents: true }) : go('core/SingletonAppVueComponentView', { redirectStudents: true }),
         'teachers/resources_new': go('core/SingletonAppVueComponentView'),
         'teachers/curriculum': teacherProxyRoute(go('teachers/curriculum', { redirectStudents: true })),
+        'teachers/curriculum/:campaign': teacherProxyRoute(go('teachers/curriculum', { redirectStudents: true })),
         'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true }),
         'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true }),
         'teachers/professional-development': teacherProxyRoute(go('pd/PDView', { redirectStudents: true })),

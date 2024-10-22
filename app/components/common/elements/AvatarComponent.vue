@@ -26,9 +26,9 @@ export default {
 <style lang="scss" scoped>
 @import "app/styles/component_variables.scss";
 .avatar {
-    width: 24px;
-    height: 24px;
-    border-radius: 24px;
+    width: 32px;
+    height: 32px;
+    border-radius: 32px;
     border: 1px solid var(--color-primary);
 }
 </style>

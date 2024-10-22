@@ -1,5 +1,6 @@
 <script>
 import QuestionmarkView from 'app/views/ai-league/QuestionmarkView.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -33,10 +34,17 @@ export default {
       default: () => false
     }
   },
-
   computed: {
+    ...mapGetters({
+      activeCls: 'teacherDashboard/getActiveClassrooms',
+      archivedCls: 'teacherDashboard/getArchivedClassrooms',
+      sharedCls: 'teacherDashboard/getSharedClassrooms'
+    }),
     clansSanitized () {
-      return this.clans.filter(v => v !== undefined)
+      return this.clans.filter(v => v !== undefined).filter(v => !v.slug.startsWith('autoclan-classroom-') || this.cocoClassroomsSlugs.includes(v.slug))
+    },
+    cocoClassroomsSlugs () {
+      return [...this.activeCls, ...this.archivedCls, ...this.sharedCls].map(c => `autoclan-classroom-${c._id}`)
     }
   }
 }

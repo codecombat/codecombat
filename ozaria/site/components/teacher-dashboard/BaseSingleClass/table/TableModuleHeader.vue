@@ -8,6 +8,11 @@ import ProgressDot from '../../common/progress/progressDot'
 import LockOrSkip from './LockOrSkip'
 import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
 import { courseArenaLadder } from 'core/urls'
+import { getLevelUrl } from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper'
+import CourseSchema from 'app/schemas/models/course.schema'
+import CodeRenderer from 'app/components/common/labels/CodeRenderer'
+import AccessLevelIndicator from 'app/components/common/elements/AccessLevelIndicator'
+import DynamicLink from 'app/components/common/elements/DynamicLink.vue'
 
 import utils from 'core/utils'
 
@@ -22,14 +27,14 @@ const selectableGroups = [
     '5efc09910bda4700242d6e47', // Intro: Builder Things
     '5efc10a40bda4700242d6e9b', // Intro: Finishing Touches
     '5eddd6a76f7d690028cf4c50', // Capstone Level: Gauntlet
-    '5f0cd339e494e50029521c5e' // Cutscene: Trapping the Dark
+    '5f0cd339e494e50029521c5e', // Cutscene: Trapping the Dark
   ],
   [
     // Chapter 4
     '60073a27f849d20027ae6c5e', // Intro: Stage 1
     '5fdc91598a71e9002485b1f0', // Capstone Level: Curiosity Sandbox
-    '60073a6b23a19d0022f0da62' // Intro: Stage 2
-  ]
+    '60073a6b23a19d0022f0da62', // Intro: Stage 2
+  ],
 ]
 
 const getSelectableGroup = (original) => {
@@ -48,40 +53,51 @@ export default {
   components: {
     ContentIcon,
     ProgressDot,
-    LockOrSkip
+    LockOrSkip,
+    CodeRenderer,
+    AccessLevelIndicator,
+    DynamicLink,
   },
   props: {
     moduleHeading: {
       type: String,
-      required: true
+      required: true,
     },
 
     moduleHeadingImage: {
       type: String,
-      default: null
+      default: null,
     },
 
     listOfContent: {
       type: Array,
-      required: true
+      required: true,
     },
 
     classSummaryProgress: {
       type: Array,
-      required: true
+      required: true,
     },
 
     displayOnly: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+
+    access: {
+      type: String,
+      validator: value => {
+        return CourseSchema.properties.modules.additionalProperties.properties.access.enum.includes(value)
+      },
+      default: undefined,
+    },
   },
 
   data () {
     return {
       lockOrSkipShown: false,
       hoveredOriginals: [],
-      userSelectedOriginals: []
+      userSelectedOriginals: [],
     }
   },
 
@@ -92,6 +108,7 @@ export default {
       selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
       getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
       classroom: 'teacherDashboard/getCurrentClassroom',
+      isContentAccessible: 'me/isContentAccessible',
     }),
 
     isCodeCombat () {
@@ -105,7 +122,7 @@ export default {
     cssVariables () {
       return {
         '--cols': this.listOfContent.length,
-        '--columnWidth': this.listOfContent.length > 2 ? '28px' : (this.listOfContent.length > 1 ? '42px' : '84px')
+        '--columnWidth': this.listOfContent.length > 2 ? '28px' : (this.listOfContent.length > 1 ? '42px' : '84px'),
 
       }
     },
@@ -116,7 +133,7 @@ export default {
       } else {
         return '/images/ozaria/teachers/dashboard/svg_icons/IconLock.svg'
       }
-    }
+    },
   },
 
   methods: {
@@ -125,6 +142,10 @@ export default {
       replaceSelectedOriginals: 'baseSingleClass/replaceSelectedOriginals',
       updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals',
     }),
+
+    getLevelUrl (object) {
+      return getLevelUrl(object)
+    },
 
     arenaLadderUrl (slug) {
       const courseInstances = this.getCourseInstancesOfClass(this.classroom._id) || []
@@ -154,7 +175,7 @@ export default {
 
     classContentTooltip (type) {
       return {
-        'intro-tooltip': type === 'cinematic' || type === 'interactive'
+        'intro-tooltip': type === 'cinematic' || type === 'interactive',
       }
     },
 
@@ -162,7 +183,7 @@ export default {
       return {
         'hover-trigger-area': true,
         hoverState: this.hoveredOriginals.includes(normalizedOriginal),
-        'is-selected': this.selectedOriginals.includes(normalizedOriginal)
+        'is-selected': this.selectedOriginals.includes(normalizedOriginal),
       }
     },
 
@@ -172,8 +193,8 @@ export default {
     },
     deselectAll () {
       this.replaceSelectedOriginals(this.userSelectedOriginals)
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -197,8 +218,13 @@ export default {
       >
       <h3
         v-else
-        v-html="moduleHeading.replace(/`(.*?)`/g, '<code>$1</code>')"
-      />
+      >
+        <code-renderer :content="moduleHeading" />
+        <access-level-indicator
+          :level="access"
+          :display-text="false"
+        />
+      </h3>
       <!-- eslint-enable vue/no-v-html -->
       <v-popover
         v-if="!displayOnly"
@@ -222,7 +248,7 @@ export default {
       </v-popover>
     </div>
     <div
-      v-for="({ type, isPractice, practiceLevels, tooltipName, description, normalizedOriginal, normalizedType, contentLevelSlug }, idx) of listOfContent"
+      v-for="({ type, slug, introContent, ozariaType, introLevelSlug, isPractice, practiceLevels, tooltipName, description, normalizedOriginal, normalizedType, contentLevelSlug }, idx) of listOfContent"
       :key="`${idx}-${type}`"
       class="content-icons"
     >
@@ -256,7 +282,12 @@ export default {
               style="margin-bottom: 15px;"
               :class="classContentTooltip(type)"
             >
-              {{ tooltipName }}
+              <dynamic-link
+                target="_blank"
+                :href="isContentAccessible(access) ? getLevelUrl({ozariaType, introLevelSlug, courseId: selectedCourseId, codeLanguage: classroom.aceConfig.language, slug, introContent}) : null"
+              >
+                {{ tooltipName }}
+              </dynamic-link>
             </h3>
             <p
               style="margin-bottom: 15px;"
@@ -415,6 +446,12 @@ h3 {
 
 .level-popover-locking {
   padding: 16px 16px 0;
+  ::v-deep {
+    a {
+      color: inherit;
+      text-decoration: underline;
+    }
+  }
 }
 
 .lock-btn-row {

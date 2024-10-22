@@ -100,6 +100,7 @@ class CampaignView extends RootView {
       'click .level': 'onClickLevel',
       'dblclick .level': 'onDoubleClickLevel',
       'click .level-info-container .start-level': 'onClickStartLevel',
+      'click .level-info-container .home-version button': 'onClickStartLevel',
       'click .level-info-container .view-solutions': 'onClickViewSolutions',
       'click .level-info-container .course-version button': 'onClickCourseVersion',
       'click #volume-button': 'onToggleVolume',
@@ -689,7 +690,7 @@ class CampaignView extends RootView {
     if (me.freeOnly()) {
       context.levels = _.reject(context.levels, level => {
         if ((['course', 'course-ladder'].includes(level.type)) && me.isStudent() && !this.courseInstance) { return true } // Too much hassle to get Wakka Maul working for CS1 with no classroom
-        return level.requiresSubscription
+        return level.requiresSubscription && !me.isStudent()
       })
     }
     if (features.brainPop) {
@@ -752,7 +753,7 @@ class CampaignView extends RootView {
           if ((me.level() < 12) && (campaign.get('slug') === 'dungeon') && !this.editorMode) {
             levels = levels.filter(level => level.slug !== 'signs-and-portents')
           }
-          if (me.freeOnly()) {
+          if (me.freeOnly() && !me.isStudent()) {
             levels = levels.filter(level => !level.requiresSubscription)
           }
           const count = this.countLevels(levels)
@@ -1415,7 +1416,7 @@ class CampaignView extends RootView {
   }
 
   onClickStartLevel (e) {
-    const levelElement = $(e.target).closest('.level-info-container')
+    const levelElement = $(e.target).closest('.btn')
     const levelSlug = levelElement.data('level-slug')
     const levelOriginal = levelElement.data('level-original')
     const levelPath = levelElement.data('level-path')
@@ -1435,7 +1436,11 @@ class CampaignView extends RootView {
       if (new Date(me.get('dateCreated')) < new Date('2021-09-21') && (!me.showChinaHomeVersion())) {
         defaultAccess = 'all'
       }
-      let access = me.getExperimentValue('home-content', defaultAccess)
+      let access
+      if (this.terrain === 'junior') {
+        access = 'all' // CodeCombat Junior level access is managed the old way, with level.requiresSubscription, no hardcoded overrides
+      }
+      access = access || me.getExperimentValue('home-content', defaultAccess)
       if (me.showChinaResourceInfo() || (me.get('country') === 'japan')) {
         access = 'short'
       }
@@ -1546,7 +1551,30 @@ class CampaignView extends RootView {
 
   onWindowResize (e) {
     const mapHeight = 1536
-    const mapWidth = { dungeon: 2350, forest: 2500, auditions: 2500, desert: 2411, mountain: 2422, glacier: 2421, junior: 2214 }[this.terrain] || 2350
+    const mapWidths = {
+      dungeon: 2350,
+      forest: 2500,
+      auditions: 2500,
+      desert: 2411,
+      mountain: 2421,
+      glacier: 2413,
+      junior: 2214,
+      'campaign-game-dev-1': 2500,
+      'campaign-game-dev-2': 2500,
+      'campaign-game-dev-3': 2500,
+      'campaign-web-dev-1': 2500,
+      'campaign-web-dev-2': 2500,
+      'game-dev-1': 2500,
+      'game-dev-2': 2500,
+      'game-dev-3': 2500,
+      'web-dev-1': 2500,
+      'web-dev-2': 2500,
+      'course-3': 2500,
+      'course-4': 2411,
+      'course-5': 2421,
+      'course-6': 2413,
+    }
+    const mapWidth = mapWidths[this.terrain] || 2350
     const aspectRatio = mapWidth / mapHeight
     const pageWidth = this.$el.width()
     const pageHeight = this.$el.height()
@@ -2050,6 +2078,10 @@ class CampaignView extends RootView {
     const isStudentOrTeacher = me.isStudent() || me.isTeacher()
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
+    if (what === 'junior-level') {
+      return me.isHomeUser()
+    }
+
     if (what === 'classroom-level-play-button') {
       const isValidStudent = me.isStudent() && (this.courseInstance || (me.get('courseInstances')?.length && (this.campaign.get('slug') !== 'intro')))
       const isValidTeacher = me.isTeacher()
@@ -2078,6 +2110,10 @@ class CampaignView extends RootView {
 
     if (['level', 'xp'].includes(what)) {
       return me.showGemsAndXpInClassroom() || !isStudentOrTeacher
+    }
+
+    if (['leaderboard'].includes(what) && this.terrain === 'junior') {
+      return false
     }
 
     if (['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements'].includes(what)) {

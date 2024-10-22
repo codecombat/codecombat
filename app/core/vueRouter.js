@@ -49,16 +49,8 @@ export default function getVueRouter () {
         {
           path: '/parents',
           props: (route) => ({ showPremium: true, type: route.query.type }),
-          ...(
-            me.getParentsPageExperimentValue() === 'control'
-              ? {
-                  component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
-                }
-              : {
-                  component: () => import(/* webpackChunkName: "ParentsViewV2" */ 'app/views/landing-pages/parents-v2/PageParents'),
-                  meta: { theme: 'teal' }
-                }
-          )
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents-v2/PageParents'),
+          meta: { theme: 'teal' },
         },
         {
           path: '/codequest',
@@ -153,6 +145,10 @@ export default function getVueRouter () {
         {
           path: '/schools',
           component: () => import(/* webpackChunkName: "SchoolsView" */ 'app/views/schools/PageSchools.vue')
+        },
+        {
+          path: '/junior',
+          component: () => import(/* webpackChunkName: "JuniorView" */ 'app/views/junior/PageJunior.vue')
         },
         {
           path: '/school-administrator',
@@ -298,6 +294,7 @@ export default function getVueRouter () {
             },
             { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDViewV2.vue') },
             { path: 'curriculum', component: () => import(/* webpackChunkName: "curriculum" */ '../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/index.vue') },
+            { path: 'curriculum/:campaign', component: () => import(/* webpackChunkName: "curriculum" */ '../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/index.vue'), props: true },
             {
               path: 'ai-league',
               component: () => import(/* webpackChunkName: "ai-league" */ '../views/ai-league/AILeagueView.vue'),
@@ -310,22 +307,9 @@ export default function getVueRouter () {
 
         },
         {
-          path: '/roblox-beta',
-          component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/NewPageRoblox'),
-          meta: { theme: 'teal' }
-        },
-        {
           path: '/roblox',
-          ...(
-            me.getRobloxPageExperimentValue() === 'control'
-              ? {
-                  component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/PageRoblox'),
-                }
-              : {
-                  component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/NewPageRoblox'),
-                }
-          ),
-          meta: { theme: 'teal' }
+          component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/roblox/NewPageRoblox'),
+          meta: { theme: 'teal' },
         },
         {
           path: '/grants',
@@ -420,20 +404,16 @@ export default function getVueRouter () {
           name: 'StandardsPage',
           component: () => import(/* webpackChunkName: "standardsPage" */'app/views/standards/PageStandards')
         },
-        ...(
-          me.getHomePageExperimentValue() === 'beta'
-            ? [{
-                path: '/home',
-                name: 'HomeBeta1',
-                component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
-              },
-              {
-                path: '/',
-                name: 'HomeBeta2',
-                component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
-              }]
-            : []
-        ),
+        {
+          path: '/home',
+          name: 'HomeBeta1',
+          component: () => import(/* webpackChunkName: "homeBeta" */'app/views/home/PageHome')
+        },
+        {
+          path: '/',
+          name: 'HomeBeta2',
+          component: () => import(/* webpackChunkName: "homeBeta2" */'app/views/home/PageHome')
+        },
         {
           path: '/admin/low-usage-users',
           name: 'LowUsageUsersAdmin',
