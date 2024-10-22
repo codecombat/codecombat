@@ -789,10 +789,34 @@ function addInsertionPoints ({ code, originalCode, codeLanguage }) {
   return newCode
 }
 
+function guardUnicode ({ code, codeLanguage }) {
+  if (!code) { return code }
+  const commentStart = { javascript: '//', python: '#', lua: '--' }[codeLanguage] || '//'
+  const singleLineCommentWithNonASCIIRegex = new RegExp(`[ \t]*${commentStart}.*?[^ -~]`)
+  const singleLineCommentPartsRegex = new RegExp(`([ \t]*${commentStart})(.+)`)
+  // For some reason, Blockly garbles text encoding if you do a comment line like this:
+  // # 然后，使用while True循环攻击"Cupboard"（橱柜）。
+  // or this
+  // // Puis, attaquez le "Cupboard" à l'aide d'une boucle while-true.
+  // It seems to be the quotes. So if we have non-ASCII text in a comment string, let's get rid of quotes.
+  const lines = code.split('\n')
+  for (let i = 0; i < lines.length; ++i) {
+    const line = lines[i]
+    const hasNonASCII = singleLineCommentWithNonASCIIRegex.test(line)
+    if (hasNonASCII) {
+      lines[i] = line.replace(singleLineCommentPartsRegex, (match, commentStart, commentContent) => {
+        return commentStart + commentContent.replace(/"/g, "'")
+      })
+    }
+  }
+  return lines.join('\n')
+}
+
 function codeToBlocks ({ code, originalCode, codeLanguage, prepData }) {
   let ast
   try {
     code = addInsertionPoints({ code, originalCode, codeLanguage })
+    code = guardUnicode({ code, codeLanguage })
     switch (codeLanguage) {
       case 'javascript':
       {

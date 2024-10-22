@@ -3302,6 +3302,9 @@ module.exports = {
       bracket_11_18: '11-18',
       bracket_open: 'Open',
       create_tournament: 'Create a Tournament',
+      difficulty_beginner: 'Beginner',
+      difficulty_intermediate: 'Intermediate',
+      difficulty_advanced: 'Advanced',
     },
 
     user: {

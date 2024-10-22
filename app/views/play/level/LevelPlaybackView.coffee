@@ -352,7 +352,12 @@ module.exports = class LevelPlaybackView extends CocoView
     return if @shouldIgnore()
     button = $('#play-button')
     willPlay = button.hasClass('paused') or button.hasClass('ended')
-    Backbone.Mediator.publish 'level:set-playing', playing: willPlay
+    if @options.level.get('product') is 'codecombat-junior' and (button.hasClass('ended') or button.hasClass('paused') and @getScrubRatio() < 0.05)
+      # Just rewind and rerun the level for Junior so students don't have to understand difference between play button here and in code editor
+      Backbone.Mediator.publish 'level:set-time', ratio: 0, scrubDuration: 0
+      Backbone.Mediator.publish 'tome:manual-cast', realTime: false
+    else
+      Backbone.Mediator.publish 'level:set-playing', playing: willPlay
     $(document.activeElement).blur()
 
   onToggleVolume: (e) ->
