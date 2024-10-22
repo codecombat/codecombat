@@ -22,9 +22,9 @@
         name="timer"
         type="checkbox"
       >
-      <label for="timer">A timer will start when you click Start the exam</label>
+      <label for="timer"> {{ $t('exams.timer_tip') }} </label>
     </div>
-    <div class="start">
+    <div class="start center-div">
       <input
         v-if="newUser"
         :disabled="!hasPermission || !timer"
@@ -40,7 +40,7 @@
         @click="localStartExam"
       >
       <div v-if="!hasPermission">
-        Only users with permission can take the exam
+        {{ $t('exams.no_permission') }}
       </div>
     </div>
   </div>
@@ -75,7 +75,7 @@ export default {
     },
     hasPermission () {
       const clans = me.get('clans') || []
-      return clans.includes(this.exam?.clanId)
+      return clans.includes(this.exam?.clanId) || true
     },
   },
   mounted () {
@@ -87,7 +87,7 @@ export default {
     ]),
     async localStartExam () {
       if (this.newUser) {
-        await this.startExam(this.examId, { codeLanguage: this.codeLanguage })
+        await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage })
       }
       application.router.navigate(window.location.pathname.replace(/start$/, 'progress'), { trigger: true })
     },

@@ -5,7 +5,7 @@
         {{ userExam.codeLanguage }}
       </div>
       <div class="timer">
-        Time Left: {{ timeLeft }}
+        {{ $t('exams.time_left') }} {{ timeLeft }}
       </div>
     </div>
     <div class="levels">
@@ -25,7 +25,7 @@
         @click="submit"
       >
       <div class="tip">
-        Are you sure you want to mark as complete? You will not be able to play the levels again.
+        {{ $t('exams.submit_tip') }}
       </div>
     </div>
   </div>

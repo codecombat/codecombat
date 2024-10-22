@@ -28,8 +28,8 @@ export default {
       commit('addExam', exam)
     },
 
-    async startExam ({ commit }, examId) {
-      const response = await startExam(examId)
+    async startExam ({ commit }, { examId, codeLanguage }) {
+      const response = await startExam(examId, { codeLanguage })
       commit('updateUserExam', {
         examId,
         userExam: response,

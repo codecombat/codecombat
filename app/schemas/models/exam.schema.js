@@ -14,7 +14,7 @@ _.extend(ExamSchema.properties, {
     type: 'string',
     description: 'Description of the exam',
   },
-  clan: c.objectId({ links: [{ rel: 'db', href: '/db/clan/{($)}' }] }),
+  clan: c.objectId({ links: [{ rel: 'db', href: '/db/clan/{($)}' }], description: 'Classroom auto clan, since students need a classroom to play the level, but clan is easy for permission checking' }),
   startDate: c.stringDate(),
   endDate: c.stringDate(),
   duration: {
