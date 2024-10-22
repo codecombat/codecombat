@@ -12,7 +12,9 @@ module.exports = {
 
 async function generateLevel ({ parameters, supermodel }) {
   parameters.terrain = parameters.terrain || 'Junior'
-  parameters.size = juniorSizes[juniorSizes.length - 1]
+  if (parameters.sourceLevel) {
+    parameters.size = juniorSizes[juniorSizes.length - 1]
+  }
   parameters = fillRandomParameters(parameters)
   parameters.supermodel = supermodel
 
@@ -494,13 +496,16 @@ generateProperty('practice', function (level, parameters) {
 // practiceThresholdMinutes: { type: 'number', description: 'Players with larger playtimes may be directed to a practice level.', inEditor: 'codecombat' },
 generateProperty('practiceThresholdMinutes', function (level, parameters) {
   let sourceP50 = parameters.levelStats?.playtime?.p50
-  if (!sourceP50) {
+  if (!sourceP50 && parameters.sourceLevel) {
     // Experimental data very roughly suggests 10s + 5s/line p50 completion time. We can come up with a better fit if important.
-    const hero = _.find(parameters.sourceLevel?.get('thangs') || level.thangs, { id: 'Hero Placeholder' })
+    const hero = _.find(parameters.sourceLevel.get('thangs') || level.thangs, { id: 'Hero Placeholder' })
     const programmableConfig = _.find(hero.components, { original: defaultHeroComponentIDs.Programmable }).config
     const solutionLines = _.find(programmableConfig.programmableMethods.plan.solutions, { succeeds: true }).source.trim().split('\n').length
     const startLines = programmableConfig.programmableMethods.plan.source.trim().split('\n').length
     sourceP50 = 10 + 5 * (solutionLines - startLines)
+  }
+  if (!sourceP50) {
+    sourceP50 = 2 * 60 // Randomly assume 2 minutes per level for new levels with no data
   }
   const levelIndex = parameters.levelIndex || 0
   // Increase by 10% + 10s with each level, so that slow players eventually move on
@@ -746,6 +751,13 @@ generateProperty(null, async function (level, parameters) {
     }
   }
 
+  let solutionCode, starterCode
+  if (!sourceLevel) {
+    ({ solutionCode, starterCode } = generateRandomCodeForApis(apis))
+    updateProgrammableConfig({ thangs: level.thangs, solutionCode, starterCode, apis })
+    return
+  }
+
   // Find existing movement pattern
   // From the beginning, permute it:
   // - Manhattan distance of hero from start should be the same at each step
@@ -760,125 +772,119 @@ generateProperty(null, async function (level, parameters) {
   // Solution code should succeed
   // Source level's solution code should fail
 
-  let solutionCode, starterCode
-  if (sourceLevel) {
-    const solutionCodeSource = _.find(programmableSource.config.programmableMethods.plan.solutions, (solution) => solution.succeeds).source
-    const starterCodeSource = programmableSource.config.programmableMethods.plan.source
-    const actions = parseActions(solutionCodeSource)
-    let tries = 0
-    let actionsNew, thangsNew, valid, offset, size, visitedPositions
-    do {
-      valid = true
-      const checkDistanceTraveled = tries < 0.4 * permutationTriesOverall // If it's not working, we can relax this constraint
-      const checkZapTurns = tries < 0.5 * permutationTriesOverall // If it's not working, we can relax this constraint
-      const checkHitTurns = tries < 0.6 * permutationTriesOverall // If it's not working, we can relax this constraint
-      ;({ actions: actionsNew, thangs: thangsNew, visitedPositions } = permuteActions({ actions, thangs: level.thangs, checkDistanceTraveled, checkZapTurns, checkHitTurns }))
-      solutionCode = compileActions(actionsNew)
-      const starterCodeLinesSrc = starterCodeSource.trim().split('\n')
-      const numStarterCodeLines = starterCodeSource.length > 0 ? starterCodeLinesSrc.length : 0
-      const starterCodeLinesNew = solutionCode.split('\n').slice(0, numStarterCodeLines)
-      if (_.last(solutionCode.split('\n')) === '}' && numStarterCodeLines) {
-        // Simple way to close loop. TODO: make this general to various loop closures, not just the most basic case.
-        starterCodeLinesNew[starterCodeLinesNew.length - 1] = '}'
+  const solutionCodeSource = _.find(programmableSource.config.programmableMethods.plan.solutions, (solution) => solution.succeeds).source
+  const starterCodeSource = programmableSource.config.programmableMethods.plan.source
+  const actions = parseActions(solutionCodeSource)
+  let tries = 0
+  let actionsNew, thangsNew, valid, offset, size, visitedPositions
+  do {
+    valid = true
+    const checkDistanceTraveled = tries < 0.4 * permutationTriesOverall // If it's not working, we can relax this constraint
+    const checkZapTurns = tries < 0.5 * permutationTriesOverall // If it's not working, we can relax this constraint
+    const checkHitTurns = tries < 0.6 * permutationTriesOverall // If it's not working, we can relax this constraint
+    ;({ actions: actionsNew, thangs: thangsNew, visitedPositions } = permuteActions({ actions, thangs: level.thangs, checkDistanceTraveled, checkZapTurns, checkHitTurns }))
+    solutionCode = compileActions(actionsNew)
+    const starterCodeLinesSrc = starterCodeSource.trim().split('\n')
+    const numStarterCodeLines = starterCodeSource.length > 0 ? starterCodeLinesSrc.length : 0
+    const starterCodeLinesNew = solutionCode.split('\n').slice(0, numStarterCodeLines)
+    if (_.last(solutionCode.split('\n')) === '}' && numStarterCodeLines) {
+      // Simple way to close loop. TODO: make this general to various loop closures, not just the most basic case.
+      starterCodeLinesNew[starterCodeLinesNew.length - 1] = '}'
+    }
+    // Adjust any loop counts, in case the difference in starter code was in changing those. Also preserve empty loop lines.
+    for (let lineIndex = 0; lineIndex < numStarterCodeLines; ++lineIndex) {
+      const lineSrc = starterCodeLinesSrc[lineIndex]
+      const lineNew = starterCodeLinesNew[lineIndex]
+      if (/^for \(/.test(lineNew) || !lineSrc.trim()) {
+        starterCodeLinesNew[lineIndex] = lineSrc
       }
-      // Adjust any loop counts, in case the difference in starter code was in changing those. Also preserve empty loop lines.
-      for (let lineIndex = 0; lineIndex < numStarterCodeLines; ++lineIndex) {
-        const lineSrc = starterCodeLinesSrc[lineIndex]
-        const lineNew = starterCodeLinesNew[lineIndex]
-        if (/^for \(/.test(lineNew) || !lineSrc.trim()) {
-          starterCodeLinesNew[lineIndex] = lineSrc
-        }
+    }
+    starterCode = starterCodeLinesNew.join('\n')
+    if (_.find(actionsNew, (a) => a.invalid)) {
+      valid = false
+      // console.log('Repeating because an action was invalid')
+      // console.log(solutionCodeSource)
+      // console.log(solutionCode)
+    }
+    if (valid && solutionCode.trim() === solutionCodeSource.trim()) {
+      valid = false
+      console.log('Repeating because code was same')
+      console.log(solutionCodeSource)
+      console.log(solutionCode)
+    }
+    if (valid && starterCode.trim() === solutionCode.trim()) {
+      valid = false
+      console.log('Repeating because starter code and solution code were the same')
+      console.log(solutionCode)
+    }
+    if (valid) {
+      for (const pos of visitedPositions) {
+        // Not sure why floating point instability is getting in here, but fix it
+        pos.x = Math.round(pos.x)
+        pos.y = Math.round(pos.y)
       }
-      starterCode = starterCodeLinesNew.join('\n')
-      if (_.find(actionsNew, (a) => a.invalid)) {
+      repositionFriendsAndExplosives({ thangsSrc: level.thangs, thangsNew, visitedPositions })
+      ;({ offset, size } = shiftLayout({ thangs: thangsNew, visitedPositions }))
+      if (size.cols > maxCols || size.rows > maxRows) {
         valid = false
-        // console.log('Repeating because an action was invalid')
+        console.log(`Level would be too big at ${size.cols}x${size.rows}`)
         // console.log(solutionCodeSource)
         // console.log(solutionCode)
       }
-      if (valid && solutionCode.trim() === solutionCodeSource.trim()) {
+    }
+    if (valid) {
+      for (const otherLevel of (parameters.existingPracticeLevels || []).concat(parameters.newPracticeLevels || [])) {
+        const otherThangs = otherLevel.thangs || otherLevel.get('thangs')
+        const otherHero = _.find(otherThangs, { id: 'Hero Placeholder' })
+        const otherProgrammable = _.find(otherHero.components, { original: defaultHeroComponentIDs.Programmable })
+        const otherSolution = _.find(otherProgrammable.config.programmableMethods.plan.solutions, { succeeds: true })
+        if (solutionCode.trim() === otherSolution.source.trim()) {
+          valid = false
+          console.log('Repeating because solution code was same as in', otherLevel.name || otherLevel.get('name'))
+          console.log(solutionCode)
+          break
+        }
+        if (valid && layoutsAreEquivalent(otherLevel.thangs || otherLevel.get('thangs'), thangsNew)) {
+          valid = false
+          console.log('Repeating because layout was same as in', otherLevel.name || otherLevel.get('name'))
+          break
+        }
+      }
+    }
+    if (valid && layoutsAreEquivalent(level.thangs, thangsNew)) {
+      valid = false
+      console.log('Repeating because layout was same as source level')
+    }
+    if (valid) {
+      const oldThangsOffset = _.cloneDeep(parameters.originalThangs) // May not be right because of visitedPositions, but will catch some cases
+      shiftLayout({ thangs: oldThangsOffset, visitedPositions: [] })
+      if (layoutsAreEquivalent(oldThangsOffset, thangsNew)) {
         valid = false
-        console.log('Repeating because code was same')
+        console.log('Repeating because layout was same as source level after shifting')
+      }
+    }
+    if (valid) {
+      updateProgrammableConfig({ thangs: thangsNew, solutionCode, starterCode, apis })
+      if (!(await verifyLevel({ sourceLevel, thangs: thangsNew, solutionCode, starterCode, supermodel: parameters.supermodel }))) {
+        valid = false
+        console.log('Repeating because level did not verify')
         console.log(solutionCodeSource)
         console.log(solutionCode)
       }
-      if (valid && starterCode.trim() === solutionCode.trim()) {
-        valid = false
-        console.log('Repeating because starter code and solution code were the same')
-        console.log(solutionCode)
-      }
-      if (valid) {
-        for (const pos of visitedPositions) {
-          // Not sure why floating point instability is getting in here, but fix it
-          pos.x = Math.round(pos.x)
-          pos.y = Math.round(pos.y)
-        }
-        repositionFriendsAndExplosives({ thangsSrc: level.thangs, thangsNew, visitedPositions })
-        ;({ offset, size } = shiftLayout({ thangs: thangsNew, visitedPositions }))
-        if (size.cols > maxCols || size.rows > maxRows) {
-          valid = false
-          console.log(`Level would be too big at ${size.cols}x${size.rows}`)
-          // console.log(solutionCodeSource)
-          // console.log(solutionCode)
-        }
-      }
-      if (valid) {
-        for (const otherLevel of (parameters.existingPracticeLevels || []).concat(parameters.newPracticeLevels || [])) {
-          const otherThangs = otherLevel.thangs || otherLevel.get('thangs')
-          const otherHero = _.find(otherThangs, { id: 'Hero Placeholder' })
-          const otherProgrammable = _.find(otherHero.components, { original: defaultHeroComponentIDs.Programmable })
-          const otherSolution = _.find(otherProgrammable.config.programmableMethods.plan.solutions, { succeeds: true })
-          if (solutionCode.trim() === otherSolution.source.trim()) {
-            valid = false
-            console.log('Repeating because solution code was same as in', otherLevel.name || otherLevel.get('name'))
-            console.log(solutionCode)
-            break
-          }
-          if (valid && layoutsAreEquivalent(otherLevel.thangs || otherLevel.get('thangs'), thangsNew)) {
-            valid = false
-            console.log('Repeating because layout was same as in', otherLevel.name || otherLevel.get('name'))
-            break
-          }
-        }
-      }
-      if (valid && layoutsAreEquivalent(level.thangs, thangsNew)) {
-        valid = false
-        console.log('Repeating because layout was same as source level')
-      }
-      if (valid) {
-        const oldThangsOffset = _.cloneDeep(parameters.originalThangs) // May not be right because of visitedPositions, but will catch some cases
-        shiftLayout({ thangs: oldThangsOffset, visitedPositions: [] })
-        if (layoutsAreEquivalent(oldThangsOffset, thangsNew)) {
-          valid = false
-          console.log('Repeating because layout was same as source level after shifting')
-        }
-      }
-      if (valid) {
-        updateProgrammableConfig({ thangs: thangsNew, solutionCode, starterCode, apis })
-        if (!(await verifyLevel({ sourceLevel, thangs: thangsNew, solutionCode, starterCode, supermodel: parameters.supermodel }))) {
-          valid = false
-          console.log('Repeating because level did not verify')
-          console.log(solutionCodeSource)
-          console.log(solutionCode)
-        }
-      }
-      // TODO: check to see if this matches any other previously generated practice levels
-      // TODO: load up the verifier and do all our checks
-      ++tries
-    } while (!valid && tries < permutationTriesOverall)
-    if (!valid) {
-      console.log('Could not find valid overall permutation', { actionsNew, thangsNew, solutionCode, starterCode, solutionCodeSource, starterCodeSource })
-      level.invalid = true
-    } else {
-      console.log('Generated new level', { actionsNew, thangsNew, solutionCode, starterCode, solutionCodeSource, starterCodeSource })
-      console.log(solutionCodeSource)
-      console.log(solutionCode)
-      level.thangs = thangsNew
-      adjustTerrain({ offset, size, level, visitedPositions })
     }
+    // TODO: check to see if this matches any other previously generated practice levels
+    // TODO: load up the verifier and do all our checks
+    ++tries
+  } while (!valid && tries < permutationTriesOverall)
+  if (!valid) {
+    console.log('Could not find valid overall permutation', { actionsNew, thangsNew, solutionCode, starterCode, solutionCodeSource, starterCodeSource })
+    level.invalid = true
   } else {
-    ({ solutionCode, starterCode } = generateRandomCodeForApis(apis))
-    updateProgrammableConfig({ thangs: level.thangs, solutionCode, starterCode, apis })
+    console.log('Generated new level', { actionsNew, thangsNew, solutionCode, starterCode, solutionCodeSource, starterCodeSource })
+    console.log(solutionCodeSource)
+    console.log(solutionCode)
+    level.thangs = thangsNew
+    adjustTerrain({ offset, size, level, visitedPositions })
   }
 })
 
