@@ -301,6 +301,7 @@ export default Vue.extend({
       :key="currentContentId + `${reloadKey[currentContent.type]}`"
       :cinematic-id-or-slug="currentContentId"
       :user-options="{ programmingLanguage: language }"
+      :level-number="levelNumber"
       @completed="onContentCompleted"
     />
     <cutscene-video-component

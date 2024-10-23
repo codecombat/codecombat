@@ -848,14 +848,10 @@ const createLevelNumberMap = function (levels, courseID) {
       levelNumber = (i - practiceLevelTotalCount) + String.fromCharCode('a'.charCodeAt(0) + practiceLevelCurrentCount)
       practiceLevelTotalCount++
       practiceLevelCurrentCount++
-    } else if (level.assessment) {
-      practiceLevelTotalCount++
-      practiceLevelCurrentCount++
-      if (isCodeCombat) {
-        levelNumber = level.assessment === 'cumulative' ? $.t('play_level.combo_challenge') : $.t('play_level.concept_challenge')
-      } else {
-        levelNumber = $.i18n.t('play_level.challenge')
-      }
+    } else if (level.assessment && isCodeCombat) {
+      practiceLevelCurrentCount = 0
+      const helpText = level.assessment === 'cumulative' ? $.t('play_level.combo_challenge') : $.t('play_level.concept_challenge')
+      levelNumber = `${levelNumber}. ${helpText}`
     } else {
       practiceLevelCurrentCount = 0
     }
