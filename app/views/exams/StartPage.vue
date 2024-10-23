@@ -74,8 +74,11 @@ export default {
       return this.exam?.languages || ['python', 'javascript']
     },
     hasPermission () {
+      if (this.exam?._id === '-') {
+        return true
+      }
       const clans = me.get('clans') || []
-      return clans.includes(this.exam?.clanId) || true
+      return clans.includes(this.exam?.clanId)
     },
   },
   mounted () {
