@@ -8,7 +8,7 @@ const postExam = async (options) => {
 }
 
 const getExamById = async (id) => {
-  return fetchJson(`/db/exam/${id}`)
+  return fetchJson(`/db/exams/${id}`)
 }
 
 module.exports = {
