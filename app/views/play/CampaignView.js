@@ -1994,7 +1994,7 @@ class CampaignView extends RootView {
       level.color = 'rgb(255, 80, 60)'
       level.disabled = false
 
-      if (level.slug === nextSlug) {
+      if (level.slug === nextSlug && !this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original)) {
         level.locked = false
         level.hidden = false
         level.next = true
