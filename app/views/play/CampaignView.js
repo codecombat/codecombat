@@ -349,6 +349,7 @@ class CampaignView extends RootView {
       }
     }
 
+    this.isMto = me.isMto()
     window.tracker?.trackEvent('Loaded World Map', { category: 'World Map', label: this.terrain })
   }
 
