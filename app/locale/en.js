@@ -6293,5 +6293,12 @@ module.exports = {
       'badge_tooltip_sales-call': 'Interested in more? Give us a call and unlock!',
       badge_tooltip_paid: 'This content is exclusive to users with a valid license.',
     },
+    exams: {
+      timer_tip: 'A timer will start when you click Start the exam',
+      no_permission: 'Only users with permission can take the exam',
+      level_num: 'Level __num__',
+      time_left: 'Time Left (HH:mm):',
+      submit_tip: 'Are you sure you want to mark as complete? You will not be able to play the levels again.',
+    },
   },
 }
