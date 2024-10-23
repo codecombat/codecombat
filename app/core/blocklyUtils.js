@@ -80,6 +80,32 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     return text
   }
 
+  const startBlock = {
+    type: 'start',
+    message0: $.i18n.t('play_level.start'),
+    args0: [],
+    nextStatement: null,
+    colour: 120,
+    tooltip: $.i18n.t('play_level.start')
+  }
+
+  if (codeFormat === 'blocks-icons') {
+    // Use an image instead of text
+    startBlock.message0 = '%1 ' + startBlock.message0
+    startBlock.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-start.png',
+      width: 34,
+      height: 36,
+      alt: 'start'
+    })
+  }
+
+  Blockly.Blocks.start = { init () { return this.jsonInit(startBlock) } }
+  generator.forBlock.start = function (block) {
+    return ''
+  }
+
   const commentBlock = {
     type: 'comment',
     message0: '%1',
@@ -468,6 +494,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'logic_null', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'newline', include () { return false } },
         { kind: 'block', type: 'entry_point', include () { return false } }, // TODO: organize
+        { kind: 'block', type: 'start', include () { return false } },
         { kind: 'block', type: 'comment', include () { return false } },
         { kind: 'block', type: 'code_comment', include () { return false } },
         { kind: 'block', type: 'logic_ternary', include () { return false } },
@@ -883,7 +910,10 @@ module.exports.initializeBlocklyLanguage = function () {
   }
 }
 
-module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguage, codeFormat, product }) {
+module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguage, codeFormat, product, maxBlocks }) {
+  if (maxBlocks && maxBlocks !== Infinity && product === 'codecombat-junior') {
+    ++maxBlocks // Allow for start block
+  }
   module.exports.initializeBlocklyLanguage()
   return {
     toolbox,
@@ -896,8 +926,6 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguag
     },
     sounds: me.get('volume') > 0,
     // Renderer choices: 'geras': default, 'thrasos': more modern take on geras, 'zelos': Scratch-like
-    // renderer: 'zelos',
-    // renderer: 'thrasos',
     renderer: renderer || ($(window).innerHeight() > 500 && product === 'codecombat-junior' ? 'zelos' : 'thrasos'),
     zoom: {
       // Hide so that we don't mess with width of toolbox
@@ -907,7 +935,7 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguag
       maxScale: 1.5,
     },
     trashcan: false,
-    // oneBasedIndex: codeLanguage === 'lua' // TODO: Need to test. Default is true.
+    oneBasedIndex: codeLanguage === 'lua',
     move: {
       scrollbars: true,
       drag: true,
@@ -922,6 +950,7 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguag
     // },
     collapse: codeFormat !== 'blocks-icons', // Don't let blocks be collapsed in icon mode
     disable: true, // Do let blocks be disabled
+    maxBlocks, // Defaults to Infinity
   }
 }
 

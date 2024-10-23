@@ -469,7 +469,8 @@ module.exports = class SpellView extends CocoView
     # codeToBlocks prepareBlockIntelligence function needs the JavaScript version of the toolbox
     @blocklyToolboxJS = if codeLanguage is 'javascript' then @blocklyToolbox else blocklyUtils.createBlocklyToolbox({ @propertyEntryGroups, codeLanguage: 'javascript', codeFormat: @options.codeFormat, level: @options.level })
     targetDiv = @$('.blockly-container')
-    blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: @blocklyToolbox, codeLanguage, codeFormat: @options.codeFormat, product: @options.level.get('product') or 'codecombat' })
+    maxBlocks = @determineMaxBlocks()
+    blocklyOptions = blocklyUtils.createBlocklyOptions({ toolbox: @blocklyToolbox, codeLanguage, codeFormat: @options.codeFormat, product: @options.level.get('product') or 'codecombat', maxBlocks })
     @blockly = Blockly.inject targetDiv[0], blocklyOptions
     @blocklyActive = true
     blocklyUtils.initializeBlocklyTooltips()
@@ -555,9 +556,10 @@ module.exports = class SpellView extends CocoView
     # Sometimes move event happens when blocks are moving around during a drag, but the drag isn't done. e.reason including 'drag' means it's done, 'connect' happens when clicked-to-insert.
     return if e.type is Blockly.Events.BLOCK_MOVE and not ('drag' in (e.reason or [])) and not ('connect' in (e.reason or []))
 
-    if blocklySourceRaw isnt blocklySource
+    if blocklySourceRaw isnt blocklySource or blocklySource and blocklySource.split('\n').length is 1
       # Blocks -> code processing introduced a significant change and should rewrite the blocks to match that change
       # Example: removing newlines so that blocks snap together
+      # We also do this if we just have one line of code, so that if we need to snap it to the start block, we can.
       @aceToBlockly(true)
 
     if @options.level.get('product') is 'codecombat-junior'
@@ -609,7 +611,8 @@ module.exports = class SpellView extends CocoView
       # Remove extra newlines so that Junior blocks stay together
       aceSource = aceSource.replace(/(?:[ \t]*\r?\n){2,}/g, '\n')
     # Don't update Blockly if code hasn't changed
-    return if aceSource and aceSource is blocklySourceRaw
+    isFirstLine = aceSource and aceSource.trim().split('\n').length is 1  # Rewrite Blockly if it's the first line so we can automatically connect to the start block
+    return if aceSource and aceSource is blocklySourceRaw and not isFirstLine
     try
       newBlocklyState = codeToBlocks { code: aceSource, originalCode: @spell.originalSource, codeLanguage: @spell.language, toolbox: @blocklyToolbox, blocklyState, prepData: @codeToBlocksPrepData }
     catch err
@@ -2016,6 +2019,14 @@ module.exports = class SpellView extends CocoView
     @blockly?.getToolbox()?.setVisible true
     @blockly?.getFlyout()?.setVisible true
     null
+
+  determineMaxBlocks: ->
+    return Infinity unless @options.level.get('product') is 'codecombat-junior'
+    goals = @options.level.get('goals') || []
+    lineGoal = _.find goals, (g) -> g.linesOfCode
+    if lineGoal
+      return lineGoal.linesOfCode.humans
+    return Infinity
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click mouseenter', '.ace_error, .ace_warning, .ace_info'
