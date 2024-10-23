@@ -9,8 +9,11 @@ import ContentBox from 'app/components/common/elements/ContentBox.vue'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
 import AILeagueResources from './AILeagueResources'
 import LadderView from 'app/views/ladder/MainLadderViewV2'
+import { AI_LEAGUE_STEPS } from 'ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/teacherDashboardTours'
 
 import { findArena, currentRegularArena } from 'app/core/store/modules/seasonalLeague.js'
+
+const VueShepherd = require('vue-shepherd')
 
 export default {
   components: {
@@ -20,7 +23,7 @@ export default {
     BaseCloudflareVideo,
     RemainingTimeView,
     AILeagueResources,
-    LadderView
+    LadderView,
   },
 
   beforeRouteUpdate (to, from, next) {
@@ -34,8 +37,8 @@ export default {
   props: {
     idOrSlug: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
 
   data: () => ({
@@ -44,9 +47,9 @@ export default {
     toPage: 'custom',
     TYPES: {
       REGULAR: 'regular',
-      CHAMPIONSHIP: 'championship'
+      CHAMPIONSHIP: 'championship',
     },
-    regularOrChampionship: 'regular'
+    regularOrChampionship: 'regular',
   }),
 
   computed: {
@@ -66,7 +69,7 @@ export default {
       childClanDetails: 'clans/childClanDetails',
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading',
-      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount'
+      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
     }),
 
     championshipAvailable () {
@@ -152,7 +155,7 @@ export default {
       const season = AILeagueSeasons.find(s => s.number === this.getCurrentRegularArena.season)
       const seasonTitle = $.i18n.t('league.season_label', { seasonNumber: season.number, seasonName: $.i18n.t(`league.season_${season.number}`), interpolation: { escapeValue: false } })
       return `${seasonTitle}, ${this.getCurrentRegularArena.start.getFullYear()}`
-    }
+    },
 
   },
 
@@ -172,7 +175,11 @@ export default {
       if (newSelectedClan !== lastSelectedClan && newSelectedClan && !this.inSelectedClan()) {
         this.joinClan()
       }
-    }
+    },
+  },
+
+  beforeCreate () {
+    Vue.use(VueShepherd)
   },
 
   created () {
@@ -180,6 +187,9 @@ export default {
   },
 
   mounted () {
+    if (!me.getSeenPromotion('ai-league-tour')) {
+      this.triggerTour()
+    }
     if (this.championshipAvailable) {
       this.regularOrChampionship = this.TYPES.CHAMPIONSHIP
     }
@@ -193,12 +203,28 @@ export default {
       loadChampionshipGlobalRequiredData: 'seasonalLeague/loadChampionshipGlobalRequiredData',
       loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
       fetchClan: 'clans/fetchClan',
-      fetchChildClanDetails: 'clans/fetchChildClanDetails'
+      fetchChildClanDetails: 'clans/fetchChildClanDetails',
     }),
     ...mapMutations({
-      paginateArenas: 'seasonalLeague/paginateArenas'
+      paginateArenas: 'seasonalLeague/paginateArenas',
     }),
 
+    triggerTour () {
+      const tour = this.$shepherd({
+        useModalOverlay: true,
+        scrollTo: true,
+        defaultStepOptions: {
+          classes: 'shepherd-dashboard-theme',
+        },
+      })
+
+      tour.addSteps(AI_LEAGUE_STEPS)
+      tour.start()
+      tour.on('complete', () => {
+        me.setSeenPromotion('ai-league-tour')
+        me.save()
+      })
+    },
     goPreviousArena () {
       if (!this.previousArenaAvailable) {
         return
@@ -306,6 +332,7 @@ export default {
             {{ $t('league.global') }}
           </button>
           <button
+            id="custom-button"
             class="btn toggle-btn"
             :class="{ 'active': toPage === 'global' }"
             @click="toggleLeague('global')"

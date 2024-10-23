@@ -1,7 +1,7 @@
 const PLAN_FIRST_CLASS_STEP = {
   attachTo: {
     element: '#CurriculumAnchor',
-    on: 'right'
+    on: 'right',
   },
   text: () => {
     const planYourClassDiv = document.createElement('div')
@@ -19,18 +19,18 @@ const PLAN_FIRST_CLASS_STEP = {
     action () {
       return this.next()
     },
-    text: $.i18n.t('teacher_dashboard.click_dismiss')
-  }]
+    text: $.i18n.t('teacher_dashboard.click_dismiss'),
+  }],
 }
 
 const CLICK_INTO_CLASS_STEP = {
   attachTo: {
     element: '#class-header-shepherd',
-    on: 'top'
+    on: 'top',
   },
   advanceOn: {
     selector: '#class-header-shepherd',
-    event: 'click'
+    event: 'click',
   },
   text: $.i18n.t('teacher_dashboard.track_progress_desc'),
   title: $.i18n.t('teacher_dashboard.track_progress'),
@@ -38,14 +38,14 @@ const CLICK_INTO_CLASS_STEP = {
     action () {
       return this.next()
     },
-    text: $.i18n.t('common.next')
-  }]
+    text: $.i18n.t('common.next'),
+  }],
 }
 
 const CREATE_CLASS_STEP = {
   attachTo: {
     element: '#new-class-btn-shepherd',
-    on: 'top'
+    on: 'top',
   },
   text: $.i18n.t('teacher_dashboard.add_classes'),
   title: $.i18n.t('teacher_dashboard.add_classes_title'),
@@ -53,16 +53,66 @@ const CREATE_CLASS_STEP = {
     action () {
       return this.next()
     },
-    text: $.i18n.t('common.next')
-  }]
+    text: $.i18n.t('common.next'),
+  }],
+}
+
+const AI_LEAGUE_START = {
+  attachTo: {
+    element: '#getting-started-guide',
+    on: 'left',
+  },
+  text: $.i18n.t('teacher_dashboard.ai_league_start'),
+  title: $.i18n.t('teacher_dashboard.ai_league_start_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('common.next'),
+  }],
+}
+
+const AI_LEAGUE_CURRICULUM = {
+  attachTo: {
+    element: '#ai-league-curriculum',
+    on: 'left',
+  },
+  text: $.i18n.t('teacher_dashboard.ai_league_curriculum'),
+  title: $.i18n.t('teacher_dashboard.ai_league_curriculum_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('common.next'),
+  }],
+}
+const AI_LEAGUE_CUSTOM = {
+  attachTo: {
+    element: '#custom-button',
+    on: 'bottom',
+  },
+  text: $.i18n.t('teacher_dashboard.ai_league_custom'),
+  title: $.i18n.t('teacher_dashboard.ai_league_custom_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('teacher_dashboard.click_dismiss'),
+  }],
 }
 
 export const FIRST_CLASS_STEPS = [
   CLICK_INTO_CLASS_STEP,
-  PLAN_FIRST_CLASS_STEP
+  PLAN_FIRST_CLASS_STEP,
 ]
 
 export const CREATE_CLASS_STEPS = [
   CREATE_CLASS_STEP,
-  PLAN_FIRST_CLASS_STEP
+  PLAN_FIRST_CLASS_STEP,
+]
+
+export const AI_LEAGUE_STEPS = [
+  AI_LEAGUE_START,
+  AI_LEAGUE_CURRICULUM,
+  AI_LEAGUE_CUSTOM,
 ]
