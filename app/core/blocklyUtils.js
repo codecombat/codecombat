@@ -1231,7 +1231,25 @@ module.exports.getBlockById = function ({ workspace, id }) {
 
 module.exports.blockToCode = function ({ block, codeLanguage }) {
   const generator = module.exports.getBlocklyGenerator(codeLanguage)
-  return generator.forBlock[block.type](block)
+  const code = generator.forBlock[block.type](block)
+  if (_.isArray(code)) {
+    // Sometimes the first element is the code and the second is... the operator priority, or something like this
+    return code[0]
+  }
+  return code
+}
+
+module.exports.getBlocksByCodeLine = function ({ workspace, codeLine, codeLanguage }) {
+  const matchedBlocks = []
+  const blocks = workspace.getAllBlocks()
+  for (const block of blocks) {
+    if (!/^Hero_/.test(block.type)) continue
+    const blockCode = module.exports.blockToCode({ block, codeLanguage })
+    if (blockCode?.trim() === codeLine) {
+      matchedBlocks.push(block)
+    }
+  }
+  return matchedBlocks
 }
 
 module.exports.blocklyMutationEvents = [Blockly.Events.CHANGE, Blockly.Events.CREATE, Blockly.Events.DELETE, Blockly.Events.BLOCK_CHANGE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DELETE, Blockly.Events.BLOCK_DRAG, Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE, Blockly.Events.BLOCK_MOVE, Blockly.Events.VAR_CREATE, Blockly.Events.VAR_DELETE, Blockly.Events.VAR_RENAME]
