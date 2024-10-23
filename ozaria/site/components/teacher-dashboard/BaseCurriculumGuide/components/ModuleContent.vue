@@ -1,6 +1,5 @@
 <script>
 import Classroom from 'models/Classroom'
-import utils from 'core/utils'
 
 import ModuleHeader from './ModuleHeader'
 import ModuleRow from './ModuleRow'
@@ -8,7 +7,7 @@ import IntroModuleRow from './IntroModuleRow'
 import { mapGetters, mapActions } from 'vuex'
 import CodeDiff from '../../../../../../app/components/common/CodeDiff'
 import { getSolutionCode, getSampleCode } from '../../../../../../app/views/parents/helpers/levelCompletionHelper'
-import { getCurriculumGuideContentList } from '../curriculum-guide-helper'
+import { getCurriculumGuideContentList, isOzariaNoCodeLevelHelper } from '../curriculum-guide-helper'
 
 export default {
   components: {
@@ -112,24 +111,18 @@ export default {
     },
     findRelatedOriginalsByLevelNumber (levelNumber, levelNumberMap) {
       const regex = new RegExp(`^${levelNumber}[a-z]?$`)
-      const courseRegex = this.courseRegex
-      const levelEntries = Object.entries(levelNumberMap)
-      let levelOriginals
-      if (utils.isCodeCombat && this.classroomId) {
-        levelOriginals = levelEntries.filter(([key, value]) => regex.test(value.toString()) && courseRegex.test(key))
-      } else {
-        levelOriginals = levelEntries.filter(([key, value]) => regex.test(value.toString()))
+      if (!levelNumberMap) {
+        return []
       }
+      const levelEntries = Object.entries(levelNumberMap)
+      const levelOriginals = levelEntries.filter(([key, value]) => regex.test(value.toString()))
       return levelOriginals.map(([key, _v]) => key)
     },
     relatedLevels (levelNumber, slug) {
       if (!/^[0-9]/.test(levelNumber) || !this.isJunior) {
         return [this.findLevelBySlug(slug)]
       }
-      let levelNumberMap = this.levelNumberMap
-      if (utils.isCodeCombat && this.classroomId) {
-        levelNumberMap = this.classroomInstance.levelNumberMap
-      }
+      const levelNumberMap = this.levelNumberMap
       const levelOriginals = this.findRelatedOriginalsByLevelNumber(levelNumber, levelNumberMap)
       return levelOriginals.map((key) => {
         const levelKey = key.split(':')?.[1] || key
@@ -170,7 +163,7 @@ export default {
       return `${description}. ${$.i18n.t('teacher_dashboard.practice_levels')}: ${practiceNumber}`
     },
     isOzariaNoCodeLevel (icon) {
-      return ['cutscene', 'cinematic', 'interactive'].includes(icon)
+      return isOzariaNoCodeLevelHelper(icon)
     },
     isAccessible (moduleNum) {
       if (this.isOnLockedCampaign) {
@@ -178,6 +171,12 @@ export default {
       }
       const moduleInfo = this.getCurrentModuleHeadingInfo(moduleNum)
       return this.isContentAccessible(moduleInfo.access)
+    },
+    getCurrentLevelNumber (original, icon, _id) {
+      if (this.isOzariaNoCodeLevel(icon)) {
+        return this.getLevelNumber(_id)
+      }
+      return this.getLevelNumber(original)
     },
   },
 }
@@ -194,7 +193,7 @@ export default {
       <component
         :is="isAccessible(moduleNum)? 'a' : 'span'"
         v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, original, assessment, slug, fromIntroLevelOriginal }, key in getContentTypes"
-        :key="_id"
+        :key="`${_id}-${isIntroHeadingRow}`"
         :href="isAccessible(moduleNum) ? url : null"
         target="_blank"
         rel="noreferrer"
@@ -207,7 +206,7 @@ export default {
         <template v-else>
           <module-row
             v-if="!isJunior || icon !== 'practicelvl' || showCodeLevelSlugs.includes(slug)"
-            :set="levelNumber = getLevelNumber(_id)"
+            :set="levelNumber = getCurrentLevelNumber(original, icon, _id)"
             :icon-type="icon"
             :name-type="assessment ? null : icon"
             :level-number="levelNumber"

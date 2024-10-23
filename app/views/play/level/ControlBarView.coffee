@@ -88,7 +88,7 @@ module.exports = class ControlBarView extends CocoView
         _.delay (-> document.location.reload()), 2000
     else if @campaign
       @levelNumber = @campaign.getLevelNumber(@level.get('original'), @levelNumber)
-    if application.getHocCampaign() or @level.get('assessment')
+    if application.getHocCampaign()
       @levelNumber = null
     super()
 

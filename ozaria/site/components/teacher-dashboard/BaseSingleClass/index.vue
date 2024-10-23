@@ -10,7 +10,7 @@ import storage from '../../../../../app/core/storage'
 import utils from 'app/core/utils'
 import { getGameContentDisplayNameWithType } from 'ozaria/site/common/ozariaUtils.js'
 import User from 'models/User'
-import { getLevelUrl } from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper'
+import { getLevelUrl, isOzariaNoCodeLevelHelper } from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/curriculum-guide-helper'
 
 import _ from 'lodash'
 import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
@@ -235,7 +235,7 @@ export default {
               practiceLevels,
             }
 
-            if (content.type === 'game-dev') {
+            if (content.type === 'game-dev' || content.type === 'web-dev') {
               defaultProgressDot.normalizedType = 'capstone'
             } else if (content.type === undefined) {
               defaultProgressDot.normalizedType = 'practicelvl'
@@ -517,13 +517,17 @@ export default {
 
     getLevelNameMap (moduleContent, intros) {
       return moduleContent.reduce((acc, content) => {
-        const { _id, fromIntroLevelOriginal } = content
+        const { _id, original, fromIntroLevelOriginal, type } = content
+        let levelKey = original
+        if (isOzariaNoCodeLevelHelper(type)) {
+          levelKey = _id
+        }
 
         let description = getLearningGoalsDocumentation(content)
 
         let tooltipName
         let levelName
-        const levelNumber = this.getLevelNumber(_id)
+        const levelNumber = this.getLevelNumber(levelKey) || ''
         if (utils.isCodeCombat) {
           tooltipName = `${levelNumber}: ${utils.i18n(content, 'displayName') || utils.i18n(content, 'name')}`
           levelName = tooltipName

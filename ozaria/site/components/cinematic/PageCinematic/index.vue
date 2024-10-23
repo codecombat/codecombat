@@ -23,6 +23,11 @@ module.exports = Vue.extend({
     userOptions: {
       type: Object,
       required: false
+    },
+    levelNumber: {
+      type: [Number, String],
+      required: false,
+      default: null,
     }
   },
 
