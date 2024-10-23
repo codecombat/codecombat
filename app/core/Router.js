@@ -316,6 +316,8 @@ module.exports = (CocoRouter = (function () {
           return this.routeDirectly('PageCodequest', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
         },
 
+        hackstack: go('core/SingletonAppVueComponentView'),
+
         'home-beta': go('core/SingletonAppVueComponentView'),
 
         standards: go('core/SingletonAppVueComponentView'),

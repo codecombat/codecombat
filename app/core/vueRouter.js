@@ -53,6 +53,11 @@ export default function getVueRouter () {
           meta: { theme: 'teal' },
         },
         {
+          path: '/hackstack',
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/hackstack/PageHackStack'),
+          meta: { theme: 'teal' },
+        },
+        {
           path: '/codequest',
           component: () => import(/* webpackChunkName: "CodequestView" */ 'app/views/codequest/PageCodequest.vue'),
           meta: { theme: 'teal' }
