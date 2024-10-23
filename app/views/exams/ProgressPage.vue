@@ -94,7 +94,7 @@ export default {
     counter () {
       const oneMin = 60 * 1000
       const startDate = new Date(this.exam.startDate)
-      const minsElapse = (new Date() - startDate) / oneMin
+      const minsElapse = parseInt((new Date() - startDate) / oneMin)
       let minsLeft = this.exam.duration - minsElapse
       if (minsLeft <= 0) {
         clearInterval(this.counterInterval)
