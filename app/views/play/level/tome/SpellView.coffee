@@ -631,7 +631,10 @@ module.exports = class SpellView extends CocoView
     @lastBlocklyState = newBlocklyState
 
   playBlockSound: (block) ->
-    code = blocklyUtils.blockToCode({ block, codeLanguage: @spell.language })?.trim()
+    try
+      code = blocklyUtils.blockToCode({ block, codeLanguage: @spell.language })?.trim()
+    catch err
+      console.log 'Cannot play block sound because cannot generate code for', block, err
     docsCode = block?.docFormatter?.doc?.name
     return unless code or docsCode
     lang = me.get('preferredLanguage', true) or 'en-US'
