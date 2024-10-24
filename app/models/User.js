@@ -713,6 +713,10 @@ module.exports = (User = (function () {
       return _.filter(this.get('products'), p => (p.product === type) && (new Date(p.endDate) < now))
     }
 
+    getExam (id) {
+      return _.find(this.get('exams'), { id })
+    }
+
     getProductsByType (type) {
       const products = this.get('products')
       if (!type) { return products }

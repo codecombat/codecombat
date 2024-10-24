@@ -288,13 +288,20 @@ module.exports = (Classroom = (function () {
         const currentPlaytime = (left4 = __guard__(levelSessionMap[currentLevel.get('original')], x => x.get('playtime'))) != null ? left4 : 0
         needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes')) && !currentLevel.get('assessment')
         if (utils.isCodeCombat || !utils.orderedCourseIDs.includes(courseID)) {
-          nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
+          nextIndex = utils.findNextLevel(levels.map(level => {
+            return { ...level, locked: this.isStudentOnLockedLevel(me.id, courseID, level.original) }
+          }), currentIndex, needsPractice)
         }
       }
       if (utils.isOzaria && utils.orderedCourseIDs.includes(courseID)) {
         const nextLevelOriginal = findNextLevelsBySession(sessions, courseLevels.models, null, this, courseID)
         nextLevel = new Level(getLevelsDataByOriginals(courseLevels.models, [nextLevelOriginal])[0])
       } else {
+        if (currentIndex === -1) {
+          nextIndex = utils.findNextLevel(levels.map(level => {
+            return { ...level, locked: this.isStudentOnLockedLevel(me.id, courseID, level.original) }
+          }), currentIndex, needsPractice)
+        }
         nextLevel = courseLevels.models[nextIndex]
         if (levelsLeft === 0) { nextLevel = arena }
         if (nextLevel == null) { nextLevel = _.find(courseLevels.models, level => !__guard__(__guard__(levelSessionMap[level.get('original')], x2 => x2.get('state')), x1 => x1.complete)) }

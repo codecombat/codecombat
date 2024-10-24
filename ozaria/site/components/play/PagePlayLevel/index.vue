@@ -101,7 +101,7 @@ module.exports = Vue.extend({
         campaignId: store.state.game.level.campaign,
         language: utils.getQueryVariable('codeLanguage') || 'python'
       }).then(() => {
-        this.levelNumber = this.getLevelNumber(store.state.game.level._id)
+        this.levelNumber = this.getLevelNumber(store.state.game.level.original)
       })
     },
   }
