@@ -457,6 +457,8 @@ module.exports = (LevelEditView = (function () {
         }
       }
 
+      // TODO: update the main level with its practiceThresholdMinutes
+
       // Update the campaign with practice levels
       await this.updateCampaignWithPracticeLevels(savedPracticeLevels)
     }
