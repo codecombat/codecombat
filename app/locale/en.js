@@ -6371,6 +6371,8 @@ module.exports = {
       level_num: 'Level __num__',
       time_left: 'Time Left (HH:mm):',
       submit_tip: 'Are you sure you want to mark as complete? You will not be able to play the levels again.',
+      start_exam: 'Start the exam',
+      continue_exam: 'Take me to the exam',
     },
   },
 }
