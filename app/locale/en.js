@@ -4697,6 +4697,12 @@ module.exports = {
       ozaria_ai_league_modal_blurb: 'Educators can now access AI League directly on **[https://codecombat.com/teachers/ai-league]CodeCombat** using the same credentials as Ozaria. For added convenience, you can easily import your classes from Ozaria into CodeCombat.',
       completed_all_practice_levels: 'The student has successfully completed all practice levels.',
       played_some_practice_levels: 'The student has started working on the practice levels.',
+      ai_league_start_title: 'Start AI League',
+      ai_league_start: 'Todo',
+      ai_league_curriculum_title: 'AI League Curriculum',
+      ai_league_curriculum: 'TODO',
+      ai_league_custom_title: 'Custom AI League',
+      ai_league_custom: 'You can manage your custom AI League here.',
     },
 
     outcomes: {
