@@ -43,7 +43,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       propNames.add(prop.name)
     }
     if (/programmaticon/i.test(owner)) continue
-    const userBlocks = mergedPropertyEntryGroups[owner].props.filter(prop => !(['for-loop'].includes(prop.name))).map(prop =>
+    const userBlocks = mergedPropertyEntryGroups[owner].props.filter(prop => !(['for-loop', 'if', '==', '!='].includes(prop.name))).map(prop =>
       createBlock({ owner, prop, generator, codeLanguage, codeFormat, level, superBasicLevels })
     )
     userBlockCategories.push({ kind: 'category', name: owner === 'Hero' ? '' : owner, colour: '190', contents: userBlocks })
@@ -415,7 +415,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       name: 'Logic',
       colour: '290',
       contents: [
-        { kind: 'block', type: 'controls_if', include () { return propNames.has('if/else') } },
+        { kind: 'block', type: 'controls_if', include () { return propNames.has('if/else') || propNames.has('if') } },
         { kind: 'block', type: 'controls_if', extraState: { hasElse: true }, include () { return propNames.has('else') } },
         { kind: 'block', type: 'controls_if', extraState: { elseIfCount: 1, hasElse: 1 }, include () { return propNames.has('else') } }, // TODO: better if/elseif/else differentiation?
         { kind: 'block', type: 'logic_compare', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?

@@ -702,18 +702,20 @@ generateProperty(null, function (level, parameters) {
   }
 
   const juniorPlayer = _.find(hero.components, (component) => component.original === defaultHeroComponentIDs.JuniorPlayer)
-  juniorPlayer.config = {
-    programmableSnippets: [],
-    requiredThangTypes: ['5467beaf69d1ba0000fb91fb']
+  if (sourceLevel) {
+    juniorPlayer.config = _.find(heroSource.components, (component) => component.original === defaultHeroComponentIDs.JuniorPlayer).config
+  } else {
+    juniorPlayer.config = {
+      programmableSnippets: ['for-loop', 'if'],
+      requiredThangTypes: ['5467beaf69d1ba0000fb91fb'],
+    }
   }
 
   const physical = _.find(hero.components, (component) => component.original === PhysicalID)
-  if (parameters.sourceLevel) {
+  if (sourceLevel) {
     physical.config = _.cloneDeep(_.find(heroSource.components, (component) => component.original === PhysicalID).config)
   } else {
-    physical.config = {
-      pos: { x: 6, y: 14, z: 0.5 }
-    }
+    physical.config = { pos: { x: 6, y: 14, z: 0.5 } }
   }
 
   const heroSurvives = _.find(level.goals, { id: 'hero-survives' })
@@ -743,12 +745,10 @@ generateProperty(null, async function (level, parameters) {
     apis = programmableSource.config.programmableProperties
   } else {
     apis.push('go')
-    if (_.find(level.goals, (goal) => goal.killThangs)) {
-      apis.push('hit')
-    }
-    if (Math.random() > parameters.skillForLoops && parameters.difficulty > 2) {
-      apis.push('for-loop')
-    }
+    apis.push('hit')
+    apis.push('spin')
+    apis.push('zap')
+    apis.push('look')
   }
 
   let solutionCode, starterCode
