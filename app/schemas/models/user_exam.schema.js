@@ -13,6 +13,9 @@ const UserExamSchema = c.object({
     startDate: c.stringDate(),
     endDate: c.stringDate(),
     submitted: { type: 'boolean', title: 'Submitted', description: 'Whether the user has submitted/completed the exam' },
+    archived: { type: 'boolean', title: 'Archived', description: 'Whether the exam has been archived' },
+    extraDuration: { type: 'number', title: 'Extra Duration', description: 'Add extra time for the user in minutes' },
+    duration: { type: 'number', title: 'Duration', description: 'Limited duration of the exam in minutes, optional' },
   },
 })
 
