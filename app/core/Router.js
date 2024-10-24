@@ -66,11 +66,7 @@ module.exports = (CocoRouter = (function () {
               return this.routeDirectly('HomeCNView', [])
             }
           }
-          if (me.getHomePageExperimentValue() === 'beta') {
-            return this.routeDirectly('HomeBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
-          } else {
-            return this.routeDirectly('HomeView', [])
-          }
+          return this.routeDirectly('HomeBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
         },
 
         about: go('AboutView'),
@@ -262,11 +258,7 @@ module.exports = (CocoRouter = (function () {
           if (utils.isCodeCombat && me.useChinaHomeView()) {
             return go('HomeCNView').call(this, ...args)
           } else {
-            if (me.getHomePageExperimentValue() === 'beta') {
-              return this.routeDirectly('HomeBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
-            } else {
-              return go('HomeView').call(this, ...args)
-            }
+            return this.routeDirectly('HomeBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
           }
         },
 
