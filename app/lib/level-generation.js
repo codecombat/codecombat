@@ -706,7 +706,7 @@ generateProperty(null, function (level, parameters) {
     juniorPlayer.config = _.find(heroSource.components, (component) => component.original === defaultHeroComponentIDs.JuniorPlayer).config
   } else {
     juniorPlayer.config = {
-      programmableSnippets: ['for-loop', 'if'],
+      programmableSnippets: ['for-loop', 'if', '=='],
       requiredThangTypes: ['5467beaf69d1ba0000fb91fb'],
     }
   }
@@ -744,11 +744,7 @@ generateProperty(null, async function (level, parameters) {
   if (sourceLevel) {
     apis = programmableSource.config.programmableProperties
   } else {
-    apis.push('go')
-    apis.push('hit')
-    apis.push('spin')
-    apis.push('zap')
-    apis.push('look')
+    apis = ['go', 'hit', 'spin', 'zap', 'look']
   }
 
   let solutionCode, starterCode
