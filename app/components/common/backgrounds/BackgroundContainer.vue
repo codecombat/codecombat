@@ -92,6 +92,9 @@ export default {
     .teal-theme & {
       background-image: url('/images/components/bg-image__teal.webp');
     }
+    .dark-theme & {
+      background-color: #021E27;
+    }
     background-position: center;
     background-repeat: no-repeat;
     width: 100%;
