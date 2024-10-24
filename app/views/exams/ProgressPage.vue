@@ -75,6 +75,9 @@ export default {
       })
       return levels
     },
+    limitedDuration () {
+      return this.userExam?.duration || this.exam?.duration
+    },
   },
   mounted () {
     this.counter()
@@ -95,7 +98,7 @@ export default {
       const oneMin = 60 * 1000
       const startDate = new Date(this.exam.startDate)
       const minsElapse = parseInt((new Date() - startDate) / oneMin)
-      let minsLeft = this.exam.duration - minsElapse
+      let minsLeft = this.limitedDuration - minsElapse
       if (minsLeft <= 0) {
         clearInterval(this.counterInterval)
         minsLeft = 0
