@@ -610,6 +610,11 @@ module.exports = class SpellView extends CocoView
     if @options.level.get('product') is 'codecombat-junior'
       # Remove extra newlines so that Junior blocks stay together
       aceSource = aceSource.replace(/(?:[ \t]*\r?\n){2,}/g, '\n')
+      # Remove string expressions on their own lines, which don't play nice with junior_type_string blocks
+      aceSource = aceSource.replace(/^ *'[^']*';? *$/gm, '')
+      # Remove i/j/k expressions at the start of lines, might be typing `if` or something but it will try to make an `i` loop index variable reference block if one exists
+      aceSource = aceSource.replace(/^ *[ijk] *$/gm, '')
+
     # Don't update Blockly if code hasn't changed
     isFirstLine = aceSource and aceSource.trim().split('\n').length is 1  # Rewrite Blockly if it's the first line so we can automatically connect to the start block
     return if aceSource and aceSource is blocklySourceRaw and not isFirstLine
@@ -2025,6 +2030,7 @@ module.exports = class SpellView extends CocoView
 
   determineMaxBlocks: ->
     return Infinity unless @options.level.get('product') is 'codecombat-junior'
+    return Infinity if _.find(Object.values(@propertyEntryGroups || {}), (peg) -> _.find(peg.props, name: 'look'))  # TODO: find a way to not include expression blocks in our limit, once we get to conditionals
     goals = @options.level.get('goals') || []
     lineGoal = _.find goals, (g) -> g.linesOfCode
     if lineGoal

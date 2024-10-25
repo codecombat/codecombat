@@ -397,6 +397,51 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     return [code, generator.ORDER_ATOMIC]
   }
 
+  // Junior needs a enum string dropdown block for entity type strings: "crab", "gem", "tnt", etc.
+  if (propNames.has('==') && level?.get('product') === 'codecombat-junior') {
+    const juniorTypeStringBlock = {
+      type: 'junior_type_string',
+      message0: '"%1"',
+      args0: [
+        {
+          type: 'field_dropdown',
+          name: 'TYPE',
+          check: 'String',
+          options: [
+            ['gem', 'gem'],
+            ['crab', 'crab'],
+            ['fly', 'fly'],
+            ['cube', 'cube'],
+            ['chicken', 'chicken'],
+            ['tnt', 'tnt'],
+            ['crate', 'crate'],
+          ],
+        }
+      ],
+      output: null,
+      colour: 160,
+    }
+    Blockly.Blocks.junior_type_string = { init () { return this.jsonInit(juniorTypeStringBlock) } }
+    generator.forBlock.junior_type_string = function (block) {
+      const text = block.getFieldValue('TYPE')
+      return [`'${text || 'cube'}'`, generator.ORDER_ATOMIC]
+    }
+
+    if (codeFormat === 'blocks-icons') {
+      // Use images instead of text, pulling them from the ThangType portraits
+      juniorTypeStringBlock.message0 = '%1'
+      juniorTypeStringBlock.args0[0].options = [
+        [{ src: '/file/db/thang.type/65c41c470bd7ab55e6fef121/portrait.png', width: 36, height: 30 }, 'gem'],
+        [{ src: '/file/db/thang.type/65c25e2b4f2b076109369232/portrait.png', width: 36, height: 30 }, 'crab'],
+        [{ src: '/file/db/thang.type/65ce76893ca6ed67e1be8b5c/portrait.png', width: 36, height: 30 }, 'fly'],
+        [{ src: '/file/db/thang.type/66b9406bde8f7759265bf6b9/portrait.png', width: 36, height: 30 }, 'cube'],
+        [{ src: '/file/db/thang.type/65c5438e0f148b4360e46bc3/portrait.png', width: 36, height: 30 }, 'chicken'],
+        [{ src: '/file/db/thang.type/65c54b43088403487d48034d/portrait.png', width: 36, height: 30 }, 'tnt'],
+        [{ src: '/file/db/thang.type/65c5309b4180e46e6918991e/portrait.png', width: 36, height: 30 }, 'crate'],
+      ]
+    }
+  }
+
   const miscBlocks = [
     createBlock({
       owner: 'hero',
@@ -444,7 +489,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'controls_if', include () { return propNames.has('if/else') || propNames.has('if') } },
         { kind: 'block', type: 'controls_if', extraState: { hasElse: true }, include () { return propNames.has('else') } },
         { kind: 'block', type: 'controls_if', extraState: { elseIfCount: 1, hasElse: 1 }, include () { return propNames.has('else') } }, // TODO: better if/elseif/else differentiation?
-        { kind: 'block', type: 'logic_compare', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
+        { kind: 'block', type: 'logic_compare', include () { return propNames.has('else') || propNames.has('==') || propNames.has('!=') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'logic_operation', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'logic_negate', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         // { kind: 'block', type: 'math_arithmetic', include () { return propNames.has('else') } } // TODO: better targeting of when we introduce this logic?
@@ -488,7 +533,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       name: 'Literals',
       colour: '10',
       contents: [
-        { kind: 'block', type: 'text', include () { return !superBasicLevels.includes(level?.get('slug')) && level?.get('product') !== 'codecombat-junior' } },
+        { kind: 'block', type: 'junior_type_string', include () { return propNames.has('==') && level?.get('product') === 'codecombat-junior' } },
+        { kind: 'block', type: 'text', include () { return !superBasicLevels.includes(level?.get('slug')) && (level?.get('product') !== 'codecombat-junior' || propNames.has('==')) } },
         { kind: 'block', type: 'math_number', include () { return !superBasicLevels.includes(level?.get('slug')) && level?.get('product') !== 'codecombat-junior' } },
         { kind: 'block', type: 'logic_boolean', include () { return propNames.has('if/else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'logic_null', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
@@ -898,7 +944,7 @@ module.exports.initializeBlocklyLanguage = function () {
   if (initializedLanguage) { return }
   // eslint-disable-function
   initializedLanguage = true
-  const language = me.get('preferredLanguage', true).toLowerCase()
+  const language = me.get('preferredLanguage', true).toLowerCase().replace(/^en-.*/, 'en')
   const languageParts = language.toLowerCase().split('-')
   while (languageParts.length) {
     try {
@@ -906,7 +952,7 @@ module.exports.initializeBlocklyLanguage = function () {
       Blockly.setLocale(blocklyLocale)
       break
     } catch (e) {
-      console.log(e)
+      console.log(`Did not initialize Blockly language blockly/msg/${languageParts.join('-')}: ${e.toString()}; trying blockly/msg/${languageParts.slice(0, languageParts.length - 1).join('-') || 'without setting locale'}`)
       languageParts.pop()
     }
   }
@@ -992,6 +1038,7 @@ module.exports.getBlocklySource = function (blockly, { codeLanguage, product }) 
   let blocklySource
   if (product === 'codecombat-junior') {
     blocklySource = condenseNewlines(blocklySourceRaw)
+    blocklySource = removeStandaloneStringLiterals(blocklySource)
   } else {
     blocklySource = blocklySourceRaw
   }
@@ -1220,6 +1267,10 @@ function condenseNewlines (code) {
   // Replace multiple newlines, possibly with whitespace in the middle, with single newlines
   // Only do this in between lines of code, not comments
   return code.replace(/([^\n])\n[ \t]*\n([^\n])/g, '$1\n$2')
+}
+
+function removeStandaloneStringLiterals (code) {
+  return code.replace(/^ *'[^']*';? *$/gm, '')  // Strip out string literals on their own line, we don't need to preserve those
 }
 
 function findLastBlockWithNextConnection (block) {
