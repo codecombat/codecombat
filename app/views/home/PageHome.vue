@@ -458,7 +458,6 @@ export default Vue.extend({
       this.engagingBoxes[1].signupModalPath = null
       this.engagingBoxes[1].link = '/teachers/classes'
     }
-    me.startHomeControlExperiment('beta')
   },
   methods: {
     checkPaymentTracking () {

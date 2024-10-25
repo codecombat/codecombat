@@ -1113,17 +1113,6 @@ module.exports = (User = (function () {
       return value
     }
 
-    getHomePageExperimentValue () {
-      return this.getFilteredExperimentValue({ experimentName: 'home-page-filtered-v2' })
-    }
-
-    startHomeControlExperiment (forcedValue) {
-      return this.getFilteredExperimentValue({
-        experimentName: 'home-page-filtered-control-experiment',
-        forcedValue,
-      })
-    }
-
     getEducatorSignupExperimentValue () {
       const experimentName = 'educator-signup-modal'
       let value = me.getExperimentValue(experimentName, null)

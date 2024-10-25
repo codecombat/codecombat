@@ -53,6 +53,11 @@ export default function getVueRouter () {
           meta: { theme: 'teal' },
         },
         {
+          path: '/hackstack',
+          component: () => import(/* webpackChunkName: "HackStackView" */ 'app/views/landing-pages/hackstack/PageHackStack'),
+          meta: { theme: 'teal' },
+        },
+        {
           path: '/codequest',
           component: () => import(/* webpackChunkName: "CodequestView" */ 'app/views/codequest/PageCodequest.vue'),
           meta: { theme: 'teal' }
@@ -99,13 +104,15 @@ export default function getVueRouter () {
         },
         {
           path: '/live-classes',
-          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
-          props: (route) => ({ showPremium: false, type: route.query.type || 'live-classes' })
+          props: (route) => ({ showPremium: true, type: route.query.type || 'live-classes' }),
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents-v2/PageParents'),
+          meta: { theme: 'teal' },
         },
         {
           path: '/live',
-          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
-          props: (route) => ({ showPremium: false, type: route.query.type || 'direct-mail' })
+          props: (route) => ({ showPremium: true, type: route.query.type || 'direct-mail' }),
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents-v2/PageParents'),
+          meta: { theme: 'teal' },
         },
         {
           // TODO: The cinematic editor route should use vue guards to check for admin access.
