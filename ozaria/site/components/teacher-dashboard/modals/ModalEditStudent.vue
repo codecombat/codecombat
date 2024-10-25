@@ -62,7 +62,7 @@ export default {
         }
         return session.changed > acc.changed ? session : acc
       }, null)
-      return { session: lastPlayed, level: levels.find(l => l.original === lastPlayed.level.original) }
+      return { session: lastPlayed, level: levels.find(l => l.original === lastPlayed?.level?.original) }
     },
 
     lastPlayedString () {
