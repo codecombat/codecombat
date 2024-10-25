@@ -1145,6 +1145,26 @@ module.exports = (User = (function () {
       return value
     }
 
+    getHackStackV2ExperimentValue () {
+      const experimentName = 'hackstack-v2'
+      let value = me.getExperimentValue(experimentName, null)
+      if (value === null) {
+        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
+        let valueProbability
+        const rand = Math.random()
+        if (rand < probability) {
+          value = 'beta'
+          valueProbability = probability
+        } else {
+          value = 'control'
+          valueProbability = 1 - probability
+        }
+        me.startExperiment(experimentName, value, valueProbability)
+      }
+
+      return value
+    }
+
     getM7ExperimentValue () {
       let left
       let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('m7')]
