@@ -245,7 +245,9 @@ translateJSWhitespace = (jsCode, language='lua') ->
   cStyleForLoopRegex = /for ?\((?:(?:var|let) )?(.+?) ?= ?(\d+); ?\1 ?< ?(.+?); ?(?:.*?\+\+.*?)\) *\{?/g
   if language is 'lua'
     # for i=0, 10 do
-    s = s.replace cStyleForLoopRegex, 'for $1=$2, $3 do'
+    s = s.replace cStyleForLoopRegex, (match, variable, start, end) ->
+      startNum = if start is '0' then '1' else start  # Only change if it's 0
+      return "for #{variable}=#{startNum}, #{end} do"
   else if language is 'python'
     # for i in range(0, 10):
     s = s.replace cStyleForLoopRegex, 'for $1 in range($2, $3):'
@@ -258,7 +260,9 @@ translateJSWhitespace = (jsCode, language='lua') ->
   cStyleForLoopWithArithmeticRegex = /for ?\((?:(?:var|let) )?(.+?) ?= ?(\d+); ?\1 ?(<=|<|>=|>) ?(.+?); ?\1 ?\+?(-?)= ?(.*)\) *\{?/g
   if language is 'lua'
     # for y=110, 38, -18 do
-    s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1=$2, $4, $5$6 do'
+    s = s.replace cStyleForLoopWithArithmeticRegex, (match, variable, start, op, end, sign, step) ->
+      startNum = if start == '0' then '1' else start  # Only change if it's 0
+      return "for #{variable}=#{startNum}, #{end}, #{sign}#{step} do"
   else if language is 'python'
     # for y in range(110, 38, -18):
     s = s.replace cStyleForLoopWithArithmeticRegex, 'for $1 in range($2, $4, $5$6):'
@@ -392,6 +396,13 @@ translateJSWhitespace = (jsCode, language='lua') ->
   if language is 'lua'
     # Try incrementing all literal array indexes under, say, 10 by 1 to offset 1-based indexing. Hack, but most of those levels will need manual attention anyway.
     s = s.replace /\[(\d)\]/g, (match, index) -> "[#{parseInt(index, 10) + 1}]"
+
+  if language is 'python'
+    # Add `pass` statmeents to empty block bodies
+    s = s.replace(/^([ ]*)(?![ ]*#)[^\n]+:[ ]*(?=\n+(?!\1[ ]+(?!#[^\n]*$)[^\n]+))/gm, '$&\n$1    pass')
+  else if language is 'coffeescript'
+    # Add indented empty block lines where they would be missing
+    s = s.replace(/^([ ]*)(?![ ]*#).*(?:->|\b(?:if|then|else|unless|while|for|in)\b)(?![^\n]*(?:->|\b(?:if|then|else|unless|while|for|in)\b))[^\n]*(?=\n(?!\1[ ]+(?!#[^\n]*$)[^\n]+))/gm, '$&\n$1    ')
 
   # TODO: see if we can do something about lack of a continue statement in Lua? Maybe too hard and we should give up.
 
