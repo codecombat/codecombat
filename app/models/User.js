@@ -1415,7 +1415,13 @@ module.exports = (User = (function () {
     }
 
     isCodeNinja () {
-      return ['57fff652b0783842003fed00', '5b9af3a99c27360047dd2123'].includes(this.get('clientCreator')) || (this.get('clientPermissions') || []).some(p => ['57fff652b0783842003fed00', '5b9af3a99c27360047dd2123'].includes(p.client))
+      const ids = [
+        '57fff652b0783842003fed00', '5b9af3a99c27360047dd2123',
+        '65f9c0e3f9f905bd19a3fc26', '65f9c1786c97604c1ea5ff0e', '65f9d5cef9f905bd19acd446', '65f9d616276bf6e4e513be2f',
+        '66b53237be6b406bc81c42c7', '66b532875b263b1f31a78a45', '66b532d3f68194c66d305301', '66b5333dea513e36a48f646f',
+        '66b53386574bfe6467bab40d', '66b533cdea513e36a48f7855', '66b533f8ea513e36a48f7eae', '66b5342d5b263b1f31a7ae5e',
+      ]
+      return ids.includes(this.get('clientCreator')) || (this.get('clientPermissions') || []).some(p => ids.includes(p.client))
     }
 
     isMtoStem () {

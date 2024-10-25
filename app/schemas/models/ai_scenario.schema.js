@@ -51,7 +51,7 @@ _.extend(AIScenarioSchema.properties, {
   },
   labels: c.array({ title: 'Labels', description: 'Labels to help categorize this scenario', uniqueItems: true }, {
     type: 'string',
-    enum: ['advertise', 'code', 'graph', 'draw', 'write', 'simulate'],
+    enum: ['advertise', 'code', 'graph', 'draw', 'write', 'simulate', 'model', 'study', 'solve', 'learn'],
   }),
   initialActionQueue: {
     title: 'Initial Action Queue',
