@@ -64,6 +64,7 @@ $primary-background: #31636F;
   .contact-us {
     display: flex;
     align-items: flex-start;
+    margin-top: 40px;
   }
 
   ::v-deep .box {
