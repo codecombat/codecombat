@@ -7,7 +7,7 @@ import IntroModuleRow from './IntroModuleRow'
 import { mapGetters, mapActions } from 'vuex'
 import CodeDiff from '../../../../../../app/components/common/CodeDiff'
 import { getSolutionCode, getSampleCode } from '../../../../../../app/views/parents/helpers/levelCompletionHelper'
-import { getCurriculumGuideContentList } from '../curriculum-guide-helper'
+import { getCurriculumGuideContentList, isOzariaNoCodeLevelHelper } from '../curriculum-guide-helper'
 
 export default {
   components: {
@@ -163,7 +163,7 @@ export default {
       return `${description}. ${$.i18n.t('teacher_dashboard.practice_levels')}: ${practiceNumber}`
     },
     isOzariaNoCodeLevel (icon) {
-      return ['cutscene', 'cinematic', 'interactive'].includes(icon)
+      return isOzariaNoCodeLevelHelper(icon)
     },
     isAccessible (moduleNum) {
       if (this.isOnLockedCampaign) {
@@ -171,6 +171,12 @@ export default {
       }
       const moduleInfo = this.getCurrentModuleHeadingInfo(moduleNum)
       return this.isContentAccessible(moduleInfo.access)
+    },
+    getCurrentLevelNumber (original, icon, _id) {
+      if (this.isOzariaNoCodeLevel(icon)) {
+        return this.getLevelNumber(_id)
+      }
+      return this.getLevelNumber(original)
     },
   },
 }
@@ -187,7 +193,7 @@ export default {
       <component
         :is="isAccessible(moduleNum)? 'a' : 'span'"
         v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, original, assessment, slug, fromIntroLevelOriginal }, key in getContentTypes"
-        :key="_id"
+        :key="`${_id}-${isIntroHeadingRow}`"
         :href="isAccessible(moduleNum) ? url : null"
         target="_blank"
         rel="noreferrer"
@@ -200,7 +206,7 @@ export default {
         <template v-else>
           <module-row
             v-if="!isJunior || icon !== 'practicelvl' || showCodeLevelSlugs.includes(slug)"
-            :set="levelNumber = getLevelNumber(original)"
+            :set="levelNumber = getCurrentLevelNumber(original, icon, _id)"
             :icon-type="icon"
             :name-type="assessment ? null : icon"
             :level-number="levelNumber"

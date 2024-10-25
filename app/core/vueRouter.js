@@ -99,13 +99,15 @@ export default function getVueRouter () {
         },
         {
           path: '/live-classes',
-          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
-          props: (route) => ({ showPremium: false, type: route.query.type || 'live-classes' })
+          props: (route) => ({ showPremium: true, type: route.query.type || 'live-classes' }),
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents-v2/PageParents'),
+          meta: { theme: 'teal' },
         },
         {
           path: '/live',
-          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents/PageParents'),
-          props: (route) => ({ showPremium: false, type: route.query.type || 'direct-mail' })
+          props: (route) => ({ showPremium: true, type: route.query.type || 'direct-mail' }),
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents-v2/PageParents'),
+          meta: { theme: 'teal' },
         },
         {
           // TODO: The cinematic editor route should use vue guards to check for admin access.
@@ -418,7 +420,33 @@ export default function getVueRouter () {
           path: '/admin/low-usage-users',
           name: 'LowUsageUsersAdmin',
           component: () => import(/* webpackChunkName: "lowUsageUsersAdmin" */'app/views/admin/low-usage-users/MainDashboardView')
-        }
+        },
+        {
+          path: '/exams/:examId',
+          name: 'ExamPage',
+          component: () => import(/* webpackChunkName: "examPage" */'app/views/exams/ExamPage'),
+          props: (route) => ({ ...route.query, ...route.params }),
+          children: [
+            {
+              path: 'start',
+              name: 'ExamStartPage',
+              component: () => import(/* webpackChunkName: "examPage" */'app/views/exams/StartPage'),
+              props: true,
+            },
+            {
+              path: 'progress',
+              name: 'ExamProgressPage',
+              component: () => import(/* webpackChunkName: "examPage" */'app/views/exams/ProgressPage'),
+              props: true,
+            },
+            {
+              path: 'end',
+              name: 'ExamEndPage',
+              component: () => import(/* webpackChunkName: "examPage" */'app/views/exams/EndPage'),
+              props: true,
+            },
+          ],
+        },
       ],
       scrollBehavior (to) {
         const scroll = {}

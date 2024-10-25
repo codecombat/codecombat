@@ -51,9 +51,11 @@ module.exports = class Grid
     thangs
 
   exactContents: (gx, gy) ->
-    # Find only the thangs inside one grid cell, unlike contents which needs to spawn cells
+    # Find only the thangs inside one grid cell, unlike contents which needs to span cells
     y = @yToCol(gy, Math.floor)
     x = @xToRow(gx, Math.floor)
+    return [] if y < 0 or y >= @grid.length
+    return [] if x < 0 or x >= @grid[0].length
     (thang for thang in @grid[y][x] when thang.collides and thang.id isnt 'Add Thang Phantom')
 
   yToCol: (y, rounding) -> (rounding ? Math.floor)((y - @bottom) / @resolution)

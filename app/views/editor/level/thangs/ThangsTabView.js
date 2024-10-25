@@ -549,7 +549,18 @@ module.exports = (ThangsTabView = (function () {
     onSpriteDoubleClicked (e) {
       if (this.dragged > 10) { return }
       if (!e.thang) { return }
-      this.editThang({ thangID: e.thang.id })
+      if (key.command && ['Junior Beach Floor', 'Junior Wall'].includes(e.thang.spriteName)) {
+        const newSpriteName = e.thang.spriteName === 'Junior Beach Floor' ? 'Junior Wall' : 'Junior Beach Floor'
+        const newThangType = _.find(this.addThangsView.thangTypes.models, tt => tt.get('name') === newSpriteName)
+        const newZ = newSpriteName === 'Junior Beach Floor' ? 1 : 0.5
+        const pos = e.thang.pos.copy()
+        pos.z = newZ
+        this.gameUIState.set('selected', [{ thang: e.thang, sprite: e.sprite }])
+        this.deleteSelectedExtantThang()
+        this.addThang(newThangType, pos)
+      } else {
+        this.editThang({ thangID: e.thang.id })
+      }
     }
 
     onRandomTerrainGenerated (e) {
@@ -1003,7 +1014,13 @@ module.exports = (ThangsTabView = (function () {
       if (!components.length) { components = this.createEssentialComponents(thangType.get('components')) }
       if (utils.isCodeCombat) {
         const physical = _.find(components, c => (c.config != null ? c.config.pos : undefined) != null)
-        if (physical) { physical.config.pos = { x: pos.x, y: pos.y, z: physical.config.pos.z } }
+        if (physical) {
+          physical.config.pos = { x: pos.x, y: pos.y, z: physical.config.pos.z }
+          if (thangType.get('name') === 'Junior Wall') {
+            // Hack to make cmd+double-click work when toggling floors/walls, instead of getting default of z = 1
+            physical.config.pos.z = pos.z
+          }
+        }
       } else {
         const positionComponent = _.find(components || [], c => LevelComponent.positionIDs.includes(c.original))
         if (positionComponent) {

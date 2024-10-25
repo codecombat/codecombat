@@ -43,7 +43,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       propNames.add(prop.name)
     }
     if (/programmaticon/i.test(owner)) continue
-    const userBlocks = mergedPropertyEntryGroups[owner].props.filter(prop => !(['for-loop'].includes(prop.name))).map(prop =>
+    const userBlocks = mergedPropertyEntryGroups[owner].props.filter(prop => !(['for-loop', 'if', '==', '!='].includes(prop.name))).map(prop =>
       createBlock({ owner, prop, generator, codeLanguage, codeFormat, level, superBasicLevels })
     )
     userBlockCategories.push({ kind: 'category', name: owner === 'Hero' ? '' : owner, colour: '190', contents: userBlocks })
@@ -78,6 +78,32 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     let text = (generator.statementToCode(block, 'ENTRY_POINT') || '') + '\n'
     text = text.trim().split('\n').map((line) => `${line.replace(/^ {4}/g, '')}`).join('\n') + '☃\n' // Add unicode snowman to avoid trimming
     return text
+  }
+
+  const startBlock = {
+    type: 'start',
+    message0: $.i18n.t('play_level.start'),
+    args0: [],
+    nextStatement: null,
+    colour: 120,
+    tooltip: $.i18n.t('play_level.start')
+  }
+
+  if (codeFormat === 'blocks-icons') {
+    // Use an image instead of text
+    startBlock.message0 = '%1 ' + startBlock.message0
+    startBlock.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-start.png',
+      width: 34,
+      height: 36,
+      alt: 'start'
+    })
+  }
+
+  Blockly.Blocks.start = { init () { return this.jsonInit(startBlock) } }
+  generator.forBlock.start = function (block) {
+    return ''
   }
 
   const commentBlock = {
@@ -415,7 +441,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       name: 'Logic',
       colour: '290',
       contents: [
-        { kind: 'block', type: 'controls_if', include () { return propNames.has('if/else') } },
+        { kind: 'block', type: 'controls_if', include () { return propNames.has('if/else') || propNames.has('if') } },
         { kind: 'block', type: 'controls_if', extraState: { hasElse: true }, include () { return propNames.has('else') } },
         { kind: 'block', type: 'controls_if', extraState: { elseIfCount: 1, hasElse: 1 }, include () { return propNames.has('else') } }, // TODO: better if/elseif/else differentiation?
         { kind: 'block', type: 'logic_compare', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
@@ -468,6 +494,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'logic_null', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'newline', include () { return false } },
         { kind: 'block', type: 'entry_point', include () { return false } }, // TODO: organize
+        { kind: 'block', type: 'start', include () { return false } },
         { kind: 'block', type: 'comment', include () { return false } },
         { kind: 'block', type: 'code_comment', include () { return false } },
         { kind: 'block', type: 'logic_ternary', include () { return false } },
@@ -624,10 +651,17 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     return returnsValue ? [parts.join(''), generator.ORDER_ATOMIC] : parts.join('')
   }
 
+  // Localize the name
+  let localizedPropName = utils.i18n(prop, 'name')?.replace(/["`]/g, '')
+  if (/^go\(/.test(localizedPropName)) {
+    // In first two modules, `go` method is like `go('up')` or `go('down', 1)` snippet and often doesn't get translated because it's a code snippet instead of a single identifier, so use a static translation string instead.
+    localizedPropName = $.t('play_level.block_go')
+  }
+
   // CodeCombat Junior doesn't label arguments. (Should we label them for CodeCombat?)
   const blockMessage = level?.get('product') === 'codecombat-junior'
-    ? `${(propName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `%${v + 1}`).join(' ')
-    : `${(propName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `${a.name}: %${v + 1}`).join(' ')
+    ? `${(localizedPropName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `%${v + 1}`).join(' ')
+    : `${(localizedPropName || owner).replace(/\(.*/, '')} ` + args.map((a, v) => `${a.name}: %${v + 1}`).join(' ')
   const setup = {
     message0: blockMessage,
     args0: args.map(a => ({
@@ -725,10 +759,10 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
         // [{ src: '/images/level/blocks/block-down.png', width: 24, height: 24 }, 'down'],
         // [{ src: '/images/level/blocks/block-left.png', width: 24, height: 24 }, 'left'],
         // [{ src: '/images/level/blocks/block-right.png', width: 24, height: 24 }, 'right']
-        ['up', 'up'],
-        ['down', 'down'],
-        ['left', 'left'],
-        ['right', 'right']
+        [$.t('play_level.block_up'), 'up'],
+        [$.t('play_level.block_down'), 'down'],
+        [$.t('play_level.block_left'), 'left'],
+        [$.t('play_level.block_right'), 'right'],
       ]
     }
     dropdownArg.default = args[0].default
@@ -862,18 +896,13 @@ module.exports.registerBlocklyTheme = function () {
 let initializedLanguage = false
 module.exports.initializeBlocklyLanguage = function () {
   if (initializedLanguage) { return }
-  return // TODO: need to fix webpack loading first
   // eslint-disable-function
   initializedLanguage = true
   const language = me.get('preferredLanguage', true).toLowerCase()
-  const languageParts = language.split('-')
+  const languageParts = language.toLowerCase().split('-')
   while (languageParts.length) {
     try {
-      const localePath = `blockly/msg/${languageParts.join('-')}`
-      console.log('trying to load', localePath)
-      // TODO: fix this up with proper webpackery, maybe like https://github.com/codecombat/codecombat/blob/master/app/locale/locale.coffee#L78-L102
-      // blocklyLocale = require(localePath)  // doesn't work
-      // blocklyLocale = require(`blockly/msg/${languageParts.join('-')}`)  // works but throws a ton of errors
+      const blocklyLocale = require(`blockly/msg/${languageParts.join('-')}`)
       Blockly.setLocale(blocklyLocale)
       break
     } catch (e) {
@@ -883,7 +912,10 @@ module.exports.initializeBlocklyLanguage = function () {
   }
 }
 
-module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguage, codeFormat, product }) {
+module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguage, codeFormat, product, maxBlocks }) {
+  if (maxBlocks && maxBlocks !== Infinity && product === 'codecombat-junior') {
+    ++maxBlocks // Allow for start block
+  }
   module.exports.initializeBlocklyLanguage()
   return {
     toolbox,
@@ -896,8 +928,6 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguag
     },
     sounds: me.get('volume') > 0,
     // Renderer choices: 'geras': default, 'thrasos': more modern take on geras, 'zelos': Scratch-like
-    // renderer: 'zelos',
-    // renderer: 'thrasos',
     renderer: renderer || ($(window).innerHeight() > 500 && product === 'codecombat-junior' ? 'zelos' : 'thrasos'),
     zoom: {
       // Hide so that we don't mess with width of toolbox
@@ -907,7 +937,7 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguag
       maxScale: 1.5,
     },
     trashcan: false,
-    // oneBasedIndex: codeLanguage === 'lua' // TODO: Need to test. Default is true.
+    oneBasedIndex: codeLanguage === 'lua',
     move: {
       scrollbars: true,
       drag: true,
@@ -922,6 +952,7 @@ module.exports.createBlocklyOptions = function ({ toolbox, renderer, codeLanguag
     // },
     collapse: codeFormat !== 'blocks-icons', // Don't let blocks be collapsed in icon mode
     disable: true, // Do let blocks be disabled
+    maxBlocks, // Defaults to Infinity
   }
 }
 
@@ -1231,7 +1262,25 @@ module.exports.getBlockById = function ({ workspace, id }) {
 
 module.exports.blockToCode = function ({ block, codeLanguage }) {
   const generator = module.exports.getBlocklyGenerator(codeLanguage)
-  return generator.forBlock[block.type](block)
+  const code = generator.forBlock[block.type](block)
+  if (_.isArray(code)) {
+    // Sometimes the first element is the code and the second is... the operator priority, or something like this
+    return code[0]
+  }
+  return code
+}
+
+module.exports.getBlocksByCodeLine = function ({ workspace, codeLine, codeLanguage }) {
+  const matchedBlocks = []
+  const blocks = workspace.getAllBlocks()
+  for (const block of blocks) {
+    if (!/^Hero_/.test(block.type)) continue
+    const blockCode = module.exports.blockToCode({ block, codeLanguage })
+    if (blockCode?.trim() === codeLine) {
+      matchedBlocks.push(block)
+    }
+  }
+  return matchedBlocks
 }
 
 module.exports.blocklyMutationEvents = [Blockly.Events.CHANGE, Blockly.Events.CREATE, Blockly.Events.DELETE, Blockly.Events.BLOCK_CHANGE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DELETE, Blockly.Events.BLOCK_DRAG, Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE, Blockly.Events.BLOCK_MOVE, Blockly.Events.VAR_CREATE, Blockly.Events.VAR_DELETE, Blockly.Events.VAR_RENAME]

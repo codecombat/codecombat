@@ -203,7 +203,7 @@ if showGameDevAlert
 
           div(class="level-info rtl-allowed " + levelStatus + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
             .level-status.rtl-allowed(dir="auto")
-            - var levelName = levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + (level.lockedByTeacher ? translate('play.locked_by_teacher') : translate('play.locked')) + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")));
+            - var levelName = levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + (level.lockedByTeacher ? (view.isMto ? 'Locked for GF trainings' : translate('play.locked_by_teacher')) : translate('play.locked')) + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")));
             h3(dir=view.isRTL(levelName) ? "rtl" : "ltr")
               span= levelName
               if view.shouldShow('classroom-level-play-button') && level.practiceLevels && level.practiceLevels.length && levelStatus == 'complete'

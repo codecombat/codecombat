@@ -201,6 +201,7 @@ module.exports = class DocFormatter
       if language is @options.language then return text
       if language is 'javascript' and @options.language in ['java', 'cpp'] then return text
       return ''
+    $("<div>#{content}</div>").i18n().html()
 
   replaceSpriteName: (s) ->
     # Prefer type, and excluded the quotes we'd get with @formatValue

@@ -83,7 +83,20 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
 
 export function generateLevelNumberMap (contentTypes) {
   const levels = contentTypes
-    .map(({ original, assessment, icon, _id, practice }) => ({ _id, original, key: original, assessment, practice: practice || (icon === 'practicelvl') }))
+    .map(({ original, assessment, icon, _id, practice, isIntroHeadingRow }) => {
+      let key = original
+      if (isIntroHeadingRow) return null
+      if (isOzariaNoCodeLevelHelper(icon)) {
+        key = _id
+      }
+      return {
+        _id,
+        original,
+        key,
+        assessment,
+        practice: practice || (icon === 'practicelvl'),
+      }
+    }).filter(Boolean)
 
   const levelNumberMap = utils.createLevelNumberMap(levels)
   contentTypes.forEach((level) => {
@@ -100,4 +113,8 @@ function getContentDescription (content) {
   return utils.i18n((content?.documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals'), 'body') ||
     utils.i18n(content, 'description') ||
     ''
+}
+
+export function isOzariaNoCodeLevelHelper (icon) {
+  return ['cutscene', 'cinematic', 'interactive'].includes(icon)
 }

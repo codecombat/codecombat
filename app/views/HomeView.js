@@ -370,7 +370,6 @@ module.exports = (HomeView = (function () {
         })))
       }
 
-      me.startHomeControlExperiment('control')
       return super.afterRender()
     }
 
