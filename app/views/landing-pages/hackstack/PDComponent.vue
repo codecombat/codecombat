@@ -1,7 +1,7 @@
 <template>
   <page-section class="section">
     <template #body>
-      <div class="professional_development">
+      <div>
         <image-and-text
           :title="$t('hackstack_page.professional_development')"
           :text="$t('hackstack_page.professional_development_text')"
@@ -61,16 +61,13 @@ $primary-background: #31636F;
     color: $primary-color !important;
   }
 
-  .professional-development {
-    ::v-deep .contact-us {
-      align-items: start;
-      margin-top: 40px;
-    }
-  }
-
   .contact-us {
     display: flex;
     align-items: flex-start;
+  }
+
+  ::v-deep .box {
+    background: none;
   }
 }
 

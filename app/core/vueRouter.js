@@ -54,7 +54,7 @@ export default function getVueRouter () {
         },
         {
           path: '/hackstack',
-          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/hackstack/PageHackStack'),
+          component: () => import(/* webpackChunkName: "HackStackView" */ 'app/views/landing-pages/hackstack/PageHackStack'),
           meta: { theme: 'teal' },
         },
         {

@@ -31,7 +31,7 @@
                     {{ $t('hackstack_page.data_description') }}
                   </p>
                   <learn-more-button
-                    link="https://codecombat.com/safety"
+                    link="https://docs.google.com/document/d/1OfQw0B841BUu7iABRlS-UXMbHDb9npYLvOPgcsdIiH0"
                     target="_blank"
                     class="learn-more"
                   >
@@ -54,7 +54,7 @@
                     {{ $t('hackstack_page.moderation_description') }}
                   </p>
                   <learn-more-button
-                    link="https://codecombat.com/safety"
+                    link="https://docs.google.com/document/d/1OfQw0B841BUu7iABRlS-UXMbHDb9npYLvOPgcsdIiH0"
                     target="_blank"
                     class="learn-more"
                   >

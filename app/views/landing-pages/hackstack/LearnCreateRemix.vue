@@ -80,6 +80,10 @@ $primary-background: #31636F;
   ::v-deep .mixed-color-label__highlight {
     color: $primary-color !important;
   }
+
+  ::v-deep .box {
+    background: none;
+  }
 }
 
 </style>

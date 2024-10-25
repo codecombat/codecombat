@@ -25,9 +25,9 @@
             <carousel-item>
               <testimonial-component
                 class="testimonials__item"
-                :quote="$t(`hackstack_page.testimonials_${0 + 1}_quote`)"
-                :name="$t(`hackstack_page.testimonials_${0 + 1}_name`)"
-                :title="$t(`hackstack_page.testimonials_${0 + 1}_title`)"
+                :quote="$t(`hackstack_page.testimonials_1_quote`)"
+                :name="$t(`hackstack_page.testimonials_1_name`)"
+                :title="$t(`hackstack_page.testimonials_1_title`)"
                 :image="'/images/pages/home-v3/testimonal/avatar.svg'"
               />
             </carousel-item>
