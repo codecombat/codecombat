@@ -533,7 +533,6 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       name: 'Literals',
       colour: '10',
       contents: [
-        { kind: 'block', type: 'junior_type_string', include () { return propNames.has('==') && level?.get('product') === 'codecombat-junior' } },
         { kind: 'block', type: 'text', include () { return !superBasicLevels.includes(level?.get('slug')) && (level?.get('product') !== 'codecombat-junior' || propNames.has('==')) } },
         { kind: 'block', type: 'math_number', include () { return !superBasicLevels.includes(level?.get('slug')) && level?.get('product') !== 'codecombat-junior' } },
         { kind: 'block', type: 'logic_boolean', include () { return propNames.has('if/else') } }, // TODO: better targeting of when we introduce this logic?
@@ -588,6 +587,11 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       include () { return propNames.has('functions') }
     },
   ]
+
+  if (propNames.has('==') && level?.get('product') === 'codecombat-junior') {
+    const juniorTypeStringToolboxEntry = { kind: 'block', type: 'junior_type_string', include () { return propNames.has('==') && level?.get('product') === 'codecombat-junior' } }
+    _.find(builtInBlockCategories, { name: 'Literals' }).contents.unshift(juniorTypeStringToolboxEntry)
+  }
 
   let blockCategories = userBlockCategories.concat(builtInBlockCategories)
   const fullBlockCategories = _.cloneDeep(userBlockCategories.concat(builtInBlockCategories))

@@ -683,6 +683,10 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
 
   for (const block of blocks) {
     const zeblock = Blockly.Blocks[block.type]
+    if (!zeblock) {
+      console.error(`Could not find block definition for block of type ${block.type}`, block)
+      continue
+    }
     // console.log('Consider', block, 'z', zeblock)
     workspace.clear()
     const defn = {
