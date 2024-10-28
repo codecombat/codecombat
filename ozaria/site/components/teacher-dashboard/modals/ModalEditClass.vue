@@ -15,6 +15,7 @@ import ModalDivider from 'ozaria/site/components/common/ModalDivider.vue'
 import ClassroomsApi from 'app/core/api/classrooms.js'
 import moment from 'moment'
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
+import ClassStartEndDateComponent from './modal-edit-class-components/ClassStartEndDateComponent.vue'
 
 export default Vue.extend({
   components: {
@@ -23,7 +24,8 @@ export default Vue.extend({
     TertiaryButton,
     ButtonGoogleClassroom,
     ButtonImportClassroom,
-    ModalDivider
+    ModalDivider,
+    ClassStartEndDateComponent,
   },
 
   mixins: [validationMixin],
@@ -582,8 +584,14 @@ export default Vue.extend({
         }
       }
       this.saving = false
-    }
-  }
+    },
+    updateClassDateStart (newVal) {
+      this.newClassDateStart = newVal
+    },
+    updateClassDateEnd (newVal) {
+      this.newClassDateEnd = newVal
+    },
+  },
 })
 </script>
 
@@ -772,36 +780,13 @@ export default Vue.extend({
             </span>
           </div>
         </div>
-        <div
+        <class-start-end-date-component
           v-if="asClub"
-          class="form-group row"
-        >
-          <div class="col-xs-12">
-            <label for="form-new-class-date-start">
-              <span class="control-label"> {{ $t("courses.estimated_class_dates_label") }} </span>
-            </label>
-            <div
-              class="estimated-date-fields"
-              :class="{ 'has-error': $v.newClassDateStart.$error || $v.newClassDateEnd.$error }"
-            >
-              <input
-                id="form-new-class-date-start"
-                v-model="newClassDateStart"
-                type="date"
-                class="form-control"
-              >
-              <label for="form-new-class-date-end">
-                <span class="spl.spr">{{ $t("courses.student_age_range_to") }}</span>
-              </label>
-              <input
-                id="form-new-class-date-end"
-                v-model="newClassDateEnd"
-                type="date"
-                class="form-control"
-              >
-            </div>
-          </div>
-        </div>
+          :class-date-start="newClassDateStart"
+          :class-date-end="newClassDateEnd"
+          @classDateStartUpdated="updateClassDateStart"
+          @classDateEndUpdated="updateClassDateEnd"
+        />
         <div
           v-if="isCodeCombat && classroomInstance.isNew() && !asClub"
           class="form-group row initial-free-courses"
@@ -1151,33 +1136,13 @@ export default Vue.extend({
             </select>
           </div>
         </div>
-        <div
+        <class-start-end-date-component
           v-if="!asClub && (moreOptions && isCodeCombat || me.isCodeNinja())"
-          class="form-group row"
-        >
-          <div class="col-xs-12">
-            <label for="form-new-class-date-start">
-              <span class="control-label"> {{ $t("courses.estimated_class_dates_label") }} </span>
-            </label>
-            <div class="estimated-date-fields">
-              <input
-                id="form-new-class-date-start"
-                v-model="newClassDateStart"
-                type="date"
-                class="form-control"
-              >
-              <label for="form-new-class-date-end">
-                <span class="spl.spr">{{ $t("courses.student_age_range_to") }}</span>
-              </label>
-              <input
-                id="form-new-class-date-end"
-                v-model="newClassDateEnd"
-                type="date"
-                class="form-control"
-              >
-            </div>
-          </div>
-        </div>
+          :class-date-start="newClassDateStart"
+          :class-date-end="newClassDateEnd"
+          @classDateStartUpdated="updateClassDateStart"
+          @classDateEndUpdated="updateClassDateEnd"
+        />
         <div
           v-if="moreOptions && isCodeCombat && !me.isCodeNinja()"
           class="form-group row"
@@ -1335,18 +1300,6 @@ export default Vue.extend({
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-  }
-}
-
-.estimated-date-fields {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-
-  input {
-    width: 45%;
   }
 }
 
