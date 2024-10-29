@@ -1747,7 +1747,7 @@ module.exports = {
       licenses_needed: 'Licenses needed',
       google_classroom_disabled_text: 'To link Google Classroom, login using Google SSO',
       select_class: 'Select class',
-      programming_language: 'Programming language',
+      programming_language: 'Programming Language',
       programming_language_edit_desc: 'Language cannot be changed once students join a class. We recommend creating a new class for the same students.',
       programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students.",
       add_a_class: 'Add a new class',

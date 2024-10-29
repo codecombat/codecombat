@@ -78,7 +78,7 @@ export default Vue.extend({
   background: #FFFFFF;
   box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.11), 2px 4px 5px rgba(0, 0, 0, 0.11);
   display: inline-block;
-  padding: 10px;
+  padding: 5px;
 
   &.disabled {
     background: #D8D8D8;

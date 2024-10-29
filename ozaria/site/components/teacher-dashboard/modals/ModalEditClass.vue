@@ -11,7 +11,6 @@ import { required, requiredIf } from 'vuelidate/lib/validators'
 import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 import ButtonGoogleClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonGoogleClassroom.vue'
 import ButtonImportClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonImportClassroom.vue'
-import ModalDivider from 'ozaria/site/components/common/ModalDivider.vue'
 import ClassroomsApi from 'app/core/api/classrooms.js'
 import moment from 'moment'
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
@@ -25,7 +24,6 @@ export default Vue.extend({
     TertiaryButton,
     ButtonGoogleClassroom,
     ButtonImportClassroom,
-    ModalDivider,
     ClassStartEndDateComponent,
     CourseCodeLanguageFormatComponent,
   },
@@ -491,7 +489,6 @@ export default Vue.extend({
           />
         </div>
       </div>
-      <modal-divider v-if="linkGoogleButtonAllowed || linkOtherProductButtonAllowed" />
       <div class="form-container container">
         <div
           v-if="isGoogleClassroomForm"
@@ -1013,6 +1010,7 @@ export default Vue.extend({
   justify-content: center;
   align-items: center;
   gap: 20px;
+  margin-bottom: 15px;
 }
 
 .edit-class {

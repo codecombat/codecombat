@@ -1,5 +1,5 @@
 <template>
-  <div class="form-group row">
+  <div class="form-group row course-code-language-format">
     <div
       v-if="isCodeCombat && isNewClassroom && !asClub"
       class="col-xs-12 initial-free-courses"
@@ -22,8 +22,11 @@
               type="checkbox"
               name="initialFreeCourses"
             >
-            <span class="initial-course-name">
-              {{ initialFreeCourse.name }} <questionmark-view popover-placement="top">
+            <span class="initial-course-name q-tooltip">
+              {{ initialFreeCourse.name }}
+              <questionmark-view
+                popover-placement="top"
+              >
                 <template #popover><span>{{ initialFreeCourse.blurb }}</span></template>
               </questionmark-view>
             </span>
@@ -36,96 +39,101 @@
     </div>
     <div
       v-if="!hideCodeLanguageAndFormat"
-      class="language"
+      class="col-xs-12 language"
     >
-      <div class="col-xs-12">
-        <label for="form-lang-item">
-          <span class="control-label"> {{ $t("teachers.programming_language") }} </span>
-        </label>
-        <select
-          id="form-lang-item"
-          v-model="newProgrammingLanguage"
-          class="form-control"
-          :class="{ 'placeholder-text': !newProgrammingLanguage }"
-          name="classLanguage"
+      <label for="form-lang-item">
+        <span class="control-label"> {{ $t("teachers.programming_language") }} </span>
+      </label>
+      <select
+        id="form-lang-item"
+        v-model="newProgrammingLanguage"
+        class="form-control"
+        :class="{ 'placeholder-text': !newProgrammingLanguage }"
+        name="classLanguage"
+      >
+        <option
+          v-for="enabledLanguage in availableLanguages"
+          :key="enabledLanguage.id"
+          :value="enabledLanguage.id"
+          :disabled="enabledLanguage.disabled"
         >
-          <option
-            v-for="enabledLanguage in availableLanguages"
-            :key="enabledLanguage.id"
-            :value="enabledLanguage.id"
-            :disabled="enabledLanguage.disabled"
-          >
-            {{ enabledLanguage.name }}
-          </option>
-        </select>
-        <span class="help-block small text-navy"> {{ $t("teachers.programming_language_edit_desc_new") }} </span>
-      </div>
+          {{ enabledLanguage.name }}
+        </option>
+      </select>
+      <span
+        v-if="!isNewClassroom"
+        class="help-block small text-navy"
+      >
+        {{ $t("teachers.programming_language_edit_desc_new") }}
+      </span>
     </div>
 
     <div
       v-if="isCodeCombat && !hideCodeLanguageAndFormat"
-      class="code-format"
+      class="code-format col-xs-12"
     >
-      <div class="col-xs-12">
-        <label>
-          <span class="control-label"> {{ $t("teachers.code_formats") }} </span>
-        </label>
-        <div class="form-group">
-          <label
-            v-for="codeFormat in availableCodeFormats"
-            :key="codeFormat.id"
-            class="checkbox-inline"
-            :disabled="codeFormat.disabled"
-          >
-            <input
-              v-model="newCodeFormats"
-              :value="codeFormat.id"
-              :disabled="codeFormat.disabled"
-              name="codeFormats"
-              type="checkbox"
+      <label
+        class="code-format-label q-tooltip"
+      >
+        <span class="control-label"> {{ $t("teachers.code_formats") }} </span>
+        <questionmark-view popover-placement="top">
+          <template #popover>
+            <p
+              v-if="!enableBlocks"
+              class="help-block small text-navy"
             >
-            <span>{{ codeFormat.name }}</span>
-          </label>
-          <span class="help-block small text-navy">{{ $t("teachers.code_formats_description") }}</span>
-          <p
-            v-if="!enableBlocks"
-            class="help-block small text-navy"
+              {{ $t("teachers.code_formats_disabled_by", { language: codeLanguageObject[newProgrammingLanguage]?.name }) }}
+            </p>
+            <p class="help-block small text-navy">
+              {{ $t('teachers.code_formats_mobile') }}
+            </p>
+            <p class="help-block small text-navy">
+              {{ $t('teachers.code_formats_fallback') }}
+            </p>
+          </template>
+        </questionmark-view>
+      </label>
+      <div>
+        <label
+          v-for="codeFormat in availableCodeFormats"
+          :key="codeFormat.id"
+          class="checkbox-inline"
+          :disabled="codeFormat.disabled"
+        >
+          <input
+            v-model="newCodeFormats"
+            :value="codeFormat.id"
+            :disabled="codeFormat.disabled"
+            name="codeFormats"
+            type="checkbox"
           >
-            {{ $t("teachers.code_formats_disabled_by", { language: codeLanguageObject[newProgrammingLanguage]?.name }) }}
-          </p>
-          <p class="help-block small text-navy">
-            {{ $t('teachers.code_formats_mobile') }}
-          </p>
-          <p class="help-block small text-navy">
-            {{ $t('teachers.code_formats_fallback') }}
-          </p>
-        </div>
+          <span>{{ codeFormat.name }}</span>
+        </label>
+        <span class="help-block small text-navy">{{ $t("teachers.code_formats_description") }}</span>
       </div>
     </div>
     <div
       v-if="isCodeCombat"
-      class="default-code-format"
+      class="col-xs-12 default-code-format"
     >
-      <div class="col-xs-12">
-        <label for="default-code-format-select">
-          <span class="control-label"> {{ $t("teachers.default_code_format") }} </span>
-        </label>
-        <select
-          id="default-code-format-select"
-          v-model="newCodeFormatDefault"
-          class="form-control"
-          name="codeFormatDefault"
+      <label for="default-code-format-select">
+        <span class="control-label"> {{ $t("teachers.default_code_format") }} </span>
+      </label>
+      <select
+        id="default-code-format-select"
+        v-model="newCodeFormatDefault"
+        class="form-control"
+        name="codeFormatDefault"
+      >
+        <option
+          v-for="codeFormat in enabledCodeFormats"
+          :key="codeFormat.id"
+          :value="codeFormat.id"
         >
-          <option
-            v-for="codeFormat in enabledCodeFormats"
-            :key="codeFormat.id"
-            :value="codeFormat.id"
-          >
-            {{ codeFormat.name }}
-          </option>
-        </select>
-        <span class="help-block small text-navy">{{ $t("teachers.default_code_format_description") }}</span>
-      </div>
+          {{ codeFormat.name }}
+        </option>
+      </select>
+      <span class="help-block small text-navy">{{ $t("teachers.default_code_format_description") }}</span>
     </div>
   </div>
 </template>
@@ -282,7 +290,6 @@ export default {
 
 <style lang="scss" scoped>
 .initial-free-courses {
-  margin-bottom: 10px;
   .initial-course-blurb {
     margin-bottom: 0;
   }
@@ -293,7 +300,7 @@ export default {
 p.help-block {
   margin-bottom: 0;
 }
-.initial-course-name {
+.q-tooltip {
   display: flex;
   align-items: center;
   gap: 2px;
@@ -325,5 +332,10 @@ p.help-block {
 }
 .initial-course {
   flex: 0 1 auto;
+}
+.course-code-language-format {
+  > *:not(:last-child) {
+    margin-bottom: 15px;
+  }
 }
 </style>
