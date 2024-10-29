@@ -36,12 +36,12 @@ export default Vue.extend({
     classroom: {
       type: Object,
       required: true,
-      default: () => {}
+      default: () => {},
     },
     asClub: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data: function () {
@@ -81,7 +81,7 @@ export default Vue.extend({
       otherProductSyncInProgress: false,
       googleSyncInProgress: false,
       moreOptions: false,
-      newInitialFreeCourses: [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE],
+      newInitialFreeCourses: utils.isCodeCombat ? [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] : [],
       archived: this.classroom?.archived || false,
       errMsg: '',
     }
@@ -198,13 +198,6 @@ export default Vue.extend({
   },
 
   watch: {
-    newInitialFreeCourses (newInitialFreeCourses) {
-      if (newInitialFreeCourses.length === 0) {
-        this.$nextTick(() => {
-          this.$set(this, 'newInitialFreeCourses', [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE])
-        })
-      }
-    },
     availableCodeFormats () {
       const ava = this.availableCodeFormats.filter(cf => !cf.disabled).map(cf => cf.id)
       this.newCodeFormats = this.newCodeFormats.filter(cf => ava.includes(cf))
@@ -370,6 +363,11 @@ export default Vue.extend({
       }
 
       if (utils.isCodeCombat) {
+        if (this.newInitialFreeCourses?.length === 0 && this.classroomInstance.isNew()) {
+          this.errMsg = 'Please select at least one course'
+          this.saving = false
+          return
+        }
         updates.initialFreeCourses = this.newInitialFreeCourses
       }
 

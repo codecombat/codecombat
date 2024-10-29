@@ -279,4 +279,7 @@ export default {
     font-size: 0.85em;
   }
 }
+p.help-block {
+  margin-bottom: 0;
+}
 </style>
