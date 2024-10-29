@@ -1154,12 +1154,6 @@ export default Vue.extend({
   }
 }
 
-.checkbox-inline {
-  input[type=checkbox] {
-    margin-top: 8px;
-  }
-}
-
 .ml-small {
   margin-left: 5px;
 }

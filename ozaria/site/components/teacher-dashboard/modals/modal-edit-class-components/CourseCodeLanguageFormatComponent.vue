@@ -2,16 +2,16 @@
   <div class="form-group row">
     <div
       v-if="isCodeCombat && isNewClassroom && !asClub"
-      class="initial-free-courses"
+      class="col-xs-12 initial-free-courses"
     >
-      <div class="col-xs-12">
-        <label class="control-label">
-          {{ $t("teachers.initial_free_courses") }}
-        </label>
+      <label class="control-label">
+        {{ $t("teachers.initial_free_courses") }}
+      </label>
+      <div class="initial-courses">
         <div
           v-for="initialFreeCourse in initialFreeCourses"
           :key="initialFreeCourse.id"
-          class="form-group"
+          class="initial-course"
         >
           <label
             class="checkbox-inline"
@@ -22,11 +22,17 @@
               type="checkbox"
               name="initialFreeCourses"
             >
-            <span class="initial-course-name">{{ initialFreeCourse.name }}</span>
-            <p class="initial-course-blurb help-block small text-navy">{{ initialFreeCourse.blurb }}</p>
+            <span class="initial-course-name">
+              {{ initialFreeCourse.name }} <questionmark-view popover-placement="top">
+                <template #popover><span>{{ initialFreeCourse.blurb }}</span></template>
+              </questionmark-view>
+            </span>
           </label>
         </div>
       </div>
+      <p class="help-block small text-navy">
+        {{ $t('teachers.initial_free_courses_description') }}
+      </p>
     </div>
     <div
       v-if="!hideCodeLanguageAndFormat"
@@ -127,9 +133,13 @@
 <script>
 import utils from 'core/utils'
 import { mapGetters } from 'vuex'
+import QuestionmarkView from '../../../../../../app/views/ai-league/QuestionmarkView.vue'
 
 export default {
   name: 'CourseCodeLanguageFormatComponent',
+  components: {
+    QuestionmarkView,
+  },
   props: {
     isCodeCombat: {
       type: Boolean,
@@ -272,6 +282,7 @@ export default {
 
 <style lang="scss" scoped>
 .initial-free-courses {
+  margin-bottom: 10px;
   .initial-course-blurb {
     margin-bottom: 0;
   }
@@ -281,5 +292,38 @@ export default {
 }
 p.help-block {
   margin-bottom: 0;
+}
+.initial-course-name {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  ::v-deep .plabel {
+    height: 14px;
+    width: 14px;
+    border-radius: 14px;
+
+    position: relative;
+    top: -8px;
+
+    .text-wrapper {
+      font-size: 12px;
+    }
+  }
+}
+.checkbox-inline {
+  input[type=checkbox] {
+    margin-top: 8px;
+  }
+}
+.initial-courses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  margin-bottom: 5px;
+}
+.initial-course {
+  flex: 0 1 auto;
 }
 </style>
