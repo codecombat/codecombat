@@ -83,6 +83,7 @@ export default Vue.extend({
       moreOptions: false,
       newInitialFreeCourses: [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE],
       archived: this.classroom?.archived || false,
+      errMsg: '',
     }
   },
 
@@ -217,7 +218,7 @@ export default Vue.extend({
       this.newProgrammingLanguage = utils.allowedLanguages.includes(language) ? language : 'python'
       this.newLevelChat = levelChat === 'fixed_prompt_only'
       this.newLiveCompletion = liveCompletion
-    }
+    },
   },
 
   async mounted () {
@@ -301,8 +302,10 @@ export default Vue.extend({
     },
     async saveClass () {
       this.saving = true
+      this.errMsg = ''
       if (!this.isFormValid) {
         this.$v.$touch() // $touch updates the validation state of all fields and scroll to the wrong input
+        this.errMsg = 'Please fill out all required fields'
         this.saving = false
         return
       }
@@ -316,48 +319,25 @@ export default Vue.extend({
         }
 
         if (errorMsg) {
-          noty({ text: errorMsg, layout: 'topCenter', type: 'error', timeout: 2000 })
+          this.errMsg = errorMsg
           this.saving = false
           return
         }
-
-        if (this.newClubType) {
-          updates.type = this.newClubType
-        }
+        updates.type = this.newClubType
       }
-      if (this.newClassName && this.newClassName !== this.classroomName) {
-        updates.name = this.newClassName
-      }
+      updates.name = this.newClassName
       const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
-      if (this.newProgrammingLanguage && this.newProgrammingLanguage !== this.language) {
-        aceConfig.language = this.newProgrammingLanguage
-      }
-      if (this.newLiveCompletion !== this.liveCompletion) {
-        aceConfig.liveCompletion = this.newLiveCompletion
-      }
-
-      if (this.newClassroomItems !== this.classroomItems) {
-        updates.classroomItems = this.newClassroomItems
-      }
-
-      if (!this.enableBlocks) {
-        this.newCodeFormats = ['text-code']
-        this.newCodeFormatDefault = 'text-code'
-      }
+      aceConfig.language = this.newProgrammingLanguage
+      aceConfig.liveCompletion = this.newLiveCompletion
+      updates.classroomItems = this.newClassroomItems
 
       // Make sure that codeFormats includes codeFormatDefault, including when these aren't specified
       if (!this.newCodeFormats.includes(this.newCodeFormatDefault)) {
         this.newCodeFormats.push(this.newCodeFormatDefault)
       }
-      if (this.newCodeFormats !== this.codeFormats) {
-        aceConfig.codeFormats = this.newCodeFormats
-        updates.aceConfig = aceConfig
-      }
+      aceConfig.codeFormats = this.newCodeFormats
       console.log('codeFormats', this.newCodeFormats, this.codeFormats, aceConfig)
-      if (this.newCodeFormatDefault !== this.codeFormatDefault) {
-        aceConfig.codeFormatDefault = this.newCodeFormatDefault
-        updates.aceConfig = aceConfig
-      }
+      aceConfig.codeFormatDefault = this.newCodeFormatDefault
 
       if (this.newLevelChat) {
         aceConfig.levelChat = 'fixed_prompt_only'
@@ -366,27 +346,13 @@ export default Vue.extend({
       }
       updates.aceConfig = aceConfig
 
-      if (this.newClassroomDescription !== this.classroomDescription) {
-        updates.description = this.newClassroomDescription
-      }
-      if (this.newAverageStudentExp !== this.averageStudentExp) {
-        updates.averageStudentExp = this.newAverageStudentExp
-      }
-      if (this.newClassroomType !== this.classroomType) {
-        updates.type = this.newClassroomType
-      }
-      if (this.newClassDateStart !== this.classDateStart) {
-        updates.classDateStart = this.newClassDateStart
-      }
-      if (this.newClassDateEnd !== this.classDateEnd) {
-        updates.classDateEnd = this.newClassDateEnd
-      }
-      if (this.newClassesPerWeek !== this.classesPerWeek) {
-        updates.classesPerWeek = String(this.newClassesPerWeek)
-      }
-      if (this.newMinutesPerClass !== this.minutesPerClass) {
-        updates.minutesPerClass = String(this.newMinutesPerClass)
-      }
+      updates.description = this.newClassroomDescription
+      updates.averageStudentExp = this.newAverageStudentExp
+      updates.type = this.newClassroomType
+      updates.classDateStart = this.newClassDateStart
+      updates.classDateEnd = this.newClassDateEnd
+      updates.classesPerWeek = String(this.newClassesPerWeek)
+      updates.minutesPerClass = String(this.newMinutesPerClass)
 
       if (this.isGoogleClassroomForm) {
         updates.googleClassroomId = this.googleClassId
@@ -407,70 +373,72 @@ export default Vue.extend({
         updates.initialFreeCourses = this.newInitialFreeCourses
       }
 
-      if (_.size(updates)) {
-        let savedClassroom
-        if (this.classroomInstance.isNew()) {
-          try {
-            savedClassroom = await this.createClassroom({ ...this.classroom.attributes, ...updates })
-          } catch (err) {
-            console.error('failed to create classroom', err)
-            noty({
-              type: 'error',
-              text: err?.message || 'Failed to create classroom',
-              timeout: 5000
-            })
-            return
-          }
-          await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
-
-          this.$emit('created')
-        } else {
-          await this.updateClassroom({ classroom: this.classroom, updates })
-          savedClassroom = this.classroom
-          this.$emit('updated')
+      let savedClassroom
+      if (this.classroomInstance.isNew()) {
+        try {
+          savedClassroom = await this.createClassroom({ ...this.classroom.attributes, ...updates })
+        } catch (err) {
+          console.error('failed to create classroom', err)
+          this.errMsg = err?.message || 'Failed to create classroom'
+          this.saving = false
+          return
         }
+        console.log('creating free course instances', this.classroom, this.courses)
+        await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
 
-        if (this.isGoogleClassroomForm) {
-          await GoogleClassroomHandler.markAsImported(this.googleClassId)
-          GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
-            .then((importedMembers) => {
-              if (importedMembers.length > 0) {
-                console.debug('Students imported to classroom:', importedMembers)
-              }
-            })
-            .catch((e) => {
-              noty({ text: 'Error in importing students', layout: 'topCenter', type: 'error', timeout: 2000 })
-            })
+        this.$emit('created')
+      } else {
+        try {
+          savedClassroom = await this.updateClassroom({ classroom: this.classroom, updates })
+        } catch (err) {
+          console.error('failed to update classroom', err)
+          this.errMsg = err?.message || 'Failed to update classroom'
+          this.saving = false
+          return
         }
+        this.$emit('updated')
+      }
 
-        if (this.isOtherProductForm) {
-          const members = updates.members
-            .map(memberId => ({
-              _id: memberId,
-              role: 'student'
-            }))
+      if (this.isGoogleClassroomForm) {
+        await GoogleClassroomHandler.markAsImported(this.googleClassId)
+        GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
+          .then((importedMembers) => {
+            if (importedMembers.length > 0) {
+              console.debug('Students imported to classroom:', importedMembers)
+            }
+          })
+          .catch((e) => {
+            this.errMsg = e?.message || 'Error in importing students'
+            noty({ text: 'Error in importing students', layout: 'topCenter', type: 'error', timeout: 2000 })
+          })
+      }
 
-          // set linkink in both classrooms
-          ClassroomsApi.update({
-            classroomID: this.otherProductClassroom._id,
-            updates: { otherProductId: savedClassroom._id }
-          }, { callOz: true }).catch(console.log)
-          if (members.length > 0) {
-            await this.addMembersToClassroom({ classroom: savedClassroom, members, componentName: COMPONENT_NAMES.MY_CLASSES_ALL })
-          }
-        }
+      if (this.isOtherProductForm) {
+        const members = updates.members
+          .map(memberId => ({
+            _id: memberId,
+            role: 'student',
+          }))
 
-        this.$emit('close')
-
-        // redirect to classes if user was not on classes page when creating a new class
-        if (this.classroomInstance.isNew()) {
-          const path = window.location.pathname
-          if (path !== '/teachers' && !path.match('/teachers/classes')) {
-            window.location.href = '/teachers/classes'
-          }
+        // set linkink in both classrooms
+        ClassroomsApi.update({
+          classroomID: this.otherProductClassroom._id,
+          updates: { otherProductId: savedClassroom._id },
+        }, { callOz: true }).catch(console.log)
+        if (members.length > 0) {
+          await this.addMembersToClassroom({ classroom: savedClassroom, members, componentName: COMPONENT_NAMES.MY_CLASSES_ALL })
         }
       }
+
+      this.$emit('close')
       this.saving = false
+      // redirect to classes if user was not on classes page when creating a new class
+      if (this.classroomInstance.isNew()) {
+        const path = window.location.pathname
+        if (path !== '/teachers' && !path.match('/teachers/classes')) {
+          window.location.href = '/teachers/classes'
+        }
+      }
     },
     updateClassDateStart (newVal) {
       this.newClassDateStart = newVal
@@ -1025,6 +993,12 @@ export default Vue.extend({
               >
                 saving...
               </span>
+              <span
+                v-if="errMsg"
+                class="error-msg error"
+              >
+                {{ errMsg }}
+              </span>
             </div>
           </div>
         </div>
@@ -1216,6 +1190,10 @@ p.help-block {
 
   .saving-text {
     @include font-p-4-paragraph-smallest-gray;
+    margin-top: 5px;
+  }
+
+  .error-msg {
     margin-top: 5px;
   }
 }
