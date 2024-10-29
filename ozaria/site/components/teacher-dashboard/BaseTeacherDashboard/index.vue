@@ -22,11 +22,9 @@ import ModalTeacherDetails from '../modals/ModalTeacherDetails'
 import { hasSeenTeacherDetailModalRecently, markTeacherDetailsModalAsSeen } from '../../../common/utils'
 import TryOzariaModal from 'app/components/teacher/TryOzariaModal.vue'
 
-const Classroom = require('models/Classroom')
 const VueShepherd = require('vue-shepherd')
 
 const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
-const SEEN_TEACHER_DETAILS_MODAL = 'seen-teacher-details-modal'
 const TRY_OZ_MODAL_VIEWED_KEY = 'try-oz-modal-viewed'
 const SIDEBAR_COLLAPSED_KEY = 'teacher-dashboard-sidebar-collapsed'
 
@@ -62,7 +60,7 @@ export default {
       runningTour: null,
       createdFirstClass: false,
       trialRequestLoading: true,
-      newClassroom: new Classroom({ ownerID: me.id }),
+      newClassroom: {},
       sidebarCollapsed: storage.load(SIDEBAR_COLLAPSED_KEY) || false,
       editCurrent: false,
       editClassroomObject: {},
@@ -261,6 +259,7 @@ export default {
     },
 
     openEditClassModal (claz) {
+      console.log('claz edit', claz)
       this.editClassroomObject = claz
       this.editCurrent = true
       this.showNewClassModal = true

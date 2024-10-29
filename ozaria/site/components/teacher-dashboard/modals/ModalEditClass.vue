@@ -16,6 +16,7 @@ import ClassroomsApi from 'app/core/api/classrooms.js'
 import moment from 'moment'
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 import ClassStartEndDateComponent from './modal-edit-class-components/ClassStartEndDateComponent.vue'
+import CourseCodeLanguageFormatComponent from './modal-edit-class-components/CourseCodeLanguageFormatComponent.vue'
 
 export default Vue.extend({
   components: {
@@ -26,6 +27,7 @@ export default Vue.extend({
     ButtonImportClassroom,
     ModalDivider,
     ClassStartEndDateComponent,
+    CourseCodeLanguageFormatComponent,
   },
 
   mixins: [validationMixin],
@@ -42,25 +44,32 @@ export default Vue.extend({
     }
   },
 
-  data: () => {
+  data: function () {
+    console.log('classroom', this.classroom, this.classroom?.type)
+    const cItems = this.classroom?.classroomItems
+    const cLiveCompletion = this.classroom?.aceConfig?.liveCompletion
+    const cFormats = this.classroom?.aceConfig?.codeFormats
+    const cFormatDefault = this.classroom?.aceConfig?.codeFormatDefault
+    const cLevelChat = this.classroom?.aceConfig?.levelChat
     return {
       showGoogleClassroom: me.showGoogleClassroom(),
-      newClassName: '',
-      newProgrammingLanguage: 'python',
-      newLiveCompletion: true,
-      newClassroomItems: true,
+      newClassName: this.classroom?.name || '',
+      newProgrammingLanguage: this.classroom?.aceConfig?.language || 'python',
+      newLiveCompletion: typeof cLiveCompletion === 'undefined' ? true : cLiveCompletion,
+      newClassroomItems: typeof cItems === 'undefined' ? true : cItems,
       cocoDefaultClassroomItems: true,
-      newCodeFormats: ['text-code'],
-      newCodeFormatDefault: 'text-code',
-      newLevelChat: false,
+      newCodeFormats: typeof cFormats === 'undefined' ? ['text-code'] : cFormats,
+      newCodeFormatDefault: typeof cFormatDefault === 'undefined' ? 'text-code' : cFormatDefault,
+      newLevelChat: typeof cLevelChat === 'undefined' ? true : cLevelChat === 'fixed_prompt_only',
       cocoDefaultLevelChat: true,
-      newClassroomDescription: '',
-      newAverageStudentExp: '',
-      newClassroomType: '',
-      newClassDateStart: '',
-      newClassDateEnd: '',
-      newClassesPerWeek: '',
-      newMinutesPerClass: '',
+      newClassroomDescription: this.classroom?.description || '',
+      newAverageStudentExp: this.classroom?.averageStudentExp || '',
+      newClassroomType: this.classroom?.type || '',
+      newClassDateStart: this.classroom?.classDateStart || '',
+      newClassDateEnd: this.classroom?.classDateEnd || '',
+      newClassesPerWeek: this.classroom?.classesPerWeek || '',
+      newMinutesPerClass: this.classroom?.minutesPerClass || '',
+      newClubType: this.classroom?.type || '',
       saving: false,
       classGrades: (utils.isOzaria && !me.isCodeNinja()) ? [] : null,
       googleClassId: '',
@@ -73,7 +82,7 @@ export default Vue.extend({
       googleSyncInProgress: false,
       moreOptions: false,
       newInitialFreeCourses: [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE],
-      newClubType: '',
+      archived: this.classroom?.archived || false,
     }
   },
 
@@ -97,9 +106,6 @@ export default Vue.extend({
         }
       }
       : {}),
-    newClubType: {
-      required: requiredIf(function () { return this.asClub })
-    },
     newClassDateStart: {
       required: requiredIf(function () { return this.asClub })
     },
@@ -111,7 +117,9 @@ export default Vue.extend({
     ...mapGetters({
       getSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
       courses: 'courses/sorted',
-      getCourseInstances: 'courseInstances/getCourseInstancesOfClass'
+      getCourseInstances: 'courseInstances/getCourseInstancesOfClass',
+      activeClassrooms: 'teacherDashboard/getActiveClassrooms',
+      allClassrooms: 'teacherDashboard/getAllClassrooms',
     }),
     title () {
       let title = ''
@@ -156,113 +164,8 @@ export default Vue.extend({
     capitalLanguages () {
       return utils.capitalLanguages
     },
-    classroomName () {
-      return (this.classroom || {}).name
-    },
-    language () {
-      return ((this.classroom || {}).aceConfig || {}).language
-    },
-    archived () {
-      return (this.classroom || {}).archived
-    },
-    liveCompletion () {
-      return _.assign({ liveCompletion: true }, (this.classroom || {}).aceConfig).liveCompletion
-    },
-    classroomItems () {
-      return (this.classroom || {}).classroomItems
-    },
-    hasJunior () {
-      if (this.classroomInstance.isNew()) {
-        return this.newInitialFreeCourses.includes(utils.courseIDs.JUNIOR)
-      } else {
-        return this.getCourseInstances(this.classroomInstance._id)?.some(ci => ci.courseID === utils.courseIDs.JUNIOR)
-      }
-    },
-    codeLanguageObject () {
-      return utils.getCodeLanguages()
-    },
-    codeFormatObject () {
-      return utils.getCodeFormats()
-    },
-    enableBlocks () {
-      return ['python', 'javascript', 'lua'].includes(this.newProgrammingLanguage || 'python')
-    },
-    availableCodeFormats () {
-      const codeFormats = JSON.parse(JSON.stringify(this.codeFormatObject))
-      if (!this.hasJunior) {
-        codeFormats['blocks-icons'].disabled = true
-      }
-      if (!this.enableBlocks) {
-        codeFormats['blocks-and-code'].disabled = true
-        codeFormats['blocks-text'].disabled = true
-      }
-      return Object.values(codeFormats)
-    },
-    availableLanguages () {
-      const languages = JSON.parse(JSON.stringify(this.codeLanguageObject))
-      // ozaria do not have these 2 langs
-      delete languages.coffeescript
-      delete languages.lua
-
-      return Object.values(languages)
-    },
-    enabledCodeFormats () {
-      return this.availableCodeFormats.filter(cf => !cf.disabled && this.newCodeFormats.includes(cf.id))
-    },
-    codeFormats () {
-      // Later, we can turn everything on by default
-      // const defaultCodeFormats = isJunior ? this.allCodeFormats : _.omit(this.allCodeFormats, 'blocks-icons')
-      const defaultCodeFormats = ['text-code']
-      return ((this.classroom || {}).aceConfig || {}).codeFormats || defaultCodeFormats
-    },
-    codeFormatDefault () {
-      return ((this.classroom || {}).aceConfig || {}).codeFormatDefault || 'text-code'
-    },
-    levelChat () {
-      return _.assign({ levelChat: 'none' }, (this.classroom || {}).aceConfig).levelChat
-    },
-    classroomDescription () {
-      return (this.classroom || {}).description
-    },
-    averageStudentExp () {
-      return (this.classroom || {}).averageStudentExp
-    },
-    classroomType () {
-      return (this.classroom || {}).type
-    },
-    classDateStart () {
-      return (this.classroom || {}).classDateStart
-    },
-    classDateEnd () {
-      return (this.classroom || {}).classDateEnd
-    },
-    classesPerWeek () {
-      return (this.classroom || {}).classesPerWeek
-    },
-    minutesPerClass () {
-      return (this.classroom || {}).minutesPerClass
-    },
     classroomInstance () {
       return new Classroom(this.classroom)
-    },
-    initialFreeCourses () {
-      if (!this.isCodeCombat) {
-        return []
-      }
-      return [
-        ...utils.freeCocoCourseIDs.map(id => {
-          const course = this.courses.find(({ _id }) => _id === id)
-          if (!course) {
-            // computed value uses in template before mounted, so no courses yet
-            return {}
-          }
-          return {
-            id,
-            name: utils.i18n(course, 'name'),
-            blurb: $.i18n.t(`teachers.free_course_blurb_${course.slug}`)
-          }
-        }),
-      ]
     },
     otherProductClassroom () {
       return (this.otherProductClassrooms || [])
@@ -318,29 +221,9 @@ export default Vue.extend({
   },
 
   async mounted () {
-    this.newClassName = this.classroomName
-    this.newLiveCompletion = this.liveCompletion
-    this.newClassroomItems = this.classroomItems
-    this.newCodeFormats = this.codeFormats
-    this.newCodeFormatDefault = this.codeFormatDefault
-    this.newLevelChat = this.levelChat === 'fixed_prompt_only'
-    this.newClassroomDescription = this.classroomDescription
-    this.newAverageStudentExp = this.averageStudentExp
-    this.newClassroomType = this.classroomType
-    this.newClassDateStart = this.classDateStart
-    this.newClassDateEnd = this.classDateEnd
-    this.newClassesPerWeek = this.classesPerWeek
-    this.newMinutesPerClass = this.minutesPerClass
-    this.classGrades = this.classroom.grades || []
-    if (!this.classroomInstance.isNew()) {
-      this.moreOptions = true
+    console.log('activeClassrooms', this.activeClassrooms, this.allClassrooms, this.classroom, this.classroomInstance)
+    if (this.classroomInstance?._id || this.classroomInstance?.id) {
       await this.fetchCourseInstances(this.classroomInstance?._id || this.classroomInstance?.id)
-    } else if (utils.isCodeCombat) {
-      this.newClassroomItems = this.cocoDefaultClassroomItems
-      this.newLevelChat = this.cocoDefaultLevelChat
-    }
-    if (this.language) {
-      this.newProgrammingLanguage = this.language
     }
     await this.fetchCourses()
   },
@@ -413,6 +296,9 @@ export default Vue.extend({
     toggleMoreOptions () {
       this.moreOptions = !this.moreOptions
     },
+    enableBlocks () {
+      return ['python', 'javascript', 'lua'].includes(this.newProgrammingLanguage || 'python')
+    },
     async saveClass () {
       this.saving = true
       if (!this.isFormValid) {
@@ -467,6 +353,7 @@ export default Vue.extend({
         aceConfig.codeFormats = this.newCodeFormats
         updates.aceConfig = aceConfig
       }
+      console.log('codeFormats', this.newCodeFormats, this.codeFormats, aceConfig)
       if (this.newCodeFormatDefault !== this.codeFormatDefault) {
         aceConfig.codeFormatDefault = this.newCodeFormatDefault
         updates.aceConfig = aceConfig
@@ -590,6 +477,18 @@ export default Vue.extend({
     },
     updateClassDateEnd (newVal) {
       this.newClassDateEnd = newVal
+    },
+    updateProgrammingLanguage (newVal) {
+      this.newProgrammingLanguage = newVal
+    },
+    updateInitialFreeCourses (newVal) {
+      this.newInitialFreeCourses = newVal
+    },
+    updateCodeFormats (newVal) {
+      this.newCodeFormats = newVal
+    },
+    updateCodeFormatDefault (newVal) {
+      this.newCodeFormatDefault = newVal
     },
   },
 })
@@ -787,134 +686,21 @@ export default Vue.extend({
           @classDateStartUpdated="updateClassDateStart"
           @classDateEndUpdated="updateClassDateEnd"
         />
-        <div
-          v-if="isCodeCombat && classroomInstance.isNew() && !asClub"
-          class="form-group row initial-free-courses"
-        >
-          <div class="col-xs-12">
-            <label class="control-label">
-              {{ $t("teachers.initial_free_courses") }}
-            </label>
-            <div
-              v-for="initialFreeCourse in initialFreeCourses"
-              :key="initialFreeCourse.id"
-              class="form-group"
-            >
-              <label
-                class="checkbox-inline"
-              >
-                <input
-                  v-model="newInitialFreeCourses"
-                  :value="initialFreeCourse.id"
-                  type="checkbox"
-                  name="initialFreeCourses"
-                >
-                <span class="initial-course-name">{{ initialFreeCourse.name }}</span>
-                <p class="initial-course-blurb help-block small text-navy">{{ initialFreeCourse.blurb }}</p>
-              </label>
-            </div>
-          </div>
-        </div>
-        <div
-          v-if="!hideCodeLanguageAndFormat"
-          class="form-group row language"
-          :class="{ 'has-error': $v.newProgrammingLanguage.$error }"
-        >
-          <div class="col-xs-12">
-            <label for="form-lang-item">
-              <span class="control-label"> {{ $t("teachers.programming_language") }} </span>
-            </label>
-            <select
-              id="form-lang-item"
-              v-model="$v.newProgrammingLanguage.$model"
-              class="form-control"
-              :class="{ 'placeholder-text': !newProgrammingLanguage }"
-              name="classLanguage"
-            >
-              <option
-                v-for="enabledLanguage in availableLanguages"
-                :key="enabledLanguage.id"
-                :value="enabledLanguage.id"
-                :disabled="enabledLanguage.disabled"
-              >
-                {{ enabledLanguage.name }}
-              </option>
-            </select>
-            <span
-              v-if="!$v.newProgrammingLanguage.required"
-              class="form-error"
-            >
-              {{ $t("form_validation_errors.required") }}
-            </span>
-            <span class="help-block small text-navy"> {{ $t("teachers.programming_language_edit_desc_new") }} </span>
-          </div>
-        </div>
-
-        <div
-          v-if="isCodeCombat && !hideCodeLanguageAndFormat"
-          class="form-group row code-format"
-        >
-          <div class="col-xs-12">
-            <label>
-              <span class="control-label"> {{ $t("teachers.code_formats") }} </span>
-            </label>
-            <div class="form-group">
-              <label
-                v-for="codeFormat in availableCodeFormats"
-                :key="codeFormat.id"
-                class="checkbox-inline"
-                :disabled="codeFormat.disabled"
-              >
-                <input
-                  v-model="newCodeFormats"
-                  :value="codeFormat.id"
-                  :disabled="codeFormat.disabled"
-                  name="codeFormats"
-                  type="checkbox"
-                >
-                <span>{{ codeFormat.name }}</span>
-              </label>
-              <span class="help-block small text-navy">{{ $t("teachers.code_formats_description") }}</span>
-              <p
-                v-if="!enableBlocks"
-                class="help-block small text-navy"
-              >
-                {{ $t("teachers.code_formats_disabled_by", { language: codeLanguageObject[newProgrammingLanguage]?.name }) }}
-              </p>
-              <p class="help-block small text-navy">
-                {{ $t('teachers.code_formats_mobile') }}
-              </p>
-              <p class="help-block small text-navy">
-                {{ $t('teachers.code_formats_fallback') }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div
-          v-if="isCodeCombat"
-          class="form-group row default-code-format"
-        >
-          <div class="col-xs-12">
-            <label for="default-code-format-select">
-              <span class="control-label"> {{ $t("teachers.default_code_format") }} </span>
-            </label>
-            <select
-              id="default-code-format-select"
-              v-model="newCodeFormatDefault"
-              class="form-control"
-              name="codeFormatDefault"
-            >
-              <option
-                v-for="codeFormat in enabledCodeFormats"
-                :key="codeFormat.id"
-                :value="codeFormat.id"
-              >
-                {{ codeFormat.name }}
-              </option>
-            </select>
-            <span class="help-block small text-navy">{{ $t("teachers.default_code_format_description") }}</span>
-          </div>
-        </div>
+        <course-code-language-format-component
+          :is-code-combat="isCodeCombat"
+          :is-new-classroom="classroomInstance.isNew()"
+          :as-club="asClub"
+          :new-club-type="newClubType"
+          :classroom-id="classroomInstance._id"
+          :courses="courses"
+          :code-formats="newCodeFormats"
+          :code-format-default="newCodeFormatDefault"
+          :code-language="newProgrammingLanguage"
+          @programmingLanguageUpdated="updateProgrammingLanguage"
+          @initialFreeCoursesUpdated="updateInitialFreeCourses"
+          @codeFormatsUpdated="updateCodeFormats"
+          @codeFormatDefaultUpdated="updateCodeFormatDefault"
+        />
         <div
           v-if="isOzaria && !me.isCodeNinja()"
           class="form-group row class-grades"
@@ -1402,14 +1188,6 @@ export default Vue.extend({
   span {
     font-size: 18px;
     line-height: 15px;
-  }
-}
-.initial-free-courses {
-  .initial-course-blurb {
-    margin-bottom: 0;
-  }
-  .initial-course-name {
-    font-size: 0.85em;
   }
 }
 p.help-block {
