@@ -1009,13 +1009,23 @@ export default Vue.extend({
               <img src="/images/ozaria/teachers/dashboard/svg_icons/IconArchive.svg">
               {{ $t("teacher.archive_class") }}
             </tertiary-button>
-            <secondary-button
-              :disabled="saving"
-              class="class-submit"
-              @click="saveClass"
+            <div
+              class="submit-button"
             >
-              {{ classroomInstance.isNew() ? $t("courses.create_class") : $t("common.save_changes") }}
-            </secondary-button>
+              <secondary-button
+                :disabled="saving"
+                class="class-submit"
+                @click="saveClass"
+              >
+                {{ classroomInstance.isNew() ? $t("courses.create_class") : $t("common.save_changes") }}
+              </secondary-button>
+              <span
+                v-if="saving"
+                class="saving-text"
+              >
+                saving...
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -1197,5 +1207,16 @@ p.help-block {
   color: red;
   font-size: 14px;
   line-height: 16px;
+}
+.submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  .saving-text {
+    @include font-p-4-paragraph-smallest-gray;
+    margin-top: 5px;
+  }
 }
 </style>
