@@ -41,8 +41,20 @@
       v-if="!hideCodeLanguageAndFormat"
       class="col-xs-12 language"
     >
-      <label for="form-lang-item">
+      <label
+        for="form-lang-item"
+        class="q-tooltip"
+      >
         <span class="control-label"> {{ $t("teachers.programming_language") }} </span>
+        <questionmark-view
+          popover-placement="top"
+        >
+          <template #popover>
+            <span class="help-block small text-navy">
+              {{ $t("teachers.hackstack_no_code_language_format") }}
+            </span>
+          </template>
+        </questionmark-view>
       </label>
       <select
         id="form-lang-item"
@@ -89,6 +101,12 @@
               class="help-block small text-navy"
             >
               {{ $t("teachers.junior_code_format_only") }}
+            </p>
+            <p
+              v-if="hasHackstack"
+              class="help-block small text-navy"
+            >
+              {{ $t("teachers.hackstack_no_code_language_format") }}
             </p>
             <p class="help-block small text-navy">
               {{ $t('teachers.code_formats_mobile') }}
@@ -149,7 +167,18 @@
           {{ codeFormat.name }}
         </option>
       </select>
-      <span class="help-block small text-navy">{{ $t("teachers.default_code_format_description") }}</span>
+      <span
+        v-if="!hasOnlyHackstack"
+        class="help-block small text-navy"
+      >
+        {{ $t("teachers.default_code_format_description") }}
+      </span>
+      <span
+        v-if="hasOnlyHackstack"
+        class="help-block small text-navy"
+      >
+        {{ $t("teachers.hackstack_no_code_language_format") }}
+      </span>
     </div>
   </div>
 </template>
@@ -236,12 +265,32 @@ export default {
         return this.getCourseInstances(this.classroomId)?.some(ci => ci.courseID === utils.courseIDs.JUNIOR)
       }
     },
+    hasHackstack () {
+      if (this.isNewClassroom) {
+        return this.newInitialFreeCourses.includes(utils.courseIDs.HACKSTACK)
+      } else {
+        return this.getCourseInstances(this.classroomId)?.some(ci => ci.courseID === utils.courseIDs.HACKSTACK)
+      }
+    },
+    hasOnlyHackstack () {
+      if (this.isNewClassroom) {
+        return this.newInitialFreeCourses.includes(utils.courseIDs.HACKSTACK) && this.newInitialFreeCourses?.length === 1
+      } else {
+        return this.getCourseInstances(this.classroomId)?.some(ci => ci.courseID === utils.courseIDs.HACKSTACK) && this.getCourseInstances(this.classroomId)?.length === 1
+      }
+    },
     availableCodeFormats () {
       const codeFormats = JSON.parse(JSON.stringify(this.codeFormatObject))
       if (!this.hasJunior) {
         codeFormats['blocks-icons'].disabled = true
       }
       if (!this.enableBlocks) {
+        codeFormats['blocks-and-code'].disabled = true
+        codeFormats['blocks-text'].disabled = true
+      }
+      if (this.hasOnlyHackstack) {
+        codeFormats['text-code'].disabled = true
+        codeFormats['blocks-icons'].disabled = true
         codeFormats['blocks-and-code'].disabled = true
         codeFormats['blocks-text'].disabled = true
       }
@@ -261,6 +310,12 @@ export default {
       // ozaria do not have these 2 langs
       delete languages.coffeescript
       delete languages.lua
+
+      if (this.hasOnlyHackstack) {
+        for (const lang of Object.values(languages)) {
+          lang.disabled = true
+        }
+      }
 
       return Object.values(languages)
     },

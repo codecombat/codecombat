@@ -1814,6 +1814,7 @@ module.exports = {
       create_students_prompt: 'How many students would you like to create?',
       initial_free_courses_description: '*Courses can be updated using Assign Content after creating class too.',
       junior_code_format_only: 'Blocks (Icons) only available for Junior',
+      hackstack_no_code_language_format: 'AI HackStack does not need a programming language or code format',
     },
 
     no_licenses_page: {

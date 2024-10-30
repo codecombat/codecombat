@@ -1020,8 +1020,8 @@ export default Vue.extend({
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 10px 10px 0px 10px;
-  width: 600px;
+  margin: 5px 5px 0px 5px;
+  width: 650px;
 }
 
 .form-container {
