@@ -48,6 +48,7 @@
           return false if @goal.optional and @state.status isnt 'success'
           return false if not @goal.optional and @state.status isnt 'failure'
         return false if @goal.team and me.team isnt @goal.team
+        return false if @state.lines and not @state.lines.allowed?
         return true
 
       isConceptGoal: ->
@@ -94,7 +95,10 @@
             completed = collected
             text = text + "#{completed}/#{targeted}"
         if @state.lines and @product is 'codecombat-junior'
-          text = text + " #{@state.lines.used}/#{@state.lines.allowed}"
+          if @state.lines.used? and @state.lines.allowed?
+            text = text + " #{@state.lines.used}/#{@state.lines.allowed}"
+          else
+            text = text + '...'
 
         return text
 

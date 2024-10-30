@@ -6076,6 +6076,7 @@ module.exports = {
       what_do_you_want_to_do_today: 'What do you want to do today?',
       learn_ai: 'Learn AI',
       create_ai: 'Create With AI',
+      name_conflict: 'Name Conflict, please choose a different name',
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',

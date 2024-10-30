@@ -400,9 +400,13 @@ translateJSWhitespace = (jsCode, language='lua') ->
   if language is 'python'
     # Add `pass` statmeents to empty block bodies
     s = s.replace(/^([ ]*)(?![ ]*#)[^\n]+:[ ]*(?=\n+(?!\1[ ]+(?!#[^\n]*$)[^\n]+))/gm, '$&\n$1    pass')
+    # ... and also when there's no trailing whitespace
+    s = s.replace(/([ ]*)(?![ ]*#)[^\n]+:$/g, '$&\n     pass')
   else if language is 'coffeescript'
     # Add indented empty block lines where they would be missing
     s = s.replace(/^([ ]*)(?![ ]*#).*(?:->|\b(?:if|then|else|unless|while|for|in)\b)(?![^\n]*(?:->|\b(?:if|then|else|unless|while|for|in)\b))[^\n]*(?=\n(?!\1[ ]+(?!#[^\n]*$)[^\n]+))/gm, '$&\n$1    ')
+    # ... and also when there's no trailing whitespace
+    s = s.replace(/([ ]*)(?![ ]*#).*(?:->|\b(?:if|then|else|unless|while|for|in)\b)(?![^\n]*(?:->|\b(?:if|then|else|unless|while|for|in)\b))[^\n]*$/g, '$&\n$1    ')
 
   # TODO: see if we can do something about lack of a continue statement in Lua? Maybe too hard and we should give up.
 
