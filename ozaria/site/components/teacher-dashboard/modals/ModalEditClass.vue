@@ -43,7 +43,6 @@ export default Vue.extend({
   },
 
   data: function () {
-    console.log('classroom', this.classroom, this.classroom?.type)
     const cItems = this.classroom?.classroomItems
     const cLiveCompletion = this.classroom?.aceConfig?.liveCompletion
     const cFormats = this.classroom?.aceConfig?.codeFormats
@@ -98,13 +97,6 @@ export default Vue.extend({
     newProgrammingLanguage: {
       required
     },
-    ...(utils.isOzaria && !me.isCodeNinja()
-      ? {
-        classGrades: {
-          required
-        }
-      }
-      : {}),
     newClassDateStart: {
       required: requiredIf(function () { return this.asClub })
     },
@@ -213,7 +205,6 @@ export default Vue.extend({
   },
 
   async mounted () {
-    console.log('activeClassrooms', this.activeClassrooms, this.allClassrooms, this.classroom, this.classroomInstance)
     if (this.classroomInstance?._id || this.classroomInstance?.id) {
       await this.fetchCourseInstances(this.classroomInstance?._id || this.classroomInstance?.id)
     }
@@ -237,7 +228,6 @@ export default Vue.extend({
       } else {
         this.classGrades.push(grade)
       }
-      this.$v.classGrades.$touch()
     },
     archiveClass () {
       this.updateClassroom({ classroom: this.classroom, updates: { archived: true } })
@@ -327,7 +317,6 @@ export default Vue.extend({
         this.newCodeFormats.push(this.newCodeFormatDefault)
       }
       aceConfig.codeFormats = this.newCodeFormats
-      console.log('codeFormats', this.newCodeFormats, this.codeFormats, aceConfig)
       aceConfig.codeFormatDefault = this.newCodeFormatDefault
 
       if (this.newLevelChat) {
@@ -379,7 +368,6 @@ export default Vue.extend({
           this.saving = false
           return
         }
-        console.log('creating free course instances', this.classroom, this.courses)
         await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
 
         this.$emit('created')
@@ -463,7 +451,10 @@ export default Vue.extend({
     :title="title"
     @close="$emit('close')"
   >
-    <div class="style-ozaria teacher-form edit-class container">
+    <div
+      class="style-ozaria teacher-form edit-class container"
+      :class="{ 'edit-class-coco': isCodeCombat }"
+    >
       <div class="link-buttons-container">
         <div
           v-if="linkGoogleButtonAllowed"
@@ -667,7 +658,6 @@ export default Vue.extend({
         <div
           v-if="isOzaria && !me.isCodeNinja()"
           class="form-group row class-grades"
-          :class="{ 'has-error': $v.classGrades.$error }"
         >
           <div class="col-xs-12">
             <span class="control-label"> {{ $t("teachers.grades") }} </span>
@@ -701,12 +691,6 @@ export default Vue.extend({
                 {{ $t('teachers.high_school') }}
               </button>
             </div>
-            <span
-              v-if="!$v.classGrades.required"
-              class="form-error ml-small"
-            >
-              {{ $t("form_validation_errors.required") }}
-            </span>
           </div>
         </div>
         <div
@@ -1021,6 +1005,9 @@ export default Vue.extend({
   justify-content: center;
   align-items: center;
   margin: 5px 5px 0px 5px;
+  width: 600px;
+}
+.edit-class-coco {
   width: 650px;
 }
 
@@ -1159,8 +1146,8 @@ export default Vue.extend({
 }
 
 .more-options-text-container {
-  margin-bottom: -10px;
-  margin-top: -10px;
+  margin-bottom: -5px;
+  margin-top: -5px;
 }
 
 .more-options-text {

@@ -4,7 +4,7 @@
       v-if="isCodeCombat && isNewClassroom && !asClub"
       class="col-xs-12 initial-free-courses"
     >
-      <label class="control-label">
+      <label class="control-label checkbox-label">
         {{ $t("teachers.initial_free_courses") }}
       </label>
       <div class="initial-courses options">
@@ -47,12 +47,13 @@
       >
         <span class="control-label"> {{ $t("teachers.programming_language") }} </span>
         <questionmark-view
+          v-if="isCodeCombat"
           popover-placement="top"
         >
           <template #popover>
-            <span class="help-block small text-navy">
+            <p class="help-block small text-navy">
               {{ $t("teachers.hackstack_no_code_language_format") }}
-            </span>
+            </p>
           </template>
         </questionmark-view>
       </label>
@@ -85,7 +86,7 @@
       class="code-format col-xs-12"
     >
       <label
-        class="code-format-label q-tooltip"
+        class="code-format-label q-tooltip checkbox-label"
       >
         <span class="control-label"> {{ $t("teachers.code_formats") }} </span>
         <questionmark-view popover-placement="top">
@@ -353,9 +354,6 @@ export default {
       this.$emit('codeFormatDefaultUpdated', newVal)
     },
   },
-  mounted () {
-    console.log('codeFormats mounted', this.newCodeFormats, this.newCodeFormatDefault, this.newProgrammingLanguage, this.codeFormats, this.codeFormatDefault, this.codeLanguage)
-  },
 }
 </script>
 
@@ -414,5 +412,8 @@ p.help-block {
 }
 .option-name {
   font-size: 0.85em;
+}
+.checkbox-label {
+  margin-bottom: 0;
 }
 </style>
