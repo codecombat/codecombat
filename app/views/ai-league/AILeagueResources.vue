@@ -15,6 +15,7 @@ export default {
 <template>
   <div class="resources">
     <a
+      id="getting-started-guide"
       class="resources__item screen"
       href="https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit#slide=id.gb06b5c7fa4_0_10"
       target="_blank"
@@ -29,6 +30,7 @@ export default {
       {{ $t('league.try_ai_league_as_a_teacher') }}
     </a>
     <a
+      id="ai-league-curriculum"
       class="resources__item screen"
       href="https://drive.google.com/drive/folders/1BeJeMjY4D7a4YBeUVGSGCFe009Wod6cn?usp=sharing"
       target="_blank"
