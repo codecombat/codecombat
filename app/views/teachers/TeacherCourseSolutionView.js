@@ -14,7 +14,6 @@ require('app/styles/teachers/teacher-course-solution-view.sass')
 let utils = require('core/utils')
 const RootView = require('views/core/RootView')
 const Course = require('models/Course')
-const Campaign = require('models/Campaign')
 const LevelComponent = require('models/LevelComponent')
 const Prepaids = require('collections/Prepaids')
 const Levels = require('collections/Levels')
@@ -22,6 +21,8 @@ utils = require('core/utils')
 const aceUtils = require('core/aceUtils')
 const translateUtils = require('lib/translate-utils')
 const api = require('core/api')
+
+const store = require('core/store')
 
 module.exports = (TeacherCourseSolutionView = (function () {
   TeacherCourseSolutionView = class TeacherCourseSolutionView extends RootView {
@@ -64,30 +65,41 @@ module.exports = (TeacherCourseSolutionView = (function () {
       return true
     }
 
+    getGameContentAsLevels () {
+      const content = store.getters['gameContent/getContentForCampaign'](this.campaignId)
+      if (content) {
+        return _.flatten(Object.values(content.modules))
+      }
+    }
+
     constructor (options, courseID, language) {
       super(...arguments)
       this.courseID = courseID
       this.language = language
       this.isWebDev = [utils.courseIDs.WEB_DEVELOPMENT_2].includes(this.courseID)
       this.callOz = !!utils.getQueryVariable('callOz')
+
       if (me.isTeacher() || me.isAdmin() || me.isParentHome()) {
         this.prettyLanguage = this.camelCaseLanguage(this.language)
+        let campaignId = this.courseID
         if (options.campaignMode) {
-          const campaignSlug = this.courseID
-          this.campaign = new Campaign({ _id: campaignSlug })
-          this.supermodel.trackRequest(this.campaign.fetch())
-          this.levels = new Levels([], { url: `/db/campaign/${campaignSlug}/level-solutions` })
+          this.supermodel.trackPromise(store.dispatch('gameContent/fetchGameContentForCampaign', { campaignId, language }))
+          this.campaignId = campaignId
         } else {
           this.course = new Course({ _id: this.courseID })
           this.supermodel.trackRequest(this.course.fetch({ callOz: this.callOz }))
-          let levelSolutionsUrl = `/db/course/${this.courseID}/level-solutions`
-          if (this.callOz) {
-            levelSolutionsUrl = `/ozaria${levelSolutionsUrl}`
-          }
-          this.levels = new Levels([], { url: levelSolutionsUrl })
+          this.course.on('sync', () => {
+            campaignId = this.course.get('campaignID')
+            this.supermodel.trackPromise(store.dispatch('gameContent/fetchGameContentForCampaign', {
+              campaignId,
+              language,
+              options: {
+                callOz: this.callOz,
+              },
+            }))
+            this.campaignId = campaignId
+          })
         }
-        this.supermodel.loadCollection(this.levels, 'levels', { cache: false })
-
         this.levelNumberMap = {}
         this.prepaids = new Prepaids()
         this.supermodel.trackRequest(this.prepaids.fetchMineAndShared())
@@ -119,8 +131,13 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
     onLoaded () {
       this.paidTeacher = this.paidTeacher || this.prepaids.find(p => ['course', 'starter_license'].includes(p.get('type')) && (p.get('maxRedeemers') > 0))
       this.listenTo(me, 'change:preferredLanguage', this.updateLevelData)
-      this.updateLevelData()
-      return this.fetchResourceHubResources()
+      this.levels = new Levels(this.getGameContentAsLevels())
+      store.dispatch('gameContent/generateLevelNumberMap', { campaignId: this.campaignId, language: this.language })
+        .then(() => {
+          this.levelNumberMap = store.getters['gameContent/levelNumberMap']
+          this.updateLevelData()
+          this.fetchResourceHubResources()
+        })
     }
 
     updateLevelData () {
@@ -190,20 +207,7 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
           level.set('begin', finalDefaultCode)
         }
       }
-      const levels = []
-      for (level of Array.from((this.levels != null ? this.levels.models : undefined))) {
-        if (level.get('original')) {
-          let left, left1
 
-          if ((this.language != null) && (level.get('primerLanguage') === this.language)) { continue }
-          levels.push({
-            key: level.get('original'),
-            practice: (left = level.get('practice')) != null ? left : false,
-            assessment: (left1 = level.get('assessment')) != null ? left1 : false
-          })
-        }
-      }
-      this.levelNumberMap = utils.createLevelNumberMap(levels)
       if (utils.isCodeCombat && ((this.course != null ? this.course.id : undefined) === utils.courseIDs.WEB_DEVELOPMENT_2)) {
         // Filter out non numbered levels.
         this.levels.models = this.levels.models.filter(l => l.get('original') in this.levelNumberMap)
