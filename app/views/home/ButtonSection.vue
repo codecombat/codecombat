@@ -34,7 +34,7 @@
         target=""
         @click="homePageEvent('Homepage Click My Classes CTA')"
       >
-        {{ $t('new_home.go_to_my_classes') }}
+        {{ $t('new_home.goto_classes') }}
       </CTAButton>
       <CTAButton
         v-if="me.isTeacher()"

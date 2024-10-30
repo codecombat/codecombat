@@ -1323,4 +1323,114 @@ local z = 6
       })
     }
   })
+
+  describe('translateJS can handle empty blocks', () => {
+    const sourceByLanguage = {
+      javascript: `\
+for (let i = 0; i < 5; ++i) {
+    
+}
+
+for (let j = 0; j < 5; ++j) {
+    if (look('right') == 'crab') {
+        
+    }
+    if (look('left') == 'gem') {
+        
+    }
+}
+
+for (let k = 0; k < 5; ++k) {
+    
+}`,
+      cpp: `\
+for (int i = 0; i < 5; ++i) {
+    
+}
+
+for (int j = 0; j < 5; ++j) {
+    if (look("right") == "crab") {
+        
+    }
+    if (look("left") == "gem") {
+        
+    }
+}
+
+for (int k = 0; k < 5; ++k) {
+    
+}`,
+      java: `\
+for (int i = 0; i < 5; ++i) {
+    
+}
+
+for (int j = 0; j < 5; ++j) {
+    if (look("right") == "crab") {
+        
+    }
+    if (look("left") == "gem") {
+        
+    }
+}
+
+for (int k = 0; k < 5; ++k) {
+    
+}`,
+      python: `\
+for i in range(0, 5):
+    pass
+
+for j in range(0, 5):
+    if look('right') == 'crab':
+        pass
+    if look('left') == 'gem':
+        pass
+
+for k in range(0, 5):
+    pass`,
+      coffeescript: `\
+for i in [0...5]
+    
+
+for j in [0...5]
+    if look('right') is 'crab'
+        
+    if look('left') is 'gem'
+        
+
+for k in [0...5]
+    `,
+      lua: `\
+for i=1, 5 do
+    
+end
+
+for j=1, 5 do
+    if look('right') == 'crab' then
+        
+    end
+    if look('left') == 'gem' then
+        
+    end
+end
+
+for k=1, 5 do
+    
+end`,
+    }
+
+    for (const [language, targetSource] of Object.entries(sourceByLanguage)) {
+      it(`in ${language}`, () => {
+        const translated = translateUtils.translateJS(sourceByLanguage.javascript, language, false)
+        const editDistance = levenshteinDistance(translated, targetSource)
+        if (translated !== targetSource) {
+          console.log(`\n${translated}`)
+          console.log(`\n${targetSource}`)
+        }
+        expect(translated).toBe(targetSource)
+        expect(editDistance).toEqual(0)
+      })
+    }
+  })
 })

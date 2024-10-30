@@ -152,7 +152,7 @@ export default Vue.extend({
       }
     },
     darkMode () {
-      return /^\/(roblox|league|play\/ladder)/.test(document.location.pathname)
+      return /^\/(hackstack|roblox|league|play\/ladder)/.test(document.location.pathname)
     },
   },
 
