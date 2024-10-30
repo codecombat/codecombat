@@ -1514,7 +1514,8 @@ module.exports = {
       text_code: 'Text code',
       blocks_and_code: 'Blocks and code',
       blocks_text: 'Blocks',
-      blocks_icons: 'Blocks (icons) (Junior only)',
+      blocks_icons: 'Blocks (Icons)',
+      blocks_icons_helptext: 'Junior only',
       text_code_blurb: 'Type text-based code in a real code editor',
       blocks_and_code_blurb: 'Blocks and text code side-by-side',
       blocks_text_blurb: 'Drag and drop blocks for tablets or younger learners',
@@ -1771,7 +1772,7 @@ module.exports = {
       error_in_importing_students: 'Error in importing students',
       classroom_items_description: 'Whether students should earn gems and equip items during gameplay.',
       classroom_live_completion: 'Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.',
-      code_formats: 'Code Formats (beta)',
+      code_formats: 'Code Formats',
       code_formats_description: 'Which code formats students can choose from.',
       code_formats_disabled_by: 'Blocks and code, Blocks are not supported with __language__ language',
       code_formats_mobile: '* Students on mobile will be set to block-based mode',
@@ -1812,6 +1813,7 @@ module.exports = {
       club_type: 'Club Type',
       create_students_prompt: 'How many students would you like to create?',
       initial_free_courses_description: '*Courses can be updated using Assign Content after creating class too.',
+      junior_code_format_only: 'Blocks (Icons) only available for Junior',
     },
 
     no_licenses_page: {

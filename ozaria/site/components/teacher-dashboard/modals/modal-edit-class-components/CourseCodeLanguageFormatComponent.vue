@@ -7,11 +7,11 @@
       <label class="control-label">
         {{ $t("teachers.initial_free_courses") }}
       </label>
-      <div class="initial-courses">
+      <div class="initial-courses options">
         <div
           v-for="initialFreeCourse in initialFreeCourses"
           :key="initialFreeCourse.id"
-          class="initial-course"
+          class="initial-course option"
         >
           <label
             class="checkbox-inline"
@@ -22,7 +22,7 @@
               type="checkbox"
               name="initialFreeCourses"
             >
-            <span class="initial-course-name q-tooltip">
+            <span class="option-name q-tooltip">
               {{ initialFreeCourse.name }}
               <questionmark-view
                 popover-placement="top"
@@ -84,6 +84,12 @@
             >
               {{ $t("teachers.code_formats_disabled_by", { language: codeLanguageObject[newProgrammingLanguage]?.name }) }}
             </p>
+            <p
+              v-if="!hasJunior"
+              class="help-block small text-navy"
+            >
+              {{ $t("teachers.junior_code_format_only") }}
+            </p>
             <p class="help-block small text-navy">
               {{ $t('teachers.code_formats_mobile') }}
             </p>
@@ -93,24 +99,34 @@
           </template>
         </questionmark-view>
       </label>
-      <div>
-        <label
+      <div class="options">
+        <div
           v-for="codeFormat in availableCodeFormats"
           :key="codeFormat.id"
-          class="checkbox-inline"
-          :disabled="codeFormat.disabled"
+          class="option"
         >
-          <input
-            v-model="newCodeFormats"
-            :value="codeFormat.id"
+          <label
+            class="checkbox-inline"
             :disabled="codeFormat.disabled"
-            name="codeFormats"
-            type="checkbox"
           >
-          <span>{{ codeFormat.name }}</span>
-        </label>
-        <span class="help-block small text-navy">{{ $t("teachers.code_formats_description") }}</span>
+            <input
+              v-model="newCodeFormats"
+              :value="codeFormat.id"
+              :disabled="codeFormat.disabled"
+              name="codeFormats"
+              type="checkbox"
+            >
+            <span class="option-name">{{ codeFormat.name }}</span>
+            <span
+              v-if="codeFormat.helpText"
+              class="small text-navy"
+            >
+              ({{ codeFormat.helpText }})
+            </span>
+          </label>
+        </div>
       </div>
+      <span class="help-block small text-navy">{{ $t("teachers.code_formats_description") }}</span>
     </div>
     <div
       v-if="isCodeCombat"
@@ -293,9 +309,6 @@ export default {
   .initial-course-blurb {
     margin-bottom: 0;
   }
-  .initial-course-name {
-    font-size: 0.85em;
-  }
 }
 p.help-block {
   margin-bottom: 0;
@@ -306,15 +319,15 @@ p.help-block {
   gap: 2px;
 
   ::v-deep .plabel {
-    height: 14px;
-    width: 14px;
-    border-radius: 14px;
+    height: 16px;
+    width: 16px;
+    border-radius: 16px;
 
     position: relative;
     top: -8px;
 
     .text-wrapper {
-      font-size: 12px;
+      font-size: 13px;
     }
   }
 }
@@ -323,11 +336,17 @@ p.help-block {
     margin-top: 8px;
   }
 }
-.initial-courses {
+.options {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  column-gap: 15px;
+  row-gap: 5px;
 
+  .help-block {
+    margin-bottom: 0;
+  }
+}
+.initial-courses {
   margin-bottom: 5px;
 }
 .initial-course {
@@ -337,5 +356,8 @@ p.help-block {
   > *:not(:last-child) {
     margin-bottom: 15px;
   }
+}
+.option-name {
+  font-size: 0.85em;
 }
 </style>

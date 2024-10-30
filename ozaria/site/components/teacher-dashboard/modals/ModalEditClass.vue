@@ -590,6 +590,12 @@ export default Vue.extend({
           <div class="col-xs-12">
             <label for="form-class-name">
               <span class="control-label"> {{ $t("teachers.class_name") }} </span>
+              <span
+                v-if="!$v.newClassName.required"
+                class="form-error"
+              >
+                {{ $t("form_validation_errors.required") }}
+              </span>
             </label>
             <input
               id="form-class-name"
@@ -597,12 +603,6 @@ export default Vue.extend({
               type="text"
               class="form-control"
             >
-            <span
-              v-if="!$v.newClassName.required"
-              class="form-error"
-            >
-              {{ $t("form_validation_errors.required") }}
-            </span>
           </div>
         </div>
         <div
@@ -943,7 +943,9 @@ export default Vue.extend({
             </div>
           </div>
         </div>
-        <div>
+        <div
+          class="more-options-text-container"
+        >
           <!-- eslint-disable vue/no-v-html -->
           <a
             class="more-options-text"
@@ -1018,7 +1020,7 @@ export default Vue.extend({
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 15px 15px 0px 15px;
+  margin: 10px 10px 0px 10px;
   width: 600px;
 }
 
@@ -1154,6 +1156,11 @@ export default Vue.extend({
 
 .ml-small {
   margin-left: 5px;
+}
+
+.more-options-text-container {
+  margin-bottom: -10px;
+  margin-top: -10px;
 }
 
 .more-options-text {

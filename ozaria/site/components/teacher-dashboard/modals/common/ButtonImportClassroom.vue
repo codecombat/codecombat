@@ -70,7 +70,7 @@ export default Vue.extend({
   align-items: center;
   justify-content: center;
   img {
-     width: 40px;
+     width: 30px;
   }
 }
 .link-google-classroom {
@@ -91,8 +91,8 @@ export default Vue.extend({
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
-  line-height: 21px;
+  font-size: 16px;
+  line-height: 18px;
   margin-left: 10px;
 }
 </style>

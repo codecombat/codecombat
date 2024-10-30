@@ -1662,7 +1662,7 @@ module.exports.getCodeLanguages = () => {
 module.exports.getCodeFormats = () => ({
   'text-code': {
     id: 'text-code',
-    name: `${$.i18n.t('choose_hero.text_code')} (${$.i18n.t('choose_hero.default')})`
+    name: `${$.i18n.t('choose_hero.text_code')}`
   },
   'blocks-and-code': {
     id: 'blocks-and-code',
