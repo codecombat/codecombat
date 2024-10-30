@@ -62,7 +62,7 @@ const AI_LEAGUE_START = {
     element: '#getting-started-guide',
     on: 'left',
   },
-  text: $.i18n.t('teacher_dashboard.ai_league_start'),
+  text: $.i18n.t('teacher_dashboard.ai_league_start_blurb'),
   title: $.i18n.t('teacher_dashboard.ai_league_start_title'),
   buttons: [{
     action () {
@@ -77,7 +77,7 @@ const AI_LEAGUE_CURRICULUM = {
     element: '#ai-league-curriculum',
     on: 'left',
   },
-  text: $.i18n.t('teacher_dashboard.ai_league_curriculum'),
+  text: $.i18n.t('teacher_dashboard.ai_league_curriculum_blurb'),
   title: $.i18n.t('teacher_dashboard.ai_league_curriculum_title'),
   buttons: [{
     action () {
@@ -91,7 +91,7 @@ const AI_LEAGUE_CUSTOM = {
     element: '#custom-button',
     on: 'bottom',
   },
-  text: $.i18n.t('teacher_dashboard.ai_league_custom'),
+  text: $.i18n.t('teacher_dashboard.ai_league_custom_blurb'),
   title: $.i18n.t('teacher_dashboard.ai_league_custom_title'),
   buttons: [{
     action () {
