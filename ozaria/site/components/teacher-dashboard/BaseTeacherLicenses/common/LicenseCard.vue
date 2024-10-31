@@ -74,18 +74,18 @@ export default {
       if (this.applyLicensesDisabled) {
         return 'IconApplyLicenses_Gray'
       } else {
-        return 'IconApplyLicenses_Dusk'
+        return 'IconApplyLicenses_Moon'
       }
     },
     shareLicensesIcon () {
       if (this.shareLicensesDisabled) {
         return 'IconShare_Gray'
       } else {
-        return 'IconShare_Dusk'
+        return 'IconShare_Moon'
       }
     },
     licenseStatsIcon () {
-      return 'IconLicense_Blue'
+      return 'IconLicense_Moon'
     },
     testStudentOnly () {
       return this.properties?.testStudentOnly
@@ -236,6 +236,10 @@ export default {
 
 .icn-button {
   margin: 5px;
+
+  ::v-deep span {
+     color: $moon;
+  }
 }
 
 .shared-by {
