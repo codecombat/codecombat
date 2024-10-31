@@ -78,7 +78,7 @@ export default {
         return true
       }
       const clans = me.get('clans') || []
-      return clans.includes(this.exam?.clanId)
+      return clans.includes(this.exam?.clan)
     },
   },
   mounted () {
