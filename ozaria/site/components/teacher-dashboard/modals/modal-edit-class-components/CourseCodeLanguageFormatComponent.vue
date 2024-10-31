@@ -260,24 +260,17 @@ export default {
       return ['python', 'javascript', 'lua'].includes(this.newProgrammingLanguage || 'python')
     },
     hasJunior () {
-      if (this.isNewClassroom) {
-        return this.newInitialFreeCourses.includes(utils.courseIDs.JUNIOR)
-      } else {
-        return this.getCourseInstances(this.classroomId)?.some(ci => ci.courseID === utils.courseIDs.JUNIOR)
-      }
+      return this.hasCourse(utils.courseIDs.JUNIOR)
     },
     hasHackstack () {
-      if (this.isNewClassroom) {
-        return this.newInitialFreeCourses.includes(utils.courseIDs.HACKSTACK)
-      } else {
-        return this.getCourseInstances(this.classroomId)?.some(ci => ci.courseID === utils.courseIDs.HACKSTACK)
-      }
+      return this.hasCourse(utils.courseIDs.HACKSTACK)
     },
     hasOnlyHackstack () {
       if (this.isNewClassroom) {
         return this.newInitialFreeCourses.includes(utils.courseIDs.HACKSTACK) && this.newInitialFreeCourses?.length === 1
       } else {
-        return this.getCourseInstances(this.classroomId)?.some(ci => ci.courseID === utils.courseIDs.HACKSTACK) && this.getCourseInstances(this.classroomId)?.length === 1
+        const courseInstances = this.getCourseInstances(this.classroomId)
+        return courseInstances?.some(ci => ci.courseID === utils.courseIDs.HACKSTACK) && courseInstances?.length === 1
       }
     },
     availableCodeFormats () {
@@ -352,6 +345,15 @@ export default {
     },
     newCodeFormatDefault (newVal) {
       this.$emit('codeFormatDefaultUpdated', newVal)
+    },
+  },
+  methods: {
+    hasCourse (courseId) {
+      if (this.isNewClassroom) {
+        return this.newInitialFreeCourses.includes(courseId)
+      } else {
+        return this.getCourseInstances(this.classroomId)?.some(ci => ci.courseID === courseId)
+      }
     },
   },
 }

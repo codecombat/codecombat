@@ -306,6 +306,12 @@ export default Vue.extend({
         }
         updates.type = this.newClubType
       }
+      if (this.newClassDateStart && this.newClassDateEnd && moment(this.newClassDateEnd).isBefore(moment(this.newClassDateStart))) {
+        this.errMsg = 'End date should be after start date'
+        this.saving = false
+        return
+      }
+
       updates.name = this.newClassName
       const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
       aceConfig.language = this.newProgrammingLanguage

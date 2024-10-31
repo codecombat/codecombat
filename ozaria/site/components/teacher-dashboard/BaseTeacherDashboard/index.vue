@@ -259,7 +259,6 @@ export default {
     },
 
     openEditClassModal (claz) {
-      console.log('claz edit', claz)
       this.editClassroomObject = claz
       this.editCurrent = true
       this.showNewClassModal = true

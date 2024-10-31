@@ -12,7 +12,7 @@
           class="form-control"
         >
         <label for="form-new-class-date-end">
-          <span class="spl.spr">{{ $t("courses.student_age_range_to") }}</span>
+          <span class="spr">{{ $t("courses.student_age_range_to") }}</span>
         </label>
         <input
           id="form-new-class-date-end"
