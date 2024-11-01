@@ -197,47 +197,38 @@ export default {
   props: {
     isCodeCombat: {
       type: Boolean,
-      required: true,
       default: true,
     },
     isNewClassroom: {
       type: Boolean,
-      required: true,
       default: false,
     },
     classroomId: {
       type: String,
-      required: true,
       default: '',
     },
     asClub: {
       type: Boolean,
-      required: true,
       default: false,
     },
     newClubType: {
       type: String,
-      required: true,
       default: '',
     },
     courses: {
       type: Array,
-      required: true,
       default: () => [],
     },
     codeFormats: {
       type: Array,
-      required: true,
       default: () => [],
     },
     codeFormatDefault: {
       type: String,
-      required: true,
       default: '',
     },
     codeLanguage: {
       type: String,
-      required: true,
       default: '',
     },
   },
