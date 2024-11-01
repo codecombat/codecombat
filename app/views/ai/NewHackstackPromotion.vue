@@ -1,12 +1,11 @@
 /* eslint-disable-line vue/vue-no-html */
 <template>
   <Modal
-    title="AI Hackstack"
     :backbone-dismiss-modal="true"
   >
     <div class="hackstack-modal">
       <div class="header center">
-        {{ $t('ai.hackstack_promotion') }}
+        {{ $t('ai.ai_made_ss') }}
       </div>
       <div class="body">
         <div class="container">
@@ -23,43 +22,30 @@
                 class="promo-img"
               >
             </picture>
+            <picture class="banner-img">
+              <source
+                srcset="/images/pages/hackstack/hackstack-banner-black.webp"
+                type="image/webp"
+              >
+              <img
+                src="/images/pages/hackstack/hackstack-banner-balc.png"
+                class="banner-img"
+              >
+            </picture>
           </div>
           <div class="text">
-            <!-- eslint-disable-next-line vue/no-v-html vue/html-self-closing -->
-            <p v-html="promotionBlurb()"></p>
-            <div class="subtext">
-              <p>
-                {{ $t('ai.generate') }}:
-              </p>
-              <ul class="points">
-                <li class="point">
-                  {{ $t('ai.games') }}
-                </li>
-                <li class="point">
-                  {{ $t('ai.art') }}
-                </li>
-                <li class="point">
-                  {{ $t('ai.websites') }}
-                </li>
-                <li class="point">
-                  {{ $t('ai.code_more') }}
-                </li>
-              </ul>
-              <p>
-                {{ $t('ai.ideal_endeavour') }}
-              </p>
-            </div>
+            {{ $t('ai.aiss_body') }}
           </div>
         </div>
       </div>
       <div class="footer center">
-        <a
-          href="/ai/new_project"
+        <CTAButton
+          href="/hackstack"
           target="_blank"
-          class="btn btn-success free-btn btn-lg"
+          class="cta-btn"
         >
-          {{ $t('ai.try_it_free') }}
-        </a>
+          {{ $t('ai.learn_more') }}
+        </CTAButton>
       </div>
     </div>
   </Modal>
@@ -67,16 +53,13 @@
 
 <script>
 import Modal from 'app/components/common/Modal.vue'
+import CTAButton from 'app/components/common/buttons/CTAButton.vue'
 export default Vue.extend({
   name: 'HackstackPromotionModal',
   components: {
-    Modal
+    Modal,
+    CTAButton,
   },
-  methods: {
-    promotionBlurb () {
-      return $.i18n.t('ai.hackstack_promotion_blurb', { interpolation: { escapeValue: false } })
-    }
-  }
 })
 </script>
 
@@ -94,6 +77,7 @@ export default Vue.extend({
   }
   .body .container {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     padding: 5px;
   }
@@ -107,10 +91,28 @@ export default Vue.extend({
     margin: 10px;
   }
 
+  .text {
+    text-align: center;
+    font-weight: 300;
+  }
+
+  .image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 60px;
+    position: relative;
+  }
+
   .promo-img {
-    // max-width: 100%;
-    width: 320px;
+    max-width: 100%;
     height: auto;
+  }
+
+  .banner-img {
+    width: 300px;
+    position: absolute;
+    bottom: -30px;
   }
 
   .center {
