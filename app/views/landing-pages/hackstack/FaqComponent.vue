@@ -123,6 +123,10 @@ $primary-color: #4DECF0;
   }
 }
 
+::v-deep .vector {
+  filter: brightness(0) saturate(100%) invert(65%);
+}
+
 .FA-qs {
   align-items: center;
   display: flex;

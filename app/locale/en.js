@@ -5699,7 +5699,7 @@ module.exports = {
 
     hackstack_page: {
       header: 'Learn, create, and accelerate with **AI HackStack**',
-      header_details: 'Together, we can empower all learners to turn their ideas into reality, across every subject imaginable.',
+      header_details: 'Together, we empower learners to safely bring their ideas to life across any subject.',
       accessible_safe_use: 'Accessible, safe, and responsible use of AI',
       learn_title: 'Learn',
       learn_description: 'From **English Language Arts** to **Mathematics** and **Science**, students discover how to craft safe and effective prompts for generating output in each discipline. Learn essential prompt engineering skills in a **wide range of subjects** using Al HackStack\'s Learning Scenarios. Along the way, your students will gain hands-on experience with popular Al models like Claude, DALL-E, and Stable Diffusion.',
