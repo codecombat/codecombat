@@ -47,7 +47,7 @@ import VideoBox from 'app/components/common/image-containers/VideoBox.vue'
 import CTAButton from 'app/components/common/buttons/CTAButton.vue'
 
 export default {
-  name: 'SafeAIUse',
+  name: 'LearnCreateRemix',
   components: {
     PageSection,
     ImageAndText,

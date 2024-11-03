@@ -39,7 +39,7 @@ import MixedColorLabel from '../../../components/common/labels/MixedColorLabel.v
 import PageSection from 'app/components/common/elements/PageSection'
 
 export default {
-  name: 'SafeAIUse',
+  name: 'LearningJourney',
   components: {
     MixedColorLabel,
     PageSection,

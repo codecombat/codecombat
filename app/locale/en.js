@@ -5742,6 +5742,7 @@ module.exports = {
       faq_6_answer: 'We offer both Clever and Google Classroom integration. Check out our **[https://codecombat.com/teachers/resources/clever-faq]Clever Integration FAQ** for more details on how to get started. If you are using Google Classroom be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time. Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option.',
       faq_7_question: 'Recommended browser and operating system',
       faq_7_answer: 'TBA',
+      learn_more: 'Learn More',
     },
 
     standards_page: {

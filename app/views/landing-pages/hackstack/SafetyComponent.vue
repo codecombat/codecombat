@@ -35,7 +35,7 @@
                     target="_blank"
                     class="learn-more"
                   >
-                    Learn More
+                    {{ $t('hackstack_page.learn_more') }}
                   </learn-more-button>
                 </div>
               </div>
@@ -58,7 +58,7 @@
                     target="_blank"
                     class="learn-more"
                   >
-                    Learn More
+                    {{ $t('hackstack_page.learn_more') }}
                   </learn-more-button>
                 </div>
               </div>
@@ -75,7 +75,7 @@ import BackgroundContainer from 'app/components/common/backgrounds/BackgroundCon
 import ContentBox from 'app/components/common/elements/ContentBox.vue'
 import LearnMoreButton from 'app/components/common/buttons/LearnMoreButton.vue'
 export default {
-  name: 'StatsComponent',
+  name: 'SafetyComponent',
   components: {
     ContentBox,
     LearnMoreButton,
