@@ -519,7 +519,16 @@ module.exports = Surface = class Surface extends CocoClass
     @setPlayingCalled = false  # Don't overwrite playing settings if they changed by, say, scripts.
     @frameBeforeCast = @currentFrame
     # This is where I wanted to trigger a rewind, but it turned out to be pretty complicated, since the new world gets updated everywhere, and you don't want to rewind through that.
-    @setProgress 0, 0 unless @options.level?.get('product') is 'codecombat-junior'
+    shouldRestart = @options.level?.get('product') isnt 'codecombat-junior'
+    if not shouldRestart and e.spellsAreUnchanged
+      # If we are rerunning the same code, we probably want to see what happens instead of just fast-forwarding through the same execution
+      shouldRestart = true
+      @frameBeforeCast = 0  # Don't fast-forward in this case
+    if not shouldRestart and @world.getThangByID('Hero Placeholder')?.health <= 0
+      # If hero is currently dead, actually go back 3s: 2s before death (since world ends 1s after death)
+      # That way we don't just restart playback from dead hero state at the end and not learn anything
+      @frameBeforeCast = Math.max 0, Math.round(@frameBeforeCast - 3 * @world.frameRate)
+    @setProgress 0, 0 if shouldRestart
 
   onNewWorld: (event) ->
     return unless event.world.name is @world.name

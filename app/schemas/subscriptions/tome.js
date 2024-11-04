@@ -23,7 +23,8 @@ module.exports = {
     justBegin: { type: 'boolean' },
     cinematic: { type: 'boolean' },
     keyValueDb: { type: 'object' },
-    spellJustLoaded: { type: 'boolean' }
+    spellJustLoaded: { type: 'boolean' },
+    spellsAreUnchanged: { type: 'boolean', description: 'Whether the code has is the same as it was on the last cast' },
   }),
 
   'tome:manual-cast': c.object({ title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: [] },
