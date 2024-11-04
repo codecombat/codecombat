@@ -312,7 +312,7 @@ const defaultHeroComponentIDs = {
 }
 
 const defaultHeroComponentConfig = {
-  Attackable: { maxHealth: 3 },
+  Attackable: { maxHealth: 4 },
   JuniorPlayer: {
     programmableSnippets: [],
     requiredThangTypes: ['5467beaf69d1ba0000fb91fb']
@@ -706,7 +706,7 @@ generateProperty(null, function (level, parameters) {
     juniorPlayer.config = _.find(heroSource.components, (component) => component.original === defaultHeroComponentIDs.JuniorPlayer).config
   } else {
     juniorPlayer.config = {
-      programmableSnippets: ['for-loop', 'if', '=='],
+      programmableSnippets: ['for-loop', 'if', '==', 'while-loop'],
       requiredThangTypes: ['5467beaf69d1ba0000fb91fb'],
     }
   }
@@ -744,7 +744,7 @@ generateProperty(null, async function (level, parameters) {
   if (sourceLevel) {
     apis = programmableSource.config.programmableProperties
   } else {
-    apis = ['go', 'hit', 'spin', 'zap', 'look']
+    apis = ['go', 'hit', 'spin', 'zap', 'look', 'heal', 'health', 'dist']
   }
 
   let solutionCode, starterCode
