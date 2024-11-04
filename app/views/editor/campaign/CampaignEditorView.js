@@ -67,6 +67,7 @@ module.exports = (CampaignEditorView = (function () {
         'shift+7': function (e) { this.assignModuleToSelectedLevels(7) },
         'shift+8': function (e) { this.assignModuleToSelectedLevels(8) },
         'shift+9': function (e) { this.assignModuleToSelectedLevels(9) },
+        'shift+0': function (e) { this.assignModuleToSelectedLevels(10) },
       }
     }
 
