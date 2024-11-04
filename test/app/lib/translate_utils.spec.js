@@ -1433,4 +1433,74 @@ end`,
       })
     }
   })
+
+  describe('translateJS can handle empty indented blocks at end of file', () => {
+    const sourceByLanguage = {
+      javascript: `\
+for (let i = 0; i < 5; ++i) {
+    for (let j = 0; j < 5; ++j) {
+        if (look('right') == 'crab') {
+            while (health < 4) {
+                
+            }
+        }
+    }
+}`,
+      cpp: `\
+for (int i = 0; i < 5; ++i) {
+    for (int j = 0; j < 5; ++j) {
+        if (look("right") == "crab") {
+            while (health < 4) {
+                
+            }
+        }
+    }
+}`,
+      java: `\
+for (int i = 0; i < 5; ++i) {
+    for (int j = 0; j < 5; ++j) {
+        if (look("right") == "crab") {
+            while (health < 4) {
+                
+            }
+        }
+    }
+}`,
+      python: `\
+for i in range(0, 5):
+    for j in range(0, 5):
+        if look('right') == 'crab':
+            while health < 4:
+                pass`,
+      coffeescript: `\
+for i in [0...5]
+    for j in [0...5]
+        if look('right') is 'crab'
+            while health < 4
+                `,
+      lua: `\
+for i=1, 5 do
+    for j=1, 5 do
+        if look('right') == 'crab' then
+            while health < 4 do
+                
+            end
+        end
+    end
+end`,
+    }
+
+    for (const [language, targetSource] of Object.entries(sourceByLanguage)) {
+      it(`in ${language}`, () => {
+        const translated = translateUtils.translateJS(sourceByLanguage.javascript, language, false)
+        const editDistance = levenshteinDistance(translated, targetSource)
+        if (translated !== targetSource) {
+          console.log(`\n${translated}`)
+          console.log(`\n${targetSource}`)
+        }
+        expect(translated).toBe(targetSource)
+        expect(editDistance).toEqual(0)
+      })
+    }
+  })
 })
