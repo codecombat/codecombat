@@ -189,7 +189,7 @@ module.exports = class VerifierTest extends CocoClass {
     this.listenToOnce(this.god, 'infinite-loop', this.fail)
     this.listenToOnce(this.god, 'user-code-problem', this.onUserCodeProblem)
     this.listenToOnce(this.god, 'goals-calculated', this.processSingleGameResults)
-    this.god.createWorld({ spells: aetherUtils.generateSpellsObject({ levelSession: this.session, token: tokenSource }) })
+    this.god.createWorld({ spells: aetherUtils.generateSpellsObject({ level: this.level, levelSession: this.session, token: tokenSource }) })
     this.state = 'running'
     this.reportResults()
   }
