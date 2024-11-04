@@ -15,6 +15,7 @@ const Levels = require('collections/Levels');
 const LevelSessions = require('collections/LevelSessions');
 const CourseInstances = require('collections/CourseInstances');
 const Prepaids = require('collections/Prepaids');
+const clansApi = require('core/api/clans')
 
 describe('/teachers/classes/:handle', function() {});
 
@@ -28,6 +29,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
 
 describe('when logged in', function() {
   beforeEach(function(done) {
+    spyOn(clansApi, 'getMyClans').and.returnValue(Promise.resolve([]));
     const me = factories.makeUser({});
 
     this.courses = new Courses([

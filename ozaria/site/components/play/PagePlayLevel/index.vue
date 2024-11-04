@@ -69,12 +69,23 @@ module.exports = Vue.extend({
     campaignId () {
       return (store.state.game.level || {}).campaign
     },
+    levelOriginal () {
+      return store.state?.game?.level?.original
+    },
   },
   watch: {
     campaignId (newCampaign) {
       if (newCampaign) {
         this.fetchLevelNumber()
       }
+    },
+    levelOriginal () {
+      this.fetchLevelNumber()
+    },
+  },
+  mounted () {
+    if (this.campaignId) {
+      this.fetchLevelNumber()
     }
   },
   methods: {
