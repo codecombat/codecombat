@@ -28,7 +28,7 @@ import ImageAndText from 'app/components/common/elements/ImageAndText.vue'
 import CTAButton from 'app/components/common/buttons/CTAButton.vue'
 
 export default {
-  name: 'SafeAIUse',
+  name: 'PDComponent',
   components: {
     PageSection,
     ImageAndText,
