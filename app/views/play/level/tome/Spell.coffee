@@ -184,6 +184,11 @@ module.exports = class Spell
       @source = source
     else
       source = @getSource()
+    if @level.get('product') is 'codecombat-junior'
+      # Rewrite blank `health` calls to `hero.health`, otherwise global value assignment isn't dynamically updated
+      source = source.replace /(^|[^a-zA-Z.])health(?!\w)/g, (match, prefix) ->
+        return match if prefix.endsWith('hero.')
+        return "#{prefix}hero.health"
     unless @language is 'html'
       @thang?.aether.transpile source
       @session.lastAST = @thang?.aether.ast
