@@ -1095,11 +1095,9 @@ describe('Aether / code transpilation utility library', () => {
     })
 
     describe('if JS code does not use semicolons (automatic semicolon insertion)', () => {
-      // TODO: make this one work
       it('in a simple statement', () =>
-        expect(translateUtils.translateJS('hero.moveRight()'), 'cpp').toBe('int main() {\n    hero.moveRight();\n    return 0;\n}'))
+        expect(translateUtils.translateJS('hero.moveRight()', 'cpp')).toBe('int main() {\n    hero.moveRight();\n    return 0;\n}'))
 
-      // TODO: make this one work
       it('in a complicated program', () =>
         expect(translateUtils.translateJS('function a(b, c) {\n    var d = b + c\n}\na()', 'cpp')).toBe('auto a(auto b, auto c) {\n    auto d = b + c;\n}\n\nint main() {\n    a();\n    return 0;\n}'))
 
