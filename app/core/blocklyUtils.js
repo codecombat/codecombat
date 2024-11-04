@@ -725,10 +725,13 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     inputsInline: args.length <= 2,
   }
 
-  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('go ')) {
+  if (codeFormat === 'blocks-icons' && prop.name?.startsWith('go')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/go %1 %2/, '%1%2 %3') // With steps
-    setup.message0 = setup.message0.replace(/go %1/, '%1%2') // Without steps
+    const translatedGo = (localizedPropName || 'go').replace(/\(.*/, '').trim()
+    const withStepsPattern = new RegExp(`${translatedGo} %1 %2`)
+    const withoutStepsPattern = new RegExp(`${translatedGo} %1`)
+    setup.message0 = setup.message0.replace(withStepsPattern, '%1%2 %3') // With steps
+    setup.message0 = setup.message0.replace(withoutStepsPattern, '%1%2') // Without steps
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-go.png',
@@ -739,9 +742,11 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     setup.colour = 240
   }
 
-  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('hit ')) {
+  if (codeFormat === 'blocks-icons' && prop.name?.startsWith('hit')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/hit %1/, '%1%2')
+    const translatedHit = (localizedPropName || 'hit').replace(/\(.*/, '').trim()
+    const pattern = new RegExp(`${translatedHit} %1`)
+    setup.message0 = setup.message0.replace(pattern, '%1%2')
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-hit.png',
@@ -752,9 +757,11 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     setup.colour = 240
   }
 
-  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('spin ')) {
+  if (codeFormat === 'blocks-icons' && prop.name?.startsWith('spin')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/spin/, '%1')
+    const translatedSpin = (localizedPropName || 'spin').replace(/\(.*/, '').trim()
+    const pattern = new RegExp(translatedSpin)
+    setup.message0 = setup.message0.replace(pattern, '%1')
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-spin.png',
@@ -765,9 +772,11 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     setup.colour = 240
   }
 
-  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('zap ')) {
+  if (codeFormat === 'blocks-icons' && prop.name?.startsWith('zap')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/zap %1/, '%1%2')
+    const translatedZap = (localizedPropName || 'zap').replace(/\(.*/, '').trim()
+    const pattern = new RegExp(`${translatedZap} %1`)
+    setup.message0 = setup.message0.replace(pattern, '%1%2')
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-zap.png',
@@ -778,10 +787,13 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     setup.colour = 240
   }
 
-  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('look ')) {
+  if (codeFormat === 'blocks-icons' && prop.name?.startsWith('look')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/look %1 %2/, '%1%2 %3') // With squares
-    setup.message0 = setup.message0.replace(/look %1/, '%1%2') // Without squares
+    const translatedLook = (localizedPropName || 'look').replace(/\(.*/, '').trim()
+    const withSquaresPattern = new RegExp(`${translatedLook} %1 %2`)
+    const withoutSquaresPattern = new RegExp(`${translatedLook} %1`)
+    setup.message0 = setup.message0.replace(withSquaresPattern, '%1%2 %3') // With squares
+    setup.message0 = setup.message0.replace(withoutSquaresPattern, '%1%2') // Without squares
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-look.png',
