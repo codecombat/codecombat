@@ -4702,6 +4702,12 @@ module.exports = {
       ozaria_ai_league_modal_blurb: 'Rqhpngbef pna abj npprff NV Yrnthr qverpgyl ba **[uggcf://pbqrpbzong.pbz/grnpuref/nv-yrnthr]PbqrPbzong** hfvat gur fnzr perqragvnyf nf Bmnevn. Sbe nqqrq pbairavrapr, lbh pna rnfvyl vzcbeg lbhe pynffrf sebz Bmnevn vagb PbqrPbzong.',
       completed_all_practice_levels: 'Gur fghqrag unf fhpprffshyyl pbzcyrgrq nyy cenpgvpr yriryf.',
       played_some_practice_levels: 'Gur fghqrag unf fgnegrq jbexvat ba gur cenpgvpr yriryf.',
+      ai_league_start_title: 'Jrypbzr gb NV Yrnthr!',
+      ai_league_start_blurb: 'Bhe Trggvat Fgnegrq thvqr jnyxf lbh guebhtu rirelguvat lbh arrq gb xabj - sebz frggvat hc lbhe svefg pynff gb ehaavat lbhe svefg gbheanzrag.',
+      ai_league_curriculum_title: 'NV Yrnthr Pheevphyhz',
+      ai_league_curriculum_blurb: 'Npprff bhe pbzcerurafvir pheevphyhz thvqrf qrfvtarq fcrpvsvpnyyl sbe NV Yrnthr neranf. Gurfr erfbheprf uryc lbh vagebqhpr pbzcrgvgvir pbqvat pbaprcgf naq grnpu fgengrtvp guvaxvat.',
+      ai_league_custom_title: 'Phfgbz NV Yrnthr Gbheanzragf',
+      ai_league_custom_blurb: "Perngr lbhe bja phfgbzvmrq gbheanzragf gb ratntr lbhe fghqragf! Fryrpg sebz bhe yvoenel bs pbqvat neranf naq frg pbzcrgvgvba qngrf, jurgure vg'f n pynffebbz punyyratr be n fpubby-jvqr pbzcrgvgvba.",
     },
 
     outcomes: {
@@ -6076,6 +6082,7 @@ module.exports = {
       what_do_you_want_to_do_today: 'Jung qb lbh jnag gb qb gbqnl?',
       learn_ai: 'Yrnea NV',
       create_ai: 'Perngr Jvgu NV',
+      name_conflict: 'Anzr Pbasyvpg, cyrnfr pubbfr n qvssrerag anzr',
     },
     parents_v2: {
       testimonials_1_quote: 'V pna\'g rira ortva gb rkcynva gur cebsbhaq punatrf gung unir bppheerq va Yhxn npnqrzvpnyyl fvapr ur\'f orra jbexvat jvgu lbh.',
