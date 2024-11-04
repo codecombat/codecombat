@@ -54,7 +54,7 @@
                     {{ $t('hackstack_page.moderation_description') }}
                   </p>
                   <learn-more-button
-                    link="https://docs.google.com/document/d/1OfQw0B841BUu7iABRlS-UXMbHDb9npYLvOPgcsdIiH0"
+                    link="https://docs.google.com/document/d/1OfQw0B841BUu7iABRlS-UXMbHDb9npYLvOPgcsdIiH0/edit?tab=t.0#bookmark=id.calwdm8t21hq"
                     target="_blank"
                     class="learn-more"
                   >

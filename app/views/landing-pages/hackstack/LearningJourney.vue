@@ -69,6 +69,10 @@ export default {
 <style lang="scss" scoped>
 @import "app/styles/component_variables.scss";
 
+::v-deep .frame {
+  gap: 20px !important;
+}
+
 .section {
   background: #193640;
 }
@@ -97,7 +101,7 @@ export default {
     align-self: stretch;
     display: flex;
     flex: 0 0 auto;
-    gap: 30px;
+    gap: 50px;
     justify-content: center;
     position: relative;
     width: 100%;
