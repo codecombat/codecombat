@@ -227,6 +227,8 @@ module.exports = class Spell
       includeFlow: includeFlow
       problemContext: problemContext
       useInterpreter: true
+    if @level.get('product') is 'codecombat-junior'
+      aetherOptions.executionLimit = 100 * 1000  # Junior levels shouldn't use as many statements, can exceed execution limit earlier (100K) than normal levels (default 3M)
     aether = new Aether aetherOptions
     if @worker
       workerMessage =
