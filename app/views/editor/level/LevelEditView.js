@@ -736,6 +736,9 @@ module.exports = (LevelEditView = (function () {
     async getLevelCompletionRate () {
       if (!me.isAdmin()) { return }
       this.levelStats = await fetchLevelStats(this.level.get('original'))
+      if (this.levelStats.completionRate == null || !this.levelStats.playtime?.p50) {
+        return // No stats yet
+      }
       const rateDisplay = (this.levelStats.completionRate * 100).toFixed(1) + '%'
       this.$('#completion-rate').text(rateDisplay).removeClass('hide')
       this.$('#completion-time').text(this.levelStats.playtime.p50 + 's').attr('title', JSON.stringify(this.levelStats.playtime)).removeClass('hide')
