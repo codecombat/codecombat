@@ -1,5 +1,6 @@
 
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
+const utils = require('app/core/utils')
 
 function getLastSelectedCourseKey (state) {
   return `courseId_${state.teacherId}_${state.classroomId}`
@@ -456,14 +457,15 @@ export default {
         fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
 
         // todo: optimize this to fetch only if needed
-        fetchPromises.push(dispatch('aiProjects/fetchForClassroomMembers', { classroom }, { root: true }))
+        if (utils.isCodeCombat) {
+          fetchPromises.push(dispatch('aiProjects/fetchForClassroomMembers', { classroom }, { root: true }))
+          fetchPromises.push(dispatch('aiScenarios/fetchReleased', { classroom }, { root: true }))
+          fetchPromises.push(dispatch('aiModels/fetch', {}, { root: true }))
+        }
 
         if (options.fetchInteractiveSessions) {
           fetchPromises.push(dispatch('interactives/fetchSessionsForClassroomMembers', classroom, { root: true }))
         }
-
-        fetchPromises.push(dispatch('aiScenarios/fetchReleased', { classroom }, { root: true }))
-        fetchPromises.push(dispatch('aiModels/fetch', {}, { root: true }))
       }
 
       // TODO If classroom already loaded, load it asynchronously without blocking UI, i.e. without `await` to optimize performance
