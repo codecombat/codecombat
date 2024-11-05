@@ -46,6 +46,12 @@ function findOne (array, pred, why = 'Expected exactly one match') {
       // There are multiple matching snippets; it's ok to just pick one
       return matches[0]
     }
+    if (matches.length === 2 && matches[0][0]?.type === 'junior_int' && matches[1][0]?.type === 'math_number') {
+      // We would rather pick junior_int over math_number, so it remains a dropdown
+      // But, for some reason, that just gives 0 as the value, when we need it to remain the actual value.
+      // So, let's pick the other one. TODO: figure out a way to get the dropdown to respect the number and switch this.
+      return matches[1]
+    }
     // There are multiple matching non-snippets; maybe this is bad and we should error out?
     console.log('Multiple block matches:', matches, '\nfrom possibilities:', array)
     throw new Error(why + ', found ' + matches.length)
@@ -466,12 +472,13 @@ class Converters {
     const args = n.arguments.map(x => convert(x, { ...ctx, context: 'value' }))
     if (found[0].inputs) {
       const inputs = Object.keys(found[0].inputs)
-      if (['go', 'hit', 'zap', 'look'].indexOf(n.callee?.name) !== -1) {
+      if (['go', 'hit', 'zap', 'look', 'dist'].indexOf(n.callee?.name) !== -1) {
         // Remove first argument; convert to field
         // TODO: make general, not just based on callee.name being one of the methods where we do this
         const toArg = args.splice(0, 1)
         out.fields = { to: toArg[0].fields.TEXT }
-        if (args.length) {
+        const convertsSquaresToFields = !/dist\(/.test(ctx.code) // Don't do this once we start using `dist` function
+        if (args.length && convertsSquaresToFields) {
           // Remove second argument; convert to field
           const squaresArg = args.splice(0, 1)
           out.fields.steps = '' + squaresArg[0].fields.NUM // Convert to string, dropdowns expect that
@@ -680,6 +687,7 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
   // console.log('prepareBlockIntelligence', arguments[0])
   // window.ws = workspace
   const blocks = findAllBlocks(toolbox.fullContents)
+  const rewritesStepsAsDropdowns = !_.find(blocks, { type: 'Hero_dist' })
 
   for (const block of blocks) {
     const zeblock = Blockly.Blocks[block.type]
@@ -702,7 +710,9 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
           // console.log(entry)
           if (entry.type === 'field_image') {
             // Don't add an input; it's just decoration
-          } else if (['to', 'steps', 'squares'].includes(entry.name) && entry.type === 'field_dropdown') {
+          } else if (['to'].includes(entry.name) && entry.type === 'field_dropdown') {
+            // Don't add an input.
+          } else if (['steps', 'squares'].includes(entry.name) && entry.type === 'field_dropdown' && rewritesStepsAsDropdowns) {
             // Don't add an input.
           } else if (entry.check === 'Number') {
             defn.inputs[entry.name] = {
