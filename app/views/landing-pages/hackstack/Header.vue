@@ -10,7 +10,7 @@
       <content-box class="video-box">
         <template #image>
           <base-cloudflare-video
-            video-cloudflare-id="e5d5b175dcc0df63be91cb99878ca706"
+            video-cloudflare-id="fe31e99a3b8c473590001bacb5029fca"
             :sound-on="false"
             preload="none"
             :loop="true"

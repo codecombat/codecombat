@@ -35,7 +35,7 @@
                     target="_blank"
                     class="learn-more"
                   >
-                    Learn More
+                    {{ $t('hackstack_page.learn_more') }}
                   </learn-more-button>
                 </div>
               </div>
@@ -54,11 +54,11 @@
                     {{ $t('hackstack_page.moderation_description') }}
                   </p>
                   <learn-more-button
-                    link="https://docs.google.com/document/d/1OfQw0B841BUu7iABRlS-UXMbHDb9npYLvOPgcsdIiH0"
+                    link="https://docs.google.com/document/d/1OfQw0B841BUu7iABRlS-UXMbHDb9npYLvOPgcsdIiH0/edit?tab=t.0#bookmark=id.calwdm8t21hq"
                     target="_blank"
                     class="learn-more"
                   >
-                    Learn More
+                    {{ $t('hackstack_page.learn_more') }}
                   </learn-more-button>
                 </div>
               </div>
@@ -75,7 +75,7 @@ import BackgroundContainer from 'app/components/common/backgrounds/BackgroundCon
 import ContentBox from 'app/components/common/elements/ContentBox.vue'
 import LearnMoreButton from 'app/components/common/buttons/LearnMoreButton.vue'
 export default {
-  name: 'StatsComponent',
+  name: 'SafetyComponent',
   components: {
     ContentBox,
     LearnMoreButton,

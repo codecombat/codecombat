@@ -25,7 +25,6 @@ const LevelSessions = require('collections/LevelSessions')
 const LevelComponent = require('models/LevelComponent')
 const ace = require('lib/aceContainer')
 const aceUtils = require('core/aceUtils')
-const { createAetherOptions } = require('lib/aether_utils')
 const loadAetherLanguage = require('lib/loadAetherLanguage')
 
 if (utils.isOzaria) {
