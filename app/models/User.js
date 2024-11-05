@@ -1146,8 +1146,26 @@ module.exports = (User = (function () {
     }
 
     getHackStackV2ExperimentValue () {
-      const experimentName = 'hackstack-v2'
+      if (utils.isOzaria) {
+        return 'control'
+      }
+
+      const experimentName = 'hackstack-ui'
       let value = me.getExperimentValue(experimentName, null)
+      if (value) {
+        return value
+      }
+
+      if (me.isHomeUser()) {
+        const releaseDate = new Date('2024-11-05')
+        if (new Date(me.get('dateCreated')) < releaseDate) {
+          value = 'control'
+        }
+      } else {
+        // for classroom users, we will have to ABTest differently since it will be at teacher level and not student level
+        // so that all students in a classroom are in the same ABGroup
+        value = 'control'
+      }
       if (value === null) {
         const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
         let valueProbability
