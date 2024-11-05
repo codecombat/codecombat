@@ -444,7 +444,7 @@ export default {
     if (this.defaultCourseId) {
       this.setSelectedCourseId({ courseId: this.defaultCourseId })
     }
-    this.setTeacherId(me.get('_id'))
+    this.setTeacherId(this.teacherId || me.get('_id'))
     this.fetchClassroomData(this.classroomId).catch(console.error)
   },
 
