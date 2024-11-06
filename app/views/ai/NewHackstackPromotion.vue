@@ -3,62 +3,18 @@
   <Modal
     :backbone-dismiss-modal="true"
   >
-    <div class="hackstack-modal">
-      <div class="header center">
-        {{ $t('ai.ai_made_ss') }}
-      </div>
-      <div class="body">
-        <div class="container">
-          <div class="image">
-            <picture>
-              <source
-                srcset="/images/pages/hackstack/hackstack-new-promo.webp"
-                type="image/webp"
-                class="promo-img"
-              >
-              <img
-                src="/images/pages/hackstack/hackstack-new-promo.png"
-                alt="AI Hackstack promo"
-                class="promo-img"
-              >
-            </picture>
-            <picture class="banner-img">
-              <source
-                srcset="/images/pages/hackstack/hackstack-banner-black.webp"
-                type="image/webp"
-              >
-              <img
-                src="/images/pages/hackstack/hackstack-banner-balc.png"
-                class="banner-img"
-              >
-            </picture>
-          </div>
-          <div class="text">
-            {{ $t('ai.aiss_body') }}
-          </div>
-        </div>
-      </div>
-      <div class="footer center">
-        <CTAButton
-          href="/hackstack"
-          target="_blank"
-          class="cta-btn"
-        >
-          {{ $t('ai.learn_more') }}
-        </CTAButton>
-      </div>
-    </div>
+    <HackstackPromotionComponent />
   </Modal>
 </template>
 
 <script>
 import Modal from 'app/components/common/Modal.vue'
-import CTAButton from 'app/components/common/buttons/CTAButton.vue'
+import HackstackPromotionComponent from './HackstackPromotionComponent'
 export default Vue.extend({
   name: 'HackstackPromotionModal',
   components: {
     Modal,
-    CTAButton,
+    HackstackPromotionComponent,
   },
 })
 </script>
