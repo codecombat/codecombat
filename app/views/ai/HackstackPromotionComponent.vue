@@ -32,6 +32,7 @@
         href="/hackstack"
         target="_blank"
         class="cta-btn"
+        @clickedCTA="onLearnMore"
       >
         {{ $t('ai.learn_more') }}
       </CTAButton>
@@ -42,16 +43,24 @@
 <script>
 import CTAButton from 'app/components/common/buttons/CTAButton.vue'
 import VideoBox from 'app/components/common/image-containers/VideoBox.vue'
+import trackable from 'app/components/mixins/trackable.js'
 export default {
   name: 'HackstackModalComponent',
   components: {
     CTAButton,
     VideoBox,
   },
+  mixins: [trackable],
   data () {
     return {
       videoId: '827b895ec6a340f0a701c456649e274a',
     }
+  },
+  methods: {
+    onLearnMore () {
+      this.$refs.modal.onClose()
+      this.trackEvent('Hackstack Promo Modal: Learn more clicked', { category: 'Hackstack' })
+    },
   },
 }
 </script>
