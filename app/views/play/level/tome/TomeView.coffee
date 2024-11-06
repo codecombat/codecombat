@@ -221,6 +221,7 @@ module.exports = class TomeView extends CocoView
     if @options.observing
       difficulty = Math.max 0, difficulty - 1  # Show the difficulty they won, not the next one.
     Backbone.Mediator.publish 'level:set-playing', {playing: false}
+    newCastSpellCode = @spells['hero-placeholder/plan']?.source
     Backbone.Mediator.publish 'tome:cast-spells', {
       @spells,
       preload,
@@ -233,8 +234,11 @@ module.exports = class TomeView extends CocoView
       flagHistory: sessionState.flagHistory ? [],
       god: @options.god,
       fixedSeed: @options.fixedSeed,
-      keyValueDb: @options.session.get('keyValueDb') ? {}
+      keyValueDb: @options.session.get('keyValueDb') ? {},
+      spellsAreUnchanged: _.isEqual(newCastSpellCode, @lastCastSpellCode)
     }
+    @lastCastSpellCode = newCastSpellCode
+    null
 
   onClick: (e) ->
     Backbone.Mediator.publish 'tome:focus-editor', {} unless $(e.target).parents('.popover').length
