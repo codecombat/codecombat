@@ -43,6 +43,7 @@ export default {
   width: 70%;
   margin-left: auto !important;
   margin-right: auto !important;
+  margin-bottom: 40px !important;
 }
 ::v-deep .banner-img {
   width: 200px !important;
