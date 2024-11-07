@@ -1159,12 +1159,10 @@ module.exports = (User = (function () {
       if (me.isHomeUser()) {
         const releaseDate = new Date('2024-11-05')
         if (new Date(me.get('dateCreated')) < releaseDate) {
-          value = 'control'
+          value = 'beta' // enabling for old home users
         }
       } else {
-        // for classroom users, we will have to ABTest differently since it will be at teacher level and not student level
-        // so that all students in a classroom are in the same ABGroup
-        value = 'control'
+        value = 'beta' // enabling for classroom users
       }
       if (value === null) {
         const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5

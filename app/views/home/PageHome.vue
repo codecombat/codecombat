@@ -210,6 +210,7 @@
       </div>
     </div>
     <ModalJunior />
+    <HackstackAutoPromotion />
   </div>
 </template>
 
@@ -231,6 +232,7 @@ import TrendsAndInsights from '../common/TrendsAndInsights.vue'
 import BaseCloudflareVideo from '../../components/common/BaseCloudflareVideo.vue'
 import HeaderComponent from '../../components/common/elements/HeaderComponent.vue'
 import ModalJunior from './ModalJunior'
+import HackstackAutoPromotion from '../ai/HackstackAutoPromotion'
 
 const utils = require('core/utils')
 const paymentUtils = require('app/lib/paymentUtils')
@@ -255,6 +257,7 @@ export default Vue.extend({
     BaseCloudflareVideo,
     HeaderComponent,
     ModalJunior,
+    HackstackAutoPromotion,
   },
   data () {
     return {

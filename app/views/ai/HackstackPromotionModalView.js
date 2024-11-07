@@ -1,5 +1,5 @@
 import ModalComponent from 'app/views/core/ModalComponent'
-import component from './HackstackPromotionModal.vue'
+import component from './NewHackstackPromotion.vue'
 
 class HackstackPromotionModalView extends ModalComponent {
   constructor (options = {}) {

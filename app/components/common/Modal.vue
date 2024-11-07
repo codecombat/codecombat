@@ -1,6 +1,5 @@
 <script> // eslint-disable-line vue/multi-word-component-names
 import BaseModal from 'app/components/common/BaseModal'
-
 // This is a dynamic modal that works in both Vue and Backbone views.
 // How to handle modal closing:
 // From Vue: use $emit('close') like usual

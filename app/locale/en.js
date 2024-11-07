@@ -5426,6 +5426,9 @@ module.exports = {
       websites: 'Websites',
       code_more: 'Code and more',
       ideal_endeavour: "It's the ideal companion for any endeavor.",
+      ai_made_ss: 'AI Made Simple & Safe -- Start Today!',
+      aiss_body: 'Built as the simplest path to AI literacy, this tool empowers learners to harness top LLMs with hands-on AI training, making creation easy—whether it’s games, art, writing, code, or more. Together, we help learners safely bring their ideas to life across any subject.',
+      learn_more: 'Learn More!',
     },
     user_credits: {
       level_chat_left_in_duration: '__credits__ AI Bot queries left for the __duration_key__',
