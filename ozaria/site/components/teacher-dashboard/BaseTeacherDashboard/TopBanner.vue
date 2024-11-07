@@ -4,7 +4,7 @@
     id="top-banner"
   >
     <mixed-color-label
-      text="Try **CodeCombat Junior:** Our new K-5 curriculum, tablet-ready and perfect for all learners. **[https://codecombat.com/teachers/curriculum]Click to start now!**"
+      text="Try **AI HackStack:** The easiest and safest path to AI literacy, empowering students to create—whether it’s games, art, writing, code, or more. **[/hackstack]Click to start now!**"
       @link-clicked="handleLinkClicked"
     />
   </div>
@@ -14,11 +14,11 @@
 import MixedColorLabel from 'app/components/common/labels/MixedColorLabel'
 import trackable from 'app/components/mixins/trackable.js'
 
-const storageKey = 'teacher-dashboard-coco-jr-top-banner'
+const storageKey = 'teacher-dashboard-ai-hackstack-top-banner'
 
 export default {
   components: {
-    'mixed-color-label': MixedColorLabel
+    'mixed-color-label': MixedColorLabel,
   },
   mixins: [trackable],
   computed: {
@@ -27,17 +27,17 @@ export default {
         return false
       }
       const currentDate = new Date()
-      const start = new Date('2024-09-05')
-      const end = new Date('2024-09-25')
+      const start = new Date('2024-11-07')
+      const end = new Date('2024-11-30')
       return currentDate >= start && currentDate <= end
-    }
+    },
   },
   methods: {
     handleLinkClicked () {
-      this.trackEvent('Coco JR banner clicked', { category: 'Teachers' })
+      this.trackEvent('AI Hackstack banner clicked', { category: 'Teachers' })
       localStorage.setItem(storageKey, 'clicked')
-    }
-  }
+    },
+  },
 }
 </script>
 
