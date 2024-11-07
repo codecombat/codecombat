@@ -9,7 +9,7 @@
           <video-box
             :video-id="videoId"
             controls="true"
-            class="promo-img"
+            class="promo-video"
           />
           <picture class="banner-img">
             <source
@@ -108,7 +108,7 @@ export default {
     position: relative;
   }
 
-  .promo-img {
+  .promo-video{
     max-width: 100%;
     height: auto;
   }

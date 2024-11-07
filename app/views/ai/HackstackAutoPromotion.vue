@@ -39,4 +39,13 @@ export default {
 ::v-deep .ozaria-modal-body{
   overflow-y: auto !important;
 }
+::v-deep .image {
+  width: 70%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+::v-deep .banner-img {
+  width: 200px !important;
+  bottom: -25px !important;
+}
 </style>
