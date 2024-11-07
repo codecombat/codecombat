@@ -1403,6 +1403,7 @@ function removeStandaloneExpressions (code) {
   code = code.replace(/^ *[0-9]+;? *$/gm, '')  // ... int literals
   code = code.replace(/^ *(True|true|False|false|null|None|nil|undefined);? *$/gm, '')  // truthy/falsy litearls
   code = code.replace(/^ *(look|dist)\('.+?'\);? *$/gm, '')  // ... standalone look and dist blocks
+  code = code.replace(/^ *((look|dist)\('.+?'\)|health) *(===|==|!==|!=|~=|<|<=|>|>=) *['"]?[a-zA-Z0-9]*['"]?;? *$/gm, '')  // ... standalone comparator expressions
   code = code.replace(/^ *health;? *$/gm, '')  // ... standalone health blocks
   return code
 }
