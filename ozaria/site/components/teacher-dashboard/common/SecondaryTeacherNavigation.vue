@@ -434,7 +434,7 @@ export default {
           class="icon-ai svgicon selected"
           theme="blue"
         />
-        <span>{{ $t('nav.ai_hackstack') }}</span><span class="beta">({{ $t('nav.beta') }})</span>
+        <span>{{ $t('nav.ai_hackstack') }}</span>
         <span
           v-if="showHackStack && hackStackClassrooms?.length > 0"
           class="caret"

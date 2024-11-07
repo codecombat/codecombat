@@ -106,7 +106,6 @@
               class="sidebar__tabs__img"
             >
             <span class="sidebar__tabs__name"> {{ $t('nav.ai_hackstack') }}</span>
-            <span class="beta">({{ $t('nav.beta') }})</span>
           </li>
         </router-link>
         <!--        <router-link :to="{ name: 'ParentDashboard', params: { viewName: 'ai-league', childId: this.selectedChildrenId } }">-->
