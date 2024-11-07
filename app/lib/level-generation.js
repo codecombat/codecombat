@@ -167,9 +167,9 @@ generateProperty('goals', function (level, parameters) {
 
     shortCode: {
       optional: false,
-      linesOfCode: { humans: 5 },
+      linesOfCode: { humans: 6 },
       id: 'short-code',
-      name: 'Under 6 statements.'
+      name: 'Only 6 lines of code'
     },
 
     moveToTarget: {
