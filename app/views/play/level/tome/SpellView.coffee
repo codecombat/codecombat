@@ -2048,10 +2048,6 @@ module.exports = class SpellView extends CocoView
       # Also count any numeric or string literal value blocks in if and while conditions
       extraExpressionCount += solution.match(/^ *(if|while).*?(===|==|!==|!=|~=|<|<=|>|>=).*?['"]?[a-zA-Z0-9_$]+['"]?/gm)?.length || 0
 
-      if @spell.language is 'python'
-        # Add count of same-level blocks after control structures, because we will have to insert newline blocks for those
-        extraExpressionCount += @countSameLevelBlocks(solution)
-
       if hasDist
         # Also need to allow extra blocks for the 3 in go(dir, 3) expressions now that dist is an extra block
         extraExpressionCount += solution.match(/go\(.(up|down|left|right)., \d/g)?.length || 0
@@ -2059,57 +2055,6 @@ module.exports = class SpellView extends CocoView
       maxBlocks += extraExpressionCount
 
     return maxBlocks
-
-  countSameLevelBlocks: (code) ->
-    lines = code.split '\n'
-    stack = []  # Stack to keep track of blocks
-    count = 0
-    n = lines.length
-
-    i = 0
-    while i < n
-      line = lines[i]
-      trimmedLine = line.trim()
-
-      # Skip empty lines and comments
-      if trimmedLine == '' or trimmedLine.indexOf('#') is 0
-        i += 1
-        continue
-
-      # Get current line's indentation level
-      match = line.match /^(\s*)/
-      currentIndentation = if match then match[1].length else 0
-
-      # Handle block endings
-      while stack.length > 0 and currentIndentation <= stack[stack.length - 1].indentation
-        block = stack.pop()
-
-        # Look ahead for the next non-empty, non-comment line
-        j = i
-        found = false
-        while j < n
-          nextLine = lines[j]
-          nextTrimmedLine = nextLine.trim()
-
-          if nextTrimmedLine == '' or nextTrimmedLine.indexOf('#') is 0
-            j += 1
-            continue
-
-          matchNext = nextLine.match /^(\s*)/
-          nextIndentation = if matchNext then matchNext[1].length else 0
-
-          if nextIndentation == block.indentation
-            # Found code at the same indentation level after the block ends
-            count += 1
-          break  # Only consider the immediate next code line
-
-      # Check if the line starts a new block
-      if /^\s*(if|while|for)\b/.test trimmedLine
-        stack.push indentation: currentIndentation, lineNumber: i
-
-      i += 1
-
-    return count
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click mouseenter', '.ace_error, .ace_warning, .ace_info'
