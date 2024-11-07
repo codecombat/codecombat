@@ -668,7 +668,12 @@ function nextify (arr, ctx) {
       target.next = { block: e }
       target = e
     } else {
-      if (ctx.nospace) {
+      if (ctx.isJunior) {
+        // Hook the block up directly, don't preserve any newlines
+        target.next = { block: e }
+        target = e
+      } else if (ctx.nospace) {
+        // Preserve newlines (I think so that we can support CodeCombat levels that don't want to delete them, but I don't actually remember why we do this)
         target.next = { block: { type: 'newline', next: { block: e } } }
         target = e
       } else {
@@ -862,11 +867,13 @@ function codeToBlocks ({ code, originalCode, codeLanguage, prepData }) {
   } catch (e) {
     console.error("Oh no, couldn't parse", code, e)
   }
+  const isJunior = _.find(prepData?.plan || [], (p) => /^Hero_go/.test(p?.[0]?.type))
   const ctx = {
     plan: prepData.plan,
     scope: {},
     context: 'statement',
-    code
+    code,
+    isJunior,
   }
   const out = {
     blocks: convert(ast.program, ctx),
@@ -875,7 +882,6 @@ function codeToBlocks ({ code, originalCode, codeLanguage, prepData }) {
   for (const v in ctx.scope) {
     if (ctx.scope[v].type === 'var') out.variables.push({ name: v, id: v })
   }
-  const isJunior = _.find(prepData?.plan || [], (p) => /^Hero_go/.test(p?.[0]?.type))
   if (isJunior) {
     addStartBlock(out)
   }
