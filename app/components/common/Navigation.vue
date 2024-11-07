@@ -42,7 +42,7 @@ export const items = {
   AP_CSP: { url: cocoPath('/apcsp'), title: 'nav.ap_csp' },
   AI_LEAGUE: { url: cocoPath('/league'), title: 'nav.ai_league_esports' },
   ROBLOX: { url: cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' },
-  AI_HACKSTACK: { url: cocoPath('/ai'), title: 'nav.ai_hackstack_beta' },
+  AI_HACKSTACK: { url: cocoPath('/ai'), title: 'nav.ai_hackstack' },
   AI_JUNIOR: { url: 'https://docs.google.com/forms/d/e/1FAIpQLSfcWo6JVeFP30OslksUwE1Z-XyWFIKW3h81v08aYU1-vbhSUA/viewform', attrs: { target: '_blank' }, title: 'nav.ai_junior_beta' },
   LIVE_ONLINE_CLASSES: { url: cocoPath('/parents'), title: 'nav.live_online_classes' },
   PREMIUM: { url: cocoPath('/premium'), title: 'nav.premium_self_paced' },
