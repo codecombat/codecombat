@@ -6,9 +6,14 @@ export default {
     ModalDynamicPromotion,
     HackstackPromotionComponent,
   },
+  computed: {
+    showPromotion () {
+      return new Date() <= new Date('2024-11-30')
+    },
+  },
   methods: {
-    openModalDynamicPromotion () {
-      this.modalDynamicPromotion = true
+    onClose () {
+      this.$refs.modal.onClose()
     },
   },
 }
@@ -17,15 +22,21 @@ export default {
 <template>
   <div class="promotion-modal">
     <ModalDynamicPromotion
+      v-if="showPromotion"
       ref="modal"
       seen-promotions-property="new-hackstack-promotion-modal"
     >
       <template #content>
-        <HackstackPromotionComponent />
+        <HackstackPromotionComponent
+          @close="onClose"
+        />
       </template>
     </ModalDynamicPromotion>
   </div>
 </template>
 
 <style scoped>
+::v-deep .ozaria-modal-body{
+  overflow-y: auto !important;
+}
 </style>

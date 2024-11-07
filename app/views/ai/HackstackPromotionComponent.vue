@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     onLearnMore () {
-      this.$refs.modal.onClose()
+      this.$emit('close')
       this.trackEvent('Hackstack Promo Modal: Learn more clicked', { category: 'Hackstack' })
     },
   },
