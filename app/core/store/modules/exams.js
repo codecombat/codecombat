@@ -46,9 +46,9 @@ export default {
       })
     },
 
-    async fetchUserExam ({ commit }, examId) {
+    async fetchUserExam ({ commit }, { examId, includeArchived = false }) {
       try {
-        const response = await getUserExam(examId)
+        const response = await getUserExam(examId, includeArchived)
         commit('updateUserExam', {
           examId,
           userExam: response,
