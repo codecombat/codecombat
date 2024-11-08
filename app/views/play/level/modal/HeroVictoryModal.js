@@ -113,7 +113,7 @@ module.exports = (HeroVictoryModal = (function () {
           levelOriginal: this.level.get('original'),
           includePractice
         }).then((level) => {
-          this.nextLevel.set(level)
+          this.nextLevel?.set(level)
         })
       }
     }
