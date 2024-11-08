@@ -99,8 +99,9 @@ module.exports = (ChangeLanguageTab = (function () {
         }
       }
 
-      // todo: better check mobile
-      if (application.isIPadApp) {
+      // Disabling text code for Junior for mobile devices that aren't iPads.
+      // iPads might have physical keyboards, which would mean we would want to let them try text code.
+      if (utils.isMobile() && this.isJunior && !utils.isIPad()) {
         CODE_FORMAT_TEXT.forEach(format => {
           this.codeFormatObject[format].disabled = true
         })
@@ -169,7 +170,7 @@ module.exports = (ChangeLanguageTab = (function () {
 
     buildCodeFormats () {
       const $select = this.$el.find('#option-code-format')
-      if (!$.browser.mobile) {
+      if (!utils.isMobile()) {
         $select.fancySelect()
       }
       $select.parent().find('.options li').each(function () {
@@ -189,7 +190,7 @@ module.exports = (ChangeLanguageTab = (function () {
 
     buildCodeLanguages () {
       const $select = this.$el.find('#option-code-language')
-      if (!$.browser.mobile) {
+      if (!utils.isMobile()) {
         $select.fancySelect()
       }
       $select.parent().find('.options li').each(function () {
