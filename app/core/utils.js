@@ -1623,6 +1623,11 @@ const isMobile = () => {
   return isMobileDevice
 }
 
+const isIPad = () => {
+  const ua = navigator.userAgent
+  return (/iPad/.test(ua) || (navigator?.platform === 'MacIntel' && navigator.maxTouchPoints > 1))
+}
+
 module.exports.getCodeLanguages = () => {
   const codeLanguages = {
     python: {
@@ -1805,6 +1810,7 @@ module.exports = {
   isCodeCombat,
   isOzaria,
   isMobile,
+  isIPad,
   supportEmail,
   tournamentSortFn,
   cocoBaseURL,
