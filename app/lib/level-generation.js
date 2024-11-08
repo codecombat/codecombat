@@ -315,7 +315,7 @@ const defaultHeroComponentConfig = {
   Attackable: { maxHealth: 4 },
   JuniorPlayer: {
     programmableSnippets: [],
-    requiredThangTypes: ['66873b397eff730c9e750994'],
+    requiredThangTypes: ['66873b397eff730c9e750994', '62050186cb069a0023866b0d'],
   },
   Moves: { maxSpeed: 8 },
   MovesSimply: { simpleMoveDistance: 8 },
@@ -707,7 +707,7 @@ generateProperty(null, function (level, parameters) {
   } else {
     juniorPlayer.config = {
       programmableSnippets: ['for-loop', 'if', '==', 'while-loop'],
-      requiredThangTypes: ['66873b397eff730c9e750994'],
+      requiredThangTypes: ['66873b397eff730c9e750994', '62050186cb069a0023866b0d'],
     }
   }
 
