@@ -766,7 +766,7 @@ module.exports = Surface = class Surface extends CocoClass
     return unless showPathFor.length
     @hidePaths()
     return if @world.showPaths is 'never'
-    @trailmaster ?= new TrailMaster @camera, @pathLayerAdapter
+    @trailmaster ?= new TrailMaster @camera, @pathLayerAdapter, @options.level
     @trailmaster.cleanUp()
     @paths = []
     for thangID in showPathFor

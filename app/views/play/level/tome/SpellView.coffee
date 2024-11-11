@@ -2030,12 +2030,31 @@ module.exports = class SpellView extends CocoView
 
   determineMaxBlocks: ->
     return Infinity unless @options.level.get('product') is 'codecombat-junior'
-    return Infinity if _.find(Object.values(@propertyEntryGroups || {}), (peg) -> _.find(peg.props, name: 'look'))  # TODO: find a way to not include expression blocks in our limit, once we get to conditionals
     goals = @options.level.get('goals') || []
     lineGoal = _.find goals, (g) -> g.linesOfCode
-    if lineGoal
-      return lineGoal.linesOfCode.humans
-    return Infinity
+    return Infinity unless lineGoal
+    maxBlocks = lineGoal.linesOfCode.humans
+    hasLook = _.find(Object.values(@propertyEntryGroups || {}), (peg) -> _.find(peg.props, name: 'look'))
+    hasDist = _.find(Object.values(@propertyEntryGroups || {}), (peg) -> _.find(peg.props, name: 'dist'))
+    if hasLook
+      # Need to allow extra blocks for the `look(dir)`, `dist(dir)`, and `health` expressions the solution will need
+      solution = store.getters['game/getSolutionSrc'](@spell.language) or ''
+      extraExpressionCount = solution.match(/(look\(|dist\(|health)/g)?.length || 0
+
+      # Also count any if and while conditions (there is a wrapper block for (A, OP, B)
+      # In blocks, we want to count the wrapper, but in source it's easier to count the operator (which actually isn't a block but rather a field)
+      extraExpressionCount += solution.match(/^ *(if|while).*?(===|==|!==|!=|~=|<|<=|>|>=).+$/gm)?.length || 0
+
+      # Also count any numeric or string literal value blocks in if and while conditions
+      extraExpressionCount += solution.match(/^ *(if|while).*?(===|==|!==|!=|~=|<|<=|>|>=).*?['"]?[a-zA-Z0-9_$]+['"]?/gm)?.length || 0
+
+      if hasDist
+        # Also need to allow extra blocks for the 3 in go(dir, 3) expressions now that dist is an extra block
+        extraExpressionCount += solution.match(/go\(.(up|down|left|right)., \d/g)?.length || 0
+
+      maxBlocks += extraExpressionCount
+
+    return maxBlocks
 
   destroy: ->
     $(@ace?.container).find('.ace_gutter').off 'click mouseenter', '.ace_error, .ace_warning, .ace_info'

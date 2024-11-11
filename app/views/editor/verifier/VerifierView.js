@@ -104,7 +104,7 @@ module.exports = (VerifierView = (function () {
               const object = campaign.get('levels')
               for (const levelID in object) { // Would use isType, but it's not a Level model
                 const level = object[levelID]
-                if (!['hero-ladder', 'course-ladder', 'web-dev', 'ladder'].includes(level.type)) {
+                if (!['hero-ladder', 'course-ladder', 'web-dev', 'ladder'].includes(level.type) && !(campaign.get('slug') === 'junior' && /-[a-z]$/.test(level.slug))) {
                   result1.push(campaignInfo.levels.push(level.slug))
                 }
               }
