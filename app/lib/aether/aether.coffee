@@ -242,21 +242,48 @@ module.exports = class Aether
     else
       root = @ast.body
 
+    forLoops = 0
+    variableDeclarations = 0
+    tempVariableDeclarations = 0
+
     traversal.walkASTCorrect root, (node) ->
       return if not node.type?
-      return if node.userCode == false
+      return if node.userCode is false
       if node.type in [
         'ExpressionStatement', 'ReturnStatement', 'ForStatement', 'ForInStatement',
         'WhileStatement', 'DoWhileStatement', 'FunctionDeclaration', 'VariableDeclaration',
-        'IfStatement', 'SwitchStatement', 'ThrowStatement', 'ContinueStatement', 'BreakStatement'
+        'IfStatement', 'SwitchStatement', 'ThrowStatement', 'ContinueStatement', 'BreakStatement',
+        'ForOfStatement'
       ]
         ++count
+      if node.type in ['ForStatement', 'ForInStatement', 'ForOfStatement']
+        ++forLoops
+      if node.type in ['VariableDeclaration']
+        ++variableDeclarations
+        internalTempRegex = /^(__temp\$|__lua\$tmp)/
+        if _.find(node.declarations || [], (dec) ->
+          _.find([dec.id, dec.init, dec.init?.object, dec.init?.property], (val) ->
+            internalTempRegex.test(val?.name)
+          )
+        )
+          # Python and Lua for-loops, for example
+          ++tempVariableDeclarations
+
     # for minus `int main() { return 0;}` 3 lines for cpp
-    if @language.id == 'cpp'
+    if @language.id is 'cpp'
       count -= 3
     # offset the `public class AI` and the `public static void main(String[] args) {`
-    if @language.id == 'java'
+    if @language.id is 'java'
       count -= 2
+    if @language.id in ['javascript', 'cpp', 'java']
+      # for (let i = 0i i < 3; ++i) counts as 2, with an extra "line" for the variable declaration; remove it
+      count -= Math.min variableDeclarations, forLoops
+    if @language.id in ['python', 'lua']
+      # for loops use multiple temp variables in these languages
+      count -= tempVariableDeclarations
+
+    # Known unhandled cases:
+    # - Lua: `for i,v in ipairs(arr) do`  waaay overcounts
 
     return count
 

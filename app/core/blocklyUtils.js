@@ -43,8 +43,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       propNames.add(prop.name)
     }
     if (/programmaticon/i.test(owner)) continue
-    const userBlocks = mergedPropertyEntryGroups[owner].props.filter(prop => !(['for-loop', 'if', '==', '!='].includes(prop.name))).map(prop =>
-      createBlock({ owner, prop, generator, codeLanguage, codeFormat, level, superBasicLevels })
+    const userBlocks = mergedPropertyEntryGroups[owner].props.filter(prop => !(['for-loop', 'if', '==', '!=', 'while-loop', '<', '>'].includes(prop.name))).map(prop =>
+      createBlock({ owner, prop, generator, codeLanguage, codeFormat, level, superBasicLevels, propNames })
     )
     userBlockCategories.push({ kind: 'category', name: owner === 'Hero' ? '' : owner, colour: '190', contents: userBlocks })
   }
@@ -269,6 +269,33 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   Blockly.Blocks.controls_repeat_dropdown = { init () { return this.jsonInit(dropdownRepeatBlock) } }
   generator.forBlock.controls_repeat_dropdown = generator.forBlock.controls_repeat
 
+  // Copy of controls_whileUntil but without a dropdown field for "until"
+  const whileBlock = {
+    type: 'controls_while',
+    message0: '%{BKY_CONTROLS_WHILEUNTIL_OPERATOR_WHILE} %1',
+    args0: [
+      {
+        type: 'input_value',
+        name: 'BOOL',
+        check: 'Boolean',
+      },
+    ],
+    message1: '%{BKY_CONTROLS_REPEAT_INPUT_DO} %1',
+    args1: [
+      {
+        type: 'input_statement',
+        name: 'DO',
+      },
+    ],
+    previousStatement: null,
+    nextStatement: null,
+    style: 'loop_blocks',
+    helpUrl: '%{BKY_CONTROLS_WHILEUNTIL_HELPURL}',
+    tooltip: '%{BKY_CONTROLS_WHILEUNTIL_TOOLTIP_WHILE}',
+  }
+  Blockly.Blocks.controls_while = { init () { return this.jsonInit(whileBlock) } }
+  generator.forBlock.controls_while = generator.forBlock.controls_whileUntil
+
   const returnBlock = {
     type: 'procedures_return',
     message0: 'return %1',
@@ -442,6 +469,38 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
     }
   }
 
+  // Junior needs a enum int dropdown block for < and > checks
+  if (propNames.has('<') && level?.get('product') === 'codecombat-junior') {
+    const juniorIntBlock = {
+      type: 'junior_int',
+      message0: '%1',
+      args0: [
+        {
+          type: 'field_dropdown',
+          name: 'TYPE',
+          check: 'Number',
+          options: [
+            ['0', '0'],
+            ['1', '1'],
+            ['2', '2'],
+            ['3', '3'],
+            ['4', '4'],
+            ['5', '5'],
+            ['6', '6'],
+            ['7', '7'],
+          ],
+        }
+      ],
+      output: null,
+      colour: 160,
+    }
+    Blockly.Blocks.junior_int = { init () { return this.jsonInit(juniorIntBlock) } }
+    generator.forBlock.junior_int = function (block) {
+      const num = block.getFieldValue('TYPE')
+      return [`${num || 0}`, generator.ORDER_ATOMIC]
+    }
+  }
+
   const miscBlocks = [
     createBlock({
       owner: 'hero',
@@ -461,7 +520,8 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
           return true
         }
         return !superBasicLevels.includes(slug) && (slug === 'wakka-maul' || !level.isLadder()) && level?.get('product') !== 'codecombat-junior'
-      }
+      },
+      propNames,
     }),
     createBlock({
       owner: 'hero',
@@ -469,11 +529,12 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       codeLanguage,
       codeFormat,
       level,
-      prop: { type: 'ref' },
+      prop: { type: 'ref', name: 'hero' },
       include () {
         // TODO: better targeting of when we introduce this (hero used as a value)
         return propNames.has('if/else') && level?.get('product') !== 'codecombat-junior'
-      }
+      },
+      propNames,
     })
   ]
   if (miscBlocks.filter(prop => prop.include()).length) {
@@ -489,7 +550,11 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
         { kind: 'block', type: 'controls_if', include () { return propNames.has('if/else') || propNames.has('if') } },
         { kind: 'block', type: 'controls_if', extraState: { hasElse: true }, include () { return propNames.has('else') } },
         { kind: 'block', type: 'controls_if', extraState: { elseIfCount: 1, hasElse: 1 }, include () { return propNames.has('else') } }, // TODO: better if/elseif/else differentiation?
-        { kind: 'block', type: 'logic_compare', include () { return propNames.has('else') || propNames.has('==') || propNames.has('!=') } }, // TODO: better targeting of when we introduce this logic?
+        (level?.get('product') === 'codecombat-junior' ?
+         { kind: 'block', type: 'logic_compare', inputs: { A: { block: { type: 'Hero_look' } }, B: { block: { type: 'junior_type_string' } }}, fields: { OP: 'EQ' }, include () { return propNames.has('else') || propNames.has('==') || propNames.has('!=') } }
+         :
+         { kind: 'block', type: 'logic_compare', inputs: { A: { block: { type: 'Hero_health' } }, B: { block: { type: 'math_number', fields: { NUM: 50 } } }}, fields: { OP: 'GT' }, include () { return propNames.has('else') || propNames.has('==') || propNames.has('!=') } } // TODO: better targeting of when we introduce this logic?
+        ),
         { kind: 'block', type: 'logic_operation', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'logic_negate', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         // { kind: 'block', type: 'math_arithmetic', include () { return propNames.has('else') } } // TODO: better targeting of when we introduce this logic?
@@ -504,22 +569,19 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       name: 'Loops',
       colour: '290',
       contents: [
-        {
-          kind: 'block',
-          type: 'controls_whileUntil',
-          fields: {
-            MODE: 'WHILE'
-          },
-          inputs: {
-            BOOL: {
-              block: { type: 'logic_boolean', fields: { BOOL: 'true' } }
-            }
-          },
-          include () { return propNames.has('while-true loop') }
-        },
-        // { kind: 'block', type: 'controls_whileUntil', include: -> propNames.has('while-loop') }  # Redundant, since while-true can just delete true
         { kind: 'block', type: 'controls_repeat_ext', inputs: { TIMES: { block: { type: 'math_number', fields: { NUM: 3 } } } }, include () { return propNames.has('for-loop') && level?.get('product') !== 'codecombat-junior' }, includeCodeToBlocks () { return level?.get('product') !== 'codecombat-junior' } },
         { kind: 'block', type: 'controls_repeat_dropdown', fields: { TIMES: '3' }, include () { return propNames.has('for-loop') && level?.get('product') === 'codecombat-junior' }, includeCodeToBlocks () { return level?.get('product') === 'codecombat-junior' } },
+        {
+          kind: 'block',
+          type: 'controls_while',
+          inputs: {
+            BOOL: {
+              block: (level?.get('product') === 'codecombat-junior' ? { type: 'Hero_look' } : { type: 'logic_boolean', fields: { BOOL: 'true' } })
+            }
+          },
+          include () { return propNames.has('while-true loop') || propNames.has('while-loop') }
+        },
+        // { kind: 'block', type: 'controls_whileUntil', include: -> propNames.has('while-loop') }  # Redundant, since while-true can just delete true
         // { kind: 'block', type: 'controls_for', include: -> propNames.has('for-loop') }  # Too wide  # TODO: introduce this later than the simpler repeat_ext loop above? Or just use this one, but defaults start at 0 and increment by 1?
         // { kind: 'block', type: 'controls_forEach', include () { return propNames.has('for-in-loop') } },  // TODO: use sometimes?
         { kind: 'block', type: 'controls_forEach', include () { return propNames.has('for-in-loop') } }, // TODO: better targeting of when we introduce this logic? Also, move this. Also, think about Python vs. JS and the general typed array forEach
@@ -534,7 +596,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       colour: '10',
       contents: [
         { kind: 'block', type: 'text', include () { return !superBasicLevels.includes(level?.get('slug')) && (level?.get('product') !== 'codecombat-junior' || propNames.has('==')) } },
-        { kind: 'block', type: 'math_number', include () { return !superBasicLevels.includes(level?.get('slug')) && level?.get('product') !== 'codecombat-junior' } },
+        { kind: 'block', type: 'math_number', include () { return !superBasicLevels.includes(level?.get('slug')) && (level?.get('product') !== 'codecombat-junior' || propNames.has('<')) } },
         { kind: 'block', type: 'logic_boolean', include () { return propNames.has('if/else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'logic_null', include () { return propNames.has('else') } }, // TODO: better targeting of when we introduce this logic?
         { kind: 'block', type: 'newline', include () { return false } },
@@ -577,7 +639,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       name: 'Variables',
       colour: '50',
       custom: 'VARIABLE',
-      include () { return propNames.has('while-true loop') || propNames.has('while-loop') } // TODO: better targeting of when we introduce this logic? It's after while-true loops, but doesn't have own 'variables' entry in Programmaticon
+      include () { return (propNames.has('while-true loop') || propNames.has('while-loop')) && level?.get('product') !== 'codecombat-junior' } // TODO: better targeting of when we introduce this logic? It's after while-true loops, but doesn't have own 'variables' entry in Programmaticon
     },
     {
       kind: 'category',
@@ -591,6 +653,11 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   if (propNames.has('==') && level?.get('product') === 'codecombat-junior') {
     const juniorTypeStringToolboxEntry = { kind: 'block', type: 'junior_type_string', include () { return propNames.has('==') && level?.get('product') === 'codecombat-junior' } }
     _.find(builtInBlockCategories, { name: 'Literals' }).contents.unshift(juniorTypeStringToolboxEntry)
+  }
+
+  if (propNames.has('<') && level?.get('product') === 'codecombat-junior') {
+    const juniorIntToolboxEntry = { kind: 'block', type: 'junior_int', include () { return propNames.has('<') && level?.get('product') === 'codecombat-junior' } }
+    _.find(builtInBlockCategories, { name: 'Literals' }).contents.splice(2, 0, juniorIntToolboxEntry)
   }
 
   let blockCategories = userBlockCategories.concat(builtInBlockCategories)
@@ -627,10 +694,10 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
   return toolbox
 }
 
-const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat, include, level, superBasicLevels }) {
+const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat, include, level, superBasicLevels, propNames }) {
   const propName = prop.name ? prop.name.replace(/"/g, '') : undefined
   const returnsValue = (prop.returns != null) || (prop.userShouldCaptureReturn != null) || (!['function', 'snippet'].includes(prop.type))
-  const name = `${owner}_${propName}`
+  const name = `Hero_${propName}`
   let args = prop.args || []
   if (superBasicLevels?.includes(level?.get('slug')) && (['moveDown', 'moveLeft', 'moveRight', 'moveUp'].includes(propName))) {
     // Don't include steps argument yet
@@ -725,10 +792,13 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     inputsInline: args.length <= 2,
   }
 
-  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('go ')) {
+  if (codeFormat === 'blocks-icons' && prop.name?.startsWith('go')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/go %1 %2/, '%1%2 %3') // With steps
-    setup.message0 = setup.message0.replace(/go %1/, '%1%2') // Without steps
+    const translatedGo = (localizedPropName || 'go').replace(/\(.*/, '').trim()
+    const withStepsPattern = new RegExp(`${translatedGo} %1 %2`)
+    const withoutStepsPattern = new RegExp(`${translatedGo} %1`)
+    setup.message0 = setup.message0.replace(withStepsPattern, '%1%2 %3') // With steps
+    setup.message0 = setup.message0.replace(withoutStepsPattern, '%1%2') // Without steps
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-go.png',
@@ -739,9 +809,11 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     setup.colour = 240
   }
 
-  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('hit ')) {
+  if (codeFormat === 'blocks-icons' && prop.name?.startsWith('hit')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/hit %1/, '%1%2')
+    const translatedHit = (localizedPropName || 'hit').replace(/\(.*/, '').trim()
+    const pattern = new RegExp(`${translatedHit} %1`)
+    setup.message0 = setup.message0.replace(pattern, '%1%2')
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-hit.png',
@@ -752,9 +824,11 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     setup.colour = 240
   }
 
-  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('spin ')) {
+  if (codeFormat === 'blocks-icons' && prop.name?.startsWith('spin')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/spin/, '%1')
+    const translatedSpin = (localizedPropName || 'spin').replace(/\(.*/, '').trim()
+    const pattern = new RegExp(translatedSpin)
+    setup.message0 = setup.message0.replace(pattern, '%1')
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-spin.png',
@@ -765,9 +839,11 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     setup.colour = 240
   }
 
-  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('zap ')) {
+  if (codeFormat === 'blocks-icons' && prop.name?.startsWith('zap')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/zap %1/, '%1%2')
+    const translatedZap = (localizedPropName || 'zap').replace(/\(.*/, '').trim()
+    const pattern = new RegExp(`${translatedZap} %1`)
+    setup.message0 = setup.message0.replace(pattern, '%1%2')
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-zap.png',
@@ -778,10 +854,13 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     setup.colour = 240
   }
 
-  if (codeFormat === 'blocks-icons' && setup.message0.startsWith('look ')) {
+  if (codeFormat === 'blocks-icons' && prop.name?.startsWith('look')) {
     // Use an image instead of text
-    setup.message0 = setup.message0.replace(/look %1 %2/, '%1%2 %3') // With squares
-    setup.message0 = setup.message0.replace(/look %1/, '%1%2') // Without squares
+    const translatedLook = (localizedPropName || 'look').replace(/\(.*/, '').trim()
+    const withSquaresPattern = new RegExp(`${translatedLook} %1 %2`)
+    const withoutSquaresPattern = new RegExp(`${translatedLook} %1`)
+    setup.message0 = setup.message0.replace(withSquaresPattern, '%1%2 %3') // With squares
+    setup.message0 = setup.message0.replace(withoutSquaresPattern, '%1%2') // Without squares
     setup.args0.unshift({
       type: 'field_image',
       src: '/images/level/blocks/block-look.png',
@@ -789,6 +868,52 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
       height: 44,
       alt: 'look'
     })
+  }
+
+  if (codeFormat === 'blocks-icons' && prop.name?.startsWith('dist')) {
+    // Use an image instead of text
+    const translatedDist = (localizedPropName || 'dist').replace(/\(.*/, '').trim()
+    const withSquaresPattern = new RegExp(`${translatedDist} %1 %2`)
+    const withoutSquaresPattern = new RegExp(`${translatedDist} %1`)
+    setup.message0 = setup.message0.replace(withSquaresPattern, '%1%2 %3') // With squares
+    setup.message0 = setup.message0.replace(withoutSquaresPattern, '%1%2') // Without squares
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-dist.png',
+      width: 44,
+      height: 44,
+      alt: 'dist'
+    })
+  }
+
+  if (codeFormat === 'blocks-icons' && prop.name === 'heal') {
+    // Use an image instead of text
+    const translatedHeal = (localizedPropName || 'heal').replace(/\(.*/, '').trim()
+    const pattern = new RegExp(translatedHeal)
+    setup.message0 = setup.message0.replace(pattern, '%1')
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-heal.png',
+      width: 36,
+      height: 36,
+      alt: 'heal'
+    })
+    setup.colour = 240
+  }
+
+  if (codeFormat === 'blocks-icons' && prop.name === 'health') {
+    // Use an image instead of text
+    const translatedHealth = (localizedPropName || 'health').replace(/\(.*/, '').trim()
+    const pattern = new RegExp(translatedHealth)
+    setup.message0 = setup.message0.replace(pattern, '%1')
+    setup.args0.unshift({
+      type: 'field_image',
+      src: '/images/level/blocks/block-health.png',
+      width: 36,
+      height: 36,
+      alt: 'health'
+    })
+    setup.colour = 240
   }
 
   // Replace a `to` directional argument with a dropdown (field, not input)
@@ -821,8 +946,8 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
     }
   }
 
-  // Replace a `steps` or `squares` numerical argument with a dropdown (field, not input)
-  if (['steps', 'squares'].includes(args[1]?.name) && args[1].type === 'number') {
+  // Replace a `steps` or `squares` numerical argument with a dropdown (field, not input), at least until `dist` function appears
+  if (['steps', 'squares'].includes(args[1]?.name) && args[1].type === 'number' && !propNames.has('dist')) {
     const dropdownArg = setup.args0[codeFormat === 'blocks-icons' ? 2 : 1]
     dropdownArg.type = 'field_dropdown'
     dropdownArg.options = [
@@ -882,11 +1007,11 @@ const createBlock = function ({ owner, prop, generator, codeLanguage, codeFormat
       if (_.isString(defaultValue)) {
         defaultValue = defaultValue.replace(/['"]/g, '')
       }
-      if (arg.name === 'to' && arg.type === 'string') {
+      if (arg.name === 'to' && arg.type === 'string' && level?.get('product') === 'codecombat-junior') {
         // We're making this into a field_dropdown, not an input
         continue
       }
-      if (['steps', 'squares'].includes(arg.name) && arg.type === 'number') {
+      if (['steps', 'squares'].includes(arg.name) && arg.type === 'number' && level?.get('product') === 'codecombat-junior' && !propNames.has('dist')) {
         // We're making this into a field_dropdown, not an input
         continue
       }
@@ -1042,7 +1167,7 @@ module.exports.getBlocklySource = function (blockly, { codeLanguage, product }) 
   let blocklySource
   if (product === 'codecombat-junior') {
     blocklySource = condenseNewlines(blocklySourceRaw)
-    blocklySource = removeStandaloneStringLiterals(blocklySource)
+    blocklySource = removeStandaloneExpressions(blocklySource)
   } else {
     blocklySource = blocklySourceRaw
   }
@@ -1273,8 +1398,14 @@ function condenseNewlines (code) {
   return code.replace(/([^\n])\n[ \t]*\n([^\n])/g, '$1\n$2')
 }
 
-function removeStandaloneStringLiterals (code) {
-  return code.replace(/^ *'[^']*';? *$/gm, '')  // Strip out string literals on their own line, we don't need to preserve those
+function removeStandaloneExpressions (code) {
+  code = code.replace(/^ *'[^']*';? *$/gm, '')  // Strip out string literals on their own line, we don't need to preserve those
+  code = code.replace(/^ *[0-9]+;? *$/gm, '')  // ... int literals
+  code = code.replace(/^ *(True|true|False|false|null|None|nil|undefined);? *$/gm, '')  // truthy/falsy litearls
+  code = code.replace(/^ *(look|dist)\('.+?'\);? *$/gm, '')  // ... standalone look and dist blocks
+  code = code.replace(/^ *((look|dist)\('.+?'\)|health) *(===|==|!==|!=|~=|<|<=|>|>=) *['"]?[a-zA-Z0-9]*['"]?;? *$/gm, '')  // ... standalone comparator expressions
+  code = code.replace(/^ *health;? *$/gm, '')  // ... standalone health blocks
+  return code
 }
 
 function findLastBlockWithNextConnection (block) {

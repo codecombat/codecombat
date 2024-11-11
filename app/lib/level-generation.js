@@ -167,9 +167,9 @@ generateProperty('goals', function (level, parameters) {
 
     shortCode: {
       optional: false,
-      linesOfCode: { humans: 5 },
+      linesOfCode: { humans: 6 },
       id: 'short-code',
-      name: 'Under 6 statements.'
+      name: 'Only 6 lines of code'
     },
 
     moveToTarget: {
@@ -312,10 +312,10 @@ const defaultHeroComponentIDs = {
 }
 
 const defaultHeroComponentConfig = {
-  Attackable: { maxHealth: 3 },
+  Attackable: { maxHealth: 4 },
   JuniorPlayer: {
     programmableSnippets: [],
-    requiredThangTypes: ['5467beaf69d1ba0000fb91fb']
+    requiredThangTypes: ['66873b397eff730c9e750994', '62050186cb069a0023866b0d'],
   },
   Moves: { maxSpeed: 8 },
   MovesSimply: { simpleMoveDistance: 8 },
@@ -706,8 +706,8 @@ generateProperty(null, function (level, parameters) {
     juniorPlayer.config = _.find(heroSource.components, (component) => component.original === defaultHeroComponentIDs.JuniorPlayer).config
   } else {
     juniorPlayer.config = {
-      programmableSnippets: ['for-loop', 'if', '=='],
-      requiredThangTypes: ['5467beaf69d1ba0000fb91fb'],
+      programmableSnippets: ['for-loop', 'if', '==', 'while-loop'],
+      requiredThangTypes: ['66873b397eff730c9e750994', '62050186cb069a0023866b0d'],
     }
   }
 
@@ -744,7 +744,7 @@ generateProperty(null, async function (level, parameters) {
   if (sourceLevel) {
     apis = programmableSource.config.programmableProperties
   } else {
-    apis = ['go', 'hit', 'spin', 'zap', 'look']
+    apis = ['go', 'hit', 'spin', 'zap', 'look', 'heal', 'health', 'dist']
   }
 
   let solutionCode, starterCode

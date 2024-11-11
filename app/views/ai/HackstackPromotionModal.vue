@@ -13,12 +13,12 @@
           <div class="image">
             <picture>
               <source
-                srcset="/images/pages/hackstack/ai-hackstack-promo.webp"
+                srcset="/images/pages/hackstack/hackstack-new-promo.webp"
                 type="image/webp"
                 class="promo-img"
               >
               <img
-                src="/images/pages/hackstack/ai-hackstack-promo.jpeg"
+                src="/images/pages/hackstack/hackstack-new-promo.png"
                 alt="AI Hackstack promo"
                 class="promo-img"
               >

@@ -15,7 +15,7 @@ utils = require 'core/utils'
 module.exports = class TrailMaster extends CocoClass
   world: null
 
-  constructor: (@camera, @layerAdapter) ->
+  constructor: (@camera, @layerAdapter, @level) ->
     super()
     @tweenedSprites = []
     @tweens = []
@@ -38,6 +38,7 @@ module.exports = class TrailMaster extends CocoClass
     @tweens = []
 
   createGraphics: ->
+    @startDotKey = @cachePathDot(TARGET_WIDTH, [94, 152, 81, 1], [0, 0, 0, 1])  # Just for CCJ so far; match start block color
     @targetDotKey = @cachePathDot(TARGET_WIDTH, @colorForThang(@thang.team, TARGET_ALPHA), [0, 0, 0, 1])
     @pastDotKey = @cachePathDot(PAST_PATH_WIDTH, @colorForThang(@thang.team, PAST_PATH_ALPHA), [0, 0, 0, 1])
     @futureDotKey = @cachePathDot(FUTURE_PATH_WIDTH, [255, 255, 255, FUTURE_PATH_ALPHA], @colorForThang(@thang.team, 1))
@@ -86,7 +87,8 @@ module.exports = class TrailMaster extends CocoClass
       sprite = new createjs.Sprite(@layerAdapter.spriteSheet)
       sprite.scaleX = sprite.scaleY = 1 / @layerAdapter.resolutionFactor
       sprite.scaleY *= @camera.y2x
-      sprite.gotoAndStop(@targetDotKey)
+      graphicsKey = if i is 0 and @level?.get('product') is 'codecombat-junior' then @startDotKey else @targetDotKey
+      sprite.gotoAndStop(graphicsKey)
       sprite.x = sup.x
       sprite.y = sup.y
       container.addChild(sprite)

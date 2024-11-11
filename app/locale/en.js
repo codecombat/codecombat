@@ -5441,6 +5441,9 @@ module.exports = {
       websites: 'Websites',
       code_more: 'Code and more',
       ideal_endeavour: "It's the ideal companion for any endeavor.",
+      ai_made_ss: 'AI Made Simple & Safe -- Start Today!',
+      aiss_body: 'Built as the simplest path to AI literacy, this tool empowers learners to harness top LLMs with hands-on AI training, making creation easy—whether it’s games, art, writing, code, or more. Together, we help learners safely bring their ideas to life across any subject.',
+      learn_more: 'Learn More!',
     },
     user_credits: {
       level_chat_left_in_duration: '__credits__ AI Bot queries left for the __duration_key__',
@@ -5714,7 +5717,7 @@ module.exports = {
 
     hackstack_page: {
       header: 'Learn, create, and accelerate with **AI HackStack**',
-      header_details: 'Together, we can empower all learners to turn their ideas into reality, across every subject imaginable.',
+      header_details: 'Together, we empower learners to safely bring their ideas to life across any subject.',
       accessible_safe_use: 'Accessible, safe, and responsible use of AI',
       learn_title: 'Learn',
       learn_description: 'From **English Language Arts** to **Mathematics** and **Science**, students discover how to craft safe and effective prompts for generating output in each discipline. Learn essential prompt engineering skills in a **wide range of subjects** using Al HackStack\'s Learning Scenarios. Along the way, your students will gain hands-on experience with popular Al models like Claude, DALL-E, and Stable Diffusion.',
@@ -5757,6 +5760,7 @@ module.exports = {
       faq_6_answer: 'We offer both Clever and Google Classroom integration. Check out our **[https://codecombat.com/teachers/resources/clever-faq]Clever Integration FAQ** for more details on how to get started. If you are using Google Classroom be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time. Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option.',
       faq_7_question: 'Recommended browser and operating system',
       faq_7_answer: 'TBA',
+      learn_more: 'Learn More',
     },
 
     standards_page: {

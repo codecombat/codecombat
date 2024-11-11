@@ -4716,6 +4716,12 @@ module.exports = {
     //    ozaria_ai_league_modal_blurb: "Educators can now access AI League directly on **[https://codecombat.com/teachers/ai-league]CodeCombat** using the same credentials as Ozaria. For added convenience, you can easily import your classes from Ozaria into CodeCombat.",
     //    completed_all_practice_levels: "The student has successfully completed all practice levels.",
     //    played_some_practice_levels: "The student has started working on the practice levels.",
+    //    ai_league_start_title: "Welcome to AI League!",
+    //    ai_league_start_blurb: "Our Getting Started guide walks you through everything you need to know - from setting up your first class to running your first tournament.",
+    //    ai_league_curriculum_title: "AI League Curriculum",
+    //    ai_league_curriculum_blurb: "Access our comprehensive curriculum guides designed specifically for AI League arenas. These resources help you introduce competitive coding concepts and teach strategic thinking.",
+    //    ai_league_custom_title: "Custom AI League Tournaments",
+    //    ai_league_custom_blurb: "Create your own customized tournaments to engage your students! Select from our library of coding arenas and set competition dates, whether it's a classroom challenge or a school-wide competition.",
     //  },
 
     //  outcomes: {
@@ -6094,6 +6100,7 @@ module.exports = {
     //    what_do_you_want_to_do_today: "What do you want to do today?",
     //    learn_ai: "Learn AI",
     //    create_ai: "Create With AI",
+    //    name_conflict: "Name Conflict, please choose a different name",
     //  },
 
     //  parents_v2: {

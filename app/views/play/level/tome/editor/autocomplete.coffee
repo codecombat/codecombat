@@ -367,6 +367,18 @@ module.exports = class Autocomplete
             content = content.replace thisToken[lang], 'hero'
       return {doc, content, name}
 
+    # Add directional versions of CodeCombat Junior function snippets (just to autocomplete, not to visible methods/blocks area)
+    goProp = _.find(e.propGroups.Hero or [], (prop) -> prop.prop is 'go')
+    shouldAddExtraDirectionalAutocompletes = goProp and not _.find(e.propGroups.Hero, (prop) -> prop.prop is "go('up', 1)")
+    if shouldAddExtraDirectionalAutocompletes
+      e.propGroups = _.cloneDeep(e.propGroups)
+      for method in ['go', 'hit', 'zap', 'look', 'dist']
+        for dir in ['up', 'down', 'left', 'right']
+          originalProp = _.find(e.propGroups.Hero, (prop) -> prop.prop is method)
+          if originalProp
+            directionalSnippetProp = if method is 'go' then "#{method}('#{dir}', 1)" else "#{method}('#{dir}')"
+            e.propGroups.Hero.push {owner: 'snippets', prop: directionalSnippetProp, item: originalProp.item}
+
     for group, props of e.propGroups
       for prop in props
         if _.isString prop  # organizePalette

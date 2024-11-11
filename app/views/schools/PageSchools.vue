@@ -641,7 +641,7 @@ export default Vue.extend({
         {
           title: this.$t('schools_page.student_acceleration_1_title'),
           text: this.$t('schools_page.student_acceleration_1_text'),
-          link: 'https://codecombat.com/ai/',
+          link: '/hackstack',
           linkText: this.$t('schools_page.student_acceleration_1_link_text'),
           video: {
             videoId: '50770b9a2fb36de457a37693a3f632c7',

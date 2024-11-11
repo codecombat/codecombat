@@ -58,7 +58,7 @@
         result = []
         return result unless @product is 'codecombat-junior'
         for key, icon of goalIconImageMap when @goal[key]
-          if key is 'saveThangs' and not (_.values(@state.killed).length > 1) and @$store.state.game.heroHealth.max and @goal.saveThangs?[0] in ['Hero Placeholder', 'humans']
+          if key is 'saveThangs' and @$store.state.game.heroHealth.max and @goal.saveThangs?[0] in ['Hero Placeholder', 'humans']
             # saveThangs with just the hero; show hearts
             fullHearts = Math.max 0, @$store.state.game.heroHealth.current || 0
             emptyHearts = (@$store.state.game.heroHealth.max || 1) - fullHearts
@@ -85,7 +85,8 @@
             else
               completed = targeted - dead
             if @product is 'codecombat-junior'
-              text = text + "#{completed}/#{targeted}"
+              if @goal.saveThangs?[0] not in ['Hero Placeholder', 'humans']
+                text = text + "#{completed}/#{targeted}"
             else
               text = text + " (#{completed}/#{targeted})"
         if @state.collected and @product is 'codecombat-junior'

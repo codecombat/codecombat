@@ -618,7 +618,7 @@ module.exports = class LevelLoader extends CocoClass
     return if @headless and not @level.isType('web-dev')
     # This is a way (the way?) PUT /db/level.sessions/undefined was happening
     # See commit c242317d9
-    return if not @session.id
+    return if not @session?.id
     patch =
       'levelName': @level.get('name')
       'levelID': @level.get('slug') or @level.id

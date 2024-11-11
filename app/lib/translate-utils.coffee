@@ -401,7 +401,7 @@ translateJSWhitespace = (jsCode, language='lua') ->
     # Add `pass` statmeents to empty block bodies
     s = s.replace(/^([ ]*)(?![ ]*#)[^\n]+:[ ]*(?=\n+(?!\1[ ]+(?!#[^\n]*$)[^\n]+))/gm, '$&\n$1    pass')
     # ... and also when there's no trailing whitespace
-    s = s.replace(/([ ]*)(?![ ]*#)[^\n]+:$/g, '$&\n     pass')
+    s = s.replace(/([ ]*)(?![ ]*#)[^\n]+:$/g, '$&\n$1    pass')
   else if language is 'coffeescript'
     # Add indented empty block lines where they would be missing
     s = s.replace(/^([ ]*)(?![ ]*#).*(?:->|\b(?:if|then|else|unless|while|for|in)\b)(?![^\n]*(?:->|\b(?:if|then|else|unless|while|for|in)\b))[^\n]*(?=\n(?!\1[ ]+(?!#[^\n]*$)[^\n]+))/gm, '$&\n$1    ')

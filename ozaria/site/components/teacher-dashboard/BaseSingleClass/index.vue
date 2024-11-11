@@ -444,7 +444,7 @@ export default {
     if (this.defaultCourseId) {
       this.setSelectedCourseId({ courseId: this.defaultCourseId })
     }
-    this.setTeacherId(me.get('_id'))
+    this.setTeacherId(this.teacherId || me.get('_id'))
     this.fetchClassroomData(this.classroomId).catch(console.error)
   },
 
@@ -596,11 +596,7 @@ export default {
         }
       }
 
-      let isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario._id, 'lockedScenario')
-      if (aiScenario.mode === 'use' && !createModeUnlocked.unlocked) {
-        isLocked = true
-      }
-
+      const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario._id, 'lockedScenario')
       const isPlayable = !isLocked
 
       if (!this.assignmentMap.get(this.selectedCourseId)?.has(student._id)) {

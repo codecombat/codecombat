@@ -81,7 +81,15 @@ module.exports = class VerifierTest extends CocoClass {
     me.team = (this.team = 'humans')
     this.setupGod()
     this.initGoalManager()
-    aetherUtils.fetchToken(this.solution.source, this.language)
+    let solutionSource = this.solution.source
+    if (this.level.get('product') === 'codecombat-junior') {
+      // Rewrite blank `health` calls to `hero.health`, otherwise global value assignment isn't dynamically updated
+      solutionSource = solutionSource.replace(/(^|[^a-zA-Z.])health(?!\w)/g, (match, prefix) => {
+        if (prefix.endsWith('hero.')) return match
+        return `${prefix}hero.health`
+      })
+    }
+    aetherUtils.fetchToken(solutionSource, this.language)
       .then(token => this.register(token))
   }
 
@@ -189,7 +197,7 @@ module.exports = class VerifierTest extends CocoClass {
     this.listenToOnce(this.god, 'infinite-loop', this.fail)
     this.listenToOnce(this.god, 'user-code-problem', this.onUserCodeProblem)
     this.listenToOnce(this.god, 'goals-calculated', this.processSingleGameResults)
-    this.god.createWorld({ spells: aetherUtils.generateSpellsObject({ levelSession: this.session, token: tokenSource }) })
+    this.god.createWorld({ spells: aetherUtils.generateSpellsObject({ level: this.level, levelSession: this.session, token: tokenSource }) })
     this.state = 'running'
     this.reportResults()
   }

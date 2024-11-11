@@ -47,7 +47,7 @@
       ref="createAccountModal"
       :modal-view="CreateAccountModal"
       :open="createAccountModalOpen"
-      :modal-options="{ startOnPath: 'individual' }"
+      :modal-options="{ screen: 'choose-account-type' }"
       @close="createAccountModalClosed"
     />
   </div>
@@ -200,7 +200,7 @@ $primary-background: #31636F;
       align-items: center;
       text-align: center;
     }
-    margin-bottom: -45px;
+    padding-bottom: 0;
   }
 
 }

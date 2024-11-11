@@ -7,7 +7,6 @@ template = require 'app/templates/play/play-level-view'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 storage = require 'core/storage'
-{createAetherOptions} = require 'lib/aether_utils'
 loadAetherLanguage = require 'lib/loadAetherLanguage'
 
 # tools
