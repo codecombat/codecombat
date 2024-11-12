@@ -369,7 +369,7 @@ if (isCodeCombat) {
 
 const allCourseIDs = _.assign(courseIDs, otherCourseIDs)
 
-const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]
+const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.HACKSTACK]
 const allFreeCourseIDs = [...freeCocoCourseIDs, allCourseIDs.CHAPTER_ONE]
 
 const courseNumericalStatus = {};
@@ -1662,7 +1662,7 @@ module.exports.getCodeLanguages = () => {
 module.exports.getCodeFormats = () => ({
   'text-code': {
     id: 'text-code',
-    name: `${$.i18n.t('choose_hero.text_code')} (${$.i18n.t('choose_hero.default')})`
+    name: `${$.i18n.t('choose_hero.text_code')}`
   },
   'blocks-and-code': {
     id: 'blocks-and-code',
