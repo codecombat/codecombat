@@ -63,6 +63,7 @@
         class="form-control"
         :class="{ 'placeholder-text': !newProgrammingLanguage }"
         name="classLanguage"
+        :disabled="availableLanguages?.filter(l => !l.disabled).length === 0"
       >
         <option
           v-for="enabledLanguage in availableLanguages"
@@ -159,6 +160,7 @@
         v-model="newCodeFormatDefault"
         class="form-control"
         name="codeFormatDefault"
+        :disabled="enabledCodeFormats.length === 0"
       >
         <option
           v-for="codeFormat in enabledCodeFormats"

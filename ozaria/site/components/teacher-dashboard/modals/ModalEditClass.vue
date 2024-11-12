@@ -978,7 +978,7 @@ export default Vue.extend({
                 v-if="saving"
                 class="saving-text"
               >
-                saving...
+                {{ $t('common.saving') }}
               </span>
               <span
                 v-if="errMsg"
