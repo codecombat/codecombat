@@ -6092,6 +6092,7 @@ module.exports = {
       edit: 'Edit',
       delete: 'Delete',
       duplicate: 'Duplicate',
+      use_as_a_template: 'Use as a Template',
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',
