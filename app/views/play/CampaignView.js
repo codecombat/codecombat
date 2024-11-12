@@ -2010,7 +2010,7 @@ class CampaignView extends RootView {
             level.locked = true
           } else if (prev) {
             level.hidden = prev.hidden
-            level.locked = prev.locked && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), prev.original)
+            level.locked = prev.locked
           } else {
             level.hidden = true
             level.locked = true
@@ -2022,6 +2022,10 @@ class CampaignView extends RootView {
           level.locked = found
           level.hidden = false
         }
+      }
+
+      if ((!prev || !prev.locked) && level.locked && this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+        level.locked = false
       }
 
       level.noFlag = !level.next

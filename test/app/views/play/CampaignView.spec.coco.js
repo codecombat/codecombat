@@ -59,7 +59,7 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
     })
   })
 
-  return describe('applyCourseLogicToLevels', function () {
+  describe('applyCourseLogicToLevels', function () {
     beforeEach(function () {
       this.campaignView = new CampaignView()
       this.campaignView.courseStats = {
@@ -124,6 +124,59 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
       expect(orderedLevels[2].locked).toBe(true)
       expect(orderedLevels[3].locked).toBe(false)
       return expect(orderedLevels[4].locked).toBe(false)
+    })
+
+    it('should be all unlocked if all are optional', function () {
+      this.campaignView.courseStats = {
+        levels: { first: { get (slug) { return 'level1Optional' } } },
+      }
+      const orderedLevels = [
+        { slug: 'level1Optional', original: 'level1Optional' },
+        { slug: 'level2Optional', original: 'level2Optional' },
+        { slug: 'level3Optional', original: 'level3Optional' },
+        { slug: 'level4Optional', original: 'level4Optional' },
+        { slug: 'level5Optional', original: 'level5Optional' },
+      ]
+
+      this.campaignView.applyCourseLogicToLevels(orderedLevels)
+
+      expect(orderedLevels.map(l => l.locked)).toEqual([false, false, false, false, false])
+    })
+
+    it('optional levels should be still locked if there was a locked one before them', function () {
+      this.campaignView.courseStats = {
+        levels: { first: { get (slug) { return 'level1Optional' } } },
+      }
+      const orderedLevels = [
+        { slug: 'level1Optional', original: 'level1Optional' },
+        { slug: 'level2Locked', original: 'level2Locked' },
+        { slug: 'level3Optional', original: 'level3Optional' },
+        { slug: 'level4Optional', original: 'level4Optional' },
+        { slug: 'level5Optional', original: 'level5Optional' },
+      ]
+
+      this.campaignView.applyCourseLogicToLevels(orderedLevels)
+
+      expect(orderedLevels.map(l => l.locked)).toEqual([false, true, true, true, true])
+    })
+
+    it('optional levels should be still locked if there were some incomplete ones before', function () {
+      this.campaignView.courseStats = {
+        levels: { first: { get (slug) { return 'level1' } } },
+      }
+      const orderedLevels = [
+        { slug: 'level1', original: 'level1' },
+        { slug: 'level2', original: 'level2' },
+        { slug: 'level2.1', original: 'level2.1', practice: true },
+        { slug: 'level2.2', original: 'level2.2', practice: true },
+        { slug: 'level3Optional', original: 'level3Optional', assessment: true },
+        { slug: 'level4Optional', original: 'level4Optional' },
+        { slug: 'level5Optional', original: 'level5Optional' },
+      ]
+
+      this.campaignView.applyCourseLogicToLevels(orderedLevels)
+
+      expect(orderedLevels.map(l => l.locked)).toEqual([false, true, true, true, true, true, true])
     })
   })
 }))
