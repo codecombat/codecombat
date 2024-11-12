@@ -161,6 +161,13 @@ export default {
         return []
       }
     },
+    getAllClassrooms (_state, getters, _rootState, rootGetters) {
+      return [
+        ...(getters.getActiveClassrooms || []),
+        ...(getters.getSharedClassrooms || []),
+        ...(getters.getArchivedClassrooms || []),
+      ]
+    },
     getCurrentClassroom (state, _getters, _rootState, rootGetters) {
       if (state.teacherId && state.classroomId) {
         const classrooms = [

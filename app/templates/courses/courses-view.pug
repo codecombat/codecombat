@@ -419,19 +419,20 @@ mixin coco_main_content()
                   span= ': ' + me.get('stats').codePoints.toLocaleString() + ' ' + $.i18n.t('league.codepoints')
               hr
 
-              for clan in ['_global'].concat(view.myClans)
-                - var stats = view.getAILeagueStat('codePoints', clan == '_global' ? clan : clan._id)
-                if stats && stats.playerCount > 1
-                  a.team(href='/league/' + (clan === '_global' ? '' : clan.slug + '#team-info'))
-                    .team-name= clan === '_global' ? $.i18n.t('league.world') : clan.displayName || clan.name
-                    .team-stats
-                      if stats.rank
-                        span #
-                        span= stats.rank.toLocaleString()
-                        span= ' / '
-                      span= stats.playerCount.toLocaleString()
-                      span= ' '
-                      span(data-i18n='play.players')
+              .clan-list-container
+                for clan in ['_global'].concat(view.myClans)
+                  - var stats = view.getAILeagueStat('codePoints', clan == '_global' ? clan : clan._id)
+                  if stats && stats.playerCount > 1
+                    a.team(href='/league/' + (clan === '_global' ? '' : clan.slug + '#team-info'))
+                      .team-name= clan === '_global' ? $.i18n.t('league.world') : clan.displayName || clan.name
+                      .team-stats
+                        if stats.rank
+                          span #
+                          span= stats.rank.toLocaleString()
+                          span= ' / '
+                        span= stats.playerCount.toLocaleString()
+                        span= ' '
+                        span(data-i18n='play.players')
 
       if view.tournaments && view.tournaments.length
         .custom-tournaments
