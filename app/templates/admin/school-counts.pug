@@ -10,6 +10,7 @@ block content
     h3 Loading..
     p NOTE: this page can take a long time (30+ minutes) to finish loading
     p Change URL query string ?batchsize=#{view.batchSize} above to be smaller if this page never loads or larger to speed it up (currently set to #{view.batchSize})
+    p It can also make the main database slow, so let engineering know in advance if you are going to run this. Or check cached copy in Drive.
     p
     | !{view.state}
   else

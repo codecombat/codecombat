@@ -20,6 +20,7 @@ module.exports.createAetherOptions = (options) ->
     globals: ['Vector', '_']
     problems:
       jshint_W040: {level: 'ignore'}
+      jshint_W041: {level: 'ignore'}  # "Use '===' to compare with 'null'." is too picky, especially in CCJ and when Blockly auto-gens this
       jshint_W030: {level: 'ignore'}  # aether_NoEffect instead
       jshint_W038: {level: 'ignore'}  # eliminates hoisting problems
       jshint_W091: {level: 'ignore'}  # eliminates more hoisting problems
