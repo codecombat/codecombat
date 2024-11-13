@@ -236,7 +236,7 @@ _.extend(UserSchema.properties, {
 
   points: { type: 'number' },
   activity: { type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity },
-  stats: c.object({ additionalProperties: false }, {
+  stats: c.object({ additionalProperties: true }, {
     gamesCompleted: c.int(),
     articleEdits: c.int(),
     levelEdits: c.int(),
