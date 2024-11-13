@@ -128,13 +128,7 @@ if showGameDevAlert
         - var levelStatus = levelStatusMap[level.slug] || ''
         - var levelNumber = '';
         if view.shouldShow('back-to-classroom') && view.classroom
-          if view.course
-            - courseID = view.course.id
-          - if (['junior', '65c56663d2ca2055e65676af'].includes(view.terrain)) {
-          -   levelNumber += view.campaign.getLevelNumber(level.original, true); // Always uses latest levels
-          - } else {
-          -   levelNumber += view.classroom.getLevelNumber(level.original, '', courseID); // Uses classroom versioning, old
-          - }
+          - levelNumber += view.campaign.getLevelNumber(level.original, true); // Always uses latest levels
           if (levelNumber)
             - levelNumber += '. ';
         div(
