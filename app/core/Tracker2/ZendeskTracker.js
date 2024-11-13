@@ -5,6 +5,7 @@ export default class ZendeskTracker extends BaseTracker {
     super()
 
     this.store = store
+    this.zendeskShown = false
   }
 
   get isChatEnabled () {
@@ -27,12 +28,41 @@ export default class ZendeskTracker extends BaseTracker {
     document.getElementsByTagName('head')[0].appendChild(scr)
   }
 
+  hideZendesk () {
+    window.zE('messenger', 'hide')
+  }
+
+  showZendesk () {
+    window.zE('messenger', 'show')
+  }
+
+  watchForRouteChange (store) {
+    store.watch(
+      (state) => state.route.path,
+      () => {
+        if (this.isChatEnabled) {
+          if (!this.zendeskShown) {
+            this.showZendesk()
+            this.zendeskShown = true
+          }
+        } else {
+          if (this.zendeskShown) {
+            this.hideZendesk()
+            this.zendeskShown = false
+          }
+        }
+      },
+    )
+  }
+
   async _initializeTracker () {
     if (this.isChatEnabled) {
       await this.loadZendesk()
+      this.zendeskShown = true
     }
     this.onInitializeSuccess()
 
+    this.watchForRouteChange(this.store)
     this.watchForDisableAllTrackingChanges(this.store)
   }
 }
