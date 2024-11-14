@@ -45,7 +45,8 @@ export default {
       this.loading = false
       return
     }
-    await this.fetchUserExam(this.examId)
+    const includeArchived = this.$route.query.includeArchived === 'true'
+    await this.fetchUserExam({ examId: this.examId, includeArchived })
     await this.fetchExamById(this.examId)
     this.loading = false
   },

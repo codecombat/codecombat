@@ -14,8 +14,12 @@ const submitExam = async (id, options) => {
   })
 }
 
-const getUserExam = async (examId) => {
-  return fetchJson(`/db/user-exams/${examId}`)
+const getUserExam = async (examId, includeArchived) => {
+  let url = `/db/user-exams/${examId}`
+  if (includeArchived) {
+    url += '?includeArchived=true'
+  }
+  return fetchJson(url)
 }
 
 module.exports = {

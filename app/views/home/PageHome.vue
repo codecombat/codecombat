@@ -210,7 +210,7 @@
       </div>
     </div>
     <ModalJunior />
-    <HackstackAutoPromotion />
+    <HackstackAutoPromotion v-if="!isMobile" />
   </div>
 </template>
 
@@ -445,6 +445,10 @@ export default Vue.extend({
     }
   },
   computed: {
+    isMobile () {
+      return utils.isMobile()
+    },
+
     me () {
       return me
     },

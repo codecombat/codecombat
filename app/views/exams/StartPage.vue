@@ -3,7 +3,7 @@
     <select
       id="language-select"
       v-model="codeLanguage"
-      :disabled="!newUser"
+      :disabled="!isNewUser"
     >
       <option
         v-for="lang in avaliableLanguages"
@@ -14,7 +14,7 @@
       </option>
     </select>
     <div
-      v-if="newUser"
+      v-if="isNewUser"
       class="timer-tip"
     >
       <input
@@ -26,17 +26,9 @@
     </div>
     <div class="start center-div">
       <input
-        v-if="newUser"
         :disabled="!hasPermission || !timer"
         type="button"
-        value="Start the Exam"
-        @click="localStartExam"
-      >
-      <input
-        v-else
-        :disabled="!hasPermission"
-        type="button"
-        value="Take me to the Exam"
+        :value="buttonValue"
         @click="localStartExam"
       >
       <div v-if="!hasPermission">
@@ -59,7 +51,6 @@ export default {
     return {
       codeLanguage: 'python',
       timer: false,
-      newUser: true,
     }
   },
   computed: {
@@ -80,6 +71,25 @@ export default {
       const clans = me.get('clans') || []
       return clans.includes(this.exam?.clan)
     },
+    buttonValue () {
+      if (this.isNewUser) {
+        return $.i18n.t('exams.start_exam')
+      } else {
+        return $.i18n.t('exams.continue_exam')
+      }
+    },
+    limitedDuration () {
+      return this.userExam?.duration || this.exam?.duration
+    },
+    isNewUser () {
+      return !this.userExam
+    },
+    isOldUser () {
+      return this.userExam && !this.userExam.archived
+    },
+    isOldUserExtra () {
+      return this.userExam && this.userExam.archived
+    },
   },
   mounted () {
     this.checkingUserExam()
@@ -89,21 +99,24 @@ export default {
       'startExam',
     ]),
     async localStartExam () {
-      if (this.newUser) {
+      if (this.isNewUser) {
         await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage })
+      } else if (this.isOldUserExtra) {
+        await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage, duration: this.userExam.extraDuration })
       }
       application.router.navigate(window.location.pathname.replace(/start$/, 'progress'), { trigger: true })
     },
     checkingUserExam () {
-      if (!this.userExam) {
-        this.newUser = true
+      if (this.isNewUser) {
+        return
+      }
+      this.timer = true // default value for old users
+      if (this.isOldUserExtra) {
         return
       }
       const startDate = new Date(this.userExam.startDate)
       const duration = (new Date().getTime() - startDate.getTime()) / (1000 * 60)
-      if (duration < this.exam.duration) {
-        this.newUser = false
-      } else {
+      if (duration >= this.limitedDuration) {
         application.router.navigate(window.location.pathname.replace(/start$/, 'end'), { trigger: true })
       }
     },
