@@ -595,6 +595,7 @@ module.exports = {
       age_description_codecombat: 'Real Python or JavaScript coding for everyone',
       age_description_codecombat_junior: 'Blocks or simple text coding for beginners',
       want_more_hints: 'Want more hints?',
+      choose_your_adventure: 'Choose Your Adventure',
     },
 
     code: {

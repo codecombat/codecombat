@@ -1,20 +1,18 @@
 .modal-dialog
   .modal-content
     img#modal-background(src="/images/pages/play/modal/announcement_modal_bg.png")
-    h1 Choose Your Adventure
+    h1 !{$.i18n.t('play.choose_your_adventure')}
     #close-modal
       span.glyphicon.glyphicon-remove
     
     #junior-content
       .row
         .col-xs-6.junior-column
-          img.hero-image.junior(src="/file/db/thang.type/58a2712b0b43652f00dae5a4/blue-fox-paper-doll.png" alt="")
-          img.product-logo(src="/images/pages/base/codecombat-junior-logo-345.png" alt="CodeCombat Junior logo")
+          img.hero-image.junior(src="/images/pages/junior/codecombat-junior.png" alt="")
           h2 !{$.i18n.t("play.age_codecombat_junior")}
           p !{$.i18n.t("play.age_description_codecombat_junior")}
         .col-xs-6.codecombat-column
-          img.hero-image.codecombat(src="/file/db/thang.type/529ec584c423d4e83b000014/captain-pose.png" alt="")
-          img.product-logo(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+          img.hero-image.codecombat(src="/images/pages/junior/codecombat-home.png" alt="")
           h2 !{$.i18n.t("play.age_codecombat")}
           p !{$.i18n.t("play.age_description_codecombat")}
 
