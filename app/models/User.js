@@ -1492,6 +1492,10 @@ module.exports = (User = (function () {
       return (left = features?.china && !features?.chinaHome) != null ? left : false
     }
 
+    useOldHomeView () {
+      return features.chinaHome
+    }
+
     showChinaRegistration () { return features?.china != null ? features?.china : false }
     enableCpp () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || this.isTeacher()) }
     enableJava () { return utils.isCodeCombat && (this.hasSubscription() || this.isStudent() || this.isTeacher()) }
