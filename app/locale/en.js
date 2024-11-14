@@ -6377,13 +6377,13 @@ module.exports = {
       badge_tooltip_paid: 'This content is exclusive to users with a valid license.',
     },
     exams: {
-      timer_tip: 'A timer will start when you click Start the exam',
+      timer_tip: 'A timer will start when you click Start Exam',
       no_permission: 'Only users with permission can take the exam',
       level_num: 'Level __num__',
       time_left: 'Time Left (HH:mm):',
       submit_tip: 'Are you sure you want to mark as complete? You will not be able to play the levels again.',
-      start_exam: 'Start the exam',
-      continue_exam: 'Take me to the exam',
+      start_exam: 'Start Exam',
+      continue_exam: 'Continue Exam',
     },
   },
 }

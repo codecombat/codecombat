@@ -25,4 +25,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.center-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 </style>
