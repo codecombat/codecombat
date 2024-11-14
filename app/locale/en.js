@@ -4945,7 +4945,7 @@ module.exports = {
       season1_prize_3: 'Custom CodeCombat Avatar',
       season1_prize_4: 'And more!',
       season1_prize_hyperx: 'HyperX Premium Peripherals',
-      codecombat_ai_league: 'CodeCombat AI League',
+      codecombat_ai_league: 'Join AI League',
       register: 'Register',
       not_registered: 'Not Registered',
       register_for_ai_league: 'Register for AI League',
