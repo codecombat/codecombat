@@ -2070,7 +2070,7 @@ class CampaignView extends RootView {
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
     if (what === 'junior-level') {
-      return me.isHomeUser()
+      return me.isHomeUser() && !this.editorMode
     }
 
     if (what === 'classroom-level-play-button') {
@@ -2120,7 +2120,7 @@ class CampaignView extends RootView {
     }
 
     if (['videos'].includes(what)) {
-      return me.isStudent() && this.course?.get('_id') === utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+      return me.isStudent() && this.course?.get('_id') === utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && !this.editorMode
     }
 
     if (['buy-gems'].includes(what)) {
@@ -2136,7 +2136,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'amazon-campaign') {
-      return this.campaign?.get('slug') === 'game-dev-hoc'
+      return this.campaign?.get('slug') === 'game-dev-hoc' && !this.editorMode
     }
 
     const libraryLogos = [
@@ -2155,11 +2155,15 @@ class CampaignView extends RootView {
     }
 
     if (what === 'roblox-level') {
-      return this.userQualifiesForRobloxModal()
+      return this.userQualifiesForRobloxModal() && !this.editorMode
+    }
+
+    if (what === 'roblox-button') {
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
     if (what === 'hackstack') {
-      return me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary()
+      return me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
     return true
