@@ -1,14 +1,9 @@
 <template>
   <div class="end-page center-div">
-    <div>
+    <div
+      class="exam-complete-text"
+    >
       Thank you for completing the exam!!
-    </div>
-    <div>
-      <input
-        type="button"
-        value="Back To Home"
-        @click="backToHome"
-      >
     </div>
   </div>
 </template>
@@ -29,5 +24,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.exam-complete-text {
+  font-size: 2.5rem;
+  font-weight: bold;
 }
 </style>

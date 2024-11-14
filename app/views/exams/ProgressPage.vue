@@ -2,31 +2,33 @@
   <div class="progress-page center-div">
     <div class="header">
       <div class="code-language">
-        {{ userExam.codeLanguage }}
+        {{ programmingLanguageDisplay }}
       </div>
       <div class="timer">
         {{ $t('exams.time_left') }} {{ timeLeft }}
       </div>
     </div>
+
     <div class="levels">
-      <exam-level
-        v-for="(level, index) in problems"
-        :key="level._id"
-        :level="level"
-        :language="userExam.codeLanguage"
-        :index="index + 1"
-      />
+      <ul class="level-grid">
+        <exam-level
+          v-for="(level, index) in problems"
+          :key="level._id"
+          :level="level"
+          :language="userExam.codeLanguage"
+          :index="index + 1"
+          class="level-grid-item"
+        />
+      </ul>
     </div>
 
     <div class="submit center-div">
       <input
         type="button"
+        class="btn btn-lg btn-success"
         value="Mark as Complete"
         @click="submit"
       >
-      <div class="tip">
-        {{ $t('exams.submit_tip') }}
-      </div>
     </div>
   </div>
 </template>
@@ -78,6 +80,10 @@ export default {
     limitedDuration () {
       return this.userExam?.duration || this.exam?.duration
     },
+    programmingLanguageDisplay () {
+      const lang = this.userExam?.codeLanguage
+      return lang[0].toUpperCase() + lang.slice(1)
+    },
   },
   mounted () {
     this.counter()
@@ -96,7 +102,7 @@ export default {
     },
     counter () {
       const oneMin = 60 * 1000
-      const startDate = new Date(this.exam.startDate)
+      const startDate = new Date(this.userExam.startDate)
       const minsElapse = parseInt((new Date() - startDate) / oneMin)
       let minsLeft = this.limitedDuration - minsElapse
       if (minsLeft <= 0) {
@@ -108,6 +114,9 @@ export default {
     },
     async submit (expires) {
       // todo: submit exam
+      if (!confirm(this.$t('exams.submit_tip'))) {
+        return
+      }
       await this.submitExam({
         userExamId: this.userExam._id,
         expires,
@@ -124,13 +133,30 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 15px;
 }
-.progress-page {
 
+.progress-page {
   .header {
     display: flex;
     min-width: 800px;
     justify-content: space-around;
   }
+}
+
+.levels {
+  padding: 10px;
+}
+
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 3rem;
+  column-gap: 5rem;
+  list-style: none;
+  padding: 0;
+}
+.level-grid-item {
+  text-align: center;
 }
 </style>
