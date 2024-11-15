@@ -26,11 +26,12 @@
         class="timer-tip"
       >
         <input
+          id="timer-checkbox"
           v-model="timer"
           name="timer"
           type="checkbox"
         >
-        <label for="timer"> {{ $t('exams.timer_tip') }} </label>
+        <label for="timer-checkbox"> {{ $t('exams.timer_tip') }} </label>
       </div>
     </div>
     <div class="start center-div">
@@ -152,9 +153,6 @@ export default {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-.lang-option::first-letter {
-  text-transform: capitalize;
 }
 .timer-tip {
   margin-top: 10px;

@@ -82,6 +82,7 @@ export default {
     },
     programmingLanguageDisplay () {
       const lang = this.userExam?.codeLanguage
+      if (!lang) return ''
       return lang[0].toUpperCase() + lang.slice(1)
     },
   },
