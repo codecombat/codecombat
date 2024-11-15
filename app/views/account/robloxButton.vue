@@ -1,6 +1,10 @@
 <script>
 import VueConfirmDialog from 'vue-confirm-dialog'
 import roblox from 'core/api/roblox'
+import RobloxIdentityField from './RobloxIdentityField.vue'
+import LoadingSpinner from 'app/components/common/elements/LoadingSpinner'
+
+const oauth2identity = require('core/api/oauth2identity')
 const OAuth2Identities = require('collections/OAuth2Identities')
 
 Vue.use(VueConfirmDialog)
@@ -10,6 +14,11 @@ const SMALL = 'small'
 const LARGE = 'large'
 
 export default Vue.extend({
+  name: 'RobloxButton',
+  components: {
+    RobloxIdentityField,
+    LoadingSpinner,
+  },
   props: {
     size: {
       type: String,
@@ -17,8 +26,21 @@ export default Vue.extend({
       required: false,
       validator: (value) => {
         return [SMALL, LARGE].includes(value)
-      }
-    }
+      },
+    },
+    userId: {
+      type: String,
+      required: true,
+      default: () => me.id,
+    },
+    useOauth: {
+      type: Boolean,
+      default: () => me.canUseRobloxOauthConnection(),
+    },
+    useRobloxId: {
+      type: Boolean,
+      default: () => !me.canUseRobloxOauthConnection(),
+    },
   },
   data () {
     return {
@@ -26,8 +48,9 @@ export default Vue.extend({
       isAnonymous: me.isAnonymous(),
       robloxIdentities: [],
       counter: 3800,
+      loading: false,
       LARGE,
-      SMALL
+      SMALL,
     }
   },
 
@@ -35,14 +58,17 @@ export default Vue.extend({
     isConnected: {
       get () {
         return this.robloxIdentities.length > 0
-      }
+      },
     },
     i18nData () {
       return {
         username: this.providerUsername,
-        interpolation: { escapeValue: false }
+        interpolation: { escapeValue: false },
       }
-    }
+    },
+    isOtherUser () {
+      return this.userId !== me.id
+    },
   },
 
   mounted () {
@@ -54,11 +80,12 @@ export default Vue.extend({
 
   methods: {
     async getRobloxIdentities () {
-      const oAuth2Identities = new OAuth2Identities([])
-      return oAuth2Identities.fetchForProvider('roblox')
+      return oauth2identity.fetchForProviderAndUser('roblox', this.userId)
     },
     async checkRobloxConnectionStatus () {
-      this.robloxIdentities = await this.getRobloxIdentities()
+      this.loading = true
+      this.robloxIdentities = new OAuth2Identities(await this.getRobloxIdentities()).models
+      this.loading = false
     },
 
     async updateCounter () {
@@ -91,17 +118,17 @@ export default Vue.extend({
         message: $.i18n.t('account_settings.roblox_disconnect_confirm', { email: this.email }),
         button: {
           no: $.i18n.t('modal.cancel'),
-          yes: $.i18n.t('modal.okay')
+          yes: $.i18n.t('modal.okay'),
         },
         callback: async confirm => {
           if (confirm) {
             await identity.destroy()
             this.checkRobloxConnectionStatus()
           }
-        }
+        },
       })
-    }
-  }
+    },
+  },
 })
 </script>
 
@@ -165,7 +192,11 @@ export default Vue.extend({
       </h4>
     </div>
 
-    <div class="roblox-button__button">
+    <loading-spinner v-if="loading" />
+    <div
+      v-else
+      class="roblox-button__button"
+    >
       <img
         class="logo"
         src="/images/pages/roblox/roblox-logo.svg"
@@ -208,7 +239,10 @@ export default Vue.extend({
             >
               <p
                 v-if="size === SMALL"
-                v-html="$t('account_settings.roblox_connected', { username: identity.get('profile').preferred_username })"
+                v-html="$t(
+                  `account_settings.roblox_connected${isOtherUser ? '_other_user' : ''}`,
+                  { username: identity.get('profile').preferred_username }
+                )"
               />
               <button
                 v-if="isConnected"
@@ -221,12 +255,14 @@ export default Vue.extend({
           </div>
           <div v-else>
             <p v-if="size === SMALL">
-              {{ $t('account_settings.roblox_not_connected') }}
+              {{ $t(`account_settings.roblox_not_connected${isOtherUser ? '_other_user' : ''}`) }}
             </p>
           </div>
-          <div class="buttons-container">
+          <div
+            v-if="!isConnected && useOauth"
+            class="buttons-container"
+          >
             <button
-              v-if="!isConnected"
               :class="{ 'login-button': isAnonymous }"
               :data-login-message="$t('roblox_landing.login_message')"
               :data-next-url="nextURL"
@@ -235,11 +271,23 @@ export default Vue.extend({
             >
               {{ $t('account_settings.connect_roblox_button') }}
             </button>
+            <div
+              class="age-restriciton-warning"
+            >
+              {{ $t('roblox_landing.age_restriction') }}
+            </div>
+          </div>
+          <div
+            v-if="!isConnected && useRobloxId"
+            class="buttons-container"
+          >
+            <RobloxIdentityField
+              :user-id="userId"
+              @saved="checkRobloxConnectionStatus"
+            />
           </div>
         </div>
-        <div class="age-restriciton-warning">
-          {{ $t('roblox_landing.age_restriction') }}
-        </div>
+
         <vue-confirm-dialog />
       </div>
     </div>
@@ -253,6 +301,11 @@ export default Vue.extend({
         padding: 20px;
         border-radius: 20px;
         background-color: white;
+
+        ::v-deep .spinner {
+          width: 100px;
+          height: 100px;
+        }
 
         .text-h3,
         .text-h4 {

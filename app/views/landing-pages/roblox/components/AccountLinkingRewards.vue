@@ -82,17 +82,27 @@
             </CTAButton>
           </div>
         </div>
-        <CTAButton
-          v-else
-          :class="{ 'login-button': isAnonymous }"
-          :data-login-message="$t('roblox_landing.login_message')"
-          :data-next-url="nextURL"
-          @clickedCTA="connectToRoblox"
-        >
-          {{ $t('roblox.link_now') }}
-        </CTAButton>
-        <div class="age-restriciton-warning">
-          {{ $t('roblox_landing.age_restriction') }}
+        <div v-else>
+          <CTAButton
+            v-if="me.canUseRobloxOauthConnection()"
+            :class="{ 'login-button': isAnonymous }"
+            :data-login-message="$t('roblox_landing.login_message')"
+            :data-next-url="nextURL"
+            @clickedCTA="connectToRoblox"
+          >
+            {{ $t('roblox.link_now') }}
+          </CTAButton>
+          <div
+            v-if="me.canUseRobloxOauthConnection()"
+            class="age-restriciton-warning"
+          >
+            {{ $t('roblox_landing.age_restriction') }}
+          </div>
+          <RobloxIdentityField
+            v-if="!me.canUseRobloxOauthConnection()"
+            :user-id="me.id"
+            @saved="checkRobloxConnectionStatus"
+          />
         </div>
       </div>
       <vue-confirm-dialog />
@@ -103,6 +113,7 @@
 import PageSection from '../../../../components/common/elements/PageSection'
 import CTAButton from '../../../../components/common/buttons/CTAButton.vue'
 import ProgressBar from '../../../../components/common/elements/ProgressBar.vue'
+import RobloxIdentityField from 'app/views/account/RobloxIdentityField.vue'
 
 import VueConfirmDialog from 'vue-confirm-dialog'
 import roblox from 'core/api/roblox'
@@ -115,6 +126,7 @@ export default {
     PageSection,
     CTAButton,
     ProgressBar,
+    RobloxIdentityField,
   },
   data () {
     return {
@@ -128,7 +140,7 @@ export default {
         }, {
           img: '/images/pages/roblox/podcast_social_3.png',
           text: '10K',
-        }
+        },
       ],
       robloxLogo: '/images/pages/roblox/roblox-logo.svg',
       connectListsOne: Array.from({ length: 4 }).map((_, i) => ({
@@ -142,14 +154,17 @@ export default {
       robloxIdentities: [],
       progress: 3800 / 10000,
       nextURL: window.location.href,
-      isAnonymous: me.isAnonymous()
+      isAnonymous: me.isAnonymous(),
     }
   },
   computed: {
+    me () {
+      return me
+    },
     isConnected: {
       get () {
         return this.robloxIdentities.length > 0
-      }
+      },
     },
   },
   mounted () {
@@ -193,17 +208,17 @@ export default {
         message: $.i18n.t('account_settings.roblox_disconnect_confirm'),
         button: {
           no: $.i18n.t('modal.cancel'),
-          yes: $.i18n.t('modal.okay')
+          yes: $.i18n.t('modal.okay'),
         },
         callback: async confirm => {
           if (confirm) {
             await identity.destroy()
             this.checkRobloxConnectionStatus()
           }
-        }
+        },
       })
-    }
-  }
+    },
+  },
 }
 
 </script>

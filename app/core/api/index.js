@@ -21,6 +21,7 @@ module.exports = {
   levels: require('./levels'),
   levelSessions: require('./level-sessions'),
   markdown: require('./markdown'),
+  oauth2identity: require('./oauth2identity'),
   prepaids: require('./prepaids'),
   resourceHubResources: require('./resource_hub_resource'),
   skippedContacts: require('./skipped-contacts'),

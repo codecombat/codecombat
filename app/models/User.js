@@ -281,6 +281,11 @@ module.exports = (User = (function () {
 
     isStudent () { return this.get('role') === 'student' }
 
+    canUseRobloxOauthConnection () {
+      // No Roblox OAuth in classroom mode
+      return !this.isTeacher() && !this.isStudent()
+    }
+
     isTestStudent () { return this.isStudent() && (this.get('related') || []).some(({ relation }) => relation === 'TestStudent') }
 
     isCreatedByClient () { return (this.get('clientCreator') != null) }
