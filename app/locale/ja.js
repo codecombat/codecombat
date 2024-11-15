@@ -4709,8 +4709,8 @@ module.exports = {
       ai_league_custom_blurb: '独自のカスタマイズされたトーナメントを作成して、生徒を引き付けましょう！コーディングアリーナのライブラリから選択し、クラス内チャレンジや学校全体の競技会の日程を設定します。',
     },
 
-    //  outcomes: {
-    //    outcomes_report: "Outcomes Report",
+    outcomes: {
+      outcomes_report: '進捗レポート',
     //    customize_report: "Customize Report",
     //    done_customizing: "Done Customizing",
     //    start_date: "Start date",
@@ -4766,7 +4766,7 @@ module.exports = {
     //    top_teacher_info_2: "Teacher __A__ uses our platform",
     //    ai_league: "AI League",
     //    ai_league_stats: "__n__ players played in AI League arenas",
-    //  },
+    },
 
     //  efficacy: {
     //    ozaria_efficacy: "Ozaria Efficacy",
