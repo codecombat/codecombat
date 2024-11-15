@@ -128,7 +128,7 @@ if showGameDevAlert
         - var levelStatus = levelStatusMap[level.slug] || ''
         - var levelNumber = '';
         if view.shouldShow('back-to-classroom') && view.classroom
-          - levelNumber += view.campaign.getLevelNumber(level.original, true); // Always uses latest levels
+          - levelNumber = view.campaign.getLevelNumber(level.original, true); // Always uses latest levels
           if (levelNumber)
             - levelNumber += '. ';
         div(
