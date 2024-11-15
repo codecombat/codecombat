@@ -2160,7 +2160,7 @@ module.exports = {
       //    solutions_require_licenses: "Level solutions are available for teachers who have licenses.",
       //    unnamed_class: "Unnamed Class",
       //    edit_settings1: "Edit Class Settings",
-      //    add_students: "Add Students",
+      add_students: '生徒を追加',
       //    stats: "Statistics",
       //    student_email_invite_blurb: "Your students can also use class code <strong>__classCode__</strong> when creating a Student Account, no email required.",
       //    total_students: "Total students:",
