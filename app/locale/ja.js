@@ -2897,9 +2897,9 @@ module.exports = {
     //    description3: "All the actionable insights educators need at a glance, such as student progress and concept understanding.",
     //  },
 
-    //  share_licenses: {
+    share_licenses: {
     //    share_licenses: "Share Licenses",
-    //    shared_by: "Shared By:",
+      shared_by: '共有者: ',
     //    add_teacher_label: "Enter exact teacher email:",
     //    add_teacher_button: "Add Teacher",
     //    modal_subtitle: "You can make your licenses available to other teachers in a shared pool.",
@@ -2920,7 +2920,7 @@ module.exports = {
     //    shared_pool_label: "Teachers in your shared pool:",
     //    teacher_delete_warning: "The shared licenses assigned to the teacher won't be revoked!",
     //    licenses_limit: "Licenses Limit:",
-    //  },
+    },
 
     //  sharing: {
     //    game: "Game",
