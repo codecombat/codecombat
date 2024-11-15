@@ -242,7 +242,7 @@ module.exports = {
       real_code: '実際にコードをタイピング',
       from_the_first_level: '最初のレベルから',
       getting_students: 'プログラミングの文法や正しい構造を学ぶため、生徒にできるだけ早くコードを書かせることが重要です。',
-      educator_resources: '教育者向けリソース',
+      educator_resources: '教師用リソース',
       course_guides: 'とコースガイド',
       teaching_computer_science: 'コンピュータサイエンスを教えるのに高い学位はいりません、私たちがすべての背景を持つ教育者にサポートするツールを提供します。',
       accessible_to: 'みんなが',
