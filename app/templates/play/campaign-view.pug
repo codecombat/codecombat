@@ -128,20 +128,9 @@ if showGameDevAlert
         - var levelStatus = levelStatusMap[level.slug] || ''
         - var levelNumber = '';
         if view.shouldShow('back-to-classroom') && view.classroom
-          if level.assessment === 'cumulative'
-            - levelNumber = $.t('play_level.combo_challenge') + ': '
-          else if level.assessment
-            - levelNumber = $.t('play_level.concept_challenge') + ': '
-          else
-            if view.course
-              - courseID = view.course.id
-            - if (['junior', '65c56663d2ca2055e65676af'].includes(view.terrain)) {
-            -   levelNumber = view.campaign.getLevelNumber(level.original, true); // Always uses latest levels
-            - } else {
-            -   levelNumber = view.classroom.getLevelNumber(level.original, '', courseID); // Uses classroom versioning, old
-            - }
-            if (levelNumber)
-              - levelNumber += '. ';
+          - levelNumber = view.campaign.getLevelNumber(level.original, true); // Always uses latest levels
+          if (levelNumber)
+            - levelNumber += '. ';
         div(
           style="left: " + level.position.x + "%; bottom: " + level.position.y + "%; background-color: " + level.color,
           class="level" + (level.next || _.any(level.practiceLevels || [], { next: true }) ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatus,
