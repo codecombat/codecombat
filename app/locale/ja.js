@@ -449,7 +449,7 @@ module.exports = {
       //    partner_solutions: "Partner Solutions",
       //    teaching_solutions: "Teaching Solutions",
       //    play2: "Play",
-      my_dashborads: 'マイダッシュボード',
+      my_dashborads: 'ダッシュボード',
       //    resources: "Resources",
       curriculum: 'カリキュラム',
       //    company: "Company",
