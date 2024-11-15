@@ -30,15 +30,17 @@ export default Vue.extend({
     },
     userId: {
       type: String,
-      required: true,
+      required: false,
       default: () => me.id,
     },
     useOauth: {
       type: Boolean,
+      required: false,
       default: () => me.canUseRobloxOauthConnection(),
     },
     useRobloxId: {
       type: Boolean,
+      required: false,
       default: () => !me.canUseRobloxOauthConnection(),
     },
   },
