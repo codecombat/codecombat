@@ -4578,7 +4578,7 @@ module.exports = {
       add_classes: 'クラスを追加して、最初の無料章から始めましょう！',
       all_classes: 'すべてのクラス',
       my_licenses: 'ライセンス',
-      resource_hub: '教師ツールキット',
+      resource_hub: '教師用ツール',
       pd: 'プロフェッショナル開発',
       pd_short: 'PD',
       apcsp: 'APCSP',
