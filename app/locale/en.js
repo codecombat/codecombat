@@ -2866,6 +2866,8 @@ module.exports = {
       test_student_modal_choose_class: 'Choose a class to join:',
       test_student_modal_redirect: 'You will be redirected to your test student account!',
       stop_spying_student: 'You can return to the teacher account by clicking `Stop Spying` in the user dropdown',
+      show_practice_levels: 'Show Practice Levels',
+      hide_practice_levels: 'Hide Practice Levels',
     },
 
     teacher_licenses: {
