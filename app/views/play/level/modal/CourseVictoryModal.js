@@ -221,6 +221,11 @@ module.exports = (CourseVictoryModal = (function () {
       if (this.level.isLadder() || this.level.isProject()) {
         const index = _.indexOf(this.views, this.currentView)
         return this.showView(this.views[index + 1])
+      } else if (this.level.get('product') === 'codecombat-junior') {
+        // Skip the victory component, which has a lot of text and choices, and just keep it simple by going to the next level.
+        // If we want to present the choice between the next level and the practice level here, or allow easy "back to map" button, then we show it.
+        // But if we did, we would probably want to simplify the CourseVictoryComponent in Junior mode, because it's a bit complicated and has too much text.
+        return this.onNextLevel()
       } else {
         return this.showVictoryComponent()
       }

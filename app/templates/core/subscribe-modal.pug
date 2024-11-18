@@ -28,28 +28,24 @@ mixin price(name, p, nameWithoutCurrency)
     else
       img#subscribe-background(src="/images/pages/play/modal/subscribe-background-blank.png")
 
-      h1(data-i18n="subscribe.subscribe_modal_title")
+      h1(data-i18n="subscribe.subscribe_to_premium")
 
       div#close-modal
         span.glyphicon.glyphicon-remove
 
       div.paper-area
-        div.benefits-header.text-center(data-i18n="[html]subscribe.comparison_blurb")
-
         .container-fluid
           .row
             .col-xs-5.option-col.col-xs-offset-1
-              img(src="/images/pages/play/modal/three-pets.png")
+              img(src="/images/pages/home/anya-and-nando-pet.webp")
             .col-xs-6
               ul.features-list
-                li(data-i18n="subscribe.feature_level_access")
+                li(data-i18n="subscribe.feature_products")
                 li(data-i18n="subscribe.feature_heroes")
                 li(data-i18n="subscribe.feature_learn")
                 if view.basicProduct
                   li(data-i18n="subscribe.feature_gems", data-i18n-options={gems: view.basicProduct.get('gems').toLocaleString(), gems12: (view.basicProduct.get('gems') * 12).toLocaleString()})
                 li(data-i18n="subscribe.feature_ai_level_bot")
-
-        div.benefits-footer.text-center(data-i18n="subscribe.feature_all_products")
 
         hr
 
