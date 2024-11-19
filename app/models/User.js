@@ -1427,7 +1427,6 @@ module.exports = (User = (function () {
     showGemsAndXpInClassroom () { return features?.classroomItems != null ? features?.classroomItems : this.lastClassroomItems() && this.isStudent() }
     showHeroAndInventoryModalsToStudents () { return features?.classroomItems != null ? features?.classroomItems : this.lastClassroomItems() && this.isStudent() }
     skipHeroSelectOnStudentSignUp () { return features?.classroomItems != null ? features?.classroomItems : false }
-    useDexecure () { return !(features?.chinaInfra != null ? features?.chinaInfra : false) }
     useSocialSignOn () { return !((features?.chinaUx != null ? features?.chinaUx : false) || (features?.china != null ? features?.china : false)) }
     isTarena () { return features?.Tarena != null ? features?.Tarena : false }
     useTarenaLogo () { return this.isTarena() }
