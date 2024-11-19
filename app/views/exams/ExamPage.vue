@@ -73,10 +73,4 @@ export default {
     margin-top: 50px;
   }
 }
-
-::v-deep .center-div{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 </style>
