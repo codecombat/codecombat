@@ -24,7 +24,6 @@ exports.me = {
   isAPIClient () { return false },
   isInGodMode () { return false },
   level () { return 1 },
-  useDexecure () { return true },
   useSocialSignOn () { return true },
   gems () { return 0 },
   getPhotoURL () { return '' },
