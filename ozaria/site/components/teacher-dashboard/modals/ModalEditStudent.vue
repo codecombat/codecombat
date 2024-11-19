@@ -5,26 +5,28 @@ import SecondaryButton from '../common/buttons/SecondaryButton'
 import User from 'models/User'
 import Classroom from 'models/Classroom'
 import Level from 'models/Level'
+import RobloxButton from 'app/views/account/robloxButton'
 
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 export default {
   components: {
     Modal,
     PrimaryButton,
-    SecondaryButton
+    SecondaryButton,
+    RobloxButton,
   },
 
   props: {
     displayOnly: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data: () => ({
     newPassword: '',
     changingPassword: false,
-    levels: []
+    levels: [],
   }),
 
   computed: {
@@ -33,7 +35,7 @@ export default {
       getLevelsForClassroom: 'levels/getLevelsForClassroom',
       editingStudent: 'baseSingleClass/currentEditingStudent',
       classroom: 'teacherDashboard/getCurrentClassroom',
-      levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom'
+      levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
     }),
 
     selectedStudent () {
@@ -51,6 +53,10 @@ export default {
 
     email () {
       return this.selectedStudent.get('email')
+    },
+
+    studentId () {
+      return this.selectedStudent.get('_id')
     },
 
     lastPlayed () {
@@ -80,7 +86,7 @@ export default {
       }
       if (this.lastPlayed.session) { lastPlayedString += moment(this.lastPlayed.session.changed).format('LLLL') }
       return lastPlayedString
-    }
+    },
   },
 
   async mounted () {
@@ -90,7 +96,7 @@ export default {
 
   methods: {
     ...mapMutations({
-      closeModalEditStudent: 'baseSingleClass/closeModalEditStudent'
+      closeModalEditStudent: 'baseSingleClass/closeModalEditStudent',
     }),
 
     ...mapActions({
@@ -111,7 +117,7 @@ export default {
           text: 'Password Changed successfully!',
           type: 'success',
           layout: 'center',
-          timeout: 6000
+          timeout: 6000,
         })
         this.newPassword = ''
       } catch (e) {
@@ -128,13 +134,13 @@ export default {
           text: errorText,
           type: 'error',
           layout: 'center',
-          timeout: 6000
+          timeout: 6000,
         })
       } finally {
         this.changingPassword = false
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -190,6 +196,12 @@ export default {
             </div>
           </div>
         </form>
+        <roblox-button
+          size="small"
+          :user-id="studentId"
+          :use-oauth="false"
+          :use-roblox-id="true"
+        />
       </div>
       <secondary-button
         class="right-button"
