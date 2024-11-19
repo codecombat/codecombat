@@ -4716,6 +4716,8 @@ module.exports = {
       ai_league_curriculum_blurb: 'Access our comprehensive curriculum guides designed specifically for AI League arenas. These resources help you introduce competitive coding concepts and teach strategic thinking.',
       ai_league_custom_title: 'Custom AI League Tournaments',
       ai_league_custom_blurb: "Create your own customized tournaments to engage your students! Select from our library of coding arenas and set competition dates, whether it's a classroom challenge or a school-wide competition.",
+      this_project_is_remixed: 'This project is remixed.',
+      view_original_project: 'View Original Project',
     },
 
     outcomes: {
@@ -6101,6 +6103,8 @@ module.exports = {
       delete: 'Delete',
       duplicate: 'Duplicate',
       use_as_a_template: 'Use as a Template',
+      get_inspired: 'Get Inspired',
+      remixed_from: 'Remixed from',
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',

@@ -1,7 +1,13 @@
 <template>
   <div class="ai-project">
     <h4>{{ aiProject.name }}</h4>
-
+    <p v-if="aiProject.remixedFrom">
+      {{ $t('teacher_dashboard.this_project_is_remixed') }}
+      <a
+        :href="`/ai/project/${aiProject.remixedFrom}`"
+        target="_blank"
+      >{{ $t('teacher_dashboard.view_original_project') }}</a>
+    </p>
     <p v-if="mode === 'use'">
       {{ aiProject.isReadyToReview ? $t('teacher_dashboard.ready_to_review') : $t('teacher.in_progress') }}
     </p>
@@ -52,14 +58,13 @@ export default {
     },
     failedAttempts () {
       return (this.aiProject.wrongChoices || []).length
-    }
+    },
   },
 }
 </script>
 
 <style scoped lang="scss">
 .ai-project {
-  width: 300px;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
@@ -69,6 +74,7 @@ export default {
   h4 {
     color: #333333;
     margin-bottom: 10px;
+    font-weight: bold;
   }
 
   p {
