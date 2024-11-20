@@ -1894,6 +1894,7 @@ module.exports = {
       courses_suffix: '',
       course_prefix: 'Course',
       course_suffix: '',
+      activate_license: 'Activate License',
       licenses_activated_success: 'Licenses have been Activated Successfully!',
       license_code_used: 'License Code used.',
     },

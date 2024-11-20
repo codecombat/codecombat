@@ -12,6 +12,7 @@ export const COMPONENT_NAMES = {
   AI_LEAGUE: 'AILeague',
   CURRICULUM_GUIDE: 'BaseCurriculumGuide',
   APCSP: 'APCSPPage',
+  ACTIVATE_LICENSE: 'ActivateLicense',
 }
 
 export const PAGE_TITLES = {
@@ -21,5 +22,6 @@ export const PAGE_TITLES = {
   [COMPONENT_NAMES.PD]: 'pd',
   [COMPONENT_NAMES.AI_LEAGUE]: 'ai_league',
   [COMPONENT_NAMES.APCSP]: 'apcsp',
-  [COMPONENT_NAMES.CURRICULUM_GUIDE]: 'curriculum_guide'
+  [COMPONENT_NAMES.CURRICULUM_GUIDE]: 'curriculum_guide',
+  [COMPONENT_NAMES.ACTIVATE_LICENSE]: 'activate_license',
 }

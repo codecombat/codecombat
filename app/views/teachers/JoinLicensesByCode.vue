@@ -1,6 +1,8 @@
 <script>
 import { mapActions } from 'vuex'
+import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
 export default {
+  name: COMPONENT_NAMES.ACTIVATE_LICENSES,
   data () {
     return {
       state: 'loading',
@@ -8,6 +10,7 @@ export default {
     }
   },
   mounted () {
+    this.setPageTitle(PAGE_TITLES[this.$options.name])
     if (this.$route.query.codes) {
       this.post()
     } else {
@@ -22,7 +25,7 @@ export default {
       this.joinByCodes(this.$route.query).then((res) => {
         let state = 'success'
         for (const code in res) {
-          if (!res[code] || typeof res[code] === 'string') {
+          if (!res[code] || res[code] !== 'success') {
             state = 'partly-failed'
             break
           }
