@@ -1,12 +1,12 @@
 <script>
-import { mapActions } from 'vuex'
-import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
+import { mapActions, mapMutations } from 'vuex'
+import { COMPONENT_NAMES, PAGE_TITLES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 export default {
-  name: COMPONENT_NAMES.ACTIVATE_LICENSES,
+  name: COMPONENT_NAMES.ACTIVATE_LICENSE,
   data () {
     return {
       state: 'loading',
-      result: {}
+      result: {},
     }
   },
   mounted () {
@@ -19,7 +19,10 @@ export default {
   },
   methods: {
     ...mapActions({
-      joinByCodes: 'prepaids/joinPrepaidByCodes'
+      joinByCodes: 'prepaids/joinPrepaidByCodes',
+    }),
+    ...mapMutations({
+      setPageTitle: 'teacherDashboard/setPageTitle',
     }),
     post () {
       this.joinByCodes(this.$route.query).then((res) => {
@@ -36,7 +39,7 @@ export default {
         if (state === 'success') {
           setTimeout(() => {
             application.router.navigate('/teachers/licenses', { trigger: true })
-          }, 3000)
+          }, 5000)
         }
       })
     }
