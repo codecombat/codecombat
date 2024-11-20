@@ -651,7 +651,7 @@ export default Vue.extend({
           :is-new-classroom="classroomInstance.isNew()"
           :as-club="asClub"
           :new-club-type="newClubType"
-          :classroom-id="classroomInstance._id"
+          :classroom-id="classroomInstance.get('_id')"
           :courses="courses"
           :code-formats="newCodeFormats"
           :code-format-default="newCodeFormatDefault"
