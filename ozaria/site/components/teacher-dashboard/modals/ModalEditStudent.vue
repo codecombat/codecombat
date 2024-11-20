@@ -52,7 +52,7 @@ export default {
           creditDurationKey: credit.durationKey,
         })
       } else {
-        return 'loading...'
+        return $.i18n.t('common.loading')
       }
     },
 
