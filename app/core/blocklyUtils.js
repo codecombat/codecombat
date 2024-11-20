@@ -43,7 +43,7 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       propNames.add(prop.name)
     }
     if (/programmaticon/i.test(owner)) continue
-    const userBlocks = mergedPropertyEntryGroups[owner].props.filter(prop => !(['for-loop', 'if', '==', '!=', 'while-loop', '<', '>'].includes(prop.name))).map(prop =>
+    const userBlocks = mergedPropertyEntryGroups[owner].props.filter(prop => !(['for-loop', 'if', '==', '!=', 'while-loop', '<', '>', 'variable'].includes(prop.name))).map(prop =>
       createBlock({ owner, prop, generator, codeLanguage, codeFormat, level, superBasicLevels, propNames })
     )
     userBlockCategories.push({ kind: 'category', name: owner === 'Hero' ? '' : owner, colour: '190', contents: userBlocks })
@@ -639,7 +639,13 @@ module.exports.createBlocklyToolbox = function ({ propertyEntryGroups, generator
       name: 'Variables',
       colour: '50',
       custom: 'VARIABLE',
-      include () { return (propNames.has('while-true loop') || propNames.has('while-loop')) && level?.get('product') !== 'codecombat-junior' } // TODO: better targeting of when we introduce this logic? It's after while-true loops, but doesn't have own 'variables' entry in Programmaticon
+      include () {
+        if (level?.get('product') === 'codecombat-junior') {
+          return propNames.has('variable')
+        }
+        // TODO: better targeting of when we introduce this logic? It's after while-true loops, but doesn't have own 'variables' entry in Programmaticon
+        return (propNames.has('while-true loop') || propNames.has('while-loop'))
+      },
     },
     {
       kind: 'category',

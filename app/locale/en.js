@@ -1818,6 +1818,8 @@ module.exports = {
       initial_free_courses_description: '*Courses can be updated using Assign Content after creating class too.',
       junior_code_format_only: 'Blocks (Icons) only available for Junior',
       hackstack_no_code_language_format: 'AI HackStack does not need a programming language or code format',
+      licenses_activated_success: 'Licenses have been Activated Successfully!',
+      license_code_used: 'License Code used.',
     },
 
     no_licenses_page: {
@@ -1894,8 +1896,6 @@ module.exports = {
       courses_suffix: '',
       course_prefix: 'Course',
       course_suffix: '',
-      licenses_activated_success: 'Licenses have been Activated Successfully!',
-      license_code_used: 'License Code used.',
     },
 
     teachers_quote: {
@@ -2016,7 +2016,9 @@ module.exports = {
       re_connect_roblox_button: 'Connect Another Account',
       disconnect_roblox_button: 'Disconnect',
       roblox_connected: 'Your account <strong>__username__</strong> is connected to Roblox.',
+      roblox_connected_other_user: 'The student\'s account is connected to  <strong>__username__</strong> Roblox account.',
       roblox_not_connected: 'Connect your CodeCombat and Roblox accounts.',
+      roblox_not_connected_other_user: 'Connect the student\'s CodeCombat and Roblox accounts.',
       roblox_disconnect_confirm: 'Are you sure you want to disconnect your Roblox account?',
       god_mode: 'God Mode',
       emails_tab: 'Emails',
@@ -2869,6 +2871,8 @@ module.exports = {
       test_student_modal_choose_class: 'Choose a class to join:',
       test_student_modal_redirect: 'You will be redirected to your test student account!',
       stop_spying_student: 'You can return to the teacher account by clicking `Stop Spying` in the user dropdown',
+      show_practice_levels: 'Show Practice Levels',
+      hide_practice_levels: 'Hide Practice Levels',
     },
 
     teacher_licenses: {
@@ -4718,6 +4722,7 @@ module.exports = {
       ai_league_custom_blurb: "Create your own customized tournaments to engage your students! Select from our library of coding arenas and set competition dates, whether it's a classroom challenge or a school-wide competition.",
       this_project_is_remixed: 'This project is remixed.',
       view_original_project: 'View Original Project',
+      activate_license: 'Activate License',
     },
 
     outcomes: {
@@ -6384,13 +6389,13 @@ module.exports = {
       badge_tooltip_paid: 'This content is exclusive to users with a valid license.',
     },
     exams: {
-      timer_tip: 'A timer will start when you click Start the exam',
+      timer_tip: 'A timer will start when you click Start Exam',
       no_permission: 'Only users with permission can take the exam',
       level_num: 'Level __num__',
       time_left: 'Time Left (HH:mm):',
       submit_tip: 'Are you sure you want to mark as complete? You will not be able to play the levels again.',
-      start_exam: 'Start the exam',
-      continue_exam: 'Take me to the exam',
+      start_exam: 'Start Exam',
+      continue_exam: 'Continue Exam',
     },
   },
 }

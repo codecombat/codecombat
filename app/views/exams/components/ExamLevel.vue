@@ -1,10 +1,10 @@
 <template>
-  <div class="exam-level">
+  <li class="exam-level">
     <a
       :href="levelLink"
       target="_blank"
     >{{ $t('exams.level_num', { num: index }) }}</a>
-  </div>
+  </li>
 </template>
 
 <script>
@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     levelLink () {
-      return `/play/level/${this.level.slug}?course=${this.level.courseId}&course-instance=${this.level.instanceId}&codeLanguage=${this.language}`
+      return `/play/level/${this.level.slug}?course=${this.level.courseId}&codeLanguage=${this.language}`
     },
   },
   methods: {

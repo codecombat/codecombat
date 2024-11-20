@@ -2036,6 +2036,7 @@ module.exports = class SpellView extends CocoView
     maxBlocks = lineGoal.linesOfCode.humans
     hasLook = _.find(Object.values(@propertyEntryGroups || {}), (peg) -> _.find(peg.props, name: 'look'))
     hasDist = _.find(Object.values(@propertyEntryGroups || {}), (peg) -> _.find(peg.props, name: 'dist'))
+    hasVars = _.find(Object.values(@propertyEntryGroups || {}), (peg) -> _.find(peg.props, name: 'variable'))
     if hasLook
       # Need to allow extra blocks for the `look(dir)`, `dist(dir)`, and `health` expressions the solution will need
       solution = store.getters['game/getSolutionSrc'](@spell.language) or ''
@@ -2051,6 +2052,9 @@ module.exports = class SpellView extends CocoView
       if hasDist
         # Also need to allow extra blocks for the 3 in go(dir, 3) expressions now that dist is an extra block
         extraExpressionCount += solution.match(/go\(.(up|down|left|right)., \d/g)?.length || 0
+
+      if hasVars
+        return Infinity  # TODO: figure out how to count the var blocks
 
       maxBlocks += extraExpressionCount
 
