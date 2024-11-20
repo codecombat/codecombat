@@ -118,7 +118,10 @@ module.exports = class TomeView extends CocoView
     else
       classroomCodeFormatDefault = @options.classroomAceConfig?.codeFormatDefault or 'text-code'
       classroomCodeFormats = @options.classroomAceConfig?.codeFormats or ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code']
-      desiredCodeFormat = me.get('aceConfig')?.codeFormat or classroomCodeFormatDefault
+      desiredCodeFormat = me.get('aceConfig')?.codeFormat
+      if @options.level.get('product') === 'codecombat-junior'
+        desiredCodeFormat ?= 'blocks-icons'
+      desiredCodeFormat ?= classroomCodeFormatDefault
       newCodeFormat = if desiredCodeFormat in classroomCodeFormats then desiredCodeFormat else classroomCodeFormatDefault
     return if newCodeFormat is @codeFormat
     @blocks = /block/.test(newCodeFormat) # TODO: handle blocks class toggling better
