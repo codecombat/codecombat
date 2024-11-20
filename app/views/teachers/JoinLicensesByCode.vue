@@ -19,10 +19,7 @@ export default {
       joinByCodes: 'prepaids/joinPrepaidByCodes'
     }),
     post () {
-      this.joinByCodes({
-        method: 'POST',
-        json: this.$route.query
-      }).then((res) => {
+      this.joinByCodes(this.$route.query).then((res) => {
         let state = 'success'
         for (const code in res) {
           if (!res[code] || typeof res[code] === 'string') {
