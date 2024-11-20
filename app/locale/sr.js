@@ -595,6 +595,7 @@ module.exports = {
       //    age_description_codecombat: "Real Python or JavaScript coding for everyone",
       //    age_description_codecombat_junior: "Blocks or simple text coding for beginners",
       //    want_more_hints: "Want more hints?",
+      //    choose_your_adventure: "Choose Your Adventure",
     },
 
     code: {
@@ -1387,6 +1388,7 @@ module.exports = {
       unsubscribing: 'Одјава претплате',
       subscribe_prepaid: 'Кликни на Претплата да искористиш припејд код',
       using_prepaid: 'Коришћење припејд кода за месечну претплату',
+      //    subscribe_to_premium: "Subscribe to Premium",
       feature_level_access: 'Откључај 300+ доступних нивоа',
       feature_heroes: 'Откључај ексклузивне хероје и љубимце',
       feature_learn: 'Научи да правиш игрице и вебсајтове',
@@ -1394,6 +1396,7 @@ module.exports = {
       //    feature_aiyouth: "",
       //    feature_gems: "Earn __gems__ gems/mo (__gems12__ gems/yr)",
       //    feature_all_products: "4-in-1: CodeCombat Home, CodeCombat Junior, CodeCombat Worlds on Roblox, and CodeCombat AI HackStack",
+      //    feature_products: "Access CodeCombat Junior, CodeCombat & AI HackStack",
       month_price: '$__price__',
       //    month_price_without_currency: "__price__/mo",
       first_month_price: 'Само $__price__ за први месец!',
@@ -1409,7 +1412,7 @@ module.exports = {
       //    subscription_status: "Your Subscription Status",
       //    currently_not_free: "You don't have a Subscription yet.",
       //    online_classes: "Online Classes",
-      //    feature_ai_level_bot: "Accelerate learning with AI support",
+      //    feature_ai_level_bot: "Accelerate learning with AI-powered support",
       //    sure_buy_as_parent: "Are you sure you want premium access for yourself instead of your child?",
     },
 
@@ -1514,7 +1517,8 @@ module.exports = {
       //    text_code: "Text code",
       //    blocks_and_code: "Blocks and code",
       //    blocks_text: "Blocks",
-      //    blocks_icons: "Blocks (icons) (Junior only)",
+      //    blocks_icons: "Blocks (Icons)",
+      //    blocks_icons_helptext: "Junior only",
       //    text_code_blurb: "Type text-based code in a real code editor",
       //    blocks_and_code_blurb: "Blocks and text code side-by-side",
       //    blocks_text_blurb: "Drag and drop blocks for tablets or younger learners",
@@ -1747,7 +1751,7 @@ module.exports = {
       licenses_needed: 'Потребне лиценце',
       //    google_classroom_disabled_text: "To link Google Classroom, login using Google SSO",
       //    select_class: "Select class",
-      //    programming_language: "Programming language",
+      //    programming_language: "Programming Language",
       //    programming_language_edit_desc: "Language cannot be changed once students join a class. We recommend creating a new class for the same students.",
       //    programming_language_edit_desc_new: "If you change the programming language, your students' progress in the old language will be hidden, and they will have to start over in the new language. We recommend creating a new class for the same students.",
       //    add_a_class: "Add a new class",
@@ -1771,7 +1775,7 @@ module.exports = {
       //    error_in_importing_students: "Error in importing students",
       //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
       //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
-      //    code_formats: "Code Formats (beta)",
+      //    code_formats: "Code Formats",
       //    code_formats_description: "Which code formats students can choose from.",
       //    code_formats_disabled_by: "Blocks and code, Blocks are not supported with __language__ language",
       //    code_formats_mobile: "* Students on mobile will be set to block-based mode",
@@ -1791,6 +1795,7 @@ module.exports = {
       //    initial_free_courses: "Initial Courses",
       //    free_course_blurb_junior: "Great for grades K-5, CodeCombat Junior can flex down to block-based and mobile options for pre-readers, up to Python or JavaScript text code for upper elementary, or to parallel blocks-and-code to help with the transition.",
       //    "free_course_blurb_introduction-to-computer-science": "Great for grades 6-12, CodeCombat's core CS courses progress from the beginner-friendly Introduction to Computer Science, through AP Computer Science Principles, and beyond into advanced CS courses. Start here for middle and high school students.",
+      //    free_course_blurb_hackstack: "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
       //    start_teaching_ai_today: "Start Teaching AI Today!",
       //    hackstack_beta_release: "HackStack Beta Release",
       //    introducing_ai_hackstack: "Introducing AI HackStack, a generative AI teaching tool for beginners. It provides safe access to top AI models like ChatGPT, Claude, and DALL-E.",
@@ -1810,6 +1815,11 @@ module.exports = {
       //    all_classrooms_imported: "All classrooms already imported",
       //    club_type: "Club Type",
       //    create_students_prompt: "How many students would you like to create?",
+      //    initial_free_courses_description: "*Courses can be updated using Assign Content after creating class too.",
+      //    junior_code_format_only: "Blocks (Icons) only available for Junior",
+      //    hackstack_no_code_language_format: "AI HackStack does not need a programming language or code format",
+      //    licenses_activated_success: "Licenses have been Activated Successfully!",
+      //    license_code_used: "License Code used.",
     },
 
     //  no_licenses_page: {
@@ -1886,8 +1896,6 @@ module.exports = {
       courses_suffix: '',
       course_prefix: 'Курс',
       course_suffix: '',
-      //    licenses_activated_success: "Licenses have been Activated Successfully!",
-      //    license_code_used: "License Code used.",
     },
 
     teachers_quote: {
@@ -2008,7 +2016,9 @@ module.exports = {
       //    re_connect_roblox_button: "Connect Another Account",
       //    disconnect_roblox_button: "Disconnect",
       //    roblox_connected: "Your account <strong>__username__</strong> is connected to Roblox.",
+      //    roblox_connected_other_user: "The student's account is connected to  <strong>__username__</strong> Roblox account.",
       //    roblox_not_connected: "Connect your CodeCombat and Roblox accounts.",
+      //    roblox_not_connected_other_user: "Connect the student's CodeCombat and Roblox accounts.",
       //    roblox_disconnect_confirm: "Are you sure you want to disconnect your Roblox account?",
       god_mode: 'Режим Свемогућег',
       emails_tab: 'И-мејлови',
@@ -2861,6 +2871,8 @@ module.exports = {
       //    test_student_modal_choose_class: "Choose a class to join:",
       //    test_student_modal_redirect: "You will be redirected to your test student account!",
       //    stop_spying_student: "You can return to the teacher account by clicking `Stop Spying` in the user dropdown",
+      //    show_practice_levels: "Show Practice Levels",
+      //    hide_practice_levels: "Hide Practice Levels",
     },
 
     //  teacher_licenses: {
@@ -4707,6 +4719,7 @@ module.exports = {
     //    ai_league_curriculum_blurb: "Access our comprehensive curriculum guides designed specifically for AI League arenas. These resources help you introduce competitive coding concepts and teach strategic thinking.",
     //    ai_league_custom_title: "Custom AI League Tournaments",
     //    ai_league_custom_blurb: "Create your own customized tournaments to engage your students! Select from our library of coding arenas and set competition dates, whether it's a classroom challenge or a school-wide competition.",
+    //    activate_license: "Activate License",
     //  },
 
     //  outcomes: {
@@ -4936,7 +4949,7 @@ module.exports = {
     //    season1_prize_3: "Custom CodeCombat Avatar",
     //    season1_prize_4: "And more!",
     //    season1_prize_hyperx: "HyperX Premium Peripherals",
-    //    codecombat_ai_league: "CodeCombat AI League",
+    //    codecombat_ai_league: "Join AI League",
     //    register: "Register",
     //    not_registered: "Not Registered",
     //    register_for_ai_league: "Register for AI League",
@@ -5425,6 +5438,9 @@ module.exports = {
     //    websites: "Websites",
     //    code_more: "Code and more",
     //    ideal_endeavour: "It's the ideal companion for any endeavor.",
+    //    ai_made_ss: "AI Made Simple & Safe -- Start Today!",
+    //    aiss_body: "Built as the simplest path to AI literacy, this tool empowers learners to harness top LLMs with hands-on AI training, making creation easy—whether it’s games, art, writing, code, or more. Together, we help learners safely bring their ideas to life across any subject.",
+    //    learn_more: "Learn More!",
     //  },
 
     //  user_credits: {
@@ -5701,7 +5717,7 @@ module.exports = {
 
     //  hackstack_page: {
     //    header: "Learn, create, and accelerate with **AI HackStack**",
-    //    header_details: "Together, we can empower all learners to turn their ideas into reality, across every subject imaginable.",
+    //    header_details: "Together, we empower learners to safely bring their ideas to life across any subject.",
     //    accessible_safe_use: "Accessible, safe, and responsible use of AI",
     //    learn_title: "Learn",
     //    learn_description: "From **English Language Arts** to **Mathematics** and **Science**, students discover how to craft safe and effective prompts for generating output in each discipline. Learn essential prompt engineering skills in a **wide range of subjects** using Al HackStack's Learning Scenarios. Along the way, your students will gain hands-on experience with popular Al models like Claude, DALL-E, and Stable Diffusion.",
@@ -5744,6 +5760,7 @@ module.exports = {
     //    faq_6_answer: "We offer both Clever and Google Classroom integration. Check out our **[https://codecombat.com/teachers/resources/clever-faq]Clever Integration FAQ** for more details on how to get started. If you are using Google Classroom be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time. Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option.",
     //    faq_7_question: "Recommended browser and operating system",
     //    faq_7_answer: "TBA",
+    //    learn_more: "Learn More",
     //  },
 
     //  standards_page: {
@@ -6084,8 +6101,14 @@ module.exports = {
     //    my_courses: "My Courses",
     //    what_do_you_want_to_do_today: "What do you want to do today?",
     //    learn_ai: "Learn AI",
-    //    create_ai: "Create With AI",
+    //    create_ai: "Create AI",
+    //    learn_with_ai: "Learn With AI",
+    //    create_with_ai: "Create With AI",
     //    name_conflict: "Name Conflict, please choose a different name",
+    //    edit: "Edit",
+    //    delete: "Delete",
+    //    duplicate: "Duplicate",
+    //    use_as_a_template: "Use as a Template",
     //  },
 
     //  parents_v2: {
@@ -6371,11 +6394,13 @@ module.exports = {
     //  },
 
     //  exams: {
-    //    timer_tip: "A timer will start when you click Start the exam",
+    //    timer_tip: "A timer will start when you click Start Exam",
     //    no_permission: "Only users with permission can take the exam",
     //    level_num: "Level __num__",
     //    time_left: "Time Left (HH:mm):",
     //    submit_tip: "Are you sure you want to mark as complete? You will not be able to play the levels again.",
+    //    start_exam: "Start Exam",
+    //    continue_exam: "Continue Exam",
     //  },
   },
 }
