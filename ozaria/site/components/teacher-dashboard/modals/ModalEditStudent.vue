@@ -6,6 +6,8 @@ import User from 'models/User'
 import Classroom from 'models/Classroom'
 import Level from 'models/Level'
 import RobloxButton from 'app/views/account/robloxButton'
+import { getStudentCredits } from 'app/core/api/user-credits'
+import { USER_CREDIT_HACKSTACK_KEY } from 'app/core/constants'
 
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 export default {
@@ -27,6 +29,7 @@ export default {
     newPassword: '',
     changingPassword: false,
     levels: [],
+    studentCredits: null,
   }),
 
   computed: {
@@ -37,6 +40,21 @@ export default {
       classroom: 'teacherDashboard/getCurrentClassroom',
       levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
     }),
+
+    creditMessage () {
+      if (this.studentCredits && this.studentCredits.result?.length > 0) {
+        const credit = this.studentCredits.result[0]
+        const durAmount = credit.durationAmount > 1 ? credit.durationAmount : $.i18n.t('hackstack.creditMessage_the')
+        return $.i18n.t('hackstack.creditMessage_creditcreditsleft-creditinitialcredits-c', {
+          creditCreditsLeft: credit.creditsLeft,
+          creditInitialCredits: credit.initialCredits,
+          durAmount,
+          creditDurationKey: credit.durationKey,
+        })
+      } else {
+        return $.i18n.t('common.loading')
+      }
+    },
 
     selectedStudent () {
       const resultStudent = this.classroomMembers.find(({ _id }) => _id === this.editingStudent)
@@ -92,6 +110,7 @@ export default {
   async mounted () {
     await this.fetchLevelsForClassroom(this.classroom._id)
     this.levels = this.getLevelsForClassroom(this.classroom._id)
+    await this.getCredits()
   },
 
   methods: {
@@ -102,6 +121,10 @@ export default {
     ...mapActions({
       fetchLevelsForClassroom: 'levels/fetchForClassroom',
     }),
+
+    async getCredits () {
+      this.studentCredits = await getStudentCredits(USER_CREDIT_HACKSTACK_KEY, this.studentId)
+    },
 
     async changePassword () {
       // Don't change password if there is no new password, or if the teacher
@@ -165,6 +188,9 @@ export default {
           <b>{{ $t('user.last_played') }}:</b> {{ lastPlayed?.session ?
             lastPlayedString :
             $t('teacher.never_played') }}
+        </p>
+        <p>
+          <b>{{ $t('hackstack.hackstack_credits') }}:</b> {{ creditMessage }}
         </p>
 
         <form
