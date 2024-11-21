@@ -18,6 +18,25 @@
         {{ $t('teacher_dashboard.no_failed_attempts') }}
       </p>
     </div>
+
+    <p
+      v-if="safetyValidations.length > 0"
+      class="safety-validations alert alert-warning"
+    >
+      {{ $t('teacher_dashboard.safety_violations') }}
+      <ul>
+        <li
+          v-for="safetyValidation in safetyValidations"
+          :key="safetyValidation._id"
+        >
+          <p class="safety-validations__item">
+            <strong>{{ safetyValidation.failureType }}</strong><br>
+            {{ safetyValidation.failureDetails }}
+          </p>
+        </li>
+      </ul>
+    </p>
+
     <a
       :href="`/ai/project/${aiProject._id}`"
       target="_blank"
@@ -26,6 +45,9 @@
 </template>
 
 <script>
+
+import _ from 'lodash'
+
 export default {
   name: 'AiProject',
   props: {
@@ -52,14 +74,17 @@ export default {
     },
     failedAttempts () {
       return (this.aiProject.wrongChoices || []).length
-    }
+    },
+    safetyValidations () {
+      if (!this.aiProject || !this.aiProject.unsafeChatMessages) return []
+      return _.flatten(this.aiProject.unsafeChatMessages.map(i => i.safetyValidation))
+    },
   },
 }
 </script>
 
 <style scoped lang="scss">
 .ai-project {
-  width: 300px;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
@@ -87,6 +112,19 @@ export default {
     .subtext {
       font-size: 0.8em;
       color: #999999;
+    }
+  }
+
+  .safety-validations {
+    ul {
+      margin-top: 10px;
+    }
+
+    &__item {
+      font-weight: normal;
+      margin-bottom: 10px;
+      font-size: 0.8em;
+      line-height: 1.2em;
     }
   }
 }

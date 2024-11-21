@@ -4721,6 +4721,8 @@ module.exports = {
       ai_league_custom_title: 'Custom AI League Tournaments',
       ai_league_custom_blurb: "Create your own customized tournaments to engage your students! Select from our library of coding arenas and set competition dates, whether it's a classroom challenge or a school-wide competition.",
       activate_license: 'Activate License',
+      violation: 'Violation',
+      safety_violations: 'Safety Violations',
     },
 
     outcomes: {
