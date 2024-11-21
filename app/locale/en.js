@@ -6110,6 +6110,7 @@ module.exports = {
       use_as_a_template: 'Use as a Template',
       get_inspired: 'Get Inspired',
       remixed_from: 'Remixed from',
+      hackstack_credits: 'AI HackStack Credits',
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',
