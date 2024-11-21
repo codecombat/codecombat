@@ -1509,7 +1509,6 @@ module.exports = (User = (function () {
     // Special flag to detect whether we're temporarily showing static html while loading full site
     showingStaticPagesWhileLoading () { return false }
     showIndividualRegister () { return !(features?.china != null ? features?.china : false) }
-    hideDiplomatModal () { return features?.china != null ? features?.china : false }
     showChinaRemindToast () { return features?.china != null ? features?.china : false }
     showOpenResourceLink () { return !(features?.china != null ? features?.china : false) }
     useStripe () { return (!((features?.china != null ? features?.china : false) || (features?.chinaInfra != null ? features?.chinaInfra : false))) && (this.get('preferredLanguage') !== 'nl-BE') }
