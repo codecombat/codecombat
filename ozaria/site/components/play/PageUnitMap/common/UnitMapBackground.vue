@@ -161,6 +161,9 @@ export default Vue.extend({
       <div
         class="arrow left"
         :class="{ inactive: campaignPage === 1 }"
+        role="button"
+        :aria-label="$t('play_level.navigate_to_previous_page')"
+        :aria-disabled="campaignPage === 1"
         @click="previousPage"
       />
       <ul>
@@ -175,6 +178,9 @@ export default Vue.extend({
       <div
         class="arrow right"
         :class="{ inactive: campaignPage === totalPages }"
+        role="button"
+        :aria-label="$t('play_level.navigate_to_next_page')"
+        :aria-disabled="campaignPage === totalPages"
         @click="nextPage"
       />
     </div>

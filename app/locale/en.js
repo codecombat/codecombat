@@ -1203,6 +1203,8 @@ module.exports = {
       get_ai_hs_license: 'Get AI Hackstack License',
       use: 'Use',
       learn_to_use: 'Learn to Use',
+      navigate_to_previous_page: 'Navigate to the previous page',
+      navigate_to_next_page: 'Navigate to the next page',
     },
 
     apis: {
