@@ -1820,6 +1820,8 @@ module.exports = {
       hackstack_no_code_language_format: 'AI HackStack does not need a programming language or code format',
       licenses_activated_success: 'Licenses have been Activated Successfully!',
       license_code_used: 'License Code used.',
+      ai_hs_remix: 'AI HackStack Remix',
+      ai_hs_remix_blurb: 'Whether students can use other student\'s projects to take inspiration from.',
     },
 
     no_licenses_page: {
@@ -6111,6 +6113,7 @@ module.exports = {
       get_inspired: 'Get Inspired',
       remixed_from: 'Remixed from',
       hackstack_credits: 'AI HackStack Credits',
+      created_by: 'created by',
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',
