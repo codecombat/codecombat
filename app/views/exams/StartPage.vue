@@ -107,8 +107,11 @@ export default {
     isOldUser () {
       return this.userExam && !this.userExam.archived
     },
-    isOldUserExtra () {
+    hasArchivedExam () {
       return this.userExam && this.userExam.archived
+    },
+    isExamEnded () {
+      return this.userExam?.submitted
     },
   },
   mounted () {
@@ -123,10 +126,19 @@ export default {
     ]),
     async localStartExam () {
       this.loading = true
+      if (this.isExamEnded && !this.hasArchivedExam) {
+        noty({
+          text: 'Exam has ended',
+          type: 'error',
+          timeout: 5000,
+        })
+        this.loading = false
+        return
+      }
       try {
         if (this.isNewUser) {
           await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage })
-        } else if (this.isOldUserExtra) {
+        } else if (this.hasArchivedExam) {
           await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage, duration: this.userExam.extraDuration })
         }
       } catch (err) {
@@ -146,7 +158,7 @@ export default {
         return
       }
       this.timer = true // default value for old users
-      if (this.isOldUserExtra) {
+      if (this.hasArchivedExam) {
         return
       }
       const startDate = new Date(this.userExam.startDate)

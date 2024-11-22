@@ -27,7 +27,7 @@
         type="button"
         class="btn btn-lg btn-success"
         value="Mark as Complete"
-        @click="submit"
+        @click="() => submit(false)"
       >
     </div>
   </div>
@@ -99,6 +99,14 @@ export default {
     },
   },
   async mounted () {
+    if (this.userExam?.submitted) {
+      noty({
+        text: 'Exam has ended',
+        type: 'error',
+        timeout: 5000,
+      })
+      return
+    }
     await this.fetchCourseInstanceMap()
     this.counter()
     const oneMin = 60 * 1000
@@ -127,9 +135,10 @@ export default {
       this.timeLeft = `${this.paddingZero(minsLeft / 60 | 0)}:${this.paddingZero(minsLeft % 60)}`
     },
     async submit (expires) {
-      // todo: submit exam
-      if (!expires && !confirm(this.$t('exams.submit_tip'))) {
-        return
+      if (!expires) {
+        if (!confirm(this.$t('exams.submit_tip'))) {
+          return
+        }
       }
       await this.submitExam({
         userExamId: this.userExam._id,
