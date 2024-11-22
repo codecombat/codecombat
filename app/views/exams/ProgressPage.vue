@@ -36,6 +36,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import ExamLevel from './components/ExamLevel'
+const courseInstancesApi = require('../../core/api/course-instances')
 export default {
   components: {
     ExamLevel,
@@ -50,6 +51,7 @@ export default {
     return {
       timeLeft: '00:00',
       counterInterval: null,
+      courseInstanceMap: null,
     }
   },
   computed: {
@@ -61,17 +63,27 @@ export default {
       return this.getExamById(this.examId)
     },
     problems () {
-      if (!this.exam) {
+      if (!this.exam || !this.courseInstanceMap) {
         return []
       }
       const problems = this.exam.problems
       const levels = []
       problems.forEach((courseLevels) => {
         courseLevels.levels.forEach((level, index) => {
+          const courseId = courseLevels.courseId
+          const instanceId = this.courseInstanceMap[courseId]
+          if (!instanceId) {
+            noty({
+              text: `Course instance not found for course ${courseId}`,
+              type: 'error',
+              timeout: 5000,
+            })
+            return
+          }
           levels.push({
             ...level,
-            courseId: courseLevels.courseId,
-            instanceId: courseLevels.instanceId,
+            courseId,
+            instanceId,
           })
         })
       })
@@ -86,7 +98,8 @@ export default {
       return lang[0].toUpperCase() + lang.slice(1)
     },
   },
-  mounted () {
+  async mounted () {
+    await this.fetchCourseInstanceMap()
     this.counter()
     const oneMin = 60 * 1000
     this.counterInterval = setInterval(this.counter, oneMin)
@@ -115,7 +128,7 @@ export default {
     },
     async submit (expires) {
       // todo: submit exam
-      if (!confirm(this.$t('exams.submit_tip'))) {
+      if (!expires && !confirm(this.$t('exams.submit_tip'))) {
         return
       }
       await this.submitExam({
@@ -123,6 +136,16 @@ export default {
         expires,
       })
       application.router.navigate(window.location.pathname.replace(/progress$/, 'end'), { trigger: true })
+    },
+    async fetchCourseInstanceMap () {
+      const courseInstances = await courseInstancesApi.fetchByClassroom(this.userExam.classroomId)
+      this.courseInstanceMap = courseInstances.reduce((acc, courseInstance) => {
+        acc[courseInstance.courseID] = courseInstance._id
+        return acc
+      }, {})
+    },
+    getCourseInstance (courseId) {
+      return this.courseInstanceMap[courseId]
     },
   },
 }

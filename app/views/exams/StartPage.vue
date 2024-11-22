@@ -43,6 +43,12 @@
         @click="localStartExam"
       >
       <div
+        v-if="loading"
+        class="loading"
+      >
+        {{ $t('common.loading') }}
+      </div>
+      <div
         v-if="!hasPermission"
         class="no-permission"
       >
@@ -65,6 +71,7 @@ export default {
     return {
       codeLanguage: 'python',
       timer: false,
+      loading: false,
     }
   },
   computed: {
@@ -106,17 +113,32 @@ export default {
   },
   mounted () {
     this.checkingUserExam()
+    if (this.userExam?.codeLanguage) {
+      this.codeLanguage = this.userExam.codeLanguage
+    }
   },
   methods: {
     ...mapActions('exams', [
       'startExam',
     ]),
     async localStartExam () {
-      if (this.isNewUser) {
-        await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage })
-      } else if (this.isOldUserExtra) {
-        await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage, duration: this.userExam.extraDuration })
+      this.loading = true
+      try {
+        if (this.isNewUser) {
+          await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage })
+        } else if (this.isOldUserExtra) {
+          await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage, duration: this.userExam.extraDuration })
+        }
+      } catch (err) {
+        noty({
+          text: err?.message || 'Start exam failed',
+          type: 'error',
+          timeout: 5000,
+        })
+        this.loading = false
+        return
       }
+      this.loading = false
       application.router.navigate(window.location.pathname.replace(/start$/, 'progress'), { trigger: true })
     },
     checkingUserExam () {
