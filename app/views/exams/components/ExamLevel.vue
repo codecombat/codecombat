@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     levelLink () {
-      return `/play/level/${this.level.slug}?course=${this.level.courseId}&codeLanguage=${this.language}`
+      return `/play/level/${this.level.slug}?course=${this.level.courseId}&course-instance=${this.level.instanceId}&codeLanguage=${this.language}`
     },
   },
   methods: {
