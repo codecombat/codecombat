@@ -123,6 +123,10 @@ module.exports = class TomeView extends CocoView
         desiredCodeFormat ?= 'blocks-icons'
       desiredCodeFormat ?= classroomCodeFormatDefault
       newCodeFormat = if desiredCodeFormat in classroomCodeFormats then desiredCodeFormat else classroomCodeFormatDefault
+
+    codeFormatOverride = utils.getQueryVariable('codeFormat')
+    if codeFormatOverride?
+      newCodeFormat = codeFormatOverride
     return if newCodeFormat is @codeFormat
     @blocks = /block/.test(newCodeFormat) # TODO: handle blocks class toggling better
     @blocksHidden = not _.intersection(classroomCodeFormats, ['blocks-icons', 'blocks-text', 'blocks-and-code']).length # TODO: handle blocks class toggling better
