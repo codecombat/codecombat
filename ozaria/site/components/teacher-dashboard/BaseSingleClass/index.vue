@@ -136,6 +136,8 @@ export default {
       const modulesForTable = []
 
       // Get the name and content list of a module.
+      const isPlayableForStudent = {}
+      const lastLockDateForStudent = {}
       for (const [moduleNum, moduleContent] of Object.entries(modules)) {
         // Because we are only reading the easiest way to propagate _most_
         // i18n is by transforming the content linearly here.
@@ -175,6 +177,8 @@ export default {
         }))
         // Iterate over all the students and all the sessions for the student.
         for (const student of this.students) {
+          isPlayableForStudent[student._id] = typeof isPlayableForStudent[student._id] === 'undefined' ? true : isPlayableForStudent[student._id]
+          lastLockDateForStudent[student._id] = typeof lastLockDateForStudent[student._id] === 'undefined' ? null : lastLockDateForStudent[student._id]
           const studentSessions = this.levelSessionsMapByUser[student._id] || {}
           const levelOriginalCompletionMap = {}
           const playTimeMap = {}
@@ -186,8 +190,6 @@ export default {
             completionDateMap[session.level.original] = session.state.complete && session.changed
           }
 
-          let isPlayable = true
-          let lastLockDate = null
           moduleStatsForTable.studentSessions[student._id] = translatedModuleContent.map((content) => {
             const { original, fromIntroLevelOriginal, practiceLevels } = content
             const normalizedOriginal = original || fromIntroLevelOriginal
@@ -204,14 +206,14 @@ export default {
             const isSkipped = isOptional && isLocked
 
             if (lockDate && lockDate > new Date()) {
-              lastLockDate = lockDate
+              lastLockDateForStudent[student._id] = lockDate
               if (!isOptional) {
-                isPlayable = false
+                isPlayableForStudent[student._id] = false
               }
             }
 
             if (isLocked && !isOptional) {
-              isPlayable = false
+              isPlayableForStudent[student._id] = false
             }
 
             const isPractice = Boolean(content.practice)
@@ -222,12 +224,12 @@ export default {
               isLocked,
               isSkipped,
               lockDate,
-              lastLockDate,
+              lastLockDate: lastLockDateForStudent[student._id],
               original,
               normalizedOriginal,
               fromIntroLevelOriginal,
               isOptional,
-              isPlayable,
+              isPlayable: isPlayableForStudent[student._id],
               isPractice,
               playTime: playTimeMap[normalizedOriginal],
               completionDate: completionDateMap[normalizedOriginal],

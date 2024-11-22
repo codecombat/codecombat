@@ -1818,6 +1818,8 @@ module.exports = {
       initial_free_courses_description: '*Courses can be updated using Assign Content after creating class too.',
       junior_code_format_only: 'Blocks (Icons) only available for Junior',
       hackstack_no_code_language_format: 'AI HackStack does not need a programming language or code format',
+      licenses_activated_success: 'Licenses have been Activated Successfully!',
+      license_code_used: 'License Code used.',
     },
 
     no_licenses_page: {
@@ -1894,8 +1896,6 @@ module.exports = {
       courses_suffix: '',
       course_prefix: 'Course',
       course_suffix: '',
-      licenses_activated_success: 'Licenses have been Activated Successfully!',
-      license_code_used: 'License Code used.',
     },
 
     teachers_quote: {
@@ -4720,6 +4720,7 @@ module.exports = {
       ai_league_curriculum_blurb: 'Access our comprehensive curriculum guides designed specifically for AI League arenas. These resources help you introduce competitive coding concepts and teach strategic thinking.',
       ai_league_custom_title: 'Custom AI League Tournaments',
       ai_league_custom_blurb: "Create your own customized tournaments to engage your students! Select from our library of coding arenas and set competition dates, whether it's a classroom challenge or a school-wide competition.",
+      activate_license: 'Activate License',
     },
 
     outcomes: {
@@ -6105,6 +6106,7 @@ module.exports = {
       delete: 'Delete',
       duplicate: 'Duplicate',
       use_as_a_template: 'Use as a Template',
+      hackstack_credits: 'AI HackStack Credits',
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',
