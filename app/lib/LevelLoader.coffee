@@ -695,6 +695,7 @@ module.exports = class LevelLoader extends CocoClass
     @world.submissionCount = @session?.get('state')?.submissionCount ? 0
     @world.flagHistory = @session?.get('state')?.flagHistory ? []
     @world.difficulty = @session?.get('state')?.difficulty ? 0
+    @world.language = me.get('preferredLanguage') or 'en-US'
     if @observing
       @world.difficulty = Math.max 0, @world.difficulty - 1  # Show the difficulty they won, not the next one.
     serializedLevel = @level.serialize {@supermodel, @session, @opponentSession, @headless, @sessionless}
