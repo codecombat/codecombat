@@ -5,26 +5,31 @@ import SecondaryButton from '../common/buttons/SecondaryButton'
 import User from 'models/User'
 import Classroom from 'models/Classroom'
 import Level from 'models/Level'
+import RobloxButton from 'app/views/account/robloxButton'
+import { getStudentCredits } from 'app/core/api/user-credits'
+import { USER_CREDIT_HACKSTACK_KEY } from 'app/core/constants'
 
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 export default {
   components: {
     Modal,
     PrimaryButton,
-    SecondaryButton
+    SecondaryButton,
+    RobloxButton,
   },
 
   props: {
     displayOnly: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data: () => ({
     newPassword: '',
     changingPassword: false,
-    levels: []
+    levels: [],
+    studentCredits: null,
   }),
 
   computed: {
@@ -33,8 +38,23 @@ export default {
       getLevelsForClassroom: 'levels/getLevelsForClassroom',
       editingStudent: 'baseSingleClass/currentEditingStudent',
       classroom: 'teacherDashboard/getCurrentClassroom',
-      levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom'
+      levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
     }),
+
+    creditMessage () {
+      if (this.studentCredits && this.studentCredits.result?.length > 0) {
+        const credit = this.studentCredits.result[0]
+        const durAmount = credit.durationAmount > 1 ? credit.durationAmount : $.i18n.t('hackstack.creditMessage_the')
+        return $.i18n.t('hackstack.creditMessage_creditcreditsleft-creditinitialcredits-c', {
+          creditCreditsLeft: credit.creditsLeft,
+          creditInitialCredits: credit.initialCredits,
+          durAmount,
+          creditDurationKey: credit.durationKey,
+        })
+      } else {
+        return $.i18n.t('common.loading')
+      }
+    },
 
     selectedStudent () {
       const resultStudent = this.classroomMembers.find(({ _id }) => _id === this.editingStudent)
@@ -51,6 +71,10 @@ export default {
 
     email () {
       return this.selectedStudent.get('email')
+    },
+
+    studentId () {
+      return this.selectedStudent.get('_id')
     },
 
     lastPlayed () {
@@ -80,22 +104,27 @@ export default {
       }
       if (this.lastPlayed.session) { lastPlayedString += moment(this.lastPlayed.session.changed).format('LLLL') }
       return lastPlayedString
-    }
+    },
   },
 
   async mounted () {
     await this.fetchLevelsForClassroom(this.classroom._id)
     this.levels = this.getLevelsForClassroom(this.classroom._id)
+    await this.getCredits()
   },
 
   methods: {
     ...mapMutations({
-      closeModalEditStudent: 'baseSingleClass/closeModalEditStudent'
+      closeModalEditStudent: 'baseSingleClass/closeModalEditStudent',
     }),
 
     ...mapActions({
       fetchLevelsForClassroom: 'levels/fetchForClassroom',
     }),
+
+    async getCredits () {
+      this.studentCredits = await getStudentCredits(USER_CREDIT_HACKSTACK_KEY, this.studentId)
+    },
 
     async changePassword () {
       // Don't change password if there is no new password, or if the teacher
@@ -111,7 +140,7 @@ export default {
           text: 'Password Changed successfully!',
           type: 'success',
           layout: 'center',
-          timeout: 6000
+          timeout: 6000,
         })
         this.newPassword = ''
       } catch (e) {
@@ -128,13 +157,13 @@ export default {
           text: errorText,
           type: 'error',
           layout: 'center',
-          timeout: 6000
+          timeout: 6000,
         })
       } finally {
         this.changingPassword = false
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -159,6 +188,9 @@ export default {
           <b>{{ $t('user.last_played') }}:</b> {{ lastPlayed?.session ?
             lastPlayedString :
             $t('teacher.never_played') }}
+        </p>
+        <p>
+          <b>{{ $t('hackstack.hackstack_credits') }}:</b> {{ creditMessage }}
         </p>
 
         <form
@@ -190,6 +222,12 @@ export default {
             </div>
           </div>
         </form>
+        <roblox-button
+          size="small"
+          :user-id="studentId"
+          :use-oauth="false"
+          :use-roblox-id="true"
+        />
       </div>
       <secondary-button
         class="right-button"

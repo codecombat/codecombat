@@ -33,10 +33,6 @@ _.extend(ExamSchema.properties, {
           type: 'string',
           description: 'ID of the course',
         },
-        instanceId: {
-          type: 'string',
-          description: 'ID of the course instance',
-        },
         levels: {
           type: 'array',
           description: 'Levels that are included in the exam',
@@ -53,6 +49,18 @@ _.extend(ExamSchema.properties, {
             },
           }),
         },
+      },
+    },
+  },
+  languageClassroom: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        language: {
+          type: 'string',
+        },
+        classroomId: c.objectId(),
       },
     },
   },

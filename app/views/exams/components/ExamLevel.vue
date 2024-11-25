@@ -1,10 +1,10 @@
 <template>
-  <div class="exam-level">
+  <li class="exam-level">
     <a
       :href="levelLink"
       target="_blank"
     >{{ $t('exams.level_num', { num: index }) }}</a>
-  </div>
+  </li>
 </template>
 
 <script>

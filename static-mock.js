@@ -24,7 +24,6 @@ exports.me = {
   isAPIClient () { return false },
   isInGodMode () { return false },
   level () { return 1 },
-  useDexecure () { return true },
   useSocialSignOn () { return true },
   gems () { return 0 },
   getPhotoURL () { return '' },
@@ -43,7 +42,6 @@ exports.me = {
   showChinaVideo () { return false },
   showForumLink () { return true },
   showChinaResourceInfo () { return false },
-  hideDiplomatModal () { return false },
   showOpenResourceLink () { return true },
   useStripe () { return true },
   getHackStackExperimentValue () { return false }

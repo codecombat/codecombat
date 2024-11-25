@@ -1,37 +1,57 @@
 <template>
   <div class="start-page center-div">
-    <select
-      id="language-select"
-      v-model="codeLanguage"
-      :disabled="!isNewUser"
-    >
-      <option
-        v-for="lang in avaliableLanguages"
-        :key="lang"
-        :value="lang"
+    <div class="info">
+      <div class="lang">
+        <label for="language-select">
+          Programming Language:
+        </label>
+        <select
+          id="language-select"
+          v-model="codeLanguage"
+          :disabled="!isNewUser"
+          class="form-control"
+        >
+          <option
+            v-for="lang in avaliableLanguages"
+            :key="lang"
+            :value="lang"
+            class="lang-option"
+          >
+            {{ lang[0].toUpperCase() + lang.slice(1) }}
+          </option>
+        </select>
+      </div>
+      <div
+        v-if="isNewUser"
+        class="timer-tip"
       >
-        {{ lang }}
-      </option>
-    </select>
-    <div
-      v-if="isNewUser"
-      class="timer-tip"
-    >
-      <input
-        v-model="timer"
-        name="timer"
-        type="checkbox"
-      >
-      <label for="timer"> {{ $t('exams.timer_tip') }} </label>
+        <input
+          id="timer-checkbox"
+          v-model="timer"
+          name="timer"
+          type="checkbox"
+        >
+        <label for="timer-checkbox"> {{ $t('exams.timer_tip') }} </label>
+      </div>
     </div>
     <div class="start center-div">
       <input
         :disabled="!hasPermission || !timer"
         type="button"
         :value="buttonValue"
+        class="btn btn-lg btn-success"
         @click="localStartExam"
       >
-      <div v-if="!hasPermission">
+      <div
+        v-if="loading"
+        class="loading"
+      >
+        {{ $t('common.loading') }}
+      </div>
+      <div
+        v-if="!hasPermission"
+        class="no-permission"
+      >
         {{ $t('exams.no_permission') }}
       </div>
     </div>
@@ -51,6 +71,7 @@ export default {
     return {
       codeLanguage: 'python',
       timer: false,
+      loading: false,
     }
   },
   computed: {
@@ -68,8 +89,7 @@ export default {
       if (this.exam?._id === '-') {
         return true
       }
-      const clans = me.get('clans') || []
-      return clans.includes(this.exam?.clan)
+      return me.isMto()
     },
     buttonValue () {
       if (this.isNewUser) {
@@ -87,23 +107,50 @@ export default {
     isOldUser () {
       return this.userExam && !this.userExam.archived
     },
-    isOldUserExtra () {
+    hasArchivedExam () {
       return this.userExam && this.userExam.archived
+    },
+    isExamEnded () {
+      return this.userExam?.submitted
     },
   },
   mounted () {
     this.checkingUserExam()
+    if (this.userExam?.codeLanguage) {
+      this.codeLanguage = this.userExam.codeLanguage
+    }
   },
   methods: {
     ...mapActions('exams', [
       'startExam',
     ]),
     async localStartExam () {
-      if (this.isNewUser) {
-        await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage })
-      } else if (this.isOldUserExtra) {
-        await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage, duration: this.userExam.extraDuration })
+      this.loading = true
+      if (this.isExamEnded && !this.hasArchivedExam) {
+        noty({
+          text: 'Exam has ended',
+          type: 'error',
+          timeout: 5000,
+        })
+        this.loading = false
+        return
       }
+      try {
+        if (this.isNewUser) {
+          await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage })
+        } else if (this.hasArchivedExam) {
+          await this.startExam({ examId: this.examId, codeLanguage: this.codeLanguage, duration: this.userExam.extraDuration })
+        }
+      } catch (err) {
+        noty({
+          text: err?.message || 'Start exam failed',
+          type: 'error',
+          timeout: 5000,
+        })
+        this.loading = false
+        return
+      }
+      this.loading = false
       application.router.navigate(window.location.pathname.replace(/start$/, 'progress'), { trigger: true })
     },
     checkingUserExam () {
@@ -111,7 +158,7 @@ export default {
         return
       }
       this.timer = true // default value for old users
-      if (this.isOldUserExtra) {
+      if (this.hasArchivedExam) {
         return
       }
       const startDate = new Date(this.userExam.startDate)
@@ -126,4 +173,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.center-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+.no-permission {
+  margin-top: 10px;
+  color: red;
+}
+.lang {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.timer-tip {
+  margin-top: 10px;
+}
 </style>

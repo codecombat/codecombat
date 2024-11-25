@@ -59,7 +59,6 @@ app/assets/javascripts/setImmediate.js
 app/assets/javascripts/workers/aether_worker.js
 app/assets/javascripts/workers/worker_world.js
 app/assets/javascripts/run-tests.js
-app/assets/dexecure-c167a5675c.js
 app/app.js
 
 app/core/components/PieComponent.vue

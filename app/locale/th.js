@@ -595,6 +595,7 @@ module.exports = {
       //    age_description_codecombat: "Real Python or JavaScript coding for everyone",
       //    age_description_codecombat_junior: "Blocks or simple text coding for beginners",
       want_more_hints: '[AI_TRANSLATION]ต้องการคำแนะนำอีกมั้ย?',
+      //    choose_your_adventure: "Choose Your Adventure",
     },
 
     code: {
@@ -1387,6 +1388,7 @@ module.exports = {
       unsubscribing: '[AI_TRANSLATION]ยกเลิกการสมัครสมาชิก',
       subscribe_prepaid: '[AI_TRANSLATION]คลิกติดตามเพื่อใช้โค้ดที่จ่ายล่วงหน้า',
       using_prepaid: '[AI_TRANSLATION]การใช้รหัสเติมเงินเพื่อสมัครสมาชิกรายเดือน',
+      //    subscribe_to_premium: "Subscribe to Premium",
       feature_level_access: '[AI_TRANSLATION]เข้าถึงระดับอล 600+ ที่มีให้เล่น',
       feature_heroes: '[AI_TRANSLATION]ปลดล็อกฮีโร่และสัตว์เลี้ยงสุดพิเศษ',
       feature_learn: '[AI_TRANSLATION]เรียนรู้การสร้างเกมและเว็บไซต์',
@@ -1394,6 +1396,7 @@ module.exports = {
       //    feature_aiyouth: "",
       feature_gems: '[AI_TRANSLATION]ได้ __gems__ gem/เดือน (__gems12__ gem/ปี)',
       //    feature_all_products: "4-in-1: CodeCombat Home, CodeCombat Junior, CodeCombat Worlds on Roblox, and CodeCombat AI HackStack",
+      //    feature_products: "Access CodeCombat Junior, CodeCombat & AI HackStack",
       month_price: '[AI_TRANSLATION]$__price__/เดือน',
       month_price_without_currency: '[AI_TRANSLATION]__price__/เดือน',
       first_month_price: '[AI_TRANSLATION]เพียง $__price__ สำหรับเดือนแรก!',
@@ -1515,6 +1518,7 @@ module.exports = {
       blocks_and_code: '[AI_TRANSLATION]บล็อกและโค้ด',
       blocks_text: '[AI_TRANSLATION]บล็อก',
       blocks_icons: '[AI_TRANSLATION]บล็อก (ไอคอน)',
+      //    blocks_icons_helptext: "Junior only",
       text_code_blurb: '[AI_TRANSLATION]พิมพ์โค้ดตามข้อความในโปรแกรมแก้ไขโค้ดจริง',
       blocks_and_code_blurb: '[AI_TRANSLATION]บล็อกและโค้ดแบบข้อความเคียงข้างกัน',
       blocks_text_blurb: '[AI_TRANSLATION]ลากและวางบล็อคสำหรับแท็บเล็ตหรือนักเรียนที่อายุน้อย',
@@ -1791,6 +1795,7 @@ module.exports = {
       initial_free_courses: '[AI_TRANSLATION]คอร์สเริ่มต้น\n',
       free_course_blurb_junior: '[AI_TRANSLATION]เหมาะสำหรับเกรด K-5 CodeCombat Junior มีตัวเลือกการเขียนโปรแกรมแบบบล็อกและมือถือ สำหรับเด็กก่อนอ่าน และ Python หรือ JavaScript สำหรับประถมตอนปลาย หรือใช้บล็อกคู่และโค้ดเพื่อช่วยในการเปลี่ยนผ่าน',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]เหมาะสำหรับเกรด 6-12 หลักสูตร CS ของ CodeCombat เริ่มต้นจากการแนะนำวิทยาการคอมพิวเตอร์สำหรับผู้เริ่มต้น ไปจนถึง AP Computer Science Principles และหลักสูตร CS ขั้นสูงอื่นๆ เริ่มต้นที่นี่สำหรับนักเรียนชั้นกลางและชั้นมัธยม',
+      //    free_course_blurb_hackstack: "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
       start_teaching_ai_today: '[AI_TRANSLATION]เริ่มสอน AI วันนี้!  ',
       hackstack_beta_release: '[AI_TRANSLATION]HackStack Beta Release',
       introducing_ai_hackstack: '[AI_TRANSLATION]แนะนำ AI HackStack เครื่องมือสอน AI สำหรับมือใหม่ ให้เข้าถึงโมเดล AI ชั้นนำได้อย่างปลอดภัย เช่น ChatGPT, Claude, และ DALL-E  ',
@@ -1810,6 +1815,11 @@ module.exports = {
       all_classrooms_imported: '[AI_TRANSLATION]ทุกชั้นเรียนถูกนำเข้าแล้ว\n',
       club_type: '[AI_TRANSLATION]Club Type  ',
       create_students_prompt: '[AI_TRANSLATION]อยากสร้างนักเรียนกี่คนเหรอ?\n',
+      //    initial_free_courses_description: "*Courses can be updated using Assign Content after creating class too.",
+      //    junior_code_format_only: "Blocks (Icons) only available for Junior",
+      //    hackstack_no_code_language_format: "AI HackStack does not need a programming language or code format",
+      //    licenses_activated_success: "Licenses have been Activated Successfully!",
+      //    license_code_used: "License Code used.",
     },
 
     no_licenses_page: {
@@ -1886,8 +1896,6 @@ module.exports = {
       //    courses_suffix: "",
       course_prefix: '[AI_TRANSLATION]หลักสูตร',
       //    course_suffix: "",
-      licenses_activated_success: '[AI_TRANSLATION]ใบอนุญาตได้รับการเปิดใช้งานเรียบร้อยแล้ว!',
-      license_code_used: '[AI_TRANSLATION]ใช้รหัสใบอนุญาตแล้ว',
     },
 
     teachers_quote: {
@@ -2008,7 +2016,9 @@ module.exports = {
       re_connect_roblox_button: '[AI_TRANSLATION]เชื่อมต่อบัญชีอื่น',
       disconnect_roblox_button: '[AI_TRANSLATION]ตัดการเชื่อมต่อ',
       roblox_connected: '[AI_TRANSLATION]บัญชีของคุณ <strong>__username__</strong> เชื่อมต่อกับ Roblox แล้ว',
+      //    roblox_connected_other_user: "The student's account is connected to  <strong>__username__</strong> Roblox account.",
       roblox_not_connected: '[AI_TRANSLATION]เชื่อมต่อบัญชี CodeCombat และ Roblox ของคุณ',
+      //    roblox_not_connected_other_user: "Connect the student's CodeCombat and Roblox accounts.",
       roblox_disconnect_confirm: '[AI_TRANSLATION]คุณแน่ใจเหรอว่าต้องการยกเลิกการเชื่อมต่อบัญชี Roblox ของคุณ?',
       god_mode: '[AI_TRANSLATION]โหมดเทพ',
       emails_tab: '[AI_TRANSLATION]อีเมล',
@@ -2861,6 +2871,8 @@ module.exports = {
       test_student_modal_choose_class: '[AI_TRANSLATION]เลือกคลาสที่จะเข้าร่วม:  ',
       test_student_modal_redirect: '[AI_TRANSLATION]คุณจะถูกเปลี่ยนเส้นทางไปยังบัญชีทดสอบของนักเรียนคุณ!  ',
       stop_spying_student: '[AI_TRANSLATION]คุณสามารถกลับไปที่บัญชีครูได้โดยคลิก `Stop Spying` ในเมนูผู้ใช้',
+      //    show_practice_levels: "Show Practice Levels",
+      //    hide_practice_levels: "Hide Practice Levels",
     },
 
     teacher_licenses: {
@@ -4707,6 +4719,7 @@ module.exports = {
       //    ai_league_curriculum_blurb: "Access our comprehensive curriculum guides designed specifically for AI League arenas. These resources help you introduce competitive coding concepts and teach strategic thinking.",
       //    ai_league_custom_title: "Custom AI League Tournaments",
       //    ai_league_custom_blurb: "Create your own customized tournaments to engage your students! Select from our library of coding arenas and set competition dates, whether it's a classroom challenge or a school-wide competition.",
+      //    activate_license: "Activate License",
     },
 
     outcomes: {
@@ -5425,6 +5438,9 @@ module.exports = {
       websites: '[AI_TRANSLATION]เว็บไซต์',
       code_more: '[AI_TRANSLATION]โค้ดและอื่นๆ',
       ideal_endeavour: '[AI_TRANSLATION]มันเป็นคู่มือที่ดีเยี่ยมสำหรับทุกความพยายาม',
+      //    ai_made_ss: "AI Made Simple & Safe -- Start Today!",
+      //    aiss_body: "Built as the simplest path to AI literacy, this tool empowers learners to harness top LLMs with hands-on AI training, making creation easy—whether it’s games, art, writing, code, or more. Together, we help learners safely bring their ideas to life across any subject.",
+      //    learn_more: "Learn More!",
     },
 
     user_credits: {
@@ -5701,7 +5717,7 @@ module.exports = {
 
     //  hackstack_page: {
     //    header: "Learn, create, and accelerate with **AI HackStack**",
-    //    header_details: "Together, we can empower all learners to turn their ideas into reality, across every subject imaginable.",
+    //    header_details: "Together, we empower learners to safely bring their ideas to life across any subject.",
     //    accessible_safe_use: "Accessible, safe, and responsible use of AI",
     //    learn_title: "Learn",
     //    learn_description: "From **English Language Arts** to **Mathematics** and **Science**, students discover how to craft safe and effective prompts for generating output in each discipline. Learn essential prompt engineering skills in a **wide range of subjects** using Al HackStack's Learning Scenarios. Along the way, your students will gain hands-on experience with popular Al models like Claude, DALL-E, and Stable Diffusion.",
@@ -5744,6 +5760,7 @@ module.exports = {
     //    faq_6_answer: "We offer both Clever and Google Classroom integration. Check out our **[https://codecombat.com/teachers/resources/clever-faq]Clever Integration FAQ** for more details on how to get started. If you are using Google Classroom be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time. Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option.",
     //    faq_7_question: "Recommended browser and operating system",
     //    faq_7_answer: "TBA",
+    //    learn_more: "Learn More",
     //  },
 
     standards_page: {
@@ -6084,8 +6101,14 @@ module.exports = {
       //    my_courses: "My Courses",
       //    what_do_you_want_to_do_today: "What do you want to do today?",
       //    learn_ai: "Learn AI",
-      //    create_ai: "Create With AI",
+      //    create_ai: "Create AI",
+      //    learn_with_ai: "Learn With AI",
+      //    create_with_ai: "Create With AI",
       //    name_conflict: "Name Conflict, please choose a different name",
+      //    edit: "Edit",
+      //    delete: "Delete",
+      //    duplicate: "Duplicate",
+      //    use_as_a_template: "Use as a Template",
     },
 
     parents_v2: {
@@ -6371,11 +6394,13 @@ module.exports = {
     //  },
 
     //  exams: {
-    //    timer_tip: "A timer will start when you click Start the exam",
+    //    timer_tip: "A timer will start when you click Start Exam",
     //    no_permission: "Only users with permission can take the exam",
     //    level_num: "Level __num__",
     //    time_left: "Time Left (HH:mm):",
     //    submit_tip: "Are you sure you want to mark as complete? You will not be able to play the levels again.",
+    //    start_exam: "Start Exam",
+    //    continue_exam: "Continue Exam",
     //  },
   },
 }
