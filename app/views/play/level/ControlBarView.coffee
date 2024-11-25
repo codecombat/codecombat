@@ -46,6 +46,11 @@ module.exports = class ControlBarView extends CocoView
     @spectateGame = options.spectateGame ? false
     @observing = options.session.get('creator') isnt me.id
 
+    exam = storage.load('exam', true)
+    if exam
+      @inExam = _.any exam.problems, (courseLevels) =>
+        _.find courseLevels.levels, { slug: @level.get('slug') }
+
     @levelNumber = ''
     if @level.isType('course', 'game-dev', 'web-dev') and @level.get('campaignIndex')?
       @levelNumber = @level.get('campaignIndex') + 1

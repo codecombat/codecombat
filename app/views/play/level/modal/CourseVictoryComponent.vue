@@ -44,13 +44,13 @@
               img(:src="heroImage").hero-img
               div(v-if="level.victory") {{ $dbt(level.victory, 'body') }}
               
-        .row(v-if="level.assessment === 'cumulative'")
+        .row(v-if="level.assessment === 'cumulative' && !inExam")
           .col-sm-5.col-sm-offset-7
             button#replay-level-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase(
             @click="onReplayLevel"
             )
               | {{ $t('play_level.replay_level') }}
-        .row(v-else-if="assessmentNext && !level.assessment")
+        .row(v-else-if="assessmentNext && !level.assessment && !inExam")
           .col-sm-6.col-sm-offset-6
             a#start-challenge-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.btn-glow.text-uppercase(
               @click="onStartChallenge",
@@ -60,7 +60,7 @@
         
             
             
-        .row
+        .row(v-if="!inExam")
           .col-sm-6.text-uppercase
             .well.well-sm.well-parchment
               h5 {{ $t('play_level.completed_level') }}
@@ -79,7 +79,7 @@
               h3.text-uppercase {{ $dbt(nextLevel, 'name') }}
               div.no-imgs(v-html="marked($dbt(nextLevel, 'description'))")
     
-        .row
+        .row(v-if="!inExam")
           .col-sm-6.text-uppercase
             a#map-btn.btn.btn-illustrated.btn-block.btn-lg.text-uppercase(
               @click="onBackToMap",
@@ -100,7 +100,12 @@
               :class="nextLevelLinkClasses"
             )
               | {{ $t('play_level.next_level') }}
-
+        .row(v-else)
+          .col-sm-12.text-uppercase
+            a.btn.btn-illustrated.btn-success.btn-grow.btn-block.btn-lg.text-uppercase(
+              @click="onReturnExam",
+            )
+              | {{ $t('exams.continue_exam') }}
 
 </template>
 
@@ -112,6 +117,7 @@
   Level = require 'models/Level'
   LevelSession = require 'models/LevelSession'
   heroMap = _.invert(thangTypeConstants.heroes)
+  storage = require 'core/storage'
   
   module.exports = Vue.extend({
     # TODO: Move these props to vuex
@@ -196,9 +202,16 @@
       nextLevelVideo: ->
         if me.isStudent() and @course._id == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE and !me.showHeroAndInventoryModalsToStudents()
           return utils.videoLevels[@nextLevel.original]
+      inExam: ->
+        exam = storage.load('exam', true)
+        return _.any exam.problems, (courseLevels) =>
+          return _.find(courseLevels.levels, {slug: @level.slug})
+
     }
     methods: {
       marked
+      onReturnExam: ->
+        window.close()
       onStartChallenge: ->
         window.tracker?.trackEvent(
           'Play Level Victory Modal Start Challenge',
