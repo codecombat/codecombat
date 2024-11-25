@@ -131,6 +131,15 @@ function markParentBuyingForSelfPromptSeen () {
   localStorage.save(parentBuyingforSelfPromptKey(), true, 24 * 60)
 }
 
+function levelInExam (slug) {
+  const me = window.me
+  const exam = localStorage.load(`exam-${me.id}`, true)
+  if (!exam) { return false }
+  return _.any(exam.problems, (course) => {
+    return _.find(course.levels, { slug })
+  })
+}
+
 module.exports = {
   extraProvisions,
   isInLibraryNetwork,
@@ -142,5 +151,6 @@ module.exports = {
   isCreatedViaLibrary,
   hasSeenParentBuyingforSelfPrompt,
   markParentBuyingForSelfPromptSeen,
-  updateUserCreditsMessage
+  updateUserCreditsMessage,
+  levelInExam,
 }

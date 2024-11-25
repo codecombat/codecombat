@@ -6395,6 +6395,7 @@ module.exports = {
       submit_tip: 'Are you sure you want to mark as complete? You will not be able to play the levels again.',
       start_exam: 'Start Exam',
       continue_exam: 'Continue Exam',
+      return_to_exam: 'Return to the Exam',
     },
   },
 }
