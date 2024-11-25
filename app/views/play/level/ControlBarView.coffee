@@ -5,6 +5,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'app/templates/play/level/control-bar-view'
 {me} = require 'core/auth'
 utils = require 'core/utils'
+userUtils = require 'lib/user-utils'
 
 Campaign = require 'models/Campaign'
 Classroom = require 'models/Classroom'
@@ -46,10 +47,7 @@ module.exports = class ControlBarView extends CocoView
     @spectateGame = options.spectateGame ? false
     @observing = options.session.get('creator') isnt me.id
 
-    exam = storage.load('exam', true)
-    if exam
-      @inExam = _.any exam.problems, (courseLevels) =>
-        _.find courseLevels.levels, { slug: @level.get('slug') }
+    @inExam = userUtils.levelInExam(@level.get('slug'))
 
     @levelNumber = ''
     if @level.isType('course', 'game-dev', 'web-dev') and @level.get('campaignIndex')?

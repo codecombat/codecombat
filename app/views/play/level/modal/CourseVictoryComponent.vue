@@ -105,7 +105,7 @@
             a.btn.btn-illustrated.btn-success.btn-grow.btn-block.btn-lg.text-uppercase(
               @click="onReturnExam",
             )
-              | {{ $t('exams.continue_exam') }}
+              | {{ $t('exams.return_to_exam') }}
 
 </template>
 
@@ -117,8 +117,8 @@
   Level = require 'models/Level'
   LevelSession = require 'models/LevelSession'
   heroMap = _.invert(thangTypeConstants.heroes)
-  storage = require 'core/storage'
-  
+  userUtils = require 'lib/user-utils'
+
   module.exports = Vue.extend({
     # TODO: Move these props to vuex
     props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats', 'supermodel', 'parent', 'codeLanguage'],
@@ -203,10 +203,7 @@
         if me.isStudent() and @course._id == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE and !me.showHeroAndInventoryModalsToStudents()
           return utils.videoLevels[@nextLevel.original]
       inExam: ->
-        exam = storage.load('exam', true)
-        return _.any exam.problems, (courseLevels) =>
-          return _.find(courseLevels.levels, {slug: @level.slug})
-
+        return userUtils.levelInExam(@level.slug)
     }
     methods: {
       marked

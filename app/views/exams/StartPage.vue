@@ -126,7 +126,7 @@ export default {
       'startExam',
     ]),
     setupLocalStorage () {
-      storage.save('exam', this.exam, this.limitedDuration)
+      storage.save(`exam-${me.id}`, this.exam, this.limitedDuration)
     },
     async localStartExam () {
       this.loading = true
