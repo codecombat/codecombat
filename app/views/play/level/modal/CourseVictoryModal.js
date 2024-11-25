@@ -1,10 +1,7 @@
 /*
  * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
  * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CourseVictoryModal
@@ -65,7 +62,7 @@ module.exports = (CourseVictoryModal = (function () {
         levelOriginalID: this.level.get('original'),
         courseInstanceID: this.courseInstanceID,
         courseID: this.courseID,
-        sessionID: this.session.id
+        sessionID: this.session.id,
       }).then(({ level, assessment }) => {
         this.nextLevel.set(level)
         return this.nextAssessment.set(assessment)
@@ -97,14 +94,14 @@ module.exports = (CourseVictoryModal = (function () {
 
       const properties = {
         category: 'Students',
-        levelSlug: this.level.get('slug')
+        levelSlug: this.level.get('slug'),
       }
       const concepts = this.level.get('goals').filter(g => g.concepts).map(g => g.id)
       if (concepts.length) {
         const {
-          goalStates
+          goalStates,
         } = this.session.get('state')
-        const succeededConcepts = concepts.filter(c => (goalStates[c] != null ? goalStates[c].status : undefined) === 'success')
+        const succeededConcepts = concepts.filter(c => goalStates[c]?.status === 'success')
         _.assign(properties, { concepts, succeededConcepts })
       }
       window.tracker?.trackEvent('Play Level Victory Modal Loaded', properties)
@@ -132,9 +129,9 @@ module.exports = (CourseVictoryModal = (function () {
       this.views = []
 
       if (me.showGemsAndXpInClassroom() && (this.achievements.length > 0)) {
-        this.achievements.models = _.filter(this.achievements.models, m => !__guard__(m.get('query'), x => x.ladderAchievementDifficulty)) // Don't show higher AI difficulty achievements
+        this.achievements.models = _.filter(this.achievements.models, m => m.get('query')?.ladderAchievementDifficulty) // Don't show higher AI difficulty achievements
         let showAchievements = false // show achievements only if atleast one achievement is completed
-        for (const achievement of Array.from(this.achievements.models)) {
+        for (const achievement of this.achievements.models) {
           achievement.completed = LocalMongo.matchesQuery(this.session.attributes, achievement.get('query'))
           if (achievement.completed) {
             showAchievements = true
@@ -183,7 +180,7 @@ module.exports = (CourseVictoryModal = (function () {
           classroom: this.classroom,
           levelSessions: this.levelSessions,
           session: this.session,
-          courseInstanceID: this.courseInstanceID
+          courseInstanceID: this.courseInstanceID,
         })
 
         progressView.once('done', this.onDone, this)
@@ -239,15 +236,15 @@ module.exports = (CourseVictoryModal = (function () {
         session: this.session.toJSON(),
         course: this.course.toJSON(),
         courseInstanceID: this.courseInstanceID,
-        stats: (this.classroom != null ? this.classroom.statsForSessions(this.levelSessions, this.course.id) : undefined),
+        stats: this.classroom?.statsForSessions(this.levelSessions, this.course.id),
         supermodel: this.supermodel,
         parent: this.options.parent,
-        codeLanguage: this.session.get('codeLanguage')
+        codeLanguage: this.session.get('codeLanguage'),
       }
       return new CourseVictoryComponent({
         el: this.$el.find('.modal-content')[0],
         propsData,
-        store
+        store,
       })
     }
 
@@ -348,7 +345,3 @@ module.exports = (CourseVictoryModal = (function () {
   CourseVictoryModal.initClass()
   return CourseVictoryModal
 })())
-
-function __guard__ (value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
-}
