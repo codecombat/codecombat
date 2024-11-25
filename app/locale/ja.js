@@ -450,7 +450,7 @@ module.exports = {
       //    teaching_solutions: "Teaching Solutions",
       //    play2: "Play",
       my_dashborads: 'ダッシュボード',
-      //    resources: "Resources",
+      resources: 'リソース',
       curriculum: 'カリキュラム',
       //    company: "Company",
       //    coco_home_description: "With access to all 530 levels and exclusive features like pets, premium only items, and heroes, anyone can fully immerse themselves in the world of coding.",
