@@ -79,7 +79,10 @@ export default {
     },
     safetyValidations () {
       if (!this.aiProject || !this.aiProject.unsafeChatMessages) return []
-      return _.flatten(this.aiProject.unsafeChatMessages.map(i => i.safetyValidation.map(validation => ({ ...validation, text: i.text }))))
+      return _.flatten(this.aiProject.unsafeChatMessages.map(i => i.safetyValidation.map(validation => ({
+        ...validation,
+        text: i.text.length > 100 ? `${i.text.substring(0, 100)}...` : i.text,
+      }))))
     },
   },
 }
