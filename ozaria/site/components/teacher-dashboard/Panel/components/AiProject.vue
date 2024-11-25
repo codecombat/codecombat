@@ -32,6 +32,8 @@
           <p class="safety-validations__item">
             <strong>{{ safetyValidation.failureType }}</strong><br>
             {{ safetyValidation.failureDetails }}
+            <br>
+            <span class="violation-message-text text-muted">{{ safetyValidation.text }}</span>
           </p>
         </li>
       </ul>
@@ -77,7 +79,7 @@ export default {
     },
     safetyValidations () {
       if (!this.aiProject || !this.aiProject.unsafeChatMessages) return []
-      return _.flatten(this.aiProject.unsafeChatMessages.map(i => i.safetyValidation))
+      return _.flatten(this.aiProject.unsafeChatMessages.map(i => i.safetyValidation.map(validation => ({ ...validation, text: i.text }))))
     },
   },
 }
@@ -126,6 +128,15 @@ export default {
       font-size: 0.8em;
       line-height: 1.2em;
     }
+  }
+
+  .violation-message-text {
+    margin-left: 10px;
+    border-left: 1px solid #999999;
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: block;
   }
 }
 </style>

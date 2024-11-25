@@ -561,7 +561,10 @@ export default {
     },
 
     setUnsafeFlag (details, aiProjects) {
-      if (aiProjects.some(project => project.unsafeChatMessages.length > 0)) {
+      if (!Array.isArray(aiProjects)) {
+        return
+      }
+      if (aiProjects.some(project => project.unsafeChatMessages?.length > 0)) {
         details.flag = 'unsafe'
       }
     },
