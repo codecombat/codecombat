@@ -60,6 +60,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+const storage = require('app/core/storage')
 export default {
   props: {
     examId: {
@@ -124,6 +125,9 @@ export default {
     ...mapActions('exams', [
       'startExam',
     ]),
+    setupLocalStorage () {
+      storage.save(`exam-${me.id}`, this.exam, this.limitedDuration)
+    },
     async localStartExam () {
       this.loading = true
       if (this.isExamEnded && !this.hasArchivedExam) {
@@ -150,6 +154,7 @@ export default {
         this.loading = false
         return
       }
+      this.setupLocalStorage()
       this.loading = false
       application.router.navigate(window.location.pathname.replace(/start$/, 'progress'), { trigger: true })
     },
