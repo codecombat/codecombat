@@ -337,9 +337,6 @@ module.exports = class LevelLoader extends CocoClass
       when utils.isOzaria
         # Use configured Ozaria hero
         me.get('ozariaUserOptions')?.isometricThangTypeOriginal or ThangType.heroes['hero-b']
-      when @level.isAssessment() and me.showHeroAndInventoryModalsToStudents()
-        # Set default hero for assessment levels in class if classroomItems is on
-        ThangType.heroes.captain
       when session.get('heroConfig')?.thangType
         # Use the hero set in the session
         session.get('heroConfig').thangType
