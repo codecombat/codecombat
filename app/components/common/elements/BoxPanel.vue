@@ -27,7 +27,7 @@
           :arrangement="arrangement"
           :main-image-bg="item.mainImageBg"
           :equal-width="item.equalWidth"
-          :link="item.link"
+          :link="item.link || item.links?.[0]?.link"
           :middle-text="item.middleText"
           :middle-image="item.middleImage"
           :middle-image-alt="item.middleImageAlt"
@@ -61,12 +61,18 @@
             <mixed-color-label :text="item.text" />
           </template>
           <template
-            v-if="item.link || item.signupModal"
+            v-if="item.link || item.signupModal || item.links"
             #button
           >
-            <learn-more-button :link="item.link">
-              {{ item.linkText || $t('home_v3.learn_more_text') }}
-            </learn-more-button>
+            <div class="learn-more-buttons-container">
+              <learn-more-button
+                v-for="(linkItem, linkIndex) of (item.links || [{link: item.link, linkText: item.linkText}])"
+                :key="linkIndex"
+                :link="linkItem.link"
+              >
+                {{ linkItem.linkText || $t('home_v3.learn_more_text') }}
+              </learn-more-button>
+            </div>
           </template>
           <template
             v-if="item.frameImage"
@@ -94,33 +100,33 @@ export default {
     ContentBox,
     MixedColorLabel,
     LearnMoreButton,
-    VideoBox
+    VideoBox,
   },
   props: {
     title: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     items: {
       type: Array,
-      required: true
+      required: true,
     },
     columns: {
       type: [String, Number],
-      default: 2
+      default: 2,
     },
     arrangement: {
       type: String,
       default: 'vertical',
       validator: function (value) {
         return ARRANGEMENT_OPTIONS.includes(value)
-      }
+      },
     },
     lazyLoad: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
     onVideoLoaded (refName, videoId, retries = 0) {
@@ -145,8 +151,8 @@ export default {
           streamElement.style.transform = `scale(${scaleFactor}) translateY(${translateY * -1}px)`
         })
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -179,6 +185,22 @@ export default {
     background-color: transparent;
     z-index: 1;
   }
+}
+
+.learn-more-buttons-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.learn-more-buttons-container > *:nth-child(1) {
+  align-self: flex-start;
+}
+
+.learn-more-buttons-container > *:nth-child(2) {
+  align-self: flex-end;
 }
 
 </style>
