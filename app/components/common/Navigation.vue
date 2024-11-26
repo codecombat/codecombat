@@ -297,11 +297,11 @@ export default Vue.extend({
         },
       }
 
-      const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), title: 'CodeCombat Teacher Dashboard' }
-      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), title: 'Ozaria Teacher Dashboard' }
+      const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), title: 'nav.codecombat_teacher_dashboard' }
+      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), title: 'nav.ozaria_teacher_dashboard' }
 
-      const cocoAdmin = { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'CodeCombat Admin Dashboard' }
-      const ozarAdmin = { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'Ozaria Admin Dashboard' }
+      const cocoAdmin = { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'nav.codecombat_admin_dashboard' }
+      const ozarAdmin = { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'nav.ozaria_admin_dashboard' }
 
       const educator = {
         'my-dashboards': {
