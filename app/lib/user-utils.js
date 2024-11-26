@@ -140,6 +140,19 @@ function levelInExam (slug) {
   })
 }
 
+function levelNumberInExam (slug) {
+  const me = window.me
+  const exam = localStorage.load(`exam-${me.id}`, true)
+  if (!exam) { return -1 }
+  const levels = []
+  exam.problems.forEach((course) => {
+    course.levels.forEach(level => {
+      levels.push(level.slug)
+    })
+  })
+  return levels.indexOf(slug) + 1
+}
+
 module.exports = {
   extraProvisions,
   isInLibraryNetwork,
@@ -153,4 +166,5 @@ module.exports = {
   markParentBuyingForSelfPromptSeen,
   updateUserCreditsMessage,
   levelInExam,
+  levelNumberInExam,
 }
