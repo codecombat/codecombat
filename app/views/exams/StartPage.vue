@@ -90,7 +90,7 @@ export default {
       if (this.exam?._id === '-') {
         return true
       }
-      return me.isMto()
+      return me.isMtoStem()
     },
     buttonValue () {
       if (this.isNewUser) {

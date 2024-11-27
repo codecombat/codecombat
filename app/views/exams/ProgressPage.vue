@@ -21,12 +21,15 @@
         />
       </ul>
     </div>
+    <div v-if="loading">
+      {{ $t('common.loading') }}
+    </div>
 
     <div class="submit center-div">
       <input
         type="button"
         class="btn btn-lg btn-success"
-        value="Mark as Complete"
+        value="End Exam"
         @click="() => submit(false)"
       >
     </div>
@@ -52,6 +55,7 @@ export default {
       timeLeft: '00:00',
       counterInterval: null,
       courseInstanceMap: null,
+      loading: false,
     }
   },
   computed: {
@@ -107,10 +111,12 @@ export default {
       })
       return
     }
+    this.loading = true
     await this.fetchCourseInstanceMap()
     this.counter()
     const oneMin = 60 * 1000
     this.counterInterval = setInterval(this.counter, oneMin)
+    this.loading = false
   },
   beforeDestroy () {
     clearInterval(this.counterInterval)
