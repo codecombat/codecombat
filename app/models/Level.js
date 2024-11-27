@@ -313,10 +313,6 @@ module.exports = (Level = (function () {
           if (!heroThangType) {
             heroThangType = ThangTypeConstants.heroes.knight
           }
-          // For assessments, use default hero in class if classroomItems is on
-          if (this.isAssessment() && me.showHeroAndInventoryModalsToStudents()) {
-            heroThangType = ThangTypeConstants.heroes.captain
-          }
           if (heroThangType) {
             let juniorHeroReplacement
             if (this.get('product', true) === 'codecombat-junior') {
