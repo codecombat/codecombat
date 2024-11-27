@@ -262,11 +262,11 @@ export default {
     },
   },
 
-  metaInfo () {
+  metaInfo: function () {
     return {
-      title: (this.type === 'parents') ? undefined : $.i18n.t('parents_landing_2.live_classes_title'),
+      title: this.$t('teacher.hoc_title'),
       meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+        { vmid: 'meta-description', name: 'description', content: this.$t('teacher.hoc_meta_description') },
       ],
     }
   },
