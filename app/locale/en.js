@@ -6392,7 +6392,7 @@ module.exports = {
     exams: {
       timer_tip: 'A timer will start when you click Start Exam',
       no_permission: 'Only users with permission can take the exam',
-      level_num: 'Level __num__',
+      level_num: 'Challenge __num__',
       time_left: 'Time Left (HH:mm):',
       submit_tip: 'Are you sure you want to mark as complete? You will not be able to play the levels again.',
       start_exam: 'Start Exam',

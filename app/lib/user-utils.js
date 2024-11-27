@@ -1,6 +1,7 @@
 const usersApi = require('../core/api').users
 const localStorage = require('../core/storage')
 const globalVar = require('../core/globalVar')
+const _ = require('lodash')
 
 function extraProvisions () {
   usersApi.extraProvisions({ userId: me.get('_id') })
@@ -131,26 +132,35 @@ function markParentBuyingForSelfPromptSeen () {
   localStorage.save(parentBuyingforSelfPromptKey(), true, 24 * 60)
 }
 
-function levelInExam (slug) {
+function getStorageExam () {
   const me = window.me
-  const exam = localStorage.load(`exam-${me.id}`, true)
-  if (!exam) { return false }
-  return _.any(exam.problems, (course) => {
-    return _.find(course.levels, { slug })
-  })
+  return localStorage.load(`exam-${me.id}`, true)
 }
 
-function levelNumberInExam (slug) {
-  const me = window.me
-  const exam = localStorage.load(`exam-${me.id}`, true)
-  if (!exam) { return -1 }
+function levelsOfExam (exam) {
+  if (!exam) { return [] }
   const levels = []
   exam.problems.forEach((course) => {
+    const courseId = course.courseId
     course.levels.forEach(level => {
-      levels.push(level.slug)
+      levels.push({
+        ...level,
+        courseId,
+      })
     })
   })
-  return levels.indexOf(slug) + 1
+  return levels
+}
+
+function levelNumberInExam (exam, slug) {
+  if (!exam) {
+    exam = getStorageExam()
+    if (!exam) {
+      return 0
+    }
+  }
+  const levels = levelsOfExam(exam)
+  return _.findIndex(levels, { slug }) + 1
 }
 
 module.exports = {
@@ -165,6 +175,7 @@ module.exports = {
   hasSeenParentBuyingforSelfPrompt,
   markParentBuyingForSelfPromptSeen,
   updateUserCreditsMessage,
-  levelInExam,
+  getStorageExam,
+  levelsOfExam,
   levelNumberInExam,
 }

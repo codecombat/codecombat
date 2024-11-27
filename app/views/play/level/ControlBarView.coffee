@@ -47,7 +47,11 @@ module.exports = class ControlBarView extends CocoView
     @spectateGame = options.spectateGame ? false
     @observing = options.session.get('creator') isnt me.id
 
-    @inExam = userUtils.levelInExam(@level.get('slug'))
+    exam = userUtils.getStorageExam()
+    if exam
+      @examLevelNumber = userUtils.levelNumberInExam(@level.get('slug'))
+      @inExam = @examLevelNumber != 0
+
     @levelNumber = ''
     if @level.isType('course', 'game-dev', 'web-dev') and @level.get('campaignIndex')?
       @levelNumber = @level.get('campaignIndex') + 1
@@ -79,8 +83,7 @@ module.exports = class ControlBarView extends CocoView
 
   onLoaded: ->
     if @inExam
-      pnum = userUtils.levelNumberInExam(@level.get('slug'))
-      @setLevelName($.i18n.t('exams.level_num', { num: pnum }))
+      @setLevelName($.i18n.t('exams.level_num', { num: @examLevelNumber }))
 
     if @classroom
       @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber, @courseID)
