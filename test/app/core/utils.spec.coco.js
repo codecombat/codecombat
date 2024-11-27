@@ -1314,7 +1314,7 @@ describe('Utility library', function () {
     });
   });
 
-  fdescribe('getJuniorUrl', () => {
+  describe('getJuniorUrl', () => {
     let me;
     let originalMe;
   
