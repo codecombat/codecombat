@@ -62,6 +62,10 @@ _.extend(AIProjectSchema.properties, {
     description: 'Whether this project is ready for review by the teacher',
   },
   archived: { title: 'Archived', type: 'boolean' },
+  changed: c.date({
+    title: 'Changed',
+    readOnly: true,
+  }),
 })
 
 AIProjectSchema.required = ['visibility', 'user', 'scenario', 'actionQueue']
