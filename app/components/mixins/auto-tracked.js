@@ -11,10 +11,15 @@ export default {
         element = element.parentNode
       }
 
+      let href = element.href
+      if (href === '#') {
+        href = null
+      }
+
       if (element) {
-        const eventName = `CTA ${element.innerText} clicked on ${window.location.pathname}`
+        const eventName = `CTA ${href || element.innerText} clicked on ${window.location.pathname}`
         const data = {
-          link: element.href || '',
+          link: href || '',
           text: element.innerText,
           path: window.location.pathname,
         }
