@@ -40,7 +40,7 @@ module.exports = (ChangeLanguageTab = (function () {
       this.codeFormat = this.options.codeFormat || me.get('aceConfig')?.codeFormat || defaultCodeFormat
       if (this.isJunior && options.level?.get('slug') === 'the-gem') {
         // let's default to blocks-text for the-gem (first level) in junior so that users can see the blocks
-        const blockFormat = 'blocks-text'
+        const blockFormat = 'blocks-icons'
         if (me.isStudent()) {
           if (this.classroomAceConfig?.codeFormats?.includes(blockFormat)) {
             this.codeFormat = blockFormat
