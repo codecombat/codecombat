@@ -1313,4 +1313,36 @@ describe('Utility library', function () {
       expect(utils.secondsToMinutesAndSeconds(9)).toEqual('0:09');
     });
   });
+
+  fdescribe('getJuniorUrl', () => {
+    let me;
+    let originalMe;
+  
+    beforeEach(() => {
+      // Save the original 'me' object
+      originalMe = global.me;
+  
+      me = {
+        isTeacher: jasmine.createSpy(),
+        isAnonymous: jasmine.createSpy()
+      };
+      global.me = me;
+    });
+  
+    afterEach(() => {
+      // Restore the original 'me' object after each test
+      global.me = originalMe;
+    });
+  
+    it('should return junior path for non-teacher or anonymous users', () => {
+      me.isTeacher.and.returnValue(false);
+      expect(utils.getJuniorUrl()).toEqual(`${utils.cocoBaseURL()}/play/junior`);
+    });
+  
+    it('should return teacher curriculum path for non-anonymous teachers', () => {
+      me.isTeacher.and.returnValue(true);
+      me.isAnonymous.and.returnValue(false);
+      expect(utils.getJuniorUrl()).toEqual(`${utils.cocoBaseURL()}/teachers/curriculum/junior`);
+    });
+  });
 })

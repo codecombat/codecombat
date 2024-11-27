@@ -56,6 +56,7 @@ import PageParentsLanding from 'app/views/landing-pages/parents/PageParents'
 import CTAButton from 'app/components/common/buttons/CTAButton.vue'
 import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
 import BoxPanel from 'app/components/common/elements/BoxPanel.vue'
+import { getJuniorUrl } from 'core/utils'
 
 export default {
   name: 'PageHoc',
@@ -95,7 +96,7 @@ export default {
           links: [
             {
               linkText: $.i18n.t('hoc_page.try_activity'),
-              link: 'https://codecombat.com/play/junior',
+              link: getJuniorUrl(),
             },
             {
               linkText: $.i18n.t('hoc_page.view_lesson'),
