@@ -2,16 +2,16 @@ import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Component from 'ozaria/site/components/teacher-dashboard/modals/ModalEditStudent.vue' // replace with actual path
 
-const localVue = createLocalVue()
-localVue.use(Vuex)
-
 describe('ModalEditStudent', () => {
   describe('lastPlayed', () => {
     let store
     let sessions
     let projects
+    let localVue
 
     beforeEach(() => {
+      localVue = createLocalVue()
+      localVue.use(Vuex)
       sessions = [
         { changed: '2022-01-01T00:00:00Z' },
         { changed: '2022-02-01T00:00:00Z' },
@@ -25,11 +25,14 @@ describe('ModalEditStudent', () => {
       store = new Vuex.Store({
         getters: {
           'teacherDashboard/getMembersCurrentClassroom': () => [],
-          'levels/getLevelsForClassroom': () => [],
+          'levels/getLevelsForClassroom': () => () => [],
           'baseSingleClass/currentEditingStudent': () => 'student1',
           'teacherDashboard/getCurrentClassroom': () => ({ _id: 'classroom1' }),
           'teacherDashboard/getLevelSessionsMapCurrentClassroom': () => ({ student1: sessions }),
           'teacherDashboard/getAiProjectsMapCurrentClassroom': () => ({ student1: projects }),
+        },
+        actions: {
+          'levels/fetchForClassroom': () => {},
         },
       })
     })
@@ -102,15 +105,22 @@ describe('ModalEditStudent', () => {
     const store = new Vuex.Store({
       getters: {
         'teacherDashboard/getMembersCurrentClassroom': () => [],
-        'levels/getLevelsForClassroom': () => [],
+        'levels/getLevelsForClassroom': () => () => [],
         'baseSingleClass/currentEditingStudent': () => 'student1',
         'teacherDashboard/getCurrentClassroom': () => ({ _id: 'classroom1' }),
+      },
+      actions: {
+        'levels/fetchForClassroom': () => {},
       },
     })
 
     let componentDefinition
 
+    let localVue
+
     beforeEach(() => {
+      localVue = createLocalVue()
+      localVue.use(Vuex)
       componentDefinition = {
         store,
         localVue,
