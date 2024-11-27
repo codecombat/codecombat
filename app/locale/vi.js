@@ -2223,7 +2223,7 @@ module.exports = {
       //    play_now_learn_3: "strings & variables to customize actions",
       play_now_learn_4: '[AI_TRANSLATION]làm sao để đánh bại một con quỷ ogre (kỹ năng sống quan trọng!)',
       welcome_to_page: 'Chào mừng bạn đến với trang quản lý khóa học!',
-      my_classes: '[AI_TRANSLATION]Tấn công `"#{_.string.titleize(target)}"`, không phải `"#{target}"`. (Chữ cái in hoa là quan trọng.)',
+      my_classes: 'Lớp của tôi',
       class_added: '[AI_TRANSLATION]Đã thêm lớp học thành công!',
       view_map: '[AI_TRANSLATION]xem bản đồ',
       view_videos: '[AI_TRANSLATION]xem video',
