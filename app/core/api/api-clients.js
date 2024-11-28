@@ -99,5 +99,15 @@ module.exports = {
         limit
       }
     })
-  }
+  },
+
+  getUsersSearch (clientId, search) {
+    return fetchJson('/db/api-clients/fetchClientUsers', {
+      method: 'GET',
+      data: {
+        clientId,
+        search,
+      },
+    })
+  },
 }

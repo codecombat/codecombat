@@ -413,6 +413,7 @@ module.exports = {
       admin: 'Admin',
       api: 'API',
       api_dashboard: 'API Dashboard',
+      partner_reset_password: 'Partner Reset Password',
       funding_resources_guide: 'Funding Resources Guide',
       partnerships: 'Partnerships',
       podcast: 'Our Podcast',

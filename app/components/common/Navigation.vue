@@ -525,6 +525,7 @@ export default Vue.extend({
                     announcement-nav.announcement-nav(v-if="this.announcements.length")
                   li(v-if="me.isAPIClient()")
                     a.account-dropdown-item(href="/partner-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
+                    a.account-dropdown-item(href="/partners/reset-password", target="_blank") {{ $t('nav.partner_reset_password') }}
                   li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")
                     a.account-dropdown-item(href="/admin") {{ $t('account_settings.admin') }}
                   li(v-if="me.isAdmin() || me.isOnlineTeacher()")
