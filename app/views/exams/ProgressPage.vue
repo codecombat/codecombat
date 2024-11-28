@@ -41,6 +41,8 @@ import { mapGetters, mapActions } from 'vuex'
 import ExamLevel from './components/ExamLevel'
 const courseInstancesApi = require('../../core/api/course-instances')
 const { levelsOfExam } = require('../../lib/user-utils')
+const examsApi = require('../../core/api/exams')
+
 export default {
   components: {
     ExamLevel,
@@ -57,6 +59,7 @@ export default {
       counterInterval: null,
       courseInstanceMap: null,
       loading: false,
+      submissionStatus: {},
     }
   },
   computed: {
@@ -106,7 +109,7 @@ export default {
     }
     this.loading = true
     await this.fetchCourseInstanceMap()
-    this.counter()
+    await this.counter()
     const oneMin = 60 * 1000
     this.counterInterval = setInterval(this.counter, oneMin)
     this.loading = false
@@ -121,7 +124,7 @@ export default {
     paddingZero (num) {
       return `00${num}`.slice(-2)
     },
-    counter () {
+    async counter () {
       const oneMin = 60 * 1000
       const startDate = new Date(this.userExam.startDate)
       const minsElapse = parseInt((new Date() - startDate) / oneMin)
@@ -132,6 +135,16 @@ export default {
         this.submit(true)
       }
       this.timeLeft = `${this.paddingZero(minsLeft / 60 | 0)}:${this.paddingZero(minsLeft % 60)}`
+      try {
+        const res = await examsApi.getSubmissionsStatus(this.examId)
+        console.log('res', res)
+      } catch (err) {
+        noty({
+          text: 'Failed to fetch submissions status',
+          type: 'error',
+          timeout: 5000,
+        })
+      }
     },
     async submit (expires) {
       if (!expires) {
