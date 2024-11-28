@@ -152,12 +152,10 @@ function levelsOfExam (exam) {
   return levels
 }
 
-function levelNumberInExam (exam, slug) {
+function levelNumberInExam (slug) {
+  const exam = getStorageExam()
   if (!exam) {
-    exam = getStorageExam()
-    if (!exam) {
-      return 0
-    }
+    return 0
   }
   const levels = levelsOfExam(exam)
   return _.findIndex(levels, { slug }) + 1

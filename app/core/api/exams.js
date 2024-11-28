@@ -11,7 +11,12 @@ const getExamById = async (id) => {
   return fetchJson(`/db/exams/${id}`)
 }
 
+const getSubmissionsStatus = async (examId) => {
+  return fetchJson(`/db/exams/${examId}/submission-status`)
+}
+
 module.exports = {
   postExam,
   getExamById,
+  getSubmissionsStatus,
 }
