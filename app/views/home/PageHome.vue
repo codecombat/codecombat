@@ -233,6 +233,7 @@ import BaseCloudflareVideo from '../../components/common/BaseCloudflareVideo.vue
 import HeaderComponent from '../../components/common/elements/HeaderComponent.vue'
 import ModalJunior from './ModalJunior'
 import HackstackAutoPromotion from '../ai/HackstackAutoPromotion'
+import { getJuniorUrl } from 'core/utils'
 
 const utils = require('core/utils')
 const paymentUtils = require('app/lib/paymentUtils')
@@ -374,7 +375,7 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.young_learners_1_title'),
           text: this.$t('home_v3.young_learners_1_text'),
-          link: 'https://codecombat.com/play/junior',
+          link: getJuniorUrl(),
           linkText: this.$t('home_v3.try_it_now'),
           image: '/images/pages/home-v3/young-learners/box-bg-coco-jr.webp',
         },
