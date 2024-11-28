@@ -13,10 +13,11 @@
       <ul class="level-grid">
         <exam-level
           v-for="(level, index) in problems"
-          :key="level._id"
+          :key="`${level.slug}-${index}`"
           :level="level"
           :language="userExam.codeLanguage"
           :index="index + 1"
+          :is-completed="!!submissionStatus[level.slug]"
           class="level-grid-item"
         />
       </ul>
@@ -32,6 +33,14 @@
         value="End Exam"
         @click="() => submit(false)"
       >
+    </div>
+    <div class="notes">
+      <p class="note">
+        *Submissions status gets updated every 1 minute on this page.
+      </p>
+      <p class="note">
+        *Don't worry if it's not updated immediately, your code will still be submitted.
+      </p>
     </div>
   </div>
 </template>
@@ -135,9 +144,12 @@ export default {
         this.submit(true)
       }
       this.timeLeft = `${this.paddingZero(minsLeft / 60 | 0)}:${this.paddingZero(minsLeft % 60)}`
+      await this.refetchSubmissionsStatus()
+    },
+    async refetchSubmissionsStatus () {
       try {
         const res = await examsApi.getSubmissionsStatus(this.examId)
-        console.log('res', res)
+        this.submissionStatus = { ...res.result }
       } catch (err) {
         noty({
           text: 'Failed to fetch submissions status',
@@ -195,13 +207,23 @@ export default {
 
 .level-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   row-gap: 3rem;
-  column-gap: 5rem;
+  column-gap: 6rem;
   list-style: none;
   padding: 0;
 }
 .level-grid-item {
   text-align: center;
+}
+.notes {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+
+  .note {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
 }
 </style>
