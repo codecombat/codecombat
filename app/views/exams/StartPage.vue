@@ -8,7 +8,7 @@
         <select
           id="language-select"
           v-model="codeLanguage"
-          :disabled="!isNewUser"
+          :disabled="!isNewUser || disableCodeLang"
           class="form-control"
         >
           <option
@@ -67,12 +67,18 @@ export default {
       type: String,
       required: true,
     },
+    codeLang: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   data () {
     return {
       codeLanguage: 'python',
       timer: false,
       loading: false,
+      disableCodeLang: false,
     }
   },
   computed: {
@@ -119,6 +125,9 @@ export default {
     this.checkingUserExam()
     if (this.userExam?.codeLanguage) {
       this.codeLanguage = this.userExam.codeLanguage
+    } else if (this.codeLang && this.avaliableLanguages.includes(this.codeLang)) {
+      this.codeLanguage = this.codeLang
+      this.disableCodeLang = true
     }
   },
   methods: {

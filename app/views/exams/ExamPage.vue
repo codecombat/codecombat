@@ -24,6 +24,11 @@ export default {
       type: String,
       default: 'start',
     },
+    codeLang: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   data () {
     return {

@@ -440,7 +440,7 @@ export default function getVueRouter () {
               path: 'start',
               name: 'ExamStartPage',
               component: () => import(/* webpackChunkName: "examPage" */'app/views/exams/StartPage'),
-              props: true,
+              props: (route) => ({ ...route.query, ...route.params }),
             },
             {
               path: 'progress',
