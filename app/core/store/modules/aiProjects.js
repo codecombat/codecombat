@@ -115,11 +115,11 @@ export default {
 
       for (const project of classroomProjects) {
         const user = project.user
-        const levelOriginal = project.scenario
-        if (levelOriginal) {
+        const scenarioId = project.scenario
+        if (scenarioId) {
           aiProjectMapByUser[user] = aiProjectMapByUser[user] || {}
-          aiProjectMapByUser[user][levelOriginal] = aiProjectMapByUser[user][levelOriginal] || []
-          aiProjectMapByUser[user][levelOriginal].push(project)
+          aiProjectMapByUser[user][scenarioId] = aiProjectMapByUser[user][scenarioId] || []
+          aiProjectMapByUser[user][scenarioId].push(project)
         }
       }
 

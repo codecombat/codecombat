@@ -7,7 +7,8 @@ import {
   isCodeCombat,
   isOzaria,
   OZARIA,
-  ozBaseURL
+  ozBaseURL,
+  getJuniorUrl,
 } from 'core/utils'
 import AnnouncementModal from '../../views/announcement/announcementModal'
 import AnnouncementNav from '../../views/announcement/AnnouncementNav'
@@ -36,7 +37,7 @@ export const items = {
   GRANTS: { url: cocoPath('/grants'), title: 'nav.grants_funding_resources' },
   DEMO: { url: '/teachers/quote', title: 'nav.request_quote_demo' },
   COCO_CLASSROOM: { url: cocoPath('/schools'), title: 'nav.codecombat_classroom' },
-  COCO_JUNIOR: { url: cocoPath('/play/junior'), title: 'nav.coco_junior' },
+  COCO_JUNIOR: { url: getJuniorUrl(), title: 'nav.coco_junior' },
   COCO_HOME: { url: cocoPath('/play'), title: 'nav.codecombat_home' },
   OZ_CLASSROOM: { url: ozPath('/'), title: 'nav.ozaria_classroom' },
   AP_CSP: { url: cocoPath('/apcsp'), title: 'nav.ap_csp' },
@@ -297,11 +298,11 @@ export default Vue.extend({
         },
       }
 
-      const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), title: 'CodeCombat Teacher Dashboard' }
-      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), title: 'Ozaria Teacher Dashboard' }
+      const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), title: 'nav.codecombat_teacher_dashboard' }
+      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), title: 'nav.ozaria_teacher_dashboard' }
 
-      const cocoAdmin = { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'CodeCombat Admin Dashboard' }
-      const ozarAdmin = { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'Ozaria Admin Dashboard' }
+      const cocoAdmin = { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'nav.codecombat_admin_dashboard' }
+      const ozarAdmin = { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'nav.ozaria_admin_dashboard' }
 
       const educator = {
         'my-dashboards': {
