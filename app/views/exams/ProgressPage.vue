@@ -40,6 +40,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import ExamLevel from './components/ExamLevel'
 const courseInstancesApi = require('../../core/api/course-instances')
+const { levelsOfExam } = require('../../lib/user-utils')
 export default {
   components: {
     ExamLevel,
@@ -70,26 +71,18 @@ export default {
       if (!this.exam || !this.courseInstanceMap) {
         return []
       }
-      const problems = this.exam.problems
-      const levels = []
-      problems.forEach((courseLevels) => {
-        courseLevels.levels.forEach((level, index) => {
-          const courseId = courseLevels.courseId
-          const instanceId = this.courseInstanceMap[courseId]
-          if (!instanceId) {
-            noty({
-              text: `Course instance not found for course ${courseId}`,
-              type: 'error',
-              timeout: 5000,
-            })
-            return
-          }
-          levels.push({
-            ...level,
-            courseId,
-            instanceId,
+      const levels = levelsOfExam(this.exam)
+      levels.forEach((level) => {
+        const instanceId = this.courseInstanceMap[level.courseId]
+        if (!instanceId) {
+          noty({
+            text: `Course instance not found for course ${level.courseId}`,
+            type: 'error',
+            timeout: 5000,
           })
-        })
+          return
+        }
+        level.instanceId = instanceId
       })
       return levels
     },

@@ -203,7 +203,7 @@
         if me.isStudent() and @course._id == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE and !me.showHeroAndInventoryModalsToStudents()
           return utils.videoLevels[@nextLevel.original]
       inExam: ->
-        return userUtils.levelInExam(@level.slug)
+        return userUtils.levelNumberInExam(@level.slug) != 0
     }
     methods: {
       marked
