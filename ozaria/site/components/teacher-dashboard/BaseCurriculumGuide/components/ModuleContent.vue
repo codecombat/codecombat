@@ -72,6 +72,10 @@ export default {
       return this.courseName === 'Junior'
     },
 
+    isHackstack () {
+      return this.courseName === 'AI HackStack'
+    },
+
     getContentTypes () {
       return getCurriculumGuideContentList({
         introLevels: this.getModuleIntroLevels,
@@ -173,6 +177,9 @@ export default {
       return this.isContentAccessible(moduleInfo.access)
     },
     getCurrentLevelNumber (original, icon, _id) {
+      if (this.isHackstack) {
+        return ''
+      }
       if (this.isOzariaNoCodeLevel(icon)) {
         return this.getLevelNumber(_id)
       }
@@ -192,7 +199,7 @@ export default {
     <div class="content-rows">
       <component
         :is="isAccessible(moduleNum)? 'a' : 'span'"
-        v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, original, assessment, slug, fromIntroLevelOriginal }, key in getContentTypes"
+        v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, original, assessment, slug, fromIntroLevelOriginal, tool }, key in getContentTypes"
         :key="`${_id}-${isIntroHeadingRow}`"
         :href="isAccessible(moduleNum) ? url : null"
         target="_blank"
@@ -213,9 +220,10 @@ export default {
             :display-name="name"
             :description="calculateLevelDescription(description, slug, levelNumber)"
             :is-part-of-intro="isPartOfIntro"
-            :show-code-btn="!isOzariaNoCodeLevel(icon) && !(isJunior && icon === 'practicelvl')"
+            :show-code-btn="!isOzariaNoCodeLevel(icon) && !(isJunior && icon === 'practicelvl') && !isHackstack"
             :identifier="slug"
             :locked="!isAccessible(moduleNum)"
+            :tool="tool"
             @click.native="trackEvent('Curriculum Guide: Individual content row clicked')"
             @showCodeClicked="onShowCodeClicked"
           />
