@@ -1822,6 +1822,8 @@ module.exports = {
       hackstack_no_code_language_format: 'AI HackStack does not need a programming language or code format',
       licenses_activated_success: 'Licenses have been Activated Successfully!',
       license_code_used: 'License Code used.',
+      ai_hs_remix: 'AI HackStack Remix',
+      ai_hs_remix_blurb: 'Whether students can use other student\'s projects to take inspiration from.',
     },
 
     no_licenses_page: {
@@ -4722,6 +4724,8 @@ module.exports = {
       ai_league_curriculum_blurb: 'Access our comprehensive curriculum guides designed specifically for AI League arenas. These resources help you introduce competitive coding concepts and teach strategic thinking.',
       ai_league_custom_title: 'Custom AI League Tournaments',
       ai_league_custom_blurb: "Create your own customized tournaments to engage your students! Select from our library of coding arenas and set competition dates, whether it's a classroom challenge or a school-wide competition.",
+      this_project_is_remixed: 'This project is remixed.',
+      view_original_project: 'View Original Project',
       activate_license: 'Activate License',
       violation: 'Violation',
       safety_violations: 'Safety Violations',
@@ -6110,7 +6114,10 @@ module.exports = {
       delete: 'Delete',
       duplicate: 'Duplicate',
       use_as_a_template: 'Use as a Template',
+      get_inspired: 'Get Inspired',
+      remixed_from: 'Remixed from',
       hackstack_credits: 'AI HackStack Credits',
+      created_by: 'created by',
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',
