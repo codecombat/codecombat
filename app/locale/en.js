@@ -6111,6 +6111,8 @@ module.exports = {
       duplicate: 'Duplicate',
       use_as_a_template: 'Use as a Template',
       hackstack_credits: 'AI HackStack Credits',
+      model: 'Model',
+      tags: 'Tags',
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',
