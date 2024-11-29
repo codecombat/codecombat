@@ -1,6 +1,6 @@
 - var includeHomeLink = application.getHocCampaign() || !((me.isStudent() || me.isTeacher()) && !view.course) || view.level.isType('course-ladder', 'ladder');
 // No "Done" button for standalone tournament game-dev project levels outside of a campaign
-- if (['resource-tycoon'].indexOf(view.level.get('slug')) != -1)
+- if (['resource-tycoon'].indexOf(view.level.get('slug')) != -1 || view.inExam)
 -   includeHomeLink = false;
 if includeHomeLink
   .left-cap
@@ -17,7 +17,7 @@ if includeHomeLink
 
 .level-name-area-container
   .level-name-area
-    if view.course
+    if view.course && !view.inExam
       .level-label= i18n(view.course.attributes, 'name')
     .level-name(title=difficultyTitle || "")
       if view.levelName

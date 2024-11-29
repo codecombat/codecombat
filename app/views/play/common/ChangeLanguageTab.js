@@ -36,7 +36,19 @@ module.exports = (ChangeLanguageTab = (function () {
       this.utils = utils
       this.codeLanguageObject = utils.getCodeLanguages()
       this.codeFormatObject = utils.getCodeFormats()
-      this.codeFormat = this.options.codeFormat || me.get('aceConfig')?.codeFormat || 'text-code'
+      const defaultCodeFormat = 'text-code'
+      this.codeFormat = this.options.codeFormat || me.get('aceConfig')?.codeFormat || defaultCodeFormat
+      if (this.isJunior && options.level?.get('slug') === 'the-gem') {
+        // let's default to blocks-text for the-gem (first level) in junior so that users can see the blocks
+        const blockFormat = 'blocks-icons'
+        if (me.isStudent()) {
+          if (this.classroomAceConfig?.codeFormats?.includes(blockFormat)) {
+            this.codeFormat = blockFormat
+          }
+        } else {
+          this.codeFormat = blockFormat
+        }
+      }
       this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
 
       this.updateCodeFormatList()

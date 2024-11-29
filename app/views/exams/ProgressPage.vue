@@ -13,22 +13,34 @@
       <ul class="level-grid">
         <exam-level
           v-for="(level, index) in problems"
-          :key="level._id"
+          :key="`${level.slug}-${index}`"
           :level="level"
           :language="userExam.codeLanguage"
           :index="index + 1"
+          :is-completed="!!submissionStatus[level.slug]"
           class="level-grid-item"
         />
       </ul>
+    </div>
+    <div v-if="loading">
+      {{ $t('common.loading') }}
     </div>
 
     <div class="submit center-div">
       <input
         type="button"
         class="btn btn-lg btn-success"
-        value="Mark as Complete"
-        @click="submit"
+        value="End Exam"
+        @click="() => submit(false)"
       >
+    </div>
+    <div class="notes">
+      <p class="note">
+        *Submissions status gets updated every 1 minute on this page.
+      </p>
+      <p class="note">
+        *Don't worry if it's not updated immediately, your code will still be submitted.
+      </p>
     </div>
   </div>
 </template>
@@ -36,6 +48,10 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import ExamLevel from './components/ExamLevel'
+const courseInstancesApi = require('../../core/api/course-instances')
+const { levelsOfExam } = require('../../lib/user-utils')
+const examsApi = require('../../core/api/exams')
+
 export default {
   components: {
     ExamLevel,
@@ -50,6 +66,9 @@ export default {
     return {
       timeLeft: '00:00',
       counterInterval: null,
+      courseInstanceMap: null,
+      loading: false,
+      submissionStatus: {},
     }
   },
   computed: {
@@ -61,19 +80,21 @@ export default {
       return this.getExamById(this.examId)
     },
     problems () {
-      if (!this.exam) {
+      if (!this.exam || !this.courseInstanceMap) {
         return []
       }
-      const problems = this.exam.problems
-      const levels = []
-      problems.forEach((courseLevels) => {
-        courseLevels.levels.forEach((level, index) => {
-          levels.push({
-            ...level,
-            courseId: courseLevels.courseId,
-            instanceId: courseLevels.instanceId,
+      const levels = levelsOfExam(this.exam)
+      levels.forEach((level) => {
+        const instanceId = this.courseInstanceMap[level.courseId]
+        if (!instanceId) {
+          noty({
+            text: `Course instance not found for course ${level.courseId}`,
+            type: 'error',
+            timeout: 5000,
           })
-        })
+          return
+        }
+        level.instanceId = instanceId
       })
       return levels
     },
@@ -86,10 +107,21 @@ export default {
       return lang[0].toUpperCase() + lang.slice(1)
     },
   },
-  mounted () {
-    this.counter()
+  async mounted () {
+    if (this.userExam?.submitted) {
+      noty({
+        text: 'Exam has ended',
+        type: 'error',
+        timeout: 5000,
+      })
+      return
+    }
+    this.loading = true
+    await this.fetchCourseInstanceMap()
+    await this.counter()
     const oneMin = 60 * 1000
     this.counterInterval = setInterval(this.counter, oneMin)
+    this.loading = false
   },
   beforeDestroy () {
     clearInterval(this.counterInterval)
@@ -101,7 +133,7 @@ export default {
     paddingZero (num) {
       return `00${num}`.slice(-2)
     },
-    counter () {
+    async counter () {
       const oneMin = 60 * 1000
       const startDate = new Date(this.userExam.startDate)
       const minsElapse = parseInt((new Date() - startDate) / oneMin)
@@ -112,17 +144,41 @@ export default {
         this.submit(true)
       }
       this.timeLeft = `${this.paddingZero(minsLeft / 60 | 0)}:${this.paddingZero(minsLeft % 60)}`
+      await this.refetchSubmissionsStatus()
+    },
+    async refetchSubmissionsStatus () {
+      try {
+        const res = await examsApi.getSubmissionsStatus(this.examId)
+        this.submissionStatus = { ...res.result }
+      } catch (err) {
+        noty({
+          text: 'Failed to fetch submissions status',
+          type: 'error',
+          timeout: 5000,
+        })
+      }
     },
     async submit (expires) {
-      // todo: submit exam
-      if (!confirm(this.$t('exams.submit_tip'))) {
-        return
+      if (!expires) {
+        if (!confirm(this.$t('exams.submit_tip'))) {
+          return
+        }
       }
       await this.submitExam({
         userExamId: this.userExam._id,
         expires,
       })
       application.router.navigate(window.location.pathname.replace(/progress$/, 'end'), { trigger: true })
+    },
+    async fetchCourseInstanceMap () {
+      const courseInstances = await courseInstancesApi.fetchByClassroom(this.userExam.classroomId)
+      this.courseInstanceMap = courseInstances.reduce((acc, courseInstance) => {
+        acc[courseInstance.courseID] = courseInstance._id
+        return acc
+      }, {})
+    },
+    getCourseInstance (courseId) {
+      return this.courseInstanceMap[courseId]
     },
   },
 }
@@ -151,13 +207,23 @@ export default {
 
 .level-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   row-gap: 3rem;
-  column-gap: 5rem;
+  column-gap: 6rem;
   list-style: none;
   padding: 0;
 }
 .level-grid-item {
   text-align: center;
+}
+.notes {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+
+  .note {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
 }
 </style>

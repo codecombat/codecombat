@@ -1699,6 +1699,14 @@ module.exports.secondsToMinutesAndSeconds = function (seconds) {
   return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`
 }
 
+module.exports.getJuniorUrl = function() {
+  let juniorPath = '/play/junior'
+  if(me && me.isTeacher() && !me.isAnonymous()) {
+    juniorPath = '/teachers/curriculum/junior'
+  }
+  return `${cocoBaseURL()}${juniorPath}`
+}
+
 module.exports = {
   ...module.exports,
   activeAndPastArenas,

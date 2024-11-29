@@ -68,6 +68,10 @@ _.extend(AIProjectSchema.properties, {
     description: 'The project ID of the project this was remixed from',
     links: [{ rel: 'db', href: '/db/ai_project/{($)}' }],
   },
+  changed: c.date({
+    title: 'Changed',
+    readOnly: true,
+  }),
 })
 
 AIProjectSchema.required = ['visibility', 'user', 'scenario', 'actionQueue']
