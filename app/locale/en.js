@@ -1822,6 +1822,8 @@ module.exports = {
       hackstack_no_code_language_format: 'AI HackStack does not need a programming language or code format',
       licenses_activated_success: 'Licenses have been Activated Successfully!',
       license_code_used: 'License Code used.',
+      ai_hs_remix: 'AI HackStack Remix',
+      ai_hs_remix_blurb: 'Whether students can use other student\'s projects to take inspiration from.',
     },
 
     no_licenses_page: {
@@ -4722,6 +4724,8 @@ module.exports = {
       ai_league_curriculum_blurb: 'Access our comprehensive curriculum guides designed specifically for AI League arenas. These resources help you introduce competitive coding concepts and teach strategic thinking.',
       ai_league_custom_title: 'Custom AI League Tournaments',
       ai_league_custom_blurb: "Create your own customized tournaments to engage your students! Select from our library of coding arenas and set competition dates, whether it's a classroom challenge or a school-wide competition.",
+      this_project_is_remixed: 'This project is remixed.',
+      view_original_project: 'View Original Project',
       activate_license: 'Activate License',
       violation: 'Violation',
       safety_violations: 'Safety Violations',
@@ -4930,6 +4934,7 @@ module.exports = {
       cup: 'Cup',
       blitz: 'Blitz',
       clash: 'Clash',
+      season12_announcement_2: 'Collectors fly high, control points emerges, mythical crystals stand tall, as the dungeon expands, the battle is getting fiercer, only the righteous shall be the victor.',
       season12_announcement_1: 'Deep in the dungeons, mythical crystals stand tall, collecting energy and mana from abandoned ruins. Summon units, cast spells, and claim victory!',
       season11_announcement_1: 'The competition is getting more heated! As the sun shines above, place down and upgrade your solar panels, avoid shock traps, place down robot crabs, and phase through portals, get as much solar as possible and claim victory!',
       season10_announcement_1: "It's fiery hot, and magma boulders are radiating powerful energies! Summon units and cast spells to push the magma boulders to your opponent's area. Adapt to the ever-changing gravity of the battlefield!",
@@ -6110,7 +6115,10 @@ module.exports = {
       delete: 'Delete',
       duplicate: 'Duplicate',
       use_as_a_template: 'Use as a Template',
+      get_inspired: 'Get Inspired',
+      remixed_from: 'Remixed from',
       hackstack_credits: 'AI HackStack Credits',
+      created_by: 'created by',
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',
