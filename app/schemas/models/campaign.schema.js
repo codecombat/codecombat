@@ -122,7 +122,19 @@ _.extend(CampaignSchema.properties, {
       }
 
     }
-  }
+  },
+  scenarios: {
+    type: 'object',
+    additionalProperties: {
+      title: 'AI Scenarios',
+      type: 'object',
+      // key is the scenario id property
+      properties: {
+      // - denormalized from Achievements
+        moduleNum: { type: 'number', title: 'Module number', default: 5 },
+      },
+    },
+  },
 })
 
 CampaignSchema.denormalizedLevelProperties = [
