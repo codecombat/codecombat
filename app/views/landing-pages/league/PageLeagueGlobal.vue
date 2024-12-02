@@ -695,7 +695,7 @@ export default {
             <span class="esports-green">Season 12 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span>
           </h1>
         </div>
-        <p>{{ $t('league.season12_announcement_1') }}</p>
+        <p>{{ $t('league.season12_announcement_2') }}</p>
         <p>{{ $t('league.season6_announcement_2') }}</p>
       </div>
     </div>
