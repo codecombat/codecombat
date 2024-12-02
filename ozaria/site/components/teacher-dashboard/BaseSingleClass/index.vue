@@ -560,6 +560,15 @@ export default {
       classSummaryProgress[index].status = 'progress'
     },
 
+    setUnsafeFlag (details, aiProjects) {
+      if (!Array.isArray(aiProjects)) {
+        return
+      }
+      if (aiProjects.some(project => project.unsafeChatMessages?.length > 0)) {
+        details.flag = 'unsafe'
+      }
+    },
+
     setClickHandler (details, student, moduleNum, aiScenario, aiProjects) {
       details.clickHandler = () => {
         this.showPanelProjectContent({
@@ -592,6 +601,8 @@ export default {
         this.setProgressDetails(details, classSummaryProgress, index)
         this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
         const completed = this.checkIfComplete(aiScenario, aiProjects)
+        this.setUnsafeFlag(details, aiProjects)
+
         if (completed) {
           details.status = 'complete'
           createModeUnlocked.unlocked = completed

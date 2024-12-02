@@ -4,7 +4,11 @@ export function getLevelUrl ({ ozariaType, introLevelSlug, courseId, codeLanguag
   if (utils.isOzaria && !ozariaType && introLevelSlug) {
     return `/play/intro/${introLevelSlug}?course=${courseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
   } else if (slug) {
-    return `/play/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`
+    let url = `/play/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`
+    if (courseId === utils.courseIDs.JUNIOR) {
+      url += '&codeFormat=blocks-icons'
+    }
+    return url
   }
   return null
 }

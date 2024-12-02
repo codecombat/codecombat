@@ -39,11 +39,14 @@
 
 <script>
 import MixedColorLabel from '../labels/MixedColorLabel.vue'
+import autoTracked from 'app/components/mixins/auto-tracked.js'
+
 export default {
   name: 'CTAButton',
   components: {
     MixedColorLabel,
   },
+  mixins: [autoTracked],
   props: {
     href: {
       type: String,

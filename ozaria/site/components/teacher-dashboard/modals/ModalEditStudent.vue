@@ -36,9 +36,10 @@ export default {
     ...mapGetters({
       classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
       getLevelsForClassroom: 'levels/getLevelsForClassroom',
-      editingStudent: 'baseSingleClass/currentEditingStudent',
+      editingStudentId: 'baseSingleClass/currentEditingStudent',
       classroom: 'teacherDashboard/getCurrentClassroom',
       levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
+      aiProjectsMapForClassroom: 'teacherDashboard/getAiProjectsMapCurrentClassroom',
     }),
 
     creditMessage () {
@@ -57,7 +58,7 @@ export default {
     },
 
     selectedStudent () {
-      const resultStudent = this.classroomMembers.find(({ _id }) => _id === this.editingStudent)
+      const resultStudent = this.classroomMembers.find(({ _id }) => _id === this.editingStudentId)
       return new User(resultStudent)
     },
 
@@ -79,14 +80,35 @@ export default {
 
     lastPlayed () {
       const levels = this.levels
-      const playedSessions = this.levelSessionsMapByUser[this.editingStudent] || {}
-      const lastPlayed = Object.values(playedSessions).reduce((acc, session) => {
-        if (!acc) {
-          return session
-        }
-        return session.changed > acc.changed ? session : acc
-      }, null)
-      return { session: lastPlayed, level: levels.find(l => l.original === lastPlayed?.level?.original) }
+      const playedSessions = this.levelSessionsMapByUser[this.editingStudentId] || {}
+      const playedProjects = this.aiProjectsMapForClassroom[this.editingStudentId] || {}
+      const sessions = Object.values(playedSessions)
+      const projects = _.flatten(Object.values(playedProjects))
+      const lastPlayed = [
+        ...sessions,
+        ...projects].reduce((acc, sessionOrProject) => {
+          if (!acc) {
+            return sessionOrProject
+          }
+          return sessionOrProject.changed > acc.changed ? sessionOrProject : acc
+        }, null)
+
+      const isLastPlayedSession = sessions.includes(lastPlayed)
+      const isLastPlayedProject = projects.includes(lastPlayed)
+
+      if (!isLastPlayedProject && !isLastPlayedSession) {
+        return null
+      }
+
+      return {
+        session: isLastPlayedSession ? lastPlayed : null,
+        project: isLastPlayedProject ? lastPlayed : null,
+        level: isLastPlayedSession ? levels.find(l => l.original === lastPlayed?.level?.original) : null,
+      }
+    },
+
+    isEnglish () {
+      return me.get('preferredLanguage', true) === 'en-US'
     },
 
     lastPlayedString () {
@@ -95,14 +117,27 @@ export default {
         const level = new Level(this.lastPlayed.level)
         lastPlayedString += level.getTranslatedName()
       }
-      if (this.lastPlayed?.level && this.lastPlayed?.session) {
-        if (me.get('preferredLanguage', true) === 'en-US') {
+
+      if (this.lastPlayed.project) {
+        lastPlayedString += this.lastPlayed.project.name
+      }
+
+      if (lastPlayedString !== '') {
+        if (this.isEnglish) {
           lastPlayedString += ', on '
         } else {
           lastPlayedString += ', '
         }
       }
-      if (this.lastPlayed.session) { lastPlayedString += moment(this.lastPlayed.session.changed).format('LLLL') }
+
+      let lastPlayedEntity = null
+      if (this.lastPlayed.session) {
+        lastPlayedEntity = this.lastPlayed.session
+      } else if (this.lastPlayed.project) {
+        lastPlayedEntity = this.lastPlayed.project
+      }
+
+      if (lastPlayedEntity) { lastPlayedString += this.formatDate(lastPlayedEntity.changed) }
       return lastPlayedString
     },
   },
@@ -121,6 +156,10 @@ export default {
     ...mapActions({
       fetchLevelsForClassroom: 'levels/fetchForClassroom',
     }),
+
+    formatDate (date) {
+      return moment(date).format('LLLL')
+    },
 
     async getCredits () {
       this.studentCredits = await getStudentCredits(USER_CREDIT_HACKSTACK_KEY, this.studentId)
@@ -185,7 +224,7 @@ export default {
           <b>{{ $t('general.email') }}:</b> {{ email }}
         </p>
         <p>
-          <b>{{ $t('user.last_played') }}:</b> {{ lastPlayed?.session ?
+          <b>{{ $t('user.last_played') }}:</b> {{ lastPlayed ?
             lastPlayedString :
             $t('teacher.never_played') }}
         </p>

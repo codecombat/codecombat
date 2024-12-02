@@ -17,7 +17,7 @@ if includeHomeLink
 
 .level-name-area-container
   .level-name-area
-    if view.course
+    if view.course && !view.inExam
       .level-label= i18n(view.course.attributes, 'name')
     .level-name(title=difficultyTitle || "")
       if view.levelName

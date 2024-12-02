@@ -92,7 +92,10 @@ module.exports = class LevelSetupManager extends CocoClass
   open: ->
     return @waitingToOpen = true unless @modalsLoaded
     firstModal = if @options.hadEverChosenHero then @inventoryModal else @heroesModal
-    if ((not _.isEqual(lastHeroesEarned, me.get('earned')?.heroes ? []) or
+    if @options.levelID is 'the-gem'
+      # show hero picker for the first level (the-gem) in junior to default to blocks-text
+      firstModal = @heroesModal
+    else if ((not _.isEqual(lastHeroesEarned, me.get('earned')?.heroes ? []) or
         not _.isEqual(lastHeroesPurchased, me.get('purchased')?.heroes ? [])) and
         (utils.isOzaria or not (me.isAnonymous() and me.isInHourOfCode())))
       console.log 'Showing hero picker because heroes earned/purchased has changed.'

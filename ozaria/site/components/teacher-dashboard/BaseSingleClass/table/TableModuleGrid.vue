@@ -9,23 +9,23 @@ import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    ProgressDot
+    ProgressDot,
   },
   props: {
     studentSessions: {
       required: true,
-      type: Object
+      type: Object,
     },
     hoveredLevels: {
       required: false,
       type: Array,
-      default: () => []
+      default: () => [],
     },
     moduleNumber: {
       required: false,
       type: [Number, String],
-      default: null
-    }
+      default: null,
+    },
   },
   computed: {
     ...mapGetters({
@@ -56,7 +56,7 @@ export default {
       return {
         // This is the width or number of content pieces in the module.
         '--cols': this.cols,
-        '--columnWidth': this.cols > 2 ? '28px' : (this.cols > 1 ? '42px' : '84px')
+        '--columnWidth': this.cols > 2 ? '28px' : (this.cols > 1 ? '42px' : '84px'),
       }
     },
 
@@ -66,7 +66,7 @@ export default {
         return acc.concat(studentSessions.map(session => {
           return {
             ...session,
-            studentId
+            studentId,
           }
         }))
       }, [])
@@ -101,7 +101,7 @@ export default {
             return {
               ...level,
               inProgress: Boolean(session),
-              isCompleted: Boolean(session?.dateFirstCompleted)
+              isCompleted: Boolean(session?.dateFirstCompleted),
             }
           })
         }
@@ -112,19 +112,19 @@ export default {
     cellClass (idx) {
       return {
         'gray-backer': Math.floor(idx / this.cols) % 2 === 1,
-        'cell-style': true
+        'cell-style': true,
       }
     },
 
     getFlag (flag) {
-      if (flag === 'concept') {
+      if (['concept', 'unsafe'].includes(flag)) {
         return 'red'
       }
       if (flag === 'time') {
         return 'gray'
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
