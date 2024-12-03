@@ -20,7 +20,6 @@ const forms = require('core/forms')
 const User = require('models/User')
 const ConfirmModal = require('views/core/ConfirmModal')
 const { logoutUser, me } = require('core/auth')
-const RootView = require('views/core/RootView')
 const CreateAccountModal = require('views/core/CreateAccountModal')
 const globalVar = require('core/globalVar')
 const utils = require('core/utils')
@@ -28,7 +27,7 @@ const RobloxButton = require('./robloxButton.vue').default
 const DashboardToggle = require('ozaria/site/components/teacher-dashboard/common/DashboardToggle.vue').default
 
 module.exports = (AccountSettingsView = (function () {
-  AccountSettingsView = class AccountSettingsView extends RootView {
+  AccountSettingsView = class AccountSettingsView extends CocoView {
     static initClass () {
       this.prototype.id = 'account-settings-view'
       this.prototype.template = template
