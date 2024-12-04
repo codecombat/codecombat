@@ -6,6 +6,10 @@ function getLastSelectedCourseKey (state) {
   return `courseId_${state.teacherId}_${state.classroomId}`
 }
 
+function moduleCollapseKey () {
+  return `collapsed-modules-${me.id}`
+}
+
 async function fetchDataByComponent ({ dispatch, state, commit }, { componentName, options }) {
   try {
     const componentActionMap = {
@@ -79,6 +83,7 @@ export default {
     pageTitle: '',
     componentName: '',
     trackCategory: 'Teachers', // used for tracking events on pages shared between DSA and DT
+    collapsedModules: null,
   },
 
   mutations: {
@@ -115,6 +120,28 @@ export default {
     },
     setTrackCategory (state, trackCategory) {
       state.trackCategory = trackCategory
+    },
+    toggleModuleCollapse (state, moduleNumber) {
+      const courseId = this.getters['teacherDashboard/getSelectedCourseIdCurrentClassroom']
+      const key = moduleCollapseKey()
+      const isCollapsed = this.getters['teacherDashboard/isModuleCollapsed'](moduleNumber)
+
+      state.collapsedModules = this.getters['teacherDashboard/getCollapsedModules']
+      state.collapsedModules[courseId] = this.getters['teacherDashboard/getCollapsedModules'][courseId] || []
+      if (isCollapsed) {
+        const index = state.collapsedModules[courseId].indexOf(moduleNumber)
+        if (index > -1) {
+          state.collapsedModules[courseId].splice(index, 1)
+        }
+      } else {
+        state.collapsedModules[courseId].push(moduleNumber)
+      }
+      // Create a new array to ensure Vue's reactivity system picks up the change
+      state.collapsedModules = {
+        ...state.collapsedModules,
+        [courseId]: [...state.collapsedModules[courseId]],
+      }
+      localStorage.setItem(key, JSON.stringify(state.collapsedModules))
     },
   },
 
@@ -244,6 +271,20 @@ export default {
       } else {
         return []
       }
+    },
+    getCollapsedModulesForCurrentCourse (state, getters) {
+      return getters.getCollapsedModules[getters.getSelectedCourseIdCurrentClassroom] || []
+    },
+    getCollapsedModules: (state) => {
+      const key = moduleCollapseKey()
+      return state.collapsedModules || JSON.parse(localStorage.getItem(key)) || {}
+    },
+    isModuleCollapsed: (state, getters) => (moduleNumber) => {
+      const courseId = getters.getSelectedCourseIdCurrentClassroom
+      if (getters.getCollapsedModules[courseId]) {
+        return getters.getCollapsedModules[courseId].includes(moduleNumber)
+      }
+      return false
     },
   },
 

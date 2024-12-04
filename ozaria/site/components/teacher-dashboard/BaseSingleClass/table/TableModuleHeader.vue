@@ -91,6 +91,14 @@ export default {
       },
       default: undefined,
     },
+    moduleNumber: {
+      type: [String, Number],
+      default: null,
+    },
+    collapsible: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data () {
@@ -109,7 +117,12 @@ export default {
       getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
       classroom: 'teacherDashboard/getCurrentClassroom',
       isContentAccessible: 'me/isContentAccessible',
+      collapsedModules: 'teacherDashboard/getCollapsedModulesForCurrentCourse',
     }),
+
+    collapsed () {
+      return this.collapsedModules.includes(this.moduleNumber)
+    },
 
     isCodeCombat () {
       return utils.isCodeCombat
@@ -123,7 +136,6 @@ export default {
       return {
         '--cols': this.listOfContent.length,
         '--columnWidth': this.listOfContent.length > 2 ? '28px' : (this.listOfContent.length > 1 ? '42px' : '84px'),
-
       }
     },
 
@@ -141,6 +153,7 @@ export default {
       setShowingTooltipOfThisOriginal: 'baseSingleClass/setShowingTooltipOfThisOriginal',
       replaceSelectedOriginals: 'baseSingleClass/replaceSelectedOriginals',
       updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals',
+      toggleModuleCollapse: 'teacherDashboard/toggleModuleCollapse',
     }),
 
     getLevelUrl (object) {
@@ -194,6 +207,10 @@ export default {
     deselectAll () {
       this.replaceSelectedOriginals(this.userSelectedOriginals)
     },
+
+    renderedModuleHeading () {
+      return this.$refs.renderedModuleHeading && this.$refs.renderedModuleHeading.content
+    },
   },
 }
 </script>
@@ -201,10 +218,22 @@ export default {
 <template>
   <div
     class="moduleHeading"
+    :class="{ 'collapsed': collapsed }"
     :style="cssVariables"
   >
     <div class="title">
-      <!-- eslint-disable vue/no-v-html -->
+      <div
+        v-if="collapsible"
+        v-tooltip="{
+          content: collapsed ? renderedModuleHeading() : $t('teacher_dashboard.collapse'),
+          classes: 'layoutChromeTooltip',
+        }"
+        class="collapse-toggle"
+        @click="toggleModuleCollapse(moduleNumber)"
+      >
+        <i class="icon-chevron-right  icon-white" />
+        <i class="icon-chevron-left  icon-white" />
+      </div>
 
       <img
         v-if="moduleHeadingImage"
@@ -216,10 +245,11 @@ export default {
         class="module-logo"
         :src="moduleHeadingImage"
       >
-      <h3
-        v-else
-      >
-        <code-renderer :content="moduleHeading" />
+      <h3 v-else>
+        <code-renderer
+          ref="renderedModuleHeading"
+          :content="moduleHeading"
+        />
         <access-level-indicator
           :level="access"
           :display-text="false"
@@ -256,7 +286,6 @@ export default {
         popover-class="teacher-dashboard-tooltip lighter-p lock-tooltip"
         trigger="hover"
         placement="top"
-
         @show="setShowingTooltipOfThisOriginal(normalizedOriginal)"
         @hide="setShowingTooltipOfThisOriginal(undefined)"
       >
@@ -284,7 +313,7 @@ export default {
             >
               <dynamic-link
                 target="_blank"
-                :href="isContentAccessible(access) ? getLevelUrl({ozariaType, introLevelSlug, courseId: selectedCourseId, codeLanguage: classroom.aceConfig.language, slug, introContent}) : null"
+                :href="isContentAccessible(access) ? getLevelUrl({ ozariaType, introLevelSlug, courseId: selectedCourseId, codeLanguage: classroom.aceConfig.language, slug, introContent }) : null"
               >
                 {{ tooltipName }}
               </dynamic-link>
@@ -293,9 +322,7 @@ export default {
               style="margin-bottom: 15px;"
               v-html="description"
             />
-            <p
-              v-if="practiceLevels?.length"
-            >
+            <p v-if="practiceLevels?.length">
               {{ $t('teacher_dashboard.practice_levels') }}: {{ practiceLevels.length }}
             </p>
             <a
@@ -353,7 +380,7 @@ export default {
   background-color: #413c55;
   border-bottom: 1px solid white;
 
-  padding: 0 0 0 12px;
+  padding: 0 0 0 5px;
 
   overflow: hidden;
   text-overflow: ellipsis;
@@ -436,6 +463,8 @@ h3 {
   @include font-p-4-paragraph-smallest-gray;
   color: white;
   font-weight: 600;
+  flex: 1;
+  padding-left: 5px;
 }
 
 .module-popover-locking {
@@ -446,6 +475,7 @@ h3 {
 
 .level-popover-locking {
   padding: 16px 16px 0;
+
   ::v-deep {
     a {
       color: inherit;
@@ -488,7 +518,7 @@ h3 {
   font-size: 18px;
 
   /* Selects element directly after this h3 to fix spacing */
-  & + * {
+  &+* {
     margin-top: -5px;
   }
 }
@@ -504,5 +534,47 @@ h3 {
 .arena-ladder-link {
   display: block;
   margin-bottom: 15px;
+}
+
+.collapsed {
+  >*:not(.title) {
+    display: none;
+  }
+
+  >.title {
+    padding-left: 1px;
+    >*:not(.collapse-toggle) {
+    display: none
+  }
+  }
+
+  width: 20px;
+  min-width: 20px;
+  overflow: hidden;
+}
+
+.collapse-toggle {
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: #413c55;
+  border: 1px solid white;
+  border-radius: 5px;
+  i {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.moduleHeading {
+  &:not(.collapsed) {
+    .collapse-toggle .icon-chevron-right {
+      display: none;
+    }
+  }
+  &.collapsed .collapse-toggle .icon-chevron-left {
+    display: none;
+  }
 }
 </style>
