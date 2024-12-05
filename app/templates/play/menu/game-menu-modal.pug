@@ -32,7 +32,12 @@
           li
             a#change-hero-tab
               span.glyphicon.glyphicon-user
-              span(data-i18n='[title]game_menu.choose_hero_caption;play.change_hero_or_language')
+              span(data-i18n='[title]game_menu.choose_hero_caption;play.change_hero')
+          li
+            a#change-language-tab
+              span.glyphicon.glyphicon-edit
+              span(data-i18n='[title]game_menu.choose_hero_caption;play.change_language')
+
 
         if me.get('anonymous') && !features.noAuth
           li.auth-tab(data-toggle='coco-modal', data-target="core/CreateAccountModal")
