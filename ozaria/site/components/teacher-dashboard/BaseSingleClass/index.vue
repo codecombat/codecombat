@@ -705,7 +705,7 @@ export default {
           moduleNum,
           displayName: utils.i18n(module, 'name').replace('(coming soon)', ''),
           contentList: moduleContent.map((scenario, index) => {
-            const type = scenario.mode === 'use' ? 'ai-use' : 'ai-learn'
+            const type = utils.scenarioMode2Icon(scenario.mode)
             return {
               displayName: scenario.name,
               type,

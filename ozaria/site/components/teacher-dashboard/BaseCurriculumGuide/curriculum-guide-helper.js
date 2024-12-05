@@ -63,7 +63,7 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
     }
 
     if (currentCourseId === utils.courseIDs.HACKSTACK) {
-      icon = content.mode === 'use' ? 'ai-use' : 'ai-learn'
+      icon = utils.scenarioMode2Icon(content.mode)
     }
 
     // todo: hackstack url

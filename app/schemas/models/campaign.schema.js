@@ -124,13 +124,13 @@ _.extend(CampaignSchema.properties, {
     }
   },
   scenarios: {
-    type: 'object',
-    additionalProperties: {
-      title: 'AI Scenarios',
+    type: 'array',
+    title: 'AI Scenarios',
+    items: {
       type: 'object',
       // key is the scenario id property
       properties: {
-      // - denormalized from Achievements
+        scenario: c.objectId({ links: [{ rel: 'extra', href: '/db/ai_scenario/{($)}' }] }),
         moduleNum: { type: 'number', title: 'Module number', default: 5 },
       },
     },
