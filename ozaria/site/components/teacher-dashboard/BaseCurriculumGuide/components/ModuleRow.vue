@@ -4,6 +4,8 @@ import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
 import { aiToolToImage } from 'app/core/utils.js'
 import marked from 'marked'
 
+const aiProjectTypes = ['ai-use', 'ai-learn']
+
 export default {
   components: {
     ContentIcon
@@ -75,7 +77,8 @@ export default {
 
   data () {
     return {
-      showCode: false
+      showCode: false,
+      aiProjectTypes,
     }
   },
 
@@ -97,7 +100,7 @@ export default {
     getContentTypeHeader () {
       if (this.nameType || this.iconType) {
         const type = this.nameType ? this.nameType : this.iconType
-        if (['ai-use', 'ai-learn'].includes(type)) {
+        if (this.aiProjectTypes.includes(type)) {
           return ''
         }
         const name = getGameContentDisplayType(type, true, true)
@@ -142,7 +145,7 @@ export default {
         :icon="iconType"
       />
       <img
-        v-if="['ai-use', 'ai-learn'].includes(iconType)"
+        v-if="aiProjectTypes.includes(iconType)"
         class="tool-image"
         :src="aiImage(tool)"
       >

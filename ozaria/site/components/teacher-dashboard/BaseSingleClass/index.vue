@@ -120,7 +120,7 @@ export default {
       }
 
       if (this.isHackStackCourse(selectedCourseId)) {
-        const hackStackModules = this.generateHackStackModuleV2(modules)
+        const hackStackModules = this.generateHackStackModules(modules)
         return hackStackModules
       }
 
@@ -696,7 +696,7 @@ export default {
       }
     },
 
-    generateHackStackModuleV2 (moduels) {
+    generateHackStackModules (moduels) {
       const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
       return Object.entries(moduels).map(([moduleNum, moduleContent]) => {
         const classSummaryProgress = []
