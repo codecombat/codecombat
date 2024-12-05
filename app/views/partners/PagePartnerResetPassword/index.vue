@@ -58,40 +58,40 @@ export default Vue.extend({
 <template>
   <div v-if="isAPIClient">
     <div class="style-ozaria teacher-form">
-      <span class="sub-title">Enter email, username or id</span>
+      <span class="sub-title">{{ $t('password_reset_page.enter_prompt') }}</span>
       <div>
         <input
           v-model="userInput"
           type="text"
           class="form-control"
-          placeholder="Email, username or id"
+          :placeholder="$t('password_reset_page.input_placeholder')"
         >
         <button
           type="button"
           @click="searchUser"
         >
-          Search user
+          {{ $t('password_reset_page.search_user') }}
         </button>
         <button
           type="button"
           @click="resetInputs"
         >
-          Search again
+          {{ $t('password_reset_page.search_again') }}
         </button>
       </div>
       <div
         v-for="user in foundUsers"
         :key="user.id"
       >
-        <p>User ID: {{ user.id }}</p>
+        <p>{{ $t('password_reset_page.user_id') }}: {{ user.id }}</p>
         <p v-if="user.name">
-          Name: {{ user.name }}
+          {{ $t('password_reset_page.user_name') }}: {{ user.name }}
         </p>
         <p v-if="user.email">
-          Email: {{ user.email }}
+          {{ $t('password_reset_page.user_email') }}: {{ user.email }}
         </p>
         <button @click="openPasswordModal(user.id)">
-          Reset Password
+          {{ $t('password_reset_page.reset_password') }}
         </button>
       </div>
       <change-password-modal
@@ -109,8 +109,6 @@ export default Vue.extend({
 .teacher-form {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
   margin: 15px 15px 0px 15px;
   max-width: 600px;
 }

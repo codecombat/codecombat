@@ -2401,6 +2401,17 @@ module.exports = {
       custom_tournaments: 'Custom Tournaments',
     },
 
+    password_reset_page: {
+      enter_prompt: 'Enter email, username or ID',
+      input_placeholder: 'Email, username or ID',
+      search_user: 'Search user',
+      search_again: 'Search again',
+      user_id: 'User ID',
+      user_name: 'Name',
+      user_email: 'Email',
+      reset_password: 'Reset Password',
+    },
+
     project_gallery: {
       no_projects_published: 'Be the first to publish a project in this course!',
       view_project: 'View Project',
