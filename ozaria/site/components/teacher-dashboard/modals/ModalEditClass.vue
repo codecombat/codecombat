@@ -104,6 +104,9 @@ export default Vue.extend({
     newClassDateEnd: {
       required: requiredIf(function () { return this.asClub }),
     },
+    newClubType: {
+      required: requiredIf(function () { return this.asClub }),
+    },
   },
   computed: {
     ...mapGetters({
@@ -292,6 +295,7 @@ export default Vue.extend({
         return
       }
       const updates = {}
+
       if (this.asClub) {
         let errorMsg
         if (this.newClubType === 'club-ozaria' && this.isCodeCombat) {
@@ -306,7 +310,10 @@ export default Vue.extend({
           return
         }
         updates.type = this.newClubType
+      } else {
+        updates.type = this.newClassroomType
       }
+
       if (this.newClassDateStart && this.newClassDateEnd && moment(this.newClassDateEnd).isBefore(moment(this.newClassDateStart))) {
         this.errMsg = 'End date should be after start date'
         this.saving = false
@@ -344,7 +351,6 @@ export default Vue.extend({
 
       updates.description = this.newClassroomDescription
       updates.averageStudentExp = this.newAverageStudentExp
-      updates.type = this.newClassroomType
       updates.classDateStart = this.newClassDateStart
       updates.classDateEnd = this.newClassDateEnd
       updates.classesPerWeek = String(this.newClassesPerWeek)
