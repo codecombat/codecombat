@@ -1,6 +1,5 @@
 <script>
 import ChangePasswordModal from 'app/views/user/ChangePasswordModal.vue'
-import { mapActions } from 'vuex'
 import apiClient from 'app/core/api/api-clients'
 
 export default Vue.extend({
@@ -20,13 +19,7 @@ export default Vue.extend({
       return me.isAPIClient() || me.isAdmin()
     },
   },
-  async created () {
-    this.clientId = await this.fetchClientId()
-  },
   methods: {
-    ...mapActions({
-      fetchClientId: 'apiClient/fetchClientId',
-    }),
     resetInputs () {
       this.userInput = ''
       this.foundUsers = []
@@ -36,7 +29,7 @@ export default Vue.extend({
       console.log(this.userInput)
       const userInput = this.userInput.trim().toLowerCase()
       try {
-        const response = await apiClient.getUsersSearch(this.clientId, userInput)
+        const response = await apiClient.getUsersSearch(userInput)
         this.onSearchRequestSuccess(response)
       } catch (error) {
         console.log(error)

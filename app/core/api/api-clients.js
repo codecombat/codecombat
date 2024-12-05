@@ -101,11 +101,10 @@ module.exports = {
     })
   },
 
-  getUsersSearch (clientId, search) {
+  getUsersSearch (search) {
     return fetchJson('/db/api-clients/fetchClientUsers', {
       method: 'GET',
       data: {
-        clientId,
         search,
       },
     })
