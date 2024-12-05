@@ -44,6 +44,7 @@ module.exports = (GameMenuModal = (function () {
         'change input.select': 'onSelectionChanged',
         'shown.bs.tab #game-menu-nav a': 'onTabShown',
         'click #change-hero-tab' () { return this.trigger('change-hero') },
+        'click #change-language-tab' () { return this.trigger('change-hero') },
         'click .auth-tab': 'onClickSignupButton',
         'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal',
         'click .hints-button': 'onClickHintsButton',
