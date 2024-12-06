@@ -6,6 +6,8 @@ import IconInteractive from './IconInteractive'
 import IconPracticeLevel from './IconPracticeLevel'
 import IconChallengeLevel from './IconChallengeLevel'
 import IconIntro from './IconIntro'
+import IconAIUse from './IconAIUse'
+import IconAILearn from './IconAILearn'
 
 export default {
   components: {
@@ -15,7 +17,9 @@ export default {
     IconPracticeLevel,
     IconChallengeLevel,
     IconInteractive,
-    IconIntro
+    IconIntro,
+    IconAILearn,
+    IconAIUse,
   },
 
   props: {
@@ -35,11 +39,13 @@ export default {
   >
     <IconCutscene v-if="icon=='cutscene'" />
     <IconCinematic v-else-if="icon=='cinematic'" />
-    <IconCapstone v-else-if="['capstone', 'ai-use'].includes(icon)" />
+    <IconCapstone v-else-if="['capstone'].includes(icon)" />
     <IconInteractive v-else-if="icon=='interactive'" />
     <IconPracticeLevel v-else-if="icon=='practicelvl'" />
-    <IconChallengeLevel v-else-if="['challengelvl', 'hero', 'ai-learn'].includes(icon)" />
+    <IconChallengeLevel v-else-if="['challengelvl', 'hero'].includes(icon)" />
     <IconIntro v-else-if="icon=='intro'" />
+    <IconAIUse v-else-if="icon=='ai-use'" />
+    <IconAILearn v-else-if="icon=='ai-learn'" />
     <IconIntro v-else />
   </div>
 </template>
