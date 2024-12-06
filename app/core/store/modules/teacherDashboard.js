@@ -121,27 +121,12 @@ export default {
     setTrackCategory (state, trackCategory) {
       state.trackCategory = trackCategory
     },
-    toggleModuleCollapse (state, moduleNumber) {
-      const courseId = this.getters['teacherDashboard/getSelectedCourseIdCurrentClassroom']
-      const key = moduleCollapseKey()
-      const isCollapsed = this.getters['teacherDashboard/isModuleCollapsed'](moduleNumber)
-
-      state.collapsedModules = this.getters['teacherDashboard/getCollapsedModules']
-      state.collapsedModules[courseId] = this.getters['teacherDashboard/getCollapsedModules'][courseId] || []
-      if (isCollapsed) {
-        const index = state.collapsedModules[courseId].indexOf(moduleNumber)
-        if (index > -1) {
-          state.collapsedModules[courseId].splice(index, 1)
-        }
-      } else {
-        state.collapsedModules[courseId].push(moduleNumber)
-      }
-      // Create a new array to ensure Vue's reactivity system picks up the change
+    setModuleCollapsedState (state, { courseId, collapsedModules }) {
       state.collapsedModules = {
-        ...state.collapsedModules,
-        [courseId]: [...state.collapsedModules[courseId]],
+        ...(state.collapsedModules || {}),
+        [courseId]: [...(collapsedModules || [])],
       }
-      localStorage.setItem(key, JSON.stringify(state.collapsedModules))
+      localStorage.setItem(moduleCollapseKey(), JSON.stringify(state.collapsedModules))
     },
   },
 
@@ -276,8 +261,7 @@ export default {
       return getters.getCollapsedModules[getters.getSelectedCourseIdCurrentClassroom] || []
     },
     getCollapsedModules: (state) => {
-      const key = moduleCollapseKey()
-      return state.collapsedModules || JSON.parse(localStorage.getItem(key)) || {}
+      return state.collapsedModules || {}
     },
     isModuleCollapsed: (state, getters) => (moduleNumber) => {
       const courseId = getters.getSelectedCourseIdCurrentClassroom
@@ -289,6 +273,25 @@ export default {
   },
 
   actions: {
+    toggleModuleCollapse ({ commit, getters }, moduleNumber) {
+      try {
+        const courseId = getters.getSelectedCourseIdCurrentClassroom
+        const isCollapsed = getters.isModuleCollapsed(moduleNumber)
+        const currentCollapsed = getters.getCollapsedModules[courseId] || []
+
+        let collapsedModules
+        if (isCollapsed) {
+          collapsedModules = currentCollapsed.filter(num => num !== moduleNumber)
+        } else {
+          collapsedModules = [...currentCollapsed, moduleNumber]
+        }
+
+        commit('setModuleCollapsedState', { courseId, collapsedModules })
+      } catch (error) {
+        console.error('Failed to toggle module collapse:', error)
+        throw error
+      }
+    },
     // componentName = name of the vue component -> used to fetch relevant data for the respective page
     // options = { data: {} }
     // options.data = {} -> contains specific properties to fetch (or `project`) for an object as a string, eg: {users: 'firstName,lastName,email', levelSessions: 'state.complete,level,creator,changed'}
@@ -518,6 +521,15 @@ export default {
 
       // TODO If classroom already loaded, load it asynchronously without blocking UI, i.e. without `await` to optimize performance
       await Promise.all(fetchPromises)
+    },
+
+    fetchModuleCollapseState ({ commit, getters }) {
+      const key = moduleCollapseKey()
+      const collapsedModules = JSON.parse(localStorage.getItem(key)) || {}
+      const entries = Object.entries(collapsedModules)
+      for (const [courseId, modules] of entries) {
+        commit('setModuleCollapsedState', { courseId, collapsedModules: modules })
+      }
     },
   },
 }

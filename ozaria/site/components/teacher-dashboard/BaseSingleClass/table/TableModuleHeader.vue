@@ -16,7 +16,7 @@ import DynamicLink from 'app/components/common/elements/DynamicLink.vue'
 
 import utils from 'core/utils'
 
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 
 // The levels in the groups defined here are can not be selected individually.
 // They are either all selected or all not selected.
@@ -148,12 +148,19 @@ export default {
     },
   },
 
+  mounted () {
+    this.fetchModuleCollapseState(this.moduleNumber)
+  },
+
   methods: {
     ...mapMutations({
       setShowingTooltipOfThisOriginal: 'baseSingleClass/setShowingTooltipOfThisOriginal',
       replaceSelectedOriginals: 'baseSingleClass/replaceSelectedOriginals',
       updateSelectedOriginals: 'baseSingleClass/updateSelectedOriginals',
+    }),
+    ...mapActions({
       toggleModuleCollapse: 'teacherDashboard/toggleModuleCollapse',
+      fetchModuleCollapseState: 'teacherDashboard/fetchModuleCollapseState',
     }),
 
     getLevelUrl (object) {
