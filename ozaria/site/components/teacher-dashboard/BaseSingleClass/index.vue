@@ -696,9 +696,9 @@ export default {
       }
     },
 
-    generateHackStackModules (moduels) {
+    generateHackStackModules (modules) {
       const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
-      return Object.entries(moduels).map(([moduleNum, moduleContent]) => {
+      return Object.entries(modules).map(([moduleNum, moduleContent]) => {
         const classSummaryProgress = []
         const module = course?.modules?.[moduleNum] || {}
         return {
