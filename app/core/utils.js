@@ -1707,10 +1707,6 @@ module.exports.getJuniorUrl = function() {
   return `${cocoBaseURL()}${juniorPath}`
 }
 
-module.exports.scenarioMode2Icon = (mode) => {
-  return mode === 'use' ? 'ai-use' : 'ai-learn'
-}
-
 module.exports = {
   ...module.exports,
   activeAndPastArenas,

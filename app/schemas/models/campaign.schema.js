@@ -122,19 +122,7 @@ _.extend(CampaignSchema.properties, {
       }
 
     }
-  },
-  scenarios: {
-    type: 'array',
-    title: 'AI Scenarios',
-    items: {
-      type: 'object',
-      // key is the scenario id property
-      properties: {
-        scenario: c.objectId({ links: [{ rel: 'extra', href: '/db/ai_scenario/{($)}' }] }),
-        moduleNum: { type: 'number', title: 'Module number', default: 5 },
-      },
-    },
-  },
+  }
 })
 
 CampaignSchema.denormalizedLevelProperties = [
