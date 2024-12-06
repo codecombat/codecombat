@@ -1,10 +1,7 @@
 <script>
 import ContentIcon from '../../common/icons/ContentIcon'
 import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
-import { aiToolToImage } from 'app/core/utils.js'
 import marked from 'marked'
-
-const aiProjectTypes = ['ai-use', 'ai-learn']
 
 export default {
   components: {
@@ -16,7 +13,7 @@ export default {
       type: String,
       required: true,
       validator: value => {
-        return ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev', 'ladder', 'challenge', 'ai-use', 'ai-learn'].indexOf(value) !== -1
+        return ['cutscene', 'cinematic', 'capstone', 'interactive', 'practicelvl', 'challengelvl', 'intro', 'hero', 'course-ladder', 'game-dev', 'web-dev', 'ladder', 'challenge'].indexOf(value) !== -1
       }
     },
 
@@ -69,20 +66,16 @@ export default {
       type: Boolean,
       default: false,
     },
-    tool: {
-      type: String,
-      default: undefined,
-    },
   },
 
   data () {
     return {
-      showCode: false,
-      aiProjectTypes,
+      showCode: false
     }
   },
 
   computed: {
+
     clearDescription () {
       const description = marked(this.description).replace(/<[^>]*>/g, '')
       const doc = new DOMParser().parseFromString(description, 'text/html')
@@ -100,9 +93,6 @@ export default {
     getContentTypeHeader () {
       if (this.nameType || this.iconType) {
         const type = this.nameType ? this.nameType : this.iconType
-        if (this.aiProjectTypes.includes(type)) {
-          return ''
-        }
         const name = getGameContentDisplayType(type, true, true)
         return `${name}:`
       } else {
@@ -111,17 +101,6 @@ export default {
     }
   },
   methods: {
-    aiImage (tool) {
-      if (tool.includes('claude')) {
-        return aiToolToImage['claude-3']
-      } else if (tool.includes('dall-e')) {
-        return aiToolToImage['dall-e-3']
-      } else if (tool.includes('stable-diffusion')) {
-        return aiToolToImage['stable-diffusion-xl']
-      } else if (tool.includes('gpt-')) {
-        return aiToolToImage['gpt-4-turbo-preview']
-      }
-    },
     onShowCodeClicked () {
       this.showCode = !this.showCode
       this.$emit('showCodeClicked', { identifier: this.identifier, hideCode: !this.showCode, levelNumber: this.levelNumber })
@@ -144,11 +123,6 @@ export default {
         class="content-icon"
         :icon="iconType"
       />
-      <img
-        v-if="aiProjectTypes.includes(iconType)"
-        class="tool-image"
-        :src="aiImage(tool)"
-      >
       <p class="content-heading">
         <b>{{ `${levelNumber ? levelNumber : '' }${levelNumber ? (nameType ? '.' : ':') : ''} ${getContentTypeHeader} ${ displayName.replace('Course: ', '')}` }}</b>
       </p>
@@ -295,8 +269,4 @@ export default {
       margin-left: 1rem;
     }
   }
-.tool-image {
-  width: 20px;
-  margin-right: 10px;
-}
 </style>

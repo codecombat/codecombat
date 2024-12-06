@@ -114,14 +114,21 @@ export default {
       this.refreshKey // eslint-disable-line no-unused-expressions
 
       const selectedCourseId = this.selectedCourseId
+
+      if (this.isHackStackCourse(selectedCourseId)) {
+        const hackStackModuleNames = this.aiScenarios.reduce((acc, scenario) => {
+          acc.add(scenario.tool)
+          return acc
+        }, new Set())
+
+        const hackStackModules = [...hackStackModuleNames].map(this.generateHackStackModule.bind(this)).filter(Boolean)
+
+        return hackStackModules
+      }
+
       const modules = (this.gameContent[selectedCourseId] || {}).modules
       if (modules === undefined) {
         return []
-      }
-
-      if (this.isHackStackCourse(selectedCourseId)) {
-        const hackStackModules = this.generateHackStackModules(modules)
-        return hackStackModules
       }
 
       const intros = (this.gameContent[selectedCourseId] || {}).introLevels
@@ -696,16 +703,27 @@ export default {
       }
     },
 
-    generateHackStackModules (modules) {
-      const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
-      return Object.entries(modules).map(([moduleNum, moduleContent]) => {
-        const classSummaryProgress = []
-        const module = course?.modules?.[moduleNum] || {}
-        return {
-          moduleNum,
-          displayName: utils.i18n(module, 'name').replace('(coming soon)', ''),
-          contentList: moduleContent.map((scenario, index) => {
-            const type = utils.scenarioMode2Icon(scenario.mode)
+    generateHackStackModule (moduleName, key) {
+      const moduleNum = key + 1
+      const classSummaryProgress = []
+      const moduleScenarios = (this.aiScenarios || [])
+        .filter(scenario => scenario.tool === moduleName)
+
+      const aiModel = this.modelsByName[moduleName]
+
+      if (!aiModel) {
+        return null
+      }
+      return {
+        moduleNum,
+        displayName: `<strong>${aiModel.displayName}</strong><br>${aiModel.description}`,
+        displayLogo: utils.aiToolToImage[moduleName] || null,
+        contentList: moduleScenarios
+          .sort((a, b) => {
+            return a.mode === 'use' ? 1 : -1 // Use scenarios should be at the end
+          })
+          .map((scenario, index) => {
+            const type = scenario.mode === 'use' ? 'ai-use' : 'ai-learn'
             return {
               displayName: scenario.name,
               type,
@@ -719,21 +737,24 @@ export default {
               isPractice: false,
             }
           }),
-          studentSessions: this.students.reduce((studentSessions, student) => {
-            studentSessions[student._id] = moduleContent.map((aiScenario, index) => {
+        studentSessions: this.students.reduce((studentSessions, student) => {
+          const createModeUnlocked = { unlocked: false }
+          studentSessions[student._id] = moduleScenarios
+            .map((aiScenario, index) => {
               return this.createProgressDetailsByAiScenario({
                 aiScenario,
                 index,
                 student,
                 classSummaryProgress,
                 moduleNum,
+                createModeUnlocked,
               })
             })
-            return studentSessions
-          }, {}),
-          classSummaryProgress,
-        }
-      })
+
+          return studentSessions
+        }, {}),
+        classSummaryProgress,
+      }
     },
   },
 }
