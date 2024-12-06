@@ -563,10 +563,6 @@ export default Vue.extend({
 #main-nav.navbar {
   background: white;
 
-  ::v-deep .emoji-flag {
-    font-size: 30px
-  }
-
   // Add dark mode styles
   &.dark-mode {
 
