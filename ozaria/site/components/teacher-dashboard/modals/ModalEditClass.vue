@@ -751,7 +751,7 @@ export default Vue.extend({
           </div>
         </div>
         <div
-          v-if="moreOptions"
+          v-if="moreOptions && isCodeCombat"
           class="form-group row remix"
         >
           <div class="col-xs-12">
