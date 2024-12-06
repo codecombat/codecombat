@@ -4730,6 +4730,7 @@ module.exports = {
       activate_license: 'Activate License',
       violation: 'Violation',
       safety_violations: 'Safety Violations',
+      collapse: 'Collapse',
     },
 
     outcomes: {

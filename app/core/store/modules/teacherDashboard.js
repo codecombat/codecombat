@@ -6,6 +6,10 @@ function getLastSelectedCourseKey (state) {
   return `courseId_${state.teacherId}_${state.classroomId}`
 }
 
+function moduleCollapseKey () {
+  return `collapsed-modules-${me.id}`
+}
+
 async function fetchDataByComponent ({ dispatch, state, commit }, { componentName, options }) {
   try {
     const componentActionMap = {
@@ -79,6 +83,7 @@ export default {
     pageTitle: '',
     componentName: '',
     trackCategory: 'Teachers', // used for tracking events on pages shared between DSA and DT
+    collapsedModules: null,
   },
 
   mutations: {
@@ -115,6 +120,13 @@ export default {
     },
     setTrackCategory (state, trackCategory) {
       state.trackCategory = trackCategory
+    },
+    setModuleCollapsedState (state, { courseId, collapsedModules }) {
+      state.collapsedModules = {
+        ...(state.collapsedModules || {}),
+        [courseId]: [...(collapsedModules || [])],
+      }
+      localStorage.setItem(moduleCollapseKey(), JSON.stringify(state.collapsedModules))
     },
   },
 
@@ -245,9 +257,41 @@ export default {
         return []
       }
     },
+    getCollapsedModulesForCurrentCourse (state, getters) {
+      return getters.getCollapsedModules[getters.getSelectedCourseIdCurrentClassroom] || []
+    },
+    getCollapsedModules: (state) => {
+      return state.collapsedModules || {}
+    },
+    isModuleCollapsed: (state, getters) => (moduleNumber) => {
+      const courseId = getters.getSelectedCourseIdCurrentClassroom
+      if (getters.getCollapsedModules[courseId]) {
+        return getters.getCollapsedModules[courseId].includes(moduleNumber)
+      }
+      return false
+    },
   },
 
   actions: {
+    toggleModuleCollapse ({ commit, getters }, moduleNumber) {
+      try {
+        const courseId = getters.getSelectedCourseIdCurrentClassroom
+        const isCollapsed = getters.isModuleCollapsed(moduleNumber)
+        const currentCollapsed = getters.getCollapsedModules[courseId] || []
+
+        let collapsedModules
+        if (isCollapsed) {
+          collapsedModules = currentCollapsed.filter(num => num !== moduleNumber)
+        } else {
+          collapsedModules = [...currentCollapsed, moduleNumber]
+        }
+
+        commit('setModuleCollapsedState', { courseId, collapsedModules })
+      } catch (error) {
+        console.error('Failed to toggle module collapse:', error)
+        throw error
+      }
+    },
     // componentName = name of the vue component -> used to fetch relevant data for the respective page
     // options = { data: {} }
     // options.data = {} -> contains specific properties to fetch (or `project`) for an object as a string, eg: {users: 'firstName,lastName,email', levelSessions: 'state.complete,level,creator,changed'}
@@ -477,6 +521,15 @@ export default {
 
       // TODO If classroom already loaded, load it asynchronously without blocking UI, i.e. without `await` to optimize performance
       await Promise.all(fetchPromises)
+    },
+
+    fetchModuleCollapseState ({ commit, getters }) {
+      const key = moduleCollapseKey()
+      const collapsedModules = JSON.parse(localStorage.getItem(key)) || {}
+      const entries = Object.entries(collapsedModules)
+      for (const [courseId, modules] of entries) {
+        commit('setModuleCollapsedState', { courseId, collapsedModules: modules })
+      }
     },
   },
 }

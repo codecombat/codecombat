@@ -43,7 +43,7 @@ export default {
   computed: {
     ...mapGetters({
       selectedStudentIds: 'baseSingleClass/selectedStudentIds',
-      selectedOriginals: 'baseSingleClass/selectedOriginals'
+      selectedOriginals: 'baseSingleClass/selectedOriginals',
     }),
     getStudentSessionsData () {
       return this.modules.map(m => {
@@ -117,7 +117,7 @@ export default {
 
           <!-- Module Headers -->
           <table-module-header
-            v-for="({ displayName, contentList, classSummaryProgress, displayLogo, access }) of modules"
+            v-for="({ displayName, moduleNum, contentList, classSummaryProgress, displayLogo, access }) of modules"
 
             :key="`${displayName}`"
             :module-heading-image="displayLogo"
@@ -126,7 +126,8 @@ export default {
             :list-of-content="contentList"
             :class-summary-progress="classSummaryProgress"
             :display-only="displayOnly"
-
+            :module-number="moduleNum"
+            :collapsible="modules.length>3"
             @updateHoveredLevels="updateHoveredLevels"
           />
         </div>

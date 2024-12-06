@@ -37,8 +37,13 @@ export default {
       classroomId: 'teacherDashboard/classroomId',
       getLevelSessionMap: 'levelSessions/getSessionsMapForClassroom',
       courseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+      collapsedModules: 'teacherDashboard/getCollapsedModulesForCurrentCourse',
 
     }),
+
+    collapsed () {
+      return this.collapsedModules.includes(this.moduleNumber)
+    },
 
     classroomGameContent () {
       return this.getContentForClassroom(this.classroomId)
@@ -131,6 +136,7 @@ export default {
 <template>
   <div
     class="moduleGrid"
+    :class="{'collapsed': collapsed}"
     :style="cssVariables"
   >
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
@@ -186,5 +192,14 @@ export default {
     height: 29px;
     display: flex;
     justify-content: center;
+  }
+
+  .collapsed {
+    width: 20px;
+    min-width: 20px;
+    > * {
+      display: none;
+    }
+    border-bottom: 1px solid #d8d8d8;
   }
 </style>
