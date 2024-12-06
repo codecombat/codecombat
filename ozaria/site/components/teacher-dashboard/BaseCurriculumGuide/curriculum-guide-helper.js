@@ -66,6 +66,11 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       }
     }
 
+    if (currentCourseId === utils.courseIDs.HACKSTACK) {
+      icon = utils.scenarioMode2Icon(content.mode)
+    }
+
+    // todo: hackstack url
     const url = getLevelUrl({ ozariaType, introLevelSlug, courseId: currentCourseId, codeLanguage, slug, introContent, moduleNum })
 
     if (!url || !icon) {
@@ -84,6 +89,7 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       fromIntroLevelOriginal,
       original: content.original,
       assessment: content.assessment,
+      tool: content.tool,
     })
   }
   return curriculumGuideContentList

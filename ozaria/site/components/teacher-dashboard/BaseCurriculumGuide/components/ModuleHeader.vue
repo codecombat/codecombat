@@ -103,7 +103,7 @@ export default {
       <h3>
         <span>{{ $t('teacher_dashboard.module') }} </span>
         <span
-          v-if="getCurrentCourse.slug !== 'junior'"
+          v-if="!(['junior', 'hackstack'].includes(getCurrentCourse.slug))"
         >
           {{ moduleNum }}:
         </span>
