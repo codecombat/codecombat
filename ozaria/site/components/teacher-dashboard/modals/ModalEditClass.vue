@@ -58,6 +58,7 @@ export default Vue.extend({
       newCodeFormats: typeof cFormats === 'undefined' ? ['text-code'] : cFormats,
       newCodeFormatDefault: typeof cFormatDefault === 'undefined' ? 'text-code' : cFormatDefault,
       newLevelChat: typeof cLevelChat === 'undefined' ? true : cLevelChat === 'fixed_prompt_only',
+      newRemix: this.classroom?.hackstackConfig?.remixAllowed || false,
       cocoDefaultLevelChat: true,
       newClassroomDescription: this.classroom?.description || '',
       newAverageStudentExp: this.classroom?.averageStudentExp || '',
@@ -86,22 +87,25 @@ export default Vue.extend({
 
   validations: {
     newClassName: {
-      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm })
+      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm }),
     },
     googleClassId: {
-      required: requiredIf(function () { return this.isGoogleClassroomForm })
+      required: requiredIf(function () { return this.isGoogleClassroomForm }),
     },
     otherProductClassroomId: {
-      required: requiredIf(function () { return this.isOtherProductForm })
+      required: requiredIf(function () { return this.isOtherProductForm }),
     },
     newProgrammingLanguage: {
-      required
+      required,
     },
     newClassDateStart: {
-      required: requiredIf(function () { return this.asClub })
+      required: requiredIf(function () { return this.asClub }),
     },
     newClassDateEnd: {
-      required: requiredIf(function () { return this.asClub })
+      required: requiredIf(function () { return this.asClub }),
+    },
+    newClubType: {
+      required: requiredIf(function () { return this.asClub }),
     },
   },
   computed: {
@@ -219,7 +223,7 @@ export default Vue.extend({
       fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers',
       createFreeCourseInstances: 'courseInstances/createFreeCourseInstances',
       fetchCourses: 'courses/fetchReleased',
-      fetchCourseInstances: 'courseInstances/fetchCourseInstancesForClassroom'
+      fetchCourseInstances: 'courseInstances/fetchCourseInstancesForClassroom',
     }),
     updateGrades (event) {
       const grade = event.target.name
@@ -247,7 +251,7 @@ export default Vue.extend({
       await new Promise((resolve, reject) =>
         application.gplusHandler.loadAPI({
           success: resolve,
-          error: reject
+          error: reject,
         }))
       GoogleClassroomHandler.importClassrooms()
         .then(() => {
@@ -291,6 +295,7 @@ export default Vue.extend({
         return
       }
       const updates = {}
+
       if (this.asClub) {
         let errorMsg
         if (this.newClubType === 'club-ozaria' && this.isCodeCombat) {
@@ -305,7 +310,10 @@ export default Vue.extend({
           return
         }
         updates.type = this.newClubType
+      } else {
+        updates.type = this.newClassroomType
       }
+
       if (this.newClassDateStart && this.newClassDateEnd && moment(this.newClassDateEnd).isBefore(moment(this.newClassDateStart))) {
         this.errMsg = 'End date should be after start date'
         this.saving = false
@@ -314,6 +322,7 @@ export default Vue.extend({
 
       updates.name = this.newClassName
       const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
+      const hackstackConfig = _.clone((this.classroom || {}).hackstackConfig || {})
       aceConfig.language = this.newProgrammingLanguage
       aceConfig.liveCompletion = this.newLiveCompletion
       updates.classroomItems = this.newClassroomItems
@@ -330,11 +339,18 @@ export default Vue.extend({
       } else {
         aceConfig.levelChat = 'none'
       }
+
+      if (this.newRemix) {
+        hackstackConfig.remixAllowed = true
+      } else {
+        hackstackConfig.remixAllowed = false
+      }
+
       updates.aceConfig = aceConfig
+      updates.hackstackConfig = hackstackConfig
 
       updates.description = this.newClassroomDescription
       updates.averageStudentExp = this.newAverageStudentExp
-      updates.type = this.newClassroomType
       updates.classDateStart = this.newClassDateStart
       updates.classDateEnd = this.newClassDateEnd
       updates.classesPerWeek = String(this.newClassesPerWeek)
@@ -732,6 +748,23 @@ export default Vue.extend({
               type="checkbox"
             >
             <span class="help-block small text-navy">{{ $t("teachers.classroom_live_completion") }}</span>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions && isCodeCombat"
+          class="form-group row remix"
+        >
+          <div class="col-xs-12">
+            <label for="level-chat">
+              <span class="control-label"> {{ $t("teachers.ai_hs_remix") }} </span>
+            </label>
+            <input
+              id="level-chat"
+              v-model="newRemix"
+              type="checkbox"
+              name="remix"
+            >
+            <span class="help-block small text-navy">{{ $t("teachers.ai_hs_remix_blurb") }}</span>
           </div>
         </div>
         <div

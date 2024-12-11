@@ -25,7 +25,7 @@
             div#level-status.clearfix.well.well-sm.well-parchment(v-else-if="level.assessment")
               h3.text-uppercase {{ $t('play_level.concept_challenge_complete') }}
               img(:src="heroImage").hero-img
-              div {{ $t('play_level.combo_challenge_complete_body', { concept: primaryConcept }) }}
+              div(v-if="!inExam") {{ $t('play_level.combo_challenge_complete_body', { concept: primaryConcept }) }}
                   
             div.clearfix.well.well-sm.well-parchment(v-else-if="assessmentNext")
               img.lock-banner(src="/images/pages/play/modal/unlocked_banner.png")
@@ -40,9 +40,9 @@
                 
             div#level-status.clearfix.well.well-sm.well-parchment(v-else)
               h3.text-uppercase
-                | {{ $t('play_level.level_complete') }}: {{ $dbt(level, 'name')}}
+                | {{ $t('play_level.level_complete') }} {{ inExam ? '' : ': ' + $dbt(level, 'name') }}
               img(:src="heroImage").hero-img
-              div(v-if="level.victory") {{ $dbt(level.victory, 'body') }}
+              div(v-if="level.victory && !inExam") {{ $dbt(level.victory, 'body') }}
               
         .row(v-if="level.assessment === 'cumulative' && !inExam")
           .col-sm-5.col-sm-offset-7
@@ -203,7 +203,7 @@
         if me.isStudent() and @course._id == utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE and !me.showHeroAndInventoryModalsToStudents()
           return utils.videoLevels[@nextLevel.original]
       inExam: ->
-        return userUtils.levelInExam(@level.slug)
+        return userUtils.levelNumberInExam(@level.slug) != 0
     }
     methods: {
       marked

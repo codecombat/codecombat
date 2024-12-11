@@ -13,10 +13,11 @@
       <ul class="level-grid">
         <exam-level
           v-for="(level, index) in problems"
-          :key="level._id"
+          :key="`${level.slug}-${index}`"
           :level="level"
           :language="userExam.codeLanguage"
           :index="index + 1"
+          :is-completed="!!submissionStatus[level.slug]"
           class="level-grid-item"
         />
       </ul>
@@ -33,6 +34,14 @@
         @click="() => submit(false)"
       >
     </div>
+    <div class="notes">
+      <p class="note">
+        *Submissions status gets updated every 1 minute on this page.
+      </p>
+      <p class="note">
+        *Don't worry if it's not updated immediately, your code will still be submitted.
+      </p>
+    </div>
   </div>
 </template>
 
@@ -40,6 +49,9 @@
 import { mapGetters, mapActions } from 'vuex'
 import ExamLevel from './components/ExamLevel'
 const courseInstancesApi = require('../../core/api/course-instances')
+const { levelsOfExam } = require('../../lib/user-utils')
+const examsApi = require('../../core/api/exams')
+
 export default {
   components: {
     ExamLevel,
@@ -56,6 +68,7 @@ export default {
       counterInterval: null,
       courseInstanceMap: null,
       loading: false,
+      submissionStatus: {},
     }
   },
   computed: {
@@ -70,26 +83,18 @@ export default {
       if (!this.exam || !this.courseInstanceMap) {
         return []
       }
-      const problems = this.exam.problems
-      const levels = []
-      problems.forEach((courseLevels) => {
-        courseLevels.levels.forEach((level, index) => {
-          const courseId = courseLevels.courseId
-          const instanceId = this.courseInstanceMap[courseId]
-          if (!instanceId) {
-            noty({
-              text: `Course instance not found for course ${courseId}`,
-              type: 'error',
-              timeout: 5000,
-            })
-            return
-          }
-          levels.push({
-            ...level,
-            courseId,
-            instanceId,
+      const levels = levelsOfExam(this.exam)
+      levels.forEach((level) => {
+        const instanceId = this.courseInstanceMap[level.courseId]
+        if (!instanceId) {
+          noty({
+            text: `Course instance not found for course ${level.courseId}`,
+            type: 'error',
+            timeout: 5000,
           })
-        })
+          return
+        }
+        level.instanceId = instanceId
       })
       return levels
     },
@@ -113,7 +118,7 @@ export default {
     }
     this.loading = true
     await this.fetchCourseInstanceMap()
-    this.counter()
+    await this.counter()
     const oneMin = 60 * 1000
     this.counterInterval = setInterval(this.counter, oneMin)
     this.loading = false
@@ -128,7 +133,7 @@ export default {
     paddingZero (num) {
       return `00${num}`.slice(-2)
     },
-    counter () {
+    async counter () {
       const oneMin = 60 * 1000
       const startDate = new Date(this.userExam.startDate)
       const minsElapse = parseInt((new Date() - startDate) / oneMin)
@@ -139,6 +144,19 @@ export default {
         this.submit(true)
       }
       this.timeLeft = `${this.paddingZero(minsLeft / 60 | 0)}:${this.paddingZero(minsLeft % 60)}`
+      await this.refetchSubmissionsStatus()
+    },
+    async refetchSubmissionsStatus () {
+      try {
+        const res = await examsApi.getSubmissionsStatus(this.examId)
+        this.submissionStatus = { ...res.result }
+      } catch (err) {
+        noty({
+          text: 'Failed to fetch submissions status',
+          type: 'error',
+          timeout: 5000,
+        })
+      }
     },
     async submit (expires) {
       if (!expires) {
@@ -189,13 +207,23 @@ export default {
 
 .level-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   row-gap: 3rem;
-  column-gap: 5rem;
+  column-gap: 6rem;
   list-style: none;
   padding: 0;
 }
 .level-grid-item {
   text-align: center;
+}
+.notes {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+
+  .note {
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
 }
 </style>
