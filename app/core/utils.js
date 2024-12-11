@@ -1342,7 +1342,7 @@ const arenas = [
   { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '661f6cf6525db0fb41870360', tournament: '66311a29856d99556fa14326', image: '/file/db/level/661f6cf6525db0fb41870360/SolarSkirmishBanner.png' },
   { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-08-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '6682089bb98780c672659043', tournament: '669aa78fcca07ea127d445d6', image: '/file/db/level/6682089bb98780c672659043/SunfireBanner.png' },
   { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '66ba09c7c34ab945ba4f52a2', tournament: '66d0b7f11c8954cacec98d47', image: '/file/db/level/66ba09c7c34ab945ba4f52a2/SystemShockBanner2.png' },
-  { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
+  { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '66f545e57e91e7168c3e463c', image: '/file/db/level/66f545e57e91e7168c3e463c/superchargedbanner2.jpg' },
 ]
 
 // AI League seasons
@@ -1697,6 +1697,14 @@ module.exports.secondsToMinutesAndSeconds = function (seconds) {
   const minutes = Math.floor(seconds / 60)
   const remainingSeconds = seconds % 60
   return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`
+}
+
+module.exports.getJuniorUrl = function() {
+  let juniorPath = '/play/junior'
+  if(me && me.isTeacher() && !me.isAnonymous()) {
+    juniorPath = '/teachers/curriculum/junior'
+  }
+  return `${cocoBaseURL()}${juniorPath}`
 }
 
 module.exports = {

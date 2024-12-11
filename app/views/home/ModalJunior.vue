@@ -1,7 +1,7 @@
 <script>
 import ModalDynamicContent from 'ozaria/site/components/teacher-dashboard/modals/ModalDynamicContent'
 import trackable from 'app/components/mixins/trackable.js'
-import { cocoBaseURL } from 'core/utils'
+import { getJuniorUrl } from 'core/utils'
 
 import CTAButton from 'app/components/common/buttons/CTAButton.vue'
 
@@ -13,11 +13,7 @@ export default Vue.extend({
   mixins: [trackable],
   computed: {
     href () {
-      let path = '/play/junior'
-      if (me.isTeacher() && !me.isAnonymous()) {
-        path = '/teachers/curriculum'
-      }
-      return `${cocoBaseURL()}${path}`
+      return getJuniorUrl()
     },
     isBeforeEndOfSeptember () {
       const now = new Date()

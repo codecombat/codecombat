@@ -17,9 +17,12 @@
 
 <script>
 import CarouselArrow from 'app/components/common/elements/CarouselArrow.vue'
+import autoTracked from 'app/components/mixins/auto-tracked.js'
+
 export default {
   name: 'LearnMoreButton',
   components: { CarouselArrow },
+  mixins: [autoTracked],
   props: {
     link: {
       type: String,

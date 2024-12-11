@@ -29,6 +29,9 @@ _.extend(ClassroomSchema.properties, {
     codeFormatDefault: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option for students. Default if unset: text-code.' },
     levelChat: { type: 'string', enum: ['fixed_prompt_only', 'none'] }
   }),
+  hackstackConfig: c.object({}, {
+    remixAllowed: { type: 'boolean', default: true },
+  }),
   averageStudentExp: { type: 'string' },
   ageRangeMin: { type: 'string' },
   ageRangeMax: { type: 'string' },
