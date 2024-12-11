@@ -6120,6 +6120,8 @@ module.exports = {
       get_inspired: 'Get Inspired',
       remixed_from: 'Remixed from',
       hackstack_credits: 'AI HackStack Credits',
+      model: 'Model',
+      tags: 'Tags',
       see_all: 'See All',
       created_by: 'created by',
     },
