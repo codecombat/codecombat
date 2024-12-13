@@ -143,6 +143,9 @@ export default {
       if (!this.getCurrentCourse || this.isOnLockedCampaign) {
         return ''
       }
+      if (this.getCurrentCourse.slug === 'hackstack') {
+        return ''
+      }
 
       return `/teachers/course-solution/${this.getCurrentCourse._id}/${this.getSelectedLanguage}?from-new-dashboard=true`
     },
@@ -315,6 +318,7 @@ export default {
               />
             </a>
             <a
+              v-if="solutionGuideUrl"
               :href="solutionGuideUrl"
               target="_blank"
               rel="noreferrer"

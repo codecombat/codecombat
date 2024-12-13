@@ -148,6 +148,7 @@ export default {
         v-if="aiProjectTypes.includes(iconType)"
         class="tool-image"
         :src="aiImage(tool)"
+        :title="tool"
       >
       <p class="content-heading">
         <b>{{ `${levelNumber ? levelNumber : '' }${levelNumber ? (nameType ? '.' : ':') : ''} ${getContentTypeHeader} ${ displayName.replace('Course: ', '')}` }}</b>
