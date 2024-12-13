@@ -452,7 +452,12 @@ module.exports.ChatMessageLinkNode = (ChatMessageLinkNode = (ChatMessageLinkNode
   processChatMessages (chatMessageCollection) {
     const text = __guard__(chatMessageCollection.models != null ? chatMessageCollection.models[0] : undefined, x => x.get('text'))
     if (text) {
-      const htmlText = entities.decodeHTML(text.substring(0, 60))
+      let htmlText
+      if (typeof text === 'string') {
+        htmlText = entities.decodeHTML(text.substring(0, 60))
+      } else if (text.artifacts) {
+        htmlText = 'Image'
+      }
       this.$el.find('.ai-chat-message-link-text').remove()
       this.$el.find('.treema-row').append($("<span class='ai-chat-message-link-text'></span>").text(htmlText))
     }

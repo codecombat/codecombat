@@ -639,7 +639,7 @@ module.exports = (ThangsTabView = (function () {
       const selected = []
       for (const thang of this.world.thangs) {
         const sprite = this.surface.lankBoss.lanks[thang.id]
-        if (sprite && !thang.isLand && thang.pos && rect.containsPoint(thang.pos)) {
+        if (sprite && !thang.isLand && !thang.unselectable && thang.pos && rect.containsPoint(thang.pos)) {
           selected.push({ thang, sprite })
         }
       }
@@ -942,7 +942,7 @@ module.exports = (ThangsTabView = (function () {
       } catch (error) {
         console.error('Catastrophic error loading the level:', error)
       }
-      for (thang of this.world.thangs) { thang.isSelectable = !thang.isLand } // let us select walls and such
+      for (thang of this.world.thangs) { thang.isSelectable = !thang.isLand && !thang.unselectable } // let us select walls and such
       if (this.surface != null) {
         this.surface.setWorld(this.world)
       }
