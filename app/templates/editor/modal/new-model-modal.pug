@@ -5,9 +5,10 @@ block modal-header-content
 
 block modal-body-content
   form.form
-    .form-group
-      label.control-label(for="name", data-i18n="general.name") Name
-      input#name.form-control(name="name", type="text")
+    if !view.hasNoNameProperty
+      .form-group
+        label.control-label(for="name", data-i18n="general.name") Name
+        input#name.form-control(name="name", type="text")
 
 block modal-footer
   .modal-footer
