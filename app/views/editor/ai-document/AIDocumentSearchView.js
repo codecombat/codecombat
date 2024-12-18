@@ -14,13 +14,19 @@ module.exports = (AIDocumentSearchView = (function () {
   AIDocumentSearchView = class AIDocumentSearchView extends SearchView {
     static initClass () {
       this.prototype.id = 'editor-ai-document-home-view'
-      this.prototype.modelLabel = 'Document'
+      this.prototype.modelLabel = 'AI Document'
       this.prototype.model = require('models/AIDocument')
       this.prototype.modelURL = '/db/ai_document'
       this.prototype.tableTemplate = require('app/templates/editor/ai-document/table')
       this.prototype.projection = ['type', 'source']
       this.prototype.page = 'ai-document'
-      this.prototype.canMakeNew = false
+      this.prototype.canMakeNew = true
+      this.prototype.hasNoNameProperty = true
+      this.prototype.modelProperties = {
+        source: {
+          type: 'link',
+        },
+      }
 
       this.prototype.events =
         { 'click #delete-button': 'deleteAIDocument' }
