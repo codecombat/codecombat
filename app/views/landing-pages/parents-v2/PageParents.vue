@@ -19,7 +19,7 @@
                 <template #column-one>
                   <p class="text-p">
                     <CTAButton
-                      @clickedCTA="isSubscribeModalOpen = true"
+                      @clickedCTA="onClickMainCta"
                     >
                       {{ $t('parents_v2.schedule_free_class') }}
                     </CTAButton>
@@ -179,10 +179,21 @@
 
         <div class="container">
           <CTAButton
-            :description="`${$t('parents_v2.prefix_or')} **[/premium]${$t('parents_v2.signup_description')}**`"
-            @clickedCTA="isSubscribeModalOpen = true"
+            @clickedCTA="onClickMainCta"
           >
             {{ $t('parents_v2.schedule_free_class') }}
+            <template #description>
+              <span>
+                {{ $t('parents_v2.prefix_or') }}
+              </span>
+              <a
+                class="mixed-color-highlight"
+                href="javascript:void(0);"
+                @click="openSubscribeModal"
+              >
+                {{ $t('parents_v2.signup_description') }}
+              </a>
+            </template>
           </CTAButton>
         </div>
         <background-container type="colored">
@@ -308,7 +319,7 @@
             <div class="row cta-row">
               <div class="col-lg-12">
                 <CTAButton
-                  @clickedCTA="isSubscribeModalOpen = true"
+                  @clickedCTA="onClickMainCta"
                 >
                   {{ $t('parents_v2.schedule_free_class') }}
                 </CTAButton>
@@ -396,7 +407,7 @@
 
               <CTAButton
                 class="apcsp-prep__cta"
-                @clickedCTA="isSubscribeModalOpen = true"
+                @clickedCTA="onClickMainCta"
               >
                 {{ $t('parents_v2.schedule_a_free_class') }}
                 <template #description>
@@ -709,6 +720,12 @@ export default {
     }
   },
 
+  methods: {
+    openSubscribeModal () {
+      this.isSubscribeModalOpen = true
+    },
+  },
+
   metaInfo () {
     return {
       title: (this.type === 'parents') ? undefined : this.$t('parents_landing_2.live_classes_title'),
@@ -732,6 +749,11 @@ export default {
 
   ::v-deep {
     @extend %frontend-page;
+  }
+
+  .mixed-color-highlight {
+    color: var(--color-primary);
+    text-decoration: underline;
   }
 
   .container {

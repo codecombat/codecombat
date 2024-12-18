@@ -135,7 +135,7 @@ module.exports = (AIDocumentEditView = (function () {
   return AIDocumentEditView
 })())
 
-class DocumentByTypeNode extends TreemaNode.nodeMap.string {
+class DocumentByTypeNode extends TreemaNode.nodeMap.object {
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
 
