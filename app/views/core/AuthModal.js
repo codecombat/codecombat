@@ -19,6 +19,7 @@ const errors = require('core/errors')
 const RecoverModal = require('views/core/RecoverModal')
 const storage = require('core/storage')
 const { logInWithClever } = require('core/social-handlers/CleverHandler')
+const { logInWithSchoology } = require('core/social-handlers/SchoologyHandler')
 const globalVar = require('core/globalVar')
 const userUtils = require('../../lib/user-utils')
 
@@ -37,6 +38,7 @@ module.exports = (AuthModal = (function () {
         'click #facebook-login-btn': 'onClickFacebookLoginButton',
         'click #clever-signup-btn': 'onClickCleverSignupButton',
         'click #clever-login-btn': 'onClickCleverLoginButton',
+        'click #schoology-login-btn': 'onClickSchoologyLoginButton',
         'click #close-modal': 'hide',
         'click [data-toggle="coco-modal"][data-target="core/RecoverModal"]': 'openRecoverModal'
       }
@@ -313,6 +315,11 @@ module.exports = (AuthModal = (function () {
 
     onClickCleverLoginButton () {
       return logInWithClever()
+    }
+
+    async onClickSchoologyLoginButton () {
+      await logInWithSchoology()
+      window.location.reload()
     }
 
     openRecoverModal (e) {

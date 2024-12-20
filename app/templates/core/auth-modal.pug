@@ -80,6 +80,8 @@ mixin auth-form-content
           img.clever-login-img(src="/images/pages/modal/auth/clever_sso_button@2x.png", draggable="false")
       a#google-login-button.network-login(disabled=true)
         img.google-login-img(src="/images/pages/modal/auth/gplus_sso_button2.svg" draggable="false")
+      a#schoology-login-btn.network-login
+        span schoology
 
   .extra-pane
     if view.utils.isCodeCombat
@@ -113,6 +115,8 @@ mixin auth-form-content
             img(src="/images/ozaria/common/log-in-google-sso.svg" draggable="false")
           a#clever-login-btn(href="#")
             img(src="/images/pages/modal/auth/clever_sso_button@2x.png" draggable="false")
+          a#schoology-login-btn(href="#")
+            span SCHOOLOGY           
         .row.or-row
           .line
           p.or(data-i18n="login.or")
