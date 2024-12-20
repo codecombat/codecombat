@@ -38,8 +38,9 @@ export default {
         'chapter-1-sky-mountain': 'https://drive.google.com/drive/folders/1MFbuhuJ5HELMC_eRXkWipqDek1x3XaAB?usp=sharing',
         'chapter-2-the-moon-dancers': 'https://drive.google.com/drive/folders/1u78qNwBmGXkKxw3qzqSimoUbMCNv_IMn?usp=sharing',
         'chapter-3-the-phoenix-lands': 'https://drive.google.com/drive/folders/1D_SNer9frRiFlH3gt1T20FHLdMbbllkP?usp=sharing',
-        'chapter-4-the-final-code': 'https://drive.google.com/drive/folders/1hSAum1Rcu0-uyTxvBch1_c5QPB1hQ2ly?usp=sharing'
-      }
+        'chapter-4-the-final-code': 'https://drive.google.com/drive/folders/1hSAum1Rcu0-uyTxvBch1_c5QPB1hQ2ly?usp=sharing',
+        'ai-hackstack': 'https://drive.google.com/drive/folders/1rey1-V9m0x2h4ntxouPV80rUIpmn4dhc?usp=drive_link',
+      },
     }
   },
 
@@ -143,7 +144,7 @@ export default {
       if (!this.getCurrentCourse || this.isOnLockedCampaign) {
         return ''
       }
-      if (this.getCurrentCourse.slug === 'hackstack') {
+      if (this.getCurrentCourse.slug === 'ai-hackstack') {
         return ''
       }
 
