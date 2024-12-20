@@ -55,6 +55,7 @@ const Application = {
     const CocoModel = require('models/CocoModel')
     const FacebookHandler = require('core/social-handlers/FacebookHandler')
     const GPlusHandler = require('core/social-handlers/GPlusHandler')
+    const SchoologyHandler = require('core/social-handlers/SchoologyHandler')
     const locale = require('locale/locale')
     const Tracker = require('core/Tracker2').default
     const api = require('core/api')
@@ -99,6 +100,7 @@ const Application = {
     if (me.useSocialSignOn()) {
       this.facebookHandler = new FacebookHandler()
       this.gplusHandler = new GPlusHandler()
+      this.schoologyHandler = new SchoologyHandler()
     }
     // @githubHandler = new GitHubHandler(@)  # Currently unused
     $(document).bind('keydown', preventBackspace)

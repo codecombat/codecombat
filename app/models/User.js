@@ -208,7 +208,7 @@ module.exports = (User = (function () {
 
     hasNoPasswordLoginMethod () {
       // Return true if user has any login method that doesn't require a password
-      return Boolean(this.get('facebookID') || this.get('gplusID') || this.get('githubID') || this.get('cleverID'))
+      return Boolean(this.get('facebookID') || this.get('gplusID') || this.get('githubID') || this.get('cleverID')) || (this.get('oAuth2Identities')?.length > 0)
     }
 
     currentPasswordRequired () {
