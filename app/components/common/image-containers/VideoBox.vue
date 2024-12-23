@@ -5,8 +5,8 @@
     :sound-on="false"
     preload="none"
     :loop="true"
-    :autoplay="true"
-    :controls="false"
+    :autoplay="autoPlay"
+    :controls="controls"
     :play-when-visible="true"
     :title="title"
     :thumbnail-url-time="thumbnailUrlTime"
@@ -40,8 +40,16 @@ export default {
     },
     aspectRatio: {
       type: String,
-      default: '16 / 9'
-    }
+      default: '16 / 9',
+    },
+    autoPlay: {
+      type: Boolean,
+      default: true,
+    },
+    controls: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     onVideoLoaded () {
