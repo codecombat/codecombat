@@ -129,9 +129,9 @@ export default {
       this.editClassroomObject = classroom
     },
     showCreateStudents (classroom) {
-      return me.isCodeNinja() && classroom.type?.includes('club')
-    }
-  }
+      return me.isCodeNinja() && (classroom.type?.includes('club') || classroom.type === 'camp-esports')
+    },
+  },
 }
 </script>
 

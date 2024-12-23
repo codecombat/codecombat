@@ -170,9 +170,10 @@ export default Vue.extend({
     clubTypes () {
       return [
         { id: 'club-ozaria', name: 'Ozaria' },
-        { id: 'club-esports', name: 'Esports' },
         { id: 'club-roblox', name: 'Roblox' },
         { id: 'club-hackstack', name: 'Hackstack' },
+        { id: 'club-esports', name: 'Esports' },
+        { id: 'camp-esports', name: 'Esports Camp' },
       ]
     },
 
