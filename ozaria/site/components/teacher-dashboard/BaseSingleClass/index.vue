@@ -585,7 +585,7 @@ export default {
       return false
     },
 
-    createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum, createModeUnlocked }) {
+    createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum }) {
       const details = {}
       classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
       const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario._id]
@@ -598,7 +598,6 @@ export default {
 
         if (completed) {
           details.status = 'complete'
-          createModeUnlocked.unlocked = completed
         }
       }
 
