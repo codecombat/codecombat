@@ -9,10 +9,10 @@
         :state="goalStates[goal.id]",
         :product="product",
       )
-      li.goals-status.rtl-allowed(v-if="showStatus && product === 'codecombat-junior' && classToShow === 'success'")
-        span(v-if="classToShow === 'success'" :title="$t('play_level.next_level')").goal-status.success
-          button.btn.btn-xs.btn-success.btn-illustrated#level-done-button
-            img.success-icon(src="/images/level/goal-icons/next-level.png" alt="")
+      //-li.goals-status.rtl-allowed(v-if="showStatus && product === 'codecombat-junior' && classToShow === 'success'")
+      //-  span(v-if="classToShow === 'success'" :title="$t('play_level.next_level')").goal-status.success
+      //-    button.btn.btn-xs.btn-success.btn-illustrated#level-done-button
+      //-      img.success-icon(src="/images/level/goal-icons/next-level.png" alt="")
     level-goal(
       v-if="conceptGoals.length",
       :goal="{ name: $t('play_level.use_at_least_one_concept') }",
@@ -74,6 +74,11 @@
             return 'success'
         return 'incomplete'
     }
+
+    watch:
+      overallStatus:
+        handler: (newVal, oldVal) ->
+          Backbone.Mediator.publish 'level:overallStatus-changed', {overallStatus: newVal}
 
     components: {
       LevelGoal
