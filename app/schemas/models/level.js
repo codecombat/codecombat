@@ -451,6 +451,7 @@ _.extend(LevelSchema.properties, {
   ozariaType: c.shortString({ title: 'Ozaria Level Type', description: 'Similar to type, specific to ozaria.', enum: ['practice', 'challenge', 'capstone'], inEditor: 'ozaria' }),
   terrain: c.terrainString,
   requiresSubscription: { title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean', inEditor: 'codecombat' },
+  classroomSub: { $ref: '#/definitions/classroomSub', inEditor: true },
   tasks: c.array({ title: 'Tasks', description: 'Tasks to be completed for this level.' }, c.task),
   helpVideos: c.array({ title: 'Help Videos', inEditor: 'codecombat' }, c.object({ default: { style: 'eccentric', url: '', free: false } }, {
     style: c.shortString({ title: 'Style', description: 'Like: original, eccentric, scripted, edited, etc.' }),
@@ -624,6 +625,26 @@ _.extend(LevelSchema.properties, {
   difficulty: { type: 'integer', title: 'Difficulty', description: 'Difficulty of this level - used to show difficulty in star-rating of 1 to 5', minimum: 1, maximum: 5, inEditor: 'codecombat' },
   product: _.extend(c.singleProduct, { inEditor: true })
 })
+
+LevelSchema.definitions = {
+  classroomSub: {
+    title: 'Classroom Subscription',
+    description: 'Whether this level is avaliable in classroom content for subscribers only.',
+    type: 'object',
+    properties: {
+      default: {
+        type: 'string',
+        enum: ['paid', 'free', 'free-after-sales'],
+      },
+    },
+    patternProperties: {
+      '^[a-zA-Z]*$': { // country code
+        type: 'string',
+        enum: ['paid', 'free', 'free-after-sales'],
+      },
+    },
+  },
+}
 
 c.extendBasicProperties(LevelSchema, 'level')
 c.extendSearchableProperties(LevelSchema)
