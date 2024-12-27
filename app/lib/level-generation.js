@@ -483,6 +483,10 @@ generateProperty('requiresSubscription', function (level, parameters) {
   return parameters.sourceLevel?.get('requiresSubscription') || false
 })
 
+generateProperty('classroomSub', function (level, parameters) {
+  return parameters.sourceLevel?.get('classroomSub') || undefined
+})
+
 // tasks: c.array({title: 'Tasks', description: 'Tasks to be completed for this level.'}, c.task),
 generateProperty('tasks', function (level, parameters) {
   return []
