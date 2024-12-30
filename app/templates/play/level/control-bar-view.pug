@@ -45,10 +45,11 @@ if includeHomeLink
   if spectateGame
     button.btn.btn-xs.btn-inverse.banner#next-game-button(data-i18n="play_level.next_game") Next game
 
-  //- if !observing
-  //-   button.btn.btn-xs.btn-primary.banner#level-done-button(data-i18n="play_level.done") Done
+  if !observing && product != 'codecombat-junior'
+    button.btn.btn-xs.btn-primary.banner#level-done-button(data-i18n="play_level.done") Done
+
   if lastOverallStatus == 'success' && product == 'codecombat-junior'
-    button.btn.btn-xs.btn-success.btn-illustrated#level-done-button(title="$t('play_level.next_level')")
+    button.btn.btn-xs.btn-success.btn-illustrated#level-done-button(title="$t('play_level.next_level')", class="junior")
       img.success-icon(src="/images/level/goal-icons/next-level.png" alt="")
       
   if me.get('anonymous') && !features.noAuth
