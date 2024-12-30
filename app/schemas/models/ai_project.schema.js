@@ -72,11 +72,6 @@ _.extend(AIProjectSchema.properties, {
     title: 'Changed',
     readOnly: true,
   }),
-  isPublic: {
-    title: 'Is Public',
-    type: 'boolean',
-    description: 'Whether this project is public',
-  },
 })
 
 AIProjectSchema.required = ['visibility', 'user', 'scenario', 'actionQueue']
