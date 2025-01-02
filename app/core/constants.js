@@ -82,6 +82,11 @@ const ESPORTS_PRODUCT_STATS = {
   }
 }
 
+const GLOBAL_AI_LEAGUE_CREATORS = [
+  '512ef4805a67a8c507000001', // nick
+  '63e0d3551e18c6002505057c', // valent
+]
+
 const LEADERBOARDNAME = {
   FULLNAME: 'fullName',
   ANONYMOUS: 'anonymous',
@@ -129,4 +134,5 @@ module.exports = {
   JUNIOR_LANGUAGES,
   ARENA_CURRICULUM,
   USER_CREDIT_HACKSTACK_KEY,
+  GLOBAL_AI_LEAGUE_CREATORS,
 }

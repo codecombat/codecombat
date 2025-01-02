@@ -191,7 +191,7 @@ import utils from '../../core/utils'
 import ClanSelector from '../landing-pages/league/components/ClanSelector.vue'
 import LadderPanel from './components/LadderPanel'
 import EditTournamentModal from './components/EditTournamentModal'
-import { ESPORTS_PRODUCT_STATS } from '../../core/constants'
+import { ESPORTS_PRODUCT_STATS, GLOBAL_AI_LEAGUE_CREATORS } from '../../core/constants'
 
 export default {
   name: 'MainLadderViewV2',
@@ -273,6 +273,9 @@ export default {
     maxListLength () {
       return Math.max(this.sortedRegulars.length, this.sortedChampionships.length)
     },
+    isSuper () {
+      return GLOBAL_AI_LEAGUE_CREATORS.includes(me.get('_id').toString())
+    },
   },
   async created () {
     await this.fetchUsableArenas()
@@ -343,17 +346,20 @@ export default {
       })
       this.showModal = true
     },
+    fetchTournaments () {
+      const newSelectedClan = this.idOrSlug
+      if (newSelectedClan === 'global' && !this.isSuper) {
+        this.fetchAllTournaments({ userId: me.get('_id') })
+      } else {
+        this.fetchTournamentsForClan({ clanId: newSelectedClan })
+      }
+    },
     handleTournamentSubmit () {
       if (this.editableTournament.editing === 'new') {
         this.tournamentsLeft -= 1
       }
       // fetch the tournament so that view refresh
-      const newSelectedClan = this.idOrSlug
-      if (newSelectedClan !== 'global') {
-        this.fetchTournamentsForClan({ clanId: newSelectedClan })
-      } else {
-        this.fetchAllTournaments({ userId: me.get('_id') })
-      }
+      this.fetchTournaments()
       setTimeout(() => { this.showModal = false }, 1000)
     },
     // if we want to i18n this, then we need to hardcode them in front-end
@@ -386,15 +392,8 @@ export default {
   mounted () {
     this.tournamentsLeft = this.getCanCreateTournamentNums()
 
-    const newSelectedClan = this.idOrSlug
     if (!this.allTournamentsLoaded) {
-      if (newSelectedClan !== 'global') {
-        if (typeof this.currentTournaments === 'undefined') {
-          this.fetchTournamentsForClan({ clanId: newSelectedClan })
-        }
-      } else {
-        this.fetchAllTournaments({ userId: me.get('_id') })
-      }
+      this.fetchTournaments()
     }
   },
 }
