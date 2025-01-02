@@ -6,6 +6,7 @@ export default {
 
   state: () => ({
     visible: false,
+    capstoneModalVisible: false,
     selectedCampaignId: undefined,
     selectedLanguage: 'python',
     hasAccessViaSharedClass: false
@@ -18,6 +19,14 @@ export default {
 
     closeCurriculumGuide (state) {
       state.visible = false
+    },
+
+    openCapstoneModal (state) {
+      state.capstoneModalVisible = true
+    },
+
+    closeCapstoneModal (state) {
+      state.capstoneModalVisible = false
     },
 
     setSelectedCampaignId (state, campaignID) {
@@ -131,6 +140,10 @@ export default {
 
     getSelectedLanguage (state, language) {
       return state.selectedLanguage
+    },
+
+    isCapstoneModalVisible (state) {
+      return state.capstoneModalVisible
     }
   },
 
