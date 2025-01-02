@@ -142,6 +142,6 @@ export default {
         }
         commit('loadAllTournaments')
       }
-    }
+    },
   }
 }
