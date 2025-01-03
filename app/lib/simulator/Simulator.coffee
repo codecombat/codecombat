@@ -359,10 +359,17 @@ module.exports = class Simulator extends CocoClass
   cleanupAndSimulateAnotherTask: =>
     return if @destroyed
     @cleanupSimulation()
-    if @options.background or @noTasks
-      @fetchAndSimulateOneGame()
+    if me.get('email')?.includes('codecombat.com')
+      sleep = 2000
     else
-      @fetchAndSimulateTask()
+      sleep = Math.min(15000, (@simulatedByYou + 1) * 2000)
+
+    _.delay (=>
+      if @options.background or @noTasks
+        @fetchAndSimulateOneGame()
+      else
+        @fetchAndSimulateTask()
+    ), sleep
 
   cleanupSimulation: ->
     @stopListening @god
