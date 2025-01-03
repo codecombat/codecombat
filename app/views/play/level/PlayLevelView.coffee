@@ -658,7 +658,10 @@ module.exports = class PlayLevelView extends RootView
     return false unless $.browser?.desktop
     return false if $.browser?.msie or $.browser?.msedge
     return false if $.browser.linux
-    return false if me.level() < 8
+    minLevel = 8
+    if @simulateAILeagueFinals
+      minLevel = 1
+    return false if me.level() < minLevel
     return false if @level.get('slug') in ['zero-sum', 'ace-of-coders', 'elemental-wars']
     if @level.isType('course', 'game-dev', 'web-dev')
       return false
