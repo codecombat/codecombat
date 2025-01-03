@@ -1347,7 +1347,7 @@ const arenas = [
   { season: 13, slug: 'kings-gambit', type: 'championship', start: new Date('2025-04-01T00:00:00.000-07:00'), end: new Date('2025-05-01T00:00:00.000-07:00'), results: new Date('2025-05-10T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 14, slug: 'strikers-stadium', type: 'regular', start: new Date('2025-05-01T00:00:00.000-07:00'), end: new Date('2025-09-01T00:00:00.000-07:00'), results: new Date('2025-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 14, slug: 'golden-goal', type: 'championship', start: new Date('2025-07-01T00:00:00.000-07:00'), end: new Date('2025-09-01T00:00:00.000-07:00'), results: new Date('2025-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
-  { season: 15, slug: 'turbo-track', type: 'regular', start: new Date('2025-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
+  { season: 15, slug: 'turbo-track', type: 'regular', start: new Date('2025-09-01T00:00:00.000-07:00'), end: new Date('2026-01-01T00:00:00.000-08:00'), results: new Date('2026-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
   { season: 15, slug: 'grand-prix', type: 'championship', start: new Date('2025-12-01T00:00:00.000-08:00'), end: new Date('2026-01-01T00:00:00.000-08:00'), results: new Date('2026-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
 ]
 
