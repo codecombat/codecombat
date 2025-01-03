@@ -651,6 +651,10 @@ module.exports = (Level = (function () {
         })
       })
     }
+
+    getRequiresSubscription () {
+      return this.get('requiresSubscription') || this.get('requires_subscription')
+    }
   }
   Level.initClass()
   return Level
