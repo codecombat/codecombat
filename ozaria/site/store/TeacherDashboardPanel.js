@@ -130,6 +130,7 @@ export default {
       learningGoal: undefined,
       totalSubmissions: -1,
       timeSpent: -1,
+      lastPlayed: '',
       classAverage: -1, // TODO: Punt this temporarily.
     },
     //     panelSessionContent: practiceLevelData({
@@ -260,6 +261,9 @@ export default {
     setTimeSpent (state, timeSpent) {
       Vue.set(state.conceptCheck, 'timeSpent', timeSpent)
     },
+    setLastPlayed (state, lastPlayed) {
+      Vue.set(state.conceptCheck, 'lastPlayed', lastPlayed)
+    },
     setTotalSubmissions (state, totalSubmissions) {
       Vue.set(state.conceptCheck, 'totalSubmissions', totalSubmissions)
     },
@@ -372,6 +376,7 @@ export default {
         // For practice levels and challenge levels
 
         commit('setTimeSpent', utils.secondsToMinutesAndSeconds(Math.ceil(studentSessions[normalizedOriginal].playtime)))
+        commit('setLastPlayed', moment(studentSessions[normalizedOriginal].changed).format('lll'))
 
         dispatch('setPanelSessionContent', {
           header: panelHeader,

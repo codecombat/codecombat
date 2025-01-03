@@ -176,11 +176,13 @@ export default {
           const levelOriginalCompletionMap = {}
           const playTimeMap = {}
           const completionDateMap = {}
+          const playedOnMap = {}
 
           for (const session of Object.values(studentSessions)) {
             levelOriginalCompletionMap[session.level.original] = session.state
             playTimeMap[session.level.original] = session.playtime
-            completionDateMap[session.level.original] = session.state.complete && session.changed
+            playedOnMap[session.level.original] = session.changed
+            completionDateMap[session.level.original] = session.state.complete && session.dateFirstCompleted
           }
 
           moduleStatsForTable.studentSessions[student._id] = translatedModuleContent.map((content) => {
@@ -225,6 +227,7 @@ export default {
               isPlayable: isPlayableForStudent[student._id],
               isPractice,
               playTime: playTimeMap[normalizedOriginal],
+              playedOn: playedOnMap[normalizedOriginal],
               completionDate: completionDateMap[normalizedOriginal],
               tooltipName: levelNameMap[content._id].levelName,
               practiceLevels,

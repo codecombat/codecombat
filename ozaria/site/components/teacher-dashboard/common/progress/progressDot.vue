@@ -84,6 +84,10 @@ export default {
       type: Number,
       default: 0,
     },
+    playedOn: {
+      type: String,
+      default: '',
+    },
     completionDate: {
       type: [Boolean, String],
       default: null,
@@ -181,9 +185,12 @@ export default {
       return `
         ${status}
         ${this.tooltipName ? `<br><strong>${this.tooltipName}</strong>` : ''}
+        ${this.playedOn ? `<br>${$.i18n.t('user.last_played')}: ${moment(this.playedOn).format('lll')}` : ''}
         ${this.status === 'complete' && this.completionDate ? `<br>${$.i18n.t('teacher.completed')}: ${moment(this.completionDate).format('lll')}` : ''}
         ${this.playTime ? `<br>${$.i18n.t('teacher.time_played_label')} ${moment.duration({ seconds: this.playTime }).humanize()}` : ''}
+
         ${this.extraPracticeLevels?.length ? '<br><br>' : ''}
+
         ${this.filterPracticeLevelsToDisplay(this.extraPracticeLevels).map(({ name, status }) => `${$.i18n.t('teacher_dashboard.practice_level')}: ${name} - ${$.i18n.t(`teacher_dashboard.${status}`)}`).join('<br>')}`
     },
 
