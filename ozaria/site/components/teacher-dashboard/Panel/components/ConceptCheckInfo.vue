@@ -53,6 +53,16 @@ export default {
       </p>
     </div>
     <div
+      v-if="conceptCheck.lastPlayed !== ''"
+      class="row-icon"
+    >
+      <img src="/images/ozaria/teachers/dashboard/svg_icons/Icon_TimeSpent.svg">
+      <p>
+        <b>{{ $t('user.last_played') }}:</b>
+        {{ `${conceptCheck.lastPlayed}` }}
+      </p>
+    </div>
+    <div
       v-if="conceptCheck.classAverage !== -1"
       class="row-icon"
     >
