@@ -141,7 +141,7 @@ export default {
   >
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
     <div
-      v-for="({studentId, status, playTime, tooltipName, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
+      v-for="({studentId, status, playTime, tooltipName, playedOn, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
       :key="selectedKey"
       :class="cellClass(index)"
     >
@@ -161,6 +161,7 @@ export default {
         :selected="selectedOriginals.includes(normalizedOriginal) && selectedStudentIds.includes(studentId)"
         :hovered="hoveredLevels.includes(normalizedOriginal) && selectedStudentIds.includes(studentId)"
         :play-time="playTime"
+        :played-on="playedOn"
         :completion-date="completionDate"
         :tooltip-name="tooltipName"
         :normalized-original="normalizedOriginal"

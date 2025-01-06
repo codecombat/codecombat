@@ -641,7 +641,7 @@ module.exports = class PlayLevelView extends RootView
     return true if utils.getQueryVariable('simulate') is true
 
     currentDate = new Date()
-    endSimulateDate = new Date('2025-01-05')
+    endSimulateDate = new Date('2025-01-13')
     @simulateAILeagueFinals = currentDate.getTime() < endSimulateDate.getTime()
     @simulateAILeagueLevelOriginalId = '66f545e57e91e7168c3e463c' # use any of championship or regular - doesn't matter
 
@@ -690,7 +690,7 @@ module.exports = class PlayLevelView extends RootView
       return false if cores < 8
       return false if heapLimit < defaultHeapLimit
       return false if @loadDuration > 10000
-    console.debug "We should have the power. Begin background ladder simulation."
+    console.warn "We should have the power. Begin background ladder simulation - #{me.id}"
     true
 
   # callbacks
