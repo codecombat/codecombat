@@ -1188,7 +1188,14 @@ class CampaignView extends RootView {
           me.isPremium() || !nextLevel.requiresSubscription || // nextLevel.adventurer or  # Disable adventurer stuff for now
           _.any(subscriptionPrompts, prompt => (nextLevel.slug === prompt.slug) && !this.levelStatusMap[prompt.unless])
         )) {
-          nextLevel.next = true
+          if (nextLevel.practice === true && nextLevel.slug.match(level.slug.replace(/-[a-z]$/, ''))) {
+            // If this is a practice level for the current level, we don't want to point it out
+            // This is a bit of a hack, but it's the best way to handle this for now
+            // It works for the Junior levels where they have the same slug with a -a or -b at the end
+            continue
+          } else {
+            nextLevel.next = true
+          }
           return true
         }
       }
