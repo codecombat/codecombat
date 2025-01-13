@@ -21,6 +21,8 @@ REAL_TIME_COUNTDOWN_DELAY = 3000  # match CountdownScreen
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
 EXISTS_ORIGINAL = '524b4150ff92f1f4f8000024'
 COUNTDOWN_LEVELS = ['sky-span']
+MAX_POOL_SIZE = 100
+
 window.string_score = require 'vendor/scripts/string_score.js' # Used as a global in DB code
 require 'vendor/scripts/coffeescript' # Install the global CoffeeScript compiler #TODO Performance: Load this only when necessary
 require('lib/worldLoader') # Install custom hack to dynamically require library files
@@ -751,7 +753,7 @@ module.exports = class World
       return null
     thangTypeModel = _.find(@thangTypes, original: thangTypeID)
     if not thangTypeModel or not thangTypeModel.components
-      console.error('world could not find ThangType for', thangTypeID, ' to get components.')
+      console.error('world.getComponentsForThangType: Failed to find ThangTypeModel or doesn\'t have components:', thangTypeID)
       return null
     components = []
     for component in thangTypeModel.components
@@ -773,8 +775,11 @@ module.exports = class World
     spawned.updateRegistration()
     # Replace any old, non-existent spawn from the proper spawn pool
     if poolName
+      
       @spawnPools ?= {}
       pool = @spawnPools[poolName] ?= []
+      if pool.length >= MAX_POOL_SIZE
+        pool.shift() # Remove oldest spawn if pool is full
       for pooledSpawn, i in pool
         if not pooledSpawn.exists and not pooledSpawn.isCollectable  # TODO We should be able to re-use collectables, but it's not working...
           spawned.id = pooledSpawn.id
@@ -807,7 +812,7 @@ module.exports = class World
   createThangFromAnotherThang: (templateID, pos, id=null, poolName=null) ->
     template = @getThangByID(templateID)
     if not template
-      console.log('createThangFromAnotherThang could not find template', templateID)
+      console.error('Failed to create Thang: template not found', { templateID, availableThangIDs: Object.keys(@thangMap) })
       return null
     components = _.cloneDeep(template.components)
     spriteName = template.spriteName
@@ -816,7 +821,7 @@ module.exports = class World
   createThangFromThangType: (thangTypeID, pos, id=null, poolName=null) ->
     thangType = _.find(@thangTypes, original: thangTypeID)
     if not thangType
-      console.log('createThangFromThangType could not find thangType', thangTypeID)
+      console.error('Failed to create Thang: ThangType not found', { thangTypeID, availableThangTypeIDs: @thangTypes?.map((t) -> t.original) })
       return null
     components = @getComponentsForThangType(thangTypeID)
     spriteName = thangType.name
