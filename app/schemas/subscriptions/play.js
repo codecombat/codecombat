@@ -23,6 +23,10 @@ module.exports = {
   }
   ),
 
+  'level:overallStatus-changed': c.object({ required: ['overallStatus'] },
+    { overallStatus: { type: ['string', 'null', 'undefined'] } },
+  ),
+
   'level:set-letterbox': c.object({},
     { on: { type: 'boolean' } }),
 

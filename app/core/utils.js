@@ -400,7 +400,7 @@ courseAcronyms[allCourseIDs.CHAPTER_ONE] = 'CH1'
 courseAcronyms[allCourseIDs.CHAPTER_TWO] = 'CH2'
 courseAcronyms[allCourseIDs.CHAPTER_THREE] = 'CH3'
 courseAcronyms[allCourseIDs.CHAPTER_FOUR] = 'CH4'
-courseAcronyms[allCourseIDs.HACKSTACK] = 'HS'
+courseAcronyms[allCourseIDs.HACKSTACK] = 'AI'
 
 const courseCampaignSlugs = {}
 courseCampaignSlugs[allCourseIDs.JUNIOR] = 'junior'
