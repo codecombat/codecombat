@@ -28,7 +28,7 @@ const store = require('core/store')
 const LevelLib = {
   isProject (level) {
     return (level != null ? level.shareable : undefined) === 'project'
-  }
+  },
 }
 
 module.exports = (Level = (function () {
@@ -326,6 +326,26 @@ module.exports = (Level = (function () {
               heroThangType = ThangTypeConstants.heroes[juniorHeroReplacement]
             }
             levelThang.thangType = heroThangType
+
+            // merges hero for junior level
+            if (this.get('product', true) === 'codecombat-junior') {
+              const thangType = thangTypesByOriginal[levelThang.thangType]
+              const configs = {}
+              for (const thangComponent of Array.from(levelThang.components)) {
+                configs[thangComponent.original] = thangComponent
+              }
+              for (const defaultThangComponent of Array.from((thangType != null ? thangType.get('components') : undefined) || [])) {
+                let copy
+                let levelThangComponent = configs[defaultThangComponent.original]
+                if (levelThangComponent) {
+                  copy = $.extend(true, {}, defaultThangComponent.config)
+                  levelThangComponent.config = _.merge(copy, levelThangComponent.config)
+                } else {
+                  levelThangComponent = $.extend(true, {}, defaultThangComponent)
+                  levelThang.components.push(levelThangComponent)
+                }
+              }
+            }
           }
         }
       }
@@ -477,12 +497,12 @@ module.exports = (Level = (function () {
           if (c == null) { continue }
           if ((c.width != null) && (c.width > width)) {
             ({
-              width
+              width,
             } = c)
           }
           if ((c.height != null) && (c.height > height)) {
             ({
-              height
+              height,
             } = c)
           }
         }
@@ -509,7 +529,7 @@ module.exports = (Level = (function () {
         try {
           return {
             ...solution,
-            source: _.template(solution.source)(context)
+            source: _.template(solution.source)(context),
           }
         } catch (e) {
           console.error(`Problem with template and solution comments for '${this.get('slug') || this.get('name')}'`, e)
@@ -568,7 +588,7 @@ module.exports = (Level = (function () {
       let context = utils.i18n(plan, 'context')
       if (utils.isOzaria) {
         context = _.merge({
-          external_ch1_avatar: store.getters?.['me/getCh1Avatar.avatarCodeString']?.crown
+          external_ch1_avatar: store.getters?.['me/getCh1Avatar.avatarCodeString']?.crown,
         }, context)
       }
       return context
