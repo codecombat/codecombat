@@ -49,14 +49,25 @@ module.exports = (TeacherCourseSolutionView = (function () {
       const button = $(e.target).closest('.show-practice-levels-button')
       const shown = this.showPracticeLevelsForSlug === button.data().slug
       this.showPracticeLevelsForSlug = shown ? null : button.data().slug
+      if (!this.showPracticeLevelsForSlug) {
+        this.updateShownLevels()
+      }
       this.render()
     }
 
     onClickShowLevelData (e) {
       const levelData = $(e.target).closest('.show-level-data')
       const slug = $(levelData[0]).data('slug')
-      this.shownLevelModels = this.levels.models.filter(l => l.get('slug') === slug)
+      this.updateShownLevels(slug)
       this.render()
+    }
+
+    updateShownLevels (slug) {
+      this.shownLevelModels = this.isJunior
+        ? this.levels.models.filter(l =>
+          this.showPracticeLevelsForSlug ? slug === l.get('slug') : !l.get('practice'),
+        )
+        : this.levels.models
     }
 
     onClickPrint () {
@@ -230,6 +241,8 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
         // Filter out non numbered levels.
         this.levels.models = this.levels.models.filter(l => l.get('original') in this.levelNumberMap)
       }
+
+      this.updateShownLevels(this.levels.models[0].get('slug'))
       return (typeof this.render === 'function' ? this.render() : undefined)
     }
 
