@@ -2,7 +2,6 @@
 // Sanity-check the conversion and remove this comment.
 /*
  * decaffeinate suggestions:
- * DS002: Fix invalid constructor
  * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
  * DS205: Consider reworking code to avoid use of IIFEs
@@ -32,7 +31,7 @@ const WIDTH = 924
 const PAGE_SIZE = 1000
 module.exports.WorldPointNode = class WorldPointNode extends TreemaNode.nodeMap.point2d {
   constructor (...args) {
-    super(...Array.from(args || []))
+    super(...args)
     this.callback = this.callback.bind(this)
     if (this.settings.world == null) { console.error('Point Treema node needs a World included in the settings.') }
     if (this.settings.view == null) { console.error('Point Treema node needs a RootView included in the settings.') }
@@ -71,7 +70,7 @@ module.exports.WorldRegionNode = class WorldRegionNode extends TreemaNode.nodeMa
   // this class is not yet used, later will be used to configure the Physical component
 
   constructor (...args) {
-    super(...Array.from(args || []))
+    super(...args)
     this.callback = this.callback.bind(this)
     if (this.settings.world == null) { console.error('Region Treema node needs a World included in the settings.') }
     if (this.settings.view == null) { console.error('Region Treema node needs a RootView included in the settings.') }
@@ -114,7 +113,7 @@ module.exports.WorldRegionNode = class WorldRegionNode extends TreemaNode.nodeMa
 module.exports.WorldViewportNode = class WorldViewportNode extends TreemaNode.nodeMap.object {
   // selecting ratio'd dimensions in the world, ie the camera in level scripts
   constructor (...args) {
-    super(...Array.from(args || []))
+    super(...args)
     this.callback = this.callback.bind(this)
     if (this.settings.world == null) { console.error('Viewport Treema node needs a World included in the settings.') }
     if (this.settings.view == null) { console.error('Viewport Treema node needs a RootView included in the settings.') }
@@ -167,7 +166,7 @@ module.exports.WorldBoundsNode = (WorldBoundsNode = (function () {
     }
 
     constructor (...args) {
-      super(...Array.from(args || []))
+      super(...args)
       this.callback = this.callback.bind(this)
       if (this.settings.world == null) { console.error('Bounds Treema node needs a World included in the settings.') }
       if (this.settings.view == null) { console.error('Bounds Treema node needs a RootView included in the settings.') }
@@ -288,7 +287,7 @@ module.exports.ThangTypeNode = (ThangTypeNode = (function () {
     }
 
     constructor (...args) {
-      super(...Array.from(args || []))
+      super(...args)
       const data = this.getData()
       this.thangType = _.find(this.settings.supermodel.getModels(ThangType), m => { if (data) { return m.get('original') === data } })
     }
