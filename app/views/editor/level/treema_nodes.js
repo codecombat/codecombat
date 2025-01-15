@@ -11,7 +11,8 @@
  * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let AccelerationNode, AIDocumentLinkNode, ChatMessageLinkNode, ChatMessageParentLinkNode, ItemThangTypeNode, KilogramsNode, MetersNode, MillisecondsNode, RadiansNode, SateNode, SecondsNode, SpeedNode, StateNode, SuperteamNode, TeamNode, ThangNode, ThangTypeNode, WorldBoundsNode, WorldPointNode, WorldViewportNode
+
+let ItemThangTypeNode, ThangTypeNode, WorldBoundsNode
 const WorldSelectModal = require('./modals/WorldSelectModal')
 const ThangType = require('models/ThangType')
 const AIChatMessage = require('models/AIChatMessage')
@@ -21,6 +22,7 @@ const LevelComponent = require('models/LevelComponent')
 const CocoCollection = require('collections/CocoCollection')
 const entities = require('entities')
 require('lib/setupTreema')
+const TreemaNode = window.TreemaNode
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 const utils = require('core/utils')
@@ -29,7 +31,7 @@ const makeButton = () => $('<a class="btn btn-primary btn-xs treema-map-button">
 const shorten = f => parseFloat(f.toFixed(1))
 const WIDTH = 924
 const PAGE_SIZE = 1000
-module.exports.WorldPointNode = (WorldPointNode = class WorldPointNode extends TreemaNode.nodeMap.point2d {
+module.exports.WorldPointNode = class WorldPointNode extends TreemaNode.nodeMap.point2d {
   constructor (...args) {
     super(...Array.from(args || []))
     this.callback = this.callback.bind(this)
@@ -64,9 +66,9 @@ module.exports.WorldPointNode = (WorldPointNode = class WorldPointNode extends T
     this.data.y = shorten(e.point.y)
     return this.refreshDisplay()
   }
-})
+}
 
-class WorldRegionNode extends TreemaNode.nodeMap.object {
+module.exports.WorldRegionNode = class WorldRegionNode extends TreemaNode.nodeMap.object {
   // this class is not yet used, later will be used to configure the Physical component
 
   constructor (...args) {
@@ -110,7 +112,7 @@ class WorldRegionNode extends TreemaNode.nodeMap.object {
 }
 // not yet written
 
-module.exports.WorldViewportNode = (WorldViewportNode = class WorldViewportNode extends TreemaNode.nodeMap.object {
+module.exports.WorldViewportNode = class WorldViewportNode extends TreemaNode.nodeMap.object {
   // selecting ratio'd dimensions in the world, ie the camera in level scripts
   constructor (...args) {
     super(...Array.from(args || []))
@@ -149,14 +151,14 @@ module.exports.WorldViewportNode = (WorldViewportNode = class WorldViewportNode 
     if (!e) { return }
     const target = {
       x: shorten((e.points[0].x + e.points[1].x) / 2),
-      y: shorten((e.points[0].y + e.points[1].y) / 2)
+      y: shorten((e.points[0].y + e.points[1].y) / 2),
     }
     this.set('target', target)
     const bounds = e.camera.normalizeBounds(e.points)
     this.set('zoom', shorten(WIDTH / bounds.width))
     return this.refreshDisplay()
   }
-})
+}
 
 module.exports.WorldBoundsNode = (WorldBoundsNode = (function () {
   WorldBoundsNode = class WorldBoundsNode extends TreemaNode.nodeMap.array {
@@ -204,79 +206,79 @@ module.exports.WorldBoundsNode = (WorldBoundsNode = (function () {
   return WorldBoundsNode
 })())
 
-module.exports.ThangNode = (ThangNode = class ThangNode extends TreemaNode.nodeMap.string {
+module.exports.ThangNode = class ThangNode extends TreemaNode.nodeMap.string {
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
     valEl.find('input').autocomplete({ source: this.settings.thangIDs, minLength: 0, delay: 0, autoFocus: true })
     return valEl
   }
-})
+}
 
-module.exports.TeamNode = (TeamNode = class TeamNode extends TreemaNode.nodeMap.string {
+module.exports.TeamNode = class TeamNode extends TreemaNode.nodeMap.string {
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
     valEl.find('input').autocomplete({ source: this.settings.teams, minLength: 0, delay: 0, autoFocus: true })
     return valEl
   }
-})
+}
 
-module.exports.SuperteamNode = (SuperteamNode = class SuperteamNode extends TreemaNode.nodeMap.string {
+module.exports.SuperteamNode = class SuperteamNode extends TreemaNode.nodeMap.string {
   buildValueForEditing (valEl, data) {
     super.buildValueForEditing(valEl, data)
     valEl.find('input').autocomplete({ source: this.settings.superteams, minLength: 0, delay: 0, autoFocus: true })
     return valEl
   }
-})
+}
 
-module.exports.RadiansNode = (RadiansNode = class RadiansNode extends TreemaNode.nodeMap.number {
+module.exports.RadiansNode = class RadiansNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
     const deg = (data / Math.PI) * 180
     return valEl.text(valEl.text() + `rad (${deg.toFixed(0)}˚)`)
   }
-})
+}
 
-module.exports.MetersNode = (MetersNode = class MetersNode extends TreemaNode.nodeMap.number {
+module.exports.MetersNode = class MetersNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
     return valEl.text(valEl.text() + 'm')
   }
-})
+}
 
-module.exports.KilogramsNode = (KilogramsNode = class KilogramsNode extends TreemaNode.nodeMap.number {
+module.exports.KilogramsNode = class KilogramsNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
     return valEl.text(valEl.text() + 'kg')
   }
-})
+}
 
-module.exports.SecondsNode = (SecondsNode = class SecondsNode extends TreemaNode.nodeMap.number {
+module.exports.SecondsNode = class SecondsNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
     return valEl.text(valEl.text() + 's')
   }
-})
+}
 
-module.exports.MillisecondsNode = (MillisecondsNode = class MillisecondsNode extends TreemaNode.nodeMap.number {
+module.exports.MillisecondsNode = class MillisecondsNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
     return valEl.text(valEl.text() + 'ms')
   }
-})
+}
 
-module.exports.SpeedNode = (SpeedNode = class SpeedNode extends TreemaNode.nodeMap.number {
+module.exports.SpeedNode = class SpeedNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
     return valEl.text(valEl.text() + 'm/s')
   }
-})
+}
 
-module.exports.AccelerationNode = (AccelerationNode = class AccelerationNode extends TreemaNode.nodeMap.number {
+module.exports.AccelerationNode = class AccelerationNode extends TreemaNode.nodeMap.number {
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
     return valEl.text(valEl.text() + 'm/s^2')
   }
-})
+}
 
 module.exports.ThangTypeNode = (ThangTypeNode = (function () {
   ThangTypeNode = class ThangTypeNode extends TreemaNode.nodeMap.string {
@@ -308,10 +310,11 @@ module.exports.ThangTypeNode = (ThangTypeNode = (function () {
       const thangTypeName = this.$el.find('input').val()
       this.thangType = _.find(this.settings.supermodel.getModels(ThangType), m => m.get('name') === thangTypeName)
       if (this.thangType) {
-        return this.data = this.thangType.get('original')
+        this.data = this.thangType.get('original')
       } else {
-        return this.data = null
+        this.data = null
       }
+      return this.data
     }
   }
   ThangTypeNode.initClass()
@@ -386,7 +389,7 @@ module.exports.ThangTypeNode = (ThangTypeNode = (ThangTypeNode = (function () {
       ThangTypeNode.thangTypesCollection = new CocoCollection([], {
         url: '/db/thang.type',
         project: ['name', 'components', 'original'],
-        model: ThangType
+        model: ThangType,
       })
       ThangTypeNode.thangTypesCollection.fetch({ data: { limit: PAGE_SIZE } })
       ThangTypeNode.thangTypesCollection.skip = 0
@@ -417,7 +420,8 @@ module.exports.ThangTypeNode = (ThangTypeNode = (ThangTypeNode = (function () {
       const thangTypeName = this.$el.find('input').val()
       const thangType = _.find(this.constructor.thangTypes, { name: thangTypeName })
       if (!thangType) { return this.remove() }
-      return this.data = thangType.original
+      this.data = thangType.original
+      return this.data
     }
   }
   ThangTypeNode.initClass()
@@ -444,7 +448,7 @@ module.exports.ItemThangTypeNode = (ItemThangTypeNode = (ItemThangTypeNode = (fu
   return ItemThangTypeNode
 })()))
 
-module.exports.ChatMessageLinkNode = (ChatMessageLinkNode = (ChatMessageLinkNode = class ChatMessageLinkNode extends TreemaNode.nodeMap.string {
+module.exports.ChatMessageLinkNode = class ChatMessageLinkNode extends TreemaNode.nodeMap.string {
   buildValueForDisplay (valEl, data) {
     const chatMessageId = typeof data === 'string' ? data : data._id
     super.buildValueForDisplay(valEl, chatMessageId)
@@ -455,9 +459,9 @@ module.exports.ChatMessageLinkNode = (ChatMessageLinkNode = (ChatMessageLinkNode
     const chatMessageCollection = new CocoCollection([], {
       url: '/db/ai_chat_message',
       project: ['actor', 'text'],
-      model: AIChatMessage
+      model: AIChatMessage,
     })
-    const res = chatMessageCollection.fetch({ url: `/db/ai_chat_message/${chatMessageId}` })
+    chatMessageCollection.fetch({ url: `/db/ai_chat_message/${chatMessageId}` })
     return chatMessageCollection.once('sync', () => this.processChatMessages(chatMessageCollection))
   }
 
@@ -480,15 +484,15 @@ module.exports.ChatMessageLinkNode = (ChatMessageLinkNode = (ChatMessageLinkNode
       return this.$el.find('.treema-row').append($(`<span class='ai-chat-message-actor'>&nbsp;<sub>actor:</sub> ${actor}&nbsp;</span>`))
     }
   }
-}))
+}
 
-module.exports.ChatMessageParentLinkNode = (ChatMessageParentLinkNode = (ChatMessageParentLinkNode = class ChatMessageParentLinkNode extends TreemaNode.nodeMap.string {
+module.exports.ChatMessageParentLinkNode = class ChatMessageParentLinkNode extends TreemaNode.nodeMap.string {
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
     if (!data) { return }
 
     const {
-      parentKind
+      parentKind,
     } = this.parent.data
 
     if (!parentKind) { return }
@@ -499,9 +503,9 @@ module.exports.ChatMessageParentLinkNode = (ChatMessageParentLinkNode = (ChatMes
     const parentCollection = new CocoCollection([], {
       url: `/db/ai_${parentKind}`,
       project: ['name'],
-      model: parentKind === 'project' ? AIProject : AIScenario
+      model: parentKind === 'project' ? AIProject : AIScenario,
     })
-    const res = parentCollection.fetch({ url: `/db/ai_${parentKind}/${data}` })
+    parentCollection.fetch({ url: `/db/ai_${parentKind}/${data}` })
     return parentCollection.once('sync', () => this.processParent(parentCollection))
   }
 
@@ -513,9 +517,9 @@ module.exports.ChatMessageParentLinkNode = (ChatMessageParentLinkNode = (ChatMes
       return this.$el.find('.treema-row').append($("<span class='ai-chat-message-parent-name'></span>").text(htmlText))
     }
   }
-}))
+}
 
-module.exports.AIDocumentLinkNode = (AIDocumentLinkNode = (AIDocumentLinkNode = class AIDocumentLinkNode extends TreemaNode.nodeMap.string {
+module.exports.AIDocumentLinkNode = class AIDocumentLinkNode extends TreemaNode.nodeMap.string {
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
     if (!data) { return }
@@ -523,9 +527,9 @@ module.exports.AIDocumentLinkNode = (AIDocumentLinkNode = (AIDocumentLinkNode = 
     this.$el.find('.ai-document-link').remove()
     return this.$el.find('.treema-row').prepend($(`<span class='ai-document-link'><a href='/editor/ai-document/${data}' title='Edit' target='_blank'>(e)</a>&nbsp;</span>`))
   }
-}))
+}
 
-module.exports.StateNode = (StateNode = (SateNode = class SateNode extends TreemaNode.nodeMap.string {
+module.exports.StateNode = class StateNode extends TreemaNode.nodeMap.string {
   buildValueForDisplay (valEl, data) {
     let state
     super.buildValueForDisplay(valEl, data)
@@ -535,7 +539,7 @@ module.exports.StateNode = (StateNode = (SateNode = class SateNode extends Treem
     const stateElement = () => $(`<span> - <i>${state}</i></span>`)
     return valEl.find('.treema-shortened').append(stateElement())
   }
-}))
+}
 
 module.exports.conceptNodes = function (concepts) {
   class ConceptNode extends TreemaNode.nodeMap.string {
@@ -556,7 +560,7 @@ module.exports.conceptNodes = function (concepts) {
     }
 
     limitChoices (options) {
-      let o, c
+      let o
       if ((this.parent.keyForParent === 'concepts') && (!this.parent.parent)) {
         options = ((() => {
           const result = []
@@ -604,7 +608,7 @@ module.exports.conceptNodes = function (concepts) {
   ConceptsListNode.initClass() // Alpha within auto
   return {
     ConceptsListNode,
-    ConceptNode
+    ConceptNode,
   }
 }
 
