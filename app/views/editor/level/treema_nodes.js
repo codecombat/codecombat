@@ -391,7 +391,6 @@ module.exports.ThangTypeNode = (ThangTypeNode = (ThangTypeNode = (function () {
       ThangTypeNode.thangTypesCollection.fetch({ data: { limit: PAGE_SIZE } })
       ThangTypeNode.thangTypesCollection.skip = 0
       ThangTypeNode.thangTypesCollection.once('sync', () => this.onThangCollectionSynced(ThangTypeNode.thangTypesCollection))
-      // return ThangTypeNode.thangTypesCollection.once('sync', () => this.processThangTypes(ThangTypeNode.thangTypesCollection))
     }
 
     onThangCollectionSynced (collection) {
