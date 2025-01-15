@@ -298,7 +298,7 @@ module.exports.ThangTypeNode = (ThangTypeNode = (function () {
 
     buildValueForEditing (valEl, data) {
       super.buildValueForEditing(valEl, data)
-      const thangTypeNames = (Array.from(this.settings.supermodel.getModels(ThangType)).map((m) => m.get('name')))
+      const thangTypeNames = this.settings.supermodel.getModels(ThangType).map(m => m.get('name'))
       const input = valEl.find('input').autocomplete({ source: thangTypeNames, minLength: 0, delay: 0, autoFocus: true })
       input.val((this.thangType != null ? this.thangType.get('name') : undefined) || 'None')
       return valEl
@@ -407,7 +407,7 @@ module.exports.ThangTypeNode = (ThangTypeNode = (ThangTypeNode = (function () {
 
     processThangTypes (thangTypeCollection) {
       this.constructor.thangTypes = this.constructor.thangTypes || []
-      return Array.from(thangTypeCollection.models).map((thangType) => this.processThangType(thangType))
+      return thangTypeCollection.models.map(thangType => this.processThangType(thangType))
     }
 
     processThangType (thangType) {
@@ -433,7 +433,7 @@ module.exports.ItemThangTypeNode = (ItemThangTypeNode = (ItemThangTypeNode = (fu
     }
 
     filterThangType (thangType) {
-      return Array.from(thangType.slots).includes(this.keyForParent)
+      return thangType.slots.includes(this.keyForParent)
     }
 
     processThangType (thangType) {
