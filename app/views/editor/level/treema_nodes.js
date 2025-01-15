@@ -5,7 +5,6 @@
  * DS002: Fix invalid constructor
  * DS101: Remove unnecessary use of Array.from
  * DS102: Remove unnecessary code created because of implicit returns
- * DS103: Rewrite code to no longer use __guard__, or convert again using --optional-chaining
  * DS205: Consider reworking code to avoid use of IIFEs
  * DS206: Consider reworking classes to avoid initClass
  * DS207: Consider shorter variations of null checks
@@ -140,7 +139,7 @@ module.exports.WorldViewportNode = class WorldViewportNode extends TreemaNode.no
     // can't really get the bounds from this data, so will have to hack this solution
     const options = { world: this.settings.world, dataType: 'ratio-region' }
     const data = this.getData()
-    if (__guard__(data != null ? data.target : undefined, x => x.x) != null) { options.defaultFromZoom = data }
+    if (data?.target?.x != null) { options.defaultFromZoom = data }
     options.supermodel = this.settings.supermodel
     const modal = new WorldSelectModal(options)
     modal.callback = this.callback
@@ -466,7 +465,7 @@ module.exports.ChatMessageLinkNode = class ChatMessageLinkNode extends TreemaNod
   }
 
   processChatMessages (chatMessageCollection) {
-    const text = __guard__(chatMessageCollection.models != null ? chatMessageCollection.models[0] : undefined, x => x.get('text'))
+    const text = chatMessageCollection.models?.[0]?.get('text')
     if (text) {
       let htmlText
       if (typeof text === 'string') {
@@ -478,7 +477,7 @@ module.exports.ChatMessageLinkNode = class ChatMessageLinkNode extends TreemaNod
       this.$el.find('.treema-row').append($("<span class='ai-chat-message-link-text'></span>").text(htmlText))
     }
 
-    const actor = __guard__(chatMessageCollection.models != null ? chatMessageCollection.models[0] : undefined, x1 => x1.get('actor'))
+    const actor = chatMessageCollection.models?.[0]?.get('actor')
     if (actor) {
       this.$el.find('.ai-chat-message-actor').remove()
       return this.$el.find('.treema-row').append($(`<span class='ai-chat-message-actor'>&nbsp;<sub>actor:</sub> ${actor}&nbsp;</span>`))
@@ -510,7 +509,7 @@ module.exports.ChatMessageParentLinkNode = class ChatMessageParentLinkNode exten
   }
 
   processParent (parentCollection) {
-    const text = __guard__(parentCollection.models != null ? parentCollection.models[0] : undefined, x => x.get('name'))
+    const text = parentCollection.models?.[0]?.get('name')
     if (text) {
       const htmlText = entities.decodeHTML(text.substring(0, 60))
       this.$el.find('.ai-chat-message-parent-name').remove()
@@ -610,8 +609,4 @@ module.exports.conceptNodes = function (concepts) {
     ConceptsListNode,
     ConceptNode,
   }
-}
-
-function __guard__ (value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
 }
