@@ -28,7 +28,7 @@ const utils = require('core/utils')
 const makeButton = () => $('<a class="btn btn-primary btn-xs treema-map-button"><span class="glyphicon glyphicon-screenshot"></span></a>')
 const shorten = f => parseFloat(f.toFixed(1))
 const WIDTH = 924
-
+const PAGE_SIZE = 1000
 module.exports.WorldPointNode = (WorldPointNode = class WorldPointNode extends TreemaNode.nodeMap.point2d {
   constructor (...args) {
     super(...Array.from(args || []))
@@ -388,12 +388,24 @@ module.exports.ThangTypeNode = (ThangTypeNode = (ThangTypeNode = (function () {
         project: ['name', 'components', 'original'],
         model: ThangType
       })
-      const res = ThangTypeNode.thangTypesCollection.fetch()
-      return ThangTypeNode.thangTypesCollection.once('sync', () => this.processThangTypes(ThangTypeNode.thangTypesCollection))
+      ThangTypeNode.thangTypesCollection.fetch({ data: { limit: PAGE_SIZE } })
+      ThangTypeNode.thangTypesCollection.skip = 0
+      ThangTypeNode.thangTypesCollection.once('sync', () => this.onThangCollectionSynced(ThangTypeNode.thangTypesCollection))
+      // return ThangTypeNode.thangTypesCollection.once('sync', () => this.processThangTypes(ThangTypeNode.thangTypesCollection))
+    }
+
+    onThangCollectionSynced (collection) {
+      this.processThangTypes(collection)
+      const getMore = collection.models.length === PAGE_SIZE
+      if (getMore) {
+        collection.skip += PAGE_SIZE
+        collection.fetch({ data: { skip: collection.skip, limit: PAGE_SIZE } })
+        collection.once('sync', () => this.onThangCollectionSynced(collection))
+      }
     }
 
     processThangTypes (thangTypeCollection) {
-      this.constructor.thangTypes = []
+      this.constructor.thangTypes = this.constructor.thangTypes || []
       return Array.from(thangTypeCollection.models).map((thangType) => this.processThangType(thangType))
     }
 
