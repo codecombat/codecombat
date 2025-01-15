@@ -1,9 +1,7 @@
 // TODO: This file was created by bulk-decaffeinate.
 // Sanity-check the conversion and remove this comment.
 /*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
+ * decaffeinate suggestions:ß
  * DS205: Consider reworking code to avoid use of IIFEs
  * DS206: Consider reworking classes to avoid initClass
  * DS207: Consider shorter variations of null checks
@@ -39,23 +37,34 @@ module.exports.WorldPointNode = class WorldPointNode extends TreemaNode.nodeMap.
 
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
-    return valEl.find('.treema-shortened').prepend(makeButton())
+    valEl.find('.treema-shortened').prepend(makeButton())
+    return valEl
   }
 
   buildValueForEditing (valEl, data) {
     super.buildValueForEditing(valEl, data)
-    return valEl.find('.treema-shortened').prepend(makeButton())
+    valEl.find('.treema-shortened').prepend(makeButton())
+    return valEl
   }
 
   onClick (e) {
     const btn = $(e.target).closest('.treema-map-button')
-    if (btn.length) { return this.openMap() } else { return super.onClick(...arguments) }
+    if (btn.length) {
+      this.openMap()
+      return
+    }
+    return super.onClick(...arguments)
   }
 
   openMap () {
-    const modal = new WorldSelectModal({ world: this.settings.world, dataType: 'point', default: this.getData(), supermodel: this.settings.supermodel })
+    const modal = new WorldSelectModal({
+      world: this.settings.world,
+      dataType: 'point',
+      default: this.getData(),
+      supermodel: this.settings.supermodel,
+    })
     modal.callback = this.callback
-    return this.settings.view.openModalView(modal)
+    this.settings.view.openModalView(modal)
   }
 
   callback (e) {
