@@ -117,6 +117,25 @@ module.exports = (Level = (function () {
       return o
     }
 
+    mergeLevelThangComponents (levelThang, thangTypesByOriginal) {
+      const thangType = thangTypesByOriginal[levelThang.thangType]
+      const configs = {}
+      for (const thangComponent of levelThang.components) {
+        configs[thangComponent.original] = thangComponent
+      }
+      for (const defaultThangComponent of Array.from((thangType != null ? thangType.get('components') : undefined) || [])) {
+        let copy
+        let levelThangComponent = configs[defaultThangComponent.original]
+        if (levelThangComponent) {
+          copy = $.extend(true, {}, defaultThangComponent.config)
+          levelThangComponent.config = _.merge(copy, levelThangComponent.config)
+        } else {
+          levelThangComponent = $.extend(true, {}, defaultThangComponent)
+          levelThang.components.push(levelThangComponent)
+        }
+      }
+    }
+
     denormalizeThang (levelThang, supermodel, session, otherSession, thangTypesByOriginal) {
       let config, heroThangType, isHero, placeholderComponent, placeholders, placeholdersUsed, thangComponent
       if (levelThang.components == null) { levelThang.components = [] }
@@ -329,22 +348,7 @@ module.exports = (Level = (function () {
 
             // merges hero for junior level
             if (this.get('product', true) === 'codecombat-junior') {
-              const thangType = thangTypesByOriginal[levelThang.thangType]
-              const configs = {}
-              for (const thangComponent of Array.from(levelThang.components)) {
-                configs[thangComponent.original] = thangComponent
-              }
-              for (const defaultThangComponent of Array.from((thangType != null ? thangType.get('components') : undefined) || [])) {
-                let copy
-                let levelThangComponent = configs[defaultThangComponent.original]
-                if (levelThangComponent) {
-                  copy = $.extend(true, {}, defaultThangComponent.config)
-                  levelThangComponent.config = _.merge(copy, levelThangComponent.config)
-                } else {
-                  levelThangComponent = $.extend(true, {}, defaultThangComponent)
-                  levelThang.components.push(levelThangComponent)
-                }
-              }
+              this.mergeLevelThangComponents(levelThang, thangTypesByOriginal)
             }
           }
         }
