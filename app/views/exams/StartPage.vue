@@ -96,7 +96,17 @@ export default {
       if (this.exam?._id === '-') {
         return true
       }
-      return me.isMtoStem()
+      if (this.exam?.examInfo?.userTypesAllowed.includes('stem')) {
+        if (me.isMtoStem()) {
+          return true
+        }
+      }
+      if (this.exam?.examInfo?.userTypesAllowed.includes('neo')) {
+        if (me.isMtoNeo()) {
+          return true
+        }
+      }
+      return false
     },
     buttonValue () {
       if (this.isNewUser) {
