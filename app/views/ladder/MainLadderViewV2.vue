@@ -69,6 +69,7 @@
         :arena="arenaMap[t.slug]"
         :clan-id="currentSelectedClan?._id"
         :tournament="t"
+        :championship="isChampionship(t.slug)"
         :can-create="false"
         :can-edit="true"
         @edit-tournament="handleEditTournament(t)"
@@ -85,6 +86,7 @@
             :arena="arenaMap[t.slug]"
             :clan-id="currentSelectedClan?._id"
             :tournament="t"
+            :championship="isChampionship(t.slug)"
             :can-create="false"
             :can-edit="true"
             @edit-tournament="handleEditTournament(t)"
@@ -387,6 +389,9 @@ export default {
         const createdTournaments = c.productOptions.createdTournaments || 0
         return s + (tournaments - createdTournaments)
       }, 0)
+    },
+    isChampionship (slug) {
+      return this.sortedChampionships.some(t => t.slug === slug)
     },
   },
   mounted () {

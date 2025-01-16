@@ -21,6 +21,8 @@ REAL_TIME_COUNTDOWN_DELAY = 3000  # match CountdownScreen
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
 EXISTS_ORIGINAL = '524b4150ff92f1f4f8000024'
 COUNTDOWN_LEVELS = ['sky-span']
+MAX_POOL_SIZE = 100
+
 window.string_score = require 'vendor/scripts/string_score.js' # Used as a global in DB code
 require 'vendor/scripts/coffeescript' # Install the global CoffeeScript compiler #TODO Performance: Load this only when necessary
 require('lib/worldLoader') # Install custom hack to dynamically require library files
@@ -745,3 +747,82 @@ module.exports = class World
         hero.keepTrackedProperty 'maxHealth'
       hero.health = hero.maxHealth
       hero.keepTrackedProperty 'health'
+  
+  getComponentsForThangType: (thangTypeID) ->
+    if not @levelComponents or not @thangTypes
+      return null
+    thangTypeModel = _.find(@thangTypes, original: thangTypeID)
+    if not thangTypeModel or not thangTypeModel.components
+      console.error('world.getComponentsForThangType: Failed to find ThangTypeModel or doesn\'t have components:', thangTypeID)
+      return null
+    components = []
+    for component in thangTypeModel.components
+      componentModel = _.find(@levelComponents, (c) -> c.original is component.original and c.version.major is (component.majorVersion ? 0))
+      componentClass = @loadClassFromCode(componentModel.js, componentModel.name, 'component')
+      @classMap[componentClass.className] ?= componentClass
+      components.push([componentClass, component.config])
+    return components
+
+  spawnThang: (spriteName, components, id=null, poolName=null) ->
+    # Spawn a new Thang with the given properties and components. thangTypeName is the new spriteName.
+    spawned = new Thang(@, spriteName, id)
+    for component in components
+      if component[1]?.stateless  # stateless Thangs would never show up
+        component[1].stateless = false 
+    components = _.cloneDeep(components)
+    spawned.addComponents(components...)
+    spawned.keepTrackedProperty('exists')
+    spawned.updateRegistration()
+    # Replace any old, non-existent spawn from the proper spawn pool
+    if poolName
+      
+      @spawnPools ?= {}
+      pool = @spawnPools[poolName] ?= []
+      if pool.length >= MAX_POOL_SIZE
+        pool.shift() # Remove oldest spawn if pool is full
+      for pooledSpawn, i in pool
+        if not pooledSpawn.exists and not pooledSpawn.isCollectable  # TODO We should be able to re-use collectables, but it's not working...
+          spawned.id = pooledSpawn.id
+          pool[i] = spawned
+          spawned.trackedPropertiesUsed = pooledSpawn.trackedPropertiesUsed  # So we don't pretend we never changed some of these
+          @setThang(spawned)
+          spawned.initialize?()
+          return spawned
+      # Or: no non-existant pool spawn available; add the new one
+      pool.push(spawned)
+    @thangs.unshift(spawned)
+    @setThang(spawned)
+    spawned.initialize?()
+    return spawned
+  
+  createThang: (spriteName, components, pos, id=null, poolName=null) ->
+    thang = @spawnThang(spriteName, components, id, poolName)
+    thang.pos ?= new Vector()
+    if pos.x? 
+      thang.pos.x = pos.x
+    if pos.y?
+      thang.pos.y = pos.y
+    if pos.z?
+      thang.pos.z = pos.z
+    thang.addTrackedProperties(['pos', 'Vector'])
+    thang.keepTrackedProperty('pos')
+    thang.setExists(true)
+    return thang
+
+  createThangFromAnotherThang: (templateID, pos, id=null, poolName=null) ->
+    template = @getThangByID(templateID)
+    if not template
+      console.error('Failed to create Thang: template not found', { templateID, availableThangIDs: Object.keys(@thangMap) })
+      return null
+    components = _.cloneDeep(template.components)
+    spriteName = template.spriteName
+    return @createThang(spriteName, components, pos, id, poolName)
+  
+  createThangFromThangType: (thangTypeID, pos, id=null, poolName=null) ->
+    thangType = _.find(@thangTypes, original: thangTypeID)
+    if not thangType
+      console.error('Failed to create Thang: ThangType not found', { thangTypeID, availableThangTypeIDs: @thangTypes?.map((t) -> t.original) })
+      return null
+    components = @getComponentsForThangType(thangTypeID)
+    spriteName = thangType.name
+    return @createThang(spriteName, components, pos, id, poolName)
