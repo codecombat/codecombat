@@ -64,6 +64,19 @@ _.extend(ExamSchema.properties, {
       },
     },
   },
+  examInfo: {
+    type: 'object',
+    description: 'Exam info',
+    properties: {
+      userTypesAllowed: {
+        type: 'array',
+        description: 'User types allowed to take the exam',
+        items: {
+          type: 'string', // example: stem, neo
+        },
+      },
+    },
+  },
 })
 
 c.extendBasicProperties(ExamSchema, 'exam')
