@@ -38,6 +38,13 @@ module.exports = class SchoologyHandler extends CocoClass {
   async connect (options) {
     this.trigger('connect')
     const result = await SchoologyHandler.logInWithSchoology()
+
+    if (result.loggedIn) {
+      // login user if already signed up with Schoology
+      window.location.reload()
+      return
+    }
+
     if (!result.email) {
       throw new Error('No email found in Schoology response')
     }
