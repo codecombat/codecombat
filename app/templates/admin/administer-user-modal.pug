@@ -2,6 +2,7 @@ extends /templates/core/modal-base-flat
 
 include ../teachers/common/license-form-group-mixin
 include ../teachers/common/license-type-mixin
+include ./mixins/products-mixin
 
 //- DNT
 
@@ -311,6 +312,26 @@ block modal-body-content
       hr
   #esports-products
     if view.esportsProducts.length
+      -
+        esportsKeys = {
+          teams: {
+            default (type) => view.ESPORTS_PRODUCT_STATS.TEAMS[type],
+            type: 'number',
+            attributes: { min: view.ESPORTS_PRODUCT_STATS.TEAMS.MIN, max: view.ESPORTS_PRODUCT_STATS.TEAMS.MAX, step: 1}
+           },
+          tournaments: {
+            default (type) => view.ESPORTS_PRODUCT_STATS.TOURNAMENTS[type],
+            extra(product) => (product.productOptions.createdTournament || 0) + ' / '
+            type: 'number',
+            attributes: { min: view.ESPORTS_PRODUCT_STATS.TOURNAMENTS.MIN, step: 1}
+           },
+          arena: {
+            default () => '',
+            type: 'text',
+            attributes: { placeholder: 'amdocs-quickfire-infinite-inferno,codestars-challenge' }
+           },
+        }
+      +products-list(view.esportsProducts, 'esports', esportsKeys, view.productTableState)
       h3.m-t-3(data-toggle="collapse" data-target="#esports-product-table" aria-expanded="false" aria-controls="esports-product-table") Existing Esports Products
         span.small click to toggle collapse
       #esports-product-table.collapse.multi-collapse
