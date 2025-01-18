@@ -44,6 +44,7 @@ module.exports = (AdministerUserModal = (function () {
         'click #add-credits-btn': 'onClickAddCreditsButton',
         'click #add-seats-btn': 'onClickAddSeatsButton',
         'click #add-esports-product-btn': 'onClickAddEsportsProductButton',
+        'click #add-call-sales-product-btn': 'onClickAddCallSalesProductButton',
         'click #save-online-teacher-info': 'onClickSaveOnlineTeacherInfo',
         'click #user-spy-btn': 'onClickUserSpyButton',
         'click #destudent-btn': 'onClickDestudentButton',
@@ -103,7 +104,9 @@ module.exports = (AdministerUserModal = (function () {
           this.supermodel.trackRequest(this.classrooms.fetchByOwner(this.userHandle))
         }
         this.esportsProducts = this.user.getProductsByType('esports')
-        return this.renderSelectors('#esports-products')
+        this.renderSelectors('#esports-products')
+        this.callSalesProducts = this.user.getProductsByType('call-sales')
+        this.renderSelectors('#call-sales-products')
       })
       this.coupons = new StripeCoupons()
       if (me.isAdmin()) { this.supermodel.trackRequest(this.coupons.fetch({ cache: false })) }
@@ -118,6 +121,7 @@ module.exports = (AdministerUserModal = (function () {
         })
       })
       this.esportsProducts = this.user.getProductsByType('esports')
+      this.callSalesProducts = this.user.getProductsByType('call-sales')
       this.trialRequests = new TrialRequests()
       if (me.isAdmin()) { this.supermodel.trackRequest(this.trialRequests.fetchByApplicant(this.userHandle)) }
       this.timeZone = features?.chinaInfra ? 'Asia/Shanghai' : 'America/Los_Angeles'
@@ -312,6 +316,49 @@ module.exports = (AdministerUserModal = (function () {
         return setTimeout(() => {
           this.state = ''
           return this.renderSelectors('#prepaid-form')
+        }
+        , 1000)
+      })
+    }
+
+    onClickAddCallSalesProductButton () {
+      const attrs = forms.formToObject(this.$('#call-sales-product-form'))
+
+      if (!_.all(_.values(attrs))) { return }
+      if (!attrs.endDate || !attrs.startDate || !(attrs.endDate > attrs.startDate)) { return }
+      attrs.endDate = attrs.endDate + ' ' + '23:59' // Otherwise, it ends at 12 am by default which does not include the date indicated
+
+      attrs.startDate = momentTimezone.tz(attrs.startDate, this.timeZone).toISOString()
+      attrs.endDate = momentTimezone.tz(attrs.endDate, this.timeZone).toISOString()
+      attrs.productOptions = { id: _.uniqueId() }
+
+      _.extend(attrs, {
+        product: 'call-sales',
+        purchaser: me.id, // does sales team has admin account to do such?
+        recipient: this.user.id,
+        paymentService: 'external',
+        paymentDetails: {
+          adminAdded: me.id,
+        },
+      })
+      this.state = 'creating-call-sales-product'
+      this.renderSelectors('#call-sales-product-form')
+      $('#call-sales-product-form').addClass('in')
+      api.users.putUserProducts({
+        user: this.user.id,
+        product: attrs,
+        kind: 'new',
+      }).then(res => {
+        this.state = 'made-call-sales-product'
+        this.renderSelectors('#call-sales-product-form')
+        $('#call-sales-product-form').addClass('in')
+        this.callSalesProducts.push(attrs)
+        this.renderSelectors('#call-sales-product-table')
+        $('#call-sales-product-table').addClass('in')
+        return setTimeout(() => {
+          this.state = ''
+          this.renderSelectors('#call-sales-product-form')
+          return $('#call-sales-product-form').addClass('in')
         }
         , 1000)
       })
@@ -625,13 +672,23 @@ module.exports = (AdministerUserModal = (function () {
 
     onClickSaveProductInfo (e) {
       const productId = '' + this.$(e.target).data('product-id') // make sure it is string
+      const productType = '' + this.$(e.target).data('product-type')
+
       const productStartDate = this.$el.find('#product-startDate-' + productId).val()
       const productEndDate = this.$el.find('#product-endDate-' + productId).val()
-      const tournaments = this.$el.find('#product-tournaments-' + productId).val()
-      const teams = this.$el.find('#product-teams-' + productId).val()
-      const arenas = this.$el.find('#product-arenas-' + productId).val()
 
-      return this.esportsProducts.forEach((product, i) => {
+      let products
+      switch (productType) {
+        case 'esports':
+          products = this.esportsProducts
+          break
+        case 'call-sales':
+          products = this.callSalesProducts
+          break
+        default:
+          return
+      }
+      return products.forEach((product, i) => {
         if (product.productOptions.id === productId) {
           // validations
           if (!productStartDate || !productEndDate) {
@@ -643,9 +700,15 @@ module.exports = (AdministerUserModal = (function () {
           }
           product.startDate = momentTimezone.tz(productStartDate, this.timeZone).toISOString()
           product.endDate = momentTimezone.tz(productEndDate, this.timeZone).toISOString()
-          product.productOptions.teams = parseInt(teams)
-          product.productOptions.tournaments = parseInt(tournaments)
-          product.productOptions.arenas = arenas
+
+          if (productType === 'esports') {
+            const tournaments = this.$el.find('#product-tournaments-' + productId).val()
+            const teams = this.$el.find('#product-teams-' + productId).val()
+            const arenas = this.$el.find('#product-arenas-' + productId).val()
+            product.productOptions.teams = parseInt(teams)
+            product.productOptions.tournaments = parseInt(tournaments)
+            product.productOptions.arenas = arenas
+          }
           return api.users.putUserProducts({
             user: this.user.id,
             product,
