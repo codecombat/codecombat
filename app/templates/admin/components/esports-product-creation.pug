@@ -1,0 +1,47 @@
+h3.m-t-3#esports-product(data-toggle="collapse" data-target="#esports-product-form" aria-expanded="false" aria-controls="esports-product-form") Grant Esports Products
+  span.small click to toggle collapse
+#esports-product-form.form.collapse.multi-collapse
+  if view.state === 'creating-esports-product'
+    .progress.progress-striped.active
+      .progress-bar(style="width: 100%")
+
+  else if view.state === 'made-esports-product'
+    .alert.alert-success Esports Product created!
+
+  else
+    if view.timeZone == 'Asia/Shanghai'
+      h4.small(style="max-width: 700px") Product start at 12am CT on the start date and end at 11:59pm CT on the end date listed.
+    else
+      h4.small(style="max-width: 700px") Product start at 12am PT on the start date and end at 11:59pm PT on the end date listed.
+    +license-form-group('Start Date')(type="date" name="startDate" value=view.momentTimezone().tz(view.timeZone).format('YYYY-MM-DD'))
+    +license-form-group('End Date')(type="date" name="endDate" value=view.momentTimezone().tz(view.timeZone).add(1, 'month').format('YYYY-MM-DD'))
+    .form-group
+      - esportsType = view.esportsType
+      label
+        span Esports Product Type
+        =":"
+        #esports-type-select
+          .radio
+            label.product-type
+              input(type='radio', name='esportsType', value='basic', checked=esportsType==='basic')
+              span Basic
+            h4.small one custom tournament using current arenas, one custom team, etc.
+          .radio
+            label.product-type
+              input(type='radio', name='esportsType', value='pro', checked=esportsType==='pro')
+              span Pro
+            h4.small up to three custom tournaments using any arenas, up to five custom teams, etc.
+    +license-form-group('Addons')(type="checkbox" name="addon" id="esports-product-addon")
+      //- span(style="margin-left: 10px") Make sure you re-check this if you change type.
+    #esports-product-addon-items
+      if view.esportsAddon
+        - upperType = esportsType.toUpperCase()
+        +license-form-group('Custom Tournaments')(type="number" name="tournaments" value=(view.ESPORTS_PRODUCT_STATS.TOURNAMENTS[upperType] || 0) min=view.ESPORTS_PRODUCT_STATS.TOURNAMENTS.MIN step=1)
+          h4.small how many custom tournaments they can create
+        +license-form-group('Custom Teams')(type="number" name="teams" value=(view.ESPORTS_PRODUCT_STATS.TEAMS[upperType] || 0) min=view.ESPORTS_PRODUCT_STATS.TEAMS.MIN max=view.ESPORTS_PRODUCT_STATS.TEAMS.MAX step=1)
+          h4.small  how may custom teams we’ll create for them
+        +license-form-group('Extra arenas(slug)')(type="text" name="arenas" placeholder="amdocs-quickfire-infinite-inferno,codestars-challenge" style="width: 50em")
+          h4.small level slugs of custom arenas they can run tournaments on, comma-separated
+
+    .form-group
+      button#add-esports-product-btn.btn.btn-primary Add Esports Product
