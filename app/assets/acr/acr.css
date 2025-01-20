@@ -1,0 +1,21 @@
+#openACR {
+    background: transparent;
+    padding-top: 0;
+}
+
+#openACR h1, #openACR h2, #openACR h3, #openACR h4, #openACR h5, #openACR h6 {
+    font-family: Work Sans, "Open Sans", sans-serif;
+    margin-top: 20px;
+}
+
+#openACR .anchor-icon {
+    display: none;
+}
+
+#openACR #author-download {
+    display: none;
+}
+
+#openACR .result-row > td > ul > li:nth-child(3), #openACR .result-row > td > ul > li:nth-child(4) {
+    display: none;
+}

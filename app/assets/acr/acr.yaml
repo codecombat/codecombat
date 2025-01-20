@@ -1,0 +1,3371 @@
+title: CodeCombat and Ozaria Accessibility Conformance Report
+product:
+  name: CodeCombat and Ozaria
+  version: ''
+  description: >-
+    Computer science curriculum software using game-based learning to teach kids
+    real Python and JavaScript coding.
+author:
+  name: ''
+  company_name: ''
+  address: ''
+  email: ''
+  phone: ''
+  website: ''
+vendor:
+  name: 'Nick Winter, co-founder'
+  company_name: CodeCombat
+  address: '2261 Market Street #4388, San Francisco, CA 94114'
+  email: schools@codecombat.com
+  phone: 833-488-8383
+  website: 'https://codecombat.com'
+report_date: 3/14/2023
+last_modified_date: 1/20/2025
+version: 3
+notes: >-
+  This report covers both CodeCombat (codecombat.com) and Ozaria (ozaria.com).
+  Both are web applications sharing the same codebase and including multiple
+  media formats: standard web content, web-based game content, video content,
+  and text-based lesson slide content. Criteria support apply to both products
+  unless otherwise noted.
+evaluation_methods_used: >-
+  Conformance to the listed accessibility standards has been evaluated by
+  CodeCombat using a combination of static analysis tools and manual testing
+  with assistive technologies.
+
+
+  * Static analysis tools: axe DevTools, WAVE Online Accessibility Tester,
+  taba11y
+
+  * Assistive technologies: JAWS, NVDA, VoiceOver
+
+  * Platforms: Windows 11, macOS 13 Ventura - macOS 15 Sequoia, ChromeOS 111 -
+  131
+
+  * Browsers: Chrome 112 - 132, Firefox 110 - 131, Safari 16.2 - 16.6, Edge 111
+  - 132
+
+
+  Testing included all student-, teacher-, and school-administrator-facing
+  functionality of the website, including in-game content, dashboards,
+  curriculum resources, website content, account settings, and documentation.
+legal_disclaimer: ''
+repository: 'https://github.com/codecombat/codecombat'
+feedback: ''
+license: MIT
+related_openacrs: []
+catalog: 2.4-edition-wcag-2.1-508-en
+chapters:
+  success_criteria_level_a:
+    notes: All WCAG Level A criteria are supported.
+    disabled: false
+    criteria:
+      - num: 1.1.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                All non-text content that is presented to the user has a text
+                alternative that serves the equivalent purpose. Ozaria includes
+                a screen reader mode that features full WCAG 2.0 AAA
+                compatibility, and all Ozaria content has been made playable for
+                screen reader users. When playing Ozaria using screen reader,
+                text descriptions provide descriptive identification of the
+                non-text content, aiding in the sensory experience of the game.
+                Accompanying this, a smooth game navigation system with a
+                keyboard-and-narrated-text overlay has been developed.
+                Additionally, an automatic video subtitle display and cinematic
+                keyboard navigation has been integrated into the game for
+                further accessibility options.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Electronic documents, such as curriculum guides and lesson
+                plans, are primarily text-based, with additional image resources
+                that are either purely cosmetic or that are captioned and
+                accessible by screen reader.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.2.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                The CodeCombat and Ozaria platforms contain minimal prerecorded
+                media content. Where audio content exists, such as in-game
+                dialogue voiceovers, it is always accompanied by text
+                transcriptions. Any video-only content is supplemented with text
+                descriptions or audio narration. The game's core educational
+                content and gameplay mechanics are primarily delivered through
+                interactive elements with multiple modes of accessibility,
+                ensuring that any media content is supplementary rather than
+                essential to the learning experience.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials very occasionally include standalone audio
+                or video content. When such content is included, it is always
+                accompanied by text transcriptions for audio-only content and
+                descriptive text or narration for video-only content. The
+                primary instructional content is text-based, with any media
+                serving as optional supplementary material.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.2.2
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Captions are provided for all prerecorded audio content in
+                synchronized media. Ozaria includes voice-over narration with
+                automatic video subtitle display.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All instructional videos included in electronic curriculum
+                materials feature synchronized captions. The educational content
+                is designed to be fully accessible through text alone, with any
+                audio content serving as an enhancement rather than a primary
+                delivery method.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.2.3
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Captions are provided for all prerecorded audio content in
+                synchronized media. Ozaria includes voice-over narration with
+                automatic video subtitle display. Where video content exists, it
+                is supplemented with either audio descriptions or comprehensive
+                text alternatives. Ozaria's screen reader support provides
+                detailed descriptions of all visual elements essential to
+                gameplay and learning.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Videos in curriculum materials focus on demonstrating concepts
+                that are also fully explained in text. Where visual-only content
+                exists, text alternatives provide complete information about the
+                educational content being conveyed
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.3.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Outside of the game, the CodeCombat and Ozaria platforms ensure
+                that all information, structure, and relationships conveyed
+                through visual presentation are programmatically determinable or
+                available as text. The platforms use semantic HTML markup, ARIA
+                landmarks, and proper heading structures throughout. Form
+                elements are properly labeled and grouped, and data tables
+                include appropriate headers and relationships. Inside of the
+                game, the screen reader support in Ozaria ensures all structural
+                relationships are preserved and communicated effectively.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All curriculum documents maintain consistent structural markup
+                that properly conveys information hierarchy and relationships.
+                Headers, lists, tables, and other structural elements are
+                implemented using appropriate formatting that can be
+                programmatically determined by assistive technologies.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.3.2
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Content in both CodeCombat and Ozaria follows a logical reading
+                sequence that preserves meaning when rendered by assistive
+                technologies. The DOM order matches the visual presentation,
+                ensuring that screen readers present content in a logical and
+                understandable sequence. In Ozaria, navigation through game
+                elements and educational content maintains a meaningful order
+                that preserves context and relationships.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All curriculum materials maintain a logical reading order that
+                preserves meaning regardless of how the content is accessed.
+                Document structure ensures that when content is read linearly,
+                all information and relationships remain clear and
+                understandable.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.3.3
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria provide instructions for understanding and
+                operating content in a manner that does not rely solely on
+                sensory characteristics of components such as shape, color,
+                size, visual location, orientation, or sound. Narrated
+                instructions are provided with accompanying text display.
+                Furthermore, in Ozaria, for example, there is in-game textual
+                identification of visual items like "lever" and "switch" when
+                these are important for progression in the game.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All instructions and references in curriculum materials are
+                provided without relying solely on sensory characteristics.
+                References to content elements include textual descriptions
+                rather than depending on color, shape, size, or location alone.
+                Visual elements are accompanied by descriptive text that doesn't
+                require sensory perception to understand.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria do not use color as the only visual means
+                of conveying information, indicating an action, prompting a
+                response, or distinguishing a visual element. Components such as
+                shape, color, size, visual location, orientation, and sound are
+                used in combination to indicate how a user should proceed. For
+                example, in CodeCombat when a user has successfully completed a
+                level, the user is prompted to click on a green, rectangular
+                button with "Done" text. There is an animated, pulsing glow to
+                the button once a user should click on it. There is also an
+                animated, yellow arrow that appears below this button that
+                attracts the user's attention to it. Voice narration instructs a
+                user to click the button.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All curriculum materials ensure that color is never the sole
+                means of conveying information. Important content and
+                instructions are conveyed through multiple visual and textual
+                indicators. When color coding is used, it is always accompanied
+                by text labels, patterns, or other visual indicators to ensure
+                the information is accessible to all users.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.2
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria include audio that plays automatically and
+                provide settings to stop audio from playing. It is also possible
+                to turn the background music on or off independently from the
+                main audio.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Any audio content in curriculum materials includes controls for
+                pause, stop, and volume adjustment. No audio plays automatically
+                for more than 3 seconds without user control.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.1.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria provide full keyboard accessibility for
+                all core functionality. The platforms support standard keyboard
+                navigation through tabbing and arrow keys, with all interactive
+                elements being keyboard-accessible. Users can navigate menus,
+                enter code in the editor, interact with game controls, and
+                access all educational content using only a keyboard interface.
+                No functionality requires specific timing for keystrokes. The
+                code editor and game interface are fully operable through
+                keyboard commands, allowing users to write code, execute it, and
+                progress through levels without requiring mouse interaction.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All curriculum materials and interactive elements in electronic
+                documents are fully keyboard accessible. Navigation through
+                documents, interaction with any embedded content, and access to
+                all educational materials can be accomplished using standard
+                keyboard controls without timing requirements.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.1.2
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Both platforms implement careful focus management to prevent
+                keyboard traps. Users can navigate through all interface
+                elements using keyboard controls and can exit modal dialogs and
+                other interactive components using standard methods (Escape key,
+                Tab key, or clearly marked exit controls).
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All interactive elements in curriculum materials maintain proper
+                focus management, ensuring users can navigate to and from any
+                component using keyboard controls alone. No content creates
+                keyboard traps, and all interactive elements support standard
+                keyboard navigation patterns.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.1.4
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                While the platforms primarily rely on standard navigation
+                controls rather than character key shortcuts, any keyboard
+                shortcuts that are implemented follow accessibility best
+                practices. When shortcuts are available, they either:
+
+
+                * Can be disabled through user preferences
+
+                * Require modifier keys (such as Ctrl or Alt) to prevent
+                accidental activation
+
+                * Are only active when the relevant component has keyboard focus
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials do not implement character key shortcuts,
+                relying instead on standard keyboard navigation patterns for
+                accessibility. Any interactive elements use standard keyboard
+                controls that do not conflict with assistive technologies.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.2.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria include a mechanism for the user to
+                pause/stop the in-game animation. There are no time limits in
+                any of the educational activities.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials do not implement time limits on content
+                access or interaction. All educational content can be consumed
+                at the user's preferred pace, with no restrictions on viewing or
+                interaction time.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.2.2
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                All moving, blinking, scrolling, or auto-updating content in the
+                platforms includes user controls for pause, stop, or hide
+                functionality. This includes:
+
+
+                * Animation controls for game elements and visual demonstrations
+
+                * Options to control or disable auto-updating content
+
+                * Ability to pause or stop tutorial animations
+
+
+                Essential animations, such as loading indicators or brief
+                success animations, are exempted as they are integral to the
+                user experience.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Any animated or auto-updating content in digital curriculum
+                materials includes controls to pause, stop, or hide the motion.
+                This applies to any demonstrations, animations, or interactive
+                elements that may be included in the curriculum.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.3.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria strictly adhere to safe animation
+                practices. No content in either platform contains flashing
+                elements that exceed three flashes per second or approach the
+                general flash and red flash thresholds. All animations and
+                visual effects are designed with accessibility and safety in
+                mind, ensuring that game elements, success indicators, and
+                interactive components remain well below potentially triggering
+                thresholds.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials do not contain any flashing content or
+                animations that exceed three flashes per second. All visual
+                elements are designed to be safe for users who may be
+                susceptible to photosensitive reactions.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.4.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                In both Ozaria and CodeCombat, a 'skip' or 'escape' mechanism is
+                available to bypass blocks of content that are repeated on
+                multiple Web pages.
+          - name: electronic-docs
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.4.2
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria web pages and in-game levels have titles
+                that describe the topic and purpose. For example, when playing
+                the first level of CodeCombat the top of the page includes a
+                header that reads "Introduction to Computer Science" and a
+                subheader that reads "1. Dungeons of Kithgard", which is
+                repeated in the page's title metadata.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                The lesson slides for CodeCombat and Ozaria include page titles.
+                For example, the first lesson of the CodeCombat course
+                "Introduction to Computer Science" is titled "Algorithms and
+                Programming (CS1): Lesson 1 - Syntax &amp; Sequences", which
+                describes the topic of the lesson.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.4.3
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria are designed to be navigated sequentially,
+                with in-game levels that increase in difficulty and coding
+                concepts taught to users. Both have an in-game map that shows
+                the progression of the levels, with focus given to the level
+                that a user should begin next according to the game sequence. In
+                CodeCombat for example, visual elements like a flag illustration
+                indicates which level they should begin next and a floating,
+                pulsating arrow appears to encourage a user to click on the
+                level to begin. Completed levels are marked on the map with a
+                small, circular icon. These elements are all navigable with the
+                tab key in the intended order.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum documents can be navigated with standard sequential
+                focus behaviors.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.4.4
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                All curricular resources that include links to external sources
+                use appropriate descriptions so that one can determine what
+                information that is found at the targeted URI without having to
+                visit the URI. Additionally, all buttons found in CodeCombat and
+                Ozaria that navigate away from the experience use descriptions
+                that provide context about the targeted URI. 
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All curricular resources that include links to external sources
+                use appropriate descriptions so that one can determine what
+                information that is found at the targeted URI without having to
+                visit the URI. 
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.5.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria do not require multipoint or path-based
+                gestures for any functionality. All interactions can be
+                completed with single-point actions. Game controls and coding
+                interfaces are designed to work with simple pointer operations
+                or keyboard controls, ensuring accessibility across different
+                input devices.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials do not require any complex pointer
+                gestures. All interactive elements can be operated with simple
+                point-and-click actions.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.5.2
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Both platforms implement pointer interactions following
+                accessibility best practices:
+
+
+                * Interactive elements trigger on the up-event rather than the
+                down-event
+
+                * Drag operations can be cancelled by releasing the pointer
+
+                * Click actions can be aborted by moving the pointer away
+
+                * Any accidental interactions can be easily undone
+
+
+                This applies to all game controls, menu interactions, and coding
+                interface elements.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Any interactive elements in curriculum materials follow standard
+                pointer cancellation patterns, with actions triggering on
+                up-events and providing clear mechanisms to abort or undo
+                operations.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.5.3
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                All user interface components in CodeCombat and Ozaria ensure
+                that their accessible names match their visible labels. This
+                includes:
+
+
+                * Button text matching their accessible names
+
+                * Form input labels matching their programmatic labels
+
+                * Menu items containing their visible text in their accessible
+                names
+
+                * Interactive game elements having consistent visual and
+                programmatic labels
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All interactive elements in curriculum materials maintain
+                consistency between visible labels and their programmatic names,
+                ensuring compatibility with assistive technologies.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.5.4
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                The functionality of CodeCombat and Ozaria does not require
+                operation by device motion or user motion. Neither platform
+                requires device or user motion for any functionality. All
+                features can be operated through standard user interface
+                controls.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                The functionality of the curricular content provided for
+                CodeCombat and Ozaria does not require operation by device
+                motion or user motion. All content can be accessed through
+                standard interface controls.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.1.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria are translated into a variety of
+                languages, with the current language of the page available for
+                programmatic determination. Both CodeCombat and Ozaria implement
+                proper language declarations in their HTML, ensuring the default
+                language of each page can be programmatically determined. The
+                platforms use the 'lang' attribute in the HTML tag to explicitly
+                declare the language of content, enabling proper interpretation
+                by assistive technologies and browsers.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All curriculum documents include proper language declarations,
+                clearly indicating the primary language of the content through
+                appropriate document properties and markup.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.2.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                In CodeCombat and Ozaria, focus events are handled predictably
+                without initiating unexpected context changes. When users
+                navigate through interface elements:
+
+
+                * Menu items highlight without automatic activation
+
+                * Form fields receive focus without triggering actions
+
+                * Game controls become active without executing commands
+
+                * Code editor focus maintains current context
+
+
+                This ensures users can safely explore and navigate the interface
+                using keyboard or assistive technologies.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Interactive elements in curriculum materials maintain consistent
+                focus behavior without triggering unexpected changes, ensuring
+                predictable navigation through content.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.2.2
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                The in-game code editors of CodeCombat and Ozaria include a
+                "RUN" button for a user to test out their code and progress in
+                the game. By clicking the "RUN" button, the user code is
+                implemented and the in-game animation plays. The context remains
+                unchanged until the user clicks the green "Done" button after
+                successfully completing the level.
+
+
+                All other input components maintain predictable behavior:
+
+
+                * Form selections preserve context until explicitly submitted
+
+                * Settings changes require confirmation
+
+                * Navigation options wait for explicit user activation
+
+                * Users are always informed in advance when actions will trigger
+                context changes.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum documents do not change context based on user input
+                interactions.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.3.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                After clicking the "RUN" button, the in-game code editors of
+                CodeCombat and Ozaria automatically detect input errors from the
+                user and provide hints for how the user can correct the error.
+                The code that is in error is identified and the error is
+                described to the user in text. In CodeCombat for example, when
+                an error is detected the line of code that contains the error is
+                highlighted in color and a pop-up window appears titled "Fix
+                Your Code" with textual hints for correcting the mistake.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                There are no input errors applicable in the curriculum
+                materials.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.3.2
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria provide in-game step-by-step instructions
+                to the user on how to successfully complete a level and progress
+                in the game. When beginning a level in CodeCombat, for example,
+                textual instruction appears towards the bottom of the screen in
+                a blue box. Auto narration reads the text that is displayed. The
+                goals of the level are displayed in the upper left-hand corner
+                and on the right-hand side at the top of the code editor is
+                helpful instruction provided as comments in the code editor.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: Labels and instructions are built into the curriculum materials.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 4.1.1
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria are built using modern web standards,
+                ensuring proper HTML structure throughout:
+
+
+                * Complete start and end tags for all elements
+
+                * Proper element nesting according to specifications
+
+                * No duplicate attributes in elements
+
+                * Unique IDs for all elements requiring identification
+
+
+                The platforms undergo regular validation to ensure markup
+                compliance and maximum compatibility with assistive
+                technologies.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All curriculum materials using markup languages follow proper
+                document structure and validation requirements, ensuring
+                compatibility with assistive technologies and user agents.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 4.1.2
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                All user interface components in both platforms are implemented
+                to ensure proper programmatic accessibility:
+
+
+                * Form elements include appropriate ARIA labels and roles
+
+                * Custom interface components provide proper role and state
+                information
+
+                * Interactive elements communicate their states and values
+
+                * Script-generated content maintains proper accessibility
+                properties
+
+                * All user-modifiable values can be programmatically set and
+                updated
+
+
+                This ensures full compatibility with screen readers and other
+                assistive technologies.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Interactive elements in digital curriculum materials implement
+                proper accessibility attributes, ensuring that names, roles, and
+                values are programmatically determinable.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+  success_criteria_level_aa:
+    notes: ''
+    disabled: false
+    criteria:
+      - num: 1.2.4
+        components:
+          - name: web
+            adherence:
+              level: not-applicable
+              notes: >-
+                Live recordings aren't required for our core experiences in
+                CodeCombat and Ozaria.
+          - name: electronic-docs
+            adherence:
+              level: not-applicable
+              notes: >-
+                Live recordings aren't required for our core experiences in the
+                curriculum provided for CodeCombat and Ozaria.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.2.5
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Visual content in the platforms is designed to be
+                self-explanatory or accompanied by text descriptions accessible
+                via screen reader. Where video content exists, it is
+                supplemented with audio descriptions or text alternatives that
+                convey all essential information.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Instructional videos in curriculum materials are designed with
+                accessibility in mind, featuring either audio descriptions or
+                comprehensive text alternatives that convey all essential visual
+                information.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.3.4
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                The CodeCombat platform is designed to function effectively in
+                both portrait and landscape orientations. The responsive design
+                ensures that content and functionality remain accessible
+                regardless of device orientation. While certain game elements
+                may display optimally in landscape mode or in portrait mode
+                depending on the device screen size, core educational content
+                and navigation remain fully functional in any orientation.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All curriculum documents are designed to be viewed and used
+                effectively regardless of display orientation. Content reflows
+                appropriately to maintain readability and functionality in both
+                portrait and landscape orientations.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.3.5
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                All input fields in CodeCombat and Ozaria that collect user
+                information have clearly defined purposes that can be
+                programmatically determined. Form fields use appropriate
+                autocomplete attributes where applicable, and input purposes are
+                clearly labeled and identified for assistive technologies. This
+                includes user profile information, login credentials, and any
+                other form inputs collecting user data.
+          - name: electronic-docs
+            adherence:
+              level: not-applicable
+              notes: >-
+                Curriculum materials and electronic documents do not include
+                input fields.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.3
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                All text and interactive elements in CodeCombat and Ozaria
+                maintain WCAG 2.1 compliant contrast ratios. Regular text
+                maintains a minimum contrast ratio of 4.5:1 against its
+                background, while large text maintains at least 3:1 contrast.
+                This applies to all user interface components, game elements,
+                and educational content, with the exception of decorative
+                elements and company logos.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All text in curriculum materials adheres to minimum contrast
+                requirements of 4.5:1 for standard text and 3:1 for large text.
+                Documents are designed with accessibility-focused color schemes
+                that ensure readability.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.4
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                All text content in the platforms can be resized up to 200%
+                without loss of functionality or content. The responsive design
+                ensures that enlarged text remains readable and properly
+                formatted, maintaining all interactive capabilities and
+                educational content accessibility
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum documents support text resizing up to 200% while
+                maintaining readability and layout integrity. All content
+                remains accessible and functional when enlarged.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.5
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                The platforms minimize the use of images containing text,
+                preferring HTML text whenever possible. When images of text are
+                used, they are limited to essential implementations such as
+                logos, or cases where the specific presentation is crucial to
+                the information being conveyed.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Text is implemented as actual text rather than images whenever
+                possible. Any images containing text are either customizable or
+                essential to the information being conveyed, such as diagrams or
+                logos.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.10
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Content in the web platform outside the game interface reflows
+                appropriately for viewport widths equivalent to 320 CSS pixels
+                without requiring horizontal scrolling or loss of functionality.
+                Game interfaces, when possible, maintain usability while
+                adapting to different screen sizes and zoom levels, with the
+                exception of content requiring two-dimensional layout for
+                gameplay purposes. Outside of CodeCombat Junior, some game
+                content requires a larger screen.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials reflow content appropriately when viewed at
+                different viewport sizes and zoom levels, maintaining
+                readability without requiring horizontal scrolling except for
+                content that requires two-dimensional layout such as complex
+                diagrams or data tables.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.11
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                All user interface components and meaningful graphics maintain a
+                minimum 3:1 contrast ratio against adjacent colors. This
+                includes game controls, interactive elements, and visual
+                information required for comprehension of content, ensuring
+                visibility and usability for all users.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Graphics and visual elements in curriculum materials maintain a
+                minimum 3:1 contrast ratio for all components required for
+                understanding the content. This includes charts, diagrams, and
+                other visual educational materials.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.12
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                The platforms support customizable text spacing without loss of
+                content or functionality, including adjustable line height,
+                paragraph spacing, letter spacing, and word spacing that meet
+                WCAG 2.1 requirements.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All curriculum documents implement text spacing properties that
+                can be adjusted without content overlap or loss of
+                functionality, supporting line height of at least 1.5 times font
+                size, paragraph spacing of at least 2 times font size, and
+                appropriate letter and word spacing.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.13
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Any additional content that appears on hover or focus in the
+                platforms is dismissible, hoverable, and persistent. Users can
+                move their cursor to the additional content without it
+                disappearing, and the content remains visible until actively
+                dismissed or no longer relevant.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Interactive elements in digital curriculum materials that reveal
+                additional content on hover or focus follow accessibility best
+                practices, ensuring content is dismissible, hoverable, and
+                persistent until no longer needed.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.4.5
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria provide multiple navigation methods for
+                accessing content, including:
+
+
+                * Main navigation menu with hierarchical course structure
+
+                * Interactive game map showing level progression
+
+                * Breadcrumb navigation showing current location
+
+                * Course overview pages with direct links to lessons
+
+
+                This ensures users can locate content through their preferred
+                navigation method while maintaining clear progression paths.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials can be accessed through multiple navigation
+                paths including table of contents, section indexes, search
+                functionality, and sequential progression. All documents include
+                clear navigation aids to help users locate specific content
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.4.6
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                All headings and labels in both platforms clearly describe their
+                topic or purpose. Course titles, level names, section headers,
+                and interface labels use descriptive text that accurately
+                reflects their content. For example, coding concepts are clearly
+                labeled with their function (e.g., 'While Loops', 'Variables')
+                and game levels include both their sequence number and learning
+                objective in their titles.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All curricular resources provided for CodeCombat and Ozaria
+                include headings and labels for each major section of the
+                lesson. For example, consistently across the lesson slides
+                sections are labelled "Quest #", "Warm-Up", "Warm-Up Solution",
+                "Activity", "Independent Practice", and "Summary of Key Terms"
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.4.7
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Both platforms maintain a clearly visible keyboard focus
+                indicator throughout the user interface. This includes:
+
+
+                * Highlighted focus states for all interactive elements
+
+                * Clear visual indicators for current selection in code editor
+
+                * Distinct focus styles for navigation elements
+
+                * Visible focus indicators in game interfaces
+
+
+                All focus indicators meet contrast requirements for visibility.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Interactive elements in digital curriculum materials maintain
+                visible focus indicators when accessed via keyboard, ensuring
+                users can always track their current position.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.1.2
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                When content in different languages appears within the
+                platforms, appropriate language tags are used to identify these
+                sections. This includes:
+
+
+                * Code examples that may contain programming language keywords
+
+                * Technical terminology that may appear in different languages
+
+                * Any multilingual content or translations
+
+
+                The platforms ensure that screen readers and other assistive
+                technologies can properly interpret and pronounce content in
+                different languages.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials properly identify any content in languages
+                different from the main document language, ensuring correct
+                interpretation by assistive technologies.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.2.3
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Both platforms maintain consistent navigation patterns
+                throughout the experience:
+
+
+                * Main navigation menus retain consistent ordering
+
+                * Game controls remain in consistent locations
+
+                * Code editor interface maintains stable layout
+
+                * Common functions (Run, Help, Settings) stay in predictable
+                positions
+
+
+                This consistency helps users build familiarity with the
+                interface and navigate confidently.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All curriculum materials maintain consistent navigation
+                patterns, with repeated elements such as headers, footers, and
+                section markers appearing in the same relative order across
+                documents.
+
+
+                For example, in CodeCombat's lesson plans, the first page
+                includes sections like "Agenda" and "Resources" and the content
+                within these sections includes hyperlinks to particular items.
+                The lesson plan template was established and remains consistent
+                across lesson plans developed for multiple CodeCombat courses
+                like "Introduction to Computer Science" and "Computer Science
+                2".
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.2.4
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Interface components with the same functionality are
+                consistently identified across both platforms:
+
+
+                * Common buttons use consistent labels and icons
+
+                * Navigation elements maintain consistent naming
+
+                * Error messages follow consistent patterns
+
+                * Help functions use consistent terminology
+
+
+                This consistency extends across different levels and courses,
+                ensuring users can apply their learned understanding of the
+                interface.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Functional elements in curriculum materials use consistent
+                identification across all documents, ensuring that similar
+                actions and components are labeled uniformly.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.3.3
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria have a custom interpreter and code engine
+                that automatically detects errors and provides feedback to the
+                user with suggestions for how to correct the error. After
+                clicking the "RUN" button, the in-game code editors detect input
+                errors from the user and provide hints for how the user can
+                correct the error. The code that is in error is identified and
+                the error is described to the user in text. In CodeCombat for
+                example, when an error is detected the line of code that
+                contains the error is highlighted in color and a pop-up window
+                appears titled "Fix Your Code" with textual hints for correcting
+                the mistake. There is a blue "Hint" button that appears in the
+                upper right-hand corner that contains textual and visual helpful
+                information about completing the current game level.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                There are no relevant user input errors needing suggestions in
+                the curriculum materials, which generally do not take user input
+                in a way that can lead to an error.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.3.4
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria implement robust error prevention for
+                important data operations:
+
+
+                * Student work is automatically saved and can be recovered
+
+                * Code submissions can be tested before final submission
+
+                * Important actions require confirmation
+
+                * User data modifications include verification steps
+
+                * Quiz submissions can be reviewed and corrected before
+                finalization
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials do not include any such data submission
+                components.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 4.1.3
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria provide comprehensive status message
+                handling that can be programmatically determined through ARIA
+                roles and properties:
+
+
+                * Goal status updates in the upper left corner use appropriate
+                ARIA live regions
+
+                * Code execution status is communicated through programmatic
+                notifications
+
+                * Success states are announced using role='status'
+
+                * Error messages are conveyed using aria-alert roles
+
+                * Progress indicators utilize appropriate ARIA attributes
+
+
+                Specific examples include:
+
+
+                * Level completion status changes from 'Goals: Incomplete' to
+                'Goals: Success!' using aria-live
+
+                * Code error feedback appears with appropriate alert roles
+
+                * Achievement notifications use proper status roles
+
+                * Loading states are communicated through appropriate ARIA
+                properties
+
+                * Game progress updates utilize proper live region attributes
+
+
+                This ensures that all status changes are properly conveyed to
+                assistive technologies without requiring focus changes.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Digital curriculum materials are primarily static; when dynamic,
+                they implement proper ARIA roles and properties for any dynamic
+                status updates, ensuring that changes in content state or status
+                are properly conveyed to assistive technologies.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+  success_criteria_level_aaa:
+    notes: ''
+    disabled: false
+    criteria:
+      - num: 1.2.6
+        components:
+          - name: web
+            adherence:
+              level: does-not-support
+              notes: >-
+                CodeCombat and Ozaria do not provide sign language
+                interpretation for all prerecorded audio content in synchronized
+                media.
+          - name: electronic-docs
+            adherence:
+              level: does-not-support
+              notes: >-
+                The curricular elements of CodeCombat and Ozaria do not provide
+                sign language interpretation for all prerecorded audio content
+                in synchronized media. There is audio content for videos
+                included in lesson slides for example.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.2.7
+        components:
+          - name: web
+            adherence:
+              level: does-not-support
+              notes: >-
+                While the platforms prioritize accessibility through multiple
+                means including screen reader compatibility, synchronized
+                captions, and text alternatives, they do not currently implement
+                Level AAA enhancements such as  extended audio descriptions. The
+                core educational content remains fully accessible through
+                existing Level A and AA accommodations.
+          - name: electronic-docs
+            adherence:
+              level: does-not-support
+              notes: >-
+                The curriculum materials focus on Level A and AA accessibility
+                standards, ensuring content is accessible through captions and
+                text alternatives. While Level AAA features such as extended
+                audio descriptions are not currently implemented, the
+                educational content remains fully accessible through existing
+                accommodations.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.2.8
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: Transcripts are provided as alternatives to any videos.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: Transcripts are provided as alternatives to any videos.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.2.9
+        components:
+          - name: web
+            adherence:
+              level: not-applicable
+              notes: There is no use of live audio in the curriculum platform.
+          - name: electronic-docs
+            adherence:
+              level: not-applicable
+              notes: There is no use of live audio in the curriculum materials.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.3.6
+        components:
+          - name: web
+            adherence:
+              level: partially-supports
+              notes: >-
+                User interface components, icons, and regions throughout the
+                platforms are implemented with appropriate ARIA landmarks,
+                roles, and labels that can be programmatically determined. While
+                not all AAA requirements are fully implemented, the platforms
+                strive to ensure that interactive elements and regions are
+                clearly identified and their purposes are programmatically
+                discoverable.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Document structures and interactive elements are implemented
+                using appropriate markup to ensure their purpose can be
+                programmatically determined. Regions and components are clearly
+                identified through proper semantic markup and labels.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.6
+        components:
+          - name: web
+            adherence:
+              level: partially-supports
+              notes: >-
+                While the platforms prioritize accessibility through Level A and
+                AA compliance, they also implement several AAA-level
+                enhancements where feasible, including enhanced contrast ratios
+                where possible.
+          - name: electronic-docs
+            adherence:
+              level: partially-supports
+              notes: >-
+                Curriculum materials implement AAA-level enhancements where
+                possible, including enhanced contrast ratios where possible.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.7
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                In CodeCombat and Ozaria the background sounds can be turned
+                off. For example in CodeCombat, there are user controls
+                displayed below the visual field for the level. Clicking the
+                music note icon will turn off the background music. Users can
+                also click the "Game Menu" at the top of the screen to view
+                settings and disable or change the volume of audio.
+          - name: electronic-docs
+            adherence:
+              level: not-applicable
+              notes: >-
+                Background audio is not part of the experience of the lesson
+                slides and lesson plans for CodeCombat and Ozaria curricula.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.8
+        components:
+          - name: web
+            adherence:
+              level: partially-supports
+              notes: >-
+                The platforms provide partial support for AAA text
+                customization:
+
+
+                * Width is no more than 80 characters or glyphs (40 if CJK).
+
+                * Text is not justified (aligned to both the left and the right
+                margins).
+
+                * Text can be resized without assistive technology up to 200
+                percent in a way that does not require the user to scroll
+                horizontally to read a line of text on a full-screen window.
+          - name: electronic-docs
+            adherence:
+              level: partially-supports
+              notes: >-
+                Curriculum materials follow formatting guidelines that ensure
+                optimal readability:
+
+
+                * Content is formatted with clear left alignment
+
+                * Line width is limited to enhance readability
+
+                * Paragraph spacing is at least 1.5 times the line spacing
+
+                * Documents support resizing up to 200% while maintaining
+                readability
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 1.4.9
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                The platforms strictly limit the use of text as images to only
+                essential implementations such as logos and branding elements.
+                All other text content is implemented as HTML text to ensure
+                maximum accessibility and customization potential, except a very
+                limited number of diagrams where a particular presentation of
+                text is essential to the information being conveyed. This
+                includes:
+
+
+                * All menu items and navigation elements
+
+                * Educational content and instructions
+
+                * Code examples and programming concepts
+
+                * User interface labels and buttons
+
+                * Game dialogue and character speech
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                The curriculum maintains a policy regarding images of text,
+                limiting their use to only:
+
+
+                * Essential diagrams where text is integral to the visual
+                representation
+
+                * Logo elements and branding
+
+                * Historical screenshots or images where text is part of the
+                documented content
+
+
+                All other textual content is implemented as actual text to
+                ensure maximum accessibility and adaptability.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.1.3
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                The platforms strive to make all functionality accessible
+                through keyboard interface without timing requirements. Core
+                educational content, coding interfaces, and navigation systems
+                are designed to be fully operable through keyboard controls.
+                While some game elements may require specific interaction
+                patterns, alternative keyboard-accessible methods are provided
+                where possible.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials ensure that all content and functionality
+                is accessible through keyboard navigation without timing
+                requirements. No specialized input methods are required to
+                access or interact with the educational content.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.2.3
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                When playing CodeCombat and Ozaria, timing is not an essential
+                part of the event or activity presented by the content. Users
+                can take as much time as they need to complete a level and must
+                click "Done" before progressing in the game.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Timing is not an essential part of the curricular content for
+                CodeCombat and Ozaria.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.2.4
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Limited interruptions, like notifications of new achievements,
+                are non-modal and can be ignored, postponed, or suppressed by
+                the user.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: There are no interruptions possible in the curriculum materials.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.2.5
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                When user sessions expire, both platforms preserve the user's
+                work and allow them to continue after re-authentication without
+                loss of data. This includes:
+
+
+                * Saving code progress in the editor
+
+                * Maintaining game state and progress
+
+                * Preserving user settings and preferences
+
+                * Retaining form data and input content
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Any authenticated access to curriculum materials maintains user
+                progress and allows continuation after re-authentication without
+                loss of work or progress.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.2.6
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: 'Timeouts are not used, and user progress is auto-saved.'
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Timeouts are not used in access to the digital curriculum
+                documents.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.3.2
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                The platforms maintain strict compliance with flash safety
+                guidelines, ensuring that no content, including game animations,
+                visual effects, or interface elements, flashes more than three
+                times in any one-second period. This stringent standard is
+                applied across all interactive elements and visual feedback
+                mechanisms.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All digital curriculum materials adhere to a strict no-flash
+                policy, ensuring that no content elements flash more than three
+                times per second, providing a safe viewing experience for all
+                users.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.3.3
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria include the option to pause/stop in-game
+                motion animation. For example in CodeCombat, there are user
+                controls displayed below the visual field for the level. After
+                clicking the "RUN" button, the playback bar updates as the
+                animation plays. Clicking the circular button will pause the
+                animation. Sliding this button to the right will resume the
+                animation and sliding this button to the left will replay this
+                animation.
+
+
+                Both platforms fully support the prefers-reduced-motion system
+                setting, allowing users to disable non-essential motion
+                animations.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                The curricular content for CodeCombat and Ozaria does not
+                include motion animation triggered by interaction.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.4.8
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria provide information about the user's
+                location within a set of levels of the game. Both provide a game
+                map that users can easily navigate to and select a level to
+                play. When playing a level, the title that appears at the top of
+                the page indicates the course and specific level within that
+                course.
+
+
+                Users can always determine their location within the platforms
+                through multiple indicators:
+
+
+                * Clear breadcrumb navigation showing current position
+
+                * Highlighted current level on game maps
+
+                * Progress indicators showing course completion
+
+                * Active state indicators in navigation menus
+
+                * Clear section headers indicating current content area
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                The curricular content for CodeCombat and Ozaria includes Pacing
+                Guides which provide an overview of the lesson slides for the
+                course. Each Pacing Guide includes links to each lesson slide
+                deck and the recommended sequence.
+
+
+                Curriculum materials provide clear location information through:
+
+
+                * Section numbers and titles
+
+                * Page numbers and total page count
+
+                * Chapter/unit indicators
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.4.9
+        components:
+          - name: web
+            adherence:
+              level: partially-supports
+              notes: >-
+                Most links in both platforms use descriptive text that clearly
+                indicates their purpose without requiring additional context.
+                This includes:
+
+
+                * Clear button labels for game actions
+
+                * Descriptive text for navigation links
+
+                * Specific descriptions for external resources
+
+                * Meaningful labels for interactive elements
+
+
+                Some links rely on text alone to provide context around purpose,
+                without additional ways of identifying link purpose.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                All links in curriculum materials use self-descriptive text that
+                clearly indicates their purpose and destination without
+                requiring additional context. CodeCombat and Ozaria curriculum
+                contains mechanisms that allow the purpose of each link to be
+                identified from link text alone. For example, the first lesson
+                slide deck for Ozaria is titled "Oz_Chap 1_Lesson Slides" and
+                Slide #7 titled "Table of Contents" provides links to the other
+                lessons which are labelled following the same naming convention
+                with the lesson number and title.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.4.10
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Content throughout both platforms is organized using clear
+                section headings that:
+
+
+                * Follow logical hierarchy (h1-h6)
+
+                * Accurately describe section content
+
+                * Aid in navigation and content structure
+
+                * Provide clear organization for educational content
+
+
+                All major sections, lessons, and content areas use appropriate
+                heading structure.
+
+
+                As an example of how CodeCombat and Ozaria both use section
+                headings to organize the content, in-game levels have titles
+                that appear at the top of the page indicating the course and
+                level. When playing the second level in CodeCombat, for example,
+                a header at the top reads "Introduction to Computer Science" and
+                a subheader reads "2. Gems in the Deep." The "Introduction to
+                Computer Science" header is consistent for each level, while the
+                subheader is updated with specific information about the current
+                level. When playing the third level, the subheader changes to
+                read "3. Shadow Guard".
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials use consistent heading structures to
+                organize content, with clear hierarchical relationships between
+                sections and subsections. All content is properly sectioned with
+                descriptive headers that aid in navigation and comprehension.
+                Section headings are used to organize the content in the
+                curricular materials. For example, page 1 of CodeCombat lesson
+                plans are organized into the following sections: Learning
+                Objectives, Student Goals, Play Levels, Overview, Agenda,
+                Resources, and Preparation. Furthermore, section headings are
+                used consistently throughout the lesson slides for both
+                platforms.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.5.5
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Interactive elements throughout both platforms are designed with
+                accessibility in mind:
+
+
+                * Primary navigation buttons meet the 44x44 CSS pixel minimum
+                size
+
+                * Game controls are sized for easy interaction
+
+                * Menu items and important interface elements maintain
+                comfortable target sizes
+
+                * Where smaller targets exist, equivalent larger targets are
+                provided
+
+
+                Essential elements like code editor interface components may use
+                standard size conventions where necessary.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Interactive elements in digital curriculum materials follow
+                target size guidelines, ensuring comfortable interaction when
+                accessed on touch devices.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 2.5.6
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria support multiple input methods
+                simultaneously:
+
+
+                * Users can freely switch between keyboard and mouse input
+
+                * Touch input is supported where available
+
+                * External input devices are supported according to platform
+                capabilities
+
+                * No artificial restrictions are placed on input methods
+
+
+                Users can choose their preferred input method at any time while
+                maintaining full functionality.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Digital curriculum materials support all platform-available
+                input methods, allowing users to interact using their preferred
+                input mechanism without restrictions.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.1.3
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria provide a Code Bank and Hints section for
+                users to reference definitions and helpful instruction about
+                code statements used in the experience of the game. In Ozaria
+                for example, the Code Bank is found on the left-hand side of the
+                screen. Clicking on this button expands the window and provides
+                definitions and examples for code statements. There are also
+                hoverable tooltips and context-sensitive in-game help to explain
+                coding concepts. This ensures students can quickly understand
+                new or unusual terminology encountered during learning.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                The lesson slides for CodeCombat include a mechanism for
+                identifying specific definitions of words or phrases. Each
+                lesson slide deck concludes with a "Summary of Key Terms" slide
+                that provides a list of vocabulary and its definitions.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.1.4
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: |-
+                The platforms provide mechanisms to understand abbreviations:
+
+                * Hover tooltips expand abbreviated terms
+                * Full forms are provided on first use
+                * Glossary includes common abbreviations
+                * Technical abbreviations are explained in context
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum documents include a list of abbreviations and their
+                expanded forms. Common technical abbreviations are explained
+                when first used.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.1.5
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Ozaria provides voice-overs to the dialogue that occurs between
+                characters so that a user's reading ability doesn't get in the
+                way of their ability to learn about computer science and coding
+                concepts, whereas CodeCombat minimizes long-form written text.
+                CodeCombat and Ozaria have been written with lower-elementary
+                reading skills in mind. The text has been tested using the
+                Flesh-Kincaid grade level assessment methodology. The average
+                text used in both platforms is a 3rd grade reading level or
+                lower.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials are written at appropriate reading levels
+                for their target audience, with supplementary explanations
+                provided for more complex concepts. The text has been tested
+                using the Flesh-Kincaid grade level assessment methodology. The
+                average text used in the curriculum materials is a 3rd grade
+                reading level or lower.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.1.6
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                Text is written such that there are no cases where the meaning
+                of a word is ambiguous without knowing its presentation.
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Text is written such that there are no cases where the meaning
+                of a word is ambiguous without knowing its presentation.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.2.5
+        components:
+          - name: web
+            adherence:
+              level: partially-supports
+              notes: >-
+                Most significant context changes in both platforms are initiated
+                only by explicit user actions:
+
+
+                * Level progression requires user confirmation
+
+                * Most tutorial advancement waits for user input
+
+                * Settings changes need explicit confirmation
+
+
+                Users maintain control over their experience with options to
+                disable automatic behaviors where appropriate. However, there
+                are some tutorial messages in CodeCombat that can progress based
+                on user actions that are not explicit confirmations (for
+                example, fixing the bug that the tutorial message was pointing
+                out).
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Any dynamic content or context changes in curriculum materials
+                occur only through explicit user action.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.3.5
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                In both CodeCombat and Ozaria, context-sensitive help is
+                available. In CodeCombat for example, a blue "Help" button can
+                be found in the top right-hand corner of the screen. Clicking
+                this button provides textual and visual supporting documentation
+                to help complete the level successfully. Furthermore, when users
+                make mistakes the code editor offers helpful hints and
+                instruction to correct the errors.
+
+
+                Additional context-sensitive support includes:
+
+
+                * Tooltips for programming concepts
+
+                * Inline documentation for code functions
+
+                * Progressive hints that adapt to user progress
+
+                * Contextual tutorials based on current learning objectives
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Curriculum materials include contextual support documentation,
+                with specific help resources tied to different learning
+                activities and concepts.
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: 3.3.6
+        components:
+          - name: web
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria provide a code editor for users to submit,
+                test, and correct their code. Code entered by the user is
+                checked for input errors and the user is provided the
+                opportunity to correct any errors. The code editor helps in
+                identifying errors and providing hints for correcting them.
+                Users can click the "RUN" button as many times as they want to
+                test out their code.
+
+
+                Both platforms provide comprehensive error prevention across all
+                user interactions:
+
+
+                * Code submissions are reversible through unlimited attempts
+
+                * Real-time syntax checking prevents common coding errors
+
+                * Preview functionality allows testing before submission
+
+                * Clear confirmation steps for important actions
+
+                * Automated checks for common programming mistakes
+
+                * Progressive feedback system that guides error correction
+          - name: electronic-docs
+            adherence:
+              level: supports
+              notes: >-
+                Any suggested activities in curriculum materials that include
+                submissions are indirect and include guidelines for teachers:
+
+
+                * Clear review steps before submission
+
+                * Opportunity to correct errors
+
+                * Confirmation steps for important actions
+
+                * Multiple attempts where appropriate
+          - name: software
+            adherence:
+              level: not-applicable
+              notes: ''
+          - name: authoring-tool
+            adherence:
+              level: not-applicable
+              notes: ''
+  functional_performance_criteria:
+    notes: ''
+    disabled: false
+    criteria:
+      - num: '302.1'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                Screen readers are supported for CodeCombat and Ozaria for the
+                web components and user dashboards. For the in-game component,
+                Ozaria has screen reader compatibility through a
+                keyboard-and-narrated-text overlay that allows users to convert
+                the game layout to a text-based representation in a 2D grid and
+                also to "hear" their hero move through it, to query what is in
+                any specific grid square, and to quickly navigate passable and
+                impassable routes through each level.
+      - num: '302.2'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria provide multiple features to support users
+                with limited vision:
+
+
+                * Adjustable text sizing throughout the interface
+
+                * High contrast color schemes
+
+                * Zoom functionality for game content
+
+                * Enlargeable code editor interface
+
+                * Full keyboard navigation support
+
+                * Screen magnification compatibility
+
+
+                Additionally, Ozaria's screen reader compatibility overlay can
+                be used as an assistive tool for users with limited vision who
+                prefer audio feedback alongside visual elements.
+      - num: '302.3'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria provide visual mode of operation that does
+                not require user perception of color. The navigational buttons
+                like "Start Level" and "Done" are labelled and a consistent
+                shape. Animations and audio provide further assistance in making
+                it clear to the user that they must click these buttons to
+                proceed. The color scheme for both Ozaria and CodeCombat's user
+                interfaces have been carefully considered to ensure that both
+                contrast is high and appropriate colors are used for colorblind
+                individuals. Furthermore, in the code editor, the color scheme
+                for input code was designed to be user-friendly for individuals
+                who are color blind.
+      - num: '302.4'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria provide complete functionality without
+                requiring user hearing. All audio content has text equivalents:
+
+
+                * Game instructions are provided in text form
+
+                * Sound effects have visual counterparts
+
+                * Audio cues are accompanied by visual indicators
+
+                * Video content includes automatic subtitle display
+
+                * Narrative content is available in text format
+
+
+                No critical gameplay or learning elements require audio
+                perception.
+      - num: '302.5'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria support users with limited hearing
+                through:
+
+
+                * Adjustable audio controls for different sound types
+
+                * Visual alternatives for all audio cues
+
+                * Text-based instruction delivery
+
+                * Captioned video content
+
+
+                All functionality is available without requiring audio
+                perception, and audio features can be individually adjusted when
+                used.
+      - num: '302.6'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                Speech input is not required for any functionality in CodeCombat
+                or Ozaria. All interactions can be completed through:
+
+
+                * Keyboard input
+
+                * Mouse or pointer device
+
+                * Touch interface where applicable
+
+
+                No features or functions require voice commands or speech input.
+      - num: '302.7'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                Both platforms provide accessible input methods for users with
+                limited manipulation capabilities:
+
+
+                * Full keyboard navigation without requiring simultaneous
+                keypresses
+
+                * Simple, single-action controls for core gameplay
+
+                * No time-sensitive input requirements
+
+                * Adjustable input timing settings
+
+                * Alternative input device compatibility
+
+
+                Code entry and game navigation can be accomplished through
+                simple, sequential actions.
+      - num: '302.8'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                The platforms are designed to be operable with minimal physical
+                effort:
+
+
+                * All controls are accessible through standard keyboard input
+
+                * No sustained force or repeated actions required
+
+                * Interface elements can be activated with single keystrokes
+
+                * No complex gestures or movements needed
+
+
+                All essential functions can be performed with limited physical
+                interaction.
+      - num: '302.9'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria provide features making the use by
+                individuals with limited cognitive, language, and learning
+                abilities simpler and easier. All non-text content that is
+                presented to the user has a text alternative that serves the
+                equivalent purpose. Ozaria includes a screen reader
+                compatibility overlay that features full WCAG 2.0 AAA
+                compatibility, and all Ozaria content has been made playable for
+                screen reader users. When playing Ozaria using screen reader,
+                text descriptions provide descriptive identification of the
+                non-text content, aiding in the sensory experience of the game.
+                Accompanying this, a smooth game navigation system with a
+                keyboard-and-narrated-text overlay has been developed.
+                Additionally, an automatic video subtitle display and cinematic
+                keyboard navigation has been integrated into the game for
+                further accessibility options.
+
+
+                For both Ozaria and CodeCombat, users can take as much time and
+                tries as they need to complete a level. Users click the "Done"
+                button when they are ready to proceed. The in-game visual field
+                can be made larger to ease in readability by clicking the
+                magnifying glass icon and can also be made full screen. The
+                "Hints" and "Code Bank" features provide additional support for
+                users with limited language, cognitive, and learning abilities.
+  hardware:
+    notes: ''
+    disabled: true
+    criteria:
+      - num: 402.2.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 402.2.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 402.2.3
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 402.2.4
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 402.2.5
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 402.3.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 402.3.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '402.4'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '402.5'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '403.1'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '404.1'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '405.1'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '406.1'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '407.2'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.3.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.3.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.3.3
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '407.4'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '407.5'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '407.6'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '407.7'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.8.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.8.1.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.8.1.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.8.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.8.2.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.8.2.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.8.3
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.8.3.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.8.3.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.8.3.2.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 407.8.3.2.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '408.2'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '408.3'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '409.1'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '410.1'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '411.1'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 412.2.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 412.2.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 412.3.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 412.3.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '412.4'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '412.5'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '412.6'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '412.7'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 412.8.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 412.8.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 412.8.3
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 412.8.4
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 413.1.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 413.1.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 414.1.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 414.1.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 415.1.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 415.1.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+  software:
+    notes: ''
+    disabled: true
+    criteria:
+      - num: 502.2.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.2.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.3
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.4
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.5
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.6
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.7
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.8
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.9
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.10
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.11
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.12
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.13
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 502.3.14
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '502.4'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '503.2'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '503.3'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 503.4.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 503.4.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '504.2'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 504.2.1
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: 504.2.2
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '504.3'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+      - num: '504.4'
+        components:
+          - name: none
+            adherence:
+              level: ''
+              notes: ''
+  support_documentation_and_services:
+    notes: ''
+    disabled: false
+    criteria:
+      - num: '602.2'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                CodeCombat and Ozaria's documentation includes comprehensive
+                guides on using built-in accessibility features:
+
+
+                * Detailed instructions for enabling and using screen reader
+                mode
+
+                * Guide to keyboard navigation and shortcuts
+
+                * Documentation on audio control features
+
+                * Instructions for adjusting text size and contrast
+
+                * Explanations of compatibility with common assistive
+                technologies
+
+
+                These guides are available in our help center and are regularly
+                updated as new accessibility features are added.
+      - num: '602.3'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                All support documentation is provided through our web platform,
+                which adheres to WCAG 2.1 Level AA standards as detailed in
+                previous sections. This includes:
+
+
+                * Semantic HTML structure for proper screen reader navigation
+
+                * Proper heading hierarchy and document organization
+
+                * Alt text for all informational images
+
+                * Keyboard accessibility for all interactive elements
+
+                * High contrast text and proper color usage
+
+                * Responsive design supporting text resizing
+      - num: '602.4'
+        components:
+          - name: none
+            adherence:
+              level: not-applicable
+              notes: ''
+      - num: '603.2'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                Our support team is trained on all platform accessibility
+                features and can assist users with:
+
+
+                * Setting up and using screen reader mode
+
+                * Configuring keyboard navigation
+
+                * Adjusting display settings for visibility
+
+                * Troubleshooting assistive technology compatibility
+
+                * Locating accessibility-related documentation
+
+
+                Documentation on these features is readily available to both
+                users and support staff.
+      - num: '603.3'
+        components:
+          - name: none
+            adherence:
+              level: supports
+              notes: >-
+                Support services are provided through multiple channels to
+                accommodate various communication needs:
+
+
+                * Text-based support through email and help desk tickets
+
+                * Web-based documentation with accessibility features
+
+                * Direct support through school and district technology
+                coordinators
+
+                * Training materials available in multiple formats
+
+
+                Support staff are trained to accommodate users with disabilities
+                and can adapt communication methods based on user needs.
