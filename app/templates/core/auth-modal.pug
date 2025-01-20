@@ -73,13 +73,17 @@ mixin auth-form-content
       //  btn.btn.btn-sm.github-login-button#github-login-button
       //    img(src="/images/pages/modal/auth/github_icon.png")
       //    | GitHub
-      a#facebook-login-btn.network-login(disabled=true)
-        img.fb-login-img(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+      a#facebook-login-btn.network-login.signup-with-button(disabled=true)
+        img.fb-login-img(src="/images/pages/modal/auth/facebook_small.png", draggable="false")
+        span Facebook
       if showClever
         a#clever-signup-btn.network-login
           img.clever-login-img(src="/images/pages/modal/auth/clever_sso_button@2x.png", draggable="false")
       a#google-login-button.network-login(disabled=true)
         img.google-login-img(src="/images/pages/modal/auth/gplus_sso_button2.svg" draggable="false")
+      a#schoology-login-btn.network-login.signup-with-button
+        img.schoology-login-img(src="/images/pages/modal/auth/schoology.png") 
+        span Schoology
 
   .extra-pane
     if view.utils.isCodeCombat
@@ -112,7 +116,7 @@ mixin auth-form-content
           a#google-login-button(disabled=true, href="#")
             img(src="/images/ozaria/common/log-in-google-sso.svg" draggable="false")
           a#clever-login-btn(href="#")
-            img(src="/images/pages/modal/auth/clever_sso_button@2x.png" draggable="false")
+            img(src="/images/pages/modal/auth/clever_sso_button@2x.png" draggable="false")    
         .row.or-row
           .line
           p.or(data-i18n="login.or")

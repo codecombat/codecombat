@@ -19,6 +19,7 @@ const errors = require('core/errors')
 const RecoverModal = require('views/core/RecoverModal')
 const storage = require('core/storage')
 const { logInWithClever } = require('core/social-handlers/CleverHandler')
+const { logInWithSchoology } = require('core/social-handlers/SchoologyHandler')
 const globalVar = require('core/globalVar')
 const userUtils = require('../../lib/user-utils')
 
@@ -37,8 +38,9 @@ module.exports = (AuthModal = (function () {
         'click #facebook-login-btn': 'onClickFacebookLoginButton',
         'click #clever-signup-btn': 'onClickCleverSignupButton',
         'click #clever-login-btn': 'onClickCleverLoginButton',
+        'click #schoology-login-btn': 'onClickSchoologyLoginButton',
         'click #close-modal': 'hide',
-        'click [data-toggle="coco-modal"][data-target="core/RecoverModal"]': 'openRecoverModal'
+        'click [data-toggle="coco-modal"][data-target="core/RecoverModal"]': 'openRecoverModal',
       }
     }
 
@@ -65,7 +67,7 @@ module.exports = (AuthModal = (function () {
           success: () => _.defer(() => {
             this.$('#google-login-button').attr('disabled', false)
             return this.onClickGPlusLoginButton()
-          })
+          }),
         })
         if (utils.isCodeCombat) {
           // No Facebook login in Ozaria
@@ -112,7 +114,7 @@ module.exports = (AuthModal = (function () {
         .catch(jqxhr => {
           if (jqxhr.status === 401) {
             const {
-              errorID
+              errorID,
             } = jqxhr.responseJSON
             if (errorID === 'not-found') {
               forms.setErrorToProperty(this.$el, 'emailOrUsername', $.i18n.t('loading_error.' + (utils.isCodeCombat ? 'user_not_found' : 'not_found'))) // todo: update i18n
@@ -179,7 +181,7 @@ module.exports = (AuthModal = (function () {
                         return loginNavigate(this.subModalContinue)
                       })
                     },
-                    error: this.onGPlusLoginError
+                    error: this.onGPlusLoginError,
                   })
                 },
                 error: (res, jqxhr) => {
@@ -193,7 +195,7 @@ module.exports = (AuthModal = (function () {
                             return loginNavigate(this.subModalContinue)
                           })
                         },
-                        error: this.onGPlusLoginError
+                        error: this.onGPlusLoginError,
                       })
                     }
 
@@ -211,22 +213,22 @@ module.exports = (AuthModal = (function () {
                           onClick ($noty) {
                             $noty.close()
                             return mergeLogin(gplusAttrs)
-                          }
-                        }, { text: 'No', onClick ($noty) { return $noty.close() } }]
+                          },
+                        }, { text: 'No', onClick ($noty) { return $noty.close() } }],
                     })
                   } else {
                     return this.onGPlusLoginError(res, jqxhr)
                   }
-                }
+                },
               })
-            }
+            },
           })
         },
         error (e) {
           this.onGPlusLoginError()
           if ((e != null ? e.error : undefined) && (e != null ? e.details : undefined)) { if (!e.message) { e.message = `Google login failed: ${e.error} - ${e.details}` } }
           return noty({ text: (e != null ? e.message : undefined) || (e != null ? e.details : undefined) || __guardMethod__(e, 'toString', o => o.toString()) || 'Unknown Google login error', layout: 'topCenter', type: 'error', timeout: 5000, killer: false, dismissQueue: true })
-        }
+        },
       })
     }
 
@@ -265,14 +267,14 @@ module.exports = (AuthModal = (function () {
                         return loginNavigate(this.subModalContinue)
                       })
                     },
-                    error: this.onFacebookLoginError
+                    error: this.onFacebookLoginError,
                   })
                 },
-                error: this.onFacebookLoginError
+                error: this.onFacebookLoginError,
               })
-            }
+            },
           })
-        }
+        },
       })
     }
 
@@ -315,6 +317,15 @@ module.exports = (AuthModal = (function () {
       return logInWithClever()
     }
 
+    async onClickSchoologyLoginButton () {
+      const { loggedIn } = await logInWithSchoology()
+      if (loggedIn) {
+        window.location.reload()
+      } else {
+        noty({ text: $.i18n.t('login.schoology_login_failed'), layout: 'topCenter', type: 'error', timeout: 5000, killer: false, dismissQueue: true })
+      }
+    }
+
     openRecoverModal (e) {
       e.stopPropagation()
       return this.openModalView(new RecoverModal())
@@ -335,11 +346,11 @@ var formSchema = {
     emailOrUsername: {
       $or: [
         User.schema.properties.name,
-        User.schema.properties.email
-      ]
-    }
+        User.schema.properties.email,
+      ],
+    },
   },
-  required: ['emailOrUsername', 'password']
+  required: ['emailOrUsername', 'password'],
 }
 
 var loginNavigate = function (subModalContinue) {

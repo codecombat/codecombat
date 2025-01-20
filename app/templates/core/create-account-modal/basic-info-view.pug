@@ -25,6 +25,12 @@ mixin use-social-signon
           .clever-login
             a#clever-signup-btn.network-login(data-sso-used="clever")
               img.clever-logo(src="/images/pages/modal/auth/clever_sso_button@2x.png", draggable="false")
+        if /(teacher|student)/.test(view.signupState.get('path'))
+          .schoology-login
+            a#schoology-signup-btn.network-login(data-sso-used="schoology")
+              img.schoology-login-img(src="/images/pages/modal/auth/schoology.png") 
+              span(data-i18n="login.schoology_signup")
+
 
     // TODO: turn on once we can ask about school inside ConfirmationView
     //- if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')

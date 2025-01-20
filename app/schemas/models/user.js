@@ -59,6 +59,18 @@ _.extend(UserSchema.properties, {
       }
     }
   },
+  oAuth2Identities: {
+    description: 'List of OAuth2 identities this user has.',
+    type: 'array',
+    items: {
+      description: 'Reference to a single OAuth2 identity',
+      type: 'object',
+      properties: {
+        providerId: c.objectId(),
+        oAuth2IdentityId: c.objectId(),
+      },
+    },
+  },
   clientCreator: c.objectId({ description: 'Client which created this user' }),
   clientPermissions: {
     description: 'More APIClients with permissions on this user, apart from clientCreator.',
