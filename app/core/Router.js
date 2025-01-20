@@ -302,6 +302,10 @@ module.exports = (CocoRouter = (function () {
           return this.routeDirectly('PagePartners', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
         },
 
+        'partners/reset-password' () {
+          return this.routeDirectly('PagePartnerResetPassword', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+        },
+
         'apcsp' () {
           return this.routeDirectly('PageAPCSPMarketing', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
         },
