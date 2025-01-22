@@ -5277,6 +5277,7 @@ module.exports = {
       license_modal_members_placeholder: '[AI_TRANSLATION]تقريبا كم عدد الأعضاء الذين سيحتاجون إلى الوصول؟',
       license_modal_contact: '[AI_TRANSLATION]تواصل مع فريقنا',
       license_days_used: '[AI_TRANSLATION]أيام الرخصة المستخدمة',
+      //    licenses_used: "Licenses used",
       users_active_licenses: '[AI_TRANSLATION]مستخدمين برخص نشطة',
       //    lines_code: "Lines of Code",
       programs_written: '[AI_TRANSLATION]البرامج المكتوبة',
@@ -5302,7 +5303,6 @@ module.exports = {
       total_users: '[AI_TRANSLATION]إجمالي المستخدمين',
       lines_of_code_written: '[AI_TRANSLATION]عدد الأسطر البرمجية المكتوبة',
       hours_spent: '[AI_TRANSLATION]الوقت المستغرق',
-      number_users: '[AI_TRANSLATION]عدد المستخدمين\n',
       time_spent: '[AI_TRANSLATION]الوقت المستغرق (بالدقائق)',
       new_users: '[AI_TRANSLATION]مستخدمين جدد',
       age_demographics: '[AI_TRANSLATION]الفئات العمرية',
@@ -6111,7 +6111,7 @@ module.exports = {
       no_assigned_projects: '[AI_TRANSLATION]معلمك لم يكلفك بأي مشاريع ذكاء صناعي حتى الآن.',
       //    continue_here: "Continue",
       //    start_new: "Start from scratch",
-      //    choice_prompt_1: "Congratulations on completing the project!",
+      //    choice_prompt_1: "What would you like to do next?",
       //    choice_prompt_2: "You can continue with your project or start a new one from scratch!",
       //    create_from_scratch: "Create from scratch",
       //    complete_to_unlock: "Complete a __model__ learn mode project to unlock",
@@ -6137,6 +6137,7 @@ module.exports = {
       //    tags: "Tags",
       //    see_all: "See All",
       //    created_by: "created by",
+      //    remix: "Remix",
     },
 
     parents_v2: {

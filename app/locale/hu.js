@@ -5277,6 +5277,7 @@ module.exports = {
       license_modal_members_placeholder: '[AI_TRANSLATION]Körülbelül hány tagnak lesz szüksége hozzáférésre?',
       license_modal_contact: '[AI_TRANSLATION]Vedd fel velünk a kapcsolatot',
       license_days_used: '[AI_TRANSLATION]Felhasznált licenc napok',
+      //    licenses_used: "Licenses used",
       users_active_licenses: '[AI_TRANSLATION]Aktív licenccel rendelkező felhasználók',
       //    lines_code: "Lines of Code",
       programs_written: '[AI_TRANSLATION]Írt programok  ',
@@ -5302,7 +5303,6 @@ module.exports = {
       total_users: '[AI_TRANSLATION]Összes Felhasználó',
       lines_of_code_written: '[AI_TRANSLATION]Megírt Kódsorok',
       hours_spent: '[AI_TRANSLATION]Eltöltött órák',
-      number_users: '[AI_TRANSLATION]Felhasználók száma',
       time_spent: '[AI_TRANSLATION]Eltöltött idő (percben)',
       new_users: '[AI_TRANSLATION]Új felhasználók',
       age_demographics: '[AI_TRANSLATION]Korosztályi demográfia',
@@ -6111,7 +6111,7 @@ module.exports = {
       no_assigned_projects: '[AI_TRANSLATION]A tanárod még nem adott ki semmilyen MI projektet.',
       //    continue_here: "Continue",
       //    start_new: "Start from scratch",
-      //    choice_prompt_1: "Congratulations on completing the project!",
+      //    choice_prompt_1: "What would you like to do next?",
       //    choice_prompt_2: "You can continue with your project or start a new one from scratch!",
       //    create_from_scratch: "Create from scratch",
       //    complete_to_unlock: "Complete a __model__ learn mode project to unlock",
@@ -6137,6 +6137,7 @@ module.exports = {
       //    tags: "Tags",
       //    see_all: "See All",
       //    created_by: "created by",
+      //    remix: "Remix",
     },
 
     parents_v2: {
