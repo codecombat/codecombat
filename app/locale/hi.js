@@ -5277,6 +5277,7 @@ module.exports = {
       license_modal_members_placeholder: '[AI_TRANSLATION]लगभग कितने सदस्यों को एक्सेस की आवश्यकता होगी?',
       license_modal_contact: '[AI_TRANSLATION]हमारी टीम से संपर्क करें',
       license_days_used: '[AI_TRANSLATION]लाईसेंस दिन इस्तेमाल',
+      //    licenses_used: "Licenses used",
       users_active_licenses: '[AI_TRANSLATION]सक्रिय लाइसेंस वाले उपयोगकर्ता',
       lines_code: '[AI_TRANSLATION]कोड की पंक्तियाँ',
       programs_written: '[AI_TRANSLATION]प्रोग्राम लिखे गए  ',
@@ -5302,7 +5303,6 @@ module.exports = {
       total_users: '[AI_TRANSLATION]कुल यूजर्स',
       lines_of_code_written: '[AI_TRANSLATION]लिखी गई कोड की लाइनें',
       hours_spent: '[AI_TRANSLATION]बिताए गए घंटे',
-      number_users: '[AI_TRANSLATION]यूजर्स की संख्या',
       time_spent: '[AI_TRANSLATION]बिताया हुआ समय (मिनटों में)',
       new_users: '[AI_TRANSLATION]नए उपयोगकर्ता',
       age_demographics: '[AI_TRANSLATION]आयु जनसांख्यिकी',
@@ -6111,7 +6111,7 @@ module.exports = {
       no_assigned_projects: '[AI_TRANSLATION]आपके शिक्षक ने अभी तक कोई AI परियोजनाएँ सौंपा नहीं है।',
       //    continue_here: "Continue",
       //    start_new: "Start from scratch",
-      //    choice_prompt_1: "Congratulations on completing the project!",
+      //    choice_prompt_1: "What would you like to do next?",
       //    choice_prompt_2: "You can continue with your project or start a new one from scratch!",
       //    create_from_scratch: "Create from scratch",
       //    complete_to_unlock: "Complete a __model__ learn mode project to unlock",
@@ -6137,6 +6137,7 @@ module.exports = {
       //    tags: "Tags",
       //    see_all: "See All",
       //    created_by: "created by",
+      //    remix: "Remix",
     },
 
     parents_v2: {
