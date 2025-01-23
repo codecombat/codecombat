@@ -166,7 +166,6 @@ module.exports = Vue.extend({
       if (!hadMoreThanOne) {
         return null
       }
-      console.log(byMonthAndTeacher)
       return byMonthAndTeacher
     },
     ageStats () {
