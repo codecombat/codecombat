@@ -122,13 +122,13 @@ export default {
   name: 'ModalShareWithTeachers',
   components: {
     Modal,
-    IconClose
+    IconClose,
   },
   props: {
     classroom: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
@@ -137,20 +137,20 @@ export default {
       error: null,
       deleteInProgress: null,
       addInProgress: false,
-      classroomPermissions: []
+      classroomPermissions: [],
     }
   },
   mounted () {
     classroomsApi.getPermission({ classroomID: this.classroom._id })
-          .then((resp) => {
-            this.classroomPermissions = resp.data
-          })
+      .then((resp) => {
+        this.classroomPermissions = resp.data
+      })
   },
   methods: {
     ...mapActions({
       updateClassroom: 'classrooms/updateClassroom',
       addPermission: 'classrooms/addPermission',
-      removePermission: 'classrooms/removePermission'
+      removePermission: 'classrooms/removePermission',
     }),
     async addTeacher () {
       this.addInProgress = true
@@ -196,8 +196,8 @@ export default {
     },
     displayPermission (permission) {
       return getDisplayPermission(permission)
-    }
-  }
+    },
+  },
 }
 </script>
 
