@@ -50,15 +50,14 @@ module.exports = (SaveCampaignModal = (function () {
       const loadingScreen = this.$el.find('.loading-screen')
       try {
         for (let i = 0; i < modelsBeingSaved.length; i += CHUNK_SAVE_SIZE) {
-          const chunk = modelsBeingSaved.slice(i, i + CHUNK_SAVE_SIZE)
-          const chunkPromises = chunk.map(model => model.patch())
+          const chunkPromises = modelsBeingSaved.slice(i, i + CHUNK_SAVE_SIZE)
           // Update loading message
           const message = `Saving models... ${savedCount}/${totalModels} (${Math.round(savedCount / totalModels * 100)}%)`
           console.info(message)
           const percentage = Math.round((savedCount / totalModels) * 100)
           loadingScreen.find('.progress-bar').css('width', `${percentage}%`)
           await Promise.all(chunkPromises)
-          savedCount += chunk.length
+          savedCount += chunkPromises.length
         }
         document.location.reload()
       } catch (error) {
