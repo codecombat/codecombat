@@ -155,7 +155,15 @@
       <label for="default-code-format-select">
         <span class="control-label"> {{ $t("teachers.default_code_format") }} </span>
       </label>
+      <input
+        v-if="enabledCodeFormats.length === 1"
+        v-model="newCodeFormatDefault"
+        type="text"
+        class="form-control"
+        disabled
+      >
       <select
+        v-else
         id="default-code-format-select"
         v-model="newCodeFormatDefault"
         class="form-control"
@@ -247,7 +255,7 @@ export default {
       getCourseInstances: 'courseInstances/getCourseInstancesOfClass',
     }),
     hideCodeLanguageAndFormat () {
-      return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack'].includes(this.newClubType)
+      return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack', 'club-ozaria', 'camp-esports'].includes(this.newClubType)
     },
     enableBlocks () {
       return ['python', 'javascript', 'lua'].includes(this.newProgrammingLanguage || 'python')
