@@ -1365,7 +1365,7 @@ const AILeagueSeasons = [
   { number: 10, championshipType: 'cup', image: '/images/pages/league/anti-gravity-cup.png', video: '72d0ffc93599cf8cb5b0f7fed7861d0f', videoThumbnailTime: '188s' },
   // for image instead of video, we link the top match image
   { number: 11, championshipType: 'blitz', image: '/images/pages/league/sunfire-blitz.png', imagePath: '/images/pages/league/sunfire-results.webp', topMatchUrlPath: '/play/spectate/sunfire?session-one=6688815921af79d80736c0e2&session-two=66c64ee0b522c4f39324d832&tournament=669aa78fcca07ea127d445d6' },
-  { number: 12, championshipType: 'clash', image: '/images/pages/league/supercharged-clash.png', video: '', videoThumbnailTime: '' },
+  { number: 12, championshipType: 'clash', image: '/images/pages/league/supercharged-clash.png', imagePath: '/images/pages/league/supercharged-results.webp', videoThumbnailTime: '' },
   { number: 13, championshipType: 'cup', image: '/images/pages/league/kings-gambit-cup.png', video: '', videoThumbnailTime: '' },
   { number: 14, championshipType: 'blitz', image: '/images/pages/league/golden-goal-blitz.png', video: '', videoThumbnailTime: '' },
   { number: 15, championshipType: 'clash', image: '/images/pages/league/grand-prix-clash.png', video: '', videoThumbnailTime: '' },
