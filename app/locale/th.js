@@ -5277,6 +5277,7 @@ module.exports = {
       license_modal_members_placeholder: '[AI_TRANSLATION]ประมาณว่าจะมีผู้ใช้กี่คนที่ต้องการเข้าถึง?',
       license_modal_contact: '[AI_TRANSLATION]ติดต่อทีมของเรา',
       license_days_used: '[AI_TRANSLATION]วันใบอนุญาตที่ใช้ไปแล้ว',
+      //    licenses_used: "Licenses used",
       users_active_licenses: '[AI_TRANSLATION]ผู้ใช้ที่มีใบอนุญาตใช้งาน',
       lines_code: '[AI_TRANSLATION]โค้ดที่เขียน',
       programs_written: '[AI_TRANSLATION]โปรแกรมที่เขียนขึ้น',
@@ -5302,7 +5303,6 @@ module.exports = {
       total_users: '[AI_TRANSLATION]ผู้ใช้ทั้งหมด',
       lines_of_code_written: '[AI_TRANSLATION]จำนวนบรรทัดของโค้ดที่เขียน',
       hours_spent: '[AI_TRANSLATION]ชั่วโมงที่ใช้ไป',
-      number_users: '[AI_TRANSLATION]จำนวนผู้ใช้',
       time_spent: '[AI_TRANSLATION]เวลาที่ใช้ไป (นาที)',
       new_users: '[AI_TRANSLATION]ผู้ใช้ใหม่',
       age_demographics: '[AI_TRANSLATION]อายุประชากร',
@@ -6111,7 +6111,7 @@ module.exports = {
       no_assigned_projects: '[AI_TRANSLATION]ครูของคุณยังไม่ได้มอบหมายโครงการ AI ใด ๆ',
       //    continue_here: "Continue",
       //    start_new: "Start from scratch",
-      //    choice_prompt_1: "Congratulations on completing the project!",
+      //    choice_prompt_1: "What would you like to do next?",
       //    choice_prompt_2: "You can continue with your project or start a new one from scratch!",
       //    create_from_scratch: "Create from scratch",
       //    complete_to_unlock: "Complete a __model__ learn mode project to unlock",
@@ -6137,6 +6137,7 @@ module.exports = {
       //    tags: "Tags",
       //    see_all: "See All",
       //    created_by: "created by",
+      //    remix: "Remix",
     },
 
     parents_v2: {

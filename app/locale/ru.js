@@ -5277,6 +5277,7 @@ module.exports = {
       license_modal_members_placeholder: '[AI_TRANSLATION]Примерно сколько участников понадобится доступ?',
       license_modal_contact: '[AI_TRANSLATION]Свяжись с нашей командой',
       license_days_used: '[AI_TRANSLATION]Использованные дни лицензии',
+      //    licenses_used: "Licenses used",
       users_active_licenses: '[AI_TRANSLATION]Пользователи с активными лицензиями',
       //    lines_code: "Lines of Code",
       programs_written: '[AI_TRANSLATION]Написанные программы',
@@ -5302,7 +5303,6 @@ module.exports = {
       total_users: '[AI_TRANSLATION]Всего пользователей',
       lines_of_code_written: '[AI_TRANSLATION]Написанные строки кода',
       hours_spent: '[AI_TRANSLATION]Проведенные часы',
-      number_users: '[AI_TRANSLATION]Количество пользователей',
       time_spent: '[AI_TRANSLATION]Потраченное время (в минутах)',
       new_users: '[AI_TRANSLATION]Новые пользователи',
       age_demographics: '[AI_TRANSLATION]Возрастная демография',
@@ -6111,7 +6111,7 @@ module.exports = {
       no_assigned_projects: '[AI_TRANSLATION]Твой учитель еще не назначил никаких AI проектов.  ',
       //    continue_here: "Continue",
       //    start_new: "Start from scratch",
-      //    choice_prompt_1: "Congratulations on completing the project!",
+      //    choice_prompt_1: "What would you like to do next?",
       //    choice_prompt_2: "You can continue with your project or start a new one from scratch!",
       //    create_from_scratch: "Create from scratch",
       //    complete_to_unlock: "Complete a __model__ learn mode project to unlock",
@@ -6137,6 +6137,7 @@ module.exports = {
       //    tags: "Tags",
       //    see_all: "See All",
       //    created_by: "created by",
+      //    remix: "Remix",
     },
 
     parents_v2: {

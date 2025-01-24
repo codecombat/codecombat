@@ -5277,6 +5277,7 @@ module.exports = {
       license_modal_members_placeholder: '[AI_TRANSLATION]Khoảng bao nhiêu thành viên sẽ cần truy cập?',
       license_modal_contact: '[AI_TRANSLATION]Liên Hệ Với Đội Ngũ Của Chúng Tôi',
       license_days_used: '[AI_TRANSLATION]Số ngày giấy phép đã sử dụng',
+      //    licenses_used: "Licenses used",
       users_active_licenses: '[AI_TRANSLATION]Người dùng có giấy phép hoạt động',
       lines_code: '[AI_TRANSLATION]Dòng Mã',
       programs_written: '[AI_TRANSLATION]Chương trình được viết',
@@ -5302,7 +5303,6 @@ module.exports = {
       total_users: '[AI_TRANSLATION]Tổng Số Người Dùng',
       lines_of_code_written: '[AI_TRANSLATION]Số dòng mã đã viết',
       hours_spent: '[AI_TRANSLATION]Giờ đã sử dụng',
-      number_users: '[AI_TRANSLATION]Số lượng người dùng',
       time_spent: '[AI_TRANSLATION]Thời gian dành ra (phút)',
       new_users: '[AI_TRANSLATION]Người Dùng Mới',
       age_demographics: '[AI_TRANSLATION]Nhóm tuổi',
@@ -6111,7 +6111,7 @@ module.exports = {
       no_assigned_projects: '[AI_TRANSLATION]Giáo viên của bạn chưa giao bất kỳ dự án AI nào.',
       //    continue_here: "Continue",
       //    start_new: "Start from scratch",
-      //    choice_prompt_1: "Congratulations on completing the project!",
+      //    choice_prompt_1: "What would you like to do next?",
       //    choice_prompt_2: "You can continue with your project or start a new one from scratch!",
       //    create_from_scratch: "Create from scratch",
       //    complete_to_unlock: "Complete a __model__ learn mode project to unlock",
@@ -6137,6 +6137,7 @@ module.exports = {
       //    tags: "Tags",
       //    see_all: "See All",
       //    created_by: "created by",
+      //    remix: "Remix",
     },
 
     parents_v2: {

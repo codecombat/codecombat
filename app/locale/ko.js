@@ -5277,6 +5277,7 @@ module.exports = {
       license_modal_members_placeholder: '[AI_TRANSLATION]대략 몇 명의 회원이 접근해야 하나요?',
       license_modal_contact: '[AI_TRANSLATION]팀에 연락해',
       license_days_used: '[AI_TRANSLATION]사용된 라이선스 일수',
+      //    licenses_used: "Licenses used",
       users_active_licenses: '[AI_TRANSLATION]활성 라이선스를 가진 사용자',
       //    lines_code: "Lines of Code",
       programs_written: '[AI_TRANSLATION]작성된 프로그램',
@@ -5302,7 +5303,6 @@ module.exports = {
       total_users: '[AI_TRANSLATION]총 사용자',
       lines_of_code_written: '[AI_TRANSLATION]작성된 코드 라인 수',
       hours_spent: '[AI_TRANSLATION]소요 시간',
-      number_users: '[AI_TRANSLATION]사용자 수',
       time_spent: '[AI_TRANSLATION]Call to Arms - 사용하지 마',
       new_users: '[AI_TRANSLATION]새로운 사용자들\n',
       age_demographics: '[AI_TRANSLATION]연령층 통계',
@@ -6111,7 +6111,7 @@ module.exports = {
       no_assigned_projects: '[AI_TRANSLATION]선생님께서 아직 어떤 AI 프로젝트도 배정하지 않으셨어요.',
       //    continue_here: "Continue",
       //    start_new: "Start from scratch",
-      //    choice_prompt_1: "Congratulations on completing the project!",
+      //    choice_prompt_1: "What would you like to do next?",
       //    choice_prompt_2: "You can continue with your project or start a new one from scratch!",
       //    create_from_scratch: "Create from scratch",
       //    complete_to_unlock: "Complete a __model__ learn mode project to unlock",
@@ -6137,6 +6137,7 @@ module.exports = {
       //    tags: "Tags",
       //    see_all: "See All",
       //    created_by: "created by",
+      //    remix: "Remix",
     },
 
     parents_v2: {

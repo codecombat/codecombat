@@ -5277,6 +5277,7 @@ module.exports = {
       license_modal_members_placeholder: '[AI_TRANSLATION]需要大約多少位成員能夠進入？',
       license_modal_contact: '[AI_TRANSLATION]聯繫我們的團隊',
       license_days_used: '[AI_TRANSLATION]使用的授權天數',
+      //    licenses_used: "Licenses used",
       users_active_licenses: '[AI_TRANSLATION]活躍許可證的使用者',
       lines_code: '[AI_TRANSLATION]代碼行數',
       programs_written: '[AI_TRANSLATION]已撰寫的程式',
@@ -5302,7 +5303,6 @@ module.exports = {
       total_users: '[AI_TRANSLATION]總用戶數',
       lines_of_code_written: '[AI_TRANSLATION]已寫代碼行數',
       hours_spent: '[AI_TRANSLATION]花費的時間',
-      number_users: '[AI_TRANSLATION]用戶數量\n',
       time_spent: '[AI_TRANSLATION]花費時間 (以分鐘計)',
       new_users: '[AI_TRANSLATION]新用戶',
       age_demographics: '[AI_TRANSLATION]年齡人口統計',
@@ -6111,7 +6111,7 @@ module.exports = {
       no_assigned_projects: '[AI_TRANSLATION]你的老師還沒布置任何 AI 項目呢。  ',
       //    continue_here: "Continue",
       //    start_new: "Start from scratch",
-      //    choice_prompt_1: "Congratulations on completing the project!",
+      //    choice_prompt_1: "What would you like to do next?",
       //    choice_prompt_2: "You can continue with your project or start a new one from scratch!",
       //    create_from_scratch: "Create from scratch",
       //    complete_to_unlock: "Complete a __model__ learn mode project to unlock",
@@ -6137,6 +6137,7 @@ module.exports = {
       //    tags: "Tags",
       //    see_all: "See All",
       //    created_by: "created by",
+      //    remix: "Remix",
     },
 
     parents_v2: {
