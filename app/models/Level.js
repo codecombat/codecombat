@@ -652,7 +652,7 @@ module.exports = (Level = (function () {
       })
     }
 
-    getRequiresSubscription (teacher) {
+    getClassroomSub (teacher) {
       const classroomSub = this.get('classroomSub')
       let requiresSub
       if (teacher && classroomSub && classroomSub.default) {
@@ -664,7 +664,7 @@ module.exports = (Level = (function () {
         }
         return requiresSub
       }
-      return this.get('requiresSubscription') || this.get('requires_subscription')
+      return true
     }
   }
   Level.initClass()
