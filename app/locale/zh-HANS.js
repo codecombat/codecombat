@@ -5277,6 +5277,7 @@ module.exports = {
       license_modal_members_placeholder: '[AI_TRANSLATION]大约有多少成员需要访问权限？  ',
       license_modal_contact: '[AI_TRANSLATION]联系我们的团队',
       license_days_used: '[AI_TRANSLATION]已使用许可证天数',
+      //    licenses_used: "Licenses used",
       users_active_licenses: '[AI_TRANSLATION]有有效执照的用户',
       //    lines_code: "Lines of Code",
       programs_written: '[AI_TRANSLATION]编写的程序',
@@ -5302,7 +5303,6 @@ module.exports = {
       total_users: '[AI_TRANSLATION]总用户数',
       lines_of_code_written: '[AI_TRANSLATION]已编写的代码行数',
       hours_spent: '[AI_TRANSLATION]花费的时间',
-      number_users: '[AI_TRANSLATION]用户数量',
       time_spent: '[AI_TRANSLATION]花费时间（分钟）',
       new_users: '[AI_TRANSLATION]新用户',
       age_demographics: '[AI_TRANSLATION]年龄分布',
@@ -6111,7 +6111,7 @@ module.exports = {
       no_assigned_projects: '[AI_TRANSLATION]你的老师还没有分配任何 AI 项目。  ',
       //    continue_here: "Continue",
       //    start_new: "Start from scratch",
-      //    choice_prompt_1: "Congratulations on completing the project!",
+      //    choice_prompt_1: "What would you like to do next?",
       //    choice_prompt_2: "You can continue with your project or start a new one from scratch!",
       //    create_from_scratch: "Create from scratch",
       //    complete_to_unlock: "Complete a __model__ learn mode project to unlock",
@@ -6137,6 +6137,7 @@ module.exports = {
       //    tags: "Tags",
       //    see_all: "See All",
       //    created_by: "created by",
+      //    remix: "Remix",
     },
 
     parents_v2: {

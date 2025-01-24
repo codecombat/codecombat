@@ -5277,6 +5277,7 @@ module.exports = {
     //    license_modal_members_placeholder: "Approximately how many members will need access?",
     //    license_modal_contact: "Contact Our Team",
     //    license_days_used: "License days used",
+    //    licenses_used: "Licenses used",
     //    users_active_licenses: "Users with active licenses",
     //    lines_code: "Lines of Code",
     //    programs_written: "Programs written",
@@ -5302,7 +5303,6 @@ module.exports = {
     //    total_users: "Total Users",
     //    lines_of_code_written: "Lines of Code Written",
     //    hours_spent: "Hours spent",
-    //    number_users: "Number of users",
     //    time_spent: "Time spent (in minutes)",
     //    new_users: "New Users",
     //    age_demographics: "Age demographics",
@@ -6111,7 +6111,7 @@ module.exports = {
     //    no_assigned_projects: "Your teacher has not assigned any AI projects yet.",
     //    continue_here: "Continue",
     //    start_new: "Start from scratch",
-    //    choice_prompt_1: "Congratulations on completing the project!",
+    //    choice_prompt_1: "What would you like to do next?",
     //    choice_prompt_2: "You can continue with your project or start a new one from scratch!",
     //    create_from_scratch: "Create from scratch",
     //    complete_to_unlock: "Complete a __model__ learn mode project to unlock",
@@ -6137,6 +6137,7 @@ module.exports = {
     //    tags: "Tags",
     //    see_all: "See All",
     //    created_by: "created by",
+    //    remix: "Remix",
     //  },
 
     //  parents_v2: {
