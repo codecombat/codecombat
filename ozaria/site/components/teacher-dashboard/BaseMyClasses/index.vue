@@ -130,8 +130,8 @@ export default {
       this.showShareClassWithTeacherModal = true
       this.editClassroomObject = classroom
     },
-    showCreateStudents (classroom) {
-      return me.isCodeNinja() && (classroom.type?.includes('club') || classroom.type === 'camp-esports')
+    showCreateStudents (_classroom) {
+      return false
     },
   },
 }

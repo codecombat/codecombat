@@ -377,8 +377,8 @@ export default {
       storage.save(TRY_OZ_MODAL_VIEWED_KEY, true, oneMonth)
       this.showTryOzariaModal = false
     },
-    shouldShowCreateStudents (classroom) {
-      return me.isCodeNinja() && (classroom.type?.includes('club') || classroom.type === 'camp-esports')
+    shouldShowCreateStudents (_classroom) {
+      return false
     },
   },
 }
