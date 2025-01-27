@@ -1,4 +1,5 @@
 import apiclientsApi from 'core/api/api-clients'
+import { create as createJob, pollTillResult } from 'core/api/background-job'
 
 export default {
   namespaced: true,
@@ -54,21 +55,19 @@ export default {
       commit('setClientId', { id: clientId })
       return clientId
     },
-    fetchLicenseStats: ({ commit }, { clientId, startDate, endDate }) => {
+    fetchLicenseStats: async ({ commit }, { clientId, startDate, endDate }) => {
       commit('toggleLoading', 'byLicense')
-      return apiclientsApi
-        .getLicenseStats(clientId, { startDate, endDate })
-        .then(res => {
-          if (res) {
-            commit('addLicenseStats', {
-              stats: res
-            })
-          } else {
-            throw new Error('Unexpected response from license stats by owner API.')
-          }
+      const job = await createJob('api-client-stats', { clientId, startDate, endDate })
+      try {
+        const res = await pollTillResult(job?.job)
+        commit('addLicenseStats', {
+          stats: res,
         })
-        .catch((e) => noty({ text: 'Fetch license stats failure: ' + e, type: 'error' }))
-        .finally(() => commit('toggleLoading', 'byLicense'))
+      } catch (err) {
+        noty({ text: 'Fetch license stats failure: ' + err, type: 'error' })
+      } finally {
+        commit('toggleLoading', 'byLicense')
+      }
     },
     fetchPlayTimeStats: ({ commit }) => {
       commit('toggleLoading', 'byPlayTime')
