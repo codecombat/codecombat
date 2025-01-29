@@ -57,14 +57,15 @@ export default {
     },
     fetchLicenseStats: async ({ commit }, { clientId, startDate, endDate }) => {
       commit('toggleLoading', 'byLicense')
-      const job = await createJob('api-client-stats', { clientId, startDate, endDate })
       try {
+        const job = await createJob('api-client-stats', { clientId, startDate, endDate })
         const res = await pollTillResult(job?.job)
         commit('addLicenseStats', {
           stats: res,
         })
       } catch (err) {
-        noty({ text: 'Fetch license stats failure: ' + err, type: 'error' })
+        const message = err?.message || 'Failed to load the results'
+        noty({ text: 'Fetch license stats failure: ' + message, type: 'error' })
       } finally {
         commit('toggleLoading', 'byLicense')
       }

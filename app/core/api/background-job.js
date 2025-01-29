@@ -27,15 +27,22 @@ async function pollTillResult (jobId, other, options = {}) {
     url = '/' + other + url
   }
   let job = await fetchJson(url, options)
-  while (job.status !== 'completed' && job.status !== 'failed') {
-    await sleep(5000)
+  const MAX_ATTEMPTS = 30
+  const DELAY_MS = 5000
+  let attempts = 0
+  while (job.status !== 'completed' && job.status !== 'failed' && attempts < MAX_ATTEMPTS) {
+    await sleep(DELAY_MS)
     job = await fetchJson(url, options)
+    attempts++
   }
   if (job.status === 'completed') {
     return JSON.parse(job.output)
   }
   if (job.status === 'failed') {
     throw new Error(job.message)
+  }
+  if (attempts === MAX_ATTEMPTS) {
+    throw new Error('Failed to load the results')
   }
 }
 

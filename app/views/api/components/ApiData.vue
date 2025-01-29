@@ -57,16 +57,18 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
 import LicenseDataPerUser from 'app/components/license/LicenseDataPerUser'
 import { D3BarChart } from 'vue-d3-charts'
+
 module.exports = Vue.extend({
   components: {
     LicenseDataPerUser,
-    D3BarChart
+    D3BarChart,
   },
   props: ['viewport'],
   data () {
     return {
       tab: 'byMonth',
-      spiedUser: window.serverSession.amActually
+      spiedUser: window.serverSession.amActually,
+      myId: me.get('_id'),
     }
   },
   computed: {
@@ -181,6 +183,25 @@ module.exports = Vue.extend({
       return data
     }
   },
+  watch: {
+    clientId: function (id) {
+      if (id !== '') {
+        this.fetchTeachers(id)
+        this.fetchPrepaids({ teacherId: this.myId, clientId: id })
+        this.fetchLicenseStats({ clientId: id })
+      }
+    },
+  },
+  created () {
+    if (me.isGeccClient()) {
+      this.tab = 'byStudent'
+    }
+
+    this.fetchClientId()
+    // current play time for apiclient is the total time of all students so i think
+    // we doesn't need it now
+    /* this.fetchPlayTimeStats() */
+  },
   methods: {
     ...mapActions({
       fetchLicenseStats: 'apiClient/fetchLicenseStats',
@@ -204,33 +225,9 @@ module.exports = Vue.extend({
       }
     },
     hideByStudentTab () {
-      return !this.isGeccClient()
-    },
-    isGeccClient () {
-      this.myId = me.get('_id')
-      const geccId = '61e7e20658f1020024bd8cf7'
-      return this.myId === geccId
+      return !me.isGeccClient()
     },
   },
-  watch: {
-    clientId: function (id) {
-      if (id !== '') {
-        this.fetchTeachers(id)
-        this.fetchPrepaids({ teacherId: this.myId, clientId: id })
-        this.fetchLicenseStats({ clientId: id })
-      }
-    }
-  },
-  created () {
-    if (this.isGeccClient()) {
-      this.tab = 'byStudent'
-    }
-
-    this.fetchClientId()
-    // current play time for apiclient is the total time of all students so i think
-    // we doesn't need it now
-    /* this.fetchPlayTimeStats() */
-  }
 })
 </script>
 
