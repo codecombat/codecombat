@@ -3,6 +3,11 @@ function validateEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
+function sleep (ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 module.exports = {
-  validateEmail
+  validateEmail,
+  sleep,
 }

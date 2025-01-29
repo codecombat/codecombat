@@ -3,9 +3,11 @@
     h2(v-if="loading") Loading...
     .tab-select
       .tab(@click="tab = 'byMonth'" :class="{active: tab === 'byMonth'}") By Time
-      .tab(@click="tab = 'byStudent'" :class="{active: tab === 'byStudent'}") By Student
+      .tab(v-if="!hideByStudentTab()" @click="tab = 'byStudent'" :class="{active: tab === 'byStudent'}") By Student
     template(v-if="tab === 'byMonth'")
       h2(v-if="licenseDaysByMonth && viewport === 'full'") License Days by Month
+      p(class="link-info") Access the new dashboard with graphs
+        a(href="/partner-dashboard?fromOld=1" target="_blank")  {{ $t('general.here') }}
       table.table.table-condensed(v-if="!licenseStatsLoading && viewport === 'full'")
         tr(class="odd")
           th.month.border {{ $t('library.month') }}
@@ -46,7 +48,7 @@
       .age-stats(v-if="ageStats.length > 0")
         d3-bar-chart(:datum="ageStats", :config="this.ageChartConfig()", title="Users Age Split", source="Age ranges")
 
-    template(v-else)
+    template(v-else-if="tab === 'byStudent'")
       license-data-per-user(:loading="loading" :prepaids="prepaids" :teacherMap="teacherMap")
 
 </template>
@@ -55,16 +57,18 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
 import LicenseDataPerUser from 'app/components/license/LicenseDataPerUser'
 import { D3BarChart } from 'vue-d3-charts'
+
 module.exports = Vue.extend({
   components: {
     LicenseDataPerUser,
-    D3BarChart
+    D3BarChart,
   },
   props: ['viewport'],
   data () {
     return {
       tab: 'byMonth',
-      spiedUser: window.serverSession.amActually
+      spiedUser: window.serverSession.amActually,
+      myId: me.get('_id'),
     }
   },
   computed: {
@@ -179,6 +183,25 @@ module.exports = Vue.extend({
       return data
     }
   },
+  watch: {
+    clientId: function (id) {
+      if (id !== '') {
+        this.fetchTeachers(id)
+        this.fetchPrepaids({ teacherId: this.myId, clientId: id })
+        this.fetchLicenseStats({ clientId: id })
+      }
+    },
+  },
+  created () {
+    if (me.isGeccClient()) {
+      this.tab = 'byStudent'
+    }
+
+    this.fetchClientId()
+    // current play time for apiclient is the total time of all students so i think
+    // we doesn't need it now
+    /* this.fetchPlayTimeStats() */
+  },
   methods: {
     ...mapActions({
       fetchLicenseStats: 'apiClient/fetchLicenseStats',
@@ -197,32 +220,14 @@ module.exports = Vue.extend({
           yTitle: 'Percentage of users',
           xTitle: 'Age Ranges',
           xFormat: '.0f',
-          xTicks: 0
-        }
+          xTicks: 0,
+        },
       }
-    }
+    },
+    hideByStudentTab () {
+      return !me.isGeccClient()
+    },
   },
-  watch: {
-    clientId: function (id) {
-      if (id !== '') {
-        this.fetchTeachers(id)
-        this.fetchPrepaids({ teacherId: this.myId, clientId: id })
-        this.fetchLicenseStats({ clientId: id })
-      }
-    }
-  },
-  created () {
-    this.myId = me.get('_id')
-    const geccId = '61e7e20658f1020024bd8cf7'
-    if (this.myId.toString() === geccId) {
-      this.tab = 'byStudent'
-    }
-
-    this.fetchClientId()
-    // current play time for apiclient is the total time of all students so i think
-    // we doesn't need it now
-    /* this.fetchPlayTimeStats() */
-  }
 })
 </script>
 
