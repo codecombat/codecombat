@@ -491,6 +491,21 @@ module.exports = (Classroom = (function () {
         return notification.$buttons.addClass('style-flat')
       })
     }
+
+    static codeNinjaClassroomTypes () {
+      return [
+        { id: 'club-esports', name: 'Club Esports' },
+        { id: 'club-hackstack', name: 'Club Hackstack' },
+        { id: 'club-roblox', name: 'Club Roblox' },
+        { id: 'club-ozaria', name: 'Club Ozaria' },
+        { id: 'camp-esports', name: 'Camp Esports' },
+        { id: 'camp-junior', name: 'Camp Junior' },
+      ]
+    }
+
+    isCodeNinjaClubCamp () {
+      return Classroom.codeNinjaClassroomTypes().map(type => type.id).includes(this.get('type'))
+    }
   }
   Classroom.initClass()
   return Classroom

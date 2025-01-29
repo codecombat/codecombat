@@ -124,7 +124,7 @@ export default Vue.extend({
         title += $.i18n.t('courses.edit_settings1')
       }
       if (this.asClub) {
-        title += '(As Club)'
+        title += ' (As Club / Camp)'
       }
       return title
     },
@@ -168,13 +168,7 @@ export default Vue.extend({
     },
 
     clubTypes () {
-      return [
-        { id: 'club-ozaria', name: 'Ozaria' },
-        { id: 'club-roblox', name: 'Roblox' },
-        { id: 'club-hackstack', name: 'Hackstack' },
-        { id: 'club-esports', name: 'Esports' },
-        { id: 'camp-esports', name: 'Esports Camp' },
-      ]
+      return Classroom.codeNinjaClassroomTypes()
     },
 
     linkGoogleButtonAllowed () {
@@ -186,9 +180,6 @@ export default Vue.extend({
         !this.classroom.otherProductId &&
         !this.isGoogleClassroomForm &&
         !this.isOtherProductForm
-    },
-    hideCodeLanguageAndFormat () {
-      return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack'].includes(this.newClubType)
     },
   },
 
@@ -303,6 +294,10 @@ export default Vue.extend({
           errorMsg = 'Error creating ozaria club in CodeCombat'
         } else if (moment(this.newClassDateEnd).isBefore(moment(this.newClassDateStart))) {
           errorMsg = 'End date should be after start date'
+        } else if (this.newClubType.includes('camp') && moment(this.newClassDateEnd).diff(moment(this.newClassDateStart), 'days') > 5) {
+          errorMsg = 'Camp should be at most 5 days'
+        } else if (this.newClubType.includes('club') && moment(this.newClassDateEnd).diff(moment(this.newClassDateStart), 'weeks') > 14) {
+          errorMsg = 'Club should be at most 14 weeks'
         }
 
         if (errorMsg) {
@@ -881,18 +876,6 @@ export default Vue.extend({
                 value="camp"
               >
                 {{ $t('courses.class_type_camp') }}
-              </option>
-              <option
-                v-if="me.isCodeNinja() && false"
-                value="camp-esports"
-              >
-                {{ $t('courses.class_type_camp_esports') }}
-              </option>
-              <option
-                v-if="me.isCodeNinja() && false"
-                value="camp-junior"
-              >
-                {{ $t('courses.class_type_camp_junior') }}
               </option>
               <option
                 v-if="!me.isCodeNinja()"
