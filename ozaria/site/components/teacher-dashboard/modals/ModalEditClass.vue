@@ -294,8 +294,8 @@ export default Vue.extend({
           errorMsg = 'Error creating ozaria club in CodeCombat'
         } else if (moment(this.newClassDateEnd).isBefore(moment(this.newClassDateStart))) {
           errorMsg = 'End date should be after start date'
-        } else if (this.newClubType.includes('camp') && moment(this.newClassDateEnd).diff(moment(this.newClassDateStart), 'days') > 5) {
-          errorMsg = 'Camp should be at most 5 days'
+        } else if (this.newClubType.includes('camp') && moment(this.newClassDateEnd).diff(moment(this.newClassDateStart), 'days') > 7) {
+          errorMsg = 'Camp should be at most 7 days'
         } else if (this.newClubType.includes('club') && moment(this.newClassDateEnd).diff(moment(this.newClassDateStart), 'weeks') > 14) {
           errorMsg = 'Club should be at most 14 weeks'
         }
@@ -636,6 +636,7 @@ export default Vue.extend({
                 v-for="clubType in clubTypes"
                 :key="clubType.id"
                 :value="clubType.id"
+                :disabled="clubType.disabled"
               >
                 {{ clubType.name }}
               </option>

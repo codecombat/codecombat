@@ -494,12 +494,16 @@ module.exports = (Classroom = (function () {
 
     static codeNinjaClassroomTypes () {
       return [
+        { id: 'club-3-month', name: 'Club (3 Month)', disabled: true },
         { id: 'club-esports', name: 'Club Esports' },
         { id: 'club-hackstack', name: 'Club Hackstack' },
         { id: 'club-roblox', name: 'Club Roblox' },
         { id: 'club-ozaria', name: 'Club Ozaria' },
+        { id: 'camp-week', name: 'Camp (1 Week)', disabled: true },
         { id: 'camp-esports', name: 'Camp Esports' },
         { id: 'camp-junior', name: 'Camp Junior' },
+        { id: 'annual-plan', name: 'Annual', disabled: true },
+        { id: 'annual-plan-cn-coco', name: 'Annual CodeCombat & CodeCombat Junior' },
       ]
     }
 
