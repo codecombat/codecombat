@@ -255,7 +255,7 @@ export default {
       getCourseInstances: 'courseInstances/getCourseInstancesOfClass',
     }),
     hideCodeLanguageAndFormat () {
-      return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack', 'club-ozaria', 'camp-esports'].includes(this.newClubType)
+      return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack', 'camp-esports'].includes(this.newClubType)
     },
     enableBlocks () {
       return ['python', 'javascript', 'lua'].includes(this.newProgrammingLanguage || 'python')
