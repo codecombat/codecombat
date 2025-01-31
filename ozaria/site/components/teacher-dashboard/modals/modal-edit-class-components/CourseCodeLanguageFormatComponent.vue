@@ -342,6 +342,7 @@ export default {
       this.$emit('initialFreeCoursesUpdated', newVal)
       if (this.hasJunior && !this.newCodeFormats.includes('blocks-icons')) {
         this.newCodeFormats.push('blocks-icons')
+        this.$emit('codeFormatsUpdated', this.newCodeFormats)
       }
     },
     newCodeFormats (newVal) {
@@ -354,6 +355,7 @@ export default {
       if (['camp-junior', 'annual-plan-cn-coco'].includes(newVal)) {
         if (!this.newInitialFreeCourses.includes(utils.courseIDs.JUNIOR)) {
           this.newInitialFreeCourses.push(utils.courseIDs.JUNIOR)
+          this.$emit('initialFreeCoursesUpdated', this.newInitialFreeCourses)
         }
       }
     },
