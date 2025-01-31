@@ -168,6 +168,9 @@ export default Vue.extend({
     },
 
     clubTypes () {
+      if (utils.isOzaria) {
+        return Classroom.codeNinjaClassroomTypes().filter(type => type.id === 'club-ozaria' || type.disabled)
+      }
       return Classroom.codeNinjaClassroomTypes()
     },
 
