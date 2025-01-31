@@ -9,6 +9,7 @@ import _ from 'lodash'
 import { validationMixin } from 'vuelidate'
 import { required, requiredIf } from 'vuelidate/lib/validators'
 import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
+import SchoologyClassroomHandler from 'core/social-handlers/SchoologyClassroomHandler'
 import ButtonGoogleClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonGoogleClassroom.vue'
 import ButtonImportClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonImportClassroom.vue'
 import ClassroomsApi from 'app/core/api/classrooms.js'
@@ -50,6 +51,7 @@ export default Vue.extend({
     const cLevelChat = this.classroom?.aceConfig?.levelChat
     return {
       showGoogleClassroom: me.showGoogleClassroom(),
+      showSchoologyClassroom: true,
       newClassName: this.classroom?.name || '',
       newProgrammingLanguage: this.classroom?.aceConfig?.language || 'python',
       newLiveCompletion: typeof cLiveCompletion === 'undefined' ? true : cLiveCompletion,
@@ -71,13 +73,17 @@ export default Vue.extend({
       saving: false,
       classGrades: (utils.isOzaria && !me.isCodeNinja()) ? [] : null,
       googleClassId: '',
+      schoologyClassId: '',
       otherProductClassroomId: '',
       googleClassrooms: null,
+      schoologyClassrooms: null,
       otherProductClassrooms: null,
       isGoogleClassroomForm: false,
+      isSchoologyClassroomForm: false,
       isOtherProductForm: false,
       otherProductSyncInProgress: false,
       googleSyncInProgress: false,
+      schoologySyncInProgress: false,
       moreOptions: false,
       newInitialFreeCourses: utils.isCodeCombat ? [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] : [],
       archived: this.classroom?.archived || false,
@@ -87,10 +93,13 @@ export default Vue.extend({
 
   validations: {
     newClassName: {
-      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm }),
+      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm && !this.isSchoologyClassroomForm }),
     },
     googleClassId: {
       required: requiredIf(function () { return this.isGoogleClassroomForm }),
+    },
+    schoologyClassId: {
+      required: requiredIf(function () { return this.isSchoologyClassroomForm }),
     },
     otherProductClassroomId: {
       required: requiredIf(function () { return this.isOtherProductForm }),
@@ -137,6 +146,9 @@ export default Vue.extend({
     },
     googleClassroomDisabled () {
       return !me.googleClassroomEnabled()
+    },
+    schoologyClassroomDisabled () {
+      return !me.schoologyClassroomEnabled()
     },
     isFormValid () {
       return !this.$v.$invalid
@@ -186,6 +198,9 @@ export default Vue.extend({
         !this.classroom.otherProductId &&
         !this.isGoogleClassroomForm &&
         !this.isOtherProductForm
+    },
+    linkSchoologyButtonAllowed () {
+      return this.showSchoologyClassroom && !this.isSchoologyClassroomForm
     },
     hideCodeLanguageAndFormat () {
       return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack'].includes(this.newClubType)
@@ -256,7 +271,7 @@ export default Vue.extend({
         }))
       GoogleClassroomHandler.importClassrooms()
         .then(() => {
-          this.googleClassrooms = me.get('googleClassrooms').filter((c) => !c.importedToOzaria && !c.deletedFromGC)
+          this.googleClassrooms = GoogleClassroomHandler.getImportableClassrooms()
           this.isGoogleClassroomForm = true
           window.tracker?.trackEvent('Add New Class: Link Google Classroom Successful', { category: 'Teachers' })
         })
@@ -264,6 +279,15 @@ export default Vue.extend({
           noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
         })
       this.googleSyncInProgress = false
+    },
+    async linkSchoologyClassroom () {
+      window.tracker?.trackEvent('Add New Class: Link Schoology Classroom Clicked', { category: 'Teachers' })
+      this.schoologySyncInProgress = true
+      await SchoologyClassroomHandler.importClassrooms()
+      this.schoologyClassrooms = SchoologyClassroomHandler.getImportableClassrooms()
+      this.isSchoologyClassroomForm = true
+      window.tracker?.trackEvent('Add New Class: Link Google Classroom Successful', { category: 'Teachers' })
+      this.schoologySyncInProgress = false
     },
     async linkOtherProductClassroom () {
       window.tracker?.trackEvent('Add New Class: Link Other Product Classroom Clicked', { category: 'Teachers' })
@@ -362,6 +386,11 @@ export default Vue.extend({
         updates.name = this.googleClassrooms.find((c) => c.id === this.googleClassId).name
       }
 
+      if (this.isSchoologyClassroomForm) {
+        updates.schoologyClassroomId = this.schoologyClassId
+        updates.name = this.schoologyClassrooms.find((c) => c.id === this.schoologyClassId).name
+      }
+
       if (this.isOtherProductForm) {
         updates.name = this.otherProductClassroom.name
         updates.members = this.otherProductClassroom.members
@@ -409,6 +438,20 @@ export default Vue.extend({
       if (this.isGoogleClassroomForm) {
         await GoogleClassroomHandler.markAsImported(this.googleClassId)
         GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
+          .then((importedMembers) => {
+            if (importedMembers.length > 0) {
+              console.debug('Students imported to classroom:', importedMembers)
+            }
+          })
+          .catch((e) => {
+            this.errMsg = e?.message || 'Error in importing students'
+            noty({ text: 'Error in importing students', layout: 'topCenter', type: 'error', timeout: 2000 })
+          })
+      }
+
+      if (this.isSchoologyClassroomForm) {
+        await SchoologyClassroomHandler.markAsImported(this.schoologyClassId)
+        SchoologyClassroomHandler.importStudentsToClassroom(savedClassroom)
           .then((importedMembers) => {
             if (importedMembers.length > 0) {
               console.debug('Students imported to classroom:', importedMembers)
@@ -491,6 +534,17 @@ export default Vue.extend({
           />
         </div>
         <div
+          v-if="linkSchoologyButtonAllowed"
+          class="schoology-classroom-div"
+        >
+          <button-google-classroom
+            :inactive="schoologyClassroomDisabled"
+            :in-progress="schoologySyncInProgress"
+            text="Link Schoology Classroom"
+            @click="linkSchoologyClassroom"
+          />
+        </div>
+        <div
           v-if="linkOtherProductButtonAllowed"
           class="google-classroom-div"
         >
@@ -550,6 +604,58 @@ export default Vue.extend({
             </select>
             <span
               v-if="!$v.googleClassId.required"
+              class="form-error"
+            >
+              {{ $t("form_validation_errors.required") }}
+            </span>
+          </div>
+        </div>
+        <div
+          v-if="isSchoologyClassroomForm"
+          class="form-group row google-class-id"
+          :class="{ 'has-error': $v.schoologyClassId.$error }"
+        >
+          <div class="col-xs-12">
+            <span class="control-label">
+              <img
+                class="small-schoology-icon"
+                src="/images/ozaria/teachers/dashboard/svg_icons/IconSchoologyClassroom.svg"
+              >
+              {{ $t("teachers.select_class") }}
+            </span>
+            <select
+              v-model="$v.schoologyClassId.$model"
+              class="form-control"
+              :class="{ 'placeholder-text': !schoologyClassId }"
+              name="schoologyClassId"
+              :disabled="schoologyClassrooms.length === 0"
+            >
+              <option
+                v-if="schoologyClassrooms.length === 0"
+                disabled
+                selected
+                value=""
+              >
+                All schoology classrooms already imported
+              </option>
+              <option
+                v-else
+                disabled
+                selected
+                value=""
+              >
+                Select to Import from Schoology Classroom
+              </option>
+              <option
+                v-for="schoologyClassroom in schoologyClassrooms"
+                :key="schoologyClassroom.id"
+                :value="schoologyClassroom.id"
+              >
+                {{ schoologyClassroom.name }}
+              </option>
+            </select>
+            <span
+              v-if="!$v.schoologyClassId.required"
               class="form-error"
             >
               {{ $t("form_validation_errors.required") }}

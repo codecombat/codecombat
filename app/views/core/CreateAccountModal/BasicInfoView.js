@@ -77,12 +77,12 @@ module.exports = (BasicInfoView = (function () {
         checkNameState: 'standby', // same
         checkNameValue: null,
         checkNamePromise: null,
-        error: ''
+        error: '',
       })
       // fake this utils for unique usage in pug
       this.utils = {
         isCodeCombat,
-        isOzaria
+        isOzaria,
       }
       this.listenTo(this.state, 'change:checkEmailState', function () { return this.renderSelectors('.email-check') })
       this.listenTo(this.state, 'change:checkNameState', function () { return this.renderSelectors('.name-check') })
@@ -122,7 +122,7 @@ module.exports = (BasicInfoView = (function () {
         application.gplusHandler.loadAPI({
           success: () => {
             return this.handleSSOConnect(application.gplusHandler, 'gplus')
-          }
+          },
         })
       }
       return super.afterRender()
@@ -131,7 +131,7 @@ module.exports = (BasicInfoView = (function () {
     // These values are passed along to AuthModal if the user clicks "Sign In" (handled by CreateAccountModal)
     updateAuthModalInitialValues (values) {
       return this.signupState.set({
-        authModalInitialValues: _.merge(this.signupState.get('authModalInitialValues'), values)
+        authModalInitialValues: _.merge(this.signupState.get('authModalInitialValues'), values),
       }, { silent: true })
     }
 
@@ -155,7 +155,7 @@ module.exports = (BasicInfoView = (function () {
         this.state.set({
           checkEmailState: 'standby',
           checkEmailValue: email,
-          checkEmailPromise: null
+          checkEmailPromise: null,
         })
         return Promise.resolve()
       }
@@ -175,7 +175,7 @@ module.exports = (BasicInfoView = (function () {
           }).catch(e => {
             this.state.set('checkEmailState', 'standby')
             throw e
-          }))
+          })),
       })
       return this.state.get('checkEmailPromise')
     }
@@ -193,7 +193,7 @@ module.exports = (BasicInfoView = (function () {
 
       // Go through the form library so this follows the same trimming rules
       const {
-        name
+        name,
       } = forms.formToObject(this.$el.find('#basic-info-form'))
       // Carefully remove the error for just this field
       this.$el.find('[for="username-input"] ~ .help-block.error-help-block').remove()
@@ -219,7 +219,7 @@ module.exports = (BasicInfoView = (function () {
         this.state.set({
           checkNameState: 'standby',
           checkNameValue: name,
-          checkNamePromise: null
+          checkNamePromise: null,
         })
         return Promise.resolve()
       }
@@ -241,7 +241,7 @@ module.exports = (BasicInfoView = (function () {
           .catch(error => {
             this.state.set('checkNameState', 'standby')
             throw error
-          }))
+          })),
       })
 
       return this.state.get('checkNamePromise')
@@ -264,7 +264,7 @@ module.exports = (BasicInfoView = (function () {
         res.errors = res.errors.filter(err => err.dataPath !== '/password')
         res.errors.push({
           dataPath: '/password',
-          message: $.i18n.t('signup.invalid')
+          message: $.i18n.t('signup.invalid'),
         })
       }
 
@@ -275,14 +275,14 @@ module.exports = (BasicInfoView = (function () {
           if (!nameLower.startsWith('pacreg') || (nameLower.length !== 12) || isNaN(name.slice(6))) {
             res.errors.push({
               dataPath: '/name',
-              message: ' Invalid library id'
+              message: ' Invalid library id',
             })
           }
         } else {
           if ((nameLower.length !== 14) || !['23288', '29158'].includes(nameLower.slice(0, 5)) || isNaN(nameLower)) {
             res.errors.push({
               dataPath: '/name',
-              message: ' Invalid library id'
+              message: ' Invalid library id',
             })
           }
         }
@@ -299,7 +299,7 @@ module.exports = (BasicInfoView = (function () {
           properties: {
             email: User.schema.properties.email,
             name: User.schema.properties.name,
-            password: User.schema.properties.password
+            password: User.schema.properties.password,
           },
           required: (() => {
             switch (this.signupState.get('path')) {
@@ -307,7 +307,7 @@ module.exports = (BasicInfoView = (function () {
               case 'teacher': return ['password', 'email', 'firstName', 'lastName']
               default: return ['name', 'password', 'email']
             }
-          })()
+          })(),
         }
       } else {
         return {
@@ -317,7 +317,7 @@ module.exports = (BasicInfoView = (function () {
             name: User.schema.properties.name,
             password: User.schema.properties.password,
             firstName: User.schema.properties.firstName,
-            lastName: User.schema.properties.lastName
+            lastName: User.schema.properties.lastName,
           },
           required: (() => {
             switch (this.signupState.get('path')) {
@@ -326,7 +326,7 @@ module.exports = (BasicInfoView = (function () {
               default:
                 return ['name', 'password'].concat(this.hideEmail ? [] : ['email'])
             }
-          })()
+          })(),
         }
       }
     }
@@ -408,7 +408,7 @@ module.exports = (BasicInfoView = (function () {
 
           me.set('features', {
             ...(me.get('features') || {}),
-            isNewDashboardActive: true
+            isNewDashboardActive: true,
           })
 
           const jqxhr = me.save()
@@ -427,7 +427,7 @@ module.exports = (BasicInfoView = (function () {
           // Don't sign up, kick to TeacherComponent instead
           if (this.signupState.get('path') === 'teacher') {
             this.signupState.set({
-              signupForm: _.pick(forms.formToObject(this.$el), 'firstName', 'lastName', 'email', 'password', 'subscribe')
+              signupForm: _.pick(forms.formToObject(this.$el), 'firstName', 'lastName', 'email', 'password', 'subscribe'),
             })
             this.trigger('signup')
             return
@@ -587,7 +587,7 @@ module.exports = (BasicInfoView = (function () {
               return User.checkEmailExists(email).then(({ exists }) => {
                 this.signupState.set({
                   ssoUsed,
-                  email: ssoAttrs.email
+                  email: ssoAttrs.email,
                 })
                 if (exists) {
                   return this.trigger('sso-connect:already-in-use')
@@ -595,9 +595,9 @@ module.exports = (BasicInfoView = (function () {
                   return this.trigger('sso-connect:new-user')
                 }
               })
-            }
+            },
           })
-        }
+        },
       })
     }
   }

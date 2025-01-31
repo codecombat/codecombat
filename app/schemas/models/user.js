@@ -233,6 +233,7 @@ _.extend(UserSchema.properties, {
     c.object({ required: ['name', 'id'] }, {
       id: { type: 'string' },
       name: { type: 'string' },
+      type: { type: 'string', enum: ['googleClassroom', 'schoologyClassroom'], required: false },
       importedToCoco: { type: 'boolean', default: false },
       importedToOzaria: { type: 'boolean', default: false },
       deletedFromGC: { type: 'boolean', default: false, description: 'Set true for classrooms imported to coco/ozaria but deleted from GC' }

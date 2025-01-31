@@ -1523,6 +1523,7 @@ module.exports = (User = (function () {
     // google classroom flags for new teacher dashboard, remove `useGoogleClassroom` when old dashboard disabled
     showGoogleClassroom () { return !(features?.chinaUx != null ? features?.chinaUx : false) && !me.isCodeNinja() }
     googleClassroomEnabled () { return (me.get('gplusID') != null) && !me.isCodeNinja() }
+    schoologyClassroomEnabled () { return true }
 
     // Block access to paid campaigns(any campaign other than CH1) for anonymous users + non-admin, non-internal individual users.
     // Scenarios where a user has access to a campaign:
