@@ -340,12 +340,22 @@ export default {
     },
     newInitialFreeCourses (newVal) {
       this.$emit('initialFreeCoursesUpdated', newVal)
+      if (this.hasJunior && !this.newCodeFormats.includes('blocks-icons')) {
+        this.newCodeFormats.push('blocks-icons')
+      }
     },
     newCodeFormats (newVal) {
       this.$emit('codeFormatsUpdated', newVal)
     },
     newCodeFormatDefault (newVal) {
       this.$emit('codeFormatDefaultUpdated', newVal)
+    },
+    newClubType (newVal) {
+      if (['camp-junior', 'annual-plan-cn-coco'].includes(newVal)) {
+        if (!this.newInitialFreeCourses.includes(utils.courseIDs.JUNIOR)) {
+          this.newInitialFreeCourses.push(utils.courseIDs.JUNIOR)
+        }
+      }
     },
   },
   methods: {
