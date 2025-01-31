@@ -432,7 +432,13 @@
         :text="$t('schools_page.accessibility_representation_text')"
         image="/images/pages/schools/boxes/box_access.webp"
         :lazy-load="true"
-      />
+      >
+        <p>
+          <span>{{ $t('schools_page.accessibility_acr_prefix') }}</span>
+          <a href="/acr">{{ $t('schools_page.accessibility_acr_link_text') }}</a>
+          <span>{{ $t('schools_page.accessibility_acr_suffix') }}</span>
+        </p>
+      </image-and-text>
       <image-and-text
         :title="$t('schools_page.privacy_security_title')"
         :text="$t('schools_page.privacy_security_text')"

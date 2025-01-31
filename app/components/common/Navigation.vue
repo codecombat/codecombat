@@ -35,6 +35,7 @@ export const items = {
   PD: { url: '/pd', title: 'teacher_dashboard.pd' },
   HOC: { url: cocoPath('/teachers/hour-of-code'), title: 'nav.hoc' },
   GRANTS: { url: cocoPath('/grants'), title: 'nav.grants_funding_resources' },
+  ACCESSIBILITY: { url: cocoPath('/acr'), title: 'nav.accessibility' },
   DEMO: { url: '/teachers/quote', title: 'nav.request_quote_demo' },
   COCO_CLASSROOM: { url: cocoPath('/schools'), title: 'nav.codecombat_classroom' },
   COCO_JUNIOR: { url: getJuniorUrl(), title: 'nav.coco_junior' },
@@ -298,7 +299,7 @@ export default Vue.extend({
         },
       }
 
-      const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), title: 'nav.codecombat_teacher_dashboard' }
+      const teacherCocoClasses = { url: this.cocoPath('/teachers/classes'), title: 'nav.codecombat_teacher_dashboard' }
       const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), title: 'nav.ozaria_teacher_dashboard' }
 
       const cocoAdmin = { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'nav.codecombat_admin_dashboard' }
@@ -308,7 +309,7 @@ export default Vue.extend({
         'my-dashboards': {
           title: 'nav.my_dashborads',
           children: [
-            ...(isCodeCombat ? [teacherCocoCllasses, teacherOzarClasses, cocoAdmin, ozarAdmin] : [teacherOzarClasses, teacherCocoCllasses, ozarAdmin, cocoAdmin]),
+            ...(isCodeCombat ? [teacherCocoClasses, teacherOzarClasses, cocoAdmin, ozarAdmin] : [teacherOzarClasses, teacherCocoClasses, ozarAdmin, cocoAdmin]),
           ]
         },
         resources: {

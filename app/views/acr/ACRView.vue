@@ -28,60 +28,12 @@ export default {
       h1.heading-corner Summary
       p CodeCombat and Ozaria comply with the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA and the Revised Section 508 Standards, including full screen reader support for Ozaria. We are committed to providing a website that is accessible to the widest possible audience, regardless of technology or ability. View the Accessibility Conformance Report (ACR) here, which is based on the VPAT® 2.4.
 
-      a.btn.btn-primary.btn-large.btn-moon.download-html-btn(href="/acr/acr.html" download target="_blank") Download (human-readable HTML)
-      a.btn.btn-primary.btn-large.btn-moon.download-yaml-btn(href="/acr/acr.yaml" download target="_blank") Download (machine-readable YAML)
+      a.btn.btn-primary.btn-large.btn-moon.download-html-btn(href="/acr/acr.html" download target="_blank" aria-label="Download HTML") Download (human-readable HTML)
+      a.btn.btn-primary.btn-large.btn-moon.download-yaml-btn(href="/acr/acr.yaml" download target="_blank" aria-label="Download YAML") Download (machine-readable YAML)
 
     section#acr-report
       h1.heading-corner Full Report
-      iframe#acr-iframe(src="/acr/acr.html" frameborder="0" scrolling="no" onload="this.style.height = this.contentWindow.document.documentElement.scrollHeight + 'px';")
-
-    section.section-spacer#diversity-summary
-      h1.heading-corner Diversity
-      p For us, diversity isn't just acknowledging the presence of differences within our learning community, but also the practice of celebrating those differences. In Ozaria, you'll find that we've offered a diverse representation of characters that players can interact with and also play as.
-
-      img.img-responsive.img-center(src="/images/pages/dei/diverse-heroes.png" alt="Ozaria hero options" loading="lazy")
-
-    #graphics-1-back
-
-    section#equity-summary
-      h1.heading-corner Equity
-      p With equity, we strive to ensure that every learner has access to the same opportunities when they are playing Ozaria. This includes making a commitment to correct and address imbalances that may exist due to inherent advantages or barriers.
-
-    section.section-spacer#speech-bubble-testimonial-1
-      .row.xs-marg-15
-        blockquote.col-sm-8(style="z-index: 1;")
-          div For example, in Ozaria, we've started to add voice-overs to the dialogue that happens between our characters so that a player's reading ability doesn't get in the way of their ability to learn about computer science and coding concepts.
-      .row
-        .col-sm-6.crystal-art
-          img.img-responsive(src="/images/ozaria/home/crystal-art.png" alt="")
-        .col-sm-6.equity-image
-          img.img-responsive(src="/images/pages/dei/vega-and-mouse.png" style="z-index: 0;" alt="")
-
-    section#equity-lesson-slides
-      p Our turnkey lesson slides are filled with activities and projects that connect computer science concepts to real-world examples that are relevant to students' day-to-day lives. They also provide opportunities to reinforce concepts for players who may be struggling or extend the learning for players who need an extra challenge.
-
-      img.img-responsive.img-center(src="/images/pages/dei/lesson-slides-stacked.png" alt="Turnkey lesson slides" loading="lazy" style="margin-top: 40px; margin-bottom: 40px;")
-
-      .text-center
-        a.btn.btn-primary.btn-large.btn-moon.sales-btn(href="https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing" target="_blank") Sample Lesson
-        a.btn.btn-primary.btn-large.btn-moon.sales-btn(@click="onClickSalesCTA") Request a Quote
-
-    section#inclusion-summary
-      h1.heading-corner Inclusion
-      p When it comes to inclusion, we design our content with the intention that groups or individuals from different backgrounds and disabilities feel welcomed and valued, both culturally and socially.
-
-      .row(style="margin: 20px 0;")
-        .col-lg-5.col-md-6.col-sm-12
-          //img.img-responsive(src="/images/pages/dei/spirited-away.png" alt="Ozaria syntax highlighting color scheme")
-          img.img-responsive(src="/images/pages/dei/inclusive-code-small.gif" alt="Ozaria syntax highlighting color scheme")
-        .col-lg-7.col-md-6.col-sm-12
-          p This includes designing our content so that students with different learning disabilities are supported with the Ozaria experience.
-
-          p For example, the color scheme for our code was designed to be user-friendly for individuals who are color blind.
-
-      p Our curriculum also promotes a flexible classroom environment, where players progress at their own pace and the content invites them to express themselves through game design projects.
-
-      p Finally, we continually test the Ozaria experience with teachers and students from a variety of backgrounds. This has allowed us to constantly improve our content so that players with different perspectives feel respected and included while they explore and learn from the world of Ozaria.
+      iframe#acr-iframe(src="/acr/acr.html" frameborder="0" scrolling="no" onload="this.style.height = this.contentWindow.document.documentElement.scrollHeight + 'px';" title="Accessibility Conformance Report")
 
     section.section-spacer(style="margin: 70px;")
       .row.flex-row.text-center(style="width: 100%;")
