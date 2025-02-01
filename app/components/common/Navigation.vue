@@ -108,6 +108,7 @@ export default Vue.extend({
 
     homeLink () {
       if (me.isCodeNinja() && me.isStudent()) { return '/students' }
+      if (me.isCodeNinja() && me.isAPIClient()) { return '/api-dashboard' }
       if (me.isCodeNinja() && me.isTeacher()) { return '/teachers/classes' }
       if (me.isTarena()) { return 'http://kidtts.tmooc.cn/ttsPage/login.html' }
       if (this.hideNav) { return '#' }

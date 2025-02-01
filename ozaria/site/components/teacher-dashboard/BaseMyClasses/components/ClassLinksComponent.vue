@@ -43,6 +43,7 @@
             }"
             href="https://www.ozaria.com/teachers/classes/"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-dashboard" />
             <span>Ozaria Dashboard</span>
@@ -58,6 +59,7 @@
             }"
             :href="`https://codecombat.com/play/ladder/equinox/clan/${equinoxTournament.clan}?tournament=${equinoxTournament._id}`"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-arena" />
             <span>Equinox Arena</span>
@@ -73,6 +75,7 @@
             }"
             :href="`https://codecombat.com/play/ladder/tundra-tower/clan/${ttTournament.clan}?tournament=${ttTournament._id}`"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-arena" />
             <span>Tournament Arena</span>
@@ -90,6 +93,7 @@
             }"
             href="https://docs.google.com/presentation/d/1s551TjfXHcKZ9VxAcJDppEVSee7jQffQiCBPlQSjafs/edit#slide=id.g26c495a3c7b_0_735"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Day 1</span>
@@ -104,6 +108,7 @@
             }"
             href="https://docs.google.com/presentation/d/1s551TjfXHcKZ9VxAcJDppEVSee7jQffQiCBPlQSjafs/edit#slide=id.g26c495a3c7b_0_1070"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Day 2</span>
@@ -118,6 +123,7 @@
             }"
             href="https://drive.google.com/drive/folders/1eCzl7gi-PkuAQHLLVQhy2nhKDugm004W?usp=drive_link"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Day 3</span>
@@ -132,6 +138,7 @@
             }"
             href="https://drive.google.com/drive/folders/1j70Iqtle-ZoTYLK6RVaY9Fb7f_c0EjMm?usp=sharing"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Day 4</span>
@@ -146,6 +153,7 @@
             }"
             href="https://drive.google.com/drive/folders/14BUC0BjPREeuvsI8a_bHgpUPqBfhbsGX?usp=sharing"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Day 5</span>
@@ -165,6 +173,7 @@
             }"
             href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
             class="dusk-btn disabled"
+            target="_blank"
             disabled
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -196,6 +205,7 @@
             }"
             href="https://www.roblox.com/games/11704713454"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
             <span>Join Roblox Server</span>
@@ -213,6 +223,7 @@
             }"
             href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g2c5478d5359_1_197"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Day 1</span>
@@ -227,6 +238,7 @@
             }"
             href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g26c4a941b7b_0_4"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Day 2</span>
@@ -241,6 +253,7 @@
             }"
             href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g26ce47520c2_0_503"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Day 3</span>
@@ -255,6 +268,7 @@
             }"
             href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g2c544e9b6d0_0_0"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Day 4</span>
@@ -269,6 +283,7 @@
             }"
             href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g2c544e9b6d0_0_61"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Day 5</span>
@@ -291,6 +306,7 @@
             }"
             href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
             class="dusk-btn disabled"
+            target="_blank"
             disabled
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -320,6 +336,7 @@
             }"
             href="https://codecombat.com/ai/"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
             <span>AI HackStack</span>
@@ -363,6 +380,7 @@
             }"
             href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
             class="dusk-btn disabled"
+            target="_blank"
             disabled
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -422,6 +440,7 @@
             }"
             href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
             class="dusk-btn disabled"
+            target="_blank"
             disabled
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -451,6 +470,7 @@
             }"
             href="https://www.roblox.com/games/11704713454"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
             <span>Join Roblox Server</span>
@@ -494,6 +514,7 @@
             }"
             href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
             class="dusk-btn disabled"
+            target="_blank"
             disabled
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -523,6 +544,7 @@
             }"
             href="https://codecombat.com/play/ladder/equinox"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
             <span>Equinox Arena</span>
@@ -536,6 +558,7 @@
             }"
             href="https://codecombat.com/play/ladder/tundra-tower"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
             <span>Tundra Tower Arena</span>
@@ -549,6 +572,7 @@
             }"
             href="https://codecombat.com/play/ladder/sandstorm"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
             <span>Sandstorm Arena</span>
@@ -562,6 +586,7 @@
             }"
             href="https://codecombat.com/play/ladder/solar-skirmish"
             class="dusk-btn"
+            target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
             <span>Solar Skirmish Arena</span>

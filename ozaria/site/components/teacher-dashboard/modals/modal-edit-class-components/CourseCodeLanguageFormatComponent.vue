@@ -155,7 +155,15 @@
       <label for="default-code-format-select">
         <span class="control-label"> {{ $t("teachers.default_code_format") }} </span>
       </label>
+      <input
+        v-if="enabledCodeFormats.length === 1"
+        v-model="newCodeFormatDefault"
+        type="text"
+        class="form-control"
+        disabled
+      >
       <select
+        v-else
         id="default-code-format-select"
         v-model="newCodeFormatDefault"
         class="form-control"
@@ -247,7 +255,7 @@ export default {
       getCourseInstances: 'courseInstances/getCourseInstancesOfClass',
     }),
     hideCodeLanguageAndFormat () {
-      return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack'].includes(this.newClubType)
+      return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack', 'camp-esports'].includes(this.newClubType)
     },
     enableBlocks () {
       return ['python', 'javascript', 'lua'].includes(this.newProgrammingLanguage || 'python')
@@ -332,12 +340,24 @@ export default {
     },
     newInitialFreeCourses (newVal) {
       this.$emit('initialFreeCoursesUpdated', newVal)
+      if (this.hasJunior && !this.newCodeFormats.includes('blocks-icons')) {
+        this.newCodeFormats.push('blocks-icons')
+        this.$emit('codeFormatsUpdated', this.newCodeFormats)
+      }
     },
     newCodeFormats (newVal) {
       this.$emit('codeFormatsUpdated', newVal)
     },
     newCodeFormatDefault (newVal) {
       this.$emit('codeFormatDefaultUpdated', newVal)
+    },
+    newClubType (newVal) {
+      if (['camp-junior', 'annual-plan-cn-coco'].includes(newVal)) {
+        if (!this.newInitialFreeCourses.includes(utils.courseIDs.JUNIOR)) {
+          this.newInitialFreeCourses.push(utils.courseIDs.JUNIOR)
+          this.$emit('initialFreeCoursesUpdated', this.newInitialFreeCourses)
+        }
+      }
     },
   },
   methods: {

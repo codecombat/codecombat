@@ -1476,6 +1476,11 @@ module.exports = (User = (function () {
       return this.isMtoStem() || this.isMtoNeo()
     }
 
+    isGeccClient () {
+      const GECC_ID = '61e7e20658f1020024bd8cf7'
+      return this.get('_id') === GECC_ID
+    }
+
     isManualClassroomJoinAllowed () {
       if (this.isMto()) {
         return false
