@@ -143,6 +143,9 @@ export default {
       return this.sharePermission ? this.classroom._id : undefined
     },
     showOutcomesReportButton () {
+      if (me.isCodeNinja()) {
+        return false
+      }
       if (!this.allClassesPage) {
         // If classroom has students
         return (this.classroom.members || []).length > 0
@@ -272,7 +275,7 @@ export default {
         </a>
 
         <primary-button
-          v-if="!showClassInfo"
+          v-if="!showClassInfo && !isCodeNinja"
           id="new-class-btn-shepherd"
           class="btn-title-padding btn-margins-height dusk-btn"
           @click="clickNewClass"
