@@ -561,6 +561,8 @@ module.exports = (CocoRouter = (function () {
 
         acte: redirect('/home?registering=true&referrerEvent=ACTE#create-account-teacher'),
 
+        acr: go('core/SingletonAppVueComponentView'),
+
         '*name/': 'removeTrailingSlash',
         '*name': go('NotFoundView'),
       }
