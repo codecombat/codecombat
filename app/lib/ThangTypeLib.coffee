@@ -54,8 +54,8 @@ ThangTypeLib =
     # Old way: hard-coded
     slug = thangTypeObj?.slug ? thangTypeObj?.get?('slug') ? ''
     heroGenders =
-      male: ['knight', 'samurai', 'trapper', 'potion-master', 'goliath', 'assassin', 'necromancer', 'duelist', 'code-ninja']
-      female: ['captain', 'ninja', 'forest-archer', 'librarian', 'sorcerer', 'raider', 'guardian', 'pixie', 'master-wizard', 'champion']
+      male: ['knight', 'samurai', 'trapper', 'potion-master', 'goliath', 'assassin', 'necromancer', 'duelist', 'code-ninja','armando-hoyos']
+      female: ['captain', 'ninja', 'forest-archer', 'librarian', 'sorcerer', 'raider', 'guardian', 'pixie', 'master-wizard', 'champion', 'valkyrie']
     if slug in heroGenders.female then 'female' else 'male'
 
 module.exports = ThangTypeLib
