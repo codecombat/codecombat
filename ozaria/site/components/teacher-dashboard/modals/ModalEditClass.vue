@@ -48,6 +48,7 @@ export default Vue.extend({
     const cFormats = this.classroom?.aceConfig?.codeFormats
     const cFormatDefault = this.classroom?.aceConfig?.codeFormatDefault
     const cLevelChat = this.classroom?.aceConfig?.levelChat
+    const cGrades = this.classroom?.grades || []
     return {
       showGoogleClassroom: me.showGoogleClassroom(),
       newClassName: this.classroom?.name || '',
@@ -69,7 +70,7 @@ export default Vue.extend({
       newMinutesPerClass: this.classroom?.minutesPerClass || '',
       newClubType: this.classroom?.type || '',
       saving: false,
-      classGrades: (utils.isOzaria && !me.isCodeNinja()) ? [] : null,
+      classGrades: (utils.isOzaria && !me.isCodeNinja()) ? cGrades : null,
       googleClassId: '',
       otherProductClassroomId: '',
       googleClassrooms: null,
