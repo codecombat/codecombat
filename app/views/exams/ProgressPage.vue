@@ -133,10 +133,14 @@ export default {
     paddingZero (num) {
       return `00${num}`.slice(-2)
     },
-    async counter () {
+    getMinsElapsed () {
       const oneMin = 60 * 1000
       const startDate = new Date(this.userExam.startDate)
       const minsElapse = parseInt((new Date() - startDate) / oneMin)
+      return minsElapse
+    },
+    async counter () {
+      const minsElapse = this.getMinsElapsed()
       let minsLeft = this.limitedDuration - minsElapse
       if (minsLeft <= 0) {
         clearInterval(this.counterInterval)
@@ -164,6 +168,27 @@ export default {
           return
         }
       }
+      const minMinutesBeforeSubmission = 5
+      if (this.getMinsElapsed() < minMinutesBeforeSubmission) {
+        window.tracker?.trackEvent(`Early Exam Submission - ${this.examId}`, {
+          userId: me.id,
+          duration: this.timeLeft,
+          autoSubmit: expires,
+          currentTime: new Date().toISOString(),
+        })
+        noty({
+          text: `You must wait at least ${minMinutesBeforeSubmission} minutes before submitting`,
+          type: 'error',
+          timeout: 5000,
+        })
+        return
+      }
+      window.tracker?.trackEvent(`Exam End - ${this.examId}`, {
+        userId: me.id,
+        duration: this.timeLeft,
+        autoSubmit: expires,
+        currentTime: new Date().toISOString(),
+      })
       await this.submitExam({
         userExamId: this.userExam._id,
         expires,
