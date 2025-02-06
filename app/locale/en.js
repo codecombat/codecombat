@@ -4711,7 +4711,7 @@ module.exports = {
       failed_attempts_subtext: 'Number of times incorrect option was selected',
       open_project: 'Open Project',
       create_class_hackstack: 'Please create a New Class to access AI HackStack',
-      add_club: 'Add New Club / Camp / Class',
+      add_club: 'Add New Club / Camp / Annual',
       test_student_only: '(Test Student Only)',
       ready_to_review: 'Ready to Review',
       ozaria_hs_modal_title: 'Access AI Hackstack Exclusively on CodeCombat',
