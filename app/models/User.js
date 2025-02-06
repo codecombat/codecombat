@@ -1151,39 +1151,7 @@ module.exports = (User = (function () {
     }
 
     getHackStackV2ExperimentValue () {
-      if (utils.isOzaria) {
-        return 'control'
-      }
-
-      const experimentName = 'hackstack-ui'
-      let value = me.getExperimentValue(experimentName, null)
-      if (value) {
-        return value
-      }
-
-      if (me.isHomeUser()) {
-        const releaseDate = new Date('2024-11-05')
-        if (new Date(me.get('dateCreated')) < releaseDate) {
-          value = 'beta' // enabling for old home users
-        }
-      } else {
-        value = 'beta' // enabling for classroom users
-      }
-      if (value === null) {
-        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
-        let valueProbability
-        const rand = Math.random()
-        if (rand < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        me.startExperiment(experimentName, value, valueProbability)
-      }
-
-      return value
+      return 'beta'
     }
 
     getM7ExperimentValue () {
