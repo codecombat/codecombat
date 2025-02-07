@@ -44,6 +44,8 @@
                 :video-id="item.video.videoId"
                 :aspect-ratio="item.video.aspectRatio"
                 :title="`Video to illustrate ${item.title}`"
+                :auto-play="me.isAnonymous()"
+                :controls="!me.isAnonymous()"
                 @loaded="onVideoLoaded(`video-${index}`, item.video.videoId)"
               />
             </div>
@@ -126,6 +128,11 @@ export default {
     lazyLoad: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    me () {
+      return me
     },
   },
   methods: {
