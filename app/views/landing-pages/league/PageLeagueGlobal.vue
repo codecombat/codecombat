@@ -41,7 +41,7 @@ export default {
     SectionFirstCTA,
     InputClanSearch,
     ApiData,
-    BackboneModalHarness
+    BackboneModalHarness,
   },
 
   beforeRouteUpdate (to, from, next) {
@@ -67,7 +67,7 @@ export default {
     championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
     championshipActive: !!currentChampionshipArena,
     anonymousPlayerName: false,
-    dateBeforeSep: new Date() < new Date('2022-9-1')
+    dateBeforeSep: new Date() < new Date('2022-9-1'),
   }),
   computed: {
     ...mapGetters({
@@ -305,7 +305,7 @@ export default {
       loadChampionshipGlobalRequiredData: 'seasonalLeague/loadChampionshipGlobalRequiredData',
       loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
       fetchClan: 'clans/fetchClan',
-      fetchChildClanDetails: 'clans/fetchChildClanDetails'
+      fetchChildClanDetails: 'clans/fetchChildClanDetails',
     }),
 
     changeClanSelected (e) {
@@ -478,7 +478,7 @@ export default {
       if (this.currentSelectedClan !== null) {
         const rewrites = {
           'autoclan-school-network-academica': 'academica',
-          'autoclan-school-network-kipp': 'kipp'
+          'autoclan-school-network-kipp': 'kipp',
         }
         const clanSlug = rewrites[this.currentSelectedClan.slug] || this.currentSelectedClan.slug
         return `${window.location.origin}/league/${clanSlug}`
@@ -914,7 +914,15 @@ export default {
       </div>
       <div class="prize-section__info">
         <div class="prize-section__info-1">
-          {{ $t('league.grand_prize') }}: {{ $t('league.season1_prize_1') }}<span class="prize-section__small-top">1</span>
+          <p>
+            <span class="prize-info-title">{{ $t('league.grand_prize') }}</span>: <span>{{ $t('league.new_season_prize_1') }}</span>
+          </p>
+          <p>
+            <span class="prize-info-title">{{ $t('league.second_prize') }}</span>: <span>{{ $t('league.new_season_prize_2') }}</span>
+          </p>
+          <p>
+            <span class="prize-info-title">{{ $t('league.third_prize') }}</span>: <span>{{ $t('league.new_season_prize_3') }}</span>
+          </p>
         </div>
       </div>
     </div>
@@ -1918,8 +1926,22 @@ export default {
       padding: 30px;
 
       &-1 {
-        font-size: 65px;
+        font-size: 32px;
         padding-bottom: 10px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        span {
+          display: inline-block;
+          width: 350px;
+          text-align: left;
+
+          &.prize-info-title {
+            text-align: right;
+          }
+        }
       }
 
       &-2 {
