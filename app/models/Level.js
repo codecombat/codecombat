@@ -651,6 +651,21 @@ module.exports = (Level = (function () {
         })
       })
     }
+
+    getClassroomSub (teacher) {
+      const classroomSub = this.get('classroomSub')
+      let requiresSub
+      if (teacher && classroomSub && classroomSub.default) {
+        const sub = classroomSub[teacher.get('geo')?.country] || classroomSub.default
+        if (sub === 'free-after-sales') {
+          requiresSub = !(teacher.activeProducts('call-sales').length)
+        } else {
+          requiresSub = sub !== 'free'
+        }
+        return requiresSub
+      }
+      return true
+    }
   }
   Level.initClass()
   return Level
