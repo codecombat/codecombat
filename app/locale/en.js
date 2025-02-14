@@ -685,6 +685,8 @@ module.exports = {
       gplus_linked: 'Google Account linked successfully',
       plus_link_error: 'Google Account linked failed',
       email_or_username_or_library: 'Email or Username or Library Card number',
+      schoology_login_failed: 'Login failed. You may need to sign up first.',
+      schoology_signup: 'Sign Up with Schoology',
     },
 
     signup: {
