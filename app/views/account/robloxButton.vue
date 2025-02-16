@@ -86,6 +86,7 @@ export default Vue.extend({
     },
     async checkRobloxConnectionStatus () {
       if (this.loading) {
+        console.log('already loading')
         return
       }
       this.loading = true
@@ -110,9 +111,10 @@ export default Vue.extend({
       // Listen for the roblox connection to be completed so we can
       // update the UI after the user connects their roblox account
       const connectionTrackingKey = 'robloxConnectionTrackingKey'
-      window.addEventListener('storage', (event) => {
+      window.addEventListener('storage', async (event) => {
+        console.log('event', event, connectionTrackingKey, localStorage.getItem(connectionTrackingKey))
         if (event.key === connectionTrackingKey) {
-          this.checkRobloxConnectionStatus()
+          await this.checkRobloxConnectionStatus()
           localStorage.removeItem(connectionTrackingKey)
         }
       })
@@ -127,8 +129,9 @@ export default Vue.extend({
         },
         callback: async confirm => {
           if (confirm) {
+            console.log('deleting identity', identity)
             await identity.destroy()
-            this.checkRobloxConnectionStatus()
+            await this.checkRobloxConnectionStatus()
           }
         },
       })
