@@ -110,9 +110,9 @@ export default Vue.extend({
       // Listen for the roblox connection to be completed so we can
       // update the UI after the user connects their roblox account
       const connectionTrackingKey = 'robloxConnectionTrackingKey'
-      window.addEventListener('storage', (event) => {
+      window.addEventListener('storage', async (event) => {
         if (event.key === connectionTrackingKey) {
-          this.checkRobloxConnectionStatus()
+          await this.checkRobloxConnectionStatus()
           localStorage.removeItem(connectionTrackingKey)
         }
       })
@@ -128,7 +128,7 @@ export default Vue.extend({
         callback: async confirm => {
           if (confirm) {
             await identity.destroy()
-            this.checkRobloxConnectionStatus()
+            await this.checkRobloxConnectionStatus()
           }
         },
       })
