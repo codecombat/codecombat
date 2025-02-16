@@ -85,6 +85,9 @@ export default Vue.extend({
       return oauth2identity.fetchForProviderAndUser('roblox', this.userId)
     },
     async checkRobloxConnectionStatus () {
+      if (this.loading) {
+        return
+      }
       this.loading = true
       this.robloxIdentities = new OAuth2Identities(await this.getRobloxIdentities()).models
       this.loading = false
