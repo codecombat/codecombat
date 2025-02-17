@@ -1021,7 +1021,7 @@ class CampaignView extends RootView {
       if (this.editorMode) { level.locked = false }
       if (['Auditions', 'Intro'].includes(this.campaign?.get('name'))) { level.locked = false }
       if (me.isInGodMode()) { level.locked = false }
-      if (this.courseInstanceID && !level.getClassroomSub(this.courseTeacher)) { level.locked = false }
+      if (this.courseInstanceID && level.hasAccessByTeacher(this.courseTeacher)) { level.locked = false }
       if (level.adminOnly && !['started', 'complete'].includes(this.levelStatusMap[level.slug])) { level.disabled = true }
       if (me.isInGodMode()) { level.disabled = false }
 

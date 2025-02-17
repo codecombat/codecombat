@@ -325,7 +325,13 @@ module.exports = (AdministerUserModal = (function () {
       const attrs = forms.formToObject(this.$('#call-sales-product-form'))
 
       if (!_.all(_.values(attrs))) { return }
-      if (!attrs.endDate || !attrs.startDate || !(attrs.endDate > attrs.startDate)) { return }
+      if (!attrs.endDate || !attrs.startDate || !(attrs.endDate > attrs.startDate)) {
+        window.noty({
+          text: 'End date must be after start date',
+          type: 'error',
+        })
+        return
+      }
       attrs.endDate = attrs.endDate + ' ' + '23:59' // Otherwise, it ends at 12 am by default which does not include the date indicated
 
       attrs.startDate = momentTimezone.tz(attrs.startDate, this.timeZone).toISOString()
@@ -334,7 +340,7 @@ module.exports = (AdministerUserModal = (function () {
 
       _.extend(attrs, {
         product: 'call-sales',
-        purchaser: me.id, // does sales team has admin account to do such?
+        purchaser: me.id,
         recipient: this.user.id,
         paymentService: 'external',
         paymentDetails: {

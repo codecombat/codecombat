@@ -629,7 +629,7 @@ _.extend(LevelSchema.properties, {
 LevelSchema.definitions = {
   classroomSub: {
     title: 'Classroom Subscription',
-    description: 'Whether this level is avaliable in classroom content for subscribers only.',
+    description: 'Whether this level is available in classroom content for subscribers only.',
     type: 'object',
     properties: {
       default: {

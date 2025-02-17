@@ -652,19 +652,18 @@ module.exports = (Level = (function () {
       })
     }
 
-    getClassroomSub (teacher) {
+    hasAccessByTeacher (teacher) {
       const classroomSub = this.get('classroomSub')
-      let requiresSub
+      let hasAccess = false
       if (teacher && classroomSub && classroomSub.default) {
         const sub = classroomSub[teacher.get('geo')?.country] || classroomSub.default
         if (sub === 'free-after-sales') {
-          requiresSub = !(teacher.activeProducts('call-sales').length)
+          hasAccess = teacher.activeProducts('call-sales').length
         } else {
-          requiresSub = sub !== 'free'
+          hasAccess = sub === 'free'
         }
-        return requiresSub
       }
-      return true
+      return hasAccess
     }
   }
   Level.initClass()
