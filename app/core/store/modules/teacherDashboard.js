@@ -330,7 +330,10 @@ export default {
           const levelSessionOptions = {
             project: (options.data || {}).levelSessions,
           }
-          fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
+          // too many users causing failures
+          if (!me.isMto()) {
+            fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
+          }
         })
       }
 
