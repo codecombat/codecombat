@@ -208,7 +208,7 @@ module.exports = (User = (function () {
 
     hasNoPasswordLoginMethod () {
       // Return true if user has any login method that doesn't require a password
-      return Boolean(this.get('facebookID') || this.get('gplusID') || this.get('githubID') || this.get('cleverID'))
+      return Boolean(this.get('facebookID') || this.get('gplusID') || this.get('githubID') || this.get('cleverID')) || (this.get('oAuth2Identities')?.length > 0)
     }
 
     currentPasswordRequired () {
@@ -1151,39 +1151,7 @@ module.exports = (User = (function () {
     }
 
     getHackStackV2ExperimentValue () {
-      if (utils.isOzaria) {
-        return 'control'
-      }
-
-      const experimentName = 'hackstack-ui'
-      let value = me.getExperimentValue(experimentName, null)
-      if (value) {
-        return value
-      }
-
-      if (me.isHomeUser()) {
-        const releaseDate = new Date('2024-11-05')
-        if (new Date(me.get('dateCreated')) < releaseDate) {
-          value = 'beta' // enabling for old home users
-        }
-      } else {
-        value = 'beta' // enabling for classroom users
-      }
-      if (value === null) {
-        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
-        let valueProbability
-        const rand = Math.random()
-        if (rand < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        me.startExperiment(experimentName, value, valueProbability)
-      }
-
-      return value
+      return 'beta'
     }
 
     getM7ExperimentValue () {
@@ -1474,6 +1442,11 @@ module.exports = (User = (function () {
 
     isMto () {
       return this.isMtoStem() || this.isMtoNeo()
+    }
+
+    isGeccClient () {
+      const GECC_ID = '61e7e20658f1020024bd8cf7'
+      return this.get('_id') === GECC_ID
     }
 
     isManualClassroomJoinAllowed () {

@@ -47,6 +47,14 @@ module.exports = {
     }))
   },
 
+  signupWithOAuth2 ({ userID, email, ...attrs }) {
+    return fetchJson(this.url(userID, 'signup-with-oauth2'), _.assign({}, {
+      method: 'POST',
+      credentials: 'include',
+      json: { email, ...attrs },
+    }))
+  },
+
   signupFromGoogleClassroom (attrs, options) {
     if (options == null) { options = {} }
     return fetchJson('/db/user/signup-from-google-classroom', _.assign({}, options, {

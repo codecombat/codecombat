@@ -234,7 +234,7 @@ export default {
             },
             {
               linkText: $.i18n.t('hoc_page.view_lesson'),
-              link: 'https://codecombat.com/teachers/hour-of-code?activity=teacher-gd',
+              link: 'http://files.codecombat.com/docs/resources/hourofcode/HourofCodeCodeCombatLessonPlan2018.pdf',
             },
           ],
         },

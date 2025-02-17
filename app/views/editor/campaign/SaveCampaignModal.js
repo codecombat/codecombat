@@ -13,6 +13,8 @@ const ModalView = require('views/core/ModalView')
 const template = require('app/templates/editor/campaign/save-campaign-modal')
 const DeltaView = require('views/editor/DeltaView')
 
+const CHUNK_SAVE_SIZE = 50
+
 module.exports = (SaveCampaignModal = (function () {
   SaveCampaignModal = class SaveCampaignModal extends ModalView {
     static initClass () {
@@ -39,10 +41,30 @@ module.exports = (SaveCampaignModal = (function () {
       return super.afterRender()
     }
 
-    onClickSaveButton () {
+    async onClickSaveButton () {
       this.showLoading()
       const modelsBeingSaved = (Array.from(this.modelsToSave.models).map((model) => model.patch()))
-      return $.when(...Array.from(_.compact(modelsBeingSaved) || [])).done(() => document.location.reload())
+      const totalModels = modelsBeingSaved.length
+      let savedCount = 0
+
+      const loadingScreen = this.$el.find('.loading-screen')
+      try {
+        for (let i = 0; i < modelsBeingSaved.length; i += CHUNK_SAVE_SIZE) {
+          const chunkPromises = modelsBeingSaved.slice(i, i + CHUNK_SAVE_SIZE)
+          // Update loading message
+          const message = `Saving models... ${savedCount}/${totalModels} (${Math.round(savedCount / totalModels * 100)}%)`
+          console.info(message)
+          const percentage = Math.round((savedCount / totalModels) * 100)
+          loadingScreen.find('.progress-bar').css('width', `${percentage}%`)
+          await Promise.all(chunkPromises)
+          savedCount += chunkPromises.length
+        }
+        document.location.reload()
+      } catch (error) {
+        console.error('Error saving models:', error)
+        // You might want to show an error message to the user here
+        this.hideLoading()
+      }
     }
   }
   SaveCampaignModal.initClass()
