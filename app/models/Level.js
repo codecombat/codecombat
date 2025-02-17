@@ -653,6 +653,9 @@ module.exports = (Level = (function () {
     }
 
     hasAccessByTeacher (teacher) {
+      if (!teacher) {
+        return false
+      }
       const classroomSub = this.get('classroomSub')
       let hasAccess = false
       if (teacher && classroomSub && classroomSub.default) {
