@@ -658,8 +658,8 @@ module.exports = (Level = (function () {
       }
       const classroomSub = this.get('classroomSub')
       let hasAccess = false
-      if (teacher && classroomSub && classroomSub.default) {
-        const sub = classroomSub[teacher.get('geo')?.country] || classroomSub.default
+      if (teacher && classroomSub && classroomSub.base) {
+        const sub = classroomSub[teacher.get('geo')?.country] || classroomSub.base
         if (sub === 'free-after-sales') {
           hasAccess = teacher.activeProducts('call-sales').length
         } else {

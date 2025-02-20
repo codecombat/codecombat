@@ -632,7 +632,7 @@ LevelSchema.definitions = {
     description: 'Whether this level is available in classroom content for subscribers only.',
     type: 'object',
     properties: {
-      default: {
+      base: {
         type: 'string',
         enum: ['paid', 'free', 'free-after-sales'],
       },
