@@ -446,7 +446,8 @@ _.extend(UserSchema.properties, {
       },
       ownerDistrictId: c.objectId({ description: 'District ID where user has admin permission to view data like outcome reports' }),
       syncedToSF: { type: 'boolean', description: 'Whether the user has been synced to Salesforce' },
-      syncedToCIO: { type: 'boolean', description: 'Whether the user has been synced to CIO' }
+      syncedToCIO: { type: 'boolean', description: 'Whether the user has been synced to CIO' },
+      forceLogout: { type: 'boolean', description: 'Whether the user needs to be force logged out' },
     }
   },
 
