@@ -96,14 +96,21 @@ block append content
               if (level >= 5) return 'silver'
               return 'bronze'
             }
-          each categoryData, category in categories
-            if categoryData.check
-              - var badgeClass = getBadgeClass(categoryData.level)
-              - var categoryLower = category.toLowerCase()
+          - var categories = [
+            { name: 'Adventurer', level: adventurerLevel, check: levelsComplete },
+            { name: 'Archmage', level: archmageLevel, check: levelComponentEdits },
+            { name: 'Artisan', level: artisanLevel, check: levelEdits },
+            { name: 'Scribe', level: scribeLevel, check: articleEdits },
+            { name: 'Diplomat', level: diplomatLevel, check: totalTranslations }
+          ]
+          each category in categories
+            if category.check
+              - var badgeClass = getBadgeClass(category.level)
+              - var categoryLower = category.name.toLowerCase()
               li.contributor-category(class=badgeClass)
-                img.contributor-image(src=`/images/pages/user/${categoryLower}.png`)
+                img.contributor-image(src='/images/pages/user/' + categoryLower + '.png')
                 h4.contributor-title
-                  a(href=`/contribute/#{categoryLower}`)= category + " Lv." + categoryData.level
+                  a(href='/contribute/' + categoryLower)= category.name + ' Lv.' + category.level
 
 
       .right-column
