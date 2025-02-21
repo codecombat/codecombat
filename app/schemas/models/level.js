@@ -631,6 +631,7 @@ LevelSchema.definitions = {
     title: 'Classroom Subscription',
     description: 'Whether this level is available in classroom content for subscribers only.',
     type: 'object',
+    required: ['base'],
     properties: {
       base: {
         type: 'string',
@@ -638,7 +639,7 @@ LevelSchema.definitions = {
       },
     },
     patternProperties: {
-      '^[a-zA-Z]*$': { // country code
+      '^[a-zA-Z-]*$': { // ISO country code
         type: 'string',
         enum: ['paid', 'free', 'free-after-sales'],
       },
