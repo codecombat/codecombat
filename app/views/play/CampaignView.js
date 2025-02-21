@@ -15,6 +15,7 @@ const CreateAccountModal = require('views/core/CreateAccountModal')
 const SubscribeModal = require('views/core/SubscribeModal')
 const LeaderboardModal = require('views/play/modal/LeaderboardModal')
 const Level = require('models/Level')
+const User = require('models/User')
 const utils = require('core/utils')
 const ShareProgressModal = require('views/play/modal/ShareProgressModal')
 const UserPollsRecord = require('models/UserPollsRecord')
@@ -275,6 +276,14 @@ class CampaignView extends RootView {
 
         this.course = new Course({ _id: courseID })
         this.supermodel.trackRequest(this.course.fetch())
+        if (this.courseInstance.get('ownerID')) {
+          const teacherID = this.courseInstance.get('ownerID')
+          this.courseTeacher = new User({ _id: teacherID })
+          this.supermodel.trackRequest(this.courseTeacher.fetch())
+          this.listenToOnce(this.courseTeacher, 'sync', () => {
+            this.render()
+          })
+        }
         if (this.courseInstance.get('classroomID')) {
           const classroomID = this.courseInstance.get('classroomID')
           this.classroom = new Classroom({ _id: classroomID })
@@ -1012,6 +1021,7 @@ class CampaignView extends RootView {
       if (this.editorMode) { level.locked = false }
       if (['Auditions', 'Intro'].includes(this.campaign?.get('name'))) { level.locked = false }
       if (me.isInGodMode()) { level.locked = false }
+      if (this.courseInstanceID && level.hasAccessByTeacher(this.courseTeacher)) { level.locked = false }
       if (level.adminOnly && !['started', 'complete'].includes(this.levelStatusMap[level.slug])) { level.disabled = true }
       if (me.isInGodMode()) { level.disabled = false }
 

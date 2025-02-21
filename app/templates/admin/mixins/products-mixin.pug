@@ -1,0 +1,53 @@
+mixin products-list(products, name, keys, productState)
+  h3.m-t-3(data-toggle="collapse" data-target=`#${name}-product-table` aria-expanded="false" aria-controls=`${name}-product-table`)= `Existing ${name.charAt(0).toUpperCase() + name.slice(1)} Products`
+    span.small click to toggle collapse
+
+  .collapse.multi-collapse(id=`${name}-product-table`)
+    table.table.table-condensed
+      tr
+        th Type
+        if view.timeZone == 'Asia/Shanghai'
+          th Start (CT)
+          th End (CT)
+        else
+          th Start (PT)
+          th End (PT)
+        each _, k in keys
+          th= k
+        th
+      each product in products
+        - var productControlId = product.productOptions.id
+        tr(id=("product-" + productControlId))
+          td= product.productOptions.type
+          td
+            if productState && productState[productControlId] === 'editMode'
+              - var startDateControlId = 'product-startDate-' + productControlId
+              input(id=startDateControlId type="date" name="startDate" value=view.momentTimezone(product.startDate).tz(view.timeZone).format('YYYY-MM-DD'))
+            else
+              = view.momentTimezone(product.startDate).tz(view.timeZone).format('l')
+          td
+            if productState && productState[productControlId] === 'editMode'
+              - var endDateControlId = 'product-endDate-' + productControlId
+              input(id= endDateControlId type="date" name="endDate" value=view.momentTimezone(product.endDate).tz(view.timeZone).format('YYYY-MM-DD'))
+            else
+              = view.momentTimezone(product.endDate).tz(view.timeZone).format('l')
+
+          each v, key in keys
+            td
+              if v.extra
+                = v.extra(product)
+              if productState && productState[productControlId] === 'editMode'
+                - var keyControlId = `product-${key}-` + productControlId
+                - value = product.productOptions[key]
+                if key.default
+                  - productOptions = product.productOptions
+                  - value = typeof value === 'undefined' ? key.default(productOptions) : value
+                input(id=keyControlId type=v.type name=key value=value)&attributes(v.attributes)
+              else
+                = product.productOptions[key]
+          td
+            if productState && productState[productControlId] === 'editMode'
+              button.btn.btn-primary.save-product-info-btn(data-product-id=productControlId, data-product-type=product.product) Save
+              button.btn.btn-primary.cancel-product-info-edit-btn(data-product-id=productControlId) Cancel
+            else
+              button.btn.btn-primary.edit-product-info-btn(data-product-id=productControlId) Edit
