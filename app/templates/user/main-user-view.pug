@@ -90,28 +90,21 @@ block append content
             h4.general-title(data-i18n="user.contributor_badges") Contributor Badges
           - var categoryLevels = [adventurerLevel,archmageLevel,artisanLevel,scribeLevel,diplomatLevel]
           - var categoryChecks = [levelsComplete,levelComponentEdits,levelEdits,articleEdits,totalTranslations]
-          each category, index in ["Adventurer","Archmage","Artisan","Scribe","Diplomat"]
-            if categoryChecks[index]
-              if parseInt(categoryLevels[index]) >= 15
-                li.contributor-category.diamond
-                  img.contributor-image(src="/images/pages/user/"+(category.toLowerCase()) + ".png")
-                  h4.contributor-title
-                    a(href="/contribute/${category.toLowerCase()}")=category + " Lv." + categoryLevels[index]
-              else if parseInt(categoryLevels[index]) >= 10
-                li.contributor-category.gold
-                  img.contributor-image(src="/images/pages/user/"+(category.toLowerCase()) + ".png")
-                  h4.contributor-title
-                    a(href="/contribute/${category.toLowerCase()}")=category + " Lv." + categoryLevels[index]
-              else if parseInt(categoryLevels[index]) >= 5
-                li.contributor-category.silver
-                  img.contributor-image(src="/images/pages/user/"+(category.toLowerCase()) + ".png")
-                  h4.contributor-title
-                    a(href="/contribute/${category.toLowerCase()}")=category + " Lv." + categoryLevels[index]
-              else
-                li.contributor-category.bronze
-                  img.contributor-image(src="/images/pages/user/"+(category.toLowerCase()) + ".png")
-                  h4.contributor-title
-                    a(href="/contribute/${category.toLowerCase()}")=category + " Lv." + categoryLevels[index]
+          - var getBadgeClass = function(level) {
+              if (level >= 15) return 'diamond'
+              if (level >= 10) return 'gold'
+              if (level >= 5) return 'silver'
+              return 'bronze'
+            }
+          each categoryData, category in categories
+            if categoryData.check
+              - var badgeClass = getBadgeClass(categoryData.level)
+              - var categoryLower = category.toLowerCase()
+              li.contributor-category(class=badgeClass)
+                img.contributor-image(src=`/images/pages/user/${categoryLower}.png`)
+                h4.contributor-title
+                  a(href=`/contribute/#{categoryLower}`)= category + " Lv." + categoryData.level
+
 
       .right-column
         .panel.panel-default
