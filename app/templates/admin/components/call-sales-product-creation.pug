@@ -1,0 +1,20 @@
+h3.m-t-3#call-sales-product(data-toggle="collapse" data-target="#call-sales-product-form" aria-expanded="false" aria-controls="call-sales-product-form") Grant Call for Sales Product
+  span.small click to toggle collapse
+#call-sales-product-form.form.collapse.multi-collapse
+  if view.state === 'creating-call-sales-product'
+    .progress.progress-striped.active
+      .progress-bar(style="width: 100%")
+
+  else if view.state === 'made-call-sales-product'
+    .alert.alert-success Call-Sales Product created!
+
+  else
+    if view.timeZone == 'Asia/Shanghai'
+      h4.small(style="max-width: 700px") Product start at 12am CT on the start date and end at 11:59pm CT on the end date listed.
+    else
+      h4.small(style="max-width: 700px") Product start at 12am PT on the start date and end at 11:59pm PT on the end date listed.
+    +license-form-group('Start Date')(type="date" name="startDate" value=view.momentTimezone().tz(view.timeZone).format('YYYY-MM-DD'))
+    +license-form-group('End Date')(type="date" name="endDate" value=view.momentTimezone().tz(view.timeZone).add(1, 'month').format('YYYY-MM-DD'))
+
+    .form-group
+      button#add-call-sales-product-btn.btn.btn-primary Add Call-Sales Product

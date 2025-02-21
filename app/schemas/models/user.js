@@ -454,7 +454,7 @@ _.extend(UserSchema.properties, {
   products: c.array({ title: 'Products purchased or used by this user' },
     c.object({ required: ['product', 'startDate', 'recipient', 'paymentService', 'paymentDetails'], additionalProperties: true }, {
       // ensure we can add additionalProperties
-      product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'esports', 'online-classes'], decription: 'The "name" field for the product purchased' }, // And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
+      product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'esports', 'online-classes', 'call-sales'], description: 'The "name" field for the product purchased' }, // And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
 
       prepaid: c.objectId({ links: [{ rel: 'db', href: '/db/prepaid/{($)}' }] }), // required for type: “course” for legacy compatibility, optional for other types, consider putting into productOptions
       productOptions: {
@@ -475,6 +475,9 @@ _.extend(UserSchema.properties, {
           c.object({}, { // online-classes
             event: c.objectId({ links: [{ rel: 'db', href: '/db/event/{($)}' }] }),
             count: { type: 'number' }
+          }),
+          c.object({}, { // call-sales
+            id: { type: 'string' },
           })
         ]
       },
