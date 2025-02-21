@@ -59,6 +59,18 @@ _.extend(UserSchema.properties, {
       }
     }
   },
+  oAuth2Identities: {
+    description: 'List of OAuth2 identities this user has.',
+    type: 'array',
+    items: {
+      description: 'Reference to a single OAuth2 identity',
+      type: 'object',
+      properties: {
+        providerId: c.objectId(),
+        oAuth2IdentityId: c.objectId(),
+      },
+    },
+  },
   clientCreator: c.objectId({ description: 'Client which created this user' }),
   clientPermissions: {
     description: 'More APIClients with permissions on this user, apart from clientCreator.',
@@ -434,7 +446,8 @@ _.extend(UserSchema.properties, {
       },
       ownerDistrictId: c.objectId({ description: 'District ID where user has admin permission to view data like outcome reports' }),
       syncedToSF: { type: 'boolean', description: 'Whether the user has been synced to Salesforce' },
-      syncedToCIO: { type: 'boolean', description: 'Whether the user has been synced to CIO' }
+      syncedToCIO: { type: 'boolean', description: 'Whether the user has been synced to CIO' },
+      forceLogout: { type: 'boolean', description: 'Whether the user needs to be force logged out' },
     }
   },
 
@@ -442,7 +455,7 @@ _.extend(UserSchema.properties, {
   products: c.array({ title: 'Products purchased or used by this user' },
     c.object({ required: ['product', 'startDate', 'recipient', 'paymentService', 'paymentDetails'], additionalProperties: true }, {
       // ensure we can add additionalProperties
-      product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'esports', 'online-classes'], decription: 'The "name" field for the product purchased' }, // And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
+      product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'esports', 'online-classes', 'call-sales'], description: 'The "name" field for the product purchased' }, // And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
 
       prepaid: c.objectId({ links: [{ rel: 'db', href: '/db/prepaid/{($)}' }] }), // required for type: “course” for legacy compatibility, optional for other types, consider putting into productOptions
       productOptions: {
@@ -463,6 +476,9 @@ _.extend(UserSchema.properties, {
           c.object({}, { // online-classes
             event: c.objectId({ links: [{ rel: 'db', href: '/db/event/{($)}' }] }),
             count: { type: 'number' }
+          }),
+          c.object({}, { // call-sales
+            id: { type: 'string' },
           })
         ]
       },
