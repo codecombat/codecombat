@@ -589,6 +589,8 @@ module.exports = (BasicInfoView = (function () {
                   ssoUsed,
                   email: ssoAttrs.email
                 })
+                const autoName = `${ssoAttrs.email.split('@')[0]}+${ssoUsed}`
+                this.signupState.set('autoName', autoName)
                 if (exists) {
                   return this.trigger('sso-connect:already-in-use')
                 } else {
