@@ -16,6 +16,7 @@ import moment from 'moment'
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 import ClassStartEndDateComponent from './modal-edit-class-components/ClassStartEndDateComponent.vue'
 import CourseCodeLanguageFormatComponent from './modal-edit-class-components/CourseCodeLanguageFormatComponent.vue'
+import ClassroomImportComponent from './modal-edit-class-components/ClassroomImportComponent.vue'
 
 export default Vue.extend({
   components: {
@@ -26,6 +27,7 @@ export default Vue.extend({
     ButtonImportClassroom,
     ClassStartEndDateComponent,
     CourseCodeLanguageFormatComponent,
+    ClassroomImportComponent,
   },
 
   mixins: [validationMixin],
@@ -89,12 +91,6 @@ export default Vue.extend({
   validations: {
     newClassName: {
       required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm }),
-    },
-    googleClassId: {
-      required: requiredIf(function () { return this.isGoogleClassroomForm }),
-    },
-    otherProductClassroomId: {
-      required: requiredIf(function () { return this.isOtherProductForm }),
     },
     newProgrammingLanguage: {
       required,
@@ -464,6 +460,12 @@ export default Vue.extend({
     updateCodeFormatDefault (newVal) {
       this.newCodeFormatDefault = newVal
     },
+    updateGoogleClassroomId (newVal) {
+      this.googleClassId = newVal
+    },
+    updateOtherProductClassroomId (newVal) {
+      this.otherProductClassroomId = newVal
+    },
   },
 })
 </script>
@@ -503,98 +505,15 @@ export default Vue.extend({
         </div>
       </div>
       <div class="form-container container">
-        <div
-          v-if="isGoogleClassroomForm"
-          class="form-group row google-class-id"
-          :class="{ 'has-error': $v.googleClassId.$error }"
-        >
-          <div class="col-xs-12">
-            <span class="control-label">
-              <img
-                class="small-google-icon"
-                src="/images/ozaria/teachers/dashboard/svg_icons/IconGoogleClassroom.svg"
-              >
-              {{ $t("teachers.select_class") }}
-            </span>
-            <select
-              v-model="$v.googleClassId.$model"
-              class="form-control"
-              :class="{ 'placeholder-text': !googleClassId }"
-              name="googleClassId"
-              :disabled="googleClassrooms.length === 0"
-            >
-              <option
-                v-if="googleClassrooms.length === 0"
-                disabled
-                selected
-                value=""
-              >
-                All google classrooms already imported
-              </option>
-              <option
-                v-else
-                disabled
-                selected
-                value=""
-              >
-                Select to Import from Google Classroom
-              </option>
-              <option
-                v-for="gClassroom in googleClassrooms"
-                :key="gClassroom.id"
-                :value="gClassroom.id"
-              >
-                {{ gClassroom.name }}
-              </option>
-            </select>
-            <span
-              v-if="!$v.googleClassId.required"
-              class="form-error"
-            >
-              {{ $t("form_validation_errors.required") }}
-            </span>
-          </div>
-        </div>
-        <div v-else-if="isOtherProductForm">
-          {{ $t(isCodeCombat? "teachers.select_ozaria_classroom": "teachers.select_codecombat_classroom") }}
-          <select
-            v-model="$v.otherProductClassroomId.$model"
-            class="form-control"
-            :class="{ 'placeholder-text': !otherProductClassroomId }"
-            name="otherProductClassroomId"
-            :disabled="otherProductClassrooms.length === 0"
-          >
-            <option
-              v-if="otherProductClassrooms.length === 0"
-              disabled
-              selected
-              value=""
-            >
-              {{ $t('teachers.all_classrooms_imported') }}
-            </option>
-            <option
-              v-else
-              disabled
-              selected
-              value=""
-            >
-              {{ $t(isCodeCombat? 'teachers.select_to_import_from_ozaria': 'teachers.select_to_import_from_codecombat') }}
-            </option>
-            <option
-              v-for="imortableClassroom in otherProductClassrooms"
-              :key="imortableClassroom._id"
-              :value="imortableClassroom._id"
-            >
-              {{ imortableClassroom.name }}
-            </option>
-          </select>
-          <span
-            v-if="!$v.otherProductClassroomId.required"
-            class="form-error"
-          >
-            {{ $t("form_validation_errors.required") }}
-          </span>
-        </div>
+        <classroom-import-component
+          v-if="isOtherProductForm || isGoogleClassroomForm"
+          :is-google-classroom-form="isGoogleClassroomForm"
+          :is-other-product-form="isOtherProductForm"
+          :other-product-classrooms="otherProductClassrooms"
+          :google-classrooms="googleClassrooms"
+          @googleClassroomIdUpdated="updateGoogleClassroomId"
+          @otherProductClassroomIdUpdated="updateOtherProductClassroomId"
+        />
         <div
           v-else
           class="form-group row class-name"
