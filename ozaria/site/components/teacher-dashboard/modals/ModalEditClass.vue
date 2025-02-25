@@ -12,6 +12,8 @@ import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 import ButtonGoogleClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonGoogleClassroom.vue'
 import ButtonImportClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonImportClassroom.vue'
 import ClassroomsApi from 'app/core/api/classrooms.js'
+import OAuth2Api from 'app/core/api/oauth2.js'
+import BackgroundJobApi from 'app/core/api/background-job.js'
 import moment from 'moment'
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 import ClassStartEndDateComponent from './modal-edit-class-components/ClassStartEndDateComponent.vue'
@@ -52,7 +54,7 @@ export default Vue.extend({
     const cLevelChat = this.classroom?.aceConfig?.levelChat
     const cGrades = this.classroom?.grades || []
     return {
-      showGoogleClassroom: me.showGoogleClassroom(),
+      showGoogleClassroom: me.useGoogleClassroom(),
       newClassName: this.classroom?.name || '',
       newProgrammingLanguage: this.classroom?.aceConfig?.language || 'python',
       newLiveCompletion: typeof cLiveCompletion === 'undefined' ? true : cLiveCompletion,
@@ -77,10 +79,13 @@ export default Vue.extend({
       otherProductClassroomId: '',
       googleClassrooms: null,
       otherProductClassrooms: null,
+      lmsClassrooms: null,
       isGoogleClassroomForm: false,
       isOtherProductForm: false,
+      lmsProductForm: false,
       otherProductSyncInProgress: false,
       googleSyncInProgress: false,
+      lmsSyncInProgress: false,
       moreOptions: false,
       newInitialFreeCourses: utils.isCodeCombat ? [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] : [],
       archived: this.classroom?.archived || false,
@@ -90,7 +95,7 @@ export default Vue.extend({
 
   validations: {
     newClassName: {
-      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm }),
+      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm && !this.lmsProductForm }),
     },
     newProgrammingLanguage: {
       required,
@@ -181,6 +186,28 @@ export default Vue.extend({
         !this.isGoogleClassroomForm &&
         !this.isOtherProductForm
     },
+
+    showLmsButton () {
+      return me.isSchoology()
+    },
+    lmsProductImage () {
+      const imageMap = {
+        schoology: '/images/pages/modal/auth/schoology.png',
+      }
+      return imageMap[me.isSchoology() ? 'schoology' : '']
+    },
+    lmsProductText () {
+      const textMap = {
+        schoology: $.i18n.t('teachers.schoology'),
+      }
+      return textMap[me.isSchoology() ? 'schoology' : '']
+    },
+    getProvider () {
+      return me.isSchoology() ? 'schoology' : ''
+    },
+    lmsClassroom () {
+      return this.lmsClassrooms?.find((c) => c.id === this.lmsClassroomId)
+    },
   },
 
   watch: {
@@ -270,6 +297,17 @@ export default Vue.extend({
         noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
       }
       this.otherProductSyncInProgress = false
+    },
+
+    async linkLmsClassroom () {
+      this.lmsSyncInProgress = true
+      try {
+        this.lmsClassrooms = await OAuth2Api.getLmsClassrooms(this.getProvider)
+        this.lmsProductForm = true
+      } catch (error) {
+        console.log(error)
+        noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
+      }
     },
     toggleMoreOptions () {
       this.moreOptions = !this.moreOptions
@@ -363,6 +401,15 @@ export default Vue.extend({
         updates.otherProductId = this.otherProductClassroom._id
       }
 
+      if (this.lmsProductForm) {
+        updates.name = this.lmsClassroom.name
+        updates.lmsClassroom = {
+          classId: this.lmsClassroomId,
+          name: this.lmsClassroom.name,
+          provider: this.getProvider,
+        }
+      }
+
       if (this.classGrades?.length > 0) {
         updates.grades = this.classGrades
       }
@@ -401,36 +448,7 @@ export default Vue.extend({
         this.$emit('updated')
       }
 
-      if (this.isGoogleClassroomForm) {
-        await GoogleClassroomHandler.markAsImported(this.googleClassId)
-        GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
-          .then((importedMembers) => {
-            if (importedMembers.length > 0) {
-              console.debug('Students imported to classroom:', importedMembers)
-            }
-          })
-          .catch((e) => {
-            this.errMsg = e?.message || 'Error in importing students'
-            noty({ text: 'Error in importing students', layout: 'topCenter', type: 'error', timeout: 2000 })
-          })
-      }
-
-      if (this.isOtherProductForm) {
-        const members = updates.members
-          .map(memberId => ({
-            _id: memberId,
-            role: 'student',
-          }))
-
-        // set linkink in both classrooms
-        ClassroomsApi.update({
-          classroomID: this.otherProductClassroom._id,
-          updates: { otherProductId: savedClassroom._id },
-        }, { callOz: true }).catch(console.log)
-        if (members.length > 0) {
-          await this.addMembersToClassroom({ classroom: savedClassroom, members, componentName: COMPONENT_NAMES.MY_CLASSES_ALL })
-        }
-      }
+      await this.handleClassroomImport(savedClassroom, updates)
 
       this.$emit('close')
       this.saving = false
@@ -465,6 +483,55 @@ export default Vue.extend({
     },
     updateOtherProductClassroomId (newVal) {
       this.otherProductClassroomId = newVal
+    },
+    updateLmsClassroomId (newVal) {
+      this.lmsClassroomId = newVal
+    },
+    async handleClassroomImport (savedClassroom, updates) {
+      if (this.isGoogleClassroomForm) {
+        await GoogleClassroomHandler.markAsImported(this.googleClassId)
+        GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
+          .then((importedMembers) => {
+            if (importedMembers.length > 0) {
+              console.debug('Students imported to classroom:', importedMembers)
+            }
+          })
+          .catch((e) => {
+            this.errMsg = e?.message || 'Error in importing students'
+            noty({ text: 'Error in importing students', layout: 'topCenter', type: 'error', timeout: 2000 })
+          })
+      }
+
+      if (this.isOtherProductForm) {
+        const members = updates.members
+          .map(memberId => ({
+            _id: memberId,
+            role: 'student',
+          }))
+
+        // set linkink in both classrooms
+        ClassroomsApi.update({
+          classroomID: this.otherProductClassroom._id,
+          updates: { otherProductId: savedClassroom._id },
+        }, { callOz: true }).catch(console.log)
+        if (members.length > 0) {
+          await this.addMembersToClassroom({ classroom: savedClassroom, members, componentName: COMPONENT_NAMES.MY_CLASSES_ALL })
+        }
+      }
+
+      if (this.lmsProductForm) {
+        await this.handleLmsClassroomImport(savedClassroom, updates)
+      }
+    },
+    async handleLmsClassroomImport (savedClassroom, updates) {
+      const job = await BackgroundJobApi.create('oauth2-roster-class', {
+        classroomId: savedClassroom._id,
+        lmsClassroomId: updates.lmsClassroom.classId,
+        provider: this.getProvider,
+      })
+      await BackgroundJobApi.pollTillResult(job.job, {
+        showNotification: true,
+      })
     },
   },
 })
@@ -503,16 +570,32 @@ export default Vue.extend({
             @click="linkOtherProductClassroom"
           />
         </div>
+        <div
+          v-if="showLmsButton"
+          class="lms-classroom-div"
+        >
+          <button-import-classroom
+            :in-progress="lmsSyncInProgress"
+            :icon-src="lmsProductImage"
+            :icon-src-alt-text="lmsProductText"
+            :icon-src-inactive="lmsProductImage"
+            :text="$t('teachers.import_classroom')"
+            @click="linkLmsClassroom"
+          />
+        </div>
       </div>
       <div class="form-container container">
         <classroom-import-component
-          v-if="isOtherProductForm || isGoogleClassroomForm"
+          v-if="isOtherProductForm || isGoogleClassroomForm || lmsProductForm"
           :is-google-classroom-form="isGoogleClassroomForm"
           :is-other-product-form="isOtherProductForm"
+          :lms-product-form="lmsProductForm"
           :other-product-classrooms="otherProductClassrooms"
           :google-classrooms="googleClassrooms"
+          :lms-classrooms="lmsClassrooms"
           @googleClassroomIdUpdated="updateGoogleClassroomId"
           @otherProductClassroomIdUpdated="updateOtherProductClassroomId"
+          @lmsClassroomIdUpdated="updateLmsClassroomId"
         />
         <div
           v-else

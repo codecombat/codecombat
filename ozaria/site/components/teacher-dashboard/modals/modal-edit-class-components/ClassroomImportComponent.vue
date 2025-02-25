@@ -92,6 +92,39 @@
         {{ $t("form_validation_errors.required") }}
       </span>
     </div>
+    <div v-else-if="lmsProductForm">
+      {{ $t('teachers.import_classroom') }}
+      <select
+        v-model="$v.lmsClassroomId.$model"
+        class="form-control"
+        :class="{ 'placeholder-text': !lmsClassroomId }"
+        name="lmsClassroomId"
+        :disabled="lmsClassrooms.length === 0"
+        placeholder="Select Class"
+      >
+        <option
+          v-if="lmsClassrooms.length === 0"
+          disabled
+          selected
+          value=""
+        >
+          {{ $t('teachers.no_classrooms_found') }}
+        </option>
+        <option
+          v-for="importableClassroom in lmsClassrooms"
+          :key="importableClassroom.id"
+          :value="importableClassroom.id"
+        >
+          {{ importableClassroom.name }}
+        </option>
+      </select>
+      <span
+        v-if="!$v.lmsClassroomId.required"
+        class="form-error"
+      >
+        {{ $t("form_validation_errors.required") }}
+      </span>
+    </div>
   </div>
 </template>
 
@@ -114,6 +147,11 @@ export default Vue.extend({
       required: false,
       default: false,
     },
+    lmsProductForm: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     otherProductClassrooms: {
       type: Array,
       required: false,
@@ -124,11 +162,17 @@ export default Vue.extend({
       required: false,
       default: () => [],
     },
+    lmsClassrooms: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
   },
   data () {
     return {
       googleClassId: '',
       otherProductClassroomId: '',
+      lmsClassroomId: '',
     }
   },
   computed: {
@@ -143,6 +187,9 @@ export default Vue.extend({
     otherProductClassroomId: {
       required: requiredIf(function () { return this.isOtherProductForm }),
     },
+    lmsClassroomId: {
+      required: requiredIf(function () { return this.lmsProductForm }),
+    },
   },
   watch: {
     googleClassId (newVal) {
@@ -150,6 +197,9 @@ export default Vue.extend({
     },
     otherProductClassroomId (newVal) {
       this.$emit('otherProductClassroomIdUpdated', newVal)
+    },
+    lmsClassroomId (newVal) {
+      this.$emit('lmsClassroomIdUpdated', newVal)
     },
   },
 })

@@ -100,8 +100,9 @@ _.extend(ClassroomSchema.properties, {
   lmsClassroom: {
     type: 'object',
     properties: {
-      lmsClassId: { type: 'string' },
-      lmsName: { type: 'string' },
+      classId: { type: 'string' },
+      name: { type: 'string' },
+      provider: { type: 'string' },
     },
   },
   grades: c.array({ title: 'Class Grades' }, { type: 'string', enum: ['elementary', 'middle', 'high'] }),

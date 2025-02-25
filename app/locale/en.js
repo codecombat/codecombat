@@ -1830,6 +1830,7 @@ module.exports = {
       ai_hs_remix: 'AI HackStack Remix',
       ai_hs_remix_blurb: 'Whether students can use other student\'s projects to take inspiration from.',
       and_more: 'and more',
+      import_classroom: 'Import Classroom',
     },
 
     no_licenses_page: {
