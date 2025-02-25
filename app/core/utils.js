@@ -537,6 +537,26 @@ var stripIndentation = function (code) {
   return strippedCode
 }
 
+const removeAI = function (str) {
+  // we have some objects as return value.
+  // when ai translation finished we can know how to deal with them
+  // now return first
+  if (!str) {
+    return ''
+  }
+  if (typeof str === 'object') {
+    const newObject = {}
+    Object.keys(str).forEach((key) => {
+      newObject[key] = removeAI(str[key])
+    })
+    return newObject
+  }
+  if (typeof str !== 'string') {
+    return str
+  }
+  return str.replace(/^\[AI_TRANSLATION\]/, '')
+}
+
 // @param {Object} say - the object containing an i18n property.
 // @param {string} target - the attribute that you want to access.
 // @returns {string} translated string if possible
@@ -553,25 +573,6 @@ var i18n = function (say, target, language, fallback) {
   const matches = (/\w+/gi).exec(language)
   if (matches) { generalName = matches[0] }
 
-  const removeAI = function (str) {
-    // we have some objects as return value.
-    // when ai translation finished we can know how to deal with them
-    // now return first
-    if (!str) {
-      return ''
-    }
-    if (typeof str === 'object') {
-      const newObject = {}
-      Object.keys(str).forEach((key) => {
-        newObject[key] = removeAI(str[key])
-      })
-      return newObject
-    }
-    if (typeof str !== 'string') {
-      return str
-    }
-    return str.replace(/^\[AI_TRANSLATION\]/, '')
-  }
   // Lets us safely attempt to translate undefined objects
   if (!(say != null ? say.i18n : undefined)) { return removeAI(say != null ? say[target] : undefined) }
 
@@ -1809,6 +1810,7 @@ module.exports = {
   registerHocProgressModalCheck,
   replaceText,
   round,
+  removeAI,
   AILeagueSeasons,
   sortCourses,
   sortOtherCourses,

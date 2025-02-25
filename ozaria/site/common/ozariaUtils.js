@@ -1,5 +1,5 @@
 import { merge } from 'lodash'
-import { i18n, isCodeCombat } from 'app/core/utils'
+import { i18n, isCodeCombat, removeAI } from 'app/core/utils'
 
 /**
  Utility functions for ozaria
@@ -223,14 +223,12 @@ export const getNextLevelLink = (levelData, options) => {
 }
 
 export function internationalizeConfig (levelConfig, userLocale) {
-  const interactiveConfigI18n = levelConfig.i18n || {}
-
   const userGeneralLocale = (userLocale || '').split('-')[0]
   const fallbackLocale = 'en'
 
-  const userLocaleObject = interactiveConfigI18n[userLocale] || {}
-  const generalLocaleObject = interactiveConfigI18n[userGeneralLocale] || {}
-  const fallbackLocaleObject = interactiveConfigI18n[fallbackLocale] || {}
+  const userLocaleObject = internationalizeConfigAux(levelConfig, userLocale)
+  const generalLocaleObject = internationalizeConfigAux(levelConfig, userGeneralLocale)
+  const fallbackLocaleObject = internationalizeConfigAux(levelConfig, fallbackLocale)
 
   levelConfig = merge(
     {},
@@ -264,7 +262,7 @@ export function internationalizeConfig (levelConfig, userLocale) {
 function internationalizeConfigAux (obj, userLocale) {
   const { i18n } = obj || {}
   if (i18n) {
-    const translatedObj = i18n[userLocale] || {}
+    const translatedObj = removeAI(i18n[userLocale] || {})
     _.merge(obj, translatedObj)
     return
   }
