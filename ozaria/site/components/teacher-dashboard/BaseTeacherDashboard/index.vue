@@ -460,7 +460,7 @@ export default {
     <modal-edit-class
       v-if="showNewClassModal && editCurrent"
       :classroom="editClassroomObject"
-      :as-club="isClub(editClassroomObject)"
+      :as-club="isCodeNinjaClubCamp(editClassroomObject)"
       @close="closeShowNewModal"
     />
     <modal-assign-content
