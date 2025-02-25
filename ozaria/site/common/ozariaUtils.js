@@ -223,14 +223,12 @@ export const getNextLevelLink = (levelData, options) => {
 }
 
 export function internationalizeConfig (levelConfig, userLocale) {
-  const interactiveConfigI18n = levelConfig.i18n || {}
-
   const userGeneralLocale = (userLocale || '').split('-')[0]
   const fallbackLocale = 'en'
 
-  const userLocaleObject = interactiveConfigI18n[userLocale] || {}
-  const generalLocaleObject = interactiveConfigI18n[userGeneralLocale] || {}
-  const fallbackLocaleObject = interactiveConfigI18n[fallbackLocale] || {}
+  const userLocaleObject = internationalizeConfigAux(levelConfig, userLocale)
+  const generalLocaleObject = internationalizeConfigAux(levelConfig, userGeneralLocale)
+  const fallbackLocaleObject = internationalizeConfigAux(levelConfig, fallbackLocale)
 
   levelConfig = merge(
     {},
