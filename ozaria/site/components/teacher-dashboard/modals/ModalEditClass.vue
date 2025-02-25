@@ -520,14 +520,22 @@ export default Vue.extend({
       }
 
       if (this.lmsProductForm) {
-        await this.handleLmsClassroomImport(savedClassroom, updates)
+        await this.handleLmsClassroomImport(savedClassroom)
       }
     },
-    async handleLmsClassroomImport (savedClassroom, updates) {
+    async reImportExistingLmsClassroom () {
+      this.lmsSyncInProgress = true
+      await this.handleLmsClassroomImport(this.classroom)
+      this.lmsSyncInProgress = false
+      this.$emit('close')
+      window.location.reload()
+    },
+    async handleLmsClassroomImport (savedClassroom) {
+      noty({ text: 'Re-Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
       const job = await BackgroundJobApi.create('oauth2-roster-class', {
         classroomId: savedClassroom._id,
-        lmsClassroomId: updates.lmsClassroom.classId,
-        provider: this.getProvider,
+        lmsClassroomId: savedClassroom.lmsClassroom.classId,
+        provider: savedClassroom.lmsClassroom.provider,
       })
       await BackgroundJobApi.pollTillResult(job.job, {
         showNotification: true,
@@ -575,12 +583,22 @@ export default Vue.extend({
           class="lms-classroom-div"
         >
           <button-import-classroom
+            v-if="classroomInstance.isNew()"
             :in-progress="lmsSyncInProgress"
             :icon-src="lmsProductImage"
             :icon-src-alt-text="lmsProductText"
             :icon-src-inactive="lmsProductImage"
             :text="$t('teachers.import_classroom')"
             @click="linkLmsClassroom"
+          />
+          <button-import-classroom
+            v-else
+            :in-progress="lmsSyncInProgress"
+            :icon-src="lmsProductImage"
+            :icon-src-alt-text="lmsProductText"
+            :icon-src-inactive="lmsProductImage"
+            :text="$t('teachers.re_import_classroom')"
+            @click="reImportExistingLmsClassroom"
           />
         </div>
       </div>
