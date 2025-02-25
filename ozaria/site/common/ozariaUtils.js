@@ -1,5 +1,5 @@
 import { merge } from 'lodash'
-import { i18n, isCodeCombat } from 'app/core/utils'
+import { i18n, isCodeCombat, removeAI } from 'app/core/utils'
 
 /**
  Utility functions for ozaria
@@ -264,7 +264,7 @@ export function internationalizeConfig (levelConfig, userLocale) {
 function internationalizeConfigAux (obj, userLocale) {
   const { i18n } = obj || {}
   if (i18n) {
-    const translatedObj = i18n[userLocale] || {}
+    const translatedObj = removeAI(i18n[userLocale] || {})
     _.merge(obj, translatedObj)
     return
   }
