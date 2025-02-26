@@ -4,9 +4,9 @@ const _ = require('lodash')
 
 const sortClan = (clns) => {
   const clans = clns.filter(c => c)
-  const firstClassClan = _.findIndex(clans, (clan) => clan.slug.startsWith('autoclan-classroom'))
-  const classClans = clans.filter((clan) => clan.slug.startsWith('autoclan-classroom'))
-  const otherClans = clans.filter((clan) => !clan.slug.startsWith('autoclan-classroom'))
+  const firstClassClan = _.findIndex(clans, (clan) => clan?.slug?.startsWith('autoclan-classroom'))
+  const classClans = clans.filter((clan) => clan?.slug?.startsWith('autoclan-classroom'))
+  const otherClans = clans.filter((clan) => !clan?.slug?.startsWith('autoclan-classroom'))
   classClans.sort((a, b) => b._id.localeCompare(a._id))
   otherClans.splice(firstClassClan, 0, ...classClans)
   return otherClans

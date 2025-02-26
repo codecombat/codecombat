@@ -204,7 +204,7 @@ export default Vue.extend({
       }
     },
     computeStyle (item, index) {
-      if (this.tableTitles[index].slug === 'language') {
+      if (this.tableTitles[index].slug === 'language' && item) {
         return { 'background-image': `url(/images/common/code_languages/${item}_icon.png)` }
       }
     },
