@@ -1462,6 +1462,7 @@ module.exports = (User = (function () {
     }
 
     showForumLink () { return !(features?.china != null ? features?.china : false) }
+    useHackStack () { return !(features?.china) }
     showChinaResourceInfo () { return features?.china != null ? features?.china : false }
     showChinaHomeVersion () { return features?.chinaHome != null ? features?.chinaHome : false }
     useChinaHomeView () {

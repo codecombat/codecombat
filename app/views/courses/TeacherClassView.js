@@ -358,6 +358,10 @@ module.exports = (TeacherClassView = (function () {
           this.latestReleasedCourses = this.courses.where({ releasePhase: 'released' })
         }
         this.latestReleasedCourses = utils.sortCourses(this.latestReleasedCourses)
+        if (!me.useHackStack()) {
+          console.log(this.latestReleasedCourses)
+          this.latestReleasedCourses = this.latestReleasedCourses.filter(course => course.get('slug') !== 'ai-hackstack')
+        }
       }
     }
 

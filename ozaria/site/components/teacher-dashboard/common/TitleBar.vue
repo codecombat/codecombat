@@ -107,6 +107,9 @@ export default {
       } else if (this.$route.path.startsWith('/teachers/projects')) {
         return this.courses.filter(course => (coursesWithProjects || []).includes(course._id))
       } else {
+        if (!me.useHackStack()) {
+          return this.courses.filter(course => course.slug !== 'ai-hackstack')
+        }
         return this.courses
       }
     },

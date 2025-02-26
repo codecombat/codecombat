@@ -318,7 +318,7 @@ export default {
       if (!this.isCodeCombat) {
         return []
       }
-      return [
+      let courses = [
         ...utils.freeCocoCourseIDs.map(id => {
           const course = this.courses.find(({ _id }) => _id === id)
           if (!course) {
@@ -332,6 +332,10 @@ export default {
           }
         }),
       ]
+      if (!me.useHackStack()) {
+        courses = courses.filter(({ id }) => id !== utils.courseIDs.HACKSTACK)
+      }
+      return courses
     },
   },
   watch: {
