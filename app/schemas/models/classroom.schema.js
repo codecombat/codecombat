@@ -29,6 +29,9 @@ _.extend(ClassroomSchema.properties, {
     codeFormatDefault: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option for students. Default if unset: text-code.' },
     levelChat: { type: 'string', enum: ['fixed_prompt_only', 'none'] }
   }),
+  hackstackConfig: c.object({}, {
+    remixAllowed: { type: 'boolean', default: true },
+  }),
   averageStudentExp: { type: 'string' },
   ageRangeMin: { type: 'string' },
   ageRangeMax: { type: 'string' },
@@ -117,7 +120,7 @@ _.extend(ClassroomSchema.properties, {
   }, {}),
   stats: c.object({ additionalProperties: true }),
   initializedOuterStats: { type: 'boolean', default: true, description: 'whether the classroom.stats for the classroom is initialized' },
-  type: { title: 'Class Type', type: 'string', enum: ['', 'in-school', 'after-school', 'online', 'camp', 'camp-esports', 'camp-junior', 'homeschool', 'other', 'club-ozaria', 'club-esports', 'club-roblox', 'club-hackstack'] }
+  type: { title: 'Class Type', type: 'string', enum: ['', 'in-school', 'after-school', 'online', 'camp', 'camp-esports', 'camp-junior', 'homeschool', 'other', 'club-ozaria', 'club-esports', 'club-roblox', 'club-hackstack', 'annual-plan-cn-coco'] },
 })
 
 c.extendBasicProperties(ClassroomSchema, 'Classroom')

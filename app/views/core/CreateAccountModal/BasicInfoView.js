@@ -59,7 +59,8 @@ module.exports = (BasicInfoView = (function () {
         'submit form': 'onSubmitForm',
         'click .use-suggested-name-link': 'onClickUseSuggestedNameLink',
         'click #facebook-signup-btn': 'onClickSsoSignupButton',
-        'click #clever-signup-btn': 'onClickSsoSignupButton'
+        'click #clever-signup-btn': 'onClickSsoSignupButton',
+        'click #schoology-signup-btn': 'onClickSsoSignupButton',
       }
     }
 
@@ -544,6 +545,7 @@ module.exports = (BasicInfoView = (function () {
           switch (ssoUsed) {
             case 'facebook': return application.facebookHandler
             case 'gplus': return application.gplusHandler
+            case 'schoology': return application.schoologyHandler
             case 'clever': return 'clever'
           }
         })()

@@ -1,7 +1,13 @@
 <template>
   <div class="ai-project">
     <h4>{{ aiProject.name }}</h4>
-
+    <p v-if="aiProject.remixedFrom">
+      {{ $t('teacher_dashboard.this_project_is_remixed') }}
+      <a
+        :href="`/ai/project/${aiProject.remixedFrom}`"
+        target="_blank"
+      >{{ $t('teacher_dashboard.view_original_project') }}</a>
+    </p>
     <p v-if="mode === 'use'">
       {{ aiProject.isReadyToReview ? $t('teacher_dashboard.ready_to_review') : $t('teacher.in_progress') }}
     </p>
@@ -18,6 +24,27 @@
         {{ $t('teacher_dashboard.no_failed_attempts') }}
       </p>
     </div>
+
+    <p
+      v-if="safetyValidations.length > 0"
+      class="safety-validations alert alert-warning"
+    >
+      {{ $t('teacher_dashboard.safety_violations') }}
+      <ul>
+        <li
+          v-for="safetyValidation in safetyValidations"
+          :key="safetyValidation._id"
+        >
+          <p class="safety-validations__item">
+            <strong>{{ safetyValidation.failureType }}</strong><br>
+            {{ safetyValidation.failureDetails }}
+            <br>
+            <span class="violation-message-text text-muted">{{ safetyValidation.text }}</span>
+          </p>
+        </li>
+      </ul>
+    </p>
+
     <a
       :href="`/ai/project/${aiProject._id}`"
       target="_blank"
@@ -26,6 +53,9 @@
 </template>
 
 <script>
+
+import _ from 'lodash'
+
 export default {
   name: 'AiProject',
   props: {
@@ -52,14 +82,20 @@ export default {
     },
     failedAttempts () {
       return (this.aiProject.wrongChoices || []).length
-    }
+    },
+    safetyValidations () {
+      if (!this.aiProject || !this.aiProject.unsafeChatMessages) return []
+      return _.flatten(this.aiProject.unsafeChatMessages.map(i => i.safetyValidation.map(validation => ({
+        ...validation,
+        text: i.text.length > 100 ? `${i.text.substring(0, 100)}...` : i.text,
+      }))))
+    },
   },
 }
 </script>
 
 <style scoped lang="scss">
 .ai-project {
-  width: 300px;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
@@ -69,6 +105,7 @@ export default {
   h4 {
     color: #333333;
     margin-bottom: 10px;
+    font-weight: bold;
   }
 
   p {
@@ -88,6 +125,28 @@ export default {
       font-size: 0.8em;
       color: #999999;
     }
+  }
+
+  .safety-validations {
+    ul {
+      margin-top: 10px;
+    }
+
+    &__item {
+      font-weight: normal;
+      margin-bottom: 10px;
+      font-size: 0.8em;
+      line-height: 1.2em;
+    }
+  }
+
+  .violation-message-text {
+    margin-left: 10px;
+    border-left: 1px solid #999999;
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: block;
   }
 }
 </style>

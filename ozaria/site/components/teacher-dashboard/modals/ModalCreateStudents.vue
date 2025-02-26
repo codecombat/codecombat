@@ -39,7 +39,16 @@ export default Vue.extend({
           }
           const file = new Blob([csvContent], { type: 'text/csv;charset=utf-8' })
           const filename = `StudentsCredentials-${this.classroom.name}-${Date.now()}.csv`
-          window.saveAs(file, filename)
+
+          // Create temporary link element to trigger download
+          const link = document.createElement('a')
+          link.href = URL.createObjectURL(file)
+          link.download = filename
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+          URL.revokeObjectURL(link.href)
+
           this.successMsg = `Students credentials downloaded in ${filename}`
           this.$emit('close')
         })

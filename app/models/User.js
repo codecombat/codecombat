@@ -42,7 +42,7 @@ const UserLib = {
     }
     if (name) { return name }
     ({
-      name
+      name,
     } = user)
     if (name) { return name }
     const [emailName, emailDomain] = Array.from(user.email?.split('@') || []) // eslint-disable-line no-unused-vars
@@ -53,7 +53,7 @@ const UserLib = {
   isTeacher (user, includePossibleTeachers = false) {
     if (includePossibleTeachers && (user.role === 'possible teacher')) { return true } // They maybe haven't created an account but we think they might be a teacher based on behavior
     return ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent'].includes(user.role)
-  }
+  },
 }
 
 module.exports = (User = (function () {
@@ -81,7 +81,7 @@ module.exports = (User = (function () {
         ONLINE_TEACHER: 'onlineTeacher',
         BETA_TESTER: 'betaTester',
         PARENT_ADMIN: 'parentAdmin',
-        NAPERVILLE_ADMIN: 'napervilleAdmin'
+        NAPERVILLE_ADMIN: 'napervilleAdmin',
       }
 
       a = 5
@@ -209,7 +209,7 @@ module.exports = (User = (function () {
 
     hasNoPasswordLoginMethod () {
       // Return true if user has any login method that doesn't require a password
-      return Boolean(this.get('facebookID') || this.get('gplusID') || this.get('githubID') || this.get('cleverID'))
+      return Boolean(this.get('facebookID') || this.get('gplusID') || this.get('githubID') || this.get('cleverID')) || (this.get('oAuth2Identities')?.length > 0)
     }
 
     currentPasswordRequired () {
@@ -222,8 +222,8 @@ module.exports = (User = (function () {
       // deprecate in favor of @checkNameConflicts, which uses Promises and returns the whole response
       return $.ajax(`/auth/name/${encodeURIComponent(name)}`, {
         cache: false,
-        success (data) { return done(data.suggestedName) }
-      }
+        success (data) { return done(data.suggestedName) },
+      },
       )
     }
 
@@ -231,8 +231,8 @@ module.exports = (User = (function () {
       return new Promise((resolve, reject) => $.ajax(`/auth/name/${encodeURIComponent(name)}`, {
         cache: false,
         success: resolve,
-        error (jqxhr) { return reject(jqxhr.responseJSON) }
-      }
+        error (jqxhr) { return reject(jqxhr.responseJSON) },
+      },
       ))
     }
 
@@ -240,8 +240,8 @@ module.exports = (User = (function () {
       return new Promise((resolve, reject) => $.ajax(`/auth/email/${encodeURIComponent(email)}`, {
         cache: false,
         success: resolve,
-        error (jqxhr) { return reject(jqxhr.responseJSON) }
-      }
+        error (jqxhr) { return reject(jqxhr.responseJSON) },
+      },
       ))
     }
 
@@ -281,6 +281,11 @@ module.exports = (User = (function () {
     isRegisteredHomeUser () { return this.isHomeUser() && !this.get('anonymous') }
 
     isStudent () { return this.get('role') === 'student' }
+
+    canUseRobloxOauthConnection () {
+      // No Roblox OAuth in classroom mode
+      return !this.isTeacher() && !this.isStudent()
+    }
 
     isTestStudent () { return this.isStudent() && (this.get('related') || []).some(({ relation }) => relation === 'TestStudent') }
 
@@ -529,7 +534,7 @@ module.exports = (User = (function () {
       if (products) {
         const homeProducts = this.activeProducts('basic_subscription')
         const {
-          endDate
+          endDate,
         } = _.max(homeProducts, p => new Date(p.endDate))
         const productsEnd = moment(endDate)
         if (stripeEnd && stripeEnd.isAfter(productsEnd)) { return stripeEnd.utc().format('ll') }
@@ -558,7 +563,7 @@ module.exports = (User = (function () {
         },
         error: () => {
           return this.trigger('email-verify-error')
-        }
+        },
       })
     }
 
@@ -572,7 +577,7 @@ module.exports = (User = (function () {
         },
         error: () => {
           return this.trigger('user-keep-me-updated-error')
-        }
+        },
       })
     }
 
@@ -585,7 +590,7 @@ module.exports = (User = (function () {
           this.set(attributes)
           return success()
         },
-        error
+        error,
       })
     }
 
@@ -599,7 +604,7 @@ module.exports = (User = (function () {
         },
         error: () => {
           return this.trigger('user-no-delete-eu-error')
-        }
+        },
       })
     }
 
@@ -612,7 +617,7 @@ module.exports = (User = (function () {
         },
         error () {
           return console.error(`Couldn't save activity ${activityName}`)
-        }
+        },
       })
     }
 
@@ -632,7 +637,7 @@ module.exports = (User = (function () {
         },
         error (jqxhr) {
           return console.error(`Couldn't start experiment ${name}:`, jqxhr.responseJSON)
-        }
+        },
       })
       const experiment = { name, value, startDate: new Date() } // Server date/save will be authoritative
       if (probability != null) { experiment.probability = probability }
@@ -964,7 +969,7 @@ module.exports = (User = (function () {
         type: 'course',
         includedCourseIDs: courseProduct?.productOptions?.includedCourseIDs,
         startDate: courseProduct.startDate,
-        endDate: courseProduct.endDate
+        endDate: courseProduct.endDate,
       })
     }
 
@@ -1067,7 +1072,7 @@ module.exports = (User = (function () {
 
     getFilteredExperimentValue ({
       experimentName,
-      forcedValue
+      forcedValue,
     }) {
       let value = me.getExperimentValue(experimentName, null)
 
@@ -1151,39 +1156,7 @@ module.exports = (User = (function () {
     }
 
     getHackStackV2ExperimentValue () {
-      if (utils.isOzaria) {
-        return 'control'
-      }
-
-      const experimentName = 'hackstack-ui'
-      let value = me.getExperimentValue(experimentName, null)
-      if (value) {
-        return value
-      }
-
-      if (me.isHomeUser()) {
-        const releaseDate = new Date('2024-11-05')
-        if (new Date(me.get('dateCreated')) < releaseDate) {
-          value = 'beta' // enabling for old home users
-        }
-      } else {
-        value = 'beta' // enabling for classroom users
-      }
-      if (value === null) {
-        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
-        let valueProbability
-        const rand = Math.random()
-        if (rand < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        me.startExperiment(experimentName, value, valueProbability)
-      }
-
-      return value
+      return 'beta'
     }
 
     getM7ExperimentValue () {
@@ -1427,7 +1400,6 @@ module.exports = (User = (function () {
     showGemsAndXpInClassroom () { return features?.classroomItems != null ? features?.classroomItems : this.lastClassroomItems() && this.isStudent() }
     showHeroAndInventoryModalsToStudents () { return features?.classroomItems != null ? features?.classroomItems : this.lastClassroomItems() && this.isStudent() }
     skipHeroSelectOnStudentSignUp () { return features?.classroomItems != null ? features?.classroomItems : false }
-    useDexecure () { return !(features?.chinaInfra != null ? features?.chinaInfra : false) }
     useSocialSignOn () { return !((features?.chinaUx != null ? features?.chinaUx : false) || (features?.china != null ? features?.china : false)) }
     isTarena () { return features?.Tarena != null ? features?.Tarena : false }
     useTarenaLogo () { return this.isTarena() }
@@ -1477,6 +1449,11 @@ module.exports = (User = (function () {
       return this.isMtoStem() || this.isMtoNeo()
     }
 
+    isGeccClient () {
+      const GECC_ID = '61e7e20658f1020024bd8cf7'
+      return this.get('_id') === GECC_ID
+    }
+
     isManualClassroomJoinAllowed () {
       if (this.isMto()) {
         return false
@@ -1514,7 +1491,6 @@ module.exports = (User = (function () {
     // Special flag to detect whether we're temporarily showing static html while loading full site
     showingStaticPagesWhileLoading () { return false }
     showIndividualRegister () { return !(features?.china != null ? features?.china : false) }
-    hideDiplomatModal () { return features?.china != null ? features?.china : false }
     showChinaRemindToast () { return features?.china != null ? features?.china : false }
     showOpenResourceLink () { return !(features?.china != null ? features?.china : false) }
     useStripe () { return (!((features?.china != null ? features?.china : false) || (features?.chinaInfra != null ? features?.chinaInfra : false))) && (this.get('preferredLanguage') !== 'nl-BE') }
@@ -1552,7 +1528,7 @@ module.exports = (User = (function () {
 })())
 
 const tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
-  5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15
+  5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15,
 ]
 
 // Make UserLib accessible via eg. User.broadName(userObj)

@@ -251,19 +251,19 @@ module.exports = (LadderView = (function () {
           }
           if (this.tournament.get('endDate')) {
             if (this.tournamentTimeRefreshInterval) { clearInterval(this.tournamentTimeRefreshInterval) }
-            this.tournamentTimeRefreshInterval = setInterval(this.refreshTournamentTime.bind(this), 1000)
+            this.tournamentTimeRefreshInterval = setInterval(this.refreshTournamentTime.bind(this), 5000)
             this.refreshTournamentTime()
           }
 
           if (this.tournament.get('state') === 'initializing') {
             this.tournamentEnd = true
-            newInterval = this.tournamentTimeElapsed < (-10 * 1000) ? Math.min(10 * 60 * 1000, -this.tournamentTimeElapsed / 2) : 1000
+            newInterval = this.tournamentTimeElapsed < (-10 * 1000) ? Math.min(10 * 60 * 1000, -this.tournamentTimeElapsed / 2) : 5000
           } else if (this.tournament.get('state') === 'starting') {
             this.tournamentEnd = false
-            newInterval = this.tournamentTimeLeft > (10 * 1000) ? Math.min(10 * 60 * 1000, this.tournamentTimeLeft / 2) : 1000
+            newInterval = this.tournamentTimeLeft > (10 * 1000) ? Math.min(10 * 60 * 1000, this.tournamentTimeLeft / 2) : 5000
           } else if (['ranking', 'waiting'].includes(this.tournament.get('state'))) {
             this.tournamentEnd = true
-            newInterval = this.tournamentResultsTimeLeft > (10 * 1000) ? Math.min(10 * 60 * 1000, this.tournamentResultsTimeLeft / 2) : 1000
+            newInterval = this.tournamentResultsTimeLeft > (10 * 1000) ? Math.min(10 * 60 * 1000, this.tournamentResultsTimeLeft / 2) : 5000
           } else if (this.tournament.get('state') === 'ended') {
             this.tournamentEnd = true
           }

@@ -21,6 +21,8 @@
               <video-box
                 video-id="da0d63c489741f4bd20448af1846292a"
                 :thumbnail-url-time="2"
+                :auto-play="me.isAnonymous()"
+                :controls="!me.isAnonymous()"
               />
             </template>
           </content-box>
@@ -233,6 +235,7 @@ import BaseCloudflareVideo from '../../components/common/BaseCloudflareVideo.vue
 import HeaderComponent from '../../components/common/elements/HeaderComponent.vue'
 import ModalJunior from './ModalJunior'
 import HackstackAutoPromotion from '../ai/HackstackAutoPromotion'
+import { getJuniorUrl } from 'core/utils'
 
 const utils = require('core/utils')
 const paymentUtils = require('app/lib/paymentUtils')
@@ -321,9 +324,7 @@ export default Vue.extend({
           text: this.$t('schools_page.core_curriculum_1_text'),
           link: 'https://ozaria.com',
           linkText: this.$t('schools_page.core_curriculum_1_link_text'),
-          video: {
-            videoId: '177fb5ba412b8fee21928e3353a9e469',
-          },
+          image: '/images/pages/home-v3/engaging-boxes/engaging-ozaria.webp',
         },
         {
           title: this.$t('schools_page.core_curriculum_2_title'),
@@ -331,37 +332,28 @@ export default Vue.extend({
           signupModal: true,
           signupModalPath: 'teacher',
           linkText: this.$t('schools_page.core_curriculum_2_link_text'),
-          video: {
-            videoId: '16b8482dc4d9b96c7d827fb788e64368',
-          },
+          image: '/images/pages/home-v3/engaging-boxes/engaging-codecombat.webp',
         },
         {
           title: this.$t('schools_page.practice_enrichment_2_title'),
           text: this.$t('schools_page.practice_enrichment_2_text'),
           link: 'https://codecombat.com/roblox',
           linkText: this.$t('schools_page.practice_enrichment_2_link_text'),
-          video: {
-            videoId: 'a50758af1eeeb12f241472beca961424',
-          },
+          image: '/images/pages/home-v3/engaging-boxes/engaging-ccw.webp',
         },
         {
           title: this.$t('schools_page.practice_enrichment_1_title'),
           text: this.$t('schools_page.practice_enrichment_1_text'),
           link: 'https://codecombat.com/league',
           linkText: this.$t('schools_page.practice_enrichment_1_link_text'),
-          video: {
-            videoId: '1b3bcd237a9dda25a042493d799e7278',
-          },
+          image: '/images/pages/home-v3/engaging-boxes/engaging-ai-league.webp',
         },
         {
           title: this.$t('schools_page.student_acceleration_1_title'),
           text: this.$t('schools_page.student_acceleration_1_text'),
           link: 'https://codecombat.com/ai/',
           linkText: this.$t('schools_page.student_acceleration_1_link_text'),
-          video: {
-            videoId: '50770b9a2fb36de457a37693a3f632c7',
-            aspectRatio: '1535 / 1038',
-          },
+          image: '/images/pages/home-v3/engaging-boxes/engaging-ai-hackstack.webp',
         },
         {
           title: this.$t('home_v3.engaging_boxes_6_title'),
@@ -374,7 +366,7 @@ export default Vue.extend({
         {
           title: this.$t('home_v3.young_learners_1_title'),
           text: this.$t('home_v3.young_learners_1_text'),
-          link: 'https://codecombat.com/play/junior',
+          link: getJuniorUrl(),
           linkText: this.$t('home_v3.try_it_now'),
           image: '/images/pages/home-v3/young-learners/box-bg-coco-jr.webp',
         },

@@ -483,6 +483,10 @@ generateProperty('requiresSubscription', function (level, parameters) {
   return parameters.sourceLevel?.get('requiresSubscription') || false
 })
 
+generateProperty('classroomSub', function (level, parameters) {
+  return parameters.sourceLevel?.get('classroomSub') || undefined
+})
+
 // tasks: c.array({title: 'Tasks', description: 'Tasks to be completed for this level.'}, c.task),
 generateProperty('tasks', function (level, parameters) {
   return []
@@ -706,7 +710,7 @@ generateProperty(null, function (level, parameters) {
     juniorPlayer.config = _.find(heroSource.components, (component) => component.original === defaultHeroComponentIDs.JuniorPlayer).config
   } else {
     juniorPlayer.config = {
-      programmableSnippets: ['for-loop', 'if', '==', 'while-loop'],
+      programmableSnippets: ['for-loop', 'if', '==', 'while-loop', '<', '>', 'variable'],
       requiredThangTypes: ['66873b397eff730c9e750994', '62050186cb069a0023866b0d'],
     }
   }

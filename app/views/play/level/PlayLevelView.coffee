@@ -620,7 +620,11 @@ module.exports = class PlayLevelView extends RootView
   simulateNextGame: ->
     return @simulator.fetchAndSimulateOneGame() if @simulator
     simulatorOptions = background: true, leagueID: @courseInstanceID
-    simulatorOptions.levelID = @level.get('slug') if @level.isLadder()
+    if @level.isLadder()
+      simulatorOptions.levelID = @level.get('slug')
+    if @simulateAILeagueFinals and @simulateAILeagueLevelOriginalId
+      simulatorOptions.levelID = @simulateAILeagueLevelOriginalId
+      simulatorOptions.singleLadder = true
     @simulator = new Simulator simulatorOptions
     # Crude method of mitigating Simulator memory leak issues
     fetchAndSimulateOneGameOriginal = @simulator.fetchAndSimulateOneGame
@@ -636,7 +640,14 @@ module.exports = class PlayLevelView extends RootView
 
   shouldSimulate: ->
     return true if utils.getQueryVariable('simulate') is true
-    return false  # Disabled due to unresolved crashing issues
+
+    currentDate = new Date()
+    endSimulateDate = new Date('2025-01-13')
+    @simulateAILeagueFinals = currentDate.getTime() < endSimulateDate.getTime()
+    @simulateAILeagueLevelOriginalId = '66f545e57e91e7168c3e463c' # use any of championship or regular - doesn't matter
+
+    return false unless @simulateAILeagueFinals
+
     return false if utils.getQueryVariable('simulate') is false
     return false if @isEditorPreview
     defaultCores = 2
@@ -644,18 +655,21 @@ module.exports = class PlayLevelView extends RootView
     defaultHeapLimit = 793000000
     heapLimit = window.performance?.memory?.jsHeapSizeLimit or defaultHeapLimit  # Only available on Chrome, basically just says 32- vs. 64-bit
     gamesSimulated = me.get('simulatedBy')
-    console.debug "Should we start simulating? Cores:", window.navigator.hardwareConcurrency, "Heap limit:", window.performance?.memory?.jsHeapSizeLimit, "Load duration:", @loadDuration
+    console.debug "Should we start simulating? Cores:", window.navigator.hardwareConcurrency, "Heap limit:", window.performance?.memory?.jsHeapSizeLimit, "Load duration:", @loadDuration, 'level type:', @level.get('type')
     return false unless $.browser?.desktop
     return false if $.browser?.msie or $.browser?.msedge
     return false if $.browser.linux
-    return false if me.level() < 8
+    minLevel = 8
+    if @simulateAILeagueFinals
+      minLevel = 1
+    return false if me.level() < minLevel
     return false if @level.get('slug') in ['zero-sum', 'ace-of-coders', 'elemental-wars']
     if @level.isType('course', 'game-dev', 'web-dev')
       return false
     else if @level.isType('hero') and gamesSimulated
       return false if cores < 8
       return false if heapLimit < defaultHeapLimit
-      return false if @loadDuration > 10000
+      return false if @loadDuration > 15000
     else if @level.isType('hero-ladder') and gamesSimulated
       return false if cores < 4
       return false if heapLimit < defaultHeapLimit
@@ -677,7 +691,7 @@ module.exports = class PlayLevelView extends RootView
       return false if cores < 8
       return false if heapLimit < defaultHeapLimit
       return false if @loadDuration > 10000
-    console.debug "We should have the power. Begin background ladder simulation."
+    console.warn "We should have the power. Begin background ladder simulation - #{me.id}"
     true
 
   # callbacks

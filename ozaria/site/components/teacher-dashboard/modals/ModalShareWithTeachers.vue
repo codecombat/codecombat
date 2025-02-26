@@ -74,10 +74,10 @@
         <div class="already-shared-heading">
           Shared With:
         </div>
-        <div v-if="classroom.permissions.length > 0">
+        <div v-if="classroomPermissions.length > 0">
           <ul>
             <li
-              v-for="shared in getAlreadySharedWith"
+              v-for="shared in classroomPermissions"
               :key="shared.target"
             >
               {{ shared.email }} - {{ displayPermission(shared.access) }} <icon-close @clicked="removeTeacher(shared)" /><span
@@ -122,13 +122,13 @@ export default {
   name: 'ModalShareWithTeachers',
   components: {
     Modal,
-    IconClose
+    IconClose,
   },
   props: {
     classroom: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
@@ -136,25 +136,21 @@ export default {
       permission: 'write',
       error: null,
       deleteInProgress: null,
-      addInProgress: false
+      addInProgress: false,
+      classroomPermissions: [],
     }
   },
-  asyncComputed: {
-    getAlreadySharedWith () {
-      if (this.classroom.permissions.length) {
-        return classroomsApi.getPermission({ classroomID: this.classroom._id })
-          .then((resp) => {
-            return resp.data
-          })
-      }
-      return null
-    }
+  mounted () {
+    classroomsApi.getPermission({ classroomID: this.classroom._id })
+      .then((resp) => {
+        this.classroomPermissions = resp.data
+      })
   },
   methods: {
     ...mapActions({
       updateClassroom: 'classrooms/updateClassroom',
       addPermission: 'classrooms/addPermission',
-      removePermission: 'classrooms/removePermission'
+      removePermission: 'classrooms/removePermission',
     }),
     async addTeacher () {
       this.addInProgress = true
@@ -163,7 +159,7 @@ export default {
       try {
         const user = await usersApi.getByEmail({ email: this.email }, { data: { includeRole: true } })
 
-        const permissions = this.classroom.permissions || []
+        const permissions = this.classroomPermissions || []
         const alreadyShared = permissions.find((perm) => perm.target === user._id)
         const owner = user._id === this.classroom.ownerID
         if (!User.isTeacher(user, true)) {
@@ -178,6 +174,7 @@ export default {
         }
         const newPermission = { target: user._id, access: this.permission }
         await this.addPermission({ classroom: this.classroom, permission: newPermission })
+        this.classroomPermissions.push({ ...newPermission, email: this.email })
       } catch (err) {
         if (err.errorID === 'cant-fetch-nonteacher-by-email') {
           errMsg = 'User does not have a teacher account'
@@ -194,12 +191,13 @@ export default {
     async removeTeacher (permission) {
       this.deleteInProgress = permission.target
       await this.removePermission({ classroom: this.classroom, permission })
+      this.classroomPermissions = this.classroomPermissions.filter((perm) => perm.target !== permission.target)
       this.deleteInProgress = null
     },
     displayPermission (permission) {
       return getDisplayPermission(permission)
-    }
-  }
+    },
+  },
 }
 </script>
 

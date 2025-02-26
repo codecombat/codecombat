@@ -48,7 +48,7 @@ export default {
       if (!testStudentRelation) {
         return false
       }
-      const testLicense = _.find(this.activeLicenses, (prepaid) => prepaid.properties.testStudentOnly)
+      const testLicense = _.find(this.activeLicenses, (prepaid) => prepaid.properties?.testStudentOnly)
       return !testLicense
     }
   },

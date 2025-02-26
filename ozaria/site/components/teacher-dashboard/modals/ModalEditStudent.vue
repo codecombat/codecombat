@@ -5,39 +5,60 @@ import SecondaryButton from '../common/buttons/SecondaryButton'
 import User from 'models/User'
 import Classroom from 'models/Classroom'
 import Level from 'models/Level'
+import RobloxButton from 'app/views/account/robloxButton'
+import { getStudentCredits } from 'app/core/api/user-credits'
+import { USER_CREDIT_HACKSTACK_KEY } from 'app/core/constants'
 
 import { mapMutations, mapGetters, mapActions } from 'vuex'
 export default {
   components: {
     Modal,
     PrimaryButton,
-    SecondaryButton
+    SecondaryButton,
+    RobloxButton,
   },
 
   props: {
     displayOnly: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data: () => ({
     newPassword: '',
     changingPassword: false,
-    levels: []
+    levels: [],
+    studentCredits: null,
   }),
 
   computed: {
     ...mapGetters({
       classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
       getLevelsForClassroom: 'levels/getLevelsForClassroom',
-      editingStudent: 'baseSingleClass/currentEditingStudent',
+      editingStudentId: 'baseSingleClass/currentEditingStudent',
       classroom: 'teacherDashboard/getCurrentClassroom',
-      levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom'
+      levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
+      aiProjectsMapForClassroom: 'teacherDashboard/getAiProjectsMapCurrentClassroom',
     }),
 
+    creditMessage () {
+      if (this.studentCredits && this.studentCredits.result?.length > 0) {
+        const credit = this.studentCredits.result[0]
+        const durAmount = credit.durationAmount > 1 ? credit.durationAmount : $.i18n.t('hackstack.creditMessage_the')
+        return $.i18n.t('hackstack.creditMessage_creditcreditsleft-creditinitialcredits-c', {
+          creditCreditsLeft: credit.creditsLeft,
+          creditInitialCredits: credit.initialCredits,
+          durAmount,
+          creditDurationKey: credit.durationKey,
+        })
+      } else {
+        return $.i18n.t('common.loading')
+      }
+    },
+
     selectedStudent () {
-      const resultStudent = this.classroomMembers.find(({ _id }) => _id === this.editingStudent)
+      const resultStudent = this.classroomMembers.find(({ _id }) => _id === this.editingStudentId)
       return new User(resultStudent)
     },
 
@@ -53,16 +74,41 @@ export default {
       return this.selectedStudent.get('email')
     },
 
+    studentId () {
+      return this.selectedStudent.get('_id')
+    },
+
     lastPlayed () {
       const levels = this.levels
-      const playedSessions = this.levelSessionsMapByUser[this.editingStudent] || {}
-      const lastPlayed = Object.values(playedSessions).reduce((acc, session) => {
-        if (!acc) {
-          return session
-        }
-        return session.changed > acc.changed ? session : acc
-      }, null)
-      return { session: lastPlayed, level: levels.find(l => l.original === lastPlayed?.level?.original) }
+      const playedSessions = this.levelSessionsMapByUser[this.editingStudentId] || {}
+      const playedProjects = this.aiProjectsMapForClassroom[this.editingStudentId] || {}
+      const sessions = Object.values(playedSessions)
+      const projects = _.flatten(Object.values(playedProjects))
+      const lastPlayed = [
+        ...sessions,
+        ...projects].reduce((acc, sessionOrProject) => {
+          if (!acc) {
+            return sessionOrProject
+          }
+          return sessionOrProject.changed > acc.changed ? sessionOrProject : acc
+        }, null)
+
+      const isLastPlayedSession = sessions.includes(lastPlayed)
+      const isLastPlayedProject = projects.includes(lastPlayed)
+
+      if (!isLastPlayedProject && !isLastPlayedSession) {
+        return null
+      }
+
+      return {
+        session: isLastPlayedSession ? lastPlayed : null,
+        project: isLastPlayedProject ? lastPlayed : null,
+        level: isLastPlayedSession ? levels.find(l => l.original === lastPlayed?.level?.original) : null,
+      }
+    },
+
+    isEnglish () {
+      return me.get('preferredLanguage', true) === 'en-US'
     },
 
     lastPlayedString () {
@@ -71,31 +117,53 @@ export default {
         const level = new Level(this.lastPlayed.level)
         lastPlayedString += level.getTranslatedName()
       }
-      if (this.lastPlayed?.level && this.lastPlayed?.session) {
-        if (me.get('preferredLanguage', true) === 'en-US') {
+
+      if (this.lastPlayed.project) {
+        lastPlayedString += this.lastPlayed.project.name
+      }
+
+      if (lastPlayedString !== '') {
+        if (this.isEnglish) {
           lastPlayedString += ', on '
         } else {
           lastPlayedString += ', '
         }
       }
-      if (this.lastPlayed.session) { lastPlayedString += moment(this.lastPlayed.session.changed).format('LLLL') }
+
+      let lastPlayedEntity = null
+      if (this.lastPlayed.session) {
+        lastPlayedEntity = this.lastPlayed.session
+      } else if (this.lastPlayed.project) {
+        lastPlayedEntity = this.lastPlayed.project
+      }
+
+      if (lastPlayedEntity) { lastPlayedString += this.formatDate(lastPlayedEntity.changed) }
       return lastPlayedString
-    }
+    },
   },
 
   async mounted () {
     await this.fetchLevelsForClassroom(this.classroom._id)
     this.levels = this.getLevelsForClassroom(this.classroom._id)
+    await this.getCredits()
   },
 
   methods: {
     ...mapMutations({
-      closeModalEditStudent: 'baseSingleClass/closeModalEditStudent'
+      closeModalEditStudent: 'baseSingleClass/closeModalEditStudent',
     }),
 
     ...mapActions({
       fetchLevelsForClassroom: 'levels/fetchForClassroom',
     }),
+
+    formatDate (date) {
+      return moment(date).format('LLLL')
+    },
+
+    async getCredits () {
+      this.studentCredits = await getStudentCredits(USER_CREDIT_HACKSTACK_KEY, this.studentId)
+    },
 
     async changePassword () {
       // Don't change password if there is no new password, or if the teacher
@@ -111,7 +179,7 @@ export default {
           text: 'Password Changed successfully!',
           type: 'success',
           layout: 'center',
-          timeout: 6000
+          timeout: 6000,
         })
         this.newPassword = ''
       } catch (e) {
@@ -128,13 +196,13 @@ export default {
           text: errorText,
           type: 'error',
           layout: 'center',
-          timeout: 6000
+          timeout: 6000,
         })
       } finally {
         this.changingPassword = false
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -156,9 +224,12 @@ export default {
           <b>{{ $t('general.email') }}:</b> {{ email }}
         </p>
         <p>
-          <b>{{ $t('user.last_played') }}:</b> {{ lastPlayed?.session ?
+          <b>{{ $t('user.last_played') }}:</b> {{ lastPlayed ?
             lastPlayedString :
             $t('teacher.never_played') }}
+        </p>
+        <p>
+          <b>{{ $t('hackstack.hackstack_credits') }}:</b> {{ creditMessage }}
         </p>
 
         <form
@@ -190,6 +261,12 @@ export default {
             </div>
           </div>
         </form>
+        <roblox-button
+          size="small"
+          :user-id="studentId"
+          :use-oauth="false"
+          :use-roblox-id="true"
+        />
       </div>
       <secondary-button
         class="right-button"

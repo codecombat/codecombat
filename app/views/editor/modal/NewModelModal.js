@@ -31,12 +31,16 @@ module.exports = (NewModelModal = (function () {
       this.modelLabel = options.modelLabel
       this.newModelTitle = `editor.new_${_.string.slugify(this.modelLabel)}_title`
       this.properties = options.properties
+      this.hasNoNameProperty = options.hasNoNameProperty
     }
 
     makeNewModel () {
       const model = new this.modelClass()
       const name = this.$el.find('#name').val()
-      model.set('name', name)
+
+      if (!this.hasNoNameProperty) {
+        model.set('name', name)
+      }
       if (this.modelClass.name === 'Level') {
         model.set('tasks', this.modelClass.schema.default.tasks)
       }

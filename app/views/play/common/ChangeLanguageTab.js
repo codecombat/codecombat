@@ -36,7 +36,19 @@ module.exports = (ChangeLanguageTab = (function () {
       this.utils = utils
       this.codeLanguageObject = utils.getCodeLanguages()
       this.codeFormatObject = utils.getCodeFormats()
-      this.codeFormat = this.options.codeFormat || me.get('aceConfig')?.codeFormat || 'text-code'
+      const defaultCodeFormat = 'text-code'
+      this.codeFormat = this.options.codeFormat || me.get('aceConfig')?.codeFormat || defaultCodeFormat
+      if (this.isJunior && options.level?.get('slug') === 'the-gem') {
+        // let's default to blocks-text for the-gem (first level) in junior so that users can see the blocks
+        const blockFormat = 'blocks-icons'
+        if (me.isStudent()) {
+          if (this.classroomAceConfig?.codeFormats?.includes(blockFormat)) {
+            this.codeFormat = blockFormat
+          }
+        } else {
+          this.codeFormat = blockFormat
+        }
+      }
       this.codeLanguage = this.options?.session?.get('codeLanguage') || me.get('aceConfig')?.language || 'python'
 
       this.updateCodeFormatList()
@@ -99,8 +111,9 @@ module.exports = (ChangeLanguageTab = (function () {
         }
       }
 
-      // todo: better check mobile
-      if (application.isIPadApp) {
+      // Disabling text code for Junior for mobile devices that aren't iPads.
+      // iPads might have physical keyboards, which would mean we would want to let them try text code.
+      if (utils.isMobile() && this.isJunior && !utils.isIPad()) {
         CODE_FORMAT_TEXT.forEach(format => {
           this.codeFormatObject[format].disabled = true
         })
@@ -169,7 +182,7 @@ module.exports = (ChangeLanguageTab = (function () {
 
     buildCodeFormats () {
       const $select = this.$el.find('#option-code-format')
-      if (!$.browser.mobile) {
+      if (!utils.isMobile()) {
         $select.fancySelect()
       }
       $select.parent().find('.options li').each(function () {
@@ -189,7 +202,7 @@ module.exports = (ChangeLanguageTab = (function () {
 
     buildCodeLanguages () {
       const $select = this.$el.find('#option-code-language')
-      if (!$.browser.mobile) {
+      if (!utils.isMobile()) {
         $select.fancySelect()
       }
       $select.parent().find('.options li').each(function () {

@@ -89,6 +89,11 @@ const ESPORTS_PRODUCT_STATS = {
   }
 }
 
+const GLOBAL_AI_LEAGUE_CREATORS = [
+  '512ef4805a67a8c507000001', // nick
+  '63e0d3551e18c6002505057c', // valent
+]
+
 const LEADERBOARDNAME = {
   FULLNAME: 'fullName',
   ANONYMOUS: 'anonymous',
@@ -113,6 +118,8 @@ const ARENA_CURRICULUM = {
   sandstorm: 'https://drive.google.com/drive/folders/1gXBG1tpuAhYkJKX5GvvHZHX48duPnZ7O?usp=drive_link'
 }
 
+const USER_CREDIT_HACKSTACK_KEY = 'HACKSTACK_QUERY'
+
 module.exports = {
   STARTER_LICENSE_COURSE_IDS,
   FREE_COURSE_IDS,
@@ -133,5 +140,7 @@ module.exports = {
   CODE_FORMAT_IPAD,
   CODE_FORMAT_TEXT,
   JUNIOR_LANGUAGES,
-  ARENA_CURRICULUM
+  ARENA_CURRICULUM,
+  USER_CREDIT_HACKSTACK_KEY,
+  GLOBAL_AI_LEAGUE_CREATORS,
 }

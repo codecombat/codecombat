@@ -24,6 +24,11 @@ export default {
       type: String,
       default: 'start',
     },
+    codeLang: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   data () {
     return {
@@ -72,11 +77,5 @@ export default {
     margin-bottom: 20px;
     margin-top: 50px;
   }
-}
-
-::v-deep .center-div{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 </style>

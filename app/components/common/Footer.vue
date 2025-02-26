@@ -101,6 +101,7 @@ export default Vue.extend({
             items.PD,
             items.HOC,
             items.GRANTS,
+            { ...items.ACCESSIBILITY, filter: !me.get('country') || me.get('country') === 'united-states' },
             items.PRIVACY,
           ]
         }

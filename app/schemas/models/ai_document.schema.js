@@ -19,11 +19,15 @@ _.extend(AIDocumentSchema.properties, {
     format: 'document-by-type',
     additionalProperties: true,
     properties: {
-      type: { type: 'string', title: 'Type', description: 'The type of document' },
+      type: { type: 'string', title: 'Type', description: 'The type of document: html, link etc' },
       text: { type: 'string', title: 'Text', description: 'The document text source' },
       filePath: { type: 'string', title: 'File Path', description: 'The file path of the document' },
       blob: { type: 'string', title: 'Blob', description: 'The blob source of the document' },
       i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this property' },
+      url: { type: 'string', title: 'URL', description: 'The URL of the document' },
+      preText: { type: 'string', title: 'Pre Text', description: 'The pre text of the document' },
+      postText: { type: 'string', title: 'Post Text', description: 'The post text of the document' },
+      linkText: { type: 'string', title: 'Link Text', description: 'The text of the link' },
     },
   },
 })

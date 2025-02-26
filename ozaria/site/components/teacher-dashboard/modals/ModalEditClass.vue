@@ -48,6 +48,7 @@ export default Vue.extend({
     const cFormats = this.classroom?.aceConfig?.codeFormats
     const cFormatDefault = this.classroom?.aceConfig?.codeFormatDefault
     const cLevelChat = this.classroom?.aceConfig?.levelChat
+    const cGrades = this.classroom?.grades || []
     return {
       showGoogleClassroom: me.showGoogleClassroom(),
       newClassName: this.classroom?.name || '',
@@ -58,6 +59,7 @@ export default Vue.extend({
       newCodeFormats: typeof cFormats === 'undefined' ? ['text-code'] : cFormats,
       newCodeFormatDefault: typeof cFormatDefault === 'undefined' ? 'text-code' : cFormatDefault,
       newLevelChat: typeof cLevelChat === 'undefined' ? true : cLevelChat === 'fixed_prompt_only',
+      newRemix: this.classroom?.hackstackConfig?.remixAllowed || false,
       cocoDefaultLevelChat: true,
       newClassroomDescription: this.classroom?.description || '',
       newAverageStudentExp: this.classroom?.averageStudentExp || '',
@@ -68,7 +70,7 @@ export default Vue.extend({
       newMinutesPerClass: this.classroom?.minutesPerClass || '',
       newClubType: this.classroom?.type || '',
       saving: false,
-      classGrades: (utils.isOzaria && !me.isCodeNinja()) ? [] : null,
+      classGrades: (utils.isOzaria && !me.isCodeNinja()) ? cGrades : null,
       googleClassId: '',
       otherProductClassroomId: '',
       googleClassrooms: null,
@@ -86,22 +88,25 @@ export default Vue.extend({
 
   validations: {
     newClassName: {
-      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm })
+      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm }),
     },
     googleClassId: {
-      required: requiredIf(function () { return this.isGoogleClassroomForm })
+      required: requiredIf(function () { return this.isGoogleClassroomForm }),
     },
     otherProductClassroomId: {
-      required: requiredIf(function () { return this.isOtherProductForm })
+      required: requiredIf(function () { return this.isOtherProductForm }),
     },
     newProgrammingLanguage: {
-      required
+      required,
     },
     newClassDateStart: {
-      required: requiredIf(function () { return this.asClub })
+      required: requiredIf(function () { return this.asClub }),
     },
     newClassDateEnd: {
-      required: requiredIf(function () { return this.asClub })
+      required: requiredIf(function () { return this.asClub }),
+    },
+    newClubType: {
+      required: requiredIf(function () { return this.asClub }),
     },
   },
   computed: {
@@ -120,7 +125,7 @@ export default Vue.extend({
         title += $.i18n.t('courses.edit_settings1')
       }
       if (this.asClub) {
-        title += '(As Club)'
+        title += ' (As Club / Camp)'
       }
       return title
     },
@@ -164,12 +169,10 @@ export default Vue.extend({
     },
 
     clubTypes () {
-      return [
-        { id: 'club-ozaria', name: 'Ozaria' },
-        { id: 'club-esports', name: 'Esports' },
-        { id: 'club-roblox', name: 'Roblox' },
-        { id: 'club-hackstack', name: 'Hackstack' },
-      ]
+      if (utils.isOzaria) {
+        return Classroom.codeNinjaClassroomTypes().filter(type => type.id === 'club-ozaria' || type.disabled)
+      }
+      return Classroom.codeNinjaClassroomTypes()
     },
 
     linkGoogleButtonAllowed () {
@@ -181,9 +184,6 @@ export default Vue.extend({
         !this.classroom.otherProductId &&
         !this.isGoogleClassroomForm &&
         !this.isOtherProductForm
-    },
-    hideCodeLanguageAndFormat () {
-      return this.asClub && ['club-esports', 'club-roblox', 'club-hackstack'].includes(this.newClubType)
     },
   },
 
@@ -219,7 +219,7 @@ export default Vue.extend({
       fetchClassroomSessions: 'levelSessions/fetchForClassroomMembers',
       createFreeCourseInstances: 'courseInstances/createFreeCourseInstances',
       fetchCourses: 'courses/fetchReleased',
-      fetchCourseInstances: 'courseInstances/fetchCourseInstancesForClassroom'
+      fetchCourseInstances: 'courseInstances/fetchCourseInstancesForClassroom',
     }),
     updateGrades (event) {
       const grade = event.target.name
@@ -247,7 +247,7 @@ export default Vue.extend({
       await new Promise((resolve, reject) =>
         application.gplusHandler.loadAPI({
           success: resolve,
-          error: reject
+          error: reject,
         }))
       GoogleClassroomHandler.importClassrooms()
         .then(() => {
@@ -291,12 +291,17 @@ export default Vue.extend({
         return
       }
       const updates = {}
+
       if (this.asClub) {
         let errorMsg
         if (this.newClubType === 'club-ozaria' && this.isCodeCombat) {
           errorMsg = 'Error creating ozaria club in CodeCombat'
         } else if (moment(this.newClassDateEnd).isBefore(moment(this.newClassDateStart))) {
           errorMsg = 'End date should be after start date'
+        } else if (this.newClubType.includes('camp') && moment(this.newClassDateEnd).diff(moment(this.newClassDateStart), 'days') > 7) {
+          errorMsg = 'Camp should be at most 7 days'
+        } else if (this.newClubType.includes('club') && moment(this.newClassDateEnd).diff(moment(this.newClassDateStart), 'weeks') > 14) {
+          errorMsg = 'Club should be at most 14 weeks'
         }
 
         if (errorMsg) {
@@ -305,7 +310,10 @@ export default Vue.extend({
           return
         }
         updates.type = this.newClubType
+      } else {
+        updates.type = this.newClassroomType
       }
+
       if (this.newClassDateStart && this.newClassDateEnd && moment(this.newClassDateEnd).isBefore(moment(this.newClassDateStart))) {
         this.errMsg = 'End date should be after start date'
         this.saving = false
@@ -314,6 +322,7 @@ export default Vue.extend({
 
       updates.name = this.newClassName
       const aceConfig = _.clone((this.classroom || {}).aceConfig || {})
+      const hackstackConfig = _.clone((this.classroom || {}).hackstackConfig || {})
       aceConfig.language = this.newProgrammingLanguage
       aceConfig.liveCompletion = this.newLiveCompletion
       updates.classroomItems = this.newClassroomItems
@@ -330,11 +339,18 @@ export default Vue.extend({
       } else {
         aceConfig.levelChat = 'none'
       }
+
+      if (this.newRemix) {
+        hackstackConfig.remixAllowed = true
+      } else {
+        hackstackConfig.remixAllowed = false
+      }
+
       updates.aceConfig = aceConfig
+      updates.hackstackConfig = hackstackConfig
 
       updates.description = this.newClassroomDescription
       updates.averageStudentExp = this.newAverageStudentExp
-      updates.type = this.newClassroomType
       updates.classDateStart = this.newClassDateStart
       updates.classDateEnd = this.newClassDateEnd
       updates.classesPerWeek = String(this.newClassesPerWeek)
@@ -624,6 +640,7 @@ export default Vue.extend({
                 v-for="clubType in clubTypes"
                 :key="clubType.id"
                 :value="clubType.id"
+                :disabled="clubType.disabled"
               >
                 {{ clubType.name }}
               </option>
@@ -651,7 +668,7 @@ export default Vue.extend({
           :is-new-classroom="classroomInstance.isNew()"
           :as-club="asClub"
           :new-club-type="newClubType"
-          :classroom-id="classroomInstance._id"
+          :classroom-id="classroomInstance.get('_id')"
           :courses="courses"
           :code-formats="newCodeFormats"
           :code-format-default="newCodeFormatDefault"
@@ -732,6 +749,23 @@ export default Vue.extend({
               type="checkbox"
             >
             <span class="help-block small text-navy">{{ $t("teachers.classroom_live_completion") }}</span>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions && isCodeCombat"
+          class="form-group row remix"
+        >
+          <div class="col-xs-12">
+            <label for="level-chat">
+              <span class="control-label"> {{ $t("teachers.ai_hs_remix") }} </span>
+            </label>
+            <input
+              id="level-chat"
+              v-model="newRemix"
+              type="checkbox"
+              name="remix"
+            >
+            <span class="help-block small text-navy">{{ $t("teachers.ai_hs_remix_blurb") }}</span>
           </div>
         </div>
         <div
@@ -847,18 +881,6 @@ export default Vue.extend({
                 value="camp"
               >
                 {{ $t('courses.class_type_camp') }}
-              </option>
-              <option
-                v-if="me.isCodeNinja() && false"
-                value="camp-esports"
-              >
-                {{ $t('courses.class_type_camp_esports') }}
-              </option>
-              <option
-                v-if="me.isCodeNinja() && false"
-                value="camp-junior"
-              >
-                {{ $t('courses.class_type_camp_junior') }}
               </option>
               <option
                 v-if="!me.isCodeNinja()"

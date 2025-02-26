@@ -21,6 +21,7 @@ import { FIRST_CLASS_STEPS, CREATE_CLASS_STEPS } from './teacherDashboardTours'
 import ModalTeacherDetails from '../modals/ModalTeacherDetails'
 import { hasSeenTeacherDetailModalRecently, markTeacherDetailsModalAsSeen } from '../../../common/utils'
 import TryOzariaModal from 'app/components/teacher/TryOzariaModal.vue'
+import clubCampMixin from '../mixins/clubCampMixin'
 
 const VueShepherd = require('vue-shepherd')
 
@@ -42,8 +43,9 @@ export default {
     LoadingBar,
     ModalTeacherDetails,
     TryOzariaModal,
-    TopBanner
+    TopBanner,
   },
+  mixins: [clubCampMixin],
 
   data () {
     // TODO: move the logic to open/close modals to teacherDashboard store instead of driving by events,
@@ -375,10 +377,10 @@ export default {
       storage.save(TRY_OZ_MODAL_VIEWED_KEY, true, oneMonth)
       this.showTryOzariaModal = false
     },
-    shouldShowCreateStudents (classroom) {
-      return me.isCodeNinja() && classroom.type?.includes('club')
-    }
-  }
+    shouldShowCreateStudents (_classroom) {
+      return false
+    },
+  },
 }
 </script>
 
@@ -458,6 +460,7 @@ export default {
     <modal-edit-class
       v-if="showNewClassModal && editCurrent"
       :classroom="editClassroomObject"
+      :as-club="isCodeNinjaClubCamp(editClassroomObject)"
       @close="closeShowNewModal"
     />
     <modal-assign-content

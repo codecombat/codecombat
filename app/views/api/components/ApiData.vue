@@ -3,13 +3,16 @@
     h2(v-if="loading") Loading...
     .tab-select
       .tab(@click="tab = 'byMonth'" :class="{active: tab === 'byMonth'}") By Time
-      .tab(@click="tab = 'byStudent'" :class="{active: tab === 'byStudent'}") By Student
+      .tab(v-if="!hideByStudentTab()" @click="tab = 'byStudent'" :class="{active: tab === 'byStudent'}") By Student
     template(v-if="tab === 'byMonth'")
       h2(v-if="licenseDaysByMonth && viewport === 'full'") License Days by Month
+      p(class="link-info") Access the new dashboard with graphs
+        a(href="/partner-dashboard?fromOld=1" target="_blank")  {{ $t('general.here') }}
       table.table.table-condensed(v-if="!licenseStatsLoading && viewport === 'full'")
         tr(class="odd")
           th.month.border {{ $t('library.month') }}
           th.number.border {{ $t('library.license_days_used') }}
+          th.number.border {{ $t('library.licenses_used') }}
           th.number.border {{ $t('library.users_active_licenses') }}
           th.number.border {{ $t('library.new_signups') }}
           th.number.border {{ $t('library.lines_code') }}
@@ -18,14 +21,12 @@
         tr(v-for="(stats, row) in licenseDaysByMonth" :class="{odd: row % 2 == 1, even: row % 2 == 0, sum: stats.month == 'Total'}")
           td.month.border {{stats.month}}
           td.number.border {{stats.licenseDaysUsed.toLocaleString()}}
+          td.number.border {{stats.licensesUsed?.toLocaleString()}}
           td.number.border {{ stats.activeLicenses?.toLocaleString() || '-' }}
           td.number.border {{ stats.newSignups || '-' }}
           td.number.border {{ stats.progress?.linesOfCode || '-' }}
           td.number.border {{ stats.progress?.programs || '-' }}
           td.number.border {{ parseInt(stats.progress?.playtime / 60) || '-' }}
-
-      .age-stats(v-if="ageStats.length > 0")
-        d3-bar-chart(:datum="ageStats", :config="this.ageChartConfig()", title="Users Age Split", source="Age ranges")
 
       h2(v-if="licenseDaysByMonthAndTeacher && viewport=='full'") License Days by Month and Teacher/Classroom
       table.table.table-condensed(v-if="licenseDaysByMonthAndTeacher")
@@ -34,15 +35,20 @@
           th.name.border {{ $t('library.teacher_classroom_name') }}
           th.name.border(v-if="spiedUser") Classroom ownerId
           th.number.border {{ $t('library.license_days_used') }}
+          th.number.border {{ $t('library.licenses_used') }}
           th.number.border {{ $t('library.users_active_licenses') }}
         tr(v-for="(stats, row) in licenseDaysByMonthAndTeacher" :class="{odd: row % 2 == 1, even: row % 2 == 0, sum: stats.teacher == 'Total'}")
           td.month.border {{stats.month}}
           td.name.border {{stats.teacher?.split('!!!')[0]}}
           td.name.border(v-if="spiedUser") {{stats.teacher?.split('!!!').length > 1 ? stats.teacher?.split('!!!')[1] : '-'}}
           td.number.border {{stats.licenseDaysUsed.toLocaleString()}}
+          td.number.border {{stats.licensesUsed.toLocaleString()}}
           td.number.border {{stats.activeLicenses.toLocaleString()}}
 
-    template(v-else)
+      .age-stats(v-if="ageStats.length > 0")
+        d3-bar-chart(:datum="ageStats", :config="this.ageChartConfig()", title="Users Age Split", source="Age ranges")
+
+    template(v-else-if="tab === 'byStudent'")
       license-data-per-user(:loading="loading" :prepaids="prepaids" :teacherMap="teacherMap")
 
 </template>
@@ -51,16 +57,18 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
 import LicenseDataPerUser from 'app/components/license/LicenseDataPerUser'
 import { D3BarChart } from 'vue-d3-charts'
+
 module.exports = Vue.extend({
   components: {
     LicenseDataPerUser,
-    D3BarChart
+    D3BarChart,
   },
   props: ['viewport'],
   data () {
     return {
       tab: 'byMonth',
-      spiedUser: window.serverSession.amActually
+      spiedUser: window.serverSession.amActually,
+      myId: me.get('_id'),
     }
   },
   computed: {
@@ -113,7 +121,15 @@ module.exports = Vue.extend({
       const months = _.keys(this.licenseStats.licenseDaysByMonth).sort().reverse()
       for (const month of months) {
         const stat = this.licenseStats.licenseDaysByMonth[month]
-        byMonth.push({ month, licenseDaysUsed: stat.daysUsed, activeLicenses: stat.noOfRedeemers, progress: stat.progress, newSignups: stat.newSignups, ageStats: stat.ageStats })
+        byMonth.push({
+          month,
+          licenseDaysUsed: stat.daysUsed,
+          activeLicenses: stat.noOfRedeemers,
+          progress: stat.progress,
+          newSignups: stat.newSignups,
+          ageStats: stat.ageStats,
+          licensesUsed: stat.licensesUsed,
+        })
         totalUsed += stat.daysUsed
       }
       if (byMonth.length) {
@@ -125,19 +141,31 @@ module.exports = Vue.extend({
       const byMonthAndTeacher = []
       let hadMoreThanOne = false
       let months = _.keys(this.licenseStats.licenseDaysByMonth).sort().reverse()
-      if (this.viewport != 'full') {
+      if (this.viewport !== 'full') {
         months = months.slice(0, 1)
       }
       for (const month of months) {
         const stat = this.licenseStats.licenseDaysByMonth[month]
         for (const teacher in stat.teachers) {
           const s = stat.teachers[teacher]
-          byMonthAndTeacher.push({ month, teacher, licenseDaysUsed: s.daysUsed, activeLicenses: s.noOfRedeemers })
+          byMonthAndTeacher.push({
+            month,
+            teacher,
+            licenseDaysUsed: s.daysUsed,
+            activeLicenses: s.noOfRedeemers,
+            licensesUsed: s.licensesUsed,
+          })
         }
         if (_.size(stat.teachers) > 1) {
           hadMoreThanOne = true
         }
-        byMonthAndTeacher.push({ month, teacher: 'Total', licenseDaysUsed: stat.daysUsed, activeLicenses: stat.noOfRedeemers })
+        byMonthAndTeacher.push({
+          month,
+          teacher: 'Total',
+          licenseDaysUsed: stat.daysUsed,
+          activeLicenses: stat.noOfRedeemers,
+          licensesUsed: stat.licensesUsed,
+        })
       }
       if (!hadMoreThanOne) {
         return null
@@ -154,6 +182,25 @@ module.exports = Vue.extend({
       }
       return data
     }
+  },
+  watch: {
+    clientId: function (id) {
+      if (id !== '') {
+        this.fetchTeachers(id)
+        this.fetchPrepaids({ teacherId: this.myId, clientId: id })
+        this.fetchLicenseStats({ clientId: id })
+      }
+    },
+  },
+  created () {
+    if (me.isGeccClient()) {
+      this.tab = 'byStudent'
+    }
+
+    this.fetchClientId()
+    // current play time for apiclient is the total time of all students so i think
+    // we doesn't need it now
+    /* this.fetchPlayTimeStats() */
   },
   methods: {
     ...mapActions({
@@ -173,32 +220,14 @@ module.exports = Vue.extend({
           yTitle: 'Percentage of users',
           xTitle: 'Age Ranges',
           xFormat: '.0f',
-          xTicks: 0
-        }
+          xTicks: 0,
+        },
       }
-    }
+    },
+    hideByStudentTab () {
+      return !me.isGeccClient()
+    },
   },
-  watch: {
-    clientId: function (id) {
-      if (id !== '') {
-        this.fetchTeachers(id)
-        this.fetchPrepaids({ teacherId: this.myId, clientId: id })
-        this.fetchLicenseStats({ clientId: id })
-      }
-    }
-  },
-  created () {
-    this.myId = me.get('_id')
-    const geccId = '61e7e20658f1020024bd8cf7'
-    if (this.myId.toString() === geccId) {
-      this.tab = 'byStudent'
-    }
-
-    this.fetchClientId()
-    // current play time for apiclient is the total time of all students so i think
-    // we doesn't need it now
-    /* this.fetchPlayTimeStats() */
-  }
 })
 </script>
 

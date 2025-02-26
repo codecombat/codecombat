@@ -26,8 +26,8 @@ const previousChampionshipArena = _.last(_.filter(arenas, a => a.end < new Date(
 const tournamentsByLeague = {
   '5ff88bcdfe17d7bb1c7d2d00': { // autoclan-school-network-academica
     'blazing-battle': '60c159f8a78b083f4205cbf7',
-    'infinite-inferno': '60c15b1fa78b083f4205cdc1'
-  }
+    'infinite-inferno': '60c15b1fa78b083f4205cdc1',
+  },
 }
 
 export default {
@@ -41,7 +41,7 @@ export default {
     SectionFirstCTA,
     InputClanSearch,
     ApiData,
-    BackboneModalHarness
+    BackboneModalHarness,
   },
 
   beforeRouteUpdate (to, from, next) {
@@ -67,8 +67,189 @@ export default {
     championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
     championshipActive: !!currentChampionshipArena,
     anonymousPlayerName: false,
-    dateBeforeSep: new Date() < new Date('2022-9-1')
+    dateBeforeSep: new Date() < new Date('2022-9-1'),
   }),
+  computed: {
+    ...mapGetters({
+      globalRankings: 'seasonalLeague/globalRankings',
+      globalChampionshipRankings: 'seasonalLeague/globalChampionshipRankings',
+      globalLeaderboardPlayerCount: 'seasonalLeague/globalLeaderboardPlayerCount',
+      globalChampionshipLeaderboardPlayerCount: 'seasonalLeague/globalChampionshipLeaderboardPlayerCount',
+      clanRankings: 'seasonalLeague/clanRankings',
+      clanLeaderboardPlayerCount: 'seasonalLeague/clanLeaderboardPlayerCount',
+      clanChampionshipRankings: 'seasonalLeague/clanChampionshipRankings',
+      clanChampionshipLeaderboardPlayerCount: 'seasonalLeague/clanChampionshipLeaderboardPlayerCount',
+      codePointsRankings: 'seasonalLeague/codePointsRankings',
+      myClans: 'clans/myClans',
+      childClanDetails: 'clans/childClanDetails',
+      clanByIdOrSlug: 'clans/clanByIdOrSlug',
+      isLoading: 'clans/isLoading',
+      isStudent: 'me/isStudent',
+      isAPIClient: 'me/isAPIClient',
+      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
+    }),
+    AILeagueProductCTA () {
+      return 'https://form.typeform.com/to/qXqgbubC'
+    },
+    currentSelectedClan () {
+      return this.clanByIdOrSlug(this.clanIdOrSlug) || null
+    },
+
+    isGlobalPage () {
+      return this.clanIdSelected === ''
+    },
+
+    currentSelectedClanChildDetails () {
+      const selectedId = this.clanIdSelected
+      if (selectedId === '') {
+        return []
+      }
+      const result = this.childClanDetails(selectedId)
+      return result
+    },
+
+    clanIdSelected () {
+      return (this.currentSelectedClan || {})._id || ''
+    },
+
+    currentSelectedClanName () {
+      let name = (this.currentSelectedClan || {}).displayName || (this.currentSelectedClan || {}).name || ''
+      if (!/[a-z]/.test(name)) name = titleize(name) // Convert any all-uppercase clan names to title-case
+      return name
+    },
+
+    currentSelectedClanDescription () {
+      let description = (this.currentSelectedClan || {}).description || ''
+      if (!description) {
+        return ''
+      }
+
+      description = marked(description)
+
+      // Hack - In the future we should autopopulate autoclan descriptions better server side.
+      //        Or alternatively populate client side with i18n enabled.
+      if (this.currentSelectedClan.kind) {
+        return description.replace('Clan', 'Team')
+      }
+
+      return description
+    },
+
+    currentSelectedClanEsportsImage () {
+      const image = this.currentSelectedClan?.esportsImage
+      if (image) {
+        return `/file/${image}`
+      }
+      return '/images/pages/league/student_hugging.png'
+    },
+
+    customEsportsImageClass () {
+      return {
+        'img-responsive': true,
+        'unset-flip': typeof this.currentSelectedClan?.esportsImage === 'string',
+      }
+    },
+
+    myCreatedClan () {
+      return this.isClanCreator() ? this.currentSelectedClan : null
+    },
+
+    selectedClanRankings () {
+      return this.clanRankings(this.clanIdSelected)
+    },
+
+    selectedClanLeaderboardPlayerCount () {
+      return this.clanLeaderboardPlayerCount(this.clanIdSelected)
+    },
+
+    selectedClanChampionshipRankings () {
+      return this.clanChampionshipRankings(this.clanIdSelected) || []
+    },
+
+    selectedClanChampionshipLeaderboardPlayerCount () {
+      return this.clanChampionshipLeaderboardPlayerCount(this.clanIdSelected)
+    },
+
+    selectedClanCodePointsRankings () {
+      return this.codePointsRankings(this.clanIdSelected) || []
+    },
+
+    showJoinTeamBtn () {
+      if (!this.currentSelectedClan) {
+        return false
+      }
+      // We don't want to show this button if the team is an autoclan.
+      // Those students are populated automatically.
+      return !this.currentSelectedClan?.kind
+    },
+
+    regularArenaUrl () {
+      let url = `/play/ladder/${this.regularArenaSlug}`
+      let tournament = currentRegularArena.tournament
+      if (this.clanIdSelected) {
+        url += `/clan/${this.clanIdSelected}`
+        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
+        tournament = tournaments[this.regularArenaSlug] || tournament
+      }
+      if (tournament) url += `?tournament=${tournament}`
+      return url
+    },
+
+    previousRegularArenaUrl () {
+      let url = `/play/ladder/${this.previousRegularArenaSlug}`
+      let tournament = previousRegularArena.tournament
+      if (this.clanIdSelected) {
+        url += `/clan/${this.clanIdSelected}`
+        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
+        tournament = tournaments[this.previousRegularArenaSlug] || tournament
+      }
+      if (tournament) url += `?tournament=${tournament}`
+      return url
+    },
+
+    championshipArenaUrl () {
+      let url = `/play/ladder/${this.championshipArenaSlug}`
+      let tournament = currentChampionshipArena.tournament
+      if (this.clanIdSelected) {
+        url += `/clan/${this.clanIdSelected}`
+        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
+        tournament = tournaments[this.championshipArenaSlug] || tournament
+      }
+      if (tournament) url += `?tournament=${tournament}`
+      return url
+    },
+
+    previousChampionshipArenaUrl () {
+      let url = `/play/ladder/${this.previousChampionshipArenaSlug}`
+      let tournament = previousChampionshipArena.tournament
+      if (this.clanIdSelected) {
+        url += `/clan/${this.clanIdSelected}`
+        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
+        tournament = tournaments[this.previousChampionshipArenaSlug] || tournament
+      }
+      if (tournament) url += `?tournament=${tournament}`
+      return url
+    },
+
+    previousChampionshipArenaResultsPublished () {
+      return previousChampionshipArena && new Date() >= previousChampionshipArena.results
+    },
+
+    // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
+    firstName () { return me.get('firstName') },
+
+    lastName () { return me.get('lastName') },
+
+    name () { return me.get('name') },
+
+    email () { return me.get('email') },
+
+    emails () { return me.get('emails') },
+
+    birthday () { return me.get('birthday') },
+
+    unsubscribedFromMarketingEmails () { return me.get('unsubscribedFromMarketingEmails') },
+  },
 
   watch: {
     clanIdOrSlug (newSelectedClan, lastSelectedClan) {
@@ -81,7 +262,7 @@ export default {
       if (newSelectedClan !== lastSelectedClan && newSelectedClan && this.doneRegistering && !this.inSelectedClan()) {
         this.joinClan()
       }
-    }
+    },
   },
 
   created () {
@@ -90,7 +271,9 @@ export default {
     this.doneRegistering = !!this.$route.query.registered && !me.isAnonymous()
     this.leagueSignupModalOpen = !this.doneRegistering && this.canRegister() && !!this.$route.query.registering
   },
-
+  beforeDestroy () {
+    clearInterval(this.heroRotationInterval)
+  },
   mounted () {
     let rotationCount = 0
     const rotateHero = () => {
@@ -114,10 +297,6 @@ export default {
     _.delay(scrollTo, 1000)
   },
 
-  beforeDestroy () {
-    clearInterval(this.heroRotationInterval)
-  },
-
   methods: {
     ...mapActions({
       loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
@@ -126,7 +305,7 @@ export default {
       loadChampionshipGlobalRequiredData: 'seasonalLeague/loadChampionshipGlobalRequiredData',
       loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
       fetchClan: 'clans/fetchClan',
-      fetchChildClanDetails: 'clans/fetchChildClanDetails'
+      fetchChildClanDetails: 'clans/fetchChildClanDetails',
     }),
 
     changeClanSelected (e) {
@@ -299,7 +478,7 @@ export default {
       if (this.currentSelectedClan !== null) {
         const rewrites = {
           'autoclan-school-network-academica': 'academica',
-          'autoclan-school-network-kipp': 'kipp'
+          'autoclan-school-network-kipp': 'kipp',
         }
         const clanSlug = rewrites[this.currentSelectedClan.slug] || this.currentSelectedClan.slug
         return `${window.location.origin}/league/${clanSlug}`
@@ -311,190 +490,9 @@ export default {
     },
     unlockEsports () {
       this.anonymousPlayerName = false
-    }
+    },
   },
 
-  computed: {
-    ...mapGetters({
-      globalRankings: 'seasonalLeague/globalRankings',
-      globalChampionshipRankings: 'seasonalLeague/globalChampionshipRankings',
-      globalLeaderboardPlayerCount: 'seasonalLeague/globalLeaderboardPlayerCount',
-      globalChampionshipLeaderboardPlayerCount: 'seasonalLeague/globalChampionshipLeaderboardPlayerCount',
-      clanRankings: 'seasonalLeague/clanRankings',
-      clanLeaderboardPlayerCount: 'seasonalLeague/clanLeaderboardPlayerCount',
-      clanChampionshipRankings: 'seasonalLeague/clanChampionshipRankings',
-      clanChampionshipLeaderboardPlayerCount: 'seasonalLeague/clanChampionshipLeaderboardPlayerCount',
-      codePointsRankings: 'seasonalLeague/codePointsRankings',
-      myClans: 'clans/myClans',
-      childClanDetails: 'clans/childClanDetails',
-      clanByIdOrSlug: 'clans/clanByIdOrSlug',
-      isLoading: 'clans/isLoading',
-      isStudent: 'me/isStudent',
-      isAPIClient: 'me/isAPIClient',
-      codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount'
-    }),
-    AILeagueProductCTA () {
-      return 'https://form.typeform.com/to/qXqgbubC'
-    },
-    currentSelectedClan () {
-      return this.clanByIdOrSlug(this.clanIdOrSlug) || null
-    },
-
-    isGlobalPage () {
-      return this.clanIdSelected === ''
-    },
-
-    currentSelectedClanChildDetails () {
-      const selectedId = this.clanIdSelected
-      if (selectedId === '') {
-        return []
-      }
-      const result = this.childClanDetails(selectedId)
-      return result
-    },
-
-    clanIdSelected () {
-      return (this.currentSelectedClan || {})._id || ''
-    },
-
-    currentSelectedClanName () {
-      let name = (this.currentSelectedClan || {}).displayName || (this.currentSelectedClan || {}).name || ''
-      if (!/[a-z]/.test(name)) name = titleize(name) // Convert any all-uppercase clan names to title-case
-      return name
-    },
-
-    currentSelectedClanDescription () {
-      let description = (this.currentSelectedClan || {}).description || ''
-      if (!description) {
-        return ''
-      }
-
-      description = marked(description)
-
-      // Hack - In the future we should autopopulate autoclan descriptions better server side.
-      //        Or alternatively populate client side with i18n enabled.
-      if (this.currentSelectedClan.kind) {
-        return description.replace('Clan', 'Team')
-      }
-
-      return description
-    },
-
-    currentSelectedClanEsportsImage () {
-      const image = this.currentSelectedClan?.esportsImage
-      if (image) {
-        return `/file/${image}`
-      }
-      return '/images/pages/league/student_hugging.png'
-    },
-
-    customEsportsImageClass () {
-      return {
-        'img-responsive': true,
-        'unset-flip': typeof this.currentSelectedClan?.esportsImage === 'string'
-      }
-    },
-
-    myCreatedClan () {
-      return this.isClanCreator() ? this.currentSelectedClan : null
-    },
-
-    selectedClanRankings () {
-      return this.clanRankings(this.clanIdSelected)
-    },
-
-    selectedClanLeaderboardPlayerCount () {
-      return this.clanLeaderboardPlayerCount(this.clanIdSelected)
-    },
-
-    selectedClanChampionshipRankings () {
-      return this.clanChampionshipRankings(this.clanIdSelected) || []
-    },
-
-    selectedClanChampionshipLeaderboardPlayerCount () {
-      return this.clanChampionshipLeaderboardPlayerCount(this.clanIdSelected)
-    },
-
-    selectedClanCodePointsRankings () {
-      return this.codePointsRankings(this.clanIdSelected) || []
-    },
-
-    showJoinTeamBtn () {
-      if (!this.currentSelectedClan) {
-        return false
-      }
-      // We don't want to show this button if the team is an autoclan.
-      // Those students are populated automatically.
-      return !this.currentSelectedClan?.kind
-    },
-
-    regularArenaUrl () {
-      let url = `/play/ladder/${this.regularArenaSlug}`
-      let tournament = currentRegularArena.tournament
-      if (this.clanIdSelected) {
-        url += `/clan/${this.clanIdSelected}`
-        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
-        tournament = tournaments[this.regularArenaSlug] || tournament
-      }
-      if (tournament) url += `?tournament=${tournament}`
-      return url
-    },
-
-    previousRegularArenaUrl () {
-      let url = `/play/ladder/${this.previousRegularArenaSlug}`
-      let tournament = previousRegularArena.tournament
-      if (this.clanIdSelected) {
-        url += `/clan/${this.clanIdSelected}`
-        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
-        tournament = tournaments[this.previousRegularArenaSlug] || tournament
-      }
-      if (tournament) url += `?tournament=${tournament}`
-      return url
-    },
-
-    championshipArenaUrl () {
-      let url = `/play/ladder/${this.championshipArenaSlug}`
-      let tournament = currentChampionshipArena.tournament
-      if (this.clanIdSelected) {
-        url += `/clan/${this.clanIdSelected}`
-        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
-        tournament = tournaments[this.championshipArenaSlug] || tournament
-      }
-      if (tournament) url += `?tournament=${tournament}`
-      return url
-    },
-
-    previousChampionshipArenaUrl () {
-      let url = `/play/ladder/${this.previousChampionshipArenaSlug}`
-      let tournament = previousChampionshipArena.tournament
-      if (this.clanIdSelected) {
-        url += `/clan/${this.clanIdSelected}`
-        const tournaments = tournamentsByLeague[this.clanIdSelected || '_global'] || {}
-        tournament = tournaments[this.previousChampionshipArenaSlug] || tournament
-      }
-      if (tournament) url += `?tournament=${tournament}`
-      return url
-    },
-
-    previousChampionshipArenaResultsPublished () {
-      return previousChampionshipArena && new Date() >= previousChampionshipArena.results
-    },
-
-    // NOTE: `me` and the specific `window.me` are both unavailable in this template for some reason? Hacky...
-    firstName () { return me.get('firstName') },
-
-    lastName () { return me.get('lastName') },
-
-    name () { return me.get('name') },
-
-    email () { return me.get('email') },
-
-    emails () { return me.get('emails') },
-
-    birthday () { return me.get('birthday') },
-
-    unsubscribedFromMarketingEmails () { return me.get('unsubscribedFromMarketingEmails') }
-  }
 }
 </script>
 
@@ -695,7 +693,7 @@ export default {
             <span class="esports-green">Season 12 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span>
           </h1>
         </div>
-        <p>{{ $t('league.season12_announcement_1') }}</p>
+        <p>{{ $t('league.season12_announcement_2') }}</p>
         <p>{{ $t('league.season6_announcement_2') }}</p>
       </div>
     </div>
@@ -916,7 +914,15 @@ export default {
       </div>
       <div class="prize-section__info">
         <div class="prize-section__info-1">
-          {{ $t('league.grand_prize') }}: {{ $t('league.season1_prize_1') }}<span class="prize-section__small-top">1</span>
+          <p>
+            <span class="prize-info-title">{{ $t('league.grand_prize') }}</span>: <span>{{ $t('league.new_season_prize_1') }}</span>
+          </p>
+          <p>
+            <span class="prize-info-title">{{ $t('league.second_prize') }}</span>: <span>{{ $t('league.new_season_prize_2') }}</span>
+          </p>
+          <p>
+            <span class="prize-info-title">{{ $t('league.third_prize') }}</span>: <span>{{ $t('league.new_season_prize_3') }}</span>
+          </p>
         </div>
       </div>
     </div>
@@ -1920,8 +1926,22 @@ export default {
       padding: 30px;
 
       &-1 {
-        font-size: 65px;
+        font-size: 32px;
         padding-bottom: 10px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        span {
+          display: inline-block;
+          width: 350px;
+          text-align: left;
+
+          &.prize-info-title {
+            text-align: right;
+          }
+        }
       }
 
       &-2 {

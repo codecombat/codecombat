@@ -8,7 +8,8 @@
  * DS201: Simplify complex destructure assignments
  * DS205: Consider reworking code to avoid use of IIFEs
  * DS206: Consider reworking classes to avoid initClass
- * DS207: Consider shorter variations of null checks
+
+ * * DS207: Consider shorter variations of null checks
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 let CocoRouter
@@ -66,7 +67,7 @@ module.exports = (CocoRouter = (function () {
               return this.routeDirectly('HomeCNView', [])
             }
           }
-          if (me.useOldHomeView) {
+          if (me.useOldHomeView || !utils.isCodeCombat) {
             return this.routeDirectly('HomeView')
           } else {
             return this.routeDirectly('HomeBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
@@ -265,7 +266,11 @@ module.exports = (CocoRouter = (function () {
           } else if (me.useOldHomeView) {
             return this.routeDirectly('HomeView')
           } else {
-            return this.routeDirectly('HomeBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+            if (utils.isCodeCombat) {
+              return this.routeDirectly('HomeBeta', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+            } else {
+              return this.routeDirectly('HomeView', [])
+            }
           }
         },
 
@@ -369,14 +374,14 @@ module.exports = (CocoRouter = (function () {
             return this.routeDirectly('play/level/PlayLevelView', arguments, options)
           } else {
             const props = {
-              levelID
+              levelID,
             }
             return this.routeDirectly('ozaria/site/play/PagePlayLevel', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
           }
         },
         'play/intro/:introLevelIdOrSlug' (introLevelIdOrSlug) {
           const props = {
-            introLevelIdOrSlug
+            introLevelIdOrSlug,
           }
           return this.routeDirectly('introLevel', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
         },
@@ -396,7 +401,7 @@ module.exports = (CocoRouter = (function () {
             return this.routeDirectly('play/CampaignView', arguments)
           } else {
             const props = {
-              campaign
+              campaign,
             }
             return this.routeDirectly('ozaria/site/play/PageUnitMap', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
           }
@@ -405,21 +410,21 @@ module.exports = (CocoRouter = (function () {
         'interactive/:interactiveIdOrSlug(?code-language=:codeLanguage)' (interactiveIdOrSlug, codeLanguage) {
           const props = {
             interactiveIdOrSlug,
-            codeLanguage // This will also come from intro level page later
+            codeLanguage, // This will also come from intro level page later
           }
           if (me.isAdmin()) { return this.routeDirectly('interactive', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props }) }
         },
 
         'cinematic/:cinematicIdOrSlug' (cinematicIdOrSlug) {
           const props = {
-            cinematicIdOrSlug
+            cinematicIdOrSlug,
           }
           if (me.isAdmin()) { return this.routeDirectly('cinematic', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props }) }
         },
 
         'cutscene/:cutsceneId' (cutsceneId) {
           const props = {
-            cutsceneId
+            cutsceneId,
           }
           if (me.isAdmin()) { return this.routeDirectly('cutscene', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props }) }
         },
@@ -495,13 +500,11 @@ module.exports = (CocoRouter = (function () {
         'teachers/campaign-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true, campaignMode: true }),
         'teachers/demo': redirect('/teachers/quote'),
         'teachers/enrollments': redirect('/teachers/licenses'),
-        'teachers/hour-of-code' () {
-          if (utils.isCodeCombat) {
-            return this.routeDirectly('special_event/HoC2018View', [], {})
-          } else {
+        'teachers/hour-of-code': utils.isCodeCombat
+          ? go('core/SingletonAppVueComponentView')
+          : function () {
             window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing'
-          }
-        },
+          },
         // Redundant linking in case of external linking to our hoc resources:
         'teachers/resources/hoc2019': () => { window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing' },
         'teachers/resources/hoc2020': () => { window.location.href = 'https://docs.google.com/presentation/d/1KgFOg2tqbKEH8qNwIBdmK2QbHvTsxnW_Xo7LvjPsxwE/edit?usp=sharing' },
@@ -566,8 +569,10 @@ module.exports = (CocoRouter = (function () {
 
         acte: redirect('/home?registering=true&referrerEvent=ACTE#create-account-teacher'),
 
+        acr: go('core/SingletonAppVueComponentView'),
+
         '*name/': 'removeTrailingSlash',
-        '*name': go('NotFoundView')
+        '*name': go('NotFoundView'),
       }
     }
 
@@ -647,7 +652,7 @@ module.exports = (CocoRouter = (function () {
       return Promise.all([
         dynamicRequire[path](), // Load the view file
         // The locale load is already initialized by `application`, just need the promise
-        locale.load(me.get('preferredLanguage', true))
+        locale.load(me.get('preferredLanguage', true)),
       ]).then((...args1) => {
         let view
         const [ViewClass] = Array.from(args1[0])
@@ -656,7 +661,7 @@ module.exports = (CocoRouter = (function () {
         // send url info to teachers
         if (utils.useWebsocket && me.isStudent()) {
           const {
-            wsBus
+            wsBus,
           } = globalVar.application
           Object.entries((wsBus.wsInfos != null ? wsBus.wsInfos.friends : undefined) != null ? (wsBus.wsInfos != null ? wsBus.wsInfos.friends : undefined) : {}).forEach((...args2) => {
             const [to, friend] = Array.from(args2[0])
@@ -664,7 +669,7 @@ module.exports = (CocoRouter = (function () {
             const routeInfo = {
               to,
               type: 'send',
-              infos: { viewName: ViewClass.default.name, url: window.location.href }
+              infos: { viewName: ViewClass.default.name, url: window.location.href },
             }
             return wsBus.ws.sendJSON(routeInfo)
           })

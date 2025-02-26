@@ -62,6 +62,16 @@ _.extend(AIProjectSchema.properties, {
     description: 'Whether this project is ready for review by the teacher',
   },
   archived: { title: 'Archived', type: 'boolean' },
+  remixedFrom: {
+    title: 'Remixed From',
+    type: ['object', 'string'],
+    description: 'The project ID of the project this was remixed from',
+    links: [{ rel: 'db', href: '/db/ai_project/{($)}' }],
+  },
+  changed: c.date({
+    title: 'Changed',
+    readOnly: true,
+  }),
 })
 
 AIProjectSchema.required = ['visibility', 'user', 'scenario', 'actionQueue']

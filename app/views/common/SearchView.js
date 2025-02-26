@@ -74,7 +74,8 @@ module.exports = (SearchView = (function () {
       super(options)
       this.runSearch = this.runSearch.bind(this)
       this.runSearch = _.debounce(this.runSearch, 500)
-      this.modelProperties = options.modelProperties || {}
+      this.modelProperties = options.modelProperties || this.modelProperties || {}
+      this.hasNoNameProperty = options.hasNoNameProperty || this.hasNoNameProperty
     }
 
     afterRender () {
@@ -141,7 +142,7 @@ module.exports = (SearchView = (function () {
     }
 
     newModel (e) {
-      const modal = new NewModelModal({ model: this.model, modelLabel: this.modelLabel, properties: this.modelProperties })
+      const modal = new NewModelModal({ model: this.model, modelLabel: this.modelLabel, properties: this.modelProperties, hasNoNameProperty: this.hasNoNameProperty })
       modal.once('model-created', this.onNewModelSaved)
       return this.openModalView(modal)
     }

@@ -400,7 +400,7 @@ courseAcronyms[allCourseIDs.CHAPTER_ONE] = 'CH1'
 courseAcronyms[allCourseIDs.CHAPTER_TWO] = 'CH2'
 courseAcronyms[allCourseIDs.CHAPTER_THREE] = 'CH3'
 courseAcronyms[allCourseIDs.CHAPTER_FOUR] = 'CH4'
-courseAcronyms[allCourseIDs.HACKSTACK] = 'HS'
+courseAcronyms[allCourseIDs.HACKSTACK] = 'AI'
 
 const courseCampaignSlugs = {}
 courseCampaignSlugs[allCourseIDs.JUNIOR] = 'junior'
@@ -537,6 +537,26 @@ var stripIndentation = function (code) {
   return strippedCode
 }
 
+const removeAI = function (str) {
+  // we have some objects as return value.
+  // when ai translation finished we can know how to deal with them
+  // now return first
+  if (!str) {
+    return ''
+  }
+  if (typeof str === 'object') {
+    const newObject = {}
+    Object.keys(str).forEach((key) => {
+      newObject[key] = removeAI(str[key])
+    })
+    return newObject
+  }
+  if (typeof str !== 'string') {
+    return str
+  }
+  return str.replace(/^\[AI_TRANSLATION\]/, '')
+}
+
 // @param {Object} say - the object containing an i18n property.
 // @param {string} target - the attribute that you want to access.
 // @returns {string} translated string if possible
@@ -553,25 +573,6 @@ var i18n = function (say, target, language, fallback) {
   const matches = (/\w+/gi).exec(language)
   if (matches) { generalName = matches[0] }
 
-  const removeAI = function (str) {
-    // we have some objects as return value.
-    // when ai translation finished we can know how to deal with them
-    // now return first
-    if (!str) {
-      return ''
-    }
-    if (typeof str === 'object') {
-      const newObject = {}
-      Object.keys(str).forEach((key) => {
-        newObject[key] = removeAI(str[key])
-      })
-      return newObject
-    }
-    if (typeof str !== 'string') {
-      return str
-    }
-    return str.replace(/^\[AI_TRANSLATION\]/, '')
-  }
   // Lets us safely attempt to translate undefined objects
   if (!(say != null ? say.i18n : undefined)) { return removeAI(say != null ? say[target] : undefined) }
 
@@ -1341,8 +1342,14 @@ const arenas = [
   { season: 10, slug: 'anti-gravity', type: 'championship', start: new Date('2024-04-01T00:00:00.000-07:00'), end: new Date('2024-05-01T00:00:00.000-07:00'), results: new Date('2024-05-13T07:00:00.000-07:00'), levelOriginal: '65f2618f757a82bcc90b7c9e', tournament: '66311610236b3e1e9dcfd9f3', image: '/file/db/level/65f2618f757a82bcc90b7c9e/AntiGravityBanner.png' },
   { season: 11, slug: 'solar-skirmish', type: 'regular', start: new Date('2024-05-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '661f6cf6525db0fb41870360', tournament: '66311a29856d99556fa14326', image: '/file/db/level/661f6cf6525db0fb41870360/SolarSkirmishBanner.png' },
   { season: 11, slug: 'sunfire', type: 'championship', start: new Date('2024-08-01T00:00:00.000-07:00'), end: new Date('2024-09-01T00:00:00.000-07:00'), results: new Date('2024-09-14T07:00:00.000-07:00'), levelOriginal: '6682089bb98780c672659043', tournament: '669aa78fcca07ea127d445d6', image: '/file/db/level/6682089bb98780c672659043/SunfireBanner.png' },
-  { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '66ba09c7c34ab945ba4f52a2', tournament: '66d0b7f11c8954cacec98d47', image: '/file/db/level/66ba09c7c34ab945ba4f52a2/SystemShockBanner2.png' },
-  { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
+  { season: 12, slug: 'system-shock', type: 'regular', start: new Date('2024-09-01T00:00:00.000-07:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-18T07:00:00.000-08:00'), levelOriginal: '66ba09c7c34ab945ba4f52a2', tournament: '66d0b7f11c8954cacec98d47', image: '/file/db/level/66ba09c7c34ab945ba4f52a2/SystemShockBanner2.png' },
+  { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-14T07:00:00.000-08:00'), levelOriginal: '66f545e57e91e7168c3e463c', tournament: '6756bac52bfcb2c7059f3cb3', image: '/file/db/level/66f545e57e91e7168c3e463c/superchargedbanner2.jpg' },
+  { season: 13, slug: 'pawns-passage', type: 'regular', start: new Date('2025-01-01T00:00:00.000-08:00'), end: new Date('2025-05-01T00:00:00.000-07:00'), results: new Date('2025-05-14T07:00:00.000-07:00'), levelOriginal: '675a76867ea2b689e0f86e87', image: '/file/db/level/675a76867ea2b689e0f86e87/PawnsPassageBanner.jpg' },
+  { season: 13, slug: 'kings-gambit', type: 'championship', start: new Date('2025-04-01T00:00:00.000-07:00'), end: new Date('2025-05-01T00:00:00.000-07:00'), results: new Date('2025-05-10T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 14, slug: 'strikers-stadium', type: 'regular', start: new Date('2025-05-01T00:00:00.000-07:00'), end: new Date('2025-09-01T00:00:00.000-07:00'), results: new Date('2025-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 14, slug: 'golden-goal', type: 'championship', start: new Date('2025-07-01T00:00:00.000-07:00'), end: new Date('2025-09-01T00:00:00.000-07:00'), results: new Date('2025-09-10T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 15, slug: 'turbo-track', type: 'regular', start: new Date('2025-09-01T00:00:00.000-07:00'), end: new Date('2026-01-01T00:00:00.000-08:00'), results: new Date('2026-01-14T07:00:00.000-08:00'), levelOriginal: '', image: '' },
+  { season: 15, slug: 'grand-prix', type: 'championship', start: new Date('2025-12-01T00:00:00.000-08:00'), end: new Date('2026-01-01T00:00:00.000-08:00'), results: new Date('2026-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
 ]
 
 // AI League seasons
@@ -1359,7 +1366,10 @@ const AILeagueSeasons = [
   { number: 10, championshipType: 'cup', image: '/images/pages/league/anti-gravity-cup.png', video: '72d0ffc93599cf8cb5b0f7fed7861d0f', videoThumbnailTime: '188s' },
   // for image instead of video, we link the top match image
   { number: 11, championshipType: 'blitz', image: '/images/pages/league/sunfire-blitz.png', imagePath: '/images/pages/league/sunfire-results.webp', topMatchUrlPath: '/play/spectate/sunfire?session-one=6688815921af79d80736c0e2&session-two=66c64ee0b522c4f39324d832&tournament=669aa78fcca07ea127d445d6' },
-  { number: 12, championshipType: 'clash', image: '/images/pages/league/supercharged-clash.png', video: '', videoThumbnailTime: '' },
+  { number: 12, championshipType: 'clash', image: '/images/pages/league/supercharged-clash.png', imagePath: '/images/pages/league/supercharged-results.webp', topMatchUrlPath: '/play/spectate/supercharged?session-one=670022a88716adfc389b7843&session-two=6774cf6654ce86ae1fa25620&tournament=6756bac52bfcb2c7059f3cb3' },
+  { number: 13, championshipType: 'cup', image: '/images/pages/league/kings-gambit-cup.png', video: '', videoThumbnailTime: '' },
+  { number: 14, championshipType: 'blitz', image: '/images/pages/league/golden-goal-blitz.png', video: '', videoThumbnailTime: '' },
+  { number: 15, championshipType: 'clash', image: '/images/pages/league/grand-prix-clash.png', video: '', videoThumbnailTime: '' },
 ]
 
 const activeArenas = function () {
@@ -1626,6 +1636,11 @@ const isMobile = () => {
   return isMobileDevice
 }
 
+const isIPad = () => {
+  const ua = navigator.userAgent
+  return (/iPad/.test(ua) || (navigator?.platform === 'MacIntel' && navigator.maxTouchPoints > 1))
+}
+
 module.exports.getCodeLanguages = () => {
   const codeLanguages = {
     python: {
@@ -1695,6 +1710,18 @@ module.exports.secondsToMinutesAndSeconds = function (seconds) {
   const minutes = Math.floor(seconds / 60)
   const remainingSeconds = seconds % 60
   return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`
+}
+
+module.exports.getJuniorUrl = function() {
+  let juniorPath = '/play/junior'
+  if(me && me.isTeacher() && !me.isAnonymous()) {
+    juniorPath = '/teachers/curriculum/junior'
+  }
+  return `${cocoBaseURL()}${juniorPath}`
+}
+
+module.exports.scenarioMode2Icon = (mode) => {
+  return mode === 'use' ? 'ai-use' : 'ai-learn'
 }
 
 module.exports = {
@@ -1786,6 +1813,7 @@ module.exports = {
   registerHocProgressModalCheck,
   replaceText,
   round,
+  removeAI,
   AILeagueSeasons,
   sortCourses,
   sortOtherCourses,
@@ -1808,6 +1836,7 @@ module.exports = {
   isCodeCombat,
   isOzaria,
   isMobile,
+  isIPad,
   supportEmail,
   tournamentSortFn,
   cocoBaseURL,

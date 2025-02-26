@@ -453,6 +453,9 @@ module.exports = (CoursesView = (function () {
                 }
               }
             }
+            if (course._id === utils.courseIDs.HACKSTACK) {
+              return false
+            }
             return !stats.courseComplete
           }, this)
         }, this)

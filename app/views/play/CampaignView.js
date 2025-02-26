@@ -15,6 +15,7 @@ const CreateAccountModal = require('views/core/CreateAccountModal')
 const SubscribeModal = require('views/core/SubscribeModal')
 const LeaderboardModal = require('views/play/modal/LeaderboardModal')
 const Level = require('models/Level')
+const User = require('models/User')
 const utils = require('core/utils')
 const constants = require('core/constants')
 const ShareProgressModal = require('views/play/modal/ShareProgressModal')
@@ -84,7 +85,7 @@ class CampaignView extends RootView {
     this.prototype.template = template
 
     this.prototype.subscriptions = {
-      'subscribe-modal:subscribed': 'onSubscribed'
+      'subscribe-modal:subscribed': 'onSubscribed',
     }
 
     this.prototype.events = {
@@ -126,11 +127,11 @@ class CampaignView extends RootView {
       'click #videos-button': 'onClickVideosButton',
       'click #esports-arena': 'onClickEsportsButton',
       'click a.start-esports': 'onClickEsportsLink',
-      'click .m7-off': 'onClickM7OffButton'
+      'click .m7-off': 'onClickM7OffButton',
     }
 
     this.prototype.shortcuts = {
-      'shift+s': 'onShiftS'
+      'shift+s': 'onShiftS',
     }
 
     this.prototype.activeArenas = utils.activeArenas
@@ -222,7 +223,7 @@ class CampaignView extends RootView {
         url: '/picoctf/problems',
         success: picoCTFProblems => {
           this.picoCTFProblems = picoCTFProblems
-        }
+        },
       }).load()
     } else {
       if (!this.editorMode) {
@@ -277,6 +278,14 @@ class CampaignView extends RootView {
 
         this.course = new Course({ _id: courseID })
         this.supermodel.trackRequest(this.course.fetch())
+        if (this.courseInstance.get('ownerID')) {
+          const teacherID = this.courseInstance.get('ownerID')
+          this.courseTeacher = new User({ _id: teacherID })
+          this.supermodel.trackRequest(this.courseTeacher.fetch())
+          this.listenToOnce(this.courseTeacher, 'sync', () => {
+            this.render()
+          })
+        }
         if (this.courseInstance.get('classroomID')) {
           const classroomID = this.courseInstance.get('classroomID')
           this.classroom = new Classroom({ _id: classroomID })
@@ -287,10 +296,10 @@ class CampaignView extends RootView {
             this.render()
             this.courseInstance.sessions = new CocoCollection([], {
               url: this.courseInstance.url() + '/course-level-sessions/' + me.id,
-              model: LevelSession
+              model: LevelSession,
             })
             this.supermodel.loadCollection(this.courseInstance.sessions, {
-              data: { project: 'state.complete,level.original,playtime,changed,state.topScores' }
+              data: { project: 'state.complete,level.original,playtime,changed,state.topScores' },
             })
             this.courseInstance.sessions.comparator = 'changed'
             this.listenToOnce(this.courseInstance.sessions, 'sync', () => {
@@ -302,7 +311,7 @@ class CampaignView extends RootView {
               // TODO: fully rip this out once we get rid of classroom versioning.
               this.courseLevels = new Levels()
               this.supermodel.trackRequest(this.courseLevels.fetchForClassroomAndCourse(classroomID, courseID, {
-                data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n' }
+                data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n' },
               }))
               this.listenToOnce(this.courseLevels, 'sync', () => {
                 this.courseLevelsLoaded = true
@@ -345,7 +354,7 @@ class CampaignView extends RootView {
               if (this.destroyed) { return }
               delayMusicStart()
               this.highlightNextLevel()
-            }
+            },
           }))
         }, 0)
       }
@@ -580,7 +589,7 @@ class CampaignView extends RootView {
             // split the diff between the previous, next levels
             this.courseLevelsFake[idx].position = {
               x: (prevPosition.x + nextPosition.x) / 2,
-              y: (prevPosition.y + nextPosition.y) / 2
+              y: (prevPosition.y + nextPosition.y) / 2,
             }
           } else {
             // otherwise just line them up along the bottom
@@ -796,7 +805,7 @@ class CampaignView extends RootView {
     if ($.isTouchCapable() && (screen.availHeight < screen.availWidth)) {
       // scroll to vertical center on landscape touchscreens
       $('.portal').animate({
-        scrollTop: ($('.portals').height() - $('.portal').height()) / 2
+        scrollTop: ($('.portals').height() - $('.portal').height()) / 2,
       }, 100)
     }
     this.onWindowResize()
@@ -868,7 +877,7 @@ class CampaignView extends RootView {
         url: '/db/analytics_perday/-/level_completions',
         data: { startDay, endDay, slug: level.slug },
         method: 'POST',
-        success: this.onLevelCompletionsLoaded.bind(this, level)
+        success: this.onLevelCompletionsLoaded.bind(this, level),
       }, 0)
       request.load()
     }
@@ -1014,6 +1023,7 @@ class CampaignView extends RootView {
       if (this.editorMode) { level.locked = false }
       if (['Auditions', 'Intro'].includes(this.campaign?.get('name'))) { level.locked = false }
       if (me.isInGodMode()) { level.locked = false }
+      if (this.courseInstanceID && level.hasAccessByTeacher(this.courseTeacher)) { level.locked = false }
       if (level.adminOnly && !['started', 'complete'].includes(this.levelStatusMap[level.slug])) { level.disabled = true }
       if (me.isInGodMode()) { level.disabled = false }
 
@@ -1190,7 +1200,14 @@ class CampaignView extends RootView {
           me.isPremium() || !nextLevel.requiresSubscription || // nextLevel.adventurer or  # Disable adventurer stuff for now
           _.any(subscriptionPrompts, prompt => (nextLevel.slug === prompt.slug) && !this.levelStatusMap[prompt.unless])
         )) {
-          nextLevel.next = true
+          if (nextLevel.practice === true && nextLevel.slug.match(level.slug.replace(/-[a-z]$/, ''))) {
+            // If this is a practice level for the current level, we don't want to point it out
+            // This is a bit of a hack, but it's the best way to handle this for now
+            // It works for the Junior levels where they have the same slug with a -a or -b at the end
+            continue
+          } else {
+            nextLevel.next = true
+          }
           return true
         }
       }
@@ -1232,7 +1249,7 @@ class CampaignView extends RootView {
       ['gems-in-the-deep', 55],
       ['shadow-guard', 55],
       ['forgetful-gemsmith', 40],
-      ['true-names', 40]
+      ['true-names', 40],
     ]
     for (const [levelSlug, speedThreshold] of speedThresholds) {
       if (this.sessions?.models.find(session => session.get('levelID') === levelSlug)?.attributes.playtime <= speedThreshold) {
@@ -1461,7 +1478,7 @@ class CampaignView extends RootView {
       // level.adventurer  # Disable adventurer stuff for now
       this.levelStatusMap[level.slug],
       this.campaign.get('type') === 'hoc',
-      (level.releasePhase === 'beta') && (me.getM7ExperimentValue() === 'beta')
+      (level.releasePhase === 'beta') && (me.getM7ExperimentValue() === 'beta'),
     ].some(Boolean)
     if (requiresSubscription && !canPlayAnyway) {
       return this.promptForSubscription(levelSlug, 'map level clicked')
@@ -1509,7 +1526,7 @@ class CampaignView extends RootView {
       session,
       courseID,
       courseInstanceID,
-      codeLanguage
+      codeLanguage,
     }
     this.setupManager = new LevelSetupManager(options)
     if (!this.setupManager?.navigatingToPlay) {
@@ -1697,7 +1714,7 @@ class CampaignView extends RootView {
     Backbone.Mediator.publish('router:navigate', {
       route: '/play',
       viewClass: CampaignView,
-      viewArgs: [{ supermodel: this.supermodel }]
+      viewArgs: [{ supermodel: this.supermodel }],
     })
   }
 
@@ -1707,7 +1724,7 @@ class CampaignView extends RootView {
       text: 'Local storage cleared. Reload to view the original campaign.',
       layout: 'topCenter',
       timeout: 5000,
-      type: 'information'
+      type: 'information',
     })
   }
 
@@ -1733,7 +1750,7 @@ class CampaignView extends RootView {
     Backbone.Mediator.publish('router:navigate', {
       route: `/play/${campaignSlug}`,
       viewClass: CampaignView,
-      viewArgs: [{ supermodel: this.supermodel }, campaignSlug]
+      viewArgs: [{ supermodel: this.supermodel }, campaignSlug],
     })
   }
 
@@ -1880,13 +1897,13 @@ class CampaignView extends RootView {
               $noty.close()
               return this.render()
             }
-          }
+          },
         },
         {
           text: 'No',
-          onClick: $noty => $noty.close()
-        }
-      ]
+          onClick: $noty => $noty.close(),
+        },
+      ],
     })
   }
 
@@ -1913,7 +1930,7 @@ class CampaignView extends RootView {
 
     return achievements.fetchForCampaign(
       this.campaign.get('slug'),
-      { data: { project: 'related,rewards,name' } }
+      { data: { project: 'related,rewards,name' } },
     ).done(achievements => {
       if (this.destroyed) { return }
       const sessionsComplete = globalVar.currentView.sessions.models
@@ -1933,7 +1950,7 @@ class CampaignView extends RootView {
       const levelsEarnedMap = Object.fromEntries(levelsEarned.map(level => [level, true]))
 
       const levelAchievements = achievements.filter(
-        a => a.rewards && a.rewards.levels && a.rewards.levels.length
+        a => a.rewards && a.rewards.levels && a.rewards.levels.length,
       )
 
       let hadMissedAny = false
@@ -1947,7 +1964,7 @@ class CampaignView extends RootView {
             const ea = new EarnedAchievement({
               achievement: achievement._id,
               triggeredBy: sessionsCompleteMap[relatedLevelSlug],
-              collection: 'level.sessions'
+              collection: 'level.sessions',
             })
             hadMissedAny = true
             ea.notyErrors = false
@@ -2020,7 +2037,7 @@ class CampaignView extends RootView {
             level.locked = true
           } else if (prev) {
             level.hidden = prev.hidden
-            level.locked = prev.locked && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), prev.original)
+            level.locked = prev.locked
           } else {
             level.hidden = true
             level.locked = true
@@ -2032,6 +2049,10 @@ class CampaignView extends RootView {
           level.locked = found
           level.hidden = false
         }
+      }
+
+      if ((!prev || !prev.locked) && level.locked && this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+        level.locked = false
       }
 
       level.noFlag = !level.next
@@ -2080,7 +2101,7 @@ class CampaignView extends RootView {
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
     if (what === 'junior-level') {
-      return me.isHomeUser()
+      return me.isHomeUser() && !this.editorMode
     }
 
     if (what === 'classroom-level-play-button') {
@@ -2130,7 +2151,7 @@ class CampaignView extends RootView {
     }
 
     if (['videos'].includes(what)) {
-      return me.isStudent() && this.course?.get('_id') === utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+      return me.isStudent() && this.course?.get('_id') === utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE && !this.editorMode
     }
 
     if (['buy-gems'].includes(what)) {
@@ -2146,7 +2167,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'amazon-campaign') {
-      return this.campaign?.get('slug') === 'game-dev-hoc'
+      return this.campaign?.get('slug') === 'game-dev-hoc' && !this.editorMode
     }
 
     const libraryLogos = [
@@ -2165,11 +2186,15 @@ class CampaignView extends RootView {
     }
 
     if (what === 'roblox-level') {
-      return this.userQualifiesForRobloxModal() && !me.showChinaResourceInfo()
+      return this.userQualifiesForRobloxModal() && !this.editorMode && !me.showChinaResourceInfo()
+    }
+
+    if (what === 'roblox-button') {
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
     if (what === 'hackstack') {
-      return !me.showChinaResourceInfo() && me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary()
+      return !me.showChinaResourceInfo() && me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
     return true

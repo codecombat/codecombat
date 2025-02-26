@@ -32,7 +32,9 @@ module.exports = (TeacherCourseSolutionView = (function () {
 
       this.prototype.events = {
         'click .nav-link': 'onClickSolutionTab',
-        'click .print-btn': 'onClickPrint'
+        'click .print-btn': 'onClickPrint',
+        'click .show-practice-levels-button': 'onClickShowPracticeLevels',
+        'click .show-level-data': 'onClickShowLevelData',
       }
     }
 
@@ -41,6 +43,31 @@ module.exports = (TeacherCourseSolutionView = (function () {
       const levelSlug = link.data('level-slug')
       const solutionIndex = link.data('solution-index')
       window.tracker.trackEvent('Click Teacher Course Solution Tab', { levelSlug, solutionIndex })
+    }
+
+    onClickShowPracticeLevels (e) {
+      const button = $(e.target).closest('.show-practice-levels-button')
+      const shown = this.showPracticeLevelsForSlug === button.data().slug
+      this.showPracticeLevelsForSlug = shown ? null : button.data().slug
+      if (!this.showPracticeLevelsForSlug) {
+        this.updateShownLevels()
+      }
+      this.render()
+    }
+
+    onClickShowLevelData (e) {
+      const levelData = $(e.target).closest('.show-level-data')
+      const slug = $(levelData[0]).data('slug')
+      this.updateShownLevels(slug)
+      this.render()
+    }
+
+    updateShownLevels (slug) {
+      this.shownLevelModels = this.isJunior
+        ? this.levels.models.filter(l =>
+          this.showPracticeLevelsForSlug ? slug === l.get('slug') : !l.get('practice'),
+        )
+        : this.levels.models
     }
 
     onClickPrint () {
@@ -132,6 +159,8 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
       this.paidTeacher = this.paidTeacher || this.prepaids.find(p => ['course', 'starter_license'].includes(p.get('type')) && (p.get('maxRedeemers') > 0))
       this.listenTo(me, 'change:preferredLanguage', this.updateLevelData)
       this.levels = new Levels(this.getGameContentAsLevels())
+      this.shownLevelModels = []
+      this.isJunior = this.courseID === utils.courseIDs.JUNIOR
       store.dispatch('gameContent/generateLevelNumberMap', { campaignId: this.campaignId, language: this.language })
         .then(() => {
           this.levelNumberMap = store.getters['gameContent/levelNumberMap']
@@ -212,6 +241,8 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
         // Filter out non numbered levels.
         this.levels.models = this.levels.models.filter(l => l.get('original') in this.levelNumberMap)
       }
+
+      this.updateShownLevels(this.levels.models[0].get('slug'))
       return (typeof this.render === 'function' ? this.render() : undefined)
     }
 
@@ -255,7 +286,7 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
       }
 
       const {
-        specificArticles
+        specificArticles,
       } = documentation
       if (!specificArticles) {
         return

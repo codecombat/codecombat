@@ -156,7 +156,7 @@
 
       #login-btn
         position: absolute
-        top: 186px
+        top: 160px
         height: 70px
         font-size: 32px
         line-height: 42px
@@ -166,6 +166,12 @@
 
     .auth-network-logins
       position: absolute
+
+      #schoology-login-btn
+        z-index: 100
+        border: 1px solid black
+        background-color: white
+        color: black
 
       &.two-choices
         top: 364px
@@ -180,20 +186,18 @@
             width: 251px
 
       &.three-choices
-        top: 369px
-
-        .network-login
-          width: 207px
-
-          img
-            width: 207px
+        top: 350px
+        left: -30px
+        right: -30px
+        display: flex
+        justify-content: center
+        align-items: center
+        gap: 10px
 
       .network-login
-        height: 60px
         float: left
         text-align: center
         position: relative
-        margin-right: 15px
 
         .network-logo
           height: 30px
@@ -225,11 +229,6 @@
           transform: scale($scaleX, $scaleY)
           @include opacity(0.01)
 
-        .fb-login-img
-          width: 251px
-          margin-top: 5px
-          border-radius: 3px
-
         .clever-login-img
           height: 43px
 
@@ -244,6 +243,34 @@
       #gplus-login-button
         position: relative
         top: 8px
+
+
+      .signup-with-button
+        padding: 4px
+        display: inline-flex
+        gap: 10px
+        justify-content: initial
+        align-items: center
+        border-radius: 5px
+        height: 45px
+        width: 130px        
+
+      #schoology-login-btn
+        border: 1px solid #117bbc
+        color: black
+        background-color: white
+        img
+          width: 38px
+          height: 38px
+          border-radius: 50%
+      #facebook-login-btn
+        border: 1px solid #3b5998
+        color: white
+        background-color: #3b5998
+        img
+          width: 38px
+          height: 38px
+          border-radius: 50%
 
 
     //- Extra bottom pane area

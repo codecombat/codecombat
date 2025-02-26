@@ -9,6 +9,7 @@ import BannerHoC from 'app/views/courses/BannerHoC'
 import ButtonsSchoolAdmin from './ButtonsSchoolAdmin'
 import PodcastItemContainer from 'app/views/courses/PodcastItemContainer'
 import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
+import clubCampMixin from '../mixins/clubCampMixin'
 
 export default {
   name: COMPONENT_NAMES.MY_CLASSES_ALL,
@@ -23,7 +24,8 @@ export default {
   },
 
   mixins: [
-    sortClassroomMixin
+    sortClassroomMixin,
+    clubCampMixin,
   ],
 
   props: {
@@ -128,10 +130,10 @@ export default {
       this.showShareClassWithTeacherModal = true
       this.editClassroomObject = classroom
     },
-    showCreateStudents (classroom) {
-      return me.isCodeNinja() && classroom.type?.includes('club')
-    }
-  }
+    showCreateStudents (_classroom) {
+      return false
+    },
+  },
 }
 </script>
 
@@ -243,6 +245,7 @@ export default {
     <modal-edit-class
       v-if="showEditClassModal"
       :classroom="editClassroomObject"
+      :as-club="isCodeNinjaClubCamp(editClassroomObject)"
       @close="showEditClassModal = false"
     />
     <modal-add-students

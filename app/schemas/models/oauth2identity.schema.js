@@ -7,6 +7,7 @@ const OAuth2IdentitySchema = schema.object({
 })
 _.extend(OAuth2IdentitySchema.properties, {
   provider: { type: 'string' },
+  providerId: schema.objectId({ description: 'The identifier of the user on the OAuth2 provider' }),
   ownerID: schema.objectId(),
   token: {
     description: 'A single OAuth identity',
@@ -21,7 +22,8 @@ _.extend(OAuth2IdentitySchema.properties, {
       expires_at: { type: schema.date(), description: 'The time at which the token expires' }
     }
   },
-  profile: { type: 'object', description: 'The profile info of the user on the OAuth2 provider' }
+  profile: { type: 'object', description: 'The profile info of the user on the OAuth2 provider' },
+  identifier: { type: 'string', description: 'The identifier of the user on the OAuth2 provider' },
 })
 
 schema.extendBasicProperties(OAuth2IdentitySchema, 'oauth2identity')

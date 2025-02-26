@@ -2,7 +2,7 @@
   <div class="graphs">
     <div class="graphs__item">
       <div class="graphs__heading">
-        {{ $t('library.number_users') }}
+        {{ $t('library.licenses_used') }}
       </div>
       <d3-line-chart
         :config="usersChartConfig"
@@ -73,17 +73,18 @@ export default {
   components: {
     D3LineChart,
     D3BarChart,
-    D3PieChart
+    D3PieChart,
   },
   props: {
     stats: {
-      type: Object
-    }
+      type: Object,
+      required: true,
+    },
   },
   data () {
     return {
       usersChartConfig: {
-        values: ['number_of_users'],
+        values: ['licenses_used'],
         date: {
           key: 'date',
           inputFormat: '%B %y',
@@ -145,7 +146,7 @@ export default {
     numberOfUsersData () {
       const arr = []
       for (const month in this.stats?.licenseDaysByMonth) {
-        arr.push({ date: this.formatDate(month), number_of_users: this.stats?.licenseDaysByMonth[month]?.noOfRedeemers })
+        arr.push({ date: this.formatDate(month), licenses_used: this.stats?.licenseDaysByMonth[month]?.licensesUsed })
       }
       return arr
     },
@@ -185,7 +186,7 @@ export default {
         if (val > 0) arr.push({ name: `${ageRange} -> ${val} users`, count: val })
       }
       return arr
-    }
+    },
   },
   methods: {
     // example input: 2023-07
@@ -196,8 +197,8 @@ export default {
       const monthStr = $.i18n.t(`calendar.${months[month - 1]}`)
       const monthFinal = shortenMonth ? monthStr.slice(0, 3) : monthStr
       return `${monthFinal} ${split[0].slice(-2)}`
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -207,10 +207,7 @@ module.exports = class RootView extends CocoView
     $('body').attr('lang', preferred)
 
   initializeLanguageDropdown: (newLang) ->
-    if newLang isnt 'en-US'
-      @$el.find('.language-dropdown-current')?.text(locale[newLang].nativeDescription)
-    else
-      @$el.find('.language-dropdown-current')?.html("<span class=\"emoji-flag\">🇺🇸</span>")
+    @$el.find('.language-dropdown-current')?.text(locale[newLang].nativeDescription)
 
   addLanguagesToSelect: ($select, initialVal) ->
     # For now, we only want to support a few languages for Ozaria that we have people working to translate.
@@ -255,9 +252,6 @@ module.exports = class RootView extends CocoView
 
   onLanguageLoaded: ->
     @render()
-    unless utils.isOzaria or me.get('preferredLanguage').split('-')[0] is 'en' or me.hideDiplomatModal()
-      DiplomatModal = require 'views/core/DiplomatSuggestionModal'
-      @openModalView(new DiplomatModal())
 
   saveLanguage: (newLang) ->
     me.set('preferredLanguage', newLang)

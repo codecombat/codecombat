@@ -313,10 +313,6 @@ module.exports = (Level = (function () {
           if (!heroThangType) {
             heroThangType = ThangTypeConstants.heroes.knight
           }
-          // For assessments, use default hero in class if classroomItems is on
-          if (this.isAssessment() && me.showHeroAndInventoryModalsToStudents()) {
-            heroThangType = ThangTypeConstants.heroes.captain
-          }
           if (heroThangType) {
             let juniorHeroReplacement
             if (this.get('product', true) === 'codecombat-junior') {
@@ -654,6 +650,23 @@ module.exports = (Level = (function () {
           return this.trigger('remote-changes-checked', { hasChanges })
         })
       })
+    }
+
+    hasAccessByTeacher (teacher) {
+      if (!teacher) {
+        return false
+      }
+      const classroomSub = this.get('classroomSub')
+      let hasAccess = false
+      if (teacher && classroomSub && classroomSub.base) {
+        const sub = classroomSub[teacher.get('geo')?.country] || classroomSub.base
+        if (sub === 'free-after-sales') {
+          hasAccess = teacher.activeProducts('call-sales').length
+        } else {
+          hasAccess = sub === 'free'
+        }
+      }
+      return hasAccess
     }
   }
   Level.initClass()

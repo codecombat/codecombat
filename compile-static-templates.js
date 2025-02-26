@@ -97,7 +97,6 @@ const compile = function(contents, locals, filename, cb) {
     locals = _.merge({_, i18n}, locals, require('./static-mock'));
     // NOTE: do NOT add more build env-driven feature flags here if at all possible.
     // NOTE: instead, use showingStaticPagesWhileLoading (in static-mock) to delay/hide UI until features flags loaded
-    locals.me.useDexecure = () => !(locals.chinaInfra != null ? locals.chinaInfra : false);
     locals.me.useSocialSignOn = () => !(locals.chinaInfra != null ? locals.chinaInfra : false);
     locals.me.useGoogleAnalytics = () => !(locals.chinaInfra != null ? locals.chinaInfra : false);
     locals.me.useStripe = () => !(locals.chinaInfra != null ? locals.chinaInfra : false);

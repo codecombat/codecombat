@@ -131,20 +131,9 @@ if showGameDevAlert
         - var levelStatus = levelStatusMap[level.slug] || ''
         - var levelNumber = '';
         if view.shouldShow('back-to-classroom') && view.classroom
-          if level.assessment === 'cumulative'
-            - levelNumber = $.t('play_level.combo_challenge') + ': '
-          else if level.assessment
-            - levelNumber = $.t('play_level.concept_challenge') + ': '
-          else
-            if view.course
-              - courseID = view.course.id
-            - if (['junior', '65c56663d2ca2055e65676af'].includes(view.terrain)) {
-            -   levelNumber = view.campaign.getLevelNumber(level.original, true); // Always uses latest levels
-            - } else {
-            -   levelNumber = view.classroom.getLevelNumber(level.original, '', courseID); // Uses classroom versioning, old
-            - }
-            if (levelNumber)
-              - levelNumber += '. ';
+          - levelNumber = view.campaign.getLevelNumber(level.original, true); // Always uses latest levels
+          if (levelNumber)
+            - levelNumber += '. ';
         div(
           style="left: " + level.position.x + "%; bottom: " + level.position.y + "%; background-color: " + level.color,
           class="level" + (level.next || _.any(level.practiceLevels || [], { next: true }) ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatus,
@@ -293,9 +282,10 @@ if showGameDevAlert
           span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)
 
       // Roblox Modal
-      .level.roblox-level#roblox-level-container(style="display: none;" title="CodeCombat Worlds on Roblox")
-        .roblox-icon
-      .roblox-level#roblox-level-shadow(style="left: 18%; top: 27.5%; display: none;", class="level-shadow")
+      if view.shouldShow('roblox-level')
+        .level.roblox-level#roblox-level-container(style="display: none;" title="CodeCombat Worlds on Roblox")
+          .roblox-icon
+        .roblox-level#roblox-level-shadow(style="left: 18%; top: 27.5%; display: none;", class="level-shadow")
 
       // HackStack Modal
       if view.shouldShow('hackstack') && campaign.get('slug') == 'dungeon'
@@ -376,7 +366,8 @@ if showGameDevAlert
         button.btn.junior-level.junior-menu-icon(title='CodeCombat Junior')
       if view.shouldShow('hackstack')
         span.btn.hackstack-menu-icon(title='CodeCombat AI HackStack')
-      button.btn.roblox-level.roblox-menu-icon(title='CodeCombat Worlds on Roblox')
+      if view.shouldShow('roblox-button')
+        button.btn.roblox-level.roblox-menu-icon(title='CodeCombat Worlds on Roblox')
       if view.shouldShow('promotion')
         button.btn.promotion-menu-icon(data-toggle='coco-modal', data-target='play/modal/PromotionModal', title='New: Code in Beijing!')
       if view.shouldShow('premium')

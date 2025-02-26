@@ -31,8 +31,8 @@ module.exports = (AIView = (function () {
       // Undo our 62.5% default HTML font-size here
       $('html').css('font-size', '16px')
       ai.AI({ domElement: this.$el.find('#ai-root')[0] })
-      window.handleAICreditLimitReached = this.handleAICreditLimitReached
-      window.AICreditLimitReachedMsg = this.AICreditLimitReachedMsg
+      window.handleAICreditLimitReached = this.handleAICreditLimitReached.bind(this)
+      window.AICreditLimitReachedMsg = this.AICreditLimitReachedMsg.bind(this)
       return super.afterInsert()
     }
 
@@ -54,14 +54,14 @@ module.exports = (AIView = (function () {
       const interval = creditObj.durationKey
       const amount = creditObj.durationAmount
       if (me.isTeacher()) {
-        super.openModalView(new DirectContactModal())
+        this.openModalView(new DirectContactModal())
       } else if (me.isAnonymous()) {
-        super.openModalView(new CreateAccountModal({ mode: 'signup' }))
+        this.openModalView(new CreateAccountModal({ mode: 'signup' }))
       } else if (me.isHomeUser()) {
         if (me.hasSubscription()) {
           message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
         } else {
-          super.openModalView(new SubscribeModal())
+          this.openModalView(new SubscribeModal())
         }
       } else if (me.isStudent()) {
         if (me.isEnrolled()) {

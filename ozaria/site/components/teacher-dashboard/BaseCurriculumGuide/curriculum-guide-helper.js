@@ -1,10 +1,20 @@
 import utils from '../../../../../app/core/utils'
 
-export function getLevelUrl ({ ozariaType, introLevelSlug, courseId, codeLanguage, slug, introContent }) {
-  if (utils.isOzaria && !ozariaType && introLevelSlug) {
+export function getLevelUrl ({ ozariaType, introLevelSlug, courseId, codeLanguage, slug, introContent, moduleNum, _id }) {
+  if (courseId === utils.courseIDs.HACKSTACK) {
+    return `/ai/scenario/${_id}`
+  } else if (utils.isOzaria && !ozariaType && introLevelSlug) {
     return `/play/intro/${introLevelSlug}?course=${courseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
   } else if (slug) {
-    return `/play/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`
+    let url = `/play/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`
+    if (courseId === utils.courseIDs.JUNIOR) {
+      if (moduleNum <= 4) {
+        url += '&codeFormat=blocks-icons'
+      } else {
+        url += '&codeFormat=blocks-text'
+      }
+    }
+    return url
   }
   return null
 }
@@ -58,7 +68,12 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       }
     }
 
-    const url = getLevelUrl({ ozariaType, introLevelSlug, courseId: currentCourseId, codeLanguage, slug, introContent })
+    if (currentCourseId === utils.courseIDs.HACKSTACK) {
+      icon = utils.scenarioMode2Icon(content.mode)
+    }
+
+    // todo: hackstack url
+    const url = getLevelUrl({ ozariaType, introLevelSlug, courseId: currentCourseId, codeLanguage, slug, introContent, moduleNum, _id })
 
     if (!url || !icon) {
       console.error('missing url or icon in curriculum guide')
@@ -76,6 +91,7 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       fromIntroLevelOriginal,
       original: content.original,
       assessment: content.assessment,
+      tool: content.tool,
     })
   }
   return curriculumGuideContentList

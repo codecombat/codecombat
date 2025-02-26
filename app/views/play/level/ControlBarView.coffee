@@ -5,6 +5,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'app/templates/play/level/control-bar-view'
 {me} = require 'core/auth'
 utils = require 'core/utils'
+userUtils = require 'lib/user-utils'
 
 Campaign = require 'models/Campaign'
 Classroom = require 'models/Classroom'
@@ -21,6 +22,7 @@ module.exports = class ControlBarView extends CocoView
   subscriptions:
     'level:disable-controls': 'onDisableControls'
     'level:enable-controls': 'onEnableControls'
+    'level:overallStatus-changed': 'onOverallStatusChanged'
     'ipad:memory-warning': 'onIPadMemoryWarning'
 
   events:
@@ -45,6 +47,13 @@ module.exports = class ControlBarView extends CocoView
     @levelID = @levelSlug or @level.id
     @spectateGame = options.spectateGame ? false
     @observing = options.session.get('creator') isnt me.id
+    @product = @level.attributes.product
+    @lastOverallStatus = null
+
+    exam = userUtils.getStorageExam()
+    if exam
+      @examLevelNumber = userUtils.levelNumberInExam(@level.get('slug'))
+      @inExam = @examLevelNumber != 0
 
     @levelNumber = ''
     if @level.isType('course', 'game-dev', 'web-dev') and @level.get('campaignIndex')?
@@ -76,6 +85,9 @@ module.exports = class ControlBarView extends CocoView
     @render()
 
   onLoaded: ->
+    if @inExam
+      @setLevelName($.i18n.t('exams.level_num', { num: @examLevelNumber }))
+
     if @classroom
       @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber, @courseID)
       newClassroomItemsSetting = @classroom.get('classroomItems', true)
@@ -110,6 +122,8 @@ module.exports = class ControlBarView extends CocoView
       @lastDifficulty = c.levelDifficulty
     c.spectateGame = @spectateGame
     c.observing = @observing
+    c.product = @product
+    c.lastOverallStatus = @lastOverallStatus
     @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
     gameDevCampaign = application.getHocCampaign()
     if gameDevCampaign and not @level.isLadder()
@@ -178,6 +192,11 @@ module.exports = class ControlBarView extends CocoView
     Backbone.Mediator.publish 'level:hints-button', {state: @options.hintsState.get('hidden')}
     @options.hintsState.set('hidden', not @options.hintsState.get('hidden'))
     window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @levelSlug, hintCount: @options.hintsState.get('hints')?.length ? 0
+
+  onOverallStatusChanged: (e) ->
+    return if e?.overallStatus == @lastOverallStatus 
+    @lastOverallStatus = e.overallStatus
+    @render()
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true

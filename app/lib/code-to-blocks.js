@@ -477,7 +477,7 @@ class Converters {
         // TODO: make general, not just based on callee.name being one of the methods where we do this
         const toArg = args.splice(0, 1)
         out.fields = { to: toArg[0].fields.TEXT }
-        const convertsSquaresToFields = !/dist\(/.test(ctx.code) // Don't do this once we start using `dist` function
+        const convertsSquaresToFields = !_.find(ctx.plan, (entry) => entry[0].type === 'Hero_dist') // Don't do this once we start using `dist` function or variables
         if (args.length && convertsSquaresToFields) {
           // Remove second argument; convert to field
           const squaresArg = args.splice(0, 1)

@@ -57,10 +57,6 @@ html(lang='en')
     link(rel='stylesheet', href='/' + shaTag + '/stylesheets/app.css')
     script.
       var product = "#{me.getProduct()}"
-    if me.useDexecure()
-      script.
-        var DEXECURE_URL = "/dexecure-c167a5675c.js?product=" + product;
-        "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
     script.
       window.javascriptsPath = "/#{shaTag}/javascripts/";
     if chunkPaths[viewName]

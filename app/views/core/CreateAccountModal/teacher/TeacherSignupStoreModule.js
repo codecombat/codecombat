@@ -139,6 +139,8 @@ export default ({
             return api.users.signupWithGPlus(attrs)
           } else if (state.ssoUsed === 'facebook') {
             return api.users.signupWithFacebook(attrs)
+          } else if (state.ssoUsed) {
+            return api.users.signupWithOAuth2(attrs)
           } else {
             return api.users.signupWithPassword(attrs)
           }

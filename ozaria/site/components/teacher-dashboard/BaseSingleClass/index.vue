@@ -114,21 +114,14 @@ export default {
       this.refreshKey // eslint-disable-line no-unused-expressions
 
       const selectedCourseId = this.selectedCourseId
-
-      if (this.isHackStackCourse(selectedCourseId)) {
-        const hackStackModuleNames = this.aiScenarios.reduce((acc, scenario) => {
-          acc.add(scenario.tool)
-          return acc
-        }, new Set())
-
-        const hackStackModules = [...hackStackModuleNames].map(this.generateHackStackModule.bind(this)).filter(Boolean)
-
-        return hackStackModules
-      }
-
       const modules = (this.gameContent[selectedCourseId] || {}).modules
       if (modules === undefined) {
         return []
+      }
+
+      if (this.isHackStackCourse(selectedCourseId)) {
+        const hackStackModules = this.generateHackStackModules(modules)
+        return hackStackModules
       }
 
       const intros = (this.gameContent[selectedCourseId] || {}).introLevels
@@ -136,6 +129,8 @@ export default {
       const modulesForTable = []
 
       // Get the name and content list of a module.
+      const isPlayableForStudent = {}
+      const lastLockDateForStudent = {}
       for (const [moduleNum, moduleContent] of Object.entries(modules)) {
         // Because we are only reading the easiest way to propagate _most_
         // i18n is by transforming the content linearly here.
@@ -175,19 +170,21 @@ export default {
         }))
         // Iterate over all the students and all the sessions for the student.
         for (const student of this.students) {
+          isPlayableForStudent[student._id] = typeof isPlayableForStudent[student._id] === 'undefined' ? true : isPlayableForStudent[student._id]
+          lastLockDateForStudent[student._id] = typeof lastLockDateForStudent[student._id] === 'undefined' ? null : lastLockDateForStudent[student._id]
           const studentSessions = this.levelSessionsMapByUser[student._id] || {}
           const levelOriginalCompletionMap = {}
           const playTimeMap = {}
           const completionDateMap = {}
+          const playedOnMap = {}
 
           for (const session of Object.values(studentSessions)) {
             levelOriginalCompletionMap[session.level.original] = session.state
             playTimeMap[session.level.original] = session.playtime
-            completionDateMap[session.level.original] = session.state.complete && session.changed
+            playedOnMap[session.level.original] = session.changed
+            completionDateMap[session.level.original] = session.state.complete && session.dateFirstCompleted
           }
 
-          let isPlayable = true
-          let lastLockDate = null
           moduleStatsForTable.studentSessions[student._id] = translatedModuleContent.map((content) => {
             const { original, fromIntroLevelOriginal, practiceLevels } = content
             const normalizedOriginal = original || fromIntroLevelOriginal
@@ -204,14 +201,14 @@ export default {
             const isSkipped = isOptional && isLocked
 
             if (lockDate && lockDate > new Date()) {
-              lastLockDate = lockDate
+              lastLockDateForStudent[student._id] = lockDate
               if (!isOptional) {
-                isPlayable = false
+                isPlayableForStudent[student._id] = false
               }
             }
 
             if (isLocked && !isOptional) {
-              isPlayable = false
+              isPlayableForStudent[student._id] = false
             }
 
             const isPractice = Boolean(content.practice)
@@ -222,14 +219,15 @@ export default {
               isLocked,
               isSkipped,
               lockDate,
-              lastLockDate,
+              lastLockDate: lastLockDateForStudent[student._id],
               original,
               normalizedOriginal,
               fromIntroLevelOriginal,
               isOptional,
-              isPlayable,
+              isPlayable: isPlayableForStudent[student._id],
               isPractice,
               playTime: playTimeMap[normalizedOriginal],
+              playedOn: playedOnMap[normalizedOriginal],
               completionDate: completionDateMap[normalizedOriginal],
               tooltipName: levelNameMap[content._id].levelName,
               practiceLevels,
@@ -558,6 +556,15 @@ export default {
       classSummaryProgress[index].status = 'progress'
     },
 
+    setUnsafeFlag (details, aiProjects) {
+      if (!Array.isArray(aiProjects)) {
+        return
+      }
+      if (aiProjects.some(project => project.unsafeChatMessages?.length > 0)) {
+        details.flag = 'unsafe'
+      }
+    },
+
     setClickHandler (details, student, moduleNum, aiScenario, aiProjects) {
       details.clickHandler = () => {
         this.showPanelProjectContent({
@@ -581,7 +588,7 @@ export default {
       return false
     },
 
-    createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum, createModeUnlocked }) {
+    createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum }) {
       const details = {}
       classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
       const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario._id]
@@ -590,9 +597,10 @@ export default {
         this.setProgressDetails(details, classSummaryProgress, index)
         this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
         const completed = this.checkIfComplete(aiScenario, aiProjects)
+        this.setUnsafeFlag(details, aiProjects)
+
         if (completed) {
           details.status = 'complete'
-          createModeUnlocked.unlocked = completed
         }
       }
 
@@ -690,27 +698,16 @@ export default {
       }
     },
 
-    generateHackStackModule (moduleName, key) {
-      const moduleNum = key + 1
-      const classSummaryProgress = []
-      const moduleScenarios = (this.aiScenarios || [])
-        .filter(scenario => scenario.tool === moduleName)
-
-      const aiModel = this.modelsByName[moduleName]
-
-      if (!aiModel) {
-        return null
-      }
-      return {
-        moduleNum,
-        displayName: `<strong>${aiModel.displayName}</strong><br>${aiModel.description}`,
-        displayLogo: utils.aiToolToImage[moduleName] || null,
-        contentList: moduleScenarios
-          .sort((a, b) => {
-            return a.mode === 'use' ? 1 : -1 // Use scenarios should be at the end
-          })
-          .map((scenario, index) => {
-            const type = scenario.mode === 'use' ? 'ai-use' : 'ai-learn'
+    generateHackStackModules (modules) {
+      const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
+      return Object.entries(modules).map(([moduleNum, moduleContent]) => {
+        const classSummaryProgress = []
+        const module = course?.modules?.[moduleNum] || {}
+        return {
+          moduleNum,
+          displayName: utils.i18n(module, 'name').replace('(coming soon)', ''),
+          contentList: moduleContent.map((scenario, index) => {
+            const type = utils.scenarioMode2Icon(scenario.mode)
             return {
               displayName: scenario.name,
               type,
@@ -724,24 +721,21 @@ export default {
               isPractice: false,
             }
           }),
-        studentSessions: this.students.reduce((studentSessions, student) => {
-          const createModeUnlocked = { unlocked: false }
-          studentSessions[student._id] = moduleScenarios
-            .map((aiScenario, index) => {
+          studentSessions: this.students.reduce((studentSessions, student) => {
+            studentSessions[student._id] = moduleContent.map((aiScenario, index) => {
               return this.createProgressDetailsByAiScenario({
                 aiScenario,
                 index,
                 student,
                 classSummaryProgress,
                 moduleNum,
-                createModeUnlocked,
               })
             })
-
-          return studentSessions
-        }, {}),
-        classSummaryProgress,
-      }
+            return studentSessions
+          }, {}),
+          classSummaryProgress,
+        }
+      })
     },
   },
 }

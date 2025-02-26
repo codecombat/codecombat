@@ -7,7 +7,8 @@ import {
   isCodeCombat,
   isOzaria,
   OZARIA,
-  ozBaseURL
+  ozBaseURL,
+  getJuniorUrl,
 } from 'core/utils'
 import AnnouncementModal from '../../views/announcement/announcementModal'
 import AnnouncementNav from '../../views/announcement/AnnouncementNav'
@@ -34,11 +35,12 @@ export const items = {
   PD: { url: '/pd', title: 'teacher_dashboard.pd' },
   HOC: { url: cocoPath('/teachers/hour-of-code'), title: 'nav.hoc' },
   GRANTS: { url: cocoPath('/grants'), title: 'nav.grants_funding_resources' },
+  ACCESSIBILITY: { url: cocoPath('/acr'), title: 'nav.accessibility' },
   DEMO: { url: '/teachers/quote', title: 'nav.request_quote_demo' },
-  COCO_CLASSROOM: { url: cocoPath('/schools'), title: 'nav.codecombat_classroom' },
-  COCO_JUNIOR: { url: cocoPath('/play/junior'), title: 'nav.coco_junior' },
+  COCO_CLASSROOM: { url: cocoPath('/teachers/curriculum/introduction-to-computer-science'), title: 'nav.codecombat_classroom' },
+  COCO_JUNIOR: { url: getJuniorUrl(), title: 'nav.coco_junior' },
   COCO_HOME: { url: cocoPath('/play'), title: 'nav.codecombat_home' },
-  OZ_CLASSROOM: { url: ozPath('/'), title: 'nav.ozaria_classroom' },
+  OZ_CLASSROOM: { url: ozPath('/teachers/curriculum'), title: 'nav.ozaria_classroom' },
   AP_CSP: { url: cocoPath('/apcsp'), title: 'nav.ap_csp' },
   AI_LEAGUE: { url: cocoPath('/league'), title: 'nav.ai_league_esports' },
   ROBLOX: { url: cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' },
@@ -107,6 +109,7 @@ export default Vue.extend({
 
     homeLink () {
       if (me.isCodeNinja() && me.isStudent()) { return '/students' }
+      if (me.isCodeNinja() && me.isAPIClient()) { return '/api-dashboard' }
       if (me.isCodeNinja() && me.isTeacher()) { return '/teachers/classes' }
       if (me.isTarena()) { return 'http://kidtts.tmooc.cn/ttsPage/login.html' }
       if (this.hideNav) { return '#' }
@@ -297,17 +300,17 @@ export default Vue.extend({
         },
       }
 
-      const teacherCocoCllasses = { url: this.cocoPath('/teachers/classes'), title: 'CodeCombat Teacher Dashboard' }
-      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), title: 'Ozaria Teacher Dashboard' }
+      const teacherCocoClasses = { url: this.cocoPath('/teachers/classes'), title: 'nav.codecombat_teacher_dashboard' }
+      const teacherOzarClasses = { url: this.ozPath('/teachers/classes'), title: 'nav.ozaria_teacher_dashboard' }
 
-      const cocoAdmin = { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'CodeCombat Admin Dashboard' }
-      const ozarAdmin = { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'Ozaria Admin Dashboard' }
+      const cocoAdmin = { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'nav.codecombat_admin_dashboard' }
+      const ozarAdmin = { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'nav.ozaria_admin_dashboard' }
 
       const educator = {
         'my-dashboards': {
           title: 'nav.my_dashborads',
           children: [
-            ...(isCodeCombat ? [teacherCocoCllasses, teacherOzarClasses, cocoAdmin, ozarAdmin] : [teacherOzarClasses, teacherCocoCllasses, ozarAdmin, cocoAdmin]),
+            ...(isCodeCombat ? [teacherCocoClasses, teacherOzarClasses, cocoAdmin, ozarAdmin] : [teacherOzarClasses, teacherCocoClasses, ozarAdmin, cocoAdmin]),
           ]
         },
         resources: {
@@ -586,10 +589,6 @@ export default Vue.extend({
 
 #main-nav.navbar {
   background: white;
-
-  ::v-deep .emoji-flag {
-    font-size: 30px
-  }
 
   // Add dark mode styles
   &.dark-mode {

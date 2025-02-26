@@ -9,16 +9,15 @@
       &:hover
         filter: brightness(110%)
 
-  @else
-    .auth-network-logins
-      display: flex
-      align-items: center
-      justify-content: center
-      flex-direction: row
+  .auth-network-logins
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-direction: row
+    gap: 20px
 
   .gplus-login
     @if $is-codecombat
-      margin-bottom: 20px
 
     .gplus-logo
       @if $is-codecombat
@@ -34,6 +33,25 @@
 
       .facebook-logo
         height: 40px
+
+  .schoology-login
+    #schoology-signup-btn
+      padding: 4px
+      display: inline-flex
+      gap: 10px
+      justify-content: initial
+      align-items: center
+      border-radius: 5px
+      height: 45px
+      width: 100%           
+      border: 1px solid #117bbc
+      color: black
+      background-color: white
+      font-size: 14px
+      img
+        width: 38px
+        height: 38px
+        border-radius: 50%
 
   @if $is-codecombat
     .clever-login

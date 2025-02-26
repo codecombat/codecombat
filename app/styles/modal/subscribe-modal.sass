@@ -106,9 +106,15 @@
     ul
       list-style: none
       padding: 0
+      margin-top: 10px
+      margin-bottom: 0
 
-      li::before
-        content: "• "
+      li
+        margin-left: 10px
+        &::before
+          content: "• "
+          margin-left: -10px
+
 
     hr
       border-top: 1px solid gray
@@ -123,6 +129,9 @@
 
     .option-col
       text-align: center
+      img
+        position: absolute
+        left: 10px
 
     .option-header
       font-weight: bold

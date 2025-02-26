@@ -28,6 +28,8 @@ const utils = require('core/utils')
 const makeButton = () => $('<a class="btn btn-primary btn-xs treema-map-button"><span class="glyphicon glyphicon-screenshot"></span></a>')
 const shorten = f => parseFloat(f.toFixed(1))
 const WIDTH = 924
+const PAGE_SIZE = 1000
+const MAX_PAGES = 10 // Prevent infinite recursion
 
 module.exports.WorldPointNode = (WorldPointNode = class WorldPointNode extends TreemaNode.nodeMap.point2d {
   constructor (...args) {
@@ -386,14 +388,35 @@ module.exports.ThangTypeNode = (ThangTypeNode = (ThangTypeNode = (function () {
       ThangTypeNode.thangTypesCollection = new CocoCollection([], {
         url: '/db/thang.type',
         project: ['name', 'components', 'original'],
-        model: ThangType
+        model: ThangType,
       })
-      const res = ThangTypeNode.thangTypesCollection.fetch()
-      return ThangTypeNode.thangTypesCollection.once('sync', () => this.processThangTypes(ThangTypeNode.thangTypesCollection))
+      ThangTypeNode.thangTypesCollection.fetch({
+        data: { limit: PAGE_SIZE },
+        error: (collection, response) => {
+          console.error('Error fetching ThangTypes:', response)
+        },
+      })
+      ThangTypeNode.thangTypesCollection.skip = 0
+      ThangTypeNode.thangTypesCollection.once('sync', () => this.onThangCollectionSynced(ThangTypeNode.thangTypesCollection))
+    }
+
+    onThangCollectionSynced (collection) {
+      this.processThangTypes(collection)
+      const getMore = collection.models.length === PAGE_SIZE
+      if (getMore && collection.skip < (PAGE_SIZE * MAX_PAGES)) {
+        collection.skip += PAGE_SIZE
+        collection.fetch({
+          data: { skip: collection.skip, limit: PAGE_SIZE },
+          error: (collection, response) => {
+            console.error('Error fetching additional ThangTypes:', response)
+          },
+        })
+        collection.once('sync', () => this.onThangCollectionSynced(collection))
+      }
     }
 
     processThangTypes (thangTypeCollection) {
-      this.constructor.thangTypes = []
+      this.constructor.thangTypes = this.constructor.thangTypes || []
       return Array.from(thangTypeCollection.models).map((thangType) => this.processThangType(thangType))
     }
 
@@ -452,7 +475,12 @@ module.exports.ChatMessageLinkNode = (ChatMessageLinkNode = (ChatMessageLinkNode
   processChatMessages (chatMessageCollection) {
     const text = __guard__(chatMessageCollection.models != null ? chatMessageCollection.models[0] : undefined, x => x.get('text'))
     if (text) {
-      const htmlText = entities.decodeHTML(text.substring(0, 60))
+      let htmlText
+      if (typeof text === 'string') {
+        htmlText = entities.decodeHTML(text.substring(0, 60))
+      } else if (text.artifacts) {
+        htmlText = 'Image'
+      }
       this.$el.find('.ai-chat-message-link-text').remove()
       this.$el.find('.treema-row').append($("<span class='ai-chat-message-link-text'></span>").text(htmlText))
     }

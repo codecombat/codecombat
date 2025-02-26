@@ -135,7 +135,7 @@ import { postTournament, putTournament } from '../../../core/api/tournaments'
 import Modal from '../../../components/common/Modal'
 import ClanSelector from '../../landing-pages/league/components/ClanSelector.vue'
 
-import { HTML5_FMT_DATETIME_LOCAL } from '../../../core/constants'
+import { HTML5_FMT_DATETIME_LOCAL, GLOBAL_AI_LEAGUE_CREATORS } from '../../../core/constants'
 
 export default {
   name: 'EditTournamentModal',
@@ -177,13 +177,13 @@ export default {
     me () {
       return me
     },
-    isNick () {
-      return me.get('_id') === '512ef4805a67a8c507000001'
+    isSuper () {
+      return GLOBAL_AI_LEAGUE_CREATORS.includes(me.get('_id').toString())
     },
     disableEdit () {
       if (this.selectedClanId === 'global') {
         // nick can create global-tournament
-        return !this.isNick
+        return !this.isSuper
       }
       // admin can create/edit any tournaments
       // normal teacher can only create/edit their own tournaments

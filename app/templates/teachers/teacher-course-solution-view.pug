@@ -46,10 +46,25 @@ block content
       h3(data-i18n="common.table_of_contents")
       each level, index in view.levels.models
         .small
-          a(href=`#${level.get('slug')}`) #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'displayName') || i18n(level.attributes, 'name')}
+          if !view.isJunior || !level.get('practice')
+            a.show-level-data(data-slug=`${level.get('slug')}` href=`#${level.get('slug')}`) #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'displayName') || i18n(level.attributes, 'name')}
+            if view.isJunior
+              - let practiceLevels = view.levels.models.filter(l => l.get('practice') &&  l.get('name').match(level.get('name')))
+              if practiceLevels.length > 0
+                button.show-practice-levels-button(data-slug=`${level.get('slug')}`) 
+                  if view.showPracticeLevelsForSlug === level.get('slug')
+                    span(data-i18n="teacher.hide_practice_levels")
+                  else
+                    span(data-i18n="teacher.show_practice_levels")
+                if view.showPracticeLevelsForSlug === level.get('slug')
+                  .practice-levels
+                    each practiceLevel in practiceLevels
+                      .small
+                        - let practiceSelected = view.shownLevelModels.indexOf(practiceLevel) !== -1;
+                        a.show-level-data(class=practiceSelected ? 'selected' : '' data-slug=`${practiceLevel.get('slug')}` href=`#${practiceLevel.get('slug')}`) #{view.levelNumberMap[practiceLevel.get('original')]}. #{i18n(practiceLevel.attributes, 'displayName') || i18n(practiceLevel.attributes, 'name')}
       br
 
-      each level, index in view.levels.models
+      each level, index in view.shownLevelModels
         - var langClass = 'lang-' + (level.get('primerLanguage') || view.language || 'python');
         - if (!level.get('primerLanguage') && view.isWebDev) langClass = 'lang-html';
         h2.page-break-before(id=level.get('slug')) ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'displayName') || i18n(level.attributes, 'name')}

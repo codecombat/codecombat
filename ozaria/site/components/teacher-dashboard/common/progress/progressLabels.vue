@@ -17,6 +17,7 @@ export default {
   data () {
     return {
       isOzaria: utils.isOzaria,
+      isCodeCombat: utils.isCodeCombat,
     }
   },
 }
@@ -51,6 +52,17 @@ export default {
         class="dot-border"
       />
       <span>{{ $t("common.locked") }}</span>
+    </div>
+
+    <div
+      v-if="isCodeCombat"
+      class="img-subtext"
+    >
+      <progress-dot
+        status="complete"
+        :border="'red'"
+      />
+      <span>{{ $t('teacher_dashboard.violation') }}</span>
     </div>
     <div
       v-if="isOzaria && showReviewLabels"

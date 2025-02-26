@@ -1,10 +1,18 @@
 <template>
-  <div class="exam-level">
+  <li class="exam-level">
     <a
       :href="levelLink"
       target="_blank"
-    >{{ $t('exams.level_num', { num: index }) }}</a>
-  </div>
+    >
+      {{ $t('exams.level_num', { num: index }) }}
+    </a>
+    <img
+      v-if="isCompleted"
+      class="check-mark"
+      src="/images/ozaria/teachers/dashboard/svg_icons/CheckMark.svg"
+      style="filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%);"
+    >
+  </li>
 </template>
 
 <script>
@@ -21,6 +29,10 @@ export default {
     },
     language: {
       type: String,
+      required: true,
+    },
+    isCompleted: {
+      type: Boolean,
       required: true,
     },
   },
@@ -43,5 +55,9 @@ export default {
 </script>
 
 <style>
-
+.exam-level {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 </style>

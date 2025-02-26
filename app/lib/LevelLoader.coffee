@@ -337,9 +337,6 @@ module.exports = class LevelLoader extends CocoClass
       when utils.isOzaria
         # Use configured Ozaria hero
         me.get('ozariaUserOptions')?.isometricThangTypeOriginal or ThangType.heroes['hero-b']
-      when @level.isAssessment() and me.showHeroAndInventoryModalsToStudents()
-        # Set default hero for assessment levels in class if classroomItems is on
-        ThangType.heroes.captain
       when session.get('heroConfig')?.thangType
         # Use the hero set in the session
         session.get('heroConfig').thangType
@@ -446,9 +443,10 @@ module.exports = class LevelLoader extends CocoClass
       @loadThangsRequiredByLevelThang(thang)
       for comp in thang.components or []
         componentVersions.push _.pick(comp, ['original', 'majorVersion'])
-
-    for system in @level.get('systems') or []
+    systems = @level.get('systems') or []
+    for system in systems
       systemVersions.push _.pick(system, ['original', 'majorVersion'])
+      @loadThangsRequiredFromSystemObject(system)
       if indieSprites = system?.config?.indieSprites
         for indieSprite in indieSprites
           thangIDs.push indieSprite.thangType
@@ -473,7 +471,7 @@ module.exports = class LevelLoader extends CocoClass
       worldNecessities.push @maybeLoadURL(url, LevelComponent, 'component')
     for obj in objUniq systemVersions
       url = "/db/level.system/#{obj.original}/version/#{obj.majorVersion}"
-      worldNecessities.push @maybeLoadURL(url, LevelSystem, 'system')
+      worldNecessities.push(@maybeLoadURL(url, LevelSystem, 'system'))
     for obj in objUniq articleVersions
       url = "/db/article/#{obj.original}/version/#{obj.majorVersion}"
       @maybeLoadURL url, Article, 'article'
@@ -489,6 +487,10 @@ module.exports = class LevelLoader extends CocoClass
   loadThangsRequiredByThangType: (thangType) ->
     @loadThangsRequiredFromComponentList thangType.get('components')
 
+  loadThangTypeData: (thangType) ->
+    url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData"
+    @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
+
   loadThangsRequiredFromComponentList: (components) ->
     return unless components
     requiredThangTypes = []
@@ -502,10 +504,33 @@ module.exports = class LevelLoader extends CocoClass
       console.error "Some Thang had a blank required ThangType in components list:", components
     for thangType in extantRequiredThangTypes
       if thangType + '' is '[object Object]'
-        console.error "Some Thang had an improperly stringified required ThangType in components list:", thangType, components
+        console.error("Some Thang had an improperly stringified required ThangType in components list:", thangType, components) 
       else
-        url = "/db/thang.type/#{thangType}/version?project=name,components,original,rasterIcon,kind,prerenderedSpriteSheetData"
-        @worldNecessities.push @maybeLoadURL(url, ThangType, 'thang')
+        @loadThangTypeData(thangType)
+
+  loadThangsRequiredFromSystemDefaults: (systemModel) ->
+    config = systemModel.get('configSchema')
+    if not config
+      return
+    configDefault = config.default
+    @loadThangsRequiredFromSystemConfig(configDefault)
+  
+  loadThangsRequiredFromSystemObject: (system) ->
+    if system.config
+      @loadThangsRequiredFromSystemConfig(system.config)
+
+
+  loadThangsRequiredFromSystemConfig: (config) ->
+    if not config
+      return
+    requiredThangTypes = config.requiredThangTypes
+    if not requiredThangTypes
+      return
+    for thangType in requiredThangTypes
+      if thangType + '' is '[object Object]'
+        console.error("Some System had an improperly stringified required ThangType:", thangType, system.name)
+      else
+        @loadThangTypeData(thangType)
 
   onThangNamesLoaded: (thangNames) ->
     for thangType in thangNames.models
@@ -523,6 +548,10 @@ module.exports = class LevelLoader extends CocoClass
   onWorldNecessityLoaded: (resource) ->
     # Note: this can also be called when session, opponentSession, or other resources with dedicated load handlers are loaded, before those handlers
     index = @worldNecessities.indexOf(resource)
+    if resource.name is 'system'
+      @loadThangsRequiredFromSystemDefaults(resource.model)
+      
+
     if resource.name is 'thang'
       @loadDefaultComponentsForThangType(resource.model)
       @loadThangsRequiredByThangType(resource.model)

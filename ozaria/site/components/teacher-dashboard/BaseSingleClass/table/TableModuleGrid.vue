@@ -9,23 +9,23 @@ import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    ProgressDot
+    ProgressDot,
   },
   props: {
     studentSessions: {
       required: true,
-      type: Object
+      type: Object,
     },
     hoveredLevels: {
       required: false,
       type: Array,
-      default: () => []
+      default: () => [],
     },
     moduleNumber: {
       required: false,
       type: [Number, String],
-      default: null
-    }
+      default: null,
+    },
   },
   computed: {
     ...mapGetters({
@@ -37,8 +37,13 @@ export default {
       classroomId: 'teacherDashboard/classroomId',
       getLevelSessionMap: 'levelSessions/getSessionsMapForClassroom',
       courseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+      collapsedModules: 'teacherDashboard/getCollapsedModulesForCurrentCourse',
 
     }),
+
+    collapsed () {
+      return this.collapsedModules.includes(this.moduleNumber)
+    },
 
     classroomGameContent () {
       return this.getContentForClassroom(this.classroomId)
@@ -56,7 +61,7 @@ export default {
       return {
         // This is the width or number of content pieces in the module.
         '--cols': this.cols,
-        '--columnWidth': this.cols > 2 ? '28px' : (this.cols > 1 ? '42px' : '84px')
+        '--columnWidth': this.cols > 2 ? '28px' : (this.cols > 1 ? '42px' : '84px'),
       }
     },
 
@@ -66,7 +71,7 @@ export default {
         return acc.concat(studentSessions.map(session => {
           return {
             ...session,
-            studentId
+            studentId,
           }
         }))
       }, [])
@@ -101,7 +106,7 @@ export default {
             return {
               ...level,
               inProgress: Boolean(session),
-              isCompleted: Boolean(session?.dateFirstCompleted)
+              isCompleted: Boolean(session?.dateFirstCompleted),
             }
           })
         }
@@ -112,30 +117,31 @@ export default {
     cellClass (idx) {
       return {
         'gray-backer': Math.floor(idx / this.cols) % 2 === 1,
-        'cell-style': true
+        'cell-style': true,
       }
     },
 
     getFlag (flag) {
-      if (flag === 'concept') {
+      if (['concept', 'unsafe'].includes(flag)) {
         return 'red'
       }
       if (flag === 'time') {
         return 'gray'
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
 <template>
   <div
     class="moduleGrid"
+    :class="{'collapsed': collapsed}"
     :style="cssVariables"
   >
     <!-- FLAT REPRESENTATION OF ALL SESSIONS -->
     <div
-      v-for="({studentId, status, playTime, tooltipName, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
+      v-for="({studentId, status, playTime, tooltipName, playedOn, completionDate, flag, clickHandler, selectedKey, normalizedType, isLocked, isSkipped, lockDate, lastLockDate, original, normalizedOriginal,fromIntroLevelOriginal, isPlayable, isOptional }, index) of allStudentSessionsLinear"
       :key="selectedKey"
       :class="cellClass(index)"
     >
@@ -155,6 +161,7 @@ export default {
         :selected="selectedOriginals.includes(normalizedOriginal) && selectedStudentIds.includes(studentId)"
         :hovered="hoveredLevels.includes(normalizedOriginal) && selectedStudentIds.includes(studentId)"
         :play-time="playTime"
+        :played-on="playedOn"
         :completion-date="completionDate"
         :tooltip-name="tooltipName"
         :normalized-original="normalizedOriginal"
@@ -186,5 +193,14 @@ export default {
     height: 29px;
     display: flex;
     justify-content: center;
+  }
+
+  .collapsed {
+    width: 20px;
+    min-width: 20px;
+    > * {
+      display: none;
+    }
+    border-bottom: 1px solid #d8d8d8;
   }
 </style>
