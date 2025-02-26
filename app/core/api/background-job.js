@@ -21,22 +21,33 @@ function get (jobId, other, options = {}) {
   return fetchJson(url, options)
 }
 
-async function pollTillResult (jobId, other, options = {}) {
+async function pollTillResult (jobId, options = {}) {
   let url = `/db/background-jobs/${jobId}`
-  if (other) {
-    url = '/' + other + url
+  if (options.other) {
+    url = '/' + options.other + url
   }
-  let job = await fetchJson(url, options)
+  const fetchOptions = options.fetchOptions || {}
+  let job = await fetchJson(url, fetchOptions)
   const MAX_ATTEMPTS = 30
   const DELAY_MS = 5000
   let attempts = 0
   while (job.status !== 'completed' && job.status !== 'failed' && attempts < MAX_ATTEMPTS) {
     await sleep(DELAY_MS)
-    job = await fetchJson(url, options)
+    job = await fetchJson(url, fetchOptions)
     attempts++
+
+    if (options.showNotification && job.message) {
+      noty({
+        text: job.message,
+        type: 'warning',
+        layout: 'topCenter',
+        timeout: 3000,
+      })
+    }
   }
   if (job.status === 'completed') {
-    return JSON.parse(job.output)
+    const output = job.output || '{}'
+    return JSON.parse(output)
   }
   if (job.status === 'failed') {
     throw new Error(job.message)

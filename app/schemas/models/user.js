@@ -56,8 +56,8 @@ _.extend(UserSchema.properties, {
       properties: {
         provider: c.objectId(),
         id: { type: 'string', description: 'The service provider\'s id for the user' }
-      }
-    }
+      },
+    },
   },
   oAuth2Identities: {
     description: 'List of OAuth2 identities this user has.',
@@ -68,6 +68,7 @@ _.extend(UserSchema.properties, {
       properties: {
         providerId: c.objectId(),
         oAuth2IdentityId: c.objectId(),
+        provider: c.shortString({ description: 'The slug of the provider of the OAuth2 identity' }),
       },
     },
   },

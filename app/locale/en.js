@@ -1828,6 +1828,8 @@ module.exports = {
       license_code_used: 'License Code used.',
       ai_hs_remix: 'AI HackStack Remix',
       ai_hs_remix_blurb: 'Whether students can use other student\'s projects to take inspiration from.',
+      import_classroom: 'Import Classroom',
+      re_import_classroom: 'Re-Import Classroom',
     },
 
     no_licenses_page: {
