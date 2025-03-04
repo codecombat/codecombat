@@ -87,8 +87,7 @@ export default Vue.extend({
               div(v-for='cls in top2ClassForUser(user.userID)')
                 a(v-if="cls.ownerID === me.id" :href="'/teachers/classes/' + cls._id") {{ cls.name }}
                 span(v-else) {{ cls.name }}
-              template(v-if="getClassName(user.userID)?.length > 2")
-                {{ $t('teachers.and_more') }}
+              template(v-if="getClassName(user.userID)?.length > 2") {{ $t('teachers.and_more') }}
 
         .content(v-else)
           .header {{ $t('common.empty_results') }}
