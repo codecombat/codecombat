@@ -168,7 +168,7 @@ module.exports = {
 
   getEdLinkClassrooms () {
     return fetchJson('/ed-link/classrooms', _.assign({}, {
-      method: 'GET'
+      method: 'GET',
     }))
   },
 
@@ -181,5 +181,12 @@ module.exports = {
       method: 'POST',
       json: { courseId }
     }))
+  },
+
+  fetchNamesForUser (ids) {
+    return fetchJson('/db/classrooms/-/names/by-user', {
+      method: 'POST',
+      json: { ids },
+    })
   },
 }

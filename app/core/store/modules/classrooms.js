@@ -46,6 +46,9 @@ export default {
     // TODO: Handle HoC classrooms and "most recent classroom" better. This is a hack
     // for HoC 2020, so classCode is shown in the LayoutChrome
     mostRecentClassCode: '',
+    classroomNames: {
+      byUser: {},
+    },
   },
 
   mutations: {
@@ -75,6 +78,12 @@ export default {
         courseInstanceId,
         !state.loading.byCourseInstanceId[courseInstanceId]
       )
+    },
+    setClassroomNames: (state, nameMap) => {
+      Object.keys(nameMap).forEach(uId => {
+        console.log('vue set? ', uId, nameMap[uId])
+        Vue.set(state.classroomNames.byUser, uId, nameMap[uId])
+      })
     },
 
     addClassroomsForTeacher: (state, { teacherId, classrooms }) => {
@@ -228,6 +237,9 @@ export default {
       return (id) => {
         return state.classrooms.byClassroom[id]
       }
+    },
+    getClassroomsByUserId: (state) => (id) => {
+      return state.classroomNames.byUser[id]
     },
     getClassroomsByTeacher: (state) => (id) => {
       return state.classrooms.byTeacher[id]
@@ -505,5 +517,18 @@ export default {
       })
       return classroom
     },
-  }
+
+    fetchClassroomNamesByUserId: ({ commit }, ids) => {
+      return classroomsApi
+        .fetchNamesForUser(ids)
+        .then(res => {
+          if (res) {
+            commit('setClassroomNames', res)
+          }
+        })
+        .catch(e => {
+          console.error(`Fetch classroom names failure ${e.message}`)
+        })
+    },
+  },
 }

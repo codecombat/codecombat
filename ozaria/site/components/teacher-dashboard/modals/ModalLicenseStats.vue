@@ -12,8 +12,12 @@ export default Vue.extend({
   props: ['prepaid'],
   computed: {
     ...mapGetters({
-      getName: 'users/getUserNameById'
+      getName: 'users/getUserNameById',
+      getClassName: 'classrooms/getClassroomsByUserId',
     }),
+    me () {
+      return me
+    },
     moment () {
       return moment
     },
@@ -31,21 +35,36 @@ export default Vue.extend({
     },
     userIds () {
       return [...this.redeemers.map(r => r.userID), ...this.removedRedeemers.map(r => r.userID)]
-    }
+    },
   },
   methods: {
     ...mapActions({
-      fetchName: 'users/fetchUserNamesById'
+      fetchName: 'users/fetchUserNamesById',
+      fetchClassrooms: 'classrooms/fetchClassroomNamesByUserId',
     }),
     trackEvent (eventName) {
       if (eventName) {
         window.tracker?.trackEvent(eventName, { category: 'Teachers' })
       }
-    }
+    },
+    top2ClassForUser (id) {
+      const classrooms = [...(this.getClassName(id) || [])]
+      classrooms.sort((a, b) => {
+        if (a.ownerID === me.id) {
+          return -1
+        }
+        if (b.ownerID === me.id) {
+          return 1
+        }
+        return 0
+      })
+      return classrooms.slice(0, 2)
+    },
   },
   mounted () {
     this.fetchName(this.userIds)
-  }
+    this.fetchClassrooms(this.userIds)
+  },
 })
 </script>
 
@@ -59,10 +78,18 @@ export default Vue.extend({
             .name {{ $t('general.name') }}
             .startDate {{ $t('outcomes.start_date') }}
             .endDate {{ $t('outcomes.end_date') }}
+            .classrooms {{ $t('general.classrooms') }}
           .user(v-for="user in redeemers")
             .name {{ user.name }}
             .startDate {{ moment(user.date).format('ll') }}
             .endDate {{ moment(prepaid.endDate).format('ll') }}
+            .classrooms
+              div(v-for='cls in top2ClassForUser(user.userID)')
+                a(v-if="cls.ownerID === me.id" :href="'/teachers/classes/' + cls._id") {{ cls.name }}
+                span(v-else) {{ cls.name }}
+              template(v-if="getClassName(user.userID)?.length > 2")
+                {{ $t('teachers.and_more') }}
+
         .content(v-else)
           .header {{ $t('common.empty_results') }}
       .removedRedeemers
