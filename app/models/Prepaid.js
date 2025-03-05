@@ -77,6 +77,10 @@ module.exports = (Prepaid = (function () {
       }
       const includedCourseIDs = this.get('includedCourseIDs')
       if (includedCourseIDs) {
+        const credit = this.get('properties')?.creditDetails
+        if (credit && includedCourseIDs[0] === utils.courseIDs.HACKSTACK) {
+          return i18n.t('teacher.hackstack_license') + i18n.t('teacher.hackstack_credits', credit)
+        }
         return i18n.t('teacher.customized_license') + ': ' + (includedCourseIDs.map(id => utils.courseAcronyms[id])).join('+')
       } else {
         return i18n.t('teacher.full_license')
