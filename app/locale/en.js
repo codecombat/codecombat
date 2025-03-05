@@ -4516,6 +4516,7 @@ module.exports = {
 
     admin: {
       license_type_full: 'Full Courses',
+      license_type_hackstack: 'Hackstack Credits',
       license_type_customize: 'Customize Courses',
     },
 

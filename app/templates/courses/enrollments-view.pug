@@ -113,8 +113,12 @@ mixin prepaidCard(prepaid, className)
     else
       div.rtl-allowed(data-i18n="teacher.full_license")
     div.includedCourses
-      each id in (includedCourseIDs || [])
-        i.course-acronym=view.utils.courseAcronyms[id]
+      - var credit = prepaid.get('properties') == null ? null : prepaid.get('properties').creditDetails
+      if credit && includedCourseIDs.length == 1 && includedCourseIDs[0] == view.utils.courseIDs.HACKSTACK
+        i.course-acronym HS credit: #{credit.limit} prompts on every #{credit.durationAmount} #{credit.durationKey} 
+      else
+        each id in (includedCourseIDs || [])
+          i.course-acronym=view.utils.courseAcronyms[id]
     div.m-t-1.rtl-allowed(dir="auto")
       i.small-details
         if prepaid.usedSpots() === 1
