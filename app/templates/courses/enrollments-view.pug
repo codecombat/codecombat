@@ -106,16 +106,20 @@ mixin prepaidCard(prepaid, className)
   .prepaid-card.bg-navy.text-center.p-a-2.rtl-allowed(class=className)
     h1.m-t-2.m-b-0= prepaid.openSpots()
     - var includedCourseIDs = prepaid.get('includedCourseIDs')
+    - var credit = prepaid.get('properties') == null ? null : prepaid.get('properties').creditDetails
+    - var hackstackLicense = credit && includedCourseIDs.length == 1 && includedCourseIDs[0] == view.utils.courseIDs.HACKSTACK
     if prepaid.get('type') === 'starter_license'
       div.rtl-allowed(data-i18n="teacher.starter_licenses")
+    else if hackstackLicense
+      div.rtl-allowed(data-i18n="teacher.hackstack_license")
     else if includedCourseIDs
       div.rtl-allowed(data-i18n="teacher.customized_license")
     else
       div.rtl-allowed(data-i18n="teacher.full_license")
     div.includedCourses
-      - var credit = prepaid.get('properties') == null ? null : prepaid.get('properties').creditDetails
-      if credit && includedCourseIDs.length == 1 && includedCourseIDs[0] == view.utils.courseIDs.HACKSTACK
-        i.course-acronym HS credit: #{credit.limit} prompts on every #{credit.durationAmount} #{credit.durationKey} 
+      if hackstackLicense
+        i.course-acronym
+          = translate('teacher.hackstack_credits', credit)
       else
         each id in (includedCourseIDs || [])
           i.course-acronym=view.utils.courseAcronyms[id]
