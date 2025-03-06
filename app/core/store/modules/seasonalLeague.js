@@ -606,7 +606,8 @@ export default {
           creatorName: me.broadName(),
           rank: parseInt(myRank, 10),
           totalScore: me.get('stats').codePoints,
-          creator: me.id
+          creator: me.id,
+          submittedCodeLanguage: me.get('aceConfig')?.language,
         }
 
         codePointsRankingInfo.playersAbove = playersAbove
