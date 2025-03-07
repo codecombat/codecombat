@@ -77,6 +77,9 @@ export default {
       }
       return members
     },
+    getClassroomsByUserId: (state) => (id) => {
+      return state.userClassrooms.byId[id]
+    },
     getUserById: (state) => (id) => {
       return state.users.byId[id]
     },

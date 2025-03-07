@@ -13,7 +13,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters({
       getName: 'users/getUserNameById',
-      getClassName: 'classrooms/getClassroomsByUserId',
+      getClassName: 'users/getClassroomsByUserId',
     }),
     me () {
       return me
@@ -40,7 +40,7 @@ export default Vue.extend({
   methods: {
     ...mapActions({
       fetchName: 'users/fetchUserNamesById',
-      fetchClassrooms: 'classrooms/fetchClassroomNamesByUserId',
+      fetchClassrooms: 'users/fetchClassroomNamesByUserId',
     }),
     trackEvent (eventName) {
       if (eventName) {

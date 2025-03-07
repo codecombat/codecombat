@@ -229,9 +229,6 @@ export default {
         return state.classrooms.byClassroom[id]
       }
     },
-    getClassroomsByUserId: (state) => (id) => {
-      return state.classroomNames.byUser[id]
-    },
     getClassroomsByTeacher: (state) => (id) => {
       return state.classrooms.byTeacher[id]
     },
