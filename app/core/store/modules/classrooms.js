@@ -505,5 +505,5 @@ export default {
       })
       return classroom
     },
-  }
+  },
 }

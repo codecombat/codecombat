@@ -1444,6 +1444,10 @@ module.exports = (User = (function () {
       return this.isMtoStem() || this.isMtoNeo()
     }
 
+    isSchoology () {
+      return this.get('oAuth2Identities')?.some(identity => identity.provider === 'schoology')
+    }
+
     isGeccClient () {
       const GECC_ID = '61e7e20658f1020024bd8cf7'
       return this.get('_id') === GECC_ID

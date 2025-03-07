@@ -168,7 +168,7 @@ module.exports = {
 
   getEdLinkClassrooms () {
     return fetchJson('/ed-link/classrooms', _.assign({}, {
-      method: 'GET'
+      method: 'GET',
     }))
   },
 
