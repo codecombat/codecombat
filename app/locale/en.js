@@ -1829,7 +1829,7 @@ module.exports = {
       license_code_used: 'License Code used.',
       ai_hs_remix: 'AI HackStack Remix',
       ai_hs_remix_blurb: 'Whether students can use other student\'s projects to take inspiration from.',
-      and_more: 'And More',
+      and_more: 'and more',
     },
 
     no_licenses_page: {

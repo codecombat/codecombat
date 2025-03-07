@@ -182,11 +182,4 @@ module.exports = {
       json: { courseId }
     }))
   },
-
-  fetchNamesForUser (ids) {
-    return fetchJson('/db/classrooms/-/names/by-user', {
-      method: 'POST',
-      json: { ids },
-    })
-  },
 }
