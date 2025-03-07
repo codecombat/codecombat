@@ -520,18 +520,19 @@ export default Vue.extend({
       }
 
       if (this.lmsProductForm) {
+        noty({ text: 'Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
         await this.handleLmsClassroomImport(savedClassroom)
       }
     },
     async reImportExistingLmsClassroom () {
       this.lmsSyncInProgress = true
+      noty({ text: 'Re-Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
       await this.handleLmsClassroomImport(this.classroom)
       this.lmsSyncInProgress = false
       this.$emit('close')
       window.location.reload()
     },
     async handleLmsClassroomImport (savedClassroom) {
-      noty({ text: 'Re-Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
       const job = await BackgroundJobApi.create('oauth2-roster-class', {
         classroomId: savedClassroom._id,
         lmsClassroomId: savedClassroom.lmsClassroom.classId,
@@ -540,6 +541,7 @@ export default Vue.extend({
       await BackgroundJobApi.pollTillResult(job.job, {
         showNotification: true,
       })
+      window.location.reload()
     },
   },
 })
