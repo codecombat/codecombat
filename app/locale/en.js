@@ -2727,6 +2727,8 @@ module.exports = {
       full_license: 'Full License',
       starter_license: 'Starter License',
       customized_license: 'Customized License',
+      hackstack_license: 'AI HackStack License',
+      hackstack_credits: 'Credits: __limit__ prompts / __durationAmount__ __durationKey__(s)',
       trial: 'Trial',
       hoc_welcome: 'Happy Computer Science Education Week',
       hoc_title: 'Hour of Code Games - Free Activities to Learn Real Coding Languages',
@@ -4520,6 +4522,7 @@ module.exports = {
 
     admin: {
       license_type_full: 'Full Courses',
+      license_type_hackstack: 'Hackstack Credits',
       license_type_customize: 'Customize Courses',
     },
 
