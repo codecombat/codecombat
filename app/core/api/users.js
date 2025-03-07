@@ -235,7 +235,7 @@ module.exports = {
   },
 
   fetchClassNamesForUser (ids) {
-    return fetchJson('/db/classrooms/-/names/by-user', {
+    return fetchJson('/db/users/classroom-names', {
       method: 'POST',
       json: { ids },
     })
