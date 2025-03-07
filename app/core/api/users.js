@@ -232,5 +232,13 @@ module.exports = {
   },
   getLowUsageData (userId, options) {
     return fetchJson(`/db/users/${userId}/low-usage-data`, options)
-  }
+  },
+
+  fetchClassNamesForUser (ids) {
+    return fetchJson('/db/users/classroom-names', {
+      method: 'POST',
+      json: { ids },
+    })
+  },
+
 }
