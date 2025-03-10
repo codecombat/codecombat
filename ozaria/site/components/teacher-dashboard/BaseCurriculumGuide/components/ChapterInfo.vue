@@ -1,5 +1,6 @@
 <script>
 import IconHelp from '../../common/icons/IconHelp'
+import IconBeta from 'app/core/components/IconBeta'
 import { isOzaria } from 'core/utils'
 
 import ButtonAddCourseToClassroom from './ButtonAddCourseToClassroom'
@@ -17,10 +18,11 @@ const _ = require('lodash')
 export default {
   components: {
     IconHelp,
+    IconBeta,
     ButtonAddCourseToClassroom,
     ButtonPlayChapter,
     ButtonSolutionGuide,
-    ButtonCurriculum
+    ButtonCurriculum,
   },
 
   data () {
@@ -236,8 +238,15 @@ export default {
       return $('#video-modal').on(('hide.bs.modal'), e => {
         return $('.video-player').attr('src', '')
       })
-    }
-  }
+    },
+
+    showBetaIcon () {
+      return [
+        utils.courseIDs.WEB_DEVELOPMENT_1,
+        utils.courseIDs.WEB_DEVELOPMENT_2,
+      ].includes(this.getCurrentCourse?._id)
+    },
+  },
 }
 </script>
 <template>
@@ -251,7 +260,13 @@ export default {
         :style="{ '--chapterImage': `url(${getCourseThumbnail})` }"
       />
       <div class="info-container">
-        <h3>{{ courseShortName }}</h3>
+        <div class="title-container">
+          <h3>{{ courseShortName }}</h3>
+          <IconBeta
+            v-if="showBetaIcon()"
+            class="beta-icon"
+          />
+        </div>
         <p class="chapter-summary">
           {{ courseDescription }}
         </p>
@@ -578,5 +593,10 @@ export default {
       border-radius: 0px;
     }
   }
+}
+
+.title-container {
+  display: flex;
+  position: relative;
 }
 </style>
