@@ -459,7 +459,7 @@ export default Vue.extend({
                   source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                   img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
               a(href="/ai")
-                img#logo-img(src="/images/pages/base/hs-logo.png" alt="HackStack logo")
+                img#logo-img(src="/images/ai/logo-hs-color.webp" alt="HackStack logo")
             a.navbar-brand(v-else-if="me.showChinaResourceInfo()" :href="homeLink")
               img#logo-img(src="/images/pages/base/logo-en+cn.png" alt="CodeCombat logo")
             a.navbar-brand(v-else :href="homeLink")
