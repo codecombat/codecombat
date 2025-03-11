@@ -6170,6 +6170,9 @@ module.exports = {
       see_all: '查看全部',
       created_by: '创建者',
       remix: '混录',
+      copy: '复制',
+      copied: '已复制!',
+      copied_error: '复制出错!',
     },
 
     parents_v2: {

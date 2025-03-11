@@ -12,10 +12,13 @@ import GoogleClassroomHandler from 'core/social-handlers/GoogleClassroomHandler'
 import ButtonGoogleClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonGoogleClassroom.vue'
 import ButtonImportClassroom from 'ozaria/site/components/teacher-dashboard/modals/common/ButtonImportClassroom.vue'
 import ClassroomsApi from 'app/core/api/classrooms.js'
+import OAuth2Api from 'app/core/api/oauth2.js'
+import BackgroundJobApi from 'app/core/api/background-job.js'
 import moment from 'moment'
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 import ClassStartEndDateComponent from './modal-edit-class-components/ClassStartEndDateComponent.vue'
 import CourseCodeLanguageFormatComponent from './modal-edit-class-components/CourseCodeLanguageFormatComponent.vue'
+import ClassroomImportComponent from './modal-edit-class-components/ClassroomImportComponent.vue'
 
 export default Vue.extend({
   components: {
@@ -26,6 +29,7 @@ export default Vue.extend({
     ButtonImportClassroom,
     ClassStartEndDateComponent,
     CourseCodeLanguageFormatComponent,
+    ClassroomImportComponent,
   },
 
   mixins: [validationMixin],
@@ -50,7 +54,7 @@ export default Vue.extend({
     const cLevelChat = this.classroom?.aceConfig?.levelChat
     const cGrades = this.classroom?.grades || []
     return {
-      showGoogleClassroom: me.showGoogleClassroom(),
+      showGoogleClassroom: me.useGoogleClassroom(),
       newClassName: this.classroom?.name || '',
       newProgrammingLanguage: this.classroom?.aceConfig?.language || 'python',
       newLiveCompletion: typeof cLiveCompletion === 'undefined' ? true : cLiveCompletion,
@@ -75,10 +79,13 @@ export default Vue.extend({
       otherProductClassroomId: '',
       googleClassrooms: null,
       otherProductClassrooms: null,
+      lmsClassrooms: null,
       isGoogleClassroomForm: false,
       isOtherProductForm: false,
+      lmsProductForm: false,
       otherProductSyncInProgress: false,
       googleSyncInProgress: false,
+      lmsSyncInProgress: false,
       moreOptions: false,
       newInitialFreeCourses: utils.isCodeCombat ? [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] : [],
       archived: this.classroom?.archived || false,
@@ -88,13 +95,7 @@ export default Vue.extend({
 
   validations: {
     newClassName: {
-      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm }),
-    },
-    googleClassId: {
-      required: requiredIf(function () { return this.isGoogleClassroomForm }),
-    },
-    otherProductClassroomId: {
-      required: requiredIf(function () { return this.isOtherProductForm }),
+      required: requiredIf(function () { return !this.isGoogleClassroomForm && !this.isOtherProductForm && !this.lmsProductForm }),
     },
     newProgrammingLanguage: {
       required,
@@ -185,6 +186,28 @@ export default Vue.extend({
         !this.isGoogleClassroomForm &&
         !this.isOtherProductForm
     },
+
+    showLmsButton () {
+      return me.isSchoology()
+    },
+    lmsProductImage () {
+      const imageMap = {
+        schoology: '/images/pages/modal/auth/schoology.png',
+      }
+      return imageMap[me.isSchoology() ? 'schoology' : '']
+    },
+    lmsProductText () {
+      const textMap = {
+        schoology: $.i18n.t('teachers.schoology'),
+      }
+      return textMap[me.isSchoology() ? 'schoology' : '']
+    },
+    getProvider () {
+      return me.isSchoology() ? 'schoology' : ''
+    },
+    lmsClassroom () {
+      return this.lmsClassrooms?.find((c) => c.id === this.lmsClassroomId)
+    },
   },
 
   watch: {
@@ -274,6 +297,17 @@ export default Vue.extend({
         noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
       }
       this.otherProductSyncInProgress = false
+    },
+
+    async linkLmsClassroom () {
+      this.lmsSyncInProgress = true
+      try {
+        this.lmsClassrooms = await OAuth2Api.getLmsClassrooms(this.getProvider)
+        this.lmsProductForm = true
+      } catch (error) {
+        console.log(error)
+        noty({ text: $.i18n.t('teachers.error_in_importing_classrooms'), layout: 'topCenter', type: 'error', timeout: 2000 })
+      }
     },
     toggleMoreOptions () {
       this.moreOptions = !this.moreOptions
@@ -367,6 +401,15 @@ export default Vue.extend({
         updates.otherProductId = this.otherProductClassroom._id
       }
 
+      if (this.lmsProductForm) {
+        updates.name = this.lmsClassroom.name
+        updates.lmsClassroom = {
+          classId: this.lmsClassroomId,
+          name: this.lmsClassroom.name,
+          provider: this.getProvider,
+        }
+      }
+
       if (this.classGrades?.length > 0) {
         updates.grades = this.classGrades
       }
@@ -405,6 +448,46 @@ export default Vue.extend({
         this.$emit('updated')
       }
 
+      await this.handleClassroomImport(savedClassroom, updates)
+
+      this.$emit('close')
+      this.saving = false
+      // redirect to classes if user was not on classes page when creating a new class
+      if (this.classroomInstance.isNew()) {
+        const path = window.location.pathname
+        if (path !== '/teachers' && !path.match('/teachers/classes')) {
+          window.location.href = '/teachers/classes'
+        }
+      }
+    },
+    updateClassDateStart (newVal) {
+      this.newClassDateStart = newVal
+    },
+    updateClassDateEnd (newVal) {
+      this.newClassDateEnd = newVal
+    },
+    updateProgrammingLanguage (newVal) {
+      this.newProgrammingLanguage = newVal
+    },
+    updateInitialFreeCourses (newVal) {
+      this.newInitialFreeCourses = newVal
+    },
+    updateCodeFormats (newVal) {
+      this.newCodeFormats = newVal
+    },
+    updateCodeFormatDefault (newVal) {
+      this.newCodeFormatDefault = newVal
+    },
+    updateGoogleClassroomId (newVal) {
+      this.googleClassId = newVal
+    },
+    updateOtherProductClassroomId (newVal) {
+      this.otherProductClassroomId = newVal
+    },
+    updateLmsClassroomId (newVal) {
+      this.lmsClassroomId = newVal
+    },
+    async handleClassroomImport (savedClassroom, updates) {
       if (this.isGoogleClassroomForm) {
         await GoogleClassroomHandler.markAsImported(this.googleClassId)
         GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
@@ -436,33 +519,29 @@ export default Vue.extend({
         }
       }
 
-      this.$emit('close')
-      this.saving = false
-      // redirect to classes if user was not on classes page when creating a new class
-      if (this.classroomInstance.isNew()) {
-        const path = window.location.pathname
-        if (path !== '/teachers' && !path.match('/teachers/classes')) {
-          window.location.href = '/teachers/classes'
-        }
+      if (this.lmsProductForm) {
+        noty({ text: 'Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
+        await this.handleLmsClassroomImport(savedClassroom)
       }
     },
-    updateClassDateStart (newVal) {
-      this.newClassDateStart = newVal
+    async reImportExistingLmsClassroom () {
+      this.lmsSyncInProgress = true
+      noty({ text: 'Re-Importing classroom...', layout: 'topCenter', type: 'info', timeout: 3000 })
+      await this.handleLmsClassroomImport(this.classroom)
+      this.lmsSyncInProgress = false
+      this.$emit('close')
+      window.location.reload()
     },
-    updateClassDateEnd (newVal) {
-      this.newClassDateEnd = newVal
-    },
-    updateProgrammingLanguage (newVal) {
-      this.newProgrammingLanguage = newVal
-    },
-    updateInitialFreeCourses (newVal) {
-      this.newInitialFreeCourses = newVal
-    },
-    updateCodeFormats (newVal) {
-      this.newCodeFormats = newVal
-    },
-    updateCodeFormatDefault (newVal) {
-      this.newCodeFormatDefault = newVal
+    async handleLmsClassroomImport (savedClassroom) {
+      const job = await BackgroundJobApi.create('oauth2-roster-class', {
+        classroomId: savedClassroom._id,
+        lmsClassroomId: savedClassroom.lmsClassroom.classId,
+        provider: savedClassroom.lmsClassroom.provider,
+      })
+      await BackgroundJobApi.pollTillResult(job.job, {
+        showNotification: true,
+      })
+      window.location.reload()
     },
   },
 })
@@ -501,100 +580,43 @@ export default Vue.extend({
             @click="linkOtherProductClassroom"
           />
         </div>
+        <div
+          v-if="showLmsButton"
+          class="lms-classroom-div"
+        >
+          <button-import-classroom
+            v-if="classroomInstance.isNew()"
+            :in-progress="lmsSyncInProgress"
+            :icon-src="lmsProductImage"
+            :icon-src-alt-text="lmsProductText"
+            :icon-src-inactive="lmsProductImage"
+            :text="$t('teachers.import_classroom')"
+            @click="linkLmsClassroom"
+          />
+          <button-import-classroom
+            v-else
+            :in-progress="lmsSyncInProgress"
+            :icon-src="lmsProductImage"
+            :icon-src-alt-text="lmsProductText"
+            :icon-src-inactive="lmsProductImage"
+            :text="$t('teachers.re_import_classroom')"
+            @click="reImportExistingLmsClassroom"
+          />
+        </div>
       </div>
       <div class="form-container container">
-        <div
-          v-if="isGoogleClassroomForm"
-          class="form-group row google-class-id"
-          :class="{ 'has-error': $v.googleClassId.$error }"
-        >
-          <div class="col-xs-12">
-            <span class="control-label">
-              <img
-                class="small-google-icon"
-                src="/images/ozaria/teachers/dashboard/svg_icons/IconGoogleClassroom.svg"
-              >
-              {{ $t("teachers.select_class") }}
-            </span>
-            <select
-              v-model="$v.googleClassId.$model"
-              class="form-control"
-              :class="{ 'placeholder-text': !googleClassId }"
-              name="googleClassId"
-              :disabled="googleClassrooms.length === 0"
-            >
-              <option
-                v-if="googleClassrooms.length === 0"
-                disabled
-                selected
-                value=""
-              >
-                All google classrooms already imported
-              </option>
-              <option
-                v-else
-                disabled
-                selected
-                value=""
-              >
-                Select to Import from Google Classroom
-              </option>
-              <option
-                v-for="gClassroom in googleClassrooms"
-                :key="gClassroom.id"
-                :value="gClassroom.id"
-              >
-                {{ gClassroom.name }}
-              </option>
-            </select>
-            <span
-              v-if="!$v.googleClassId.required"
-              class="form-error"
-            >
-              {{ $t("form_validation_errors.required") }}
-            </span>
-          </div>
-        </div>
-        <div v-else-if="isOtherProductForm">
-          {{ $t(isCodeCombat? "teachers.select_ozaria_classroom": "teachers.select_codecombat_classroom") }}
-          <select
-            v-model="$v.otherProductClassroomId.$model"
-            class="form-control"
-            :class="{ 'placeholder-text': !otherProductClassroomId }"
-            name="otherProductClassroomId"
-            :disabled="otherProductClassrooms.length === 0"
-          >
-            <option
-              v-if="otherProductClassrooms.length === 0"
-              disabled
-              selected
-              value=""
-            >
-              {{ $t('teachers.all_classrooms_imported') }}
-            </option>
-            <option
-              v-else
-              disabled
-              selected
-              value=""
-            >
-              {{ $t(isCodeCombat? 'teachers.select_to_import_from_ozaria': 'teachers.select_to_import_from_codecombat') }}
-            </option>
-            <option
-              v-for="imortableClassroom in otherProductClassrooms"
-              :key="imortableClassroom._id"
-              :value="imortableClassroom._id"
-            >
-              {{ imortableClassroom.name }}
-            </option>
-          </select>
-          <span
-            v-if="!$v.otherProductClassroomId.required"
-            class="form-error"
-          >
-            {{ $t("form_validation_errors.required") }}
-          </span>
-        </div>
+        <classroom-import-component
+          v-if="isOtherProductForm || isGoogleClassroomForm || lmsProductForm"
+          :is-google-classroom-form="isGoogleClassroomForm"
+          :is-other-product-form="isOtherProductForm"
+          :lms-product-form="lmsProductForm"
+          :other-product-classrooms="otherProductClassrooms"
+          :google-classrooms="googleClassrooms"
+          :lms-classrooms="lmsClassrooms"
+          @googleClassroomIdUpdated="updateGoogleClassroomId"
+          @otherProductClassroomIdUpdated="updateOtherProductClassroomId"
+          @lmsClassroomIdUpdated="updateLmsClassroomId"
+        />
         <div
           v-else
           class="form-group row class-name"

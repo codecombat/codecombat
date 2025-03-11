@@ -192,6 +192,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     action = if @state.get('playing') then 'Play GameDev Level - Restart Level' else 'Play GameDev Level - Start Level'
     window.tracker?.trackEvent(action, @eventProperties)
     @state.set('playing', true)
+    @willUpdateFrontEnd = true
 
   onClickCopyURLButton: ->
     @$('#copy-url-input').val(@state.get('shareURL')).select()
@@ -217,7 +218,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       modal.once 'replay', @onClickPlayButton, @
 
   updateStudentGoals: ->
-    return if @studentGoals
+    return if @studentGoals?.length
     # Set by users. Defined in `game.GameUI` component in the level editor.
     if @world.uiText?.directions?.length
       @studentGoals = @world.uiText.directions.map((direction) -> {type: "user_defined", direction})

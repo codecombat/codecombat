@@ -954,6 +954,7 @@ module.exports = {
       support: 'Support',
       here: 'here',
       from: 'From',
+      classrooms: 'Classrooms',
     },
 
     units: {
@@ -1847,6 +1848,9 @@ module.exports = {
       license_code_used: 'License Code used.',
       ai_hs_remix: 'AI HackStack Remix',
       ai_hs_remix_blurb: 'Whether students can use other student\'s projects to take inspiration from.',
+      and_more: 'and more',
+      import_classroom: 'Import Classroom',
+      re_import_classroom: 'Re-Import Classroom',
     },
 
     no_licenses_page: {
@@ -6176,7 +6180,9 @@ module.exports = {
       see_all: 'See All',
       created_by: 'created by',
       remix: 'Remix',
-
+      copy: 'copy',
+      copied: 'copied!',
+      copied_error: 'error copying!',
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',

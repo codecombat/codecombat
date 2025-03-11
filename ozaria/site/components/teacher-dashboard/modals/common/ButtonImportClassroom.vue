@@ -22,7 +22,12 @@ export default Vue.extend({
     },
     iconSrc: {
       type: String,
-      required: true
+      required: true,
+    },
+    iconSrcAltText: {
+      type: String,
+      required: false,
+      default: null,
     },
     iconSrcInactive: {
       type: String,
@@ -56,6 +61,7 @@ export default Vue.extend({
       <img
         v-else
         :src="iconSrc"
+        :alt="iconSrcAltText"
       >
       <span class="google-classroom-text"> {{ text }} </span>
     </div>
