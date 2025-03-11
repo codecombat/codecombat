@@ -79,7 +79,7 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Prompt Type',
     type: 'string',
     description: 'The type of system prompt that will be used for this project',
-    enum: ['code', 'story'],
+    enum: ['math_1', 'math_2', 'english_1', 'english_2', 'code_1', 'code_2'],
   },
 })
 
