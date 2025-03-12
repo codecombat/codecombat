@@ -75,6 +75,12 @@ _.extend(AIScenarioSchema.properties, {
     inEditor: 'codecombat',
   },
   priority: { title: 'Priority', type: 'integer', description: 'Lower numbers will show earlier.' },
+  promptType: {
+    title: 'Prompt Type',
+    type: 'string',
+    description: 'The type of system prompt that will be used for this project',
+    enum: ['math_1', 'math_2', 'english_1', 'english_2', 'code_1', 'code_2'],
+  },
 })
 
 AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']

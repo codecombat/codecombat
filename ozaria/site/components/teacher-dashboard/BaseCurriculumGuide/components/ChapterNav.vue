@@ -1,7 +1,13 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import utils from 'core/utils'
+import IconNew from 'app/core/components/IconNew'
+
 export default {
+  components: {
+    IconNew,
+  },
+
   computed: {
     ...mapGetters({
       chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
@@ -66,8 +72,12 @@ export default {
       if (course && course.campaignID) {
         this.setSelectedCampaign(course.campaignID)
       }
-    }
-  }
+    },
+
+    showNewIcon (campaignID) {
+      return campaignID === utils.campaignIDs.HACKSTACK
+    },
+  },
 }
 </script>
 
@@ -77,11 +87,14 @@ export default {
       v-for="{ campaignID, heading } in chapterNav"
       :key="campaignID"
       :class="classForButton(campaignID)"
-
       @click="() => clickChapterNav(campaignID)"
     >
       <div class="chapter-pill">
         {{ heading }}
+        <IconNew
+          v-if="showNewIcon(campaignID)"
+          class="new-icon"
+        />
       </div>
     </div>
   </div>
@@ -109,9 +122,16 @@ export default {
   .chapter-pill {
     padding: 9px 20px;
     border-radius: 20px;
+    position: relative;
 
     &:hover {
       background-color: #f2f2f2;
+    }
+
+    .new-icon {
+      position: absolute;
+      top: -10px;
+      right: -10px;
     }
   }
 

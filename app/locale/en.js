@@ -6161,7 +6161,10 @@ module.exports = {
       see_all: 'See All',
       created_by: 'created by',
       remix: 'Remix',
-
+      copy: 'copy',
+      copied: 'copied!',
+      copied_error: 'error copying!',
+      NewScenarioPage_name: 'Display Name',
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',
