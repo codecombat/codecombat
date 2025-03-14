@@ -117,8 +117,19 @@ module.exports = Vue.extend({
     },
     licenseDaysByMonth () {
       const byMonth = []
-      let totalUsed = 0
       const months = _.keys(this.licenseStats.licenseDaysByMonth).sort().reverse()
+      const summary = {
+        month: 'Total',
+        licenseDaysUsed: 0,
+        progress: {
+          linesOfCode: 0,
+          programs: 0,
+          playtime: 0,
+        },
+        newSignups: 0,
+        ageStats: 0,
+        licensesUsed: 0,
+      }
       for (const month of months) {
         const stat = this.licenseStats.licenseDaysByMonth[month]
         byMonth.push({
@@ -130,10 +141,15 @@ module.exports = Vue.extend({
           ageStats: stat.ageStats,
           licensesUsed: stat.licensesUsed,
         })
-        totalUsed += stat.daysUsed
+        summary.licenseDaysUsed += stat.daysUsed || 0
+        summary.progress.linesOfCode += stat.progress?.linesOfCode || 0
+        summary.progress.programs += stat.progress?.programs || 0
+        summary.progress.playtime += stat.progress?.playtime || 0
+        summary.newSignups += stat.newSignups || 0
+        summary.licensesUsed += stat.licensesUsed || 0
       }
       if (byMonth.length) {
-        byMonth.push({ month: 'Total', licenseDaysUsed: totalUsed })
+        byMonth.push(summary)
       }
       return byMonth
     },
