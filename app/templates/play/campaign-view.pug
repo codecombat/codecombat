@@ -290,7 +290,10 @@ if showGameDevAlert
            span
             .hackstack-icon
         .hackstack-level#hackstack-level-shadow(style="left: 61%; top: 67.5%;", class="level-shadow")
-
+  else if view.isCatalyst
+    .portal-catalyst
+      .portals
+        //- TODO: Add the Catalyst campaign
   else
     .portal
       .portals

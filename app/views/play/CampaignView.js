@@ -147,6 +147,13 @@ class CampaignView extends RootView {
     if (window.serverConfig.picoCTF) {
       this.terrain = 'picoctf'
     }
+    if (/^catalyst/.test(this.terrain)) {
+      this.terrain = '' // In this case we process query params
+    }
+
+    // Check if the user is in the Catalyst experiment
+    this.isCatalyst = me.getCatalystExperimentValue() === 'beta'
+
     this.editorMode = options?.editorMode
     this.requiresSubscription = !me.isPremium()
     if (this.editorMode && !this.terrain) {
