@@ -121,7 +121,6 @@ module.exports = Vue.extend({
       const summary = {
         month: 'Total',
         licenseDaysUsed: 0,
-        activeLicenses: 0,
         progress: {
           linesOfCode: 0,
           programs: 0,
@@ -143,7 +142,6 @@ module.exports = Vue.extend({
           licensesUsed: stat.licensesUsed,
         })
         summary.licenseDaysUsed += stat.daysUsed || 0
-        summary.activeLicenses += stat.noOfRedeemers || 0
         summary.progress.linesOfCode += stat.progress?.linesOfCode || 0
         summary.progress.programs += stat.progress?.programs || 0
         summary.progress.playtime += stat.progress?.playtime || 0
