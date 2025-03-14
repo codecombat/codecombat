@@ -1215,7 +1215,7 @@ module.exports = (User = (function () {
         // Don't include Ozaria for now
         value = 'control'
       }
-      if ((value == null) && features?.china) {
+      if ((value == null) && features?.china && !features?.chinaHome) {
         // Don't include China players for now
         value = 'control'
       }
