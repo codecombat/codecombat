@@ -178,7 +178,7 @@ class SimulatorsLeaderboardData extends CocoClass {
       }
       promises.push($.ajax('/db/level/-/ladder-match-queue-count', { success: queueSuccess, cache: false }))
     }
-    if (!this.level.isType('ladder')) {
+    if (!this.level.isType('ladder') && me.isAdmin()) {
       this.topSimulators = new SimulatorsLeaderboardCollection({ order: -1, scoreOffset: -1, limit: 20 })
       promises.push(this.topSimulators.fetch())
       const score = this.me.get('simulatedBy') || 0
