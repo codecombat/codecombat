@@ -5484,8 +5484,8 @@ module.exports = {
     },
 
     user_credits: {
-      level_chat_left_in_duration: '你每 __duration_key__ 有 __credits__ 次 AI 问答次数',
-      level_chat_left_in_duration_multiple: '你每 __duration_amount__ __duration_key__ 有 __credits__ 次 AI 问答次数',
+      level_chat_left_in_duration: '你每__duration_key__有 __credits__ 次 AI 问答次数',
+      level_chat_left_in_duration_multiple: '你每 __duration_amount__ __duration_key__有 __credits__ 次 AI 问答次数',
       level_chat_no_credits_left_duration: '没有 AI 问答次数了( 这一__duration_key__)',
       level_chat_no_credits_left_duration_multiple: '没有 AI 问答次数了( 这 __duration_amount__ __duration_key__)',
       level_chat_no_credits_left: '没有 AI 问答次数了',
