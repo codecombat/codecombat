@@ -550,7 +550,7 @@ export default Vue.extend({
                   li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
                     a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
                   li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()|| (me.showChinaHomeVersion() && me.isHomeUser()))")
-                    a.account-dropdown-item(href="/account/subscription") {{ $t('account.subscription') }}
+                    a.account-dropdown-item(href="/account/prepaid") {{ $t('account.subscription') }}
                   li(v-if="me.isAPIClient()")
                     a.account-dropdown-item(href="/partner-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                   li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")
