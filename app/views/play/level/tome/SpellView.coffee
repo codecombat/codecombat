@@ -1846,6 +1846,7 @@ module.exports = class SpellView extends CocoView
     if solution.classList.contains('display')
       solution.classList.remove('display')
     else
+      solution.style.opacity = 1
       solution.classList.add('display')
       Backbone.Mediator.publish 'tome:hide-problem-alert', {}
     return if @solutionStreaming

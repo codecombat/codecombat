@@ -5502,6 +5502,10 @@ module.exports = {
       level_chat_no_credits_left_duration: 'No AI Bot queries left for the __duration_key__',
       level_chat_no_credits_left_duration_multiple: 'No AI Bot queries left for __duration_amount__ __duration_key__',
       level_chat_no_credits_left: 'No AI Bot queries left',
+      level_chat_duration_hour: 'hour',
+      level_chat_duration_day: 'day',
+      level_chat_duration_week: 'week',
+      level_chat_duration_month: 'month',
     },
     home_v3: {
       mission_title: 'Join us in our mission to make coding and AI accessible to all.',

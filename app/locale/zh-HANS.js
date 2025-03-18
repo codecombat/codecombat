@@ -1064,7 +1064,7 @@ module.exports = {
       code_saved: '代码已保存',
       chat_placeholder: '[AI_TRANSLATION]需要编程帮助吗？和 AI 聊天。（实验性功能！）',
       chat_fix_show: '[AI_TRANSLATION]给我看',
-      //    chat_fix_hide: "Hide",
+      chat_fix_hide: '隐藏',
       skip_tutorial: '跳过（esc）',
       keyboard_shortcuts: '快捷键',
       loading_start: '开始',
@@ -5484,11 +5484,15 @@ module.exports = {
     },
 
     user_credits: {
-      level_chat_left_in_duration: '[AI_TRANSLATION]你有 __credits__ 次 AI Bot 查询次数剩余时间是 __duration_key__\n',
-      level_chat_left_in_duration_multiple: '[AI_TRANSLATION]你有 __credits__ 次 AI Bot 查询次数剩余时间是 __duration_amount__ __duration_key__\n',
-      level_chat_no_credits_left_duration: '[AI_TRANSLATION]没有 AI Bot 查询了 __duration_key__',
-      level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]剩下没有 AI 机器人查询 __duration_amount__ __duration_key__  ',
-      level_chat_no_credits_left: '[AI_TRANSLATION]无 AI 机器人查询',
+      level_chat_left_in_duration: '你每 __duration_key__ 有 __credits__ 次 AI 问答次数',
+      level_chat_left_in_duration_multiple: '你每 __duration_amount__ __duration_key__ 有 __credits__ 次 AI 问答次数',
+      level_chat_no_credits_left_duration: '没有 AI 问答次数了( 这一__duration_key__)',
+      level_chat_no_credits_left_duration_multiple: '没有 AI 问答次数了( 这 __duration_amount__ __duration_key__)',
+      level_chat_no_credits_left: '没有 AI 问答次数了',
+      level_chat_duration_hour: '个小时',
+      level_chat_duration_day: '天',
+      level_chat_duration_week: '周',
+      level_chat_duration_month: '个月',
     },
 
     home_v3: {
