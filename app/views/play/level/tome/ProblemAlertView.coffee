@@ -67,7 +67,8 @@ module.exports = class ProblemAlertView extends CocoView
     super()
 
   afterRender: ->
-    @$('[data-toggle="popover"]').popover()
+    $('.chatbot-hint').popover().click () =>
+      setTimeout((() => $('.chatbot-hint').popover('hide')), 3000)
     unless me.showChinaResourceInfo()
       unless @creditMessage
         @handleUserCreditsMessage()
