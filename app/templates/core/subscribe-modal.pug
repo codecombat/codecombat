@@ -40,7 +40,11 @@ mixin price(name, p, nameWithoutCurrency)
               img(src="/images/pages/home/anya-and-nando-pet.webp")
             .col-xs-6
               ul.features-list
-                li(data-i18n="subscribe.feature_products")
+                if me.showChinaHomeVersion()
+                  li(data-i18n="subscribe.feature_level_access")
+                  li(data-i18n="subscribe.feature_level_chat")
+                else
+                  li(data-i18n="subscribe.feature_products")
                 li(data-i18n="subscribe.feature_heroes")
                 li(data-i18n="subscribe.feature_learn")
                 if view.basicProduct && !me.showChinaHomeVersion()
