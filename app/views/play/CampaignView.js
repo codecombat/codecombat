@@ -604,7 +604,7 @@ class CampaignView extends RootView {
     if (this.classroom) {
       const classroomLevels = this.classroom.getLevels()
       this.classroomLevelMap = Object.fromEntries(classroomLevels.map(l => [l.get('original'), l]))
-      const defaultLanguage = this.classroom.get('aceConfig').language
+      const defaultLanguage = this.classroom.get('aceConfig')?.language || 'python'
       for (const session of this.sessions.slice()) {
         const classroomLevel = this.classroomLevelMap[session.get('level').original]
         if (!classroomLevel) {
@@ -767,7 +767,7 @@ class CampaignView extends RootView {
           const count = this.countLevels(levels)
           campaign.levelsTotal = count.total
           campaign.levelsCompleted = count.completed
-          campaign.locked = campaign.get('slug') !== 'dungeon' && !campaign.levelsTotal
+          campaign.locked = !['dungeon', 'junior'].includes(campaign.get('slug')) && (!campaign.levelsTotal || !count.unlocked)
         }
       }
       for (const campaign of publicCampaigns) {
@@ -816,7 +816,7 @@ class CampaignView extends RootView {
     })
 
     if (!application.isIPadApp) {
-      _.defer(() => this.$el?.find('.game-controls .btn:not(.poll)').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
+      _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .campaign.locked, .beta-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
       const view = this
       this.$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each(function () {
         if (!me.isAdmin() || !view.editorMode) { return }
@@ -1101,13 +1101,14 @@ class CampaignView extends RootView {
   }
 
   countLevels (orderedLevels) {
-    const count = { total: 0, completed: 0 }
+    const count = { total: 0, completed: 0, unlocked: 0 }
 
     if (this.campaign?.get('type') === 'hoc') {
       // HoC: Just order left-to-right instead of looking at unlocks, which we don't use for this copycat campaign
       orderedLevels = _.sortBy(orderedLevels, level => level.position.x)
       for (const level of orderedLevels) {
         if (this.levelStatusMap[level.slug] === 'complete') { count.completed++ }
+        if (!level.locked) { ++count.unlocked }
       }
       count.total = orderedLevels.length
       return count
@@ -1116,6 +1117,7 @@ class CampaignView extends RootView {
     for (let levelIndex = 0; levelIndex < orderedLevels.length; levelIndex++) {
       const level = orderedLevels[levelIndex]
       if (level.locked == null) { this.annotateLevels(orderedLevels) } // Annotate if we haven't already.
+      if (!level.locked) { ++count.unlocked }
       if (level.disabled) { continue }
       const completed = this.levelStatusMap[level.slug] === 'complete'
       const started = this.levelStatusMap[level.slug] === 'started'
