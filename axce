@@ -1,0 +1,42 @@
+{
+  "name": "beginner-python-level",
+  "description": "A custom interactive learning level for beginners in Python.",
+  "type": "hero",
+  "scripts": [
+    {
+      "id": "hero-script",
+      "code": "# Interact with the environment intelligently\nwhile True:\n    enemy = hero.findNearestEnemy()\n    if enemy:\n        hero.attack(enemy)\n    item = hero.findNearestItem()\n    if item:\n        hero.move(item.pos)"
+    }
+  ],
+  "goals": [
+    {
+      "id": "defeat-enemies",
+      "description": "Defeat all enemies to complete the level.",
+      "type": "defeat",
+      "target": "enemies"
+    },
+    {
+      "id": "collect-gem",
+      "description": "Collect the gem to complete the level.",
+      "type": "collect",
+      "target": "gem"
+    }
+  ],
+  "objects": [
+    {
+      "id": "gem",
+      "type": "item",
+      "position": {"x": 5, "y": 5}
+    },
+    {
+      "id": "enemy1",
+      "type": "ogre",
+      "position": {"x": 3, "y": 3}
+    },
+    {
+      "id": "enemy2",
+      "type": "ogre",
+      "position": {"x": 7, "y": 7}
+    }
+  ]
+}
