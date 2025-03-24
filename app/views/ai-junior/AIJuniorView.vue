@@ -25,10 +25,11 @@ export default {
 <style scoped>
 .ai-junior-view {
   /* Add any global styles for AI Junior pages */
+  padding: 1rem;
 }
 
 .ai-junior-header {
-  /* Style your header */
+  text-align: center;
 }
 
 .ai-junior-content {
