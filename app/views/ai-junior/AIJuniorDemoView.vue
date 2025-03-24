@@ -19,8 +19,7 @@
       </a>
       <a
         class="btn btn-info"
-        href="/ai-junior/projects"
-        target="_blank"
+        :href="`/ai-junior/project/6600a6c23a9490c3f23997af/${userId()}`"
       >
         Show Existing Projects
       </a>
@@ -34,6 +33,11 @@ export default {
   name: 'AIJuniorDemoView',
   components: {
     CTAButton,
+  },
+  methods: {
+    userId () {
+      return me.id
+    },
   },
 }
 </script>

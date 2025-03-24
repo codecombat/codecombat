@@ -61,6 +61,7 @@ _.extend(AIJuniorProjectSchema.properties, {
     title: 'Uploaded Worksheet',
     description: 'Path to the uploaded worksheet file',
   },
+  created: c.date({ title: 'Date Created' }),
 })
 
 c.extendBasicProperties(AIJuniorProjectSchema, 'ai_junior_project')
