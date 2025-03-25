@@ -100,7 +100,7 @@ export default Vue.extend({
     },
 
     showHackStackLogo () {
-      return window.location.pathname.startsWith('/ai')
+      return window.location.pathname.startsWith('/ai') && !window.location.pathname.startsWith('/ai-junior')
     },
 
     useDarkMode () {
