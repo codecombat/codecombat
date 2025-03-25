@@ -62,7 +62,12 @@ export default Vue.extend({
     AnnouncementModal,
     AnnouncementNav,
     'cta-button': CTAButton,
-    caret: CaretDown
+    caret: CaretDown,
+  },
+  data () {
+    return {
+      showContactModal: false,
+    }
   },
   computed: {
     ...mapGetters('announcements', [
@@ -552,6 +557,9 @@ export default Vue.extend({
                     //- string replaced in RootView
                     span.language-dropdown-current Language
                   ul(class="dropdown-menu language-dropdown")
+              ul.nav.navbar-nav(v-if="me.isTeacher() && !me.hideTopRightNav()")
+                li
+                  cta-button.request-demo-button(data-event-action="Header Request Demo CTA" size="small" href="/schools?openContactModal=true") {{ $t('new_home.request_quote') }}
 </template>
 
 <style lang="scss" scoped>
