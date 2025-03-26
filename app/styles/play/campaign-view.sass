@@ -1059,6 +1059,10 @@ $gameControlMargin: 30px
             
             &:hover
               transform: translateX(-50%) scale($campaignHoverScale)
+
+            &.silhouette
+              @include filter(contrast(50%) brightness(65%))
+              pointer-events: none
             
             &.forest
               background-position: (-1 * $campaignPortalWidth) 0
