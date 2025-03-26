@@ -108,6 +108,9 @@ class CampaignView extends RootView {
       'click #clear-storage-button': 'onClickClearStorage',
       'click .portal .campaign': 'onClickPortalCampaign',
       'click .portal .beta-campaign': 'onClickPortalCampaign',
+      'click .portal-catalyst .side-campaign': 'onClickPortalCampaign',
+      'click .portal-catalyst .main-campaign': 'onClickPortalCampaign',
+      'click .portal-catalyst .campaign': 'onClickPortalCampaign',
       'click a .campaign-switch': 'onClickCampaignSwitch',
       'mouseenter .portals': 'onMouseEnterPortals',
       'mouseleave .portals': 'onMouseLeavePortals',
@@ -1329,7 +1332,8 @@ class CampaignView extends RootView {
 
   onMouseMovePortals (e) {
     if (!this.portalScrollInterval) { return }
-    const $portal = this.$el.find('.portal')
+    // Find portals using the view's element as context, just like the original code
+    const $portal = this.$el.find('.portal, .portal-catalyst')
     const $portals = this.$el.find('.portals')
     if (e) {
       this.portalOffsetX = Math.round(Math.max(0, e.clientX - $portal.offset().left))
