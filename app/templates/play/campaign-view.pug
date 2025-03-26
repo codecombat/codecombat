@@ -342,8 +342,8 @@ if showGameDevAlert
               if row.left
                 - var leftCampaign = campaigns[row.left]
                 if leftCampaign
-                  .side-campaign-container
-                    .side-campaign.game-dev(class=row.left + (leftCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.left)
+                  .side-campaign-container(class=!row.left ? "empty" : "")
+                    .side-campaign(class=row.left + (leftCampaign ? "" : " silhouette") + (leftCampaign && leftCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.left)
                       .background-container(class=row.left)
                       .campaign-label
                         h3.campaign-name
@@ -367,7 +367,7 @@ if showGameDevAlert
               
               // Main campaign
               - var mainCampaign = campaigns[row.main]
-              .main-campaign(class=row.main + (mainCampaign && mainCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.main)
+              .main-campaign(class=row.main + (mainCampaign ? "" : " silhouette") + (mainCampaign && mainCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.main)
                 .campaign-label
                   h2.campaign-name
                     if mainCampaign
@@ -395,8 +395,8 @@ if showGameDevAlert
               if row.right
                 - var rightCampaign = campaigns[row.right]
                 if rightCampaign
-                  .side-campaign-container
-                    .side-campaign.web-dev(class=row.right + (rightCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.right)
+                  .side-campaign-container(class=!row.right ? "empty" : "")
+                    .side-campaign(class=row.right + (rightCampaign ? "" : " silhouette") + (rightCampaign && rightCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.right)
                       .background-container(class=row.right)
                       .campaign-label
                         h3.campaign-name
