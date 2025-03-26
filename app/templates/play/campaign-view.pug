@@ -368,7 +368,7 @@ if showGameDevAlert
                           p.campaign-description(dir="auto")
                             span= i18n(leftCampaign.attributes, 'description')
               else
-                .side-campaign.empty
+                .side-campaign-container.empty
               
               // Main campaign
               - var mainCampaign = campaigns[row.main]
@@ -400,23 +400,28 @@ if showGameDevAlert
               if row.right
                 - var rightCampaign = campaigns[row.right]
                 if rightCampaign
-                  .side-campaign.web-dev(class=row.right + (rightCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.right)
-                    .campaign-label
-                      h3.campaign-name
-                        span= i18n(rightCampaign.attributes, 'fullName')
-                        if rightCampaign.levelsTotal
-                          span.spl= rightCampaign.levelsCompleted
-                          | /
-                          span= rightCampaign.levelsTotal
-                      if rightCampaign.locked && !godmode
-                        h4.campaign-locked(data-i18n="play.locked") Locked
-                      else
-                        if serverConfig.static
-                          a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + row.right)
+                  .side-campaign-container
+                    .side-campaign.web-dev(class=row.right + (rightCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.right)
+                      .background-container(class=row.right)
+                      .campaign-label
+                        h3.campaign-name
+                          span= i18n(rightCampaign.attributes, 'fullName')
+                          if rightCampaign.levelsTotal
+                            span.spl= rightCampaign.levelsCompleted
+                            | /
+                            span= rightCampaign.levelsTotal
+                        if rightCampaign.locked && !godmode
+                          h4.campaign-locked(data-i18n="play.locked") Locked
                         else
-                          btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                          if serverConfig.static
+                            a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + row.right)
+                          else
+                            btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                        if rightCampaign.get('description')
+                          p.campaign-description(dir="auto")
+                            span= i18n(rightCampaign.attributes, 'description')
                 else
-                  .side-campaign.empty
+                  .side-campaign-container.empty
   else
     .portal
       .portals
