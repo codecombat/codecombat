@@ -1033,9 +1033,8 @@ $gameControlMargin: 30px
       .campaign-rows
         display: flex
         flex-direction: column
-        gap: 50px
-        width: 100%
-        max-width: 1200px
+        align-items: center
+        gap: 20px
         
         .campaign-row
           display: flex
@@ -1044,7 +1043,7 @@ $gameControlMargin: 30px
           position: relative
           width: 100%
           height: 634px
-          margin-bottom: 50px
+          margin-bottom: 0
           
           .main-campaign
             width: 317px
@@ -1055,6 +1054,10 @@ $gameControlMargin: 30px
             z-index: 2
             left: 50%
             transform: translateX(-50%)
+            transition: transform 0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42)
+            
+            &:hover
+              transform: translateX(-50%) scale($campaignHoverScale)
             
             &.forest
               background-position: (-1 * $campaignPortalWidth) 0
