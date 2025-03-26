@@ -342,7 +342,7 @@ if showGameDevAlert
               if row.left
                 - var leftCampaign = campaigns[row.left]
                 if leftCampaign
-                  .side-campaign-container(class=!row.left ? "empty" : "")
+                  .side-campaign-container(class=!row.left ? "empty" : "left-campaign")
                     .side-campaign(class=row.left + (leftCampaign ? "" : " silhouette") + (leftCampaign && leftCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.left, data-i18n="[title]play.locked_campaign" : "")
                       .background-container(class=row.left)
                       .campaign-label
@@ -395,8 +395,8 @@ if showGameDevAlert
               if row.right
                 - var rightCampaign = campaigns[row.right]
                 if rightCampaign
-                  .side-campaign-container(class=!row.right ? "empty" : "")
-                    .side-campaign(class=row.right + (rightCampaign ? "" : " silhouette") + (rightCampaign && rightCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.right, data-i18n="[title]play.locked_campaign" : "")
+                  .side-campaign-container(class=!row.right ? "empty" : "right-campaign")
+                    .side-campaign(class="right-campaign " + row.right + (rightCampaign ? "" : " silhouette") + (rightCampaign && rightCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.right, data-i18n="[title]play.locked_campaign" : "")
                       .background-container(class=row.right)
                       .campaign-label
                         h3.campaign-name
