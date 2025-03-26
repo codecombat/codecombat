@@ -1044,14 +1044,17 @@ $gameControlMargin: 30px
           position: relative
           width: 100%
           height: 634px
+          margin-bottom: 50px
           
           .main-campaign
             width: 317px
             height: 634px
             background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat
-            position: relative
+            position: absolute
             cursor: pointer
             z-index: 2
+            left: 50%
+            transform: translateX(-50%)
             
             &.forest
               background-position: (-1 * $campaignPortalWidth) 0
@@ -1106,28 +1109,28 @@ $gameControlMargin: 30px
             // Game Dev campaigns
             &.campaign-game-dev-1
               background-position: -454px 0
-              left: calc(50% - 350px)
+              left: calc(50% - 450px)
               top: 200px
             
             &.campaign-game-dev-2
               background-position: -628px 0
-              left: calc(50% - 350px)
+              left: calc(50% - 450px)
               top: 200px
             
             &.campaign-game-dev-3
               background-position: -628px 0
-              left: calc(50% - 350px)
+              left: calc(50% - 450px)
               top: 200px
             
             // Web Dev campaigns
             &.campaign-web-dev-1
               background-position: 0 0
-              right: calc(50% - 350px)
+              right: calc(50% - 450px)
               top: 200px
             
             &.campaign-web-dev-2
               background-position: -291px 0
-              right: calc(50% - 350px)
+              right: calc(50% - 400px)
               top: 200px
             
             &.empty
