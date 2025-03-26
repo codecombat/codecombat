@@ -550,6 +550,7 @@ module.exports = {
       owned: 'Owned', // For items you own
       locked: 'Locked',
       locked_by_teacher: 'Locked By Teacher',
+      locked_campaign: 'Complete previous world to unlock',
       available: 'Available',
       skills_granted: 'Skills Granted', // Property documentation details
       heroes: 'Heroes', // Tooltip on hero shop button from /play
