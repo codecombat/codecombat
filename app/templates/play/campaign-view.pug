@@ -293,7 +293,262 @@ if showGameDevAlert
   else if view.isCatalyst
     .portal-catalyst
       .portals
-        //- TODO: Add the Catalyst campaign
+        - var godmode = me.isInGodMode();
+        
+        // Top row: Junior and Dungeon
+        .catalyst-first-row
+          each campaignSlug in ['junior', 'dungeon']
+            - var campaign = campaigns[campaignSlug];
+            div(class="campaign " + campaignSlug + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
+              .campaign-label
+                h2.campaign-name
+                  if campaign
+                    span= i18n(campaign.attributes, 'fullName')
+                  else
+                    span ???
+                if campaign && campaign.levelsTotal && !features.brainPop
+                  h3.levels-completed
+                    span= campaign.levelsCompleted
+                    | /
+                    span= campaign.levelsTotal
+                if campaign && campaign.locked && !godmode
+                  h3.campaign-locked(data-i18n="play.locked") Locked
+                else if campaign
+                  if serverConfig.static
+                    a(data-i18n="common.play", href="/play/" + campaignSlug).btn.btn-illustrated.btn-lg.btn-success.play-button
+                  else
+                    btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+                if campaign && campaign.get('description')
+                  .campaign-description-container
+                    p.campaign-description(dir="auto")
+                      if ['junior', 'dungeon'].includes(campaignSlug)
+                        - var campaignProductName = campaignSlug == 'junior' ? 'codecombat_junior' : 'codecombat'
+                        strong.campaign-age(data-i18n="play.age_" + campaignProductName)
+                        br
+                        span.campaign-age-description(data-i18n="play.age_description_" + campaignProductName)
+                        br
+                      span= i18n(campaign.attributes, 'description')
+        
+        // Main campaigns with side dev campaigns
+        .campaign-rows
+          // Forest row with Game Dev 1 and Web Dev 1
+          .campaign-row
+            - var gameDevCampaign = campaigns['campaign-game-dev-1'];
+            if gameDevCampaign
+              .side-campaign-container
+                .side-campaign.game-dev(class="campaign-game-dev-1" + (gameDevCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug="campaign-game-dev-1")
+                  .background-container(class="campaign-game-dev-1")
+                  .campaign-label
+                    h3.campaign-name
+                      span= i18n(gameDevCampaign.attributes, 'fullName')
+                      if gameDevCampaign.levelsTotal
+                        span.spl= gameDevCampaign.levelsCompleted
+                        | /
+                        span= gameDevCampaign.levelsTotal
+                    if gameDevCampaign.locked && !godmode
+                      h4.campaign-locked(data-i18n="play.locked") Locked
+                    else
+                      if serverConfig.static
+                        a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/campaign-game-dev-1")
+                      else
+                        btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                    if gameDevCampaign.get('description')
+                      p.campaign-description(dir="auto")
+                        span= i18n(gameDevCampaign.attributes, 'description')
+            
+            - var forestCampaign = campaigns['forest'];
+            .main-campaign.forest(class=forestCampaign && forestCampaign.locked && !godmode ? " locked" : "", data-campaign-slug="forest")
+              .campaign-label
+                h2.campaign-name
+                  if forestCampaign
+                    span= i18n(forestCampaign.attributes, 'fullName')
+                  else
+                    span ???
+                if forestCampaign && forestCampaign.levelsTotal && !features.brainPop
+                  h3.levels-completed
+                    span= forestCampaign.levelsCompleted
+                    | /
+                    span= forestCampaign.levelsTotal
+                if forestCampaign && forestCampaign.locked && !godmode
+                  h3.campaign-locked(data-i18n="play.locked") Locked
+                else if forestCampaign
+                  if serverConfig.static
+                    a(data-i18n="common.play", href="/play/forest").btn.btn-illustrated.btn-lg.btn-success.play-button
+                  else
+                    btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+                if forestCampaign && forestCampaign.get('description')
+                  .campaign-description-container
+                    p.campaign-description(dir="auto")
+                      span= i18n(forestCampaign.attributes, 'description')
+            
+            - var webDevCampaign = campaigns['campaign-web-dev-1'];
+            if webDevCampaign
+              .side-campaign.web-dev(class="campaign-web-dev-1" + (webDevCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug="campaign-web-dev-1")
+                .campaign-label
+                  h3.campaign-name
+                    span= i18n(webDevCampaign.attributes, 'fullName')
+                    if webDevCampaign.levelsTotal
+                      span.spl= webDevCampaign.levelsCompleted
+                      | /
+                      span= webDevCampaign.levelsTotal
+                  if webDevCampaign.locked && !godmode
+                    h4.campaign-locked(data-i18n="play.locked") Locked
+                  else
+                    if serverConfig.static
+                      a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/campaign-web-dev-1")
+                    else
+                      btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+          
+          // Desert row with Game Dev 2 and Web Dev 2
+          .campaign-row
+            - var gameDevCampaign2 = campaigns['campaign-game-dev-2'];
+            if gameDevCampaign2
+              .side-campaign-container
+                .side-campaign.game-dev(class="campaign-game-dev-2" + (gameDevCampaign2.locked && !godmode ? " locked" : ""), data-campaign-slug="campaign-game-dev-2")
+                  .background-container(class="campaign-game-dev-2")
+                  .campaign-label
+                    h3.campaign-name
+                      span= i18n(gameDevCampaign2.attributes, 'fullName')
+                      if gameDevCampaign2.levelsTotal
+                        span.spl= gameDevCampaign2.levelsCompleted
+                        | /
+                        span= gameDevCampaign2.levelsTotal
+                    if gameDevCampaign2.locked && !godmode
+                      h4.campaign-locked(data-i18n="play.locked") Locked
+                    else
+                      if serverConfig.static
+                        a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/campaign-game-dev-2")
+                      else
+                        btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                    if gameDevCampaign2.get('description')
+                      p.campaign-description(dir="auto")
+                        span= i18n(gameDevCampaign2.attributes, 'description')
+            
+            - var desertCampaign = campaigns['desert'];
+            .main-campaign.desert(class=desertCampaign && desertCampaign.locked && !godmode ? " locked" : "", data-campaign-slug="desert")
+              .campaign-label
+                h2.campaign-name
+                  if desertCampaign
+                    span= i18n(desertCampaign.attributes, 'fullName')
+                  else
+                    span ???
+                if desertCampaign && desertCampaign.levelsTotal && !features.brainPop
+                  h3.levels-completed
+                    span= desertCampaign.levelsCompleted
+                    | /
+                    span= desertCampaign.levelsTotal
+                if desertCampaign && desertCampaign.locked && !godmode
+                  h3.campaign-locked(data-i18n="play.locked") Locked
+                else if desertCampaign
+                  if serverConfig.static
+                    a(data-i18n="common.play", href="/play/desert").btn.btn-illustrated.btn-lg.btn-success.play-button
+                  else
+                    btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+                if desertCampaign && desertCampaign.get('description')
+                  .campaign-description-container
+                    p.campaign-description(dir="auto")
+                      span= i18n(desertCampaign.attributes, 'description')
+            
+            - var webDevCampaign2 = campaigns['campaign-web-dev-2'];
+            if webDevCampaign2
+              .side-campaign.web-dev(class="campaign-web-dev-2" + (webDevCampaign2.locked && !godmode ? " locked" : ""), data-campaign-slug="campaign-web-dev-2")
+                .campaign-label
+                  h3.campaign-name
+                    span= i18n(webDevCampaign2.attributes, 'fullName')
+                    if webDevCampaign2.levelsTotal
+                      span.spl= webDevCampaign2.levelsCompleted
+                      | /
+                      span= webDevCampaign2.levelsTotal
+                  if webDevCampaign2.locked && !godmode
+                    h4.campaign-locked(data-i18n="play.locked") Locked
+                  else
+                    if serverConfig.static
+                      a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/campaign-web-dev-2")
+                    else
+                      btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+          
+          // Mountain row with Game Dev 3
+          .campaign-row
+            - var gameDevCampaign3 = campaigns['campaign-game-dev-3'];
+            if gameDevCampaign3
+              .side-campaign-container
+                .side-campaign.game-dev(class="campaign-game-dev-3" + (gameDevCampaign3.locked && !godmode ? " locked" : ""), data-campaign-slug="campaign-game-dev-3")
+                  .background-container(class="campaign-game-dev-3")
+                  .campaign-label
+                    h3.campaign-name
+                      span= i18n(gameDevCampaign3.attributes, 'fullName')
+                      if gameDevCampaign3.levelsTotal
+                        span.spl= gameDevCampaign3.levelsCompleted
+                        | /
+                        span= gameDevCampaign3.levelsTotal
+                    if gameDevCampaign3.locked && !godmode
+                      h4.campaign-locked(data-i18n="play.locked") Locked
+                    else
+                      if serverConfig.static
+                        a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/campaign-game-dev-3")
+                      else
+                        btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                    if gameDevCampaign3.get('description')
+                      p.campaign-description(dir="auto")
+                        span= i18n(gameDevCampaign3.attributes, 'description')
+            
+            - var mountainCampaign = campaigns['mountain'];
+            .main-campaign.mountain(class=mountainCampaign && mountainCampaign.locked && !godmode ? " locked" : "", data-campaign-slug="mountain")
+              .campaign-label
+                h2.campaign-name
+                  if mountainCampaign
+                    span= i18n(mountainCampaign.attributes, 'fullName')
+                  else
+                    span ???
+                if mountainCampaign && mountainCampaign.levelsTotal && !features.brainPop
+                  h3.levels-completed
+                    span= mountainCampaign.levelsCompleted
+                    | /
+                    span= mountainCampaign.levelsTotal
+                if mountainCampaign && mountainCampaign.locked && !godmode
+                  h3.campaign-locked(data-i18n="play.locked") Locked
+                else if mountainCampaign
+                  if serverConfig.static
+                    a(data-i18n="common.play", href="/play/mountain").btn.btn-illustrated.btn-lg.btn-success.play-button
+                  else
+                    btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+                if mountainCampaign && mountainCampaign.get('description')
+                  .campaign-description-container
+                    p.campaign-description(dir="auto")
+                      span= i18n(mountainCampaign.attributes, 'description')
+            
+            .side-campaign.empty
+          
+          // Glacier row
+          .campaign-row
+            .side-campaign.empty
+            
+            - var glacierCampaign = campaigns['glacier'];
+            .main-campaign.glacier(class=glacierCampaign && glacierCampaign.locked && !godmode ? " locked" : "", data-campaign-slug="glacier")
+              .campaign-label
+                h2.campaign-name
+                  if glacierCampaign
+                    span= i18n(glacierCampaign.attributes, 'fullName')
+                  else
+                    span ???
+                if glacierCampaign && glacierCampaign.levelsTotal && !features.brainPop
+                  h3.levels-completed
+                    span= glacierCampaign.levelsCompleted
+                    | /
+                    span= glacierCampaign.levelsTotal
+                if glacierCampaign && glacierCampaign.locked && !godmode
+                  h3.campaign-locked(data-i18n="play.locked") Locked
+                else if glacierCampaign
+                  if serverConfig.static
+                    a(data-i18n="common.play", href="/play/glacier").btn.btn-illustrated.btn-lg.btn-success.play-button
+                  else
+                    btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+                if glacierCampaign && glacierCampaign.get('description')
+                  .campaign-description-container
+                    p.campaign-description(dir="auto")
+                      span= i18n(glacierCampaign.attributes, 'description')
+            
+            .side-campaign.empty
   else
     .portal
       .portals
