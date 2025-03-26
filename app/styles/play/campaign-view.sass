@@ -1105,36 +1105,17 @@ $gameControlMargin: 30px
             z-index: 1
             background: transparent url(/images/pages/play/portal-beta-campaigns.png) no-repeat 0 0
             background-size: math.div($sideCampaignImagesWidth, 2)
+            top: 200px  // Vertical position
             
-            // Game Dev campaigns
-            &.campaign-game-dev-1
+            // Game Dev campaigns - position on left side
+            &.campaign-game-dev-1, &.campaign-game-dev-2, &.campaign-game-dev-3
               background-position: -454px 0
-              left: calc(50% - 450px)
-              top: 200px
+              left: calc(50% - 450px)  // Position to the left of the main campaign
             
-            &.campaign-game-dev-2
-              background-position: -628px 0
-              left: calc(50% - 450px)
-              top: 200px
-            
-            &.campaign-game-dev-3
-              background-position: -628px 0
-              left: calc(50% - 450px)
-              top: 200px
-            
-            // Web Dev campaigns
-            &.campaign-web-dev-1
+            // Web Dev campaigns - position on right side
+            &.campaign-web-dev-1, &.campaign-web-dev-2
               background-position: 0 0
-              right: calc(50% - 450px)
-              top: 200px
-            
-            &.campaign-web-dev-2
-              background-position: -291px 0
-              right: calc(50% - 400px)
-              top: 200px
-            
-            &.empty
-              visibility: hidden
+              right: calc(50% - 450px)  // Position to the right of the main campaign
             
             .campaign-label
               position: absolute
