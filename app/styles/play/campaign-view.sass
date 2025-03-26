@@ -1064,6 +1064,10 @@ $gameControlMargin: 30px
               @include filter(contrast(50%) brightness(65%))
               pointer-events: none
             
+            &.locked
+              @include filter(contrast(80%) brightness(80%))
+              cursor: default
+            
             &.forest
               background-position: (-1 * $campaignPortalWidth) 0
             &.desert
@@ -1139,7 +1143,8 @@ $gameControlMargin: 30px
                 
               &.locked
                 @include filter(contrast(80%) brightness(80%))
-                pointer-events: none
+                cursor: default
+              
               .campaign-label
                 position: absolute
                 top: 40%
