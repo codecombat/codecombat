@@ -4,6 +4,10 @@
 
 $mapHeight: 1536
 $mapWidth: 2350
+$campaignPortalWidth: 317px
+$campaignPortalHeight: 634px
+$sideCampaignImagesWidth: 1902px
+$campaignHoverScale: 1.2
 $levelDotWidth: 2%
 $levelDotHeight: math.div($levelDotWidth * $mapWidth, $mapHeight)
 $levelDotZ: $levelDotHeight * 0.25
@@ -796,10 +800,9 @@ $gameControlMargin: 30px
         align-items: initial
 
     .portals
-      $campaignWidth: 317px
-      $campaignHeight: 634px
-      $campaignHoverScale: 1.2
-      height: $campaignHeight * $campaignHoverScale
+      
+      $betaImagesWidth: 1902px
+      $height: $campaignPortalHeight * $campaignHoverScale
       flex-wrap: nowrap
       display: flex
       overflow: hidden
@@ -807,9 +810,9 @@ $gameControlMargin: 30px
         overflow: scroll
 
       .campaign
-        width: $campaignWidth
-        height: $campaignHeight
-        margin-top: $campaignHeight * math.div($campaignHoverScale - 1, 2)
+        width: $campaignPortalWidth
+        height: $campaignPortalHeight
+        margin-top: $campaignPortalHeight * math.div($campaignHoverScale - 1, 2)
         background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat 0 0
         display: inline-block
         flex-shrink: 0
@@ -830,17 +833,17 @@ $gameControlMargin: 30px
           cursor: default
 
         &.forest
-          background-position: (-1 * $campaignWidth) 0
+          background-position: (-1 * $campaignPortalWidth) 0
         &.desert
-          background-position: (-2 * $campaignWidth) 0
+          background-position: (-2 * $campaignPortalWidth) 0
         &.mountain
-          background-position: (-3 * $campaignWidth) 0
+          background-position: (-3 * $campaignPortalWidth) 0
         &.glacier
-          background-position: (-4 * $campaignWidth) 0
+          background-position: (-4 * $campaignPortalWidth) 0
         &.volcano
-          background-position: (-5 * $campaignWidth) 0
+          background-position: (-5 * $campaignPortalWidth) 0
         &.junior
-          background-position: (-6 * $campaignWidth) 0
+          background-position: (-6 * $campaignPortalWidth) 0
 
         .campaign-label
           position: absolute
@@ -877,16 +880,15 @@ $gameControlMargin: 30px
             min-width: 100px
 
       .beta-container
-        $betaImagesWidth: 1902px
-        width: $campaignWidth
-        height: $campaignHeight
+        width: $campaignPortalWidth
+        height: $campaignPortalHeight
         display: inline-block
         flex-shrink: 0
         position: relative
 
         .beta-campaign
-          width: $campaignWidth
-          height: math.div($campaignHeight, 2)
+          width: $campaignPortalWidth
+          height: math.div($campaignPortalHeight, 2)
           display: inline-block
           flex-shrink: 0
           position: relative
@@ -940,9 +942,9 @@ $gameControlMargin: 30px
 
           .background-container
             position: absolute
-            left: math.div($campaignWidth, 4)
-            width: math.div($campaignWidth, 2)
-            height: math.div($campaignHeight, 2)
+            left: math.div($campaignPortalWidth, 4)
+            width: math.div($campaignPortalWidth, 2)
+            height: math.div($campaignPortalHeight, 2)
             background: transparent url(/images/pages/play/portal-beta-campaigns.png) no-repeat 0 0
             background-size: math.div($betaImagesWidth, 2)
 
@@ -956,6 +958,268 @@ $gameControlMargin: 30px
               background-position: -628px 0px
             &.campaign-game-dev-3
               background-position: -628px 0px
+
+  .portal-catalyst
+    position: relative
+    width: 100%
+    height: 100%
+    background: transparent url(/images/pages/play/portal-background.png)
+    overflow-y: auto
+    padding: 20px
+
+    .portals
+      display: flex
+      flex-direction: column
+      align-items: center
+      width: 100%
+
+      .catalyst-first-row
+        display: flex
+        justify-content: center
+        gap: 30px
+        margin-bottom: 30px
+        width: 100%
+        max-width: 1200px
+        
+        .campaign
+          width: 317px
+          height: 634px
+          background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat 0 0
+          position: relative
+          cursor: pointer
+          @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
+
+          &:hover
+            @include scale($campaignHoverScale)
+
+          &.silhouette
+            @include filter(contrast(50%) brightness(65%))
+            pointer-events: none
+          
+          &.junior
+            background-position: -1902px 0
+          &.dungeon
+            background-position: 0 0
+          
+          .campaign-label
+            position: absolute
+            top: 45%
+            width: 100%
+            text-align: center
+            
+            // Text styling
+            .campaign-name, .levels-completed, .campaign-locked
+              margin: 0
+              color: white
+              text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
+            
+            .campaign-description-container
+              margin: 10px auto
+              width: 80%
+              
+              .campaign-description
+                background: transparent url(/images/level/popover_border_background.png) no-repeat
+                background-size: 100% 100%
+                padding: 12px
+                color: black
+                font-size: 14px
+                line-height: 1.2
+                margin: 0
+              
+            .play-button
+              margin: 15px 0
+              min-width: 100px
+        
+      .campaign-rows
+        display: flex
+        flex-direction: column
+        gap: 50px
+        width: 100%
+        max-width: 1200px
+        
+        .campaign-row
+          display: flex
+          justify-content: center
+          align-items: center
+          position: relative
+          width: 100%
+          height: 634px
+          
+          .main-campaign
+            width: 317px
+            height: 634px
+            background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat
+            position: relative
+            cursor: pointer
+            z-index: 2
+            
+            &.forest
+              background-position: (-1 * $campaignPortalWidth) 0
+            &.desert
+              background-position: (-2 * $campaignPortalWidth) 0
+            &.mountain
+              background-position: (-3 * $campaignPortalWidth) 0
+            &.glacier
+              background-position: (-4 * $campaignPortalWidth) 0
+            &.volcano
+              background-position: (-5 * $campaignPortalWidth) 0
+            
+            .campaign-label
+              position: absolute
+              top: 45%
+              width: 100%
+              text-align: center
+              
+              // Text styling
+              .campaign-name, .levels-completed, .campaign-locked
+                margin: 0
+                color: white
+                text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
+              
+              .campaign-description-container
+                margin: 10px auto
+                width: 80%
+                
+                .campaign-description
+                  background: transparent url(/images/level/popover_border_background.png) no-repeat
+                  background-size: 100% 100%
+                  padding: 12px
+                  color: black
+                  font-size: 14px
+                  line-height: 1.2
+                  margin: 0
+                
+              .play-button
+                margin: 15px 0
+                min-width: 100px
+            
+          // Side campaigns
+          .side-campaign
+            width: $campaignPortalWidth
+            height: math.div($campaignPortalHeight, 2)
+            position: absolute
+            cursor: pointer
+            z-index: 1
+            background: transparent url(/images/pages/play/portal-beta-campaigns.png) no-repeat 0 0
+            background-size: math.div($sideCampaignImagesWidth, 2)
+            
+            // Game Dev campaigns
+            &.campaign-game-dev-1
+              background-position: -454px 0
+              left: calc(50% - 350px)
+              top: 200px
+            
+            &.campaign-game-dev-2
+              background-position: -628px 0
+              left: calc(50% - 350px)
+              top: 200px
+            
+            &.campaign-game-dev-3
+              background-position: -628px 0
+              left: calc(50% - 350px)
+              top: 200px
+            
+            // Web Dev campaigns
+            &.campaign-web-dev-1
+              background-position: 0 0
+              right: calc(50% - 350px)
+              top: 200px
+            
+            &.campaign-web-dev-2
+              background-position: -291px 0
+              right: calc(50% - 350px)
+              top: 200px
+            
+            &.empty
+              visibility: hidden
+            
+            .campaign-label
+              position: absolute
+              top: 40%
+              width: 100%
+              text-align: center
+              
+              // Text styling
+              .campaign-name, .levels-completed, .campaign-locked
+                margin: 0
+                color: white
+                text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
+                font-size: 16px
+              
+              .play-button
+                margin: 10px 0
+                min-width: 80px
+                font-size: 14px
+
+      .side-campaign-container
+        position: relative
+        width: $campaignPortalWidth
+        height: math.div($campaignPortalHeight, 2)
+        display: inline-block
+        flex-shrink: 0
+        
+        .side-campaign
+          width: 100%
+          height: 100%
+          position: relative
+          cursor: pointer
+          @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
+          
+          &:hover
+            @include scale($campaignHoverScale)
+            
+          &.silhouette
+            @include filter(contrast(50%) brightness(65%))
+            pointer-events: none
+            
+          &.locked
+            @include filter(contrast(80%) brightness(80%))
+            pointer-events: none
+            
+          .background-container
+            position: absolute
+            left: 0
+            top: 0
+            width: 100%
+            height: 100%
+            background: transparent url(/images/pages/play/portal-beta-campaigns.png) no-repeat 0 0
+            background-size: math.div($sideCampaignImagesWidth, 2)
+            
+            &.campaign-game-dev-1
+              background-position: -454px 0px
+            &.campaign-web-dev-1
+              background-position: -151px 0px
+            &.campaign-game-dev-2
+              background-position: -628px 0px
+            &.campaign-web-dev-2
+              background-position: -291px 0px
+            &.campaign-game-dev-3
+              background-position: -628px 0px
+            
+          .campaign-label
+            position: absolute
+            top: 40%
+            width: 100%
+            text-align: center
+            z-index: 1
+            
+            .campaign-name, .levels-completed, .campaign-locked
+              margin: 0
+              color: white
+              text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
+            
+            .campaign-description
+              margin: 0px 40px
+              background: transparent url(/images/level/popover_border_background.png) no-repeat
+              background-size: 100% 100%
+              padding: 12px
+              color: black
+              font-size: 12px
+            
+            .play-button
+              margin: 10px 0
+              min-width: 100px
+              color: white
 
   #esports-arena
     min-width: 210px
@@ -1093,3 +1357,5 @@ body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdow
   to
     @include box-shadow(0px 0px 8px #333)
     color: white
+
+
