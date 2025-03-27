@@ -501,8 +501,10 @@ if showGameDevAlert
       if !(features.picoCtf || features.brainPop)
         if view.shouldShow('hackstack')
           span.btn.hackstack-menu-icon(title='CodeCombat AI HackStack')
+        if view.shouldShow('ai-league')
+          span.btn.ai-league-menu-icon(title='CodeCombat AI League')
         if view.shouldShow('roblox-button')
-          button.btn.roblox-level.roblox-menu-icon(title='CodeCombat Worlds on Roblox')
+          span.btn.roblox-level.roblox-menu-icon(title='CodeCombat Worlds on Roblox')
   else
     .game-controls.header-font.picoctf-hide
       if !(features.picoCtf || features.brainPop)
