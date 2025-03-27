@@ -1723,7 +1723,7 @@ module.exports = {
       story_statistic_3b: '1 billion lines of code and counting',
       story_statistic_3c: 'across many different programming languages',
       story_long_way_1: "Though we've come a long way...",
-      story_sketch_caption: "Nick's very first sketch depicting a programming game in action.",
+      story_sketch_caption: 'Our very first sketch depicting a programming game in action.',
       story_long_way_2: 'we still have much to do before we complete our quest, so...',
       jobs_title: 'Come join us and bring computer science to the world!',
       jobs_subtitle: "Don't see a good fit but interested in keeping in touch? See our \"Create Your Own\" listing.",
@@ -1753,6 +1753,10 @@ module.exports = {
       download_all: 'Download All',
       previous: 'Previous',
       location_title: "We're located in downtown SF:",
+      ceo: 'CEO',
+      coo: 'COO',
+      game_director: 'Game Director',
+      eng_team_lead: 'Engineering Team Lead',
     },
 
     teachers: {
