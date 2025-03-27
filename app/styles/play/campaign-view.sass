@@ -761,11 +761,12 @@ $gameControlMargin: 30px
       &:active, &.highlighted
         @include box-shadow(0 0 20px white)
 
-      &.roblox-menu-icon, &.hackstack-menu-icon
-        background: url(/images/roblox/roblox-menu-icon.png) no-repeat
+      &.roblox-menu-icon
+        background: url('/images/pages/roblox/Code-Combat-Worlds-Small.png') no-repeat
         background-position: 50% 50%
         background-size: 100%
-        transform: scale(1.2) translateY(-3px) translateX(-10px)
+        margin-top: 40px
+        transform: scale(1.4) translateY(-3px) translateX(-15px)
         @media only screen and (max-height: 650px)
           transform: scale(0.78) translateY(-1px)
         box-shadow: initial
@@ -780,6 +781,27 @@ $gameControlMargin: 30px
         background-size: 100%
         border-radius: 0
         transform: scale(2) translateX(-17px)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.78) translateY(-1px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
+
+      &.ai-league-menu-icon
+        background: url('/images/pages/league/Code-Combat-AI-League-Small.png') no-repeat
+        background-position: 50% 50%
+        background-size: 90%
+        margin-top: 40px
+        transform: scale(1.4) translateY(-3px) translateX(-15px)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.78) translateY(-1px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
       
       &.junior-menu-icon
         background: url(/images/pages/play/campaign/coco-junior-square-menu-icon.webp) no-repeat
