@@ -95,6 +95,7 @@ class CampaignView extends RootView {
       'click .roblox-level': 'onRobloxLevelClick',
       'click .hackstack-level': 'onHackStackLevelClick',
       'click .hackstack-menu-icon': 'onHackStackLevelClick',
+      'click .ai-league-menu-icon': 'onAILeagueIconClick',
       'click .junior-menu-icon': 'onJuniorIconClick',
       'click .map-background': 'onClickMap',
       'click .level': 'onClickLevel',
@@ -686,6 +687,11 @@ class CampaignView extends RootView {
     window.tracker?.trackEvent('HackStack Explored', { engageAction: 'campaign_level_click' })
     // Backbone.Mediator.publish 'router:navigate', route: '/ai/new_project'
     this.openModalView(new HackstackPromotionModalView())
+  }
+
+  onAILeagueIconClick (e) {
+    window.tracker?.trackEvent('AILeague Explored', { engageAction: 'campaign_level_click' })
+    this.openModalView(new AILeaguePromotionModal())
   }
 
   setCampaign (campaign) {
@@ -2186,6 +2192,10 @@ class CampaignView extends RootView {
     if (what === 'league-arena') {
       // Note: Currently the tooltips don't work in the campaignView overworld.
       return !me.isAnonymous() && this.campaign?.get('slug') && !this.editorMode && !userUtils.isCreatedViaLibrary()
+    }
+
+    if (what === 'ai-league') {
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
     if (what === 'roblox-level') {
