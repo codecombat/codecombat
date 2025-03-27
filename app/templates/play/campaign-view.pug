@@ -483,14 +483,14 @@ if showGameDevAlert
                       br
                     span= i18n(campaign.attributes, 'description')
   if view.isCatalyst
-    .game-controls.header-font.picoctf-hide
+    .game-controls-catalyst.header-font.picoctf-hide
       if !(features.picoCtf || features.brainPop)
         if view.shouldShow('premium')
           button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
-        if view.shouldShow('items')
-          button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
         if view.shouldShow('heros')
           button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
+        if view.shouldShow('items')
+          button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
         if view.shouldShow('achievements')
           button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
         if view.shouldShow('buy-gems')
