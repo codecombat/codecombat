@@ -1,6 +1,9 @@
 <template>
   <div class="demo">
-    <div class="demo-primary">
+    <div
+      v-if="hasAccess()"
+      class="demo-primary"
+    >
       <CTAButton
         href="/ai-junior/project/6600a6c23a9490c3f23997af"
         target=""
@@ -9,7 +12,10 @@
         Demo
       </CTAButton>
     </div>
-    <div class="demo-secondary">
+    <div
+      v-if="hasAccess()"
+      class="demo-secondary"
+    >
       <a
         class="btn btn-success"
         href="/ai-junior/curriculum"
@@ -37,6 +43,9 @@ export default {
   methods: {
     userId () {
       return me.id
+    },
+    hasAccess () {
+      return me.hasAiJuniorAccess()
     },
   },
 }

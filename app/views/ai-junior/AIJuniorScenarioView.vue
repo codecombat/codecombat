@@ -1,6 +1,9 @@
 <template>
   <div class="ai-junior-scenario">
-    <div class="main-column">
+    <div
+      v-if="hasAccess()"
+      class="main-column"
+    >
       <AIJuniorWorksheet
         v-if="scenario"
         :scenario="scenario"
@@ -50,7 +53,12 @@ export default {
       console.error('Error fetching scenario:', error)
       // Handle error (e.g., show error message to user)
     }
-  }
+  },
+  methods: {
+    hasAccess () {
+      return me.hasAiJuniorAccess()
+    },
+  },
 }
 </script>
 

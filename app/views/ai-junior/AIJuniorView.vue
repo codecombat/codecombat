@@ -8,6 +8,12 @@
         AI Junior
       </a>
       <!-- Add any common navigation or controls here -->
+      <p
+        v-if="!hasAccess()"
+        class="no-access"
+      >
+        You do not have access to the AI Junior demo.
+      </p>
     </header>
 
     <main class="ai-junior-content">
@@ -23,7 +29,12 @@
 
 <script>
 export default {
-  name: 'AIJuniorView'
+  name: 'AIJuniorView',
+  methods: {
+    hasAccess () {
+      return me.hasAiJuniorAccess()
+    },
+  },
 }
 </script>
 
@@ -55,5 +66,9 @@ export default {
   &:hover {
     text-decoration: underline;
   }
+}
+
+.no-access {
+  color: red;
 }
 </style>
