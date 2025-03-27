@@ -34,6 +34,11 @@ export default function getVueRouter () {
               component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorScenarioUserProjectView'),
               props: true,
             },
+            {
+              path: 'demo',
+              component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorDemoView'),
+              props: true,
+            },
           ],
         },
         {

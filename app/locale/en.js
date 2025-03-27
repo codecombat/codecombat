@@ -550,6 +550,7 @@ module.exports = {
       owned: 'Owned', // For items you own
       locked: 'Locked',
       locked_by_teacher: 'Locked By Teacher',
+      locked_campaign: 'Complete previous world to unlock',
       available: 'Available',
       skills_granted: 'Skills Granted', // Property documentation details
       heroes: 'Heroes', // Tooltip on hero shop button from /play
@@ -1722,7 +1723,7 @@ module.exports = {
       story_statistic_3b: '1 billion lines of code and counting',
       story_statistic_3c: 'across many different programming languages',
       story_long_way_1: "Though we've come a long way...",
-      story_sketch_caption: "Nick's very first sketch depicting a programming game in action.",
+      story_sketch_caption: 'Our very first sketch depicting a programming game in action.',
       story_long_way_2: 'we still have much to do before we complete our quest, so...',
       jobs_title: 'Come join us and bring computer science to the world!',
       jobs_subtitle: "Don't see a good fit but interested in keeping in touch? See our \"Create Your Own\" listing.",
@@ -1752,6 +1753,10 @@ module.exports = {
       download_all: 'Download All',
       previous: 'Previous',
       location_title: "We're located in downtown SF:",
+      ceo: 'CEO',
+      coo: 'COO',
+      game_director: 'Game Director',
+      eng_team_lead: 'Engineering Team Lead',
     },
 
     teachers: {
@@ -6242,7 +6247,7 @@ module.exports = {
       subscriptions_billed: 'All subscriptions are billed in advance and may be paused, canceled, or resumed with no additional fees. Live Online Classes subscriptions are 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply **contact us** within 30 days of purchase and we will refund 100% of your payment. All plans are automatically renewed at the same level and billing cycle unless otherwise changed or canceled. We do not offer refunds after the first 30 days. Cancellation after the first 30 days will take effect at the start of the next billing cycle.',
       ai_hints: 'AI hints and prompt allowances are subject to change',
       prefix_or: 'Or, ',
-      signup_description: 'sign up for self-paced access',
+      signup_description: 'Sign Up for Self-Paced Access',
       homeschool_solution: 'Looking for a homeschool solution',
       teach_child: 'If you plan to teach your child, we can provide a turnkey solution that empowers you to deliver our curriculum in your own home. We provide all the teaching resources needed for you and your child to succeed including course solution guides. Contact our team to learn more - email **[mailto:classes@codecombat.com]classes@codecombat.com** to connect with a learning advisor.',
       meet_instructors: '**Meet our Instructors**',

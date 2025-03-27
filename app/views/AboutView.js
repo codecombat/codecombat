@@ -54,6 +54,9 @@ module.exports = (AboutView = (function () {
       return fetchJson(url).then(response => {
         this.jobs = _.sortBy(response, 'createdAt').reverse()
         return this.renderSelectors('#careers')
+      }).catch(error => {
+        console.error('Error loading jobs:', error)
+        return this.renderSelectors('#careers')
       })
     }
 

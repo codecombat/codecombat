@@ -30,14 +30,30 @@
                   </p>
                 </template>
                 <template #column-two>
-                  <p class="text-p">
-                    <CTAButton href="/parents/signup">
-                      {{ $t('parents_v2.create_parent_account') }}
+                  <p
+                    v-if="me.isAnonymous()"
+                    class="text-p"
+                  >
+                    <CTAButton
+                      class="signup-button"
+                      data-start-on-path="individual"
+                    >
+                      {{ $t('parents_v2.signup_description') }}
                     </CTAButton>
                     <mixed-color-label
                       :text="$t('parents_v2.to_explore')"
                       :inherit-default-color="true"
                     />
+                  </p>
+                  <p
+                    v-else-if="me.isRegisteredHomeUser() && !me.isPremium()"
+                    class="text-p not-centered"
+                  >
+                    <CTAButton
+                      @clickedCTA="openSubscribeModal"
+                    >
+                      {{ $t('subscribe.subscribe_title') }}
+                    </CTAButton>
                   </p>
                 </template>
               </two-column-block>
@@ -182,14 +198,16 @@
             @clickedCTA="onClickMainCta"
           >
             {{ $t('parents_v2.schedule_free_class') }}
-            <template #description>
+            <template
+              v-if="me.isAnonymous()"
+              #description
+            >
               <span>
                 {{ $t('parents_v2.prefix_or') }}
               </span>
               <a
-                class="mixed-color-highlight"
-                href="javascript:void(0);"
-                @click="openSubscribeModal"
+                class="mixed-color-highlight lowercase signup-button"
+                data-start-on-path="individual"
               >
                 {{ $t('parents_v2.signup_description') }}
               </a>
@@ -756,6 +774,10 @@ export default {
     text-decoration: underline;
   }
 
+  .lowercase {
+    text-transform: lowercase;
+  }
+
   .container {
     &__header {
       .header-text {
@@ -817,6 +839,9 @@ export default {
       .column-two {
         display: flex;
         justify-content: center;
+      }
+
+      .column-one {
         align-items: center;
       }
 
