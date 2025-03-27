@@ -299,6 +299,10 @@ module.exports = (User = (function () {
       return this.isCreatedByClient() || (/@codeninjas.com$/i.test(this.get('email')))
     }
 
+    hasAiJuniorAccess () {
+      return this.isAdmin() || this.isBetaTester()
+    }
+
     getHocCourseInstanceId () {
       const courseInstanceIds = me.get('courseInstances') || []
       if (courseInstanceIds.length === 0) { return }
