@@ -6243,7 +6243,7 @@ module.exports = {
       subscriptions_billed: 'All subscriptions are billed in advance and may be paused, canceled, or resumed with no additional fees. Live Online Classes subscriptions are 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply **contact us** within 30 days of purchase and we will refund 100% of your payment. All plans are automatically renewed at the same level and billing cycle unless otherwise changed or canceled. We do not offer refunds after the first 30 days. Cancellation after the first 30 days will take effect at the start of the next billing cycle.',
       ai_hints: 'AI hints and prompt allowances are subject to change',
       prefix_or: 'Or, ',
-      signup_description: 'sign up for self-paced access',
+      signup_description: 'Sign Up for Self-Paced Access',
       homeschool_solution: 'Looking for a homeschool solution',
       teach_child: 'If you plan to teach your child, we can provide a turnkey solution that empowers you to deliver our curriculum in your own home. We provide all the teaching resources needed for you and your child to succeed including course solution guides. Contact our team to learn more - email **[mailto:classes@codecombat.com]classes@codecombat.com** to connect with a learning advisor.',
       meet_instructors: '**Meet our Instructors**',
