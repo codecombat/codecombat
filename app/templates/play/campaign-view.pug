@@ -533,41 +533,82 @@ if showGameDevAlert
         if !me.get('anonymous', true) && view.shouldShow('settings')
           a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
 
-  .user-status.header-font.picoctf-hide
-    .user-status-line
-      if view.shouldShow('status-line')
-        if view.shouldShow('gems')
-          span.gem.gem-30
-          span#gems-count.spr= me.gems()
-        if view.shouldShow('level')
-          .rtl-allowed
-            span.level-indicator(data-i18n="general.player_level")
-            span.player-level.spr= me.level()
+  if view.isCatalyst && !campaign
+    .user-status-catalyst.header-font.picoctf-hide
+      .user-status-line.buttons-row
         span.player-hero-icon
         if me.get('anonymous')
           span.player-name(data-i18n="play.anonymous") Anonymous Player
-          button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
-          button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
         else
           if me.isStudent()
             a(href="/play").player-name.spr= me.get('name')
           else
             a(href="/account").player-name.spr= me.get('name')
+        if me.get('anonymous')
+          button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
+          button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+        else
           if !me.isStudent()
             button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
-          //- if me.isPremium()
-          //-   button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
         select.language-dropdown.btn.btn-illustrated.btn-primary
         if me.getM7ExperimentValue() == 'beta'
           span.beta-levels
             span(data-i18n="play.beta_levels_on")
             | &nbsp;
             span.m7-off(data-i18n="play.beta_levels_turn_off")
+      if view.shouldShow('status-line')
+        .user-status-line.stats-row
+          if view.shouldShow('level')
+            .rtl-allowed
+              span.level-indicator(data-i18n="general.player_level")
+              span.player-level.spr= me.level()
+          if view.shouldShow('gems')
+            span.gem.gem-30
+            span#gems-count.spr= me.gems()
+      .user-status-line.buttons-row
+        button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
+          .glyphicon.glyphicon-volume-off
+          .glyphicon.glyphicon-volume-down
+          .glyphicon.glyphicon-volume-up
+        //- if me.isPremium()
+        //-   button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
+  else
+    .user-status.header-font.picoctf-hide
+      .user-status-line
+        if view.shouldShow('status-line')
+          if view.shouldShow('gems')
+            span.gem.gem-30
+            span#gems-count.spr= me.gems()
+          if view.shouldShow('level')
+            .rtl-allowed
+              span.level-indicator(data-i18n="general.player_level")
+              span.player-level.spr= me.level()
+          span.player-hero-icon
+          if me.get('anonymous')
+            span.player-name(data-i18n="play.anonymous") Anonymous Player
+            button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
+            button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+          else
+            if me.isStudent()
+              a(href="/play").player-name.spr= me.get('name')
+            else
+              a(href="/account").player-name.spr= me.get('name')
+            if !me.isStudent()
+              button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
+            //- if me.isPremium()
+            //-   button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
+          select.language-dropdown.btn.btn-illustrated.btn-primary
+          if me.getM7ExperimentValue() == 'beta'
+            span.beta-levels
+              span(data-i18n="play.beta_levels_on")
+              | &nbsp;
+              span.m7-off(data-i18n="play.beta_levels_turn_off")
 
-  button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
-    .glyphicon.glyphicon-volume-off
-    .glyphicon.glyphicon-volume-down
-    .glyphicon.glyphicon-volume-up
+  if !view.isCatalyst
+    button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
+      .glyphicon.glyphicon-volume-off
+      .glyphicon.glyphicon-volume-down
+      .glyphicon.glyphicon-volume-up
 
   if campaign && campaign.get('type') !== 'hoc' && !editorMode && view.shouldShow('back-to-campaigns')
     button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
