@@ -963,6 +963,7 @@ $gameControlMargin: 30px
 
       .player-name
         margin-left: 45px
+        margin-right: 10px
 
       a
         color: white
@@ -1022,6 +1023,16 @@ $gameControlMargin: 30px
 
     .glyphicon
       font-size: 32px
+  
+  .campaign-control-button-catalyst
+    padding: 3px 8px
+    @include opacity(0.75)
+
+    &:hover
+      @include opacity(1.0)
+
+    .glyphicon
+      font-size: 28px
 
   #volume-button
     .glyphicon
@@ -1631,7 +1642,7 @@ body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdow
   width: 112px
 
 body[lang^="en"] #campaign-view .user-status-catalyst .user-status-line .language-dropdown
-  width: 112px
+  width: 48px
 
 .m7-off
   display: none
@@ -1656,5 +1667,21 @@ body[lang^="en"] #campaign-view .user-status-catalyst .user-status-line .languag
   to
     @include box-shadow(0px 0px 8px #333)
     color: white
+
+.language-button
+  padding: 3px 8px
+  @include opacity(0.75)
+
+  &:hover
+    @include opacity(1.0)
+
+  .glyphicon
+    font-size: 28px
+
+// Hide the actual select element but keep it in the DOM for functionality
+.language-dropdown.hidden
+  position: absolute
+  opacity: 0
+  pointer-events: none
 
 

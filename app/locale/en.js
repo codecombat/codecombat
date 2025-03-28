@@ -567,7 +567,7 @@ module.exports = {
       subscriber_heroes: 'Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!',
       subscriber_gems: 'Subscribe today to purchase this hero with gems!',
       practice_license_required: '(license required for practice levels)',
-      anonymous: 'Anonymous Player',
+      anonymous: 'Anonymous',
       level_difficulty: 'Difficulty: ',
       awaiting_levels_adventurer_prefix: 'We release new levels every week.',
       awaiting_levels_adventurer: 'Sign up as an Adventurer',
