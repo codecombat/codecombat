@@ -920,6 +920,96 @@ $gameControlMargin: 30px
         &.sorcerer
           background-position: (-12 * $spriteSheetSize) 0
 
+  .user-status-catalyst
+    position: absolute
+    top: 10px
+    right: 30px
+    text-align: right
+    font-size: 24px
+    color: white
+    text-shadow: 0px 2px 1px black, 0px -2px 1px black, -2px 0px 1px black, 2px 0px 1px black
+    height: 33px
+    line-height: 33px
+
+    .stats-row
+      margin-bottom: 10px
+      margin-top: 10px
+    
+    .user-status-line
+      position: relative
+
+      .btn.btn-illustrated
+        margin-left: 10px
+        min-width: 90px
+        height: 33px
+        color: white
+
+        option
+          color: black
+
+      .rtl-allowed
+        display: inline-block
+        margin-right: 10px
+
+      .gem, .player-hero-icon
+        position: absolute
+        top: 1px
+
+      #gems-count
+        margin-left: 40px
+
+      .player-level
+        margin-left: 5px
+
+      .player-name
+        margin-left: 45px
+
+      a
+        color: white
+      
+      body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdown
+        width: 90px
+
+      $spriteSheetSize: 30px
+
+      .player-hero-icon
+        background: transparent url(/images/pages/play/play-spritesheet.png)
+        background-size: cover
+        background-position: (-2 * $spriteSheetSize) 0
+        display: inline-block
+        width: 30px
+        height: 30px
+        margin: 0px 2px
+
+      .level-indicator
+        margin-left: 15px
+        color: white
+        display: inline-block
+        margin: 0 2px
+
+      .player-hero-icon
+        margin-left: 10px
+        background-position: (-4 * $spriteSheetSize) 0
+
+        &.knight
+          background-position: (-5 * $spriteSheetSize) 0
+        &.librarian
+          background-position: (-6 * $spriteSheetSize) 0
+        &.ninja
+          background-position: (-7 * $spriteSheetSize) 0
+        &.potion-master
+          background-position: (-8 * $spriteSheetSize) 0
+        &.samurai
+          background-position: (-9 * $spriteSheetSize) 0
+        &.trapper
+          background-position: (-10 * $spriteSheetSize) 0
+        &.forest-archer
+          background-position: (-11 * $spriteSheetSize) 0
+        &.sorcerer
+          background-position: (-12 * $spriteSheetSize) 0
+            
+      
+
   .campaign-control-button
     position: absolute
     right: 1%
@@ -1538,6 +1628,9 @@ body:not([lang*="-"]) #campaign-view .user-status .user-status-line .language-dr
   width: 148px
 
 body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdown
+  width: 112px
+
+body[lang^="en"] #campaign-view .user-status-catalyst .user-status-line .language-dropdown
   width: 112px
 
 .m7-off
