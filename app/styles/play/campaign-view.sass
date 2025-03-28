@@ -475,7 +475,7 @@ $gameControlMargin: 30px
     position: absolute
     right: 1%
     bottom: 1%
-    z-index: 2
+    z-index: 1
 
     .btn
       &:not(:first-child)
@@ -611,7 +611,7 @@ $gameControlMargin: 30px
     left: 2%
     top: 50%
     transform: translateY(-50%)
-    z-index: 2
+    z-index: 1
     display: flex
     flex-direction: column
     gap: 10px
@@ -719,7 +719,7 @@ $gameControlMargin: 30px
     right: 2%
     top: 50%
     transform: translateY(-50%)
-    z-index: 2
+    z-index: 1
     display: flex
     flex-direction: column
     gap: 10px
@@ -1220,7 +1220,7 @@ $gameControlMargin: 30px
           background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat 0 0
           position: relative
           cursor: pointer
-          z-index: 3
+          z-index: 0
           @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
 
           &:hover
@@ -1286,7 +1286,7 @@ $gameControlMargin: 30px
             background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat
             position: absolute
             cursor: pointer
-            z-index: 2
+            z-index: 0
             left: 50%
             transform: translateX(-50%)
             transition: transform 0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42)
@@ -1346,7 +1346,7 @@ $gameControlMargin: 30px
             position: absolute
             width: $campaignPortalWidth
             height: math.div($campaignPortalHeight, 2)
-            z-index: 1
+            z-index: 0
             top: 317px  // Center vertically (634px / 2)
             transform: translateY(-50%)  // Adjust for half the height of the side campaign
             
