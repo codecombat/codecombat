@@ -931,6 +931,7 @@ $gameControlMargin: 30px
     height: 33px
     line-height: 33px
 
+    
     .stats-row
       margin-bottom: 10px
       margin-top: 10px
@@ -1033,6 +1034,9 @@ $gameControlMargin: 30px
 
     .glyphicon
       font-size: 28px
+    
+    &.language-dropdown
+      font-size: 24px
 
   #volume-button
     .glyphicon
@@ -1683,5 +1687,38 @@ body[lang^="en"] #campaign-view .user-status-catalyst .user-status-line .languag
   position: absolute
   opacity: 0
   pointer-events: none
+
+.utility-controls-catalyst
+  position: absolute
+  left: 20px
+  bottom: 20px
+  z-index: 10
+  display: flex
+  gap: 10px
+  
+  .btn
+    width: 40px
+    height: 40px
+    padding: 3px 8px
+    @include opacity(0.75)
+    @include box-shadow(2px 2px 4px black)
+    border: 0
+    border-radius: 12px
+    
+    &:hover
+      @include opacity(1.0)
+      @include box-shadow(0 0 12px #bbf)
+    
+    &:active, &.highlighted
+      @include box-shadow(0 0 20px white)
+    
+    .glyphicon
+      font-size: 28px
+    
+    #volume-button
+      margin-right: 10px
+
+    &.language-dropdown
+      width: 112px
 
 
