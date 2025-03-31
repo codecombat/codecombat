@@ -549,9 +549,8 @@ if showGameDevAlert
             span.gem.gem-30
             span#gems-count.spr= me.gems()
           if view.shouldShow('level')
-            .rtl-allowed
-              span.star.star-30
-              span.player-level.spr= me.level()
+            span.star.star-30
+            span.player-level.spr= me.level()
           if me.get('anonymous')
             button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
             button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
