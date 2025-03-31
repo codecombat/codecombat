@@ -1326,12 +1326,14 @@ class CampaignView extends RootView {
 
   onMouseEnterPortals (e) {
     if (this.isCatalyst) return // Skip for catalyst view
+    if (!this.campaigns?.loaded || !this.sessions?.loaded) { return }
     this.portalScrollInterval = setInterval(this.onMouseMovePortals, 100)
     return this.onMouseMovePortals(e)
   }
 
   onMouseLeavePortals (e) {
     if (this.isCatalyst) return // Skip for catalyst view
+    if (!this.portalScrollInterval) { return }
     clearInterval(this.portalScrollInterval)
     this.portalScrollInterval = null
   }
