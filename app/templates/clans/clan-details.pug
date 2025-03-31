@@ -50,7 +50,7 @@ block content
             td
               span.spr(data-i18n="clans.chieftain") Chieftain
             td
-              span.spr.player-hero-icon(data-memberid=clan.get('ownerID'))
+              img.spr.player-hero(data-memberid=clan.get('ownerID'))
               a(href='/user/' + clan.get('ownerID'))= owner.get('name')
         if stats.averageLevel
           tr
@@ -141,7 +141,7 @@ block content
               td
                 div
                   span.hero-icon-cell
-                    span.spr.player-hero-icon(data-memberid=member.id)
+                    img.spr.player-hero(data-memberid=member.id)
                   span.code-language-cell
                     if memberLanguageMap && memberLanguageMap[member.id]
                       span.code-language-cell(style=`background-image: url(/images/common/code_languages/${memberLanguageMap[member.id]}_small.png)`, title=memberLanguageMap[member.id])
@@ -238,7 +238,7 @@ block content
           each member in members
             tr
               td.hero-icon-cell
-                span.spr.player-hero-icon(data-memberid=member.id)
+                img.spr.player-hero(data-memberid=member.id)
               td.code-language-cell
                 if memberLanguageMap && memberLanguageMap[member.id]
                   span.code-language-cell(style=`background-image: url(/images/common/code_languages/${memberLanguageMap[member.id]}_small.png)`, title=memberLanguageMap[member.id])
