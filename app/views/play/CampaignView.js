@@ -1997,6 +1997,7 @@ class CampaignView extends RootView {
     if (application.getHocCampaign()) { return false }
     if (me.isInHourOfCode()) { return false }
     if (userUtils.isInLibraryNetwork() || userUtils.libraryName()) { return false }
+    if (this.isCatalyst) { return false }
     const latest = window.serverConfig.latestAnnouncement
     const myLatest = me.get('lastAnnouncementSeen')
     if (typeof latest !== 'number') { return }
