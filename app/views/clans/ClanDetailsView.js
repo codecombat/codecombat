@@ -347,7 +347,7 @@ module.exports = (ClanDetailsView = (function () {
             for (const slug in ThangType.heroes) {
               const original = ThangType.heroes[slug]
               if (original === hero) {
-                result1.push(this.$el.find(`.player-hero-icon[data-memberID=${member.id}]`).removeClass('.player-hero-icon').addClass('player-hero-icon ' + slug))
+                result1.push(this.$el.find(`.player-hero[data-memberID=${member.id}]`).attr('src', `/file/db/thang.type/${hero}/portrait.png`))
               }
             }
             return result1

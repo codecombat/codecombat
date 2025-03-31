@@ -1723,12 +1723,13 @@ class CampaignView extends RootView {
   updateHero () {
     const hero = me.get('heroConfig')?.thangType
     if (!hero) { return }
-    for (const [slug, original] of Object.entries(ThangType.heroes)) {
+    for (const original of Object.values(ThangType.heroes)) {
       if (original === hero) {
-        this.$el.find('.player-hero-icon').removeClass().addClass(`player-hero-icon ${slug}`)
+        this.$el.find('.player-hero').attr('src', `/file/db/thang.type/${hero}/portrait.png`)
         return
       }
     }
+
     console.error("CampaignView hero update couldn't find hero slug for original:", hero)
   }
 
