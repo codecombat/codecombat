@@ -42,7 +42,8 @@ export default {
       SKIP: { modifiers: ['locked', 'optional'], value: true },
       UNSKIP: { modifiers: ['locked', 'optional'], value: false },
       MAKE_OPTIONAL: { modifiers: ['optional'], value: true },
-      REMOVE_OPTIONAL: { modifiers: ['optional'], value: false }
+      REMOVE_OPTIONAL: { modifiers: ['optional'], value: false },
+      inProgress: false,
     }
   },
 
@@ -112,13 +113,14 @@ export default {
       this.showDatepicker = !this.showDatepicker
     },
 
-    submit () {
-      this.updateLevelAccessStatus()
+    async submit () {
+      await this.updateLevelAccessStatus()
       this.deselectAllOriginals()
       this.deselectAllStudentIds()
     },
 
-    updateLevelAccessStatus () {
+    async updateLevelAccessStatus () {
+      this.inProgress = true
       const date = (this.action === this.LOCK && this.showDatepicker && this.selectedDate) || null
       const args = {
         classroom: this.classroom,
@@ -135,10 +137,11 @@ export default {
         date
       }
       if (this.isHackStack) {
-        this.updateScenarioAccessStatusForSelectedStudents(args)
+        await this.updateScenarioAccessStatusForSelectedStudents(args)
       } else {
-        this.updateLevelAccessStatusForSelectedStudents(args)
+        await this.updateLevelAccessStatusForSelectedStudents(args)
       }
+      this.inProgress = false
     },
     selectAllOriginals () {
       this.replaceSelectedOriginals(this.allOriginals || this.selectableOriginals)
@@ -232,6 +235,9 @@ export default {
         href="#"
         @click="submit"
       >{{ $t('common.submit') }}</a>
+      <div v-if="inProgress">
+        {{ $t('teacher.in_progress') }}..
+      </div>
     </div>
 
     <div
