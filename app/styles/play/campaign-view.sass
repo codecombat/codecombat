@@ -616,6 +616,7 @@ $gameControlMargin: 30px
     flex-direction: column
     gap: 10px
 
+    
     .btn
       &:not(:first-child)
         margin-left: 0
@@ -707,6 +708,16 @@ $gameControlMargin: 30px
 
         &.highlighted
           @include animation(jiggle .3s 20)
+      
+    &.in-campaign
+      flex-direction: row
+      bottom: 2%
+      top: auto
+      transform: translateY(0)
+      .btn
+        margin-top: 0
+        &:not(:first-child)
+          margin-left: 10px
 
     .tooltip
       font-size: 24px

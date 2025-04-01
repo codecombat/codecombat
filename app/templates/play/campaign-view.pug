@@ -482,8 +482,8 @@ if showGameDevAlert
                       span.campaign-age-description(data-i18n="play.age_description_" + campaignProductName)
                       br
                     span= i18n(campaign.attributes, 'description')
-  if view.isCatalyst && !campaign
-    .game-controls-catalyst.header-font.picoctf-hide
+  if view.isCatalyst
+    .game-controls-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
       if !(features.picoCtf || features.brainPop)
         if view.shouldShow('premium')
           button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
