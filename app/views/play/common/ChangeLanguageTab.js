@@ -10,6 +10,7 @@
  */
 const CocoView = require('views/core/CocoView')
 const template = require('app/templates/play/common/change-language-tab')
+require('app/styles/play/common/change_language_tab.sass')
 const { me } = require('core/auth')
 const utils = require('core/utils')
 const { CODE_FORMAT_ALL, CODE_FORMAT_BLOCKS, CODE_FORMAT_IPAD, CODE_FORMAT_TEXT, JUNIOR_LANGUAGES } = require('core/constants')
@@ -183,17 +184,17 @@ module.exports = (ChangeLanguageTab = (function () {
     buildCodeFormats () {
       const $select = this.$el.find('#option-code-format')
       if (!utils.isMobile()) {
-        $select.fancySelect()
+        // $select.fancySelect()
       }
-      $select.parent().find('.options li').each(function () {
+      $select.parent().find('option').each(function () {
         const formatName = $(this).text()
-        const formatID = $(this).data('value')
+        const formatID = $(this).attr('value')
         const blurb = $.i18n.t(`choose_hero.${formatID}_blurb`.replace(/-/g, '_'))
         if (formatName.indexOf(blurb) === -1) { // Avoid doubling blurb if this is called 2x
           return $(this).text(`${formatName} - ${blurb}`)
         }
       })
-      if ($select.parent().find('.options li').length === 1) {
+      if ($select.parent().find('option').length === 1) {
         $select.trigger('disable.fs')
       } else {
         $select.trigger('enable.fs')
@@ -203,17 +204,18 @@ module.exports = (ChangeLanguageTab = (function () {
     buildCodeLanguages () {
       const $select = this.$el.find('#option-code-language')
       if (!utils.isMobile()) {
-        $select.fancySelect()
+        // $select.fancySelect()
       }
-      $select.parent().find('.options li').each(function () {
+      $select.parent().find('option').each(function () {
         const languageName = $(this).text()
-        const languageID = $(this).data('value')
+        const languageID = $(this).attr('value')
         const blurb = $.i18n.t(`choose_hero.${languageID}_blurb`)
         if (languageName.indexOf(blurb) === -1) { // Avoid doubling blurb if this is called 2x
           return $(this).text(`${languageName} - ${blurb}`)
         }
       })
-      if ($select.parent().find('.options li').length === 1) {
+      $select.siblings('.visible-text').text(this.codeLanguageObject[this.codeLanguage].name)
+      if ($select.parent().find('option').length === 1) {
         $select.trigger('disable.fs')
       } else {
         $select.trigger('enable.fs')
@@ -223,6 +225,8 @@ module.exports = (ChangeLanguageTab = (function () {
     onCodeLanguageChanged (e) {
       this.codeLanguage = this.$el.find('#option-code-language').val()
       this.codeLanguageChanged = true
+
+      this.$el.find('#option-code-language+.visible-text').text(this.codeLanguageObject[this.codeLanguage].name)
       this.updateCodeFormatList()
       window.tracker?.trackEvent('Campaign changed code language', { category: 'Campaign Hero Select', codeLanguage: this.codeLanguage, levelSlug: this.options.level?.get('slug') })
       if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
@@ -235,6 +239,8 @@ module.exports = (ChangeLanguageTab = (function () {
     onCodeFormatChanged (e) {
       this.codeFormat = this.$el.find('#option-code-format').val()
       this.codeFormatChanged = true
+      console.log('visible', this.$el.find('#option-code-format .visible-text'))
+      this.$el.find('#option-code-format+.visible-text').text(this.codeFormatObject[this.codeFormat].name)
       this.updateCodeLanguageList()
       window.tracker?.trackEvent('Campaign changed code format', { category: 'Campaign Hero Select', codeFormat: this.codeFormat, levelSlug: this.options.level?.get('slug') })
       if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
