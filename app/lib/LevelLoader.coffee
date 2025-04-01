@@ -92,7 +92,7 @@ module.exports = class LevelLoader extends CocoClass
 
 
   loadClassroomIfNecessary: ->
-    if not @classroomId and not @courseInstanceId
+    if not @classroomId and not @courseInstanceID
       @onAccessibleLevelLoaded()
       return
     if @headless and not @level?.isType('web-dev')
