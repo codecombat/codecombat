@@ -194,7 +194,7 @@ $gameControlMargin: 30px
         width: 170%
         left: -35%
 
-      img.star
+      img.level-star
         width: 100%
         bottom: 4%
         position: absolute
@@ -616,6 +616,7 @@ $gameControlMargin: 30px
     flex-direction: column
     gap: 10px
 
+    
     .btn
       &:not(:first-child)
         margin-left: 0
@@ -707,6 +708,16 @@ $gameControlMargin: 30px
 
         &.highlighted
           @include animation(jiggle .3s 20)
+      
+    &.in-campaign
+      flex-direction: row
+      bottom: 2%
+      top: auto
+      transform: translateY(0)
+      .btn
+        margin-top: 0
+        &:not(:first-child)
+          margin-left: 10px
 
     .tooltip
       font-size: 24px
@@ -831,9 +842,32 @@ $gameControlMargin: 30px
 
         &.highlighted
           @include animation(jiggle .3s 20)
+          
 
-      
+    &.in-campaign
+      flex-direction: row
+      bottom: 2%
+      right: 50%
+      top: auto
+      transform: translateY(0) translateX(100%)
 
+      .btn
+        margin-top: 0
+        height: 40px
+        width: 40px
+        &:not(:first-child)
+          margin-left: 20px
+
+        &.hackstack-menu-icon
+          transform: scale(2) translateY(-5px)
+          margin-right: 20px
+
+        &.roblox-menu-icon
+          transform: scale(2) translateY(-5px) translateX(10px)
+
+        &.ai-league-menu-icon
+          transform: scale(1.5) translateY(-5px)
+        
     .tooltip
       font-size: 24px
 
@@ -925,24 +959,26 @@ $gameControlMargin: 30px
     top: 10px
     right: 30px
     text-align: right
-    font-size: 24px
+    font-size: 26px
     color: white
     text-shadow: 0px 2px 1px black, 0px -2px 1px black, -2px 0px 1px black, 2px 0px 1px black
-    height: 33px
-    line-height: 33px
+    height: 40px
+    line-height: 40px
 
-    
     .stats-row
       margin-bottom: 10px
       margin-top: 10px
     
     .user-status-line
       position: relative
+      display: flex
+      align-items: center
+      justify-content: flex-end
 
       .btn.btn-illustrated
         margin-left: 10px
         min-width: 90px
-        height: 33px
+        height: 40px
         color: white
 
         option
@@ -953,18 +989,24 @@ $gameControlMargin: 30px
         margin-right: 10px
 
       .gem, .player-hero-icon
-        position: absolute
-        top: 1px
+        position: relative
+        top: auto
 
       #gems-count
-        margin-left: 40px
+        margin-left: 5px
+        display: inline-flex
+        align-items: center
 
       .player-level
         margin-left: 5px
+        display: inline-flex
+        align-items: center
 
       .player-name
-        margin-left: 45px
+        margin-left: 5px
         margin-right: 10px
+        display: inline-flex
+        align-items: center
 
       a
         color: white
@@ -981,15 +1023,9 @@ $gameControlMargin: 30px
         display: inline-block
         width: 30px
         height: 30px
-        margin: 0px 2px
-
-      .level-indicator
-        margin-left: 15px
-        color: white
-        display: inline-block
-        margin: 0 2px
-
-      .player-hero-icon
+        margin: 0px 4px
+        transform: scale(1.33)  // Scale up by 1.33 to get from 30px to ~40px
+        transform-origin: center center
         margin-left: 10px
         background-position: (-4 * $spriteSheetSize) 0
 
@@ -1009,8 +1045,13 @@ $gameControlMargin: 30px
           background-position: (-11 * $spriteSheetSize) 0
         &.sorcerer
           background-position: (-12 * $spriteSheetSize) 0
-            
-      
+
+      .level-indicator
+        margin-left: 15px
+        color: white
+        display: inline-block
+        margin: 0 2px
+
 
   .campaign-control-button
     position: absolute
@@ -1691,7 +1732,7 @@ body[lang^="en"] #campaign-view .user-status-catalyst .user-status-line .languag
 
 .utility-controls-catalyst
   position: absolute
-  left: 20px
+  right: 20px
   bottom: 20px
   z-index: 10
   display: flex

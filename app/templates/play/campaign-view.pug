@@ -66,11 +66,13 @@ if showGameDevAlert
 
     if view.shouldShow('back-to-classroom')
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
+    if view.isCatalyst && campaign != null
+      a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase#back-button-catalyst(data-i18n="play_level.back_to_map", title="Back to Map")
 
     if view.shouldShow('videos')
       a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button(data-i18n="play_level.videos")
 
-    if view.shouldShow('league-arena')
+    if view.shouldShow('league-arena') && !view.isCatalyst
       for arena in view.activeArenas()
         // TODO: change from play to view standings if new Date() > arena.end
         - var playArenaText = $.t('league.play_arena_short', {arenaName: $.t('league.' + arena.slug.replace(/-/g, '_')), interpolation: {escapeValue: false}})
@@ -142,7 +144,7 @@ if showGameDevAlert
             img.hero-portrait(src="/file/db/thang.type/" + level.unlocksHero + "/portrait.png")
           a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/" + (level.levelPath || 'level') + "/" + level.slug, disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
           if levelStatus === 'complete'
-            img.star(src="/images/pages/play/star.png")
+            img.level-star(src="/images/pages/play/star.png")
           if editorMode
             - var kindKey = ((level.kind && level.kind[0]) || "").toUpperCase();
             //if kindKey
@@ -482,8 +484,8 @@ if showGameDevAlert
                       span.campaign-age-description(data-i18n="play.age_description_" + campaignProductName)
                       br
                     span= i18n(campaign.attributes, 'description')
-  if view.isCatalyst && !campaign
-    .game-controls-catalyst.header-font.picoctf-hide
+  if view.isCatalyst
+    .game-controls-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
       if !(features.picoCtf || features.brainPop)
         if view.shouldShow('premium')
           button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
@@ -497,7 +499,7 @@ if showGameDevAlert
           button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
         if !me.get('anonymous', true) && view.shouldShow('settings')
           a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
-    .other-products-catalyst.header-font.picoctf-hide
+    .other-products-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
       if !(features.picoCtf || features.brainPop)
         if view.shouldShow('hackstack')
           span.btn.hackstack-menu-icon(title='CodeCombat AI HackStack')
@@ -533,7 +535,7 @@ if showGameDevAlert
         if !me.get('anonymous', true) && view.shouldShow('settings')
           a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
 
-  if view.isCatalyst && !campaign
+  if view.isCatalyst
     .user-status-catalyst.header-font.picoctf-hide
       .user-status-line
         if view.shouldShow('status-line')
@@ -549,9 +551,8 @@ if showGameDevAlert
             span.gem.gem-30
             span#gems-count.spr= me.gems()
           if view.shouldShow('level')
-            .rtl-allowed
-              span.star.star-30
-              span.player-level.spr= me.level()
+            span.achievements-star.achievements-star-30
+            span.player-level.spr= me.level()
           if me.get('anonymous')
             button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
             button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
@@ -568,11 +569,11 @@ if showGameDevAlert
               span.m7-off(data-i18n="play.beta_levels_turn_off")
 
     .utility-controls-catalyst.header-font.picoctf-hide
+      select.language-dropdown.btn.btn-inverse#language-button(data-i18n="[title]play_level.language", title="Languages")
       button.btn.btn-lg.btn-inverse.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
         .glyphicon.glyphicon-volume-off
         .glyphicon.glyphicon-volume-down
         .glyphicon.glyphicon-volume-up
-      select.language-dropdown.btn.btn-inverse#language-button(data-i18n="[title]play_level.language", title="Languages")
   else
     .user-status.header-font.picoctf-hide
       .user-status-line
@@ -611,7 +612,7 @@ if showGameDevAlert
       .glyphicon.glyphicon-volume-down
       .glyphicon.glyphicon-volume-up
 
-  if campaign && campaign.get('type') !== 'hoc' && !editorMode && view.shouldShow('back-to-campaigns')
+  if !view.isCatalyst && campaign && campaign.get('type') !== 'hoc' && !editorMode && view.shouldShow('back-to-campaigns')
     button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
       .glyphicon.glyphicon-globe
 

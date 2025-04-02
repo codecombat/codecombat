@@ -106,6 +106,7 @@ class CampaignView extends RootView {
       'click .level-info-container .course-version button': 'onClickCourseVersion',
       'click #volume-button': 'onToggleVolume',
       'click #back-button': 'onClickBack',
+      'click #back-button-catalyst': 'onClickBack',
       'click #clear-storage-button': 'onClickClearStorage',
       'click .portal .campaign': 'onClickPortalCampaign',
       'click .portal .beta-campaign': 'onClickPortalCampaign',
@@ -1997,6 +1998,7 @@ class CampaignView extends RootView {
     if (application.getHocCampaign()) { return false }
     if (me.isInHourOfCode()) { return false }
     if (userUtils.isInLibraryNetwork() || userUtils.libraryName()) { return false }
+    if (this.isCatalyst) { return false }
     const latest = window.serverConfig.latestAnnouncement
     const myLatest = me.get('lastAnnouncementSeen')
     if (typeof latest !== 'number') { return }
@@ -2174,7 +2176,9 @@ class CampaignView extends RootView {
     }
 
     if (what === 'anonymous-classroom-signup') {
-      return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() && !this.editorMode && this.terrain !== 'junior' && !storage.load('hid-anonymous-classroom-signup-dialog')
+      return me.isAnonymous() && !this.isCatalyst &&
+        (me.level() < 8) && me.promptForClassroomSignup() &&
+        !this.editorMode && this.terrain !== 'junior' && !storage.load('hid-anonymous-classroom-signup-dialog')
     }
 
     if (what === 'amazon-campaign') {
