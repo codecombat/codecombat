@@ -1,29 +1,25 @@
 .my-fancy-select
   position: relative
-  .visible-text
-    width: 100%
-    border-radius: 4px
-    cursor: pointer
-    background-color: #fff
-    text-transform: uppercase
-    border: 3px solid #000
-    font-size: 16px
-    font-weight: bold
-    padding: 5px 10px
 
-    &:after
-      content: ''
+  .select2-selection
+    &__arrow
       position: absolute
       border: 8px solid rgba(0, 0, 0, 0)
       border-top-color: #000
       top: 13px
       right: 11px
 
-  select
-    position: absolute
-    width: 100%
+  .select2-container
+    /* position: absolute
+    /* top: 0
+    /* left: 0
+    width: 100% !important
     height: 100%
-    top: 0
-    left: 0
-    opacity: 0
     cursor: pointer
+
+    .select2-choice
+      cursor: pointer
+
+    .select2-results
+      &__option--highlighted
+        background: #99A5BE

@@ -2,8 +2,7 @@ mixin language-select(options, selected)
   .my-fancy-select
     select&attributes(attributes)
       for option in options
-        option(value=option.id, selected=selected === option.id, disabled=option.disabled)= option.name
-    .visible-text= options[0].name
+        option.options(value=option.id, selected=selected === option.id, disabled=option.disabled)=option.name
   
 .form
   .form-group.select-group.code-format-form.half-width

@@ -10,6 +10,7 @@
  */
 const CocoView = require('views/core/CocoView')
 const template = require('app/templates/play/common/change-language-tab')
+require('bower_components/select2/dist/css/select2.min.css')
 require('app/styles/play/common/change_language_tab.sass')
 const { me } = require('core/auth')
 const utils = require('core/utils')
@@ -184,9 +185,12 @@ module.exports = (ChangeLanguageTab = (function () {
     buildCodeFormats () {
       const $select = this.$el.find('#option-code-format')
       if (!utils.isMobile()) {
+        $select.select2({
+          minimumResultsForSearch: -1,
+        })
         // $select.fancySelect()
       }
-      $select.parent().find('option').each(function () {
+      $select.parent().find('.select2-choice').each(function () {
         const formatName = $(this).text()
         const formatID = $(this).attr('value')
         const blurb = $.i18n.t(`choose_hero.${formatID}_blurb`.replace(/-/g, '_'))
@@ -206,7 +210,7 @@ module.exports = (ChangeLanguageTab = (function () {
       if (!utils.isMobile()) {
         // $select.fancySelect()
       }
-      $select.parent().find('option').each(function () {
+      $select.parent().find('.options').each(function () {
         const languageName = $(this).text()
         const languageID = $(this).attr('value')
         const blurb = $.i18n.t(`choose_hero.${languageID}_blurb`)
