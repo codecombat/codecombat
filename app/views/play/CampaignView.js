@@ -106,6 +106,7 @@ class CampaignView extends RootView {
       'click .level-info-container .course-version button': 'onClickCourseVersion',
       'click #volume-button': 'onToggleVolume',
       'click #back-button': 'onClickBack',
+      'click #back-button-catalyst': 'onClickBack',
       'click #clear-storage-button': 'onClickClearStorage',
       'click .portal .campaign': 'onClickPortalCampaign',
       'click .portal .beta-campaign': 'onClickPortalCampaign',
