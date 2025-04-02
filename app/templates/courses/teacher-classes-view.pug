@@ -70,6 +70,9 @@ block content
     .container.top-container
       div#classes-nag-subview
 
+      .alert.alert-warning
+        strong(data-i18n='teacher.dashboard_deprecation_message')
+
       h3
         span(data-i18n='teacher.current_classes')
         #dashboard-toggle(:show-title="true", size="sm")
