@@ -550,6 +550,7 @@ module.exports = {
       owned: 'Acquis',
       locked: 'Verrouillé',
       locked_by_teacher: "[AI_TRANSLATION]Verrouillé par l'Enseignant",
+      //    locked_campaign: "Complete previous world to unlock",
       available: 'Disponible',
       skills_granted: 'Compétences acquises',
       heroes: 'Héros',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Liaison de compte Google réussie',
       plus_link_error: '[AI_TRANSLATION]Échec de la liaison de compte Google',
       email_or_username_or_library: "[AI_TRANSLATION]Email ou nom d'utilisateur ou numéro de carte de bibliothèque",
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: '[AI_TRANSLATION]Support  ',
       //    here: "here",
       from: '[AI_TRANSLATION]De',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: 'Télécharge-les tous',
       previous: 'Précédent',
       location_title: 'Nous sommes situés dans le centre de San Francisco:',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: "[AI_TRANSLATION]Il est temps de mettre à l'épreuve tes compétences en codage dans notre arène finale de la saison 2. Le Sorcerers Blitz est en direct et offre un nouveau défi et un nouveau classement à gravir.",
       season2_announcement_2: "[AI_TRANSLATION]Besoin de plus de pratique ? Reste dans l'Arène de la Puissance du Mage pour affiner tes compétences. Tu as jusqu'au 31 août pour jouer dans les deux arènes. Note : des ajustements de l'équilibre de l'arène peuvent avoir lieu jusqu'au 23 août.",
       season2_announcement_3: '[AI_TRANSLATION]De super prix sont disponibles pour les meilleurs dans le Sorcerers Blitz :',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]Bourse de 1 000 $',
       season1_prize_2: '[AI_TRANSLATION]Matériel de jeu RESPAWN',
       season1_prize_3: '[AI_TRANSLATION]Avatar CodeCombat Personnalisé',
@@ -5009,6 +5023,8 @@ module.exports = {
       //    great_prizes: "great prizes",
       powered_by: '[AI_TRANSLATION]Propulsé par',
       grand_prize: '[AI_TRANSLATION]Grand prix',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: "[AI_TRANSLATION]Bourse d'étude",
       top_players_win: '[AI_TRANSLATION]Les trois meilleurs joueurs de chaque division gagnent : périphériques HyperX pro',
       team_hyperx: '[AI_TRANSLATION]Équipe HyperX',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]Plus de requêtes du bot AI disponibles pour le __duration_key__',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]Plus de requêtes du bot AI disponibles pour __duration_amount__ __duration_key__',
       level_chat_no_credits_left: '[AI_TRANSLATION]Plus de requêtes du bot AI disponibles',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {

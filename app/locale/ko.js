@@ -550,6 +550,7 @@ module.exports = {
       owned: '소지함',
       locked: '잠김',
       locked_by_teacher: '[AI_TRANSLATION]선생님에 의해 잠겼음',
+      //    locked_campaign: "Complete previous world to unlock",
       available: '사용 가능',
       skills_granted: '부여된 스킬',
       heroes: '영웅들',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]구글 계정 연동 완료',
       plus_link_error: '[AI_TRANSLATION]구글 계정 연동 실패',
       email_or_username_or_library: '[AI_TRANSLATION]이메일 또는 사용자 이름 또는 도서관 카드 번호',
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: '[AI_TRANSLATION]지원',
       //    here: "here",
       from: '[AI_TRANSLATION]부터',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: '모두 다운로드',
       previous: '이전',
       location_title: '저희는 샌프란시스코 시내에 위치하고 있습니다.:',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]이제 네 코딩 실력을 시즌 2 최종 경기장에서 시험해봐. Sorcerers Blitz가 열렸고, 새로운 도전과 새로운 리더보드가 기다리고 있어.',
       season2_announcement_2: "[AI_TRANSLATION]더 연습이 필요해? Mage's Might Arena에서 실력을 다듬어봐. 8월 31일까지 두 아레나를 모두 플레이할 수 있어. 참고: 아레나 밸런스 조정은 8월 23일까지 이루어질 수 있어.",
       season2_announcement_3: '[AI_TRANSLATION]소서러 블리츠 대회에서 상위 성과자들에게 멋진 상품이 준비되어 있어:',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]$1,000 장학금',
       season1_prize_2: '[AI_TRANSLATION]RESPAWN 게이밍 기어',
       season1_prize_3: '[AI_TRANSLATION]커스텀 CodeCombat 아바타',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]멋진 상품들',
       powered_by: '[AI_TRANSLATION]작동 원리',
       grand_prize: '[AI_TRANSLATION]대단한 상',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]장학금',
       top_players_win: '[AI_TRANSLATION]각 디비전에서 상위 3명의 플레이어가: HyperX 프로 주변기기 획득',
       team_hyperx: '[AI_TRANSLATION]팀 HyperX',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]__duration_key__ 동안 AI 봇 쿼리가 남아있지 않습니다.',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]__duration_amount__ __duration_key__ 동안 남은 AI 봇 쿼리가 없어',
       level_chat_no_credits_left: '[AI_TRANSLATION]AI 봇 쿼리가 남아 있지 않아',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {
