@@ -842,9 +842,32 @@ $gameControlMargin: 30px
 
         &.highlighted
           @include animation(jiggle .3s 20)
+          
 
-      
+    &.in-campaign
+      flex-direction: row
+      bottom: 2%
+      right: 50%
+      top: auto
+      transform: translateY(0) translateX(100%)
 
+      .btn
+        margin-top: 0
+        height: 40px
+        width: 40px
+        &:not(:first-child)
+          margin-left: 20px
+
+        &.hackstack-menu-icon
+          transform: scale(2) translateY(-5px)
+          margin-right: 20px
+
+        &.roblox-menu-icon
+          transform: scale(2) translateY(-5px) translateX(10px)
+
+        &.ai-league-menu-icon
+          transform: scale(1.5) translateY(-5px)
+        
     .tooltip
       font-size: 24px
 

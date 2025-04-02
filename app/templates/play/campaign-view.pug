@@ -497,7 +497,7 @@ if showGameDevAlert
           button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
         if !me.get('anonymous', true) && view.shouldShow('settings')
           a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
-    .other-products-catalyst.header-font.picoctf-hide
+    .other-products-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
       if !(features.picoCtf || features.brainPop)
         if view.shouldShow('hackstack')
           span.btn.hackstack-menu-icon(title='CodeCombat AI HackStack')
