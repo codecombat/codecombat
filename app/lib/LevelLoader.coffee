@@ -97,13 +97,14 @@ module.exports = class LevelLoader extends CocoClass
       return
 
     if not @classroomId and not @courseInstanceID
-      if me.isAdmin() or !me.isStudent()
+      if !me.isStudent()
         @onAccessibleLevelLoaded()
-      noty({
-        text: 'Classroom not found',
-        type: 'error',
-        timeout: 5000,
-      })
+      else
+        noty({
+          text: $.i18n.t('courses.no_classrooms_found'),
+          type: 'error',
+          timeout: 5000,
+        })
       return
 
     if @courseInstanceID and not @classroomId
