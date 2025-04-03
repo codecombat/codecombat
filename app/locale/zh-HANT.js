@@ -550,6 +550,7 @@ module.exports = {
       owned: '擁有的物品',
       locked: '未解鎖',
       locked_by_teacher: '[AI_TRANSLATION]教師鎖定',
+      //    locked_campaign: "Complete previous world to unlock",
       available: '可用',
       skills_granted: '將習得技能',
       heroes: '英雄',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Google 帳戶連結成功',
       plus_link_error: '[AI_TRANSLATION]Google 帳戶連結失敗',
       email_or_username_or_library: '[AI_TRANSLATION]電子郵件或用戶名或圖書證號碼',
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: '支援',
       here: '[AI_TRANSLATION]在這裡',
       from: '[AI_TRANSLATION]來自',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: '下載全部',
       previous: '上一步',
       location_title: '我們位於城鎮 SF：',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]是時候在我們的第二賽季終極競技場中測試你的編碼技能了。法師衝鋒戰已經上線，提供新的挑戰和新的排行榜讓你去爬升。',
       season2_announcement_2: '[AI_TRANSLATION]需要更多練習嗎？留在法師之力競技場精進技術。你有直到8月31日的時間玩這兩個競技場。註：競技場平衡調整可能會在8月23日前持續進行。  ',
       season2_announcement_3: '[AI_TRANSLATION]在巫師閃電戰中，頂尖表現者可獲得豐厚獎品：',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]$1,000 奬學金',
       season1_prize_2: '[AI_TRANSLATION]RESPawn Gaming Gear',
       season1_prize_3: '[AI_TRANSLATION]自訂 CodeCombat 角色頭像',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]豐厚的獎品',
       powered_by: '[AI_TRANSLATION]Powered by',
       grand_prize: '[AI_TRANSLATION]大獎',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]獎學金',
       top_players_win: '[AI_TRANSLATION]每個分區的前三名玩家將獲得：HyperX 專業周邊設備',
       team_hyperx: '[AI_TRANSLATION]Team HyperX  ',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]在 __duration_key__ 內沒有AI機器人詢問了\n',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]在 __duration_amount__ __duration_key__ 內沒有AI機器人詢問了\n',
       level_chat_no_credits_left: '[AI_TRANSLATION]沒有AI機器人詢問了\n',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       see_all: '查看全部',
       created_by: '創建者是',
       remix: '改編',
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {

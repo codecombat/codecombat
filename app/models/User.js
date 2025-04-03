@@ -1345,8 +1345,12 @@ module.exports = (User = (function () {
       if ((!value)) {
         let valueProbability
         // 0% chance to be in the beta group by default
-        const probability = window.serverConfig?.experimentProbabilities?.catalyst?.beta != null ? window.serverConfig.experimentProbabilities.catalyst.beta : 0.5
-        if (Math.random() < probability) {
+        const probability = window.serverConfig?.experimentProbabilities?.catalyst?.beta
+        if (probability == null) {
+          // it means we're not running the experiment
+          value = 'control'
+          valueProbability = 1
+        } else if (Math.random() < probability) {
           value = 'beta'
           valueProbability = probability
         } else {

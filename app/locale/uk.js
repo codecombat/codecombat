@@ -550,6 +550,7 @@ module.exports = {
       owned: 'у власності',
       locked: 'Заблоковано',
       locked_by_teacher: '[AI_TRANSLATION]Заблоковано викладачем  ',
+      //    locked_campaign: "Complete previous world to unlock",
       available: 'Доступно',
       skills_granted: 'Надані вміння',
       heroes: 'Герої',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Підключення до Google Account успішне  ',
       plus_link_error: '[AI_TRANSLATION]Помилка підключення до Google Account  ',
       email_or_username_or_library: "[AI_TRANSLATION]Електронна адреса, ім'я користувача або номер бібліотечної картки  ",
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: '[AI_TRANSLATION]Підтримка  ',
       //    here: "here",
       from: '[AI_TRANSLATION]Від  ',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: 'Завантажити все',
       previous: 'Попереднє',
       location_title: 'Ми розташовані в центрі Сан-Франциско:',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]Час випробувати свої навички кодування в нашій фінальній арені сезону 2. Sorcerers Blitz в прямому ефірі і пропонує нові виклики та нову таблицю лідерів для підкорення.',
       season2_announcement_2: '[AI_TRANSLATION]Потрібно більше практики? Тренуйся на Арені Чарівницької Могутності для поліпшення навичок. Маєш час до 31 серпня, щоб грати на обох аренах. Примітка: коригування балансу арени можуть відбуватись до 23 серпня.',
       season2_announcement_3: '[AI_TRANSLATION]Великі призи доступні для найкращих учасників у Sorcerers Blitz:  ',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]$1,000 Стипендія',
       season1_prize_2: '[AI_TRANSLATION]Ігрове обладнання RESPAWN',
       season1_prize_3: '[AI_TRANSLATION]Аватар Custom CodeCombat  ',
@@ -5009,6 +5023,8 @@ module.exports = {
       //    great_prizes: "great prizes",
       powered_by: '[AI_TRANSLATION]Підтримано',
       grand_prize: '[AI_TRANSLATION]Головний приз',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]Стипендія  ',
       top_players_win: '[AI_TRANSLATION]Три найкращих гравці в кожному дивізіоні виграють: професійні пристрої HyperX',
       team_hyperx: '[AI_TRANSLATION]Команда HyperX  ',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]Жодних запитів до AI Бота не залишилось на __duration_key__  ',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]Жодних запитів до AI Бота не залишилось на __duration_amount__ __duration_key__  ',
       level_chat_no_credits_left: '[AI_TRANSLATION]Жодних запитів до AI Бота не залишилось  ',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {

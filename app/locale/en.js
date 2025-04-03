@@ -567,7 +567,7 @@ module.exports = {
       subscriber_heroes: 'Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!',
       subscriber_gems: 'Subscribe today to purchase this hero with gems!',
       practice_license_required: '(license required for practice levels)',
-      anonymous: 'Anonymous Player',
+      anonymous: 'Anonymous',
       level_difficulty: 'Difficulty: ',
       awaiting_levels_adventurer_prefix: 'We release new levels every week.',
       awaiting_levels_adventurer: 'Sign up as an Adventurer',
@@ -2890,6 +2890,7 @@ module.exports = {
       stop_spying_student: 'You can return to the teacher account by clicking `Stop Spying` in the user dropdown',
       show_practice_levels: 'Show Practice Levels',
       hide_practice_levels: 'Hide Practice Levels',
+      dashboard_deprecation_message: 'This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.',
     },
 
     teacher_licenses: {

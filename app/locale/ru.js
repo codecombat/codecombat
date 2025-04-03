@@ -550,6 +550,7 @@ module.exports = {
       owned: 'Уже есть',
       locked: 'Заблокировано',
       locked_by_teacher: '[AI_TRANSLATION]Заблокировано учителем',
+      //    locked_campaign: "Complete previous world to unlock",
       available: 'Доступно',
       skills_granted: 'Полученные умения',
       heroes: 'Герои',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Связь с учетной записью Google успешна  ',
       plus_link_error: '[AI_TRANSLATION]Связь с учетной записью Google не удалась  ',
       email_or_username_or_library: '[AI_TRANSLATION]Электронная почта, Имя пользователя или номер Библиотечной карты',
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: 'Поддержка',
       //    here: "here",
       from: '[AI_TRANSLATION]От',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: 'Скачать всё',
       previous: 'Предыдущий',
       location_title: 'Мы находимся в центре Сан-Франциско:',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]Время проверить свои навыки программирования в нашем финале второго сезона арены. Sorcerers Blitz в прямом эфире, предлагает новый вызов и новую таблицу лидеров, которую нужно покорить.',
       season2_announcement_2: "[AI_TRANSLATION]Нужно больше практики? Оставайся на арене Mage's Might, чтобы отточить свои навыки. У тебя есть время до 31 августа, чтобы сыграть на обоих аренах. Внимание: баланс арены может изменяться до 23 августа.",
       season2_announcement_3: '[AI_TRANSLATION]Классные призы для лучших участников в Схватке Чародеев:  ',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]$1,000 Стипендия\n',
       season1_prize_2: '[AI_TRANSLATION]RESPAWN Gaming Gear',
       season1_prize_3: '[AI_TRANSLATION]Индивидуальный аватар CodeCombat',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]отличные призы',
       powered_by: '[AI_TRANSLATION]Поддерживается',
       grand_prize: '[AI_TRANSLATION]Главный приз  ',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]Стипендия',
       top_players_win: '[AI_TRANSLATION]Трое лучших игроков в каждом дивизионе выиграют: Периферийные устройства HyperX pro',
       team_hyperx: '[AI_TRANSLATION]Команда HyperX  ',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]Нет запросов для ИИ-бота на __duration_key__',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]Нет запросов для ИИ-бота на __duration_amount__ __duration_key__',
       level_chat_no_credits_left: '[AI_TRANSLATION]Закончились запросы для ИИ-бота',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {
