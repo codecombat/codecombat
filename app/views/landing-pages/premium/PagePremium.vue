@@ -545,6 +545,9 @@ export default {
   },
 
   mounted () {
+    if ((me.isTeacher() || me.isStudent()) && !me.isAdmin()) {
+      application.router.redirectHome()
+    }
     // add the contact-modal trigger one to `contact us` in the footnote
     const element = this.$refs?.contactFootnote?.$el
     if (element) {
@@ -599,13 +602,19 @@ export default {
       }
 
       .text-h1 {
-        width: 600px;
+        width: 540px;
         margin-top: 10px;
         @extend %font-44;
         text-align: left;
         margin-bottom: 10px;
         ::v-deep .mixed-color-label__highlight {
           display: inline-block
+        }
+      }
+
+      ::v-deep {
+        .image {
+          width: 90%;
         }
       }
 
