@@ -59,7 +59,8 @@ export default {
   },
   computed: {
     items () {
-      return this.propItems || this.defaultItems
+      if (this.propItems.length) return this.propItems
+      return this.defaultItems
     },
   },
 
