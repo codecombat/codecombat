@@ -52,9 +52,9 @@
                 <carousel-item :key="index">
                   <testimonial-component
                     class="testimonials__item"
-                    :quote="$t(`parents_v2.testimonials_${index + 1}_quote`)"
-                    :name="$t(`parents_v2.testimonials_${index + 1}_name`)"
-                    :title="$t(`parents_v2.testimonials_${index + 1}_title`)"
+                    :quote="$t(`parents_v2.testimonials_${index+2}_quote`)"
+                    :name="$t(`parents_v2.testimonials_${index+2}_name`)"
+                    :title="$t(`parents_v2.testimonials_${index+2}_title`)"
                     :image="item.image"
                     :link="item.link"
                     :full-review-link="item.fullReviewLink"
@@ -119,7 +119,7 @@
             <div class="row">
               <div class="col-md-12">
                 <h2 class="text-h2">
-                  {{ $t('parents_v2.adapt_interests') }}
+                  {{ $t('new_premium.adapt_interests') }}
                 </h2>
               </div>
             </div>
@@ -144,15 +144,13 @@
           </div>
         </background-container>
 
-        <!-- - todo programming languages -->
-
         <div class="container">
           <h2 class="text-h2">
             <h2 class="text-h2">
               {{ $t('home_v3.programming_languages') }}
             </h2>
           </h2>
-          <tools-list />
+          <tools-list :prop-items="toolItems" />
         </div>
         <div class="container">
           <div class="row">
@@ -173,7 +171,7 @@
         <div class="container">
           <image-and-text
             :text="$t('parents_v2.cs_careers')"
-            image="/images/pages/parents/tiles/wbox_1.webp"
+            image="/images/pages/premium/tiles/wbox_1.webp"
             :reverse="false"
             :lazy-load="true"
           />
@@ -331,13 +329,7 @@ export default {
       isSubscribeModalOpen: false,
       testimonials: [
         {
-          image: '/images/pages/schools/avatar/avatar_student.webp',
-        },
-        {
           image: '/images/pages/schools/avatar/avatar_andrew.webp',
-        },
-        {
-          image: '/images/pages/schools/avatar/avatar_seth.webp',
         },
       ],
       premiumFeatures: [
@@ -372,12 +364,12 @@ export default {
           title: this.$t('new_premium.junior_title'),
           text: this.$t('new_premium.junior_text'),
           labels: ['Python', 'JavaScript'],
-          image: '/images/pages/parents/tiles/pbox_1.webp',
+          image: '/images/pages/premium/tiles/pbox_1.webp',
         },
         {
           title: this.$t('parents_v2.codecombat_title'),
           text: this.$t('parents_v2.codecombat_text'),
-          image: '/images/pages/parents/tiles/pbox_2.webp',
+          image: '/images/pages/premium/tiles/pbox_2.webp',
           labels: ['Python', 'JavaScript', 'C++'],
         },
         {
@@ -388,14 +380,14 @@ export default {
         },
         {
           title: this.$t('parents_v2.codecombat_worlds_title'),
-          text: this.$t('parents_v2.codecombat_worlds_text'),
+          text: this.$t('new_premium.codecombat_worlds_text'),
           image: '/images/pages/parents/tiles/pbox_4.webp',
           labels: ['Lua'],
         },
         {
           title: this.$t('parents_v2.ai_hackstack_title'),
           text: this.$t('parents_v2.ai_hackstack_text'),
-          image: '/images/pages/parents/tiles/pbox_5.webp',
+          image: '/images/pages/premium/tiles/pbox_5.webp',
           labels: ['HTML', 'CSS', 'JavaScript', 'More'],
         },
         {
@@ -404,34 +396,72 @@ export default {
       ],
       carouselItems: [
         {
-          title: this.$t('parents_v2.carousel_items_1_title'),
+          title: this.$t('new_premium.carousel_items_1_title'),
           titlePrefix: this.$t('parents_v2.carousel_items_1_title_prefix'),
           text: this.$t('new_premium.carousel_items_1_text'),
-          image: '/images/pages/parents/carousel/item_1.webp',
+          image: '/images/pages/premium/carousel/item_1.webp',
         },
         {
           title: this.$t('parents_v2.carousel_items_2_title'),
           titlePrefix: this.$t('parents_v2.carousel_items_2_title_prefix'),
           text: this.$t('new_premium.carousel_items_2_text'),
-          image: '/images/pages/parents/carousel/item_2.webp',
+          image: '/images/pages/premium/carousel/item_2.webp',
         },
         {
           title: this.$t('parents_v2.carousel_items_3_title'),
           titlePrefix: this.$t('parents_v2.carousel_items_3_title_prefix'),
           text: this.$t('new_premium.carousel_items_3_text'),
-          image: '/images/pages/parents/carousel/item_3.webp',
+          image: '/images/pages/premium/carousel/item_3.webp',
         },
         {
           title: this.$t('parents_v2.carousel_items_4_title'),
           titlePrefix: this.$t('parents_v2.carousel_items_4_title_prefix'),
           text: this.$t('new_premium.carousel_items_4_text'),
-          image: '/images/pages/parents/carousel/item_4.webp',
+          image: '/images/pages/premium/carousel/item_4.webp',
         },
         {
           title: this.$t('new_premium.carousel_items_5_title'),
           titlePrefix: this.$t('parents_v2.carousel_items_5_title_prefix'),
           text: this.$t('new_premium.carousel_items_5_text'),
-          image: '/images/pages/parents/carousel/item_5.webp',
+          image: '/images/pages/premium/carousel/item_5.webp',
+        },
+      ],
+      toolItems: [
+        {
+          image: '/images/pages/home-v3/tools-list/logo_python.webp',
+          alt: 'Python logo',
+        },
+        {
+          image: '/images/pages/home-v3/tools-list/logo_js.webp',
+          alt: 'JavaScript logo',
+        },
+        {
+          image: '/images/pages/home-v3/tools-list/logo_lua.webp',
+          alt: 'Lua logo',
+        },
+        {
+          image: '/images/pages/home-v3/tools-list/logo_3.webp',
+          alt: 'HTML logo',
+        },
+        {
+          image: '/images/pages/home-v3/tools-list/logo_css.webp',
+          alt: 'CSS logo',
+        },
+        {
+          image: '/images/pages/home-v3/tools-list/logo_cpp.webp',
+          alt: 'C++ logo',
+        },
+        {
+          image: '/images/pages/home-v3/tools-list/logo_chatgpt.webp',
+          alt: 'ChatGPT logo',
+        },
+        {
+          image: '/images/pages/home-v3/tools-list/logo_claude.webp',
+          alt: 'Stable Diffusion logo',
+        },
+        {
+          image: '/images/pages/home-v3/tools-list/logo_dalle.webp',
+          alt: 'DALL-E logo',
         },
       ],
       instructors: [{
@@ -576,251 +606,253 @@ export default {
 @import 'app/styles/component_variables.scss';
 
 .page-parents-landing#parent-page {
-  background: none;
+    background: none;
 }
 
 #premium-page {
-  overflow: hidden;
+    overflow: hidden;
 
-  ::v-deep {
-    @extend %frontend-page;
-  }
-
-  .mixed-color-highlight {
-    color: var(--color-primary);
-    text-decoration: underline;
-  }
-
-  .lowercase {
-    text-transform: lowercase;
-  }
-
-  .container {
-    &__header {
-      .header-text {
-        gap: 30px;
-      }
-
-      .text-h1 {
-        width: 540px;
-        margin-top: 10px;
-        @extend %font-44;
-        text-align: left;
-        margin-bottom: 10px;
-        ::v-deep .mixed-color-label__highlight {
-          display: inline-block
-        }
-      }
-
-      ::v-deep {
-        .image {
-          width: 90%;
-        }
-      }
-
-      .text-p {
-        @extend %font-14;
-        margin-top: 8px;
-        color: var(--color-light-grey);
-        .mixed-color-label {
-          display: block;
-          margin-top: 10px;
-        }
-      }
-    }
-  }
-  .menu-content {
-    display: flex;
-    gap: 30px;
-    align-items: center;
-    justify-content: space-between;
-    .list-item {
-      width: 200px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      .text-wrapper {
-        font-size: 1em;
-        font-weight: 400;
-        font-style: normal;
-        --XTwg7g: 0;
-        color: rgb(172, 175, 183);
-        font-kerning: none;
-        text-decoration: none;
-        text-align: center;
-      }
-    }
-  }
-
-  ::v-deep {
-    .testimonial.testimonials__item {
-      text-align: center;
-    }
-  }
-
-  .footnote {
-    @extend %font-14;
-    color: var(--color-light-grey);
-    line-height: 1.6em;
-  }
-
-  .text-h2 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-
-    svg {
-      margin-right: 30px;
-    }
-  }
-
-  ::v-deep {
-    .text-h2 {
-      font-weight: 500;
-    }
-    .two-column-block {
-
-      .column-one,
-      .column-two {
-        display: flex;
-        justify-content: center;
-      }
-
-      .column-one {
-        align-items: center;
-      }
-
-      &.video-container .column-one {
-        display: block;
-      }
-    }
-
-  }
-
-  .instructors {
     ::v-deep {
-      .content-icon-container {
-        flex: 0 0 auto;
-        width: 285px;
-        max-width: 40%;
-
-        img.content-icon {
-          border-radius: 285px;
-          aspect-ratio: 1 / 1;
-          object-fit: cover;
-        }
-      }
-
-      .content-details {
-        padding-top: 20px;
-      }
-
-      .content-details>.content-text {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .content-text {
-          max-height: max-content;
-          height: max-content;
-        }
-      }
-    }
-  }
-
-  .concepts-covered {
-    box-shadow: 0px 4px 22px 0px rgba(0, 0, 0, 0.15);
-    border-radius: 24px;
-
-    .text-h2 {
-      margin: 80px auto 60px auto;
+        @extend %frontend-page;
     }
 
-    .cta-row {
-      margin-top: 60px;
-      margin-bottom: 60px;
-    }
-  }
-
-  .concept-items {
-    display: flex;
-    flex-grow: 1;
-    align-items: stretch;
-  }
-
-  .video-container {
-    .text-p {
-      @extend %font-28;
-      text-align: center;
-      margin-bottom: 80px;
-    }
-  }
-
-  .main-carousel {
-    ::v-deep {
-      .content-title {
-        @extend %font-20;
-      }
-
-      .content-details>.content-text {
-        align-items: center;
-        justify-content: center;
-
-        .content-text {
-          display: block;
-          height: max-content;
-        }
-      }
-
-      .content-icon-container {
-        flex: initial;
-      }
-
-      .content-icon {
-        width: 100%;
-        max-width: 370px;
-      }
-    }
-  }
-
-  .concept-items {
-    display: flex;
-
-    @media screen and (max-width: $screen-md) {
-      flex-direction: column;
-      gap: 60px;
-    }
-  }
-
-  .apcsp-prep {
-    &__img-container {
-      @media screen and (max-width: $screen-lg) {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 40px;
-      }
-    }
-
-    &__cta {
-      margin-top: 10px;
-      align-items: flex-start;
-    }
-  }
-
-  ::v-deep {
-    .contact-modal {
-      cursor: pointer;
-    }
-    .container-course-offering-heading {
-      .text-center a {
+    .mixed-color-highlight {
         color: var(--color-primary);
-        font-weight: bold;
-        cursor: pointer;
-      }
+        text-decoration: underline;
     }
-  }
+
+    .lowercase {
+        text-transform: lowercase;
+    }
+
+    .container {
+        &__header {
+            .header-text {
+                gap: 30px;
+            }
+
+            .text-h1 {
+                width: 540px;
+                margin-top: 10px;
+                @extend %font-44;
+                text-align: left;
+                margin-bottom: 10px;
+                ::v-deep .mixed-color-label__highlight {
+                    display: inline-block
+                }
+            }
+
+            ::v-deep {
+                .image {
+                    width: 90%;
+                }
+            }
+
+            .text-p {
+                @extend %font-14;
+                margin-top: 8px;
+                color: var(--color-light-grey);
+                .mixed-color-label {
+                    display: block;
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+    .menu-content {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+        justify-content: space-between;
+        .list-item {
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .text-wrapper {
+                font-size: 1em;
+                font-weight: 400;
+                font-style: normal;
+                --XTwg7g: 0;
+                color: rgb(172, 175, 183);
+                font-kerning: none;
+                text-decoration: none;
+                text-align: center;
+            }
+        }
+    }
+
+    ::v-deep {
+        .testimonial.testimonials__item {
+            text-align: center;
+        }
+    }
+
+    .footnote {
+        @extend %font-14;
+        color: var(--color-light-grey);
+        line-height: 1.6em;
+    }
+
+    .text-h2 {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+
+        svg {
+            margin-right: 30px;
+        }
+    }
+
+    ::v-deep {
+        .text-h2 {
+            font-weight: 500;
+        }
+        .two-column-block {
+
+            .column-one,
+            .column-two {
+                display: flex;
+                justify-content: center;
+            }
+
+            .column-one {
+                align-items: center;
+            }
+
+            &.video-container .column-one {
+                display: block;
+            }
+        }
+
+    }
+
+    .instructors {
+        ::v-deep {
+            .content-icon-container {
+                flex: 0 0 auto;
+                width: 285px;
+                max-width: 40%;
+
+                img.content-icon {
+                    border-radius: 285px;
+                    aspect-ratio: 1 / 1;
+                    object-fit: cover;
+                }
+            }
+
+            .content-details {
+                padding-top: 20px;
+            }
+
+            .content-details>.content-text {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .content-text {
+                    max-height: max-content;
+                    height: max-content;
+                }
+            }
+        }
+    }
+
+    .concepts-covered {
+        box-shadow: 0px 4px 22px 0px rgba(0, 0, 0, 0.15);
+        border-radius: 24px;
+
+        .text-h2 {
+            margin: 80px auto 60px auto;
+        }
+
+        .cta-row {
+            margin-top: 60px;
+            margin-bottom: 60px;
+        }
+    }
+
+    .concept-items {
+        display: flex;
+        flex-grow: 1;
+        align-items: stretch;
+    }
+
+    .video-container {
+        .text-p {
+            @extend %font-28;
+            text-align: center;
+            margin-bottom: 80px;
+        }
+    }
+
+    .main-carousel {
+        ::v-deep {
+            .content-title {
+                @extend %font-20;
+            }
+
+            .content-details>.content-text {
+                align-items: center;
+                justify-content: center;
+
+                .content-text {
+                    display: block;
+                    height: max-content;
+                }
+            }
+
+            .content-icon-container {
+                flex: initial;
+                max-width: 370px;
+            }
+
+            .content-icon {
+                width: 637px;
+                margin-left: -133px;
+
+            }
+        }
+    }
+
+    .concept-items {
+        display: flex;
+
+        @media screen and (max-width: $screen-md) {
+            flex-direction: column;
+            gap: 60px;
+        }
+    }
+
+    .apcsp-prep {
+        &__img-container {
+            @media screen and (max-width: $screen-lg) {
+                display: flex;
+                justify-content: center;
+                margin-bottom: 40px;
+            }
+        }
+
+        &__cta {
+            margin-top: 10px;
+            align-items: flex-start;
+        }
+    }
+
+    ::v-deep {
+        .contact-modal {
+            cursor: pointer;
+        }
+        .container-course-offering-heading {
+            .text-center a {
+                color: var(--color-primary);
+                font-weight: bold;
+                cursor: pointer;
+            }
+        }
+    }
 }
 </style>

@@ -13,44 +13,55 @@
 <script>
 export default {
   name: 'ToolsList',
+  props: {
+    propItems: {
+      type: Array,
+      default: () => [],
+    },
+  },
   data () {
     return {
-      items: [
+      defaultItems: [
         {
           image: '/images/pages/home-v3/tools-list/logo_python.webp',
-          alt: 'Python logo'
+          alt: 'Python logo',
         },
         {
           image: '/images/pages/home-v3/tools-list/logo_js.webp',
-          alt: 'JavaScript logo'
+          alt: 'JavaScript logo',
         },
         {
           image: '/images/pages/home-v3/tools-list/logo_3.webp',
-          alt: 'HTML logo'
+          alt: 'HTML logo',
         },
         {
           image: '/images/pages/home-v3/tools-list/logo_css.webp',
-          alt: 'CSS logo'
+          alt: 'CSS logo',
         },
         {
           image: '/images/pages/home-v3/tools-list/logo_cpp.webp',
-          alt: 'C++ logo'
+          alt: 'C++ logo',
         },
         {
           image: '/images/pages/home-v3/tools-list/logo_chatgpt.webp',
-          alt: 'ChatGPT logo'
+          alt: 'ChatGPT logo',
         },
         {
           image: '/images/pages/home-v3/tools-list/logo_claude.webp',
-          alt: 'Stable Diffusion logo'
+          alt: 'Stable Diffusion logo',
         },
         {
           image: '/images/pages/home-v3/tools-list/logo_dalle.webp',
-          alt: 'DALL-E logo'
-        }
-      ]
+          alt: 'DALL-E logo',
+        },
+      ],
     }
-  }
+  },
+  computed: {
+    items () {
+      return this.propItems || this.defaultItems
+    },
+  },
 
 }
 </script>
