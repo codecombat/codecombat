@@ -466,6 +466,7 @@ module.exports = {
       learning_options: 'Learning Options',
       ai_hackstack: 'AI HackStack',
       beta: 'Beta',
+      premium: 'Premium',
     },
 
     modal: {

@@ -120,6 +120,7 @@ class CampaignView extends RootView {
       'click .poll': 'showPoll',
       'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton',
       'click .premium-menu-icon': 'onClickPremiumButton',
+      'click .premium-btn': 'onClickPremiumButton',
       'click [data-toggle="coco-modal"][data-target="play/modal/PromotionModal"]': 'openPromotionModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayItemsModal"]': 'openPlayItemsModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayHeroesModal"]': 'openPlayHeroesModal',
