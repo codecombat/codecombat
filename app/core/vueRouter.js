@@ -52,6 +52,12 @@ export default function getVueRouter () {
           props: true,
         },
         {
+          path: '/premium',
+          props: (route) => ({ showPremium: true, type: route.query.type }),
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/premium/PagePremium'),
+          meta: { theme: 'teal' },
+        },
+        {
           path: '/parents',
           props: (route) => ({ showPremium: true, type: route.query.type }),
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents-v2/PageParents'),
