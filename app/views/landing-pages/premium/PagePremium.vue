@@ -53,7 +53,7 @@
                   <testimonial-component
                     class="testimonials__item"
                     :quote="$t(`parents_v2.testimonials_${index+2}_quote`)"
-                    :name="$t(`parents_v2.testimonials_${index+2}_name`)"
+                    :name="$t(`new_premium.testimonials_${index+2}_name`)"
                     :title="$t(`parents_v2.testimonials_${index+2}_title`)"
                     :image="item.image"
                     :link="item.link"
@@ -188,7 +188,7 @@
           </div>
           <image-and-text
             :text="$t('parents_v2.game_based_effective')"
-            image="/images/pages/parents/tiles/wbox_2.webp"
+            image="/images/pages/premium/tiles/wbox_2.webp"
             :reverse="true"
             :lazy-load="true"
           />
