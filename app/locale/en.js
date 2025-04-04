@@ -6182,6 +6182,7 @@ module.exports = {
       junior_title: 'CodeCombat Junior',
       junior_text: 'Our flagship K-5 curriculum features a progression of learning levels that teach basic coding concepts at a slower pace.',
       codecombat_worlds_text: 'Developed in partnership with Roblox Education, this experience accelerates your coding abilities to create amazing Roblox games and experiences.',
+      testimonials_2_name: 'Amanda S.',
       features_1: 'Full Access to All[NEWLINE]Learning Adventures',
       features_2: 'Master AI with[NEWLINE]AI HackStack',
       features_3: 'Unlock More Gems,[NEWLINE]Heroes & Items',
