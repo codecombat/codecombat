@@ -5,7 +5,9 @@
       .tab(@click="tab = 'byMonth'" :class="{active: tab === 'byMonth'}") By Time
       .tab(v-if="!hideByStudentTab()" @click="tab = 'byStudent'" :class="{active: tab === 'byStudent'}") By Student
     template(v-if="tab === 'byMonth'")
-      h2(v-if="licenseDaysByMonth && viewport === 'full'") License Days by Month
+      .header-row(v-if="licenseDaysByMonth && viewport === 'full'")
+        h2 License Days by Month
+        button.btn.btn-primary.download-csv(@click="downloadMonthlyCSV") Download as CSV
       p(class="link-info") Access the new dashboard with graphs
         a(href="/partner-dashboard?fromOld=1" target="_blank")  {{ $t('general.here') }}
       table.table.table-condensed(v-if="!licenseStatsLoading && viewport === 'full'")
@@ -28,7 +30,9 @@
           td.number.border {{ stats.progress?.programs || '-' }}
           td.number.border {{ parseInt(stats.progress?.playtime / 60) || '-' }}
 
-      h2(v-if="licenseDaysByMonthAndTeacher && viewport=='full'") License Days by Month and Teacher/Classroom
+      .header-row(v-if="licenseDaysByMonthAndTeacher && viewport=='full'")
+        h2 License Days by Month and Teacher/Classroom
+        button.btn.btn-primary.download-csv(@click="downloadCSV") Download as CSV
       table.table.table-condensed(v-if="licenseDaysByMonthAndTeacher")
         tr(class="odd")
           th.month.border {{ $t('library.month') }}
@@ -63,7 +67,12 @@ module.exports = Vue.extend({
     LicenseDataPerUser,
     D3BarChart,
   },
-  props: ['viewport'],
+  props: {
+    viewport: {
+      type: String,
+      default: 'full',
+    },
+  },
   data () {
     return {
       tab: 'byMonth',
@@ -88,7 +97,7 @@ module.exports = Vue.extend({
       clientName: function (s) {
         return me.get('name').replace(/[0-9]*$/g, '')
       },
-      createdTeachers: s => s.createdTeachers || []
+      createdTeachers: s => s.createdTeachers || [],
     }),
     ...mapState('prepaids', {
       prepaidLoading: function (s) {
@@ -96,13 +105,13 @@ module.exports = Vue.extend({
       },
       prepaids: function (s) {
         return s.prepaids.byTeacher[this.myId]
-      }
+      },
     }),
     ...mapGetters(
       'me', [
         'isAnonymous',
-        'isAPIClient'
-      ]
+        'isAPIClient',
+      ],
     ),
     loadingStatuses () {
       return [this.licenseStatsLoading, this.teachersLoading, this.prepaidLoading]
@@ -194,10 +203,12 @@ module.exports = Vue.extend({
       const totalUsersWithAge = Object.values(this.licenseStats?.ageStats || {})?.reduce((acc, cnt) => acc + cnt, 0)
       for (const age in stats) {
         const ageStr = age === '13-15' ? 'Under 15' : age
-        data.push({ ageRange: ageStr, usersNum: stats[age], '% of users': Math.round((stats[age] / totalUsersWithAge) * 100) })
+        if (totalUsersWithAge > 0) {
+          data.push({ ageRange: ageStr, usersNum: stats[age], '% of users': Math.round((stats[age] / totalUsersWithAge) * 100) })
+        }
       }
       return data
-    }
+    },
   },
   watch: {
     clientId: function (id) {
@@ -224,7 +235,7 @@ module.exports = Vue.extend({
       fetchPlayTimeStats: 'apiClient/fetchPlayTimeStats',
       fetchClientId: 'apiClient/fetchClientId',
       fetchPrepaids: 'prepaids/fetchPrepaidsForAPIClient',
-      fetchTeachers: 'apiClient/fetchTeachers'
+      fetchTeachers: 'apiClient/fetchTeachers',
     }),
     ageChartConfig () {
       return {
@@ -242,6 +253,98 @@ module.exports = Vue.extend({
     },
     hideByStudentTab () {
       return !me.isGeccClient()
+    },
+    downloadCSV () {
+      if (!this.licenseDaysByMonthAndTeacher) return
+
+      // Define headers
+      const headers = [
+        'Month',
+        'Teacher/Classroom',
+        ...(this.spiedUser ? ['Classroom ownerId'] : []),
+        'License Days Used',
+        'Licenses Used',
+        'Active Licenses',
+      ]
+
+      // Convert data to CSV format
+      const csvData = this.licenseDaysByMonthAndTeacher.map(stats => {
+        const row = [
+          stats.month,
+          stats.teacher?.split('!!!')[0] || '',
+          ...(this.spiedUser ? [stats.teacher?.split('!!!')[1] || '-'] : []),
+          stats.licenseDaysUsed,
+          stats.licensesUsed,
+          stats.activeLicenses,
+        ]
+        return row.join(',')
+      })
+
+      // Combine headers and data
+      const csvContent = [
+        headers.join(','),
+        ...csvData,
+      ].join('\n')
+
+      // Create and trigger download
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+      const link = document.createElement('a')
+      const url = URL.createObjectURL(blob)
+      link.setAttribute('href', url)
+      const currentDate = new Date().toISOString().split('T')[0]
+      link.setAttribute('download', `license_stats_${currentDate}.csv`)
+      link.style.visibility = 'hidden'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    },
+    downloadMonthlyCSV () {
+      if (!this.licenseDaysByMonth) return
+
+      // Define headers
+      const headers = [
+        this.$t('library.month'),
+        this.$t('library.license_days_used'),
+        this.$t('library.licenses_used'),
+        this.$t('library.users_active_licenses'),
+        this.$t('library.new_signups'),
+        this.$t('library.lines_code'),
+        this.$t('library.programs_written'),
+        this.$t('library.time_spent_min'),
+      ]
+
+      // Convert data to CSV format
+      const csvData = this.licenseDaysByMonth.map(stats => {
+        const row = [
+          stats.month,
+          stats.licenseDaysUsed,
+          stats.licensesUsed,
+          stats.activeLicenses || '-',
+          stats.newSignups || '-',
+          stats.progress?.linesOfCode || '-',
+          stats.progress?.programs || '-',
+          parseInt(stats.progress?.playtime / 60) || '-',
+        ]
+        return row.join(',')
+      })
+
+      // Combine headers and data
+      const csvContent = [
+        headers.join(','),
+        ...csvData,
+      ].join('\n')
+
+      // Create and trigger download
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+      const link = document.createElement('a')
+      const url = URL.createObjectURL(blob)
+      link.setAttribute('href', url)
+      const currentDate = new Date().toISOString().split('T')[0]
+      link.setAttribute('download', `monthly_license_stats_${currentDate}.csv`)
+      link.style.visibility = 'hidden'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
     },
   },
 })
@@ -283,5 +386,21 @@ tr.odd {
 }
 tr.sum {
   background-color:(rgba(31, 186, 180, 0.2) !important);
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 15px;
+
+  h2 {
+    margin: 0;  // Remove default margin to align properly
+  }
+
+  .download-csv {
+    margin-left: 15px;
+  }
 }
 </style>
