@@ -16,10 +16,10 @@ const storage = require('core/storage')
 module.exports = (JuniorOriginalChoiceModal = (function () {
   JuniorOriginalChoiceModal = class JuniorOriginalChoiceModal extends ModalView {
     static initClass () {
-      this.prototype.id = 'junior-original-choice-modal'
-      this.prototype.template = template
-      this.prototype.hasAnimated = false
-      this.prototype.events = {
+      JuniorOriginalChoiceModal.prototype.id = 'junior-original-choice-modal'
+      JuniorOriginalChoiceModal.prototype.template = template
+      JuniorOriginalChoiceModal.prototype.hasAnimated = false
+      JuniorOriginalChoiceModal.prototype.events = {
         'click #close-modal': 'hide',
         'click .junior-button': 'onJuniorButtonClick',
         'click .original-button': 'onOriginalButtonClick',
