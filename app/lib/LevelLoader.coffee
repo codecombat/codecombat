@@ -97,7 +97,8 @@ module.exports = class LevelLoader extends CocoClass
       return
 
     if not @classroomId and not @courseInstanceID
-      if !me.isStudent()
+      isAILeague = @tournament or @team or @spectateMode or utils.getQueryVariable 'league'
+      if !me.isStudent() or isAILeague
         @onAccessibleLevelLoaded()
       else
         noty({
