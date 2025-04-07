@@ -169,6 +169,9 @@ class CampaignView extends RootView {
     this.levelDifficultyMap = {}
     this.levelScoreMap = {}
     this.courseLevelsLoaded = false
+    this.highlightedCampaign = null
+    // just for testing
+    this.highlightedCampaign = 'junior'
 
     if (this.terrain === 'hoc-2018') {
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
@@ -868,6 +871,9 @@ class CampaignView extends RootView {
       } else if (this.shouldShow('junior-promotion')) {
         this.openJuniorPromotionModal()
       }
+    }
+    if (!this.campaign && this.highlightedCampaign) {
+      this.$el.find(`.campaign[data-campaign-slug="${this.highlightedCampaign}"], .main-campaign[data-campaign-slug="${this.highlightedCampaign}"]`).addClass('highlighted')
     }
     return this.applyCampaignStyles()
   }
