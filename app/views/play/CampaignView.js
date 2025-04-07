@@ -26,7 +26,7 @@ const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
 const RobloxModal = require('views/core/MineModal') // Roblox modal
 const JuniorModal = require('views/core/JuniorModal')
-const JuniorClassicChoiceModal = require('views/core/JuniorClassicChoiceModal')
+const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
 const Course = require('models/Course')
@@ -417,10 +417,10 @@ class CampaignView extends RootView {
     this.openModalView(new JuniorModal())
   }
 
-  openJuniorClassicChoiceModal (e) {
-    window.tracker?.trackEvent('Junior Classic Choice Explored')
-    const modal = new JuniorClassicChoiceModal()
-    this.listenToOnce(modal, 'junior-classic-choice', (choice) => {
+  openJuniorOriginalChoiceModal (e) {
+    window.tracker?.trackEvent('Junior Original Choice Explored')
+    const modal = new JuniorOriginalChoiceModal()
+    this.listenToOnce(modal, 'junior-original-choice', (choice) => {
       this.highlightedCampaign = choice === 'junior' ? 'junior' : 'dungeon'
       this.render()
     })
@@ -879,8 +879,8 @@ class CampaignView extends RootView {
         }
       } else if (this.shouldShow('junior-promotion')) {
         this.openJuniorPromotionModal()
-      } else if (this.shouldShow('junior-classic-choice')) {
-        this.openJuniorClassicChoiceModal()
+      } else if (this.shouldShow('junior-original-choice')) {
+        this.openJuniorOriginalChoiceModal()
       }
     }
     if (!this.campaign && this.highlightedCampaign) {
@@ -2152,8 +2152,8 @@ class CampaignView extends RootView {
       return !me.finishedAnyLevels() && !this.terrain && me.getJuniorExperimentValue() === 'beta' && !this.isCatalyst
     }
 
-    if (what === 'junior-classic-choice') {
-      return this.isCatalyst && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-classic-choice-seen')
+    if (what === 'junior-original-choice') {
+      return this.isCatalyst && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
     }
 
     if (['status-line'].includes(what)) {

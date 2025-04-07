@@ -5,24 +5,24 @@
  * DS206: Consider reworking classes to avoid initClass
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
-let JuniorClassicChoiceModal
-require('app/styles/modal/junior-classic-choice-modal.sass')
+let JuniorOriginalChoiceModal
+require('app/styles/modal/junior-original-choice-modal.sass')
 const ModalView = require('views/core/ModalView')
-const template = require('app/templates/core/junior-classic-choice-modal')
+const template = require('app/templates/core/junior-original-choice-modal')
 const storage = require('core/storage')
 
 // define expectations for good rates before releasing
 
-module.exports = (JuniorClassicChoiceModal = (function () {
-  JuniorClassicChoiceModal = class JuniorClassicChoiceModal extends ModalView {
+module.exports = (JuniorOriginalChoiceModal = (function () {
+  JuniorOriginalChoiceModal = class JuniorOriginalChoiceModal extends ModalView {
     static initClass () {
-      this.prototype.id = 'junior-classic-choice-modal'
+      this.prototype.id = 'junior-original-choice-modal'
       this.prototype.template = template
       this.prototype.hasAnimated = false
       this.prototype.events = {
         'click #close-modal': 'hide',
+        'click .original-button': 'onOriginalButtonClick',
         'click .junior-button': 'onJuniorButtonClick',
-        'click .classic-button': 'onClassicButtonClick',
       }
     }
 
@@ -32,15 +32,15 @@ module.exports = (JuniorClassicChoiceModal = (function () {
       window.addEventListener('resize', this.setCSSVariables)
     }
 
-    onClassicButtonClick (e) {
-      storage.save('junior-classic-choice-seen', true)
-      this.trigger('junior-classic-choice', 'classic')
+    onOriginalButtonClick (e) {
+      storage.save('junior-original-choice-seen', true)
+      this.trigger('junior-original-choice', 'original')
       this.hide()
     }
 
     onJuniorButtonClick (e) {
-      storage.save('junior-classic-choice-seen', true)
-      this.trigger('junior-classic-choice', 'junior')
+      storage.save('junior-original-choice-seen', true)
+      this.trigger('junior-original-choice', 'junior')
       this.hide()
     }
 
@@ -50,7 +50,7 @@ module.exports = (JuniorClassicChoiceModal = (function () {
     }
 
     hide () {
-      storage.save('junior-classic-choice-seen', true)
+      storage.save('junior-original-choice-seen', true)
       super.hide()
     }
 
@@ -60,6 +60,6 @@ module.exports = (JuniorClassicChoiceModal = (function () {
       super.destroy()
     }
   }
-  JuniorClassicChoiceModal.initClass()
-  return JuniorClassicChoiceModal
+  JuniorOriginalChoiceModal.initClass()
+  return JuniorOriginalChoiceModal
 })())
