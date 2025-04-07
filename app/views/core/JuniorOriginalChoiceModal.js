@@ -21,9 +21,15 @@ module.exports = (JuniorOriginalChoiceModal = (function () {
       this.prototype.hasAnimated = false
       this.prototype.events = {
         'click #close-modal': 'hide',
-        'click .original-button': 'onOriginalButtonClick',
         'click .junior-button': 'onJuniorButtonClick',
+        'click .original-button': 'onOriginalButtonClick',
       }
+    }
+
+    constructor () {
+      super()
+      // Bind the method to the instance
+      this.setCSSVariables = this.setCSSVariables.bind(this)
     }
 
     afterRender () {
@@ -55,7 +61,6 @@ module.exports = (JuniorOriginalChoiceModal = (function () {
     }
 
     destroy () {
-      $('#modal-wrapper').off('mousemove')
       window.removeEventListener('resize', this.setCSSVariables)
       super.destroy()
     }
