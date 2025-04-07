@@ -26,6 +26,7 @@ const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
 const RobloxModal = require('views/core/MineModal') // Roblox modal
 const JuniorModal = require('views/core/JuniorModal')
+const JuniorClassicChoiceModal = require('views/core/JuniorClassicChoiceModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
 const Course = require('models/Course')
@@ -170,8 +171,6 @@ class CampaignView extends RootView {
     this.levelScoreMap = {}
     this.courseLevelsLoaded = false
     this.highlightedCampaign = null
-    // just for testing
-    this.highlightedCampaign = 'junior'
 
     if (this.terrain === 'hoc-2018') {
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
@@ -416,6 +415,16 @@ class CampaignView extends RootView {
   openJuniorPromotionModal (e) {
     window.tracker?.trackEvent('Junior Explored')
     this.openModalView(new JuniorModal())
+  }
+
+  openJuniorClassicChoiceModal (e) {
+    window.tracker?.trackEvent('Junior Classic Choice Explored')
+    const modal = new JuniorClassicChoiceModal()
+    this.listenToOnce(modal, 'junior-classic-choice', (choice) => {
+      this.highlightedCampaign = choice === 'junior' ? 'junior' : 'dungeon'
+      this.render()
+    })
+    this.openModalView(modal)
   }
 
   openPlayItemsModal (e) {
@@ -870,6 +879,8 @@ class CampaignView extends RootView {
         }
       } else if (this.shouldShow('junior-promotion')) {
         this.openJuniorPromotionModal()
+      } else if (this.shouldShow('junior-classic-choice')) {
+        this.openJuniorClassicChoiceModal()
       }
     }
     if (!this.campaign && this.highlightedCampaign) {
@@ -2138,7 +2149,11 @@ class CampaignView extends RootView {
     }
 
     if (what === 'junior-promotion') {
-      return !me.finishedAnyLevels() && !this.terrain && me.getJuniorExperimentValue() === 'beta'
+      return !me.finishedAnyLevels() && !this.terrain && me.getJuniorExperimentValue() === 'beta' && !this.isCatalyst
+    }
+
+    if (what === 'junior-classic-choice') {
+      return this.isCatalyst && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-classic-choice-seen')
     }
 
     if (['status-line'].includes(what)) {
