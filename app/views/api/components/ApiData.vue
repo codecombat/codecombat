@@ -277,7 +277,16 @@ module.exports = Vue.extend({
           stats.licensesUsed,
           stats.activeLicenses,
         ]
-        return row.join(',')
+        // Properly escape CSV fields
+        return row.map(field => {
+          // Convert to string and check if needs escaping
+          const stringField = String(field)
+          if (stringField.includes(',') || stringField.includes('"') || stringField.includes('\n')) {
+            // Escape double quotes and wrap in quotes
+            return '"' + stringField.replace(/"/g, '""') + '"'
+          }
+          return stringField
+        }).join(',')
       })
 
       // Combine headers and data
