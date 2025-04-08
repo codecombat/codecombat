@@ -2,6 +2,7 @@
   <PageParentsLanding
     ref="premium"
     class="page-parents-landing"
+    :custom-meta-info="meta"
   >
     <template #contents>
       <div id="premium-page">
@@ -287,7 +288,7 @@ import ToolsList from 'app/views/home/ToolsList.vue'
 import PartnersList from 'app/views/home/PartnersList.vue'
 
 export default {
-  name: 'PageParentsV2',
+  name: 'PagePremium',
   components: {
     HeaderComponent,
     CTAButton,
@@ -553,24 +554,18 @@ export default {
         question: this.$t('parents_v2.faq_13_question'),
         answer: this.$t('parents_v2.faq_13_answer'),
       }],
+      meta: {
+        title: this.$t('new_premium.premium_page_title'),
+        meta: [
+          { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+        ],
+      },
     }
   },
 
   computed: {
     me () {
       return me
-    },
-  },
-
-  watch: {
-    // the modals will open and close based on the data in the parent component
-    $data: {
-      handler (newVal) {
-        for (const key in newVal) {
-          this.$refs.parent.updateData(key, newVal[key])
-        }
-      },
-      deep: true,
     },
   },
 
@@ -591,14 +586,6 @@ export default {
     },
   },
 
-  metaInfo () {
-    return {
-      title: (this.type === 'parents') ? undefined : this.$t('parents_landing_2.live_classes_title'),
-      meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
-      ],
-    }
-  },
 }
 </script>
 
