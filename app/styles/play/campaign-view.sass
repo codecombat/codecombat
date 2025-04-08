@@ -1346,6 +1346,7 @@ $gameControlMargin: 30px
     background: transparent url(/images/pages/play/portal-background.png)
     overflow-y: auto
     padding: 20px
+    $description-transition-time: 0.4s
 
     .portals
       display: flex
@@ -1389,6 +1390,10 @@ $gameControlMargin: 30px
             top: 45%
             width: 100%
             text-align: center
+
+            .play-button
+              margin: 15px 0
+              min-width: 100px
             
             // Text styling
             .campaign-name, .levels-completed, .campaign-locked
@@ -1399,6 +1404,10 @@ $gameControlMargin: 30px
             .campaign-description-container
               margin: 10px auto
               width: 80%
+              opacity: 0
+              visibility: hidden
+              transition: opacity $description-transition-time ease, visibility $description-transition-time ease
+              transition-delay: 0.15s
               
               .campaign-description
                 background: transparent url(/images/level/popover_border_background.png) no-repeat
@@ -1408,11 +1417,11 @@ $gameControlMargin: 30px
                 font-size: 14px
                 line-height: 1.2
                 margin: 0
-              
-            .play-button
-              margin: 15px 0
-              min-width: 100px
-        
+          
+          &:hover .campaign-description-container
+            opacity: 1
+            visibility: visible
+
       .campaign-rows
         display: flex
         flex-direction: column
@@ -1468,7 +1477,10 @@ $gameControlMargin: 30px
               width: 100%
               text-align: center
               
-              // Text styling
+              .play-button
+                margin: 15px 0
+                min-width: 100px
+              
               .campaign-name, .levels-completed, .campaign-locked
                 margin: 0
                 color: white
@@ -1477,6 +1489,10 @@ $gameControlMargin: 30px
               .campaign-description-container
                 margin: 10px auto
                 width: 80%
+                opacity: 0
+                visibility: hidden
+                transition: opacity $description-transition-time ease, visibility $description-transition-time ease
+                transition-delay: 0.15s
                 
                 .campaign-description
                   background: transparent url(/images/level/popover_border_background.png) no-repeat
@@ -1486,10 +1502,10 @@ $gameControlMargin: 30px
                   font-size: 14px
                   line-height: 1.2
                   margin: 0
-                
-              .play-button
-                margin: 15px 0
-                min-width: 100px
+            
+            &:hover .campaign-description-container
+              opacity: 1
+              visibility: visible
             
           .side-campaign-container
             position: absolute
@@ -1535,6 +1551,10 @@ $gameControlMargin: 30px
                 text-align: center
                 z-index: 1
                 
+                .play-button
+                  margin: 15px 0
+                  min-width: 100px
+
                 .campaign-name, .levels-completed, .campaign-locked
                   margin: 0
                   color: white
@@ -1547,12 +1567,15 @@ $gameControlMargin: 30px
                   padding: 12px
                   color: black
                   font-size: 12px
-                
-                .play-button
-                  margin: 10px 0
-                  min-width: 100px
-                  color: white
+                  opacity: 0
+                  visibility: hidden
+                  transition: opacity $description-transition-time ease, visibility $description-transition-time ease
+                  transition-delay: 0.15s
               
+              &:hover .campaign-description
+                opacity: 1
+                visibility: visible
+
               .background-container
                 position: absolute
                 top: 0
