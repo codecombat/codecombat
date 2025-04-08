@@ -1,10 +1,3 @@
-// TODO: This file was created by bulk-decaffeinate.
-// Sanity-check the conversion and remove this comment.
-/*
- * decaffeinate suggestions:
- * DS206: Consider reworking classes to avoid initClass
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
 let JuniorOriginalChoiceModal
 require('app/styles/modal/junior-original-choice-modal.sass')
 const ModalView = require('views/core/ModalView')
