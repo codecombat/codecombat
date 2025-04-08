@@ -599,6 +599,8 @@ module.exports = {
       age_description_codecombat_junior: 'Blocks or simple text coding for beginners',
       want_more_hints: 'Want more hints?',
       choose_your_adventure: 'Choose Your Adventure',
+      junior: 'Junior',
+      original: 'Original',
     },
 
     code: {
@@ -6202,7 +6204,7 @@ module.exports = {
       our_solutions: 'Our solutions are designed to equip you with essential computer science skills today, preparing you for the **digital careers of tomorrow.**',
       learning_code_challenging: 'Learning to code can be challenging, but you don’t have to do it alone. Our innovative AI hints feature provides real-time guidance to help you keep progressing. It can evaluate your code, highlight errors, and explain how to fix them, all while ensuring you understand the reasoning behind each solution—without simply giving away the answer. Since AI hints only assist with your current coding challenge, you\'ll still need to think critically and solve each level on your own. Premium subscribers receive 10 AI hints per day, giving you the support you need to keep learning with confidence.',
       new_to_ai: 'For those new to AI, we offer **[/ai]AI HackStack**, an innovative tool that teaches learners how to use AI safely and responsibly. With secure access to cutting-edge AI models like ChatGPT-4, Claude, Stable Diffusion, DALL·E, and more, users can create and experiment with AI- powered projects. In just a short time, they’ll unlock the full creative potential of AI, turning prompts into code, games, art, websites, and more—all in minutes. Every Premium subscriber receives 50 prompts per month, providing plenty of opportunities to explore and build with AI.',
-
+      premium_page_title: 'CodeCombat Premium',
     },
     parents_v2: {
       testimonials_1_quote: 'I can\'t even begin to explain the profound changes that have occurred in Luka academically since he\'s been working with you.',

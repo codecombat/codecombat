@@ -26,6 +26,7 @@ const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
 const RobloxModal = require('views/core/MineModal') // Roblox modal
 const JuniorModal = require('views/core/JuniorModal')
+const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
 const Course = require('models/Course')
@@ -120,6 +121,7 @@ class CampaignView extends RootView {
       'click .poll': 'showPoll',
       'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton',
       'click .premium-menu-icon': 'onClickPremiumButton',
+      'click .premium-btn': 'onClickPremiumButton',
       'click [data-toggle="coco-modal"][data-target="play/modal/PromotionModal"]': 'openPromotionModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayItemsModal"]': 'openPlayItemsModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayHeroesModal"]': 'openPlayHeroesModal',
@@ -169,6 +171,7 @@ class CampaignView extends RootView {
     this.levelDifficultyMap = {}
     this.levelScoreMap = {}
     this.courseLevelsLoaded = false
+    this.highlightedCampaign = null
 
     if (this.terrain === 'hoc-2018') {
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
@@ -413,6 +416,16 @@ class CampaignView extends RootView {
   openJuniorPromotionModal (e) {
     window.tracker?.trackEvent('Junior Explored')
     this.openModalView(new JuniorModal())
+  }
+
+  openJuniorOriginalChoiceModal (e) {
+    window.tracker?.trackEvent('Junior Original Choice Explored')
+    const modal = new JuniorOriginalChoiceModal()
+    this.listenToOnce(modal, 'junior-original-choice', (choice) => {
+      this.highlightedCampaign = choice === 'junior' ? 'junior' : 'dungeon'
+      this.render()
+    })
+    this.openModalView(modal)
   }
 
   openPlayItemsModal (e) {
@@ -867,7 +880,12 @@ class CampaignView extends RootView {
         }
       } else if (this.shouldShow('junior-promotion')) {
         this.openJuniorPromotionModal()
+      } else if (this.shouldShow('junior-original-choice')) {
+        this.openJuniorOriginalChoiceModal()
       }
+    }
+    if (!this.campaign && this.highlightedCampaign) {
+      this.$el.find(`.campaign[data-campaign-slug="${this.highlightedCampaign}"], .main-campaign[data-campaign-slug="${this.highlightedCampaign}"]`).addClass('highlighted')
     }
     return this.applyCampaignStyles()
   }
@@ -2132,7 +2150,11 @@ class CampaignView extends RootView {
     }
 
     if (what === 'junior-promotion') {
-      return !me.finishedAnyLevels() && !this.terrain && me.getJuniorExperimentValue() === 'beta'
+      return !me.finishedAnyLevels() && !this.terrain && me.getJuniorExperimentValue() === 'beta' && !this.isCatalyst
+    }
+
+    if (what === 'junior-original-choice') {
+      return this.isCatalyst && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
     }
 
     if (['status-line'].includes(what)) {
