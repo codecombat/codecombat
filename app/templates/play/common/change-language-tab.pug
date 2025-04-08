@@ -1,7 +1,8 @@
 mixin language-select(options, selected)
-  select&attributes(attributes)
-    for option in options
-      option(value=option.id, selected=selected === option.id, disabled=option.disabled)= option.name
+  .my-fancy-select
+    select&attributes(attributes)
+      for option in options
+        option.options(value=option.id, selected=selected === option.id, disabled=option.disabled)=option.name
   
 .form
   .form-group.select-group.code-format-form.half-width
