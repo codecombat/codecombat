@@ -766,7 +766,7 @@ export default {
   overflow: hidden;
 
   ::v-deep {
-    @extend %frontend-page;
+    @extend %frontend-page
   }
 
   .mixed-color-highlight {
