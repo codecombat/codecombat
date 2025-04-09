@@ -1,6 +1,7 @@
 <script>
 import Panel from '../Panel/index.vue'
 import ModalAssignContent from '../modals/ModalAssignContent/index'
+import ModalApplyLicenses from '../modals/ModalApplyLicenses/index.vue'
 import ModalAddStudents from '../modals/ModalAddStudents'
 import ModalRemoveStudents from '../modals/ModalRemoveStudents'
 import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
@@ -36,6 +37,7 @@ export default {
     ModalEditClass,
     ModalAssignContent,
     ModalAddStudents,
+    ModalApplyLicenses,
     ModalRemoveStudents,
     ModalOnboardingVideo,
     SecondaryTeacherNavigation,
@@ -54,6 +56,7 @@ export default {
       showRestrictedDiv: false,
       showNewClassModal: false,
       showAssignContentModal: false,
+      showApplyLicensesModal: false,
       showAddStudentsModal: false,
       showRemoveStudentsModal: false,
       showOnboardingModal: false,
@@ -434,6 +437,7 @@ export default {
           @assignContent="showAssignContentModal = true"
           @addStudents="showAddStudentsModal = true"
           @removeStudents="showRemoveStudentsModal = true"
+          @applyLicenses="showApplyLicensesModal = true"
         />
       </div>
     </div>
@@ -476,6 +480,11 @@ export default {
     <modal-remove-students
       v-if="showRemoveStudentsModal"
       @close="showRemoveStudentsModal = false"
+    />
+    <modal-apply-licenses
+      v-if="showApplyLicensesModal"
+      :classroom="classroom"
+      @close="showApplyLicensesModal=false"
     />
     <try-ozaria-modal
       v-if="showTryOzariaModal"

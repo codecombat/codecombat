@@ -157,9 +157,9 @@ export default {
           v-if="showLicenses"
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseApply_Gray' : 'IconLicenseApply'"
-          :text="$t('teacher.apply_licenses')"
+          :text="$t('teacher.apply_licenses') + 'test'"
           :inactive="displayOnly"
-          @click="applyLicenses"
+          @click="$emit('applyLicenses')"
         />
         <icon-button-with-text
           v-if="showLicenses"
