@@ -1,13 +1,18 @@
 <template>
   <div class="ai-junior-scenario-user">
-    <h2>User Projects for Scenario: {{ scenarioId }}</h2>
     <div v-if="loading">
       Loading projects...
     </div>
     <div v-else-if="error">
       {{ error }}
     </div>
-    <div v-else>
+    <div
+      v-else
+      class="projects-list"
+    >
+      <h2>
+        User Projects for Scenario: {{ scenario?.name }}
+      </h2>
       <div v-if="projects.length === 0">
         No projects found for this scenario and user.
       </div>
@@ -20,14 +25,20 @@
           :key="project._id"
           class="project-item"
         >
-          <h3>Project: {{ project.name || 'Unnamed Project' }}</h3>
-          <p>Created: {{ new Date(project.created).toLocaleString() }}</p>
-          <AIJuniorWorksheet
+          <p v-if="project.created">
+            Created On: {{ new Date(project.created).toLocaleString() }}
+          </p>
+          <!-- <AIJuniorWorksheet
             :scenario="scenario"
             :scenario-id="scenarioId"
             :user-id="userId"
             :project-id="project._id"
             :read-only="true"
+          /> -->
+          <AIJuniorProjectOutput
+            :project="project"
+            :scenario="scenario"
+            :hide-reprocess-button="true"
           />
         </div>
       </div>
@@ -36,14 +47,14 @@
 </template>
 
 <script>
-import AIJuniorWorksheet from 'components/common/elements/AIJuniorWorksheet.vue'
 import { getAIJuniorScenario } from 'app/core/api/ai-junior-scenarios'
 import { getAIJuniorProjectsForScenarioAndUser } from 'app/core/api/ai-junior-projects'
+import AIJuniorProjectOutput from 'components/common/elements/AIJuniorProjectOutput.vue'
 
 export default {
   name: 'AIJuniorScenarioUserView',
   components: {
-    AIJuniorWorksheet
+    AIJuniorProjectOutput,
   },
   props: {
     scenarioId: {
@@ -84,15 +95,19 @@ export default {
 
 <style scoped>
 .ai-junior-scenario-user {
-  max-width: 800px;
-  margin: 0 auto;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center
 }
 
 .projects-list {
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  padding: 10px;
 }
 
 .project-item {

@@ -1,7 +1,9 @@
 <template>
   <div class="ai-junior-scenario">
-    <h2>AI Junior Scenario: {{ scenarioId }}</h2>
-    <div class="main-column">
+    <div
+      v-if="hasAccess()"
+      class="main-column"
+    >
       <AIJuniorWorksheet
         v-if="scenario"
         :scenario="scenario"
@@ -11,7 +13,10 @@
         Loading scenario...
       </div>
     </div>
-    <div class="curriculum-info">
+    <div
+      v-if="curriculumInfo"
+      class="curriculum-info"
+    >
       <h3>Curriculum Information</h3>
       <p>{{ curriculumInfo }}</p>
     </div>
@@ -36,19 +41,24 @@ export default {
   data () {
     return {
       scenario: null,
-      curriculumInfo: ''
+      curriculumInfo: null,
     }
   },
   async created () {
     try {
       const response = await getAIJuniorScenario({ scenarioHandle: this.scenarioId })
       this.scenario = response
-      this.curriculumInfo = this.scenario.curriculumInfo || 'Curriculum information not available.'
+      this.curriculumInfo = this.scenario.curriculumInfo
     } catch (error) {
       console.error('Error fetching scenario:', error)
       // Handle error (e.g., show error message to user)
     }
-  }
+  },
+  methods: {
+    hasAccess () {
+      return me.hasAiJuniorAccess()
+    },
+  },
 }
 </script>
 
@@ -62,8 +72,8 @@ export default {
 
 .main-column {
   width: 100%;
-  max-width: 800px; /* Adjust as needed */
-  margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }
 
 .curriculum-info {

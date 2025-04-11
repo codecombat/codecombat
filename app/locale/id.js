@@ -550,6 +550,7 @@ module.exports = {
       owned: 'Dipunyai',
       locked: 'Terkunci',
       locked_by_teacher: '[AI_TRANSLATION]Dikunci oleh Guru',
+      //    locked_campaign: "Complete previous world to unlock",
       available: 'Tersedia',
       skills_granted: 'Kemampuan Diberikan',
       heroes: 'Jagoan',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Akun Google berhasil ditautkan',
       plus_link_error: '[AI_TRANSLATION]Kegagalan menghubungkan Akun Google',
       email_or_username_or_library: '[AI_TRANSLATION]Email atau Nama Pengguna atau Nomor Kartu Perpustakaan',
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: 'Dukungan',
       //    here: "here",
       from: '[AI_TRANSLATION]Dari',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: 'Unduh Semua',
       previous: 'Sebelum',
       location_title: 'Kamu berada di pusat kota San Fransisco:',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]Waktunya menguji kemampuan coding-mu di arena final musim kedua kami. Sorcerers Blitz sudah live dan menawarkan tantangan baru beserta papan skor baru untuk didaki.  ',
       season2_announcement_2: '[AI_TRANSLATION]Butuh lebih banyak latihan? Tetaplah dengan Arena Kekuatan Penyihir untuk menyempurnakan keterampilanmu. Kamu punya waktu hingga 31 Agustus untuk memainkan kedua arena. Catatan: penyesuaian keseimbangan arena dapat terjadi hingga 23 Agustus.',
       season2_announcement_3: '[AI_TRANSLATION]Hadiah menarik tersedia untuk performa terbaik di Sorcerers Blitz:',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: 'Beasiswa $1,000',
       season1_prize_2: 'RESPAWN Kursi Permainan',
       season1_prize_3: 'Avatar CodeCombat Khusus',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]hadiah hebat',
       powered_by: '[AI_TRANSLATION]Ditenagai oleh',
       grand_prize: '[AI_TRANSLATION]Hadiah Utama',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]Beasiswa',
       top_players_win: '[AI_TRANSLATION]Tiga pemain teratas di setiap divisi menang: HyperX pro peripherals',
       team_hyperx: '[AI_TRANSLATION]Tim HyperX',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]Tidak ada kueri Bot AI yang tersisa untuk __duration_key__',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]Tidak ada kueri AI Bot tersisa untuk __duration_amount__ __duration_key__',
       level_chat_no_credits_left: '[AI_TRANSLATION]Tidak ada query AI Bot yang tersisa',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {

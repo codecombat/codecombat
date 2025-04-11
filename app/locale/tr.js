@@ -550,6 +550,7 @@ module.exports = {
       owned: 'Sahipsin',
       locked: 'Kilitli',
       locked_by_teacher: '[AI_TRANSLATION]Öğretmen Tarafından Kilitli  ',
+      //    locked_campaign: "Complete previous world to unlock",
       available: 'Açık',
       skills_granted: 'Edinilen Yetenekler',
       heroes: 'Kahramanlar',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Google Hesap başarıyla bağlandı  ',
       plus_link_error: '[AI_TRANSLATION]Google Hesap bağlantısı başarısız oldu  ',
       email_or_username_or_library: '[AI_TRANSLATION]E-posta veya Kullanıcı Adı veya Kütüphane Kart numarası  ',
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: '[AI_TRANSLATION]Destek',
       here: '[AI_TRANSLATION]burası  ',
       from: '[AI_TRANSLATION]_dan/_den  ',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: 'Hepsini İndir',
       previous: 'Önceki',
       location_title: "[AI_TRANSLATION]Şu an SF'nin merkezindeyiz:",
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       //    season2_announcement_1: "Time to put your coding skills to the test in our season 2 final arena. The Sorcerers Blitz is live and offers a new challenge and a new leaderboard to climb.",
       season2_announcement_2: "[AI_TRANSLATION]Daha fazla pratik yapmaya mı ihtiyacınız var? Becerilerinizi geliştirmek için Büyücülerin Gücü Arenası'nda kalın. Her iki arenayı da oynamak için 31 Ağustos'a kadar vaktiniz var. Not: Arena dengelemeleri 23 Ağustos'a kadar yapılabilir.",
       season2_announcement_3: "[AI_TRANSLATION]Büyücülerin Blitz'inde en iyi performans gösterenler için harika ödüller:  ",
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]$1,000 Burs',
       season1_prize_2: '[AI_TRANSLATION]RESPAWN Oyun Ekipmanı  ',
       season1_prize_3: '[AI_TRANSLATION]Özel CodeCombat Avatarı  ',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]harika ödüller  ',
       powered_by: '[AI_TRANSLATION]Tarafından Güçlendirilmiş  ',
       grand_prize: '[AI_TRANSLATION]Büyük Ödül  ',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]Burs  ',
       top_players_win: '[AI_TRANSLATION]Her bölümdeki en iyi üç oyuncu kazanır: HyperX profesyonel çevre birimleri  ',
       team_hyperx: '[AI_TRANSLATION]Takım HyperX  ',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]__duration_key__ için Yapay Zeka Botu sorguları kalmadı  ',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]__duration_amount__ __duration_key__ için Yapay Zeka Botu sorguları kalmadı  ',
       level_chat_no_credits_left: '[AI_TRANSLATION]Yapay Zeka Botu sorguları kalmadı  ',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {

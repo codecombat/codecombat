@@ -550,6 +550,7 @@ module.exports = {
       owned: 'Lo Posees',
       locked: 'Bloqueado',
       locked_by_teacher: '[AI_TRANSLATION]Cerrado por el Profesor',
+      //    locked_campaign: "Complete previous world to unlock",
       available: 'Disponible',
       skills_granted: 'Habilidades concedidas',
       heroes: 'Heroes',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Cuenta de Google vinculada exitosamente',
       plus_link_error: '[AI_TRANSLATION]Error al vincular la cuenta de Google',
       email_or_username_or_library: '[AI_TRANSLATION]Correo electrónico o Nombre de usuario o Número de tarjeta de biblioteca',
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: '[AI_TRANSLATION]Soporte',
       here: '[AI_TRANSLATION]aquí',
       from: '[AI_TRANSLATION]De',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: '[AI_TRANSLATION]Descargar Todo',
       previous: '[AI_TRANSLATION]Anterior',
       location_title: '[AI_TRANSLATION]Estamos ubicados en el centro de SF:',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]Hora de poner a prueba tus habilidades de programación en nuestra final de la temporada 2. The Sorcerers Blitz está en vivo y ofrece un nuevo desafío y una nueva tabla de clasificación para escalar.',
       season2_announcement_2: '[AI_TRANSLATION]¿Necesitas más práctica? Quédate en la Arena de la Fuerza del Mago para perfeccionar tus habilidades. Tienes hasta el 31 de agosto para jugar en ambas arenas. Nota: los ajustes de equilibrio de la arena pueden ocurrir hasta el 23 de agosto.',
       season2_announcement_3: '[AI_TRANSLATION]Grandes premios disponibles para los mejores en el Sorcerers Blitz:',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]Beca de $1,000\n',
       season1_prize_2: '[AI_TRANSLATION]RESPAWN Equipamiento Gaming',
       season1_prize_3: '[AI_TRANSLATION]Avatar Personalizado de CodeCombat',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]grandes premios',
       powered_by: '[AI_TRANSLATION]Potenciado por',
       grand_prize: '[AI_TRANSLATION]Gran Premio',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]Beca',
       top_players_win: '[AI_TRANSLATION]Los tres mejores jugadores de cada división ganan: periféricos profesionales HyperX',
       team_hyperx: '[AI_TRANSLATION]Equipo HyperX',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]No quedan consultas de Bot de IA para __duration_key__',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]No quedan consultas de Bot de IA por __duration_amount__ __duration_key__',
       level_chat_no_credits_left: '[AI_TRANSLATION]No quedan consultas de Bot de IA',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {

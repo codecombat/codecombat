@@ -32,7 +32,7 @@ module.exports = (CertificatesView = (function () {
 
       this.prototype.events = {
         'click .print-btn': 'onClickPrintButton',
-        'click .toggle-btn': 'onClickToggleButton'
+        'click .toggle-btn': 'onClickToggleButton',
       }
     }
 
@@ -66,7 +66,7 @@ module.exports = (CertificatesView = (function () {
           success: data => {
             this.studentName = User.broadName(data)
             return (typeof this.render === 'function' ? this.render() : undefined)
-          }
+          },
         })
       }
       const classroomID = utils.getQueryVariable('class')
@@ -127,7 +127,10 @@ module.exports = (CertificatesView = (function () {
       this.thangType = new ThangType()
       this.supermodel.trackRequest(this.thangType.fetchLatestVersion(heroOriginal, { data: { project: 'slug,version,original,extendedName,heroClass' } }))
       return this.thangType.once('sync', thangType => {
-        if (this.thangType.get('heroClass') !== 'Warrior') {
+        const heroesWithPose = ['armando-hoyos', 'brown-rat-hero', 'captain', 'champion', 'code-ninja',
+          'duelist', 'goliath', 'guardian', 'knight', 'ned-fulmer', 'nick',
+          'raider', 'samurai', 'stalwart']
+        if (!heroesWithPose.includes(this.thangType.get('slug'))) {
           // We only have basic warrior poses and signatures for now
           return this.setHero(ThangTypeConstants.heroes.captain)
         }
@@ -188,7 +191,7 @@ module.exports = (CertificatesView = (function () {
       })
 
       this.courseStats = {
-        playtime
+        playtime,
       }
     }
 
@@ -213,9 +216,9 @@ module.exports = (CertificatesView = (function () {
 
       this.courseStats = {
         levels: {
-          numDone: levelCompleteNum
+          numDone: levelCompleteNum,
         },
-        linesOfCode
+        linesOfCode,
       }
       this.campaignConcepts = _.map(__guard__(this.campaign.get('description'), x => x.split(',')), c => c.trim())
       return this.render()

@@ -27,6 +27,7 @@ const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
 const RobloxModal = require('views/core/MineModal') // Roblox modal
 const JuniorModal = require('views/core/JuniorModal')
+const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
 const Course = require('models/Course')
@@ -96,6 +97,7 @@ class CampaignView extends RootView {
       'click .roblox-level': 'onRobloxLevelClick',
       'click .hackstack-level': 'onHackStackLevelClick',
       'click .hackstack-menu-icon': 'onHackStackLevelClick',
+      'click .ai-league-menu-icon': 'onAILeagueIconClick',
       'click .junior-menu-icon': 'onJuniorIconClick',
       'click .map-background': 'onClickMap',
       'click .level': 'onClickLevel',
@@ -106,9 +108,13 @@ class CampaignView extends RootView {
       'click .level-info-container .course-version button': 'onClickCourseVersion',
       'click #volume-button': 'onToggleVolume',
       'click #back-button': 'onClickBack',
+      'click #back-button-catalyst': 'onClickBack',
       'click #clear-storage-button': 'onClickClearStorage',
       'click .portal .campaign': 'onClickPortalCampaign',
       'click .portal .beta-campaign': 'onClickPortalCampaign',
+      'click .portal-catalyst .side-campaign': 'onClickPortalCampaign',
+      'click .portal-catalyst .main-campaign': 'onClickPortalCampaign',
+      'click .portal-catalyst .campaign': 'onClickPortalCampaign',
       'click a .campaign-switch': 'onClickCampaignSwitch',
       'mouseenter .portals': 'onMouseEnterPortals',
       'mouseleave .portals': 'onMouseLeavePortals',
@@ -116,6 +122,7 @@ class CampaignView extends RootView {
       'click .poll': 'showPoll',
       'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton',
       'click .premium-menu-icon': 'onClickPremiumButton',
+      'click .premium-btn': 'onClickPremiumButton',
       'click [data-toggle="coco-modal"][data-target="play/modal/PromotionModal"]': 'openPromotionModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayItemsModal"]': 'openPlayItemsModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayHeroesModal"]': 'openPlayHeroesModal',
@@ -148,6 +155,13 @@ class CampaignView extends RootView {
     if (window.serverConfig.picoCTF) {
       this.terrain = 'picoctf'
     }
+    if (/^catalyst/.test(this.terrain)) {
+      this.terrain = '' // In this case we process query params
+    }
+
+    // Check if the user is in the Catalyst experiment
+    this.isCatalyst = me.getCatalystExperimentValue() === 'beta'
+
     this.editorMode = options?.editorMode
     this.requiresSubscription = !me.isPremium()
     if (this.editorMode && !this.terrain) {
@@ -159,6 +173,7 @@ class CampaignView extends RootView {
     this.levelScoreMap = {}
     this.courseLevelsLoaded = false
     this.DEEP_API_LIST = constants.DEEP_API_LIST
+    this.highlightedCampaign = null
 
     if (this.terrain === 'hoc-2018') {
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
@@ -405,6 +420,16 @@ class CampaignView extends RootView {
     this.openModalView(new JuniorModal())
   }
 
+  openJuniorOriginalChoiceModal (e) {
+    window.tracker?.trackEvent('Junior Original Choice Explored')
+    const modal = new JuniorOriginalChoiceModal()
+    this.listenToOnce(modal, 'junior-original-choice', (choice) => {
+      this.highlightedCampaign = choice === 'junior' ? 'junior' : 'dungeon'
+      this.render()
+    })
+    this.openModalView(modal)
+  }
+
   openPlayItemsModal (e) {
     e.stopPropagation()
     this.openModalView(new PlayItemsModal())
@@ -606,7 +631,7 @@ class CampaignView extends RootView {
     if (this.classroom) {
       const classroomLevels = this.classroom.getLevels()
       this.classroomLevelMap = Object.fromEntries(classroomLevels.map(l => [l.get('original'), l]))
-      const defaultLanguage = this.classroom.get('aceConfig').language
+      const defaultLanguage = this.classroom.get('aceConfig')?.language || 'python'
       for (const session of this.sessions.slice()) {
         const classroomLevel = this.classroomLevelMap[session.get('level').original]
         if (!classroomLevel) {
@@ -678,6 +703,11 @@ class CampaignView extends RootView {
     window.tracker?.trackEvent('HackStack Explored', { engageAction: 'campaign_level_click' })
     // Backbone.Mediator.publish 'router:navigate', route: '/ai/new_project'
     this.openModalView(new HackstackPromotionModalView())
+  }
+
+  onAILeagueIconClick (e) {
+    window.tracker?.trackEvent('AILeague Explored', { engageAction: 'campaign_level_click' })
+    this.openModalView(new AILeaguePromotionModal())
   }
 
   setCampaign (campaign) {
@@ -769,7 +799,7 @@ class CampaignView extends RootView {
           const count = this.countLevels(levels)
           campaign.levelsTotal = count.total
           campaign.levelsCompleted = count.completed
-          campaign.locked = campaign.get('slug') !== 'dungeon' && !campaign.levelsTotal
+          campaign.locked = !['dungeon', 'junior'].includes(campaign.get('slug')) && (!campaign.levelsTotal || !count.unlocked)
         }
       }
       for (const campaign of publicCampaigns) {
@@ -818,7 +848,7 @@ class CampaignView extends RootView {
     })
 
     if (!application.isIPadApp) {
-      _.defer(() => this.$el?.find('.game-controls .btn:not(.poll)').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
+      _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .game-controls-catalyst .btn:not(.poll), .other-products-catalyst .btn, .campaign.locked, .beta-campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
       const view = this
       this.$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each(function () {
         if (!me.isAdmin() || !view.editorMode) { return }
@@ -852,7 +882,12 @@ class CampaignView extends RootView {
         }
       } else if (this.shouldShow('junior-promotion')) {
         this.openJuniorPromotionModal()
+      } else if (this.shouldShow('junior-original-choice')) {
+        this.openJuniorOriginalChoiceModal()
       }
+    }
+    if (!this.campaign && this.highlightedCampaign) {
+      this.$el.find(`.campaign[data-campaign-slug="${this.highlightedCampaign}"], .main-campaign[data-campaign-slug="${this.highlightedCampaign}"]`).addClass('highlighted')
     }
     return this.applyCampaignStyles()
   }
@@ -1103,13 +1138,14 @@ class CampaignView extends RootView {
   }
 
   countLevels (orderedLevels) {
-    const count = { total: 0, completed: 0 }
+    const count = { total: 0, completed: 0, unlocked: 0 }
 
     if (this.campaign?.get('type') === 'hoc') {
       // HoC: Just order left-to-right instead of looking at unlocks, which we don't use for this copycat campaign
       orderedLevels = _.sortBy(orderedLevels, level => level.position.x)
       for (const level of orderedLevels) {
         if (this.levelStatusMap[level.slug] === 'complete') { count.completed++ }
+        if (!level.locked) { ++count.unlocked }
       }
       count.total = orderedLevels.length
       return count
@@ -1118,6 +1154,7 @@ class CampaignView extends RootView {
     for (let levelIndex = 0; levelIndex < orderedLevels.length; levelIndex++) {
       const level = orderedLevels[levelIndex]
       if (level.locked == null) { this.annotateLevels(orderedLevels) } // Annotate if we haven't already.
+      if (!level.locked) { ++count.unlocked }
       if (level.disabled) { continue }
       const completed = this.levelStatusMap[level.slug] === 'complete'
       const started = this.levelStatusMap[level.slug] === 'started'
@@ -1309,12 +1346,14 @@ class CampaignView extends RootView {
   }
 
   onMouseEnterPortals (e) {
+    if (this.isCatalyst) return // Skip for catalyst view
     if (!this.campaigns?.loaded || !this.sessions?.loaded) { return }
     this.portalScrollInterval = setInterval(this.onMouseMovePortals, 100)
     return this.onMouseMovePortals(e)
   }
 
   onMouseLeavePortals (e) {
+    if (this.isCatalyst) return // Skip for catalyst view
     if (!this.portalScrollInterval) { return }
     clearInterval(this.portalScrollInterval)
     this.portalScrollInterval = null
@@ -1322,7 +1361,8 @@ class CampaignView extends RootView {
 
   onMouseMovePortals (e) {
     if (!this.portalScrollInterval) { return }
-    const $portal = this.$el.find('.portal')
+    // Find portals using the view's element as context, just like the original code
+    const $portal = this.$el.find('.portal, .portal-catalyst')
     const $portals = this.$el.find('.portals')
     if (e) {
       this.portalOffsetX = Math.round(Math.max(0, e.clientX - $portal.offset().left))
@@ -1741,7 +1781,7 @@ class CampaignView extends RootView {
   }
 
   onClickPortalCampaign (e) {
-    const campaign = $(e.target).closest('.campaign, .beta-campaign')
+    const campaign = $(e.target).closest('.campaign, .beta-campaign, .main-campaign, .side-campaign')
     if (campaign.is('.locked') || campaign.is('.silhouette')) { return }
     const campaignSlug = campaign.data('campaign-slug')
     if (this.isPremiumCampaign(campaignSlug) && !me.isPremium()) {
@@ -1986,6 +2026,7 @@ class CampaignView extends RootView {
     if (application.getHocCampaign()) { return false }
     if (me.isInHourOfCode()) { return false }
     if (userUtils.isInLibraryNetwork() || userUtils.libraryName()) { return false }
+    if (this.isCatalyst) { return false }
     const latest = window.serverConfig.latestAnnouncement
     const myLatest = me.get('lastAnnouncementSeen')
     if (typeof latest !== 'number') { return }
@@ -2119,7 +2160,11 @@ class CampaignView extends RootView {
     }
 
     if (what === 'junior-promotion') {
-      return !me.finishedAnyLevels() && !this.terrain && me.getJuniorExperimentValue() === 'beta'
+      return !me.finishedAnyLevels() && !this.terrain && me.getJuniorExperimentValue() === 'beta' && !this.isCatalyst
+    }
+
+    if (what === 'junior-original-choice') {
+      return this.isCatalyst && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
     }
 
     if (['status-line'].includes(what)) {
@@ -2163,7 +2208,9 @@ class CampaignView extends RootView {
     }
 
     if (what === 'anonymous-classroom-signup') {
-      return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() && !this.editorMode && this.terrain !== 'junior' && !storage.load('hid-anonymous-classroom-signup-dialog')
+      return me.isAnonymous() && !this.isCatalyst &&
+        (me.level() < 8) && me.promptForClassroomSignup() &&
+        !this.editorMode && this.terrain !== 'junior' && !storage.load('hid-anonymous-classroom-signup-dialog')
     }
 
     if (what === 'amazon-campaign') {
@@ -2183,6 +2230,10 @@ class CampaignView extends RootView {
     if (what === 'league-arena') {
       // Note: Currently the tooltips don't work in the campaignView overworld.
       return !me.isAnonymous() && this.campaign?.get('slug') && !this.editorMode && !userUtils.isCreatedViaLibrary()
+    }
+
+    if (what === 'ai-league') {
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
     if (what === 'roblox-level') {

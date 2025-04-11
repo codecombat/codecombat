@@ -550,6 +550,7 @@ module.exports = {
       owned: 'Megszerzett',
       locked: 'Zárolva',
       locked_by_teacher: 'Tanár által zárolva',
+      //    locked_campaign: "Complete previous world to unlock",
       available: 'Elérhető',
       skills_granted: 'Elnyert képességek',
       heroes: 'Hősök',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Google-fiók sikeresen összekapcsolva',
       plus_link_error: '[AI_TRANSLATION]Google Fiók összekapcsolása sikertelen',
       email_or_username_or_library: '[AI_TRANSLATION]Email vagy felhasználónév vagy könyvtári kártyaszám',
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: 'Támogatás',
       here: 'itt',
       from: '[AI_TRANSLATION]Tól',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: 'Összes letöltése',
       previous: 'Előző',
       location_title: 'Az irodánkat San Francisco szívében találod:',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]Itt az idő, hogy próbára tedd kódolási képességeidet a 2. évadunk végső arénájában. Az Varázslók Blitz verseny élőben elérhető, új kihívást és új ranglistát kínál, hogy meghódítsd.',
       season2_announcement_2: '[AI_TRANSLATION]Több gyakorlásra van szükséged? Maradj a Mágus Ereje Arénánál, hogy finomítsd készségeidet. Augusztus 31-ig játszhatsz mindkét arénában. Megjegyzés: az aréna egyensúlyi beállításai augusztus 23-ig változhatnak.',
       season2_announcement_3: '[AI_TRANSLATION]Nagyszerű nyeremények elérhetők a Sorcerers Blitz top teljesítői számára:',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]$1,000 Ösztöndíj',
       season1_prize_2: '[AI_TRANSLATION]RESPAWN Játék Felszerelés',
       season1_prize_3: '[AI_TRANSLATION]Egyedi CodeCombat Avatar',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]szuper nyeremények',
       powered_by: '[AI_TRANSLATION]Támogatja',
       grand_prize: '[AI_TRANSLATION]Fődíj',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]Ösztöndíj',
       top_players_win: '[AI_TRANSLATION]Az egyes kategóriák első három játékosa nyer: HyperX profi perifériák',
       team_hyperx: '[AI_TRANSLATION]HyperX Csapat',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]Nincs több AI Bot kérés a __duration_key__ időszakra.',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]Nincsenek AI Bot lekérdezések hátra __duration_amount__ __duration_key__ ideig',
       level_chat_no_credits_left: '[AI_TRANSLATION]Nincs több AI Bot lekérés',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {
