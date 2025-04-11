@@ -110,6 +110,7 @@ module.exports = class LevelLoader extends CocoClass
 
     if @courseInstanceID and not @classroomId
       @courseInstance = new CourseInstance({_id: @courseInstanceID})
+      @supermodel.trackModel(@courseInstance)
       @courseInstance.fetch().then =>
         @classroomId = @courseInstance.get('classroomID')
         @classroomIdLoaded()
@@ -118,6 +119,7 @@ module.exports = class LevelLoader extends CocoClass
 
   classroomIdLoaded: ->
     @classroom = new Classroom({_id: @classroomId})
+    @supermodel.trackModel(@classroom)
     @classroom.fetch().then =>
       return if @destroyed
       @classroomLoaded()
