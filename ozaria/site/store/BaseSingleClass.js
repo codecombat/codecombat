@@ -320,7 +320,7 @@ export default {
       }
 
       onSuccess?.()
-      dispatch('classrooms/updateClassroom', {
+      return dispatch('classrooms/updateClassroom', {
         classroom,
         updates: {
           studentLockMap: clonedClass.studentLockMap
@@ -403,7 +403,7 @@ export default {
       }
 
       onSuccess?.()
-      dispatch('classrooms/updateClassroom', {
+      return dispatch('classrooms/updateClassroom', {
         classroom,
         updates: {
           studentLockMap: clonedClass.studentLockMap

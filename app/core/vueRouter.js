@@ -34,6 +34,11 @@ export default function getVueRouter () {
               component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorScenarioUserProjectView'),
               props: true,
             },
+            {
+              path: 'demo',
+              component: () => import(/* webpackChunkName: "aiJunior" */ 'app/views/ai-junior/AIJuniorDemoView'),
+              props: true,
+            },
           ],
         },
         {
@@ -45,6 +50,12 @@ export default function getVueRouter () {
           name: 'eventCalendar',
           component: () => import(/* webpackChunkName: "EventView" */ 'app/views/events/index'),
           props: true,
+        },
+        {
+          path: '/premium',
+          props: (route) => ({ showPremium: true, type: route.query.type }),
+          component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/premium/PagePremium'),
+          meta: { theme: 'teal' },
         },
         {
           path: '/parents',

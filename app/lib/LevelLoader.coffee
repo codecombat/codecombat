@@ -92,12 +92,22 @@ module.exports = class LevelLoader extends CocoClass
 
 
   loadClassroomIfNecessary: ->
-    if not @classroomId and not @courseInstanceId
-      @onAccessibleLevelLoaded()
-      return
     if @headless and not @level?.isType('web-dev')
       @onAccessibleLevelLoaded()
       return
+
+    if not @classroomId and not @courseInstanceID
+      isAILeague = @tournament or @team or @spectateMode or utils.getQueryVariable 'league'
+      if !me.isStudent() or isAILeague
+        @onAccessibleLevelLoaded()
+      else
+        noty({
+          text: $.i18n.t('courses.no_classrooms_found'),
+          type: 'error',
+          timeout: 5000,
+        })
+      return
+
     if @courseInstanceID and not @classroomId
       @courseInstance = new CourseInstance({_id: @courseInstanceID})
       @courseInstance.fetch().then =>

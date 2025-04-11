@@ -32,6 +32,7 @@ export default Vue.extend({
     lastX: 0,
     lastY: 0,
     canvasContents: {}, // Store canvas content for each input
+    projectName: '',
   }),
 
   computed: {
@@ -86,7 +87,7 @@ export default Vue.extend({
 
   updated () {
     this.$nextTick(() => {
-      this.initializeCanvases()
+      // this.initializeCanvases() // TODO: figure out which fields need to re-initialize canvases because name definitely does not need to
     })
   },
 
@@ -297,13 +298,16 @@ export default Vue.extend({
         }
       }
 
-      const studentName = document.querySelector('input.student-name-input')?.value
+      if (!this.projectName) {
+        window.alert('Please enter a project name.')
+        return
+      }
 
       const projectData = {
         scenarioId: this.scenario._id,
         userId: this.me.id,
         inputValues,
-        studentName
+        name: this.projectName,
       }
 
       try {
@@ -347,6 +351,7 @@ export default Vue.extend({
           >
             <span class="student-name-label">Name: </span>
             <input
+              v-model="projectName"
               type="text"
               class="student-name-input"
             >

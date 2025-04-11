@@ -97,6 +97,8 @@ module.exports = (CocoRouter = (function () {
         'ai-junior/project/:scenarioId/:userId': go('core/SingletonAppVueComponentView'),
         'ai-junior/project/:scenarioId/:userId/:projectId': go('core/SingletonAppVueComponentView'),
 
+        'ai-junior/demo': go('core/SingletonAppVueComponentView'),
+
         licensor: go('LicensorView'),
 
         admin: go('admin/MainAdminView'),
@@ -429,7 +431,7 @@ module.exports = (CocoRouter = (function () {
           if (me.isAdmin()) { return this.routeDirectly('cutscene', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props }) }
         },
 
-        premium: go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true }),
+        premium: go('core/SingletonAppVueComponentView'),
 
         'ozaria/avatar-selector' () {
           if (me.isAdmin()) { return this.routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' }) }

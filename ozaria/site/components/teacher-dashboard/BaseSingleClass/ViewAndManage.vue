@@ -207,7 +207,9 @@ export default {
           />
           <!-- The tooltip -->
           <template slot="popover">
-            <lock-or-skip :shown="lockOrSkipShown" />
+            <lock-or-skip
+              :shown="lockOrSkipShown"
+            />
           </template>
         </v-popover>
       </div>

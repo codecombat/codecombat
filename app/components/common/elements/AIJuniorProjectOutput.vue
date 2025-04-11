@@ -1,6 +1,10 @@
 <template>
   <div class="ai-junior-project-output">
-    <h3>Project Output</h3>
+    <h3
+      v-if="project.name"
+    >
+      {{ project.name }}
+    </h3>
     <div
       v-if="project.processingStatus === 'processing' || project.processingStatus === 'pending' || !project.processingStatus"
       class="processing"
@@ -13,7 +17,10 @@
       class="failed"
     >
       <p>Processing failed. Please try again.</p>
-      <button @click="$emit('reprocess-project')">
+      <button
+        v-if="!hideReprocessButton"
+        @click="$emit('reprocess-project')"
+      >
         Reprocess
       </button>
     </div>
@@ -36,17 +43,25 @@
         :key="response.promptId"
         class="prompt-response"
       >
-        <h4>{{ response.promptId }}</h4>
-        <p v-if="response.text">
-          {{ response.text }}
-        </p>
-        <img
-          v-if="response.image"
-          :src="response.image"
-          alt="Generated image"
+        <div
+          v-if="response.promptId === 'characterImage'"
+          class="response-character-image"
         >
+          <h4>{{ response.promptId }}</h4>
+          <p v-if="response.text">
+            {{ response.text }}
+          </p>
+          <!-- <img
+            v-if="response.image"
+            :src="response.image"
+            alt="Generated image"
+          > -->
+        </div>
       </div>
-      <button @click="$emit('reprocess-project')">
+      <button
+        v-if="!hideReprocessButton"
+        @click="$emit('reprocess-project')"
+      >
         Reprocess
       </button>
     </div>
@@ -64,7 +79,11 @@ export default {
     scenario: {
       type: Object,
       required: true
-    }
+    },
+    hideReprocessButton: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     compiledOutput () {

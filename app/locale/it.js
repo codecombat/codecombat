@@ -550,6 +550,7 @@ module.exports = {
       owned: 'In tuo possesso',
       locked: 'Bloccato',
       locked_by_teacher: "[AI_TRANSLATION]Bloccato dall'insegnante",
+      //    locked_campaign: "Complete previous world to unlock",
       available: 'Disponibile',
       skills_granted: 'Competenze fornite',
       heroes: 'Eroi',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Account Google collegato con successo',
       plus_link_error: "[AI_TRANSLATION]Collegamento dell'account Google fallito",
       email_or_username_or_library: '[AI_TRANSLATION]Email o Nome utente o Numero della Tessera della Biblioteca',
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: '[AI_TRANSLATION]Supporto  ',
       here: '[AI_TRANSLATION]qui',
       from: '[AI_TRANSLATION]Da',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: '[AI_TRANSLATION]Scarica Tutto',
       previous: '[AI_TRANSLATION]Precedente',
       location_title: '[AI_TRANSLATION]Ci troviamo nel centro di SF:',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]È ora di mettere alla prova le tue abilità di programmazione nella nostra arena finale di stagione 2. Il Sorcerers Blitz è attivo e offre una nuova sfida e classifica da scalare.  ',
       season2_announcement_2: "[AI_TRANSLATION]Hai bisogno di più pratica? Resta con l'Arena della Potenza del Mago per affinare le tue abilità. Hai tempo fino al 31 agosto per giocare in entrambe le arene. Nota: potrebbero esserci aggiustamenti del bilanciamento dell'arena fino al 23 agosto.",
       season2_announcement_3: '[AI_TRANSLATION]Grandi premi disponibili per i migliori performer del Sorcerers Blitz:',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]Borsa di studio da $1,000',
       season1_prize_2: '[AI_TRANSLATION]Attrezzatura Gaming RESPAWN  ',
       season1_prize_3: '[AI_TRANSLATION]Avatar personalizzato di CodeCombat',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]grandi premi',
       powered_by: '[AI_TRANSLATION]Alimentato da',
       grand_prize: '[AI_TRANSLATION]Gran Premio',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]Borsa di studio',
       top_players_win: '[AI_TRANSLATION]I primi tre giocatori in ogni divisione vincono: periferiche professionali HyperX',
       team_hyperx: '[AI_TRANSLATION]Team HyperX',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]Nessuna query AI Bot rimanente per la __duration_key__',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]Nessuna richiesta AI Bot rimasta per __duration_amount__ __duration_key__',
       level_chat_no_credits_left: '[AI_TRANSLATION]Nessuna domanda AI Bot rimanente',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {

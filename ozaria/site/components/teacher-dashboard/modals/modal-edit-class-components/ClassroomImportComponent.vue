@@ -193,7 +193,7 @@ export default Vue.extend({
   },
   watch: {
     googleClassId (newVal) {
-      this.$emit('googleClassIdUpdated', newVal)
+      this.$emit('googleClassroomIdUpdated', newVal)
     },
     otherProductClassroomId (newVal) {
       this.$emit('otherProductClassroomIdUpdated', newVal)

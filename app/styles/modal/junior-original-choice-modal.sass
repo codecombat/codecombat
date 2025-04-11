@@ -1,0 +1,178 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#junior-original-choice-modal
+  .modal-dialog
+    margin: 60px auto 0 auto
+    padding: 0
+    width: 746px
+    height: 520px
+    background: none
+
+    @media screen and (max-width: 746px)
+      --scale-factor: calc(var(--vw) / 746)
+      transform-origin: left top
+      transform: scale(var(--scale-factor))
+
+    @media screen and (max-height: 640px)
+      margin-top: 0
+
+    @media screen and (max-height: 520px)
+      margin-top: -125px
+
+      img.hero-image
+        display: none
+
+  //- Header
+  h1
+    position: absolute
+    left: 155px
+    top: 25px
+    margin: 0
+    width: 410px
+    text-align: center
+    color: rgb(254,188,68)
+    font-size: 28px
+    text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0, black 6px 6px 6px
+    font-variant: normal
+
+  //- Close modal button
+  #close-modal
+    position: absolute
+    left: 568px
+    top: 17px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 15px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+  #button-container
+    position: absolute
+    bottom: -35px
+    width: 100%
+    text-align: center
+
+    .submit-button
+      width: 45%
+
+      .no-text-transform
+        text-transform: none
+
+  .play-button
+    width: 100%
+    font-size: 24px
+    line-height: 30px
+    border-style: solid
+    border-image: url(/images/common/button-background-success-active.png) 14 20 20 20 fill round
+    /* Preload hover image */
+    &:after
+      content: ""
+      border-image: url(/images/common/button-background-success-inactive.png)
+    /* Preload active image*/
+    &:before
+      content: ""
+      border-image: url(/images/common/button-background-success-pressed.png)  
+    &:hover
+      border-image: url(/images/common/button-background-success-inactive.png) 14 20 20 20 fill round
+    &:active
+      border-image: url(/images/common/button-background-success-pressed.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+    filter: drop-shadow(4px 4px 8px black)
+
+  .junior-button
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    /* Preload hover image */
+    &:after
+      content: ""
+      border-image: url(/images/common/button-background-primary-disabled.png)
+    /* Preload active image*/
+    &:before
+      content: ""
+      border-image: url(/images/common/button-background-primary-pressed.png)  
+    &:hover
+      border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+    &:active
+      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+
+    span
+      pointer-events: none
+
+  #junior-details
+    text-align: center
+    width: 625px
+    height: 325px
+    position: absolute
+    left: 60px
+    top: 140px
+    border-style: solid
+    border-image: url('/images/pages/play/level-info-background.png') 14 20 20 20 fill stretch
+    border-width: 14px 20px 20px 20px
+    display: none
+
+  #modal-background
+    position: absolute
+    top: -61px
+    left: 0px
+
+  #junior-content
+    width: 685px
+    height: 385px
+    position: absolute
+    left: 30px
+    top: 110px
+    overflow: visible
+    border-radius: 8px
+    //background-image: url('/images/roblox/live_background.png')
+    //@supports (background-image: url('/images/roblox/live_background.webp'))
+    //  background-image: url('/images/roblox/live_background.webp')
+    //background-size: cover
+    //background-position: 50% 75%
+
+    .row
+      height: 100%
+
+    .junior-column, .codecombat-column
+      height: 100%
+
+    .junior-column
+      border-right: 2px dotted #444
+
+    img.product-logo
+      width: 90%
+      margin: 20% auto
+      position: absolute
+
+    img.hero-image
+      position: absolute
+
+      &.junior
+        left: 20%
+        top: -10%
+        width: 215px
+
+      &.codecombat
+        right: 20%
+        top: -12%
+        width: 215px
+
+    h2
+      color: rgb(254,188,68)
+      text-align: center
+      font-size: 32px
+      text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0, black 4px 4px 4px
+      font-variant: normal
+      margin-top: 65%
+
+    p
+      color: black
+      text-align: center
+      font-size: 22px
+

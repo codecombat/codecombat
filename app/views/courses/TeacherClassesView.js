@@ -155,6 +155,8 @@ module.exports = (TeacherClassesView = (function () {
       this.trialRequests = new TrialRequests()
       this.trialRequests.fetchOwn()
       this.supermodel.trackCollection(this.trialRequests)
+
+      this.chinaInfra = features?.chinaInfra
     }
 
     static initClass () {

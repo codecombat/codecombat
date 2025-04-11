@@ -78,19 +78,14 @@ const ClassroomLib = {
 
     if (typeof value === 'undefined' && modifier === 'locked') {
       // Legacy behavior.
-      return ClassroomLib.isStudentOnLockedLevel(classroomAttributes, studentId, courseIdToCheck, level)
+      return ClassroomLib.isStudentOnLockedLevelLegacy(classroomAttributes, studentId, courseIdToCheck, level)
     }
 
     // If we have a modifier expiry date, then we check if the modifier will expire at the given date.
     if (modifierExpiryDate) {
-      if (new Date(value).toString() === modifierExpiryDate.toString()) {
+      if (value && new Date(value).toString() === modifierExpiryDate.toString()) {
         return true
       }
-      return false
-    }
-
-    if (!value) {
-      // If we have not tracked a locked course, then assume unlocked.
       return false
     }
 
@@ -101,9 +96,12 @@ const ClassroomLib = {
     if (new Date(value) > new Date()) {
       return true
     }
+
+    return false
   },
 
-  isStudentOnLockedLevel: (classroom, studentId, courseIdToCheck, levelOriginal) => {
+  // this is deprecated and will be removed in the future
+  isStudentOnLockedLevelLegacy: (classroom, studentId, courseIdToCheck, levelOriginal) => {
     const studentCourseLocked = classroom?.studentLockMap?.[studentId]?.courseId
     if (!studentCourseLocked) {
       // If we have not tracked a locked course, then assume unlocked.

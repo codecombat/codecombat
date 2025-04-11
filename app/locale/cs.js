@@ -550,6 +550,7 @@ module.exports = {
       owned: 'Vlastněné',
       locked: 'Zamčené',
       locked_by_teacher: '[AI_TRANSLATION]Uzamčeno učitelem',
+      //    locked_campaign: "Complete previous world to unlock",
       available: 'Dostupné',
       skills_granted: 'Nabyté dovednosti',
       heroes: 'Hrdinové',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: 'Propojení s Googlem proběhlo úspěšně',
       plus_link_error: 'Propojení s Googlem selhalo',
       email_or_username_or_library: "Email nebo Uživatelské jméno nebo 'Library Card' číslo",
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: 'Pomoc',
       here: 'tady',
       from: 'Od',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: '[AI_TRANSLATION]Stáhnout vše',
       previous: '[AI_TRANSLATION]Předchozí  ',
       location_title: '[AI_TRANSLATION]Nacházíme se v centru San Franciska:',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]Je čas otestovat své programovací dovednosti v našem finále druhé sezóny. Sorcerers Blitz je spuštěn a nabízí novou výzvu a nový žebříček, který můžete zdolat.',
       season2_announcement_2: "[AI_TRANSLATION]Potřebuješ víc cvičit? Drž se v aréně mage's might, abys zdokonalil své dovednosti. Máš čas do 31. srpna hrát obě arény. Poznámka: úpravy rovnováhy arény mohou probíhat až do 23. srpna.",
       season2_announcement_3: '[AI_TRANSLATION]Skvělé ceny pro nejlepší účastníky v Sorcerers Blitz:',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]Stipendium 1 000 $',
       season1_prize_2: '[AI_TRANSLATION]RESPAWN herní výbava',
       season1_prize_3: '[AI_TRANSLATION]Vlastní avatar pro CodeCombat',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]skvělé ceny',
       powered_by: '[AI_TRANSLATION]Poháněno',
       grand_prize: '[AI_TRANSLATION]Hlavní cena',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]Stipendium',
       top_players_win: '[AI_TRANSLATION]První tři hráči v každé divizi vyhrávají: HyperX profesionální periferie',
       team_hyperx: '[AI_TRANSLATION]Tým HyperX',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]Žádné dotazy AI botu nejsou k dispozici pro __duration_key__',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]Zbývá __duration_amount__ __duration_key__ dotazů na AI bota',
       level_chat_no_credits_left: '[AI_TRANSLATION]Žádné další dotazy na AI Bota',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {
