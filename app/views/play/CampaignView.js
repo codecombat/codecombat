@@ -2233,7 +2233,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'ai-league') {
-      return !userUtils.isCreatedViaLibrary() && !this.editorMode
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode && !me.showChinaResourceInfo()
     }
 
     if (what === 'roblox-level') {
@@ -2241,7 +2241,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'roblox-button') {
-      return !userUtils.isCreatedViaLibrary() && !this.editorMode
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode && !me.showChinaResourceInfo()
     }
 
     if (what === 'hackstack') {
