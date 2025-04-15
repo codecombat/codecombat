@@ -19,7 +19,7 @@
           <content-box :main-image-bg="true">
             <template #image>
               <video-box
-                video-id="da0d63c489741f4bd20448af1846292a"
+                video-id="cf4738b607808cfa92dca7ab377e60fb"
                 :thumbnail-url-time="2"
                 :auto-play="me.isAnonymous()"
                 :controls="!me.isAnonymous()"

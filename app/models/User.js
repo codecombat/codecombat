@@ -299,6 +299,10 @@ module.exports = (User = (function () {
       return this.isCreatedByClient() || (/@codeninjas.com$/i.test(this.get('email')))
     }
 
+    hasAiJuniorAccess () {
+      return this.isAdmin() || this.isBetaTester()
+    }
+
     getHocCourseInstanceId () {
       const courseInstanceIds = me.get('courseInstances') || []
       if (courseInstanceIds.length === 0) { return }
@@ -1315,6 +1319,50 @@ module.exports = (User = (function () {
       return value
     }
 
+    // "Catalyst" is a new global map and UI/UX for CodeCombat Home version
+    getCatalystExperimentValue () {
+      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('catalyst')]
+      if (value == null) { value = me.getExperimentValue('catalyst', null, 'beta') }
+      // Don't include Ozaria for now
+      if ((value == null) && utils.isOzaria) {
+        value = 'control'
+      }
+      if (userUtils.isInLibraryNetwork()) {
+        value = 'control'
+      }
+      // Don't include China players for now
+      if ((value == null) && features?.china) {
+        value = 'control'
+      }
+      // Don't include users other than home users
+      if ((value == null) && me.get('role')) {
+        value = 'control'
+      }
+      // Don't include already premium users
+      if ((value == null) && me.hasSubscription()) {
+        value = 'control'
+      }
+      if ((!value)) {
+        let valueProbability
+        // 0% chance to be in the beta group by default
+        const probability = window.serverConfig?.experimentProbabilities?.catalyst?.beta
+        if (probability == null) {
+          // it means we're not running the experiment
+          value = 'control'
+          valueProbability = 1
+        } else if (Math.random() < probability) {
+          value = 'beta'
+          valueProbability = probability
+        } else {
+          value = 'control'
+          valueProbability = 1 - probability
+        }
+        console.log('starting catalyst experiment with value', value, 'prob', valueProbability)
+        me.startExperiment('catalyst', value, valueProbability)
+      }
+      return value
+    }
+
     removeRelatedAccount (relatedUserId, options = {}) {
       options.url = '/db/user/related-accounts'
       options.type = 'DELETE'
@@ -1442,6 +1490,10 @@ module.exports = (User = (function () {
 
     isMto () {
       return this.isMtoStem() || this.isMtoNeo()
+    }
+
+    isSchoology () {
+      return this.get('oAuth2Identities')?.some(identity => identity.provider === 'schoology')
     }
 
     isGeccClient () {

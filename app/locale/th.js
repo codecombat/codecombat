@@ -550,6 +550,7 @@ module.exports = {
       owned: 'เป็นเจ้าของ',
       locked: 'ล็อค',
       locked_by_teacher: '[AI_TRANSLATION]ล็อกโดยครู',
+      //    locked_campaign: "Complete previous world to unlock",
       available: 'ใช้งานได้',
       skills_granted: 'ทักษะที่ได้รับ',
       //    heroes: "Heroes",
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: 'บัญชี Google ได้รับการเชื่อมโยงสำเร็จเรียบร้อยแล้ว',
       plus_link_error: 'การเชื่อมโยงบัญชี Google ล้มเหลว',
       email_or_username_or_library: '[AI_TRANSLATION]อีเมล์หรือชื่อผู้ใช้หรือหมายเลขบัตรห้องสมุด',
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: '[AI_TRANSLATION]สนับสนุน',
       here: '[AI_TRANSLATION]ที่นี่',
       from: '[AI_TRANSLATION]จาก',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: '[AI_TRANSLATION]ดาวน์โหลดทั้งหมด',
       previous: '[AI_TRANSLATION]ก่อนหน้า  ',
       location_title: '[AI_TRANSLATION]เราอยู่ในเมือง SF ใจกลาง:',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]ถึงเวลาทดสอบทักษะการเขียนโค้ดของคุณในรอบชิงชนะเลิศซีซัน 2 ของเรา Sorcerers Blitz เปิดตัวแล้วและมีความท้าทายใหม่และกระดานผู้นำใหม่ให้ปีน',
       season2_announcement_2: "[AI_TRANSLATION]ต้องการฝึกฝนเพิ่มหรือไม่? อยู่ที่ Mage's Might Arena เพื่อขัดเกลาทักษะของคุณ คุณมีเวลาจนถึงวันที่ 31 สิงหาคมในการเล่นทั้งสองสนาม หมายเหตุ: อาจมีการปรับสมดุลสนามจนถึงวันที่ 23 สิงหาคม",
       season2_announcement_3: '[AI_TRANSLATION]มีรางวัลเจ๋ง ๆ สำหรับผู้ที่ทำผลงานได้ดีใน Sorcerers Blitz:  ',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]ทุนการศึกษา $1,000',
       season1_prize_2: '[AI_TRANSLATION]อุปกรณ์เล่นเกม RESPAWN',
       season1_prize_3: '[AI_TRANSLATION]อวาตาร์ CodeCombat แบบกำหนดเอง',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]รางวัลสุดยอด',
       powered_by: '[AI_TRANSLATION]ใช้พลังจาก',
       grand_prize: '[AI_TRANSLATION]รางวัลใหญ่',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]ทุนการศึกษา',
       top_players_win: '[AI_TRANSLATION]ผู้เล่นสามอันดับแรกในแต่ละดิวิชั่นจะชนะ: อุปกรณ์ HyperX pro',
       team_hyperx: '[AI_TRANSLATION]ทีม HyperX',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]ไม่มีการสอบถามบอท AI เหลือสำหรับ __duration_key__',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]ไม่มีการสืบค้น AI Bot เหลือสำหรับ __duration_amount__ __duration_key__',
       level_chat_no_credits_left: '[AI_TRANSLATION]ไม่มีการค้นหา AI Bot เหลืออยู่',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {

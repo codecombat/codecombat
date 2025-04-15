@@ -911,7 +911,19 @@ export default {
     showPremium: {
       type: Boolean,
       default: true
-    }
+    },
+
+    customMetaInfo: {
+      type: Object,
+      default () {
+        return {
+          title: (this.type === 'parents') ? undefined : this.$t('parents_landing_2.live_classes_title'),
+          meta: [
+            { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+          ],
+        }
+      },
+    },
   },
 
   data: () => ({
@@ -929,12 +941,7 @@ export default {
     //        called once the page has been rendered once.
     //        Request-class-list icon gets rendered back if the user navigates away.
     $('.request-class-list').hide()
-    return {
-      title: (this.type === 'parents') ? undefined : this.$t('parents_landing_2.live_classes_title'),
-      meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
-      ]
-    }
+    return this.customMetaInfo
   },
 
   mounted () {

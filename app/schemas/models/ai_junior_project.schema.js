@@ -29,9 +29,10 @@ _.extend(AIJuniorProjectSchema.properties, {
         { title: 'Value', type: 'string', maxLength: 30 },
         { title: 'Choices', type: 'array', items: { type: 'string' } },
         { title: 'Image', type: 'string', format: 'image-file', minLength: 31 },
-      ]
-    }
+      ],
+    },
   },
+  name: c.shortString({ title: 'Name of the project' }),
   promptResponses: c.array({
     title: 'Prompt Responses',
     description: 'The text and file responses received from the AI models',
@@ -60,6 +61,7 @@ _.extend(AIJuniorProjectSchema.properties, {
     title: 'Uploaded Worksheet',
     description: 'Path to the uploaded worksheet file',
   },
+  created: c.date({ title: 'Date Created' }),
 })
 
 c.extendBasicProperties(AIJuniorProjectSchema, 'ai_junior_project')

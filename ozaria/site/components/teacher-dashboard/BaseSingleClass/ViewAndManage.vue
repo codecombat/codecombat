@@ -61,6 +61,10 @@ export default {
 
     sortBy () {
       return storage.load('sortMethod') || 'Last Name'
+    },
+
+    me () {
+      return window.me
     }
   },
   methods: {
@@ -162,7 +166,7 @@ export default {
           @click="applyLicenses"
         />
         <icon-button-with-text
-          v-if="showLicenses"
+          v-if="showLicenses && me.get('country') !== 'lebanon'"
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseRevoke_Gray' : 'IconLicenseRevoke'"
           :text="$t('teacher_dashboard.revoke_licenses')"
@@ -207,7 +211,9 @@ export default {
           />
           <!-- The tooltip -->
           <template slot="popover">
-            <lock-or-skip :shown="lockOrSkipShown" />
+            <lock-or-skip
+              :shown="lockOrSkipShown"
+            />
           </template>
         </v-popover>
       </div>

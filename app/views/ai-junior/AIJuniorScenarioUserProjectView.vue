@@ -1,6 +1,6 @@
 <template>
   <div class="ai-junior-scenario-user-project">
-    <h2>User Project for Scenario: {{ scenarioId }}</h2>
+    <h2>User Project for Scenario: {{ scenario?.name }}</h2>
     <AIJuniorWorksheet
       v-if="!project || project.processingStatus === 'pending'"
       :scenario="scenario"

@@ -197,8 +197,6 @@ export default {
     levelAccessStatus () {
       if (this.isLocked && !this.lockDate && !this.isOptional) {
         return 'locked'
-      } else if (!this.isLocked && !this.isPlayable && !this.lockDate) {
-        return 'locked-by-previous'
       } else if (this.lockDate && this.lockDate > new Date()) {
         return 'locked-with-timeframe'
       } else if (this.isSkipped) {
@@ -211,9 +209,6 @@ export default {
 
     hasClockIcon () {
       if (this.levelAccessStatus === 'locked-with-timeframe') {
-        return true
-      }
-      if (this.levelAccessStatus === 'locked-by-previous' && this.lastLockDate > new Date()) {
         return true
       }
       return false

@@ -203,13 +203,16 @@ block content
       .inline-simulation-stats
         #simulate-tab-view
   else
+    if !me.isAdmin()
+      .inline-simulation-stats
+        #simulate-tab-view
     ul.nav.nav-pills
       li.active
         a(href="#ladder", data-toggle="tab", data-i18n="general.ladder") Ladder
       if !me.get('anonymous')
         li
           a(href="#my-matches", data-toggle="tab", data-i18n="ladder.my_matches") My Matches
-        if view.leagueType !== 'course'
+        if view.leagueType !== 'course' && me.isAdmin()
           li
             a(href="#simulate", data-toggle="tab", data-i18n="ladder.simulate") Simulate
       if view.winners
@@ -285,8 +288,9 @@ block content
         #new-leaderboard-view
       .tab-pane.well#my-matches
         #my-matches-tab-view
-      .tab-pane.well#simulate
-        #simulate-tab-view
+      if me.isAdmin()
+        .tab-pane.well#simulate
+          #simulate-tab-view
 
       if view.level.get('name') === 'Greed' || view.level.get('name') === 'Criss-Cross' || view.level.get('name') === 'Zero Sum'
         .tab-pane.well#winners

@@ -17,7 +17,11 @@ export default {
 
     userNames: {
       byId: {}
-    }
+    },
+
+    userClassrooms: {
+      byId: {},
+    },
   },
 
   mutations: {
@@ -51,7 +55,14 @@ export default {
       Object.keys(nameMap).forEach((userId) => {
         Vue.set(state.userNames.byId, userId, nameMap[userId])
       })
-    }
+    },
+
+    setClassroomNames: (state, nameMap) => {
+      Object.keys(nameMap).forEach(uId => {
+        Vue.set(state.userClassrooms.byId, uId, nameMap[uId])
+      })
+    },
+
   },
   getters: {
     // Get user data for classroom members
@@ -65,6 +76,9 @@ export default {
         })
       }
       return members
+    },
+    getClassroomsByUserId: (state) => (id) => {
+      return state.userClassrooms.byId[id]
     },
     getUserById: (state) => (id) => {
       return state.users.byId[id]
@@ -156,6 +170,20 @@ export default {
         .catch(e => {
           console.error(`Fetch user names failure ${e.message}`)
         })
-    }
-  }
+    },
+
+    fetchClassroomNamesByUserId: ({ commit }, ids) => {
+      return usersApi
+        .fetchClassNamesForUser(ids)
+        .then(res => {
+          if (res) {
+            commit('setClassroomNames', res)
+          }
+        })
+        .catch(e => {
+          console.error(`Fetch classroom names failure ${e.message}`)
+          window.noty({ text: `Fetch classroom names failure ${e.message}`, type: 'error' })
+        })
+    },
+  },
 }

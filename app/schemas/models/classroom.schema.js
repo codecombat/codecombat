@@ -97,6 +97,14 @@ _.extend(ClassroomSchema.properties, {
   googleClassroomId: { title: 'Google classroom id', type: 'string' },
   otherProductId: { title: 'Id in other product', type: 'string' },
   lmsClassroomId: { title: 'LMS classroom id', type: 'string' },
+  lmsClassroom: {
+    type: 'object',
+    properties: {
+      classId: { type: 'string' },
+      name: { type: 'string' },
+      provider: { type: 'string' },
+    },
+  },
   grades: c.array({ title: 'Class Grades' }, { type: 'string', enum: ['elementary', 'middle', 'high'] }),
   classroomItems: { title: 'Items & Gems', type: 'boolean', description: 'Whether students should earn gems and equip items during gameplay' },
   studentLockMap: c.object({
@@ -105,7 +113,7 @@ _.extend(ClassroomSchema.properties, {
     additionalProperties: c.object(
       { title: 'Student Lock Object', description: 'Key value of student id tied to the lock data.' }, {
         courseId: c.objectId(),
-        levelOriginal: c.objectId(),
+        levelOriginal: c.objectId({ description: 'Deprecated: use lockedLevels instead' }),
         lockedScenarioLevels: c.object({
           description: 'AI Scenario levels that can be locked or unlocked',
           additionalProperties: ['boolean', c.stringDate()]

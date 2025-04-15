@@ -550,6 +550,7 @@ module.exports = {
       owned: 'In bezit',
       locked: 'Vergrendeld',
       locked_by_teacher: '[AI_TRANSLATION]Vergrendeld door de Leraar',
+      //    locked_campaign: "Complete previous world to unlock",
       available: 'Beschikbaar',
       skills_granted: 'Verleende vaardigheden',
       heroes: 'Helden',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Google Account succesvol gekoppeld',
       plus_link_error: '[AI_TRANSLATION]Google Account koppeling mislukt',
       email_or_username_or_library: '[AI_TRANSLATION]E-mail of Gebruikersnaam of Bibliotheekkaartnummer',
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: 'Support',
       //    here: "here",
       from: '[AI_TRANSLATION]Van',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: 'Download Alles',
       previous: 'Vorige',
       location_title: 'We zijn gevestigd in San Fransico (VS) en Leiden (NL):',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]Tijd om je codeervaardigheden te testen in onze finale arena van seizoen 2. De Sorcerers Blitz is live en biedt een nieuwe uitdaging en een nieuwe ranglijst om te beklimmen.  ',
       season2_announcement_2: "[AI_TRANSLATION]Meer oefening nodig? Blijf bij de Mage's Might Arena om je vaardigheden te verfijnen. Je hebt tot 31 augustus om beide arena's te spelen. Let op: arena balansaanpassingen kunnen plaatsvinden tot 23 augustus.",
       season2_announcement_3: '[AI_TRANSLATION]Geweldige prijzen beschikbaar voor de toppresteerders in de Sorcerers Blitz:',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]Beurs van $1.000',
       season1_prize_2: '[AI_TRANSLATION]RESPAWN Gaming Gear',
       season1_prize_3: '[AI_TRANSLATION]Aangepaste CodeCombat Avatar',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]geweldige prijzen',
       powered_by: '[AI_TRANSLATION]Aangedreven door',
       grand_prize: '[AI_TRANSLATION]Hoofdprijs',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]Beurs',
       top_players_win: '[AI_TRANSLATION]De top drie spelers in elke divisie winnen: HyperX pro randapparatuur',
       team_hyperx: '[AI_TRANSLATION]Team HyperX',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]Geen AI Bot queries meer over voor de __duration_key__',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]Overleef!',
       level_chat_no_credits_left: '[AI_TRANSLATION]Geen AI Bot-vragen meer over',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {

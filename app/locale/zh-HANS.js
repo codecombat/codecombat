@@ -550,6 +550,7 @@ module.exports = {
       owned: '已拥有',
       locked: '需解锁',
       locked_by_teacher: '[AI_TRANSLATION]被老师锁定',
+      //    locked_campaign: "Complete previous world to unlock",
       available: '可用',
       skills_granted: '获得技能',
       heroes: '英雄',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Google 账户绑定成功',
       plus_link_error: '[AI_TRANSLATION]Google 账户绑定失败',
       email_or_username_or_library: '[AI_TRANSLATION]邮箱或用户名或图书馆卡号',
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: '[AI_TRANSLATION]支持  ',
       //    here: "here",
       from: '[AI_TRANSLATION]从',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1047,7 +1051,7 @@ module.exports = {
       code_saved: '代码已保存',
       chat_placeholder: '[AI_TRANSLATION]需要编程帮助吗？和 AI 聊天。（实验性功能！）',
       chat_fix_show: '[AI_TRANSLATION]给我看',
-      //    chat_fix_hide: "Hide",
+      chat_fix_hide: '隐藏',
       skip_tutorial: '跳过（esc）',
       keyboard_shortcuts: '快捷键',
       loading_start: '开始',
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: '全部下载',
       previous: '上一页',
       location_title: '我们在旧金山市区工作：',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]是时候在我们的第二季决赛竞技场展示你的编码技能了。Sorcerers Blitz现已上线，为你带来新的挑战和新的排行榜。',
       season2_announcement_2: "[AI_TRANSLATION]需要更多练习吗？在 Mage's Might Arena 提高你的技能。你可以在8月31日前玩两个竞技场。注意：竞技场平衡调整可能会在8月23日前发生。",
       season2_announcement_3: '[AI_TRANSLATION]Sorcerers Blitz 顶尖选手可获得丰厚奖品：',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]$1,000 奖学金',
       season1_prize_2: '[AI_TRANSLATION]复活游戏装备',
       season1_prize_3: '[AI_TRANSLATION]自定义 CodeCombat 头像',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]大奖',
       powered_by: '[AI_TRANSLATION]由…驱动',
       grand_prize: '[AI_TRANSLATION]特等奖',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]奖学金',
       top_players_win: '[AI_TRANSLATION]每个分区前三名玩家赢得：HyperX 专业外设  ',
       team_hyperx: '[AI_TRANSLATION]HyperX团队  ',
@@ -5466,11 +5482,15 @@ module.exports = {
     },
 
     user_credits: {
-      level_chat_left_in_duration: '[AI_TRANSLATION]你有 __credits__ 次 AI Bot 查询次数剩余时间是 __duration_key__\n',
-      level_chat_left_in_duration_multiple: '[AI_TRANSLATION]你有 __credits__ 次 AI Bot 查询次数剩余时间是 __duration_amount__ __duration_key__\n',
-      level_chat_no_credits_left_duration: '[AI_TRANSLATION]没有 AI Bot 查询了 __duration_key__',
-      level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]剩下没有 AI 机器人查询 __duration_amount__ __duration_key__  ',
-      level_chat_no_credits_left: '[AI_TRANSLATION]无 AI 机器人查询',
+      level_chat_left_in_duration: '你每 __duration_key__ 有 __credits__ 次 AI 问答次数',
+      level_chat_left_in_duration_multiple: '你每 __duration_amount__ __duration_key__ 有 __credits__ 次 AI 问答次数',
+      level_chat_no_credits_left_duration: '没有 AI 问答次数了( 这一__duration_key__)',
+      level_chat_no_credits_left_duration_multiple: '没有 AI 问答次数了( 这 __duration_amount__ __duration_key__)',
+      level_chat_no_credits_left: '没有 AI 问答次数了',
+      level_chat_duration_hour: '个小时',
+      level_chat_duration_day: '天',
+      level_chat_duration_week: '周',
+      level_chat_duration_month: '个月',
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       see_all: '查看全部',
       created_by: '创建者',
       remix: '混录',
+      copy: '复制',
+      copied: '已复制!',
+      copied_error: '复制出错!',
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {

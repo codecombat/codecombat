@@ -93,17 +93,18 @@ async function levelChatCreditsString () {
     return $.i18n.t('user_credits.level_chat_no_credits_left')
   }
   const { creditsLeft, durationKey, durationAmount } = credits[0]
+  const i18nKey = $.i18n.t(`user_credits.level_chat_duration_${durationKey}`)
   if (creditsLeft > 0) {
     if (durationAmount > 1) {
-      return $.i18n.t('user_credits.level_chat_left_in_duration_multiple', { credits: creditsLeft, duration_key: durationKey, duration_amount: durationAmount })
+      return $.i18n.t('user_credits.level_chat_left_in_duration_multiple', { credits: creditsLeft, duration_key: i18nKey, duration_amount: durationAmount })
     } else {
-      return $.i18n.t('user_credits.level_chat_left_in_duration', { credits: creditsLeft, duration_key: durationKey })
+      return $.i18n.t('user_credits.level_chat_left_in_duration', { credits: creditsLeft, duration_key: i18nKey })
     }
   } else {
     if (durationAmount > 1) {
-      return $.i18n.t('user_credits.level_chat_no_credits_left_duration_multiple', { duration_key: durationKey, duration_amount: durationAmount })
+      return $.i18n.t('user_credits.level_chat_no_credits_left_duration_multiple', { duration_key: i18nKey, duration_amount: durationAmount })
     } else {
-      return $.i18n.t('user_credits.level_chat_no_credits_left_duration', { duration_key: durationKey })
+      return $.i18n.t('user_credits.level_chat_no_credits_left_duration', { duration_key: i18nKey })
     }
   }
 }
