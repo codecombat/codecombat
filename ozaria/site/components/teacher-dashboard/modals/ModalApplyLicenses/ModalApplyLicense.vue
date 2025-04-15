@@ -8,24 +8,26 @@
           <div>endDate</div>
           <div
             v-for="course in utils.orderedCourseIDs"
-            :key="`course-${course}`"
+            :key="`course-name-${course}`"
+            :class="`title-course course-${course}`"
           >
             {{ utils.courseAcronyms[course] }}
           </div>
         </div>
-        <div>
+        <div class="sub-title">
           <div>Pick a License</div>
         </div>
         <div
           v-for="license in licenses"
-          :key="`license-${license.id}`"
+          :key="`license-${license._id}`"
           class="license-grid"
         >
           <div>
             <input
+              v-model="selectedLicenseId"
               name="license"
               type="radio"
-              value="license"
+              :value="license._id"
             >
           </div>
           <div>
@@ -36,7 +38,7 @@
           </div>
           <div
             v-for="(course, index) in utils.orderedCourseIDs"
-            :key="`course-${index}`"
+            :key="`license-course-${course}`"
           >
             <input
               type="checkbox"
@@ -48,16 +50,20 @@
         </div>
       </div>
       <div class="students">
-        <div>
+        <div class="sub-title student-title">
           <div>Select your students</div>
         </div>
         <div
           v-for="student in students"
-          :key="`student-${student.id}`"
+          :key="`student-${student._id}`"
           class="students user-grid"
         >
           <div>
-            <input type="checkbox">
+            <input
+              type="checkbox"
+              :checked="selectedStudentIds.include(student._id)"
+              @change="changeCheckbox(student._id)"
+            >
           </div>
           <div>
             {{ student.name }}
@@ -66,18 +72,28 @@
           <div
             v-for="(course, index) in utils.orderedCourseIDs"
             :key="`student-course-${index}`"
+            class="student-course"
           >
             <input
               type="checkbox"
               class="checkbox-course"
-              :checked="(student.courseBits & Math.pow(2, index)) ? 'checked' : undefined"
+              :checked="((student.courseBits & Math.pow(2, index)) || (selectedLicense) )? 'checked' : undefined"
               onclick="return false"
             >
+            <div v-if="selectedCourses.includes(course)" class="selected-mask"></div>
           </div>
         </div>
       </div>
     </div>
-    <div class="buttons" />
+    <div class="buttons">
+      <tertiary-button @click="handleClickedCancel">
+        {{ $t('modal.cancel') }}
+      </tertiary-button>
+      <span class="or-text">{{ $t('general.or') }}</span>
+      <secondary-button @click="handleClickedApply">
+        {{ $t('teacher.apply_licenses') }}
+      </secondary-button>
+    </div>
   </div>
 </template>
 
@@ -85,18 +101,34 @@
 import utils from 'app/core/utils'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
+
+import SecondaryButton from '../../common/buttons/SecondaryButton'
+import TertiaryButton from '../../common/buttons/TertiaryButton'
+
 export default {
+  components: {
+    SecondaryButton,
+    TertiaryButton,
+  },
   data () {
     return {
+      selectedLicenseId: null,
     }
   },
-
   computed: {
     ...mapGetters({
       selectedStudentIds: 'baseSingleClass/selectedStudentIds',
       classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
       getPrepaids: 'prepaids/getPrepaidsByTeacher',
     }),
+    selectedLicense () {
+      if (!this.selectedLicenseId) return null
+      return _.find(this.licenses, (license) => license._id === this.selectedLicenseId)
+    },
+    selectedCourses () {
+      if (!this.selectedLicense) return []
+      return this.selectedLicense.includedCourseIDs || utils.orderedCourseIDs
+    },
     utils () {
       return utils
     },
@@ -117,13 +149,25 @@ export default {
     },
   },
   methods: {
+    ...mapActions({
+      toggleStudentSelectedId: 'baseSingleClass/toggleStudentSelectedId'
+    }),
+    changeCheckBox (id) {
+      this.toggleStudentSelectedId({ studentId: id })
+    },
+    handleClickedApply () {
+
+    },
+    handleClickedCancel () {
+      this.$emit('close')
+    },
     licenseName (license) {
       if (license.type === 'starter_license') {
         return $.i18n.t('teacher.starter_license')
       }
       const includedCourseIDs = license.includedCourseIDs
       if (includedCourseIDs) {
-        return $.i18n.t('teacher_customized_license')
+        return $.i18n.t('teacher.customized_license')
       } else {
         return $.i18n.t('teacher.full_license')
       }
@@ -155,8 +199,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  @import "app/styles/ozaria/_ozaria-style-params.scss";
 .apply-license {
   width: 1200px;
+
+  .form {
+    overflow-y: hide;
+  }
 }
  .license-grid, .user-grid {
    display: grid;
@@ -164,4 +213,43 @@ export default {
    grid-template-columns: 5% 20% 15% repeat(12, 5%);
    grid-template-rows: 100%;
  }
+
+.title-course {
+
+}
+.sub-title {
+   div {
+     border-bottom: 1px solid black;
+   }
+}
+.student-title {
+  margin-top: 20px;
+}
+.student-course {
+  position: relative;
+
+  .selected-mask {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid $color-intro-title-bar-complete;
+    background: rgba($color-progress-status-complete, 0.4);
+  }
+
+}
+.buttons {
+  margin-top: 40px;
+  float: right;
+
+  button {
+    width: 150px;
+    height: 40px;
+  }
+  .or-text {
+    @include font-p-3-small-button-text-dusk-dark;
+    font-size: 14px;
+    letter-spacing: 0.333px;
+  }
+}
 </style>
