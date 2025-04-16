@@ -364,7 +364,7 @@ if showGameDevAlert
                   if mainCampaign && mainCampaign.get('description')
                     .campaign-description-container
                       p.campaign-description(dir="auto")
-                        span= i18n(mainCampaign.attributes, 'description')
+                        span(data-i18n="play.campaign_description_" + row.main)
               
               // Right side campaign (Web Dev)
               if row.right
