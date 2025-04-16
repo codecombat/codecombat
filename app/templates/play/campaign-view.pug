@@ -325,9 +325,9 @@ if showGameDevAlert
                     p.campaign-description(dir="auto")
                       if ['junior', 'dungeon'].includes(campaignSlug)
                         - var campaignProductName = campaignSlug == 'junior' ? 'codecombat_junior' : 'codecombat'
-                        strong.span.campaign-age-description(data-i18n="play.age_description_" + campaignSlug)
+                        span.campaign-about(data-i18n="play.campaign_about_" + campaignSlug)
                         br
-                      span= i18n(campaign.attributes, 'description')
+                      span(data-i18n="play.campaign_description_" + campaignSlug)
         
         // Main campaigns with side dev campaigns
         .campaign-rows
@@ -389,7 +389,7 @@ if showGameDevAlert
                   if mainCampaign && mainCampaign.get('description')
                     .campaign-description-container
                       p.campaign-description(dir="auto")
-                        span= i18n(mainCampaign.attributes, 'description')
+                        span(data-i18n="play.campaign_description_" + row.main)
               
               // Right side campaign (Web Dev)
               if row.right
