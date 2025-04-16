@@ -1404,8 +1404,6 @@ $gameControlMargin: 30px
             .campaign-description-container
               margin: 10px auto
               width: 80%
-              opacity: 0
-              visibility: hidden
               transition: opacity $description-transition-time ease, visibility $description-transition-time ease
               transition-delay: 0.15s
               
@@ -1418,9 +1416,6 @@ $gameControlMargin: 30px
                 line-height: 1.2
                 margin: 0
           
-          &:hover .campaign-description-container
-            opacity: 1
-            visibility: visible
 
       .campaign-rows
         display: flex
@@ -1489,8 +1484,6 @@ $gameControlMargin: 30px
               .campaign-description-container
                 margin: 10px auto
                 width: 80%
-                opacity: 0
-                visibility: hidden
                 transition: opacity $description-transition-time ease, visibility $description-transition-time ease
                 transition-delay: 0.15s
                 
@@ -1502,10 +1495,7 @@ $gameControlMargin: 30px
                   font-size: 14px
                   line-height: 1.2
                   margin: 0
-            
-            &:hover .campaign-description-container
-              opacity: 1
-              visibility: visible
+
             
           .side-campaign-container
             position: absolute
@@ -1567,14 +1557,9 @@ $gameControlMargin: 30px
                   padding: 12px
                   color: black
                   font-size: 12px
-                  opacity: 0
-                  visibility: hidden
                   transition: opacity $description-transition-time ease, visibility $description-transition-time ease
                   transition-delay: 0.15s
-              
-              &:hover .campaign-description
-                opacity: 1
-                visibility: visible
+
 
               .background-container
                 position: absolute

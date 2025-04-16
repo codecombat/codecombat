@@ -325,9 +325,7 @@ if showGameDevAlert
                     p.campaign-description(dir="auto")
                       if ['junior', 'dungeon'].includes(campaignSlug)
                         - var campaignProductName = campaignSlug == 'junior' ? 'codecombat_junior' : 'codecombat'
-                        strong.campaign-age(data-i18n="play.age_" + campaignProductName)
-                        br
-                        span.campaign-age-description(data-i18n="play.age_description_" + campaignProductName)
+                        strong.span.campaign-age-description(data-i18n="play.age_description_" + campaignSlug)
                         br
                       span= i18n(campaign.attributes, 'description')
         
