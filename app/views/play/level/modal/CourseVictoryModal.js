@@ -129,7 +129,7 @@ module.exports = (CourseVictoryModal = (function () {
       this.views = []
 
       if (me.showGemsAndXpInClassroom() && (this.achievements.length > 0)) {
-        this.achievements.models = _.filter(this.achievements.models, m => m.get('query')?.ladderAchievementDifficulty) // Don't show higher AI difficulty achievements
+        this.achievements.models = _.filter(this.achievements.models, m => !m.get('query')?.ladderAchievementDifficulty) // Don't show higher AI difficulty achievements
         let showAchievements = false // show achievements only if atleast one achievement is completed
         for (const achievement of this.achievements.models) {
           achievement.completed = LocalMongo.matchesQuery(this.session.attributes, achievement.get('query'))
