@@ -505,6 +505,8 @@ if showGameDevAlert
           span.btn.ai-league-menu-icon(data-i18n="[title]play.ai_league_button_hover")
         if view.shouldShow('roblox-button')
           span.btn.roblox-level.roblox-menu-icon(data-i18n="[title]play.roblox_button_hover")
+        if view.shouldShow('junior-level')
+          span.btn.junior-level.junior-menu-icon(data-i18n="[title]play.junior_button_hover")
   else
     .game-controls.header-font.picoctf-hide
       if !(features.picoCtf || features.brainPop)

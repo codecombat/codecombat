@@ -612,6 +612,7 @@ module.exports = {
       roblox_button_hover: 'Play, Code and Create on Roblox',
       ai_league_button_hover: 'Compete in AI League Esports',
       hackstack_button_hover: 'Code and Create with AI HackStack',
+      junior_button_hover: 'Blocks coding for beginners',
     },
 
     code: {

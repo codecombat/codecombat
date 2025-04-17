@@ -25,7 +25,6 @@ const AnnouncementModal = require('views/play/modal/AnnouncementModal')
 const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
 const RobloxModal = require('views/core/MineModal') // Roblox modal
-const JuniorModal = require('views/core/JuniorModal')
 const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
@@ -49,6 +48,7 @@ const globalVar = require('core/globalVar')
 const paymentUtils = require('app/lib/paymentUtils')
 const userUtils = require('lib/user-utils')
 const AILeaguePromotionModal = require('views/core/AILeaguePromotionModal')
+const JuniorPromotionModal = require('views/core/JuniorPromotionModal')
 const HackstackPromotionModalView = require('views/ai/HackstackPromotionModalView').default
 require('lib/game-libraries')
 
@@ -415,7 +415,7 @@ class CampaignView extends RootView {
 
   openJuniorPromotionModal (e) {
     window.tracker?.trackEvent('Junior Explored')
-    this.openModalView(new JuniorModal())
+    this.openModalView(new JuniorPromotionModal())
   }
 
   openJuniorOriginalChoiceModal (e) {
@@ -694,7 +694,7 @@ class CampaignView extends RootView {
 
   onJuniorIconClick (e) {
     window.tracker?.trackEvent('Junior Icon Explored', { engageAction: 'campaign_level_click' })
-    this.openModalView(new JuniorModal())
+    this.openModalView(new JuniorPromotionModal())
   }
 
   onHackStackLevelClick (e) {
