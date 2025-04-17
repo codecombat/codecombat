@@ -2218,7 +2218,7 @@ class CampaignView extends RootView {
       return !me.isAnonymous() && this.campaign?.get('slug') && !this.editorMode && !userUtils.isCreatedViaLibrary()
     }
 
-    if (what === 'ai-league') {
+    if (what === 'ai-league-menu-icon') {
       return !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
