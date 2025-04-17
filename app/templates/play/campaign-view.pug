@@ -287,7 +287,7 @@ if showGameDevAlert
         .roblox-level#roblox-level-shadow(style="left: 18%; top: 27.5%; display: none;", class="level-shadow")
 
       // HackStack Modal
-      if view.shouldShow('hackstack') && campaign.get('slug') == 'dungeon'
+      if view.shouldShow('hackstack-menu-icon') && campaign.get('slug') == 'dungeon'
         .level.hackstack-level#hackstack-level-container(title="CodeCombat AI HackStack")
            span
             .hackstack-icon
@@ -499,7 +499,7 @@ if showGameDevAlert
           a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
     .other-products-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
       if !(features.picoCtf || features.brainPop)
-        if view.shouldShow('hackstack')
+        if view.shouldShow('hackstack-menu-icon')
           span.btn.hackstack-menu-icon(data-i18n="[title]play.hackstack_button_hover")
         if view.shouldShow('ai-league')
           span.btn.ai-league-menu-icon(data-i18n="[title]play.ai_league_button_hover")
@@ -512,7 +512,7 @@ if showGameDevAlert
       if !(features.picoCtf || features.brainPop)
         if view.shouldShow('junior-icon')
           button.btn.junior-icon.junior-menu-icon(title='CodeCombat Junior')
-        if view.shouldShow('hackstack')
+        if view.shouldShow('hackstack-menu-icon')
           span.btn.hackstack-menu-icon(title='CodeCombat AI HackStack')
         if view.shouldShow('roblox-button')
           button.btn.roblox-level.roblox-menu-icon(title='CodeCombat Worlds on Roblox')

@@ -2230,8 +2230,8 @@ class CampaignView extends RootView {
       return !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
-    if (what === 'hackstack') {
-      return me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary() && !this.editorMode
+    if (what === 'hackstack-menu-icon') {
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
     return true
