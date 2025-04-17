@@ -1384,7 +1384,7 @@ $gameControlMargin: 30px
             margin-top: -20px
           
           .main-campaign
-            width: 317px
+            width: $campaignPortalWidth
             height: $campaignPortalHeight
             background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat
             position: absolute
@@ -1452,7 +1452,7 @@ $gameControlMargin: 30px
             width: $campaignPortalWidth
             height: math.div($campaignPortalHeight, 2)
             z-index: 0
-            top: 317px  // Center vertically (634px / 2)
+            top: $campaignPortalHeight
             transform: translateY(-50%)  // Adjust for half the height of the side campaign
             
             // Left side campaign container (first in the row)

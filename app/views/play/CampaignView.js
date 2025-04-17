@@ -421,10 +421,6 @@ class CampaignView extends RootView {
   openJuniorOriginalChoiceModal (e) {
     window.tracker?.trackEvent('Junior Original Choice Explored')
     const modal = new JuniorOriginalChoiceModal()
-    this.listenToOnce(modal, 'junior-original-choice', (choice) => {
-      this.highlightedCampaign = choice === 'junior' ? 'junior' : 'dungeon'
-      this.render()
-    })
     this.openModalView(modal)
   }
 

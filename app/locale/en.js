@@ -551,6 +551,11 @@ module.exports = {
       locked: 'Locked',
       locked_by_teacher: 'Locked By Teacher',
       locked_campaign: 'Complete previous world to unlock',
+      locked_campaign_forest: 'Complete Kithgard Dungeon to unlock',
+      locked_campaign_desert: 'Complete Backwoods Forest to unlock',
+      locked_campaign_mountain: 'Complete Sarven Desert to unlock',
+      locked_campaign_glacier: 'Complete Cloudrip Mountain to unlock',
+      locked_campaign_volcano: 'Complete Kelvintaph Mountain to unlock',
       available: 'Available',
       skills_granted: 'Skills Granted', // Property documentation details
       heroes: 'Heroes', // Tooltip on hero shop button from /play
