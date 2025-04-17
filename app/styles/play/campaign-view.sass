@@ -850,27 +850,25 @@ $gameControlMargin: 30px
       bottom: 2%
       right: 50%
       top: auto
-      transform: translateY(0) translateX(100%)
+      transform: translateY(-10px) translateX(100%)
+
 
       .btn
         margin-top: 0
         height: 40px
         width: 40px
-        &:not(:first-child)
-          margin-left: 20px
+        margin-right: 40px
 
         &.hackstack-menu-icon
-          transform: scale(2) translateY(-5px)
-          margin-right: 20px
-
-        &.roblox-menu-icon
-          transform: scale(2) translateY(-5px) translateX(10px)
-
-        &.ai-league-menu-icon
-          transform: scale(1.5) translateY(-5px)
-
+          transform: scale(2)
         &.junior-menu-icon
-          transform: scale(2.2) translateY(-5px) translateX(20px)
+          transform: scale(2.2)
+        &.roblox-menu-icon
+          transform: scale(2) translateY(-5px)
+        &.ai-league-menu-icon
+          transform: scale(1.4) translateX(-10px)
+
+        
         
     .tooltip
       font-size: 24px
@@ -1356,72 +1354,7 @@ $gameControlMargin: 30px
       display: flex
       flex-direction: column
       align-items: center
-      width: 100%
-
-      .catalyst-first-row
-        display: flex
-        justify-content: center
-        gap: 30px
-        width: 100%
-        max-width: 1200px
-        margin-top: 50px
-        margin-bottom: -60px
-        
-        .campaign
-          width: 317px
-          height: 634px
-          background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat 0 0
-          position: relative
-          cursor: pointer
-          z-index: 0
-          @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
-
-          &:hover
-            @include scale($campaignHoverScale)
-
-          &.silhouette
-            @include filter(contrast(50%) brightness(65%))
-            pointer-events: none
-          
-          &.junior
-            background-position: -1902px 0
-          
-          &.dungeon
-            background-position: 0 0
-
-          .campaign-label
-            position: absolute
-            top: 45%
-            width: 100%
-            text-align: center
-
-            .play-button
-              margin: 15px 0
-              min-width: 100px
-            
-            // Text styling
-            .campaign-name, .levels-completed, .campaign-locked
-              margin: 0
-              color: white
-              text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
-            
-            .campaign-description-container
-              margin: 10px auto
-              width: 80%
-              transition: opacity $description-transition-time ease, visibility $description-transition-time ease
-              transition-delay: 0.15s
-              
-              .campaign-description
-                background: transparent url(/images/level/popover_border_background.png) no-repeat
-                background-size: 100% 100%
-                padding: 12px
-                color: black
-                font-size: 14px
-                line-height: 1.2
-                margin: 0
-                .campaign-about
-                  font-weight: bold
-          
+      width: 100%    
 
       .campaign-rows
         display: flex
@@ -1437,7 +1370,18 @@ $gameControlMargin: 30px
           width: 100%
           height: $campaignPortalHeight
           margin-bottom: 0
-          margin-top: -30px
+          margin-top: -40px
+
+          // first row has a different margin-top
+          &:first-child
+            margin-top: 50px
+            margin-bottom: -40px
+          //the third row has a different margin-top
+          &:nth-child(3)
+            margin-top: -70px
+          // the last row has a different margin-top
+          &:last-child
+            margin-top: -20px
           
           .main-campaign
             width: 317px
