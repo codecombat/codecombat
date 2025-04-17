@@ -2129,7 +2129,7 @@ class CampaignView extends RootView {
     const isStudentOrTeacher = me.isStudent() || me.isTeacher()
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
-    if (what === 'junior-icon') {
+    if (what === 'junior-menu-icon') {
       if (this.terrain === 'junior' && this.isCatalyst) {
         return false
       }
@@ -2226,7 +2226,7 @@ class CampaignView extends RootView {
       return this.userQualifiesForRobloxModal() && !this.editorMode
     }
 
-    if (what === 'roblox-button') {
+    if (what === 'roblox-menu-icon') {
       return !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
