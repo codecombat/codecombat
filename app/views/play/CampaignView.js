@@ -49,6 +49,7 @@ const paymentUtils = require('app/lib/paymentUtils')
 const userUtils = require('lib/user-utils')
 const AILeaguePromotionModal = require('views/core/AILeaguePromotionModal')
 const JuniorPromotionModal = require('views/core/JuniorPromotionModal')
+const CCHomePromotionModal = require('views/core/CCHomePromotionModal')
 const HackstackPromotionModalView = require('views/ai/HackstackPromotionModalView').default
 require('lib/game-libraries')
 
@@ -98,6 +99,7 @@ class CampaignView extends RootView {
       'click .hackstack-menu-icon': 'onHackStackLevelClick',
       'click .ai-league-menu-icon': 'onAILeagueIconClick',
       'click .junior-menu-icon': 'onJuniorIconClick',
+      'click .cchome-menu-icon': 'onCCHomeIconClick',
       'click .map-background': 'onClickMap',
       'click .level': 'onClickLevel',
       'dblclick .level': 'onDoubleClickLevel',
@@ -691,6 +693,11 @@ class CampaignView extends RootView {
   onJuniorIconClick (e) {
     window.tracker?.trackEvent('Junior Icon Explored', { engageAction: 'campaign_level_click' })
     this.openModalView(new JuniorPromotionModal())
+  }
+
+  onCCHomeIconClick (e) {
+    window.tracker?.trackEvent('CCHome Icon Explored', { engageAction: 'campaign_level_click' })
+    this.openModalView(new CCHomePromotionModal())
   }
 
   onHackStackLevelClick (e) {
@@ -2228,6 +2235,10 @@ class CampaignView extends RootView {
 
     if (what === 'hackstack-menu-icon') {
       return !userUtils.isCreatedViaLibrary() && !this.editorMode
+    }
+
+    if (what === 'cchome-menu-icon') {
+      return !userUtils.isCreatedViaLibrary() && this.terrain === 'junior'
     }
 
     return true

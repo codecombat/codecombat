@@ -618,6 +618,7 @@ module.exports = {
       ai_league_button_hover: 'Compete in AI League Esports',
       hackstack_button_hover: 'Code and Create with AI HackStack',
       junior_button_hover: 'Blocks coding for beginners',
+      cchome_button_hover: 'Original CodeCombat Adventure',
     },
 
     code: {
