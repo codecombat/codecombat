@@ -878,8 +878,6 @@ class CampaignView extends RootView {
           this.$el.find('button.promotion-menu-icon').addClass('highlighted').tooltip('show')
           storage.save('pointed-out-promotion', timesPointedOutPromotion + 1)
         }
-      } else if (this.shouldShow('junior-promotion')) {
-        this.openJuniorPromotionModal()
       } else if (this.shouldShow('junior-original-choice')) {
         this.openJuniorOriginalChoiceModal()
       }
@@ -1844,7 +1842,7 @@ class CampaignView extends RootView {
   }
 
   activatePoll (forceShowPoll) {
-    if (this.shouldShow('promotion') || this.shouldShow('junior-promotion')) { return }
+    if (this.shouldShow('promotion')) { return }
     if (!this.poll) { return }
     const pollTitle = utils.i18n(this.poll.attributes, 'name')
     const $pollButton = this.$el.find('button.poll')
@@ -2131,7 +2129,10 @@ class CampaignView extends RootView {
     const isStudentOrTeacher = me.isStudent() || me.isTeacher()
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
-    if (what === 'junior-level') {
+    if (what === 'junior-icon') {
+      if (this.terrain === 'junior' && this.isCatalyst) {
+        return false
+      }
       return me.isHomeUser() && !this.editorMode
     }
 
@@ -2147,10 +2148,6 @@ class CampaignView extends RootView {
 
     if (what === 'promotion') {
       return me.finishedAnyLevels() && !features.noAds && !isStudentOrTeacher && (me.get('country') === 'united-states') && (me.get('preferredLanguage', true) === 'en-US') && (new Date() < new Date(2019, 11, 20))
-    }
-
-    if (what === 'junior-promotion') {
-      return !me.finishedAnyLevels() && !this.terrain && me.getJuniorExperimentValue() === 'beta' && !this.isCatalyst
     }
 
     if (what === 'junior-original-choice') {
