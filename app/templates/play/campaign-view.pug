@@ -500,11 +500,11 @@ if showGameDevAlert
     .other-products-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
       if !(features.picoCtf || features.brainPop)
         if view.shouldShow('hackstack')
-          span.btn.hackstack-menu-icon(title='CodeCombat AI HackStack')
+          span.btn.hackstack-menu-icon(data-i18n="[title]play.hackstack_button_hover")
         if view.shouldShow('ai-league')
-          span.btn.ai-league-menu-icon(title='CodeCombat AI League')
+          span.btn.ai-league-menu-icon(data-i18n="[title]play.ai_league_button_hover")
         if view.shouldShow('roblox-button')
-          span.btn.roblox-level.roblox-menu-icon(title='CodeCombat Worlds on Roblox')
+          span.btn.roblox-level.roblox-menu-icon(data-i18n="[title]play.roblox_button_hover")
   else
     .game-controls.header-font.picoctf-hide
       if !(features.picoCtf || features.brainPop)

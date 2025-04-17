@@ -609,6 +609,9 @@ module.exports = {
       campaign_description_desert: 'Discover desert mysteries with loops, math, and clever coding logic!',
       campaign_description_mountain: 'Navigate through blizzards and overcome challenges with loops, logic, and smart code!',
       campaign_description_glacier: 'Ascend the glacier and solve the trickiest puzzles with sharp, advanced code!',
+      roblox_button_hover: 'Play, Code and Create on Roblox',
+      ai_league_button_hover: 'Compete in AI League Esports',
+      hackstack_button_hover: 'Code and Create with AI HackStack',
     },
 
     code: {
