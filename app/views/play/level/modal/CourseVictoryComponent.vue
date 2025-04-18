@@ -191,7 +191,8 @@
         juniorHeroReplacement = _.invert(thangTypeConstants.juniorHeroReplacements)[slug]
         if juniorHeroReplacement
           slug = juniorHeroReplacement
-        if slug in thangTypeConstants.heroClasses.Warrior
+        heroesWithImg = ['stalwart', 'samurai', 'raider', 'guardian', 'goliath', 'duelist', 'champion', 'captain', 'knight']
+        if slug in heroesWithImg
           return "/images/pages/play/modal/#{slug}.png"
         return "/images/pages/play/modal/captain.png"
       comboImage: ->
