@@ -342,7 +342,7 @@ if showGameDevAlert
               
               // Main campaign
               - var mainCampaign = campaigns[row.main]
-              .main-campaign(class=row.main + (mainCampaign ? "" : " silhouette") + (mainCampaign && mainCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.main, data-i18n=(row.next ? "[title]play.locked_campaign_" + row.next : "[title]play.locked_campaign") : "")
+              .main-campaign(class=row.main + (mainCampaign ? "" : " silhouette") + (mainCampaign && mainCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.main, data-i18n=(row.main ? "[title]play.locked_campaign_" + row.main : "[title]play.locked_campaign") : "")
                 .campaign-label
                   h2.campaign-name
                     if mainCampaign
