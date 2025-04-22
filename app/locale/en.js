@@ -6422,6 +6422,8 @@ module.exports = {
       faq_4_answer: "Yes. All players can sign-up for free at roblox.com. Don't forget to link your CodeCombat account and Roblox account to access all the features and rewards.",
       faq_5_question: 'Will it work on my Chromebook or mobile device?',
       faq_5_answer: 'Yes. CodeCombat Worlds allows you to play, type real code and create games on PC, Mac, Chromebooks, tablets, phones, and consoles.',
+      promo_modal_title: 'Discover CodeCombat Worlds',
+      promo_modal_text: '**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!',
     },
     pd_page: {
       implementation_training_title: 'Implementation Training',
