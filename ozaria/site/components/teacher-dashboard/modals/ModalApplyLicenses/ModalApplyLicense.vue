@@ -61,8 +61,8 @@
           <div>
             <input
               type="checkbox"
-              :checked="selectedStudentIds.include(student._id)"
-              @change="changeCheckbox(student._id)"
+              :checked="selectedStudentIds.includes(student._id)"
+              @change="changeCheckBox(student._id)"
             >
           </div>
           <div>
@@ -77,10 +77,10 @@
             <input
               type="checkbox"
               class="checkbox-course"
-              :checked="((student.courseBits & Math.pow(2, index)) || (selectedLicense) )? 'checked' : undefined"
+              :checked="((student.courseBits & Math.pow(2, index)) || (selectedCourses.includes(course)&& selectedStudentIds.includes(student._id)))? 'checked' : undefined"
               onclick="return false"
             >
-            <div v-if="selectedCourses.includes(course)" class="selected-mask"></div>
+            <div v-if="selectedCourses.includes(course) && selectedStudentIds.includes(student._id)" class="selected-mask"></div>
           </div>
         </div>
       </div>
@@ -99,7 +99,7 @@
 
 <script>
 import utils from 'app/core/utils'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import moment from 'moment'
 
 import SecondaryButton from '../../common/buttons/SecondaryButton'
@@ -150,13 +150,16 @@ export default {
   },
   methods: {
     ...mapActions({
-      toggleStudentSelectedId: 'baseSingleClass/toggleStudentSelectedId'
+      toggleStudentSelectedId: 'baseSingleClass/toggleStudentSelectedId',
+      applyLicenses: 'baseSingleClass/applyLicenses',
     }),
     changeCheckBox (id) {
       this.toggleStudentSelectedId({ studentId: id })
     },
     handleClickedApply () {
-
+      this.applyLicenses({ selectedPrepaidId: this.selectedLicenseId }).then(
+        () => setTimeout(() => this.$emit('close'), 3000),
+      )
     },
     handleClickedCancel () {
       this.$emit('close')

@@ -156,7 +156,7 @@ export default {
       return dispatch('teacherDashboard/fetchData', { componentName: cmptName, options: _.assign({ data: projectionData }, options) }, { root: true })
     },
 
-    async applyLicenses ({ state, rootGetters, dispatch, getters }) {
+    async applyLicenses ({ state, rootGetters, dispatch, getters }, { selectedPrepaidId } = { selectedPrepaidId: undefined }) {
       const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id))
       // use teacherId of classroom owner instead?
       let teacherId = rootGetters['teacherDashboard/teacherId']
@@ -178,7 +178,11 @@ export default {
         return
       }
       const sharedClassroomId = hasSharedWriteAccess ? classroom._id : null
-      await dispatch('prepaids/applyLicenses', { members: students, teacherId, sharedClassroomId }, { root: true })
+      if (selectedPrepaidId) {
+        await dispatch('prepaids/applySpecificLicenses', { selectedId: selectedPrepaidId, members: students, teacherId, sharedClassroomId }, { root: true })
+      } else {
+        await dispatch('prepaids/applyLicenses', { members: students, teacherId, sharedClassroomId }, { root: true })
+      }
       dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId, sharedClassroomId }, { root: true })
       await dispatch('users/fetchClassroomMembers', { classroom: rootGetters['teacherDashboard/getCurrentClassroom'], options: { project: projectionData.users } }, { root: true })
       // TODO confirmation?

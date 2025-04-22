@@ -241,6 +241,76 @@ export default {
       }
     },
 
+    async applySpecificLicenses ({ getters }, { selectedId, members, teacherId, sharedClassroomId }) {
+      const prepaids = getters.getPrepaidsByTeacher(teacherId)
+      if (!prepaids) {
+        throw new Error('no prepaids for the teacher')
+      }
+      const selectedPrepaid = prepaids.available.find(data => data._id === selectedId)
+      const prepaid = new Prepaid(selectedPrepaid)
+      const students = members.map(data => new User(data))
+      const unenrolledStudents = students.filter(stu => {
+        const p = prepaid.numericalCourses()
+        const s = p & stu.prepaidNumericalCourses()
+        return (p ^ s)
+      })
+      const availableSpots = prepaid.get('maxRedeemers') - (prepaid.get('members')?.length || 0)
+      const canApplyLicenses = availableSpots >= unenrolledStudents.length
+      const additionalLicensesNum = unenrolledStudents.length - availableSpots
+
+      if (!canApplyLicenses) {
+        // NOTE: Should we have specific UI noty side effects within the store logic?
+        noty({
+          text: `Oops! It looks like you need ${additionalLicensesNum} more license${additionalLicensesNum > 1 ? 's' : ''}. Visit My Licenses to learn more!`,
+          layout: 'center',
+          type: 'error',
+          killer: true,
+          timeout: 5000,
+        })
+        return
+      }
+      const numberEnrolled = unenrolledStudents.length
+      if (numberEnrolled) {
+        let confirmed = false
+        // NOTE: Should we have specific UI noty side effects within the store logic?
+        await new Promise((resolve) => noty({
+          text: `Please confirm that you'd like to apply licenses to ${numberEnrolled} student(s). You will have ${availableSpots - unenrolledStudents.length} license(s) remaining.`,
+          type: 'info',
+          buttons: [
+            {
+              addClass: 'btn btn-primary',
+              text: 'Ok',
+              onClick: function ($noty) {
+                confirmed = true
+                $noty.close()
+                resolve()
+              },
+            },
+            {
+              addClass: 'btn btn-danger',
+              text: 'Cancel',
+              onClick: function ($noty) {
+                $noty.close()
+                resolve()
+              },
+            },
+          ],
+        }))
+
+        if (!confirmed) {
+          return
+        }
+      }
+
+      const requests = []
+
+      for (const user of unenrolledStudents) {
+        requests.push(prepaid.redeem(user.get('_id'), { data: { sharedClassroomId } }))
+      }
+      // TODO: Handle error
+      await Promise.all(requests)
+    },
+
     async applyLicenses ({ getters }, { members, teacherId, sharedClassroomId }) {
       const prepaids = getters.getPrepaidsByTeacher(teacherId)
       if (!prepaids) {
