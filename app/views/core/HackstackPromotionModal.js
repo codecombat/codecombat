@@ -1,22 +1,21 @@
-// require('app/styles/modal/cchome-promotion-modal.sass')
 require('app/styles/modal/classic-promotion-modal.sass')
 const ModalView = require('views/core/ModalView')
-const template = require('app/templates/core/cchome-promotion-modal')
+const template = require('app/templates/core/hackstack-promotion-modal')
 
-const CCHomePromotionModal = class CCHomePromotionModal extends ModalView {
+const HackstackPromotionModal = class HackstackPromotionModal extends ModalView {
   onClickPlayButton (e) {
-    window.tracker.trackEvent('CCHome Promotion Modal', { action: 'play_click' })
-    window.location.href = '/play/'
+    window.tracker.trackEvent('Hackstack Promotion Modal', { action: 'play_click' })
+    window.location.href = '/hackstack'
   }
 }
 
-CCHomePromotionModal.prototype.id = 'cchome-promotion-modal'
-CCHomePromotionModal.prototype.template = template
-CCHomePromotionModal.prototype.plain = true
-CCHomePromotionModal.prototype.closesOnClickOutside = false
-CCHomePromotionModal.prototype.events = {
+HackstackPromotionModal.prototype.id = 'hackstack-promotion-modal'
+HackstackPromotionModal.prototype.template = template
+HackstackPromotionModal.prototype.plain = true
+HackstackPromotionModal.prototype.closesOnClickOutside = false
+HackstackPromotionModal.prototype.events = {
   'click .close-modal': 'hide',
   'click .play-button': 'onClickPlayButton',
 }
 
-module.exports = CCHomePromotionModal
+module.exports = HackstackPromotionModal

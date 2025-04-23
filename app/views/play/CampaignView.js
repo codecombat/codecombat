@@ -50,7 +50,7 @@ const AILeaguePromotionModal = require('views/core/AILeaguePromotionModal')
 const JuniorPromotionModal = require('views/core/JuniorPromotionModal')
 const CCHomePromotionModal = require('views/core/CCHomePromotionModal')
 const WorldsPromotionModal = require('views/core/WorldsPromotionModal') // Roblox modal
-const HackstackPromotionModalView = require('views/ai/HackstackPromotionModalView').default
+const HackstackPromotionModal = require('views/core/HackstackPromotionModal')
 require('lib/game-libraries')
 
 const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
@@ -702,8 +702,7 @@ class CampaignView extends RootView {
 
   onHackStackLevelClick (e) {
     window.tracker?.trackEvent('HackStack Explored', { engageAction: 'campaign_level_click' })
-    // Backbone.Mediator.publish 'router:navigate', route: '/ai/new_project'
-    this.openModalView(new HackstackPromotionModalView())
+    this.openModalView(new HackstackPromotionModal())
   }
 
   onAILeagueIconClick (e) {
