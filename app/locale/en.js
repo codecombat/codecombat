@@ -342,6 +342,9 @@ module.exports = {
       coco_worlds_header: 'CodeCombat Worlds',
       coco_worlds_description: 'Embark on a 3D coding adventure in Roblox, where you can program pets, play with friends, and develop games all while playing one. Join the CodeCombat community and unleash your creativity in the metaverse!',
       coco_worlds_button: 'Explore CodeCombat Worlds',
+      promo_modal_title: 'CodeCombat Home',
+      promo_modal_subtitle: 'Learn Real Coding Through Epic Gameplay',
+      promo_modal_text: 'Dive into real‑world coding with **Python** and **JavaScript**, solving epic puzzles, battling foes, and building a strong coding foundation. Along the way, you’ll learn the skills to **create your own games** and **websites** — all in their browser, no downloads needed.',
     },
 
     nav: {

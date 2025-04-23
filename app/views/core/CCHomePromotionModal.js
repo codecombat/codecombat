@@ -1,4 +1,3 @@
-// require('app/styles/modal/cchome-promotion-modal.sass')
 require('app/styles/modal/classic-promotion-modal.sass')
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/core/cchome-promotion-modal')
