@@ -4,7 +4,7 @@ const template = require('app/templates/core/worlds-promotion-modal')
 
 const WorldsPromotionModal = class WorldsPromotionModal extends ModalView {
   onClickPlayButton (e) {
-    window.tracker?.trackEvent('Roblox Explored', { engageAction: 'play_click' })
+    window.tracker?.trackEvent('Worlds Promotion Modal', { engageAction: 'play_click' })
     window.location.href = 'https://www.roblox.com/games/11704713454/CodeCombat-Worlds-Lua-Coding-RPG'
   }
 }

@@ -613,6 +613,7 @@ module.exports = {
       hackstack_button_hover: 'Code and Create with AI HackStack',
       junior_button_hover: 'Blocks coding for beginners',
       cchome_button_hover: 'Original CodeCombat Adventure',
+
     },
 
     code: {
@@ -6488,6 +6489,8 @@ module.exports = {
       get_a_headstart: 'Get a Headstart from Home',
       parents_junior_perfect: 'Parents, CodeCombat Junior is the perfect way to start introducing your child not only to computer science but all the benefits, including problem solving, logic and reasoning, persistence, computational thinking and creative exploration.',
       explore_learning_options: 'Explore Learning Options',
+      promo_modal_subtitle: 'Play, Learn, and Grow with Game‑Based Coding',
+      promo_modal_text: '**Kickstart their coding adventure with scaffolded levels designed for ages 5–8—no reading or typing needed!** They’ll learn with icon blocks, word blocks, or simple text side by side, and tackle adaptive challenges that keep them engaged. Works seamlessly on **Chromebooks**, **tablets**, and **iPads**.',
     },
     paywall: {
       badge_free: 'Free',
