@@ -4,7 +4,7 @@ const template = require('app/templates/core/hackstack-promotion-modal')
 
 const HackstackPromotionModal = class HackstackPromotionModal extends ModalView {
   onClickPlayButton (e) {
-    window.tracker.trackEvent('Hackstack Promotion Modal', { action: 'play_click' })
+    window.tracker?.trackEvent('Hackstack Promotion Modal', { action: 'play_click' })
     window.location.href = '/hackstack'
   }
 }
