@@ -12,7 +12,7 @@ const WorldsPromotionModal = class WorldsPromotionModal extends ModalView {
 WorldsPromotionModal.prototype.id = 'worlds-promotion-modal'
 WorldsPromotionModal.prototype.template = template
 WorldsPromotionModal.prototype.plain = true
-WorldsPromotionModal.prototype.closesOnClickOutside = false
+WorldsPromotionModal.prototype.closesOnClickOutside = true
 WorldsPromotionModal.prototype.events = {
   'click .close-modal': 'hide',
   'click .play-button': 'onClickPlayButton',

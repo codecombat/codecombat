@@ -12,7 +12,7 @@ const AILeaguePromotionModal = class AILeaguePromotionModal extends ModalView {
 AILeaguePromotionModal.prototype.id = 'ai-league-promotion-modal'
 AILeaguePromotionModal.prototype.template = template
 AILeaguePromotionModal.prototype.plain = true
-AILeaguePromotionModal.prototype.closesOnClickOutside = false
+AILeaguePromotionModal.prototype.closesOnClickOutside = true
 AILeaguePromotionModal.prototype.events = {
   'click .close-modal': 'hide',
   'click .play-button': 'onClickPlayButton',

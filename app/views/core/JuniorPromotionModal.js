@@ -12,7 +12,7 @@ const JuniorPromotionModal = class JuniorPromotionModal extends ModalView {
 JuniorPromotionModal.prototype.id = 'junior-promotion-modal'
 JuniorPromotionModal.prototype.template = template
 JuniorPromotionModal.prototype.plain = true
-JuniorPromotionModal.prototype.closesOnClickOutside = false
+JuniorPromotionModal.prototype.closesOnClickOutside = true
 JuniorPromotionModal.prototype.events = {
   'click .close-modal': 'hide',
   'click .play-button': 'onClickPlayButton',
