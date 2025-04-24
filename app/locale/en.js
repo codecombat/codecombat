@@ -551,6 +551,11 @@ module.exports = {
       locked: 'Locked',
       locked_by_teacher: 'Locked By Teacher',
       locked_campaign: 'Complete previous world to unlock',
+      locked_campaign_forest: 'Complete Kithgard Dungeon to unlock',
+      locked_campaign_desert: 'Complete Backwoods Forest to unlock',
+      locked_campaign_mountain: 'Complete Sarven Desert to unlock',
+      locked_campaign_glacier: 'Complete Cloudrip Mountain to unlock',
+      locked_campaign_volcano: 'Complete Kelvintaph Mountain to unlock',
       available: 'Available',
       skills_granted: 'Skills Granted', // Property documentation details
       heroes: 'Heroes', // Tooltip on hero shop button from /play
@@ -597,10 +602,17 @@ module.exports = {
       age_codecombat_junior: 'Ages 5-8',
       age_description_codecombat: 'Real Python or JavaScript coding for everyone',
       age_description_codecombat_junior: 'Blocks or simple text coding for beginners',
+      campaign_about_dungeon: 'Real text programming for brave adventurers!',
+      campaign_about_junior: 'Blocks or simple text coding for young heroes!',
       want_more_hints: 'Want more hints?',
       choose_your_adventure: 'Choose Your Adventure',
       junior: 'Junior',
       original: 'Original',
+      roblox_button_hover: 'Play, Code and Create on Roblox',
+      ai_league_button_hover: 'Compete in AI League Esports',
+      hackstack_button_hover: 'Code and Create with AI HackStack',
+      junior_button_hover: 'Blocks coding for beginners',
+      cchome_button_hover: 'Original CodeCombat Adventure',
     },
 
     code: {
