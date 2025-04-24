@@ -42,7 +42,7 @@
           >
             <input
               type="checkbox"
-              class="checkbox-course"
+              class="checkbox-course license-course"
               :checked="(license.courseBits & Math.pow(2, index)) ? 'checked' : undefined"
               onclick="return false"
             >
@@ -52,6 +52,37 @@
       <div class="students">
         <div class="sub-title student-title">
           <div>Select your students</div>
+        </div>
+        <div class="select-all all-user-grid">
+          <div>
+            <input
+              type="checkbox"
+              :checked="selectedStudentIds.length > 0 && selectedStudentIds.length === students.length"
+              @change="toggleAllStudents"
+            >
+          </div>
+          <div>
+            All Students
+          </div>
+          <div />
+          <div class="color-box">
+            <input
+              class="student-course"
+              type="checkbox"
+              checked
+              onclick="return false"
+            >
+            <span>Having Access</span>
+          </div>
+          <div class="color-box">
+            <input
+              class="license-preview"
+              type="checkbox"
+              checked
+              onclick="return false"
+            >
+            <span>Preview</span>
+          </div>
         </div>
         <div
           v-for="student in students"
@@ -76,11 +107,12 @@
           >
             <input
               type="checkbox"
-              class="checkbox-course"
+              class="checkbox-course student-course"
+              :class="{'license-preview': selectedCourses.includes(course) && selectedStudentIds.includes(student._id),
+                       'student-having-course': student.courseBits & Math.pow(2, index)}"
               :checked="((student.courseBits & Math.pow(2, index)) || (selectedCourses.includes(course)&& selectedStudentIds.includes(student._id)))? 'checked' : undefined"
               onclick="return false"
             >
-            <div v-if="selectedCourses.includes(course) && selectedStudentIds.includes(student._id)" class="selected-mask"></div>
           </div>
         </div>
       </div>
@@ -148,11 +180,25 @@ export default {
       })
     },
   },
+  mounted () {
+    this.selectedLicenseId = this.licenses?.[0]?._id
+  },
   methods: {
     ...mapActions({
       toggleStudentSelectedId: 'baseSingleClass/toggleStudentSelectedId',
+      clearSelectedStudents: 'baseSingleClass/clearSelectedStudents',
+      addStudentSelectedId: 'baseSingleClass/addStudentSelectedId',
       applyLicenses: 'baseSingleClass/applyLicenses',
     }),
+    toggleAllStudents (event) {
+      if (event.target.checked) {
+        for (const { _id } of this.students) {
+          this.addStudentSelectedId({ studentId: _id })
+        }
+      } else {
+        this.clearSelectedStudents()
+      }
+    },
     changeCheckBox (id) {
       this.toggleStudentSelectedId({ studentId: id })
     },
@@ -202,7 +248,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "app/styles/ozaria/_ozaria-style-params.scss";
 .apply-license {
   width: 1200px;
 
@@ -210,20 +256,26 @@ export default {
     overflow-y: hide;
   }
 }
- .license-grid, .user-grid {
-   display: grid;
-   // checkbox, name, endDate, cs1, gd1, cs2, gd2, gd3 cs3, cs4, cs5, cs6, wd2, junior, hackstack
-   grid-template-columns: 5% 20% 15% repeat(12, 5%);
-   grid-template-rows: 100%;
- }
+.license-grid, .user-grid {
+  display: grid;
+  // checkbox, name, endDate, cs1, gd1, cs2, gd2, gd3 cs3, cs4, cs5, cs6, wd2, junior, hackstack
+  grid-template-columns: 5% 20% 15% repeat(12, 5%);
+  grid-template-rows: 100%;
+}
+
+.all-user-grid {
+  display: grid;
+  grid-template-columns: 5% 20% 15% 15% 30%;
+  grid-template-rows: 100%;
+}
 
 .title-course {
 
 }
 .sub-title {
-   div {
-     border-bottom: 1px solid black;
-   }
+  div {
+    border-bottom: 1px solid black;
+  }
 }
 .student-title {
   margin-top: 20px;
@@ -254,5 +306,23 @@ export default {
     font-size: 14px;
     letter-spacing: 0.333px;
   }
+}
+input[type='checkbox'] {
+  &.license-course {
+    accent-color: #2dcd38;
+  }
+
+  &.student-having-course {
+    accent-color: #c8cdcc;
+  }
+
+  &.license-preview {
+    accent-color: #1ad0ff;
+  }
+}
+
+.color-box {
+  display: flex;
+  align-items: center;
 }
 </style>

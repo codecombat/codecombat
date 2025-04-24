@@ -69,7 +69,6 @@ export default {
   },
   methods: {
     ...mapActions({
-      applyLicenses: 'baseSingleClass/applyLicenses',
       revokeLicenses: 'baseSingleClass/revokeLicenses',
       resetProgress: 'baseSingleClass/resetProgress'
     }),
@@ -161,7 +160,7 @@ export default {
           v-if="showLicenses"
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseApply_Gray' : 'IconLicenseApply'"
-          :text="$t('teacher.apply_licenses') + 'test'"
+          :text="$t('teacher.apply_licenses')"
           :inactive="displayOnly"
           @click="$emit('applyLicenses')"
         />
