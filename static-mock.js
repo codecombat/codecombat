@@ -44,7 +44,6 @@ exports.me = {
   showChinaResourceInfo () { return false },
   showOpenResourceLink () { return true },
   useStripe () { return true },
-  getHackStackExperimentValue () { return false }
 }
 
 exports.view = {
