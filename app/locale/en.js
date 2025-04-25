@@ -342,6 +342,9 @@ module.exports = {
       coco_worlds_header: 'CodeCombat Worlds',
       coco_worlds_description: 'Embark on a 3D coding adventure in Roblox, where you can program pets, play with friends, and develop games all while playing one. Join the CodeCombat community and unleash your creativity in the metaverse!',
       coco_worlds_button: 'Explore CodeCombat Worlds',
+      promo_modal_title: 'CodeCombat Home',
+      promo_modal_subtitle: 'Learn Real Coding Through Epic Gameplay',
+      promo_modal_text: 'Dive into real‑world coding with **Python** and **JavaScript**, solving epic puzzles, battling foes, and building a strong coding foundation. Along the way, you’ll learn the skills to **create your own games** and **websites** — all in their browser, no downloads needed.',
     },
 
     nav: {
@@ -613,6 +616,7 @@ module.exports = {
       hackstack_button_hover: 'Code and Create with AI HackStack',
       junior_button_hover: 'Blocks coding for beginners',
       cchome_button_hover: 'Original CodeCombat Adventure',
+
     },
 
     code: {
@@ -5820,6 +5824,9 @@ module.exports = {
       faq_7_question: 'Recommended browser and operating system',
       faq_7_answer: 'TBA',
       learn_more: 'Learn More',
+      promo_modal_title: 'Explore AI HackStack',
+      promo_modal_subtitle: 'Unlock the Full Potential of Generative AI',
+      promo_modal_text: '**New to AI? Explore CodeCombat AI HackStack** — the easiest way to dive into AI literacy. Unlock the power of top models like **ChatGPT-4**, **Claude**, **Stable Diffusion**, and **DALL-E**. With hands-on tools, creating games, art, websites, code, and more has never been simpler. It’s the perfect companion for any creative project, no experience required!',
     },
 
     standards_page: {
@@ -6422,6 +6429,8 @@ module.exports = {
       faq_4_answer: "Yes. All players can sign-up for free at roblox.com. Don't forget to link your CodeCombat account and Roblox account to access all the features and rewards.",
       faq_5_question: 'Will it work on my Chromebook or mobile device?',
       faq_5_answer: 'Yes. CodeCombat Worlds allows you to play, type real code and create games on PC, Mac, Chromebooks, tablets, phones, and consoles.',
+      promo_modal_title: 'Discover CodeCombat Worlds',
+      promo_modal_text: '**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!',
     },
     pd_page: {
       implementation_training_title: 'Implementation Training',
@@ -6486,6 +6495,8 @@ module.exports = {
       get_a_headstart: 'Get a Headstart from Home',
       parents_junior_perfect: 'Parents, CodeCombat Junior is the perfect way to start introducing your child not only to computer science but all the benefits, including problem solving, logic and reasoning, persistence, computational thinking and creative exploration.',
       explore_learning_options: 'Explore Learning Options',
+      promo_modal_subtitle: 'Play, Learn, and Grow with Game‑Based Coding',
+      promo_modal_text: '**Kickstart their coding adventure with scaffolded levels designed for ages 5–8—no reading or typing needed!** They’ll learn with icon blocks, word blocks, or simple text side by side, and tackle adaptive challenges that keep them engaged. Works seamlessly on **Chromebooks**, **tablets**, and **iPads**.',
     },
     paywall: {
       badge_free: 'Free',
