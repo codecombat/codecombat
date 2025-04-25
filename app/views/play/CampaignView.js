@@ -24,7 +24,6 @@ const PollModal = require('views/play/modal/PollModal')
 const AnnouncementModal = require('views/play/modal/AnnouncementModal')
 const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
-const RobloxModal = require('views/core/MineModal') // Roblox modal
 const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
@@ -50,7 +49,8 @@ const userUtils = require('lib/user-utils')
 const AILeaguePromotionModal = require('views/core/AILeaguePromotionModal')
 const JuniorPromotionModal = require('views/core/JuniorPromotionModal')
 const CCHomePromotionModal = require('views/core/CCHomePromotionModal')
-const HackstackPromotionModalView = require('views/ai/HackstackPromotionModalView').default
+const WorldsPromotionModal = require('views/core/WorldsPromotionModal') // Roblox modal
+const HackstackPromotionModal = require('views/core/HackstackPromotionModal')
 require('lib/game-libraries')
 
 const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
@@ -687,7 +687,7 @@ class CampaignView extends RootView {
 
   showRobloxModal () {
     storage.save(ROBLOX_MODAL_SHOWN)
-    this.openModalView(new RobloxModal())
+    this.openModalView(new WorldsPromotionModal())
   }
 
   onJuniorIconClick (e) {
@@ -702,8 +702,7 @@ class CampaignView extends RootView {
 
   onHackStackLevelClick (e) {
     window.tracker?.trackEvent('HackStack Explored', { engageAction: 'campaign_level_click' })
-    // Backbone.Mediator.publish 'router:navigate', route: '/ai/new_project'
-    this.openModalView(new HackstackPromotionModalView())
+    this.openModalView(new HackstackPromotionModal())
   }
 
   onAILeagueIconClick (e) {
