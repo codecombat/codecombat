@@ -300,7 +300,7 @@ module.exports = (User = (function () {
     }
 
     hasAiJuniorAccess () {
-      return this.isAdmin() || this.isBetaTester()
+      return this.isAdmin() || this.isBetaTester() || this.isOnlineTeacher() || !this.isAnonymous()
     }
 
     getHocCourseInstanceId () {
