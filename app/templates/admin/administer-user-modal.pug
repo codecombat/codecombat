@@ -307,6 +307,7 @@ block modal-body-content
         - userTimeZone = view.userTimeZone
         if userTimeZone != view.timeZone
           +license-form-group('Use User TimeZone? (' + userTimeZone + ')')(type="checkbox" name="userTimeZone" value=false)
+        +license-form-group('Revokable?')(type="checkbox" name="revokable" value=true checked)
         .form-group
           button#add-seats-btn.btn.btn-primary Add Licenses
       hr
