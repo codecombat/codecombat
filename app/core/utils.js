@@ -367,6 +367,13 @@ if (isCodeCombat) {
   }
 }
 
+const JUNIOR_COURSE_IDS = [
+  courseIDs.JUNIOR,
+]
+const HACKSTACK_COURSE_IDS = [
+  courseIDs.HACKSTACK,
+]
+
 const allCourseIDs = _.assign(courseIDs, otherCourseIDs)
 
 const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.HACKSTACK]
@@ -1840,7 +1847,9 @@ module.exports = {
   ozBaseURL,
   useWebsocket,
   getProductUrl,
-  shaTag
+  shaTag,
+  JUNIOR_COURSE_IDS,
+  HACKSTACK_COURSE_IDS,
 }
 
 function __guard__ (value, transform) {

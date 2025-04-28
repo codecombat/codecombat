@@ -7,7 +7,12 @@ export default {
   components: {
     IconNew,
   },
-
+  props: {
+    chapters: {
+      type: Array,
+      required: true,
+    },
+  },
   computed: {
     ...mapGetters({
       chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
@@ -17,21 +22,6 @@ export default {
       classroomCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
       courses: 'courses/sorted'
     }),
-
-    chapterNav () {
-      // This ensures released chapters are correctly placed, with internal chapters added after.
-      return (this.chapterNavBar || [])
-        .filter(({ releasePhase }) => releasePhase !== 'internalRelease')
-        .concat(
-          (this.chapterNavBar || [])
-            .filter(({ releasePhase }) => releasePhase === 'internalRelease')
-        ).map(({ campaignID, free, _id }, idx) => {
-          return ({
-            campaignID,
-            heading: utils.isCodeCombat ? utils.courseAcronyms[_id] : this.$t('teacher_dashboard.chapter_num', { num: idx + 1 })
-          })
-        })
-    },
 
     courseName () {
       return this.getCurrentCourse?.name || ''
@@ -84,7 +74,7 @@ export default {
 <template>
   <div id="chapter-nav">
     <div
-      v-for="{ campaignID, heading } in chapterNav"
+      v-for="{ campaignID, heading } in chapters"
       :key="campaignID"
       :class="classForButton(campaignID)"
       @click="() => clickChapterNav(campaignID)"

@@ -43,7 +43,8 @@ export default {
       getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
       getModuleInfo: 'baseCurriculumGuide/getModuleInfo',
       getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
-      getTrackCategory: 'teacherDashboard/getTrackCategory'
+      getTrackCategory: 'teacherDashboard/getTrackCategory',
+      chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
     }),
 
     courseName () {
@@ -60,7 +61,20 @@ export default {
 
     moduleNumbers () {
       return Object.keys(this.getModuleInfo || {})
-    }
+    },
+    chapterNav () {
+      // This ensures released chapters are correctly placed, with internal chapters added after.
+      const chapters = this.chapterNavBar || []
+      const internalChapters = chapters.filter(({ releasePhase }) => releasePhase === 'internalRelease')
+      const releasedChapters = chapters.filter(({ releasePhase }) => releasePhase !== 'internalRelease')
+      return releasedChapters.concat(internalChapters)
+        .map(({ campaignID, free, _id }, idx) => {
+          return ({
+            campaignID,
+            heading: utils.isCodeCombat ? utils.courseAcronyms[_id] : this.$t('teacher_dashboard.chapter_num', { num: idx + 1 }),
+          })
+        })
+    },
   },
 
   mounted () {
@@ -132,7 +146,9 @@ export default {
         </div>
       </div>
 
-      <chapter-nav />
+      <chapter-nav
+        :chapters="chapterNav"
+      />
       <chapter-info />
 
       <div class="fluid-container">
