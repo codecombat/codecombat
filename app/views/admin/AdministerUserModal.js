@@ -287,7 +287,7 @@ module.exports = (AdministerUserModal = (function () {
       if (attrs.userTimeZone?.[0] === 'on') {
         timeZone = this.userTimeZone
       }
-      if (!attrs.revokable?.[0] !== 'on') {
+      if (attrs.revokable?.[0] !== 'on') {
         attrs.irrevocable = true
       }
       delete attrs.revokable
