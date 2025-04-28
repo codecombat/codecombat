@@ -37,8 +37,21 @@ export default {
   },
 
   data: () => {
+    let guideOptions
+    if (utils.isCodeCombat) {
+      guideOptions = [
+        { id: 1, name: 'CodeCombat Junior', path: '/teachers/guide/junior' },
+        { id: 2, name: 'CodeCombat Classroom', path: '/teachers/guide/codecombat' },
+        { id: 3, name: 'AI HackStack', path: '/teachers/guide/ai-hackstack' },
+      ]
+    } else {
+      guideOptions = [
+        { id: 1, name: 'Ozaria Classroom', path: '/teachers/guide/ozaria' },
+      ]
+    }
     return {
       curriculumPromoClicked: false,
+      guideOptions,
     }
   },
 
@@ -123,7 +136,11 @@ export default {
 
     isCurriculumModalVisible () {
       return this.topModal?.name === 'curriculum-sidebar-promotion-modal'
-    }
+    },
+
+    isGuideTabSelected () {
+      return this.$route.path.startsWith('/teachers/guide')
+    },
   },
 
   methods: {
@@ -280,6 +297,48 @@ export default {
         </li>
       </ul>
     </li>
+
+    <li
+      role="presentation"
+      class="dropdown"
+    >
+      <a
+        id="GuideDropdown"
+        :class="['dropdown-toggle', isGuideTabSelected ? 'current-route' : '']"
+        href="#"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <div id="IconCurriculum" />
+        <span>{{ $t('teacher_dashboard.curriculum') }}</span>
+        <span class="caret" />
+      </a>
+      <ul
+        class="dropdown-menu"
+        aria-labelledby="GuideDropdown"
+      >
+        <li
+          v-for="option in guideOptions"
+          :key="option.id"
+          :class="isGuideTabSelected && $route.params.id === option.id ? 'selected' : null"
+        >
+          <router-link
+            tag="a"
+            :to="option.path"
+            class="dropdown-item"
+            data-action="Guide: Nav Clicked"
+            data-toggle="dropdown"
+            :data-label="$route.path"
+            @click.native="trackEvent"
+          >
+            {{ option.name }}
+          </router-link>
+        </li>
+      </ul>
+    </li>
+
     <li :class="{ 'modal-highlight': isCurriculumModalVisible }">
       <router-link
         id="CurriculumAnchor"
