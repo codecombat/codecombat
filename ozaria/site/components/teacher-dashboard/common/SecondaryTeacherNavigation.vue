@@ -339,18 +339,6 @@ export default {
       </ul>
     </li>
 
-    <li :class="{ 'modal-highlight': isCurriculumModalVisible }">
-      <router-link
-        id="CurriculumAnchor"
-        to="/teachers/curriculum"
-        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') || isCurriculumModalVisible }"
-        data-action="Curriculum Guide: Nav Clicked"
-        @click.native="onCurriculumClicked"
-      >
-        <div id="IconCurriculum" />
-        {{ $t('teacher_dashboard.curriculum') }}
-      </router-link>
-    </li>
     <li>
       <router-link
         id="ResourceAnchor"
