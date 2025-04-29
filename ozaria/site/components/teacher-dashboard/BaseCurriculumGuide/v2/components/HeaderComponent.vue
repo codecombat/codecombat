@@ -43,7 +43,7 @@ export default {
       this.$emit('onSelectedTabChange', tab)
     },
     showGuideHeader () {
-      return this.selectedTab === 'guide'
+      return this.defaultTab === 'guide'
     },
   },
 }
