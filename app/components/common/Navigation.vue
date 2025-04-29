@@ -582,7 +582,7 @@ export default Vue.extend({
                     //- string replaced in RootView
                     span.language-dropdown-current Language
                   ul(class="dropdown-menu language-dropdown")
-              ul.nav.navbar-nav(v-if="me.isTeacher() && !me.hideTopRightNav()")
+              ul.nav.navbar-nav(v-if="me.isTeacher() && !me.hideTopRightNav() && !me.showChinaResourceInfo()")
                 li
                   cta-button.request-demo-button(data-event-action="Header Request Demo CTA" size="small" href="/schools?openContactModal=true") {{ $t('new_home.request_quote') }}
 </template>
