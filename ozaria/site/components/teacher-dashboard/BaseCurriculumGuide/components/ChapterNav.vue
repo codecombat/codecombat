@@ -28,13 +28,20 @@ export default {
     }
   },
 
-  created () {
-    this.setDefaultCampaign()
+  watch: {
+    chapters: {
+      immediate: true,
+      handler (newChapters) {
+        if (newChapters?.length > 0) {
+          this.setSelectedCampaign(newChapters[0].campaignID)
+        }
+      },
+    },
   },
 
   methods: {
     ...mapActions({
-      setSelectedCampaign: 'baseCurriculumGuide/setSelectedCampaign'
+      setSelectedCampaign: 'baseCurriculumGuide/setSelectedCampaign',
     }),
 
     classForButton (campaignID) {
@@ -47,21 +54,6 @@ export default {
     clickChapterNav (campaignID) {
       this.setSelectedCampaign(campaignID)
       window.tracker?.trackEvent('Curriculum Guide: Chapter Nav Clicked', { category: this.getTrackCategory, label: this.courseName })
-    },
-
-    setDefaultCampaign () {
-      // open the related campaign if course was selected on teacher dashboard
-      const classroomCourseId = this.classroomCourseId
-      if (!classroomCourseId) return
-
-      const courses = this.courses
-      if (!courses) return
-
-      const course = courses.find(course => course._id === classroomCourseId)
-
-      if (course && course.campaignID) {
-        this.setSelectedCampaign(course.campaignID)
-      }
     },
 
     showNewIcon (campaignID) {
