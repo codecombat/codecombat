@@ -36,16 +36,10 @@ export default {
     }),
 
     ...mapGetters({
-      getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
       getModuleInfo: 'baseCurriculumGuide/getModuleInfo',
       getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
-      getTrackCategory: 'teacherDashboard/getTrackCategory',
       chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
     }),
-
-    courseName () {
-      return this.getCurrentCourse?.name || ''
-    },
 
     chapterNav () {
       // This ensures released chapters are correctly placed, with internal chapters added after.

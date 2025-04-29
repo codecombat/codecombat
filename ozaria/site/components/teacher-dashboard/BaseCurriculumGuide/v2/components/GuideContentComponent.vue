@@ -32,8 +32,8 @@ export default {
     }),
     chaptersNavData () {
       const chapters = (this.chapterNavBar || []).filter(({ releasePhase }) => releasePhase === 'released')
-      const hackstackCourseIds = utils.HACKSTACK_COURSE_IDS
-      const juniorCourseIds = utils.JUNIOR_COURSE_IDS
+      const hackstackCourseIds = utils.HACKSTACK_COURSE_IDS || []
+      const juniorCourseIds = utils.JUNIOR_COURSE_IDS || []
       let result
       if (this.product === 'hackstack') {
         result = chapters.filter(({ _id }) => hackstackCourseIds.includes(_id))
@@ -59,7 +59,11 @@ export default {
       fetchReleasedCourses: 'courses/fetchReleased',
     }),
     async fetchData () {
-      await this.fetchReleasedCourses()
+      try {
+        await this.fetchReleasedCourses()
+      } catch (err) {
+        console.error('Error fetching released courses', err)
+      }
     },
   },
 }

@@ -35,7 +35,12 @@ export default {
   computed: {
     ...mapGetters({
       getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
+      getTrackCategory: 'teacherDashboard/getTrackCategory',
+      getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
     }),
+    courseName () {
+      return this.getCurrentCourse?.name || ''
+    },
   },
   methods: {
     ...mapMutations({

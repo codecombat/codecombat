@@ -35,7 +35,6 @@ export default {
     defaultTab: {
       type: String,
       default: 'guide',
-      required: true,
     },
   },
   methods: {
