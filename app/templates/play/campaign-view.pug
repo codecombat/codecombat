@@ -69,7 +69,7 @@ if showGameDevAlert
 
     if view.shouldShow('back-to-classroom') && view.DEEP_API_LIST.indexOf(me.get('clientCreator')) == -1
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
-    if view.isCatalyst && campaign != null
+    if view.isCatalyst && campaign != null && campaign.get('slug') != 'junior'
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase#back-button-catalyst(data-i18n="play_level.back_to_map", title="Back to Map")
 
     if view.shouldShow('videos') && view.DEEP_API_LIST.indexOf(me.get('clientCreator')) == -1
@@ -290,7 +290,7 @@ if showGameDevAlert
         .roblox-level#roblox-level-shadow(style="left: 18%; top: 27.5%; display: none;", class="level-shadow")
 
       // HackStack Modal
-      if view.shouldShow('hackstack') && campaign.get('slug') == 'dungeon'
+      if view.shouldShow('hackstack-menu-icon') && campaign.get('slug') == 'dungeon'
         .level.hackstack-level#hackstack-level-container(title="CodeCombat AI HackStack")
            span
             .hackstack-icon
@@ -299,45 +299,18 @@ if showGameDevAlert
     .portal-catalyst
       .portals
         - var godmode = me.isInGodMode();
-        
-        // Top row: Junior and Dungeon
-        .catalyst-first-row
-          each campaignSlug in ['junior', 'dungeon']
-            - var campaign = campaigns[campaignSlug];
-            div(class="campaign " + campaignSlug + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
-              .campaign-label
-                h2.campaign-name
-                  if campaign
-                    span= i18n(campaign.attributes, 'fullName')
-                  else
-                    span ???
-                if campaign && campaign.levelsTotal && !features.brainPop
-                  h3.levels-completed
-                    span= campaign.levelsCompleted
-                    | /
-                    span= campaign.levelsTotal
-                if campaign && campaign.locked && !godmode
-                  h3.campaign-locked(data-i18n="play.locked") Locked
-                else if campaign
-                  if serverConfig.static
-                    a(data-i18n="common.play", href="/play/" + campaignSlug).btn.btn-illustrated.btn-lg.btn-success.play-button
-                  else
-                    btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
-                if campaign && campaign.get('description')
-                  .campaign-description-container
-                    p.campaign-description(dir="auto")
-                      if ['junior', 'dungeon'].includes(campaignSlug)
-                        - var campaignProductName = campaignSlug == 'junior' ? 'codecombat_junior' : 'codecombat'
-                        strong.campaign-age(data-i18n="play.age_" + campaignProductName)
-                        br
-                        span.campaign-age-description(data-i18n="play.age_description_" + campaignProductName)
-                        br
-                      span= i18n(campaign.attributes, 'description')
-        
         // Main campaigns with side dev campaigns
         .campaign-rows
           // Define the campaign rows with their main campaign and side campaigns
-          - var campaignRows = [{main: 'forest', left: 'campaign-game-dev-1', right: 'campaign-web-dev-1'}, {main: 'desert', left: 'campaign-game-dev-2', right: 'campaign-web-dev-2'}, {main: 'mountain', left: 'campaign-game-dev-3', right: null}, {main: 'glacier', left: null, right: null}]
+          -
+            var campaignRows = [
+              //- {main: 'dungeon', left: null, right: null},
+              {main: 'dungeon', left: 'campaign-game-dev-1', right: 'campaign-web-dev-1', next: 'forest'},
+              {main: 'forest', left: 'campaign-game-dev-2', right: 'campaign-web-dev-2', next: 'desert'},
+              {main: 'desert', left: 'campaign-game-dev-3', right: null, next: 'mountain'},
+              {main: 'mountain', left: null, right: null, next: 'glacier'},
+              {main: 'glacier', left: null, right: null},
+            ];
           
           
           // Loop through each campaign row
@@ -348,7 +321,7 @@ if showGameDevAlert
                 - var leftCampaign = campaigns[row.left]
                 if leftCampaign
                   .side-campaign-container(class=!row.left ? "empty" : "left-campaign")
-                    .side-campaign(class=row.left + (leftCampaign ? "" : " silhouette") + (leftCampaign && leftCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.left, data-i18n="[title]play.locked_campaign" : "")
+                    .side-campaign(class=row.left + (leftCampaign ? "" : " silhouette") + (leftCampaign && leftCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.left, data-i18n=(row.next ? "[title]play.locked_campaign_" + row.next : "[title]play.locked_campaign") : "")
                       .background-container(class=row.left)
                       .campaign-label
                         h3.campaign-name
@@ -372,7 +345,7 @@ if showGameDevAlert
               
               // Main campaign
               - var mainCampaign = campaigns[row.main]
-              .main-campaign(class=row.main + (mainCampaign ? "" : " silhouette") + (mainCampaign && mainCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.main, data-i18n="[title]play.locked_campaign" : "")
+              .main-campaign(class=row.main + (mainCampaign ? "" : " silhouette") + (mainCampaign && mainCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.main, data-i18n=(row.main ? "[title]play.locked_campaign_" + row.main : "[title]play.locked_campaign") : "")
                 .campaign-label
                   h2.campaign-name
                     if mainCampaign
@@ -401,7 +374,7 @@ if showGameDevAlert
                 - var rightCampaign = campaigns[row.right]
                 if rightCampaign
                   .side-campaign-container(class=!row.right ? "empty" : "right-campaign")
-                    .side-campaign(class="right-campaign " + row.right + (rightCampaign ? "" : " silhouette") + (rightCampaign && rightCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.right, data-i18n="[title]play.locked_campaign" : "")
+                    .side-campaign(class="right-campaign " + row.right + (rightCampaign ? "" : " silhouette") + (rightCampaign && rightCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.right, data-i18n=(row.next ? "[title]play.locked_campaign_" + row.next : "[title]play.locked_campaign") : "")
                       .background-container(class=row.right)
                       .campaign-label
                         h3.campaign-name
@@ -504,20 +477,24 @@ if showGameDevAlert
           a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
     .other-products-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
       if !(features.picoCtf || features.brainPop)
-        if view.shouldShow('hackstack')
-          span.btn.hackstack-menu-icon(title='CodeCombat AI HackStack')
-        if view.shouldShow('ai-league')
-          span.btn.ai-league-menu-icon(title='CodeCombat AI League')
-        if view.shouldShow('roblox-button')
-          span.btn.roblox-level.roblox-menu-icon(title='CodeCombat Worlds on Roblox')
+        if view.shouldShow('hackstack-menu-icon')
+          span.btn.hackstack-menu-icon(data-i18n="[title]play.hackstack_button_hover")
+        if view.shouldShow('junior-menu-icon')
+          span.btn.junior-icon.junior-menu-icon(data-i18n="[title]play.junior_button_hover")
+        if view.shouldShow('cchome-menu-icon')
+          span.btn.cchome-menu-icon(data-i18n="[title]play.cchome_button_hover")
+        if view.shouldShow('roblox-menu-icon')
+          span.btn.roblox-level.roblox-menu-icon(data-i18n="[title]play.roblox_button_hover")
+        if view.shouldShow('ai-league-menu-icon')
+          span.btn.ai-league-menu-icon(data-i18n="[title]play.ai_league_button_hover")
   else
     .game-controls.header-font.picoctf-hide
       if !(features.picoCtf || features.brainPop)
-        if view.shouldShow('junior-level')
-          button.btn.junior-level.junior-menu-icon(title='CodeCombat Junior')
-        if view.shouldShow('hackstack')
+        if view.shouldShow('junior-menu-icon')
+          button.btn.junior-icon.junior-menu-icon(title='CodeCombat Junior')
+        if view.shouldShow('hackstack-menu-icon')
           span.btn.hackstack-menu-icon(title='CodeCombat AI HackStack')
-        if view.shouldShow('roblox-button')
+        if view.shouldShow('roblox-menu-icon')
           button.btn.roblox-level.roblox-menu-icon(title='CodeCombat Worlds on Roblox')
         if view.shouldShow('promotion')
           button.btn.promotion-menu-icon(data-toggle='coco-modal', data-target='play/modal/PromotionModal', title='New: Code in Beijing!')
