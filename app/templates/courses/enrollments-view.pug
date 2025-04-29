@@ -154,12 +154,21 @@ mixin addCredits
         p(data-i18n="[html]teacher.enroll_request_sent_blurb3")
       button#request-sent-btn.btn-lg.btn.btn-forest(disabled=true, data-i18n="teacher.request_sent")
     else
-      p.m-y-2(data-i18n="teacher.get_enrollments_blurb")
+      //- p.m-y-2(data-i18n="teacher.get_enrollments_blurb")
       if me.showChinaResourceInfo()
+        p 我们提供定制化解决方案，满足您所在学校或机构的特定需求。
+        p
+          b 便捷购买流程
+        p 扫描下方二维码，立即获取许可证：
+        img(src='/images/pages/courses/license-from-xet.png' width=100)
         - var {COCO_CHINA_CONST} = require('core/constants')
-        p 联系我们
-        p= "邮件："+COCO_CHINA_CONST.CONTACT_EMAIL
+        p
+          b 批量采购优惠
+        p 如果订购超过50份许可证可享受特别优惠价格，请联系我们的教育顾问。
         p= "电话："+COCO_CHINA_CONST.CONTACT_PHONE
+        p 自助购买后，我们将在24小时内将许可证发送至您的账户 
+        p 您也可以随时联系客服，加速许可证获取流程
+        p 我们的专业团队随时为您提供产品使用指导和教学资源支持，助力提升教学效果。
       else
         button#contact-us-btn.btn-lg.btn.btn-forest(data-i18n="contribute.contact_us_url")
         br
