@@ -2,12 +2,14 @@
   <div class="guide-content">
     <chapter-nav :chapters="chaptersNavData" />
     <chapter-info />
+    <chapter-content />
   </div>
 </template>
 
 <script>
 import ChapterNav from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ChapterNav.vue'
 import ChapterInfo from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ChapterInfo.vue'
+import ChapterContent from 'ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/components/ChapterContent.vue'
 import { mapActions, mapGetters } from 'vuex'
 import utils from 'core/utils'
 export default {
@@ -15,6 +17,7 @@ export default {
   components: {
     ChapterNav,
     ChapterInfo,
+    ChapterContent,
   },
   props: {
     product: {

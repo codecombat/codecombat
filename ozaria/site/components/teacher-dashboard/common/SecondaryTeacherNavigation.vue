@@ -42,7 +42,7 @@ export default {
       guideOptions = [
         { id: 1, name: 'CodeCombat Junior', path: '/teachers/guide/junior' },
         { id: 2, name: 'CodeCombat Classroom', path: '/teachers/guide/codecombat' },
-        { id: 3, name: 'AI HackStack', path: '/teachers/guide/ai-hackstack' },
+        { id: 3, name: 'AI HackStack', path: '/teachers/guide/hackstack' },
       ]
     } else {
       guideOptions = [
