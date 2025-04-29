@@ -2,24 +2,31 @@
   <div class="header">
     <div class="header__products">
       <div
-        :class="{ header__product: true, header__product__selected: selectedTab === 'guide' }"
+        :class="{ header__product: true, header__product__selected: defaultTab === 'guide' }"
         @click.prevent="() => onTabClicked('guide')"
       >
         {{ product }}
       </div>
       <div
-        :class="{ header__product: true, header__product__selected: selectedTab === 'explore' }"
+        :class="{ header__product: true, header__product__selected: defaultTab === 'explore' }"
         @click.prevent="() => onTabClicked('explore')"
       >
-        {{ $t('parents_v2.step_box_2_subtitle') }}
+        {{ $t('general.learn_more') }}!
       </div>
     </div>
+    <old-header-component
+      v-if="showGuideHeader()"
+    />
   </div>
 </template>
 
 <script>
+import OldHeaderComponent from '../../components/HeaderComponent'
 export default {
-  name: 'HeaderComponent',
+  name: 'HeaderComponentV2',
+  components: {
+    OldHeaderComponent,
+  },
   props: {
     product: {
       type: String,
@@ -31,15 +38,12 @@ export default {
       required: true,
     },
   },
-  data () {
-    return {
-      selectedTab: this.defaultTab,
-    }
-  },
   methods: {
     onTabClicked (tab) {
-      this.selectedTab = tab
       this.$emit('onSelectedTabChange', tab)
+    },
+    showGuideHeader () {
+      return this.selectedTab === 'guide'
     },
   },
 }
@@ -50,9 +54,12 @@ export default {
 @import "app/views/parents/css-mixins/variables";
 
 .header {
+  border: 1px solid #E6E6E6;
+  box-shadow: inset 0px -2px 10px rgba(0, 0, 0, 0.15);
+
   &__products {
     display: flex;
-    padding-top: .5rem;
+    padding-top: 2px;
 
     @media (max-width: $screen-lg) {
       flex-direction: column;
@@ -64,13 +71,12 @@ export default {
     border: 1px solid $color-green-1;
     box-shadow: 4px 0 7px rgba(0, 0, 0, 0.2), 0px -2px 5px rgba(0, 0, 0, 0.1);
 
-    margin-left: 1rem;
     margin-right: 1rem;
 
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 
-    padding: 2px 1rem;
+    padding: 5px 15px;
     cursor: pointer;
 
     text-transform: uppercase;

@@ -1,6 +1,7 @@
 <template>
   <div class="guide-content">
     <chapter-nav :chapters="chaptersNavData" />
+    <div class="separator" />
     <chapter-info />
     <chapter-content />
   </div>
@@ -65,4 +66,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.separator {
+  border: 1px solid #E6E6E6;
+  box-shadow: inset 0px -2px 10px rgba(0, 0, 0, 0.15);
+}
 </style>
