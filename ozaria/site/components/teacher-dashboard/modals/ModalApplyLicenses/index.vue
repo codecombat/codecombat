@@ -3,10 +3,11 @@ import Modal from '../../../common/Modal'
 import ModalApplyLicense from './ModalApplyLicense'
 
 export default Vue.extend({
+  name: 'ModalApplyLicenseIndex',
   components: {
     Modal,
-    ModalApplyLicense
-  }
+    ModalApplyLicense,
+  },
 })
 </script>
 
