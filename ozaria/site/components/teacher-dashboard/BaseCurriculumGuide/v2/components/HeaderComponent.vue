@@ -5,13 +5,13 @@
         :class="{ header__product: true, header__product__selected: defaultTab === 'guide' }"
         @click.prevent="() => onTabClicked('guide')"
       >
-        {{ product }}
+        {{ displayProductName }}
       </div>
       <div
         :class="{ header__product: true, header__product__selected: defaultTab === 'explore' }"
         @click.prevent="() => onTabClicked('explore')"
       >
-        {{ $t('general.learn_more') }}!
+        {{ $t('general.learn_more') }}
       </div>
     </div>
     <old-header-component
@@ -37,6 +37,20 @@ export default {
       default: 'guide',
     },
   },
+  computed: {
+    displayProductName () {
+      if (this.product === 'codecombat') {
+        return 'CodeCombat'
+      } else if (this.product === 'ozaria') {
+        return 'Ozaria'
+      } else if (this.product === 'hackstack') {
+        return 'AI HackStack'
+      } else if (this.product === 'junior') {
+        return 'Junior'
+      }
+      return this.product
+    },
+  },
   methods: {
     onTabClicked (tab) {
       this.$emit('onSelectedTabChange', tab)
@@ -58,7 +72,7 @@ export default {
 
   &__products {
     display: flex;
-    padding-top: 2px;
+    padding-top: 10px;
 
     @media (max-width: $screen-lg) {
       flex-direction: column;
@@ -66,11 +80,13 @@ export default {
   }
 
   &__product {
-    background: $color-green-1;
-    border: 1px solid $color-green-1;
+    background: $color-blue-1;
+    border: 1px solid $color-blue-1;
     box-shadow: 4px 0 7px rgba(0, 0, 0, 0.2), 0px -2px 5px rgba(0, 0, 0, 0.1);
+    color: $color-yellow-1;
 
-    margin-right: 1rem;
+    margin-right: 10px;
+    margin-left: 10px;
 
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -78,17 +94,17 @@ export default {
     padding: 5px 15px;
     cursor: pointer;
 
-    text-transform: uppercase;
-
     &:not(:last-child) {
       @media (max-width: $screen-lg) {
-        margin-bottom: 1rem;
+        margin-bottom: 10px;
       }
     }
 
     &__selected {
       background: $color-grey-2;
       border: 1px solid #E6E6E6;
+      color: black;
+      font-weight: bold;
     }
   }
 
