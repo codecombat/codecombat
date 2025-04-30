@@ -311,8 +311,15 @@ export default {
       for (const user of unenrolledStudents) {
         requests.push(prepaid.redeem(user.get('_id'), { data: { sharedClassroomId } }))
       }
-      // TODO: Handle error
-      await Promise.all(requests)
+      const results = await Promise.allSettled(requests)
+      let fails = 0
+      results.forEach((res, index) => {
+        if (res.status === 'rejected') {
+          console.error(`Redeem student-${unenrolledStudents[index].get('_id')} failed.`)
+          fails += 1
+        }
+      })
+      noty({ text: `Error! ${fails} students failed to get license`, type: 'error' })
     },
 
     async applyLicenses ({ getters }, { members, teacherId, sharedClassroomId }) {
