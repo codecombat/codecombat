@@ -139,7 +139,7 @@ export default {
         if (prepaid.type === 'starter_license') {
           return 'starter_license'
         }
-        const includedCourseIDs = this.get('includedCourseIDs')
+        const includedCourseIDs = prepaid.includedCourseIDs
         if (includedCourseIDs) {
           return 'customized_license:' + (includedCourseIDs.join('+'))
         } else {

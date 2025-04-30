@@ -67,7 +67,7 @@
           <div />
           <div class="color-box">
             <input
-              class="student-course"
+              class="student-having-course"
               type="checkbox"
               checked
               onclick="return false"
@@ -211,15 +211,19 @@ export default {
       this.$emit('close')
     },
     licenseName (license) {
+      let name = ''
       if (license.type === 'starter_license') {
-        return $.i18n.t('teacher.starter_license')
-      }
-      const includedCourseIDs = license.includedCourseIDs
-      if (includedCourseIDs) {
-        return $.i18n.t('teacher.customized_license')
+        name += $.i18n.t('teacher.starter_license')
       } else {
-        return $.i18n.t('teacher.full_license')
+        const includedCourseIDs = license.includedCourseIDs
+        if (includedCourseIDs) {
+          name += $.i18n.t('teacher.customized_license')
+        } else {
+          name += $.i18n.t('teacher.full_license')
+        }
       }
+      name += `(${license.maxRedeemers - (license.redeemers?.length || 0)})`
+      return name
     },
     numericalCourses (object, oType) {
       if (oType === 'prepaid') {
@@ -312,12 +316,12 @@ input[type='checkbox'] {
     accent-color: #2dcd38;
   }
 
-  &.student-having-course {
-    accent-color: #c8cdcc;
-  }
-
   &.license-preview {
     accent-color: #1ad0ff;
+  }
+
+  &.student-having-course {
+    accent-color: #c8cdcc;
   }
 }
 
