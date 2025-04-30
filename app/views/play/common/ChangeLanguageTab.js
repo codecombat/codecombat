@@ -185,23 +185,28 @@ module.exports = (ChangeLanguageTab = (function () {
       this.buildCodeLanguages()
     }
 
+    newFancySelect (element) {
+      const options = {
+        searchEnabled: false,
+        itemSelectText: '',
+        classNames: {
+          containerInner: ['choices__inner', 'trigger'],
+          listDropdown: ['options'],
+          itemChoice: ['item'],
+          selectedState: ['selected'],
+          highlightedState: ['hover'],
+        },
+      }
+      return new Choices(element, options)
+    }
+
     buildCodeFormats () {
       const $select = this.$el.find('#option-code-format')
       if (!utils.isMobile() && $select.length) {
         if (this.codeformatChoices) {
           this.codeformatChoices.destroy()
         }
-        this.codeformatChoices = new Choices($select[0], {
-          searchEnabled: false,
-          itemSelectText: '',
-          classNames: {
-            containerInner: ['choices__inner', 'trigger'],
-            listDropdown: ['options'],
-            itemChoice: ['item'],
-            selectedState: ['selected'],
-            highlightedState: ['hover'],
-          },
-        })
+        this.codeformatChoices = this.newFancySelect($select[0])
       }
       $select.parent().parent().find('.options .item').each(function () {
         const formatName = $(this).text()
@@ -219,17 +224,7 @@ module.exports = (ChangeLanguageTab = (function () {
         if (this.languageChoices) {
           this.languageChoices.destroy()
         }
-        this.languageChoices = new Choices($select[0], {
-          searchEnabled: false,
-          itemSelectText: '',
-          classNames: {
-            containerInner: ['choices__inner', 'trigger'],
-            listDropdown: ['options'],
-            itemChoice: ['item'],
-            selectedState: ['selected'],
-            highlightedState: ['hover'],
-          },
-        })
+        this.languageChoices = this.newFancySelect($select[0])
       }
       $select.parent().parent().find('.options .item').each(function () {
         const languageName = $(this).text()
