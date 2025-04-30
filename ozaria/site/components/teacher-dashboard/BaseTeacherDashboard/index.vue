@@ -1,6 +1,7 @@
 <script>
 import Panel from '../Panel/index.vue'
 import ModalAssignContent from '../modals/ModalAssignContent/index'
+import ModalApplyLicenses from '../modals/ModalApplyLicenses/index.vue'
 import ModalAddStudents from '../modals/ModalAddStudents'
 import ModalRemoveStudents from '../modals/ModalRemoveStudents'
 import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
@@ -36,6 +37,7 @@ export default {
     ModalEditClass,
     ModalAssignContent,
     ModalAddStudents,
+    ModalApplyLicenses,
     ModalRemoveStudents,
     ModalOnboardingVideo,
     SecondaryTeacherNavigation,
@@ -54,6 +56,7 @@ export default {
       showRestrictedDiv: false,
       showNewClassModal: false,
       showAssignContentModal: false,
+      showApplyLicensesModal: false,
       showAddStudentsModal: false,
       showRemoveStudentsModal: false,
       showOnboardingModal: false,
@@ -81,7 +84,8 @@ export default {
       selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
       componentName: 'teacherDashboard/getComponentName',
       trialRequest: 'trialRequest/properties',
-      sharedClassrooms: 'teacherDashboard/getSharedClassrooms'
+      sharedClassrooms: 'teacherDashboard/getSharedClassrooms',
+      getPrepaids: 'prepaids/getPrepaidsByTeacher',
     }),
 
     me () {
@@ -128,7 +132,22 @@ export default {
     },
     allClassrooms () {
       return [...this.activeClassrooms, ...this.sharedClassrooms]
-    }
+    },
+
+    allLicensesTypes () {
+      const prepaidTypes = this.getPrepaids(me.id)?.available?.map(prepaid => {
+        if (prepaid.type === 'starter_license') {
+          return 'starter_license'
+        }
+        const includedCourseIDs = prepaid.includedCourseIDs
+        if (includedCourseIDs) {
+          return 'customized_license:' + (includedCourseIDs.join('+'))
+        } else {
+          return 'full_license'
+        }
+      })
+      return Array.from(new Set(prepaidTypes))
+    },
   },
 
   watch: {
@@ -177,9 +196,17 @@ export default {
     }),
 
     ...mapActions({
+      applyLicenses: 'baseSingleClass/applyLicenses',
       generateLevelNumberMap: 'gameContent/generateLevelNumberMap',
     }),
 
+    dynamicShowingApplyLicenseModal () {
+      if (this.allLicensesTypes.length > 1) {
+        this.showApplyLicensesModal = true
+      } else {
+        this.applyLicenses()
+      }
+    },
     getMostCommonLanguage () {
       const languagesCount = this.activeClassrooms.reduce((map, classroom) => {
         const language = classroom.aceConfig?.language || 'python'
@@ -434,6 +461,7 @@ export default {
           @assignContent="showAssignContentModal = true"
           @addStudents="showAddStudentsModal = true"
           @removeStudents="showRemoveStudentsModal = true"
+          @applyLicenses="dynamicShowingApplyLicenseModal"
         />
       </div>
     </div>
@@ -476,6 +504,11 @@ export default {
     <modal-remove-students
       v-if="showRemoveStudentsModal"
       @close="showRemoveStudentsModal = false"
+    />
+    <modal-apply-licenses
+      v-if="showApplyLicensesModal"
+      :classroom="classroom"
+      @close="showApplyLicensesModal=false"
     />
     <try-ozaria-modal
       v-if="showTryOzariaModal"
