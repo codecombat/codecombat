@@ -10,9 +10,11 @@
  */
 const CocoView = require('views/core/CocoView')
 const template = require('app/templates/play/common/change-language-tab')
+require('app/styles/play/common/change_language_tab.sass')
 const { me } = require('core/auth')
 const utils = require('core/utils')
 const { CODE_FORMAT_ALL, CODE_FORMAT_BLOCKS, CODE_FORMAT_IPAD, CODE_FORMAT_TEXT, JUNIOR_LANGUAGES } = require('core/constants')
+const Choices = require('choices.js')
 
 let ChangeLanguageTab
 module.exports = (ChangeLanguageTab = (function () {
@@ -36,6 +38,8 @@ module.exports = (ChangeLanguageTab = (function () {
       this.utils = utils
       this.codeLanguageObject = utils.getCodeLanguages()
       this.codeFormatObject = utils.getCodeFormats()
+      this.languageChoices = null
+      this.codeformatChoices = null
       const defaultCodeFormat = 'text-code'
       this.codeFormat = this.options.codeFormat || me.get('aceConfig')?.codeFormat || defaultCodeFormat
       if (this.isJunior && options.level?.get('slug') === 'the-gem') {
@@ -125,6 +129,7 @@ module.exports = (ChangeLanguageTab = (function () {
       if (this.codeFormatObject[this.codeFormat].disabled) {
         this.codeFormat = _.find(this.codeFormatObject, { disabled: false })?.id
       }
+      // this.codeformatChoices?.destroy()
       this.renderSelectors('.code-format-form')
       this.buildCodeFormats()
     }
@@ -180,12 +185,30 @@ module.exports = (ChangeLanguageTab = (function () {
       this.buildCodeLanguages()
     }
 
+    newFancySelect (element) {
+      const options = {
+        searchEnabled: false,
+        itemSelectText: '',
+        classNames: {
+          containerInner: ['choices__inner', 'trigger'],
+          listDropdown: ['options'],
+          itemChoice: ['item'],
+          selectedState: ['selected'],
+          highlightedState: ['hover'],
+        },
+      }
+      return new Choices(element, options)
+    }
+
     buildCodeFormats () {
       const $select = this.$el.find('#option-code-format')
-      if (!utils.isMobile()) {
-        $select.fancySelect()
+      if (!utils.isMobile() && $select.length) {
+        if (this.codeformatChoices) {
+          this.codeformatChoices.destroy()
+        }
+        this.codeformatChoices = this.newFancySelect($select[0])
       }
-      $select.parent().find('.options li').each(function () {
+      $select.parent().parent().find('.options .item').each(function () {
         const formatName = $(this).text()
         const formatID = $(this).data('value')
         const blurb = $.i18n.t(`choose_hero.${formatID}_blurb`.replace(/-/g, '_'))
@@ -193,19 +216,17 @@ module.exports = (ChangeLanguageTab = (function () {
           return $(this).text(`${formatName} - ${blurb}`)
         }
       })
-      if ($select.parent().find('.options li').length === 1) {
-        $select.trigger('disable.fs')
-      } else {
-        $select.trigger('enable.fs')
-      }
     }
 
     buildCodeLanguages () {
       const $select = this.$el.find('#option-code-language')
-      if (!utils.isMobile()) {
-        $select.fancySelect()
+      if (!utils.isMobile() && $select.length) {
+        if (this.languageChoices) {
+          this.languageChoices.destroy()
+        }
+        this.languageChoices = this.newFancySelect($select[0])
       }
-      $select.parent().find('.options li').each(function () {
+      $select.parent().parent().find('.options .item').each(function () {
         const languageName = $(this).text()
         const languageID = $(this).data('value')
         const blurb = $.i18n.t(`choose_hero.${languageID}_blurb`)
@@ -213,17 +234,14 @@ module.exports = (ChangeLanguageTab = (function () {
           return $(this).text(`${languageName} - ${blurb}`)
         }
       })
-      if ($select.parent().find('.options li').length === 1) {
-        $select.trigger('disable.fs')
-      } else {
-        $select.trigger('enable.fs')
-      }
     }
 
     onCodeLanguageChanged (e) {
       this.codeLanguage = this.$el.find('#option-code-language').val()
       this.codeLanguageChanged = true
+
       this.updateCodeFormatList()
+      this.buildCodeLanguages()
       window.tracker?.trackEvent('Campaign changed code language', { category: 'Campaign Hero Select', codeLanguage: this.codeLanguage, levelSlug: this.options.level?.get('slug') })
       if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
         // Blockly can't support languages like C++/Java. (Some day we'll have Lua.)
@@ -236,6 +254,7 @@ module.exports = (ChangeLanguageTab = (function () {
       this.codeFormat = this.$el.find('#option-code-format').val()
       this.codeFormatChanged = true
       this.updateCodeLanguageList()
+      this.buildCodeFormats()
       window.tracker?.trackEvent('Campaign changed code format', { category: 'Campaign Hero Select', codeFormat: this.codeFormat, levelSlug: this.options.level?.get('slug') })
       if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
         // Blockly can't support languages like C++/Java. (Some day we'll have Lua.)

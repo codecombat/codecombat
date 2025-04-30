@@ -37,8 +37,21 @@ export default {
   },
 
   data: () => {
+    let guideOptions
+    if (utils.isCodeCombat) {
+      guideOptions = [
+        { id: 'junior', name: 'CodeCombat Junior', path: '/teachers/guide/junior' },
+        { id: 'codecombat', name: 'CodeCombat Classroom', path: '/teachers/guide/codecombat' },
+        { id: 'hackstack', name: 'AI HackStack', path: '/teachers/guide/hackstack' },
+      ]
+    } else {
+      guideOptions = [
+        { id: 'ozaria', name: 'Ozaria Classroom', path: '/teachers/guide/ozaria' },
+      ]
+    }
     return {
       curriculumPromoClicked: false,
+      guideOptions,
     }
   },
 
@@ -123,7 +136,11 @@ export default {
 
     isCurriculumModalVisible () {
       return this.topModal?.name === 'curriculum-sidebar-promotion-modal'
-    }
+    },
+
+    isGuideTabSelected () {
+      return this.$route.path.startsWith('/teachers/guide')
+    },
   },
 
   methods: {
@@ -280,18 +297,47 @@ export default {
         </li>
       </ul>
     </li>
-    <li :class="{ 'modal-highlight': isCurriculumModalVisible }">
-      <router-link
-        id="CurriculumAnchor"
-        to="/teachers/curriculum"
-        :class="{ 'current-route': isCurrentRoute('/teachers/curriculum') || isCurriculumModalVisible }"
-        data-action="Curriculum Guide: Nav Clicked"
-        @click.native="onCurriculumClicked"
+
+    <li
+      role="presentation"
+      class="dropdown"
+    >
+      <a
+        id="GuideDropdown"
+        :class="['dropdown-toggle', isGuideTabSelected ? 'current-route' : '']"
+        href="#"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
       >
         <div id="IconCurriculum" />
-        {{ $t('teacher_dashboard.curriculum') }}
-      </router-link>
+        <span>{{ $t('teacher_dashboard.curriculum') }}</span>
+        <span class="caret" />
+      </a>
+      <ul
+        class="dropdown-menu"
+        aria-labelledby="GuideDropdown"
+      >
+        <li
+          v-for="option in guideOptions"
+          :key="option.id"
+          :class="isGuideTabSelected && $route.params.product === option.id ? 'selected' : null"
+        >
+          <router-link
+            tag="a"
+            :to="option.path"
+            class="dropdown-item"
+            data-action="Guide: Nav Clicked"
+            data-toggle="dropdown"
+            :data-label="$route.path"
+          >
+            {{ option.name }}
+          </router-link>
+        </li>
+      </ul>
     </li>
+
     <li>
       <router-link
         id="ResourceAnchor"

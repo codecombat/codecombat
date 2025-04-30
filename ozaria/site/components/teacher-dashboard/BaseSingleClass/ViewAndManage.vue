@@ -69,7 +69,6 @@ export default {
   },
   methods: {
     ...mapActions({
-      applyLicenses: 'baseSingleClass/applyLicenses',
       revokeLicenses: 'baseSingleClass/revokeLicenses',
       resetProgress: 'baseSingleClass/resetProgress'
     }),
@@ -163,7 +162,7 @@ export default {
           :icon-name="displayOnly ? 'IconLicenseApply_Gray' : 'IconLicenseApply'"
           :text="$t('teacher.apply_licenses')"
           :inactive="displayOnly"
-          @click="applyLicenses"
+          @click="$emit('applyLicenses')"
         />
         <icon-button-with-text
           v-if="showLicenses && me.get('country') !== 'lebanon'"

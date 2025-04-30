@@ -519,6 +519,7 @@ module.exports = (CocoRouter = (function () {
         'teachers/resources_new': go('core/SingletonAppVueComponentView'),
         'teachers/curriculum': teacherProxyRoute(go('teachers/curriculum', { redirectStudents: true })),
         'teachers/curriculum/:campaign': teacherProxyRoute(go('teachers/curriculum', { redirectStudents: true })),
+        'teachers/guide/:product': teacherProxyRoute(go('core/SingletonAppVueComponentView'), { redirectStudents: true }),
         'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true }),
         'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true }),
         'teachers/professional-development': teacherProxyRoute(go('pd/PDView', { redirectStudents: true })),

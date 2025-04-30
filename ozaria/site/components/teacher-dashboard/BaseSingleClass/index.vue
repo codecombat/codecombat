@@ -756,6 +756,7 @@ export default {
       @assignContent="$emit('assignContent')"
       @addStudents="$emit('addStudents')"
       @removeStudents="$emit('removeStudents')"
+      @applyLicenses="$emit('applyLicenses')"
       @refresh="onRefresh"
     />
 

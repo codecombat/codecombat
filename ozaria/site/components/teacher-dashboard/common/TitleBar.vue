@@ -115,7 +115,7 @@ export default {
     },
 
     inCurriculum () {
-      return this.$route.path.startsWith('/teachers/curriculum')
+      return this.$route.path.startsWith('/teachers/curriculum') || this.$route.path.startsWith('/teachers/guide')
     },
 
     classroomCreationDate () {
