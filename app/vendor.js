@@ -22,11 +22,9 @@ window.key = require('../vendor/scripts/keymaster.js');
 require('vendor/scripts/jquery.noty.packaged.min.js');
 require('nanoscroller');// TODO webpack: Try to extract this
 require('vendor/scripts/hsl-to-rgb.js');
-require('imports-loader?this=>window!../vendor/scripts/fancy_select.js');// TODO webpack: Try to extract this
 window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js');// TODO webpack: Try to extract this
 require('vendor/scripts/fuzzaldrin')// TODO webpack: Try to extract this
 require('bower_components/waypoints/lib/jquery.waypoints.min.js')
-require('bower_components/select2/dist/js/select2.min.js')
 
 require('imports-loader?this=>window!npm-modernizr');
 

@@ -544,6 +544,9 @@ $heroCanvasHeight: 275px
       display: inline-block
       width: 100%
 
+      .options
+         text-transform: none
+
       .trigger, .options
         background-color: rgb(239,232,217)
         color: black
@@ -551,6 +554,7 @@ $heroCanvasHeight: 275px
       .trigger
         text-transform: uppercase
         border: 3px solid black
+        border-radius: 4px
         font-size: 16px
         padding: 5px 10px
         width: 100%
@@ -573,13 +577,13 @@ $heroCanvasHeight: 275px
           color: black
           background-color: #abc
 
-    .code-language-form .options li
+    .code-language-form .options .item
       padding-left: 40px
       background: transparent url(/images/common/code_languages/javascript_small.png) no-repeat left center
       background-size: 32px 32px
       margin-bottom: -1px
 
-      &[value="python"]
+      &[data-value="python"]
         background-image: url(/images/common/code_languages/python_small.png)
       &[data-value="coffeescript"]
         background-image: url(/images/common/code_languages/coffeescript_small.png)

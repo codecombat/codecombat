@@ -1,25 +1,28 @@
+@import 'choices.js/src/styles/choices'
 .my-fancy-select
   position: relative
 
-  .select2-selection
-    &__arrow
-      position: absolute
-      border: 8px solid rgba(0, 0, 0, 0)
-      border-top-color: #000
-      top: 13px
-      right: 11px
+  .trigger
+    font-weight: bold
 
-  .select2-container
-    /* position: absolute
-    /* top: 0
-    /* left: 0
-    width: 100% !important
-    height: 100%
-    cursor: pointer
+  .choices__list--single .choices__item
+    overflow: visible
+    white-space: nowrap
 
-    .select2-choice
-      cursor: pointer
+  .options
+    max-width: 600px
+    width: auto
+    white-space: nowrap
+    overflow: visible
 
-    .select2-results
-      &__option--highlighted
-        background: #99A5BE
+    .choices__list
+      overflow: visible
+
+      .item
+        white-space: nowrap
+        font-size: 13px
+        font-weight: bold
+        color: #2B8686
+  
+        &.hover
+          background-color: #abc !important

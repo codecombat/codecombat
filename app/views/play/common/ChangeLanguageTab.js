@@ -10,11 +10,11 @@
  */
 const CocoView = require('views/core/CocoView')
 const template = require('app/templates/play/common/change-language-tab')
-require('bower_components/select2/dist/css/select2.min.css')
 require('app/styles/play/common/change_language_tab.sass')
 const { me } = require('core/auth')
 const utils = require('core/utils')
 const { CODE_FORMAT_ALL, CODE_FORMAT_BLOCKS, CODE_FORMAT_IPAD, CODE_FORMAT_TEXT, JUNIOR_LANGUAGES } = require('core/constants')
+const Choices = require('choices.js')
 
 let ChangeLanguageTab
 module.exports = (ChangeLanguageTab = (function () {
@@ -38,6 +38,8 @@ module.exports = (ChangeLanguageTab = (function () {
       this.utils = utils
       this.codeLanguageObject = utils.getCodeLanguages()
       this.codeFormatObject = utils.getCodeFormats()
+      this.languageChioces = null
+      this.codeformatChioces = null
       const defaultCodeFormat = 'text-code'
       this.codeFormat = this.options.codeFormat || me.get('aceConfig')?.codeFormat || defaultCodeFormat
       if (this.isJunior && options.level?.get('slug') === 'the-gem') {
@@ -127,6 +129,7 @@ module.exports = (ChangeLanguageTab = (function () {
       if (this.codeFormatObject[this.codeFormat].disabled) {
         this.codeFormat = _.find(this.codeFormatObject, { disabled: false })?.id
       }
+      this.codeformatChioces?.destroy()
       this.renderSelectors('.code-format-form')
       this.buildCodeFormats()
     }
@@ -178,79 +181,85 @@ module.exports = (ChangeLanguageTab = (function () {
       if (this.codeLanguageObject[this.codeLanguage].disabled) {
         this.codeLanguage = _.find(this.codeLanguageObject, { disabled: false }).id
       }
+      this.langaugeChoices?.destroy()
       this.renderSelectors('.code-language-form')
       this.buildCodeLanguages()
     }
 
     buildCodeFormats () {
       const $select = this.$el.find('#option-code-format')
-      if (!utils.isMobile()) {
-        $select.select2({
-          minimumResultsForSearch: -1,
+      if (!utils.isMobile() && $select.length) {
+        this.codeformatChoices = new Choices($select[0], {
+          searchEnabled: false,
+          itemSelectText: '',
+          classNames: {
+            containerInner: ['choices__inner', 'trigger'],
+            listDropdown: ['options'],
+            itemChoice: ['item'],
+            selectedState: ['selected'],
+            highlightedState: ['hover'],
+          },
         })
-        // $select.fancySelect()
       }
-      $select.parent().find('.select2-choice').each(function () {
+      $select.parent().parent().find('.options .item').each(function () {
         const formatName = $(this).text()
-        const formatID = $(this).attr('value')
+        const formatID = $(this).data('value')
         const blurb = $.i18n.t(`choose_hero.${formatID}_blurb`.replace(/-/g, '_'))
         if (formatName.indexOf(blurb) === -1) { // Avoid doubling blurb if this is called 2x
           return $(this).text(`${formatName} - ${blurb}`)
         }
       })
-      if ($select.parent().find('option').length === 1) {
-        $select.trigger('disable.fs')
-      } else {
-        $select.trigger('enable.fs')
-      }
     }
 
     buildCodeLanguages () {
       const $select = this.$el.find('#option-code-language')
-      if (!utils.isMobile()) {
-        // $select.fancySelect()
+      if (!utils.isMobile() && $select.length) {
+        this.languageChoices = new Choices($select[0], {
+          searchEnabled: false,
+          itemSelectText: '',
+          classNames: {
+            containerInner: ['choices__inner', 'trigger'],
+            listDropdown: ['options'],
+            itemChoice: ['item'],
+            selectedState: ['selected'],
+            highlightedState: ['hover'],
+          },
+        })
       }
-      $select.parent().find('.options').each(function () {
+      $select.parent().parent().find('.options .item').each(function () {
         const languageName = $(this).text()
-        const languageID = $(this).attr('value')
+        const languageID = $(this).data('value')
         const blurb = $.i18n.t(`choose_hero.${languageID}_blurb`)
         if (languageName.indexOf(blurb) === -1) { // Avoid doubling blurb if this is called 2x
           return $(this).text(`${languageName} - ${blurb}`)
         }
       })
-      $select.siblings('.visible-text').text(this.codeLanguageObject[this.codeLanguage].name)
-      if ($select.parent().find('option').length === 1) {
-        $select.trigger('disable.fs')
-      } else {
-        $select.trigger('enable.fs')
-      }
     }
 
     onCodeLanguageChanged (e) {
       this.codeLanguage = this.$el.find('#option-code-language').val()
       this.codeLanguageChanged = true
 
-      this.$el.find('#option-code-language+.visible-text').text(this.codeLanguageObject[this.codeLanguage].name)
       this.updateCodeFormatList()
+      this.buildCodeLanguages()
       window.tracker?.trackEvent('Campaign changed code language', { category: 'Campaign Hero Select', codeLanguage: this.codeLanguage, levelSlug: this.options.level?.get('slug') })
       if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
         // Blockly can't support languages like C++/Java. (Some day we'll have Lua.)
         noty({ text: `Can't show blocks and code with ${this.codeLanguage}`, layout: 'bottomCenter', type: 'error', killer: false, timeout: 3000 })
-        this.$el.find('#option-code-format').val('text-code').change()
+        // this.$el.find('#option-code-format').val('text-code').change()
       }
     }
 
     onCodeFormatChanged (e) {
       this.codeFormat = this.$el.find('#option-code-format').val()
       this.codeFormatChanged = true
-      console.log('visible', this.$el.find('#option-code-format .visible-text'))
-      this.$el.find('#option-code-format+.visible-text').text(this.codeFormatObject[this.codeFormat].name)
       this.updateCodeLanguageList()
+      this.buildCodeFormats()
       window.tracker?.trackEvent('Campaign changed code format', { category: 'Campaign Hero Select', codeFormat: this.codeFormat, levelSlug: this.options.level?.get('slug') })
       if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
         // Blockly can't support languages like C++/Java. (Some day we'll have Lua.)
         noty({ text: `Can't show blocks and code with ${this.codeLanguage}`, layout: 'bottomCenter', type: 'error', killer: false, timeout: 3000 })
-        this.$el.find('#option-code-language').val('javascript').change()
+        // this.$el.find('#option-code-language').val('javascript').change()
       }
     }
   }
