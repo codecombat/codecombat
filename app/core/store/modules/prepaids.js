@@ -445,7 +445,10 @@ export default {
           await new Promise((resolve, reject) =>
             prepaid.revoke(student, {
               success: resolve,
-              error: reject,
+              error: (_p, e) => {
+                noty({ text: e?.responseJSON?.message || 'The revocation of the license failed', type: 'error' })
+                return reject(e)
+              },
               data: { sharedClassroomId },
             }),
           )

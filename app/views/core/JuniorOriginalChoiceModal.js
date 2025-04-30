@@ -33,13 +33,12 @@ module.exports = (JuniorOriginalChoiceModal = (function () {
 
     onOriginalButtonClick (e) {
       storage.save('junior-original-choice-seen', true)
-      this.trigger('junior-original-choice', 'original')
       this.hide()
     }
 
     onJuniorButtonClick (e) {
       storage.save('junior-original-choice-seen', true)
-      this.trigger('junior-original-choice', 'junior')
+      window.location.href = '/play/junior'
       this.hide()
     }
 

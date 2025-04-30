@@ -1,0 +1,23 @@
+.classic-promotion-modal
+  .modal-dialog
+    .modal-content
+      img.modal-background(src="/images/pages/play/modal/subscribe-background-blank.png")
+
+      h1(data-i18n="hackstack_page.promo_modal_title")
+
+      div.close-modal
+        span.glyphicon.glyphicon-remove
+
+      div.paper-area
+        div.med-text.text-center(data-i18n="hackstack_page.promo_modal_subtitle")
+
+        div.modal-video-container(style="width: 80%; margin: 0 auto;")
+          div.video-aspect-ratio
+            iframe(src="https://www.youtube.com/embed/c1PpGqP9VA8")
+        
+        hr
+        div.med-text.modal-text.text-center!= marked($.i18n.t("hackstack_page.promo_modal_text"))
+
+        .actions
+          button.btn.btn-lg.btn-illustrated.play-button
+            span.buy-now-text(data-i18n="hackstack_page.try_it_free")

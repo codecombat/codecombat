@@ -287,6 +287,10 @@ module.exports = (AdministerUserModal = (function () {
       if (attrs.userTimeZone?.[0] === 'on') {
         timeZone = this.userTimeZone
       }
+      if (attrs.revokable?.[0] !== 'on') {
+        attrs.irrevocable = true
+      }
+      delete attrs.revokable
       attrs.startDate = momentTimezone.tz(attrs.startDate, timeZone).toISOString()
       attrs.endDate = momentTimezone.tz(attrs.endDate, timeZone).toISOString()
 

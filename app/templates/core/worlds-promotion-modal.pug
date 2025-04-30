@@ -1,0 +1,24 @@
+.classic-promotion-modal
+  .modal-dialog
+    .modal-content
+      img.modal-background(src="/images/pages/play/modal/subscribe-background-blank.png")
+
+      h1(data-i18n="roblox.promo_modal_title")
+
+      div.close-modal
+        span.glyphicon.glyphicon-remove
+
+      div.paper-area
+        div.big-text.text-center(data-i18n="roblox.pcc_on_roblox")
+
+        // Container with responsive 16:9 aspect ratio
+        div.modal-video-container(style="width: 80%; margin: 0 auto;")
+          div.video-aspect-ratio
+            iframe(src="https://www.youtube.com/embed/Tk41dK9NYKo")
+        
+        hr
+        div.med-text.modal-text.text-center!= marked($.i18n.t("roblox.promo_modal_text"))
+        
+        .actions
+          button.btn.btn-lg.btn-illustrated.play-button
+            span.buy-now-text(data-i18n="roblox_landing.modal_play_now")
