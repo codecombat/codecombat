@@ -168,16 +168,16 @@ export default {
       return moment
     },
     licenses () {
-      return this.getPrepaids(me.id)?.available?.map(prepaid => {
-        prepaid.courseBits = this.numericalCourses(prepaid, 'prepaid')
-        return prepaid
-      })
+      return this.getPrepaids(me.id)?.available?.map(prepaid => ({
+        ...prepaid,
+        courseBits: this.numericalCourses(prepaid, 'prepaid'),
+      }))
     },
     students () {
-      return this.classroomMembers.map(member => {
-        member.courseBits = this.numericalCourses(member, 'member')
-        return member
-      })
+      return this.classroomMembers.map(member => ({
+        ...member,
+        courseBits: this.numericalCourses(member, 'member'),
+      }))
     },
   },
   mounted () {

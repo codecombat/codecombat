@@ -247,6 +247,10 @@ export default {
         throw new Error('no prepaids for the teacher')
       }
       const selectedPrepaid = prepaids.available.find(data => data._id === selectedId)
+      if (!selectedPrepaid) {
+        noty({ text: 'Something went wrong, selected license no longer available.', type: 'error' })
+        return
+      }
       const prepaid = new Prepaid(selectedPrepaid)
       const students = members.map(data => new User(data))
       const unenrolledStudents = students.filter(stu => {

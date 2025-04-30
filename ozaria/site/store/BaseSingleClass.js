@@ -157,7 +157,7 @@ export default {
     },
 
     async applyLicenses ({ state, rootGetters, dispatch, getters }, { selectedPrepaidId } = { selectedPrepaidId: undefined }) {
-      const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id))
+      const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id)).filter(Boolean)
       // use teacherId of classroom owner instead?
       let teacherId = rootGetters['teacherDashboard/teacherId']
       const classroom = rootGetters['teacherDashboard/getCurrentClassroom']
@@ -178,10 +178,15 @@ export default {
         return
       }
       const sharedClassroomId = hasSharedWriteAccess ? classroom._id : null
-      if (selectedPrepaidId) {
-        await dispatch('prepaids/applySpecificLicenses', { selectedId: selectedPrepaidId, members: students, teacherId, sharedClassroomId }, { root: true })
-      } else {
-        await dispatch('prepaids/applyLicenses', { members: students, teacherId, sharedClassroomId }, { root: true })
+      try {
+        if (selectedPrepaidId) {
+          await dispatch('prepaids/applySpecificLicenses', { selectedId: selectedPrepaidId, members: students, teacherId, sharedClassroomId }, { root: true })
+        } else {
+          await dispatch('prepaids/applyLicenses', { members: students, teacherId, sharedClassroomId }, { root: true })
+        }
+      } catch (e) {
+        console.error(`License ${selectedPrepaidId || 'auto'} application failed: `, e)
+        return
       }
       dispatch('prepaids/fetchPrepaidsForTeacher', { teacherId, sharedClassroomId }, { root: true })
       await dispatch('users/fetchClassroomMembers', { classroom: rootGetters['teacherDashboard/getCurrentClassroom'], options: { project: projectionData.users } }, { root: true })
@@ -189,7 +194,7 @@ export default {
     },
 
     async revokeLicenses ({ state, rootGetters, dispatch, getters }) {
-      const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id))
+      const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id)).filter(Boolean)
       if (students.length === 0) {
         noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
         return

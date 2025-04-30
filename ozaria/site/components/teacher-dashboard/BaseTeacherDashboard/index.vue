@@ -135,7 +135,7 @@ export default {
     },
 
     allLicensesTypes () {
-      const prepaidTypes = this.getPrepaids(me.id)?.available.map(prepaid => {
+      const prepaidTypes = this.getPrepaids(me.id)?.available?.map(prepaid => {
         if (prepaid.type === 'starter_license') {
           return 'starter_license'
         }
