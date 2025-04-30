@@ -38,8 +38,8 @@ module.exports = (ChangeLanguageTab = (function () {
       this.utils = utils
       this.codeLanguageObject = utils.getCodeLanguages()
       this.codeFormatObject = utils.getCodeFormats()
-      this.languageChioces = null
-      this.codeformatChioces = null
+      this.languageChoices = null
+      this.codeformatChoices = null
       const defaultCodeFormat = 'text-code'
       this.codeFormat = this.options.codeFormat || me.get('aceConfig')?.codeFormat || defaultCodeFormat
       if (this.isJunior && options.level?.get('slug') === 'the-gem') {
@@ -129,7 +129,7 @@ module.exports = (ChangeLanguageTab = (function () {
       if (this.codeFormatObject[this.codeFormat].disabled) {
         this.codeFormat = _.find(this.codeFormatObject, { disabled: false })?.id
       }
-      this.codeformatChioces?.destroy()
+      // this.codeformatChoices?.destroy()
       this.renderSelectors('.code-format-form')
       this.buildCodeFormats()
     }
@@ -181,7 +181,6 @@ module.exports = (ChangeLanguageTab = (function () {
       if (this.codeLanguageObject[this.codeLanguage].disabled) {
         this.codeLanguage = _.find(this.codeLanguageObject, { disabled: false }).id
       }
-      this.langaugeChoices?.destroy()
       this.renderSelectors('.code-language-form')
       this.buildCodeLanguages()
     }
@@ -189,6 +188,9 @@ module.exports = (ChangeLanguageTab = (function () {
     buildCodeFormats () {
       const $select = this.$el.find('#option-code-format')
       if (!utils.isMobile() && $select.length) {
+        if (this.codeformatChoices) {
+          this.codeformatChoices.destroy()
+        }
         this.codeformatChoices = new Choices($select[0], {
           searchEnabled: false,
           itemSelectText: '',
@@ -214,6 +216,9 @@ module.exports = (ChangeLanguageTab = (function () {
     buildCodeLanguages () {
       const $select = this.$el.find('#option-code-language')
       if (!utils.isMobile() && $select.length) {
+        if (this.languageChoices) {
+          this.languageChoices.destroy()
+        }
         this.languageChoices = new Choices($select[0], {
           searchEnabled: false,
           itemSelectText: '',
@@ -246,7 +251,7 @@ module.exports = (ChangeLanguageTab = (function () {
       if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
         // Blockly can't support languages like C++/Java. (Some day we'll have Lua.)
         noty({ text: `Can't show blocks and code with ${this.codeLanguage}`, layout: 'bottomCenter', type: 'error', killer: false, timeout: 3000 })
-        // this.$el.find('#option-code-format').val('text-code').change()
+        this.$el.find('#option-code-format').val('text-code').change()
       }
     }
 
@@ -259,7 +264,7 @@ module.exports = (ChangeLanguageTab = (function () {
       if (this.codeFormat === 'blocks-and-code' && ['python', 'javascript'].indexOf(this.codeLanguage) === -1) {
         // Blockly can't support languages like C++/Java. (Some day we'll have Lua.)
         noty({ text: `Can't show blocks and code with ${this.codeLanguage}`, layout: 'bottomCenter', type: 'error', killer: false, timeout: 3000 })
-        // this.$el.find('#option-code-language').val('javascript').change()
+        this.$el.find('#option-code-language').val('javascript').change()
       }
     }
   }
