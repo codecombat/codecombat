@@ -1,6 +1,5 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
-@import "vendor/styles/fancy_select.css"
 
 $heroCanvasHeight: 275px
 
@@ -528,14 +527,14 @@ $heroCanvasHeight: 275px
     select
       font-size: 18px
 
-    &[dir="rtl"] .fancy-select
+    &[dir="rtl"] .my-fancy-select
       .trigger
         padding-right: 30px
 
       .options
         padding-right: 0
 
-        li
+        .item
           background-position-x: right
           padding-left: 0
           padding-right: 40px
@@ -545,7 +544,7 @@ $heroCanvasHeight: 275px
       width: 100%
 
       .options
-         text-transform: none
+        text-transform: none
 
       .trigger, .options
         background-color: rgb(239,232,217)
