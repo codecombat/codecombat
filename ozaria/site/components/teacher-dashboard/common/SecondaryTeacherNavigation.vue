@@ -40,13 +40,13 @@ export default {
     let guideOptions
     if (utils.isCodeCombat) {
       guideOptions = [
-        { id: 1, name: 'CodeCombat Junior', path: '/teachers/guide/junior' },
-        { id: 2, name: 'CodeCombat Classroom', path: '/teachers/guide/codecombat' },
-        { id: 3, name: 'AI HackStack', path: '/teachers/guide/hackstack' },
+        { id: 'junior', name: 'CodeCombat Junior', path: '/teachers/guide/junior' },
+        { id: 'codecombat', name: 'CodeCombat Classroom', path: '/teachers/guide/codecombat' },
+        { id: 'hackstack', name: 'AI HackStack', path: '/teachers/guide/hackstack' },
       ]
     } else {
       guideOptions = [
-        { id: 1, name: 'Ozaria Classroom', path: '/teachers/guide/ozaria' },
+        { id: 'ozaria', name: 'Ozaria Classroom', path: '/teachers/guide/ozaria' },
       ]
     }
     return {
@@ -322,7 +322,7 @@ export default {
         <li
           v-for="option in guideOptions"
           :key="option.id"
-          :class="isGuideTabSelected && $route.params.id === option.id ? 'selected' : null"
+          :class="isGuideTabSelected && $route.params.product === option.id ? 'selected' : null"
         >
           <router-link
             tag="a"
@@ -331,7 +331,6 @@ export default {
             data-action="Guide: Nav Clicked"
             data-toggle="dropdown"
             :data-label="$route.path"
-            @click.native="trackEvent"
           >
             {{ option.name }}
           </router-link>
