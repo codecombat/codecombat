@@ -24,8 +24,7 @@ const PollModal = require('views/play/modal/PollModal')
 const AnnouncementModal = require('views/play/modal/AnnouncementModal')
 const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
-const RobloxModal = require('views/core/MineModal') // Roblox modal
-const JuniorModal = require('views/core/JuniorModal')
+const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
 const Course = require('models/Course')
@@ -48,7 +47,10 @@ const globalVar = require('core/globalVar')
 const paymentUtils = require('app/lib/paymentUtils')
 const userUtils = require('lib/user-utils')
 const AILeaguePromotionModal = require('views/core/AILeaguePromotionModal')
-const HackstackPromotionModalView = require('views/ai/HackstackPromotionModalView').default
+const JuniorPromotionModal = require('views/core/JuniorPromotionModal')
+const CCHomePromotionModal = require('views/core/CCHomePromotionModal')
+const WorldsPromotionModal = require('views/core/WorldsPromotionModal') // Roblox modal
+const HackstackPromotionModal = require('views/core/HackstackPromotionModal')
 require('lib/game-libraries')
 
 const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
@@ -95,7 +97,9 @@ class CampaignView extends RootView {
       'click .roblox-level': 'onRobloxLevelClick',
       'click .hackstack-level': 'onHackStackLevelClick',
       'click .hackstack-menu-icon': 'onHackStackLevelClick',
+      'click .ai-league-menu-icon': 'onAILeagueIconClick',
       'click .junior-menu-icon': 'onJuniorIconClick',
+      'click .cchome-menu-icon': 'onCCHomeIconClick',
       'click .map-background': 'onClickMap',
       'click .level': 'onClickLevel',
       'dblclick .level': 'onDoubleClickLevel',
@@ -105,9 +109,13 @@ class CampaignView extends RootView {
       'click .level-info-container .course-version button': 'onClickCourseVersion',
       'click #volume-button': 'onToggleVolume',
       'click #back-button': 'onClickBack',
+      'click #back-button-catalyst': 'onClickBack',
       'click #clear-storage-button': 'onClickClearStorage',
       'click .portal .campaign': 'onClickPortalCampaign',
       'click .portal .beta-campaign': 'onClickPortalCampaign',
+      'click .portal-catalyst .side-campaign': 'onClickPortalCampaign',
+      'click .portal-catalyst .main-campaign': 'onClickPortalCampaign',
+      'click .portal-catalyst .campaign': 'onClickPortalCampaign',
       'click a .campaign-switch': 'onClickCampaignSwitch',
       'mouseenter .portals': 'onMouseEnterPortals',
       'mouseleave .portals': 'onMouseLeavePortals',
@@ -115,6 +123,7 @@ class CampaignView extends RootView {
       'click .poll': 'showPoll',
       'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton',
       'click .premium-menu-icon': 'onClickPremiumButton',
+      'click .premium-btn': 'onClickPremiumButton',
       'click [data-toggle="coco-modal"][data-target="play/modal/PromotionModal"]': 'openPromotionModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayItemsModal"]': 'openPlayItemsModal',
       'click [data-toggle="coco-modal"][data-target="play/modal/PlayHeroesModal"]': 'openPlayHeroesModal',
@@ -147,6 +156,13 @@ class CampaignView extends RootView {
     if (window.serverConfig.picoCTF) {
       this.terrain = 'picoctf'
     }
+    if (/^catalyst/.test(this.terrain)) {
+      this.terrain = '' // In this case we process query params
+    }
+
+    // Check if the user is in the Catalyst experiment
+    this.isCatalyst = me.getCatalystExperimentValue() === 'beta'
+
     this.editorMode = options?.editorMode
     this.requiresSubscription = !me.isPremium()
     if (this.editorMode && !this.terrain) {
@@ -157,6 +173,7 @@ class CampaignView extends RootView {
     this.levelDifficultyMap = {}
     this.levelScoreMap = {}
     this.courseLevelsLoaded = false
+    this.highlightedCampaign = null
 
     if (this.terrain === 'hoc-2018') {
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
@@ -400,7 +417,13 @@ class CampaignView extends RootView {
 
   openJuniorPromotionModal (e) {
     window.tracker?.trackEvent('Junior Explored')
-    this.openModalView(new JuniorModal())
+    this.openModalView(new JuniorPromotionModal())
+  }
+
+  openJuniorOriginalChoiceModal (e) {
+    window.tracker?.trackEvent('Junior Original Choice Explored')
+    const modal = new JuniorOriginalChoiceModal()
+    this.openModalView(modal)
   }
 
   openPlayItemsModal (e) {
@@ -664,18 +687,27 @@ class CampaignView extends RootView {
 
   showRobloxModal () {
     storage.save(ROBLOX_MODAL_SHOWN)
-    this.openModalView(new RobloxModal())
+    this.openModalView(new WorldsPromotionModal())
   }
 
   onJuniorIconClick (e) {
     window.tracker?.trackEvent('Junior Icon Explored', { engageAction: 'campaign_level_click' })
-    this.openModalView(new JuniorModal())
+    this.openModalView(new JuniorPromotionModal())
+  }
+
+  onCCHomeIconClick (e) {
+    window.tracker?.trackEvent('CCHome Icon Explored', { engageAction: 'campaign_level_click' })
+    this.openModalView(new CCHomePromotionModal())
   }
 
   onHackStackLevelClick (e) {
     window.tracker?.trackEvent('HackStack Explored', { engageAction: 'campaign_level_click' })
-    // Backbone.Mediator.publish 'router:navigate', route: '/ai/new_project'
-    this.openModalView(new HackstackPromotionModalView())
+    this.openModalView(new HackstackPromotionModal())
+  }
+
+  onAILeagueIconClick (e) {
+    window.tracker?.trackEvent('AILeague Explored', { engageAction: 'campaign_level_click' })
+    this.openModalView(new AILeaguePromotionModal())
   }
 
   setCampaign (campaign) {
@@ -816,7 +848,7 @@ class CampaignView extends RootView {
     })
 
     if (!application.isIPadApp) {
-      _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .campaign.locked, .beta-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
+      _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .game-controls-catalyst .btn:not(.poll), .other-products-catalyst .btn, .campaign.locked, .beta-campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
       const view = this
       this.$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each(function () {
         if (!me.isAdmin() || !view.editorMode) { return }
@@ -848,9 +880,12 @@ class CampaignView extends RootView {
           this.$el.find('button.promotion-menu-icon').addClass('highlighted').tooltip('show')
           storage.save('pointed-out-promotion', timesPointedOutPromotion + 1)
         }
-      } else if (this.shouldShow('junior-promotion')) {
-        this.openJuniorPromotionModal()
+      } else if (this.shouldShow('junior-original-choice')) {
+        this.openJuniorOriginalChoiceModal()
       }
+    }
+    if (!this.campaign && this.highlightedCampaign) {
+      this.$el.find(`.campaign[data-campaign-slug="${this.highlightedCampaign}"], .main-campaign[data-campaign-slug="${this.highlightedCampaign}"]`).addClass('highlighted')
     }
     return this.applyCampaignStyles()
   }
@@ -1309,12 +1344,14 @@ class CampaignView extends RootView {
   }
 
   onMouseEnterPortals (e) {
+    if (this.isCatalyst) return // Skip for catalyst view
     if (!this.campaigns?.loaded || !this.sessions?.loaded) { return }
     this.portalScrollInterval = setInterval(this.onMouseMovePortals, 100)
     return this.onMouseMovePortals(e)
   }
 
   onMouseLeavePortals (e) {
+    if (this.isCatalyst) return // Skip for catalyst view
     if (!this.portalScrollInterval) { return }
     clearInterval(this.portalScrollInterval)
     this.portalScrollInterval = null
@@ -1322,7 +1359,8 @@ class CampaignView extends RootView {
 
   onMouseMovePortals (e) {
     if (!this.portalScrollInterval) { return }
-    const $portal = this.$el.find('.portal')
+    // Find portals using the view's element as context, just like the original code
+    const $portal = this.$el.find('.portal, .portal-catalyst')
     const $portals = this.$el.find('.portals')
     if (e) {
       this.portalOffsetX = Math.round(Math.max(0, e.clientX - $portal.offset().left))
@@ -1733,7 +1771,7 @@ class CampaignView extends RootView {
   }
 
   onClickPortalCampaign (e) {
-    const campaign = $(e.target).closest('.campaign, .beta-campaign')
+    const campaign = $(e.target).closest('.campaign, .beta-campaign, .main-campaign, .side-campaign')
     if (campaign.is('.locked') || campaign.is('.silhouette')) { return }
     const campaignSlug = campaign.data('campaign-slug')
     if (this.isPremiumCampaign(campaignSlug) && !me.isPremium()) {
@@ -1806,7 +1844,7 @@ class CampaignView extends RootView {
   }
 
   activatePoll (forceShowPoll) {
-    if (this.shouldShow('promotion') || this.shouldShow('junior-promotion')) { return }
+    if (this.shouldShow('promotion')) { return }
     if (!this.poll) { return }
     const pollTitle = utils.i18n(this.poll.attributes, 'name')
     const $pollButton = this.$el.find('button.poll')
@@ -1978,6 +2016,7 @@ class CampaignView extends RootView {
     if (application.getHocCampaign()) { return false }
     if (me.isInHourOfCode()) { return false }
     if (userUtils.isInLibraryNetwork() || userUtils.libraryName()) { return false }
+    if (this.isCatalyst) { return false }
     const latest = window.serverConfig.latestAnnouncement
     const myLatest = me.get('lastAnnouncementSeen')
     if (typeof latest !== 'number') { return }
@@ -2092,7 +2131,10 @@ class CampaignView extends RootView {
     const isStudentOrTeacher = me.isStudent() || me.isTeacher()
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
-    if (what === 'junior-level') {
+    if (what === 'junior-menu-icon') {
+      if (this.terrain === 'junior' && this.isCatalyst) {
+        return false
+      }
       return me.isHomeUser() && !this.editorMode
     }
 
@@ -2110,8 +2152,8 @@ class CampaignView extends RootView {
       return me.finishedAnyLevels() && !features.noAds && !isStudentOrTeacher && (me.get('country') === 'united-states') && (me.get('preferredLanguage', true) === 'en-US') && (new Date() < new Date(2019, 11, 20))
     }
 
-    if (what === 'junior-promotion') {
-      return !me.finishedAnyLevels() && !this.terrain && me.getJuniorExperimentValue() === 'beta'
+    if (what === 'junior-original-choice') {
+      return this.isCatalyst && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
     }
 
     if (['status-line'].includes(what)) {
@@ -2155,7 +2197,8 @@ class CampaignView extends RootView {
     }
 
     if (what === 'anonymous-classroom-signup') {
-      return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() && !this.editorMode && this.terrain !== 'junior' && !storage.load('hid-anonymous-classroom-signup-dialog')
+      return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() &&
+        !this.editorMode && this.terrain !== 'junior' && !storage.load('hid-anonymous-classroom-signup-dialog')
     }
 
     if (what === 'amazon-campaign') {
@@ -2177,16 +2220,24 @@ class CampaignView extends RootView {
       return !me.isAnonymous() && this.campaign?.get('slug') && !this.editorMode && !userUtils.isCreatedViaLibrary()
     }
 
+    if (what === 'ai-league-menu-icon') {
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode
+    }
+
     if (what === 'roblox-level') {
       return this.userQualifiesForRobloxModal() && !this.editorMode
     }
 
-    if (what === 'roblox-button') {
+    if (what === 'roblox-menu-icon') {
       return !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
-    if (what === 'hackstack') {
-      return me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary() && !this.editorMode
+    if (what === 'hackstack-menu-icon') {
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode
+    }
+
+    if (what === 'cchome-menu-icon') {
+      return !userUtils.isCreatedViaLibrary() && this.terrain === 'junior'
     }
 
     return true

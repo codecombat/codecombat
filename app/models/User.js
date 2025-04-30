@@ -300,7 +300,7 @@ module.exports = (User = (function () {
     }
 
     hasAiJuniorAccess () {
-      return this.isAdmin() || this.isBetaTester()
+      return this.isAdmin() || this.isBetaTester() || this.isOnlineTeacher() || !this.isAnonymous()
     }
 
     getHocCourseInstanceId () {
@@ -1229,51 +1229,6 @@ module.exports = (User = (function () {
       return value
     }
 
-    getHackStackExperimentValue () {
-      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('hackstack')]
-      if (value == null) { value = me.getExperimentValue('hackstack', null, 'beta') }
-      if ((value == null) && utils.isOzaria) {
-        // Don't include Ozaria for now
-        value = 'control'
-      }
-      if ((value == null) && features?.china) {
-        // Don't include China players for now
-        value = 'control'
-      }
-      if (userUtils.isInLibraryNetwork()) {
-        value = 'control'
-      }
-      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
-        // Don't include non-English-speaking users before we fine-tune for other languages
-        value = 'control'
-      }
-      if ((value == null) && me.get('hourOfCode')) {
-        // Don't include users coming in through Hour of Code
-        value = 'control'
-      }
-      if ((value == null) && me.get('role')) {
-        // Don't include users other than home users
-        value = 'control'
-      }
-      if (me.isAdmin()) {
-        value = 'beta'
-      }
-      if ((!value)) {
-        let valueProbability
-        const probability = window.serverConfig?.experimentProbabilities?.hackstack?.beta != null ? window.serverConfig.experimentProbabilities.hackstack.beta : 0.05
-        if (Math.random() < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        console.log('starting hackstack experiment with value', value, 'prob', valueProbability)
-        me.startExperiment('hackstack', value, valueProbability)
-      }
-      return value
-    }
-
     getJuniorExperimentValue () {
       let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('junior')]
       if (value == null) { value = me.getExperimentValue('junior', null, 'beta') }
@@ -1345,8 +1300,12 @@ module.exports = (User = (function () {
       if ((!value)) {
         let valueProbability
         // 0% chance to be in the beta group by default
-        const probability = window.serverConfig?.experimentProbabilities?.catalyst?.beta != null ? window.serverConfig.experimentProbabilities.catalyst.beta : 0.5
-        if (Math.random() < probability) {
+        const probability = window.serverConfig?.experimentProbabilities?.catalyst?.beta
+        if (probability == null) {
+          // it means we're not running the experiment
+          value = 'control'
+          valueProbability = 1
+        } else if (Math.random() < probability) {
           value = 'beta'
           valueProbability = probability
         } else {

@@ -1,0 +1,22 @@
+.modal-dialog(role="dialog" aria-labelledby="adventure-title" aria-modal="true")
+  .modal-content
+    img#modal-background(src="/images/pages/play/modal/announcement_modal_bg.png")
+    h1#adventure-title !{$.i18n.t('play.choose_your_adventure')}
+    #close-modal(role="button" aria-label="Close modal")
+      span.glyphicon.glyphicon-remove
+    
+    #junior-content
+      .row
+        .col-xs-6.junior-column
+          img.hero-image.junior(src="/images/pages/junior/codecombat-junior.webp" alt="CodeCombat Junior hero character")
+          h2 !{$.i18n.t("play.age_codecombat_junior")}
+          p !{$.i18n.t("play.age_description_codecombat_junior")}
+        .col-xs-6.codecombat-column
+          img.hero-image.codecombat(src="/images/pages/junior/codecombat-home.webp" alt="CodeCombat Original hero character")
+          h2 !{$.i18n.t("play.age_codecombat")}
+          p !{$.i18n.t("play.age_description_codecombat")}
+
+      #button-container
+        a(href="#" role="button").submit-button.btn.btn-lg.btn-illustrated.play-button.junior-button !{$.i18n.t("play.junior")}
+        | &nbsp;
+        a(href="#" role="button").submit-button.btn.btn-lg.btn-illustrated.play-button.original-button !{$.i18n.t("play.original")}

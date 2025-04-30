@@ -550,6 +550,7 @@ module.exports = {
       owned: 'Bjarq', // Sbe vgrzf lbh bja
       locked: 'Ybpxrq',
       locked_by_teacher: 'Ybpxrq Ol Grnpure',
+      locked_campaign: 'Pbzcyrgr cerivbhf jbeyq gb haybpx',
       available: 'Ninvynoyr',
       skills_granted: 'Fxvyyf Tenagrq', // Cebcregl qbphzragngvba qrgnvyf
       heroes: 'Urebrf', // Gbbygvc ba ureb fubc ohggba sebz /cynl
@@ -566,7 +567,7 @@ module.exports = {
       subscriber_heroes: 'Fhofpevor gbqnl gb vzzrqvngryl haybpx Nznen, Uhfuonhz, naq Unggbev!',
       subscriber_gems: 'Fhofpevor gbqnl gb chepunfr guvf ureb jvgu trzf!',
       practice_license_required: '(yvprafr erdhverq sbe cenpgvpr yriryf)',
-      anonymous: 'Nabalzbhf Cynlre',
+      anonymous: 'Nabalzbhf',
       level_difficulty: 'Qvssvphygl: ',
       awaiting_levels_adventurer_prefix: 'Jr eryrnfr arj yriryf rirel jrrx.',
       awaiting_levels_adventurer: 'Fvta hc nf na Nqiraghere',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: 'Tbbtyr Nppbhag yvaxrq fhpprffshyyl',
       plus_link_error: 'Tbbtyr Nppbhag yvaxrq snvyrq',
       email_or_username_or_library: 'Rznvy be Hfreanzr be Yvoenel Pneq ahzore',
+      schoology_login_failed: 'Ybtva snvyrq. Lbh znl arrq gb fvta hc svefg.',
+      schoology_signup: 'Fvta Hc jvgu Fpubbybtl',
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: 'Fhccbeg',
       here: 'urer',
       from: 'Sebz',
+      classrooms: 'Pynffebbzf',
     },
 
     units: {
@@ -1719,7 +1723,7 @@ module.exports = {
       story_statistic_3b: '1 ovyyvba yvarf bs pbqr naq pbhagvat',
       story_statistic_3c: 'npebff znal qvssrerag cebtenzzvat ynathntrf',
       story_long_way_1: "Gubhtu jr'ir pbzr n ybat jnl...",
-      story_sketch_caption: "Avpx'f irel svefg fxrgpu qrcvpgvat n cebtenzzvat tnzr va npgvba.",
+      story_sketch_caption: 'Bhe irel svefg fxrgpu qrcvpgvat n cebtenzzvat tnzr va npgvba.',
       story_long_way_2: 'jr fgvyy unir zhpu gb qb orsber jr pbzcyrgr bhe dhrfg, fb...',
       jobs_title: 'Pbzr wbva hf naq oevat pbzchgre fpvrapr gb gur jbeyq!',
       jobs_subtitle: "Qba'g frr n tbbq svg ohg vagrerfgrq va xrrcvat va gbhpu? Frr bhe \"Perngr Lbhe Bja\" yvfgvat.",
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: 'Qbjaybnq Nyy',
       previous: 'Cerivbhf',
       location_title: "Jr'er ybpngrq va qbjagbja FS:",
+      ceo: 'PRB',
+      coo: 'PBB',
+      game_director: 'Tnzr Qverpgbe',
+      eng_team_lead: 'Ratvarrevat Grnz Yrnq',
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       license_code_used: 'Yvprafr Pbqr hfrq.',
       ai_hs_remix: 'NV UnpxFgnpx Erzvk',
       ai_hs_remix_blurb: 'Jurgure fghqragf pna hfr bgure fghqrag\'f cebwrpgf gb gnxr vafcvengvba sebz.',
+      and_more: 'naq zber',
+      import_classroom: 'Vzcbeg Pynffebbz',
+      re_import_classroom: 'Er-Vzcbeg Pynffebbz',
     },
 
     no_licenses_page: {
@@ -4967,6 +4978,10 @@ module.exports = {
       season2_announcement_1: 'Gvzr gb chg lbhe pbqvat fxvyyf gb gur grfg va bhe frnfba 2 svany neran. Gur Fbepreref Oyvgm vf yvir naq bssref n arj punyyratr naq n arj yrnqreobneq gb pyvzo.',
       season2_announcement_2: "Arrq zber cenpgvpr? Fgvpx jvgu gur Zntr'f Zvtug Neran gb ersvar lbhe fxvyyf. Lbh unir hagvy Nhthfg 31fg gb cynl obgu neranf. Abgr: neran onynapr nqwhfgzragf znl bpphe hagvy Nhthfg 23eq.",
       season2_announcement_3: 'Terng cevmrf ninvynoyr sbe gbc cresbezref va gur Fbepreref Oyvgm:',
+
+      new_season_prize_1: '$500 Fpubynefuvc',
+      new_season_prize_2: '$300 Fpubynefuvc',
+      new_season_prize_3: '$200 Fpubynefuvc',
       season1_prize_1: '$1,000 Fpubynefuvc',
       season1_prize_2: 'ERFCNJA Tnzvat Trne',
       season1_prize_3: 'Phfgbz PbqrPbzong Ningne',
@@ -5010,6 +5025,8 @@ module.exports = {
       great_prizes: 'terng cevmrf',
       powered_by: 'Cbjrerq ol',
       grand_prize: 'Tenaq Cevmr',
+      second_prize: '2aq Cynpr Birenyy',
+      third_prize: '3eq Cynpr Birenyy',
       scholarship: 'Fpubynefuvc',
       top_players_win: 'Gbc guerr cynlref va rnpu qvivfvba jva: UlcreK ceb crevcurenyf',
       team_hyperx: 'Grnz UlcreK',
@@ -5471,6 +5488,10 @@ module.exports = {
       level_chat_no_credits_left_duration: 'Ab NV Obg dhrevrf yrsg sbe gur __qhengvba_xrl__',
       level_chat_no_credits_left_duration_multiple: 'Ab NV Obg dhrevrf yrsg sbe __qhengvba_nzbhag__ __qhengvba_xrl__',
       level_chat_no_credits_left: 'Ab NV Obg dhrevrf yrsg',
+      level_chat_duration_hour: 'ubhe',
+      level_chat_duration_day: 'qnl',
+      level_chat_duration_week: 'jrrx',
+      level_chat_duration_month: 'zbagu',
     },
     home_v3: {
       mission_title: 'Wbva hf va bhe zvffvba gb znxr pbqvat naq NV npprffvoyr gb nyy.',
@@ -6149,7 +6170,10 @@ module.exports = {
       see_all: 'Frr Nyy',
       created_by: 'perngrq ol',
       remix: 'Erzvk',
-
+      copy: 'pbcl',
+      copied: 'pbcvrq!',
+      copied_error: 'reebe pbclvat!',
+      NewScenarioPage_name: 'Qvfcynl Anzr',
     },
     parents_v2: {
       testimonials_1_quote: 'V pna\'g rira ortva gb rkcynva gur cebsbhaq punatrf gung unir bppheerq va Yhxn npnqrzvpnyyl fvapr ur\'f orra jbexvat jvgu lbh.',
@@ -6223,7 +6247,7 @@ module.exports = {
       subscriptions_billed: 'Nyy fhofpevcgvbaf ner ovyyrq va nqinapr naq znl or cnhfrq, pnapryrq, be erfhzrq jvgu ab nqqvgvbany srrf. Yvir Bayvar Pynffrf fhofpevcgvbaf ner 100% evfx-serr jvguva gur svefg 30 qnlf. Vs sbe nal ernfba lbh qrpvqr abg gb pbagvahr, fvzcyl **pbagnpg hf** jvguva 30 qnlf bs chepunfr naq jr jvyy ershaq 100% bs lbhe cnlzrag. Nyy cynaf ner nhgbzngvpnyyl erarjrq ng gur fnzr yriry naq ovyyvat plpyr hayrff bgurejvfr punatrq be pnapryrq. Jr qb abg bssre ershaqf nsgre gur svefg 30 qnlf. Pnapryyngvba nsgre gur svefg 30 qnlf jvyy gnxr rssrpg ng gur fgneg bs gur arkg ovyyvat plpyr.',
       ai_hints: 'NV uvagf naq cebzcg nyybjnaprf ner fhowrpg gb punatr',
       prefix_or: 'Be, ',
-      signup_description: 'fvta hc sbe frys-cnprq npprff',
+      signup_description: 'Fvta Hc sbe Frys-Cnprq Npprff',
       homeschool_solution: 'Ybbxvat sbe n ubzrfpubby fbyhgvba',
       teach_child: 'Vs lbh cyna gb grnpu lbhe puvyq, jr pna cebivqr n gheaxrl fbyhgvba gung rzcbjref lbh gb qryvire bhe pheevphyhz va lbhe bja ubzr. Jr cebivqr nyy gur grnpuvat erfbheprf arrqrq sbe lbh naq lbhe puvyq gb fhpprrq vapyhqvat pbhefr fbyhgvba thvqrf. Pbagnpg bhe grnz gb yrnea zber - rznvy **[znvygb:pynffrf@pbqrpbzong.pbz]pynffrf@pbqrpbzong.pbz** gb pbaarpg jvgu n yrneavat nqivfbe.',
       meet_instructors: '**Zrrg bhe Vafgehpgbef**',

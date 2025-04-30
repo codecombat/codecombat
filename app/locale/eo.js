@@ -550,6 +550,7 @@ module.exports = {
     //    owned: "Owned",
     //    locked: "Locked",
     //    locked_by_teacher: "Locked By Teacher",
+    //    locked_campaign: "Complete previous world to unlock",
     //    available: "Available",
     //    skills_granted: "Skills Granted",
     //    heroes: "Heroes",
@@ -566,7 +567,7 @@ module.exports = {
     //    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!",
     //    subscriber_gems: "Subscribe today to purchase this hero with gems!",
     //    practice_license_required: "(license required for practice levels)",
-    //    anonymous: "Anonymous Player",
+    //    anonymous: "Anonymous",
     //    level_difficulty: "Difficulty: ",
     //    awaiting_levels_adventurer_prefix: "We release new levels every week.",
     //    awaiting_levels_adventurer: "Sign up as an Adventurer",
@@ -685,6 +686,8 @@ module.exports = {
     //    gplus_linked: "Google Account linked successfully",
     //    plus_link_error: "Google Account linked failed",
     //    email_or_username_or_library: "Email or Username or Library Card number",
+    //    schoology_login_failed: "Login failed. You may need to sign up first.",
+    //    schoology_signup: "Sign Up with Schoology",
     //  },
 
     //  signup: {
@@ -935,6 +938,7 @@ module.exports = {
     //    support: "Support",
     //    here: "here",
     //    from: "From",
+    //    classrooms: "Classrooms",
     //  },
 
     //  units: {
@@ -1719,7 +1723,7 @@ module.exports = {
     //    story_statistic_3b: "1 billion lines of code and counting",
     //    story_statistic_3c: "across many different programming languages",
     //    story_long_way_1: "Though we've come a long way...",
-    //    story_sketch_caption: "Nick's very first sketch depicting a programming game in action.",
+    //    story_sketch_caption: "Our very first sketch depicting a programming game in action.",
     //    story_long_way_2: "we still have much to do before we complete our quest, so...",
     //    jobs_title: "Come join us and bring computer science to the world!",
     //    jobs_subtitle: "Don't see a good fit but interested in keeping in touch? See our \"Create Your Own\" listing.",
@@ -1749,6 +1753,10 @@ module.exports = {
     //    download_all: "Download All",
     //    previous: "Previous",
     //    location_title: "We're located in downtown SF:",
+    //    ceo: "CEO",
+    //    coo: "COO",
+    //    game_director: "Game Director",
+    //    eng_team_lead: "Engineering Team Lead",
     //  },
 
     //  teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
     //    license_code_used: "License Code used.",
     //    ai_hs_remix: "AI HackStack Remix",
     //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+    //    and_more: "and more",
+    //    import_classroom: "Import Classroom",
+    //    re_import_classroom: "Re-Import Classroom",
     //  },
 
     //  no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
     //    season2_announcement_1: "Time to put your coding skills to the test in our season 2 final arena. The Sorcerers Blitz is live and offers a new challenge and a new leaderboard to climb.",
     //    season2_announcement_2: "Need more practice? Stick with the Mage's Might Arena to refine your skills. You have until August 31st to play both arenas. Note: arena balance adjustments may occur until August 23rd.",
     //    season2_announcement_3: "Great prizes available for top performers in the Sorcerers Blitz:",
+    //    new_season_prize_1: "$500 Scholarship",
+    //    new_season_prize_2: "$300 Scholarship",
+    //    new_season_prize_3: "$200 Scholarship",
     //    season1_prize_1: "$1,000 Scholarship",
     //    season1_prize_2: "RESPAWN Gaming Gear",
     //    season1_prize_3: "Custom CodeCombat Avatar",
@@ -5009,6 +5023,8 @@ module.exports = {
     //    great_prizes: "great prizes",
     //    powered_by: "Powered by",
     //    grand_prize: "Grand Prize",
+    //    second_prize: "2nd Place Overall",
+    //    third_prize: "3rd Place Overall",
     //    scholarship: "Scholarship",
     //    top_players_win: "Top three players in each division win: HyperX pro peripherals",
     //    team_hyperx: "Team HyperX",
@@ -5471,6 +5487,10 @@ module.exports = {
     //    level_chat_no_credits_left_duration: "No AI Bot queries left for the __duration_key__",
     //    level_chat_no_credits_left_duration_multiple: "No AI Bot queries left for __duration_amount__ __duration_key__",
     //    level_chat_no_credits_left: "No AI Bot queries left",
+    //    level_chat_duration_hour: "hour",
+    //    level_chat_duration_day: "day",
+    //    level_chat_duration_week: "week",
+    //    level_chat_duration_month: "month",
     //  },
 
     //  home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
     //    see_all: "See All",
     //    created_by: "created by",
     //    remix: "Remix",
+    //    copy: "copy",
+    //    copied: "copied!",
+    //    copied_error: "error copying!",
+    //    NewScenarioPage_name: "Display Name",
     //  },
 
     //  parents_v2: {
@@ -6226,7 +6250,7 @@ module.exports = {
     //    subscriptions_billed: "All subscriptions are billed in advance and may be paused, canceled, or resumed with no additional fees. Live Online Classes subscriptions are 100% risk-free within the first 30 days. If for any reason you decide not to continue, simply **contact us** within 30 days of purchase and we will refund 100% of your payment. All plans are automatically renewed at the same level and billing cycle unless otherwise changed or canceled. We do not offer refunds after the first 30 days. Cancellation after the first 30 days will take effect at the start of the next billing cycle.",
     //    ai_hints: "AI hints and prompt allowances are subject to change",
     //    prefix_or: "Or, ",
-    //    signup_description: "sign up for self-paced access",
+    //    signup_description: "Sign Up for Self-Paced Access",
     //    homeschool_solution: "Looking for a homeschool solution",
     //    teach_child: "If you plan to teach your child, we can provide a turnkey solution that empowers you to deliver our curriculum in your own home. We provide all the teaching resources needed for you and your child to succeed including course solution guides. Contact our team to learn more - email **[mailto:classes@codecombat.com]classes@codecombat.com** to connect with a learning advisor.",
     //    meet_instructors: "**Meet our Instructors**",

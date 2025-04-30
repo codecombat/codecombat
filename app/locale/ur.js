@@ -550,6 +550,7 @@ module.exports = {
       owned: '[AI_TRANSLATION]مالک ',
       locked: '[AI_TRANSLATION]مقفل',
       locked_by_teacher: '[AI_TRANSLATION]ٹیچر کے ذریعے مقفل',
+      //    locked_campaign: "Complete previous world to unlock",
       available: '[AI_TRANSLATION]دستیاب',
       skills_granted: '[AI_TRANSLATION]مہارتیں عطا کی گئیں',
       heroes: '[AI_TRANSLATION]ہیرو',
@@ -685,6 +686,8 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]گوگل اکاونٹ کامیابی سے منسلک ہوا۔',
       plus_link_error: '[AI_TRANSLATION]گوگل اکاؤنٹ لنک ناکام ہو گیا',
       email_or_username_or_library: '[AI_TRANSLATION]ای میل یا یوزر نیم یا لائبریری کارڈ نمبر',
+      //    schoology_login_failed: "Login failed. You may need to sign up first.",
+      //    schoology_signup: "Sign Up with Schoology",
     },
 
     signup: {
@@ -935,6 +938,7 @@ module.exports = {
       support: '[AI_TRANSLATION]معاونت',
       here: '[AI_TRANSLATION]یہاں',
       from: '[AI_TRANSLATION]سے',
+      //    classrooms: "Classrooms",
     },
 
     units: {
@@ -1749,6 +1753,10 @@ module.exports = {
       download_all: '[AI_TRANSLATION]سب ڈاؤن لوڈ کریں',
       previous: '[AI_TRANSLATION]پچھلا',
       location_title: '[AI_TRANSLATION]ہم downtown SF میں ہیں:  ',
+      //    ceo: "CEO",
+      //    coo: "COO",
+      //    game_director: "Game Director",
+      //    eng_team_lead: "Engineering Team Lead",
     },
 
     teachers: {
@@ -1826,6 +1834,9 @@ module.exports = {
       //    license_code_used: "License Code used.",
       //    ai_hs_remix: "AI HackStack Remix",
       //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
+      //    and_more: "and more",
+      //    import_classroom: "Import Classroom",
+      //    re_import_classroom: "Re-Import Classroom",
     },
 
     no_licenses_page: {
@@ -4966,6 +4977,9 @@ module.exports = {
       season2_announcement_1: '[AI_TRANSLATION]ہمارے سیزن 2 کے آخری میدان میں اپنی کوڈنگ صلاحیتوں کو آزمانے کا وقت۔ Sorcerers Blitz لائیو ہے اور ایک نئے چیلینج اور ایک نئی لیڈر بورڈ چڑھنے کا موقع فراہم کرتا ہے۔  ',
       season2_announcement_2: "[AI_TRANSLATION]مزید مشق کی ضرورت ہے؟ اپنی مہارت کو بہتر بنانے کے لئے Mage's Might Arena کے ساتھ رہو۔ تمہارے پاس دونوں اریناز کھیلنے کے لئے 31 اگست تک کا وقت ہے۔ نوٹ: 23 اگست تک ارینا بیلنس ایڈجسٹمنٹس ہوسکتے ہیں۔",
       season2_announcement_3: '[AI_TRANSLATION]بہترین کارکردگی دکھانے والوں کے لیے زبردست انعامات دستیاب ہیں: Sorcerers Blitz',
+      //    new_season_prize_1: "$500 Scholarship",
+      //    new_season_prize_2: "$300 Scholarship",
+      //    new_season_prize_3: "$200 Scholarship",
       season1_prize_1: '[AI_TRANSLATION]$1,000 کی اسکالرشپ',
       season1_prize_2: '[AI_TRANSLATION]RESPAWN گیمنگ گئیر',
       season1_prize_3: '[AI_TRANSLATION]کسٹم کوڈ کامبیٹ اوتار',
@@ -5009,6 +5023,8 @@ module.exports = {
       great_prizes: '[AI_TRANSLATION]زبردست انعامات',
       powered_by: '[AI_TRANSLATION]کے ذریعے طاقتور',
       grand_prize: '[AI_TRANSLATION]عظیم انعام',
+      //    second_prize: "2nd Place Overall",
+      //    third_prize: "3rd Place Overall",
       scholarship: '[AI_TRANSLATION]اسکالرشپ',
       top_players_win: '[AI_TRANSLATION]ہر ڈویژن کے ٹاپ تین کھلاڑی جیتیں: HyperX پرو آلات ',
       team_hyperx: '[AI_TRANSLATION]ٹیم ہائپر ایکس',
@@ -5471,6 +5487,10 @@ module.exports = {
       level_chat_no_credits_left_duration: '[AI_TRANSLATION]اس __duration_key__ کے لئے کوئی AI بوٹ سوالات باقی نہیں ہیں۔',
       level_chat_no_credits_left_duration_multiple: '[AI_TRANSLATION]__duration_amount__ __duration_key__ کے لیے کوئی AI Bot سوالات باقی نہیں ہیں',
       level_chat_no_credits_left: '[AI_TRANSLATION]کوئی اے آئی بوٹ استفسارات باقی نہیں ہیں',
+      //    level_chat_duration_hour: "hour",
+      //    level_chat_duration_day: "day",
+      //    level_chat_duration_week: "week",
+      //    level_chat_duration_month: "month",
     },
 
     home_v3: {
@@ -6152,6 +6172,10 @@ module.exports = {
       //    see_all: "See All",
       //    created_by: "created by",
       //    remix: "Remix",
+      //    copy: "copy",
+      //    copied: "copied!",
+      //    copied_error: "error copying!",
+      //    NewScenarioPage_name: "Display Name",
     },
 
     parents_v2: {
