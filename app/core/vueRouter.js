@@ -325,6 +325,11 @@ export default function getVueRouter () {
               ],
             },
             { path: 'apcsp', component: () => import(/* webpackChunkName: "apcsp" */ '../views/apcsp/PageMarketing.vue') },
+            {
+              path: 'guide/:product',
+              component: () => import(/* webpackChunkName: "guide" */ '../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/v2/index.vue'),
+              props: true,
+            },
           ],
 
         },
