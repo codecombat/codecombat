@@ -34,6 +34,7 @@
       >
         <h4>Project Preview</h4>
         <iframe
+          :key="compiledOutput"
           :srcdoc="compiledOutput"
           class="preview-frame"
         />
