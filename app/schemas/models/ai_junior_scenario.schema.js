@@ -46,7 +46,7 @@ _.extend(AIJuniorScenarioSchema.properties, {
     required: ['type'],
   }, {
     id: c.shortString(),
-    type: { type: 'string', enum: ['image-field', 'checkbox', 'radio', 'label'] },
+    type: { type: 'string', enum: ['image-field', 'checkbox', 'radio', 'label', 'text-field'] },
     label: c.shortString({ format: 'markdown' }),
     text: { type: 'string', format: 'markdown' },
     left: { type: 'number', format: 'percent' },
