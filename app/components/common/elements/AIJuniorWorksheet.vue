@@ -72,7 +72,6 @@ export default Vue.extend({
       try {
         // this.scenario = await getAIJuniorScenario({ scenarioHandle: this.slug || '' })
         // TODO: data vs. prop, passing in slug vs. passing in scenario?
-        console.log(this.scenario)
         this.generateQRCode()
         this.updateDynamicCss()
       } catch (err) {
