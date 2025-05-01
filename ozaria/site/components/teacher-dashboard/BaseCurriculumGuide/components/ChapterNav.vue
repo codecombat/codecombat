@@ -7,7 +7,12 @@ export default {
   components: {
     IconNew,
   },
-
+  props: {
+    chapters: {
+      type: Array,
+      required: true,
+    },
+  },
   computed: {
     ...mapGetters({
       chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
@@ -18,33 +23,25 @@ export default {
       courses: 'courses/sorted'
     }),
 
-    chapterNav () {
-      // This ensures released chapters are correctly placed, with internal chapters added after.
-      return (this.chapterNavBar || [])
-        .filter(({ releasePhase }) => releasePhase !== 'internalRelease')
-        .concat(
-          (this.chapterNavBar || [])
-            .filter(({ releasePhase }) => releasePhase === 'internalRelease')
-        ).map(({ campaignID, free, _id }, idx) => {
-          return ({
-            campaignID,
-            heading: utils.isCodeCombat ? utils.courseAcronyms[_id] : this.$t('teacher_dashboard.chapter_num', { num: idx + 1 })
-          })
-        })
-    },
-
     courseName () {
       return this.getCurrentCourse?.name || ''
     }
   },
 
-  created () {
-    this.setDefaultCampaign()
+  watch: {
+    chapters: {
+      immediate: true,
+      handler (newChapters) {
+        if (newChapters?.length > 0) {
+          this.setSelectedCampaign(newChapters[0].campaignID)
+        }
+      },
+    },
   },
 
   methods: {
     ...mapActions({
-      setSelectedCampaign: 'baseCurriculumGuide/setSelectedCampaign'
+      setSelectedCampaign: 'baseCurriculumGuide/setSelectedCampaign',
     }),
 
     classForButton (campaignID) {
@@ -59,21 +56,6 @@ export default {
       window.tracker?.trackEvent('Curriculum Guide: Chapter Nav Clicked', { category: this.getTrackCategory, label: this.courseName })
     },
 
-    setDefaultCampaign () {
-      // open the related campaign if course was selected on teacher dashboard
-      const classroomCourseId = this.classroomCourseId
-      if (!classroomCourseId) return
-
-      const courses = this.courses
-      if (!courses) return
-
-      const course = courses.find(course => course._id === classroomCourseId)
-
-      if (course && course.campaignID) {
-        this.setSelectedCampaign(course.campaignID)
-      }
-    },
-
     showNewIcon (campaignID) {
       return campaignID === utils.campaignIDs.HACKSTACK
     },
@@ -84,7 +66,7 @@ export default {
 <template>
   <div id="chapter-nav">
     <div
-      v-for="{ campaignID, heading } in chapterNav"
+      v-for="{ campaignID, heading } in chapters"
       :key="campaignID"
       :class="classForButton(campaignID)"
       @click="() => clickChapterNav(campaignID)"
