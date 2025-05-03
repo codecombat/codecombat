@@ -342,6 +342,9 @@ module.exports = {
       //    coco_worlds_header: "CodeCombat Worlds",
       //    coco_worlds_description: "Embark on a 3D coding adventure in Roblox, where you can program pets, play with friends, and develop games all while playing one. Join the CodeCombat community and unleash your creativity in the metaverse!",
       //    coco_worlds_button: "Explore CodeCombat Worlds",
+      //    promo_modal_title: "CodeCombat Home",
+      //    promo_modal_subtitle: "Learn Real Coding Through Epic Gameplay",
+      //    promo_modal_text: "Dive into real‑world coding with **Python** and **JavaScript**, solving epic puzzles, battling foes, and building a strong coding foundation. Along the way, you’ll learn the skills to **create your own games** and **websites** — all in their browser, no downloads needed.",
     },
 
     nav: {
@@ -551,6 +554,11 @@ module.exports = {
       locked: 'Låst',
       //    locked_by_teacher: "Locked By Teacher",
       //    locked_campaign: "Complete previous world to unlock",
+      //    locked_campaign_forest: "Complete Kithgard Dungeon to unlock",
+      //    locked_campaign_desert: "Complete Backwoods Forest to unlock",
+      //    locked_campaign_mountain: "Complete Sarven Desert to unlock",
+      //    locked_campaign_glacier: "Complete Cloudrip Mountain to unlock",
+      //    locked_campaign_volcano: "Complete Kelvintaph Mountain to unlock",
       available: 'Tillgängligt',
       skills_granted: 'Ger färdigheter',
       heroes: 'Hjältar',
@@ -597,8 +605,17 @@ module.exports = {
       //    age_codecombat_junior: "Ages 5-8",
       //    age_description_codecombat: "Real Python or JavaScript coding for everyone",
       //    age_description_codecombat_junior: "Blocks or simple text coding for beginners",
+      //    campaign_about_dungeon: "Real text programming for brave adventurers!",
+      //    campaign_about_junior: "Blocks or simple text coding for young heroes!",
       //    want_more_hints: "Want more hints?",
       //    choose_your_adventure: "Choose Your Adventure",
+      //    junior: "Junior",
+      //    original: "Original",
+      //    roblox_button_hover: "Play, Code and Create on Roblox",
+      //    ai_league_button_hover: "Compete in AI League Esports",
+      //    hackstack_button_hover: "Code and Create with AI HackStack",
+      //    junior_button_hover: "Blocks coding for beginners",
+      //    cchome_button_hover: "Original CodeCombat Adventure",
     },
 
     code: {
@@ -2890,6 +2907,7 @@ module.exports = {
     //    stop_spying_student: "You can return to the teacher account by clicking `Stop Spying` in the user dropdown",
     //    show_practice_levels: "Show Practice Levels",
     //    hide_practice_levels: "Hide Practice Levels",
+    //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
     //  },
 
     //  teacher_licenses: {
@@ -5806,6 +5824,9 @@ module.exports = {
     //    faq_7_question: "Recommended browser and operating system",
     //    faq_7_answer: "TBA",
     //    learn_more: "Learn More",
+    //    promo_modal_title: "Explore AI HackStack",
+    //    promo_modal_subtitle: "Unlock the Full Potential of Generative AI",
+    //    promo_modal_text: "**New to AI? Explore CodeCombat AI HackStack** — the easiest way to dive into AI literacy. Unlock the power of top models like **ChatGPT-4**, **Claude**, **Stable Diffusion**, and **DALL-E**. With hands-on tools, creating games, art, websites, code, and more has never been simpler. It’s the perfect companion for any creative project, no experience required!",
     //  },
 
     //  standards_page: {
@@ -6178,6 +6199,35 @@ module.exports = {
     //    NewScenarioPage_name: "Display Name",
     //  },
 
+    //  new_premium: {
+    //    mastering_code: "Master coding and AI with **premium home access**",
+    //    unlock_passion: "Unlock unlimited access to hundreds of coding adventures and generative AI projects. Build real skills, tackle engaging challenges, and explore at your own pace from home.",
+    //    boxes_title: "Premium access to all games & projects, with a single subscription",
+    //    junior_title: "CodeCombat Junior",
+    //    junior_text: "Our flagship K-5 curriculum features a progression of learning levels that teach basic coding concepts at a slower pace.",
+    //    codecombat_worlds_text: "Developed in partnership with Roblox Education, this experience accelerates your coding abilities to create amazing Roblox games and experiences.",
+    //    testimonials_2_name: "Amanda S.",
+    //    features_1: "Full Access to All[NEWLINE]Learning Adventures",
+    //    features_2: "Master AI with[NEWLINE]AI HackStack",
+    //    features_3: "Unlock More Gems,[NEWLINE]Heroes & Items",
+    //    features_4: "Create Games,[NEWLINE]Websites & Apps",
+    //    features_5: "Premium Support[NEWLINE]& AI-Powered Help",
+    //    every_learner_different_learning_style: "**Every learner has a unique pace and passion for technology. Our engaging game-based learning programs provide the perfect environment to explore coding and AI, keeping you motivated and excited to learn—even as concepts become more advanced**",
+    //    adapt_interests: "We adapt to your interests",
+    //    carousel_items_1_title: "Coding[NEWLINE]Fundamentals",
+    //    carousel_items_1_text: "For learners with little to no coding experience, most sessions will start in CodeCombat Junior to build foundational skills before progressing to CodeCombat for deeper programming knowledge. AI HackStack will accelerate learning and showcase real-world applications of coding and AI. CodeCombat Worlds and AI League provide additional opportunities for practice, creativity, and fun.",
+    //    carousel_items_2_text: "If you love games and want to create them, our game development-focused curriculum is the perfect fit. You'll start building interactive projects with CodeCombat, then bring your ideas to life in CodeCombat Worlds, where you can design and publish real games on the Roblox platform. AI League offers a competitive edge by deepening your understanding of game dynamics, while AI HackStack helps refine and enhance your creations through iterative development.",
+    //    carousel_items_3_text: "Web development is constantly evolving, and staying ahead of the curve is essential. In this curriculum, foundational web development activities will be conducted in CodeCombat, while CodeCombat Junior provides an accessible starting point for younger learners. AI HackStack will serve as the primary platform for building and publishing projects, with limited use of CodeCombat Worlds and AI League to reinforce key coding concepts in an engaging way.",
+    //    carousel_items_4_text: "Esports enthusiasts will love the competitive spirit of this learning experience. Starting with CodeCombat Junior and CodeCombat, learners will build a strong coding foundation before taking on the challenge of our AI League global esports tournaments, where scholarships and prizes are up for grabs year-round. With a focus on creative coding and iteration, they’ll also harness the power of AI HackStack to level up their skills and gain a competitive edge.",
+    //    carousel_items_5_title: "AI Literacy",
+    //    carousel_items_5_text: "AI is shaping the future, and those who can harness its power will unlock endless opportunities. This learning experience starts with CodeCombat Junior and CodeCombat. It expands into AI HackStack, where learners will master the art of crafting effective AI prompts and using the latest generative AI tools in a safe and secure environment. ",
+    //    cs_benefits: "Computer science education offers immediate benefits, such as improving **problem-solving skills, sharpening mathematical abilities,** and strengthening **logical thinking—skills** that support success across many subjects. But the learning goes beyond just coding. It helps learners tackle complex challenges, adapt to new situations, and develop a growth mindset that lasts a lifetime.",
+    //    our_solutions: "Our solutions are designed to equip you with essential computer science skills today, preparing you for the **digital careers of tomorrow.**",
+    //    learning_code_challenging: "Learning to code can be challenging, but you don’t have to do it alone. Our innovative AI hints feature provides real-time guidance to help you keep progressing. It can evaluate your code, highlight errors, and explain how to fix them, all while ensuring you understand the reasoning behind each solution—without simply giving away the answer. Since AI hints only assist with your current coding challenge, you'll still need to think critically and solve each level on your own. Premium subscribers receive 10 AI hints per day, giving you the support you need to keep learning with confidence.",
+    //    new_to_ai: "For those new to AI, we offer **[/ai]AI HackStack**, an innovative tool that teaches learners how to use AI safely and responsibly. With secure access to cutting-edge AI models like ChatGPT-4, Claude, Stable Diffusion, DALL·E, and more, users can create and experiment with AI- powered projects. In just a short time, they’ll unlock the full creative potential of AI, turning prompts into code, games, art, websites, and more—all in minutes. Every Premium subscriber receives 50 prompts per month, providing plenty of opportunities to explore and build with AI.",
+    //    premium_page_title: "CodeCombat Premium",
+    //  },
+
     //  parents_v2: {
     //    testimonials_1_quote: "I can't even begin to explain the profound changes that have occurred in Luka academically since he's been working with you.",
     //    testimonials_1_name: "Marina G.",
@@ -6383,6 +6433,8 @@ module.exports = {
     //    faq_4_answer: "Yes. All players can sign-up for free at roblox.com. Don't forget to link your CodeCombat account and Roblox account to access all the features and rewards.",
     //    faq_5_question: "Will it work on my Chromebook or mobile device?",
     //    faq_5_answer: "Yes. CodeCombat Worlds allows you to play, type real code and create games on PC, Mac, Chromebooks, tablets, phones, and consoles.",
+    //    promo_modal_title: "Discover CodeCombat Worlds",
+    //    promo_modal_text: "**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!",
     //  },
 
     //  pd_page: {
@@ -6449,6 +6501,8 @@ module.exports = {
     //    get_a_headstart: "Get a Headstart from Home",
     //    parents_junior_perfect: "Parents, CodeCombat Junior is the perfect way to start introducing your child not only to computer science but all the benefits, including problem solving, logic and reasoning, persistence, computational thinking and creative exploration.",
     //    explore_learning_options: "Explore Learning Options",
+    //    promo_modal_subtitle: "Play, Learn, and Grow with Game‑Based Coding",
+    //    promo_modal_text: "**Kickstart their coding adventure with scaffolded levels designed for ages 5–8—no reading or typing needed!** They’ll learn with icon blocks, word blocks, or simple text side by side, and tackle adaptive challenges that keep them engaged. Works seamlessly on **Chromebooks**, **tablets**, and **iPads**.",
     //  },
 
     //  paywall: {
