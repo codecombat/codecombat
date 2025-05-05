@@ -5,6 +5,7 @@
       content: $t(`paywall.badge_tooltip_${level}`),
     }"
     :class="badgeClass"
+    @click="handleClick"
   >
     <span v-if="displayIcon">{{ icon }}</span>
     <span v-if="displayText">{{ $t(`paywall.badge_${level}`) }}</span>
@@ -40,7 +41,7 @@ export default {
     }),
     isDisplayable () {
       const userDisplayMap = {
-        free: ['free', 'sales-call'], // non-paying users will see the 'free' and 'sales-call' badges
+        free: ['free', 'sales-call', 'paid'], // non-paying users will see the 'free' and 'sales-call' badges
         'sales-call': ['paid'], // users after sales call will see the 'paid' badges
         paid: [], // I'm not sure if we'll have this for users, but if we'll have no badges needed.
       }
@@ -69,6 +70,12 @@ export default {
     ...mapActions({
       ensurePrepaidsLoadedForTeacher: 'prepaids/ensurePrepaidsLoadedForTeacher',
     }),
+    handleClick () {
+      if (this.level === 'sales-call') {
+        window.tracker?.trackEvent('Clicked Sales Call Badge')
+        window.open('/schools?openContactModal=true', '_blank')
+      }
+    },
   },
 }
 </script>
@@ -77,19 +84,21 @@ export default {
 .badge {
   padding: 5px;
   border-radius: 3px;
-  color: white;
   font-size: 12px;
+  color: black;
 }
 
 .badge-free {
-  background-color: green;
+  background-color: #5db9ac;
 }
 
 .badge-sales-call {
-  background-color: orange;
+  background-color: #f7d047;
+  cursor: pointer;
 }
 
 .badge-paid {
-  background-color: red;
+  background-color: #355EA0;
+  color: #f7d047;
 }
 </style>
