@@ -6500,8 +6500,8 @@ module.exports = {
     },
     paywall: {
       badge_free: 'Free',
-      'badge_sales-call': 'Call Now!',
-      badge_paid: 'Premium',
+      'badge_sales-call': 'Unlock with Call',
+      badge_paid: 'Paid',
       badge_tooltip_free: 'Explore our levels at no cost!',
       'badge_tooltip_sales-call': 'Interested in more? Give us a call and unlock!',
       badge_tooltip_paid: 'This content is exclusive to users with a valid license.',

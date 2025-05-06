@@ -1,5 +1,5 @@
 <template>
-  <span
+  <div
     v-if="isDisplayable"
     v-tooltip.bottom="{
       content: $t(`paywall.badge_tooltip_${level}`),
@@ -7,9 +7,18 @@
     :class="badgeClass"
     @click="handleClick"
   >
-    <span v-if="displayIcon">{{ icon }}</span>
-    <span v-if="displayText">{{ $t(`paywall.badge_${level}`) }}</span>
-  </span>
+    <img
+      v-if="displayIcon && icon"
+      :src="`/images/common/${icon}.svg`"
+      class="icon"
+    >
+    <span
+      v-if="displayText"
+      class="badge-text"
+    >
+      {{ $t(`paywall.badge_${level}`) }}
+    </span>
+  </div>
 </template>
 
 <script>
@@ -52,13 +61,14 @@ export default {
       return {
         badge: true,
         [`badge-${this.level}`]: true,
+        'only-icon': !this.displayText,
       }
     },
     icon () {
       const icons = {
-        free: '✨',
-        'sales-call': '📞',
-        paid: '🔒',
+        free: 'IconFreeLevel',
+        'sales-call': 'IconUnlockWithCall',
+        paid: 'IconPaidLevel',
       }
       return icons[this.level] || ''
     },
@@ -81,24 +91,42 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.badge {
-  padding: 5px;
-  border-radius: 3px;
-  font-size: 12px;
-  color: black;
-}
+@import "app/styles/component_variables.scss";
 
-.badge-free {
-  background-color: #5db9ac;
+.badge {
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 16px;
+  height: 35px;
+
+  background-color: var(--color-primary-1);
+  color: #fff;
+
+  margin-left: 10px;
+  margin-right: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.only-icon {
+    padding: 1px;
+    height: unset;
+    display: inline-block;
+  }
 }
 
 .badge-sales-call {
-  background-color: #f7d047;
   cursor: pointer;
 }
 
-.badge-paid {
-  background-color: #355EA0;
-  color: #f7d047;
+.icon {
+  height: 23px;
+  width: 18px;
+}
+
+.badge-text {
+  margin-left: 5px;
 }
 </style>
