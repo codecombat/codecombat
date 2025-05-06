@@ -5781,6 +5781,7 @@ module.exports = {
     hackstack_page: {
       header: 'Learn, create, and accelerate with **AI HackStack**',
       header_details: 'Together, we empower learners to safely bring their ideas to life across any subject.',
+      header_details_teacher: 'With a license, unlock 100 monthly prompts for yourself and 30 weekly for students to bring your ideas to life across any subject.',
       accessible_safe_use: 'Accessible, safe, and responsible use of AI',
       learn_title: 'Learn',
       learn_description: 'From **English Language Arts** to **Mathematics** and **Science**, students discover how to craft safe and effective prompts for generating output in each discipline. Learn essential prompt engineering skills in a **wide range of subjects** using Al HackStack\'s Learning Scenarios. Along the way, your students will gain hands-on experience with popular Al models like Claude, DALL-E, and Stable Diffusion.',
@@ -5823,6 +5824,8 @@ module.exports = {
       faq_6_answer: 'We offer both Clever and Google Classroom integration. Check out our **[https://codecombat.com/teachers/resources/clever-faq]Clever Integration FAQ** for more details on how to get started. If you are using Google Classroom be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time. Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option.',
       faq_7_question: 'Recommended browser and operating system',
       faq_7_answer: 'TBA',
+      faq_8_question: 'How many prompts do I get?',
+      faq_8_answer: 'With a license, you get 100 monthly prompts for teacher and 30 weekly for students. Individual premium users get 50 prompts per month.',
       learn_more: 'Learn More',
       promo_modal_title: 'Explore AI HackStack',
       promo_modal_subtitle: 'Unlock the Full Potential of Generative AI',
