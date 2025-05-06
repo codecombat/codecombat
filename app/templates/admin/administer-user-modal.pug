@@ -253,7 +253,7 @@ block modal-body-content
             td
               if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
                 - var revokableControlId='revokable-'+prepaid.id
-                input(id=revokableControlId type="checkbox" name="revokable" value=(!prepaid.get('irrevocable')), style="width:30px")
+                input(id=revokableControlId type="checkbox" name="revokable" checked=(!prepaid.get('irrevocable')), style="width:30px")
               else
                 = (prepaid.get('irrevocable') ? 'No' : 'Yes')
             td
