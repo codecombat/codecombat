@@ -215,6 +215,7 @@ block modal-body-content
             th Start (PT)
             th End (PT)
           th Used
+          th Revokable
         for prepaid in view.prepaids.models
           - var prepaidControlId=prepaid.id
           tr(id=prepaidControlId)
@@ -249,6 +250,12 @@ block modal-body-content
                 input(id=totalLicensesControlId type="number" name="totalLicenses" value=prepaid.get('maxRedeemers'), style="width:50px")
               else
                 = (prepaid.get('redeemers') || []).length + ' / ' + prepaid.get('maxRedeemers') || 0
+            td
+              if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+                - var revokableControlId='revokable-'+prepaid.id
+                input(id=revokableControlId type="checkbox" name="revokable" checked=(!prepaid.get('irrevocable')), style="width:30px")
+              else
+                = (prepaid.get('irrevocable') ? 'No' : 'Yes')
             td
               if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
                 button.btn.btn-primary.save-prepaid-info-btn(data-prepaid-id=prepaid.id) Save
