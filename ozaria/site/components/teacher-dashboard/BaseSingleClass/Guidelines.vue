@@ -150,9 +150,9 @@ export default {
 @import "app/styles/ozaria/_ozaria-style-params.scss";
 
 .guidelines-nav {
-  height: 71px;
-  max-height: 71px;
-  min-width: 1260px;
+  height: 60px;
+  max-height: 60px;
+  min-width: 1200px;
 
   display: flex;
   flex-direction: row;
@@ -332,6 +332,6 @@ export default {
 
 .fade-enter-to {
   opacity: 1;
-  max-height: 71px;
+  max-height: 60px;
 }
 </style>

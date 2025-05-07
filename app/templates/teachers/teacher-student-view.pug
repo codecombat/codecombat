@@ -155,19 +155,19 @@ mixin breadcrumbs
           // index is the index number of power 2
           // also see core/utils courseNumericalStatus
           .status-col.cs
-            - let CSIndexes =  [0, 3, 6, 8, 9, 10]
+            - let CSIndexes =  [1, 4, 7, 9, 10, 11]
             - for(let index in CSIndexes)
               .cell
                 = (+index) + 1
                 input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, CSIndexes[index])) ? 'checked': undefined, onclick="return false")
           .status-col.gd
-            - let GDIndexes =  [1, 4, 7]
+            - let GDIndexes =  [2, 5, 8]
             - for(let index in GDIndexes)
               .cell
                 = (+index) + 1
                 input(type='checkbox', class='checkbox-course', checked=(enrolledCourseBits & Math.pow(2, GDIndexes[index])) ? 'checked': undefined, onclick="return false")
           .status-col.wd
-            - let WDIndexes =  [2, 5]
+            - let WDIndexes =  [3, 6]
             - for(let index in WDIndexes)
               .cell
                 = (+index) + 1

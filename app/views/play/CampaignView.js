@@ -24,8 +24,6 @@ const PollModal = require('views/play/modal/PollModal')
 const AnnouncementModal = require('views/play/modal/AnnouncementModal')
 const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
-const RobloxModal = require('views/core/MineModal') // Roblox modal
-const JuniorModal = require('views/core/JuniorModal')
 const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal')
 const api = require('core/api')
 const Classroom = require('models/Classroom')
@@ -49,7 +47,10 @@ const globalVar = require('core/globalVar')
 const paymentUtils = require('app/lib/paymentUtils')
 const userUtils = require('lib/user-utils')
 const AILeaguePromotionModal = require('views/core/AILeaguePromotionModal')
-const HackstackPromotionModalView = require('views/ai/HackstackPromotionModalView').default
+const JuniorPromotionModal = require('views/core/JuniorPromotionModal')
+const CCHomePromotionModal = require('views/core/CCHomePromotionModal')
+const WorldsPromotionModal = require('views/core/WorldsPromotionModal') // Roblox modal
+const HackstackPromotionModal = require('views/core/HackstackPromotionModal')
 require('lib/game-libraries')
 
 const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
@@ -98,6 +99,7 @@ class CampaignView extends RootView {
       'click .hackstack-menu-icon': 'onHackStackLevelClick',
       'click .ai-league-menu-icon': 'onAILeagueIconClick',
       'click .junior-menu-icon': 'onJuniorIconClick',
+      'click .cchome-menu-icon': 'onCCHomeIconClick',
       'click .map-background': 'onClickMap',
       'click .level': 'onClickLevel',
       'dblclick .level': 'onDoubleClickLevel',
@@ -415,16 +417,12 @@ class CampaignView extends RootView {
 
   openJuniorPromotionModal (e) {
     window.tracker?.trackEvent('Junior Explored')
-    this.openModalView(new JuniorModal())
+    this.openModalView(new JuniorPromotionModal())
   }
 
   openJuniorOriginalChoiceModal (e) {
     window.tracker?.trackEvent('Junior Original Choice Explored')
     const modal = new JuniorOriginalChoiceModal()
-    this.listenToOnce(modal, 'junior-original-choice', (choice) => {
-      this.highlightedCampaign = choice === 'junior' ? 'junior' : 'dungeon'
-      this.render()
-    })
     this.openModalView(modal)
   }
 
@@ -689,18 +687,22 @@ class CampaignView extends RootView {
 
   showRobloxModal () {
     storage.save(ROBLOX_MODAL_SHOWN)
-    this.openModalView(new RobloxModal())
+    this.openModalView(new WorldsPromotionModal())
   }
 
   onJuniorIconClick (e) {
     window.tracker?.trackEvent('Junior Icon Explored', { engageAction: 'campaign_level_click' })
-    this.openModalView(new JuniorModal())
+    this.openModalView(new JuniorPromotionModal())
+  }
+
+  onCCHomeIconClick (e) {
+    window.tracker?.trackEvent('CCHome Icon Explored', { engageAction: 'campaign_level_click' })
+    this.openModalView(new CCHomePromotionModal())
   }
 
   onHackStackLevelClick (e) {
     window.tracker?.trackEvent('HackStack Explored', { engageAction: 'campaign_level_click' })
-    // Backbone.Mediator.publish 'router:navigate', route: '/ai/new_project'
-    this.openModalView(new HackstackPromotionModalView())
+    this.openModalView(new HackstackPromotionModal())
   }
 
   onAILeagueIconClick (e) {
@@ -878,8 +880,6 @@ class CampaignView extends RootView {
           this.$el.find('button.promotion-menu-icon').addClass('highlighted').tooltip('show')
           storage.save('pointed-out-promotion', timesPointedOutPromotion + 1)
         }
-      } else if (this.shouldShow('junior-promotion')) {
-        this.openJuniorPromotionModal()
       } else if (this.shouldShow('junior-original-choice')) {
         this.openJuniorOriginalChoiceModal()
       }
@@ -1844,7 +1844,7 @@ class CampaignView extends RootView {
   }
 
   activatePoll (forceShowPoll) {
-    if (this.shouldShow('promotion') || this.shouldShow('junior-promotion')) { return }
+    if (this.shouldShow('promotion')) { return }
     if (!this.poll) { return }
     const pollTitle = utils.i18n(this.poll.attributes, 'name')
     const $pollButton = this.$el.find('button.poll')
@@ -2131,7 +2131,10 @@ class CampaignView extends RootView {
     const isStudentOrTeacher = me.isStudent() || me.isTeacher()
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
-    if (what === 'junior-level') {
+    if (what === 'junior-menu-icon') {
+      if (this.terrain === 'junior' && this.isCatalyst) {
+        return false
+      }
       return me.isHomeUser() && !this.editorMode
     }
 
@@ -2147,10 +2150,6 @@ class CampaignView extends RootView {
 
     if (what === 'promotion') {
       return me.finishedAnyLevels() && !features.noAds && !isStudentOrTeacher && (me.get('country') === 'united-states') && (me.get('preferredLanguage', true) === 'en-US') && (new Date() < new Date(2019, 11, 20))
-    }
-
-    if (what === 'junior-promotion') {
-      return !me.finishedAnyLevels() && !this.terrain && me.getJuniorExperimentValue() === 'beta' && !this.isCatalyst
     }
 
     if (what === 'junior-original-choice') {
@@ -2198,8 +2197,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'anonymous-classroom-signup') {
-      return me.isAnonymous() && !this.isCatalyst &&
-        (me.level() < 8) && me.promptForClassroomSignup() &&
+      return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() &&
         !this.editorMode && this.terrain !== 'junior' && !storage.load('hid-anonymous-classroom-signup-dialog')
     }
 
@@ -2222,7 +2220,7 @@ class CampaignView extends RootView {
       return !me.isAnonymous() && this.campaign?.get('slug') && !this.editorMode && !userUtils.isCreatedViaLibrary()
     }
 
-    if (what === 'ai-league') {
+    if (what === 'ai-league-menu-icon') {
       return !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
@@ -2230,12 +2228,16 @@ class CampaignView extends RootView {
       return this.userQualifiesForRobloxModal() && !this.editorMode
     }
 
-    if (what === 'roblox-button') {
+    if (what === 'roblox-menu-icon') {
       return !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
 
-    if (what === 'hackstack') {
-      return me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary() && !this.editorMode
+    if (what === 'hackstack-menu-icon') {
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode
+    }
+
+    if (what === 'cchome-menu-icon') {
+      return !userUtils.isCreatedViaLibrary() && this.terrain === 'junior'
     }
 
     return true

@@ -294,6 +294,10 @@ module.exports = (AdministerUserModal = (function () {
       if (attrs.userTimeZone?.[0] === 'on') {
         timeZone = this.userTimeZone
       }
+      if (attrs.revokable?.[0] !== 'on') {
+        attrs.irrevocable = true
+      }
+      delete attrs.revokable
       attrs.startDate = momentTimezone.tz(attrs.startDate, timeZone).toISOString()
       attrs.endDate = momentTimezone.tz(attrs.endDate, timeZone).toISOString()
 
@@ -658,6 +662,7 @@ module.exports = (AdministerUserModal = (function () {
       const prepaidStartDate = this.$el.find('#startDate-' + prepaidId).val()
       const prepaidEndDate = this.$el.find('#endDate-' + prepaidId).val()
       const prepaidTotalLicenses = this.$el.find('#totalLicenses-' + prepaidId).val()
+      const prepaidRevokable = this.$el.find('#revokable-' + prepaidId).is(':checked')
       return this.prepaids.each(prepaid => {
         if (prepaid.get('_id') === prepaidId) {
           // validations
@@ -675,6 +680,7 @@ module.exports = (AdministerUserModal = (function () {
           prepaid.set('startDate', momentTimezone.tz(prepaidStartDate, this.timeZone).toISOString())
           prepaid.set('endDate', momentTimezone.tz(prepaidEndDate, this.timeZone).toISOString())
           prepaid.set('maxRedeemers', prepaidTotalLicenses)
+          prepaid.set('irrevocable', !prepaidRevokable)
           const options = {}
           prepaid.patch(options)
           this.listenTo(prepaid, 'sync', function () {

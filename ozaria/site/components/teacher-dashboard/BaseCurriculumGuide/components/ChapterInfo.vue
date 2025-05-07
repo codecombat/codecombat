@@ -182,7 +182,12 @@ export default {
     const campaigns = new Campaigns([], { forceCourseNumbering: true })
     campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
     campaigns.on('sync', () => {
-      const campaign = campaigns.get(this.getCurrentCourse.campaignID)
+      const currentCourse = this.getCurrentCourse
+      if (!currentCourse) {
+        console.log('no current course')
+        return
+      }
+      const campaign = campaigns.get(currentCourse.campaignID)
       if (campaign) {
         this.levelsNameMap = campaign.getLevelNameMap()
       } else {

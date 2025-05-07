@@ -1,0 +1,23 @@
+.classic-promotion-modal
+  .modal-dialog
+    .modal-content
+      img.modal-background(src="/images/pages/play/modal/subscribe-background-blank.png")
+
+      h1(data-i18n="nav.coco_junior")
+
+      div.close-modal
+        span.glyphicon.glyphicon-remove
+
+      div.paper-area
+        div.big-text.text-center(data-i18n="junior_page.promo_modal_subtitle")
+
+        div.modal-video-container(style="width: 80%; margin: 0 auto;")
+          div.video-aspect-ratio
+            iframe(src="https://customer-burj9xtby325x4f1.cloudflarestream.com/46940c77866eba9b80daa2c0e0d76092/iframe?autoplay=true&amp;loop=true&amp;muted=true&amp;controls=false&amp;preload=none&amp;letterboxColor=transparent" 
+          loading="lazy" allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;" frameborder="0", allowfullscreen="true", aspect-ratio="37 / 18")
+        hr
+        div.med-text.modal-text.text-center!= marked($.i18n.t("junior_page.promo_modal_text"))
+
+        .actions
+          button.btn.btn-lg.btn-illustrated.play-button
+            span.buy-now-text(data-i18n="new_home.play_now")

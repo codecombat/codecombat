@@ -12,6 +12,7 @@
 let ModalView
 const CocoView = require('./CocoView')
 const focusTrap = require('focus-trap')
+const marked = require('marked')
 
 module.exports = (ModalView = (function () {
   ModalView = class ModalView extends CocoView {
@@ -29,7 +30,7 @@ module.exports = (ModalView = (function () {
         'click a': 'toggleModal',
         'click button': 'toggleModal',
         'click li': 'toggleModal',
-        'click [data-i18n]': 'onClickTranslatedElement'
+        'click [data-i18n]': 'onClickTranslatedElement',
       }
 
       this.prototype.shortcuts =
@@ -48,6 +49,12 @@ module.exports = (ModalView = (function () {
       if ((options != null ? options.trapsFocus : undefined) != null) { this.trapsFocus = options.trapsFocus }
     }
 
+    getRenderData (c) {
+      c = super.getRenderData(c)
+      c.marked = marked
+      return c
+    }
+
     render () {
       __guardMethod__(this.focusTrap, 'deactivate', o => o.deactivate())
       super.render()
@@ -61,7 +68,7 @@ module.exports = (ModalView = (function () {
       }
       this.$el.on('hide.bs.modal', () => {
         if (!this.hidden) { this.onHidden() }
-        return this.hidden = true
+        this.hidden = true
       })
       if (this.plain) { return this.$el.find('.background-wrapper').addClass('plain') }
     }

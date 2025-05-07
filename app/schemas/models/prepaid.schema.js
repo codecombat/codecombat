@@ -59,7 +59,8 @@ const PrepaidSchema = c.object({ title: 'Prepaid', required: ['type'] }, {
   removedJoiners: c.array({ title: 'Teachers this Prepaid was shared with' },
     c.object({ required: ['userID'] },
       { userID: c.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }) })
-  )
+  ),
+  irrevocable: { type: 'boolean' },
 })
 
 c.extendBasicProperties(PrepaidSchema, 'prepaid')

@@ -69,7 +69,6 @@ export default {
   },
   methods: {
     ...mapActions({
-      applyLicenses: 'baseSingleClass/applyLicenses',
       revokeLicenses: 'baseSingleClass/revokeLicenses',
       resetProgress: 'baseSingleClass/resetProgress'
     }),
@@ -121,9 +120,6 @@ export default {
 
 <template>
   <div class="view-and-manage">
-    <div class="title-card">
-      <span>{{ $t('teacher_dashboard.view_options') }}</span>
-    </div>
     <div class="spacer align-section-left">
       <dropdown
         :label-text="$t('teacher.sort_by')"
@@ -163,7 +159,7 @@ export default {
           :icon-name="displayOnly ? 'IconLicenseApply_Gray' : 'IconLicenseApply'"
           :text="$t('teacher.apply_licenses')"
           :inactive="displayOnly"
-          @click="applyLicenses"
+          @click="$emit('applyLicenses')"
         />
         <icon-button-with-text
           v-if="showLicenses && me.get('country') !== 'lebanon'"
@@ -179,21 +175,6 @@ export default {
           :text="$t('teacher_dashboard.remove_students')"
           :inactive="displayOnly"
           @click="$emit('removeStudents')"
-        />
-        <icon-button-with-text
-          class="icon-with-text larger-icon"
-          :icon-name="'IconReset'"
-          :text="$t('teacher_dashboard.reset_progress')"
-          :inactive="displayOnly"
-          @click="resetProgress"
-        />
-
-        <icon-button-with-text
-          class="icon-with-text larger-icon"
-          :icon-name="'IconArchive'"
-          :text="$t('teacher_dashboard.export_progress')"
-          :inactive="exportingProgress"
-          @click="exportProgress"
         />
 
         <v-popover
@@ -216,6 +197,22 @@ export default {
             />
           </template>
         </v-popover>
+
+        <icon-button-with-text
+          class="icon-with-text larger-icon"
+          :icon-name="'IconReset'"
+          :text="$t('teacher_dashboard.reset_progress')"
+          :inactive="displayOnly"
+          @click="resetProgress"
+        />
+
+        <icon-button-with-text
+          class="icon-with-text larger-icon"
+          :icon-name="'IconArchive'"
+          :text="$t('teacher_dashboard.export_progress')"
+          :inactive="exportingProgress"
+          @click="exportProgress"
+        />
       </div>
     </div>
     <div
@@ -247,7 +244,7 @@ export default {
   .view-and-manage {
     height: 50px;
     max-height: 50px;
-    min-width: 1260px;
+    min-width: 1200px;
 
     display: flex;
     flex-direction: row;
@@ -288,7 +285,7 @@ export default {
     flex: 0.5 0.5 0px;
     justify-content: flex-start;
     justify-content: start;
-    min-width: 396px;
+    min-width: 300px;
   }
 
   .arrow-icon {
@@ -340,7 +337,7 @@ export default {
   }
 
   .dropdowns {
-    margin: 0 8px 0 30px;
+    margin: 0 8px 0 10px;
   }
 
   .primary-btn {

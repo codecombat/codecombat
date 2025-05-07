@@ -108,6 +108,7 @@
     "bootstrap-sass": "3.3.7",
     "buffer": "^6.0.3",
     "cheerio": "^0.22.0",
+    "choices.js": "^11.1.0",
     "co": "^4.6.0",
     "co-express": "^1.2.1",
     "coffee-loader": "^0.7.2",

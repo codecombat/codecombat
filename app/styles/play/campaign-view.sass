@@ -776,7 +776,7 @@ $gameControlMargin: 30px
         background: url('/images/pages/roblox/Code-Combat-Worlds-Small.png') no-repeat
         background-position: 50% 50%
         background-size: 100%
-        margin-top: 40px
+        margin-top: 20px
         transform: scale(1.4) translateY(-3px) translateX(-15px)
         @media only screen and (max-height: 650px)
           transform: scale(0.78) translateY(-1px)
@@ -791,7 +791,7 @@ $gameControlMargin: 30px
         background-position: 50% 50%
         background-size: 100%
         border-radius: 0
-        transform: scale(2) translateX(-17px)
+        transform: scale(1.7) translateX(-17px)
         @media only screen and (max-height: 650px)
           transform: scale(0.78) translateY(-1px)
         box-shadow: initial
@@ -805,7 +805,7 @@ $gameControlMargin: 30px
         background-position: 50% 50%
         background-size: 90%
         margin-top: 40px
-        transform: scale(1.4) translateY(-3px) translateX(-15px)
+        transform: scale(1.2) translateY(-3px) translateX(-15px)
         @media only screen and (max-height: 650px)
           transform: scale(0.78) translateY(-1px)
         box-shadow: initial
@@ -815,33 +815,33 @@ $gameControlMargin: 30px
           filter: drop-shadow(0 0 2px #bbf)
       
       &.junior-menu-icon
-        background: url(/images/pages/play/campaign/coco-junior-square-menu-icon.webp) no-repeat
+        background: url(/images/pages/junior/CodeCombat-Junior-Small.png) no-repeat
         background-position: 50% 50%
-        background-size: 110%
-        transform: scale(1.2) translateX(-10px)
+        background-size: 100%
+        transform: scale(1.6) translateX(-15px)
         @media only screen and (max-height: 650px)
           transform: scale(0.78) translateY(-1px)
         box-shadow: initial
         filter: drop-shadow(2px 2px 4px black)
         outline: none
+        margin-top: 10px
         &:hover
           filter: drop-shadow(0 0 2px #bbf)
-      
-        // Jiggle animation
-        +keyframes(jiggle)
-          0%
-            transform: scale(1.1) translateY(-1px) rotate(0deg)
-          25%
-            transform: scale(1.1) translateY(-1px) rotate(1deg)
-          50%
-            transform: scale(1.1) translateY(-1px) rotate(0deg)
-          75%
-            transform: scale(1.1) translateY(-1px) rotate(-1deg)
-          100%
-            transform: scale(1.1) translateY(-1px) rotate(0deg)
 
-        &.highlighted
-          @include animation(jiggle .3s 20)
+      &.cchome-menu-icon
+        background: url(/images/pages/junior/CodeCombat-Home-Small.png) no-repeat
+        background-position: 50% 50%
+        background-size: 100%
+        transform: scale(2)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.78) translateY(-1px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        margin-top: 10px
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
+        
           
 
     &.in-campaign
@@ -849,24 +849,25 @@ $gameControlMargin: 30px
       bottom: 2%
       right: 50%
       top: auto
-      transform: translateY(0) translateX(100%)
+      transform: translateY(-10px) translateX(100%)
+
 
       .btn
         margin-top: 0
         height: 40px
         width: 40px
-        &:not(:first-child)
-          margin-left: 20px
+        margin-right: 40px
 
         &.hackstack-menu-icon
-          transform: scale(2) translateY(-5px)
-          margin-right: 20px
-
+          transform: scale(2)
+        &.junior-menu-icon
+          transform: scale(2.2)
         &.roblox-menu-icon
-          transform: scale(2) translateY(-5px) translateX(10px)
-
+          transform: scale(2) translateY(-5px)
         &.ai-league-menu-icon
-          transform: scale(1.5) translateY(-5px)
+          transform: scale(1.4) translateX(-10px)
+
+        
         
     .tooltip
       font-size: 24px
@@ -1352,75 +1353,7 @@ $gameControlMargin: 30px
       display: flex
       flex-direction: column
       align-items: center
-      width: 100%
-
-      .catalyst-first-row
-        display: flex
-        justify-content: center
-        gap: 30px
-        width: 100%
-        max-width: 1200px
-        margin-top: 50px
-        margin-bottom: -60px
-        
-        .campaign
-          width: 317px
-          height: 634px
-          background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat 0 0
-          position: relative
-          cursor: pointer
-          z-index: 0
-          @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
-
-          &:hover
-            @include scale($campaignHoverScale)
-
-          &.silhouette
-            @include filter(contrast(50%) brightness(65%))
-            pointer-events: none
-          
-          &.junior
-            background-position: -1902px 0
-          
-          &.dungeon
-            background-position: 0 0
-
-          .campaign-label
-            position: absolute
-            top: 45%
-            width: 100%
-            text-align: center
-
-            .play-button
-              margin: 15px 0
-              min-width: 100px
-            
-            // Text styling
-            .campaign-name, .levels-completed, .campaign-locked
-              margin: 0
-              color: white
-              text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
-            
-            .campaign-description-container
-              margin: 10px auto
-              width: 80%
-              opacity: 0
-              visibility: hidden
-              transition: opacity $description-transition-time ease, visibility $description-transition-time ease
-              transition-delay: 0.15s
-              
-              .campaign-description
-                background: transparent url(/images/level/popover_border_background.png) no-repeat
-                background-size: 100% 100%
-                padding: 12px
-                color: black
-                font-size: 14px
-                line-height: 1.2
-                margin: 0
-          
-          &:hover .campaign-description-container
-            opacity: 1
-            visibility: visible
+      width: 100%    
 
       .campaign-rows
         display: flex
@@ -1436,10 +1369,21 @@ $gameControlMargin: 30px
           width: 100%
           height: $campaignPortalHeight
           margin-bottom: 0
-          margin-top: -30px
+          margin-top: -40px
+
+          // first row has a different margin-top
+          &:first-child
+            margin-top: 50px
+            margin-bottom: -40px
+          //the third row has a different margin-top
+          &:nth-child(3)
+            margin-top: -70px
+          // the last row has a different margin-top
+          &:last-child
+            margin-top: -20px
           
           .main-campaign
-            width: 317px
+            width: $campaignPortalWidth
             height: $campaignPortalHeight
             background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat
             position: absolute
@@ -1489,8 +1433,6 @@ $gameControlMargin: 30px
               .campaign-description-container
                 margin: 10px auto
                 width: 80%
-                opacity: 0
-                visibility: hidden
                 transition: opacity $description-transition-time ease, visibility $description-transition-time ease
                 transition-delay: 0.15s
                 
@@ -1502,17 +1444,14 @@ $gameControlMargin: 30px
                   font-size: 14px
                   line-height: 1.2
                   margin: 0
-            
-            &:hover .campaign-description-container
-              opacity: 1
-              visibility: visible
+
             
           .side-campaign-container
             position: absolute
             width: $campaignPortalWidth
             height: math.div($campaignPortalHeight, 2)
             z-index: 0
-            top: 317px  // Center vertically (634px / 2)
+            top: $campaignPortalHeight
             transform: translateY(-50%)  // Adjust for half the height of the side campaign
             
             // Left side campaign container (first in the row)
@@ -1567,14 +1506,9 @@ $gameControlMargin: 30px
                   padding: 12px
                   color: black
                   font-size: 12px
-                  opacity: 0
-                  visibility: hidden
                   transition: opacity $description-transition-time ease, visibility $description-transition-time ease
                   transition-delay: 0.15s
-              
-              &:hover .campaign-description
-                opacity: 1
-                visibility: visible
+
 
               .background-container
                 position: absolute
