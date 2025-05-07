@@ -24,13 +24,13 @@
     </template>
     <template #tail>
       <p class="content">
-        {{ $t('hackstack_page.header_details') }}
+        {{ isTeacher() ? $t('hackstack_page.header_details_teacher') : $t('hackstack_page.header_details') }}
       </p>
       <CTAButton
         class="cta-button"
         @clickedCTA="CTAClicked"
       >
-        {{ $t('hackstack_page.try_it_free') }}
+        {{ isTeacher() ? $t('schools_page.get_my_solution') : $t('hackstack_page.try_it_free') }}
       </CTAButton>
     </template>
   </PageSection>
@@ -61,9 +61,14 @@ export default {
     CTAClicked () {
       if (me.isAnonymous()) {
         this.$emit('open-signup-modal')
+      } else if (me.isTeacher()) {
+        window.open('/schools?openContactModal=true', '_blank')
       } else {
         window.location = '/ai'
       }
+    },
+    isTeacher () {
+      return me.isTeacher()
     },
   },
 }
