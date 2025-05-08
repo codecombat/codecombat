@@ -3,18 +3,21 @@ export default {
   props: {
     doneRegistering: {
       type: Boolean,
-      required: true
+      required: true,
     },
     isClanCreator: {
-      required: true
+      required: true,
+      type: Function,
     },
     onHandleJoinCTA: {
-      required: true
+      required: true,
+      type: Function,
     },
     championshipActive: {
-      type: Boolean
-    }
-  }
+      type: Boolean,
+      required: true,
+    },
+  },
 }
 </script>
 
@@ -25,8 +28,9 @@ export default {
         class="subheader2"
         style="max-width: 800px;"
       >
+        <!-- eslint-disable vue/no-v-html -->
         <span v-if="championshipActive">
-          {{ $t('league.championship_summary', { championshipArena: $t('league.supercharged'), championshipMonth: $t('calendar.december'), championshipType: $t('league.clash') }) }}
+          <span v-html="$t('league.championship_summary', { championshipArena: $t('league.kings_gambit'), championshipMonth: $t('calendar.may'), championshipType: $t('league.cup') })" />
         </span>
         <span v-else>
           {{ $t('league.summary') }}
