@@ -130,6 +130,10 @@ export default Vue.extend({
           question: this.$t('hackstack_page.faq_7_question'),
           answer: this.$t('hackstack_page.faq_7_answer'),
         },
+        {
+          question: this.$t('hackstack_page.faq_8_question'),
+          answer: this.$t('hackstack_page.faq_8_answer'),
+        },
       ],
     }
   },
