@@ -4977,6 +4977,7 @@ module.exports = {
       blitz: 'Blitz',
       clash: 'Clash',
       season13_announcement_1: 'In the depths of ancient ruins, a magical checkerboard arises and the towers comes alive. Get as many pieces to the end of the line!',
+      season13_announcement_2: 'Note: arena balance adjustments may occur up until May 15th. So be sure to come back often to test your code against the global leaderboard.',
       season12_announcement_2: 'Collectors fly high, control points emerges, mythical crystals stand tall, as the dungeon expands, the battle is getting fiercer, only the righteous shall be the victor.',
       season12_announcement_1: 'Deep in the dungeons, mythical crystals stand tall, collecting energy and mana from abandoned ruins. Summon units, cast spells, and claim victory!',
       season11_announcement_1: 'The competition is getting more heated! As the sun shines above, place down and upgrade your solar panels, avoid shock traps, place down robot crabs, and phase through portals, get as much solar as possible and claim victory!',
