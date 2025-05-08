@@ -131,8 +131,8 @@ module.exports = (AdministerUserModal = (function () {
       this.esportsType = 'basic'
       this.creditDetails = {
         amount: 1,
-        key: 'day',
-        limit: 10,
+        key: 'week',
+        limit: 30,
       }
       this.utils = utils
       options.models = [this.user] // For ModelModal to generate a Treema of this user
@@ -307,6 +307,7 @@ module.exports = (AdministerUserModal = (function () {
       if (attrs.licenseType === 'hackstack') {
         attrs.includedCourseIDs = [utils.courseIDs.HACKSTACK]
         isHackstack = true
+        hackstackCredits.operation = 'HACKSTACK_QUERY'
         hackstackCredits.durationAmount = parseInt(attrs.durationAmount)
         hackstackCredits.durationKey = attrs.durationKey
         hackstackCredits.limit = parseInt(attrs.creditLimit)

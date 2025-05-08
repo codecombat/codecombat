@@ -31,6 +31,8 @@ const UserCreditSchema = c.object({
       {
         title: 'License Credits',
       }, {
+        prepaidId: c.objectId(),
+        endDate: c.date(),
         operation: c.shortString(),
         durationKey: c.shortString(),
         durationAmount: c.int(),

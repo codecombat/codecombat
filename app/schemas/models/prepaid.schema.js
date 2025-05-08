@@ -35,6 +35,7 @@ const PrepaidSchema = c.object({ title: 'Prepaid', required: ['type'] }, {
         type: 'object',
         description: 'if the prepaid is for HACKSTACK, add credits details here.',
         properties: {
+          operation: { type: 'string', enum: ['HACKSTACK_QUERY', 'LEVEL_CHAT_BOT'] },
           durationAmount: { type: 'number' },
           durationKey: { type: 'string', enum: ['day', 'week', 'month'] },
           limit: { type: 'number' },
