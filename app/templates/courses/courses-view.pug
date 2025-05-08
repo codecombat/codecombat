@@ -146,7 +146,7 @@ mixin classrooms_content()
               span.spr= classroom.get('name')
               - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java'}
               span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
-            p
+            p.teacher-name
               span(data-i18n="courses.teacher")
               span :
               if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
@@ -160,7 +160,7 @@ mixin classrooms_content()
               span.spr= classroom.get('name')
               - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java'}
               span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
-            p
+            p.teacher-name
               span(data-i18n="courses.teacher")
               span :
               if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]

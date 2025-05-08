@@ -370,7 +370,7 @@ module.exports = (CoursesView = (function () {
         .then(() => {
           this.ownerNameMap = {}
           for (const ownerID of Array.from(ownerIDs)) { this.ownerNameMap[ownerID] = NameLoader.getName(ownerID) }
-          return (typeof this.render === 'function' ? this.render() : undefined)
+          return this.renderSelectors('.teacher-name')
         })
       if (utils.useWebsocket) {
         this.useWebsocket = true
@@ -448,7 +448,10 @@ module.exports = (CoursesView = (function () {
         }, this)
       }
 
-      _.forEach(_.unique(_.pluck(this.classrooms.models, 'id')), classroomID => {
+      // now we use same levels in each classrooms
+      const latestClassroom = this.classrooms.models?.[0]
+      if (latestClassroom) {
+        const classroomID = latestClassroom.get('_id')
         const levels = new Levels()
         this.listenTo(levels, 'sync', () => {
           if (this.destroyed) { return }
@@ -456,7 +459,7 @@ module.exports = (CoursesView = (function () {
           return this.render()
         })
         return this.supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: `original,primerLanguage,slug,name,i18n.${me.get('preferredLanguage', true)},displayName` } }))
-      })
+      }
 
       if (utils.isOzaria && this.showHocProgress()) {
         return this.calculateHocStats()

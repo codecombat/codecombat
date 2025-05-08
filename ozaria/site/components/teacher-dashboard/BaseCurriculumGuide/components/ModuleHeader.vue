@@ -108,7 +108,6 @@ export default {
           {{ moduleNum }}:
         </span>
         <code-renderer :content="moduleName || getCurrentModuleNames(moduleNum) || 'Introduction'" />
-        <access-level-indicator :level="getModuleInfo.access" />
       </h3>
       <div
         v-if="getModuleTotalTimeInfo"
@@ -125,6 +124,7 @@ export default {
       </div>
     </div>
     <div class="buttons">
+      <access-level-indicator :level="getModuleInfo.access" />
       <!-- For this locked tooltip we use a span, as the disabled button doesn't trigger a tooltip. -->
       <template
         v-if="getModuleInfo.lessonSlidesUrl && showLessonSlides"
