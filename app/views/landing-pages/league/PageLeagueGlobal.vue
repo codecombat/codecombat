@@ -681,7 +681,7 @@ export default {
         <div>
           <img
             class="img-responsive"
-            src="/images/pages/league/supercharged.png"
+            src="/images/pages/league/kings-gambit-cup.png"
             loading="lazy"
             style="max-height: 200px; float: right; margin: 0 15px 15px;"
             alt=""
