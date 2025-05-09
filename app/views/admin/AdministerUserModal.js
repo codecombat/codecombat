@@ -129,6 +129,11 @@ module.exports = (AdministerUserModal = (function () {
       this.licenseType = 'all'
       this.licensePresets = LICENSE_PRESETS
       this.esportsType = 'basic'
+      this.creditDetails = {
+        amount: 1,
+        key: 'week',
+        limit: 30,
+      }
       this.utils = utils
       options.models = [this.user] // For ModelModal to generate a Treema of this user
       this.models = [this.user]
@@ -284,6 +289,8 @@ module.exports = (AdministerUserModal = (function () {
       if (!attrs.endDate || !attrs.startDate || !(attrs.endDate > attrs.startDate)) { return }
       attrs.endDate = attrs.endDate + ' ' + '23:59' // Otherwise, it ends at 12 am by default which does not include the date indicated
       let timeZone = this.timeZone
+      let isHackstack = false
+      let hackstackCredits = {}
       if (attrs.userTimeZone?.[0] === 'on') {
         timeZone = this.userTimeZone
       }
@@ -297,6 +304,17 @@ module.exports = (AdministerUserModal = (function () {
       if (attrs.licenseType in this.licensePresets) {
         attrs.includedCourseIDs = this.licensePresets[attrs.licenseType]
       }
+      if (attrs.licenseType === 'hackstack') {
+        attrs.includedCourseIDs = [utils.courseIDs.HACKSTACK]
+        isHackstack = true
+        hackstackCredits.operation = 'HACKSTACK_QUERY'
+        hackstackCredits.durationAmount = parseInt(attrs.durationAmount)
+        hackstackCredits.durationKey = attrs.durationKey
+        hackstackCredits.limit = parseInt(attrs.creditLimit)
+        delete attrs.durationAmount
+        delete attrs.durationKey
+        delete attrs.creditLimit
+      }
       if ((attrs.licenseType !== 'all') && !attrs.includedCourseIDs.length) { return }
       delete attrs.licenseType
 
@@ -307,6 +325,10 @@ module.exports = (AdministerUserModal = (function () {
           adminAdded: me.id
         }
       })
+      if (isHackstack) {
+        attrs.properties.creditDetails = hackstackCredits
+        hackstackCredits = {}
+      }
       const prepaid = new Prepaid(attrs)
       prepaid.save()
       this.state = 'creating-prepaid'
