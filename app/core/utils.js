@@ -287,7 +287,8 @@ if (isCodeCombat) {
     courseIDs.GAME_DEVELOPMENT_3,
     courseIDs.COMPUTER_SCIENCE_4,
     courseIDs.COMPUTER_SCIENCE_5,
-    courseIDs.COMPUTER_SCIENCE_6
+    courseIDs.COMPUTER_SCIENCE_6,
+    courseIDs.HACKSTACK,
   ]
   otherOrderedCourseIDs = [
     otherCourseIDs.CHAPTER_ONE,
@@ -318,6 +319,7 @@ if (isCodeCombat) {
 
   otherCourseIDs = {
     JUNIOR: '65f32b6c87c07dbeb5ba1936',
+    HACKSTACK: '663b25f11c568468efc8adde',
     INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
     GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
     WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
@@ -356,7 +358,8 @@ if (isCodeCombat) {
     otherCourseIDs.GAME_DEVELOPMENT_3,
     otherCourseIDs.COMPUTER_SCIENCE_4,
     otherCourseIDs.COMPUTER_SCIENCE_5,
-    otherCourseIDs.COMPUTER_SCIENCE_6
+    otherCourseIDs.COMPUTER_SCIENCE_6,
+    otherCourseIDs.HACKSTACK,
   ]
 
   hourOfCodeOptions = {
