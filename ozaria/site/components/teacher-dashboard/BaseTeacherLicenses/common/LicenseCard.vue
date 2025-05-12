@@ -2,6 +2,8 @@
 <script>
 import moment from 'moment'
 import IconButtonWithText from '../../common/buttons/IconButtonWithText'
+const utils = require('core/utils')
+
 export default {
   components: {
     IconButtonWithText
@@ -42,6 +44,10 @@ export default {
     properties: {
       type: Object,
       default: () => {}
+    },
+    includedCourseIds: {
+      type: Array,
+      default: () => [],
     },
     disableApplyLicenses: {
       type: Boolean,
@@ -89,8 +95,37 @@ export default {
     },
     testStudentOnly () {
       return this.properties?.testStudentOnly
+    },
+    customizedLicense () {
+      return !!this.includedCourseIds?.length
+    },
+    hackstackLicense () {
+      const includedCourseIds = this.includedCourseIds
+      const credit = this.properties?.creditDetails
+      return credit && includedCourseIds?.length === 1 && includedCourseIds[0] === utils.courseIDs.HACKSTACK
+    },
+    licenseName () {
+      if (this.customizedLicense) {
+        if (this.hackstackLicense) {
+          return $.i18n.t('teacher.hackstack_license')
+        }
+        return $.i18n.t('teacher.customized_license')
+      } else {
+        return $.i18n.t('teacher.full_license')
+      }
+    },
+    licenseDescription () {
+      if (this.customizedLicense) {
+        if (this.hackstackLicense) {
+          const credit = this.properties?.creditDetails
+          return $.i18n.t('teacher.hackstack_credits', credit)
+        }
+        return (this.includedCourseIds.map(id => utils.courseAcronyms[id])).join(' ')
+      } else {
+        return ''
+      }
     }
-  }
+  },
 }
 </script>
 
@@ -115,6 +150,12 @@ export default {
         <div class="special">
           <div v-if="testStudentOnly">
             {{ $t('teacher_dashboard.test_student_only') }}
+          </div>
+          <div class="license-name">
+            {{ licenseName }}
+          </div>
+          <div class="license-description">
+            {{ licenseDescription }}
           </div>
         </div>
       </div>
@@ -206,7 +247,7 @@ export default {
   font-size: 14px;
   line-height: 14px;
   text-align: center;
-  height: 0;
+  height: 20px;
 }
 
 .dates {
