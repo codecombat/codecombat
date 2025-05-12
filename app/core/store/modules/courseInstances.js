@@ -225,7 +225,7 @@ export default {
       if (!course.free) {
         const requests = []
         for (const prepaid of availablePrepaids) {
-          if (!Math.min(unenrolledStudents.length, prepaid.openSpots()) > 0) {
+          if (!prepaid.includesCourse(course._id) || !Math.min(unenrolledStudents.length, prepaid.openSpots()) > 0) {
             // Not able to assign to this prepaid.
             continue
           }
