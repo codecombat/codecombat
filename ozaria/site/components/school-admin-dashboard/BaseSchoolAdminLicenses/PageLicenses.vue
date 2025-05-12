@@ -179,6 +179,8 @@ export default {
           :end-date="license.endDate"
           :owner="getUserById(license.creator)"
           :teacher-id="teacherId"
+          :properties="license.properties"
+          :included-course-ids="license.includedCourseIDs"
           @share="$emit('share', license)"
         />
       </div>
@@ -198,6 +200,8 @@ export default {
           :end-date="license.endDate"
           :owner="getUserById(license.creator)"
           :teacher-id="teacherId"
+          :properties="license.properties"
+          :included-course-ids="license.includedCourseIDs"
           :expired="true"
         />
       </div>
