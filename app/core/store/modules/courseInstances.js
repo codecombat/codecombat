@@ -169,7 +169,13 @@ export default {
       const unenrolledStudents = students
         .filter(user => !user.isEnrolled() || !user.prepaidIncludesCourse(course._id))
 
-      const totalSpotsAvailable = availablePrepaids.reduce((acc, prepaid) => acc + prepaid.openSpots(), 0)
+      const totalSpotsAvailable = availablePrepaids.reduce((acc, prepaid) => {
+        if (prepaid.includesCourse(course._id)) {
+          return acc + prepaid.openSpots()
+        } else {
+          return acc
+        }
+      }, 0)
       const canAssignCourses = totalSpotsAvailable >= unenrolledStudents.length
 
       if (!course.free && !canAssignCourses) {
@@ -216,8 +222,8 @@ export default {
       }
       const remainingSpots = totalSpotsAvailable - numberEnrolled
 
-      if(!course.free) {
-      const requests = []
+      if (!course.free) {
+        const requests = []
         for (const prepaid of availablePrepaids) {
           if (!Math.min(unenrolledStudents.length, prepaid.openSpots()) > 0) {
             // Not able to assign to this prepaid.
@@ -255,7 +261,7 @@ export default {
         }
         noty({ text: lines.join('<br />'), layout: 'center', type: 'information', killer: true, timeout: 5000 })
       } catch (e) {
-        throw e
+        noty({ text: JSON.stringify(e), type: 'error' })
       }
     },
 
