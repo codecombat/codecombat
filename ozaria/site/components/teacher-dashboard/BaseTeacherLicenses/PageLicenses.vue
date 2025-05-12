@@ -118,6 +118,7 @@ export default {
           :owner="getUserById(license.creator)"
           :teacher-id="teacherId"
           :properties="license.properties"
+          :included-course-ids="license.includedCourseIDs"
           @apply="$emit('apply')"
           @share="$emit('share', license)"
           @stats="$emit('stats', license)"
@@ -140,6 +141,7 @@ export default {
           :owner="getUserById(license.creator)"
           :teacher-id="teacherId"
           :properties="license.properties"
+          :included-course-ids="license.includedCourseIDs"
           :expired="true"
           @stats="$emit('stats', license)"
         />
