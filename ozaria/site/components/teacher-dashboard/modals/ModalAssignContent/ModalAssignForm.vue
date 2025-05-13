@@ -2,6 +2,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import SecondaryButton from '../../common/buttons/SecondaryButton'
 import TertiaryButton from '../../common/buttons/TertiaryButton'
+import { i18n } from 'core/utils'
 
 import { hasSharedWriteAccessPermission } from '../../../../../../app/lib/classroom-utils'
 
@@ -72,8 +73,12 @@ export default {
       await this.removeCourse({ course, members: this.selectedStudentIds, classroom: this.classroom })
       this.fetchData()
       this.$emit('close')
-    }
-  }
+    },
+
+    i18nName (course) {
+      return i18n(course, 'name')
+    },
+  },
 }
 </script>
 
@@ -105,7 +110,7 @@ export default {
               :key="course._id"
               :value="course.name"
             >
-              {{ course.name }}
+              {{ i18nName(course) }}
             </option>
           </select>
         </div>

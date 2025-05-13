@@ -12,7 +12,7 @@ export default Vue.extend({
 
 <template>
   <modal
-    :title="'Assign Content'"
+    :title="$t('teacher_dashboard.assign_content')"
     @close="$emit('close')"
   >
     <modal-assign-form @close="$emit('close')" />

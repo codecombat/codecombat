@@ -2725,6 +2725,8 @@ module.exports = {
       CS4_short: 'Comp Sci 4',
       CS5_short: 'Comp Sci 5',
       CS6_short: 'Comp Sci 6',
+      JR_short: 'Junior',
+      AI_short: 'AI',
       student_overview: 'Overview',
       student_details: 'Student Details',
       student_name: 'Student Name',
@@ -4765,6 +4767,12 @@ module.exports = {
       violation: 'Violation',
       safety_violations: 'Safety Violations',
       collapse: 'Collapse',
+      num_student: '__num__ Students',
+      one_student: '__num__ Student',
+      sort_by_last_name: 'Last Name',
+      sort_by_first_name: 'first Name',
+      sort_by_progress_desc: 'Progress (High to Low)',
+      sort_by_progress_asc: 'Progress (Low to Hight)',
     },
 
     outcomes: {
