@@ -1155,7 +1155,38 @@ module.exports = (User = (function () {
     }
 
     getHackStackV2ExperimentValue () {
-      return 'beta'
+      const experimentName = 'hs-exp'
+      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable(experimentName)]
+      if (value == null) { value = me.getExperimentValue(experimentName, null, 'beta') }
+      if ((value == null) && utils.isOzaria) {
+        // Don't include Ozaria for now
+        value = 'control'
+      }
+      if ((value == null) && me.get('role')) {
+        // Don't include users other than home users
+        value = 'control'
+      }
+      if ((value == null) && me.isInternal()) {
+        value = 'beta'
+      }
+      if ((value == null) && (new Date(me.get('dateCreated')) < new Date('2025-05-17'))) {
+        // Don't include users created before experiment start date
+        value = 'control'
+      }
+      if ((!value)) {
+        let valueProbability
+        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta != null ? window.serverConfig.experimentProbabilities[experimentName].beta : 0.5
+        if (Math.random() < probability) {
+          value = 'beta'
+          valueProbability = probability
+        } else {
+          value = 'control'
+          valueProbability = 1 - probability
+        }
+        console.log('starting hackstack experiment with value', value, 'prob', valueProbability)
+        me.startExperiment(experimentName, value, valueProbability)
+      }
+      return value
     }
 
     getM7ExperimentValue () {
