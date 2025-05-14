@@ -1175,7 +1175,8 @@ module.exports = (User = (function () {
       }
       if ((!value)) {
         let valueProbability
-        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta != null ? window.serverConfig.experimentProbabilities[experimentName].beta : 0.5
+        const expProb = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta
+        const probability = expProb != null ? expProb : 0.5
         if (Math.random() < probability) {
           value = 'beta'
           valueProbability = probability
