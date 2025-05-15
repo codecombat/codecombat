@@ -3,17 +3,21 @@ export default {
   props: {
     labelText: {
       required: true,
-      type: String
+      type: String,
     },
     options: {
       type: Array,
-      default: () => []
+      default: () => [],
+    },
+    displayOptions: {
+      type: Array,
+      default: () => [],
     },
     value: {
       type: String,
-      default: () => this.options[0]
-    }
-  }
+      default: () => this.options[0],
+    },
+  },
 }
 </script>
 <template>
@@ -21,11 +25,11 @@ export default {
     <label>{{ labelText }}</label>
     <select @change="$emit('change', $event)">
       <option
-        v-for="option in options"
+        v-for="(option, index) in options"
         :key="option"
         :selected="option === value"
       >
-        {{ option }}
+        {{ displayOptions?.[index] || option }}
       </option>
     </select>
   </div>
