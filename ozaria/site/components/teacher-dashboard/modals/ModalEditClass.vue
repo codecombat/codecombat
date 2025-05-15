@@ -447,7 +447,6 @@ export default Vue.extend({
         }
         this.$emit('updated')
       }
-
       await this.handleClassroomImport(savedClassroom, updates)
 
       this.$emit('close')
@@ -491,15 +490,15 @@ export default Vue.extend({
       if (this.isGoogleClassroomForm) {
         await GoogleClassroomHandler.markAsImported(this.googleClassId)
         GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
-          .then((importedMembers) => {
-            if (importedMembers.length > 0) {
-              console.debug('Students imported to classroom:', importedMembers)
-            }
-          })
-          .catch((e) => {
-            this.errMsg = e?.message || 'Error in importing students'
-            noty({ text: 'Error in importing students', layout: 'topCenter', type: 'error', timeout: 2000 })
-          })
+        try {
+          const importedMembers = await GoogleClassroomHandler.importStudentsToClassroom(savedClassroom)
+          if (importedMembers.length > 0) {
+            console.debug('Students imported to classroom:', importedMembers)
+          }
+        } catch (e) {
+          this.errMsg = e || 'Error in importing students'
+          noty({ text: this.errMsg, layout: 'topCenter', type: 'error', timeout: 5000 })
+        }
       }
 
       if (this.isOtherProductForm) {
