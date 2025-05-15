@@ -215,6 +215,7 @@ block modal-body-content
             th Start (PT)
             th End (PT)
           th Used
+          th Revokable
         for prepaid in view.prepaids.models
           - var prepaidControlId=prepaid.id
           tr(id=prepaidControlId)
@@ -249,6 +250,12 @@ block modal-body-content
                 input(id=totalLicensesControlId type="number" name="totalLicenses" value=prepaid.get('maxRedeemers'), style="width:50px")
               else
                 = (prepaid.get('redeemers') || []).length + ' / ' + prepaid.get('maxRedeemers') || 0
+            td
+              if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+                - var revokableControlId='revokable-'+prepaid.id
+                input(id=revokableControlId type="checkbox" name="revokable" checked=(!prepaid.get('irrevocable')), style="width:30px")
+              else
+                = (prepaid.get('irrevocable') ? 'No' : 'Yes')
             td
               if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
                 button.btn.btn-primary.save-prepaid-info-btn(data-prepaid-id=prepaid.id) Save
@@ -301,7 +308,7 @@ block modal-body-content
         else
           h4.small(style="max-width: 700px") Licenses start at 12am PT on the start date and end at 11:59pm PT on the end date listed.
         +license-form-group('Number of Licenses')(id="seats-input" type="number", name="maxRedeemers", min="1")
-        +license-type(view.licenseType, view.licensePresets, view.utils)
+        +license-type(view.licenseType, view.licensePresets, view.utils, view.creditDetails)
         +license-form-group('Start Date')(type="date" name="startDate" value=view.momentTimezone().tz(view.timeZone).format('YYYY-MM-DD'))
         +license-form-group('End Date')(type="date" name="endDate" value=view.momentTimezone().tz(view.timeZone).add(1, 'year').format('YYYY-MM-DD'))
         - userTimeZone = view.userTimeZone

@@ -72,7 +72,6 @@ export default Vue.extend({
       try {
         // this.scenario = await getAIJuniorScenario({ scenarioHandle: this.slug || '' })
         // TODO: data vs. prop, passing in slug vs. passing in scenario?
-        console.log(this.scenario)
         this.generateQRCode()
         this.updateDynamicCss()
       } catch (err) {
@@ -290,6 +289,13 @@ export default Vue.extend({
           } else {
             console.log('no canvas for', input.id, this.canvasRefs)
           }
+        } else if (input.type === 'text-field') {
+          const inputElement = document.getElementById(`${input.id}-text-field`)
+          if (inputElement) {
+            inputValues[input.id] = inputElement.value
+          } else {
+            console.error('No input element found for', input.id)
+          }
         } else {
           const inputElement = document.getElementById(input.id)
           if (inputElement) {
@@ -433,6 +439,15 @@ export default Vue.extend({
               :name="`${input.id}-free-choice-text`"
             >
           </div>
+        </div>
+        <div
+          v-if="input.type === 'text-field'"
+          class="input-text-field"
+        >
+          <textarea
+            :id="`${input.id}-text-field`"
+            :name="input.id"
+          />
         </div>
         <!-- eslint-enable vue/no-v-html -->
         <div

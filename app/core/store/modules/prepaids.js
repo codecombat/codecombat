@@ -319,7 +319,9 @@ export default {
           fails += 1
         }
       })
-      noty({ text: `Error! ${fails} students failed to get license`, type: 'error' })
+      if (fails) {
+        noty({ text: `Error! ${fails} students failed to get license`, type: 'error' })
+      }
     },
 
     async applyLicenses ({ getters }, { members, teacherId, sharedClassroomId }) {

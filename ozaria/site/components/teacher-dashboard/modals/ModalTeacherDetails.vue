@@ -2,7 +2,6 @@
 import Modal from '../../common/Modal'
 import { mapActions, mapGetters } from 'vuex'
 import SecondaryButton from '../common/buttons/SecondaryButton'
-import Dropdown from '../common/Dropdown'
 import NcesSearchInput from '../../sign-up/PageEducatorSignup/PageSchoolInfo/NcesSearchInput'
 import { SCHOOL_NCES_KEYS } from '../../../../../app/core/trialRequestUtil'
 
@@ -14,7 +13,6 @@ export default Vue.extend({
   components: {
     Modal,
     SecondaryButton,
-    Dropdown,
     NcesSearchInput
   },
   props: {

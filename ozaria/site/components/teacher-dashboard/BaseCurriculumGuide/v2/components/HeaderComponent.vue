@@ -65,6 +65,7 @@ export default {
 <style lang="scss" scoped>
 @import "app/styles/bootstrap/variables";
 @import "app/views/parents/css-mixins/variables";
+@import "app/styles/component_variables.scss";
 
 .header {
   border: 1px solid #E6E6E6;
@@ -80,10 +81,10 @@ export default {
   }
 
   &__product {
-    background: $color-blue-1;
-    border: 1px solid $color-blue-1;
+    background: var(--color-primary-1);
+    border: 1px solid var(--color-primary-1);
     box-shadow: 4px 0 7px rgba(0, 0, 0, 0.2), 0px -2px 5px rgba(0, 0, 0, 0.1);
-    color: $color-yellow-1;
+    color: #fff;
 
     margin-right: 10px;
     margin-left: 10px;

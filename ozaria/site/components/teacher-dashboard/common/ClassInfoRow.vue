@@ -117,7 +117,7 @@ export default {
     </div>
     <div class="stats-tab">
       <img src="/images/ozaria/teachers/dashboard/png_icons/MultipleUsers.png">
-      <span>{{ numStudents }} Student{{ numStudents === 1 ? '' : 's' }}</span>
+      <span>{{ $t('teacher_dashboard.' + (numStudents === 1 ? 'one' : 'num') + '_student', { num: numStudents }) }}</span>
     </div>
     <div class="stats-tab">
       <img src="/images/ozaria/teachers/dashboard/svg_icons/calendar.svg">

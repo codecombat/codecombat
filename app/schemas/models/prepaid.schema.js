@@ -30,7 +30,17 @@ const PrepaidSchema = c.object({ title: 'Prepaid', required: ['type'] }, {
   properties: c.object({ additionalProperties: true },
     {
       activatedByTeacher: { type: 'boolean', description: 'if this Prepaid used for teacher-activation code.' },
-      testStudentOnly: { type: 'boolean', description: 'if this Prepaid is for test-student only' }
+      testStudentOnly: { type: 'boolean', description: 'if this Prepaid is for test-student only' },
+      creditDetails: {
+        type: 'object',
+        description: 'if the prepaid is for HACKSTACK, add credits details here.',
+        properties: {
+          operation: { type: 'string', enum: ['HACKSTACK_QUERY', 'LEVEL_CHAT_BOT'] },
+          durationAmount: { type: 'number' },
+          durationKey: { type: 'string', enum: ['day', 'week', 'month'] },
+          limit: { type: 'number' },
+        },
+      },
     }),
   exhausted: { type: 'boolean' },
   startDate: c.stringDate(),

@@ -262,8 +262,8 @@ export default {
 }
 .license-grid, .user-grid {
   display: grid;
-  // checkbox, name, endDate, cs1, gd1, cs2, gd2, gd3 cs3, cs4, cs5, cs6, wd2, junior, hackstack
-  grid-template-columns: 5% 20% 15% repeat(12, 5%);
+  // checkbox, name, endDate, cs1, gd1, wd1, cs2, gd2, gd3, cs3, cs4, cs5, cs6, wd2, junior, hackstack
+  grid-template-columns: 3% 19% 13% repeat(13, 5%);
   grid-template-rows: 100%;
 }
 
