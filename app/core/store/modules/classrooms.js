@@ -418,7 +418,8 @@ export default {
           ...options.updates,
           ..._.pick(response, keysToUpdate),
         }
-      });
+      })
+      return response
     },
     addPermission: async ({ commit }, options) => {
       const classroom = options.classroom

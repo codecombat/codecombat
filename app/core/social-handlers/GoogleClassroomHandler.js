@@ -118,7 +118,7 @@ module.exports = {
   importStudentsToClassroom: async function (cocoClassroom) {
     const store = require('core/store')
     try {
-      cocoClassroom = cocoClassroom.attributes || cocoClassroom
+      cocoClassroom = cocoClassroom?.attributes || cocoClassroom
       const googleClassroomId = cocoClassroom.googleClassroomId
 
       let importedStudents = []
@@ -158,7 +158,7 @@ module.exports = {
       //Students to add in classroom = created students + existing students that are not already part of the classroom
       const classroomNewMembers = createdStudents.concat(existingStudents.filter((s) => !cocoClassroom.members.includes(s._id)))
 
-      if (classroomNewMembers.length > 0){
+      if (classroomNewMembers.length > 0) {
         if (utils.isCodeCombat) {
           await api.classrooms.addMembers({ classroomID: cocoClassroom._id, members: classroomNewMembers })
         } else {
@@ -166,8 +166,7 @@ module.exports = {
         }
         noty ( {text: classroomNewMembers.length+' Students imported.', layout: 'topCenter', timeout: 3000, type: 'success' })
         return classroomNewMembers
-      }
-      else if (utils.isCodeCombat) {
+      } else if (utils.isCodeCombat) {
         console.error("No new students imported. Error:", signupStudentsResult)
         return Promise.reject('No new students imported')
       }
@@ -182,7 +181,7 @@ module.exports = {
     }
     catch (err) {
       console.error("Error in importing students", err)
-      return Promise.reject()
+      return Promise.reject(`Error in importing students: ${err.message}`)
     }
   }
 }
