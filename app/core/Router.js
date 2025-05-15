@@ -431,7 +431,8 @@ module.exports = (CocoRouter = (function () {
           if (me.isAdmin()) { return this.routeDirectly('cutscene', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props }) }
         },
 
-        premium: go('core/SingletonAppVueComponentView'),
+        // premium: go('core/SingletonAppVueComponentView'),
+        premium: go('PremiumFeaturesView', { redirectStudents: true, redirectTeachers: true }),
 
         'ozaria/avatar-selector' () {
           if (me.isAdmin()) { return this.routeDirectly('ozaria/site/avatarSelector', [], { vueRoute: true, baseTemplate: 'base-empty' }) }

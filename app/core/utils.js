@@ -458,7 +458,7 @@ const petThangIDs = [
 const premiumContent = {
   premiumHeroesCount: '15',
   totalHeroesCount: '19',
-  premiumLevelsCount: '531',
+  premiumLevelsCount: '1000+',
   freeLevelsCount: '5'
 }
 
