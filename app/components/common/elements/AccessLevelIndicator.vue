@@ -83,7 +83,7 @@ export default {
     handleClick () {
       if (this.level === 'sales-call') {
         window.tracker?.trackEvent('Clicked Sales Call Badge')
-        window.open('/schools?openContactModal=true', '_blank')
+        window.open('/schools?openContactModal=true&source=sales-call-badge', '_blank')
       }
     },
   },

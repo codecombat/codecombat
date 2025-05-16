@@ -122,6 +122,12 @@ export default Vue.extend({
       this.showModal = true
     },
     async onClickSubmit () {
+      const params = new URLSearchParams(window.location.search)
+      const source = params.get('source')
+      let message = this.message
+      if (source) {
+        message = `Source: ${source}\n\n${message}`
+      }
       if (this.isFormValid) {
         const sendObject = {
           country: me.get('country'),
@@ -129,11 +135,11 @@ export default Vue.extend({
           name: this.name,
           email: this.email,
           licensesNeeded: this.licensesNeeded,
-          message: this.message,
+          message,
           school: this.school,
           district: this.district,
           role: this.role,
-          phone: this.phone
+          phone: this.phone,
         }
         this.sendingInProgress = true
         try {

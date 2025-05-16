@@ -44,9 +44,9 @@ export default {
       case 'club-roblox':
         return []
       case 'club-junior':
-        return this.chapterStats.filter(chapter => chapter.name === 'Junior')
+        return this.chapterStats.filter(chapter => chapter.origName === 'Junior')
       case 'club-hackstack':
-        return this.chapterStats.filter(chapter => chapter.name === 'HackStack')
+        return this.chapterStats.filter(chapter => chapter.origName === 'HackStack')
       default:
         return this.chapterStats
       }

@@ -119,6 +119,7 @@ export default {
 
           const result = {
             name,
+            origName: course.name,
             assigned: false,
             progress: 0
           }

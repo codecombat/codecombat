@@ -23,22 +23,22 @@ export default {
     dropdown: Dropdown,
     'primary-button': PrimaryButton,
     'icon-button-with-text': IconButtonWithText,
-    'lock-or-skip': LockOrSkip
+    'lock-or-skip': LockOrSkip,
   },
   props: {
     arrowVisible: {
       type: Boolean,
-      default: false
+      default: false,
     },
     displayOnly: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data () {
     return {
       lockOrSkipShown: false,
-      exportingProgress: false
+      exportingProgress: false,
     }
   },
   computed: {
@@ -52,7 +52,7 @@ export default {
       getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
       getLevelsForClassroom: 'levels/getLevelsForClassroom',
       getSessionsForClassroom: 'levelSessions/getSessionsForClassroom',
-      getLoading: 'teacherDashboard/getLoadingState'
+      getLoading: 'teacherDashboard/getLoadingState',
     }),
 
     showLicenses () {
@@ -65,12 +65,12 @@ export default {
 
     me () {
       return window.me
-    }
+    },
   },
   methods: {
     ...mapActions({
       revokeLicenses: 'baseSingleClass/revokeLicenses',
-      resetProgress: 'baseSingleClass/resetProgress'
+      resetProgress: 'baseSingleClass/resetProgress',
     }),
 
     clickArrow () {
@@ -107,14 +107,14 @@ export default {
       const progressData = helper.calculateAllProgress(classroomsStub, courses, courseInstances, students)
 
       studentProgressCalculator.exportStudentProgress({
-        classroom, sortedCourses, students, courses, courseInstances, levels, progressData
+        classroom, sortedCourses, students, courses, courseInstances, levels, progressData,
       })
       this.exportingProgress = false
     },
     onRefresh () {
       this.$emit('refresh')
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -125,8 +125,12 @@ export default {
         :label-text="$t('teacher.sort_by')"
         class="dropdowns"
         :options="['Last Name', 'First Name', 'Progress (High to Low)', 'Progress (Low to High)']"
+        :display-options="[$t('teacher_dashboard.sort_by_last_name'),
+                           $t('teacher_dashboard.sort_by_first_name'),
+                           $t('teacher_dashboard.sort_by_progress_desc'),
+                           $t('teacher_dashboard.sort_by_progress_asc'),
+        ]"
         :value="sortBy"
-
         @change="changeSortBy"
       />
       <icon-button-with-text
@@ -199,6 +203,7 @@ export default {
         </v-popover>
 
         <icon-button-with-text
+          v-if="!me.showChinaResourceInfo()"
           class="icon-with-text larger-icon"
           :icon-name="'IconReset'"
           :text="$t('teacher_dashboard.reset_progress')"

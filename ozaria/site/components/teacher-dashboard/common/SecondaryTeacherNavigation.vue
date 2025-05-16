@@ -40,9 +40,9 @@ export default {
     let guideOptions
     if (utils.isCodeCombat) {
       guideOptions = [
-        { id: 'junior', name: 'CodeCombat Junior', path: '/teachers/guide/junior' },
-        { id: 'codecombat', name: 'CodeCombat Classroom', path: '/teachers/guide/codecombat' },
-        { id: 'hackstack', name: 'AI HackStack', path: '/teachers/guide/hackstack' },
+        { id: 'junior', name: $.i18n.t('nav.coco_junior'), path: '/teachers/guide/junior' },
+        { id: 'codecombat', name: $.i18n.t('nav.codecombat_classroom'), path: '/teachers/guide/codecombat' },
+        { id: 'hackstack', name: $.i18n.t('nav.ai_hackstack'), path: '/teachers/guide/hackstack' },
       ]
     } else {
       guideOptions = [
@@ -108,11 +108,11 @@ export default {
     },
 
     showHackStack () {
-      return utils.isCodeCombat
+      return utils.isCodeCombat && !me.showChinaResourceInfo()
     },
 
     showPD () {
-      return !me.isCodeNinja()
+      return !me.isCodeNinja() && !me.showChinaResourceInfo()
     },
 
     showLicenses () {
@@ -458,6 +458,7 @@ export default {
       </component>
     </li>
     <li
+      v-if="showHackStack"
       role="presentation"
       class="dropdown"
       @click="hackstackClicked"
