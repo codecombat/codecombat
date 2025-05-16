@@ -6211,6 +6211,7 @@ module.exports = {
       copied: 'copied!',
       copied_error: 'error copying!',
       NewScenarioPage_name: 'Display Name',
+      learning_modules: 'Learning Modules',
     },
     new_premium: {
       mastering_code: 'Master coding and AI with **premium home access**',
