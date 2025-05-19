@@ -28,6 +28,23 @@ const initializeFilePicker = function () {
   if (!globalVar.application.isIPadApp) { return require('core/services/filepicker')() }
 }
 
+const uploadFailHandler = function (jqxhr, textStatus, error) {
+  try {
+    const err = JSON.parse(jqxhr.responseText)
+    if (err.message) {
+      window.noty({
+        type: 'error',
+        text: err.message,
+      })
+    }
+  } catch (e) {
+    window.noty({
+      type: 'error',
+      text: textStatus + ' - ' + error,
+    })
+  }
+}
+
 class DateTimeTreema extends TreemaNode.nodeMap.string {
   static initClass () {
     this.prototype.valueClass = 'treema-date-time'
@@ -104,8 +121,8 @@ module.exports.LiveEditingMarkup = (LiveEditingMarkup = (function () {
         $('<div class="pick-image-button"></div>').append(
           $('<button>Pick Image</button>')
             .addClass('btn btn-sm btn-primary')
-            .click(() => filepicker.pick(this.onFileChosen))
-        )
+            .click(() => filepicker.pick(this.onFileChosen)),
+        ),
       )
     }
 
@@ -113,7 +130,7 @@ module.exports.LiveEditingMarkup = (LiveEditingMarkup = (function () {
       return valEl.append($('<div class="toggle-preview-button"></div>').append(
         $('<button>Toggle Preview</button>')
           .addClass('btn btn-sm btn-primary')
-          .click(this.togglePreview)
+          .click(this.togglePreview),
       ))
     }
 
@@ -128,11 +145,11 @@ module.exports.LiveEditingMarkup = (LiveEditingMarkup = (function () {
         filename: InkBlob.filename,
         mimetype: InkBlob.mimetype,
         path: this.settings.filePath,
-        force: true
+        force: true,
       }
 
       this.uploadingPath = [this.settings.filePath, InkBlob.filename].join('/')
-      return $.ajax('/file', { type: 'POST', data: body, success: this.onFileUploaded })
+      return $.ajax('/file', { type: 'POST', data: body, success: this.onFileUploaded, error: uploadFailHandler })
     }
 
     onFileUploaded (e) {
@@ -249,7 +266,7 @@ class SoundFileTreema extends TreemaNode.nodeMap.string {
       var needle
       if ((needle = file.get('contentType'), !Array.from(mimetypes).includes(needle)) && !file.get('filename').endsWith(fileExtName)) { continue }
       ({
-        path
+        path,
       } = file.get('metadata'))
       const filename = file.get('filename')
       const fullPath = [path, filename].join('/')
@@ -316,11 +333,11 @@ class SoundFileTreema extends TreemaNode.nodeMap.string {
       filename: InkBlob.filename,
       mimetype: InkBlob.mimetype,
       path: this.settings.filePath,
-      force: true
+      force: true,
     }
 
     this.uploadingPath = [this.settings.filePath, InkBlob.filename].join('/')
-    return $.ajax('/file', { type: 'POST', data: body, success: this.onFileUploaded })
+    return $.ajax('/file', { type: 'POST', data: body, success: this.onFileUploaded, error: uploadFailHandler })
   }
 
   onFileUploaded (e) {
@@ -374,11 +391,11 @@ class GeneralFileTreema extends TreemaNode.nodeMap.string {
       filename: InkBlob.filename,
       mimetype: InkBlob.mimetype,
       path: this.settings.filePath,
-      force: true
+      force: true,
     }
 
     this.uploadingPath = [this.settings.filePath, InkBlob.filename].join('/')
-    return $.ajax('/file', { type: 'POST', data: body, success: this.onFileUploaded })
+    return $.ajax('/file', { type: 'POST', data: body, success: this.onFileUploaded, error: uploadFailHandler })
   }
 
   onFileUploaded (e) {
@@ -541,7 +558,7 @@ class InternationalizationNode extends TreemaNode.nodeMap.object {
     const i18nChildSchema = {
       title: this.findLanguageName(key),
       type: 'object',
-      properties: {}
+      properties: {},
     }
     if (!this.parent) { return i18nChildSchema }
     if (this.workingSchema.props == null) {
@@ -728,7 +745,7 @@ module.exports.LatestVersionReferenceNode = (LatestVersionReferenceNode = (funct
       const fullValue = selected.data('value')
       this.data = {
         original: fullValue.attributes.original,
-        majorVersion: fullValue.attributes.version.major
+        majorVersion: fullValue.attributes.version.major,
       }
       return this.instance = fullValue
     }
