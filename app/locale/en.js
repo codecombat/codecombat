@@ -5132,6 +5132,21 @@ module.exports = {
       global: 'Global',
       custom: 'Custom',
     },
+    league_v2: {
+      headline: '**Competitive coding** has never been so **epic!**',
+      subhead: 'In this league, your code powers your strategies and tactics in head-to-head competition.',
+      join_cta: 'Join Global Tournament',
+      free_to_play: 'Free to play now',
+      create_cta: 'Create Custom Tournament',
+      for_educators: 'For educators with paid licenses',
+      ai_league_desc: 'The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python or JavaScript code.',
+      get_start: 'Free to Get Started',
+      get_start_list_1: 'Access competitive multiplayer arenas and global coding championships',
+      get_start_list_2: 'Earn codepoints for completing practice levels and competing in head-to-head matches',
+      get_start_list_3: 'Join competitive coding teams with friends, family, or classmates',
+      get_start_list_4: 'Showcase your coding skills and take home great prizes',
+
+    },
 
     tournament: {
       mini_tournaments: 'Mini Tournaments',

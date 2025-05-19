@@ -103,6 +103,11 @@ export default function getVueRouter () {
           ],
         },
         {
+          path: '/league_v2',
+          component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league-v2/index'),
+          meta: { theme: 'teal' },
+        },
+        {
           path: '/admin/trial-classes',
           component: () => import(/* webpackChunkName: "TrialClassView" */ 'app/views/online-class/TrialClassesView'),
           props: (_route) => ({ isAdminView: true }),
@@ -114,7 +119,7 @@ export default function getVueRouter () {
         {
           path: '/trial-classes/:eventId/confirm/:token',
           name: 'TrialClassConfirm',
-          component: () => import(/* webpackChunName: 'TrialClassConfirm' */ 'app/views/online-class/TrialClassConfirm'),
+          component: () => import(/* webpackChunkName: 'TrialClassConfirm' */ 'app/views/online-class/TrialClassConfirm'),
           props: (route) => ({ ...route.params }),
         },
         {
