@@ -108,9 +108,7 @@ mixin price(name, p, nameWithoutCurrency)
         div.support-blurb.text-center
           p
             if !features.chinaHome
-              span 付款时需要帮助? Email 
-              =" "
-              a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
+              span 付款时需要帮助? 联系主页右下角微信客服
  
       if view.state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible

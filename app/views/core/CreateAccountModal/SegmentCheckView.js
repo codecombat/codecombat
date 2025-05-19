@@ -57,6 +57,10 @@ module.exports = (SegmentCheckView = (function () {
     }
 
     onPlayClicked () {
+      if (features.chinaInfra) {
+        window.location.href = 'https://codecombat.cn/play'
+        return
+      }
       return application.router.navigate('/play', { trigger: true })
     }
 
