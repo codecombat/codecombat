@@ -6213,6 +6213,8 @@ module.exports = {
       NewScenarioPage_name: 'Display Name',
       learning_modules: 'Learning Modules',
       level_complete: 'You did it! Level complete. Continue your AI journey with the next level.',
+      run_code_tour_title: 'Ready to see the magic?',
+      run_code_tour_text: 'Press “Run Code” and watch your project come to life. No experience required!',
     },
     new_premium: {
       mastering_code: 'Master coding and AI with **premium home access**',
