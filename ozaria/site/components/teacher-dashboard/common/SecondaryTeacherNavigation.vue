@@ -22,18 +22,18 @@ export default {
     ModalOzariaAILeague,
     IconAI,
     IconAPCSP,
-    IconAssessments
+    IconAssessments,
   },
 
   mixins: [
-    sortClassroomMixin
+    sortClassroomMixin,
   ],
 
   props: {
     classrooms: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
 
   data: () => {
@@ -57,11 +57,11 @@ export default {
 
   computed: {
     ...mapState('teacherDashboard', {
-      currentSelectedClassroom: state => state.classroomId
+      currentSelectedClassroom: state => state.classroomId,
     }),
 
     ...mapGetters({
-      topModal: 'modals/getTopModal'
+      topModal: 'modals/getTopModal',
     }),
 
     isCodeCombat () {
@@ -183,7 +183,7 @@ export default {
         this.$refs.ModalOzariaAILeague.openModal()
       }
     },
-  }
+  },
 }
 </script>
 
@@ -378,7 +378,10 @@ export default {
       </router-link>
     </li>
 
-    <li v-if="showAssessments">
+    <li
+      v-if="showAssessments"
+      class="dropdown"
+    >
       <a
         id="AssessmentsDropdown"
         :class="['dropdown-toggle', isCurrentRoute('/teachers/assessments') ? 'current-route' : '']"
@@ -391,11 +394,11 @@ export default {
         <IconAssessments class="icon-assessments svgicon default" />
         <IconAssessments
           class="icon-assessments svgicon hovered"
-          theme="moon"
+          theme="white"
         />
         <IconAssessments
           class="icon-assessments svgicon selected"
-          theme="blue"
+          theme="purple"
         />
         <span>{{ $t('teacher_dashboard.assessments_tab') }}</span>
         <span class="caret" />
@@ -448,12 +451,12 @@ export default {
           src="/images/pages/league/ai-league-name.svg"
         >
         <img
-          class="league-name league-name__moon"
-          src="/images/pages/league/ai-league-name_moon.svg"
+          class="league-name league-name__white"
+          src="/images/pages/league/ai-league-name_white.svg"
         >
         <img
-          class="league-name league-name__blue"
-          src="/images/pages/league/ai-league-name_blue.svg"
+          class="league-name league-name__purple"
+          src="/images/pages/league/ai-league-name_purple.svg"
         >
       </component>
     </li>
@@ -475,11 +478,11 @@ export default {
         <IconAI class="icon-ai svgicon default" />
         <IconAI
           class="icon-ai svgicon hovered"
-          theme="moon"
+          theme="white"
         />
         <IconAI
           class="icon-ai svgicon selected"
-          theme="blue"
+          theme="purple"
         />
         <span>{{ $t('nav.ai_hackstack') }}</span>
         <span
@@ -512,7 +515,10 @@ export default {
       </ul>
     </li>
 
-    <li v-if="showAIJunior">
+    <li
+      v-if="showAIJunior"
+      class="dropdown"
+    >
       <a
         id="AIJuniorDropdown"
         :class="['dropdown-toggle', isCurrentRoute('/teachers/ai-junior') ? 'current-route' : '']"
@@ -571,11 +577,11 @@ export default {
         <IconAPCSP class="icon-apcsp svgicon default" />
         <IconAPCSP
           class="icon-apcsp svgicon hovered"
-          theme="moon"
+          theme="white"
         />
         <IconAPCSP
           class="icon-apcsp svgicon selected"
-          theme="blue"
+          theme="purple"
         />
         {{ $t('teacher_dashboard.apcsp') }}
       </router-link>
@@ -611,6 +617,7 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "app/styles/component_variables.scss";
 
 #IconCapstone {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone.svg);
@@ -620,6 +627,36 @@ export default {
 #IconMyClasses {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconMyClasses_Gray.svg);
   margin-top: -6px;
+}
+
+#IconCurriculum {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Gray.svg);
+  margin-top: -3px;
+}
+
+#IconKeepPlaying {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconKeepPlaying_Gray.svg);
+  margin-top: -2px;
+}
+
+#IconLicense {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg);
+  margin-top: -3px;
+}
+
+#IconResourceHub {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Gray.svg);
+  margin-top: -3px;
+}
+
+#IconPD {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_Gray.svg);
+  margin-top: -3px;
+}
+
+#IconAssessments {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Gray.svg);
+  margin-top: -3px;
 }
 
 .svgicon {
@@ -675,7 +712,7 @@ li>*.current-route {
 /* Need aria-expanded for when user has mouse in the dropdown */
 #ProjectsDropdown:hover {
   #IconCapstone {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Moon.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_White.svg);
   }
 }
 
@@ -683,13 +720,13 @@ li.open>#ProjectsDropdown,
 #ProjectsDropdown.current-route,
 #ProjectsDropdown[aria-expanded="true"] {
   #IconCapstone {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Blue.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Purple.svg);
   }
 }
 
 #ClassesDropdown:hover {
   #IconMyClasses {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconMyClasses_Moon.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconMyClasses_White.svg);
   }
 }
 
@@ -697,59 +734,133 @@ li.open>#ClassesDropdown,
 #ClassesDropdown.current-route,
 #ClassesDropdown[aria-expanded="true"] {
   #IconMyClasses {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconMyClasses_Blue.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconMyClasses_Purple.svg);
   }
 }
 
 #LicensesAnchor:hover {
   #IconLicense {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Moon.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_White.svg);
   }
 }
 
 li.open>#LicensesAnchor,
 #LicensesAnchor.current-route {
   #IconLicense {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Blue.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Purple.svg);
   }
 }
 
-#CurriculumAnchor:hover {
+#GuideDropdown:hover {
   #IconCurriculum {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Moon.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_White.svg);
   }
 }
 
-li.open>#CurriculumAnchor,
-#CurriculumAnchor.current-route {
+li.open>#GuideDropdown,
+#GuideDropdown.current-route {
   #IconCurriculum {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Blue.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Purple.svg);
   }
 }
 
 #ResourceAnchor:hover {
   #IconResourceHub {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Moon.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_White.svg);
   }
 }
 
 li.open>#ResourceAnchor,
 #ResourceAnchor.current-route {
   #IconResourceHub {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Blue.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Purple.svg);
   }
 }
 
 #PDAnchor:hover {
   #IconPD {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_Moon.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_White.svg);
   }
 }
 
 li.open>#PDAnchor,
 #PDAnchor.current-route {
   #IconPD {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_Blue.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_Purple.svg);
+  }
+}
+
+#AssessmentsDropdown {
+  .icon-assessments {
+    display: none;
+
+    &.default {
+      display: block;
+    }
+  }
+
+  &:hover {
+    .icon-assessments {
+      display: none;
+      &.hovered {
+        display: block;
+      }
+    }
+  }
+}
+
+li.open>#AssessmentsDropdown {
+  .icon-assessments {
+    display: none;
+
+    &.selected {
+      display: block;
+    }
+  }
+  &:hover {
+    .icon-assessments {
+      display: none;
+      &.selected {
+        display: block;
+      }
+    }
+  }
+}
+
+#HackstackClassesDropdown {
+  .icon-ai {
+    display: none;
+
+    &.default {
+      display: block;
+    }
+  }
+
+  &:hover {
+    .icon-ai {
+      display: none;
+      &.hovered {
+        display: block;
+      }
+    }
+  }
+}
+
+li.open>#HackstackClassesDropdown {
+  .icon-ai {
+    display: none;
+
+    &.selected {
+      display: block;
+    }
+  }
+  &:hover {
+    .icon-ai {
+      display: none;
+      &.selected {
+        display: block;
+      }
+    }
   }
 }
 
@@ -767,13 +878,13 @@ li.open>#PDAnchor,
   .league-name {
     display: none;
 
-    &__moon {
+    &__white {
       display: block;
     }
   }
 
   #IconKeepPlaying {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconKeepPlaying_Moon.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconKeepPlaying_White.svg);
   }
 }
 
@@ -782,44 +893,14 @@ li.open>#AILeague,
   .league-name {
     display: none;
 
-    &__blue {
+    &__purple {
       display: block;
     }
   }
 
   #IconKeepPlaying {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconKeepPlaying_Blue.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconKeepPlaying_Purple.svg);
   }
-}
-
-#IconKeepPlaying {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconKeepPlaying_Gray.svg);
-  margin-top: -2px;
-}
-
-#IconCurriculum {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Gray.svg);
-  margin-top: -3px;
-}
-
-#IconLicense {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg);
-  margin-top: -3px;
-}
-
-#IconResourceHub {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Gray.svg);
-  margin-top: -3px;
-}
-
-#IconPD {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconPD_Gray.svg);
-  margin-top: -3px;
-}
-
-#IconAssessments {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_Gray.svg);
-  margin-top: -3px;
 }
 
 #IconAIJunior {
@@ -827,11 +908,16 @@ li.open>#AILeague,
   margin-top: -1px;
 }
 
-#AIJuniorDropdown:hover,
+#AIJuniorDropdown:hover {
+  #IconAIJunior {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_White.svg);
+  }
+}
+li.open>#AIJuniorDropdown,
 #AIJuniorDropdown.current-route,
 #AIJuniorDropdown[aria-expanded="true"] {
   #IconAIJunior {
-    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Blue.svg);
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Purple.svg);
   }
 }
 
@@ -877,16 +963,17 @@ li.open>#AILeague,
 
     &:hover {
       >a {
-        background-color: #355EA0;
-        color: #f7d047;
+        background-color: $purple;
+        /* color: #f7d047; */
+        color: $light-background;
       }
     }
 
     &.dropdown.open>a,
     a.current-route {
       border: none;
-      background: #E2EBFA;
-      color: #476FB1;
+      background: $light-purple;
+      color: $purple;
     }
 
     a {
@@ -934,7 +1021,7 @@ li.open>#AILeague,
       box-shadow: none;
 
       li:hover {
-        background-color: #C5D4ED;
+        background-color: $middle-purple;
       }
 
       li {
@@ -961,8 +1048,8 @@ li.open>#AILeague,
     }
 
     li.selected a {
-      color: #476FB1;
-      background: #E2EBFA;
+      color: $purple;
+      background-color: $light-purple;
     }
 
     li .underline-item {
