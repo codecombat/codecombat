@@ -6212,6 +6212,7 @@ module.exports = {
       copied_error: 'error copying!',
       NewScenarioPage_name: 'Display Name',
       learning_modules: 'Learning Modules',
+      level_complete: 'You did it! Level complete. Continue your AI journey with the next level.',
     },
     new_premium: {
       mastering_code: 'Master coding and AI with **premium home access**',
