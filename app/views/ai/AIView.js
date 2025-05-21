@@ -57,11 +57,13 @@ module.exports = (AIView = (function () {
         this.openModalView(new DirectContactModal())
       } else if (me.isAnonymous()) {
         this.openModalView(new CreateAccountModal({ mode: 'signup' }))
+        window.tracker?.trackEvent('AI HS prompting signup', { path: window.location.pathname })
       } else if (me.isHomeUser()) {
         if (me.hasSubscription()) {
           message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
         } else {
           this.openModalView(new SubscribeModal())
+          window.tracker?.trackEvent('AI HS prompting subscribe', { path: window.location.pathname })
         }
       } else if (me.isStudent()) {
         if (me.isEnrolled()) {

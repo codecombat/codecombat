@@ -2725,7 +2725,7 @@ module.exports = {
       CS5_short: '计算机科学 5',
       CS6_short: '计算机科学 6',
       JR_short: '少年版',
-      // AI_short: 'AI',
+      //    AI_short: "AI",
       student_overview: '概述',
       student_details: '学生详情',
       student_name: '学生姓名',
@@ -2751,6 +2751,8 @@ module.exports = {
       full_license: '全课许可',
       starter_license: '入门许可',
       customized_license: '定制许可',
+      //    hackstack_license: "AI HackStack License",
+      //    hackstack_credits: "Credits: __limit__ prompts / __durationAmount__ __durationKey__(s)",
       trial: '试用',
       hoc_welcome: '计算机教育周快乐',
       hoc_title: '编码一小时游戏 —— 免费活动，学习真正的编码语言。',
@@ -4544,6 +4546,7 @@ module.exports = {
 
     admin: {
       license_type_full: '全课许可',
+      //    license_type_hackstack: "Hackstack",
       license_type_customize: '可选课程',
     },
 
@@ -4977,12 +4980,13 @@ module.exports = {
       season_11: '[AI_TRANSLATION]夏季大狂欢',
       season_12: '[AI_TRANSLATION]能量火花',
       //    season_13: "Checkmate Challenge",
-      //    season_14: "Soccer Showdown",
-      //    season_15: "Racing Rivals",
+      //    season_14: "Racing Rivals",
+      //    season_15: "Soccer Showdown",
       cup: '[AI_TRANSLATION]杯子',
       blitz: '[AI_TRANSLATION]闪电战',
       clash: '[AI_TRANSLATION]冲突',
       //    season13_announcement_1: "In the depths of ancient ruins, a magical checkerboard arises and the towers comes alive. Get as many pieces to the end of the line!",
+      //    season13_announcement_2: "Note: arena balance adjustments may occur up until May 15th. So be sure to come back often to test your code against the global leaderboard.",
       //    season12_announcement_2: "Collectors fly high, control points emerges, mythical crystals stand tall, as the dungeon expands, the battle is getting fiercer, only the righteous shall be the victor.",
       //    season12_announcement_1: "Deep in the dungeons, mythical crystals stand tall, collecting energy and mana from abandoned ruins. Summon units, cast spells, and claim victory!",
       season11_announcement_1: '[AI_TRANSLATION]竞争越来越激烈！阳光普照时，放下并升级你的太阳能板，避开电击陷阱，放下机器人螃蟹，并穿越传送门，尽可能多地获取太阳能并赢得胜利！  ',
@@ -5789,6 +5793,7 @@ module.exports = {
     //  hackstack_page: {
     //    header: "Learn, create, and accelerate with **AI HackStack**",
     //    header_details: "Together, we empower learners to safely bring their ideas to life across any subject.",
+    //    header_details_teacher: "With a license, unlock 100 monthly prompts for yourself and 30 weekly for students to bring your ideas to life across any subject.",
     //    accessible_safe_use: "Accessible, safe, and responsible use of AI",
     //    learn_title: "Learn",
     //    learn_description: "From **English Language Arts** to **Mathematics** and **Science**, students discover how to craft safe and effective prompts for generating output in each discipline. Learn essential prompt engineering skills in a **wide range of subjects** using Al HackStack's Learning Scenarios. Along the way, your students will gain hands-on experience with popular Al models like Claude, DALL-E, and Stable Diffusion.",
@@ -5831,6 +5836,8 @@ module.exports = {
     //    faq_6_answer: "We offer both Clever and Google Classroom integration. Check out our **[https://codecombat.com/teachers/resources/clever-faq]Clever Integration FAQ** for more details on how to get started. If you are using Google Classroom be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time. Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option.",
     //    faq_7_question: "Recommended browser and operating system",
     //    faq_7_answer: "TBA",
+    //    faq_8_question: "How many prompts do I get?",
+    //    faq_8_answer: "With a license, you get 100 monthly prompts for teacher and 30 weekly for students. Individual premium users get 50 prompts per month.",
     //    learn_more: "Learn More",
     //    promo_modal_title: "Explore AI HackStack",
     //    promo_modal_subtitle: "Unlock the Full Potential of Generative AI",
@@ -6205,6 +6212,10 @@ module.exports = {
       copied: '已复制!',
       copied_error: '复制出错!',
       //    NewScenarioPage_name: "Display Name",
+      //    learning_modules: "Learning Modules",
+      //    level_complete: "You did it! Level complete. Continue your AI journey with the next level.",
+      //    run_code_tour_title: "Ready to see the magic?",
+      //    run_code_tour_text: "Press “Run Code” and watch your project come to life. No experience required!",
     },
 
     //  new_premium: {
@@ -6515,8 +6526,8 @@ module.exports = {
 
     //  paywall: {
     //    badge_free: "Free",
-    //    "badge_sales-call": "Call Now!",
-    //    badge_paid: "Premium",
+    //    "badge_sales-call": "Unlock with Call",
+    //    badge_paid: "Paid",
     //    badge_tooltip_free: "Explore our levels at no cost!",
     //    "badge_tooltip_sales-call": "Interested in more? Give us a call and unlock!",
     //    badge_tooltip_paid: "This content is exclusive to users with a valid license.",

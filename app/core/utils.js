@@ -1356,10 +1356,12 @@ const arenas = [
   { season: 12, slug: 'supercharged', type: 'championship', start: new Date('2024-12-01T00:00:00.000-08:00'), end: new Date('2025-01-01T00:00:00.000-08:00'), results: new Date('2025-01-14T07:00:00.000-08:00'), levelOriginal: '66f545e57e91e7168c3e463c', tournament: '6756bac52bfcb2c7059f3cb3', image: '/file/db/level/66f545e57e91e7168c3e463c/superchargedbanner2.jpg' },
   { season: 13, slug: 'pawns-passage', type: 'regular', start: new Date('2025-01-01T00:00:00.000-08:00'), end: new Date('2025-06-01T00:00:00.000-07:00'), results: new Date('2025-06-14T07:00:00.000-07:00'), levelOriginal: '675a76867ea2b689e0f86e87', image: '/file/db/level/675a76867ea2b689e0f86e87/PawnsPassageBanner.jpg', tournament: '6810a48b4fb20ed54d4ddc7d' },
   { season: 13, slug: 'kings-gambit', type: 'championship', start: new Date('2025-05-01T00:00:00.000-07:00'), end: new Date('2025-06-01T00:00:00.000-07:00'), results: new Date('2025-06-10T07:00:00.000-07:00'), levelOriginal: '679b1495454eb6d46f27e050', image: '/file/db/level/679b1495454eb6d46f27e050/KingsGambit.jpg', tournament: '6810a617882c6fe46452003d' },
-  { season: 14, slug: 'strikers-stadium', type: 'regular', start: new Date('2025-06-01T00:00:00.000-07:00'), end: new Date('2025-08-01T00:00:00.000-07:00'), results: new Date('2025-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
-  { season: 14, slug: 'golden-goal', type: 'championship', start: new Date('2025-06-01T00:00:00.000-07:00'), end: new Date('2025-08-01T00:00:00.000-07:00'), results: new Date('2025-09-14T07:00:00.000-07:00'), levelOriginal: '', image: '' },
-  { season: 15, slug: 'turbo-track', type: 'regular', start: new Date('2025-08-01T00:00:00.000-08:00'), end: new Date('2026-01-01T00:00:00.000-08:00'), results: new Date('2026-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
-  { season: 15, slug: 'grand-prix', type: 'championship', start: new Date('2025-08-01T00:00:00.000-08:00'), end: new Date('2026-01-01T00:00:00.000-08:00'), results: new Date('2026-01-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
+  // We have only one arena in this season so just fake
+  { season: 14, slug: 'turbo-track', type: 'regular', start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-06-01T01:00:00.000-08:00'), results: new Date('2025-06-10T07:00:00.000-08:00'), levelOriginal: '', image: '' },
+  
+  { season: 14, slug: 'grand-prix', type: 'championship', start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-08-01T00:00:00.000-08:00'), results: new Date('2025-08-01T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '' },
+  { season: 15, slug: 'strikers-stadium', type: 'regular', start: new Date('2025-08-01T00:00:00.000-07:00'), end: new Date('2025-12-10T00:00:00.000-07:00'), results: new Date('2025-12-20T07:00:00.000-07:00'), levelOriginal: '', image: '' },
+  { season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-12-10T00:00:00.000-07:00'), end: new Date('2025-12-10T01:00:00.000-07:00'), results: new Date('2025-12-10T07:00:00.000-07:00'), levelOriginal: '', image: '' },
 ]
 
 // AI League seasons
@@ -1378,8 +1380,8 @@ const AILeagueSeasons = [
   { number: 11, championshipType: 'blitz', image: '/images/pages/league/sunfire-blitz.png', imagePath: '/images/pages/league/sunfire-results.webp', topMatchUrlPath: '/play/spectate/sunfire?session-one=6688815921af79d80736c0e2&session-two=66c64ee0b522c4f39324d832&tournament=669aa78fcca07ea127d445d6' },
   { number: 12, championshipType: 'clash', image: '/images/pages/league/supercharged-clash.png', imagePath: '/images/pages/league/supercharged-results.webp', topMatchUrlPath: '/play/spectate/supercharged?session-one=670022a88716adfc389b7843&session-two=6774cf6654ce86ae1fa25620&tournament=6756bac52bfcb2c7059f3cb3' },
   { number: 13, championshipType: 'cup', image: '/images/pages/league/kings-gambit-cup.png', video: '', videoThumbnailTime: '' },
-  { number: 14, championshipType: 'blitz', image: '/images/pages/league/golden-goal-blitz.png', video: '', videoThumbnailTime: '' },
-  { number: 15, championshipType: 'clash', image: '/images/pages/league/grand-prix-clash.png', video: '', videoThumbnailTime: '' },
+  { number: 14, championshipType: 'clash', image: '/images/pages/league/grand-prix-clash.png', video: '', videoThumbnailTime: '' },
+  { number: 15, championshipType: 'blitz', image: '/images/pages/league/golden-goal-blitz.png', video: '', videoThumbnailTime: '' },
 ]
 
 const activeArenas = function () {
