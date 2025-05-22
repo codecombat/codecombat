@@ -344,8 +344,7 @@ export default {
         id="HackStackAnchor"
         to="/ai"
         target="_blank"
-        :class="{ 'current-route': isCurrentRoute('/teachers/professional-development') }"
-        data-action="HackStack: Nav Clicked"
+        data-action="Sidebar - HackStack: Nav Clicked"
         @click.native="trackEvent"
       >
         <IconAI class="icon-ai svgicon default" />
@@ -357,7 +356,6 @@ export default {
           class="icon-ai svgicon selected"
           theme="purple"
         />
-        <!-- <div id="IconNew">New!</div> -->
         {{ $t('nav.ai_hackstack') }}
       </router-link>
     </li>
