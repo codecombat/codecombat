@@ -76,10 +76,6 @@ export default {
       return this.$route.path.startsWith('/teachers/classes') || this.$route.path === '/teachers'
     },
 
-    hackstackClassesTabSelected () {
-      return this.$route.path.startsWith('/teachers/hackstack-classes')
-    },
-
     // Check for the "All Classes" dropdown menu button in the classesTab.
     allClassesSelected () {
       return this.$route.path === '/teachers' || this.$route.path === '/teachers/classes'
@@ -98,13 +94,6 @@ export default {
         return false
       }
       return true
-    },
-
-    hackStackClassrooms () {
-      const classrooms = this.classrooms
-        .filter(classroom => classroom.courses.map(course => course._id).includes(utils.courseIDs.HACKSTACK))
-      classrooms.sort(this.classroomSortById)
-      return classrooms
     },
 
     showHackStack () {
@@ -148,11 +137,6 @@ export default {
       return this.$route.path.startsWith(route)
     },
 
-    setHackStackClassroom (classroomId) {
-      this.$store.commit('teacherDashboard/setClassroomId', classroomId)
-      this.$store.commit('teacherDashboard/setSelectedCourseIdCurrentClassroom', { courseId: utils.courseIDs.HACKSTACK })
-    },
-
     onCurriculumClicked (e) {
       this.$refs.modalCurriculumPromotion.close()
       this.trackEvent(e)
@@ -167,15 +151,6 @@ export default {
         } else {
           window.tracker?.trackEvent(eventName, { category: 'Teachers' })
         }
-      }
-    },
-    hackstackClicked () {
-      if (utils.isOzaria) {
-        this.$refs.modalOzariaHackStack.openModal()
-        return
-      }
-      if (this.hackStackClassrooms.length === 0) {
-        noty({ text: $.i18n.t('teacher_dashboard.create_class_hackstack'), type: 'warning', layout: 'center', timeout: 5000 })
       }
     },
     AILeagueClicked () {
@@ -364,6 +339,27 @@ export default {
       </router-link>
     </li>
 
+    <li v-if="showHackStack">
+      <router-link
+        id="HackStackAnchor"
+        to="/ai"
+        target="_blank"
+        data-action="Sidebar - HackStack: Nav Clicked"
+        @click.native="trackEvent"
+      >
+        <IconAI class="icon-ai svgicon default" />
+        <IconAI
+          class="icon-ai svgicon hovered"
+          theme="white"
+        />
+        <IconAI
+          class="icon-ai svgicon selected"
+          theme="purple"
+        />
+        {{ $t('nav.ai_hackstack') }}
+      </router-link>
+    </li>
+
     <li v-if="showPD">
       <router-link
         id="PDAnchor"
@@ -461,61 +457,6 @@ export default {
       </component>
     </li>
     <li
-      v-if="showHackStack"
-      role="presentation"
-      class="dropdown"
-      @click="hackstackClicked"
-    >
-      <a
-        id="HackstackClassesDropdown"
-        :class="['dropdown-toggle', hackstackClassesTabSelected ? 'current-route' : '']"
-        href="#"
-        role="button"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        <IconAI class="icon-ai svgicon default" />
-        <IconAI
-          class="icon-ai svgicon hovered"
-          theme="white"
-        />
-        <IconAI
-          class="icon-ai svgicon selected"
-          theme="purple"
-        />
-        <span>{{ $t('nav.ai_hackstack') }}</span>
-        <span
-          v-if="showHackStack && hackStackClassrooms?.length > 0"
-          class="caret"
-        />
-      </a>
-      <ul
-        v-if="showHackStack"
-        class="dropdown-menu"
-        aria-labelledby="HackstackClassesDropdown"
-      >
-        <li
-          v-for="classroom in hackStackClassrooms"
-          :key="classroom._id"
-          :class="hackstackClassesTabSelected && classroomSelected === classroom._id ? 'selected' : null"
-        >
-          <router-link
-            tag="a"
-            :to="`/teachers/hackstack-classes/${classroom._id}`"
-            class="dropdown-item"
-            data-action="Track Progress: Nav Clicked"
-            data-toggle="dropdown"
-            :data-label="$route.path"
-            @click.native="trackEvent($event); setHackStackClassroom(classroom._id)"
-          >
-            {{ classroom.name }}
-          </router-link>
-        </li>
-      </ul>
-    </li>
-
-    <li
       v-if="showAIJunior"
       class="dropdown"
     >
@@ -596,11 +537,6 @@ export default {
       />
     </li>
     <ModalCurriculumPromotion ref="modalCurriculumPromotion" />
-    <ModalHackStackBeta
-      v-if="showHackStack"
-      :href="hackStackClassrooms.length > 0 ? `/teachers/hackstack-classes/${hackStackClassrooms[0]._id}` : '#'"
-      @tryClicked="hackstackClicked"
-    />
     <ModalOzariaHackStack
       v-if="isOzaria"
       ref="modalOzariaHackStack"
@@ -819,43 +755,6 @@ li.open>#AssessmentsDropdown {
   }
   &:hover {
     .icon-assessments {
-      display: none;
-      &.selected {
-        display: block;
-      }
-    }
-  }
-}
-
-#HackstackClassesDropdown {
-  .icon-ai {
-    display: none;
-
-    &.default {
-      display: block;
-    }
-  }
-
-  &:hover {
-    .icon-ai {
-      display: none;
-      &.hovered {
-        display: block;
-      }
-    }
-  }
-}
-
-li.open>#HackstackClassesDropdown {
-  .icon-ai {
-    display: none;
-
-    &.selected {
-      display: block;
-    }
-  }
-  &:hover {
-    .icon-ai {
       display: none;
       &.selected {
         display: block;
