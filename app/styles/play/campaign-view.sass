@@ -6,6 +6,9 @@ $mapHeight: 1536
 $mapWidth: 2350
 $campaignPortalWidth: 317px
 $campaignPortalHeight: 634px
+$catalystPortalWidth: 317px
+$catalystMarginTopBase: -60px
+$sideCampaignPortalHeight: math.div($campaignPortalHeight, 2)
 $sideCampaignImagesWidth: 1902px
 $campaignHoverScale: 1.2
 $betaImagesWidth: 951px
@@ -1369,7 +1372,7 @@ $gameControlMargin: 30px
           width: 100%
           height: $campaignPortalHeight
           margin-bottom: 0
-          margin-top: -40px
+          margin-top: $catalystMarginTopBase
 
           // first row has a different margin-top
           &:first-child
@@ -1377,10 +1380,10 @@ $gameControlMargin: 30px
             margin-bottom: -40px
           //the third row has a different margin-top
           &:nth-child(3)
-            margin-top: -70px
+            margin-top: $catalystMarginTopBase - 30px
           // the last row has a different margin-top
           &:last-child
-            margin-top: -20px
+            margin-top: $catalystMarginTopBase + 40px
           
           .main-campaign
             width: $campaignPortalWidth
@@ -1449,10 +1452,9 @@ $gameControlMargin: 30px
           .side-campaign-container
             position: absolute
             width: $campaignPortalWidth
-            height: math.div($campaignPortalHeight, 2)
+            height: $sideCampaignPortalHeight
             z-index: 0
-            top: $campaignPortalHeight
-            transform: translateY(-50%)  // Adjust for half the height of the side campaign
+            top: $campaignPortalHeight - $sideCampaignPortalHeight
             
             // Left side campaign container (first in the row)
             &.left-campaign
@@ -1467,7 +1469,7 @@ $gameControlMargin: 30px
             
             .side-campaign
               width: $campaignPortalWidth
-              height: math.div($campaignPortalHeight, 2)
+              height: $sideCampaignPortalHeight
               position: relative
               cursor: pointer
               @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
