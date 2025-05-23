@@ -97,7 +97,7 @@ export default {
     },
 
     showHackStack () {
-      return utils.isCodeCombat && !me.showChinaResourceInfo()
+      return !me.showChinaResourceInfo()
     },
 
     showPD () {
@@ -157,6 +157,15 @@ export default {
       if (utils.isOzaria) {
         this.$refs.ModalOzariaAILeague.openModal()
       }
+    },
+
+    AIHSClicked (e) {
+      this.trackEvent(e)
+      let route = '/ai'
+      if (utils.isOzaria) {
+        route = utils.cocoBaseURL() + '/hackstack'
+      }
+      return window.open(route, '_blank')
     },
   },
 }
@@ -340,12 +349,11 @@ export default {
     </li>
 
     <li v-if="showHackStack">
-      <router-link
+      <a
         id="HackStackAnchor"
-        to="/ai"
-        target="_blank"
+        href="#"
         data-action="Sidebar - HackStack: Nav Clicked"
-        @click.native="trackEvent"
+        @click="AIHSClicked"
       >
         <IconAI class="icon-ai svgicon default" />
         <IconAI
@@ -357,7 +365,7 @@ export default {
           theme="purple"
         />
         {{ $t('nav.ai_hackstack') }}
-      </router-link>
+      </a>
     </li>
 
     <li v-if="showPD">
