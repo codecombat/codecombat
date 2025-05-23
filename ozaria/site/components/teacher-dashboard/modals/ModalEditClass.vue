@@ -426,7 +426,15 @@ export default Vue.extend({
       let savedClassroom
       if (this.classroomInstance.isNew()) {
         try {
-          savedClassroom = await this.createClassroom({ ...this.classroom.attributes, ...updates })
+          const classReqData = { ...this.classroom.attributes, ...updates }
+          savedClassroom = await this.createClassroom(classReqData)
+          const copyEsportsCampToOzaria = async () => {
+            if (this.asClub && this.newClubType === 'camp-esports') {
+              await ClassroomsApi.post(classReqData, { callOz: true })
+              noty({ text: 'Esports camp copied to ozaria', layout: 'topCenter', type: 'success', timeout: 5000 })
+            }
+          }
+          await copyEsportsCampToOzaria()
         } catch (err) {
           console.error('failed to create classroom', err)
           this.errMsg = err?.message || 'Failed to create classroom'
