@@ -7,17 +7,17 @@ import BaseModal from 'ozaria/site/components/common/BaseModal'
 // From elsewhere: use backboneDismissModal prop to have data-dismiss='modal' close the modal for you
 export default Vue.extend({
   components: {
-    BaseModal
+    BaseModal,
   },
   props: {
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     backboneDismissModal: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     backboneClose () {
@@ -29,8 +29,8 @@ export default Vue.extend({
       // In order to conditionally use @click, we can use the @[event] syntax.
       // Writing @[null] (not undefined or false) safely does nothing.
       return !this.backboneDismissModal ? 'click' : null
-    }
-  }
+    },
+  },
 })
 </script>
 
@@ -40,13 +40,13 @@ export default Vue.extend({
       <div class="teacher-modal-header">
         <span class="title"> {{ title }} </span>
         <!-- NOTE: The ID #ozaria-modal-header-close-button may be used elsewhere to trigger closing from Backbone -->
-        <img
-          id="ozaria-modal-header-close-button"
-          class="close-icon"
-          src="/images/ozaria/common/IconClose.svg"
+        <span
+          class="close-icon fake-icon"
           :data-dismiss="backboneClose"
           @[vueClose]="$emit('close')"
         >
+          x
+        </span>
       </div>
     </template>
 
@@ -58,15 +58,15 @@ export default Vue.extend({
 
 <style lang="scss">
 .modal-container {
-  border-radius: 10px;
+  border-radius: 25px;
 }
 .ozaria-modal-header {
-  background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.13);
+  padding: 0;
+  border: unset;
   box-sizing: border-box;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.06);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  box-shadow: unset;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
 }
 </style>
 
@@ -74,6 +74,7 @@ export default Vue.extend({
 @import "app/styles/bootstrap/variables";
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "app/styles/component_variables.scss";
 
 .title {
   @include font-h-2-subtitle-black-24;
@@ -83,7 +84,8 @@ export default Vue.extend({
 .teacher-modal-header {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  position: relative;
+  justify-content: center;
   align-items: center;
   width: 100%;
   margin: 0px 10px;
@@ -91,5 +93,20 @@ export default Vue.extend({
 
 .close-icon {
   cursor: pointer;
+}
+
+.fake-icon {
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  background: $purple;
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  line-height: 35px;
+  font-size: 50px;
+  color: white;
+  font-weight: 400;
+  border-radius: 10px;
 }
 </style>

@@ -41,7 +41,7 @@ export default {
       width: 60%
 
       padding: 25px
-      border-radius: 10px
+      border-radius: 25px
 
       // transition: all .3s ease;
 
@@ -72,7 +72,7 @@ export default {
       font-size: 20px
       font-family: $body-font-style
       flex: 1 1 auto
-      overflow-y: scroll
+      overflow-y: auto
       align-items: baseline
 
     .ozaria-modal-footer
