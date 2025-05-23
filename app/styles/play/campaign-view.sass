@@ -21,6 +21,10 @@ $levelDotShadowHeight: 0.8 * $levelDotHeight
 $levelClickRadius: 20px
 $gameControlSize: 80px
 $gameControlMargin: 30px
+$glowingPortalColor: #E57F15
+$glowingPortalSizeBase: 5px
+$hackstackGlowColor: #2E231F
+$hackstackGlowSizeBase: 5px
 
 +keyframes(levelStartedPulse)
   from
@@ -32,6 +36,30 @@ $gameControlMargin: 30px
   to
     @include box-shadow(0px 0px 4px #333)
     margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotZ
+
++keyframes(portalGlow)
+  from
+    filter: drop-shadow(0 0 $glowingPortalSizeBase #fff) drop-shadow(0 0 (3 * $glowingPortalSizeBase) $glowingPortalColor) drop-shadow(0 0 (6 * $glowingPortalSizeBase) $glowingPortalColor)
+  50%
+    filter: drop-shadow(0 0 (2 * $glowingPortalSizeBase) #fff) drop-shadow(0 0 (4 * $glowingPortalSizeBase) $glowingPortalColor) drop-shadow(0 0 (8 * $glowingPortalSizeBase) $glowingPortalColor)
+  to
+    filter: drop-shadow(0 0 $glowingPortalSizeBase #fff) drop-shadow(0 0 (3 * $glowingPortalSizeBase) $glowingPortalColor) drop-shadow(0 0 (6 * $glowingPortalSizeBase) $glowingPortalColor)
+
+// Reusable portal glow class
+.portal-glow
+  @include animation(portalGlow 2s infinite)
+  transform-style: preserve-3d
+  will-change: filter
+  
+  &:hover
+    @include animation(portalGlow 1s infinite)
+
+@keyframes hackstackIconGlow
+  0%, 100%
+    filter: drop-shadow(0 0 $hackstackGlowSizeBase #222) drop-shadow(0 0 (2 * $hackstackGlowSizeBase) $hackstackGlowColor) drop-shadow(0 0 (4 * $hackstackGlowSizeBase) $hackstackGlowColor)
+  50%
+    filter: drop-shadow(0 0 (1.5 * $hackstackGlowSizeBase) #222) drop-shadow(0 0 (3 * $hackstackGlowSizeBase) $hackstackGlowColor) drop-shadow(0 0 (6 * $hackstackGlowSizeBase) $hackstackGlowColor)
+
 
 #campaign-view
   top: 0
@@ -120,6 +148,10 @@ $gameControlMargin: 30px
         transform: translate(-50%, 100%) scale(1.8) scaleY(1.3)
         left: 50%
         top: -80%
+        animation: hackstackIconGlow 2s infinite
+        filter: drop-shadow(0 0 #{$hackstackGlowSizeBase} #222) drop-shadow(0 0 #{2 * $hackstackGlowSizeBase} #{$hackstackGlowColor}) drop-shadow(0 0 #{4 * $hackstackGlowSizeBase} #{$hackstackGlowColor})
+        &:hover
+          filter: drop-shadow(0 0 #{1.5 * $hackstackGlowSizeBase} #222) drop-shadow(0 0 #{3 * $hackstackGlowSizeBase} #{$hackstackGlowColor}) drop-shadow(0 0 #{6 * $hackstackGlowSizeBase} #{$hackstackGlowColor})
         
     .map-background
       width: 100%
@@ -1736,27 +1768,3 @@ body[lang^="en"] #campaign-view .user-status-catalyst .user-status-line .languag
 
     &.language-dropdown
       width: 112px
-
-// glowing color constants
-$glowingColor: #E57F15
-$glowingSizeBase: 5px
-+keyframes(portalGlow)
-  from
-    filter: drop-shadow(0 0 $glowingSizeBase #fff) drop-shadow(0 0 (3 * $glowingSizeBase) $glowingColor) drop-shadow(0 0 (6 * $glowingSizeBase) $glowingColor)
-  50%
-    filter: drop-shadow(0 0 (2 * $glowingSizeBase) #fff) drop-shadow(0 0 (4 * $glowingSizeBase) $glowingColor) drop-shadow(0 0 (8 * $glowingSizeBase) $glowingColor)
-  to
-    filter: drop-shadow(0 0 $glowingSizeBase #fff) drop-shadow(0 0 (3 * $glowingSizeBase) $glowingColor) drop-shadow(0 0 (6 * $glowingSizeBase) $glowingColor)
-
-// Reusable portal glow class
-.portal-glow
-  @include animation(portalGlow 2s infinite)
-  transform-style: preserve-3d
-  will-change: filter
-  
-  &:hover
-    @include animation(portalGlow 1s infinite)
-
-
-
-
