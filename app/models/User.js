@@ -1336,8 +1336,9 @@ module.exports = (User = (function () {
         if (probability == null) {
           // it means we're not running the experiment
           value = 'control'
-          valueProbability = 1
-        } else if (Math.random() < probability) {
+          return value
+        }
+        if (Math.random() < probability) {
           value = 'beta'
           valueProbability = probability
         } else {
