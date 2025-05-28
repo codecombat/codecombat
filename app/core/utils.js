@@ -1411,8 +1411,7 @@ const activeAndPastArenas = () => (() => {
 const teamSpells = { humans: ['hero-placeholder/plan'], ogres: ['hero-placeholder-1/plan'] }
 
 const clanHeroes = [
-  { clanId: '601351bb4b79b4013e198fbe', clanSlug: 'team-derbezt', thangTypeOriginal: '6037ed81ad0ac000f5e9f0b5', thangTypeSlug: 'armando-hoyos' },
-  { clanId: '6137aab4e0bae40025bed266', clanSlug: 'team-ned', thangTypeOriginal: '6136fe7e9f1147002c1316b4', thangTypeSlug: 'ned-fulmer' }
+  { clanId: '601351bb4b79b4013e198fbe', clanSlug: 'team-derbezt', thangTypeOriginal: '6037ed81ad0ac000f5e9f0b5', thangTypeSlug: 'armando-hoyos' }
 ]
 
 const freeAccessLevels = [
