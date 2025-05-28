@@ -1155,7 +1155,7 @@ module.exports = (User = (function () {
     }
 
     getHackStackV2ExperimentValue () {
-      const experimentName = 'hs-exp'
+      const experimentName = 'hs-v2-exp'
       let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable(experimentName)]
       if (value == null) { value = me.getExperimentValue(experimentName, null, 'beta') }
       if ((value == null) && utils.isOzaria) {
@@ -1169,14 +1169,14 @@ module.exports = (User = (function () {
       if ((value == null) && me.isInternal()) {
         value = 'beta'
       }
-      if ((value == null) && (new Date(me.get('dateCreated')) < new Date('2025-05-17'))) {
+      if ((value == null) && (new Date(me.get('dateCreated')) < new Date('2025-05-27'))) {
         // Don't include users created before experiment start date
         value = 'control'
       }
       if ((!value)) {
         let valueProbability
         const expProb = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta
-        const probability = expProb != null ? expProb : 0.2
+        const probability = expProb != null ? expProb : 0.5
         if (Math.random() < probability) {
           value = 'beta'
           valueProbability = probability
