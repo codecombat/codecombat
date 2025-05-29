@@ -5624,7 +5624,7 @@ module.exports = {
       try_it_now: 'Try it now',
       junior_modal_header: 'Try Our New K-5 Curriculum Today!',
       junior_modal_body: 'Perfect for K-5 classrooms, this new curriculum features real coding with icons, drag-and-drop blocks, parallel blocks with text, or purely text-based options. Plus, it’s fully accessible on tablets making it easy to support all learners.',
-      hs_modal_header: 'Unlock Free AI Access This Summber',
+      hs_modal_header: 'Unlock Free AI Access This Summer',
       hs_modal_body: 'Discover how educators innovate with our AI -- watch the quick demo! This summer, explore Claude, DALL-E, Stable Diffusion, and more. Book a brief meeting by August 15 to claim your free 90-day AI educator license -- We\'ll handle the setup so you can dive right in.',
       get_started: 'Get Started!',
     },

@@ -16,8 +16,7 @@ export default Vue.extend({
     showPromotion () {
       const now = new Date()
       const middleOfAug2025 = new Date(2025, 7, 16) // Months are 0-indexed in JavaScript
-
-      return me.isTeacher() && now < middleOfAug2025
+      return me.isTeacher() && (now < middleOfAug2025) && !me.isCreatedByClient()
     },
   },
   methods: {
@@ -34,7 +33,7 @@ export default Vue.extend({
   <ModalDynamicContent
     v-if="showPromotion"
     ref="modal"
-    seen-promotions-prperty="summber-2025-hackstack-promotion"
+    seen-promotions-property="summer-2025-hackstack-promotion"
   >
     <template #content>
       <div class="hs-modal-content-container">
@@ -48,8 +47,8 @@ export default Vue.extend({
           <video-box
             video-id="827b895ec6a340f0a701c456649e274a"
             :auto-play="false"
-            thumbnail-url-time="2"
-            controls="true"
+            :thumbnail-url-time="2"
+            :controls="true"
           />
         </div>
         <p class="text-p">
@@ -77,13 +76,14 @@ export default Vue.extend({
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 10px 60px;
+  margin: 10px 30px;
   text-align: center;
   position: relative;
 
   .text-h2#hs-modal-title {
     font-family: $main-font-family;
     font-weight: bold;
+    margin: 10px auto;
   }
 
   >* {
@@ -91,8 +91,7 @@ export default Vue.extend({
   }
 
   .img {
-    margin-top: -15px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     width: 600px;
     position: relative;
   }

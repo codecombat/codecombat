@@ -3,7 +3,6 @@ import { mapState, mapGetters } from 'vuex'
 import utils from 'core/utils'
 import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
 import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
-import ModalHackStackBeta from 'ozaria/site/components/teacher-dashboard/modals/ModalHackStackBeta.vue'
 import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalTestStudentPromotion.vue'
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
@@ -15,7 +14,6 @@ import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/Nav
 export default {
   components: {
     DashboardToggle,
-    ModalHackStackBeta,
     ModalTestStudentPromotion,
     ModalCurriculumPromotion,
     ModalOzariaHackStack,
