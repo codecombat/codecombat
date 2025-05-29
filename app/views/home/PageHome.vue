@@ -212,6 +212,7 @@
       </div>
     </div>
     <ModalJunior />
+    <ModalHackStack />
     <HackstackAutoPromotion v-if="!isMobile" />
   </div>
 </template>
@@ -234,6 +235,7 @@ import TrendsAndInsights from '../common/TrendsAndInsights.vue'
 import BaseCloudflareVideo from '../../components/common/BaseCloudflareVideo.vue'
 import HeaderComponent from '../../components/common/elements/HeaderComponent.vue'
 import ModalJunior from './ModalJunior'
+import ModalHackStack from './ModalHackStack'
 import HackstackAutoPromotion from '../ai/HackstackAutoPromotion'
 import { getJuniorUrl } from 'core/utils'
 
@@ -260,6 +262,7 @@ export default Vue.extend({
     BaseCloudflareVideo,
     HeaderComponent,
     ModalJunior,
+    ModalHackStack,
     HackstackAutoPromotion,
   },
   data () {
