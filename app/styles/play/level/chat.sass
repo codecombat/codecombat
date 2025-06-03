@@ -129,7 +129,17 @@
     max-height: 600px
     //max-height: Max(600px, calc(100vh - calc(#{$game-view-width}) * (589 / 924) - 50px - 80px - 60px - 30px - 25px))
     max-height: Max(600px, calc(100vh - (100vw * 0.57 - 200px - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
-    
+
+
+    .close-level-chat
+      position: absolute
+      top: 0
+      right: 0
+      font-size: 36px
+      line-height: 20px
+      color: white
+      cursor: pointer
+
   tr
     line-height: 18px // space between multiple lines within messages
     strong
