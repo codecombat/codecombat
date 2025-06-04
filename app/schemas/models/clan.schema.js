@@ -67,7 +67,8 @@ _.extend(ClanSchema.properties, {
     ncesId: c.shortString({ title: 'NCES' })
   }),
   displayName: { type: 'string', description: 'overwrites visual visual name of clan - used as name is tied to the slug' },
-  esportsImage: { type: 'string', format: 'image-file', title: 'Esports Image', description: 'Image to show for this team on league page.' }
+  esportsImage: { type: 'string', format: 'image-file', title: 'Esports Image', description: 'Image to show for this team on league page.' },
+  anonymizeTournament: { type: 'boolean', title: 'Anonymize Tournament', description: 'Anonymize the leaderboard of it\'s tournament.' },
 })
 
 c.extendBasicProperties(ClanSchema, 'Clan')
