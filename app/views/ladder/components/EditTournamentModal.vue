@@ -98,6 +98,17 @@
             class="form-control"
           >
         </template>
+        <label for="anonymize">
+          {{ $t('tournament.anonymize_players') }}
+        </label>
+        <span class="small text-navy">{{ $t('tournament.anonymize_players_description') }}</span>
+        <input
+          id="anonymize"
+          v-model="editableTournament.anonymize"
+          type="checkbox"
+          class="form-control"
+          :disabled="disableEdit"
+        >
       </div>
 
       <div class="form-group pull-right">
