@@ -4,7 +4,7 @@
     @close="$emit('close')"
   >
     <form
-      class="edit-tournament-form"
+      class="edit-tournament-form container"
       @submit.prevent="onFormSubmit"
     >
       <div class="form-group">
@@ -18,6 +18,8 @@
           class="form-control"
           disabled
         >
+      </div>
+      <div class="form-group">
         <template v-if="clanId">
           <!-- TODO i18n -->
           <label for="clan"> {{ $t('tournament.team') }} </label>
@@ -30,6 +32,8 @@
             @change="e => changeClanSelected(e)"
           />
         </template>
+      </div>
+      <div class="form-group">
         <label for="startDate">
           {{ $t('tournament.start_date_time') }}
         </label>
@@ -41,6 +45,8 @@
           class="form-control"
           :disabled="disableEdit"
         >
+      </div>
+      <div class="form-group">
         <label for="endDate">
           {{ $t('tournament.end_date_time') }}
         </label>
@@ -52,7 +58,8 @@
           class="form-control"
           :disabled="disableEdit"
         >
-
+      </div>
+      <div class="form-group">
         <label
           for="publish-options"
         >
@@ -98,17 +105,18 @@
             class="form-control"
           >
         </template>
-        <label for="anonymize">
-          {{ $t('tournament.anonymize_players') }}
-        </label>
-        <span class="small text-navy">{{ $t('tournament.anonymize_players_description') }}</span>
+      </div>
+      <div class="form-group">
         <input
           id="anonymize"
           v-model="editableTournament.anonymize"
           type="checkbox"
-          class="form-control"
           :disabled="disableEdit"
         >
+        <label for="anonymize">
+          {{ $t('tournament.anonymize_players') }}
+        </label>
+        <span class="small text-navy">{{ $t('tournament.anonymize_players_description') }}</span>
       </div>
 
       <div class="form-group pull-right">
