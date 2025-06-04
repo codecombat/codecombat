@@ -21,6 +21,7 @@ module.exports = class LevelChatView extends CocoView
     'keydown textarea': 'onChatKeydown'
     'keypress textarea': 'onChatKeypress'
     'click i': 'onIconClick'
+    'click .close-level-chat': 'onIconClick'
     'click .fix-code-button': 'onFixCodeClick'
 
   subscriptions:
