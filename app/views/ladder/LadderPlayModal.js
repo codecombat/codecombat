@@ -132,7 +132,7 @@ module.exports = (LadderPlayModal = (function () {
         this.nameMap = nameMap
         if (this.destroyed) { return }
         for (challenger of _.values(this.challengers)) {
-          challenger.opponentName = this.nameMap[challenger.opponentID]?.name || 'Anonymous'
+          challenger.opponentName = this.nameMap[challenger.opponentID]?.fullName || this.nameMap[challenger.opponentID]?.name || 'Anonymous'
           challenger.opponentWizard = this.nameMap[challenger.opponentID]?.wizard || {}
         }
         return this.checkWizardLoaded()
