@@ -416,6 +416,7 @@ module.exports = {
       admin: 'Admin',
       api: 'API',
       api_dashboard: 'API Dashboard',
+      partner_reset_password: 'Partner Reset Password',
       funding_resources_guide: 'Funding Resources Guide',
       partnerships: 'Partnerships',
       podcast: 'Our Podcast',
@@ -2448,6 +2449,17 @@ module.exports = {
       get_test_license: 'Get Test Student License',
       create_students: 'Generate Students',
       custom_tournaments: 'Custom Tournaments',
+    },
+
+    password_reset_page: {
+      enter_prompt: 'Enter email, username or ID',
+      input_placeholder: 'Email, username or ID',
+      search_user: 'Search user',
+      search_again: 'Search again',
+      user_id: 'User ID',
+      user_name: 'Name',
+      user_email: 'Email',
+      reset_password: 'Reset Password',
     },
 
     project_gallery: {
