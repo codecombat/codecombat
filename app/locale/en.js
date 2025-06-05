@@ -5149,6 +5149,8 @@ module.exports = {
       error_results_date_too_early: 'The Results Time cannot be earlier than End Time',
       publish_results: 'Publish Results',
       publish_options: 'Publish Options',
+      anonymize_players: 'Anonymize Players',
+      anonymize_players_description: 'Players cannot see each other\'s name until tournament published.',
     },
 
     payments: {

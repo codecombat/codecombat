@@ -41,7 +41,7 @@ export default {
       width: 60%
 
       padding: 25px
-      border-radius: 25px
+      border-radius: 10px
 
       // transition: all .3s ease;
 

@@ -33,6 +33,7 @@ export default Vue.extend({
   <ModalDynamicContent
     v-if="showPromotion"
     ref="modal"
+    modal-type="newModal"
     seen-promotions-property="summer-2025-hackstack-promotion"
   >
     <template #content>
