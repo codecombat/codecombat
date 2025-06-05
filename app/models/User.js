@@ -1162,15 +1162,17 @@ module.exports = (User = (function () {
         // Don't include Ozaria for now
         value = 'control'
       }
-      if ((value == null) && me.get('role')) {
-        // Don't include users other than home users
+      if ((value == null) && me.isStudent()) {
         value = 'control'
       }
       if ((value == null) && me.isInternal()) {
         value = 'beta'
       }
-      if ((value == null) && (new Date(me.get('dateCreated')) < new Date('2025-05-27'))) {
+      if ((value == null) && me.isHomeUser() && (new Date(me.get('dateCreated')) < new Date('2025-05-27'))) {
         // Don't include users created before experiment start date
+        value = 'control'
+      }
+      if ((value == null) && me.isTeacher() && (new Date(me.get('dateCreated')) < new Date('2025-06-04'))) {
         value = 'control'
       }
       if ((!value)) {
