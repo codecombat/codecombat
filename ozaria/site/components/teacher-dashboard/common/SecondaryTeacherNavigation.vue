@@ -349,18 +349,6 @@ export default {
         <span>{{ $t('teacher_dashboard.my_licenses') }}</span>
       </router-link>
     </li>
-
-    <li v-if="isCodeCombat">
-      <a
-        id="OzariaAnchor"
-        :href="ozariaBaseURL"
-        data-action="Ozaria HomePage: Nav Clicked"
-        @click.native="trackEvent"
-      >
-        <div id="IconOzaria" />
-        <span>{{ $t('new_home.try_ozaria') }}</span>
-      </a>
-    </li>
     <li v-if="showHackStack">
       <a
         id="HackStackAnchor"
@@ -380,7 +368,18 @@ export default {
         {{ $t('nav.ai_hackstack') }}
       </a>
     </li>
-
+    <li v-if="isCodeCombat">
+      <a
+        id="OzariaAnchor"
+        :href="ozariaBaseURL"
+        target="_blank"
+        data-action="Ozaria HomePage: Nav Clicked"
+        @click.native="trackEvent"
+      >
+        <div id="IconOzaria" />
+        <span>{{ $t('new_home.ozaria') }}</span>
+      </a>
+    </li>
     <li v-if="showPD">
       <router-link
         id="PDAnchor"
