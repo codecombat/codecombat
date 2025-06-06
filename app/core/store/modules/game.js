@@ -249,6 +249,15 @@ module.exports = {
         } = component.config.programmableMethods
 
         const solutions = _.filter(((plan != null ? plan.solutions : undefined) != null ? (plan != null ? plan.solutions : undefined) : []), s => !s.testOnly && s.succeeds)
+        if (rootState.game.level.type === 'web-dev') {
+          const htmlSource = (_.find(solutions, { language: 'html' }))?.source
+          if (htmlSource) {
+            if (/<playercode>/.test(htmlSource)) {
+              return utils.extractPlayerCodeTag(htmlSource)
+            }
+            return htmlSource
+          }
+        }
         let rawSource = __guard__(_.find(solutions, { language: codeLanguage }), x => x.source)
         if (!rawSource && (jsSource = __guard__(_.find(solutions, { language: 'javascript' }), x1 => x1.source))) {
           // If there is no target language solution yet, generate one from JavaScript.

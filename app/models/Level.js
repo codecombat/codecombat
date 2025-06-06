@@ -538,6 +538,13 @@ module.exports = (Level = (function () {
     getSolutionForLanguage (language) {
       if (!language) { return '' }
       const solutions = this.getSolutions()
+      if (this.isType('web-dev')) {
+        const solution = _.find(solutions, { language: 'html', succeeds: true })
+        if (/<playercode>/.test(solution?.source)) {
+          solution.source = utils.extractPlayerCodeTag(solution.source)
+        }
+        if (solution) return solution
+      }
       let solution = _.find(solutions, { language, succeeds: true })
       if (solution || language === 'javascript') return solution
       const jsSolution = _.find(solutions, { language: 'javascript', succeeds: true })
@@ -550,6 +557,13 @@ module.exports = (Level = (function () {
     getSampleCodeForLanguage (language) {
       if (!language) { return '' }
       const sampleCodeByLanguage = this.getSampleCode()
+      if (this.isType('web-dev')) {
+        const sampleCode = sampleCodeByLanguage.html
+        if (/<playercode>/.test(sampleCode)) {
+          return utils.extractPlayerCodeTag(sampleCode)
+        }
+        if (sampleCode) return sampleCode
+      }
       const sampleCode = sampleCodeByLanguage[language]
       if (sampleCode || language === 'javascript' || !sampleCodeByLanguage.javascript) {
         return sampleCode || ''
