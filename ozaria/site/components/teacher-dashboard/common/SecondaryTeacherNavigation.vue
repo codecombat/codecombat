@@ -70,6 +70,10 @@ export default {
       return utils.isOzaria
     },
 
+    ozariaBaseURL () {
+      return utils.ozBaseURL()
+    },
+
     classesTabSelected () {
       return this.$route.path.startsWith('/teachers/classes') || this.$route.path === '/teachers'
     },
@@ -346,6 +350,17 @@ export default {
       </router-link>
     </li>
 
+    <li v-if="isCodeCombat">
+      <a
+        id="OzariaAnchor"
+        :href="ozariaBaseURL"
+        data-action="Ozaria HomePage: Nav Clicked"
+        @click.native="trackEvent"
+      >
+        <div id="IconOzaria" />
+        <span>{{ $t('new_home.try_ozaria') }}</span>
+      </a>
+    </li>
     <li v-if="showHackStack">
       <a
         id="HackStackAnchor"
@@ -586,6 +601,11 @@ export default {
   margin-top: -3px;
 }
 
+#IconOzaria {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconOzaria_Gray.svg);
+  margin-top: -3px;
+}
+
 #IconResourceHub {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_Gray.svg);
   margin-top: -3px;
@@ -690,6 +710,12 @@ li.open>#LicensesAnchor,
 #LicensesAnchor.current-route {
   #IconLicense {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Purple.svg);
+  }
+}
+
+#OzariaAnchor:hover {
+  #IconOzaria {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconOzaria_White.svg);
   }
 }
 
@@ -844,6 +870,7 @@ li.open>#AIJuniorDropdown,
 #IconMyClasses,
 #IconCurriculum,
 #IconLicense,
+#IconOzaria,
 #IconResourceHub,
 #IconPD,
 #IconAssessments,
