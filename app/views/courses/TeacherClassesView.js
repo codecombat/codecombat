@@ -291,7 +291,7 @@ module.exports = (TeacherClassesView = (function () {
         el: this.$('.try-ozaria')[0]
       })
 
-      if(!me.showChinaResourceInfo()) {
+      if (!me.showChinaResourceInfo()) {
         this.bannerHoC = new BannerHoC({
           el: this.$('.banner-hoc')[0]
         })
@@ -299,9 +299,8 @@ module.exports = (TeacherClassesView = (function () {
         this.podcastItemContainer = new PodcastItemContainer({
           el: this.$('.podcast-item-container')[0]
         })
-
-        this.dashboardToggle = new DashboardToggle({ propsData: { size: 'sm', showTitle: true }, el: this.$el.find('#dashboard-toggle')[0] })
       }
+      this.dashboardToggle = new DashboardToggle({ propsData: { size: 'sm', showTitle: true }, el: this.$el.find('#dashboard-toggle')[0] })
 
       return $('.progress-dot').each(function (i, el) {
         const dot = $(el)

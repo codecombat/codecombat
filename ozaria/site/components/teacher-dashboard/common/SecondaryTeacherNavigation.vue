@@ -62,6 +62,10 @@ export default {
       topModal: 'modals/getTopModal',
     }),
 
+    me () {
+      return window.me
+    },
+
     isCodeCombat () {
       return utils.isCodeCombat
     },
@@ -368,7 +372,7 @@ export default {
         {{ $t('nav.ai_hackstack') }}
       </a>
     </li>
-    <li v-if="isCodeCombat">
+    <li v-if="isCodeCombat && !me.showChinaResourceInfo()">
       <a
         id="OzariaAnchor"
         :href="ozariaBaseURL"
@@ -455,6 +459,7 @@ export default {
     <li>
       <component
         :is="isCodeCombat ? 'router-link' : 'a'"
+        v-if="!me.showChinaResourceInfo()"
         id="AILeague"
         to="/teachers/ai-league"
         :class="{ 'current-route': isCurrentRoute('/teachers/ai-league') }"
