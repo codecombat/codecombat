@@ -236,11 +236,11 @@ module.exports = {
     getSolutionSrc (state, getters, rootState) {
       return function (codeLanguage) {
         let component, hero, jsSource, source
-        if (!(hero = _.find((rootState.game.level != null ? rootState.game.level.thangs : undefined) != null ? (rootState.game.level != null ? rootState.game.level.thangs : undefined) : [], { id: 'Hero Placeholder' }))) {
+        if (!(hero = _.find((rootState.game?.level?.thangs || []), { id: 'Hero Placeholder' }))) {
           return undefined
         }
 
-        if (!(component = _.find(hero.components != null ? hero.components : [], c => __guard__(__guard__(c != null ? c.config : undefined, x1 => x1.programmableMethods), x => x.plan)))) {
+        if (!(component = _.find((hero.components || []), c => c?.config?.programmableMethods?.plan))) {
           return undefined
         }
 
@@ -248,8 +248,8 @@ module.exports = {
           plan
         } = component.config.programmableMethods
 
-        const solutions = _.filter(((plan != null ? plan.solutions : undefined) != null ? (plan != null ? plan.solutions : undefined) : []), s => !s.testOnly && s.succeeds)
-        if (rootState.game.level.type === 'web-dev') {
+        const solutions = _.filter((plan?.solutions || []), s => !s.testOnly && s.succeeds)
+        if (rootState.game?.level?.type === 'web-dev') {
           const htmlSource = (_.find(solutions, { language: 'html' }))?.source
           if (htmlSource) {
             if (/<playercode>/.test(htmlSource)) {
@@ -258,8 +258,8 @@ module.exports = {
             return htmlSource
           }
         }
-        let rawSource = __guard__(_.find(solutions, { language: codeLanguage }), x => x.source)
-        if (!rawSource && (jsSource = __guard__(_.find(solutions, { language: 'javascript' }), x1 => x1.source))) {
+        let rawSource = (_.find(solutions, { language: codeLanguage }))?.source
+        if (!rawSource && (jsSource = (_.find(solutions, { language: 'javascript' })?.source))) {
           // If there is no target language solution yet, generate one from JavaScript.
           rawSource = translateUtils.translateJS(jsSource, codeLanguage)
         }
