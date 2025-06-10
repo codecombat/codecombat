@@ -16,7 +16,11 @@ export default Vue.extend({
       required: false,
       default () {
         return `modal-${Math.random().toString(36).substring(7)}`
-      }
+      },
+    },
+    modalType: {
+      type: String,
+      default: 'oldModal',
     },
     title: {
       type: String,
@@ -131,6 +135,7 @@ export default Vue.extend({
   <div>
     <modal
       v-if="modalVisible"
+      :modal-type="modalType"
       :title="title"
       role="dialog"
       aria-modal="true"

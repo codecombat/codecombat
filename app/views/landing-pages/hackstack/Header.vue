@@ -59,9 +59,7 @@ export default {
   },
   methods: {
     CTAClicked () {
-      if (me.isAnonymous()) {
-        this.$emit('open-signup-modal')
-      } else if (me.isTeacher()) {
+      if (me.isTeacher()) {
         window.open('/schools?openContactModal=true', '_blank')
       } else {
         window.location = '/ai'

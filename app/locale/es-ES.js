@@ -2745,6 +2745,8 @@ module.exports = {
       //    CS4_short: "Comp Sci 4",
       //    CS5_short: "Comp Sci 5",
       //    CS6_short: "Comp Sci 6",
+      //    JR_short: "Junior",
+      //    AI_short: "AI",
       //    student_overview: "Overview",
       student_details: '[AI_TRANSLATION]Detalles del Estudiante',
       student_name: '[AI_TRANSLATION]Nombre del Estudiante',
@@ -2770,6 +2772,8 @@ module.exports = {
       full_license: '[AI_TRANSLATION]Licencia Completa',
       starter_license: '[AI_TRANSLATION]Licencia de Inicio',
       customized_license: '[AI_TRANSLATION]Licencia Personalizada',
+      //    hackstack_license: "AI HackStack License",
+      //    hackstack_credits: "Credits: __limit__ prompts / __durationAmount__ __durationKey__(s)",
       trial: '[AI_TRANSLATION]Prueba',
       hoc_welcome: '[AI_TRANSLATION]Feliz Semana de la Educación en Ciencias de la Computación.',
       hoc_title: '[AI_TRANSLATION]Juegos de la Hora de Código - Actividades gratuitas para aprender lenguajes de codificación reales',
@@ -4563,6 +4567,7 @@ module.exports = {
 
     admin: {
       license_type_full: '[AI_TRANSLATION]Cursos Completos',
+      //    license_type_hackstack: "Hackstack",
       license_type_customize: '[AI_TRANSLATION]Personaliza Cursos',
     },
 
@@ -4781,6 +4786,12 @@ module.exports = {
       //    violation: "Violation",
       //    safety_violations: "Safety Violations",
       //    collapse: "Collapse",
+      //    num_student: "__num__ Students",
+      //    one_student: "__num__ Student",
+      //    sort_by_last_name: "Last Name",
+      //    sort_by_first_name: "first Name",
+      //    sort_by_progress_desc: "Progress (High to Low)",
+      //    sort_by_progress_asc: "Progress (Low to Hight)",
     },
 
     outcomes: {
@@ -4990,12 +5001,13 @@ module.exports = {
       season_11: '[AI_TRANSLATION]Smash de Verano',
       season_12: '[AI_TRANSLATION]Chispa de Poder',
       //    season_13: "Checkmate Challenge",
-      //    season_14: "Soccer Showdown",
-      //    season_15: "Racing Rivals",
+      //    season_14: "Racing Rivals",
+      //    season_15: "Soccer Showdown",
       cup: '[AI_TRANSLATION]Copa',
       blitz: '[AI_TRANSLATION]Relámpago',
       clash: '[AI_TRANSLATION]Choque',
       //    season13_announcement_1: "In the depths of ancient ruins, a magical checkerboard arises and the towers comes alive. Get as many pieces to the end of the line!",
+      //    season13_announcement_2: "Note: arena balance adjustments may occur up until May 15th. So be sure to come back often to test your code against the global leaderboard.",
       //    season12_announcement_2: "Collectors fly high, control points emerges, mythical crystals stand tall, as the dungeon expands, the battle is getting fiercer, only the righteous shall be the victor.",
       //    season12_announcement_1: "Deep in the dungeons, mythical crystals stand tall, collecting energy and mana from abandoned ruins. Summon units, cast spells, and claim victory!",
       season11_announcement_1: '[AI_TRANSLATION]¡La competencia se está calentando! Mientras el sol brilla arriba, coloca y mejora tus paneles solares, evita trampas de choque, coloca cangrejos robots y pasa a través de portales, consigue tanta energía solar como sea posible y reclama la victoria.',
@@ -5802,6 +5814,7 @@ module.exports = {
     //  hackstack_page: {
     //    header: "Learn, create, and accelerate with **AI HackStack**",
     //    header_details: "Together, we empower learners to safely bring their ideas to life across any subject.",
+    //    header_details_teacher: "With a license, unlock 100 monthly prompts for yourself and 30 weekly for students to bring your ideas to life across any subject.",
     //    accessible_safe_use: "Accessible, safe, and responsible use of AI",
     //    learn_title: "Learn",
     //    learn_description: "From **English Language Arts** to **Mathematics** and **Science**, students discover how to craft safe and effective prompts for generating output in each discipline. Learn essential prompt engineering skills in a **wide range of subjects** using Al HackStack's Learning Scenarios. Along the way, your students will gain hands-on experience with popular Al models like Claude, DALL-E, and Stable Diffusion.",
@@ -5844,6 +5857,8 @@ module.exports = {
     //    faq_6_answer: "We offer both Clever and Google Classroom integration. Check out our **[https://codecombat.com/teachers/resources/clever-faq]Clever Integration FAQ** for more details on how to get started. If you are using Google Classroom be sure to use the Google Single Sign-On (SSO) Modal to sign up for your teacher account. If you already have an account using your Google email, use the Google SSO modal to log in next time. In the Create Class modal, you will see an option to Link Google Classroom. We only support rostering via Google Classroom at this time. Note: you must use Google SSO to sign up or log in at least once in order to see the Google Classroom integration option.",
     //    faq_7_question: "Recommended browser and operating system",
     //    faq_7_answer: "TBA",
+    //    faq_8_question: "How many prompts do I get?",
+    //    faq_8_answer: "With a license, you get 100 monthly prompts for teacher and 30 weekly for students. Individual premium users get 50 prompts per month.",
     //    learn_more: "Learn More",
     //    promo_modal_title: "Explore AI HackStack",
     //    promo_modal_subtitle: "Unlock the Full Potential of Generative AI",
@@ -6218,6 +6233,10 @@ module.exports = {
       //    copied: "copied!",
       //    copied_error: "error copying!",
       //    NewScenarioPage_name: "Display Name",
+      //    learning_modules: "Learning Modules",
+      //    level_complete: "You did it! Level complete. Continue your AI journey with the next level.",
+      //    run_code_tour_title: "Ready to see the magic?",
+      //    run_code_tour_text: "Press “Run Code” and watch your project come to life. No experience required!",
     },
 
     //  new_premium: {
@@ -6528,8 +6547,8 @@ module.exports = {
 
     //  paywall: {
     //    badge_free: "Free",
-    //    "badge_sales-call": "Call Now!",
-    //    badge_paid: "Premium",
+    //    "badge_sales-call": "Unlock with Call",
+    //    badge_paid: "Paid",
     //    badge_tooltip_free: "Explore our levels at no cost!",
     //    "badge_tooltip_sales-call": "Interested in more? Give us a call and unlock!",
     //    badge_tooltip_paid: "This content is exclusive to users with a valid license.",

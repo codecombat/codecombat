@@ -280,7 +280,7 @@ export default {
 
 <style scoped lang="scss">
 .grey path {
-    fill: #545B64;
+    fill: #545B64
 }
 
 .blue path {
@@ -290,4 +290,13 @@ export default {
 .moon path {
     fill: #F7D047
 }
+
+.purple path {
+  fill: #7a65fc
+}
+
+.white path {
+  fill: #f9f9ff
+}
+
 </style>

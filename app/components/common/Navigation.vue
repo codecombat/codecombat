@@ -369,7 +369,6 @@ export default Vue.extend({
             ),
             items.AI_LEAGUE,
             items.ROBLOX,
-            items.AI_HACKSTACK,
           ]
         }
       }
@@ -457,15 +456,22 @@ export default Vue.extend({
               picture
                 source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-              img.tecmilenio-logo(src="/images/pages/payment/tecmilenio-logo-2.png" alt="Tecmilenio logo")
-            a.navbar-brand(v-else-if="me.showChinaResourceInfo()&&!me.showChinaHomeVersion()" href="/home")
+              img(:src="partnerLogo.url" :alt="partnerLogo.alt" :class="partnerLogo.className")
+            a.navbar-brand(v-else-if="showHackStackLogo")
+              a(:href="homeLink")
+                picture
+                  source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
+                  img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+              a(href="/ai")
+                img#logo-img(src="/images/ai/logo-hs-color.webp" alt="HackStack logo")
+            a.navbar-brand(v-else-if="me.showChinaResourceInfo()&&!me.showChinaHomeVersion()" :href="homeLink")
               img#logo-img(src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
-            a.navbar-brand(v-else-if="showHackStackLogo" href="/home")
-              img#logo-img(src="/images/pages/base/logo+hs.png" alt="CodeCombat and HackStack logo")
-            a.navbar-brand(v-else :href="hideNav ? '#' : '/home'")
+            a.navbar-brand(v-else :href="homeLink")
               picture
                 source#logo-img(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+            a.navbar-brand(v-if="isOzaria" :href="homeLink")
+              img#logo-img(src="/images/ozaria/home/ozaria-logo.png" alt="Ozaria logo" title='Ozaria')
 
           .navbar-browser-recommendation.navbar-header(v-if="isChinaOldBrowser")
             .nav-spacer

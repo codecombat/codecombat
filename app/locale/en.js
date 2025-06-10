@@ -5003,8 +5003,8 @@ module.exports = {
       season_11: 'Summer Smash',
       season_12: 'Spark of Power',
       season_13: 'Checkmate Challenge',
-      season_14: 'Soccer Showdown',
-      season_15: 'Racing Rivals',
+      season_14: 'Racing Rivals',
+      season_15: 'Soccer Showdown',
       cup: 'Cup',
       blitz: 'Blitz',
       clash: 'Clash',
@@ -5170,6 +5170,8 @@ module.exports = {
       error_results_date_too_early: 'The Results Time cannot be earlier than End Time',
       publish_results: 'Publish Results',
       publish_options: 'Publish Options',
+      anonymize_players: 'Anonymize Players',
+      anonymize_players_description: 'Players cannot see each other\'s name until tournament published.',
     },
 
     payments: {
@@ -5645,6 +5647,9 @@ module.exports = {
       try_it_now: 'Try it now',
       junior_modal_header: 'Try Our New K-5 Curriculum Today!',
       junior_modal_body: 'Perfect for K-5 classrooms, this new curriculum features real coding with icons, drag-and-drop blocks, parallel blocks with text, or purely text-based options. Plus, it’s fully accessible on tablets making it easy to support all learners.',
+      hs_modal_header: 'Unlock Free AI Access This Summer',
+      hs_modal_body: 'Discover how educators innovate with our AI -- watch the quick demo! This summer, explore Claude, DALL-E, Stable Diffusion, and more. Book a brief meeting by August 15 to claim your free 90-day AI educator license -- We\'ll handle the setup so you can dive right in.',
+      get_started: 'Get Started!',
     },
     schools_page: {
       meta_title: 'CodeCombat: the most effective computer science solution for schools',
@@ -6232,6 +6237,10 @@ module.exports = {
       copied: 'copied!',
       copied_error: 'error copying!',
       NewScenarioPage_name: 'Display Name',
+      learning_modules: 'Learning Modules',
+      level_complete: 'You did it! Level complete. Continue your AI journey with the next level.',
+      run_code_tour_title: 'Ready to see the magic?',
+      run_code_tour_text: 'Press “Run Code” and watch your project come to life. No experience required!',
     },
     new_premium: {
       mastering_code: 'Master coding and AI with **premium home access**',

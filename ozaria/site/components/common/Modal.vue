@@ -7,17 +7,21 @@ import BaseModal from 'ozaria/site/components/common/BaseModal'
 // From elsewhere: use backboneDismissModal prop to have data-dismiss='modal' close the modal for you
 export default Vue.extend({
   components: {
-    BaseModal
+    BaseModal,
   },
   props: {
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     backboneDismissModal: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+    modalType: {
+      type: String,
+      default: 'oldModal',
+    },
   },
   computed: {
     backboneClose () {
@@ -29,24 +33,33 @@ export default Vue.extend({
       // In order to conditionally use @click, we can use the @[event] syntax.
       // Writing @[null] (not undefined or false) safely does nothing.
       return !this.backboneDismissModal ? 'click' : null
-    }
-  }
+    },
+  },
 })
 </script>
 
 <template>
-  <base-modal>
+  <base-modal :class="{'new-modal': modalType === 'newModal'}">
     <template #header>
       <div class="teacher-modal-header">
         <span class="title"> {{ title }} </span>
         <!-- NOTE: The ID #ozaria-modal-header-close-button may be used elsewhere to trigger closing from Backbone -->
         <img
+          v-if="modalType === 'oldModal'"
           id="ozaria-modal-header-close-button"
           class="close-icon"
           src="/images/ozaria/common/IconClose.svg"
           :data-dismiss="backboneClose"
           @[vueClose]="$emit('close')"
         >
+        <span
+          v-else
+          class="close-icon fake-icon"
+          :data-dismiss="backboneClose"
+          @[vueClose]="$emit('close')"
+        >
+          x
+        </span>
       </div>
     </template>
 
@@ -56,11 +69,16 @@ export default Vue.extend({
   </base-modal>
 </template>
 
-<style lang="scss">
-.modal-container {
+<style lang="scss" scoped>
+@import "app/styles/bootstrap/variables";
+@import "ozaria/site/styles/common/variables.scss";
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "app/styles/component_variables.scss";
+
+::v-deep .modal-container {
   border-radius: 10px;
 }
-.ozaria-modal-header {
+::v-deep .ozaria-modal-header {
   background: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0.13);
   box-sizing: border-box;
@@ -68,12 +86,6 @@ export default Vue.extend({
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
-</style>
-
-<style lang="scss" scoped>
-@import "app/styles/bootstrap/variables";
-@import "ozaria/site/styles/common/variables.scss";
-@import "app/styles/ozaria/_ozaria-style-params.scss";
 
 .title {
   @include font-h-2-subtitle-black-24;
@@ -91,5 +103,41 @@ export default Vue.extend({
 
 .close-icon {
   cursor: pointer;
+}
+
+.new-modal {
+  ::v-deep {
+  .modal-container {
+    border-radius: 25px !important;
+  }
+  .ozaria-modal-header {
+    background: unset;
+    padding: 0;
+    border: unset;
+    box-shadow: unset;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+  }
+  }
+
+  .teacher-modal-header {
+    justify-content: center;
+    position: relative;
+  }
+
+  .fake-icon {
+    position: absolute;
+    right: -35px;
+    top: -25px;
+    background: $purple;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 35px;
+    font-size: 50px;
+    color: white;
+    font-weight: 400;
+    border-radius: 10px;
+  }
 }
 </style>

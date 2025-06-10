@@ -106,13 +106,13 @@ export default class FullstoryTracker extends BaseTracker {
     if (this.disableAllTracking) {
       this.log('decide enabled', 'disable all tracking')
       return false
-    } else if (me.anonymous && Math.random() < 0.0025) {
+    } else if (me.anonymous && Math.random() < 0.0015) {
       this.log('decide enabled', 'anon user')
       return true
-    } else if (window.me.getM7ExperimentValue() == 'beta' && Math.random() < 0.05) {
-      this.log('decide enabled', 'm7 experiment')
+    } else if (window.me.getCatalystExperimentValue() == 'control' && Math.random() < 0.05) {
+      this.log('decide enabled', 'catalyst experiment')
       return true
-    } else if (this.store.getters['me/isTeacher'] && !this.store.getters['me/isParent'] && Math.random() < 0.02) {
+    } else if (this.store.getters['me/isTeacher'] && !this.store.getters['me/isParent'] && Math.random() < 0.01) {
       this.log('decide enabled', 'non parent teacher')
       return true
     }

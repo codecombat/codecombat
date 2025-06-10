@@ -72,7 +72,7 @@ export default {
       font-size: 20px
       font-family: $body-font-style
       flex: 1 1 auto
-      overflow-y: scroll
+      overflow-y: auto
       align-items: baseline
 
     .ozaria-modal-footer

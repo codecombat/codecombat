@@ -212,6 +212,7 @@
       </div>
     </div>
     <ModalJunior />
+    <ModalHackStack />
     <HackstackAutoPromotion v-if="!isMobile" />
   </div>
 </template>
@@ -234,6 +235,7 @@ import TrendsAndInsights from '../common/TrendsAndInsights.vue'
 import BaseCloudflareVideo from '../../components/common/BaseCloudflareVideo.vue'
 import HeaderComponent from '../../components/common/elements/HeaderComponent.vue'
 import ModalJunior from './ModalJunior'
+import ModalHackStack from './ModalHackStack'
 import HackstackAutoPromotion from '../ai/HackstackAutoPromotion'
 import { getJuniorUrl } from 'core/utils'
 
@@ -260,6 +262,7 @@ export default Vue.extend({
     BaseCloudflareVideo,
     HeaderComponent,
     ModalJunior,
+    ModalHackStack,
     HackstackAutoPromotion,
   },
   data () {
@@ -351,7 +354,7 @@ export default Vue.extend({
         {
           title: this.$t('schools_page.student_acceleration_1_title'),
           text: this.$t('schools_page.student_acceleration_1_text'),
-          link: 'https://codecombat.com/ai/',
+          link: 'https://codecombat.com/hackstack/',
           linkText: this.$t('schools_page.student_acceleration_1_link_text'),
           image: '/images/pages/home-v3/engaging-boxes/engaging-ai-hackstack.webp',
         },

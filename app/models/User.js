@@ -1160,7 +1160,41 @@ module.exports = (User = (function () {
     }
 
     getHackStackV2ExperimentValue () {
-      return 'beta'
+      const experimentName = 'hs-v2-exp'
+      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable(experimentName)]
+      if (value == null) { value = me.getExperimentValue(experimentName, null, 'beta') }
+      if ((value == null) && utils.isOzaria) {
+        // Don't include Ozaria for now
+        value = 'control'
+      }
+      if ((value == null) && me.isStudent()) {
+        value = 'control'
+      }
+      if ((value == null) && me.isInternal()) {
+        value = 'beta'
+      }
+      if ((value == null) && me.isHomeUser() && (new Date(me.get('dateCreated')) < new Date('2025-05-27'))) {
+        // Don't include users created before experiment start date
+        value = 'control'
+      }
+      if ((value == null) && me.isTeacher() && (new Date(me.get('dateCreated')) < new Date('2025-06-04'))) {
+        value = 'control'
+      }
+      if ((!value)) {
+        let valueProbability
+        const expProb = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta
+        const probability = expProb != null ? expProb : 0.5
+        if (Math.random() < probability) {
+          value = 'beta'
+          valueProbability = probability
+        } else {
+          value = 'control'
+          valueProbability = 1 - probability
+        }
+        console.log('starting hackstack experiment with value', value, 'prob', valueProbability)
+        me.startExperiment(experimentName, value, valueProbability)
+      }
+      return value
     }
 
     getM7ExperimentValue () {
@@ -1309,8 +1343,9 @@ module.exports = (User = (function () {
         if (probability == null) {
           // it means we're not running the experiment
           value = 'control'
-          valueProbability = 1
-        } else if (Math.random() < probability) {
+          return value
+        }
+        if (Math.random() < probability) {
           value = 'beta'
           valueProbability = probability
         } else {
