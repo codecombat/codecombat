@@ -32,6 +32,7 @@ _.extend(ClassroomSchema.properties, {
   }),
   hackstackConfig: c.object({}, {
     remixAllowed: { type: 'boolean', default: true },
+    useNewUI: { type: 'boolean', default: false },
   }),
   averageStudentExp: { type: 'string' },
   ageRangeMin: { type: 'string' },

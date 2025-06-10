@@ -369,7 +369,6 @@ export default Vue.extend({
             ),
             items.AI_LEAGUE,
             items.ROBLOX,
-            items.AI_HACKSTACK,
           ]
         }
       }
@@ -466,11 +465,13 @@ export default Vue.extend({
               a(href="/ai")
                 img#logo-img(src="/images/ai/logo-hs-color.webp" alt="HackStack logo")
             a.navbar-brand(v-else-if="me.showChinaResourceInfo()" :href="homeLink")
-              img#logo-img(src="/images/pages/base/logo-en+cn.png" alt="CodeCombat logo")
+              img#logo-img(src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
             a.navbar-brand(v-else :href="homeLink")
               picture
                 source#logo-img(srcset="/images/pages/base/logo.webp" type="image/webp")
                 img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+            a.navbar-brand(v-if="isOzaria" :href="homeLink")
+              img#logo-img(src="/images/ozaria/home/ozaria-logo.png" alt="Ozaria logo" title='Ozaria')
 
           .navbar-browser-recommendation.navbar-header(v-if="isChinaOldBrowser")
             .nav-spacer
