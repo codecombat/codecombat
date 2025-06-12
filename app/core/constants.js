@@ -68,7 +68,9 @@ const DEEP_API_LIST = [ // Those apiclient doesn't want back-to-classroom button
   '60fa65059e17ca0019950fdd', // TARENA
   '61a0a183dc0da81482892695', // KEHOU330
   '62eafd294f52f30018e103ee', // shanzong
-  '64d49fcc339ac2035a71074a' // suzhou turing
+  '64d49fcc339ac2035a71074a', // suzhou turing
+  '621c25189eccff00185e5dd3', // AILD
+  '62196f31a1c4ab0018db6df4', // aild-staging
 ]
 
 const HTTP_STATUS_CODES = {

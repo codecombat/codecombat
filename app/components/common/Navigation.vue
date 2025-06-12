@@ -15,6 +15,7 @@ import AnnouncementNav from '../../views/announcement/AnnouncementNav'
 import { mapActions, mapGetters } from 'vuex'
 import CTAButton from '../../components/common/buttons/CTAButton'
 import CaretDown from '../../components/common/elements/CaretDown'
+import { DEEP_API_LIST } from 'core/constants'
 
 const cocoPath = function (relativePath) {
   return `${cocoBaseURL()}${relativePath}`
@@ -90,6 +91,10 @@ export default Vue.extend({
 
     isOzaria () {
       return isOzaria
+    },
+
+    isDEEPAPI () {
+      return DEEP_API_LIST.includes(me.get('clientCreator'))
     },
 
     cocoBaseURL () {
@@ -446,7 +451,7 @@ export default Vue.extend({
     .container
       .row
         .col-md-12.header-container
-          .navbar-header
+          .navbar-header(v-if="!isDEEPAPI")
             button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
               span.sr-only {{ $t('nav.toggle_nav') }}
               span.icon-bar

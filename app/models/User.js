@@ -26,6 +26,7 @@ const userUtils = require('lib/user-utils')
 const _ = require('lodash')
 const moment = require('moment')
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
+const { DEEP_API_LIST } = require('core/constants')
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -1440,8 +1441,9 @@ module.exports = (User = (function () {
     skipHeroSelectOnStudentSignUp () { return features?.classroomItems != null ? features?.classroomItems : false }
     useSocialSignOn () { return !((features?.chinaUx != null ? features?.chinaUx : false) || (features?.china != null ? features?.china : false)) }
     isTarena () { return features?.Tarena != null ? features?.Tarena : false }
+    isDEEPAPI () { return DEEP_API_LIST.includes(this.get('clientCreator') || '') }
     useTarenaLogo () { return this.isTarena() }
-    hideTopRightNav () { return this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
+    hideTopRightNav () { return this.isDEEPAPI() || this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
     hideFooter () { return this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
     hideOtherProductCTAs () { return this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
     useGoogleClassroom () { return !(features?.chinaUx != null ? features?.chinaUx : false) && (this.get('gplusID') != null) } // if signed in using google SSO
