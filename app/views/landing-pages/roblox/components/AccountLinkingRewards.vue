@@ -103,6 +103,18 @@
             :user-id="me.id"
             @saved="checkRobloxConnectionStatus"
           />
+          <div
+            v-if="!me.canUseRobloxOauthConnection()"
+            class="help-doc"
+          >
+            <span>{{ $t('play_level.problem_alert_need_help') }}</span>
+            <a
+              href="https://codecombat.zendesk.com/hc/en-us/articles/30719608274839-How-do-I-connect-my-student-s-CodeCombat-and-Roblox-accounts"
+              target="_blank"
+            >
+              {{ $t('roblox.check_help_doc') }}
+            </a>
+          </div>
         </div>
       </div>
       <vue-confirm-dialog />
@@ -284,10 +296,14 @@ export default {
   .content {
     margin-bottom: 40px;
   }
-  .age-restriciton-warning {
+  .age-restriciton-warning, .help-doc {
     @extend %font-14;
     color:  #B4B4B4;
     margin-top: 20px;
+
+    a:link, a:visited {
+      color:  #4decf0;
+    }
   }
 }
 ::v-deep .vc-text {
