@@ -296,7 +296,7 @@
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
-    "node": "18.10.0",
-    "npm": "8.19.2"
+    "node": "20.19.2",
+    "npm": "10.8.2"
   }
 }
