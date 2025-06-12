@@ -153,6 +153,8 @@ module.exports = class SpellView extends CocoView
     classroomLiveCompletion = (@options.classroomAceConfig ? {liveCompletion: true}).liveCompletion
     liveCompletion = classroomLiveCompletion && liveCompletion
     @initAutocomplete liveCompletion
+    disablePaste = (@options.classroomAceConfig ? { disablePaste: false }).disablePaste
+    aceUtils.toggleACEPasteFeature(@ace, disablePaste)
 
     return if @session.get('creator') isnt me.id or @session.fake
     # Create a Spade to 'dig' into Ace.
