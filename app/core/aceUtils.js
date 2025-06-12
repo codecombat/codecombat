@@ -12,11 +12,11 @@
 
 const ace = require('lib/aceContainer')
 const {
-  TokenIterator
+  TokenIterator,
 } = ace.require('ace/token_iterator')
 const { commentStarts } = require('core/utils')
 const {
-  UndoManager
+  UndoManager,
 } = ace.require('ace/undomanager')
 const Y = require('yjs')
 const { WebsocketProvider } = require('y-websocket')
@@ -30,7 +30,7 @@ const aceEditModes = {
   lua: 'ace/mode/lua',
   java: 'ace/mode/java',
   cpp: 'ace/mode/c_cpp',
-  html: 'ace/mode/html'
+  html: 'ace/mode/html',
 }
 
 // These ACEs are used for displaying code snippets statically, like in SpellPaletteEntryView popovers
@@ -64,7 +64,7 @@ const identifierRegex = function (lang, type) {
       python: /def ([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?):/, // eslint-disable-line no-useless-escape
       javascript: /function ([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?)/, // eslint-disable-line no-useless-escape
       cpp: /[a-z]+\s+([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?)/, // eslint-disable-line no-useless-escape
-      java: /[a-z]+\s+([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?)/ // eslint-disable-line no-useless-escape
+      java: /[a-z]+\s+([a-zA-Z_0-9\$\-\u00A2-\uFFFF]+\s*\(?[^)]*\)?)/, // eslint-disable-line no-useless-escape
     }
     if (lang in regexs) {
       return regexs[lang]
@@ -84,7 +84,7 @@ const singleLineCommentRegex = function (lang) {
   } else {
     commentStart = commentStarts[lang] || '//'
   }
-  return new RegExp(`[ \t]*(${commentStart})[^\"'\n]*`) // eslint-disable-line no-useless-escape
+  return new RegExp(`[ \t]*(${commentStart})[^\''\n]*`) // eslint-disable-line no-useless-escape
 }
 
 const parseUserSnippets = function (source, lang, session) {
@@ -107,7 +107,7 @@ const parseUserSnippets = function (source, lang, session) {
       importance: importance != null ? importance : 5,
       content,
       name,
-      tabTrigger: name
+      tabTrigger: name,
     }
     return entry
   }
@@ -137,7 +137,7 @@ const parseUserSnippets = function (source, lang, session) {
         allIdentifiers[next.value] *= 2
       }
     }
-    // console.log("deubg next:", next)
+    // console.log('deubg next:', next)
     next = it.stepForward()
   }
 
@@ -209,16 +209,49 @@ const setupCRDT = (key, userName, doc, editor, next) => {
   })
   const user = {
     name: userName,
-    color: '#' + Math.floor(Math.random() * 16777215).toString(16)
+    color: '#' + Math.floor(Math.random() * 16777215).toString(16),
   }
   provider.awareness.setLocalStateField('user', user)
 
   return provider
 }
 
+const toggleACEPasteFeature = function (editor, disabled = false) {
+  const pasteHandler = function (e) {
+    if (disabled) {
+      window.noty({
+        text: $.i18n.t('teachers.disable_paste_noty'),
+        type: 'warning',
+      })
+      e?.preventDefault?.()
+      e?.stopPropagation?.()
+    }
+  }
+  if (disabled) {
+    [
+      'drop', 'paste', 'contextmenu',
+    ].forEach(function (eventName) {
+      editor.container.addEventListener(eventName, pasteHandler, true)
+    })
+    editor.commands.addCommand({
+      name: 'breakThePaste',
+      bindKey: 'ctrl-v|ctrl-shift-v|cmd-v',
+      exec: pasteHandler,
+    })
+    editor.setOption('dragEnabled', false)
+  } else {
+    [
+      'drop', 'paste', 'contextmenu',
+    ].forEach(e => editor.container.removeEventListener(e, pasteHandler))
+    editor.commands.removeCommand('breakThePaste')
+    editor.setOption('dragEnabled', true)
+  }
+}
+
 module.exports = {
   aceEditModes,
   initializeACE,
   parseUserSnippets,
-  setupCRDT
+  setupCRDT,
+  toggleACEPasteFeature,
 }

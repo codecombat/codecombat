@@ -166,6 +166,8 @@ module.exports = class SpellView extends CocoView
     classroomLiveCompletion = (@options.classroomAceConfig ? {liveCompletion: true}).liveCompletion
     liveCompletion = classroomLiveCompletion && liveCompletion
     @initAutocomplete liveCompletion
+    disablePaste = (@options.classroomAceConfig ? { disablePaste: false }).disablePaste
+    aceUtils.toggleACEPasteFeature(@ace, disablePaste)
 
     if @teaching
       console.log('connect provider:', @urlSession)
