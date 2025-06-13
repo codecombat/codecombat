@@ -73,7 +73,8 @@ module.exports = (CoursesView = (function () {
         'click .view-challenges-link': 'onClickViewChallengesLink',
         'click .view-videos-link': 'onClickViewVideosLink',
         'click .view-announcement-link': 'onClickAnnouncementLink',
-        'click .more-tournaments': 'onClickMoreTournaments'
+        'click .more-tournaments': 'onClickMoreTournaments',
+        'click .more-ai-league-tiles': 'onClickMoreAILeagueTiles',
       }
 
       this.prototype.subscriptions =
@@ -91,6 +92,7 @@ module.exports = (CoursesView = (function () {
 
     constructor () {
       super()
+      this.moreAILeagueTiles = false
       this.renderStats = this.renderStats.bind(this)
       this.utils = utils
       this.classCodeQueryVar = utils.getQueryVariable('_cc', false)
@@ -741,6 +743,12 @@ module.exports = (CoursesView = (function () {
       return this.openModalView(modal)
     }
 
+    onClickMoreAILeagueTiles (e) {
+      this.moreAILeagueTiles = true
+      this.renderSelectors('.student-stats')
+      window.tracker?.trackEvent('Students View Click MoreAILeagueTiles', { category: 'Students', id: me.id })
+    }
+
     nextLevelImage () {
       // Prioritize first by level-specific, then course-specific and hero-specific together
       let course, hero, image
@@ -760,6 +768,124 @@ module.exports = (CoursesView = (function () {
       image = _.sample(levelChoices) || _.sample(heroChoices.concat(courseChoices))
       this._nextLevelImage = '/images/pages/courses/banners/' + image
       return this._nextLevelImage
+    }
+
+    aiLeagueTiles () {
+      const tiles = []
+      const CNOnly = this.hasOnlyCodeNinjasEsportsCamps() || this.hasOnlyCodeNinjasJuniorCamps()
+      if (this.hasCodeNinjasEsportsCamp()) {
+        const levelImage = '/images/pages/courses/banners/contributor-archmage.png'
+        tiles.push({
+          a: {
+            href: 'https://www.ozaria.com/students',
+          },
+          img: {
+            src: levelImage,
+            alt: 'Play Ozaria',
+            class: levelImage ? '' : ' placeholder',
+          },
+          title: 'Ozaria',
+          text: 'Play Ozaria',
+        })
+      }
+      if (this.hasCodeNinjasJuniorCamp()) {
+        let levelImage = '/images/pages/roblox/header-bg/bg_1600.webp'
+        tiles.push({
+          a: {
+            href: 'https://www.roblox.com/games/11704713454/',
+            target: '_blank',
+          },
+          img: {
+            src: levelImage,
+            alt: 'Play CodeCombat Worlds on Roblox',
+            class: levelImage ? '' : ' placeholder',
+          },
+          title: 'Roblox',
+          text: 'Play CodeCombat Worlds on Roblox',
+        })
+        levelImage = '/images/pages/courses/banners/contributor-artisan.png'
+        tiles.push({
+          a: {
+            href: 'https://drive.google.com/drive/folders/1MpXn9h_y9NDV5vxSQfis5Bu1cUcxOAb-?usp=drive_link',
+            target: '_blank',
+          },
+          img: {
+            src: levelImage,
+            alt: 'Camp Activities',
+          },
+          title: 'Camp Activities',
+          text: 'View Camp Activities',
+        })
+      }
+      const arenas = (this.activeArenas || []).reverse() // make championship first
+      console.log('arenas order?', arenas)
+      for (const arena of arenas) {
+        if (CNOnly) {
+          continue
+        }
+        const arenaImage = arena.image || '/images/pages/play/ladder/multiplayer_notext.jpg'
+        const arenaName = $.i18n.t('league.' + arena.slug.replace(/-/g, '_'))
+        const stats = this.getAILeagueStat('arenas', arena.levelOriginal, '_global')
+        // TODO: link to team-specific arena by default if there are enough arena players in a team?
+        let span = ''
+        if (stats && stats.score) {
+          if (stats.rank) {
+            span = $.i18n.t('general.rank') + ': #' + stats.rank.toLocaleString()
+
+            if (stats.playerCount) {
+              span += ' / ' + stats.playerCount.toLocaleString()
+            }
+          }
+        } else if (this.myArenaSessions) {
+          span = $.i18n.t('teacher.not_started')
+        }
+        let text = $.i18n.t('courses.play_arena')
+        if (arena.ended) {
+          text = $.i18n.t('courses.view_standings')
+        } else if (arena.type === 'championship') {
+          text = $.i18n.t('courses.play_tournament')
+        }
+        tiles.push({
+          a: {
+            href: '/play/ladder/' + arena.slug,
+            title: arena.type === 'championship' ? $.i18n.t('courses.play_tournament') : $.i18n.t('courses.play_arena'),
+            class: ' play-arena-btn',
+          },
+          img: {
+            src: arenaImage,
+            alt: arenaName,
+            class: arena.image ? '' : ' placeholder',
+          },
+          noTitle: arena.image && this.shouldEmphasizeAILeague(),
+          title: arenaName,
+          titleClass: arena.image ? ' optional' : '',
+          stats: span,
+          text,
+        })
+      }
+      let span = $.i18n.t('league.not_registered')
+      let text = $.i18n.t('league.register')
+      let ahref = '/league?registering=true'
+      if (me.isRegisteredForAILeague()) {
+        span = `${$.i18n.t('ladder.age_bracket')}: ${this.ageBracketDisplay}`
+        text = $.i18n.t('courses.view_standings')
+        ahref = '/league#standings'
+      }
+      tiles.push({
+        a: {
+          href: ahref,
+          title: $.i18n.t('league.codecombat_ai_league'),
+          class: 'ai-league-btn ' + (CNOnly ? 'hidden' : ''),
+        },
+        img: {
+          src: `/images/pages/courses/banners/ai-league-banner-${this.randomAILeagueBannerHero}.png`,
+          alt: $.i18n.t('league.codecombat_ai_league'),
+        },
+        noTitle: true,
+        stats: span,
+        text,
+      })
+      return tiles
     }
 
     onLaddersLoaded (e) {

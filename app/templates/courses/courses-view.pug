@@ -1,5 +1,6 @@
 extends /templates/base-flat
 include ./tournament-tile-mixin
+include ./ai-league-mixin
 
 mixin hoc-progress-body(hocStats, mapUrl)
   if hocStats.complete
@@ -289,7 +290,7 @@ mixin coco_main_content()
             .rtl-allowed
               a.change-hero-btn(data-i18n="play.change_hero")
 
-          div(class='student-stats col-md-5' + (view.shouldEmphasizeAILeague() ? '' : ' deemphasize-ai-league'))
+          div(class='student-stats col-md-5 text-center' + (view.shouldEmphasizeAILeague() ? '' : ' deemphasize-ai-league'))
             h2
               span(data-i18n='general.player')
               span= ': '
@@ -329,87 +330,15 @@ mixin coco_main_content()
                   else
                     span(data-i18n="courses.play_next_level")
 
-            if view.hasCodeNinjasEsportsCamp()
-              a.tile(href="https://www.ozaria.com/students")
-                - var levelImage = '/images/pages/courses/banners/contributor-archmage.png'
-                img(src=levelImage, alt="Play Ozaria", class="level-image" + (levelImage ? "" : " placeholder"))
-                h3.dynamic-level-name.overlay-text Ozaria
-                .tile-text-backdrop
-                .play-text-container
-                  .overlay-text.play-text
-                    span Play Ozaria
-
-            if view.hasCodeNinjasJuniorCamp()
-              a.tile(href="https://www.roblox.com/games/11704713454/" target="_blank")
-                - var levelImage = '/images/pages/roblox/header-bg/bg_1600.webp'
-                img(src=levelImage, alt="Play CodeCombat Worlds on Roblox", class="level-image" + (levelImage ? "" : " placeholder"))
-                h3.dynamic-level-name.overlay-text Roblox
-                .tile-text-backdrop
-                .play-text-container
-                  .overlay-text.play-text
-                    span Play CodeCombat Worlds on Roblox
-
-              a.tile(href="https://drive.google.com/drive/folders/1MpXn9h_y9NDV5vxSQfis5Bu1cUcxOAb-?usp=drive_link" target="_blank")
-                - var levelImage = '/images/pages/courses/banners/contributor-artisan.png'
-                img(src=levelImage alt="Camp Activities", class="level-image")
-                h3.dynamic-level-name.overlay-text Camp Activities
-                .tile-text-backdrop
-                .play-text-container
-                  .overlay-text.play-text
-                    span View Camp Activities
-
-            for arena in view.activeArenas || []
-              - if (view.hasOnlyCodeNinjasEsportsCamps() || view.hasOnlyCodeNinjasJuniorCamps()) { continue }
-              a.play-arena-btn.tile(href='/play/ladder/' + arena.slug, data-i18n=(arena.type === 'championship' ? '[title]courses.play_tournament' : '[title]courses.play_arena'))
-                - var arenaImage = arena.image || "/images/pages/play/ladder/multiplayer_notext.jpg"
-                - var arenaName = $.i18n.t('league.' + arena.slug.replace(/-/g, '_'))
-                - var stats = view.getAILeagueStat('arenas', arena.levelOriginal, '_global')
-                // TODO: link to team-specific arena by default if there are enough arena players in a team?
-                img(src=arenaImage, alt=arenaName, class="level-image" + (arena.image ? "" : " placeholder"))
-                if !arena.image || !view.shouldEmphasizeAILeague()
-                  h3(class="dynamic-level-name overlay-text" + (arena.image ? " optional" : ""))= arenaName
-                .tile-text-backdrop
-                .stats-text-container
-                  .overlay-text.stats-text
-                    if stats && stats.score
-                      if stats.rank
-                        span(data-i18n='general.rank')
-                        span= ': #'
-                        span= stats.rank.toLocaleString()
-                        if stats.playerCount
-                          span= ' / '
-                          span= stats.playerCount.toLocaleString()
-                    else if view.myArenaSessions
-                      span(data-i18n='teacher.not_started')
-                .play-text-container
-                  .overlay-text.play-text
-                    //.btn.btn-illustrated.btn-success
-                    if arena.ended
-                      //span(data-i18n='courses.view_winners')  // Gonna take us a while to crown winners. Can go back to this if we get it to go faster.
-                      span(data-i18n='courses.view_standings')
-                    else if arena.type == 'championship'
-                      span(data-i18n='courses.play_tournament')
-                    else
-                      span(data-i18n='courses.play_arena')
-
-            a.ai-league-btn.tile(href=(me.isRegisteredForAILeague() ? '/league#standings' : '/league?registering=true'), data-i18n="[title]league.codecombat_ai_league" class=view.hasOnlyCodeNinjasEsportsCamps() || view.hasOnlyCodeNinjasJuniorCamps() ? 'hidden' : '')
-              img.level-image(src='/images/pages/courses/banners/ai-league-banner-' + view.randomAILeagueBannerHero + '.png' data-i18n="[alt]league.codecombat_ai_league")
-              //h3.dynamic-level-name.overlay-text CodeCombat AI League  // Someday: use different background and i18n the name
-              .tile-text-backdrop
-              .stats-text-container
-                .overlay-text.stats-text
-                  if me.isRegisteredForAILeague()
-                    span(data-i18n="ladder.age_bracket")
-                    span= ': '
-                    span= view.ageBracketDisplay
-                  else
-                    span(data-i18n='league.not_registered')
-              .play-text-container
-                .overlay-text.play-text
-                  if me.isRegisteredForAILeague()
-                    span(data-i18n='courses.view_standings')
-                  else
-                    span(data-i18n='league.register')
+            - tiles = view.aiLeagueTiles()
+            if tiles.length
+              +AILeagueMixin(tiles[0])
+              if tiles.length > 1
+                if view.moreAILeagueTiles
+                  for tile in tiles.slice(1)
+                    +AILeagueMixin(tile)
+                else
+                  a.more-ai-league-tiles(data-i18n='general.more')
 
           .school-stats.col-md-5
             if view.myClans
@@ -438,10 +367,9 @@ mixin coco_main_content()
         .custom-tournaments
           br
           h3(data-i18n="courses.custom_tournaments")
-          for tournament in view.reversedTournaments.slice(0, 2)
-            +tournamentTileMixin(tournament)
-
-        if view.tournaments.length > 2
+          - var tournament = view.reversedTournaments[0]
+          +tournamentTileMixin(tournament)
+        if view.tournaments.length > 1
           a.more-tournaments(data-i18n="general.more")
 
       +classrooms_content()
