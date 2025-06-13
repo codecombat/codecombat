@@ -796,7 +796,7 @@ module.exports = (CoursesView = (function () {
           a: {
             href: 'https://www.roblox.com/games/11704713454/',
             target: '_blank',
-            ref: 'noopener noreferrer',
+            rel: 'noopener noreferrer',
           },
           img: {
             src: levelImage,
@@ -811,7 +811,7 @@ module.exports = (CoursesView = (function () {
           a: {
             href: 'https://drive.google.com/drive/folders/1MpXn9h_y9NDV5vxSQfis5Bu1cUcxOAb-?usp=drive_link',
             target: '_blank',
-            ref: 'noopener noreferrer',
+            rel: 'noopener noreferrer',
           },
           img: {
             src: levelImage,
@@ -821,7 +821,7 @@ module.exports = (CoursesView = (function () {
           text: $.i18n.t('courses.view_camp_activities'),
         })
       }
-      const arenas = (this.activeArenas || []).reverse() // make championship first
+      const arenas = (this.activeArenas || []).slice().reverse() // make championship first
       for (const arena of arenas) {
         if (CNOnly) {
           continue
