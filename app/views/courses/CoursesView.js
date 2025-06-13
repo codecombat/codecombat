@@ -739,11 +739,13 @@ module.exports = (CoursesView = (function () {
     }
 
     onClickMoreTournaments (e) {
+      e.preventDefault()
       const modal = new TournamentsListModal({ tournamentsByState: this.tournamentsByState, ladderImageMap: this.ladderImageMap })
       return this.openModalView(modal)
     }
 
     onClickMoreAILeagueTiles (e) {
+      e.preventDefault()
       this.moreAILeagueTiles = true
       this.renderSelectors('.student-stats')
       window.tracker?.trackEvent('Students View Click MoreAILeagueTiles', { category: 'Students', id: me.id })
@@ -781,11 +783,11 @@ module.exports = (CoursesView = (function () {
           },
           img: {
             src: levelImage,
-            alt: 'Play Ozaria',
+            alt: $.i18n.t('courses.play_ozaria'),
             class: levelImage ? '' : ' placeholder',
           },
-          title: 'Ozaria',
-          text: 'Play Ozaria',
+          title: $.i18n.t('common.ozaria'),
+          text: $.i18n.t('courses.play_ozaria'),
         })
       }
       if (this.hasCodeNinjasJuniorCamp()) {
@@ -794,31 +796,32 @@ module.exports = (CoursesView = (function () {
           a: {
             href: 'https://www.roblox.com/games/11704713454/',
             target: '_blank',
+            ref: 'noopener noreferrer',
           },
           img: {
             src: levelImage,
-            alt: 'Play CodeCombat Worlds on Roblox',
+            alt: $.i18n.t('courses.play_ccw_on_roblox'),
             class: levelImage ? '' : ' placeholder',
           },
-          title: 'Roblox',
-          text: 'Play CodeCombat Worlds on Roblox',
+          title: $.i18n.t('common.roblox'),
+          text: $.i18n.t('courses.play_ccw_on_roblox'),
         })
         levelImage = '/images/pages/courses/banners/contributor-artisan.png'
         tiles.push({
           a: {
             href: 'https://drive.google.com/drive/folders/1MpXn9h_y9NDV5vxSQfis5Bu1cUcxOAb-?usp=drive_link',
             target: '_blank',
+            ref: 'noopener noreferrer',
           },
           img: {
             src: levelImage,
-            alt: 'Camp Activities',
+            alt: $.i18n.t('courses.camp_activities'),
           },
-          title: 'Camp Activities',
-          text: 'View Camp Activities',
+          title: $.i18n.t('courses.camp_activities'),
+          text: $.i18n.t('courses.view_camp_activities'),
         })
       }
       const arenas = (this.activeArenas || []).reverse() // make championship first
-      console.log('arenas order?', arenas)
       for (const arena of arenas) {
         if (CNOnly) {
           continue
