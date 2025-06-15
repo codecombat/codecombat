@@ -177,21 +177,14 @@ mixin classrooms_content()
               // internal play-test course which we removed later
               if !course || course._id === '5eb34fc8dc0fd35e8eae66b0'
                 - continue;
-              - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
-              - var nextLevel = stats.levels.next;
-              - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
-              - allCoursesComplete = allCoursesComplete && stats.courseComplete
-              if nextLevel
-                - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
-                - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
-                - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID, classroomId: courseInstance.get('classroomID')});
 
               if course
+                - var courseUrl = view.urls.courseWorldMap({ course, courseInstance })
                 h6
                   span.spr= i18n(course, 'name')
                   small
                     if courseInstance.get('courseID') !== view.utils.courseIDs.HACKSTACK
-                      a.view-levels-btn(data-href=mapUrl, data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
+                      a.view-levels-btn(data-href=courseUrl, data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
                     if view.courseInstanceHasProject(courseInstance)
                       a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
                     if view.utils.isCodeCombat && classroom.hasAssessments({courseId: course._id})
@@ -200,17 +193,30 @@ mixin classrooms_content()
                     if view.showVideosLinkForCourse(course._id)
                       = " "
                       a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
-                if courseInstance.get('courseID') === view.utils.allCourseIDs.HACKSTACK
-                  - var hackstackUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id')})
-                  .pull-right
-                    a.btn.btn-navy.btn-lg.m-b-1(href=hackstackUrl data-event-action="Students Start HackStack Course")
-                      span(data-i18n="courses.start")
-                else
-                  if view.utils.isCodeCombat
-                    +course-instance-body(courseInstance, classroom)
-                  else
-                    +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, course.campaignID, isLocked)
-                .clearfix
+              if courseInstance.get('courseID') === view.utils.allCourseIDs.HACKSTACK
+                - var hackstackUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id')})
+                .pull-right
+                  a.btn.btn-navy.btn-lg.m-b-1(href=hackstackUrl data-event-action="Students Start HackStack Course")
+                    span(data-i18n="courses.start")
+              else if courseInstance.sessions
+                - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
+                - var nextLevel = stats.levels.next;
+                - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
+                - allCoursesComplete = allCoursesComplete && stats.courseComplete
+                if nextLevel
+                  - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
+                  - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
+                  - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID, classroomId: courseInstance.get('classroomID')});
+                   if view.utils.isCodeCombat
+                      +course-instance-body(courseInstance, classroom)
+                   else
+                      +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, course.campaignID, isLocked)
+              else
+                .pull-right
+                  a.btn.btn-navy.btn-lg.m-b-1(href=courseUrl data-event-action="Students Start Course")
+                    span(data-i18n="courses.start")
+
+              .clearfix
           - var classroomCourseIds = classroom.get('courses').map(i=>i._id).sort().join()
           - var courseInstancesCourseIds = courseInstances.map(i=>i.get('courseID')).sort().join()
           - var allCoursesPlayed = classroomCourseIds === courseInstancesCourseIds
@@ -296,37 +302,38 @@ mixin coco_main_content()
             hr
 
             - var nextLevelLocked = view.nextLevelInfo && view.nextLevelInfo.locked
-            a.play-next-level-btn.tile(disabled=!view.nextLevelInfo || nextLevelLocked, data-i18n=nextLevelLocked ? '[title]courses.ask_teacher_to_unlock_instructions' : '[title]courses.play_next_level' class=view.hasOnlyCodeNinjasEsportsCamps() ? 'hidden' : '')
-              - var levelInfo = view.nextLevelInfo || {}
-              - var level = levelInfo.level
-              - var levelName = ''
-              - var levelWithI18n = level ? view.originalLevelMap[level.get('original')] : null
-              - if (levelWithI18n)
-              -    levelName = i18n(levelWithI18n.attributes, 'name')
-              - else if (level)
-              -    levelName = level.get('name')
-              - if (levelInfo.number && levelInfo.number > 0)
-              -   // Prepend level number, like "Level 1: Dungeons of Kithgard"
-              -   levelName = $.i18n.t('play_level.level') + ' ' + levelInfo.number + ': ' + levelName
-              - else if (levelInfo.number)
-              -   // Prepend level type and name, like "Concept Challenge: Long Steps"
-              -   levelName = levelInfo.number + ': ' + levelName
-              - if (levelInfo.courseAcronym)
-              -   // Prepend course acronym, like "CS1 Level 1: Dungeons of Kithgard"
-              -   levelName = levelInfo.courseAcronym + ' ' + levelName
-              - var levelImage = view.nextLevelImage()
-              img(src=levelImage, alt=levelName, class="level-image" + (levelImage ? "" : " placeholder"))
-              h3.dynamic-level-name.overlay-text= levelName + (nextLevelLocked ? " (locked)" : "")
-              .tile-text-backdrop
-              .stats-text-container
-                .overlay-text.stats-text
-                  span(data-i18n='courses.levels_completed', data-i18n-options={count: me.get('stats') ? me.get('stats').gamesCompleted || 0 : 0})
-              .play-text-container
-                .overlay-text.play-text
-                  if nextLevelLocked
-                    span(data-i18n="courses.ask_teacher_to_unlock")
-                  else
-                    span(data-i18n="courses.play_next_level")
+            if view.nextLevelInfo
+              a.play-next-level-btn.tile(disabled=nextLevelLocked, data-i18n=nextLevelLocked ? '[title]courses.ask_teacher_to_unlock_instructions' : '[title]courses.play_next_level' class=view.hasOnlyCodeNinjasEsportsCamps() ? 'hidden' : '')
+                - var levelInfo = view.nextLevelInfo || {}
+                - var level = levelInfo.level
+                - var levelName = ''
+                - var levelWithI18n = level ? view.originalLevelMap[level.get('original')] : null
+                - if (levelWithI18n)
+                -    levelName = i18n(levelWithI18n.attributes, 'name')
+                - else if (level)
+                -    levelName = level.get('name')
+                - if (levelInfo.number && levelInfo.number > 0)
+                -   // Prepend level number, like "Level 1: Dungeons of Kithgard"
+                -   levelName = $.i18n.t('play_level.level') + ' ' + levelInfo.number + ': ' + levelName
+                - else if (levelInfo.number)
+                -   // Prepend level type and name, like "Concept Challenge: Long Steps"
+                -   levelName = levelInfo.number + ': ' + levelName
+                - if (levelInfo.courseAcronym)
+                -   // Prepend course acronym, like "CS1 Level 1: Dungeons of Kithgard"
+                -   levelName = levelInfo.courseAcronym + ' ' + levelName
+                - var levelImage = view.nextLevelImage()
+                img(src=levelImage, alt=levelName, class="level-image" + (levelImage ? "" : " placeholder"))
+                h3.dynamic-level-name.overlay-text= levelName + (nextLevelLocked ? " (locked)" : "")
+                .tile-text-backdrop
+                .stats-text-container
+                  .overlay-text.stats-text
+                    span(data-i18n='courses.levels_completed', data-i18n-options={count: me.get('stats') ? me.get('stats').gamesCompleted || 0 : 0})
+                .play-text-container
+                  .overlay-text.play-text
+                    if nextLevelLocked
+                      span(data-i18n="courses.ask_teacher_to_unlock")
+                    else
+                      span(data-i18n="courses.play_next_level")
 
             - tiles = view.aiLeagueTiles()
             if tiles.length

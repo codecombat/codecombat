@@ -350,7 +350,7 @@ module.exports = (CoursesView = (function () {
             model: LevelSession
           })
           courseInstance.sessions.comparator = 'changed'
-          result.push(this.supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete,level.original,playtime,changed' } }))
+          courseInstance.sessions.fetch({ data: { project: 'state.complete,level.original,playtime,changed' } })
         }
         return result
       })()
@@ -416,6 +416,9 @@ module.exports = (CoursesView = (function () {
         this.allCompleted = !_.some(this.classrooms.models, function (classroom) {
           return _.some(this.courseInstances.where({ classroomID: classroom.id }), function (courseInstance) {
             const course = this.store.state.courses.byId[courseInstance.get('courseID')]
+            if (!courseInstance.sessions) {
+              return false
+            }
             const stats = classroom.statsForSessions(courseInstance.sessions, course._id)
             if (stats.levels != null ? stats.levels.next : undefined) {
               // This could be made smarter than just picking the next level from the first incomplete course
@@ -458,7 +461,7 @@ module.exports = (CoursesView = (function () {
         this.listenTo(levels, 'sync', () => {
           if (this.destroyed) { return }
           for (const level of Array.from(levels.models)) { this.originalLevelMap[level.get('original')] = level }
-          return this.render()
+          this.renderSelectors('.course-instance-entry')
         })
         return this.supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: `original,primerLanguage,slug,name,i18n.${me.get('preferredLanguage', true)},displayName` } }))
       }
