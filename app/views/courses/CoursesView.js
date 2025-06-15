@@ -357,7 +357,7 @@ module.exports = (CoursesView = (function () {
         for (const courseInstance of Array.from(this.courseInstances.models)) {
           const courseID = courseInstance.get('courseID')
           // 99.9% courseInstances has aceConfig
-          const lang = courseInstance.get('aceConfig')?.language || 'other'
+          const lang = courseInstance.get('aceConfig')?.language || 'others'
           if (!(lang in languageSessions)) {
             languageSessions[lang] = {}
           }
@@ -370,7 +370,7 @@ module.exports = (CoursesView = (function () {
           const instancesByCourse = languageSessions[lang]
           for (const courseID in instancesByCourse) {
             const instances = instancesByCourse[courseID]
-            if (lang === 'other') {
+            if (lang === 'others') {
               for (const instance of instances) {
                 instance.sessions = fetchSessions(instance)
               }
