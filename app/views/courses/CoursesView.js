@@ -913,28 +913,30 @@ module.exports = (CoursesView = (function () {
           text,
         })
       }
-      let span = $.i18n.t('league.not_registered')
-      let text = $.i18n.t('league.register')
-      let ahref = '/league?registering=true'
-      if (me.isRegisteredForAILeague()) {
-        span = `${$.i18n.t('ladder.age_bracket')}: ${this.ageBracketDisplay}`
-        text = $.i18n.t('courses.view_standings')
-        ahref = '/league#standings'
+      if (!me.showChinaResourceInfo()) {
+        let span = $.i18n.t('league.not_registered')
+        let text = $.i18n.t('league.register')
+        let ahref = '/league?registering=true'
+        if (me.isRegisteredForAILeague()) {
+          span = `${$.i18n.t('ladder.age_bracket')}: ${this.ageBracketDisplay}`
+          text = $.i18n.t('courses.view_standings')
+          ahref = '/league#standings'
+        }
+        tiles.push({
+          a: {
+            href: ahref,
+            title: $.i18n.t('league.codecombat_ai_league'),
+            class: 'ai-league-btn ' + (CNOnly ? 'hidden' : ''),
+          },
+          img: {
+            src: `/images/pages/courses/banners/ai-league-banner-${this.randomAILeagueBannerHero}.png`,
+            alt: $.i18n.t('league.codecombat_ai_league'),
+          },
+          noTitle: true,
+          stats: span,
+          text,
+        })
       }
-      tiles.push({
-        a: {
-          href: ahref,
-          title: $.i18n.t('league.codecombat_ai_league'),
-          class: 'ai-league-btn ' + (CNOnly ? 'hidden' : ''),
-        },
-        img: {
-          src: `/images/pages/courses/banners/ai-league-banner-${this.randomAILeagueBannerHero}.png`,
-          alt: $.i18n.t('league.codecombat_ai_league'),
-        },
-        noTitle: true,
-        stats: span,
-        text,
-      })
       return tiles
     }
 
