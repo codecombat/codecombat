@@ -341,19 +341,50 @@ module.exports = (CoursesView = (function () {
       // HoC 2015 used special single player course instances
       this.courseInstances.remove(this.courseInstances.where({ hourOfCode: true }))
 
-      return (() => {
-        const result = []
+      const fetchSessions = (instance) => {
+        const fetchOptions = { data: { project: 'state.complete,level.original,playtime,changed' } }
+        const collection = new CocoCollection([], {
+          url: instance.url() + '/course-level-sessions/' + me.id,
+          model: LevelSession,
+        })
+        collection.comparator = 'changed'
+        collection.fetch(fetchOptions)
+        return collection
+      }
+      const dynamicLoadLanguageSessions = () => {
+        // classrooms has same language shares progress, so we only need to fetch session once
+        const languageSessions = { others: {} }
         for (const courseInstance of Array.from(this.courseInstances.models)) {
-          if (!courseInstance.get('classroomID')) { continue }
-          courseInstance.sessions = new CocoCollection([], {
-            url: courseInstance.url() + '/course-level-sessions/' + me.id,
-            model: LevelSession
-          })
-          courseInstance.sessions.comparator = 'changed'
-          courseInstance.sessions.fetch({ data: { project: 'state.complete,level.original,playtime,changed' } })
+          const courseID = courseInstance.get('courseID')
+          // 99.9% courseInstances has aceConfig
+          const lang = courseInstance.get('aceConfig')?.language || 'other'
+          if (!(lang in languageSessions)) {
+            languageSessions[lang] = {}
+          }
+          if (!(courseID in languageSessions[lang])) {
+            languageSessions[lang][courseID] = []
+          }
+          languageSessions[lang][courseID].push(courseInstance)
         }
-        return result
-      })()
+        for (const lang in languageSessions) {
+          const instancesByCourse = languageSessions[lang]
+          for (const courseID in instancesByCourse) {
+            const instances = instancesByCourse[courseID]
+            if (lang === 'other') {
+              for (const instance of instances) {
+                instance.sessions = fetchSessions(instance)
+              }
+            } else {
+              // only fetch first course-instances
+              const collection = fetchSessions(instances[0])
+              for (const instance of instances) {
+                instance.sessions = collection
+              }
+            }
+          }
+        }
+      }
+      dynamicLoadLanguageSessions()
     }
 
     onLoaded () {
