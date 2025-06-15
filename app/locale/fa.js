@@ -1825,6 +1825,8 @@ module.exports = {
     //    error_in_importing_students: "Error in importing students",
     //    classroom_items_description: "Whether students should earn gems and equip items during gameplay.",
     //    classroom_live_completion: "Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.",
+    //    classroom_disable_paste: "Whether to disable pasting code into the code editor in this classroom.",
+    //    disable_paste_noty: "Your teacher has disabled the paste feature!",
     //    code_formats: "Code Formats",
     //    code_formats_description: "Which code formats students can choose from.",
     //    code_formats_disabled_by: "Blocks and code, Blocks are not supported with __language__ language",
@@ -2458,6 +2460,7 @@ module.exports = {
     //    link_lms_classroom: "Link LMS Classroom",
     //    classroom_items: "Items & Gems",
     //    classroom_live_completion: "Classroom Code Autocomplete: ",
+    //    classroom_disable_paste: "Classroom Disable Paste: ",
     //    learn_without_classroom_title: "You can still learn and play without a classroom",
     //    learn_without_classroom_blurb: "Start by playing the free Sky Mountain chapter by <a href='/play/chapter-1-sky-mountain'>clicking here</a>.",
     //    learn_without_classroom_blurb_coco: "Start by playing the free Hour of Code campaign by <a href='/play/intro'>clicking here</a>.",
@@ -5167,6 +5170,8 @@ module.exports = {
     //    error_results_date_too_early: "The Results Time cannot be earlier than End Time",
     //    publish_results: "Publish Results",
     //    publish_options: "Publish Options",
+    //    anonymize_players: "Anonymize Players",
+    //    anonymize_players_description: "Players cannot see each other's name until tournament published.",
     //  },
 
     //  payments: {
@@ -5644,6 +5649,9 @@ module.exports = {
     //    try_it_now: "Try it now",
     //    junior_modal_header: "Try Our New K-5 Curriculum Today!",
     //    junior_modal_body: "Perfect for K-5 classrooms, this new curriculum features real coding with icons, drag-and-drop blocks, parallel blocks with text, or purely text-based options. Plus, it’s fully accessible on tablets making it easy to support all learners.",
+    //    hs_modal_header: "Unlock Free AI Access This Summer",
+    //    hs_modal_body: "Discover how educators innovate with our AI -- watch the quick demo! This summer, explore Claude, DALL-E, Stable Diffusion, and more. Book a brief meeting by August 15 to claim your free 90-day AI educator license -- We'll handle the setup so you can dive right in.",
+    //    get_started: "Get Started!",
     //  },
 
     //  schools_page: {

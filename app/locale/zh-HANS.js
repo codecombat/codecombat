@@ -1825,6 +1825,8 @@ module.exports = {
       error_in_importing_students: '导入学生发生错误',
       classroom_items_description: '学生们是否需要在关卡中赚取宝石并购买装备。',
       classroom_live_completion: '关闭该项会关闭所有学生的自动补全功能。启用该项则根据学生自己的设置开启自动补全。',
+      //    classroom_disable_paste: "Whether to disable pasting code into the code editor in this classroom.",
+      //    disable_paste_noty: "Your teacher has disabled the paste feature!",
       code_formats: '编码类型(测试)',
       code_formats_description: '学生们可以选择的编码类型',
       code_formats_disabled_by: '[AI_TRANSLATION]积木与代码，__language__ 语言不支持积木',
@@ -2458,6 +2460,7 @@ module.exports = {
       link_lms_classroom: '[AI_TRANSLATION]链接 LMS 教室',
       classroom_items: '装备与宝石',
       classroom_live_completion: '为学生启用自动补全：',
+      //    classroom_disable_paste: "Classroom Disable Paste: ",
       learn_without_classroom_title: '[AI_TRANSLATION]即使没有教室你仍然可以学习和玩耍',
       learn_without_classroom_blurb: "[AI_TRANSLATION]从玩免费的“天空山脉”章节开始，<a href='/play/chapter-1-sky-mountain'>点击这里</a>。",
       learn_without_classroom_blurb_coco: "[AI_TRANSLATION]从玩免费的“编程小时”活动开始，<a href='/play/intro'>点击这里</a>。",
@@ -5167,6 +5170,8 @@ module.exports = {
       error_results_date_too_early: '[AI_TRANSLATION]结果时间不能早于结束时间',
       publish_results: '[AI_TRANSLATION]发布结果',
       publish_options: '[AI_TRANSLATION]发布选项',
+      //    anonymize_players: "Anonymize Players",
+      //    anonymize_players_description: "Players cannot see each other's name until tournament published.",
     },
 
     payments: {
@@ -5644,6 +5649,9 @@ module.exports = {
       try_it_now: '[AI_TRANSLATION]立即试用',
       //    junior_modal_header: "Try Our New K-5 Curriculum Today!",
       //    junior_modal_body: "Perfect for K-5 classrooms, this new curriculum features real coding with icons, drag-and-drop blocks, parallel blocks with text, or purely text-based options. Plus, it’s fully accessible on tablets making it easy to support all learners.",
+      //    hs_modal_header: "Unlock Free AI Access This Summer",
+      //    hs_modal_body: "Discover how educators innovate with our AI -- watch the quick demo! This summer, explore Claude, DALL-E, Stable Diffusion, and more. Book a brief meeting by August 15 to claim your free 90-day AI educator license -- We'll handle the setup so you can dive right in.",
+      //    get_started: "Get Started!",
     },
 
     schools_page: {

@@ -1825,6 +1825,8 @@ module.exports = {
       error_in_importing_students: '[AI_TRANSLATION]Kesalahan dalam mengimpor siswa',
       classroom_items_description: '[AI_TRANSLATION]Apakah murid harus mendapatkan permata dan melengkapi item selama permainan.',
       classroom_live_completion: '[AI_TRANSLATION]Apakah mengaktifkan auto-complete coding di kelas ini. Dinonaktifkan: mematikan auto-complete untuk semua level. Diaktifkan: memungkinkan siswa memilih. Kami menyarankan agar tetap diaktifkan.',
+      //    classroom_disable_paste: "Whether to disable pasting code into the code editor in this classroom.",
+      //    disable_paste_noty: "Your teacher has disabled the paste feature!",
       code_formats: '[AI_TRANSLATION]Format Kode (beta)',
       code_formats_description: '[AI_TRANSLATION]Format kode apa yang bisa dipilih oleh siswa.',
       code_formats_disabled_by: '[AI_TRANSLATION]Blok dan kode, Blok nggak didukung dengan bahasa __language__',
@@ -2458,6 +2460,7 @@ module.exports = {
       link_lms_classroom: '[AI_TRANSLATION]Link LMS Classroom',
       classroom_items: '[AI_TRANSLATION]Barang & Permata',
       classroom_live_completion: '[AI_TRANSLATION]Kode Autolengkap Kelas: ',
+      //    classroom_disable_paste: "Classroom Disable Paste: ",
       learn_without_classroom_title: '[AI_TRANSLATION]Kamu masih bisa belajar dan bermain tanpa kelas',
       learn_without_classroom_blurb: "[AI_TRANSLATION]Mulai dengan bermain bab Gunung Langit gratis dengan <a href='/play/chapter-1-sky-mountain'>klik di sini</a>.",
       learn_without_classroom_blurb_coco: "[AI_TRANSLATION]Mulailah dengan memainkan kampanye Hour of Code gratis dengan <a href='/play/intro'>klik di sini</a>.",
@@ -5167,6 +5170,8 @@ module.exports = {
       error_results_date_too_early: '[AI_TRANSLATION]Waktu Hasil tidak bisa lebih awal dari Waktu Akhir',
       publish_results: '[AI_TRANSLATION]Publikasikan Hasil',
       publish_options: '[AI_TRANSLATION]Opsi Publikasi',
+      //    anonymize_players: "Anonymize Players",
+      //    anonymize_players_description: "Players cannot see each other's name until tournament published.",
     },
 
     payments: {
@@ -5644,6 +5649,9 @@ module.exports = {
       try_it_now: '[AI_TRANSLATION]Coba sekarang',
       //    junior_modal_header: "Try Our New K-5 Curriculum Today!",
       //    junior_modal_body: "Perfect for K-5 classrooms, this new curriculum features real coding with icons, drag-and-drop blocks, parallel blocks with text, or purely text-based options. Plus, it’s fully accessible on tablets making it easy to support all learners.",
+      //    hs_modal_header: "Unlock Free AI Access This Summer",
+      //    hs_modal_body: "Discover how educators innovate with our AI -- watch the quick demo! This summer, explore Claude, DALL-E, Stable Diffusion, and more. Book a brief meeting by August 15 to claim your free 90-day AI educator license -- We'll handle the setup so you can dive right in.",
+      //    get_started: "Get Started!",
     },
 
     schools_page: {

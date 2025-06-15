@@ -22,12 +22,13 @@ _.extend(ClassroomSchema.properties, {
   aceConfig: c.object({}, {
     language: { type: 'string', enum: ['python', 'javascript', 'cpp', 'java'] },
     liveCompletion: { type: 'boolean', default: true },
+    disablePaste: { type: 'boolean', default: false },
     codeFormats: c.array({ title: 'Code Formats', description: 'Enable these code formats for students', minitems: 1, uniqueItems: true }, {
       type: 'string',
       enum: ['text-code', 'blocks-and-code', 'blocks-text', 'blocks-icons'],
     }),
     codeFormatDefault: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option for students. Default if unset: text-code.' },
-    levelChat: { type: 'string', enum: ['fixed_prompt_only', 'none'] }
+    levelChat: { type: 'string', enum: ['fixed_prompt_only', 'none'] },
   }),
   hackstackConfig: c.object({}, {
     remixAllowed: { type: 'boolean', default: true },

@@ -1825,6 +1825,8 @@ module.exports = {
       error_in_importing_students: '[AI_TRANSLATION]เกิดข้อผิดพลาดในการนำเข้านักเรียน',
       classroom_items_description: '[AI_TRANSLATION]นักเรียนควรได้รับอัญมณีและสวมใส่อุปกรณ์ระหว่างการเล่นเกมหรือไม่',
       classroom_live_completion: '[AI_TRANSLATION]เอาชนะนักธนูของคุณ',
+      //    classroom_disable_paste: "Whether to disable pasting code into the code editor in this classroom.",
+      //    disable_paste_noty: "Your teacher has disabled the paste feature!",
       code_formats: '[AI_TRANSLATION]รูปแบบโค้ด (เวอร์ชันทดลอง)\n',
       code_formats_description: '[AI_TRANSLATION]ฟอร์แมตโค้ดที่นักเรียนสามารถเลือกได้',
       code_formats_disabled_by: '[AI_TRANSLATION]บล็อกและโค้ด, บล็อกไม่รองรับภาษาของ __language__  ',
@@ -2458,6 +2460,7 @@ module.exports = {
       link_lms_classroom: '[AI_TRANSLATION]ลิงค์ห้องเรียน LMS',
       classroom_items: '[AI_TRANSLATION]ไอเท็ม & เพชร',
       classroom_live_completion: '[AI_TRANSLATION]Classroom Code Autocomplete:',
+      //    classroom_disable_paste: "Classroom Disable Paste: ",
       learn_without_classroom_title: '[AI_TRANSLATION]คุณยังสามารถเรียนรู้และเล่นได้โดยไม่ต้องมีห้องเรียน\n',
       learn_without_classroom_blurb: "[AI_TRANSLATION]เริ่มต้นด้วยการเล่นบทฟรีของภูเขาสวรรค์โดย <a href='/play/chapter-1-sky-mountain'>คลิกที่นี่</a>.",
       learn_without_classroom_blurb_coco: "[AI_TRANSLATION]เริ่มต้นจากการเล่นแคมเปญชั่วโมงแห่งโค้ดฟรีโดย <a href='/play/intro'>คลิกที่นี่</a>",
@@ -5167,6 +5170,8 @@ module.exports = {
       error_results_date_too_early: '[AI_TRANSLATION]เวลาผลลัพธ์ไม่สามารถเร็วกว่าค่าสิ้นสุดได้',
       publish_results: '[AI_TRANSLATION]เผยแพร่ผลลัพธ์  ',
       publish_options: '[AI_TRANSLATION]ตัวเลือกการเผยแพร่',
+      //    anonymize_players: "Anonymize Players",
+      //    anonymize_players_description: "Players cannot see each other's name until tournament published.",
     },
 
     payments: {
@@ -5644,6 +5649,9 @@ module.exports = {
       try_it_now: '[AI_TRANSLATION]ลองเลย\n',
       //    junior_modal_header: "Try Our New K-5 Curriculum Today!",
       //    junior_modal_body: "Perfect for K-5 classrooms, this new curriculum features real coding with icons, drag-and-drop blocks, parallel blocks with text, or purely text-based options. Plus, it’s fully accessible on tablets making it easy to support all learners.",
+      //    hs_modal_header: "Unlock Free AI Access This Summer",
+      //    hs_modal_body: "Discover how educators innovate with our AI -- watch the quick demo! This summer, explore Claude, DALL-E, Stable Diffusion, and more. Book a brief meeting by August 15 to claim your free 90-day AI educator license -- We'll handle the setup so you can dive right in.",
+      //    get_started: "Get Started!",
     },
 
     schools_page: {

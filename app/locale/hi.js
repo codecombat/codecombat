@@ -1825,6 +1825,8 @@ module.exports = {
       error_in_importing_students: '[AI_TRANSLATION]छात्रों को आयात करने में त्रुटि',
       classroom_items_description: '[AI_TRANSLATION]क्या स्टूडेंट्स को जेम्स अर्जित करने और गेमप्ले के दौरान आइटम पहनने चाहिए।',
       classroom_live_completion: '[AI_TRANSLATION]इस क्लासरूम में कोडिंग ऑटोकंप्लीट को सक्षम करने या न करने का निर्णय। निष्क्रिय: सभी स्तरों के लिए ऑटोकंप्लीट को बंद कर देता है। सक्षम: छात्रों को चुनने की अनुमति देता है। इसे सक्षम रखने की सिफारिश है।',
+      //    classroom_disable_paste: "Whether to disable pasting code into the code editor in this classroom.",
+      //    disable_paste_noty: "Your teacher has disabled the paste feature!",
       code_formats: '[AI_TRANSLATION]कोड स्वरूप (बीटा)',
       code_formats_description: '[AI_TRANSLATION]कौन से कोड फॉर्मेट छात्र चुन सकते हैं।',
       code_formats_disabled_by: '[AI_TRANSLATION]ब्लॉक और कोड, __language__ भाषा में ब्लॉक समर्थित नहीं हैं',
@@ -2458,6 +2460,7 @@ module.exports = {
       link_lms_classroom: '[AI_TRANSLATION]LMS कक्षा लिंक करें',
       classroom_items: '[AI_TRANSLATION]आइटम्स & रत्न',
       classroom_live_completion: '[AI_TRANSLATION]कक्षा कोड ऑटोकम्प्लीट:',
+      //    classroom_disable_paste: "Classroom Disable Paste: ",
       learn_without_classroom_title: '[AI_TRANSLATION]आप बिना कक्षा के भी सीख सकते हैं और खेल सकते हैं',
       learn_without_classroom_blurb: "[AI_TRANSLATION]मुफ्त स्काई माउंटेन अध्याय खेलकर <a href='/play/chapter-1-sky-mountain'>यहाँ क्लिक करें</a> से शुरू करें।",
       learn_without_classroom_blurb_coco: "[AI_TRANSLATION]<a href='/play/intro'>यहां क्लिक करके</a> मुफ्त Hour of Code अभियान खेलना शुरू करें।",
@@ -5167,6 +5170,8 @@ module.exports = {
       error_results_date_too_early: '[AI_TRANSLATION]परिणाम समय अंत समय से पहले नहीं हो सकता।',
       publish_results: '[AI_TRANSLATION]परिणाम प्रकाशित करें',
       publish_options: '[AI_TRANSLATION]Publish Options',
+      //    anonymize_players: "Anonymize Players",
+      //    anonymize_players_description: "Players cannot see each other's name until tournament published.",
     },
 
     payments: {
@@ -5644,6 +5649,9 @@ module.exports = {
       try_it_now: '[AI_TRANSLATION]अब इसे आज़माएं',
       //    junior_modal_header: "Try Our New K-5 Curriculum Today!",
       //    junior_modal_body: "Perfect for K-5 classrooms, this new curriculum features real coding with icons, drag-and-drop blocks, parallel blocks with text, or purely text-based options. Plus, it’s fully accessible on tablets making it easy to support all learners.",
+      //    hs_modal_header: "Unlock Free AI Access This Summer",
+      //    hs_modal_body: "Discover how educators innovate with our AI -- watch the quick demo! This summer, explore Claude, DALL-E, Stable Diffusion, and more. Book a brief meeting by August 15 to claim your free 90-day AI educator license -- We'll handle the setup so you can dive right in.",
+      //    get_started: "Get Started!",
     },
 
     schools_page: {

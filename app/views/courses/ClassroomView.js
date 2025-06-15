@@ -112,7 +112,12 @@ module.exports = (ClassroomView = (function () {
           const query = { courseID: course.id, classroomID: this.classroom.id }
           courseInstance = this.courseInstances.findWhere(query)
           if (!courseInstance) {
-            courseInstance = new CourseInstance(query)
+            courseInstance = new CourseInstance({
+              ...query,
+              aceConfig: {
+                language: this.classroom.get('aceConfig')?.language,
+              },
+            })
             this.courseInstances.add(courseInstance)
             courseInstance.sessions = new CocoCollection([], { model: LevelSession })
             sessions.courseInstance = courseInstance

@@ -173,30 +173,35 @@
         font-size: 24px
         text-align: center
 
+    .student-container
+      margin-bottom: 5px
+
+    .tile-header
+      margin-bottom: 5px
+
     // Hero display
     .current-hero
       cursor: pointer
       h2.current-hero-text
-        line-height: 24px
-        margin: 15px 0 5px 0
+        line-height: 18px
+        margin: 10px 0 5px 0
         color: black
         text-shadow: none
 
       .hero-avatar
-        margin-right: 10px
+        margin-right: 8px
 
         img
           max-width: 100%
-          max-height: 220px
+          max-height: 120px
 
           &.hero-captain
             // Captain faces left normally, others face right
             transform: scaleX(-1)
 
-      .change-hero-btn
-        font-size: 13px
-        text-transform: lowercase
-        font-weight: regular
+    .change-hero-btn, .more-ai-league-tiles
+      font-size: 13px
+      font-weight: normal
   @else
     .current-hero-container
       display: flex
@@ -340,6 +345,7 @@
 
   .more-tournaments
     float: right
+    color: #F7B42C
 
   @if $is-codecombat
     .school-stats
@@ -363,7 +369,7 @@
           color: white
 
       .clan-list-container
-        max-height: 239px
+        max-height: 160px
         overflow: scroll
 
       .team

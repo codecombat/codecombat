@@ -73,7 +73,8 @@ module.exports = (CoursesView = (function () {
         'click .view-challenges-link': 'onClickViewChallengesLink',
         'click .view-videos-link': 'onClickViewVideosLink',
         'click .view-announcement-link': 'onClickAnnouncementLink',
-        'click .more-tournaments': 'onClickMoreTournaments'
+        'click .more-tournaments': 'onClickMoreTournaments',
+        'click .more-ai-league-tiles': 'onClickMoreAILeagueTiles',
       }
 
       this.prototype.subscriptions =
@@ -91,6 +92,7 @@ module.exports = (CoursesView = (function () {
 
     constructor () {
       super()
+      this.moreAILeagueTiles = false
       this.renderStats = this.renderStats.bind(this)
       this.utils = utils
       this.classCodeQueryVar = utils.getQueryVariable('_cc', false)
@@ -352,19 +354,50 @@ module.exports = (CoursesView = (function () {
       // HoC 2015 used special single player course instances
       this.courseInstances.remove(this.courseInstances.where({ hourOfCode: true }))
 
-      return (() => {
-        const result = []
+      const fetchSessions = (instance) => {
+        const fetchOptions = { data: { project: 'state.complete,level.original,playtime,changed' } }
+        const collection = new CocoCollection([], {
+          url: instance.url() + '/course-level-sessions/' + me.id,
+          model: LevelSession,
+        })
+        collection.comparator = 'changed'
+        collection.fetch(fetchOptions)
+        return collection
+      }
+      const dynamicLoadLanguageSessions = () => {
+        // classrooms has same language shares progress, so we only need to fetch session once
+        const languageSessions = { others: {} }
         for (const courseInstance of Array.from(this.courseInstances.models)) {
-          if (!courseInstance.get('classroomID')) { continue }
-          courseInstance.sessions = new CocoCollection([], {
-            url: courseInstance.url() + '/course-level-sessions/' + me.id,
-            model: LevelSession
-          })
-          courseInstance.sessions.comparator = 'changed'
-          result.push(this.supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete,level.original,playtime,changed' } }))
+          const courseID = courseInstance.get('courseID')
+          // 99.9% courseInstances has aceConfig
+          const lang = courseInstance.get('aceConfig')?.language || 'others'
+          if (!(lang in languageSessions)) {
+            languageSessions[lang] = {}
+          }
+          if (!(courseID in languageSessions[lang])) {
+            languageSessions[lang][courseID] = []
+          }
+          languageSessions[lang][courseID].push(courseInstance)
         }
-        return result
-      })()
+        for (const lang in languageSessions) {
+          const instancesByCourse = languageSessions[lang]
+          for (const courseID in instancesByCourse) {
+            const instances = instancesByCourse[courseID]
+            if (lang === 'others') {
+              for (const instance of instances) {
+                instance.sessions = fetchSessions(instance)
+              }
+            } else {
+              // only fetch first course-instances
+              const collection = fetchSessions(instances[0])
+              for (const instance of instances) {
+                instance.sessions = collection
+              }
+            }
+          }
+        }
+      }
+      dynamicLoadLanguageSessions()
     }
 
     onLoaded () {
@@ -427,6 +460,9 @@ module.exports = (CoursesView = (function () {
         this.allCompleted = !_.some(this.classrooms.models, function (classroom) {
           return _.some(this.courseInstances.where({ classroomID: classroom.id }), function (courseInstance) {
             const course = this.store.state.courses.byId[courseInstance.get('courseID')]
+            if (!courseInstance.sessions) {
+              return false
+            }
             const stats = classroom.statsForSessions(courseInstance.sessions, course._id)
             if (stats.levels != null ? stats.levels.next : undefined) {
               // This could be made smarter than just picking the next level from the first incomplete course
@@ -469,7 +505,7 @@ module.exports = (CoursesView = (function () {
         this.listenTo(levels, 'sync', () => {
           if (this.destroyed) { return }
           for (const level of Array.from(levels.models)) { this.originalLevelMap[level.get('original')] = level }
-          return this.render()
+          this.renderSelectors('.course-instance-entry')
         })
         return this.supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: `original,primerLanguage,slug,name,i18n.${me.get('preferredLanguage', true)},displayName` } }))
       }
@@ -750,8 +786,16 @@ module.exports = (CoursesView = (function () {
     }
 
     onClickMoreTournaments (e) {
+      e.preventDefault()
       const modal = new TournamentsListModal({ tournamentsByState: this.tournamentsByState, ladderImageMap: this.ladderImageMap })
       return this.openModalView(modal)
+    }
+
+    onClickMoreAILeagueTiles (e) {
+      e.preventDefault()
+      this.moreAILeagueTiles = true
+      this.renderSelectors('.student-stats')
+      window.tracker?.trackEvent('Students View Click MoreAILeagueTiles', { category: 'Students', id: me.id })
     }
 
     nextLevelImage () {
@@ -773,6 +817,125 @@ module.exports = (CoursesView = (function () {
       image = _.sample(levelChoices) || _.sample(heroChoices.concat(courseChoices))
       this._nextLevelImage = '/images/pages/courses/banners/' + image
       return this._nextLevelImage
+    }
+
+    aiLeagueTiles () {
+      const tiles = []
+      const CNOnly = this.hasOnlyCodeNinjasEsportsCamps() || this.hasOnlyCodeNinjasJuniorCamps()
+      if (this.hasCodeNinjasEsportsCamp()) {
+        const levelImage = '/images/pages/courses/banners/contributor-archmage.png'
+        tiles.push({
+          a: {
+            href: 'https://www.ozaria.com/students',
+          },
+          img: {
+            src: levelImage,
+            alt: $.i18n.t('courses.play_ozaria'),
+            class: levelImage ? '' : ' placeholder',
+          },
+          title: $.i18n.t('common.ozaria'),
+          text: $.i18n.t('courses.play_ozaria'),
+        })
+      }
+      if (this.hasCodeNinjasJuniorCamp()) {
+        let levelImage = '/images/pages/roblox/header-bg/bg_1600.webp'
+        tiles.push({
+          a: {
+            href: 'https://www.roblox.com/games/11704713454/',
+            target: '_blank',
+            rel: 'noopener noreferrer',
+          },
+          img: {
+            src: levelImage,
+            alt: $.i18n.t('courses.play_ccw_on_roblox'),
+            class: levelImage ? '' : ' placeholder',
+          },
+          title: $.i18n.t('common.roblox'),
+          text: $.i18n.t('courses.play_ccw_on_roblox'),
+        })
+        levelImage = '/images/pages/courses/banners/contributor-artisan.png'
+        tiles.push({
+          a: {
+            href: 'https://drive.google.com/drive/folders/1MpXn9h_y9NDV5vxSQfis5Bu1cUcxOAb-?usp=drive_link',
+            target: '_blank',
+            rel: 'noopener noreferrer',
+          },
+          img: {
+            src: levelImage,
+            alt: $.i18n.t('courses.camp_activities'),
+          },
+          title: $.i18n.t('courses.camp_activities'),
+          text: $.i18n.t('courses.view_camp_activities'),
+        })
+      }
+      const arenas = (this.activeArenas || []).slice().reverse() // make championship first
+      for (const arena of arenas) {
+        if (CNOnly) {
+          continue
+        }
+        const arenaImage = arena.image || '/images/pages/play/ladder/multiplayer_notext.jpg'
+        const arenaName = $.i18n.t('league.' + arena.slug.replace(/-/g, '_'))
+        const stats = this.getAILeagueStat('arenas', arena.levelOriginal, '_global')
+        // TODO: link to team-specific arena by default if there are enough arena players in a team?
+        let span = ''
+        if (stats && stats.score) {
+          if (stats.rank) {
+            span = $.i18n.t('general.rank') + ': #' + stats.rank.toLocaleString()
+
+            if (stats.playerCount) {
+              span += ' / ' + stats.playerCount.toLocaleString()
+            }
+          }
+        } else if (this.myArenaSessions) {
+          span = $.i18n.t('teacher.not_started')
+        }
+        let text = $.i18n.t('courses.play_arena')
+        if (arena.ended) {
+          text = $.i18n.t('courses.view_standings')
+        } else if (arena.type === 'championship') {
+          text = $.i18n.t('courses.play_tournament')
+        }
+        tiles.push({
+          a: {
+            href: '/play/ladder/' + arena.slug,
+            title: arena.type === 'championship' ? $.i18n.t('courses.play_tournament') : $.i18n.t('courses.play_arena'),
+            class: ' play-arena-btn',
+          },
+          img: {
+            src: arenaImage,
+            alt: arenaName,
+            class: arena.image ? '' : ' placeholder',
+          },
+          noTitle: arena.image && this.shouldEmphasizeAILeague(),
+          title: arenaName,
+          titleClass: arena.image ? ' optional' : '',
+          stats: span,
+          text,
+        })
+      }
+      let span = $.i18n.t('league.not_registered')
+      let text = $.i18n.t('league.register')
+      let ahref = '/league?registering=true'
+      if (me.isRegisteredForAILeague()) {
+        span = `${$.i18n.t('ladder.age_bracket')}: ${this.ageBracketDisplay}`
+        text = $.i18n.t('courses.view_standings')
+        ahref = '/league#standings'
+      }
+      tiles.push({
+        a: {
+          href: ahref,
+          title: $.i18n.t('league.codecombat_ai_league'),
+          class: 'ai-league-btn ' + (CNOnly ? 'hidden' : ''),
+        },
+        img: {
+          src: `/images/pages/courses/banners/ai-league-banner-${this.randomAILeagueBannerHero}.png`,
+          alt: $.i18n.t('league.codecombat_ai_league'),
+        },
+        noTitle: true,
+        stats: span,
+        text,
+      })
+      return tiles
     }
 
     onLaddersLoaded (e) {

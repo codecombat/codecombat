@@ -1825,6 +1825,8 @@ module.exports = {
       error_in_importing_students: '[AI_TRANSLATION]Hiba a diákok importálásában',
       classroom_items_description: '[AI_TRANSLATION]Vajon a diákoknak kellene gyémántokat szerezniük és tárgyakat felszerelniük játék közben?',
       classroom_live_completion: '[AI_TRANSLATION]Akár engedélyezni a kódbekérési automatikus kitöltést ebben az osztályteremben. Letiltva: kikapcsolja az automatikus kitöltést minden szinten. Engedélyezve: lehetővé teszi a diákoknak a választást. Javasoljuk, hogy hagyjuk engedélyezve.',
+      //    classroom_disable_paste: "Whether to disable pasting code into the code editor in this classroom.",
+      //    disable_paste_noty: "Your teacher has disabled the paste feature!",
       code_formats: '[AI_TRANSLATION]Kódformátumok (béta)',
       code_formats_description: '[AI_TRANSLATION]Melyik kódrendszert választhatják a diákok.',
       code_formats_disabled_by: '[AI_TRANSLATION]Blokkok és kódok, a blokkok nem támogatottak a __language__ nyelvvel  ',
@@ -2458,6 +2460,7 @@ module.exports = {
       link_lms_classroom: '[AI_TRANSLATION]LMS Osztályhelyiség link',
       classroom_items: '[AI_TRANSLATION]Tárgyak és Drágakövek',
       classroom_live_completion: '[AI_TRANSLATION]Osztálytermi Kód Kiegészítés:',
+      //    classroom_disable_paste: "Classroom Disable Paste: ",
       learn_without_classroom_title: '[AI_TRANSLATION]Osztályterem nélkül is tanulhatsz és játszhatsz',
       learn_without_classroom_blurb: "[AI_TRANSLATION]Kezdd el ingyen játszani a Sky Mountain fejezetet, ha <a href='/play/chapter-1-sky-mountain'>ide kattintasz</a>.",
       learn_without_classroom_blurb_coco: "[AI_TRANSLATION]Kezdd az ingyenes Óra a Kóddal kampány játszásával <a href='/play/intro'>ide kattintva</a>.",
@@ -5167,6 +5170,8 @@ module.exports = {
       error_results_date_too_early: '[AI_TRANSLATION]Az Eredmény Idő nem lehet korábbi, mint a Záró Idő',
       publish_results: '[AI_TRANSLATION]Eredmények közzététele',
       publish_options: '[AI_TRANSLATION]Kiadási Opciók',
+      //    anonymize_players: "Anonymize Players",
+      //    anonymize_players_description: "Players cannot see each other's name until tournament published.",
     },
 
     payments: {
@@ -5644,6 +5649,9 @@ module.exports = {
       try_it_now: '[AI_TRANSLATION]Próbáld ki most',
       //    junior_modal_header: "Try Our New K-5 Curriculum Today!",
       //    junior_modal_body: "Perfect for K-5 classrooms, this new curriculum features real coding with icons, drag-and-drop blocks, parallel blocks with text, or purely text-based options. Plus, it’s fully accessible on tablets making it easy to support all learners.",
+      //    hs_modal_header: "Unlock Free AI Access This Summer",
+      //    hs_modal_body: "Discover how educators innovate with our AI -- watch the quick demo! This summer, explore Claude, DALL-E, Stable Diffusion, and more. Book a brief meeting by August 15 to claim your free 90-day AI educator license -- We'll handle the setup so you can dive right in.",
+      //    get_started: "Get Started!",
     },
 
     schools_page: {
