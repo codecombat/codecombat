@@ -28,7 +28,7 @@ require('bower_components/waypoints/lib/jquery.waypoints.min.js')
 
 require('imports-loader?this=>window!npm-modernizr');
 
-window.Vue = require('vue/dist/vue.common.js') // TODO: Update to using just the runtime (need to precompile templates!)
+window.Vue = require('vue')
 window.Vuex = require('vuex').default
 
 window.algoliasearch = require('algoliasearch')

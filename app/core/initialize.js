@@ -25,7 +25,6 @@ const VTooltip = require('v-tooltip')
 const VueMoment = require('vue-moment')
 const VueMeta = require('vue-meta')
 const { VueMaskDirective } = require('v-mask')
-const VueAsyncComputed = require('vue-async-computed')
 
 const { datadogRum } = require('@datadog/browser-rum')
 
@@ -40,11 +39,10 @@ Vue.use(VueMeta)
 
 if (utils.isOzaria) {
   Vue.use(utils.vueNonReactiveInstall)
-  Vue.use(VueAsyncComputed)
   Vue.directive('mask', VueMaskDirective)
 }
 
-if(false && utils.shaTag !== 'dev') { // tracking only in production 
+if(false && utils.shaTag !== 'dev') { // tracking only in production
   // we can turn it off for now, since we're not using its data.
   const DD_RUM_RANDOM_NUMBER_KEY = 'ddRumRandomNumber'
   if (!sessionStorage.getItem(DD_RUM_RANDOM_NUMBER_KEY)) {
