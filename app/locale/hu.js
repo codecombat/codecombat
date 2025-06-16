@@ -883,6 +883,7 @@ module.exports = {
       internal_error: 'Belső hiba',
       manage: 'Kezelés',
       empty_results: 'Nincs eredmény.',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -2450,6 +2451,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]Szerezd meg a Teszt Tanulói Licencet',
       create_students: '[AI_TRANSLATION]Diákok Generálása',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
