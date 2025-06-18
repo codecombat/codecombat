@@ -772,9 +772,7 @@ module.exports = (TeacherClassView = (function () {
               courseID,
               classroomID: this.classroom.id,
               ownerID: this.classroom.get('ownerID'),
-              aceConfig: {
-                language: this.classroom.language,
-              },
+              aceConfig: {},
             })
             courseInstance.notyErrors = false // handling manually
             this.courseInstances.add(courseInstance)
