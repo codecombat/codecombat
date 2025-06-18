@@ -434,7 +434,9 @@ export default Vue.extend({
           savedClassroom = await this.createClassroom(classReqData)
           const copyEsportsCampToOzaria = async () => {
             if (this.asClub && this.newClubType === 'camp-esports') {
-              await ClassroomsApi.post(classReqData, { callOz: true })
+              const name = `${updates.name} (Ozaria)`
+              const reqData = { ...classReqData, name }
+              await ClassroomsApi.post(reqData, { callOz: true })
               noty({ text: 'Esports camp copied to ozaria', layout: 'topCenter', type: 'success', timeout: 5000 })
             }
           }
