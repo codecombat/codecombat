@@ -138,12 +138,18 @@ export default {
 
     nextArenaAvailable () {
       const season = this.getCurrentRegularArena.season
+      if (!season) {
+        return false
+      }
       const nextArena = findArena(season + 1, this.getCurrentRegularArena.type)
       return !!nextArena
     },
 
     previousArenaAvailable () {
-      const season = this.getCurrentRegularArena.season
+      const season = this.getCurrentRegularArena?.season
+      if (!season) {
+        return false
+      }
       const previousArena = findArena(season - 1, this.getCurrentRegularArena.type)
       return !!previousArena
     },

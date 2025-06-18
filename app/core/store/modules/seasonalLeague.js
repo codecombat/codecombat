@@ -8,7 +8,7 @@ import { activeArenas, activeAndPastArenas } from '../../utils'
 import { getUsableArenas } from '../../api/arenas'
 import _ from 'lodash'
 
-export const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular'))
+export const currentRegularArena = _.last(_.filter(activeArenas(), a => a.type === 'regular' || a.noRegular))
 export const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type === 'championship'))
 export const findArena = (season, type) => activeAndPastArenas().find(a => a.season === season && a.type === type)
 
