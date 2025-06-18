@@ -137,7 +137,7 @@ export default {
     },
 
     nextArenaAvailable () {
-      const season = this.getCurrentRegularArena.season
+      const season = this.getCurrentRegularArena?.season
       if (!season) {
         return false
       }
