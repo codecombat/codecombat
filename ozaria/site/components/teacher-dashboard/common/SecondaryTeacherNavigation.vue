@@ -374,7 +374,7 @@ export default {
         :href="ozariaBaseURL"
         target="_blank"
         data-action="Ozaria HomePage: Nav Clicked"
-        @click.native="trackEvent"
+        @click="trackEvent"
       >
         <div id="IconOzaria" />
         <span>{{ $t('new_home.ozaria') }}</span>
