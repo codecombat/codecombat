@@ -97,8 +97,14 @@ module.exports = (CoursesView = (function () {
       this.utils = utils
       this.classCodeQueryVar = utils.getQueryVariable('_cc', false)
       this.courseInstances = new CocoCollection([], { url: `/db/user/${me.id}/course-instances`, model: CourseInstance })
+
+      this.classroomsLoaded = false
+      this.courseInstancesLoaded = false
       this.courseInstances.comparator = ci => parseInt(ci.get('classroomID').substr(0, 8), 16) + utils.orderedCourseIDs.indexOf(ci.get('courseID'))
-      this.listenToOnce(this.courseInstances, 'sync', this.onCourseInstancesLoaded)
+      this.listenToOnce(this.courseInstances, 'sync', function () {
+        this.courseInstancesLoaded = true
+        this.onCourseInstancesLoaded()
+      })
       this.supermodel.loadCollection(this.courseInstances, { cache: false })
       this.classrooms = new CocoCollection([], { url: '/db/classroom', model: Classroom })
       this.classrooms.comparator = (a, b) => b.id.localeCompare(a.id)
@@ -129,8 +135,10 @@ module.exports = (CoursesView = (function () {
           }
           this.supermodel.addPromiseResource(store.dispatch('levelSessions/fetchLevelSessionsForCampaign', { campaignHandle: campaign, options: { data: sessionFetchOptions } }))
           this.campaignLevels = new Levels()
-          return this.supermodel.trackRequest(this.campaignLevels.fetchForCampaign(this.hourOfCodeOptions.campaignId, { data: { project: `original,primerLanguage,slug,i18n.${me.get('preferredLanguage', true)}` } }))
+          this.supermodel.trackRequest(this.campaignLevels.fetchForCampaign(this.hourOfCodeOptions.campaignId, { data: { project: `original,primerLanguage,slug,i18n.${me.get('preferredLanguage', true)}` } }))
         }
+        this.classroomsLoaded = true
+        this.onCourseInstancesLoaded()
       })
       this.store = store
       this.originalLevelMap = {}
@@ -351,8 +359,13 @@ module.exports = (CoursesView = (function () {
     }
 
     onCourseInstancesLoaded () {
+      if (!this.classroomsLoaded || !this.courseInstancesLoaded) return
       // HoC 2015 used special single player course instances
       this.courseInstances.remove(this.courseInstances.where({ hourOfCode: true }))
+      const classroomLanguagesMap = {}
+      this.classrooms.forEach(cls => {
+        classroomLanguagesMap[cls.id.toString()] = cls.get('aceConfig').language
+      })
 
       const fetchSessions = (instance) => {
         const fetchOptions = { data: { project: 'state.complete,level.original,playtime,changed' } }
@@ -370,7 +383,7 @@ module.exports = (CoursesView = (function () {
         for (const courseInstance of Array.from(this.courseInstances.models)) {
           const courseID = courseInstance.get('courseID')
           // 99.9% courseInstances has aceConfig
-          const lang = courseInstance.get('aceConfig')?.language || 'others'
+          const lang = classroomLanguagesMap[courseInstance.get('classroomID').toString()]
           if (!(lang in languageSessions)) {
             languageSessions[lang] = {}
           }
@@ -383,21 +396,16 @@ module.exports = (CoursesView = (function () {
           const instancesByCourse = languageSessions[lang]
           for (const courseID in instancesByCourse) {
             const instances = instancesByCourse[courseID]
-            if (lang === 'others') {
-              for (const instance of instances) {
-                instance.sessions = fetchSessions(instance)
-              }
-            } else {
-              // only fetch first course-instances
-              const collection = fetchSessions(instances[0])
-              for (const instance of instances) {
-                instance.sessions = collection
-              }
+            // only fetch first course-instances
+            const collection = fetchSessions(instances[0])
+            for (const instance of instances) {
+              instance.sessions = collection
             }
           }
         }
       }
       dynamicLoadLanguageSessions()
+      this.renderSelectors('.course-instance-entry')
     }
 
     onLoaded () {
