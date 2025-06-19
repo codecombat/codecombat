@@ -883,6 +883,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]Interne Fout',
       manage: '[AI_TRANSLATION]Beheer',
       empty_results: '[AI_TRANSLATION]Lege resultaten.',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -2450,6 +2451,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]Haal Test Studenten Licentie  ',
       create_students: '[AI_TRANSLATION]Genereer Studenten  ',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {

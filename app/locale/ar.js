@@ -883,6 +883,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]خطأ داخلي',
       manage: '[AI_TRANSLATION]إدارة  ',
       empty_results: '[AI_TRANSLATION]النتائج فارغة.',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -2450,6 +2451,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]احصل على رخصة الطالب التجريبية',
       create_students: '[AI_TRANSLATION]إنشاء طلاب',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {

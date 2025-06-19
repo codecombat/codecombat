@@ -884,6 +884,7 @@ module.exports = {
       internal_error: 'Vagreany Reebe',
       manage: 'Znantr',
       empty_results: 'Rzcgl Erfhygf.',
+      roblox: 'Eboybk',
     },
 
     general: {
@@ -2451,6 +2452,10 @@ module.exports = {
       get_test_license: 'Trg Grfg Fghqrag Yvprafr',
       create_students: 'Trarengr Fghqragf',
       custom_tournaments: 'Phfgbz Gbheanzragf',
+      play_ozaria: 'Cynl Bmnevn',
+      play_ccw_on_roblox: 'Cynl PbqrPbzong Jbeyqf ba Eboybk',
+      camp_activities: 'Pnzc Npgvivgvrf',
+      view_camp_activities: 'Ivrj Pnzc Npgvivgvrf',
     },
 
     project_gallery: {

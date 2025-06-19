@@ -883,6 +883,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]내부 오류  ',
       manage: '[AI_TRANSLATION]관리하기',
       empty_results: '[AI_TRANSLATION]결과 없음.',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -2450,6 +2451,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]테스트 학생 면허 받기',
       create_students: '[AI_TRANSLATION]학생 생성하기',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
