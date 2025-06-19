@@ -884,6 +884,7 @@ module.exports = {
       internal_error: 'Internal Error',
       manage: 'Manage',
       empty_results: 'Empty Results.',
+      roblox: 'Roblox',
     },
 
     general: {
@@ -1805,8 +1806,8 @@ module.exports = {
       error_in_importing_students: 'Error in importing students',
       classroom_items_description: 'Whether students should earn gems and equip items during gameplay.',
       classroom_live_completion: 'Whether to enable coding autocomplete in this classroom. Disabled: turns autocomplete off for all levels. Enabled: allows students to choose. We recommend leaving this enabled.',
-      classroom_disable_paste: 'Whether to disable pasting code into the code editor in this classroom. Enabled: students cannot paste anything into editor. Disabled: allows students to paste.',
-      disable_paste_noty: 'Your teacher disable the paste feature in your editor.',
+      classroom_disable_paste: 'Whether to disable pasting code into the code editor in this classroom.',
+      disable_paste_noty: 'Your teacher has disabled the paste feature!',
       code_formats: 'Code Formats',
       code_formats_description: 'Which code formats students can choose from.',
       code_formats_disabled_by: 'Blocks and code, Blocks are not supported with __language__ language',
@@ -2451,6 +2452,10 @@ module.exports = {
       get_test_license: 'Get Test Student License',
       create_students: 'Generate Students',
       custom_tournaments: 'Custom Tournaments',
+      play_ozaria: 'Play Ozaria',
+      play_ccw_on_roblox: 'Play CodeCombat Worlds on Roblox',
+      camp_activities: 'Camp Activities',
+      view_camp_activities: 'View Camp Activities',
     },
 
     project_gallery: {

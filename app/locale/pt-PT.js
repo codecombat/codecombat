@@ -1804,6 +1804,8 @@ module.exports = {
       error_in_importing_students: '[AI_TRANSLATION]Erro ao importar alunos.',
       classroom_items_description: '[AI_TRANSLATION]Se os alunos devem ganhar gemas e equipar itens durante o jogo.',
       classroom_live_completion: '[AI_TRANSLATION]Se deve habilitar a autocompletar de código nesta sala de aula. Desativado: desativa a autocompletar para todos os níveis. Ativado: permite que os alunos escolham. Recomendamos deixar ativado.',
+      //    classroom_disable_paste: "Whether to disable pasting code into the code editor in this classroom.",
+      //    disable_paste_noty: "Your teacher has disabled the paste feature!",
       code_formats: '[AI_TRANSLATION]Formatos de Código (beta)',
       code_formats_description: '[AI_TRANSLATION]Que formatos de código os alunos podem escolher.',
       code_formats_disabled_by: '[AI_TRANSLATION]Blocos e código, Blocos não são suportados com a linguagem __language__  ',
@@ -2437,6 +2439,7 @@ module.exports = {
       link_lms_classroom: '[AI_TRANSLATION]Ligar Sala de Aula LMS',
       classroom_items: '[AI_TRANSLATION]Itens & Gemas',
       classroom_live_completion: '[AI_TRANSLATION]Autocompletar Código na Sala de Aula:',
+      //    classroom_disable_paste: "Classroom Disable Paste: ",
       learn_without_classroom_title: '[AI_TRANSLATION]Ainda podes aprender e jogar sem uma sala de aula.',
       learn_without_classroom_blurb: "[AI_TRANSLATION]Começa por jogar o capítulo gratuito da Montanha do Céu clicando <a href='/play/chapter-1-sky-mountain'>aqui</a>.",
       learn_without_classroom_blurb_coco: "[AI_TRANSLATION]Começa por jogar a campanha gratuita Hora de Código clicando <a href='/play/intro'>aqui</a>.",
@@ -5146,6 +5149,8 @@ module.exports = {
       error_results_date_too_early: '[AI_TRANSLATION]A Hora dos Resultados não pode ser anterior à Hora de Término',
       publish_results: '[AI_TRANSLATION]Publicar Resultados',
       publish_options: '[AI_TRANSLATION]Opções de Publicação',
+      //    anonymize_players: "Anonymize Players",
+      //    anonymize_players_description: "Players cannot see each other's name until tournament published.",
     },
 
     payments: {
@@ -5623,6 +5628,9 @@ module.exports = {
       try_it_now: '[AI_TRANSLATION]Experimenta agora',
       //    junior_modal_header: "Try Our New K-5 Curriculum Today!",
       //    junior_modal_body: "Perfect for K-5 classrooms, this new curriculum features real coding with icons, drag-and-drop blocks, parallel blocks with text, or purely text-based options. Plus, it’s fully accessible on tablets making it easy to support all learners.",
+      //    hs_modal_header: "Unlock Free AI Access This Summer",
+      //    hs_modal_body: "Discover how educators innovate with our AI -- watch the quick demo! This summer, explore Claude, DALL-E, Stable Diffusion, and more. Book a brief meeting by August 15 to claim your free 90-day AI educator license -- We'll handle the setup so you can dive right in.",
+      //    get_started: "Get Started!",
     },
 
     schools_page: {

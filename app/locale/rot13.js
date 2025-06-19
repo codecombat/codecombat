@@ -1805,6 +1805,8 @@ module.exports = {
       error_in_importing_students: 'Reebe va vzcbegvat fghqragf',
       classroom_items_description: 'Jurgure fghqragf fubhyq rnea trzf naq rdhvc vgrzf qhevat tnzrcynl.',
       classroom_live_completion: 'Jurgure gb ranoyr pbqvat nhgbpbzcyrgr va guvf pynffebbz. Qvfnoyrq: gheaf nhgbpbzcyrgr bss sbe nyy yriryf. Ranoyrq: nyybjf fghqragf gb pubbfr. Jr erpbzzraq yrnivat guvf ranoyrq.',
+      classroom_disable_paste: 'Jurgure gb qvfnoyr cnfgvat pbqr vagb gur pbqr rqvgbe va guvf pynffebbz.',
+      disable_paste_noty: 'Lbhe grnpure unf qvfnoyrq gur cnfgr srngher!',
       code_formats: 'Pbqr Sbezngf',
       code_formats_description: 'Juvpu pbqr sbezngf fghqragf pna pubbfr sebz.',
       code_formats_disabled_by: 'Oybpxf naq pbqr, Oybpxf ner abg fhccbegrq jvgu __ynathntr__ ynathntr',
@@ -2438,6 +2440,7 @@ module.exports = {
       link_lms_classroom: 'Yvax YZF Pynffebbz',
       classroom_items: 'Vgrzf & Trzf',
       classroom_live_completion: 'Pynffebbz Pbqr Nhgbpbzcyrgr: ',
+      classroom_disable_paste: 'Pynffebbz Qvfnoyr Cnfgr: ',
       learn_without_classroom_title: 'Lbh pna fgvyy yrnea naq cynl jvgubhg n pynffebbz',
       learn_without_classroom_blurb: "Fgneg ol cynlvat gur serr Fxl Zbhagnva puncgre ol <n uers='/cynl/puncgre-1-fxl-zbhagnva'>pyvpxvat urer</n>.",
       learn_without_classroom_blurb_coco: "Fgneg ol cynlvat gur serr Ubhe bs Pbqr pnzcnvta ol <n uers='/cynl/vageb'>pyvpxvat urer</n>.",
@@ -5149,6 +5152,8 @@ module.exports = {
       error_results_date_too_early: 'Gur Erfhygf Gvzr pnaabg or rneyvre guna Raq Gvzr',
       publish_results: 'Choyvfu Erfhygf',
       publish_options: 'Choyvfu Bcgvbaf',
+      anonymize_players: 'Nabalzvmr Cynlref',
+      anonymize_players_description: 'Cynlref pnaabg frr rnpu bgure\'f anzr hagvy gbheanzrag choyvfurq.',
     },
 
     payments: {
@@ -5624,6 +5629,9 @@ module.exports = {
       try_it_now: 'Gel vg abj',
       junior_modal_header: 'Gel Bhe Arj X-5 Pheevphyhz Gbqnl!',
       junior_modal_body: 'Cresrpg sbe X-5 pynffebbzf, guvf arj pheevphyhz srngherf erny pbqvat jvgu vpbaf, qent-naq-qebc oybpxf, cnenyyry oybpxf jvgu grkg, be cheryl grkg-onfrq bcgvbaf. Cyhf, vg’f shyyl npprffvoyr ba gnoyrgf znxvat vg rnfl gb fhccbeg nyy yrnearef.',
+      hs_modal_header: 'Haybpx Serr NV Npprff Guvf Fhzzre',
+      hs_modal_body: 'Qvfpbire ubj rqhpngbef vaabingr jvgu bhe NV -- jngpu gur dhvpx qrzb! Guvf fhzzre, rkcyber Pynhqr, QNYY-R, Fgnoyr Qvsshfvba, naq zber. Obbx n oevrs zrrgvat ol Nhthfg 15 gb pynvz lbhe serr 90-qnl NV rqhpngbe yvprafr -- Jr\'yy unaqyr gur frghc fb lbh pna qvir evtug va.',
+      get_started: 'Trg Fgnegrq!',
     },
     schools_page: {
       meta_title: 'PbqrPbzong: gur zbfg rssrpgvir pbzchgre fpvrapr fbyhgvba sbe fpubbyf',
