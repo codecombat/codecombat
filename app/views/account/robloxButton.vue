@@ -284,12 +284,21 @@ export default Vue.extend({
           </div>
           <div
             v-if="!isConnected && useRobloxId"
-            class="buttons-container"
+            class="buttons-container robloxId-container"
           >
             <RobloxIdentityField
               :user-id="userId"
               @saved="checkRobloxConnectionStatus"
             />
+            <div class="help-doc">
+              <span>{{ $t('roblox.having_trouble') }}</span>
+              <a
+                href="https://codecombat.zendesk.com/hc/en-us/articles/30719608274839-How-do-I-connect-my-student-s-CodeCombat-and-Roblox-accounts"
+                target="_blank"
+              >
+                {{ $t('roblox.check_help_doc') }}
+              </a>
+            </div>
           </div>
         </div>
 
@@ -489,6 +498,10 @@ export default Vue.extend({
             display: flex;
             gap: 10px;
             justify-content: flex-end;
+        }
+
+        .robloxId-container {
+          flex-direction: column;
         }
 
         .identities {

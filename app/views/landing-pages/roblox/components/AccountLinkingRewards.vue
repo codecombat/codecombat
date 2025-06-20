@@ -107,7 +107,7 @@
             v-if="!me.canUseRobloxOauthConnection()"
             class="help-doc"
           >
-            <span>{{ $t('play_level.problem_alert_need_help') }}</span>
+            <span>{{ $t('roblox.having_trouble') }}</span>
             <a
               href="https://codecombat.zendesk.com/hc/en-us/articles/30719608274839-How-do-I-connect-my-student-s-CodeCombat-and-Roblox-accounts"
               target="_blank"
