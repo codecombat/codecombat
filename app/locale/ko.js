@@ -1804,6 +1804,8 @@ module.exports = {
       error_in_importing_students: '[AI_TRANSLATION]학생 불러오기 오류',
       classroom_items_description: '[AI_TRANSLATION]학생들이 게임 플레이 도중 보석을 얻고 아이템을 장착해야 하는지 여부.',
       classroom_live_completion: '[AI_TRANSLATION]이 교실에서 코드 자동완성을 활성화할지 여부. 비활성화: 모든 레벨에서 자동완성을 끄기. 활성화: 학생들이 선택할 수 있게 허용. 활성화 유지하는 것을 추천해.',
+      //    classroom_disable_paste: "Whether to disable pasting code into the code editor in this classroom.",
+      //    disable_paste_noty: "Your teacher has disabled the paste feature!",
       code_formats: '[AI_TRANSLATION]코드 형식 (베타)',
       code_formats_description: '[AI_TRANSLATION]학생들이 선택할 수 있는 코드 형식.',
       code_formats_disabled_by: '[AI_TRANSLATION]블록과 코드, __language__ 언어로는 블록 지원되지 않아',
@@ -2437,6 +2439,7 @@ module.exports = {
       link_lms_classroom: '[AI_TRANSLATION]LMS 교실 연결',
       classroom_items: '[AI_TRANSLATION]아이템 & 보석',
       classroom_live_completion: '[AI_TRANSLATION]교실 코드 자동완성:',
+      //    classroom_disable_paste: "Classroom Disable Paste: ",
       learn_without_classroom_title: '[AI_TRANSLATION]교실 없어도 배우고 놀 수 있어',
       learn_without_classroom_blurb: "[AI_TRANSLATION]<a href='/play/chapter-1-sky-mountain'>여기를 클릭</a>하여 무료 스카이 마운틴 챕터를 플레이해봐.",
       learn_without_classroom_blurb_coco: "[AI_TRANSLATION]<a href='/play/intro'>여기를 클릭</a>해서 무료 시간의 코드 캠페인을 먼저 플레이해봐.",
@@ -5146,6 +5149,8 @@ module.exports = {
       error_results_date_too_early: '[AI_TRANSLATION]결과 시간은 종료 시간보다 빨리 설정할 수 없어',
       publish_results: '[AI_TRANSLATION]결과를 게시',
       publish_options: '[AI_TRANSLATION]게시 옵션',
+      //    anonymize_players: "Anonymize Players",
+      //    anonymize_players_description: "Players cannot see each other's name until tournament published.",
     },
 
     payments: {
@@ -5623,6 +5628,9 @@ module.exports = {
       try_it_now: '[AI_TRANSLATION]이 작업에는 로봇이 확실히 필요해.',
       //    junior_modal_header: "Try Our New K-5 Curriculum Today!",
       //    junior_modal_body: "Perfect for K-5 classrooms, this new curriculum features real coding with icons, drag-and-drop blocks, parallel blocks with text, or purely text-based options. Plus, it’s fully accessible on tablets making it easy to support all learners.",
+      //    hs_modal_header: "Unlock Free AI Access This Summer",
+      //    hs_modal_body: "Discover how educators innovate with our AI -- watch the quick demo! This summer, explore Claude, DALL-E, Stable Diffusion, and more. Book a brief meeting by August 15 to claim your free 90-day AI educator license -- We'll handle the setup so you can dive right in.",
+      //    get_started: "Get Started!",
     },
 
     schools_page: {

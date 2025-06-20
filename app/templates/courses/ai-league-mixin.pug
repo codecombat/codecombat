@@ -1,0 +1,15 @@
+mixin AILeagueMixin(tile)
+  - var propA = tile.a
+  - var propImg = tile.img
+  a.tile&attributes(propA)
+    img.level-image&attributes(propImg)
+    unless tile.noTitle
+      h3.dynamic-level-name.overlay-text(class=tile.titleClass)=tile.title
+    .tile-text-backdrop
+    if tile.stats
+      .stats-text-container
+        .overlay-text.stats-text
+          span=tile.stats
+    .play-text-container
+      .overlay-text.play-text
+        span=tile.text

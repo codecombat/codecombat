@@ -49,6 +49,7 @@ export default Vue.extend({
   data: function () {
     const cItems = this.classroom?.classroomItems
     const cLiveCompletion = this.classroom?.aceConfig?.liveCompletion
+    const cDisablePaste = this.classroom?.aceConfig?.disablePaste
     const cFormats = this.classroom?.aceConfig?.codeFormats
     const cFormatDefault = this.classroom?.aceConfig?.codeFormatDefault
     const cLevelChat = this.classroom?.aceConfig?.levelChat
@@ -58,6 +59,7 @@ export default Vue.extend({
       newClassName: this.classroom?.name || '',
       newProgrammingLanguage: this.classroom?.aceConfig?.language || 'python',
       newLiveCompletion: typeof cLiveCompletion === 'undefined' ? true : cLiveCompletion,
+      newDisablePaste: typeof cDisablePaste === 'undefined' ? false : cDisablePaste,
       newClassroomItems: typeof cItems === 'undefined' ? true : cItems,
       cocoDefaultClassroomItems: true,
       newCodeFormats: typeof cFormats === 'undefined' ? ['text-code'] : cFormats,
@@ -220,10 +222,11 @@ export default Vue.extend({
     },
     otherProductClassroom (newOtherProductClassroom) {
       // update settings that are available on both coco and ozar
-      const { language, levelChat, liveCompletion } = newOtherProductClassroom.aceConfig
+      const { language, levelChat, liveCompletion, disablePaste } = newOtherProductClassroom.aceConfig
       this.newProgrammingLanguage = utils.allowedLanguages.includes(language) ? language : 'python'
       this.newLevelChat = levelChat === 'fixed_prompt_only'
       this.newLiveCompletion = liveCompletion
+      this.newDisablePaste = disablePaste
     },
   },
 
@@ -359,6 +362,7 @@ export default Vue.extend({
       const hackstackConfig = _.clone((this.classroom || {}).hackstackConfig || {})
       aceConfig.language = this.newProgrammingLanguage
       aceConfig.liveCompletion = this.newLiveCompletion
+      aceConfig.disablePaste = this.newDisablePaste
       updates.classroomItems = this.newClassroomItems
 
       // Make sure that codeFormats includes codeFormatDefault, including when these aren't specified
@@ -430,7 +434,9 @@ export default Vue.extend({
           savedClassroom = await this.createClassroom(classReqData)
           const copyEsportsCampToOzaria = async () => {
             if (this.asClub && this.newClubType === 'camp-esports') {
-              await ClassroomsApi.post(classReqData, { callOz: true })
+              const name = `${updates.name} (Ozaria)`
+              const reqData = { ...classReqData, name }
+              await ClassroomsApi.post(reqData, { callOz: true })
               noty({ text: 'Esports camp copied to ozaria', layout: 'topCenter', type: 'success', timeout: 5000 })
             }
           }
@@ -762,6 +768,22 @@ export default Vue.extend({
             <div class="help-block small text-navy">
               {{ $t('teachers.classroom_items_description') }}
             </div>
+          </div>
+        </div>
+        <div
+          v-if="moreOptions"
+          class="form-group row disable-paste"
+        >
+          <div class="col-xs-12">
+            <label for="paste">
+              <span class="control-label"> {{ $t('courses.classroom_disable_paste') }}</span>
+            </label>
+            <input
+              id="paste"
+              v-model="newDisablePaste"
+              type="checkbox"
+            >
+            <span class="help-block small text-navy">{{ $t("teachers.classroom_disable_paste") }}</span>
           </div>
         </div>
         <div
