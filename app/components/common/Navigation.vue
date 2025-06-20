@@ -41,7 +41,6 @@ export const items = {
   COCO_JUNIOR: { url: getJuniorUrl(), title: 'nav.coco_junior' },
   COCO_HOME: { url: cocoPath('/play'), title: 'nav.codecombat_home' },
   OZ_CLASSROOM: { url: ozPath('/teachers/curriculum'), title: 'nav.ozaria_classroom' },
-  OZARIA: { url: ozBaseURL(), title: 'new_home.ozaria' },
   AP_CSP: { url: cocoPath('/apcsp'), title: 'nav.ap_csp' },
   AI_LEAGUE: { url: cocoPath('/league'), title: 'nav.ai_league_esports' },
   ROBLOX: { url: cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' },
@@ -344,7 +343,6 @@ export default Vue.extend({
             items.AI_LEAGUE,
             items.ROBLOX,
             items.AI_HACKSTACK,
-            items.OZARIA,
             items.AI_JUNIOR
           ]
         }
