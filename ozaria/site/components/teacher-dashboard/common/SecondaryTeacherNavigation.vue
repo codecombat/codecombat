@@ -41,6 +41,7 @@ export default {
         { id: 'junior', name: $.i18n.t('nav.coco_junior'), path: '/teachers/guide/junior' },
         { id: 'codecombat', name: $.i18n.t('nav.codecombat_classroom'), path: '/teachers/guide/codecombat' },
         { id: 'hackstack', name: $.i18n.t('nav.ai_hackstack'), path: '/teachers/guide/hackstack' },
+        { id: 'ozaria', name: $.i18n.t('new_home.ozaria'), path: utils.ozBaseURL(), type: 'a' },
       ]
     } else {
       guideOptions = [
@@ -310,7 +311,17 @@ export default {
           :key="option.id"
           :class="isGuideTabSelected && $route.params.product === option.id ? 'selected' : null"
         >
+          <a
+            v-if="option.type === 'a'"
+            :href="option.path"
+            class="dropdown-item"
+            data-action="Guide: Nav Clicked"
+            target="_blank"
+          >
+            {{ option.name }}
+          </a>
           <router-link
+            v-else
             tag="a"
             :to="option.path"
             class="dropdown-item"
