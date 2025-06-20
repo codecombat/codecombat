@@ -295,6 +295,7 @@ export default Vue.extend({
               <a
                 href="https://codecombat.zendesk.com/hc/en-us/articles/30719608274839-How-do-I-connect-my-student-s-CodeCombat-and-Roblox-accounts"
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 {{ $t('roblox.check_help_doc') }}
               </a>
