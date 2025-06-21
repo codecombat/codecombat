@@ -1,5 +1,5 @@
 <script>
-import VueConfirmDialog from 'vue-confirm-dialog'
+import VueConfirmDialog from 'vue3-confirm-dialog'
 import oauth2identity from 'core/api/oauth2identity'
 
 Vue.use(VueConfirmDialog)
