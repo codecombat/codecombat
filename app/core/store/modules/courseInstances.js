@@ -153,7 +153,7 @@ export default {
           courseID: course._id,
           classroomID: classroom._id,
           ownerID: classroom.ownerID,
-          aceConfig: {}
+          aceConfig: {},
         })
         courseInstance.notyErrors = false
 
