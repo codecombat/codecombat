@@ -883,6 +883,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]내부 오류  ',
       manage: '[AI_TRANSLATION]관리하기',
       empty_results: '[AI_TRANSLATION]결과 없음.',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -2450,6 +2451,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]테스트 학생 면허 받기',
       create_students: '[AI_TRANSLATION]학생 생성하기',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
@@ -6462,6 +6467,8 @@ module.exports = {
       faq_5_answer: '[AI_TRANSLATION]그래. CodeCombat Worlds에서는 PC, Mac, 크롬북, 태블릿, 핸드폰, 콘솔에서 실제 코딩을 하고 게임을 만들 수 있어.',
       //    promo_modal_title: "Discover CodeCombat Worlds",
       //    promo_modal_text: "**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!",
+      //    having_trouble: "Having trouble?",
+      //    check_help_doc: "View our connection guide here",
     },
 
     pd_page: {
