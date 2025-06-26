@@ -883,6 +883,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]Внутренняя ошибка',
       manage: '[AI_TRANSLATION]Управлять',
       empty_results: '[AI_TRANSLATION]Пустые результаты',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -2450,6 +2451,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]Получи Лицензию Тест Студента  ',
       create_students: '[AI_TRANSLATION]Генерация Студентов  ',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
@@ -6462,6 +6467,8 @@ module.exports = {
       faq_5_answer: '[AI_TRANSLATION]Да. CodeCombat Worlds позволяет играть, писать настоящий код и создавать игры на ПК, Mac, Chromebook, планшетах, телефонах и консолях.  ',
       //    promo_modal_title: "Discover CodeCombat Worlds",
       //    promo_modal_text: "**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!",
+      //    having_trouble: "Having trouble?",
+      //    check_help_doc: "View our connection guide here",
     },
 
     pd_page: {

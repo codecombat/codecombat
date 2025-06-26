@@ -884,6 +884,7 @@ module.exports = {
       internal_error: 'Vagreany Reebe',
       manage: 'Znantr',
       empty_results: 'Rzcgl Erfhygf.',
+      roblox: 'Eboybk',
     },
 
     general: {
@@ -2451,6 +2452,10 @@ module.exports = {
       get_test_license: 'Trg Grfg Fghqrag Yvprafr',
       create_students: 'Trarengr Fghqragf',
       custom_tournaments: 'Phfgbz Gbheanzragf',
+      play_ozaria: 'Cynl Bmnevn',
+      play_ccw_on_roblox: 'Cynl PbqrPbzong Jbeyqf ba Eboybk',
+      camp_activities: 'Pnzc Npgvivgvrf',
+      view_camp_activities: 'Ivrj Pnzc Npgvivgvrf',
     },
 
     project_gallery: {
@@ -6458,6 +6463,8 @@ module.exports = {
       faq_5_answer: 'Lrf. PbqrPbzong Jbeyqf nyybjf lbh gb cynl, glcr erny pbqr naq perngr tnzrf ba CP, Znp, Puebzrobbxf, gnoyrgf, cubarf, naq pbafbyrf.',
       promo_modal_title: 'Qvfpbire PbqrPbzong Jbeyqf',
       promo_modal_text: '**Jnag gb ohvyq n Eboybk tnzr ohg pna’g pbqr?** Whzc vagb **PbqrPbzong Jbeyqf** — jurer lbh’yy yrnea ol cynlvat! Fgneg va Evsg Ivyyntr, pbqvat lbhe crgf gb uneirfg, naq onggyr. Gura gnpxyr Yhn (gur pbqvat ynathntr bs Eboybk) va gur Yrneavat Yriryf, naq svanyyl hayrnfu lbhe vqrnf va Perngvir Zbqr gb pensg vzzrefvir Eboybk tnzrf. Gur cbjre gb perngr vf va lbhe unaqf!',
+      having_trouble: 'Univat gebhoyr?',
+      check_help_doc: 'Ivrj bhe pbaarpgvba thvqr urer',
     },
     pd_page: {
       implementation_training_title: 'Vzcyrzragngvba Genvavat',
