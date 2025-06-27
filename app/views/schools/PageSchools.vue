@@ -1,5 +1,6 @@
 <template>
   <div id="page-schools">
+    <banner-component />
     <div class="container">
       <header-component class="container__header">
         <template #header-text>
@@ -515,9 +516,10 @@ import TurnkeySolutions from './TurnkeySolutions.vue'
 import StatsComponent from './StatsComponent.vue'
 import CustomTable from './CustomTable.vue'
 import ModalGetLicenses from '../../components/common/ModalGetLicenses.vue'
+import BannerComponent from '../../components/common/elements/BannerComponent.vue'
 
 export default Vue.extend({
-  name: 'PageHome',
+  name: 'PageSchools',
   components: {
     CarouselComponent,
     CarouselItem,
@@ -537,6 +539,7 @@ export default Vue.extend({
     TrendsAndInsights,
     VideoBox,
     ModalGetLicenses,
+    BannerComponent,
   },
   data () {
     return {
