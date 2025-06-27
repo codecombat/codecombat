@@ -519,7 +519,7 @@ import ModalGetLicenses from '../../components/common/ModalGetLicenses.vue'
 import BannerComponent from '../../components/common/elements/BannerComponent.vue'
 
 export default Vue.extend({
-  name: 'PageHome',
+  name: 'PageSchools',
   components: {
     CarouselComponent,
     CarouselItem,
