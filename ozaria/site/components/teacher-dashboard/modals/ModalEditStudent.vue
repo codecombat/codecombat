@@ -176,7 +176,7 @@ export default {
         this.changingPassword = true
         await (new Classroom(this.classroom)).setStudentPassword(this.selectedStudent, this.newPassword)
         noty({
-          text: 'Password Changed successfully!',
+          text: $.i18n.t('teacher_dashboard.password_changed_successfully'),
           type: 'success',
           layout: 'center',
           timeout: 6000,

@@ -1228,6 +1228,7 @@ module.exports = {
       learn_to_use: '[AI_TRANSLATION]学会使用  ',
       //    navigate_to_previous_page: "Navigate to the previous page",
       //    navigate_to_next_page: "Navigate to the next page",
+      restart_capstone_strage: '确认将顶点项目的进度重置为第一阶段？',
     },
 
     apis: {
@@ -2114,6 +2115,7 @@ module.exports = {
     cinematic: {
       click_anywhere_continue: '点击任意区域继续',
       instructional_tooltip: '点击这些方向键来前进或后退，你也可以使用键盘上的方向键来实现同样的效果。',
+      error_find: '影片 __slug__ 出现一个错误。',
     },
 
     community: {
@@ -4774,6 +4776,14 @@ module.exports = {
       sort_by_first_name: '姓氏',
       sort_by_progress_desc: '关卡进度（由高到低）',
       sort_by_progress_asc: '关卡进度（由低到高）',
+      no_write_permission: '你无权管理这个班级',
+      select_student_first: '在执行此操作前你需要先选取一些学生。',
+      no_progress_to_delete: '没有进度可以删除',
+      deleting_progress: '正在删除进度',
+      delete_progress_warning: '请注意：学生在 __courseName__ 课程中的进度将被删除且无法恢复，请确认。',
+      error_adding_teacher: '添加老师出错',
+      error_occurred: '发生了一个错误：__err__',
+      password_changed_successfully: '密码修改成功！',
     },
 
     outcomes: {

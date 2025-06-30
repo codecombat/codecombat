@@ -1230,6 +1230,7 @@ module.exports = {
       learn_to_use: 'Learn to Use',
       navigate_to_previous_page: 'Navigate to the previous page',
       navigate_to_next_page: 'Navigate to the next page',
+      restart_capstone_stage: 'Do you want to restart capstone stage progress to 1?',
     },
 
     apis: {
@@ -2116,6 +2117,7 @@ module.exports = {
     cinematic: {
       click_anywhere_continue: 'Click to Continue',
       instructional_tooltip: 'Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same.',
+      error_find: 'Error finding cinematic __slug__.',
     },
 
     community: {
@@ -4781,6 +4783,14 @@ module.exports = {
       sort_by_first_name: 'first Name',
       sort_by_progress_desc: 'Progress (High to Low)',
       sort_by_progress_asc: 'Progress (Low to Hight)',
+      no_write_permission: 'You do not have a write permission on this class',
+      select_student_first: 'You need to select student(s) first before performing that action.',
+      no_progress_to_delete: 'No progress to delete',
+      deleting_progress: 'Deleting progress',
+      delete_progress_warning: 'Warning: student progress for __courseName__ will be deleted and cannot be recovered. Are you sure?',
+      error_adding_teacher: 'Error in adding teacher',
+      error_occurred: 'Error occurred: __err__',
+      password_changed_successfully: 'Password Changed successfully!',
     },
 
     outcomes: {

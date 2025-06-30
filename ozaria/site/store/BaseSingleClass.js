@@ -168,13 +168,13 @@ export default {
         if (hasSharedWriteAccess) {
           teacherId = classroom.ownerID
         } else {
-          noty({ text: 'You do not have a write permission on this class', layout: 'center', type: 'information', killer: true, timeout: 5000 })
+          noty({ text: $.i18n.t('teacher_dashboard.no_write_permission'), layout: 'center', type: 'information', killer: true, timeout: 5000 })
           return
         }
       }
 
       if (students.length === 0) {
-        noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
+        noty({ text: $.i18n.t('teacher_dashboard.select_student_first'), layout: 'center', type: 'information', killer: true, timeout: 8000 })
         return
       }
       const sharedClassroomId = hasSharedWriteAccess ? classroom._id : null
@@ -196,7 +196,7 @@ export default {
     async revokeLicenses ({ state, rootGetters, dispatch, getters }) {
       const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id)).filter(Boolean)
       if (students.length === 0) {
-        noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
+        noty({ text: $.i18n.t('teacher_dashboard.select_student_first'), layout: 'center', type: 'information', killer: true, timeout: 8000 })
         return
       }
       let teacherId = rootGetters['teacherDashboard/teacherId']
@@ -208,7 +208,7 @@ export default {
         if (hasSharedWriteAccess) {
           teacherId = classroom.ownerID
         } else {
-          noty({ text: 'You do not have a write permission on this class', layout: 'center', type: 'information', killer: true, timeout: 5000 })
+          noty({ text: $.i18n.t('teacher_dashboard.no_write_permission'), layout: 'center', type: 'information', killer: true, timeout: 5000 })
           return
         }
       }
@@ -236,7 +236,7 @@ export default {
     }) {
       const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id))
       if (students.length === 0) {
-        noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
+        noty({ text: $.i18n.t('teacher_dashboard.select_student_first'), layout: 'center', type: 'information', killer: true, timeout: 8000 })
         window.tracker?.trackEvent('Failure to lock', { category: 'Teachers' })
         return
       }
@@ -349,7 +349,7 @@ export default {
     }) {
       const students = getters.selectedStudentIds.map(id => rootGetters['teacherDashboard/getMembersCurrentClassroom'].find(({ _id }) => id === _id))
       if (students.length === 0) {
-        noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
+        noty({ text: $.i18n.t('teacher_dashboard.select_student_first'), layout: 'center', type: 'information', killer: true, timeout: 8000 })
         window.tracker?.trackEvent('Failure to lock', { category: 'Teachers' })
         return
       }
@@ -431,15 +431,15 @@ export default {
       const selectedCourse = courses.find(c => c._id === selectedCourseId)
       if (!selectedCourse || students.length === 0 || !courseInstance) {
         return noty({
-          text: 'No progress to delete',
+          text: $.i18n.t('teacher_dashboard.no_progress_to_delete'),
           type: 'error',
           timeout: 2000,
           layout: 'center'
         })
       }
-      if (window.confirm(`Warning: student progress for ${selectedCourse.name} will be deleted and cannot be recovered. Are you sure?`)) {
+      if (window.confirm($.i18n.t('teacher_dashboard.delete_progress_warning', { courseName: selectedCourse.name }))) {
         noty({
-          text: 'Deleting progress',
+          text: $.i18n.t('teacher_dashboard.deleting_progress'),
           timeout: 200,
           type: 'information',
           layout: 'center'
