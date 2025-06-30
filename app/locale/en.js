@@ -1859,6 +1859,12 @@ module.exports = {
       and_more: 'and more',
       import_classroom: 'Import Classroom',
       re_import_classroom: 'Re-Import Classroom',
+      need_more_license: 'Oops! It looks like you need __additionalLicensesNum__ more license(s). Visit My Licenses to learn more!',
+      confirm_apply_license: 'Please confirm that you\'d like to apply licenses to __numberEnrolled__ student(s). You will have __numberRemaining__ license(s) remaining.',
+      fail_get_license: 'Error! __fails__ students failed to get license',
+      no_licenses_applied: 'No licenses applied to selected student(s).',
+      revoke_license_tips: 'Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you\'d like to proceed.',
+      assign_course_confirm: 'Please confirm that you\'d like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.',
     },
 
     no_licenses_page: {
@@ -4791,6 +4797,11 @@ module.exports = {
       error_adding_teacher: 'Error in adding teacher',
       error_occurred: 'Error occurred: __err__',
       password_changed_successfully: 'Password Changed successfully!',
+      remove_students_title: 'Remove Students from Class',
+      remove_confirm_title: 'Are you sure you want to remove (this student / these students) from your class?',
+      remove_list_1: 'If licenses are applied, remember to revoke them before removing students in order to apply them to other students.',
+      remove_list_2: 'Student(s) will lose access to this classroom and assigned chapters.',
+      remove_list_3: 'Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.',
     },
 
     outcomes: {

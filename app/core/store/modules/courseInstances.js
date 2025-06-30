@@ -191,14 +191,19 @@ export default {
       }
 
       const numberEnrolled = unenrolledStudents.length
+      const courseName = utils.i18n(course, 'name')
       if (numberEnrolled && !course.free) {
         let confirmed = false
         await new Promise((resolve) => noty({
-          text: `Please confirm that you'd like to assign ${course.name} to ${members.length} student(s). ${numberEnrolled} license(s) will be applied.`,
+          text: $.i18n.t('teachers.assign_course_confirm', {
+            numStudents: members.length,
+            courseName,
+            numberEnrolled,
+          }),
           buttons: [
             {
               addClass: 'btn btn-primary',
-              text: 'Ok',
+              text: $.i18n.t('modal.okay'),
               onClick: function ($noty) {
                 confirmed = true
                 $noty.close()
@@ -207,7 +212,7 @@ export default {
             },
             {
               addClass: 'btn btn-danger',
-              text: 'Cancel',
+              text: $.i18n.t('modal.cancel'),
               onClick: function ($noty) {
                 $noty.close()
                 resolve()
