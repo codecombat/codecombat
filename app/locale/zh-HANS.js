@@ -1228,7 +1228,7 @@ module.exports = {
       learn_to_use: '[AI_TRANSLATION]学会使用  ',
       //    navigate_to_previous_page: "Navigate to the previous page",
       //    navigate_to_next_page: "Navigate to the next page",
-      restart_capstone_strage: '确认将顶点项目的进度重置为第一阶段？',
+      restart_capstone_stage: '确认将顶点项目的进度重置为第一阶段？',
     },
 
     apis: {
