@@ -6228,6 +6228,7 @@ module.exports = {
       level_complete: 'You did it! Level complete. Continue your AI journey with the next level.',
       run_code_tour_title: 'Ready to see the magic?',
       run_code_tour_text: 'Press “Run Code” and watch your project come to life. No experience required!',
+      ready_to_review_helptext: 'Mark this when your project is complete. Your teacher will then see it as ready to review on their side.',
     },
     new_premium: {
       mastering_code: 'Master coding and AI with **premium home access**',
