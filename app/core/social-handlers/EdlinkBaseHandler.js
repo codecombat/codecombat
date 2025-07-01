@@ -40,7 +40,7 @@ module.exports = class EdlinkBaseHandler extends CocoClass {
 
   async connect (options) {
     this.trigger('connect')
-    const result = await this.constructor.logInWithEdlink()
+    const result = await this.logInWithEdlink()
 
     if (result.loggedIn) {
       // login user if already signed up
