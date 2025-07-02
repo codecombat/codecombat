@@ -1358,8 +1358,8 @@ const arenas = [
   { season: 13, slug: 'kings-gambit', type: 'championship', start: new Date('2025-05-01T00:00:00.000-07:00'), end: new Date('2025-06-01T00:00:00.000-07:00'), results: new Date('2025-06-10T07:00:00.000-07:00'), levelOriginal: '679b1495454eb6d46f27e050', image: '/file/db/level/679b1495454eb6d46f27e050/KingsGambit.jpg', tournament: '6810a617882c6fe46452003d' },
   // We have only one arena in this season so just fake
   { season: 14, slug: 'turbo-track', type: 'regular', start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-06-01T01:00:00.000-08:00'), results: new Date('2025-06-10T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '/file/db/level/682aef505b4bd67fa522f11d/Grand%20Prix%20banner.jpg' },
-  
-  { season: 14, slug: 'grand-prix', type: 'championship', start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-08-01T00:00:00.000-08:00'), results: new Date('2025-08-01T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '/file/db/level/682aef505b4bd67fa522f11d/Grand%20Prix%20banner.jpg' },
+
+  { season: 14, slug: 'grand-prix', type: 'championship', start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-08-01T00:00:00.000-08:00'), results: new Date('2025-08-01T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '/file/db/level/682aef505b4bd67fa522f11d/Grand%20Prix%20banner.jpg', noRegular: true },
   { season: 15, slug: 'strikers-stadium', type: 'regular', start: new Date('2025-08-01T00:00:00.000-07:00'), end: new Date('2025-12-10T00:00:00.000-07:00'), results: new Date('2025-12-20T07:00:00.000-07:00'), levelOriginal: '', image: '' },
   { season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-12-10T00:00:00.000-07:00'), end: new Date('2025-12-10T01:00:00.000-07:00'), results: new Date('2025-12-10T07:00:00.000-07:00'), levelOriginal: '', image: '' },
 ]

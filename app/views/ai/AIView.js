@@ -18,7 +18,6 @@ try {
 }
 const SubscribeModal = require('app/views/core/SubscribeModal')
 const CreateAccountModal = require('app/views/core/CreateAccountModal')
-const DirectContactModal = require('app/views/core/DirectContactModal').default
 
 module.exports = (AIView = (function () {
   AIView = class AIView extends RootView {
@@ -54,7 +53,8 @@ module.exports = (AIView = (function () {
       const interval = creditObj.durationKey
       const amount = creditObj.durationAmount
       if (me.isTeacher()) {
-        this.openModalView(new DirectContactModal())
+        window.tracker?.trackEvent('AI HS prompting sales call')
+        window.open('/schools?openContactModal=true&source=ai-hs-credit-limit-reached', '_blank')
       } else if (me.isAnonymous()) {
         this.openModalView(new CreateAccountModal({ mode: 'signup' }))
         window.tracker?.trackEvent('AI HS prompting signup', { path: window.location.pathname })
