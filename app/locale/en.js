@@ -858,6 +858,7 @@ module.exports = {
       cancel: 'Cancel',
       save: 'Save',
       publish: 'Publish',
+      output: 'Output',
       create: 'Create',
       fork: 'Fork',
       play: 'Play', // When used as an action verb, like "Play next level"
