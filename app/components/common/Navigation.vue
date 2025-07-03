@@ -443,7 +443,7 @@ export default Vue.extend({
 <template lang="pug">
   nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="{ 'dark-mode': useDarkMode }" @click="navEvent")
     announcement-modal(v-if="announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
-    .container
+    .container-fluid.nav-container
       .row
         .col-md-12.header-container
           .navbar-header
@@ -493,6 +493,7 @@ export default Vue.extend({
 
                 a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
 
+          .navbar-collapse.collapse
             ul.nav.navbar-nav.loggedin(v-if="!me.isAnonymous()")
               li(v-if="me.isTarena()")
                 a.text-p#logout-button {{ $t('login.log_out') }}
@@ -536,7 +537,7 @@ export default Vue.extend({
                     a.account-dropdown-item#nav-stop-switching-button(href="#") {{ $t('login.stop_switching') }}
                   li
                     a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
-            .right
+            div.right-side-nav
               ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
                 li
                   cta-button#login-link.login-button(data-event-action="Header Login CTA" size="small" type="no-background") {{ $t('signup.login') }}
@@ -563,6 +564,11 @@ export default Vue.extend({
 
 #main-nav.navbar {
   background: white;
+
+  .nav-container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 
   // Add dark mode styles
   &.dark-mode {
@@ -675,14 +681,10 @@ export default Vue.extend({
     @media (min-width: 992px) {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: space-around;
 
       .navbar-header {
         flex-grow: 0;
-      }
-
-      .navbar-collapse {
-        flex-grow: 1;
       }
     }
   }
@@ -848,6 +850,12 @@ export default Vue.extend({
     justify-content: center;
     align-items: center;
   }
+}
+
+.right-side-nav {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .tecmilenio-logo, .tarena-logo {
