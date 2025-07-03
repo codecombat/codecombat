@@ -463,7 +463,7 @@ module.exports = (CocoRouter = (function () {
           }
         },
         'teachers/classes' () {
-          if (utils.isCodeCombat && !me.isNewDashboardActive()) {
+          if (me.showChinaResourceInfo() && !me.isNewDashboardActive()) {
             return this.routeDirectly('courses/TeacherClassesView', [], { redirectStudents: true, teachersOnly: true })
           } else {
             return this.routeDirectly('core/SingletonAppVueComponentView', arguments, { redirectStudents: true, teachersOnly: true })
