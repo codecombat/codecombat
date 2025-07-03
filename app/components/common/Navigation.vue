@@ -452,11 +452,12 @@ export default Vue.extend({
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            a.navbar-brand(:href="homeLink")
-              picture(v-if="!me.showChinaResourceInfo()")
-                source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
-                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-              img(v-else src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
+            .navbar-brand
+              a(:href="homeLink")
+                picture(v-if="!me.showChinaResourceInfo()")
+                  source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
+                  img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                img(v-else src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
               img(v-if="partnerLogo" :src="partnerLogo.url" :alt="partnerLogo.alt" :class="partnerLogo.className")
               a(v-if="showHackStackLogo" href="/ai")
                 img#logo-img(src="/images/ai/logo-hs-color.webp" alt="HackStack logo")
