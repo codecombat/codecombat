@@ -79,9 +79,9 @@ export default Vue.extend({
         await this.updateClassroom({ classroom: this.classroom, updates: { codeCamel: '', code: '' } })
       } catch (err) {
         noty({
-          text: `Error occurred: ${err}`,
+          text: $.i18n.t('teacher_dashboard.error_occurred', { err }),
           type: 'error',
-          timeout: 5000
+          timeout: 5000,
         })
       }
       this.regenerationInProgress = false

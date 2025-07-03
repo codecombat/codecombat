@@ -1233,7 +1233,7 @@ class PlayLevelView extends RootView {
   onRestartLevel () {
     this.tome.reloadAllCode()
     if (me.isAdmin() && this.level.get('ozariaType') === 'capstone') {
-      const shouldResetCapstone = window.confirm('Do you want to restart capstone stage progress to 1?')
+      const shouldResetCapstone = window.confirm($.i18n.t('play_level.restart_capstone_stage'))
       if (shouldResetCapstone) {
         const code = this.session.get('code') || {}
         if (code['saved-capstone-normal-code']) {

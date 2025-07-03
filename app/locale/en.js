@@ -1230,6 +1230,7 @@ module.exports = {
       learn_to_use: 'Learn to Use',
       navigate_to_previous_page: 'Navigate to the previous page',
       navigate_to_next_page: 'Navigate to the next page',
+      restart_capstone_stage: 'Do you want to restart capstone stage progress to 1?',
     },
 
     apis: {
@@ -1858,6 +1859,12 @@ module.exports = {
       and_more: 'and more',
       import_classroom: 'Import Classroom',
       re_import_classroom: 'Re-Import Classroom',
+      need_more_license: 'Oops! It looks like you need __additionalLicensesNum__ more license(s). Visit My Licenses to learn more!',
+      confirm_apply_license: 'Please confirm that you\'d like to apply licenses to __numberEnrolled__ student(s). You will have __numberRemaining__ license(s) remaining.',
+      fail_get_license: 'Error! __fails__ students failed to get license',
+      no_licenses_applied: 'No licenses applied to selected student(s).',
+      revoke_license_tips: 'Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you\'d like to proceed.',
+      assign_course_confirm: 'Please confirm that you\'d like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.',
     },
 
     no_licenses_page: {
@@ -2116,6 +2123,7 @@ module.exports = {
     cinematic: {
       click_anywhere_continue: 'Click to Continue',
       instructional_tooltip: 'Click these arrow buttons to go backwards and forwards. You can also use the arrow keys on your keyboard to do the same.',
+      error_find: 'Error finding cinematic __slug__.',
     },
 
     community: {
@@ -4781,6 +4789,19 @@ module.exports = {
       sort_by_first_name: 'first Name',
       sort_by_progress_desc: 'Progress (High to Low)',
       sort_by_progress_asc: 'Progress (Low to Hight)',
+      no_write_permission: 'You do not have a write permission on this class',
+      select_student_first: 'You need to select student(s) first before performing that action.',
+      no_progress_to_delete: 'No progress to delete',
+      deleting_progress: 'Deleting progress',
+      delete_progress_warning: 'Warning: student progress for __courseName__ will be deleted and cannot be recovered. Are you sure?',
+      error_adding_teacher: 'Error in adding teacher',
+      error_occurred: 'Error occurred: __err__',
+      password_changed_successfully: 'Password Changed successfully!',
+      remove_students_title: 'Remove Students from Class',
+      remove_confirm_title: 'Are you sure you want to remove (this student / these students) from your class?',
+      remove_list_1: 'If licenses are applied, remember to revoke them before removing students in order to apply them to other students.',
+      remove_list_2: 'Student(s) will lose access to this classroom and assigned chapters.',
+      remove_list_3: 'Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.',
     },
 
     outcomes: {

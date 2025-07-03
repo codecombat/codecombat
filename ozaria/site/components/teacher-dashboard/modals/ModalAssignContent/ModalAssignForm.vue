@@ -31,7 +31,7 @@ export default {
 
   created () {
     if (!Array.isArray(this.selectedStudentIds) || this.selectedStudentIds.length === 0) {
-      noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
+      noty({ text: $.i18n.t('teacher_dashboard.select_student_first'), layout: 'center', type: 'information', killer: true, timeout: 8000 })
       this.$emit('close')
     }
   },
