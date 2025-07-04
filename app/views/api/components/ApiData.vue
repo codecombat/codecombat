@@ -60,7 +60,7 @@
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
 import LicenseDataPerUser from 'app/components/license/LicenseDataPerUser'
-import { D3BarChart } from 'vue-d3-charts'
+import { D3BarChart } from 'vue-d3-charts-next'
 
 module.exports = Vue.extend({
   components: {
