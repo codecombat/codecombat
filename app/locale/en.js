@@ -5145,7 +5145,7 @@ module.exports = {
       get_start_list_2: 'Earn codepoints for completing practice levels and competing in head-to-head matches',
       get_start_list_3: 'Join competitive coding teams with friends, family, or classmates',
       get_start_list_4: 'Showcase your coding skills and take home great prizes',
-
+      compete_to_win: 'Compete to Win!',
     },
 
     tournament: {
