@@ -5,7 +5,7 @@
         <div class="title license-grid">
           <div /> <!-- checkbox -->
           <div /> <!-- name -->
-          <div>endDate</div>
+          <div>{{ $t('outcomes.end_date') }}</div>
           <div
             v-for="course in utils.orderedCourseIDs"
             :key="`course-name-${course}`"
@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="sub-title">
-          <div>Pick a License</div>
+          <div>{{ $t('teacher_dashboard.pick_a_license') }}</div>
         </div>
         <div
           v-for="license in licenses"
@@ -51,7 +51,7 @@
       </div>
       <div class="students">
         <div class="sub-title student-title">
-          <div>Select your students</div>
+          <div>{{ $t('teacher.select_students') }}</div>
         </div>
         <div class="select-all all-user-grid">
           <div>
@@ -62,7 +62,7 @@
             >
           </div>
           <div>
-            All Students
+            {{ $t('teacher.all_students') }}
           </div>
           <div />
           <div class="color-box">
@@ -72,7 +72,7 @@
               checked
               onclick="return false"
             >
-            <span>Having Access</span>
+            <span>{{ $t('teacher_dashboard.having_access') }}</span>
           </div>
           <div class="color-box">
             <input
@@ -81,7 +81,7 @@
               checked
               onclick="return false"
             >
-            <span>Preview</span>
+            <span>{{ $t('teacher_dashboard.course_preview') }}</span>
           </div>
         </div>
         <div
