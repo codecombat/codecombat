@@ -127,7 +127,7 @@ import CTAButton from '../../../../components/common/buttons/CTAButton.vue'
 import ProgressBar from '../../../../components/common/elements/ProgressBar.vue'
 import RobloxIdentityField from 'app/views/account/RobloxIdentityField.vue'
 
-import VueConfirmDialog from 'vue-confirm-dialog'
+import VueConfirmDialog from 'vue3-confirm-dialog'
 import roblox from 'core/api/roblox'
 const OAuth2Identities = require('collections/OAuth2Identities')
 Vue.use(VueConfirmDialog)
