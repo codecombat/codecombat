@@ -6515,7 +6515,7 @@ module.exports = {
       testimonials_1_quote: '未来是可编程的，你需要具备编程能力才能参与其中……我认为 CodeCombat 拥有市面上最好的计算机科学课程……而教师工具包才是它脱颖而出的关键。',
       testimonials_1_name: 'Jacob Kaminski',
       testimonials_1_title: '美国 STEM 预科项目 STEM 项目总监',
-      start_their_coding_journey_today: '立即**开启**他们的编程之旅！**',
+      start_their_coding_journey_today: '**立即开启**他们的编程之旅！',
       our_flagship_k_5_curriculum: '我们**旗舰 K-5 课程**采用阶梯式学习进度，**以较慢的节奏教授编程概念**，专为小学生设计。',
       sign_up_to_start_today: '立即注册开始学习',
       testimonials_1_full_review_text: '完整评论文本',
