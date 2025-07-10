@@ -4803,6 +4803,9 @@ module.exports = {
       remove_list_1: 'If licenses are applied, remember to revoke them before removing students in order to apply them to other students.',
       remove_list_2: 'Student(s) will lose access to this classroom and assigned chapters.',
       remove_list_3: 'Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.',
+      pick_a_license: 'Pick a License',
+      having_access: 'Having Access',
+      course_preview: 'Course Preview',
     },
 
     outcomes: {
