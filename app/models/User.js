@@ -1325,13 +1325,13 @@ module.exports = (User = (function () {
       if (userUtils.isInLibraryNetwork()) {
         value = 'control'
       }
-      // Don't include China players for now
-      if ((value == null) && features?.china) {
-        value = 'control'
-      }
       // Don't include users other than home users
       if ((value == null) && me.get('role')) {
         value = 'control'
+      }
+      // include China Home players for now
+      if ((value == null) && features?.chinaInfra) {
+        value = 'beta'
       }
       // Don't include already premium users
       if ((value == null) && me.hasSubscription()) {
