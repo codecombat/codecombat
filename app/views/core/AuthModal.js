@@ -321,16 +321,15 @@ module.exports = (AuthModal = (function () {
 
     async onClickSchoologyLoginButton () {
       const handler = new SchoologyHandler()
-      const { loggedIn } = await handler.logInWithEdlink()
-      if (loggedIn) {
-        window.location.reload()
-      } else {
-        noty({ text: $.i18n.t('login.login_failed'), layout: 'topCenter', type: 'error', timeout: 5000, killer: false, dismissQueue: true })
-      }
+      return this.onClickEdlinkLoginButton(handler)
     }
 
     async onClickClasslinkLoginButton () {
       const handler = new ClassLinkHandler()
+      return this.onClickEdlinkLoginButton(handler)
+    }
+
+    async onClickEdlinkLoginButton (handler) {
       const { loggedIn } = await handler.logInWithEdlink()
       if (loggedIn) {
         window.location.reload()
