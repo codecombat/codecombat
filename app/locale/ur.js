@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]گوگل اکاونٹ کامیابی سے منسلک ہوا۔',
       plus_link_error: '[AI_TRANSLATION]گوگل اکاؤنٹ لنک ناکام ہو گیا',
       email_or_username_or_library: '[AI_TRANSLATION]ای میل یا یوزر نیم یا لائبریری کارڈ نمبر',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {

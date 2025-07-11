@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Google-fiók sikeresen összekapcsolva',
       plus_link_error: '[AI_TRANSLATION]Google Fiók összekapcsolása sikertelen',
       email_or_username_or_library: '[AI_TRANSLATION]Email vagy felhasználónév vagy könyvtári kártyaszám',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {

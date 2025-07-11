@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Google 帳戶連結成功',
       plus_link_error: '[AI_TRANSLATION]Google 帳戶連結失敗',
       email_or_username_or_library: '[AI_TRANSLATION]電子郵件或用戶名或圖書證號碼',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {

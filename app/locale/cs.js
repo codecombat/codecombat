@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: 'Propojení s Googlem proběhlo úspěšně',
       plus_link_error: 'Propojení s Googlem selhalo',
       email_or_username_or_library: "Email nebo Uživatelské jméno nebo 'Library Card' číslo",
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {

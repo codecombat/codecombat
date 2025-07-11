@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Đã liên kết tài khoản Google thành công',
       plus_link_error: '[AI_TRANSLATION]Kết nối Tài khoản Google thất bại',
       email_or_username_or_library: '[AI_TRANSLATION]Email hoặc Tên Người Dùng hoặc Số Thẻ Thư Viện',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {

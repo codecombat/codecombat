@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: 'Googleアカウントのリンクに成功しました。',
       plus_link_error: 'Googleアカウントのリンクに失敗しました。',
       email_or_username_or_library: 'メールアドレス、ユーザー名、または図書館のカード番号',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {
