@@ -455,6 +455,11 @@ module.exports = (BasicInfoView = (function () {
               jqxhr = me.signupWithFacebook(name, email, facebookID, { facebookAccessToken })
               break
             }
+            case 'schoology':
+            case 'classlink':
+              ({ name, email } = forms.formToObject(this.$el))
+              jqxhr = me.signupWithOauth2(email, { name })
+              break
             default: {
               ({ name, email, password } = forms.formToObject(this.$el))
               jqxhr = me.signupWithPassword(name, email, password)
