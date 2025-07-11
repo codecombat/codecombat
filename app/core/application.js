@@ -56,6 +56,7 @@ const Application = {
     const FacebookHandler = require('core/social-handlers/FacebookHandler')
     const GPlusHandler = require('core/social-handlers/GPlusHandler')
     const SchoologyHandler = require('core/social-handlers/SchoologyHandler')
+    const ClassLinkHandler = require('core/social-handlers/ClassLinkHandler')
     const locale = require('locale/locale')
     const Tracker = require('core/Tracker2').default
     const api = require('core/api')
@@ -101,6 +102,7 @@ const Application = {
       this.facebookHandler = new FacebookHandler()
       this.gplusHandler = new GPlusHandler()
       this.schoologyHandler = new SchoologyHandler()
+      this.classlinkHandler = new ClassLinkHandler()
     }
     // @githubHandler = new GitHubHandler(@)  # Currently unused
     $(document).bind('keydown', preventBackspace)
