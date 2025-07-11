@@ -16,10 +16,8 @@
 let BasicInfoView
 require('app/styles/modal/create-account-modal/basic-info-view.sass')
 const CocoView = require('views/core/CocoView')
-const AuthModal = require('views/core/AuthModal')
 const template = require('app/templates/core/create-account-modal/basic-info-view')
 const forms = require('core/forms')
-const errors = require('core/errors')
 const User = require('models/User')
 const State = require('models/State')
 const store = require('core/store')
