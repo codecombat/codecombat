@@ -858,6 +858,7 @@ module.exports = {
       cancel: 'Pnapry',
       save: 'Fnir',
       publish: 'Choyvfu',
+      output: 'Bhgchg',
       create: 'Perngr',
       fork: 'Sbex',
       play: 'Cynl', // Jura hfrq nf na npgvba ireo, yvxr "Cynl arkg yriry"
@@ -884,6 +885,7 @@ module.exports = {
       internal_error: 'Vagreany Reebe',
       manage: 'Znantr',
       empty_results: 'Rzcgl Erfhygf.',
+      roblox: 'Eboybk',
     },
 
     general: {
@@ -1229,6 +1231,7 @@ module.exports = {
       learn_to_use: 'Yrnea gb Hfr',
       navigate_to_previous_page: 'Anivtngr gb gur cerivbhf cntr',
       navigate_to_next_page: 'Anivtngr gb gur arkg cntr',
+      restart_capstone_stage: 'Qb lbh jnag gb erfgneg pncfgbar fgntr cebterff gb 1?',
     },
 
     apis: {
@@ -1857,6 +1860,12 @@ module.exports = {
       and_more: 'naq zber',
       import_classroom: 'Vzcbeg Pynffebbz',
       re_import_classroom: 'Er-Vzcbeg Pynffebbz',
+      need_more_license: 'Bbcf! Vg ybbxf yvxr lbh arrq __nqqvgvbanyYvprafrfAhz__ zber yvprafr(f). Ivfvg Zl Yvprafrf gb yrnea zber!',
+      confirm_apply_license: 'Cyrnfr pbasvez gung lbh\'q yvxr gb nccyl yvprafrf gb __ahzoreRaebyyrq__ fghqrag(f). Lbh jvyy unir __ahzoreErznvavat__ yvprafr(f) erznvavat.',
+      fail_get_license: 'Reebe! __snvyf__ fghqragf snvyrq gb trg yvprafr',
+      no_licenses_applied: 'Ab yvprafrf nccyvrq gb fryrpgrq fghqrag(f).',
+      revoke_license_tips: 'Eribxvat n yvprafr jvyy znxr vg ninvynoyr gb nccyl gb bgure fghqragf. Fghqragf jvyy ab ybatre or noyr gb npprff cnvq pbagrag, ohg gurve cebterff jvyy or fnirq. Cyrnfr pbasvez lbh\'q yvxr gb cebprrq.',
+      assign_course_confirm: 'Cyrnfr pbasvez gung lbh\'q yvxr gb nffvta __pbhefrAnzr__ gb __ahzFghqragf__ fghqrag(f). __ahzoreRaebyyrq__ yvprafr(f) jvyy or nccyvrq.',
     },
 
     no_licenses_page: {
@@ -2115,6 +2124,7 @@ module.exports = {
     cinematic: {
       click_anywhere_continue: 'Pyvpx gb Pbagvahr',
       instructional_tooltip: 'Pyvpx gurfr neebj ohggbaf gb tb onpxjneqf naq sbejneqf. Lbh pna nyfb hfr gur neebj xrlf ba lbhe xrlobneq gb qb gur fnzr.',
+      error_find: 'Reebe svaqvat pvarzngvp __fyht__.',
     },
 
     community: {
@@ -2451,6 +2461,10 @@ module.exports = {
       get_test_license: 'Trg Grfg Fghqrag Yvprafr',
       create_students: 'Trarengr Fghqragf',
       custom_tournaments: 'Phfgbz Gbheanzragf',
+      play_ozaria: 'Cynl Bmnevn',
+      play_ccw_on_roblox: 'Cynl PbqrPbzong Jbeyqf ba Eboybk',
+      camp_activities: 'Pnzc Npgvivgvrf',
+      view_camp_activities: 'Ivrj Pnzc Npgvivgvrf',
     },
 
     project_gallery: {
@@ -4776,6 +4790,22 @@ module.exports = {
       sort_by_first_name: 'svefg Anzr',
       sort_by_progress_desc: 'Cebterff (Uvtu gb Ybj)',
       sort_by_progress_asc: 'Cebterff (Ybj gb Uvtug)',
+      no_write_permission: 'Lbh qb abg unir n jevgr crezvffvba ba guvf pynff',
+      select_student_first: 'Lbh arrq gb fryrpg fghqrag(f) svefg orsber cresbezvat gung npgvba.',
+      no_progress_to_delete: 'Ab cebterff gb qryrgr',
+      deleting_progress: 'Qryrgvat cebterff',
+      delete_progress_warning: 'Jneavat: fghqrag cebterff sbe __pbhefrAnzr__ jvyy or qryrgrq naq pnaabg or erpbirerq. Ner lbh fher?',
+      error_adding_teacher: 'Reebe va nqqvat grnpure',
+      error_occurred: 'Reebe bppheerq: __ree__',
+      password_changed_successfully: 'Cnffjbeq Punatrq fhpprffshyyl!',
+      remove_students_title: 'Erzbir Fghqragf sebz Pynff',
+      remove_confirm_title: 'Ner lbh fher lbh jnag gb erzbir (guvf fghqrag / gurfr fghqragf) sebz lbhe pynff?',
+      remove_list_1: 'Vs yvprafrf ner nccyvrq, erzrzore gb eribxr gurz orsber erzbivat fghqragf va beqre gb nccyl gurz gb bgure fghqragf.',
+      remove_list_2: 'Fghqrag(f) jvyy ybfr npprff gb guvf pynffebbz naq nffvtarq puncgref.',
+      remove_list_3: 'Fghqrag cebterff jvyy abg or ybfg naq pna or ivrjrq vs gur fghqrag pna or nqqrq onpx gb gur pynffebbz ng nal gvzr.',
+      pick_a_license: 'Cvpx n Yvprafr',
+      having_access: 'Univat Npprff',
+      course_preview: 'Pbhefr Cerivrj',
     },
 
     outcomes: {
@@ -6223,6 +6253,7 @@ module.exports = {
       level_complete: 'Lbh qvq vg! Yriry pbzcyrgr. Pbagvahr lbhe NV wbhearl jvgu gur arkg yriry.',
       run_code_tour_title: 'Ernql gb frr gur zntvp?',
       run_code_tour_text: 'Cerff “Eha Pbqr” naq jngpu lbhe cebwrpg pbzr gb yvsr. Ab rkcrevrapr erdhverq!',
+      ready_to_review_helptext: 'Znex guvf jura lbhe cebwrpg vf pbzcyrgr. Lbhe grnpure jvyy gura frr vg nf ernql gb erivrj ba gurve fvqr.',
     },
     new_premium: {
       mastering_code: 'Znfgre pbqvat naq NV jvgu **cerzvhz ubzr npprff**',
@@ -6458,6 +6489,8 @@ module.exports = {
       faq_5_answer: 'Lrf. PbqrPbzong Jbeyqf nyybjf lbh gb cynl, glcr erny pbqr naq perngr tnzrf ba CP, Znp, Puebzrobbxf, gnoyrgf, cubarf, naq pbafbyrf.',
       promo_modal_title: 'Qvfpbire PbqrPbzong Jbeyqf',
       promo_modal_text: '**Jnag gb ohvyq n Eboybk tnzr ohg pna’g pbqr?** Whzc vagb **PbqrPbzong Jbeyqf** — jurer lbh’yy yrnea ol cynlvat! Fgneg va Evsg Ivyyntr, pbqvat lbhe crgf gb uneirfg, naq onggyr. Gura gnpxyr Yhn (gur pbqvat ynathntr bs Eboybk) va gur Yrneavat Yriryf, naq svanyyl hayrnfu lbhe vqrnf va Perngvir Zbqr gb pensg vzzrefvir Eboybk tnzrf. Gur cbjre gb perngr vf va lbhe unaqf!',
+      having_trouble: 'Univat gebhoyr?',
+      check_help_doc: 'Ivrj bhe pbaarpgvba thvqr urer',
     },
     pd_page: {
       implementation_training_title: 'Vzcyrzragngvba Genvavat',
