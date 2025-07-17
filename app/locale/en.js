@@ -704,8 +704,7 @@ module.exports = {
       gplus_linked: 'Google Account linked successfully',
       plus_link_error: 'Google Account linked failed',
       email_or_username_or_library: 'Email or Username or Library Card number',
-      schoology_login_failed: 'Login failed. You may need to sign up first.',
-      schoology_signup: 'Sign Up with Schoology',
+      login_failed: 'Login failed. You may need to sign up first.',
     },
 
     signup: {
@@ -6084,6 +6083,7 @@ module.exports = {
       CodeThumbnail_copy: 'Copy',
       'CodeThumbnail_open-in-editor': 'Open in editor',
       'CodeThumbnail_run-code': 'Run Code',
+      'CodeThumbnail_edit-code': 'Edit Code',
       'ConfirmDeleteChatMessageButton_confirm-delete': 'Confirm Delete',
       ContinueRenderer_continue: 'Continue →',
       EditAlternatePromptChoicesPage_cancel: 'Cancel',

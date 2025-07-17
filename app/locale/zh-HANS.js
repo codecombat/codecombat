@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Google 账户绑定成功',
       plus_link_error: '[AI_TRANSLATION]Google 账户绑定失败',
       email_or_username_or_library: '[AI_TRANSLATION]邮箱或用户名或图书馆卡号',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {
@@ -857,6 +856,7 @@ module.exports = {
       cancel: '取消',
       save: '保存',
       publish: '发布',
+      output: '输出',
       create: '创建',
       fork: '派生',
       play: '开始',
@@ -883,6 +883,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]内部错误',
       manage: '[AI_TRANSLATION]管理',
       empty_results: '未找到结果',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -1849,9 +1850,11 @@ module.exports = {
       create_students_prompt: '[AI_TRANSLATION]你想创建多少个学生？  ',
       initial_free_courses_description: '*创建课程后，也可以使用“分配内容”功能更新这些课程。',
       junior_code_format_only: '图形化模块仅适用于少年版',
-      // hackstack_no_code_language_format: "AI HackStack 不需要编程语言或代码格式",
+      //    hackstack_no_code_language_format: "AI HackStack does not need a programming language or code format",
       licenses_activated_success: '许可证已成功激活！',
       license_code_used: '许可证代码已使用。',
+      //    ai_hs_remix: "AI HackStack Remix",
+      //    ai_hs_remix_blurb: "Whether students can use other student's projects to take inspiration from.",
       and_more: '以及更多',
       import_classroom: '导入班级',
       re_import_classroom: '重新导入班级',
@@ -2456,6 +2459,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]获取测试学生许可证',
       create_students: '[AI_TRANSLATION]生成学生',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
@@ -6077,6 +6084,7 @@ module.exports = {
       CodeThumbnail_copy: '复制',
       'CodeThumbnail_open-in-editor': '[AI_TRANSLATION]在编辑器中打开',
       'CodeThumbnail_run-code': '[AI_TRANSLATION]运行代码',
+      'CodeThumbnail_edit-code': '编辑代码',
       'ConfirmDeleteChatMessageButton_confirm-delete': '[AI_TRANSLATION]确认删除',
       ContinueRenderer_continue: '[AI_TRANSLATION]继续 →',
       EditAlternatePromptChoicesPage_cancel: '取消',
@@ -6246,6 +6254,7 @@ module.exports = {
       //    level_complete: "You did it! Level complete. Continue your AI journey with the next level.",
       //    run_code_tour_title: "Ready to see the magic?",
       //    run_code_tour_text: "Press “Run Code” and watch your project come to life. No experience required!",
+      //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
 
     //  new_premium: {
@@ -6484,6 +6493,8 @@ module.exports = {
       faq_5_answer: '[AI_TRANSLATION]是的。CodeCombat Worlds 允许你在 PC、Mac、Chromebooks、平板电脑、手机和游戏机上玩、编码和创造游戏。',
       //    promo_modal_title: "Discover CodeCombat Worlds",
       //    promo_modal_text: "**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!",
+      //    having_trouble: "Having trouble?",
+      //    check_help_doc: "View our connection guide here",
     },
 
     pd_page: {
@@ -6523,7 +6534,7 @@ module.exports = {
       no_matter_the_coding_experience: '无论编程经验如何，CodeCombat Junior 都能满足学生的需求。他们可以使用图标块、单词块、块和文本代码并行编程，或者使用行业标准语言进行基于文本的编程。',
       accessible_to_all: '人人皆可访问。',
       with_our_tablet_friendly_platform: '我们预见到了最年幼的学习者可能面临的挑战，并加入了**无需阅读和打字的选项**。简化的用户界面在 Chromebook 以及没有实体键盘的平板电脑和 iPad 上表现优异，确保所有人，无论使用何种设备，都能公平地学习。',
-      adapted_to_each_student: '适应每个学生',
+      //    adaptive_to_each_student: "Adaptive to Each Student",
       codecombat_junior_automatically_assesses: 'CodeCombat Junior 会自动评估学习者的编程水平，并在他们需要额外支持时推荐**自定义练习级别**。这为每位学生提供了个性化的学习路径，同时也让家长和教育工作者能够跟踪他们的学习进度。',
       coding_fundamentals_and_cross_curricular_connections: '编程基础知识和跨学科联系',
       our_curriculum_offers_student_facing: '对于教育工作者，我们的课程提供面向学生的课程幻灯片和易于理解的活动，教授 K-5 年级的核心编程概念和跨学科联系。这些非插电活动**将编程概念与数学和英语语言艺术 (ELA) 等其他学科相结合**。主题包括故事排序、数据可视化和图形化、叙述和数字句。我们所有的课程均旨在**符合计算机科学教师协会 (CSTA) 标准和共同核心标准标准。**',
