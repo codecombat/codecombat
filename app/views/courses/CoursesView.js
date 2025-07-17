@@ -97,8 +97,14 @@ module.exports = (CoursesView = (function () {
       this.utils = utils
       this.classCodeQueryVar = utils.getQueryVariable('_cc', false)
       this.courseInstances = new CocoCollection([], { url: `/db/user/${me.id}/course-instances`, model: CourseInstance })
+
+      this.classroomsLoaded = false
+      this.courseInstancesLoaded = false
       this.courseInstances.comparator = ci => parseInt(ci.get('classroomID').substr(0, 8), 16) + utils.orderedCourseIDs.indexOf(ci.get('courseID'))
-      this.listenToOnce(this.courseInstances, 'sync', this.onCourseInstancesLoaded)
+      this.listenToOnce(this.courseInstances, 'sync', function () {
+        this.courseInstancesLoaded = true
+        this.onCourseInstancesLoaded()
+      })
       this.supermodel.loadCollection(this.courseInstances, { cache: false })
       this.classrooms = new CocoCollection([], { url: '/db/classroom', model: Classroom })
       this.classrooms.comparator = (a, b) => b.id.localeCompare(a.id)
@@ -116,8 +122,10 @@ module.exports = (CoursesView = (function () {
           }
           this.supermodel.addPromiseResource(store.dispatch('levelSessions/fetchLevelSessionsForCampaign', { campaignHandle: campaign, options: { data: sessionFetchOptions } }))
           this.campaignLevels = new Levels()
-          return this.supermodel.trackRequest(this.campaignLevels.fetchForCampaign(this.hourOfCodeOptions.campaignId, { data: { project: `original,primerLanguage,slug,i18n.${me.get('preferredLanguage', true)}` } }))
+          this.supermodel.trackRequest(this.campaignLevels.fetchForCampaign(this.hourOfCodeOptions.campaignId, { data: { project: `original,primerLanguage,slug,i18n.${me.get('preferredLanguage', true)}` } }))
         }
+        this.classroomsLoaded = true
+        this.onCourseInstancesLoaded()
       })
       this.store = store
       this.originalLevelMap = {}
@@ -338,22 +346,54 @@ module.exports = (CoursesView = (function () {
     }
 
     onCourseInstancesLoaded () {
+      if (!this.classroomsLoaded || !this.courseInstancesLoaded) return
       // HoC 2015 used special single player course instances
       this.courseInstances.remove(this.courseInstances.where({ hourOfCode: true }))
+      const classroomLanguagesMap = {}
+      this.classrooms.forEach(cls => {
+        classroomLanguagesMap[cls.id.toString()] = cls.get('aceConfig').language
+      })
 
-      return (() => {
-        const result = []
+      const fetchSessions = (instance) => {
+        const fetchOptions = { data: { project: 'state.complete,level.original,playtime,changed' } }
+        const collection = new CocoCollection([], {
+          url: instance.url() + '/course-level-sessions/' + me.id,
+          model: LevelSession,
+        })
+        collection.comparator = 'changed'
+        collection.fetch(fetchOptions)
+        return collection
+      }
+      const dynamicLoadLanguageSessions = () => {
+        // classrooms has same language shares progress, so we only need to fetch session once
+        const languageSessions = { others: {} }
         for (const courseInstance of Array.from(this.courseInstances.models)) {
-          if (!courseInstance.get('classroomID')) { continue }
-          courseInstance.sessions = new CocoCollection([], {
-            url: courseInstance.url() + '/course-level-sessions/' + me.id,
-            model: LevelSession
-          })
-          courseInstance.sessions.comparator = 'changed'
-          result.push(this.supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete,level.original,playtime,changed' } }))
+          const courseID = courseInstance.get('courseID')
+          // 99.9% courseInstances has aceConfig
+          const lang = classroomLanguagesMap[courseInstance.get('classroomID').toString()]
+          if (!(lang in languageSessions)) {
+            languageSessions[lang] = {}
+          }
+          if (!(courseID in languageSessions[lang])) {
+            languageSessions[lang][courseID] = []
+          }
+          languageSessions[lang][courseID].push(courseInstance)
         }
-        return result
-      })()
+        for (const lang in languageSessions) {
+          const instancesByCourse = languageSessions[lang]
+          for (const courseID in instancesByCourse) {
+            const instances = instancesByCourse[courseID]
+            // only fetch first course-instances
+            const collection = fetchSessions(instances[0])
+            for (const instance of instances) {
+              instance.sessions = collection
+            }
+          }
+        }
+      }
+      dynamicLoadLanguageSessions()
+      this.renderSelectors('.course-instance-entry')
+      this.renderSelectors('.student-stats')
     }
 
     onLoaded () {
@@ -416,6 +456,9 @@ module.exports = (CoursesView = (function () {
         this.allCompleted = !_.some(this.classrooms.models, function (classroom) {
           return _.some(this.courseInstances.where({ classroomID: classroom.id }), function (courseInstance) {
             const course = this.store.state.courses.byId[courseInstance.get('courseID')]
+            if (!courseInstance.sessions) {
+              return false
+            }
             const stats = classroom.statsForSessions(courseInstance.sessions, course._id)
             if (stats.levels != null ? stats.levels.next : undefined) {
               // This could be made smarter than just picking the next level from the first incomplete course
@@ -458,7 +501,7 @@ module.exports = (CoursesView = (function () {
         this.listenTo(levels, 'sync', () => {
           if (this.destroyed) { return }
           for (const level of Array.from(levels.models)) { this.originalLevelMap[level.get('original')] = level }
-          return this.render()
+          this.renderSelectors('.course-instance-entry')
         })
         return this.supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: `original,primerLanguage,slug,name,i18n.${me.get('preferredLanguage', true)},displayName` } }))
       }
