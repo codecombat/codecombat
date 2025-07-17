@@ -393,6 +393,7 @@ module.exports = (CoursesView = (function () {
       }
       dynamicLoadLanguageSessions()
       this.renderSelectors('.course-instance-entry')
+      this.renderSelectors('.student-stats')
     }
 
     onLoaded () {
