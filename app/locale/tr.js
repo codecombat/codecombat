@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Google Hesap başarıyla bağlandı  ',
       plus_link_error: '[AI_TRANSLATION]Google Hesap bağlantısı başarısız oldu  ',
       email_or_username_or_library: '[AI_TRANSLATION]E-posta veya Kullanıcı Adı veya Kütüphane Kart numarası  ',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {

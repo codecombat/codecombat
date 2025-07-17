@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]구글 계정 연동 완료',
       plus_link_error: '[AI_TRANSLATION]구글 계정 연동 실패',
       email_or_username_or_library: '[AI_TRANSLATION]이메일 또는 사용자 이름 또는 도서관 카드 번호',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {

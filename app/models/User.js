@@ -850,6 +850,19 @@ module.exports = (User = (function () {
       return jqxhr
     }
 
+    signupWithOauth2 (email, data = {}, options = {}) {
+      options.url = _.result(this, 'url') + '/signup-with-oauth2'
+      options.type = 'POST'
+      if (options.data == null) { options.data = {} }
+      _.extend(options.data, { email, ...data })
+      options.contentType = 'application/json'
+      options.xhrFields = { withCredentials: true }
+      options.data = JSON.stringify(options.data)
+      const jqxhr = this.fetch(options)
+      jqxhr.then(() => window.tracker?.trackEvent('Oauth2 Finished Signup', { category: 'Signup', label: 'CodeCombat' }))
+      return jqxhr
+    }
+
     signupWithFacebook (name, email, facebookID, options = {}) {
       options.url = _.result(this, 'url') + '/signup-with-facebook'
       options.type = 'POST'
@@ -1478,6 +1491,10 @@ module.exports = (User = (function () {
 
     isSchoology () {
       return this.get('oAuth2Identities')?.some(identity => identity.provider === 'schoology')
+    }
+
+    isClassLink () {
+      return this.get('oAuth2Identities')?.some(identity => identity.provider === 'classlink')
     }
 
     isGeccClient () {

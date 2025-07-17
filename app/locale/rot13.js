@@ -704,8 +704,7 @@ module.exports = {
       gplus_linked: 'Tbbtyr Nppbhag yvaxrq fhpprffshyyl',
       plus_link_error: 'Tbbtyr Nppbhag yvaxrq snvyrq',
       email_or_username_or_library: 'Rznvy be Hfreanzr be Yvoenel Pneq ahzore',
-      schoology_login_failed: 'Ybtva snvyrq. Lbh znl arrq gb fvta hc svefg.',
-      schoology_signup: 'Fvta Hc jvgu Fpubbybtl',
+      login_failed: 'Ybtva snvyrq. Lbh znl arrq gb fvta hc svefg.',
     },
 
     signup: {

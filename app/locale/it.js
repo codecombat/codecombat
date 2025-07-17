@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Account Google collegato con successo',
       plus_link_error: "[AI_TRANSLATION]Collegamento dell'account Google fallito",
       email_or_username_or_library: '[AI_TRANSLATION]Email o Nome utente o Numero della Tessera della Biblioteca',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {

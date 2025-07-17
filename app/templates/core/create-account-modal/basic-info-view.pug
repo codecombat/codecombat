@@ -24,12 +24,16 @@ mixin use-social-signon
         if /(teacher|student)/.test(view.signupState.get('path'))
           .clever-login
             a#clever-signup-btn.network-login(data-sso-used="clever")
-              img.clever-logo(src="/images/pages/modal/auth/clever_sso_button@2x.png", draggable="false")
+              img.clever-logo(src="/images/pages/modal/auth/clever-logo-blue.png", draggable="false")
         if /(teacher|student)/.test(view.signupState.get('path'))
           .schoology-login
             a#schoology-signup-btn.network-login(data-sso-used="schoology")
-              img.schoology-login-img(src="/images/pages/modal/auth/schoology.png") 
-              span(data-i18n="login.schoology_signup")
+              img.schoology-login-img(src="/images/pages/modal/auth/schoology.png")
+              span Schoology
+          .classlink-login
+            a#classlink-signup-btn.network-login(data-sso-used="classlink")
+              img.classlink-login-img(src="/images/pages/modal/auth/classlink-logo-small.png")
+              span ClassLink
 
 
     // TODO: turn on once we can ask about school inside ConfirmationView

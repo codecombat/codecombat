@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: 'บัญชี Google ได้รับการเชื่อมโยงสำเร็จเรียบร้อยแล้ว',
       plus_link_error: 'การเชื่อมโยงบัญชี Google ล้มเหลว',
       email_or_username_or_library: '[AI_TRANSLATION]อีเมล์หรือชื่อผู้ใช้หรือหมายเลขบัตรห้องสมุด',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {

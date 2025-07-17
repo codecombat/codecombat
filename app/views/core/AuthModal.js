@@ -19,7 +19,8 @@ const errors = require('core/errors')
 const RecoverModal = require('views/core/RecoverModal')
 const storage = require('core/storage')
 const { logInWithClever } = require('core/social-handlers/CleverHandler')
-const { logInWithSchoology } = require('core/social-handlers/SchoologyHandler')
+const SchoologyHandler = require('core/social-handlers/SchoologyHandler')
+const ClassLinkHandler = require('core/social-handlers/ClassLinkHandler')
 const globalVar = require('core/globalVar')
 const userUtils = require('../../lib/user-utils')
 
@@ -39,6 +40,7 @@ module.exports = (AuthModal = (function () {
         'click #clever-signup-btn': 'onClickCleverSignupButton',
         'click #clever-login-btn': 'onClickCleverLoginButton',
         'click #schoology-login-btn': 'onClickSchoologyLoginButton',
+        'click #classlink-login-btn': 'onClickClasslinkLoginButton',
         'click #close-modal': 'hide',
         'click [data-toggle="coco-modal"][data-target="core/RecoverModal"]': 'openRecoverModal',
       }
@@ -318,11 +320,21 @@ module.exports = (AuthModal = (function () {
     }
 
     async onClickSchoologyLoginButton () {
-      const { loggedIn } = await logInWithSchoology()
+      const handler = new SchoologyHandler()
+      return this.onClickEdlinkLoginButton(handler)
+    }
+
+    async onClickClasslinkLoginButton () {
+      const handler = new ClassLinkHandler()
+      return this.onClickEdlinkLoginButton(handler)
+    }
+
+    async onClickEdlinkLoginButton (handler) {
+      const { loggedIn } = await handler.logInWithEdlink()
       if (loggedIn) {
         window.location.reload()
       } else {
-        noty({ text: $.i18n.t('login.schoology_login_failed'), layout: 'topCenter', type: 'error', timeout: 5000, killer: false, dismissQueue: true })
+        noty({ text: $.i18n.t('login.login_failed'), layout: 'topCenter', type: 'error', timeout: 5000, killer: false, dismissQueue: true })
       }
     }
 
