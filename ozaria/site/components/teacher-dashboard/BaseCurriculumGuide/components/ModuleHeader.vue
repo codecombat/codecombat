@@ -58,6 +58,9 @@ export default {
     getModuleTotalTimeInfo () {
       return utils.i18n(this.getModuleInfo?.duration, 'total')
     },
+    currentCourseSlug () {
+      return this.getCurrentCourse?.slug
+    },
   },
 
   methods: {
@@ -124,7 +127,10 @@ export default {
       </div>
     </div>
     <div class="buttons">
-      <access-level-indicator :level="getModuleInfo.access" />
+      <access-level-indicator
+        :level="getModuleInfo.access"
+        :course-slug="currentCourseSlug"
+      />
       <!-- For this locked tooltip we use a span, as the disabled button doesn't trigger a tooltip. -->
       <template
         v-if="getModuleInfo.lessonSlidesUrl && showLessonSlides"

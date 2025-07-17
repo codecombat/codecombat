@@ -73,7 +73,7 @@ module.exports = Vue.extend({
       } catch (e) {
         console.error(e)
         return noty({
-          text: `Error finding cinematic '${this.cinematicIdOrSlug}'.`,
+          text: $.i18n.t('cinematic.error_find', { slug: this.cinematicIdOrSlug }),
           type: 'error',
           timeout: 3000
         })

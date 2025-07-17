@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="chinaInfra"
     id="dashboard-toggle"
     class="dashboard-toggle"
   >
@@ -73,7 +74,10 @@ export default Vue.extend({
     },
     isNewDashboard () {
       return this.dashboardStatus
-    }
+    },
+    chinaInfra () {
+      return me.showChinaResourceInfo()
+    },
   },
   watch: {
     dashboardStatus (newValue, oldValue) {

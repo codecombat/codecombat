@@ -20,7 +20,7 @@ export default Vue.extend({
 
   created () {
     if (!Array.isArray(this.selectedStudentIds) || this.selectedStudentIds.length === 0) {
-      noty({ text: 'You need to select student(s) first before performing that action.', layout: 'center', type: 'information', killer: true, timeout: 8000 })
+      noty({ text: $.i18n.t('teacher_dashboard.select_student_first'), layout: 'center', type: 'information', killer: true, timeout: 8000 })
       this.$emit('close')
     }
     if (!this.classroom) {
@@ -47,21 +47,23 @@ export default Vue.extend({
 
 <template>
   <modal
-    title="Remove Students from Class"
+    :title="$t('teacher_dashboard.remove_students_title')"
     @close="$emit('close')"
   >
     <div class="remove-students">
       <div class="remove-students-info">
-        <span class="sub-title"> Are you sure you want to remove (this student / these students) from your class? </span>
+        <span class="sub-title">
+          {{ $t('teacher_dashboard.remove_confirm_title') }}
+        </span>
         <ul class="info-list">
           <li class="list-item">
-            If licenses are applied, remember to revoke them before removing students in order to apply them to other students.
+            {{ $t('teacher_dashboard.remove_list_1') }}
           </li>
           <li class="list-item">
-            Student(s) will lose access to this classroom and assigned chapters.
+            {{ $t('teacher_dashboard.remove_list_2') }}
           </li>
           <li class="list-item">
-            Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.
+            {{ $t('teacher_dashboard.remove_list_3') }}
           </li>
         </ul>
       </div>

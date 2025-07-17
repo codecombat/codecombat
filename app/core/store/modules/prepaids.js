@@ -265,7 +265,7 @@ export default {
       if (!canApplyLicenses) {
         // NOTE: Should we have specific UI noty side effects within the store logic?
         noty({
-          text: `Oops! It looks like you need ${additionalLicensesNum} more license${additionalLicensesNum > 1 ? 's' : ''}. Visit My Licenses to learn more!`,
+          text: $.i18n.t('teachers.need_more_license', { additionalLicensesNum }),
           layout: 'center',
           type: 'error',
           killer: true,
@@ -278,12 +278,15 @@ export default {
         let confirmed = false
         // NOTE: Should we have specific UI noty side effects within the store logic?
         await new Promise((resolve) => noty({
-          text: `Please confirm that you'd like to apply licenses to ${numberEnrolled} student(s). You will have ${availableSpots - unenrolledStudents.length} license(s) remaining.`,
+          text: $.i18n.t('teachers.confirm_apply_license', {
+            numberEnrolled,
+            numberRemaining: availableSpots - unenrolledStudents.length,
+          }),
           type: 'info',
           buttons: [
             {
               addClass: 'btn btn-primary',
-              text: 'Ok',
+              text: $.i18n.t('modal.okay'),
               onClick: function ($noty) {
                 confirmed = true
                 $noty.close()
@@ -292,7 +295,7 @@ export default {
             },
             {
               addClass: 'btn btn-danger',
-              text: 'Cancel',
+              text: $.i18n.t('modal.cancel'),
               onClick: function ($noty) {
                 $noty.close()
                 resolve()
@@ -320,7 +323,7 @@ export default {
         }
       })
       if (fails) {
-        noty({ text: `Error! ${fails} students failed to get license`, type: 'error' })
+        noty({ text: $.i18n.t('teachers.fail_get_license', { fails }), type: 'error' })
       }
     },
 
@@ -344,7 +347,7 @@ export default {
       if (!canApplyLicenses) {
         // NOTE: Should we have specific UI noty side effects within the store logic?
         noty({
-          text: `Oops! It looks like you need ${additionalLicensesNum} more license${additionalLicensesNum > 1 ? 's' : ''}. Visit My Licenses to learn more!`,
+          text: $.i18n.t('teachers.need_more_license', { additionalLicensesNum }),
           layout: 'center',
           type: 'error',
           killer: true,
@@ -357,12 +360,15 @@ export default {
         let confirmed = false
         // NOTE: Should we have specific UI noty side effects within the store logic?
         await new Promise((resolve) => noty({
-          text: `Please confirm that you'd like to apply licenses to ${numberEnrolled} student(s). You will have ${totalAvailableSpots - unenrolledStudents.length} license(s) remaining.`,
+          text: $.i18n.t('teachers.confirm_apply_license', {
+            numberEnrolled,
+            numberRemaining: totalAvailableSpots - unenrolledStudents.length,
+          }),
           type: 'info',
           buttons: [
             {
               addClass: 'btn btn-primary',
-              text: 'Ok',
+              text: $.i18n.t('modal.okay'),
               onClick: function ($noty) {
                 confirmed = true
                 $noty.close()
@@ -371,7 +377,7 @@ export default {
             },
             {
               addClass: 'btn btn-danger',
-              text: 'Cancel',
+              text: $.i18n.t('modal.cancel'),
               onClick: function ($noty) {
                 $noty.close()
                 resolve()
@@ -415,17 +421,17 @@ export default {
 
       const existsLicenseToRevoke = students.length > 0
       if (!existsLicenseToRevoke) {
-        noty({ text: 'No licenses applied to selected student(s).' })
+        noty({ text: $.i18n.t('teachers.no_licenses_applied') })
         return
       }
 
       if (!confirmed) {
         await new Promise((resolve) => noty({
-          text: 'Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you\'d like to proceed.',
+          text: $.i18n.t('teachers.revoke_license_tips'),
           buttons: [
             {
               addClass: 'btn btn-primary',
-              text: 'Ok',
+              text: $.i18n.t('modal.okay'),
               onClick: function ($noty) {
                 confirmed = true
                 $noty.close()
@@ -434,7 +440,7 @@ export default {
             },
             {
               addClass: 'btn btn-danger',
-              text: 'Cancel',
+              text: $.i18n.t('modal.cancel'),
               onClick: function ($noty) {
                 $noty.close()
                 resolve()
