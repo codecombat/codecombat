@@ -447,7 +447,7 @@ export default Vue.extend({
       .row
         .col-md-12.header-container
           .navbar-header
-            button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
+            button.navbar-toggle.collapsed(data-toggle='collapse', data-target='.navbar-collapse' aria-expanded='false')
               span.sr-only {{ $t('nav.toggle_nav') }}
               span.icon-bar
               span.icon-bar
@@ -470,7 +470,7 @@ export default Vue.extend({
               .navbar-nav
                 a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/") {{ $t('nav.browser_recommendation') }}
 
-          #navbar-collapse.collapse.navbar-collapse
+          .collapse.navbar-collapse
             .nav-spacer
             ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
               li
@@ -858,6 +858,11 @@ export default Vue.extend({
   display: flex;
   align-items: center;
   gap: 5px;
+}
+.in {
+  .right-side-nav {
+    flex-direction: column;
+  }
 }
 
 .tecmilenio-logo, .tarena-logo {
