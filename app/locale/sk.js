@@ -859,6 +859,7 @@ module.exports = {
       //    output: "Output",
       create: 'Vytvoriť',
       fork: 'Klonovať',
+      //    clone: "Clone",
       play: 'Hraj',
       retry: 'Znova',
       actions: 'Príkazy',
@@ -3208,6 +3209,7 @@ module.exports = {
       //    done_adding: "Done Adding",
       //    product: "Product",
       //    link: "Link",
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {

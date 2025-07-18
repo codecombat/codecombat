@@ -104,10 +104,6 @@ export default Vue.extend({
       return getQueryVariable('landing', false)
     },
 
-    showHackStackLogo () {
-      return window.location.pathname.startsWith('/ai') && !window.location.pathname.startsWith('/ai-junior')
-    },
-
     useDarkMode () {
       return /^\/(roblox|hackstack|league|play\/ladder)/.test(document.location.pathname)
     },
@@ -447,7 +443,7 @@ export default Vue.extend({
       .row
         .col-md-12.header-container
           .navbar-header
-            button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
+            button.navbar-toggle.collapsed(data-toggle='collapse', data-target='.navbar-collapse' aria-expanded='false')
               span.sr-only {{ $t('nav.toggle_nav') }}
               span.icon-bar
               span.icon-bar
@@ -460,8 +456,6 @@ export default Vue.extend({
                 img(v-else src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
               a(v-if="partnerLogo" :href="homeLink")
                 img(:src="partnerLogo.url" :alt="partnerLogo.alt" :class="partnerLogo.className")
-              a(v-if="showHackStackLogo" href="/ai")
-                img#logo-img(src="/images/ai/logo-hs-color.webp" alt="HackStack logo")
               a(v-if="isOzaria" :href="homeLink")
                 img#logo-img.oz-logo(src="/images/ozaria/home/ozaria-logo.png" alt="Ozaria logo" title='Ozaria')
 
@@ -470,7 +464,7 @@ export default Vue.extend({
               .navbar-nav
                 a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/") {{ $t('nav.browser_recommendation') }}
 
-          #navbar-collapse.collapse.navbar-collapse
+          .collapse.navbar-collapse
             .nav-spacer
             ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
               li
@@ -858,6 +852,11 @@ export default Vue.extend({
   display: flex;
   align-items: center;
   gap: 5px;
+}
+.in {
+  .right-side-nav {
+    flex-direction: column;
+  }
 }
 
 .tecmilenio-logo, .tarena-logo {

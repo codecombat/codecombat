@@ -859,6 +859,7 @@ module.exports = {
       //    output: "Output",
       create: 'Létrehozás',
       fork: 'Villára vesz',
+      //    clone: "Clone",
       play: 'Játszd',
       retry: 'Próbáld újra!',
       actions: 'Lehetőségek',
@@ -3208,6 +3209,7 @@ module.exports = {
       done_adding: 'Hozzáadás kész',
       product: 'Termék',
       link: 'Link',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {
