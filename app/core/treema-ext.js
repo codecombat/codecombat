@@ -626,7 +626,7 @@ module.exports.LatestVersionReferenceNode = (LatestVersionReferenceNode = (funct
       if (!link) { return }
       const parts = (Array.from(link.href.split('/')).filter((p) => p.length))
       this.url = `/db/${parts[1]}`
-      this.model = require('models/' + _.string.classify(parts[1]))
+      this.model = require('models/' + (link.model || _.string.classify(parts[1])))
     }
 
     buildValueForDisplay (valEl, data) {
@@ -716,14 +716,14 @@ module.exports.LatestVersionReferenceNode = (LatestVersionReferenceNode = (funct
       link = link.replace('{(original)}', data.original)
       link = link.replace('{(majorVersion)}', '' + (data.majorVersion != null ? data.majorVersion : 0))
       link = link.replace('{($)}', data)
-      return this.getOrMakeModelFromLink(link)
+      return this.getOrMakeModelFromLink(link, linkObject)
     }
 
-    getOrMakeModelFromLink (link) {
+    getOrMakeModelFromLink (link, linkObj) {
       let Model
       const makeUrlFunc = url => () => url
       const modelUrl = link.split('/')[2]
-      const modelModule = _.string.classify(modelUrl)
+      const modelModule = linkObj.model || _.string.classify(modelUrl)
       let modulePath = `models/${modelModule}`
 
       modulePath = modulePath.replace(/^models\//, '')

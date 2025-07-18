@@ -859,6 +859,7 @@ module.exports = {
       //    output: "Output",
       create: '생성',
       fork: '포크',
+      //    clone: "Clone",
       play: '시작',
       retry: '재시도',
       actions: '행동',
@@ -3208,6 +3209,7 @@ module.exports = {
       done_adding: '[AI_TRANSLATION]추가 완료',
       product: '[AI_TRANSLATION]상품',
       link: '[AI_TRANSLATION]링크',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {

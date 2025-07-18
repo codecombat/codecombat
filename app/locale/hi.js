@@ -859,6 +859,7 @@ module.exports = {
       //    output: "Output",
       create: '[AI_TRANSLATION]बनाएँ',
       fork: '[AI_TRANSLATION]कांटा',
+      //    clone: "Clone",
       play: '[AI_TRANSLATION]खेलें',
       retry: '[AI_TRANSLATION]फिर से प्रयास करें  ',
       actions: '[AI_TRANSLATION]क्रियाएँ  ',
@@ -3208,6 +3209,7 @@ module.exports = {
       done_adding: '[AI_TRANSLATION]जोड़ने का काम हो गया',
       product: '[AI_TRANSLATION]प्रोडक्ट',
       link: '[AI_TRANSLATION]लिंक',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {

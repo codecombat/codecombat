@@ -859,6 +859,7 @@ module.exports = {
       output: '输出',
       create: '创建',
       fork: '派生',
+      //    clone: "Clone",
       play: '开始',
       retry: '重试',
       actions: '行为',
@@ -3208,6 +3209,7 @@ module.exports = {
       done_adding: '添加完毕',
       product: '[AI_TRANSLATION]产品',
       link: '[AI_TRANSLATION]链接',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {

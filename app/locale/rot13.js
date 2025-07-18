@@ -860,6 +860,7 @@ module.exports = {
       output: 'Bhgchg',
       create: 'Perngr',
       fork: 'Sbex',
+      clone: 'Pybar',
       play: 'Cynl', // Jura hfrq nf na npgvba ireo, yvxr "Cynl arkg yriry"
       retry: 'Ergel',
       actions: 'Npgvbaf',
@@ -3209,6 +3210,7 @@ module.exports = {
       done_adding: 'Qbar Nqqvat',
       product: 'Cebqhpg',
       link: 'Yvax',
+      clone_to_new_scenario: 'Pybar gb Arj Fpranevb',
     },
 
     article: {
