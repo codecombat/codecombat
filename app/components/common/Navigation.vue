@@ -104,10 +104,6 @@ export default Vue.extend({
       return getQueryVariable('landing', false)
     },
 
-    showHackStackLogo () {
-      return window.location.pathname.startsWith('/ai') && !window.location.pathname.startsWith('/ai-junior')
-    },
-
     useDarkMode () {
       return /^\/(roblox|hackstack|league|play\/ladder)/.test(document.location.pathname)
     },
@@ -460,8 +456,6 @@ export default Vue.extend({
                 img(v-else src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
               a(v-if="partnerLogo" :href="homeLink")
                 img(:src="partnerLogo.url" :alt="partnerLogo.alt" :class="partnerLogo.className")
-              a(v-if="showHackStackLogo" href="/ai")
-                img#logo-img(src="/images/ai/logo-hs-color.webp" alt="HackStack logo")
               a(v-if="isOzaria" :href="homeLink")
                 img#logo-img.oz-logo(src="/images/ozaria/home/ozaria-logo.png" alt="Ozaria logo" title='Ozaria')
 
