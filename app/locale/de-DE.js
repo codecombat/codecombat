@@ -859,6 +859,7 @@ module.exports = {
       //    output: "Output",
       create: 'Erstellen',
       fork: 'Kopieren',
+      //    clone: "Clone",
       play: 'Spielen',
       retry: 'Erneut versuchen',
       actions: 'Aktionen',
@@ -3208,6 +3209,7 @@ module.exports = {
       done_adding: 'Hinzufügen abgeschlossen',
       product: '[AI_TRANSLATION]Produkt',
       link: '[AI_TRANSLATION]Link',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {

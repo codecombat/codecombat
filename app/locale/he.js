@@ -859,6 +859,7 @@ module.exports = {
       //    output: "Output",
       create: 'צור',
       fork: 'פיצול',
+      //    clone: "Clone",
       play: 'שחק',
       retry: 'נסה שוב',
       actions: 'פעולות',
@@ -3208,6 +3209,7 @@ module.exports = {
       done_adding: 'ההוספה הסתיימה',
       //    product: "Product",
       //    link: "Link",
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {

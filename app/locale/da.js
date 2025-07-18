@@ -859,6 +859,7 @@ module.exports = {
       //    output: "Output",
       create: 'Skab',
       fork: 'Forgren',
+      //    clone: "Clone",
       play: 'Spil',
       retry: 'Prøv igen',
       actions: 'Handlinger',
@@ -3208,6 +3209,7 @@ module.exports = {
       done_adding: 'Alt Tilføjet',
       //    product: "Product",
       //    link: "Link",
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {

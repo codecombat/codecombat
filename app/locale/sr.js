@@ -859,6 +859,7 @@ module.exports = {
       //    output: "Output",
       create: 'Направи',
       fork: 'Форкуј',
+      //    clone: "Clone",
       play: 'Играј',
       retry: 'Покушај поново',
       actions: 'Радње',
@@ -3208,6 +3209,7 @@ module.exports = {
       done_adding: 'Завршетак додавања',
       //    product: "Product",
       //    link: "Link",
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {

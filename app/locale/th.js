@@ -859,6 +859,7 @@ module.exports = {
       //    output: "Output",
       create: '[AI_TRANSLATION]สร้าง',
       fork: '[AI_TRANSLATION]ส้อม',
+      //    clone: "Clone",
       play: 'เล่น',
       retry: '[AI_TRANSLATION]ลองใหม่',
       actions: '[AI_TRANSLATION]การกระทำ  ',
@@ -3208,6 +3209,7 @@ module.exports = {
       done_adding: '[AI_TRANSLATION]เสร็จสิ้นการเพิ่ม',
       product: '[AI_TRANSLATION]ผลิตภัณฑ์',
       link: '[AI_TRANSLATION]ลิงค์',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {

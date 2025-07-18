@@ -859,6 +859,7 @@ module.exports = {
       //    output: "Output",
       create: 'Δημιουργία',
       fork: 'Κλώνος',
+      //    clone: "Clone",
       play: 'Παίξε',
       retry: 'Ξαναδοκίμασε',
       actions: 'Ενέργειες',
@@ -3208,6 +3209,7 @@ module.exports = {
       done_adding: 'Η προσθήκη τελείωσε',
       //    product: "Product",
       //    link: "Link",
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {

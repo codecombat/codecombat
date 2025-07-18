@@ -859,6 +859,7 @@ module.exports = {
       //    output: "Output",
       create: '起造',
       fork: '派生',
+      //    clone: "Clone",
       play: '開來',
       retry: '轉試',
       //    actions: "Actions",
@@ -3208,6 +3209,7 @@ module.exports = {
       //    done_adding: "Done Adding",
       //    product: "Product",
       //    link: "Link",
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {

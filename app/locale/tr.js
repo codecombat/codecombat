@@ -859,6 +859,7 @@ module.exports = {
       //    output: "Output",
       create: 'Oluştur',
       fork: 'Çatalla',
+      //    clone: "Clone",
       play: 'Oyna',
       retry: 'Yeniden Dene',
       actions: 'Eylemler',
@@ -3208,6 +3209,7 @@ module.exports = {
       done_adding: '[AI_TRANSLATION]Eklemeyi Bitirdim  ',
       product: '[AI_TRANSLATION]Ürün',
       link: '[AI_TRANSLATION]Bağlantı',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {

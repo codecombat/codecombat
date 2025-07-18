@@ -860,6 +860,7 @@ module.exports = {
       output: 'Output',
       create: 'Create',
       fork: 'Fork',
+      clone: 'Clone',
       play: 'Play', // When used as an action verb, like "Play next level"
       retry: 'Retry',
       actions: 'Actions',
@@ -3209,6 +3210,7 @@ module.exports = {
       done_adding: 'Done Adding',
       product: 'Product',
       link: 'Link',
+      clone_to_new_scenario: 'Clone to New Scenario',
     },
 
     article: {
