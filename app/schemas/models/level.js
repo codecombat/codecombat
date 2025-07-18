@@ -623,7 +623,8 @@ _.extend(LevelSchema.properties, {
   })),
   archived: { type: 'integer', description: 'Marks this level with to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.' },
   difficulty: { type: 'integer', title: 'Difficulty', description: 'Difficulty of this level - used to show difficulty in star-rating of 1 to 5', minimum: 1, maximum: 5, inEditor: 'codecombat' },
-  product: _.extend(c.singleProduct, { inEditor: true })
+  product: _.extend(c.singleProduct, { inEditor: true }),
+  aiAssistantSystemPrompt: { type: 'string', description: 'Prompt for the AI assistant system to use for this level', inEditor: 'codecombat', title: 'AI Assistant System Prompt', format: 'markdown' },
 })
 
 LevelSchema.definitions = {
