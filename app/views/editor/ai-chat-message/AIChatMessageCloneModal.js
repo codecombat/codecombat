@@ -100,7 +100,7 @@ class ScenarioNode extends treemaExt.IDReferenceNode {
     // TODO: fix the term search
     this.getSearchResultsEl().empty().append('Searching')
     this.collections = new CocoCollection([], { model: AIScenario })
-    this.collections.url = '/db/ai_scenario?project[]=_id&project[]=name'
+    this.collections.url = '/db/ai_scenario?project[]=_id&project[]=name&limit=1000&sort=-_id'
     this.collections.fetch()
     this.collections.once('sync', this.loadAIScenarios, this)
   }
