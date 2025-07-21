@@ -2950,6 +2950,7 @@ module.exports = {
     //    show_practice_levels: "Show Practice Levels",
     //    hide_practice_levels: "Hide Practice Levels",
     //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
+    //    partially_complete: "Partially Complete",
     //  },
 
     //  teacher_licenses: {

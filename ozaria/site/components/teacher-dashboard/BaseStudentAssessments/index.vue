@@ -231,7 +231,7 @@ export default {
             <span
               class="small"
               data-i18n="TODO"
-            >Partially Complete</span>
+            >{{ $t('teacher.partially_complete') }}</span>
           </div>
           <div class="clearfix" />
         </div>

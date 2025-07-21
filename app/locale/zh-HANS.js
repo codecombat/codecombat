@@ -2947,9 +2947,10 @@ module.exports = {
       test_student_modal_choose_class: '[AI_TRANSLATION]选择一个职业加入：  ',
       test_student_modal_redirect: '[AI_TRANSLATION]你将被重定向到你的测试学生账户！  ',
       stop_spying_student: '[AI_TRANSLATION]你可以点击用户下拉菜单中的 `Stop Spying` 返回到老师账号。',
-      //    show_practice_levels: "Show Practice Levels",
-      //    hide_practice_levels: "Hide Practice Levels",
+      show_practice_levels: '显示练习关卡',
+      hide_practice_levels: '隐藏练习关卡',
       //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
+      partially_complete: '部分完成',
     },
 
     teacher_licenses: {
@@ -6440,7 +6441,6 @@ module.exports = {
       carousel_items_6_text: '如果您的孩子计划未来学习计算机专业，那么参加 AP CSP 计算机科学原理考试是一个很有希望的第一步。通过考试是获得高等教育学分的公认途径，使学习者能够免去昂贵且耗时的大学必修课程。我们的课程获得了大学理事会的认可，确认我们的课程符合所有 AP 课程框架标准和 AP CSP 评估。您无需参加高中 AP 课程即可参加考试。',
       instructors_1_text: 'Brian 是一位充满激情的编程老师，拥有 13 年的数学和计算机科学教学经验。他精通 Java、Python、Javascript、HTML 和 CSS。他拥有数学教育学士学位和教育理论硕士学位，热衷于与他人分享他对数学和计算机科学的热情。他认为，通过教授计算机科学，我们正在培养我们的年轻人成为下一代出色的问题解决者。',
       instructors_2_text: 'Shreeaa 热衷于帮助他人发现编程的乐趣。她曾在软件开发领域取得了成功，并将现实世界的知识带入她的课堂。她的教学风格注重实践和实用，专注于帮助学生掌握创建实际项目所需的技能，同时享受乐趣。无论您是编程新手还是希望扩展知识，她都会在这里支持您的学习之旅。',
-
       instructors_3_text: '[AI_TRANSLATION]Tai 目前正在学习刑事司法和网络安全。他热爱正义和科技，希望利用自己的技能让世界更安全。除了学习外，Tai 还在 YMCA 工作了超过五年，在儿童看护方面获得了宝贵经验。他致力于为所有人创造一个安全和支持的环境，无论是在儿童工作中还是在科技行业中。  ',
       instructors_4_text: '[AI_TRANSLATION]Carson 已经教编程两年了，在很多编程语言中都有专业经验，包括 Python、Javascript 和 HTML。Carson 的教学方法侧重于将概念与学生感兴趣的事物联系起来。他喜欢让学生自己探索并找到自己的路径，同时根据他们的学习风格和个性引导他们学习。  ',
       instructors_5_text: '[AI_TRANSLATION]Dania是一名计算机工程专业毕业生，对教学和传播知识充满热情。Dania具有超过六年的编程语言和计算机知识教学经验。她相信在年轻时学习编程的重要性，以确保他们在这个快速发展的数字世界中拥有优势，因为编程是全球语言。  ',
@@ -6558,7 +6558,7 @@ module.exports = {
       no_matter_the_coding_experience: '无论编程经验如何，CodeCombat Junior 都能满足学生的需求。他们可以使用图标块、单词块、块和文本代码并行编程，或者使用行业标准语言进行基于文本的编程。',
       accessible_to_all: '人人皆可访问。',
       with_our_tablet_friendly_platform: '我们预见到了最年幼的学习者可能面临的挑战，并加入了**无需阅读和打字的选项**。简化的用户界面在 Chromebook 以及没有实体键盘的平板电脑和 iPad 上表现优异，确保所有人，无论使用何种设备，都能公平地学习。',
-      adapted_to_each_student: '适应每个学生',
+      //    adaptive_to_each_student: "Adaptive to Each Student",
       codecombat_junior_automatically_assesses: 'CodeCombat Junior 会自动评估学习者的编程水平，并在他们需要额外支持时推荐**自定义练习级别**。这为每位学生提供了个性化的学习路径，同时也让家长和教育工作者能够跟踪他们的学习进度。',
       coding_fundamentals_and_cross_curricular_connections: '编程基础知识和跨学科联系',
       our_curriculum_offers_student_facing: '对于教育工作者，我们的课程提供面向学生的课程幻灯片和易于理解的活动，教授 K-5 年级的核心编程概念和跨学科联系。这些非插电活动**将编程概念与数学和英语语言艺术 (ELA) 等其他学科相结合**。主题包括故事排序、数据可视化和图形化、叙述和数字句。我们所有的课程均旨在**符合计算机科学教师协会 (CSTA) 标准和共同核心标准标准。**',

@@ -2951,6 +2951,7 @@ module.exports = {
       show_practice_levels: 'Fubj Cenpgvpr Yriryf',
       hide_practice_levels: 'Uvqr Cenpgvpr Yriryf',
       dashboard_deprecation_message: 'Guvf yrtnpl qnfuobneq jvyy or qvfpbagvahrq fbba. Gb rafher havagreehcgrq npprff gb nyy srngherf naq gur orfg grnpuvat gbbyf, cyrnfr genafvgvba gb bhe arj naq vzcebirq Grnpure Qnfuobneq.',
+      partially_complete: 'Cnegvnyyl Pbzcyrgr',
     },
 
     teacher_licenses: {
