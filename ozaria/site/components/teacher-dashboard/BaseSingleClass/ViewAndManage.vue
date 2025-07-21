@@ -59,6 +59,13 @@ export default {
       return !me.isCodeNinja()
     },
 
+    showRevokeLicense () {
+      if (me.get('country') === 'lebanon' || me.showChinaResourceInfo()) {
+        return (me.isAdmin() || (window?.serverSession?.amActually))
+      }
+      return true
+    },
+
     sortBy () {
       return storage.load('sortMethod') || 'Last Name'
     },
@@ -166,7 +173,7 @@ export default {
           @click="$emit('applyLicenses')"
         />
         <icon-button-with-text
-          v-if="showLicenses && me.get('country') !== 'lebanon'"
+          v-if="showLicenses && showRevokeLicense"
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseRevoke_Gray' : 'IconLicenseRevoke'"
           :text="$t('teacher_dashboard.revoke_licenses')"
