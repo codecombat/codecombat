@@ -852,6 +852,19 @@ module.exports = (User = (function () {
       return jqxhr
     }
 
+    signupWithOauth2 (email, data = {}, options = {}) {
+      options.url = _.result(this, 'url') + '/signup-with-oauth2'
+      options.type = 'POST'
+      if (options.data == null) { options.data = {} }
+      _.extend(options.data, { email, ...data })
+      options.contentType = 'application/json'
+      options.xhrFields = { withCredentials: true }
+      options.data = JSON.stringify(options.data)
+      const jqxhr = this.fetch(options)
+      jqxhr.then(() => window.tracker?.trackEvent('Oauth2 Finished Signup', { category: 'Signup', label: 'CodeCombat' }))
+      return jqxhr
+    }
+
     signupWithFacebook (name, email, facebookID, options = {}) {
       options.url = _.result(this, 'url') + '/signup-with-facebook'
       options.type = 'POST'
@@ -1163,25 +1176,19 @@ module.exports = (User = (function () {
     getHackStackV2ExperimentValue () {
       const experimentName = 'hs-v2-exp'
       let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable(experimentName)]
-      if (value == null) { value = me.getExperimentValue(experimentName, null, 'beta') }
+      if (value == null && me.isHomeUser()) { value = me.getExperimentValue(experimentName, null, 'beta') }
       if ((value == null) && utils.isOzaria) {
         // Don't include Ozaria for now
-        value = 'control'
+        value = 'beta'
       }
-      if ((value == null) && me.isStudent()) {
-        value = 'control'
-      }
-      if ((value == null) && me.isInternal()) {
+      if ((value == null) && (me.isStudent() || me.isTeacher())) {
         value = 'beta'
       }
       if ((value == null) && me.isHomeUser() && (new Date(me.get('dateCreated')) < new Date('2025-05-27'))) {
         // Don't include users created before experiment start date
-        value = 'control'
+        value = 'beta'
       }
-      if ((value == null) && me.isTeacher() && (new Date(me.get('dateCreated')) < new Date('2025-06-04'))) {
-        value = 'control'
-      }
-      if ((!value)) {
+      if (!value) {
         let valueProbability
         const expProb = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta
         const probability = expProb != null ? expProb : 0.5
@@ -1491,6 +1498,10 @@ module.exports = (User = (function () {
 
     isSchoology () {
       return this.get('oAuth2Identities')?.some(identity => identity.provider === 'schoology')
+    }
+
+    isClassLink () {
+      return this.get('oAuth2Identities')?.some(identity => identity.provider === 'classlink')
     }
 
     isGeccClient () {

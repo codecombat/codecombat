@@ -14,6 +14,7 @@ const RootView = require('views/core/RootView')
 const template = require('app/templates/editor/ai-chat-message/edit')
 const AIChatMessage = require('models/AIChatMessage')
 const ConfirmModal = require('views/core/ConfirmModal')
+const CloneModal = require('./AIChatMessageCloneModal')
 
 const nodes = require('views/editor/level/treema_nodes')
 
@@ -27,6 +28,7 @@ module.exports = (AIChatMessageEditView = (function () {
       this.prototype.template = template
 
       this.prototype.events = {
+        'click #clone-button': 'onClickCloneButton',
         'click #save-button': 'onClickSaveButton',
         'click #delete-button': 'confirmDeletion',
         'click #i18n-button': 'onPopulateI18N'
@@ -71,6 +73,10 @@ module.exports = (AIChatMessageEditView = (function () {
 
     afterRender () {
       super.afterRender()
+    }
+
+    onClickCloneButton (e) {
+      return this.openModalView(new CloneModal({ messageId: this.chatMessage.get('_id') }))
     }
 
     onClickSaveButton (e) {

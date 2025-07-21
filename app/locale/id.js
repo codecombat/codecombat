@@ -721,8 +721,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Akun Google berhasil ditautkan',
       plus_link_error: '[AI_TRANSLATION]Kegagalan menghubungkan Akun Google',
       email_or_username_or_library: '[AI_TRANSLATION]Email atau Nama Pengguna atau Nomor Kartu Perpustakaan',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {
@@ -875,8 +874,10 @@ module.exports = {
       cancel: 'Batal',
       save: 'Simpan',
       publish: 'Publikasi',
+      //    output: "Output",
       create: 'Buat',
       fork: 'Cabangkan',
+      //    clone: "Clone",
       play: 'Mainkan',
       retry: 'Coba Lagi',
       actions: 'Aksi-aksi',
@@ -901,6 +902,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]Kesalahan Internal',
       manage: '[AI_TRANSLATION]Kelola',
       empty_results: '[AI_TRANSLATION]Hasil Kosong.',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -1246,6 +1248,7 @@ module.exports = {
       learn_to_use: '[AI_TRANSLATION]Pelajari untuk Menggunakan  ',
       //    navigate_to_previous_page: "Navigate to the previous page",
       //    navigate_to_next_page: "Navigate to the next page",
+      //    restart_capstone_stage: "Do you want to restart capstone stage progress to 1?",
     },
 
     apis: {
@@ -1877,6 +1880,12 @@ module.exports = {
       //    and_more: "and more",
       //    import_classroom: "Import Classroom",
       //    re_import_classroom: "Re-Import Classroom",
+      //    need_more_license: "Oops! It looks like you need __additionalLicensesNum__ more license(s). Visit My Licenses to learn more!",
+      //    confirm_apply_license: "Please confirm that you'd like to apply licenses to __numberEnrolled__ student(s). You will have __numberRemaining__ license(s) remaining.",
+      //    fail_get_license: "Error! __fails__ students failed to get license",
+      //    no_licenses_applied: "No licenses applied to selected student(s).",
+      //    revoke_license_tips: "Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.",
+      //    assign_course_confirm: "Please confirm that you'd like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.",
     },
 
     no_licenses_page: {
@@ -2135,6 +2144,7 @@ module.exports = {
     cinematic: {
       click_anywhere_continue: 'klik di mana saja untuk melanjutkan',
       instructional_tooltip: '[AI_TRANSLATION]Klik tombol panah ini untuk mundur atau maju. Kamu juga bisa gunakan tombol panah di keyboard untuk melakukan hal yang sama.',
+      //    error_find: "Error finding cinematic __slug__.",
     },
 
     community: {
@@ -2471,6 +2481,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]Dapatkan Lisensi Siswa Tes  ',
       create_students: '[AI_TRANSLATION]Buat Siswa  ',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
@@ -3216,6 +3230,7 @@ module.exports = {
       done_adding: 'Selesai Menambahkan',
       product: '[AI_TRANSLATION]Produk',
       link: '[AI_TRANSLATION]Tautan',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {
@@ -4795,6 +4810,22 @@ module.exports = {
       //    sort_by_first_name: "first Name",
       //    sort_by_progress_desc: "Progress (High to Low)",
       //    sort_by_progress_asc: "Progress (Low to Hight)",
+      //    no_write_permission: "You do not have a write permission on this class",
+      //    select_student_first: "You need to select student(s) first before performing that action.",
+      //    no_progress_to_delete: "No progress to delete",
+      //    deleting_progress: "Deleting progress",
+      //    delete_progress_warning: "Warning: student progress for __courseName__ will be deleted and cannot be recovered. Are you sure?",
+      //    error_adding_teacher: "Error in adding teacher",
+      //    error_occurred: "Error occurred: __err__",
+      //    password_changed_successfully: "Password Changed successfully!",
+      //    remove_students_title: "Remove Students from Class",
+      //    remove_confirm_title: "Are you sure you want to remove (this student / these students) from your class?",
+      //    remove_list_1: "If licenses are applied, remember to revoke them before removing students in order to apply them to other students.",
+      //    remove_list_2: "Student(s) will lose access to this classroom and assigned chapters.",
+      //    remove_list_3: "Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.",
+      //    pick_a_license: "Pick a License",
+      //    having_access: "Having Access",
+      //    course_preview: "Course Preview",
     },
 
     outcomes: {
@@ -6076,6 +6107,7 @@ module.exports = {
       //    CodeThumbnail_copy: "Copy",
       'CodeThumbnail_open-in-editor': '[AI_TRANSLATION]Buka di editor',
       'CodeThumbnail_run-code': '[AI_TRANSLATION]Jalankan Kode',
+      //    "CodeThumbnail_edit-code": "Edit Code",
       'ConfirmDeleteChatMessageButton_confirm-delete': '[AI_TRANSLATION]Konfirmasi Hapus',
       ContinueRenderer_continue: '[AI_TRANSLATION]Lanjut →',
       //    EditAlternatePromptChoicesPage_cancel: "Cancel",
@@ -6245,6 +6277,7 @@ module.exports = {
       //    level_complete: "You did it! Level complete. Continue your AI journey with the next level.",
       //    run_code_tour_title: "Ready to see the magic?",
       //    run_code_tour_text: "Press “Run Code” and watch your project come to life. No experience required!",
+      //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
 
     //  new_premium: {
@@ -6483,6 +6516,8 @@ module.exports = {
       faq_5_answer: '[AI_TRANSLATION]Ya. CodeCombat Worlds memungkinkan kamu bermain, mengetik kode nyata, dan membuat game di PC, Mac, Chromebook, tablet, ponsel, dan konsol.',
       //    promo_modal_title: "Discover CodeCombat Worlds",
       //    promo_modal_text: "**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!",
+      //    having_trouble: "Having trouble?",
+      //    check_help_doc: "View our connection guide here",
     },
 
     pd_page: {
