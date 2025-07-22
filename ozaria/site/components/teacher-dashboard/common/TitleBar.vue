@@ -277,7 +277,7 @@ export default {
         <primary-button
           v-if="!showClassInfo && !isCodeNinja"
           id="new-class-btn-shepherd"
-          class="btn-title-padding btn-margins-height dusk-btn"
+          class="btn-title-padding btn-margins-height purple-btn"
           @click="clickNewClass"
         >
           {{ $t('teacher_dashboard.add_class') }}
@@ -295,7 +295,7 @@ export default {
           class="add-students"
         >
           <button
-            class="dusk-btn"
+            class="purple-btn"
             @click="$emit('addStudentsClicked')"
           >
             <span> {{ $t('courses.add_students') }} </span>
@@ -310,7 +310,7 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
-@import "dusk-button";
+@import "purple-button";
 
 .btn-title-padding {
   padding: 8px 22px;
