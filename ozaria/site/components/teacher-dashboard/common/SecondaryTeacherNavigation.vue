@@ -156,7 +156,7 @@ export default {
     },
     AILeagueClicked () {
       if (utils.isOzaria) {
-        this.$refs.ModalOzariaAILeague.openModal()
+        window.open('https://codecombat.com/teachers/ai-league', '_blank')
       }
     },
 
