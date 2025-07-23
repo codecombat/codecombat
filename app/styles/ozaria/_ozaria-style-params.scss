@@ -476,6 +476,18 @@ $font-p-3-small-button-text-black-font-family: Work Sans;
   font-family: $font-p-3-small-button-text-black-font-family;
 }
 
+$font-p-3-small-button-text-white-color: #f8f8ff;
+@mixin font-p-3-small-button-text-white() {
+  font-size: $font-p-3-small-button-text-black-font-size;
+  line-height: $font-p-3-small-button-text-black-line-height;
+  text-align: $font-p-3-small-button-text-black-text-align;
+  color: $font-p-3-small-button-text-white-color;
+  letter-spacing: $font-p-3-small-button-text-black-letter-spacing;
+  font-style: $font-p-3-small-button-text-black-font-style;
+  font-weight: $font-p-3-small-button-text-black-font-weight;
+  font-family: $font-p-3-small-button-text-black-font-family;
+}
+
 /* <P3> Small Button Text Dusk Dark font style */
 $font-p-3-small-button-text-dusk-dark-font-size: 16px;
 $font-p-3-small-button-text-dusk-dark-line-height: normal;
@@ -491,6 +503,18 @@ $font-p-3-small-button-text-dusk-dark-font-family: Work Sans;
   line-height: $font-p-3-small-button-text-dusk-dark-line-height;
   text-align: $font-p-3-small-button-text-dusk-dark-text-align;
   color: $font-p-3-small-button-text-dusk-dark-color;
+  letter-spacing: $font-p-3-small-button-text-dusk-dark-letter-spacing;
+  font-style: $font-p-3-small-button-text-dusk-dark-font-style;
+  font-weight: $font-p-3-small-button-text-dusk-dark-font-weight;
+  font-family: $font-p-3-small-button-text-dusk-dark-font-family;
+}
+
+$font-p-3-small-button-text-purle-color: #7a65fc;
+@mixin font-p-3-small-button-text-purple() {
+  font-size: $font-p-3-small-button-text-dusk-dark-font-size;
+  line-height: $font-p-3-small-button-text-dusk-dark-line-height;
+  text-align: $font-p-3-small-button-text-dusk-dark-text-align;
+  color: $font-p-3-small-button-text-purle-color;
   letter-spacing: $font-p-3-small-button-text-dusk-dark-letter-spacing;
   font-style: $font-p-3-small-button-text-dusk-dark-font-style;
   font-weight: $font-p-3-small-button-text-dusk-dark-font-weight;

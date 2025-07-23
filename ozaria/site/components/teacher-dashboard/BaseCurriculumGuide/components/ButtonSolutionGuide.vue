@@ -37,19 +37,19 @@ export default {
 }
 
 button {
-  background-color: $dusk;
+  background-color: $purple;
   border-radius: 4px;
   border-width: 0;
   text-shadow: unset;
   font-weight: bold;
   @include font-p-3-small-button-text-black;
-  color: $pitch;
+  color: $white;
   font-size: 14px;
   line-height: 16px;
   background-image: unset;
 
   &:hover {
-    background-color: $dusk-dark;
+    background-color: $purple-dark;
     transition: background-color .35s;
   }
 
