@@ -108,7 +108,7 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, 
       img(src='/images/pages/user/certificates/certificate-icon.png')
       div(data-i18n='user.certificate_view')
   else if stats.levels.lastPlayed
-    div
+    div.small
       span(data-i18n="courses.last_level")
       span :
       if stats.levels.lastPlayedNumber
@@ -145,7 +145,7 @@ mixin classrooms_content()
               span.spr= classroom.get('name')
               - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java'}
               span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
-            p.teacher-name
+            p.teacher-name.small
               span(data-i18n="courses.teacher")
               span :
               if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
@@ -159,7 +159,7 @@ mixin classrooms_content()
               span.spr= classroom.get('name')
               - var languageMap = {javascript: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java'}
               span.spr (#{languageMap[(classroom.get('aceConfig') || {}).language]})
-            p.teacher-name
+            p.teacher-name.small
               span(data-i18n="courses.teacher")
               span :
               if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
@@ -231,12 +231,11 @@ mixin classrooms_content()
   else
     #announcement
       h5(data-i18n="learn_without_classroom_title")
-      ul
-        li
-          if view.utils.isCodeCombat
-           b(data-i18n="[html]courses.learn_without_classroom_blurb_coco")
-          else
-           b(data-i18n="[html]courses.learn_without_classroom_blurb")
+      p
+        if view.utils.isCodeCombat
+          b(data-i18n="[html]courses.ask_teacher_for_code_coco")
+        else
+          b(data-i18n="[html]courses.ask_teacher_for_code_ozar")
 
   if me.isManualClassroomJoinAllowed()
    hr.class-break
