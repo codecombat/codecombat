@@ -1592,11 +1592,28 @@ const allowedLanguages = ({
   [CODECOMBAT]: ['javascript', 'python', 'java', 'cpp']
 })[product]
 
-module.exports.aiToolToImage = {
-  'gpt-4-turbo-preview': '/images/ai/ChatGPT.svg',
-  'stable-diffusion-xl': '/images/ai/Stable_Diffusion.png',
+const aiToolToImage = {
+  'gpt': '/images/ai/ChatGPT.svg',
+  'stable-diffusion': '/images/ai/Stable_Diffusion.png',
   'dall-e-3': '/images/ai/DALL-E.webp',
-  'claude-3': '/images/ai/claude.webp'
+  'claude': '/images/ai/claude.webp',
+  'gemini': '/images/ai/gemini.svg'
+}
+
+module.exports.getImageFromAiTool = (tool) => {
+  if (tool.includes('claude')) {
+    return aiToolToImage.claude
+  } else if (tool.includes('dall-e')) {
+    return aiToolToImage['dall-e-3']
+  } else if (tool.includes('stable-diffusion')) {
+    return aiToolToImage['stable-diffusion']
+  } else if (tool.includes('gpt')) {
+    return aiToolToImage.gpt
+  } else if (tool.includes('gemini')) {
+    return aiToolToImage.gemini
+  } else {
+    return '/images/ai/IconHackStack_Gray.svg'
+  }
 }
 
 const getUserTimeZone = function (user) {
