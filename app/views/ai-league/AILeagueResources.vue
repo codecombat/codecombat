@@ -48,18 +48,20 @@ export default {
 </template>
 
 <style scoped lang="scss">
+@import "app/styles/ozaria/_ozaria-style-params.scss";
 
 .resources {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  font-family: $ozaria-main-font-family;
 
   &__item {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     border-radius: 8px;
-    border: 1px solid #476FB1;
+    border: 1px solid var(--color-primary);
     background: white;
     padding: 0 20px;
     height: 50px;
@@ -67,7 +69,6 @@ export default {
     color: #000;
 
     font-feature-settings: 'clig' off, 'liga' off;
-    font-family: "Work Sans";
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
@@ -91,7 +92,7 @@ export default {
 
     &.screen:after {
       background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Screen.svg);
-      background-color: #157A6C;
+      background-color: var(--color-primary);
     }
   }
 }

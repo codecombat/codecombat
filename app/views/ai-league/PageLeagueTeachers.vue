@@ -514,7 +514,7 @@ export default {
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
-  line-height: 22px;
+  line-height: 24px;
 }
 
 .box-title {
@@ -532,8 +532,8 @@ export default {
   span {
     cursor: pointer;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
-    color: #F7D047;
-    background-color: #476FB1;
+    background-color: var(--color-primary);
+    color: white;
     width: 30px;
     height: 30px;
     border-radius: 30px;
@@ -577,7 +577,7 @@ export default {
   align-items: center;
   justify-content: flex-start;
   border-radius: 8px;
-  border: 1px solid #476FB1;
+  border: 1px solid var(--color-primary);
   background: white;
   padding: 0 20px;
   height: 50px;
@@ -624,7 +624,7 @@ export default {
   }
 
   &.active {
-    background-color: #476FB1;
+    background-color: var(--color-primary);
     color: white;
     position: relative;
     z-index: 1;
