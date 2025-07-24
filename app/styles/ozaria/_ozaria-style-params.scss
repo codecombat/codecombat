@@ -27,6 +27,8 @@ $color-intro-title-bar-not-started: #bbbbbc;
 $color-concept-flag-color: #eb003b;
 $teal-light-2: #6AE8E3;
 
+$ozaria-main-font-family: 'Plus Jakarta Sans', Work Sans;
+
 /*
     Font Styles:
 */
@@ -39,7 +41,7 @@ $font-h-1-title-font-white-color: #ffffff;
 $font-h-1-title-font-white-letter-spacing: 0.69px;
 $font-h-1-title-font-white-font-style: normal;
 $font-h-1-title-font-white-font-weight: 600;
-$font-h-1-title-font-white-font-family: Work Sans;
+$font-h-1-title-font-white-font-family: $ozaria-main-font-family;
 
 @mixin font-h-1-title-font-white () {
   font-size: $font-h-1-title-font-white-font-size;
@@ -60,7 +62,7 @@ $font-h-1-title-font-twilight-color: #476fb1;
 $font-h-1-title-font-twilight-letter-spacing: 1.81px;
 $font-h-1-title-font-twilight-font-style: normal;
 $font-h-1-title-font-twilight-font-weight: 600;
-$font-h-1-title-font-twilight-font-family: Work Sans;
+$font-h-1-title-font-twilight-font-family: $ozaria-main-font-family;
 
 @mixin font-h-1-title-font-twilight () {
   font-size: $font-h-1-title-font-twilight-font-size;
@@ -81,7 +83,7 @@ $font-p-1-paragraph-large-twilight-color: #476fb1;
 $font-p-1-paragraph-large-twilight-letter-spacing: 0.37px;
 $font-p-1-paragraph-large-twilight-font-style: normal;
 $font-p-1-paragraph-large-twilight-font-weight: 400;
-$font-p-1-paragraph-large-twilight-font-family: Work Sans;
+$font-p-1-paragraph-large-twilight-font-family: $ozaria-main-font-family;
 
 @mixin font-p-1-paragraph-large-twilight () {
   font-size: $font-p-1-paragraph-large-twilight-font-size;
@@ -103,7 +105,7 @@ $font-h-4-navbar-uppercase-white-letter-spacing: 0.4px;
 $font-h-4-navbar-uppercase-white-text-transform: uppercase;
 $font-h-4-navbar-uppercase-white-font-style: normal;
 $font-h-4-navbar-uppercase-white-font-weight: 600;
-$font-h-4-navbar-uppercase-white-font-family: Work Sans;
+$font-h-4-navbar-uppercase-white-font-family: $ozaria-main-font-family;
 
 @mixin font-h-4-navbar-uppercase-white () {
   font-size: $font-h-4-navbar-uppercase-white-font-size;
@@ -125,7 +127,7 @@ $font-h-5-button-text-black-color: #131b25;
 $font-h-5-button-text-black-letter-spacing: 0.4px;
 $font-h-5-button-text-black-font-style: normal;
 $font-h-5-button-text-black-font-weight: 600;
-$font-h-5-button-text-black-font-family: Work Sans;
+$font-h-5-button-text-black-font-family: $ozaria-main-font-family;
 
 @mixin font-h-5-button-text-black () {
   font-size: $font-h-5-button-text-black-font-size;
@@ -146,7 +148,7 @@ $font-h-5-button-text-white-color: #ffffff;
 $font-h-5-button-text-white-letter-spacing: 0.4px;
 $font-h-5-button-text-white-font-style: normal;
 $font-h-5-button-text-white-font-weight: 600;
-$font-h-5-button-text-white-font-family: Work Sans;
+$font-h-5-button-text-white-font-family: $ozaria-main-font-family;
 
 @mixin font-h-5-button-text-white () {
   font-size: $font-h-5-button-text-white-font-size;
@@ -167,7 +169,7 @@ $font-h-2-subtitle-black-color: #131b25;
 $font-h-2-subtitle-black-letter-spacing: 0.56px;
 $font-h-2-subtitle-black-font-style: normal;
 $font-h-2-subtitle-black-font-weight: 600;
-$font-h-2-subtitle-black-font-family: Work Sans;
+$font-h-2-subtitle-black-font-family: $ozaria-main-font-family;
 
 @mixin font-h-2-subtitle-black () {
   font-size: $font-h-2-subtitle-black-font-size;
@@ -189,7 +191,7 @@ $font-h-3-subtitle-uppercase-twilight-letter-spacing: 0.55px;
 $font-h-3-subtitle-uppercase-twilight-text-transform: uppercase;
 $font-h-3-subtitle-uppercase-twilight-font-style: normal;
 $font-h-3-subtitle-uppercase-twilight-font-weight: 600;
-$font-h-3-subtitle-uppercase-twilight-font-family: Work Sans;
+$font-h-3-subtitle-uppercase-twilight-font-family: $ozaria-main-font-family;
 
 @mixin font-h-3-subtitle-uppercase-twilight () {
   font-size: $font-h-3-subtitle-uppercase-twilight-font-size;
@@ -211,7 +213,7 @@ $font-p-2-paragraph-medium-gray-color: #545b64;
 $font-p-2-paragraph-medium-gray-letter-spacing: 0.3px;
 $font-p-2-paragraph-medium-gray-font-style: normal;
 $font-p-2-paragraph-medium-gray-font-weight: 400;
-$font-p-2-paragraph-medium-gray-font-family: Work Sans;
+$font-p-2-paragraph-medium-gray-font-family: $ozaria-main-font-family;
 
 @mixin font-p-2-paragraph-medium-gray () {
   font-size: $font-p-2-paragraph-medium-gray-font-size;
@@ -232,7 +234,7 @@ $font-h-2-subtitle-twilight-color: #476fb1;
 $font-h-2-subtitle-twilight-letter-spacing: 0.56px;
 $font-h-2-subtitle-twilight-font-style: normal;
 $font-h-2-subtitle-twilight-font-weight: 600;
-$font-h-2-subtitle-twilight-font-family: Work Sans;
+$font-h-2-subtitle-twilight-font-family: $ozaria-main-font-family;
 
 @mixin font-h-2-subtitle-twilight () {
   font-size: $font-h-2-subtitle-twilight-font-size;
@@ -253,7 +255,7 @@ $font-p-1-paragraph-large-gray-color: #545b64;
 $font-p-1-paragraph-large-gray-letter-spacing: 0.37px;
 $font-p-1-paragraph-large-gray-font-style: normal;
 $font-p-1-paragraph-large-gray-font-weight: 400;
-$font-p-1-paragraph-large-gray-font-family: Work Sans;
+$font-p-1-paragraph-large-gray-font-family: $ozaria-main-font-family;
 
 @mixin font-p-1-paragraph-large-gray () {
   font-size: $font-p-1-paragraph-large-gray-font-size;
@@ -274,7 +276,7 @@ $font-h-2-subtitle-moon-color: #f7d047;
 $font-h-2-subtitle-moon-letter-spacing: 0.56px;
 $font-h-2-subtitle-moon-font-style: normal;
 $font-h-2-subtitle-moon-font-weight: 600;
-$font-h-2-subtitle-moon-font-family: Work Sans;
+$font-h-2-subtitle-moon-font-family: $ozaria-main-font-family;
 
 @mixin font-h-2-subtitle-moon () {
   font-size: $font-h-2-subtitle-moon-font-size;
@@ -295,7 +297,7 @@ $font-p-2-paragraph-medium-white-color: #ffffff;
 $font-p-2-paragraph-medium-white-letter-spacing: 0.3px;
 $font-p-2-paragraph-medium-white-font-style: normal;
 $font-p-2-paragraph-medium-white-font-weight: 400;
-$font-p-2-paragraph-medium-white-font-family: Work Sans;
+$font-p-2-paragraph-medium-white-font-family: $ozaria-main-font-family;
 
 @mixin font-p-2-paragraph-medium-white () {
   font-size: $font-p-2-paragraph-medium-white-font-size;
@@ -316,7 +318,7 @@ $font-h-1-title-chrome-letter-spacing: 1.78px;
 $font-h-1-title-chrome-text-transform: uppercase;
 $font-h-1-title-chrome-font-style: normal;
 $font-h-1-title-chrome-font-weight: 400;
-$font-h-1-title-chrome-font-family: Work Sans;
+$font-h-1-title-chrome-font-family: $ozaria-main-font-family;
 
 @mixin font-h-1-title-chrome () {
   font-size: $font-h-1-title-chrome-font-size;
@@ -337,7 +339,7 @@ $font-p-3-paragraph-small-gray-color: #545b64;
 $font-p-3-paragraph-small-gray-letter-spacing: 0.27px;
 $font-p-3-paragraph-small-gray-font-style: normal;
 $font-p-3-paragraph-small-gray-font-weight: 400;
-$font-p-3-paragraph-small-gray-font-family: Work Sans;
+$font-p-3-paragraph-small-gray-font-family: $ozaria-main-font-family;
 
 @mixin font-p-3-paragraph-small-gray () {
   font-size: $font-p-3-paragraph-small-gray-font-size;
@@ -358,7 +360,7 @@ $font-p-4-paragraph-smallest-gray-color: #545b64;
 $font-p-4-paragraph-smallest-gray-letter-spacing: 0.23px;
 $font-p-4-paragraph-smallest-gray-font-style: normal;
 $font-p-4-paragraph-smallest-gray-font-weight: 400;
-$font-p-4-paragraph-smallest-gray-font-family: Work Sans;
+$font-p-4-paragraph-smallest-gray-font-family: $ozaria-main-font-family;
 
 @mixin font-p-4-paragraph-smallest-gray () {
   font-size: $font-p-4-paragraph-smallest-gray-font-size;
@@ -380,7 +382,7 @@ $font-h-4-nav-uppercase-black-letter-spacing: 0.4px;
 $font-h-4-nav-uppercase-black-text-transform: uppercase;
 $font-h-4-nav-uppercase-black-font-style: normal;
 $font-h-4-nav-uppercase-black-font-weight: 600;
-$font-h-4-nav-uppercase-black-font-family: Work Sans;
+$font-h-4-nav-uppercase-black-font-family: $ozaria-main-font-family;
 
 @mixin font-h-4-nav-uppercase-black () {
   font-size: $font-h-4-nav-uppercase-black-font-size;
@@ -402,7 +404,7 @@ $font-h-2-subtitle-white-24-color: #ffffff;
 $font-h-2-subtitle-white-24-letter-spacing: 0.83px;
 $font-h-2-subtitle-white-24-font-style: normal;
 $font-h-2-subtitle-white-24-font-weight: 600;
-$font-h-2-subtitle-white-24-font-family: Work Sans;
+$font-h-2-subtitle-white-24-font-family: $ozaria-main-font-family;
 
 @mixin font-h-2-subtitle-white-24 () {
   font-size: $font-h-2-subtitle-white-24-font-size;
@@ -442,7 +444,7 @@ $font-p-3-paragraph-small-blue-link-text-decoration: underline;
 $font-p-3-paragraph-small-blue-link-letter-spacing: 0.27px;
 $font-p-3-paragraph-small-blue-link-font-style: normal;
 $font-p-3-paragraph-small-blue-link-font-weight: 400;
-$font-p-3-paragraph-small-blue-link-font-family: Work Sans;
+$font-p-3-paragraph-small-blue-link-font-family: $ozaria-main-font-family;
 
 @mixin font-p-3-paragraph-small-blue-link () {
   font-size: $font-p-3-paragraph-small-blue-link-font-size;
@@ -463,7 +465,7 @@ $font-p-3-small-button-text-black-color: #131b25;
 $font-p-3-small-button-text-black-letter-spacing: 0.27px;
 $font-p-3-small-button-text-black-font-style: normal;
 $font-p-3-small-button-text-black-font-weight: 600;
-$font-p-3-small-button-text-black-font-family: Work Sans;
+$font-p-3-small-button-text-black-font-family: $ozaria-main-font-family;
 
 @mixin font-p-3-small-button-text-black () {
   font-size: $font-p-3-small-button-text-black-font-size;
@@ -485,7 +487,7 @@ $font-p-3-small-button-text-white-color: #f8f8ff;
   letter-spacing: $font-p-3-small-button-text-black-letter-spacing;
   font-style: $font-p-3-small-button-text-black-font-style;
   font-weight: $font-p-3-small-button-text-black-font-weight;
-  font-family: $font-p-3-small-button-text-black-font-family;
+  font-family: $ozaria-main-font-family;
 }
 
 /* <P3> Small Button Text Dusk Dark font style */
@@ -496,7 +498,7 @@ $font-p-3-small-button-text-dusk-dark-color: #379b8d;
 $font-p-3-small-button-text-dusk-dark-letter-spacing: 0.27px;
 $font-p-3-small-button-text-dusk-dark-font-style: normal;
 $font-p-3-small-button-text-dusk-dark-font-weight: 600;
-$font-p-3-small-button-text-dusk-dark-font-family: Work Sans;
+$font-p-3-small-button-text-dusk-dark-font-family: $ozaria-main-font-family;
 
 @mixin font-p-3-small-button-text-dusk-dark () {
   font-size: $font-p-3-small-button-text-dusk-dark-font-size;
@@ -518,7 +520,7 @@ $font-p-3-small-button-text-purle-color: #7a65fc;
   letter-spacing: $font-p-3-small-button-text-dusk-dark-letter-spacing;
   font-style: $font-p-3-small-button-text-dusk-dark-font-style;
   font-weight: $font-p-3-small-button-text-dusk-dark-font-weight;
-  font-family: $font-p-3-small-button-text-dusk-dark-font-family;
+  font-family: $ozaria-main-font-family;
 }
 
 /* <p3> Paragraph Small White font style */
@@ -529,7 +531,7 @@ $font-p-3-paragraph-small-white-color: #ffffff;
 $font-p-3-paragraph-small-white-letter-spacing: 0.27px;
 $font-p-3-paragraph-small-white-font-style: normal;
 $font-p-3-paragraph-small-white-font-weight: 400;
-$font-p-3-paragraph-small-white-font-family: Work Sans;
+$font-p-3-paragraph-small-white-font-family: $ozaria-main-font-family;
 
 @mixin font-p-3-paragraph-small-white () {
   font-size: $font-p-3-paragraph-small-white-font-size;
@@ -570,7 +572,7 @@ $font-h-4-uppercase-white-left-align-letter-spacing: 0.4px;
 $font-h-4-uppercase-white-left-align-text-transform: uppercase;
 $font-h-4-uppercase-white-left-align-font-style: normal;
 $font-h-4-uppercase-white-left-align-font-weight: 600;
-$font-h-4-uppercase-white-left-align-font-family: Work Sans;
+$font-h-4-uppercase-white-left-align-font-family: $ozaria-main-font-family;
 
 @mixin font-h-4-uppercase-white-left-align () {
   font-size: $font-h-4-uppercase-white-left-align-font-size;
@@ -592,7 +594,7 @@ $font-h-2-subtitle-black-24-color: #000000;
 $font-h-2-subtitle-black-24-letter-spacing: 0.83px;
 $font-h-2-subtitle-black-24-font-style: normal;
 $font-h-2-subtitle-black-24-font-weight: 600;
-$font-h-2-subtitle-black-24-font-family: Work Sans;
+$font-h-2-subtitle-black-24-font-family: $ozaria-main-font-family;
 
 @mixin font-h-2-subtitle-black-24 () {
   font-size: $font-h-2-subtitle-black-24-font-size;
@@ -613,7 +615,7 @@ $font-p-3-tooltip-title-black-color: #131b25;
 $font-p-3-tooltip-title-black-letter-spacing: 0.32px;
 $font-p-3-tooltip-title-black-font-style: normal;
 $font-p-3-tooltip-title-black-font-weight: 600;
-$font-p-3-tooltip-title-black-font-family: Work Sans;
+$font-p-3-tooltip-title-black-font-family: $ozaria-main-font-family;
 
 @mixin font-p-3-tooltip-title-black () {
   font-size: $font-p-3-tooltip-title-black-font-size;

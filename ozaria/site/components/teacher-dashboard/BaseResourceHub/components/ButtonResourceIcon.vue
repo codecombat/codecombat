@@ -92,6 +92,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@import "app/styles/ozaria/_ozaria-style-params.scss";
   a {
     flex-basis: 330px;
     flex-grow: 1;
@@ -136,7 +137,7 @@ export default {
   }
   h5 {
     text-align: left;
-    font-family: "Open Sans", sans-serif;
+    font-family: $ozaria-main-font-family;
     font-size: 18px;
     font-weight: 600;
     line-height: 29px;
@@ -144,7 +145,7 @@ export default {
   }
   p {
     margin: 0;
-    font-family: 'Work Sans';
+    font-family: $ozaria-main-font-family;
     font-size: 14px;
     line-height: 18px;
     text-align: left;
@@ -186,7 +187,7 @@ export default {
       }
 
       h5 {
-        font-family: "Work Sans", "Open Sans", sans-serif;
+        font-family: $ozaria-main-font-family;
         font-size: 16px;
         font-weight: 400;
         line-height: 20px;
