@@ -1,7 +1,7 @@
 <script>
 import ContentIcon from '../../common/icons/ContentIcon'
 import { getGameContentDisplayType } from 'ozaria/site/common/ozariaUtils.js'
-import { aiToolToImage } from 'app/core/utils.js'
+import { getImageFromAiTool } from 'app/core/utils.js'
 import marked from 'marked'
 
 const aiProjectTypes = ['ai-use', 'ai-learn']
@@ -112,15 +112,7 @@ export default {
   },
   methods: {
     aiImage (tool) {
-      if (tool.includes('claude')) {
-        return aiToolToImage['claude-3']
-      } else if (tool.includes('dall-e')) {
-        return aiToolToImage['dall-e-3']
-      } else if (tool.includes('stable-diffusion')) {
-        return aiToolToImage['stable-diffusion-xl']
-      } else if (tool.includes('gpt-')) {
-        return aiToolToImage['gpt-4-turbo-preview']
-      }
+      return getImageFromAiTool(tool)
     },
     onShowCodeClicked () {
       this.showCode = !this.showCode

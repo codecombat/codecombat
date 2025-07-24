@@ -317,7 +317,9 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div
+    class="page-league-teachers"
+  >
     <header class="header container-fluid">
       <section class="row esports-header">
         <div class="header-left">
@@ -449,6 +451,12 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+
+.page-league-teachers {
+  font-family: $ozaria-main-font-family;
+}
+
 .header {
   padding: 20px 0;
   background: #F2F2F2;
@@ -493,7 +501,6 @@ export default {
 .text-h1 {
   color: #131B25;
   font-feature-settings: 'clig' off, 'liga' off;
-  font-family: "Work Sans";
   font-size: 28px;
   font-style: normal;
   font-weight: 600;
@@ -504,11 +511,10 @@ export default {
 
 .text-p {
   color: #131B25;
-  font-family: "Work Sans";
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
-  line-height: 22px;
+  line-height: 24px;
 }
 
 .box-title {
@@ -517,7 +523,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  font-family: "Work Sans";
   font-size: 24px;
   border-bottom: 1px solid #D8D8D8;
   padding-bottom: 10px;
@@ -527,8 +532,8 @@ export default {
   span {
     cursor: pointer;
     box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
-    color: #F7D047;
-    background-color: #476FB1;
+    background-color: var(--color-primary);
+    color: white;
     width: 30px;
     height: 30px;
     border-radius: 30px;
@@ -572,7 +577,7 @@ export default {
   align-items: center;
   justify-content: flex-start;
   border-radius: 8px;
-  border: 1px solid #476FB1;
+  border: 1px solid var(--color-primary);
   background: white;
   padding: 0 20px;
   height: 50px;
@@ -580,7 +585,6 @@ export default {
   color: #000;
 
   font-feature-settings: 'clig' off, 'liga' off;
-  font-family: "Work Sans";
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
@@ -620,7 +624,7 @@ export default {
   }
 
   &.active {
-    background-color: #476FB1;
+    background-color: var(--color-primary);
     color: white;
     position: relative;
     z-index: 1;

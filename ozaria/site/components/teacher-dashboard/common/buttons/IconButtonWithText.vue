@@ -64,7 +64,7 @@ export default {
   }
 
   span {
-    @include font-p-3-small-button-text-dusk-dark;
+    @include font-p-3-small-button-text-purple;
     font-size: 12px;
     font-weight: 500;
     line-height: 12px;

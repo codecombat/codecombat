@@ -90,21 +90,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "ozaria/site/styles/common/variables.scss";
+
 .time-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 10px;
+    font-family: $ozaria-main-font-family;
 
     .title {
         color: #131B25;
         font-feature-settings: 'clig' off, 'liga' off;
-        font-family: "Work Sans";
         font-size: 14px;
         font-style: normal;
         font-weight: 600;
-        line-height: 16px;
+        line-height: 20px;
         letter-spacing: 0.333px;
         max-width: 140px;
 
@@ -114,7 +117,7 @@ export default {
     }
 
     .frame {
-        background: linear-gradient(125deg, #355EA0 0%, #355EA0 27.36%, #5DB9AC 115.76%, #38F1E0 136.82%);
+        background: linear-gradient(125deg, $purple 0%, lighten($purple, 10%) 100%);
         background-color: rgba(255, 255, 255, 1);
         border-radius: 10px;
         height: 70px;
@@ -145,7 +148,6 @@ export default {
         .unit {
             color: #FFF;
             text-align: center;
-            font-family: "Work Sans";
             font-size: 14px;
             font-style: normal;
             font-weight: 600;

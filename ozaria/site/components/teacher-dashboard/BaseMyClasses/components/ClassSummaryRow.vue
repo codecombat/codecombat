@@ -2,14 +2,14 @@
 import ClassInfoRow from '../../common/ClassInfoRow'
 import IconEllipsis from '../../common/icons/IconEllipsis'
 import IconButtonWithText from '../../common/buttons/IconButtonWithText'
-import IconShareDusk from '../../common/icons/IconShareDusk'
+import IconSharePurple from '../../common/icons/IconSharePurple'
 
 export default {
   components: {
     ClassInfoRow,
     IconEllipsis,
     'icon-button-with-text': IconButtonWithText,
-    IconShareDusk
+    IconSharePurple
   },
   props: {
     classId: {
@@ -140,7 +140,7 @@ export default {
           class="btn-ellipse share"
           @click="$emit('clickShareClassWithTeacherModalButton')"
         >
-          <icon-share-dusk />
+          <icon-share-purple />
           <span class="share-text">{{ $t('teacher_dashboard.share') }}</span>
         </div>
       </div>
@@ -174,7 +174,7 @@ export default {
     border: 1px solid #D8D8D8;
     border-radius: 4px;
 
-    font-family: Work Sans;
+    font-family: $ozaria-main-font-family;
 
     .class-code-title {
       height: 12px;
@@ -301,7 +301,7 @@ export default {
     }
   }
   .share-text {
-    @include font-p-3-small-button-text-dusk-dark;
+    @include font-p-3-small-button-text-purple;
     font-size: 12px;
     font-weight: 500;
     line-height: 12px;

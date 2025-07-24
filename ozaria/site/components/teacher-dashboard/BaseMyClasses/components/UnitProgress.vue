@@ -25,7 +25,7 @@ export default {
       if (this.completionPercentage === 1) {
         return '#2dcd38'
       } else {
-        return '#1ad0ff'
+        return '#9487ff'
       }
     }
   }

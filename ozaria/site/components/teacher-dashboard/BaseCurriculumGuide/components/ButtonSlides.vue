@@ -43,7 +43,7 @@ a {
 }
 
 button {
-  background-color: $dusk;
+  background-color: $moon;
   border-radius: 4px;
   border-width: 0;
   @include font-p-3-small-button-text-black;
@@ -52,7 +52,7 @@ button {
   line-height: 16px;
 
   &:hover {
-    background-color: $dusk-dark;
+    background-color: $goldenlight;
     transition: background-color .35s;
   }
 
