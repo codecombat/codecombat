@@ -174,7 +174,7 @@ export default {
     border: 1px solid #D8D8D8;
     border-radius: 4px;
 
-    font-family: Work Sans;
+    font-family: $ozaria-main-font-family;
 
     .class-code-title {
       height: 12px;
