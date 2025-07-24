@@ -890,6 +890,7 @@ li.open>#AIJuniorDropdown,
   flex-direction: column;
   justify-content: flex-start;
   height: min-content;
+  font-family: $ozaria-main-font-family;
 
   &>li {
 
@@ -914,7 +915,6 @@ li.open>#AIJuniorDropdown,
       background-color: transparent;
       font-size: 18px;
       font-weight: 600;
-      font-family: "Work Sans", sans-serif;
 
       width: 100%;
       padding: 0;

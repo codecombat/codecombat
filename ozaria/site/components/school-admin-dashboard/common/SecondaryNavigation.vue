@@ -110,6 +110,7 @@ export default {
   padding-left: 23.5px;
   height: 35px;
   min-height: 35px;
+  font-family: $ozaria-main-font-family;
 
   & > li {
     height: 35px;
