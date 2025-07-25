@@ -350,7 +350,7 @@ export default {
       fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForClassroom', state.classroomId, { root: true }))
       fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
 
-      options.fetchInteractiveSessions = true
+      options.fetchInteractiveSessions = !utils.isCodeCombat
       fetchPromises.push(dispatch('teacherDashboard/fetchClassroomData', options, { root: true }))
 
       await Promise.all(fetchPromises)
