@@ -1,6 +1,6 @@
 import levelSessionsApi from 'core/api/level-sessions'
 
-const SESSIONS_PER_REQUEST = 10
+const SESSIONS_PER_REQUEST = 20
 
 export default {
   namespaced: true,
@@ -127,34 +127,45 @@ export default {
       commit('toggleClassroomLoading', classroom._id)
       commit('initSessionsByClassroomState', classroom._id)
 
-      // TODO comment what next line is doing
-      let requests = Array.from(
-        Array(parseInt(classroom.members.length / SESSIONS_PER_REQUEST, 10) + 1)
-      )
+      const BATCH_SIZE = 3
+      const totalRequests = parseInt(classroom.members.length / SESSIONS_PER_REQUEST, 10) + 1
 
-      requests = requests.map((v, i) =>
-        levelSessionsApi.fetchForClassroomMembers(classroom._id, {
-          data: {
-            memberLimit: SESSIONS_PER_REQUEST,
-            memberSkip: i * SESSIONS_PER_REQUEST,
-            project: options.project || 'state.complete,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts'
+      const processAllBatches = async () => {
+        let allSessions = []
+
+        for (let i = 0; i < totalRequests; i += BATCH_SIZE) {
+          const batchEnd = Math.min(i + BATCH_SIZE, totalRequests)
+          const batchRequests = []
+
+          for (let j = i; j < batchEnd; j++) {
+            batchRequests.push(
+              levelSessionsApi.fetchForClassroomMembers(classroom._id, {
+                data: {
+                  memberLimit: SESSIONS_PER_REQUEST,
+                  memberSkip: j * SESSIONS_PER_REQUEST,
+                  project: options.project || 'state.complete,level,creator,changed,created,dateFirstCompleted,submitted,codeConcepts'
+                }
+              })
+            )
           }
-        })
-      )
 
-      return Promise.all(requests)
-        .then((results) => {
-          let sessions = [];
+          const batchResults = await Promise.all(batchRequests)
+          console.log('batchResults', classroom._id, i, batchEnd, totalRequests)
 
-          for (let i = 0; i < results.length; i++) {
-            const res = results[i];
+          for (const res of batchResults) {
             if (res && Array.isArray(res)) {
-              sessions = sessions.concat(res)
+              allSessions = allSessions.concat(res)
             } else {
-              throw new Error('Unexpected response from level sessions call');
+              throw new Error('Unexpected response from level sessions call')
             }
           }
+        }
 
+        return allSessions
+      }
+
+      return processAllBatches()
+        .then((sessions) => {
           commit('setSessionsForClassroom', {
             classroomId: classroom._id,
             sessions: Object.freeze(sessions)
