@@ -108,7 +108,7 @@
           selected
           value=""
         >
-          {{ $t('teachers.no_classrooms_found') }}
+          {{ $t('courses.no_classrooms_found') }}
         </option>
         <option
           v-for="importableClassroom in lmsClassrooms"
