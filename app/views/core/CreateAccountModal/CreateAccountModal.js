@@ -89,9 +89,9 @@ module.exports = (CreateAccountModal = (function () {
       this.utils = utils
       const classCode = utils.getQueryVariable('_cc', undefined)
       this.signupState = new State({
-        path: classCode ? 'student' : null,
-        screen: classCode ? 'segment-check' : 'choose-account-type',
-        ssoUsed: null, // or 'facebook', 'gplus'
+        path: options.path || (classCode ? 'student' : null),
+        screen: options.screen || (classCode ? 'segment-check' : 'choose-account-type'),
+        ssoUsed: options.ssoUsed || null, // or 'facebook', 'gplus'
         classroom: null, // or Classroom instance
         facebookEnabled: (application.facebookHandler != null ? application.facebookHandler.apiLoaded : undefined),
         gplusEnabled: (application.gplusHandler != null ? application.gplusHandler.apiLoaded : undefined),
@@ -105,7 +105,10 @@ module.exports = (CreateAccountModal = (function () {
         },
         subModalContinue: options.subModalContinue,
         accountRequiredMessage: options.accountRequiredMessage,
-        wantInSchool: false
+        wantInSchool: false,
+        autoName: options.autoName,
+        email: options.email,
+        ssoAttrs: options.ssoAttrs,
       })
 
       this.signupState.on('change:screen', (model, screen) => {

@@ -151,6 +151,10 @@ const SchoolInfoPanel = {
   mounted () {
     $("input[name*='organization']").focus()
 
+    if (utils.getQueryVariable('auto-auth')) {
+      this.$emit('continue')
+      return
+    }
     if (utils.isOzaria) {
       return
     }
