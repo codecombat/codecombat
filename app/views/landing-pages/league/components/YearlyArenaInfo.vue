@@ -60,6 +60,15 @@
                 >
               </a>
             </div>
+            <div v-else>
+              <!-- if no video we just show the banner image -->
+              <img
+                class="img-responsive season-img"
+                :src="season.image"
+                loading="lazy"
+                :alt="`CodeCombat AI League Winners - Season ${$t('league.season_' + season.number)}`"
+              >
+            </div>
           </div>
           <div class="row text-center">
             <div class="col-xs-12 col-md-6 view-winners-col">
