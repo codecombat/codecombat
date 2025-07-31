@@ -35,9 +35,9 @@ module.exports = (SingleSignOnConfirmView = (function () {
 
     afterRender () {
       super.afterRender()
-      if (this.signupState.get('path') === 'teacher') {
-        return this.$('form').submit()
-      }
+      // if (this.signupState.get('path') === 'teacher') {
+      //   return this.$('form').submit()
+      // }
     }
 
     onClickBackButton () {

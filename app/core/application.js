@@ -214,9 +214,8 @@ const Application = {
   trackProductVisit () {
     if (window.serverSession != null ? window.serverSession.amActually : undefined) { return }
     const utils = require('core/utils')
-    // activity = "visit-#{utils.getProduct()}"
     const activity = `visit-${utils.isOzaria ? 'ozaria' : 'codecombat'}`
-    const last = __guard__(__guard__(me.get('activity'), x1 => x1[activity]), x => x.last)
+    const last = me.get('activity')?.[activity]?.last
     if (last && moment(last).isAfter(moment().subtract(12, 'hour'))) { return }
     return me.trackActivity(activity)
   },
@@ -244,12 +243,8 @@ const Application = {
     const value = Object.assign(referrerParams, (me.get('referrerTrack') || {}))
     me.set('referrerTrack', value)
     return me.save()
-  }
+  },
 }
 
 module.exports = Application
 globalVar.application = Application
-
-function __guard__ (value, transform) {
-  return (typeof value !== 'undefined' && value !== null) ? transform(value) : undefined
-}

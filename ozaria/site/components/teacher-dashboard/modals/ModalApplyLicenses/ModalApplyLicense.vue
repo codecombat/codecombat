@@ -222,7 +222,7 @@ export default {
           name += $.i18n.t('teacher.full_license')
         }
       }
-      name += `(${license.maxRedeemers - (license.redeemers?.length || 0)})`
+      name += ` (${license.maxRedeemers - (license.redeemers?.length || 0)})`
       return name
     },
     numericalCourses (object, oType) {

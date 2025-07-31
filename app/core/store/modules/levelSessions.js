@@ -150,7 +150,6 @@ export default {
           }
 
           const batchResults = await Promise.all(batchRequests)
-          console.log('batchResults', classroom._id, i, batchEnd, totalRequests)
 
           for (const res of batchResults) {
             if (res && Array.isArray(res)) {

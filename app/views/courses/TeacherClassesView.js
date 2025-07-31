@@ -397,7 +397,6 @@ module.exports = (TeacherClassesView = (function () {
     }
 
     onLoaded () {
-      let left, needle
       helper.calculateDots(this.classrooms, this.courses, this.courseInstances)
       if (this.sharedCourseInstances) {
         helper.calculateDots(this.classrooms, this.courses, this.sharedCourseInstances)
@@ -413,9 +412,11 @@ module.exports = (TeacherClassesView = (function () {
         this.trialRequest = this.trialRequests.first()
       }
 
+      const weekAgo = new Date(new Date() - 7 * 24 * 60 * 60 * 1000)
+      const recentUser = new Date(me.get('dateCreated')) > weekAgo
       if (showOzariaEncouragementModal) {
         this.openOzariaEncouragementModal()
-      } else if (!__guard__(this.trialRequest.get('properties'), x => x.organization) && !storage.load(`seen-teacher-details-modal_${me.get('_id')}`) && !me.get('clientCreator') && (needle = 'apiclient', !Array.from(((left = me.get('permissions')) != null ? left : [])).includes(needle))) {
+      } else if (!recentUser && !this.trialRequest?.get('properties')?.organization && !storage.load(`seen-teacher-details-modal_${me.get('_id')}`) && !me.get('clientCreator') && !(me.get('permissions') || []).includes('apiclient')) {
         this.openTeacherDetailsModal()
         storage.save(`seen-teacher-details-modal_${me.get('_id')}`, true)
       } else if (me.isTeacher() && !this.classrooms.length && !me.isSchoolAdmin()) {
