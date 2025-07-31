@@ -136,15 +136,15 @@ export default {
 
     allLicensesTypes () {
       const prepaidTypes = this.getPrepaids(me.id)?.available?.map(prepaid => {
+        let baseType = 'full_license'
         if (prepaid.type === 'starter_license') {
-          return 'starter_license'
+          baseType = 'starter_license'
         }
         const includedCourseIDs = prepaid.includedCourseIDs
         if (includedCourseIDs) {
-          return 'customized_license:' + (includedCourseIDs.join('+'))
-        } else {
-          return 'full_license'
+          baseType = 'customized_license:' + (includedCourseIDs.join('+'))
         }
+        return `${baseType}:${prepaid.endDate}` // Licenses of different endDate should be displayed separately
       })
       return Array.from(new Set(prepaidTypes))
     },
