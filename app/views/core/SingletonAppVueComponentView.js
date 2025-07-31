@@ -94,7 +94,8 @@ export default class SingletonAppVueComponentView extends VueComponentView {
     } else if (autoAuth === 'schoology') {
       handler = application.schoologyHandler
     } else {
-      handler = application.gplusHandler
+      noty({ text: `Unsupported authentication provider: ${autoAuth}`, layout: 'topCenter', type: 'error', timeout: 5000 })
+      return
     }
     const { loggedIn, role, email, firstName, lastName } = await handler.logInWithEdlink()
 
@@ -106,7 +107,6 @@ export default class SingletonAppVueComponentView extends VueComponentView {
         ssoUsed: autoAuth,
         path: assumedRole,
         email,
-        // startOnPath: assumedRole,
         screen: assumedRole !== 'student' ? 'sso-confirm' : 'segment-check',
         autoName: `${email.split('@')[0]}+${autoAuth}`,
         ssoAttrs: {
