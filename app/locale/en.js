@@ -4972,6 +4972,7 @@ module.exports = {
       view_arena_winners: 'View __arenaName__ __arenaType__ winners',
       arena_type_championship: 'Championship Arena',
       arena_type_regular: 'Multiplayer Arena',
+      arena_type_arcade: 'Arcade Arena',
       blazing_battle: 'Blazing Battle',
       infinite_inferno: 'Infinite Inferno',
       mages_might: "Mages' Might",

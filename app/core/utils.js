@@ -1357,10 +1357,10 @@ const arenas = [
   { season: 13, slug: 'pawns-passage', type: 'regular', start: new Date('2025-01-01T00:00:00.000-08:00'), end: new Date('2025-06-01T00:00:00.000-07:00'), results: new Date('2025-06-14T07:00:00.000-07:00'), levelOriginal: '675a76867ea2b689e0f86e87', image: '/file/db/level/675a76867ea2b689e0f86e87/PawnsPassageBanner.jpg', tournament: '6810a48b4fb20ed54d4ddc7d' },
   { season: 13, slug: 'kings-gambit', type: 'championship', start: new Date('2025-05-01T00:00:00.000-07:00'), end: new Date('2025-06-01T00:00:00.000-07:00'), results: new Date('2025-06-10T07:00:00.000-07:00'), levelOriginal: '679b1495454eb6d46f27e050', image: '/file/db/level/679b1495454eb6d46f27e050/KingsGambit.jpg', tournament: '6810a617882c6fe46452003d' },
   // Summer we have one arena as breakup
-  { season: 14, slug: 'turbo-track', fake: true, type: 'regular', start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-06-01T01:00:00.000-08:00'), results: new Date('2025-06-10T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '/file/db/level/682aef505b4bd67fa522f11d/Grand%20Prix%20banner.jpg' },
-  { season: 14, slug: 'grand-prix', type: 'championship', start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-08-01T00:00:00.000-08:00'), results: new Date('2025-08-01T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '/file/db/level/682aef505b4bd67fa522f11d/Grand%20Prix%20banner.jpg', noRegular: true },
+  { season: 14, slug: 'turbo-track', noResults: true, type: 'regular', start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-06-01T01:00:00.000-08:00'), results: new Date('2025-06-10T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '/file/db/level/682aef505b4bd67fa522f11d/Grand%20Prix%20banner.jpg' },
+  { season: 14, slug: 'grand-prix', type: 'championship', arcade: true, start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-08-01T00:00:00.000-08:00'), results: new Date('2025-08-01T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '/file/db/level/682aef505b4bd67fa522f11d/Grand%20Prix%20banner.jpg', noRegular: true },
   // Autumn we skip warm up arena and go straight to championship
-  { season: 15, slug: 'strikers-stadium', fake: true, type: 'regular', start: new Date('2025-08-01T00:00:00.000-07:00'), end: new Date('2025-08-01T00:00:01.000-07:00'), results: new Date('2025-12-20T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
+  { season: 15, slug: 'strikers-stadium', noResults: true, type: 'regular', start: new Date('2025-08-01T00:00:00.000-07:00'), end: new Date('2025-08-01T00:00:01.000-07:00'), results: new Date('2025-12-20T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
   { season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-08-01T00:00:01.000-07:00'), end: new Date('2025-12-10T01:00:00.000-07:00'), results: new Date('2026-01-01T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
 ]
 
@@ -1385,7 +1385,7 @@ const AILeagueSeasons = [
 ]
 
 const activeArenas = function () {
-  const daysActiveAfterEnd = { regular: 7, championship: 14 }
+  const daysActiveAfterEnd = { regular: 7, championship: 14, breakup: 1 }
   return (() => {
     const result = []
     for (const a of Array.from(arenas)) {
@@ -1394,6 +1394,7 @@ const activeArenas = function () {
         result.push(_.clone(a))
       }
     }
+    console.log('activeArenas', result)
     return result
   })()
 }

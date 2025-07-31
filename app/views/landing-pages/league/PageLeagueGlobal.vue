@@ -66,6 +66,7 @@ export default {
     regularArenaSlug: currentRegularArena ? currentRegularArena.slug : null,
     championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
     championshipActive: !!currentChampionshipArena,
+    arcadeActive: !!currentChampionshipArena && currentChampionshipArena.arcade,
     anonymousPlayerName: false,
     dateBeforeSep: new Date() < new Date('2022-9-1'),
   }),
@@ -672,7 +673,7 @@ export default {
         <a
           :href="championshipArenaUrl"
           class="btn btn-large btn-primary btn-moon play-btn-cta"
-        >{{ $t('league.play_arena_full', { arenaName: $t(`league.${championshipArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
+        >{{ $t('league.play_arena_full', { arenaName: $t(`league.${championshipArenaSlug.replace(/-/g, '_')}`), arenaType: (arcadeActive ? $t('league.arena_type_arcade') : $t('league.arena_type_championship')), interpolation: { escapeValue: false } }) }}</a>
       </div>
       <div
         class="col-lg-6 section-space"
