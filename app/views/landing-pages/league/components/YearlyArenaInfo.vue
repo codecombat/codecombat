@@ -116,12 +116,12 @@ for (let seasonNumber = latestSeason; seasonNumber >= 1; --seasonNumber) {
   season.dates = {
     start: season.regularArena.start,
     end: season.championshipArena.end,
-    results: season.championshipArena.results
+    results: season.championshipArena.results,
   }
   season.dates.startDisplay = moment(season.dates.start).add(1, 'days').format('MMM') // Add a day to avoid timezone nonsense
   season.dates.endDisplay = moment(season.dates.end).subtract(1, 'days').format('MMM YYYY') // Subtract a day to avoid timezone nonsense
   season.dates.rangeDisplay = `${season.dates.startDisplay} - ${season.dates.endDisplay}`
-  season.published = new Date() > season.dates.results
+  season.published = !season.noResults && new Date() > season.dates.results
   const year = 2021 + Math.floor((seasonNumber - 1) / 3)
   seasonsByYear[year + ' '] = [season].concat(seasonsByYear[year + ' '] || [])
 }

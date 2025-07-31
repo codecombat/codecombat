@@ -1358,10 +1358,10 @@ const arenas = [
   { season: 13, slug: 'kings-gambit', type: 'championship', start: new Date('2025-05-01T00:00:00.000-07:00'), end: new Date('2025-06-01T00:00:00.000-07:00'), results: new Date('2025-06-10T07:00:00.000-07:00'), levelOriginal: '679b1495454eb6d46f27e050', image: '/file/db/level/679b1495454eb6d46f27e050/KingsGambit.jpg', tournament: '6810a617882c6fe46452003d' },
   // Summer we have one arena as breakup
   { season: 14, slug: 'turbo-track', noResults: true, type: 'regular', start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-06-01T01:00:00.000-08:00'), results: new Date('2025-06-10T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '/file/db/level/682aef505b4bd67fa522f11d/Grand%20Prix%20banner.jpg' },
-  { season: 14, slug: 'grand-prix', type: 'championship', arcade: true, start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-08-01T00:00:00.000-08:00'), results: new Date('2025-08-01T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '/file/db/level/682aef505b4bd67fa522f11d/Grand%20Prix%20banner.jpg', noRegular: true },
+  { season: 14, slug: 'grand-prix', noResults: true, type: 'championship', arcade: true, start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-07-30T00:00:00.000-08:00'), results: new Date('2025-07-30T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '/file/db/level/682aef505b4bd67fa522f11d/Grand%20Prix%20banner.jpg', noRegular: true },
   // Autumn we skip warm up arena and go straight to championship
-  { season: 15, slug: 'strikers-stadium', noResults: true, type: 'regular', start: new Date('2025-08-01T00:00:00.000-07:00'), end: new Date('2025-08-01T00:00:01.000-07:00'), results: new Date('2025-12-20T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
-  { season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-08-01T00:00:01.000-07:00'), end: new Date('2025-12-10T01:00:00.000-07:00'), results: new Date('2026-01-01T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
+  { season: 15, slug: 'strikers-stadium', noResults: true, type: 'regular', start: new Date('2025-07-30T00:00:00.000-07:00'), end: new Date('2025-07-30T01:00:01.000-07:00'), results: new Date('2025-12-20T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
+  { season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-07-31T00:00:01.000-07:00'), end: new Date('2025-12-10T01:00:00.000-07:00'), results: new Date('2026-01-01T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
 ]
 
 // AI League seasons
@@ -1380,21 +1380,20 @@ const AILeagueSeasons = [
   { number: 11, championshipType: 'blitz', image: '/images/pages/league/sunfire-blitz.png', imagePath: '/images/pages/league/sunfire-results.webp', topMatchUrlPath: '/play/spectate/sunfire?session-one=6688815921af79d80736c0e2&session-two=66c64ee0b522c4f39324d832&tournament=669aa78fcca07ea127d445d6' },
   { number: 12, championshipType: 'clash', image: '/images/pages/league/supercharged-clash.png', imagePath: '/images/pages/league/supercharged-results.webp', topMatchUrlPath: '/play/spectate/supercharged?session-one=670022a88716adfc389b7843&session-two=6774cf6654ce86ae1fa25620&tournament=6756bac52bfcb2c7059f3cb3' },
   { number: 13, championshipType: 'cup', image: '/images/pages/league/kings-gambit-cup.png', video: '', videoThumbnailTime: '' },
-  { number: 14, championshipType: 'clash', image: '/images/pages/league/grand-prix-clash.png', video: '', videoThumbnailTime: '' },
+  { number: 14, championshipType: 'clash', image: '/images/pages/league/grand-prix-clash.png', video: '', videoThumbnailTime: '', noResults: true },
   { number: 15, championshipType: 'blitz', image: '/images/pages/league/golden-goal-blitz.png', video: '', videoThumbnailTime: '' },
 ]
 
 const activeArenas = function () {
-  const daysActiveAfterEnd = { regular: 7, championship: 14, breakup: 1 }
+  const daysActiveAfterEnd = { regular: 7, championship: 14}
   return (() => {
     const result = []
     for (const a of Array.from(arenas)) {
-      var middle
-      if ((a.start <= (middle = new Date()) && middle < a.end.getTime() + (daysActiveAfterEnd[a.type] * 86400 * 1000)) && a.levelOriginal) {
+      var currentDate = new Date()
+      if (a.start <= currentDate && currentDate < a.end.getTime() + (daysActiveAfterEnd[a.type] * 86400 * 1000) && a.levelOriginal) {
         result.push(_.clone(a))
       }
     }
-    console.log('activeArenas', result)
     return result
   })()
 }

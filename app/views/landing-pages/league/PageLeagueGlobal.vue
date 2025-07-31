@@ -62,7 +62,9 @@ export default {
     createAccountModalOpen: false,
     // TODO: Get these automatically from core/utils/arenas
     previousRegularArenaSlug: previousRegularArena ? previousRegularArena.slug : null,
+    previousRegularArenaHasResults: previousRegularArena ? !previousRegularArena.noResults : null,
     previousChampionshipArenaSlug: previousChampionshipArena ? previousChampionshipArena.slug : null,
+    previousChampionshipArenaHasResults: previousChampionshipArena ? !previousChampionshipArena.noResults : null,
     regularArenaSlug: currentRegularArena ? currentRegularArena.slug : null,
     championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
     championshipActive: !!currentChampionshipArena,
@@ -682,7 +684,7 @@ export default {
         <div>
           <img
             class="img-responsive"
-            src="/images/pages/league/kings-gambit-cup.png"
+            src="/images/pages/league/golden-goal-blitz-cup.png"
             loading="lazy"
             style="max-height: 200px; float: right; margin: 0 15px 15px;"
             alt=""
@@ -691,11 +693,11 @@ export default {
             class="subheader1"
             style="margin-bottom: 32px;"
           >
-            <span class="esports-green">Season 13 </span><span class="esports-aqua">Final </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span>
+            <span class="esports-green">Season 15 </span><span class="esports-aqua">{{ $t('league.championship') }} </span><span class="esports-aqua">Arena </span><span class="esports-pink">Now </span><span class="esports-purple">Live!</span>
           </h1>
         </div>
-        <p>{{ $t('league.season13_announcement_1') }}</p>
-        <p>{{ $t('league.season13_announcement_2') }}</p>
+        <p>{{ $t('league.season15_announcement_1') }}</p>
+        <p>{{ $t('league.season15_announcement_2') }}</p>
       </div>
     </div>
 
@@ -818,24 +820,34 @@ export default {
       > See Full Stats</a>
     </div>
     <div
+      v-if="previousChampionshipArenaHasResults || previousRegularArenaHasResults"
       id="winners"
       class="row text-center"
     >
       <h1><span class="esports-aqua">Previous </span><span class="esports-pink">Season</span></h1>
-      <p class="subheader2">
+      <p
+        v-if="previousChampionshipArenaHasResults"
+        class="subheader2"
+      >
         <span>Results from the {{ $t(`league.${previousChampionshipArenaSlug.replace(/-/g, '_')}`) }} {{ $t('league.arena_type_championship') }}</span>
         <span v-if="!previousChampionshipArenaResultsPublished"> coming soon</span>
       </p>
     </div>
 
     <div class="row text-center">
-      <div class="col-lg-6 section-space">
+      <div
+        v-if="previousChampionshipArenaHasResults"
+        class="col-lg-6 section-space"
+      >
         <a
           :href="previousChampionshipArenaUrl"
           class="btn btn-large btn-primary btn-moon play-btn-cta"
         >{{ $t('league.view_arena_winners', { arenaName: $t(`league.${previousChampionshipArenaSlug.replace(/-/g, '_')}`), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
       </div>
-      <div class="col-lg-6 section-space">
+      <div
+        v-if="previousRegularArenaHasResults"
+        class="col-lg-6 section-space"
+      >
         <a
           :href="previousRegularArenaUrl"
           class="btn btn-large btn-primary btn-moon play-btn-cta"
