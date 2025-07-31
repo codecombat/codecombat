@@ -165,7 +165,10 @@ module.exports = (SegmentCheckView = (function () {
             if (this.destroyed) { return }
             if (classroom) {
               this.signupState.set({ classroom })
-              const screen = me.get('country') && me.inEU() ? 'eu-confirmation' : 'basic-info'
+              let screen = me.get('country') && me.inEU() ? 'eu-confirmation' : 'basic-info'
+              if (this.signupState.get('ssoUsed')) {
+                screen = 'sso-confirm'
+              }
               return this.trigger('nav-forward', screen)
             } else {
               this.$('.class-code-input').attr('disabled', false)

@@ -112,7 +112,7 @@ module.exports = (BasicInfoView = (function () {
       })
 
       this.hideEmail = isCodeCombat ? userUtils.shouldHideEmail() : false
-      return this.showLibraryIdInsteadOfUsername = isCodeCombat ? userUtils.shouldShowLibraryLoginModal() : false
+      this.showLibraryIdInsteadOfUsername = isCodeCombat ? userUtils.shouldShowLibraryLoginModal() : false
     }
 
     afterRender () {
