@@ -6,39 +6,66 @@ export default {
     name: {
       type: String,
       required: true,
-      default: ''
+      default: '',
     },
     email: {
       type: String,
       required: true,
-      default: ''
+      default: '',
     },
     licensesUsed: {
       type: Number,
       required: true,
-      default: 0
+      default: 0,
+    },
+    teacherId: {
+      type: String,
+      required: true,
+      deafult: '',
+    },
+    propedMaxRedeemers: {
+      type: Number,
+      required: true,
+      default: 0,
     },
     prepaid: {
       type: Object,
       default: () => {},
-      required: true
-    }
+      required: true,
+    },
   },
 
   data: () => ({
-    revoking: false
+    revoking: false,
+    editing: false,
+    maxRedeemers: 0,
   }),
 
   computed: {
     isOwner () {
       return this.email === me.get('email')
-    }
+    },
+  },
+
+  mounted () {
+    this.maxRedeemers = this.propedMaxRedeemers
   },
 
   methods: {
     ...mapActions({
-      revokeJoiner: 'prepaids/revokeJoiner'
+      revokeJoiner: 'prepaids/revokeJoiner',
     }),
+    saveJoiner () {
+      this.$emit('setJoinerMaxRedeemers', {
+        prepaid: this.prepaid,
+        userID: this.teacherId,
+        maxRedeemers: this.maxRedeemers,
+      })
+      this.editing = false
+    },
+    editJoiner () {
+      this.editing = true
+    },
     async revokeTeacher () {
       this.revoking = true
       if (this.licensesUsed > 0) {
@@ -54,7 +81,7 @@ export default {
                 await this.revokeJoiner({ prepaidId: this.prepaid._id, email: this.email })
                 this.revoking = false
                 $noty.close()
-              }
+              },
             },
             {
               addClass: 'btn btn-danger',
@@ -62,16 +89,16 @@ export default {
               onClick: ($noty) => {
                 this.revoking = false
                 $noty.close()
-              }
-            }
-          ]
+              },
+            },
+          ],
         })
       } else {
         await this.revokeJoiner({ prepaidId: this.prepaid._id, email: this.email })
         this.revoking = false
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -84,7 +111,35 @@ export default {
         :href="'mailto:'+email"
       > {{ email }} </a>
     </div>
-    <span class="licenses-used"> {{ $t("share_licenses.licenses_used_no_braces", { licensesUsed: licensesUsed }) }} </span>
+    <span v-if="editing">
+      <span>{{ $t('share_licenses.licenses_limit') }}</span>
+      <input
+        v-model.number="maxRedeemers"
+        type="number"
+        min="0"
+        :max="prepaid.maxRedeemers"
+      >
+    </span>
+    <span
+      v-else
+      class="licenses-used"
+    > {{ $t("share_licenses.licenses_used_no_braces", { licensesUsed: licensesUsed, all: propedMaxRedeemers }) }} </span>
+    <button
+      v-if="!isOwner && editing"
+      class="btn btn-warning"
+      type="button"
+      @click.prevent="saveJoiner"
+    >
+      {{ $t('common.save') }}
+    </button>
+    <button
+      v-if="!isOwner && !editing"
+      class="btn btn-warning"
+      type="button"
+      @click.prevent="editJoiner"
+    >
+      {{ $t('teacher.edit_2') }}
+    </button>
     <button
       :disabled="isOwner || revoking"
       class="btn btn-danger"
