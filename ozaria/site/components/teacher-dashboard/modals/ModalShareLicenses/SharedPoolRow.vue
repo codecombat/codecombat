@@ -21,7 +21,7 @@ export default {
     teacherId: {
       type: String,
       required: true,
-      deafult: '',
+      default: '',
     },
     propedMaxRedeemers: {
       type: Number,
