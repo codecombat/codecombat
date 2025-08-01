@@ -54,7 +54,7 @@ module.exports = class EdlinkBaseHandler extends CocoClass {
             layout: 'topCenter',
           })
           reject(new Error('Login timeout'))
-        }, 60000)
+        }, 90000)
       } catch (error) {
         reject(error)
       }
