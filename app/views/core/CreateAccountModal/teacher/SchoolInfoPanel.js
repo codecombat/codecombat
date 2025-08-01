@@ -151,7 +151,7 @@ const SchoolInfoPanel = {
   mounted () {
     $("input[name*='organization']").focus()
 
-    if (utils.getQueryVariable('auto-auth')) {
+    if (utils.getQueryVariable('auto-auth') || me.isClassLink()) {
       this.$emit('continue')
       return
     }
