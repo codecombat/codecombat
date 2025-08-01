@@ -543,7 +543,14 @@ module.exports = (BasicInfoView = (function () {
       e.preventDefault()
       const ssoUsed = $(e.currentTarget).data('sso-used')
       if (isOzaria) {
-        handler = ssoUsed === 'facebook' ? application.facebookHandler : application.gplusHandler
+        handler = (() => {
+          switch (ssoUsed) {
+            case 'facebook': return application.facebookHandler
+            case 'gplus': return application.gplusHandler
+            case 'schoology': return application.schoologyHandler
+            case 'classlink': return application.classlinkHandler
+          }
+        })()
       } else {
         handler = (() => {
           switch (ssoUsed) {
@@ -554,6 +561,10 @@ module.exports = (BasicInfoView = (function () {
             case 'clever': return 'clever'
           }
         })()
+      }
+      if (!handler) {
+        console.error('Unsupported SSO provider', ssoUsed)
+        return
       }
 
       if (handler === 'clever') {
