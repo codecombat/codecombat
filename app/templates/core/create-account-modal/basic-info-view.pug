@@ -50,6 +50,10 @@ mixin use-social-signon
           - if(view.signupState.get('path') == 'teacher')
           -   imgURL = "/images/ozaria/common/log-in-google-sso.svg"
           img.gplus-logo(src=buttonURL, draggable="false")
+      .classlink-login
+        a#classlink-signup-btn.network-login(data-sso-used="classlink")
+          img.classlink-login-img(src="/images/pages/modal/auth/classlink-logo-small.png")
+          span ClassLink
       //- TODO: Enable once we have Ozaria fb login working.
       //- .facebook-login
       //-   a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
