@@ -1577,9 +1577,12 @@ module.exports = {
       level_to_unlock: 'Level to unlock:', // Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
       restricted_to_certain_heroes: 'Only certain heroes can play this level.',
       code_format_not_supported: 'Not Supported',
+      code_format_only_junior: 'Only Supported in CodeCombat Junior',
+      code_format_in_mobile: 'Only Supported in Big Screen(Pad, laptop, PC...)',
       code_format_disable_by_teacher: 'Disabled by Teacher',
       code_language_subscriber_only: 'Subscriber Only',
       code_language_not_support_by_blocks: 'Not Supported with Blocks',
+      code_language_not_support_in_classroom: 'Not support in Classroom',
     },
 
     char_customization_modal: {
