@@ -214,6 +214,9 @@ export default {
 
         const classroomCourses = getters.getCoursesCurrentClassroom || []
         if (classroomCourses.length > 0) {
+          if (classroomCourses?.[0]?.slug === 'junior' && classroomCourses.length > 1) {
+            return (classroomCourses[1] || {})._id
+          }
           return (classroomCourses[0] || {})._id
         }
       }
