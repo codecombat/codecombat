@@ -80,18 +80,18 @@ export default {
       if (this.applyLicensesDisabled) {
         return 'IconApplyLicenses_Gray'
       } else {
-        return 'IconApplyLicenses_Moon'
+        return 'IconApplyLicenses_White'
       }
     },
     shareLicensesIcon () {
       if (this.shareLicensesDisabled) {
         return 'IconShare_Gray'
       } else {
-        return 'IconShare_Moon'
+        return 'IconShare_White'
       }
     },
     licenseStatsIcon () {
-      return 'IconLicense_Moon'
+      return 'IconLicense_White'
     },
     testStudentOnly () {
       return this.properties?.testStudentOnly
@@ -205,6 +205,7 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "app/styles/component_variables.scss";
 
 .license-card {
   width: auto;
@@ -212,7 +213,7 @@ export default {
 }
 
 .license-info {
-  background: #355EA0;
+  background: $middle-purple;
   box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.06), 3px 0px 8px rgba(0, 0, 0, 0.15);
   border-radius: 24px 24px 0px 0px;
   width: 300px;
@@ -220,13 +221,13 @@ export default {
   padding: 30px;
 
   &.expired {
-    background: #6D8392;
+    background: $light-purple;
   }
 }
 
 .used {
   @include font-h-2-subtitle-black;
-  color: $moon;
+  color: $purple;
   text-align: center;
   .sub-text {
     font-size: 18px;
@@ -237,7 +238,7 @@ export default {
 
 .remaining {
   @include font-p-4-paragraph-smallest-gray;
-  color: #FFFFFF;
+  color: $dark-grey-2;
   text-align: center;
   margin: 30px 0px 20px 0px;
   font-weight: 600;
@@ -255,11 +256,11 @@ export default {
   font-size: 12px;
   line-height: 14px;
   text-align: center;
-  color: #FFFFFF;
+  color: $dark-grey-2;
 }
 
 .buttons {
-  background: #20498A;
+  background: $purple;
   box-shadow: -1px 0px 1px rgba(0, 0, 0, 0.06), 3px 0px 8px rgba(0, 0, 0, 0.15);
   border-radius: 0px 0px 24px 24px;
   width: 300px;
@@ -271,7 +272,7 @@ export default {
   justify-content: center;
 
   &.expired {
-    background: #526979;
+    background: $middle-purple;
   }
 }
 
@@ -279,7 +280,7 @@ export default {
   margin: 5px;
 
   ::v-deep span {
-     color: $moon;
+     color: $light-background;
   }
 }
 
