@@ -78,14 +78,14 @@ export default {
     },
     applyLicensesIcon () {
       if (this.applyLicensesDisabled) {
-        return 'IconApplyLicenses_Gray'
+        return 'IconApplyLicenses_Black'
       } else {
         return 'IconApplyLicenses_White'
       }
     },
     shareLicensesIcon () {
       if (this.shareLicensesDisabled) {
-        return 'IconShare_Gray'
+        return 'IconShare_Black'
       } else {
         return 'IconShare_White'
       }
@@ -281,6 +281,10 @@ export default {
 
   ::v-deep span {
      color: $light-background;
+  }
+
+  ::v-deep &.disabled span {
+    color: $dark-grey-2;
   }
 }
 
