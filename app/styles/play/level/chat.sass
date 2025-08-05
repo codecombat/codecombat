@@ -148,13 +148,22 @@
       color: #ffa // me color
     height: 55px // height of messages, including space between messages
 
-  i
+  .ai-helper-chat-icon
     position: absolute
     bottom: 5px
     left: 3px
     float: left
     cursor: pointer
     display: none
+    transition: transform 0.2s ease-in-out
+    
+    &:hover
+      transform: scale(1.1)
+    
+    img
+      width: 24px
+      height: 24px
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))
 
   input, textarea
     position: absolute

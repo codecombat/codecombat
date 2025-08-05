@@ -21,7 +21,7 @@ module.exports = class LevelChatView extends CocoView
   events:
     'keydown textarea': 'onChatKeydown'
     'keypress textarea': 'onChatKeypress'
-    'click i': 'onIconClick'
+    'click .ai-helper-chat-icon': 'onAIHelperChatClick'
     'click .close-level-chat': 'onIconClick'
     'click .fix-code-button': 'onFixCodeClick'
 
@@ -63,8 +63,8 @@ module.exports = class LevelChatView extends CocoView
     #@updateMultiplayerVisibility()
     # Always show the chat view (for the icon), but only show chat panels if initialized
     @$el.show()
-    # Always show the icon, regardless of chat initialization
-    @$('i.icon-comment').show()
+    # Always show the AI helper chat icon, regardless of chat initialization
+    @$('.ai-helper-chat-icon').show()
     # Hide chat panels if not initialized
     if not @chatInitialized
       @$('.open-chat-area, .closed-chat-area').hide()
@@ -210,7 +210,7 @@ module.exports = class LevelChatView extends CocoView
     $(e.target).val('')
     return false
 
-  onIconClick: (e) ->
+  onAIHelperChatClick: (e) ->
     # Check if chat has any messages
     hasMessages = @chatMessages?.length > 0 or @$('.message-row').length > 0
     
@@ -231,6 +231,10 @@ module.exports = class LevelChatView extends CocoView
       sel.removeAllRanges?()
     else
       document.selection.empty()
+
+  onIconClick: (e) ->
+    # Legacy method for backward compatibility
+    @onAIHelperChatClick(e)
 
   onFixCodeClick: (e) ->
     Backbone.Mediator.publish 'level:toggle-solution', { code: @lastFixedCode ? '' }
