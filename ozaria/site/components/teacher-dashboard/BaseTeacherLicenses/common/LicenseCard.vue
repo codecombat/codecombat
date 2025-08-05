@@ -244,6 +244,16 @@ export default {
   font-weight: 600;
 }
 
+.expired {
+  .used {
+    color: $purple-2;
+  }
+
+  .remaining {
+    color: $dark-grey;
+  }
+}
+
 .special {
   font-size: 14px;
   line-height: 14px;
@@ -272,7 +282,7 @@ export default {
   justify-content: center;
 
   &.expired {
-    background: $middle-purple;
+    background: $purple-2;
   }
 }
 
