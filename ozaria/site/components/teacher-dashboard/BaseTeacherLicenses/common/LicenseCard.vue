@@ -293,8 +293,10 @@ export default {
      color: $light-background;
   }
 
-  ::v-deep &.disabled span {
-    color: $dark-grey-2;
+  &.disabled {
+    ::v-deep span {
+      color: $dark-grey-2;
+    }
   }
 }
 
