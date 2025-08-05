@@ -9,6 +9,7 @@ fetchJson = require 'core/api/fetch-json'
 co = require 'co'
 userCreditApi = require 'core/api/user-credits'
 SubscribeModal = require 'views/core/SubscribeModal'
+AskAIHelpView = require('views/play/level/AskAIHelpView').default
 _ = require('lodash')
 
 module.exports = class LevelChatView extends CocoView
@@ -43,6 +44,7 @@ module.exports = class LevelChatView extends CocoView
     ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
     #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
     @visible = @aceConfig.levelChat isnt 'none' or me.getLevelChatExperimentValue() is 'beta'  # not 'control'
+    @chatInitialized = @visible  # Track if chat is properly initialized
 
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
@@ -59,7 +61,13 @@ module.exports = class LevelChatView extends CocoView
   afterRender: ->
     @chatTables = $('.table', @$el)
     #@updateMultiplayerVisibility()
-    @$el.toggle @visible
+    # Always show the chat view (for the icon), but only show chat panels if initialized
+    @$el.show()
+    # Always show the icon, regardless of chat initialization
+    @$('i.icon-comment').show()
+    # Hide chat panels if not initialized
+    if not @chatInitialized
+      @$('.open-chat-area, .closed-chat-area').hide()
     @onWindowResize {}
 
   regularlyClearOldMessages: ->
@@ -167,7 +175,8 @@ module.exports = class LevelChatView extends CocoView
 
   addOne: ({ message, messageId }) ->
     return if message.system and message.authorID is me.id
-    if not @open
+    # Only open chat if it's initialized
+    if not @open and @chatInitialized
       @onIconClick {}
     openPanel = $('.open-chat-area', @$el)
     height = openPanel.outerHeight()
@@ -202,10 +211,19 @@ module.exports = class LevelChatView extends CocoView
     return false
 
   onIconClick: (e) ->
+    # Check if chat has any messages
+    hasMessages = @chatMessages?.length > 0 or @$('.message-row').length > 0
+    
+    # Show AI Hint modal only if chat is empty and not open
+    if not @open and not hasMessages
+      @openModalView(new AskAIHelpView({}))
+      return
+    
+    # Otherwise, just toggle the chat open/closed
     @open = not @open
     openPanel = @$('.open-chat-area', @$el).toggle @open
     closedPanel = @$('.closed-chat-area', @$el).toggle not @open
-    @$('i.icon-comment').toggle true if @open
+    # Don't toggle icon visibility since we want it always visible
     @scrollDown()
     if window.getSelection?
       sel = window.getSelection()
@@ -234,6 +252,12 @@ module.exports = class LevelChatView extends CocoView
       @$el.find('.fix-code-button').parent().remove()
 
   onAddUserChat: (e) ->
+    # If chat is not open, open it first
+    if not @open
+      @open = true
+      @$('.open-chat-area').show()
+      @$('.closed-chat-area').hide()
+    # Use the normal credit system since chat is initialized
     @checkCreditsAndAddMessage(e.message)
 
   checkCreditsAndAddMessage: (message) ->
@@ -276,6 +300,7 @@ module.exports = class LevelChatView extends CocoView
 
   scrollDown: ->
     openPanel = $('.open-chat-area', @$el)[0]
+    return unless openPanel  # Don't scroll if chat panel doesn't exist
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
 
   onSpellChanged: ->
@@ -464,7 +489,9 @@ module.exports = class LevelChatView extends CocoView
     if maxHeight < 0
       # Just have to overlay the level, and have them close when done
       maxHeight = 0
-    @$el.find('.closed-chat-area').css('max-height', maxHeight)
+    closedChatArea = @$el.find('.closed-chat-area')
+    if closedChatArea.length  # Only set max-height if the element exists
+      closedChatArea.css('max-height', maxHeight)
 
   destroy: ->
     key.deleteScope('level')
