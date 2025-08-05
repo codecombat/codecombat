@@ -58,3 +58,6 @@ if includeHomeLink
   if view.level.get('product', true) != 'codecombat-junior' && view.options.hintsState && view.options.hintsState.get('total') > 0
     .btn.btn-small.btn-illustrated.hints-button
       span(data-i18n="play_level.hints")
+  if view.showAiBotHelp
+    .btn.btn-small.btn-illustrated.ai-help-button
+      span(data-i18n="play_level.ask_ai")

@@ -1080,6 +1080,7 @@ module.exports = {
       problem_alert_title: 'Fix Your Code',
       problem_alert_need_help: 'Need help?',
       problem_alert_ask_the_ai: 'Ask the AI',
+      ask_ai: 'Ask AI',
       problem_alert_need_hint: 'Need a hint? You can ask the AI for help.',
       time_current: 'Now:',
       time_total: 'Max:',
