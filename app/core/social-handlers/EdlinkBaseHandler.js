@@ -9,7 +9,6 @@ module.exports = class EdlinkBaseHandler extends CocoClass {
   async logInWithEdlink () {
     const state = crypto.getRandomValues(new Uint32Array(1))[0].toString(36)
     const url = `/auth/oauth2/${this.providerName}?state=${state}`
-
     const popup = window.open(url, '_blank', 'width=800,height=600', false)
     if (!popup) {
       noty({
@@ -48,8 +47,14 @@ module.exports = class EdlinkBaseHandler extends CocoClass {
         // Add timeout to prevent hanging promises
         timeoutId = setTimeout(() => {
           window.removeEventListener('storage', handleStorageEvent)
+          noty({
+            text: 'Login timeout',
+            type: 'error',
+            timeout: 5000,
+            layout: 'topCenter',
+          })
           reject(new Error('Login timeout'))
-        }, 60000)
+        }, 90000)
       } catch (error) {
         reject(error)
       }

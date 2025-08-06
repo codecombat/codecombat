@@ -41,7 +41,6 @@ export default {
       }
       return false
     },
-
     async clickGoogleSignup (e) {
       e?.preventDefault()
       try {
@@ -105,8 +104,41 @@ export default {
 
     clickCleverSignup () {
       logInWithClever()
-    }
-  }
+    },
+    async clickClasslinkSignup () {
+      console.log('clickClasslinkSignup')
+      const handler = application.classlinkHandler
+      const { loggedIn, email, firstName, lastName } = await handler.logInWithEdlink()
+      if (!loggedIn) {
+        this.resetState()
+        this.updateSso({
+          ssoUsed: 'classlink',
+          ssoAttrs: { email, firstName, lastName },
+        })
+        this.updateSignupForm({
+          firstName,
+          lastName,
+          email,
+        })
+        this.updateTrialRequestProperties({
+          firstName,
+          lastName,
+          email,
+        })
+        this.$emit('startSignup', 'classlink')
+      } else {
+        noty({
+          text: 'Account already exists, logging you in...',
+          type: 'error',
+          layout: 'topCenter',
+          timeout: 5000,
+        })
+        setTimeout(() => {
+          window.location.href = '/'
+        }, 2000)
+      }
+    },
+  },
 }
 </script>
 
@@ -129,7 +161,9 @@ export default {
           img(src="/images/ozaria/common/google_signin_classroom.png")
         a(@click="clickCleverSignup" href="#" id="clever-login-button-priority")
           img(src="/images/pages/modal/auth/clever_sso_button@2x.png")
-        span.error(v-if="errorMessage") {{ $t(errorMessage) }}
+        a(@click="clickClasslinkSignup" href="#" id="classlink-login-button-priority" class="classlink-login-button")
+          img(src="/images/pages/modal/auth/classlink-logo-text.png")
+      .error(v-if="errorMessage") {{ $t(errorMessage) }}
       .email-sign-up
         span {{ $t("general.or") }}!{' '}
         a(@click="clickEmailSignup" href="#") {{ $t("signup.signup_with_email") }}
@@ -158,13 +192,15 @@ export default {
           font-weight: 600
     .social-sign-in
       margin: 5px 0
+      display: flex
+      justify-content: flex-start
+      gap: 10px
       a
         display: inline-block
-        width: 200px
+        max-width: 200px
         height: 40px
-        float: left
         img
-          width: 200px
+          max-width: 200px
           height: 40px
     .email-sign-up
       color: #0b63bc
@@ -172,9 +208,9 @@ export default {
     text-decoration: underline
   .error
     @include font-p-4-paragraph-smallest-gray
-    display: inline-block
-    color: #0170E9
-    padding-left: 20px
+    color: red
   .log-in, .log-in a
     @include font-p-4-paragraph-smallest-gray
+  .classlink-login-button
+    background-color: #ffffff
 </style>

@@ -214,6 +214,9 @@ export default {
 
         const classroomCourses = getters.getCoursesCurrentClassroom || []
         if (classroomCourses.length > 0) {
+          if (classroomCourses?.[0]?.slug === 'junior' && classroomCourses.length > 1) {
+            return (classroomCourses[1] || {})._id
+          }
           return (classroomCourses[0] || {})._id
         }
       }
@@ -350,7 +353,7 @@ export default {
       fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForClassroom', state.classroomId, { root: true }))
       fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
 
-      options.fetchInteractiveSessions = true
+      options.fetchInteractiveSessions = !utils.isCodeCombat
       fetchPromises.push(dispatch('teacherDashboard/fetchClassroomData', options, { root: true }))
 
       await Promise.all(fetchPromises)

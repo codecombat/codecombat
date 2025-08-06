@@ -19,7 +19,7 @@
                 <CTAButton
                   @clickedCTA="onClickMainCta"
                 >
-                  {{ $t('subscribe.subscribe_title') }}
+                  {{ me.isPremium() ? $t('courses.continue_playing') : $t('subscribe.subscribe_title') }}
                 </CTAButton>
               </p>
             </template>
@@ -109,7 +109,7 @@
               <CTAButton
                 @clickedCTA="onClickMainCta"
               >
-                {{ $t('subscribe.subscribe_title') }}
+                {{ me.isPremium() ? $t('courses.continue_playing') : $t('subscribe.subscribe_title') }}
               </CTAButton>
             </div>
           </div>
@@ -234,7 +234,7 @@
               <CTAButton
                 @clickedCTA="onClickMainCta"
               >
-                {{ $t('subscribe.subscribe_title') }}
+                {{ me.isPremium() ? $t('courses.continue_playing') : $t('subscribe.subscribe_title') }}
               </CTAButton>
             </div>
           </div>
@@ -582,7 +582,11 @@ export default {
 
   methods: {
     onClickMainCta () {
-      this.isSubscribeModalOpen = true
+      if (me.isPremium()) {
+        application.router.navigate('/play', { trigger: true })
+      } else {
+        this.isSubscribeModalOpen = true
+      }
     },
   },
 

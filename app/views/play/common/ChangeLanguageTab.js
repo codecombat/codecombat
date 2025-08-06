@@ -102,7 +102,7 @@ module.exports = (ChangeLanguageTab = (function () {
       if (onlyText) {
         CODE_FORMAT_BLOCKS.forEach(format => {
           this.codeFormatObject[format].disabled = true
-          this.codeFormatObject[format].reason = $.i18n.t('choose_hero.code_format_not_supported')
+          this.codeFormatObject[format].reason = $.i18n.t('choose_hero.code_format_only_junior')
         })
       } else {
         if (me.isStudent() && classroomFormats?.length) {
@@ -120,6 +120,7 @@ module.exports = (ChangeLanguageTab = (function () {
       if (utils.isMobile() && this.isJunior && !utils.isIPad()) {
         CODE_FORMAT_TEXT.forEach(format => {
           this.codeFormatObject[format].disabled = true
+          this.codeFormatObject[format].reason = $.i18n.t('choose_hero.code_format_in_mobile')
         })
         CODE_FORMAT_IPAD.forEach(format => {
           this.codeFormatObject[format].disabled = false
@@ -174,6 +175,7 @@ module.exports = (ChangeLanguageTab = (function () {
         for (const language in this.codeLanguageObject) {
           if (language !== this.codeLanguage) {
             this.codeLanguageObject[language].disabled = true
+            this.codeLanguageObject[language].reason = $.i18n.t('choose_hero.code_language_not_support_in_classroom')
           }
         }
       }
@@ -208,9 +210,12 @@ module.exports = (ChangeLanguageTab = (function () {
         }
         this.codeformatChoices = this.newFancySelect($select[0])
       }
+      const formatObject = this.codeFormatObject
       $select.parent().parent().find('.options .item').each(function () {
         const formatName = $(this).text()
         const formatID = $(this).data('value')
+        const reason = formatObject[formatID].reason
+        $(this).attr('title', reason)
         const blurb = $.i18n.t(`choose_hero.${formatID}_blurb`.replace(/-/g, '_'))
         if (formatName.indexOf(blurb) === -1) { // Avoid doubling blurb if this is called 2x
           return $(this).text(`${formatName} - ${blurb}`)
@@ -226,9 +231,12 @@ module.exports = (ChangeLanguageTab = (function () {
         }
         this.languageChoices = this.newFancySelect($select[0])
       }
+      const languageObject = this.codeLanguageObject
       $select.parent().parent().find('.options .item').each(function () {
         const languageName = $(this).text()
         const languageID = $(this).data('value')
+        const reason = languageObject[languageID].reason
+        $(this).attr('title', reason)
         const blurb = $.i18n.t(`choose_hero.${languageID}_blurb`)
         if (languageName.indexOf(blurb) === -1) { // Avoid doubling blurb if this is called 2x
           return $(this).text(`${languageName} - ${blurb}`)

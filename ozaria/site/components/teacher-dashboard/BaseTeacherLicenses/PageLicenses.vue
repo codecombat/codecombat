@@ -154,6 +154,7 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "app/styles/component_variables.scss";
 
 .licenses-page {
   display: flex;
@@ -202,7 +203,7 @@ export default {
   margin: 0px 20px 30px 20px;
   span {
     @include font-h-5-button-text-black;
-    color: $twilight;
+    color: $purple;
     text-align: left;
   }
 }
