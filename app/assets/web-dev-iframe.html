@@ -8,43 +8,68 @@
 
     <title>My CodeCombat Website</title>
 
-    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/lodash.js/4.17.1/lodash.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.1/lodash.min.js"></script>
 
-    <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script>
+    if (typeof _ == 'undefined') {
+      document.write('<script src="https://assets.koudashijie.com/javascripts/lodash/4.17.1/lodash.min.js"><\/script>');
+    }
+    if (typeof jQuery == 'undefined') {
+      document.write('<script src="https://assets.koudashijie.com/javascripts/jquery/2.2.4/jquery.min.js"><\/script>');
+    }
+    </script>
 
     <script src="/javascripts/web-dev-listener.js"></script>
-    
+
     <script src="/javascripts/app/vendor/aether-html.js"></script>
     <script>
-      /* Import that font for demoing web-dev levels until @import ordering bug is fixed */
-      const head = document.head;
-      const styleEl = document.createElement('style')
-      styleEl.type = "text/css"
-      let styleText = '';
-      if (new URLSearchParams(window.location.search).get('chinaUx') === 'true') {
-        styleText = `@import 'https://fonts.loli.net/css?family=Holtwood+One+SC';`
-      } else {
-        styleText = `@import 'https://fonts.googleapis.com/css?family=Holtwood+One+SC';`
-      }
-      head.appendChild(styleEl)
+    /* Import that font for demoing web-dev levels until @import ordering bug is fixed */
+    const head = document.head;
+    const styleEl = document.createElement('style')
+    styleEl.type = "text/css"
+    let styleText = '';
+    if (new URLSearchParams(window.location.search).get('chinaUx') === 'true') {
+      styleText = `@import 'https://fonts.loli.net/css?family=Holtwood+One+SC';`
+    } else {
+      styleText = `@import 'https://fonts.googleapis.com/css?family=Holtwood+One+SC';`
+    }
+    head.appendChild(styleEl)
     </script>
     <style>
-      * {
+    * {
       transition: all 1s ease-in-out, box-shadow 1ms;
-      }
+    }
     </style>
     <script>
-      $.fn.isTransparent = function(attr){
-        return this.css(attr) === 'rgba(0, 0, 0, 0)' || this.css(attr) === 'transparent' || this.css(attr) === '';
-      }
+    $.fn.isTransparent = function(attr){
+      return this.css(attr) === 'rgba(0, 0, 0, 0)' || this.css(attr) === 'transparent' || this.css(attr) === '';
+    }
     </script>
 
     <!-- Latest compiled and minified CSS -->
-    <link href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/twitter-bootstrap/3.3.6/css/bootstrap.min.css" ref="stylesheet"/>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" ref="stylesheet">
     <!-- Optional theme -->
-    <link href="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/twitter-bootstrap/3.3.6/css/bootstrap-theme.min.css" ref="stylesheet" >
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap-theme.min.css" ref="stylesheet" />
     <!-- Latest compiled and minified JavaScript -->
-    <script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script>
+    if (typeof jQuery !== 'undefined' && typeof jQuery.fn.modal == 'undefined') {
+
+      // Load local CSS
+      var link1 = document.createElement('link');
+      link1.rel = 'stylesheet';
+      link1.href = 'https://assets.koudashijie.com/javascripts/bootstrap/3.3.6/bootstrap.min.css';
+      document.head.appendChild(link1);
+
+      var link2 = document.createElement('link');
+      link2.rel = 'stylesheet';
+      link2.href = 'https://assets.koudashijie.com/javascripts/bootstrap/3.3.6/bootstrap-theme.min.css';
+      document.head.appendChild(link2);
+
+      document.write('<script src="https://assets.koudashijie.com/javascripts/bootstrap/3.3.6/bootstrap.min.js"><\/script>');
+    }
+    </script>
     <!-- Extracted player/level styles and scripts -->
     <style for="level-styles">
     </style>
