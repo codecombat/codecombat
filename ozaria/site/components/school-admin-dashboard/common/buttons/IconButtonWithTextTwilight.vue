@@ -71,20 +71,20 @@ export default {
 }
 
 button {
-  background-color: $twilight;
+  background-color: var(--color-primary);
   border-radius: 4px;
   border-width: 0;
   text-shadow: unset;
   font-weight: bold;
   @include font-p-3-small-button-text-black;
-  color: $moon;
+  color: $white;
   font-size: 14px;
   line-height: 16px;
   font-weight: 600;
   background-image: unset;
 
   &:hover {
-    background-color: #355ea0;
+    background-color: var(--color-primary-2);
     transition: background-color .35s;
   }
 
