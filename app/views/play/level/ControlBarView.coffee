@@ -198,7 +198,11 @@ module.exports = class ControlBarView extends CocoView
     window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @levelSlug, hintCount: @options.hintsState.get('hints')?.length ? 0
 
   onClickAIHelp: ->
-    @openModalView(new AskAIHelpView({}))
+    @openModalView(new AskAIHelpView({
+      propsData: {
+        aiChatType: @level.get('aiChatType')
+      }
+    }))
 
   onOverallStatusChanged: (e) ->
     return if e?.overallStatus == @lastOverallStatus 

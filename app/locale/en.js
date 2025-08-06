@@ -1081,6 +1081,7 @@ module.exports = {
       problem_alert_need_help: 'Need help?',
       problem_alert_ask_the_ai: 'Ask the AI',
       ask_ai: 'Ask AI',
+      ask_ai_placeholder: 'Enter your request here...',
       problem_alert_need_hint: 'Need a hint? You can ask the AI for help.',
       time_current: 'Now:',
       time_total: 'Max:',

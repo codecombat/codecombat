@@ -216,7 +216,7 @@ module.exports = class LevelChatView extends CocoView
     
     # Show AI Hint modal only if chat is empty and not open
     if not @open and not hasMessages
-      @openModalView(new AskAIHelpView({}))
+      @openModalView(new AskAIHelpView({propsData: {aiChatType: @level.get('aiChatType')}}))
       return
     
     # Otherwise, just toggle the chat open/closed
