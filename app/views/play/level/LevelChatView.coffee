@@ -37,6 +37,8 @@ module.exports = class LevelChatView extends CocoView
     @sessionID = options.sessionID
     @bus = LevelBus.get(@levelID, @sessionID)
     @aceConfig = options.aceConfig
+    @aiChatType = options.aiChatType or 'coco-level'
+    @aiAssistantSystemPrompt = options.aiAssistantSystemPrompt
     super options
     @onWindowResize = _.debounce @onWindowResize, 50
     $(window).on 'resize', @onWindowResize
@@ -216,7 +218,7 @@ module.exports = class LevelChatView extends CocoView
     
     # Show AI Hint modal only if chat is empty and not open
     if not @open and not hasMessages
-      @openModalView(new AskAIHelpView({propsData: {aiChatType: @level.get('aiChatType')}}))
+      @openModalView(new AskAIHelpView({propsData: {aiChatType: @aiChatType}}))
       return
     
     # Otherwise, just toggle the chat open/closed
@@ -328,6 +330,7 @@ module.exports = class LevelChatView extends CocoView
         apiProperties.push doc
     context.apiProperties = apiProperties
 
+
   saveChatMessage: ({ text, sender }) ->
     if @isSpellChanged()
       Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
@@ -337,7 +340,7 @@ module.exports = class LevelChatView extends CocoView
       @savingChatMessage = undefined
 
   reallySaveChatMessage: ({ text, sender }) ->
-    chatMessage = new ChatMessage @getChatMessageProps { text, sender }
+    chatMessage = new ChatMessage(@getChatMessageProps({ text, sender }))
     @chatMessages ?= []
     @chatMessages.push chatMessage
     Backbone.Mediator.publish 'level:gather-chat-message-context', { chat: chatMessage.attributes }
@@ -484,6 +487,8 @@ module.exports = class LevelChatView extends CocoView
       freeText = _.string.strip(structuredMessage)
 
     props.message.textComponents.freeText = freeText if freeText.length
+    props.aiChatType = @aiChatType or 'coco-level'
+    props.aiAssistantSystemPrompt = @aiAssistantSystemPrompt
     props
 
   onWindowResize: (e) =>

@@ -8,34 +8,34 @@ const ChatMessageSchema = c.object({
   default: {
     product: 'both',
     kind: 'level-chat',
-    releasePhase: 'beta'
-  }
+    releasePhase: 'beta',
+  },
 })
 
 const SenderSchema = c.object({ title: 'Sender', description: 'Who/what sent this message (bot, player, teacher)' }, {
   id: c.objectId({
     links: [{ rel: 'db', href: '/db/user/{($)}' }],
     title: 'User ID',
-    description: 'The user ID of the sender'
+    description: 'The user ID of the sender',
   }),
   name: {
     type: 'string',
     title: 'Name',
-    description: 'Which bot/user sent this message'
+    description: 'Which bot/user sent this message',
   },
   kind: {
     type: 'string',
     enum: ['player', 'teacher', 'bot'],
     title: 'Kind',
-    description: 'which kind of sender this is'
+    description: 'which kind of sender this is',
   },
   i18n: {
     additionalProperties: true,
     type: 'object',
     format: 'i18n',
     props: ['name'],
-    description: 'Translations for the sender name'
-  }
+    description: 'Translations for the sender name',
+  },
 })
 
 const ResponseSchema = c.object({ title: 'Message', description: 'A message from the player or the bot' }, {
@@ -57,17 +57,17 @@ const ResponseSchema = c.object({ title: 'Message', description: 'A message from
     freeText: { type: 'string', title: 'Free Text', format: 'markdown' },
     codeIssue: c.object({ title: 'Code Issue', description: 'Text describing current code line' }, {
       line: { type: 'integer', title: 'Line' },
-      text: { type: 'string', title: 'Text', format: 'markdown' }
+      text: { type: 'string', title: 'Text', format: 'markdown' },
     }),
     codeIssueExplanation: c.object({ title: 'Code Issue Explanation', description: 'Text explaining the code issue' }, {
-      text: { type: 'string', title: 'Text', format: 'markdown' }
+      text: { type: 'string', title: 'Text', format: 'markdown' },
     }),
     actionButtons: c.array({ title: 'Action Buttons', description: 'Buttons that can be clicked to perform an action' }, {
       type: 'object',
       properties: {
         text: { type: 'string', title: 'Text' },
-        action: { type: 'string', title: 'Action' }
-      }
+        action: { type: 'string', title: 'Action' },
+      },
     }),
     code: { type: 'string', title: 'Code', format: 'code' },
     links: c.array({ title: 'Links', description: 'Links to more information' }, {
@@ -81,18 +81,18 @@ const ResponseSchema = c.object({ title: 'Message', description: 'A message from
           type: 'object',
           format: 'i18n',
           props: ['text', 'url'],
-          description: 'Translations for the link text and URL'
-        }
-      }
-    })
+          description: 'Translations for the link text and URL',
+        },
+      },
+    }),
   }),
   i18n: {
     additionalProperties: true,
     type: 'object',
     format: 'i18n',
     props: ['text'],
-    description: 'Translations for the message text'
-  }
+    description: 'Translations for the message text',
+  },
 })
 
 _.extend(ChatMessageSchema.properties, {
@@ -100,75 +100,86 @@ _.extend(ChatMessageSchema.properties, {
     type: 'string',
     enum: ['ozaria', 'codecombat', 'both'],
     title: 'Product',
-    description: 'Which product(s) this message is for'
+    description: 'Which product(s) this message is for',
   },
   kind: {
     type: 'string',
     enum: ['level-chat'],
     title: 'Kind',
-    description: '`level-chat`: for in-level chatbot messages. More kinds to be added in the future.'
+    description: '`level-chat`: for in-level chatbot messages. More kinds to be added in the future.',
   },
   example: {
     type: 'boolean',
     title: 'Example',
-    description: 'Whether this is an example message or not. Example messages are not shown to users, but used in training.'
+    description: 'Whether this is an example message or not. Example messages are not shown to users, but used in training.',
   },
   releasePhase: {
     type: 'string',
     enum: ['beta', 'released'],
     title: 'Release Phase',
-    description: 'Example messages start off in beta, then are released when they are completed'
+    description: 'Example messages start off in beta, then are released when they are completed',
   },
   message: ResponseSchema,
+  aiChatType: {
+    type: 'string',
+    enum: ['coco-level', 'ai-league'],
+    title: 'AI Chat Type',
+    description: 'The type of AI chat to use for this level',
+  },
+  aiAssistantSystemPrompt: {
+    type: 'string',
+    title: 'AI Assistant System Prompt',
+    description: 'The prompt for the AI assistant system to use for this level',
+  },
   context: c.object({ title: 'Context', description: 'Contextual state when this message triggered' }, {
     codeLanguage: {
       type: 'string',
       title: 'Code Language',
-      description: 'The programming language of the player'
+      description: 'The programming language of the player',
     },
     spokenLanguage: {
       type: 'string',
       title: 'Spoken Language',
-      description: 'The spoken language of the player'
+      description: 'The spoken language of the player',
     },
     replyLanguage: {
       type: 'string',
       title: 'Reply Language',
-      description: 'The reply language of the AI'
+      description: 'The reply language of the AI',
     },
     player: c.objectId({
       links: [{ rel: 'db', href: '/db/user/{($)}' }],
       title: 'Player',
-      description: 'The user ID of the player'
+      description: 'The user ID of the player',
     }),
     playerName: {
       type: 'string',
       title: 'Player Name',
-      description: 'The broad name of the player, by which the bot knows them'
+      description: 'The broad name of the player, by which the bot knows them',
     },
     levelOriginal: c.objectId({
       links: [{ rel: 'db', href: '/db/level/{($)}/version' }],
       format: 'latest-version-original-reference',
       title: 'Level',
-      description: 'The level original ID of the level the player is on'
+      description: 'The level original ID of the level the player is on',
     }),
     levelName: {
       type: 'string',
       title: 'Level Name',
-      description: 'The name of the level the player is on'
+      description: 'The name of the level the player is on',
     },
     apiProperties: {
       type: 'array',
       title: 'API Properties',
       description: 'The APIs the player has access to in this level',
-      items: c.PropertyDocumentationSchema
+      items: c.PropertyDocumentationSchema,
     },
     i18n: {
       additionalProperties: true,
       type: 'object',
       format: 'i18n',
       props: ['levelName'],
-      description: 'Translations for the context fields, like `levelName`'
+      description: 'Translations for the context fields, like `levelName`',
     },
     code: c.object({ title: 'Code', description: 'Start, solution, and current code' }, {
       start: {
@@ -179,8 +190,8 @@ _.extend(ChatMessageSchema.properties, {
         additionalProperties: {
           type: 'string',
           format: 'code',
-          description: 'Start code for this programming language'
-        }
+          description: 'Start code for this programming language',
+        },
       },
       solution: {
         format: 'code-languages-object',
@@ -190,8 +201,8 @@ _.extend(ChatMessageSchema.properties, {
         additionalProperties: {
           type: 'string',
           format: 'code',
-          description: 'Solution code for this programming language'
-        }
+          description: 'Solution code for this programming language',
+        },
       },
       current: {
         format: 'code-languages-object',
@@ -201,8 +212,8 @@ _.extend(ChatMessageSchema.properties, {
         additionalProperties: {
           type: 'string',
           format: 'code',
-          description: 'Current code for this programming language'
-        }
+          description: 'Current code for this programming language',
+        },
       },
       fixed: {
         format: 'code-languages-object',
@@ -212,25 +223,25 @@ _.extend(ChatMessageSchema.properties, {
         additionalProperties: {
           type: 'string',
           format: 'code',
-          description: 'Fixed code for this programming language after the suggested single change'
-        }
-      }
+          description: 'Fixed code for this programming language after the suggested single change',
+        },
+      },
     }),
     codeComments: c.object({ title: 'Code Comments', description: 'Code comment translation strings' }, {
       context: {
         additionalProperties: {
-          type: 'string'
+          type: 'string',
         },
         type: 'object',
-        title: 'Code Comments Context'
+        title: 'Code Comments Context',
       },
       i18n: {
         additionalProperties: true,
         type: 'object',
         format: 'i18n',
         props: ['context'],
-        description: 'Translations for the start code comments'
-      }
+        description: 'Translations for the start code comments',
+      },
     }),
     error: c.object({ title: 'Error', description: 'Current error player is experiencing' }, {
       codeSnippet: { type: 'string', title: 'Code Snippet', description: 'The code snippet that caused the error' },
@@ -246,8 +257,8 @@ _.extend(ChatMessageSchema.properties, {
         additionalProperties: true,
         type: 'object',
         title: 'Error Translation Parameters',
-        description: 'Parameters to be used in translating the error message (passed from Esper.js)'
-      }
+        description: 'Parameters to be used in translating the error message (passed from Esper.js)',
+      },
     }),
     goalStates: {
       type: 'object',
@@ -261,17 +272,17 @@ _.extend(ChatMessageSchema.properties, {
           type: 'object',
           format: 'i18n',
           props: ['name'],
-          description: 'Translations for the goal name'
-        }
-      })
+          description: 'Translations for the goal name',
+        },
+      }),
     },
     previousMessages: {
       type: 'array',
       title: 'Previous Messages',
       description: 'The messages that been sent so far in this session',
-      items: ResponseSchema
-    }
-  })
+      items: ResponseSchema,
+    },
+  }),
 })
 
 ChatMessageSchema.definitions = {}
