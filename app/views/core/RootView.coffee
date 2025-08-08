@@ -315,7 +315,7 @@ module.exports = class RootView extends CocoView
         @navigation = new Navigation { el: staticNav, store }
         # Hack - It would be better for the Navigation component to manage the language dropdown.
         _.defer => @buildLanguages?()
-    if floatingNav = document.querySelector('#floating-nav') && (me.isAnonymous() || me.isTeacher() || me.isAdmin())
+    if (floatingNav = document.querySelector('#floating-nav')) and (me.isAnonymous() or me.isTeacher() or me.isAdmin())
       if @floatNav
         floatingNav.replaceWith(@floatNav.$el)
       else
