@@ -173,7 +173,11 @@ export default {
       return difficulties[index]
     },
     difficultyI18n () {
-      return $.i18n.t(`ladder.difficulty_${this.difficulty}`)
+      if (this.difficulty) {
+        return $.i18n.t(`ladder.difficulty_${this.difficulty}`)
+      } else {
+        return ''
+      }
     },
   },
   methods: {

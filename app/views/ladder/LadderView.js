@@ -122,6 +122,17 @@ module.exports = (LadderView = (function () {
         this.checkTournamentCloseInterval = setInterval(this.checkTournamentClose.bind(this), 3000)
         this.checkTournamentClose()
       }
+
+      if (!this.leagueID) {
+        // global arena, check is current AI League
+
+        const currentArena = _.find(utils.activeArenas(), { slug: this.levelID })
+        if (currentArena) {
+          this.globalAILeagueEnds = moment(currentArena.end).format('LLL')
+        } else {
+          this.globalAILeagueEnds = null
+        }
+      }
     }
 
     static initClass () {
