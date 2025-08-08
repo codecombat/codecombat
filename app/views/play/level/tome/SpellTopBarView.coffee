@@ -181,6 +181,6 @@ module.exports = class SpellTopBarView extends CocoView
   onClickHintButton: ->
     @openModalView(new AskAIHelpView({
       propsData: {
-        aiChatType: @level.get('aiChatType')
+        aiChatKind: @level.get('aiChatKind')
       }
     }))

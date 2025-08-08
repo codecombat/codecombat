@@ -200,7 +200,7 @@ module.exports = class ControlBarView extends CocoView
   onClickAIHelp: ->
     @openModalView(new AskAIHelpView({
       propsData: {
-        aiChatType: @level.get('aiChatType')
+        aiChatKind: @level.get('aiChatKind')
       }
     }))
 

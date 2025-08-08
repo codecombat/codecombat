@@ -625,7 +625,7 @@ _.extend(LevelSchema.properties, {
   difficulty: { type: 'integer', title: 'Difficulty', description: 'Difficulty of this level - used to show difficulty in star-rating of 1 to 5', minimum: 1, maximum: 5, inEditor: 'codecombat' },
   product: _.extend(c.singleProduct, { inEditor: true }),
   aiAssistantSystemPrompt: { type: 'string', description: 'Prompt for the AI assistant system to use for this level', inEditor: 'codecombat', title: 'AI Assistant System Prompt', format: 'markdown' },
-  aiChatType: { type: 'string', description: 'Type of AI chat to use for this level', inEditor: 'codecombat', title: 'AI Chat Type', enum: ['none', 'coco-level', 'ai-league'], default: 'coco-level' },
+  aiChatKind: { type: 'string', description: 'Type of AI chat to use for this level', inEditor: 'codecombat', title: 'AI Chat Type', enum: ['none', 'level-chat', 'ai-league'], default: 'level-chat' },
 })
 
 LevelSchema.definitions = {

@@ -32,13 +32,13 @@ module.exports = class LevelChatView extends CocoView
     'tome:spell-changed': 'onSpellChanged'
 
   constructor: (options) ->
-    @levelID = options.levelID
+    @levelSlugOrID = options.levelID # from the top level view it comes as levelID, but in reality it's the slug or ID
+    @levelRealID = options.levelRealID
     @session = options.session
     @sessionID = options.sessionID
-    @bus = LevelBus.get(@levelID, @sessionID)
+    @bus = LevelBus.get(@levelSlugOrID, @sessionID)
     @aceConfig = options.aceConfig
-    @aiChatType = options.aiChatType or 'coco-level'
-    @aiAssistantSystemPrompt = options.aiAssistantSystemPrompt
+    @aiChatKind = options.aiChatKind or 'level-chat'
     super options
     @onWindowResize = _.debounce @onWindowResize, 50
     $(window).on 'resize', @onWindowResize
@@ -218,7 +218,7 @@ module.exports = class LevelChatView extends CocoView
     
     # Show AI Hint modal only if chat is empty and not open
     if not @open and not hasMessages
-      @openModalView(new AskAIHelpView({propsData: {aiChatType: @aiChatType}}))
+      @openModalView(new AskAIHelpView({propsData: {aiChatKind: @aiChatKind}}))
       return
     
     # Otherwise, just toggle the chat open/closed
@@ -274,7 +274,7 @@ module.exports = class LevelChatView extends CocoView
 
     uuid = crypto.randomUUID() || Date.now()
     event = 'LevelChatBot Clicked'
-    props = { lid: @levelID, ls: @sessionID, redeem: false }
+    props = { lid: @levelSlugOrID, ls: @sessionID, redeem: false }
     @creditUid = "#{uuid}|#{message.slice(0, 20)}"
     userCreditApi.redeemCredits({
       operation: 'LEVEL_CHAT_BOT',
@@ -419,7 +419,8 @@ module.exports = class LevelChatView extends CocoView
         kind: 'player'
     props =
       product: utils.getProduct()
-      kind: 'level-chat'
+      kind: @aiChatKind or 'level-chat'
+      levelRealID: @levelRealID
       #example: Boolean me.isAdmin() # TODO: implement the non-example version of the chat
       example: true
       message:
@@ -487,7 +488,7 @@ module.exports = class LevelChatView extends CocoView
       freeText = _.string.strip(structuredMessage)
 
     props.message.textComponents.freeText = freeText if freeText.length
-    props.aiChatType = @aiChatType or 'coco-level'
+    props.aiChatKind = @aiChatKind or 'level-chat'
     props.aiAssistantSystemPrompt = @aiAssistantSystemPrompt
     props
 

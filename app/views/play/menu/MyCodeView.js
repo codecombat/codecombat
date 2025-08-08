@@ -72,7 +72,7 @@ module.exports = (MyCodeView = (function () {
     onClickAIHint (e) {
       this.openModalView(new AskAIHelpView({
         propsData: {
-          aiChatType: this.level.get('aiChatType'),
+          aiChatKind: this.level.get('aiChatKind'),
         },
       }))
     }

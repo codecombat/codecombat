@@ -16,7 +16,7 @@
         </div>
         <!-- AI League Input -->
         <div
-          v-if="aiChatType === 'ai-league'"
+          v-if="aiChatKind === 'ai-league'"
           class="ask-ai__input"
         >
           <textarea
@@ -34,7 +34,7 @@
           <button
             class="btn ai-help-button"
             :class="aiHintBtnStyle"
-            :disabled="aiChatType === 'ai-league' && !customMessage.trim()"
+            :disabled="aiChatKind === 'ai-league' && !customMessage.trim()"
             data-dismiss="modal"
             @click="onAskAiClicked"
           >
@@ -63,9 +63,9 @@ export default Vue.extend({
     Modal,
   },
   props: {
-    aiChatType: {
+    aiChatKind: {
       type: String,
-      default: 'coco-level',
+      default: 'level-chat',
     },
   },
   data () {
@@ -97,7 +97,7 @@ export default Vue.extend({
     onAskAiClicked () {
       this.$emit('ask-ai-clicked')
       let message
-      if (this.aiChatType === 'ai-league') {
+      if (this.aiChatKind === 'ai-league') {
         message = this.customMessage.trim()
       } else {
         message = $.i18n.t('ai.prompt_level_chat_hint_' + _.random(1, 5))

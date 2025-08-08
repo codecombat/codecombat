@@ -17,7 +17,6 @@ ChatMessage.prototype.defaults = {
   product: 'codecombat',
   kind: 'level-chat',
   releasePhase: 'beta',
-  aiChatType: 'coco-level',
 }
 
 module.exports = ChatMessage

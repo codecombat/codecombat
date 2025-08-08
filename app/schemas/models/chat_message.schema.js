@@ -104,9 +104,14 @@ _.extend(ChatMessageSchema.properties, {
   },
   kind: {
     type: 'string',
-    enum: ['level-chat'],
+    enum: ['level-chat', 'ail-chat'],
     title: 'Kind',
-    description: '`level-chat`: for in-level chatbot messages. More kinds to be added in the future.',
+    description: '`level-chat`: for in-level chatbot messages. `ail-chat`: for AI League chatbot messages.',
+  },
+  levelRealID: {
+    type: 'string',
+    title: 'Level ID',
+    description: 'The real ID of the level this message is for, we are referring a specific version of the level.',
   },
   example: {
     type: 'boolean',
@@ -120,17 +125,6 @@ _.extend(ChatMessageSchema.properties, {
     description: 'Example messages start off in beta, then are released when they are completed',
   },
   message: ResponseSchema,
-  aiChatType: {
-    type: 'string',
-    enum: ['coco-level', 'ai-league'],
-    title: 'AI Chat Type',
-    description: 'The type of AI chat to use for this level',
-  },
-  aiAssistantSystemPrompt: {
-    type: 'string',
-    title: 'AI Assistant System Prompt',
-    description: 'The prompt for the AI assistant system to use for this level',
-  },
   context: c.object({ title: 'Context', description: 'Contextual state when this message triggered' }, {
     codeLanguage: {
       type: 'string',
