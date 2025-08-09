@@ -105,6 +105,8 @@ block content
 
 
     #tournament-status
+      if !view.tournamentState && view.globalAILeagueEnds
+         .ai-league-info(data-i18n="ladder.ai_league_ends", data-i18n-options={ time: view.globalAILeagueEnds })
       if view.tournamentState == 'initializing'
         #tournament-status
           p

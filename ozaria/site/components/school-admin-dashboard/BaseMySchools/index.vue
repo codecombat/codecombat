@@ -144,7 +144,7 @@ export default {
 .teacher-list .group-title {
   margin-bottom: 20px;
   @include font-h-5-button-text-black;
-  color: $twilight;
+  color: var(--color-primary);
   text-align: left;
   text-transform: capitalize;
   display: flex;
@@ -154,12 +154,12 @@ export default {
 
 .stats-value {
   @include font-h-2-subtitle-black;
-  color: #3EA1BF;
+  color: var(--color-primary);
   text-align: center;
 }
 .stats-label {
   @include font-h-5-button-text-black;
-  color: $color-tertiary-brand
+  color: $color-tertiary-brand;
 }
 
 .no-teachers {

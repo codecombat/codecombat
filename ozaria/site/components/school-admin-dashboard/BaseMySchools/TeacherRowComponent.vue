@@ -229,7 +229,7 @@ export default {
   line-height: 18px;
   text-align: center;
   letter-spacing: 0.266667px;
-  color: #3EA1BF;
+  color: var(--color-primary);
 }
 
 .teacher-buttons {

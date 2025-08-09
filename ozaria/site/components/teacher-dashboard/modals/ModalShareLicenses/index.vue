@@ -27,7 +27,8 @@ export default Vue.extend({
   },
 
   data: () => ({
-    teacherEmailInput: ''
+    teacherEmailInput: '',
+    refresh: false,
   }),
 
   validations: {
@@ -45,6 +46,9 @@ export default Vue.extend({
     }),
 
     sharedPoolForPrepaid () {
+      // eslint-disable-next-line no-unused-vars
+      const _recalcuate = this.refresh
+
       const owner = this.getUserById(this.prepaid.creator) || {}
       const joiners = this.getJoinersForPrepaid(this.prepaid._id).concat(owner)
 
@@ -71,11 +75,17 @@ export default Vue.extend({
 
   methods: {
     ...mapActions({
-      addJoinerForPrepaid: 'prepaids/addJoinerForPrepaid'
+      addJoinerForPrepaid: 'prepaids/addJoinerForPrepaid',
+      setJoinerMaxRedeemers: 'prepaids/setJoinerMaxRedeemers',
     }),
 
     broadName (teacher) {
       return User.broadName(teacher)
+    },
+
+    async updateJoiner (input) {
+      await this.setJoinerMaxRedeemers(input)
+      this.refresh = !this.refresh
     },
 
     async addTeacher () {
@@ -152,8 +162,11 @@ export default Vue.extend({
           class="shared-pool-div-row"
           :name="broadName(teacher)"
           :email="teacher.email"
+          :teacher-id="teacher._id"
           :licenses-used="teacher.licensesUsed"
+          :proped-max-redeemers="teacher.maxRedeemers || prepaid.maxRedeemers"
           :prepaid="prepaid"
+          @setJoinerMaxRedeemers="updateJoiner"
         />
       </div>
       <div class="buttons">
