@@ -3383,6 +3383,7 @@ module.exports = {
       difficulty_beginner: 'Beginner',
       difficulty_intermediate: 'Intermediate',
       difficulty_advanced: 'Advanced',
+      ai_league_ends: 'Global AI League ends at __time__',
     },
 
     user: {
