@@ -488,8 +488,6 @@ module.exports = class LevelChatView extends CocoView
       freeText = _.string.strip(structuredMessage)
 
     props.message.textComponents.freeText = freeText if freeText.length
-    props.aiChatKind = @aiChatKind or 'level-chat'
-    props.aiAssistantSystemPrompt = @aiAssistantSystemPrompt
     props
 
   onWindowResize: (e) =>

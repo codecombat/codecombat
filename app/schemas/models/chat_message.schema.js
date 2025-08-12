@@ -104,9 +104,9 @@ _.extend(ChatMessageSchema.properties, {
   },
   kind: {
     type: 'string',
-    enum: ['level-chat', 'ail-chat'],
+    enum: ['level-chat', 'ai-league'],
     title: 'Kind',
-    description: '`level-chat`: for in-level chatbot messages. `ail-chat`: for AI League chatbot messages.',
+    description: '`level-chat`: for in-level chatbot messages. `ai-league-chat`: for AI League chatbot messages.',
   },
   levelRealID: {
     type: 'string',
