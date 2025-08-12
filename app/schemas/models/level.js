@@ -619,13 +619,44 @@ _.extend(LevelSchema.properties, {
       section: c.shortString({ title: 'Methods Bank Section', pattern: /^\w[\w ]*$/ }),
       subSection: c.shortString({ title: 'Methods Bank Sub-Section', pattern: /^\w[\w ]*$/ }),
       componentName: c.shortString({ title: 'Level Component Name', description: 'Level Component to use for documentation in case there are multiple components with same property\'s documentation' })
-    }
+    },
   })),
   archived: { type: 'integer', description: 'Marks this level with to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.' },
   difficulty: { type: 'integer', title: 'Difficulty', description: 'Difficulty of this level - used to show difficulty in star-rating of 1 to 5', minimum: 1, maximum: 5, inEditor: 'codecombat' },
   product: _.extend(c.singleProduct, { inEditor: true }),
-  aiAssistantSystemPrompt: { type: 'string', description: 'Prompt for the AI assistant system to use for this level', inEditor: 'codecombat', title: 'AI Assistant System Prompt', format: 'markdown' },
-  aiChatKind: { type: 'string', description: 'Type of AI chat to use for this level', inEditor: 'codecombat', title: 'AI Chat Type', enum: ['none', 'level-chat', 'ai-league'], default: 'level-chat' },
+  aiAssistantSystemPrompt: { type: 'string', description: 'Additional system prompt for the AI assistant system about game rules and mechanics', inEditor: 'codecombat', title: 'AI Assistant System Prompt', format: 'markdown' },
+  aiChatKind: { type: 'string', description: 'Kind of AI chat to use for this level', inEditor: 'codecombat', title: 'AI Chat Kind', enum: ['none', 'level-chat', 'ai-league'], default: 'level-chat' },
+  aiChatExampleMessages: {
+    type: 'object',
+    title: 'AI Chat Example Messages',
+    description: 'Example messages for AI chat organized by programming language. Keys are code languages, values are arrays of message examples with user and assistant roles.',
+    inEditor: 'codecombat',
+    additionalProperties: {
+      type: 'array',
+      title: 'Example Messages for Language',
+      description: 'Array of example messages for this programming language',
+      items: {
+        type: 'object',
+        title: 'Chat Message Example',
+        required: ['role', 'content'],
+        properties: {
+          role: {
+            type: 'string',
+            title: 'Message Role',
+            description: 'The role of the message sender',
+            enum: ['user', 'assistant'],
+            default: 'user',
+          },
+          content: {
+            type: 'string',
+            title: 'Message Content',
+            description: 'The content of the message',
+            format: 'markdown',
+          },
+        },
+      },
+    },
+  },
 })
 
 LevelSchema.definitions = {
