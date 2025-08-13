@@ -119,7 +119,7 @@ module.exports = class LevelChatView extends CocoView
       '[Show Me]'
     content = content.replace /\|Code\|?:? ?\n?`{0,3}.*?\n((.|\n)*?)`{0,3}\n?$/g, ( match, p1) ->
       numberOfLines = (p1.match(/\n/g) || []).length + 1
-      '\n[Show Me]\n*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
+      '\n*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
     # Close any unclosed backticks delimiters so we get complete <code> tags
     unclosedBackticks = (content.match(/`/g) || []).length
     if unclosedBackticks % 2 != 0

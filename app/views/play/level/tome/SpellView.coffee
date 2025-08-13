@@ -1851,6 +1851,8 @@ module.exports = class SpellView extends CocoView
       solution.style.opacity = 1
       solution.classList.add('display')
       Backbone.Mediator.publish 'tome:hide-problem-alert', {}
+      # Wait for CSS transition to complete before resizing
+      setTimeout((=> @resize?()), 1100)  # Wait 1.1s for 1s transition + buffer
     return if @solutionStreaming
     @aceDiff.setOptions showDiffs: solution.classList.contains('display')
 
