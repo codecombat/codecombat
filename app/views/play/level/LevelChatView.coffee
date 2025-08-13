@@ -142,7 +142,7 @@ module.exports = class LevelChatView extends CocoView
     splitContent = content.split('\[Show Me\]')
     preContent = splitContent[0]
     if splitContent.length > 1
-      btnCls = if utils.isCodeCombat then  'btn-illustrated btn-primay' else 'ai-btn-active'
+      btnCls = if utils.isCodeCombat then  'btn-illustrated btn-primary' else 'ai-btn-active'
       buttonText = @getFixCodeButtonText(@diffShown)
       buttonContent = "<p><button class='btn btn-small #{btnCls} fix-code-button'>#{buttonText}</button></p>"
       postContent = splitContent[1]
