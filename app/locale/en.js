@@ -1072,6 +1072,8 @@ module.exports = {
       chat_placeholder: 'Need coding help? Chat with the AI. (experimental!)',
       chat_fix_show: 'Show Me',
       chat_fix_hide: 'Hide',
+      chat_fix_show_code: 'Show Code',
+      chat_fix_hide_code: 'Hide Code',
       skip_tutorial: 'Skip (esc)',
       keyboard_shortcuts: 'Key Shortcuts',
       loading_start: 'Start Level',

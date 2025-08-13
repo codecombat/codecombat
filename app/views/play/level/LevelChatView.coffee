@@ -53,6 +53,12 @@ module.exports = class LevelChatView extends CocoView
     @diffShown = false
     @creditUid = undefined
 
+  getFixCodeButtonText: (isShown) ->
+    if @aiChatKind is 'ai-league'
+      if isShown then $.i18n.t('play_level.chat_fix_hide_code') else $.i18n.t('play_level.chat_fix_show_code')
+    else
+      if isShown then $.i18n.t('play_level.chat_fix_hide') else $.i18n.t('play_level.chat_fix_show')
+
   updateMultiplayerVisibility: ->
     return unless @$el?
     try
@@ -107,6 +113,9 @@ module.exports = class LevelChatView extends CocoView
       @lastFixedCode = p1
       if p1
         Backbone.Mediator.publish 'level:update-solution', code: p1
+        # Auto-open code for ai-league chat kind
+        if @aiChatKind is 'ai-league'
+          _.defer => Backbone.Mediator.publish 'level:toggle-solution', {}
       '[Show Me]'
     content = content.replace /\|Code\|?:? ?\n?`{0,3}.*?\n((.|\n)*?)`{0,3}\n?$/g, ( match, p1) ->
       numberOfLines = (p1.match(/\n/g) || []).length + 1
@@ -134,7 +143,8 @@ module.exports = class LevelChatView extends CocoView
     preContent = splitContent[0]
     if splitContent.length > 1
       btnCls = if utils.isCodeCombat then  'btn-illustrated btn-primay' else 'ai-btn-active'
-      buttonContent = "<p><button class='btn btn-small #{btnCls} fix-code-button'>#{$.i18n.t('play_level.chat_fix_' + if @diffShown then 'hide' else 'show')}</button></p>"
+      buttonText = @getFixCodeButtonText(@diffShown)
+      buttonContent = "<p><button class='btn btn-small #{btnCls} fix-code-button'>#{buttonText}</button></p>"
       postContent = splitContent[1]
     else
       @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
@@ -243,17 +253,12 @@ module.exports = class LevelChatView extends CocoView
 
   onToggleSolution: ->
     btn = @$el.find('.fix-code-button')
-    show = $.i18n.t('play_level.chat_fix_show')
-    hide = $.i18n.t('play_level.chat_fix_hide')
     @diffShown = !@diffShown
-    if @diffShown
-      btn.html hide
-    else
-      btn.html show
+    btn.html @getFixCodeButtonText(@diffShown)
 
   onCloseSolution: (e) ->
     @diffShown = false
-    @$el.find('.fix-code-button').html $.i18n.t('play_level.chat_fix_show')
+    @$el.find('.fix-code-button').html @getFixCodeButtonText(@diffShown)
     if e.removeButton # when code is fixed, remove the button
       @$el.find('.fix-code-button').parent().remove()
 
