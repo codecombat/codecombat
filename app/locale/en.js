@@ -1074,6 +1074,7 @@ module.exports = {
       chat_fix_hide: 'Hide',
       chat_fix_show_code: 'Show Code',
       chat_fix_hide_code: 'Hide Code',
+      apply_code: 'Apply =>',
       skip_tutorial: 'Skip (esc)',
       keyboard_shortcuts: 'Key Shortcuts',
       loading_start: 'Start Level',

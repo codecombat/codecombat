@@ -113,6 +113,7 @@ module.exports = class PlayLevelView extends RootView
     'contextmenu #webgl-surface': 'onSurfaceContextMenu'
     'click': 'onClick'
     'click .close-solution-btn': 'onCloseSolution'
+    'click .apply-solution-btn': 'onApplySolution'
 
   onClick: ->
     # workaround to get users out of permanent idle status
@@ -1190,6 +1191,9 @@ module.exports = class PlayLevelView extends RootView
 
   onCloseSolution: ->
     Backbone.Mediator.publish 'level:close-solution', {}
+
+  onApplySolution: ->
+    Backbone.Mediator.publish 'level:apply-solution', {}
 
   getLoadTrackingTag: () ->
     @level?.get 'slug'

@@ -83,6 +83,7 @@ module.exports = class SpellView extends CocoView
     'level:toggle-solution': 'onToggleSolution'
     'level:close-solution': 'closeSolution'
     'level:streaming-solution': 'onStreamingSolution'
+    'level:apply-solution': 'onApplySolution'
     'websocket:asking-help': 'onAskingHelp'
     'playback:cinematic-playback-started': 'onCinematicPlaybackStarted'
     'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded'
@@ -124,7 +125,6 @@ module.exports = class SpellView extends CocoView
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
     _.defer @onAllLoaded  # Needs to happen after the code generating this view is complete
-
   # This ACE is used for the code editor, and is only instantiated once per level.
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
@@ -1864,6 +1864,19 @@ module.exports = class SpellView extends CocoView
       setTimeout(() =>
         solution.style.opacity = 0
       , 1000)
+
+  onApplySolution: ->
+    # Get the solution code
+    solutionCode = @aceSolution.getValue()
+    if solutionCode and solutionCode.trim()
+      # Set the solution code to the main editor
+      @ace.setValue(solutionCode)
+      # Close the solution area
+      @closeSolution()
+    else
+      console.log('No solution code found')
+
+
 
   onToggleBlocks: (e) ->
     return if e.blocks and @blocklyActive
