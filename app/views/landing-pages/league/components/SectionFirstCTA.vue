@@ -30,7 +30,7 @@ export default {
       >
         <!-- eslint-disable vue/no-v-html -->
         <span v-if="championshipActive">
-          <span v-html="$t('league.championship_summary', { championshipArena: $t('league.kings_gambit'), championshipMonth: $t('calendar.may'), championshipType: $t('league.cup') })" />
+          <span v-html="$t('league.championship_summary', { championshipArena: $t('league.golden_goal'), championshipMonth: $t('calendar.december'), championshipType: $t('league.cup') })" />
         </span>
         <span v-else>
           {{ $t('league.summary') }}

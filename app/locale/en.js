@@ -704,8 +704,7 @@ module.exports = {
       gplus_linked: 'Google Account linked successfully',
       plus_link_error: 'Google Account linked failed',
       email_or_username_or_library: 'Email or Username or Library Card number',
-      schoology_login_failed: 'Login failed. You may need to sign up first.',
-      schoology_signup: 'Sign Up with Schoology',
+      login_failed: 'Login failed. You may need to sign up first.',
     },
 
     signup: {
@@ -858,8 +857,10 @@ module.exports = {
       cancel: 'Cancel',
       save: 'Save',
       publish: 'Publish',
+      output: 'Output',
       create: 'Create',
       fork: 'Fork',
+      clone: 'Clone',
       play: 'Play', // When used as an action verb, like "Play next level"
       retry: 'Retry',
       actions: 'Actions',
@@ -1576,9 +1577,12 @@ module.exports = {
       level_to_unlock: 'Level to unlock:', // Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
       restricted_to_certain_heroes: 'Only certain heroes can play this level.',
       code_format_not_supported: 'Not Supported',
+      code_format_only_junior: 'Only Supported in CodeCombat Junior',
+      code_format_in_mobile: 'Only Supported in Big Screen(Pad, laptop, PC...)',
       code_format_disable_by_teacher: 'Disabled by Teacher',
       code_language_subscriber_only: 'Subscriber Only',
       code_language_not_support_by_blocks: 'Not Supported with Blocks',
+      code_language_not_support_in_classroom: 'Not support in Classroom',
     },
 
     char_customization_modal: {
@@ -3209,6 +3213,7 @@ module.exports = {
       done_adding: 'Done Adding',
       product: 'Product',
       link: 'Link',
+      clone_to_new_scenario: 'Clone to New Scenario',
     },
 
     article: {
@@ -3378,6 +3383,7 @@ module.exports = {
       difficulty_beginner: 'Beginner',
       difficulty_intermediate: 'Intermediate',
       difficulty_advanced: 'Advanced',
+      ai_league_ends: 'Global AI League ends at __time__',
     },
 
     user: {
@@ -4802,6 +4808,9 @@ module.exports = {
       remove_list_1: 'If licenses are applied, remember to revoke them before removing students in order to apply them to other students.',
       remove_list_2: 'Student(s) will lose access to this classroom and assigned chapters.',
       remove_list_3: 'Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.',
+      pick_a_license: 'Pick a License',
+      having_access: 'Having Access',
+      course_preview: 'Course Preview',
     },
 
     outcomes: {
@@ -4962,11 +4971,13 @@ module.exports = {
       share_flyer: 'Share our AI League flyer with educators, administrators, parents, esports coaches or others that may be interested.',
       download_flyer: 'Download Flyer',
       championship_summary: 'The __championshipArena__ championship arena is now open! Battle it out for the month of __championshipMonth__ to win prizes in the __championshipArena__ __championshipType__.',
+      arcade_summary: 'The __championshipArena__ arcade arena is now open! Enjoy the break from the competition until __championshipMonth__ to prepare for the next season.',
       play_arena_full: 'Play __arenaName__ __arenaType__',
       play_arena_short: 'Play __arenaName__',
       view_arena_winners: 'View __arenaName__ __arenaType__ winners',
       arena_type_championship: 'Championship Arena',
       arena_type_regular: 'Multiplayer Arena',
+      arena_type_arcade: 'Arcade Arena',
       blazing_battle: 'Blazing Battle',
       infinite_inferno: 'Infinite Inferno',
       mages_might: "Mages' Might",
@@ -5016,6 +5027,8 @@ module.exports = {
       cup: 'Cup',
       blitz: 'Blitz',
       clash: 'Clash',
+      season15_announcement_1: 'Welcome to Golden Goal Blitz! ⚽ Where soccer meets strategy — and every shot is scripted. No feet. No players. Just code and chaos.',
+      season15_announcement_2: 'Note: this arena is getting updates and new features regullary during the season and the big twist mechanics one month ahead of the final simulation.',
       season13_announcement_1: 'In the depths of ancient ruins, a magical checkerboard arises and the towers comes alive. Get as many pieces to the end of the line!',
       season13_announcement_2: 'Note: arena balance adjustments may occur up until May 15th. So be sure to come back often to test your code against the global leaderboard.',
       season12_announcement_2: 'Collectors fly high, control points emerges, mythical crystals stand tall, as the dungeon expands, the battle is getting fiercer, only the righteous shall be the victor.',
@@ -6095,6 +6108,7 @@ module.exports = {
       CodeThumbnail_copy: 'Copy',
       'CodeThumbnail_open-in-editor': 'Open in editor',
       'CodeThumbnail_run-code': 'Run Code',
+      'CodeThumbnail_edit-code': 'Edit Code',
       'ConfirmDeleteChatMessageButton_confirm-delete': 'Confirm Delete',
       ContinueRenderer_continue: 'Continue →',
       EditAlternatePromptChoicesPage_cancel: 'Cancel',
@@ -6264,6 +6278,7 @@ module.exports = {
       level_complete: 'You did it! Level complete. Continue your AI journey with the next level.',
       run_code_tour_title: 'Ready to see the magic?',
       run_code_tour_text: 'Press “Run Code” and watch your project come to life. No experience required!',
+      ready_to_review_helptext: 'Mark this when your project is complete. Your teacher will then see it as ready to review on their side.',
     },
     new_premium: {
       mastering_code: 'Master coding and AI with **premium home access**',

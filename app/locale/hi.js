@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]गूगल अकाउंट सफलतापूर्वक लिंक हो गया',
       plus_link_error: '[AI_TRANSLATION]Google Account लिंक करना विफल रहा',
       email_or_username_or_library: '[AI_TRANSLATION]ईमेल या यूज़रनेम या लाइब्रेरी कार्ड नंबर',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {
@@ -857,8 +856,10 @@ module.exports = {
       cancel: '[AI_TRANSLATION]रद्द करें\n',
       save: '[AI_TRANSLATION]सुरक्षित करें',
       publish: '[AI_TRANSLATION]प्रकाशित करें',
+      //    output: "Output",
       create: '[AI_TRANSLATION]बनाएँ',
       fork: '[AI_TRANSLATION]कांटा',
+      //    clone: "Clone",
       play: '[AI_TRANSLATION]खेलें',
       retry: '[AI_TRANSLATION]फिर से प्रयास करें  ',
       actions: '[AI_TRANSLATION]क्रियाएँ  ',
@@ -883,6 +884,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]आंतरिक त्रुटि',
       manage: '[AI_TRANSLATION]प्रबंधित करें',
       empty_results: '[AI_TRANSLATION]खाली परिणाम।',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -1228,6 +1230,7 @@ module.exports = {
       learn_to_use: '[AI_TRANSLATION]उपयोग करना सीखें  ',
       //    navigate_to_previous_page: "Navigate to the previous page",
       //    navigate_to_next_page: "Navigate to the next page",
+      //    restart_capstone_stage: "Do you want to restart capstone stage progress to 1?",
     },
 
     apis: {
@@ -1573,9 +1576,12 @@ module.exports = {
       level_to_unlock: '[AI_TRANSLATION]अनलॉक करने के लिए स्तर:  ',
       restricted_to_certain_heroes: '[AI_TRANSLATION]केवल कुछ हीरो इस स्तर को खेल सकते हैं।',
       code_format_not_supported: '[AI_TRANSLATION]Not Supported',
+      //    code_format_only_junior: "Only Supported in CodeCombat Junior",
+      //    code_format_in_mobile: "Only Supported in Big Screen(Pad, laptop, PC...)",
       code_format_disable_by_teacher: '[AI_TRANSLATION]शिक्षक द्वारा निष्क्रिय',
       code_language_subscriber_only: '[AI_TRANSLATION]केवल सब्सक्राइबर्स',
       code_language_not_support_by_blocks: '[AI_TRANSLATION]Blocks के साथ Supported नहीं है',
+      //    code_language_not_support_in_classroom: "Not support in Classroom",
     },
 
     char_customization_modal: {
@@ -1856,6 +1862,12 @@ module.exports = {
       //    and_more: "and more",
       //    import_classroom: "Import Classroom",
       //    re_import_classroom: "Re-Import Classroom",
+      //    need_more_license: "Oops! It looks like you need __additionalLicensesNum__ more license(s). Visit My Licenses to learn more!",
+      //    confirm_apply_license: "Please confirm that you'd like to apply licenses to __numberEnrolled__ student(s). You will have __numberRemaining__ license(s) remaining.",
+      //    fail_get_license: "Error! __fails__ students failed to get license",
+      //    no_licenses_applied: "No licenses applied to selected student(s).",
+      //    revoke_license_tips: "Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.",
+      //    assign_course_confirm: "Please confirm that you'd like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.",
     },
 
     no_licenses_page: {
@@ -2114,6 +2126,7 @@ module.exports = {
     cinematic: {
       click_anywhere_continue: '[AI_TRANSLATION]जारी रखने के लिए क्लिक करें',
       instructional_tooltip: '[AI_TRANSLATION]आगे और पीछे जाने के लिए इन तीर बटन को क्लिक करें। आप अपने कीबोर्ड के तीर कुंजियों का भी उपयोग करके वही कर सकते हैं।',
+      //    error_find: "Error finding cinematic __slug__.",
     },
 
     community: {
@@ -2450,6 +2463,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]टेस्ट स्टूडेंट लाइसेंस प्राप्त करो  ',
       create_students: '[AI_TRANSLATION]छात्रों को जनरेट करो',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
@@ -3195,6 +3212,7 @@ module.exports = {
       done_adding: '[AI_TRANSLATION]जोड़ने का काम हो गया',
       product: '[AI_TRANSLATION]प्रोडक्ट',
       link: '[AI_TRANSLATION]लिंक',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {
@@ -4774,6 +4792,22 @@ module.exports = {
       //    sort_by_first_name: "first Name",
       //    sort_by_progress_desc: "Progress (High to Low)",
       //    sort_by_progress_asc: "Progress (Low to Hight)",
+      //    no_write_permission: "You do not have a write permission on this class",
+      //    select_student_first: "You need to select student(s) first before performing that action.",
+      //    no_progress_to_delete: "No progress to delete",
+      //    deleting_progress: "Deleting progress",
+      //    delete_progress_warning: "Warning: student progress for __courseName__ will be deleted and cannot be recovered. Are you sure?",
+      //    error_adding_teacher: "Error in adding teacher",
+      //    error_occurred: "Error occurred: __err__",
+      //    password_changed_successfully: "Password Changed successfully!",
+      //    remove_students_title: "Remove Students from Class",
+      //    remove_confirm_title: "Are you sure you want to remove (this student / these students) from your class?",
+      //    remove_list_1: "If licenses are applied, remember to revoke them before removing students in order to apply them to other students.",
+      //    remove_list_2: "Student(s) will lose access to this classroom and assigned chapters.",
+      //    remove_list_3: "Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.",
+      //    pick_a_license: "Pick a License",
+      //    having_access: "Having Access",
+      //    course_preview: "Course Preview",
     },
 
     outcomes: {
@@ -4934,11 +4968,13 @@ module.exports = {
       share_flyer: '[AI_TRANSLATION]हमारे AI लीग के फ्लायर को शिक्षकों, प्रशासकों, माता-पिता, ईस्पोर्ट्स कोचेस या अन्य जिनकी दिलचस्पी हो, के साथ साझा करें।',
       download_flyer: '[AI_TRANSLATION]फ़्लायर डाउनलोड करें',
       championship_summary: '[AI_TRANSLATION]__championshipArena__ चैम्पियनशिप एरीना अब खुला है! __championshipMonth__ महीने में पुरस्कार जीतने के लिए __championshipArena__ __championshipType__ में लड़ाई करें।',
+      //    arcade_summary: "The __championshipArena__ arcade arena is now open! Enjoy the break from the competition until __championshipMonth__ to prepare for the next season.",
       play_arena_full: '[AI_TRANSLATION]__arenaName__ __arenaType__ खेलें',
       play_arena_short: '[AI_TRANSLATION]__arenaName__ खेलें',
       view_arena_winners: '[AI_TRANSLATION]__arenaName__ __arenaType__ विजेताओं को देखें',
       arena_type_championship: '[AI_TRANSLATION]चैंपियनशिप एरीना',
       arena_type_regular: '[AI_TRANSLATION]मल्टीप्लेयर एरिना',
+      //    arena_type_arcade: "Arcade Arena",
       blazing_battle: '[AI_TRANSLATION]जलता हुआ युद्ध',
       infinite_inferno: '[AI_TRANSLATION]असीमित नरक',
       mages_might: '[AI_TRANSLATION]जादूगरों की शक्ति',
@@ -4988,6 +5024,8 @@ module.exports = {
       cup: '[AI_TRANSLATION]कप',
       blitz: '[AI_TRANSLATION]ब्लिट्ज',
       clash: '[AI_TRANSLATION]संघर्ष',
+      //    season15_announcement_1: "Welcome to Golden Goal Blitz! ⚽ Where soccer meets strategy — and every shot is scripted. No feet. No players. Just code and chaos.",
+      //    season15_announcement_2: "Note: this arena is getting updates and new features regullary during the season and the big twist mechanics one month ahead of the final simulation.",
       //    season13_announcement_1: "In the depths of ancient ruins, a magical checkerboard arises and the towers comes alive. Get as many pieces to the end of the line!",
       //    season13_announcement_2: "Note: arena balance adjustments may occur up until May 15th. So be sure to come back often to test your code against the global leaderboard.",
       //    season12_announcement_2: "Collectors fly high, control points emerges, mythical crystals stand tall, as the dungeon expands, the battle is getting fiercer, only the righteous shall be the victor.",
@@ -6055,6 +6093,7 @@ module.exports = {
       CodeThumbnail_copy: '[AI_TRANSLATION]कॉपी',
       'CodeThumbnail_open-in-editor': '[AI_TRANSLATION]एडिटर में खोलें',
       'CodeThumbnail_run-code': '[AI_TRANSLATION]कोड चलाओ',
+      //    "CodeThumbnail_edit-code": "Edit Code",
       'ConfirmDeleteChatMessageButton_confirm-delete': '[AI_TRANSLATION]पुष्टि हटाएँ',
       ContinueRenderer_continue: '[AI_TRANSLATION]जारी रखें →',
       EditAlternatePromptChoicesPage_cancel: '[AI_TRANSLATION]रद्द करें\n',
@@ -6224,6 +6263,7 @@ module.exports = {
       //    level_complete: "You did it! Level complete. Continue your AI journey with the next level.",
       //    run_code_tour_title: "Ready to see the magic?",
       //    run_code_tour_text: "Press “Run Code” and watch your project come to life. No experience required!",
+      //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
 
     //  new_premium: {
@@ -6462,6 +6502,8 @@ module.exports = {
       faq_5_answer: '[AI_TRANSLATION]हाँ। CodeCombat Worlds पीसी, मैक, क्रोमबुक्स, टैबलेट्स, फोन, और कंसोल पर खेलने, असली कोड टाइप करने और गेम बनाने की अनुमति देता है।',
       //    promo_modal_title: "Discover CodeCombat Worlds",
       //    promo_modal_text: "**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!",
+      //    having_trouble: "Having trouble?",
+      //    check_help_doc: "View our connection guide here",
     },
 
     pd_page: {

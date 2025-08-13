@@ -11,7 +11,7 @@
               autoHide: false
             }"
             href="https://drive.google.com/file/d/1Zdh9-jh1UP81nasfan3H98mcYrRwvszn/view?usp=drive_link"
-            class="dusk-btn disabled"
+            class="purple-btn disabled"
             target="_blank"
             disabled
           >
@@ -27,7 +27,7 @@
               autoHide: false
             }"
             href="https://drive.google.com/drive/folders/1Ut8R4xeTxJdlb7_Uy4_vWyWc-kT_-3RE?usp=drive_link"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -42,7 +42,7 @@
               autoHide: false
             }"
             href="https://www.ozaria.com/teachers/classes/"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-dashboard" />
@@ -58,7 +58,7 @@
               autoHide: false
             }"
             :href="`https://codecombat.com/play/ladder/equinox/clan/${equinoxTournament.clan}?tournament=${equinoxTournament._id}`"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-arena" />
@@ -74,7 +74,7 @@
               autoHide: false
             }"
             :href="`https://codecombat.com/play/ladder/tundra-tower/clan/${ttTournament.clan}?tournament=${ttTournament._id}`"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-arena" />
@@ -92,7 +92,7 @@
               autoHide: false
             }"
             href="https://docs.google.com/presentation/d/1s551TjfXHcKZ9VxAcJDppEVSee7jQffQiCBPlQSjafs/edit#slide=id.g26c495a3c7b_0_735"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -107,7 +107,7 @@
               autoHide: false
             }"
             href="https://docs.google.com/presentation/d/1s551TjfXHcKZ9VxAcJDppEVSee7jQffQiCBPlQSjafs/edit#slide=id.g26c495a3c7b_0_1070"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -122,7 +122,7 @@
               autoHide: false
             }"
             href="https://drive.google.com/drive/folders/1eCzl7gi-PkuAQHLLVQhy2nhKDugm004W?usp=drive_link"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -137,7 +137,7 @@
               autoHide: false
             }"
             href="https://drive.google.com/drive/folders/1j70Iqtle-ZoTYLK6RVaY9Fb7f_c0EjMm?usp=sharing"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -152,7 +152,7 @@
               autoHide: false
             }"
             href="https://drive.google.com/drive/folders/14BUC0BjPREeuvsI8a_bHgpUPqBfhbsGX?usp=sharing"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -172,7 +172,7 @@
               autoHide: false
             }"
             href="https://drive.google.com/file/d/1QEnftP3frLXV_nQC39jJNYs4mT_Dwr9r/view?usp=drive_link"
-            class="dusk-btn disabled"
+            class="purple-btn disabled"
             target="_blank"
             disabled
           >
@@ -189,7 +189,7 @@
             }"
             href="https://drive.google.com/drive/folders/1EDDk0Scl1v2y2FYMprFw06YznlV0guML?usp=drive_link"
             target="_blank"
-            class="dusk-btn"
+            class="purple-btn"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Camp Curriculum</span>
@@ -204,7 +204,7 @@
               autoHide: false
             }"
             href="https://www.roblox.com/games/11704713454"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
@@ -222,7 +222,7 @@
               autoHide: false
             }"
             href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g2c5478d5359_1_197"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -237,7 +237,7 @@
               autoHide: false
             }"
             href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g26c4a941b7b_0_4"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -252,7 +252,7 @@
               autoHide: false
             }"
             href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g26ce47520c2_0_503"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -267,7 +267,7 @@
               autoHide: false
             }"
             href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g2c544e9b6d0_0_0"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -282,7 +282,7 @@
               autoHide: false
             }"
             href="https://docs.google.com/presentation/d/1Z5LxiBPtMUCTxBqDdRafPnZ8j6OHo1V5Tc05wxTadvI/edit#slide=id.g2c544e9b6d0_0_61"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -305,7 +305,7 @@
               autoHide: false
             }"
             href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
-            class="dusk-btn disabled"
+            class="purple-btn disabled"
             target="_blank"
             disabled
           >
@@ -322,7 +322,7 @@
             }"
             href="https://drive.google.com/drive/folders/1v1rcEj_sDJQCQSrSCp3yd9vovtK3BQWE"
             target="_blank"
-            class="dusk-btn"
+            class="purple-btn"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Club Curriculum</span>
@@ -335,7 +335,7 @@
               autoHide: false
             }"
             href="https://codecombat.com/ai/"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
@@ -356,7 +356,7 @@
               autoHide: false
             }"
             :href="lesson.link"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -379,7 +379,7 @@
               autoHide: false
             }"
             href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
-            class="dusk-btn disabled"
+            class="purple-btn disabled"
             target="_blank"
             disabled
           >
@@ -396,7 +396,7 @@
             }"
             href="https://drive.google.com/drive/folders/1okwLkEkHre6y81Yx-CQXsZfz3JJABfuZ?usp=drive_link"
             target="_blank"
-            class="dusk-btn"
+            class="purple-btn"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Club Curriculum</span>
@@ -416,7 +416,7 @@
               autoHide: false
             }"
             :href="lesson.link"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -439,7 +439,7 @@
               autoHide: false
             }"
             href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
-            class="dusk-btn disabled"
+            class="purple-btn disabled"
             target="_blank"
             disabled
           >
@@ -456,7 +456,7 @@
             }"
             href="https://drive.google.com/drive/folders/15vF1jIq5yx7zQ8yZih_rNpuc21tfUsl-?usp=drive_link"
             target="_blank"
-            class="dusk-btn"
+            class="purple-btn"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Club Curriculum</span>
@@ -469,7 +469,7 @@
               autoHide: false
             }"
             href="https://www.roblox.com/games/11704713454"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
@@ -490,7 +490,7 @@
               autoHide: false
             }"
             :href="lesson.link"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -513,7 +513,7 @@
               autoHide: false
             }"
             href="https://drive.google.com/drive/folders/15ohe32b4w9_d5aTgKB3WCAE2gXNK6llS"
-            class="dusk-btn disabled"
+            class="purple-btn disabled"
             target="_blank"
             disabled
           >
@@ -530,7 +530,7 @@
             }"
             href="https://drive.google.com/drive/folders/1BeJeMjY4D7a4YBeUVGSGCFe009Wod6cn?usp=drive_link"
             target="_blank"
-            class="dusk-btn"
+            class="purple-btn"
           >
             <div class="quick-link-icon icon-curriculum" />
             <span>Club Curriculum</span>
@@ -543,7 +543,7 @@
               autoHide: false
             }"
             href="https://codecombat.com/play/ladder/equinox"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
@@ -557,7 +557,7 @@
               autoHide: false
             }"
             href="https://codecombat.com/play/ladder/tundra-tower"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
@@ -571,7 +571,7 @@
               autoHide: false
             }"
             href="https://codecombat.com/play/ladder/sandstorm"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
@@ -585,7 +585,7 @@
               autoHide: false
             }"
             href="https://codecombat.com/play/ladder/solar-skirmish"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-external-link" />
@@ -606,7 +606,7 @@
               autoHide: false
             }"
             :href="lesson.link"
-            class="dusk-btn"
+            class="purple-btn"
             target="_blank"
           >
             <div class="quick-link-icon icon-curriculum" />
@@ -936,7 +936,7 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
-@import "ozaria/site/components/teacher-dashboard/common/_dusk-button";
+@import "ozaria/site/components/teacher-dashboard/common/_purple-button";
 
 .quick-link-icon {
   height: 20px;
@@ -949,18 +949,18 @@ export default {
 }
 
 .quick-link-icon.icon-curriculum {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg);
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide_White.svg);
 }
 
 .quick-link-icon.icon-dashboard {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Progress_Black.svg);
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Progress_White.svg);
 }
 
 .quick-link-icon.icon-external-link {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconExemplarProject.svg);
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconExemplarProject_White.svg);
 }
 
 .quick-link-icon.icon-arena {
-  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_Black.svg);
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Capstone_White.svg);
 }
 </style>

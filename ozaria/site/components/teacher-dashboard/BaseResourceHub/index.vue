@@ -158,6 +158,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+@import "app/styles/ozaria/_ozaria-style-params.scss";
 
 .contact-icon {
   display: flex;
@@ -182,6 +183,7 @@ export default {
 
 .resource-hub {
   padding: 40px 30px 0;
+  font-family: $ozaria-main-font-family;
 
   .resource-hub-section {
     /* Offset by rough header height so that we don't underscroll the header */
@@ -191,7 +193,6 @@ export default {
 
   h4 {
     color: #476fb1;
-    font-family: 'Work Sans';
     font-size: 20px;
     line-height: 30px;
     letter-spacing: 0.44px;

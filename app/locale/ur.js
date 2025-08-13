@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]گوگل اکاونٹ کامیابی سے منسلک ہوا۔',
       plus_link_error: '[AI_TRANSLATION]گوگل اکاؤنٹ لنک ناکام ہو گیا',
       email_or_username_or_library: '[AI_TRANSLATION]ای میل یا یوزر نیم یا لائبریری کارڈ نمبر',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {
@@ -857,8 +856,10 @@ module.exports = {
       cancel: '[AI_TRANSLATION]منسوخ کریں',
       save: '[AI_TRANSLATION]محفوظ کریں',
       publish: '[AI_TRANSLATION]شائع کریں',
+      //    output: "Output",
       create: '[AI_TRANSLATION]بنائیں',
       fork: '[AI_TRANSLATION]فورک',
+      //    clone: "Clone",
       play: '[AI_TRANSLATION]کھیلیں',
       retry: '[AI_TRANSLATION]دوبارہ کوشش کرو',
       actions: '[AI_TRANSLATION]ایکشنز',
@@ -883,6 +884,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]داخلی خرابی',
       manage: '[AI_TRANSLATION]منیج',
       empty_results: '[AI_TRANSLATION]خالی نتائج۔',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -1228,6 +1230,7 @@ module.exports = {
       learn_to_use: '[AI_TRANSLATION]استعمال کرنا سیکھو۔  ',
       //    navigate_to_previous_page: "Navigate to the previous page",
       //    navigate_to_next_page: "Navigate to the next page",
+      //    restart_capstone_stage: "Do you want to restart capstone stage progress to 1?",
     },
 
     apis: {
@@ -1573,9 +1576,12 @@ module.exports = {
       level_to_unlock: '[AI_TRANSLATION]کھولنے کا درجہ:  ',
       restricted_to_certain_heroes: '[AI_TRANSLATION]صرف مخصوص ہیرو ہی اس لیول کو کھیل سکتے ہیں۔',
       code_format_not_supported: '[AI_TRANSLATION]حمایت یافتہ نہیں     ',
+      //    code_format_only_junior: "Only Supported in CodeCombat Junior",
+      //    code_format_in_mobile: "Only Supported in Big Screen(Pad, laptop, PC...)",
       code_format_disable_by_teacher: '[AI_TRANSLATION]استاد کے ذریعے غیر فعال کردیا گیا  ',
       code_language_subscriber_only: '[AI_TRANSLATION]صرف سبسکرائبر',
       code_language_not_support_by_blocks: '[AI_TRANSLATION]بلاکس کے ساتھ حمایت یافتہ نہیں     ',
+      //    code_language_not_support_in_classroom: "Not support in Classroom",
     },
 
     char_customization_modal: {
@@ -1856,6 +1862,12 @@ module.exports = {
       //    and_more: "and more",
       //    import_classroom: "Import Classroom",
       //    re_import_classroom: "Re-Import Classroom",
+      //    need_more_license: "Oops! It looks like you need __additionalLicensesNum__ more license(s). Visit My Licenses to learn more!",
+      //    confirm_apply_license: "Please confirm that you'd like to apply licenses to __numberEnrolled__ student(s). You will have __numberRemaining__ license(s) remaining.",
+      //    fail_get_license: "Error! __fails__ students failed to get license",
+      //    no_licenses_applied: "No licenses applied to selected student(s).",
+      //    revoke_license_tips: "Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.",
+      //    assign_course_confirm: "Please confirm that you'd like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.",
     },
 
     no_licenses_page: {
@@ -2114,6 +2126,7 @@ module.exports = {
     cinematic: {
       click_anywhere_continue: '[AI_TRANSLATION]جاری رکھنے کے لیے کلک کریں',
       instructional_tooltip: '[AI_TRANSLATION]آگے اور پیچھے جانے کے لیے ان تیر کے بٹنوں پر کلک کریں۔ آپ اپنے کی بورڈ سے بھی تیر کیز استعمال کر سکتے ہیں۔',
+      //    error_find: "Error finding cinematic __slug__.",
     },
 
     community: {
@@ -2450,6 +2463,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]ٹیسٹ اسٹوڈنٹ لائسنس حاصل کرو  ',
       create_students: '[AI_TRANSLATION]طلباء پیدا کریں',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
@@ -3195,6 +3212,7 @@ module.exports = {
       done_adding: '[AI_TRANSLATION]شامل کرنے کا کام ختم',
       product: '[AI_TRANSLATION]پروڈکٹ',
       link: '[AI_TRANSLATION]لنک',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {
@@ -4774,6 +4792,22 @@ module.exports = {
       //    sort_by_first_name: "first Name",
       //    sort_by_progress_desc: "Progress (High to Low)",
       //    sort_by_progress_asc: "Progress (Low to Hight)",
+      //    no_write_permission: "You do not have a write permission on this class",
+      //    select_student_first: "You need to select student(s) first before performing that action.",
+      //    no_progress_to_delete: "No progress to delete",
+      //    deleting_progress: "Deleting progress",
+      //    delete_progress_warning: "Warning: student progress for __courseName__ will be deleted and cannot be recovered. Are you sure?",
+      //    error_adding_teacher: "Error in adding teacher",
+      //    error_occurred: "Error occurred: __err__",
+      //    password_changed_successfully: "Password Changed successfully!",
+      //    remove_students_title: "Remove Students from Class",
+      //    remove_confirm_title: "Are you sure you want to remove (this student / these students) from your class?",
+      //    remove_list_1: "If licenses are applied, remember to revoke them before removing students in order to apply them to other students.",
+      //    remove_list_2: "Student(s) will lose access to this classroom and assigned chapters.",
+      //    remove_list_3: "Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.",
+      //    pick_a_license: "Pick a License",
+      //    having_access: "Having Access",
+      //    course_preview: "Course Preview",
     },
 
     outcomes: {
@@ -4934,11 +4968,13 @@ module.exports = {
       share_flyer: '[AI_TRANSLATION]ہمارے AI لیگ کا پمفلٹ اساتذہ، منتظمین، والدین، ای اسپورٹس کوچز یا دوسرے جو دلچسپی رکھتے ہوں، کے ساتھ شیئر کریں۔',
       download_flyer: '[AI_TRANSLATION]فلائر ڈاؤن لوڈ کریں',
       championship_summary: '[AI_TRANSLATION]__championshipArena__ championship arena اب کھلا ہے! __championshipMonth__ کے مہینے میں انعامات جیتنے کے لیے __championshipArena__ __championshipType__ میں مقابلہ کریں۔',
+      //    arcade_summary: "The __championshipArena__ arcade arena is now open! Enjoy the break from the competition until __championshipMonth__ to prepare for the next season.",
       play_arena_full: '[AI_TRANSLATION]__arenaName__ __arenaType__ کھیلیں',
       play_arena_short: '[AI_TRANSLATION]__arenaName__ کھیلیں',
       view_arena_winners: '[AI_TRANSLATION]__arenaName__ __arenaType__ فاتحین دیکھیں',
       arena_type_championship: '[AI_TRANSLATION]چیمپئن شپ ایرینا  ',
       arena_type_regular: '[AI_TRANSLATION]ملٹی پلیئر ارینا',
+      //    arena_type_arcade: "Arcade Arena",
       blazing_battle: '[AI_TRANSLATION]شعلہ زن جنگ',
       infinite_inferno: '[AI_TRANSLATION]لامتناہی جہنم',
       mages_might: '[AI_TRANSLATION]مگس کا طاق  ',
@@ -4988,6 +5024,8 @@ module.exports = {
       cup: '[AI_TRANSLATION]کپ  ',
       blitz: '[AI_TRANSLATION]بلیٹز',
       clash: '[AI_TRANSLATION]تصادم',
+      //    season15_announcement_1: "Welcome to Golden Goal Blitz! ⚽ Where soccer meets strategy — and every shot is scripted. No feet. No players. Just code and chaos.",
+      //    season15_announcement_2: "Note: this arena is getting updates and new features regullary during the season and the big twist mechanics one month ahead of the final simulation.",
       //    season13_announcement_1: "In the depths of ancient ruins, a magical checkerboard arises and the towers comes alive. Get as many pieces to the end of the line!",
       //    season13_announcement_2: "Note: arena balance adjustments may occur up until May 15th. So be sure to come back often to test your code against the global leaderboard.",
       //    season12_announcement_2: "Collectors fly high, control points emerges, mythical crystals stand tall, as the dungeon expands, the battle is getting fiercer, only the righteous shall be the victor.",
@@ -6055,6 +6093,7 @@ module.exports = {
       CodeThumbnail_copy: '[AI_TRANSLATION]کاپی',
       'CodeThumbnail_open-in-editor': '[AI_TRANSLATION]ایڈیٹر میں کھولو',
       'CodeThumbnail_run-code': '[AI_TRANSLATION]کوڈ چلائیں',
+      //    "CodeThumbnail_edit-code": "Edit Code",
       'ConfirmDeleteChatMessageButton_confirm-delete': '[AI_TRANSLATION]Delete کی تصدیق کریں',
       ContinueRenderer_continue: '[AI_TRANSLATION]جاری رکھیں →',
       EditAlternatePromptChoicesPage_cancel: '[AI_TRANSLATION]منسوخ کریں',
@@ -6224,6 +6263,7 @@ module.exports = {
       //    level_complete: "You did it! Level complete. Continue your AI journey with the next level.",
       //    run_code_tour_title: "Ready to see the magic?",
       //    run_code_tour_text: "Press “Run Code” and watch your project come to life. No experience required!",
+      //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
 
     //  new_premium: {
@@ -6462,6 +6502,8 @@ module.exports = {
       faq_5_answer: '[AI_TRANSLATION]ہاں۔ کوڈکومبیٹ ورلڈز تمہیں کھیلنے، حقیقی کوڈ لکھنے اور پی سی، میک، کروم بکس، ٹیبلٹس، فونز، اور کنسولز پر گیمز بنانے کی اجازت دیتا ہے۔',
       //    promo_modal_title: "Discover CodeCombat Worlds",
       //    promo_modal_text: "**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!",
+      //    having_trouble: "Having trouble?",
+      //    check_help_doc: "View our connection guide here",
     },
 
     pd_page: {

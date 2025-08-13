@@ -7,7 +7,6 @@ import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
 import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
-import IconAI from 'ozaria/site/components/teacher-dashboard/common/NavIconAI'
 import IconAPCSP from 'ozaria/site/components/teacher-dashboard/common/NavIconAPCSP'
 import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/NavIconAssessments'
 
@@ -18,7 +17,6 @@ export default {
     ModalCurriculumPromotion,
     ModalOzariaHackStack,
     ModalOzariaAILeague,
-    IconAI,
     IconAPCSP,
     IconAssessments,
   },
@@ -158,7 +156,7 @@ export default {
     },
     AILeagueClicked () {
       if (utils.isOzaria) {
-        this.$refs.ModalOzariaAILeague.openModal()
+        window.open('https://codecombat.com/teachers/ai-league', '_blank')
       }
     },
 
@@ -360,51 +358,6 @@ export default {
         <span>{{ $t('teacher_dashboard.my_licenses') }}</span>
       </router-link>
     </li>
-    <li v-if="showHackStack">
-      <a
-        id="HackStackAnchor"
-        href="#"
-        data-action="Sidebar - HackStack: Nav Clicked"
-        @click="AIHSClicked"
-      >
-        <IconAI class="icon-ai svgicon default" />
-        <IconAI
-          class="icon-ai svgicon hovered"
-          theme="white"
-        />
-        <IconAI
-          class="icon-ai svgicon selected"
-          theme="purple"
-        />
-        {{ $t('nav.ai_hackstack') }}
-      </a>
-    </li>
-    <li v-if="isCodeCombat">
-      <a
-        id="OzariaAnchor"
-        :href="ozariaBaseURL"
-        target="_blank"
-        data-action="Ozaria HomePage: Nav Clicked"
-        @click="trackEvent"
-      >
-        <div id="IconOzaria" />
-        <span>{{ $t('new_home.ozaria') }}</span>
-      </a>
-    </li>
-    <li v-if="showPD">
-      <router-link
-        id="PDAnchor"
-        to="/teachers/professional-development"
-        :class="{ 'current-route': isCurrentRoute('/teachers/professional-development') }"
-        data-action="PD: Nav Clicked"
-        @click.native="trackEvent"
-      >
-        <div id="IconPD" />
-        <!-- <div id="IconNew">New!</div> -->
-        {{ $t('teacher_dashboard.pd_short') }}
-      </router-link>
-    </li>
-
     <li
       v-if="showAssessments"
       class="dropdown"
@@ -463,6 +416,29 @@ export default {
         </li>
       </ul>
     </li>
+    <li v-if="isCodeCombat">
+      <a
+        id="OzariaAnchor"
+        :href="ozariaBaseURL"
+        target="_blank"
+        data-action="Ozaria HomePage: Nav Clicked"
+        @click="trackEvent"
+      >
+        <div id="IconOzaria" />
+        <span>{{ $t('new_home.ozaria') }}</span>
+      </a>
+    </li>
+    <li v-if="showHackStack">
+      <a
+        id="HackStackAnchor"
+        href="#"
+        data-action="Sidebar - HackStack: Nav Clicked"
+        @click="AIHSClicked"
+      >
+        <div id="IconHackStack" />
+        <span>{{ $t('nav.ai_hackstack') }}</span>
+      </a>
+    </li>
     <li>
       <component
         :is="isCodeCombat ? 'router-link' : 'a'"
@@ -473,18 +449,7 @@ export default {
         @click="AILeagueClicked"
       >
         <div id="IconKeepPlaying" />
-        <img
-          class="league-name league-name__gray"
-          src="/images/pages/league/ai-league-name.svg"
-        >
-        <img
-          class="league-name league-name__white"
-          src="/images/pages/league/ai-league-name_white.svg"
-        >
-        <img
-          class="league-name league-name__purple"
-          src="/images/pages/league/ai-league-name_purple.svg"
-        >
+        <span>{{ $t('teacher_dashboard.ai_league') }}</span>
       </component>
     </li>
     <li
@@ -558,6 +523,19 @@ export default {
         {{ $t('teacher_dashboard.apcsp') }}
       </router-link>
     </li>
+    <li v-if="showPD">
+      <router-link
+        id="PDAnchor"
+        to="/teachers/professional-development"
+        :class="{ 'current-route': isCurrentRoute('/teachers/professional-development') }"
+        data-action="PD: Nav Clicked"
+        @click.native="trackEvent"
+      >
+        <div id="IconPD" />
+        <!-- <div id="IconNew">New!</div> -->
+        {{ $t('teacher_dashboard.pd_short') }}
+      </router-link>
+    </li>
     <li>
       <dashboard-toggle
         v-if="isCodeCombat"
@@ -613,6 +591,11 @@ export default {
 
 #IconOzaria {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconOzaria_Gray.svg);
+  margin-top: -3px;
+}
+
+#IconHackStack {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconHackStack_Gray.svg);
   margin-top: -3px;
 }
 
@@ -726,6 +709,12 @@ li.open>#LicensesAnchor,
 #OzariaAnchor:hover {
   #IconOzaria {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconOzaria_White.svg);
+  }
+}
+
+#HackStackAnchor:hover {
+  #IconHackStack {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconHackStack_White.svg);
   }
 }
 
@@ -881,6 +870,7 @@ li.open>#AIJuniorDropdown,
 #IconCurriculum,
 #IconLicense,
 #IconOzaria,
+#IconHackStack,
 #IconResourceHub,
 #IconPD,
 #IconAssessments,
@@ -900,6 +890,7 @@ li.open>#AIJuniorDropdown,
   flex-direction: column;
   justify-content: flex-start;
   height: min-content;
+  font-family: $ozaria-main-font-family;
 
   &>li {
 
@@ -924,7 +915,6 @@ li.open>#AIJuniorDropdown,
       background-color: transparent;
       font-size: 18px;
       font-weight: 600;
-      font-family: "Work Sans", sans-serif;
 
       width: 100%;
       padding: 0;

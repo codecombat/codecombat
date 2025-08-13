@@ -104,10 +104,6 @@ export default Vue.extend({
       return getQueryVariable('landing', false)
     },
 
-    showHackStackLogo () {
-      return window.location.pathname.startsWith('/ai') && !window.location.pathname.startsWith('/ai-junior')
-    },
-
     useDarkMode () {
       return /^\/(roblox|hackstack|league|play\/ladder)/.test(document.location.pathname)
     },
@@ -443,42 +439,32 @@ export default Vue.extend({
 <template lang="pug">
   nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="{ 'dark-mode': useDarkMode }" @click="navEvent")
     announcement-modal(v-if="announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
-    .container
+    .container-fluid.nav-container
       .row
         .col-md-12.header-container
           .navbar-header
-            button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
+            button.navbar-toggle.collapsed(data-toggle='collapse', data-target='.navbar-collapse' aria-expanded='false')
               span.sr-only {{ $t('nav.toggle_nav') }}
               span.icon-bar
               span.icon-bar
               span.icon-bar
-            a.navbar-brand(v-if="partnerLogo" :href="homeLink")
-              picture
-                source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
-                img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-              img(:src="partnerLogo.url" :alt="partnerLogo.alt" :class="partnerLogo.className")
-            a.navbar-brand(v-else-if="showHackStackLogo")
+            .navbar-brand
               a(:href="homeLink")
-                picture
+                picture(v-if="!me.showChinaResourceInfo()")
                   source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                   img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-              a(href="/ai")
-                img#logo-img(src="/images/ai/logo-hs-color.webp" alt="HackStack logo")
-            a.navbar-brand(v-else-if="me.showChinaResourceInfo()" :href="homeLink")
-              img#logo-img(src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
-            a.navbar-brand(v-else :href="homeLink")
-              picture
-                source#logo-img(srcset="/images/pages/base/logo.webp" type="image/webp")
-                img#logo-img(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-            a.navbar-brand(v-if="isOzaria" :href="homeLink")
-              img#logo-img(src="/images/ozaria/home/ozaria-logo.png" alt="Ozaria logo" title='Ozaria')
+                img(v-else src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
+              a(v-if="partnerLogo" :href="homeLink")
+                img(:src="partnerLogo.url" :alt="partnerLogo.alt" :class="partnerLogo.className")
+              a(v-if="isOzaria" :href="homeLink")
+                img#logo-img.oz-logo(src="/images/ozaria/home/ozaria-logo.png" alt="Ozaria logo" title='Ozaria')
 
           .navbar-browser-recommendation.navbar-header(v-if="isChinaOldBrowser")
             .nav-spacer
               .navbar-nav
                 a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/") {{ $t('nav.browser_recommendation') }}
 
-          #navbar-collapse.collapse.navbar-collapse
+          .collapse.navbar-collapse
             .nav-spacer
             ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
               li
@@ -503,6 +489,7 @@ export default Vue.extend({
 
                 a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
 
+          .navbar-collapse.collapse
             ul.nav.navbar-nav.loggedin(v-if="!me.isAnonymous()")
               li(v-if="me.isTarena()")
                 a.text-p#logout-button {{ $t('login.log_out') }}
@@ -546,7 +533,7 @@ export default Vue.extend({
                     a.account-dropdown-item#nav-stop-switching-button(href="#") {{ $t('login.stop_switching') }}
                   li
                     a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
-            .right
+            div.right-side-nav
               ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
                 li
                   cta-button#login-link.login-button(data-event-action="Header Login CTA" size="small" type="no-background") {{ $t('signup.login') }}
@@ -573,6 +560,11 @@ export default Vue.extend({
 
 #main-nav.navbar {
   background: white;
+
+  .nav-container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 
   // Add dark mode styles
   &.dark-mode {
@@ -656,7 +648,11 @@ export default Vue.extend({
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
+
+    .oz-logo {
+      max-height: 30px !important;
+    }
   }
 
   .navbar-collapse {
@@ -681,14 +677,10 @@ export default Vue.extend({
     @media (min-width: 992px) {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: space-around;
 
       .navbar-header {
         flex-grow: 0;
-      }
-
-      .navbar-collapse {
-        flex-grow: 1;
       }
     }
   }
@@ -856,12 +848,23 @@ export default Vue.extend({
   }
 }
 
+.right-side-nav {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.in {
+  .right-side-nav {
+    flex-direction: column;
+  }
+}
+
 .tecmilenio-logo, .tarena-logo {
-  height: 36px;
+  height: 30px;
 }
 
 .mto-logo {
-  height: 35px;
+  height: 25px;
 }
 
 .code-ninjas-logo {

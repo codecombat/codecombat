@@ -70,7 +70,7 @@ export default {
     },
     icon () {
       const icons = {
-        free: 'IconFreeLevel',
+        free: 'IconFreeLevelv2',
         'sales-call': 'IconUnlockWithCall',
         paid: 'IconPaidLevel',
       }

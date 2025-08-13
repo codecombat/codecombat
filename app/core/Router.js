@@ -456,7 +456,7 @@ module.exports = (CocoRouter = (function () {
         'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true }),
 
         'teachers' () {
-          if (utils.isCodeCombat && !me.isNewDashboardActive()) {
+          if (me.showChinaResourceInfo() && !me.isNewDashboardActive()) {
             delete window.alreadyLoadedView
             return this.navigate('/teachers/classes' + document.location.search, { trigger: true, replace: true })
           } else {
@@ -464,7 +464,7 @@ module.exports = (CocoRouter = (function () {
           }
         },
         'teachers/classes' () {
-          if (utils.isCodeCombat && !me.isNewDashboardActive()) {
+          if (me.showChinaResourceInfo() && !me.isNewDashboardActive()) {
             return this.routeDirectly('courses/TeacherClassesView', [], { redirectStudents: true, teachersOnly: true })
           } else {
             return this.routeDirectly('core/SingletonAppVueComponentView', arguments, { redirectStudents: true, teachersOnly: true })
@@ -475,7 +475,7 @@ module.exports = (CocoRouter = (function () {
         'teachers/ai-junior/:classroomId': go('core/SingletonAppVueComponentView'),
         'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true }),
         'teachers/classes/:classroomID' () {
-          if (utils.isCodeCombat && !me.isNewDashboardActive()) {
+          if (me.showChinaResourceInfo() && !me.isNewDashboardActive()) {
             return this.routeDirectly('courses/TeacherClassView', arguments, { redirectStudents: true, teachersOnly: true })
           } else {
             return this.routeDirectly('core/SingletonAppVueComponentView', arguments, { redirectStudents: true, teachersOnly: true })
@@ -483,7 +483,7 @@ module.exports = (CocoRouter = (function () {
         },
         'teachers/hackstack-classes/:classroomID': go('core/SingletonAppVueComponentView'),
         'teachers/courses' () {
-          if (utils.isCodeCombat && !me.isNewDashboardActive()) {
+          if (me.showChinaResourceInfo() && !me.isNewDashboardActive()) {
             return this.routeDirectly('courses/TeacherCoursesView', arguments, { redirectStudents: true })
           } else {
             delete window.alreadyLoadedView

@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: 'บัญชี Google ได้รับการเชื่อมโยงสำเร็จเรียบร้อยแล้ว',
       plus_link_error: 'การเชื่อมโยงบัญชี Google ล้มเหลว',
       email_or_username_or_library: '[AI_TRANSLATION]อีเมล์หรือชื่อผู้ใช้หรือหมายเลขบัตรห้องสมุด',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {
@@ -857,8 +856,10 @@ module.exports = {
       cancel: 'ยกเลิก',
       save: 'บันทึก',
       publish: '[AI_TRANSLATION]เผยแพร่',
+      //    output: "Output",
       create: '[AI_TRANSLATION]สร้าง',
       fork: '[AI_TRANSLATION]ส้อม',
+      //    clone: "Clone",
       play: 'เล่น',
       retry: '[AI_TRANSLATION]ลองใหม่',
       actions: '[AI_TRANSLATION]การกระทำ  ',
@@ -883,6 +884,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]ความผิดพลาดภายในระบบ',
       manage: '[AI_TRANSLATION]จัดการ',
       empty_results: '[AI_TRANSLATION]ไม่มีผลลัพธ์',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -1228,6 +1230,7 @@ module.exports = {
       learn_to_use: '[AI_TRANSLATION]เรียนรู้การใช้  ',
       //    navigate_to_previous_page: "Navigate to the previous page",
       //    navigate_to_next_page: "Navigate to the next page",
+      //    restart_capstone_stage: "Do you want to restart capstone stage progress to 1?",
     },
 
     apis: {
@@ -1573,9 +1576,12 @@ module.exports = {
       level_to_unlock: '[AI_TRANSLATION]ด่านที่จะปลดล็อก:  ',
       restricted_to_certain_heroes: '[AI_TRANSLATION]มีแต่ฮีโร่บางตัวเท่านั้นที่สามารถเล่นด่านนี้ได้',
       code_format_not_supported: '[AI_TRANSLATION]ไม่รองรับ  ',
+      //    code_format_only_junior: "Only Supported in CodeCombat Junior",
+      //    code_format_in_mobile: "Only Supported in Big Screen(Pad, laptop, PC...)",
       code_format_disable_by_teacher: '[AI_TRANSLATION]ปิดใช้งานโดยครู  ',
       code_language_subscriber_only: '[AI_TRANSLATION]สมาชิกเท่านั้น',
       code_language_not_support_by_blocks: '[AI_TRANSLATION]ไม่รองรับกับบล็อก  ',
+      //    code_language_not_support_in_classroom: "Not support in Classroom",
     },
 
     char_customization_modal: {
@@ -1856,6 +1862,12 @@ module.exports = {
       //    and_more: "and more",
       //    import_classroom: "Import Classroom",
       //    re_import_classroom: "Re-Import Classroom",
+      //    need_more_license: "Oops! It looks like you need __additionalLicensesNum__ more license(s). Visit My Licenses to learn more!",
+      //    confirm_apply_license: "Please confirm that you'd like to apply licenses to __numberEnrolled__ student(s). You will have __numberRemaining__ license(s) remaining.",
+      //    fail_get_license: "Error! __fails__ students failed to get license",
+      //    no_licenses_applied: "No licenses applied to selected student(s).",
+      //    revoke_license_tips: "Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.",
+      //    assign_course_confirm: "Please confirm that you'd like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.",
     },
 
     no_licenses_page: {
@@ -2114,6 +2126,7 @@ module.exports = {
     cinematic: {
       click_anywhere_continue: '[AI_TRANSLATION]คลิกเพื่อดำเนินการต่อ',
       instructional_tooltip: '[AI_TRANSLATION]คลิกปุ่มลูกศรเหล่านี้เพื่อไปข้างหลังและข้างหน้า คุณยังสามารถใช้ปุ่มลูกศรบนคีย์บอร์ดเพื่อทำเช่นเดียวยังได้',
+      //    error_find: "Error finding cinematic __slug__.",
     },
 
     community: {
@@ -2450,6 +2463,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]ได้ใบอนุญาตนักเรียนทดลอง  ',
       create_students: '[AI_TRANSLATION]สร้างนักเรียน  ',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
@@ -3195,6 +3212,7 @@ module.exports = {
       done_adding: '[AI_TRANSLATION]เสร็จสิ้นการเพิ่ม',
       product: '[AI_TRANSLATION]ผลิตภัณฑ์',
       link: '[AI_TRANSLATION]ลิงค์',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {
@@ -4774,6 +4792,22 @@ module.exports = {
       //    sort_by_first_name: "first Name",
       //    sort_by_progress_desc: "Progress (High to Low)",
       //    sort_by_progress_asc: "Progress (Low to Hight)",
+      //    no_write_permission: "You do not have a write permission on this class",
+      //    select_student_first: "You need to select student(s) first before performing that action.",
+      //    no_progress_to_delete: "No progress to delete",
+      //    deleting_progress: "Deleting progress",
+      //    delete_progress_warning: "Warning: student progress for __courseName__ will be deleted and cannot be recovered. Are you sure?",
+      //    error_adding_teacher: "Error in adding teacher",
+      //    error_occurred: "Error occurred: __err__",
+      //    password_changed_successfully: "Password Changed successfully!",
+      //    remove_students_title: "Remove Students from Class",
+      //    remove_confirm_title: "Are you sure you want to remove (this student / these students) from your class?",
+      //    remove_list_1: "If licenses are applied, remember to revoke them before removing students in order to apply them to other students.",
+      //    remove_list_2: "Student(s) will lose access to this classroom and assigned chapters.",
+      //    remove_list_3: "Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.",
+      //    pick_a_license: "Pick a License",
+      //    having_access: "Having Access",
+      //    course_preview: "Course Preview",
     },
 
     outcomes: {
@@ -4934,11 +4968,13 @@ module.exports = {
       share_flyer: '[AI_TRANSLATION]แชร์ใบปลิว AI League ของเรากับครู ผู้บริหาร ผู้ปกครอง โค้ช esports หรือคนอื่นๆที่อาจสนใจ',
       download_flyer: '[AI_TRANSLATION]ดาวน์โหลดใบปลิว',
       championship_summary: '[AI_TRANSLATION]สนามแข่งขัน __championshipArena__ เปิดแล้ว! แข่งขันตลอดเดือน __championshipMonth__ เพื่อรับรางวัลใน __championshipArena__ __championshipType__.',
+      //    arcade_summary: "The __championshipArena__ arcade arena is now open! Enjoy the break from the competition until __championshipMonth__ to prepare for the next season.",
       play_arena_full: '[AI_TRANSLATION]เล่น __arenaName__ __arenaType__',
       play_arena_short: '[AI_TRANSLATION]เล่น __arenaName__',
       view_arena_winners: '[AI_TRANSLATION]ดู __arenaName__ __arenaType__ ผู้ชนะ',
       arena_type_championship: '[AI_TRANSLATION]สนามชิงแชมป์',
       arena_type_regular: '[AI_TRANSLATION]สนามประลองหลายผู้เล่น',
+      //    arena_type_arcade: "Arcade Arena",
       blazing_battle: '[AI_TRANSLATION]การสู้รบไฟแรง  ',
       infinite_inferno: '[AI_TRANSLATION]อินฟินิตี้อินเฟอร์โน\n',
       mages_might: '[AI_TRANSLATION]พลังของพวกพ่อมด  ',
@@ -4988,6 +5024,8 @@ module.exports = {
       cup: '[AI_TRANSLATION]ถ้วย',
       blitz: '[AI_TRANSLATION]บลิทซ์',
       clash: '[AI_TRANSLATION]การปะทะ',
+      //    season15_announcement_1: "Welcome to Golden Goal Blitz! ⚽ Where soccer meets strategy — and every shot is scripted. No feet. No players. Just code and chaos.",
+      //    season15_announcement_2: "Note: this arena is getting updates and new features regullary during the season and the big twist mechanics one month ahead of the final simulation.",
       //    season13_announcement_1: "In the depths of ancient ruins, a magical checkerboard arises and the towers comes alive. Get as many pieces to the end of the line!",
       //    season13_announcement_2: "Note: arena balance adjustments may occur up until May 15th. So be sure to come back often to test your code against the global leaderboard.",
       //    season12_announcement_2: "Collectors fly high, control points emerges, mythical crystals stand tall, as the dungeon expands, the battle is getting fiercer, only the righteous shall be the victor.",
@@ -6055,6 +6093,7 @@ module.exports = {
       CodeThumbnail_copy: '[AI_TRANSLATION]คัดลอก',
       'CodeThumbnail_open-in-editor': '[AI_TRANSLATION]เปิดในโปรแกรมแก้ไข',
       'CodeThumbnail_run-code': '[AI_TRANSLATION]รันโค้ด',
+      //    "CodeThumbnail_edit-code": "Edit Code",
       'ConfirmDeleteChatMessageButton_confirm-delete': '[AI_TRANSLATION]ยืนยันการลบ',
       ContinueRenderer_continue: '[AI_TRANSLATION]ดำเนินการต่อ →',
       //    EditAlternatePromptChoicesPage_cancel: "Cancel",
@@ -6224,6 +6263,7 @@ module.exports = {
       //    level_complete: "You did it! Level complete. Continue your AI journey with the next level.",
       //    run_code_tour_title: "Ready to see the magic?",
       //    run_code_tour_text: "Press “Run Code” and watch your project come to life. No experience required!",
+      //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
 
     //  new_premium: {
@@ -6462,6 +6502,8 @@ module.exports = {
       faq_5_answer: '[AI_TRANSLATION]ใช่ CodeCombat Worlds ให้คุณเล่น พิมพ์โค้ดจริง และสร้างเกมบน PC, Mac, Chromebooks, แท็บเล็ต, โทรศัพท์ และเครื่องเล่นเกมได้  ',
       //    promo_modal_title: "Discover CodeCombat Worlds",
       //    promo_modal_text: "**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!",
+      //    having_trouble: "Having trouble?",
+      //    check_help_doc: "View our connection guide here",
     },
 
     pd_page: {

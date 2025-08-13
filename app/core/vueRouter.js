@@ -180,31 +180,19 @@ export default function getVueRouter () {
         {
           path: '/school-administrator',
           component: () => {
-            if (utils.isCodeCombat) {
-              return import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/SchoolAdministratorComponent')
-            } else {
-              return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminDashboard/index.vue')
-            }
+            return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseSchoolAdminDashboard/index.vue')
           },
           children: [
             {
               path: '',
               component: () => {
-                if (utils.isCodeCombat) {
-                  return import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/teachers/SchoolAdminTeacherListView')
-                } else {
-                  return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseMySchools/index.vue')
-                }
+                return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/BaseMySchools/index.vue')
               },
             },
             {
               path: 'teacher/:teacherId',
               component: () => {
-                if (utils.isCodeCombat) {
-                  return import(/* webpackChunkName: "teachers" */ 'app/views/school-administrator/dashboard/SchoolAdminDashboardTeacherView')
-                } else {
-                  return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherAllClasses/index.vue')
-                }
+                return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/school-admin-dashboard/administered-teachers/BaseTeacherAllClasses/index.vue')
               },
               props: true,
             },
@@ -269,7 +257,7 @@ export default function getVueRouter () {
         {
           path: '/teachers',
           component: () => {
-            if (utils.isCodeCombat && !me.isNewDashboardActive()) {
+            if (me.showChinaResourceInfo() && !me.isNewDashboardActive()) {
               return import(/* webpackChunkName: "teachers" */ 'app/components/common/PassThrough')
             }
             return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/index.vue')
@@ -298,7 +286,7 @@ export default function getVueRouter () {
             {
               path: 'licenses',
               component: () => {
-                if (utils.isCodeCombat && !me.isNewDashboardActive()) {
+                if (me.showChinaResourceInfo() && !me.isNewDashboardActive()) {
                   return import(/* webpackChunkName: "paymentStudentLicenses" */'app/views/payment/v2/StudentLicensesMainComponent')
                 } else {
                   return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseTeacherLicenses/index.vue')
@@ -312,7 +300,7 @@ export default function getVueRouter () {
             {
               path: 'resources',
               component: () => {
-                if (utils.isCodeCombat && !me.isNewDashboardActive()) {
+                if (me.showChinaResourceInfo() && !me.isNewDashboardActive()) {
                   return import(/* webpackChunkName: "teachers" */ 'app/views/teachers/teacher-dashboard/BaseResourceHub/index.vue')
                 } else {
                   return import(/* webpackChunkName: "teachers" */ '../../ozaria/site/components/teacher-dashboard/BaseResourceHub/index.vue')

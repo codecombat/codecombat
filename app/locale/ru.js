@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Связь с учетной записью Google успешна  ',
       plus_link_error: '[AI_TRANSLATION]Связь с учетной записью Google не удалась  ',
       email_or_username_or_library: '[AI_TRANSLATION]Электронная почта, Имя пользователя или номер Библиотечной карты',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {
@@ -857,8 +856,10 @@ module.exports = {
       cancel: 'Отмена',
       save: 'Сохранить',
       publish: 'Опубликовать',
+      //    output: "Output",
       create: 'Создать',
       fork: 'Форк',
+      //    clone: "Clone",
       play: 'Играть',
       retry: 'Повторить',
       actions: 'Действия',
@@ -883,6 +884,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]Внутренняя ошибка',
       manage: '[AI_TRANSLATION]Управлять',
       empty_results: '[AI_TRANSLATION]Пустые результаты',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -1228,6 +1230,7 @@ module.exports = {
       learn_to_use: '[AI_TRANSLATION]Учись использовать  ',
       //    navigate_to_previous_page: "Navigate to the previous page",
       //    navigate_to_next_page: "Navigate to the next page",
+      //    restart_capstone_stage: "Do you want to restart capstone stage progress to 1?",
     },
 
     apis: {
@@ -1573,9 +1576,12 @@ module.exports = {
       level_to_unlock: 'Разблокируется на уровне:',
       restricted_to_certain_heroes: 'Только определённые герои могут играть на этом уровне.',
       code_format_not_supported: '[AI_TRANSLATION]Не Поддерживается',
+      //    code_format_only_junior: "Only Supported in CodeCombat Junior",
+      //    code_format_in_mobile: "Only Supported in Big Screen(Pad, laptop, PC...)",
       code_format_disable_by_teacher: '[AI_TRANSLATION]Отключено учителем  ',
       code_language_subscriber_only: '[AI_TRANSLATION]Только для подписчиков  ',
       code_language_not_support_by_blocks: '[AI_TRANSLATION]Не Поддерживается с Блоками',
+      //    code_language_not_support_in_classroom: "Not support in Classroom",
     },
 
     char_customization_modal: {
@@ -1856,6 +1862,12 @@ module.exports = {
       //    and_more: "and more",
       //    import_classroom: "Import Classroom",
       //    re_import_classroom: "Re-Import Classroom",
+      //    need_more_license: "Oops! It looks like you need __additionalLicensesNum__ more license(s). Visit My Licenses to learn more!",
+      //    confirm_apply_license: "Please confirm that you'd like to apply licenses to __numberEnrolled__ student(s). You will have __numberRemaining__ license(s) remaining.",
+      //    fail_get_license: "Error! __fails__ students failed to get license",
+      //    no_licenses_applied: "No licenses applied to selected student(s).",
+      //    revoke_license_tips: "Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.",
+      //    assign_course_confirm: "Please confirm that you'd like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.",
     },
 
     no_licenses_page: {
@@ -2114,6 +2126,7 @@ module.exports = {
     cinematic: {
       click_anywhere_continue: 'кликните где-нибудь для продолженния',
       instructional_tooltip: '[AI_TRANSLATION]Нажми на эти кнопки со стрелками, чтобы двигаться назад и вперед. Ты также можешь использовать клавиши со стрелками на клавиатуре для этого.',
+      //    error_find: "Error finding cinematic __slug__.",
     },
 
     community: {
@@ -2450,6 +2463,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]Получи Лицензию Тест Студента  ',
       create_students: '[AI_TRANSLATION]Генерация Студентов  ',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
@@ -3195,6 +3212,7 @@ module.exports = {
       done_adding: 'Добавлено',
       product: '[AI_TRANSLATION]Продукт',
       link: '[AI_TRANSLATION]Ссылка',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {
@@ -4774,6 +4792,22 @@ module.exports = {
       //    sort_by_first_name: "first Name",
       //    sort_by_progress_desc: "Progress (High to Low)",
       //    sort_by_progress_asc: "Progress (Low to Hight)",
+      //    no_write_permission: "You do not have a write permission on this class",
+      //    select_student_first: "You need to select student(s) first before performing that action.",
+      //    no_progress_to_delete: "No progress to delete",
+      //    deleting_progress: "Deleting progress",
+      //    delete_progress_warning: "Warning: student progress for __courseName__ will be deleted and cannot be recovered. Are you sure?",
+      //    error_adding_teacher: "Error in adding teacher",
+      //    error_occurred: "Error occurred: __err__",
+      //    password_changed_successfully: "Password Changed successfully!",
+      //    remove_students_title: "Remove Students from Class",
+      //    remove_confirm_title: "Are you sure you want to remove (this student / these students) from your class?",
+      //    remove_list_1: "If licenses are applied, remember to revoke them before removing students in order to apply them to other students.",
+      //    remove_list_2: "Student(s) will lose access to this classroom and assigned chapters.",
+      //    remove_list_3: "Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.",
+      //    pick_a_license: "Pick a License",
+      //    having_access: "Having Access",
+      //    course_preview: "Course Preview",
     },
 
     outcomes: {
@@ -4934,11 +4968,13 @@ module.exports = {
       share_flyer: '[AI_TRANSLATION]Поделись нашим флаером AI League с преподавателями, администраторами, родителями, тренерами по киберспорту или другими заинтересованными лицами.',
       download_flyer: '[AI_TRANSLATION]Скачать флаер',
       championship_summary: '[AI_TRANSLATION]Чемпионатная арена __championshipArena__ теперь открыта! Сражайся весь месяц __championshipMonth__, чтобы выиграть призы на чемпионате __championshipArena__ __championshipType__.\n',
+      //    arcade_summary: "The __championshipArena__ arcade arena is now open! Enjoy the break from the competition until __championshipMonth__ to prepare for the next season.",
       play_arena_full: '[AI_TRANSLATION]Играть __arenaName__ __arenaType__',
       play_arena_short: '[AI_TRANSLATION]Играть __arenaName__',
       view_arena_winners: '[AI_TRANSLATION]Посмотреть победителей __arenaName__ __arenaType__',
       arena_type_championship: '[AI_TRANSLATION]Чемпионская Арена',
       arena_type_regular: '[AI_TRANSLATION]Многопользовательская арена',
+      //    arena_type_arcade: "Arcade Arena",
       blazing_battle: '[AI_TRANSLATION]Пылающая битва  ',
       infinite_inferno: '[AI_TRANSLATION]Бесконечное пекло  ',
       mages_might: '[AI_TRANSLATION]Могущество Магов',
@@ -4988,6 +5024,8 @@ module.exports = {
       cup: '[AI_TRANSLATION]Кубок',
       blitz: '[AI_TRANSLATION]Блиц',
       clash: '[AI_TRANSLATION]Столкновение',
+      //    season15_announcement_1: "Welcome to Golden Goal Blitz! ⚽ Where soccer meets strategy — and every shot is scripted. No feet. No players. Just code and chaos.",
+      //    season15_announcement_2: "Note: this arena is getting updates and new features regullary during the season and the big twist mechanics one month ahead of the final simulation.",
       //    season13_announcement_1: "In the depths of ancient ruins, a magical checkerboard arises and the towers comes alive. Get as many pieces to the end of the line!",
       //    season13_announcement_2: "Note: arena balance adjustments may occur up until May 15th. So be sure to come back often to test your code against the global leaderboard.",
       //    season12_announcement_2: "Collectors fly high, control points emerges, mythical crystals stand tall, as the dungeon expands, the battle is getting fiercer, only the righteous shall be the victor.",
@@ -6055,6 +6093,7 @@ module.exports = {
       //    CodeThumbnail_copy: "Copy",
       'CodeThumbnail_open-in-editor': '[AI_TRANSLATION]Открыть в редакторе',
       'CodeThumbnail_run-code': '[AI_TRANSLATION]Запуск кода',
+      //    "CodeThumbnail_edit-code": "Edit Code",
       'ConfirmDeleteChatMessageButton_confirm-delete': '[AI_TRANSLATION]Подтвердите удаление',
       ContinueRenderer_continue: '[AI_TRANSLATION]Продолжить →',
       //    EditAlternatePromptChoicesPage_cancel: "Cancel",
@@ -6224,6 +6263,7 @@ module.exports = {
       //    level_complete: "You did it! Level complete. Continue your AI journey with the next level.",
       //    run_code_tour_title: "Ready to see the magic?",
       //    run_code_tour_text: "Press “Run Code” and watch your project come to life. No experience required!",
+      //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
 
     //  new_premium: {
@@ -6462,6 +6502,8 @@ module.exports = {
       faq_5_answer: '[AI_TRANSLATION]Да. CodeCombat Worlds позволяет играть, писать настоящий код и создавать игры на ПК, Mac, Chromebook, планшетах, телефонах и консолях.  ',
       //    promo_modal_title: "Discover CodeCombat Worlds",
       //    promo_modal_text: "**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!",
+      //    having_trouble: "Having trouble?",
+      //    check_help_doc: "View our connection guide here",
     },
 
     pd_page: {

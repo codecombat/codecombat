@@ -205,6 +205,7 @@ h1 {
   overflow-y: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  color: var(--color-primary);
 }
 
 </style>

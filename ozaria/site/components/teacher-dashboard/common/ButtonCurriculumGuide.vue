@@ -1,6 +1,6 @@
 <template>
   <button
-    class="dusk-btn"
+    class="purple-btn"
     @click="$emit('click')"
   >
     <div id="Curriculum" />
@@ -12,7 +12,7 @@
 @import "app/styles/bootstrap/variables";
 @import "ozaria/site/styles/common/variables.scss";
 @import "app/styles/ozaria/_ozaria-style-params.scss";
-@import "dusk-button";
+@import "purple-button";
 
 #Curriculum {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconCurriculumGuide.svg);

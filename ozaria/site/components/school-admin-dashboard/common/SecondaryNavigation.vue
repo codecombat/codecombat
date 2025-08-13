@@ -110,6 +110,7 @@ export default {
   padding-left: 23.5px;
   height: 35px;
   min-height: 35px;
+  font-family: $ozaria-main-font-family;
 
   & > li {
     height: 35px;
@@ -121,12 +122,12 @@ export default {
     justify-content: center;
     align-items: center;
 
-    background-color: $twilight;
+    background-color: var(--color-primary);
     border-radius: 10px 10px 0 0;
 
     a.current-route, & > a:hover {
       background-color: #F2F2F2;
-      color: $twilight;
+      color: var(--color-primary);
       border: 1px solid #d8d8d8;
       border-bottom: unset;
     }

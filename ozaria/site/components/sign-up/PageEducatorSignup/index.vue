@@ -126,7 +126,7 @@ export default {
         this.$nextTick(function () { // re-render the forms when signup method is changed
           this.navigateToView(BASICINFO)
         })
-      } else if (signUpMethod === 'gplus') {
+      } else if (signUpMethod === 'gplus' || signUpMethod === 'classlink') {
         this.clearVisibleViews()
         this.$nextTick(function () { // re-render the forms when signup method is changed
           this.navigateToView(ROLEINFO)

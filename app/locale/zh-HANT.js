@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Google 帳戶連結成功',
       plus_link_error: '[AI_TRANSLATION]Google 帳戶連結失敗',
       email_or_username_or_library: '[AI_TRANSLATION]電子郵件或用戶名或圖書證號碼',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {
@@ -857,8 +856,10 @@ module.exports = {
       cancel: '取消',
       save: '存檔',
       publish: '發佈',
+      //    output: "Output",
       create: '創造',
       fork: '分支',
+      //    clone: "Clone",
       play: '進入關卡',
       retry: '重試',
       actions: '行為',
@@ -883,6 +884,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]內部錯誤',
       manage: '[AI_TRANSLATION]管理',
       empty_results: '[AI_TRANSLATION]沒有結果。',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -1228,6 +1230,7 @@ module.exports = {
       learn_to_use: '[AI_TRANSLATION]學習如何使用',
       //    navigate_to_previous_page: "Navigate to the previous page",
       //    navigate_to_next_page: "Navigate to the next page",
+      //    restart_capstone_stage: "Do you want to restart capstone stage progress to 1?",
     },
 
     apis: {
@@ -1573,9 +1576,12 @@ module.exports = {
       level_to_unlock: '解鎖關卡：',
       restricted_to_certain_heroes: '特定英雄才可遊玩此關卡。',
       code_format_not_supported: '[AI_TRANSLATION]不支援  ',
+      //    code_format_only_junior: "Only Supported in CodeCombat Junior",
+      //    code_format_in_mobile: "Only Supported in Big Screen(Pad, laptop, PC...)",
       code_format_disable_by_teacher: '[AI_TRANSLATION]老師已停用',
       code_language_subscriber_only: '[AI_TRANSLATION]僅限訂閱者',
       code_language_not_support_by_blocks: '[AI_TRANSLATION]不支援方塊  ',
+      //    code_language_not_support_in_classroom: "Not support in Classroom",
     },
 
     char_customization_modal: {
@@ -1856,6 +1862,12 @@ module.exports = {
       //    and_more: "and more",
       //    import_classroom: "Import Classroom",
       //    re_import_classroom: "Re-Import Classroom",
+      //    need_more_license: "Oops! It looks like you need __additionalLicensesNum__ more license(s). Visit My Licenses to learn more!",
+      //    confirm_apply_license: "Please confirm that you'd like to apply licenses to __numberEnrolled__ student(s). You will have __numberRemaining__ license(s) remaining.",
+      //    fail_get_license: "Error! __fails__ students failed to get license",
+      //    no_licenses_applied: "No licenses applied to selected student(s).",
+      //    revoke_license_tips: "Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.",
+      //    assign_course_confirm: "Please confirm that you'd like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.",
     },
 
     no_licenses_page: {
@@ -2114,6 +2126,7 @@ module.exports = {
     cinematic: {
       click_anywhere_continue: '點擊任意區域繼續',
       instructional_tooltip: '[AI_TRANSLATION]點擊這些箭頭按鈕來前後移動。你也可以使用鍵盤上的箭頭鍵來實現同樣的操作。',
+      //    error_find: "Error finding cinematic __slug__.",
     },
 
     community: {
@@ -2450,6 +2463,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]拿到測試學生許可證  ',
       create_students: '[AI_TRANSLATION]生成學生  ',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
@@ -3195,6 +3212,7 @@ module.exports = {
       done_adding: '添加完成',
       product: '產品',
       link: '連結',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {
@@ -4774,6 +4792,22 @@ module.exports = {
       //    sort_by_first_name: "first Name",
       //    sort_by_progress_desc: "Progress (High to Low)",
       //    sort_by_progress_asc: "Progress (Low to Hight)",
+      //    no_write_permission: "You do not have a write permission on this class",
+      //    select_student_first: "You need to select student(s) first before performing that action.",
+      //    no_progress_to_delete: "No progress to delete",
+      //    deleting_progress: "Deleting progress",
+      //    delete_progress_warning: "Warning: student progress for __courseName__ will be deleted and cannot be recovered. Are you sure?",
+      //    error_adding_teacher: "Error in adding teacher",
+      //    error_occurred: "Error occurred: __err__",
+      //    password_changed_successfully: "Password Changed successfully!",
+      //    remove_students_title: "Remove Students from Class",
+      //    remove_confirm_title: "Are you sure you want to remove (this student / these students) from your class?",
+      //    remove_list_1: "If licenses are applied, remember to revoke them before removing students in order to apply them to other students.",
+      //    remove_list_2: "Student(s) will lose access to this classroom and assigned chapters.",
+      //    remove_list_3: "Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.",
+      //    pick_a_license: "Pick a License",
+      //    having_access: "Having Access",
+      //    course_preview: "Course Preview",
     },
 
     outcomes: {
@@ -4934,11 +4968,13 @@ module.exports = {
       share_flyer: '[AI_TRANSLATION]和教育者、管理員、家長、電競教練或其他感興趣的人分享我們的 AI 聯賽傳單。',
       download_flyer: '[AI_TRANSLATION]下載傳單  ',
       championship_summary: '[AI_TRANSLATION]__championshipArena__ 冠軍競技場現在開放了！為期一個月的 __championshipMonth__ 中展開戰鬥，贏得 __championshipArena__ __championshipType__ 的獎品。',
+      //    arcade_summary: "The __championshipArena__ arcade arena is now open! Enjoy the break from the competition until __championshipMonth__ to prepare for the next season.",
       play_arena_full: '[AI_TRANSLATION]演奏 __arenaName__ __arenaType__',
       play_arena_short: '[AI_TRANSLATION]演奏 __arenaName__',
       view_arena_winners: '[AI_TRANSLATION]檢視 __arenaName__ __arenaType__ 獲勝者',
       arena_type_championship: '[AI_TRANSLATION]錦標賽競技場',
       arena_type_regular: '[AI_TRANSLATION]多人競技場  ',
+      //    arena_type_arcade: "Arcade Arena",
       blazing_battle: '激烈賽事',
       infinite_inferno: '[AI_TRANSLATION]無盡地獄  ',
       mages_might: '[AI_TRANSLATION]法師的力量',
@@ -4988,6 +5024,8 @@ module.exports = {
       cup: '[AI_TRANSLATION]杯子',
       blitz: '[AI_TRANSLATION]閃電戰',
       clash: '[AI_TRANSLATION]衝突',
+      //    season15_announcement_1: "Welcome to Golden Goal Blitz! ⚽ Where soccer meets strategy — and every shot is scripted. No feet. No players. Just code and chaos.",
+      //    season15_announcement_2: "Note: this arena is getting updates and new features regullary during the season and the big twist mechanics one month ahead of the final simulation.",
       //    season13_announcement_1: "In the depths of ancient ruins, a magical checkerboard arises and the towers comes alive. Get as many pieces to the end of the line!",
       //    season13_announcement_2: "Note: arena balance adjustments may occur up until May 15th. So be sure to come back often to test your code against the global leaderboard.",
       //    season12_announcement_2: "Collectors fly high, control points emerges, mythical crystals stand tall, as the dungeon expands, the battle is getting fiercer, only the righteous shall be the victor.",
@@ -6055,6 +6093,7 @@ module.exports = {
       CodeThumbnail_copy: '複製',
       'CodeThumbnail_open-in-editor': '[AI_TRANSLATION]在編輯器中開啟',
       'CodeThumbnail_run-code': '[AI_TRANSLATION]執行代碼',
+      //    "CodeThumbnail_edit-code": "Edit Code",
       'ConfirmDeleteChatMessageButton_confirm-delete': '[AI_TRANSLATION]確認刪除',
       ContinueRenderer_continue: '[AI_TRANSLATION]繼續 →',
       EditAlternatePromptChoicesPage_cancel: '取消',
@@ -6224,6 +6263,7 @@ module.exports = {
       //    level_complete: "You did it! Level complete. Continue your AI journey with the next level.",
       //    run_code_tour_title: "Ready to see the magic?",
       //    run_code_tour_text: "Press “Run Code” and watch your project come to life. No experience required!",
+      //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
 
     //  new_premium: {
@@ -6462,6 +6502,8 @@ module.exports = {
       faq_5_answer: '[AI_TRANSLATION]沒錯。CodeCombat Worlds允許你在PC、Mac、Chromebooks、平板、手機和遊戲機上玩、輸入真實代碼和創造遊戲。',
       //    promo_modal_title: "Discover CodeCombat Worlds",
       //    promo_modal_text: "**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!",
+      //    having_trouble: "Having trouble?",
+      //    check_help_doc: "View our connection guide here",
     },
 
     pd_page: {

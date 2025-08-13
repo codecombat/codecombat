@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]구글 계정 연동 완료',
       plus_link_error: '[AI_TRANSLATION]구글 계정 연동 실패',
       email_or_username_or_library: '[AI_TRANSLATION]이메일 또는 사용자 이름 또는 도서관 카드 번호',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {
@@ -857,8 +856,10 @@ module.exports = {
       cancel: '취소',
       save: '저장',
       publish: '내보내기',
+      //    output: "Output",
       create: '생성',
       fork: '포크',
+      //    clone: "Clone",
       play: '시작',
       retry: '재시도',
       actions: '행동',
@@ -883,6 +884,7 @@ module.exports = {
       internal_error: '[AI_TRANSLATION]내부 오류  ',
       manage: '[AI_TRANSLATION]관리하기',
       empty_results: '[AI_TRANSLATION]결과 없음.',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -1228,6 +1230,7 @@ module.exports = {
       learn_to_use: '[AI_TRANSLATION]사용법을 배워봐.',
       //    navigate_to_previous_page: "Navigate to the previous page",
       //    navigate_to_next_page: "Navigate to the next page",
+      //    restart_capstone_stage: "Do you want to restart capstone stage progress to 1?",
     },
 
     apis: {
@@ -1573,9 +1576,12 @@ module.exports = {
       level_to_unlock: '잠금 해제를 위해 레벨 클리어 필요:',
       restricted_to_certain_heroes: '특정 영웅만이 이 레벨을 플레이할 수 있습니다.',
       code_format_not_supported: '[AI_TRANSLATION]지원되지 않음',
+      //    code_format_only_junior: "Only Supported in CodeCombat Junior",
+      //    code_format_in_mobile: "Only Supported in Big Screen(Pad, laptop, PC...)",
       code_format_disable_by_teacher: '[AI_TRANSLATION]선생님에 의해 비활성화됨',
       code_language_subscriber_only: '[AI_TRANSLATION]구독자 전용',
       code_language_not_support_by_blocks: '[AI_TRANSLATION]블록으로 지원되지 않음',
+      //    code_language_not_support_in_classroom: "Not support in Classroom",
     },
 
     char_customization_modal: {
@@ -1856,6 +1862,12 @@ module.exports = {
       //    and_more: "and more",
       //    import_classroom: "Import Classroom",
       //    re_import_classroom: "Re-Import Classroom",
+      //    need_more_license: "Oops! It looks like you need __additionalLicensesNum__ more license(s). Visit My Licenses to learn more!",
+      //    confirm_apply_license: "Please confirm that you'd like to apply licenses to __numberEnrolled__ student(s). You will have __numberRemaining__ license(s) remaining.",
+      //    fail_get_license: "Error! __fails__ students failed to get license",
+      //    no_licenses_applied: "No licenses applied to selected student(s).",
+      //    revoke_license_tips: "Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.",
+      //    assign_course_confirm: "Please confirm that you'd like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.",
     },
 
     no_licenses_page: {
@@ -2114,6 +2126,7 @@ module.exports = {
     cinematic: {
       click_anywhere_continue: '아무 곳이나 클릭하세요.',
       instructional_tooltip: '[AI_TRANSLATION]이 화살표 버튼을 클릭해서 뒤로 가거나 앞으로 가. 키보드의 화살표 키로도 똑같이 할 수 있어.  ',
+      //    error_find: "Error finding cinematic __slug__.",
     },
 
     community: {
@@ -2450,6 +2463,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]테스트 학생 면허 받기',
       create_students: '[AI_TRANSLATION]학생 생성하기',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
@@ -3195,6 +3212,7 @@ module.exports = {
       done_adding: '[AI_TRANSLATION]추가 완료',
       product: '[AI_TRANSLATION]상품',
       link: '[AI_TRANSLATION]링크',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {
@@ -4774,6 +4792,22 @@ module.exports = {
       //    sort_by_first_name: "first Name",
       //    sort_by_progress_desc: "Progress (High to Low)",
       //    sort_by_progress_asc: "Progress (Low to Hight)",
+      //    no_write_permission: "You do not have a write permission on this class",
+      //    select_student_first: "You need to select student(s) first before performing that action.",
+      //    no_progress_to_delete: "No progress to delete",
+      //    deleting_progress: "Deleting progress",
+      //    delete_progress_warning: "Warning: student progress for __courseName__ will be deleted and cannot be recovered. Are you sure?",
+      //    error_adding_teacher: "Error in adding teacher",
+      //    error_occurred: "Error occurred: __err__",
+      //    password_changed_successfully: "Password Changed successfully!",
+      //    remove_students_title: "Remove Students from Class",
+      //    remove_confirm_title: "Are you sure you want to remove (this student / these students) from your class?",
+      //    remove_list_1: "If licenses are applied, remember to revoke them before removing students in order to apply them to other students.",
+      //    remove_list_2: "Student(s) will lose access to this classroom and assigned chapters.",
+      //    remove_list_3: "Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.",
+      //    pick_a_license: "Pick a License",
+      //    having_access: "Having Access",
+      //    course_preview: "Course Preview",
     },
 
     outcomes: {
@@ -4934,11 +4968,13 @@ module.exports = {
       share_flyer: '[AI_TRANSLATION]우리 AI 리그 전단지를 교육자, 관리자, 부모님, e스포츠 코치나 관심 있는 사람들과 공유해줘.',
       download_flyer: '[AI_TRANSLATION]전단지 다운로드',
       championship_summary: '[AI_TRANSLATION]__championshipArena__ 챔피언쉽 아레나가 열렸어요! __championshipMonth__ 월 동안 __championshipArena__ __championshipType__에서 승리를 위해 싸워서 상을 타세요.',
+      //    arcade_summary: "The __championshipArena__ arcade arena is now open! Enjoy the break from the competition until __championshipMonth__ to prepare for the next season.",
       play_arena_full: '[AI_TRANSLATION]__arenaName__ __arenaType__ 플레이',
       play_arena_short: '[AI_TRANSLATION]__arenaName__을 플레이해.',
       view_arena_winners: '[AI_TRANSLATION]__arenaName__ __arenaType__ 우승자 보기',
       arena_type_championship: '[AI_TRANSLATION]챔피언십 경기장',
       arena_type_regular: '[AI_TRANSLATION]멀티플레이어 아레나',
+      //    arena_type_arcade: "Arcade Arena",
       blazing_battle: '[AI_TRANSLATION]불타는 전투',
       infinite_inferno: '[AI_TRANSLATION]무한 지옥',
       mages_might: '[AI_TRANSLATION]마법사의 힘',
@@ -4988,6 +5024,8 @@ module.exports = {
       cup: '[AI_TRANSLATION]컵',
       blitz: '[AI_TRANSLATION]블리츠',
       clash: '[AI_TRANSLATION]충돌',
+      //    season15_announcement_1: "Welcome to Golden Goal Blitz! ⚽ Where soccer meets strategy — and every shot is scripted. No feet. No players. Just code and chaos.",
+      //    season15_announcement_2: "Note: this arena is getting updates and new features regullary during the season and the big twist mechanics one month ahead of the final simulation.",
       //    season13_announcement_1: "In the depths of ancient ruins, a magical checkerboard arises and the towers comes alive. Get as many pieces to the end of the line!",
       //    season13_announcement_2: "Note: arena balance adjustments may occur up until May 15th. So be sure to come back often to test your code against the global leaderboard.",
       //    season12_announcement_2: "Collectors fly high, control points emerges, mythical crystals stand tall, as the dungeon expands, the battle is getting fiercer, only the righteous shall be the victor.",
@@ -6055,6 +6093,7 @@ module.exports = {
       CodeThumbnail_copy: '[AI_TRANSLATION]복사하기',
       'CodeThumbnail_open-in-editor': '[AI_TRANSLATION]에디터에서 열기',
       'CodeThumbnail_run-code': '[AI_TRANSLATION]코드 실행',
+      //    "CodeThumbnail_edit-code": "Edit Code",
       'ConfirmDeleteChatMessageButton_confirm-delete': '[AI_TRANSLATION]삭제 확인',
       ContinueRenderer_continue: '[AI_TRANSLATION]계속하기 →',
       //    EditAlternatePromptChoicesPage_cancel: "Cancel",
@@ -6224,6 +6263,7 @@ module.exports = {
       //    level_complete: "You did it! Level complete. Continue your AI journey with the next level.",
       //    run_code_tour_title: "Ready to see the magic?",
       //    run_code_tour_text: "Press “Run Code” and watch your project come to life. No experience required!",
+      //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
 
     //  new_premium: {
@@ -6462,6 +6502,8 @@ module.exports = {
       faq_5_answer: '[AI_TRANSLATION]그래. CodeCombat Worlds에서는 PC, Mac, 크롬북, 태블릿, 핸드폰, 콘솔에서 실제 코딩을 하고 게임을 만들 수 있어.',
       //    promo_modal_title: "Discover CodeCombat Worlds",
       //    promo_modal_text: "**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!",
+      //    having_trouble: "Having trouble?",
+      //    check_help_doc: "View our connection guide here",
     },
 
     pd_page: {

@@ -13,7 +13,7 @@ export default Vue.extend({
 
 <template>
   <modal
-    :title="'Apply License'"
+    :title="$t('teacher.apply_license')"
     @close="$emit('close')"
   >
     <modal-apply-license @close="$emit('close')" />

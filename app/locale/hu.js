@@ -703,8 +703,7 @@ module.exports = {
       gplus_linked: '[AI_TRANSLATION]Google-fiók sikeresen összekapcsolva',
       plus_link_error: '[AI_TRANSLATION]Google Fiók összekapcsolása sikertelen',
       email_or_username_or_library: '[AI_TRANSLATION]Email vagy felhasználónév vagy könyvtári kártyaszám',
-      //    schoology_login_failed: "Login failed. You may need to sign up first.",
-      //    schoology_signup: "Sign Up with Schoology",
+      //    login_failed: "Login failed. You may need to sign up first.",
     },
 
     signup: {
@@ -857,8 +856,10 @@ module.exports = {
       cancel: 'Mégse',
       save: 'Mentés',
       publish: 'Publikálás',
+      //    output: "Output",
       create: 'Létrehozás',
       fork: 'Villára vesz',
+      //    clone: "Clone",
       play: 'Játszd',
       retry: 'Próbáld újra!',
       actions: 'Lehetőségek',
@@ -883,6 +884,7 @@ module.exports = {
       internal_error: 'Belső hiba',
       manage: 'Kezelés',
       empty_results: 'Nincs eredmény.',
+      //    roblox: "Roblox",
     },
 
     general: {
@@ -1228,6 +1230,7 @@ module.exports = {
       learn_to_use: '[AI_TRANSLATION]Használat megtanulása  ',
       //    navigate_to_previous_page: "Navigate to the previous page",
       //    navigate_to_next_page: "Navigate to the next page",
+      //    restart_capstone_stage: "Do you want to restart capstone stage progress to 1?",
     },
 
     apis: {
@@ -1573,9 +1576,12 @@ module.exports = {
       level_to_unlock: 'Szükséges pályák:',
       restricted_to_certain_heroes: 'Csak bizonyos hős játszhatja ezt a pályát.',
       code_format_not_supported: '[AI_TRANSLATION]Nem támogatott',
+      //    code_format_only_junior: "Only Supported in CodeCombat Junior",
+      //    code_format_in_mobile: "Only Supported in Big Screen(Pad, laptop, PC...)",
       code_format_disable_by_teacher: '[AI_TRANSLATION]Tanár által letiltva  ',
       code_language_subscriber_only: '[AI_TRANSLATION]Csak Előfizetőknek\n',
       code_language_not_support_by_blocks: '[AI_TRANSLATION]Nem támogatott blokkokkal',
+      //    code_language_not_support_in_classroom: "Not support in Classroom",
     },
 
     char_customization_modal: {
@@ -1856,6 +1862,12 @@ module.exports = {
       //    and_more: "and more",
       //    import_classroom: "Import Classroom",
       //    re_import_classroom: "Re-Import Classroom",
+      //    need_more_license: "Oops! It looks like you need __additionalLicensesNum__ more license(s). Visit My Licenses to learn more!",
+      //    confirm_apply_license: "Please confirm that you'd like to apply licenses to __numberEnrolled__ student(s). You will have __numberRemaining__ license(s) remaining.",
+      //    fail_get_license: "Error! __fails__ students failed to get license",
+      //    no_licenses_applied: "No licenses applied to selected student(s).",
+      //    revoke_license_tips: "Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.",
+      //    assign_course_confirm: "Please confirm that you'd like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.",
     },
 
     no_licenses_page: {
@@ -2114,6 +2126,7 @@ module.exports = {
     cinematic: {
       click_anywhere_continue: 'Kattints a folytatáshoz',
       instructional_tooltip: 'Ezekre a nyílgombokra kattintva tudsz előre és hátra lépni. Ugyanezt a billentyűzet nyílbillentyűivel is megteheted.',
+      //    error_find: "Error finding cinematic __slug__.",
     },
 
     community: {
@@ -2450,6 +2463,10 @@ module.exports = {
       get_test_license: '[AI_TRANSLATION]Szerezd meg a Teszt Tanulói Licencet',
       create_students: '[AI_TRANSLATION]Diákok Generálása',
       //    custom_tournaments: "Custom Tournaments",
+      //    play_ozaria: "Play Ozaria",
+      //    play_ccw_on_roblox: "Play CodeCombat Worlds on Roblox",
+      //    camp_activities: "Camp Activities",
+      //    view_camp_activities: "View Camp Activities",
     },
 
     project_gallery: {
@@ -3195,6 +3212,7 @@ module.exports = {
       done_adding: 'Hozzáadás kész',
       product: 'Termék',
       link: 'Link',
+      //    clone_to_new_scenario: "Clone to New Scenario",
     },
 
     article: {
@@ -4774,6 +4792,22 @@ module.exports = {
       //    sort_by_first_name: "first Name",
       //    sort_by_progress_desc: "Progress (High to Low)",
       //    sort_by_progress_asc: "Progress (Low to Hight)",
+      //    no_write_permission: "You do not have a write permission on this class",
+      //    select_student_first: "You need to select student(s) first before performing that action.",
+      //    no_progress_to_delete: "No progress to delete",
+      //    deleting_progress: "Deleting progress",
+      //    delete_progress_warning: "Warning: student progress for __courseName__ will be deleted and cannot be recovered. Are you sure?",
+      //    error_adding_teacher: "Error in adding teacher",
+      //    error_occurred: "Error occurred: __err__",
+      //    password_changed_successfully: "Password Changed successfully!",
+      //    remove_students_title: "Remove Students from Class",
+      //    remove_confirm_title: "Are you sure you want to remove (this student / these students) from your class?",
+      //    remove_list_1: "If licenses are applied, remember to revoke them before removing students in order to apply them to other students.",
+      //    remove_list_2: "Student(s) will lose access to this classroom and assigned chapters.",
+      //    remove_list_3: "Student progress will not be lost and can be viewed if the student can be added back to the classroom at any time.",
+      //    pick_a_license: "Pick a License",
+      //    having_access: "Having Access",
+      //    course_preview: "Course Preview",
     },
 
     outcomes: {
@@ -4934,11 +4968,13 @@ module.exports = {
       share_flyer: '[AI_TRANSLATION]Oszd meg az AI Liga szórólapunkat tanárokkal, adminisztrátorokkal, szülőkkel, e-sport edzőkkel vagy más érdeklődőkkel.',
       download_flyer: '[AI_TRANSLATION]Szórólap Letöltése ',
       championship_summary: '[AI_TRANSLATION]A __championshipArena__ bajnoki aréna most megnyílt! Harcolj __championshipMonth__ hónapban, hogy nyereményeket szerezz a __championshipArena__ __championshipType__-ben.',
+      //    arcade_summary: "The __championshipArena__ arcade arena is now open! Enjoy the break from the competition until __championshipMonth__ to prepare for the next season.",
       play_arena_full: '[AI_TRANSLATION]Játssz __arenaName__ __arenaType__',
       play_arena_short: '[AI_TRANSLATION]Játszd __arenaName__-t',
       view_arena_winners: '[AI_TRANSLATION]Nézd meg a __arenaName__ __arenaType__ győzteseit',
       arena_type_championship: '[AI_TRANSLATION]Bajnokság Aréna',
       arena_type_regular: '[AI_TRANSLATION]Többjátékos Arena',
+      //    arena_type_arcade: "Arcade Arena",
       blazing_battle: '[AI_TRANSLATION]Lángoló csata',
       infinite_inferno: '[AI_TRANSLATION]Végtelen pokol',
       mages_might: '[AI_TRANSLATION]Mágusok Ereje',
@@ -4988,6 +5024,8 @@ module.exports = {
       cup: '[AI_TRANSLATION]Csésze',
       blitz: '[AI_TRANSLATION]Villámháború',
       clash: '[AI_TRANSLATION]Összecsapás',
+      //    season15_announcement_1: "Welcome to Golden Goal Blitz! ⚽ Where soccer meets strategy — and every shot is scripted. No feet. No players. Just code and chaos.",
+      //    season15_announcement_2: "Note: this arena is getting updates and new features regullary during the season and the big twist mechanics one month ahead of the final simulation.",
       //    season13_announcement_1: "In the depths of ancient ruins, a magical checkerboard arises and the towers comes alive. Get as many pieces to the end of the line!",
       //    season13_announcement_2: "Note: arena balance adjustments may occur up until May 15th. So be sure to come back often to test your code against the global leaderboard.",
       //    season12_announcement_2: "Collectors fly high, control points emerges, mythical crystals stand tall, as the dungeon expands, the battle is getting fiercer, only the righteous shall be the victor.",
@@ -6055,6 +6093,7 @@ module.exports = {
       //    CodeThumbnail_copy: "Copy",
       'CodeThumbnail_open-in-editor': '[AI_TRANSLATION]Nyisd meg a szerkesztőben',
       'CodeThumbnail_run-code': '[AI_TRANSLATION]Kód Futtatása',
+      //    "CodeThumbnail_edit-code": "Edit Code",
       'ConfirmDeleteChatMessageButton_confirm-delete': '[AI_TRANSLATION]Törlés Megerősítése',
       ContinueRenderer_continue: '[AI_TRANSLATION]Folytatás →',
       //    EditAlternatePromptChoicesPage_cancel: "Cancel",
@@ -6224,6 +6263,7 @@ module.exports = {
       //    level_complete: "You did it! Level complete. Continue your AI journey with the next level.",
       //    run_code_tour_title: "Ready to see the magic?",
       //    run_code_tour_text: "Press “Run Code” and watch your project come to life. No experience required!",
+      //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
 
     //  new_premium: {
@@ -6462,6 +6502,8 @@ module.exports = {
       faq_5_answer: '[AI_TRANSLATION]Igen. A CodeCombat Worlds lehetővé teszi, hogy játsz, valódi kódot írj és játékokat készíts PC-n, Mac-en, Chromebookon, tableten, telefonon és konzolon.  ',
       //    promo_modal_title: "Discover CodeCombat Worlds",
       //    promo_modal_text: "**Want to build a Roblox game but can’t code?** Jump into **CodeCombat Worlds** — where you’ll learn by playing! Start in Rift Village, coding your pets to harvest, and battle. Then tackle Lua (the coding language of Roblox) in the Learning Levels, and finally unleash your ideas in Creative Mode to craft immersive Roblox games. The power to create is in your hands!",
+      //    having_trouble: "Having trouble?",
+      //    check_help_doc: "View our connection guide here",
     },
 
     pd_page: {

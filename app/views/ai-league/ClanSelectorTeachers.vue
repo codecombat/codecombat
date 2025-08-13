@@ -105,7 +105,6 @@ export default {
 
 label {
   white-space: nowrap;
-  color: #666;
   margin-bottom: 0;
 }
 
@@ -116,7 +115,7 @@ select {
 
 .view-team-page {
   text-decoration: none;
-  color: #007bff;
+  color: var(--color-primary);
   font-size: 0.8em;
   text-align: center;
   margin-right: 5px;
