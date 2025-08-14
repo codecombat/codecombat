@@ -1866,12 +1866,13 @@ module.exports = class SpellView extends CocoView
       , 1000)
 
   onApplySolution: ->
-    # Get the solution code
+    return console.warn('ApplySolution: solution editor not ready') unless @aceSolution? and @aceSession?
     solutionCode = @aceSolution.getValue()
     if solutionCode and solutionCode.trim()
-      # Set the solution code to the main editor
-      @ace.setValue(solutionCode)
-      # Close the solution area
+      # Replace full document content to preserve undo stack
+      lastRow = @aceSession.getLength() - 1
+      lastCol = if lastRow >= 0 then @aceDoc.getLine(lastRow).length else 0
+      @aceSession.replace(new Range(0, 0, lastRow, lastCol), solutionCode)
       @closeSolution()
     else
       console.log('No solution code found')

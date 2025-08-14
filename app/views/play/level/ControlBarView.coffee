@@ -51,7 +51,7 @@ module.exports = class ControlBarView extends CocoView
     @observing = options.session.get('creator') isnt me.id
     @product = @level.attributes.product
     @lastOverallStatus = null
-    @aceConfig = options.aceConfig or {}
+    @aceConfig = options.classroomAceConfig or {}
     @showAiBotHelp = utils.shouldShowAiBotHelp(@aceConfig)
 
     exam = userUtils.getStorageExam()
