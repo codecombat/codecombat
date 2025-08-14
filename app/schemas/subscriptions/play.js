@@ -266,6 +266,8 @@ module.exports = {
   'level:close-solution': c.object({},
     { removeButton: { type: 'boolean' } }),
 
+  'level:apply-solution': c.object({}),
+
   'level:click-ai-hint': c.object({}),
 
   'level:locked': c.object({}, {

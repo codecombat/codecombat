@@ -83,6 +83,7 @@ module.exports = class SpellView extends CocoView
     'level:toggle-solution': 'onToggleSolution'
     'level:close-solution': 'closeSolution'
     'level:streaming-solution': 'onStreamingSolution'
+    'level:apply-solution': 'onApplySolution'
     'websocket:asking-help': 'onAskingHelp'
     'playback:cinematic-playback-started': 'onCinematicPlaybackStarted'
     'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded'
@@ -124,7 +125,6 @@ module.exports = class SpellView extends CocoView
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
     _.defer @onAllLoaded  # Needs to happen after the code generating this view is complete
-
   # This ACE is used for the code editor, and is only instantiated once per level.
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
@@ -1851,6 +1851,8 @@ module.exports = class SpellView extends CocoView
       solution.style.opacity = 1
       solution.classList.add('display')
       Backbone.Mediator.publish 'tome:hide-problem-alert', {}
+      # Wait for CSS transition to complete before resizing
+      setTimeout((=> @resize?()), 1100)  # Wait 1.1s for 1s transition + buffer
     return if @solutionStreaming
     @aceDiff.setOptions showDiffs: solution.classList.contains('display')
 
@@ -1862,6 +1864,20 @@ module.exports = class SpellView extends CocoView
       setTimeout(() =>
         solution.style.opacity = 0
       , 1000)
+
+  onApplySolution: ->
+    return console.warn('ApplySolution: solution editor not ready') unless @aceSolution? and @aceSession?
+    solutionCode = @aceSolution.getValue()
+    if solutionCode and solutionCode.trim()
+      # Replace full document content to preserve undo stack
+      lastRow = @aceSession.getLength() - 1
+      lastCol = if lastRow >= 0 then @aceDoc.getLine(lastRow).length else 0
+      @aceSession.replace(new Range(0, 0, lastRow, lastCol), solutionCode)
+      @closeSolution()
+    else
+      console.log('No solution code found')
+
+
 
   onToggleBlocks: (e) ->
     return if e.blocks and @blocklyActive
