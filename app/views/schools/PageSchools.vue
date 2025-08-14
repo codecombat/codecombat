@@ -725,11 +725,10 @@ export default Vue.extend({
   async mounted () {
     const params = new URLSearchParams(window.location.search)
     const shouldOpenModal = params.get('openContactModal')
+    const provider = params.get('auto-login-provider')
     if (shouldOpenModal === 'true') {
       this.showContactModal = true
-    }
-    if (params.get('auto-login-provider')) {
-      const provider = params.get('auto-login-provider')
+    } else if (provider) {
       const queryParamsObj = Object.fromEntries(params.entries())
       await this.autoLogin(provider, queryParamsObj)
     }
@@ -756,10 +755,13 @@ export default Vue.extend({
       } catch (err) {
         console.error(err)
         noty({
-          text: 'Login failed!',
+          text: `Login failed! - ${err?.message || 'Unknown error'}`,
           type: 'error',
           timeout: 10000,
         })
+        setTimeout(() => {
+          window.location.href = '/'
+        }, 5000)
       }
     },
   },
