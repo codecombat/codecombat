@@ -138,6 +138,12 @@ export default Vue.extend({
           className: 'tecmilenio-logo',
           alt: 'Tecmilenio logo'
         }
+      } else if (me.isMtoCodingOlympiad()) {
+        return {
+          url: '/images/pages/partners/coding-olympiad-logo.png',
+          className: 'mto-logo',
+          alt: 'MTO Coding Olympiad logo',
+        }
       } else if (me.isMto()) {
         const mtoBrand = me.isMtoStem() ? 'STEM' : 'NEO'
         return {
@@ -864,7 +870,7 @@ export default Vue.extend({
 }
 
 .mto-logo {
-  height: 25px;
+  height: 28px;
 }
 
 .code-ninjas-logo {
