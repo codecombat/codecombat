@@ -19,13 +19,14 @@
           v-if="aiChatKind === 'ai-league'"
           class="ask-ai__input"
         >
+          <!-- eslint-disable-next-line vue/html-self-closing -->
           <textarea
             v-model="customMessage"
             :placeholder="$t('play_level.ask_ai_placeholder')"
             class="form-control"
             rows="3"
             maxlength="512"
-          />
+          ></textarea>
           <div class="ask-ai__char-count">
             {{ customMessage.length }}/512
           </div>
