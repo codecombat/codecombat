@@ -157,8 +157,18 @@
     display: none
     transition: transform 0.2s ease-in-out
     
+    // Reset button styles to maintain original appearance
+    background: none
+    border: none
+    padding: 0
+    margin: 0
+    outline: none
+    
     &:hover
       transform: scale(1.1)
+    
+    &:focus
+      outline: none
     
     img
       width: 24px
