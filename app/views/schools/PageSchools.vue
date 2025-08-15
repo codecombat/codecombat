@@ -517,6 +517,7 @@ import StatsComponent from './StatsComponent.vue'
 import CustomTable from './CustomTable.vue'
 import ModalGetLicenses from '../../components/common/ModalGetLicenses.vue'
 import BannerComponent from '../../components/common/elements/BannerComponent.vue'
+import oauth2 from '../../core/api/oauth2'
 
 export default Vue.extend({
   name: 'PageSchools',
@@ -721,11 +722,15 @@ export default Vue.extend({
       return me
     },
   },
-  mounted () {
+  async mounted () {
     const params = new URLSearchParams(window.location.search)
     const shouldOpenModal = params.get('openContactModal')
+    const provider = params.get('auto-login-provider')
     if (shouldOpenModal === 'true') {
       this.showContactModal = true
+    } else if (provider) {
+      const queryParamsObj = Object.fromEntries(params.entries())
+      await this.autoLogin(provider, queryParamsObj)
     }
   },
   metaInfo () {
@@ -736,6 +741,29 @@ export default Vue.extend({
         { vmid: 'meta-description', name: 'description', content: this.$t('schools_page.our_comprehensive_implementation') },
       ],
     }
+  },
+  methods: {
+    async autoLogin (provider, queryParams) {
+      try {
+        noty({
+          text: `${this.$t('login.logging_in')}...`,
+          type: 'info',
+          timeout: 5000,
+        })
+        await oauth2.oauth2Callback(provider, queryParams)
+        window.location.href = '/'
+      } catch (err) {
+        console.error(err)
+        noty({
+          text: `Login failed! - ${err?.message || 'Unknown error'}`,
+          type: 'error',
+          timeout: 10000,
+        })
+        setTimeout(() => {
+          window.location.href = '/'
+        }, 5000)
+      }
+    },
   },
 })
 </script>

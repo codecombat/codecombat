@@ -70,7 +70,11 @@ module.exports = (MyCodeView = (function () {
     }
 
     onClickAIHint (e) {
-      this.openModalView(new AskAIHelpView({}))
+      this.openModalView(new AskAIHelpView({
+        propsData: {
+          aiChatKind: this.options.level?.get('aiChatKind') || 'level-chat',
+        },
+      }))
     }
 
     onClickTeacherHelp (e) {
@@ -80,9 +84,9 @@ module.exports = (MyCodeView = (function () {
           type: 'msg',
           info: {
             text: $.i18n.t('teacher.student_ask_for_help', { name: me.broadName() }),
-            url: window.location.pathname
-          }
-        }
+            url: window.location.pathname,
+          },
+        },
       })
     }
 
