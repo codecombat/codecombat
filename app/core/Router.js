@@ -333,7 +333,7 @@ module.exports = (CocoRouter = (function () {
         'league/academica': redirect('/league/autoclan-school-network-academica'), // Redirect for Academica.
         'league/kipp': redirect('/league/autoclan-school-network-kipp'), // Redirect for KIPP.
         'league(/*subpath)': go('core/SingletonAppVueComponentView'),
-        'league_v2(/*subpath)': go('core/SingletonAppVueComponentView'),
+        'league-v2(/*subpath)': go('core/SingletonAppVueComponentView'),
 
         legal: go('LegalView'),
 

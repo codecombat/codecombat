@@ -1,26 +1,86 @@
 <template>
-  <div>
-Title: Compete to win!
-
-Grand Prize
-$1,000 Scholarship
-Awarded to the top performing player across all age groups in each season's finals arena.
-CodeCombat reserves the right to determine in its sole discretion if a player qualifies and will receive a prize.
-
-
-  </div>
+  <page-section class="section">
+    <template #heading>
+      {{ $t('league_v2.compete_to_win') }}
+    </template>
+    <template #body>
+      <div class="medals">
+        <div
+          v-for="(prize, index) in prizes"
+          :key="`prize-${index}`"
+          class="medal"
+        >
+          <img
+            class="vector"
+            :src="prize.src"
+            :alt="`Vector image to illustrate ${prize.text}`"
+            loading="lazy"
+          >
+          <div
+            class="text-wrapper"
+          >
+            <div
+              v-for="(line, lineIndex) in prize.text.split('[NEWLINE]')"
+              :key="`line-${lineIndex}`"
+            >
+              {{ line }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="description">
+        <span><a href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view"> {{ $t('league_v2.codecombat_reverse') }}</a></span>
+        <span> {{ $t('league_v2.reversed_right') }}</span>
+      </div>
+    </template>
+  </page-section>
 </template>
 <script>
+import PageSection from 'app/components/common/elements/PageSection.vue'
 export default {
   components: {
+    PageSection,
   },
   data () {
     return {
+      prizes: [
+        {
+          src: '/images/pages/league/prizes/grand_prize.png',
+          text: $.i18n.t('league_v2.grand_prize'),
+        },
+        {
+          src: '/images/pages/league/prizes/2nd_place.png',
+          text: $.i18n.t('league_v2.second_place'),
+        },
+        {
+          src: '/images/pages/league/prizes/3rd_place.png',
+          text: $.i18n.t('league_v2.third_place'),
+        },
+      ],
     }
-  }
+  },
 }
 </script>
 
 <style scoped lang="scss">
+.section {
+  background-color: rgb(25, 54, 64);
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.medals {
+  display: flex;
+  width: 80%;
+  justify-content: space-around;
+
+  .medal {
+    text-align: center;
+    flex-basis: 20%;
+
+    img {
+      height: 138px;
+    }
+  }
+}
 
 </style>

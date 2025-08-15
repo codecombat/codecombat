@@ -103,8 +103,8 @@ export default function getVueRouter () {
           ],
         },
         {
-          path: '/league_v2',
-          component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league-v2/index'),
+          path: '/league-v2',
+          component: () => import(/* webpackChunkName: "LeagueV2View" */ 'app/views/landing-pages/league-v2/PageGlobal'),
           meta: { theme: 'teal' },
         },
         {
