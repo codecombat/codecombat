@@ -14,10 +14,28 @@
         <div class="ask-ai__text">
           {{ $t('play_level.problem_alert_need_hint') }}
         </div>
+        <!-- AI League Input -->
+        <div
+          v-if="aiChatKind === 'ai-league'"
+          class="ask-ai__input"
+        >
+          <!-- eslint-disable-next-line vue/html-self-closing -->
+          <textarea
+            v-model="customMessage"
+            :placeholder="$t('play_level.ask_ai_placeholder')"
+            class="form-control"
+            rows="3"
+            maxlength="512"
+          ></textarea>
+          <div class="ask-ai__char-count">
+            {{ customMessage.length }}/512
+          </div>
+        </div>
         <div class="ask-ai__cta">
           <button
             class="btn ai-help-button"
             :class="aiHintBtnStyle"
+            :disabled="aiChatKind === 'ai-league' && !customMessage.trim()"
             data-dismiss="modal"
             @click="onAskAiClicked"
           >
@@ -43,11 +61,18 @@ const utils = require('core/utils')
 export default Vue.extend({
   name: 'AskAIHelp',
   components: {
-    Modal
+    Modal,
+  },
+  props: {
+    aiChatKind: {
+      type: String,
+      default: 'level-chat',
+    },
   },
   data () {
     return {
-      creditMessage: ''
+      creditMessage: '',
+      customMessage: '',
     }
   },
   computed: {
@@ -64,7 +89,7 @@ export default Vue.extend({
       } else {
         return 'ai-btn-active'
       }
-    }
+    },
   },
   async created () {
     this.creditMessage = await userUtils.levelChatCreditsString()
@@ -72,10 +97,15 @@ export default Vue.extend({
   methods: {
     onAskAiClicked () {
       this.$emit('ask-ai-clicked')
-      const message = $.i18n.t('ai.prompt_level_chat_hint_' + _.random(1, 5))
+      let message
+      if (this.aiChatKind === 'ai-league') {
+        message = this.customMessage.trim()
+      } else {
+        message = $.i18n.t('ai.prompt_level_chat_hint_' + _.random(1, 5))
+      }
       Backbone.Mediator.publish('level:add-user-chat', { message })
-    }
-  }
+    },
+  },
 })
 </script>
 
@@ -105,6 +135,21 @@ export default Vue.extend({
 
   &__text {
     margin-bottom: 5px;
+  }
+
+  &__input {
+    margin-bottom: 10px;
+    textarea {
+      width: 100%;
+      resize: vertical;
+    }
+  }
+
+  &__char-count {
+    font-size: 12px;
+    color: #7b7575;
+    text-align: right;
+    margin-top: 5px;
   }
 
   &__credit {
