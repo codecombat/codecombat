@@ -1877,7 +1877,7 @@ module.exports = {
       near_end_trial: 'Your Students Are Nearing the End of the Trial Content',
       schedule_demo_subheading: 'Schedule a Demo to Continue Your Students’ Coding Journey With...',
       schedule_demo_description: 'Schedule a demo with our team to unlock more free content and explore our products, curricula, ​and resources. Let us help you craft a tailored solution for your class, school, or district.',
-      practice_and_application: 'Practice & Application Experiences'
+      practice_and_application: 'Practice & Application Experiences',
     },
 
     no_licenses_page: {

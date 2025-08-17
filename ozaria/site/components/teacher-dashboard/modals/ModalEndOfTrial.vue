@@ -68,8 +68,6 @@
           >
             {{ $t('schools_page.request_a_demo') }}
         </CTAButton>
-       
-        
       </div>
     </template>
   </ModalDynamicContent>
@@ -79,13 +77,13 @@
 import ModalDynamicContent from 'ozaria/site/components/teacher-dashboard/modals/ModalDynamicContent.vue'
 import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
 import CTAButton from 'app/components/common/buttons/CTAButton.vue'
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   name: 'EndOfTrialModal',
   components: {
     ModalDynamicContent,
     MixedColorLabel,
-    CTAButton
+    CTAButton,
   },
   computed: {
     ...mapGetters({
@@ -97,9 +95,9 @@ export default {
     hasLicense () {
         return !this.loadingLicenses && this.activeLicenses.length > 0
     },
-    showModal (){
-        return !this.hasLicense()
-    }
+    showModal () {
+        return !this.hasLicense // THIS NEEDS UPDATING: 
+    },
   },
   methods: {
     openModal () {
@@ -108,7 +106,7 @@ export default {
     close () {
       this.$refs.modal.onClose()
     },
-  }
+  },
 }
 </script>
 
@@ -122,7 +120,6 @@ export default {
     justify-content: center;
     padding: 10px 60px;
     text-align: center;
-
     .text-h2 {
         font-weight: bold;
     }
@@ -175,11 +172,9 @@ export default {
         justify-content: center;
         width: 100%;
     }
-
     .card-row.center {
         justify-content: center;
     }
-
     .card {
         border-radius: 8px;
         overflow: hidden;
@@ -197,7 +192,6 @@ export default {
         height: auto;
         display: block;
     }
-
     .card-title {
         background-color: var(--color-primary-1);
         color: $white;
