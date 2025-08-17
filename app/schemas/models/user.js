@@ -421,6 +421,7 @@ _.extend(UserSchema.properties, {
     properties: {
       'hackstack-beta-release-modal': [c.date(), { type: 'boolean' }],
       'curriculum-sidebar-promotion-modal': [c.date(), { type: 'boolean' }],
+      'end-of-trial-promotion-modal': [c.date(), { type: 'boolean' }],
       'hp-junior-modal': [c.date(), { type: 'boolean' }],
       'ai-league-tour': [c.date(), { type: 'boolean' }],
     }
