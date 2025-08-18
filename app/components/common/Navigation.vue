@@ -140,7 +140,7 @@ export default Vue.extend({
         }
       } else if (me.isMtoCodingOlympiad()) {
         return {
-          url: '/images/pages/partners/coding-olympiad-logo.png',
+          url: '/images/pages/partners/coding-olympiad-logo-1.png',
           className: 'mto-logo',
           alt: 'MTO Coding Olympiad logo',
         }
@@ -870,7 +870,7 @@ export default Vue.extend({
 }
 
 .mto-logo {
-  height: 28px;
+  height: 32px;
 }
 
 .code-ninjas-logo {
