@@ -7,7 +7,7 @@ import fetchJson from 'app/core/api/fetch-json'
 export const createNewChatMessage = ({ ...opts }, options = {}) =>
   fetchJson('/db/chat_message', _.assign({}, options, {
     method: 'POST',
-    json: { ...opts }
+    json: { ...opts },
   }))
 
 export const getChatMessages = () => fetchJson('/db/chat_message')

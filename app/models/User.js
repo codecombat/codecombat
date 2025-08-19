@@ -1485,8 +1485,12 @@ module.exports = (User = (function () {
       return [utils.MTOClients.MTO_NEO_DEV, utils.MTOClients.MTO_NEO_PROD].includes(this.get('clientCreator'))
     }
 
+    isMtoCodingOlympiad () {
+      return [utils.MTOClients.MTO_CODING_OLYMPIAD_DEV, utils.MTOClients.MTO_CODING_OLYMPIAD_PROD].includes(this.get('clientCreator'))
+    }
+
     isMto () {
-      return this.isMtoStem() || this.isMtoNeo()
+      return this.isMtoStem() || this.isMtoNeo() || this.isMtoCodingOlympiad()
     }
 
     isSchoology () {
