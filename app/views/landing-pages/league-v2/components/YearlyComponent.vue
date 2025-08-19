@@ -51,6 +51,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$custom-cyan:  rgb(77, 236, 240);
 .yearly-component {
   $border-style: 2px solid;
   border-bottom: $border-style;
@@ -95,12 +96,12 @@ export default {
   }
 
   &.border-cyan {
-    border-color: cyan;
+    border-color: $custom-cyan;
     &::before {
-      background-color: cyan;
+      background-color: $custom-cyan;
     }
     .year-label {
-      color: cyan;
+      color: $custom-cyan;
     }
   }
   &.border-white {

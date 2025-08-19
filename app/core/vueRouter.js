@@ -106,6 +106,9 @@ export default function getVueRouter () {
           path: '/league-v2',
           component: () => import(/* webpackChunkName: "LeagueV2View" */ 'app/views/landing-pages/league-v2/PageGlobal'),
           meta: { theme: 'teal' },
+          children: [
+            { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueV2View" */ 'app/views/landing-pages/league-v2/PageGlobal') },
+          ],
         },
         {
           path: '/admin/trial-classes',

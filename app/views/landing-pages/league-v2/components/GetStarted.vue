@@ -30,23 +30,22 @@
       </div>
       <div class="cta">
         <CTAButton
-          v-if="me.isAnonymous()"
-          class="contact-solution signup-button"
-          data-start-on-path="teacher"
-        >
-          {{ $t('league_v2.join_cta') }}
-          <template #description>
-            {{ $t('league_v2.free_to_play') }}
-          </template>
-        </CTAButton>
-        <CTAButton
-          v-else
-          class="contact-solution"
-          @clickedCTA="showContactModal = true"
+          v-if="me.isTeacher()"
+          @clickedCTA="$emit('clickCreateCTA')"
         >
           {{ $t('league_v2.create_cta') }}
           <template #description>
             {{ $t('league_v2.for_educators') }}
+          </template>
+        </CTAButton>
+        <CTAButton
+          v-else
+          :class="me.isAnonymous() ? 'signup-button' : ''"
+          @clickCTA="$emit('clickJoinCTA')"
+        >
+          {{ $t('league_v2.join_cta') }}
+          <template #description>
+            {{ $t('league_v2.free_to_play') }}
           </template>
         </CTAButton>
       </div>

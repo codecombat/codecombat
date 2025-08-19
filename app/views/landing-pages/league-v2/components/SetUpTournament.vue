@@ -26,17 +26,32 @@
               :src="step.img"
               class="icon"
             >
-            <p>
-              {{ step.title }}
-            </p>
+            <div class="info">
+              <p class="step">
+                {{ step.step }}
+              </p>
+              <p class="link">
+                <a
+                  href="javascript:void(0)"
+                  @click="step.event"
+                >{{ step.title }}</a>
+              </p>
+            </div>
           </div>
         </template>
       </ProgressBar>
     </template>
     <template #tail>
-      <!-- eslint-disable-next-line vue/no-v-html vue/html-self-closing -->
-      <div v-html="$t('league_v2.refer_guide')" />
-      <div>{{ $t('league_v2.having_question') }}</div>
+      <!-- eslint-disable vue/no-v-html vue/html-self-closing -->
+      <div
+        class="tail"
+        v-html="$t('league_v2.refer_guide')"
+      />
+      <div
+        class="tail"
+        v-html="$t('league_v2.having_question')"
+      />
+      <!-- eslint-enable vue/no-v-html vue/html-self-closing -->
     </template>
   </page-section>
 </template>
@@ -53,15 +68,24 @@ export default {
       steps: [
         {
           title: $.i18n.t('league_v2.create_team'),
-          titleLink: '',
+          step: $.i18n.t('league_v2.step_1'),
+          event: () => {
+            this.$emit('createClan')
+          },
           img: '/images/pages/league/v2/create_team.png',
         }, {
           title: $.i18n.t('league_v2.invite_players'),
-          titleLink: 'https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit?slide=id.gc2bf37ee3f_0_14#slide=id.gc2bf37ee3f_0_14',
+          step: $.i18n.t('league_v2.step_2'),
+          event: () => {
+            window.open('https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit?slide=id.gc2bf37ee3f_0_14#slide=id.gc2bf37ee3f_0_14', '_blank')
+          },
           img: '/images/pages/league/v2/invite_players.png',
         }, {
           title: $.i18n.t('league_v2.select_arena'),
-          titleLink: '/league/ladders',
+          step: $.i18n.t('league_v2.step_3'),
+          event: () => {
+            window.open('/league/ladders', '_blank')
+          },
           img: '/images/pages/league/v2/select_arena.png',
         },
       ],
@@ -76,13 +100,7 @@ export default {
 @import "app/styles/component_variables.scss";
 
 .section {
-  background-color: rgb(25, 54, 64);
-}
-.content {
-  @extend %font-20;
-  margin-bottom: 20px;
-  color:  #B4B4B4;
-  text-align: center;
+  background-color: #122f39;
 }
 
 .league-progress-bar {
@@ -105,9 +123,8 @@ export default {
     }
 
     p {
-      @extend %font-18-24;
+      @extend %font-20;
       text-align: center;
-      width: 10em;
     }
   }
 
@@ -129,5 +146,17 @@ export default {
       }
     }
   }
+}
+.info {
+  .step {
+    color: white;
+    font-weight: bold;
+  }
+  .link {
+    width: 340px;
+  }
+}
+.tail {
+  margin-bottom: 20px;
 }
 </style>

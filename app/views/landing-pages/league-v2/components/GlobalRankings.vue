@@ -6,7 +6,7 @@
         v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0"
         :clans="myClans"
         :selected="clanIdSelected || clanIdOrSlug"
-        style="margin-bottom: 40px;"
+        style="margin-bottom: 10px;"
         @change="e => changeClanSelected(e)"
       />
       <div class="content">
@@ -15,9 +15,9 @@
     </template>
     <template #body>
       <div
-        class="row text-center"
+        class="leaderboard-panel color-black"
       >
-        <div class="col-lg-6 section-space">
+        <div class="text-center section-space">
           <leaderboard
             v-if="currentSelectedClan"
             :key="`${clanIdSelected}-score`"
@@ -40,7 +40,7 @@
             class="btn btn-large btn-primary btn-moon play-btn-cta"
           >{{ $t('league.play_arena_full', { arenaName: $t(`league.${championshipArenaSlug.replace(/-/g, '_')}`), arenaType: (arcadeActive ? $t('league.arena_type_arcade') : $t('league.arena_type_championship')), interpolation: { escapeValue: false } }) }}</a>
         </div>
-        <div class="col-lg-6 section-space">
+        <div class="text-center section-space">
           <leaderboard
             :key="`${clanIdSelected}-codepoints`"
             :title="$t('league.codepoints')"
@@ -132,9 +132,24 @@ export default {
     },
 
   },
+  watch: {
+    clanIdOrSlug (newClan, lastClan) {
+      if (newClan !== lastClan) {
+        this.loadRequiredData()
+      }
+    },
+  },
+  mounted () {
+    this.loadRequiredData()
+  },
   methods: {
     ...mapActions({
       fetchClan: 'clans/fetchClan',
+      loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
+      loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
+      loadChampionshipClanRequiredData: 'seasonalLeague/loadChampionshipClanRequiredData',
+      loadChampionshipGlobalRequiredData: 'seasonalLeague/loadChampionshipGlobalRequiredData',
+      loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
     }),
     changeClanSelected (e) {
       let newSelectedClan = ''
@@ -151,7 +166,28 @@ export default {
     isTeacher () {
       return me.isTeacher()
     },
+    async loadRequiredData () {
+      console.log('load required data...')
+      if (this.clanIdOrSlug) {
+        try {
+          await this.fetchClan({ idOrSlug: this.clanIdOrSlug })
+        } catch (e) {
+          // Default to global page
+          application.router.navigate('league-v2', { trigger: true })
+          return
+        }
+
+        this.loadClanRequiredData({ leagueId: this.clanIdSelected })
+        this.loadChampionshipClanRequiredData({ leagueId: this.clanIdSelected })
+        this.loadCodePointsRequiredData({ leagueId: this.clanIdSelected })
+      } else {
+        this.loadGlobalRequiredData()
+        this.loadChampionshipGlobalRequiredData()
+        this.loadCodePointsRequiredData({ leagueId: '' })
+      }
+    },
   },
+
 }
 
 </script>
@@ -161,6 +197,32 @@ export default {
 @import "app/styles/component_variables.scss";
 .section {
   background: #021E27;
-  color: black;
+
+}
+.leaderboard-panel {
+  width: 1440px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .section-space {
+    width: 680px;
+
+    ::v-deep a {
+      color: #0b63bc;
+      text-decoration: none;
+    }
+
+    .play-btn-cta {
+      @extend %font-18-24;
+      background-color: var(--color-primary-1);
+      color: black;
+      padding: 12px 20px;
+      font-weight: 600;
+    }
+  }
+}
+.color-black {
+  color: black !important;
 }
 </style>

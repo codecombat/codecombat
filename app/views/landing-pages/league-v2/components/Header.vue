@@ -23,28 +23,28 @@
         <p
           v-for="line in subheads"
           :key="line"
+          class="description"
         >
           {{ line }}
         </p>
       </div>
       <CTAButton
-        v-if="me.isAnonymous()"
-        class="contact-solution signup-button"
-        data-start-on-path="teacher"
-      >
-        {{ $t('league_v2.join_cta') }}
-        <template #description>
-          {{ $t('league_v2.free_to_play') }}
-        </template>
-      </CTAButton>
-      <CTAButton
-        v-else
-        class="contact-solution"
-        @clickedCTA="showContactModal = true"
+        v-if="me.isTeacher()"
+        @clickedCTA="$emit('clickCreateCTA')"
       >
         {{ $t('league_v2.create_cta') }}
         <template #description>
           {{ $t('league_v2.for_educators') }}
+        </template>
+      </CTAButton>
+      <CTAButton
+        v-else
+        :class="me.isAnonymous() ? 'signup-button' : ''"
+        @clickedCTA="$emit('clickJoinCTA')"
+      >
+        {{ $t('league_v2.join_cta') }}
+        <template #description>
+          {{ $t('league_v2.free_to_play') }}
         </template>
       </CTAButton>
     </template>
@@ -120,9 +120,12 @@ $primary-background: #31636F;
   }
 }
 
+::v-deep .heading {
+  max-width: 1440px !important;
+}
+
 .header-title {
   @extend %font-44;
-
 }
 .header-title {
   ::v-deep .mixed-color-label__normal {
@@ -137,14 +140,7 @@ $primary-background: #31636F;
   width: 70%;
 }
 .content {
-  @extend %font-20;
   width: 70%;
-  margin-bottom: 20px;
-
-  p {
-    color:  #B4B4B4;
-    text-align: center;
-  }
 }
 
 .cta-button {

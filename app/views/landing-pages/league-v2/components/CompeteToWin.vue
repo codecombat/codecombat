@@ -29,7 +29,10 @@
         </div>
       </div>
       <div class="description">
-        <span><a href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view"> {{ $t('league_v2.codecombat_reverse') }}</a></span>
+        <span><a
+          target="_blank"
+          href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view"
+        > {{ $t('league_v2.codecombat_reverse') }}</a></span>
         <span> {{ $t('league_v2.reversed_right') }}</span>
       </div>
     </template>
@@ -65,8 +68,6 @@ export default {
 <style scoped lang="scss">
 .section {
   background-color: rgb(25, 54, 64);
-  padding-top: 40px;
-  padding-bottom: 40px;
 }
 .medals {
   display: flex;

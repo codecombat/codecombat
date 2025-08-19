@@ -73,7 +73,7 @@
     </div>
     <div
       v-else
-      class="row text-center"
+      class="row text-center season-name"
     >
       <span>{{ $t(`league.${season.championshipArena.slug.replace(/-/g, '_')}`) }} {{ $t(`league.${season.championshipType}`) }}</span>
       <br>
@@ -136,16 +136,20 @@ $primary-color: #4DECF0;
   .season-name {
     font-weight: bold;
     text-align: center;
+    color: rgb(68, 151, 167);
   }
   .season-dates {
+    font-size: 15px;
     text-align: center;
-    color: gray;
+    color: #B4B4B4;
   }
 
   .view-winners-col {
     padding: 5px !important;
 
     .btn {
+      background-color: rgb(68, 151, 167);
+      color: black;
       white-space: unset !important;
       font-size: 12px;
       padding-left: 2px;
