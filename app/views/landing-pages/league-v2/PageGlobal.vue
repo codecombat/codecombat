@@ -11,7 +11,7 @@
     />
     <CompeteToWin />
     <SeasonArenas />
-    <Inspiration />
+    <InspirationComponent />
     <SetUpTournament
       @createClan="clanCreationModal = true"
     />
@@ -30,7 +30,7 @@ import GlobalRankings from './components/GlobalRankings.vue'
 import GetStarted from './components/GetStarted.vue'
 import CompeteToWin from './components/CompeteToWin.vue'
 import SeasonArenas from './components/SeasonArenas.vue'
-import Inspiration from './components/Inspiration.vue'
+import InspirationComponent from './components/Inspiration.vue'
 import SetUpTournament from './components/SetUpTournament.vue'
 import ClanCreationModal from '../league/components/ClanCreationModal'
 
@@ -45,7 +45,7 @@ export default {
     GetStarted,
     CompeteToWin,
     SeasonArenas,
-    Inspiration,
+    InspirationComponent,
     SetUpTournament,
     ClanCreationModal,
   },

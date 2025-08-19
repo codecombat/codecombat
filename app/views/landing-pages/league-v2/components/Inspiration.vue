@@ -48,6 +48,7 @@ import PageSection from '../../../../components/common/elements/PageSection.vue'
 import TwoColumnBlock from 'app/components/common/elements/TwoColumnBlock.vue'
 import ContentBox from '../../../../components/common/elements/ContentBox'
 export default {
+  name: 'InspirationComponent',
   components: {
     PageSection,
     TwoColumnBlock,
