@@ -25,6 +25,7 @@
         <a
           :href="season.topMatchUrlPath"
           target="_blank"
+          rel="noopener noreferrer"
           style="position: relative;"
         >
           <img
@@ -62,10 +63,12 @@
         <a
           :href="`/play/ladder/${season.regularArena.slug}?tournament=${season.regularArena.tournament}`"
           class="btn btn-small btn-primary btn-moon play-btn-cta"
+          rel="noopener noreferrer"
         >{{ $t('league.view_arena_winners', { arenaName: $t('league.' + season.regularArena.slug.replace(/-/g, '_')), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
       </div>
       <div class="col-xs-12 col-md-6 view-winners-col">
         <a
+          rel="noopener noreferrer"
           :href="`/play/ladder/${season.championshipArena.slug}?tournament=${season.championshipArena.tournament}`"
           class="btn btn-small btn-primary btn-moon play-btn-cta"
         >{{ $t('league.view_arena_winners', { arenaName: $t('league.' + season.championshipArena.slug.replace(/-/g, '_')) + ' ' + $t('league.' + season.championshipType), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>

@@ -41,7 +41,7 @@
         <CTAButton
           v-else
           :class="me.isAnonymous() ? 'signup-button' : ''"
-          @clickCTA="$emit('clickJoinCTA')"
+          @clickedCTA="$emit('clickJoinCTA')"
         >
           {{ $t('league_v2.join_cta') }}
           <template #description>

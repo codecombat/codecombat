@@ -77,14 +77,14 @@ export default {
           title: $.i18n.t('league_v2.invite_players'),
           step: $.i18n.t('league_v2.step_2'),
           event: () => {
-            window.open('https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit?slide=id.gc2bf37ee3f_0_14#slide=id.gc2bf37ee3f_0_14', '_blank')
+            window.open('https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit?slide=id.gc2bf37ee3f_0_14#slide=id.gc2bf37ee3f_0_14', '_blank', 'noopener,noreferrer')
           },
           img: '/images/pages/league/v2/invite_players.png',
         }, {
           title: $.i18n.t('league_v2.select_arena'),
           step: $.i18n.t('league_v2.step_3'),
           event: () => {
-            window.open('/league/ladders', '_blank')
+            window.open('/league/ladders', '_blank', 'noopener,noreferrer')
           },
           img: '/images/pages/league/v2/select_arena.png',
         },

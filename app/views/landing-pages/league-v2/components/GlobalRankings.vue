@@ -159,7 +159,7 @@ export default {
         newSelectedClan = e.target.value
       }
 
-      const leagueURL = newSelectedClan ? `league-v2/${newSelectedClan}` : 'league'
+      const leagueURL = newSelectedClan ? `league-v2/${newSelectedClan}` : 'league-v2'
 
       application.router.navigate(leagueURL, { trigger: true })
     },

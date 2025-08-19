@@ -32,8 +32,9 @@
         <span><a
           target="_blank"
           href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view"
-        > {{ $t('league_v2.codecombat_reverse') }}</a></span>
-        <span> {{ $t('league_v2.reversed_right') }}</span>
+          rel="noopener noreferrer"
+        > {{ $t('league_v2.codecombat_reserves') }}</a></span>
+        <span> {{ $t('league_v2.reserved_right') }}</span>
       </div>
     </template>
   </page-section>
