@@ -1740,7 +1740,9 @@ module.exports.MTOClients = {
   MTO_STEM_DEV: '66d8d68b7fb24e9567588139',
   MTO_STEM_PROD: '66d8d72143881e9eebcf0cc9',
   MTO_NEO_DEV: '66d8d794f81368cbd77f5bca',
-  MTO_NEO_PROD: '66d8d750f81368cbd77f4ab2'
+  MTO_NEO_PROD: '66d8d750f81368cbd77f4ab2',
+  MTO_CODING_OLYMPIAD_DEV: '689af68799a3a0853dc08bb1',
+  MTO_CODING_OLYMPIAD_PROD: '689af7752fce8bc44950b2da'
 }
 
 module.exports.secondsToMinutesAndSeconds = function (seconds) {

@@ -113,6 +113,7 @@ module.exports = class PlayLevelView extends RootView
     'contextmenu #webgl-surface': 'onSurfaceContextMenu'
     'click': 'onClick'
     'click .close-solution-btn': 'onCloseSolution'
+    'click .apply-solution-btn': 'onApplySolution'
 
   onClick: ->
     # workaround to get users out of permanent idle status
@@ -132,7 +133,6 @@ module.exports = class PlayLevelView extends RootView
   constructor: (options, @levelID) ->
     console.profile?() if PROFILE_ME
     super options
-
     @options = options
     @courseID = options.courseID or utils.getQueryVariable 'course'
     @courseInstanceID = options.courseInstanceID or utils.getQueryVariable 'course-instance' or utils.getQueryVariable 'instance' # instance to avoid sessionless to be false when teaching
@@ -444,7 +444,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
     @insertSubView new HUDView {@level} unless @level.isType('web-dev')
     @insertSubView new LevelDialogueView {@level, sessionID: @session.id}
-    @insertSubView new ChatView {@levelID, sessionID: @session.id, @session, aceConfig: @classroomAceConfig}
+    @insertSubView new ChatView({@levelID, sessionID: @session.id, @session, aceConfig: @classroomAceConfig, aiChatKind: @level.get('aiChatKind'), levelRealID: @level.id})
     @insertSubView new ProblemAlertView {@session, @level, @supermodel, aceConfig: @classroomAceConfig}
     @insertSubView new SurfaceContextMenuView {@session, @level}
     @insertSubView new DuelStatsView {@level, @session, @otherSession, @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView} if @level.isLadder()
@@ -1192,6 +1192,9 @@ module.exports = class PlayLevelView extends RootView
 
   onCloseSolution: ->
     Backbone.Mediator.publish 'level:close-solution', {}
+
+  onApplySolution: ->
+    Backbone.Mediator.publish 'level:apply-solution', {}
 
   getLoadTrackingTag: () ->
     @level?.get 'slug'

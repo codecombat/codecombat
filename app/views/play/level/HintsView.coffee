@@ -6,6 +6,8 @@ aceUtils = require 'core/aceUtils'
 aetherUtils = require 'lib/aether_utils'
 userUtils = require 'app/lib/user-utils'
 globalVar = require 'core/globalVar'
+AskAIHelpView = require('views/play/level/AskAIHelpView').default
+
 
 module.exports = class HintsView extends CocoView
   template: require('app/templates/play/level/hints-view')
@@ -131,7 +133,10 @@ module.exports = class HintsView extends CocoView
     @state.set('hintsViewTime', hintsViewTime)
 
   onAIHelpClicked: (e) ->
-    rand = _.random(1, 13)
-    message = $.i18n.t('ai.prompt_level_chat_' + rand)
-    Backbone.Mediator.publish 'level:add-user-chat', { message }
-    _.delay (=> @handleUserCreditsMessage()), 5000
+    # Close hints view before opening AI Help modal to prevent overlapping
+    @hideView()
+    @openModalView(new AskAIHelpView({
+      propsData: {
+        aiChatKind: (@options.level?.get('aiChatKind')) or 'level-chat',
+      },
+    }))
