@@ -7,6 +7,7 @@
         </div>
         <div class="header-image">
           <img
+            v-if="showCubesImage"
             class="cubes"
             alt="Cubes"
             :src="$themePath('/images/components/cubes.webp')"
@@ -16,21 +17,25 @@
             <slot name="image" />
           </div>
           <img
+            v-if="showCubesImage"
             class="overlap-cubes overlap-cubes-2"
             alt="Overlap cubes"
             :src="$themePath('/images/components/cube001_4.webp')"
           >
           <img
+            v-if="showCubesImage"
             class="overlap-cubes overlap-cubes-3"
             alt="Overlap cubes"
             :src="$themePath('/images/components/cube001_2.webp')"
           >
           <img
+            v-if="showCubesImage"
             class="overlap-cubes overlap-cubes-4"
             alt="Overlap cubes"
             :src="$themePath('/images/components/cube001_1.webp')"
           >
           <img
+            v-if="showCubesImage"
             class="overlap-cubes overlap-cubes-5"
             alt="Overlap cubes"
             :src="$themePath('/images/components/cube001_3.webp')"
@@ -46,7 +51,13 @@
 export default {
   name: 'HeaderComponent',
   components: {
-  }
+  },
+  props: {
+    showCubesImage: {
+      type: Boolean,
+      default: true,
+    },
+  },
 }
 </script>
 
