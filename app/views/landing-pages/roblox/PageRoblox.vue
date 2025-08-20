@@ -1,6 +1,100 @@
 <template>
   <div id="roblox-page">
     <div class="container-fluid headline-container">
+      <div class="responsive-background">
+        <picture>
+          <source
+            media="(max-width: 600px)"
+            srcset="/images/pages/roblox/header-bg/bg_600.webp"
+            type="image/webp"
+          >
+          <source
+            media="(max-width: 600px)"
+            srcset="/images/pages/roblox/header-bg/bg_600.png"
+            type="image/png"
+          >
+
+          <source
+            media="(min-width: 601px) and (max-width: 800px)"
+            srcset="/images/pages/roblox/header-bg/bg_800.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 601px) and (max-width: 800px)"
+            srcset="/images/pages/roblox/header-bg/bg_800.png"
+            type="image/png"
+          >
+
+          <source
+            media="(min-width: 801px) and (max-width: 991px)"
+            srcset="/images/pages/roblox/header-bg/bg_991.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 801px) and (max-width: 991px)"
+            srcset="/images/pages/roblox/header-bg/bg_991.png"
+            type="image/png"
+          >
+
+          <source
+            media="(min-width: 992px) and (max-width: 993px)"
+            srcset="/images/pages/roblox/header-bg/bg_993.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 992px) and (max-width: 993px)"
+            srcset="/images/pages/roblox/header-bg/bg_993.png"
+            type="image/png"
+          >
+
+          <source
+            media="(min-width: 994px) and (max-width: 1199px)"
+            srcset="/images/pages/roblox/header-bg/bg_1199.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 994px) and (max-width: 1199px)"
+            srcset="/images/pages/roblox/header-bg/bg_1199.png"
+            type="image/png"
+          >
+
+          <source
+            media="(min-width: 1200px) and (max-width: 1300px)"
+            srcset="/images/pages/roblox/header-bg/bg_1300.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 1200px) and (max-width: 1300px)"
+            srcset="/images/pages/roblox/header-bg/bg_1300.png"
+            type="image/png"
+          >
+
+          <source
+            media="(min-width: 1301px) and (max-width: 1600px)"
+            srcset="/images/pages/roblox/header-bg/bg_1600.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 1301px) and (max-width: 1600px)"
+            srcset="/images/pages/roblox/header-bg/bg_1600.png"
+            type="image/png"
+          >
+
+          <source
+            media="(min-width: 1601px)"
+            srcset="/images/pages/roblox/header-bg/bg_full.webp"
+            type="image/webp"
+          >
+          <source
+            media="(min-width: 1601px)"
+            srcset="/images/pages/roblox/header-bg/bg_full.png"
+            type="image/png"
+          >
+
+          <!-- Fallback for browsers that don't support the picture element -->
+          <img src="/images/pages/roblox/header-bg/bg_600.png">
+        </picture>
+      </div>
       <div class="container">
         <div class="row headline-row">
           <div class="col col-sm-8">
