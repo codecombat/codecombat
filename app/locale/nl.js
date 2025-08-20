@@ -5184,6 +5184,12 @@ module.exports = {
     //    step_1: "Step 1",
     //    step_2: "Step 2",
     //    step_3: "Step 3",
+    //    academic_rigor: "Academic Rigor",
+    //    asynchronous_competition: "Asynchronous Competition",
+    //    greater_accessibility: "Greater Accessibility",
+    //    academic_rigor_desc: "The open-ended objective encourages creativity and iteration as players apply what they’ve learned from the core curriculum. The AI assistant offers a more realistic coding experience, but success still depends on strategy, mechanics, and writing solid code.",
+    //    asynchronous_competition_desc: "Unlike other esports, our platform allows players to compete anytime/anywhere with no need to coordinate schedules. ",
+    //    greater_accessibility_desc: "Since AI League is an academic esport focused on knowledge and strategy, fast reactions or hand-eye coordination are not required. Anyone can compete using a basic computer with internet access, and players can also choose to use the AI assistant to support their coding along the way.",
     //  },
 
     tournament: {

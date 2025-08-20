@@ -6,7 +6,7 @@
     <template #body>
       <YearlyComponent
         v-for="(seasons, year) in seasonsByYear"
-        :key="`yearly-${year}`"
+        :key="`yearly-${+year}`"
         :year="+year"
         :seasons="seasons"
       />

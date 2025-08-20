@@ -8,9 +8,9 @@
         v-if="season.video"
         class="col-xs-12 video-backer video-iframe"
       >
-        <div style="position: relative; padding-top: 56.14583333333333%;">
+        <div class="season-video">
           <iframe
-            :src="`https://iframe.videodelivery.net/${season.video}?poster=https://videodelivery.net/${season.video}/thumbnails/thumbnail.jpg%3Ftime%3D${season.videoThumbnailTime || '600s'}`"
+            :src="videoSrc"
             style="border: none; position: absolute; top: 0; left: 0; height: 100%; width: 100%;"
             allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
             allowfullscreen="true"
@@ -100,6 +100,13 @@ export default {
     }
   },
   computed: {
+    videoSrc () {
+      const video = this.season?.video
+      if (!video) {
+        return null
+      }
+      return `https://iframe.videodelivery.net/${video}?poster=https://videodelivery.net/${video}/thumbnails/thumbnail.jpg%3Ftime%3D${this.season.videoThumbnailTime || '600s'}`
+    },
   },
 }
 
@@ -134,6 +141,11 @@ $primary-color: #4DECF0;
     .season-img {
       max-height: 200px;
       max-width: 368px;
+    }
+    .season-video {
+      position: relative;
+      width: 368px;
+      height: 200px;
     }
   }
   .season-name {

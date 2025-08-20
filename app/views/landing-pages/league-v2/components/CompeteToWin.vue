@@ -22,13 +22,14 @@
             <div
               v-for="(line, lineIndex) in prize.text.split('[NEWLINE]')"
               :key="`line-${lineIndex}`"
+              class="prize-desc"
             >
               {{ line }}
             </div>
           </div>
         </div>
       </div>
-      <div class="description">
+      <div class="description text-center">
         <span><a
           target="_blank"
           href="https://drive.google.com/file/d/1QGkGr26fMAP0B36enroyTOI5kYzoBEdr/view"
@@ -81,8 +82,17 @@ export default {
 
     img {
       height: 138px;
+      margin-bottom: 20px;
+    }
+    .prize-desc {
+      width: 200px;
     }
   }
+
+}
+.description {
+  margin-top: 20px;
+  width: max(90%, 1080px);
 }
 
 </style>

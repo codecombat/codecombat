@@ -31,10 +31,10 @@
             <div class="body">
               <!--eslint-enable-->
               <div class="title">
-                {{ block.title }}
+                {{ $t(block.title) }}
               </div>
               <div class="description">
-                {{ block.description }}
+                {{ $t(block.description) }}
               </div>
             </div>
           </div>
@@ -48,7 +48,7 @@ import PageSection from '../../../../components/common/elements/PageSection.vue'
 import TwoColumnBlock from 'app/components/common/elements/TwoColumnBlock.vue'
 import ContentBox from '../../../../components/common/elements/ContentBox'
 export default {
-  name: 'InspirationComponent',
+  name: 'LeagueInspiration',
   components: {
     PageSection,
     TwoColumnBlock,
@@ -63,39 +63,24 @@ export default {
             src: '/images/pages/league/v2/Academic-Rigor.png',
             alt: 'Academic Rigor',
           },
-          title: 'Academic Rigor',
-          description: 'The open-ended objective encourages creativity, experimentation and iteration as students showcase their understanding of coding concepts and practice what they\'ve learned from the core curriculum. ',
+          title: 'league_v2.academic_rigor',
+          description: 'league_v2.academic_rigor_desc',
         }, {
           reverse: true,
           image: {
             src: '/images/pages/league/v2/Asynchronous-Competition.jpg',
             alt: 'Asynchronous Competition',
           },
-          title: 'Asynchronous Competition',
-          description: 'Unlike other esports, our platform allows players to compete anytime/anywhere with no need to coordinate schedules. ',
+          title: 'league_v2.asynchronous_competition',
+          description: 'league_v2.asynchronous_competition_desc',
         }, {
           reverse: false,
           image: {
             src: '/images/pages/league/v2/Greater-Accessibility.jpg',
             alt: 'Greater Accessibility',
           },
-          title: 'Greater Accessibility',
-          description: 'Since we’re an academic esport built on knowledge and strategy, fast reaction techniques or hand-eye coordination don’t impact play. Therefore, anyone can compete using basic computers (Chromebooks) with internet access.',
-        },
-      ],
-      steps: [
-        {
-          title: 'Create a Team/Classroom',
-          titleLink: '',
-          description: 'Teams are the same as classrooms and you can use existing classrooms to run tournaments or set up a new team if you want to invite players from different classrooms.',
-        }, {
-          title: 'Invite Players',
-          titleLink: '',
-          description: 'Inviting players follows the same steps as when you add them to a classroom. Players will show up on the leaderboard after submitting code the first time.',
-        }, {
-          title: 'Create Custom Tournament',
-          titleLink: '',
-          description: 'Now you will have the opportunity to pick your arena and set the timing for your custom tournament.',
+          title: 'league_v2.greater_accessibility',
+          description: 'league_v2.greater_accessibility_desc',
         },
       ],
     }
@@ -127,13 +112,20 @@ export default {
     .title {
       @extend %font-24-30;
       font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .description: {
+      font-size: 18px;
+      line-height: 22px;
     }
   }
 }
 
 .block {
   gap: unset;
-  margin: 10px auto !important;
+  margin: 30px 0 !important;
+  min-width: 1000px;
 
   ::v-deep .column-one div{
     border-top-right-radius: unset;

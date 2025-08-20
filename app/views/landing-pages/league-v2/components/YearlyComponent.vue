@@ -11,7 +11,7 @@
     >
       <SeasonComponent
         v-for="season in seasons"
-        :key="`${year}-season-${season.number}`"
+        :key="`${$vnode.key || _uid}-${year}-season-${season.number}`"
         :season="season"
       />
     </div>

@@ -98,7 +98,9 @@ $custom-cyan:  rgb(77, 236, 240);
     .heading {
       max-width: 800px;
       .content {
-        @extend %font-24-30;
+        margin-top: 20px;
+        font-size: 22px;
+        line-height: 28px;
       }
     }
     .body {

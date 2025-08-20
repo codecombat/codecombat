@@ -200,13 +200,14 @@ export default {
 
 }
 .leaderboard-panel {
-  width: 1440px;
+  width: min(120%, 1440px);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 
   .section-space {
-    width: 680px;
+    width: 48%;
 
     ::v-deep a {
       color: #0b63bc;

@@ -5186,6 +5186,12 @@ module.exports = {
       step_1: 'Fgrc 1',
       step_2: 'Fgrc 2',
       step_3: 'Fgrc 3',
+      academic_rigor: 'Npnqrzvp Evtbe',
+      asynchronous_competition: 'Nflapuebabhf Pbzcrgvgvba',
+      greater_accessibility: 'Terngre Npprffvovyvgl',
+      academic_rigor_desc: 'Gur bcra-raqrq bowrpgvir rapbhentrf perngvivgl naq vgrengvba nf cynlref nccyl jung gurl’ir yrnearq sebz gur pber pheevphyhz. Gur NV nffvfgnag bssref n zber ernyvfgvp pbqvat rkcrevrapr, ohg fhpprff fgvyy qrcraqf ba fgengrtl, zrpunavpf, naq jevgvat fbyvq pbqr.',
+      asynchronous_competition_desc: 'Hayvxr bgure rfcbegf, bhe cyngsbez nyybjf cynlref gb pbzcrgr nalgvzr/naljurer jvgu ab arrq gb pbbeqvangr fpurqhyrf. ',
+      greater_accessibility_desc: 'Fvapr NV Yrnthr vf na npnqrzvp rfcbeg sbphfrq ba xabjyrqtr naq fgengrtl, snfg ernpgvbaf be unaq-rlr pbbeqvangvba ner abg erdhverq. Nalbar pna pbzcrgr hfvat n onfvp pbzchgre jvgu vagrearg npprff, naq cynlref pna nyfb pubbfr gb hfr gur NV nffvfgnag gb fhccbeg gurve pbqvat nybat gur jnl.',
     },
 
     tournament: {

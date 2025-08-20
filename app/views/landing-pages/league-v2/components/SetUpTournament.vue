@@ -158,5 +158,6 @@ export default {
 }
 .tail {
   margin-bottom: 20px;
+  font-size: 22px !important;
 }
 </style>

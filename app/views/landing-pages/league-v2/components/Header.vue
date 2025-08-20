@@ -137,10 +137,14 @@ $primary-background: #31636F;
 }
 
 .image {
-  width: 70%;
+  width: 100%;
 }
 .content {
-  width: 70%;
+  margin-top: 30px;
+  width: max(70%, 1440px);
+  .description {
+    margin: 2px;
+  }
 }
 
 .cta-button {
@@ -157,17 +161,19 @@ $primary-background: #31636F;
 
   .compete {
     display: flex;
-    width: 750px;
+    width: 720px;
+    height: 310px;
     background: rgb(240, 253, 253);
     color: black;
     border-radius: 20px;
     align-items: center;
-    justify-content: space-around;
+    justify-content: center;
     padding-top: 20px;
     padding-bottom: 20px;
 
     .ai-league-logo {
       width: 120px;
+      margin-right: 30px;
     }
 
     .main {
@@ -175,7 +181,9 @@ $primary-background: #31636F;
       text-align: left;
 
       .desc {
-        font-size: 16px;
+        margin-top: 20px;
+        font-size: 15px;
+        line-height: 26px;
         color: black;
         text-align: left;
       }
