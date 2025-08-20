@@ -76,7 +76,7 @@ export default Vue.extend({
       'unread',
       'announcementInterval',
       'announcementModalOpen',
-      'announcementDisplay'
+      'announcementDisplay',
     ]),
     languageCode () {
       return me.get('preferredLanguage')
@@ -129,19 +129,19 @@ export default Vue.extend({
         return {
           url: '/images/pages/base/logo-tarena.png',
           className: 'tarena-logo',
-          alt: 'Tarena logo'
+          alt: 'Tarena logo',
         }
       } else if (this.serverConfig.codeNinjas || me.isCodeNinja()) {
         return {
           url: '/images/pages/base/code-ninjas-logo-right.png',
           className: 'code-ninjas-logo',
-          alt: 'Code Ninjas logo'
+          alt: 'Code Ninjas logo',
         }
       } else if (me.isTecmilenio()) {
         return {
           url: '/images/pages/payment/tecmilenio-logo-2.png',
           className: 'tecmilenio-logo',
-          alt: 'Tecmilenio logo'
+          alt: 'Tecmilenio logo',
         }
       } else if (me.isMtoCodingOlympiad()) {
         return {
@@ -158,7 +158,7 @@ export default Vue.extend({
         }
       }
       return null
-    }
+    },
   },
 
   created () {
@@ -185,7 +185,7 @@ export default Vue.extend({
     ...mapActions('announcements', [
       'closeAnnouncementModal',
       'checkAnnouncements',
-      'startInterval'
+      'startInterval',
     ]),
     navEvent (e) {
       // Only track if user has clicked a link on the nav bar
@@ -202,7 +202,7 @@ export default Vue.extend({
       const properties = {
         category: 'Nav',
         // Inspired from the HomeView homePageEvent method
-        user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser'
+        user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser',
       }
 
       window.tracker.trackEvent(action, properties)
@@ -245,7 +245,7 @@ export default Vue.extend({
     },
 
     getNavbarData () {
-      const anonymous = {
+      let anonymous = {
         educators: {
           url: isCodeCombat ? '/schools' : '/',
           title: 'nav.educators',
@@ -259,12 +259,12 @@ export default Vue.extend({
             items.PD,
             items.HOC,
             items.GRANTS,
-            items.DEMO
-          ]
+            items.DEMO,
+          ],
         },
         parents: {
           url: this.cocoPath('/parents'),
-          title: 'nav.parent'
+          title: 'nav.parent',
         },
         play: {
           url: this.cocoPath('/play'),
@@ -272,43 +272,43 @@ export default Vue.extend({
           children: [
             {
               ...items.COCO_HOME,
-              description: 'nav.coco_home_description'
+              description: 'nav.coco_home_description',
             },
             {
               ...items.COCO_CLASSROOM,
               class: 'signup-button',
               url: null,
-              description: 'nav.coco_classroom_description'
+              description: 'nav.coco_classroom_description',
             },
             {
               ...items.COCO_JUNIOR,
-              description: 'nav.coco_junior_description'
+              description: 'nav.coco_junior_description',
             },
             {
               ...items.OZ_CLASSROOM,
-              description: 'nav.oz_classroom_description'
+              description: 'nav.oz_classroom_description',
             },
             {
               ...items.AP_CSP,
-              description: 'nav.ap_csp_description'
+              description: 'nav.ap_csp_description',
             },
             {
               ...items.AI_LEAGUE,
-              description: 'nav.ai_league_description'
+              description: 'nav.ai_league_description',
             },
             {
               ...items.ROBLOX,
-              description: 'nav.roblox_description'
+              description: 'nav.roblox_description',
             },
             {
               ...items.AI_HACKSTACK,
-              description: 'nav.ai_hackstack_description'
+              description: 'nav.ai_hackstack_description',
             },
             {
               ...items.AI_JUNIOR,
-              description: 'nav.ai_junior_description'
-            }
-          ]
+              description: 'nav.ai_junior_description',
+            },
+          ],
         },
       }
 
@@ -318,12 +318,12 @@ export default Vue.extend({
       const cocoAdmin = { url: this.cocoPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'nav.codecombat_admin_dashboard' }
       const ozarAdmin = { url: this.ozPath('/school-administrator'), hide: !me.isSchoolAdmin(), title: 'nav.ozaria_admin_dashboard' }
 
-      const educator = {
+      let educator = {
         'my-dashboards': {
           title: 'nav.my_dashborads',
           children: [
             ...(isCodeCombat ? [teacherCocoClasses, teacherOzarClasses, cocoAdmin, ozarAdmin] : [teacherOzarClasses, teacherCocoClasses, ozarAdmin, cocoAdmin]),
-          ]
+          ],
         },
         resources: {
           title: 'nav.resources',
@@ -336,8 +336,8 @@ export default Vue.extend({
             items.PD,
             items.HOC,
             items.GRANTS,
-            items.DEMO
-          ]
+            items.DEMO,
+          ],
         },
         curriculum: {
           title: 'nav.curriculum',
@@ -350,22 +350,22 @@ export default Vue.extend({
             items.AI_LEAGUE,
             items.ROBLOX,
             items.AI_HACKSTACK,
-            items.AI_JUNIOR
-          ]
-        }
+            items.AI_JUNIOR,
+          ],
+        },
       }
 
       const studentCocoClassroom = {
         ...items.COCO_CLASSROOM,
-        url: this.cocoPath('/students')
+        url: this.cocoPath('/students'),
       }
 
       const studentOzarClassroom = {
         ...items.OZ_CLASSROOM,
-        url: this.ozPath('/students')
+        url: this.ozPath('/students'),
       }
 
-      const student = {
+      let student = {
         'my-courses': {
           title: 'nav.my_courses',
           children: [
@@ -376,21 +376,21 @@ export default Vue.extend({
             ),
             items.AI_LEAGUE,
             items.ROBLOX,
-          ]
-        }
+          ],
+        },
       }
 
       const parent = {
         dashboard: {
           title: 'nav.dashboard',
-          url: me.hasNoVerifiedChild() ? this.cocoPath('/parents/add-another-child') : this.cocoPath('/parents/dashboard')
+          url: me.hasNoVerifiedChild() ? this.cocoPath('/parents/add-another-child') : this.cocoPath('/parents/dashboard'),
         },
         'learning-options': {
           title: 'nav.learning_options',
           children: [
             items.LIVE_ONLINE_CLASSES,
             items.PREMIUM,
-          ]
+          ],
         },
         curriculum: {
           title: 'nav.curriculum',
@@ -400,17 +400,17 @@ export default Vue.extend({
             items.AI_LEAGUE,
             items.ROBLOX,
             items.AI_HACKSTACK,
-            items.AI_JUNIOR
-          ]
-        }
+            items.AI_JUNIOR,
+          ],
+        },
       }
-      const individual = {
+      let individual = {
         'learning-options': {
           title: 'nav.learning_options',
           children: [
             items.LIVE_ONLINE_CLASSES,
             items.PREMIUM,
-          ]
+          ],
         },
         play: {
           title: 'nav.play2',
@@ -421,7 +421,64 @@ export default Vue.extend({
             items.ROBLOX,
             items.AI_HACKSTACK,
             items.AI_JUNIOR,
-          ]
+          ],
+        },
+      }
+
+      let chinaNav = {
+        cocoOJ: {
+          title: 'nav.coco_oj',
+          url: 'https://oj.koudashijie.com',
+        },
+      }
+      const chinaEduNav = {
+        cocoStar: {
+          title: 'nav.star',
+          url: this.cocoPath('/CoCoStar'),
+        },
+        aiyouth: {
+          title: 'nav.aiyouth',
+          url: 'http://aishiqingsai.org.cn',
+        },
+        event: {
+          title: 'nav.events',
+          url: this.cocoPath('/events'),
+        },
+      }
+      if (me.showChinaResourceInfo()) {
+        if (!me.showChinaHomeVersion()) {
+          chinaNav = {
+            ...chinaNav,
+            ...chinaEduNav,
+          }
+        }
+        anonymous = {
+          ...chinaNav,
+        }
+        educator = {
+          ...chinaNav,
+          'my-dashboards': educator['my-dashboards'],
+
+        }
+        student = {
+          ...chinaNav,
+          'my-courses': {
+            title: 'nav.my_courses',
+            children: [
+              ...(
+                isCodeCombat
+                  ? [studentCocoClassroom, studentOzarClassroom]
+                  : [studentOzarClassroom, studentCocoClassroom]
+              ),
+            ],
+          },
+        }
+        individual = {
+          ...chinaNav,
+          play: {
+            title: 'common.play',
+            url: this.cocoPath('/play'),
+          },
         }
       }
 
@@ -442,8 +499,8 @@ export default Vue.extend({
       }
 
       return individual
-    }
-  }
+    },
+  },
 })
 </script>
 
@@ -470,61 +527,22 @@ export default Vue.extend({
               a(v-if="isOzaria" :href="homeLink")
                 img#logo-img.oz-logo(src="/images/ozaria/home/ozaria-logo.png" alt="Ozaria logo" title='Ozaria')
 
-          .navbar-browser-recommendation.navbar-header(v-if="isChinaOldBrowser")
-            .nav-spacer
-              .navbar-nav
-                a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/") {{ $t('nav.browser_recommendation') }}
-
           .collapse.navbar-collapse
             .nav-spacer
             ul.nav.navbar-nav(v-if="!me.hideTopRightNav() && !hideNav")
-              li
-              template(v-if="me.showChinaResourceInfo()")
-                li
-                  a.text-p(href="https://oj.koudashijie.com", data-i18n="nav.coco_oj", class='')
-                template(v-if="me.showChinaResourceInfo() && !me.showChinaHomeVersion()")
-                  li
-                    a.text-p(href="/CoCoStar", data-i18n="nav.star", class='')
-                  li
-                    a.text-p(data-i18n="nav.aiyouth", href="http://aiyouth.koudashijie.com")
-                  li
-                    a.text-p(data-event-action="Header Request Quote CTA", href="/contact-cn") {{ $t('new_home.request_quote') }}
-                  li
-                    a.text-p(href="/events", data-i18n="nav.events", class='')
-              li(v-if="me.isTeacher()")
-                ul.nav.navbar-nav
+              li(v-for="navItem in getNavbarData()")
+                ul.nav.navbar-nav(v-if="navItem.children")
                   li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="/teachers/classes", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span {{ $t('nav.dashboard') }}
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/teachers/classes')")
-                          span(:class="checkLocation('/teachers/classes', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria${me.isSchoolAdmin()?'_teacher':''}_dashboard`) }}
-                      li
-                        a.text-p(:class="checkLocation('/teachers/classes', CODECOMBAT) && 'text-teal'" :href="cocoPath('/teachers/classes')") {{ $t(`nav.codecombat${me.isSchoolAdmin()?'_teacher':''}_dashboard`) }}
+                    a.text-p(:href="isWideScreen ? navItem.url : null" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                      span {{ $t(navItem.title) }}
+                      caret.dropdown-caret(v-if="useDarkMode" color="white")
+                      caret.dropdown-caret(v-else color="black")
+                    ul(class="dropdown-menu" :class="navItem.children.some(child => child.description) && 'text-wide'")
+                      li(v-for="child in navItem.children.filter(child => child.hide!==true)")
+                        a.text-p(:href="child.url" :class="[child.class, child.url && checkLocation(child.url) && 'text-teal'].filter(Boolean)" v-bind="child.attrs") {{ $t(child.title) }}
+                          div.text-description(v-if="child.description") {{ $t(child.description) }}
 
-                      li(v-if="me.isSchoolAdmin()")
-                        a.text-p(:href="ozPath('/school-administrator')")
-                          span(:class="checkLocation('/school-administrator', OZARIA) && 'text-teal'") {{ $t(`nav.ozaria_admin_dashboard`) }}
-                      li(v-if="me.isSchoolAdmin()")
-                        a.text-p(:class="checkLocation('/school-administrator', CODECOMBAT) && 'text-teal'" :href="cocoPath('/school-administrator')") {{ $t(`nav.codecombat_admin_dashboard`) }}
-
-              li(v-else-if="me.isStudent()")
-                ul.nav.navbar-nav
-                  li.dropdown.dropdown-hover
-                    a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      span {{ $t('nav.my_courses') }}
-                      span.caret
-                    ul(class="dropdown-menu")
-                      li
-                        a.text-p(:href="ozPath('/students')")
-                          span(:class="checkLocation('/students', OZARIA) && 'text-teal'") {{ $t('nav.ozaria_classroom') }}
-                      li
-                        a.text-p(:class="checkLocation('/students', CODECOMBAT) && 'text-teal'" :href="cocoPath('/students')") {{ $t('nav.codecombat_classroom') }}
-
-              li(v-if="!me.isAnonymous() && !me.isStudent() && !me.isTeacher()")
-                a.text-p(:href="cocoPath('/play')") {{ $t('common.play') }}
+                a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
 
           .navbar-collapse.collapse
             ul.nav.navbar-nav.loggedin(v-if="!me.isAnonymous()")
@@ -547,8 +565,10 @@ export default Vue.extend({
                     a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                   li
                     a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                  li(v-if="me.isAdmin() || (me.get('emailVerified') && (!me.showChinaHomeVersion()) && (me.isTeacher() || (!me.get('role') && !me.isAnonymous())))")
+                  li(v-if="isCodeCombat && (me.isAdmin() || me.isParentHome() || me.isRegisteredHomeUser()) && (!me.showChinaHomeVersion())")
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
+                  li(v-if="isCodeCombat && (me.showChinaHomeVersion() && me.isHomeUser())")
+                    a.account-dropdown-item(href="/account/prepaid") {{ $t('account.subscription') }}
                   li.dropdown.dropleft.dropdown-hover(v-if="true || unread")
                     a.account-dropdown-item.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" @click="readAnnouncement")
                       caret.rotate-left(v-if="this.announcements.length && useDarkMode" color="white")
@@ -556,10 +576,6 @@ export default Vue.extend({
                       span {{ $t('announcement.notifications') }}
                       span.unread(v-if="unread") {{ unread }}
                     announcement-nav.announcement-nav(v-if="this.announcements.length")
-                  li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()))")
-                    a.account-dropdown-item(href="/account/payments") {{ $t('account.payments') }}
-                  li(v-if="isCodeCombat && (me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()|| (me.showChinaHomeVersion() && me.isHomeUser()))")
-                    a.account-dropdown-item(href="/account/prepaid") {{ $t('account.subscription') }}
                   li(v-if="me.isAPIClient()")
                     a.account-dropdown-item(href="/partner-dashboard", target="_blank") {{ $t('nav.api_dashboard') }}
                   li(v-if="me.isAdmin() || me.isOnlineTeacher() || me.isParentAdmin()")
@@ -586,7 +602,7 @@ export default Vue.extend({
                     //- string replaced in RootView
                     span.language-dropdown-current Language
                   ul(class="dropdown-menu language-dropdown")
-              ul.nav.navbar-nav(v-if="me.isTeacher() && !me.hideTopRightNav() && !me.showChinaResourceInfo()")
+              ul.nav.navbar-nav(v-if="me.isTeacher() && !me.hideTopRightNav() && !me.isCreatedByClient() && !me.showChinaResourceInfo()")
                 li
                   cta-button.request-demo-button(data-event-action="Header Request Demo CTA" size="small" href="/schools?openContactModal=true") {{ $t('new_home.request_quote') }}
 </template>
@@ -878,21 +894,8 @@ export default Vue.extend({
     margin-left: 0.5em;
   }
 
-}
-
-nav#main-nav.navbar.dark-mode {
-  background-color: #352C20;
-
-  .nav > li > a {
-    color: #FCBB00;
-
-    &:hover {
-      color: #FF39A6;
-    }
-  }
-
-  .dropdown-menu {
-    background-color: white;
+  .dropdown-caret {
+    margin-left: 5px;
   }
 
   .account-dropdown-item {
