@@ -967,10 +967,12 @@ class CampaignView extends RootView {
       (me.get('anonymous') && storage.load(PROMPTED_FOR_SIGNUP)) || // already prompted for signup, but not signed up
       (!me.isPremium() && storage.load(PROMPTED_FOR_SUBSCRIPTION)) // already prompted for subscription, but not subscribed
     ) {
-      if (!storage.load(ROBLOX_MODAL_SHOWN)) {
-        this.showRobloxModal()
-      } else {
-        this.showAiLeagueModal()
+      if (!me.showChinaResourceInfo()) {
+        if (!storage.load(ROBLOX_MODAL_SHOWN)) {
+          this.showRobloxModal()
+        } else {
+          this.showAiLeagueModal()
+        }
       }
     }
   }
