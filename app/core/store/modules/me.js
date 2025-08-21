@@ -6,7 +6,8 @@ const api = require('core/api')
 const utils = require('core/utils')
 
 const emptyUser = _.zipObject((_.keys(userSchema.properties).map((key) => [key, null])))
-const SALES_CALL_ACCESS_LEVEL = User.SALES_CALL_ACCESS_LEVEL
+const USER_SALES_CALL_ACCESS_LEVEL = User.SALES_CALL_ACCESS_LEVEL
+const COURSE_SALES_CALL_ACCESS_LEVEL = Course.SALES_CALL_ACCESS_LEVEL
 
 export default {
   namespaced: true,
@@ -84,7 +85,7 @@ export default {
       if (getters.isPaidTeacher) {
         userAccessLevel = 'paid'
       } else if (me.activeSalesCallProducts().length > 0) {
-        userAccessLevel = SALES_CALL_ACCESS_LEVEL
+        userAccessLevel = USER_SALES_CALL_ACCESS_LEVEL
       }
       return userAccessLevel
     },
@@ -92,11 +93,10 @@ export default {
     isContentAccessible (state, getters) {
       return (accessLevel) => {
         const userAccessLevel = getters.userAccessLevel
-        const COURSE_SALES_CALL_ACCESS_LEVEL = Course.SALES_CALL_ACCESS_LEVEL
 
         const userAccessMap = {
           free: ['free'],
-          [SALES_CALL_ACCESS_LEVEL]: ['free', COURSE_SALES_CALL_ACCESS_LEVEL],
+          [USER_SALES_CALL_ACCESS_LEVEL]: ['free', COURSE_SALES_CALL_ACCESS_LEVEL],
           paid: ['free', COURSE_SALES_CALL_ACCESS_LEVEL, 'paid'],
         }
         return userAccessMap[userAccessLevel].includes(accessLevel)
