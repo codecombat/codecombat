@@ -675,7 +675,7 @@ module.exports = (Level = (function () {
       if (teacher && classroomSub && classroomSub.base) {
         const sub = classroomSub[teacher.get('geo')?.country] || classroomSub.base
         if (sub === 'free-after-sales') {
-          hasAccess = teacher.activeProducts('call-sales').length
+          hasAccess = teacher.activeSalesCallProducts().length > 0
         } else {
           hasAccess = sub === 'free'
         }
