@@ -5159,10 +5159,10 @@ module.exports = {
       for_educators: 'For educators with paid licenses',
       ai_league_desc: 'The CodeCombat AI League is uniquely both a competitive AI battle simulator and game engine for learning real Python or JavaScript code.',
       get_start: 'Free to Get Started',
-      get_start_list_1: 'Access competitive multiplayer arenas and global coding championships',
-      get_start_list_2: 'Earn codepoints for completing practice levels and competing in head-to-head matches',
-      get_start_list_3: 'Join competitive coding teams with friends, family, or classmates',
-      get_start_list_4: 'Showcase your coding skills and take home great prizes',
+      get_start_list_1: 'Join global coding[NEWLINE]championships',
+      get_start_list_2: 'Earn codepoints in[NEWLINE]matches',
+      get_start_list_3: 'Team up with friends[NEWLINE]or classmates',
+      get_start_list_4: 'Showcase your skills[NEWLINE]and win prizes',
       compete_to_win: 'Code Your Way to First Place to Win!',
       code_to_compete: '**Esports:** Code to Compete',
       compete_desc: 'AI League is the ultimate coding arena where players battle using real Python, JavaScript, C++, and more. You can write your own logic or vibe code with an AI assistant to learn the ropes. Every match builds your skills, sharpens your strategy, and brings the heat. This is where smart code wins the game.',
@@ -5192,6 +5192,8 @@ module.exports = {
       academic_rigor_desc: 'The open-ended objective encourages creativity and iteration as players apply what they’ve learned from the core curriculum. The AI assistant offers a more realistic coding experience, but success still depends on strategy, mechanics, and writing solid code.',
       asynchronous_competition_desc: 'Unlike other esports, our platform allows players to compete anytime/anywhere with no need to coordinate schedules. ',
       greater_accessibility_desc: 'Since AI League is an academic esport focused on knowledge and strategy, fast reactions or hand-eye coordination are not required. Anyone can compete using a basic computer with internet access, and players can also choose to use the AI assistant to support their coding along the way.',
+      earn_codepoints: 'Earn CodePoints',
+      earn_by: 'By Completing Levels',
     },
 
     tournament: {

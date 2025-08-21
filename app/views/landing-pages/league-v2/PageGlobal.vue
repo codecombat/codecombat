@@ -90,6 +90,9 @@ $custom-cyan:  rgb(77, 236, 240);
   font-family: Plus Jakarta Sans;
 }
 ::v-deep {
+  .btn-primary {
+    text-shadow: unset !important;
+  }
   .section {
     color: white;
     padding-top: 40px;
@@ -108,6 +111,7 @@ $custom-cyan:  rgb(77, 236, 240);
     }
     .tail {
       max-width: 1440px;
+      justify-items: center;
     }
 
     .content {

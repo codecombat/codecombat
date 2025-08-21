@@ -44,11 +44,11 @@
     <template #tail>
       <!-- eslint-disable vue/no-v-html vue/html-self-closing -->
       <div
-        class="tail"
+        class="tail-conent"
         v-html="$t('league_v2.refer_guide')"
       />
       <div
-        class="tail"
+        class="tail-content"
         v-html="$t('league_v2.having_question')"
       />
       <!-- eslint-enable vue/no-v-html vue/html-self-closing -->
@@ -70,7 +70,7 @@ export default {
           title: $.i18n.t('league_v2.create_team'),
           step: $.i18n.t('league_v2.step_1'),
           event: () => {
-            this.$emit('createClan')
+            window.open('https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit#slide=id.gc02108344f_0_69', '_blank', 'noopener,noreferrer')
           },
           img: '/images/pages/league/v2/create_team.png',
         }, {
@@ -156,7 +156,7 @@ export default {
     width: 340px;
   }
 }
-.tail {
+.tail-content {
   margin-bottom: 20px;
   font-size: 22px !important;
 }

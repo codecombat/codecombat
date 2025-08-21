@@ -35,10 +35,14 @@
             :player-count="globalChampionshipLeaderboardPlayerCount"
             class="leaderboard-component"
           />
-          <a
+          <CTAButton
             :href="championshipArenaUrl"
-            class="btn btn-large btn-primary btn-moon play-btn-cta"
-          >{{ $t('league.play_arena_full', { arenaName: $t(`league.${championshipArenaSlug.replace(/-/g, '_')}`), arenaType: (arcadeActive ? $t('league.arena_type_arcade') : $t('league.arena_type_championship')), interpolation: { escapeValue: false } }) }}</a>
+          >
+            {{ $t('common.play') }}
+            <template #description>
+              {{ $t('league.arena_type_championship') }}
+            </template>
+          </CTAButton>
         </div>
         <div class="text-center section-space">
           <leaderboard
@@ -50,21 +54,14 @@
             class="leaderboard-component"
             :player-count="codePointsPlayerCount"
           />
-          <a
-            v-if="isStudent"
-            href="/students"
-            class="btn btn-large btn-primary btn-moon play-btn-cta"
-          >{{ $t('league.earn_codepoints') }}</a>
-          <a
-            v-else-if="isTeacher()"
-            href="/teachers/classes"
-            class="btn btn-large btn-primary btn-moon play-btn-cta"
-          >{{ $t('league.earn_codepoints') }}</a>
-          <a
-            v-else
-            href="/play"
-            class="btn btn-large btn-primary btn-moon play-btn-cta"
-          >{{ $t('league.earn_codepoints') }}</a>
+          <CTAButton
+            :href="codepointsUrl"
+          >
+            {{ $t('league_v2.earn_codepoints') }}
+            <template #description>
+              {{ $t('league_v2.earn_by') }}
+            </template>
+          </CTAButton>
         </div>
       </div>
     </template>
@@ -75,6 +72,7 @@
 import PageSection from '../../../../components/common/elements/PageSection.vue'
 import Leaderboard from '../../league/components/Leaderboard'
 import ClanSelector from '../../league/components/ClanSelector.vue'
+import CTAButton from '../../../../components/common/buttons/CTAButton.vue'
 import { activeArenas } from '../../../../core/utils'
 import { mapGetters, mapActions } from 'vuex'
 
@@ -84,6 +82,7 @@ export default {
     PageSection,
     Leaderboard,
     ClanSelector,
+    CTAButton,
   },
   data () {
     return {
@@ -130,7 +129,15 @@ export default {
       if (tournament) url += `?tournament=${tournament}`
       return url
     },
-
+    codepointsUrl () {
+      if (this.isStudent) {
+        return '/students'
+      } else if (this.isTeacher()) {
+        return '/teachers/classes'
+      } else {
+        return '/play'
+      }
+    },
   },
   watch: {
     clanIdOrSlug (newClan, lastClan) {
