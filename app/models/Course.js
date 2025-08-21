@@ -17,6 +17,8 @@ module.exports = (Course = (function () {
       this.className = 'Course'
       this.schema = schema
       this.prototype.urlRoot = '/db/course'
+
+      this.SALES_CALL_ACCESS_LEVEL = 'sales-call'
     }
 
     fetchForCourseInstance (courseInstanceID, opts) {
