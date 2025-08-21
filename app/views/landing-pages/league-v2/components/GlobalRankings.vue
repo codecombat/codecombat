@@ -1,13 +1,9 @@
 <template>
   <page-section class="section">
     <template #heading>
-      {{ $t('league_v2.global_rankings') }}
-      <clan-selector
-        v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0"
-        :clans="myClans"
-        :selected="clanIdSelected || clanIdOrSlug"
+      {{ clanIdOrSlug ? $t('league_v2.team_rankings') : $t('league_v2.global_rankings') }}
+      <ClanInputer
         style="margin-bottom: 10px;"
-        @change="e => changeClanSelected(e)"
       />
       <div class="content">
         {{ $t("league_v2.ranking_desc") }}
@@ -71,7 +67,7 @@
 <script>
 import PageSection from '../../../../components/common/elements/PageSection.vue'
 import Leaderboard from '../../league/components/Leaderboard'
-import ClanSelector from '../../league/components/ClanSelector.vue'
+import ClanInputer from './ClanInputer'
 import CTAButton from '../../../../components/common/buttons/CTAButton.vue'
 import { activeArenas } from '../../../../core/utils'
 import { mapGetters, mapActions } from 'vuex'
@@ -81,8 +77,15 @@ export default {
   components: {
     PageSection,
     Leaderboard,
-    ClanSelector,
+    ClanInputer,
     CTAButton,
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.clanIdOrSlug = to.params.idOrSlug || null
+    if (this.clanIdOrSlug) {
+      this.anonymousPlayerName = features.enableAnonymization
+    }
+    next()
   },
   data () {
     return {
@@ -90,6 +93,7 @@ export default {
       championshipActive: !!currentChampionshipArena,
       championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
       arcadeActive: !!currentChampionshipArena && currentChampionshipArena.arcade,
+      anonymousPlayerName: false,
     }
   },
   computed: {
@@ -146,6 +150,9 @@ export default {
       }
     },
   },
+  created () {
+    this.clanIdOrSlug = this.$route.params.idOrSlug || null
+  },
   mounted () {
     this.loadRequiredData()
   },
@@ -174,7 +181,7 @@ export default {
       return me.isTeacher()
     },
     async loadRequiredData () {
-      console.log('load required data...')
+      console.log('load requried data:', this.clanIdOrSlug)
       if (this.clanIdOrSlug) {
         try {
           await this.fetchClan({ idOrSlug: this.clanIdOrSlug })
