@@ -1,10 +1,13 @@
 import _ from 'lodash'
 const userSchema = require('schemas/models/user')
 const User = require('app/models/User')
+const Course = require('app/models/Course')
 const api = require('core/api')
 const utils = require('core/utils')
 
 const emptyUser = _.zipObject((_.keys(userSchema.properties).map((key) => [key, null])))
+const USER_SALES_CALL_ACCESS_LEVEL = User.SALES_CALL_ACCESS_LEVEL
+const COURSE_SALES_CALL_ACCESS_LEVEL = Course.SALES_CALL_ACCESS_LEVEL
 
 export default {
   namespaced: true,
@@ -77,13 +80,24 @@ export default {
       return me.isPremium()
     },
 
+    userAccessLevel (state, getters) {
+      let userAccessLevel = 'free'
+      if (getters.isPaidTeacher) {
+        userAccessLevel = 'paid'
+      } else if (me.activeSalesCallProducts().length > 0) {
+        userAccessLevel = USER_SALES_CALL_ACCESS_LEVEL
+      }
+      return userAccessLevel
+    },
+
     isContentAccessible (state, getters) {
       return (accessLevel) => {
-        const userAccessLevel = getters.isPaidTeacher ? 'paid' : 'free'
+        const userAccessLevel = getters.userAccessLevel
+
         const userAccessMap = {
           free: ['free'],
-          'sales-call': ['free', 'sales-call'],
-          paid: ['free', 'sales-call', 'paid'],
+          [USER_SALES_CALL_ACCESS_LEVEL]: ['free', COURSE_SALES_CALL_ACCESS_LEVEL],
+          paid: ['free', COURSE_SALES_CALL_ACCESS_LEVEL, 'paid'],
         }
         return userAccessMap[userAccessLevel].includes(accessLevel)
       }
