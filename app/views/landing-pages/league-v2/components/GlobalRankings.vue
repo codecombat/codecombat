@@ -184,7 +184,7 @@ export default {
           await this.fetchClan({ idOrSlug: this.clanIdOrSlug })
         } catch (e) {
           // Default to global page
-          application.router.navigate('league-v2', { trigger: true })
+          application.router.navigate('league', { trigger: true })
           return
         }
 

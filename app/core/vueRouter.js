@@ -88,7 +88,8 @@ export default function getVueRouter () {
         },
         {
           path: '/league',
-          component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeague'),
+          component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league-v2/PageGlobal'),
+          meta: { theme: 'teal' },
           children: [
             // Stub pages
             { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
@@ -99,15 +100,11 @@ export default function getVueRouter () {
               props: (route) => ({ ...route.query, ...route.params }),
               meta: { toTop: true },
             },
-            { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
-          ],
-        },
-        {
-          path: '/league-v2',
-          component: () => import(/* webpackChunkName: "LeagueV2View" */ 'app/views/landing-pages/league-v2/PageGlobal'),
-          meta: { theme: 'teal' },
-          children: [
-            { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueV2View" */ 'app/views/landing-pages/league-v2/PageGlobal') },
+            {
+              path: ':idOrSlug',
+              component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league-v2/PageGlobal'),
+              meta: { theme: 'teal' },
+            },
           ],
         },
         {

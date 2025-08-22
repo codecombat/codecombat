@@ -105,7 +105,7 @@ export default {
     }, 500),
 
     navigateToTeamLeaguePage (clanId) {
-      application.router.navigate(`/league-v2/${clanId}`, { replace: true })
+      application.router.navigate(`/league/${clanId}`, { replace: true })
       this.$emit('changeClan', clanId)
     },
 
