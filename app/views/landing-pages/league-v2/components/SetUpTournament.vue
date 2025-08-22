@@ -44,7 +44,7 @@
     <template #tail>
       <!-- eslint-disable vue/no-v-html vue/html-self-closing -->
       <div
-        class="tail-conent"
+        class="tail-content"
         v-html="$t('league_v2.refer_guide')"
       />
       <div
