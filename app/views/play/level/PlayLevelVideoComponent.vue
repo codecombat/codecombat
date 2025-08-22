@@ -220,7 +220,6 @@ export default Vue.extend({
         left: 16%
 
         #next-level-btn
-          @include animation(winnablePulse 3s infinite)
           border: 0
           border-style: solid
           border-image: url(/images/common/button-background-active-border.png) 14 20 20 20 fill round
