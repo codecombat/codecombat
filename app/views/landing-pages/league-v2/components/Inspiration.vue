@@ -76,7 +76,7 @@ export default {
         }, {
           reverse: false,
           image: {
-            src: '/images/pages/league/v2/Greater-Accessibility.jpg',
+            src: '/images/pages/league/v2/Greater-Accessibility.webp',
             alt: 'Greater Accessibility',
           },
           title: 'league_v2.greater_accessibility',
@@ -93,12 +93,11 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "app/styles/component_variables.scss";
 
+$primary-color: #4DECF0;
 .section {
   background: #021E27;
 }
 .col-one {
-  background: white;
-  background: linear-gradient(to right, #f5ffff, #fff);
   height: 100%;
   display: flex;
   justify-content: center;
@@ -110,49 +109,21 @@ export default {
     padding: 20px;
 
     .title {
-      @extend %font-24-30;
+      @extend %font-36;
       font-weight: bold;
-      margin-bottom: 12px;
+      margin-bottom: 24px;
+      color: $primary-color;
     }
 
-    .description: {
-      font-size: 18px;
-      line-height: 22px;
+    .description {
+      @extend %font-20;
+      color: white;
     }
   }
 }
 
 .block {
-  gap: unset;
   margin: 30px 0 !important;
   min-width: 1000px;
-
-  ::v-deep .column-one div{
-    border-top-right-radius: unset;
-    border-bottom-right-radius: unset;
-  }
-  ::v-deep .column-two div, &.reverse .column-one div{
-    border-top-left-radius: unset;
-    border-bottom-left-radius: unset;
-  }
-
-  &.reverse {
-    ::v-deep {
-      .column-one {
-        div {
-          border-radius: 24px;
-          border-top-left-radius: unset;
-          border-bottom-left-radius: unset;
-        }
-      }
-      .column-two{
-        div {
-          border-radius: 24px;
-          border-top-right-radius: unset;
-          border-bottom-right-radius: unset;
-        }
-      }
-    }
-  }
 }
 </style>

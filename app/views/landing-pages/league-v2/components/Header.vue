@@ -13,7 +13,7 @@
           :transparent="true"
         >
           <template #image>
-            <video-box video-id="d0ea8486d87f3d998564fd48445bc965" />
+            <video-box video-id="717b6d61568462427305ab47d2f5a4d0" />
           </template>
         </content-box>
       </div>
@@ -137,7 +137,7 @@ $primary-background: #31636F;
 }
 
 .image {
-  width: 100%;
+  width: min(100%, 850px);
 }
 .content {
   margin-top: 30px;
@@ -153,15 +153,17 @@ $primary-background: #31636F;
 
 .background {
   background-image: url('/images/pages/league/v2/compete-background.png');
-  width: 1200px;
-  background-size: 60%;
+  width: 100vw;
+
+  background-size: 800px;
+  background-repeat: repeat-x;
   background-position: top center;
   display: flex;
   justify-content: center;
 
   .compete {
     display: flex;
-    width: 720px;
+    width: 680px;
     height: 310px;
     background: rgb(240, 253, 253);
     color: black;
@@ -191,4 +193,39 @@ $primary-background: #31636F;
   }
 
 }
+@media (min-width: 1660px) {
+  .background {
+    background-size: 50%;
+    .compete {
+      width: 45vw;
+      height: 20vw;
+
+      .ai-league-logo {
+        width: 10vw;
+        margin-right: 50px;
+      }
+      .main {
+        font-size: 28px;
+        .desc {
+          font-size: 18px;
+          line-height: 24px;
+        }
+      }
+    }
+  }
+}
+@media (min-width: 1920px) {
+  .background {
+    .compete {
+      .main {
+        font-size: 36px;
+        .desc {
+          font-size: 22px;
+          line-height: 28px;
+        }
+      }
+    }
+  }
+}
+
 </style>

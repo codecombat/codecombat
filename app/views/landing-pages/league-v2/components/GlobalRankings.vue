@@ -1,13 +1,12 @@
 <template>
   <page-section class="section">
     <template #heading>
-      {{ $t('league_v2.global_rankings') }}
-      <clan-selector
-        v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0"
-        :clans="myClans"
-        :selected="clanIdSelected || clanIdOrSlug"
+      {{ clanIdOrSlug ? $t('league_v2.team_rankings') : $t('league_v2.global_rankings') }}
+      <ClanInputer
+        v-if="!isLoading"
         style="margin-bottom: 10px;"
-        @change="e => changeClanSelected(e)"
+        :my-clans="myClans"
+        @changeClan="onChangeClan"
       />
       <div class="content">
         {{ $t("league_v2.ranking_desc") }}
@@ -35,10 +34,14 @@
             :player-count="globalChampionshipLeaderboardPlayerCount"
             class="leaderboard-component"
           />
-          <a
+          <CTAButton
             :href="championshipArenaUrl"
-            class="btn btn-large btn-primary btn-moon play-btn-cta"
-          >{{ $t('league.play_arena_full', { arenaName: $t(`league.${championshipArenaSlug.replace(/-/g, '_')}`), arenaType: (arcadeActive ? $t('league.arena_type_arcade') : $t('league.arena_type_championship')), interpolation: { escapeValue: false } }) }}</a>
+          >
+            {{ $t('common.play') }}
+            <template #description>
+              {{ $t('league.arena_type_championship') }}
+            </template>
+          </CTAButton>
         </div>
         <div class="text-center section-space">
           <leaderboard
@@ -50,21 +53,14 @@
             class="leaderboard-component"
             :player-count="codePointsPlayerCount"
           />
-          <a
-            v-if="isStudent"
-            href="/students"
-            class="btn btn-large btn-primary btn-moon play-btn-cta"
-          >{{ $t('league.earn_codepoints') }}</a>
-          <a
-            v-else-if="isTeacher()"
-            href="/teachers/classes"
-            class="btn btn-large btn-primary btn-moon play-btn-cta"
-          >{{ $t('league.earn_codepoints') }}</a>
-          <a
-            v-else
-            href="/play"
-            class="btn btn-large btn-primary btn-moon play-btn-cta"
-          >{{ $t('league.earn_codepoints') }}</a>
+          <CTAButton
+            :href="codepointsUrl"
+          >
+            {{ $t('league_v2.earn_codepoints') }}
+            <template #description>
+              {{ $t('league_v2.earn_by') }}
+            </template>
+          </CTAButton>
         </div>
       </div>
     </template>
@@ -74,7 +70,8 @@
 <script>
 import PageSection from '../../../../components/common/elements/PageSection.vue'
 import Leaderboard from '../../league/components/Leaderboard'
-import ClanSelector from '../../league/components/ClanSelector.vue'
+import ClanInputer from './ClanInputer'
+import CTAButton from '../../../../components/common/buttons/CTAButton.vue'
 import { activeArenas } from '../../../../core/utils'
 import { mapGetters, mapActions } from 'vuex'
 
@@ -83,7 +80,15 @@ export default {
   components: {
     PageSection,
     Leaderboard,
-    ClanSelector,
+    ClanInputer,
+    CTAButton,
+  },
+  beforeRouteUpdate (to, from, next) {
+    this.clanIdOrSlug = to.params.idOrSlug || null
+    if (this.clanIdOrSlug) {
+      this.anonymousPlayerName = features.enableAnonymization
+    }
+    next()
   },
   data () {
     return {
@@ -91,6 +96,7 @@ export default {
       championshipActive: !!currentChampionshipArena,
       championshipArenaSlug: currentChampionshipArena ? currentChampionshipArena.slug : null,
       arcadeActive: !!currentChampionshipArena && currentChampionshipArena.arcade,
+      anonymousPlayerName: false,
     }
   },
   computed: {
@@ -130,7 +136,15 @@ export default {
       if (tournament) url += `?tournament=${tournament}`
       return url
     },
-
+    codepointsUrl () {
+      if (this.isStudent) {
+        return '/students'
+      } else if (this.isTeacher()) {
+        return '/teachers/classes'
+      } else {
+        return '/play'
+      }
+    },
   },
   watch: {
     clanIdOrSlug (newClan, lastClan) {
@@ -139,41 +153,38 @@ export default {
       }
     },
   },
-  mounted () {
-    this.loadRequiredData()
+  created () {
+    this.clanIdOrSlug = this.$route.params.idOrSlug || null
+  },
+  async mounted () {
+    await this.fetchRequiredInitialData({ optionalIdOrSlug: this.clanIdOrSlug })
+    await this.loadRequiredData()
   },
   methods: {
     ...mapActions({
       fetchClan: 'clans/fetchClan',
+      fetchRequiredInitialData: 'clans/fetchRequiredInitialData',
       loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
       loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
       loadChampionshipClanRequiredData: 'seasonalLeague/loadChampionshipClanRequiredData',
       loadChampionshipGlobalRequiredData: 'seasonalLeague/loadChampionshipGlobalRequiredData',
       loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
     }),
-    changeClanSelected (e) {
-      let newSelectedClan = ''
-      if (e.target.value === 'global') {
-        newSelectedClan = ''
-      } else {
-        newSelectedClan = e.target.value
-      }
-
-      const leagueURL = newSelectedClan ? `league-v2/${newSelectedClan}` : 'league-v2'
-
-      application.router.navigate(leagueURL, { trigger: true })
+    onChangeClan (id) {
+      this.clanIdOrSlug = id
+      this.$emit('clanChange', id)
     },
     isTeacher () {
       return me.isTeacher()
     },
     async loadRequiredData () {
-      console.log('load required data...')
+      console.log('load requried data:', this.clanIdOrSlug)
       if (this.clanIdOrSlug) {
         try {
           await this.fetchClan({ idOrSlug: this.clanIdOrSlug })
         } catch (e) {
           // Default to global page
-          application.router.navigate('league-v2', { trigger: true })
+          application.router.navigate('league', { trigger: true })
           return
         }
 
