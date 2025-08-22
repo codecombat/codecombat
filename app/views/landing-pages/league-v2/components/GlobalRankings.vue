@@ -3,7 +3,10 @@
     <template #heading>
       {{ clanIdOrSlug ? $t('league_v2.team_rankings') : $t('league_v2.global_rankings') }}
       <ClanInputer
+        v-if="!isLoading"
         style="margin-bottom: 10px;"
+        :my-clans="myClans"
+        @changeClan="onChangeClan"
       />
       <div class="content">
         {{ $t("league_v2.ranking_desc") }}
@@ -153,29 +156,23 @@ export default {
   created () {
     this.clanIdOrSlug = this.$route.params.idOrSlug || null
   },
-  mounted () {
-    this.loadRequiredData()
+  async mounted () {
+    await this.fetchRequiredInitialData({ optionalIdOrSlug: this.clanIdOrSlug })
+    await this.loadRequiredData()
   },
   methods: {
     ...mapActions({
       fetchClan: 'clans/fetchClan',
+      fetchRequiredInitialData: 'clans/fetchRequiredInitialData',
       loadGlobalRequiredData: 'seasonalLeague/loadGlobalRequiredData',
       loadClanRequiredData: 'seasonalLeague/loadClanRequiredData',
       loadChampionshipClanRequiredData: 'seasonalLeague/loadChampionshipClanRequiredData',
       loadChampionshipGlobalRequiredData: 'seasonalLeague/loadChampionshipGlobalRequiredData',
       loadCodePointsRequiredData: 'seasonalLeague/loadCodePointsRequiredData',
     }),
-    changeClanSelected (e) {
-      let newSelectedClan = ''
-      if (e.target.value === 'global') {
-        newSelectedClan = ''
-      } else {
-        newSelectedClan = e.target.value
-      }
-
-      const leagueURL = newSelectedClan ? `league-v2/${newSelectedClan}` : 'league-v2'
-
-      application.router.navigate(leagueURL, { trigger: true })
+    onChangeClan (id) {
+      this.clanIdOrSlug = id
+      this.$emit('clanChange', id)
     },
     isTeacher () {
       return me.isTeacher()

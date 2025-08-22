@@ -5195,6 +5195,8 @@ module.exports = {
       greater_accessibility_desc: 'Since AI League is an academic esport focused on knowledge and strategy, fast reactions or hand-eye coordination are not required. Anyone can compete using a basic computer with internet access, and players can also choose to use the AI assistant to support their coding along the way.',
       earn_codepoints: 'Earn CodePoints',
       earn_by: 'By Completing Levels',
+      search_teams: 'Search team',
+      global_clan_name: '-- Global --',
     },
 
     tournament: {
