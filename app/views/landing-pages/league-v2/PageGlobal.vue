@@ -4,7 +4,9 @@
       @clickJoinCTA="joinAILeague"
       @clickCreateCTA="createTournament"
     />
-    <GlobalRankings />
+    <GlobalRankings
+      @clanChange="onClanChange"
+    />
     <GetStarted
       @clickJoinCTA="joinAILeague"
       @clickCreateCTA="createTournament"
@@ -12,15 +14,7 @@
     <CompeteToWin />
     <SeasonArenas />
     <InspirationComponent />
-    <SetUpTournament
-      @createClan="clanCreationModal = true"
-    />
-
-    <clan-creation-modal
-      v-if="clanCreationModal"
-      :clan="myCreatedClan"
-      @close="clanCreationModal = false"
-    />
+    <SetUpTournament />
   </div>
 </template>
 
@@ -32,7 +26,6 @@ import CompeteToWin from './components/CompeteToWin.vue'
 import SeasonArenas from './components/SeasonArenas.vue'
 import InspirationComponent from './components/Inspiration.vue'
 import SetUpTournament from './components/SetUpTournament.vue'
-import ClanCreationModal from '../league/components/ClanCreationModal'
 
 import { activeArenas } from '../../../core/utils'
 const currentArena = _.last(_.filter(activeArenas(), a => a.end > new Date()))
@@ -47,20 +40,26 @@ export default {
     SeasonArenas,
     InspirationComponent,
     SetUpTournament,
-    ClanCreationModal,
   },
   data () {
     return {
-      clanCreationModal: false,
+      clanIdOrSlug: '',
       arenaSlug: currentArena ? currentArena.slug : null,
     }
   },
-  computed: {
-    myCreatedClan () {
-      return null
+  watch: {
+    '$route.params.idOrSlug': {
+      handler (nval) {
+        this.clanIdOrSlug = nval
+      },
+      deep: true,
+      immediate: true,
     },
   },
   methods: {
+    onClanChange (id) {
+      this.clanIdOrSlug = id
+    },
     joinAILeague () {
       if (!me.isAnonymous()) {
         let url = `/play/ladder/${this.arenaSlug}`
@@ -70,8 +69,7 @@ export default {
       }
     },
     createTournament () {
-      // todo: clan
-      return application.router.navigate('/league/ladders', { trigger: true })
+      return application.router.navigate(`/league/ladders/${this.clanIdOrSlug}`, { trigger: true })
       // todo: check me.js isPaidTeacher to go clan or by license modal
     },
 
@@ -90,6 +88,9 @@ $custom-cyan:  rgb(77, 236, 240);
   font-family: Plus Jakarta Sans;
 }
 ::v-deep {
+  .btn-primary {
+    text-shadow: unset !important;
+  }
   .section {
     color: white;
     padding-top: 40px;
@@ -108,6 +109,7 @@ $custom-cyan:  rgb(77, 236, 240);
     }
     .tail {
       max-width: 1440px;
+      justify-items: center;
     }
 
     .content {

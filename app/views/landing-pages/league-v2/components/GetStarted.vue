@@ -20,7 +20,7 @@
             class="text-wrapper"
           >
             <div
-              v-for="(line, lineIndex) in item.text.split('[NEWLINE]')"
+              v-for="(line, lineIndex) in $t(item.text).split('[NEWLINE]')"
               :key="`line-${lineIndex}`"
             >
               {{ line }}
@@ -75,16 +75,16 @@ export default {
       videoId: 'Q2sIG0ROrYY',
       items: [{
         src: '/images/pages/league/v2/global.png',
-        text: 'Join global coding[NEWLINE]championships',
+        text: 'league_v2.get_start_list_1',
       }, {
         src: '/images/pages/league/v2/code-points.png',
-        text: 'Earn codepoints in[NEWLINE]head-to-head[NEWLINE]matches',
+        text: 'league_v2.get_start_list_2',
       }, {
         src: '/images/pages/league/v2/team-up.png',
-        text: 'Team up with friends[NEWLINE]or classmates',
+        text: 'league_v2.get_start_list_3',
       }, {
-        src: '/images/pages/league/v2/code-points.png',
-        text: 'Showcase your skills[NEWLINE]and win prizes',
+        src: '/images/pages/league/v2/prizes.png',
+        text: 'league_v2.get_start_list_4',
       }],
     }
   },
@@ -104,7 +104,7 @@ export default {
 .cta {
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 50px;
 }
 .video {
   width: 800px;
