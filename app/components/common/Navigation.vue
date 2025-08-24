@@ -456,8 +456,9 @@ export default Vue.extend({
               span.icon-bar
             .navbar-brand
               a(v-if="isOzaria" :href="homeLink")
-                source#logo-img.oz-logo(srcset="/images/ozaria/home/ozaria_home_logo.webp" type="image/webp")
-                img#logo-img.oz-logo(src="/images/ozaria/home/ozaria_home_logo.png" alt="Ozaria logo")
+                picture
+                  source#logo-img.oz-logo(srcset="/images/ozaria/home/ozaria_home_logo.webp" type="image/webp")
+                  img#logo-img.oz-logo(src="/images/ozaria/home/ozaria_home_logo.png" alt="Ozaria by CodeCombat logo" title="Ozaria" aria-label="Home")
               a(v-else :href="homeLink")
                 picture(v-if="!me.showChinaResourceInfo()")
                   source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
