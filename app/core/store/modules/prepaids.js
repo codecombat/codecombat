@@ -268,6 +268,9 @@ export default {
       const prepaid = new Prepaid(selectedPrepaid)
       const students = members.map(data => new User(data))
       const unenrolledStudents = students.filter(stu => {
+        if (prepaid.isHackStackLicense()) {
+          return true //  hackstack license aim to add credits so should be always allowed
+        }
         const p = prepaid.numericalCourses()
         const s = p & stu.prepaidNumericalCourses()
         return (p ^ s)

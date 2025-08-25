@@ -70,6 +70,17 @@ module.exports = (Prepaid = (function () {
       return 'available'
     }
 
+    isHackStackLicense () {
+      const includedCourseIDs = this.get('includedCourseIDs')
+      if (includedCourseIDs) {
+        const credit = this.get('properties')?.creditDetails
+        if (credit && includedCourseIDs[0] === utils.courseIDs.HACKSTACK) {
+          return true
+        }
+      }
+      return false
+    }
+
     typeDescription () {
       const type = this.get('type')
       if (type === 'starter_license') {
