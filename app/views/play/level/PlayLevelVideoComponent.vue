@@ -13,17 +13,11 @@ flat-layout
             frameborder= "0" webkitallowfullscreen mozallowfullscreen allowfullscreen
           )
       .row.buttons-row
-        .col-sm-6
-          a#skip-btn(
+        .col-sm-10
+        .col-sm-2.text-uppercase
+          a#next-level-btn.btn-illustrated.btn-success.btn-block.btn-lg.btn(
             @click="onSkip",
             :href="nextLevelLink"
-          )
-            u {{ $t('play_level.skip') }}
-        .col-sm-6.text-uppercase
-          a#next-level-btn.btn-illustrated.btn-success.btn-block.btn-lg.btn(
-            @click="onNextLevel",
-            :href="nextLevelLink"
-            v-show="false"
           )
             | {{ $t('play_level.next_level') }}
       img.img-unlocked(src = '/images/pages/play/modal/unlocked_banner.png')
@@ -226,7 +220,6 @@ export default Vue.extend({
         left: 16%
 
         #next-level-btn
-          @include animation(winnablePulse 3s infinite)
           border: 0
           border-style: solid
           border-image: url(/images/common/button-background-active-border.png) 14 20 20 20 fill round
