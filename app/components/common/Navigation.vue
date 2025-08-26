@@ -494,7 +494,6 @@ export default Vue.extend({
                       li(v-for="child in navItem.children.filter(child => child.hide!==true)")
                         a.text-p(:href="child.url" :class="[child.class, child.url && checkLocation(child.url) && 'text-teal'].filter(Boolean)" v-bind="child.attrs") {{ $t(child.title) }}
                           div.text-description(v-if="child.description") {{ $t(child.description) }}
-
                 a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
 
           .navbar-collapse.collapse
