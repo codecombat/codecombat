@@ -501,7 +501,7 @@ _.extend(UserSchema.properties, {
           currency: { type: 'string' },
           // Do we need something about autorenewal / frequency here?
         },
-        oneOf: [
+        anyOf: [
           c.object({}, { stripeCustomerId: { type: 'string' }, subscriptionId: { type: 'string' }, paymentSession: c.objectId({ links: [{ rel: 'extra', href: '/db/payment.session/{($)}' }] }) }), // TODO: other various Stripe-specific options
           c.object({}, { paypalCustomerId: { type: 'string' } }), // TODO: various PayPal-specific options, if we keep PayPal
           c.object({}, { staffCreator: c.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }) }), // any other external payment source options?
