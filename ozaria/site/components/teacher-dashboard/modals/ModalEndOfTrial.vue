@@ -75,14 +75,12 @@
 
 <script>
 import ModalDynamicContent from 'ozaria/site/components/teacher-dashboard/modals/ModalDynamicContent.vue'
-import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
 import CTAButton from 'app/components/common/buttons/CTAButton.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'EndOfTrialModal',
   components: {
     ModalDynamicContent,
-    MixedColorLabel,
     CTAButton,
   },
   computed: {
