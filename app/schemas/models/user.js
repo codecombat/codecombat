@@ -494,19 +494,20 @@ _.extend(UserSchema.properties, {
       paymentService: { enum: ['stripe', 'testing', 'free', 'api', 'external', 'paypal'] }, // Removed 'ios', could perhaps remove 'paypal', could differentiate 'external' further
       paymentDetails: {
         type: 'object',
-        additionalProperties: true,
         properties: {
           purchaseDate: c.date(), // TODO: separate payment date and invoice date (esp. online classes)?
           amount: { type: 'integer', description: 'Payment in cents on US server and in RMB cents on the China server' },
           currency: { type: 'string' },
           // Do we need something about autorenewal / frequency here?
         },
-        anyOf: [
-          c.object({}, { stripeCustomerId: { type: 'string' }, subscriptionId: { type: 'string' }, paymentSession: c.objectId({ links: [{ rel: 'extra', href: '/db/payment.session/{($)}' }] }) }), // TODO: other various Stripe-specific options
-          c.object({}, { paypalCustomerId: { type: 'string' } }), // TODO: various PayPal-specific options, if we keep PayPal
-          c.object({}, { staffCreator: c.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }) }), // any other external payment source options?
-          { additionalProperties: true }, // ... etc. for each possible payment service ...
-        ],
+        additionalProperties: {
+          anyOf: [
+            c.object({}, { stripeCustomerId: { type: 'string' }, subscriptionId: { type: 'string' }, paymentSession: c.objectId({ links: [{ rel: 'extra', href: '/db/payment.session/{($)}' }] }) }), // TODO: other various Stripe-specific options
+            c.object({}, { paypalCustomerId: { type: 'string' } }), // TODO: various PayPal-specific options, if we keep PayPal
+            c.object({}, { staffCreator: c.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }) }), // any other external payment source options?
+            { additionalProperties: true }, // ... etc. for each possible payment service ...
+          ],
+        },
       },
     })),
   edLink: c.object({}, {
