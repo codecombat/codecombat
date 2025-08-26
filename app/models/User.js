@@ -83,6 +83,7 @@ module.exports = (User = (function () {
         PARENT_ADMIN: 'parentAdmin',
         NAPERVILLE_ADMIN: 'napervilleAdmin',
       }
+      this.SALES_CALL_ACCESS_LEVEL = 'call-sales'
 
       a = 5
       b = 100
@@ -714,12 +715,21 @@ module.exports = (User = (function () {
 
     activeProducts (type) {
       const now = new Date()
-      return _.filter(this.get('products'), p => (p.product === type) && ((new Date(p.endDate) > now) || !p.endDate))
+      return _.filter((this.get('products') || []), p => {
+        if (p.product !== type) return false
+        const hasValidEndDate = (p.endDate && new Date(p.endDate) > now) || !p.endDate
+        const hasValidStartDate = !p.startDate || new Date(p.startDate) <= now
+        return hasValidEndDate && hasValidStartDate
+      })
     }
 
     expiredProducts (type) {
       const now = new Date()
-      return _.filter(this.get('products'), p => (p.product === type) && (new Date(p.endDate) < now))
+      return _.filter((this.get('products') || []), p => (p.product === type) && (new Date(p.endDate) < now))
+    }
+
+    activeSalesCallProducts () {
+      return this.activeProducts(this.constructor.SALES_CALL_ACCESS_LEVEL)
     }
 
     getExam (id) {
@@ -1485,8 +1495,12 @@ module.exports = (User = (function () {
       return [utils.MTOClients.MTO_NEO_DEV, utils.MTOClients.MTO_NEO_PROD].includes(this.get('clientCreator'))
     }
 
+    isMtoCodingOlympiad () {
+      return [utils.MTOClients.MTO_CODING_OLYMPIAD_DEV, utils.MTOClients.MTO_CODING_OLYMPIAD_PROD].includes(this.get('clientCreator'))
+    }
+
     isMto () {
-      return this.isMtoStem() || this.isMtoNeo()
+      return this.isMtoStem() || this.isMtoNeo() || this.isMtoCodingOlympiad()
     }
 
     isSchoology () {

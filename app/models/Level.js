@@ -28,7 +28,7 @@ const store = require('core/store')
 const LevelLib = {
   isProject (level) {
     return (level != null ? level.shareable : undefined) === 'project'
-  }
+  },
 }
 
 module.exports = (Level = (function () {
@@ -477,12 +477,12 @@ module.exports = (Level = (function () {
           if (c == null) { continue }
           if ((c.width != null) && (c.width > width)) {
             ({
-              width
+              width,
             } = c)
           }
           if ((c.height != null) && (c.height > height)) {
             ({
-              height
+              height,
             } = c)
           }
         }
@@ -509,7 +509,7 @@ module.exports = (Level = (function () {
         try {
           return {
             ...solution,
-            source: _.template(solution.source)(context)
+            source: _.template(solution.source)(context),
           }
         } catch (e) {
           console.error(`Problem with template and solution comments for '${this.get('slug') || this.get('name')}'`, e)
@@ -582,7 +582,7 @@ module.exports = (Level = (function () {
       let context = utils.i18n(plan, 'context')
       if (utils.isOzaria) {
         context = _.merge({
-          external_ch1_avatar: store.getters?.['me/getCh1Avatar.avatarCodeString']?.crown
+          external_ch1_avatar: store.getters?.['me/getCh1Avatar.avatarCodeString']?.crown,
         }, context)
       }
       return context
@@ -675,7 +675,7 @@ module.exports = (Level = (function () {
       if (teacher && classroomSub && classroomSub.base) {
         const sub = classroomSub[teacher.get('geo')?.country] || classroomSub.base
         if (sub === 'free-after-sales') {
-          hasAccess = teacher.activeProducts('call-sales').length
+          hasAccess = teacher.activeSalesCallProducts().length > 0
         } else {
           hasAccess = sub === 'free'
         }

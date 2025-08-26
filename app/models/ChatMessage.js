@@ -16,7 +16,7 @@ ChatMessage.prototype.urlRoot = '/db/chat_message'
 ChatMessage.prototype.defaults = {
   product: 'codecombat',
   kind: 'level-chat',
-  releasePhase: 'beta'
+  releasePhase: 'beta',
 }
 
 module.exports = ChatMessage
