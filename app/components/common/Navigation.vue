@@ -578,8 +578,8 @@ export default Vue.extend({
   &.floating-nav {
     position: absolute;
     top: 0;
-    left: 20em; // as a fallback
-    left: calc(255px + (100vw - 255px - 460px) / 2);
+    left: 50%;
+    margin: 0 auto;
     transform: translate(-50%, -100%);
     z-index: 10000;
     border-radius: 50px;
