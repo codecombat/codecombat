@@ -89,9 +89,10 @@ export default function getVueRouter () {
         {
           path: '/league',
           component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeague'),
+          meta: { theme: 'teal' },
           children: [
             // Stub pages
-            { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
+            { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league-v2/PageGlobal') },
             {
               path: 'ladders/:idOrSlug?',
               name: 'LaddersList',
@@ -99,7 +100,11 @@ export default function getVueRouter () {
               props: (route) => ({ ...route.query, ...route.params }),
               meta: { toTop: true },
             },
-            { path: ':idOrSlug', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
+            {
+              path: ':idOrSlug',
+              component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league-v2/PageGlobal'),
+              meta: { theme: 'teal' },
+            },
           ],
         },
         {
@@ -114,7 +119,7 @@ export default function getVueRouter () {
         {
           path: '/trial-classes/:eventId/confirm/:token',
           name: 'TrialClassConfirm',
-          component: () => import(/* webpackChunName: 'TrialClassConfirm' */ 'app/views/online-class/TrialClassConfirm'),
+          component: () => import(/* webpackChunkName: 'TrialClassConfirm' */ 'app/views/online-class/TrialClassConfirm'),
           props: (route) => ({ ...route.params }),
         },
         {

@@ -65,6 +65,12 @@ export default Vue.extend({
     'cta-button': CTAButton,
     caret: CaretDown,
   },
+  props: {
+    float: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data () {
     return {
       showContactModal: false,
@@ -505,23 +511,28 @@ export default Vue.extend({
 </script>
 
 <template lang="pug">
-  nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="{ 'dark-mode': useDarkMode }" @click="navEvent")
+  nav#main-nav.navbar.navbar-default.text-center(:class="{ 'dark-mode': useDarkMode, 'floating-nav': float, 'navbar-fixed-top': !float }" @click="navEvent")
+    .floating-nav-trigger(v-if="float")
     announcement-modal(v-if="announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
     .container-fluid.nav-container
       .row
         .col-md-12.header-container
-          .navbar-header(v-if="!isDEEPAPI")
+          .navbar-header(v-if="!isDEEPAPI && !float")
             button.navbar-toggle.collapsed(data-toggle='collapse', data-target='.navbar-collapse' aria-expanded='false')
               span.sr-only {{ $t('nav.toggle_nav') }}
               span.icon-bar
               span.icon-bar
               span.icon-bar
             .navbar-brand
-              a(:href="homeLink")
-                picture(v-if="!me.showChinaResourceInfo() || me.showChinaHomeVersion()")
-                  source#logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
-                  img#logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
-                img#logo-img.powered-by(v-else src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
+              a(v-if="isOzaria" :href="homeLink")
+                picture
+                  source.logo-img.oz-logo(srcset="/images/ozaria/home/ozaria_home_logo.webp" type="image/webp")
+                  img.logo-img.oz-logo(src="/images/ozaria/home/ozaria_home_logo.png" alt="Ozaria by CodeCombat logo" title="Ozaria" aria-label="Home")
+              a(v-else :href="homeLink")
+                picture(v-if="!me.showChinaResourceInfo()")
+                  source.logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
+                  img.logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
+                img.logo-img.powered-by(v-else src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
               a(v-if="partnerLogo" :href="homeLink")
                 img(:src="partnerLogo.url" :alt="partnerLogo.alt" :class="partnerLogo.className")
               a(v-if="isOzaria" :href="homeLink")
@@ -541,10 +552,9 @@ export default Vue.extend({
                       li(v-for="child in navItem.children.filter(child => child.hide!==true)")
                         a.text-p(:href="child.url" :class="[child.class, child.url && checkLocation(child.url) && 'text-teal'].filter(Boolean)" v-bind="child.attrs") {{ $t(child.title) }}
                           div.text-description(v-if="child.description") {{ $t(child.description) }}
-
                 a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
 
-          .navbar-collapse.collapse
+          .navbar-collapse.collapse(v-if="!float")
             ul.nav.navbar-nav.loggedin(v-if="!me.isAnonymous()")
               li(v-if="me.isTarena()")
                 a.text-p#logout-button {{ $t('login.log_out') }}
@@ -618,6 +628,42 @@ export default Vue.extend({
 #main-nav.navbar {
   background: white;
 
+  &.floating-nav {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin: 0 auto;
+    transform: translate(-50%, -100%);
+    z-index: 10000;
+    border-radius: 50px;
+    padding: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 1s ease;
+
+    &:has(.floating-nav-trigger:hover), &:hover {
+      transform: translate(-50%, 0);
+    }
+
+    &:hover > .floating-nav-trigger {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .floating-nav-trigger {
+      width: 80px;
+      height: 5px;
+      z-index: 9000;
+      background-color: white;
+      border-radius: 2.5px;
+      position: absolute;
+      bottom: -5px;
+      left: calc(50% - 40px);
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+    }
+
+  }
   .nav-container {
     padding-left: 10px;
     padding-right: 10px;
@@ -699,17 +745,13 @@ export default Vue.extend({
   }
 
   .navbar-brand {
-    #logo-img {
+    .logo-img {
       max-height: 41px;
     }
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-
-    .oz-logo {
-      max-height: 30px !important;
-    }
   }
 
   .navbar-collapse {
