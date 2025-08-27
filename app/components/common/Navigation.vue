@@ -597,14 +597,14 @@ export default Vue.extend({
     }
 
     .floating-nav-trigger {
-      width: 40px;
+      width: 80px;
       height: 5px;
       z-index: 9000;
       background-color: white;
       border-radius: 2.5px;
       position: absolute;
-      bottom: -15px;
-      left: calc(50% - 20px);
+      bottom: -5px;
+      left: calc(50% - 40px);
       cursor: pointer;
       transition: all 0.2s ease;
 
