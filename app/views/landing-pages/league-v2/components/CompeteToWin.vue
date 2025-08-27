@@ -68,6 +68,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/component_variables.scss";
 .section {
   background-color: rgb(25, 54, 64);
 }
@@ -93,6 +94,21 @@ export default {
 .description {
   margin-top: 20px;
   width: max(90%, 1080px);
+}
+
+@media (max-width: $screen-md-min) {
+  .medals {
+    width: 100%;
+    flex-direction: column;
+
+    .prize-desc {
+      width: unset !important;
+    }
+  }
+
+  .description {
+    width: 100%;
+  }
 }
 
 </style>

@@ -126,4 +126,11 @@ $primary-color: #4DECF0;
   margin: 30px 0 !important;
   min-width: 1000px;
 }
+
+@media (max-width: $screen-md-min) {
+  .block {
+    min-width: unset;
+    width: 100%;
+  }
+}
 </style>

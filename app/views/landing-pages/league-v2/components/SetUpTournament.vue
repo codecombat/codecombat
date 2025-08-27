@@ -160,4 +160,9 @@ export default {
   margin-bottom: 20px;
   font-size: 22px !important;
 }
+@media (max-width: $screen-md-min) {
+  .tail-content {
+    font-size: 16px !important;
+  }
+}
 </style>
