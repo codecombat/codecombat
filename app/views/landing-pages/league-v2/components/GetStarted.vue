@@ -132,7 +132,7 @@ export default {
     flex-direction: column;
   }
   .video {
-    width: 90%;
+    max-width: 80%;
   }
 }
 </style>
