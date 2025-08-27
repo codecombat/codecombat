@@ -131,13 +131,17 @@ $primary-background: #31636F;
   margin-bottom: 40px;
 }
 .btns-group {
-  justify-items: center;
+  display: flex;
+  justify-content: center;
 }
 .btns {
-  width: 700px;
+  max-width: 700px;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
 }
 .cta-button {
   margin-bottom: 80px;
