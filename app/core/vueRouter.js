@@ -88,11 +88,11 @@ export default function getVueRouter () {
         },
         {
           path: '/league',
-          component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league-v2/PageGlobal'),
+          component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeague'),
           meta: { theme: 'teal' },
           children: [
             // Stub pages
-            { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeagueGlobal') },
+            { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league-v2/PageGlobal') },
             {
               path: 'ladders/:idOrSlug?',
               name: 'LaddersList',

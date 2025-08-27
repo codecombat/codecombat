@@ -97,6 +97,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/component_variables.scss";
 .section {
   background: #021E27;
 }
@@ -125,4 +126,13 @@ export default {
   }
 }
 
+@media (max-width: $screen-md-min) {
+  .menu-content {
+    width: 100%;
+    flex-direction: column;
+  }
+  .video {
+    max-width: 80%;
+  }
+}
 </style>

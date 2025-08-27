@@ -64,6 +64,12 @@ export default Vue.extend({
     'cta-button': CTAButton,
     caret: CaretDown,
   },
+  props: {
+    float: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data () {
     return {
       showContactModal: false,
@@ -75,7 +81,7 @@ export default Vue.extend({
       'unread',
       'announcementInterval',
       'announcementModalOpen',
-      'announcementDisplay'
+      'announcementDisplay',
     ]),
     languageCode () {
       return me.get('preferredLanguage')
@@ -124,19 +130,19 @@ export default Vue.extend({
         return {
           url: '/images/pages/base/logo-tarena.png',
           className: 'tarena-logo',
-          alt: 'Tarena logo'
+          alt: 'Tarena logo',
         }
       } else if (this.serverConfig.codeNinjas || me.isCodeNinja()) {
         return {
           url: '/images/pages/base/code-ninjas-logo-right.png',
           className: 'code-ninjas-logo',
-          alt: 'Code Ninjas logo'
+          alt: 'Code Ninjas logo',
         }
       } else if (me.isTecmilenio()) {
         return {
           url: '/images/pages/payment/tecmilenio-logo-2.png',
           className: 'tecmilenio-logo',
-          alt: 'Tecmilenio logo'
+          alt: 'Tecmilenio logo',
         }
       } else if (me.isMtoCodingOlympiad()) {
         return {
@@ -153,7 +159,7 @@ export default Vue.extend({
         }
       }
       return null
-    }
+    },
   },
 
   created () {
@@ -180,7 +186,7 @@ export default Vue.extend({
     ...mapActions('announcements', [
       'closeAnnouncementModal',
       'checkAnnouncements',
-      'startInterval'
+      'startInterval',
     ]),
     navEvent (e) {
       // Only track if user has clicked a link on the nav bar
@@ -197,7 +203,7 @@ export default Vue.extend({
       const properties = {
         category: 'Nav',
         // Inspired from the HomeView homePageEvent method
-        user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser'
+        user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser',
       }
 
       window.tracker.trackEvent(action, properties)
@@ -254,12 +260,12 @@ export default Vue.extend({
             items.PD,
             items.HOC,
             items.GRANTS,
-            items.DEMO
-          ]
+            items.DEMO,
+          ],
         },
         parents: {
           url: this.cocoPath('/parents'),
-          title: 'nav.parent'
+          title: 'nav.parent',
         },
         play: {
           url: this.cocoPath('/play'),
@@ -267,43 +273,43 @@ export default Vue.extend({
           children: [
             {
               ...items.COCO_HOME,
-              description: 'nav.coco_home_description'
+              description: 'nav.coco_home_description',
             },
             {
               ...items.COCO_CLASSROOM,
               class: 'signup-button',
               url: null,
-              description: 'nav.coco_classroom_description'
+              description: 'nav.coco_classroom_description',
             },
             {
               ...items.COCO_JUNIOR,
-              description: 'nav.coco_junior_description'
+              description: 'nav.coco_junior_description',
             },
             {
               ...items.OZ_CLASSROOM,
-              description: 'nav.oz_classroom_description'
+              description: 'nav.oz_classroom_description',
             },
             {
               ...items.AP_CSP,
-              description: 'nav.ap_csp_description'
+              description: 'nav.ap_csp_description',
             },
             {
               ...items.AI_LEAGUE,
-              description: 'nav.ai_league_description'
+              description: 'nav.ai_league_description',
             },
             {
               ...items.ROBLOX,
-              description: 'nav.roblox_description'
+              description: 'nav.roblox_description',
             },
             {
               ...items.AI_HACKSTACK,
-              description: 'nav.ai_hackstack_description'
+              description: 'nav.ai_hackstack_description',
             },
             {
               ...items.AI_JUNIOR,
-              description: 'nav.ai_junior_description'
-            }
-          ]
+              description: 'nav.ai_junior_description',
+            },
+          ],
         },
       }
 
@@ -318,7 +324,7 @@ export default Vue.extend({
           title: 'nav.my_dashborads',
           children: [
             ...(isCodeCombat ? [teacherCocoClasses, teacherOzarClasses, cocoAdmin, ozarAdmin] : [teacherOzarClasses, teacherCocoClasses, ozarAdmin, cocoAdmin]),
-          ]
+          ],
         },
         resources: {
           title: 'nav.resources',
@@ -331,8 +337,8 @@ export default Vue.extend({
             items.PD,
             items.HOC,
             items.GRANTS,
-            items.DEMO
-          ]
+            items.DEMO,
+          ],
         },
         curriculum: {
           title: 'nav.curriculum',
@@ -345,19 +351,19 @@ export default Vue.extend({
             items.AI_LEAGUE,
             items.ROBLOX,
             items.AI_HACKSTACK,
-            items.AI_JUNIOR
-          ]
-        }
+            items.AI_JUNIOR,
+          ],
+        },
       }
 
       const studentCocoClassroom = {
         ...items.COCO_CLASSROOM,
-        url: this.cocoPath('/students')
+        url: this.cocoPath('/students'),
       }
 
       const studentOzarClassroom = {
         ...items.OZ_CLASSROOM,
-        url: this.ozPath('/students')
+        url: this.ozPath('/students'),
       }
 
       const student = {
@@ -371,21 +377,21 @@ export default Vue.extend({
             ),
             items.AI_LEAGUE,
             items.ROBLOX,
-          ]
-        }
+          ],
+        },
       }
 
       const parent = {
         dashboard: {
           title: 'nav.dashboard',
-          url: me.hasNoVerifiedChild() ? this.cocoPath('/parents/add-another-child') : this.cocoPath('/parents/dashboard')
+          url: me.hasNoVerifiedChild() ? this.cocoPath('/parents/add-another-child') : this.cocoPath('/parents/dashboard'),
         },
         'learning-options': {
           title: 'nav.learning_options',
           children: [
             items.LIVE_ONLINE_CLASSES,
             items.PREMIUM,
-          ]
+          ],
         },
         curriculum: {
           title: 'nav.curriculum',
@@ -395,9 +401,9 @@ export default Vue.extend({
             items.AI_LEAGUE,
             items.ROBLOX,
             items.AI_HACKSTACK,
-            items.AI_JUNIOR
-          ]
-        }
+            items.AI_JUNIOR,
+          ],
+        },
       }
       const individual = {
         'learning-options': {
@@ -405,7 +411,7 @@ export default Vue.extend({
           children: [
             items.LIVE_ONLINE_CLASSES,
             items.PREMIUM,
-          ]
+          ],
         },
         play: {
           title: 'nav.play2',
@@ -416,8 +422,8 @@ export default Vue.extend({
             items.ROBLOX,
             items.AI_HACKSTACK,
             items.AI_JUNIOR,
-          ]
-        }
+          ],
+        },
       }
 
       if (me.isAnonymous()) {
@@ -437,35 +443,38 @@ export default Vue.extend({
       }
 
       return individual
-    }
-  }
+    },
+  },
 })
 </script>
 
 <template lang="pug">
-  nav#main-nav.navbar.navbar-default.navbar-fixed-top.text-center(:class="{ 'dark-mode': useDarkMode }" @click="navEvent")
+  nav#main-nav.navbar.navbar-default.text-center(:class="{ 'dark-mode': useDarkMode, 'floating-nav': float, 'navbar-fixed-top': !float }" @click="navEvent")
+    .floating-nav-trigger(v-if="float")
     announcement-modal(v-if="announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
     .container-fluid.nav-container
       .row
         .col-md-12.header-container
-          .navbar-header
+          .navbar-header(v-if="!float")
             button.navbar-toggle.collapsed(data-toggle='collapse', data-target='.navbar-collapse' aria-expanded='false')
               span.sr-only {{ $t('nav.toggle_nav') }}
               span.icon-bar
               span.icon-bar
               span.icon-bar
             .navbar-brand
-              a(:href="homeLink")
+              a(v-if="isOzaria" :href="homeLink")
+                picture
+                  source.logo-img.oz-logo(srcset="/images/ozaria/home/ozaria_home_logo.webp" type="image/webp")
+                  img.logo-img.oz-logo(src="/images/ozaria/home/ozaria_home_logo.png" alt="Ozaria by CodeCombat logo" title="Ozaria" aria-label="Home")
+              a(v-else :href="homeLink")
                 picture(v-if="!me.showChinaResourceInfo()")
                   source.logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                   img.logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
                 img.logo-img.powered-by(v-else src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")
               a(v-if="partnerLogo" :href="homeLink")
                 img(:src="partnerLogo.url" :alt="partnerLogo.alt" :class="partnerLogo.className")
-              a(v-if="isOzaria" :href="homeLink")
-                img.logo-img.oz-logo(src="/images/ozaria/home/ozaria-logo.png" alt="Ozaria logo" title='Ozaria')
 
-          .navbar-browser-recommendation.navbar-header(v-if="isChinaOldBrowser")
+          .navbar-browser-recommendation.navbar-header(v-if="isChinaOldBrowser && !float")
             .nav-spacer
               .navbar-nav
                 a.text-p(href="https://www.google.cn/intl/zh-CN/chrome/") {{ $t('nav.browser_recommendation') }}
@@ -492,10 +501,9 @@ export default Vue.extend({
                       li(v-for="child in navItem.children.filter(child => child.hide!==true)")
                         a.text-p(:href="child.url" :class="[child.class, child.url && checkLocation(child.url) && 'text-teal'].filter(Boolean)" v-bind="child.attrs") {{ $t(child.title) }}
                           div.text-description(v-if="child.description") {{ $t(child.description) }}
-
                 a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
 
-          .navbar-collapse.collapse
+          .navbar-collapse.collapse(v-if="!float")
             ul.nav.navbar-nav.loggedin(v-if="!me.isAnonymous()")
               li(v-if="me.isTarena()")
                 a.text-p#logout-button {{ $t('login.log_out') }}
@@ -567,6 +575,42 @@ export default Vue.extend({
 #main-nav.navbar {
   background: white;
 
+  &.floating-nav {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin: 0 auto;
+    transform: translate(-50%, -100%);
+    z-index: 10000;
+    border-radius: 50px;
+    padding: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 1s ease;
+
+    &:has(.floating-nav-trigger:hover), &:hover {
+      transform: translate(-50%, 0);
+    }
+
+    &:hover > .floating-nav-trigger {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .floating-nav-trigger {
+      width: 80px;
+      height: 5px;
+      z-index: 9000;
+      background-color: white;
+      border-radius: 2.5px;
+      position: absolute;
+      bottom: -5px;
+      left: calc(50% - 40px);
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+    }
+
+  }
   .nav-container {
     padding-left: 10px;
     padding-right: 10px;
@@ -655,10 +699,6 @@ export default Vue.extend({
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-
-    .oz-logo {
-      max-height: 30px !important;
-    }
   }
 
   .navbar-collapse {

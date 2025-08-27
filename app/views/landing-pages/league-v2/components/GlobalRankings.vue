@@ -237,4 +237,15 @@ export default {
 .color-black {
   color: black !important;
 }
+
+@media (max-width: $screen-md-min) {
+  .leaderboard-panel {
+    width: 100%;
+    flex-direction: column;
+
+    .section-space {
+      width: 100%;
+    }
+  }
+}
 </style>

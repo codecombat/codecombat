@@ -51,6 +51,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "app/styles/component_variables.scss";
 $custom-cyan:  rgb(77, 236, 240);
 .yearly-component {
   $border-style: 2px solid;
@@ -116,6 +117,12 @@ $custom-cyan:  rgb(77, 236, 240);
 
   .seasons {
     display: flex;
+  }
+}
+
+@media (max-width: $screen-md-min) {
+  .seasons {
+    flex-direction: column;
   }
 }
 </style>

@@ -26,12 +26,23 @@
       <p class="content">
         {{ isTeacher() ? $t('hackstack_page.header_details_teacher') : $t('hackstack_page.header_details') }}
       </p>
-      <CTAButton
-        class="cta-button"
-        @clickedCTA="CTAClicked"
-      >
-        {{ isTeacher() ? $t('schools_page.get_my_solution') : $t('hackstack_page.try_it_free') }}
-      </CTAButton>
+      <div class="btns-group">
+        <div class="btns">
+          <CTAButton
+            v-if="isTeacher() && isPaidTeacher"
+            class="cta-button"
+            @clickedCTA="CTAClicked"
+          >
+            {{ $t('schools_page.get_my_solution') }}
+          </CTAButton>
+          <CTAButton
+            class="cta-button"
+            @clickedCTA="exploreClicked"
+          >
+            {{ $t('hackstack_page.explore_hackstack') }}
+          </CTAButton>
+        </div>
+      </div>
     </template>
   </PageSection>
 </template>
@@ -41,6 +52,8 @@ import CTAButton from 'app/components/common/buttons/CTAButton.vue'
 import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
 import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
 import ContentBox from 'app/components/common/elements/ContentBox'
+
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'HeaderSection',
@@ -57,13 +70,25 @@ export default {
       logo: '/images/pages/roblox/coco-worlds-no-desc.png',
     }
   },
+  computed: {
+    ...mapGetters({
+      isPaidTeacher: 'me/isPaidTeacher',
+    }),
+  },
+  async created () {
+    if (this.isTeacher()) {
+      await this.fetchTeacherPrepaids({ teacherId: me.get('_id') })
+    }
+  },
   methods: {
+    ...mapActions({
+      fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher',
+    }),
+    exploreClicked () {
+      window.location = '/ai'
+    },
     CTAClicked () {
-      if (me.isTeacher()) {
-        window.open('/schools?openContactModal=true', '_blank')
-      } else {
-        window.location = '/ai'
-      }
+      window.open('/schools?openContactModal=true', '_blank', 'noopener,noreferrer')
     },
     isTeacher () {
       return me.isTeacher()
@@ -104,6 +129,19 @@ $primary-background: #31636F;
   @extend %font-24-30;
   color:  #B4B4B4;
   margin-bottom: 40px;
+}
+.btns-group {
+  display: flex;
+  justify-content: center;
+}
+.btns {
+  max-width: 700px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  flex-wrap: wrap;
 }
 .cta-button {
   margin-bottom: 80px;
