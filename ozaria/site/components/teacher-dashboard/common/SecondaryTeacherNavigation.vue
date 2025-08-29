@@ -371,7 +371,7 @@ export default {
         aria-haspopup="true"
         aria-expanded="false"
       >
-        <div id="IconCurriculum" />
+        <div id="IconResourceHub" />
         <span>{{ $t('nav.teacher_tools') }}</span>
         <span class="caret" />
       </a>
