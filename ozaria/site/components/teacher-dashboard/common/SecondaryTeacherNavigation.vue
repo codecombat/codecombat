@@ -389,7 +389,7 @@ export default {
             v-if="option.type === 'a'"
             :href="option.path"
             class="dropdown-item"
-            data-action="Guide: Nav Clicked"
+            data-action="Tool: Nav Clicked"
             target="_blank"
           >
             {{ option.name }}
