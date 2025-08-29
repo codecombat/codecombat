@@ -111,15 +111,9 @@ export default Vue.extend({
             codeLanguage: this.codeLanguage || defaultCodeLanguage // used for non-classroom anonymous users
           }
           this.language = this.introLevelSession.codeLanguage
-          api.levels.upsertSession(this.introLevelData._id, sessionOptions)
-            .then((session) => {
-              this.introLevelSession = session
-              this.language = this.introLevelSession.codeLanguage
-            })
-            .catch((err) => {
-              console.error(`Error in upserting intro level session: ${this.introLevelSession?._id}, levelId: ${this.introLevelData?._id} - ${err?.message}`, err)
-              noty({ text: `Error in upserting intro level session: ${this.introLevelSession?._id}, levelId: ${this.introLevelData?._id}`, type: 'warning', timeout: 5000 })
-            })
+          const session = await api.levels.upsertSession(this.introLevelData._id, sessionOptions)
+          this.introLevelSession = session
+          this.language = session.codeLanguage
         }
 
         this.introContent = this.introLevelData.introContent
