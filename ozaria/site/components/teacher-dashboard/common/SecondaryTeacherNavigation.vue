@@ -35,9 +35,9 @@ export default {
     if (utils.isCodeCombat) {
       guideOptions = [
         { id: 'junior', name: $.i18n.t('nav.coco_junior'), path: '/teachers/guide/junior' },
-        { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: '/teachers/guide/ozaria' },
         { id: 'codecombat', name: $.i18n.t('nav.codecombat_classroom'), path: '/teachers/guide/codecombat' },
-        { id: 'roblox', name: $.i18n.t('nav.ccw_short'), path: '/roblox', type: 'a' },
+        { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: utils.ozBaseURL(), type: 'a' },
+        { id: 'roblox', name: $.i18n.t('nav.ccw_short'), path: '/teachers/roblox' },
         { id: 'hackstack', name: $.i18n.t('nav.ai_hackstack'), path: '/teachers/guide/hackstack' },
         { id: 'aileague', name: $.i18n.t('nav.ai_league_esports'), path: '/league/ladders', type: 'a' },
         { id: 'ap', name: $.i18n.t('nav.ap_csp'), path: '/teachers/apcsp' },
