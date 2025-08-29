@@ -137,13 +137,14 @@ export default {
     },
 
     isGuideTabSelected () {
-      const guideRoutes = this.guideOptions.filter((r) => r.type !== 'a').map(r => r.path)
-      return guideRoutes.includes(this.$route.path)
+      return this.guideOptions.some((r) => r.type !== 'a' && this.isCurrentRoute(r.path))
     },
 
     isToolTabSelected () {
-      const toolRoutes = this.toolOptions.filter((r) => r.type !== 'a').map(r => r.path)
-      return toolRoutes.includes(this.$route.path)
+      return this.toolOptions.some((r) => r.type !== 'a' && this.isCurrentRoute(r.path))
+    },
+    visibleToolOptions () {
+      return this.toolOptions.filter((o) => o.id !== 'pd' || this.showPD)
     },
   },
 
@@ -321,7 +322,7 @@ export default {
         <li
           v-for="option in guideOptions"
           :key="option.id"
-          :class="isGuideTabSelected && $route.params.product === option.id ? 'selected' : null"
+          :class="isCurrentRoute(option.path) ? 'selected' : null"
         >
           <a
             v-if="option.type === 'a'"
@@ -380,9 +381,9 @@ export default {
         aria-labelledby="TeacherToolDropdown"
       >
         <li
-          v-for="option in toolOptions"
+          v-for="option in visibleToolOptions"
           :key="option.id"
-          :class="isToolTabSelected && $route.params.product === option.id ? 'selected' : null"
+          :class="isCurrentRoute(option.path) ? 'selected' : null"
         >
           <a
             v-if="option.type === 'a'"
