@@ -7,7 +7,6 @@ import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
 import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
-import IconAPCSP from 'ozaria/site/components/teacher-dashboard/common/NavIconAPCSP'
 import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/NavIconAssessments'
 
 export default {
@@ -17,7 +16,6 @@ export default {
     ModalCurriculumPromotion,
     ModalOzariaHackStack,
     ModalOzariaAILeague,
-    IconAPCSP,
     IconAssessments,
   },
 
@@ -37,18 +35,28 @@ export default {
     if (utils.isCodeCombat) {
       guideOptions = [
         { id: 'junior', name: $.i18n.t('nav.coco_junior'), path: '/teachers/guide/junior' },
+        { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: '/teachers/guide/ozaria' },
         { id: 'codecombat', name: $.i18n.t('nav.codecombat_classroom'), path: '/teachers/guide/codecombat' },
+        { id: 'roblox', name: $.i18n.t('nav.ccw_short'), path: '/roblox', type: 'a' },
         { id: 'hackstack', name: $.i18n.t('nav.ai_hackstack'), path: '/teachers/guide/hackstack' },
-        { id: 'ozaria', name: $.i18n.t('new_home.ozaria'), path: utils.ozBaseURL(), type: 'a' },
+        { id: 'aileague', name: $.i18n.t('nav.ai_league_esports'), path: '/league/ladders', type: 'a' },
+        { id: 'ap', name: $.i18n.t('nav.ap_csp'), path: '/teachers/apcsp' },
       ]
     } else {
       guideOptions = [
-        { id: 'ozaria', name: 'Ozaria Classroom', path: '/teachers/guide/ozaria' },
+        { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: '/teachers/guide/ozaria' },
       ]
     }
+
+    const toolOptions = [
+      { id: 'toolkit', name: $.i18n.t('nav.teacher_toolkit'), path: '/teachers/resources', type: 'a' },
+      { id: 'pd', name: $.i18n.t('nav.professional_development'), path: '/teachers/professional-development' },
+      { id: 'ai-tool', name: $.i18n.t('nav.ai_teacher_tool'), path: '/ai', type: 'a' },
+    ]
     return {
       curriculumPromoClicked: false,
       guideOptions,
+      toolOptions,
     }
   },
 
@@ -129,7 +137,13 @@ export default {
     },
 
     isGuideTabSelected () {
-      return this.$route.path.startsWith('/teachers/guide')
+      const guideRoutes = this.guideOptions.filter((r) => r.type !== 'a').map(r => r.path)
+      return guideRoutes.includes(this.$route.path)
+    },
+
+    isToolTabSelected () {
+      const toolRoutes = this.toolOptions.filter((r) => r.type !== 'a').map(r => r.path)
+      return toolRoutes.includes(this.$route.path)
     },
   },
 
@@ -332,20 +346,6 @@ export default {
         </li>
       </ul>
     </li>
-
-    <li>
-      <router-link
-        id="ResourceAnchor"
-        to="/teachers/resources"
-        :class="{ 'current-route': isCurrentRoute('/teachers/resources') }"
-        data-action="Resource Hub: Nav Clicked"
-        @click.native="trackEvent"
-      >
-        <div id="IconResourceHub" />
-        <span>{{ $t('teacher_dashboard.resource_hub') }}</span>
-      </router-link>
-    </li>
-
     <li v-if="showLicenses">
       <router-link
         id="LicensesAnchor"
@@ -358,6 +358,56 @@ export default {
         <span>{{ $t('teacher_dashboard.my_licenses') }}</span>
       </router-link>
     </li>
+    <li
+      role="presentation"
+      class="dropdown"
+    >
+      <a
+        id="TeacherToolDropdown"
+        :class="['dropdown-toggle', isToolTabSelected ? 'current-route' : '']"
+        href="#"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        <div id="IconCurriculum" />
+        <span>{{ $t('nav.teacher_tools') }}</span>
+        <span class="caret" />
+      </a>
+      <ul
+        class="dropdown-menu"
+        aria-labelledby="TeacherToolDropdown"
+      >
+        <li
+          v-for="option in toolOptions"
+          :key="option.id"
+          :class="isToolTabSelected && $route.params.product === option.id ? 'selected' : null"
+        >
+          <a
+            v-if="option.type === 'a'"
+            :href="option.path"
+            class="dropdown-item"
+            data-action="Guide: Nav Clicked"
+            target="_blank"
+          >
+            {{ option.name }}
+          </a>
+          <router-link
+            v-else
+            tag="a"
+            :to="option.path"
+            class="dropdown-item"
+            data-action="Tool: Nav Clicked"
+            data-toggle="dropdown"
+            :data-label="$route.path"
+          >
+            {{ option.name }}
+          </router-link>
+        </li>
+      </ul>
+    </li>
+
     <li
       v-if="showAssessments"
       class="dropdown"
@@ -416,42 +466,6 @@ export default {
         </li>
       </ul>
     </li>
-    <li v-if="isCodeCombat">
-      <a
-        id="OzariaAnchor"
-        :href="ozariaBaseURL"
-        target="_blank"
-        data-action="Ozaria HomePage: Nav Clicked"
-        @click="trackEvent"
-      >
-        <div id="IconOzaria" />
-        <span>{{ $t('new_home.ozaria') }}</span>
-      </a>
-    </li>
-    <li v-if="showHackStack">
-      <a
-        id="HackStackAnchor"
-        href="#"
-        data-action="Sidebar - HackStack: Nav Clicked"
-        @click="AIHSClicked"
-      >
-        <div id="IconHackStack" />
-        <span>{{ $t('nav.ai_hackstack') }}</span>
-      </a>
-    </li>
-    <li>
-      <component
-        :is="isCodeCombat ? 'router-link' : 'a'"
-        id="AILeague"
-        to="/teachers/ai-league"
-        :class="{ 'current-route': isCurrentRoute('/teachers/ai-league') }"
-        data-action="AI League: Nav Clicked"
-        @click="AILeagueClicked"
-      >
-        <div id="IconKeepPlaying" />
-        <span>{{ $t('teacher_dashboard.ai_league') }}</span>
-      </component>
-    </li>
     <li
       v-if="showAIJunior"
       class="dropdown"
@@ -503,39 +517,6 @@ export default {
       </ul>
     </li>
 
-    <li v-if="showPD">
-      <router-link
-        id="PDAnchor"
-        to="/teachers/apcsp"
-        :class="{ 'current-route': isCurrentRoute('/teachers/apcsp') }"
-        data-action="APCSP: Nav Clicked"
-        @click.native="trackEvent"
-      >
-        <IconAPCSP class="icon-apcsp svgicon default" />
-        <IconAPCSP
-          class="icon-apcsp svgicon hovered"
-          theme="white"
-        />
-        <IconAPCSP
-          class="icon-apcsp svgicon selected"
-          theme="purple"
-        />
-        {{ $t('teacher_dashboard.apcsp') }}
-      </router-link>
-    </li>
-    <li v-if="showPD">
-      <router-link
-        id="PDAnchor"
-        to="/teachers/professional-development"
-        :class="{ 'current-route': isCurrentRoute('/teachers/professional-development') }"
-        data-action="PD: Nav Clicked"
-        @click.native="trackEvent"
-      >
-        <div id="IconPD" />
-        <!-- <div id="IconNew">New!</div> -->
-        {{ $t('teacher_dashboard.pd_short') }}
-      </router-link>
-    </li>
     <li>
       <dashboard-toggle
         v-if="isCodeCombat"
