@@ -228,4 +228,12 @@ $primary-background: #31636F;
   }
 }
 
+@media (max-width: $screen-md-min) {
+  .content {
+    width: 100% !important;
+  }
+  .compete {
+    width: 100% !important;
+  }
+}
 </style>
