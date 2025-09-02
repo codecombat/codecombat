@@ -45,7 +45,7 @@ module.exports = class LevelChatView extends CocoView
 
     ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
     #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
-    @visible = @aceConfig.levelChat isnt 'none' or me.getLevelChatExperimentValue() is 'beta'  # not 'control'
+    @visible = @aceConfig.levelChat isnt 'none' or options.levelisLadder or me.getLevelChatExperimentValue() is 'beta'  # not 'control'
     @chatInitialized = @visible  # Track if chat is properly initialized
 
     @regularlyClearOldMessages()
@@ -69,13 +69,8 @@ module.exports = class LevelChatView extends CocoView
   afterRender: ->
     @chatTables = $('.table', @$el)
     #@updateMultiplayerVisibility()
-    # Always show the chat view (for the icon), but only show chat panels if initialized
-    @$el.show()
-    # Always show the AI helper chat icon, regardless of chat initialization
-    @$('.ai-helper-chat-icon').show()
-    # Hide chat panels if not initialized
-    if not @chatInitialized
-      @$('.open-chat-area, .closed-chat-area').hide()
+    @$el.toggle @visible
+    @$('.ai-helper-chat-icon').toggle @visible
     @onWindowResize {}
 
   regularlyClearOldMessages: ->

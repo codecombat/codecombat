@@ -444,7 +444,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
     @insertSubView new HUDView {@level} unless @level.isType('web-dev')
     @insertSubView new LevelDialogueView {@level, sessionID: @session.id}
-    @insertSubView new ChatView({@levelID, sessionID: @session.id, @session, aceConfig: @classroomAceConfig, aiChatKind: @level.get('aiChatKind'), levelRealID: @level.id})
+    @insertSubView new ChatView({@levelID, sessionID: @session.id, @session, aceConfig: @classroomAceConfig, aiChatKind: @level.get('aiChatKind'), levelRealID: @level.id, levelisLadder: @level.isLadder() })
     @insertSubView new ProblemAlertView {@session, @level, @supermodel, aceConfig: @classroomAceConfig}
     @insertSubView new SurfaceContextMenuView {@session, @level}
     @insertSubView new DuelStatsView {@level, @session, @otherSession, @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView} if @level.isLadder()
