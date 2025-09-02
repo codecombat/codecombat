@@ -1483,20 +1483,22 @@ class CampaignView extends RootView {
     const levelName = levelElement.data('level-name')
     const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
 
-    let requiresSubscription
+    let access, freeAccessLevels
     if (me.showChinaResourceInfo() && !me.showChinaHomeVersion()) {
       let defaultAccess = ['short', 'china-classroom']
       if (me.get('hourOfCode') || this.campaign?.get('type') === 'hoc' || this.campaign?.get('slug') === 'intro') {
         defaultAccess = defaultAccess.concat(['medium', 'long'])
       }
-      const freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
-      requiresSubscription = level.requiresSubscription || (!(freeAccessLevels.includes(level.slug)))
+
+      if (this.terrain === 'junior') {
+        access = 'all' // CodeCombat Junior level access is managed the old way, with level.requiresSubscription, no hardcoded overrides
+      }
+      freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
     } else {
       let defaultAccess = (me.get('hourOfCode') || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') || ((this.campaign != null ? this.campaign.get('slug') : undefined) === 'intro')) ? 'long' : 'short'
       if (new Date(me.get('dateCreated')) < new Date('2021-09-21') && (!me.showChinaHomeVersion())) {
         defaultAccess = 'all'
       }
-      let access
       if (this.terrain === 'junior') {
         access = 'all' // CodeCombat Junior level access is managed the old way, with level.requiresSubscription, no hardcoded overrides
       }
@@ -1504,7 +1506,7 @@ class CampaignView extends RootView {
       if (me.showChinaResourceInfo() || (me.get('country') === 'japan')) {
         access = 'short'
       }
-      const freeAccessLevels = utils.freeAccessLevels
+      freeAccessLevels = utils.freeAccessLevels
         .filter(fal => {
           if (fal.access === 'short') return true
           if (fal.access === 'medium' && ['medium', 'long', 'extended'].includes(access)) return true
@@ -1513,8 +1515,8 @@ class CampaignView extends RootView {
           return false
         })
         .map(fal => fal.slug)
-      requiresSubscription = level.requiresSubscription || ((access !== 'all') && !freeAccessLevels.includes(level.slug))
     }
+    const requiresSubscription = level.requiresSubscription || ((access !== 'all') && !freeAccessLevels.includes(level.slug))
     const canPlayAnyway = [
       !this.requiresSubscription,
       // level.adventurer  # Disable adventurer stuff for now
