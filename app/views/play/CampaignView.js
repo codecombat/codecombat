@@ -163,6 +163,10 @@ class CampaignView extends RootView {
     // Check if the user is in the Catalyst experiment
     this.isCatalyst = me.getCatalystExperimentValue() === 'beta'
 
+    // Check if this is the galaxy campaign (treat as catalyst for UI purposes)
+    this.isGalaxy = this.terrain === 'galaxy'
+    this.isCatalyst = this.isCatalyst || this.isGalaxy
+
     this.editorMode = options?.editorMode
     this.requiresSubscription = !me.isPremium()
     if (this.editorMode && !this.terrain) {
@@ -245,7 +249,7 @@ class CampaignView extends RootView {
         this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', { cache: false }, 1).model
         this.listenToOnce(this.sessions, 'sync', this.onSessionsLoaded)
       }
-      if (!this.terrain) {
+      if (!this.terrain || this.isGalaxy) {
         this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
         this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
         return
@@ -2238,6 +2242,10 @@ class CampaignView extends RootView {
 
     if (what === 'cchome-menu-icon') {
       return !userUtils.isCreatedViaLibrary() && this.terrain === 'junior'
+    }
+
+    if (what === 'galaxy-template') {
+      return this.isGalaxy
     }
 
     return true

@@ -5,8 +5,8 @@ if showGameDevAlert
     a(href="/teachers/licenses", data-i18n="play.request_licenses")
 
 // TODO: .gameplay-container causes world map buttons to briefly appear in top left of screen
-#floating-nav
-.gameplay-container
+#floating-nav(class=view.shouldShow('galaxy-template') ? 'galaxy-theme' : '')
+.gameplay-container(class=view.shouldShow('galaxy-template') ? 'galaxy-theme' : '')
   a(href="/").picoctf-hide
     img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
 
@@ -294,21 +294,51 @@ if showGameDevAlert
             .hackstack-icon
         .hackstack-level#hackstack-level-shadow(style="left: 57.5%; top: 62.1%;", class="level-shadow")
   else if view.isCatalyst
-    .portal-catalyst
+    .portal-catalyst(class=view.isGalaxy ? 'galaxy-theme' : '')
       .portals
         - var godmode = me.isInGodMode();
-        // Main campaigns with side dev campaigns
-        .campaign-rows
-          // Define the campaign rows with their main campaign and side campaigns
-          -
-            var campaignRows = [
-              //- {main: 'dungeon', left: null, right: null},
-              {main: 'dungeon', left: 'campaign-game-dev-1', right: 'campaign-web-dev-1', next: 'forest'},
-              {main: 'forest', left: 'campaign-game-dev-2', right: 'campaign-web-dev-2', next: 'desert'},
-              {main: 'desert', left: 'campaign-game-dev-3', right: null, next: 'mountain'},
-              {main: 'mountain', left: null, right: null, next: 'glacier'},
-              {main: 'glacier', left: null, right: null},
-            ];
+        
+        if view.isGalaxy
+          // Galaxy campaign layout - all campaigns in a grid
+          .galaxy-campaign-grid
+            each campaign, campaignSlug in campaigns
+              - var campaignName = i18n(campaign.attributes, 'fullName')
+              - var campaignDescription = i18n(campaign.attributes, 'description')
+              - var levelsCompleted = campaign.levelsCompleted || 0
+              - var levelsTotal = campaign.levelsTotal || 0
+              
+              .galaxy-campaign-portal(class=campaignSlug + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
+                .background-container(class=campaignSlug)
+                .campaign-label
+                  h3.campaign-name
+                    span= campaignName
+                    if levelsTotal > 0
+                      span.spl= levelsCompleted
+                      | /
+                      span= levelsTotal
+                  if campaign && campaign.locked && !godmode
+                    h4.campaign-locked(data-i18n="play.locked") Locked
+                  else if campaign
+                    if serverConfig.static
+                      a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + campaignSlug)
+                    else
+                      btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                  if campaign && campaign.get('description')
+                    p.campaign-description(dir="auto")
+                      span= campaignDescription
+        else
+          // Regular catalyst layout
+          .campaign-rows
+            // Define the campaign rows with their main campaign and side campaigns
+            -
+              var campaignRows = [
+                //- {main: 'dungeon', left: null, right: null},
+                {main: 'dungeon', left: 'campaign-game-dev-1', right: 'campaign-web-dev-1', next: 'forest'},
+                {main: 'forest', left: 'campaign-game-dev-2', right: 'campaign-web-dev-2', next: 'desert'},
+                {main: 'desert', left: 'campaign-game-dev-3', right: null, next: 'mountain'},
+                {main: 'mountain', left: null, right: null, next: 'glacier'},
+                {main: 'glacier', left: null, right: null},
+              ];
           
           
           // Loop through each campaign row
