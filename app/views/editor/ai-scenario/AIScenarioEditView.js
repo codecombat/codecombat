@@ -59,10 +59,14 @@ module.exports = (AIScenarioEditView = (function () {
     buildTreema () {
       if ((this.treema != null) || (!this.scenario.loaded)) { return }
       const data = $.extend(true, {}, this.scenario.attributes)
+      const copySchema = { ...AIScenario.schema }
+      if (this.scenario.get('mode') === 'use') {
+        copySchema.properties.minMsgs.minimum = 1
+      }
       const options = {
         data,
         filePath: `db/ai_scenario/${this.scenario.get('_id')}`,
-        schema: AIScenario.schema,
+        schema: copySchema,
         readOnly: me.get('anonymous'),
         supermodel: this.supermodel,
         nodeClasses: {
