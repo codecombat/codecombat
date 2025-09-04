@@ -27,6 +27,9 @@ class ForkModal extends ModalView {
     newModel.unset('tasks')
     newModel.set('commitMessage', `Forked from ${this.model.get('name')}`)
     newModel.set('name', this.$el.find('#fork-model-name').val())
+    if (this.model.get('kind') === 'Hero' || this.model.get('kind') === 'Junior Hero') {
+      newModel.set('releasePhase', 'beta')
+    }
     if (this.model.schema().properties.permissions) {
       newModel.set('permissions', [{ access: 'owner', target: me.id }])
     }
