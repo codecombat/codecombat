@@ -62,6 +62,7 @@ module.exports = (AIScenarioEditView = (function () {
       const copySchema = { ...AIScenario.schema }
       if (this.scenario.get('mode') === 'use') {
         copySchema.properties.minMsgs.minimum = 1
+        copySchema.properties.minMsgs.default = 1
       }
       const options = {
         data,
