@@ -327,7 +327,7 @@ if showGameDevAlert
                       if serverConfig.static
                         a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + campaignSlug)
                       else
-                        btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                        button.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
                     if campaign && campaign.get('description')
                       p.campaign-description(dir="auto")
                         span= i18n(campaign.attributes, 'description')
@@ -371,7 +371,7 @@ if showGameDevAlert
                           if serverConfig.static
                             a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + row.left)
                           else
-                            btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                            button.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
                         if leftCampaign.get('description')
                           p.campaign-description(dir="auto")
                             span= i18n(leftCampaign.attributes, 'description')
@@ -424,7 +424,7 @@ if showGameDevAlert
                           if serverConfig.static
                             a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + row.right)
                           else
-                            btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                            button.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
                         if rightCampaign.get('description')
                           p.campaign-description(dir="auto")
                             span= i18n(rightCampaign.attributes, 'description')
@@ -461,7 +461,7 @@ if showGameDevAlert
                       if serverConfig.static
                         a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + campaignSlug)
                       else
-                        btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                        button.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
                     if campaign && campaign.get('description')
                       p.campaign-description(dir="auto")
                         span= i18n(campaign.attributes, 'description')

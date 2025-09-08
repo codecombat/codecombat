@@ -63,6 +63,11 @@ $hackstackGlowSizeBase: 5px
   50%
     filter: drop-shadow(0 0 (1.5 * $hackstackGlowSizeBase) #555) drop-shadow(0 0 (3 * $hackstackGlowSizeBase) $hackstackGlowColor) drop-shadow(0 0 (6 * $hackstackGlowSizeBase) $hackstackGlowColor)
 
+@keyframes twinkle
+  0%, 100%
+    opacity: 0.3
+  50%
+    opacity: 1
 
 #campaign-view
   top: 0
