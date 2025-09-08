@@ -1580,6 +1580,138 @@ $hackstackGlowSizeBase: 5px
       &.highlighted
         @extend .portal-glow
 
+  .portal-galaxy
+    position: relative
+    width: 100%
+    height: 100%
+    background: linear-gradient(135deg, #0a0a2e 0%, #1a1a4a 50%, #2a2a6a 100%) !important
+    overflow-y: auto
+    padding: 20px
+    border: 5px solid red !important  // Debug: Should show red border if CSS is applied
+    
+    &::before
+      content: ''
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      background-image: radial-gradient(2px 2px at 20px 30px, #fff, transparent), radial-gradient(2px 2px at 40px 70px, #fff, transparent), radial-gradient(1px 1px at 90px 40px, #fff, transparent), radial-gradient(1px 1px at 130px 80px, #fff, transparent), radial-gradient(2px 2px at 160px 30px, #fff, transparent)
+      background-repeat: repeat
+      background-size: 200px 100px
+      animation: twinkle 4s ease-in-out infinite
+      pointer-events: none
+      z-index: 1
+
+    .portals
+      position: relative
+      z-index: 10
+      
+      .campaign-rows
+        display: flex
+        flex-direction: column
+        align-items: center
+        gap: 40px
+        padding: 50px 0
+        
+        .campaign-row
+          display: flex
+          justify-content: center
+          align-items: center
+          gap: 60px
+          flex-wrap: wrap
+          
+          .campaign-container
+            position: relative
+            width: 300px
+            height: 400px
+            background: rgba(255, 255, 255, 0.1) !important
+            border: 2px solid rgba(79, 195, 247, 0.5) !important
+            border-radius: 20px
+            padding: 20px
+            text-align: center
+            transition: all 0.3s ease
+            cursor: pointer
+            border: 3px solid yellow !important  // Debug: Should show yellow border
+            
+            &:hover
+              background: rgba(255, 255, 255, 0.2)
+              border-color: #4fc3f7
+              transform: translateY(-10px)
+              box-shadow: 0 15px 30px rgba(79, 195, 247, 0.4)
+            
+            &.locked
+              opacity: 0.6
+              cursor: default
+              
+              &:hover
+                transform: none
+                box-shadow: none
+            
+            .campaign-label
+              position: relative
+              z-index: 2
+              
+              .campaign-name
+                color: #4fc3f7
+                font-size: 24px
+                font-weight: bold
+                margin-bottom: 20px
+                text-shadow: 0 0 10px rgba(79, 195, 247, 0.5)
+              
+              .campaign-locked
+                color: #ff6b6b
+                font-size: 16px
+                margin: 10px 0
+              
+              .play-button
+                background: linear-gradient(45deg, #4fc3f7, #29b6f6)
+                border: none
+                color: white
+                border-radius: 25px
+                padding: 12px 30px
+                font-size: 16px
+                font-weight: bold
+                transition: all 0.3s ease
+                margin: 15px 0
+                
+                &:hover
+                  background: linear-gradient(45deg, #29b6f6, #0288d1)
+                  transform: scale(1.05)
+                  box-shadow: 0 5px 15px rgba(79, 195, 247, 0.4)
+              
+              .campaign-description
+                margin: 15px 0 0 0
+                font-size: 14px
+                color: rgba(255, 255, 255, 0.8)
+                line-height: 1.5
+            
+            .background-container
+              position: absolute
+              top: 0
+              left: 0
+              width: 100%
+              height: 100%
+              border-radius: 20px
+              background-size: cover
+              background-position: center
+              background-repeat: no-repeat
+              z-index: 1
+              opacity: 0.3
+              transition: opacity 0.3s ease
+              
+              &.intro-to-ai
+                background-image: url('/images/pages/play_ai/forest-planet.png')
+              &.math-and-stats
+                background-image: url('/images/pages/play_ai/desert-planet.png')
+              &.english-language-arts
+                background-image: url('/images/pages/play_ai/cloud-planet.png')
+              
+              &:hover
+                opacity: 0.5
+
+
+  
   #esports-arena
     min-width: 210px
 
@@ -1769,96 +1901,6 @@ body[lang^="en"] #campaign-view .user-status-catalyst .user-status-line .languag
     &.language-dropdown
       width: 112px
 
-// Galaxy theme styles
-.galaxy-theme
-  background: linear-gradient(135deg, #0a0a2e 0%, #1a1a4a 50%, #2a2a6a 100%) !important
   
-  #floating-nav
-    background: rgba(0, 0, 0, 0.8) !important
-    
-  .portal-catalyst
-    background: radial-gradient(ellipse at center, rgba(79, 195, 247, 0.1) 0%, transparent 70%) !important
-    position: relative
-    
-    &::before
-      content: ''
-      position: absolute
-      top: 0
-      left: 0
-      right: 0
-      bottom: 0
-      background-image: radial-gradient(2px 2px at 20px 30px, #fff, transparent), radial-gradient(2px 2px at 40px 70px, #fff, transparent), radial-gradient(1px 1px at 90px 40px, #fff, transparent), radial-gradient(1px 1px at 130px 80px, #fff, transparent), radial-gradient(2px 2px at 160px 30px, #fff, transparent)
-      background-repeat: repeat
-      background-size: 200px 100px
-      animation: twinkle 4s ease-in-out infinite
-      pointer-events: none
-      z-index: 1
-    
-    &::after
-      content: ''
-      position: absolute
-      top: 20%
-      left: 10%
-      width: 300px
-      height: 200px
-      background: radial-gradient(ellipse at center, rgba(156, 39, 176, 0.3) 0%, transparent 70%)
-      border-radius: 50%
-      filter: blur(20px)
-      pointer-events: none
-      z-index: 1
-    
-    .portals
-      position: relative
-      z-index: 10
-      
-      .galaxy-campaign-grid
-        display: grid
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
-        gap: 30px
-        padding: 50px
-        max-width: 1200px
-        margin: 0 auto
-        
-        .galaxy-campaign-portal
-          background: rgba(255, 255, 255, 0.1) !important
-          border: 2px solid rgba(79, 195, 247, 0.5) !important
-          border-radius: 15px !important
-          padding: 20px
-          text-align: center
-          transition: all 0.3s ease !important
-          color: white
-          
-          &:hover
-            background: rgba(255, 255, 255, 0.2) !important
-            border-color: #4fc3f7 !important
-            transform: translateY(-5px) !important
-            box-shadow: 0 10px 20px rgba(79, 195, 247, 0.3) !important
-          
-          .campaign-name
-            color: #4fc3f7 !important
-            font-size: 18px
-            font-weight: bold
-            margin-bottom: 15px
-          
-          .play-button
-            background: linear-gradient(45deg, #4fc3f7, #29b6f6) !important
-            border: none !important
-            color: white !important
-            border-radius: 25px !important
-            transition: all 0.3s ease !important
-            
-            &:hover
-              background: linear-gradient(45deg, #29b6f6, #0288d1) !important
-              transform: scale(1.05) !important
-          
-          .campaign-description
-            margin: 10px 0 0 0
-            font-size: 14px
-            color: rgba(255, 255, 255, 0.8)
-            line-height: 1.4
 
-@keyframes twinkle
-  0%, 100%
-    opacity: 0.3
-  50%
-    opacity: 1
+

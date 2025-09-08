@@ -109,7 +109,7 @@ if showGameDevAlert
 
   if campaign
     .map
-      if features.brainPop && levelsCompleted && levelsCompleted === levelsTotal
+      if features && features.brainPop && levelsCompleted && levelsCompleted === levelsTotal
         #brain-pop-done-banner-wrapper
           #brain-pop-done-banner
             img(src="/images/pages/play/Victory_Pose.png")
@@ -293,6 +293,46 @@ if showGameDevAlert
            span
             .hackstack-icon
         .hackstack-level#hackstack-level-shadow(style="left: 57.5%; top: 62.1%;", class="level-shadow")
+  else if view.isGalaxy
+    .portal-galaxy
+      .portals
+        - var godmode = me.isInGodMode();
+        .campaign-rows
+          // Galaxy portal campaigns
+          // Define the campaign rows - using existing campaigns for now
+          -
+            var campaignRows = [
+              ['intro-to-ai'],
+              ['math-and-stats', 'english-language-arts']
+            ];
+          // Loop through each campaign row
+          each row in campaignRows
+            .campaign-row
+              // Campaigns in the row - all equal size
+              each campaignSlug in row
+                - var campaign = campaigns[campaignSlug]
+                .campaign-container(class=campaignSlug + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug, data-i18n="[title]play.locked_campaign" : "")
+                  .background-container(class=campaignSlug)
+                  .campaign-label
+                    h3.campaign-name
+                      if campaign
+                        span= i18n(campaign.attributes, 'fullName')
+                        if campaign.levelsTotal
+                          span.spl= campaign.levelsCompleted
+                          | /
+                          span= campaign.levelsTotal
+                      else
+                        span= campaignSlug + " (Not Found)"
+                    if campaign && campaign.locked && !godmode
+                      h4.campaign-locked(data-i18n="play.locked") Locked
+                    else if campaign
+                      if serverConfig.static
+                        a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + campaignSlug)
+                      else
+                        btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                    if campaign && campaign.get('description')
+                      p.campaign-description(dir="auto")
+                        span= i18n(campaign.attributes, 'description')
   else if view.isCatalyst
     .portal-catalyst
       .portals
@@ -349,7 +389,7 @@ if showGameDevAlert
                       span= i18n(mainCampaign.attributes, 'fullName')
                     else
                       span ???
-                  if mainCampaign && mainCampaign.levelsTotal && !features.brainPop
+                  if mainCampaign && mainCampaign.levelsTotal && !(features && features.brainPop)
                     h3.levels-completed
                       span= mainCampaign.levelsCompleted
                       | /
@@ -396,7 +436,7 @@ if showGameDevAlert
     .portal
       .portals
         - var godmode = me.isInGodMode();
-        for campaignSlug in features.campaignSlugs || ['junior', 'dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'beta-campaigns-3', 'mountain', 'glacier', 'volcano']
+        for campaignSlug in (features && features.campaignSlugs) || ['junior', 'dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'beta-campaigns-3', 'mountain', 'glacier', 'volcano']
           if /beta-campaigns/.test(campaignSlug)
             - if (me.freeOnly()) continue;
             - var betaSlugs = campaignSlug === 'beta-campaigns-1' ? _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']) : campaignSlug === 'beta-campaigns-2' ? _.shuffle(['campaign-game-dev-2', 'campaign-web-dev-2']) : ['campaign-game-dev-3'];
@@ -436,7 +476,7 @@ if showGameDevAlert
                     span= i18n(campaign.attributes, 'fullName')
                   else
                     span ???
-                if campaign && campaign.levelsTotal && !features.brainPop
+                if campaign && campaign.levelsTotal && !(features && features.brainPop)
                   h3.levels-completed
                     span= campaign.levelsCompleted
                     | /
@@ -459,7 +499,7 @@ if showGameDevAlert
                     span= i18n(campaign.attributes, 'description')
   if view.isCatalyst
     .game-controls-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
-      if !(features.picoCtf || features.brainPop)
+      if !((features && features.picoCtf) || (features && features.brainPop))
         if view.shouldShow('premium')
           button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
         if view.shouldShow('heros')
@@ -473,7 +513,7 @@ if showGameDevAlert
         if !me.get('anonymous', true) && view.shouldShow('settings')
           a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
     .other-products-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
-      if !(features.picoCtf || features.brainPop)
+      if !((features && features.picoCtf) || (features && features.brainPop))
         if view.shouldShow('hackstack-menu-icon')
           span.btn.hackstack-menu-icon(data-i18n="[title]play.hackstack_button_hover")
         if view.shouldShow('junior-menu-icon')
@@ -486,7 +526,7 @@ if showGameDevAlert
           span.btn.ai-league-menu-icon(data-i18n="[title]play.ai_league_button_hover")
   else
     .game-controls.header-font.picoctf-hide
-      if !(features.picoCtf || features.brainPop)
+      if !((features && features.picoCtf) || (features && features.brainPop))
         if view.shouldShow('junior-menu-icon')
           button.btn.junior-icon.junior-menu-icon(title='CodeCombat Junior')
         if view.shouldShow('hackstack-menu-icon')
