@@ -316,13 +316,11 @@ if showGameDevAlert
                   .campaign-label
                     h3.campaign-name
                       if campaign
-                        span= i18n(campaign.attributes, 'fullName')
+                        div= i18n(campaign.attributes, 'fullName')
                         if campaign.levelsTotal
-                          span.spl= campaign.levelsCompleted
-                          | /
-                          span= campaign.levelsTotal
+                          div.levels-completed= campaign.levelsCompleted + "/" + campaign.levelsTotal
                       else
-                        span= campaignSlug + " (Not Found)"
+                        div= campaignSlug + " (Not Found)"
                     if campaign && campaign.locked && !godmode
                       h4.campaign-locked(data-i18n="play.locked") Locked
                     else if campaign
