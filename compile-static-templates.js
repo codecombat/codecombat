@@ -31,9 +31,6 @@ const {
 const {
   publicFolderName
 } = devUtils;
-const {
-  isStaging,
-} = devUtils
 
 const productFallbackPlugin = {
   read(path) {
@@ -106,7 +103,6 @@ const compile = function(contents, locals, filename, cb) {
     locals.me.useDataDog = () => !(locals.chinaInfra != null ? locals.chinaInfra : false);
     locals.me.showChinaVideo = () => locals.chinaInfra != null ? locals.chinaInfra : false;
     locals.me.getProduct = () => product;
-    locals.me.isStaging = () => isStaging
     str = outFn(locals);
     str = minify(str, {
       removeComments: true,
