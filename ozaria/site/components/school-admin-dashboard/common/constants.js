@@ -11,6 +11,6 @@ export const COMPONENT_NAMES = {
 }
 
 export const PAGE_TITLES = {
-  [COMPONENT_NAMES.MY_SCHOOLS]: 'My Schools',
-  [COMPONENT_NAMES.SCHOOL_ADMIN_LICENSES]: 'Admin Licenses'
+  [COMPONENT_NAMES.MY_SCHOOLS]: 'i18n:school_administrator.my_schools',
+  [COMPONENT_NAMES.SCHOOL_ADMIN_LICENSES]: 'i18n:school_administrator.admin_licenses',
 }

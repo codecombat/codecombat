@@ -4575,6 +4575,17 @@ module.exports = {
       preview: 'Here is a preview for top 200 lines, Click the Export to get full stats',
       empty_results: 'Empty Results.',
       roster: 'Roster',
+      licenses_total_label: 'Licenses',
+      enrolled_label: 'Students Enrolled',
+      active_classes: 'active classes',
+      licenses_class_label: 'Licenses in use',
+      license_details: 'License Details',
+      view_classes: 'View Classes',
+      my_schools: 'My Schools',
+      admin_licenses: 'Admin Licenses',
+      class_membership_history: 'Classroom Membership History',
+      membership_tooltip: '<p><b>The Classroom Membership History</b> displays the total number of unique students who were enrolled across all classrooms.</p><p><b>Remember:</b> Classes may be archived and licenses may be reused throughout the school year, so these numbers represent how many students truly participated in the program.</p>',
+      have_license_question: 'Have license related questions?',
     },
 
     interactives: {
