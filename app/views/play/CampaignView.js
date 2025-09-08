@@ -116,6 +116,7 @@ class CampaignView extends RootView {
       'click .portal-catalyst .side-campaign': 'onClickPortalCampaign',
       'click .portal-catalyst .main-campaign': 'onClickPortalCampaign',
       'click .portal-catalyst .campaign': 'onClickPortalCampaign',
+      'click .portal-galaxy .campaign-container': 'onClickPortalCampaign',
       'click a .campaign-switch': 'onClickCampaignSwitch',
       'mouseenter .portals': 'onMouseEnterPortals',
       'mouseleave .portals': 'onMouseLeavePortals',
@@ -1779,7 +1780,7 @@ class CampaignView extends RootView {
   }
 
   onClickPortalCampaign (e) {
-    const campaign = $(e.target).closest('.campaign, .beta-campaign, .main-campaign, .side-campaign')
+    const campaign = $(e.target).closest('.campaign, .beta-campaign, .main-campaign, .side-campaign, .campaign-container')
     if (campaign.is('.locked') || campaign.is('.silhouette')) { return }
     const campaignSlug = campaign.data('campaign-slug')
     if (this.isPremiumCampaign(campaignSlug) && !me.isPremium()) {
