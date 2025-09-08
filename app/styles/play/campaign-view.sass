@@ -1598,6 +1598,7 @@ $hackstackGlowSizeBase: 5px
     overflow-y: auto
     padding: 20px
     $description-transition-time: 0.4s
+    isolation: isolate
     
     &::before
       content: ''
@@ -1611,7 +1612,10 @@ $hackstackGlowSizeBase: 5px
       background-size: 200px 100px
       animation: twinkle 4s ease-in-out infinite
       pointer-events: none
-      z-index: 1
+      z-index: 0
+      will-change: opacity
+      @media (prefers-reduced-motion: reduce)
+        animation: none
 
     .portals
       position: relative
