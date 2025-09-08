@@ -36,11 +36,16 @@ export default {
       state.loading = false
     },
     setPageTitle (state, title) {
-      state.pageTitle = title
+      const i18nFlag = 'i18n:'
+      if (title.startsWith(i18nFlag)) {
+        state.pageTitle = $.i18n.t(title.split(i18nFlag)[1])
+      } else {
+        state.pageTitle = title
+      }
     },
     setComponentName (state, componentName) {
       state.componentName = componentName
-    }
+    },
   },
 
   getters: {

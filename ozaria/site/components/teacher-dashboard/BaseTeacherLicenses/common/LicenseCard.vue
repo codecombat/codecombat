@@ -118,6 +118,7 @@ export default {
       if (this.customizedLicense) {
         if (this.hackstackLicense) {
           const credit = this.properties?.creditDetails
+          credit.durationKey = $.i18n.t('user_credits.level_chat_duration_' + credit.durationKey)
           return $.i18n.t('teacher.hackstack_credits', credit)
         }
         return (this.includedCourseIds.map(id => utils.courseAcronyms[id])).join(' ')
