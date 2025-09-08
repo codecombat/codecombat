@@ -116,6 +116,7 @@ class CampaignView extends RootView {
       'click .portal-catalyst .side-campaign': 'onClickPortalCampaign',
       'click .portal-catalyst .main-campaign': 'onClickPortalCampaign',
       'click .portal-catalyst .campaign': 'onClickPortalCampaign',
+      'click .portal-galaxy .campaign-container': 'onClickPortalCampaign',
       'click a .campaign-switch': 'onClickCampaignSwitch',
       'mouseenter .portals': 'onMouseEnterPortals',
       'mouseleave .portals': 'onMouseLeavePortals',
@@ -162,6 +163,10 @@ class CampaignView extends RootView {
 
     // Check if the user is in the Catalyst experiment
     this.isCatalyst = me.getCatalystExperimentValue() === 'beta'
+
+    // Check if this is the galaxy campaign (treat as catalyst for UI purposes)
+    this.isGalaxy = this.terrain === 'galaxy'
+    this.isCatalyst = this.isCatalyst || this.isGalaxy
 
     this.editorMode = options?.editorMode
     this.requiresSubscription = !me.isPremium()
@@ -245,15 +250,19 @@ class CampaignView extends RootView {
         this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', { cache: false }, 1).model
         this.listenToOnce(this.sessions, 'sync', this.onSessionsLoaded)
       }
-      if (!this.terrain) {
+      if (!this.terrain || this.isGalaxy) {
         this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
         this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
         return
       }
     }
 
-    this.campaign = new Campaign({ _id: this.terrain })
-    this.campaign = this.supermodel.loadModel(this.campaign).model
+    if (this.isGalaxy) {
+      this.campaign = null
+    } else {
+      this.campaign = new Campaign({ _id: this.terrain })
+      this.campaign = this.supermodel.loadModel(this.campaign).model
+    }
 
     // Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
     this.earnedAchievements = new CocoCollection([], { url: '/db/earned_achievement', model: EarnedAchievement, project: ['earnedRewards'] })
@@ -1771,7 +1780,7 @@ class CampaignView extends RootView {
   }
 
   onClickPortalCampaign (e) {
-    const campaign = $(e.target).closest('.campaign, .beta-campaign, .main-campaign, .side-campaign')
+    const campaign = $(e.target).closest('.campaign, .beta-campaign, .main-campaign, .side-campaign, .campaign-container')
     if (campaign.is('.locked') || campaign.is('.silhouette')) { return }
     const campaignSlug = campaign.data('campaign-slug')
     if (this.isPremiumCampaign(campaignSlug) && !me.isPremium()) {
@@ -2237,7 +2246,11 @@ class CampaignView extends RootView {
     }
 
     if (what === 'cchome-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && this.terrain === 'junior'
+      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior' || this.terrain === 'galaxy')
+    }
+
+    if (what === 'galaxy-template') {
+      return this.isGalaxy
     }
 
     return true

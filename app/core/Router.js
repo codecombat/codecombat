@@ -390,6 +390,9 @@ module.exports = (CocoRouter = (function () {
           return this.navigate(`play/web-dev-level/${sessionID}?${queryString}`, { trigger: true, replace: true })
         },
         'play/spectate/:levelID': go('play/SpectateView'),
+        'play/ai' () {
+          return this.routeDirectly('play/CampaignView', ['galaxy'], { redirectStudents: true, redirectTeachers: true })
+        },
         'play/:campaign' (campaign) {
           if (utils.isCodeCombat) {
             return this.routeDirectly('play/CampaignView', arguments)
