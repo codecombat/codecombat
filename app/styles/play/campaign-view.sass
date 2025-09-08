@@ -871,7 +871,7 @@ $hackstackGlowSizeBase: 5px
         background: url(/images/pages/junior/CodeCombat-Home-Small.png) no-repeat
         background-position: 50% 50%
         background-size: 100%
-        transform: scale(2)
+        transform: scale(2) translateX(-15px)
         @media only screen and (max-height: 650px)
           transform: scale(0.78) translateY(-1px)
         box-shadow: initial
@@ -905,6 +905,8 @@ $hackstackGlowSizeBase: 5px
           transform: scale(2) translateY(-5px)
         &.ai-league-menu-icon
           transform: scale(1.4) translateX(-10px)
+        &.cchome-menu-icon
+          transform: scale(2)
 
         
         
@@ -1608,7 +1610,7 @@ $hackstackGlowSizeBase: 5px
 
     .portals
       position: relative
-      z-index: 10
+      z-index: 1
       
       .campaign-rows
         display: flex

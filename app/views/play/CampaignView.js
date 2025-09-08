@@ -256,8 +256,12 @@ class CampaignView extends RootView {
       }
     }
 
-    this.campaign = new Campaign({ _id: this.terrain })
-    this.campaign = this.supermodel.loadModel(this.campaign).model
+    if (this.isGalaxy) {
+      this.campaign = null
+    } else {
+      this.campaign = new Campaign({ _id: this.terrain })
+      this.campaign = this.supermodel.loadModel(this.campaign).model
+    }
 
     // Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
     this.earnedAchievements = new CocoCollection([], { url: '/db/earned_achievement', model: EarnedAchievement, project: ['earnedRewards'] })
@@ -2241,7 +2245,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'cchome-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && this.terrain === 'junior'
+      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior' || this.terrain === 'galaxy')
     }
 
     if (what === 'galaxy-template') {
