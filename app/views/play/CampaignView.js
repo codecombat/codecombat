@@ -257,17 +257,18 @@ class CampaignView extends RootView {
         return
       }
     }
+    if (this.terrain) {
+      this.campaign = new Campaign({ _id: this.terrain })
+      this.campaign = this.supermodel.loadModel(this.campaign).model
 
-    this.campaign = new Campaign({ _id: this.terrain })
-    this.campaign = this.supermodel.loadModel(this.campaign).model
-
-    this.listenToOnce(this.campaign, 'sync', () => {
-      if (this.campaign?.get('isGalaxy')) {
-        this.isGalaxy = true
-        this.isCatalyst = true
-        this.render() // Re-render to update the UI with the new isGalaxy state
-      }
-    })
+      this.listenToOnce(this.campaign, 'sync', () => {
+        if (this.campaign?.get('isGalaxy')) {
+          this.isGalaxy = true
+          this.isCatalyst = true
+          this.render() // Re-render to update the UI with the new isGalaxy state
+        }
+      })
+    }
     // Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
     this.earnedAchievements = new CocoCollection([], { url: '/db/earned_achievement', model: EarnedAchievement, project: ['earnedRewards'] })
     this.listenToOnce(this.earnedAchievements, 'sync', function () {
