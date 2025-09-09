@@ -57,6 +57,7 @@ const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
 const PROMPTED_FOR_SIGNUP = 'prompted-for-signup'
 const PROMPTED_FOR_SUBSCRIPTION = 'prompted-for-subscription'
 const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
+const GALAXY_TERRAIN = 'ai' // galaxy is the inner name, but in URL it is 'ai' for players
 
 class LevelSessionsCollection extends CocoCollection {
   static initClass () {
@@ -150,7 +151,7 @@ class CampaignView extends RootView {
     super(options)
     this.onMouseMovePortals = this.onMouseMovePortals.bind(this)
     this.onWindowResize = this.onWindowResize.bind(this)
-    if (terrain === 'ai') {
+    if (terrain === GALAXY_TERRAIN) {
       this.isGalaxy = true
       this.terrain = null
     } else {
@@ -262,7 +263,7 @@ class CampaignView extends RootView {
       this.campaign = this.supermodel.loadModel(this.campaign).model
 
       this.listenToOnce(this.campaign, 'sync', () => {
-        if (this.campaign?.get('isGalaxy')) {
+        if (this.campaign?.get('isGalaxy') && this.isGalaxy) {
           this.isGalaxy = true
           this.isCatalyst = true
           this.render() // Re-render to update the UI with the new isGalaxy state
