@@ -2172,7 +2172,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'junior-original-choice') {
-      return this.isCatalyst && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
+      return this.isCatalyst && !this.isGalaxy && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
     }
 
     if (['status-line'].includes(what)) {
