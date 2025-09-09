@@ -150,6 +150,10 @@ class CampaignView extends RootView {
     super(options)
     this.onMouseMovePortals = this.onMouseMovePortals.bind(this)
     this.onWindowResize = this.onWindowResize.bind(this)
+    if (terrain === 'ai') {
+      this.isGalaxy = true
+      terrain = null
+    }
     this.terrain = terrain
     if (/^classCode/.test(this.terrain)) {
       this.terrain = '' // Stop /play?classCode= from making us try to play a classCode campaign
@@ -163,9 +167,6 @@ class CampaignView extends RootView {
 
     // Check if the user is in the Catalyst experiment
     this.isCatalyst = me.getCatalystExperimentValue() === 'beta'
-
-    // Check if this is the galaxy campaign (treat as catalyst for UI purposes)
-    this.isGalaxy = this.terrain === 'galaxy'
     this.isCatalyst = this.isCatalyst || this.isGalaxy
 
     this.editorMode = options?.editorMode
@@ -237,7 +238,6 @@ class CampaignView extends RootView {
     if (userUtils.shouldShowLibraryLoginModal() && me.isAnonymous()) {
       this.openModalView(new CreateAccountModal({ startOnPath: 'individual-basic' }))
     }
-
     if (window.serverConfig.picoCTF) {
       this.supermodel.addRequestResource({
         url: '/picoctf/problems',
@@ -257,13 +257,16 @@ class CampaignView extends RootView {
       }
     }
 
-    if (this.isGalaxy) {
-      this.campaign = null
-    } else {
-      this.campaign = new Campaign({ _id: this.terrain })
-      this.campaign = this.supermodel.loadModel(this.campaign).model
-    }
+    this.campaign = new Campaign({ _id: this.terrain })
+    this.campaign = this.supermodel.loadModel(this.campaign).model
 
+    this.listenToOnce(this.campaign, 'sync', () => {
+      if (this.campaign?.get('isGalaxy')) {
+        this.isGalaxy = true
+        this.isCatalyst = true
+        this.render() // Re-render to update the UI with the new isGalaxy state
+      }
+    })
     // Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
     this.earnedAchievements = new CocoCollection([], { url: '/db/earned_achievement', model: EarnedAchievement, project: ['earnedRewards'] })
     this.listenToOnce(this.earnedAchievements, 'sync', function () {
@@ -1750,10 +1753,16 @@ class CampaignView extends RootView {
   }
 
   onClickBack (e) {
+    let route = '/play'
+    let viewArgs = [{ supermodel: this.supermodel }]
+    if (this.campaign?.get('isGalaxy')) {
+      route = '/play/ai'
+      viewArgs = [{ supermodel: this.supermodel }, 'ai'] // Pass 'ai' as the campaign parameter
+    }
     Backbone.Mediator.publish('router:navigate', {
-      route: '/play',
+      route,
       viewClass: CampaignView,
-      viewArgs: [{ supermodel: this.supermodel }],
+      viewArgs,
     })
   }
 
@@ -2246,7 +2255,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'cchome-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior' || this.terrain === 'galaxy')
+      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior' || this.isGalaxy)
     }
 
     if (what === 'galaxy-template') {
