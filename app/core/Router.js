@@ -392,8 +392,9 @@ module.exports = (CocoRouter = (function () {
         'play/spectate/:levelID': go('play/SpectateView'),
         'play/:campaign' (campaign) {
           if (utils.isCodeCombat) {
-            if (campaign === 'ai') {
-              return this.routeDirectly('play/CampaignView', arguments, { redirectStudents: true, redirectTeachers: true })
+            const slug = (campaign || '').toLowerCase()
+            if (slug === 'ai') {
+              return this.routeDirectly('play/CampaignView', [slug], { redirectStudents: true, redirectTeachers: true })
             }
             return this.routeDirectly('play/CampaignView', arguments)
           } else {
