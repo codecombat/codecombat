@@ -4,6 +4,7 @@ import utils from 'core/utils'
 import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
 import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
 import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalTestStudentPromotion.vue'
+import ModalEndOfTrial from 'ozaria/site/components/teacher-dashboard/modals/ModalEndOfTrial.vue'
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
 import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
@@ -17,6 +18,7 @@ export default {
     ModalCurriculumPromotion,
     ModalOzariaHackStack,
     ModalOzariaAILeague,
+    ModalEndOfTrial,
     IconAPCSP,
     IconAssessments,
   },
@@ -170,6 +172,7 @@ export default {
     },
   },
 }
+
 </script>
 
 <template>
@@ -546,6 +549,7 @@ export default {
       />
     </li>
     <ModalCurriculumPromotion ref="modalCurriculumPromotion" />
+    <ModalEndOfTrial ref="modalEndOfTrial" />
     <ModalOzariaHackStack
       v-if="isOzaria"
       ref="modalOzariaHackStack"

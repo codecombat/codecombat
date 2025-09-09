@@ -154,6 +154,24 @@ export default {
     getJoinersForPrepaid: (state) => (id) => {
       return state.joiners.byPrepaid[id] || []
     },
+
+    fetchState: (state) => {
+      return {
+        NOT_START: 'not start',
+        FETCHING: 'fetching',
+        FETCHED: 'fetched',
+      }
+    },
+
+    getFetchStateForTeacher: (state, getters) => (id) => {
+      if (!state.fetchedPrepaids[id]) {
+        return getters.fetchState.NOT_START
+      } else if (state.loading.byTeacher[id]) {
+        return getters.fetchState.FETCHING
+      } else {
+        return getters.fetchState.FETCHED
+      }
+    },
   },
 
   actions: {
@@ -163,7 +181,11 @@ export default {
       }
     },
 
-    fetchPrepaidsForTeacher: ({ commit }, { teacherId, sharedClassroomId, includeShared = true } = {}) => {
+    fetchPrepaidsForTeacher: ({ state, commit }, { teacherId, sharedClassroomId, includeShared = true } = {}) => {
+      if (state.fetchedPrepaids[teacherId] && state.loading.byTeacher[teacherId]) {
+        // do not fetch twice at the same time
+        return
+      }
       commit('toggleLoadingForTeacher', teacherId)
       commit('setFetchedPrepaidsForTeacher', teacherId)
 
