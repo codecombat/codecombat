@@ -555,7 +555,7 @@ module.exports.PromptTypeNode = class PromptTypeNode extends TreemaNode.nodeMap.
     if (!data) { return }
     let description = ''
     if (data === 'empty') {
-      description = 'Warning: empty promptType remove default system prompt'
+      description = 'Warning: empty promptType only use default system prompt(without any role)'
     }
     this.$el.find('.treema-description').remove()
     return this.$el.append($(`<span class='treema-description'>${description}</span>`).show())
