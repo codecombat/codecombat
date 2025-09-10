@@ -30,6 +30,7 @@ const shorten = f => parseFloat(f.toFixed(1))
 const WIDTH = 924
 const PAGE_SIZE = 1000
 const MAX_PAGES = 10 // Prevent infinite recursion
+const TreemaNode = window.TreemaNode
 
 module.exports.WorldPointNode = (WorldPointNode = class WorldPointNode extends TreemaNode.nodeMap.point2d {
   constructor (...args) {
@@ -547,6 +548,19 @@ module.exports.StateNode = (StateNode = (SateNode = class SateNode extends Treem
     return valEl.find('.treema-shortened').append(stateElement())
   }
 }))
+
+module.exports.PromptTypeNode = class PromptTypeNode extends TreemaNode.nodeMap.string {
+  buildValueForDisplay (valEl, data) {
+    super.buildValueForDisplay(valEl, data)
+    if (!data) { return }
+    let description = ''
+    if (data === 'empty') {
+      description = 'Warning: empty promptType remove default system prompt'
+    }
+    this.$el.find('.treema-description').remove()
+    return this.$el.append($(`<span class='treema-description'>${description}</span>`).show())
+  }
+}
 
 module.exports.conceptNodes = function (concepts) {
   class ConceptNode extends TreemaNode.nodeMap.string {
