@@ -2,13 +2,14 @@ const c = require('./../schemas')
 
 const AnalyticsLogEventSchema = c.object({
   title: 'Analytics Log Event',
-  description: 'Analytics event logs.'
+  description: 'Analytics event logs.',
 })
 
 _.extend(AnalyticsLogEventSchema.properties, {
   user: c.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }),
   event: { type: 'string' },
-  properties: { type: 'object' }
+  properties: { type: 'object' },
+  archived: { type: 'boolean' },
 })
 
 c.extendBasicProperties(AnalyticsLogEventSchema, 'analytics.log.event')
