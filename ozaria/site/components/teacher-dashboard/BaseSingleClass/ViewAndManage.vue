@@ -166,7 +166,7 @@ export default {
           @click="$emit('applyLicenses')"
         />
         <icon-button-with-text
-          v-if="showLicenses && me.get('country') !== 'lebanon'"
+          v-if="showLicenses"
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseRevoke_Gray' : 'IconLicenseRevoke'"
           :text="$t('teacher_dashboard.revoke_licenses')"
