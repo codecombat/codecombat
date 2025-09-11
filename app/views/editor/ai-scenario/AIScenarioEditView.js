@@ -11,14 +11,18 @@
 let AIScenarioEditView
 require('app/styles/editor/ai-scenario/edit.sass')
 const RootView = require('views/core/RootView')
+const VersionHistoryView = require('./AIScenarioVersionsModal')
 const template = require('app/templates/editor/ai-scenario/edit')
 const AIScenario = require('models/AIScenario')
-const ConfirmModal = require('views/core/ConfirmModal')
+const SaveVersionModal = require('views/editor/modal/SaveVersionModal')
 const PatchesView = require('views/editor/PatchesView')
+const ConfirmModal = require('views/core/ConfirmModal')
 const errors = require('core/errors')
 
 const nodes = require('views/editor/level/treema_nodes')
 
+require('views/modal/RevertModal')
+const RevertModal = require('views/modal/RevertModal')
 require('lib/game-libraries')
 require('lib/setupTreema')
 const treemaExt = require('core/treema-ext')
@@ -30,7 +34,9 @@ module.exports = (AIScenarioEditView = (function () {
       this.prototype.template = template
 
       this.prototype.events = {
-        'click #save-button': 'onClickSaveButton',
+        'click #history-button': 'showVersionHistory',
+        'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal',
+        'click #save-button': 'openSaveModal',
         'click #i18n-button': 'onPopulateI18N',
         'click #delete-button': 'confirmDeletion',
         'click #fix-button': 'onFix',
@@ -40,6 +46,7 @@ module.exports = (AIScenarioEditView = (function () {
 
     constructor (options, scenarioID) {
       super(options)
+      this.onChange = this.onChange.bind(this)
       this.deleteAIScenario = this.deleteAIScenario.bind(this)
       this.scenarioID = scenarioID
       this.scenario = new AIScenario({ _id: this.scenarioID })
@@ -61,13 +68,16 @@ module.exports = (AIScenarioEditView = (function () {
       const data = $.extend(true, {}, this.scenario.attributes)
       const options = {
         data,
-        filePath: `db/ai_scenario/${this.scenario.get('_id')}`,
+        filePath: `db/ai_scenario/${this.scenario.get('original')}`,
         schema: AIScenario.schema,
         readOnly: me.get('anonymous'),
         supermodel: this.supermodel,
         nodeClasses: {
           'chat-message-link': nodes.ChatMessageLinkNode
-        }
+        },
+        callbacks: {
+          change: this.onChange,
+        },
       }
       this.treema = this.$el.find('#ai-scenario-treema').treema(options)
       this.treema.build()
@@ -76,28 +86,58 @@ module.exports = (AIScenarioEditView = (function () {
 
     afterRender () {
       super.afterRender()
-      if (!this.supermodel.finished()) { }
+      if (!this.supermodel.finished()) { return }
+      if (me.get('anonymous')) { this.showReadOnly() }
+      this.patchesView = this.insertSubView(new PatchesView(this.scenario), this.$el.find('.patches-view'))
+      return this.patchesView.load()
     }
 
     onPopulateI18N () {
       return this.scenario.populateI18N()
     }
 
-    onClickSaveButton (e) {
+    onChange () {
+      if (!this.treema) { return }
+      for (const key in this.treema.data) {
+        const value = this.treema.data[key]
+        this.scenario.set(key, value)
+      }
+    }
+
+    openSaveModal () {
+      const modal = new SaveVersionModal({ model: this.scenario, noNewMajorVersions: true })
+      this.openModalView(modal)
+      this.listenToOnce(modal, 'save-new-version', this.saveNewScenario)
+      return this.listenToOnce(modal, 'hidden', function () { return this.stopListening(modal) })
+    }
+
+    openRevertModal (e) {
+      e.stopPropagation()
+      return this.openModalView(new RevertModal())
+    }
+
+    saveNewScenario (e) {
       this.treema.endExistingEdits()
       for (const key in this.treema.data) {
         const value = this.treema.data[key]
         this.scenario.set(key, value)
       }
+
       this.scenario.updateI18NCoverage()
 
-      const res = this.scenario.save()
+      this.scenario.set('commitMessage', e.commitMessage)
+      const res = this.scenario.saveNewMinorVersion()
+
+      const modal = this.$el.find('#save-version-modal')
+      this.enableModalInProgress(modal)
 
       res.error((collection, response, options) => {
-        return console.error(response)
+        return this.disableModalInProgress(modal)
       })
 
       return res.success(() => {
+        this.scenario.clearBackup()
+        modal.modal('hide')
         const url = `/editor/ai-scenario/${this.scenario.get('slug') || this.scenario.id}`
         return document.location.href = url
       })
@@ -140,6 +180,12 @@ module.exports = (AIScenarioEditView = (function () {
         },
         url: `/db/ai_scenario/${this.scenario.id}`
       })
+    }
+
+    showVersionHistory (e) {
+      const versionHistoryView = new VersionHistoryView({ scenario: this.scenario }, this.scenarioID)
+      this.openModalView(versionHistoryView)
+      return Backbone.Mediator.publish('editor:view-switched', {})
     }
   }
   AIScenarioEditView.initClass()
