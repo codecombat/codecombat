@@ -108,8 +108,10 @@ module.exports = (AdministerUserModal = (function () {
         this.callSalesProducts = this.user.getProductsByType('call-sales')
         this.renderSelectors('#call-sales-products')
       })
-      this.coupons = new StripeCoupons()
-      if (me.isAdmin()) { this.supermodel.trackRequest(this.coupons.fetch({ cache: false })) }
+      if (!features.chinaInfra) {
+        this.coupons = new StripeCoupons()
+        if (me.isAdmin()) { this.supermodel.trackRequest(this.coupons.fetch({ cache: false })) }
+      }
       this.prepaids = new Prepaids()
       if (me.isAdmin()) { this.supermodel.trackRequest(this.prepaids.fetchByCreator(this.userHandle, { data: { includeShared: true } })) }
       this.listenTo(this.prepaids, 'sync', () => {
