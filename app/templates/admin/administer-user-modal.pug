@@ -417,14 +417,15 @@ block modal-body-content
               span Premium Until
               =" "
               input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
-          .radio
-            label
-              input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
-              span Coupon
-              =" "
-            select#coupon-select
-              for coupon in view.coupons.models
-                option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
+          if view.coupons
+            .radio
+              label
+                input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
+                span Coupon
+                =" "
+              select#coupon-select
+                for coupon in view.coupons.models
+                  option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
         .form-group
           label
             span Gems to add to user
