@@ -34,7 +34,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       # We can skip webpack since we will build it for testing-ubuntu
-      - run: npm ci
+      - run: CYPRESS_INSTALL_BINARY=0 npm ci
         env:
           SKIP_WEBPACK: true
       - run: npm run pre-build
