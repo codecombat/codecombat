@@ -1,8 +1,9 @@
 <template>
   <ModalDynamicContent
+    v-if="showPromotion"
     ref="modal"
-    :seen-promotions-property="seenPromotionsProperty"
-    :auto-show="!!seenPromotionsProperty"
+    modal-type="newModal"
+    seen-promotions-property="end-of-trial-promotion-modal"
     name="end-of-trial-promotion-modal"
   >
     <template #content>
@@ -30,13 +31,19 @@
           <div class="experiences-box">
             <div class="card-row">
               <div class="card">
-                <img src="/images/common/modal/ozaria_promo.webp">
+                <img
+                  alt="Ozaria"
+                  src="/images/common/modal/ozaria_promo.webp"
+                >
                 <div class="card-title">
                   {{ $t('schools_page.core_curriculum_1_title') }}
                 </div>
               </div>
               <div class="card">
-                <img src="/images/common/modal/coco_promo.webp">
+                <img
+                  alt="CodeCombat"
+                  src="/images/common/modal/coco_promo.webp"
+                >
                 <div class="card-title">
                   {{ $t('schools_page.core_curriculum_2_title') }}
                 </div>
@@ -44,7 +51,10 @@
             </div>
             <div class="card-row center">
               <div class="card">
-                <img src="/images/common/modal/coco_junior_promo.webp">
+                <img
+                  alt="CodeCombat Junior"
+                  src="/images/common/modal/coco_junior_promo.webp"
+                >
                 <div class="card-title">
                   {{ $t('schools_page.young_learners_1_title_classroom') }}
                 </div>
@@ -54,13 +64,19 @@
           <div class="experiences-box">
             <div class="card-row">
               <div class="card">
-                <img src="/images/common/modal/ai_league_promo.webp">
+                <img
+                  alt="AI League"
+                  src="/images/common/modal/ai_league_promo.webp"
+                >
                 <div class="card-title">
                   {{ $t('nav.ai_league_esports') }}
                 </div>
               </div>
               <div class="card">
-                <img src="/images/common/modal/ccw_promo.webp">
+                <img
+                  alt="CodeCombat World"
+                  src="/images/common/modal/ccw_promo.webp"
+                >
                 <div class="card-title">
                   {{ $t('schools_page.codecombat_worlds') }}
                 </div>
@@ -68,7 +84,10 @@
             </div>
             <div class="card-row center">
               <div class="card">
-                <img src="/images/common/modal/hackstack_promo.webp">
+                <img
+                  alt="AI Hackstack"
+                  src="/images/common/modal/hackstack_promo.webp"
+                >
                 <div class="card-title">
                   {{ $t('schools_page.ai_hackstack') }}
                 </div>
@@ -111,18 +130,9 @@ export default {
     hasLicense () {
       return this.activeLicenses.length > 0
     },
-    showModal () {
+    showPromotion () {
       const state = this.getFetchStateForTeacher(me.id)
-      return state === this.licenseFetchState.FETCHED && !this.hasLicense // do now show the modal until license is loaded
-    },
-    seenPromotionsProperty () {
-      const key = 'end-of-trial-promotion-modal'
-      const haveProperty = me.getSeenPromotion(key)
-      if (!this.showModal || haveProperty == null) {
-        return ''
-      } else {
-        return key
-      }
+      return state === this.licenseFetchState.FETCHED && !this.hasLicense // do not show the modal until license is loaded
     },
   },
   async created () {

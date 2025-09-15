@@ -155,7 +155,7 @@ export default {
       return state.joiners.byPrepaid[id] || []
     },
 
-    fetchState: (state) => {
+    getPossiblePrepaidFetchStates: (state) => {
       return {
         NOT_START: 'not start',
         FETCHING: 'fetching',
@@ -163,13 +163,13 @@ export default {
       }
     },
 
-    getFetchStateForTeacher: (state, getters) => (id) => {
+    getCurrentFetchStateForPrepaid: (state, getters) => (id) => {
       if (!state.fetchedPrepaids[id]) {
-        return getters.fetchState.NOT_START
+        return getters.getPossiblePrepaidFetchStates.NOT_START
       } else if (state.loading.byTeacher[id]) {
-        return getters.fetchState.FETCHING
+        return getters.getPossiblePrepaidFetchStates.FETCHING
       } else {
-        return getters.fetchState.FETCHED
+        return getters.getPossiblePrepaidFetchStates.FETCHED
       }
     },
   },
