@@ -811,6 +811,7 @@ class CampaignView extends RootView {
           if (me.freeOnly() && !me.isStudent()) {
             levels = levels.filter(level => !level.requiresSubscription)
           }
+          this.annotateLevels(levels)
           const count = this.countLevels(levels)
           campaign.levelsTotal = count.total
           campaign.levelsCompleted = count.completed
