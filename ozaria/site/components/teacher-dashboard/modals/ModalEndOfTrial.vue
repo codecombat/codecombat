@@ -1,7 +1,8 @@
 <template>
   <ModalDynamicContent
     ref="modal"
-    seen-promotions-property="end-of-trial-promotion-modal"
+    :seen-promotions-property="seenPromotionsProperty"
+    :auto-show="!!seenPromotionsProperty"
     name="end-of-trial-promotion-modal"
   >
     <template #content>
@@ -92,7 +93,7 @@
 <script>
 import ModalDynamicContent from 'ozaria/site/components/teacher-dashboard/modals/ModalDynamicContent.vue'
 import CTAButton from 'app/components/common/buttons/CTAButton.vue'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'EndOfTrialModal',
   components: {
@@ -103,17 +104,36 @@ export default {
     ...mapGetters({
       activeClassrooms: 'teacherDashboard/getActiveClassrooms',
       sharedClassrooms: 'teacherDashboard/getSharedClassrooms',
+      getFetchStateForTeacher: 'prepaids/getFetchStateForTeacher',
       activeLicenses: 'teacherDashboard/getActiveLicenses',
-      loadingLicenses: 'teacherDashboard/getLoadingState',
+      licenseFetchState: 'prepaids/fetchState',
     }),
     hasLicense () {
-      return !this.loadingLicenses && this.activeLicenses.length > 0
+      return this.activeLicenses.length > 0
     },
     showModal () {
-      return !this.hasLicense // THIS NEEDS UPDATING:
+      const state = this.getFetchStateForTeacher(me.id)
+      return state === this.licenseFetchState.FETCHED && !this.hasLicense // do now show the modal until license is loaded
+    },
+    seenPromotionsProperty () {
+      const key = 'end-of-trial-promotion-modal'
+      const haveProperty = me.getSeenPromotion(key)
+      if (!this.showModal || haveProperty == null) {
+        return ''
+      } else {
+        return key
+      }
     },
   },
+  async created () {
+    if (this.getFetchStateForTeacher(me.id) === this.licenseFetchState.NOT_START) {
+      await this.ensurePrepaidsLoadedForTeacher(me.id)
+    }
+  },
   methods: {
+    ...mapActions({
+      ensurePrepaidsLoadedForTeacher: 'prepaids/ensurePrepaidsLoadedForTeacher',
+    }),
     sendToContactModal () {
       window.open('/schools?openContactModal=true', '_blank', 'noopener,noreferrer')
     },

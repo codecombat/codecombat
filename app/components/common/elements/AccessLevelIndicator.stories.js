@@ -1,11 +1,13 @@
 import AccessLevelIndicator from './AccessLevelIndicator.vue'
+import Course from '../../../models/Course'
+const COURSE_SALES_CALL_ACCESS_LEVEL = Course.SALES_CALL_ACCESS_LEVEL
 
 export default {
   title: 'AccessLevelIndicator',
   component: AccessLevelIndicator,
   argTypes: {
     level: {
-      control: { type: 'select', options: ['free', 'sales-call', 'paid'] },
+      control: { type: 'select', options: ['free', COURSE_SALES_CALL_ACCESS_LEVEL, 'paid'] },
       description: 'The access level of the user',
     },
     displayText: {
@@ -34,7 +36,7 @@ Free.args = {
 
 export const SalesCall = Template.bind({})
 SalesCall.args = {
-  level: 'sales-call',
+  level: COURSE_SALES_CALL_ACCESS_LEVEL,
   displayText: false,
   displayIcon: true,
 }

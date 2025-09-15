@@ -21,8 +21,8 @@ const UserSchema = c.object({
     simulatedFor: 0,
     jobProfile: {},
     earned: { heroes: [], items: [], levels: [], gems: 0 },
-    purchased: { heroes: [], items: [], levels: [], gems: 0 }
-  }
+    purchased: { heroes: [], items: [], levels: [], gems: 0 },
+  },
 })
 
 c.extendNamedProperties(UserSchema) // let's have the name be the first property
@@ -55,7 +55,7 @@ _.extend(UserSchema.properties, {
       type: 'object',
       properties: {
         provider: c.objectId(),
-        id: { type: 'string', description: 'The service provider\'s id for the user' }
+        id: { type: 'string', description: 'The service provider\'s id for the user' },
       },
     },
   },
@@ -81,10 +81,10 @@ _.extend(UserSchema.properties, {
       additionalProperties: false,
       properties: {
         client: c.objectId({ description: 'APIClient with permissions on this user' }),
-        access: { type: 'string', enum: ['read', 'grant', 'write', 'owner'] }
-      }
+        access: { type: 'string', enum: ['read', 'grant', 'write', 'owner'] },
+      },
     }, // 'grant' permissions allow APIClients to grant licenses to a user
-    format: 'hidden'
+    format: 'hidden',
   },
 
   wizardColor1: c.pct({ title: 'Wizard Clothes Color' }), // No longer used
@@ -115,18 +115,18 @@ _.extend(UserSchema.properties, {
       c.object({ title: 'One-time email', required: ['type', 'email'] }, {
         type: c.shortString(), // E.g 'share progress modal parent'
         email: c.shortString(),
-        sent: c.date()
-      }
-      )
+        sent: c.date(),
+      },
+      ),
     ), // Set when sent
 
-    validations: c.array
+    validations: c.array,
   }, { title: 'Sendgrid email validation results' },
   c.object({}, {
     validationDate: c.date(),
-    result: c.object({ additionalProperties: true })
-  }
-  )
+    result: c.object({ additionalProperties: true }),
+  },
+  ),
   ),
 
   unsubscribedFromMarketingEmails: { type: 'boolean' },
@@ -137,9 +137,9 @@ _.extend(UserSchema.properties, {
       date: c.date(),
       type: c.shortString(), // E.g 'email'
       emailHash: { type: 'string', maxLength: 128, minLength: 128, title: 'Hash of lower-case email address at the time' },
-      description: c.shortString()
-    }
-    )
+      description: c.shortString(),
+    },
+    ),
   ),
 
   // server controlled
@@ -153,7 +153,7 @@ _.extend(UserSchema.properties, {
     name: c.shortString({ description: 'Experiment name, like "long-subscription-choice"', pattern: '^[a-z][\-a-z0-9]*$' }), // Slug-like
     value: { description: 'The experiment value/group that this user is assigned to', additionalProperties: true }, // Data type is flexible depending on experiment needs
     probability: c.pct({ description: 'Probability of being assigned to this experiment value' }),
-    startDate: c.date({ description: 'When this user first started the experiment' })
+    startDate: c.date({ description: 'When this user first started the experiment' }),
   }),
   mailChimp: { type: 'object' },
   hourOfCode: { type: 'boolean' },
@@ -162,7 +162,7 @@ _.extend(UserSchema.properties, {
   hourOfCodeOptions: c.object({ title: 'Options useful for hour of code users' }, {
     showCompleteSignupModal: { type: 'boolean', description: 'Whether to show complete signup modal on teacher dashboard - only valid for teachers who signup from hoc signup flow' },
     showHocProgress: { type: 'boolean', description: 'Set true for students who sign up from hoc save progress modal since they didnt have a class code' },
-    hocCodeLanguage: { type: 'string', description: 'HoC code language played as anonymous student, used to show progress on student dashboard until they have a class code' }
+    hocCodeLanguage: { type: 'string', description: 'HoC code language played as anonymous student, used to show progress on student dashboard until they have a class code' },
   }),
   createdOnHost: { type: 'string' },
 
@@ -185,7 +185,7 @@ _.extend(UserSchema.properties, {
   ozariaUserOptions: c.object(
     {
       title: 'Player Ozaria Customization',
-      description: 'Player customization options, including hero name, objectId and applied color tints.'
+      description: 'Player customization options, including hero name, objectId and applied color tints.',
     }, {
       isometricThangTypeOriginal: c.stringID({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Thang Type', description: 'The isometric ThangType of the hero.', format: 'thang-type' }),
       cinematicThangTypeOriginal: c.stringID({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Cinematic Thang Type', description: 'The cinematic ThangType of the hero.', format: 'thang-type' }),
@@ -193,26 +193,26 @@ _.extend(UserSchema.properties, {
       tints: c.array(
         {
           title: 'Tints',
-          description: 'Array of possible tints'
+          description: 'Array of possible tints',
         },
         c.object({
           title: 'tintGroup',
           description: 'Duplicate data that would be found in a tint',
-          required: ['slug', 'colorGroups']
+          required: ['slug', 'colorGroups'],
         }, {
           slug: c.shortString({
-            title: 'Tint Slug'
+            title: 'Tint Slug',
           }),
-          colorGroups: c.object({ additionalProperties: c.colorConfig() })
+          colorGroups: c.object({ additionalProperties: c.colorConfig() }),
         })),
       avatar: c.object({
         title: 'CH1 Avatar Choice',
-        description: 'The CH1 avatar that was chosen by the user'
+        description: 'The CH1 avatar that was chosen by the user',
       }, {
         cinematicThangTypeId: c.stringID({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Cinematic ThangType', description: 'The cinematic avatar thangType original Id', format: 'thang-type' }),
         cinematicPetThangId: c.stringID({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Cinematic Pet ThangType', description: 'The cinematic avatar pet thangType original Id', format: 'thang-type' }),
-        avatarCodeString: c.shortString({ title: 'Avatar Capstone String', description: 'The string representation of the avatar for the capstone.' })
-      })
+        avatarCodeString: c.shortString({ title: 'Avatar Capstone String', description: 'The string representation of the avatar for the capstone.' }),
+      }),
     }),
 
   aceConfig: c.object({ default: { language: 'python', keyBindings: 'default', invisibles: false, indentGuides: false, behaviors: false, liveCompletion: true } }, {
@@ -224,7 +224,7 @@ _.extend(UserSchema.properties, {
     liveCompletion: { type: 'boolean' },
     screenReaderMode: { type: 'boolean' },
     codeFormat: { type: 'string', enum: ['blocks-icons', 'blocks-text', 'blocks-and-code', 'text-code'], description: 'Default code format option. Default if unset: text-code.' },
-    preferWideEditor: { type: 'boolean', description: 'Whether the user prefers a wide editor.' }
+    preferWideEditor: { type: 'boolean', description: 'Whether the user prefers a wide editor.' },
   }),
 
   simulatedBy: { type: 'integer', minimum: 0 },
@@ -236,7 +236,7 @@ _.extend(UserSchema.properties, {
       name: { type: 'string' },
       importedToCoco: { type: 'boolean', default: false },
       importedToOzaria: { type: 'boolean', default: false },
-      deletedFromGC: { type: 'boolean', default: false, description: 'Set true for classrooms imported to coco/ozaria but deleted from GC' }
+      deletedFromGC: { type: 'boolean', default: false, description: 'Set true for classrooms imported to coco/ozaria but deleted from GC' },
     })),
 
   importedBy: c.objectId({ description: 'User ID of the teacher who imported this user' }),
@@ -244,7 +244,7 @@ _.extend(UserSchema.properties, {
     c.object({ required: ['summary'] }, {
       summary: { type: 'string' },
       importedToCoco: { type: 'boolean', default: false },
-      deletedFromGC: { type: 'boolean', default: false, description: 'Set true for events imported to coco but deleted from GC' }
+      deletedFromGC: { type: 'boolean', default: false, description: 'Set true for events imported to coco but deleted from GC' },
     })),
 
   points: { type: 'number' },
@@ -290,7 +290,7 @@ _.extend(UserSchema.properties, {
     concepts: { type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.' },
     licenses: c.object({ additionalProperties: true }),
     students: c.object({ additionalProperties: true }),
-    codePoints: c.int({ title: 'CodePoints', minimum: 0, description: 'Total CodePoints earned' })
+    codePoints: c.int({ title: 'CodePoints', minimum: 0, description: 'Total CodePoints earned' }),
   }),
 
   earned: c.RewardSchema('earned by achievements'),
@@ -305,7 +305,7 @@ _.extend(UserSchema.properties, {
     payerID: { type: 'string' },
     billingAgreementID: { type: 'string', description: 'Set if user has PayPal monthly subscription' },
     subscribeDate: c.date(),
-    cancelDate: c.date()
+    cancelDate: c.date(),
   }),
 
   stripe: c.object({}, {
@@ -320,8 +320,8 @@ _.extend(UserSchema.properties, {
     free: {
       oneOf: [
         { type: 'string', format: 'date-time', description: 'Type string is subscription end date' },
-        { type: 'boolean', description: 'Type boolean is whether the subscription is free or not' }
-      ]
+        { type: 'boolean', description: 'Type boolean is whether the subscription is free or not' },
+      ],
     },
     prepaidCode: c.shortString({ description: 'Prepaid code to apply to sub purchase' }),
 
@@ -332,10 +332,10 @@ _.extend(UserSchema.properties, {
       c.object({ required: ['userID', 'subscriptionID'] }, {
         userID: c.objectId({ description: 'User ID of recipient' }),
         subscriptionID: { type: 'string' },
-        couponID: { type: 'string' }
+        couponID: { type: 'string' },
       })),
     sponsorID: c.objectId({ description: "User ID that owns this user's subscription" }),
-    sponsorSubscriptionID: { type: 'string', description: 'Sponsor aggregate subscription used to pay for all recipient subs' }
+    sponsorSubscriptionID: { type: 'string', description: 'Sponsor aggregate subscription used to pay for all recipient subs' },
   }),
 
   siteref: { type: 'string' },
@@ -349,17 +349,17 @@ _.extend(UserSchema.properties, {
     ll: c.array({}, { description: 'Latitude and longitude of the city' }),
     metro: { description: 'Metro code' },
     zip: { description: 'Postal code' },
-    timeZone: { description: 'Timezone' }
+    timeZone: { description: 'Timezone' },
   }),
 
   clans: c.array({}, c.objectId()),
   courseInstances: c.array({}, c.objectId()),
   currentCourse: c.object({}, { // Old, can be removed after we deploy and delete it from all users
     courseID: c.objectId({}),
-    courseInstanceID: c.objectId({})
+    courseInstanceID: c.objectId({}),
   }),
   coursePrepaidID: c.objectId({
-    description: 'Prepaid which has paid for this user\'s course access'
+    description: 'Prepaid which has paid for this user\'s course access',
   }),
   coursePrepaid: {
     type: 'object',
@@ -369,8 +369,8 @@ _.extend(UserSchema.properties, {
       endDate: c.stringDate(),
       type: { type: ['string', 'null'] },
       includedCourseIDs: { type: ['array', 'null'], description: 'courseIDs that this prepaid includes access to', items: c.objectId() },
-      migrated: { type: 'boolean' }
-    }
+      migrated: { type: 'boolean' },
+    },
   },
   enrollmentRequestSent: { type: 'boolean', description: 'deprecated' },
 
@@ -391,12 +391,12 @@ _.extend(UserSchema.properties, {
       city: { type: 'string' },
       district: { type: 'string' },
       state: { type: 'string' },
-      country: { type: 'string' }
-    }
+      country: { type: 'string' },
+    },
   },
   lastAnnouncementSeen: {
     type: 'number',
-    description: 'The highed announcement modal index displayed to the user.'
+    description: 'The highed announcement modal index displayed to the user.',
   },
   lastAnnouncementGen: c.date,
   studentMilestones: {
@@ -407,8 +407,8 @@ _.extend(UserSchema.properties, {
       studentStartedMayhemOfMunchkins: { type: 'boolean', description: "One of a teacher's students has started A Mayhem of Munchkins" },
       // TODO: refactor above two properties to be integers
       studentsStartedDungeonsOfKithgard: { type: 'integer', description: "The number of a teacher's students who have started Dungeons of Kithgard" },
-      studentsStartedTrueNames: { type: 'integer', description: "The number of a teacher's students who have started True Names" }
-    }
+      studentsStartedTrueNames: { type: 'integer', description: "The number of a teacher's students who have started True Names" },
+    },
   },
   administratedTeachers: c.array({}, c.objectId()),
   administratingTeachers: c.array({}, c.objectId()),
@@ -424,7 +424,7 @@ _.extend(UserSchema.properties, {
       'end-of-trial-promotion-modal': [c.date(), { type: 'boolean' }],
       'hp-junior-modal': [c.date(), { type: 'boolean' }],
       'ai-league-tour': [c.date(), { type: 'boolean' }],
-    }
+    },
   },
 
   features: {
@@ -435,22 +435,22 @@ _.extend(UserSchema.properties, {
         type: 'object',
         description: 'Feature flags applied to associated users',
         // key is the feature id
-        additionalProperties: FeatureAuthoritySchema
+        additionalProperties: FeatureAuthoritySchema,
       },
       recipient: {
         type: 'object',
         description: 'Features flags applied to this user',
         // key is the feature id
-        additionalProperties: FeatureRecipientSchema
+        additionalProperties: FeatureRecipientSchema,
       },
       isNewDashboardActive: {
-        type: 'boolean'
+        type: 'boolean',
       },
       ownerDistrictId: c.objectId({ description: 'District ID where user has admin permission to view data like outcome reports' }),
       syncedToSF: { type: 'boolean', description: 'Whether the user has been synced to Salesforce' },
       syncedToCIO: { type: 'boolean', description: 'Whether the user has been synced to CIO' },
       forceLogout: { type: 'boolean', description: 'Whether the user needs to be force logged out' },
-    }
+    },
   },
 
   archived: c.date({ description: 'Marks this record for automatic online archiving to cold storage by our cloud database.' }),
@@ -464,8 +464,8 @@ _.extend(UserSchema.properties, {
         anyOf: [
           c.object({ additionalProperties: true }, { // course
             includedCourseIDs: {
-              type: ['array', 'null']
-            }
+              type: ['array', 'null'],
+            },
           }),
           c.object({}, { // esports
             type: { type: 'string', enum: ['basic', 'pro'] },
@@ -473,16 +473,16 @@ _.extend(UserSchema.properties, {
             teams: { type: ['number', 'null'] },
             tournaments: { type: ['number', 'null'] },
             createdTournaments: { type: ['number', 'null'] },
-            arenas: { type: ['string', 'null'] }
+            arenas: { type: ['string', 'null'] },
           }),
           c.object({}, { // online-classes
             event: c.objectId({ links: [{ rel: 'db', href: '/db/event/{($)}' }] }),
-            count: { type: 'number' }
+            count: { type: 'number' },
           }),
           c.object({}, { // call-sales
             id: { type: 'string' },
-          })
-        ]
+          }),
+        ],
       },
       startDate: c.date(),
       endDate: c.date(), // TODO: optional indication of no end date (lasts forever) - or do we just leave unset?
@@ -490,24 +490,26 @@ _.extend(UserSchema.properties, {
       recipient: c.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }),
       purchaserDesc: {
         detailType: { enum: ['email', 'phone'] },
-        detail: c.shortString({ description: 'We may have a purchaser with no account, in which case only this email/phone/... will be set' })
+        detail: c.shortString({ description: 'We may have a purchaser with no account, in which case only this email/phone/... will be set' }),
       },
       paymentService: { enum: ['stripe', 'testing', 'free', 'api', 'external', 'paypal'] }, // Removed 'ios', could perhaps remove 'paypal', could differentiate 'external' further
-      paymentDetails:
-        c.object({ additionalProperties: true }, {
-          allOf: {
-            purchaseDate: c.date(), // TODO: separate payment date and invoice date (esp. online classes)?
-            amount: { type: 'integer', description: 'Payment in cents on US server and in RMB cents on the China server' },
-            currency: { type: 'string' },
-            // Do we need something about autorenewal / frequency here?
-            oneOf: [
-              { stripeCustomerId: { type: 'string' }, subscriptionId: { type: 'string' }, paymentSession: c.objectId({ links: [{ rel: 'extra', href: '/db/payment.session/{($)}' }] }) }, // TODO: other various Stripe-specific options
-              { paypalCustomerId: { type: 'string' } }, // TODO: various PayPal-specific options, if we keep PayPal
-              { staffCreator: c.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }) } // any other external payment source options?
-              // ... etc. for each possible payment service ...
-            ]
-          }
-        })
+      paymentDetails: {
+        type: 'object',
+        properties: {
+          purchaseDate: c.date(), // TODO: separate payment date and invoice date (esp. online classes)?
+          amount: { type: 'integer', description: 'Payment in cents on US server and in RMB cents on the China server' },
+          currency: { type: 'string' },
+          // Do we need something about autorenewal / frequency here?
+        },
+        additionalProperties: {
+          anyOf: [
+            c.object({}, { stripeCustomerId: { type: 'string' }, subscriptionId: { type: 'string' }, paymentSession: c.objectId({ links: [{ rel: 'extra', href: '/db/payment.session/{($)}' }] }) }), // TODO: other various Stripe-specific options
+            c.object({}, { paypalCustomerId: { type: 'string' } }), // TODO: various PayPal-specific options, if we keep PayPal
+            c.object({}, { staffCreator: c.objectId({ links: [{ rel: 'extra', href: '/db/user/{($)}' }] }) }), // any other external payment source options?
+            { additionalProperties: true }, // ... etc. for each possible payment service ...
+          ],
+        },
+      },
     })),
   edLink: c.object({}, {
     profileId: { type: 'string' },
@@ -515,12 +517,12 @@ _.extend(UserSchema.properties, {
     identifiers: c.array({ description: 'identifiers to canvas, clever etc' },
       c.object({}, {
         iType: { type: 'string' },
-        iValue: { type: 'string' }
-      }))
+        iValue: { type: 'string' },
+      })),
   }),
   library: c.object({}, {
     profileId: { type: 'string' },
-    name: { type: 'string', description: 'name of library for the user' }
+    name: { type: 'string', description: 'name of library for the user' },
   }),
   related: c.array(
     { description: 'related accounts to this user' },
@@ -530,15 +532,15 @@ _.extend(UserSchema.properties, {
         userId: c.objectId({ description: 'userId of the account currentUser is related to' }),
         verified: { type: 'boolean', description: 'whether linking is verified/authenticated' },
         relation: c.shortString({ description: 'relation of this user to related one' }),
-        code: c.shortString({ description: 'confirmation code for linking user' })
-      }
-    )
+        code: c.shortString({ description: 'confirmation code for linking user' }),
+      },
+    ),
   ),
   referrerTrack: c.object({ description: 'utm_source, medium etc - anything to track from where user came to Coco' }, {
     source: { type: 'string' },
     medium: { type: 'string' },
-    campaign: { type: 'string' }
-  })
+    campaign: { type: 'string' },
+  }),
 })
 
 c.extendBasicProperties(UserSchema, 'user')
@@ -547,8 +549,8 @@ UserSchema.definitions = {
   emailSubscription: c.object({ default: { enabled: true, count: 0 } }, {
     enabled: { type: 'boolean' },
     lastSent: c.date(),
-    count: { type: 'integer' }
-  })
+    count: { type: 'integer' },
+  }),
 }
 
 module.exports = UserSchema

@@ -111,11 +111,9 @@ export default Vue.extend({
             codeLanguage: this.codeLanguage || defaultCodeLanguage // used for non-classroom anonymous users
           }
           this.language = this.introLevelSession.codeLanguage
-          api.levels.upsertSession(this.introLevelData._id, sessionOptions)
-            .then((session) => {
-              this.introLevelSession = session
-              this.language = this.introLevelSession.codeLanguage
-            })
+          const session = await api.levels.upsertSession(this.introLevelData._id, sessionOptions)
+          this.introLevelSession = session
+          this.language = session.codeLanguage
         }
 
         this.introContent = this.introLevelData.introContent
@@ -197,9 +195,9 @@ export default Vue.extend({
       try {
         await api.levelSessions.update(this.introLevelSession)
       } catch (err) {
-        log(`Error saving intro level session ${this.introLevelSession._id}`, err, 'error')
+        log(`Error saving intro level session ${this.introLevelSession._id} - ${err?.message} - levelId: ${this.introLevelData?._id}`, err, 'error')
         // TODO handle_error_ozaria
-        return noty({ text: 'Error in saving intro level session', type: 'error', timeout: 2000 })
+        return noty({ text: `Error in saving intro level session: ${this.introLevelSession?._id}, levelId: ${this.introLevelData?._id}`, type: 'error', timeout: 2000 })
       }
     },
     // Sets individual content pieces completion.
