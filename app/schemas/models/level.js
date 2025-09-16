@@ -379,7 +379,7 @@ const LevelSchema = c.object({
 c.extendNamedProperties(LevelSchema) // let's have the name be the first property
 _.extend(LevelSchema.properties, {
   description: { title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown', inEditor: true },
-  displayName: c.shortString({ title: 'Display Name', inEditor: 'ozaria' }), // Currently just used in Ozaria
+  displayName: c.shortString({ title: 'Display Name', inEditor: 'true' }),
   studentPlayInstructions: { title: 'Student Play Instructions', description: 'Instructions for game dev levels when students play them.', type: 'string', maxLength: 65536, format: 'markdown', inEditor: true },
   loadingTip: { type: 'string', title: 'Loading Tip', description: 'What to show for this level while it\'s loading.', inEditor: 'codecombat' },
   documentation: c.object({ title: 'Documentation', description: 'Documentation articles relating to this level.', default: { specificArticles: [], generalArticles: [] }, inEditor: true }, {
