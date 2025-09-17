@@ -6,44 +6,44 @@ const utils = require('core/utils')
 
 export default {
   components: {
-    IconButtonWithText
+    IconButtonWithText,
   },
   props: {
     total: {
       type: Number,
-      required: true
+      required: true,
     },
     used: {
       type: Number,
-      required: true
+      required: true,
     },
     startDate: {
       type: String,
-      required: true
+      required: true,
     },
     endDate: {
       type: String,
-      required: true
+      required: true,
     },
     owner: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     teacherId: {
       type: String,
-      required: true
+      required: true,
     },
     expired: {
       type: Boolean,
-      default: false
+      default: false,
     },
     displayOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     properties: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     includedCourseIds: {
       type: Array,
@@ -51,8 +51,8 @@ export default {
     },
     disableApplyLicenses: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     remaining () {
@@ -118,13 +118,17 @@ export default {
       if (this.customizedLicense) {
         if (this.hackstackLicense) {
           const credit = this.properties?.creditDetails
-          return $.i18n.t('teacher.hackstack_credits', credit)
+          const payload = {
+            ...credit,
+            durationKey: $.i18n.t('user_credits.level_chat_duration_' + credit.durationKey),
+          }
+          return $.i18n.t('teacher.hackstack_credits', payload)
         }
         return (this.includedCourseIds.map(id => utils.courseAcronyms[id])).join(' ')
       } else {
         return ''
       }
-    }
+    },
   },
 }
 </script>

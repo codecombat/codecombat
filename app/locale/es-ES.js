@@ -4551,6 +4551,17 @@ module.exports = {
       preview: '[AI_TRANSLATION]Aquí tienes una vista previa para las primeras 200 líneas, haz clic en Exportar para obtener las estadísticas completas.',
       empty_results: '[AI_TRANSLATION]Resultados vacíos.',
       roster: '[AI_TRANSLATION]Lista',
+      //    licenses_total_label: "Licenses",
+      //    enrolled_label: "Students Enrolled",
+      //    active_classes: "active classes",
+      //    licenses_class_label: "Licenses in use",
+      //    license_details: "License Details",
+      //    view_classes: "View Classes",
+      //    my_schools: "My Schools",
+      //    admin_licenses: "Admin Licenses",
+      //    class_membership_history: "Classroom Membership History",
+      //    membership_tooltip: "<p><b>The Classroom Membership History</b> displays the total number of unique students who were enrolled across all classrooms.</p><p><b>Remember:</b> Classes may be archived and licenses may be reused throughout the school year, so these numbers represent how many students truly participated in the program.</p>",
+      //    have_license_question: "Have license related questions?",
     },
 
     interactives: {
@@ -5943,6 +5954,7 @@ module.exports = {
     //    promo_modal_title: "Explore AI HackStack",
     //    promo_modal_subtitle: "Unlock the Full Potential of Generative AI",
     //    promo_modal_text: "**New to AI? Explore CodeCombat AI HackStack** — the easiest way to dive into AI literacy. Unlock the power of top models like **ChatGPT-4**, **Claude**, **Stable Diffusion**, and **DALL-E**. With hands-on tools, creating games, art, websites, code, and more has never been simpler. It’s the perfect companion for any creative project, no experience required!",
+    //    explore_hackstack: "Explore Hackstack",
     //  },
 
     standards_page: {
@@ -6317,7 +6329,7 @@ module.exports = {
       //    learning_modules: "Learning Modules",
       //    level_complete: "You did it! Level complete. Continue your AI journey with the next level.",
       //    run_code_tour_title: "Ready to see the magic?",
-      //    run_code_tour_text: "Press “Run Code” and watch your project come to life. No experience required!",
+      //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
 
