@@ -11,11 +11,13 @@ export default {
     },
 
     schoolTabsTitle () {
-      return PAGE_TITLES[COMPONENT_NAMES.MY_SCHOOLS]
+      const i18nKey = PAGE_TITLES[COMPONENT_NAMES.MY_SCHOOLS].split('i18n:')[1]
+      return $.i18n.t(i18nKey)
     },
 
     licensesTabTitle () {
-      return PAGE_TITLES[COMPONENT_NAMES.SCHOOL_ADMIN_LICENSES]
+      const i18nKey = PAGE_TITLES[COMPONENT_NAMES.SCHOOL_ADMIN_LICENSES].split('i18n:')[1]
+      return $.i18n.t(i18nKey)
     }
   },
 

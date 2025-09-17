@@ -72,6 +72,12 @@ export default {
     },
     showMembershipHistory () {
       return Object.keys(this.membershipHistory).length > 0
+    },
+    membershipTooltip () {
+      return {
+        content: $.i18n.t('school_administrator.membership_tooltip'),
+        classes: 'teacher-dashboard-tooltip',
+      }
     }
   },
   methods: {
@@ -105,6 +111,13 @@ export default {
       }
 
       return `${displayStartDate} - ${displayEndDate}`
+    },
+    studentsDisplay (num) {
+      if (num > 1) {
+        return $.i18n.t('teacher_dashboard.num_student', { num })
+      } else {
+        return $.i18n.t('teacher_dashboard.one_student', { num })
+      }
     }
   }
 }
@@ -117,27 +130,21 @@ export default {
         v-if="showMembershipHistory"
         class="classroom-membership-history"
       >
-        <span class="side-bar-title"> Classroom Membership History </span>
-        <icon-help
-          v-tooltip.bottom="{
-            content: `<p><b>The Classroom Membership History</b> displays the total number of unique students who were enrolled across all classrooms.</p>
-                      <p><b>Remember:</b> Classes may be archived and licenses may be reused throughout the school year, so these numbers represent how many students truly participated in the program.</p>`,
-            classes: 'teacher-dashboard-tooltip'
-          }"
-        />
+        <span class="side-bar-title"> {{ $t('school_administrator.class_membership_history') }} </span>
+        <icon-help v-tooltip.bottom="membershipTooltip" />
         <ul class="membership-history-list">
           <li
             v-for="(members, year) in membershipHistory"
             :key="year"
           >
-            <b> {{ year }}: </b> {{ members.size }} {{ members.size > 1 ? "students" : "student" }}
+            <b> {{ year }}: </b> {{ studentsDisplay(members.size) }}
           </li>
         </ul>
       </div>
       <div class="help-div">
         <span class="side-bar-title"> {{ $t("common.help") }} </span>
         <div class="side-bar-text">
-          Have license related questions?
+          {{ $t('school_administrator.have_license_question') }}
         </div>
         <button-resource-icon
           class="pdf-btn"

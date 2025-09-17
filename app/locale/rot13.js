@@ -4553,6 +4553,17 @@ module.exports = {
       preview: 'Urer vf n cerivrj sbe gbc 200 yvarf, Pyvpx gur Rkcbeg gb trg shyy fgngf',
       empty_results: 'Rzcgl Erfhygf.',
       roster: 'Ebfgre',
+      licenses_total_label: 'Yvprafrf',
+      enrolled_label: 'Fghqragf Raebyyrq',
+      active_classes: 'npgvir pynffrf',
+      licenses_class_label: 'Yvprafrf va hfr',
+      license_details: 'Yvprafr Qrgnvyf',
+      view_classes: 'Ivrj Pynffrf',
+      my_schools: 'Zl Fpubbyf',
+      admin_licenses: 'Nqzva Yvprafrf',
+      class_membership_history: 'Pynffebbz Zrzorefuvc Uvfgbel',
+      membership_tooltip: '<c><o>Gur Pynffebbz Zrzorefuvc Uvfgbel</o> qvfcynlf gur gbgny ahzore bs havdhr fghqragf jub jrer raebyyrq npebff nyy pynffebbzf.</c><c><o>Erzrzore:</o> Pynffrf znl or nepuvirq naq yvprafrf znl or erhfrq guebhtubhg gur fpubby lrne, fb gurfr ahzoref ercerfrag ubj znal fghqragf gehyl cnegvpvcngrq va gur cebtenz.</c>',
+      have_license_question: 'Unir yvprafr eryngrq dhrfgvbaf?',
     },
 
     interactives: {
@@ -5942,6 +5953,7 @@ module.exports = {
       promo_modal_title: 'Rkcyber NV UnpxFgnpx',
       promo_modal_subtitle: 'Haybpx gur Shyy Cbgragvny bs Trarengvir NV',
       promo_modal_text: '**Arj gb NV? Rkcyber PbqrPbzong NV UnpxFgnpx** — gur rnfvrfg jnl gb qvir vagb NV yvgrenpl. Haybpx gur cbjre bs gbc zbqryf yvxr **PungTCG-4**, **Pynhqr**, **Fgnoyr Qvsshfvba**, naq **QNYY-R**. Jvgu unaqf-ba gbbyf, perngvat tnzrf, neg, jrofvgrf, pbqr, naq zber unf arire orra fvzcyre. Vg’f gur cresrpg pbzcnavba sbe nal perngvir cebwrpg, ab rkcrevrapr erdhverq!',
+      explore_hackstack: 'Rkcyber Unpxfgnpx',
     },
 
     standards_page: {
@@ -6315,7 +6327,7 @@ module.exports = {
       learning_modules: 'Yrneavat Zbqhyrf',
       level_complete: 'Lbh qvq vg! Yriry pbzcyrgr. Pbagvahr lbhe NV wbhearl jvgu gur arkg yriry.',
       run_code_tour_title: 'Ernql gb frr gur zntvp?',
-      run_code_tour_text: 'Cerff “Eha Pbqr” naq jngpu lbhe cebwrpg pbzr gb yvsr. Ab rkcrevrapr erdhverq!',
+      run_code_tour_text: 'Cerff “Bhgchg” naq jngpu lbhe cebwrpg pbzr gb yvsr. Ab rkcrevrapr erdhverq!',
       ready_to_review_helptext: 'Znex guvf jura lbhe cebwrpg vf pbzcyrgr. Lbhe grnpure jvyy gura frr vg nf ernql gb erivrj ba gurve fvqr.',
     },
     new_premium: {
