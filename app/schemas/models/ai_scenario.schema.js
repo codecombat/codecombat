@@ -84,7 +84,7 @@ _.extend(AIScenarioSchema.properties, {
   minMsgs: {
     title: 'Minimum messages for completion',
     type: 'integer',
-    description: 'The minimum required number of messages to mark a scenario as completion.',
+    description: 'The minimum number of messages required to mark a scenario as complete.',
   },
 })
 
