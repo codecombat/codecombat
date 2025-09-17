@@ -81,6 +81,11 @@ _.extend(AIScenarioSchema.properties, {
     description: 'The type of system prompt that will be used for this project',
     enum: ['math_1', 'math_2', 'english_1', 'english_2', 'code_1', 'code_2'],
   },
+  minMsgs: {
+    title: 'Minimum messages for completion',
+    type: 'integer',
+    description: 'The minimum number of messages required to mark a scenario as complete.',
+  },
 })
 
 AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']
