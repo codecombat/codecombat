@@ -79,7 +79,17 @@ _.extend(AIScenarioSchema.properties, {
     title: 'Prompt Type',
     type: 'string',
     description: 'The type of system prompt that will be used for this project',
-    enum: ['math_1', 'math_2', 'english_1', 'english_2', 'code_1', 'code_2'],
+    enum: ['math_1', 'math_2', 'english_1', 'english_2', 'code_1', 'code_2', 'ail_mentor', 'empty'],
+    format: 'prompt-type',
+  },
+  additionalSystemPrompts: {
+    title: 'Additional system prompts',
+    type: 'array',
+    maxItems: 3,
+    items: {
+      type: 'string',
+      format: 'markdown',
+    },
   },
   minMsgs: {
     title: 'Minimum messages for completion',

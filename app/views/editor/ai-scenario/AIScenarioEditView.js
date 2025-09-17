@@ -71,8 +71,9 @@ module.exports = (AIScenarioEditView = (function () {
         readOnly: me.get('anonymous'),
         supermodel: this.supermodel,
         nodeClasses: {
-          'chat-message-link': nodes.ChatMessageLinkNode
-        }
+          'chat-message-link': nodes.ChatMessageLinkNode,
+          'prompt-type': nodes.PromptTypeNode,
+        },
       }
       this.treema = this.$el.find('#ai-scenario-treema').treema(options)
       this.treema.build()
@@ -93,6 +94,10 @@ module.exports = (AIScenarioEditView = (function () {
       for (const key in this.treema.data) {
         const value = this.treema.data[key]
         this.scenario.set(key, value)
+      }
+      const additionalSystemPrompts = this.scenario.get('additionalSystemPrompts')
+      if (additionalSystemPrompts?.length < 1) {
+        this.scenario.unset('additionalSystemPrompts')
       }
       this.scenario.updateI18NCoverage()
 
