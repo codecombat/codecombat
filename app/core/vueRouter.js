@@ -309,7 +309,7 @@ export default function getVueRouter () {
             },
             { path: 'professional-development', component: () => import(/* webpackChunkName: "pd" */ '../views/pd/PDViewV2.vue') },
 
-            { path: 'roblox', component: () => import(/* webpackChunkName: "HackStackView" */ 'app/views/landing-pages/hackstack/PageHackStack') },
+            { path: 'roblox', component: () => import(/* webpackChunkName: "RobloxView" */ 'app/views/landing-pages/hackstack/PageHackStack') },
             { path: 'curriculum', component: () => import(/* webpackChunkName: "curriculum" */ '../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/index.vue') },
             { path: 'curriculum/:campaign', component: () => import(/* webpackChunkName: "curriculum" */ '../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/index.vue'), props: true },
             {

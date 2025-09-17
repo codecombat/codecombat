@@ -49,7 +49,7 @@ export default {
     }
 
     const toolOptions = [
-      { id: 'toolkit', name: $.i18n.t('nav.teacher_toolkit'), path: '/teachers/resources', type: 'a' },
+      { id: 'toolkit', name: $.i18n.t('nav.teacher_toolkit'), path: '/teachers/resources' },
       { id: 'pd', name: $.i18n.t('nav.professional_development'), path: '/teachers/professional-development' },
       { id: 'ai-tool', name: $.i18n.t('nav.ai_teacher_tool'), path: '/ai', type: 'a' },
     ]
