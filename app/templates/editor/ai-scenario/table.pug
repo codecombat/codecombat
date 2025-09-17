@@ -21,7 +21,7 @@ block tableHeader
 block tableBody
   for scenario in documents
     - var data = scenario.attributes
-    tr(data-scenario=scenario.get('_id') data-name=scenario.get('name'))
+    tr(data-scenario=scenario.get('slug') data-name=scenario.get('name'))
       td(title=scenario.get('created'))
         a(href='/editor/' + page + '/' + (data.slug || data._id))
           | #{moment(scenario.get('created')).format('lll')}
