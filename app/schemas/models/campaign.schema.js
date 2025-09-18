@@ -12,7 +12,7 @@ _.extend(CampaignSchema.properties, {
   i18n: { type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'fullName', 'description'] },
   fullName: { type: 'string', title: 'Full Name', description: 'Ex.: "Kithgard Dungeon"' },
   description: { type: 'string', format: 'string', description: 'How long it takes and what players learn.' },
-  type: c.shortString({ title: 'Type', description: 'What kind of campaign this is.', enum: ['hero', 'course', 'hidden', 'hoc'] }),
+  type: c.shortString({ title: 'Type', description: 'What kind of campaign this is.', enum: ['hero', 'course', 'hidden', 'hoc', 'hackstack'] }),
 
   ambientSound: c.object({}, {
     mp3: { type: 'string', format: 'sound-file' },
@@ -135,7 +135,7 @@ _.extend(CampaignSchema.properties, {
       },
     },
   },
-  isHackstackCampaign: { type: 'boolean', description: 'Is this a hackstack campaign', default: false },
+  isIsolatedCampaign: { type: 'boolean', description: 'Isolated campaign, can be accessed only by direct link and dont have "back" button', default: false },
 })
 
 CampaignSchema.denormalizedLevelProperties = [
@@ -189,6 +189,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'ozariaType',
   'introContent',
   'displayName',
+  'hackstackScenarioId',
 ]
 const hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
 for (const prop of CampaignSchema.denormalizedLevelProperties) {
