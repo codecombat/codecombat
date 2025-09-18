@@ -3,8 +3,8 @@ const LevelSchema = require('./level')
 
 const CampaignSchema = c.object({
   default: {
-    type: 'hero'
-  }
+    type: 'hero',
+  },
 })
 c.extendNamedProperties(CampaignSchema) // name first
 
@@ -16,7 +16,7 @@ _.extend(CampaignSchema.properties, {
 
   ambientSound: c.object({}, {
     mp3: { type: 'string', format: 'sound-file' },
-    ogg: { type: 'string', format: 'sound-file' }
+    ogg: { type: 'string', format: 'sound-file' },
   }),
 
   backgroundImage: c.array({}, {
@@ -25,8 +25,8 @@ _.extend(CampaignSchema.properties, {
     properties: {
       image: { type: 'string', format: 'image-file' },
       width: { type: 'number' }, // - not required for ozaria campaigns
-      campaignPage: { type: 'number', title: 'Campaign page number', description: 'Give the page number if there are multiple pages in the campaign' } // Oz-only
-    }
+      campaignPage: { type: 'number', title: 'Campaign page number', description: 'Give the page number if there are multiple pages in the campaign' }, // Oz-only,
+    },
   }),
   backgroundColor: { type: 'string' },
   backgroundColorTransparent: { type: 'string' },
@@ -55,12 +55,12 @@ _.extend(CampaignSchema.properties, {
             { type: 'string', links: [{ rel: 'db', href: '/db/level/{($)}/version' }], format: 'latest-version-original-reference' },
             {
               type: 'array',
-              items: { type: 'string', links: [{ rel: 'db', href: '/db/level/{($)}/version' }], format: 'latest-version-original-reference' }
-            }
-          ]
-        }
-      }
-    }
+              items: { type: 'string', links: [{ rel: 'db', href: '/db/level/{($)}/version' }], format: 'latest-version-original-reference' },
+            },
+          ],
+        },
+      },
+    },
   },
   isOzaria: { type: 'boolean', description: 'Is this an ozaria campaign', default: false }, // TODO: migrate to using `product` instead
   product: c.singleProduct,
@@ -89,9 +89,9 @@ _.extend(CampaignSchema.properties, {
               item: { type: 'string', links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], format: 'latest-version-original-reference' },
               hero: { type: 'string', links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], format: 'latest-version-original-reference' },
               level: { type: 'string', links: [{ rel: 'db', href: '/db/level/{($)}/version' }], format: 'latest-version-original-reference' },
-              type: { enum: ['heroes', 'items', 'levels'] }
-            }
-          }
+              type: { enum: ['heroes', 'items', 'levels'] },
+            },
+          },
         },
 
         // - normal properties
@@ -108,20 +108,20 @@ _.extend(CampaignSchema.properties, {
             properties: {
               nextLevelStage: { type: 'number', title: 'Next Level Stage', description: 'Which capstone stage is unlocked' },
               conditions: c.object({}, {
-                afterCapstoneStage: { type: 'number', title: 'After Capstone Stage', description: 'What capstone stage needs to be completed to unlock this next level' }
-              })
-            }
-          }
+                afterCapstoneStage: { type: 'number', title: 'After Capstone Stage', description: 'What capstone stage needs to be completed to unlock this next level' },
+              }),
+            },
+          },
         },
         first: { type: 'boolean', description: 'Is it the first level in the campaign', default: true },
         campaignPage: { type: 'number', title: 'Campaign page number', description: 'Give the page number if there are multiple pages in the campaign' },
         releasePhase: { enum: ['beta', 'internalRelease', 'released'], title: 'Release status', description: 'Release status of the level, determining who sees it.', default: 'internalRelease' },
-        moduleNum: { type: 'number', title: 'Module number', default: 1 }
+        moduleNum: { type: 'number', title: 'Module number', default: 1 },
 
       // - denormalized properties from Levels are cloned below
-      }
+      },
 
-    }
+    },
   },
   scenarios: {
     type: 'array',
@@ -135,6 +135,7 @@ _.extend(CampaignSchema.properties, {
       },
     },
   },
+  isHackstackCampaign: { type: 'boolean', description: 'Is this a hackstack campaign', default: false },
 })
 
 CampaignSchema.denormalizedLevelProperties = [
@@ -187,7 +188,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'isPlayedInStages',
   'ozariaType',
   'introContent',
-  'displayName'
+  'displayName',
 ]
 const hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
 for (const prop of CampaignSchema.denormalizedLevelProperties) {
