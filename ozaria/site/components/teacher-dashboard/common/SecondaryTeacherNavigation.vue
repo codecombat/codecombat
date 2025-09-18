@@ -18,8 +18,6 @@ export default {
     ModalOzariaHackStack,
     ModalOzariaAILeague,
     ModalEndOfTrial,
-    IconAPCSP,
-
     IconAssessments,
   },
 
