@@ -123,20 +123,20 @@ export default {
     ...mapGetters({
       activeClassrooms: 'teacherDashboard/getActiveClassrooms',
       sharedClassrooms: 'teacherDashboard/getSharedClassrooms',
-      getFetchStateForTeacher: 'prepaids/getFetchStateForTeacher',
+      getCurrentFetchStateForPrepaid: 'prepaids/getCurrentFetchStateForPrepaid',
       activeLicenses: 'teacherDashboard/getActiveLicenses',
-      licenseFetchState: 'prepaids/fetchState',
+      fetchState: 'prepaids/getPossiblePrepaidFetchStates',
     }),
     hasLicense () {
       return this.activeLicenses.length > 0
     },
     showPromotion () {
-      const state = this.getFetchStateForTeacher(me.id)
-      return state === this.licenseFetchState.FETCHED && !this.hasLicense // do not show the modal until license is loaded
+      const state = this.getCurrentFetchStateForPrepaid(me.id)
+      return state === this.fetchState.FETCHED && !this.hasLicense // do not show the modal until license is loaded
     },
   },
   async created () {
-    if (this.getFetchStateForTeacher(me.id) === this.licenseFetchState.NOT_START) {
+    if (this.getCurrentFetchStateForPrepaid(me.id) === this.fetchState.NOT_START) {
       await this.ensurePrepaidsLoadedForTeacher(me.id)
     }
   },
