@@ -263,7 +263,7 @@ class CampaignView extends RootView {
       this.campaign = this.supermodel.loadModel(this.campaign).model
 
       this.listenToOnce(this.campaign, 'sync', () => {
-        if (this.campaign?.get('isGalaxy') && this.isGalaxy) {
+        if (this.campaign?.get('isHackstackCampaign') && this.isGalaxy) {
           this.isGalaxy = true
           this.isCatalyst = true
           this.render() // Re-render to update the UI with the new isGalaxy state
@@ -811,6 +811,7 @@ class CampaignView extends RootView {
           if (me.freeOnly() && !me.isStudent()) {
             levels = levels.filter(level => !level.requiresSubscription)
           }
+          this.annotateLevels(levels)
           const count = this.countLevels(levels)
           campaign.levelsTotal = count.total
           campaign.levelsCompleted = count.completed
@@ -1758,7 +1759,7 @@ class CampaignView extends RootView {
   onClickBack (e) {
     let route = '/play'
     let viewArgs = [{ supermodel: this.supermodel }]
-    if (this.campaign?.get('isGalaxy')) {
+    if (this.campaign?.get('isHackstackCampaign')) {
       route = '/play/ai'
       viewArgs = [{ supermodel: this.supermodel }, 'ai'] // Pass 'ai' as the campaign parameter
     }
