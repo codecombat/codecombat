@@ -66,14 +66,20 @@ module.exports = (AIScenarioEditView = (function () {
     buildTreema () {
       if ((this.treema != null) || (!this.scenario.loaded)) { return }
       const data = $.extend(true, {}, this.scenario.attributes)
+      const copySchema = $.extend(true, {}, AIScenario.schema)
+      if (this.scenario.get('mode') === 'use') {
+        copySchema.properties.minMsgs.minimum = 1
+        copySchema.properties.minMsgs.default = 1
+      }
       const options = {
         data,
         filePath: `db/ai_scenario/${this.scenario.get('original')}`,
-        schema: AIScenario.schema,
+        schema: copySchema,
         readOnly: me.get('anonymous'),
         supermodel: this.supermodel,
         nodeClasses: {
-          'chat-message-link': nodes.ChatMessageLinkNode
+          'chat-message-link': nodes.ChatMessageLinkNode,
+          'prompt-type': nodes.PromptTypeNode,
         },
         callbacks: {
           change: this.onChange,
@@ -122,7 +128,10 @@ module.exports = (AIScenarioEditView = (function () {
         const value = this.treema.data[key]
         this.scenario.set(key, value)
       }
-
+      const additionalSystemPrompts = this.scenario.get('additionalSystemPrompts')
+      if (additionalSystemPrompts?.length < 1) {
+        this.scenario.unset('additionalSystemPrompts')
+      }
       this.scenario.updateI18NCoverage()
 
       this.scenario.set('commitMessage', e.commitMessage)
