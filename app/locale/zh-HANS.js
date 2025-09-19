@@ -231,7 +231,7 @@ module.exports = {
       top_banner_blurb_hoc_2022_12_01: '[AI_TRANSLATION]12月1日加入我们的编程一小时教程！所需的一切都在 __topBannerHereLink__ 里',
       top_banner_blurb_hoc_2022_12_01_here: '[AI_TRANSLATION]这里',
       top_banner_blurb_demo_day_2023_02_16: '[AI_TRANSLATION]现场演示！看看你如何用电子竞技来教编程。加入我们吧，星期四2月16日下午2点PST。',
-      try_the_game: '免费试玩',
+      try_the_game: '立即免费体验',
       classroom_edition: '教师版：',
       learn_to_code: '学习编程：',
       play_now: '开始游戏',
