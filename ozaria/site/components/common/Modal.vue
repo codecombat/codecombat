@@ -127,17 +127,17 @@ export default Vue.extend({
 
   .fake-icon {
     position: absolute;
-    right: -35px;
-    top: -25px;
+    right: -20px;
+    top: -15px;
     background: $purple;
-    width: 50px;
-    height: 50px;
+    width: 32px;
+    height: 32px;
     text-align: center;
-    line-height: 35px;
-    font-size: 50px;
+    line-height: 24px;
+    font-size: 28px;
     color: white;
     font-weight: 400;
-    border-radius: 10px;
+    border-radius: 8px;
   }
 }
 </style>

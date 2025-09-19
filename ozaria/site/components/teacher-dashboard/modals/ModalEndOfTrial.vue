@@ -95,7 +95,7 @@
             </div>
           </div>
         </div>
-        <p class="text-p">
+        <p class="text-p demo-description">
           {{ $t('teachers.schedule_demo_description') }}
         </p>
         <CTAButton
@@ -145,7 +145,7 @@ export default {
       ensurePrepaidsLoadedForTeacher: 'prepaids/ensurePrepaidsLoadedForTeacher',
     }),
     sendToContactModal () {
-      window.open('/schools?openContactModal=true', '_blank', 'noopener,noreferrer')
+      window.open('/schools?openContactModal=true&source=end-of-trial-promotion', '_blank', 'noopener,noreferrer')
     },
     openModal () {
       this.$refs.modal.openModal()
@@ -184,7 +184,7 @@ export default {
     .request-demo {
         display: flex;
         justify-content: center;
-        margin-top: 15px;
+        margin-top: 10px;
     }
     .purple-separator {
         display: block;
@@ -198,7 +198,7 @@ export default {
     }
     .experiences {
         gap: 40px;
-        margin-top: 20px;
+        margin-top: 5px;
         width: 100%;
         display: flex;
     }
@@ -249,6 +249,10 @@ export default {
         align-items: flex-start;
         height: 40px;
         justify-content: center;
+    }
+
+    .demo-description {
+        margin-top: 5px;
     }
 }
 </style>
