@@ -34,8 +34,8 @@ _.extend(AIProjectSchema.properties, {
   scenario: {
     title: 'Scenario',
     type: ['object', 'string'],
-    description: 'The scenario ID of the project',
-    links: [{ rel: 'db', href: '/db/ai_scenario/{($)}' }],
+    description: 'The scenario Original of the project',
+    links: [{ rel: 'db', href: '/db/ai_scenario/{($)}/version' }],
   },
   actionQueue: {
     title: 'Action Queue',

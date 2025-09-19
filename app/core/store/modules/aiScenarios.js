@@ -6,11 +6,12 @@ export default {
   state: {
     loaded: false,
     byId: {},
+    byOriginal: {},
   },
 
   getters: {
     getScenarios (state) {
-      const scenarios = _.values(state.byId)
+      const scenarios = _.values(state.byOriginal)
       return scenarios
     },
   },
@@ -18,7 +19,8 @@ export default {
   mutations: {
     addScenarios (state, scenarios) {
       for (const scenario of scenarios) {
-        Vue.set(state.byId, scenario._id, scenario)
+        Vue.set(state.byId, scenario._id, scenario) // in case i'm missing some usage with byId, doesn't delete it for now
+        Vue.set(state.byOriginal, scenario.Original, scenario)
       }
     },
   },

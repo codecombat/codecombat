@@ -38,13 +38,13 @@ module.exports = (AIScenarioSearchView = (function () {
     }
 
     deleteAIScenario (e) {
-      const scenarioId = $(e.target).parents('tr').data('scenario')
+      const scenarioSlug = $(e.target).parents('tr').data('scenario')
       const scenarioName = $(e.target).parents('tr').data('name')
       if (!window.confirm(`Really delete scenario ${scenarioName}?`)) {
         noty({ text: 'Cancelled', timeout: 1000 })
         return
       }
-      this.$el.find(`tr[data-scenario='${scenarioId}']`).remove()
+      this.$el.find(`tr[data-scenario='${scenarioSlug}']`).remove()
       return $.ajax({
         type: 'DELETE',
         success () {
@@ -64,7 +64,7 @@ module.exports = (AIScenarioSearchView = (function () {
             layout: 'topCenter'
           }
         },
-        url: `/db/ai_scenario/${scenarioId}`
+        url: `/db/ai_scenario/${scenarioSlug}`
       })
     }
   }

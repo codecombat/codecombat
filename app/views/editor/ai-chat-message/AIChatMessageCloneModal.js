@@ -150,7 +150,7 @@ class ScenarioNode extends treemaExt.IDReferenceNode {
     this.lastTerm = term
     this.getSearchResultsEl().empty().append('Searching')
     this.collections = new CocoCollection(this.scenarios.filter((scenario) => {
-      return scenario.get('_id').toString() === term || scenario.get('name').toLowerCase().includes(term.toLowerCase())
+      return scenario.get('original').toString() === term || scenario.get('name').toLowerCase().includes(term.toLowerCase())
     }), { model: AIScenario })
     this.searchCallback()
   }

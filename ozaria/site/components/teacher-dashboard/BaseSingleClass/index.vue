@@ -599,7 +599,7 @@ export default {
     createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum }) {
       const details = {}
       classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
-      const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario._id]
+      const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario.original]
 
       if (aiProjects) {
         this.setProgressDetails(details, classSummaryProgress, index)
@@ -612,7 +612,7 @@ export default {
         }
       }
 
-      const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario._id, 'lockedScenario')
+      const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario.original, 'lockedScenario')
       const isPlayable = !isLocked
 
       if (!this.assignmentMap.get(this.selectedCourseId)?.has(student._id)) {
@@ -627,8 +627,8 @@ export default {
         isSkipped: false,
         lockDate: null,
         lastLockDate: null,
-        original: aiScenario._id,
-        normalizedOriginal: aiScenario._id,
+        original: aiScenario.original,
+        normalizedOriginal: aiScenario.original,
         isOptional: false,
         isPlayable,
         isPractice: false,
@@ -720,10 +720,11 @@ export default {
               displayName: scenario.name,
               type,
               _id: scenario._id,
+              original: scenario.original,
               tooltipName: scenario.name,
               description: '',
               contentKey: scenario._id,
-              normalizedOriginal: scenario._id,
+              normalizedOriginal: scenario.original,
               normalizedType: type,
               contentLevelSlug: scenario.slug,
               isPractice: false,
