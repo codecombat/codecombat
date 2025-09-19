@@ -62,13 +62,16 @@ block content
                   a.btn.btn-lg.btn-primary.continue-playing-btn(href="/play", data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
           if view.homeCN
             .aiyouth
-              h1.gradient-title=view.homeCN.title
+              if view.homeCN.titles
+                each title in view.homeCN.titles
+                  h1.gradient-title=title
               .subtitle=view.homeCN.subtitle
               br
               .sub2title=view.homeCN.time
-              if view.homeCN.url
-                a.btn.btn-lg.btn-primary.aiyouth-btn(target="_blank", href=view.homeCN.url)=view.homeCN.urlText
-  
+              if view.homeCN.urls
+                each url in view.homeCN.urls
+                  a.btn.btn-md.btn-primary.aiyouth-btn(target="_blank", href=url.url)=url.text
+
         .col-xs-12.text-center
           picture
             source.img-responsive(srcset="/images/pages/home-v2/graphic-8.webp" type="image/webp")

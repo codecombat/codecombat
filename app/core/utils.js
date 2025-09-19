@@ -1612,7 +1612,8 @@ const aiToolToImage = {
   'stable-diffusion': '/images/ai/Stable_Diffusion.png',
   'dall-e-3': '/images/ai/DALL-E.webp',
   'claude': '/images/ai/claude.webp',
-  'gemini': '/images/ai/gemini.svg'
+  'gemini': '/images/ai/gemini.svg',
+  'imagen': '/images/ai/gemini.svg',
 }
 
 module.exports.getImageFromAiTool = (tool) => {
@@ -1626,6 +1627,8 @@ module.exports.getImageFromAiTool = (tool) => {
     return aiToolToImage.gpt
   } else if (tool.includes('gemini')) {
     return aiToolToImage.gemini
+  } else if (tool.includes('imagen')) {
+    return aiToolToImage.imagen
   } else {
     return '/images/ai/IconHackStack_Gray.svg'
   }

@@ -135,7 +135,7 @@ _.extend(CampaignSchema.properties, {
       },
     },
   },
-  isGalaxy: { type: 'boolean', description: 'Is this a galaxy campaign', default: false },
+  isHackstackCampaign: { type: 'boolean', description: 'Is this a hackstack campaign', default: false },
 })
 
 CampaignSchema.denormalizedLevelProperties = [

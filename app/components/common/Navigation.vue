@@ -432,12 +432,12 @@ export default Vue.extend({
       }
 
       let chinaNav = {
+      }
+      const chinaEduNav = {
         cocoOJ: {
           title: 'nav.coco_oj',
           url: 'https://oj.koudashijie.com',
         },
-      }
-      const chinaEduNav = {
         cocoStar: {
           title: 'nav.star',
           url: this.cocoPath('/CoCoStar'),
@@ -529,7 +529,7 @@ export default Vue.extend({
                   source.logo-img.oz-logo(srcset="/images/ozaria/home/ozaria_home_logo.webp" type="image/webp")
                   img.logo-img.oz-logo(src="/images/ozaria/home/ozaria_home_logo.png" alt="Ozaria by CodeCombat logo" title="Ozaria" aria-label="Home")
               a(v-else :href="homeLink")
-                picture(v-if="!me.showChinaResourceInfo()")
+                picture(v-if="!me.showChinaResourceInfo() || me.showChinaHomeVersion()")
                   source.logo-img.powered-by(srcset="/images/pages/base/logo.webp" type="image/webp")
                   img.logo-img.powered-by(src="/images/pages/base/logo.png" alt="CodeCombat logo")
                 img.logo-img.powered-by(v-else src="/images/pages/base/logo-cn.png" alt="CodeCombat logo")

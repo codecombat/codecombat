@@ -529,6 +529,7 @@ module.exports = (CocoRouter = (function () {
         'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true }),
         'teachers/professional-development': teacherProxyRoute(go('pd/PDView', { redirectStudents: true })),
         'teachers/apcsp': teacherProxyRoute(go('apcsp/PageMarketing', { redirectStudents: true })),
+        'teachers/roblox': teacherProxyRoute(go('landing-pages/hackstack/PageHackStack', { redirectStudents: true })),
         'teachers/ai-league': teacherProxyRoute(go('ai-league/AILeagueView', { redirectStudents: true })),
         'teachers/ai-league(/*subpath)': go('core/SingletonAppVueComponentView'),
 

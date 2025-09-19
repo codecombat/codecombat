@@ -487,6 +487,9 @@ module.exports = {
       learning_options: 'Learning Options',
       ai_hackstack: 'AI HackStack',
       beta: 'Beta',
+      teacher_tools: 'Teacher Tools',
+      ai_teacher_tool: 'AI Teacher Tool',
+      ccw_short: 'CodeCombat on Roblox',
     },
 
     modal: {
