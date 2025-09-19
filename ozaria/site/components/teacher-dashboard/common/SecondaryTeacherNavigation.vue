@@ -39,7 +39,7 @@ export default {
         { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: utils.ozBaseURL(), type: 'a' },
         { id: 'roblox', name: $.i18n.t('nav.ccw_short'), path: '/teachers/roblox' },
         { id: 'hackstack', name: $.i18n.t('nav.ai_hackstack'), path: '/teachers/guide/hackstack' },
-        { id: 'aileague', name: $.i18n.t('nav.ai_league_esports'), path: '/league/ladders', type: 'a' },
+        { id: 'aileague', name: $.i18n.t('nav.ai_league_esports'), path: '/teachers/ai-league' },
         { id: 'ap', name: $.i18n.t('nav.ap_csp'), path: '/teachers/apcsp' },
       ]
     } else {
