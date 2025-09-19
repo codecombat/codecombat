@@ -193,7 +193,7 @@
 
 <script>
 import utils from 'core/utils'
-import VueConfirmDialog from 'vue-confirm-dialog'
+import VueConfirmDialog from 'vue3-confirm-dialog'
 import { mapActions, mapGetters } from 'vuex'
 import User from '../../../models/User'
 import { register } from 'core/api/mobile'
