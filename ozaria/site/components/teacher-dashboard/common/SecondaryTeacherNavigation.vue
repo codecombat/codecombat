@@ -41,7 +41,7 @@ export default {
         { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: utils.ozBaseURL(), type: 'a' },
         { id: 'roblox', name: $.i18n.t('nav.ccw_short'), path: '/teachers/roblox' },
         { id: 'hackstack', name: $.i18n.t('nav.ai_hackstack'), path: '/teachers/guide/hackstack' },
-        { id: 'aileague', name: $.i18n.t('nav.ai_league_esports'), path: '/league/ladders', type: 'a' },
+        { id: 'aileague', name: $.i18n.t('nav.ai_league_esports'), path: '/teachers/ai-league' },
         { id: 'ap', name: $.i18n.t('nav.ap_csp'), path: '/teachers/apcsp' },
       ]
     } else {
@@ -53,7 +53,7 @@ export default {
     const toolOptions = [
       { id: 'toolkit', name: $.i18n.t('nav.teacher_toolkit'), path: '/teachers/resources' },
       { id: 'pd', name: $.i18n.t('nav.professional_development'), path: '/teachers/professional-development' },
-      { id: 'ai-tool', name: $.i18n.t('nav.ai_teacher_tool'), path: '/ai', type: 'a' },
+      { id: 'ai-tool', name: $.i18n.t('nav.ai_teacher_tool'), path: (utils.cocoBaseURL() + '/ai'), type: 'a' },
     ]
     return {
       curriculumPromoClicked: false,
