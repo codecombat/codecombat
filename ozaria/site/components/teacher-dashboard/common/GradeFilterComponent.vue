@@ -34,6 +34,7 @@ export default {
   methods: {
     emitChange (band) {
       const next = this.gradeBand === band ? '' : band
+      window.tracker?.trackEvent('Grade Band: Selected', { category: 'Teachers', label: next })
       this.$emit('change', next)
     },
   },
