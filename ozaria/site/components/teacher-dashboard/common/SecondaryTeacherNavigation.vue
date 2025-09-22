@@ -174,9 +174,7 @@ export default {
 
     isHighlightedOption (option) {
       if (!this.gradeBand) { return false }
-      const guideOption = this.guideOptions.find((o) => o.id === option.id)
-      if (!guideOption) { return false }
-      return guideOption.gradeBands.includes(this.gradeBand)
+      return option.gradeBands.includes(this.gradeBand)
     },
 
     onCurriculumClicked (e) {
