@@ -128,9 +128,9 @@ _.extend(CampaignSchema.properties, {
     title: 'AI Scenarios',
     items: {
       type: 'object',
-      // key is the scenario id property
       properties: {
-        scenario: c.objectId({ links: [{ rel: 'extra', href: '/db/ai_scenario/{($)}' }] }),
+        // scenario original
+        scenario: c.objectId({ links: [{ rel: 'db', href: '/db/ai_scenario/{($)}/version' }], format: 'latest-version-original-reference' }),
         moduleNum: { type: 'number', title: 'Module number', default: 5 },
       },
     },
