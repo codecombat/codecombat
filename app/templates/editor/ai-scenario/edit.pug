@@ -20,7 +20,11 @@ block content
   h3
     span(data-i18n="editor.ai_scenario_edit_title")
     |: #{view.scenario.attributes._id}
-    
+
+  p
+    span Original Id
+    |: #{view.scenario.get('original')}
+
   #ai-scenario-treema
 
   h3(data-i18n="resources.patches") Patches

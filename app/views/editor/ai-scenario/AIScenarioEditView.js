@@ -17,7 +17,6 @@ const AIScenario = require('models/AIScenario')
 const SaveVersionModal = require('views/editor/modal/SaveVersionModal')
 const PatchesView = require('views/editor/PatchesView')
 const ConfirmModal = require('views/core/ConfirmModal')
-const errors = require('core/errors')
 
 const nodes = require('views/editor/level/treema_nodes')
 
