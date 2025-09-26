@@ -100,7 +100,7 @@ class ScenarioNode extends treemaExt.IDReferenceNode {
     // TODO: fix the term search
     this.getSearchResultsEl().empty().append('Searching')
     this.collections = new CocoCollection([], { model: AIScenario })
-    this.collections.url = '/db/ai_scenario?project[]=_id&project[]=name&limit=1000&sort=-_id'
+    this.collections.url = '/db/ai_scenario?project=_id,slug,original,name&limit=1000&sort=-_id'
     this.collections.fetch()
     this.collections.once('sync', this.loadAIScenarios, this)
   }
@@ -150,7 +150,7 @@ class ScenarioNode extends treemaExt.IDReferenceNode {
     this.lastTerm = term
     this.getSearchResultsEl().empty().append('Searching')
     this.collections = new CocoCollection(this.scenarios.filter((scenario) => {
-      return scenario.get('original').toString() === term || scenario.get('name').toLowerCase().includes(term.toLowerCase())
+      return scenario.get('original')?.toString() === term || scenario.get('name')?.toLowerCase()?.includes(term.toLowerCase())
     }), { model: AIScenario })
     this.searchCallback()
   }
