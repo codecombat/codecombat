@@ -270,13 +270,13 @@ class HackstackScenarioIDNode extends treemaExt.LatestVersionOriginalReferenceNo
   }
 
   buildSearchURL (term) {
-    return `${this.url}?term=${encodeURIComponent(term)}&project=_id,slug,original,name&limit=100`
+    return `${this.url}?term=${encodeURIComponent(term)}&project=_id,original,name&limit=100`
   }
 
   modelToString (model) {
-    const name = model.get('name') || model.get('slug') || model.get('original')
-    const slug = model.get('slug')
-    return slug ? `${name} (${slug})` : `${name}`
+    const original = model.get('original')
+    const name = model.get('name') || original
+    return name && original && name !== original ? `${name} (${original})` : `${name || original}`
   }
 
   // Avoid base formatter's dependency on schema links by formatting from string original id
