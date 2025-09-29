@@ -638,7 +638,12 @@ _.extend(LevelSchema.properties, {
       },
     },
   },
-  hackstackScenarioId: { type: 'string', description: 'The level is a proxy for a hackstack scenario', inEditor: 'codecombat' },
+  hackstackScenarioId: {
+    type: 'string',
+    description: 'Hackstack scenario original id. This level is a proxy for a hackstack scenario.',
+    inEditor: 'codecombat',
+    format: 'hackstackScenario',
+  },
 })
 
 LevelSchema.definitions = {
