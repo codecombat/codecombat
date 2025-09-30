@@ -16,6 +16,7 @@ const AIProject = require('models/AIProject')
 const ConfirmModal = require('views/core/ConfirmModal')
 const PatchesView = require('views/editor/PatchesView')
 const errors = require('core/errors')
+const ScenarioNode = require('views/editor/ai-scenario/AIScenarioNode')
 
 const nodes = require('views/editor/level/treema_nodes')
 
@@ -62,7 +63,8 @@ module.exports = (AIProjectEditView = (function () {
         readOnly: me.get('anonymous'),
         supermodel: this.supermodel,
         nodeClasses: {
-          'chat-message-link': nodes.ChatMessageLinkNode
+          'chat-message-link': nodes.ChatMessageLinkNode,
+          scenario: ScenarioNode,
         }
       }
       this.treema = this.$el.find('#ai-project-treema').treema(options)
