@@ -32,7 +32,7 @@ module.exports = class ScenarioNode extends treemaExt.IDReferenceNode {
   buildValueForEditing (valEl, data) {
     valEl.html(this.searchValueTemplate)
     const input = valEl.find('input')
-    input.focus().keyup(this.search)
+    input.focus().keyup(this.search.bind(this))
     if (data) {
       input.attr('placeholder', this.formatDocument(data))
     }
