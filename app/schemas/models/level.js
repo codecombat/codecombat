@@ -638,12 +638,12 @@ _.extend(LevelSchema.properties, {
       },
     },
   },
-  hackstackScenarioId: {
-    type: 'string',
+  hackstackScenarioId: c.stringID({
+    title: 'Hackstack Scenario ID',
     description: 'Hackstack scenario original id. This level is a proxy for a hackstack scenario.',
     inEditor: 'codecombat',
     format: 'hackstackScenario',
-  },
+  }),
 })
 
 LevelSchema.definitions = {

@@ -267,10 +267,30 @@ class HackstackScenarioIDNode extends treemaExt.LatestVersionOriginalReferenceNo
     super(...args)
     this.url = '/db/ai_scenario'
     this.model = require('models/AIScenario')
+
+    // Load only the current scenario if we have data
+    const data = this.getData()
+    if (data) {
+      this.getSearchResultsEl().empty().append('Loading scenario...')
+      // Fetch the scenario directly by ID
+      const Model = this.model
+      const model = new Model()
+      model.set('original', data)
+      model.setURL(`/db/ai_scenario/${data}`)
+      model.fetch({
+        success: () => {
+          this.instance = model
+          if (!this.isEditing()) { this.refreshDisplay() }
+        },
+        error: () => {
+          // Ignore fetch errors, keep showing the ID
+        },
+      })
+    }
   }
 
   buildSearchURL (term) {
-    return `${this.url}?term=${encodeURIComponent(term)}&project=_id,original,name&limit=100`
+    return `${this.url}?term=${encodeURIComponent(term)}&project=_id,original,name&limit=10`
   }
 
   modelToString (model) {
@@ -279,7 +299,6 @@ class HackstackScenarioIDNode extends treemaExt.LatestVersionOriginalReferenceNo
     return name && original && name !== original ? `${name} (${original})` : `${name || original}`
   }
 
-  // Avoid base formatter's dependency on schema links by formatting from string original id
   formatDocument (docOrModel) {
     if (docOrModel && docOrModel.get && docOrModel.attributes) {
       return this.modelToString(docOrModel)
