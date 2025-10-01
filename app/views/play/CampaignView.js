@@ -268,6 +268,18 @@ class CampaignView extends RootView {
           this.isCatalyst = true
           this.render() // Re-render to update the UI with the new isGalaxy state
         }
+        // Redirect HackStack campaigns from /play/:slug to /ai/play/:slug
+        try {
+          const isHackstackType = this.campaign?.get('type') === 'hackstack' || this.campaign?.get('isHackstackCampaign')
+          const alreadyOnAIPath = /^\/ai\/play\//.test(location.pathname)
+          if (isHackstackType && !alreadyOnAIPath && !this.editorMode) {
+            const slug = this.campaign.get('slug') || this.terrain
+            const dest = `/ai/play/${slug}`
+            return application.router.navigate(dest, { trigger: true, replace: true })
+          }
+        } catch (e) {
+          // no-op
+        }
       })
     }
     // Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
