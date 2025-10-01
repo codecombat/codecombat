@@ -173,7 +173,7 @@
         </div>
       </div>
       <div
-        v-else-if="isOpenAthens || isHoustonLibrary"
+        v-else-if="isOpenAthens || isHoustonLibrary || isAirdrieLogin"
         class="houston common"
       >
         <div
@@ -183,6 +183,16 @@
           <img
             src="/images/pages/play/houston-library-logo.png"
             alt="Houston logo"
+            class="common__head-logo"
+          >
+        </div>
+        <div
+          v-else-if="isAirdrieLogin"
+          class="common__head"
+        >
+          <img
+            src="/images/pages/play/airdrie-library-logo.png"
+            alt="Airdrie logo"
             class="common__head-logo"
           >
         </div>
@@ -302,6 +312,9 @@ export default {
     isHoustonLibrary () {
       return this.isOpenAthens && this.libName === 'houston'
     },
+    isAirdrieLogin () {
+      return this.isOpenAthens && this.libName === 'airdrie'
+    },
     isOpenAthens () {
       return this.libraryId === 'open-athens' || this.libraryId === 'open-athens-redirect'
     },
@@ -326,8 +339,8 @@ export default {
       this.redirectToOpenAthens()
       return
     }
-    if (this.isHoustonLibrary || this.isOpenAthens) {
-      this.handleHoustonLibrary()
+    if (this.isHoustonLibrary || this.isOpenAthens || this.isAirdrieLogin) {
+      this.handleByOpenAthens()
     }
   },
   methods: {
@@ -359,7 +372,7 @@ export default {
       await me.fetch({ cache: false })
       window.location = '/play'
     },
-    async handleHoustonLibrary () {
+    async handleByOpenAthens () {
       if (this.alreadyLoggedIn) {
         return
       }
@@ -368,7 +381,7 @@ export default {
         this.progressState = 'Fetching user info...'
         this.errMsg = null
         try {
-          await usersLib.loginHouston({ code: this.code })
+          await usersLib.loginOpenAthens({ code: this.code })
           this.progressState = 'Trying to login...'
           await this.postLogin()
         } catch (err) {
@@ -416,7 +429,7 @@ export default {
     padding: 1rem;
 
     &-logo {
-      width: 20rem;
+      width: 15rem;
     }
   }
 
