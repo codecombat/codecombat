@@ -132,6 +132,8 @@ _.extend(CampaignSchema.properties, {
         // scenario original
         scenario: c.objectId({ title: 'AI Scenario Original', format: 'scenario', links: [{ rel: 'db', href: '/db/ai_scenario/{{$}}/version', model: 'AIScenario' }] }),
         moduleNum: { type: 'number', title: 'Module number', default: 5 },
+        position: c.point2d(),
+        displayName: { type: 'string', title: 'Display Name' },
       },
     },
   },

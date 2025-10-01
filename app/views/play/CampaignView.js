@@ -779,6 +779,7 @@ class CampaignView extends RootView {
     context.picoCTF = window.serverConfig.picoCTF
     context.requiresSubscription = this.requiresSubscription
     context.editorMode = this.editorMode
+    context.scenarios = this.campaign?.get('scenarios') || []
     context.adjacentCampaigns = _.filter(_.values(_.cloneDeep(this.campaign?.get('adjacentCampaigns') ?? {})), ac => {
       if (me.isStudent() || me.isTeacher()) { return false }
       if (ac.showIfUnlocked && !this.editorMode) {

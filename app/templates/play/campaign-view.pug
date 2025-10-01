@@ -266,6 +266,19 @@ if showGameDevAlert
                 if practiceLevelStatus !== 'complete'
                   - break
 
+      each scenario in scenarios
+        if scenario.position
+          - var scenarioName = scenario.displayName || "AI Scenario"
+          - var scenarioAcronym = scenarioName.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
+          div(
+            style="left: " + scenario.position.x + "%; bottom: " + scenario.position.y + "%;",
+            class="scenario",
+            data-scenario-original=scenario.scenario,
+            title=scenarioName
+          )
+            a(href="#", data-scenario-original=scenario.scenario, data-scenario-display-name=scenario.displayName)
+            .scenario-acronym= scenarioAcronym
+
       if view.shouldShow('league-arena')
         for arena in view.activeArenas()
           .level-info-container.rtl-allowed.league-arena-tooltip(data-arena=arena.slug)
