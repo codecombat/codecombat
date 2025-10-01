@@ -361,13 +361,11 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       margin-left: -0.5 * $scenarioDotWidth
       margin-bottom: -0.5 * $scenarioDotHeight
       border-radius: 50%
+      box-sizing: border-box
       background-color: #9B59B6
       border: 2px solid #8E44AD
       @include transition(transform 0.3s ease)
       cursor: pointer
-
-      &:hover
-        @include scale(1.2)
 
       a
         display: block

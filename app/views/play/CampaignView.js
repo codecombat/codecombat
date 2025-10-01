@@ -867,16 +867,37 @@ class CampaignView extends RootView {
     if (!application.isIPadApp) {
       _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .game-controls-catalyst .btn:not(.poll), .other-products-catalyst .btn, .campaign.locked, .beta-campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
       const view = this
+      // Keep original behavior for levels and campaign switches
       this.$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each(function () {
         if (!me.isAdmin() || !view.editorMode) { return }
         $(this).draggable().on('dragstop', function () {
           const bg = $('.map-background')
           const x = (($(this).offset().left - bg.offset().left) + ($(this).outerWidth() / 2)) / bg.width()
           const y = 1 - ((($(this).offset().top - bg.offset().top) + ($(this).outerHeight() / 2)) / bg.height())
-          const e = { position: { x: (100 * x), y: (100 * y) }, levelOriginal: $(this).data('level-original'), campaignID: $(this).data('campaign-id') }
+          const e = { position: { x: (100 * x), y: (100 * y) }, levelOriginal: $(this).data('level-original'), campaignID: $(this).data('campaign-id'), scenarioOriginal: $(this).data('scenario-original') }
           if (e.levelOriginal) { view.trigger('level-moved', e) }
           if (e.campaignID) { view.trigger('adjacent-campaign-moved', e) }
         })
+      })
+      // Custom behavior for scenarios to avoid hover/transform affecting position calcs
+      this.$el.find('.scenario').addClass('has-tooltip').tooltip().each(function () {
+        if (!me.isAdmin() || !view.editorMode) { return }
+        $(this).draggable({ scroll: false, containment: '.map', drag: function () { $(this).css('transform', '') } })
+          .on('dragstop', function () {
+            const bg = $('.map-background')
+            const el = $(this)
+            const x = ((el.offset().left - bg.offset().left) + (el.outerWidth() / 2)) / bg.width()
+            // Compensate for negative margin-bottom used to center via bottom positioning.
+            // NOTE: Through visual testing, a factor of ~0.33 works best to align the
+            // saved position with the on-screen center. This is due to how the map's
+            // aspect scaling and our scenario circle height interact with bottom+margin
+            // centering. If map scaling logic changes, revisit this factor.
+            const mb = parseFloat(el.css('margin-bottom')) || 0
+            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2) + (mb * 0.33)
+            const y = 1 - (yCenterPx / bg.height())
+            const e = { position: { x: (100 * x), y: (100 * y) }, scenarioOriginal: $(this).data('scenario-original') }
+            if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
+          })
       })
     }
     this.updateVolume()
