@@ -269,7 +269,7 @@ if showGameDevAlert
       each scenario in scenarios
         if scenario.position
           - var scenarioName = scenario.displayName || "AI Scenario"
-          - var scenarioAcronym = scenarioName.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
+          - var scenarioAcronym = (scenarioName.replace(/^(A |The )/i, '').trim().split(/\s+/).map(function(word) { return word[0] ? word[0].toUpperCase() : ''; }).join('')) || 'AI';
           div(
             style="left: " + scenario.position.x + "%; bottom: " + scenario.position.y + "%;",
             class="scenario",

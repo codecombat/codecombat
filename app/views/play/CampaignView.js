@@ -58,6 +58,7 @@ const PROMPTED_FOR_SIGNUP = 'prompted-for-signup'
 const PROMPTED_FOR_SUBSCRIPTION = 'prompted-for-subscription'
 const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
 const GALAXY_TERRAIN = 'ai' // galaxy is the inner name, but in URL it is 'ai' for players
+const SCENARIO_MARGIN_COMPENSATION_FACTOR = 0.33 // Compensates for bottom margin when centering scenario elements
 
 class LevelSessionsCollection extends CocoCollection {
   static initClass () {
@@ -263,11 +264,6 @@ class CampaignView extends RootView {
       this.campaign = this.supermodel.loadModel(this.campaign).model
 
       this.listenToOnce(this.campaign, 'sync', () => {
-        if (this.campaign?.get('isHackstackCampaign') && this.isGalaxy) {
-          this.isGalaxy = true
-          this.isCatalyst = true
-          this.render() // Re-render to update the UI with the new isGalaxy state
-        }
         // Redirect HackStack campaigns from /play/:slug to /ai/play/:slug
         try {
           const isHackstackType = this.campaign?.get('type') === 'hackstack' || this.campaign?.get('isHackstackCampaign')
@@ -905,7 +901,7 @@ class CampaignView extends RootView {
             // aspect scaling and our scenario circle height interact with bottom+margin
             // centering. If map scaling logic changes, revisit this factor.
             const mb = parseFloat(el.css('margin-bottom')) || 0
-            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2) + (mb * 0.33)
+            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2) + (mb * SCENARIO_MARGIN_COMPENSATION_FACTOR)
             const y = 1 - (yCenterPx / bg.height())
             const e = { position: { x: (100 * x), y: (100 * y) }, scenarioOriginal: $(this).data('scenario-original') }
             if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
