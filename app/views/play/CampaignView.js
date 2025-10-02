@@ -2214,9 +2214,25 @@ class CampaignView extends RootView {
    */
   executeHackstackRedirect (redirectInfo) {
     if (redirectInfo) {
-      const query = location.search || ''
-      const hash = location.hash || ''
-      application.router.navigate(`${redirectInfo.dest}${query}${hash}`, { trigger: true, replace: true })
+      try {
+        // Use URL API to properly merge query parameters and hash
+        const destUrl = new URL(redirectInfo.dest, window.location.origin)
+        const currentUrl = new URL(window.location.href)
+        // Merge query parameters
+        currentUrl.searchParams.forEach((value, key) => {
+          destUrl.searchParams.set(key, value)
+        })
+        // Preserve hash fragment
+        if (currentUrl.hash) {
+          destUrl.hash = currentUrl.hash
+        }
+        application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
+      } catch (e) {
+        // Fallback to simple concatenation if URL API fails
+        const query = location.search || ''
+        const hash = location.hash || ''
+        application.router.navigate(`${redirectInfo.dest}${query}${hash}`, { trigger: true, replace: true })
+      }
     }
   }
 
