@@ -892,7 +892,7 @@ class CampaignView extends RootView {
           const bg = $('.map-background')
           const x = (($(this).offset().left - bg.offset().left) + ($(this).outerWidth() / 2)) / bg.width()
           const y = 1 - ((($(this).offset().top - bg.offset().top) + ($(this).outerHeight() / 2)) / bg.height())
-          const e = { position: { x: (100 * x), y: (100 * y) }, levelOriginal: $(this).data('level-original'), campaignID: $(this).data('campaign-id'), scenarioOriginal: $(this).data('scenario-original') }
+          const e = { position: { x: (100 * x), y: (100 * y) }, levelOriginal: $(this).data('level-original'), campaignID: $(this).data('campaign-id') }
           if (e.levelOriginal) { view.trigger('level-moved', e) }
           if (e.campaignID) { view.trigger('adjacent-campaign-moved', e) }
         })
