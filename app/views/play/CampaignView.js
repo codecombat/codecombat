@@ -267,8 +267,9 @@ class CampaignView extends RootView {
         // Check for HackStack redirect immediately after campaign loads
         const redirectInfo = this.checkHackstackRedirect()
         if (redirectInfo) {
-          // If we have course-level updates pending, defer the redirect
-          if (this.courseLevels && !this.courseLevelsLoaded) {
+          // If we have course-level updates pending, or a course context exists, defer the redirect
+          const hasCourseContext = Boolean(this.courseInstanceID)
+          if ((this.courseLevels && !this.courseLevelsLoaded) || hasCourseContext) {
             this.pendingHackstackRedirect = redirectInfo
           } else {
             // No course-level updates needed, redirect immediately
@@ -2213,7 +2214,9 @@ class CampaignView extends RootView {
    */
   executeHackstackRedirect (redirectInfo) {
     if (redirectInfo) {
-      application.router.navigate(redirectInfo.dest, { trigger: true, replace: true })
+      const query = location.search || ''
+      const hash = location.hash || ''
+      application.router.navigate(`${redirectInfo.dest}${query}${hash}`, { trigger: true, replace: true })
     }
   }
 
