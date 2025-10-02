@@ -32,6 +32,7 @@ const PatchesView = require('views/editor/PatchesView')
 const RevertModal = require('views/modal/RevertModal')
 const modelDeltas = require('lib/modelDeltas')
 const globalVar = require('core/globalVar')
+const ScenarioNode = require('views/editor/ai-scenario/AIScenarioNode')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
@@ -51,7 +52,7 @@ module.exports = (CampaignEditorView = (function () {
         'click #analytics-button': 'onClickAnalyticsButton',
         'click #save-button': 'onClickSaveButton',
         'click #patches-button': 'onClickPatches',
-        'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
+        'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal',
       }
 
       this.prototype.subscriptions =
@@ -93,14 +94,14 @@ module.exports = (CampaignEditorView = (function () {
       this.levels = new CocoCollection([], {
         model: Level,
         url: `/db/campaign/${this.campaignHandle}/levels`,
-        project: Campaign.denormalizedLevelProperties
+        project: Campaign.denormalizedLevelProperties,
       })
       this.supermodel.loadCollection(this.levels, 'levels')
 
       this.achievements = new CocoCollection([], {
         model: Achievement,
         url: `/db/campaign/${this.campaignHandle}/achievements`,
-        project: achievementProject
+        project: achievementProject,
       })
       this.supermodel.loadCollection(this.achievements, 'achievements')
 
@@ -369,7 +370,7 @@ module.exports = (CampaignEditorView = (function () {
           change: this.onTreemaChanged,
           select: this.onTreemaSelectionChanged,
           dblclick: this.onTreemaDoubleClicked,
-          achievementUpdated: this.onAchievementUpdated
+          achievementUpdated: this.onAchievementUpdated,
         },
         nodeClasses: {
           levels: LevelsNode,
@@ -378,9 +379,10 @@ module.exports = (CampaignEditorView = (function () {
           campaigns: CampaignsNode,
           campaign: CampaignNode,
           achievement: AchievementNode,
-          rewards: RewardsNode
+          rewards: RewardsNode,
+          scenario: ScenarioNode,
         },
-        supermodel: this.supermodel
+        supermodel: this.supermodel,
       }
 
       this.treema = this.$el.find('#campaign-treema').treema(treemaOptions)
@@ -393,6 +395,7 @@ module.exports = (CampaignEditorView = (function () {
       this.campaignView = new CampaignView({ editorMode: true, supermodel: this.supermodel, campaignPage: this.campaignPage }, this.campaignHandle)
       this.campaignView.highlightElement = _.noop // make it stop
       this.listenTo(this.campaignView, 'level-moved', this.onCampaignLevelMoved)
+      this.listenTo(this.campaignView, 'scenario-moved', this.onCampaignScenarioMoved)
       this.listenTo(this.campaignView, 'adjacent-campaign-moved', this.onAdjacentCampaignMoved)
       this.listenTo(this.campaignView, 'level-clicked', this.onCampaignLevelClicked)
       this.listenTo(this.campaignView, 'level-double-clicked', this.onCampaignLevelDoubleClicked)
@@ -455,6 +458,17 @@ module.exports = (CampaignEditorView = (function () {
     onCampaignLevelMoved (e) {
       const path = `levels/${e.levelOriginal}/position`
       return this.treema.set(path, e.position)
+    }
+
+    onCampaignScenarioMoved (e) {
+      // scenarios is an array; find the one with matching original and update its position
+      const scenarios = this.treema.get('/scenarios') || []
+      const idx = _.findIndex(scenarios, s => (s && (s.scenario === e.scenarioOriginal)))
+      if (idx >= 0) {
+        const path = `/scenarios/${idx}/position`
+        return this.treema.set(path, e.position)
+      }
+      return null
     }
 
     onAdjacentCampaignMoved (e) {
@@ -597,9 +611,7 @@ class LevelNode extends TreemaObjectNode {
   }
 
   buildValueForDisplay (valEl, data) {
-    let {
-      name
-    } = data
+    let { name } = data
     if (data.requiresSubscription) {
       name = '[P] ' + name
     }
