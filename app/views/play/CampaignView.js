@@ -264,17 +264,16 @@ class CampaignView extends RootView {
       this.campaign = this.supermodel.loadModel(this.campaign).model
 
       this.listenToOnce(this.campaign, 'sync', () => {
-        // Redirect HackStack campaigns from /play/:slug to /ai/play/:slug
-        try {
-          const isHackstackType = this.campaign?.get('type') === 'hackstack' || this.campaign?.get('isHackstackCampaign')
-          const alreadyOnAIPath = /^\/ai\/play\//.test(location.pathname)
-          if (isHackstackType && !alreadyOnAIPath && !this.editorMode) {
-            const slug = this.campaign.get('slug') || this.terrain
-            const dest = `/ai/play/${slug}`
-            return application.router.navigate(dest, { trigger: true, replace: true })
+        // Check for HackStack redirect immediately after campaign loads
+        const redirectInfo = this.checkHackstackRedirect()
+        if (redirectInfo) {
+          // If we have course-level updates pending, defer the redirect
+          if (this.courseLevels && !this.courseLevelsLoaded) {
+            this.pendingHackstackRedirect = redirectInfo
+          } else {
+            // No course-level updates needed, redirect immediately
+            this.executeHackstackRedirect(redirectInfo)
           }
-        } catch (e) {
-          // no-op
         }
       })
     }
@@ -354,6 +353,11 @@ class CampaignView extends RootView {
               this.listenToOnce(this.courseLevels, 'sync', () => {
                 this.courseLevelsLoaded = true
                 this.updateCourseLevels()
+                // Execute pending HackStack redirect after course levels are loaded
+                if (this.pendingHackstackRedirect) {
+                  this.executeHackstackRedirect(this.pendingHackstackRedirect)
+                  this.pendingHackstackRedirect = null
+                }
               })
               this.listenToOnce(this.campaign, 'sync', () => this.updateCourseLevels())
             }
@@ -525,6 +529,12 @@ class CampaignView extends RootView {
   }
 
   onLoaded () {
+    // Execute pending HackStack redirect after all resources have loaded
+    if (this.pendingHackstackRedirect) {
+      this.executeHackstackRedirect(this.pendingHackstackRedirect)
+      return // Don't continue with normal loading if redirecting
+    }
+
     if (this.isChinaOldBrowser()) {
       if (!storage.load('hideBrowserRecommendation')) {
         const BrowserRecommendationModal = require('views/core/BrowserRecommendationModal')
@@ -2177,6 +2187,34 @@ class CampaignView extends RootView {
     }
 
     return true
+  }
+
+  /**
+   * Check if this campaign should redirect to HackStack and return redirect info
+   * @returns {Object|null} Redirect info object or null if no redirect needed
+   */
+  checkHackstackRedirect () {
+    try {
+      const isHackstackType = this.campaign?.get('type') === 'hackstack' || this.campaign?.get('isHackstackCampaign')
+      const alreadyOnAIPath = /^\/ai\/play\//.test(location.pathname)
+      if (isHackstackType && !alreadyOnAIPath && !this.editorMode) {
+        const slug = this.campaign.get('slug') || this.terrain
+        return { slug, dest: `/ai/play/${slug}` }
+      }
+    } catch (e) {
+      // no-op
+    }
+    return null
+  }
+
+  /**
+   * Execute HackStack redirect after all loading is complete
+   * @param {Object} redirectInfo - Redirect information from checkHackstackRedirect
+   */
+  executeHackstackRedirect (redirectInfo) {
+    if (redirectInfo) {
+      application.router.navigate(redirectInfo.dest, { trigger: true, replace: true })
+    }
   }
 
   shouldShow (what) {
