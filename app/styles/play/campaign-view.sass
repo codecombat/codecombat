@@ -28,6 +28,8 @@ $glowingPortalColor: #E57F15
 $glowingPortalSizeBase: 5px
 $hackstackGlowColor: #2E231F
 $hackstackGlowSizeBase: 5px
+$scenarioDotWidth: 3%
+$scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
 +keyframes(levelStartedPulse)
   from
@@ -350,6 +352,42 @@ $hackstackGlowSizeBase: 5px
         margin-left: -0.5 * $levelClickRadius
         margin-top: -0.5 * $levelClickRadius
         border-radius: $levelClickRadius
+
+    .scenario
+      position: absolute
+      z-index: 2
+      width: $scenarioDotWidth
+      height: $scenarioDotHeight
+      margin-left: -0.5 * $scenarioDotWidth
+      margin-bottom: -0.5 * $scenarioDotHeight
+      border-radius: 50%
+      box-sizing: border-box
+      background-color: #9B59B6
+      border: 2px solid #8E44AD
+      @include transition(transform 0.3s ease)
+      cursor: pointer
+
+      a
+        display: block
+        padding: $levelClickRadius
+        margin-left: -0.5 * $levelClickRadius
+        margin-top: -0.5 * $levelClickRadius
+        border-radius: $levelClickRadius
+
+      .scenario-acronym
+        position: absolute
+        pointer-events: none
+        left: 0
+        top: 0
+        right: 0
+        bottom: 0
+        color: white
+        text-align: center
+        font-size: 0.7vw
+        text-shadow: 0px 1px 0px black
+        display: flex
+        align-items: center
+        justify-content: center
 
     .tooltip
       z-index: 3
