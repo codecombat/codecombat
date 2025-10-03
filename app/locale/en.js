@@ -1878,8 +1878,8 @@ module.exports = {
       revoke_license_tips: 'Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you\'d like to proceed.',
       assign_course_confirm: 'Please confirm that you\'d like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.',
       near_end_trial: 'Your Students Are Nearing the End of the Trial Content',
-      schedule_demo_subheading: 'Schedule a Demo to Continue Your Students’ Coding Journey With...',
-      schedule_demo_description: 'Schedule a demo with our team to unlock more free content and explore our products, curricula, ​and resources. Let us help you craft a tailored solution for your class, school, or district.',
+      schedule_demo_subheading: 'Schedule a Demo to Continue Your Students Coding Journey With...',
+      schedule_demo_description: 'Schedule a demo with our team to unlock more free content and explore our products, curricula, and resources. Let us help you craft a tailored solution for your class, school, or district.',
       practice_and_application: 'Practice & Application Experiences',
     },
 
@@ -6337,6 +6337,10 @@ module.exports = {
       run_code_tour_title: 'Ready to see the magic?',
       run_code_tour_text: 'Press “Output” and watch your project come to life. No experience required!',
       ready_to_review_helptext: 'Mark this when your project is complete. Your teacher will then see it as ready to review on their side.',
+    },
+    galaxy: {
+      title: 'Welcome to HackStack Galaxy',
+      description: 'Explore new worlds and use AI to help you in your journey. ',
     },
     new_premium: {
       mastering_code: 'Master coding and AI with **premium home access**',

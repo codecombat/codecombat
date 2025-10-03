@@ -469,6 +469,9 @@ module.exports = {
       learning_options: "[AI_TRANSLATION]Options d'apprentissage",
       ai_hackstack: '[AI_TRANSLATION]AI HackStack',
       beta: '[AI_TRANSLATION]Bêta',
+      //    teacher_tools: "Teacher Tools",
+      //    ai_teacher_tool: "AI Teacher Tool",
+      //    ccw_short: "CodeCombat on Roblox",
     },
 
     modal: {
@@ -1873,6 +1876,10 @@ module.exports = {
       //    no_licenses_applied: "No licenses applied to selected student(s).",
       //    revoke_license_tips: "Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.",
       //    assign_course_confirm: "Please confirm that you'd like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.",
+      //    near_end_trial: "Your Students Are Nearing the End of the Trial Content",
+      //    schedule_demo_subheading: "Schedule a Demo to Continue Your Students Coding Journey With...",
+      //    schedule_demo_description: "Schedule a demo with our team to unlock more free content and explore our products, curricula, and resources. Let us help you craft a tailored solution for your class, school, or district.",
+      //    practice_and_application: "Practice & Application Experiences",
     },
 
     no_licenses_page: {
@@ -5876,6 +5883,7 @@ module.exports = {
       student_acceleration_2_title: "[AI_TRANSLATION]Préparations à l'examen AP CSP",
       student_acceleration_2_text: "[AI_TRANSLATION]Nous sommes reconnus par le College Board comme un fournisseur accrédité de programmes et de développement professionnel pour les AP® Computer Science Principles (AP CSP). Notre programme AP CSP fournit des outils basés sur le jeu et prêts à l'emploi pour préparer les élèves à l'examen AP.",
       young_learners_1_title: '[AI_TRANSLATION]Junior CodeCombat  ',
+      //    young_learners_1_title_classroom: "CodeCombat Junior Classroom",
       young_learners_1_text: "[AI_TRANSLATION]Notre programme phare pour les élèves du primaire (K-5) propose une progression de niveaux d'apprentissage qui enseignent les concepts de codage de base à un rythme plus lent, spécialement conçu pour les élèves du primaire.",
       young_learners_1_link_text: '[AI_TRANSLATION]Inscris-toi pour accéder à la version bêta',
       young_learners_2_title: '[AI_TRANSLATION]AI Junior',
@@ -6332,6 +6340,11 @@ module.exports = {
       //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
+
+    //  galaxy: {
+    //    title: "Welcome to HackStack Galaxy",
+    //    description: "Explore new worlds and use AI to help you in your journey. ",
+    //  },
 
     //  new_premium: {
     //    mastering_code: "Master coding and AI with **premium home access**",
