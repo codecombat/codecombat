@@ -55,7 +55,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
   @include animation(portalGlow 2s infinite)
   transform-style: preserve-3d
   will-change: filter
-  
+
   &:hover
     @include animation(portalGlow 1s infinite)
 
@@ -147,7 +147,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       background-color: rgb(80, 130, 200)
       a
         display: inline
-      
+
       .hackstack-icon
         background: url('/images/pages/hackstack/Code-Combat-AI-Hack-Stack-Full-Colour-Small.png')
         width: 200%
@@ -162,7 +162,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         filter: drop-shadow(0 0 #{$hackstackGlowSizeBase} #222) drop-shadow(0 0 #{2 * $hackstackGlowSizeBase} #{$hackstackGlowColor}) drop-shadow(0 0 #{4 * $hackstackGlowSizeBase} #{$hackstackGlowColor})
         &:hover
           filter: drop-shadow(0 0 #{1.5 * $hackstackGlowSizeBase} #222) drop-shadow(0 0 #{3 * $hackstackGlowSizeBase} #{$hackstackGlowColor}) drop-shadow(0 0 #{6 * $hackstackGlowSizeBase} #{$hackstackGlowColor})
-        
+
     .map-background
       width: 100%
       height: 100%
@@ -687,7 +687,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
       .tooltip-arrow
         display: none
-  
+
   .game-controls-catalyst
     position: absolute
     left: 2%
@@ -698,7 +698,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     flex-direction: column
     gap: 10px
 
-    
+
     .btn
       &:not(:first-child)
         margin-left: 0
@@ -790,7 +790,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
         &.highlighted
           @include animation(jiggle .3s 20)
-      
+
     &.in-campaign
       flex-direction: row
       bottom: 2%
@@ -895,7 +895,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         outline: none
         &:hover
           filter: drop-shadow(0 0 2px #bbf)
-      
+
       &.junior-menu-icon
         background: url(/images/pages/junior/CodeCombat-Junior-Small.png) no-repeat
         background-position: 50% 50%
@@ -923,8 +923,8 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         margin-top: 10px
         &:hover
           filter: drop-shadow(0 0 2px #bbf)
-        
-          
+
+
 
     &.in-campaign
       flex-direction: row
@@ -951,8 +951,8 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         &.cchome-menu-icon
           transform: scale(2.3) translate(-5px, -1px)
 
-        
-        
+
+
     .tooltip
       font-size: 24px
 
@@ -1053,7 +1053,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     .stats-row
       margin-bottom: 10px
       margin-top: 10px
-    
+
     .user-status-line
       position: relative
       display: flex
@@ -1095,7 +1095,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
       a
         color: white
-      
+
       body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdown
         width: 90px
 
@@ -1150,7 +1150,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
     .glyphicon
       font-size: 32px
-  
+
   .campaign-control-button-catalyst
     padding: 3px 8px
     @include opacity(0.75)
@@ -1160,7 +1160,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
     .glyphicon
       font-size: 28px
-    
+
     &.language-dropdown
       font-size: 24px
 
@@ -1265,7 +1265,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       @media (orientation: landscape)
         align-items: initial
 
-    .portals 
+    .portals
       $height: $campaignPortalHeight * $campaignHoverScale
       flex-wrap: nowrap
       display: flex
@@ -1437,14 +1437,14 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       display: flex
       flex-direction: column
       align-items: center
-      width: 100%    
+      width: 100%
 
       .campaign-rows
         display: flex
         flex-direction: column
         align-items: center
         gap: 20px
-        
+
         .campaign-row
           display: flex
           justify-content: center
@@ -1465,7 +1465,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
           // the last row has a different margin-top
           &:last-child
             margin-top: $catalystMarginTopBase + 40px
-          
+
           .main-campaign
             width: $campaignPortalWidth
             height: $campaignPortalHeight
@@ -1476,18 +1476,18 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
             left: 50%
             transform: translateX(-50%)
             transition: transform 0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42)
-            
+
             &:hover
               transform: translateX(-50%) scale($campaignHoverScale)
 
             &.silhouette
               @include filter(contrast(50%) brightness(65%))
               pointer-events: none
-            
+
             &.locked
               @include filter(contrast(80%) brightness(80%))
               cursor: default
-            
+
             &.forest
               background-position: (-1 * $campaignPortalWidth) 0
             &.desert
@@ -1498,28 +1498,28 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
               background-position: (-4 * $campaignPortalWidth) 0
             &.volcano
               background-position: (-5 * $campaignPortalWidth) 0
-            
+
             .campaign-label
               position: absolute
               top: 45%
               width: 100%
               text-align: center
-              
+
               .play-button
                 margin: 15px 0
                 min-width: 100px
-              
+
               .campaign-name, .levels-completed, .campaign-locked
                 margin: 0
                 color: white
                 text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
-              
+
               .campaign-description-container
                 margin: 10px auto
                 width: 80%
                 transition: opacity $description-transition-time ease, visibility $description-transition-time ease
                 transition-delay: 0.15s
-                
+
                 .campaign-description
                   background: transparent url(/images/level/popover_border_background.png) no-repeat
                   background-size: 100% 100%
@@ -1529,50 +1529,50 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
                   line-height: 1.2
                   margin: 0
 
-            
+
           .side-campaign-container
             position: absolute
             width: $campaignPortalWidth
             height: $sideCampaignPortalHeight
             z-index: 0
             top: $campaignPortalHeight - $sideCampaignPortalHeight
-            
+
             // Left side campaign container (first in the row)
             &.left-campaign
               left: calc(50% - 450px)
-            
+
             // Right side campaign container (last in the row)
             &.right-campaign
               right: calc(50% - 450px)
-            
+
             &.empty
               visibility: hidden
-            
+
             .side-campaign
               width: $campaignPortalWidth
               height: $sideCampaignPortalHeight
               position: relative
               cursor: pointer
               @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
-          
+
               &:hover
                 @include scale($campaignHoverScale)
-                
+
               &.silhouette
                 @include filter(contrast(50%) brightness(65%))
                 pointer-events: none
-                
+
               &.locked
                 @include filter(contrast(80%) brightness(80%))
                 cursor: default
-              
+
               .campaign-label
                 position: absolute
                 top: 40%
                 width: 100%
                 text-align: center
                 z-index: 1
-                
+
                 .play-button
                   margin: 15px 0
                   min-width: 100px
@@ -1581,7 +1581,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
                   margin: 0
                   color: white
                   text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
-                
+
                 .campaign-description
                   margin: 0px 40px
                   background: transparent url(/images/level/popover_border_background.png) no-repeat
@@ -1601,7 +1601,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
                 height: 100%
                 background: transparent url(/images/pages/play/portal-beta-campaigns.png) no-repeat 0 0
                 background-size: $betaImagesWidth
-                
+
                 // Game Dev campaigns
                 &.campaign-game-dev-1
                   background-position: -454px 0px
@@ -1609,7 +1609,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
                   background-position: -628px 0px
                 &.campaign-game-dev-3
                   background-position: -628px 0px
-                
+
                 // Web Dev campaigns
                 &.campaign-web-dev-1
                   background-position: -151px 0px
@@ -1637,7 +1637,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     padding: 20px
     $description-transition-time: 0.4s
     isolation: isolate
-    
+
     &::before
       content: ''
       position: absolute
@@ -1658,14 +1658,14 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     .portals
       position: relative
       z-index: 1
-      
+
       .campaign-rows
         display: flex
         flex-direction: column
         align-items: center
         gap: 40px
         padding: 50px 0
-        
+
         .campaign-row
           display: flex
           justify-content: center
@@ -1686,7 +1686,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
           // the last row has a different margin-top
           &:last-child
             margin-top: $galaxyMarginTopBase + 40px
-          
+
           .campaign-container
             position: relative
             width: $galaxyCampaignPortalWidth
@@ -1696,34 +1696,34 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
             background-repeat: no-repeat
             cursor: pointer
             transition: transform 0.3s ease
-            
+
             &:hover
               transform: scale(1.05)
 
             &.silhouette
               @include filter(contrast(50%) brightness(65%))
               pointer-events: none
-            
+
             &.locked
               @include filter(contrast(80%) brightness(80%))
               cursor: default
-            
+
             .campaign-label
               position: absolute
               top: 45%
               width: 100%
               text-align: center
-              
+
               .play-button
                 margin: 15px 0
                 min-width: 100px
-              
+
               .campaign-name, .levels-completed, .campaign-locked
                 margin: 0
                 color: white
                 text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
-              
-              
+
+
               .campaign-description
                  background: transparent url(/images/level/popover_border_background.png) no-repeat !important
                  background-size: 100% 100% !important
@@ -1736,7 +1736,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
                  border-radius: 8px !important
                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4) !important
                  opacity: 0.95 !important
-            
+
             &.intro-to-ai
               background-image: url('/images/pages/play_ai/forest-planet.png')
             &.math-and-stats
@@ -1749,7 +1749,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         @extend .portal-glow
 
 
-  
+
   #esports-arena
     min-width: 210px
 
@@ -1791,7 +1791,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     cursor: pointer
     width: 200px
 
-  #burnaby-logo
+  #burnaby-logo,#airdrie-logo
     cursor: pointer
     height: 55px
     border-radius: 10%
@@ -1913,7 +1913,7 @@ body[lang^="en"] #campaign-view .user-status-catalyst .user-status-line .languag
   z-index: 10
   display: flex
   gap: 10px
-  
+
   .btn
     width: 40px
     height: 40px
@@ -1922,23 +1922,23 @@ body[lang^="en"] #campaign-view .user-status-catalyst .user-status-line .languag
     @include box-shadow(2px 2px 4px black)
     border: 0
     border-radius: 12px
-    
+
     &:hover
       @include opacity(1.0)
       @include box-shadow(0 0 12px #bbf)
-    
+
     &:active, &.highlighted
       @include box-shadow(0 0 20px white)
-    
+
     .glyphicon
       font-size: 28px
-    
+
     #volume-button
       margin-right: 10px
 
     &.language-dropdown
       width: 112px
 
-  
+
 
 

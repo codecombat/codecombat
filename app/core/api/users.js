@@ -184,6 +184,14 @@ module.exports = {
     }))
   },
 
+  loginOpenAthens (attrs, options) {
+    if (options == null) { options = {} }
+    return fetchJson('/auth/login-open-athens', _.assign({}, options, {
+      method: 'POST',
+      json: attrs,
+    }))
+  },
+
   putUserProducts (json, options) {
     if (options == null) { options = {} }
     return fetchJson('/db/user/products', _.assign({}, options, {
