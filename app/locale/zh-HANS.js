@@ -469,6 +469,9 @@ module.exports = {
       learning_options: '[AI_TRANSLATION]学习选项',
       ai_hackstack: '[AI_TRANSLATION]AI HackStack  ',
       beta: '[AI_TRANSLATION]测试版',
+      //    teacher_tools: "Teacher Tools",
+      //    ai_teacher_tool: "AI Teacher Tool",
+      //    ccw_short: "CodeCombat on Roblox",
     },
 
     modal: {
@@ -1873,6 +1876,10 @@ module.exports = {
       no_licenses_applied: '未将许可证应用于所选学生。',
       revoke_license_tips: '撤销许可证将使其可以应用于其他学生。学生将无法再访问付费内容，但他们的学习进度将被保存。请确认您要继续。',
       assign_course_confirm: '请确认您想将 __courseName__ 分配给 __numStudents__ 名学生。将自动应用 __numberEnrolled__ 个许可证。',
+      //    near_end_trial: "Your Students Are Nearing the End of the Trial Content",
+      //    schedule_demo_subheading: "Schedule a Demo to Continue Your Students Coding Journey With...",
+      //    schedule_demo_description: "Schedule a demo with our team to unlock more free content and explore our products, curricula, and resources. Let us help you craft a tailored solution for your class, school, or district.",
+      //    practice_and_application: "Practice & Application Experiences",
     },
 
     no_licenses_page: {
@@ -5876,6 +5883,7 @@ module.exports = {
       student_acceleration_2_title: '[AI_TRANSLATION]AP CSP 考试准备',
       student_acceleration_2_text: '[AI_TRANSLATION]我们被大学理事会认可为 AP® 计算机科学原理（AP CSP）课程和专业发展课程的认证提供者。我们的 AP CSP 课程提供基于游戏的即用工具，帮助学生为 AP 考试做好准备。\n',
       young_learners_1_title: '[AI_TRANSLATION]CodeCombat 初学者',
+      //    young_learners_1_title_classroom: "CodeCombat Junior Classroom",
       //    young_learners_1_text: "Our flagship K-5 curriculum features a progression of learning levels that teach basic coding concepts at a slower pace, modeled specifically for elementary students.",
       young_learners_1_link_text: '[AI_TRANSLATION]注册获取测试访问权限',
       young_learners_2_title: '[AI_TRANSLATION]AI Junior',
@@ -6332,6 +6340,11 @@ module.exports = {
       //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
+
+    //  galaxy: {
+    //    title: "Welcome to HackStack Galaxy",
+    //    description: "Explore new worlds and use AI to help you in your journey. ",
+    //  },
 
     //  new_premium: {
     //    mastering_code: "Master coding and AI with **premium home access**",
