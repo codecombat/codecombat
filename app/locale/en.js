@@ -6338,6 +6338,10 @@ module.exports = {
       run_code_tour_text: 'Press “Output” and watch your project come to life. No experience required!',
       ready_to_review_helptext: 'Mark this when your project is complete. Your teacher will then see it as ready to review on their side.',
     },
+    galaxy: {
+      title: 'Welcome to HackStack Galaxy',
+      description: 'Explore new worlds and use AI to help you in your journey. ',
+    },
     new_premium: {
       mastering_code: 'Master coding and AI with **premium home access**',
       unlock_passion: 'Unlock unlimited access to hundreds of coding adventures and generative AI projects. Build real skills, tackle engaging challenges, and explore at your own pace from home.',
