@@ -1,7 +1,7 @@
 <template>
   <div class="form-group row course-code-language-format">
     <div
-      v-if="isCodeCombat && isNewClassroom && !asClub"
+      v-if="isCodeCombat && !asClub"
       class="col-xs-12 initial-free-courses"
     >
       <label class="control-label checkbox-label">
@@ -209,6 +209,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    selectedCoursesFromParent: {
+      type: Array,
+      default: () => [],
+    },
     isNewClassroom: {
       type: Boolean,
       default: false,
@@ -244,7 +248,6 @@ export default {
   },
   data () {
     return {
-      newInitialFreeCourses: [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE],
       newProgrammingLanguage: this.codeLanguage || 'python',
       newCodeFormats: this.codeFormats,
       newCodeFormatDefault: this.codeFormatDefault,
@@ -333,6 +336,16 @@ export default {
         }),
       ]
     },
+    newInitialFreeCourses: {
+      get () {
+        return this.selectedCoursesFromParent
+      },
+      set (value) {
+        if (JSON.stringify(value) !== JSON.stringify(this.selectedCoursesFromParent)) {
+          this.$emit('initialFreeCoursesUpdated', value)
+        }
+      },
+    },
   },
   watch: {
     newProgrammingLanguage (newVal) {
@@ -358,6 +371,12 @@ export default {
           this.$emit('initialFreeCoursesUpdated', this.newInitialFreeCourses)
         }
       }
+    },
+    selectedCoursesFromParent: {
+      immediate: true,
+      handler (newVal) {
+        this.newInitialFreeCourses = [...newVal]
+      },
     },
   },
   methods: {
