@@ -1361,6 +1361,27 @@ class CampaignView extends RootView {
         }
       }
     }
+    // Also draw lines between AI Scenarios based on explicit connections
+    const scenarios = this.campaign?.get('scenarios') || []
+    if (scenarios.length) {
+      // Map scenarios by original id for fast lookup
+      const scenarioByOriginal = {}
+      for (const s of scenarios) {
+        if (s?.scenario) { scenarioByOriginal[s.scenario] = s }
+      }
+      for (const s of scenarios) {
+        const fromPos = s?.position
+        if (!fromPos) { continue }
+        for (const conn of (s?.connections || [])) {
+          if (conn?.invisible) { continue }
+          const to = scenarioByOriginal[conn?.toScenario]
+          const toPos = to?.position
+          if (toPos) {
+            this.createLine(fromPos, toPos)
+          }
+        }
+      }
+    }
   }
 
   createLine (o1, o2) {
