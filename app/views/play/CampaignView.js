@@ -108,6 +108,7 @@ class CampaignView extends RootView {
       'click .level-info-container .start-level': 'onClickStartLevel',
       'click .level-info-container .home-version button': 'onClickStartLevel',
       'click .level-info-container .view-solutions': 'onClickViewSolutions',
+      'click .scenario': 'onClickScenario',
       'click .level-info-container .course-version button': 'onClickCourseVersion',
       'click #volume-button': 'onToggleVolume',
       'click #back-button': 'onClickBack',
@@ -1540,6 +1541,17 @@ class CampaignView extends RootView {
     this.adjustLevelInfoPosition(e)
     this.endHighlight()
     this.preloadLevel(levelSlug)
+  }
+
+  onClickScenario (e) {
+    if (!this.editorMode) { return }
+    e.preventDefault()
+    e.stopPropagation()
+    console.log('onClickScenario', e)
+    const scenarioElement = $(e.target).closest('.scenario')
+    const scenarioOriginal = scenarioElement.data('scenario-original')
+    if (!scenarioOriginal) { return }
+    return this.trigger('scenario-clicked', scenarioOriginal)
   }
 
   onDoubleClickLevel (e) {

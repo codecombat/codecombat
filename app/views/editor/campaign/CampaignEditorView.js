@@ -408,6 +408,7 @@ module.exports = (CampaignEditorView = (function () {
       this.listenTo(this.campaignView, 'adjacent-campaign-moved', this.onAdjacentCampaignMoved)
       this.listenTo(this.campaignView, 'level-clicked', this.onCampaignLevelClicked)
       this.listenTo(this.campaignView, 'level-double-clicked', this.onCampaignLevelDoubleClicked)
+      this.listenTo(this.campaignView, 'scenario-clicked', this.onCampaignScenarioClicked)
       this.listenTo(this.campaign, 'change:i18n', () => {
         this.campaign.updateI18NCoverage()
         this.treema.set('/i18n', this.campaign.get('i18n'))
@@ -486,8 +487,10 @@ module.exports = (CampaignEditorView = (function () {
     }
 
     onCampaignLevelClicked (levelOriginal) {
-      let levelTreema
-      if (!(levelTreema = __guard__(__guard__(this.treema.childrenTreemas != null ? this.treema.childrenTreemas.levels : undefined, x1 => x1.childrenTreemas), x => x[levelOriginal]))) { return }
+      const levelsNode = this.treema.childrenTreemas && this.treema.childrenTreemas.levels
+      const childTreemas = levelsNode && levelsNode.childrenTreemas
+      const levelTreema = childTreemas && childTreemas[levelOriginal]
+      if (!levelTreema) { return }
       if (key.ctrl || key.command) {
         const url = `/editor/level/${levelTreema.data.slug}`
         window.open(url, '_blank')
@@ -495,6 +498,19 @@ module.exports = (CampaignEditorView = (function () {
       return levelTreema.select()
     }
     // levelTreema.open()
+
+    onCampaignScenarioClicked (scenarioOriginal) {
+      // scenarios is an array in treema; find the index by matching 'scenario'
+      const scenariosNode = this.treema.childrenTreemas && this.treema.childrenTreemas.scenarios
+      if (!scenariosNode) { return }
+      const children = scenariosNode.childrenTreemas || {}
+      for (const idx in children) {
+        const node = children[idx]
+        if (node && node.data && node.data.scenario === scenarioOriginal) {
+          return node.select()
+        }
+      }
+    }
 
     onCampaignLevelDoubleClicked (levelOriginal) {
       return this.openCampaignLevelView(this.supermodel.getModelByOriginal(Level, levelOriginal))
