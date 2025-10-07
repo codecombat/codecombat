@@ -32,7 +32,7 @@ const PatchesView = require('views/editor/PatchesView')
 const RevertModal = require('views/modal/RevertModal')
 const modelDeltas = require('lib/modelDeltas')
 const globalVar = require('core/globalVar')
-const ScenarioNode = require('views/editor/ai-scenario/AIScenarioNode')
+const { HackstackScenarioIDNode } = require('views/editor/ai-scenario/AIScenarioNode')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
@@ -121,7 +121,6 @@ module.exports = (CampaignEditorView = (function () {
       for (const model of Array.from(this.toSave.models)) {
         const diff = modelDeltas.getDelta(model)
         if (_.size(diff)) {
-          console.log('model, diff', model, diff)
           return 'You have changes!'
         }
       }
@@ -196,7 +195,16 @@ module.exports = (CampaignEditorView = (function () {
     updateCampaignLevels () {
       let level, model
       if (this.campaign.hasLocalChanges()) { this.toSave.add(this.campaign) }
-      const campaignLevels = $.extend({}, this.campaign.get('levels'))
+      const existingLevels = this.campaign.get('levels')
+      const hasExistingLevels = existingLevels && Object.keys(existingLevels).length > 0
+
+      // If the user removed levels (or it's empty), do not recreate an empty object; unset and exit.
+      if (!hasExistingLevels) {
+        this.campaign.unset('levels')
+        return
+      }
+
+      const campaignLevels = _.cloneDeep(existingLevels)
       for (let levelIndex = 0; levelIndex < this.levels.models.length; levelIndex++) {
         level = this.levels.models[levelIndex]
         const levelOriginal = level.get('original')
@@ -380,7 +388,7 @@ module.exports = (CampaignEditorView = (function () {
           campaign: CampaignNode,
           achievement: AchievementNode,
           rewards: RewardsNode,
-          scenario: ScenarioNode,
+          scenario: HackstackScenarioIDNode,
         },
         supermodel: this.supermodel,
       }
@@ -399,6 +407,7 @@ module.exports = (CampaignEditorView = (function () {
       this.listenTo(this.campaignView, 'adjacent-campaign-moved', this.onAdjacentCampaignMoved)
       this.listenTo(this.campaignView, 'level-clicked', this.onCampaignLevelClicked)
       this.listenTo(this.campaignView, 'level-double-clicked', this.onCampaignLevelDoubleClicked)
+      this.listenTo(this.campaignView, 'scenario-clicked', this.onCampaignScenarioClicked)
       this.listenTo(this.campaign, 'change:i18n', () => {
         this.campaign.updateI18NCoverage()
         this.treema.set('/i18n', this.campaign.get('i18n'))
@@ -477,8 +486,10 @@ module.exports = (CampaignEditorView = (function () {
     }
 
     onCampaignLevelClicked (levelOriginal) {
-      let levelTreema
-      if (!(levelTreema = __guard__(__guard__(this.treema.childrenTreemas != null ? this.treema.childrenTreemas.levels : undefined, x1 => x1.childrenTreemas), x => x[levelOriginal]))) { return }
+      const levelsNode = this.treema.childrenTreemas && this.treema.childrenTreemas.levels
+      const childTreemas = levelsNode && levelsNode.childrenTreemas
+      const levelTreema = childTreemas && childTreemas[levelOriginal]
+      if (!levelTreema) { return }
       if (key.ctrl || key.command) {
         const url = `/editor/level/${levelTreema.data.slug}`
         window.open(url, '_blank')
@@ -486,6 +497,19 @@ module.exports = (CampaignEditorView = (function () {
       return levelTreema.select()
     }
     // levelTreema.open()
+
+    onCampaignScenarioClicked (scenarioOriginal) {
+      // scenarios is an array in treema; find the index by matching 'scenario'
+      const scenariosNode = this.treema.childrenTreemas && this.treema.childrenTreemas.scenarios
+      if (!scenariosNode) { return }
+      const children = scenariosNode.childrenTreemas || {}
+      for (const idx in children) {
+        const node = children[idx]
+        if (node && node.data && node.data.scenario === scenarioOriginal) {
+          return node.select()
+        }
+      }
+    }
 
     onCampaignLevelDoubleClicked (levelOriginal) {
       return this.openCampaignLevelView(this.supermodel.getModelByOriginal(Level, levelOriginal))
