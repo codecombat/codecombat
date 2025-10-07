@@ -174,5 +174,7 @@ class HackstackScenarioIDNode extends treemaExt.LatestVersionOriginalReferenceNo
 }
 
 // Exports
-module.exports.HackstackScenarioIDNode = HackstackScenarioIDNode
-module.exports.ScenarioNode = ScenarioNode
+module.exports = {
+  HackstackScenarioIDNode,
+  ScenarioNode,
+}
