@@ -40,11 +40,16 @@ module.exports = class ScenarioNode extends treemaExt.IDReferenceNode {
 
   buildValueForDisplay (valEl, data) {
     super.buildValueForDisplay(valEl, data)
-    const originalId = typeof data === 'string' ? data : (data && data.original) ? data.original : data
+    let originalId
+    if (typeof data === 'string') {
+      originalId = data
+    } else if (data && data.original) {
+      originalId = data.original
+    }
 
     if (originalId) {
       this.$el.find('.ai-scenario-link').remove()
-      this.$el.find('.treema-row').prepend($(`<span class='ai-scenario-link'><a href='/editor/ai-scenario/${originalId}' title='Edit' target='_blank'>(e)</a>&nbsp;</span>`))
+      this.$el.find('.treema-row').prepend($(`<span class='ai-scenario-link'><a href='/editor/ai-scenario/${originalId}' title='Edit AI Scenario' target='_blank' rel='noopener noreferrer'>✎</a>&nbsp;</span>`))
     }
 
     return valEl
