@@ -204,7 +204,7 @@ module.exports = (CampaignEditorView = (function () {
         return
       }
 
-      const campaignLevels = $.extend({}, existingLevels)
+      const campaignLevels = _.cloneDeep(existingLevels)
       for (let levelIndex = 0; levelIndex < this.levels.models.length; levelIndex++) {
         level = this.levels.models[levelIndex]
         const levelOriginal = level.get('original')
