@@ -1547,7 +1547,6 @@ class CampaignView extends RootView {
     if (!this.editorMode) { return }
     e.preventDefault()
     e.stopPropagation()
-    console.log('onClickScenario', e)
     const scenarioElement = $(e.target).closest('.scenario')
     const scenarioOriginal = scenarioElement.data('scenario-original')
     if (!scenarioOriginal) { return }

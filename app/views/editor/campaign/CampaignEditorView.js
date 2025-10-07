@@ -121,7 +121,6 @@ module.exports = (CampaignEditorView = (function () {
       for (const model of Array.from(this.toSave.models)) {
         const diff = modelDeltas.getDelta(model)
         if (_.size(diff)) {
-          console.log('model, diff', model, diff)
           return 'You have changes!'
         }
       }
