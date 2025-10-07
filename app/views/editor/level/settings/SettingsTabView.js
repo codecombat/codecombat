@@ -17,12 +17,12 @@ const CocoView = require('views/core/CocoView')
 const template = require('app/templates/editor/level/settings_tab')
 const Level = require('models/Level')
 const ThangType = require('models/ThangType')
+const HackstackScenarioIDNode = require('views/editor/ai-scenario/AIScenarioNode')
 const nodes = require('./../treema_nodes')
 const { me } = require('core/auth')
 require('lib/setupTreema')
 const Concepts = require('collections/Concepts')
 const schemas = require('app/schemas/schemas')
-const treemaExt = require('core/treema-ext')
 let concepts = []
 const utils = require('core/utils')
 
@@ -257,61 +257,3 @@ class ClansListNode extends TreemaNode.nodeMap.array {
   }
 }
 ClansListNode.initClass()
-
-class HackstackScenarioIDNode extends treemaExt.LatestVersionOriginalReferenceNode {
-  static initClass () {
-    this.prototype.valueClass = 'treema-hackstack-scenario'
-  }
-
-  constructor (...args) {
-    super(...args)
-    this.url = '/db/ai_scenario'
-    this.model = require('models/AIScenario')
-
-    // Load only the current scenario if we have data
-    const data = this.getData()
-    if (data) {
-      this.getSearchResultsEl().empty().append('Loading scenario...')
-      // Fetch the scenario directly by ID
-      const Model = this.model
-      const model = new Model()
-      model.set('original', data)
-      model.setURL(`/db/ai_scenario/${data}`)
-      model.fetch({
-        success: () => {
-          this.instance = model
-          if (!this.isEditing()) { this.refreshDisplay() }
-        },
-        error: () => {
-          // Ignore fetch errors, keep showing the ID
-        },
-      })
-    }
-  }
-
-  buildSearchURL (term) {
-    return `${this.url}?term=${encodeURIComponent(term)}&project=_id,original,name&limit=10`
-  }
-
-  modelToString (model) {
-    const original = model.get('original')
-    const name = model.get('name') || original
-    return name && original && name !== original ? `${name} (${original})` : `${name || original}`
-  }
-
-  formatDocument (docOrModel) {
-    if (docOrModel && docOrModel.get && docOrModel.attributes) {
-      return this.modelToString(docOrModel)
-    }
-    const data = this.getData()
-    if (!data) { return 'None' }
-    if (!this.settings.supermodel) { return '' + data }
-    let m = this.settings.supermodel.getModelByOriginal(this.model, data)
-    if (!m && this.instance) {
-      m = this.instance
-      this.settings.supermodel.registerModel(m)
-    }
-    return m ? this.modelToString(m) : '' + data
-  }
-}
-HackstackScenarioIDNode.initClass()

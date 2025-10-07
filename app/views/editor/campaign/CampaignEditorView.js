@@ -32,7 +32,7 @@ const PatchesView = require('views/editor/PatchesView')
 const RevertModal = require('views/modal/RevertModal')
 const modelDeltas = require('lib/modelDeltas')
 const globalVar = require('core/globalVar')
-const ScenarioNode = require('views/editor/ai-scenario/AIScenarioNode')
+const HackstackScenarioIDNode = require('views/editor/ai-scenario/AIScenarioNode')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
@@ -196,7 +196,16 @@ module.exports = (CampaignEditorView = (function () {
     updateCampaignLevels () {
       let level, model
       if (this.campaign.hasLocalChanges()) { this.toSave.add(this.campaign) }
-      const campaignLevels = $.extend({}, this.campaign.get('levels'))
+      const existingLevels = this.campaign.get('levels')
+      const hasExistingLevels = existingLevels && Object.keys(existingLevels).length > 0
+
+      // If the user removed levels (or it's empty), do not recreate an empty object; unset and exit.
+      if (!hasExistingLevels) {
+        this.campaign.unset('levels')
+        return
+      }
+
+      const campaignLevels = $.extend({}, existingLevels)
       for (let levelIndex = 0; levelIndex < this.levels.models.length; levelIndex++) {
         level = this.levels.models[levelIndex]
         const levelOriginal = level.get('original')
@@ -380,7 +389,7 @@ module.exports = (CampaignEditorView = (function () {
           campaign: CampaignNode,
           achievement: AchievementNode,
           rewards: RewardsNode,
-          scenario: ScenarioNode,
+          scenario: HackstackScenarioIDNode,
         },
         supermodel: this.supermodel,
       }
