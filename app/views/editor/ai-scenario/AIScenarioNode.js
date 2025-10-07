@@ -102,9 +102,7 @@ class ScenarioNode extends treemaExt.IDReferenceNode {
 }
 
 class HackstackScenarioIDNode extends treemaExt.LatestVersionOriginalReferenceNode {
-  static initClass () {
-    this.prototype.valueClass = 'treema-hackstack-scenario'
-  }
+  valueClass = 'treema-hackstack-scenario'
 
   constructor (...args) {
     super(...args)
