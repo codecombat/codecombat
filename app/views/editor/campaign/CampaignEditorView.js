@@ -32,7 +32,7 @@ const PatchesView = require('views/editor/PatchesView')
 const RevertModal = require('views/modal/RevertModal')
 const modelDeltas = require('lib/modelDeltas')
 const globalVar = require('core/globalVar')
-const HackstackScenarioIDNode = require('views/editor/ai-scenario/AIScenarioNode')
+const { HackstackScenarioIDNode } = require('views/editor/ai-scenario/AIScenarioNode')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 

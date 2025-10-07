@@ -3,7 +3,7 @@ const AIScenario = require('models/AIScenario')
 require('lib/setupTreema')
 const treemaExt = require('core/treema-ext')
 
-module.exports = class ScenarioNode extends treemaExt.IDReferenceNode {
+class ScenarioNode extends treemaExt.IDReferenceNode {
   valueClass = 'treema-scenario'
   lastTerm = null
   scenarios = {}
@@ -101,7 +101,7 @@ module.exports = class ScenarioNode extends treemaExt.IDReferenceNode {
   }
 }
 
-module.exports = class HackstackScenarioIDNode extends treemaExt.LatestVersionOriginalReferenceNode {
+class HackstackScenarioIDNode extends treemaExt.LatestVersionOriginalReferenceNode {
   static initClass () {
     this.prototype.valueClass = 'treema-hackstack-scenario'
   }
@@ -174,3 +174,7 @@ module.exports = class HackstackScenarioIDNode extends treemaExt.LatestVersionOr
     return m ? this.modelToString(m) : '' + data
   }
 }
+
+// Exports
+module.exports.HackstackScenarioIDNode = HackstackScenarioIDNode
+module.exports.ScenarioNode = ScenarioNode
