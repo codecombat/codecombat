@@ -679,11 +679,12 @@ module.exports = (User = (function () {
     }
 
     getExperimentValue (experimentName, defaultValue = null, defaultValueIfAdmin = null) {
-      // Latest experiment to start with this experiment name wins, in the off chance we have multiple duplicate entries
-      let left, left1
-      if ((defaultValueIfAdmin != null) && this.isAdmin()) { defaultValue = defaultValueIfAdmin }
-      const experiments = _.sortBy((left = this.get('experiments')) != null ? left : [], 'startDate').reverse()
-      return (left1 = _.find(experiments, { name: experimentName })?.value) != null ? left1 : defaultValue
+      // Prefer the admin default for admins when provided
+      const effectiveDefault = (defaultValueIfAdmin != null && this.isAdmin()) ? defaultValueIfAdmin : defaultValue
+
+      const experiments = _.sortBy(this.get('experiments') || [], 'startDate').reverse()
+      const found = _.find(experiments, { name: experimentName })
+      return (found && found.value != null) ? found.value : effectiveDefault
     }
 
     isEnrolled () { return this.prepaidStatus() === 'enrolled' }
