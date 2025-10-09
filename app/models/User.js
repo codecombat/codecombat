@@ -625,6 +625,23 @@ module.exports = (User = (function () {
       })
     }
 
+    tryStartExperiment (name) {
+      let probability = window.serverConfig?.experimentProbabilities?.[name]?.beta
+      if (probability == null) {
+        return 'control'
+      }
+      let value
+      if (Math.random() < probability) {
+        value = 'beta'
+      } else {
+        value = 'control'
+        probability = 1 - probability
+      }
+      console.log(`starting ${name} experiment with value ${value} and probability ${probability}`)
+      me.startExperiment(name, value, probability)
+      return value
+    }
+
     startExperiment (name, value, probability) {
       let left
       const experiments = (left = this.get('experiments')) != null ? left : []
@@ -1340,6 +1357,31 @@ module.exports = (User = (function () {
         me.startExperiment('catalyst', value, valueProbability)
       }
       return value
+    }
+
+    // Galaxy Experiment is where we send home users - /ai or /ai/play
+    getOrStartGalaxyExperimentValue () {
+      const value = utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery('galaxy'),
+        me.getExperimentValue('galaxy', null),
+      )
+      if (value != null) {
+        return value
+      }
+      // Don't include users other than home users
+      if (!me.isHomeUser()) {
+        return 'control'
+      }
+      // Don't include China Home players for now
+      if (features?.chinaInfra) {
+        return 'control'
+      }
+      // Only include new users (created after experiment start date)
+      if (new Date(me.get('dateCreated')) < new Date('2025-10-12')) {
+        return 'control'
+      }
+
+      return this.tryStartExperiment('galaxy')
     }
 
     removeRelatedAccount (relatedUserId, options = {}) {
