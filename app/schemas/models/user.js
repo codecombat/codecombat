@@ -431,6 +431,7 @@ _.extend(UserSchema.properties, {
     type: 'object',
     title: 'Feature Flags',
     properties: {
+      hourOfAiCreditsGiven: { type: 'boolean', description: 'Whether the user has been given hour of AI credits' },
       authority: {
         type: 'object',
         description: 'Feature flags applied to associated users',
