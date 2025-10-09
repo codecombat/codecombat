@@ -108,6 +108,7 @@ class CampaignView extends RootView {
       'click .level-info-container .start-level': 'onClickStartLevel',
       'click .level-info-container .home-version button': 'onClickStartLevel',
       'click .level-info-container .view-solutions': 'onClickViewSolutions',
+      'click .scenario': 'onClickScenario',
       'click .level-info-container .course-version button': 'onClickCourseVersion',
       'click #volume-button': 'onToggleVolume',
       'click #back-button': 'onClickBack',
@@ -1361,6 +1362,27 @@ class CampaignView extends RootView {
         }
       }
     }
+    // Also draw lines between AI Scenarios based on explicit connections
+    const scenarios = this.campaign?.get('scenarios') || []
+    if (scenarios.length) {
+      // Map scenarios by original id for fast lookup
+      const scenarioByOriginal = {}
+      for (const s of scenarios) {
+        if (s?.scenario) { scenarioByOriginal[s.scenario] = s }
+      }
+      for (const s of scenarios) {
+        const fromPos = s?.position
+        if (!fromPos) { continue }
+        for (const conn of (s?.connections || [])) {
+          if (conn?.invisible) { continue }
+          const to = scenarioByOriginal[conn?.toScenario]
+          const toPos = to?.position
+          if (toPos) {
+            this.createLine(fromPos, toPos)
+          }
+        }
+      }
+    }
   }
 
   createLine (o1, o2) {
@@ -1519,6 +1541,16 @@ class CampaignView extends RootView {
     this.adjustLevelInfoPosition(e)
     this.endHighlight()
     this.preloadLevel(levelSlug)
+  }
+
+  onClickScenario (e) {
+    if (!this.editorMode) { return }
+    e.preventDefault()
+    e.stopPropagation()
+    const scenarioElement = $(e.target).closest('.scenario')
+    const scenarioOriginal = scenarioElement.data('scenario-original')
+    if (!scenarioOriginal) { return }
+    return this.trigger('scenario-clicked', scenarioOriginal)
   }
 
   onDoubleClickLevel (e) {

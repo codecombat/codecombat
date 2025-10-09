@@ -14,15 +14,12 @@ const RootView = require('views/core/RootView')
 const template = require('app/templates/editor/ai-project/edit')
 const AIProject = require('models/AIProject')
 const ConfirmModal = require('views/core/ConfirmModal')
-const PatchesView = require('views/editor/PatchesView')
-const errors = require('core/errors')
-const ScenarioNode = require('views/editor/ai-scenario/AIScenarioNode')
+const { ScenarioNode } = require('views/editor/ai-scenario/AIScenarioNode')
 
 const nodes = require('views/editor/level/treema_nodes')
 
 require('lib/game-libraries')
 require('lib/setupTreema')
-const treemaExt = require('core/treema-ext')
 
 module.exports = (AIProjectEditView = (function () {
   AIProjectEditView = class AIProjectEditView extends RootView {

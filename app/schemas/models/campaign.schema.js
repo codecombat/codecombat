@@ -130,10 +130,25 @@ _.extend(CampaignSchema.properties, {
       type: 'object',
       properties: {
         // scenario original
-        scenario: c.objectId({ title: 'AI Scenario Original', format: 'scenario', links: [{ rel: 'db', href: '/db/ai_scenario/{{$}}/version', model: 'AIScenario' }] }),
+        scenario: c.stringID({ title: 'AI Scenario Original', format: 'scenario', links: [{ rel: 'db', href: '/db/ai_scenario/{{$}}/version', model: 'AIScenario' }] }),
         moduleNum: { type: 'number', title: 'Module number', default: 5 },
         position: c.point2d(),
         displayName: { type: 'string', title: 'Display Name' },
+        connections: {
+          type: 'array',
+          title: 'Connections',
+          items: {
+            type: 'object',
+            properties: {
+              toScenario: c.stringID({ title: 'AI Scenario Original', format: 'scenario', links: [{ rel: 'db', href: '/db/ai_scenario/{{$}}/version', model: 'AIScenario' }] }),
+              connectionType: { type: 'string', title: 'Connection Type', enum: ['required', 'optional'], default: 'required' },
+              curveSide: { type: 'string', title: 'Curve Side', enum: ['left', 'right'], default: 'left' },
+              color: { type: 'string', title: 'Color', format: 'color' },
+              opacity: { type: 'number', title: 'Opacity', format: 'range', minimum: 0, maximum: 1, default: 0.5 },
+              invisible: { type: 'boolean', title: 'Invisible', default: false },
+            },
+          },
+        },
       },
     },
   },

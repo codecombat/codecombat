@@ -1,6 +1,6 @@
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/editor/ai-chat-message/clone')
-const ScenarioNode = require('views/editor/ai-scenario/AIScenarioNode')
+const { ScenarioNode } = require('views/editor/ai-scenario/AIScenarioNode')
 const fetchJson = require('core/api/fetch-json')
 require('lib/setupTreema')
 
