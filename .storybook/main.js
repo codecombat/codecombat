@@ -24,12 +24,8 @@ const config = {
     "@storybook/addon-interactions"
   ],
   framework: {
-    name: "@storybook/vue-webpack5",
-    options: {
-      builder: {
-        useSWC: true,
-      },
-    },
+    name: '@storybook/vue3-webpack5',
+    options: {}
   },
   docs: {
     autodocs: true
