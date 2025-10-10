@@ -496,7 +496,16 @@ module.exports = (BasicInfoView = (function () {
           if (e === AbortError) {
 
           } else {
-            console.error('BasicInfoView form submission Promise error:', e)
+            if (e.status >= 400 && e.status < 500) {
+              const json = e.responseJSON
+              const message = json?.message || e.responseText
+              window.noty({
+                type: 'error',
+                text: message,
+              })
+            } else {
+              console.error('BasicInfoView form submission Promise error:', e)
+            }
             if ((e.responseJSON != null ? e.responseJSON.i18n : undefined)) {
               return this.state.set('error', $.i18n.t(e.responseJSON != null ? e.responseJSON.i18n : undefined) || 'Unknown Error')
             } else {
