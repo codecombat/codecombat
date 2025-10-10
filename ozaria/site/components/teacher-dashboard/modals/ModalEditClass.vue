@@ -92,6 +92,8 @@ export default Vue.extend({
       newInitialFreeCourses: utils.isCodeCombat ? [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE] : [],
       archived: this.classroom?.archived || false,
       errMsg: '',
+      selectedCoursesFromParent: [],
+      courseInstances: [],
     }
   },
 
@@ -239,12 +241,36 @@ export default Vue.extend({
       this.newDisablePaste = disablePaste
     },
   },
-
+  /*
   async mounted () {
     if (this.classroomInstance?._id || this.classroomInstance?.id) {
       await this.fetchCourseInstances(this.classroomInstance?._id || this.classroomInstance?.id)
     }
     await this.fetchCourses()
+    this.selectedCoursesFromParent = this.courseInstances.map(ci => ci.courseID)
+    console.log('All available courses:', this.courses)
+  },
+  */
+  async mounted () {
+    if (this.classroomInstance?._id || this.classroomInstance?.id) {
+      const classroomId = this.classroomInstance._id || this.classroomInstance.id
+
+      await this.fetchCourseInstances(classroomId)
+
+      this.courseInstances = this.getCourseInstances(classroomId) || []
+
+      if (this.courseInstances.length === 0) {
+        this.selectedCoursesFromParent = this.classroomInstance.initialFreeCourses || []
+      } else {
+        this.selectedCoursesFromParent = this.courseInstances.map(ci => ci.courseID)
+      }
+
+      console.log('courseInstances:', this.courseInstances, this.courseInstances.length)
+      console.log('selectedCoursesFromParent:', this.selectedCoursesFromParent)
+    }
+
+    await this.fetchCourses()
+    console.log('All courses:', this.courses)
   },
 
   methods: {
@@ -429,12 +455,12 @@ export default Vue.extend({
       }
 
       if (utils.isCodeCombat) {
-        if (this.newInitialFreeCourses?.length === 0 && this.classroomInstance.isNew()) {
+        if (this.selectedCoursesFromParent?.length === 0 && this.classroomInstance.isNew()) {
           this.errMsg = 'Please select at least one course'
           this.saving = false
           return
         }
-        updates.initialFreeCourses = this.newInitialFreeCourses
+        updates.initialFreeCourses = this.selectedCoursesFromParent
       }
 
       let savedClassroom
@@ -457,11 +483,17 @@ export default Vue.extend({
           this.saving = false
           return
         }
-        await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
-
+        await this.createFreeCourseInstances({
+          classroom: savedClassroom,
+          courses: this.selectedCoursesFromParent,
+        })
         this.$emit('created')
       } else {
         try {
+          await this.createFreeCourseInstances({
+            classroom: this.classroom,
+            courses: this.selectedCoursesFromParent,
+          })
           savedClassroom = await this.updateClassroom({ classroom: this.classroom, updates })
         } catch (err) {
           console.error('failed to update classroom', err)
@@ -493,7 +525,8 @@ export default Vue.extend({
       this.newProgrammingLanguage = newVal
     },
     updateInitialFreeCourses (newVal) {
-      this.newInitialFreeCourses = newVal
+      this.selectedCoursesFromParent = newVal
+      console.log('Selected courses updated:', this.selectedCoursesFromParent)
     },
     updateCodeFormats (newVal) {
       this.newCodeFormats = newVal
@@ -715,6 +748,7 @@ export default Vue.extend({
           :new-club-type="newClubType"
           :classroom-id="classroomInstance.get('_id')"
           :courses="courses"
+          :selected-courses-from-parent="selectedCoursesFromParent"
           :code-formats="newCodeFormats"
           :code-format-default="newCodeFormatDefault"
           :code-language="newProgrammingLanguage"
