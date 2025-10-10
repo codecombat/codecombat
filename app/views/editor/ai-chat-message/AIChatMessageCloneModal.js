@@ -1,6 +1,6 @@
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/editor/ai-chat-message/clone')
-const { ScenarioNode } = require('views/editor/ai-scenario/AIScenarioNode')
+const { HackstackScenarioIDNode } = require('views/editor/ai-scenario/AIScenarioNode')
 const fetchJson = require('core/api/fetch-json')
 require('lib/setupTreema')
 
@@ -51,7 +51,7 @@ module.exports = (AIChatMessageCloneView = (function () {
         readOnly: me.get('anonymous'),
         supermodel: this.supermodel,
         nodeClasses: {
-          scenario: ScenarioNode,
+          scenario: HackstackScenarioIDNode,
         },
       }
       this.treema = this.$el.find('#scenario-search-treema').treema(options)

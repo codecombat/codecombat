@@ -14,7 +14,7 @@ const RootView = require('views/core/RootView')
 const template = require('app/templates/editor/ai-project/edit')
 const AIProject = require('models/AIProject')
 const ConfirmModal = require('views/core/ConfirmModal')
-const { ScenarioNode } = require('views/editor/ai-scenario/AIScenarioNode')
+const { HackstackScenarioIDNode } = require('views/editor/ai-scenario/AIScenarioNode')
 
 const nodes = require('views/editor/level/treema_nodes')
 
@@ -61,7 +61,7 @@ module.exports = (AIProjectEditView = (function () {
         supermodel: this.supermodel,
         nodeClasses: {
           'chat-message-link': nodes.ChatMessageLinkNode,
-          scenario: ScenarioNode,
+          scenario: HackstackScenarioIDNode,
         }
       }
       this.treema = this.$el.find('#ai-project-treema').treema(options)
