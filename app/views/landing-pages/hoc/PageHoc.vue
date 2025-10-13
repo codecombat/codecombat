@@ -19,9 +19,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h2
-            class="text-h2"
-          >
+          <h2 class="CS-year-title">
             {{ $t('hoc_page.turn_csedweek_into_a_cs_year') }}
           </h2>
         </div>
@@ -378,7 +376,10 @@ export default {
   .header-container {
     padding-top: 40px;
   }
-
+  .CS-year-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
   .more-activities {
     padding-bottom: 20px;
   }
