@@ -2349,7 +2349,7 @@ class CampaignView extends RootView {
     const libraryLogos = [
       'santa-clara', 'garfield', 'arapahoe', 'houston', 'burnaby',
       'liverpool-library', 'lafourche-library', 'shreve-library', 'vaughan-library',
-      'surrey-library', 'okanagan-library', 'east-baton-library', 'airdrie-library',
+      'surrey-library', 'okanagan-library', 'east-baton-library', 'airdrie',
     ]
 
     if (libraryLogos.includes(what.replace('-logo', ''))) {
