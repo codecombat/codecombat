@@ -12,7 +12,7 @@ _.extend(CampaignSchema.properties, {
   i18n: { type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'fullName', 'description'] },
   fullName: { type: 'string', title: 'Full Name', description: 'Ex.: "Kithgard Dungeon"' },
   description: { type: 'string', format: 'string', description: 'How long it takes and what players learn.' },
-  type: c.shortString({ title: 'Type', description: 'What kind of campaign this is.', enum: ['hero', 'course', 'hidden', 'hoc'] }),
+  type: c.shortString({ title: 'Type', description: 'What kind of campaign this is.', enum: ['hero', 'course', 'hidden', 'hoc', 'hackstack'] }),
 
   ambientSound: c.object({}, {
     mp3: { type: 'string', format: 'sound-file' },
@@ -128,14 +128,31 @@ _.extend(CampaignSchema.properties, {
     title: 'AI Scenarios',
     items: {
       type: 'object',
-      // key is the scenario id property
       properties: {
-        scenario: c.objectId({ links: [{ rel: 'extra', href: '/db/ai_scenario/{($)}' }] }),
+        // scenario original
+        scenario: c.stringID({ title: 'AI Scenario Original', format: 'scenario', links: [{ rel: 'db', href: '/db/ai_scenario/{{$}}/version', model: 'AIScenario' }] }),
         moduleNum: { type: 'number', title: 'Module number', default: 5 },
+        position: c.point2d(),
+        displayName: { type: 'string', title: 'Display Name' },
+        connections: {
+          type: 'array',
+          title: 'Connections',
+          items: {
+            type: 'object',
+            properties: {
+              toScenario: c.stringID({ title: 'AI Scenario Original', format: 'scenario', links: [{ rel: 'db', href: '/db/ai_scenario/{{$}}/version', model: 'AIScenario' }] }),
+              connectionType: { type: 'string', title: 'Connection Type', enum: ['required', 'optional'], default: 'required' },
+              curveSide: { type: 'string', title: 'Curve Side', enum: ['left', 'right'], default: 'left' },
+              color: { type: 'string', title: 'Color', format: 'color' },
+              opacity: { type: 'number', title: 'Opacity', format: 'range', minimum: 0, maximum: 1, default: 0.5 },
+              invisible: { type: 'boolean', title: 'Invisible', default: false },
+            },
+          },
+        },
       },
     },
   },
-  isHackstackCampaign: { type: 'boolean', description: 'Is this a hackstack campaign', default: false },
+  isIsolatedCampaign: { type: 'boolean', description: 'Isolated campaign, can be accessed only by direct link and dont have "back" button', default: false },
 })
 
 CampaignSchema.denormalizedLevelProperties = [
@@ -189,6 +206,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'ozariaType',
   'introContent',
   'displayName',
+  'hackstackScenarioId',
 ]
 const hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
 for (const prop of CampaignSchema.denormalizedLevelProperties) {

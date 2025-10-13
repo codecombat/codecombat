@@ -487,6 +487,9 @@ module.exports = {
       learning_options: '[AI_TRANSLATION]सीखने के विकल्प',
       ai_hackstack: '[AI_TRANSLATION]AI HackStack',
       beta: '[AI_TRANSLATION]बीटा',
+      //    teacher_tools: "Teacher Tools",
+      //    ai_teacher_tool: "AI Teacher Tool",
+      //    ccw_short: "CodeCombat on Roblox",
     },
 
     modal: {
@@ -1894,6 +1897,10 @@ module.exports = {
       //    no_licenses_applied: "No licenses applied to selected student(s).",
       //    revoke_license_tips: "Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.",
       //    assign_course_confirm: "Please confirm that you'd like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.",
+      //    near_end_trial: "Your Students Are Nearing the End of the Trial Content",
+      //    schedule_demo_subheading: "Schedule a Demo to Continue Your Students Coding Journey With...",
+      //    schedule_demo_description: "Schedule a demo with our team to unlock more free content and explore our products, curricula, and resources. Let us help you craft a tailored solution for your class, school, or district.",
+      //    practice_and_application: "Practice & Application Experiences",
     },
 
     no_licenses_page: {
@@ -5898,6 +5905,7 @@ module.exports = {
       student_acceleration_2_title: '[AI_TRANSLATION]एपी सीएसपी एग्जाम प्रिपरेशन्स',
       student_acceleration_2_text: '[AI_TRANSLATION]हमें कॉलेज बोर्ड द्वारा एपी® कंप्यूटर साइंस प्रिंसिपल्स (एपी सीएसपी) के लिए पाठ्यक्रम और पेशेवर विकास के अनुमोदित प्रदाता के रूप में मान्यता प्राप्त है। हमारा एपी सीएसपी पाठ्यक्रम गेम-आधारित और टर्नकी उपकरण प्रदान करता है, जो छात्रों को एपी परीक्षा के लिए तैयार करता है।',
       young_learners_1_title: '[AI_TRANSLATION]CodeCombat जूनियर',
+      //    young_learners_1_title_classroom: "CodeCombat Junior Classroom",
       young_learners_1_text: '[AI_TRANSLATION]हमारे प्रमुख K-5 पाठ्यक्रम में धीमी गति से पढ़ाने वाले लर्निंग लेवल्स की एक प्रगति होती है, जो विशेष रूप से प्राथमिक छात्रों के लिए डिज़ाइन की गई है।',
       young_learners_1_link_text: '[AI_TRANSLATION]बीटा एक्सेस के लिए साइन अप करें',
       young_learners_2_title: '[AI_TRANSLATION]एआई जूनियर',
@@ -6354,6 +6362,11 @@ module.exports = {
       //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
+
+    //  galaxy: {
+    //    title: "Welcome to HackStack Galaxy",
+    //    description: "Explore new worlds and use AI to help you in your journey. ",
+    //  },
 
     //  new_premium: {
     //    mastering_code: "Master coding and AI with **premium home access**",

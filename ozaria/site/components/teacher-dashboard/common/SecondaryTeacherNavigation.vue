@@ -2,12 +2,18 @@
 import { mapState, mapGetters } from 'vuex'
 import utils from 'core/utils'
 import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
+import GradeFilterComponent from 'ozaria/site/components/teacher-dashboard/common/GradeFilterComponent.vue'
 import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
 import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalTestStudentPromotion.vue'
+import ModalEndOfTrial from 'ozaria/site/components/teacher-dashboard/modals/ModalEndOfTrial.vue'
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
 import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
 import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/NavIconAssessments'
+const K5 = 'K-5'
+const K6 = '6-8'
+const K9 = '9-12'
+const GRADE_BANDS = [K5, K6, K9]
 
 export default {
   components: {
@@ -16,7 +22,9 @@ export default {
     ModalCurriculumPromotion,
     ModalOzariaHackStack,
     ModalOzariaAILeague,
+    ModalEndOfTrial,
     IconAssessments,
+    GradeFilterComponent,
   },
 
   mixins: [
@@ -34,29 +42,30 @@ export default {
     let guideOptions
     if (utils.isCodeCombat) {
       guideOptions = [
-        { id: 'junior', name: $.i18n.t('nav.coco_junior'), path: '/teachers/guide/junior' },
-        { id: 'codecombat', name: $.i18n.t('nav.codecombat_classroom'), path: '/teachers/guide/codecombat' },
-        { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: utils.ozBaseURL(), type: 'a', hide: me.showChinaResourceInfo() },
-        { id: 'roblox', name: $.i18n.t('nav.ccw_short'), path: '/teachers/roblox', hide: me.showChinaResourceInfo() },
-        { id: 'hackstack', name: $.i18n.t('nav.ai_hackstack'), path: '/teachers/guide/hackstack', hide: me.showChinaResourceInfo() },
-        { id: 'aileague', name: $.i18n.t('nav.ai_league_esports'), path: '/league/ladders', type: 'a', hide: me.showChinaResourceInfo() },
-        { id: 'ap', name: $.i18n.t('nav.ap_csp'), path: '/teachers/apcsp', hide: me.showChinaResourceInfo() },
+        { id: 'junior', name: $.i18n.t('nav.coco_junior'), path: '/teachers/guide/junior', gradeBands: [K5, K6] },
+        { id: 'codecombat', name: $.i18n.t('nav.codecombat_classroom'), path: '/teachers/guide/codecombat', gradeBands: [K6, K9] },
+        { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: utils.ozBaseURL(), type: 'a', hide: me.showChinaResourceInfo(), gradeBands: [K6, K9] },
+        { id: 'roblox', name: $.i18n.t('nav.ccw_short'), path: '/teachers/roblox', hide: me.showChinaResourceInfo(), type: 'a', gradeBands: [K5, K6, K9] },
+        { id: 'hackstack', name: $.i18n.t('nav.ai_hackstack'), path: '/teachers/guide/hackstack', hide: me.showChinaResourceInfo(), gradeBands: [K6, K9] },
+        { id: 'aileague', name: $.i18n.t('nav.ai_league_esports'), path: '/teachers/ai-league', hide: me.showChinaResourceInfo(), gradeBands: [K6, K9] },
+        { id: 'ap', name: $.i18n.t('nav.ap_csp'), path: '/teachers/apcsp', hide: me.showChinaResourceInfo(), gradeBands: [K9] },
       ]
     } else {
       guideOptions = [
-        { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: '/teachers/guide/ozaria' },
+        { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: '/teachers/guide/ozaria', gradeBands: [K6, K9] },
       ]
     }
 
     const toolOptions = [
       { id: 'toolkit', name: $.i18n.t('nav.teacher_toolkit'), path: '/teachers/resources' },
       { id: 'pd', name: $.i18n.t('nav.professional_development'), path: '/teachers/professional-development', hide: me.isCodeNinja() || me.showChinaResourceInfo() },
-      { id: 'ai-tool', name: $.i18n.t('nav.ai_teacher_tool'), path: '/ai', type: 'a', hide: me.showChinaResourceInfo() },
+      { id: 'ai-tool', name: $.i18n.t('nav.ai_teacher_tool'), path: (utils.cocoBaseURL() + '/ai'), type: 'a', hide: me.showChinaResourceInfo() },
     ]
     return {
       curriculumPromoClicked: false,
       guideOptions,
       toolOptions,
+      gradeBand: '',
     }
   },
 
@@ -153,11 +162,26 @@ export default {
     visibleGuideOptions () {
       return this.guideOptions.filter((o) => !o.hide)
     },
+    gradeBandOptions () {
+      if (this.isCodeCombat) {
+        return GRADE_BANDS
+      }
+      return []
+    },
   },
 
   methods: {
     isCurrentRoute (route) {
       return this.$route.path.startsWith(route)
+    },
+
+    onSelectGradeBand (band) {
+      this.gradeBand = band
+    },
+
+    isHighlightedOption (option) {
+      if (!this.gradeBand) { return false }
+      return option.gradeBands.includes(this.gradeBand)
     },
 
     onCurriculumClicked (e) {
@@ -192,12 +216,12 @@ export default {
     },
   },
 }
+
 </script>
 
 <template>
   <ul
-    id="secondaryNav"
-    class="nav"
+    class="nav secondaryNav"
     role="navigation"
   >
     <li
@@ -326,10 +350,21 @@ export default {
         class="dropdown-menu"
         aria-labelledby="GuideDropdown"
       >
+        <div
+          v-if="gradeBandOptions.length > 0"
+          class="grade-filter"
+          role="presentation"
+        >
+          <grade-filter-component
+            :grade-band="gradeBand"
+            :grade-band-options="gradeBandOptions"
+            @change="onSelectGradeBand"
+          />
+        </div>
         <li
           v-for="option in visibleGuideOptions"
           :key="option.id"
-          :class="isCurrentRoute(option.path) ? 'selected' : null"
+          :class="[isCurrentRoute(option.path) ? 'selected' : null, isHighlightedOption(option) ? 'highlight' : null]"
         >
           <a
             v-if="option.type === 'a'"
@@ -535,6 +570,7 @@ export default {
       />
     </li>
     <ModalCurriculumPromotion ref="modalCurriculumPromotion" />
+    <ModalEndOfTrial ref="modalEndOfTrial" />
     <ModalOzariaHackStack
       v-if="isOzaria"
       ref="modalOzariaHackStack"
@@ -726,6 +762,19 @@ li.open>#GuideDropdown,
   }
 }
 
+.grade-filter {
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+}
+
+/* Highlight matching options for the selected grade band */
+.dropdown-menu li.highlight > a,
+.dropdown-menu li.highlight > .dropdown-item {
+  background-color: #EEF4FF;
+  color: #2F4F8F;
+}
+
 li.open>#ResourceAnchor,
 #ResourceAnchor.current-route {
   #IconResourceHub {
@@ -874,7 +923,7 @@ li.open>#AIJuniorDropdown,
   margin-right: 8px;
 }
 
-#secondaryNav {
+.secondaryNav {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

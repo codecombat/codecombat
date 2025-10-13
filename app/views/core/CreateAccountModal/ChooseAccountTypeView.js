@@ -24,13 +24,7 @@ module.exports = (ChooseAccountTypeView = (function () {
         'click .individual-path-button' () { return this.trigger('choose-path', 'individual') },
         'input .class-code-input': 'onInputClassCode',
         'submit form.choose-account-type': 'onSubmitStudent',
-        'click .parent-path-button' () {
-          if (location.pathname === '/parents') {
-            return window.location.href = '/parents/signup'
-          } else {
-            return application.router.navigate('/parents/signup', { trigger: true })
-          }
-        }
+        'click .parent-path-button' () { return this.trigger('choose-path', 'individual') },
       }
     }
 

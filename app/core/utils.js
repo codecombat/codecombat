@@ -758,6 +758,14 @@ const getQueryVariable = function (param, defaultValue) {
   return variables[param] != null ? variables[param] : defaultValue
 }
 
+const getExperimentValueFromQuery = function (param) {
+  return { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[getQueryVariable(param)]
+}
+
+const getFirstNonNull = function (...values) {
+  return values.find(value => value != null)
+}
+
 const getSponsoredSubsAmount = function (price, subCount, personalSub) {
   // 1 100%
   // 2-11 80%
@@ -1825,6 +1833,8 @@ module.exports = {
   getProductName,
   getQueryVariable,
   getQueryVariables,
+  getExperimentValueFromQuery,
+  getFirstNonNull,
   getScreenRefreshRate,
   getSponsoredSubsAmount,
   getUTCDay,

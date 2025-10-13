@@ -59,6 +59,7 @@ const PROMPTED_FOR_SIGNUP = 'prompted-for-signup'
 const PROMPTED_FOR_SUBSCRIPTION = 'prompted-for-subscription'
 const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
 const GALAXY_TERRAIN = 'ai' // galaxy is the inner name, but in URL it is 'ai' for players
+const SCENARIO_MARGIN_COMPENSATION_FACTOR = 0.33 // Compensates for bottom margin when centering scenario elements
 
 class LevelSessionsCollection extends CocoCollection {
   static initClass () {
@@ -108,6 +109,7 @@ class CampaignView extends RootView {
       'click .level-info-container .start-level': 'onClickStartLevel',
       'click .level-info-container .home-version button': 'onClickStartLevel',
       'click .level-info-container .view-solutions': 'onClickViewSolutions',
+      'click .scenario': 'onClickScenario',
       'click .level-info-container .course-version button': 'onClickCourseVersion',
       'click #volume-button': 'onToggleVolume',
       'click #back-button': 'onClickBack',
@@ -265,10 +267,17 @@ class CampaignView extends RootView {
       this.campaign = this.supermodel.loadModel(this.campaign).model
 
       this.listenToOnce(this.campaign, 'sync', () => {
-        if (this.campaign?.get('isHackstackCampaign') && this.isGalaxy) {
-          this.isGalaxy = true
-          this.isCatalyst = true
-          this.render() // Re-render to update the UI with the new isGalaxy state
+        // Check for HackStack redirect immediately after campaign loads
+        const redirectInfo = this.checkHackstackRedirect()
+        if (redirectInfo) {
+          // If we have course-level updates pending, or a course context exists, defer the redirect
+          const hasCourseContext = Boolean(this.courseInstanceID)
+          if ((this.courseLevels && !this.courseLevelsLoaded) || hasCourseContext) {
+            this.pendingHackstackRedirect = redirectInfo
+          } else {
+            // No course-level updates needed, redirect immediately
+            this.executeHackstackRedirect(redirectInfo)
+          }
         }
       })
     }
@@ -348,6 +357,11 @@ class CampaignView extends RootView {
               this.listenToOnce(this.courseLevels, 'sync', () => {
                 this.courseLevelsLoaded = true
                 this.updateCourseLevels()
+                // Execute pending HackStack redirect after course levels are loaded
+                if (this.pendingHackstackRedirect) {
+                  this.executeHackstackRedirect(this.pendingHackstackRedirect)
+                  this.pendingHackstackRedirect = null
+                }
               })
               this.listenToOnce(this.campaign, 'sync', () => this.updateCourseLevels())
             }
@@ -519,6 +533,12 @@ class CampaignView extends RootView {
   }
 
   onLoaded () {
+    // Execute pending HackStack redirect after all resources have loaded
+    if (this.pendingHackstackRedirect) {
+      this.executeHackstackRedirect(this.pendingHackstackRedirect)
+      return // Don't continue with normal loading if redirecting
+    }
+
     if (this.isChinaOldBrowser()) {
       if (!storage.load('hideBrowserRecommendation')) {
         const BrowserRecommendationModal = require('views/core/BrowserRecommendationModal')
@@ -781,6 +801,7 @@ class CampaignView extends RootView {
     context.picoCTF = window.serverConfig.picoCTF
     context.requiresSubscription = this.requiresSubscription
     context.editorMode = this.editorMode
+    context.scenarios = this.campaign?.get('scenarios') || []
     context.adjacentCampaigns = _.filter(_.values(_.cloneDeep(this.campaign?.get('adjacentCampaigns') ?? {})), ac => {
       if (me.isStudent() || me.isTeacher()) { return false }
       if (ac.showIfUnlocked && !this.editorMode) {
@@ -868,6 +889,7 @@ class CampaignView extends RootView {
     if (!application.isIPadApp) {
       _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .game-controls-catalyst .btn:not(.poll), .other-products-catalyst .btn, .campaign.locked, .beta-campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
       const view = this
+      // Keep original behavior for levels and campaign switches
       this.$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each(function () {
         if (!me.isAdmin() || !view.editorMode) { return }
         $(this).draggable().on('dragstop', function () {
@@ -878,6 +900,26 @@ class CampaignView extends RootView {
           if (e.levelOriginal) { view.trigger('level-moved', e) }
           if (e.campaignID) { view.trigger('adjacent-campaign-moved', e) }
         })
+      })
+      // Custom behavior for scenarios to avoid hover/transform affecting position calcs
+      this.$el.find('.scenario').addClass('has-tooltip').tooltip().each(function () {
+        if (!me.isAdmin() || !view.editorMode) { return }
+        $(this).draggable({ scroll: false, containment: '.map', drag: function () { $(this).css('transform', '') } })
+          .on('dragstop', function () {
+            const bg = $('.map-background')
+            const el = $(this)
+            const x = ((el.offset().left - bg.offset().left) + (el.outerWidth() / 2)) / bg.width()
+            // Compensate for negative margin-bottom used to center via bottom positioning.
+            // NOTE: Through visual testing, a factor of ~0.33 works best to align the
+            // saved position with the on-screen center. This is due to how the map's
+            // aspect scaling and our scenario circle height interact with bottom+margin
+            // centering. If map scaling logic changes, revisit this factor.
+            const mb = parseFloat(el.css('margin-bottom')) || 0
+            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2) + (mb * SCENARIO_MARGIN_COMPENSATION_FACTOR)
+            const y = 1 - (yCenterPx / bg.height())
+            const e = { position: { x: (100 * x), y: (100 * y) }, scenarioOriginal: $(this).data('scenario-original') }
+            if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
+          })
       })
     }
     this.updateVolume()
@@ -1324,6 +1366,27 @@ class CampaignView extends RootView {
         }
       }
     }
+    // Also draw lines between AI Scenarios based on explicit connections
+    const scenarios = this.campaign?.get('scenarios') || []
+    if (scenarios.length) {
+      // Map scenarios by original id for fast lookup
+      const scenarioByOriginal = {}
+      for (const s of scenarios) {
+        if (s?.scenario) { scenarioByOriginal[s.scenario] = s }
+      }
+      for (const s of scenarios) {
+        const fromPos = s?.position
+        if (!fromPos) { continue }
+        for (const conn of (s?.connections || [])) {
+          if (conn?.invisible) { continue }
+          const to = scenarioByOriginal[conn?.toScenario]
+          const toPos = to?.position
+          if (toPos) {
+            this.createLine(fromPos, toPos)
+          }
+        }
+      }
+    }
   }
 
   createLine (o1, o2) {
@@ -1482,6 +1545,16 @@ class CampaignView extends RootView {
     this.adjustLevelInfoPosition(e)
     this.endHighlight()
     this.preloadLevel(levelSlug)
+  }
+
+  onClickScenario (e) {
+    if (!this.editorMode) { return }
+    e.preventDefault()
+    e.stopPropagation()
+    const scenarioElement = $(e.target).closest('.scenario')
+    const scenarioOriginal = scenarioElement.data('scenario-original')
+    if (!scenarioOriginal) { return }
+    return this.trigger('scenario-clicked', scenarioOriginal)
   }
 
   onDoubleClickLevel (e) {
@@ -2163,6 +2236,52 @@ class CampaignView extends RootView {
     return true
   }
 
+  /**
+   * Check if this campaign should redirect to HackStack and return redirect info
+   * @returns {Object|null} Redirect info object or null if no redirect needed
+   */
+  checkHackstackRedirect () {
+    try {
+      const isHackstackType = this.campaign?.get('type') === 'hackstack' || this.campaign?.get('isHackstackCampaign')
+      const alreadyOnAIPath = /^\/ai\/play\//.test(location.pathname)
+      if (isHackstackType && !alreadyOnAIPath && !this.editorMode) {
+        const slug = this.campaign.get('slug') || this.terrain
+        return { slug, dest: `/ai/play/${slug}` }
+      }
+    } catch (e) {
+      // no-op
+    }
+    return null
+  }
+
+  /**
+   * Execute HackStack redirect after all loading is complete
+   * @param {Object} redirectInfo - Redirect information from checkHackstackRedirect
+   */
+  executeHackstackRedirect (redirectInfo) {
+    if (redirectInfo) {
+      try {
+        // Use URL API to properly merge query parameters and hash
+        const destUrl = new URL(redirectInfo.dest, window.location.origin)
+        const currentUrl = new URL(window.location.href)
+        // Merge query parameters
+        currentUrl.searchParams.forEach((value, key) => {
+          destUrl.searchParams.set(key, value)
+        })
+        // Preserve hash fragment
+        if (currentUrl.hash) {
+          destUrl.hash = currentUrl.hash
+        }
+        application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
+      } catch (e) {
+        // Fallback to simple concatenation if URL API fails
+        const query = location.search || ''
+        const hash = location.hash || ''
+        application.router.navigate(`${redirectInfo.dest}${query}${hash}`, { trigger: true, replace: true })
+      }
+    }
+  }
+
   shouldShow (what) {
     const isStudentOrTeacher = me.isStudent() || me.isTeacher()
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
@@ -2244,7 +2363,7 @@ class CampaignView extends RootView {
     const libraryLogos = [
       'santa-clara', 'garfield', 'arapahoe', 'houston', 'burnaby',
       'liverpool-library', 'lafourche-library', 'shreve-library', 'vaughan-library',
-      'surrey-library', 'okanagan-library', 'east-baton-library',
+      'surrey-library', 'okanagan-library', 'east-baton-library', 'airdrie-library',
     ]
 
     if (libraryLogos.includes(what.replace('-logo', ''))) {

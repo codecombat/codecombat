@@ -17,7 +17,7 @@ const CocoView = require('views/core/CocoView')
 const template = require('app/templates/editor/level/settings_tab')
 const Level = require('models/Level')
 const ThangType = require('models/ThangType')
-const Surface = require('lib/surface/Surface')
+const { HackstackScenarioIDNode } = require('views/editor/ai-scenario/AIScenarioNode')
 const nodes = require('./../treema_nodes')
 const { me } = require('core/auth')
 require('lib/setupTreema')
@@ -36,7 +36,7 @@ module.exports = (SettingsTabView = (function () {
       this.prototype.subscriptions = {
         'editor:level-loaded': 'onLevelLoaded',
         'editor:thangs-edited': 'onThangsEdited',
-        'editor:random-terrain-generated': 'onRandomTerrainGenerated'
+        'editor:random-terrain-generated': 'onRandomTerrainGenerated',
       }
 
       // Not thangs or scripts or the backend stuff. Most properties will be added from the schema inEditor field.
@@ -51,7 +51,7 @@ module.exports = (SettingsTabView = (function () {
 
     getDataForReplacementView () {
       return {
-        concepts: this.concepts
+        concepts: this.concepts,
       }
     }
 
@@ -69,7 +69,7 @@ module.exports = (SettingsTabView = (function () {
         })
 
         this.concepts.fetch({
-          data: { skip: 0, limit: 1000 }
+          data: { skip: 0, limit: 1000 },
         })
       } else {
         this.onConceptsLoaded(e)
@@ -99,16 +99,18 @@ module.exports = (SettingsTabView = (function () {
           'solution-stats': SolutionStatsNode,
           concept: nodes.conceptNodes(concepts).ConceptNode,
           'concepts-list': nodes.conceptNodes(concepts).ConceptsListNode,
-          'clans-list': ClansListNode
+          'clans-list': ClansListNode,
+          hackstackScenario: HackstackScenarioIDNode,
         },
-        solutions: this.level.getSolutions()
+        solutions: this.level.getSolutions(),
       }
 
       this.settingsTreema = this.$el.find('#settings-treema').treema(treemaOptions)
       this.settingsTreema.build()
       this.settingsTreema.open()
       this.lastTerrain = data.terrain
-      return this.lastType = data.type
+      this.lastType = data.type
+      return this.lastType
     }
 
     getThangIDs () {
@@ -169,7 +171,7 @@ module.exports = (SettingsTabView = (function () {
           text: "Type updated to 'ladder', so mirrorMatch has been updated to false.",
           layout: 'topCenter',
           timeout: 5000,
-          type: 'information'
+          type: 'information',
         })
       }
     }
@@ -227,6 +229,7 @@ class SolutionGearNode extends TreemaArrayNode {
   }
 }
 
+/* global TreemaNode TreemaObjectNode TreemaArrayNode */
 class SolutionStatsNode extends TreemaNode.nodeMap.number {
   select () {
     let solution

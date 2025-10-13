@@ -421,6 +421,7 @@ _.extend(UserSchema.properties, {
     properties: {
       'hackstack-beta-release-modal': [c.date(), { type: 'boolean' }],
       'curriculum-sidebar-promotion-modal': [c.date(), { type: 'boolean' }],
+      'end-of-trial-promotion-modal': [c.date(), { type: 'boolean' }],
       'hp-junior-modal': [c.date(), { type: 'boolean' }],
       'ai-league-tour': [c.date(), { type: 'boolean' }],
     },
@@ -430,6 +431,7 @@ _.extend(UserSchema.properties, {
     type: 'object',
     title: 'Feature Flags',
     properties: {
+      hourOfAiCreditsGiven: { type: 'boolean', description: 'Whether the user has been given hour of AI credits' },
       authority: {
         type: 'object',
         description: 'Feature flags applied to associated users',

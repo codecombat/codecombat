@@ -487,6 +487,9 @@ module.exports = {
       learning_options: 'Yrneavat Bcgvbaf',
       ai_hackstack: 'NV UnpxFgnpx',
       beta: 'Orgn',
+      teacher_tools: 'Grnpure Gbbyf',
+      ai_teacher_tool: 'NV Grnpure Gbby',
+      ccw_short: 'PbqrPbzong ba Eboybk',
     },
 
     modal: {
@@ -1895,6 +1898,10 @@ module.exports = {
       no_licenses_applied: 'Ab yvprafrf nccyvrq gb fryrpgrq fghqrag(f).',
       revoke_license_tips: 'Eribxvat n yvprafr jvyy znxr vg ninvynoyr gb nccyl gb bgure fghqragf. Fghqragf jvyy ab ybatre or noyr gb npprff cnvq pbagrag, ohg gurve cebterff jvyy or fnirq. Cyrnfr pbasvez lbh\'q yvxr gb cebprrq.',
       assign_course_confirm: 'Cyrnfr pbasvez gung lbh\'q yvxr gb nffvta __pbhefrAnzr__ gb __ahzFghqragf__ fghqrag(f). __ahzoreRaebyyrq__ yvprafr(f) jvyy or nccyvrq.',
+      near_end_trial: 'Lbhe Fghqragf Ner Arnevat gur Raq bs gur Gevny Pbagrag',
+      schedule_demo_subheading: 'Fpurqhyr n Qrzb gb Pbagvahr Lbhe Fghqragf Pbqvat Wbhearl Jvgu...',
+      schedule_demo_description: 'Fpurqhyr n qrzb jvgu bhe grnz gb haybpx zber serr pbagrag naq rkcyber bhe cebqhpgf, pheevphyn, naq erfbheprf. Yrg hf uryc lbh pensg n gnvyberq fbyhgvba sbe lbhe pynff, fpubby, be qvfgevpg.',
+      practice_and_application: 'Cenpgvpr & Nccyvpngvba Rkcrevraprf',
     },
 
     no_licenses_page: {
@@ -5897,6 +5904,7 @@ module.exports = {
       student_acceleration_2_title: 'NC PFC Rknz Cercrengvbaf',
       student_acceleration_2_text: 'Jr ner erpbtavmrq ol gur Pbyyrtr Obneq nf na raqbefrq cebivqre bs pheevphyhz naq cebsrffvbany qrirybczrag sbe NC® Pbzchgre Fpvrapr Cevapvcyrf (NC PFC). Bhe NC PFC pheevphyhz cebivqrf tnzr-onfrq naq gheaxrl gbbyf gb cercner fghqragf sbe gur NC rknz.',
       young_learners_1_title: 'PbqrPbzong Whavbe',
+      young_learners_1_title_classroom: 'PbqrPbzong Whavbe Pynffebbz',
       young_learners_1_text: 'Bhe syntfuvc X-5 pheevphyhz srngherf n cebterffvba bs yrneavat yriryf gung grnpu onfvp pbqvat pbaprcgf ng n fybjre cnpr, zbqryrq fcrpvsvpnyyl sbe ryrzragnel fghqragf.',
       young_learners_1_link_text: 'Fvta hc sbe Orgn Npprff',
       young_learners_2_title: 'NV Whavbe',
@@ -6351,6 +6359,10 @@ module.exports = {
       run_code_tour_title: 'Ernql gb frr gur zntvp?',
       run_code_tour_text: 'Cerff “Bhgchg” naq jngpu lbhe cebwrpg pbzr gb yvsr. Ab rkcrevrapr erdhverq!',
       ready_to_review_helptext: 'Znex guvf jura lbhe cebwrpg vf pbzcyrgr. Lbhe grnpure jvyy gura frr vg nf ernql gb erivrj ba gurve fvqr.',
+    },
+    galaxy: {
+      title: 'Jrypbzr gb UnpxFgnpx Tnynkl',
+      description: 'Rkcyber arj jbeyqf naq hfr NV gb uryc lbh va lbhe wbhearl. ',
     },
     new_premium: {
       mastering_code: 'Znfgre pbqvat naq NV jvgu **cerzvhz ubzr npprff**',

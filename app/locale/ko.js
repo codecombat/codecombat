@@ -487,6 +487,9 @@ module.exports = {
       learning_options: '[AI_TRANSLATION]학습 옵션',
       ai_hackstack: '[AI_TRANSLATION]AI 해크스택',
       beta: '[AI_TRANSLATION]베타',
+      //    teacher_tools: "Teacher Tools",
+      //    ai_teacher_tool: "AI Teacher Tool",
+      //    ccw_short: "CodeCombat on Roblox",
     },
 
     modal: {
@@ -1894,6 +1897,10 @@ module.exports = {
       //    no_licenses_applied: "No licenses applied to selected student(s).",
       //    revoke_license_tips: "Revoking a license will make it available to apply to other students. Students will no longer be able to access paid content, but their progress will be saved. Please confirm you'd like to proceed.",
       //    assign_course_confirm: "Please confirm that you'd like to assign __courseName__ to __numStudents__ student(s). __numberEnrolled__ license(s) will be applied.",
+      //    near_end_trial: "Your Students Are Nearing the End of the Trial Content",
+      //    schedule_demo_subheading: "Schedule a Demo to Continue Your Students Coding Journey With...",
+      //    schedule_demo_description: "Schedule a demo with our team to unlock more free content and explore our products, curricula, and resources. Let us help you craft a tailored solution for your class, school, or district.",
+      //    practice_and_application: "Practice & Application Experiences",
     },
 
     no_licenses_page: {
@@ -5898,6 +5905,7 @@ module.exports = {
       student_acceleration_2_title: '[AI_TRANSLATION]AP CSP 시험 준비',
       student_acceleration_2_text: '[AI_TRANSLATION]우리는 미국 대학 위원회로부터 AP® 컴퓨터 과학 원리 (AP CSP) 교육 과정 및 전문 개발을 인증 받은 공급자로 인정받고 있어. 우리의 AP CSP 교육 과정은 게임 기반 도구와 바로 사용할 수 있는 도구를 제공하여 학생들이 AP 시험을 준비할 수 있도록 해줘.',
       young_learners_1_title: '[AI_TRANSLATION]CodeCombat 주니어',
+      //    young_learners_1_title_classroom: "CodeCombat Junior Classroom",
       young_learners_1_text: '[AI_TRANSLATION]우리의 주력 K-5 커리큘럼은 초등학생을 위해 천천히 모델링된 기본 코딩 개념의 진행 단계를 특징으로 합니다.',
       young_learners_1_link_text: '[AI_TRANSLATION]베타 액세스 신청',
       young_learners_2_title: '[AI_TRANSLATION]AI 주니어',
@@ -6354,6 +6362,11 @@ module.exports = {
       //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
     },
+
+    //  galaxy: {
+    //    title: "Welcome to HackStack Galaxy",
+    //    description: "Explore new worlds and use AI to help you in your journey. ",
+    //  },
 
     //  new_premium: {
     //    mastering_code: "Master coding and AI with **premium home access**",

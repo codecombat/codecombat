@@ -39,8 +39,7 @@ export default {
 
 <template>
   <ul
-    id="secondaryNav"
-    class="nav"
+    class="nav secondaryNav"
     role="navigation"
   >
     <li>
@@ -105,7 +104,7 @@ export default {
   margin-right: 8px;
 }
 
-#secondaryNav {
+.secondaryNav {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;

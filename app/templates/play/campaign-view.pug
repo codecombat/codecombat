@@ -35,6 +35,10 @@ if showGameDevAlert
       #houston-logo-container
         img#houston-logo(src="/images/pages/play/houston-library-logo.png")
 
+    else if view.shouldShow('airdrie-logo')
+      a#airdrie-logo-container(href='https://www.yourapl.ca/' target='_blank' rel='noopener noreferrer')
+        img#airdrie-logo(src="/images/pages/play/airdrie-library-logo.png")
+
     else if view.shouldShow('burnaby-logo')
       a#burnaby-logo-container(href='https://bpl.bc.ca/' target='_blank' rel='noopener noreferrer')
         img#burnaby-logo(src="/images/pages/play/burnaby-library-logo-2.png")
@@ -267,6 +271,19 @@ if showGameDevAlert
                 if practiceLevelStatus !== 'complete'
                   - break
 
+      each scenario in scenarios
+        if scenario.position
+          - var scenarioName = scenario.displayName || "AI Scenario"
+          - var scenarioAcronym = (scenarioName.replace(/^(A |The )/i, '').trim().split(/\s+/).map(function(word) { return word[0] ? word[0].toUpperCase() : ''; }).join('')) || 'AI';
+          div(
+            style="left: " + scenario.position.x + "%; bottom: " + scenario.position.y + "%;",
+            class="scenario",
+            data-scenario-original=scenario.scenario,
+            title=scenarioName
+          )
+            a(href="#", data-scenario-original=scenario.scenario, data-scenario-display-name=scenario.displayName)
+            .scenario-acronym= scenarioAcronym
+
       if view.shouldShow('league-arena')
         for arena in view.activeArenas()
           .level-info-container.rtl-allowed.league-arena-tooltip(data-arena=arena.slug)
@@ -347,8 +364,8 @@ if showGameDevAlert
               {main: 'mountain', left: null, right: null, next: 'glacier'},
               {main: 'glacier', left: null, right: null},
             ];
-          
-          
+
+
           // Loop through each campaign row
           each row in campaignRows
             .campaign-row
@@ -378,7 +395,7 @@ if showGameDevAlert
                             span= i18n(leftCampaign.attributes, 'description')
               else
                 .side-campaign-container.empty
-              
+
               // Main campaign
               - var mainCampaign = campaigns[row.main]
               .main-campaign(class=row.main + (mainCampaign ? "" : " silhouette") + (mainCampaign && mainCampaign.locked && !godmode ? " locked" : ""), data-campaign-slug=row.main, data-i18n=(row.main ? "[title]play.locked_campaign_" + row.main : "[title]play.locked_campaign") : "")
@@ -404,7 +421,7 @@ if showGameDevAlert
                     .campaign-description-container
                       p.campaign-description(dir="auto")
                         span= i18n(mainCampaign.attributes, 'description')
-              
+
               // Right side campaign (Web Dev)
               if row.right
                 - var rightCampaign = campaigns[row.right]
@@ -578,7 +595,7 @@ if showGameDevAlert
         if view.shouldShow('status-line')
           span.player-hero-icon
           if me.get('anonymous')
-            span.player-name(data-i18n="play.anonymous") Anonymous 
+            span.player-name(data-i18n="play.anonymous") Anonymous
           else
             if me.isStudent()
               a(href="/play").player-name.spr= me.get('name')
@@ -594,9 +611,9 @@ if showGameDevAlert
             button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
             button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
           else
-            
+
             if !me.isStudent()
-              button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out          
+              button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
             if view.shouldShow('premium')
               button.btn.btn-illustrated.btn-primary.premium-btn(data-i18n="buy_gems.buy_premium")
           if me.getM7ExperimentValue() == 'beta'
