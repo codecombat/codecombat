@@ -138,8 +138,13 @@ module.exports = (CourseVictoryModal = (function () {
           }
         }
         if (showAchievements) {
-          const rewardsView = new CourseRewardsView({ level: this.level, session: this.session, achievements: this.achievements, supermodel: this.supermodel })
+          let nextLevelLocked = false
+          if (this.level.get('product') === 'codecombat-junior' && this.nextLevel && _.isEmpty(this.nextLevel.attributes)) {
+            nextLevelLocked = true
+          }
+          const rewardsView = new CourseRewardsView({ level: this.level, session: this.session, achievements: this.achievements, supermodel: this.supermodel, nextLevelLocked })
           rewardsView.on('continue', this.onViewContinue, this)
+          rewardsView.on('to-map', this.onToMap, this)
           this.views.push(rewardsView)
         }
       }
