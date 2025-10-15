@@ -1374,18 +1374,18 @@ class CampaignView extends RootView {
         const fromPos = s?.position
         if (!fromPos) { continue }
         for (const conn of (s?.connections || [])) {
-          if (conn?.invisible) { continue }
           const to = scenarioByOriginal[conn?.toScenario]
           const toPos = to?.position
           if (toPos) {
-            this.createLine(fromPos, toPos)
+            // If connection is marked invisible, render as a thinner line instead of skipping
+            this.createLine(fromPos, toPos, { thin: !!conn?.invisible })
           }
         }
       }
     }
   }
 
-  createLine (o1, o2) {
+  createLine (o1, o2, options = {}) {
     const mapHeight = parseFloat($('.map').css('height'))
     const mapWidth = parseFloat($('.map').css('width'))
     if (!(mapHeight > 0)) { return }
@@ -1395,7 +1395,7 @@ class CampaignView extends RootView {
     const length = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
     const angle = (Math.atan2(p1.y - p2.y, p2.x - p1.x) * 180) / Math.PI
     const transform = `translateY(-50%) translateX(-50%) rotate(${angle}deg) translateX(50%)`
-    const line = $('<div>').appendTo('.map').addClass('next-level-line').css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
+    const line = $('<div>').appendTo('.map').addClass('next-level-line').toggleClass('thin-connection', !!options.thin).css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
     return line.append($('<div class="line">')).append($('<div class="point">'))
   }
 

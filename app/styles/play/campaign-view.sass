@@ -553,6 +553,16 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       border-bottom: 12px solid transparent
       border-left: 24px solid lighten(#F1EAC0, 10%)
 
+  // Render thinner connection lines for invisible connections, with no arrowhead
+  .next-level-line.thin-connection
+    height: 4px
+    .line
+      height: 2px
+      margin-top: 1px
+      margin-bottom: 1px
+      background: repeating-linear-gradient(-45deg, rgba(#AF9F7D, 0.7), rgba(#DFC89C, 0.7) 5px, rgba(#F1EAC0, 0.7) 5px, rgba(#AF9F7D, 0.7) 10px)
+      box-shadow: 0px 0px 2px rgba(0,0,0,0.6)
+
   .game-controls
     position: absolute
     right: 1%
