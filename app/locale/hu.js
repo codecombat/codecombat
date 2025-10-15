@@ -5761,6 +5761,7 @@ module.exports = {
       earn_up_to_3_graduate_credits: '[AI_TRANSLATION]Keress akár 6 posztgraduális kreditet ezzel a kurzussal.',
       //    request_a_demo: "Request a Demo",
       maximize_your_impact: '[AI_TRANSLATION]Minden eszköz a tanulási eredmények maximalizálásához',
+      practice_enrichment: '[AI_TRANSLATION]Gyakorlás és Bővítés',
       core_curriculum: '[AI_TRANSLATION]Alapvető Tanterv',
       student_acceleration_ap_csp: '[AI_TRANSLATION]Diákgyorsítás és AP CSP',
       young_learners: '[AI_TRANSLATION]Ifjú Tanulók',
