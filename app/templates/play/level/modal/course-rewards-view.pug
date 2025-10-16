@@ -49,4 +49,7 @@
 
     .row
       .col-sm-3.col-sm-offset-9
-        button#continue-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n="common.continue")
+        if view.nextLevelLocked
+          button#map-btn.btn.btn-illustrated.btn-block.btn-lg.text-uppercase(data-i18n='play_level.back_to_map')
+        else
+          button#continue-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n="common.continue")
