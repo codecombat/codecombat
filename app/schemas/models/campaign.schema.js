@@ -134,6 +134,7 @@ _.extend(CampaignSchema.properties, {
         moduleNum: { type: 'number', title: 'Module number', default: 5 },
         position: c.point2d(),
         displayName: { type: 'string', title: 'Display Name' },
+        firstInSequence: { type: 'boolean', title: 'First in Sequence', default: false },
         connections: {
           type: 'array',
           title: 'Connections',
