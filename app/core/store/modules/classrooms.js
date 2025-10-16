@@ -182,7 +182,7 @@ export default {
       for (const key in updates) {
         classroom[key] = updates[key]
       }
-
+      
       if (typeof updates.archived === 'boolean') {
         if (updates.archived === true) {
           teacherClassroomsState.active = teacherClassroomsState.active.filter((c) => c._id !== classroomId)
