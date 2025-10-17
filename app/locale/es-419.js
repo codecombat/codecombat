@@ -1891,7 +1891,7 @@ module.exports = {
       //    and_more: "and more",
       //    import_classroom: "Import Classroom",
       //    re_import_classroom: "Re-Import Classroom",
-      //    need_more_license: "Oops! It looks like you need __additionalLicensesNum__ more license(s). Visit My Licenses to learn more!",
+      //    need_more_license: "Oops! It looks like you need __additionalLicensesNum__ more license(s) for the course. Visit My Licenses to learn more!",
       //    confirm_apply_license: "Please confirm that you'd like to apply licenses to __numberEnrolled__ student(s). You will have __numberRemaining__ license(s) remaining.",
       //    fail_get_license: "Error! __fails__ students failed to get license",
       //    no_licenses_applied: "No licenses applied to selected student(s).",

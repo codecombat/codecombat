@@ -11,17 +11,15 @@
 
     <div class="container">
       <box-panel
-        :title="$t('hoc_page.latest_activities')"
-        :items="latestActivities"
+        :title="$t('hoc_page.hoai_activities')"
+        :items="HOAIActivities"
       />
     </div>
 
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <h2
-            class="text-h2"
-          >
+          <h2 class="CS-year-title">
             {{ $t('hoc_page.turn_csedweek_into_a_cs_year') }}
           </h2>
         </div>
@@ -70,7 +68,74 @@ export default {
   data () {
     return {
 
-      latestActivities: [
+      HOAIActivities: [
+        {
+          title: $.i18n.t('hoc_page.hoai_activities_poetry_title'),
+          label: $.i18n.t('hoc_page.hoai_activities_poetry_level'),
+          text: $.i18n.t('hoc_page.hoai_activities_poetry_description'),
+          image: '/images/pages/hoc/activities_1.webp',
+          links: [
+            {
+              linkText: $.i18n.t('hoc_page.try_activity'),
+              link: '/ai/play/hour-of-ai?utm_source=hour-of-ai',
+            },
+            {
+              linkText: $.i18n.t('hoc_page.view_lesson'),
+              link: 'https://drive.google.com/drive/folders/1_GA5uOuEoBzhxLMeQ_DHSmsR_Ts7g5a6',
+            },
+          ],
+        },
+        {
+          title: $.i18n.t('hoc_page.hoai_activities_social_title'),
+          label: $.i18n.t('hoc_page.hoai_activities_social_level'),
+          text: $.i18n.t('hoc_page.hoai_activities_social_description'),
+          image: '/images/pages/hoc/activities_2.webp',
+          links: [
+            {
+              linkText: $.i18n.t('hoc_page.try_activity'),
+              link: '/ai/play/hour-of-ai?utm_source=hour-of-ai',
+            },
+            {
+              linkText: $.i18n.t('hoc_page.view_lesson'),
+              link: 'https://drive.google.com/drive/folders/14oExnuXMqOr9viXMZ8L5_v_byrxYTTJe?usp=drive_link',
+            },
+          ],
+        },
+        {
+          title: $.i18n.t('hoc_page.hoai_activities_vibe_title'),
+          label: $.i18n.t('hoc_page.hoai_activities_vibe_level'),
+          text: $.i18n.t('hoc_page.hoai_activities_vibe_description'),
+          image: '/images/pages/hoc/activities_3.webp',
+          links: [
+            {
+              linkText: $.i18n.t('hoc_page.try_activity'),
+              link: '/ai/play/hour-of-ai?utm_source=hour-of-ai',
+            },
+            {
+              linkText: $.i18n.t('hoc_page.view_lesson'),
+              link: 'https://drive.google.com/drive/folders/141RVAJpEgievxSE_-6wgU7eQcwxhJCma?usp=drive_link',
+            },
+          ],
+        },
+        {
+          title: $.i18n.t('hoc_page.hoai_activities_esports_title'),
+          label: $.i18n.t('hoc_page.hoai_activities_esports_level'),
+          text: $.i18n.t('hoc_page.hoai_activities_esports_description'),
+          image: '/images/pages/hoc/activities_4.webp',
+          links: [
+            {
+              linkText: $.i18n.t('hoc_page.try_activity'),
+              link: '/ai/play/hour-of-ai?utm_source=hour-of-ai',
+            },
+            {
+              linkText: $.i18n.t('hoc_page.view_lesson'),
+              link: 'https://drive.google.com/drive/folders/14C-Wh806lAWeVp6QJg4p1CdsfQs-9hHc?usp=drive_link',
+            },
+          ],
+        },
+      ],
+
+      moreActivities: [
         {
           title: $.i18n.t('hoc_page.latest_activities_1_title'),
           text: $.i18n.t('hoc_page.latest_activities_1_text'),
@@ -104,9 +169,6 @@ export default {
             },
           ],
         },
-      ],
-
-      moreActivities: [
         {
           title: $.i18n.t('hoc_page.codecombat_worlds_title'),
           text: $.i18n.t('hoc_page.codecombat_worlds_text'),
@@ -314,7 +376,10 @@ export default {
   .header-container {
     padding-top: 40px;
   }
-
+  .CS-year-title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
   .more-activities {
     padding-bottom: 20px;
   }

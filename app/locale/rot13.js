@@ -1892,7 +1892,7 @@ module.exports = {
       and_more: 'naq zber',
       import_classroom: 'Vzcbeg Pynffebbz',
       re_import_classroom: 'Er-Vzcbeg Pynffebbz',
-      need_more_license: 'Bbcf! Vg ybbxf yvxr lbh arrq __nqqvgvbanyYvprafrfAhz__ zber yvprafr(f). Ivfvg Zl Yvprafrf gb yrnea zber!',
+      need_more_license: 'Bbcf! Vg ybbxf yvxr lbh arrq __nqqvgvbanyYvprafrfAhz__ zber yvprafr(f) sbe gur pbhefr. Ivfvg Zl Yvprafrf gb yrnea zber!',
       confirm_apply_license: 'Cyrnfr pbasvez gung lbh\'q yvxr gb nccyl yvprafrf gb __ahzoreRaebyyrq__ fghqrag(f). Lbh jvyy unir __ahzoreErznvavat__ yvprafr(f) erznvavat.',
       fail_get_license: 'Reebe! __snvyf__ fghqragf snvyrq gb trg yvprafr',
       no_licenses_applied: 'Ab yvprafrf nccyvrq gb fryrpgrq fghqrag(f).',
