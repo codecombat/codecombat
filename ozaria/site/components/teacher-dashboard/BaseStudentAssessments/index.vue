@@ -180,8 +180,6 @@ export default {
           progress: progressData?.get({ classroom: classroomInstance, course: new Course(course) }),
           courseInstance,
           classroom: classroomInstance.toJSON(),
-          // bad naming, readOnly means school-admin to verify teacher's classroom. so should have no read permission (not classroom owner or shared owner)
-          readOnly: !classroomInstance.hasReadPermission(),
         }
         console.log('propsData', this.propsData)
       }
