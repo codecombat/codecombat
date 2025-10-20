@@ -109,9 +109,6 @@ export default class FullstoryTracker extends BaseTracker {
     } else if (me.anonymous && Math.random() < 0.0015) {
       this.log('decide enabled', 'anon user')
       return true
-    } else if (window.me.getCatalystExperimentValue() == 'control' && Math.random() < 0.05) {
-      this.log('decide enabled', 'catalyst experiment')
-      return true
     } else if (this.store.getters['me/isTeacher'] && !this.store.getters['me/isParent'] && Math.random() < 0.01) {
       this.log('decide enabled', 'non parent teacher')
       return true

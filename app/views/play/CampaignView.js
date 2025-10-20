@@ -162,8 +162,8 @@ class CampaignView extends RootView {
       this.terrain = '' // In this case we process query params
     }
 
-    // Check if the user is in the Catalyst experiment
-    this.isCatalyst = me.getCatalystExperimentValue() === 'beta'
+    // Until we clear the "old" code, everything is catalyst
+    this.isCatalyst = true
 
     this.editorMode = options?.editorMode
     this.requiresSubscription = !me.isPremium()
