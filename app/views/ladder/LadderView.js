@@ -315,7 +315,7 @@ module.exports = (LadderView = (function () {
       // initializing, ranking, waiting - nothing
       // waiting for owner - only leaderboard
       // ended - only leaderboard
-      if ((this.tournamentState === 'ended') || ((this.tournamentState === 'waiting') && (me.get('_id') === (this.league != null ? this.league.get('ownerID') : undefined)))) {
+      if ((this.tournamentState === 'ended') || ((['waiting', 'abandoned'].includes(this.tournamentState)) && (me.get('_id') === (this.league != null ? this.league.get('ownerID') : undefined)))) {
         this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, tournament: this.tournamentId, leagueType: 'clan', myTournamentSubmission: this.myTournamentSubmission }, this.level, this.sessions)) // classroom ladder do not have tournament for now
       } else if (['initializing', 'ranking', 'waiting', 'abandoned'].includes(this.tournamentState)) {
         null
