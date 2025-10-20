@@ -116,7 +116,7 @@ block content
           p
             span(data-i18n="ladder.tournament_started", data-i18n-options={timeElapsed: view.tournamentTimeElapsedString})
             span(data-i18n="ladder.tournament_ends", data-i18n-options={timeLeft: view.tournamentTimeLeftString})
-      else if ['ranking', 'waiting'].includes(view.tournamentState)
+      else if ['ranking', 'waiting', 'abandoned'].includes(view.tournamentState)
         p
           span(data-i18n="ladder.tournament_ended", data-i18n-options={timeLeft: view.tournamentTimeLeftString})
           if view.tournament.get('resultsDate')
@@ -166,11 +166,11 @@ block content
           div.column.column-4
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.play-arena-button(href="/play/ladder/"+view.levelID)
               span(data-i18n="courses.play_arena")
-        if view.tournamentState === 'waiting' && view.league && (me.get('_id') === view.league.get('ownerID') || me.isAdmin())
+        if ['waiting', 'abandoned'].includes(view.tournamentState) && view.league && (me.get('_id') === view.league.get('ownerID') || me.isAdmin())
           div.column.column-2
             a.btn.btn-illustrated.btn-block.btn-lg.btn-success.publish-button
               span(data-i18n="tournament.publish_results")
-        if me.isAdmin() && (view.tournamentState == "ranking" || view.tournamentState == "waiting")
+        if me.isAdmin() && (['ranking', 'waiting', 'abandoned'].includes(view.tournamentState))
           div.column.column-2
             a.btn.btn-illustrated.btn-block.btn-lg.btn-info.early-results-button(href='#results')
               span.glyphicon.glyphicon-star

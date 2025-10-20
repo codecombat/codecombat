@@ -263,17 +263,14 @@ module.exports = (LadderView = (function () {
             this.refreshTournamentTime()
           }
 
+          this.tournamentEnd = true // hide play button
           if (this.tournament.get('state') === 'initializing') {
-            this.tournamentEnd = true
             newInterval = this.tournamentTimeElapsed < (-10 * 1000) ? Math.min(10 * 60 * 1000, -this.tournamentTimeElapsed / 2) : 5000
           } else if (this.tournament.get('state') === 'starting') {
             this.tournamentEnd = false
             newInterval = this.tournamentTimeLeft > (10 * 1000) ? Math.min(10 * 60 * 1000, this.tournamentTimeLeft / 2) : 5000
           } else if (['ranking', 'waiting'].includes(this.tournament.get('state'))) {
-            this.tournamentEnd = true
             newInterval = this.tournamentResultsTimeLeft > (10 * 1000) ? Math.min(10 * 60 * 1000, this.tournamentResultsTimeLeft / 2) : 5000
-          } else if (this.tournament.get('state') === 'ended') {
-            this.tournamentEnd = true
           }
 
           if (this.tournamentState !== this.tournament.get('state')) {
@@ -320,7 +317,7 @@ module.exports = (LadderView = (function () {
       // ended - only leaderboard
       if ((this.tournamentState === 'ended') || ((this.tournamentState === 'waiting') && (me.get('_id') === (this.league != null ? this.league.get('ownerID') : undefined)))) {
         this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, tournament: this.tournamentId, leagueType: 'clan', myTournamentSubmission: this.myTournamentSubmission }, this.level, this.sessions)) // classroom ladder do not have tournament for now
-      } else if (['initializing', 'ranking', 'waiting'].includes(this.tournamentState)) {
+      } else if (['initializing', 'ranking', 'waiting', 'abandoned'].includes(this.tournamentState)) {
         null
       } else { // starting, or unset
         if (this.level.isType('ladder')) {

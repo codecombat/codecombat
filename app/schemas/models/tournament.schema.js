@@ -36,7 +36,7 @@ _.extend(TournamentSchema.properties, {
   },
   state: {
     type: 'string',
-    enum: ['initializing', 'starting', 'ranking', 'waiting', 'ended', 'disabled']
+    enum: ['initializing', 'starting', 'ranking', 'waiting', 'abandoned', 'ended', 'disabled']
   },
   clan: c.objectId({ links: [{ rel: 'db', href: '/db/clan/{($)}' }] })
 }
