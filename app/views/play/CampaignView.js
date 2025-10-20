@@ -57,7 +57,6 @@ const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
 const PROMPTED_FOR_SIGNUP = 'prompted-for-signup'
 const PROMPTED_FOR_SUBSCRIPTION = 'prompted-for-subscription'
 const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
-const GALAXY_TERRAIN = 'ai' // galaxy is the inner name, but in URL it is 'ai' for players
 const SCENARIO_MARGIN_COMPENSATION_FACTOR = 0.33 // Compensates for bottom margin when centering scenario elements
 
 class LevelSessionsCollection extends CocoCollection {
@@ -119,7 +118,6 @@ class CampaignView extends RootView {
       'click .portal-catalyst .side-campaign': 'onClickPortalCampaign',
       'click .portal-catalyst .main-campaign': 'onClickPortalCampaign',
       'click .portal-catalyst .campaign': 'onClickPortalCampaign',
-      'click .portal-galaxy .campaign-container': 'onClickPortalCampaign',
       'click a .campaign-switch': 'onClickCampaignSwitch',
       'mouseenter .portals': 'onMouseEnterPortals',
       'mouseleave .portals': 'onMouseLeavePortals',
@@ -153,12 +151,7 @@ class CampaignView extends RootView {
     super(options)
     this.onMouseMovePortals = this.onMouseMovePortals.bind(this)
     this.onWindowResize = this.onWindowResize.bind(this)
-    if (terrain === GALAXY_TERRAIN) {
-      this.isGalaxy = true
-      this.terrain = null
-    } else {
-      this.terrain = terrain
-    }
+    this.terrain = terrain
     if (/^classCode/.test(this.terrain)) {
       this.terrain = '' // Stop /play?classCode= from making us try to play a classCode campaign
     }
@@ -171,7 +164,6 @@ class CampaignView extends RootView {
 
     // Check if the user is in the Catalyst experiment
     this.isCatalyst = me.getCatalystExperimentValue() === 'beta'
-    this.isCatalyst = this.isCatalyst || this.isGalaxy
 
     this.editorMode = options?.editorMode
     this.requiresSubscription = !me.isPremium()
@@ -254,7 +246,7 @@ class CampaignView extends RootView {
         this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', { cache: false }, 1).model
         this.listenToOnce(this.sessions, 'sync', this.onSessionsLoaded)
       }
-      if (!this.terrain || this.isGalaxy) {
+      if (!this.terrain) {
         this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
         this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
         return
@@ -2294,7 +2286,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'junior-original-choice') {
-      return this.isCatalyst && !this.isGalaxy && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
+      return this.isCatalyst && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
     }
 
     if (['status-line'].includes(what)) {
@@ -2378,11 +2370,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'cchome-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior' || this.isGalaxy)
-    }
-
-    if (what === 'galaxy-template') {
-      return this.isGalaxy
+      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior')
     }
 
     return true

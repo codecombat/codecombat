@@ -8,9 +8,6 @@ $campaignPortalWidth: 317px
 $campaignPortalHeight: 634px
 $catalystPortalWidth: 317px
 $catalystMarginTopBase: -60px
-$galaxyCampaignPortalHeight: 400px
-$galaxyCampaignPortalWidth: 400px
-$galaxyMarginTopBase: 20px
 $sideCampaignPortalHeight: math.div($campaignPortalHeight, 2)
 $sideCampaignImagesWidth: 1902px
 $campaignHoverScale: 1.2
@@ -1637,128 +1634,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     .side-campaign
       &.highlighted
         @extend .portal-glow
-
-  .portal-galaxy
-    position: relative
-    width: 100%
-    height: 100%
-    background: linear-gradient(135deg, #0a0a2e 0%, #1a1a4a 50%, #2a2a6a 100%) !important
-    overflow-y: auto
-    padding: 20px
-    $description-transition-time: 0.4s
-    isolation: isolate
-
-    &::before
-      content: ''
-      position: absolute
-      top: 0
-      left: 0
-      right: 0
-      bottom: 0
-      background-image: radial-gradient(2px 2px at 20px 30px, #fff, transparent), radial-gradient(2px 2px at 40px 70px, #fff, transparent), radial-gradient(1px 1px at 90px 40px, #fff, transparent), radial-gradient(1px 1px at 130px 80px, #fff, transparent), radial-gradient(2px 2px at 160px 30px, #fff, transparent)
-      background-repeat: repeat
-      background-size: 200px 100px
-      animation: twinkle 4s ease-in-out infinite
-      pointer-events: none
-      z-index: 0
-      will-change: opacity
-      @media (prefers-reduced-motion: reduce)
-        animation: none
-
-    .portals
-      position: relative
-      z-index: 1
-
-      .campaign-rows
-        display: flex
-        flex-direction: column
-        align-items: center
-        gap: 40px
-        padding: 50px 0
-
-        .campaign-row
-          display: flex
-          justify-content: center
-          align-items: center
-          position: relative
-          width: 100%
-          height: $galaxyCampaignPortalHeight
-          margin-bottom: 0
-          margin-top: $galaxyMarginTopBase
-
-          // first row has a different margin-top
-          &:first-child
-            margin-top: 50px
-            margin-bottom: -40px
-          //the third row has a different margin-top
-          &:nth-child(3)
-            margin-top: $galaxyMarginTopBase - 30px
-          // the last row has a different margin-top
-          &:last-child
-            margin-top: $galaxyMarginTopBase + 40px
-
-          .campaign-container
-            position: relative
-            width: $galaxyCampaignPortalWidth
-            height: $galaxyCampaignPortalHeight
-            background-size: cover
-            background-position: center
-            background-repeat: no-repeat
-            cursor: pointer
-            transition: transform 0.3s ease
-
-            &:hover
-              transform: scale(1.05)
-
-            &.silhouette
-              @include filter(contrast(50%) brightness(65%))
-              pointer-events: none
-
-            &.locked
-              @include filter(contrast(80%) brightness(80%))
-              cursor: default
-
-            .campaign-label
-              position: absolute
-              top: 45%
-              width: 100%
-              text-align: center
-
-              .play-button
-                margin: 15px 0
-                min-width: 100px
-
-              .campaign-name, .levels-completed, .campaign-locked
-                margin: 0
-                color: white
-                text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
-
-
-              .campaign-description
-                 background: transparent url(/images/level/popover_border_background.png) no-repeat !important
-                 background-size: 100% 100% !important
-                 padding: 12px !important
-                 color: black !important
-                 font-size: 14px !important
-                 line-height: 1.2 !important
-                 margin: 0 auto !important
-                 width: 70% !important
-                 border-radius: 8px !important
-                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4) !important
-                 opacity: 0.95 !important
-
-            &.intro-to-ai
-              background-image: url('/images/pages/play_ai/forest-planet.png')
-            &.math-and-stats
-              background-image: url('/images/pages/play_ai/desert-planet.png')
-            &.english-language-arts
-              background-image: url('/images/pages/play_ai/cloud-planet.png')
-
-    .campaign-container
-      &.highlighted
-        @extend .portal-glow
-
-
 
   #esports-arena
     min-width: 210px
