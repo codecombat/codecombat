@@ -565,6 +565,23 @@ export default {
       }
     },
 
+    setProjectWarningFlag (details, aiProjects) {
+      if (!Array.isArray(aiProjects)) {
+        return
+      }
+      if (aiProjects.some(project => {
+        const wrongChoices = project.wrongChoices || []
+        const counts = wrongChoices.reduce((acc, obj) => {
+          const key = obj.actionMessageId
+          acc[key] = (acc?.[key] || 0) + 1
+          return acc
+        }, {})
+        return Object.values(counts).some(v => v > 1)
+      })) {
+        details.flag = 'ai-project-warning'
+      }
+    },
+
     setClickHandler (details, student, moduleNum, aiScenario, aiProjects) {
       details.clickHandler = () => {
         this.showPanelProjectContent({
@@ -606,6 +623,7 @@ export default {
         this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
         const completed = this.checkIfComplete(aiScenario, aiProjects)
         this.setUnsafeFlag(details, aiProjects)
+        this.setProjectWarningFlag(details, aiProjects)
 
         if (completed) {
           details.status = 'complete'
