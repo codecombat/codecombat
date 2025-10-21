@@ -5,11 +5,8 @@ if showGameDevAlert
     a(href="/teachers/licenses", data-i18n="play.request_licenses")
 
 // TODO: .gameplay-container causes world map buttons to briefly appear in top left of screen
-#floating-nav
+#main-nav
 .gameplay-container
-  a(href="/").picoctf-hide
-    img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-
   .picoctf-show
     a(href="http://staging.picoctf.com").picoctf-logo
       img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
@@ -71,7 +68,7 @@ if showGameDevAlert
 
     if view.shouldShow('back-to-classroom')
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
-    if view.isCatalyst && campaign != null && campaign.get('slug') != 'junior'
+    if view.isCatalyst && !me.isStudent() && campaign != null && campaign.get('slug') != 'junior'
       a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#back-button-catalyst(data-i18n="play_level.back_to_map", title="Back to Map")
 
     if view.shouldShow('videos')
@@ -533,29 +530,29 @@ if showGameDevAlert
     .user-status-catalyst.header-font.picoctf-hide
       .user-status-line
         if view.shouldShow('status-line')
-          span.player-hero-icon
-          if me.get('anonymous')
-            span.player-name(data-i18n="play.anonymous") Anonymous
-          else
-            if me.isStudent()
-              a(href="/play").player-name.spr= me.get('name')
-            else
-              a(href="/account").player-name.spr= me.get('name')
+          //- span.player-hero-icon
+          //- if me.get('anonymous')
+          //-   span.player-name(data-i18n="play.anonymous") Anonymous
+          //- else
+          //-   if me.isStudent()
+          //-     a(href="/play").player-name.spr= me.get('name')
+          //-   else
+          //-     a(href="/account").player-name.spr= me.get('name')
           if view.shouldShow('gems')
             span.gem.gem-30
             span#gems-count.spr= me.gems()
           if view.shouldShow('level')
             span.achievements-star.achievements-star-30
             span.player-level.spr= me.level()
-          if me.get('anonymous')
-            button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
-            button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
-          else
+          //- if me.get('anonymous')
+          //-   button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
+          //-   button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+          //- else
 
-            if !me.isStudent()
-              button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
-            if view.shouldShow('premium')
-              button.btn.btn-illustrated.btn-primary.premium-btn(data-i18n="buy_gems.buy_premium")
+          //-   if !me.isStudent()
+          //-     button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
+          if view.shouldShow('premium')
+            button.btn.btn-illustrated.btn-primary.premium-btn(data-i18n="buy_gems.buy_premium")
           if me.getM7ExperimentValue() == 'beta'
             span.beta-levels
               span(data-i18n="play.beta_levels_on")

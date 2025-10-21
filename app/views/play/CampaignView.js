@@ -1707,22 +1707,29 @@ class CampaignView extends RootView {
     const aspectRatio = mapWidth / mapHeight
     const pageWidth = this.$el.width()
     const pageHeight = this.$el.height()
+    const navOffset = 71 // navbar height
+    const availableHeight = Math.max(0, pageHeight - navOffset)
     const widthRatio = pageWidth / mapWidth
-    const heightRatio = pageHeight / mapHeight
+    const heightRatio = availableHeight / mapHeight
 
     let resultingWidth, resultingHeight
     // Make sure we can see the whole map, fading to background in one dimension.
     if (heightRatio <= widthRatio) {
       // Left and right margin
-      resultingHeight = pageHeight
+      resultingHeight = availableHeight
       resultingWidth = resultingHeight * aspectRatio
     } else {
       // Top and bottom margin
       resultingWidth = pageWidth
       resultingHeight = resultingWidth / aspectRatio
     }
+    // Ensure we don't exceed available height due to rounding
+    if (resultingHeight > availableHeight) {
+      resultingHeight = availableHeight
+      resultingWidth = resultingHeight * aspectRatio
+    }
     const resultingMarginX = (pageWidth - resultingWidth) / 2
-    const resultingMarginY = (pageHeight - resultingHeight) / 2
+    const resultingMarginY = (availableHeight - resultingHeight) / 2
     this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
     if (this.pointerInterval) {
       this.highlightNextLevel()
