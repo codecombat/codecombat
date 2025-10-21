@@ -530,14 +530,6 @@ if showGameDevAlert
     .user-status-catalyst.header-font.picoctf-hide
       .user-status-line
         if view.shouldShow('status-line')
-          //- span.player-hero-icon
-          //- if me.get('anonymous')
-          //-   span.player-name(data-i18n="play.anonymous") Anonymous
-          //- else
-          //-   if me.isStudent()
-          //-     a(href="/play").player-name.spr= me.get('name')
-          //-   else
-          //-     a(href="/account").player-name.spr= me.get('name')
           if view.shouldShow('gems')
             span.gem.gem-30
             span#gems-count.spr= me.gems()
