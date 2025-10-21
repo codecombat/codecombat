@@ -11,16 +11,12 @@
         <span class="select-language">{{ $t('courses.select_language') }}</span>
         <select @change="changeLanguage">
           <option
-            value="python"
-            :selected="getSelectedLanguage === 'python'"
+            v-for="(text, lang) in languages"
+            :key="lang"
+            :value="lang"
+            :selected="getSelectedLanguage === lang"
           >
-            Python
-          </option>
-          <option
-            value="javascript"
-            :selected="getSelectedLanguage === 'javascript'"
-          >
-            JavaScript
+            {{ text }}
           </option>
         </select>
       </div>
@@ -40,6 +36,29 @@ export default {
     }),
     courseName () {
       return this.getCurrentCourse?.name || ''
+    },
+    languages () {
+      if (this.courseName === 'Junior') {
+        return {
+          python: 'Python',
+          javascript: 'Javascript',
+        }
+      }
+      return {
+        python: 'Python',
+        javascript: 'Javascript',
+        cpp: 'C++',
+        java: 'Java',
+      }
+    },
+  },
+  watch: {
+    courseName (v) {
+      if (v === 'Junior') {
+        if (['cpp', 'java'].includes(this.getSelectedLanguage)) {
+          this.setSelectedLanguage('python')
+        }
+      }
     },
   },
   methods: {
