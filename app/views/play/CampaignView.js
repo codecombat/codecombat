@@ -2377,7 +2377,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'cchome-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior')
+      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior') && !this.editorMode
     }
 
     return true
