@@ -570,8 +570,8 @@ class CampaignView extends RootView {
     if (!me.get('heroConfig')?.thangType) {
       this.preloadTopHeroes()
     }
-    if (['forest', 'desert'].includes(this.terrain)) {
-      this.$el.find('#campaign-status').delay(4000).animate({ top: '-=58' }, 1000)
+    if (this.terrain) {
+      this.$el.find('#campaign-status').delay(3000).animate({ top: '-=58' }, 1000)
     }
     if (this.campaign && this.isRTL(utils.i18n(this.campaign.attributes, 'fullName'))) {
       this.$('.campaign-name').attr('dir', 'rtl')
