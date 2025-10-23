@@ -206,7 +206,7 @@ module.exports = class PlayLevelView extends RootView
         'blocks-and-code': 'blocks-and-code',
         'text-code': 'text-code',
         }[codeFormatOverride] or codeFormat
-    @classroomAceConfig = {liveCompletion: true, codeFormatDefault: codeFormat, classroomItems: true, disablePaste: false }
+    @classroomAceConfig = {liveCompletion: true, codeFormatDefault: codeFormat, classroomItems: true, disablePaste: false } # default (home users, teachers, etc.)
     if @courseInstanceID
       fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID,classroomItems")
       @supermodel.trackRequest fetchAceConfig
