@@ -1061,11 +1061,11 @@ module.exports = (User = (function () {
       return jqxhr
     }
 
-    calculateHsStars (options = {}) {
-      options.url = _.result(this, 'url') + '/recalculate-hs-stars/'
+    recalculateHsStars (options = {}) {
+      options.url = _.result(this, 'url') + '/recalculate-hs-stars'
       options.type = 'POST'
       if (options.campaign) {
-        options.body = { campaign: options.campaign }
+        options.data = { campaign: options.campaign }
       }
       const jqxhr = this.fetch(options)
       this.loading = false
