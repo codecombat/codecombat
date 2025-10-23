@@ -248,6 +248,7 @@ _.extend(UserSchema.properties, {
     })),
 
   points: { type: 'number' },
+  hsStars: c.int({ description: 'Number of stars the user has earned in the Hackstack' }, { minimum: 0 }),
   activity: { type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity },
   stats: c.object({ additionalProperties: true }, {
     gamesCompleted: c.int(),
@@ -291,6 +292,7 @@ _.extend(UserSchema.properties, {
     licenses: c.object({ additionalProperties: true }),
     students: c.object({ additionalProperties: true }),
     codePoints: c.int({ title: 'CodePoints', minimum: 0, description: 'Total CodePoints earned' }),
+    hsStarsPerCampaign: c.object({ description: 'Map from campaign slug to number of stars earned', additionalProperties: c.int({ minimum: 0 }) }),
   }),
 
   earned: c.RewardSchema('earned by achievements'),

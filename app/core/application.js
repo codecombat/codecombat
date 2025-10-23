@@ -111,6 +111,7 @@ const Application = {
     if (!me.get('anonymous')) {
       this.checkForNewAchievement()
     }
+    me.calculateHsStars({campaign: 'intro-to-ai'})
     this.remindPlayerToTakeBreaks()
     userUtils.extraProvisions()
     window.i18n = (i18nextInstance = i18next.default.createInstance({

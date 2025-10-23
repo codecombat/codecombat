@@ -1061,6 +1061,17 @@ module.exports = (User = (function () {
       return jqxhr
     }
 
+    calculateHsStars (options = {}) {
+      options.url = _.result(this, 'url') + '/recalculate-hs-stars/'
+      options.type = 'POST'
+      if (options.campaign) {
+        options.body = { campaign: options.campaign }
+      }
+      const jqxhr = this.fetch(options)
+      this.loading = false
+      return jqxhr
+    }
+
     finishedAnyLevels () { return Boolean((this.get('stats') || {}).gamesCompleted) }
 
     isFromUk () { return (this.get('country') === 'united-kingdom') || (this.get('preferredLanguage') === 'en-GB') }
