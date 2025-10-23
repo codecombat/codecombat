@@ -5,11 +5,8 @@ if showGameDevAlert
     a(href="/teachers/licenses", data-i18n="play.request_licenses")
 
 // TODO: .gameplay-container causes world map buttons to briefly appear in top left of screen
-#floating-nav(class=view.shouldShow('galaxy-template') ? 'galaxy-theme' : '')
-.gameplay-container(class=view.shouldShow('galaxy-template') ? 'galaxy-theme' : '')
-  a(href="/").picoctf-hide
-    img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-
+#main-nav
+.gameplay-container
   .picoctf-show
     a(href="http://staging.picoctf.com").picoctf-logo
       img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
@@ -71,7 +68,7 @@ if showGameDevAlert
 
     if view.shouldShow('back-to-classroom')
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
-    if view.isCatalyst && campaign != null && campaign.get('slug') != 'junior'
+    if !me.isStudent() && campaign != null && campaign.get('slug') != 'junior'
       a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#back-button-catalyst(data-i18n="play_level.back_to_map", title="Back to Map")
 
     if view.shouldShow('videos')
@@ -310,44 +307,6 @@ if showGameDevAlert
            span
             .hackstack-icon
         .hackstack-level#hackstack-level-shadow(style="left: 57.5%; top: 62.1%;", class="level-shadow")
-  else if view.isGalaxy
-    .portal-galaxy
-      .portals
-        - var godmode = me.isInGodMode();
-        .campaign-rows
-          // Galaxy portal campaigns
-          // Define the campaign rows - using existing campaigns for now
-          -
-            var campaignRows = [
-              ['intro-to-ai'],
-              ['math-and-stats', 'english-language-arts']
-            ];
-          // Loop through each campaign row
-          each row in campaignRows
-            .campaign-row
-              // Campaigns in the row - all equal size
-              each campaignSlug in row
-                - var campaign = campaigns[campaignSlug]
-                .campaign-container(class=campaignSlug + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug, data-i18n="[title]play.locked_campaign" : "")
-                  .background-container(class=campaignSlug)
-                  .campaign-label
-                    h3.campaign-name
-                      if campaign
-                        div= i18n(campaign.attributes, 'fullName')
-                        if campaign.levelsTotal
-                          div.levels-completed= campaign.levelsCompleted + "/" + campaign.levelsTotal
-                      else
-                        div= campaignSlug + " (Not Found)"
-                    if campaign && campaign.locked && !godmode
-                      h4.campaign-locked(data-i18n="play.locked") Locked
-                    else if campaign
-                      if serverConfig.static
-                        a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + campaignSlug)
-                      else
-                        button.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
-                    if campaign && campaign.get('description')
-                      p.campaign-description(dir="auto")
-                        span= i18n(campaign.attributes, 'description')
   else if view.isCatalyst
     .portal-catalyst
       .portals
@@ -512,28 +471,7 @@ if showGameDevAlert
                       span.campaign-age-description(data-i18n="play.age_description_" + campaignProductName)
                       br
                     span= i18n(campaign.attributes, 'description')
-  if view.isGalaxy
-    .game-controls-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
-      if !((features && features.picoCtf) || (features && features.brainPop))
-        if view.shouldShow('premium')
-          button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
-        if view.shouldShow('achievements')
-          button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
-        if view.shouldShow('buy-gems')
-          button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
-        if !me.get('anonymous', true) && view.shouldShow('settings')
-          a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
-    .other-products-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
-      if !((features && features.picoCtf) || (features && features.brainPop))
-        if view.shouldShow('cchome-menu-icon')
-          span.btn.cchome-menu-icon(data-i18n="[title]play.cchome_button_hover")
-        if view.shouldShow('junior-menu-icon')
-          span.btn.junior-icon.junior-menu-icon(data-i18n="[title]play.junior_button_hover")
-        if view.shouldShow('roblox-menu-icon')
-          span.btn.roblox-level.roblox-menu-icon(data-i18n="[title]play.roblox_button_hover")
-        if view.shouldShow('ai-league-menu-icon')
-          span.btn.ai-league-menu-icon(data-i18n="[title]play.ai_league_button_hover")
-  else if view.isCatalyst
+  if view.isCatalyst
     .game-controls-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
       if !((features && features.picoCtf) || (features && features.brainPop))
         if view.shouldShow('premium')
@@ -592,29 +530,21 @@ if showGameDevAlert
     .user-status-catalyst.header-font.picoctf-hide
       .user-status-line
         if view.shouldShow('status-line')
-          span.player-hero-icon
-          if me.get('anonymous')
-            span.player-name(data-i18n="play.anonymous") Anonymous
-          else
-            if me.isStudent()
-              a(href="/play").player-name.spr= me.get('name')
-            else
-              a(href="/account").player-name.spr= me.get('name')
           if view.shouldShow('gems')
             span.gem.gem-30
             span#gems-count.spr= me.gems()
           if view.shouldShow('level')
             span.achievements-star.achievements-star-30
             span.player-level.spr= me.level()
-          if me.get('anonymous')
-            button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
-            button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
-          else
+          //- if me.get('anonymous')
+          //-   button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
+          //-   button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+          //- else
 
-            if !me.isStudent()
-              button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
-            if view.shouldShow('premium')
-              button.btn.btn-illustrated.btn-primary.premium-btn(data-i18n="buy_gems.buy_premium")
+          //-   if !me.isStudent()
+          //-     button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
+          if view.shouldShow('premium')
+            button.btn.btn-illustrated.btn-primary.premium-btn(data-i18n="buy_gems.buy_premium")
           if me.getM7ExperimentValue() == 'beta'
             span.beta-levels
               span(data-i18n="play.beta_levels_on")
@@ -622,7 +552,6 @@ if showGameDevAlert
               span.m7-off(data-i18n="play.beta_levels_turn_off")
 
     .utility-controls-catalyst.header-font.picoctf-hide
-      select.language-dropdown.btn.btn-inverse#language-button(data-i18n="[title]play_level.language", title="Languages")
       button.btn.btn-lg.btn-inverse.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
         .glyphicon.glyphicon-volume-off
         .glyphicon.glyphicon-volume-down
