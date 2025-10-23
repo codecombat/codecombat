@@ -7,67 +7,34 @@
     <div
       class="header-right"
     >
-      <div class="code-language-dropdown">
-        <span class="select-language">{{ $t('courses.select_language') }}</span>
-        <select @change="changeLanguage">
-          <option
-            v-for="(text, lang) in languages"
-            :key="lang"
-            :value="lang"
-            :selected="getSelectedLanguage === lang"
-          >
-            {{ text }}
-          </option>
-        </select>
-      </div>
+      <CodeLanguageSelector
+        :course-name="courseName"
+        @change-language="onChangeLanguage"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
+import CodeLanguageSelector from '../../common/CodeLanguageSelector'
 export default {
   name: 'HeaderComponent',
+  components: {
+    CodeLanguageSelector,
+  },
   computed: {
     ...mapGetters({
-      getSelectedLanguage: 'baseCurriculumGuide/getSelectedLanguage',
       getTrackCategory: 'teacherDashboard/getTrackCategory',
       getCurrentCourse: 'baseCurriculumGuide/getCurrentCourse',
     }),
     courseName () {
       return this.getCurrentCourse?.name || ''
     },
-    languages () {
-      if (this.courseName === 'Junior') {
-        return {
-          python: 'Python',
-          javascript: 'Javascript',
-        }
-      }
-      return {
-        python: 'Python',
-        javascript: 'Javascript',
-        cpp: 'C++',
-        java: 'Java',
-      }
-    },
-  },
-  watch: {
-    courseName (v) {
-      if (v === 'Junior') {
-        if (['cpp', 'java'].includes(this.getSelectedLanguage)) {
-          this.setSelectedLanguage('python')
-        }
-      }
-    },
   },
   methods: {
-    ...mapMutations({
-      setSelectedLanguage: 'baseCurriculumGuide/setSelectedLanguage',
-    }),
-    changeLanguage (e) {
+    onChangeLanguage () {
       window.tracker?.trackEvent('Curriculum Guide: Language Changed from dropdown', { category: this.getTrackCategory, label: this.courseName })
-      this.setSelectedLanguage(e.target.value)
     },
   },
 }
@@ -85,8 +52,8 @@ export default {
   border: 1px solid #d8d8d8;
   /* Drop shadow bottom ref: https://css-tricks.com/snippets/css/css-box-shadow/ */
   -webkit-box-shadow: 0 8px 6px -6px #D2D2D2;
-    -moz-box-shadow: 0 8px 6px -6px #D2D2D2;
-        box-shadow: 0 8px 6px -6px #D2D2D2;
+  -moz-box-shadow: 0 8px 6px -6px #D2D2D2;
+  box-shadow: 0 8px 6px -6px #D2D2D2;
 
   display: flex;
   flex-direction: row;
@@ -117,7 +84,7 @@ export default {
     margin-right: 12px;
   }
 
-  .code-language-dropdown {
+  ::v-deep .code-language-dropdown {
     select {
       background: $twilight;
       border: 1.5px solid #355EA0;
@@ -131,15 +98,15 @@ export default {
       font-size: 14px;
       line-height: 20px;
     }
-  }
 
-  .select-language {
-    font-family: Work Sans;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 16px;
-    color: #545B64;
-    padding: 8px;
+    .select-language {
+      font-family: Work Sans;
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 16px;
+      color: #545B64;
+      padding: 8px;
+    }
   }
 
   .close-btn {
