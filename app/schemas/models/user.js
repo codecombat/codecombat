@@ -248,7 +248,6 @@ _.extend(UserSchema.properties, {
     })),
 
   points: { type: 'number' },
-  hsStars: c.int({ description: 'Number of stars the user has earned in the Hackstack' }, { minimum: 0 }),
   activity: { type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity },
   stats: c.object({ additionalProperties: true }, {
     gamesCompleted: c.int(),
