@@ -5,7 +5,8 @@ if showGameDevAlert
     a(href="/teachers/licenses", data-i18n="play.request_licenses")
 
 // TODO: .gameplay-container causes world map buttons to briefly appear in top left of screen
-#main-nav
+if !editorMode
+  #main-nav
 .gameplay-container
   .picoctf-show
     a(href="http://staging.picoctf.com").picoctf-logo
