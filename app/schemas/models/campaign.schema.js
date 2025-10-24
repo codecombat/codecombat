@@ -63,6 +63,7 @@ _.extend(CampaignSchema.properties, {
     },
   },
   isOzaria: { type: 'boolean', description: 'Is this an ozaria campaign', default: false }, // TODO: migrate to using `product` instead
+  isGalaxy: { type: 'boolean', description: 'Is this campaign the part of the Galaxy Interface', default: false },
   product: c.singleProduct,
   levelsUpdated: c.date(),
 

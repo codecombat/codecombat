@@ -188,7 +188,7 @@ class CocoModel extends Backbone.Model {
     // Since Backbone unset only sets things to undefined instead of deleting them, we ignore undefined properties.
     const definedAttributes = _.pick(this.attributes, v => v !== undefined)
     const {
-      errors
+      errors,
     } = tv4.validateMultiple(definedAttributes, this.constructor.schema || {})
     if (errors != null ? errors.length : undefined) { return errors }
   }
@@ -215,10 +215,10 @@ class CocoModel extends Backbone.Model {
     if (options.headers == null) { options.headers = {} }
     options.headers['X-Current-Path'] = (document.location != null ? document.location.pathname : undefined) != null ? (document.location != null ? document.location.pathname : undefined) : 'unknown'
     const {
-      success
+      success,
     } = options
     const {
-      error
+      error,
     } = options
     options.success = (model, res) => {
       this.retries = 0
@@ -300,6 +300,13 @@ class CocoModel extends Backbone.Model {
     this.jqxhr = super.fetch(options)
     this.loading = true
     return this.jqxhr
+  }
+
+  fetchAsPromise (options = {}) {
+    const jqxhr = this.fetch(options)
+    return new Promise((resolve, reject) => {
+      jqxhr.then(() => resolve(this), reject)
+    })
   }
 
   markToRevert () {
@@ -479,7 +486,7 @@ class CocoModel extends Backbone.Model {
       initialize (me) {
         if (me == null) {
           ({
-            me
+            me,
           } = require('core/auth'))
         }
         this.url = `/db/user/${me.id}/achievements?notified=false`
@@ -495,7 +502,7 @@ class CocoModel extends Backbone.Model {
       error () {
         return console.error('Miserably failed to fetch unnotified achievements', arguments)
       },
-      cache: false
+      cache: false,
     })
   }
 
@@ -506,7 +513,7 @@ class CocoModel extends Backbone.Model {
     const pathToData = {}
     if (attributes == null) {
       ({
-        attributes
+        attributes,
       } = this)
     }
 
