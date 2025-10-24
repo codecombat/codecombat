@@ -8,6 +8,7 @@
       class="header-right"
     >
       <CodeLanguageSelector
+        v-if="showLanguage"
         :course-name="courseName"
         @change-language="onChangeLanguage"
       />
@@ -30,6 +31,9 @@ export default {
     }),
     courseName () {
       return this.getCurrentCourse?.name || ''
+    },
+    showLanguage () {
+      return !['AI HackStack'].includes(this.courseName)
     },
   },
   methods: {

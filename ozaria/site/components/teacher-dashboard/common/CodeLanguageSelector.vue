@@ -17,6 +17,7 @@
 </template>
 <script>
 import { mapMutations, mapGetters } from 'vuex'
+import utils from 'core/utils'
 export default {
   props: {
     courseName: {
@@ -33,7 +34,7 @@ export default {
         python: 'Python',
         javascript: 'JavaScript',
       }
-      if (this.courseName === 'Junior') {
+      if (this.courseName === 'Junior' || utils.isOzaria) {
         return base
       }
       return {
