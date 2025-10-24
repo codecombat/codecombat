@@ -4816,6 +4816,7 @@ module.exports = {
       activate_license: 'Activate License',
       violation: 'Violation',
       safety_violations: 'Safety Violations',
+      warning: 'Warning',
       collapse: 'Collapse',
       num_student: '__num__ Students',
       one_student: '__num__ Student',

@@ -64,6 +64,17 @@ export default {
       />
       <span>{{ $t('teacher_dashboard.violation') }}</span>
     </div>
+
+    <div
+      v-if="isCodeCombat"
+      class="img-subtext"
+    >
+      <progress-dot
+        status="complete"
+        :border="'yellow'"
+      />
+      <span>{{ $t('teacher_dashboard.warning') }}</span>
+    </div>
     <div
       v-if="isOzaria && showReviewLabels"
       class="img-subtext"
