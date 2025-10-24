@@ -206,7 +206,7 @@ module.exports = class PlayLevelView extends RootView
         'blocks-and-code': 'blocks-and-code',
         'text-code': 'text-code',
         }[codeFormatOverride] or codeFormat
-    @classroomAceConfig = {liveCompletion: true, codeFormatDefault: codeFormat, classroomItems: true, disablePaste: false } # default (home users, teachers, etc.)
+    @classroomAceConfig = { liveCompletion: true, codeFormatDefault: codeFormat, classroomItems: true, disablePaste: false } # default (home users, teachers, etc.)
     if @courseInstanceID
       fetchAceConfig = $.get("/db/course_instance/#{@courseInstanceID}/classroom?project=aceConfig,members,ownerID,classroomItems")
       @supermodel.trackRequest fetchAceConfig
@@ -222,6 +222,8 @@ module.exports = class PlayLevelView extends RootView
 
         if @teaching and (not @teacherID.equals(me.id))
           return _.defer -> application.router.redirectHome()
+    else if me.isMtoCodingOlympiad()
+      @classroomAceConfig.levelChat = 'none'
 
   hasAccessThroughClan: (level) ->
     _.intersection(level.get('clans') ? [], me.get('clans') ? []).length
