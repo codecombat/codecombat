@@ -39,7 +39,7 @@ _.extend(TournamentSchema.properties, {
     enum: ['initializing', 'starting', 'ranking', 'waiting', 'ended', 'disabled'],
   },
   clan: c.objectId({ links: [{ rel: 'db', href: '/db/clan/{($)}' }] }),
-  displayName: { type: 'string', description: 'overwrites visual visual name of tournament' },
+  displayName: { type: 'string', description: 'overwrites visual name of tournament' },
 })
 
 c.extendBasicProperties(TournamentSchema, 'tournament')

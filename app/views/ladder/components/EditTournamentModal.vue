@@ -264,7 +264,6 @@ export default {
     },
   },
   mounted () {
-    console.log('open modal', this.tournament)
     this.selectedClanId = this.tournament.clan
     this.editableTournament = _.clone(this.tournament)
   },
