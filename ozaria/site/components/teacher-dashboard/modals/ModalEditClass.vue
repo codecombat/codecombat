@@ -223,6 +223,11 @@ export default Vue.extend({
   },
 
   watch: {
+    isNewClassroom (newVal) {
+      if (!newVal) {
+        this.newInitialFreeCourses = [...this.initialFreeCourses]
+      }
+    },
     availableCodeFormats () {
       const ava = this.availableCodeFormats.filter(cf => !cf.disabled).map(cf => cf.id)
       this.newCodeFormats = this.newCodeFormats.filter(cf => ava.includes(cf))
@@ -715,6 +720,8 @@ export default Vue.extend({
           :new-club-type="newClubType"
           :classroom-id="classroomInstance.get('_id')"
           :courses="courses"
+          :initial-free-courses="newInitialFreeCourses"
+          :selected-initial-free-courses="classroomInstance.get('initialFreeCourses') || []"
           :code-formats="newCodeFormats"
           :code-format-default="newCodeFormatDefault"
           :code-language="newProgrammingLanguage"
