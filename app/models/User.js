@@ -1067,9 +1067,9 @@ module.exports = (User = (function () {
       if (options.campaign) {
         options.data = { campaign: options.campaign }
       }
-      const jqxhr = this.fetch(options)
+      const promise = this.fetchAsPromise(options)
       this.loading = false
-      return jqxhr
+      return promise
     }
 
     finishedAnyLevels () { return Boolean((this.get('stats') || {}).gamesCompleted) }
