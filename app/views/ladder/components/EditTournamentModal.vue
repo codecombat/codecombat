@@ -20,6 +20,17 @@
         >
       </div>
       <div class="form-group">
+        <label for="name">
+          {{ $t('tournament.tournament_title') }}
+        </label>
+        <input
+          id="displayName"
+          v-model="editableTournament.displayName"
+          type="text"
+          class="form-control"
+        >
+      </div>
+      <div class="form-group">
         <template v-if="clanId">
           <!-- TODO i18n -->
           <label for="clan"> {{ $t('tournament.team') }} </label>
@@ -159,21 +170,21 @@ import { HTML5_FMT_DATETIME_LOCAL, GLOBAL_AI_LEAGUE_CREATORS } from '../../../co
 export default {
   name: 'EditTournamentModal',
   components: {
-    Modal, ClanSelector
+    Modal, ClanSelector,
   },
   props: {
     tournament: {
       type: Object,
       default () {
         return {}
-      }
+      },
     },
     clanId: {
       type: String,
       default () {
         return 'global'
-      }
-    }
+      },
+    },
   },
   data () {
     return {
@@ -185,13 +196,13 @@ export default {
       publishOptions: [
         { name: 'review', label: 'review_results', desc: 'review_description' },
         { name: 'publish', label: 'publish_immediately', desc: 'publish_description' },
-        { name: 'results_date', label: 'results_date_time', desc: 'results_date_description' }
-      ]
+        { name: 'results_date', label: 'results_date_time', desc: 'results_date_description' },
+      ],
     }
   },
   computed: {
     ...mapGetters({
-      myClans: 'clans/myClans'
+      myClans: 'clans/myClans',
     }),
     me () {
       return me
@@ -217,7 +228,7 @@ export default {
       },
       set (val) {
         this.$set(this.editableTournament, 'startDate', moment(val).toISOString())
-      }
+      },
     },
     _endDate: {
       get () {
@@ -227,7 +238,7 @@ export default {
         this.$set(this.editableTournament, 'endDate', moment(val).toISOString())
 
         this.$set(this.editableTournament, 'resultsDate', moment(val).add(1, 'days').toISOString())
-      }
+      },
     },
     _resultsDate: {
       get () {
@@ -235,7 +246,7 @@ export default {
       },
       set (val) {
         this.$set(this.editableTournament, 'resultsDate', moment(val).toISOString())
-      }
+      },
     },
     _publishOption: {
       get () {
@@ -249,10 +260,11 @@ export default {
       },
       set (val) {
         this.changePublishOption(val)
-      }
-    }
+      },
+    },
   },
   mounted () {
+    console.log('open modal', this.tournament)
     this.selectedClanId = this.tournament.clan
     this.editableTournament = _.clone(this.tournament)
   },
@@ -315,8 +327,8 @@ export default {
       this.inProgress = false
 
       this.$emit('submit')
-    }
-  }
+    },
+  },
 }
 </script>
 
