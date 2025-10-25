@@ -223,11 +223,6 @@ export default Vue.extend({
   },
 
   watch: {
-    isNewClassroom (newVal) {
-      if (!newVal) {
-        this.newInitialFreeCourses = [...this.initialFreeCourses]
-      }
-    },
     availableCodeFormats () {
       const ava = this.availableCodeFormats.filter(cf => !cf.disabled).map(cf => cf.id)
       this.newCodeFormats = this.newCodeFormats.filter(cf => ava.includes(cf))
@@ -246,6 +241,9 @@ export default Vue.extend({
   },
 
   async mounted () {
+    if (!this.classroomInstance.isNew()) {
+      this.newInitialFreeCourses = [...this.initialFreeCourses]
+    }
     if (this.classroomInstance?._id || this.classroomInstance?.id) {
       await this.fetchCourseInstances(this.classroomInstance?._id || this.classroomInstance?.id)
     }

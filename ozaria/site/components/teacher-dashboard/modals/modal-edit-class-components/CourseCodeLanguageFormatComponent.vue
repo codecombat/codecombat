@@ -339,17 +339,6 @@ export default {
     },
   },
   watch: {
-    selectedInitialFreeCourses: {
-      immediate: true,
-      handler (newVal) {
-        if (newVal.length) {
-          this.newInitialFreeCourses = [...newVal]
-        } else if (this.isNewClassroom && this.isCodeCombat) {
-          this.newInitialFreeCourses = [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]
-        }
-      },
-
-    },
     newProgrammingLanguage (newVal) {
       this.$emit('programmingLanguageUpdated', newVal)
     },
@@ -374,6 +363,17 @@ export default {
         }
       }
     },
+  },
+  mounted () {
+    if (!this.newInitialFreeCourses.length) {
+      if (this.isNewClassroom && this.isCodeCombat) {
+        this.newInitialFreeCourses = [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]
+      } else {
+        this.newInitialFreeCourses = Array.isArray(this.selectedInitialFreeCourses)
+          ? [...this.selectedInitialFreeCourses]
+          : []
+      }
+    }
   },
   methods: {
     hasCourse (courseId) {
