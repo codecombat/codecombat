@@ -45,7 +45,9 @@ module.exports = class LevelChatView extends CocoView
 
     ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
     #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
-    @visible = @aceConfig.levelChat isnt 'none' or options.levelisLadder or me.getLevelChatExperimentValue() is 'beta'  # not 'control'
+    @visible = (options.levelisLadder or me.getLevelChatExperimentValue() is 'beta')  # not 'control'
+    if @aceConfig.levelChat is 'none'
+      @visible = false
     @chatInitialized = @visible  # Track if chat is properly initialized
 
     @regularlyClearOldMessages()
@@ -220,12 +222,12 @@ module.exports = class LevelChatView extends CocoView
   onAIHelperChatClick: (e) ->
     # Check if chat has any messages
     hasMessages = @chatMessages?.length > 0 or @$('.message-row').length > 0
-    
+
     # Show AI Hint modal only if chat is empty and not open
     if not @open and not hasMessages
       @openModalView(new AskAIHelpView({propsData: {aiChatKind: @aiChatKind}}))
       return
-    
+
     # Otherwise, just toggle the chat open/closed
     @open = not @open
     openPanel = @$('.open-chat-area', @$el).toggle @open

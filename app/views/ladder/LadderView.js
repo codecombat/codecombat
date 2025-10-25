@@ -252,6 +252,7 @@ module.exports = (LadderView = (function () {
         success: res => {
           let newInterval
           this.tournament = new Tournament(res)
+          this.tournamentDisplayName = this.tournament.get('displayName')
           if (me.isAdmin() && (document.location.hash === '#results')) {
             // Show the results early, before publish date
             this.tournament.set('resultsDate', this.tournament.get('endDate'))

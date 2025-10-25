@@ -325,6 +325,7 @@ export default {
         /* console.log('handle create', arena) */
         this.editableTournament = {
           name: arena.name,
+          displayName: this.currentSelectedClan.displayName || this.currentSelectedClan.name,
           levelOriginal: arena.original,
           slug: arena.slug,
           clan: this.idOrSlug,
