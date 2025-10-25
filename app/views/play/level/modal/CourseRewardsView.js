@@ -34,13 +34,17 @@ module.exports = (CourseRewardsView = (function () {
       this.prototype.template = require('app/templates/play/level/modal/course-rewards-view')
 
       this.prototype.events =
-        { 'click #continue-btn': 'onClickContinueButton' }
+        {
+          'click #continue-btn': 'onClickContinueButton',
+          'click #map-btn': 'onClickMapButton',
+        }
     }
 
     initialize (options) {
       super.initialize()
       this.level = options.level
       this.session = options.session
+      this.nextLevelLocked = options.nextLevelLocked
       this.thangTypes = {}
       this.achievements = options.achievements
     }
@@ -55,6 +59,10 @@ module.exports = (CourseRewardsView = (function () {
     afterRender () {
       super.afterRender()
       return this.initializeAnimations()
+    }
+
+    onClickMapButton () {
+      return this.trigger('to-map')
     }
 
     onClickContinueButton () {

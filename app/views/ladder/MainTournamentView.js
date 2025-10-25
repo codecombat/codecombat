@@ -156,6 +156,7 @@ module.exports = (MainLadderView = (function () {
       }
       this.editableTournament = {
         name: level.name,
+        displayName: this.clan.get('displayName') || this.clan.get('name'),
         levelOriginal: level.original,
         image: level.image,
         slug: level.id,
