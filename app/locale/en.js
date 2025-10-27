@@ -5224,6 +5224,7 @@ module.exports = {
     },
 
     tournament: {
+      tournament_title: 'Tournament Title',
       mini_tournaments: 'Mini Tournaments',
       usable_ladders: 'All Usable Ladders',
       make_tournament: 'Make a mini tournament',
