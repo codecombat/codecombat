@@ -472,6 +472,7 @@ export default Vue.extend({
           this.saving = false
           return
         }
+        await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
         this.$emit('updated')
       }
       await this.handleClassroomImport(savedClassroom, updates)
