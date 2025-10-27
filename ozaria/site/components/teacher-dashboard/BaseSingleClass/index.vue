@@ -622,8 +622,10 @@ export default {
         this.setProgressDetails(details, classSummaryProgress, index)
         this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
         const completed = this.checkIfComplete(aiScenario, aiProjects)
-        this.setUnsafeFlag(details, aiProjects)
         this.setProjectWarningFlag(details, aiProjects)
+        // idealy a project won't have both warning and unsafe flag.
+        // but in that case we should use unsafe to overwrite warning.
+        this.setUnsafeFlag(details, aiProjects)
 
         if (completed) {
           details.status = 'complete'

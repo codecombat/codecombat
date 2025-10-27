@@ -421,7 +421,7 @@ export default {
 }
 
 .border-yellow {
-  border: 1px solid #f7d047;
+  border: 1px solid  rgb(227, 173, 53);
 }
 
 .border-gray {
