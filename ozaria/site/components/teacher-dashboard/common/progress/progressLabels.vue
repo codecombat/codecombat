@@ -71,7 +71,7 @@ export default {
     >
       <progress-dot
         status="complete"
-        :border="'yellow'"
+        :border="'purple'"
       />
       <span>{{ $t('teacher_dashboard.warning') }}</span>
     </div>

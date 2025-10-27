@@ -126,7 +126,7 @@ export default {
         return 'red'
       }
       if (flag === 'ai-project-warning') {
-        return 'yellow'
+        return 'purple'
       }
       if (flag === 'time') {
         return 'gray'
