@@ -52,7 +52,7 @@ export default {
 .plabel {
   height: 20px;
   width: 20px;
-  background-color: #476FB1;
+  background-color: var(--color-primary);
   border-radius: 20px;
   text-align: center;
   display: flex;
@@ -60,8 +60,7 @@ export default {
   align-items: center;
 
   .text-wrapper {
-    color: #f7d047;
-    font-family: "Work Sans-Bold", Helvetica;
+    color: white;
     font-size: 15px;
     font-weight: 700;
     left: 0;

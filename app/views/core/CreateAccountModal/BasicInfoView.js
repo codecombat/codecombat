@@ -16,10 +16,8 @@
 let BasicInfoView
 require('app/styles/modal/create-account-modal/basic-info-view.sass')
 const CocoView = require('views/core/CocoView')
-const AuthModal = require('views/core/AuthModal')
 const template = require('app/templates/core/create-account-modal/basic-info-view')
 const forms = require('core/forms')
-const errors = require('core/errors')
 const User = require('models/User')
 const State = require('models/State')
 const store = require('core/store')
@@ -61,6 +59,7 @@ module.exports = (BasicInfoView = (function () {
         'click #facebook-signup-btn': 'onClickSsoSignupButton',
         'click #clever-signup-btn': 'onClickSsoSignupButton',
         'click #schoology-signup-btn': 'onClickSsoSignupButton',
+        'click #classlink-signup-btn': 'onClickSsoSignupButton',
       }
     }
 
@@ -113,7 +112,7 @@ module.exports = (BasicInfoView = (function () {
       })
 
       this.hideEmail = isCodeCombat ? userUtils.shouldHideEmail() : false
-      return this.showLibraryIdInsteadOfUsername = isCodeCombat ? userUtils.shouldShowLibraryLoginModal() : false
+      this.showLibraryIdInsteadOfUsername = isCodeCombat ? userUtils.shouldShowLibraryLoginModal() : false
     }
 
     afterRender () {
@@ -454,6 +453,11 @@ module.exports = (BasicInfoView = (function () {
               jqxhr = me.signupWithFacebook(name, email, facebookID, { facebookAccessToken })
               break
             }
+            case 'schoology':
+            case 'classlink':
+              ({ name, email } = forms.formToObject(this.$el))
+              jqxhr = me.signupWithOauth2(email, { name })
+              break
             default: {
               ({ name, email, password } = forms.formToObject(this.$el))
               jqxhr = me.signupWithPassword(name, email, password)
@@ -492,7 +496,16 @@ module.exports = (BasicInfoView = (function () {
           if (e === AbortError) {
 
           } else {
-            console.error('BasicInfoView form submission Promise error:', e)
+            if (e.status >= 400 && e.status < 500) {
+              const json = e.responseJSON
+              const message = json?.message || e.responseText
+              window.noty({
+                type: 'error',
+                text: message,
+              })
+            } else {
+              console.error('BasicInfoView form submission Promise error:', e)
+            }
             if ((e.responseJSON != null ? e.responseJSON.i18n : undefined)) {
               return this.state.set('error', $.i18n.t(e.responseJSON != null ? e.responseJSON.i18n : undefined) || 'Unknown Error')
             } else {
@@ -539,16 +552,28 @@ module.exports = (BasicInfoView = (function () {
       e.preventDefault()
       const ssoUsed = $(e.currentTarget).data('sso-used')
       if (isOzaria) {
-        handler = ssoUsed === 'facebook' ? application.facebookHandler : application.gplusHandler
+        handler = (() => {
+          switch (ssoUsed) {
+            case 'facebook': return application.facebookHandler
+            case 'gplus': return application.gplusHandler
+            case 'schoology': return application.schoologyHandler
+            case 'classlink': return application.classlinkHandler
+          }
+        })()
       } else {
         handler = (() => {
           switch (ssoUsed) {
             case 'facebook': return application.facebookHandler
             case 'gplus': return application.gplusHandler
             case 'schoology': return application.schoologyHandler
+            case 'classlink': return application.classlinkHandler
             case 'clever': return 'clever'
           }
         })()
+      }
+      if (!handler) {
+        console.error('Unsupported SSO provider', ssoUsed)
+        return
       }
 
       if (handler === 'clever') {

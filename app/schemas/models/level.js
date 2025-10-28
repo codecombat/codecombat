@@ -23,8 +23,8 @@ const EventPrereqSchema = c.object({ title: 'Event Prerequisite', format: 'event
   containingString: c.shortString({ title: 'Contains', description: 'Script requires the event\'s property chain value to be a string containing this string.' }),
   notContainingString: c.shortString({ title: 'Does not contain', description: 'Script requires the event\'s property chain value to *not* be a string containing this string.' }),
   containingRegexp: c.shortString({ title: 'Contains Regexp', description: 'Script requires the event\'s property chain value to be a string containing this regular expression.' }),
-  notContainingRegexp: c.shortString({ title: 'Does not contain regexp', description: 'Script requires the event\'s property chain value to *not* be a string containing this regular expression.' })
-}
+  notContainingRegexp: c.shortString({ title: 'Does not contain regexp', description: 'Script requires the event\'s property chain value to *not* be a string containing this regular expression.' }),
+},
 )
 
 const GoalSchema = c.object({ title: 'Goal', description: 'A goal that the player can accomplish.', required: ['name', 'id'] }, {
@@ -40,74 +40,63 @@ const GoalSchema = c.object({ title: 'Goal', description: 'A goal that the playe
   saveThangs: c.array({ title: 'Save Thangs', description: 'A list of Thang IDs the player should save, or team names', uniqueItems: true, minItems: 1, default: ['Hero Placeholder'] }, thang),
   getToLocations: c.object({ title: 'Get To Locations', description: 'Will be set off when any of the \"who\" touch any of the \"targets\"', required: ['who', 'targets'] }, { // eslint-disable-line no-useless-escape
     who: c.array({ title: 'Who', description: 'The Thangs who must get to the target locations.', minItems: 1 }, thang),
-    targets: c.array({ title: 'Targets', description: 'The target locations to which the Thangs must get.', minItems: 1 }, thang)
-  }
-  ),
+    targets: c.array({ title: 'Targets', description: 'The target locations to which the Thangs must get.', minItems: 1 }, thang),
+  }),
   getAllToLocations: c.array({ title: 'Get all to locations', description: 'Similar to getToLocations but now a specific \"who\" can have a specific \"target\", also must be used with the HowMany property for desired effect', required: ['getToLocation'] }, // eslint-disable-line no-useless-escape
     c.object({ title: '', description: '' }, {
       getToLocation: c.object({ title: 'Get To Locations', description: 'TODO: explain', required: ['who', 'targets'] }, {
         who: c.array({ title: 'Who', description: 'The Thangs who must get to the target locations.', minItems: 1 }, thang),
-        targets: c.array({ title: 'Targets', description: 'The target locations to which the Thangs must get.', minItems: 1 }, thang)
-      }
-      )
-    }
-    )
+        targets: c.array({ title: 'Targets', description: 'The target locations to which the Thangs must get.', minItems: 1 }, thang),
+      }),
+    }),
   ),
   keepFromLocations: c.object({ title: 'Keep From Locations', description: 'TODO: explain', required: ['who', 'targets'] }, {
     who: c.array({ title: 'Who', description: 'The Thangs who must not get to the target locations.', minItems: 1 }, thang),
-    targets: c.array({ title: 'Targets', description: 'The target locations to which the Thangs must not get.', minItems: 1 }, thang)
-  }
-  ),
+    targets: c.array({ title: 'Targets', description: 'The target locations to which the Thangs must not get.', minItems: 1 }, thang),
+  }),
   keepAllFromLocations: c.array({ title: 'Keep ALL From Locations', description: 'Similar to keepFromLocations but now a specific \"who\" can have a specific \"target\", also must be used with the HowMany property for desired effect', required: ['keepFromLocation'] }, // eslint-disable-line no-useless-escape
     c.object({ title: '', description: '' }, {
       keepFromLocation: c.object({ title: 'Keep From Locations', description: 'TODO: explain', required: ['who', 'targets'] }, {
         who: c.array({ title: 'Who', description: 'The Thangs who must not get to the target locations.', minItems: 1 }, thang),
-        targets: c.array({ title: 'Targets', description: 'The target locations to which the Thangs must not get.', minItems: 1 }, thang)
-      }
-      )
-    }
-    )
+        targets: c.array({ title: 'Targets', description: 'The target locations to which the Thangs must not get.', minItems: 1 }, thang),
+      }),
+    }),
   ),
   leaveOffSides: c.object({ title: 'Leave Off Sides', description: 'Sides of the level to get some Thangs to leave across.', required: ['who', 'sides'] }, {
     who: c.array({ title: 'Who', description: 'The Thangs which must leave off the sides of the level.', minItems: 1 }, thang),
-    sides: c.array({ title: 'Sides', description: 'The sides off which the Thangs must leave.', minItems: 1 }, side)
-  }
-  ),
+    sides: c.array({ title: 'Sides', description: 'The sides off which the Thangs must leave.', minItems: 1 }, side),
+  }),
   keepFromLeavingOffSides: c.object({ title: 'Keep From Leaving Off Sides', description: 'Sides of the level to keep some Thangs from leaving across.', required: ['who', 'sides'] }, {
     who: c.array({ title: 'Who', description: 'The Thangs which must not leave off the sides of the level.', minItems: 1 }, thang),
-    sides: side
+    sides: side,
   }, { title: 'Sides', description: 'The sides off which the Thangs must not leave.', minItems: 1 }, side),
   collectThangs: c.object({ title: 'Collect', description: 'Thangs that other Thangs must collect.', required: ['who', 'targets'] }, {
     who: c.array({ title: 'Who', description: 'The Thangs which must collect the target items.', minItems: 1 }, thang),
-    targets: c.array({ title: 'Targets', description: 'The target items which the Thangs must collect.', minItems: 1 }, thang)
-  }
-  ),
+    targets: c.array({ title: 'Targets', description: 'The target items which the Thangs must collect.', minItems: 1 }, thang),
+  }),
   keepFromCollectingThangs: c.object({ title: 'Keep From Collecting', description: 'Thangs that the player must prevent other Thangs from collecting.', required: ['who', 'targets'] }, {
     who: c.array({ title: 'Who', description: 'The Thangs which must not collect the target items.', minItems: 1 }, thang),
-    targets: c.array({ title: 'Targets', description: 'The target items which the Thangs must not collect.', minItems: 1 }, thang)
-  }
-  ),
+    targets: c.array({ title: 'Targets', description: 'The target items which the Thangs must not collect.', minItems: 1 }, thang),
+  }),
   codeProblems: c.array({ title: 'Code Problems', description: 'A list of Thang IDs that should not have any code problems, or team names.', uniqueItems: true, minItems: 1, default: ['humans'] }, thang),
   linesOfCode: { title: 'Lines of Code', description: 'A mapping of Thang IDs or teams to how many many lines of code should be allowed (well, statements).', type: 'object', default: { humans: 10 }, additionalProperties: { type: 'integer', description: 'How many lines to allow for this Thang.' } },
   html: c.object({ title: 'HTML', description: 'A jQuery selector and what its result should be' }, {
     selector: { type: 'string', description: 'jQuery selector to run on the user HTML, like "h1:first-child"' },
-    valueChecks: c.array({ title: 'Value checks', description: 'Logical checks on the resulting value for this goal to pass.', format: 'event-prereqs' }, EventPrereqSchema)
-  }
-  ),
-  concepts: c.array({ title: 'Target Concepts', description: 'Which programming concepts this goal demonstrates.', uniqueItems: true, format: 'concepts-list' }, c.concept)
-}
-)
+    valueChecks: c.array({ title: 'Value checks', description: 'Logical checks on the resulting value for this goal to pass.', format: 'event-prereqs' }, EventPrereqSchema),
+  }),
+  concepts: c.array({ title: 'Target Concepts', description: 'Which programming concepts this goal demonstrates.', uniqueItems: true, format: 'concepts-list' }, c.concept),
+})
 const ResponseSchema = c.object({ title: 'Dialogue Button', description: 'A button to be shown to the user with the dialogue.', required: ['text'] }, {
   text: { title: 'Title', description: 'The text that will be on the button', default: 'Okay', type: 'string', maxLength: 30 },
   channel: c.shortString({ title: 'Channel', format: 'event-channel', description: 'Channel that this event will be broadcast over, like "level:set-playing".' }),
   event: { type: 'object', title: 'Event', description: 'Event that will be broadcast when this button is pressed, like {playing: true}.' },
   buttonClass: c.shortString({ title: 'Button Class', description: 'CSS class that will be added to the button, like "btn-primary".' }),
-  i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this button' }
+  i18n: { type: 'object', format: 'i18n', props: ['text'], description: 'Help translate this button' },
 })
 
 const PointSchema = c.object({ title: 'Point', description: 'An {x, y} coordinate point.', format: 'point2d', default: { x: 15, y: 20 } }, {
   x: { title: 'x', description: 'The x coordinate.', type: 'number' },
-  y: { title: 'y', description: 'The y coordinate.', type: 'number' }
+  y: { title: 'y', description: 'The y coordinate.', type: 'number' },
 })
 
 const SpriteCommandSchema = c.object({ title: 'Thang Command', description: 'Make a target Thang move or say something, or select/deselect it.', required: ['id'], default: { id: 'Hero Placeholder' } }, {
@@ -120,7 +109,7 @@ const SpriteCommandSchema = c.object({ title: 'Thang Command', description: 'Mak
     sound: c.object({ title: 'Sound', description: 'A dialogue sound file to accompany the message.', required: ['mp3', 'ogg'] }, {
       mp3: c.shortString({ title: 'MP3', format: 'sound-file' }),
       ogg: c.shortString({ title: 'OGG', format: 'sound-file' }),
-      preload: { title: 'Preload', description: 'Whether to load this sound file before the level can begin (typically for the first dialogue of a level).', type: 'boolean' }
+      preload: { title: 'Preload', description: 'Whether to load this sound file before the level can begin (typically for the first dialogue of a level).', type: 'boolean' },
     }),
     voiceOver: c.voiceOver,
     responses: c.array({ title: 'Buttons', description: 'An array of buttons to include with the dialogue, with which the user can respond.' }, ResponseSchema),
@@ -128,13 +117,13 @@ const SpriteCommandSchema = c.object({ title: 'Thang Command', description: 'Mak
       title: 'Character',
       description: 'The character portrait to use for the say message. Currently doesn\'t do anything. Use "Character Portrait" in the settings.',
       enum: ['vega', 'blank', 'capella'],
-      default: 'vega'
+      default: 'vega',
     }),
-    i18n: { type: 'object', format: 'i18n', props: ['blurb', 'text', 'sound'], description: 'Help translate this message' }
+    i18n: { type: 'object', format: 'i18n', props: ['blurb', 'text', 'sound'], description: 'Help translate this message' },
   }),
   move: c.object({ title: 'Move', description: 'Tell the Thang to move.', required: ['target'], default: { target: {}, duration: 500 } }, {
     target: _.extend(_.cloneDeep(PointSchema), { title: 'Target', description: 'Target point to which the Thang will move.', default: { x: 20, y: 20 } }),
-    duration: { title: 'Duration', description: 'Number of milliseconds over which to move, or 0 for an instant move.', type: 'integer', minimum: 0, format: 'milliseconds' }
+    duration: { title: 'Duration', description: 'Number of milliseconds over which to move, or 0 for an instant move.', type: 'integer', minimum: 0, format: 'milliseconds' },
   }),
   tutorial: c.object({ title: 'Tutorial', description: 'Move Vega around on the screen as a step by step tutorial to explain things.', default: { internalRelease: false } }, {
     internalRelease: { title: 'Internal Release', description: 'Only show this step to admins or accounts with @codecombat emails', type: 'boolean' },
@@ -148,9 +137,9 @@ const SpriteCommandSchema = c.object({ title: 'Thang Command', description: 'Mak
         'left',
         'top',
         'right',
-        'down'
+        'down',
       ],
-      default: 'smart'
+      default: 'smart',
     }),
     targetElement: c.shortString({
       title: 'Target Element',
@@ -162,9 +151,9 @@ const SpriteCommandSchema = c.object({ title: 'Thang Command', description: 'Mak
         'Update Button',
         'Goal List',
         'Code Bank Button',
-        'Code Editor Window'
+        'Code Editor Window',
       ],
-      default: 'Code Editor Window'
+      default: 'Code Editor Window',
     }),
     animation: c.shortString({
       title: 'Element Animation',
@@ -172,22 +161,20 @@ const SpriteCommandSchema = c.object({ title: 'Thang Command', description: 'Mak
       enum: [
         'Outline',
         'Shake',
-        'Zoom'
-      ]
+        'Zoom',
+      ],
     }),
     targetLine: { title: 'Target Line', description: 'Highlight a specific line in the code editor', type: 'number', default: 1 },
     grayOverlay: {
       title: 'Gray Overlay',
       description: 'Fade out the rest of the website, except the message itself and the targetElement (if you set one).',
       type: 'boolean',
-      default: true
+      default: true,
     },
     advanceOnTarget: { title: 'Advance On Target', description: 'Go to next step when clicking the target element (requires Target Element to be set)', type: 'boolean' },
-    targetThangs: c.array({ title: 'Target Thangs', description: 'Thang IDs of target Sprites to highlight.' }, thang)
-  }
-  )
-}
-)
+    targetThangs: c.array({ title: 'Target Thangs', description: 'Thang IDs of target Sprites to highlight.' }, thang),
+  }),
+})
 
 const NoteGroupSchema = c.object({ title: 'Note Group', description: 'A group of notes that should be sent out as a result of this script triggering.', displayProperty: 'name' }, {
   name: { title: 'Name', description: 'Short name describing the script, like \"Anya greets the player\", for your convenience.', type: 'string' }, // eslint-disable-line no-useless-escape
@@ -196,17 +183,17 @@ const NoteGroupSchema = c.object({ title: 'Note Group', description: 'A group of
     showVictory: {
       title: 'Show Victory',
       description: 'Show the done button and maybe also the victory modal.',
-      enum: [true, 'Done Button', 'Done Button And Modal'] // deprecate true, same as 'done_button_and_modal'
+      enum: [true, 'Done Button', 'Done Button And Modal'], // deprecate true, same as 'done_button_and_modal'
     },
     highlight: c.object({ title: 'Highlight', description: 'Highlight the target DOM selector string with a big arrow.' }, {
       target: c.shortString({ title: 'Target', description: 'Target highlight element DOM selector string.' }),
       delay: { type: 'integer', minimum: 0, title: 'Delay', description: 'Show the highlight after this many milliseconds. Doesn\'t affect the dim shade cutout highlight method.' },
       offset: _.extend(_.cloneDeep(PointSchema), { title: 'Offset', description: 'Pointing arrow tip offset in pixels from the default target.', format: null }),
       rotation: { type: 'number', minimum: 0, title: 'Rotation', description: 'Rotation of the pointing arrow, in radians. PI / 2 points left, PI points up, etc.', format: 'radians' },
-      sides: c.array({ title: 'Sides', description: 'Which sides of the target element to point at.' }, { type: 'string', enum: ['left', 'right', 'top', 'bottom'], title: 'Side', description: 'A side of the target element to point at.' })
+      sides: c.array({ title: 'Sides', description: 'Which sides of the target element to point at.' }, { type: 'string', enum: ['left', 'right', 'top', 'bottom'], title: 'Side', description: 'A side of the target element to point at.' }),
     }),
     lock: { title: 'Lock', description: 'Whether the interface should be locked so that the player\'s focus is on the script, or specific areas to lock.', type: ['boolean', 'array'], items: { type: 'string', enum: ['surface', 'editor', 'palette', 'hud', 'playback', 'playback-hover', 'level'] } },
-    letterbox: { type: 'boolean', title: 'Letterbox', description: 'Turn letterbox mode on or off. Disables surface and playback controls.' }
+    letterbox: { type: 'boolean', title: 'Letterbox', description: 'Turn letterbox mode on or off. Disables surface and playback controls.' },
   }),
 
   playback: c.object({ title: 'Playback', description: 'Control the playback of the level.' }, {
@@ -216,16 +203,14 @@ const NoteGroupSchema = c.object({ title: 'Note Group', description: 'A group of
       duration: { type: 'integer', title: 'Duration', description: 'Number of milliseconds over which to scrub time.', minimum: 0, format: 'milliseconds' },
       toRatio: { type: 'number', title: 'To Progress Ratio', description: 'Set playback time to a target playback progress ratio.', minimum: 0, maximum: 1 },
       toTime: { type: 'number', title: 'To Time', description: 'Set playback time to a target playback point, in seconds.', minimum: 0 },
-      toGoal: c.shortString({ title: 'To Goal', description: 'Set playback time to when this goal was achieved. (TODO: not implemented.)' })
-    }
-    )
-  }
-  ),
+      toGoal: c.shortString({ title: 'To Goal', description: 'Set playback time to when this goal was achieved. (TODO: not implemented.)' }),
+    }),
+  }),
 
   script: c.object({ title: 'Script', description: 'Extra configuration for this action group.' }, {
     duration: { type: 'integer', minimum: 0, title: 'Duration', description: 'How long this script should last in milliseconds. 0 for indefinite.', format: 'milliseconds' },
     skippable: { type: 'boolean', title: 'Skippable', description: 'Whether this script shouldn\'t bother firing when the player skips past all current scripts.' },
-    beforeLoad: { type: 'boolean', title: 'Before Load', description: 'Whether this script should fire before the level is finished loading.' }
+    beforeLoad: { type: 'boolean', title: 'Before Load', description: 'Whether this script should fire before the level is finished loading.' },
   }),
 
   sprites: c.array({ title: 'Sprites', description: 'Commands to issue to Sprites on the Surface.' }, SpriteCommandSchema),
@@ -236,13 +221,13 @@ const NoteGroupSchema = c.object({ title: 'Note Group', description: 'A group of
       zoom: { type: 'number', minimum: 0, exclusiveMinimum: true, maximum: 64, title: 'Zoom', description: 'What zoom level to use.' },
       duration: { type: 'number', minimum: 0, title: 'Duration', description: 'in ms' },
       bounds: c.array({ title: 'Boundary', maxItems: 2, minItems: 2, default: [{ x: 0, y: 0 }, { x: 46, y: 39 }], format: 'bounds' }, PointSchema),
-      isNewDefault: { type: 'boolean', format: 'hidden', title: 'New Default', description: 'Set this as new default zoom once scripts end.' }
+      isNewDefault: { type: 'boolean', format: 'hidden', title: 'New Default', description: 'Set this as new default zoom once scripts end.' },
     }), // deprecated
     highlight: c.object({ title: 'Highlight', description: 'Highlight specific Sprites on the Surface.' }, {
       targets: c.array({ title: 'Targets', description: 'Thang IDs of target Sprites to highlight.' }, thang),
-      delay: { type: 'integer', minimum: 0, title: 'Delay', description: 'Delay in milliseconds before the highlight appears.' }
+      delay: { type: 'integer', minimum: 0, title: 'Delay', description: 'Delay in milliseconds before the highlight appears.' },
     }),
-    lockSelect: { type: 'boolean', title: 'Lock Select', description: 'Whether to lock Sprite selection so that the player can\'t select/deselect anything.' }
+    lockSelect: { type: 'boolean', title: 'Lock Select', description: 'Whether to lock Sprite selection so that the player can\'t select/deselect anything.' },
   }),
 
   sound: c.object({ title: 'Sound', description: 'Commands to control sound playback.' }, {
@@ -280,20 +265,18 @@ const NoteGroupSchema = c.object({ title: 'Note Group', description: 'A group of
           '/music/music_level_3',
           '/music/music_level_4',
           '/music/music_level_5',
-          '/music/music_sophia_1']
-      })
-    }
-    )
-  }
-  )
-}
-)
+          '/music/music_sophia_1',
+        ],
+      }),
+    }),
+  }),
+})
 
 const ScriptSchema = c.object({
   title: 'Script',
   description: 'A script fires off a chain of notes to interact with the game when a certain event triggers it.',
   required: ['channel'],
-  default: { channel: 'world:won', noteChain: [] }
+  default: { channel: 'world:won', noteChain: [] },
 }, {
   id: c.shortString({ title: 'ID', description: 'A unique ID that other scripts can rely on in their Happens After prereqs, for sequencing.', pattern: '^[a-zA-Z 0-9:\'"_!-]+$' }), // uniqueness? Ideally this would be just ids-like-this but we have a lot of legacy data.
   channel: c.shortString({ title: 'Event', format: 'event-channel', description: 'Event channel this script might trigger for, like "world:won".' }),
@@ -303,9 +286,8 @@ const ScriptSchema = c.object({
     c.shortString({ title: 'ID', description: 'A unique ID of a script.' })),
   notAfter: c.array({ title: 'Not After', description: 'Do not run this script if any of these scripts have run.' },
     c.shortString({ title: 'ID', description: 'A unique ID of a script.' })),
-  noteChain: c.array({ title: 'Actions', description: 'A list of things that happen when this script triggers.' }, NoteGroupSchema)
-}
-)
+  noteChain: c.array({ title: 'Actions', description: 'A list of things that happen when this script triggers.' }, NoteGroupSchema),
+})
 
 const LevelThangSchema = c.object({
   title: 'Thang',
@@ -315,14 +297,13 @@ const LevelThangSchema = c.object({
   default: {
     id: 'Boris',
     thangType: 'Soldier',
-    components: []
-  }
+    components: [],
+  },
 }, {
   id: thang, // TODO: figure out if we can make this unique and how to set dynamic defaults
   thangType: c.objectId({ links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], title: 'Thang Type', description: 'A reference to the original Thang template being configured.', format: 'thang-type' }),
-  components: c.array({ title: 'Components', description: 'Thangs are configured by changing the Components attached to them.', uniqueItems: true, format: 'thang-components-array' }, ThangComponentSchema)
-}
-) // TODO: uniqueness should be based on 'original', not whole thing
+  components: c.array({ title: 'Components', description: 'Thangs are configured by changing the Components attached to them.', uniqueItems: true, format: 'thang-components-array' }, ThangComponentSchema),
+}) // TODO: uniqueness should be based on 'original', not whole thing
 
 const LevelSystemSchema = c.object({
   title: 'System',
@@ -331,13 +312,13 @@ const LevelSystemSchema = c.object({
   required: ['original', 'majorVersion'],
   default: {
     majorVersion: 0,
-    config: {}
+    config: {},
   },
-  links: [{ rel: 'db', href: '/db/level.system/{(original)}/version/{(majorVersion)}' }]
+  links: [{ rel: 'db', href: '/db/level.system/{(original)}/version/{(majorVersion)}' }],
 }, {
   original: c.objectId({ title: 'Original', description: 'A reference to the original System being configured.', format: 'hidden' }),
   config: c.object({ title: 'Configuration', description: 'System-specific configuration properties.', additionalProperties: true, format: 'level-system-configuration' }),
-  majorVersion: { title: 'Major Version', description: 'Which major version of the System is being used.', type: 'integer', minimum: 0, format: 'hidden' }
+  majorVersion: { title: 'Major Version', description: 'Which major version of the System is being used.', type: 'integer', minimum: 0, format: 'hidden' },
 })
 
 const GeneralArticleSchema = c.object({
@@ -347,12 +328,12 @@ const GeneralArticleSchema = c.object({
   format: 'latest-version-reference',
   default: {
     original: null,
-    majorVersion: 0
+    majorVersion: 0,
   },
-  links: [{ rel: 'db', href: '/db/article/{(original)}/version/{(majorVersion)}' }]
+  links: [{ rel: 'db', href: '/db/article/{(original)}/version/{(majorVersion)}' }],
 }, {
   original: c.objectId({ title: 'Original', description: 'A reference to the original Article.' }), //, format: 'hidden')  # hidden?
-  majorVersion: { title: 'Major Version', description: 'Which major version of the Article is being used.', type: 'integer', minimum: 0 }
+  majorVersion: { title: 'Major Version', description: 'Which major version of the Article is being used.', type: 'integer', minimum: 0 },
 }) //, format: 'hidden'}  # hidden?
 
 const IntroContentObject = {
@@ -367,11 +348,11 @@ const IntroContentObject = {
           type: 'object',
           title: 'Content ID specific to languages',
           additionalProperties: c.stringID(),
-          format: 'code-languages-object'
-        }
-      ]
-    }
-  }
+          format: 'code-languages-object',
+        },
+      ],
+    },
+  },
 }
 
 const LevelSchema = c.object({
@@ -389,16 +370,16 @@ const LevelSchema = c.object({
     type: 'hero',
     goals: [
       { id: 'ogres-die', name: 'Defeat the ogres.', killThangs: ['ogres'], worldEndsAfter: 3 },
-      { id: 'humans-survive', name: 'Your hero must survive.', saveThangs: ['Hero Placeholder'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true }
+      { id: 'humans-survive', name: 'Your hero must survive.', saveThangs: ['Hero Placeholder'], howMany: 1, worldEndsAfter: 3, hiddenGoal: true },
     ],
     concepts: ['basic_syntax'],
     product: 'codecombat',
-  }
+  },
 })
 c.extendNamedProperties(LevelSchema) // let's have the name be the first property
 _.extend(LevelSchema.properties, {
   description: { title: 'Description', description: 'A short explanation of what this level is about.', type: 'string', maxLength: 65536, format: 'markdown', inEditor: true },
-  displayName: c.shortString({ title: 'Display Name', inEditor: 'ozaria' }), // Currently just used in Ozaria
+  displayName: c.shortString({ title: 'Display Name', inEditor: true }),
   studentPlayInstructions: { title: 'Student Play Instructions', description: 'Instructions for game dev levels when students play them.', type: 'string', maxLength: 65536, format: 'markdown', inEditor: true },
   loadingTip: { type: 'string', title: 'Loading Tip', description: 'What to show for this level while it\'s loading.', inEditor: 'codecombat' },
   documentation: c.object({ title: 'Documentation', description: 'Documentation articles relating to this level.', default: { specificArticles: [], generalArticles: [] }, inEditor: true }, {
@@ -408,16 +389,16 @@ _.extend(LevelSchema.properties, {
       type: 'object',
       properties: {
         body: { type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown' },
-        i18n: { type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this hint' }
-      }
+        i18n: { type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this hint' },
+      },
     }),
     hintsB: c.array({ title: 'HintsB', description: '2nd style of hints for a/b testing significant variations', uniqueItems: true }, {
       type: 'object',
       properties: {
         body: { type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown' },
-        i18n: { type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this hint' }
-      }
-    })
+        i18n: { type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this hint' },
+      },
+    }),
   }),
   // These next few properties are just for Ozaria
   screenshot: { type: 'string', format: 'image-file', title: 'Screenshot', description: 'Relevant for teacher dashboard', inEditor: 'ozaria' },
@@ -434,14 +415,14 @@ _.extend(LevelSchema.properties, {
     format: 'latest-version-reference',
     title: 'Next Level',
     description: 'Reference to the next level players will play after beating this one.',
-    inEditor: 'codecombat'
+    inEditor: 'codecombat',
   },
   scripts: c.array({ title: 'Scripts', description: 'An array of scripts that trigger based on what the player does and affect things outside of the core level simulation.' }, ScriptSchema),
   thangs: c.array({ title: 'Thangs', description: 'An array of Thangs that make up the level.' }, LevelThangSchema),
   systems: c.array({ title: 'Systems', description: 'Levels are configured by changing the Systems attached to them.', uniqueItems: true }, LevelSystemSchema), // TODO: uniqueness should be based on 'original', not whole thing
   victory: c.object({ title: 'Victory Screen', inEditor: 'codecombat' }, {
     body: { type: 'string', format: 'markdown', title: 'Body Text', description: 'Inserted into the Victory Modal once this level is complete. Tell the player they did a good job and what they accomplished!' },
-    i18n: { type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this victory message' }
+    i18n: { type: 'object', format: 'i18n', props: ['body'], description: 'Help translate this victory message' },
   }),
   i18n: { type: 'object', format: 'i18n', props: ['name', 'description', 'loadingTip', 'studentPlayInstructions', 'displayName'], description: 'Help translate this level', inEditor: true },
   banner: { type: 'string', format: 'image-file', title: 'Banner', inEditor: 'codecombat' },
@@ -456,7 +437,7 @@ _.extend(LevelSchema.properties, {
   helpVideos: c.array({ title: 'Help Videos', inEditor: 'codecombat' }, c.object({ default: { style: 'eccentric', url: '', free: false } }, {
     style: c.shortString({ title: 'Style', description: 'Like: original, eccentric, scripted, edited, etc.' }),
     free: { type: 'boolean', title: 'Free', description: 'Whether this video is freely available to all players without a subscription.' },
-    url: c.url({ title: 'URL', description: 'Link to the video on Vimeo.' })
+    url: c.url({ title: 'URL', description: 'Link to the video on Vimeo.' }),
   })),
   replayable: { type: 'boolean', title: 'Replayable', description: 'Whether this (hero) level infinitely scales up its difficulty and can be beaten over and over for greater rewards.', inEditor: 'codecombat' },
   buildTime: { type: 'number', description: 'How long it has taken to build this level.' },
@@ -470,7 +451,7 @@ _.extend(LevelSchema.properties, {
     description: 'The character portrait to use for the say messages.',
     enum: ['vega', 'blank', 'capella', 'octans', 'wise-capella', 'astra', 'snikrep', 'salazar', 'young-salazar', 'dragon-salazar'],
     default: 'vega',
-    inEditor: 'ozaria'
+    inEditor: 'ozaria',
   }),
 
   primerLanguage: { type: 'string', enum: ['javascript', 'python'], description: 'Programming language taught by this level.', inEditor: 'codecombat' },
@@ -494,14 +475,14 @@ _.extend(LevelSchema.properties, {
   realTimeSpeedFactor: { type: 'number', inEditor: 'codecombat' },
   autocompleteFontSizePx: { type: 'number', inEditor: 'codecombat' },
   requiredCode: c.array({ inEditor: true }, {
-    type: 'string'
+    type: 'string',
   }),
   suspectCode: c.array({ inEditor: true }, {
     type: 'object',
     properties: {
       name: { type: 'string' },
-      pattern: { type: 'string' }
-    }
+      pattern: { type: 'string' },
+    },
   }),
   autocompleteReplacement: c.array({ inEditor: true }, {
     type: 'object',
@@ -512,9 +493,9 @@ _.extend(LevelSchema.properties, {
         title: 'Snippets',
         description: 'List of snippets for the respective programming languages',
         additionalProperties: c.codeSnippet,
-        format: 'code-languages-object'
-      }
-    }
+        format: 'code-languages-object',
+      },
+    },
   }),
   requiredGear: {
     type: 'object',
@@ -523,8 +504,8 @@ _.extend(LevelSchema.properties, {
     inEditor: 'codecombat',
     additionalProperties: {
       type: 'array',
-      items: { type: 'string', links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], format: 'latest-version-original-reference' }
-    }
+      items: { type: 'string', links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], format: 'latest-version-original-reference' },
+    },
   },
   restrictedGear: {
     type: 'object',
@@ -533,8 +514,8 @@ _.extend(LevelSchema.properties, {
     inEditor: 'codecombat',
     additionalProperties: {
       type: 'array',
-      items: { type: 'string', links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], format: 'latest-version-original-reference' }
-    }
+      items: { type: 'string', links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], format: 'latest-version-original-reference' },
+    },
   },
   requiredProperties: { type: 'array', items: { type: 'string' }, description: 'Names of properties a hero must have equipped to play.', format: 'solution-gear', title: 'Required Properties', inEditor: 'codecombat' },
   restrictedProperties: { type: 'array', items: { type: 'string' }, description: 'Names of properties a hero must not have equipped to play.', title: 'Restricted Properties', inEditor: 'codecombat' },
@@ -549,9 +530,9 @@ _.extend(LevelSchema.properties, {
       type: 'object',
       properties: {
         min: { type: 'number' },
-        max: { type: 'number' }
-      }
-    }
+        max: { type: 'number' },
+      },
+    },
   },
   allowedHeroes: {
     type: 'array',
@@ -559,8 +540,8 @@ _.extend(LevelSchema.properties, {
     description: 'Which heroes can play this level. For any hero, leave unset.',
     inEditor: 'codecombat',
     items: {
-      type: 'string', links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], format: 'latest-version-original-reference'
-    }
+      type: 'string', links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], format: 'latest-version-original-reference',
+    },
   },
   campaign: c.shortString({ title: 'Campaign', description: 'Set automatically by the campaign editor. Which campaign this level is part of (like "desert").', format: 'hidden', inEditor: 'ozaria' }),
   campaignIndex: c.int({ title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden' }), // Automatically set by campaign editor.
@@ -579,12 +560,12 @@ _.extend(LevelSchema.properties, {
             properties: {
               bronze: { type: 'number' },
               silver: { type: 'number' },
-              gold: { type: 'number' }
-            }
-          }
-        }
-      }
-    ]
+              gold: { type: 'number' },
+            },
+          },
+        },
+      },
+    ],
   }),
   concepts: c.array({ title: 'Programming Concepts', description: 'Which programming concepts this level covers.', uniqueItems: true, format: 'concepts-list', inEditor: true }, c.concept),
   primaryConcepts: c.array({ title: 'Primary Concepts', description: 'The main 1-3 concepts this level focuses on.', uniqueItems: true, inEditor: true }, c.concept),
@@ -599,7 +580,7 @@ _.extend(LevelSchema.properties, {
     description: 'Intro content sequence',
     type: 'array',
     items: IntroContentObject,
-    inEditor: 'ozaria'
+    inEditor: 'ozaria',
   },
   creativeMode: { title: 'Creative Mode', type: 'boolean', description: 'Only changes behavior of capstone levels. Treats the last stage of capstones as a creative mode, where goals are turned off. This also saves the students prior code created in prior stages. A teacher is able to see both normal code and creative code. Finally when student restarts level they start from their normal code written before creative mode.', inEditor: 'ozaria' },
   additionalGoals: c.array({ title: 'Additional Goals', description: 'Goals that are added after the first regular goals are completed', inEditor: 'ozaria' }, c.object({
@@ -609,8 +590,8 @@ _.extend(LevelSchema.properties, {
     uniqueItems: true,
     properties: {
       stage: { type: 'integer', minimum: 2, title: 'Goal Stage', description: 'Which stage these additional goals are for (2 and onwards)' },
-      goals: c.array({ title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.' }, GoalSchema)
-    }
+      goals: c.array({ title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.' }, GoalSchema),
+    },
   })),
   isPlayedInStages: { type: 'boolean', title: 'Is Played in Stages', description: 'Is this level played in stages and other content(cinematics) is loaded in between stages', inEditor: 'ozaria' },
   methodsBankList: c.array({ title: 'Methods Bank List', inEditor: 'ozaria' }, c.object({
@@ -618,12 +599,51 @@ _.extend(LevelSchema.properties, {
       name: c.shortString({ title: 'Name' }),
       section: c.shortString({ title: 'Methods Bank Section', pattern: /^\w[\w ]*$/ }),
       subSection: c.shortString({ title: 'Methods Bank Sub-Section', pattern: /^\w[\w ]*$/ }),
-      componentName: c.shortString({ title: 'Level Component Name', description: 'Level Component to use for documentation in case there are multiple components with same property\'s documentation' })
-    }
+      componentName: c.shortString({ title: 'Level Component Name', description: 'Level Component to use for documentation in case there are multiple components with same property\'s documentation' }),
+    },
   })),
   archived: { type: 'integer', description: 'Marks this level with to be hidden from searches and lookups. Number is milliseconds since 1 January 1970 UTC, when it was marked as hidden.' },
   difficulty: { type: 'integer', title: 'Difficulty', description: 'Difficulty of this level - used to show difficulty in star-rating of 1 to 5', minimum: 1, maximum: 5, inEditor: 'codecombat' },
-  product: _.extend(c.singleProduct, { inEditor: true })
+  product: _.extend(c.singleProduct, { inEditor: true }),
+  aiAssistantSystemPrompt: { type: 'string', description: 'Additional system prompt for the AI assistant system about game rules and mechanics', inEditor: 'codecombat', title: 'AI Assistant System Prompt', format: 'markdown' },
+  aiChatKind: { type: 'string', description: 'Kind of AI chat to use for this level', inEditor: 'codecombat', title: 'AI Chat Kind', enum: ['none', 'level-chat', 'ai-league'], default: 'level-chat' },
+  aiChatExampleMessages: {
+    type: 'object',
+    title: 'AI Chat Example Messages',
+    description: 'Example messages for AI chat organized by programming language. Keys are code languages, values are arrays of message examples with user and assistant roles.',
+    inEditor: 'codecombat',
+    additionalProperties: {
+      type: 'array',
+      title: 'Example Messages for Language',
+      description: 'Array of example messages for this programming language',
+      items: {
+        type: 'object',
+        title: 'Chat Message Example',
+        required: ['role', 'content'],
+        properties: {
+          role: {
+            type: 'string',
+            title: 'Message Role',
+            description: 'The role of the message sender',
+            enum: ['user', 'assistant'],
+            default: 'user',
+          },
+          content: {
+            type: 'string',
+            title: 'Message Content',
+            description: 'The content of the message',
+            format: 'markdown',
+          },
+        },
+      },
+    },
+  },
+  hackstackScenarioId: c.stringID({
+    title: 'Hackstack Scenario ID',
+    description: 'Hackstack scenario original id. This level is a proxy for a hackstack scenario.',
+    inEditor: 'codecombat',
+    format: 'hackstackScenario',
+  }),
 })
 
 LevelSchema.definitions = {

@@ -34,9 +34,7 @@ module.exports = (Campaign = (function () {
     }
 
     static getLevels (campaign) {
-      let {
-        levels
-      } = campaign
+      let { levels } = campaign
       levels = _.sortBy(levels, 'campaignIndex')
       if (utils.isOzaria) {
         if (!me.isAdmin() && me.isInternal()) {
@@ -60,7 +58,7 @@ module.exports = (Campaign = (function () {
       const levels = this.getLevels().models
       const campaignLevels = {}
       campaignLevels[campaignId] = {
-        modules: levelUtils.buildLevelsListByModule(levels, isCh1)
+        modules: levelUtils.buildLevelsListByModule(levels, isCh1),
       }
       return campaignLevels
     }

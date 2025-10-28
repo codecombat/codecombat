@@ -11,11 +11,13 @@ export default {
     },
 
     schoolTabsTitle () {
-      return PAGE_TITLES[COMPONENT_NAMES.MY_SCHOOLS]
+      const i18nKey = PAGE_TITLES[COMPONENT_NAMES.MY_SCHOOLS].split('i18n:')[1]
+      return $.i18n.t(i18nKey)
     },
 
     licensesTabTitle () {
-      return PAGE_TITLES[COMPONENT_NAMES.SCHOOL_ADMIN_LICENSES]
+      const i18nKey = PAGE_TITLES[COMPONENT_NAMES.SCHOOL_ADMIN_LICENSES].split('i18n:')[1]
+      return $.i18n.t(i18nKey)
     }
   },
 
@@ -37,8 +39,7 @@ export default {
 
 <template>
   <ul
-    id="secondaryNav"
-    class="nav"
+    class="nav secondaryNav"
     role="navigation"
   >
     <li>
@@ -103,13 +104,14 @@ export default {
   margin-right: 8px;
 }
 
-#secondaryNav {
+.secondaryNav {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   padding-left: 23.5px;
   height: 35px;
   min-height: 35px;
+  font-family: $ozaria-main-font-family;
 
   & > li {
     height: 35px;
@@ -121,12 +123,12 @@ export default {
     justify-content: center;
     align-items: center;
 
-    background-color: $twilight;
+    background-color: var(--color-primary);
     border-radius: 10px 10px 0 0;
 
     a.current-route, & > a:hover {
       background-color: #F2F2F2;
-      color: $twilight;
+      color: var(--color-primary);
       border: 1px solid #d8d8d8;
       border-bottom: unset;
     }

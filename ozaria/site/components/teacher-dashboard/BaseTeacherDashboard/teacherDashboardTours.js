@@ -1,6 +1,6 @@
 const PLAN_FIRST_CLASS_STEP = {
   attachTo: {
-    element: '#CurriculumAnchor',
+    element: '#GuideDropdown',
     on: 'right',
   },
   text: () => {

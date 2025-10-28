@@ -83,6 +83,7 @@ module.exports = (User = (function () {
         PARENT_ADMIN: 'parentAdmin',
         NAPERVILLE_ADMIN: 'napervilleAdmin',
       }
+      this.SALES_CALL_ACCESS_LEVEL = 'call-sales'
 
       a = 5
       b = 100
@@ -624,6 +625,23 @@ module.exports = (User = (function () {
       })
     }
 
+    tryStartExperiment (name) {
+      let probability = window.serverConfig?.experimentProbabilities?.[name]?.beta
+      if (probability == null) {
+        return 'control'
+      }
+      let value
+      if (Math.random() < probability) {
+        value = 'beta'
+      } else {
+        value = 'control'
+        probability = 1 - probability
+      }
+      console.log(`starting ${name} experiment with value ${value} and probability ${probability}`)
+      me.startExperiment(name, value, probability)
+      return value
+    }
+
     startExperiment (name, value, probability) {
       let left
       const experiments = (left = this.get('experiments')) != null ? left : []
@@ -661,11 +679,12 @@ module.exports = (User = (function () {
     }
 
     getExperimentValue (experimentName, defaultValue = null, defaultValueIfAdmin = null) {
-      // Latest experiment to start with this experiment name wins, in the off chance we have multiple duplicate entries
-      let left, left1
-      if ((defaultValueIfAdmin != null) && this.isAdmin()) { defaultValue = defaultValueIfAdmin }
-      const experiments = _.sortBy((left = this.get('experiments')) != null ? left : [], 'startDate').reverse()
-      return (left1 = _.find(experiments, { name: experimentName })?.value) != null ? left1 : defaultValue
+      // Prefer the admin default for admins when provided
+      const effectiveDefault = (defaultValueIfAdmin != null && this.isAdmin()) ? defaultValueIfAdmin : defaultValue
+
+      const experiments = _.sortBy(this.get('experiments') || [], 'startDate').reverse()
+      const found = _.find(experiments, { name: experimentName })
+      return (found && found.value != null) ? found.value : effectiveDefault
     }
 
     isEnrolled () { return this.prepaidStatus() === 'enrolled' }
@@ -714,12 +733,21 @@ module.exports = (User = (function () {
 
     activeProducts (type) {
       const now = new Date()
-      return _.filter(this.get('products'), p => (p.product === type) && ((new Date(p.endDate) > now) || !p.endDate))
+      return _.filter((this.get('products') || []), p => {
+        if (p.product !== type) return false
+        const hasValidEndDate = (p.endDate && new Date(p.endDate) > now) || !p.endDate
+        const hasValidStartDate = !p.startDate || new Date(p.startDate) <= now
+        return hasValidEndDate && hasValidStartDate
+      })
     }
 
     expiredProducts (type) {
       const now = new Date()
-      return _.filter(this.get('products'), p => (p.product === type) && (new Date(p.endDate) < now))
+      return _.filter((this.get('products') || []), p => (p.product === type) && (new Date(p.endDate) < now))
+    }
+
+    activeSalesCallProducts () {
+      return this.activeProducts(this.constructor.SALES_CALL_ACCESS_LEVEL)
     }
 
     getExam (id) {
@@ -847,6 +875,19 @@ module.exports = (User = (function () {
       options.data = JSON.stringify(options.data)
       const jqxhr = this.fetch(options)
       jqxhr.then(() => window.tracker?.trackEvent('Finished Signup', { category: 'Signup', label: 'CodeCombat' }))
+      return jqxhr
+    }
+
+    signupWithOauth2 (email, data = {}, options = {}) {
+      options.url = _.result(this, 'url') + '/signup-with-oauth2'
+      options.type = 'POST'
+      if (options.data == null) { options.data = {} }
+      _.extend(options.data, { email, ...data })
+      options.contentType = 'application/json'
+      options.xhrFields = { withCredentials: true }
+      options.data = JSON.stringify(options.data)
+      const jqxhr = this.fetch(options)
+      jqxhr.then(() => window.tracker?.trackEvent('Oauth2 Finished Signup', { category: 'Signup', label: 'CodeCombat' }))
       return jqxhr
     }
 
@@ -1020,6 +1061,17 @@ module.exports = (User = (function () {
       return jqxhr
     }
 
+    recalculateHsStars (options = {}) {
+      options.url = _.result(this, 'url') + '/recalculate-hs-stars'
+      options.type = 'POST'
+      if (options.campaign) {
+        options.data = { campaign: options.campaign }
+      }
+      const promise = this.fetchAsPromise(options)
+      this.loading = false
+      return promise
+    }
+
     finishedAnyLevels () { return Boolean((this.get('stats') || {}).gamesCompleted) }
 
     isFromUk () { return (this.get('country') === 'united-kingdom') || (this.get('preferredLanguage') === 'en-GB') }
@@ -1155,35 +1207,7 @@ module.exports = (User = (function () {
     }
 
     getHackStackV2ExperimentValue () {
-      const experimentName = 'hs-v2-exp'
-      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable(experimentName)]
-      if (value == null && me.isHomeUser()) { value = me.getExperimentValue(experimentName, null, 'beta') }
-      if ((value == null) && utils.isOzaria) {
-        // Don't include Ozaria for now
-        value = 'beta'
-      }
-      if ((value == null) && (me.isStudent() || me.isTeacher())) {
-        value = 'beta'
-      }
-      if ((value == null) && me.isHomeUser() && (new Date(me.get('dateCreated')) < new Date('2025-05-27'))) {
-        // Don't include users created before experiment start date
-        value = 'beta'
-      }
-      if (!value) {
-        let valueProbability
-        const expProb = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta
-        const probability = expProb != null ? expProb : 0.5
-        if (Math.random() < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        console.log('starting hackstack experiment with value', value, 'prob', valueProbability)
-        me.startExperiment(experimentName, value, valueProbability)
-      }
-      return value
+      return 'beta'
     }
 
     getM7ExperimentValue () {
@@ -1302,49 +1326,29 @@ module.exports = (User = (function () {
       return value
     }
 
-    // "Catalyst" is a new global map and UI/UX for CodeCombat Home version
-    getCatalystExperimentValue () {
-      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('catalyst')]
-      if (value == null) { value = me.getExperimentValue('catalyst', null, 'beta') }
-      // Don't include Ozaria for now
-      if ((value == null) && utils.isOzaria) {
-        value = 'control'
-      }
-      if (userUtils.isInLibraryNetwork()) {
-        value = 'control'
+    // Galaxy Experiment is where we send home users - /ai or /ai/play
+    getOrStartGalaxyExperimentValue () {
+      const value = utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery('galaxy'),
+        me.getExperimentValue('galaxy', null),
+      )
+      if (value != null) {
+        return value
       }
       // Don't include users other than home users
-      if ((value == null) && me.get('role')) {
-        value = 'control'
+      if (!me.isHomeUser()) {
+        return 'control'
       }
-      // include China Home players for now
-      if ((value == null) && features?.chinaInfra) {
-        value = 'beta'
+      // Don't include China Home players for now
+      if (features?.chinaInfra) {
+        return 'control'
       }
-      // Don't include already premium users
-      if ((value == null) && me.hasSubscription()) {
-        value = 'control'
+      // Only include new users (created after experiment start date)
+      if (new Date(me.get('dateCreated')) < new Date('2025-10-12')) {
+        return 'control'
       }
-      if ((!value)) {
-        let valueProbability
-        // 0% chance to be in the beta group by default
-        const probability = window.serverConfig?.experimentProbabilities?.catalyst?.beta
-        if (probability == null) {
-          // it means we're not running the experiment
-          value = 'control'
-          return value
-        }
-        if (Math.random() < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        console.log('starting catalyst experiment with value', value, 'prob', valueProbability)
-        me.startExperiment('catalyst', value, valueProbability)
-      }
-      return value
+
+      return this.tryStartExperiment('galaxy')
     }
 
     removeRelatedAccount (relatedUserId, options = {}) {
@@ -1472,12 +1476,20 @@ module.exports = (User = (function () {
       return [utils.MTOClients.MTO_NEO_DEV, utils.MTOClients.MTO_NEO_PROD].includes(this.get('clientCreator'))
     }
 
+    isMtoCodingOlympiad () {
+      return [utils.MTOClients.MTO_CODING_OLYMPIAD_DEV, utils.MTOClients.MTO_CODING_OLYMPIAD_PROD].includes(this.get('clientCreator'))
+    }
+
     isMto () {
-      return this.isMtoStem() || this.isMtoNeo()
+      return this.isMtoStem() || this.isMtoNeo() || this.isMtoCodingOlympiad()
     }
 
     isSchoology () {
       return this.get('oAuth2Identities')?.some(identity => identity.provider === 'schoology')
+    }
+
+    isClassLink () {
+      return this.get('oAuth2Identities')?.some(identity => identity.provider === 'classlink')
     }
 
     isGeccClient () {

@@ -54,7 +54,7 @@
       </div>
       <div class="footer center">
         <a
-          href="/ai/new_project"
+          href="/ai/"
           target="_blank"
           class="btn btn-success free-btn btn-lg"
         >

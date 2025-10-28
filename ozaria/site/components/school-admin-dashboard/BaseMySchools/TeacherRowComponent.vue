@@ -45,17 +45,17 @@ export default {
       return [
         {
           value: this.licenseStats.licensesTotal,
-          label: 'Licenses'
+          label: $.i18n.t('school_administrator.licenses_total_label'),
         },
         {
           value: this.userStats.stats?.students?.totalInActiveClassrooms || 0,
-          label: 'Students Enrolled',
-          subLabel: 'active classes'
+          label: $.i18n.t('school_administrator.enrolled_label'),
+          subLabel: $.i18n.t('school_administrator.active_classes'),
         },
         {
           value: this.licenseStats.licensesUsedInActiveClassrooms,
-          label: 'Licenses in use',
-          subLabel: 'active classes'
+          label: $.i18n.t('school_administrator.licenses_class_label'),
+          subLabel: $.i18n.t('school_administrator.active_classes'),
         }
       ]
     }
@@ -104,13 +104,13 @@ export default {
     </li>
     <div class="teacher-buttons">
       <icon-button-with-text-twilight
-        text="View Classes"
+        :text="$t('school_administrator.view_classes')"
         icon-url="/images/ozaria/school-admins/dashboard/svg_icons/IconClasses_Moon.svg"
         :link="`/school-administrator/teacher/${teacher._id}`"
         @click="trackEvent('My Schools: View Classes Clicked')"
       />
       <icon-button-with-text-twilight
-        text="License Details"
+        :text="$t('school_administrator.license_details')"
         icon-url="/images/ozaria/school-admins/dashboard/svg_icons/IconLicenses_Moon.svg"
         :link="`/school-administrator/teacher/${teacher._id}/licenses`"
         @click="trackEvent('My Schools: License Details Clicked')"
@@ -229,7 +229,7 @@ export default {
   line-height: 18px;
   text-align: center;
   letter-spacing: 0.266667px;
-  color: #3EA1BF;
+  color: var(--color-primary);
 }
 
 .teacher-buttons {

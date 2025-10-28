@@ -2,11 +2,18 @@
 import { mapActions } from 'vuex'
 import PrimaryButton from '../common/buttons/PrimaryButton'
 import SecondaryButton from '../common/buttons/SecondaryButton'
+import TertiaryButton from '../common/buttons/TertiaryButton'
 import { tryCopy } from 'ozaria/site/common/ozariaUtils'
+import filesApi from 'app/core/api/files'
+import backgroundJobApi from 'app/core/api/background-job'
 
 import ButtonGoogleClassroom from './common/ButtonGoogleClassroom'
 import ModalDivider from '../../common/ModalDivider'
 import ModalCreateStudents from './ModalCreateStudents'
+
+require('core/services/filepicker')({
+  accept: 'text/csv',
+})
 
 export default Vue.extend({
   components: {
@@ -14,37 +21,40 @@ export default Vue.extend({
     SecondaryButton,
     ButtonGoogleClassroom,
     ModalDivider,
-    ModalCreateStudents
+    ModalCreateStudents,
+    TertiaryButton,
   },
   props: {
     classroomCode: {
       type: String,
       default: '',
-      required: true
+      required: true,
     },
     googleSyncInProgress: {
       type: Boolean,
-      default: false
+      default: false,
     },
     classroom: {
       type: Object,
-      required: true
+      required: true,
     },
     showGoogleClassroom: {
       type: Boolean,
-      default: false
+      default: false,
     },
     from: {
       type: String,
-      default: null
+      default: null,
     },
     createStudents: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
-    regenerationInProgress: false
+    regenerationInProgress: false,
+    jobInfo: '',
+    errorMsg: '',
   }),
   computed: {
     classroomUrl () {
@@ -52,11 +62,11 @@ export default Vue.extend({
     },
     classCodeDescription () {
       return `${i18n.t('teachers.class_code_desc')} ${document.location.hostname}`
-    }
+    },
   },
   methods: {
     ...mapActions({
-      updateClassroom: 'classrooms/updateClassroom'
+      updateClassroom: 'classrooms/updateClassroom',
     }),
     copyCode () {
       this.$refs.classCode.select()
@@ -72,6 +82,64 @@ export default Vue.extend({
       window.tracker?.trackEvent('Add Students: Invite By Email Clicked', { category: 'Teachers', label: this.from })
       this.$emit('inviteStudents')
     },
+    async rosterViaCsv () {
+      this.jobInfo = this.$t('common.processing')
+      this.errorMsg = ''
+      try {
+        const { filename, metadata } = await this.uploadCsv()
+        const classroomId = this.classroom._id
+        const job = await backgroundJobApi.create('csv-roster', { filename, metadata, classroomId })
+        await this.pollJob(job?.job)
+        if (!this.errorMsg) {
+          this.jobInfo = this.$t('teachers.roster_completed')
+        }
+      } catch (e) {
+        console.log('error', e)
+        this.jobInfo = ''
+        this.errorMsg = e?.message || this.$t('loading_error.unknown')
+      }
+    },
+    uploadCsv () {
+      return new Promise((resolve, reject) => {
+        window.filepicker.pick({ mimetypes: ['text/csv'] }, async (InkBlob) => {
+          try {
+            const userId = me?.id || me?._id || 'unknown-user'
+            const filename = `${Date.now()}-${InkBlob.filename}`
+            const resp = await filesApi.saveFile({ ...InkBlob, path: `csv-roster/${userId}`, force: 'true', filename })
+            return resolve(resp)
+          } catch (err) {
+            return reject(err)
+          }
+        })
+      })
+    },
+    async pollJob (jobId) {
+      const sleep = async function (ms) {
+        return new Promise(resolve => setTimeout(resolve, ms))
+      }
+      let poll = true
+      this.errorMsg = ''
+      let attempts = 0
+      while (poll) {
+        const job = await backgroundJobApi.get(jobId)
+        attempts++
+        if (job.message) {
+          this.jobInfo = job.message
+        }
+        if (job.status === 'failed') {
+          this.jobInfo = ''
+          this.errorMsg = job.message
+          poll = false
+        } else if (job.status === 'completed') {
+          poll = false
+        }
+        const MAX_DOTS = 30
+        if (attempts % 3 === 0 && attempts < MAX_DOTS) {
+          this.jobInfo = this.jobInfo + '.'
+        }
+        await sleep(3000)
+      }
+    },
     async regenerateClassCode () {
       this.regenerationInProgress = true
       window.tracker?.trackEvent('Add Students: Request New Class Code Clicked', { category: 'Teachers', label: this.from })
@@ -85,8 +153,8 @@ export default Vue.extend({
         })
       }
       this.regenerationInProgress = false
-    }
-  }
+    },
+  },
 })
 </script>
 
@@ -148,12 +216,42 @@ export default Vue.extend({
         </div>
       </div>
       <span class="sub-text"> {{ $t("teachers.class_url_desc") }} </span>
-      <primary-button
-        class="invite-button"
+      <hr>
+      <div class="roster-container">
+        <tertiary-button
+          class="cta-button roster-button"
+          @click="rosterViaCsv"
+        >
+          {{ $t("teachers.roster_via_csv") }}
+        </tertiary-button>
+        <p class="sub-text">
+          *{{ $t("teachers.roster_sub_text") }}
+        </p>
+        <p class="sub-text">
+          *{{ $t("teachers.roster_sub_text_2") }}
+        </p>
+        <p class="sub-text">
+          *{{ $t("teachers.roster_sub_text_3") }}
+        </p>
+        <p
+          v-if="jobInfo"
+          class="sub-text bold"
+        >
+          {{ jobInfo }}
+        </p>
+        <p
+          v-if="errorMsg"
+          class="sub-text error"
+        >
+          {{ errorMsg }}
+        </p>
+      </div>
+      <tertiary-button
+        class="cta-button invite-button"
         @click="clickInviteButton"
       >
         {{ $t("teachers.invite_by_email") }}
-      </primary-button>
+      </tertiary-button>
       <div
         v-if="createStudents"
         class="create-students"
@@ -224,7 +322,7 @@ export default Vue.extend({
 .sub-text {
   @include font-p-4-paragraph-smallest-gray;
 }
-.invite-button {
+.cta-button {
   display: block;
   width: 190px;
   height: 35px;
@@ -232,12 +330,25 @@ export default Vue.extend({
 }
 
 .regenerate-code-button {
-  @extend .invite-button;
+  @extend .cta-button;
 }
 
 .done-button {
   width: 150px;
   height: 35px;
   align-self: flex-end;
+}
+.error {
+  color: red;
+  font-weight: bold;
+}
+.roster-container {
+  .sub-text {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
+.bold {
+  font-weight: bold;
 }
 </style>

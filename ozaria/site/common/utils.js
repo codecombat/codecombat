@@ -45,7 +45,13 @@ function teacherModalSeenKey (teacherId) {
 }
 
 export function hasSeenTeacherDetailModalRecently (teacherId) {
-  return storage.load(teacherModalSeenKey(teacherId))
+  const weekAgo = new Date(new Date() - 7 * 24 * 60 * 60 * 1000)
+  const dateCreated = me.get('dateCreated')
+  const recentUser = new Date(dateCreated) > weekAgo
+  if (!recentUser) {
+    return storage.load(teacherModalSeenKey(teacherId))
+  }
+  return true // new users don't see the modal initially
 }
 
 export function markTeacherDetailsModalAsSeen (teacherId) {

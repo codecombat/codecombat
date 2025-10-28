@@ -94,6 +94,20 @@ export default {
       Vue.set(state.joiners.byPrepaid, prepaidId, joiners)
     },
 
+    updateJoinerForPrepaid: (state, { prepaid, userID, maxRedeemers }) => {
+      const prepaidID = prepaid._id
+      const joiners = state.joiners.byPrepaid[prepaidID] || []
+      joiners.forEach(j => {
+        if (j._id === userID) {
+          j.maxRedeemers = maxRedeemers
+          if ((maxRedeemers <= 0) || (maxRedeemers >= prepaid.maxRedeemers)) {
+            delete j.maxRedeemers
+          }
+        }
+      })
+      Vue.set(state.joiners.byPrepaid, prepaidID, joiners)
+    },
+
     revokeJoiner: (state, { prepaidId, joiner }) => {
       const joiners = state.joiners.byPrepaid[prepaidId] || []
       const joinersWithoutJoiner = joiners.filter(item => item._id !== joiner._id)
@@ -140,6 +154,24 @@ export default {
     getJoinersForPrepaid: (state) => (id) => {
       return state.joiners.byPrepaid[id] || []
     },
+
+    getPossiblePrepaidFetchStates: (state) => {
+      return {
+        NOT_START: 'not start',
+        FETCHING: 'fetching',
+        FETCHED: 'fetched',
+      }
+    },
+
+    getCurrentFetchStateForPrepaid: (state, getters) => (id) => {
+      if (!state.fetchedPrepaids[id]) {
+        return getters.getPossiblePrepaidFetchStates.NOT_START
+      } else if (state.loading.byTeacher[id]) {
+        return getters.getPossiblePrepaidFetchStates.FETCHING
+      } else {
+        return getters.getPossiblePrepaidFetchStates.FETCHED
+      }
+    },
   },
 
   actions: {
@@ -149,7 +181,11 @@ export default {
       }
     },
 
-    fetchPrepaidsForTeacher: ({ commit }, { teacherId, sharedClassroomId, includeShared = true } = {}) => {
+    fetchPrepaidsForTeacher: ({ state, commit }, { teacherId, sharedClassroomId, includeShared = true } = {}) => {
+      if (state.fetchedPrepaids[teacherId] && state.loading.byTeacher[teacherId]) {
+        // do not fetch twice at the same time
+        return
+      }
       commit('toggleLoadingForTeacher', teacherId)
       commit('setFetchedPrepaidsForTeacher', teacherId)
 
@@ -493,6 +529,18 @@ export default {
             commit('addTestLicenseToTeacher', { teacherId, prepaid: res })
           }
         })
+    },
+    async setJoinerMaxRedeemers ({ commit }, { prepaid, userID, maxRedeemers }) {
+      const prepaidID = prepaid._id
+      return prepaidsApi.setJoinerMaxRedeemers({
+        prepaidID, userID, maxRedeemers,
+      }).then(() => {
+        return commit('updateJoinerForPrepaid', {
+          prepaid, userID, maxRedeemers,
+        })
+      }).catch(error => {
+        noty({ text: error?.responseJSON?.message || 'The update of the joiner failed', type: 'error' })
+      })
     },
   },
 }

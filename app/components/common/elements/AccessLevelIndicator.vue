@@ -24,7 +24,11 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import CourseSchema from 'app/schemas/models/course.schema'
+import Course from '../../../models/Course'
+import User from '../../../models/User'
 const ACCESS_LEVELS = CourseSchema.properties.modules.additionalProperties.properties.access.enum
+const COURSE_SALES_CALL_ACCESS_LEVEL = Course.SALES_CALL_ACCESS_LEVEL
+const USER_SALES_CALL_ACCESS_LEVEL = User.SALES_CALL_ACCESS_LEVEL
 
 export default {
   name: 'AccessLevelIndicator',
@@ -50,15 +54,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isPaidTeacher: 'me/isPaidTeacher',
+      userAccessLevel: 'me/userAccessLevel',
     }),
     isDisplayable () {
       const userDisplayMap = {
-        free: ['free', 'sales-call', 'paid'], // non-paying users will see the 'free' and 'sales-call' badges
-        'sales-call': ['paid'], // users after sales call will see the 'paid' badges
+        free: ['free', COURSE_SALES_CALL_ACCESS_LEVEL, 'paid'], // non-paying users will see the 'free' and 'sales-call' badges
+        [USER_SALES_CALL_ACCESS_LEVEL]: ['paid'], // users after sales call will see the 'paid' badges
         paid: [], // I'm not sure if we'll have this for users, but if we'll have no badges needed.
       }
-      const userLevel = this.isPaidTeacher ? 'paid' : 'free'
+      const userLevel = this.userAccessLevel
       return userDisplayMap[userLevel].includes(this.level)
     },
     badgeClass () {
@@ -70,8 +74,8 @@ export default {
     },
     icon () {
       const icons = {
-        free: 'IconFreeLevel',
-        'sales-call': 'IconUnlockWithCall',
+        free: 'IconFreeLevelv2',
+        [COURSE_SALES_CALL_ACCESS_LEVEL]: 'IconUnlockWithCall',
         paid: 'IconPaidLevel',
       }
       return icons[this.level] || ''
@@ -85,7 +89,7 @@ export default {
       ensurePrepaidsLoadedForTeacher: 'prepaids/ensurePrepaidsLoadedForTeacher',
     }),
     handleClick () {
-      if (this.level === 'sales-call') {
+      if (this.level === COURSE_SALES_CALL_ACCESS_LEVEL) {
         window.tracker?.trackEvent('Clicked Sales Call Badge')
         window.open(`/schools?openContactModal=true&source=sales-call-badge-${this.courseSlug}`, '_blank')
       }

@@ -1,0 +1,15 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  .modal-header-content
+    h3(data-i18n="editor.clone_to_new_scenario")
+
+block modal-body-content
+  .modal-body
+    .info click 'None' and input the scenario name/original-id, the message will be pushed into InitalActionQueue in new scenario
+    #scenario-search-treema
+
+block modal-footer
+  .modal-footer
+    button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel
+    button.btn.btn-primary#clone-modal-confirm-button(data-i18n="common.save") Save

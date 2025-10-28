@@ -3,14 +3,16 @@ mixin tournamentTileMixin(tournament)
   // show link when tournament starting/ended or in 1 day to start
   if tournament.state == 'initializing'
     - now = new Date().getTime()
-    - time = ((new Date(tournament.startDate).getTime() - now)/(24*3600*1000) + 0.99)|0
-    if time <= 1
+    - twoHours = 2*60*60*1000
+    - tournamentStart = new Date(tournament.startDate).getTime()
+    - timeLeft = (((tournamentStart - now)/twoHours) + 0.99)|0
+    if timeLeft <= 1
       - showLink = true
   else
     - showLink = true
   - var showLadderImage = tournament.state != 'initializing' && view.ladderImageMap[tournament.levelOriginal]
 
-  a.ai-league-btn.tile(href=showLink ? `/play/ladder/${tournament.slug}/clan/${tournament.clan}?tournament=${tournament._id}`: 'javascript: void(0)', title=tournament.description)
+  a.ai-league-btn.tile(href=showLink ? `/play/ladder/${tournament.slug}/clan/${tournament.clan}?tournament=${tournament._id}`: 'javascript: window.alert("Tournament not started yet")', title=tournament.description)
     // do not show preview image for initializing tournaments
     if showLadderImage
       img.level-image(src=view.ladderImageMap[tournament.levelOriginal], alt=tournament.name).img-rounded

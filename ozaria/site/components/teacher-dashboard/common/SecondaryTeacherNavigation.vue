@@ -2,14 +2,18 @@
 import { mapState, mapGetters } from 'vuex'
 import utils from 'core/utils'
 import DashboardToggle from 'ozaria/site/components/teacher-dashboard/common/DashboardToggle'
+import GradeFilterComponent from 'ozaria/site/components/teacher-dashboard/common/GradeFilterComponent.vue'
 import sortClassroomMixin from '../mixins/sortClassroomMixin.js'
 import ModalTestStudentPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalTestStudentPromotion.vue'
+import ModalEndOfTrial from 'ozaria/site/components/teacher-dashboard/modals/ModalEndOfTrial.vue'
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
 import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
-import IconAI from 'ozaria/site/components/teacher-dashboard/common/NavIconAI'
-import IconAPCSP from 'ozaria/site/components/teacher-dashboard/common/NavIconAPCSP'
 import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/NavIconAssessments'
+const K5 = 'K-5'
+const K6 = '6-8'
+const K9 = '9-12'
+const GRADE_BANDS = [K5, K6, K9]
 
 export default {
   components: {
@@ -18,9 +22,9 @@ export default {
     ModalCurriculumPromotion,
     ModalOzariaHackStack,
     ModalOzariaAILeague,
-    IconAI,
-    IconAPCSP,
+    ModalEndOfTrial,
     IconAssessments,
+    GradeFilterComponent,
   },
 
   mixins: [
@@ -38,19 +42,30 @@ export default {
     let guideOptions
     if (utils.isCodeCombat) {
       guideOptions = [
-        { id: 'junior', name: $.i18n.t('nav.coco_junior'), path: '/teachers/guide/junior' },
-        { id: 'codecombat', name: $.i18n.t('nav.codecombat_classroom'), path: '/teachers/guide/codecombat' },
-        { id: 'hackstack', name: $.i18n.t('nav.ai_hackstack'), path: '/teachers/guide/hackstack' },
-        { id: 'ozaria', name: $.i18n.t('new_home.ozaria'), path: utils.ozBaseURL(), type: 'a' },
+        { id: 'junior', name: $.i18n.t('nav.coco_junior'), path: '/teachers/guide/junior', gradeBands: [K5, K6] },
+        { id: 'codecombat', name: $.i18n.t('nav.codecombat_classroom'), path: '/teachers/guide/codecombat', gradeBands: [K6, K9] },
+        { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: utils.ozBaseURL(), type: 'a', gradeBands: [K6, K9] },
+        { id: 'roblox', name: $.i18n.t('nav.ccw_short'), path: '/roblox', type: 'a', gradeBands: [K5, K6, K9] },
+        { id: 'hackstack', name: $.i18n.t('nav.ai_hackstack'), path: '/teachers/guide/hackstack', gradeBands: [K6, K9] },
+        { id: 'aileague', name: $.i18n.t('nav.ai_league_esports'), path: '/teachers/ai-league', gradeBands: [K6, K9] },
+        { id: 'ap', name: $.i18n.t('nav.ap_csp'), path: '/teachers/apcsp', gradeBands: [K9] },
       ]
     } else {
       guideOptions = [
-        { id: 'ozaria', name: 'Ozaria Classroom', path: '/teachers/guide/ozaria' },
+        { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: '/teachers/guide/ozaria', gradeBands: [K6, K9] },
       ]
     }
+
+    const toolOptions = [
+      { id: 'toolkit', name: $.i18n.t('nav.teacher_toolkit'), path: '/teachers/resources' },
+      { id: 'pd', name: $.i18n.t('nav.professional_development'), path: '/teachers/professional-development' },
+      { id: 'ai-tool', name: $.i18n.t('nav.ai_teacher_tool'), path: (utils.cocoBaseURL() + '/ai'), type: 'a' },
+    ]
     return {
       curriculumPromoClicked: false,
       guideOptions,
+      toolOptions,
+      gradeBand: '',
     }
   },
 
@@ -131,13 +146,35 @@ export default {
     },
 
     isGuideTabSelected () {
-      return this.$route.path.startsWith('/teachers/guide')
+      return this.guideOptions.some((r) => r.type !== 'a' && this.isCurrentRoute(r.path))
+    },
+
+    isToolTabSelected () {
+      return this.toolOptions.some((r) => r.type !== 'a' && this.isCurrentRoute(r.path))
+    },
+    visibleToolOptions () {
+      return this.toolOptions.filter((o) => o.id !== 'pd' || this.showPD)
+    },
+    gradeBandOptions () {
+      if (this.isCodeCombat) {
+        return GRADE_BANDS
+      }
+      return []
     },
   },
 
   methods: {
     isCurrentRoute (route) {
       return this.$route.path.startsWith(route)
+    },
+
+    onSelectGradeBand (band) {
+      this.gradeBand = band
+    },
+
+    isHighlightedOption (option) {
+      if (!this.gradeBand) { return false }
+      return option.gradeBands.includes(this.gradeBand)
     },
 
     onCurriculumClicked (e) {
@@ -158,7 +195,7 @@ export default {
     },
     AILeagueClicked () {
       if (utils.isOzaria) {
-        this.$refs.ModalOzariaAILeague.openModal()
+        window.open('https://codecombat.com/teachers/ai-league', '_blank')
       }
     },
 
@@ -172,12 +209,12 @@ export default {
     },
   },
 }
+
 </script>
 
 <template>
   <ul
-    id="secondaryNav"
-    class="nav"
+    class="nav secondaryNav"
     role="navigation"
   >
     <li
@@ -306,10 +343,21 @@ export default {
         class="dropdown-menu"
         aria-labelledby="GuideDropdown"
       >
+        <div
+          v-if="gradeBandOptions.length > 0"
+          class="grade-filter"
+          role="presentation"
+        >
+          <grade-filter-component
+            :grade-band="gradeBand"
+            :grade-band-options="gradeBandOptions"
+            @change="onSelectGradeBand"
+          />
+        </div>
         <li
           v-for="option in guideOptions"
           :key="option.id"
-          :class="isGuideTabSelected && $route.params.product === option.id ? 'selected' : null"
+          :class="[isCurrentRoute(option.path) ? 'selected' : null, isHighlightedOption(option) ? 'highlight' : null]"
         >
           <a
             v-if="option.type === 'a'"
@@ -334,20 +382,6 @@ export default {
         </li>
       </ul>
     </li>
-
-    <li>
-      <router-link
-        id="ResourceAnchor"
-        to="/teachers/resources"
-        :class="{ 'current-route': isCurrentRoute('/teachers/resources') }"
-        data-action="Resource Hub: Nav Clicked"
-        @click.native="trackEvent"
-      >
-        <div id="IconResourceHub" />
-        <span>{{ $t('teacher_dashboard.resource_hub') }}</span>
-      </router-link>
-    </li>
-
     <li v-if="showLicenses">
       <router-link
         id="LicensesAnchor"
@@ -360,49 +394,54 @@ export default {
         <span>{{ $t('teacher_dashboard.my_licenses') }}</span>
       </router-link>
     </li>
-    <li v-if="showHackStack">
+    <li
+      role="presentation"
+      class="dropdown"
+    >
       <a
-        id="HackStackAnchor"
+        id="TeacherToolDropdown"
+        :class="['dropdown-toggle', isToolTabSelected ? 'current-route' : '']"
         href="#"
-        data-action="Sidebar - HackStack: Nav Clicked"
-        @click="AIHSClicked"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
       >
-        <IconAI class="icon-ai svgicon default" />
-        <IconAI
-          class="icon-ai svgicon hovered"
-          theme="white"
-        />
-        <IconAI
-          class="icon-ai svgicon selected"
-          theme="purple"
-        />
-        {{ $t('nav.ai_hackstack') }}
+        <div id="IconResourceHub" />
+        <span>{{ $t('nav.teacher_tools') }}</span>
+        <span class="caret" />
       </a>
-    </li>
-    <li v-if="isCodeCombat">
-      <a
-        id="OzariaAnchor"
-        :href="ozariaBaseURL"
-        target="_blank"
-        data-action="Ozaria HomePage: Nav Clicked"
-        @click="trackEvent"
+      <ul
+        class="dropdown-menu"
+        aria-labelledby="TeacherToolDropdown"
       >
-        <div id="IconOzaria" />
-        <span>{{ $t('new_home.ozaria') }}</span>
-      </a>
-    </li>
-    <li v-if="showPD">
-      <router-link
-        id="PDAnchor"
-        to="/teachers/professional-development"
-        :class="{ 'current-route': isCurrentRoute('/teachers/professional-development') }"
-        data-action="PD: Nav Clicked"
-        @click.native="trackEvent"
-      >
-        <div id="IconPD" />
-        <!-- <div id="IconNew">New!</div> -->
-        {{ $t('teacher_dashboard.pd_short') }}
-      </router-link>
+        <li
+          v-for="option in visibleToolOptions"
+          :key="option.id"
+          :class="isCurrentRoute(option.path) ? 'selected' : null"
+        >
+          <a
+            v-if="option.type === 'a'"
+            :href="option.path"
+            class="dropdown-item"
+            data-action="Tool: Nav Clicked"
+            target="_blank"
+          >
+            {{ option.name }}
+          </a>
+          <router-link
+            v-else
+            tag="a"
+            :to="option.path"
+            class="dropdown-item"
+            data-action="Tool: Nav Clicked"
+            data-toggle="dropdown"
+            :data-label="$route.path"
+          >
+            {{ option.name }}
+          </router-link>
+        </li>
+      </ul>
     </li>
 
     <li
@@ -463,30 +502,6 @@ export default {
         </li>
       </ul>
     </li>
-    <li>
-      <component
-        :is="isCodeCombat ? 'router-link' : 'a'"
-        id="AILeague"
-        to="/teachers/ai-league"
-        :class="{ 'current-route': isCurrentRoute('/teachers/ai-league') }"
-        data-action="AI League: Nav Clicked"
-        @click="AILeagueClicked"
-      >
-        <div id="IconKeepPlaying" />
-        <img
-          class="league-name league-name__gray"
-          src="/images/pages/league/ai-league-name.svg"
-        >
-        <img
-          class="league-name league-name__white"
-          src="/images/pages/league/ai-league-name_white.svg"
-        >
-        <img
-          class="league-name league-name__purple"
-          src="/images/pages/league/ai-league-name_purple.svg"
-        >
-      </component>
-    </li>
     <li
       v-if="showAIJunior"
       class="dropdown"
@@ -538,26 +553,6 @@ export default {
       </ul>
     </li>
 
-    <li v-if="showPD">
-      <router-link
-        id="PDAnchor"
-        to="/teachers/apcsp"
-        :class="{ 'current-route': isCurrentRoute('/teachers/apcsp') }"
-        data-action="APCSP: Nav Clicked"
-        @click.native="trackEvent"
-      >
-        <IconAPCSP class="icon-apcsp svgicon default" />
-        <IconAPCSP
-          class="icon-apcsp svgicon hovered"
-          theme="white"
-        />
-        <IconAPCSP
-          class="icon-apcsp svgicon selected"
-          theme="purple"
-        />
-        {{ $t('teacher_dashboard.apcsp') }}
-      </router-link>
-    </li>
     <li>
       <dashboard-toggle
         v-if="isCodeCombat"
@@ -568,6 +563,7 @@ export default {
       />
     </li>
     <ModalCurriculumPromotion ref="modalCurriculumPromotion" />
+    <ModalEndOfTrial ref="modalEndOfTrial" />
     <ModalOzariaHackStack
       v-if="isOzaria"
       ref="modalOzariaHackStack"
@@ -613,6 +609,11 @@ export default {
 
 #IconOzaria {
   background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconOzaria_Gray.svg);
+  margin-top: -3px;
+}
+
+#IconHackStack {
+  background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconHackStack_Gray.svg);
   margin-top: -3px;
 }
 
@@ -729,6 +730,12 @@ li.open>#LicensesAnchor,
   }
 }
 
+#HackStackAnchor:hover {
+  #IconHackStack {
+    background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconHackStack_White.svg);
+  }
+}
+
 #GuideDropdown:hover {
   #IconCurriculum {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/Icon_Assessments_White.svg);
@@ -746,6 +753,19 @@ li.open>#GuideDropdown,
   #IconResourceHub {
     background-image: url(/images/ozaria/teachers/dashboard/svg_icons/IconResourceHub_White.svg);
   }
+}
+
+.grade-filter {
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+}
+
+/* Highlight matching options for the selected grade band */
+.dropdown-menu li.highlight > a,
+.dropdown-menu li.highlight > .dropdown-item {
+  background-color: #EEF4FF;
+  color: #2F4F8F;
 }
 
 li.open>#ResourceAnchor,
@@ -881,6 +901,7 @@ li.open>#AIJuniorDropdown,
 #IconCurriculum,
 #IconLicense,
 #IconOzaria,
+#IconHackStack,
 #IconResourceHub,
 #IconPD,
 #IconAssessments,
@@ -895,11 +916,12 @@ li.open>#AIJuniorDropdown,
   margin-right: 8px;
 }
 
-#secondaryNav {
+.secondaryNav {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   height: min-content;
+  font-family: $ozaria-main-font-family;
 
   &>li {
 
@@ -924,7 +946,6 @@ li.open>#AIJuniorDropdown,
       background-color: transparent;
       font-size: 18px;
       font-weight: 600;
-      font-family: "Work Sans", sans-serif;
 
       width: 100%;
       padding: 0;

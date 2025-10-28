@@ -565,6 +565,23 @@ export default {
       }
     },
 
+    setProjectWarningFlag (details, aiProjects) {
+      if (!Array.isArray(aiProjects)) {
+        return
+      }
+      if (aiProjects.some(project => {
+        const wrongChoices = project.wrongChoices || []
+        const counts = wrongChoices.reduce((acc, obj) => {
+          const key = obj.actionMessageId
+          acc[key] = (acc?.[key] || 0) + 1
+          return acc
+        }, {})
+        return Object.values(counts).some(v => v > 1)
+      })) {
+        details.flag = 'ai-project-warning'
+      }
+    },
+
     setClickHandler (details, student, moduleNum, aiScenario, aiProjects) {
       details.clickHandler = () => {
         this.showPanelProjectContent({
@@ -580,6 +597,14 @@ export default {
     },
 
     checkIfComplete (aiScenario, aiProjects) {
+      if (aiScenario.minMsgs) { // if minMsgs is 0, let's still use old logic
+        if (aiProjects.some(project => {
+          return (project.totalChatMessages || 0) - (project.unsafeChatMessages?.length || 0) >= aiScenario.minMsgs
+        })) {
+          return true
+        }
+        return false
+      }
       if (aiScenario.mode === 'learn to use' && aiProjects.some(project => (project.actionQueue.length === 0))) {
         return true
       } else if (aiScenario.mode === 'use' && aiProjects.some(project => (project.isReadyToReview))) {
@@ -591,12 +616,15 @@ export default {
     createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum }) {
       const details = {}
       classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
-      const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario._id]
+      const aiProjects = this.aiProjectsMapByUser[student._id]?.[aiScenario.original]
 
       if (aiProjects) {
         this.setProgressDetails(details, classSummaryProgress, index)
         this.setClickHandler(details, student, moduleNum, aiScenario, aiProjects)
         const completed = this.checkIfComplete(aiScenario, aiProjects)
+        this.setProjectWarningFlag(details, aiProjects)
+        // idealy a project won't have both warning and unsafe flag.
+        // but in that case we should use unsafe to overwrite warning.
         this.setUnsafeFlag(details, aiProjects)
 
         if (completed) {
@@ -604,7 +632,7 @@ export default {
         }
       }
 
-      const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario._id, 'lockedScenario')
+      const isLocked = ClassroomLib.isModifierActiveForStudent(this.classroom, student._id, this.selectedCourseId, aiScenario.original, 'lockedScenario')
       const isPlayable = !isLocked
 
       if (!this.assignmentMap.get(this.selectedCourseId)?.has(student._id)) {
@@ -619,8 +647,8 @@ export default {
         isSkipped: false,
         lockDate: null,
         lastLockDate: null,
-        original: aiScenario._id,
-        normalizedOriginal: aiScenario._id,
+        original: aiScenario.original,
+        normalizedOriginal: aiScenario.original,
         isOptional: false,
         isPlayable,
         isPractice: false,
@@ -712,10 +740,11 @@ export default {
               displayName: scenario.name,
               type,
               _id: scenario._id,
+              original: scenario.original,
               tooltipName: scenario.name,
               description: '',
               contentKey: scenario._id,
-              normalizedOriginal: scenario._id,
+              normalizedOriginal: scenario.original,
               normalizedType: type,
               contentLevelSlug: scenario.slug,
               isPractice: false,

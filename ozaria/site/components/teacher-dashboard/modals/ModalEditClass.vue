@@ -190,22 +190,32 @@ export default Vue.extend({
     },
 
     showLmsButton () {
-      return me.isSchoology()
+      return me.isSchoology() || me.isClassLink()
     },
     lmsProductImage () {
       const imageMap = {
         schoology: '/images/pages/modal/auth/schoology.png',
+        classlink: '/images/pages/modal/auth/classlink-logo-small.png',
       }
-      return imageMap[me.isSchoology() ? 'schoology' : '']
+      return imageMap[this.lmsKey]
     },
     lmsProductText () {
       const textMap = {
-        schoology: $.i18n.t('teachers.schoology'),
+        schoology: 'Schoology',
+        classlink: 'ClassLink',
       }
-      return textMap[me.isSchoology() ? 'schoology' : '']
+      return textMap[this.lmsKey]
+    },
+    lmsKey () {
+      if (me.isSchoology()) {
+        return 'schoology'
+      } else if (me.isClassLink()) {
+        return 'classlink'
+      }
+      return null
     },
     getProvider () {
-      return me.isSchoology() ? 'schoology' : ''
+      return this.lmsKey
     },
     lmsClassroom () {
       return this.lmsClassrooms?.find((c) => c.id === this.lmsClassroomId)

@@ -57,6 +57,7 @@ const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
 const PROMPTED_FOR_SIGNUP = 'prompted-for-signup'
 const PROMPTED_FOR_SUBSCRIPTION = 'prompted-for-subscription'
 const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
+const SCENARIO_MARGIN_COMPENSATION_FACTOR = 0.33 // Compensates for bottom margin when centering scenario elements
 
 class LevelSessionsCollection extends CocoCollection {
   static initClass () {
@@ -106,6 +107,7 @@ class CampaignView extends RootView {
       'click .level-info-container .start-level': 'onClickStartLevel',
       'click .level-info-container .home-version button': 'onClickStartLevel',
       'click .level-info-container .view-solutions': 'onClickViewSolutions',
+      'click .scenario': 'onClickScenario',
       'click .level-info-container .course-version button': 'onClickCourseVersion',
       'click #volume-button': 'onToggleVolume',
       'click #back-button': 'onClickBack',
@@ -160,8 +162,8 @@ class CampaignView extends RootView {
       this.terrain = '' // In this case we process query params
     }
 
-    // Check if the user is in the Catalyst experiment
-    this.isCatalyst = me.getCatalystExperimentValue() === 'beta'
+    // Until we clear the "old" code, everything is catalyst
+    this.isCatalyst = true
 
     this.editorMode = options?.editorMode
     this.requiresSubscription = !me.isPremium()
@@ -232,7 +234,6 @@ class CampaignView extends RootView {
     if (userUtils.shouldShowLibraryLoginModal() && me.isAnonymous()) {
       this.openModalView(new CreateAccountModal({ startOnPath: 'individual-basic' }))
     }
-
     if (window.serverConfig.picoCTF) {
       this.supermodel.addRequestResource({
         url: '/picoctf/problems',
@@ -251,10 +252,25 @@ class CampaignView extends RootView {
         return
       }
     }
+    if (this.terrain) {
+      this.campaign = new Campaign({ _id: this.terrain })
+      this.campaign = this.supermodel.loadModel(this.campaign).model
 
-    this.campaign = new Campaign({ _id: this.terrain })
-    this.campaign = this.supermodel.loadModel(this.campaign).model
-
+      this.listenToOnce(this.campaign, 'sync', () => {
+        // Check for HackStack redirect immediately after campaign loads
+        const redirectInfo = this.checkHackstackRedirect()
+        if (redirectInfo) {
+          // If we have course-level updates pending, or a course context exists, defer the redirect
+          const hasCourseContext = Boolean(this.courseInstanceID)
+          if ((this.courseLevels && !this.courseLevelsLoaded) || hasCourseContext) {
+            this.pendingHackstackRedirect = redirectInfo
+          } else {
+            // No course-level updates needed, redirect immediately
+            this.executeHackstackRedirect(redirectInfo)
+          }
+        }
+      })
+    }
     // Temporary attempt to make sure all earned rewards are accounted for. Figure out a better solution...
     this.earnedAchievements = new CocoCollection([], { url: '/db/earned_achievement', model: EarnedAchievement, project: ['earnedRewards'] })
     this.listenToOnce(this.earnedAchievements, 'sync', function () {
@@ -331,6 +347,11 @@ class CampaignView extends RootView {
               this.listenToOnce(this.courseLevels, 'sync', () => {
                 this.courseLevelsLoaded = true
                 this.updateCourseLevels()
+                // Execute pending HackStack redirect after course levels are loaded
+                if (this.pendingHackstackRedirect) {
+                  this.executeHackstackRedirect(this.pendingHackstackRedirect)
+                  this.pendingHackstackRedirect = null
+                }
               })
               this.listenToOnce(this.campaign, 'sync', () => this.updateCourseLevels())
             }
@@ -502,6 +523,12 @@ class CampaignView extends RootView {
   }
 
   onLoaded () {
+    // Execute pending HackStack redirect after all resources have loaded
+    if (this.pendingHackstackRedirect) {
+      this.executeHackstackRedirect(this.pendingHackstackRedirect)
+      return // Don't continue with normal loading if redirecting
+    }
+
     if (this.isChinaOldBrowser()) {
       if (!storage.load('hideBrowserRecommendation')) {
         const BrowserRecommendationModal = require('views/core/BrowserRecommendationModal')
@@ -543,8 +570,8 @@ class CampaignView extends RootView {
     if (!me.get('heroConfig')?.thangType) {
       this.preloadTopHeroes()
     }
-    if (['forest', 'desert'].includes(this.terrain)) {
-      this.$el.find('#campaign-status').delay(4000).animate({ top: '-=58' }, 1000)
+    if (this.terrain) {
+      this.$el.find('#campaign-status').delay(3000).animate({ top: '-=58' }, 1000)
     }
     if (this.campaign && this.isRTL(utils.i18n(this.campaign.attributes, 'fullName'))) {
       this.$('.campaign-name').attr('dir', 'rtl')
@@ -764,6 +791,7 @@ class CampaignView extends RootView {
     context.picoCTF = window.serverConfig.picoCTF
     context.requiresSubscription = this.requiresSubscription
     context.editorMode = this.editorMode
+    context.scenarios = this.campaign?.get('scenarios') || []
     context.adjacentCampaigns = _.filter(_.values(_.cloneDeep(this.campaign?.get('adjacentCampaigns') ?? {})), ac => {
       if (me.isStudent() || me.isTeacher()) { return false }
       if (ac.showIfUnlocked && !this.editorMode) {
@@ -796,6 +824,7 @@ class CampaignView extends RootView {
           if (me.freeOnly() && !me.isStudent()) {
             levels = levels.filter(level => !level.requiresSubscription)
           }
+          this.annotateLevels(levels)
           const count = this.countLevels(levels)
           campaign.levelsTotal = count.total
           campaign.levelsCompleted = count.completed
@@ -850,6 +879,7 @@ class CampaignView extends RootView {
     if (!application.isIPadApp) {
       _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .game-controls-catalyst .btn:not(.poll), .other-products-catalyst .btn, .campaign.locked, .beta-campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
       const view = this
+      // Keep original behavior for levels and campaign switches
       this.$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each(function () {
         if (!me.isAdmin() || !view.editorMode) { return }
         $(this).draggable().on('dragstop', function () {
@@ -860,6 +890,26 @@ class CampaignView extends RootView {
           if (e.levelOriginal) { view.trigger('level-moved', e) }
           if (e.campaignID) { view.trigger('adjacent-campaign-moved', e) }
         })
+      })
+      // Custom behavior for scenarios to avoid hover/transform affecting position calcs
+      this.$el.find('.scenario').addClass('has-tooltip').tooltip().each(function () {
+        if (!me.isAdmin() || !view.editorMode) { return }
+        $(this).draggable({ scroll: false, containment: '.map', drag: function () { $(this).css('transform', '') } })
+          .on('dragstop', function () {
+            const bg = $('.map-background')
+            const el = $(this)
+            const x = ((el.offset().left - bg.offset().left) + (el.outerWidth() / 2)) / bg.width()
+            // Compensate for negative margin-bottom used to center via bottom positioning.
+            // NOTE: Through visual testing, a factor of ~0.33 works best to align the
+            // saved position with the on-screen center. This is due to how the map's
+            // aspect scaling and our scenario circle height interact with bottom+margin
+            // centering. If map scaling logic changes, revisit this factor.
+            const mb = parseFloat(el.css('margin-bottom')) || 0
+            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2) + (mb * SCENARIO_MARGIN_COMPENSATION_FACTOR)
+            const y = 1 - (yCenterPx / bg.height())
+            const e = { position: { x: (100 * x), y: (100 * y) }, scenarioOriginal: $(this).data('scenario-original') }
+            if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
+          })
       })
     }
     this.updateVolume()
@@ -1304,9 +1354,30 @@ class CampaignView extends RootView {
         }
       }
     }
+    // Also draw lines between AI Scenarios based on explicit connections
+    const scenarios = this.campaign?.get('scenarios') || []
+    if (scenarios.length) {
+      // Map scenarios by original id for fast lookup
+      const scenarioByOriginal = {}
+      for (const s of scenarios) {
+        if (s?.scenario) { scenarioByOriginal[s.scenario] = s }
+      }
+      for (const s of scenarios) {
+        const fromPos = s?.position
+        if (!fromPos) { continue }
+        for (const conn of (s?.connections || [])) {
+          const to = scenarioByOriginal[conn?.toScenario]
+          const toPos = to?.position
+          if (toPos) {
+            // If connection is marked invisible, render as a thinner line instead of skipping
+            this.createLine(fromPos, toPos, { thin: !!conn?.invisible })
+          }
+        }
+      }
+    }
   }
 
-  createLine (o1, o2) {
+  createLine (o1, o2, options = {}) {
     const mapHeight = parseFloat($('.map').css('height'))
     const mapWidth = parseFloat($('.map').css('width'))
     if (!(mapHeight > 0)) { return }
@@ -1316,7 +1387,7 @@ class CampaignView extends RootView {
     const length = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
     const angle = (Math.atan2(p1.y - p2.y, p2.x - p1.x) * 180) / Math.PI
     const transform = `translateY(-50%) translateX(-50%) rotate(${angle}deg) translateX(50%)`
-    const line = $('<div>').appendTo('.map').addClass('next-level-line').css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
+    const line = $('<div>').appendTo('.map').addClass('next-level-line').toggleClass('thin-connection', !!options.thin).css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
     return line.append($('<div class="line">')).append($('<div class="point">'))
   }
 
@@ -1462,6 +1533,16 @@ class CampaignView extends RootView {
     this.adjustLevelInfoPosition(e)
     this.endHighlight()
     this.preloadLevel(levelSlug)
+  }
+
+  onClickScenario (e) {
+    if (!this.editorMode) { return }
+    e.preventDefault()
+    e.stopPropagation()
+    const scenarioElement = $(e.target).closest('.scenario')
+    const scenarioOriginal = scenarioElement.data('scenario-original')
+    if (!scenarioOriginal) { return }
+    return this.trigger('scenario-clicked', scenarioOriginal)
   }
 
   onDoubleClickLevel (e) {
@@ -1626,22 +1707,29 @@ class CampaignView extends RootView {
     const aspectRatio = mapWidth / mapHeight
     const pageWidth = this.$el.width()
     const pageHeight = this.$el.height()
+    const navOffset = 71 // navbar height
+    const availableHeight = Math.max(0, pageHeight - navOffset)
     const widthRatio = pageWidth / mapWidth
-    const heightRatio = pageHeight / mapHeight
+    const heightRatio = availableHeight / mapHeight
 
     let resultingWidth, resultingHeight
     // Make sure we can see the whole map, fading to background in one dimension.
     if (heightRatio <= widthRatio) {
       // Left and right margin
-      resultingHeight = pageHeight
+      resultingHeight = availableHeight
       resultingWidth = resultingHeight * aspectRatio
     } else {
       // Top and bottom margin
       resultingWidth = pageWidth
       resultingHeight = resultingWidth / aspectRatio
     }
+    // Ensure we don't exceed available height due to rounding
+    if (resultingHeight > availableHeight) {
+      resultingHeight = availableHeight
+      resultingWidth = resultingHeight * aspectRatio
+    }
     const resultingMarginX = (pageWidth - resultingWidth) / 2
-    const resultingMarginY = (pageHeight - resultingHeight) / 2
+    const resultingMarginY = (availableHeight - resultingHeight) / 2
     this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
     if (this.pointerInterval) {
       this.highlightNextLevel()
@@ -1741,10 +1829,16 @@ class CampaignView extends RootView {
   }
 
   onClickBack (e) {
+    let route = '/play'
+    let viewArgs = [{ supermodel: this.supermodel }]
+    if (this.campaign?.get('isHackstackCampaign')) {
+      route = '/play/ai'
+      viewArgs = [{ supermodel: this.supermodel }, 'ai'] // Pass 'ai' as the campaign parameter
+    }
     Backbone.Mediator.publish('router:navigate', {
-      route: '/play',
+      route,
       viewClass: CampaignView,
-      viewArgs: [{ supermodel: this.supermodel }],
+      viewArgs,
     })
   }
 
@@ -1771,7 +1865,7 @@ class CampaignView extends RootView {
   }
 
   onClickPortalCampaign (e) {
-    const campaign = $(e.target).closest('.campaign, .beta-campaign, .main-campaign, .side-campaign')
+    const campaign = $(e.target).closest('.campaign, .beta-campaign, .main-campaign, .side-campaign, .campaign-container')
     if (campaign.is('.locked') || campaign.is('.silhouette')) { return }
     const campaignSlug = campaign.data('campaign-slug')
     if (this.isPremiumCampaign(campaignSlug) && !me.isPremium()) {
@@ -2127,6 +2221,52 @@ class CampaignView extends RootView {
     return true
   }
 
+  /**
+   * Check if this campaign should redirect to HackStack and return redirect info
+   * @returns {Object|null} Redirect info object or null if no redirect needed
+   */
+  checkHackstackRedirect () {
+    try {
+      const isHackstackType = this.campaign?.get('type') === 'hackstack' || this.campaign?.get('isHackstackCampaign')
+      const alreadyOnAIPath = /^\/ai\/play\//.test(location.pathname)
+      if (isHackstackType && !alreadyOnAIPath && !this.editorMode) {
+        const slug = this.campaign.get('slug') || this.terrain
+        return { slug, dest: `/ai/play/${slug}` }
+      }
+    } catch (e) {
+      // no-op
+    }
+    return null
+  }
+
+  /**
+   * Execute HackStack redirect after all loading is complete
+   * @param {Object} redirectInfo - Redirect information from checkHackstackRedirect
+   */
+  executeHackstackRedirect (redirectInfo) {
+    if (redirectInfo) {
+      try {
+        // Use URL API to properly merge query parameters and hash
+        const destUrl = new URL(redirectInfo.dest, window.location.origin)
+        const currentUrl = new URL(window.location.href)
+        // Merge query parameters
+        currentUrl.searchParams.forEach((value, key) => {
+          destUrl.searchParams.set(key, value)
+        })
+        // Preserve hash fragment
+        if (currentUrl.hash) {
+          destUrl.hash = currentUrl.hash
+        }
+        application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
+      } catch (e) {
+        // Fallback to simple concatenation if URL API fails
+        const query = location.search || ''
+        const hash = location.hash || ''
+        application.router.navigate(`${redirectInfo.dest}${query}${hash}`, { trigger: true, replace: true })
+      }
+    }
+  }
+
   shouldShow (what) {
     const isStudentOrTeacher = me.isStudent() || me.isTeacher()
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
@@ -2208,7 +2348,7 @@ class CampaignView extends RootView {
     const libraryLogos = [
       'santa-clara', 'garfield', 'arapahoe', 'houston', 'burnaby',
       'liverpool-library', 'lafourche-library', 'shreve-library', 'vaughan-library',
-      'surrey-library', 'okanagan-library', 'east-baton-library',
+      'surrey-library', 'okanagan-library', 'east-baton-library', 'airdrie',
     ]
 
     if (libraryLogos.includes(what.replace('-logo', ''))) {
@@ -2237,7 +2377,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'cchome-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && this.terrain === 'junior'
+      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior') && !this.editorMode
     }
 
     return true

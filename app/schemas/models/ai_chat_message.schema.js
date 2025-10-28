@@ -87,6 +87,30 @@ _.extend(AIChatMessageSchema.properties, {
       },
     },
   },
+  apiUsage: {
+    title: 'API Usage',
+    type: 'object',
+    description: 'The API usage of the chat message',
+    additionalProperties: true,
+    properties: {
+      tool: {
+        type: 'string',
+        description: 'The tool/model used for the chat message',
+      },
+    },
+  },
+  safetyApiUsage: {
+    title: 'Safety API Usage',
+    type: 'object',
+    description: 'The safety API usage of the chat message',
+    additionalProperties: true,
+    properties: {
+      tool: {
+        type: 'string',
+        description: 'The tool/model used for the chat message',
+      },
+    },
+  },
 })
 
 AIChatMessageSchema.required = ['actor', 'parent', 'parentKind', 'sentAt', 'text', 'documents', 'ownerID']

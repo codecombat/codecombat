@@ -197,6 +197,26 @@ export default {
     },
     onClickCleverLoginButton () {
       logInWithClever()
+    },
+    async onClickClasslinkLoginButton () {
+      const handler = application.classlinkHandler
+      const { loggedIn } = await handler.logInWithEdlink()
+      if (!loggedIn) {
+        if (me.isStudent()) {
+          await this.finishLogin()
+        }
+        this.$emit('done')
+      } else {
+        noty({
+          text: 'Account already exists, logging you in...',
+          type: 'error',
+          layout: 'topCenter',
+          timeout: 5000,
+        })
+        setTimeout(() => {
+          window.location.href = '/'
+        }, 2000)
+      }
     }
   }
 }
@@ -215,6 +235,8 @@ export default {
             .gplus-login-button
         a#clever-login-btn(@click="onClickCleverLoginButton" href="#")
           img(src="/images/pages/modal/auth/clever_sso_button@2x.png" draggable="false")
+        a#classlink-login-btn(@click="onClickClasslinkLoginButton" href="#")
+          img(src="/images/pages/modal/auth/classlink-logo-text.png" draggable="false")
       .row.or-row
         .line
         p.or {{ $t("login.or") }}

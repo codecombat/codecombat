@@ -25,12 +25,12 @@ export default Vue.extend({
     title: {
       type: String,
       default: null,
-      required: false
+      required: false,
     },
     autoShow: {
       type: Boolean,
       default: true,
-      required: false
+      required: false,
     },
     seenPromotionsProperty: {
       // reference to user.seenPromotions property
@@ -40,31 +40,31 @@ export default Vue.extend({
         return typeof value === 'string' || value === null
       },
       required: false,
-      default: null
+      default: null,
     },
     cocoOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     ozarOnly: {
       type: Boolean,
-      default: false
+      default: false,
     },
     priority: {
       type: Number,
-      default: 5
-    }
+      default: 5,
+    },
   },
 
   data () {
     return {
-      showModal: true
+      showModal: true,
     }
   },
 
   computed: {
     ...mapGetters({
-      topModal: 'modals/getTopModal'
+      topModal: 'modals/getTopModal',
     }),
     isCodeCombat () {
       return utils.isCodeCombat
@@ -74,32 +74,40 @@ export default Vue.extend({
     },
     modalVisible () {
       return this.topModal && this.topModal.name === this.name
-    }
+    },
   },
 
+  watch: {
+    autoShow (newV, oldV) {
+      this.shouldOpenModal()
+    },
+  },
   created () {
-    if (
-      this.autoShow &&
-      (
-        !this.seenPromotionsProperty ||
-        me.shouldSeePromotion(this.seenPromotionsProperty)
-      )
-    ) {
-      this.openModal()
-    }
+    this.shouldOpenModal()
   },
 
   methods: {
     ...mapMutations({
       addModal: 'modals/addModal',
-      removeModal: 'modals/removeModal'
+      removeModal: 'modals/removeModal',
     }),
+    shouldOpenModal () {
+      if (
+        this.autoShow &&
+        (
+          !this.seenPromotionsProperty ||
+          me.shouldSeePromotion(this.seenPromotionsProperty)
+        )
+      ) {
+        this.openModal()
+      }
+    },
     addModalToStore () {
       if (!this.seenPromotionsProperty || me.shouldSeePromotion(this.seenPromotionsProperty)) {
         this.addModal({
           name: this.name,
           seenPromotionsProperty: this.seenPromotionsProperty,
-          priority: this.priority
+          priority: this.priority,
         })
       }
     },
@@ -126,8 +134,8 @@ export default Vue.extend({
       if (this.modalVisible) {
         this.$emit('open')
       }
-    }
-  }
+    },
+  },
 })
 </script>
 

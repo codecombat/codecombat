@@ -9,6 +9,7 @@ fetchJson = require 'core/api/fetch-json'
 co = require 'co'
 userCreditApi = require 'core/api/user-credits'
 SubscribeModal = require 'views/core/SubscribeModal'
+AskAIHelpView = require('views/play/level/AskAIHelpView').default
 _ = require('lodash')
 
 module.exports = class LevelChatView extends CocoView
@@ -20,7 +21,7 @@ module.exports = class LevelChatView extends CocoView
   events:
     'keydown textarea': 'onChatKeydown'
     'keypress textarea': 'onChatKeypress'
-    'click i': 'onIconClick'
+    'click .ai-helper-chat-icon': 'onAIHelperChatClick'
     'click .close-level-chat': 'onIconClick'
     'click .fix-code-button': 'onFixCodeClick'
 
@@ -31,23 +32,34 @@ module.exports = class LevelChatView extends CocoView
     'tome:spell-changed': 'onSpellChanged'
 
   constructor: (options) ->
-    @levelID = options.levelID
+    @levelSlugOrID = options.levelID # from the top level view it comes as levelID, but in reality it's the slug or ID
+    @levelRealID = options.levelRealID
     @session = options.session
     @sessionID = options.sessionID
-    @bus = LevelBus.get(@levelID, @sessionID)
+    @bus = LevelBus.get(@levelSlugOrID, @sessionID)
     @aceConfig = options.aceConfig
+    @aiChatKind = options.aiChatKind or 'level-chat'
     super options
     @onWindowResize = _.debounce @onWindowResize, 50
     $(window).on 'resize', @onWindowResize
 
     ## TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
     #@listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
-    @visible = @aceConfig.levelChat isnt 'none' or me.getLevelChatExperimentValue() is 'beta'  # not 'control'
+    @visible = (options.levelisLadder or me.getLevelChatExperimentValue() is 'beta')  # not 'control'
+    if @aceConfig.levelChat is 'none'
+      @visible = false
+    @chatInitialized = @visible  # Track if chat is properly initialized
 
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
     @diffShown = false
     @creditUid = undefined
+
+  getFixCodeButtonText: (isShown) ->
+    if @aiChatKind is 'ai-league'
+      if isShown then $.i18n.t('play_level.chat_fix_hide_code') else $.i18n.t('play_level.chat_fix_show_code')
+    else
+      if isShown then $.i18n.t('play_level.chat_fix_hide') else $.i18n.t('play_level.chat_fix_show')
 
   updateMultiplayerVisibility: ->
     return unless @$el?
@@ -60,6 +72,7 @@ module.exports = class LevelChatView extends CocoView
     @chatTables = $('.table', @$el)
     #@updateMultiplayerVisibility()
     @$el.toggle @visible
+    @$('.ai-helper-chat-icon').toggle @visible
     @onWindowResize {}
 
   regularlyClearOldMessages: ->
@@ -97,10 +110,13 @@ module.exports = class LevelChatView extends CocoView
       @lastFixedCode = p1
       if p1
         Backbone.Mediator.publish 'level:update-solution', code: p1
+        # Auto-open code for ai-league chat kind
+        if @aiChatKind is 'ai-league'
+          _.defer => Backbone.Mediator.publish 'level:toggle-solution', {}
       '[Show Me]'
     content = content.replace /\|Code\|?:? ?\n?`{0,3}.*?\n((.|\n)*?)`{0,3}\n?$/g, ( match, p1) ->
       numberOfLines = (p1.match(/\n/g) || []).length + 1
-      '\n[Show Me]\n*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
+      '\n*Loading code fix' + '.'.repeat(numberOfLines) + '...*'
     # Close any unclosed backticks delimiters so we get complete <code> tags
     unclosedBackticks = (content.match(/`/g) || []).length
     if unclosedBackticks % 2 != 0
@@ -123,8 +139,9 @@ module.exports = class LevelChatView extends CocoView
     splitContent = content.split('\[Show Me\]')
     preContent = splitContent[0]
     if splitContent.length > 1
-      btnCls = if utils.isCodeCombat then  'btn-illustrated btn-primay' else 'ai-btn-active'
-      buttonContent = "<p><button class='btn btn-small #{btnCls} fix-code-button'>#{$.i18n.t('play_level.chat_fix_' + if @diffShown then 'hide' else 'show')}</button></p>"
+      btnCls = if utils.isCodeCombat then  'btn-illustrated btn-primary' else 'ai-btn-active'
+      buttonText = @getFixCodeButtonText(@diffShown)
+      buttonContent = "<p><button class='btn btn-small #{btnCls} fix-code-button'>#{buttonText}</button></p>"
       postContent = splitContent[1]
     else
       @$el.find('.fix-code-button').parent().remove()  # We only keep track of the latest one to fix, so get rid of old ones
@@ -167,7 +184,8 @@ module.exports = class LevelChatView extends CocoView
 
   addOne: ({ message, messageId }) ->
     return if message.system and message.authorID is me.id
-    if not @open
+    # Only open chat if it's initialized
+    if not @open and @chatInitialized
       @onIconClick {}
     openPanel = $('.open-chat-area', @$el)
     height = openPanel.outerHeight()
@@ -201,11 +219,20 @@ module.exports = class LevelChatView extends CocoView
     $(e.target).val('')
     return false
 
-  onIconClick: (e) ->
+  onAIHelperChatClick: (e) ->
+    # Check if chat has any messages
+    hasMessages = @chatMessages?.length > 0 or @$('.message-row').length > 0
+
+    # Show AI Hint modal only if chat is empty and not open
+    if not @open and not hasMessages
+      @openModalView(new AskAIHelpView({propsData: {aiChatKind: @aiChatKind}}))
+      return
+
+    # Otherwise, just toggle the chat open/closed
     @open = not @open
     openPanel = @$('.open-chat-area', @$el).toggle @open
     closedPanel = @$('.closed-chat-area', @$el).toggle not @open
-    @$('i.icon-comment').toggle true if @open
+    # Don't toggle icon visibility since we want it always visible
     @scrollDown()
     if window.getSelection?
       sel = window.getSelection()
@@ -214,26 +241,31 @@ module.exports = class LevelChatView extends CocoView
     else
       document.selection.empty()
 
+  onIconClick: (e) ->
+    # Legacy method for backward compatibility
+    @onAIHelperChatClick(e)
+
   onFixCodeClick: (e) ->
     Backbone.Mediator.publish 'level:toggle-solution', { code: @lastFixedCode ? '' }
 
   onToggleSolution: ->
     btn = @$el.find('.fix-code-button')
-    show = $.i18n.t('play_level.chat_fix_show')
-    hide = $.i18n.t('play_level.chat_fix_hide')
     @diffShown = !@diffShown
-    if @diffShown
-      btn.html hide
-    else
-      btn.html show
+    btn.html @getFixCodeButtonText(@diffShown)
 
   onCloseSolution: (e) ->
     @diffShown = false
-    @$el.find('.fix-code-button').html $.i18n.t('play_level.chat_fix_show')
+    @$el.find('.fix-code-button').html @getFixCodeButtonText(@diffShown)
     if e.removeButton # when code is fixed, remove the button
       @$el.find('.fix-code-button').parent().remove()
 
   onAddUserChat: (e) ->
+    # If chat is not open, open it first
+    if not @open
+      @open = true
+      @$('.open-chat-area').show()
+      @$('.closed-chat-area').hide()
+    # Use the normal credit system since chat is initialized
     @checkCreditsAndAddMessage(e.message)
 
   checkCreditsAndAddMessage: (message) ->
@@ -244,7 +276,7 @@ module.exports = class LevelChatView extends CocoView
 
     uuid = crypto.randomUUID() || Date.now()
     event = 'LevelChatBot Clicked'
-    props = { lid: @levelID, ls: @sessionID, redeem: false }
+    props = { lid: @levelSlugOrID, ls: @sessionID, redeem: false }
     @creditUid = "#{uuid}|#{message.slice(0, 20)}"
     userCreditApi.redeemCredits({
       operation: 'LEVEL_CHAT_BOT',
@@ -276,6 +308,7 @@ module.exports = class LevelChatView extends CocoView
 
   scrollDown: ->
     openPanel = $('.open-chat-area', @$el)[0]
+    return unless openPanel  # Don't scroll if chat panel doesn't exist
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
 
   onSpellChanged: ->
@@ -299,6 +332,7 @@ module.exports = class LevelChatView extends CocoView
         apiProperties.push doc
     context.apiProperties = apiProperties
 
+
   saveChatMessage: ({ text, sender }) ->
     if @isSpellChanged()
       Backbone.Mediator.publish 'tome:manual-cast', {realTime: false}
@@ -308,7 +342,7 @@ module.exports = class LevelChatView extends CocoView
       @savingChatMessage = undefined
 
   reallySaveChatMessage: ({ text, sender }) ->
-    chatMessage = new ChatMessage @getChatMessageProps { text, sender }
+    chatMessage = new ChatMessage(@getChatMessageProps({ text, sender }))
     @chatMessages ?= []
     @chatMessages.push chatMessage
     Backbone.Mediator.publish 'level:gather-chat-message-context', { chat: chatMessage.attributes }
@@ -387,7 +421,8 @@ module.exports = class LevelChatView extends CocoView
         kind: 'player'
     props =
       product: utils.getProduct()
-      kind: 'level-chat'
+      kind: @aiChatKind or 'level-chat'
+      levelRealID: @levelRealID
       #example: Boolean me.isAdmin() # TODO: implement the non-example version of the chat
       example: true
       message:
@@ -464,7 +499,9 @@ module.exports = class LevelChatView extends CocoView
     if maxHeight < 0
       # Just have to overlay the level, and have them close when done
       maxHeight = 0
-    @$el.find('.closed-chat-area').css('max-height', maxHeight)
+    closedChatArea = @$el.find('.closed-chat-area')
+    if closedChatArea.length  # Only set max-height if the element exists
+      closedChatArea.css('max-height', maxHeight)
 
   destroy: ->
     key.deleteScope('level')

@@ -1,5 +1,6 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
+@import "app/styles/style-flat-variables"
 
 #courses-view
   h1
@@ -51,7 +52,7 @@
 
       h3
         color: $yellow
-        font-family: $headings-font-family
+        font-family: $headline-font
         font-variant: small-caps
         text-shadow: 0px 1px 1px black, -1px 0px 1px black, 1px 0px 1px black, 0px -1px 1px black
 
@@ -134,6 +135,9 @@
     .alert, .progress
       margin-top: 20px
 
+  .tile-header
+      margin-bottom: 5px
+
   @if $is-codecombat
     .style-flat
       background-color: transparent
@@ -158,16 +162,14 @@
 
       h2
         color: $yellow
-        font-family: $headings-font-family
+        font-family: $headline-font
         font-variant: small-caps
         text-shadow: 0px 1px 1px black, -1px 0px 1px black, 1px 0px 1px black, 0px -1px 1px black
-        font-size: 24px
+        font-size: 22px
         text-align: center
+        font-weight: bold
 
     .student-container
-      margin-bottom: 5px
-
-    .tile-header
       margin-bottom: 5px
 
     // Hero display
@@ -268,7 +270,7 @@
         filter: brightness(50%) contrast(80%)
 
     .overlay-text
-      font-family: $headings-font-family
+      font-family: $headline-font
       font-variant: small-caps
       @include transition(color .10s linear, text-shadow .10s linear)
       color: black
@@ -340,7 +342,7 @@
 
   @if $is-codecombat
     .school-stats
-      font-family: $headings-font-family
+      font-family: $headline-font
       font-variant: small-caps
 
       .stat

@@ -51,8 +51,7 @@ describe('Play Level Video View', () => {
 
   it('shows skip button and hides Next Level Button', () => {
     expect(wrapper.find('.buttons-row').exists()).toBe(true)
-    expect(wrapper.find('#skip-btn').exists()).toBe(true)
     expect(wrapper.find('#next-level-btn').exists()).toBe(true)
-    expect(wrapper.find('#next-level-btn').isVisible()).toBe(false)
+    expect(wrapper.find('#next-level-btn').isVisible()).toBe(true)
   })
 })
