@@ -125,6 +125,9 @@ export default {
       if (['concept', 'unsafe'].includes(flag)) {
         return 'red'
       }
+      if (flag === 'ai-project-warning') {
+        return 'purple'
+      }
       if (flag === 'time') {
         return 'gray'
       }
