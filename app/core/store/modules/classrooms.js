@@ -415,8 +415,8 @@ export default {
         teacherId,
         classroomId: classroom._id,
         updates: {
-          ...options.updates,
           ..._.pick(response, keysToUpdate),
+          ...options.updates,
         }
       })
       return response
