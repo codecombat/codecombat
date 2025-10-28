@@ -43,7 +43,7 @@
       'courseInstance',
       'course',
       'classroom',
-      'readOnly'
+      'schoolAdminOnly'
     ],
     components: {
       PieChart
@@ -71,7 +71,7 @@
         utils.i18n(@level, 'displayName') || utils.i18n(@level, 'name')
       link: ->
         if @progress.started
-          if @readOnly
+          if @schoolAdminOnly
             link = '/school-administrator/teacher/' + @classroom.ownerID + '/classroom/' + @classroom._id
           else
             link = '/teachers/classes/' + @classroom._id

@@ -4816,6 +4816,7 @@ module.exports = {
       activate_license: 'Activate License',
       violation: 'Violation',
       safety_violations: 'Safety Violations',
+      warning: 'Warning',
       collapse: 'Collapse',
       num_student: '__num__ Students',
       one_student: '__num__ Student',
@@ -5223,6 +5224,7 @@ module.exports = {
     },
 
     tournament: {
+      tournament_title: 'Tournament Title',
       mini_tournaments: 'Mini Tournaments',
       usable_ladders: 'All Usable Ladders',
       make_tournament: 'Make a mini tournament',
