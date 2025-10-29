@@ -117,10 +117,6 @@ export default {
       font-weight: bold;
     }
 
-    &:last-child {
-      margin-bottom: 0;
-    }
-
     .subtext {
       font-size: 0.8em;
       color: #999999;
