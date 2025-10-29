@@ -461,6 +461,18 @@ class CocoModel extends Backbone.Model {
     return sum
   }
 
+  async aiTranslate (langs) {
+    const fetchJson = require('../core/api/fetch-json')
+    await fetchJson('/db/ai-translator/translate', {
+      method: 'POST',
+      json: {
+        modelName: this.constructor.className,
+        docId: this.id,
+        langs,
+      },
+    })
+  }
+
   setURL (url) {
     const makeURLFunc = u => () => u
     this.url = makeURLFunc(url)
