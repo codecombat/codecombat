@@ -155,6 +155,21 @@ _.extend(CampaignSchema.properties, {
     },
   },
   isIsolatedCampaign: { type: 'boolean', description: 'Isolated campaign, can be accessed only by direct link and dont have "back" button', default: false },
+  isSideScrollerCampaign: { type: 'boolean', description: 'Side scroller campaign view', default: false },
+  parallaxBackgrounds: {
+    type: 'array',
+    title: 'Parallax Backgrounds',
+    description: 'Parallax backgrounds for the campaign',
+    items: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        image: { type: 'string', format: 'image-file' },
+        width: { type: 'number' },
+        speedFactor: { type: 'number', title: 'Speed Factor', default: 1 },
+      },
+    },
+  },
 })
 
 CampaignSchema.denormalizedLevelProperties = [
