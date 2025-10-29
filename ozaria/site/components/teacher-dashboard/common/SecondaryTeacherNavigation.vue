@@ -10,6 +10,7 @@ import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/m
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
 import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
 import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/NavIconAssessments'
+import IconBeta from 'app/core/components/IconBeta'
 const K5 = 'K-5'
 const K6 = '6-8'
 const K9 = '9-12'
@@ -25,6 +26,7 @@ export default {
     ModalEndOfTrial,
     IconAssessments,
     GradeFilterComponent,
+    IconBeta,
   },
 
   mixins: [
@@ -45,7 +47,7 @@ export default {
         { id: 'junior', name: $.i18n.t('nav.coco_junior'), path: '/teachers/guide/junior', gradeBands: [K5, K6] },
         { id: 'codecombat', name: $.i18n.t('nav.codecombat_classroom'), path: '/teachers/guide/codecombat', gradeBands: [K6, K9] },
         { id: 'ozaria', name: $.i18n.t('nav.ozaria_classroom'), path: utils.ozBaseURL(), type: 'a', gradeBands: [K6, K9] },
-        { id: 'roblox', name: $.i18n.t('nav.ccw_short'), path: '/roblox', type: 'a', gradeBands: [K5, K6, K9] },
+        { id: 'roblox', name: $.i18n.t('nav.ccw_short'), path: '/roblox', type: 'a', gradeBands: [K5, K6, K9], beta: true },
         { id: 'hackstack', name: $.i18n.t('nav.ai_hackstack'), path: '/teachers/guide/hackstack', gradeBands: [K6, K9] },
         { id: 'aileague', name: $.i18n.t('nav.ai_league_esports'), path: '/teachers/ai-league', gradeBands: [K6, K9] },
         { id: 'ap', name: $.i18n.t('nav.ap_csp'), path: '/teachers/apcsp', gradeBands: [K9] },
@@ -367,6 +369,10 @@ export default {
             target="_blank"
           >
             {{ option.name }}
+            <IconBeta
+              v-if="option.beta"
+              class="beta-icon"
+            />
           </a>
           <router-link
             v-else
@@ -673,7 +679,7 @@ li:not(.open)>*:hover:not(.current-route) {
 
 li.open>*,
 li>*.current-route {
- > .svgicon {
+  > .svgicon {
     display: block;
     &.default,
     &.hovered {
@@ -1035,10 +1041,9 @@ li.open>#AIJuniorDropdown,
   margin: 5px 0 10px;
 }
 
-.beta {
-  font-size: 12px;
-  line-height: 15px;
-  position: relative;
-  bottom: 5px;
+.beta-icon {
+  margin-top: -30px !important;
+  width: 30px;
+  margin-left: -10px;
 }
 </style>
