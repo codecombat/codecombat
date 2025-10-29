@@ -242,7 +242,7 @@ export default Vue.extend({
 
   async mounted () {
     if (!this.classroomInstance?.isNew()) {
-      this.newInitialFreeCourses = [...this.initialFreeCourses]
+      this.newInitialFreeCourses = this.classroomInstance.get('initialFreeCourses') || []
     }
     if (this.classroomInstance?._id || this.classroomInstance?.id) {
       await this.fetchCourseInstances(this.classroomInstance?._id || this.classroomInstance?.id)
