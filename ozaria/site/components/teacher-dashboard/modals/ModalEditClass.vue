@@ -241,7 +241,7 @@ export default Vue.extend({
   },
 
   async mounted () {
-    if (!this.classroomInstance.isNew()) {
+    if (!this.classroomInstance?.isNew()) {
       this.newInitialFreeCourses = [...this.initialFreeCourses]
     }
     if (this.classroomInstance?._id || this.classroomInstance?.id) {
