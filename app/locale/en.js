@@ -471,7 +471,7 @@ module.exports = {
       beta: 'Beta',
       teacher_tools: 'Teacher Tools',
       ai_teacher_tool: 'AI Teacher Tool',
-      ccw_short: 'CoCo on Roblox',
+      ccw_short: 'CodeCombat on Roblox',
     },
 
     modal: {

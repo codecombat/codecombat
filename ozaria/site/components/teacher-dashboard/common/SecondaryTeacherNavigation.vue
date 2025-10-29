@@ -1033,6 +1033,12 @@ li.open>#AIJuniorDropdown,
   }
 }
 
+#GuideDropdown + .dropdown-menu {
+  a.dropdown-item {
+      font-size: 15px !important;
+  }
+}
+
 .modal-highlight {
   z-index: 10000;
 }
