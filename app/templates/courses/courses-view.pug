@@ -370,8 +370,8 @@ mixin coco_main_content()
         if view.tournaments && view.tournaments.length
           .custom-tournaments.student-container
             h3.tile-header(data-i18n="courses.custom_tournaments")
-              for tournament in view.reversedTournaments.slice(0, 2)
-                +tournamentTileMixin(tournament)
+            for tournament in view.reversedTournaments.slice(0, 2)
+              +tournamentTileMixin(tournament)
           if view.tournaments.length > 2
             a.more-tournaments= '+ ' + $.i18n.t('general.more')
             .clearfix
