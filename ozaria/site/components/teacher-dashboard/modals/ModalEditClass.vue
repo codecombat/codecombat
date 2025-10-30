@@ -241,6 +241,9 @@ export default Vue.extend({
   },
 
   async mounted () {
+    if (!this.classroomInstance?.isNew()) {
+      this.newInitialFreeCourses = this.classroomInstance.get('initialFreeCourses') || []
+    }
     if (this.classroomInstance?._id || this.classroomInstance?.id) {
       await this.fetchCourseInstances(this.classroomInstance?._id || this.classroomInstance?.id)
     }
@@ -469,6 +472,7 @@ export default Vue.extend({
           this.saving = false
           return
         }
+        await this.createFreeCourseInstances({ classroom: savedClassroom, courses: this.courses })
         this.$emit('updated')
       }
       await this.handleClassroomImport(savedClassroom, updates)
@@ -715,6 +719,8 @@ export default Vue.extend({
           :new-club-type="newClubType"
           :classroom-id="classroomInstance.get('_id')"
           :courses="courses"
+          :initial-free-courses="newInitialFreeCourses"
+          :selected-initial-free-courses="classroomInstance.get('initialFreeCourses') || []"
           :code-formats="newCodeFormats"
           :code-format-default="newCodeFormatDefault"
           :code-language="newProgrammingLanguage"

@@ -58,7 +58,6 @@ const ROBLOX_MODAL_SHOWN = 'roblox-modal-shown'
 const PROMPTED_FOR_SIGNUP = 'prompted-for-signup'
 const PROMPTED_FOR_SUBSCRIPTION = 'prompted-for-subscription'
 const AI_LEAGUE_MODAL_SHOWN = 'ai-league-modal-shown'
-const GALAXY_TERRAIN = 'ai' // galaxy is the inner name, but in URL it is 'ai' for players
 const SCENARIO_MARGIN_COMPENSATION_FACTOR = 0.33 // Compensates for bottom margin when centering scenario elements
 
 class LevelSessionsCollection extends CocoCollection {
@@ -120,7 +119,6 @@ class CampaignView extends RootView {
       'click .portal-catalyst .side-campaign': 'onClickPortalCampaign',
       'click .portal-catalyst .main-campaign': 'onClickPortalCampaign',
       'click .portal-catalyst .campaign': 'onClickPortalCampaign',
-      'click .portal-galaxy .campaign-container': 'onClickPortalCampaign',
       'click a .campaign-switch': 'onClickCampaignSwitch',
       'mouseenter .portals': 'onMouseEnterPortals',
       'mouseleave .portals': 'onMouseLeavePortals',
@@ -154,12 +152,7 @@ class CampaignView extends RootView {
     super(options)
     this.onMouseMovePortals = this.onMouseMovePortals.bind(this)
     this.onWindowResize = this.onWindowResize.bind(this)
-    if (terrain === GALAXY_TERRAIN) {
-      this.isGalaxy = true
-      this.terrain = null
-    } else {
-      this.terrain = terrain
-    }
+    this.terrain = terrain
     if (/^classCode/.test(this.terrain)) {
       this.terrain = '' // Stop /play?classCode= from making us try to play a classCode campaign
     }
@@ -170,9 +163,8 @@ class CampaignView extends RootView {
       this.terrain = '' // In this case we process query params
     }
 
-    // Check if the user is in the Catalyst experiment
-    this.isCatalyst = me.getCatalystExperimentValue() === 'beta'
-    this.isCatalyst = this.isCatalyst || this.isGalaxy
+    // Until we clear the "old" code, everything is catalyst
+    this.isCatalyst = true
 
     this.editorMode = options?.editorMode
     this.requiresSubscription = !me.isPremium()
@@ -256,7 +248,7 @@ class CampaignView extends RootView {
         this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', { cache: false }, 1).model
         this.listenToOnce(this.sessions, 'sync', this.onSessionsLoaded)
       }
-      if (!this.terrain || this.isGalaxy) {
+      if (!this.terrain) {
         this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
         this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
         return
@@ -580,8 +572,8 @@ class CampaignView extends RootView {
     if (!me.get('heroConfig')?.thangType) {
       this.preloadTopHeroes()
     }
-    if (['forest', 'desert'].includes(this.terrain)) {
-      this.$el.find('#campaign-status').delay(4000).animate({ top: '-=58' }, 1000)
+    if (this.terrain) {
+      this.$el.find('#campaign-status').delay(3000).animate({ top: '-=58' }, 1000)
     }
     if (this.campaign && this.isRTL(utils.i18n(this.campaign.attributes, 'fullName'))) {
       this.$('.campaign-name').attr('dir', 'rtl')
@@ -1729,22 +1721,29 @@ class CampaignView extends RootView {
     const aspectRatio = mapWidth / mapHeight
     const pageWidth = this.$el.width()
     const pageHeight = this.$el.height()
+    const navOffset = 71 // navbar height
+    const availableHeight = Math.max(0, pageHeight - navOffset)
     const widthRatio = pageWidth / mapWidth
-    const heightRatio = pageHeight / mapHeight
+    const heightRatio = availableHeight / mapHeight
 
     let resultingWidth, resultingHeight
     // Make sure we can see the whole map, fading to background in one dimension.
     if (heightRatio <= widthRatio) {
       // Left and right margin
-      resultingHeight = pageHeight
+      resultingHeight = availableHeight
       resultingWidth = resultingHeight * aspectRatio
     } else {
       // Top and bottom margin
       resultingWidth = pageWidth
       resultingHeight = resultingWidth / aspectRatio
     }
+    // Ensure we don't exceed available height due to rounding
+    if (resultingHeight > availableHeight) {
+      resultingHeight = availableHeight
+      resultingWidth = resultingHeight * aspectRatio
+    }
     const resultingMarginX = (pageWidth - resultingWidth) / 2
-    const resultingMarginY = (pageHeight - resultingHeight) / 2
+    const resultingMarginY = (availableHeight - resultingHeight) / 2
     this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
     if (this.pointerInterval) {
       this.highlightNextLevel()
@@ -2308,7 +2307,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'junior-original-choice') {
-      return this.isCatalyst && !this.isGalaxy && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
+      return this.isCatalyst && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
     }
 
     if (['status-line'].includes(what)) {
@@ -2391,11 +2390,7 @@ class CampaignView extends RootView {
       return !me.showChinaResourceInfo() && me.getHackStackExperimentValue() === 'beta' && !userUtils.isCreatedViaLibrary() && !this.editorMode
     }
     if (what === 'cchome-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior' || this.isGalaxy)
-    }
-
-    if (what === 'galaxy-template') {
-      return this.isGalaxy
+      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior') && !this.editorMode
     }
 
     return true

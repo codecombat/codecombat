@@ -17,6 +17,7 @@ const AIScenario = require('models/AIScenario')
 const SaveVersionModal = require('views/editor/modal/SaveVersionModal')
 const PatchesView = require('views/editor/PatchesView')
 const ConfirmModal = require('views/core/ConfirmModal')
+const AITranslateConfirmModal = require('views/editor/modal/AITranslateConfirmModal')
 
 const nodes = require('views/editor/level/treema_nodes')
 
@@ -39,7 +40,8 @@ module.exports = (AIScenarioEditView = (function () {
         'click #i18n-button': 'onPopulateI18N',
         'click #delete-button': 'confirmDeletion',
         'click #fix-button': 'onFix',
-        'click #diff-button': 'onAddDiff'
+        'click #diff-button': 'onAddDiff',
+        'click #ai-translate-button': 'onAITranslate',
       }
     }
 
@@ -99,6 +101,11 @@ module.exports = (AIScenarioEditView = (function () {
 
     onPopulateI18N () {
       return this.scenario.populateI18N()
+    }
+
+    async onAITranslate () {
+      // todo: add warning & language modal.
+      this.openModalView(new AITranslateConfirmModal(this.scenario))
     }
 
     onChange () {

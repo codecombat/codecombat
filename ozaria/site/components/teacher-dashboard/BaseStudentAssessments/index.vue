@@ -180,7 +180,6 @@ export default {
           progress: progressData?.get({ classroom: classroomInstance, course: new Course(course) }),
           courseInstance,
           classroom: classroomInstance.toJSON(),
-          readOnly: true
         }
         console.log('propsData', this.propsData)
       }

@@ -255,6 +255,7 @@ module.exports = (LadderView = (function () {
         success: res => {
           let newInterval
           this.tournament = new Tournament(res)
+          this.tournamentDisplayName = this.tournament.get('displayName')
           if (me.isAdmin() && (document.location.hash === '#results')) {
             // Show the results early, before publish date
             this.tournament.set('resultsDate', this.tournament.get('endDate'))
@@ -266,17 +267,14 @@ module.exports = (LadderView = (function () {
             this.refreshTournamentTime()
           }
 
+          this.tournamentEnd = true // hide play button
           if (this.tournament.get('state') === 'initializing') {
-            this.tournamentEnd = true
             newInterval = this.tournamentTimeElapsed < (-10 * 1000) ? Math.min(10 * 60 * 1000, -this.tournamentTimeElapsed / 2) : 5000
           } else if (this.tournament.get('state') === 'starting') {
             this.tournamentEnd = false
             newInterval = this.tournamentTimeLeft > (10 * 1000) ? Math.min(10 * 60 * 1000, this.tournamentTimeLeft / 2) : 5000
           } else if (['ranking', 'waiting'].includes(this.tournament.get('state'))) {
-            this.tournamentEnd = true
             newInterval = this.tournamentResultsTimeLeft > (10 * 1000) ? Math.min(10 * 60 * 1000, this.tournamentResultsTimeLeft / 2) : 5000
-          } else if (this.tournament.get('state') === 'ended') {
-            this.tournamentEnd = true
           }
 
           if (this.tournamentState !== this.tournament.get('state')) {
@@ -327,9 +325,9 @@ module.exports = (LadderView = (function () {
       // initializing, ranking, waiting - nothing
       // waiting for owner - only leaderboard
       // ended - only leaderboard
-      if ((this.tournamentState === 'ended') || ((this.tournamentState === 'waiting') && (me.get('_id') === (this.league != null ? this.league.get('ownerID') : undefined)))) {
+      if ((this.tournamentState === 'ended') || ((['waiting', 'abandoned'].includes(this.tournamentState)) && (me.get('_id') === (this.league != null ? this.league.get('ownerID') : undefined)))) {
         this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, tournament: this.tournamentId, leagueType: 'clan', myTournamentSubmission: this.myTournamentSubmission }, this.level, this.sessions)) // classroom ladder do not have tournament for now
-      } else if (['initializing', 'ranking', 'waiting'].includes(this.tournamentState)) {
+      } else if (['initializing', 'ranking', 'waiting', 'abandoned'].includes(this.tournamentState)) {
         null
       } else if(this.level.get('slug') === 'farmers-feud' && ! this.league) {
         null

@@ -1,7 +1,7 @@
 <template>
   <div class="form-group row course-code-language-format">
     <div
-      v-if="isCodeCombat && isNewClassroom && !asClub"
+      v-if="isCodeCombat && !asClub"
       class="col-xs-12 initial-free-courses"
     >
       <label class="control-label checkbox-label">
@@ -205,6 +205,10 @@ export default {
     QuestionmarkView,
   },
   props: {
+    selectedInitialFreeCourses: {
+      type: Array,
+      default: () => [],
+    },
     isCodeCombat: {
       type: Boolean,
       default: true,
@@ -244,7 +248,7 @@ export default {
   },
   data () {
     return {
-      newInitialFreeCourses: [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE],
+      newInitialFreeCourses: [],
       newProgrammingLanguage: this.codeLanguage || 'python',
       newCodeFormats: this.codeFormats,
       newCodeFormatDefault: this.codeFormatDefault,
@@ -363,6 +367,17 @@ export default {
         }
       }
     },
+  },
+  mounted () {
+    if (!this.newInitialFreeCourses.length) {
+      if (this.isNewClassroom && this.isCodeCombat) {
+        this.newInitialFreeCourses = [utils.courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE]
+      } else {
+        this.newInitialFreeCourses = Array.isArray(this.selectedInitialFreeCourses)
+          ? [...this.selectedInitialFreeCourses]
+          : []
+      }
+    }
   },
   methods: {
     hasCourse (courseId) {

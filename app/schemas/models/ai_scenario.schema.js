@@ -65,7 +65,7 @@ _.extend(AIScenarioSchema.properties, {
     type: 'object',
     description: 'Help translate this property',
     format: 'i18n',
-    props: ['mode', 'task', 'doc', 'name', 'description'],
+    props: ['name', 'description'],
   },
   coverImage: {
     title: 'Cover Image',

@@ -144,7 +144,7 @@ module.exports = (AccountSettingsView = (function () {
           title: 'Are you really sure?',
           body: 'This will completely delete your account. This action CANNOT be undone. Are you entirely sure?',
           decline: 'Cancel',
-          confirm: 'DELETE Your Account'
+          confirm: 'DELETE Your Account',
         }
         const confirmModal = new ConfirmModal(renderData)
         confirmModal.on('confirm', this.deleteAccount, this)
@@ -158,7 +158,7 @@ module.exports = (AccountSettingsView = (function () {
           title: 'Are you really sure?',
           body: 'This will completely erase your progress: code, levels, achievements, earned gems, and course work. This action CANNOT be undone. Are you entirely sure?',
           decline: 'Cancel',
-          confirm: 'Erase ALL Progress'
+          confirm: 'Erase ALL Progress',
         }
         const confirmModal = new ConfirmModal(renderData)
         confirmModal.on('confirm', this.resetProgress, this)
@@ -188,7 +188,7 @@ module.exports = (AccountSettingsView = (function () {
           type: 'POST',
           data: {
             username: enteredEmailOrUsername,
-            password: enteredPassword
+            password: enteredPassword,
           },
           parse: true,
           error (error) {

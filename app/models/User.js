@@ -1063,6 +1063,17 @@ module.exports = (User = (function () {
       return jqxhr
     }
 
+    recalculateHsStars (options = {}) {
+      options.url = _.result(this, 'url') + '/recalculate-hs-stars'
+      options.type = 'POST'
+      if (options.campaign) {
+        options.data = { campaign: options.campaign }
+      }
+      const promise = this.fetchAsPromise(options)
+      this.loading = false
+      return promise
+    }
+
     finishedAnyLevels () { return Boolean((this.get('stats') || {}).gamesCompleted) }
 
     isFromUk () { return (this.get('country') === 'united-kingdom') || (this.get('preferredLanguage') === 'en-GB') }
@@ -1317,51 +1328,6 @@ module.exports = (User = (function () {
         }
         console.log('starting junior experiment with value', value, 'prob', valueProbability)
         me.startExperiment('junior', value, valueProbability)
-      }
-      return value
-    }
-
-    // "Catalyst" is a new global map and UI/UX for CodeCombat Home version
-    getCatalystExperimentValue () {
-      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('catalyst')]
-      if (value == null) { value = me.getExperimentValue('catalyst', null, 'beta') }
-      // Don't include Ozaria for now
-      if ((value == null) && utils.isOzaria) {
-        value = 'control'
-      }
-      if (userUtils.isInLibraryNetwork()) {
-        value = 'control'
-      }
-      // Don't include users other than home users
-      if ((value == null) && me.get('role')) {
-        value = 'control'
-      }
-      // include China Home players for now
-      if ((value == null) && features?.chinaInfra) {
-        value = 'beta'
-      }
-      // Don't include already premium users
-      if ((value == null) && me.hasSubscription()) {
-        value = 'control'
-      }
-      if ((!value)) {
-        let valueProbability
-        // 0% chance to be in the beta group by default
-        const probability = window.serverConfig?.experimentProbabilities?.catalyst?.beta
-        if (probability == null) {
-          // it means we're not running the experiment
-          value = 'control'
-          return value
-        }
-        if (Math.random() < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        console.log('starting catalyst experiment with value', value, 'prob', valueProbability)
-        me.startExperiment('catalyst', value, valueProbability)
       }
       return value
     }

@@ -907,6 +907,7 @@ module.exports = {
       manage: 'Manage',
       empty_results: 'Empty Results.',
       roblox: 'Roblox',
+      warning: 'Warning',
     },
 
     general: {
@@ -3246,6 +3247,7 @@ module.exports = {
       achievement_query_goals: 'Key achievement off of level goals',
       level_completion: 'Level Completion',
       pop_i18n: 'Populate I18N',
+      ai_translate: 'AI Translate',
       tasks: 'Tasks',
       clear_storage: 'Clear your local changes',
       add_system_title: 'Add Systems to Level',
@@ -3253,6 +3255,10 @@ module.exports = {
       product: 'Product',
       link: 'Link',
       clone_to_new_scenario: 'Clone to New Scenario',
+      translate_warning_content: 'Make sure the doc already Populate the i18n and Saved.',
+      translate_pick_langs: 'Pick the Languages you want to transalte.',
+      translate_it: 'Translate it!',
+      translating: 'Translating...',
     },
 
     article: {
@@ -4622,6 +4628,7 @@ module.exports = {
       license_type_full: 'Full Courses',
       license_type_hackstack: 'Hackstack',
       license_type_customize: 'Customize Courses',
+
     },
 
     events: {
@@ -4838,6 +4845,7 @@ module.exports = {
       activate_license: 'Activate License',
       violation: 'Violation',
       safety_violations: 'Safety Violations',
+      warning: 'Warning',
       collapse: 'Collapse',
       num_student: '__num__ Students',
       one_student: '__num__ Student',
@@ -5245,6 +5253,7 @@ module.exports = {
     },
 
     tournament: {
+      tournament_title: 'Tournament Title',
       mini_tournaments: 'Mini Tournaments',
       usable_ladders: 'All Usable Ladders',
       make_tournament: 'Make a mini tournament',
