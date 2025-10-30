@@ -104,7 +104,6 @@ module.exports = (AIScenarioEditView = (function () {
     }
 
     async onAITranslate () {
-      // todo: add warning & language modal.
       this.openModalView(new AITranslateConfirmModal(this.scenario))
     }
 

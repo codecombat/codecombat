@@ -34,6 +34,7 @@ const RevertModal = require('views/modal/RevertModal')
 const GenerateTerrainModal = require('views/editor/level/modals/GenerateTerrainModal')
 const GenerateLevelModal = require('views/editor/level/modals/GenerateLevelModal')
 const levelGeneration = require('../../../lib/level-generation')
+const AITranslateConfirmModal = require('views/editor/modal/AITranslateConfirmModal')
 
 const ThangsTabView = require('./thangs/ThangsTabView')
 const SettingsTabView = require('./settings/SettingsTabView')
@@ -111,6 +112,7 @@ module.exports = (LevelEditView = (function () {
         'click .generate-all-practice-levels-button': 'onClickGenerateAllPracticeLevels',
         'click .save-all-practice-levels-button': 'onClickSaveAllPracticeLevels',
         'click .migrate-junior-button': 'onClickMigrateJunior',
+        'click #ai-translate-button': 'onAITranslate',
       }
 
       this.prototype.subscriptions = {
@@ -161,6 +163,10 @@ module.exports = (LevelEditView = (function () {
       clearInterval(this.timerIntervalID)
       clearInterval(this.checkPresenceIntervalID)
       return super.destroy()
+    }
+
+    async onAITranslate () {
+      this.openModalView(new AITranslateConfirmModal(this.level))
     }
 
     showLoading ($el) {
