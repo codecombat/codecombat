@@ -155,6 +155,7 @@ export default {
       return {
         'dot-border': true,
         'border-red': this.border === 'red',
+        'border-purple': this.border === 'purple',
         'border-gray': this.border === 'gray',
         selected: this.selected,
         hovered: this.hovered,
@@ -417,6 +418,10 @@ export default {
 }
 .border-red {
   border: 1px solid #eb003b;
+}
+
+.border-purple {
+  border: 1px solid #7A65FC;
 }
 
 .border-gray {

@@ -1061,6 +1061,17 @@ module.exports = (User = (function () {
       return jqxhr
     }
 
+    recalculateHsStars (options = {}) {
+      options.url = _.result(this, 'url') + '/recalculate-hs-stars'
+      options.type = 'POST'
+      if (options.campaign) {
+        options.data = { campaign: options.campaign }
+      }
+      const promise = this.fetchAsPromise(options)
+      this.loading = false
+      return promise
+    }
+
     finishedAnyLevels () { return Boolean((this.get('stats') || {}).gamesCompleted) }
 
     isFromUk () { return (this.get('country') === 'united-kingdom') || (this.get('preferredLanguage') === 'en-GB') }
