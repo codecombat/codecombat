@@ -144,9 +144,9 @@ module.exports = (CoursesView = (function () {
             this.tournaments = (Array.from(tournaments.models).map((t) => t.toJSON()))
             this.reversedTournaments = this.tournaments.slice().reverse()
             this.tournamentsByState = _.groupBy(this.tournaments, 'state')
-            return this.renderSelectors('.student-profile-area')
+            return this.renderSelectors('.custom-tournaments-area')
           })
-          this.supermodel.loadCollection(tournaments, 'tournaments', { cache: false })
+          tournaments.fetch({ cache: false })
         }
 
         // TODO: Trim this section for only what's necessary
@@ -280,7 +280,7 @@ module.exports = (CoursesView = (function () {
 
     renderStats () {
       if (this.destroyed) { return }
-      return this.renderSelectors('.student-stats', '.school-stats')
+      return this.renderSelectors('.school-stats')
     }
 
     removeRedundantClans (clans) {

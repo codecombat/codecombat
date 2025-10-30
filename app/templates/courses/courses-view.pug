@@ -366,14 +366,15 @@ mixin coco_main_content()
                         span= ' '
                         span(data-i18n='play.players')
 
-      if view.tournaments && view.tournaments.length
-        .custom-tournaments.student-container
-          h3.tile-header(data-i18n="courses.custom_tournaments")
-          for tournament in view.reversedTournaments.slice(0, 2)
-            +tournamentTileMixin(tournament)
-        if view.tournaments.length > 2
-          a.more-tournaments= '+ ' + $.i18n.t('general.more')
-          .clearfix
+      .custom-tournaments-area
+        if view.tournaments && view.tournaments.length
+          .custom-tournaments.student-container
+            h3.tile-header(data-i18n="courses.custom_tournaments")
+              for tournament in view.reversedTournaments.slice(0, 2)
+                +tournamentTileMixin(tournament)
+          if view.tournaments.length > 2
+            a.more-tournaments= '+ ' + $.i18n.t('general.more')
+            .clearfix
       +classrooms_content()
 
 mixin ozar_main_content()
