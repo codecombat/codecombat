@@ -1,5 +1,5 @@
 <script>
-import VueConfirmDialog from 'vue-confirm-dialog'
+import VueConfirmDialog from 'vue3-confirm-dialog'
 import roblox from 'core/api/roblox'
 import RobloxIdentityField from './RobloxIdentityField.vue'
 import LoadingSpinner from 'app/components/common/elements/LoadingSpinner'
