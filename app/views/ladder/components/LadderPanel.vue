@@ -44,7 +44,7 @@
           <span class="arena__helpers-element">
             <button
               v-if="arenaCurriculum"
-              class="btn btn-secondary dusk-btn"
+              class="btn btn-secondary btn-moon"
               :disabled="disabled"
               @click="openCurriculum"
             >
@@ -52,7 +52,7 @@
             </button>
             <button
               v-if="!canEdit"
-              class="btn btn-secondary btn-moon"
+              class="btn btn-secondary btn-moon cta-btn"
               :disabled="disabled"
               @click="$emit('create-tournament')"
             >
@@ -62,7 +62,7 @@
               v-if="canEdit"
             >
               <button
-                class="btn btn-secondary btn-moon"
+                class="btn btn-secondary btn-moon cta-btn"
                 :disabled="disabled"
                 @click="$emit('edit-tournament')"
               >
@@ -216,9 +216,16 @@ export default {
 }
 
 .dusk-btn {
+  color: white;
+  background-color: #7a65fc;
   display: unset !important;
   text-transform: uppercase;
   font-weight: bold;
+}
+
+.cta-btn {
+  background-color: rgb(68, 151, 167);
+  color: black;
 }
 
 .arena {
@@ -282,7 +289,7 @@ export default {
 
   &__helpers {
     position: relative;
-    background-color: #d3d3d3;
+    background: linear-gradient(to right, #f5ffff, #fff);
 
     &__bottom {
       display: flex;
@@ -305,7 +312,7 @@ export default {
 
     &__description {
       font-weight: bold;
-      color: black;
+      color: #B4B4B4;
 
       padding: .5rem;
       line-height: 2rem;
