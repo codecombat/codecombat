@@ -9,9 +9,8 @@ async function sendRequestsWithLimit (requests, limit = 10) {
   const results = []
   const executing = []
   for (const request of requests) {
-    const promise = request().then(result => {
+    const promise = request().finally(() => {
       executing.splice(executing.indexOf(promise), 1)
-      return result
     })
 
     results.push(promise)
