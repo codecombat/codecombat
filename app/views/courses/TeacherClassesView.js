@@ -252,7 +252,7 @@ module.exports = (TeacherClassesView = (function () {
               if (!courseInstance) {
                 courseInstance = new CourseInstance({
                   classroomID: classroom.id,
-                  courseID: course.id
+                  courseID: course.id,
                 })
                 // TODO: figure out a better way to get around triggering validation errors for properties
                 // that the server will end up filling in, like an empty members array, ownerID

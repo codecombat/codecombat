@@ -85,8 +85,8 @@ module.exports = (CoursesView = (function () {
       return {
         title: $.i18n.t('courses.students'),
         links: [
-          { vmid: 'rel-canonical', rel: 'canonical', href: '/students' }
-        ]
+          { vmid: 'rel-canonical', rel: 'canonical', href: '/students' },
+        ],
       }
     }
 
@@ -97,8 +97,14 @@ module.exports = (CoursesView = (function () {
       this.utils = utils
       this.classCodeQueryVar = utils.getQueryVariable('_cc', false)
       this.courseInstances = new CocoCollection([], { url: `/db/user/${me.id}/course-instances`, model: CourseInstance })
+
+      this.classroomsLoaded = false
+      this.courseInstancesLoaded = false
       this.courseInstances.comparator = ci => parseInt(ci.get('classroomID').substr(0, 8), 16) + utils.orderedCourseIDs.indexOf(ci.get('courseID'))
-      this.listenToOnce(this.courseInstances, 'sync', this.onCourseInstancesLoaded)
+      this.listenToOnce(this.courseInstances, 'sync', function () {
+        this.courseInstancesLoaded = true
+        this.onCourseInstancesLoaded()
+      })
       this.supermodel.loadCollection(this.courseInstances, { cache: false })
       this.classrooms = new CocoCollection([], { url: '/db/classroom', model: Classroom })
       this.classrooms.comparator = (a, b) => b.id.localeCompare(a.id)
@@ -112,12 +118,14 @@ module.exports = (CoursesView = (function () {
           const campaign = this.hourOfCodeOptions.campaignId
           const sessionFetchOptions = {
             language: this.hocCodeLanguage,
-            project: 'state.complete,level.original,playtime,changed'
+            project: 'state.complete,level.original,playtime,changed',
           }
           this.supermodel.addPromiseResource(store.dispatch('levelSessions/fetchLevelSessionsForCampaign', { campaignHandle: campaign, options: { data: sessionFetchOptions } }))
           this.campaignLevels = new Levels()
-          return this.supermodel.trackRequest(this.campaignLevels.fetchForCampaign(this.hourOfCodeOptions.campaignId, { data: { project: `original,primerLanguage,slug,i18n.${me.get('preferredLanguage', true)}` } }))
+          this.supermodel.trackRequest(this.campaignLevels.fetchForCampaign(this.hourOfCodeOptions.campaignId, { data: { project: `original,primerLanguage,slug,i18n.${me.get('preferredLanguage', true)}` } }))
         }
+        this.classroomsLoaded = true
+        this.onCourseInstancesLoaded()
       })
       this.store = store
       this.originalLevelMap = {}
@@ -136,9 +144,9 @@ module.exports = (CoursesView = (function () {
             this.tournaments = (Array.from(tournaments.models).map((t) => t.toJSON()))
             this.reversedTournaments = this.tournaments.slice().reverse()
             this.tournamentsByState = _.groupBy(this.tournaments, 'state')
-            return this.renderSelectors('.student-profile-area')
+            return this.renderSelectors('.custom-tournaments-area')
           })
-          this.supermodel.loadCollection(tournaments, 'tournaments', { cache: false })
+          tournaments.fetch({ cache: false })
         }
 
         // TODO: Trim this section for only what's necessary
@@ -244,6 +252,47 @@ module.exports = (CoursesView = (function () {
       })
     }
 
+    calculateAllCompleted () {
+      this.allCompleted = !_.some(this.classrooms.models, function (classroom) {
+        return _.some(this.courseInstances.where({ classroomID: classroom.id }), function (courseInstance) {
+          const course = this.store.state.courses.byId[courseInstance.get('courseID')]
+          if (!courseInstance.sessions) {
+            return false
+          }
+          const stats = classroom.statsForSessions(courseInstance.sessions, course._id)
+          if (stats.levels != null ? stats.levels.next : undefined) {
+            // This could be made smarter than just picking the next level from the first incomplete course
+            // It will suggest redoing a course arena level, like Wakka Maul, if all courses are complete
+            this.nextLevelInfo = {
+              level: stats.levels.next,
+              courseInstance,
+              course,
+              courseAcronym: utils.courseAcronyms[course._id],
+              number: stats.levels.nextNumber,
+            }
+            const startLockedLevelSlug = courseInstance.get('startLockedLevel')
+            if (startLockedLevelSlug) {
+              const courseLevels = classroom.getLevels({ courseID: course._id })
+              let hasLocked = false
+              for (const level of Array.from(courseLevels.models)) {
+                if (level.get('slug') === startLockedLevelSlug) {
+                  hasLocked = true
+                }
+                if (level.get('slug') === this.nextLevelInfo.level.get('slug')) {
+                  if (hasLocked) { this.nextLevelInfo.locked = true }
+                  break
+                }
+              }
+            }
+          }
+          if (course._id === utils.courseIDs.HACKSTACK) {
+            return false
+          }
+          return !stats.courseComplete
+        }, this)
+      }, this)
+    }
+
     setAILeagueStat (...args) {
       // Convenience method for setting nested properties even if intermediate objects haven't been initialized
       const adjustedLength = Math.max(args.length, 1); const keys = args.slice(0, adjustedLength - 1); let val = args[adjustedLength - 1]
@@ -272,7 +321,7 @@ module.exports = (CoursesView = (function () {
 
     renderStats () {
       if (this.destroyed) { return }
-      return this.renderSelectors('.student-stats', '.school-stats')
+      return this.renderSelectors('.school-stats')
     }
 
     removeRedundantClans (clans) {
@@ -338,22 +387,55 @@ module.exports = (CoursesView = (function () {
     }
 
     onCourseInstancesLoaded () {
+      if (!this.classroomsLoaded || !this.courseInstancesLoaded) return
       // HoC 2015 used special single player course instances
       this.courseInstances.remove(this.courseInstances.where({ hourOfCode: true }))
+      const classroomLanguagesMap = {}
+      this.classrooms.forEach(cls => {
+        classroomLanguagesMap[cls.id.toString()] = cls.get('aceConfig').language
+      })
 
-      return (() => {
-        const result = []
+      const fetchSessions = (instance) => {
+        const fetchOptions = { data: { project: 'state.complete,level.original,playtime,changed' } }
+        const collection = new CocoCollection([], {
+          url: instance.url() + '/course-level-sessions/' + me.id,
+          model: LevelSession,
+        })
+        collection.comparator = 'changed'
+        collection.fetch(fetchOptions)
+        return collection
+      }
+      const dynamicLoadLanguageSessions = () => {
+        // classrooms has same language shares progress, so we only need to fetch session once
+        const languageSessions = { others: {} }
         for (const courseInstance of Array.from(this.courseInstances.models)) {
-          if (!courseInstance.get('classroomID')) { continue }
-          courseInstance.sessions = new CocoCollection([], {
-            url: courseInstance.url() + '/course-level-sessions/' + me.id,
-            model: LevelSession
-          })
-          courseInstance.sessions.comparator = 'changed'
-          result.push(this.supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete,level.original,playtime,changed' } }))
+          const courseID = courseInstance.get('courseID')
+          // 99.9% courseInstances has aceConfig
+          const lang = classroomLanguagesMap[courseInstance.get('classroomID').toString()]
+          if (!(lang in languageSessions)) {
+            languageSessions[lang] = {}
+          }
+          if (!(courseID in languageSessions[lang])) {
+            languageSessions[lang][courseID] = []
+          }
+          languageSessions[lang][courseID].push(courseInstance)
         }
-        return result
-      })()
+        for (const lang in languageSessions) {
+          const instancesByCourse = languageSessions[lang]
+          for (const courseID in instancesByCourse) {
+            const instances = instancesByCourse[courseID]
+            // only fetch first course-instances
+            const collection = fetchSessions(instances[0])
+            for (const instance of instances) {
+              instance.sessions = collection
+            }
+          }
+        }
+      }
+      dynamicLoadLanguageSessions()
+      this.calculateAllCompleted()
+      this.renderSelectors('.course-instance-entry')
+      this.renderSelectors('.student-stats')
     }
 
     onLoaded () {
@@ -377,7 +459,7 @@ module.exports = (CoursesView = (function () {
       if (utils.useWebsocket) {
         this.useWebsocket = true
         const {
-          wsBus
+          wsBus,
         } = application
         const uniqueOwnerIDs = Array.from(new Set(ownerIDs))
         const teacherTopics = uniqueOwnerIDs.map(teacher => {
@@ -413,41 +495,7 @@ module.exports = (CoursesView = (function () {
           me.setLastClassroomItems(this.classrooms.models[0].get('classroomItems', true))
         }
 
-        this.allCompleted = !_.some(this.classrooms.models, function (classroom) {
-          return _.some(this.courseInstances.where({ classroomID: classroom.id }), function (courseInstance) {
-            const course = this.store.state.courses.byId[courseInstance.get('courseID')]
-            const stats = classroom.statsForSessions(courseInstance.sessions, course._id)
-            if (stats.levels != null ? stats.levels.next : undefined) {
-              // This could be made smarter than just picking the next level from the first incomplete course
-              // It will suggest redoing a course arena level, like Wakka Maul, if all courses are complete
-              this.nextLevelInfo = {
-                level: stats.levels.next,
-                courseInstance,
-                course,
-                courseAcronym: utils.courseAcronyms[course._id],
-                number: stats.levels.nextNumber
-              }
-              const startLockedLevelSlug = courseInstance.get('startLockedLevel')
-              if (startLockedLevelSlug) {
-                const courseLevels = classroom.getLevels({ courseID: course._id })
-                let hasLocked = false
-                for (const level of Array.from(courseLevels.models)) {
-                  if (level.get('slug') === startLockedLevelSlug) {
-                    hasLocked = true
-                  }
-                  if (level.get('slug') === this.nextLevelInfo.level.get('slug')) {
-                    if (hasLocked) { this.nextLevelInfo.locked = true }
-                    break
-                  }
-                }
-              }
-            }
-            if (course._id === utils.courseIDs.HACKSTACK) {
-              return false
-            }
-            return !stats.courseComplete
-          }, this)
-        }, this)
+        this.calculateAllCompleted()
       }
 
       // now we use same levels in each classrooms
@@ -458,7 +506,7 @@ module.exports = (CoursesView = (function () {
         this.listenTo(levels, 'sync', () => {
           if (this.destroyed) { return }
           for (const level of Array.from(levels.models)) { this.originalLevelMap[level.get('original')] = level }
-          return this.render()
+          this.renderSelectors('.course-instance-entry')
         })
         return this.supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: `original,primerLanguage,slug,name,i18n.${me.get('preferredLanguage', true)},displayName` } }))
       }
@@ -496,7 +544,7 @@ module.exports = (CoursesView = (function () {
       const [started, completed, levelsDone] = Array.from(coursesHelper.hasUserCompletedCourse(userLevelStatusMap, levelsInCampaign)) // eslint-disable-line no-unused-vars
       this.hocStats = {
         complete: completed,
-        pctDone: ((levelsDone / this.campaignLevels.models.length) * 100).toFixed(1) + '%'
+        pctDone: ((levelsDone / this.campaignLevels.models.length) * 100).toFixed(1) + '%',
       }
       return this.hocStats
     }
@@ -505,7 +553,7 @@ module.exports = (CoursesView = (function () {
       const classroom = this.classrooms.get(courseInstance.get('classroomID'))
       const versionedCourse = _.find(classroom.get('courses'), { _id: courseInstance.get('courseID') })
       const {
-        levels
+        levels,
       } = versionedCourse
       return _.any(levels, { shareable: 'project' })
     }
@@ -630,7 +678,7 @@ module.exports = (CoursesView = (function () {
           classCode: this.classCode,
           classroomID: newClassroom.id,
           classroomName: newClassroom.get('name'),
-          ownerID: newClassroom.get('ownerID')
+          ownerID: newClassroom.get('ownerID'),
         })
       }
       this.classrooms.add(newClassroom)

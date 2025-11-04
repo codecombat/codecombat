@@ -71,7 +71,7 @@ export default {
       HOAIActivities: [
         {
           title: $.i18n.t('hoc_page.hoai_activities_poetry_title'),
-          label: $.i18n.t('hoc_page.hoai_activities_poetry_level'),
+          labels: [$.i18n.t('hoc_page.hoai_labels_grade'), $.i18n.t('hoc_page.hoai_labels_multimodal'), $.i18n.t('hoc_page.hoai_labels_ela')],
           text: $.i18n.t('hoc_page.hoai_activities_poetry_description'),
           image: '/images/pages/hoc/activities_1.webp',
           links: [
@@ -87,7 +87,7 @@ export default {
         },
         {
           title: $.i18n.t('hoc_page.hoai_activities_social_title'),
-          label: $.i18n.t('hoc_page.hoai_activities_social_level'),
+          labels: [$.i18n.t('hoc_page.hoai_labels_grade'), $.i18n.t('hoc_page.hoai_labels_multimodal'), $.i18n.t('hoc_page.hoai_labels_algebra')],
           text: $.i18n.t('hoc_page.hoai_activities_social_description'),
           image: '/images/pages/hoc/activities_2.webp',
           links: [
@@ -103,7 +103,7 @@ export default {
         },
         {
           title: $.i18n.t('hoc_page.hoai_activities_vibe_title'),
-          label: $.i18n.t('hoc_page.hoai_activities_vibe_level'),
+          labels: [$.i18n.t('hoc_page.hoai_labels_grade'), $.i18n.t('hoc_page.hoai_labels_multimodal'), $.i18n.t('hoc_page.hoai_labels_cs')],
           text: $.i18n.t('hoc_page.hoai_activities_vibe_description'),
           image: '/images/pages/hoc/activities_3.webp',
           links: [
@@ -119,7 +119,7 @@ export default {
         },
         {
           title: $.i18n.t('hoc_page.hoai_activities_esports_title'),
-          label: $.i18n.t('hoc_page.hoai_activities_esports_level'),
+          labels: [$.i18n.t('hoc_page.hoai_labels_grade'), $.i18n.t('hoc_page.hoai_labels_multimodal'), $.i18n.t('hoc_page.hoai_labels_cs')],
           text: $.i18n.t('hoc_page.hoai_activities_esports_description'),
           image: '/images/pages/hoc/activities_4.webp',
           links: [
