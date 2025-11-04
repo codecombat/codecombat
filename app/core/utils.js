@@ -24,16 +24,16 @@ const useWebsocket = false
 if (isCodeCombat) {
   if (global && global._ && global._.str && global._.str.slugify) { // TODO: why _.string on client and _.str on server?
     ({
-      slugify
+      slugify,
     } = global._.str) // server
   } else if (_ && _.string && _.string.slugify) {
     ({
-      slugify
+      slugify,
     } = _.string) // client
   }
 } else {
   ({
-    slugify
+    slugify,
   } = require('underscore.string')) // TODO: why _.string on client and _.str on server?
 }
 
@@ -184,7 +184,7 @@ const countries = [
   { country: 'luxembourg', countryCode: 'LU', inEU: true, ageOfConsent: 16 },
   { country: 'malta', countryCode: 'MT', inEU: true, ageOfConsent: 16 },
   { country: 'lichtenstein', countryCode: 'LI', inEU: true }, // GDPR applies to EFTA
-  { country: 'iceland', countryCode: 'IS', inEU: true } // GDPR applies to EFTA
+  { country: 'iceland', countryCode: 'IS', inEU: true }, // GDPR applies to EFTA
 ]
 
 const inEU = country => !!__guard__(_.find(countries, c => c.country === slugify(country)), x1 => x1.inEU)
@@ -218,14 +218,14 @@ const countryNameToCode = country => __guard__(_.find(countries, { country: (cou
 var titleize = s => // Turns things like 'dungeons-of-kithgard' into 'Dungeons of Kithgard'
   _.string.titleize(_.string.humanize(s)).replace(
     / (and|or|but|nor|yet|so|for|a|an|the|in|to|of|at|by|up|for|off|on|with|from)(?= )/ig,
-    word => word.toLowerCase()
+    word => word.toLowerCase(),
   )
 
 if (isCodeCombat) {
   campaignIDs = {
     JUNIOR: '65c56663d2ca2055e65676af',
     INTRO: '55b29efd1cd6abe8ce07db0d',
-    HACKSTACK: '663b25881c568468efc7b51c'
+    HACKSTACK: '663b25881c568468efc7b51c',
   }
 
   freeCampaignIds = [campaignIDs.JUNIOR, campaignIDs.INTRO] // Junior, CS1 campaign
@@ -244,7 +244,7 @@ if (isCodeCombat) {
     GAME_DEVELOPMENT_3: '5a0df02b8f2391437740f74f',
     COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d',
     COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447',
-    COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
+    COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4',
   }
 
   coursesWithProjects = [
@@ -252,14 +252,14 @@ if (isCodeCombat) {
     courseIDs.WEB_DEVELOPMENT_1,
     courseIDs.GAME_DEVELOPMENT_2,
     courseIDs.WEB_DEVELOPMENT_2,
-    courseIDs.GAME_DEVELOPMENT_3
+    courseIDs.GAME_DEVELOPMENT_3,
   ]
 
   otherCourseIDs = {
     CHAPTER_ONE: '5d41d731a8d1836b5aa3cba1',
     CHAPTER_TWO: '5d8a57abe8919b28d5113af1',
     CHAPTER_THREE: '5e27600d1c9d440000ac3ee7',
-    CHAPTER_FOUR: '5f0cb0b7a2492bba0b3520df'
+    CHAPTER_FOUR: '5f0cb0b7a2492bba0b3520df',
   }
 
   CSCourseIDs = [
@@ -269,11 +269,11 @@ if (isCodeCombat) {
     courseIDs.COMPUTER_SCIENCE_3,
     courseIDs.COMPUTER_SCIENCE_4,
     courseIDs.COMPUTER_SCIENCE_5,
-    courseIDs.COMPUTER_SCIENCE_6
+    courseIDs.COMPUTER_SCIENCE_6,
   ]
   WDCourseIDs = [
     courseIDs.WEB_DEVELOPMENT_1,
-    courseIDs.WEB_DEVELOPMENT_2
+    courseIDs.WEB_DEVELOPMENT_2,
   ]
   orderedCourseIDs = [
     courseIDs.JUNIOR,
@@ -294,14 +294,14 @@ if (isCodeCombat) {
     otherCourseIDs.CHAPTER_ONE,
     otherCourseIDs.CHAPTER_TWO,
     otherCourseIDs.CHAPTER_THREE,
-    otherCourseIDs.CHAPTER_FOUR
+    otherCourseIDs.CHAPTER_FOUR,
   ]
 
   hourOfCodeOptions = {
     campaignId: freeCampaignIds[1],
     courseId: courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
     name: 'Introduction to Computer Science',
-    progressModalAfter: 1500000 // 25 mins
+    progressModalAfter: 1500000, // 25 mins
   }
 } else {
   campaignIDs =
@@ -314,7 +314,7 @@ if (isCodeCombat) {
     CHAPTER_ONE: '5d41d731a8d1836b5aa3cba1',
     CHAPTER_TWO: '5d8a57abe8919b28d5113af1',
     CHAPTER_THREE: '5e27600d1c9d440000ac3ee7',
-    CHAPTER_FOUR: '5f0cb0b7a2492bba0b3520df'
+    CHAPTER_FOUR: '5f0cb0b7a2492bba0b3520df',
   }
 
   otherCourseIDs = {
@@ -330,21 +330,21 @@ if (isCodeCombat) {
     GAME_DEVELOPMENT_3: '5a0df02b8f2391437740f74f',
     COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d',
     COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447',
-    COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
+    COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4',
   }
 
   CSCourseIDs = [
     courseIDs.CHAPTER_ONE,
     courseIDs.CHAPTER_TWO,
     courseIDs.CHAPTER_THREE,
-    courseIDs.CHAPTER_FOUR
+    courseIDs.CHAPTER_FOUR,
   ]
   WDCourseIDs = []
   orderedCourseIDs = [
     courseIDs.CHAPTER_ONE,
     courseIDs.CHAPTER_TWO,
     courseIDs.CHAPTER_THREE,
-    courseIDs.CHAPTER_FOUR
+    courseIDs.CHAPTER_FOUR,
   ]
   otherOrderedCourseIDs = [
     otherCourseIDs.JUNIOR,
@@ -366,7 +366,7 @@ if (isCodeCombat) {
     campaignId: freeCampaignIds[0],
     courseId: courseIDs.CHAPTER_ONE,
     name: 'Chapter 1: Up The Mountain',
-    progressModalAfter: 1500000 // 25 mins
+    progressModalAfter: 1500000, // 25 mins
   }
 }
 
@@ -455,14 +455,14 @@ const petThangIDs = [
   '578691f9bd31c1440083251d', // Polar Bear Cub
   '58a2712b0b43652f00dae5a4', // Blue Fox
   '58c737140ca7852e005deb8a', // Mimic
-  '57586f0a22179b2800efda37' // Baby Griffin
+  '57586f0a22179b2800efda37', // Baby Griffin
 ]
 
 const premiumContent = {
   premiumHeroesCount: '15',
   totalHeroesCount: '19',
   premiumLevelsCount: '531',
-  freeLevelsCount: '5'
+  freeLevelsCount: '5',
 }
 
 // Ozaria-specific
@@ -645,7 +645,7 @@ const functionCreators = {
   linear: positify(createLinearFunc),
   quadratic: positify(createQuadraticFunc),
   logarithmic: positify(createLogFunc),
-  pow: positify(createPowFunc)
+  pow: positify(createPowFunc),
 }
 
 // Call done with true to satisfy the 'until' goal and stop repeating func
@@ -801,36 +801,36 @@ const getCoursePraise = function () {
   const praise = [
     {
       quote: 'The kids love it.',
-      source: 'Leo Joseph Tran, Athlos Leadership Academy'
+      source: 'Leo Joseph Tran, Athlos Leadership Academy',
     },
     {
       quote: 'My students have been using the site for a couple of weeks and they love it.',
-      source: 'Scott Hatfield, Computer Applications Teacher, School Technology Coordinator, Eastside Middle School'
+      source: 'Scott Hatfield, Computer Applications Teacher, School Technology Coordinator, Eastside Middle School',
     },
     {
       quote: 'Thanks for the captivating site. My eighth graders love it.',
-      source: 'Janet Cook, Ansbach Middle/High School'
+      source: 'Janet Cook, Ansbach Middle/High School',
     },
     {
       quote: 'My students have started working on CodeCombat and love it! I love that they are learning coding and problem solving skills without them even knowing it!!',
-      source: 'Kristin Huff, Special Education Teacher, Webb City School District'
+      source: 'Kristin Huff, Special Education Teacher, Webb City School District',
     },
     {
       quote: 'I recently introduced Code Combat to a few of my fifth graders and they are loving it!',
-      source: 'Shauna Hamman, Fifth Grade Teacher, Four Peaks Elementary School'
+      source: 'Shauna Hamman, Fifth Grade Teacher, Four Peaks Elementary School',
     },
     {
       quote: "Overall I think it's a fantastic service. Variables, arrays, loops, all covered in very fun and imaginative ways. Every kid who has tried it is a fan.",
-      source: 'Aibinder Andrew, Technology Teacher'
+      source: 'Aibinder Andrew, Technology Teacher',
     },
     {
       quote: 'I love what you have created. The kids are so engaged.',
-      source: 'Desmond Smith, 4KS Academy'
+      source: 'Desmond Smith, 4KS Academy',
     },
     {
       quote: 'My students love the website and I hope on having content structured around it in the near future.',
-      source: 'Michael Leonard, Science Teacher, Clearwater Central Catholic High School'
-    }
+      source: 'Michael Leonard, Science Teacher, Clearwater Central Catholic High School',
+    },
   ]
   return praise[_.random(0, praise.length - 1)]
 }
@@ -853,7 +853,7 @@ const capitalLanguages = {
   java: 'Java',
   cpp: 'C++',
   lua: 'Lua',
-  html: 'HTML'
+  html: 'HTML',
 }
 
 const createLevelNumberMap = function (levels, courseID) {
@@ -1025,7 +1025,7 @@ const tournamentSortFn = function (ta, tb) {
     starting: 0,
     ended: 1,
     initializing: 2,
-    disabled: 4
+    disabled: 4,
   }
   return (stateOrder[ta.state] - stateOrder[tb.state]) || (new Date(ta.endDate) - new Date(tb.endDate))
 }
@@ -1085,7 +1085,7 @@ const usStateCodes =
           WA: 'Washington',
           WV: 'West Virginia',
           WI: 'Wisconsin',
-          WY: 'Wyoming'
+          WY: 'Wyoming',
         }
         const stateCodesByName = _.invert(stateNamesByCode)
         // normalizes case and removes invalid characters
@@ -1128,7 +1128,7 @@ const usStateCodes =
           getStateNameByStateCode,
           sanitizeStateName,
           getStateCodeByStateName,
-          codes: Object.keys(stateNamesByCode)
+          codes: Object.keys(stateNamesByCode),
         }
       })()
 
@@ -1173,7 +1173,7 @@ const videoLevels = {
     original: '54173c90844506ae0195a0b4',
     thumbnail_locked: '/images/level/videos/basic_syntax_locked.png',
     thumbnail_unlocked: '/images/level/videos/basic_syntax_unlocked.png',
-    captions_available: ['en', 'es-419', 'es']
+    captions_available: ['en', 'es-419', 'es'],
   },
   // fire dancing
   '55ca293b9bc1892c835b0136': {
@@ -1184,7 +1184,7 @@ const videoLevels = {
     original: '55ca293b9bc1892c835b0136',
     thumbnail_locked: '/images/level/videos/while_loops_locked.png',
     thumbnail_unlocked: '/images/level/videos/while_loops_unlocked.png',
-    captions_available: ['en', 'es-419', 'es']
+    captions_available: ['en', 'es-419', 'es'],
   },
   // known enemy
   '5452adea57e83800009730ee': {
@@ -1195,8 +1195,8 @@ const videoLevels = {
     original: '5452adea57e83800009730ee',
     thumbnail_locked: '/images/level/videos/variables_locked.png',
     thumbnail_unlocked: '/images/level/videos/variables_unlocked.png',
-    captions_available: ['en', 'es-419', 'es']
-  }
+    captions_available: ['en', 'es-419', 'es'],
+  },
 }
 
 // Adds a `Vue.nonreactive` global method that can be used
@@ -1244,31 +1244,31 @@ const ageBrackets = [
   { slug: '0-11', max: 11 },
   { slug: '11-14', max: 14 },
   { slug: '14-18', max: 18 },
-  { slug: 'open', max: 9001 }
+  { slug: 'open', max: 9001 },
 ]
 
 const ageBracketsChina = [
   { slug: '0-11', max: 11 },
   { slug: '11-18', max: 18 },
-  { slug: 'open', max: 9001 }
+  { slug: 'open', max: 9001 },
 ]
 
 const seasonTimes = [
   {
     name: 'Season 1',
     start: '01-01',
-    end: '04-30'
+    end: '04-30',
   },
   {
     name: 'Season 2',
     start: '05-01',
-    end: '08-31'
+    end: '08-31',
   },
   {
     name: 'Season 3',
     start: '09-01',
-    end: '12-31'
-  }
+    end: '12-31',
+  },
 ]
 
 var currentSeason = function () {
@@ -1393,11 +1393,11 @@ const AILeagueSeasons = [
 ]
 
 const activeArenas = function () {
-  const daysActiveAfterEnd = { regular: 7, championship: 14}
+  const daysActiveAfterEnd = { regular: 7, championship: 14 }
   return (() => {
     const result = []
     for (const a of Array.from(arenas)) {
-      var currentDate = new Date()
+      const currentDate = new Date()
       if (a.start <= currentDate && currentDate < a.end.getTime() + (daysActiveAfterEnd[a.type] * 86400 * 1000) && a.levelOriginal) {
         result.push(_.clone(a))
       }
@@ -1419,7 +1419,7 @@ const activeAndPastArenas = () => (() => {
 const teamSpells = { humans: ['hero-placeholder/plan'], ogres: ['hero-placeholder-1/plan'] }
 
 const clanHeroes = [
-  { clanId: '601351bb4b79b4013e198fbe', clanSlug: 'team-derbezt', thangTypeOriginal: '6037ed81ad0ac000f5e9f0b5', thangTypeSlug: 'armando-hoyos' }
+  { clanId: '601351bb4b79b4013e198fbe', clanSlug: 'team-derbezt', thangTypeOriginal: '6037ed81ad0ac000f5e9f0b5', thangTypeSlug: 'armando-hoyos' },
 ]
 
 const freeAccessLevels = [
@@ -1477,7 +1477,7 @@ const orgKindString = function (kind, org = null) {
     school: 'teachers_quote.organization_label',
     teacher: 'courses.teacher',
     classroom: 'outcomes.classroom',
-    student: 'courses.student'
+    student: 'courses.student',
   }[kind]
   return $.i18n.t(key)
 }
@@ -1521,7 +1521,7 @@ const commentStarts = {
   java: '//',
   cpp: '//',
   html: '<!--',
-  css: '/\\*'
+  css: '/\\*',
 }
 
 const markdownToPlainText = function (text) {
@@ -1597,16 +1597,16 @@ const getProductUrl = function (product, url) {
 
 const allowedLanguages = ({
   [OZARIA]: ['javascript', 'python'],
-  [CODECOMBAT]: ['javascript', 'python', 'java', 'cpp']
+  [CODECOMBAT]: ['javascript', 'python', 'java', 'cpp'],
 })[product]
 
 const aiToolToImage = {
-  'gpt': '/images/ai/ChatGPT.svg',
+  gpt: '/images/ai/ChatGPT.svg',
   'stable-diffusion': '/images/ai/Stable_Diffusion.png',
   'dall-e-3': '/images/ai/DALL-E.webp',
-  'claude': '/images/ai/claude.webp',
-  'gemini': '/images/ai/gemini.svg',
-  'imagen': '/images/ai/gemini.svg',
+  claude: '/images/ai/claude.webp',
+  gemini: '/images/ai/gemini.svg',
+  imagen: '/images/ai/gemini.svg',
 }
 
 module.exports.getImageFromAiTool = (tool) => {
@@ -1681,32 +1681,32 @@ module.exports.getCodeLanguages = () => {
   const codeLanguages = {
     python: {
       id: 'python',
-      name: `Python (${$.i18n.t('choose_hero.default')})`
+      name: `Python (${$.i18n.t('choose_hero.default')})`,
     },
     javascript: {
       id: 'javascript',
-      name: 'JavaScript'
-    }
+      name: 'JavaScript',
+    },
   }
   if (isCodeCombat) {
     return {
       ...codeLanguages,
       coffeescript: {
         id: 'coffeescript',
-        name: 'CoffeeScript'
+        name: 'CoffeeScript',
       },
       lua: {
         id: 'lua',
-        name: 'Lua'
+        name: 'Lua',
       },
       cpp: {
         id: 'cpp',
-        name: 'C++'
+        name: 'C++',
       },
       java: {
         id: 'java',
-        name: `Java (${$.i18n.t('choose_hero.experimental')})`
-      }
+        name: `Java (${$.i18n.t('choose_hero.experimental')})`,
+      },
     }
   } else {
     return codeLanguages
@@ -1716,20 +1716,20 @@ module.exports.getCodeLanguages = () => {
 module.exports.getCodeFormats = () => ({
   'text-code': {
     id: 'text-code',
-    name: `${$.i18n.t('choose_hero.text_code')}`
+    name: `${$.i18n.t('choose_hero.text_code')}`,
   },
   'blocks-and-code': {
     id: 'blocks-and-code',
-    name: `${$.i18n.t('choose_hero.blocks_and_code')}`
+    name: `${$.i18n.t('choose_hero.blocks_and_code')}`,
   },
   'blocks-text': {
     id: 'blocks-text',
-    name: `${$.i18n.t('choose_hero.blocks_text')}`
+    name: `${$.i18n.t('choose_hero.blocks_text')}`,
   },
   'blocks-icons': {
     id: 'blocks-icons',
-    name: `${$.i18n.t('choose_hero.blocks_icons')}`
-  }
+    name: `${$.i18n.t('choose_hero.blocks_icons')}`,
+  },
 })
 
 module.exports.MTOClients = {
@@ -1738,11 +1738,11 @@ module.exports.MTOClients = {
   MTO_NEO_DEV: '66d8d794f81368cbd77f5bca',
   MTO_NEO_PROD: '66d8d750f81368cbd77f4ab2',
   MTO_CODING_OLYMPIAD_DEV: '689af68799a3a0853dc08bb1',
-  MTO_CODING_OLYMPIAD_PROD: '689af7752fce8bc44950b2da'
+  MTO_CODING_OLYMPIAD_PROD: '689af7752fce8bc44950b2da',
 }
 
 module.exports.secondsToMinutesAndSeconds = function (seconds) {
-  if(!seconds){
+  if (!seconds) {
     return ''
   }
   const minutes = Math.floor(seconds / 60)
@@ -1750,9 +1750,9 @@ module.exports.secondsToMinutesAndSeconds = function (seconds) {
   return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`
 }
 
-module.exports.getJuniorUrl = function() {
+module.exports.getJuniorUrl = function () {
   let juniorPath = '/play/junior'
-  if(me && me.isTeacher() && !me.isAnonymous()) {
+  if (me && me.isTeacher() && !me.isAnonymous()) {
     juniorPath = '/teachers/curriculum/junior'
   }
   return `${cocoBaseURL()}${juniorPath}`
@@ -1760,6 +1760,21 @@ module.exports.getJuniorUrl = function() {
 
 module.exports.scenarioMode2Icon = (mode) => {
   return mode === 'use' ? 'ai-use' : 'ai-learn'
+}
+
+module.exports.aiTranslate = async (modelName, docId, langs) => {
+  if (!modelName || !docId || !langs) {
+    throw new Error('modelName, docId, and langs are required')
+  }
+  const fetchJson = require('../core/api/fetch-json')
+  await fetchJson('/db/ai-translator/translate', {
+    method: 'POST',
+    json: {
+      modelName,
+      docId,
+      langs,
+    },
+  })
 }
 
 module.exports = {
