@@ -27,6 +27,9 @@ async function sendRequestsWithLimit (requests, limit = 10) {
 
 async function handleLevelRelatedModels (doc, langs) {
   const thangs = doc.get('thangs')
+  if (!thangs || !Array.isArray(thangs)) {
+    return
+  }
   const requests = []
   const uniqComponents = new Set()
   for (const thang of thangs) {
@@ -44,12 +47,14 @@ async function handleLevelRelatedModels (doc, langs) {
 
 async function handleAIScenarioRelatedModels (doc, langs) {
   const chatMessageIds = doc.get('initialActionQueue')
-  for (const cId of chatMessageIds) {
-    await aiTranslate('AIChatMessage', cId, langs)
+  const requests = []
+  for (const cId of (chatMessageIds || [])) {
+    requests.push(() => aiTranslate('AIChatMessage', cId, langs))
   }
+  await sendRequestsWithLimit(requests, 10)
 }
 
-async function handleRealtedModels (doc, langs) {
+async function handleRelatedModels (doc, langs) {
   const className = doc.constructor.className
   if (!relatedModels.includes(className)) {
     return
@@ -86,9 +91,15 @@ module.exports = (AITranslateConfirmModal = (function () {
       })
 
       this.vueComponent.$on('confirm-translate', async () => {
-        await handleRealtedModels(this.doc, this.langs)
-        await aiTranslate(this.doc.constructor.className, this.doc.id, this.langs)
-        window.location.reload()
+        try {
+          await handleRelatedModels(this.doc, this.langs)
+          await aiTranslate(this.doc.constructor.className, this.doc.id, this.langs)
+          noty({ text: 'Translation completed successfully', type: 'success', timeout: 2000 })
+          window.location.reload()
+        } catch (err) {
+          console.error('Translation failed', err)
+          noty({ text: `Translation failed: ${err.message}`, type: 'error', timeout: 5000 })
+        }
       })
     }
 

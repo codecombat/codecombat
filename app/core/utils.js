@@ -1763,6 +1763,9 @@ module.exports.scenarioMode2Icon = (mode) => {
 }
 
 module.exports.aiTranslate = async (modelName, docId, langs) => {
+  if (!modelName || !docId || !langs) {
+    throw new Error('modelName, docId, and langs are required')
+  }
   const fetchJson = require('../core/api/fetch-json')
   await fetchJson('/db/ai-translator/translate', {
     method: 'POST',
