@@ -52,7 +52,7 @@
             </button>
             <button
               v-if="!canEdit"
-              class="btn btn-secondary btn-moon cta-btn"
+              class="btn btn-secondary dusk-btn"
               :disabled="disabled"
               @click="$emit('create-tournament')"
             >
@@ -62,7 +62,7 @@
               v-if="canEdit"
             >
               <button
-                class="btn btn-secondary btn-moon cta-btn"
+                class="btn btn-secondary dusk-btn"
                 :disabled="disabled"
                 @click="$emit('edit-tournament')"
               >
@@ -221,11 +221,14 @@ export default {
   display: unset !important;
   text-transform: uppercase;
   font-weight: bold;
-}
 
-.cta-btn {
-  background-color: rgb(68, 151, 167);
-  color: black;
+  &:hover {
+    background-color: lighten(#7a65fc, 10%);
+
+      [style*="--type: no-background"] & {
+        background-color: rgba(#7a65fc, 0.3)
+      }
+  }
 }
 
 .arena {
