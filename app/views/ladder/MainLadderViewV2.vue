@@ -16,7 +16,6 @@
           v-if="!canUseArenaHelpers"
           href="https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com"
           target="_blank"
-          class="cta btn"
         >
           {{ $t('general.contact_us') }}
         </CTAButton>
@@ -578,26 +577,6 @@ $primary-background: #31636F;
 }
 .center-text {
   text-align: center;
-}
-
-::v-deep .CTA {
-  $black: #0A2239;
-
-  &__button {
-    color: $black !important;
-    background-color: $primary-color;
-    text-shadow: unset !important;
-    font-weight: bold;
-
-    &:hover {
-      background-color: lighten($primary-color, 10%);
-
-      [style*="--type: no-background"] & {
-        background-color: rgba($primary-color, 0.3)
-      }
-    }
-
-  }
 }
 
 </style>

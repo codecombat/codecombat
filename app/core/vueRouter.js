@@ -89,16 +89,19 @@ export default function getVueRouter () {
         {
           path: '/league',
           component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league/PageLeague'),
-          meta: { theme: 'teal' },
           children: [
             // Stub pages
-            { path: '', component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league-v2/PageGlobal') },
+            {
+              path: '',
+              component: () => import(/* webpackChunkName: "LeagueView" */ 'app/views/landing-pages/league-v2/PageGlobal'),
+              meta: { theme: 'teal' },
+            },
             {
               path: 'ladders/:idOrSlug?',
               name: 'LaddersList',
               component: () => import(/* webpackChunkName: "mainLadderViewV2" */'app/views/ladder/MainLadderViewV2'),
               props: (route) => ({ ...route.query, ...route.params }),
-              meta: { toTop: true },
+              meta: { toTop: true, theme: 'teal' },
             },
             {
               path: ':idOrSlug',
