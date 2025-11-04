@@ -52,7 +52,7 @@
             </button>
             <button
               v-if="!canEdit"
-              class="btn btn-secondary dusk-btn"
+              class="btn btn-secondary purple-btn"
               :disabled="disabled"
               @click="$emit('create-tournament')"
             >
@@ -62,14 +62,14 @@
               v-if="canEdit"
             >
               <button
-                class="btn btn-secondary dusk-btn"
+                class="btn btn-secondary purple-btn"
                 :disabled="disabled"
                 @click="$emit('edit-tournament')"
               >
                 {{ $t('tournament.edit_tournament') }}
               </button>
               <button
-                class="btn btn-secondary dusk-btn"
+                class="btn btn-secondary purple-btn"
                 @click="goTournament"
               >
                 {{ $t('tournament.view_tournament') }}
@@ -207,28 +207,13 @@ export default {
 <style scoped lang="scss">
 @import "app/styles/common/button";
 @import "ozaria/site/styles/common/variables.scss";
-@import "ozaria/site/components/teacher-dashboard/common/dusk-button";
+@import "ozaria/site/components/teacher-dashboard/common/purple-button";
 
-.btn-moon, .dusk-btn {
+.btn-moon, .purple-btn {
   font-size: 14px;
   padding: 0.5rem 1rem;
   min-width: 120px;
-}
-
-.dusk-btn {
-  color: white;
-  background-color: #7a65fc;
   display: unset !important;
-  text-transform: uppercase;
-  font-weight: bold;
-
-  &:hover {
-    background-color: lighten(#7a65fc, 10%);
-
-      [style*="--type: no-background"] & {
-        background-color: rgba(#7a65fc, 0.3)
-      }
-  }
 }
 
 .arena {
