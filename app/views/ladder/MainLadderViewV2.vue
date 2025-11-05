@@ -1,187 +1,188 @@
 <template>
   <div
-    class="ladder-view-v2 container"
+    class="ladder-view-v2-full"
   >
-    <div class="ladder-head row">
-      <h3 class="ladder-head__title">
-        {{ $t('ladder.title') }}
-      </h3>
-      <h5 class="ladder-head__subtitle">
-        {{ $t('play.campaign_multiplayer_description') }}
-      </h5>
-    </div>
-    <div class="ladder-subhead row">
-      <a
-        v-if="!canUseArenaHelpers"
-        href="https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com"
-        target="_blank"
-        class="btn btn-moon"
-      >
-        {{ $t('general.contact_us') }}
-      </a>
-      <div
-        v-if="canUseArenaHelpers"
-        class="ladder-subhead__text"
-      >
-        {{ $t('league.contact_sales_custom') }}
+    <div class="ladder-view-v2 container">
+      <div class="ladder-head row">
+        <h3 class="ladder-head__title">
+          {{ $t('ladder.title') }}
+        </h3>
+        <h5 class="ladder-head__subtitle">
+          {{ $t('play.campaign_multiplayer_description') }}
+        </h5>
       </div>
-      <div
-        v-else
-        class="ladder-subhead__text"
-      >
-        {{ $t('league.without_license_blurb') }}
-        <a
-          href="https://docs.google.com/presentation/d/1fXzV0gh9U0QqhSDcYYlIOIuM3uivFbdC9UfT1OBydEE/edit#slide=id.gea9e183bfa_0_54"
+      <div class="ladder-subhead row">
+        <CTAButton
+          v-if="!canUseArenaHelpers"
+          href="https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com"
           target="_blank"
-          class="ladder-link"
         >
-          {{ $t('league.custom_pricing') }}
-        </a>
-        {{ $t('league.more_details') }}
-      </div>
-    </div>
-    <div
-      v-if="!insideTeacherDashboard"
-      class="clan-selector"
-    >
-      <div>
-        {{ $t('tournament.select_team_desc') }}
-      </div>
-      <clan-selector
-        v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0"
-        :clans="myClans"
-        :selected="idOrSlug"
-        style="margin-bottom: 40px;"
-        @change="e => changeClanSelected(e)"
-      />
-    </div>
-    <div
-      v-if="currentTournaments?.length"
-      class="ladder-view container"
-    >
-      <div class="ladder-view__text">
-        {{ $t('tournament.already_create_tournaments_num', { num: currentTournaments.length }) }}
-      </div>
-      <ladder-panel
-        v-for="t in tournamentsTop3"
-        :key="t._id"
-        class="current-tournaments"
-        :arena="arenaMap[t.slug]"
-        :clan-id="currentSelectedClan?._id"
-        :tournament="t"
-        :championship="isChampionship(t.slug)"
-        :can-create="false"
-        :can-edit="true"
-        @edit-tournament="handleEditTournament(t)"
-      />
-      <div v-if="tournamentsRests.length">
+          {{ $t('general.contact_us') }}
+        </CTAButton>
         <div
-          id="rest-tournaments"
-          class="collapse"
+          v-if="canUseArenaHelpers"
+          class="ladder-subhead__text"
         >
-          <ladder-panel
-            v-for="t in tournamentsRests"
-            :key="t._id"
-            class="current-tournaments"
-            :arena="arenaMap[t.slug]"
-            :clan-id="currentSelectedClan?._id"
-            :tournament="t"
-            :championship="isChampionship(t.slug)"
-            :can-create="false"
-            :can-edit="true"
-            @edit-tournament="handleEditTournament(t)"
-          />
+          {{ $t('league.contact_sales_custom') }}
         </div>
-        <div
-          id="toggle-tournaments"
-          data-toggle="collapse"
-          data-target="#rest-tournaments"
-          aria-expanded="false"
-          aria-controls="rest-tournaments"
-          :class="{open: expandRestTournaments}"
-          @click="expandRestTournaments = !expandRestTournaments"
-        >
-          <span class="left-bar" />
-          <span class="right-bar" />
-        </div>
-      </div>
-    </div>
-    <div
-      v-if="usableArenas"
-      class="ladder-view container"
-    >
-      <div class="ladder-view__text">
-        {{ $t('tournament.can_create_tournaments_num', { num: tournamentsLeft }) }}
-      </div>
-      <div class="two-col">
-        <div class="ladder-view__text center-text">
-          {{ $t('league.regular') }}
-        </div>
-        <div class="ladder-view__text center-text">
-          {{ $t('league.championship') }}
-        </div>
-      </div>
-      <div class="two-col">
-        <ladder-panel
-          v-if="currentRegular"
-          :championship="false"
-          :arena="currentRegularArena"
-          :clan-id="currentSelectedClan?._id"
-          :can-create="canUseArenaHelpers && tournamentsLeft > 0"
-          :can-edit="false"
-          :disabled="tournamentsLeft <= 0"
-          @create-tournament="handleCreateTournament(currentRegularArena)"
-        />
-        <ladder-panel
-          v-if="currentChampionship"
-          :championship="true"
-          :arena="currentChampionshipArena"
-          :clan-id="currentSelectedClan?._id"
-          :can-create="canUseArenaHelpers && tournamentsLeft > 0"
-          :can-edit="false"
-          :disabled="tournamentsLeft <= 0"
-          @create-tournament="handleCreateTournament(currentChampionshipArena)"
-        />
         <div
           v-else
-          class="ladder-view__text center-text coming-soon"
+          class="ladder-subhead__text"
         >
-          {{ $t('common.coming_soon') }}
+          {{ $t('league.without_license_blurb') }}
+          <a
+            href="https://docs.google.com/presentation/d/1fXzV0gh9U0QqhSDcYYlIOIuM3uivFbdC9UfT1OBydEE/edit#slide=id.gea9e183bfa_0_54"
+            target="_blank"
+            class="ladder-link"
+          >
+            {{ $t('league.custom_pricing') }}
+          </a>
+          {{ $t('league.more_details') }}
         </div>
       </div>
       <div
-        v-for="index in maxListLength"
-        :key="`list-${index}`"
-        class="two-col"
+        v-if="!insideTeacherDashboard"
+        class="clan-selector"
       >
-        <ladder-panel
-          v-if="sortedRegulars.length > index - 1"
-          :championship="false"
-          :arena="sortedRegulars[index-1]"
-          :clan-id="currentSelectedClan?._id"
-          :can-create="canUseArenaHelpers && tournamentsLeft > 0"
-          :can-edit="false"
-          :disabled="tournamentsLeft <= 0"
-          @create-tournament="handleCreateTournament(sortedRegulars[index-1])"
-        />
-        <ladder-panel
-          v-if="sortedChampionships.length > index - 1"
-          :championship="true"
-          :arena="sortedChampionships[index-1]"
-          :clan-id="currentSelectedClan?._id"
-          :can-create="canUseArenaHelpers && tournamentsLeft > 0"
-          :can-edit="false"
-          :disabled="tournamentsLeft <= 0"
-          @create-tournament="handleCreateTournament(sortedChampionships[index-1])"
+        <div>
+          {{ $t('tournament.select_team_desc') }}
+        </div>
+        <clan-selector
+          v-if="!isLoading && Array.isArray(myClans) && myClans.length > 0"
+          :clans="myClans"
+          :selected="idOrSlug"
+          style="margin-bottom: 40px;"
+          @change="e => changeClanSelected(e)"
         />
       </div>
+      <div
+        v-if="currentTournaments?.length"
+        class="ladder-view container"
+      >
+        <div class="ladder-view__text">
+          {{ $t('tournament.already_create_tournaments_num', { num: currentTournaments.length }) }}
+        </div>
+        <ladder-panel
+          v-for="t in tournamentsTop3"
+          :key="t._id"
+          class="current-tournaments"
+          :arena="arenaMap[t.slug]"
+          :clan-id="currentSelectedClan?._id"
+          :tournament="t"
+          :championship="isChampionship(t.slug)"
+          :can-create="false"
+          :can-edit="true"
+          @edit-tournament="handleEditTournament(t)"
+        />
+        <div v-if="tournamentsRests.length">
+          <div
+            id="rest-tournaments"
+            class="collapse"
+          >
+            <ladder-panel
+              v-for="t in tournamentsRests"
+              :key="t._id"
+              class="current-tournaments"
+              :arena="arenaMap[t.slug]"
+              :clan-id="currentSelectedClan?._id"
+              :tournament="t"
+              :championship="isChampionship(t.slug)"
+              :can-create="false"
+              :can-edit="true"
+              @edit-tournament="handleEditTournament(t)"
+            />
+          </div>
+          <div
+            id="toggle-tournaments"
+            data-toggle="collapse"
+            data-target="#rest-tournaments"
+            aria-expanded="false"
+            aria-controls="rest-tournaments"
+            :class="{open: expandRestTournaments}"
+            @click="expandRestTournaments = !expandRestTournaments"
+          >
+            <span class="left-bar" />
+            <span class="right-bar" />
+          </div>
+        </div>
+      </div>
+      <div
+        v-if="usableArenas"
+        class="ladder-view container"
+      >
+        <div class="ladder-view__text">
+          {{ $t('tournament.can_create_tournaments_num', { num: tournamentsLeft }) }}
+        </div>
+        <div class="two-col">
+          <div class="ladder-view__text center-text arena-type">
+            {{ $t('league.regular') }}
+          </div>
+          <div class="ladder-view__text center-text arena-type">
+            {{ $t('league.championship') }}
+          </div>
+        </div>
+        <div class="two-col">
+          <ladder-panel
+            v-if="currentRegular"
+            :championship="false"
+            :arena="currentRegularArena"
+            :clan-id="currentSelectedClan?._id"
+            :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+            :can-edit="false"
+            :disabled="tournamentsLeft <= 0"
+            @create-tournament="handleCreateTournament(currentRegularArena)"
+          />
+          <ladder-panel
+            v-if="currentChampionship"
+            :championship="true"
+            :arena="currentChampionshipArena"
+            :clan-id="currentSelectedClan?._id"
+            :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+            :can-edit="false"
+            :disabled="tournamentsLeft <= 0"
+            @create-tournament="handleCreateTournament(currentChampionshipArena)"
+          />
+          <div
+            v-else
+            class="ladder-view__text center-text coming-soon"
+          >
+            {{ $t('common.coming_soon') }}
+          </div>
+        </div>
+        <div
+          v-for="index in maxListLength"
+          :key="`list-${index}`"
+          class="two-col"
+        >
+          <ladder-panel
+            v-if="sortedRegulars.length > index - 1"
+            :championship="false"
+            :arena="sortedRegulars[index-1]"
+            :clan-id="currentSelectedClan?._id"
+            :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+            :can-edit="false"
+            :disabled="tournamentsLeft <= 0"
+            @create-tournament="handleCreateTournament(sortedRegulars[index-1])"
+          />
+          <ladder-panel
+            v-if="sortedChampionships.length > index - 1"
+            :championship="true"
+            :arena="sortedChampionships[index-1]"
+            :clan-id="currentSelectedClan?._id"
+            :can-create="canUseArenaHelpers && tournamentsLeft > 0"
+            :can-edit="false"
+            :disabled="tournamentsLeft <= 0"
+            @create-tournament="handleCreateTournament(sortedChampionships[index-1])"
+          />
+        </div>
+      </div>
+      <edit-tournament-modal
+        v-if="showModal"
+        :tournament="editableTournament"
+        @close="showModal = false"
+        @submit="handleTournamentSubmit"
+      />
     </div>
-    <edit-tournament-modal
-      v-if="showModal"
-      :tournament="editableTournament"
-      @close="showModal = false"
-      @submit="handleTournamentSubmit"
-    />
   </div>
 </template>
 
@@ -194,11 +195,12 @@ import ClanSelector from '../landing-pages/league/components/ClanSelector.vue'
 import LadderPanel from './components/LadderPanel'
 import EditTournamentModal from './components/EditTournamentModal'
 import { ESPORTS_PRODUCT_STATS, GLOBAL_AI_LEAGUE_CREATORS } from '../../core/constants'
+import CTAButton from '../../components/common/buttons/CTAButton.vue'
 
 export default {
   name: 'MainLadderViewV2',
   components: {
-    ClanSelector, LadderPanel, EditTournamentModal,
+    ClanSelector, LadderPanel, EditTournamentModal, CTAButton,
   },
   props: {
     idOrSlug: {
@@ -325,7 +327,7 @@ export default {
         /* console.log('handle create', arena) */
         this.editableTournament = {
           name: arena.name,
-          displayName: this.currentSelectedClan.displayName || this.currentSelectedClan.name,
+          displayName: this.currentSelectedClan?.displayName || this.currentSelectedClan?.name,
           levelOriginal: arena.original,
           slug: arena.slug,
           clan: this.idOrSlug,
@@ -407,6 +409,15 @@ export default {
 
 <style scoped lang="scss">
 @import "app/styles/common/button";
+
+$primary-color: #4DECF0;
+$primary-background: #31636F;
+
+.ladder-view-v2-full {
+  width: 100vw;
+  background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) 0px -400px / 120% no-repeat, #021e27;
+}
+
 .ladder-view-v2 {
   font-size: 62.5%;
 }
@@ -426,14 +437,17 @@ export default {
   .coming-soon {
     margin-top: auto;
     margin-bottom: auto;
-    color: #F7B42C; // coco main yellow
+    color: $primary-color; // coco main yellow
   }
 
   &__text {
     font-size: 2.4rem;
     font-weight: bold;
-    color: #30efd3;
     margin-bottom: 2rem;
+
+    &.arena-type {
+      color: $primary-color;
+    }
   }
 
   .two-col {
@@ -450,13 +464,13 @@ export default {
 
 .ladder-head {
   text-align: center;
-
   &__title {
-    color: #30efd3;
+    color: #fff;
+    font-size: 48px;
   }
 
   &__subtitle {
-    color: #fff;
+    color:  #B4B4B4;
   }
 }
 
@@ -468,13 +482,13 @@ export default {
   }
 
   &__text {
-    color: #ffffff;
+    color:  #B4B4B4;
     font-size: 1.8rem;
   }
 }
 
 .ladder-link {
-  color: #30efd3;
+  color: $primary-color;
   text-decoration: underline;
 }
 
@@ -564,4 +578,5 @@ export default {
 .center-text {
   text-align: center;
 }
+
 </style>
