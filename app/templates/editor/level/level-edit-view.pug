@@ -146,6 +146,8 @@ block header
             if me.isAdmin()
               li
                 a(href='/editor/verifier/' + level.get('slug') + '?dev=true') Verifier
+              li 
+                a(data-i18n="editor.ai_translate")#ai-translate-button AI Translate
             li.divider
             li.dropdown-header(data-i18n="common.info") Info
             li#level-history-button
