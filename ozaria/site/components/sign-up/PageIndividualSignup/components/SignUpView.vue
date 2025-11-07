@@ -45,7 +45,7 @@
     <div class="button">
       <CTAButton
         class="cta"
-        @clickedCTA="createAccount"
+        @clickedCTA="startCreate"
       >
         {{ $t('login.sign_up') }}
       </CTAButton>
@@ -55,6 +55,8 @@
 
 <script>
 import CTAButton from 'app/components/common/buttons/CTAButton.vue'
+import api from 'core/api'
+const User = require('models/User')
 export default {
   components: {
     CTAButton,
@@ -70,7 +72,7 @@ export default {
       forms: [
         { key: 'email', value: '', label: $.i18n.t('share_progress_modal.form_label'), type: 'email' },
         { key: 'birthday', value: '', label: $.i18n.t('account.date_of_birth'), type: 'date' },
-        { key: 'username', value: '', label: $.i18n.t('general.username'), type: 'string' },
+        { key: 'name', value: '', label: $.i18n.t('general.username'), type: 'string' },
         { key: 'password', value: '', label: $.i18n.t('general.password'), type: 'password' },
       ],
     }
@@ -91,22 +93,47 @@ export default {
     this.clickGoogleSignup()
   },
   methods: {
-    async checkEmailAndName () {
-      // todo
+    async checkEmail (email) {
+      if (email) {
+        const { exists } = await User.checkEmailExists(email)
+        return exists
+      }
+      return false
     },
-    async createAccount () {
+    async checkName (name) {
+      if (name) {
+        const { conflicts } = await User.checkNameConflicts(name)
+        return !conflicts
+      }
+      return false
+    },
+    async startCreate () {
       if (!this.canCreateAccount) {
         // noty warning?
         return
       }
       window.tracker.trackEvent('CreateAccountModal Individual Mobile SignUpView Submit Clicked', { category: 'Individuals' })
-      this.forms.forEach(f => me.set(f.key, f.value))
+      const updates = {}
+      this.forms.forEach(f => {
+        updates[f.key] = f.value
+        if (f.key === 'birthday') {
+          me.set(f.key, f.value)
+        }
+      })
       // me.set('birthday', this.signupState.get('birthday').toISOString().slice(0, 7))
 
+      await this.createAccount()
+      await me.signupWithPassword(updates.name, updates.email, updates.password)
+      this.$emit('next')
+    },
+    async createAccount () {
       try {
-        await this.checkEmailAndName()
+        await this.checkEmail(me.get('email'))
+        await this.checkName(me.get('name'))
       } catch (conflictError) {
         // todo
+        console.error(conflictError)
+        throw conflictError
       }
       const emails = _.assign({}, me.get('emails'))
       if (emails.generalNews == null) { emails.generalNews = {} }
@@ -114,7 +141,7 @@ export default {
         emails.generalNews.enabled = false
         me.set('unsubscribedFromMarketingEmails', true)
       } else {
-        emails.generalNews.enabled = !_.isEmpty(this.state.get('checkEmailValue'))
+        emails.generalNews.enabled = true
       }
       me.set('emails', emails)
       me.set('features', {
@@ -124,10 +151,14 @@ export default {
       if (this.role === 'parent') {
         me.set('role', this.role)
       } else {
-        me.set('role', null)
+        me.unset('role')
       }
-      await me.save()
-      this.$emit('next')
+      try {
+        await me.save()
+      } catch (err) {
+        console.error(err)
+        throw err
+      }
     },
     async clickGoogleSignup (e) {
       e?.preventDefault()
@@ -150,7 +181,29 @@ export default {
         this.errorMessage = err.message || 'Error during signup'
       }
     },
+    async postGoogleLoginClick ({ resp = {} }) {
+      const gplusAttrs = await new Promise((resolve, reject) =>
+        application.gplusHandler.loadPerson({
+          context: this,
+          success: resolve,
+          error: reject,
+          resp,
+        }))
+      const { email, firstName, lastName } = gplusAttrs
+      const attrs = _.assign({}, { email, firstName, lastName, userID: me.id })
+      await api.users.signupWithGPlus(attrs)
+      this.updateSso({
+        ssoUsed: 'gplus',
+        ssoAttrs: gplusAttrs,
+      })
 
+      me.set('firstName', firstName)
+      me.set('lastName', lastName)
+      me.set('email', email)
+      await this.createAccount()
+      window?.tracker?.trackEvent('Google Login', { category: 'Signup', label: 'GPlus' })
+      this.$emit('next')
+    },
   },
 }
 </script>
@@ -213,5 +266,4 @@ export default {
     margin-top: 8rem;
   }
 }
-
 </style>
