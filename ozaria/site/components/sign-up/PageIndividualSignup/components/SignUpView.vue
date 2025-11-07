@@ -24,18 +24,22 @@
       v-if="useSocialSignOn"
       class="or"
     >
-      {{ $t('code.or') }}
+      <span class="content">{{ $t('code.or') }}</span>
+      <div class="background" />
     </div>
     <div
       v-if="useSocialSignOn"
-      class="soical-sso"
+      class="social-sso"
     >
       <a
         id="google-login-button-priority"
         href="#"
         @click="clickGoogleSignup"
       >
-        <img src="/images/ozaria/common/google_signin_classroom.png">
+        <img
+          src="/images/pages/modal/auth/gplus_sso_button2.png"
+          draggable="false"
+        >
       </a>
     </div>
     <div class="button">
@@ -79,16 +83,53 @@ export default {
       return true
       /* return me.useSocialSignOn() */
     },
+    canCreateAccount () {
+      return this.forms.every(f => f.value)
+    },
   },
   created () {
     this.clickGoogleSignup()
   },
   methods: {
-    createAccount () {
+    async checkEmailAndName () {
+      // todo
+    },
+    async createAccount () {
+      if (!this.canCreateAccount) {
+        // noty warning?
+        return
+      }
+      window.tracker.trackEvent('CreateAccountModal Individual Mobile SignUpView Submit Clicked', { category: 'Individuals' })
+      this.forms.forEach(f => me.set(f.key, f.value))
+      // me.set('birthday', this.signupState.get('birthday').toISOString().slice(0, 7))
 
+      try {
+        await this.checkEmailAndName()
+      } catch (conflictError) {
+        // todo
+      }
+      const emails = _.assign({}, me.get('emails'))
+      if (emails.generalNews == null) { emails.generalNews = {} }
+      if (me.inEU()) {
+        emails.generalNews.enabled = false
+        me.set('unsubscribedFromMarketingEmails', true)
+      } else {
+        emails.generalNews.enabled = !_.isEmpty(this.state.get('checkEmailValue'))
+      }
+      me.set('emails', emails)
+      me.set('features', {
+        ...(me.get('features') || {}),
+        isNewDashboardActive: true,
+      })
+      if (this.role === 'parent') {
+        me.set('role', this.role)
+      } else {
+        me.set('role', null)
+      }
+      await me.save()
+      this.$emit('next')
     },
     async clickGoogleSignup (e) {
-      // todo: this is google classroom. not correct, change to google login
       e?.preventDefault()
       try {
         this.errorMessage = ''
@@ -143,6 +184,33 @@ export default {
     margin-top: 5rem;
     margin-bottom: 5rem;
     color: $purple;
+    position: relative;
+
+    .content {
+      position: relative;
+      padding: 8px;
+      z-index: 2;
+      background-color: white;
+    }
+
+    .background {
+      z-index: 1;
+      width: 96vw;
+      height: 1px;
+      background-color: $purple;
+      position: absolute;
+      left: -44vw;
+      top: 50%;
+    }
+  }
+  .social-sso {
+    width: 50vw;
+    img {
+      width: 100%;
+    }
+  }
+  .button {
+    margin-top: 8rem;
   }
 }
 

@@ -10,6 +10,7 @@
       <SignUpView
         v-if="view == 'sign-up'"
         :role="role"
+        @next="next"
       />
       <SuccessView
         v-else
@@ -36,13 +37,17 @@ module.exports = Vue.extend({
   },
   data () {
     return {
-      /* view: 'sign-up' */
-      view: 'success',
+      view: 'sign-up',
     }
   },
   computed: {
     roleDesc () {
       return $.i18n.t(`account.${this.role}_inspiration`)
+    },
+  },
+  methods: {
+    next () {
+      this.view = 'success'
     },
   },
 })
