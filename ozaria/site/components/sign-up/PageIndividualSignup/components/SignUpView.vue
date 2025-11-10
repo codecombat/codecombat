@@ -8,18 +8,92 @@
     </div>
     <div class="form">
       <div
-        v-for="input in forms"
-        :key="input.key"
-        class="form-line"
+        class="form-group"
+        :class="{ 'has-error': $v.email.$error }"
       >
-        <label class="form-label"> {{ input.label }} </label>
+        <span class="inline-flex-form-label-div">
+          <span class="control-label">{{ $t('share_progress_modal.form_label') }}</span>
+          <span
+            v-if="!$v.email.required"
+            class="form-error"
+          >{{ $t(validationMessages.errorRequired.i18n) }}</span>
+          <span
+            v-if="!$v.email.email"
+            class="form-error"
+          >{{ $t(validationMessages.errorInvalidEmail.i18n) }}</span>
+          <span
+            v-else-if="!$v.email.uniqueEmail"
+            class="form-error"
+          >{{ $t(validationMessages.errorEmailExists.i18n) }}</span>
+        </span>
         <input
-          v-model="input.value"
+          v-model="$v.email.$model"
           class="form-control"
-          :type="input.type"
+          type="email"
+        >
+      </div>
+      <div
+        class="form-line"
+        :class="{ 'has-error': $v.birthday.$error }"
+      >
+        <span class="inline-flex-form-label-div">
+          <span class="control-label">{{ $t('account.date_of_birth') }}</span>
+          <span
+            v-if="!$v.birthday.required"
+            class="form-error"
+          >{{ $t(validationMessages.errorRequired.i18n) }}</span>
+        </span>
+        <input
+          v-model="$v.birthday.$model"
+          class="form-control"
+          type="date"
+        >
+      </div>
+      <div
+        class="form-line"
+        :class="{ 'has-error': $v.name.$error }"
+      >
+        <span class="inline-flex-form-label-div">
+          <span class="control-label">{{ $t('general.username') }}</span>
+          <span
+            v-if="!$v.name.required"
+            class="form-error"
+          >{{ $t(validationMessages.errorRequired.i18n) }}</span>
+          <span
+            v-else-if="!$v.name.uniqueName"
+            class="form-error"
+          >{{ $t(validationMessages.errorNameExists.i18n) }}</span>
+        </span>
+        <input
+          v-model="$v.name.$model"
+          class="form-control"
+          type="string"
+        >
+      </div>
+
+      <div
+        class="form-line"
+        :class="{ 'has-error': $v.password.$error }"
+      >
+        <span class="inline-flex-form-label-div">
+          <span class="control-label">{{ $t('general.password') }}</span>
+          <span
+            v-if="!$v.password.required"
+            class="form-error"
+          >{{ $t(validationMessages.errorRequired.i18n) }}</span>
+          <span
+            v-else-if="$v.password.$error"
+            class="form-error"
+          >{{ $t('signup.invalid') }}</span>
+        </span>
+        <input
+          v-model="$v.password.$model"
+          class="form-control"
+          type="password"
         >
       </div>
     </div>
+
     <div
       v-if="useSocialSignOn"
       class="or"
@@ -54,13 +128,17 @@
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate'
+import { individualValidations, validationMessages } from '../../PageEducatorSignup/common/signUpValidations'
 import CTAButton from 'app/components/common/buttons/CTAButton.vue'
 import api from 'core/api'
 const User = require('models/User')
 export default {
+  name: 'SignUpView',
   components: {
     CTAButton,
   },
+  mixins: [validationMixin],
   props: {
     role: {
       type: String,
@@ -69,27 +147,30 @@ export default {
   },
   data () {
     return {
-      forms: [
-        { key: 'email', value: '', label: $.i18n.t('share_progress_modal.form_label'), type: 'email' },
-        { key: 'birthday', value: '', label: $.i18n.t('account.date_of_birth'), type: 'date' },
-        { key: 'name', value: '', label: $.i18n.t('general.username'), type: 'string' },
-        { key: 'password', value: '', label: $.i18n.t('general.password'), type: 'password' },
-      ],
+      email: '',
+      birthday: '',
+      name: '',
+      password: '',
+      validationMessages,
     }
   },
+  validations: individualValidations,
   computed: {
     roleDesc () {
       return $.i18n.t(`account.${this.role}_inspiration`)
     },
     useSocialSignOn () {
-      return true
-      /* return me.useSocialSignOn() */
+      return me.useSocialSignOn()
     },
     canCreateAccount () {
-      return this.forms.every(f => f.value)
+      return !this.$v.$invalid
     },
   },
   created () {
+    if (!me.isAnonymous()) {
+      this.$emit('next')
+      return
+    }
     this.clickGoogleSignup()
   },
   methods: {
@@ -100,41 +181,18 @@ export default {
       }
       return false
     },
-    async checkName (name) {
-      if (name) {
-        const { conflicts } = await User.checkNameConflicts(name)
-        return !conflicts
-      }
-      return false
-    },
     async startCreate () {
       if (!this.canCreateAccount) {
-        // noty warning?
         return
       }
       window.tracker.trackEvent('CreateAccountModal Individual Mobile SignUpView Submit Clicked', { category: 'Individuals' })
-      const updates = {}
-      this.forms.forEach(f => {
-        updates[f.key] = f.value
-        if (f.key === 'birthday') {
-          me.set(f.key, f.value)
-        }
-      })
-      // me.set('birthday', this.signupState.get('birthday').toISOString().slice(0, 7))
+      me.set('birthday', this.birthday)
 
       await this.createAccount()
-      await me.signupWithPassword(updates.name, updates.email, updates.password)
+      await me.signupWithPassword(this.name, this.email, this.password)
       this.$emit('next')
     },
     async createAccount () {
-      try {
-        await this.checkEmail(me.get('email'))
-        await this.checkName(me.get('name'))
-      } catch (conflictError) {
-        // todo
-        console.error(conflictError)
-        throw conflictError
-      }
       const emails = _.assign({}, me.get('emails'))
       if (emails.generalNews == null) { emails.generalNews = {} }
       if (me.inEU()) {
@@ -177,7 +235,7 @@ export default {
           },
         })
       } catch (err) {
-        console.error('Error in teacher signup', err)
+        console.error('Error in individual signup', err)
         this.errorMessage = err.message || 'Error during signup'
       }
     },
@@ -190,13 +248,15 @@ export default {
           resp,
         }))
       const { email, firstName, lastName } = gplusAttrs
-      const attrs = _.assign({}, { email, firstName, lastName, userID: me.id })
+      const emailExists = await this.checkEmail(email)
+      if (emailExists) {
+        this.email = email
+        this.$v.$touch()
+        return
+      }
+      const ssoAttrs = _.omit(gplusAttrs, attr => attr === '')
+      const attrs = _.assign({}, { ...ssoAttrs, userID: me.id })
       await api.users.signupWithGPlus(attrs)
-      this.updateSso({
-        ssoUsed: 'gplus',
-        ssoAttrs: gplusAttrs,
-      })
-
       me.set('firstName', firstName)
       me.set('lastName', lastName)
       me.set('email', email)
@@ -228,7 +288,7 @@ export default {
   .cta {
     margin-top: 5rem;
     ::v-deep .CTA__button {
-      width: 70vw;
+      width: min(70vw, 560px);
       font-size: 5rem;
     }
   }
@@ -238,6 +298,8 @@ export default {
     margin-bottom: 5rem;
     color: $purple;
     position: relative;
+    width: 100%;
+    text-align: center;
 
     .content {
       position: relative;
@@ -248,22 +310,30 @@ export default {
 
     .background {
       z-index: 1;
-      width: 96vw;
+      width: 96%;
       height: 1px;
       background-color: $purple;
       position: absolute;
-      left: -44vw;
+      left: 2%;
       top: 50%;
     }
   }
   .social-sso {
-    width: 50vw;
+    width: 50%;
     img {
       width: 100%;
     }
   }
   .button {
     margin-top: 8rem;
+  }
+
+  .control-label {
+    font-weight: 600;
+  }
+  .form-error {
+    float: right;
+    color: $purple;
   }
 }
 </style>

@@ -90,6 +90,7 @@ module.exports = Vue.extend({
   }
 }
 ::v-deep .subview{
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;

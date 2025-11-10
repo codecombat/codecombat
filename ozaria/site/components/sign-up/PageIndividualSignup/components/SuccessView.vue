@@ -87,7 +87,7 @@ export default {
       gap: unset;
 
       .image {
-        width: 10vw;
+        width: min(10vw, 80px);
       }
       .text-wrapper {
         font-size: 2rem;
