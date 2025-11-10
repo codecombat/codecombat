@@ -67,7 +67,7 @@
         <input
           v-model="$v.name.$model"
           class="form-control"
-          type="string"
+          type="text"
         >
       </div>
 
@@ -169,9 +169,7 @@ export default {
   created () {
     if (!me.isAnonymous()) {
       this.$emit('next')
-      return
     }
-    this.clickGoogleSignup()
   },
   methods: {
     async checkEmail (email) {
@@ -188,9 +186,14 @@ export default {
       window.tracker.trackEvent('CreateAccountModal Individual Mobile SignUpView Submit Clicked', { category: 'Individuals' })
       me.set('birthday', this.birthday)
 
-      await this.createAccount()
-      await me.signupWithPassword(this.name, this.email, this.password)
-      this.$emit('next')
+      try {
+        await this.createAccount()
+        await me.signupWithPassword(this.name, this.email, this.password)
+        this.$emit('next')
+      } catch (err) {
+        console.error('Error creating account', err)
+        noty({ type: 'error', text: 'Error creating account' })
+      }
     },
     async createAccount () {
       const emails = _.assign({}, me.get('emails'))
@@ -221,7 +224,6 @@ export default {
     async clickGoogleSignup (e) {
       e?.preventDefault()
       try {
-        this.errorMessage = ''
         await new Promise((resolve, reject) =>
           application.gplusHandler.loadAPI({
             success: resolve,
@@ -236,7 +238,6 @@ export default {
         })
       } catch (err) {
         console.error('Error in individual signup', err)
-        this.errorMessage = err.message || 'Error during signup'
       }
     },
     async postGoogleLoginClick ({ resp = {} }) {
@@ -248,21 +249,26 @@ export default {
           resp,
         }))
       const { email, firstName, lastName } = gplusAttrs
-      const emailExists = await this.checkEmail(email)
-      if (emailExists) {
-        this.email = email
-        this.$v.$touch()
-        return
+      try {
+        const emailExists = await this.checkEmail(email)
+        if (emailExists) {
+          this.email = email
+          this.$v.$touch()
+          return
+        }
+        const ssoAttrs = _.omit(gplusAttrs, attr => attr === '')
+        const attrs = _.assign({}, { ...ssoAttrs, userID: me.id })
+        await api.users.signupWithGPlus(attrs)
+        me.set('firstName', firstName)
+        me.set('lastName', lastName)
+        me.set('email', email)
+        await this.createAccount()
+        window?.tracker?.trackEvent('Google Login', { category: 'Signup', label: 'GPlus' })
+        this.$emit('next')
+      } catch (err) {
+        console.error('Error during Google signup', err)
+        noty({ type: 'error', text: 'Error during Google signup' })
       }
-      const ssoAttrs = _.omit(gplusAttrs, attr => attr === '')
-      const attrs = _.assign({}, { ...ssoAttrs, userID: me.id })
-      await api.users.signupWithGPlus(attrs)
-      me.set('firstName', firstName)
-      me.set('lastName', lastName)
-      me.set('email', email)
-      await this.createAccount()
-      window?.tracker?.trackEvent('Google Login', { category: 'Signup', label: 'GPlus' })
-      this.$emit('next')
     },
   },
 }

@@ -23,6 +23,7 @@
 <script>
 import SignUpView from './components/SignUpView.vue'
 import SuccessView from './components/SuccessView.vue'
+const VALID_ROLE = ['individual', 'parent']
 module.exports = Vue.extend({
   name: 'PageIndex',
   components: {
@@ -33,17 +34,15 @@ module.exports = Vue.extend({
     role: {
       type: String,
       default: 'individual',
+      validator: function (value) {
+        return VALID_ROLE.includes(value)
+      },
     },
   },
   data () {
     return {
       view: 'sign-up',
     }
-  },
-  computed: {
-    roleDesc () {
-      return $.i18n.t(`account.${this.role}_inspiration`)
-    },
   },
   methods: {
     next () {
