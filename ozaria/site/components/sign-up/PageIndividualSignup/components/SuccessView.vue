@@ -56,6 +56,55 @@ export default {
     img, span {
       vertical-align: bottom;
     }
+  }
+  .video {
+    margin-top: 5rem;
+  }
+
+  .awards-and-partners {
+    width: 100vw;
+    background-color: white;
+    text-align: center;
+    padding: 4rem 2rem;
+
+    .head3 {
+      font-size: 26px;
+      color: black;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    ::v-deep .frame {
+      .image {
+        width: 60px;
+      }
+
+      .text-wrapper {
+        font-size: 14px;
+        line-height: 16px;
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+  .head1 {
+    .check-mark {
+      width: 28px;
+    }
+    span {
+      line-height: 28px;
+    }
+  }
+
+  .youtube-video {
+    width: 500px;
+  }
+  .awards-and-partners {
+    margin-top: 40px;
+  }
+}
+@media (max-width: 768px) {
+  .head1 {
     .check-mark {
       width: 8rem;
     }
@@ -63,25 +112,15 @@ export default {
       line-height: 8rem;
     }
   }
-  .video {
-    margin-top: 5rem;
-  }
+
   .youtube-video {
     width: 360px;
   }
-
   .awards-and-partners {
     margin-top: 10rem;
-    text-align: center;
-    padding: 4rem 2rem;
-    width: 100%;
-    background-color: white;
 
     .head3 {
       font-size: 4rem;
-      color: black;
-      text-align: center;
-      margin-bottom: 1rem;
     }
     ::v-deep .frame {
       gap: unset;
