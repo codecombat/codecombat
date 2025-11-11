@@ -347,11 +347,5 @@ module.exports = (env) => {
     ].concat(extraIgnorePluginEntries),
     optimization: {},
     stats: 'minimal',
-    cache: {
-      type: 'filesystem',
-      buildDependencies: {
-        config: [__filename]
-      }
-    },
   }
 }
