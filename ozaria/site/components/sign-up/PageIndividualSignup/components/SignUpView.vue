@@ -291,14 +291,6 @@ export default {
     }
   }
 
-  .cta {
-    margin-top: 5rem;
-    ::v-deep .CTA__button {
-      width: min(70vw, 560px);
-      font-size: 5rem;
-    }
-  }
-
   .or {
     margin-top: 5rem;
     margin-bottom: 5rem;
@@ -330,9 +322,6 @@ export default {
       width: 100%;
     }
   }
-  .button {
-    margin-top: 8rem;
-  }
 
   .control-label {
     font-weight: 600;
@@ -340,6 +329,29 @@ export default {
   .form-error {
     float: right;
     color: $purple;
+  }
+}
+@media (min-width: 768px) {
+  .button {
+    margin-top: 40px;
+  }
+  .cta {
+    ::v-deep .CTA__button {
+      width: min(70vw, 560px);
+    }
+  }
+}
+@media (max-width: 768px) {
+  .cta {
+    margin-top: 5rem;
+    ::v-deep .CTA__button {
+      width: min(70vw, 560px);
+      font-size: 5rem;
+    }
+  }
+
+  .button {
+    margin-top: 8rem;
   }
 }
 </style>

@@ -56,22 +56,40 @@ module.exports = Vue.extend({
 <style scoped lang="scss">
 @import "app/styles/component_variables.scss";
 
-@media (screen) and (max-width: 768px) {
-  .individual-sign-up {
-    width: 100%;
+@media (min-width: 768px) {
+  ::v-deep .subview {
+    .head1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+    .desc {
+      font-size: 22px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  ::v-deep .subview {
+    .head1 {
+      font-size: 7rem;
+      margin-bottom: 3rem;
+    }
+    .desc {
+      font-size: 4.5rem;
+    }
   }
 }
 .page-mobile-container {
-  background: black; /* in case we open this page in pc */
-  height: 100vh;
+  background-color: white;
+  background-image: url(/images/components/bg-image.webp);
+  background-position: bottom left;
+  background-size: 2800px;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 
   .individual-sign-up {
+    width: 100%;
     margin: auto;
-    background-color: white;
-    background-image: url(/images/components/bg-image.webp);
-    background-position: bottom left;
-    background-size: 350%;
-    background-repeat: no-repeat;
     max-width: 800px;
     height: 100%;
     display: flex;
@@ -96,15 +114,11 @@ module.exports = Vue.extend({
 
   .head1 {
     color: black;
-    font-size: 7rem;
-    margin-bottom: 3rem;
   }
   .desc {
     width: 90%;
     text-align: center;
     color: $purple;
-    font-size: 4.5rem;
   }
 }
-
 </style>
