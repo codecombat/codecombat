@@ -906,6 +906,7 @@ module.exports = {
       //    manage: "Manage",
       //    empty_results: "Empty Results.",
       //    roblox: "Roblox",
+      //    warning: "Warning",
     },
 
     general: {
@@ -3245,6 +3246,7 @@ module.exports = {
       //    achievement_query_goals: "Key achievement off of level goals",
       //    level_completion: "Level Completion",
       //    pop_i18n: "Populate I18N",
+      //    ai_translate: "AI Translate",
       //    tasks: "Tasks",
       clear_storage: 'Rensa dina lokala ändringar',
       //    add_system_title: "Add Systems to Level",
@@ -3252,6 +3254,10 @@ module.exports = {
       //    product: "Product",
       //    link: "Link",
       //    clone_to_new_scenario: "Clone to New Scenario",
+      //    translate_warning_content: "Make sure the doc already Populate the i18n and Saved.",
+      //    translate_pick_langs: "Pick the Languages you want to transalte.",
+      //    translate_it: "Translate it!",
+      //    translating: "Translating...",
     },
 
     article: {
@@ -5244,6 +5250,7 @@ module.exports = {
     //  },
 
     //  tournament: {
+    //    tournament_title: "Tournament Title",
     //    mini_tournaments: "Mini Tournaments",
     //    usable_ladders: "All Usable Ladders",
     //    make_tournament: "Make a mini tournament",
@@ -6704,16 +6711,17 @@ module.exports = {
 
     //  hoc_page: {
     //    hoai_activities_poetry_title: "AI HackStack: Poetry in Motion",
-    //    hoai_activities_poetry_level: "Grades 6+ | Multimodal AI | ELA",
     //    hoai_activities_poetry_description: "Bring poetry to life with AI HackStack! Learners explore a poem’s theme, craft prompts to generate images, and evaluate AI outputs for bias while blending ELA skills with AI literacy as words transform into art.",
     //    hoai_activities_social_title: "AI HackStack: Social Media Showdown",
-    //    hoai_activities_social_level: "Grades 6+ | Multimodal AI | Algebra",
+    //    hoai_labels_grade: "Grades 6+",
+    //    hoai_labels_multimodal: "Multimodal AI",
+    //    hoai_labels_ela: "ELA",
+    //    hoai_labels_algebra: "Algebra",
+    //    hoai_labels_cs: "CS",
     //    hoai_activities_social_description: "Play social media manager in this algebra and AI challenge! Prompt AI to build formulas, model engagement, and judge celebrity content battles while mastering math and AI literacy.",
     //    hoai_activities_vibe_title: "AI HackStack: Vibe Coding Lab",
-    //    hoai_activities_vibe_level: "Grades 6+ | Multimodal AI | CS",
     //    hoai_activities_vibe_description: "Dive into vibe coding with AI HackStack! Guide a hero with simple algorithms, explore syntax, and prompt AI to remix code into games and sites for a creative, fast, and fun coding experience.",
     //    hoai_activities_esports_title: "CodeCombat: AI Esports",
-    //    hoai_activities_esports_level: "Grades 6+ | Multimodal AI | CS",
     //    hoai_activities_esports_description: "AI meets esports in this coding challenge! Learn prompts and algorithms, experiment with vibe coding, then team up with an AI assistant to face the CPU in the ultimate AI League battle.",
     //    learn_and_engage_with_these_csedweek_activities: "**Learn** and **engage** with these **CSEdWeek** activities!",
     //    latest_activities: "Latest Activities",

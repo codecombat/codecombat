@@ -31,7 +31,7 @@
           class="arena__helpers__bottom__tournament_status"
         >
           <div class="clan">
-            {{ $t('tournament.team_name', { name: (clan.displayName || clan.name), interpolation: { escapeValue: false } }) }}
+            {{ $t('tournament.team_name', { name: (clan?.displayName || clan?.name), interpolation: { escapeValue: false } }) }}
           </div>
           <div class="status">
             {{ $t('tournament.status', { state: tournament.state }) }}
@@ -44,7 +44,7 @@
           <span class="arena__helpers-element">
             <button
               v-if="arenaCurriculum"
-              class="btn btn-secondary dusk-btn"
+              class="btn btn-secondary btn-moon"
               :disabled="disabled"
               @click="openCurriculum"
             >
@@ -52,7 +52,7 @@
             </button>
             <button
               v-if="!canEdit"
-              class="btn btn-secondary btn-moon"
+              class="btn btn-secondary purple-btn"
               :disabled="disabled"
               @click="$emit('create-tournament')"
             >
@@ -62,14 +62,14 @@
               v-if="canEdit"
             >
               <button
-                class="btn btn-secondary btn-moon"
+                class="btn btn-secondary purple-btn"
                 :disabled="disabled"
                 @click="$emit('edit-tournament')"
               >
                 {{ $t('tournament.edit_tournament') }}
               </button>
               <button
-                class="btn btn-secondary dusk-btn"
+                class="btn btn-secondary purple-btn"
                 @click="goTournament"
               >
                 {{ $t('tournament.view_tournament') }}
@@ -207,18 +207,13 @@ export default {
 <style scoped lang="scss">
 @import "app/styles/common/button";
 @import "ozaria/site/styles/common/variables.scss";
-@import "ozaria/site/components/teacher-dashboard/common/dusk-button";
+@import "ozaria/site/components/teacher-dashboard/common/purple-button";
 
-.btn-moon, .dusk-btn {
+.btn-moon, .purple-btn {
   font-size: 14px;
   padding: 0.5rem 1rem;
   min-width: 120px;
-}
-
-.dusk-btn {
   display: unset !important;
-  text-transform: uppercase;
-  font-weight: bold;
 }
 
 .arena {
@@ -282,7 +277,7 @@ export default {
 
   &__helpers {
     position: relative;
-    background-color: #d3d3d3;
+    background: linear-gradient(to right, #f5ffff, #fff);
 
     &__bottom {
       display: flex;
@@ -305,7 +300,7 @@ export default {
 
     &__description {
       font-weight: bold;
-      color: black;
+      color: #B4B4B4;
 
       padding: .5rem;
       line-height: 2rem;

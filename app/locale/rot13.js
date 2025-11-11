@@ -907,6 +907,7 @@ module.exports = {
       manage: 'Znantr',
       empty_results: 'Rzcgl Erfhygf.',
       roblox: 'Eboybk',
+      warning: 'Jneavat',
     },
 
     general: {
@@ -3246,6 +3247,7 @@ module.exports = {
       achievement_query_goals: 'Xrl npuvrirzrag bss bs yriry tbnyf',
       level_completion: 'Yriry Pbzcyrgvba',
       pop_i18n: 'Cbchyngr V18A',
+      ai_translate: 'NV Genafyngr',
       tasks: 'Gnfxf',
       clear_storage: 'Pyrne lbhe ybpny punatrf',
       add_system_title: 'Nqq Flfgrzf gb Yriry',
@@ -3253,6 +3255,10 @@ module.exports = {
       product: 'Cebqhpg',
       link: 'Yvax',
       clone_to_new_scenario: 'Pybar gb Arj Fpranevb',
+      translate_warning_content: 'Znxr fher gur qbp nyernql Cbchyngr gur v18a naq Fnirq.',
+      translate_pick_langs: 'Cvpx gur Ynathntrf lbh jnag gb genafnygr.',
+      translate_it: 'Genafyngr vg!',
+      translating: 'Genafyngvat...',
     },
 
     article: {
@@ -4622,6 +4628,7 @@ module.exports = {
       license_type_full: 'Shyy Pbhefrf',
       license_type_hackstack: 'Unpxfgnpx',
       license_type_customize: 'Phfgbzvmr Pbhefrf',
+
     },
 
     events: {
@@ -5246,6 +5253,7 @@ module.exports = {
     },
 
     tournament: {
+      tournament_title: 'Gbheanzrag Gvgyr',
       mini_tournaments: 'Zvav Gbheanzragf',
       usable_ladders: 'Nyy Hfnoyr Ynqqref',
       make_tournament: 'Znxr n zvav gbheanzrag',
@@ -6693,16 +6701,17 @@ module.exports = {
     },
     hoc_page: {
       hoai_activities_poetry_title: 'NV UnpxFgnpx: Cbrgel va Zbgvba',
-      hoai_activities_poetry_level: 'Tenqrf 6+ | Zhygvzbqny NV | RYN',
       hoai_activities_poetry_description: 'Oevat cbrgel gb yvsr jvgu NV UnpxFgnpx! Yrnearef rkcyber n cbrz’f gurzr, pensg cebzcgf gb trarengr vzntrf, naq rinyhngr NV bhgchgf sbe ovnf juvyr oyraqvat RYN fxvyyf jvgu NV yvgrenpl nf jbeqf genafsbez vagb neg.',
       hoai_activities_social_title: 'NV UnpxFgnpx: Fbpvny Zrqvn Fubjqbja',
-      hoai_activities_social_level: 'Tenqrf 6+ | Zhygvzbqny NV | Nytroen',
+      hoai_labels_grade: 'Tenqrf 6+',
+      hoai_labels_multimodal: 'Zhygvzbqny NV',
+      hoai_labels_ela: 'RYN',
+      hoai_labels_algebra: 'Nytroen',
+      hoai_labels_cs: 'PF',
       hoai_activities_social_description: 'Cynl fbpvny zrqvn znantre va guvf nytroen naq NV punyyratr! Cebzcg NV gb ohvyq sbezhynf, zbqry ratntrzrag, naq whqtr pryroevgl pbagrag onggyrf juvyr znfgrevat zngu naq NV yvgrenpl.',
       hoai_activities_vibe_title: 'NV UnpxFgnpx: Ivor Pbqvat Yno',
-      hoai_activities_vibe_level: 'Tenqrf 6+ | Zhygvzbqny NV | PF',
       hoai_activities_vibe_description: 'Qvir vagb ivor pbqvat jvgu NV UnpxFgnpx! Thvqr n ureb jvgu fvzcyr nytbevguzf, rkcyber flagnk, naq cebzcg NV gb erzvk pbqr vagb tnzrf naq fvgrf sbe n perngvir, snfg, naq sha pbqvat rkcrevrapr.',
       hoai_activities_esports_title: 'PbqrPbzong: NV Rfcbegf',
-      hoai_activities_esports_level: 'Tenqrf 6+ | Zhygvzbqny NV | PF',
       hoai_activities_esports_description: 'NV zrrgf rfcbegf va guvf pbqvat punyyratr! Yrnea cebzcgf naq nytbevguzf, rkcrevzrag jvgu ivor pbqvat, gura grnz hc jvgu na NV nffvfgnag gb snpr gur PCH va gur hygvzngr NV Yrnthr onggyr.',
       learn_and_engage_with_these_csedweek_activities: '**Yrnea** naq **ratntr** jvgu gurfr **PFRqJrrx** npgvivgvrf!',
       latest_activities: 'Yngrfg Npgvivgvrf',

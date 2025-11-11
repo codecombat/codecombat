@@ -85,8 +85,8 @@ module.exports = (CoursesView = (function () {
       return {
         title: $.i18n.t('courses.students'),
         links: [
-          { vmid: 'rel-canonical', rel: 'canonical', href: '/students' }
-        ]
+          { vmid: 'rel-canonical', rel: 'canonical', href: '/students' },
+        ],
       }
     }
 
@@ -131,7 +131,7 @@ module.exports = (CoursesView = (function () {
           const campaign = this.hourOfCodeOptions.campaignId
           const sessionFetchOptions = {
             language: this.hocCodeLanguage,
-            project: 'state.complete,level.original,playtime,changed'
+            project: 'state.complete,level.original,playtime,changed',
           }
           this.supermodel.addPromiseResource(store.dispatch('levelSessions/fetchLevelSessionsForCampaign', { campaignHandle: campaign, options: { data: sessionFetchOptions } }))
           this.campaignLevels = new Levels()
@@ -157,9 +157,9 @@ module.exports = (CoursesView = (function () {
             this.tournaments = (Array.from(tournaments.models).map((t) => t.toJSON()))
             this.reversedTournaments = this.tournaments.slice().reverse()
             this.tournamentsByState = _.groupBy(this.tournaments, 'state')
-            return this.renderSelectors('.student-profile-area')
+            return this.renderSelectors('.custom-tournaments-area')
           })
-          this.supermodel.loadCollection(tournaments, 'tournaments', { cache: false })
+          tournaments.fetch({ cache: false })
         }
 
         // TODO: Trim this section for only what's necessary
@@ -265,6 +265,47 @@ module.exports = (CoursesView = (function () {
       })
     }
 
+    calculateAllCompleted () {
+      this.allCompleted = !_.some(this.classrooms.models, function (classroom) {
+        return _.some(this.courseInstances.where({ classroomID: classroom.id }), function (courseInstance) {
+          const course = this.store.state.courses.byId[courseInstance.get('courseID')]
+          if (!courseInstance.sessions) {
+            return false
+          }
+          const stats = classroom.statsForSessions(courseInstance.sessions, course._id)
+          if (stats.levels != null ? stats.levels.next : undefined) {
+            // This could be made smarter than just picking the next level from the first incomplete course
+            // It will suggest redoing a course arena level, like Wakka Maul, if all courses are complete
+            this.nextLevelInfo = {
+              level: stats.levels.next,
+              courseInstance,
+              course,
+              courseAcronym: utils.courseAcronyms[course._id],
+              number: stats.levels.nextNumber,
+            }
+            const startLockedLevelSlug = courseInstance.get('startLockedLevel')
+            if (startLockedLevelSlug) {
+              const courseLevels = classroom.getLevels({ courseID: course._id })
+              let hasLocked = false
+              for (const level of Array.from(courseLevels.models)) {
+                if (level.get('slug') === startLockedLevelSlug) {
+                  hasLocked = true
+                }
+                if (level.get('slug') === this.nextLevelInfo.level.get('slug')) {
+                  if (hasLocked) { this.nextLevelInfo.locked = true }
+                  break
+                }
+              }
+            }
+          }
+          if (course._id === utils.courseIDs.HACKSTACK) {
+            return false
+          }
+          return !stats.courseComplete
+        }, this)
+      }, this)
+    }
+
     setAILeagueStat (...args) {
       // Convenience method for setting nested properties even if intermediate objects haven't been initialized
       const adjustedLength = Math.max(args.length, 1); const keys = args.slice(0, adjustedLength - 1); let val = args[adjustedLength - 1]
@@ -293,7 +334,7 @@ module.exports = (CoursesView = (function () {
 
     renderStats () {
       if (this.destroyed) { return }
-      return this.renderSelectors('.student-stats', '.school-stats')
+      return this.renderSelectors('.school-stats')
     }
 
     removeRedundantClans (clans) {
@@ -405,6 +446,7 @@ module.exports = (CoursesView = (function () {
         }
       }
       dynamicLoadLanguageSessions()
+      this.calculateAllCompleted()
       this.renderSelectors('.course-instance-entry')
       this.renderSelectors('.student-stats')
     }
@@ -430,7 +472,7 @@ module.exports = (CoursesView = (function () {
       if (utils.useWebsocket) {
         this.useWebsocket = true
         const {
-          wsBus
+          wsBus,
         } = application
         const uniqueOwnerIDs = Array.from(new Set(ownerIDs))
         const teacherTopics = uniqueOwnerIDs.map(teacher => {
@@ -466,44 +508,7 @@ module.exports = (CoursesView = (function () {
           me.setLastClassroomItems(this.classrooms.models[0].get('classroomItems', true))
         }
 
-        this.allCompleted = !_.some(this.classrooms.models, function (classroom) {
-          return _.some(this.courseInstances.where({ classroomID: classroom.id }), function (courseInstance) {
-            const course = this.store.state.courses.byId[courseInstance.get('courseID')]
-            if (!courseInstance.sessions) {
-              return false
-            }
-            const stats = classroom.statsForSessions(courseInstance.sessions, course._id)
-            if (stats.levels != null ? stats.levels.next : undefined) {
-              // This could be made smarter than just picking the next level from the first incomplete course
-              // It will suggest redoing a course arena level, like Wakka Maul, if all courses are complete
-              this.nextLevelInfo = {
-                level: stats.levels.next,
-                courseInstance,
-                course,
-                courseAcronym: utils.courseAcronyms[course._id],
-                number: stats.levels.nextNumber
-              }
-              const startLockedLevelSlug = courseInstance.get('startLockedLevel')
-              if (startLockedLevelSlug) {
-                const courseLevels = classroom.getLevels({ courseID: course._id })
-                let hasLocked = false
-                for (const level of Array.from(courseLevels.models)) {
-                  if (level.get('slug') === startLockedLevelSlug) {
-                    hasLocked = true
-                  }
-                  if (level.get('slug') === this.nextLevelInfo.level.get('slug')) {
-                    if (hasLocked) { this.nextLevelInfo.locked = true }
-                    break
-                  }
-                }
-              }
-            }
-            if (course._id === utils.courseIDs.HACKSTACK) {
-              return false
-            }
-            return !stats.courseComplete
-          }, this)
-        }, this)
+        this.calculateAllCompleted()
       }
 
       // now we use same levels in each classrooms
@@ -552,7 +557,7 @@ module.exports = (CoursesView = (function () {
       const [started, completed, levelsDone] = Array.from(coursesHelper.hasUserCompletedCourse(userLevelStatusMap, levelsInCampaign)) // eslint-disable-line no-unused-vars
       this.hocStats = {
         complete: completed,
-        pctDone: ((levelsDone / this.campaignLevels.models.length) * 100).toFixed(1) + '%'
+        pctDone: ((levelsDone / this.campaignLevels.models.length) * 100).toFixed(1) + '%',
       }
       return this.hocStats
     }
@@ -561,7 +566,7 @@ module.exports = (CoursesView = (function () {
       const classroom = this.classrooms.get(courseInstance.get('classroomID'))
       const versionedCourse = _.find(classroom.get('courses'), { _id: courseInstance.get('courseID') })
       const {
-        levels
+        levels,
       } = versionedCourse
       return _.any(levels, { shareable: 'project' })
     }
@@ -686,7 +691,7 @@ module.exports = (CoursesView = (function () {
           classCode: this.classCode,
           classroomID: newClassroom.id,
           classroomName: newClassroom.get('name'),
-          ownerID: newClassroom.get('ownerID')
+          ownerID: newClassroom.get('ownerID'),
         })
       }
       this.classrooms.add(newClassroom)
