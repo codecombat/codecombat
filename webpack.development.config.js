@@ -71,7 +71,13 @@ module.exports = (env) => {
       watchOptions: {
         ignored: /node_modules(?!\/ai\/dist)|bower_components|\.#|~$/,
       },
-      mode: 'development'
+      mode: 'development',
+      cache: {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename]
+        }
+      },
     })
   )
 }
