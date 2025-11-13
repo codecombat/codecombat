@@ -708,9 +708,26 @@ module.exports = (User = (function () {
       return seenPromotions[key]
     }
 
+    shouldSeeManualPromotion (key) {
+      if (!key) {
+        return false
+      }
+      const seenPromotion = this.getSeenPromotion(key)
+      if (seenPromotion && new Date(seenPromotion) > new Date()) {
+        // seenPromotion in the future means we should show the manual promotion
+        return true
+      }
+      return false
+    }
+
     shouldSeePromotion (key) {
+      const manualPromotionKeys = ['end-of-trial-promotion-modal']
       if (!key) {
         return true
+      }
+
+      if (manualPromotionKeys.includes(key)) {
+        return this.shouldSeeManualPromotion(key)
       }
 
       const seenPromotion = this.getSeenPromotion(key)
