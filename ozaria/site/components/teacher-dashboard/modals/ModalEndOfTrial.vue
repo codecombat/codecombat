@@ -3,7 +3,8 @@
     v-if="showPromotion"
     ref="modal"
     modal-type="newModal"
-    seen-promotions-property="end-of-trial-promotion-modal"
+    :seen-promotions-property="seenPromotionsProperty"
+    :auto-show="!!seenPromotionsProperty"
     name="end-of-trial-promotion-modal"
   >
     <template #content>
@@ -133,6 +134,15 @@ export default {
     showPromotion () {
       const state = this.getCurrentFetchStateForPrepaid(me.id)
       return state === this.fetchState.FETCHED && !this.hasLicense // do not show the modal until license is loaded
+    },
+    seenPromotionsProperty () {
+      const key = 'end-of-trial-promotion-modal'
+      const haveProperty = me.getSeenPromotion(key)
+      if (!this.showPromotion || haveProperty == null) {
+        return ''
+      } else {
+        return key
+      }
     },
   },
   async created () {
