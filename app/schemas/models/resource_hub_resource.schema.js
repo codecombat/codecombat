@@ -6,7 +6,7 @@ const ResourceHubResourceSchema = schema.object(
     description:
       'Dynamic resource store for the teacher dashboard resource hub',
     title: 'ResourceHub Resource',
-    required: ['name']
+    required: ['name', 'icon'],
   },
   {
     icon: schema.shortString({

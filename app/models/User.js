@@ -185,6 +185,14 @@ module.exports = (User = (function () {
       return email.endsWith('@codecombat.com') || email.endsWith('@ozaria.com')
     }
 
+    // This could also be a user property later, once we plan to release Ozaria to more users
+    showOzCourses () {
+      if (utils.isOzaria) {
+        return true
+      }
+      return this.isInternal() || this.isAdmin()
+    }
+
     isDistrictAdmin (districtId) {
       if (!districtId) return false
       return this.get('features')?.ownerDistrictId === districtId
@@ -708,9 +716,26 @@ module.exports = (User = (function () {
       return seenPromotions[key]
     }
 
+    shouldSeeManualPromotion (key) {
+      if (!key) {
+        return false
+      }
+      const seenPromotion = this.getSeenPromotion(key)
+      if (seenPromotion === false) {
+        // don't seePromotion so should show it
+        return true
+      }
+      return false
+    }
+
     shouldSeePromotion (key) {
+      const manualPromotionKeys = ['end-of-trial-promotion-modal']
       if (!key) {
         return true
+      }
+
+      if (manualPromotionKeys.includes(key)) {
+        return this.shouldSeeManualPromotion(key)
       }
 
       const seenPromotion = this.getSeenPromotion(key)

@@ -6,7 +6,8 @@ export default {
     icon: {
       type: String,
       required: true,
-      validator: value => resourceIcons.indexOf(value) !== -1
+      default: 'FAQ',
+      validator: value => resourceIcons.indexOf(value) !== -1,
     },
     label: {
       type: String,
