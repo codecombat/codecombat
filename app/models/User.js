@@ -713,8 +713,8 @@ module.exports = (User = (function () {
         return false
       }
       const seenPromotion = this.getSeenPromotion(key)
-      if (seenPromotion && new Date(seenPromotion) > new Date()) {
-        // seenPromotion in the future means we should show the manual promotion
+      if (seenPromotion === false) {
+        // don't seePromotion so should show it
         return true
       }
       return false
