@@ -1,5 +1,5 @@
 <template>
-  <div class="subview">
+  <div class="subview success-view">
     <div class="head1">
       <img
         class="check-mark"
@@ -51,7 +51,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.subview {
+.success-view {
   .head1 {
     img, span {
       vertical-align: bottom;

@@ -344,7 +344,7 @@ module.exports = (CocoRouter = (function () {
           return this.routeDirectly('views/landing-pages/mobile/PageMobileView', [], { vueRoute: true, baseTemplate: 'base-empty' })
         },
 
-        'mobile/sign-up/:role' (role) {
+        'sign-up/promotion/:role' (role) {
           return this.routeDirectly('ozaria/site/components/sign-up/PageIndividualSignup', [], {
             vueRoute: true, baseTemplate: 'base-empty', propsData: { role },
           })

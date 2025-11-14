@@ -1,12 +1,12 @@
 <template>
-  <div class="subview">
+  <div class="subview sign-up-view">
     <div class="head1">
       {{ $t('account.create_a_free_account') }}
     </div>
     <div class="desc">
       {{ roleDesc }}
     </div>
-    <div class="form">
+    <div class="fake-form">
       <div
         class="form-group"
         :class="{ 'has-error': $v.email.$error }"
@@ -98,8 +98,9 @@
       v-if="useSocialSignOn"
       class="or"
     >
+      <span class="background" />
       <span class="content">{{ $t('code.or') }}</span>
-      <div class="background" />
+      <span class="background" />
     </div>
     <div
       v-if="useSocialSignOn"
@@ -196,24 +197,14 @@ export default {
       }
     },
     async createAccount () {
-      const emails = _.assign({}, me.get('emails'))
-      if (emails.generalNews == null) { emails.generalNews = {} }
-      if (me.inEU()) {
-        emails.generalNews.enabled = false
-        me.set('unsubscribedFromMarketingEmails', true)
-      } else {
-        emails.generalNews.enabled = true
-      }
-      me.set('emails', emails)
-      me.set('features', {
-        ...(me.get('features') || {}),
-        isNewDashboardActive: true,
-      })
+      me.addNewUserCommonProperties()
       if (this.role === 'parent') {
-        me.set('role', this.role)
-      } else {
-        me.unset('role')
+        const features = me.get('features') || {}
+        features.asRole = this.role
+        me.set('features', features)
+        me.markModified('features')
       }
+      me.unset('role')
       try {
         await me.save()
       } catch (err) {
@@ -263,7 +254,7 @@ export default {
         me.set('lastName', lastName)
         me.set('email', email)
         await this.createAccount()
-        window?.tracker?.trackEvent('Google Login', { category: 'Signup', label: 'GPlus' })
+        window?.tracker?.trackEvent('Google Login in mobile individual signup page', { category: 'Signup', label: 'GPlus' })
         this.$emit('next')
       } catch (err) {
         console.error('Error during Google signup', err)
@@ -277,8 +268,8 @@ export default {
 <style scoped lang="scss">
 @import "app/styles/component_variables.scss";
 
-.subview {
-  .form {
+.sign-up-view {
+  .fake-form {
     width: 90%;
     margin-top: 5rem;
 
@@ -292,28 +283,25 @@ export default {
   }
 
   .or {
-    margin-top: 5rem;
-    margin-bottom: 5rem;
+    margin-top: 3rem;
+    margin-bottom: 4rem;
     color: $purple;
     position: relative;
-    width: 100%;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 90%;
 
     .content {
       position: relative;
-      padding: 8px;
       z-index: 2;
-      background-color: white;
+      width: fit-content;
     }
 
     .background {
-      z-index: 1;
-      width: 96%;
       height: 1px;
+      flex-basis: 35%;
       background-color: $purple;
-      position: absolute;
-      left: 2%;
-      top: 50%;
     }
   }
   .social-sso {
@@ -343,7 +331,7 @@ export default {
 }
 @media (max-width: 768px) {
   .cta {
-    margin-top: 5rem;
+    margin-top: 4rem;
     ::v-deep .CTA__button {
       width: min(70vw, 560px);
       font-size: 5rem;
@@ -351,7 +339,7 @@ export default {
   }
 
   .button {
-    margin-top: 8rem;
+    margin-top: 5rem;
   }
 }
 </style>
