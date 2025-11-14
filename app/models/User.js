@@ -401,6 +401,22 @@ module.exports = (User = (function () {
       }
     }
 
+    addNewUserCommonProperties () {
+      const emails = _.assign({}, this.get('emails'))
+      if (emails.generalNews == null) { emails.generalNews = {} }
+      if (this.inEU()) {
+        emails.generalNews.enabled = false
+        this.set('unsubscribedFromMarketingEmails', true)
+      } else {
+        emails.generalNews.enabled = true
+      }
+      this.set('emails', emails)
+      this.set('features', {
+        ...(this.get('features') || {}),
+        isNewDashboardActive: true,
+      })
+    }
+
     level () {
       let totalPoint = this.get('points')
       if (this.isInGodMode()) { totalPoint = totalPoint + 1000000 }
