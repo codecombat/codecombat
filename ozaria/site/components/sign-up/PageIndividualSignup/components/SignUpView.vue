@@ -202,7 +202,6 @@ export default {
         const features = me.get('features') || {}
         features.asRole = this.role
         me.set('features', features)
-        me.markModified('features')
       }
       me.unset('role')
       try {
