@@ -243,8 +243,7 @@ export default {
       try {
         const emailExists = await this.checkEmail(email)
         if (emailExists) {
-          this.email = email
-          this.$v.$touch()
+          noty({ type: 'error', text: $.i18n.t('signup.account_exists') + email })
           return
         }
         const ssoAttrs = _.omit(gplusAttrs, attr => attr === '')
