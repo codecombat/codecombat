@@ -80,10 +80,9 @@ module.exports = (OptionsView = (function () {
     onHidden () {
       this.aceConfig.keyBindings = 'default' // We used to give them the option, but we took it away.
       this.aceConfig.behaviors = this.$el.find('#option-behaviors').prop('checked')
-      const liveCompletionEl = this.$el.find('#option-live-completion')
-      if (!liveCompletionEl.attr('disabled')) {
+      if (this.options.classroomAceConfig.liveCompletion === false) {
         // do not update liveCompletion when classroom disable the liveCompletion
-        this.aceConfig.liveCompletion = liveCompletionEl.prop('checked')
+        this.aceConfig.liveCompletion = this.$el.find('#option-live-completion').prop('checked')
       }
       me.set('aceConfig', this.aceConfig)
       me.patch()
