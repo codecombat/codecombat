@@ -51,24 +51,51 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/component_variables.scss";
 .success-view {
+  width: 100%;
+  max-width: 70rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+
   .head1 {
-    img, span {
-      vertical-align: bottom;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+
+    .check-mark {
+      width: 6rem;
+    }
+
+    span {
+      font-size: 2.4rem;
     }
   }
+
   .video {
-    margin-top: 5rem;
+    margin-top: 2rem;
+
+    .youtube-video {
+      width: min(100%, 45rem);
+    }
   }
 
   .awards-and-partners {
-    width: 100vw;
+    width: 100%;
     background-color: white;
     text-align: center;
     padding: 4rem 2rem;
+    border-radius: 2rem;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.08);
+    margin-top: 2rem;
 
     .head3 {
-      font-size: 26px;
+      font-size: 2.6rem;
       color: black;
       text-align: center;
       margin-bottom: 1rem;
@@ -76,61 +103,42 @@ export default {
 
     ::v-deep .frame {
       .image {
-        width: 60px;
+        width: 6rem;
       }
 
       .text-wrapper {
-        font-size: 14px;
-        line-height: 16px;
+        font-size: 1.4rem;
+        line-height: 1.6rem;
       }
     }
   }
 }
-@media (min-width: 768px) {
-  .head1 {
-    .check-mark {
-      width: 28px;
-    }
-    span {
-      line-height: 28px;
-    }
-  }
-
-  .youtube-video {
-    width: 500px;
-  }
-  .awards-and-partners {
-    margin-top: 40px;
-  }
-}
-@media (max-width: 768px) {
-  .head1 {
-    .check-mark {
-      width: 8rem;
-    }
-    span {
-      line-height: 8rem;
-    }
-  }
-
-  .youtube-video {
-    width: 360px;
-  }
-  .awards-and-partners {
-    margin-top: 10rem;
-
-    .head3 {
-      font-size: 4rem;
-    }
-    ::v-deep .frame {
-      gap: unset;
-
-      .image {
-        width: min(10vw, 80px);
+@media (max-width: $screen-sm-min) {
+  .success-view {
+    gap: 2rem;
+    .head1 {
+      flex-direction: row;
+      .check-mark {
+        width: 2.8rem;
       }
-      .text-wrapper {
-        font-size: 2rem;
-        line-height: 2.5rem;
+      span {
+        line-height: 2.8rem;
+        font-size: 3rem;
+      }
+    }
+
+    .youtube-video {
+      width: 50rem !important;
+    }
+    .awards-and-partners {
+      margin-top: 4rem;
+      padding: 5rem 4rem;
+
+      ::v-deep .frame {
+        gap: .5rem;
+      }
+      ::v-deep .frame .div {
+        gap: .5rem;
       }
     }
   }

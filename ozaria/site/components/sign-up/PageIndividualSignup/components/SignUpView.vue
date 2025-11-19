@@ -28,12 +28,13 @@
         </span>
         <input
           v-model="$v.email.$model"
+          name="email"
           class="form-control"
           type="email"
         >
       </div>
       <div
-        class="form-line"
+        class="form-group"
         :class="{ 'has-error': $v.birthday.$error }"
       >
         <span class="inline-flex-form-label-div">
@@ -45,12 +46,13 @@
         </span>
         <input
           v-model="$v.birthday.$model"
+          name="birthday"
           class="form-control"
           type="date"
         >
       </div>
       <div
-        class="form-line"
+        class="form-group"
         :class="{ 'has-error': $v.name.$error }"
       >
         <span class="inline-flex-form-label-div">
@@ -66,13 +68,14 @@
         </span>
         <input
           v-model="$v.name.$model"
+          name="username"
           class="form-control"
           type="text"
         >
       </div>
 
       <div
-        class="form-line"
+        class="form-group"
         :class="{ 'has-error': $v.password.$error }"
       >
         <span class="inline-flex-form-label-div">
@@ -88,6 +91,7 @@
         </span>
         <input
           v-model="$v.password.$model"
+          name="password"
           class="form-control"
           type="password"
         >
@@ -120,6 +124,7 @@
     <div class="button">
       <CTAButton
         class="cta"
+        size="medium"
         @clickedCTA="startCreate"
       >
         {{ $t('login.sign_up') }}
@@ -267,9 +272,17 @@ export default {
 @import "app/styles/component_variables.scss";
 
 .sign-up-view {
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   .fake-form {
     width: 90%;
-    margin-top: 5rem;
+    max-width: 56rem;
+    margin-top: 2rem;
 
     .form-line {
       margin-bottom: 2rem;
@@ -281,14 +294,16 @@ export default {
   }
 
   .or {
-    margin-top: 3rem;
-    margin-bottom: 4rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     color: $purple;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-around;
     width: 90%;
+    font-size: 2rem;
+    font-weight: bold;
 
     .content {
       position: relative;
@@ -303,41 +318,76 @@ export default {
     }
   }
   .social-sso {
-    width: 50%;
     img {
-      width: 100%;
+      max-width: 25rem;
     }
   }
 
+  .inline-flex-form-label-div {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
   .control-label {
     font-weight: 600;
+    font-size: 1.6rem;
   }
   .form-error {
     float: right;
     color: $purple;
+    font-size: 1.4rem;
+  }
+  ::v-deep .form-control {
+    font-size: 1.6rem;
+    padding: 1.2rem 1.6rem;
+    border-radius: 1rem;
   }
 }
-@media (min-width: 768px) {
-  .button {
-    margin-top: 40px;
-  }
-  .cta {
-    ::v-deep .CTA__button {
-      width: min(70vw, 560px);
+
+@media (min-width: $screen-sm-min) {
+  .sign-up-view {
+    max-width: 70rem;
+
+    .fake-form {
+      max-width: 64rem;
     }
   }
 }
-@media (max-width: 768px) {
-  .cta {
-    margin-top: 4rem;
-    ::v-deep .CTA__button {
-      width: min(70vw, 560px);
-      font-size: 5rem;
+
+@media (min-width: $screen-lg-min) {
+  .sign-up-view {
+    max-width: 85rem;
+
+    .fake-form {
+      max-width: 78rem;
     }
+  }
+}
+
+@media (max-width: $screen-sm-max) {
+  .cta {
+    margin-top: 1rem;
   }
 
-  .button {
-    margin-top: 5rem;
+  .fake-form,
+  .or,
+  .social-sso {
+    width: 100%;
+  }
+
+  .social-sso {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.button {
+  margin-top: 1rem;
+  .cta {
+    text-transform: uppercase;
   }
 }
 </style>
