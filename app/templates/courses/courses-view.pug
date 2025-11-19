@@ -50,7 +50,6 @@ mixin anonymous-welcome-message()
 
 mixin course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, campaignId, isLocked)
   - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
-  - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
   - var nextLevel = stats.levels.next;
 
   if stats.courseComplete
@@ -207,10 +206,10 @@ mixin classrooms_content()
                   - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
                   - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
                   - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID, classroomId: courseInstance.get('classroomID')});
-                   if view.utils.isCodeCombat
-                      +course-instance-body(courseInstance, classroom)
-                   else
-                      +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, course.campaignID, isLocked)
+                if view.utils.isCodeCombat
+                  +course-instance-body(courseInstance, classroom, stats)
+                else
+                  +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, course.campaignID, isLocked)
               else
                 .pull-right
                   a.btn.btn-navy.btn-lg.m-b-1(href=courseUrl data-event-action="Students Start Course")
