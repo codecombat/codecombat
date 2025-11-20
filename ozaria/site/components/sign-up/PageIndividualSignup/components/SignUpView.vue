@@ -273,11 +273,12 @@ export default {
 
 .sign-up-view {
   width: 100%;
-  max-width: 60rem;
+  max-width: 70rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 1.6rem;
 
   .fake-form {
     width: 90%;
@@ -333,7 +334,7 @@ export default {
   }
   .control-label {
     font-weight: 600;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
   .form-error {
     float: right;
@@ -341,28 +342,28 @@ export default {
     font-size: 1.4rem;
   }
   ::v-deep .form-control {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     padding: 1.2rem 1.6rem;
     border-radius: 1rem;
   }
 }
 
-@media (min-width: $screen-sm-min) {
+@media (min-width: $screen-md-min) {
   .sign-up-view {
-    max-width: 70rem;
+    max-width: 90rem;
 
     .fake-form {
-      max-width: 64rem;
+      max-width: 80rem;
     }
   }
 }
 
 @media (min-width: $screen-lg-min) {
   .sign-up-view {
-    max-width: 85rem;
+    max-width: 100rem;
 
     .fake-form {
-      max-width: 78rem;
+      max-width: 90rem;
     }
   }
 }

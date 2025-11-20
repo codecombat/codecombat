@@ -60,12 +60,12 @@ module.exports = Vue.extend({
 @media (max-width: $screen-sm-max) {
   ::v-deep .subview {
     .head1 {
-      font-size: 2.4rem;
+      font-size: 2.8rem;
       margin-bottom: 0.5rem;
       font-weight: bold;
     }
     .desc {
-      font-size: 1.6rem;
+      font-size: 2rem;
     }
   }
 }
@@ -78,7 +78,7 @@ module.exports = Vue.extend({
       font-weight: bold;
     }
     .desc {
-      font-size: 2rem;
+      font-size: 2.4rem;
     }
   }
 }
@@ -116,6 +116,12 @@ module.exports = Vue.extend({
       .coco-logo {
         width: 100%;
         margin-top: 2rem;
+      }
+
+      @media (max-width: $screen-lg-min) {
+        .coco-logo {
+          max-width: 40rem;
+        }
       }
     }
   }
