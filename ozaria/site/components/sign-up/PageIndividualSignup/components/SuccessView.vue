@@ -54,7 +54,7 @@ export default {
 @import "app/styles/component_variables.scss";
 .success-view {
   width: 100%;
-  max-width: 70rem;
+  max-width: 90vw;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -81,7 +81,7 @@ export default {
     margin-top: 2rem;
 
     .youtube-video {
-      width: min(100%, 45rem);
+      width: min(100%, 50rem);
     }
   }
 
@@ -127,12 +127,9 @@ export default {
       }
     }
 
-    .youtube-video {
-      width: 50rem !important;
-    }
     .awards-and-partners {
       margin-top: 4rem;
-      padding: 5rem 4rem;
+      padding: 6rem 4rem;
 
       ::v-deep .frame {
         gap: .5rem;

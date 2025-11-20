@@ -273,7 +273,6 @@ export default {
 
 .sign-up-view {
   width: 100%;
-  max-width: 70rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -281,8 +280,7 @@ export default {
   font-size: 1.6rem;
 
   .fake-form {
-    width: 90%;
-    max-width: 56rem;
+    width: 70vw;
     margin-top: 2rem;
 
     .form-line {
@@ -334,37 +332,17 @@ export default {
   }
   .control-label {
     font-weight: 600;
-    font-size: 1.8rem;
+    font-size: 2.2rem;
   }
   .form-error {
     float: right;
     color: $purple;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
   ::v-deep .form-control {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     padding: 1.2rem 1.6rem;
     border-radius: 1rem;
-  }
-}
-
-@media (min-width: $screen-md-min) {
-  .sign-up-view {
-    max-width: 90rem;
-
-    .fake-form {
-      max-width: 80rem;
-    }
-  }
-}
-
-@media (min-width: $screen-lg-min) {
-  .sign-up-view {
-    max-width: 100rem;
-
-    .fake-form {
-      max-width: 90rem;
-    }
   }
 }
 
