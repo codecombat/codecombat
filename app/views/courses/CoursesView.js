@@ -256,7 +256,7 @@ module.exports = (CoursesView = (function () {
       this.allCompleted = !_.some(this.classrooms.models, function (classroom) {
         return _.some(this.courseInstances.where({ classroomID: classroom.id }), function (courseInstance) {
           const course = this.store.state.courses.byId[courseInstance.get('courseID')]
-          if (!courseInstance.sessions) {
+          if (!courseInstance.sessions || !course) {
             return false
           }
           const stats = classroom.statsForSessions(courseInstance.sessions, course._id)
