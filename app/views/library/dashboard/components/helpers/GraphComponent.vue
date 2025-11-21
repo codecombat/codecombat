@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { D3LineChart, D3BarChart, D3PieChart } from 'vue-d3-charts'
+import { D3LineChart, D3BarChart, D3PieChart } from 'vue-d3-charts-next'
 export default {
   name: 'GraphComponent',
   components: {
