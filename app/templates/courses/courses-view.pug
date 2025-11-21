@@ -48,10 +48,8 @@ mixin anonymous-welcome-message()
       li(data-i18n="courses.play_now_learn_3")
       li(data-i18n="courses.play_now_learn_4")
 
-mixin course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, campaignId, isLocked)
+mixin course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, isLocked)
   - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
-  - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
-  - var nextLevel = stats.levels.next;
 
   if stats.courseComplete
     .text-success
@@ -171,13 +169,13 @@ mixin classrooms_content()
           - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-esports' && view.utils.isCodeCombat) { courseInstances = [] }
           for courseInstance in courseInstances
             - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-junior' && view.utils.isCodeCombat && courseInstance.get('courseID') !== view.utils.allCourseIDs.JUNIOR) { continue }
-            .course-instance-entry.rtl-allowed
-              - var courseID = courseInstance.get('courseID')
-              - var course = view.store.state.courses.byId[courseID]
-              // internal play-test course which we removed later
-              if !course || course._id === '5eb34fc8dc0fd35e8eae66b0'
-                - continue;
+            - var courseID = courseInstance.get('courseID')
+            - var course = view.store.state.courses.byId[courseID]
+            // internal play-test course which we removed later
+            if !course || course._id === '5eb34fc8dc0fd35e8eae66b0'
+              - continue;
 
+            .course-instance-entry.rtl-allowed
               if course
                 - var courseUrl = view.urls.courseWorldMap({ course, courseInstance })
                 h6
@@ -207,10 +205,10 @@ mixin classrooms_content()
                   - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
                   - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
                   - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID, classroomId: courseInstance.get('classroomID')});
-                   if view.utils.isCodeCombat
-                      +course-instance-body(courseInstance, classroom)
-                   else
-                      +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, course.campaignID, isLocked)
+                if view.utils.isCodeCombat
+                  +course-instance-body(courseInstance, classroom, stats, nextLevel)
+                else
+                  +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, isLocked)
               else
                 .pull-right
                   a.btn.btn-navy.btn-lg.m-b-1(href=courseUrl data-event-action="Students Start Course")
@@ -233,7 +231,6 @@ mixin classrooms_content()
               img(src='/images/pages/user/certificates/certificate-icon.png')
               div(data-i18n='user.certificate_view')
         hr.class-break
-
   else
     #announcement
       h5(data-i18n="learn_without_classroom_title")
@@ -244,25 +241,25 @@ mixin classrooms_content()
           b(data-i18n="[html]courses.ask_teacher_for_code_ozar")
 
   if me.isManualClassroomJoinAllowed()
-   h3(data-i18n="courses.join_class")
+    h3(data-i18n="courses.join_class")
 
-   form#join-class-form.form-inline
-     if view.utils.isCodeCombat
-       - product = coco
-     else
-       - product = ozar
-     .help-block
-       em(data-i18n="courses.ask_teacher_for_code_" + product)
-     .form-group
-       input#class-code-input.form-control(data-i18n="[placeholder]courses.enter_c_code_" + product, placeholder="<Enter Class Code>", value=view.classCode)
-     input#join-class-button.btn.btn-navy(type="submit", data-i18n="[value]courses.join", value="Join")
+    form#join-class-form.form-inline
+      if view.utils.isCodeCombat
+        - product = coco
+      else
+        - product = ozar
+      .help-block
+        em(data-i18n="courses.ask_teacher_for_code_" + product)
+      .form-group
+        input#class-code-input.form-control(data-i18n="[placeholder]courses.enter_c_code_" + product, placeholder="<Enter Class Code>", value=view.classCode)
+      input#join-class-button.btn.btn-navy(type="submit", data-i18n="[value]courses.join", value="Join")
 
-     if view.state === 'enrolling'
-       .progress.progress-striped.active
-         .progress-bar(style="width: 100%", data-i18n="courses.joining") Joining class
+      if view.state === 'enrolling'
+        .progress.progress-striped.active
+          .progress-bar(style="width: 100%", data-i18n="courses.joining") Joining class
 
-     if view.errorMessage
-       .alert.alert-danger= view.errorMessage
+      if view.errorMessage
+        .alert.alert-danger= view.errorMessage
 
 mixin coco_main_content()
   #main-content(dir="auto")

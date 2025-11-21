@@ -452,6 +452,7 @@ _.extend(UserSchema.properties, {
       syncedToSF: { type: 'boolean', description: 'Whether the user has been synced to Salesforce' },
       syncedToCIO: { type: 'boolean', description: 'Whether the user has been synced to CIO' },
       forceLogout: { type: 'boolean', description: 'Whether the user needs to be force logged out' },
+      asRole: { type: 'string', description: 'If user is register as individual but need mark as other role' },
     },
   },
 
