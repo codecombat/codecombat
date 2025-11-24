@@ -1247,56 +1247,6 @@ module.exports = (User = (function () {
       return value
     }
 
-    getM7ExperimentValue () {
-      let left
-      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('m7')]
-      if (value == null) { value = me.getExperimentValue('m7', null, 'control') }
-      if ((value === 'beta') && ((new Date() - _.find((left = me.get('experiments')) != null ? left : [], { name: 'm7' })?.startDate) > (1 * 24 * 60 * 60 * 1000))) {
-        // Experiment only lasts one day so that users don't get stuck in it
-        value = 'control'
-      }
-      if (userUtils.isInLibraryNetwork()) {
-        value = 'control'
-      }
-      if ((value == null) && me.get('stats')?.gamesCompleted) {
-        // Don't include players who have already started playing
-        value = 'control'
-      }
-      if ((value == null) && (new Date(me.get('dateCreated')) < new Date('2022-03-14'))) {
-        // Don't include users created before experiment start date
-        value = 'control'
-      }
-      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
-        // Don't include non-English-speaking users before beta levels are translated
-        value = 'control'
-      }
-      if ((value == null) && me.get('hourOfCode')) {
-        // Don't include users coming in through Hour of Code
-        value = 'control'
-      }
-      if ((value == null) && !me.get('anonymous')) {
-        // Don't include registered users
-        value = 'control'
-      }
-      if ((value == null) && features?.china) {
-        // Don't include China players
-        value = 'control'
-      }
-      if ((value == null)) {
-        let valueProbability
-        const probability = window.serverConfig?.experimentProbabilities?.m7?.beta != null ? window.serverConfig.experimentProbabilities.m7.beta : 0
-        if ((me.get('testGroupNumber') / 256) < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        me.startExperiment('m7', value, valueProbability)
-      }
-      return value
-    }
-
     getLevelChatExperimentValue () {
       let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('ai')]
       if ((value == null) && utils.isOzaria) {
