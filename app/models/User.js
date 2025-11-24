@@ -1247,10 +1247,6 @@ module.exports = (User = (function () {
       return value
     }
 
-    getHackStackV2ExperimentValue () {
-      return 'beta'
-    }
-
     getM7ExperimentValue () {
       let left
       let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('m7')]
