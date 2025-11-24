@@ -1247,25 +1247,17 @@ module.exports = (User = (function () {
       return value
     }
 
-    getLevelChatExperimentValue () {
-      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('ai')]
-      if ((value == null) && utils.isOzaria) {
-        // Don't include Ozaria for now
-        value = 'control'
+    shouldShowLevelAIChat () {
+      if (utils.isOzaria) {
+        return false
       }
-      if ((value == null) && features?.china) {
-        // Don't include China players for now
-        value = 'control'
+      if (features?.china) {
+        return false
       }
-      if ((value == null) && (me.get('role') === 'student')) {
-        // Don't include student users (do include teachers, parents, home users, and anonymous)
-        value = 'control'
+      if (me.get('role') === 'student') {
+        return false
       }
-      if ((value == null)) {
-        // No experiment any more, just on for everyone else
-        value = 'beta'
-      }
-      return value
+      return true
     }
 
     getJuniorExperimentValue () {
