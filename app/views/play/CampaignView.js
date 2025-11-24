@@ -137,7 +137,6 @@ class CampaignView extends RootView {
       'click #videos-button': 'onClickVideosButton',
       'click #esports-arena': 'onClickEsportsButton',
       'click a.start-esports': 'onClickEsportsLink',
-      'click .m7-off': 'onClickM7OffButton',
     }
 
     this.prototype.shortcuts = {
@@ -1094,8 +1093,6 @@ class CampaignView extends RootView {
   annotateLevels (orderedLevels) {
     if (this.isClassroom()) { return }
 
-    let betaLevelIndex = 0
-    let betaLevelCompletedIndex = 0
     for (let levelIndex = 0; levelIndex < orderedLevels.length; levelIndex++) {
       const level = orderedLevels[levelIndex]
       level.position = level.position ?? { x: 10, y: 10 }
@@ -1153,33 +1150,7 @@ class CampaignView extends RootView {
       if ((level.releasePhase === 'internalRelease') && !(me.isAdmin() || me.isArtisan() || me.isInGodMode() || this.editorMode)) {
         level.hidden = (level.locked = (level.disabled = true))
       } else if ((level.releasePhase === 'beta') && !this.editorMode) {
-        const experimentValue = me.getM7ExperimentValue()
-        if (experimentValue === 'beta') {
-          level.disabled = false
-          level.unlockedInSameCampaign = true
-          if (betaLevelIndex === betaLevelCompletedIndex) {
-            // All preceding beta levels, if any, have been completed, so this one is unlocked
-            level.locked = (level.hidden = false)
-            level.color = 'rgb(255, 80, 60)'
-          } else {
-            // This beta level is not unlocked yet
-            level.locked = (level.hidden = true)
-            level.color = 'rgb(193, 193, 193)'
-          }
-          ++betaLevelIndex
-          if (this.levelStatusMap[level.slug] === 'complete') { ++betaLevelCompletedIndex }
-        } else {
-          level.hidden = (level.locked = (level.disabled = true))
-        }
-      }
-    }
-    if (betaLevelIndex && (betaLevelCompletedIndex < betaLevelIndex)) {
-      // Lock all non-beta levels until beta levels are completed
-      for (const level of orderedLevels) {
-        if ((level.releasePhase !== 'beta') && !level.locked) {
-          level.locked = (level.hidden = true)
-          level.color = 'rgb(193, 193, 193)'
-        }
+        level.hidden = (level.locked = (level.disabled = true))
       }
     }
     return null
@@ -1228,16 +1199,6 @@ class CampaignView extends RootView {
     if (this.isClassroom()) {
       if (this.courseStats) { this.applyCourseLogicToLevels(orderedLevels) }
       return true
-    }
-
-    if (me.getM7ExperimentValue() === 'beta') {
-      // Point out next experimental level, if any are incomplete
-      for (const level of orderedLevels) {
-        if ((level.releasePhase === 'beta') && (this.levelStatusMap[level.slug] !== 'complete')) {
-          level.next = true
-          return
-        }
-      }
     }
 
     const dontPointTo = ['lost-viking', 'kithgard-mastery'] // Challenge levels we don't want most players bashing heads against
@@ -1588,7 +1549,6 @@ class CampaignView extends RootView {
       // level.adventurer  # Disable adventurer stuff for now
       this.levelStatusMap[level.slug],
       this.campaign.get('type') === 'hoc',
-      (level.releasePhase === 'beta') && (me.getM7ExperimentValue() === 'beta'),
     ].some(Boolean)
 
     if (requiresSubscription && !canPlayAnyway) {
@@ -2005,30 +1965,6 @@ class CampaignView extends RootView {
       }
       userUtils.markParentBuyingForSelfPromptSeen()
     }
-  }
-
-  onClickM7OffButton (e) {
-    return noty({
-      text: $.i18n.t('play.confirm_m7_off'),
-      layout: 'center',
-      type: 'warning',
-      buttons: [
-        {
-          text: 'Yes',
-          onClick: $noty => {
-            if (me.getM7ExperimentValue() === 'beta') {
-              me.updateExperimentValue('m7', 'control')
-              $noty.close()
-              return this.render()
-            }
-          },
-        },
-        {
-          text: 'No',
-          onClick: $noty => $noty.close(),
-        },
-      ],
-    })
   }
 
   getLoadTrackingTag () {
