@@ -1260,51 +1260,6 @@ module.exports = (User = (function () {
       return true
     }
 
-    getJuniorExperimentValue () {
-      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('junior')]
-      if (value == null) { value = me.getExperimentValue('junior', null, 'beta') }
-      if ((value == null) && utils.isOzaria) {
-        // Don't include Ozaria for now
-        value = 'control'
-      }
-      if (userUtils.isInLibraryNetwork()) {
-        value = 'control'
-      }
-      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
-        // Don't include non-English-speaking users before we fine-tune for other languages
-        value = 'control'
-      }
-      if ((value == null) && me.get('hourOfCode')) {
-        // Don't include users coming in through Hour of Code
-        value = 'control'
-      }
-      if ((value == null) && me.get('role')) {
-        // Don't include users other than home users
-        value = 'control'
-      }
-      if ((value == null) && (new Date(me.get('dateCreated')) < new Date('2024-05-23'))) {
-        // Don't include users created before experiment start date
-        value = 'control'
-      }
-      if (me.isAdmin()) {
-        value = 'beta'
-      }
-      if ((!value)) {
-        let valueProbability
-        const probability = window.serverConfig?.experimentProbabilities?.junior?.beta != null ? window.serverConfig.experimentProbabilities.junior.beta : 0.5
-        if (Math.random() < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        console.log('starting junior experiment with value', value, 'prob', valueProbability)
-        me.startExperiment('junior', value, valueProbability)
-      }
-      return value
-    }
-
     // Galaxy Experiment is where we send home users - /ai or /ai/play
     getOrStartGalaxyExperimentValue () {
       const value = utils.getFirstNonNull(
