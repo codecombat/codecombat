@@ -178,7 +178,6 @@ const Application = {
 
   featureMode: {
     useChina () { return api.admin.setFeatureMode('china').then(() => document.location.reload()) },
-    usePicoCtf () { return api.admin.setFeatureMode('pico-ctf').then(() => document.location.reload()) },
     useBrainPop () { return api.admin.setFeatureMode('brain-pop').then(() => document.location.reload()) },
     clear () { return api.admin.clearFeatureMode().then(() => document.location.reload()) }
   },
