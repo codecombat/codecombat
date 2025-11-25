@@ -40,16 +40,10 @@ export default {
         result = chapters.filter(({ _id }) => hackstackCourseIds.includes(_id))
       } else if (this.product === 'junior') {
         result = chapters.filter(({ _id }) => juniorCourseIds.includes(_id))
-      } else {
-        if (utils.isCodeCombat) {
-          if (this.product === 'codecombat') {
-            result = chapters.filter(({ _id }) => !hackstackCourseIds.includes(_id) && !juniorCourseIds.includes(_id) && !ozCourseIds.includes(_id))
-          } else if (this.product === 'ozaria') {
-            result = chapters.filter(({ _id }) => ozCourseIds.includes(_id))
-          }
-        } else {
-          result = chapters.filter(({ _id }) => !hackstackCourseIds.includes(_id) && !juniorCourseIds.includes(_id))
-        }
+      } else if (this.product === 'ozaria') {
+        result = chapters.filter(({ _id }) => ozCourseIds.includes(_id))
+      } else if (this.product === 'codecombat') {
+        result = chapters.filter(({ _id }) => !hackstackCourseIds.includes(_id) && !juniorCourseIds.includes(_id) && !ozCourseIds.includes(_id))
       }
       return result
         .map(({ campaignID, _id }, idx) => {

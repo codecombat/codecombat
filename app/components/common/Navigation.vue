@@ -25,10 +25,10 @@ const ozPath = function (relativePath) {
 }
 
 const ozCurriculumLink = function () {
-  if (isCodeCombat && me.showOzCourses()) {
+  if (isOzaria || me.showOzCourses()) {
     return '/teachers/guide/ozaria'
   } else {
-    return ozPath('/teachers/curriculum')
+    return ozPath('/teachers/guide/ozaria')
   }
 }
 
