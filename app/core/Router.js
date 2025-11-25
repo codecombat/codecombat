@@ -75,7 +75,6 @@ module.exports = (CocoRouter = (function () {
         },
 
         about: go('AboutView'),
-        events: go('EventsView'),
         'contact-cn': go('ContactCNView'),
         'china-bridge': go('ChinaBridgeView'),
 
@@ -302,10 +301,6 @@ module.exports = (CocoRouter = (function () {
 
         'impact' () {
           return this.routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
-        },
-
-        'CoCoStar' () {
-          return this.routeDirectly('PageStar', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
         },
 
         'partners' () {
