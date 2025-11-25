@@ -42,7 +42,11 @@ export default {
         result = chapters.filter(({ _id }) => juniorCourseIds.includes(_id))
       } else {
         if (utils.isCodeCombat) {
-          result = chapters.filter(({ _id }) => !hackstackCourseIds.includes(_id) && !juniorCourseIds.includes(_id) && !ozCourseIds.includes(_id))
+          if (this.product === 'codecombat') {
+            result = chapters.filter(({ _id }) => !hackstackCourseIds.includes(_id) && !juniorCourseIds.includes(_id) && !ozCourseIds.includes(_id))
+          } else if (this.product === 'ozaria') {
+            result = chapters.filter(({ _id }) => ozCourseIds.includes(_id))
+          }
         } else {
           result = chapters.filter(({ _id }) => !hackstackCourseIds.includes(_id) && !juniorCourseIds.includes(_id))
         }
