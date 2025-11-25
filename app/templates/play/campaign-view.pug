@@ -546,11 +546,6 @@ if !editorMode && !(view.DEEP_API_LIST && view.DEEP_API_LIST.includes(me.get('cl
           //-     button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
           if view.shouldShow('premium')
             button.btn.btn-illustrated.btn-primary.premium-btn(data-i18n="buy_gems.buy_premium")
-          if me.getM7ExperimentValue() == 'beta'
-            span.beta-levels
-              span(data-i18n="play.beta_levels_on")
-              | &nbsp;
-              span.m7-off(data-i18n="play.beta_levels_turn_off")
 
     .utility-controls-catalyst.header-font.picoctf-hide
       button.btn.btn-lg.btn-inverse.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
@@ -583,11 +578,6 @@ if !editorMode && !(view.DEEP_API_LIST && view.DEEP_API_LIST.includes(me.get('cl
             //- if me.isPremium()
             //-   button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
           select.language-dropdown.btn.btn-illustrated.btn-primary
-          if me.getM7ExperimentValue() == 'beta'
-            span.beta-levels
-              span(data-i18n="play.beta_levels_on")
-              | &nbsp;
-              span.m7-off(data-i18n="play.beta_levels_turn_off")
 
   if !view.isCatalyst
     button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")

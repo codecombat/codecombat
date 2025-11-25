@@ -187,6 +187,14 @@ module.exports = (User = (function () {
       return email.endsWith('@codecombat.com') || email.endsWith('@ozaria.com')
     }
 
+    // This could also be a user property later, once we plan to release Ozaria to more users
+    showOzCourses () {
+      if (utils.isOzaria) {
+        return true
+      }
+      return this.isInternal() || this.isAdmin()
+    }
+
     isDistrictAdmin (districtId) {
       if (!districtId) return false
       return this.get('features')?.ownerDistrictId === districtId
@@ -393,6 +401,22 @@ module.exports = (User = (function () {
         const tierThreshold = tiersByLevel[level]
         if (tierThreshold >= tier) { return level }
       }
+    }
+
+    addNewUserCommonProperties () {
+      const emails = _.assign({}, this.get('emails'))
+      if (emails.generalNews == null) { emails.generalNews = {} }
+      if (this.inEU()) {
+        emails.generalNews.enabled = false
+        this.set('unsubscribedFromMarketingEmails', true)
+      } else {
+        emails.generalNews.enabled = true
+      }
+      this.set('emails', emails)
+      this.set('features', {
+        ...(this.get('features') || {}),
+        isNewDashboardActive: true,
+      })
     }
 
     level () {
@@ -710,9 +734,26 @@ module.exports = (User = (function () {
       return seenPromotions[key]
     }
 
+    shouldSeeManualPromotion (key) {
+      if (!key) {
+        return false
+      }
+      const seenPromotion = this.getSeenPromotion(key)
+      if (seenPromotion === false) {
+        // don't seePromotion so should show it
+        return true
+      }
+      return false
+    }
+
     shouldSeePromotion (key) {
+      const manualPromotionKeys = ['end-of-trial-promotion-modal']
       if (!key) {
         return true
+      }
+
+      if (manualPromotionKeys.includes(key)) {
+        return this.shouldSeeManualPromotion(key)
       }
 
       const seenPromotion = this.getSeenPromotion(key)
@@ -1127,59 +1168,6 @@ module.exports = (User = (function () {
       return true
     }
 
-    getFilteredExperimentValue ({
-      experimentName,
-      forcedValue,
-    }) {
-      let value = me.getExperimentValue(experimentName, null)
-
-      if (features?.china) {
-        return 'control'
-      }
-
-      if (value === null && !utils.isCodeCombat) {
-        // Don't include non-CodeCombat users
-        return 'control'
-      }
-
-      if ((value == null) && !me.get('anonymous')) {
-        // Don't include registered users
-        value = 'control'
-      }
-      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
-        // Don't include non-English-speaking users
-        value = 'control'
-      }
-
-      const oneDayAgo = new Date(new Date() - 24 * 60 * 60 * 1000)
-      if ((value == null) && (new Date(me.get('dateCreated')) < oneDayAgo)) {
-        // Don't include users created more than a day ago; they've probably seen the old homepage before without having started the experiment somehow
-        value = 'control'
-      }
-
-      if (value === null) {
-        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
-        let valueProbability
-
-        if (forcedValue) {
-          value = forcedValue
-          valueProbability = value === 'beta' ? probability : 1 - probability
-        } else {
-          const rand = Math.random()
-          if (rand < probability) {
-            value = 'beta'
-            valueProbability = probability
-          } else {
-            value = 'control'
-            valueProbability = 1 - probability
-          }
-        }
-        me.startExperiment(experimentName, value, valueProbability)
-      }
-
-      return value
-    }
-
     getEducatorSignupExperimentValue () {
       const experimentName = 'educator-signup-modal'
       let value = me.getExperimentValue(experimentName, null)
@@ -1212,124 +1200,17 @@ module.exports = (User = (function () {
       return value
     }
 
-    getHackStackV2ExperimentValue () {
-      return 'beta'
-    }
-
-    getM7ExperimentValue () {
-      let left
-      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('m7')]
-      if (value == null) { value = me.getExperimentValue('m7', null, 'control') }
-      if ((value === 'beta') && ((new Date() - _.find((left = me.get('experiments')) != null ? left : [], { name: 'm7' })?.startDate) > (1 * 24 * 60 * 60 * 1000))) {
-        // Experiment only lasts one day so that users don't get stuck in it
-        value = 'control'
+    shouldShowLevelAIChat () {
+      if (utils.isOzaria) {
+        return false
       }
-      if (userUtils.isInLibraryNetwork()) {
-        value = 'control'
+      if (features?.china) {
+        return false
       }
-      if ((value == null) && me.get('stats')?.gamesCompleted) {
-        // Don't include players who have already started playing
-        value = 'control'
+      if (me.get('role') === 'student') {
+        return false
       }
-      if ((value == null) && (new Date(me.get('dateCreated')) < new Date('2022-03-14'))) {
-        // Don't include users created before experiment start date
-        value = 'control'
-      }
-      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
-        // Don't include non-English-speaking users before beta levels are translated
-        value = 'control'
-      }
-      if ((value == null) && me.get('hourOfCode')) {
-        // Don't include users coming in through Hour of Code
-        value = 'control'
-      }
-      if ((value == null) && !me.get('anonymous')) {
-        // Don't include registered users
-        value = 'control'
-      }
-      if ((value == null) && features?.china) {
-        // Don't include China players
-        value = 'control'
-      }
-      if ((value == null)) {
-        let valueProbability
-        const probability = window.serverConfig?.experimentProbabilities?.m7?.beta != null ? window.serverConfig.experimentProbabilities.m7.beta : 0
-        if ((me.get('testGroupNumber') / 256) < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        me.startExperiment('m7', value, valueProbability)
-      }
-      return value
-    }
-
-    getLevelChatExperimentValue () {
-      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('ai')]
-      if ((value == null) && utils.isOzaria) {
-        // Don't include Ozaria for now
-        value = 'control'
-      }
-      if ((value == null) && features?.china && !features?.chinaHome) {
-        // Don't include China players for now
-        value = 'control'
-      }
-      if ((value == null) && (me.get('role') === 'student')) {
-        // Don't include student users (do include teachers, parents, home users, and anonymous)
-        value = 'control'
-      }
-      if ((value == null)) {
-        // No experiment any more, just on for everyone else
-        value = 'beta'
-      }
-      return value
-    }
-
-    getJuniorExperimentValue () {
-      let value = { true: 'beta', false: 'control', control: 'control', beta: 'beta' }[utils.getQueryVariable('junior')]
-      if (value == null) { value = me.getExperimentValue('junior', null, 'beta') }
-      if ((value == null) && utils.isOzaria) {
-        // Don't include Ozaria for now
-        value = 'control'
-      }
-      if (userUtils.isInLibraryNetwork()) {
-        value = 'control'
-      }
-      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
-        // Don't include non-English-speaking users before we fine-tune for other languages
-        value = 'control'
-      }
-      if ((value == null) && me.get('hourOfCode')) {
-        // Don't include users coming in through Hour of Code
-        value = 'control'
-      }
-      if ((value == null) && me.get('role')) {
-        // Don't include users other than home users
-        value = 'control'
-      }
-      if ((value == null) && (new Date(me.get('dateCreated')) < new Date('2024-05-23'))) {
-        // Don't include users created before experiment start date
-        value = 'control'
-      }
-      if (me.isAdmin()) {
-        value = 'beta'
-      }
-      if ((!value)) {
-        let valueProbability
-        const probability = window.serverConfig?.experimentProbabilities?.junior?.beta != null ? window.serverConfig.experimentProbabilities.junior.beta : 0.5
-        if (Math.random() < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        console.log('starting junior experiment with value', value, 'prob', valueProbability)
-        me.startExperiment('junior', value, valueProbability)
-      }
-      return value
+      return true
     }
 
     // Galaxy Experiment is where we send home users - /ai or /ai/play

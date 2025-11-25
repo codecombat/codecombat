@@ -3,10 +3,8 @@ import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { COMPONENT_NAMES, PAGE_TITLES } from '../common/constants.js'
 import ButtonResourceIcon from './components/ButtonResourceIcon'
 import ModalOnboardingVideo from '../modals/ModalOnboardingVideo'
-import { getResourceHubResources, getResourceHubZendeskResources } from 'core/api/resource_hub_resource'
 import utils from 'app/core/utils'
 import zendeskResourceMixin from './mixins/zendeskResourceMixin'
-const store = require('core/store')
 
 const resourceHubSections = [
   { sectionName: 'gettingStarted', slug: 'getting-started', i18nKey: 'teacher.getting_started' },
@@ -65,23 +63,8 @@ export default {
       this.fetchData({ componentName: this.$options.name, options: { loadedEventName: 'Resource Hub: Loaded' } })
     }
 
-    getResourceHubResources().then(allResources => {
-      if (!Array.isArray(allResources) || allResources.length === 0) {
-        return
-      }
-
-      for (const resource of allResources) {
-        if (resource.hidden === true) {
-          continue
-        }
-
-        resource.name = utils.i18n(resource, 'name')
-        resource.link = utils.i18n(resource, 'link')
-        if (resource.slug === 'dashboard-tutorial') { resource.link = '#' }
-        resource.description = utils.i18n(resource, 'description')
-        resource.locked = resource.hidden === 'paid-only' && !store.getters['me/isPaidTeacher']
-        resource.source = 'Resource Hub'
-
+    this.getResourceHubResources().then(resources => {
+      for (const resource of resources) {
         this.$set(this.resourceHubResources, resource.slug, { ...resource })
       }
     })
@@ -135,6 +118,7 @@ export default {
         <div
           v-for="resourceHubSection in resourceHubSections"
           :id="resourceHubSection.slug"
+          :key="resourceHubSection.slug"
           class="resource-hub-section"
         >
           <h4 v-if="resourceHubLinks(resourceHubSection.sectionName).length">

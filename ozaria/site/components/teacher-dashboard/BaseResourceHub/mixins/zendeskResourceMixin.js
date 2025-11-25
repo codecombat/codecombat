@@ -67,10 +67,14 @@ export default {
       return result
     },
     async getResourceHubResources () {
-      const resources = await getResourceHubResources()
+      const response = await getResourceHubResources()
 
-      for (const resource of resources) {
+      const resources = []
+      for (const resource of response) {
         if (resource.hidden === true) {
+          continue
+        }
+        if (resource.product === 'ozaria' && !me.showOzCourses()) {
           continue
         }
         resource.name = utils.i18n(resource, 'name')
@@ -79,6 +83,7 @@ export default {
         resource.description = utils.i18n(resource, 'description')
         resource.locked = resource.hidden === 'paid-only' && !store.getters['me/isPaidTeacher']
         resource.source = 'Resource Hub'
+        resources.push(resource)
       }
       return resources
     }

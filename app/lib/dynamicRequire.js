@@ -198,4 +198,5 @@ module.exports = {
   'views/cutscene': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/cutscene/PageCutscene') },
   'views/interactive': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/interactive/PageInteractive') },
   'views/introLevel': function() { return import(/* webpackChunkName: "ozariaPlay" */ 'ozaria/site/components/play/PageIntroLevel') },
+  'views/ozaria/site/components/sign-up/PageIndividualSignup': function () { return import(/* webpackChunkName: "mobile" */ 'ozaria/site/components/sign-up/PageIndividualSignup') },
 }

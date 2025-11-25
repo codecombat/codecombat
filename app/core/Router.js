@@ -347,6 +347,12 @@ module.exports = (CocoRouter = (function () {
           return this.routeDirectly('views/landing-pages/mobile/PageMobileView', [], { vueRoute: true, baseTemplate: 'base-empty' })
         },
 
+        'sign-up/promotion/:role' (role) {
+          return this.routeDirectly('ozaria/site/components/sign-up/PageIndividualSignup', [], {
+            vueRoute: true, baseTemplate: 'base-empty', propsData: { role },
+          })
+        },
+
         parents: go('core/SingletonAppVueComponentView'),
         'parents/*path': go('core/SingletonAppVueComponentView'),
         'live-classes': go('core/SingletonAppVueComponentView'),

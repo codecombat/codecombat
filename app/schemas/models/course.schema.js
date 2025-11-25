@@ -107,6 +107,22 @@ _.extend(CourseSchema.properties, {
           format: 'i18n',
           props: ['name', 'lessonSlidesUrl'],
         },
+        contentCampaignSlug: { type: 'string', title: 'Content Campaign Slug', description: 'The slug of the campaign that contains the content for this module.' },
+        galaxy: {
+          type: 'object',
+          title: 'Galaxy related information',
+          properties: {
+            portalImage: { format: 'image-file', title: 'Portal Image', description: 'The image to use for the portal of the module on the galaxy interface.' },
+            position: {
+              type: 'object',
+              title: 'Position on the galaxy interface',
+              properties: {
+                row: { type: 'number', title: 'Row', description: 'The row of the module on the galaxy interface.' },
+                column: { type: 'number', title: 'Column', description: 'The column of the module on the galaxy interface.' },
+              },
+            },
+          },
+        },
       },
     },
   },
