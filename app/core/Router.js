@@ -40,9 +40,6 @@ module.exports = (CocoRouter = (function () {
     static initClass () {
       this.prototype.routes = {
         '' () {
-          if (window.serverConfig.picoCTF) {
-            return this.routeDirectly('play/CampaignView', ['picoctf'], {})
-          }
           if (utils.getQueryVariable('hour_of_code')) {
             delete window.alreadyLoadedView
             return this.navigate('/play?hour_of_code=true', { trigger: true, replace: true })

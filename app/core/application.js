@@ -87,7 +87,6 @@ const Application = {
 
     this.isIPadApp = ((typeof webkit !== 'undefined' && webkit !== null ? webkit.messageHandlers : undefined) != null) && ((navigator.userAgent != null ? navigator.userAgent.indexOf('CodeCombat-iPad') : undefined) !== -1)
     if (this.isIPadApp) { $('body').addClass('ipad') }
-    if (window.serverConfig.picoCTF) { $('body').addClass('picoctf') }
     if ($.browser.msie && (parseInt($.browser.version) === 10)) {
       $('html').addClass('ie10')
     }
