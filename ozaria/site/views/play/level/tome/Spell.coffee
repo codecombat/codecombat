@@ -64,7 +64,6 @@ module.exports = class Spell
     if @language in ['cpp', 'java', 'lua', 'coffeescript', 'python'] and not @languages[@language]
       @languages[@language] = translateJS @languages.javascript, @language
     @originalSource = @languages[@language] ? @languages.javascript
-    @originalSource = @addPicoCTFProblem() if window.serverConfig.picoCTF
 
     if @level.isType('web-dev')
       # Pull apart the structural wrapper code and the player code, remember the wrapper code, and strip indentation on player code.
@@ -133,14 +132,6 @@ module.exports = class Spell
 
   constructHTML: (source) ->
     @wrapperCode.replace '☃', source
-
-  addPicoCTFProblem: ->
-    return @originalSource unless problem = @level.picoCTFProblem
-    description = """
-      -- #{problem.name} --
-      #{problem.description}
-    """.replace /<p>(.*?)<\/p>/gi, '$1'
-    ("// #{line}" for line in description.split('\n')).join('\n') + '\n' + @originalSource
 
   addThang: (thang) ->
     if @thang?.thang.id is thang.id
