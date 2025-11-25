@@ -117,9 +117,7 @@ export default Vue.extend({
           title: 'nav.general',
           condition: !this.isChinaHome,
           lists: [
-            { url: this.cocoPath('/events'), title: 'nav.events' },
             { url: this.cocoPath('/contact-cn'), title: 'nav.contact', hide: me.isStudent() },
-            { url: this.cocoPath('/CoCoStar'), title: 'nav.star' },
             { url: this.cocoPath('/contribute'), title: 'nav.contribute' }
           ]
         },
