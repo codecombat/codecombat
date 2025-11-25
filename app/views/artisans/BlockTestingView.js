@@ -69,7 +69,7 @@ module.exports = (BlockTestingView = (function () {
       this.levelsToLoadRemaining = 0
       for (const campaign of this.campaigns || []) {
         if (levelTestsAdded) { break }
-        if (['auditions', 'picoctf', 'web-dev-1', 'web-dev-2', 'js-primer', 'js-primer-playtest', 'web-dev-1', 'web-dev-2', 'campaign-web-dev-1', 'campaign-web-dev-2'].includes(campaign.slug)) { continue }
+        if (['auditions', 'web-dev-1', 'web-dev-2', 'js-primer', 'js-primer-playtest', 'web-dev-1', 'web-dev-2', 'campaign-web-dev-1', 'campaign-web-dev-2'].includes(campaign.slug)) { continue }
         if (this.focusCampaign && campaign.slug !== this.focusCampaign) { continue }
         for (const levelInfo of _.values(campaign.levels)) {
           const levelSlug = levelInfo.slug
