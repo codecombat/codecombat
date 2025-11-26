@@ -438,6 +438,10 @@ export default Vue.extend({
           title: 'nav.coco_oj',
           url: 'https://oj.koudashijie.com',
         },
+        cocoStar: {
+          title: 'nav.star',
+          url: this.cocoPath('/CoCoStar'),
+        },
         aiyouth: {
           title: 'nav.aiyouth',
           url: 'http://aishiqingsai.org.cn',

@@ -118,6 +118,7 @@ export default Vue.extend({
           condition: !this.isChinaHome,
           lists: [
             { url: this.cocoPath('/contact-cn'), title: 'nav.contact', hide: me.isStudent() },
+            { url: this.cocoPath('/CoCoStar'), title: 'nav.star' },
             { url: this.cocoPath('/contribute'), title: 'nav.contribute' }
           ]
         },

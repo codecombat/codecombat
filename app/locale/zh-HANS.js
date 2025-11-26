@@ -537,7 +537,7 @@ module.exports = {
       how_much_does_it_cost_blurb: 'CodeCombat个人版或扣哒世界教学版都提供5个关卡的免费试用。CodeCombat个人版支持季度付费 (299元/月)和年度付费 (999元/年)，费用包括所有的关卡学习内容和AI世青赛的竞赛学习内容。',
       recommended_systems: '有没有推荐的浏览器或操作系统?',
       recommended_systems_blurb: '只需要流畅的网络和合适的浏览器即可运行CodeCombat和Ozaria。国内推荐最低电脑内存4GB，浏览器推荐使用谷歌Chrome浏览器或Safari, Firefox和Edge，不推荐国内低版本浏览器特别是360浏览器。支持Windows系统和Mac苹果系统电脑或笔记本，不支持手机，如果你使用Pad，推荐配置键盘。网络带宽至少需要200 Kbps/学生，最好能达到1Mbps以上带宽/学生。',
-      other_questions: '如果你还有其它问题, 请联系微信客服安小风。',
+      other_questions: '如果你还有其它问题, 请联系右下角微信客服。',
       see_faq_prefix: '[AI_TRANSLATION]查看更多',
       see_faq_link: '[AI_TRANSLATION]我们帮助中心的常见问题',
       //    see_faq_suffix: ".",

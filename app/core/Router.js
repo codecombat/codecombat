@@ -303,6 +303,10 @@ module.exports = (CocoRouter = (function () {
           return this.routeDirectly('PageImpact', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
         },
 
+        'CoCoStar' () {
+          return this.routeDirectly('PageStar', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
+        },
+
         'partners' () {
           return this.routeDirectly('PagePartners', [], { vueRoute: true, baseTemplate: 'base-flat-vue' })
         },
