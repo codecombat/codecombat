@@ -2170,6 +2170,10 @@ class CampaignView extends RootView {
       return false
     }
 
+    if (what === 'items' && this.terrain === 'junior') {
+      return false
+    }
+
     if (['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements'].includes(what)) {
       return !isStudentOrTeacher && !this.editorMode
     }
