@@ -129,7 +129,6 @@ class CampaignView extends RootView {
       'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal',
       'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal',
       'click #videos-button': 'onClickVideosButton',
-      'click a.start-esports': 'onClickEsportsLink',
     }
 
     this.prototype.shortcuts = {
@@ -481,11 +480,6 @@ class CampaignView extends RootView {
 
   onClickVideosButton () {
     this.openModalView(new CourseVideosModal({ courseInstanceID: this.courseInstanceID, courseID: this.course.get('_id') }))
-  }
-
-  onClickEsportsLink (e) {
-    const arenaSlug = $(e.target).data('arena')
-    window.tracker?.trackEvent('Click Play AI League Button', { category: 'World Map', label: arenaSlug })
   }
 
   onLoaded () {
