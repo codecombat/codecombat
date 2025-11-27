@@ -27,16 +27,6 @@ $hackstackGlowSizeBase: 5px
 $scenarioDotWidth: 3%
 $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
-+keyframes(levelStartedPulse)
-  from
-    @include box-shadow(0px 0px 4px #333)
-    margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotZ
-  50%
-    @include box-shadow(0px 0px 22px skyblue)
-    margin-bottom: math.div(-$levelDotHeight, 3) + math.div(($levelDotHoverZ + $levelDotZ), 2)
-  to
-    @include box-shadow(0px 0px 4px #333)
-    margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotZ
 
 +keyframes(portalGlow)
   from
@@ -322,10 +312,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         margin-bottom: math.div(-$levelDotShadowHeight, 3) * 0.67
 
     .level:hover
-      // TODO: This rotate stops Firefox from flickering, but also disables the scaleY(0.75)
-      // TODO: The dot looks like it's jumping.
-      // TODO: -moz-transform: scaleY(0.75) didn't do anything
-      // TODO: Does not break Chrome's oval.
       -moz-transform: rotate(0)
       margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotHoverZ
       @include box-shadow(0px 0px 35px skyblue)
