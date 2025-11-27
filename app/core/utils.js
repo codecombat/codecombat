@@ -1642,7 +1642,7 @@ const shouldShowAiBotHelp = function (aceConfig) {
   if (aceConfig.levelChat !== 'none') {
     if (me.isAdmin()) {
       return true
-    } else if (me.isHomeUser() && me.getLevelChatExperimentValue() === 'beta') {
+    } else if (me.isHomeUser() && me.shouldShowLevelAIChat()) {
       return true
     } else if (!me.isHomeUser()) {
       return true

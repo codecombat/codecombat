@@ -158,7 +158,7 @@ module.exports = class LevelLoader extends CocoClass
           originalGet.apply @, arguments
     # I think the modification from https://github.com/codecombat/codecombat/commit/09e354177cb5df7e82cc66668f4c9b6d66d1d740#diff-0aef265179ff51db5b47a0f5be07eea7765664222fcbea6780439f50cd374209L105-R105
     # Can go to Ozaria as well
-    if (@courseID and not @level.isType('course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')) or window.serverConfig.picoCTF
+    if (@courseID and not @level.isType('course', 'course-ladder', 'game-dev', 'web-dev', 'ladder'))
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
       realType = @level.get('type')
@@ -166,10 +166,6 @@ module.exports = class LevelLoader extends CocoClass
         return 'course' if arguments[0] is 'type'
         return realType if arguments[0] is 'realType'
         originalGet.apply @, arguments
-    if window.serverConfig.picoCTF
-      @supermodel.addRequestResource(url: '/picoctf/problems', success: (picoCTFProblems) =>
-        @level?.picoCTFProblem = _.find picoCTFProblems, pid: @level.get('picoCTFProblem')
-      ).load()
     if @sessionless
       null
     else if @fakeSessionConfig?

@@ -137,7 +137,6 @@ class CampaignView extends RootView {
       'click #videos-button': 'onClickVideosButton',
       'click #esports-arena': 'onClickEsportsButton',
       'click a.start-esports': 'onClickEsportsLink',
-      'click .m7-off': 'onClickM7OffButton',
     }
 
     this.prototype.shortcuts = {
@@ -154,9 +153,6 @@ class CampaignView extends RootView {
     this.terrain = terrain
     if (/^classCode/.test(this.terrain)) {
       this.terrain = '' // Stop /play?classCode= from making us try to play a classCode campaign
-    }
-    if (window.serverConfig.picoCTF) {
-      this.terrain = 'picoctf'
     }
     if (/^catalyst/.test(this.terrain)) {
       this.terrain = '' // In this case we process query params
@@ -234,23 +230,14 @@ class CampaignView extends RootView {
     if (userUtils.shouldShowLibraryLoginModal() && me.isAnonymous()) {
       this.openModalView(new CreateAccountModal({ startOnPath: 'individual-basic' }))
     }
-    if (window.serverConfig.picoCTF) {
-      this.supermodel.addRequestResource({
-        url: '/picoctf/problems',
-        success: picoCTFProblems => {
-          this.picoCTFProblems = picoCTFProblems
-        },
-      }).load()
-    } else {
-      if (!this.editorMode) {
-        this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', { cache: false }, 1).model
-        this.listenToOnce(this.sessions, 'sync', this.onSessionsLoaded)
-      }
-      if (!this.terrain) {
-        this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
-        this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
-        return
-      }
+    if (!this.editorMode) {
+      this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', { cache: false }, 1).model
+      this.listenToOnce(this.sessions, 'sync', this.onSessionsLoaded)
+    }
+    if (!this.terrain) {
+      this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
+      this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
+      return
     }
     if (this.terrain) {
       this.campaign = new Campaign({ _id: this.terrain })
@@ -788,7 +775,6 @@ class CampaignView extends RootView {
     context.levelDifficultyMap = this.levelDifficultyMap
     context.levelPlayCountMap = this.levelPlayCountMap
     context.isIPadApp = application.isIPadApp
-    context.picoCTF = window.serverConfig.picoCTF
     context.requiresSubscription = this.requiresSubscription
     context.editorMode = this.editorMode
     context.scenarios = this.campaign?.get('scenarios') || []
@@ -1094,8 +1080,6 @@ class CampaignView extends RootView {
   annotateLevels (orderedLevels) {
     if (this.isClassroom()) { return }
 
-    let betaLevelIndex = 0
-    let betaLevelCompletedIndex = 0
     for (let levelIndex = 0; levelIndex < orderedLevels.length; levelIndex++) {
       const level = orderedLevels[levelIndex]
       level.position = level.position ?? { x: 10, y: 10 }
@@ -1153,33 +1137,7 @@ class CampaignView extends RootView {
       if ((level.releasePhase === 'internalRelease') && !(me.isAdmin() || me.isArtisan() || me.isInGodMode() || this.editorMode)) {
         level.hidden = (level.locked = (level.disabled = true))
       } else if ((level.releasePhase === 'beta') && !this.editorMode) {
-        const experimentValue = me.getM7ExperimentValue()
-        if (experimentValue === 'beta') {
-          level.disabled = false
-          level.unlockedInSameCampaign = true
-          if (betaLevelIndex === betaLevelCompletedIndex) {
-            // All preceding beta levels, if any, have been completed, so this one is unlocked
-            level.locked = (level.hidden = false)
-            level.color = 'rgb(255, 80, 60)'
-          } else {
-            // This beta level is not unlocked yet
-            level.locked = (level.hidden = true)
-            level.color = 'rgb(193, 193, 193)'
-          }
-          ++betaLevelIndex
-          if (this.levelStatusMap[level.slug] === 'complete') { ++betaLevelCompletedIndex }
-        } else {
-          level.hidden = (level.locked = (level.disabled = true))
-        }
-      }
-    }
-    if (betaLevelIndex && (betaLevelCompletedIndex < betaLevelIndex)) {
-      // Lock all non-beta levels until beta levels are completed
-      for (const level of orderedLevels) {
-        if ((level.releasePhase !== 'beta') && !level.locked) {
-          level.locked = (level.hidden = true)
-          level.color = 'rgb(193, 193, 193)'
-        }
+        level.hidden = (level.locked = (level.disabled = true))
       }
     }
     return null
@@ -1228,16 +1186,6 @@ class CampaignView extends RootView {
     if (this.isClassroom()) {
       if (this.courseStats) { this.applyCourseLogicToLevels(orderedLevels) }
       return true
-    }
-
-    if (me.getM7ExperimentValue() === 'beta') {
-      // Point out next experimental level, if any are incomplete
-      for (const level of orderedLevels) {
-        if ((level.releasePhase === 'beta') && (this.levelStatusMap[level.slug] !== 'complete')) {
-          level.next = true
-          return
-        }
-      }
     }
 
     const dontPointTo = ['lost-viking', 'kithgard-mastery'] // Challenge levels we don't want most players bashing heads against
@@ -1451,7 +1399,7 @@ class CampaignView extends RootView {
   onSessionsLoaded (e) {
     if (this.editorMode) { return }
     this.render()
-    if (!me.get('anonymous') && !me.inEU() && !window.serverConfig.picoCTF) {
+    if (!me.get('anonymous') && !me.inEU()) {
       this.loadUserPollsRecord()
     }
   }
@@ -1588,7 +1536,6 @@ class CampaignView extends RootView {
       // level.adventurer  # Disable adventurer stuff for now
       this.levelStatusMap[level.slug],
       this.campaign.get('type') === 'hoc',
-      (level.releasePhase === 'beta') && (me.getM7ExperimentValue() === 'beta'),
     ].some(Boolean)
 
     if (requiresSubscription && !canPlayAnyway) {
@@ -1788,7 +1735,6 @@ class CampaignView extends RootView {
   }
 
   preloadTopHeroes () {
-    if (window.serverConfig.picoCTF) { return }
     for (const heroID of ['captain', 'knight']) {
       const url = `/db/thang.type/${ThangType.heroes[heroID]}/version`
       if (this.supermodel.getModel(url)) { continue }
@@ -2005,30 +1951,6 @@ class CampaignView extends RootView {
       }
       userUtils.markParentBuyingForSelfPromptSeen()
     }
-  }
-
-  onClickM7OffButton (e) {
-    return noty({
-      text: $.i18n.t('play.confirm_m7_off'),
-      layout: 'center',
-      type: 'warning',
-      buttons: [
-        {
-          text: 'Yes',
-          onClick: $noty => {
-            if (me.getM7ExperimentValue() === 'beta') {
-              me.updateExperimentValue('m7', 'control')
-              $noty.close()
-              return this.render()
-            }
-          },
-        },
-        {
-          text: 'No',
-          onClick: $noty => $noty.close(),
-        },
-      ],
-    })
   }
 
   getLoadTrackingTag () {

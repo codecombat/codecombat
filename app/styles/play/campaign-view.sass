@@ -1639,15 +1639,12 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
   #esports-arena
     min-width: 210px
 
-  .small-nav-logo, .picoctf-powered-by
+  .small-nav-logo
     position: absolute
     top: 1%
     left: 1%
     height: 60px
     z-index: 1
-
-  .picoctf-logo .small-nav-logo
-    height: 90px
 
   .under-logo
     position: absolute
@@ -1655,14 +1652,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     left: 1%
     z-index: 1
     width: 193px
-
-  .picoctf-powered-by
-    color: rgb(227, 173, 53)
-    top: calc(1% + 90px)
-    margin: 10px 10px 10px 15px
-
-    img
-      height: 30px
 
   .code-ninjas-logo
     top: calc(1% + 5px)
@@ -1752,19 +1741,6 @@ body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdow
 
 body[lang^="en"] #campaign-view .user-status-catalyst .user-status-line .language-dropdown
   width: 48px
-
-.m7-off
-  display: none
-.beta-levels
-  margin-left: 10px
-  font-size: 14px
-  vertical-align: middle
-  color: gray
-  &:hover .m7-off
-    display: inline
-    &:hover
-      cursor: pointer
-      color: white
 
 +keyframes(currentPracticeLevel)
   from

@@ -15,10 +15,8 @@ const RootView = require('views/core/RootView')
 const template = require('app/templates/artisans/level-guides-view')
 
 const Campaigns = require('collections/Campaigns')
-const Campaign = require('models/Campaign')
 
 const Levels = require('collections/Levels')
-const Level = require('models/Level')
 
 module.exports = (LevelGuidesView = (function () {
   let excludedCampaigns
@@ -29,16 +27,16 @@ module.exports = (LevelGuidesView = (function () {
       this.prototype.id = 'level-guides-view'
       this.prototype.events = {
         'click #overview-button': 'onOverviewButtonClicked',
-        'click #intro-button': 'onIntroButtonClicked'
+        'click #intro-button': 'onIntroButtonClicked',
       }
 
       excludedCampaigns = [
-        'pico-ctf', 'auditions'
+        'auditions',
       ]
       includedCampaigns = [
         'intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6',
         'web-dev-1', 'web-dev-2',
-        'game-dev-1', 'game-dev-2'
+        'game-dev-1', 'game-dev-2',
       ]
       this.prototype.levels = []
     }
@@ -57,8 +55,8 @@ module.exports = (LevelGuidesView = (function () {
       this.listenTo(this.campaigns, 'sync', this.onCampaignsLoaded)
       return this.supermodel.trackRequest(this.campaigns.fetch({
         data: {
-          project: 'name,slug,levels'
-        }
+          project: 'name,slug,levels',
+        },
       }))
     }
 
@@ -85,8 +83,7 @@ module.exports = (LevelGuidesView = (function () {
       // console.log lvlCollection
       for (const level of Array.from(lvlCollection.models)) {
         // console.log level
-        var jsIndex, pyIndex
-        const levelSlug = level.get('slug')
+        let jsIndex, pyIndex
         const overview = _.find(level.get('documentation').specificArticles, { name: 'Overview' })
         const intro = _.find(level.get('documentation').specificArticles, { name: 'Intro' })
         // if intro and overview
@@ -134,7 +131,7 @@ module.exports = (LevelGuidesView = (function () {
           level,
           overview,
           intro,
-          problems
+          problems,
         })
         this.levels.sort((a, b) => b.problems.length - a.problems.length)
       }

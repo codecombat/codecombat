@@ -45,7 +45,7 @@ module.exports = class ProblemAlertView extends CocoView
     @creditMessage = ''
     @showAiBotHelp = false
     if @aceConfig.levelChat != 'none'
-      if me.isHomeUser() && me.getLevelChatExperimentValue() == 'beta'
+      if me.isHomeUser() && me.shouldShowLevelAIChat()
         @showAiBotHelp = true
       else if me.isTeacher()
         @showAiBotHelp = true

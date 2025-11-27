@@ -44,7 +44,6 @@ DuelStatsView = require './DuelStatsView'
 VictoryModal = require './modal/VictoryModal'
 HeroVictoryModal = require './modal/HeroVictoryModal'
 CourseVictoryModal = require './modal/CourseVictoryModal'
-PicoCTFVictoryModal = require './modal/PicoCTFVictoryModal'
 InfiniteLoopModal = require './modal/InfiniteLoopModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
 ContactModal = require 'views/core/ContactModal'
@@ -1007,7 +1006,6 @@ module.exports = class PlayLevelView extends RootView
     if @level.isType('course-ladder') or @level.isType('ladder') and @courseInstanceID
       ModalClass = CourseVictoryModal
       options.courseInstanceID = utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
-    ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
     victoryModal.once 'hidden', =>
