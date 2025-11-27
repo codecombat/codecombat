@@ -21,7 +21,6 @@ const ShareProgressModal = require('views/play/modal/ShareProgressModal')
 const UserPollsRecord = require('models/UserPollsRecord')
 const Poll = require('models/Poll')
 const PollModal = require('views/play/modal/PollModal')
-const AnnouncementModal = require('views/play/modal/AnnouncementModal')
 const LiveClassroomModal = require('views/play/modal/LiveClassroomModal')
 const Codequest2020Modal = require('views/play/modal/Codequest2020Modal')
 const JuniorOriginalChoiceModal = require('views/core/JuniorOriginalChoiceModal')
@@ -116,8 +115,6 @@ class CampaignView extends RootView {
       'click .portals .side-campaign': 'onClickPortalCampaign',
       'click .portals .main-campaign': 'onClickPortalCampaign',
       'click a .campaign-switch': 'onClickCampaignSwitch',
-      'mouseenter .portals': 'onMouseEnterPortals',
-      'mouseleave .portals': 'onMouseLeavePortals',
       'mousemove .portals': 'onMouseMovePortals',
       'click .poll': 'showPoll',
       'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton',
@@ -153,9 +150,6 @@ class CampaignView extends RootView {
     if (/^catalyst/.test(this.terrain)) {
       this.terrain = '' // In this case we process query params
     }
-
-    // Until we clear the "old" code, everything is catalyst
-    this.isCatalyst = true
 
     this.editorMode = options?.editorMode
     this.requiresSubscription = !me.isPremium()
@@ -560,8 +554,6 @@ class CampaignView extends RootView {
           !(me.isPremium() || me.isStudent() || me.isTeacher())) {
         this.openModalView(new ShareProgressModal())
       }
-    } else {
-      this.maybeShowPendingAnnouncement()
     }
 
     // Roblox Modal:
@@ -851,7 +843,7 @@ class CampaignView extends RootView {
     })
 
     if (!application.isIPadApp) {
-      _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .game-controls-catalyst .btn:not(.poll), .other-products-catalyst .btn, .campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
+      _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .other-products .btn, .campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
       const view = this
       // Keep original behavior for levels and campaign switches
       this.$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each(function () {
@@ -1348,20 +1340,6 @@ class CampaignView extends RootView {
       }
     }
     return this.playAmbientSound()
-  }
-
-  onMouseEnterPortals (e) {
-    if (this.isCatalyst) return // Skip for catalyst view
-    if (!this.campaigns?.loaded || !this.sessions?.loaded) { return }
-    this.portalScrollInterval = setInterval(this.onMouseMovePortals, 100)
-    return this.onMouseMovePortals(e)
-  }
-
-  onMouseLeavePortals (e) {
-    if (this.isCatalyst) return // Skip for catalyst view
-    if (!this.portalScrollInterval) { return }
-    clearInterval(this.portalScrollInterval)
-    this.portalScrollInterval = null
   }
 
   onMouseMovePortals (e) {
@@ -2013,27 +1991,6 @@ class CampaignView extends RootView {
     })
   }
 
-  maybeShowPendingAnnouncement () {
-    if (me.freeOnly()) { return false } // TODO: handle announcements that can be shown to free only servers
-    if (this.payPalToken) { return false }
-    if (me.isStudent()) { return false }
-    if (application.getHocCampaign()) { return false }
-    if (me.isInHourOfCode()) { return false }
-    if (userUtils.isInLibraryNetwork() || userUtils.libraryName()) { return false }
-    if (this.isCatalyst) { return false }
-    const latest = window.serverConfig.latestAnnouncement
-    const myLatest = me.get('lastAnnouncementSeen')
-    if (typeof latest !== 'number') { return }
-    const accountHours = (new Date() - new Date(me.get('dateCreated'))) / (60 * 60 * 1000) // min*sec*ms
-    if (accountHours <= 18) { return }
-    if ((latest > myLatest) || (myLatest == null)) {
-      me.set('lastAnnouncementSeen', latest)
-      me.save()
-      window.tracker?.trackEvent('Show announcement modal', { label: latest + '' })
-      return this.openModalView(new AnnouncementModal({ announcementId: latest }))
-    }
-  }
-
   onClickBrainPopReplayButton () {
     return api.users.resetProgress({ userId: me.id }).then(() => document.location.reload())
   }
@@ -2182,7 +2139,7 @@ class CampaignView extends RootView {
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
     if (what === 'junior-menu-icon') {
-      if (this.terrain === 'junior' && this.isCatalyst) {
+      if (this.terrain === 'junior') {
         return false
       }
       return me.isHomeUser() && !this.editorMode
@@ -2203,7 +2160,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'junior-original-choice') {
-      return this.isCatalyst && !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
+      return !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
     }
 
     if (['status-line'].includes(what)) {

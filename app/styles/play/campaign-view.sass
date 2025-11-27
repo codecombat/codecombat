@@ -6,8 +6,7 @@ $mapHeight: 1536
 $mapWidth: 2350
 $campaignPortalWidth: 317px
 $campaignPortalHeight: 634px
-$catalystPortalWidth: 317px
-$catalystMarginTopBase: -60px
+$marginTopBase: -30px
 $sideCampaignPortalHeight: math.div($campaignPortalHeight, 2)
 $sideCampaignImagesWidth: 1902px
 $campaignHoverScale: 1.2
@@ -562,141 +561,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
   .game-controls
     position: absolute
-    right: 1%
-    bottom: 1%
-    z-index: 1
-
-    .btn
-      &:not(:first-child)
-        margin-left: $gameControlMargin
-        @media only screen and (max-height: 650px)
-          margin-left: 0
-
-      width: $gameControlSize
-      height: $gameControlSize
-
-      @media only screen and (max-height: 650px)
-        @include scale(0.67)
-
-      background: url(/images/pages/play/menu_icons.png) no-repeat
-
-      position: relative
-      img
-        position: absolute
-        left: 0
-        top: 0
-        width: 100%
-        height: 100%
-
-      background-size: cover
-      @include transition(0.5s ease)
-      @include box-shadow(2px 2px 4px black)
-      border: 0
-      border-radius: 12px
-      // IE9 shows a blank white button with this MS gradient filter in place
-      filter: none
-
-      &:hover
-        @include box-shadow(0 0 12px #bbf)
-
-      &:active, &.highlighted
-        @include box-shadow(0 0 20px white)
-
-      &.items
-        background-position: (-1 * $gameControlSize) 0px
-      &.heroes
-        background-position: (-2 * $gameControlSize) 0px
-      &.achievements
-        background-position: (-3 * $gameControlSize) 0px
-      &.account
-        background-position: (-5 * $gameControlSize) 0px
-      &.settings
-        background-position: (-5 * $gameControlSize) 0px
-      &.gems
-        background-position: (-6 * $gameControlSize) 0px
-      &.poll
-        background-position: (-4 * $gameControlSize) 0px
-      &.premium-menu-icon
-        background: url(/images/pages/play/premium-menu-icon.png) no-repeat
-        background-position: 50% 50%
-        background-size: 100%
-        transform: scale(1.31) translateY(-5px) translateX(-6px)
-        @media only screen and (max-height: 650px)
-          transform: scale(0.67) scale(1.31) translateY(-5px) translateX(-6px)
-        box-shadow: initial
-        filter: drop-shadow(2px 2px 4px black)
-        outline: none
-        &:hover
-          filter: drop-shadow(0 0 2px #bbf)
-      &.premium-menu-icon
-        background: url(/images/pages/play/premium-menu-icon.png) no-repeat
-        background-position: 50% 50%
-        background-size: 100%
-        transform: scale(1.31) translateY(-5px) translateX(-6px)
-        @media only screen and (max-height: 650px)
-          transform: scale(0.67) scale(1.31) translateY(-5px) translateX(-6px)
-        box-shadow: initial
-        filter: drop-shadow(2px 2px 4px black)
-        outline: none
-        &:hover
-          filter: drop-shadow(0 0 2px #bbf)
-      &.roblox-menu-icon, &.hackstack-menu-icon
-        background: url(/images/roblox/roblox-menu-icon.png) no-repeat
-        background-position: 50% 50%
-        background-size: 100%
-        transform: scale(1.2) translateY(-3px) translateX(-10px)
-        @media only screen and (max-height: 650px)
-          transform: scale(0.78) translateY(-1px)
-        box-shadow: initial
-        filter: drop-shadow(2px 2px 4px black)
-        outline: none
-        &:hover
-          filter: drop-shadow(0 0 2px #bbf)
-
-      &.junior-menu-icon
-        background: url(/images/pages/play/campaign/coco-junior-square-menu-icon.webp) no-repeat
-        background-position: 50% 50%
-        background-size: 110%
-        transform: scale(1.2) translateX(-10px)
-        @media only screen and (max-height: 650px)
-          transform: scale(0.78) translateY(-1px)
-        box-shadow: initial
-        filter: drop-shadow(2px 2px 4px black)
-        outline: none
-        &:hover
-          filter: drop-shadow(0 0 2px #bbf)
-
-        // Jiggle animation
-        +keyframes(jiggle)
-          0%
-            transform: scale(1.1) translateY(-1px) rotate(0deg)
-          25%
-            transform: scale(1.1) translateY(-1px) rotate(1deg)
-          50%
-            transform: scale(1.1) translateY(-1px) rotate(0deg)
-          75%
-            transform: scale(1.1) translateY(-1px) rotate(-1deg)
-          100%
-            transform: scale(1.1) translateY(-1px) rotate(0deg)
-
-        &.highlighted
-          @include animation(jiggle .3s 20)
-
-      &.hackstack-menu-icon
-        background: url('/images/pages/hackstack/hackstack-logo-square-transparent-256.png') no-repeat
-        background-position: 50% 50%
-        background-size: 100%
-        border-radius: 0
-        transform: scale(1) translateX(-20px) translateY(-3px)
-
-    .tooltip
-      font-size: 24px
-
-      .tooltip-arrow
-        display: none
-
-  .game-controls-catalyst
-    position: absolute
     left: 2%
     top: 50%
     transform: translateY(-50%)
@@ -814,7 +678,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       .tooltip-arrow
         display: none
 
-  .other-products-catalyst
+  .other-products
     position: absolute
     right: 2%
     top: 50%
@@ -1288,18 +1152,18 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
           width: 100%
           height: $campaignPortalHeight
           margin-bottom: 0
-          margin-top: $catalystMarginTopBase
+          margin-top: $marginTopBase
 
           // first row has a different margin-top
           &:first-child
-            margin-top: 50px
+            margin-top: 0px
             margin-bottom: -40px
           //the third row has a different margin-top
           &:nth-child(3)
-            margin-top: $catalystMarginTopBase - 30px
+            margin-top: $marginTopBase - 30px
           // the last row has a different margin-top
           &:last-child
-            margin-top: $catalystMarginTopBase + 40px
+            margin-top: $marginTopBase + 40px
 
           .main-campaign
             width: $campaignPortalWidth
