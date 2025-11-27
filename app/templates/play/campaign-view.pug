@@ -63,7 +63,7 @@ if !editorMode
     if view.shouldShow('back-to-classroom')
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
     if !me.isStudent() && campaign != null && campaign.get('slug') != 'junior'
-      a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#back-button-catalyst(data-i18n="play_level.back_to_map", title="Back to Map")
+      a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#back-button(data-i18n="play_level.back_to_map", title="Back to Map")
 
     if view.shouldShow('videos')
       a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button(data-i18n="play_level.videos")
@@ -301,8 +301,8 @@ if !editorMode
            span
             .hackstack-icon
         .hackstack-level#hackstack-level-shadow(style="left: 57.5%; top: 62.1%;", class="level-shadow")
-  else if view.isCatalyst
-    .portal-catalyst
+  else
+    .portals-container
       .portals
         - var godmode = me.isInGodMode();
         .campaign-rows
@@ -400,71 +400,71 @@ if !editorMode
                             span= i18n(rightCampaign.attributes, 'description')
                 else
                   .side-campaign-container.empty
-  else
-    .portal
-      .portals
-        - var godmode = me.isInGodMode();
-        for campaignSlug in (features && features.campaignSlugs) || ['junior', 'dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'beta-campaigns-3', 'mountain', 'glacier', 'volcano']
-          if /beta-campaigns/.test(campaignSlug)
-            - if (me.freeOnly()) continue;
-            - var betaSlugs = campaignSlug === 'beta-campaigns-1' ? _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']) : campaignSlug === 'beta-campaigns-2' ? _.shuffle(['campaign-game-dev-2', 'campaign-web-dev-2']) : ['campaign-game-dev-3'];
-            .beta-container
-              each campaignSlug in betaSlugs
-                - var campaign = campaigns[campaignSlug];
-                if !campaign
-                  - continue;
-                div(class="beta-campaign" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug, data-i18n="[title]play.locked_campaign" : "", data-placement="bottom")
-                  .background-container(class=campaignSlug)
-                  .campaign-label
-                    h3.campaign-name
-                      if campaign
-                        span= i18n(campaign.attributes, 'fullName')
-                        if campaign.levelsTotal
-                          span.spl= campaign.levelsCompleted
-                          | /
-                          span= campaign.levelsTotal
-                      else
-                        span ???
-                    if campaign && campaign.locked && !godmode
-                      h4.campaign-locked(data-i18n="play.locked") Locked
-                    else if campaign
-                      if serverConfig.static
-                        a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + campaignSlug)
-                      else
-                        button.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
-                    if campaign && campaign.get('description')
-                      p.campaign-description(dir="auto")
-                        span= i18n(campaign.attributes, 'description')
-          else
-            - var campaign = campaigns[campaignSlug];
-            div(class="campaign " + campaignSlug + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug, data-i18n="[title]play.locked_campaign" : "")
-              .campaign-label
-                h2.campaign-name
-                  if campaign
-                    span= i18n(campaign.attributes, 'fullName')
-                  else
-                    span ???
-                if campaign && campaign.levelsTotal && !(features && features.brainPop)
-                  h3.levels-completed
-                    span= campaign.levelsCompleted
-                    | /
-                    span= campaign.levelsTotal
-                if campaign && campaign.locked && !godmode
-                  h3.campaign-locked(data-i18n="play.locked") Locked
-                else if campaign
-                  if serverConfig.static
-                    a(data-i18n="common.play", href="/play/" + campaignSlug).btn.btn-illustrated.btn-lg.btn-success.play-button
-                  else
-                    btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
-                if campaign && campaign.get('description')
-                  p.campaign-description(dir="auto")
-                    if ['junior', 'dungeon'].includes(campaignSlug)
-                      - var campaignProductName = campaignSlug == 'junior' ? 'codecombat_junior' : 'codecombat'
-                      strong.campaign-age(data-i18n="play.age_" + campaignProductName)
-                      br
-                      span.campaign-age-description(data-i18n="play.age_description_" + campaignProductName)
-                      br
-                    span= i18n(campaign.attributes, 'description')
+  //- else
+  //-   .portal
+  //-     .portals
+  //-       - var godmode = me.isInGodMode();
+  //-       for campaignSlug in (features && features.campaignSlugs) || ['junior', 'dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'beta-campaigns-3', 'mountain', 'glacier', 'volcano']
+  //-         if /beta-campaigns/.test(campaignSlug)
+  //-           - if (me.freeOnly()) continue;
+  //-           - var betaSlugs = campaignSlug === 'beta-campaigns-1' ? _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']) : campaignSlug === 'beta-campaigns-2' ? _.shuffle(['campaign-game-dev-2', 'campaign-web-dev-2']) : ['campaign-game-dev-3'];
+  //-           .beta-container
+  //-             each campaignSlug in betaSlugs
+  //-               - var campaign = campaigns[campaignSlug];
+  //-               if !campaign
+  //-                 - continue;
+  //-               div(class="beta-campaign" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug, data-i18n="[title]play.locked_campaign" : "", data-placement="bottom")
+  //-                 .background-container(class=campaignSlug)
+  //-                 .campaign-label
+  //-                   h3.campaign-name
+  //-                     if campaign
+  //-                       span= i18n(campaign.attributes, 'fullName')
+  //-                       if campaign.levelsTotal
+  //-                         span.spl= campaign.levelsCompleted
+  //-                         | /
+  //-                         span= campaign.levelsTotal
+  //-                     else
+  //-                       span ???
+  //-                   if campaign && campaign.locked && !godmode
+  //-                     h4.campaign-locked(data-i18n="play.locked") Locked
+  //-                   else if campaign
+  //-                     if serverConfig.static
+  //-                       a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + campaignSlug)
+  //-                     else
+  //-                       button.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+  //-                   if campaign && campaign.get('description')
+  //-                     p.campaign-description(dir="auto")
+  //-                       span= i18n(campaign.attributes, 'description')
+  //-         else
+  //-           - var campaign = campaigns[campaignSlug];
+  //-           div(class="campaign " + campaignSlug + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug, data-i18n="[title]play.locked_campaign" : "")
+  //-             .campaign-label
+  //-               h2.campaign-name
+  //-                 if campaign
+  //-                   span= i18n(campaign.attributes, 'fullName')
+  //-                 else
+  //-                   span ???
+  //-               if campaign && campaign.levelsTotal && !(features && features.brainPop)
+  //-                 h3.levels-completed
+  //-                   span= campaign.levelsCompleted
+  //-                   | /
+  //-                   span= campaign.levelsTotal
+  //-               if campaign && campaign.locked && !godmode
+  //-                 h3.campaign-locked(data-i18n="play.locked") Locked
+  //-               else if campaign
+  //-                 if serverConfig.static
+  //-                   a(data-i18n="common.play", href="/play/" + campaignSlug).btn.btn-illustrated.btn-lg.btn-success.play-button
+  //-                 else
+  //-                   btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+  //-               if campaign && campaign.get('description')
+  //-                 p.campaign-description(dir="auto")
+  //-                   if ['junior', 'dungeon'].includes(campaignSlug)
+  //-                     - var campaignProductName = campaignSlug == 'junior' ? 'codecombat_junior' : 'codecombat'
+  //-                     strong.campaign-age(data-i18n="play.age_" + campaignProductName)
+  //-                     br
+  //-                     span.campaign-age-description(data-i18n="play.age_description_" + campaignProductName)
+  //-                     br
+  //-                   span= i18n(campaign.attributes, 'description')
   if view.isCatalyst
     .game-controls-catalyst.header-font(class=campaign != null ? "in-campaign" : "")
       if !(features && features.brainPop)

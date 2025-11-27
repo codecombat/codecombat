@@ -111,13 +111,10 @@ class CampaignView extends RootView {
       'click .level-info-container .course-version button': 'onClickCourseVersion',
       'click #volume-button': 'onToggleVolume',
       'click #back-button': 'onClickBack',
-      'click #back-button-catalyst': 'onClickBack',
       'click #clear-storage-button': 'onClickClearStorage',
-      'click .portal .campaign': 'onClickPortalCampaign',
-      'click .portal .beta-campaign': 'onClickPortalCampaign',
-      'click .portal-catalyst .side-campaign': 'onClickPortalCampaign',
-      'click .portal-catalyst .main-campaign': 'onClickPortalCampaign',
-      'click .portal-catalyst .campaign': 'onClickPortalCampaign',
+      'click .portals .campaign': 'onClickPortalCampaign',
+      'click .portals .side-campaign': 'onClickPortalCampaign',
+      'click .portals .main-campaign': 'onClickPortalCampaign',
       'click a .campaign-switch': 'onClickCampaignSwitch',
       'mouseenter .portals': 'onMouseEnterPortals',
       'mouseleave .portals': 'onMouseLeavePortals',
@@ -863,7 +860,7 @@ class CampaignView extends RootView {
     })
 
     if (!application.isIPadApp) {
-      _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .game-controls-catalyst .btn:not(.poll), .other-products-catalyst .btn, .campaign.locked, .beta-campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
+      _.defer(() => this.$el?.find('.game-controls .btn:not(.poll), .game-controls-catalyst .btn:not(.poll), .other-products-catalyst .btn, .campaign.locked, .side-campaign.locked, .main-campaign.locked').addClass('has-tooltip').tooltip()) // Have to defer or i18n doesn't take effect.
       const view = this
       // Keep original behavior for levels and campaign switches
       this.$el.find('.level, .campaign-switch').addClass('has-tooltip').tooltip().each(function () {
@@ -1379,7 +1376,7 @@ class CampaignView extends RootView {
   onMouseMovePortals (e) {
     if (!this.portalScrollInterval) { return }
     // Find portals using the view's element as context, just like the original code
-    const $portal = this.$el.find('.portal, .portal-catalyst')
+    const $portal = this.$el.find('.portal')
     const $portals = this.$el.find('.portals')
     if (e) {
       this.portalOffsetX = Math.round(Math.max(0, e.clientX - $portal.offset().left))
@@ -1811,7 +1808,7 @@ class CampaignView extends RootView {
   }
 
   onClickPortalCampaign (e) {
-    const campaign = $(e.target).closest('.campaign, .beta-campaign, .main-campaign, .side-campaign, .campaign-container')
+    const campaign = $(e.target).closest('.campaign, .main-campaign, .side-campaign, .campaign-container')
     if (campaign.is('.locked') || campaign.is('.silhouette')) { return }
     const campaignSlug = campaign.data('campaign-slug')
     if (this.isPremiumCampaign(campaignSlug) && !me.isPremium()) {
