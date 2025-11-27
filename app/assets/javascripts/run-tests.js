@@ -4,7 +4,6 @@ require("app/app.js");
 
 window.userObject = { _id: "1" };
 window.serverConfig = {
-  picoCTF: false,
   production: false,
   buildInfo: { sha: "dev" }
 };

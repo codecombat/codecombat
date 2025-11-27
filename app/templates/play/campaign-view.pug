@@ -8,13 +8,6 @@ if showGameDevAlert
 if !editorMode
   #main-nav
 .gameplay-container
-  .picoctf-show
-    a(href="http://staging.picoctf.com").picoctf-logo
-      img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
-    a(href="http://codecombat.com").picoctf-powered-by
-      em.spr powered by
-      img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
-
   div.under-logo.button-container
     if view.shouldShow('santa-clara-logo')
       #santa-clara-logo-container
@@ -210,7 +203,7 @@ if !editorMode
               if topScore.thresholdAchieved
                 img.threshold-icon(src="/images/pages/courses/star-" + topScore.thresholdAchieved + ".png")
             - var description = i18n(level, 'description') || level.description || ""
-            .level-description.rtl-allowed(dir="auto")!= marked(description, {sanitize: !picoCTF})
+            .level-description.rtl-allowed(dir="auto")!= marked(description, {sanitize: true})
             .level-error-message
             if level.disabled
               p
@@ -473,8 +466,8 @@ if !editorMode
                       br
                     span= i18n(campaign.attributes, 'description')
   if view.isCatalyst
-    .game-controls-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
-      if !((features && features.picoCtf) || (features && features.brainPop))
+    .game-controls-catalyst.header-font(class=campaign != null ? "in-campaign" : "")
+      if !(features && features.brainPop)
         if view.shouldShow('premium')
           button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
         if view.shouldShow('heros')
@@ -487,8 +480,8 @@ if !editorMode
           button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
         if !me.get('anonymous', true) && view.shouldShow('settings')
           a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
-    .other-products-catalyst.header-font.picoctf-hide(class=campaign != null ? "in-campaign" : "")
-      if !((features && features.picoCtf) || (features && features.brainPop))
+    .other-products-catalyst.header-font(class=campaign != null ? "in-campaign" : "")
+      if !(features && features.brainPop)
         if view.shouldShow('hackstack-menu-icon')
           span.btn.hackstack-menu-icon(data-i18n="[title]play.hackstack_button_hover")
         if view.shouldShow('junior-menu-icon')
@@ -500,8 +493,8 @@ if !editorMode
         if view.shouldShow('ai-league-menu-icon')
           span.btn.ai-league-menu-icon(data-i18n="[title]play.ai_league_button_hover")
   else
-    .game-controls.header-font.picoctf-hide
-      if !((features && features.picoCtf) || (features && features.brainPop))
+    .game-controls.header-font
+      if !(features && features.brainPop)
         if view.shouldShow('junior-menu-icon')
           button.btn.junior-icon.junior-menu-icon(title='CodeCombat Junior')
         if view.shouldShow('hackstack-menu-icon')
@@ -528,7 +521,7 @@ if !editorMode
           a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
 
   if view.isCatalyst
-    .user-status-catalyst.header-font.picoctf-hide
+    .user-status-catalyst.header-font
       .user-status-line
         if view.shouldShow('status-line')
           if view.shouldShow('gems')
@@ -547,13 +540,13 @@ if !editorMode
           if view.shouldShow('premium')
             button.btn.btn-illustrated.btn-primary.premium-btn(data-i18n="buy_gems.buy_premium")
 
-    .utility-controls-catalyst.header-font.picoctf-hide
-      button.btn.btn-lg.btn-inverse.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
+    .utility-controls-catalyst.header-font
+      button.btn.btn-lg.btn-inverse#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
         .glyphicon.glyphicon-volume-off
         .glyphicon.glyphicon-volume-down
         .glyphicon.glyphicon-volume-up
   else
-    .user-status.header-font.picoctf-hide
+    .user-status.header-font
       .user-status-line
         if view.shouldShow('status-line')
           if view.shouldShow('gems')
@@ -580,13 +573,13 @@ if !editorMode
           select.language-dropdown.btn.btn-illustrated.btn-primary
 
   if !view.isCatalyst
-    button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
+    button.btn.btn-lg.btn-inverse.campaign-control-button#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
       .glyphicon.glyphicon-volume-off
       .glyphicon.glyphicon-volume-down
       .glyphicon.glyphicon-volume-up
 
   if !view.isCatalyst && campaign && campaign.get('type') !== 'hoc' && !editorMode && view.shouldShow('back-to-campaigns')
-    button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
+    button.btn.btn-lg.btn-inverse.campaign-control-button#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
       .glyphicon.glyphicon-globe
 
   if editorMode
@@ -594,7 +587,7 @@ if !editorMode
       .glyphicon.glyphicon-refresh
 
   if campaign && campaign.loaded
-    h1#campaign-status.picoctf-hide
+    h1#campaign-status
       .campaign-status-background.rtl-allowed
         .campaign-name.rtl-allowed
           span= i18n(campaign.attributes, 'fullName')

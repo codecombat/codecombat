@@ -77,7 +77,6 @@ module.exports = (Level = (function () {
       this.sortThangComponents(o.thangTypes, o.levelComponents, 'ThangType')
       this.fillInDefaultComponentConfiguration(o.thangTypes, o.levelComponents)
 
-      if (this.picoCTFProblem) { o.picoCTFProblem = this.picoCTFProblem }
       return o
     }
 

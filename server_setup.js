@@ -163,12 +163,6 @@ const setupFeaturesMiddleware = app => app.use(function(req, res, next) {
     features.noAds = true;
   }
 
-  if (config.picoCTF || (req.session.featureMode === 'pico-ctf')) {
-    features.playOnly = true;
-    features.noAds = true;
-    features.picoCtf = true;
-  }
-
   if (config.chinaInfra) {
     features.chinaInfra = true;
   }
