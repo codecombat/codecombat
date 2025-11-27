@@ -927,19 +927,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
 
   .campaign-control-button
-    position: absolute
-    right: 1%
-    top: 1%
-    padding: 3px 8px
-    @include opacity(0.75)
-
-    &:hover
-      @include opacity(1.0)
-
-    .glyphicon
-      font-size: 32px
-
-  .campaign-control-button-catalyst
     padding: 3px 8px
     @include opacity(0.75)
 
@@ -965,7 +952,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     &.vol-down .glyphicon.glyphicon-volume-down
       display: inline-block
 
-  #back-button, #clear-storage-button
+  #clear-storage-button
     position: absolute
     right: 70px
     right: -webkit-calc(1% + 55px)
@@ -1356,7 +1343,7 @@ body[lang='ru'] .portals h2
   .glyphicon
     font-size: 28px
 
-.utility-controls-catalyst
+.utility-controls
   position: absolute
   right: 20px
   bottom: 20px
