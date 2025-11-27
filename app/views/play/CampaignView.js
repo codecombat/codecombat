@@ -132,7 +132,6 @@ class CampaignView extends RootView {
       'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal',
       'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal',
       'click #videos-button': 'onClickVideosButton',
-      'click #esports-arena': 'onClickEsportsButton',
       'click a.start-esports': 'onClickEsportsLink',
     }
 
@@ -491,14 +490,6 @@ class CampaignView extends RootView {
 
   onClickVideosButton () {
     this.openModalView(new CourseVideosModal({ courseInstanceID: this.courseInstanceID, courseID: this.course.get('_id') }))
-  }
-
-  onClickEsportsButton (e) {
-    this.$levelInfo?.hide()
-    const arenaSlug = $(e.target).data('arena')
-    window.tracker?.trackEvent('Click LevelInfo AI League Button', { category: 'World Map', label: arenaSlug })
-    this.$levelInfo = this.$el.find(`.level-info-container.league-arena-tooltip[data-arena='${arenaSlug}']`).show()
-    this.adjustLevelInfoPosition(e)
   }
 
   onClickEsportsLink (e) {
@@ -2272,11 +2263,6 @@ class CampaignView extends RootView {
 
     if (libraryLogos.includes(what.replace('-logo', ''))) {
       return userUtils.libraryName() === what.replace('-logo', '')
-    }
-
-    if (what === 'league-arena') {
-      // Note: Currently the tooltips don't work in the campaignView overworld.
-      return !me.isAnonymous() && this.campaign?.get('slug') && !this.editorMode && !userUtils.isCreatedViaLibrary()
     }
 
     if (what === 'ai-league-menu-icon') {
