@@ -447,123 +447,60 @@ if !editorMode
   //-                     span.campaign-age-description(data-i18n="play.age_description_" + campaignProductName)
   //-                     br
   //-                   span= i18n(campaign.attributes, 'description')
-  if view.isCatalyst
-    .game-controls-catalyst.header-font(class=campaign != null ? "in-campaign" : "")
-      if !(features && features.brainPop)
+  
+  .game-controls-catalyst.header-font(class=campaign != null ? "in-campaign" : "")
+    if !(features && features.brainPop)
+      if view.shouldShow('premium')
+        button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
+      if view.shouldShow('heros')
+        button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
+      if view.shouldShow('items')
+        button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
+      if view.shouldShow('achievements')
+        button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
+      if view.shouldShow('buy-gems')
+        button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
+      if !me.get('anonymous', true) && view.shouldShow('settings')
+        a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
+  .other-products-catalyst.header-font(class=campaign != null ? "in-campaign" : "")
+    if !(features && features.brainPop)
+      if view.shouldShow('hackstack-menu-icon')
+        span.btn.hackstack-menu-icon(data-i18n="[title]play.hackstack_button_hover")
+      if view.shouldShow('junior-menu-icon')
+        span.btn.junior-icon.junior-menu-icon(data-i18n="[title]play.junior_button_hover")
+      if view.shouldShow('cchome-menu-icon')
+        span.btn.cchome-menu-icon(data-i18n="[title]play.cchome_button_hover")
+      if view.shouldShow('roblox-menu-icon')
+        span.btn.roblox-level.roblox-menu-icon(data-i18n="[title]play.roblox_button_hover")
+      if view.shouldShow('ai-league-menu-icon')
+        span.btn.ai-league-menu-icon(data-i18n="[title]play.ai_league_button_hover")
+  
+
+  .user-status-catalyst.header-font
+    .user-status-line
+      if view.shouldShow('status-line')
+        if view.shouldShow('gems')
+          span.gem.gem-30
+          span#gems-count.spr= me.gems()
+        if view.shouldShow('level')
+          span.achievements-star.achievements-star-30
+          span.player-level.spr= me.level()
+        //- if me.get('anonymous')
+        //-   button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
+        //-   button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+        //- else
+
+        //-   if !me.isStudent()
+        //-     button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
         if view.shouldShow('premium')
-          button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
-        if view.shouldShow('heros')
-          button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
-        if view.shouldShow('items')
-          button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
-        if view.shouldShow('achievements')
-          button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
-        if view.shouldShow('buy-gems')
-          button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
-        if !me.get('anonymous', true) && view.shouldShow('settings')
-          a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
-    .other-products-catalyst.header-font(class=campaign != null ? "in-campaign" : "")
-      if !(features && features.brainPop)
-        if view.shouldShow('hackstack-menu-icon')
-          span.btn.hackstack-menu-icon(data-i18n="[title]play.hackstack_button_hover")
-        if view.shouldShow('junior-menu-icon')
-          span.btn.junior-icon.junior-menu-icon(data-i18n="[title]play.junior_button_hover")
-        if view.shouldShow('cchome-menu-icon')
-          span.btn.cchome-menu-icon(data-i18n="[title]play.cchome_button_hover")
-        if view.shouldShow('roblox-menu-icon')
-          span.btn.roblox-level.roblox-menu-icon(data-i18n="[title]play.roblox_button_hover")
-        if view.shouldShow('ai-league-menu-icon')
-          span.btn.ai-league-menu-icon(data-i18n="[title]play.ai_league_button_hover")
-  else
-    .game-controls.header-font
-      if !(features && features.brainPop)
-        if view.shouldShow('junior-menu-icon')
-          button.btn.junior-icon.junior-menu-icon(title='CodeCombat Junior')
-        if view.shouldShow('hackstack-menu-icon')
-          span.btn.hackstack-menu-icon(title='CodeCombat AI HackStack')
-        if view.shouldShow('roblox-menu-icon')
-          button.btn.roblox-level.roblox-menu-icon(title='CodeCombat Worlds on Roblox')
-        if view.shouldShow('promotion')
-          button.btn.promotion-menu-icon(data-toggle='coco-modal', data-target='play/modal/PromotionModal', title='New: Code in Beijing!')
-        if view.shouldShow('premium')
-          button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
-        if view.shouldShow('poll')
-          button.btn.poll.hidden(data-i18n="[title]play.poll")
-        if view.shouldShow('clans')
-          a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
-        if view.shouldShow('items')
-          button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
-        if view.shouldShow('heros')
-          button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
-        if view.shouldShow('achievements')
-          button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
-        if view.shouldShow('buy-gems')
-          button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
-        if !me.get('anonymous', true) && view.shouldShow('settings')
-          a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
+          button.btn.btn-illustrated.btn-primary.premium-btn(data-i18n="buy_gems.buy_premium")
 
-  if view.isCatalyst
-    .user-status-catalyst.header-font
-      .user-status-line
-        if view.shouldShow('status-line')
-          if view.shouldShow('gems')
-            span.gem.gem-30
-            span#gems-count.spr= me.gems()
-          if view.shouldShow('level')
-            span.achievements-star.achievements-star-30
-            span.player-level.spr= me.level()
-          //- if me.get('anonymous')
-          //-   button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
-          //-   button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
-          //- else
-
-          //-   if !me.isStudent()
-          //-     button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
-          if view.shouldShow('premium')
-            button.btn.btn-illustrated.btn-primary.premium-btn(data-i18n="buy_gems.buy_premium")
-
-    .utility-controls-catalyst.header-font
-      button.btn.btn-lg.btn-inverse#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
-        .glyphicon.glyphicon-volume-off
-        .glyphicon.glyphicon-volume-down
-        .glyphicon.glyphicon-volume-up
-  else
-    .user-status.header-font
-      .user-status-line
-        if view.shouldShow('status-line')
-          if view.shouldShow('gems')
-            span.gem.gem-30
-            span#gems-count.spr= me.gems()
-          if view.shouldShow('level')
-            .rtl-allowed
-              span.level-indicator(data-i18n="general.player_level")
-              span.player-level.spr= me.level()
-          span.player-hero-icon
-          if me.get('anonymous')
-            span.player-name(data-i18n="play.anonymous") Anonymous Player
-            button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
-            button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
-          else
-            if me.isStudent()
-              a(href="/play").player-name.spr= me.get('name')
-            else
-              a(href="/account").player-name.spr= me.get('name')
-            if !me.isStudent()
-              button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
-            //- if me.isPremium()
-            //-   button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
-          select.language-dropdown.btn.btn-illustrated.btn-primary
-
-  if !view.isCatalyst
-    button.btn.btn-lg.btn-inverse.campaign-control-button#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
+  .utility-controls-catalyst.header-font
+    button.btn.btn-lg.btn-inverse#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
       .glyphicon.glyphicon-volume-off
       .glyphicon.glyphicon-volume-down
       .glyphicon.glyphicon-volume-up
-
-  if !view.isCatalyst && campaign && campaign.get('type') !== 'hoc' && !editorMode && view.shouldShow('back-to-campaigns')
-    button.btn.btn-lg.btn-inverse.campaign-control-button#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
-      .glyphicon.glyphicon-globe
-
+  
   if editorMode
     button.btn.btn-lg.btn-inverse.campaign-control-button#clear-storage-button(data-i18n="[title]editor.clear_storage", title="Clear your local changes")
       .glyphicon.glyphicon-refresh
