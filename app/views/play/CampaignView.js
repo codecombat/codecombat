@@ -147,9 +147,6 @@ class CampaignView extends RootView {
     if (/^classCode/.test(this.terrain)) {
       this.terrain = '' // Stop /play?classCode= from making us try to play a classCode campaign
     }
-    if (/^catalyst/.test(this.terrain)) {
-      this.terrain = '' // In this case we process query params
-    }
 
     this.editorMode = options?.editorMode
     this.requiresSubscription = !me.isPremium()
