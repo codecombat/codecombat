@@ -6,8 +6,7 @@ $mapHeight: 1536
 $mapWidth: 2350
 $campaignPortalWidth: 317px
 $campaignPortalHeight: 634px
-$catalystPortalWidth: 317px
-$catalystMarginTopBase: -60px
+$marginTopBase: -30px
 $sideCampaignPortalHeight: math.div($campaignPortalHeight, 2)
 $sideCampaignImagesWidth: 1902px
 $campaignHoverScale: 1.2
@@ -28,16 +27,6 @@ $hackstackGlowSizeBase: 5px
 $scenarioDotWidth: 3%
 $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
-+keyframes(levelStartedPulse)
-  from
-    @include box-shadow(0px 0px 4px #333)
-    margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotZ
-  50%
-    @include box-shadow(0px 0px 22px skyblue)
-    margin-bottom: math.div(-$levelDotHeight, 3) + math.div(($levelDotHoverZ + $levelDotZ), 2)
-  to
-    @include box-shadow(0px 0px 4px #333)
-    margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotZ
 
 +keyframes(portalGlow)
   from
@@ -61,12 +50,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     filter: drop-shadow(0 0 $hackstackGlowSizeBase #555) drop-shadow(0 0 (2 * $hackstackGlowSizeBase) $hackstackGlowColor) drop-shadow(0 0 (4 * $hackstackGlowSizeBase) $hackstackGlowColor)
   50%
     filter: drop-shadow(0 0 (1.5 * $hackstackGlowSizeBase) #555) drop-shadow(0 0 (3 * $hackstackGlowSizeBase) $hackstackGlowColor) drop-shadow(0 0 (6 * $hackstackGlowSizeBase) $hackstackGlowColor)
-
-@keyframes twinkle
-  0%, 100%
-    opacity: 0.3
-  50%
-    opacity: 1
 
 #campaign-view
   top: 0
@@ -210,11 +193,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         border: 3px solid lightgreen
         @include box-shadow(0px 0px 35px skyblue)
 
-        // Would be cool, but kills performance, since we have to re-render all the time.
-        //&:not(:hover)
-        //  -webkit-animation-name: levelStartedPulse
-        //  -webkit-animation-duration: 3s
-        //  -webkit-animation-iteration-count: infinite
 
       &.complete
         border: 3px solid gold
@@ -334,10 +312,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         margin-bottom: math.div(-$levelDotShadowHeight, 3) * 0.67
 
     .level:hover
-      // TODO: This rotate stops Firefox from flickering, but also disables the scaleY(0.75)
-      // TODO: The dot looks like it's jumping.
-      // TODO: -moz-transform: scaleY(0.75) didn't do anything
-      // TODO: Does not break Chrome's oval.
       -moz-transform: rotate(0)
       margin-bottom: math.div(-$levelDotHeight, 3) + $levelDotHoverZ
       @include box-shadow(0px 0px 35px skyblue)
@@ -456,7 +430,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         &.complete.premium .level-status
           background-position: -180px 0
 
-        .start-level, .start-esports
+        .start-level
           min-width: 200px
           display: block
           margin: 10px auto 0 auto
@@ -562,141 +536,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
   .game-controls
     position: absolute
-    right: 1%
-    bottom: 1%
-    z-index: 1
-
-    .btn
-      &:not(:first-child)
-        margin-left: $gameControlMargin
-        @media only screen and (max-height: 650px)
-          margin-left: 0
-
-      width: $gameControlSize
-      height: $gameControlSize
-
-      @media only screen and (max-height: 650px)
-        @include scale(0.67)
-
-      background: url(/images/pages/play/menu_icons.png) no-repeat
-
-      position: relative
-      img
-        position: absolute
-        left: 0
-        top: 0
-        width: 100%
-        height: 100%
-
-      background-size: cover
-      @include transition(0.5s ease)
-      @include box-shadow(2px 2px 4px black)
-      border: 0
-      border-radius: 12px
-      // IE9 shows a blank white button with this MS gradient filter in place
-      filter: none
-
-      &:hover
-        @include box-shadow(0 0 12px #bbf)
-
-      &:active, &.highlighted
-        @include box-shadow(0 0 20px white)
-
-      &.items
-        background-position: (-1 * $gameControlSize) 0px
-      &.heroes
-        background-position: (-2 * $gameControlSize) 0px
-      &.achievements
-        background-position: (-3 * $gameControlSize) 0px
-      &.account
-        background-position: (-5 * $gameControlSize) 0px
-      &.settings
-        background-position: (-5 * $gameControlSize) 0px
-      &.gems
-        background-position: (-6 * $gameControlSize) 0px
-      &.poll
-        background-position: (-4 * $gameControlSize) 0px
-      &.premium-menu-icon
-        background: url(/images/pages/play/premium-menu-icon.png) no-repeat
-        background-position: 50% 50%
-        background-size: 100%
-        transform: scale(1.31) translateY(-5px) translateX(-6px)
-        @media only screen and (max-height: 650px)
-          transform: scale(0.67) scale(1.31) translateY(-5px) translateX(-6px)
-        box-shadow: initial
-        filter: drop-shadow(2px 2px 4px black)
-        outline: none
-        &:hover
-          filter: drop-shadow(0 0 2px #bbf)
-      &.premium-menu-icon
-        background: url(/images/pages/play/premium-menu-icon.png) no-repeat
-        background-position: 50% 50%
-        background-size: 100%
-        transform: scale(1.31) translateY(-5px) translateX(-6px)
-        @media only screen and (max-height: 650px)
-          transform: scale(0.67) scale(1.31) translateY(-5px) translateX(-6px)
-        box-shadow: initial
-        filter: drop-shadow(2px 2px 4px black)
-        outline: none
-        &:hover
-          filter: drop-shadow(0 0 2px #bbf)
-      &.roblox-menu-icon, &.hackstack-menu-icon
-        background: url(/images/roblox/roblox-menu-icon.png) no-repeat
-        background-position: 50% 50%
-        background-size: 100%
-        transform: scale(1.2) translateY(-3px) translateX(-10px)
-        @media only screen and (max-height: 650px)
-          transform: scale(0.78) translateY(-1px)
-        box-shadow: initial
-        filter: drop-shadow(2px 2px 4px black)
-        outline: none
-        &:hover
-          filter: drop-shadow(0 0 2px #bbf)
-
-      &.junior-menu-icon
-        background: url(/images/pages/play/campaign/coco-junior-square-menu-icon.webp) no-repeat
-        background-position: 50% 50%
-        background-size: 110%
-        transform: scale(1.2) translateX(-10px)
-        @media only screen and (max-height: 650px)
-          transform: scale(0.78) translateY(-1px)
-        box-shadow: initial
-        filter: drop-shadow(2px 2px 4px black)
-        outline: none
-        &:hover
-          filter: drop-shadow(0 0 2px #bbf)
-
-        // Jiggle animation
-        +keyframes(jiggle)
-          0%
-            transform: scale(1.1) translateY(-1px) rotate(0deg)
-          25%
-            transform: scale(1.1) translateY(-1px) rotate(1deg)
-          50%
-            transform: scale(1.1) translateY(-1px) rotate(0deg)
-          75%
-            transform: scale(1.1) translateY(-1px) rotate(-1deg)
-          100%
-            transform: scale(1.1) translateY(-1px) rotate(0deg)
-
-        &.highlighted
-          @include animation(jiggle .3s 20)
-
-      &.hackstack-menu-icon
-        background: url('/images/pages/hackstack/hackstack-logo-square-transparent-256.png') no-repeat
-        background-position: 50% 50%
-        background-size: 100%
-        border-radius: 0
-        transform: scale(1) translateX(-20px) translateY(-3px)
-
-    .tooltip
-      font-size: 24px
-
-      .tooltip-arrow
-        display: none
-
-  .game-controls-catalyst
-    position: absolute
     left: 2%
     top: 50%
     transform: translateY(-50%)
@@ -769,18 +608,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         outline: none
         &:hover
           filter: drop-shadow(0 0 2px #bbf)
-      &.premium-menu-icon
-        background: url(/images/pages/play/premium-menu-icon.png) no-repeat
-        background-position: 50% 50%
-        background-size: 100%
-        transform: scale(1.31) translateY(-5px) translateX(-6px)
-        @media only screen and (max-height: 650px)
-          transform: scale(0.67) scale(1.31) translateY(-5px) translateX(-6px)
-        box-shadow: initial
-        filter: drop-shadow(2px 2px 4px black)
-        outline: none
-        &:hover
-          filter: drop-shadow(0 0 2px #bbf)
 
         // Jiggle animation
         +keyframes(jiggle)
@@ -814,7 +641,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       .tooltip-arrow
         display: none
 
-  .other-products-catalyst
+  .other-products
     position: absolute
     right: 2%
     top: 50%
@@ -968,86 +795,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
   .user-status
     position: absolute
-    bottom: 16px
-    left: 8px
-    text-align: center
-    font-size: 24px
-    color: white
-    text-shadow: 0px 2px 1px black, 0px -2px 1px black, -2px 0px 1px black, 2px 0px 1px black
-    height: 33px
-    line-height: 33px
-
-    .user-status-line
-      position: relative
-
-      .btn.btn-illustrated
-        margin-left: 10px
-        min-width: 90px
-        height: 33px
-        color: white
-
-        option
-          color: black
-
-      .rtl-allowed
-        display: inline-block
-
-      .gem, .player-hero-icon
-        position: absolute
-        top: 1px
-
-      #gems-count
-        margin-left: 40px
-
-      .player-level
-        margin-left: 5px
-
-      .player-name
-        margin-left: 45px
-
-      a
-        color: white
-
-      $spriteSheetSize: 30px
-
-      .player-hero-icon
-        background: transparent url(/images/pages/play/play-spritesheet.png)
-        background-size: cover
-        background-position: (-2 * $spriteSheetSize) 0
-        display: inline-block
-        width: 30px
-        height: 30px
-        margin: 0px 2px
-
-      .level-indicator
-        margin-left: 15px
-        color: white
-        display: inline-block
-        margin: 0 2px
-
-      .player-hero-icon
-        margin-left: 10px
-        background-position: (-4 * $spriteSheetSize) 0
-
-        &.knight
-          background-position: (-5 * $spriteSheetSize) 0
-        &.librarian
-          background-position: (-6 * $spriteSheetSize) 0
-        &.ninja
-          background-position: (-7 * $spriteSheetSize) 0
-        &.potion-master
-          background-position: (-8 * $spriteSheetSize) 0
-        &.samurai
-          background-position: (-9 * $spriteSheetSize) 0
-        &.trapper
-          background-position: (-10 * $spriteSheetSize) 0
-        &.forest-archer
-          background-position: (-11 * $spriteSheetSize) 0
-        &.sorcerer
-          background-position: (-12 * $spriteSheetSize) 0
-
-  .user-status-catalyst
-    position: absolute
     top: 10px
     right: 30px
     text-align: right
@@ -1056,10 +803,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     text-shadow: 0px 2px 1px black, 0px -2px 1px black, -2px 0px 1px black, 2px 0px 1px black
     height: 40px
     line-height: 40px
-
-    .stats-row
-      margin-bottom: 10px
-      margin-top: 10px
 
     .user-status-line
       position: relative
@@ -1103,9 +846,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       a
         color: white
 
-      body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdown
-        width: 90px
-
       $spriteSheetSize: 30px
 
       .player-hero-icon
@@ -1146,19 +886,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
 
   .campaign-control-button
-    position: absolute
-    right: 1%
-    top: 1%
-    padding: 3px 8px
-    @include opacity(0.75)
-
-    &:hover
-      @include opacity(1.0)
-
-    .glyphicon
-      font-size: 32px
-
-  .campaign-control-button-catalyst
     padding: 3px 8px
     @include opacity(0.75)
 
@@ -1167,9 +894,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
     .glyphicon
       font-size: 28px
-
-    &.language-dropdown
-      font-size: 24px
 
   #volume-button
     .glyphicon
@@ -1187,7 +911,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     &.vol-down .glyphicon.glyphicon-volume-down
       display: inline-block
 
-  #back-button, #clear-storage-button
+  #clear-storage-button
     position: absolute
     right: 70px
     right: -webkit-calc(1% + 55px)
@@ -1259,180 +983,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     @media screen and (max-width: 800px)
       display: none
 
-  .portal
-    position: relative
-    width: 100%
-    height: 100%
-    background: transparent url(/images/pages/play/portal-background.png)
-    display: flex
-    align-items: center
-    justify-content: center
-    overflow: hidden
-    @media (hover: none)
-      overflow: scroll
-      @media (orientation: landscape)
-        align-items: initial
-
-    .portals
-      $height: $campaignPortalHeight * $campaignHoverScale
-      flex-wrap: nowrap
-      display: flex
-      overflow: hidden
-      @media (hover: none)
-        overflow: scroll
-
-      .campaign
-        width: $campaignPortalWidth
-        height: $campaignPortalHeight
-        margin-top: $campaignPortalHeight * math.div($campaignHoverScale - 1, 2)
-        background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat 0 0
-        display: inline-block
-        flex-shrink: 0
-        position: relative
-        cursor: pointer
-        // http://easings.net/#easeOutBack plus tweaked a bit: http://cubic-bezier.com/#.11,.67,.08,1.42
-        @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
-
-        &:hover
-          @include scale($campaignHoverScale)
-
-        &.silhouette
-          @include filter(contrast(50%) brightness(65%))
-          pointer-events: none
-
-        &.locked
-          @include filter(contrast(80%) brightness(80%))
-          cursor: default
-
-        &.forest
-          background-position: (-1 * $campaignPortalWidth) 0
-        &.desert
-          background-position: (-2 * $campaignPortalWidth) 0
-        &.mountain
-          background-position: (-3 * $campaignPortalWidth) 0
-        &.glacier
-          background-position: (-4 * $campaignPortalWidth) 0
-        &.volcano
-          background-position: (-5 * $campaignPortalWidth) 0
-        &.junior
-          background-position: (-6 * $campaignPortalWidth) 0
-
-        .campaign-label
-          position: absolute
-          top: 45%
-          width: 100%
-          text-align: center
-
-          .campaign-name, .levels-completed, .campaign-locked
-            margin: 0
-            color: white
-            text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
-
-          .campaign-locked
-            margin: 32px 0
-
-          .campaign-description
-            margin: 0px 40px
-            background: transparent url(/images/level/popover_border_background.png) no-repeat
-            background-size: 100% 100%
-            padding: 12px
-            color: black
-
-          .campaign-age
-            font-size: 22px
-
-          .campaign-age-description
-            font-style: italic
-
-          .levels-completed
-            font-size: 22px
-
-          .play-button
-            margin: 15px 0
-            min-width: 100px
-
-
-      .beta-container
-        width: $campaignPortalWidth
-        height: $campaignPortalHeight
-        display: inline-block
-        flex-shrink: 0
-        position: relative
-
-        .beta-campaign
-          width: $campaignPortalWidth
-          height: math.div($campaignPortalHeight, 2)
-          display: inline-block
-          flex-shrink: 0
-          position: relative
-          cursor: pointer
-          // http://easings.net/#easeOutBack plus tweaked a bit: http://cubic-bezier.com/#.11,.67,.08,1.42
-          @include transition(0.25s cubic-bezier(0.11, 0.67, 0.8, 1.42))
-
-          &[data-campaign-slug='campaign-game-dev-3']
-            margin-top: 230px
-
-          &:hover
-            @include scale($campaignHoverScale)
-
-          &.silhouette
-            @include filter(contrast(50%) brightness(65%))
-            pointer-events: none
-
-          &.locked
-            @include filter(contrast(80%) brightness(80%))
-            cursor: default
-
-          .campaign-label
-            position: absolute
-            top: 40%
-            width: 100%
-            text-align: center
-
-            .campaign-name, .levels-completed, .campaign-locked
-              margin: 0
-              color: white
-              text-shadow: black 2px 2px 0, black -2px -2px 0, black 2px -2px 0, black -2px 2px 0, black 2px 0px 0, black 0px -2px 0, black -2px 0px 0, black 0px 2px 0
-
-            .campaign-locked
-              margin: 32px 0
-
-            .campaign-description
-              margin: 0px 40px
-              background: transparent url(/images/level/popover_border_background.png) no-repeat
-              background-size: 100% 100%
-              padding: 12px
-              color: black
-              font-size: 12px
-
-            .levels-completed
-              font-size: 22px
-
-            .play-button
-              margin: 10px 0
-              min-width: 100px
-              color: white
-
-          .background-container
-            position: absolute
-            left: math.div($campaignPortalWidth, 4)
-            width: math.div($campaignPortalWidth, 2)
-            height: math.div($campaignPortalHeight, 2)
-            background: transparent url(/images/pages/play/portal-beta-campaigns.png) no-repeat 0 0
-            background-size: $betaImagesWidth
-
-            &.campaign-web-dev-1
-              background-position: -151px 0px
-            &.campaign-game-dev-1
-              background-position: -454px 0px
-            &.campaign-web-dev-2
-              background-position: -291px 0px
-            &.campaign-game-dev-2
-              background-position: -628px 0px
-            &.campaign-game-dev-3
-              background-position: -628px 0px
-
-  .portal-catalyst
+  .portals-container
     position: relative
     width: 100%
     height: 100%
@@ -1461,18 +1012,18 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
           width: 100%
           height: $campaignPortalHeight
           margin-bottom: 0
-          margin-top: $catalystMarginTopBase
+          margin-top: $marginTopBase
 
           // first row has a different margin-top
           &:first-child
-            margin-top: 50px
+            margin-top: 0px
             margin-bottom: -40px
           //the third row has a different margin-top
           &:nth-child(3)
-            margin-top: $catalystMarginTopBase - 30px
+            margin-top: $marginTopBase - 30px
           // the last row has a different margin-top
           &:last-child
-            margin-top: $catalystMarginTopBase + 40px
+            margin-top: $marginTopBase + 40px
 
           .main-campaign
             width: $campaignPortalWidth
@@ -1636,9 +1187,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       &.highlighted
         @extend .portal-glow
 
-  #esports-arena
-    min-width: 210px
-
   .small-nav-logo
     position: absolute
     top: 1%
@@ -1733,43 +1281,7 @@ body.ipad #campaign-view
 body[lang='ru'] .portals h2
   font-size: 26px
 
-body:not([lang*="-"]) #campaign-view .user-status .user-status-line .language-dropdown
-  width: 148px
-
-body[lang^="en"] #campaign-view .user-status .user-status-line .language-dropdown
-  width: 112px
-
-body[lang^="en"] #campaign-view .user-status-catalyst .user-status-line .language-dropdown
-  width: 48px
-
-+keyframes(currentPracticeLevel)
-  from
-    @include box-shadow(0px 0px 8px #333)
-    color: white
-  50%
-    @include box-shadow(0px 0px 35px #87CEFF)
-    color: #87CEFF
-  to
-    @include box-shadow(0px 0px 8px #333)
-    color: white
-
-.language-button
-  padding: 3px 8px
-  @include opacity(0.75)
-
-  &:hover
-    @include opacity(1.0)
-
-  .glyphicon
-    font-size: 28px
-
-// Hide the actual select element but keep it in the DOM for functionality
-.language-dropdown.hidden
-  position: absolute
-  opacity: 0
-  pointer-events: none
-
-.utility-controls-catalyst
+.utility-controls
   position: absolute
   right: 20px
   bottom: 20px
@@ -1799,8 +1311,6 @@ body[lang^="en"] #campaign-view .user-status-catalyst .user-status-line .languag
     #volume-button
       margin-right: 10px
 
-    &.language-dropdown
-      width: 112px
 
 
 
