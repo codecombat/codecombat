@@ -28,8 +28,14 @@ const store = require('core/store')
 const paymentUtils = require('app/lib/paymentUtils')
 const fetchJson = require('core/api/fetch-json')
 const DOMPurify = require('dompurify')
+const isCoco = function () {
+  if (window.location.pathname.startsWith('/ozaria')) {
+    return false
+  }
+  return utils.isCodeCombat
+}
 
-const PRODUCT_SUFFIX = utils.isCodeCombat ? 'coco' : 'ozar'
+const PRODUCT_SUFFIX = isCoco() ? 'coco' : 'ozar'
 module.exports = (HomeView = (function () {
   HomeView = class HomeView extends RootView {
     constructor (...args) {
@@ -42,7 +48,7 @@ module.exports = (HomeView = (function () {
 
     static initClass () {
       this.prototype.id = 'home-view'
-      this.prototype.template = utils.isCodeCombat ? cocoTemplate : ozarTemplate
+      this.prototype.template = isCoco() ? cocoTemplate : ozarTemplate
 
       this.prototype.events = {
         'click .continue-playing-btn': 'onClickTrackEvent',
@@ -147,7 +153,7 @@ module.exports = (HomeView = (function () {
     }
 
     onClickTeacherButton (e) {
-      if (utils.isCodeCombat) {
+      if (isCoco()) {
         this.homePageEvent($(e.target).data('event-action'))
         return this.openModalView(new CreateAccountModal({ startOnPath: 'oz-vs-coco' }))
       } else {
@@ -186,7 +192,7 @@ module.exports = (HomeView = (function () {
       if (extraProperties == null) { extraProperties = {} }
       action = action || 'unknown'
       const defaults = {
-        category: utils.isCodeCombat ? 'Homepage' : 'Home',
+        category: isCoco() ? 'Homepage' : 'Home',
         user: me.get('role') || (me.isAnonymous() && 'anonymous') || 'homeuser'
       }
       const properties = _.merge(defaults, extraProperties)
@@ -196,7 +202,7 @@ module.exports = (HomeView = (function () {
     onClickAnchor (e) {
       let anchor, properties, translationKey
       if (!(anchor = e != null ? e.currentTarget : undefined)) { return }
-      if (utils.isCodeCombat) {
+      if (isCoco()) {
         // Track an event with action of the English version of the link text
         let anchorText
         translationKey = $(anchor).attr('data-i18n')
@@ -253,7 +259,7 @@ module.exports = (HomeView = (function () {
     }
 
     onCarouselDirectMove (e) {
-      if (utils.isCodeCombat) {
+      if (isCoco()) {
         const selector = $(e.target).closest('.carousel-dot').data('selector')
         const slideNum = $(e.target).closest('.carousel-dot').data('slide-num')
         return this.$(selector).carousel(slideNum)
@@ -313,7 +319,7 @@ module.exports = (HomeView = (function () {
         }
       }
 
-      if (utils.isCodeCombat) {
+      if (isCoco()) {
         let needle, needle1, paymentResult, title, type
         if ((needle = utils.getQueryVariable('payment-studentLicenses'), ['success', 'failed'].includes(needle)) && !this.renderedPaymentNoty) {
           paymentResult = utils.getQueryVariable('payment-studentLicenses')

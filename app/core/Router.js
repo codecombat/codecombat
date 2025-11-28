@@ -320,6 +320,9 @@ module.exports = (CocoRouter = (function () {
         hackstack: go('core/SingletonAppVueComponentView'),
 
         'home-beta': go('core/SingletonAppVueComponentView'),
+        ozaria () {
+          return this.routeDirectly('HomeView', [])
+        },
 
         standards: go('core/SingletonAppVueComponentView'),
 

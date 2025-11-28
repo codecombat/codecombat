@@ -9,7 +9,7 @@
       </div>
       <div
         :class="{ header__product: true, header__product__selected: defaultTab === 'explore' }"
-        @click.prevent="() => onTabClicked('explore')"
+        @click.prevent="clickTab()"
       >
         {{ $t('general.learn_more') }}
       </div>
@@ -52,6 +52,12 @@ export default {
     },
   },
   methods: {
+    clickTab () {
+      if (this.product === 'ozaria') {
+        return window.open('/ozaria', '_blank', 'noopener,noreferrer')
+      }
+      return this.onTabClicked('explore')
+    },
     onTabClicked (tab) {
       this.$emit('onSelectedTabChange', tab)
     },
