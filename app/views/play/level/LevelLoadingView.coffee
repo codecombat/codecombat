@@ -129,8 +129,6 @@ module.exports = class LevelLoadingView extends CocoView
     @docs = @level.get('documentation') ? {}
     specific = @docs.specificArticles or []
     @intro = _.find specific, name: 'Intro'
-    if window.serverConfig.picoCTF
-      @intro ?= body: ''
 
   showReady: ->
     return if @shownReady
@@ -265,19 +263,8 @@ module.exports = class LevelLoadingView extends CocoView
 
   unveilIntro: =>
     return if @destroyed or not @intro or @unveiled
-    if window.serverConfig.picoCTF and problem = @level.picoCTFProblem
-      html = marked """
-        ### #{problem.name}
-
-        #{@intro.body}
-
-        #{problem.description}
-
-        #{problem.category} - #{problem.score} points
-      """, sanitize: false
-    else
-      language = @session?.get('codeLanguage')
-      html = marked aetherUtils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'), language)
+    language = @session?.get('codeLanguage')
+    html = marked aetherUtils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'), language)
     @$el.find('.intro-doc').removeClass('hidden').find('.intro-doc-content').html html
     @resize()
     @configureACEEditors()

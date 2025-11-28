@@ -36,7 +36,7 @@ module.exports = (SolutionProblemsView = (function () {
       this.prototype.id = 'solution-problems-view'
       excludedCampaigns = [
         // Misc. campaigns
-        'picoctf', 'auditions',
+        'auditions',
 
         // Campaign-version campaigns
         // 'dungeon', 'forest', 'desert', 'mountain', 'glacier'

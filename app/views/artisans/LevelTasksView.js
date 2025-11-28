@@ -15,8 +15,6 @@ const template = require('app/templates/artisans/level-tasks-view')
 
 const Campaigns = require('collections/Campaigns')
 
-const Campaign = require('models/Campaign')
-
 module.exports = (LevelTasksView = (function () {
   let excludedCampaigns
   LevelTasksView = class LevelTasksView extends RootView {
@@ -25,11 +23,11 @@ module.exports = (LevelTasksView = (function () {
       this.prototype.id = 'level-tasks-view'
       this.prototype.events = {
         'input .searchInput': 'processLevels',
-        'change .searchInput': 'processLevels'
+        'change .searchInput': 'processLevels',
       }
 
       excludedCampaigns = [
-        'picoctf', 'auditions', 'dungeon-branching-test', 'forest-branching-test', 'desert-branching-test'
+        'auditions', 'dungeon-branching-test', 'forest-branching-test', 'desert-branching-test',
       ]
     }
 
@@ -62,7 +60,7 @@ module.exports = (LevelTasksView = (function () {
           new RegExp(`${$('#desc-search')[0].value}`, 'i').test(elem.name))
         this.processedLevels[key] = {
           tasks: filteredTasks,
-          name
+          name,
         }
       }
       return this.renderSelectors('#level-table')

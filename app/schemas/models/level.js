@@ -569,7 +569,6 @@ _.extend(LevelSchema.properties, {
   }),
   concepts: c.array({ title: 'Programming Concepts', description: 'Which programming concepts this level covers.', uniqueItems: true, format: 'concepts-list', inEditor: true }, c.concept),
   primaryConcepts: c.array({ title: 'Primary Concepts', description: 'The main 1-3 concepts this level focuses on.', uniqueItems: true, inEditor: true }, c.concept),
-  picoCTFProblem: { type: 'string', description: 'Associated picoCTF problem ID, if this is a picoCTF level' },
   password: { type: 'string', description: 'The password required to create a session for this level', inEditor: 'codecombat' },
   mirrorMatch: { type: 'boolean', description: 'Whether a multiplayer ladder arena is a mirror match', inEditor: 'codecombat' },
   codePoints: c.int({ title: 'CodePoints', minimum: 0, description: 'CodePoints that can be earned for completing this level' }),

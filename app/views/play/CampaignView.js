@@ -154,9 +154,6 @@ class CampaignView extends RootView {
     if (/^classCode/.test(this.terrain)) {
       this.terrain = '' // Stop /play?classCode= from making us try to play a classCode campaign
     }
-    if (window.serverConfig.picoCTF) {
-      this.terrain = 'picoctf'
-    }
     if (/^catalyst/.test(this.terrain)) {
       this.terrain = '' // In this case we process query params
     }
@@ -233,23 +230,14 @@ class CampaignView extends RootView {
     if (userUtils.shouldShowLibraryLoginModal() && me.isAnonymous()) {
       this.openModalView(new CreateAccountModal({ startOnPath: 'individual-basic' }))
     }
-    if (window.serverConfig.picoCTF) {
-      this.supermodel.addRequestResource({
-        url: '/picoctf/problems',
-        success: picoCTFProblems => {
-          this.picoCTFProblems = picoCTFProblems
-        },
-      }).load()
-    } else {
-      if (!this.editorMode) {
-        this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', { cache: false }, 1).model
-        this.listenToOnce(this.sessions, 'sync', this.onSessionsLoaded)
-      }
-      if (!this.terrain) {
-        this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
-        this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
-        return
-      }
+    if (!this.editorMode) {
+      this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', { cache: false }, 1).model
+      this.listenToOnce(this.sessions, 'sync', this.onSessionsLoaded)
+    }
+    if (!this.terrain) {
+      this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
+      this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
+      return
     }
     if (this.terrain) {
       this.campaign = new Campaign({ _id: this.terrain })
@@ -787,7 +775,6 @@ class CampaignView extends RootView {
     context.levelDifficultyMap = this.levelDifficultyMap
     context.levelPlayCountMap = this.levelPlayCountMap
     context.isIPadApp = application.isIPadApp
-    context.picoCTF = window.serverConfig.picoCTF
     context.requiresSubscription = this.requiresSubscription
     context.editorMode = this.editorMode
     context.scenarios = this.campaign?.get('scenarios') || []
@@ -1412,7 +1399,7 @@ class CampaignView extends RootView {
   onSessionsLoaded (e) {
     if (this.editorMode) { return }
     this.render()
-    if (!me.get('anonymous') && !me.inEU() && !window.serverConfig.picoCTF) {
+    if (!me.get('anonymous') && !me.inEU()) {
       this.loadUserPollsRecord()
     }
   }
@@ -1748,7 +1735,6 @@ class CampaignView extends RootView {
   }
 
   preloadTopHeroes () {
-    if (window.serverConfig.picoCTF) { return }
     for (const heroID of ['captain', 'knight']) {
       const url = `/db/thang.type/${ThangType.heroes[heroID]}/version`
       if (this.supermodel.getModel(url)) { continue }
