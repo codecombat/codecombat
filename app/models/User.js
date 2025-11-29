@@ -1204,7 +1204,7 @@ module.exports = (User = (function () {
       if (utils.isOzaria) {
         return false
       }
-      if (features?.china) {
+      if (features?.china && !features?.chinaHome) {
         return false
       }
       if (me.get('role') === 'student') {
