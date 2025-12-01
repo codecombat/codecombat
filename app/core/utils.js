@@ -380,6 +380,7 @@ const OZ_COURSE_IDS = [
 ]
 
 const allCourseIDs = _.assign(courseIDs, otherCourseIDs)
+const allOrderedCourseIDs = [...orderedCourseIDs, ...otherOrderedCourseIDs]
 
 const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.HACKSTACK]
 const allFreeCourseIDs = [...freeCocoCourseIDs, allCourseIDs.CHAPTER_ONE]
@@ -998,6 +999,13 @@ const needsPractice = function (playtime, threshold) {
   if (threshold == null) { threshold = 5 }
   return (playtime / 60) > threshold
 }
+
+const sortAllCourses = courses => _.sortBy(courses, function (course) {
+  // ._id can be from classroom.courses, otherwise it's probably .id
+  let index = allOrderedCourseIDs.indexOf(course.id != null ? course.id : course._id)
+  if (index === -1) { index = 9001 }
+  return index
+})
 
 const sortCourses = courses => _.sortBy(courses, function (course) {
   // ._id can be from classroom.courses, otherwise it's probably .id
@@ -1755,7 +1763,7 @@ module.exports.secondsToMinutesAndSeconds = function (seconds) {
 module.exports.getJuniorUrl = function () {
   let juniorPath = '/play/junior'
   if (me && me.isTeacher() && !me.isAnonymous()) {
-    juniorPath = '/teachers/curriculum/junior'
+    juniorPath = '/teachers/guide/junior'
   }
   return `${cocoBaseURL()}${juniorPath}`
 }
@@ -1872,6 +1880,7 @@ module.exports = {
   round,
   removeAI,
   AILeagueSeasons,
+  sortAllCourses,
   sortCourses,
   sortOtherCourses,
   sortCoursesByAcronyms,

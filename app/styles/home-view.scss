@@ -16,8 +16,8 @@
   }
 }
 
-@if not $is-codecombat {
-  #home-page {
+.ozaria-home {
+  &#home-page {
     margin-bottom: -50px;
     display: flex;
     flex-direction: column;
