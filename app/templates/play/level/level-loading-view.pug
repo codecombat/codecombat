@@ -1,10 +1,10 @@
-if view.utils.isCodeCombat
+if view.showCoco
   div(class="left-wing " + view.loadingWingClass)
   div(class="right-wing " + view.loadingWingClass)
 
-- var product = view.utils.isCodeCombat ? 'coco' : 'ozar'
-#loading-details.loading-container
-  if view.utils.isOzaria
+- var product = view.showCoco ? 'coco' : 'ozar'
+#loading-details.loading-container(class=`${product}-view`)
+  if view.showOzaria
     .chrome-border.chrome-off-slice
 
   h1.level-name.secret.rtl-allowed
@@ -15,26 +15,26 @@ if view.utils.isCodeCombat
 
   .errors
 
-  if view.utils.isCodeCombat
+  if view.showCoco
     .intro-doc.hidden
       .nano
         .nano-content
           .intro-doc-content(dir="auto")
 
-  .progress-or-start-container
-    if view.utils.isCodeCombat
+  .progress-or-start-container(class=`${product}-view`)
+    if view.showCoco
       button.start-level-button.btn.btn-lg.btn-success.btn-illustrated.header-font.needsclick(data-i18n=view.buttonTranslationKey) Start Level
     else
       img(src="/images/ozaria/level/Logo_Bevelled@4x.png")
       p(data-i18n="common.LOADING")
 
-    .load-progress
-      .progress
-        .progress-background
-        .progress-bar-container
-          .progress-bar.progress-bar-success
-        if view.utils.isCodeCombat
-        .rim
+    .load-progress(class=`${product}-view`)
+      .progress(class=`${product}-view`)
+        .progress-background(class=`${product}-view`)
+        .progress-bar-container(class=`${product}-view`)
+          .progress-bar.progress-bar-success(class=`${product}-view`)
+        if view.showCoco
+          .rim
 
   .could-not-load
     span(data-i18n="loading_error.could_not_load")
@@ -42,7 +42,7 @@ if view.utils.isCodeCombat
   .resource-not-found
     span
 
-  if view.utils.isCodeCombat
+  if view.showCoco
     .subscription-required
       span(data-i18n="subscribe.subscription_required_to_play")
       button.start-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.subscribe_title")
@@ -60,7 +60,7 @@ if view.utils.isCodeCombat
     a.btn.btn-lg.btn-warning(data-i18n=("courses.back_courses_" + product), href="/students")
 
 
-  if view.utils.isCodeCombat
+  if view.showCoco
     #tip-wrapper
       strong.tip(data-i18n='play_level.tip_toggle_play') Toggle play/paused with Ctrl+P.
       strong.tip(data-i18n='play_level.tip_scrub_shortcut') Ctrl+[ and Ctrl+] rewind and fast-forward.

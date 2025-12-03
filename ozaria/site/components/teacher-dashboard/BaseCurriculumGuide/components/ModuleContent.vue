@@ -1,4 +1,5 @@
 <script>
+import utils from 'core/utils'
 import Classroom from 'models/Classroom'
 
 import ModuleHeader from './ModuleHeader'
@@ -74,6 +75,10 @@ export default {
 
     isHackstack () {
       return this.courseName === 'AI HackStack'
+    },
+
+    isOzariaCourse () {
+      return utils.OZ_COURSE_IDS.includes(this.getCurrentCourse?._id)
     },
 
     getContentTypes () {
@@ -185,6 +190,12 @@ export default {
       }
       return this.getLevelNumber(original)
     },
+    mapUrl (url) {
+      if (utils.isCodeCombat && this.isOzariaCourse) {
+        return url?.replace('/play', '/play/ozaria')
+      }
+      return url
+    },
   },
 }
 </script>
@@ -201,7 +212,7 @@ export default {
         :is="isAccessible(moduleNum)? 'a' : 'span'"
         v-for="{ icon, name, _id, url, description, isPartOfIntro, isIntroHeadingRow, original, assessment, slug, fromIntroLevelOriginal, tool }, key in getContentTypes"
         :key="`${_id}-${isIntroHeadingRow}`"
-        :href="isAccessible(moduleNum) ? url : null"
+        :href="isAccessible(moduleNum) ? mapUrl(url) : null"
         target="_blank"
         rel="noreferrer"
       >
