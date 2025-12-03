@@ -29,7 +29,8 @@ _.extend(TournamentMatchSchema.properties, {
   teams: {
     type: 'string',
     enum: ['humans:ogres', 'ogres:humans']
-  }
+  },
+  archived: { type: 'boolean' },
 })
 
 c.extendBasicProperties(TournamentMatchSchema, 'tournament.match')
