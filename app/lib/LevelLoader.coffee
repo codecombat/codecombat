@@ -221,7 +221,7 @@ module.exports = class LevelLoader extends CocoClass
           url += "?team=#{@team}"
         if @level.isType('course-ladder') and league and not @courseInstanceID
           url += "&courseInstance=#{league}"
-        else if utils.isCodeCombat and @courseID
+        else if !utils.showOzaria() and @courseID
           url += "&course=#{@courseID}"
           if @courseInstanceID
             url += "&courseInstance=#{@courseInstanceID}"
@@ -342,7 +342,7 @@ module.exports = class LevelLoader extends CocoClass
 
     # Load the hero ThangType
     heroThangType = switch
-      when utils.isOzaria
+      when utils.showOzaria()
         # Use configured Ozaria hero
         me.get('ozariaUserOptions')?.isometricThangTypeOriginal or ThangType.heroes['hero-b']
       when session.get('heroConfig')?.thangType
@@ -743,7 +743,7 @@ module.exports = class LevelLoader extends CocoClass
   # Initial Sound Loading
 
   playJingle: ->
-    return if utils.isOzaria # TODO: replace with Ozaria level loading jingles
+    return if utils.showOzaria() # TODO: replace with Ozaria level loading jingles
     return if @headless or not me.get('volume')
     volume = 0.5
     if me.level() < 3
@@ -756,7 +756,7 @@ module.exports = class LevelLoader extends CocoClass
     setTimeout f, 500
 
   loadAudio: ->
-    return if utils.isOzaria  # TODO: replace with Ozaria sound
+    return if utils.showOzaria()  # TODO: replace with Ozaria sound
     return if @headless or not me.get('volume')
     AudioPlayer.preloadInterfaceSounds ['victory']
 

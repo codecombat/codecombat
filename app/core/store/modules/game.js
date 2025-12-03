@@ -172,7 +172,7 @@ module.exports = {
     },
     autoFillSolution ({ commit, getters, rootState }, codeLanguage) {
       let source
-      if (utils.isCodeCombat) {
+      if (!utils.showOzaria()) {
         if (codeLanguage == null) {
           let left
           codeLanguage = (left = utils.getQueryVariable('codeLanguage')) != null ? left : 'javascript'

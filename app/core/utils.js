@@ -19,6 +19,7 @@ const isCodeCombat = product === 'codecombat'
 const isOzaria = !isCodeCombat
 const _ = require('lodash')
 const useWebsocket = false
+const showOzaria =  () => isOzaria || window.location.pathname.includes('ozaria')
 
 // Yuqiang: i don't know why we use same slugify from different source but let's keep it right now since change it sometimes trigger unbelievable bug
 if (isCodeCombat) {
@@ -863,14 +864,15 @@ const createLevelNumberMap = function (levels, courseID) {
   const levelNumberMap = {}
   let practiceLevelTotalCount = 0
   let practiceLevelCurrentCount = 0
+  const isCoco = !showOzaria()
   for (let i = 0; i < levels.length; i++) {
     const level = levels[i]
     let levelNumber = (i - practiceLevelTotalCount) + 1
-    if (isCodeCombat && level.practice) {
+    if (isCoco && level.practice) {
       levelNumber = (i - practiceLevelTotalCount) + String.fromCharCode('a'.charCodeAt(0) + practiceLevelCurrentCount)
       practiceLevelTotalCount++
       practiceLevelCurrentCount++
-    } else if (level.assessment && isCodeCombat) {
+    } else if (level.assessment && isCoco) {
       practiceLevelCurrentCount = 0
       const helpText = level.assessment === 'cumulative' ? $.t('play_level.combo_challenge') : $.t('play_level.concept_challenge')
       levelNumber = `${levelNumber}. ${helpText}`
@@ -1913,6 +1915,7 @@ module.exports = {
   JUNIOR_COURSE_IDS,
   HACKSTACK_COURSE_IDS,
   OZ_COURSE_IDS,
+  showOzaria,
 }
 
 function __guard__ (value, transform) {
