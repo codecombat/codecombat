@@ -3,7 +3,7 @@ import utils from '../../../../../app/core/utils'
 export function getLevelUrl ({ ozariaType, introLevelSlug, courseId, codeLanguage, slug, introContent, moduleNum, _id }) {
   if (courseId === utils.courseIDs.HACKSTACK) {
     return `/ai/scenario/${_id}`
-  } else if (utils.isOzaria && !ozariaType && introLevelSlug) {
+  } else if (utils.showOzaria() && !ozariaType && introLevelSlug) {
     return `/play/intro/${introLevelSlug}?course=${courseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
   } else if (slug) {
     let url = `/play/level/${slug}?course=${courseId}&codeLanguage=${codeLanguage}`

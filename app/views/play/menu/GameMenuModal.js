@@ -17,7 +17,7 @@ require('vendor/styles/jquery-ui-1.11.1.custom.css')
 const submenuViews = []
 require('app/styles/play/menu/game-menu-modal.sass')
 
-if (utils.isOzaria) {
+if (utils.showOzaria()) {
   submenuViews.push(require('ozaria/site/views/play/menu/OptionsView'))
 } else {
   submenuViews.push(require('views/play/menu/MyCodeView'))
@@ -34,6 +34,11 @@ module.exports = (GameMenuModal = (function () {
   GameMenuModal = class GameMenuModal extends ModalView {
     static initClass () {
       this.prototype.className = 'modal fade play-modal'
+      if (utils.showOzaria()) {
+        this.prototype.className += ' ozar-view'
+      } else {
+        this.prototype.className += ' coco-view'
+      }
       this.prototype.template = template
       this.prototype.id = 'game-menu-modal'
       this.prototype.instant = true
@@ -80,7 +85,7 @@ module.exports = (GameMenuModal = (function () {
         context.iconMap['change-language'] = 'globe'
       }
       context.submenus = submenus
-      context.isCodeCombat = utils.isCodeCombat
+      context.isCodeCombat = !utils.showOzaria()
       return context
     }
 
@@ -100,7 +105,7 @@ module.exports = (GameMenuModal = (function () {
       super.afterRender()
       for (const SubmenuView of Array.from(submenuViews)) { this.insertSubView(new SubmenuView(this.options)) }
       let firstView = this.subviews.my_code_view
-      if (utils.isOzaria) {
+      if (utils.showOzaria()) {
         // ozaria still uses options_view
         firstView = this.subviews.options_view
       }

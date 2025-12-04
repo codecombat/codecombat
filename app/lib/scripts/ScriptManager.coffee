@@ -58,7 +58,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @levelID = options.levelID
     @debugScripts = application.isIPadApp or utils.getQueryVariable 'dev'
     @initProperties()
-    if utils.isOzaria
+    if utils.showOzaria()
       @saveSayEventsToStore()
     @addScriptSubscriptions()
     @beginTicking()
@@ -71,7 +71,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @quiet = false
     @addScriptSubscriptions()
     @run()
-    if utils.isOzaria
+    if utils.showOzaria()
       @saveSayEventsToStore()
 
   initProperties: ->
@@ -138,7 +138,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     return unless scripts?.currentScript
     script = _.find @scripts, {id: scripts.currentScript}
     return unless script
-    canSkipScript = utils.isCodeCombat or ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
+    canSkipScript = !utils.showOzaria() or ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
     if canSkipScript
       @triggered.push(script.id)
     noteChain = @processScript(script)
@@ -159,7 +159,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
         console.warn 'Couldn\'t find script for', scriptID, 'from scripts', @scripts, 'when restoring session scripts.'
         continue
       continue if script.repeats # repeating scripts are not 'rerun'
-      canSkipScript = utils.isCodeCombat or ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
+      canSkipScript = !utils.showOzaria() or ScriptManager.extractSayEvents(script).length == 0 # say events are reset each new run
       if canSkipScript
         @triggered.push(scriptID)
         @ended.push(scriptID)
@@ -217,7 +217,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
       @triggered.push(script.id) unless alreadyTriggered
       noteChain = @processScript(script)
 
-      if utils.isOzaria
+      if utils.showOzaria()
         # There may have been new conditions that are met so we are now in a
         # position to add new say events to the tutorial. Duplicates are ignored.
         sayEvents = ScriptManager.extractSayEvents(script)

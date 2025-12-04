@@ -7,7 +7,7 @@ module.exports = class DialogueAnimator
   childAnimator: null
 
   constructor: (html, @jqueryElement) ->
-    if me.get('aceConfig')?.screenReaderMode and utils.isOzaria
+    if me.get('aceConfig')?.screenReaderMode and utils.showOzaria()
       # Render instantly when in screen reader mode; don't animate anything.
       @jqueryElement.html(html)
       return

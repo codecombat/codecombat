@@ -4,25 +4,22 @@ import Campaign from 'models/Campaign'
 
 export default {
   namespaced: true,
-  state: utils.isOzaria
-    ? {
-        campaignByCampaignHandle: {},
-        campaignById: {},
-        campaignBySlug: {},
-        campaignByCourseInstanceId: {},
-        campaignByCourseId: {}
-      }
-    : {
-        byId: {},
-        bySlug: {},
-        currentCampaignId: null,
-        levelsByCampaignId: {},
-        areCocoCampaignsFetched: false,
-        campaignLevelsFetched: {}
-      },
+  state: {
+    campaignByCampaignHandle: {},
+    campaignById: {},
+    campaignBySlug: {},
+    campaignByCourseInstanceId: {},
+    campaignByCourseId: {},
+    byId: {},
+    bySlug: {},
+    currentCampaignId: null,
+    levelsByCampaignId: {},
+    areCocoCampaignsFetched: false,
+    campaignLevelsFetched: {},
+  },
 
   mutations: {
-    setCampaignData: utils.isOzaria
+    setCampaignData: utils.showOzaria()
       ? (state, { campaignData, campaignHandle, courseInstanceId, courseId }) => {
           Vue.set(state.campaignByCampaignHandle, campaignHandle, campaignData)
           Vue.set(state.campaignById, campaignData._id, campaignData)
@@ -43,11 +40,11 @@ export default {
     },
     setCampaignLevelsFetched (state, { campaignHandle, flag }) {
       state.campaignLevelsFetched[campaignHandle] = flag
-    }
+    },
   },
 
   getters: {
-    getCampaignData: utils.isOzaria
+    getCampaignData: utils.showOzaria()
       ? (state) => ({ idOrSlug, campaignHandle, courseInstanceId, courseId }) => {
           return state.campaignById[idOrSlug] ||
           state.campaignBySlug[idOrSlug] ||
@@ -69,12 +66,12 @@ export default {
     },
     getCampaignLevels: (state) => (campaignId) => {
       return state.levelsByCampaignId[campaignId]
-    }
+    },
   },
 
   actions: {
     // eslint-disable-next-line multiline-ternary
-    fetch: utils.isOzaria ? async ({ commit, state, rootGetters, dispatch }, { campaignHandle, courseInstanceId, courseId }) => {
+    fetch: utils.showOzaria() ? async ({ commit, state, rootGetters, dispatch }, { campaignHandle, courseInstanceId, courseId }) => {
       if (state.campaignById[campaignHandle] ||
         state.campaignBySlug[campaignHandle] ||
         state.campaignByCampaignHandle[campaignHandle] ||
@@ -159,7 +156,7 @@ export default {
       const levels = await campaignsApi.fetchLevels(campaignHandle, { data: { project: 'heroThang,name,slug,campaign,tasks,original,kind,practice' }, callOz })
       commit('setCampaignLevels', { campaignId: campaignHandle, levels })
       commit('setCampaignLevelsFetched', { campaignHandle, flag: true })
-    }
+    },
 
-  }
+  },
 }

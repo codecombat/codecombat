@@ -77,17 +77,17 @@ export default Vue.extend({
   },
   computed: {
     aiHintAnimal () {
-      if (utils.isCodeCombat) {
-        return '/images/level/baby-griffin.png'
-      } else {
+      if (utils.showOzaria()) {
         return '/images/ozaria/avatar-selector/avatar_ghost.png'
+      } else {
+        return '/images/level/baby-griffin.png'
       }
     },
     aiHintBtnStyle () {
-      if (utils.isCodeCombat) {
-        return 'btn-illustrated btn-primary'
-      } else {
+      if (utils.showOzaria()) {
         return 'ai-btn-active'
+      } else {
+        return 'btn-illustrated btn-primary'
       }
     },
   },

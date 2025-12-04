@@ -219,7 +219,7 @@ module.exports = class SpellView extends CocoView
       bindKey: {win: 'Escape', mac: 'Escape'}
       readOnly: true
       exec: ->
-        return unless utils.isOzaria
+        return unless utils.showOzaria()
         # In screen reader mode, we need to move focus to next element on escape, since tab won't.
         # Next element happens to be #run button, or maybe #update-code button in game-dev.
         # We need this even when you're not in screen reader mode, so you can tab over to enable it.
@@ -1257,7 +1257,7 @@ module.exports = class SpellView extends CocoView
     # but this view is not part of the normal subview destroying because of how it's swapped
     return unless @controlsEnabled and @writable and $('.modal:visible').length is 0
     return if @ace.isFocused()
-    return if me.get('aceConfig')?.screenReaderMode and utils.isOzaria  # Screen reader users get to control their own focus manually
+    return if me.get('aceConfig')?.screenReaderMode and utils.showOzaria()  # Screen reader users get to control their own focus manually
     @ace.focus()
     @ace.clearSelection()
 
