@@ -1342,7 +1342,7 @@ describe('Utility library', function () {
     it('should return teacher curriculum path for non-anonymous teachers', () => {
       me.isTeacher.and.returnValue(true);
       me.isAnonymous.and.returnValue(false);
-      expect(utils.getJuniorUrl()).toEqual(`${utils.cocoBaseURL()}/teachers/curriculum/junior`);
+      expect(utils.getJuniorUrl()).toEqual(`${utils.cocoBaseURL()}/teachers/guide/junior`);
     });
   });
 })
