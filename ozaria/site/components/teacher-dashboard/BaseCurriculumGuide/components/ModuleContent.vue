@@ -192,7 +192,7 @@ export default {
     },
     mapUrl (url) {
       if (utils.isCodeCombat && this.isOzariaCourse) {
-        return url?.replace('/play', '/play/ozaria')
+        return url?.replace('/play/level', '/play/ozaria/level')
       }
       return url
     },
