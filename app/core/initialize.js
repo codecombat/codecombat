@@ -38,8 +38,8 @@ Vue.use(VueMoment.default)
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
 
+Vue.use(utils.vueNonReactiveInstall)
 if (utils.isOzaria) {
-  Vue.use(utils.vueNonReactiveInstall)
   Vue.use(VueAsyncComputed)
   Vue.directive('mask', VueMaskDirective)
 }
