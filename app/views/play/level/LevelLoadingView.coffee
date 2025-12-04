@@ -33,7 +33,7 @@ module.exports = class LevelLoadingView extends CocoView
   initialize: (options={}) ->
     @utils = utils
     @loadingWingClass = _.sample(['alejandro', 'anya', 'chess', 'naria', 'okar'])
-    @showOzaria = utils.isOzaria || window.location.pathname.startsWith('/play/ozaria')
+    @showOzaria = utils.showOzaria()
     @showCoco = !@showOzaria
     if @showCoco
       @$el.addClass 'coco-view'
