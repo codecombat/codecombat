@@ -1,8 +1,8 @@
 @import "ozaria/site/styles/common/variables"
 
-@mixin editor-height($extraHeight)
+@mixin editor-height($extraHeight, $showCodeCombat)
   width: 98%
-  @if $is-codecombat
+  @if $showCodeCombat
     height: 83%
     height: unquote("-webkit-calc(100% - 100px -")$extraHeight unquote(")")
     height: unquote("calc(100% - 100px -")$extraHeight unquote(")")
@@ -11,11 +11,11 @@
     height: unquote("-webkit-calc(88% - 50px -")$extraHeight unquote(")")
     height: unquote("calc(88% - 50px -")$extraHeight unquote(")")
 
-@mixin ace
+@mixin ace($showCodeCombat)
   .ace_editor
     // When Firepad isn't active, .ace_editor needs the width/height set itself.
-    @include editor-height(0px)
-    @if $is-codecombat
+    @include editor-height(0px, $showCodeCombat)
+    @if $showCodeCombat
       margin-top: 10px
       width: calc(100% - 30px)
       line-height: 20px
@@ -32,7 +32,7 @@
     @include transition(height 0.25s ease-in-out)
 
     body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
-      @if $is-codecombat
+      @if $showCodeCombat
         font-family: "Cousine", "Courier", "Courier New", monospace !important
       @else
         font-family: $code-font-style !important
@@ -48,7 +48,7 @@
       //background-color: rgba(255, 255, 255, 0.25)
       width: 47px
       margin-left: 4px
-      @if not $is-codecombat
+      @if not $showCodeCombat
         padding-top: 3px
 
     // override ace visible to get the experimental large current line executing arrow visible
@@ -61,14 +61,14 @@
     .ace_scroller
       background-color: transparent
       //padding-left: 10px  // Interrupts gutter and line highlighting
-      @if not $is-codecombat
+      @if not $showCodeCombat
         margin-left: 10px // TODO: creates a white space/break in the line highlighting in code editor
         padding-top: 3px
 
     .ace_active-line, .ace_gutter-active-line
       background-color: rgba(255, 255, 255, 0.4)
 
-    @if not $is-codecombat
+    @if not $showCodeCombat
       .ace_gutter-cell.ace_error
         background-image: url(/images/ozaria/level/error_icon.png) !important
         background-size: 40%
@@ -124,7 +124,7 @@
       background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAANhJREFUeNpi/P//PwM1ARMDlcHgMrA428MAiANQBEFhSA4uynIXAOJ+dHFKXDgfiDdSxctAbzYAqQ+9U3ccQJdjIcMwByCVD8SGFEcK0DAFILUeiCcCXfeAIgOBhglADfsAxBNwqSPFy/1AbADEiUDXfSApHQJdcx+I9yPxE4AUCB8AGrYAn62M6HkZ6rX3UG4jEG8A4vNQviO2mMXrQqh3GqHcemi4gcACQobhixRQoMNiUQEaEY1k52WoKwuRhHAmE6KTDdCADdDwu4AvmRCMlOFfwAIEGAD4On+N4aXlhgAAAABJRU5ErkJggg==)
       background-position: 0px center
 
-    @if $is-codecombat
+    @if $showCodeCombat
       .ace_gutter-cell.entry-point:after
         content: " "
         display: block
@@ -157,7 +157,7 @@
 
     .ace_gutter-cell.ace_error
       background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTM5jWRgMAAAAVdEVYdENyZWF0aW9uIFRpbWUAMi8xNy8wOCCcqlgAAAQRdEVYdFhNTDpjb20uYWRvYmUueG1wADw/eHBhY2tldCBiZWdpbj0iICAgIiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+Cjx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDQuMS1jMDM0IDQ2LjI3Mjk3NiwgU2F0IEphbiAyNyAyMDA3IDIyOjExOjQxICAgICAgICAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp4YXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iPgogICAgICAgICA8eGFwOkNyZWF0b3JUb29sPkFkb2JlIEZpcmV3b3JrcyBDUzM8L3hhcDpDcmVhdG9yVG9vbD4KICAgICAgICAgPHhhcDpDcmVhdGVEYXRlPjIwMDgtMDItMTdUMDI6MzY6NDVaPC94YXA6Q3JlYXRlRGF0ZT4KICAgICAgICAgPHhhcDpNb2RpZnlEYXRlPjIwMDgtMDMtMjRUMTk6MDA6NDJaPC94YXA6TW9kaWZ5RGF0ZT4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyI+CiAgICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2UvcG5nPC9kYzpmb3JtYXQ+CiAgICAgIDwvcmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIDUdUmQAAAD5SURBVDiNpZMxagMxEEWfgiCXcB3IbXwD7zbaM0nNyjdIl1O4Dk7pbsslEFbEZFKsJsiJrGDy4YM0M//zRyAoINAJyB8cS43RwwIdMFrvaeE8DADxXqQ3Jstn6GaQ5L3M0GQxsyaZoJtA3r2XCS6o+FkvZkdOIG/eywl+UVHrqcYm4BNIjb1rPdXYBTivj3gVtZ5q/p8gAfPhcLOBamzKcW41UI1dgA/qez4bU6muUE0zwVYEgKeKkWruEnTHENg4R8pFZblCyY1zHEMgQTQAe9gB8cE5XkO4GhugmIk76L+z+Wzy6FzT4CWLXf5MF8upSdMB4gC9Xr4AiezTJHGxdq0AAAAASUVORK5CYII=)
-    @if $is-codecombat
+    @if $showCodeCombat
       .ace_gutter, .ace_gutter-layer
         // Ace sets this to 'strict', which would not paint yellow gutter arrows outside the gutter; this keeps the other three performance-enhancing contain values
         contain: size layout style
