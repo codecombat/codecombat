@@ -7,16 +7,16 @@
   $label-font-style: 'Work Sans', sans-serif !global;
   $code-font-style: 'Roboto Mono', monospace !global;
 
-  // Ozaria Chrome
-  $chromeTopPadding: 8vh !global;
-  $chromeRightPadding: 6vw !global;
-  $chromeBottomPadding: 4vh !global;
-  $chromeLeftPadding: 2vw !global;
-
   // For the single progress table
   $tooltip-spacing: 200px !global;
   $anti-tooltip-spacing: -200px !global;
 }
+// Ozaria Chrome
+$chromeTopPadding: 8vh !global;
+$chromeRightPadding: 6vw !global;
+$chromeBottomPadding: 4vh !global;
+$chromeLeftPadding: 2vw !global;
+
 // Used in the signup modals
 $authGray: #a4a4a4 !global;
 
