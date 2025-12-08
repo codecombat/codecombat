@@ -391,6 +391,12 @@ module.exports = (CocoRouter = (function () {
           }
           return this.routeDirectly('introLevel', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
         },
+        'play/ozaria/intro/:introLevelIdOrSlug' (introLevelIdOrSlug) {
+          const props = {
+            introLevelIdOrSlug,
+          }
+          return this.routeDirectly('introLevel', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
+        },
 
         'play/video/level/:levelID': go('play/level/PlayLevelVideoView'),
         'play/game-dev-level/:sessionID': go('play/level/PlayGameDevLevelView'),
