@@ -73,6 +73,10 @@ export default {
       return utils.courseIDs
     },
 
+    isOzariaCourse () {
+      return utils.OZ_COURSE_IDS.includes(this.courseId)
+    },
+
     courseName () {
       return utils.i18n(this.getCurrentCourse, 'name') || ''
     },
@@ -149,11 +153,11 @@ export default {
       if (this.getCurrentCourse.slug === 'ai-hackstack') {
         return ''
       }
-      let headUrl = '/teachers/course-solution'
-      if (utils.isCodeCombat && utils.showOzaria()) {
-        headUrl = '/teachers/ozaria-course-solution'
+      let urlHead = '/teachers/course-solution'
+      if (this.isOzariaCourse && !isOzaria) {
+        urlHead += '/ozaria'
       }
-      return `${headUrl}/${this.getCurrentCourse._id}/${this.getSelectedLanguage}?from-new-dashboard=true`
+      return `${urlHead}/${this.getCurrentCourse._id}/${this.getSelectedLanguage}?from-new-dashboard=true`
     },
 
     curriculumUrl () {
@@ -200,7 +204,6 @@ export default {
   },
 
   methods: {
-
     getLevelNameMap () {
       const campaign = this.getCurrentCourse
       const levelNameMap = campaign.getLevelNameMap()
