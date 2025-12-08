@@ -149,8 +149,11 @@ export default {
       if (this.getCurrentCourse.slug === 'ai-hackstack') {
         return ''
       }
-
-      return `/teachers/course-solution/${this.getCurrentCourse._id}/${this.getSelectedLanguage}?from-new-dashboard=true`
+      let headUrl = '/teachers/course-solution'
+      if (utils.isCodeCombat && utils.showOzaria()) {
+        headUrl = '/teachers/ozaria-course-solution'
+      }
+      return `${headUrl}/${this.getCurrentCourse._id}/${this.getSelectedLanguage}?from-new-dashboard=true`
     },
 
     curriculumUrl () {

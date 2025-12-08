@@ -507,6 +507,7 @@ module.exports = (CocoRouter = (function () {
         },
         'teachers/units': redirect('/teachers'), // Redirected 9/10/2020
         'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true }),
+        'teachers/ozaria-course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true }),
         'teachers/campaign-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true, campaignMode: true }),
         'teachers/demo': redirect('/teachers/quote'),
         'teachers/enrollments': redirect('/teachers/licenses'),
