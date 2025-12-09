@@ -2,20 +2,21 @@
 import { mapGetters, mapActions } from 'vuex'
 import SecondaryButton from '../../common/buttons/SecondaryButton'
 import TertiaryButton from '../../common/buttons/TertiaryButton'
-import { i18n } from 'core/utils'
+import utils from 'core/utils'
 
 import { hasSharedWriteAccessPermission } from '../../../../../../app/lib/classroom-utils'
 
 export default {
   components: {
     SecondaryButton,
-    TertiaryButton
+    TertiaryButton,
   },
 
   data: () => ({
     latestReleasedCourses: [],
     selected: '',
-    coursesModel: undefined
+    coursesModel: undefined,
+    groupedCourses: [],
   }),
 
   computed: {
@@ -25,7 +26,7 @@ export default {
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
       classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
       selectedStudentIds: 'baseSingleClass/selectedStudentIds',
-      courses: 'courses/sorted'
+      courses: 'courses/sorted',
     }),
   },
 
@@ -34,15 +35,52 @@ export default {
       noty({ text: $.i18n.t('teacher_dashboard.select_student_first'), layout: 'center', type: 'information', killer: true, timeout: 8000 })
       this.$emit('close')
     }
+    this.generateCourses()
   },
 
   methods: {
     ...mapActions({
       assignCourse: 'courseInstances/assignCourse',
       removeCourse: 'courseInstances/removeCourse',
-      fetchData: 'baseSingleClass/fetchData'
+      fetchData: 'baseSingleClass/fetchData',
     }),
-
+    generateCourses () {
+      let cocoIds = Object.values(utils.courseIDs)
+      let ozarIds = Object.values(utils.otherCourseIDs)
+      if (utils.isOzaria) {
+        [cocoIds, ozarIds] = [ozarIds, cocoIds]
+      }
+      console.log('cocoids?', cocoIds, ozarIds)
+      const cocoCourses = [
+        { _id: 'junior', name: $.i18n.t('teacher_dashboard.curriculum_junior'), disabled: true }, // group name
+        this.courses.find(c => c._id === utils.allCourseIDs.JUNIOR),
+        { _id: 'codecombat', name: $.i18n.t('teacher_dashboard.curriculum_coco'), disabled: true }, // group name
+        ...this.courses.filter(c => cocoIds.includes(c._id) && ![utils.allCourseIDs.JUNIOR, utils.allCourseIDs.HACKSTACK].includes(c._id)),
+        { _id: 'ai', name: $.i18n.t('teacher_dashboard.curriculum_ai'), disabled: true }, // group name
+        this.courses.find(c => c._id === utils.allCourseIDs.HACKSTACK),
+      ]
+      const ozarCourses = [
+        { _id: 'ozaria', name: $.i18n.t('teacher_dashboard.curriculum_ozaria'), disabled: true }, // group name
+        ...this.courses.filter(c => ozarIds.includes(c._id)),
+      ]
+      const otherCourses = [
+        { _id: 'beta', name: $.i18n.t('teacher_dashboard.curriculum_beta'), disabled: true },
+        ...this.courses.filter(c => !Object.values(utils.allCourseIDs).includes(c._id)),
+      ]
+      if (otherCourses.length === 1) {
+        otherCourses.length = 0 // if no beta courses
+      }
+      if (utils.isOzaria) {
+        this.groupedCourses = [...ozarCourses, ...otherCourses]
+      } else {
+        const cs = [...cocoCourses]
+        if (me.showOzCourses()) {
+          cs.push(...ozarCourses)
+        }
+        cs.push(...otherCourses)
+        this.groupedCourses = cs
+      }
+    },
     async handleClickedAssign () {
       if (!this.selected) {
         return
@@ -54,7 +92,7 @@ export default {
         classroom: this.classroom,
         course,
         members: this.selectedStudentIds.map(id => this.classroomMembers.find(({ _id }) => id === _id)),
-        sharedClassroomId
+        sharedClassroomId,
       })
       if (this.classroomCourses.find((c) => c._id === course._id)) {
         this.fetchData()
@@ -76,7 +114,7 @@ export default {
     },
 
     i18nName (course) {
-      return i18n(course, 'name')
+      return utils.i18n(course, 'name')
     },
   },
 }
@@ -94,6 +132,7 @@ export default {
         <div class="col-xs-12">
           <span class="control-label">{{ $t('teacher_dashboard.select_chapter') }}</span>
           <select
+            id="course-select"
             v-model="selected"
             class="form-control"
             name="courseList"
@@ -106,9 +145,10 @@ export default {
               {{ $t("teacher_dashboard.choose_course") }}
             </option>
             <option
-              v-for="course in courses"
+              v-for="course in groupedCourses"
               :key="course._id"
               :value="course.name"
+              :disabled="course.disabled"
             >
               {{ i18nName(course) }}
             </option>
@@ -154,5 +194,15 @@ export default {
     @include font-p-3-small-button-text-dusk-dark;
     font-size: 14px;
     letter-spacing: 0.333px;
+  }
+
+  #course-select {
+    option {
+      color: black;
+
+      &:disabled {
+        color: grey;
+      }
+    }
   }
 </style>

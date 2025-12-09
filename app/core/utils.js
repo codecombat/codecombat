@@ -380,7 +380,7 @@ const OZ_COURSE_IDS = [
   OZ_COURSE_IDS_MAP.CHAPTER_FOUR,
 ]
 
-const allCourseIDs = _.assign(courseIDs, otherCourseIDs)
+const allCourseIDs = _.assign({}, courseIDs, otherCourseIDs)
 const allOrderedCourseIDs = [...orderedCourseIDs, ...otherOrderedCourseIDs]
 
 const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.HACKSTACK]
@@ -1817,6 +1817,7 @@ module.exports = {
   courseAcronyms,
   courseCampaignSlugs,
   courseIDs,
+  otherCourseIDs,
   allCourseIDs,
   allFreeCourseIDs,
   freeCocoCourseIDs,
