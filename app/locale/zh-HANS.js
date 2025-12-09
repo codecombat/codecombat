@@ -3565,6 +3565,8 @@ module.exports = {
       can_use_times: '它可以被使用<strong>__unlocksLeft__</strong> 次',
       prepaid_applied_success: '会员已成功激活!',
       activation_code_used: '激活码已被使用。',
+      activation_code_expired: '激活码已过期。',
+      activation_code_not_found: '激活码不存在。',
       redeem_code_error: '错误：无法激活许可：',
     },
 

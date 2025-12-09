@@ -3573,6 +3573,8 @@ module.exports = {
       can_use_times: 'It can be used <strong>__unlocksLeft__ more</strong> times.',
       prepaid_applied_success: 'Prepaid applied to your account!',
       activation_code_used: 'The Activation code has been used.',
+      activation_code_expired: 'The Activation code has been expired.',
+      activation_code_not_found: 'The Activation code is not found.',
       redeem_code_error: 'Error: Could not redeem prepaid code. ',
     },
 

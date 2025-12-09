@@ -147,11 +147,15 @@ module.exports = (PrepaidView = (function () {
         if (res.status === 404) {
           if (res.responseText === 'Activation code has been used') {
             this.ppcInfo.push($.i18n.t('account_prepaid.activation_code_used'))
-            if (typeof this.render === 'function') {
-              this.render()
-            }
-            return
+          } else if (res.responseText === 'Activation code has been expired') {
+            this.ppcInfo.push($.i18n.t('account_prepaid.activation_code_expired'))
+          } else if (res.responseText === 'Activation code not found') {
+            this.ppcInfo.push($.i18n.t('account_prepaid.activation_code_not_found'))
           }
+          if (typeof this.render === 'function') {
+            this.render()
+          }
+          return
         }
         return this.statusMessage('Unable to retrieve code.', 'error')
       }
