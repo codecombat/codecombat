@@ -70,15 +70,13 @@ div {
 
     border: 1px solid #379B8D;
     padding: 4px 0;
-  }
-}
-select {
-  option {
-    color: black;
 
-    &:disabled {
-      color: grey;
-    }
+    option {
+      color: black;
+
+      &:disabled {
+        color: grey;
+      }
   }
 }
 </style>
