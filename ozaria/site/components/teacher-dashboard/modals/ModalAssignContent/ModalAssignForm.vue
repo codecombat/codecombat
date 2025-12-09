@@ -35,7 +35,7 @@ export default {
       noty({ text: $.i18n.t('teacher_dashboard.select_student_first'), layout: 'center', type: 'information', killer: true, timeout: 8000 })
       this.$emit('close')
     }
-    this.generateCourses()
+    this.groupedCourses = utils.groupedCoursesList(this.courses)
   },
 
   methods: {
@@ -44,43 +44,6 @@ export default {
       removeCourse: 'courseInstances/removeCourse',
       fetchData: 'baseSingleClass/fetchData',
     }),
-    generateCourses () {
-      let cocoIds = Object.values(utils.courseIDs)
-      let ozarIds = Object.values(utils.otherCourseIDs)
-      if (utils.isOzaria) {
-        [cocoIds, ozarIds] = [ozarIds, cocoIds]
-      }
-      console.log('cocoids?', cocoIds, ozarIds)
-      const cocoCourses = [
-        { _id: 'junior', name: $.i18n.t('teacher_dashboard.curriculum_junior'), disabled: true }, // group name
-        this.courses.find(c => c._id === utils.allCourseIDs.JUNIOR),
-        { _id: 'codecombat', name: $.i18n.t('teacher_dashboard.curriculum_coco'), disabled: true }, // group name
-        ...this.courses.filter(c => cocoIds.includes(c._id) && ![utils.allCourseIDs.JUNIOR, utils.allCourseIDs.HACKSTACK].includes(c._id)),
-        { _id: 'ai', name: $.i18n.t('teacher_dashboard.curriculum_ai'), disabled: true }, // group name
-        this.courses.find(c => c._id === utils.allCourseIDs.HACKSTACK),
-      ]
-      const ozarCourses = [
-        { _id: 'ozaria', name: $.i18n.t('teacher_dashboard.curriculum_ozaria'), disabled: true }, // group name
-        ...this.courses.filter(c => ozarIds.includes(c._id)),
-      ]
-      const otherCourses = [
-        { _id: 'beta', name: $.i18n.t('teacher_dashboard.curriculum_beta'), disabled: true },
-        ...this.courses.filter(c => !Object.values(utils.allCourseIDs).includes(c._id)),
-      ]
-      if (otherCourses.length === 1) {
-        otherCourses.length = 0 // if no beta courses
-      }
-      if (utils.isOzaria) {
-        this.groupedCourses = [...ozarCourses, ...otherCourses]
-      } else {
-        const cs = [...cocoCourses]
-        if (me.showOzCourses()) {
-          cs.push(...ozarCourses)
-        }
-        cs.push(...otherCourses)
-        this.groupedCourses = cs
-      }
-    },
     async handleClickedAssign () {
       if (!this.selected) {
         return

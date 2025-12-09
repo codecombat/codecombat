@@ -367,11 +367,14 @@ if (isCodeCombat) {
   }
 }
 
+const allCourseIDs = _.assign({}, courseIDs, otherCourseIDs)
+const allOrderedCourseIDs = [...orderedCourseIDs, ...otherOrderedCourseIDs]
+
 const JUNIOR_COURSE_IDS = [
-  courseIDs.JUNIOR,
+  allCourseIDs.JUNIOR,
 ]
 const HACKSTACK_COURSE_IDS = [
-  courseIDs.HACKSTACK,
+  allCourseIDs.HACKSTACK,
 ]
 const OZ_COURSE_IDS = [
   OZ_COURSE_IDS_MAP.CHAPTER_ONE,
@@ -380,8 +383,19 @@ const OZ_COURSE_IDS = [
   OZ_COURSE_IDS_MAP.CHAPTER_FOUR,
 ]
 
-const allCourseIDs = _.assign({}, courseIDs, otherCourseIDs)
-const allOrderedCourseIDs = [...orderedCourseIDs, ...otherOrderedCourseIDs]
+const COCO_COURSE_IDS = [
+  allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
+  allCourseIDs.GAME_DEVELOPMENT_1,
+  allCourseIDs.WEB_DEVELOPMENT_1,
+  allCourseIDs.COMPUTER_SCIENCE_2,
+  allCourseIDs.GAME_DEVELOPMENT_2,
+  allCourseIDs.WEB_DEVELOPMENT_2,
+  allCourseIDs.COMPUTER_SCIENCE_3,
+  allCourseIDs.GAME_DEVELOPMENT_3,
+  allCourseIDs.COMPUTER_SCIENCE_4,
+  allCourseIDs.COMPUTER_SCIENCE_5,
+  allCourseIDs.COMPUTER_SCIENCE_6,
+]
 
 const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.HACKSTACK]
 const allFreeCourseIDs = [...freeCocoCourseIDs, allCourseIDs.CHAPTER_ONE]
@@ -1787,6 +1801,38 @@ module.exports.aiTranslate = async (modelName, docId, langs) => {
       langs,
     },
   })
+}
+
+module.exports.groupedCoursesList = (courses) => {
+  const cocoCourses = [
+    { _id: 'junior', name: $.i18n.t('teacher_dashboard.curriculum_junior'), disabled: true }, // group name
+    ...courses.filter(c => JUNIOR_COURSE_IDS.includes(c._id)),
+    { _id: 'codecombat', name: $.i18n.t('teacher_dashboard.curriculum_coco'), disabled: true }, // group name
+    ...courses.filter(c => COCO_COURSE_IDS.includes(c._id)),
+    { _id: 'ai', name: $.i18n.t('teacher_dashboard.curriculum_ai'), disabled: true }, // group name
+    ...courses.filter(c => HACKSTACK_COURSE_IDS.includes(c._id)),
+  ]
+  const ozarCourses = [
+    { _id: 'ozaria', name: $.i18n.t('teacher_dashboard.curriculum_ozaria'), disabled: true }, // group name
+    ...courses.filter(c => OZ_COURSE_IDS.includes(c._id)),
+  ]
+  const otherCourses = [
+    { _id: 'beta', name: $.i18n.t('teacher_dashboard.curriculum_beta'), disabled: true },
+    ...courses.filter(c => !Object.values(allCourseIDs).includes(c._id)),
+  ]
+  if (otherCourses.length === 1) {
+    otherCourses.length = 0 // if no beta courses
+  }
+  if (isOzaria) {
+    return [...ozarCourses, ...otherCourses]
+  } else {
+    const cs = [...cocoCourses]
+    if (me?.showOzCourses()) {
+      cs.push(...ozarCourses)
+    }
+    cs.push(...otherCourses)
+    return cs
+  }
 }
 
 module.exports = {
