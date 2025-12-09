@@ -77,6 +77,7 @@ div {
       &:disabled {
         color: grey;
       }
+    }
   }
 }
 </style>
