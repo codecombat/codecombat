@@ -128,9 +128,10 @@ mixin classrooms_content()
     .classes-area.student-container
       h3.tile-header(data-i18n="courses.my_classes")
 
-      if view.allCompleted
-        p.alert.alert-success
-          span(data-i18n="courses.ask_next_course")
+      .ask-next-course
+        if view.allCompleted
+          p.alert.alert-success
+            span(data-i18n="courses.ask_next_course")
 
       for classroom in view.classrooms.models
         - var justAdded = classroom.id === view.classroomJustAdded;
