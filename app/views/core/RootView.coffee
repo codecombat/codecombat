@@ -61,7 +61,6 @@ module.exports = class RootView extends CocoView
     earnedAchievement.set('notified', true)
     earnedAchievement.patch()
     return if achievement.get('collection') is 'level.sessions' and not achievement.get('query')?.team
-    return if window.serverConfig.picoCTF
     return if achievement.get('hidden')
 
     return if utils.isOzaria # Hiding legacy achievement popups in Ozaria

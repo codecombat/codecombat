@@ -19,7 +19,7 @@ module.exports = (OptionsView = (function () {
   OptionsView = class OptionsView extends CocoView {
     static initClass () {
       this.prototype.id = 'options-view'
-      this.prototype.className = 'tab-pane'
+      this.prototype.className = 'tab-pane coco-view'
       this.prototype.template = template
       this.prototype.aceConfig = {}
       this.prototype.defaultConfig = {

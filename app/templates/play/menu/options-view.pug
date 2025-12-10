@@ -1,9 +1,9 @@
 .form
 
-  if view.utils.isCodeCombat
-    h3(data-i18n="options.general_options") General Options
-  else
+  if view.utils.showOzaria()
     h3.options-title(data-i18n="options.editor_config_title_ozar") Level Options:
+  else
+    h3(data-i18n="options.general_options") General Options
 
   .form-group.slider-group#volume-group
     span.glyphicon.glyphicon-volume-down
@@ -18,7 +18,7 @@
       span(data-i18n="options.music_label") Music
     span.help-block(data-i18n="options.music_description") Turn background music on/off.
 
-  if view.utils.isCodeCombat
+  if !view.utils.showOzaria()
     img.hr(src="/images/pages/play/modal/hr.png", draggable="false")
     h3(data-i18n="options.editor_config_title_coco") Editor Configuration
 
@@ -40,7 +40,7 @@
       span(data-i18n="options.editor_config_behaviors_label") Enable Smart Behaviors
     span.help-block(data-i18n="options.editor_config_behaviors_description") Autocompletes brackets, braces, and quotes.
 
-  if !(features.china) && view.utils.isCodeCombat
+  if !(features.china) && !view.utils.showOzaria()
     .form-group.checkbox
       label(for="option-wide-editor")
         input#option-wide-editor(name="wide-editor", type="checkbox", checked=aceConfig.preferWideEditor)
@@ -49,7 +49,7 @@
         span(data-i18n="options.editor_config_wide_editor_label")
       span.help-block(data-i18n="options.editor_config_wide_editor_description")
 
-  if view.utils.isOzaria
+  if view.utils.showOzaria()
     .form-group.checkbox
       label(for="option-screen-reader-mode")
         input#option-screen-reader-mode(name="screen-reader-mode", type="checkbox", checked=aceConfig.screenReaderMode)

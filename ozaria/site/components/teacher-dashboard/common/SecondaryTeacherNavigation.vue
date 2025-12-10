@@ -42,7 +42,16 @@ export default {
 
   data: () => {
     let guideOptions
+    let ozLink = {
+      path: utils.ozBaseURL(),
+      type: 'a',
+    }
     if (utils.isCodeCombat) {
+      if (me.showOzCourses()) {
+        ozLink = {
+          path: '/teachers/guide/ozaria',
+        }
+      }
       guideOptions = [
         { id: 'junior', name: $.i18n.t('nav.coco_junior'), path: '/teachers/guide/junior', gradeBands: [K5, K6] },
         { id: 'codecombat', name: $.i18n.t('new_home.codecombat'), path: '/teachers/guide/codecombat', gradeBands: [K6, K9] },

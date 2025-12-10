@@ -3,7 +3,7 @@
 @import "ozaria/site/styles/common/variables"
 @import "app/styles/play/ace-editor"
 
-@mixin editor-height($extraHeight)
+@mixin editor-height($extraHeight, $showCodeCombat)
   width: 98%
   height: 88%
   height: unquote("-webkit-calc(88% - 50px -")$extraHeight unquote(")")
@@ -56,7 +56,7 @@
     .programming-language
       color: darkred
 
-  @include ace
+  @include ace(false)
 
 .ace_autocomplete .ace_line:not(.ace_selected) .ace_completion-meta
   // Don't show "press enter" on lines that aren't currently selected

@@ -41,9 +41,6 @@ module.exports = (CocoRouter = (function () {
     static initClass () {
       this.prototype.routes = {
         '' () {
-          if (window.serverConfig.picoCTF) {
-            return this.routeDirectly('play/CampaignView', ['picoctf'], {})
-          }
           if (utils.getQueryVariable('hour_of_code')) {
             delete window.alreadyLoadedView
             return this.navigate('/play?hour_of_code=true', { trigger: true, replace: true })
@@ -330,6 +327,9 @@ module.exports = (CocoRouter = (function () {
         hackstack: go('core/SingletonAppVueComponentView'),
 
         'home-beta': go('core/SingletonAppVueComponentView'),
+        ozaria () {
+          return this.routeDirectly('HomeView', [])
+        },
 
         standards: go('core/SingletonAppVueComponentView'),
 
@@ -385,6 +385,12 @@ module.exports = (CocoRouter = (function () {
             }
             return this.routeDirectly('ozaria/site/play/PagePlayLevel', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
           }
+        },
+        'play/ozaria/level/:levelID' (levelID, options) {
+          const props = {
+            levelID,
+          }
+          return this.routeDirectly('ozaria/site/play/PagePlayLevel', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
         },
         'play/intro/:introLevelIdOrSlug' (introLevelIdOrSlug) {
           const props = {

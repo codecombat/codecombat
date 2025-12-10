@@ -34,7 +34,7 @@ export default {
         python: 'Python',
         javascript: 'JavaScript',
       }
-      if (this.courseName === 'Junior' || utils.isOzaria) {
+      if (this.courseName === 'Junior' || utils.showOzaria()) {
         return base
       }
       return {

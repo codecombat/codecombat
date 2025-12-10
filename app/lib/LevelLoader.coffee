@@ -158,7 +158,7 @@ module.exports = class LevelLoader extends CocoClass
           originalGet.apply @, arguments
     # I think the modification from https://github.com/codecombat/codecombat/commit/09e354177cb5df7e82cc66668f4c9b6d66d1d740#diff-0aef265179ff51db5b47a0f5be07eea7765664222fcbea6780439f50cd374209L105-R105
     # Can go to Ozaria as well
-    if (@courseID and not @level.isType('course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')) or window.serverConfig.picoCTF
+    if (@courseID and not @level.isType('course', 'course-ladder', 'game-dev', 'web-dev', 'ladder'))
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
       realType = @level.get('type')
@@ -166,10 +166,6 @@ module.exports = class LevelLoader extends CocoClass
         return 'course' if arguments[0] is 'type'
         return realType if arguments[0] is 'realType'
         originalGet.apply @, arguments
-    if window.serverConfig.picoCTF
-      @supermodel.addRequestResource(url: '/picoctf/problems', success: (picoCTFProblems) =>
-        @level?.picoCTFProblem = _.find picoCTFProblems, pid: @level.get('picoCTFProblem')
-      ).load()
     if @sessionless
       null
     else if @fakeSessionConfig?
@@ -225,7 +221,7 @@ module.exports = class LevelLoader extends CocoClass
           url += "?team=#{@team}"
         if @level.isType('course-ladder') and league and not @courseInstanceID
           url += "&courseInstance=#{league}"
-        else if utils.isCodeCombat and @courseID
+        else if !utils.showOzaria() and @courseID
           url += "&course=#{@courseID}"
           if @courseInstanceID
             url += "&courseInstance=#{@courseInstanceID}"
@@ -346,7 +342,7 @@ module.exports = class LevelLoader extends CocoClass
 
     # Load the hero ThangType
     heroThangType = switch
-      when utils.isOzaria
+      when utils.showOzaria()
         # Use configured Ozaria hero
         me.get('ozariaUserOptions')?.isometricThangTypeOriginal or ThangType.heroes['hero-b']
       when session.get('heroConfig')?.thangType
@@ -747,7 +743,7 @@ module.exports = class LevelLoader extends CocoClass
   # Initial Sound Loading
 
   playJingle: ->
-    return if utils.isOzaria # TODO: replace with Ozaria level loading jingles
+    return if utils.showOzaria() # TODO: replace with Ozaria level loading jingles
     return if @headless or not me.get('volume')
     volume = 0.5
     if me.level() < 3
@@ -760,7 +756,7 @@ module.exports = class LevelLoader extends CocoClass
     setTimeout f, 500
 
   loadAudio: ->
-    return if utils.isOzaria  # TODO: replace with Ozaria sound
+    return if utils.showOzaria()  # TODO: replace with Ozaria sound
     return if @headless or not me.get('volume')
     AudioPlayer.preloadInterfaceSounds ['victory']
 

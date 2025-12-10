@@ -25,6 +25,14 @@ const ozPath = function (relativePath) {
   return `${ozBaseURL()}${relativePath}`
 }
 
+const ozCurriculumLink = function () {
+  if (isOzaria || me.showOzCourses()) {
+    return '/teachers/guide/ozaria'
+  } else {
+    return ozPath('/teachers/guide/ozaria')
+  }
+}
+
 export const items = {
   CREATE_FREE_ACCOUNT: { class: 'signup-button', title: 'nav.create_free_account' },
   SCHOOL_AND_DISTRICT: { url: cocoPath('/schools'), title: 'nav.school_district_solutions' },
@@ -38,10 +46,10 @@ export const items = {
   GRANTS: { url: cocoPath('/grants'), title: 'nav.grants_funding_resources' },
   ACCESSIBILITY: { url: cocoPath('/acr'), title: 'nav.accessibility' },
   DEMO: { url: '/teachers/quote', title: 'nav.request_quote_demo' },
-  COCO_CLASSROOM: { url: cocoPath('/teachers/curriculum/introduction-to-computer-science'), title: 'nav.codecombat_classroom' },
+  COCO_CLASSROOM: { url: cocoPath('/teachers/guide/codecombat'), title: 'new_home.codecombat' },
   COCO_JUNIOR: { url: getJuniorUrl(), title: 'nav.coco_junior' },
   COCO_HOME: { url: cocoPath('/play'), title: 'nav.codecombat_home' },
-  OZ_CLASSROOM: { url: ozPath('/teachers/curriculum'), title: 'nav.ozaria_classroom' },
+  OZ_CLASSROOM: { url: ozCurriculumLink(), title: 'new_home.ozaria' },
   AP_CSP: { url: cocoPath('/apcsp'), title: 'nav.ap_csp' },
   AI_LEAGUE: { url: cocoPath('/league'), title: 'nav.ai_league_esports' },
   ROBLOX: { url: cocoPath('/roblox'), title: 'nav.codecombat_worlds_on_roblox' },

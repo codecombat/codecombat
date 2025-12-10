@@ -1,5 +1,5 @@
 import { merge } from 'lodash'
-import { i18n, isCodeCombat, removeAI } from 'app/core/utils'
+import { i18n, isCodeCombat, removeAI, showOzaria } from 'app/core/utils'
 
 /**
  Utility functions for ozaria
@@ -182,6 +182,9 @@ export const getNextLevelLink = (levelData, options) => {
     link = '/play/intro/' + levelData.slug
   } else {
     link = '/play/level/' + levelData.slug
+    if (showOzaria()) {
+      link = '/play/ozaria/level/' + levelData.slug
+    }
   }
 
   if (options.courseId && options.courseInstanceId) {

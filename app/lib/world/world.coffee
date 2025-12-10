@@ -255,9 +255,6 @@ module.exports = class World
     @loadSystemsFromLevel level
     @loadThangsFromLevel level, willSimulate
     @showsCountdown = @levelID in COUNTDOWN_LEVELS or _.any(@thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag)
-    @picoCTFProblem = level.picoCTFProblem if level.picoCTFProblem
-    if @picoCTFProblem?.instances and not @picoCTFProblem.flag_sha1
-      @picoCTFProblem = _.merge @picoCTFProblem, @picoCTFProblem.instances[0]
     for system in @systems
       try
         system.start @thangs
@@ -308,6 +305,9 @@ module.exports = class World
       components[existsConfigIndex][1] = {exists: false, stateless: true}
     thangTypeOriginal = thangConfig.thangType
     thangTypeModel = _.find thangTypes, (t) -> t.original is thangTypeOriginal
+    # temp hack for ozaria hero-placeholder-js in coco
+    if thangTypeOriginal is '529ec584c423d4e83b000014' and not thangTypeModel
+      thangTypeModel = _.find thangTypes, (t) -> t.original is '602954040de09b0027cb893f'
     return console.error thangConfig.id ? equipBy, 'could not find ThangType for', thangTypeOriginal unless thangTypeModel
     thangTypeName = thangTypeModel.name
     thang = new Thang @, thangTypeName, thangConfig.id
@@ -457,7 +457,7 @@ module.exports = class World
     #console.log "... world serializing frames from", startFrame, "to", endFrame, "of", @totalFrames
     [transferableObjects, nontransferableObjects] = [0, 0]
     serializedFlagHistory = (_.omit(_.clone(flag), 'processed') for flag in @flagHistory)
-    o = {@totalFrames, @maxTotalFrames, @frameRate, @dt, @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: serializedFlagHistory, @difficulty, scores: @getScores(), @randomSeed, @picoCTFFlag, @keyValueDb, @product}
+    o = {@totalFrames, @maxTotalFrames, @frameRate, @dt, @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: serializedFlagHistory, @difficulty, scores: @getScores(), @randomSeed, @keyValueDb, @product}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap
@@ -566,7 +566,7 @@ module.exports = class World
             w.userCodeMap[thangID][methodName][aetherStateKey] = serializedAether[aetherStateKey]
     else
       w = new World o.userCodeMap, classMap
-    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed, w.picoCTFFlag, w.keyValueDb, w.product] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed, o.picoCTFFlag, o.keyValueDb, o.product]
+    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed, w.keyValueDb, w.product] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed, o.keyValueDb, o.product]
     w[prop] = val for prop, val of o.trackedProperties
 
     perf.t1 = now()

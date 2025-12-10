@@ -138,7 +138,7 @@ module.exports = class CastButtonView extends CocoView
 
   onPlaybackEnded: (e) ->
     return unless @winnable
-    return if @options.level.get('product', true) is 'codecombat' and not utils.isOzaria
+    return if @options.level.get('product', true) is 'codecombat' and not utils.showOzaria()
     return if @options.level.get('ozariaType') is 'capstone'
     Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: true }
 

@@ -1,10 +1,8 @@
 @import "app/styles/bootstrap/variables"
 @import "ozaria/site/styles/common/variables"
 
-@if $is-codecombat
-
-  #options-view
-
+#options-view
+  &.coco-view
     //- Volume slider
 
     #volume-group
@@ -125,10 +123,7 @@
     //
     //
 
-@if not $is-codecombat
-
-  #options-view
-
+  &.ozar-view
     //- Volume slider
 
     #volume-group

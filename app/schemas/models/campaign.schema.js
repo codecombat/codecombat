@@ -214,7 +214,6 @@ CampaignSchema.denormalizedLevelProperties = [
   'clampedProperties',
   'concepts',
   'primaryConcepts',
-  'picoCTFProblem',
   'campaign',
   'campaignIndex',
   'scoreTypes',

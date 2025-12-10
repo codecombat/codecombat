@@ -33,10 +33,16 @@ module.exports = class LevelLoadingView extends CocoView
   initialize: (options={}) ->
     @utils = utils
     @loadingWingClass = _.sample(['alejandro', 'anya', 'chess', 'naria', 'okar'])
+    @showOzaria = utils.showOzaria()
+    @showCoco = !@showOzaria
+    if @showCoco
+      @$el.addClass 'coco-view'
+    else
+      @$el.addClass 'ozar-view'
 
   afterRender: ->
     super()
-    return if utils.isOzaria
+    return if @showOzaria
     unless @level?.get('loadingTip')
       @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
       tips = @$el.find('.tip').addClass('to-remove')
@@ -63,7 +69,7 @@ module.exports = class LevelLoadingView extends CocoView
     @level = e.level
     @$el.toggleClass 'codecombat-junior', @level.get('product', true) is 'codecombat-junior'
     @$el.toggleClass 'codecombat', @level.get('product', true) is 'codecombat'
-    if utils.isCodeCombat and @level.get('product', true) is 'codecombat'
+    if @showCoco and @level.get('product', true) is 'codecombat'
       @prepareGoals e
       @prepareTip()
       @prepareIntro()
@@ -129,13 +135,11 @@ module.exports = class LevelLoadingView extends CocoView
     @docs = @level.get('documentation') ? {}
     specific = @docs.specificArticles or []
     @intro = _.find specific, name: 'Intro'
-    if window.serverConfig.picoCTF
-      @intro ?= body: ''
 
   showReady: ->
     return if @shownReady
     @shownReady = true
-    if utils.isCodeCombat
+    if @showCoco
       _.delay @finishShowingReady, 100  # Let any blocking JS hog the main thread before we show that we're done.
     else
       @unveilPreviewTime = new Date().getTime()
@@ -159,7 +163,7 @@ module.exports = class LevelLoadingView extends CocoView
 
   startUnveiling: (e) ->
     # todo: this file, coco and ozar do similar things with different steps, should be refactored
-    if utils.isCodeCombat
+    if @showCoco
       @playSound 'menu-button-click'
       @unveiling = true
       Backbone.Mediator.publish 'level:loading-view-unveiling', {}
@@ -265,19 +269,8 @@ module.exports = class LevelLoadingView extends CocoView
 
   unveilIntro: =>
     return if @destroyed or not @intro or @unveiled
-    if window.serverConfig.picoCTF and problem = @level.picoCTFProblem
-      html = marked """
-        ### #{problem.name}
-
-        #{@intro.body}
-
-        #{problem.description}
-
-        #{problem.category} - #{problem.score} points
-      """, sanitize: false
-    else
-      language = @session?.get('codeLanguage')
-      html = marked aetherUtils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'), language)
+    language = @session?.get('codeLanguage')
+    html = marked aetherUtils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'), language)
     @$el.find('.intro-doc').removeClass('hidden').find('.intro-doc-content').html html
     @resize()
     @configureACEEditors()
@@ -292,7 +285,7 @@ module.exports = class LevelLoadingView extends CocoView
     @resize()
 
   onSubscriptionRequired: (e) ->
-    return if utils.isOzaria
+    return if @showOzaria
     @$el.find('.level-loading-goals, .tip, .progress-or-start-container, .could-not-load').hide()
     @$el.find('.subscription-required').show()
     @loadingErrorExplained = true

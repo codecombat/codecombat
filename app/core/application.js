@@ -87,7 +87,6 @@ const Application = {
 
     this.isIPadApp = ((typeof webkit !== 'undefined' && webkit !== null ? webkit.messageHandlers : undefined) != null) && ((navigator.userAgent != null ? navigator.userAgent.indexOf('CodeCombat-iPad') : undefined) !== -1)
     if (this.isIPadApp) { $('body').addClass('ipad') }
-    if (window.serverConfig.picoCTF) { $('body').addClass('picoctf') }
     if ($.browser.msie && (parseInt($.browser.version) === 10)) {
       $('html').addClass('ie10')
     }
@@ -179,7 +178,6 @@ const Application = {
 
   featureMode: {
     useChina () { return api.admin.setFeatureMode('china').then(() => document.location.reload()) },
-    usePicoCtf () { return api.admin.setFeatureMode('pico-ctf').then(() => document.location.reload()) },
     useBrainPop () { return api.admin.setFeatureMode('brain-pop').then(() => document.location.reload()) },
     clear () { return api.admin.clearFeatureMode().then(() => document.location.reload()) }
   },

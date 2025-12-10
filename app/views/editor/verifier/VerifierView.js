@@ -91,7 +91,7 @@ module.exports = (VerifierView = (function () {
         const result = []
         for (var campaign of Array.from(this.campaigns.models)) {
           var needle, needle1
-          if ((needle = campaign.get('type'), ['course', 'hero', 'hoc'].includes(needle)) && (needle1 = campaign.get('slug'), !Array.from(['picoctf', 'game-dev-1', 'game-dev-2', 'game-dev-3', 'web-dev-1', 'web-dev-2', 'web-dev-3', 'campaign-web-dev-1', 'campaign-web-dev-2', 'campaign-web-dev-3'].concat(CocoLegacyCampaigns)).includes(needle1))) {
+          if ((needle = campaign.get('type'), ['course', 'hero', 'hoc'].includes(needle)) && (needle1 = campaign.get('slug'), !Array.from(['game-dev-1', 'game-dev-2', 'game-dev-3', 'web-dev-1', 'web-dev-2', 'web-dev-3', 'campaign-web-dev-1', 'campaign-web-dev-2', 'campaign-web-dev-3'].concat(CocoLegacyCampaigns)).includes(needle1))) {
             var name
 
             if (this.levelsByCampaign[name = campaign.get('slug')] == null) {
