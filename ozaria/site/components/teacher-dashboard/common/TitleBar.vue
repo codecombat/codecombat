@@ -166,8 +166,12 @@ export default {
   },
 
   watch: {
-    courses (newVal) {
-      this.groupedCourses = groupedCoursesList(newVal)
+    courses: {
+      immediate: true,
+      handler (newVal) {
+        const list = Array.isArray(newVal) ? newVal : []
+        this.groupedCourses = groupedCoursesList(list)
+      },
     },
   },
 

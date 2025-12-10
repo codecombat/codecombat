@@ -1805,11 +1805,11 @@ module.exports.aiTranslate = async (modelName, docId, langs) => {
 
 module.exports.groupedCoursesList = (courses) => {
   const cocoCourses = [
-    { _id: 'junior', name: $.i18n.t('teacher_dashboard.curriculum_junior'), disabled: true }, // group name
+    { _id: 'junior', name: $.i18n.t('teacher.JR_short'), disabled: true }, // group name
     ...courses.filter(c => JUNIOR_COURSE_IDS.includes(c._id)),
     { _id: 'codecombat', name: $.i18n.t('teacher_dashboard.curriculum_coco'), disabled: true }, // group name
     ...courses.filter(c => COCO_COURSE_IDS.includes(c._id)),
-    { _id: 'ai', name: $.i18n.t('teacher_dashboard.curriculum_ai'), disabled: true }, // group name
+    { _id: 'ai', name: $.i18n.t('teacher.AI_short'), disabled: true }, // group name
     ...courses.filter(c => HACKSTACK_COURSE_IDS.includes(c._id)),
   ]
   const ozarCourses = [
