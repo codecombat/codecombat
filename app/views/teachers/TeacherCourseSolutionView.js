@@ -171,7 +171,7 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
 
     updateLevelData () {
       let level
-      if (utils.isCodeCombat) {
+      if (!utils.showOzaria()) {
         const solutionLanguages = [this.language]
         if ((this.language !== 'html') && this.isWebDev) { solutionLanguages.push('html') }
         this.levelSolutionsMap = this.levels.getSolutionsMap(solutionLanguages)
@@ -202,7 +202,7 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
           if (intro) { level.set('intro', marked(this.hideWrongLanguage(utils.i18n(intro, 'body')))) }
         }
         const heroPlaceholder = level.get('thangs').filter(x => x.id === 'Hero Placeholder').pop()
-        if (utils.isCodeCombat) {
+        if (!utils.showOzaria()) {
           comp = heroPlaceholder != null ? heroPlaceholder.components.filter(x => x.original.toString() === '524b7b5a7fc0f6d51900000e').pop() : undefined
         } else {
           comp = heroPlaceholder != null ? heroPlaceholder.components.filter(x => LevelComponent.ProgrammableIDs.includes(x.original.toString())).pop() : undefined
@@ -210,12 +210,12 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
         const programmableMethod = comp != null ? comp.config.programmableMethods.plan : undefined
         if (programmableMethod) {
           let defaultCode, solutionLanguage, translatedDefaultCode
-          if (utils.isCodeCombat) {
+          if (!utils.showOzaria()) {
             solutionLanguage = level.get('primerLanguage') || this.language
             if (this.isWebDev && !level.get('primerLanguage')) { solutionLanguage = 'html' }
           }
           try {
-            if (utils.isCodeCombat) {
+            if (!utils.showOzaria()) {
               defaultCode = programmableMethod.languages?.[solutionLanguage] || ((this.language === 'cpp') && translateUtils.translateJS(programmableMethod.source, 'cpp')) || programmableMethod.source
             } else {
               defaultCode = programmableMethod.languages?.[level.get('primerLanguage') || this.language] || ((this.language === 'cpp') && translateUtils.translateJS(programmableMethod.source, 'cpp')) || programmableMethod.source
@@ -237,7 +237,7 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
         }
       }
 
-      if (utils.isCodeCombat && ((this.course != null ? this.course.id : undefined) === utils.courseIDs.WEB_DEVELOPMENT_2)) {
+      if (!utils.showOzaria() && ((this.course != null ? this.course.id : undefined) === utils.courseIDs.WEB_DEVELOPMENT_2)) {
         // Filter out non numbered levels.
         this.levels.models = this.levels.models.filter(l => l.get('original') in this.levelNumberMap)
       }
@@ -273,7 +273,7 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
         aceEditor.setBehavioursEnabled(false)
         aceEditor.setAnimatedScroll(false)
         aceEditor.$blockScrolling = Infinity
-        if (utils.isOzaria) {
+        if (utils.showOzaria()) {
           return aceEditor.renderer.setShowGutter(true)
         }
       })
