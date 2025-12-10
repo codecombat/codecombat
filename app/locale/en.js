@@ -4836,7 +4836,7 @@ module.exports = {
       sort_by_last_name: 'Last Name',
       sort_by_first_name: 'first Name',
       sort_by_progress_desc: 'Progress (High to Low)',
-      sort_by_progress_asc: 'Progress (Low to Hight)',
+      sort_by_progress_asc: 'Progress (Low to High)',
       no_write_permission: 'You do not have a write permission on this class',
       select_student_first: 'You need to select student(s) first before performing that action.',
       no_progress_to_delete: 'No progress to delete',

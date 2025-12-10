@@ -27,6 +27,7 @@ export default {
       <option
         v-for="(option, index) in options"
         :key="option"
+        :value="option"
         :selected="option === value"
       >
         {{ displayOptions?.[index] || option }}
