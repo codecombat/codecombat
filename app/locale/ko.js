@@ -471,7 +471,7 @@ module.exports = {
       beta: '[AI_TRANSLATION]베타',
       //    teacher_tools: "Teacher Tools",
       //    ai_teacher_tool: "AI Teacher Tool",
-      //    ccw_short: "CodeCombat on Roblox",
+      //    ccw_short: "Roblox",
     },
 
     modal: {
@@ -3503,6 +3503,13 @@ module.exports = {
       manage_billing: '[AI_TRANSLATION]결제 관리',
       payments_history: '[AI_TRANSLATION]결제 내역',
       no_payments_found: '[AI_TRANSLATION]결제 내역이 없습니다.',
+      //    create_a_free_account: "Create a Free Account",
+      //    individual_inspiration: "Your new favorite game also happens to teach you real code",
+      //    parent_inspiration: "Safe, teacher-backed coding games that build real skills",
+      //    individual_completion: "Check your email to dive in! Open the link on your computer for the best way to learn and play while you code.",
+      //    parent_completion: "Check your email to get started! For the best results, open the link on a computer so your child can learn and play in the best coding environment.",
+      //    all_set: "You're all set!",
+      //    date_of_birth: "Date of Birth",
     },
 
     account_invoices: {
@@ -5360,6 +5367,7 @@ module.exports = {
       invalidEmail: '유효하지 않은 이메일',
       invalidPhone: '유효하지 않은 전화번호',
       emailExists: ' 이미 존재하는 메일 주소입니다.',
+      //    nameExists: "Username already exists",
       numberGreaterThanZero: '숫자는 0보다 커야 합니다.',
       requireValidEmail: '[AI_TRANSLATION]유효한 이메일 주소를 입력해줘.',
       requireValidPhone: '[AI_TRANSLATION]지역 코드 포함 유효한 전화번호를 입력해주세요.',
@@ -6352,6 +6360,7 @@ module.exports = {
       //    run_code_tour_title: "Ready to see the magic?",
       //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
+      //    ready_to_review_confirm_text: "Ready to Submit? Click OK to notify your teacher to review your project.",
     },
 
     //  galaxy: {
