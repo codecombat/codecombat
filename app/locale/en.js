@@ -6361,6 +6361,7 @@ module.exports = {
       run_code_tour_title: 'Ready to see the magic?',
       run_code_tour_text: 'Press “Output” and watch your project come to life. No experience required!',
       ready_to_review_helptext: 'Mark this when your project is complete. Your teacher will then see it as ready to review on their side.',
+      ready_to_review_confirm_text: 'Ready to Submit? Click OK to notify your teacher to review your project.',
     },
     galaxy: {
       title: 'Welcome to HackStack Galaxy',
