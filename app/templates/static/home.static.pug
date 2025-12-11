@@ -41,9 +41,10 @@ block begin
 
 block content
   #page-container
-    #home-view
-      - var product = me.getProduct()
-      if product == 'codecombat'
+    - var product = me.getProduct()
+    if product == 'codecombat'
+      #home-view.coco-home
         include /templates/coco-home-view
-      else
+    else
+      #home-view
         include /templates/ozar-home-view
