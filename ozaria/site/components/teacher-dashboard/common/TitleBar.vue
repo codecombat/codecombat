@@ -1,5 +1,5 @@
 <script>
-import { coursesWithProjects, isOzaria, isCodeCombat } from 'core/utils'
+import { coursesWithProjects, isOzaria, isCodeCombat, groupedCoursesList } from 'core/utils'
 import PrimaryButton from '../common/buttons/PrimaryButton'
 import LicensesComponent from '../common/LicensesComponent'
 import NavSelectUnit from '../common/NavSelectUnit'
@@ -16,7 +16,7 @@ const resourceHubSections = [
   { sectionName: 'educatorResources', slug: 'educator-resources', i18nKey: 'new_home.educator_resources' },
   { sectionName: 'lessonSlides', slug: 'lesson-slides', i18nKey: 'teacher.curriculum' },
   { sectionName: 'studentResources', slug: 'student-resources', i18nKey: 'teacher.student_resources' },
-  { sectionName: 'faq', slug: 'faq', i18nKey: 'nav.faq' }
+  { sectionName: 'faq', slug: 'faq', i18nKey: 'nav.faq' },
 ]
 
 export default {
@@ -28,49 +28,50 @@ export default {
   },
 
   mixins: [
-    zendeskResourceMixin
+    zendeskResourceMixin,
   ],
 
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     showClassInfo: {
       type: Boolean,
-      default: false
+      default: false,
     },
     showPreviewMode: {
       type: Boolean,
-      default: false
+      default: false,
     },
     classroom: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     selectedCourseId: {
       type: String,
-      default: ''
+      default: '',
     },
     courses: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     allClassesPage: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data () {
     return {
-      resourceHubResources: {}
+      resourceHubResources: {},
+      groupedCourses: [],
     }
   },
 
   computed: {
     ...mapGetters({
-      activeClassrooms: 'teacherDashboard/getActiveClassrooms'
+      activeClassrooms: 'teacherDashboard/getActiveClassrooms',
     }),
 
     editClassImgSrc () {
@@ -107,7 +108,8 @@ export default {
       } else if (this.$route.path.startsWith('/teachers/projects')) {
         return this.courses.filter(course => (coursesWithProjects || []).includes(course._id))
       } else {
-        return this.courses
+        // only this case has long courses list, so grouped only here
+        return this.groupedCourses
       }
     },
 
@@ -160,7 +162,17 @@ export default {
     },
     showLicenses () {
       return !me.isCodeNinja()
-    }
+    },
+  },
+
+  watch: {
+    courses: {
+      immediate: true,
+      handler (newVal) {
+        const list = Array.isArray(newVal) ? newVal : []
+        this.groupedCourses = groupedCoursesList(list)
+      },
+    },
   },
 
   methods: {
@@ -181,8 +193,8 @@ export default {
     clickNewClub () {
       window.tracker?.trackEvent('Add New Class Clicked', { category: 'Teachers', label: this.$route.path })
       this.$emit('newClub')
-    }
-  }
+    },
+  },
 }
 </script>
 

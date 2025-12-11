@@ -4853,6 +4853,9 @@ module.exports = {
       pick_a_license: 'Pick a License',
       having_access: 'Having Access',
       course_preview: 'Course Preview',
+      curriculum_coco: 'CodeCombat',
+      curriculum_ozaria: 'Ozaria',
+      curriculum_beta: 'Beta',
     },
 
     outcomes: {
