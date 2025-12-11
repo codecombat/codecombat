@@ -65,11 +65,21 @@ LevelSessionsCollection.initClass()
 
 module.exports = (LadderView = (function () {
   LadderView = class LadderView extends RootView {
-    constructor (options, levelID, leagueType, leagueID) {
+    constructor (options, levelID, leagueTypeOrMixedId, leagueID) {
       super(options)
+      const currentPath = window.location.pathname
       this.levelID = levelID
-      this.leagueType = leagueType
+      this.leagueType = leagueTypeOrMixedId
       this.leagueID = leagueID
+      this.tournamentId = utils.getQueryVariable('tournament')
+
+      if (currentPath.includes('/play/tournament/')) {
+        const mixedID = leagueTypeOrMixedId
+        const { clanId, tournamentId } = utils.tournamentMixedIdHelper.decrypt(mixedID)
+        this.leagueType = 'clan'
+        this.leagueID = clanId
+        this.tournamentId = tournamentId
+      }
       this.refreshViews = this.refreshViews.bind(this)
       this.leaderboardRankings = []
 
@@ -101,7 +111,6 @@ module.exports = (LadderView = (function () {
       this.calcTimeOffset()
       this.mandate = this.supermodel.loadModel(new Mandate()).model
 
-      this.tournamentId = utils.getQueryVariable('tournament')
       if (this.tournamentId) {
         const url = `/db/tournament/${this.tournamentId}/submission`
         this.myTournamentSubmission = new TournamentSubmission().setURL(url)

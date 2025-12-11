@@ -10,7 +10,7 @@ import InputClanSearch from './components/InputClanSearch'
 import ApiData from '../../api/components/ApiData'
 
 import { joinClan, leaveClan } from '../../../core/api/clans'
-import { titleize, arenas, activeArenas } from '../../../core/utils'
+import { titleize, arenas, activeArenas, tournamentMixedIdHelper } from '../../../core/utils'
 
 import BackboneModalHarness from '../../common/BackboneModalHarness'
 import CreateAccountModal from '../../core/CreateAccountModal/CreateAccountModal'
@@ -195,6 +195,9 @@ export default {
         tournament = tournaments[this.regularArenaSlug] || tournament
       }
       if (tournament) url += `?tournament=${tournament}`
+      if (this.clanIdSelected && tournament) {
+        url = tournamentMixedIdHelper(url)
+      }
       return url
     },
 
@@ -207,6 +210,9 @@ export default {
         tournament = tournaments[this.previousRegularArenaSlug] || tournament
       }
       if (tournament) url += `?tournament=${tournament}`
+      if (this.clanIdSelected && tournament) {
+        url = tournamentMixedIdHelper(url)
+      }
       return url
     },
 
@@ -219,6 +225,9 @@ export default {
         tournament = tournaments[this.championshipArenaSlug] || tournament
       }
       if (tournament) url += `?tournament=${tournament}`
+      if (this.clanIdSelected && tournament) {
+        url = tournamentMixedIdHelper(url)
+      }
       return url
     },
 
@@ -231,6 +240,9 @@ export default {
         tournament = tournaments[this.previousChampionshipArenaSlug] || tournament
       }
       if (tournament) url += `?tournament=${tournament}`
+      if (this.clanIdSelected && tournament) {
+        url = tournamentMixedIdHelper(url)
+      }
       return url
     },
 
