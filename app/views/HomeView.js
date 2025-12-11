@@ -48,6 +48,7 @@ module.exports = (HomeView = (function () {
 
     static initClass () {
       this.prototype.id = 'home-view'
+      this.prototype.className = isCoco() ? 'coco-home' : ''
       this.prototype.template = isCoco() ? cocoTemplate : ozarTemplate
 
       this.prototype.events = {
