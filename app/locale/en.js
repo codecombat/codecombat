@@ -4836,7 +4836,7 @@ module.exports = {
       sort_by_last_name: 'Last Name',
       sort_by_first_name: 'first Name',
       sort_by_progress_desc: 'Progress (High to Low)',
-      sort_by_progress_asc: 'Progress (Low to Hight)',
+      sort_by_progress_asc: 'Progress (Low to High)',
       no_write_permission: 'You do not have a write permission on this class',
       select_student_first: 'You need to select student(s) first before performing that action.',
       no_progress_to_delete: 'No progress to delete',
@@ -4853,6 +4853,9 @@ module.exports = {
       pick_a_license: 'Pick a License',
       having_access: 'Having Access',
       course_preview: 'Course Preview',
+      curriculum_coco: 'CodeCombat',
+      curriculum_ozaria: 'Ozaria',
+      curriculum_beta: 'Beta',
     },
 
     outcomes: {
@@ -6358,6 +6361,7 @@ module.exports = {
       run_code_tour_title: 'Ready to see the magic?',
       run_code_tour_text: 'Press “Output” and watch your project come to life. No experience required!',
       ready_to_review_helptext: 'Mark this when your project is complete. Your teacher will then see it as ready to review on their side.',
+      ready_to_review_confirm_text: 'Ready to Submit? Click OK to notify your teacher to review your project.',
     },
     galaxy: {
       title: 'Welcome to HackStack Galaxy',

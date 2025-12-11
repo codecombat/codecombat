@@ -2,20 +2,21 @@
 import { mapGetters, mapActions } from 'vuex'
 import SecondaryButton from '../../common/buttons/SecondaryButton'
 import TertiaryButton from '../../common/buttons/TertiaryButton'
-import { i18n } from 'core/utils'
+import utils from 'core/utils'
 
 import { hasSharedWriteAccessPermission } from '../../../../../../app/lib/classroom-utils'
 
 export default {
   components: {
     SecondaryButton,
-    TertiaryButton
+    TertiaryButton,
   },
 
   data: () => ({
     latestReleasedCourses: [],
     selected: '',
-    coursesModel: undefined
+    coursesModel: undefined,
+    groupedCourses: [],
   }),
 
   computed: {
@@ -25,7 +26,7 @@ export default {
       classroomCourses: 'teacherDashboard/getCoursesCurrentClassroom',
       classroomMembers: 'teacherDashboard/getMembersCurrentClassroom',
       selectedStudentIds: 'baseSingleClass/selectedStudentIds',
-      courses: 'courses/sorted'
+      courses: 'courses/sorted',
     }),
   },
 
@@ -34,15 +35,15 @@ export default {
       noty({ text: $.i18n.t('teacher_dashboard.select_student_first'), layout: 'center', type: 'information', killer: true, timeout: 8000 })
       this.$emit('close')
     }
+    this.groupedCourses = utils.groupedCoursesList(this.courses)
   },
 
   methods: {
     ...mapActions({
       assignCourse: 'courseInstances/assignCourse',
       removeCourse: 'courseInstances/removeCourse',
-      fetchData: 'baseSingleClass/fetchData'
+      fetchData: 'baseSingleClass/fetchData',
     }),
-
     async handleClickedAssign () {
       if (!this.selected) {
         return
@@ -54,7 +55,7 @@ export default {
         classroom: this.classroom,
         course,
         members: this.selectedStudentIds.map(id => this.classroomMembers.find(({ _id }) => id === _id)),
-        sharedClassroomId
+        sharedClassroomId,
       })
       if (this.classroomCourses.find((c) => c._id === course._id)) {
         this.fetchData()
@@ -76,7 +77,7 @@ export default {
     },
 
     i18nName (course) {
-      return i18n(course, 'name')
+      return utils.i18n(course, 'name')
     },
   },
 }
@@ -94,6 +95,7 @@ export default {
         <div class="col-xs-12">
           <span class="control-label">{{ $t('teacher_dashboard.select_chapter') }}</span>
           <select
+            id="course-select"
             v-model="selected"
             class="form-control"
             name="courseList"
@@ -106,9 +108,10 @@ export default {
               {{ $t("teacher_dashboard.choose_course") }}
             </option>
             <option
-              v-for="course in courses"
+              v-for="course in groupedCourses"
               :key="course._id"
               :value="course.name"
+              :disabled="course.disabled"
             >
               {{ i18nName(course) }}
             </option>
@@ -154,5 +157,15 @@ export default {
     @include font-p-3-small-button-text-dusk-dark;
     font-size: 14px;
     letter-spacing: 0.333px;
+  }
+
+  #course-select {
+    option {
+      color: black;
+
+      &:disabled {
+        color: grey;
+      }
+    }
   }
 </style>

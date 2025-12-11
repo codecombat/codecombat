@@ -391,6 +391,12 @@ module.exports = (CocoRouter = (function () {
           }
           return this.routeDirectly('introLevel', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
         },
+        'play/ozaria/intro/:introLevelIdOrSlug' (introLevelIdOrSlug) {
+          const props = {
+            introLevelIdOrSlug,
+          }
+          return this.routeDirectly('introLevel', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
+        },
 
         'play/video/level/:levelID': go('play/level/PlayLevelVideoView'),
         'play/game-dev-level/:sessionID': go('play/level/PlayGameDevLevelView'),
@@ -506,6 +512,7 @@ module.exports = (CocoRouter = (function () {
           }
         },
         'teachers/units': redirect('/teachers'), // Redirected 9/10/2020
+        'teachers/course-solution/ozaria/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true }),
         'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true }),
         'teachers/campaign-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true, campaignMode: true }),
         'teachers/demo': redirect('/teachers/quote'),

@@ -396,16 +396,26 @@ module.exports = (CoursesView = (function () {
       })
 
       const fetchSessions = (instance) => {
-        const fetchOptions = { data: { project: 'state.complete,level.original,playtime,changed' } }
-        const collection = new CocoCollection([], {
-          url: instance.url() + '/course-level-sessions/' + me.id,
-          model: LevelSession,
+        return new Promise((resolve, reject) => {
+          const fetchOptions = {
+            data: { project: 'state.complete,level.original,playtime,changed' },
+            success: (collection, response, options) => {
+              resolve(collection)
+            },
+            error: (collection, response, options) => {
+              reject(response)
+            },
+          }
+
+          const collection = new CocoCollection([], {
+            url: instance.url() + '/course-level-sessions/' + me.id,
+            model: LevelSession,
+          })
+          collection.comparator = 'changed'
+          collection.fetch(fetchOptions)
         })
-        collection.comparator = 'changed'
-        collection.fetch(fetchOptions)
-        return collection
       }
-      const dynamicLoadLanguageSessions = () => {
+      const dynamicLoadLanguageSessions = async () => {
         // classrooms has same language shares progress, so we only need to fetch session once
         const languageSessions = { others: {} }
         for (const courseInstance of Array.from(this.courseInstances.models)) {
@@ -425,17 +435,19 @@ module.exports = (CoursesView = (function () {
           for (const courseID in instancesByCourse) {
             const instances = instancesByCourse[courseID]
             // only fetch first course-instances
-            const collection = fetchSessions(instances[0])
+            const collection = await fetchSessions(instances[0])
             for (const instance of instances) {
               instance.sessions = collection
             }
           }
         }
       }
-      dynamicLoadLanguageSessions()
-      this.calculateAllCompleted()
-      this.renderSelectors('.course-instance-entry')
-      this.renderSelectors('.student-stats')
+      dynamicLoadLanguageSessions().then(() => {
+        this.calculateAllCompleted()
+        this.renderSelectors('.course-instance-entry')
+        this.renderSelectors('.student-stats')
+        this.renderSelectors('.ask-next-course')
+      })
     }
 
     onLoaded () {
