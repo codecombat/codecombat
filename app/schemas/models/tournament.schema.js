@@ -40,7 +40,7 @@ _.extend(TournamentSchema.properties, {
   },
   clan: c.objectId({ links: [{ rel: 'db', href: '/db/clan/{($)}' }] }),
   displayName: { type: 'string', description: 'overwrites visual name of tournament' },
-  anonymize: { type: 'boolean', title: 'Anonymize Tournament', description: 'Anonymize the leaderboard of the tournament.' },
+  anonymous: { type: 'boolean', title: 'Anonymize Tournament', description: 'Anonymize the leaderboard of the tournament.' },
 })
 
 c.extendBasicProperties(TournamentSchema, 'tournament')

@@ -119,12 +119,12 @@
       </div>
       <div class="form-group">
         <input
-          id="anonymize"
-          v-model="editableTournament.anonymize"
+          id="anonymous"
+          v-model="editableTournament.anonymous"
           type="checkbox"
           :disabled="disableEdit"
         >
-        <label for="anonymize">
+        <label for="anonymous">
           {{ $t('tournament.anonymize_players') }}
         </label>
         <span class="small text-navy">{{ $t('tournament.anonymize_players_description') }}</span>
