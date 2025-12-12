@@ -57,7 +57,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            :href="`https://codecombat.com/play/ladder/equinox/clan/${equinoxTournament.clan}?tournament=${equinoxTournament._id}`"
+            :href="tournamentUrl('equinox', equinoxTournament)"
             class="purple-btn"
             target="_blank"
           >
@@ -73,7 +73,7 @@
               classes: 'teacher-dashboard-tooltip lighter-p',
               autoHide: false
             }"
-            :href="`https://codecombat.com/play/ladder/tundra-tower/clan/${ttTournament.clan}?tournament=${ttTournament._id}`"
+            :href="tournamentUrl('tundra-tower', ttTournament)"
             class="purple-btn"
             target="_blank"
           >
@@ -620,6 +620,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import utils from 'core/utils'
 const AI_HACKSTACK_CLUB_LESSONS = [
   {
     title: 'Week 1',
@@ -927,7 +928,11 @@ export default {
   methods: {
     ...mapActions({
       fetchAllTournaments: 'clans/fetchAllTournaments'
-    })
+    }),
+    tournamentUrl (levelId, tournament) {
+      const url = `https://codecombat.com/play/ladder/${levelId}/clan/${tournament.clan}?tournament=${tournament._id}`
+      return utils.tournamentMixedIdHelper.convertUrl(url)
+    },
   }
 }
 </script>

@@ -19,7 +19,7 @@ const isCodeCombat = product === 'codecombat'
 const isOzaria = !isCodeCombat
 const _ = require('lodash')
 const useWebsocket = false
-const showOzaria =  () => isOzaria || window.location.pathname.includes('ozaria')
+const showOzaria = () => isOzaria || window.location.pathname.includes('ozaria')
 
 // Yuqiang: i don't know why we use same slugify from different source but let's keep it right now since change it sometimes trigger unbelievable bug
 if (isCodeCombat) {
@@ -1803,6 +1803,56 @@ module.exports.aiTranslate = async (modelName, docId, langs) => {
   })
 }
 
+const tournamentMixedIdHelper = {
+  secret: 'a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718',
+  // Converts a hex string (e.g., "a1b2") to a byte array (e.g., [0xa1, 0xb2])
+  hexToBytes: (hex) => {
+    const bytes = []
+    for (let i = 0; i < hex.length; i += 2) {
+      bytes.push(parseInt(hex.substring(i, i + 2), 16))
+    }
+    return bytes
+  },
+  // Converts a byte array (e.g., [0xa1, 0xb2]) to a hex string (e.g., "a1b2")
+  bytesToHex: (bytes) => {
+    return Array.from(bytes).map(byte => byte.toString(16).padStart(2, '0')).join('')
+  },
+  encrypt: function (clanId, tournamentId) {
+    const interleaveId = _.flatten(_.zip(clanId.split(''), tournamentId.split(''))).join('')
+    const combinedBytes = this.hexToBytes(interleaveId)
+    const keyBytes = this.hexToBytes(this.secret)
+    const xorBytes = combinedBytes.map((byte, i) => byte ^ keyBytes[i])
+    const mixedId = this.bytesToHex(xorBytes)
+    return mixedId
+  },
+  decrypt: function (mixedId) {
+    const mixedBytes = this.hexToBytes(mixedId)
+    const keyBytes = this.hexToBytes(this.secret)
+    const combinedBytes = mixedBytes.map((byte, i) => byte ^ keyBytes[i])
+    const combinedHex = this.bytesToHex(combinedBytes)
+    let decodedClanId = ''
+    let decodedTournamentId = ''
+    for (let i = 0; i < 48; i += 2) {
+      decodedClanId += combinedHex[i]
+      decodedTournamentId += combinedHex[i + 1]
+    }
+    return { clanId: decodedClanId, tournamentId: decodedTournamentId }
+  },
+  convertUrl: function (ladderUrl) {
+    //const url = '/play/ladder/gold/clan/eu_west_1?tournament=12345';
+    const regex = /^\/play\/ladder\/([a-zA-Z0-9_-]+)\/clan\/([a-zA-Z0-9_-]+)(?:\?|$)tournament=([a-zA-Z0-9_-]+)$/
+    const match = ladderUrl.match(regex)
+    if (match && match[3]) {
+      const levelId = match[1]
+      const clanId = match[2]
+      const tournamentId = match[3]
+      const mixedId = this.encrypt(clanId, tournamentId)
+      return ladderUrl.replace(regex, `/play/tournament/${levelId}/${mixedId}`)
+    }
+    return ladderUrl
+  },
+}
+
 module.exports.groupedCoursesList = (courses) => {
   const cocoCourses = [
     { _id: 'junior', name: $.i18n.t('teacher.JR_short'), disabled: true }, // group name
@@ -1963,6 +2013,7 @@ module.exports = {
   HACKSTACK_COURSE_IDS,
   OZ_COURSE_IDS,
   showOzaria,
+  tournamentMixedIdHelper,
 }
 
 function __guard__ (value, transform) {

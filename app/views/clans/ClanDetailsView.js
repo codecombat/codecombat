@@ -70,6 +70,7 @@ module.exports = (ClanDetailsView = (function () {
       super(options)
       this.clanID = clanID
       this.initData()
+      this.tournamentHelper = utils.tournamentMixedIdHelper
     }
 
     destroy () {
