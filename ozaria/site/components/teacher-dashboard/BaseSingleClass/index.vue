@@ -614,6 +614,9 @@ export default {
     },
 
     findLatestChanged (aiProjects) {
+      if (!aiProjects || aiProjects.length === 0) {
+        return undefined
+      }
       return aiProjects.map(p => p.changed).reduce((a, b) => a > b ? a : b)
     },
 
