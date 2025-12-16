@@ -71,7 +71,14 @@ export default {
 
   actions: {
     // eslint-disable-next-line multiline-ternary
-    fetch: utils.showOzaria() ? async ({ commit, state, rootGetters, dispatch }, { campaignHandle, courseInstanceId, courseId }) => {
+    fetch: async ({ commit, state, rootGetters, dispatch }, campaign) => {
+      let fun = 'fetchCoco'
+      if (typeof campaign === 'object') {
+        fun = 'fetchOzaria'
+      }
+      await dispatch(fun, campaign)
+    },
+    fetchOzaria: async ({ commit, state, rootGetters, dispatch }, { campaignHandle, courseInstanceId, courseId }) => {
       if (state.campaignById[campaignHandle] ||
         state.campaignBySlug[campaignHandle] ||
         state.campaignByCampaignHandle[campaignHandle] ||
@@ -126,7 +133,8 @@ export default {
         .map(l => { l.campaignPage = 1 }) // eslint-disable-line array-callback-return
 
       commit('setCampaignData', { campaignData, campaignHandle, courseInstanceId, courseId })
-    } : async ({ commit, state }, campaignHandle) => {
+    },
+    fetchCoco: async ({ commit, state }, campaignHandle) => {
       if (state.byId[campaignHandle] || state.bySlug[campaignHandle]) {
         return
       }
