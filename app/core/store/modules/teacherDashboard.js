@@ -336,6 +336,7 @@ export default {
           // too many users causing failures
           if (!me.isMto()) {
             fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
+            fetchPromises.push(dispatch('aiProjects/fetchForClassroomMembers', { classroom }, { root: true }))
           }
         })
       }
