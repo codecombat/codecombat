@@ -78,7 +78,11 @@ export default {
       return this.aiScenario.initialActionQueue.length
     },
     lastPlayed () {
-      return moment(this.aiScenario.changed).format('lll')
+      if (this.aiScenario.changed) {
+        return moment(this.aiScenario.changed).format('lll')
+      } else {
+        return ''
+      }
     },
     mode () {
       return this.aiScenario.mode

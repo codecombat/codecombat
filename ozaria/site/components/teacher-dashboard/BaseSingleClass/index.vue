@@ -617,7 +617,7 @@ export default {
       if (!aiProjects || aiProjects.length === 0) {
         return undefined
       }
-      return aiProjects.map(p => p.changed).reduce((a, b) => a > b ? a : b)
+      return aiProjects.map(p => (p.changed || '')).reduce((a, b) => a > b ? a : b)
     },
 
     createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum }) {
