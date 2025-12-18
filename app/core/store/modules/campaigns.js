@@ -48,12 +48,12 @@ export default {
   },
 
   getters: {
-    getCampaignData: (state, getters) => (idOrSlug) => {
+    getCampaignData: (state, getters) => (idOrObject) => {
       let fun = 'getCampaignDataCoco'
-      if (typeof idOrSlug === 'object') {
+      if (typeof idOrObject === 'object') {
         fun = 'getCampaignDataOzaria'
       }
-      return getters[fun](idOrSlug)
+      return getters[fun](idOrObject)
     },
     getCampaignDataCoco: (state) => (idOrSlug) => {
       return state.byId[idOrSlug] || state.bySlug[idOrSlug]
