@@ -1,5 +1,4 @@
 import campaignsApi from 'core/api/campaigns'
-import utils from 'core/utils'
 import Campaign from 'models/Campaign'
 
 export default {
@@ -19,19 +18,24 @@ export default {
   },
 
   mutations: {
-    setCampaignData: utils.showOzaria()
-      ? (state, { campaignData, campaignHandle, courseInstanceId, courseId }) => {
-          Vue.set(state.campaignByCampaignHandle, campaignHandle, campaignData)
-          Vue.set(state.campaignById, campaignData._id, campaignData)
-          Vue.set(state.campaignBySlug, campaignData.slug, campaignData)
-          Vue.set(state.campaignByCourseInstanceId, courseInstanceId, campaignData)
-          Vue.set(state.campaignByCourseId, courseId, campaignData)
-        }
-      : (state, campaignData) => {
-          Vue.set(state.byId, campaignData._id, campaignData)
-          Vue.set(state.bySlug, campaignData.slug, campaignData)
-          state.currentCampaignId = campaignData._id
-        },
+    setCampaignData: (state, propCampaignData) => {
+      if (typeof propCampaignData !== 'object') {
+        return
+      }
+      if ('courseId' in propCampaignData) {
+        const { campaignData, campaignHandle, courseInstanceId, courseId } = propCampaignData
+        Vue.set(state.campaignByCampaignHandle, campaignHandle, campaignData)
+        Vue.set(state.campaignById, campaignData._id, campaignData)
+        Vue.set(state.campaignBySlug, campaignData.slug, campaignData)
+        Vue.set(state.campaignByCourseInstanceId, courseInstanceId, campaignData)
+        Vue.set(state.campaignByCourseId, courseId, campaignData)
+      } else {
+        const campaignData = propCampaignData
+        Vue.set(state.byId, campaignData._id, campaignData)
+        Vue.set(state.bySlug, campaignData.slug, campaignData)
+        state.currentCampaignId = campaignData._id
+      }
+    },
     setCampaignLevels: (state, { campaignId, levels }) => {
       Vue.set(state.levelsByCampaignId, campaignId, levels)
     },
@@ -44,17 +48,23 @@ export default {
   },
 
   getters: {
-    getCampaignData: utils.showOzaria()
-      ? (state) => ({ idOrSlug, campaignHandle, courseInstanceId, courseId }) => {
-          return state.campaignById[idOrSlug] ||
-          state.campaignBySlug[idOrSlug] ||
-          state.campaignByCampaignHandle[campaignHandle] ||
-          state.campaignByCourseInstanceId[courseInstanceId] ||
-          state.campaignByCourseId[courseId]
-        }
-      : (state) => (idOrSlug) => {
-          return state.byId[idOrSlug] || state.bySlug[idOrSlug]
-        },
+    getCampaignData: (state, getters) => (idOrObject) => {
+      let fun = 'getCampaignDataCoco'
+      if (typeof idOrObject === 'object') {
+        fun = 'getCampaignDataOzaria'
+      }
+      return getters[fun](idOrObject)
+    },
+    getCampaignDataCoco: (state) => (idOrSlug) => {
+      return state.byId[idOrSlug] || state.bySlug[idOrSlug]
+    },
+    getCampaignDataOzaria: (state) => ({ idOrSlug, campaignHandle, courseInstanceId, courseId }) => {
+      return state.campaignById[idOrSlug] ||
+        state.campaignBySlug[idOrSlug] ||
+        state.campaignByCampaignHandle[campaignHandle] ||
+        state.campaignByCourseInstanceId[courseInstanceId] ||
+        state.campaignByCourseId[courseId]
+    },
     getCurrentCampaignId: (state) => state.currentCampaignId,
     getHomeVersionCampaigns: (state) => {
       const res = []
@@ -71,7 +81,14 @@ export default {
 
   actions: {
     // eslint-disable-next-line multiline-ternary
-    fetch: utils.showOzaria() ? async ({ commit, state, rootGetters, dispatch }, { campaignHandle, courseInstanceId, courseId }) => {
+    fetch: async ({ commit, state, rootGetters, dispatch }, campaign) => {
+      let fun = 'fetchCoco'
+      if (typeof campaign === 'object') {
+        fun = 'fetchOzaria'
+      }
+      await dispatch(fun, campaign)
+    },
+    fetchOzaria: async ({ commit, state, rootGetters, dispatch }, { campaignHandle, courseInstanceId, courseId }) => {
       if (state.campaignById[campaignHandle] ||
         state.campaignBySlug[campaignHandle] ||
         state.campaignByCampaignHandle[campaignHandle] ||
@@ -126,7 +143,8 @@ export default {
         .map(l => { l.campaignPage = 1 }) // eslint-disable-line array-callback-return
 
       commit('setCampaignData', { campaignData, campaignHandle, courseInstanceId, courseId })
-    } : async ({ commit, state }, campaignHandle) => {
+    },
+    fetchCoco: async ({ commit, state }, campaignHandle) => {
       if (state.byId[campaignHandle] || state.bySlug[campaignHandle]) {
         return
       }

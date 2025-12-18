@@ -42,12 +42,15 @@ export default {
       if (!campaign) {
         return undefined
       }
-      const url = urls.courseWorldMap({
+      let url = urls.courseWorldMap({
         courseId,
         courseInstanceId,
         campaignId: campaign.slug,
         codeLanguage: utils.getQueryVariable('codeLanguage')
       })
+      if (utils.showOzaria() && !url.includes('ozaria')) {
+        url = url.replace(/^\/play\//, '/play/ozaria/')
+      }
       return url
     }
   },

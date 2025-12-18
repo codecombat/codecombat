@@ -60,7 +60,7 @@ module.exports = (ThangType = (function () {
     static initClass () {
       this.className = 'ThangType'
       this.schema = require('schemas/models/thang_type')
-      this.heroes = utils.isOzaria ? ThangTypeConstants.ozariaHeroes : ThangTypeConstants.heroes
+      this.heroes = utils.showOzaria() ? ThangTypeConstants.ozariaHeroes : ThangTypeConstants.heroes
       this.heroClasses = ThangTypeConstants.heroClasses
       this.items = ThangTypeConstants.items
       this.prototype.urlRoot = '/db/thang.type'
@@ -75,7 +75,7 @@ module.exports = (ThangType = (function () {
       super.initialize()
       this.building = {}
       this.spriteSheets = {}
-      if (utils.isOzaria) {
+      if (utils.showOzaria()) {
         this.textureAtlases = new Map()
 
         // Vue recursively traverses objects making them reactive.
@@ -862,7 +862,7 @@ module.exports = (ThangType = (function () {
       // We don't rely on any supermodel caches, because this ThangType projection is useless anywhere else.
       let original
       const thisHeroConfigStats = {}
-      const heroOriginal = utils.isOzaria ? ThangType.heroes['hero-b'] : heroConfig.thangType != null ? heroConfig.thangType : ThangType.heroes.captain
+      const heroOriginal = utils.showOzaria() ? ThangType.heroes['hero-b'] : heroConfig.thangType != null ? heroConfig.thangType : ThangType.heroes.captain
       for (original of Array.from(_.values(heroConfig.inventory).concat([heroOriginal]))) {
         thisHeroConfigStats[original] = ThangType.heroConfigStats[original] || 'loading'
       }
