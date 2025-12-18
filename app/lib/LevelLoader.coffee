@@ -387,6 +387,8 @@ module.exports = class LevelLoader extends CocoClass
     session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
     url = "/db/thang.type/#{heroConfig.thangType}/version"
     if not heroResource
+      if utils.showOzaria() and heroConfig.thangType is '529ec584c423d4e83b000014'
+        url = "/db/thang.type/#{heroThangType}/version"
       # We had already loaded it, so move to the next dependencies step now
       heroThangType = @supermodel.getModel url
       @loadDefaultComponentsForThangType heroThangType
