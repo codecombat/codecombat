@@ -8,6 +8,10 @@
         target="_blank"
       >{{ $t('teacher_dashboard.view_original_project') }}</a>
     </p>
+    <p>
+      <b>{{ $t('user.last_played') }}:</b>
+      {{ lastPlayed }}
+    </p>
     <p v-if="mode === 'use'">
       {{ aiProject.isReadyToReview ? $t('teacher_dashboard.ready_to_review') : $t('teacher.in_progress') }}
     </p>
@@ -55,6 +59,7 @@
 <script>
 
 import _ from 'lodash'
+import moment from 'moment'
 
 export default {
   name: 'AiProject',
@@ -71,6 +76,13 @@ export default {
   computed: {
     initialActionCount () {
       return this.aiScenario.initialActionQueue.length
+    },
+    lastPlayed () {
+      if (this.aiScenario.changed) {
+        return moment(this.aiScenario.changed).format('lll')
+      } else {
+        return ''
+      }
     },
     mode () {
       return this.aiScenario.mode

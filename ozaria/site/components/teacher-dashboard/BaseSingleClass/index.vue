@@ -613,6 +613,13 @@ export default {
       return false
     },
 
+    findLatestChanged (aiProjects) {
+      if (!aiProjects || aiProjects.length === 0) {
+        return undefined
+      }
+      return aiProjects.map(p => (p.changed || '')).reduce((a, b) => a > b ? a : b)
+    },
+
     createProgressDetailsByAiScenario ({ aiScenario, index, student, classSummaryProgress, moduleNum }) {
       const details = {}
       classSummaryProgress[index] = classSummaryProgress[index] || { status: 'assigned', border: '' }
@@ -627,6 +634,7 @@ export default {
         // but in that case we should use unsafe to overwrite warning.
         this.setUnsafeFlag(details, aiProjects)
 
+        details.playedOn = this.findLatestChanged(aiProjects)
         if (completed) {
           details.status = 'complete'
         }
