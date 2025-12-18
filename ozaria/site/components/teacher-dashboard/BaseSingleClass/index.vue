@@ -634,7 +634,10 @@ export default {
         // but in that case we should use unsafe to overwrite warning.
         this.setUnsafeFlag(details, aiProjects)
 
-        details.playedOn = this.findLatestChanged(aiProjects)
+        const playedOn = this.findLatestChanged(aiProjects)
+        if (playedOn) {
+          details.playedOn = playedOn
+        }
         if (completed) {
           details.status = 'complete'
         }
