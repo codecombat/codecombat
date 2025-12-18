@@ -19,6 +19,9 @@ export default {
 
   mutations: {
     setCampaignData: (state, propCampaignData) => {
+      if (typeof propCampaignData !== 'object') {
+        return
+      }
       if ('courseId' in propCampaignData) {
         const { campaignData, campaignHandle, courseInstanceId, courseId } = propCampaignData
         Vue.set(state.campaignByCampaignHandle, campaignHandle, campaignData)
