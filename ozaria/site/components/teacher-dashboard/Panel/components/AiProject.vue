@@ -8,7 +8,7 @@
         target="_blank"
       >{{ $t('teacher_dashboard.view_original_project') }}</a>
     </p>
-    <p>
+    <p v-if="lastPlayed">
       <b>{{ $t('user.last_played') }}:</b>
       {{ lastPlayed }}
     </p>
@@ -78,8 +78,8 @@ export default {
       return this.aiScenario.initialActionQueue.length
     },
     lastPlayed () {
-      if (this.aiScenario.changed) {
-        return moment(this.aiScenario.changed).format('lll')
+      if (this.aiProject.changed) {
+        return moment(this.aiProject.changed).format('lll')
       } else {
         return ''
       }
