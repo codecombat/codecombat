@@ -1,5 +1,4 @@
 import campaignsApi from 'core/api/campaigns'
-import utils from 'core/utils'
 import Campaign from 'models/Campaign'
 
 export default {
@@ -19,19 +18,21 @@ export default {
   },
 
   mutations: {
-    setCampaignData: utils.showOzaria()
-      ? (state, { campaignData, campaignHandle, courseInstanceId, courseId }) => {
-          Vue.set(state.campaignByCampaignHandle, campaignHandle, campaignData)
-          Vue.set(state.campaignById, campaignData._id, campaignData)
-          Vue.set(state.campaignBySlug, campaignData.slug, campaignData)
-          Vue.set(state.campaignByCourseInstanceId, courseInstanceId, campaignData)
-          Vue.set(state.campaignByCourseId, courseId, campaignData)
-        }
-      : (state, campaignData) => {
-          Vue.set(state.byId, campaignData._id, campaignData)
-          Vue.set(state.bySlug, campaignData.slug, campaignData)
-          state.currentCampaignId = campaignData._id
-        },
+    setCampaignData: (state, propCampaignData) => {
+      if ('courseId' in propCampaignData) {
+        const { campaignData, campaignHandle, courseInstanceId, courseId } = propCampaignData
+        Vue.set(state.campaignByCampaignHandle, campaignHandle, campaignData)
+        Vue.set(state.campaignById, campaignData._id, campaignData)
+        Vue.set(state.campaignBySlug, campaignData.slug, campaignData)
+        Vue.set(state.campaignByCourseInstanceId, courseInstanceId, campaignData)
+        Vue.set(state.campaignByCourseId, courseId, campaignData)
+      } else {
+        const campaignData = propCampaignData
+        Vue.set(state.byId, campaignData._id, campaignData)
+        Vue.set(state.bySlug, campaignData.slug, campaignData)
+        state.currentCampaignId = campaignData._id
+      }
+    },
     setCampaignLevels: (state, { campaignId, levels }) => {
       Vue.set(state.levelsByCampaignId, campaignId, levels)
     },
@@ -44,17 +45,23 @@ export default {
   },
 
   getters: {
-    getCampaignData: utils.showOzaria()
-      ? (state) => ({ idOrSlug, campaignHandle, courseInstanceId, courseId }) => {
-          return state.campaignById[idOrSlug] ||
-          state.campaignBySlug[idOrSlug] ||
-          state.campaignByCampaignHandle[campaignHandle] ||
-          state.campaignByCourseInstanceId[courseInstanceId] ||
-          state.campaignByCourseId[courseId]
-        }
-      : (state) => (idOrSlug) => {
-          return state.byId[idOrSlug] || state.bySlug[idOrSlug]
-        },
+    getCampaignData: (state, getters) => (idOrSlug) => {
+      let fun = 'getCampaignDataCoco'
+      if (typeof idOrSlug === 'object') {
+        fun = 'getCampaignDataOzaria'
+      }
+      return getters[fun](idOrSlug)
+    },
+    getCampaignDataCoco: (state) => (idOrSlug) => {
+      return state.byId[idOrSlug] || state.bySlug[idOrSlug]
+    },
+    getCampaignDataOzaria: (state) => ({ idOrSlug, campaignHandle, courseInstanceId, courseId }) => {
+      return state.campaignById[idOrSlug] ||
+        state.campaignBySlug[idOrSlug] ||
+        state.campaignByCampaignHandle[campaignHandle] ||
+        state.campaignByCourseInstanceId[courseInstanceId] ||
+        state.campaignByCourseId[courseId]
+    },
     getCurrentCampaignId: (state) => state.currentCampaignId,
     getHomeVersionCampaigns: (state) => {
       const res = []
