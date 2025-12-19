@@ -423,6 +423,12 @@ module.exports = (CocoRouter = (function () {
             return this.routeDirectly('ozaria/site/play/PageUnitMap', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
           }
         },
+        'play/ozaria/:campaign' (campaign) {
+          const props = {
+            campaign,
+          }
+          return this.routeDirectly('ozaria/site/play/PageUnitMap', [], { vueRoute: true, baseTemplate: 'base-empty', propsData: props })
+        },
         // These are admin-only routes since they are only used internally for testing -> interactive/, cinematic/, cutscene/, ozaria/avatar-selector
         'interactive/:interactiveIdOrSlug(?code-language=:codeLanguage)' (interactiveIdOrSlug, codeLanguage) {
           const props = {

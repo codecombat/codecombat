@@ -748,19 +748,12 @@ module.exports = (CoursesView = (function () {
     }
 
     onClickViewLevels (e) {
-      let levelsUrl
       const courseID = $(e.target).data('course-id')
       const courseInstanceID = $(e.target).data('courseinstance-id')
       if (window.tracker != null) {
         window.tracker.trackEvent('Students View Levels', { category: 'Students', courseID, courseInstanceID })
       }
-      if (utils.isCodeCombat) {
-        const course = store.state.courses.byId[courseID]
-        const courseInstance = this.courseInstances.get(courseInstanceID)
-        levelsUrl = this.urls.courseWorldMap({ course, courseInstance })
-      } else {
-        levelsUrl = $(e.currentTarget).data('href')
-      }
+      const levelsUrl = $(e.currentTarget).data('href')
       return application.router.navigate(levelsUrl, { trigger: true })
     }
 

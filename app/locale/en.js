@@ -4834,7 +4834,7 @@ module.exports = {
       num_student: '__num__ Students',
       one_student: '__num__ Student',
       sort_by_last_name: 'Last Name',
-      sort_by_first_name: 'first Name',
+      sort_by_first_name: 'First Name',
       sort_by_progress_desc: 'Progress (High to Low)',
       sort_by_progress_asc: 'Progress (Low to High)',
       no_write_permission: 'You do not have a write permission on this class',
