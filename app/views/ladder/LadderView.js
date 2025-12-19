@@ -65,11 +65,25 @@ LevelSessionsCollection.initClass()
 
 module.exports = (LadderView = (function () {
   LadderView = class LadderView extends RootView {
-    constructor (options, levelID, leagueType, leagueID) {
+    constructor (options, levelID, leagueTypeOrMixedId, leagueID) {
       super(options)
+      const currentPath = window.location.pathname
       this.levelID = levelID
-      this.leagueType = leagueType
+      this.leagueType = leagueTypeOrMixedId
       this.leagueID = leagueID
+      this.tournamentId = utils.getQueryVariable('tournament')
+
+      if (currentPath.includes('/play/tournament/')) {
+        const mixedID = leagueTypeOrMixedId
+        try {
+          const { clanId, tournamentId } = utils.tournamentMixedIdHelper.decrypt(mixedID)
+          this.leagueType = 'clan'
+          this.leagueID = clanId
+          this.tournamentId = tournamentId
+        } catch (e) {
+          console.warn('Invalid tournament mixedID', mixedID)
+        }
+      }
       this.refreshViews = this.refreshViews.bind(this)
       this.leaderboardRankings = []
 
@@ -101,7 +115,6 @@ module.exports = (LadderView = (function () {
       this.calcTimeOffset()
       this.mandate = this.supermodel.loadModel(new Mandate()).model
 
-      this.tournamentId = utils.getQueryVariable('tournament')
       if (this.tournamentId) {
         const url = `/db/tournament/${this.tournamentId}/submission`
         this.myTournamentSubmission = new TournamentSubmission().setURL(url)
@@ -317,16 +330,30 @@ module.exports = (LadderView = (function () {
       // waiting for owner - only leaderboard
       // ended - only leaderboard
       if ((this.tournamentState === 'ended') || ((['waiting', 'abandoned'].includes(this.tournamentState)) && (me.get('_id') === (this.league != null ? this.league.get('ownerID') : undefined)))) {
-        this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, tournament: this.tournamentId, leagueType: 'clan', myTournamentSubmission: this.myTournamentSubmission }, this.level, this.sessions)) // classroom ladder do not have tournament for now
+        this.insertSubView(this.ladderTab = new TournamentLeaderboard({
+          league: this.league,
+          tournament: this.tournamentId,
+          tournamentState: 'ended',
+          leagueType: 'clan',
+          myTournamentSubmission: this.myTournamentSubmission,
+        }, this.level, this.sessions)) // classroom ladder do not have tournament for now
       } else if (['initializing', 'ranking', 'waiting', 'abandoned'].includes(this.tournamentState)) {
         null
       } else { // starting, or unset
         if (this.level.isType('ladder')) {
-          this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, leagueType: this.leagueType, course: this.course, myTournamentSubmission: this.myTournamentSubmission, updateSpectateList: this.updateSpectateList }, this.level, this.sessions, this.anonymousPlayerName))
+          this.insertSubView(this.ladderTab = new TournamentLeaderboard({
+            league: this.league,
+            leagueType: this.leagueType,
+            tournament: this.tournamentId,
+            tournamentState: this.tournamentState,
+            course: this.course,
+            myTournamentSubmission: this.myTournamentSubmission,
+            updateSpectateList: this.updateSpectateList,
+          }, this.level, this.sessions, this.anonymousPlayerName))
         } else {
           this.insertSubView(this.ladderTab = new LadderTabView({ league: this.league, tournament: this.tournamentId }, this.level, this.sessions))
         }
-        this.insertSubView(this.myMatchesTab = new MyMatchesTabView({ league: this.league, leagueType: this.leagueType, course: this.course }, this.level, this.sessions))
+        this.insertSubView(this.myMatchesTab = new MyMatchesTabView({ league: this.league, leagueType: this.leagueType, course: this.course, tournament: this.tournamentId }, this.level, this.sessions))
       }
       this.renderSelectors('#ladder-action-columns')
       if (!this.level.isType('ladder') || !me.isAnonymous()) {
