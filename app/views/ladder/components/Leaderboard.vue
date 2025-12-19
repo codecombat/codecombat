@@ -46,6 +46,10 @@ export default Vue.extend({
       default () {
         return []
       }
+    },
+    tournament: {
+      type: String,
+      default: '',
     }
   },
   data () {
@@ -56,6 +60,12 @@ export default Vue.extend({
     }
   },
   computed: {
+    tournamentId () {
+      if (this.scoreType === 'arena') {
+        return this.tournament
+      }
+      return ''
+    },
     ageBrackets () {
       let brackets = utils.ageBrackets
       if (this.$store.state.features.china) {
@@ -235,6 +245,9 @@ export default Vue.extend({
         if (this.league) {
           if (this.leagueType === 'clan') {
             url += `&league=${this.league.id}`
+            if (this.tournamentId) {
+              url += `&tournament=${this.tournamentId}`
+            }
           } else if (this.leagueType === 'course') {
             url += `&course=${this.course.id}&course-instance=${this.league.id}`
           }

@@ -37,10 +37,10 @@ module.exports = (LeaderboardView = (function () {
       super(options)
       this.level = level
       this.sessions = sessions
-      this.anonymousPlayerName = anonymousPlayerName
-      this.hidesTeams = utils.getQueryVariable('tournament') === '65775da26dd00500194eaf3f'; // Hide team display for this particular tournament
+      this.anonymousPlayerName = anonymousPlayerName;
 
       ({ league: this.league, tournament: this.tournament, tournamentState: this.tournamentState, leagueType: this.leagueType, course: this.course } = options)
+      this.hidesTeams = this.tournament === '65775da26dd00500194eaf3f' // Hide team display for this particular tournament
       // params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
       this.tableTitles = [
         { slug: 'creator', col: 0, title: '' },
@@ -75,6 +75,7 @@ module.exports = (LeaderboardView = (function () {
           _.remove(this.propsData.tableTitles, { slug: 'clan' })
         }
         this.propsData.scoreType = 'arena'
+        this.propsData.tournament = this.tournament
       }
       this.rankings = []
       this.myRank = -1

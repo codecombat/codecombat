@@ -349,7 +349,7 @@ module.exports = (LadderView = (function () {
         } else {
           this.insertSubView(this.ladderTab = new LadderTabView({ league: this.league, tournament: this.tournamentId }, this.level, this.sessions))
         }
-        this.insertSubView(this.myMatchesTab = new MyMatchesTabView({ league: this.league, leagueType: this.leagueType, course: this.course }, this.level, this.sessions))
+        this.insertSubView(this.myMatchesTab = new MyMatchesTabView({ league: this.league, leagueType: this.leagueType, course: this.course, tournament: this.tournamentId }, this.level, this.sessions))
       }
       this.renderSelectors('#ladder-action-columns')
       if (!this.level.isType('ladder') || !me.isAnonymous()) {
