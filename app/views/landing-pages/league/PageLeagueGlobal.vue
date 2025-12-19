@@ -196,7 +196,7 @@ export default {
       }
       if (tournament) url += `?tournament=${tournament}`
       if (this.clanIdSelected && tournament) {
-        url = tournamentMixedIdHelper(url)
+        url = tournamentMixedIdHelper.convertUrl(url)
       }
       return url
     },
@@ -211,7 +211,7 @@ export default {
       }
       if (tournament) url += `?tournament=${tournament}`
       if (this.clanIdSelected && tournament) {
-        url = tournamentMixedIdHelper(url)
+        url = tournamentMixedIdHelper.convertUrl(url)
       }
       return url
     },
@@ -226,7 +226,7 @@ export default {
       }
       if (tournament) url += `?tournament=${tournament}`
       if (this.clanIdSelected && tournament) {
-        url = tournamentMixedIdHelper(url)
+        url = tournamentMixedIdHelper.convertUrl(url)
       }
       return url
     },
@@ -241,7 +241,7 @@ export default {
       }
       if (tournament) url += `?tournament=${tournament}`
       if (this.clanIdSelected && tournament) {
-        url = tournamentMixedIdHelper(url)
+        url = tournamentMixedIdHelper.convertUrl(url)
       }
       return url
     },

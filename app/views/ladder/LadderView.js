@@ -75,10 +75,14 @@ module.exports = (LadderView = (function () {
 
       if (currentPath.includes('/play/tournament/')) {
         const mixedID = leagueTypeOrMixedId
-        const { clanId, tournamentId } = utils.tournamentMixedIdHelper.decrypt(mixedID)
-        this.leagueType = 'clan'
-        this.leagueID = clanId
-        this.tournamentId = tournamentId
+        try {
+          const { clanId, tournamentId } = utils.tournamentMixedIdHelper.decrypt(mixedID)
+          this.leagueType = 'clan'
+          this.leagueID = clanId
+          this.tournamentId = tournamentId
+        } catch (e) {
+          console.warn('Invalid tournament mixedID', mixedID)
+        }
       }
       this.refreshViews = this.refreshViews.bind(this)
       this.leaderboardRankings = []

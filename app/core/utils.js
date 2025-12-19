@@ -19,7 +19,7 @@ const isCodeCombat = product === 'codecombat'
 const isOzaria = !isCodeCombat
 const _ = require('lodash')
 const useWebsocket = false
-const showOzaria = () => isOzaria || window.location.pathname.includes('ozaria')
+const showOzaria = () => isOzaria || window?.location?.pathname?.includes('ozaria')
 
 // Yuqiang: i don't know why we use same slugify from different source but let's keep it right now since change it sometimes trigger unbelievable bug
 if (isCodeCombat) {
@@ -1804,9 +1804,13 @@ module.exports.aiTranslate = async (modelName, docId, langs) => {
 }
 
 const tournamentMixedIdHelper = {
+  // NOTE: This is obfuscation, not encryption. Do not treat as a secret (it ships to clients).
   secret: 'a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718',
   // Converts a hex string (e.g., "a1b2") to a byte array (e.g., [0xa1, 0xb2])
   hexToBytes: (hex) => {
+    if (!_.isString(hex) || hex.length %2 !== 0 || !/^[0-9a-f]+$/i.test(hex)) {
+      throw new Error('Invalid hex input')
+    }
     const bytes = []
     for (let i = 0; i < hex.length; i += 2) {
       bytes.push(parseInt(hex.substring(i, i + 2), 16))
@@ -1818,17 +1822,23 @@ const tournamentMixedIdHelper = {
     return Array.from(bytes).map(byte => byte.toString(16).padStart(2, '0')).join('')
   },
   encrypt: function (clanId, tournamentId) {
+    if (!module.exports.isID(clanId) || !module.exports.isID(tournamentId)) {
+      throw new Error('Expected 24-hex clanId and tournamentId')
+    }
     const interleaveId = _.flatten(_.zip(clanId.split(''), tournamentId.split(''))).join('')
     const combinedBytes = this.hexToBytes(interleaveId)
     const keyBytes = this.hexToBytes(this.secret)
-    const xorBytes = combinedBytes.map((byte, i) => byte ^ keyBytes[i])
+    const xorBytes = combinedBytes.map((byte, i) => byte ^ keyBytes[i % keyBytes.length])
     const mixedId = this.bytesToHex(xorBytes)
     return mixedId
   },
   decrypt: function (mixedId) {
+    if (!_.isString(mixedId) || mixedId.length !== 48 || !/^[0-9a-f]+$/i.test(mixedId)) {
+      throw new Error('Invalid mixedId')
+    }
     const mixedBytes = this.hexToBytes(mixedId)
     const keyBytes = this.hexToBytes(this.secret)
-    const combinedBytes = mixedBytes.map((byte, i) => byte ^ keyBytes[i])
+    const combinedBytes = mixedBytes.map((byte, i) => byte ^ keyBytes[i % keyBytes.length])
     const combinedHex = this.bytesToHex(combinedBytes)
     let decodedClanId = ''
     let decodedTournamentId = ''
@@ -1839,17 +1849,20 @@ const tournamentMixedIdHelper = {
     return { clanId: decodedClanId, tournamentId: decodedTournamentId }
   },
   convertUrl: function (ladderUrl) {
-    //const url = '/play/ladder/gold/clan/eu_west_1?tournament=12345';
-    const regex = /^\/play\/ladder\/([a-zA-Z0-9_-]+)\/clan\/([a-zA-Z0-9_-]+)(?:\?|$)tournament=([a-zA-Z0-9_-]+)$/
-    const match = ladderUrl.match(regex)
-    if (match && match[3]) {
+    try {
+      const url = new URL(ladderUrl)
+      const m = url.pathname.match(/^\/play\/ladder\/[^/]+\/clan\/([^/]+)$/)
+      const tournamentId = url.searchParams.get('tournament')
+      if (!m || !tournamentId) {
+        return ladderUrl
+      }
       const levelId = match[1]
       const clanId = match[2]
-      const tournamentId = match[3]
       const mixedId = this.encrypt(clanId, tournamentId)
-      return ladderUrl.replace(regex, `/play/tournament/${levelId}/${mixedId}`)
+      return `/play/tournament/${levelId}/${mixedId}`
+    } catch (e) {
+      return ladderUrl
     }
-    return ladderUrl
   },
 }
 
