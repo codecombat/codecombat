@@ -67,7 +67,7 @@ export default {
       commit('initAiProjectsByClassroomState', classroom._id)
 
       try {
-        const projects = await aiProjectsApi.fetchForClassroomMembers(classroom._id)
+        const projects = await aiProjectsApi.fetchForClassroomMembers(classroom._id, options)
 
         commit('setAiProjectsForClassroom', {
           classroomId: classroom._id,

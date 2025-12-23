@@ -24,8 +24,13 @@ export default {
     ...mapGetters({
       levelSessionsMapForClassroom: 'levelSessions/getSessionsMapForClassroom',
       sortedCourses: 'courses/sorted',
-      getCourseInstancesForClass: 'courseInstances/getCourseInstancesForClass'
+      getCourseInstancesForClass: 'courseInstances/getCourseInstancesForClass',
+      aiProjectsMapForClassroom: 'aiProjects/getAiProjectsMapForClassroom',
     }),
+
+    aiProjectsMapByUser () {
+      return this.aiProjectsMapForClassroom(this.classroomState._id) || {}
+    },
 
     levelSessionsMapByUser () {
       return this.levelSessionsMapForClassroom(this.classroomState._id) || {}
@@ -135,13 +140,24 @@ export default {
             const totalProgress = this.classroomState.members.length * levels.length || 1
 
             for (const memberId of this.classroomState.members) {
-              for (const [levelOriginal, sessionData] of Object.entries(this.levelSessionsMapByUser[memberId] || [])) {
-                if (!levelSetInCourse.has(levelOriginal)) {
-                  continue
+              if (course._id === allCourseIDs.HACKSTACK) {
+                for (const [scenario, projects] of Object.entries(this.aiProjectsMapByUser[memberId] || [])) {
+                  if (!levelSetInCourse.has(scenario)) {
+                    continue
+                  }
+                  if (projects.some(project => (project.actionQueue || []).length === 0 || project.isReadyToReview)) {
+                    progress += 1
+                  }
                 }
+              } else {
+                for (const [levelOriginal, sessionData] of Object.entries(this.levelSessionsMapByUser[memberId] || [])) {
+                  if (!levelSetInCourse.has(levelOriginal)) {
+                    continue
+                  }
 
-                if (sessionData.state.complete) {
-                  progress += 1
+                  if (sessionData.state.complete) {
+                    progress += 1
+                  }
                 }
               }
             }
