@@ -145,7 +145,7 @@ export default {
                   if (!levelSetInCourse.has(scenario)) {
                     continue
                   }
-                  if (projects.some(project => project.actionQueue.length === 0 || project.isReadyToReview)) {
+                  if (projects.some(project => (project.actionQueue || []).length === 0 || project.isReadyToReview)) {
                     progress += 1
                   }
                 }
