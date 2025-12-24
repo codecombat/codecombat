@@ -470,7 +470,8 @@ _.extend(LevelSessionSchema.properties, {
         playtime: { type: 'number', description: 'Total seconds of playtime for this piece of content' }
       })),
 
-  archived: c.date({ description: 'Marks this record for automatic online archiving to cold storage by our cloud database.' })
+  archived: c.date({ description: 'Marks this record for automatic online archiving to cold storage by our cloud database.' }),
+  ozSessionOnCoco: c.boolean({ description: 'Marks this session as an Ozaria session that was played on CodeCombat.' }),
 })
 
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick(LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches')

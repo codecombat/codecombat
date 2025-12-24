@@ -37,6 +37,7 @@ me.url = ext => combine({ type: 'string', format: 'url', pattern: urlPattern }, 
 me.path = ext => combine({ type: 'string', pattern: pathPattern }, ext)
 me.int = ext => combine({ type: 'integer' }, ext)
 me.float = ext => combine({ type: 'number' }, ext)
+me.boolean = ext => combine({ type: 'boolean' }, ext)
 
 const PointSchema = me.object({ title: 'Point', description: 'An {x, y} coordinate point.', format: 'point2d', required: ['x', 'y'] }, {
   x: { title: 'x', description: 'The x coordinate.', type: 'number', default: 15 },
