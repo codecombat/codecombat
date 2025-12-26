@@ -17,7 +17,7 @@ _.extend(AIModelSchema.properties, {
     title: 'Family',
     type: 'string',
     description: 'The common name for the model or the family of models it is in',
-    enum: ['ChatGPT', 'Stable Diffusion', 'Claude', 'Gemini'],
+    enum: ['ChatGPT', 'Stable Diffusion', 'Claude', 'Gemini', 'DashScope'],
   },
   description: {
     title: 'Description',
