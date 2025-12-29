@@ -129,6 +129,7 @@ module.exports = (LadderView = (function () {
         const currentArena = _.find(utils.activeArenas(), { slug: this.levelID })
         if (currentArena) {
           this.globalAILeagueEnds = moment(currentArena.end).format('LLL')
+          this.globalAILeagueEnds2 = currentArena.end2 ? moment(currentArena.end2).format('LLL') : null
         } else {
           this.globalAILeagueEnds = null
         }

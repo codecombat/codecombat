@@ -105,7 +105,9 @@ block content
 
 
     #tournament-status
-      if !view.tournamentState && view.globalAILeagueEnds
+      if !view.tournamentState && view.globalAILeagueEnds2 && view.globalAILeagueEnds
+        .ai-league-info(data-i18n="ladder.ai_league_ends_between", data-i18n-options={ time1: view.globalAILeagueEnds, time2: view.globalAILeagueEnds2 })
+      else if !view.tournamentState && view.globalAILeagueEnds
          .ai-league-info(data-i18n="ladder.ai_league_ends", data-i18n-options={ time: view.globalAILeagueEnds })
       if view.tournamentState == 'initializing'
         #tournament-status

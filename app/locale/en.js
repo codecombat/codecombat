@@ -3407,6 +3407,7 @@ module.exports = {
       difficulty_intermediate: 'Intermediate',
       difficulty_advanced: 'Advanced',
       ai_league_ends: 'Global AI League ends at __time__',
+      ai_league_ends_between: 'Global AI League ends between __time1__ and __time2__',
     },
 
     user: {
