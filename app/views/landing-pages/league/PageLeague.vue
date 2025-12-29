@@ -13,26 +13,25 @@ export default {
     return {
       title: 'Competitive AI coding esports from CodeCombat',
       meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
-      ]
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' },
+      ],
     }
+  },
+  computed: {
+    ...mapGetters({
+      isLoading: 'seasonalLeague/isLoading',
+    }),
   },
 
   created () {
     this.fetchRequiredInitialData({ optionalIdOrSlug: this.$route.params.idOrSlug })
   },
 
-  computed: {
-    ...mapGetters({
-      isLoading: 'seasonalLeague/isLoading'
-    })
-  },
-
   methods: {
     ...mapActions({
-      fetchRequiredInitialData: 'clans/fetchRequiredInitialData'
-    })
-  }
+      fetchRequiredInitialData: 'clans/fetchRequiredInitialData',
+    }),
+  },
 }
 </script>
 
