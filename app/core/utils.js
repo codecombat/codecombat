@@ -1403,7 +1403,7 @@ const arenas = [
   },
   {
     season: 16, slug: 'devour-dash', type: 'championship', start: new Date('2026-01-11T00:00:01.000-07:00'), 
-    end: new Date('2025-06-01T23:59:59.000-07:00'), end2: new Date('2025-06-08T23:59:59.000-07:00'), results: new Date('2026-06-015T07:00:00.000-07:00'),
+    end: new Date('2026-01-25T23:59:59.000-07:00'), end2: new Date('2026-06-10T23:59:59.000-07:00'), results: new Date('2026-06-20T07:00:00.000-07:00'),
     levelOriginal: '69415fa85459d73effdd5c51', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' 
   },
 ]
