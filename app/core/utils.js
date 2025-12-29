@@ -1395,7 +1395,17 @@ const arenas = [
   { season: 14, slug: 'grand-prix', noResults: true, type: 'championship', arcade: true, start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-07-31T23:59:59.000-08:00'), results: new Date('2025-08-10T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '/file/db/level/682aef505b4bd67fa522f11d/Grand%20Prix%20banner.jpg', noRegular: true },
   // Autumn we skip warm up arena and go straight to championship
   { season: 15, slug: 'strikers-stadium', noResults: true, type: 'regular', start: new Date('2025-08-01T00:00:00.000-07:00'), end: new Date('2025-08-01T00:00:01.000-07:00'), results: new Date('2025-12-20T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
-  { season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-08-01T00:00:01.000-07:00'), end: new Date('2025-12-31T23:59:59.000-07:00'), results: new Date('2026-01-01T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
+  { 
+    season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-08-01T00:00:01.000-07:00'), 
+    end: new Date('2025-12-31T23:59:59.000-07:00'), end2: new Date('2026-01-07T12:24:36.000-07:00'),
+    results: new Date('2026-01-15T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31',
+    image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png',
+  },
+  {
+    season: 16, slug: 'devour-dash', type: 'championship', start: new Date('2026-01-09T00:00:01.000-07:00'), 
+    end: new Date('2025-06-01T23:59:59.000-07:00'), end2: new Date('2025-06-08T23:59:59.000-07:00'), results: new Date('2026-06-015T07:00:00.000-07:00'),
+    levelOriginal: '69415fa85459d73effdd5c51', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' 
+  },
 ]
 
 // AI League seasons
