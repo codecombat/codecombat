@@ -1397,7 +1397,7 @@ const arenas = [
   { season: 15, slug: 'strikers-stadium', noResults: true, type: 'regular', start: new Date('2025-08-01T00:00:00.000-07:00'), end: new Date('2025-08-01T00:00:01.000-07:00'), results: new Date('2025-12-20T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
   { 
     season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-08-01T00:00:01.000-07:00'), 
-    end: new Date('2025-12-31T23:59:59.000-07:00'), end2: new Date('2026-01-07T12:24:36.000-07:00'),
+    end: new Date('2026-01-01T23:59:59.000-07:00'), end2: new Date('2026-01-07T12:24:36.000-07:00'),
     results: new Date('2026-01-15T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31',
     image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png',
   },

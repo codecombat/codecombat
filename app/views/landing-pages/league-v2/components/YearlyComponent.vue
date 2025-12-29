@@ -71,7 +71,7 @@ $custom-cyan:  rgb(77, 236, 240);
 
   .year-label {
     font-size: 32px;
-    line-hight: 32px;
+    line-height: 32px;
     font-weight: bold;
     position: absolute;
     top: -24px;
