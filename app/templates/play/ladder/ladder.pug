@@ -105,8 +105,8 @@ block content
 
 
     #tournament-status
-      if !view.tournamentState && view.globalAILeagueEnds2 && view.globalAILeagueEnds
-        .ai-league-info(data-i18n="ladder.ai_league_ends_between", data-i18n-options={ time1: view.globalAILeagueEnds, time2: view.globalAILeagueEnds2 })
+      if !view.tournamentState && view.globalAILeagueEndsFrom && view.globalAILeagueEndsTo
+        .ai-league-info(data-i18n="ladder.ai_league_ends_between", data-i18n-options={ time1: view.globalAILeagueEndsFrom, time2: view.globalAILeagueEndsTo })
       else if !view.tournamentState && view.globalAILeagueEnds
          .ai-league-info(data-i18n="ladder.ai_league_ends", data-i18n-options={ time: view.globalAILeagueEnds })
       if view.tournamentState == 'initializing'
