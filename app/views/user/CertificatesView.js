@@ -52,14 +52,14 @@ module.exports = (CertificatesView = (function () {
       this.callOz = utils.getQueryVariable('callOz')
       if (this.userID === me.id) {
         this.user = me
-        if (utils.isCodeCombat) {
+        if (utils.isCodeCombat && !utils.showOzaria()) {
           this.setHero()
         }
       } else {
         this.user = new User({ _id: this.userID })
         this.user.fetch()
         this.supermodel.trackModel(this.user)
-        if (utils.isCodeCombat) {
+        if (utils.isCodeCombat && !utils.showOzaria()) {
           this.listenToOnce(this.user, 'sync', () => (typeof this.setHero === 'function' ? this.setHero() : undefined))
         }
         this.user.fetchNameForClassmate({
@@ -113,7 +113,7 @@ module.exports = (CertificatesView = (function () {
 
       const tenbillion = 10000000
       const nintybillion = 90000000
-      if (features?.chinaUx) {
+      if (features?.chinaUx && !utils.showOzaria()) {
         this.certificateNumber = // keep only 8 digits
           (((this.hashString(this.user.id + this.courseInstanceID) % nintybillion) + nintybillion) % nintybillion) + tenbillion // 10000000 ~ 99999999
       }

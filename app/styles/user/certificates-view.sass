@@ -84,18 +84,14 @@
       right: 2in
       bottom: 2in
       z-index: 1
-      @if $is-codecombat
+      &.coco-cert
         background-color: rgba(255, 255, 255, 0.8) !important
 
     .logo-img
       z-index: 2
       position: relative
-      @if $is-codecombat
-        margin-top: 1.3in
-        height: 1.1in
-      @else
-        margin-top: 1.0in
-        height: 1.3in
+      margin-top: 1.3in
+      height: 1.1in
     .tecmilenio-logo
       position: absolute
       top: 50px
@@ -125,9 +121,9 @@
           margin-left: .2in
 
     .certificate-of-completion
-      @if $is-codecombat
+      &.coco-cert
         margin-top: 20pt
-      @else
+      &.ozaria-cert
         margin-top: 50pt
         line-height: 10pt
       word-spacing: 10pt
@@ -161,23 +157,29 @@
         line-height: 30pt
 
       &.code-results
-        @if $is-codecombat
+        &.coco-cert
           left: 0.1in
-        @else
+        &.ozaria-cert
           left: 0.0in
 
+          .teacher-info
+            position: unset
+
       &.concepts-learned
-        @if $is-codecombat
+        &.coco-cert
           left: 4in
-        @else
+        &.ozaria-cert
           left: 3.9in
 
       li
         text-transform: uppercase
         font-size: 9pt
-        @if $is-codecombat
+
+      &.coco-cert
+        li
           line-height: 18pt
-        @else
+      &.ozaria-cert
+        li
           line-height: 16pt
 
         a
@@ -230,20 +232,21 @@
       position: absolute
       bottom: 0.1in
       left: 0.6in
-      @if $is-codecombat
+      &.coco-cert
         width: 3in
         border-top: 2pt solid white
-      @else
+      &.ozaria-cert
         width: 1.8in
         border-top: 2pt solid rgb(227, 195, 71)
 
-      img
-        @if $is-codecombat
+      &.coco-cert
+        img
           height: 0.75in
           position: absolute
           bottom: 0
           left: -0.2in
-        @else
+      &.ozaria-cert
+        img
           height: 0.3in
           position: absolute
           bottom: 0.3in
@@ -257,7 +260,7 @@
         @if $is-codecombat
           white-space: nowrap
 
-    @if $is-codecombat
+    &.coco-cert
       .product-codecombat & .teacher-info
         border: 0
         left: auto
