@@ -87,6 +87,9 @@ module.exports = {
     if (queryString) {
       url += `?${queryString}`
     }
+    if (utils.showOzaria()) {
+      url = url.replace(/^\/play/, '/play/ozaria')
+    }
     return url
   },
 
