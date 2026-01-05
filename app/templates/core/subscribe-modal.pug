@@ -67,17 +67,33 @@ mixin price(name, p, nameWithoutCurrency)
               .option-col(class='.col-xs-12')
                 .option-header.best-deal(data-i18n="subscribe.best_deal")
         .row
-          - var secondRowClass = '.col-xs-5'
+          - var secondRowClass = 'col-xs-5 col-xs-offset-1'
+          if view.seasonalProduct
+            - var secondRowClass = 'col-xs-4'
           if view.basicProduct && !view.hideMonthlySub
-            .col-xs-5.option-col.col-xs-offset-1
-              +price("subscribe.season_price", view.basicProduct, 'subscribe.month_price_without_currency')
+            .option-col(class=secondRowClass)
+              +price("subscribe.month_price", view.basicProduct, 'subscribe.month_price_without_currency')
               .option-header.price-subtext.text-center(data-i18n="subscribe.stripe_description")
               button.btn.btn-lg.btn-illustrated.purchase-button
                 span.buy-now-text(data-i18n="subscribe.buy_now")
                 span.buy-lock-icon &#x1F512;
  
           else
-            - var secondRowClass = '.col-xs-12'
+            - var secondRowClass = 'col-xs-12'
+
+          if view.seasonalProduct
+            - var secondRowClass = 'col-xs-4'
+            .option-col(class=secondRowClass)
+              +price("subscribe.season_price", view.seasonalProduct, 'subscribe.year_price_without_currency')
+              .option-header.price-subtext.text-center(data-i18n="subscribe.season_subscription")
+              if view.paymentProcessor === 'PayPal'
+                #paypal-button-container
+              else
+                button.stripe-annual-button.btn.btn-lg.btn-illustrated
+                  span.buy-now-text(data-i18n="subscribe.buy_now")
+                  span.buy-lock-icon &#x1F512;
+            - var secondRowClass = 'col-xs-3'
+
 
           if view.basicProductAnnual
             .option-col(class=secondRowClass)

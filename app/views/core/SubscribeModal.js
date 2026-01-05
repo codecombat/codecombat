@@ -90,6 +90,9 @@ module.exports = (SubscribeModal = (function () {
     onLoaded () {
       this.basicProduct = this.products.getBasicSubscriptionForUser(me)
       this.basicProductAnnual = this.products.getBasicAnnualSubscriptionForUser()
+      if (features.chinaHome) {
+        this.seasonalProduct = this.products.getChinaSeasonlySubscriptionForUser()
+      }
       // Process basic product coupons unless custom region pricing
       if (this.couponID && ((this.basicProduct != null ? this.basicProduct.get('coupons') : undefined) != null) && ((this.basicProduct != null ? this.basicProduct.get('name') : undefined) === 'basic_subscription')) {
         this.basicCoupon = _.find(this.basicProduct.get('coupons'), { code: this.couponID })

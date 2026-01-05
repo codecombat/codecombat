@@ -32,7 +32,7 @@ module.exports = (Products = (function () {
 
     getBasicSubscriptionForUser (user) {
       if (features.chinaHome) {
-        return this.findWhere({ name: 'china_seasonly_subscription' })
+        return this.findWhere({ name: 'china_basic_subscription' })
       } else if (features.chinaInfra) { return null }
 
       let countrySpecificProduct
@@ -48,6 +48,12 @@ module.exports = (Products = (function () {
       }
       console.log('product selected', countrySpecificProduct)
       return countrySpecificProduct || this.findWhere({ name: 'basic_subscription' })
+    }
+
+    getChinaSeasonlySubscriptionForUser () {
+      if (features.chinaHome) {
+        return this.findWhere({ name: 'china_seasonly_subscription' })
+      } else if (features.chinaInfra) { return null }
     }
 
     getBasicAnnualSubscriptionForUser () {
