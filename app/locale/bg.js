@@ -489,7 +489,7 @@ module.exports = {
       //    beta: "Beta",
       //    teacher_tools: "Teacher Tools",
       //    ai_teacher_tool: "AI Teacher Tool",
-      //    ccw_short: "CodeCombat on Roblox",
+      //    ccw_short: "Roblox",
     },
 
     modal: {
@@ -3525,6 +3525,13 @@ module.exports = {
     //    manage_billing: "Manage Payments",
     //    payments_history: "Payments History",
     //    no_payments_found: "No payments found",
+    //    create_a_free_account: "Create a Free Account",
+    //    individual_inspiration: "Your new favorite game also happens to teach you real code",
+    //    parent_inspiration: "Safe, teacher-backed coding games that build real skills",
+    //    individual_completion: "Check your email to dive in! Open the link on your computer for the best way to learn and play while you code.",
+    //    parent_completion: "Check your email to get started! For the best results, open the link on a computer so your child can learn and play in the best coding environment.",
+    //    all_set: "You're all set!",
+    //    date_of_birth: "Date of Birth",
     //  },
 
     //  account_invoices: {
@@ -5382,6 +5389,7 @@ module.exports = {
     //    invalidEmail: "Invalid email",
     //    invalidPhone: "Invalid phone number",
     //    emailExists: "Email already exists",
+    //    nameExists: "Username already exists",
     //    numberGreaterThanZero: "Should be a number greater than 0",
     //    requireValidEmail: "Please enter a valid email address.",
     //    requireValidPhone: "Please enter a valid phone number, including area code.",
@@ -6374,6 +6382,7 @@ module.exports = {
     //    run_code_tour_title: "Ready to see the magic?",
     //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
     //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
+    //    ready_to_review_confirm_text: "Ready to Submit? Click OK to notify your teacher to review your project.",
     //  },
 
     //  galaxy: {

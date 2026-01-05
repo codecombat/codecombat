@@ -489,7 +489,7 @@ module.exports = {
       beta: '[AI_TRANSLATION]Beta',
       //    teacher_tools: "Teacher Tools",
       //    ai_teacher_tool: "AI Teacher Tool",
-      //    ccw_short: "CodeCombat on Roblox",
+      //    ccw_short: "Roblox",
     },
 
     modal: {
@@ -3525,6 +3525,13 @@ module.exports = {
       manage_billing: '付款管理',
       payments_history: '[AI_TRANSLATION]付款記錄',
       no_payments_found: '[AI_TRANSLATION]沒有找到付款\n',
+      //    create_a_free_account: "Create a Free Account",
+      //    individual_inspiration: "Your new favorite game also happens to teach you real code",
+      //    parent_inspiration: "Safe, teacher-backed coding games that build real skills",
+      //    individual_completion: "Check your email to dive in! Open the link on your computer for the best way to learn and play while you code.",
+      //    parent_completion: "Check your email to get started! For the best results, open the link on a computer so your child can learn and play in the best coding environment.",
+      //    all_set: "You're all set!",
+      //    date_of_birth: "Date of Birth",
     },
 
     account_invoices: {
@@ -5382,6 +5389,7 @@ module.exports = {
       invalidEmail: '[AI_TRANSLATION]無效的電子郵件  ',
       invalidPhone: '[AI_TRANSLATION]無效的電話號碼  ',
       emailExists: '[AI_TRANSLATION]電子郵件已存在',
+      //    nameExists: "Username already exists",
       numberGreaterThanZero: '[AI_TRANSLATION]應該是一個大於 0 的數字',
       requireValidEmail: '[AI_TRANSLATION]請輸入有效的電子郵件地址',
       requireValidPhone: '[AI_TRANSLATION]請輸入有效的電話號碼，包括區號',
@@ -6374,6 +6382,7 @@ module.exports = {
       //    run_code_tour_title: "Ready to see the magic?",
       //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
+      //    ready_to_review_confirm_text: "Ready to Submit? Click OK to notify your teacher to review your project.",
     },
 
     //  galaxy: {

@@ -489,7 +489,7 @@ module.exports = {
       beta: 'Orgn',
       teacher_tools: 'Grnpure Gbbyf',
       ai_teacher_tool: 'NV Grnpure Gbby',
-      ccw_short: 'PbqrPbzong ba Eboybk',
+      ccw_short: 'Eboybk',
     },
 
     modal: {
@@ -3526,7 +3526,13 @@ module.exports = {
       manage_billing: 'Znantr Cnlzragf',
       payments_history: 'Cnlzragf Uvfgbel',
       no_payments_found: 'Ab cnlzragf sbhaq',
-
+      create_a_free_account: 'Perngr n Serr Nppbhag',
+      individual_inspiration: 'Lbhe arj snibevgr tnzr nyfb unccraf gb grnpu lbh erny pbqr',
+      parent_inspiration: 'Fnsr, grnpure-onpxrq pbqvat tnzrf gung ohvyq erny fxvyyf',
+      individual_completion: 'Purpx lbhe rznvy gb qvir va! Bcra gur yvax ba lbhe pbzchgre sbe gur orfg jnl gb yrnea naq cynl juvyr lbh pbqr.',
+      parent_completion: 'Purpx lbhe rznvy gb trg fgnegrq! Sbe gur orfg erfhygf, bcra gur yvax ba n pbzchgre fb lbhe puvyq pna yrnea naq cynl va gur orfg pbqvat raivebazrag.',
+      all_set: 'Lbh\'er nyy frg!',
+      date_of_birth: 'Qngr bs Ovegu',
     },
 
     account_invoices: {
@@ -5385,6 +5391,7 @@ module.exports = {
       invalidEmail: 'Vainyvq rznvy',
       invalidPhone: 'Vainyvq cubar ahzore',
       emailExists: 'Rznvy nyernql rkvfgf',
+      nameExists: 'Hfreanzr nyernql rkvfgf',
       numberGreaterThanZero: 'Fubhyq or n ahzore terngre guna 0',
       requireValidEmail: 'Cyrnfr ragre n inyvq rznvy nqqerff.',
       requireValidPhone: 'Cyrnfr ragre n inyvq cubar ahzore, vapyhqvat nern pbqr.',
@@ -6373,6 +6380,7 @@ module.exports = {
       run_code_tour_title: 'Ernql gb frr gur zntvp?',
       run_code_tour_text: 'Cerff “Bhgchg” naq jngpu lbhe cebwrpg pbzr gb yvsr. Ab rkcrevrapr erdhverq!',
       ready_to_review_helptext: 'Znex guvf jura lbhe cebwrpg vf pbzcyrgr. Lbhe grnpure jvyy gura frr vg nf ernql gb erivrj ba gurve fvqr.',
+      ready_to_review_confirm_text: 'Ernql gb Fhozvg? Pyvpx BX gb abgvsl lbhe grnpure gb erivrj lbhe cebwrpg.',
     },
     galaxy: {
       title: 'Jrypbzr gb UnpxFgnpx Tnynkl',

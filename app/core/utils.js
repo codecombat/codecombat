@@ -367,11 +367,14 @@ if (isCodeCombat) {
   }
 }
 
+const allCourseIDs = _.assign({}, courseIDs, otherCourseIDs)
+const allOrderedCourseIDs = [...orderedCourseIDs, ...otherOrderedCourseIDs]
+
 const JUNIOR_COURSE_IDS = [
-  courseIDs.JUNIOR,
+  allCourseIDs.JUNIOR,
 ]
 const HACKSTACK_COURSE_IDS = [
-  courseIDs.HACKSTACK,
+  allCourseIDs.HACKSTACK,
 ]
 const OZ_COURSE_IDS = [
   OZ_COURSE_IDS_MAP.CHAPTER_ONE,
@@ -380,8 +383,19 @@ const OZ_COURSE_IDS = [
   OZ_COURSE_IDS_MAP.CHAPTER_FOUR,
 ]
 
-const allCourseIDs = _.assign(courseIDs, otherCourseIDs)
-const allOrderedCourseIDs = [...orderedCourseIDs, ...otherOrderedCourseIDs]
+const COCO_COURSE_IDS = [
+  allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE,
+  allCourseIDs.GAME_DEVELOPMENT_1,
+  allCourseIDs.WEB_DEVELOPMENT_1,
+  allCourseIDs.COMPUTER_SCIENCE_2,
+  allCourseIDs.GAME_DEVELOPMENT_2,
+  allCourseIDs.WEB_DEVELOPMENT_2,
+  allCourseIDs.COMPUTER_SCIENCE_3,
+  allCourseIDs.GAME_DEVELOPMENT_3,
+  allCourseIDs.COMPUTER_SCIENCE_4,
+  allCourseIDs.COMPUTER_SCIENCE_5,
+  allCourseIDs.COMPUTER_SCIENCE_6,
+]
 
 const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.HACKSTACK]
 const allFreeCourseIDs = [...freeCocoCourseIDs, allCourseIDs.CHAPTER_ONE]
@@ -1381,7 +1395,7 @@ const arenas = [
   { season: 14, slug: 'grand-prix', noResults: true, type: 'championship', arcade: true, start: new Date('2025-06-01T00:00:00.000-08:00'), end: new Date('2025-07-31T23:59:59.000-08:00'), results: new Date('2025-08-10T07:00:00.000-08:00'), levelOriginal: '682aef505b4bd67fa522f11d', image: '/file/db/level/682aef505b4bd67fa522f11d/Grand%20Prix%20banner.jpg', noRegular: true },
   // Autumn we skip warm up arena and go straight to championship
   { season: 15, slug: 'strikers-stadium', noResults: true, type: 'regular', start: new Date('2025-08-01T00:00:00.000-07:00'), end: new Date('2025-08-01T00:00:01.000-07:00'), results: new Date('2025-12-20T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
-  { season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-08-01T00:00:01.000-07:00'), end: new Date('2025-12-31T23:59:59.000-07:00'), results: new Date('2026-01-01T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
+  { season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-08-01T00:00:01.000-07:00'), end: new Date('2026-01-01T08:00:00.000Z'), results: new Date('2026-01-15T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png', tournament: '695383474e840b3f4aa401d3' },
 ]
 
 // AI League seasons
@@ -1804,6 +1818,38 @@ module.exports.aiTranslate = async (modelName, docId, langs) => {
   })
 }
 
+module.exports.groupedCoursesList = (courses) => {
+  const cocoCourses = [
+    { _id: 'junior', name: $.i18n.t('teacher.JR_short'), disabled: true }, // group name
+    ...courses.filter(c => JUNIOR_COURSE_IDS.includes(c._id)),
+    { _id: 'codecombat', name: $.i18n.t('teacher_dashboard.curriculum_coco'), disabled: true }, // group name
+    ...courses.filter(c => COCO_COURSE_IDS.includes(c._id)),
+    { _id: 'ai', name: $.i18n.t('teacher.AI_short'), disabled: true }, // group name
+    ...courses.filter(c => HACKSTACK_COURSE_IDS.includes(c._id)),
+  ]
+  const ozarCourses = [
+    { _id: 'ozaria', name: $.i18n.t('teacher_dashboard.curriculum_ozaria'), disabled: true }, // group name
+    ...courses.filter(c => OZ_COURSE_IDS.includes(c._id)),
+  ]
+  const otherCourses = [
+    { _id: 'beta', name: $.i18n.t('teacher_dashboard.curriculum_beta'), disabled: true },
+    ...courses.filter(c => !Object.values(allCourseIDs).includes(c._id)),
+  ]
+  if (otherCourses.length === 1) {
+    otherCourses.length = 0 // if no beta courses
+  }
+  if (isOzaria) {
+    return [...ozarCourses, ...otherCourses]
+  } else {
+    const cs = [...cocoCourses]
+    if (me?.showOzCourses()) {
+      cs.push(...ozarCourses)
+    }
+    cs.push(...otherCourses)
+    return cs
+  }
+}
+
 module.exports = {
   ...module.exports,
   activeAndPastArenas,
@@ -1832,6 +1878,7 @@ module.exports = {
   courseAcronyms,
   courseCampaignSlugs,
   courseIDs,
+  otherCourseIDs,
   allCourseIDs,
   allFreeCourseIDs,
   freeCocoCourseIDs,

@@ -48,9 +48,8 @@ mixin anonymous-welcome-message()
       li(data-i18n="courses.play_now_learn_3")
       li(data-i18n="courses.play_now_learn_4")
 
-mixin course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, isLocked)
+mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapUrl, isLocked, isOzariaCourse)
   - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
-
   if stats.courseComplete
     .text-success
       span.glyphicon.glyphicon-ok
@@ -87,6 +86,8 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, 
           button.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.unit_complete")
     else if nextLevel
       - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance, classroom: classroom});
+      if isOzariaCourse
+        - url = url.replace(/^\/play\//, '/play/ozaria/')
       if view.utils.isOzaria && isLocked
         button.play-btn.btn.btn-forest.btn-lg.m-b-1(disabled=isLocked)
           span(data-i18n="common.locked")
@@ -98,7 +99,7 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, 
           a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course")
             span(data-i18n="courses.start")
         else
-          button.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=mapUrl, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course" disabled=isLocked)
+          button.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=propMapUrl, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course" disabled=isLocked)
             span(data-i18n="courses.start")
 
   if stats.courseComplete
@@ -177,8 +178,11 @@ mixin classrooms_content()
               - continue;
 
             .course-instance-entry.rtl-allowed
+              - var isOzariaCourse = view.utils.isCodeCombat && view.utils.OZ_COURSE_IDS.includes(courseInstance.get('courseID'))
               if course
                 - var courseUrl = view.urls.courseWorldMap({ course, courseInstance })
+                if isOzariaCourse
+                  - courseUrl = courseUrl.replace(/^\/play\//, '/play/ozaria/')
                 h6
                   span.spr= i18n(course, 'name')
                   small
@@ -206,10 +210,7 @@ mixin classrooms_content()
                   - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
                   - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
                   - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID, classroomId: courseInstance.get('classroomID')});
-                if view.utils.isCodeCombat
-                  +course-instance-body(courseInstance, classroom, stats, nextLevel)
-                else
-                  +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, isLocked)
+                +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, isLocked, isOzariaCourse)
               else
                 .pull-right
                   a.btn.btn-navy.btn-lg.m-b-1(href=courseUrl data-event-action="Students Start Course")

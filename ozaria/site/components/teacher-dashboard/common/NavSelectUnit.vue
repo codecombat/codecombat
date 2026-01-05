@@ -40,6 +40,7 @@ export default {
         :key="course._id"
         :value="course._id"
         :selected="course._id == selectedCourseId"
+        :disabled="course.disabled"
       >
         {{ i18n(course, 'name') }}
       </option>
@@ -69,6 +70,14 @@ div {
 
     border: 1px solid #379B8D;
     padding: 4px 0;
+
+    option {
+      color: black;
+
+      &:disabled {
+        color: grey;
+      }
+    }
   }
 }
 </style>

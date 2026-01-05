@@ -489,7 +489,7 @@ module.exports = {
       beta: '[AI_TRANSLATION]Beta',
       //    teacher_tools: "Teacher Tools",
       //    ai_teacher_tool: "AI Teacher Tool",
-      //    ccw_short: "CodeCombat on Roblox",
+      //    ccw_short: "Roblox",
     },
 
     modal: {
@@ -3525,6 +3525,13 @@ module.exports = {
       manage_billing: '[AI_TRANSLATION]Gestisci Pagamenti',
       payments_history: '[AI_TRANSLATION]Storico dei Pagamenti',
       no_payments_found: '[AI_TRANSLATION]Nessun pagamento trovato',
+      //    create_a_free_account: "Create a Free Account",
+      //    individual_inspiration: "Your new favorite game also happens to teach you real code",
+      //    parent_inspiration: "Safe, teacher-backed coding games that build real skills",
+      //    individual_completion: "Check your email to dive in! Open the link on your computer for the best way to learn and play while you code.",
+      //    parent_completion: "Check your email to get started! For the best results, open the link on a computer so your child can learn and play in the best coding environment.",
+      //    all_set: "You're all set!",
+      //    date_of_birth: "Date of Birth",
     },
 
     account_invoices: {
@@ -5382,6 +5389,7 @@ module.exports = {
       invalidEmail: '[AI_TRANSLATION]E-mail non valida',
       invalidPhone: '[AI_TRANSLATION]Numero di telefono non valido',
       emailExists: '[AI_TRANSLATION]Email già esistente',
+      //    nameExists: "Username already exists",
       numberGreaterThanZero: '[AI_TRANSLATION]Deve essere un numero maggiore di 0',
       requireValidEmail: '[AI_TRANSLATION]Per favore inserisci un indirizzo email valido.',
       requireValidPhone: '[AI_TRANSLATION]Inserisci un numero di telefono valido, incluso il prefisso.',
@@ -6374,6 +6382,7 @@ module.exports = {
       //    run_code_tour_title: "Ready to see the magic?",
       //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
+      //    ready_to_review_confirm_text: "Ready to Submit? Click OK to notify your teacher to review your project.",
     },
 
     //  galaxy: {

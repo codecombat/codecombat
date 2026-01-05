@@ -180,6 +180,9 @@ export const getNextLevelLink = (levelData, options) => {
   let link = ''
   if (levelData.type === 'intro') {
     link = '/play/intro/' + levelData.slug
+    if (showOzaria()) {
+      link = '/play/ozaria/intro/' + levelData.slug
+    }
   } else {
     link = '/play/level/' + levelData.slug
     if (showOzaria()) {
