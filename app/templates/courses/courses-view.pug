@@ -102,7 +102,7 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapU
           button.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=propMapUrl, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course" disabled=isLocked)
             span(data-i18n="courses.start")
 
-  if stats.courseComplete || true
+  if stats.courseComplete
     - certUrl = '/certificates/' + me.id + '?class=' + classroom.id + '&course=' + course._id + '&course-instance=' + courseInstance.id
     if isOzariaCourse
       - certUrl = certUrl.replace('/certificates', '/certificates/ozaria')

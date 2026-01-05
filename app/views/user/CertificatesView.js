@@ -113,7 +113,7 @@ module.exports = (CertificatesView = (function () {
 
       const tenbillion = 10000000
       const nintybillion = 90000000
-      if (features?.chinaUx && !utils.showOzaria()) {
+      if (features?.chinaUx) {
         this.certificateNumber = // keep only 8 digits
           (((this.hashString(this.user.id + this.courseInstanceID) % nintybillion) + nintybillion) % nintybillion) + tenbillion // 10000000 ~ 99999999
       }
