@@ -73,14 +73,8 @@ mixin use-social-signon
 form#basic-info-form.modal-body.basic-info
   - var path = view.signupState.get('path')
   .modal-body-content
-    if view.utils.isCodeCombat
-      if me.get("preferredLanguage") == "he" || window.location.host == "il.codecombat.com"
-        .alert.alert-info.text-center(dir="rtl")
-          span תלמיד מערכת החינוך?
-          a(href="https://pub.skillz-edu.org/portal/playground")  התחבר דרך פורטל משרד החינוך
-    else
-      if me.useSocialSignOn()
-        +use-social-signon
+    if me.useSocialSignOn()
+      +use-social-signon
     div.form-container
       if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
         .row.full-name
