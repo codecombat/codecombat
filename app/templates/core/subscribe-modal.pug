@@ -74,6 +74,7 @@ mixin price(name, p, nameWithoutCurrency)
             .option-col(class=secondRowClass)
               +price("subscribe.month_price", view.basicProduct, 'subscribe.month_price_without_currency')
               .option-header.price-subtext.text-center(data-i18n="subscribe.stripe_description")
+              .option-header.price-subtext.text-center(data-i18n="subscribe.monthly_inspire")
               button.btn.btn-lg.btn-illustrated.purchase-button
                 span.buy-now-text(data-i18n="subscribe.buy_now")
                 span.buy-lock-icon &#x1F512;
@@ -86,6 +87,7 @@ mixin price(name, p, nameWithoutCurrency)
             .option-col(class=secondRowClass)
               +price("subscribe.season_price", view.seasonalProduct, 'subscribe.year_price_without_currency')
               .option-header.price-subtext.text-center(data-i18n="subscribe.season_subscription")
+              .option-header.price-subtext.text-center(data-i18n="subscribe.seasonly_inspire")
               if view.paymentProcessor === 'PayPal'
                 #paypal-button-container
               else
@@ -99,6 +101,7 @@ mixin price(name, p, nameWithoutCurrency)
             .option-col(class=secondRowClass)
               +price("subscribe.year_price", view.basicProductAnnual, 'subscribe.year_price_without_currency')
               .option-header.price-subtext.text-center(data-i18n="subscribe.year_subscription")
+              .option-header.price-subtext.text-center(data-i18n="subscribe.yearly_inspire")
               if view.paymentProcessor === 'PayPal'
                 #paypal-button-container
               else

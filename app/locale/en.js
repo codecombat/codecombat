@@ -1473,6 +1473,9 @@ module.exports = {
       online_classes: 'Online Classes',
       feature_ai_level_bot: 'Accelerate learning with AI-powered support',
       sure_buy_as_parent: 'Are you sure you want premium access for yourself instead of your child?',
+      monthly_inspire: 'only $3.3 everyday',
+      seasonly_inspire: 'only one meal',
+      yearly_inspire: '17% discount',
     },
 
     announcement: {
