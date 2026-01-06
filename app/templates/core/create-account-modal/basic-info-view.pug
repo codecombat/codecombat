@@ -73,7 +73,7 @@ mixin use-social-signon
 form#basic-info-form.modal-body.basic-info
   - var path = view.signupState.get('path')
   .modal-body-content
-    if me.useSocialSignOn()
+    if !view.utils.isCodeCombat && me.useSocialSignOn()
       +use-social-signon
     div.form-container
       if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
