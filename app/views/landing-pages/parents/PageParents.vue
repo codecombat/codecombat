@@ -281,16 +281,10 @@
                 {{ $t('parents_landing_1.course_offering') }}
               </h1>
               <p
-                v-if="trialClassExperiment == 'trial-class'"
                 style="margin: 0 auto;"
               >
                 {{ $t('parents_landing_1.flexible_scheduling') }}
               </p>
-              <p
-                v-else
-                style="margin: 0 auto;"
-                v-html="$t('parents_landing_1.private_instructions')"
-              />
             </div>
           </div>
         </div>
@@ -1160,13 +1154,9 @@ export default {
     },
 
     videoId () {
-      if (this.trialClassExperiment === 'trial-class') {
-        return 'bb2e8bf84df5c2cfa0fcdab9517f1d9e'
-      } else {
-        return '3cba970325cb3c6df117c018f7862317'
-      }
-    }
-  }
+      return 'bb2e8bf84df5c2cfa0fcdab9517f1d9e'
+    },
+  },
 }
 </script>
 

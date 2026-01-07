@@ -9,7 +9,7 @@
               <mixed-color-label :text="$t('home_v3.learn_to_code')" />
             </h1>
             <p class="text-24">
-              {{ $t(educatorSignupExperiment ? 'home_v3.sign_up_today' :'home_v3.innovative_play_experiences') }}
+              {{ $t('home_v3.sign_up_today') }}
             </p>
             <div class="buttons">
               <ButtonSection />
@@ -449,11 +449,6 @@ export default Vue.extend({
 
     me () {
       return me
-    },
-
-    educatorSignupExperiment () {
-      const value = me.getEducatorSignupExperimentValue()
-      return value === 'beta'
     },
   },
   mounted () {

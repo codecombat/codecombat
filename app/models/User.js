@@ -1166,10 +1166,6 @@ module.exports = (User = (function () {
       return true
     }
 
-    getEducatorSignupExperimentValue () {
-      return 'beta'
-    }
-
     shouldShowLevelAIChat () {
       if (utils.isOzaria) {
         return false
