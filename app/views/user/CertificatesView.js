@@ -52,14 +52,14 @@ module.exports = (CertificatesView = (function () {
       this.callOz = utils.getQueryVariable('callOz')
       if (this.userID === me.id) {
         this.user = me
-        if (utils.isCodeCombat) {
+        if (utils.isCodeCombat && !utils.showOzaria()) {
           this.setHero()
         }
       } else {
         this.user = new User({ _id: this.userID })
         this.user.fetch()
         this.supermodel.trackModel(this.user)
-        if (utils.isCodeCombat) {
+        if (utils.isCodeCombat && !utils.showOzaria()) {
           this.listenToOnce(this.user, 'sync', () => (typeof this.setHero === 'function' ? this.setHero() : undefined))
         }
         this.user.fetchNameForClassmate({
