@@ -270,7 +270,11 @@ export default Vue.extend({
           this.buildLevelsData({ campaignHandle: this.campaign, courseInstanceId: this.computedCourseInstanceId, courseId: this.computedCourseId })
         ]
         if (!me.isTeacher()) {
-          promises.push(api.courseInstances.getMyCourseInstanceSessions({ courseInstanceID: this.computedCourseInstanceId }))
+          if (this.computedCourseInstanceId) {
+            promises.push(api.courseInstances.getMyCourseInstanceSessions({ courseInstanceID: this.computedCourseInstanceId }))
+          } else {
+            promises.push(api.users.getLevelSessions({ userID: me.get('_id') }))
+          }
         }
         const resp = await Promise.all(promises)
         this.levels = this.currentLevelsList
