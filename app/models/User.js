@@ -1166,38 +1166,6 @@ module.exports = (User = (function () {
       return true
     }
 
-    getEducatorSignupExperimentValue () {
-      const experimentName = 'educator-signup-modal'
-      let value = me.getExperimentValue(experimentName, null)
-
-      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
-        // Don't include non-English-speaking users
-        value = 'control'
-      }
-
-      const oneDayAgo = new Date(new Date() - 24 * 60 * 60 * 1000)
-      if ((value == null) && (new Date(me.get('dateCreated')) < oneDayAgo)) {
-        // Don't include users created more than a day ago; they've probably seen the old homepage before without having started the experiment somehow
-        value = 'control'
-      }
-
-      if (value === null) {
-        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
-        let valueProbability
-        const rand = Math.random()
-        if (rand < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        me.startExperiment(experimentName, value, valueProbability)
-      }
-
-      return value
-    }
-
     shouldShowLevelAIChat () {
       if (utils.isOzaria) {
         return false

@@ -281,16 +281,10 @@
                 {{ $t('parents_landing_1.course_offering') }}
               </h1>
               <p
-                v-if="trialClassExperiment == 'trial-class'"
                 style="margin: 0 auto;"
               >
                 {{ $t('parents_landing_1.flexible_scheduling') }}
               </p>
-              <p
-                v-else
-                style="margin: 0 auto;"
-                v-html="$t('parents_landing_1.private_instructions')"
-              />
             </div>
           </div>
         </div>
@@ -1100,30 +1094,7 @@ export default {
     },
 
     trialClassExperiment () {
-      let value = { true: 'trial-class', false: 'no-trial-class' }[this.$route.query['trial-class']]
-      if (!value) {
-        value = me.getExperimentValue('trial-class', null, 'no-trial-class')
-        if (value) value = 'trial-class' // Switch to trial-class for members of previous no-trial-class group
-      }
-      if (!value && new Date(me.get('dateCreated')) < new Date('2021-09-22')) {
-        // Don't include users created before experiment start date
-        value = 'trial-class'
-      }
-      if (!value && this.type === 'live-classes') {
-        // Don't include users coming from kid-specific landing page
-        value = 'trial-class'
-      }
-      if (!value && !this.showPricing) {
-        // Don't include users where we aren't showing pricing
-        value = 'trial-class'
-      }
-      if (!value) {
-        // value = ['trial-class', 'no-trial-class'][Math.floor(me.get('testGroupNumber') / 2) % 2]
-        // me.startExperiment('trial-class', value, 0.5)
-        value = 'trial-class'
-        me.startExperiment('trial-class', value, 1) // End experiment in favor of trial-class group; keep measuring
-      }
-      return value
+      return 'trial-class'
     },
 
     scheduleFreeClassExperiment () {
@@ -1183,13 +1154,9 @@ export default {
     },
 
     videoId () {
-      if (this.trialClassExperiment === 'trial-class') {
-        return 'bb2e8bf84df5c2cfa0fcdab9517f1d9e'
-      } else {
-        return '3cba970325cb3c6df117c018f7862317'
-      }
-    }
-  }
+      return 'bb2e8bf84df5c2cfa0fcdab9517f1d9e'
+    },
+  },
 }
 </script>
 

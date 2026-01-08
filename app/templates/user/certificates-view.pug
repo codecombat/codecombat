@@ -43,16 +43,16 @@ style.
       if view.campaign
         img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-cs1.png")
     div(class="certificate-contents")
-      if view.utils.isCodeCombat
+      if view.utils.isCodeCombat && !view.utils.showOzaria()
         img.logo-img(src="/images/pages/base/logo.png")
       if me.isTecmilenio()
         img.tecmilenio-logo(src="/images/pages/user/certificates/tecmilenio-logo.png")
         img.tecmilenio-hero(src="/images/pages/user/certificates/tecmilenio-image-1.png")
-      .certificate-text-container
+      .certificate-text-container(class=view.utils.showOzaria() ? "ozaria-cert" : "coco-cert")
         if view.supermodel.isLoading || !view.courseStats
           h1.loading-indicator(data-i18n="common.loading")
         else
-          h3.certificate-of-completion(data-i18n="user.certificate_of_completion")
+          h3.certificate-of-completion(data-i18n="user.certificate_of_completion" class=view.utils.showOzaria() ? "ozaria-cert" : "coco-cert")
           h1.student-name= view.studentName || view.user.broadName()
           h4.course-name
             if view.multipleCoursesStats
@@ -64,7 +64,7 @@ style.
                 span= i18n(view.course.attributes, 'name', view.currentLang)
               if view.campaign
                 span= view.campaign.get('fullName')
-          .code-results.outcome-section
+          .code-results.outcome-section(class=view.utils.showOzaria() ? "ozaria-cert" : "coco-cert")
             if view.campaign
               h3.learned-title(data-i18n="user.campaign_stats")
             else
@@ -95,7 +95,7 @@ style.
                       if projectLinkData !== view.projectLinks[0]
                         span= ', '
                       a(href=projectLinkData.link)= (projectLinkData.shortLink || projectLinkData.link).replace(/^https?:\/\//, '')
-              if view.utils.isOzaria
+              if view.utils.showOzaria()
                 if view.teacherName
                   li.teacher-info
                     span(data-i18n="courses.teacher")
@@ -105,7 +105,7 @@ style.
                   li.certificate-number-info
                     span(data-i18n="user.certificate_number")
                     span= ' ' + view.certificateNumber
-          .concepts-learned.outcome-section
+          .concepts-learned.outcome-section(class=view.utils.showOzaria() ? "ozaria-cert" : "coco-cert")
             h3.learned-title(data-i18n="courses.concepts")
 
             if view.multipleCoursesStats
@@ -124,8 +124,8 @@ style.
                       - continue;
                     li(data-i18n="concepts." + concept)
 
-          if view.utils.isOzaria
-            .hero-signature
+          if view.utils.showOzaria()
+            .hero-signature.ozaria-cert
               img(src='/images/pages/user/certificates/signatures/signature-nick.png')
               .hero-signature-label
                 //span(data-i18n="user.certificate_endorsed_by")
@@ -142,7 +142,7 @@ style.
                 span(data-i18n="user.certificate_number")
                 span= ' ' + view.certificateNumber
             if view.thangType && view.thangType.loaded
-              .hero-signature
+              .hero-signature.coco-cert
                 img(src='/images/pages/user/certificates/signatures/signature-' + (view.thangType.get('slug') || 'captain') + '.png')
                 .hero-signature-label
                   span(data-i18n="user.certificate_endorsed_by")
@@ -158,6 +158,6 @@ style.
               .course-ribbon
                 img(src='/images/pages/user/certificates/medallions/medallion-cs1.png')
 
-      if view.utils.isCodeCombat && view.thangType && view.thangType.loaded
+      if view.utils.isCodeCombat && !view.utils.showOzaria() && view.thangType && view.thangType.loaded
         - var heroSlug = view.thangType.get('slug') || 'captain';
         img(src='/images/pages/user/certificates/poses/pose-' + heroSlug + '.png', class='hero-pose ' + heroSlug)

@@ -9,12 +9,6 @@ mixin button-hello-mivan(type, buttonText, description, imageAlt, imageSRC)
 
 if view.utils.isCodeCombat
   .modal-body-content
-    if me.get("preferredLanguage") == "he" || window.location.host == "il.codecombat.com"
-      .alert.alert-info.text-center(dir="rtl")
-        span תלמיד מערכת החינוך?
-        a(href="https://pub.skillz-edu.org/portal/playground")  התחבר דרך פורטל משרד החינוך
-
-
     if me.showIndividualRegister()
       .row.path-cards
         +button-hello-mivan("teacher-path-button","new_home.im_an_educator", "new_home.im_an_educator_description", '[alt]new_home.for_educators', '/images/pages/account/create/educator.png')
