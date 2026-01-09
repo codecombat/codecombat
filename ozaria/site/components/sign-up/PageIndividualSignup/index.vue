@@ -68,6 +68,12 @@ module.exports = Vue.extend({
   }
 }
 
+@media (max-width: $screen-sm-max) {
+  .page-mobile-container {
+    background-size: 500vw;
+  }
+}
+
 .page-mobile-container {
   font-size: 62.5%; // 1rem = 10px within the signup flow for easier spacing math
   background-color: white;
