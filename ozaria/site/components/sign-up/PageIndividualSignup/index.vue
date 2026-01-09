@@ -70,7 +70,7 @@ module.exports = Vue.extend({
 
 @media (max-width: $screen-sm-max) {
   .page-mobile-container {
-    background-size: 500vw;
+    background-size: 450vw;
   }
 }
 

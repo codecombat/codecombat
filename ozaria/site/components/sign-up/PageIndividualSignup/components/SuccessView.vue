@@ -129,6 +129,8 @@ export default {
 
     .awards-and-partners {
       width: 100vw;
+      position: absolute;
+      top: 65vh;
       margin-top: 4rem;
       border-radius: unset;
       box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.08), 0 -0.5rem 1rem rgba(0, 0, 0, 0.08);
