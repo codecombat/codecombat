@@ -1070,6 +1070,7 @@ module.exports = {
       tome_your_skills: 'Your Skills',
       blocks: 'Blocks',
       hints: 'Hints',
+      docs: 'Docs',
       videos: 'Videos',
       hints_title: 'Hint {{number}}',
       code_saved: 'Code Saved',
