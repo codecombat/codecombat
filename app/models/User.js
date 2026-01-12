@@ -1179,31 +1179,6 @@ module.exports = (User = (function () {
       return true
     }
 
-    // Galaxy Experiment is where we send home users - /ai or /ai/play
-    getOrStartGalaxyExperimentValue () {
-      const value = utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery('galaxy'),
-        me.getExperimentValue('galaxy', null),
-      )
-      if (value != null) {
-        return value
-      }
-      // Don't include users other than home users
-      if (!me.isHomeUser()) {
-        return 'control'
-      }
-      // Don't include China Home players for now
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      // Only include new users (created after experiment start date)
-      if (new Date(me.get('dateCreated')) < new Date('2025-10-12')) {
-        return 'control'
-      }
-
-      return this.tryStartExperiment('galaxy')
-    }
-
     removeRelatedAccount (relatedUserId, options = {}) {
       options.url = '/db/user/related-accounts'
       options.type = 'DELETE'
