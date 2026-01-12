@@ -333,9 +333,15 @@ export default {
           const levelSessionOptions = {
             project: (options.data || {}).levelSessions,
           }
+          const aiProjectOptions = {
+            data: {
+              from: 'classes-view',
+            },
+          }
           // too many users causing failures
           if (!me.isMto()) {
             fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
+            fetchPromises.push(dispatch('aiProjects/fetchForClassroomMembers', { classroom, options: aiProjectOptions }, { root: true }))
           }
         })
       }
