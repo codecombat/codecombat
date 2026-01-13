@@ -25,9 +25,9 @@ for (let seasonNumber = latestSeason; seasonNumber >= 1; --seasonNumber) {
   season.regularArena = _.find(arenas, { season: seasonNumber, type: 'regular' })
   season.championshipArena = _.find(arenas, { season: seasonNumber, type: 'championship' })
   season.dates = {
-    start: season.regularArena.start,
-    end: season.championshipArena.end,
-    results: season.championshipArena.results,
+    start: season.regularArena?.start || season.championshipArena?.start,
+    end: season.championshipArena?.end,
+    results: season.championshipArena?.results || season.regularArena?.results,
   }
   season.dates.startDisplay = moment(season.dates.start).add(1, 'days').format('MMM') // Add a day to avoid timezone nonsense
   season.dates.endDisplay = moment(season.dates.end).subtract(1, 'days').format('MMM YYYY') // Subtract a day to avoid timezone nonsense
