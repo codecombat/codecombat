@@ -6367,6 +6367,7 @@ module.exports = {
     galaxy: {
       title: 'Welcome to HackStack Galaxy',
       description: 'Explore new worlds and use AI to help you in your journey. ',
+      premium_only: 'Premium only',
     },
     new_premium: {
       mastering_code: 'Master coding and AI with **premium home access**',
