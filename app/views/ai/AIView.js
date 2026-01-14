@@ -101,7 +101,6 @@ module.exports = (AIView = (function () {
     }
 
     openSubscribeModal () {
-      console.log('openSubscribeModal')
       if (me.isPremium()) {
         return
       }
