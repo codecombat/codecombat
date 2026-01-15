@@ -41,6 +41,7 @@ module.exports = (AIView = (function () {
       $('html').css('font-size', '62.5%')
       window.handleAICreditLimitReached = null
       window.AICreditLimitReachedMsg = null
+      window.openSubscribeModal = null
       return super.destroy()
     }
 
