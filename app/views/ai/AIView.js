@@ -32,6 +32,7 @@ module.exports = (AIView = (function () {
       ai.AI({ domElement: this.$el.find('#ai-root')[0] })
       window.handleAICreditLimitReached = this.handleAICreditLimitReached.bind(this)
       window.AICreditLimitReachedMsg = this.AICreditLimitReachedMsg.bind(this)
+      window.openSubscribeModal = this.openSubscribeModal.bind(this)
       return super.afterInsert()
     }
 
@@ -40,6 +41,7 @@ module.exports = (AIView = (function () {
       $('html').css('font-size', '62.5%')
       window.handleAICreditLimitReached = null
       window.AICreditLimitReachedMsg = null
+      window.openSubscribeModal = null
       return super.destroy()
     }
 
@@ -97,6 +99,14 @@ module.exports = (AIView = (function () {
         }
         return $.i18n.t('play_level.ask_teacher_for_credits')
       }
+    }
+
+    openSubscribeModal () {
+      if (me.isPremium()) {
+        return
+      }
+      this.openModalView(new SubscribeModal())
+      window.tracker?.trackEvent('HS open subscribe modal', { path: window.location.pathname })
     }
   }
   AIView.initClass()

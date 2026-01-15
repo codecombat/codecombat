@@ -170,6 +170,7 @@ _.extend(CampaignSchema.properties, {
       },
     },
   },
+  isPremiumOnly: { type: 'boolean', description: 'Does this campaign require a subscription to access?', default: false },
 })
 
 CampaignSchema.denormalizedLevelProperties = [
