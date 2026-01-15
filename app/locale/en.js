@@ -819,6 +819,7 @@ module.exports = {
       yes_i_have_classcode: 'Yes, I have a Class Code!',
       enter_it_here: 'Enter it here:',
       play_without_saving: 'Play without saving',
+      phone_code: 'Validation SMS Code',
     },
 
     recover: {
@@ -5373,6 +5374,7 @@ module.exports = {
       invalidPhone: 'Invalid phone number',
       emailExists: 'Email already exists',
       nameExists: 'Username already exists',
+      phoneExists: 'Phone already exists',
       numberGreaterThanZero: 'Should be a number greater than 0',
       requireValidEmail: 'Please enter a valid email address.',
       requireValidPhone: 'Please enter a valid phone number, including area code.',

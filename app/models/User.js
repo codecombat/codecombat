@@ -244,6 +244,15 @@ module.exports = (User = (function () {
       ))
     }
 
+    static checkPhoneConflicts (phone) {
+      return new Promise((resolve, reject) => $.ajax(`/auth/phone/${encodeURIComponent(phone)}`, {
+        cache: false,
+        success: resolve,
+        error (jqxhr) { return reject(jqxhr.responseJSON) },
+      },
+      ))
+    }
+
     static checkEmailExists (email) {
       return new Promise((resolve, reject) => $.ajax(`/auth/email/${encodeURIComponent(email)}`, {
         cache: false,
@@ -904,6 +913,19 @@ module.exports = (User = (function () {
     clearUserSpecificLocalStorage () {
       for (const key of ['hoc-campaign']) { storage.remove(key) }
       return userUtils.removeLibraryKeys()
+    }
+
+    signupWithPhone (name, phone, phoneCode, password, options = {}) {
+      options.url = _.result(this, 'url') + '/signup-with-phone'
+      options.type = 'POST'
+      if (options.data == null) { options.data = {} }
+      _.extend(options.data, { name, phone, phoneCode, password })
+      options.contentType = 'application/json'
+      options.xhrFields = { withCredentials: true }
+      options.data = JSON.stringify(options.data)
+      const jqxhr = this.fetch(options)
+      jqxhr.then(() => window.tracker?.trackEvent('Finished Signup', { category: 'Signup', label: 'CodeCombat' }))
+      return jqxhr
     }
 
     signupWithPassword (name, email, password, options = {}) {
