@@ -36,11 +36,13 @@
         <span class="inline-flex-form-label-div">
           <div>
             <span class="control-label">{{ $t('signup.phone_code') }}</span>
-            <input
-              name="sendCode"
-              type="button"
-              @click="sendCode"
+            <CTAButton
+              class="sendCode"
+              size="small"
+              @clickedCTA="sendCode"
             >
+              {{ sendSMSText }}
+            </CTAButton>
           </div>
           <span
             v-if="!$v.phoneCode.required"
@@ -157,6 +159,8 @@ export default {
       name: '',
       password: '',
       validationMessages,
+      codeSent: false,
+      countDown: 60,
     }
   },
   validations: phoneValidations,
@@ -170,6 +174,13 @@ export default {
     canCreateAccount () {
       return !this.$v.$invalid
     },
+    sendSMSText () {
+      if (this.codeSent) {
+        return $.i18n.t('signup.resend_phone_code', { countDown: this.countDown })
+      } else {
+        return $.i18n.t('signup.send_phone_code')
+      }
+    },
   },
   created () {
     if (!me.isAnonymous()) {
@@ -177,7 +188,22 @@ export default {
     }
   },
   methods: {
+    startCountDown () {
+      if (this.countDown > 0) {
+        this.countDown -= 1
+        setTimeout(this.startCountDown, 1000)
+      } else {
+        this.codeSent = false
+        this.countDown = 60
+      }
+    },
     async sendCode () {
+      if (this.codeSent) {
+        return
+      }
+      this.codeSent = true
+      this.countDown = 60
+      this.startCountDown()
       await api.sms.sendChinaSMSRegister({
         json: {
           phone: this.phone,
@@ -301,6 +327,9 @@ export default {
     font-size: 2.2rem;
     padding: 1.2rem 1.6rem;
     border-radius: 1rem;
+  }
+  .sendCode {
+    display: inline-block;
   }
 }
 

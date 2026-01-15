@@ -820,6 +820,8 @@ module.exports = {
       enter_it_here: 'Enter it here:',
       play_without_saving: 'Play without saving',
       phone_code: 'Validation SMS Code',
+      send_phone_code: 'Send SMS Code',
+      resend_phone_code: 'ReSend(__countDown__)',
     },
 
     recover: {
