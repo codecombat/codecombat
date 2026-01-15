@@ -1,5 +1,5 @@
 <script>
-import { isOzaria, courseIDs } from 'core/utils'
+import { isOzaria, courseIDs, OZ_COURSE_IDS } from 'core/utils'
 import { mapMutations, mapGetters } from 'vuex'
 export default {
   props: {
@@ -55,12 +55,22 @@ export default {
         }
       })
       return courseFinished
-    }
+    },
+    isOzCourse () {
+      return OZ_COURSE_IDS.includes(this.selectedCourseId)
+    },
   },
   methods: {
     ...mapMutations({
       openModalEditStudent: 'baseSingleClass/openModalEditStudent'
-    })
+    }),
+    certUrl (studentId) {
+      let urlStarts = '/certificates'
+      if (this.isOzCourse) {
+        urlStarts += '/ozaria'
+      }
+      return `${urlStarts}/${studentId}?class=${this.classroom._id}&course=${this.selectedCourseId}&course-instance=${this.selectedCourseInstanceId}`
+    },
   }
 }
 </script>
@@ -84,7 +94,7 @@ export default {
       <a
         v-if="hasCompletedCourse"
         target="_blank"
-        :href="`/certificates/${studentId}?class=${classroom._id}&course=${selectedCourseId}&course-instance=${selectedCourseInstanceId}`"
+        :href="certUrl(studentId)"
         title="View Course Completion Certificate"
       >
         <img
