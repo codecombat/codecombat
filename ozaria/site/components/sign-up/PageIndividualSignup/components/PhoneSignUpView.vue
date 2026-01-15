@@ -204,7 +204,7 @@ export default {
       this.codeSent = true
       this.countDown = 60
       this.startCountDown()
-      await api.sms.sendChinaSMSRegister({
+      await api.sms.sendSMSRegister({
         json: {
           phone: this.phone,
         },
