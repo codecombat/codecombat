@@ -1396,6 +1396,9 @@ const arenas = [
   // Autumn we skip warm up arena and go straight to championship
   { season: 15, slug: 'strikers-stadium', noResults: true, type: 'regular', start: new Date('2025-08-01T00:00:00.000-07:00'), end: new Date('2025-08-01T00:00:01.000-07:00'), results: new Date('2025-12-20T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
   { season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-08-01T00:00:01.000-07:00'), end: new Date('2026-01-01T08:00:00.000Z'), results: new Date('2026-01-15T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png', tournament: '695383474e840b3f4aa401d3' },
+  { season: 16, slug: 'devour-dash', type: 'championship', start: new Date('2026-01-13T00:00:00.000-08:00'), end: new Date('2026-05-30T00:00:00.000-08:00'), results: new Date('2026-06-15T07:00:00.000-08:00'), levelOriginal: '69415fa85459d73effdd5c51', image: '/file/db/level/69415fa85459d73effdd5c51/DevourDashCupBanner.webp', tournament: '', onePerSeason: true },
+  { season: 17, slug: 'gridlock-practice', type: 'championship', start: new Date('2026-05-31T00:00:00.000-08:00'), end: new Date('2026-08-01T00:00:00.000-08:00'), results: new Date('2026-08-15T07:00:00.000-08:00'), levelOriginal: '', image: '', tournament: '', onePerSeason: true, noResults: true, restArena: true },
+  { season: 18, slug: 'chaotic-crossing', type: 'championship', start: new Date('2026-08-01T00:00:00.000-08:00'), end: new Date('2026-12-29T00:00:00.000-08:00'), results: new Date('2027-01-15T07:00:00.000-08:00'), levelOriginal: '', image: '', tournament: '', onePerSeason: true},
 ]
 
 // AI League seasons
@@ -1414,8 +1417,11 @@ const AILeagueSeasons = [
   { number: 11, championshipType: 'blitz', image: '/images/pages/league/sunfire-blitz.png', imagePath: '/images/pages/league/sunfire-results.webp', topMatchUrlPath: '/play/spectate/sunfire?session-one=6688815921af79d80736c0e2&session-two=66c64ee0b522c4f39324d832&tournament=669aa78fcca07ea127d445d6' },
   { number: 12, championshipType: 'clash', image: '/images/pages/league/supercharged-clash.png', imagePath: '/images/pages/league/supercharged-results.webp', topMatchUrlPath: '/play/spectate/supercharged?session-one=670022a88716adfc389b7843&session-two=6774cf6654ce86ae1fa25620&tournament=6756bac52bfcb2c7059f3cb3' },
   { number: 13, championshipType: 'cup', image: '/images/pages/league/kings-gambit-cup.png', imagePath: '/images/pages/league/kings-gambit-results.png', topMatchUrlPath: '/play/spectate/kings-gambit?session-one=67a8ef80800a161b01ff982f&session-two=683abaaac26f8d7dad1209f4&tournament=6810a617882c6fe46452003d' },
-  { number: 14, championshipType: 'clash', image: '/images/pages/league/grand-prix-clash.png', video: '', videoThumbnailTime: '', noResults: true },
+  { number: 14, championshipType: 'clash', image: '/images/pages/league/ail_practice_arena.webp', video: '', videoThumbnailTime: '', noResults: true, restSeason: true },
   { number: 15, championshipType: 'blitz', image: '/images/pages/league/golden-goal-blitz.png', video: '', videoThumbnailTime: '' },
+  { number: 16, championshipType: 'cup', image: '/images/pages/league/devour-dash-cup.webp', video: '', videoThumbnailTime: '' },
+  { number: 17, championshipType: 'arena', image: '/images/pages/league/ail_practice_arena.webp', video: '', videoThumbnailTime: '', restSeason: true, noResults: true },
+  { number: 18, championshipType: 'clash', image: '/images/pages/league/chaotic-crossing-clash.webp', video: '', videoThumbnailTime: '' },
 ]
 
 const activeArenas = function () {
