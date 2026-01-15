@@ -5,8 +5,8 @@
 $mapHeight: 1536
 $mapWidth: 2350
 $campaignPortalWidth: 317px
-$campaignPortalHeight: 634px
-$marginTopBase: -30px
+$campaignPortalHeight: 484px
+$marginTopBase: 20px
 $sideCampaignPortalHeight: math.div($campaignPortalHeight, 2)
 $sideCampaignImagesWidth: 1902px
 $campaignHoverScale: 1.2
@@ -1017,18 +1017,19 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
           // first row has a different margin-top
           &:first-child
             margin-top: 0px
-            margin-bottom: -40px
+            margin-bottom: -20px
           //the third row has a different margin-top
           &:nth-child(3)
-            margin-top: $marginTopBase - 30px
+            margin-top: $marginTopBase - 20px
           // the last row has a different margin-top
-          &:last-child
-            margin-top: $marginTopBase + 40px
+          // &:last-child
+          //   margin-top: $marginTopBase + 20px
 
           .main-campaign
             width: $campaignPortalWidth
             height: $campaignPortalHeight
-            background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat
+            background: transparent no-repeat center
+            background-size: contain
             position: absolute
             cursor: pointer
             z-index: 0
@@ -1048,15 +1049,17 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
               cursor: default
 
             &.forest
-              background-position: (-1 * $campaignPortalWidth) 0
+              background-image: url(/images/pages/play/portals/forest.webp)
             &.desert
-              background-position: (-2 * $campaignPortalWidth) 0
+              background-image: url(/images/pages/play/portals/desert.webp)
             &.mountain
-              background-position: (-3 * $campaignPortalWidth) 0
+              background-image: url(/images/pages/play/portals/mountain.webp)
             &.glacier
-              background-position: (-4 * $campaignPortalWidth) 0
+              background-image: url(/images/pages/play/portals/glacier.webp)
             &.volcano
-              background-position: (-5 * $campaignPortalWidth) 0
+              background-image: url(/images/pages/play/portals/volcano.webp)
+            &.dungeon
+              background-image: url(/images/pages/play/portals/dungeon.webp)
 
             .campaign-label
               position: absolute
