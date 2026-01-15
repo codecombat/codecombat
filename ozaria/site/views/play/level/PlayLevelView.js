@@ -662,7 +662,7 @@ class PlayLevelView extends RootView {
       new GoalsView({ level: this.level, session: this.session })
     )
     this.insertSubView(
-      new ChatView({ levelID: this.levelID, sessionID: this.session.id, session: this.session, aceConfig: this.classroomAceConfig })
+      new ChatView({ levelID: this.levelID, sessionID: this.session.id, session: this.session, aceConfig: this.classroomAceConfig, levelRealID: this.level.id }),
     )
     if (this.$el.hasClass('flags')) {
       this.insertSubView(
