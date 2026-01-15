@@ -88,10 +88,22 @@ module.exports = class HintsView extends CocoView
 
     return markedUp
 
+  getIndexedHintTitle: ->
+    index = @state.get('hintIndex')
+    return $.i18n.t('play_level.hints_title').replace('{{number}}', index + 1)
+
+  getHintTitle: ->
+    hint = @state.get('hint')
+    if not hint or not hint.name
+      return @getIndexedHintTitle()
+    translated = utils.i18n(hint, 'name')
+    if not translated
+      return @getIndexedHintTitle()
+    return translated
+  
   updateHint: ->
     index = @state.get('hintIndex')
-    hintsTitle = $.i18n.t('play_level.hints_title').replace('{{number}}', index + 1)
-    @state.set({ hintsTitle, hint: @hintsState.getHint(index) })
+    @state.set({ hint: @hintsState.getHint(index) })
 
   onClickNextButton: ->
     window.tracker?.trackEvent 'Hints Next Clicked', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: @state.get('hintIndex')

@@ -305,9 +305,6 @@ module.exports = class World
       components[existsConfigIndex][1] = {exists: false, stateless: true}
     thangTypeOriginal = thangConfig.thangType
     thangTypeModel = _.find thangTypes, (t) -> t.original is thangTypeOriginal
-    # temp hack for ozaria hero-placeholder-js in coco
-    if thangTypeOriginal is '529ec584c423d4e83b000014' and not thangTypeModel
-      thangTypeModel = _.find thangTypes, (t) -> t.original is '602954040de09b0027cb893f'
     return console.error thangConfig.id ? equipBy, 'could not find ThangType for', thangTypeOriginal unless thangTypeModel
     thangTypeName = thangTypeModel.name
     thang = new Thang @, thangTypeName, thangConfig.id

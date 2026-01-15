@@ -21,8 +21,12 @@ module.exports = {
 
   getSessions ({ courseInstanceID }, options) {
     if (options == null) { options = {} }
-    const userID = (options != null ? options.userID : undefined) || me.id
+    const userID = options?.userID || me.id
     return fetchJson(`/db/course_instance/${courseInstanceID}/course-level-sessions/${userID}`, options)
+  },
+
+  getMyCourseInstanceSessions ({ courseInstanceID }, options = {}) {
+    return fetchJson(`/db/course_instance/${courseInstanceID}/course-level-sessions/${me.id}`, options)
   },
 
   fetchByOwner (ownerID) {
