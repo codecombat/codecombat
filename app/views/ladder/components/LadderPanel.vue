@@ -86,6 +86,7 @@
 import moment from 'moment'
 import { mapGetters } from 'vuex'
 import { ARENA_CURRICULUM } from 'app/core/constants'
+import utils from 'core/utils'
 export default {
   name: 'LadderPanel',
   props: {
@@ -154,7 +155,7 @@ export default {
       const baseUrl = `/play/ladder/${this.arena.slug}`
       if (this.tournament) {
         if (this.tournament.clan) {
-          return baseUrl + `/clan/${this.tournament.clan}?tournament=${this.tournament._id}`
+          return utils.tournamentMixedIdHelper.convertUrl(baseUrl + `/clan/${this.tournament.clan}?tournament=${this.tournament._id}`)
         } else {
           return baseUrl + `?tournament=${this.tournament._id}` // for global AI league
         }

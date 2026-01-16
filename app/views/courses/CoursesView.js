@@ -133,6 +133,7 @@ module.exports = (CoursesView = (function () {
 
       this.wsBus = globalVar.application.wsBus // shortcut
       if (utils.isCodeCombat) {
+        this.tournamentHelper = utils.tournamentMixedIdHelper
         this.ladderImageMap = {}
         this.ladders = this.supermodel.loadCollection(new LadderCollection()).model
         this.listenToOnce(this.ladders, 'sync', this.onLaddersLoaded)
