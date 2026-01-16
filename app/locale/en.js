@@ -3513,6 +3513,7 @@ module.exports = {
       parent_inspiration: 'Safe, teacher-backed coding games that build real skills',
       individual_completion: 'Check your email to dive in! Open the link on your computer for the best way to learn and play while you code.',
       parent_completion: 'Check your email to get started! For the best results, open the link on a computer so your child can learn and play in the best coding environment.',
+      phone_completion: 'Open the https://codecombat.cn on your computer for the best way to learn and play while you code.',
       all_set: 'You\'re all set!',
       date_of_birth: 'Date of Birth',
     },

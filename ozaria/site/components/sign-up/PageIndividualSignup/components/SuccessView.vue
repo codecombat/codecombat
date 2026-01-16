@@ -43,6 +43,9 @@ export default {
   },
   computed: {
     roleDesc () {
+      if (features.chinaInfra) {
+        return $.i18n.t('account.phone_completion')
+      }
       return $.i18n.t(`account.${this.role}_completion`)
     },
   },
