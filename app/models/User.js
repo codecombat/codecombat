@@ -1411,7 +1411,70 @@ module.exports = (User = (function () {
 
       return false
     }
+
+    // Template for a new experiment.
+    // getOrStartTemplateExperimentValue () {
+    //   // Add Pre-conditions here.
+    //   // For example, if you want to exclude premium users even if they have experiment value, you can add:
+    //   if (me.isPremium()) {
+    //     return 'control'
+    //   }
+    //   const value = utils.getFirstNonNull(
+    //     utils.getExperimentValueFromQuery('template'),
+    //     me.getExperimentValue('template', null),
+    //   )
+    //   if (value != null) {
+    //     return value
+    //   }
+    //   // Add any other conditions here.
+    //   // For example, if you want to exclude users who are not home users, you can add:
+    //   if (!me.isHomeUser()) {
+    //     return 'control'
+    //   }
+    //   // Add any other conditions here.
+    //   // For example, if you want to exclude users who are in China, you can add:
+    //   if (features?.chinaInfra) {
+    //     return 'control'
+    //   }
+    //   // Add any other conditions here.
+    //   // For example, if you want to exclude users who are created before a certain date, you can add:
+    //   if (new Date(me.get('dateCreated')) < new Date('2025-10-12')) {
+    //     return 'control'
+    //   }
+
+    //   return this.tryStartExperiment('template')
+    // }
+
+    // Hackstack Lock Experiment -- we want to lock most of planets for non premium users
+    getOrStartHackstackLockExperimentValue () {
+      if (me.isPremium()) {
+        return 'control'
+      }
+      if (me.isAdmin()) {
+        return 'control'
+      }
+      // Its possible users got experiment value before they signed up for classroom.
+      if (me.isTeacher() || me.isStudent()) {
+        return 'control'
+      }
+      if (features?.chinaInfra) {
+        return 'control'
+      }
+      const value = utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery('hackstack-lock'),
+        me.getExperimentValue('hackstack-lock', null),
+      )
+      if (value != null) {
+        return value
+      }
+      // Additional check -- we want only home and anonymous users
+      if (me.isHomeUser() || me.isAnonymous()) {
+        return this.tryStartExperiment('hackstack-lock')
+      }
+      return 'control'
+    }
   }
+
   User.initClass()
   return User
 })())
