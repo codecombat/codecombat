@@ -204,11 +204,16 @@ export default {
       this.codeSent = true
       this.countDown = 60
       this.startCountDown()
-      await api.sms.sendSMSRegister({
-        json: {
-          phone: this.phone,
-        },
-      })
+      try {
+        await api.sms.sendSMSRegister({
+          json: {
+            phone: this.phone,
+          },
+        })
+      } catch (e) {
+        this.countDown = 0
+        this.codeSent = false
+      }
     },
     async checkPhone (phone) {
       if (phone) {

@@ -52,7 +52,7 @@ module.exports = Vue.extend({
     }
   },
   mounted () {
-    if (features.chinaInfra) {
+    if (features?.chinaInfra) {
       this.view = 'phone-sign-up'
     }
   },
