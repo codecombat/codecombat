@@ -8,7 +8,10 @@
   block outer_content
     if features.chinaHome
       .floatCS
-        img.qr(src="https://assets.koudashijie.com/images/homeVersion/service_qr.png")
+        .qr
+          img(src="https://assets.koudashijie.com/images/homeVersion/service_qr.png")
+          div 关卡卡住了？充值有问题？
+          div 扫码即刻召唤真人客服
         img.icon(src="https://assets.koudashijie.com/images/home/icon/customerservice.png")
         .text 微信客服
 

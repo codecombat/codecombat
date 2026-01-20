@@ -610,7 +610,7 @@ export default Vue.extend({
                   cta-button#login-link.login-button(data-event-action="Header Login CTA" size="small" type="no-background") {{ $t('signup.login') }}
                 li
                   cta-button#create-account-link.signup-button(data-event-action="Header Sign Up CTA" size="small") {{ $t('signup.sign_up') }}
-              ul.nav.navbar-nav
+              ul.nav.navbar-nav(v-show="!me.isAnonymous()")
                 li.dropdown
                   a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                     //- string replaced in RootView

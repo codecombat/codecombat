@@ -26,7 +26,11 @@ module.exports = class VueComponentView extends RootView {
     return new this.VueComponent({
       el: this.$el.find('#site-content-area')[0],
       propsData: this.propsData,
-      store: store
+      store: store,
+      provide: {
+        openLegacyModal: this.openModalView.bind(this),
+        legacyModalClosed: this.modalClosed.bind(this)
+      }
     })
   }
 
