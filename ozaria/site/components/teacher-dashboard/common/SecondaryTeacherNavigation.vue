@@ -11,6 +11,7 @@ import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modal
 import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
 import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/NavIconAssessments'
 import IconBeta from 'app/core/components/IconBeta'
+import IconNew from 'app/core/components/IconNew'
 const K5 = 'K-5'
 const K6 = '6-8'
 const K9 = '9-12'
@@ -27,6 +28,7 @@ export default {
     IconAssessments,
     GradeFilterComponent,
     IconBeta,
+    IconNew,
   },
 
   mixins: [
@@ -50,6 +52,7 @@ export default {
       if (me.showOzCourses()) {
         ozLink = {
           path: '/teachers/guide/ozaria',
+          isNew: true,
         }
       }
       guideOptions = [
@@ -382,6 +385,10 @@ export default {
               v-if="option.beta"
               class="beta-icon"
             />
+            <IconNew
+              v-if="option.isNew"
+              class="new-icon"
+            />
           </a>
           <router-link
             v-else
@@ -393,6 +400,10 @@ export default {
             :data-label="$route.path"
           >
             {{ option.name }}
+            <IconNew
+              v-if="option.isNew"
+              class="new-icon"
+            />
           </router-link>
         </li>
       </ul>
@@ -1054,5 +1065,11 @@ li.open>#AIJuniorDropdown,
   margin-top: -30px !important;
   width: 30px;
   margin-left: -10px;
+}
+
+.new-icon {
+  margin-top: -30px !important;
+  width: 30px;
+  margin-left: -5px;
 }
 </style>
