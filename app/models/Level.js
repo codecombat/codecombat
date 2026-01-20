@@ -291,7 +291,7 @@ module.exports = (Level = (function () {
       }
 
       // Load the user's chosen hero AFTER getting stats from default char
-      if (utils.isOzaria) {
+      if (utils.showOzaria()) {
         if (/Hero Placeholder/.test(levelThang.id)) {
           if (this.isType('course') && !this.headless && !this.sessionless) {
             heroThangType = __guard__(me.get('ozariaUserOptions'), x2 => x2.isometricThangTypeOriginal)
@@ -579,7 +579,7 @@ module.exports = (Level = (function () {
     getCodeContext (plan) {
       if (!plan) return {}
       let context = utils.i18n(plan, 'context')
-      if (utils.isOzaria) {
+      if (utils.showOzaria()) {
         context = _.merge({
           external_ch1_avatar: store.getters?.['me/getCh1Avatar.avatarCodeString']?.crown,
         }, context)
@@ -626,7 +626,7 @@ module.exports = (Level = (function () {
     }
 
     usesSessionHeroInventory () {
-      if (utils.isOzaria) { return false }
+      if (utils.showOzaria()) { return false }
       if (this.get('product', true) === 'codecombat-junior') { return false }
       if (this.isType('course') && !me.showHeroAndInventoryModalsToStudents()) { return false }
       if (this.isType('course') && this.isAssessment()) { return false }

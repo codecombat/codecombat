@@ -246,6 +246,15 @@ module.exports = (User = (function () {
       ))
     }
 
+    static checkPhoneConflicts (phone) {
+      return new Promise((resolve, reject) => $.ajax(`/auth/phone/${encodeURIComponent(phone)}`, {
+        cache: false,
+        success: resolve,
+        error (jqxhr) { return reject(jqxhr.responseJSON) },
+      },
+      ))
+    }
+
     static checkEmailExists (email) {
       return new Promise((resolve, reject) => $.ajax(`/auth/email/${encodeURIComponent(email)}`, {
         cache: false,
@@ -908,6 +917,19 @@ module.exports = (User = (function () {
       return userUtils.removeLibraryKeys()
     }
 
+    signupWithPhone (name, phone, phoneCode, password, options = {}) {
+      options.url = _.result(this, 'url') + '/signup-with-phone'
+      options.type = 'POST'
+      if (options.data == null) { options.data = {} }
+      _.extend(options.data, { name, phone, phoneCode, password })
+      options.contentType = 'application/json'
+      options.xhrFields = { withCredentials: true }
+      options.data = JSON.stringify(options.data)
+      const jqxhr = this.fetch(options)
+      jqxhr.then(() => window.tracker?.trackEvent('Finished Signup', { category: 'Signup', label: 'CodeCombat' }))
+      return jqxhr
+    }
+
     signupWithPassword (name, email, password, options = {}) {
       options.url = _.result(this, 'url') + '/signup-with-password'
       options.type = 'POST'
@@ -1168,38 +1190,6 @@ module.exports = (User = (function () {
       return true
     }
 
-    getEducatorSignupExperimentValue () {
-      const experimentName = 'educator-signup-modal'
-      let value = me.getExperimentValue(experimentName, null)
-
-      if ((value == null) && !/^en/.test(me.get('preferredLanguage', true))) {
-        // Don't include non-English-speaking users
-        value = 'control'
-      }
-
-      const oneDayAgo = new Date(new Date() - 24 * 60 * 60 * 1000)
-      if ((value == null) && (new Date(me.get('dateCreated')) < oneDayAgo)) {
-        // Don't include users created more than a day ago; they've probably seen the old homepage before without having started the experiment somehow
-        value = 'control'
-      }
-
-      if (value === null) {
-        const probability = window.serverConfig?.experimentProbabilities?.[experimentName]?.beta || 0.5
-        let valueProbability
-        const rand = Math.random()
-        if (rand < probability) {
-          value = 'beta'
-          valueProbability = probability
-        } else {
-          value = 'control'
-          valueProbability = 1 - probability
-        }
-        me.startExperiment(experimentName, value, valueProbability)
-      }
-
-      return value
-    }
-
     shouldShowLevelAIChat () {
       if (utils.isOzaria) {
         return false
@@ -1211,31 +1201,6 @@ module.exports = (User = (function () {
         return false
       }
       return true
-    }
-
-    // Galaxy Experiment is where we send home users - /ai or /ai/play
-    getOrStartGalaxyExperimentValue () {
-      const value = utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery('galaxy'),
-        me.getExperimentValue('galaxy', null),
-      )
-      if (value != null) {
-        return value
-      }
-      // Don't include users other than home users
-      if (!me.isHomeUser()) {
-        return 'control'
-      }
-      // Don't include China Home players for now
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      // Only include new users (created after experiment start date)
-      if (new Date(me.get('dateCreated')) < new Date('2025-10-12')) {
-        return 'control'
-      }
-
-      return this.tryStartExperiment('galaxy')
     }
 
     removeRelatedAccount (relatedUserId, options = {}) {
@@ -1454,7 +1419,70 @@ module.exports = (User = (function () {
 
       return false
     }
+
+    // Template for a new experiment.
+    // getOrStartTemplateExperimentValue () {
+    //   // Add Pre-conditions here.
+    //   // For example, if you want to exclude premium users even if they have experiment value, you can add:
+    //   if (me.isPremium()) {
+    //     return 'control'
+    //   }
+    //   const value = utils.getFirstNonNull(
+    //     utils.getExperimentValueFromQuery('template'),
+    //     me.getExperimentValue('template', null),
+    //   )
+    //   if (value != null) {
+    //     return value
+    //   }
+    //   // Add any other conditions here.
+    //   // For example, if you want to exclude users who are not home users, you can add:
+    //   if (!me.isHomeUser()) {
+    //     return 'control'
+    //   }
+    //   // Add any other conditions here.
+    //   // For example, if you want to exclude users who are in China, you can add:
+    //   if (features?.chinaInfra) {
+    //     return 'control'
+    //   }
+    //   // Add any other conditions here.
+    //   // For example, if you want to exclude users who are created before a certain date, you can add:
+    //   if (new Date(me.get('dateCreated')) < new Date('2025-10-12')) {
+    //     return 'control'
+    //   }
+
+    //   return this.tryStartExperiment('template')
+    // }
+
+    // Hackstack Lock Experiment -- we want to lock most of planets for non premium users
+    getOrStartHackstackLockExperimentValue () {
+      if (me.isPremium()) {
+        return 'control'
+      }
+      if (me.isAdmin()) {
+        return 'control'
+      }
+      // Its possible users got experiment value before they signed up for classroom.
+      if (me.isTeacher() || me.isStudent()) {
+        return 'control'
+      }
+      if (features?.chinaInfra) {
+        return 'control'
+      }
+      const value = utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery('hackstack-lock'),
+        me.getExperimentValue('hackstack-lock', null),
+      )
+      if (value != null) {
+        return value
+      }
+      // Additional check -- we want only home and anonymous users
+      if (me.isHomeUser() || me.isAnonymous()) {
+        return this.tryStartExperiment('hackstack-lock')
+      }
+      return 'control'
+    }
   }
+
   User.initClass()
   return User
 })())

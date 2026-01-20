@@ -103,7 +103,10 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapU
             span(data-i18n="courses.start")
 
   if stats.courseComplete
-    a.certificate-link(target='_blank', href='/certificates/' + me.id + '?class=' + classroom.id + '&course=' + course._id + '&course-instance=' + courseInstance.id)
+    - certUrl = '/certificates/' + me.id + '?class=' + classroom.id + '&course=' + course._id + '&course-instance=' + courseInstance.id
+    if isOzariaCourse
+      - certUrl = certUrl.replace('/certificates', '/certificates/ozaria')
+    a.certificate-link(target='_blank', href=certUrl)
       img(src='/images/pages/user/certificates/certificate-icon.png')
       div(data-i18n='user.certificate_view')
   else if stats.levels.lastPlayed

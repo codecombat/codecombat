@@ -80,7 +80,7 @@
     >
       <span>{{ $t(`league.${season.championshipArena.slug.replace(/-/g, '_')}`) }} {{ $t(`league.${season.championshipType}`) }}</span>
       <br>
-      <span>{{ season.dates.endDisplay + ' ' + $t('league.final_arena') }}</span>
+      <span>{{ season.restSeason ? ($t('league.rest_season') + ' - ' + $t('league.no_prizes')) : season.dates.endDisplay + ' ' + $t('league.final_arena') }}</span>
     </div>
   </div>
 </template>

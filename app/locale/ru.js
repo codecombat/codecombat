@@ -1087,6 +1087,7 @@ module.exports = {
       tome_your_skills: 'Ваши навыки',
       blocks: '[AI_TRANSLATION]Блоки',
       hints: 'Советы',
+      docs: 'Доки',
       videos: 'Видео',
       hints_title: 'Совет {{number}}',
       code_saved: 'Код сохранён',

@@ -43,6 +43,9 @@ export default {
   },
   computed: {
     roleDesc () {
+      if (features?.chinaInfra) {
+        return $.i18n.t('account.phone_completion')
+      }
       return $.i18n.t(`account.${this.role}_completion`)
     },
   },
@@ -128,14 +131,22 @@ export default {
     }
 
     .awards-and-partners {
+      width: 100vw;
+      position: absolute;
+      top: 65vh;
       margin-top: 4rem;
-      padding: 6rem 4rem;
+      border-radius: unset;
+      box-shadow: 0 1rem 1rem rgba(0, 0, 0, 0.08), 0 -0.5rem 1rem rgba(0, 0, 0, 0.08);
 
       ::v-deep .frame {
-        gap: .5rem;
+        gap: .3rem;
+
+        .image {
+          width: 8rem;
+        }
       }
       ::v-deep .frame .div {
-        gap: .5rem;
+        gap: .3rem;
       }
     }
   }

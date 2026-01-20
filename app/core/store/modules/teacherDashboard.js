@@ -333,9 +333,15 @@ export default {
           const levelSessionOptions = {
             project: (options.data || {}).levelSessions,
           }
+          const aiProjectOptions = {
+            data: {
+              from: 'classes-view',
+            },
+          }
           // too many users causing failures
           if (!me.isMto()) {
             fetchPromises.push(dispatch('levelSessions/fetchForClassroomMembers', { classroom, options: levelSessionOptions }, { root: true }))
+            fetchPromises.push(dispatch('aiProjects/fetchForClassroomMembers', { classroom, options: aiProjectOptions }, { root: true }))
           }
         })
       }
@@ -353,7 +359,11 @@ export default {
       fetchPromises.push(dispatch('courseInstances/fetchCourseInstancesForClassroom', state.classroomId, { root: true }))
       fetchPromises.push(dispatch('courses/fetchReleased', undefined, { root: true }))
 
-      options.fetchInteractiveSessions = !utils.isCodeCombat
+      if (utils.isCodeCombat) {
+        options.fetchInteractiveSessions = me.showOzCourses()
+      } else {
+        options.fetchInteractiveSessions = true
+      }
       fetchPromises.push(dispatch('teacherDashboard/fetchClassroomData', options, { root: true }))
 
       await Promise.all(fetchPromises)
