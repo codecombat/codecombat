@@ -453,6 +453,7 @@ _.extend(UserSchema.properties, {
       syncedToCIO: { type: 'boolean', description: 'Whether the user has been synced to CIO' },
       forceLogout: { type: 'boolean', description: 'Whether the user needs to be force logged out' },
       asRole: { type: 'string', description: 'If user is register as individual but need mark as other role' },
+      canAccessOzCourse: { type: 'boolean', description: 'Whether the user can access Ozaria course' },
     },
   },
 

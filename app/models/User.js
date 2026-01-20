@@ -190,7 +190,7 @@ module.exports = (User = (function () {
       if (utils.isOzaria) {
         return true
       }
-      return this.isInternal() || this.isAdmin()
+      return this.isInternal() || this.isAdmin() || this.get('features')?.canAccessOzCourse
     }
 
     isDistrictAdmin (districtId) {
