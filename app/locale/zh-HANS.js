@@ -1452,7 +1452,7 @@ module.exports = {
       subscribe_prepaid: '会员激活码',
       using_prepaid: '使用激活码激活会员',
       subscribe_to_premium: '加入 CodeCombat 会员',
-      feature_level_access: '✨ 畅玩1000+进阶式学习关卡',
+      feature_level_access: '✨ 畅玩2300+进阶式学习关卡',
       feature_heroes: '🦸 解锁独家玩家角色与代码竞技场',
       feature_learn: '🔨 项目驱动学习：游戏开发到实用网页应用',
       feature_languages: '💻 主流多语言全能学 Python/C++',

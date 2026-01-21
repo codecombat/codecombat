@@ -1453,7 +1453,7 @@ module.exports = {
       subscribe_prepaid: 'Click Subscribe to use prepaid code',
       using_prepaid: 'Using prepaid code for monthly subscription',
       subscribe_to_premium: 'Subscribe to Premium',
-      feature_level_access: 'Play 600+ levels',
+      feature_level_access: 'Play 2300+ levels',
       feature_heroes: 'Unlock exclusive heroes and pets',
       feature_learn: 'Create games and websites',
       feature_languages: 'Get all supported languages',

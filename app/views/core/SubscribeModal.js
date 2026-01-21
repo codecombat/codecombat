@@ -39,6 +39,7 @@ module.exports = (SubscribeModal = (function () {
         'click #close-modal': 'hide',
         'click .purchase-button': 'onClickPurchaseButton',
         'click .stripe-lifetime-button': 'onClickStripeLifetimeButton',
+        'click .stripe-seasonal-button': 'onClickSeasonalPurchaseButton',
         'click .stripe-annual-button': 'onClickAnnualPurchaseButton',
         'click .back-to-products': 'onClickBackToProducts',
         'click .go-prepaid': 'onClickGoPrepaid'
@@ -182,6 +183,27 @@ module.exports = (SubscribeModal = (function () {
       // else
       //   @startStripeSubscribe()
       return this.startStripeSubscribe() // Always use Stripe
+    }
+
+    onClickSeasonalPurchaseButton (e) {
+      if (!this.seasonalProduct) { return }
+      this.playSound('menu-button-click')
+
+      if (me.get('anonymous')) {
+        if (application.tracker != null) {
+          application.tracker.trackEvent('Started Signup from buy yearly', { service: 'stripe' })
+        }
+        return this.openModalView(new CreateAccountModal({ startOnPath: 'individual', subModalContinue: 'yearly' }))
+      }
+
+      if (features.chinaHome) {
+        wechatPay.pay(this.seasonalProduct.get('planID')).then((res) => {
+          this.openModalView(new WechatPayModal({ propsData: { url: res.wechat.code_url, sessionId: res.sessionId } }))
+        })
+        return
+      }
+
+      return this.startYearlyStripeSubscription()
     }
 
     onClickAnnualPurchaseButton (e) {
