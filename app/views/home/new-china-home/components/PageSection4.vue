@@ -25,7 +25,7 @@
           </div>
         </template>
         <template #column-two>
-          <img src="/images/pages/cn-home/ai_robot_mentor.webp">
+          <img src="/images/pages/cn-home/ai_robot_mentor.png">
         </template>
       </two-column-block>
     </template>
