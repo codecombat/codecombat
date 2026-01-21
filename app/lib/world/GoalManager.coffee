@@ -29,7 +29,7 @@ module.exports = class GoalManager extends CocoClass
     @hasProgressed = false # capstoneStage progression
     @initThangTeams()
     @addGoal goal for goal in @initialGoals if @initialGoals
-    if utils.isOzaria and @options?.session and @options?.additionalGoals
+    if utils.showOzaria() and @options?.session and @options?.additionalGoals
       additionalGoals = _.cloneDeep(@options.additionalGoals)
       capstoneStage = @options.capstoneStage || 1 # passed in from PlayLevelView
       stages = _.filter(additionalGoals, (ag) -> ag.stage <= capstoneStage and ag.stage > 0)
@@ -139,7 +139,7 @@ module.exports = class GoalManager extends CocoClass
   finishLevel: ->
     stageFinished = @checkOverallStatus() is 'success'
     if @options.additionalGoals and stageFinished
-      if utils.isOzaria
+      if utils.showOzaria()
         @progressCapstoneStage(@options.session, @options.additionalGoals)
       else
         @addAdditionalGoals(@options.session, @options.additionalGoals)
@@ -152,7 +152,7 @@ module.exports = class GoalManager extends CocoClass
     goal = $.extend(true, {}, goal)
     goal.id = @nextGoalID++ if not goal.id
     # The initial goals also need a capstone stage if this is indeed goals for a capstone stage:
-    if utils.isOzaria && !goal.stage && @options?.additionalGoals
+    if utils.showOzaria() && !goal.stage && @options?.additionalGoals
       goal.stage = 1
     return if @goalStates[goal.id]?
     @goals.push(goal)
@@ -167,7 +167,7 @@ module.exports = class GoalManager extends CocoClass
   notifyGoalChanges: ->
     return if @options.headless
     overallStatus = @checkOverallStatus()
-    if utils.isOzaria
+    if utils.showOzaria()
       noTimeOutStatuses = ['success', 'failure', null]
     else
       noTimeOutStatuses = ['success', 'failure']
