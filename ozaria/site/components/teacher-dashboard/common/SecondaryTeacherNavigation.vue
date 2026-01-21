@@ -145,10 +145,6 @@ export default {
       return utils.isCodeCombat && !me.isCodeNinja()
     },
 
-    showAIJunior () {
-      return me.isAdmin()
-    },
-
     sortedClasses () {
       const classrooms = [...this.classrooms]
       classrooms.sort(this.classroomSortById)
@@ -528,57 +524,6 @@ export default {
         </li>
       </ul>
     </li>
-    <li
-      v-if="showAIJunior"
-      class="dropdown"
-    >
-      <a
-        id="AIJuniorDropdown"
-        :class="['dropdown-toggle', isCurrentRoute('/teachers/ai-junior') ? 'current-route' : '']"
-        href="#"
-        role="button"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        <div id="IconAIJunior" />
-        <span>{{ $t('teacher_dashboard.ai_hackstack_junior_tab') }}</span>
-        <span class="caret" />
-      </a>
-      <ul
-        v-if="classrooms.length > 0"
-        class="dropdown-menu"
-        aria-labelledby="AIJuniorDropdown"
-      >
-        <li
-          v-for="classroom in classrooms"
-          :key="classroom._id"
-          :class="classroomSelected === classroom._id && isCurrentRoute('/teachers/ai-junior') ? 'selected' : null"
-        >
-          <router-link
-            :to="`/teachers/ai-junior/${classroom._id}`"
-            class="dropdown-item"
-            data-action="AIJunior: Nav Clicked"
-            data-toggle="dropdown"
-            @click.native="trackEvent"
-          >
-            {{ classroom.name }}
-          </router-link>
-        </li>
-      </ul>
-      <ul
-        v-else
-        class="dropdown-menu"
-        aria-labelledby="AIJuniorDropdown"
-      >
-        <li>
-          <a class="dropdown-item disabled-item">
-            {{ $t('teacher_dashboard.no_classes_yet') }}
-          </a>
-        </li>
-      </ul>
-    </li>
-
     <li>
       <dashboard-toggle
         v-if="isCodeCombat"
