@@ -36,6 +36,10 @@
         a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619")
           img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
           span='京公网安备 11010802038619号'
+
+        span {{ $t("nav.copyright_prefix") }}
+        span= ' ©2026 CodeCombat Inc. '
+        span {{ $t("nav.copyright_suffix") }}
 </template>
 <script>
 import PageSection from '../../../../components/common/elements/PageSection'
@@ -159,6 +163,8 @@ export default {
   width: 90vw
   height: 10px
   text-align: center
+  span
+    font-size: 12px
   .small
     margin-right: 10px
   #mps
