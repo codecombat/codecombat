@@ -75,9 +75,6 @@ export const phoneValidations = _.assign({
     required,
     uniqueName,
   },
-  birthday: {
-    required,
-  },
   phone: {
     required,
     uniquePhone,

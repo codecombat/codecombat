@@ -58,24 +58,6 @@
       </div>
       <div
         class="form-group"
-        :class="{ 'has-error': $v.birthday.$error }"
-      >
-        <span class="inline-flex-form-label-div">
-          <span class="control-label">{{ $t('account.date_of_birth') }}</span>
-          <span
-            v-if="!$v.birthday.required"
-            class="form-error"
-          >{{ $t(validationMessages.errorRequired.i18n) }}</span>
-        </span>
-        <input
-          v-model="$v.birthday.$model"
-          name="birthday"
-          class="form-control"
-          type="date"
-        >
-      </div>
-      <div
-        class="form-group"
         :class="{ 'has-error': $v.name.$error }"
       >
         <span class="inline-flex-form-label-div">
@@ -155,7 +137,6 @@ export default {
     return {
       phone: '',
       phoneCode: '',
-      birthday: '',
       name: '',
       password: '',
       validationMessages,
@@ -227,8 +208,6 @@ export default {
         return
       }
       window.tracker.trackEvent('CreateAccountModal Individual Mobile SignUpView Submit Clicked', { category: 'Individuals' })
-      me.set('birthday', this.birthday)
-
       try {
         await this.createAccount()
         await me.signupWithPhone(this.name, this.phone, this.phoneCode, this.password)

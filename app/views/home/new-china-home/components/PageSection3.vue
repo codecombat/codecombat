@@ -320,25 +320,27 @@ export default {
   opacity: 1;
 }
 
-.slant-desc strong {
-  color: #F2BE22;
-  font-weight: 900;
-  font-size: 2.24rem;
-  text-shadow: 0 0 10px rgba(242, 190, 34, 0.4);
-}
+::v-deep {
 
-@media (max-width: 640px) {
   .slant-desc strong {
-    font-size: 1.76rem;
+    color: #F2BE22;
+    font-weight: 900;
+    font-size: 2.24rem;
+    text-shadow: 0 0 10px rgba(242, 190, 34, 0.4);
+  }
+
+  @media (max-width: 640px) {
+    .slant-desc strong {
+      font-size: 1.76rem;
+    }
+  }
+
+  .slant-desc .highlight {
+    color: #818cf8;
+    font-weight: bold;
+    border-bottom: 2px solid rgba(129, 140, 248, 0.3);
   }
 }
-
-.slant-desc .highlight {
-  color: #818cf8;
-  font-weight: bold;
-  border-bottom: 2px solid rgba(129, 140, 248, 0.3);
-}
-
 .slant-nav {
   position: absolute;
   top: 0;

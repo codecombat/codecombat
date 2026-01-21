@@ -21,21 +21,21 @@
             <ul class="space-y-4 md-space-y-6">
               <li class="flex items-start gap-3 md-gap-4">
                 <div class="mt-1.5 md-mt-2.5 w-2 h-2 rounded-full bg-indigo-500 shrink-0" />
-                <p class="text-base md-text-xl text-slate-700 leading-relaxed">
+                <div class="text-base md-text-xl text-slate-700 leading-relaxed">
                   不用面对黑屏发呆，<span class="font-bold text-slate-900">写一行代码，角色立刻执行</span>
-                </p>
+                </div>
               </li>
               <li class="flex items-start gap-3 md-gap-4">
                 <div class="mt-1.5 md-mt-2.5 w-2 h-2 rounded-full bg-indigo-500 shrink-0" />
-                <p class="text-base md-text-xl text-slate-700 leading-relaxed">
+                <div class="text-base md-text-xl text-slate-700 leading-relaxed">
                   <span class="font-bold text-slate-900">函数就是英雄装备</span>，学会一个，解锁一个新技能
-                </p>
+                </div>
               </li>
               <li class="flex items-start gap-3 md-gap-4">
                 <div class="mt-1.5 md-mt-2.5 w-2 h-2 rounded-full bg-indigo-500 shrink-0" />
-                <p class="text-base md-text-xl text-slate-700 leading-relaxed">
+                <div class="text-base md-text-xl text-slate-700 leading-relaxed">
                   11张地图，2300+关卡，足够<span class="font-bold text-slate-900">从零基础打到能写项目</span>
-                </p>
+                </div>
               </li>
             </ul>
 

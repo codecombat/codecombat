@@ -67,6 +67,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   row-gap: 1rem;
+  column-gap: 2.5rem;
 
   span {
     white-space: nowrap;

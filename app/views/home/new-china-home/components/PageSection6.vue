@@ -15,9 +15,9 @@
             <div class="stat-label text-yellow-800">
               专注于这一件事
             </div>
-            <p class="text-xs text-yellow-700 mt-2">
+            <div class="text-xs text-yellow-700 mt-2">
               经得起时间考验的方案
-            </p>
+            </div>
           </div>
 
           <div class="bento-box bento-box-indigo md-col-span-2">
@@ -32,9 +32,9 @@
                 </div>
               </div>
             </div>
-            <p class="text-sm text-indigo-100 mt-2">
+            <div class="text-sm text-indigo-100 mt-2">
               你采用的，是一种被大规模验证的学习方法
-            </p>
+            </div>
           </div>
 
           <div
@@ -47,9 +47,9 @@
             <div class="stat-label text-cyan-800">
               持续迭代更新
             </div>
-            <p class="text-xs text-cyan-700 mt-2">
+            <div class="text-xs text-cyan-700 mt-2">
               从50关到2300+关的陪伴
-            </p>
+            </div>
           </div>
 
           <div class="md-col-span-4 small-stat-grid">

@@ -1288,7 +1288,11 @@ module.exports = (User = (function () {
     isDEEPAPI () { return DEEP_API_LIST.includes(this.get('clientCreator') || '') }
     useTarenaLogo () { return this.isTarena() }
     hideTopRightNav () { return this.isDEEPAPI() || this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
-    hideFooter () { return this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
+    hideFooter () {
+      const isChinaHomeHome = features?.chinaHome && ['', '/', '/home'].includes(window.location.pathname)
+      return this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() || isChinaHomeHome
+    }
+
     hideOtherProductCTAs () { return this.isTarena() || this.isILK() || this.isICode() || this.isCodeNinja() }
     useGoogleClassroom () { return !(features?.chinaUx != null ? features?.chinaUx : false) && (this.get('gplusID') != null) } // if signed in using google SSO
     useGoogleCalendar () { return !(features?.chinaUx != null ? features?.chinaUx : false) && (this.get('gplusID') != null) && (this.isAdmin() || this.isOnlineTeacher()) } // if signed in using google SSO

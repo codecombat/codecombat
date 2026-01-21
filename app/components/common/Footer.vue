@@ -252,7 +252,7 @@ footer#site-footer.small(:class="{'dark-mode': darkMode}" @click="footerEvent")
                     a.si.si-weibo(href='https://weibo.com/u/7404903646', target="_blank")
                     a.si.si-bilibili(href='https://space.bilibili.com/470975161/', target="_blank")
 
-  final-footer
+  final-footer(v-if="isChinaHome && !hideFooter")
 </template>
 
 <style lang="sass" scoped>

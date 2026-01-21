@@ -131,6 +131,7 @@ export default Vue.extend({
     setTimeout(() => {
       // Dynamically load GSAP if not already loaded
       this.loadGSAP().then(() => {
+        this.initGSAPAnimations()
       })
     }, 100)
   },
@@ -254,8 +255,8 @@ export default Vue.extend({
 }
 /* Scroll Container */
 .snap-container {
-  height: 100vh;
-  overflow-y: scroll;
+  height: calc(100vh - 71px);
+  overflow-y: auto;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
 }
@@ -263,7 +264,7 @@ export default Vue.extend({
 /* Section Styling */
 .snap-section {
   scroll-snap-align: start;
-  min-height: 100vh;
+  min-height: calc(100vh - 71px);
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -271,14 +272,14 @@ export default Vue.extend({
   align-items: center;
   position: relative;
   background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
-  padding-top: 80px;
+  padding-top: 20px;
   padding-bottom: 60px;
 }
 
 @media (max-height: 800px) {
   .snap-section {
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     justify-content: flex-start;
   }
 }
@@ -464,8 +465,10 @@ $primary-background: #31636F;
   }
   .page-section {
     width: 100%;
+    padding: 40px 20px !important;
     .frame {
       display: flex;
+      gap: 10px;
     }
   }
 }
@@ -484,37 +487,6 @@ $primary-background: #31636F;
 .no-scrollbar {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
-}
-/* 滚动捕捉容器 */
-.snap-container {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-}
-
-/* --- 全局统一和谐背景 --- */
-.snap-section {
-  scroll-snap-align: start;
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
-  padding-top: 80px; /* 增加顶部留白适配移动端导航 */
-  padding-bottom: 60px;
-}
-
-/* 移动端特殊处理：内容过多时允许滚动，不再强制一屏 */
-@media (max-height: 800px) {
-  .snap-section {
-    padding-top: 100px;
-    padding-bottom: 100px;
-    justify-content: flex-start; /* 内容过多时顶对齐 */
-  }
 }
 </style>
 
@@ -774,6 +746,7 @@ $primary-background: #31636F;
   .md-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
   .md-mt-2 { margin-top: 0.8rem; }
+  .md-mt-2\.5 { margin-top: 1rem; }
 
   .md-mb-20 { margin-bottom: 8.0rem; }
 

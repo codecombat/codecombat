@@ -8,18 +8,12 @@
               h1.pixelated(data-i18n="nav.faqs")
           .row.row-eq-height
             .col-md-4.col-sm-6.col-xs-12
-              p
-                b(data-i18n="new_home_faq.what_programming_languages")
-                br
-                span(data-i18n="new_home_faq.python_and_javascript")
-              p
-                b(data-i18n="new_home_faq.why_python")
-                br
-                span(data-i18n="new_home_faq.why_python_blurb")
-              p
-                b(data-i18n="new_home_faq.why_javascript")
-                br
-                span(data-i18n="new_home_faq.why_javascript_blurb")
+              b(data-i18n="new_home_faq.what_programming_languages")
+              p(data-i18n="new_home_faq.python_and_javascript")
+              b(data-i18n="new_home_faq.why_python")
+              p(data-i18n="new_home_faq.why_python_blurb")
+              b(data-i18n="new_home_faq.why_javascript")
+              p(data-i18n="new_home_faq.why_javascript_blurb")
               p(data-i18n="new_home_faq.javascript_versus_python")
             .col-md-4.col-sm-6.col-xs-12
               b(data-i18n="new_home_faq.how_do_i_get_started")
@@ -36,13 +30,22 @@
               p(data-i18n="new_home_faq.recommended_systems_blurb")
           .text-center
             p.contact-us(data-i18n="[html]new_home_faq.other_questions", data-i18n-options=JSON.stringify(i18nData))
+    template(#tail)
+      .footer
+        a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-20
+        a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619")
+          img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
+          span='京公网安备 11010802038619号'
 </template>
 <script>
 import PageSection from '../../../../components/common/elements/PageSection'
+
+import FinalFooter from 'app/components/common/FinalFooter'
 export default {
   name: 'PageSection11',
   components: {
     PageSection,
+    FinalFooter,
   },
 }
 
@@ -148,4 +151,16 @@ export default {
     &.active
       background-color: $teal-light-1
       cursor: default
+
+.footer
+  position: absolute
+  bottom: 0
+  left: -45vw
+  width: 90vw
+  height: 10px
+  text-align: center
+  .small
+    margin-right: 10px
+  #mps
+    width: 10px
 </style>

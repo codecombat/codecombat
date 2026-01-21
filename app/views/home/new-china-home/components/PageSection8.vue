@@ -13,7 +13,7 @@
         <div
           v-for="(plan, index) in pricingPlans"
           :key="index"
-          :class="['card-p', { 'active-plan': selectedPlan === index, 'annual': plan.type === 'annual' }]"
+          :class="['card-p', { 'active-plan': selectedPlan === index }]"
           @click="selectPlan(index)"
         >
           <div class="ribbon-wrapper">
@@ -183,6 +183,9 @@ export default {
   width: 100%;
   align-items: flex-start;
   margin-bottom: 25px;
+}
+.cta-button {
+  margin-top: 2rem !important;
 }
 
 @media (min-width: 768px) {
