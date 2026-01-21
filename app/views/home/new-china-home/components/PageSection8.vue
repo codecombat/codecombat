@@ -111,6 +111,7 @@ export default {
           ribbonClass: 'ribbon-gray',
           titleColor: '#1e293b',
           priceColor: '#1e293b',
+          highlight: '<div class="bg-slate-100 rounded-lg p-3 mb-2 mt-2 w-full"><span class="block text-indigo-800 font-bold text-sm">30天极速体验，快速突破</span></div>',
           features: [
             '<i class="fa-solid fa-check text-green-500"></i> 适合短期高效极速学习，集中攻克难点',
             '<i class="fa-solid fa-check text-green-500"></i> 解锁全库关卡权限，快速补充知识',
@@ -127,7 +128,7 @@ export default {
           titleColor: '#b45309',
           priceColor: '#b45309',
           saleText: '(原价<span class="line-through">¥299</span>，寒假特惠：立省30元)',
-          highlight: '<div class="bg-orange-100 rounded-lg p-3 mb-2 w-full"><span class="block text-orange-800 font-bold text-sm">完整学习周期，打好编程基础</span><span class="block text-orange-700 font-medium text-xs">适合大多数学习者</span></div>',
+          highlight: '<div class="bg-orange-100 rounded-lg p-3 mb-2 mt-2 w-full"><span class="block text-orange-800 font-bold text-sm">完整学习周期，打好编程基础</span><span class="block text-orange-700 font-medium text-xs">适合大多数学习者</span></div>',
           note: '🔥 约等于一顿火锅的钱',
           featured: true,
           features: [

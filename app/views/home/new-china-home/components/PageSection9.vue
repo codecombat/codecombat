@@ -15,9 +15,9 @@
             >
           </div>
           <div class="benefit-text">
-            <h3 class="benefit-title">
+            <div class="benefit-title">
               解锁全部2300+实战关卡
-            </h3>
+            </div>
             <p class="benefit-desc">
               从Python到C++，从网页开发到AI编程，所有内容一次全拥有，全面提升编程能力。
             </p>
@@ -32,9 +32,9 @@
             >
           </div>
           <div class="benefit-text">
-            <h3 class="benefit-title">
+            <div class="benefit-title">
               11个地图全部开启
-            </h3>
+            </div>
             <div class="highlight-tag">
               适合各个年龄段的学习
             </div>
@@ -52,9 +52,9 @@
             >
           </div>
           <div class="benefit-text">
-            <h3 class="benefit-title">
+            <div class="benefit-title">
               闯关就送宝石
-            </h3>
+            </div>
             <p class="benefit-desc">
               每完成一关都能获得宝石，宝石可兑换酷炫装备和英雄角色，让你的角色形象随编程能力一起成长。
             </p>

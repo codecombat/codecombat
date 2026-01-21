@@ -25,7 +25,10 @@
           </div>
         </template>
         <template #column-two>
-          <img src="/images/pages/cn-home/ai_robot_mentor.png">
+          <img
+            class="img"
+            src="/images/pages/cn-home/ai_robot_mentor.png"
+          >
         </template>
       </two-column-block>
     </template>
@@ -45,3 +48,9 @@ export default {
   },
 }
 </script>
+<style scoped lang="scss">
+.img {
+  border-radius: 25px;
+  border: 5px white solid;
+}
+</style>

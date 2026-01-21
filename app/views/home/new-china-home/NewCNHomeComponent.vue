@@ -431,7 +431,7 @@ $primary-background: #31636F;
 
     .description {
       font-size: 1.8rem;
-      font-weight: 00;
+      font-weight: normal;
     }
   }
 }
@@ -459,6 +459,10 @@ $primary-background: #31636F;
   .cta-button {
     width: fit-content;
     margin-top: 6rem;
+
+    .description {
+      color: #94a3b8;
+    }
   }
   img, video {
     width: 100%;
@@ -611,6 +615,7 @@ $primary-background: #31636F;
 .text-indigo-500 { color: #6366f1; }
 .text-indigo-600 { color: #4f46e5; }
 .text-indigo-700 { color: #4338ca; }
+.text-indigo-800 { color: #3730a3; }
 .text-indigo-900 { color: #312e81; }
 
 .text-slate-400 { color: #94a3b8; }
@@ -627,6 +632,7 @@ $primary-background: #31636F;
 
 .text-orange-500 { color: #f97316; }
 .text-orange-700 { color: #c2410c; }
+.text-orange-800 { color: #9a3412; }
 
 .text-blue-500 { color: #3b82f6; }
 .text-blue-700 { color: #1d4ed8; }

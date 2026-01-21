@@ -6,6 +6,7 @@
           <video
             class="video"
             src="https://assets.koudashijie.com/videos/CC_Game_Trailer_MP4_New.mp4"
+            poster="/images/pages/cn-home/poster.png"
             autoplay
             loop
             muted
@@ -39,13 +40,13 @@
               </li>
             </ul>
 
-            <div class="bg-white/80 backdrop-blur-xl border border-indigo-200 p-3 md-p-5 rounded-2xl shadow-lg transform hover:-translate-y-1 transition-transform duration-300 flex items-start gap-3 md-gap-4 mt-2">
+            <div class="bg-white/80 backdrop-blur-xl border border-indigo-200 p-3 md-p-5 rounded-2xl shadow-lg transform hover:-translate-y-1 transition-transform duration-300 flex items-center gap-3 md-gap-4 mt-2">
               <div class="bg-indigo-100 p-2 rounded-full text-indigo-600 flex-shrink-0">
                 <i class="fa-solid fa-code text-base md-text-lg" />
               </div>
-              <p class="text-sm md-text-base text-slate-700 font-medium pt-0.5">
+              <div class="text-sm md-text-base text-slate-700 font-medium pt-0.5">
                 你敲下的 <span class="bg-yellow-50 text-yellow-700 px-1 md-px-2 py-0.5 rounded border border-yellow-200 font-bold font-mono">if</span> 和 <span class="bg-yellow-50 text-yellow-700 px-1 md-px-2 py-0.5 rounded border border-yellow-200 font-bold font-mono">for</span>，直接变成英雄的剑招与魔法。
-              </p>
+              </div>
             </div>
           </div>
         </template>
