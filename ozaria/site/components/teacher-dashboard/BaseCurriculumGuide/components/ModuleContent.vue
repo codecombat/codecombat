@@ -107,6 +107,7 @@ export default {
   async created () {
     await this.generateLevelNumberMap({
       campaignId: this.getCurrentCourse.campaignID,
+      courseId: this.getCurrentCourse._id,
       language: this.getSelectedLanguage,
     })
   },
