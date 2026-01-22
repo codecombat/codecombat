@@ -276,6 +276,18 @@ _.extend(ChatMessageSchema.properties, {
       description: 'The messages that been sent so far in this session',
       items: ResponseSchema,
     },
+    apiUsage: {
+      title: 'API Usage',
+      type: 'object',
+      description: 'The API usage of the chat message',
+      additionalProperties: true,
+      properties: {
+        tool: {
+          type: 'string',
+          description: 'The tool/model used for the chat message',
+        },
+      },
+    },
   }),
 })
 
