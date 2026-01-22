@@ -360,6 +360,7 @@ export default {
       const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
       this.generateLevelNumberMap({
         campaignId: course.campaignID,
+        courseId: course._id,
         language: this.classroom.aceConfig.language,
       }).catch(console.error)
     },

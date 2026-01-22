@@ -48,7 +48,8 @@ module.exports = Vue.extend({
   data () {
     return {
       backboneView: PlayLevelView,
-      levelNumber: ''
+      levelNumber: '',
+      courseId: '',
     }
   },
   computed: {
@@ -84,6 +85,7 @@ module.exports = Vue.extend({
     },
   },
   mounted () {
+    this.courseId = utils.getQueryVariable('course')
     if (this.campaignId) {
       this.fetchLevelNumber()
     }
@@ -110,6 +112,7 @@ module.exports = Vue.extend({
     fetchLevelNumber () {
       this.generateLevelNumberMap({
         campaignId: store.state.game.level.campaign,
+        courseId: this.courseId,
         language: utils.getQueryVariable('codeLanguage') || 'python'
       }).then(() => {
         this.levelNumber = this.getLevelNumber(store.state.game.level.original)
