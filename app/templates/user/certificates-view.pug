@@ -34,7 +34,7 @@ style.
     if view.needLanguageToggle
       .toggle-btn.btn.btn-success(data-i18n="courses.certificate_btn_toggle")
 
-  .certificate
+  .certificate(class=view.utils.showOzaria() ? "ozaria-cert" : "coco-cert")
     if me.isTecmilenio() && view.multipleCoursesStats
       img.certificate-background(src="/images/pages/user/certificates/backgrounds/tecmilenio-bg.png")
     else
