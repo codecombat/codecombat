@@ -124,6 +124,18 @@ _.extend(ChatMessageSchema.properties, {
     title: 'Release Phase',
     description: 'Example messages start off in beta, then are released when they are completed',
   },
+  apiUsage: {
+    title: 'API Usage',
+    type: 'object',
+    description: 'The API usage of the chat message',
+    additionalProperties: true,
+    properties: {
+      tool: {
+        type: 'string',
+        description: 'The tool/model used for the chat message',
+      },
+    },
+  },
   message: ResponseSchema,
   context: c.object({ title: 'Context', description: 'Contextual state when this message triggered' }, {
     codeLanguage: {

@@ -125,7 +125,7 @@ export default {
     },
 
     isCodeCombat () {
-      return utils.isCodeCombat
+      return !utils.OZ_COURSE_IDS.includes(this.selectedCourseId)
     },
 
     listOfOriginals () {

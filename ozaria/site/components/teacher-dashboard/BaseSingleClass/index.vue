@@ -97,6 +97,9 @@ export default {
       getLevelNumber: 'gameContent/getLevelNumber',
     }),
 
+    isOzCourse () {
+      return utils.OZ_COURSE_IDS.includes(this.selectedCourseId)
+    },
     courseInstances () {
       return this.getCourseInstancesOfClass(this.classroom._id) || []
     },
@@ -146,7 +149,7 @@ export default {
         const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
         const module = course?.modules?.[moduleNum] || {}
         let moduleDisplayName = utils.i18n(module, 'name') || utils.i18n(course, 'name') || ''
-        if (utils.isOzaria) {
+        if (this.isOzCourse) {
           moduleDisplayName = this.$t(`teacher.module${moduleNum}`) + moduleDisplayName
         }
 
@@ -485,6 +488,7 @@ export default {
       const course = this.classroomCourses.find(({ _id }) => _id === this.selectedCourseId)
       await this.generateLevelNumberMap({
         campaignId: course.campaignID,
+        courseId: course._id,
         language: this.classroom.aceConfig.language,
       })
     },
@@ -526,7 +530,7 @@ export default {
         let tooltipName
         let levelName
         const levelNumber = this.getLevelNumber(levelKey) || ''
-        if (utils.isCodeCombat) {
+        if (!this.isOzCourse) {
           tooltipName = `${levelNumber}: ${utils.i18n(content, 'displayName') || utils.i18n(content, 'name')}`
           levelName = tooltipName
         } else {
@@ -695,7 +699,7 @@ export default {
             normalizedType = 'challengelvl'
           }
 
-          if (utils.isCodeCombat) {
+          if (!this.isOzCourse) {
             if (content.shareable === 'project') {
               normalizedType = 'capstone'
             }
@@ -712,7 +716,7 @@ export default {
 
           const isPractice = Boolean(content.practice)
 
-          if (utils.isCodeCombat) {
+          if (!this.isOzCourse) {
             normalizedType = isPractice ? 'practicelvl' : normalizedType
           }
 
