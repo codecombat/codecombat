@@ -1453,7 +1453,7 @@ module.exports = {
       online_classes: 'Online Classes',
       feature_ai_level_bot: 'Accelerate learning with AI-powered support',
       sure_buy_as_parent: 'Are you sure you want premium access for yourself instead of your child?',
-      having_activation_code: 'Having Activation Code for the Premium? <a href="/account/prepaid">Activate the code here</a>',
+      having_activation_code: 'Having an activation Code for Premium? <a href="/account/prepaid">Activate the code here</a>',
     },
 
     announcement: {
