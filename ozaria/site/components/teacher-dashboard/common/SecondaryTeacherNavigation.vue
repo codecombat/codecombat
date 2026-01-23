@@ -11,6 +11,7 @@ import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modal
 import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
 import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/NavIconAssessments'
 import IconBeta from 'app/core/components/IconBeta'
+import IconNew from 'app/core/components/IconNew'
 const K5 = 'K-5'
 const K6 = '6-8'
 const K9 = '9-12'
@@ -27,6 +28,7 @@ export default {
     IconAssessments,
     GradeFilterComponent,
     IconBeta,
+    IconNew,
   },
 
   mixins: [
@@ -50,6 +52,7 @@ export default {
       if (me.showOzCourses()) {
         ozLink = {
           path: '/teachers/guide/ozaria',
+          isNew: true,
         }
       }
       guideOptions = [
@@ -144,10 +147,6 @@ export default {
     showAssessments () {
       // TODO: do show the assessments if it is CodeNinjas, but not in a camp context
       return utils.isCodeCombat && !me.isCodeNinja()
-    },
-
-    showAIJunior () {
-      return me.isAdmin()
     },
 
     sortedClasses () {
@@ -389,6 +388,10 @@ export default {
               v-if="option.beta"
               class="beta-icon"
             />
+            <IconNew
+              v-if="option.isNew"
+              class="new-icon"
+            />
           </a>
           <router-link
             v-else
@@ -400,6 +403,10 @@ export default {
             :data-label="$route.path"
           >
             {{ option.name }}
+            <IconNew
+              v-if="option.isNew"
+              class="new-icon"
+            />
           </router-link>
         </li>
       </ul>
@@ -524,57 +531,6 @@ export default {
         </li>
       </ul>
     </li>
-    <li
-      v-if="showAIJunior"
-      class="dropdown"
-    >
-      <a
-        id="AIJuniorDropdown"
-        :class="['dropdown-toggle', isCurrentRoute('/teachers/ai-junior') ? 'current-route' : '']"
-        href="#"
-        role="button"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        <div id="IconAIJunior" />
-        <span>{{ $t('teacher_dashboard.ai_hackstack_junior_tab') }}</span>
-        <span class="caret" />
-      </a>
-      <ul
-        v-if="classrooms.length > 0"
-        class="dropdown-menu"
-        aria-labelledby="AIJuniorDropdown"
-      >
-        <li
-          v-for="classroom in classrooms"
-          :key="classroom._id"
-          :class="classroomSelected === classroom._id && isCurrentRoute('/teachers/ai-junior') ? 'selected' : null"
-        >
-          <router-link
-            :to="`/teachers/ai-junior/${classroom._id}`"
-            class="dropdown-item"
-            data-action="AIJunior: Nav Clicked"
-            data-toggle="dropdown"
-            @click.native="trackEvent"
-          >
-            {{ classroom.name }}
-          </router-link>
-        </li>
-      </ul>
-      <ul
-        v-else
-        class="dropdown-menu"
-        aria-labelledby="AIJuniorDropdown"
-      >
-        <li>
-          <a class="dropdown-item disabled-item">
-            {{ $t('teacher_dashboard.no_classes_yet') }}
-          </a>
-        </li>
-      </ul>
-    </li>
-
     <li>
       <dashboard-toggle
         v-if="isCodeCombat"
@@ -1061,5 +1017,11 @@ li.open>#AIJuniorDropdown,
   margin-top: -30px !important;
   width: 30px;
   margin-left: -10px;
+}
+
+.new-icon {
+  margin-top: -30px !important;
+  width: 30px;
+  margin-left: -5px;
 }
 </style>

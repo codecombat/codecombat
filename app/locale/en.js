@@ -6409,11 +6409,14 @@ module.exports = {
       run_code_tour_text: 'Press “Output” and watch your project come to life. No experience required!',
       ready_to_review_helptext: 'Mark this when your project is complete. Your teacher will then see it as ready to review on their side.',
       ready_to_review_confirm_text: 'Ready to Submit? Click OK to notify your teacher to review your project.',
+      no_course_instances: 'You do not have any course instances. Please contact your teacher to get access to the AI Hackstack.',
     },
     galaxy: {
       title: 'Welcome to HackStack Galaxy',
       description: 'Explore new worlds and use AI to help you in your journey. ',
       premium_only: 'Premium only',
+      not_enrolled: 'Not Enrolled',
+      locked_by_teacher: 'Locked by teacher',
     },
     new_premium: {
       mastering_code: 'Master coding and AI with **premium home access**',

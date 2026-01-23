@@ -176,7 +176,7 @@ export default {
         .finally(() => commit('toggleLoadingForCampaign', campaignId))
     },
 
-    async generateLevelNumberMap ({ commit, state, dispatch, getters }, { campaignId, language }) {
+    async generateLevelNumberMap ({ commit, state, dispatch, getters }, { campaignId, language, courseId }) {
       let gameContent = state.gameContent.byCampaign[campaignId]
 
       if (!gameContent) {
@@ -196,7 +196,7 @@ export default {
         allLevels.push(...levelsList)
       }
 
-      const levelNumberMap = generateLevelNumberMap(allLevels)
+      const levelNumberMap = generateLevelNumberMap(allLevels, courseId)
       commit('setLevelNumberMap', levelNumberMap)
     },
   },

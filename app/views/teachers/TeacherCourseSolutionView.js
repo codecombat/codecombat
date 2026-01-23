@@ -161,7 +161,7 @@ ${translateUtils.translateJS(a.slice(13, +(a.length - 4) + 1 || undefined), this
       this.levels = new Levels(this.getGameContentAsLevels())
       this.shownLevelModels = []
       this.isJunior = this.courseID === utils.courseIDs.JUNIOR
-      store.dispatch('gameContent/generateLevelNumberMap', { campaignId: this.campaignId, language: this.language })
+      store.dispatch('gameContent/generateLevelNumberMap', { campaignId: this.campaignId, language: this.language, courseId: this.courseID })
         .then(() => {
           this.levelNumberMap = store.getters['gameContent/levelNumberMap']
           this.updateLevelData()

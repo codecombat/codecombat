@@ -97,7 +97,7 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
   return curriculumGuideContentList
 }
 
-export function generateLevelNumberMap (contentTypes) {
+export function generateLevelNumberMap (contentTypes, courseId) {
   const levels = contentTypes
     .map(({ original, assessment, icon, _id, practice, isIntroHeadingRow }) => {
       let key = original
@@ -114,7 +114,7 @@ export function generateLevelNumberMap (contentTypes) {
       }
     }).filter(Boolean)
 
-  const levelNumberMap = utils.createLevelNumberMap(levels)
+  const levelNumberMap = utils.createLevelNumberMap(levels, courseId)
   contentTypes.forEach((level) => {
     const original = level.original || level.fromIntroLevelOriginal
     if (!levelNumberMap[original]) {
