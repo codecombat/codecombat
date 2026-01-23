@@ -1451,6 +1451,7 @@ module.exports = {
       online_classes: '[AI_TRANSLATION]在线课程',
       feature_ai_level_bot: '[AI_TRANSLATION]通过 AI 支持加速学习',
       sure_buy_as_parent: '[AI_TRANSLATION]你确定要为自己而不是你的小孩购买高级访问权限吗？',
+      having_activation_code: '已有会员激活码？ <a href="/account/prepaid">点击这里使用</a>',
     },
 
     announcement: {
