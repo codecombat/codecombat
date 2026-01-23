@@ -1484,6 +1484,7 @@ module.exports = {
       monthly_inspire: 'only $3.3 everyday',
       seasonly_inspire: 'only one meal',
       yearly_inspire: '17% discount',
+      having_activation_code: 'Having an activation Code for Premium? <a href="/account/prepaid">Activate the code here</a>',
     },
 
     announcement: {

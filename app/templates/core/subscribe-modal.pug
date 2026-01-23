@@ -124,6 +124,8 @@ mixin price(name, p, nameWithoutCurrency)
           div.parent-account.text-center
             p.warning-blurb(data-i18n="subscribe.sure_buy_as_parent")
 
+        if features.chinaHome && !me.isAnonymous()
+          .row.text-center !{$.i18n.t("subscribe.having_activation_code")}
         div.support-blurb.text-center
           p
             if !features.chinaHome

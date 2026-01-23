@@ -1483,6 +1483,7 @@ module.exports = {
       monthly_inspire: '几杯奶茶钱',
       seasonly_inspire: '一顿火锅钱',
       yearly_inspire: '立省189元',
+      having_activation_code: '已有会员激活码？ <a href="/account/prepaid">点击这里使用</a>',
     },
 
     announcement: {
