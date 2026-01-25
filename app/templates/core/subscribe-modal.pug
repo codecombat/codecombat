@@ -97,6 +97,8 @@ mixin price(name, p, nameWithoutCurrency)
           div.parent-account.text-center
             p.warning-blurb(data-i18n="subscribe.sure_buy_as_parent")
 
+        if features.chinaHome && !me.isAnonymous()
+          .row.text-center !{$.i18n.t("subscribe.having_activation_code")}
         if me.get('country') && me.get('country') != 'united-states'
           // Probably not worth including in US, so many Stripe options
           div.support-blurb.text-center
