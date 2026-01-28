@@ -18,6 +18,7 @@ const Clan = require('models/Clan')
 const Tournament = require('models/Tournament')
 const forms = require('core/forms')
 const CocoCollection = require('collections/CocoCollection')
+const utils = require('core/utils')
 const { HTML5_FMT_DATETIME_LOCAL } = require('core/constants')
 
 class LevelSessionsCollection extends CocoCollection {
@@ -68,6 +69,7 @@ module.exports = (MainLadderView = (function () {
       this.ladderLevels = []
       this.ladderImageMap = {}
       this.tournaments = []
+      this.tournamentHelper = utils.tournamentMixedIdHelper
 
       if (this.pageType === 'clan') {
         url = `/db/tournaments?clanId=${this.objectId}`
