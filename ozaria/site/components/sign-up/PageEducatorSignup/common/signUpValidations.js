@@ -21,6 +21,14 @@ const uniqueName = async (name) => {
   return true
 }
 
+const uniquePhone = async (phone) => {
+  if (phone) {
+    const { conflicts } = await User.checkPhoneConflicts(phone)
+    return !conflicts
+  }
+  return true
+}
+
 // Below functions contain validations needed for each of the fields, in each of the forms of the educator signup flow
 
 export const basicInfoValidations = {
@@ -61,6 +69,23 @@ export const individualValidations = _.assign({
     required,
   },
 }, _.pick(basicInfoValidations, ['email', 'password']))
+
+export const phoneValidations = _.assign({
+  name: {
+    required,
+    uniqueName,
+  },
+  birthday: {
+    required,
+  },
+  phone: {
+    required,
+    uniquePhone,
+  },
+  phoneCode: {
+    required,
+  },
+}, _.pick(basicInfoValidations, ['password']))
 
 export const schoolLocationInfoValidations = function (country, role, isChinaServer = false) {
   const formFieldConfig = getSchoolFormFieldsConfig(country, role, isChinaServer)
@@ -108,5 +133,8 @@ export const validationMessages = {
   },
   errorNameExists: {
     i18n: 'form_validation_errors.nameExists',
+  },
+  errorPhoneExists: {
+    i18n: 'form_validation_errors.phoneExists',
   },
 }
