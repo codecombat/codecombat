@@ -5,9 +5,10 @@
 $mapHeight: 1536
 $mapWidth: 2350
 $campaignPortalWidth: 317px
-$campaignPortalHeight: 634px
-$marginTopBase: -30px
-$sideCampaignPortalHeight: math.div($campaignPortalHeight, 2)
+$campaignPortalHeight: 484px
+$marginTopBase: 20px
+$sideCampaignPortalWidth: 200px
+$sideCampaignPortalHeight: 300px
 $sideCampaignImagesWidth: 1902px
 $campaignHoverScale: 1.2
 $betaImagesWidth: 951px
@@ -1017,18 +1018,19 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
           // first row has a different margin-top
           &:first-child
             margin-top: 0px
-            margin-bottom: -40px
+            margin-bottom: -20px
           //the third row has a different margin-top
           &:nth-child(3)
-            margin-top: $marginTopBase - 30px
+            margin-top: $marginTopBase - 20px
           // the last row has a different margin-top
-          &:last-child
-            margin-top: $marginTopBase + 40px
+          // &:last-child
+          //   margin-top: $marginTopBase + 20px
 
           .main-campaign
             width: $campaignPortalWidth
             height: $campaignPortalHeight
-            background: transparent url(/images/pages/play/portal-campaigns.png) no-repeat
+            background: transparent no-repeat center
+            background-size: contain
             position: absolute
             cursor: pointer
             z-index: 0
@@ -1048,15 +1050,17 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
               cursor: default
 
             &.forest
-              background-position: (-1 * $campaignPortalWidth) 0
+              background-image: url(/images/pages/play/portals/forest.webp)
             &.desert
-              background-position: (-2 * $campaignPortalWidth) 0
+              background-image: url(/images/pages/play/portals/desert.webp)
             &.mountain
-              background-position: (-3 * $campaignPortalWidth) 0
+              background-image: url(/images/pages/play/portals/mountain.webp)
             &.glacier
-              background-position: (-4 * $campaignPortalWidth) 0
+              background-image: url(/images/pages/play/portals/glacier.webp)
             &.volcano
-              background-position: (-5 * $campaignPortalWidth) 0
+              background-image: url(/images/pages/play/portals/volcano.webp)
+            &.dungeon
+              background-image: url(/images/pages/play/portals/dungeon.webp)
 
             .campaign-label
               position: absolute
@@ -1094,21 +1098,21 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
             width: $campaignPortalWidth
             height: $sideCampaignPortalHeight
             z-index: 0
-            top: $campaignPortalHeight - $sideCampaignPortalHeight
+            top: $campaignPortalHeight - $sideCampaignPortalHeight * 0.5
 
             // Left side campaign container (first in the row)
             &.left-campaign
-              left: calc(50% - 450px)
+              left: calc(50% - $sideCampaignPortalWidth * 2)
 
             // Right side campaign container (last in the row)
             &.right-campaign
-              right: calc(50% - 450px)
+              right: calc(50% - $sideCampaignPortalWidth * 2.5)
 
             &.empty
               visibility: hidden
 
             .side-campaign
-              width: $campaignPortalWidth
+              width: $sideCampaignPortalWidth
               height: $sideCampaignPortalHeight
               position: relative
               cursor: pointer
@@ -1155,25 +1159,25 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
               .background-container
                 position: absolute
                 top: 0
-                left: math.div($campaignPortalWidth, 4)
-                width: math.div($campaignPortalWidth, 2)
+                left: 0
+                width: $sideCampaignPortalWidth
                 height: 100%
-                background: transparent url(/images/pages/play/portal-beta-campaigns.png) no-repeat 0 0
-                background-size: $betaImagesWidth
+                background: transparent no-repeat center
+                background-size: contain
 
                 // Game Dev campaigns
                 &.campaign-game-dev-1
-                  background-position: -454px 0px
+                  background-image: url(/images/pages/play/portals/game-dev-1.webp)
                 &.campaign-game-dev-2
-                  background-position: -628px 0px
+                  background-image: url(/images/pages/play/portals/game-dev-2.webp)
                 &.campaign-game-dev-3
-                  background-position: -628px 0px
+                  background-image: url(/images/pages/play/portals/game-dev-2.webp)
 
                 // Web Dev campaigns
                 &.campaign-web-dev-1
-                  background-position: -151px 0px
+                  background-image: url(/images/pages/play/portals/web-dev-1.webp)
                 &.campaign-web-dev-2
-                  background-position: -291px 0px
+                  background-image: url(/images/pages/play/portals/web-dev-2.webp)
 
     .campaign
       &.highlighted
