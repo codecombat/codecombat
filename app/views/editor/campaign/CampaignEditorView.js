@@ -220,7 +220,8 @@ module.exports = (CampaignEditorView = (function () {
         // Ozar: Save campaign to level if its of type 'course' so 'Back to unit map' knows where to return.
         // (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
         const ctype = utils.isCodeCombat ? 'hero' : 'course'
-        if (this.campaign.get('type') === ctype) { campaignLevel.campaign = this.campaign.get('slug') }
+        // we set level.campaign only if this field is not already set
+        if (this.campaign.get('type') === ctype && !campaignLevel.campaign) { campaignLevel.campaign = this.campaign.get('slug') }
         campaignLevels[levelOriginal] = campaignLevel
       }
 
