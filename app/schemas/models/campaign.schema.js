@@ -171,6 +171,31 @@ _.extend(CampaignSchema.properties, {
     },
   },
   isPremiumOnly: { type: 'boolean', description: 'Does this campaign require a subscription to access?', default: false },
+  modules: {
+    type: 'array',
+    title: 'Modules',
+    description: 'If the campaign is used as a parent campaign, it can have modules that are used as child campaigns.',
+    items: {
+      type: 'object',
+      properties: {
+        campaign: c.stringID({ title: 'Campaign', format: 'campaignID', model: 'Campaign', links: [{ rel: 'db', href: '/db/campaign/{{$}}', model: 'Campaign' }] }),
+        moduleNumber: { type: 'number', title: 'Module number', description: 'The number of the module if its defined in the related course.' },
+        portalImage: { format: 'image-file', title: 'Portal Image', description: 'The image to use for the portal of the module on interface.' },
+        position: {
+          type: 'object',
+          title: 'Position',
+          properties: {
+            // can be row/col or x/y, if both are provided, row/col takes precedence
+            row: { type: 'number', title: 'Row', description: 'The row of the module on the interface.' },
+            column: { type: 'number', title: 'Column', description: 'The column of the module on the interface.' },
+            x: { type: 'number', title: 'X', description: 'The x position of the module on the interface.' },
+            y: { type: 'number', title: 'Y', description: 'The y position of the module on the interface.' },
+          },
+        },
+        access: { type: 'string', enum: ['free', 'sales-call', 'paid'], title: 'Access', description: 'Whether this module is free, free with a sales call, or paid.' },
+      },
+    },
+  },
 })
 
 CampaignSchema.denormalizedLevelProperties = [
