@@ -1458,16 +1458,16 @@ const clanHeroes = [
 ]
 
 const freeAccessLevels = [
-  { access: 'short', slug: 'dungeons-of-kithgard' },
-  { access: 'short', slug: 'gems-in-the-deep' },
-  { access: 'short', slug: 'shadow-guard' },
+  { access: 'short', slug: 'dungeons-of-kithgard' }, //1
+  { access: 'short', slug: 'gems-in-the-deep' }, // 2
+  { access: 'short', slug: 'shadow-guard' }, // 3
   { access: 'short', slug: 'signs-and-portents' }, // Retroactively unlocks later on, doesn't really impact much
-  { access: 'short', slug: 'enemy-mine' },
-  { access: 'short', slug: 'true-names' },
-  { access: 'medium', slug: 'cell-commentary' },
+  { access: 'short', slug: 'enemy-mine' }, // 4
+  { access: 'short', slug: 'true-names' }, // 5
+  { access: 'short', slug: 'cell-commentary' }, // 6
   { access: 'medium', slug: 'the-raised-sword' },
-  { access: 'medium', slug: 'kithgard-librarian' },
-  { access: 'medium', slug: 'the-prisoner' },
+  { access: 'short', slug: 'kithgard-librarian' }, // 7
+  { access: 'short', slug: 'the-prisoner' }, // 8
   { access: 'medium', slug: 'fire-dancing' },
   { access: 'medium', slug: 'haunted-kithmaze' },
   { access: 'medium', slug: 'descending-further' },
