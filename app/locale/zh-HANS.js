@@ -843,6 +843,7 @@ module.exports = {
       phone_code: '验证码',
       send_phone_code: '发送验证码',
       resend_phone_code: '重新发送(__countDown__)',
+      sign_up_or_login: '注册/登录',
     },
 
     recover: {
@@ -3681,6 +3682,7 @@ module.exports = {
       general_desc: '出了点问题，估计是我们的错。请您稍后刷新页面，或者点击下面的链接继续编程！',
       too_many_login_failures: '登录失败过于频繁，请稍后再试。',
       something_went_wrong: '[AI_TRANSLATION]哎呀！出错了',
+      phone_code_error: '验证码错误',
     },
 
     resources: {

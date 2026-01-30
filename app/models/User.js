@@ -219,7 +219,7 @@ module.exports = (User = (function () {
 
     hasNoPasswordLoginMethod () {
       // Return true if user has any login method that doesn't require a password
-      return Boolean(this.get('facebookID') || this.get('gplusID') || this.get('githubID') || this.get('cleverID')) || (this.get('oAuth2Identities')?.length > 0)
+      return Boolean(this.get('facebookID') || this.get('gplusID') || this.get('githubID') || this.get('cleverID') || this.get('phone')) || (this.get('oAuth2Identities')?.length > 0)
     }
 
     currentPasswordRequired () {
@@ -246,7 +246,7 @@ module.exports = (User = (function () {
       ))
     }
 
-    static checkPhoneConflicts (phone) {
+    static checkPhoneExists (phone) {
       return new Promise((resolve, reject) => $.ajax(`/auth/phone/${encodeURIComponent(phone)}`, {
         cache: false,
         success: resolve,

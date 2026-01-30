@@ -182,6 +182,9 @@ export default {
       if (this.codeSent) {
         return
       }
+      if (!this.phone) {
+        return
+      }
       this.codeSent = true
       this.countDown = 60
       this.startCountDown()

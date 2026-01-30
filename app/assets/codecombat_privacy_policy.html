@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCombat 隐私政策</title>
+    <style>
+        :root {
+            --primary-color: #0ea5e9;
+            --primary-dark: #0369a1;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --highlight-bg: #fef3c7;
+            --section-bg: #ffffff;
+            --sensitive-color: #dc2626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-top: 16px;
+        }
+
+        .meta-info {
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .meta-info p {
+            margin: 4px 0;
+        }
+
+        .important-notice {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid #f59e0b;
+            padding: 20px 24px;
+            margin: 32px 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .important-notice h3 {
+            color: #92400e;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .important-notice p {
+            color: #78350f;
+            font-size: 0.95rem;
+        }
+
+        .minor-notice {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border-left: 4px solid #3b82f6;
+            padding: 20px 24px;
+            margin: 32px 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .minor-notice h3 {
+            color: #1e40af;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .minor-notice p {
+            color: #1e3a8a;
+            font-size: 0.95rem;
+        }
+
+        .toc {
+            background: var(--section-bg);
+            padding: 24px 32px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toc h2 {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            color: var(--primary-dark);
+        }
+
+        .toc ol {
+            columns: 2;
+            column-gap: 32px;
+            padding-left: 20px;
+        }
+
+        .toc li {
+            margin: 8px 0;
+            break-inside: avoid;
+        }
+
+        .toc a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: var(--primary-color);
+        }
+
+        section {
+            background: var(--section-bg);
+            padding: 32px;
+            margin-bottom: 24px;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        section h2 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        section h2 .section-number {
+            background: var(--primary-color);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        section h3 {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin: 24px 0 12px;
+        }
+
+        section p {
+            margin: 12px 0;
+            text-align: justify;
+        }
+
+        section ul, section ol {
+            margin: 12px 0 12px 24px;
+        }
+
+        section li {
+            margin: 8px 0;
+        }
+
+        .highlight {
+            background-color: var(--highlight-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        strong {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .sensitive {
+            color: var(--sensitive-color);
+            font-weight: 600;
+        }
+
+        .subsection {
+            background: var(--bg-color);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.95rem;
+        }
+
+        .data-table th, .data-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .data-table th {
+            background: var(--bg-color);
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .data-table tr:hover {
+            background: #f1f5f9;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .contact-info h4 {
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+        }
+
+        .contact-info p {
+            margin: 8px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin: 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px 16px;
+            }
+
+            .toc ol {
+                columns: 1;
+            }
+
+            section {
+                padding: 24px 20px;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            .data-table {
+                font-size: 0.85rem;
+            }
+
+            .data-table th, .data-table td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">🛡️</div>
+                CodeCombat
+            </div>
+            <h1>隐私政策</h1>
+            <div class="meta-info">
+                <p>更新日期：2026年1月1日</p>
+                <p>生效日期：2026年1月1日</p>
+            </div>
+        </header>
+
+        <div class="important-notice">
+            <h3>📢 重要提示</h3>
+            <p>欢迎使用 CodeCombat 游戏化编程学习平台！本《隐私政策》将帮助您了解我们如何收集、使用、存储、共享和保护您的个人信息，以及您如何管理您的个人信息。请您在使用本服务前仔细阅读并理解本政策，<strong>特别是加粗标注的条款</strong>。如您不同意本政策的内容，请停止使用本服务。</p>
+        </div>
+
+        <div class="minor-notice">
+            <h3>👨‍👩‍👧 未成年人特别说明</h3>
+            <p>若您是未满十八周岁的未成年人（特别是未满十四周岁的儿童），请在您的监护人陪同下阅读本政策，并在取得监护人同意后使用本服务。我们会采取特殊措施保护未成年人的个人信息安全。</p>
+        </div>
+
+        <nav class="toc">
+            <h2>📑 目录</h2>
+            <ol>
+                <li><a href="#section1">适用范围</a></li>
+                <li><a href="#section2">我们收集的信息</a></li>
+                <li><a href="#section3">信息的使用目的</a></li>
+                <li><a href="#section4">Cookie 和同类技术</a></li>
+                <li><a href="#section5">信息的共享与披露</a></li>
+                <li><a href="#section6">信息的存储与保护</a></li>
+                <li><a href="#section7">您的权利</a></li>
+                <li><a href="#section8">未成年人信息保护</a></li>
+                <li><a href="#section9">本政策的更新</a></li>
+                <li><a href="#section10">联系我们</a></li>
+            </ol>
+        </nav>
+
+        <section id="section1">
+            <h2><span class="section-number">1</span>适用范围</h2>
+            
+            <h3>1.1 政策适用</h3>
+            <p>本《CodeCombat 隐私政策》（以下简称"本政策"）适用于 CodeCombat 平台运营方（以下简称"我们"）通过网页端、移动应用程序、API 接口等形式向您提供的所有产品和服务。</p>
+
+            <h3>1.2 第三方服务</h3>
+            <p>本政策不适用于第三方向您提供的服务。当您通过本平台链接至第三方网站或服务时，该第三方的隐私政策将适用于您在该服务中的个人信息处理。我们建议您仔细阅读第三方的隐私政策。</p>
+
+            <h3>1.3 信息处理者</h3>
+            <p>CodeCombat 平台运营方是您个人信息的处理者，负责决定个人信息处理的目的和方式，并对个人信息处理活动承担责任。</p>
+        </section>
+
+        <section id="section2">
+            <h2><span class="section-number">2</span>我们收集的信息</h2>
+            
+            <p>我们遵循合法、正当、必要和诚信的原则收集您的个人信息。以下是我们可能收集的信息类型：</p>
+
+            <h3>2.1 账号注册与登录</h3>
+            <p>为完成账号注册和登录，我们需要收集以下信息：</p>
+            <table class="data-table">
+                <tr>
+                    <th>信息类型</th>
+                    <th>收集目的</th>
+                    <th>必要性</th>
+                </tr>
+                <tr>
+                    <td>手机号码/电子邮箱</td>
+                    <td>账号注册、登录验证、找回密码</td>
+                    <td>必要</td>
+                </tr>
+                <tr>
+                    <td>验证码</td>
+                    <td>身份验证</td>
+                    <td>必要</td>
+                </tr>
+                <tr>
+                    <td>用户名/昵称</td>
+                    <td>账号标识、个性化展示</td>
+                    <td>必要</td>
+                </tr>
+                <tr>
+                    <td>密码</td>
+                    <td>账号安全保护</td>
+                    <td>必要</td>
+                </tr>
+                <tr>
+                    <td>头像</td>
+                    <td>个性化展示</td>
+                    <td>可选</td>
+                </tr>
+            </table>
+
+            <h3>2.2 学习服务相关信息</h3>
+            <p>为向您提供编程学习服务，我们需要收集以下信息：</p>
+            <table class="data-table">
+                <tr>
+                    <th>信息类型</th>
+                    <th>收集目的</th>
+                    <th>必要性</th>
+                </tr>
+                <tr>
+                    <td>代码提交记录</td>
+                    <td>保存学习进度、提供代码运行服务</td>
+                    <td>必要</td>
+                </tr>
+                <tr>
+                    <td>关卡完成情况</td>
+                    <td>记录学习进度、解锁后续内容</td>
+                    <td>必要</td>
+                </tr>
+                <tr>
+                    <td>学习时长</td>
+                    <td>统计学习数据、优化学习体验</td>
+                    <td>必要</td>
+                </tr>
+                <tr>
+                    <td>成绩与排名</td>
+                    <td>展示学习成果、多人竞技功能</td>
+                    <td>必要</td>
+                </tr>
+                <tr>
+                    <td>错误记录</td>
+                    <td>分析学习难点、提供针对性帮助</td>
+                    <td>可选</td>
+                </tr>
+            </table>
+
+            <h3>2.3 付费服务相关信息</h3>
+            <p>当您使用付费服务时，我们需要收集：</p>
+            <ul>
+                <li><strong>订单信息：</strong>购买的商品/服务、订单编号、订单金额、下单时间</li>
+                <li><strong>支付信息：</strong>支付方式、支付状态、交易流水号（<span class="sensitive">我们不会收集您的银行卡号、支付密码等敏感支付信息</span>）</li>
+            </ul>
+
+            <h3>2.4 设备与日志信息</h3>
+            <p>为保障服务安全和优化用户体验，我们会自动收集：</p>
+            <ul>
+                <li><strong>日志信息：</strong>访问时间、访问页面、操作记录、崩溃日志</li>
+                <li><strong>浏览器信息：</strong>浏览器类型、语言设置</li>
+            </ul>
+
+            <h3>2.5 客服与反馈信息</h3>
+            <p>当您联系客服或提交反馈时，我们可能收集：</p>
+            <ul>
+                <li>您的联系方式（用于回复您的问题）</li>
+                <li>问题描述和相关截图</li>
+                <li>沟通记录</li>
+            </ul>
+
+            <div class="subsection">
+                <p><strong>特别说明：</strong>我们承诺不会收集与服务无关的个人信息。对于标注为"可选"的信息，您可以选择不提供，这不会影响您使用基本服务功能。</p>
+            </div>
+        </section>
+
+        <section id="section3">
+            <h2><span class="section-number">3</span>信息的使用目的</h2>
+            
+            <p>我们收集的信息将用于以下目的：</p>
+
+            <h3>3.1 提供核心服务</h3>
+            <ul>
+                <li>创建和管理您的账号</li>
+                <li>提供游戏化编程学习服务</li>
+                <li>保存和同步您的学习进度</li>
+                <li>提供代码编辑、运行和调试功能</li>
+                <li>实现多人竞技对战功能</li>
+            </ul>
+
+            <h3>3.2 改进服务质量</h3>
+            <ul>
+                <li>分析用户学习行为，优化课程内容</li>
+                <li>识别和修复技术问题</li>
+                <li>开发新功能和服务</li>
+                <li>进行数据统计和分析</li>
+            </ul>
+
+            <h3>3.3 保障安全</h3>
+            <ul>
+                <li>验证用户身份，防止账号被盗</li>
+                <li>检测和防范欺诈、作弊行为</li>
+                <li>保障平台系统安全</li>
+                <li>处理违规行为</li>
+            </ul>
+
+            <h3>3.4 客户服务</h3>
+            <ul>
+                <li>响应您的咨询和投诉</li>
+                <li>发送服务通知（如账号安全提醒、服务变更通知等）</li>
+                <li>提供技术支持</li>
+            </ul>
+
+            <h3>3.5 营销与推广</h3>
+            <p>经您同意，我们可能向您发送产品和服务的推广信息。<strong>您可以随时选择退订，这不会影响您使用其他服务。</strong></p>
+
+            <h3>3.6 法律合规</h3>
+            <ul>
+                <li>遵守法律法规的要求</li>
+                <li>配合政府部门、司法机关的调查</li>
+                <li>保护我们及用户的合法权益</li>
+            </ul>
+
+            <div class="subsection">
+                <p><strong>重要说明：</strong>如果我们需要将您的信息用于本政策未载明的其他用途，我们会事先征得您的同意。</p>
+            </div>
+        </section>
+
+        <section id="section4">
+            <h2><span class="section-number">4</span>Cookie 和同类技术</h2>
+            
+            <h3>4.1 什么是 Cookie</h3>
+            <p>Cookie 是一种小型文本文件，当您访问网站时会存储在您的设备上。Cookie 可以帮助网站记住您的偏好设置，提供更好的用户体验。</p>
+
+            <h3>4.2 我们如何使用 Cookie</h3>
+            <p>我们使用 Cookie 和同类技术（如本地存储）来：</p>
+            <ul>
+                <li><strong>身份验证：</strong>记住您的登录状态，使您无需每次访问都重新登录</li>
+                <li><strong>安全保障：</strong>检测异常登录行为，保护账号安全</li>
+                <li><strong>偏好设置：</strong>记住您的语言、主题等个性化设置</li>
+                <li><strong>学习进度：</strong>在本地保存您的代码草稿和学习进度</li>
+                <li><strong>性能分析：</strong>了解用户如何使用我们的服务，以便进行优化</li>
+            </ul>
+
+            <h3>4.3 管理 Cookie</h3>
+            <p>大多数浏览器允许您管理 Cookie 设置。您可以：</p>
+            <ul>
+                <li>在浏览器设置中查看和删除 Cookie</li>
+                <li>设置浏览器拒绝所有或部分 Cookie</li>
+                <li>设置在收到新 Cookie 时发出提醒</li>
+            </ul>
+            <p><strong>请注意：</strong>如果您禁用 Cookie，可能会影响部分功能的正常使用，例如需要重新登录、无法保存偏好设置等。</p>
+        </section>
+
+        <section id="section5">
+            <h2><span class="section-number">5</span>信息的共享与披露</h2>
+            
+            <h3>5.1 共享原则</h3>
+            <p>我们承诺对您的个人信息保密，<strong>未经您的同意，我们不会向第三方共享您的个人信息</strong>，但以下情况除外：</p>
+
+            <h3>5.2 委托处理</h3>
+            <p>我们可能委托以下类型的服务提供商处理您的信息：</p>
+            <ul>
+                <li><strong>云服务提供商：</strong>提供数据存储和计算服务</li>
+                <li><strong>支付服务商：</strong>处理支付交易</li>
+                <li><strong>短信/邮件服务商：</strong>发送验证码和通知</li>
+                <li><strong>数据分析服务商：</strong>帮助我们分析和优化服务</li>
+            </ul>
+            <p>我们会与这些服务提供商签订严格的数据保护协议，要求他们按照我们的指示和本政策处理您的信息，不得将信息用于其他目的。</p>
+
+            <h3>5.3 法律要求的披露</h3>
+            <p>在以下情况下，我们可能会披露您的信息：</p>
+            <ul>
+                <li>遵守法律法规的要求</li>
+                <li>配合政府部门、司法机关的调查</li>
+                <li>保护国家安全、公共安全</li>
+                <li>保护我们、用户或公众的合法权益</li>
+            </ul>
+
+            <h3>5.4 业务转让</h3>
+            <p>如发生合并、收购或资产转让，我们会要求接收方继续遵守本政策。如接收方变更信息处理目的或方式，将重新征得您的同意。</p>
+
+            <h3>5.5 公开披露</h3>
+            <p>除非获得您的明确同意，或法律法规要求，我们不会公开披露您的个人信息。</p>
+        </section>
+
+        <section id="section6">
+            <h2><span class="section-number">6</span>信息的存储与保护</h2>
+            
+            <h3>6.1 存储地点</h3>
+            <p>我们在中华人民共和国境内收集和产生的个人信息，将存储在中华人民共和国境内的服务器上。<strong>如需向境外传输，我们会遵守相关法律法规，并事先征得您的同意。</strong></p>
+
+            <h3>6.2 存储期限</h3>
+            <p>我们仅在实现本政策所述目的所必需的期限内保留您的个人信息：</p>
+            <ul>
+                <li><strong>账号信息：</strong>在您使用服务期间持续保留，账号注销后删除或匿名化处理</li>
+                <li><strong>学习记录：</strong>在您使用服务期间持续保留，用于展示学习进度</li>
+                <li><strong>交易记录：</strong>根据法律规定保留不少于三年</li>
+                <li><strong>日志信息：</strong>根据法律规定保留不少于六个月</li>
+            </ul>
+            <p>超出保留期限后，我们会删除或匿名化处理您的个人信息。</p>
+
+            <h3>6.3 安全措施</h3>
+            <p>我们采取多种安全措施保护您的个人信息：</p>
+            <ul>
+                <li><strong>数据加密：</strong>使用 SSL/TLS 加密传输敏感数据，对存储的敏感信息进行加密</li>
+                <li><strong>访问控制：</strong>严格限制员工对个人信息的访问权限</li>
+                <li><strong>安全审计：</strong>定期进行安全审计和漏洞检测</li>
+                <li><strong>备份机制：</strong>定期备份数据，防止数据丢失</li>
+                <li><strong>安全培训：</strong>对员工进行信息安全培训</li>
+            </ul>
+
+            <h3>6.4 安全事件处理</h3>
+            <p>如不幸发生个人信息安全事件，我们将：</p>
+            <ul>
+                <li>立即启动应急预案，阻止事件扩大</li>
+                <li>按照法律要求及时向您告知事件情况</li>
+                <li>向相关监管部门报告</li>
+                <li>采取补救措施，降低损失</li>
+            </ul>
+
+            <div class="subsection">
+                <p><strong>安全提示：</strong>请您妥善保管账号密码，不要将密码告知他人。如发现账号异常，请立即联系我们。</p>
+            </div>
+        </section>
+
+        <section id="section7">
+            <h2><span class="section-number">7</span>您的权利</h2>
+            
+            <p>根据相关法律法规，您对您的个人信息享有以下权利：</p>
+
+            <h3>7.1 查阅权</h3>
+            <p>您有权查阅您的个人信息。您可以通过账号设置页面查看您的账号信息、学习记录等。</p>
+
+            <h3>7.2 复制权</h3>
+            <p>您有权获取您个人信息的副本。您可以导出您的学习数据和代码作品。</p>
+
+            <h3>7.3 更正权</h3>
+            <p>当您发现个人信息不准确或不完整时，您有权要求更正或补充。您可以在账号设置中修改部分信息，或联系我们进行更正。</p>
+
+            <h3>7.4 删除权</h3>
+            <p>在以下情况下，您有权要求删除您的个人信息：</p>
+            <ul>
+                <li>处理目的已实现或无法实现</li>
+                <li>我们停止提供服务</li>
+                <li>保存期限已届满</li>
+                <li>您撤回同意</li>
+                <li>我们违反法律法规或协议约定处理信息</li>
+            </ul>
+
+            <h3>7.5 撤回同意权</h3>
+            <p>对于基于您同意而进行的信息处理，您有权随时撤回同意。<strong>撤回同意不影响撤回前已进行的信息处理的合法性。</strong></p>
+
+            <h3>7.6 注销账号权</h3>
+            <p>您有权注销您的账号。注销后，我们将删除或匿名化处理您的个人信息（法律法规另有规定的除外）。</p>
+            <p><strong>请注意：</strong>账号注销是不可逆操作，注销后您将无法恢复账号数据。</p>
+
+            <h3>7.7 行使权利的方式</h3>
+            <p>您可以通过以下方式行使上述权利：</p>
+            <ul>
+                <li>登录账号，在设置页面进行操作</li>
+                <li>发送邮件至 china@codecombat.com</li>
+            </ul>
+            <p>我们会在验证您的身份后，于 <strong>15 个工作日内</strong>响应您的请求。</p>
+        </section>
+
+        <section id="section8">
+            <h2><span class="section-number">8</span>未成年人信息保护</h2>
+            
+            <h3>8.1 特别说明</h3>
+            <p>CodeCombat 是一个适合各年龄段学习编程的平台，我们高度重视未成年人（特别是未满十四周岁的儿童）的个人信息保护。</p>
+
+            <h3>8.2 监护人须知</h3>
+            <p>如果您是未成年人的监护人，请您：</p>
+            <ul>
+                <li>与未成年人一起阅读本政策</li>
+                <li>在同意本政策后，再允许未成年人使用本服务</li>
+                <li>指导未成年人正确使用本服务，保护个人信息</li>
+                <li>合理安排未成年人的学习时间</li>
+            </ul>
+
+            <h3>8.3 未成年人信息收集</h3>
+            <p>对于未成年人用户，我们会：</p>
+            <ul>
+                <li><strong>最小化收集：</strong>仅收集提供服务所必需的信息</li>
+                <li><strong>征得同意：</strong>在收集儿童（未满14周岁）信息前，征得其监护人的同意</li>
+                <li><strong>限制使用：</strong>不会将未成年人信息用于营销推广</li>
+                <li><strong>加强保护：</strong>对未成年人信息采取更严格的保护措施</li>
+            </ul>
+
+            <h3>8.4 监护人权利</h3>
+            <p>未成年人的监护人有权：</p>
+            <ul>
+                <li>查阅、更正、删除未成年人的个人信息</li>
+                <li>撤回对未成年人信息处理的同意</li>
+                <li>注销未成年人的账号</li>
+            </ul>
+            <p>如需行使上述权利，请联系：china@codecombat.com</p>
+
+            <h3>8.5 误收儿童信息的处理</h3>
+            <p>如果我们发现在未获得监护人同意的情况下收集了儿童的个人信息，我们会尽快删除相关信息。如果您认为我们可能持有儿童的个人信息，请立即联系我们。</p>
+
+            <div class="subsection">
+                <p><strong>温馨提示：</strong>我们鼓励监护人与未成年人一起参与编程学习，共同营造健康、积极的学习环境。</p>
+            </div>
+        </section>
+
+        <section id="section9">
+            <h2><span class="section-number">9</span>本政策的更新</h2>
+            
+            <h3>9.1 更新方式</h3>
+            <p>为了向您提供更好的服务，本政策可能会不时更新。更新后的政策将在本平台公布，并注明更新日期。</p>
+
+            <h3>9.2 重大变更通知</h3>
+            <p>对于重大变更（如收集信息范围扩大、使用目的变更等），我们会通过以下方式通知您：</p>
+            <ul>
+                <li>网站公告</li>
+                <li>站内消息</li>
+                <li>电子邮件</li>
+                <li>弹窗提示</li>
+            </ul>
+
+            <h3>9.3 继续使用视为同意</h3>
+            <p><strong>如果您在本政策更新后继续使用本服务，即表示您同意更新后的政策。</strong>如果您不同意更新内容，请停止使用本服务。</p>
+
+            <h3>9.4 查阅历史版本</h3>
+            <p>您可以通过联系我们获取本政策的历史版本。</p>
+        </section>
+
+        <section id="section10">
+            <h2><span class="section-number">10</span>联系我们</h2>
+            
+            <p>如果您对本政策有任何疑问、意见或建议，或需要行使您的个人信息权利，欢迎通过以下方式联系我们：</p>
+            
+            <div class="contact-info">
+                <h4>📮 联系方式</h4>
+                <p><strong>联系邮箱：</strong>china@codecombat.com</p>
+                <p><strong>官方网站：</strong>https://codecombat.cn</p>
+            </div>
+
+            <p style="margin-top: 24px;">我们会在验证您身份后的 <strong>15 个工作日内</strong>回复您的请求。如果您对我们的答复不满意，您还可以向相关监管部门投诉。</p>
+
+            <p>感谢您信任 CodeCombat！我们将持续努力保护您的个人信息安全。🔐</p>
+        </section>
+
+        <footer>
+            <p>© 2026 CodeCombat. All Rights Reserved.</p>
+            <p>本政策最终解释权归 CodeCombat 平台运营方所有</p>
+        </footer>
+    </div>
+</body>
+</html>
