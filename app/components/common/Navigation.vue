@@ -12,6 +12,7 @@ import {
 } from 'core/utils'
 import AnnouncementModal from '../../views/announcement/announcementModal'
 import AnnouncementNav from '../../views/announcement/AnnouncementNav'
+import PhoneAuthModal from '../../components/common/PhoneAuthModal'
 import { mapActions, mapGetters } from 'vuex'
 import CTAButton from '../../components/common/buttons/CTAButton'
 import CaretDown from '../../components/common/elements/CaretDown'
@@ -69,6 +70,7 @@ export default Vue.extend({
   components: {
     AnnouncementModal,
     AnnouncementNav,
+    PhoneAuthModal,
     'cta-button': CTAButton,
     caret: CaretDown,
   },
@@ -81,6 +83,7 @@ export default Vue.extend({
   data () {
     return {
       showContactModal: false,
+      showPhoneAuthModal: false,
     }
   },
   computed: {
@@ -168,6 +171,9 @@ export default Vue.extend({
       }
       return null
     },
+    isChinaHome () {
+      return features?.chinaHome
+    },
   },
 
   created () {
@@ -196,6 +202,9 @@ export default Vue.extend({
       'checkAnnouncements',
       'startInterval',
     ]),
+    closeAuthModal () {
+      this.showPhoneAuthModal = false
+    },
     navEvent (e) {
       // Only track if user has clicked a link on the nav bar
       if (!e || !e.target || e.target.tagName !== 'A') {
@@ -460,6 +469,7 @@ export default Vue.extend({
   nav#main-nav.navbar.navbar-default.text-center(:class="{ 'dark-mode': useDarkMode, 'floating-nav': float, 'navbar-fixed-top': !float }" @click="navEvent")
     .floating-nav-trigger(v-if="float")
     announcement-modal(v-if="announcementModalOpen" @close="closeAnnouncementModal" :announcement="announcementDisplay")
+    phone-auth-modal(v-if="showPhoneAuthModal" @close="closeAuthModal")
     .container-fluid.nav-container
       .row
         .col-md-12.header-container
@@ -557,10 +567,13 @@ export default Vue.extend({
                     a.account-dropdown-item#logout-button(href="#") {{ $t('login.log_out') }}
             div.right-side-nav
               ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
-                li
-                  cta-button#login-link.login-button(data-event-action="Header Login CTA" size="small" type="no-background") {{ $t('signup.login') }}
-                li
-                  cta-button#create-account-link.signup-button(data-event-action="Header Sign Up CTA" size="small") {{ $t('signup.sign_up') }}
+                li(v-if="isChinaHome")
+                  cta-button.signup-login-button(data-event-action="Header Login/Sign Up CTA" @clickedCTA="showPhoneAuthModal = true") {{ $t('signup.sign_up_or_login') }}
+                template(v-else)
+                  li
+                    cta-button#login-link.login-button(data-event-action="Header Login CTA" size="small" type="no-background") {{ $t('signup.login') }}
+                  li
+                    cta-button#create-account-link.signup-button(data-event-action="Header Sign Up CTA" size="small") {{ $t('signup.sign_up') }}
               ul.nav.navbar-nav
                 li.dropdown
                   a.dropdown-toggle.text-p(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")

@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCombat 常见问题</title>
+    <style>
+        :root {
+            --primary-color: #0ea5e9;
+            --primary-dark: #0369a1;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --highlight-bg: #fef3c7;
+            --section-bg: #ffffff;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-top: 16px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .search-box {
+            max-width: 500px;
+            margin: 24px auto 0;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .search-box::before {
+            content: "🔍";
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+
+        .category-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .category-nav a {
+            padding: 10px 20px;
+            background: var(--section-bg);
+            border-radius: 24px;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+        }
+
+        .category-nav a:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .faq-section {
+            background: var(--section-bg);
+            padding: 32px;
+            margin-bottom: 24px;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .faq-section h2 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .faq-section h2 .icon {
+            font-size: 1.5rem;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .faq-item:first-of-type {
+            padding-top: 0;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .faq-question::before {
+            content: "Q";
+            background: var(--primary-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .faq-answer {
+            color: var(--text-muted);
+            padding-left: 34px;
+            line-height: 1.8;
+        }
+
+        .faq-answer p {
+            margin-bottom: 12px;
+        }
+
+        .faq-answer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .faq-answer ul, .faq-answer ol {
+            margin: 12px 0 12px 20px;
+        }
+
+        .faq-answer li {
+            margin: 8px 0;
+        }
+
+        .faq-answer strong {
+            color: var(--text-color);
+        }
+
+        .faq-answer code {
+            background: #f1f5f9;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: "SF Mono", Monaco, "Courier New", monospace;
+            font-size: 0.9em;
+            color: var(--primary-dark);
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border-left: 4px solid var(--success-color);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 16px 0;
+        }
+
+        .tip-box.warning {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border-left-color: var(--warning-color);
+        }
+
+        .tip-box strong {
+            color: #065f46;
+        }
+
+        .tip-box.warning strong {
+            color: #92400e;
+        }
+
+        .language-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 16px 0;
+        }
+
+        .language-card {
+            background: var(--bg-color);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .language-card h4 {
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .language-card p {
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .steps {
+            counter-reset: step;
+        }
+
+        .steps li {
+            position: relative;
+            padding-left: 40px;
+            margin: 16px 0;
+        }
+
+        .steps li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .contact-section {
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            padding: 32px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-section h3 {
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+            font-size: 1.3rem;
+        }
+
+        .contact-section p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: var(--primary-dark);
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .contact-email:hover {
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px 16px;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            header h1 {
+                font-size: 1.4rem;
+            }
+
+            .faq-section {
+                padding: 24px 20px;
+            }
+
+            .language-compare {
+                grid-template-columns: 1fr;
+            }
+
+            .category-nav {
+                gap: 8px;
+            }
+
+            .category-nav a {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div style="text-align: center; margin: 20px 0;">
+                <img src="/images/pages/base/logo.png" alt="Logo" width="358" height="84" style="max-width: 100%; height: auto;">
+            </div>
+            <h1>常见问题</h1>
+            <p>在这里找到您需要的答案，快速解决问题</p>
+        </header>
+
+        <nav class="category-nav">
+            <a href="#getting-started">🚀 快速入门</a>
+            <a href="#languages">💻 编程语言</a>
+            <a href="#account">👤 账号相关</a>
+            <a href="#payment">💳 付费与会员</a>
+            <a href="#technical">🔧 技术问题</a>
+            <a href="#learning">📚 学习相关</a>
+        </nav>
+
+        <section class="faq-section" id="getting-started">
+            <h2><span class="icon">🚀</span>快速入门</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">什么是 CodeCombat？</div>
+                <div class="faq-answer">
+                    <p>CodeCombat 是一个游戏化的编程学习平台。通过玩游戏闯关的方式，您可以学习 Python、JavaScript、C++ 等主流编程语言。我们将编程概念融入到有趣的冒险游戏中，让学习编程变得轻松有趣。</p>
+                    <p>无论您是零基础的初学者，还是希望提升技能的大学生或职场人士，CodeCombat 都能为您提供合适的学习路径。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">如何开始学习？</div>
+                <div class="faq-answer">
+                    <p>开始使用 CodeCombat 非常简单：</p>
+                    <ol class="steps">
+                        <li><strong>注册账号</strong> — 使用手机号或邮箱快速注册</li>
+                        <li><strong>选择语言</strong> — 推荐初学者选择 Python</li>
+                        <li><strong>开始闯关</strong> — 从第一个关卡开始您的编程冒险</li>
+                        <li><strong>遇到问题？</strong> — 随时向 AI 助手提问</li>
+                    </ol>
+                    <div class="tip-box">
+                        <strong>💡 提示：</strong>平台提供 8 个免费关卡供您体验，您可以先试玩再决定是否购买会员。
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">CodeCombat 适合什么人群？</div>
+                <div class="faq-answer">
+                    <p>CodeCombat 适合各类人群学习编程：</p>
+                    <ul>
+                        <li><strong>大学生：</strong>计算机专业学生巩固基础，非计算机专业学生入门编程</li>
+                        <li><strong>职场人士：</strong>希望学习编程技能、提升职业竞争力的在职人员</li>
+                        <li><strong>编程爱好者：</strong>对编程有兴趣、喜欢通过游戏方式学习的人</li>
+                        <li><strong>学生家长：</strong>为子女寻找优质编程学习资源</li>
+                        <li><strong>青少年：</strong>培养编程思维和逻辑能力</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section" id="languages">
+            <h2><span class="icon">💻</span>编程语言</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">目前支持哪些编程语言？</div>
+                <div class="faq-answer">
+                    <p>CodeCombat 目前支持以下编程语言：</p>
+                    <ul>
+                        <li><strong>Python</strong> — 免费用户和会员均可使用</li>
+                        <li><strong>JavaScript</strong> — 免费用户和会员均可使用</li>
+                        <li><strong>Lua</strong> — 免费用户和会员均可使用</li>
+                        <li><strong>C++</strong> — <strong>会员专属</strong></li>
+                        <li><strong>Java</strong> — <strong>会员专属</strong></li>
+                        <li><strong>HTML/CSS</strong> — <strong>会员专属</strong></li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">为什么推荐 Python 作为入门语言？</div>
+                <div class="faq-answer">
+                    <p>我们强烈推荐零基础的初学者从 Python 开始学习，原因如下：</p>
+                    <ul>
+                        <li><strong>语法简洁：</strong>Python 语法接近自然语言，对初学者非常友好</li>
+                        <li><strong>AI 时代必备：</strong>Python 是人工智能和数据科学的首选语言</li>
+                        <li><strong>应用广泛：</strong>可用于 Web 开发、数据分析、自动化脚本等多个领域</li>
+                        <li><strong>学习资源丰富：</strong>社区活跃，遇到问题容易找到解决方案</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>💡 提示：</strong>AI 写代码时默认使用 Python，如果您想学习 AI 编程和与 AI 协作编程，Python 是最佳选择。
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">什么情况下应该选择 JavaScript？</div>
+                <div class="faq-answer">
+                    <p>如果您有以下需求，可以考虑选择 JavaScript：</p>
+                    <ul>
+                        <li><strong>网页开发：</strong>JavaScript 是网页开发的必备语言</li>
+                        <li><strong>前端开发：</strong>几乎所有网站都使用 JavaScript</li>
+                        <li><strong>全栈开发：</strong>通过 Node.js 可以进行后端开发</li>
+                    </ul>
+                    <div class="language-compare">
+                        <div class="language-card">
+                            <h4>🐍 Python</h4>
+                            <p>语法简单，适合初学者<br>AI/数据科学首选<br>通用性强</p>
+                        </div>
+                        <div class="language-card">
+                            <h4>📜 JavaScript</h4>
+                            <p>语法相对复杂<br>网页开发必备<br>前后端通吃</p>
+                        </div>
+                    </div>
+                    <div class="tip-box warning">
+                        <strong>⚠️ 注意：</strong>JavaScript 的语法比 Python 相对复杂。如果您不确定选择哪门语言，建议从 Python 开始。我们的课程设计支持从 Python 平滑过渡到 JavaScript。
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">可以中途切换编程语言吗？</div>
+                <div class="faq-answer">
+                    <p>可以。您可以在任何时候切换编程语言，但请注意：</p>
+                    <ul>
+                        <li>切换语言后，关卡进度不会丢失</li>
+                        <li>不同语言的代码需要重新编写</li>
+                        <li>建议先掌握一门语言后再学习其他语言</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section" id="account">
+            <h2><span class="icon">👤</span>账号相关</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">如何注册 CodeCombat 账号？</div>
+                <div class="faq-answer">
+                    <p>您可以通过以下方式注册账号：</p>
+                    <ul>
+                        <li><strong>手机号注册：</strong>输入手机号，接收验证码完成注册</li>
+                        <li><strong>邮箱注册：</strong>输入邮箱地址，设置密码完成注册</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">忘记密码怎么办？</div>
+                <div class="faq-answer">
+                    <p>如果您忘记了密码，可以按以下步骤找回：</p>
+                    <ol class="steps">
+                        <li>在登录页面点击"忘记密码"</li>
+                        <li>输入您注册时使用的手机号或邮箱</li>
+                        <li>接收验证码并完成验证</li>
+                        <li>设置新密码</li>
+                    </ol>
+                    <div class="tip-box warning">
+                        <strong>⚠️ 注意：</strong>如果您的手机号或邮箱已无法使用，请联系网站首页右下角的微信客服寻求帮助。
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">如何修改绑定的手机号或邮箱？</div>
+                <div class="faq-answer">
+                    <p>修改绑定信息的步骤：</p>
+                    <ol class="steps">
+                        <li>登录您的 CodeCombat 账号</li>
+                        <li>进入账号设置页面</li>
+                        <li>选择需要修改的绑定信息（手机号/邮箱）</li>
+                        <li>验证当前绑定的手机号或邮箱</li>
+                        <li>输入新的手机号或邮箱并完成验证</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">如何保护账号安全？</div>
+                <div class="faq-answer">
+                    <p>为了保护您的账号安全，我们建议您：</p>
+                    <ul>
+                        <li><strong>设置强密码：</strong>使用字母、数字、符号的组合，长度至少 8 位</li>
+                        <li><strong>绑定手机和邮箱：</strong>方便找回密码和接收安全通知</li>
+                        <li><strong>不要共享账号：</strong>避免将账号密码告知他人</li>
+                        <li><strong>定期修改密码：</strong>建议每 3-6 个月更换一次密码</li>
+                        <li><strong>注意钓鱼网站：</strong>确保在官方网站登录</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">如何注销账号？</div>
+                <div class="faq-answer">
+                    <p>如需注销账号，请联系客服。</p>
+                    
+                    <div class="tip-box warning">
+                        <strong>⚠️ 重要提示：</strong>
+                        <ul>
+                            <li>账号注销后，所有数据将被清除且无法恢复</li>
+                            <li>已购买的会员服务将无法退款</li>
+                            <li>请确保您已备份需要的学习数据</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section" id="payment">
+            <h2><span class="icon">💳</span>付费与会员</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">平台有哪些免费内容？</div>
+                <div class="faq-answer">
+                    <p>CodeCombat 提供 <strong>8 个关卡</strong>的免费试用，让您可以：</p>
+                    <ul>
+                        <li>体验游戏化编程学习的乐趣</li>
+                        <li>了解平台的功能和操作方式</li>
+                        <li>学习基础的编程概念</li>
+                        <li>使用 AI 助手功能</li>
+                    </ul>
+                    <p>试用过后，如果您希望继续学习更多内容，可以购买会员服务。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">会员有什么权益？</div>
+                <div class="faq-answer">
+                    <p>购买会员后，您将获得以下权益：</p>
+                    <ul>
+                        <li><strong>完整课程：</strong>解锁所有关卡和学习内容</li>
+                        <li><strong>C++ 语言：</strong>会员专属编程语言</li>
+                        <li><strong>高级英雄：</strong>解锁更多游戏角色</li>
+                        <li><strong>多人竞技：</strong>参与排名赛和对战</li>
+                        <li><strong>优先支持：</strong>获得客服优先响应</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">如何购买会员？</div>
+                <div class="faq-answer">
+                    <p>购买会员的步骤：</p>
+                    <ol class="steps">
+                        <li>登录您的 CodeCombat 账号</li>
+                        <li>选择适合您的会员类型</li>
+                        <li>点击“立即购买”按钮</li>
+                        <li>完成支付</li>
+                    </ol>
+                    <p>支付成功后，会员权益将立即生效。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">可以退款吗？</div>
+                <div class="faq-answer">
+                    <p>根据我们的服务条款，已购买的会员服务一般不予退款。购买前请充分试用免费内容，确认满意后再进行购买。</p>
+                    <p>如有特殊情况，请联系首页右侧的客服或联系客服 china@codecombat.com 说明情况，我们会根据具体情况处理。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section" id="technical">
+            <h2><span class="icon">🔧</span>技术问题</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">有手机 App 吗？</div>
+                <div class="faq-answer">
+                    <p>CodeCombat 目前<strong>没有手机端 App</strong>，但您可以通过手机浏览器访问网页版。</p>
+                    <div class="tip-box">
+                        <strong>💡 推荐：</strong>我们强烈建议使用<strong>笔记本电脑或台式机</strong>学习编程。原因是：
+                        <ul>
+                            <li>编写代码需要使用键盘，电脑输入更方便</li>
+                            <li>屏幕更大，可以同时查看代码和游戏画面</li>
+                            <li>学习体验更加顺畅</li>
+                        </ul>
+                    </div>
+                    <p>如果您使用 iPad 等平板设备，建议搭配<strong>蓝牙键盘</strong>使用。您也可以将网页图标添加到手机桌面，体验类似 App 的使用方式。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">推荐使用什么浏览器？</div>
+                <div class="faq-answer">
+                    <p>为获得最佳体验，我们推荐使用以下浏览器：</p>
+                    <ul>
+                        <li><strong>Google Chrome</strong>（强烈推荐）</li>
+                        <li><strong>Safari</strong>（Mac 用户）</li>
+                        <li><strong>Firefox</strong></li>
+                        <li><strong>Microsoft Edge</strong></li>
+                    </ul>
+                    <div class="tip-box warning">
+                        <strong>⚠️ 不推荐：</strong>国内低版本浏览器，特别是 360 浏览器，可能会出现兼容性问题。
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">电脑配置有什么要求？</div>
+                <div class="faq-answer">
+                    <p>CodeCombat 对电脑配置要求不高：</p>
+                    <ul>
+                        <li><strong>操作系统：</strong>Windows 或 macOS</li>
+                        <li><strong>内存：</strong>最低 4GB（推荐 8GB 以上）</li>
+                        <li><strong>网络带宽：</strong>最低 200 Kbps（推荐 1 Mbps 以上）</li>
+                        <li><strong>浏览器：</strong>Chrome、Safari、Firefox 或 Edge 的最新版本</li>
+                    </ul>
+                    <p>基本上能流畅上网的电脑都可以运行 CodeCombat。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">页面加载很慢或无法加载怎么办？</div>
+                <div class="faq-answer">
+                    <p>如果遇到页面加载问题，请尝试以下解决方案：</p>
+                    <ol>
+                        <li><strong>检查网络连接：</strong>确保网络稳定</li>
+                        <li><strong>清除浏览器缓存：</strong>清除缓存后刷新页面</li>
+                        <li><strong>更换浏览器：</strong>尝试使用 Chrome 浏览器</li>
+                        <li><strong>关闭浏览器插件：</strong>某些插件可能影响页面加载</li>
+                        <li><strong>检查防火墙设置：</strong>确保没有阻止 CodeCombat</li>
+                    </ol>
+                    <p>如果问题仍然存在，请联系客服并提供您的浏览器版本和操作系统信息。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">代码运行出错怎么办？</div>
+                <div class="faq-answer">
+                    <p>代码出错是学习编程的正常过程。您可以：</p>
+                    <ul>
+                        <li><strong>查看错误提示：</strong>仔细阅读系统给出的错误信息</li>
+                        <li><strong>检查语法：</strong>注意拼写、缩进、标点符号</li>
+                        <li><strong>使用 AI 助手：</strong>直接向 AI 助手提问，获得帮助</li>
+                        <li><strong>查看提示：</strong>每个关卡都有提示功能</li>
+                        <li><strong>重置代码：</strong>如果改乱了，可以重置为初始状态</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section" id="learning">
+            <h2><span class="icon">📚</span>学习相关</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">完成所有关卡需要多长时间？</div>
+                <div class="faq-answer">
+                    <p>学习时间因人而异，取决于：</p>
+                    <ul>
+                        <li>您的编程基础</li>
+                        <li>每天投入的学习时间</li>
+                        <li>学习的深入程度</li>
+                    </ul>
+                    <p>通常情况下，成年人每日学习 1-2 小时，完成基础课程约需 1 年，青少年则平均需要 2-3 年；若进行高强度的集中学习，3-6 个月即可修完所有高阶内容。</p>
+                    <div class="tip-box">
+                        <strong>💡 建议：</strong>不要急于赶进度，重要的是真正理解每个概念。遇到不懂的地方可以多练习几遍。
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">如何使用 AI 助手？</div>
+                <div class="faq-answer">
+                    <p>CodeCombat 内置了 AI 助手，可以帮助您解决学习中遇到的问题：</p>
+                    <ul>
+                        <li>点击界面上的 AI 助手图标</li>
+                        <li>输入您的问题（可以是代码问题、概念疑惑等）</li>
+                        <li>AI 会给出解释和建议</li>
+                    </ul>
+                    <p>AI 助手支持中文，您可以直接用中文提问。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">学习进度会保存吗？</div>
+                <div class="faq-answer">
+                    <p>是的，您的学习进度会自动保存到云端。只要登录账号，就可以在任何设备上继续学习。保存的内容包括：</p>
+                    <ul>
+                        <li>已完成的关卡</li>
+                        <li>编写的代码</li>
+                        <li>获得的成就和奖励</li>
+                        <li>学习时长统计</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">如何参与多人竞技？</div>
+                <div class="faq-answer">
+                    <p>完成一定数量的关卡后，您可以解锁多人竞技模式：</p>
+                    <ol class="steps">
+                        <li>在地图上选择多人竞技场关卡</li>
+                        <li>编写您的代码</li>
+                        <li>提交代码参与排名赛</li>
+                    </ol>
+                    <p>您的代码会与其他玩家的代码进行对战，系统会根据胜率计算排名。</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">学完 CodeCombat 后能达到什么水平？</div>
+                <div class="faq-answer">
+                    <p>完成 CodeCombat 的课程后，您将：</p>
+                    <ul>
+                        <li><strong>掌握编程基础：</strong>变量、条件、循环、函数、对象等核心概念</li>
+                        <li><strong>具备编程思维：</strong>能够用编程的方式思考和解决问题</li>
+                        <li><strong>拥有实践经验：</strong>通过数百个关卡积累了丰富的编程实践</li>
+                        <li><strong>可以继续深造：</strong>有能力学习更高级的编程课程或参与实际项目</li>
+                        <li><strong>解锁AI编程：</strong>理解代码底层逻辑，适应未来“人类指令+AI执行”的开发模式</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="contact-section">
+            <h3>🤔 没有找到您的问题？</h3>
+            <p>如果以上内容没有解答您的疑问，欢迎联系我们的客服团队</p>
+            <a href="mailto:china@codecombat.com" class="contact-email">
+                <span>📧</span>
+                china@codecombat.com
+            </a>
+        </div>
+
+        <footer>
+            <p>© 2026 CodeCombat. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        // 简单的搜索功能
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchText = e.target.value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (question.includes(searchText) || answer.includes(searchText)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = searchText ? 'none' : 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

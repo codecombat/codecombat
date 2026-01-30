@@ -21,10 +21,10 @@ const uniqueName = async (name) => {
   return true
 }
 
-const uniquePhone = async (phone) => {
+export const uniquePhone = async (phone) => {
   if (phone) {
-    const { conflicts } = await User.checkPhoneConflicts(phone)
-    return !conflicts
+    const { exists } = await User.checkPhoneExists(phone)
+    return !exists
   }
   return true
 }

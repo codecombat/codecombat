@@ -822,6 +822,7 @@ module.exports = {
       phone_code: 'Validation SMS Code',
       send_phone_code: 'Send SMS Code',
       resend_phone_code: 'ReSend(__countDown__)',
+      sign_up_or_login: 'Sign Up/Login',
     },
 
     recover: {
@@ -3649,6 +3650,7 @@ module.exports = {
       general_desc: 'Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!',
       too_many_login_failures: 'There have been too many unsuccessful login attempts.  Please try again later.',
       something_went_wrong: 'Oops! Something went wrong',
+      phone_code_error: 'SMS Code Dismatch',
     },
 
     resources: {
