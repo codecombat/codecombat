@@ -3661,7 +3661,7 @@ module.exports = {
 
     loading_error: {
       could_not_load: '载入失败',
-      connection_failure: '连接失败',
+      connection_failure: '网络链接异常',
       connection_failure_desc: '看起来你还没连接网络！检查网络连接后刷新此页面。',
       login_required: '需要登录',
       login_required_desc: '你需要登录才能访问此页面。',

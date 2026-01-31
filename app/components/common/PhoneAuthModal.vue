@@ -18,7 +18,7 @@
             :class="{active: tab === 'sms'}"
             @click="switchTab('sms')"
           >
-            短信快捷登录
+            短信登录
           </div>
           <div
             id="tab-pwd"
@@ -43,6 +43,7 @@
               class="game-input input-phone"
               placeholder="请输入手机号"
               maxlength="11"
+              @blur="notifyIfPhoneError"
             >
           </div>
 
@@ -67,8 +68,8 @@
           <div class="agreement">
             <input
               id="agree-sms"
+              v-model="smsAgreed"
               type="checkbox"
-              checked
             >
             <label for="agree-sms">
               已阅读并同意 <a
@@ -110,8 +111,8 @@
           <div class="agreement">
             <input
               id="agree-pwd"
+              v-model="pwdAgreed"
               type="checkbox"
-              checked
             >
             <label for="agree-pwd">
               已阅读并同意 <a
@@ -127,6 +128,7 @@
 
         <button
           class="btn-game-submit"
+          :disabled="!formValid"
           @click="submit"
         >
           登录
@@ -159,7 +161,6 @@ import BackboneModalHarness from 'app/views/common/BackboneModalHarness.vue'
 
 import api from 'core/api'
 
-import { required } from 'vuelidate/lib/validators'
 import { uniquePhone } from 'ozaria/site/components/sign-up/PageEducatorSignup/common/signUpValidations'
 import { randomName } from 'app/lib/random-name-utils'
 
@@ -189,7 +190,8 @@ export default {
       phoneCodeError: false,
       usernameError: false,
       passwordError: false,
-
+      smsAgreed: true,
+      pwdAgreed: true,
     }
   },
   computed: {
@@ -205,14 +207,6 @@ export default {
       return /^1\d{10}/.test(this.phone)
     },
   },
-  validations: {
-    phone: {
-      required,
-    },
-    phoneCode: {
-      required,
-    },
-  },
   watch: {
     phone (newVal) {
       if (this.phoneNumberValid) {
@@ -223,10 +217,23 @@ export default {
         })
       }
     },
+    formValid () {
+      return (this.tab === 'sms' && this.phone && this.phoneNumberValid && this.phoneCode) ||
+        (this.tab === 'pwd' && this.username && this.password)
+    },
   },
   methods: {
     switchTab (tab) {
       this.tab = tab
+    },
+    notifyIfPhoneError () {
+      if (!this.phoneNumberValid) {
+        noty({
+          type: 'warning',
+          text: '手机号格式错误',
+          layout: 'center',
+        })
+      }
     },
     login () {
       let username = this.username
@@ -302,6 +309,13 @@ export default {
       }
     },
     async submit () {
+      if ((this.tab === 'sms' && !this.smsAgreed) || !this.pwdAgreed) {
+        return noty({
+          type: 'warning',
+          text: '请阅读并同意用户协议与隐私政策',
+          layout: 'center',
+        })
+      }
       if (this.tab === 'sms') {
         if (!this.phoneExists) {
           return await this.phoneRegister()
@@ -416,11 +430,24 @@ export default {
 }
 .btn-game-submit:active { transform: translateY(4px); border-bottom: 2px solid #1e824c; }
 .btn-game-submit:hover { filter: brightness(1.1); }
+/* Disabled state styles */
+.btn-game-submit:disabled,
+.btn-game-submit.disabled {
+    background: #bdc3c7; /* A neutral grey */
+    border-color: #95a5a6;
+    border-bottom: 2px solid #95a5a6; /* Flatten the button */
+    color: #ecf0f1;
+    cursor: not-allowed; /* Shows the "no" symbol */
+    filter: none; /* Removes the hover brightness effect */
+    transform: translateY(4px); /* Keeps it in the "pressed" position */
+    text-shadow: none;
+    pointer-events: none; /* Ensures no clicks or hover effects trigger */
+}
 
 /* 底部链接横向排列样式 - 深咖啡色 */
 .footer-links {
     margin-top: 20px; font-size: 14px;
-    color: #8D6E63;
+    color: #bdc3c7;
     font-weight: bold;
     text-align: center;
     display: flex; justify-content: center; gap: 40px;

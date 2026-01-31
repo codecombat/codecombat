@@ -617,7 +617,7 @@ export default Vue.extend({
             div.right-side-nav
               ul.nav.navbar-nav.text-p.login-buttons(v-if="me.isAnonymous() && !hideNav")
                 li(v-if="isChinaHome")
-                  cta-button.signup-login-button(data-event-action="Header Login/Sign Up CTA" @clickedCTA="showPhoneAuthModal = true") {{ $t('signup.sign_up_or_login') }}
+                  cta-button.signup-login-button(data-event-action="Header Login/Sign Up CTA" :size="isWideScreen ? 'medium' : 'small'" @clickedCTA="showPhoneAuthModal = true") {{ $t('signup.sign_up_or_login') }}
                 template(v-else)
                   li
                     cta-button#login-link.login-button(data-event-action="Header Login CTA" size="small" type="no-background") {{ $t('signup.login') }}
