@@ -30,6 +30,7 @@ c.extendNamedProperties(UserSchema) // let's have the name be the first property
 _.extend(UserSchema.properties, {
   email: c.shortString({ title: 'Email', format: 'email' }),
   emailVerified: { type: 'boolean' },
+  phone: c.shortString({ title: 'Phone' }),
   iosIdentifierForVendor: c.shortString({ format: 'hidden' }),
   firstName: c.shortString({ title: 'First Name', not: { pattern: 'Q204384420' } }),
   lastName: c.shortString({ title: 'Last Name', not: { pattern: 'Q204384420' } }),
