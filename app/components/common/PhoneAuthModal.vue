@@ -206,6 +206,10 @@ export default {
       // simple chinese phone regex
       return /^1\d{10}/.test(this.phone)
     },
+    formValid () {
+      return (this.tab === 'sms' && this.phone && this.phoneNumberValid && this.phoneCode) ||
+        (this.tab === 'pwd' && this.username && this.password)
+    },
   },
   watch: {
     phone (newVal) {
@@ -217,17 +221,13 @@ export default {
         })
       }
     },
-    formValid () {
-      return (this.tab === 'sms' && this.phone && this.phoneNumberValid && this.phoneCode) ||
-        (this.tab === 'pwd' && this.username && this.password)
-    },
   },
   methods: {
     switchTab (tab) {
       this.tab = tab
     },
     notifyIfPhoneError () {
-      if (!this.phoneNumberValid) {
+      if (this.phone && !this.phoneNumberValid) {
         noty({
           type: 'warning',
           text: '手机号格式错误',
