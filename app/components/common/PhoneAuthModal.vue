@@ -161,10 +161,19 @@ import BackboneModalHarness from 'app/views/common/BackboneModalHarness.vue'
 
 import api from 'core/api'
 
-import { uniquePhone } from 'ozaria/site/components/sign-up/PageEducatorSignup/common/signUpValidations'
+import { uniquePhone, uniqueName } from 'ozaria/site/components/sign-up/PageEducatorSignup/common/signUpValidations'
 import { randomName } from 'app/lib/random-name-utils'
 
 const RecoverModal = require('views/core/RecoverModal')
+
+function generateUniqueSuffix () {
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'
+  let result = ''
+  for (let i = 0; i < 4; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length))
+  }
+  return result
+}
 
 export default {
   components: {
@@ -300,7 +309,15 @@ export default {
         me.addNewUserCommonProperties()
         me.unset('role')
         await me.save()
-        const name = randomName()
+        let name = randomName()
+        while (true) {
+          const unique = await uniqueName(name)
+          if (!unique) {
+            name = randomName() + '_' + generateUniqueSuffix()
+          } else {
+            break
+          }
+        }
         await me.signupWithPhone(name, this.phone, this.phoneCode, undefined)
         this.$emit('close')
       } catch (err) {

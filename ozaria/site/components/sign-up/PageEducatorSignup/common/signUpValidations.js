@@ -13,7 +13,7 @@ const uniqueEmail = async (email) => {
   return true
 }
 
-const uniqueName = async (name) => {
+export const uniqueName = async (name) => {
   if (name) {
     const { conflicts } = await User.checkNameConflicts(name)
     return !conflicts
