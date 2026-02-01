@@ -179,6 +179,9 @@ export default Vue.extend({
     isChinaHome () {
       return features?.chinaHome
     },
+    isChina () {
+      return features?.chinaInfra
+    },
   },
 
   created () {
@@ -589,7 +592,7 @@ export default Vue.extend({
                     a.account-dropdown-item(:href="cocoPath(`/user/${me.getSlugOrID()}`)") {{ $t('nav.profile') }}
                   li
                     a.account-dropdown-item(href="/account/settings") {{ $t('play.settings') }}
-                  li(v-if="isCodeCombat && (me.isAdmin() || me.isParentHome() || me.isRegisteredHomeUser()) && (!me.showChinaHomeVersion())")
+                  li(v-if="isCodeCombat && !isChina && (me.isAdmin() || me.isParentHome() || me.isRegisteredHomeUser()) && (!me.showChinaHomeVersion())")
                     a.account-dropdown-item#manage-billing(href="/payments/manage-billing", target="_blank") {{ $t('account.manage_billing') }}
                   li(v-if="isCodeCombat && (me.showChinaHomeVersion() && me.isHomeUser())")
                     a.account-dropdown-item(href="/account/prepaid") {{ $t('account.subscription') }}
