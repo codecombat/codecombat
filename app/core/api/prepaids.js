@@ -84,4 +84,9 @@ module.exports = {
       json: options
     }))
   },
+
+  detailsByCodes (code, options) {
+    if (options == null) { options = {} }
+    return fetchJson(`/db/prepaids/${code}/details`, options)
+  },
 }
