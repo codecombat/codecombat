@@ -68,7 +68,11 @@ export default {
       const used = this.prepaid.redeemers?.filter(r => r.userID)?.length || 0
       let summary = `This prepaid can redeem ${maxRedeemers} users, now used ${used}.`
       if (this.codeType !== 'normal') {
-        summary += `This prepaid will exipred at ${this.prepaid.endDate}`
+        let expire = 'expired'
+        if (new Date(this.prepaid.endDate) > new Date()) {
+          expire = 'will expire'
+        }
+        summary += `This prepaid ${expire} at ${this.prepaid.endDate}`
       }
       return summary
     },
