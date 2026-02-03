@@ -48,10 +48,10 @@ export default {
         const completedSessions = this.studentSessions.filter(session => session.status === 'complete')
         return completedSessions.length === this.studentSessions.length
       }
-      let courseFinished = false
+      let courseFinished = true
       this.studentSessions.forEach(session => {
-        if (!session.isPractice) {
-          courseFinished = session.status === 'complete'
+        if (!session.isPractice && !session.isCourseLadder) {
+          courseFinished = courseFinished && (session.status === 'complete')
         }
       })
       return courseFinished
