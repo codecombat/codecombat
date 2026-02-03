@@ -65,8 +65,12 @@ export default {
   computed: {
     summary () {
       const maxRedeemers = this.prepaid.maxRedeemers || 0
-      const used = this.prepaid.redeemers?.filter(r => r.userID)?.length
-      return `This prepaid can redeem ${maxRedeemers} users, now used ${used}.`
+      const used = this.prepaid.redeemers?.filter(r => r.userID)?.length || 0
+      let summary = `This prepaid can redeem ${maxRedeemers} users, now used ${used}.`
+      if (this.codeType !== 'normal') {
+        summary += `This prepaid will exipred at ${this.prepaid.endDate}`
+      }
+      return summary
     },
     sortedCodes () {
       if (this.code.length === 8) {
@@ -75,15 +79,20 @@ export default {
       if (!this.prepaid.redeemers) {
         return []
       }
+      let matchCode = this.code.slice(4, 8)
+      if (this.codeType === 'teacher') {
+        matchCode = this.code.slice(7, 11)
+      } else if (this.codeType === 'student') {
+        matchCode = this.code.slice(5, 9)
+      }
       const codes = this.prepaid.redeemers
-      codes.sort((a) => {
-        if (this.code.includes(a.code)) {
-          return 2
+      codes.sort((a, b) => {
+        const getPriority = (item) => {
+          if (item.code === matchCode) return 2 // Exact match
+          if (item.userID) return 1 // Has a user
+          return 0 // Default
         }
-        if (a.userID) {
-          return 1
-        }
-        return 0
+        return getPriority(b) - getPriority(a)
       })
       return codes
     },
@@ -98,6 +107,8 @@ export default {
         this.codeType = 'teacher'
       } else if (newVal.split('-').length === 3) {
         this.codeType = 'student'
+      } else {
+        this.codeType = 'normal'
       }
     },
   },
@@ -122,6 +133,7 @@ export default {
       } else if (this.codeType === 'home') {
         return `${part1}${code}${part2}`.toUpperCase()
       }
+      return ''
     },
   },
 }
