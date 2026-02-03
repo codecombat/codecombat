@@ -59,7 +59,6 @@ export default {
     return {
       code: '',
       prepaid: {},
-      codeType: 'normal',
     }
   },
   computed: {
@@ -100,19 +99,17 @@ export default {
       })
       return codes
     },
-  },
-  watch: {
-    code (newVal) {
-      if (newVal.length === 8) {
-        this.codeType = 'normal'
-      } else if (newVal.length === 12) {
-        this.codeType = 'home'
-      } else if (newVal[0] === 'T') {
-        this.codeType = 'teacher'
-      } else if (newVal.split('-').length === 3) {
-        this.codeType = 'student'
+    codeType () {
+      if (this.code.length === 8) {
+        return 'normal'
+      } else if (this.code.length === 12) {
+        return 'home'
+      } else if (this.code[0] === 'T') {
+        return 'teacher'
+      } else if (this.code.split('-').length === 3) {
+        return 'student'
       } else {
-        this.codeType = 'normal'
+        return 'normal'
       }
     },
   },
