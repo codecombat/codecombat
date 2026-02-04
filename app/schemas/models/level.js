@@ -543,7 +543,7 @@ _.extend(LevelSchema.properties, {
       type: 'string', links: [{ rel: 'db', href: '/db/thang.type/{($)}/version' }], format: 'latest-version-original-reference',
     },
   },
-  campaign: c.shortString({ title: 'Campaign', description: 'Set automatically by the campaign editor. Which campaign this level is part of (like "desert").', format: 'hidden', inEditor: 'ozaria' }),
+  campaign: c.shortString({ title: 'Campaign', description: 'Campaign where Win Modal returns to if not additional parameters are passed.', inEditor: true }),
   campaignIndex: c.int({ title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden' }), // Automatically set by campaign editor.
   scoreTypes: c.array({ title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).', inEditor: 'codecombat' }, {
     anyOf: [

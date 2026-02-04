@@ -2,7 +2,7 @@
 /** Given a class id, generates and populates the stats for the class component */
 import { mapGetters } from 'vuex'
 import ClassComponent from '../ClassComponent'
-import { allCourseIDs, courseAcronyms, i18n } from 'core/utils'
+import { allCourseIDs, courseAcronyms, i18n, OZ_COURSE_IDS } from 'core/utils'
 
 export default {
   components: {
@@ -126,7 +126,8 @@ export default {
             name,
             origName: course.name,
             assigned: false,
-            progress: 0
+            progress: 0,
+            isOzCourse: OZ_COURSE_IDS.includes(course._id),
           }
 
           // If we have assigned this course then calculate the progress.
