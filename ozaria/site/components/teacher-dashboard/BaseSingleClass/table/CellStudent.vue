@@ -49,11 +49,14 @@ export default {
         return completedSessions.length === this.studentSessions.length
       }
       let courseFinished = true
-      this.studentSessions.forEach(session => {
+      for (const session of this.studentSessions) {
         if (!session.isPractice && !session.isCourseLadder) {
           courseFinished = courseFinished && (session.status === 'complete')
+          if (!courseFinished) {
+            break
+          }
         }
-      })
+      }
       return courseFinished
     },
     isOzCourse () {
