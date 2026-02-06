@@ -122,13 +122,15 @@ export default {
             name = $.i18n.t(translateKey)
           }
 
+          const isHackstack = HACKSTACK_COURSE_IDS.includes(course._id)
+
           const result = {
             name,
             origName: course.name,
             assigned: false,
             progress: 0,
             isOzCourse: OZ_COURSE_IDS.includes(course._id),
-            isHackstackCourse: HACKSTACK_COURSE_IDS.includes(course._id),
+            isHackstackCourse: isHackstack,
           }
 
           // If we have assigned this course then calculate the progress.
@@ -142,7 +144,7 @@ export default {
             const totalProgress = this.classroomState.members.length * levels.length || 1
 
             for (const memberId of this.classroomState.members) {
-              if (course._id === allCourseIDs.HACKSTACK) {
+              if (isHackstack) {
                 for (const [scenario, projects] of Object.entries(this.aiProjectsMapByUser[memberId] || [])) {
                   if (!levelSetInCourse.has(scenario)) {
                     continue
