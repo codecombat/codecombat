@@ -172,6 +172,9 @@ module.exports = (MyMatchesTabView = (function () {
       if (this.options.league) {
         data.leagueId = this.options.league.id
       }
+      if (this.options.tournament) {
+        data.tournamentId = this.options.tournament
+      }
       const userNamesRequest = this.supermodel.addRequestResource('user_names', {
         url: '/db/user/-/getFullNames',
         data,

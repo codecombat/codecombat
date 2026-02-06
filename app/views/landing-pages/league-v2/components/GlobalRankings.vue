@@ -72,7 +72,7 @@ import PageSection from '../../../../components/common/elements/PageSection.vue'
 import Leaderboard from '../../league/components/Leaderboard'
 import ClanInputer from './ClanInputer'
 import CTAButton from '../../../../components/common/buttons/CTAButton.vue'
-import { activeArenas } from '../../../../core/utils'
+import { activeArenas, tournamentMixedIdHelper } from '../../../../core/utils'
 import { mapGetters, mapActions } from 'vuex'
 
 const currentChampionshipArena = _.last(_.filter(activeArenas(), a => a.type === 'championship' && a.end > new Date()))
@@ -134,6 +134,9 @@ export default {
         url += `/clan/${this.clanIdSelected}`
       }
       if (tournament) url += `?tournament=${tournament}`
+      if (this.clanIdSelected && tournament) {
+        url = tournamentMixedIdHelper.convertUrl(url)
+      }
       return url
     },
     codepointsUrl () {
