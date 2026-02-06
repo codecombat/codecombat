@@ -81,6 +81,10 @@ module.exports = (VictoryModal = (function () {
       if (window.tracker != null) {
         window.tracker.trackEvent('Started Signup', { category: 'Play Level', label: 'Victory Modal', level: this.level.get('slug') })
       }
+      if (features?.chinaHome) {
+        const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+        return this.openModalView(new PhoneAuthModal())
+      }
       return this.openModalView(new CreateAccountModal())
     }
 

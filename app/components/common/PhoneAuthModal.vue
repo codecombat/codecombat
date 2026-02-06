@@ -180,6 +180,7 @@ export default {
     BaseGameModal,
     BackboneModalHarness,
   },
+  inject: ['openLegacyModal'],
   data () {
     return {
       RecoverModal,
@@ -370,7 +371,11 @@ export default {
       }
     },
     forgetPassword () {
-      this.isRecoverModalOpen = true
+      if (this.openLegacyModal) {
+        this.isRecoverModalOpen = true
+      } else {
+        this.$emit('open-recover-modal')
+      }
     },
   },
 }

@@ -25,6 +25,10 @@ module.exports = (HoC2018View = (function () {
       this.propsData = {
         onGetCS1Free: teacherEmail => {
           if (_.isEmpty(teacherEmail)) { return }
+          if (features?.chinaHome) {
+            const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+            return this.openModalView(new PhoneAuthModal())
+          }
           return this.openModalView(new CreateAccountModal({ startOnPath: 'teacher', email: teacherEmail }))
         },
         activity () {

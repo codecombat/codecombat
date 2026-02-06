@@ -110,7 +110,11 @@ module.exports = class ControlBarView extends CocoView
 
   openCreateAccountModal: (e) ->
     e.stopPropagation()
-    @openModalView new CreateAccountModal()
+    if features?.chinaHome
+      PhoneAuthModal = require 'components/common/PhoneAuthModal.js'
+      @openModalView new PhoneAuthModal()
+    else
+      @openModalView new CreateAccountModal()
 
   setBus: (@bus) ->
 

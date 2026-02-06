@@ -139,8 +139,12 @@ module.exports = class RootView extends CocoView
     @openCreateAccountModal(options)
 
   openCreateAccountModal: (options) ->
-    CreateAccountModal = require 'views/core/CreateAccountModal'
-    @openModalView new CreateAccountModal(options)
+    if features?.chinaHome
+      PhoneAuthModal = require 'components/common/PhoneAuthModal.js'
+      @openModalView new PhoneAuthModal()
+    else
+      CreateAccountModal = require 'views/core/CreateAccountModal'
+      @openModalView new CreateAccountModal(options)
 
   onClickLoginButton: (e) ->
     loginMessage = e.target.dataset.loginMessage
@@ -155,7 +159,11 @@ module.exports = class RootView extends CocoView
 
   openAuthModal: (options) ->
     AuthModal = require 'views/core/AuthModal'
-    @openModalView new AuthModal(options)
+    PhoneAuthModal = require 'components/common/PhoneAuthModal.js'
+    if features?.chinaHome
+      @openModalView new PhoneAuthModal()
+    else
+      @openModalView new AuthModal(options)
 
   onTrackClickEvent: (e) ->
     eventAction = $(e.target)?.closest('a')?.data('event-action')

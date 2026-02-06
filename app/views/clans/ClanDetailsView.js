@@ -528,7 +528,13 @@ module.exports = (ClanDetailsView = (function () {
     }
 
     onDeleteClan (e) {
-      if (me.isAnonymous()) { return this.openModalView(new CreateAccountModal()) }
+      if (me.isAnonymous()) {
+        if (features?.chinaHome) {
+          const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+          return this.openModalView(new PhoneAuthModal())
+        }
+        return this.openModalView(new CreateAccountModal())
+      }
       if (!window.confirm('Delete Clan?')) { return }
       const options = {
         url: `/db/clan/${this.clanID}`,
@@ -570,7 +576,13 @@ module.exports = (ClanDetailsView = (function () {
     }
 
     onJoinClan (e) {
-      if (me.isAnonymous()) { return this.openModalView(new CreateAccountModal()) }
+      if (me.isAnonymous()) {
+        if (features?.chinaHome) {
+          const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+          return this.openModalView(new PhoneAuthModal())
+        }
+        return this.openModalView(new CreateAccountModal())
+      }
       if (!this.clan.loaded) { return }
       if ((this.clan.get('type') === 'private') && !me.isPremium()) {
         this.openModalView(new SubscribeModal())
