@@ -160,6 +160,10 @@ module.exports = (SubscribeModal = (function () {
         if (application.tracker != null) {
           application.tracker.trackEvent('Started Signup from buy monthly', { service })
         }
+        const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+        if (features?.chinaHome) {
+          return this.openModalView(new PhoneAuthModal())
+        }
         return this.openModalView(new CreateAccountModal({ startOnPath: 'individual', subModalContinue: 'monthly' }))
       }
       // if @basicProduct.isRegionalSubscription()

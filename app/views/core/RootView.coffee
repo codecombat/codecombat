@@ -155,7 +155,11 @@ module.exports = class RootView extends CocoView
 
   openAuthModal: (options) ->
     AuthModal = require 'views/core/AuthModal'
-    @openModalView new AuthModal(options)
+    PhoneAuthModal = require 'components/common/PhoneAuthModal.js'
+    if features?.chinaHome
+      @openModalView new PhoneAuthModal(options)
+    else
+      @openModalView new AuthModal(options)
 
   onTrackClickEvent: (e) ->
     eventAction = $(e.target)?.closest('a')?.data('event-action')

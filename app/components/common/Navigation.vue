@@ -12,7 +12,7 @@ import {
 } from 'core/utils'
 import AnnouncementModal from '../../views/announcement/announcementModal'
 import AnnouncementNav from '../../views/announcement/AnnouncementNav'
-import PhoneAuthModal from '../../components/common/PhoneAuthModal'
+import PhoneAuthModal from '../../components/common/PhoneAuthModal.vue'
 import { mapActions, mapGetters } from 'vuex'
 import CTAButton from '../../components/common/buttons/CTAButton'
 import CaretDown from '../../components/common/elements/CaretDown'
