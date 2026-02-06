@@ -482,7 +482,7 @@ export default {
     }),
 
     isHackStackCourse (selectedCourseId) {
-      return selectedCourseId === utils.courseIDs.HACKSTACK
+      return utils.HACKSTACK_COURSE_IDS.includes(selectedCourseId)
     },
 
     async fetchClassroomData (classroomId) {

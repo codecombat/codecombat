@@ -2,7 +2,7 @@
 /** Given a class id, generates and populates the stats for the class component */
 import { mapGetters } from 'vuex'
 import ClassComponent from '../ClassComponent'
-import { allCourseIDs, courseAcronyms, i18n, OZ_COURSE_IDS } from 'core/utils'
+import { allCourseIDs, courseAcronyms, i18n, OZ_COURSE_IDS, HACKSTACK_COURSE_IDS } from 'core/utils'
 
 export default {
   components: {
@@ -122,12 +122,15 @@ export default {
             name = $.i18n.t(translateKey)
           }
 
+          const isHackstack = HACKSTACK_COURSE_IDS.includes(course._id)
+
           const result = {
             name,
             origName: course.name,
             assigned: false,
             progress: 0,
             isOzCourse: OZ_COURSE_IDS.includes(course._id),
+            isHackstackCourse: isHackstack,
           }
 
           // If we have assigned this course then calculate the progress.
@@ -141,7 +144,7 @@ export default {
             const totalProgress = this.classroomState.members.length * levels.length || 1
 
             for (const memberId of this.classroomState.members) {
-              if (course._id === allCourseIDs.HACKSTACK) {
+              if (isHackstack) {
                 for (const [scenario, projects] of Object.entries(this.aiProjectsMapByUser[memberId] || [])) {
                   if (!levelSetInCourse.has(scenario)) {
                     continue

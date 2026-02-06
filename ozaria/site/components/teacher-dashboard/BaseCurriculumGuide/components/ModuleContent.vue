@@ -70,11 +70,11 @@ export default {
     },
 
     isJunior () {
-      return this.courseName === 'Junior'
+      return utils.JUNIOR_COURSE_IDS.includes(this.getCurrentCourse?._id)
     },
 
     isHackstack () {
-      return this.courseName === 'AI HackStack'
+      return utils.HACKSTACK_COURSE_IDS.includes(this.getCurrentCourse?._id)
     },
 
     isOzariaCourse () {

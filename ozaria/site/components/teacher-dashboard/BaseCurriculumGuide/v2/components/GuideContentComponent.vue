@@ -31,7 +31,7 @@ export default {
       chapterNavBar: 'baseCurriculumGuide/chapterNavBar',
     }),
     chaptersNavData () {
-      const chapters = (this.chapterNavBar || []).filter(({ releasePhase }) => releasePhase === 'released')
+      const chapters = (this.chapterNavBar || [])
       const hackstackCourseIds = utils.HACKSTACK_COURSE_IDS || []
       const juniorCourseIds = utils.JUNIOR_COURSE_IDS || []
       const ozCourseIds = utils.OZ_COURSE_IDS || []

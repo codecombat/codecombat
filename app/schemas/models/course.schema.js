@@ -126,6 +126,7 @@ _.extend(CourseSchema.properties, {
       },
     },
   },
+  curriculum: c.url({ title: 'Curriculum URL', description: 'Link to curriculum folder. Relevant for teacher dashboard curriculum guides.' }),
 })
 
 c.extendBasicProperties(CourseSchema, 'Course')
