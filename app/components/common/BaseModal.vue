@@ -3,13 +3,16 @@ import BaseModalContainer from './BaseModalContainer'
 
 export default {
   components: {
-    BaseModalContainer
-  }
+    BaseModalContainer,
+  },
 }
 </script>
 
 <template>
-  <base-modal-container class="modal">
+  <base-modal-container
+    class="modal"
+    @dismiss="$emit('close')"
+  >
     <div class="modal-content">
       <div class="modal-header">
         <slot name="header" />

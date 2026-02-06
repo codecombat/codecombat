@@ -13,6 +13,7 @@ const MusicPlayer = require('lib/surface/MusicPlayer')
 const storage = require('core/storage')
 const CreateAccountModal = require('views/core/CreateAccountModal')
 const SubscribeModal = require('views/core/SubscribeModal')
+const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
 const LeaderboardModal = require('views/play/modal/LeaderboardModal')
 const Level = require('models/Level')
 const User = require('models/User')
@@ -1922,7 +1923,11 @@ class CampaignView extends RootView {
     if (me.isParentHome()) {
       this.handleParentAccountPremiumPurchase({ trackProperties })
     } else {
-      this.openModalView(new SubscribeModal())
+      if (features?.chinaHome) {
+        this.openModalView(new ChinaSubscribeModal())
+      } else {
+        this.openModalView(new SubscribeModal())
+      }
       window.tracker?.trackEvent('Show subscription modal', trackProperties)
     }
   }

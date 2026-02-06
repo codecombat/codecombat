@@ -6,35 +6,36 @@ import BaseModal from 'app/components/common/BaseModal'
 // From elsewhere: use backboneDismissModal prop to have data-dismiss='modal' close the modal for you
 export default Vue.extend({
   components: {
-    BaseModal
+    BaseModal,
   },
   props: {
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     backboneDismissModal: {
       type: Boolean,
-      default: false
-    }
-  },
-  computed: {
-    backboneClose () {
-      // Passing undefined as an attribute for Vue will simply remove it,
-      // meaning the :data-dismiss will not appear on the element
-      return this.backboneDismissModal ? 'modal' : undefined
+      default: false,
     },
-    vueClose () {
-      // In order to conditionally use @click, we can use the @[event] syntax.
-      // Writing @[null] (not undefined or false) safely does nothing.
-      return !this.backboneDismissModal ? 'click' : null
-    }
-  }
+  },
+  methods: {
+    handleClose () {
+      // The root element of Modal.vue is actually base-modal, which renders base-modal-container,
+      // which has the div.modal-mask. This.$el will refer to the root element rendered by BaseModalContainer.
+      if (this.backboneDismissModal && typeof $(this.$el).modal === 'function') {
+        // Use Bootstrap's programmatic hide method on the modal's root element
+        $(this.$el).modal('hide')
+      } else {
+        // Otherwise, emit a Vue event for parent Vue components to handle
+        this.$emit('close')
+      }
+    },
+  },
 })
 </script>
 
 <template>
-  <base-modal>
+  <base-modal @close="handleClose">
     <template #header>
       <div class="teacher-modal-header">
         <span class="title"> {{ title }} </span>
@@ -43,8 +44,8 @@ export default Vue.extend({
           id="coco-modal-header-close-button"
           class="close-icon"
           src="/images/common/IconClose.svg"
-          :data-dismiss="backboneClose"
-          @[vueClose]="$emit('close')"
+          :data-dismiss="undefined"
+          @click="handleClose()"
         >
       </div>
     </template>
