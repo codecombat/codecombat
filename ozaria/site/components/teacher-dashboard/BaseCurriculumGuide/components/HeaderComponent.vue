@@ -19,6 +19,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import CodeLanguageSelector from '../../common/CodeLanguageSelector'
+import { HACKSTACK_COURSE_IDS } from 'core/utils'
+
 export default {
   name: 'HeaderComponent',
   components: {
@@ -33,7 +35,7 @@ export default {
       return this.getCurrentCourse?.name || ''
     },
     showLanguage () {
-      return !['AI HackStack'].includes(this.courseName)
+      return !HACKSTACK_COURSE_IDS.includes(this.getCurrentCourse?._id)
     },
   },
   methods: {
