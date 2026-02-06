@@ -48,7 +48,12 @@ module.exports = (ContactModal = (function () {
 
     openSubscribeModal (e) {
       e.stopPropagation()
-      return this.openModalView(new SubscribeModal())
+      if (features?.chinaHome) {
+        const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+        return this.openModalView(new ChinaSubscribeModal())
+      } else {
+        return this.openModalView(new SubscribeModal())
+      }
     }
 
     contact () {

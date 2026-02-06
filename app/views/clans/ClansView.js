@@ -16,6 +16,7 @@ const template = require('app/templates/clans/clans')
 const CocoCollection = require('collections/CocoCollection')
 const Clan = require('models/Clan')
 const SubscribeModal = require('views/core/SubscribeModal')
+const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
 
 // TODO: Waiting for async messages
 // TODO: Invalid clan name message
@@ -149,7 +150,11 @@ module.exports = (ClansView = (function () {
       }
       const clanType = $('.private-clan-checkbox').prop('checked') ? 'private' : 'public'
       if ((clanType === 'private') && !me.isPremium()) {
-        this.openModalView(new SubscribeModal())
+        if (features?.chinaHome) {
+          this.openModalView(new ChinaSubscribeModal())
+        } else {
+          this.openModalView(new SubscribeModal())
+        }
         if (window.tracker != null) {
           window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'create clan' })
         }
@@ -235,7 +240,11 @@ module.exports = (ClansView = (function () {
       }
       if ($('.private-clan-checkbox').prop('checked') && !me.isPremium()) {
         $('.private-clan-checkbox').attr('checked', false)
-        this.openModalView(new SubscribeModal())
+        if (features?.chinaHome) {
+          this.openModalView(new ChinaSubscribeModal())
+        } else {
+          this.openModalView(new SubscribeModal())
+        }
         return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'check private clan' }) : undefined)
       }
     }

@@ -6,6 +6,7 @@ utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
 aetherUtils = require 'lib/aether_utils'
 SubscribeModal = require 'views/core/SubscribeModal'
+ChinaSubscribeModal = require 'views/core/ChinaSubscribeModal'
 LevelGoals = require('./LevelGoals').default
 store = require 'core/store'
 
@@ -315,7 +316,10 @@ module.exports = class LevelLoadingView extends CocoView
       @$el.find('.could-not-load').show()
 
   onClickStartSubscription: (e) ->
-    @openModalView new SubscribeModal()
+    if features?.chinaHome
+      @openModalView new ChinaSubscribeModal()
+    else
+      @openModalView new SubscribeModal()
     levelSlug = @level?.get('slug') or @options.level?.get('slug')
     # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'level loading', level: levelSlug, levelID: levelSlug

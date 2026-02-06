@@ -293,7 +293,11 @@ module.exports = class LevelChatView extends CocoView
         if err.code is 402
           if not me.hasSubscription() and me.isHomeUser()
             message = $.i18n.t('play_level.not_enough_credits_bot')
-            @openModalView new SubscribeModal()
+            if features?.chinaHome
+              ChinaSubscribeModal = require 'views/core/ChinaSubscribeModal'
+              @openModalView new ChinaSubscribeModal()
+            else
+              @openModalView new SubscribeModal()
           else
             creditsLeft = err.creditsLeft
             creditObj = _.find(creditsLeft, (c) -> c.creditsLeft <= 0)

@@ -69,7 +69,12 @@ module.exports = (AIView = (function () {
         if (me.hasSubscription()) {
           message = $.i18n.t('play_level.not_enough_credits_interval', { interval, amount })
         } else {
-          this.openModalView(new SubscribeModal())
+          if (features?.chinaHome) {
+            const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+            this.openModalView(new ChinaSubscribeModal())
+          } else {
+            this.openModalView(new SubscribeModal())
+          }
           window.tracker?.trackEvent('AI HS prompting subscribe', { path: window.location.pathname })
         }
       } else if (me.isStudent()) {
@@ -110,7 +115,12 @@ module.exports = (AIView = (function () {
       if (me.isPremium()) {
         return
       }
-      this.openModalView(new SubscribeModal())
+      if (features?.chinaHome) {
+        const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+        this.openModalView(new ChinaSubscribeModal())
+      } else {
+        this.openModalView(new SubscribeModal())
+      }
       window.tracker?.trackEvent('HS open subscribe modal', { path: window.location.pathname })
     }
   }

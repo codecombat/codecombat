@@ -183,7 +183,12 @@ module.exports = (BuyGemsModal = (function () {
     }
 
     onClickStartSubscription (e) {
-      this.openModalView(new SubscribeModal())
+      if (features?.chinaHome) {
+        const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+        this.openModalView(new ChinaSubscribeModal())
+      } else {
+        this.openModalView(new SubscribeModal())
+      }
       return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'buy gems modal' }) : undefined)
     }
   }

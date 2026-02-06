@@ -699,7 +699,12 @@ module.exports = (HeroVictoryModal = (function () {
     }
 
     onSubscribeButtonClicked () {
-      return this.openModalView(new SubscribeModal())
+      if (features?.chinaHome) {
+        const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+        return this.openModalView(new ChinaSubscribeModal())
+      } else {
+        return this.openModalView(new SubscribeModal())
+      }
     }
 
     onChangeShareGameWithTeacherInput (e) {

@@ -414,7 +414,12 @@ module.exports = (InventoryModal = (function () {
     }
 
     onClickSubscribeItemViewed (e) {
-      this.openModalView(new SubscribeModal())
+      if (features?.chinaHome) {
+        const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+        this.openModalView(new ChinaSubscribeModal())
+      } else {
+        this.openModalView(new SubscribeModal())
+      }
       const itemElem = this.$el.find('.item.active')
       const item = this.items.get(itemElem != null ? itemElem.data('item-id') : undefined)
       return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'inventory modal: ' + ((item != null ? item.get('slug') : undefined) || 'unknown') }) : undefined)
@@ -931,7 +936,12 @@ module.exports = (InventoryModal = (function () {
     }
 
     onSubscribeButtonClicked (e) {
-      this.openModalView(new SubscribeModal())
+      if (features?.chinaHome) {
+        const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+        this.openModalView(new ChinaSubscribeModal())
+      } else {
+        this.openModalView(new SubscribeModal())
+      }
       return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') || 'unknown') }) : undefined)
     }
 

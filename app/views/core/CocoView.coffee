@@ -127,7 +127,11 @@ module.exports = class CocoView extends Backbone.View
       storage.remove('sub-modal-continue')
       _.defer =>
         SubscribeModal = require 'views/core/SubscribeModal'
-        @openModalView new SubscribeModal({subModalContinue})
+        ChinaSubscribeModal = require 'views/core/ChinaSubscribeModal'
+        if features?.chinaHome
+          @openModalView new ChinaSubscribeModal({subModalContinue})
+        else
+          @openModalView new SubscribeModal({subModalContinue})
     @updateViewVisibleTimer()
 
   willDisappear: ->

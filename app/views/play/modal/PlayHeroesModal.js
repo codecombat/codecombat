@@ -351,7 +351,12 @@ module.exports = (PlayHeroesModal = (function () {
     }
 
     onSubscribeButtonClicked (e) {
-      this.openModalView(new SubscribeModal())
+      if (features?.chinaHome) {
+        const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+        this.openModalView(new ChinaSubscribeModal())
+      } else {
+        this.openModalView(new SubscribeModal())
+      }
       return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') || 'unknown') }) : undefined)
     }
 
@@ -363,7 +368,12 @@ module.exports = (PlayHeroesModal = (function () {
       this.subscriberCodeLanguageList = [{ id: 'cpp' }, { id: 'java' }]
       let changed
       if (!me.hasSubscription() && this.subscriberCodeLanguageList.find(l => l.id === this.codeLanguage) && !me.isStudent()) {
-        this.openModalView(new SubscribeModal())
+        if (features?.chinaHome) {
+          const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+          this.openModalView(new ChinaSubscribeModal())
+        } else {
+          this.openModalView(new SubscribeModal())
+        }
         if (window.tracker != null) {
           window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'hero subscribe modal: experimental language' })
         }

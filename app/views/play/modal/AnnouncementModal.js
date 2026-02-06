@@ -151,7 +151,12 @@ module.exports = (AnnouncementModal = (function () {
 
     onClickPurchaseButton (e) {
       this.playSound('menu-button-click')
-      this.openModalView(new SubscribeModal())
+      if (features?.chinaHome) {
+        const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+        this.openModalView(new ChinaSubscribeModal())
+      } else {
+        this.openModalView(new SubscribeModal())
+      }
       window.tracker?.trackEvent('Show subscription modal', { category: 'Subscription', label: `announcement modal id: ${announcementId}` })
     }
 

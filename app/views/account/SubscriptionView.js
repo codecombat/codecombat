@@ -90,7 +90,12 @@ module.exports = (SubscriptionView = (function () {
       if (this.personalSub.prepaidCode) {
         this.personalSub.subscribe(() => (typeof this.render === 'function' ? this.render() : undefined))
       } else {
-        this.openModalView(new SubscribeModal())
+        if (features?.chinaHome) {
+          const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+          this.openModalView(new ChinaSubscribeModal())
+        } else {
+          this.openModalView(new SubscribeModal())
+        }
       }
       return (window.tracker != null ? window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'account subscription view' }) : undefined)
     }

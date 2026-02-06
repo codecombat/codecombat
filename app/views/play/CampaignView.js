@@ -1034,8 +1034,12 @@ class CampaignView extends RootView {
       this.promptForSignup()
       return
     }
-    storage.save(PROMPTED_FOR_SUBSCRIPTION, true)
-    this.openModalView(new SubscribeModal())
+    if (features?.chinaHome) {
+      const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+      this.openModalView(new ChinaSubscribeModal())
+    } else {
+      this.openModalView(new SubscribeModal())
+    }
     // TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
     window.tracker?.trackEvent('Show subscription modal', trackProperties)
   }
@@ -1934,10 +1938,14 @@ class CampaignView extends RootView {
 
   handleParentAccountPremiumPurchase ({ trackProperties }) {
     const showModalAndTrack = () => {
-      this.openModalView(new SubscribeModal())
+      if (features?.chinaHome) {
+        const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
+        this.openModalView(new ChinaSubscribeModal())
+      } else {
+        this.openModalView(new SubscribeModal())
+      }
       window.tracker?.trackEvent('Show subscription modal', trackProperties)
     }
-
     if (userUtils.hasSeenParentBuyingforSelfPrompt()) {
       showModalAndTrack()
     } else {

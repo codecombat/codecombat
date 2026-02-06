@@ -26,6 +26,7 @@ const Tournament = require('models/Tournament')
 const Level = require('models/Level')
 const LevelSession = require('models/LevelSession')
 const SubscribeModal = require('views/core/SubscribeModal')
+const ChinaSubscribeModal = require('views/core/ChinaSubscribeModal')
 const ThangType = require('models/ThangType')
 const User = require('models/User')
 const utils = require('core/utils')
@@ -585,7 +586,11 @@ module.exports = (ClanDetailsView = (function () {
       }
       if (!this.clan.loaded) { return }
       if ((this.clan.get('type') === 'private') && !me.isPremium()) {
-        this.openModalView(new SubscribeModal())
+        if (features?.chinaHome) {
+          this.openModalView(new ChinaSubscribeModal())
+        } else {
+          this.openModalView(new SubscribeModal())
+        }
         if (window.tracker != null) {
           window.tracker.trackEvent('Show subscription modal', { category: 'Subscription', label: 'join clan' })
         }
