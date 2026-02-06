@@ -223,6 +223,10 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/PageClanEdit'),
         },
         {
+          path: '/admin/activation-code-usage',
+          component: () => import(/* webpackChunkName: "admin" */ 'app/views/admin/ActivationCodeUsageView'),
+        },
+        {
           path: '/outcomes-report/:kind/:country?/:idOrSlug',
           component: () => import(/* webpackChunkName: "outcomesReport" */ 'app/views/outcomes-report/PageOutcomesReport'),
         },

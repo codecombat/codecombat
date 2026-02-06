@@ -33,6 +33,7 @@ const RevertModal = require('views/modal/RevertModal')
 const modelDeltas = require('lib/modelDeltas')
 const globalVar = require('core/globalVar')
 const { HackstackScenarioIDNode } = require('views/editor/ai-scenario/AIScenarioNode')
+const { CampaignIDNode } = require('./CampaignIDNode')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
@@ -219,7 +220,8 @@ module.exports = (CampaignEditorView = (function () {
         // Ozar: Save campaign to level if its of type 'course' so 'Back to unit map' knows where to return.
         // (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
         const ctype = utils.isCodeCombat ? 'hero' : 'course'
-        if (this.campaign.get('type') === ctype) { campaignLevel.campaign = this.campaign.get('slug') }
+        // we set level.campaign only if this field is not already set
+        if (this.campaign.get('type') === ctype && !campaignLevel.campaign) { campaignLevel.campaign = this.campaign.get('slug') }
         campaignLevels[levelOriginal] = campaignLevel
       }
 
@@ -386,6 +388,7 @@ module.exports = (CampaignEditorView = (function () {
           nextLevel: NextLevelNode,
           campaigns: CampaignsNode,
           campaign: CampaignNode,
+          campaignID: CampaignIDNode,
           achievement: AchievementNode,
           rewards: RewardsNode,
           scenario: HackstackScenarioIDNode,

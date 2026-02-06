@@ -128,6 +128,7 @@ module.exports = (CocoRouter = (function () {
         'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView'),
         'admin/low-usage-users': go('core/SingletonAppVueComponentView'),
         'admin/trial-classes': go('core/SingletonAppVueComponentView'),
+        'admin/activation-code-usage': go('core/SingletonAppVueComponentView'),
 
         announcements: go('core/SingletonAppVueComponentView'),
         'event-calendar(/*subpath)': go('core/SingletonAppVueComponentView'),

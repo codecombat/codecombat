@@ -21,6 +21,7 @@ module.exports = (ResourceSearchView = (function () {
       this.prototype.projection = ['slug', 'name', 'description', 'index', 'watchers', 'product', 'link', 'section', 'priority', 'courses']
       this.prototype.page = 'resource'
       this.prototype.canMakeNew = true
+      this.prototype.modelProperties = { icon: 'PDF' }
     }
 
     getRenderData () {

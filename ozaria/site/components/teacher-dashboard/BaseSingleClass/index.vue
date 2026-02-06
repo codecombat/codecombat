@@ -214,7 +214,11 @@ export default {
               isPlayableForStudent[student._id] = false
             }
 
-            const isPractice = Boolean(content.practice)
+            let isPractice = Boolean(content.practice)
+            if (!this.isOzCourse) {
+              isPractice = isPractice || Boolean(content.assessment)
+            }
+            const isCourseLadder = content.type === 'course-ladder'
 
             const defaultProgressDot = {
               status: 'assigned',
@@ -234,6 +238,7 @@ export default {
               completionDate: completionDateMap[normalizedOriginal],
               tooltipName: levelNameMap[content._id].levelName,
               practiceLevels,
+              isCourseLadder,
             }
 
             if (content.type === 'game-dev' || content.type === 'web-dev') {

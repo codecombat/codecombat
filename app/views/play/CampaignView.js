@@ -1056,8 +1056,8 @@ class CampaignView extends RootView {
   }
 
   collapsePracticeLevels (levels) {
-    if (!['junior', '65c56663d2ca2055e65676af'].includes(this.terrain)) {
-      // Only do this for Junior levels for now
+    if (!['junior', '65c56663d2ca2055e65676af'].includes(this.terrain) && this.campaign?.get('type') !== 'junior') {
+      // Only do this for Junior campaigns for now
       return levels
     }
     // Collapse practice levels into their parent levels.
