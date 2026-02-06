@@ -140,8 +140,13 @@ module.exports = (ClansView = (function () {
     }
 
     onClickCreateClan (e) {
-      let name
-      if (me.isAnonymous()) { return this.openModalView(new CreateAccountModal()) }
+      if (me.isAnonymous()) {
+        if (features?.chinaHome) {
+          const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+          return this.openModalView(new PhoneAuthModal())
+        }
+        return this.openModalView(new CreateAccountModal())
+      }
       const clanType = $('.private-clan-checkbox').prop('checked') ? 'private' : 'public'
       if ((clanType === 'private') && !me.isPremium()) {
         this.openModalView(new SubscribeModal())
@@ -150,6 +155,7 @@ module.exports = (ClansView = (function () {
         }
         return
       }
+      let name
       if (name = $('.create-clan-name').val()) {
         let description
         const clan = new Clan()
@@ -172,8 +178,14 @@ module.exports = (ClansView = (function () {
     }
 
     onJoinClan (e) {
+      if (me.isAnonymous()) {
+        if (features?.chinaHome) {
+          const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+          return this.openModalView(new PhoneAuthModal())
+        }
+        return this.openModalView(new CreateAccountModal())
+      }
       let clanID
-      if (me.isAnonymous()) { return this.openModalView(new CreateAccountModal()) }
       if (clanID = $(e.target).data('id')) {
         const options = {
           url: `/db/clan/${clanID}/join`,
@@ -214,7 +226,13 @@ module.exports = (ClansView = (function () {
     }
 
     onClickPrivateCheckbox (e) {
-      if (me.isAnonymous()) { return this.openModalView(new CreateAccountModal()) }
+      if (me.isAnonymous()) {
+        if (features?.chinaHome) {
+          const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+          return this.openModalView(new PhoneAuthModal())
+        }
+        return this.openModalView(new CreateAccountModal())
+      }
       if ($('.private-clan-checkbox').prop('checked') && !me.isPremium()) {
         $('.private-clan-checkbox').attr('checked', false)
         this.openModalView(new SubscribeModal())

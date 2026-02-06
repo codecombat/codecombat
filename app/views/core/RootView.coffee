@@ -139,8 +139,12 @@ module.exports = class RootView extends CocoView
     @openCreateAccountModal(options)
 
   openCreateAccountModal: (options) ->
-    CreateAccountModal = require 'views/core/CreateAccountModal'
-    @openModalView new CreateAccountModal(options)
+    if features?.chinaHome
+      PhoneAuthModal = require 'components/common/PhoneAuthModal.js'
+      @openModalView new PhoneAuthModal()
+    else
+      CreateAccountModal = require 'views/core/CreateAccountModal'
+      @openModalView new CreateAccountModal(options)
 
   onClickLoginButton: (e) ->
     loginMessage = e.target.dataset.loginMessage
@@ -155,7 +159,11 @@ module.exports = class RootView extends CocoView
 
   openAuthModal: (options) ->
     AuthModal = require 'views/core/AuthModal'
-    @openModalView new AuthModal(options)
+    PhoneAuthModal = require 'components/common/PhoneAuthModal.js'
+    if features?.chinaHome
+      @openModalView new PhoneAuthModal()
+    else
+      @openModalView new AuthModal(options)
 
   onTrackClickEvent: (e) ->
     eventAction = $(e.target)?.closest('a')?.data('event-action')
@@ -311,7 +319,10 @@ module.exports = class RootView extends CocoView
       if @navigation
         staticNav.replaceWith(@navigation.$el)
       else
-        @navigation = new Navigation { el: staticNav, store }
+        @navigation = new Navigation { el: staticNav, store, provide: {
+          openLegacyModal: this.openModalView.bind(this),
+          legacyModalClosed: this.modalClosed.bind(this)
+        } }
         # Hack - It would be better for the Navigation component to manage the language dropdown.
         _.defer => @buildLanguages?()
     if (floatingNav = document.querySelector('#floating-nav')) and (me.isAnonymous() or me.isTeacher() or me.isAdmin())
