@@ -49,7 +49,12 @@ module.exports = (AnonymousTeacherModal = (function () {
     }
 
     onClickAnonymousTeacherSignupButton (e) {
-      this.openModalView(new CreateAccountModal({ startOnPath: 'teacher' }))
+      if (features?.chinaHome) {
+        const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+        this.openModalView(new PhoneAuthModal())
+      } else {
+        this.openModalView(new CreateAccountModal({ startOnPath: 'teacher' }))
+      }
       return (window.tracker != null ? window.tracker.trackEvent('Anonymous teacher signup modal teacher signup', { category: 'World Map' }) : undefined)
     }
 

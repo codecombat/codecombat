@@ -325,8 +325,12 @@ module.exports = class CocoView extends Backbone.View
 
   onClickLoadingErrorCreateAccountButton: (e) ->
     e.stopPropagation()
-    CreateAccountModal = require 'views/core/CreateAccountModal'
-    @openModalView(new CreateAccountModal({mode: 'signup'}))
+    if features?.chinaHome
+      PhoneAuthModal = require 'components/common/PhoneAuthModal.js'
+      @openModalView(new PhoneAuthModal())
+    else
+      CreateAccountModal = require 'views/core/CreateAccountModal'
+      @openModalView(new CreateAccountModal({mode: 'signup'}))
 
   onClickLoadingErrorLogoutButton: (e) ->
     e.stopPropagation()

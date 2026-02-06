@@ -69,6 +69,10 @@ module.exports = (LadderSubmissionView = (function () {
 
     showApologeticSignupModal () {
       window.nextURL = `/play/ladder/${this.level.get('slug')}?submit=true`
+      if (features?.chinaHome) {
+        const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+        return this.openModalView(new PhoneAuthModal())
+      }
       const CreateAccountModal = require('views/core/CreateAccountModal')
       return this.openModalView(new CreateAccountModal({ accountRequiredMessage: $.i18n.t('signup.create_account_to_submit_multiplayer') })) // Note: may destroy `this` if we were living in another modal
     }

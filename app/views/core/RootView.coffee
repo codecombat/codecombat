@@ -139,8 +139,12 @@ module.exports = class RootView extends CocoView
     @openCreateAccountModal(options)
 
   openCreateAccountModal: (options) ->
-    CreateAccountModal = require 'views/core/CreateAccountModal'
-    @openModalView new CreateAccountModal(options)
+    if features?.chinaHome
+      PhoneAuthModal = require 'components/common/PhoneAuthModal.js'
+      @openModalView new PhoneAuthModal()
+    else
+      CreateAccountModal = require 'views/core/CreateAccountModal'
+      @openModalView new CreateAccountModal(options)
 
   onClickLoginButton: (e) ->
     loginMessage = e.target.dataset.loginMessage

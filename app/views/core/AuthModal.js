@@ -98,6 +98,10 @@ module.exports = (AuthModal = (function () {
     }
 
     onSignupInstead (e) {
+      if (features?.chinaHome) {
+        const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+        return globalVar.currentView.openModalView(new PhoneAuthModal())
+      }
       const CreateAccountModal = require('./CreateAccountModal')
       const modal = new CreateAccountModal({ initialValues: forms.formToObject(this.$el, this.subModalContinue) })
       return globalVar.currentView.openModalView(modal)
