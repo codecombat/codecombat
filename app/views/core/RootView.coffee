@@ -157,7 +157,7 @@ module.exports = class RootView extends CocoView
     AuthModal = require 'views/core/AuthModal'
     PhoneAuthModal = require 'components/common/PhoneAuthModal.js'
     if features?.chinaHome
-      @openModalView new PhoneAuthModal(options)
+      @openModalView new PhoneAuthModal()
     else
       @openModalView new AuthModal(options)
 
