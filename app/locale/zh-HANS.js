@@ -1046,7 +1046,7 @@ module.exports = {
       victory_sign_up_poke: '想保存您的代码？创建一个免费账户吧！',
       victory_rate_the_level: '这个关卡有多好玩？',
       victory_return_to_ladder: '返回',
-      victory_saving_progress: '保存进度',
+      victory_saving_progress: '注册',
       victory_go_home: '返回主页',
       victory_review: '给我们反馈！',
       victory_review_placeholder: '关卡如何?',

@@ -2151,7 +2151,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'junior-original-choice') {
-      return !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
+      return !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen') && !me.showChinaHomeVersion()
     }
 
     if (['status-line'].includes(what)) {
