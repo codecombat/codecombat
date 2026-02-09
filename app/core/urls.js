@@ -51,9 +51,6 @@ module.exports = {
       param.courseInstance?.id ||
       param.courseInstance?._id ||
       param.courseInstance
-    if (courseId === utils.courseIDs.HACKSTACK) {
-      return `/ai/course-instance/${courseInstanceId}`
-    }
     const campaignId =
       param.campaignId ||
       param.course?.attributes?.campaignID ||
@@ -64,6 +61,11 @@ module.exports = {
     if (!campaignId) {
       console.error('courseWorldMap: campaign id is not defined', param)
       return ''
+    }
+    if (courseId === utils.courseIDs.HACKSTACK) {
+      return `/ai/course-instance/${courseInstanceId}`
+    } else if (utils.HACKSTACK_COURSE_IDS.includes(courseId)) {
+      return `/ai/play/${campaignId}/?course-instance=${courseInstanceId}`
     }
     const courseCampaignSlug = utils.courseCampaignSlugs[courseId]
     let url = `/play/${encodeURIComponent(courseCampaignSlug || campaignId)}`
