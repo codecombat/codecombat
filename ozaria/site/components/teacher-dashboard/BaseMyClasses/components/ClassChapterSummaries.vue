@@ -16,11 +16,15 @@ export default {
 
   computed: {
     codeCombatCourses () {
-      return this.chapterProgress.filter(chapter => !chapter.isOzCourse)
+      return this.chapterProgress.filter(chapter => !chapter.isOzCourse && !chapter.isHackstackCourse)
     },
 
     ozariaCourses () {
       return this.chapterProgress.filter(chapter => chapter.isOzCourse)
+    },
+
+    hackstackCourses () {
+      return this.chapterProgress.filter(chapter => chapter.isHackstackCourse)
     },
 
     showCodeCombatRow () {
@@ -29,6 +33,9 @@ export default {
 
     showOzariaRow () {
       return me.showOzCourses() && this.ozariaCourses.length > 0
+    },
+    showHackstackRow () {
+      return isCodeCombat && this.hackstackCourses.length > 0
     },
   },
 }
@@ -72,6 +79,28 @@ export default {
       >
         <unit-progress
           v-for="chapter in ozariaCourses"
+          :key="chapter.name"
+          :name="chapter.name"
+          :is-assigned="chapter.assigned"
+          :completion-percentage="chapter.progress"
+        />
+      </div>
+    </div>
+
+    <div
+      v-if="showHackstackRow"
+      class="class-chapter-summary flex-row"
+    >
+      <img
+        class="logo"
+        alt="Hackstack logo"
+        src="/images/pages/hackstack/hackstack-logo-square-transparent-256.png"
+      >
+      <div
+        class="classes flex-row"
+      >
+        <unit-progress
+          v-for="chapter in hackstackCourses"
           :key="chapter.name"
           :name="chapter.name"
           :is-assigned="chapter.assigned"
