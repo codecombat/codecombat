@@ -2175,7 +2175,11 @@ class CampaignView extends RootView {
     }
 
     if (['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements'].includes(what)) {
-      return !isStudentOrTeacher && !this.editorMode
+      let extraCond = true
+      if (what && me.showChinaHomeVersion() === 'poll') {
+        extraCond = false
+      }
+      return !isStudentOrTeacher && !this.editorMode && extraCond
     }
 
     if (['clans'].includes(what)) {
