@@ -2151,7 +2151,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'junior-original-choice') {
-      return !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen')
+      return !me.finishedAnyLevels() && !this.terrain && !storage.load('junior-original-choice-seen') && !me.showChinaHomeVersion()
     }
 
     if (['status-line'].includes(what)) {
@@ -2175,7 +2175,11 @@ class CampaignView extends RootView {
     }
 
     if (['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements'].includes(what)) {
-      return !isStudentOrTeacher && !this.editorMode
+      let extraCond = true
+      if (me.showChinaHomeVersion() && what === 'poll') {
+        extraCond = false
+      }
+      return !isStudentOrTeacher && !this.editorMode && extraCond
     }
 
     if (['clans'].includes(what)) {
