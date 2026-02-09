@@ -2176,7 +2176,7 @@ class CampaignView extends RootView {
 
     if (['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements'].includes(what)) {
       let extraCond = true
-      if (what && me.showChinaHomeVersion() === 'poll') {
+      if (me.showChinaHomeVersion() && what === 'poll') {
         extraCond = false
       }
       return !isStudentOrTeacher && !this.editorMode && extraCond
