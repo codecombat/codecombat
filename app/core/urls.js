@@ -62,7 +62,7 @@ module.exports = {
     const { campaignPage } = param
     const { codeLanguage } = param
     if (!campaignId) {
-      console.error('courseWorldMap: campaign id is not defined')
+      console.error('courseWorldMap: campaign id is not defined', param)
       return ''
     }
     const courseCampaignSlug = utils.courseCampaignSlugs[courseId]
