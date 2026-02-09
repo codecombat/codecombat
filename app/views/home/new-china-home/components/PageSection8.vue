@@ -134,7 +134,7 @@ export default {
           features: [
             '<i class="fa-solid fa-check text-orange-500"></i> 解锁全库关卡权限，快速提升',
             '<i class="fa-solid fa-star text-orange-500"></i> 最高性价比，轻松学习，全面进步',
-            '<i class="fa-solid fa-gem text-orange-500"></i> 额外赠送价值30元的 3000 宝石，助力学习',
+            '<i class="fa-solid fa-gem text-orange-500"></i> 额外赠送价值90元的 9000 宝石，助力学习',
           ],
         },
         {
@@ -154,7 +154,7 @@ export default {
             '<i class="fa-solid fa-file-contract text-indigo-500"></i> 年度会员专属学习报告',
             '<i class="fa-solid fa-map text-indigo-500"></i> 年度会员专属详细知识点图总结',
             '<i class="fa-solid fa-headset text-indigo-500"></i> 客服优先解答疑问',
-            '<i class="fa-solid fa-gem text-indigo-500"></i> 尊享礼包：赠送价值160元的16000 宝石，助你更快进阶',
+            '<i class="fa-solid fa-gem text-indigo-500"></i> 尊享礼包：赠送价值420元的 42000 宝石，助你更快进阶',
           ],
         },
       ],

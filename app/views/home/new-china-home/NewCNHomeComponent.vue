@@ -271,7 +271,7 @@ export default Vue.extend({
   justify-content: center;
   align-items: center;
   position: relative;
-  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+  background: linear-gradient(90deg, #F0F9FA 0%, #D9F0F3 100%);
   padding-top: 20px;
   padding-bottom: 60px;
 }

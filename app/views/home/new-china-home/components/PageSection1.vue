@@ -31,7 +31,7 @@
               href="/play"
               target="_self"
             >
-              立即免费体验
+              {{ ctaText() }}
             </CTAButton>
           </div>
         </template>
@@ -56,6 +56,15 @@ export default {
     PageSection,
     CTAButton,
     TwoColumnBlock,
+  },
+  methods: {
+    ctaText () {
+      if (me.isAnonymous()) {
+        return '立即免费体验'
+      } else {
+        return '开始冒险'
+      }
+    },
   },
 }
 </script>
