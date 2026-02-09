@@ -43,6 +43,9 @@ module.exports = (PhoneAuthModal = (function () {
           },
         })
         this.vueComponent.$mount()
+        this.vueComponent.$on('close', () => {
+          this.hide()
+        })
         this.vueComponent.$on('open-recover-modal', () => {
           this.openModalView(new RecoverModal())
         })
