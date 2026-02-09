@@ -2987,6 +2987,16 @@ module.exports = {
       hide_practice_levels: 'Hide Practice Levels',
       dashboard_deprecation_message: 'This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.',
       partially_complete: 'Partially Complete',
+      INTRO_short: 'Intro',
+      ELA_short: 'ELA',
+      MATH_short: 'Math',
+      CR_short: 'CR',
+      CR2_short: 'CR2',
+      AI1_short: 'AI 1',
+      AI2_short: 'AI 2',
+      CS_short: 'CS',
+      SANDBOX_short: 'Sandbox',
+      EXPLORATIONS_short: 'Explorations',
     },
 
     teacher_licenses: {
