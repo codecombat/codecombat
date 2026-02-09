@@ -169,11 +169,27 @@ mixin classrooms_content()
                 span.spl= view.ownerNameMap[classroom.get('ownerID')]
 
           - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
+
+          // Separate courseInstances into 4 groups based on course type
+          - var juniorCourseInstances = courseInstances.filter(ci => view.utils.JUNIOR_COURSE_IDS && view.utils.JUNIOR_COURSE_IDS.includes(ci.get('courseID')));
+          - var cocoCourseInstances = courseInstances.filter(ci => view.utils.COCO_COURSE_IDS && view.utils.COCO_COURSE_IDS.includes(ci.get('courseID')));
+          - var ozCourseInstances = courseInstances.filter(ci => view.utils.OZ_COURSE_IDS && view.utils.OZ_COURSE_IDS.includes(ci.get('courseID')));
+          - var hackstackCourseInstances = courseInstances.filter(ci => view.utils.HACKSTACK_COURSE_IDS && view.utils.HACKSTACK_COURSE_IDS.includes(ci.get('courseID')));
+
+          // Group courseInstances by product: [junior, coco, oz, hackstack]
+          - var groupedCourseInstances = [...juniorCourseInstances, ...cocoCourseInstances, ...ozCourseInstances, ...hackstackCourseInstances];
+
           - var allCoursesComplete = true
           - var coursesData = courseInstances.map(courseInstance => ({courseId: courseInstance.get('courseID'), courseInstanceId: courseInstance.get('_id')}))
-          - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-esports' && view.utils.isCodeCombat) { courseInstances = [] }
-          for courseInstance in courseInstances
-            - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-junior' && view.utils.isCodeCombat && courseInstance.get('courseID') !== view.utils.allCourseIDs.JUNIOR) { continue }
+          - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-esports' && view.utils.isCodeCombat) { groupedCourseInstances = [] }
+          for courseInstance in groupedCourseInstances
+            // Define course type booleans for this courseInstance
+            - var isOzariaCourse = view.utils.isCodeCombat && ozCourseInstances.includes(courseInstance)
+            - var isHackstackCourse = hackstackCourseInstances.includes(courseInstance)
+            - var isJuniorCourse = juniorCourseInstances.includes(courseInstance)
+            - var isCocoCourse = cocoCourseInstances.includes(courseInstance)
+
+            - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-junior' && view.utils.isCodeCombat && !isJuniorCourse) { continue }
             - var courseID = courseInstance.get('courseID')
             - var course = view.store.state.courses.byId[courseID]
             // internal play-test course which we removed later
@@ -181,7 +197,6 @@ mixin classrooms_content()
               - continue;
 
             .course-instance-entry.rtl-allowed
-              - var isOzariaCourse = view.utils.isCodeCombat && view.utils.OZ_COURSE_IDS.includes(courseInstance.get('courseID'))
               if course
                 - var courseUrl = view.urls.courseWorldMap({ course, courseInstance })
                 if isOzariaCourse
@@ -189,7 +204,7 @@ mixin classrooms_content()
                 h6
                   span.spr= i18n(course, 'name')
                   small
-                    if courseInstance.get('courseID') !== view.utils.courseIDs.HACKSTACK
+                    if !isHackstackCourse
                       a.view-levels-btn(data-href=courseUrl, data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
                     if view.courseInstanceHasProject(courseInstance)
                       a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
@@ -199,7 +214,7 @@ mixin classrooms_content()
                     if view.showVideosLinkForCourse(course._id)
                       = " "
                       a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
-              if courseInstance.get('courseID') === view.utils.allCourseIDs.HACKSTACK
+              if isHackstackCourse
                 - var hackstackUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id')})
                 .pull-right
                   a.btn.btn-navy.btn-lg.m-b-1(href=hackstackUrl data-event-action="Students Start HackStack Course")
