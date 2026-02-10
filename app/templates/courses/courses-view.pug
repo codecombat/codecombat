@@ -48,6 +48,57 @@ mixin anonymous-welcome-message()
       li(data-i18n="courses.play_now_learn_3")
       li(data-i18n="courses.play_now_learn_4")
 
+mixin course-instance-entry(courseInstance, classroom, juniorCourseInstances, cocoCourseInstances, ozCourseInstances, hackstackCourseInstances)
+  // Define course type booleans for this courseInstance
+  - var isOzariaCourse = view.utils.isCodeCombat && ozCourseInstances.includes(courseInstance)
+  - var isHackstackCourse = hackstackCourseInstances.includes(courseInstance)
+  - var isJuniorCourse = juniorCourseInstances.includes(courseInstance)
+  - var isCocoCourse = cocoCourseInstances.includes(courseInstance)
+
+  - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-junior' && view.utils.isCodeCombat && !isJuniorCourse) { return }
+  - var courseID = courseInstance.get('courseID')
+  - var course = view.store.state.courses.byId[courseID]
+  // internal play-test course which we removed later
+  if course && course._id !== '5eb34fc8dc0fd35e8eae66b0'
+    .course-instance-entry.rtl-allowed
+      if course
+        - var courseUrl = view.urls.courseWorldMap({ course, courseInstance, campaignId: course.campaignID })
+        if isOzariaCourse
+          - courseUrl = courseUrl.replace(/^\/play\//, '/play/ozaria/')
+        h6
+          span.spr= i18n(course, 'name')
+          small
+            if !isHackstackCourse
+              a.view-levels-btn(data-href=courseUrl, data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
+            if view.courseInstanceHasProject(courseInstance)
+              a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
+            if view.utils.isCodeCombat && classroom.hasAssessments({courseId: course._id})
+              =" "
+              a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course._id)
+            if view.showVideosLinkForCourse(course._id)
+              = " "
+              a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
+      if isHackstackCourse
+        - var hackstackUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignId: course.campaignID})
+        .pull-right
+          a.btn.btn-navy.btn-lg.m-b-1(href=hackstackUrl data-event-action="Students Start HackStack Course")
+            span(data-i18n="courses.start")
+      else if courseInstance.sessions
+        - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
+        - var nextLevel = stats.levels.next;
+        - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
+        - allCoursesComplete = allCoursesComplete && stats.courseComplete
+        - var isNextLevelLocked = nextLevel ? classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original')) : false
+        - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
+        - var mapUrl = nextLevel ? view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID, classroomId: courseInstance.get('classroomID')}) : null
+        +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, isLocked, isOzariaCourse)
+      else
+        .pull-right
+          a.btn.btn-navy.btn-lg.m-b-1(href=courseUrl data-event-action="Students Start Course")
+            span(data-i18n="courses.start")
+
+      .clearfix
+
 mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapUrl, isLocked, isOzariaCourse)
   - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
   if stats.courseComplete
@@ -85,7 +136,7 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapU
         else
           button.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.unit_complete")
     else if nextLevel
-      - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance, classroom: classroom});
+      - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance, classroom: classroom, campaignId: course.campaignID});
       if isOzariaCourse
         - url = url.replace(/^\/play\//, '/play/ozaria/')
       if view.utils.isOzaria && isLocked
@@ -169,57 +220,26 @@ mixin classrooms_content()
                 span.spl= view.ownerNameMap[classroom.get('ownerID')]
 
           - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
+
+          // Separate courseInstances into 4 groups based on course type
+          - var juniorCourseInstances = courseInstances.filter(ci => view.utils.JUNIOR_COURSE_IDS && view.utils.JUNIOR_COURSE_IDS.includes(ci.get('courseID')));
+          - var cocoCourseInstances = courseInstances.filter(ci => view.utils.COCO_COURSE_IDS && view.utils.COCO_COURSE_IDS.includes(ci.get('courseID')));
+          - var ozCourseInstances = courseInstances.filter(ci => view.utils.OZ_COURSE_IDS && view.utils.OZ_COURSE_IDS.includes(ci.get('courseID')));
+          - var hackstackCourseInstances = courseInstances.filter(ci => view.utils.HACKSTACK_COURSE_IDS && view.utils.HACKSTACK_COURSE_IDS.includes(ci.get('courseID')));
+
+          // Group courseInstances by product: [junior, coco, oz, hackstack]
+          - var groupedCourseInstances = [...juniorCourseInstances, ...cocoCourseInstances, ...ozCourseInstances, ...hackstackCourseInstances];
+
           - var allCoursesComplete = true
           - var coursesData = courseInstances.map(courseInstance => ({courseId: courseInstance.get('courseID'), courseInstanceId: courseInstance.get('_id')}))
-          - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-esports' && view.utils.isCodeCombat) { courseInstances = [] }
-          for courseInstance in courseInstances
-            - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-junior' && view.utils.isCodeCombat && courseInstance.get('courseID') !== view.utils.allCourseIDs.JUNIOR) { continue }
-            - var courseID = courseInstance.get('courseID')
-            - var course = view.store.state.courses.byId[courseID]
-            // internal play-test course which we removed later
-            if !course || course._id === '5eb34fc8dc0fd35e8eae66b0'
-              - continue;
-
-            .course-instance-entry.rtl-allowed
-              - var isOzariaCourse = view.utils.isCodeCombat && view.utils.OZ_COURSE_IDS.includes(courseInstance.get('courseID'))
-              if course
-                - var courseUrl = view.urls.courseWorldMap({ course, courseInstance })
-                if isOzariaCourse
-                  - courseUrl = courseUrl.replace(/^\/play\//, '/play/ozaria/')
-                h6
-                  span.spr= i18n(course, 'name')
-                  small
-                    if courseInstance.get('courseID') !== view.utils.courseIDs.HACKSTACK
-                      a.view-levels-btn(data-href=courseUrl, data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_map")
-                    if view.courseInstanceHasProject(courseInstance)
-                      a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
-                    if view.utils.isCodeCombat && classroom.hasAssessments({courseId: course._id})
-                      =" "
-                      a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course._id)
-                    if view.showVideosLinkForCourse(course._id)
-                      = " "
-                      a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
-              if courseInstance.get('courseID') === view.utils.allCourseIDs.HACKSTACK
-                - var hackstackUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id')})
-                .pull-right
-                  a.btn.btn-navy.btn-lg.m-b-1(href=hackstackUrl data-event-action="Students Start HackStack Course")
-                    span(data-i18n="courses.start")
-              else if courseInstance.sessions
-                - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
-                - var nextLevel = stats.levels.next;
-                - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
-                - allCoursesComplete = allCoursesComplete && stats.courseComplete
-                if nextLevel
-                  - var isNextLevelLocked = classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original'))
-                  - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
-                  - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID, classroomId: courseInstance.get('classroomID')});
-                +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, isLocked, isOzariaCourse)
-              else
-                .pull-right
-                  a.btn.btn-navy.btn-lg.m-b-1(href=courseUrl data-event-action="Students Start Course")
-                    span(data-i18n="courses.start")
-
-              .clearfix
+          - if (me.isCodeNinja() && classroom && classroom.get('type') === 'camp-esports' && view.utils.isCodeCombat) { groupedCourseInstances = [] }
+          - var lastProductType = null
+          for courseInstance in groupedCourseInstances
+            - var currentProductType = juniorCourseInstances.includes(courseInstance) ? 'junior' : (cocoCourseInstances.includes(courseInstance) ? 'coco' : (ozCourseInstances.includes(courseInstance) ? 'oz' : 'hackstack'))
+            - if (lastProductType && lastProductType !== currentProductType)
+              hr.course-product-separator
+            - lastProductType = currentProductType
+            +course-instance-entry(courseInstance, classroom, juniorCourseInstances, cocoCourseInstances, ozCourseInstances, hackstackCourseInstances)
           - var classroomCourseIds = classroom.get('courses').map(i=>i._id).sort().join()
           - var courseInstancesCourseIds = courseInstances.map(i=>i.get('courseID')).sort().join()
           - var allCoursesPlayed = classroomCourseIds === courseInstancesCourseIds
