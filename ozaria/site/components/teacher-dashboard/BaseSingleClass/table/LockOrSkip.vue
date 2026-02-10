@@ -62,20 +62,20 @@ export default {
     },
 
     isHackStack () {
-      return this.selectedCourseId === utils.courseIDs.HACKSTACK
+      return utils.HACKSTACK_COURSE_IDS.includes(this.selectedCourseId)
     }
   },
 
   watch: {
     shown (newValue) {
       if (newValue) {
-        if (this.selectedOriginals.length == 0) {
+        if (this.selectedOriginals.length === 0) {
           this.userSelectedOriginals = false
           this.selectAllOriginals()
         } else {
           this.userSelectedOriginals = true
         }
-        if (this.selectedStudentIds.length == 0) {
+        if (this.selectedStudentIds.length === 0) {
           this.userSelectedStudents = false
           this.selectAllStudentIds()
         } else {
@@ -106,7 +106,7 @@ export default {
     }),
 
     isActionActive (action) {
-      return action.value == this.action.value && action.modifiers.every(modifier => this.action.modifiers.includes(modifier))
+      return action.value === this.action.value && action.modifiers.every(modifier => this.action.modifiers.includes(modifier))
     },
 
     toggleDatepicker () {
@@ -149,6 +149,7 @@ export default {
     deselectAllOriginals () {
       this.replaceSelectedOriginals([])
     },
+
     selectAllStudentIds () {
       this.selectableStudentIds.forEach(id => this.addStudentSelectedId({ studentId: id }))
     },
