@@ -75,11 +75,15 @@
           支持 <i class="fa-brands fa-weixin text-green-500" /> 微信支付 | 开通后权益立即生效，马上加入，快速进步！
         </template>
       </CTAButton>
+      <phone-auth-modal
+        v-if="showPhoneAuthModal"
+        @close="closeAuthModal"
+      />
       <backbone-modal-harness
-        :modal-view="SubscribeModal"
-        :open="isSubscribeModalOpen"
-        :modal-options="{ forceShowMonthlySub: true }"
-        @close="isSubscribeModalOpen = false"
+        :modal-view="WechatPayModal"
+        :open="isWechatPayModalOpen"
+        :modal-options="wechatPayOptions"
+        @close="isWechatPayModalOpen = false"
       />
     </template>
   </PageSection>
@@ -87,23 +91,30 @@
 <script>
 import PageSection from '../../../../components/common/elements/PageSection'
 import CTAButton from '../../../../components/common/buttons/CTAButton.vue'
+import PhoneAuthModal from 'app/components/common/PhoneAuthModal.vue'
 import BackboneModalHarness from 'app/views/common/BackboneModalHarness.vue'
-import SubscribeModal from 'app/views/core/SubscribeModal.js'
+const WechatPayModal = require('app/views/core/WechatPayModal.js').default
+const wechatPay = require('core/api/wechat')
+
 export default {
   name: 'PageSection8',
   components: {
     PageSection,
     CTAButton,
+    PhoneAuthModal,
     BackboneModalHarness,
   },
   data () {
     return {
-      SubscribeModal,
-      isSubscribeModalOpen: false,
+      WechatPayModal,
+      showPhoneAuthModal: false,
+      isWechatPayModalOpen: false,
+      wechatPayOptions: {},
       selectedPlan: 1, // Default to middle plan
       pricingPlans: [
         {
           type: 'monthly',
+          plan: 'basic',
           title: '月度会员',
           price: '¥99',
           duration: '1个月',
@@ -119,7 +130,8 @@ export default {
           ],
         },
         {
-          type: 'quarterly',
+          type: 'seasonly',
+          plan: 'seasonly',
           title: '季度会员',
           price: '¥269',
           duration: '3个月',
@@ -139,6 +151,7 @@ export default {
         },
         {
           type: 'annual',
+          plan: 'yearly',
           title: '年度会员',
           price: '¥999',
           duration: '365天',
@@ -161,15 +174,29 @@ export default {
     }
   },
   methods: {
+    closeAuthModal () {
+      this.showPhoneAuthModal = false
+    },
     selectPlan (index) {
       this.selectedPlan = index
     },
     onClickMainCta () {
-      if (me.isPremium()) {
+      if (me.isAnonymous()) {
+        this.showPhoneAuthModal = true
+      } else if (me.isPremium()) {
         application.router.navigate('/play', { trigger: true })
       } else {
-        this.isSubscribeModalOpen = true
+        this.wechatPayMethod()
       }
+    },
+    wechatPayMethod () {
+      const plan = this.pricingPlans[this.selectedPlan].plan
+      wechatPay.pay(plan).then((res) => {
+        this.wechatPayOptions = { propsData: { url: res.wechat.code_url, sessionId: res.sessionId } }
+        this.$nextTick(() => {
+          this.isWechatPayModalOpen = true
+        })
+      })
     },
   },
 }

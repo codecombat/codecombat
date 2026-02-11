@@ -232,7 +232,19 @@ export default {
       }
     },
   },
+  mounted () {
+    window.addEventListener('keyup', this.handleKeyup)
+  },
+  beforeDestroy () {
+    window.removeEventListener('keyup', this.handleKeyup)
+  },
   methods: {
+    handleKeyup (e) {
+      console.log('e.key', e.key)
+      if (e.key === 'Enter') {
+        this.submit()
+      }
+    },
     switchTab (tab) {
       this.tab = tab
     },
@@ -294,6 +306,7 @@ export default {
               return
             } else {
               this.$emit('close')
+              window.location.reload()
             }
           }
           setTimeout(() => {
@@ -381,6 +394,19 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.background {
+  @media (max-width: 768px) {
+    width: 100vw;
+    height: 580px;
+  }
+}
+::v-deep {
+  .close-button {
+    @media (max-width: 768px) {
+      left: 75vw !important;
+    }
+  }
+}
 .board-title {
     font-size: 32px; color: #ffc107;
     text-shadow: 2px 2px 0px #000, 0 0 10px rgba(255, 193, 7, 0.5);
@@ -480,11 +506,6 @@ export default {
     border-bottom: 1px dashed #5d4037;
     color: inherit;
     text-decoration: none;
-}
-.background-img {
-    position: absolute;
-    top: -61px;
-    left: 0;
 }
 input.showError::placeholder {
     color: #c73622;
