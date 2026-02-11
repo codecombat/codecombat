@@ -665,7 +665,7 @@ class CampaignView extends RootView {
   }
 
   onRobloxMenuIconClick (e) {
-    window.tracker?.trackEvent('Mine Explored', { engageAction: 'campaign_level_click' })
+    window.tracker?.trackEvent('Roblox Icon Explored', { engageAction: 'campaign_level_click' })
     this.showRobloxModal()
   }
 
