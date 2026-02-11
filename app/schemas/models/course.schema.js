@@ -127,6 +127,7 @@ _.extend(CourseSchema.properties, {
     },
   },
   curriculum: c.url({ title: 'Curriculum URL', description: 'Link to curriculum folder. Relevant for teacher dashboard curriculum guides.' }),
+  product: { type: 'string', enum: ['ozaria', 'codecombat', 'hackstack', 'junior'], description: 'Which product this course is for, if applicable. Affects where the course appears in the teacher dashboard.' },
 })
 
 c.extendBasicProperties(CourseSchema, 'Course')
