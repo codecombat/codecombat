@@ -94,7 +94,7 @@ class CampaignView extends RootView {
       'click #anon-classroom-signup-close': 'onClickAnonClassroomClose',
       'click #anon-classroom-join-btn': 'onClickAnonClassroomJoin',
       'click #anon-classroom-signup-btn': 'onClickAnonClassroomSignup',
-      'click .roblox-level': 'onRobloxLevelClick',
+      'click .roblox-menu-icon': 'onRobloxLevelClick',
       'click .hackstack-level': 'onHackStackLevelClick',
       'click .hackstack-menu-icon': 'onHackStackLevelClick',
       'click .ai-league-menu-icon': 'onAILeagueIconClick',
@@ -661,7 +661,7 @@ class CampaignView extends RootView {
 
   maybeShowRobloxModal () {
     if (this.userQualifiesForRobloxModal()) {
-      $('.roblox-level').show()
+      $('.roblox-menu-icon').show()
     }
   }
 
@@ -2223,10 +2223,6 @@ class CampaignView extends RootView {
 
     if (what === 'ai-league-menu-icon') {
       return !userUtils.isCreatedViaLibrary() && !this.editorMode
-    }
-
-    if (what === 'roblox-level') {
-      return this.userQualifiesForRobloxModal() && !this.editorMode
     }
 
     if (what === 'roblox-menu-icon') {
