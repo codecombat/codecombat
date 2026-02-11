@@ -2008,6 +2008,7 @@ module.exports = {
   shaTag,
   JUNIOR_COURSE_IDS,
   HACKSTACK_COURSE_IDS,
+  COCO_COURSE_IDS,
   OZ_COURSE_IDS,
   showOzaria,
 }
