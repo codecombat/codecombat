@@ -271,12 +271,6 @@ if !editorMode
         a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
           span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)
 
-      // Roblox Modal
-      if view.shouldShow('roblox-level')
-        .level.roblox-level#roblox-level-container(style="display: none;" title="CodeCombat Worlds on Roblox")
-          .roblox-icon
-        .roblox-level#roblox-level-shadow(style="left: 18%; top: 27.5%; display: none;", class="level-shadow")
-
       // HackStack Modal
       if view.shouldShow('hackstack-menu-icon') && campaign.get('slug') == 'dungeon'
         .level.hackstack-level#hackstack-level-container(title="CodeCombat AI HackStack")
@@ -406,7 +400,7 @@ if !editorMode
       if view.shouldShow('cchome-menu-icon')
         span.btn.cchome-menu-icon(data-i18n="[title]play.cchome_button_hover")
       if view.shouldShow('roblox-menu-icon')
-        span.btn.roblox-level.roblox-menu-icon(data-i18n="[title]play.roblox_button_hover")
+        span.btn.roblox-menu-icon(data-i18n="[title]play.roblox_button_hover")
       if view.shouldShow('ai-league-menu-icon')
         span.btn.ai-league-menu-icon(data-i18n="[title]play.ai_league_button_hover")
   
