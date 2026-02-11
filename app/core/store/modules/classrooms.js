@@ -299,7 +299,10 @@ export default {
               throw new Error('Unexpected response from fetch classrooms API.')
             }
           })
-          .catch((e) => noty({ text: 'Fetch classrooms failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 }))
+          .catch((e) => {
+            console.error('Failed to fetch classrooms for teacher', e)
+            noty({ text: 'Fetch classrooms failure' + e, type: 'error', layout: 'topCenter', timeout: 2000 })
+          })
           .finally(() => {
             commit('toggleLoadingForTeacher', teacherId)
           })
