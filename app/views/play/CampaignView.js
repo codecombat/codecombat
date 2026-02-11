@@ -95,7 +95,6 @@ class CampaignView extends RootView {
       'click #anon-classroom-join-btn': 'onClickAnonClassroomJoin',
       'click #anon-classroom-signup-btn': 'onClickAnonClassroomSignup',
       'click .roblox-menu-icon': 'onRobloxLevelClick',
-      'click .hackstack-level': 'onHackStackLevelClick',
       'click .hackstack-menu-icon': 'onHackStackLevelClick',
       'click .ai-league-menu-icon': 'onAILeagueIconClick',
       'click .junior-menu-icon': 'onJuniorIconClick',

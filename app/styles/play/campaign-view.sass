@@ -103,30 +103,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         img
           margin-bottom: 10px
 
-    // HackStack modal
-    #hackstack-level-container
-      position: absolute
-      left: 57.5%
-      top: 62.1%
-      background-color: rgb(80, 130, 200)
-      a
-        display: inline
-
-      .hackstack-icon
-        background: url('/images/pages/hackstack/Code-Combat-AI-Hack-Stack-Full-Colour-Small.png')
-        width: 200%
-        aspect-ratio: 1
-        background-size: contain
-        position: relative
-        background-repeat: no-repeat
-        transform: translate(-50%, 100%) scale(1.8) scaleY(1.3)
-        left: 50%
-        top: -80%
-        animation: hackstackIconGlow 2s infinite
-        filter: drop-shadow(0 0 #{$hackstackGlowSizeBase} #222) drop-shadow(0 0 #{2 * $hackstackGlowSizeBase} #{$hackstackGlowColor}) drop-shadow(0 0 #{4 * $hackstackGlowSizeBase} #{$hackstackGlowColor})
-        &:hover
-          filter: drop-shadow(0 0 #{1.5 * $hackstackGlowSizeBase} #222) drop-shadow(0 0 #{3 * $hackstackGlowSizeBase} #{$hackstackGlowColor}) drop-shadow(0 0 #{6 * $hackstackGlowSizeBase} #{$hackstackGlowColor})
-
     .map-background
       width: 100%
       height: 100%
