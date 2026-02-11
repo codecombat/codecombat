@@ -52,7 +52,7 @@ module.exports = (CocoRouter = (function () {
             }
             if (!me.isAnonymous() && !me.isStudent() && !me.isTeacher() && !me.isAdmin() && !me.hasSubscription() && !me.isAPIClient() && !paymentUtils.hasTemporaryPremiumAccess() && !me.isParentHome()) {
               delete window.alreadyLoadedView
-              return this.navigate('/premium', { trigger: true, replace: true })
+              return this.navigate('/play', { trigger: true, replace: true })
             }
             if (me.isAPIClient()) {
               delete window.alreadyLoadedView

@@ -29,7 +29,10 @@
               b(data-i18n="new_home_faq.recommended_systems")
               p(data-i18n="new_home_faq.recommended_systems_blurb")
           .text-center
-            p.contact-us(data-i18n="[html]new_home_faq.other_questions", data-i18n-options=JSON.stringify(i18nData))
+            span 查看
+            a(href="/codecombat_faq.html" target="_blank") 更多问题
+            span ,
+            span.contact-us(data-i18n="[html]new_home_faq.other_questions", data-i18n-options=JSON.stringify(i18nData))
     template(#tail)
       .footer
         a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-20

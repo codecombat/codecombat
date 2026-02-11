@@ -541,7 +541,7 @@ module.exports = {
       how_much_does_it_cost_blurb: 'CodeCombat提供8个关卡的免费试用，试用过后可以购买开通会员。',
       recommended_systems: '有没有推荐的浏览器或操作系统?',
       recommended_systems_blurb: '只需要流畅的网络和合适的浏览器即可运行CodeCombat。国内推荐最低电脑内存4GB，浏览器推荐使用谷歌Chrome浏览器或Safari, Firefox和Edge，不推荐国内低版本浏览器，特别是360浏览器。支持Windows系统和Mac苹果系统电脑或笔记本，如果你使用Pad，推荐配置蓝牙键盘。网络带宽至少需要200 Kbps，最好能达到1Mbps以上带宽。',
-      other_questions: '如果你还有其它问题, 请联系右下角微信客服。',
+      other_questions: '或联系右下角微信客服。',
       see_faq_prefix: '[AI_TRANSLATION]查看更多',
       see_faq_link: '[AI_TRANSLATION]我们帮助中心的常见问题',
       //    see_faq_suffix: ".",

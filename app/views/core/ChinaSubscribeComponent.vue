@@ -105,7 +105,7 @@
                   class="positive"
                   style="color:#2980b9;"
                 >
-                  赠送价值30元的 3000 宝石
+                  赠送价值90元的 9000 宝石
                 </li>
               </ul>
 
@@ -160,7 +160,7 @@
                 class="positive"
                 style="color:#2980b9;"
               >
-                赠送价值 160元 的 16000 宝石
+                赠送价值 420元 的 42000 宝石
               </li>
             </ul>
 
@@ -380,7 +380,7 @@ $--card-bg-highlight: #fffbf0;
 
 /* 第二行：副标题 (带背景) */
 .sub-title {
-  font-size: 14px;
+  font-size: 22px;
   color: #ecf0f1;
   font-weight: bold;
   text-shadow: 1px 1px 1px #000;
@@ -422,23 +422,23 @@ $--card-bg-highlight: #fffbf0;
   top: 0;
   padding: 3px 10px;
   color: white;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: bold;
 }
 .ribbon-gray { left: 0; background: #95a5a6; border-radius: 12px 0 10px 0; }
 .ribbon-purple { right: 0; background: #8e44ad; border-radius: 0 12px 0 10px; }
 
 .card-title {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
   color: $--text-dark;
   margin: 10px 0 2px 0;
 }
 
 .price-row { margin: 2px 0; color: $--text-dark; }
-.symbol { font-size: 14px; font-weight: bold; vertical-align: top; }
+.symbol { font-size: 16px; font-weight: bold; vertical-align: top; }
 .amount { font-size: 28px; font-weight: 900; line-height: 1; }
-.unit { font-size: 11px; color: $--text-light; }
+.unit { font-size: 13px; color: $--text-light; }
 
 /* 通用描述框 */
 .info-box {
@@ -446,7 +446,7 @@ $--card-bg-highlight: #fffbf0;
   border-radius: 6px;
   margin: 5px 0;
   line-height: 1.3;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .warning-box {
@@ -455,8 +455,8 @@ $--card-bg-highlight: #fffbf0;
   border: 1px solid #ffeeba;
   text-align: center;
 }
-.warning-main { font-weight: bold; font-size: 12px; display: block; margin-bottom: 0px;}
-.warning-sub { font-size: 10px; opacity: 0.9; display: block; }
+.warning-main { font-weight: bold; font-size: 14px; display: block; margin-bottom: 0px;}
+.warning-sub { font-size: 12px; opacity: 0.9; display: block; }
 
 /* 列表样式 */
 .check-list {
@@ -464,7 +464,7 @@ $--card-bg-highlight: #fffbf0;
   text-align: left;
   padding: 0 5px;
   margin-bottom: auto;
-  font-size: 11px;
+  font-size: 13px;
   color: #666;
   line-height: 1.4;
 }
@@ -488,7 +488,7 @@ $--card-bg-highlight: #fffbf0;
   left: 2px;
   color: $--red;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 12px;
   top: 2px;
 }
 
@@ -498,7 +498,7 @@ $--card-bg-highlight: #fffbf0;
   border: none;
   border-radius: 6px;
   padding: 8px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   margin-top: 5px;
@@ -558,7 +558,7 @@ $--card-bg-highlight: #fffbf0;
   color: #d35400;
   font-weight: 900;
   padding: 4px 20px;
-  font-size: 13px;
+  font-size: 15px;
   clip-path: polygon(0 0, 100% 0, 95% 50%, 100% 100%, 0 100%, 5% 50%);
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   white-space: nowrap;
@@ -623,7 +623,7 @@ $--card-bg-highlight: #fffbf0;
 }
 
 .sub-btn-text {
-  font-size: 10px;
+  font-size: 12px;
   color: #d35400;
   margin-top: 5px;
   font-weight: bold;
@@ -631,7 +631,7 @@ $--card-bg-highlight: #fffbf0;
 
 .deadline-text {
   color: #c0392b;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: bold;
   display: inline-block;
   margin-top: 2px;
