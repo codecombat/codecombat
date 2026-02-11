@@ -94,7 +94,7 @@ class CampaignView extends RootView {
       'click #anon-classroom-signup-close': 'onClickAnonClassroomClose',
       'click #anon-classroom-join-btn': 'onClickAnonClassroomJoin',
       'click #anon-classroom-signup-btn': 'onClickAnonClassroomSignup',
-      'click .roblox-menu-icon': 'onRobloxLevelClick',
+      'click .roblox-menu-icon': 'onRobloxMenuIconClick',
       'click .hackstack-menu-icon': 'onHackStackLevelClick',
       'click .ai-league-menu-icon': 'onAILeagueIconClick',
       'click .junior-menu-icon': 'onJuniorIconClick',
@@ -664,7 +664,7 @@ class CampaignView extends RootView {
     }
   }
 
-  onRobloxLevelClick (e) {
+  onRobloxMenuIconClick (e) {
     window.tracker?.trackEvent('Mine Explored', { engageAction: 'campaign_level_click' })
     this.showRobloxModal()
   }
