@@ -8,7 +8,7 @@ module.exports = {
       }
       return false
     }
-    if (aiScenario.mode === 'learn to use' && aiProjects.some(project => (project.actionQueue.length === 0))) {
+    if (aiScenario.mode === 'learn to use' && aiProjects.some(project => (project.actionQueue?.length === 0))) {
       return true
     } else if (aiScenario.mode === 'use' && aiProjects.some(project => (project.isReadyToReview))) {
       return true

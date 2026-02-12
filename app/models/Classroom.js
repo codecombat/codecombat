@@ -336,15 +336,24 @@ module.exports = (Classroom = (function () {
     }
 
     statsForAIProjects (sessions, courseId) {
-      const course = this.get('courses').find(c => c._id === courseId)
+      const course = this.get('courses')?.find(c => c._id === courseId)
+      if (!course) {
+        return null
+      }
       const scenarios = course.levels
-      const projects = sessions.models.map(p => p.toJSON())
-      const projectsByScenario = _.groupBy(projects, 'scenario')
+      if (!scenarios || !scenarios.length) {
+        return null
+      }
+      const allProjects = sessions.models.map(p => p.toJSON())
+      const projectsByScenario = _.groupBy(allProjects, 'scenario')
       const levelsTotal = scenarios.length
       let levelsLeft = levelsTotal
       for (const scenarioOriginal in projectsByScenario) {
         const projects = projectsByScenario[scenarioOriginal]
         const scenario = scenarios.find(s => s.original === scenarioOriginal)
+        if (!scenario) {
+          continue
+        }
         const isComplete = checkIfProjectComplete(scenario, projects)
         if (isComplete) {
           levelsLeft -= 1

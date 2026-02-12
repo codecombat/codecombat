@@ -90,7 +90,7 @@ mixin course-instance-entry(courseInstance, classroom, juniorCourseInstances, co
           - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
           - var mapUrl = nextLevel ? view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID, classroomId: courseInstance.get('classroomID')}) : null
         - allCoursesComplete = allCoursesComplete && stats.courseComplete
-        +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, isLocked, isOzariaCourse)
+        +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, isLocked, isOzariaCourse, isHackstackCourse)
       else
         .pull-right
           a.btn.btn-navy.btn-lg.m-b-1(href=courseUrl data-event-action="Students Start Course")
@@ -98,7 +98,7 @@ mixin course-instance-entry(courseInstance, classroom, juniorCourseInstances, co
 
       .clearfix
 
-mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapUrl, isLocked, isOzariaCourse)
+mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapUrl, isLocked, isOzariaCourse, isHackstackCourse)
   - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
   if stats.courseComplete
     .text-success
@@ -151,7 +151,7 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapU
         else
           button.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=propMapUrl, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course" disabled=isLocked)
             span(data-i18n="courses.start")
-    else
+    else if isHackstackCourse
       a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=propMapUrl, data-event-action="Students Start Course")
         span(data-i18n="courses.start")
 
