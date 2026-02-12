@@ -150,7 +150,7 @@ export default {
       if (!this.getCurrentCourse || this.isOnLockedCampaign) {
         return ''
       }
-      if (this.getCurrentCourse.slug === 'ai-hackstack') {
+      if (utils.HACKSTACK_COURSE_IDS.includes(this.getCurrentCourse._id)) {
         return ''
       }
       let urlHead = '/teachers/course-solution'
@@ -170,7 +170,7 @@ export default {
         return this.courseLinks[slugName]
       }
 
-      return ''
+      return this.getCurrentCourse.curriculum || ''
     },
 
     playChapterUrl () {

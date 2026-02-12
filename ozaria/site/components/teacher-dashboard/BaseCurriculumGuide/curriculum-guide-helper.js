@@ -1,7 +1,7 @@
 import utils from '../../../../../app/core/utils'
 
 export function getLevelUrl ({ ozariaType, introLevelSlug, courseId, codeLanguage, slug, introContent, moduleNum, _id }) {
-  if (courseId === utils.courseIDs.HACKSTACK) {
+  if (utils.HACKSTACK_COURSE_IDS.includes(courseId)) {
     return `/ai/scenario/${_id}`
   } else if (utils.showOzaria() && !ozariaType && introLevelSlug) {
     return `/play/intro/${introLevelSlug}?course=${courseId}&codeLanguage=${codeLanguage}&intro-content=${introContent || 0}`
@@ -68,7 +68,7 @@ export function getCurriculumGuideContentList ({ introLevels, moduleInfo, module
       }
     }
 
-    if (currentCourseId === utils.courseIDs.HACKSTACK) {
+    if (utils.HACKSTACK_COURSE_IDS.includes(currentCourseId)) {
       icon = utils.scenarioMode2Icon(content.mode)
     }
 
