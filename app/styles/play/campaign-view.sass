@@ -117,6 +117,10 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       transform: translate(-50%, 50%)
       transform-origin: center bottom
       @include user-select(none)
+      // Simple scale-up effect on hover (no glow).
+      @include transition(transform 0.2s ease-out)
+      &:hover
+        transform: translate(-50%, 50%) scale(1.05)
 
     .level, .level-shadow
       position: absolute
@@ -910,6 +914,10 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
       .campaign-name
         line-height: 26px
+
+        &.campaign-name-large
+          font-size: 48px
+          line-height: 50px
 
       .levels-completed
         font-size: 22px

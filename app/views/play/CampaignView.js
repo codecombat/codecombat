@@ -128,6 +128,7 @@ class CampaignView extends RootView {
       'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal',
       'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal',
       'click #videos-button': 'onClickVideosButton',
+      'click .module-portal': 'onClickModulePortal',
     }
 
     this.prototype.shortcuts = {
@@ -1783,6 +1784,20 @@ class CampaignView extends RootView {
     })
   }
 
+  onClickModulePortal (e) {
+    e.preventDefault()
+    e.stopPropagation()
+    if (this.editorMode) { return }
+    const $target = $(e.currentTarget)
+    const moduleSlug = $target.data('module-slug')
+    if (!moduleSlug) { return }
+    Backbone.Mediator.publish('router:navigate', {
+      route: `/play/${moduleSlug}`,
+      viewClass: CampaignView,
+      viewArgs: [{ supermodel: this.supermodel }, moduleSlug],
+    })
+  }
+
   onClickCampaignSwitch (e) {
     const campaignSlug = $(e.target).data('campaign-slug')
     if (this.isPremiumCampaign(campaignSlug) && !me.isPremium()) {
@@ -1946,6 +1961,8 @@ class CampaignView extends RootView {
       const sessionsCompleteMap = Object.fromEntries(sessionsComplete)
 
       const campaignLevels = this.getLevels()
+      // If this campaign has no levels loaded (or no levels at all), skip earned-levels fixup.
+      if (!campaignLevels) { return }
 
       const levelsEarned = me.get('earned')?.levels
         ?.filter(levelOriginal => campaignLevels[levelOriginal])

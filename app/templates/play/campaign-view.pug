@@ -262,6 +262,7 @@ if !editorMode
             img.module-portal(
               src="/file/" + module.portalImage,
               draggable="false",
+              data-module-slug=module.slug,
               style="left: " + module.position.x + "%; bottom: " + module.position.y + "%; width: " + moduleWidthPercent + "%;"
             )
 
@@ -448,9 +449,10 @@ if !editorMode
   if campaign && campaign.loaded
     h1#campaign-status
       .campaign-status-background.rtl-allowed
-        .campaign-name.rtl-allowed
+        .campaign-name.rtl-allowed(class=!levelsTotal ? "campaign-name-large" : "")
           span= i18n(campaign.attributes, 'fullName')
-        .levels-completed.rtl-allowed
-          span= levelsCompleted
-          | /
-          span= levelsTotal
+        if levelsTotal
+          .levels-completed.rtl-allowed
+            span= levelsCompleted
+            | /
+            span= levelsTotal
