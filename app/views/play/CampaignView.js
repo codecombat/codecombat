@@ -94,9 +94,8 @@ class CampaignView extends RootView {
       'click #anon-classroom-signup-close': 'onClickAnonClassroomClose',
       'click #anon-classroom-join-btn': 'onClickAnonClassroomJoin',
       'click #anon-classroom-signup-btn': 'onClickAnonClassroomSignup',
-      'click .roblox-level': 'onRobloxLevelClick',
-      'click .hackstack-level': 'onHackStackLevelClick',
-      'click .hackstack-menu-icon': 'onHackStackLevelClick',
+      'click .roblox-menu-icon': 'onRobloxMenuIconClick',
+      'click .hackstack-menu-icon': 'onHackStackMenuIconClick',
       'click .ai-league-menu-icon': 'onAILeagueIconClick',
       'click .junior-menu-icon': 'onJuniorIconClick',
       'click .cchome-menu-icon': 'onCCHomeIconClick',
@@ -661,12 +660,12 @@ class CampaignView extends RootView {
 
   maybeShowRobloxModal () {
     if (this.userQualifiesForRobloxModal()) {
-      $('.roblox-level').show()
+      $('.roblox-menu-icon').show()
     }
   }
 
-  onRobloxLevelClick (e) {
-    window.tracker?.trackEvent('Mine Explored', { engageAction: 'campaign_level_click' })
+  onRobloxMenuIconClick (e) {
+    window.tracker?.trackEvent('Roblox Icon Explored', { engageAction: 'campaign_level_click' })
     this.showRobloxModal()
   }
 
@@ -685,7 +684,7 @@ class CampaignView extends RootView {
     this.openModalView(new CCHomePromotionModal())
   }
 
-  onHackStackLevelClick (e) {
+  onHackStackMenuIconClick (e) {
     window.tracker?.trackEvent('HackStack Explored', { engageAction: 'campaign_level_click' })
     this.openModalView(new HackstackPromotionModal())
   }
@@ -2223,10 +2222,6 @@ class CampaignView extends RootView {
 
     if (what === 'ai-league-menu-icon') {
       return !userUtils.isCreatedViaLibrary() && !this.editorMode
-    }
-
-    if (what === 'roblox-level') {
-      return this.userQualifiesForRobloxModal() && !this.editorMode
     }
 
     if (what === 'roblox-menu-icon') {
