@@ -23,7 +23,8 @@ module.exports = (Campaign = (function () {
       this.schema = schema
       this.prototype.urlRoot = '/db/campaign'
       this.denormalizedLevelProperties = _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards', 'first', 'nextLevels', 'campaignPage', 'releasePhase', 'moduleNum']))
-      this.denormalizedCampaignProperties = ['name', 'i18n', 'slug']
+      // Properties we denormalize from child campaigns (used by CampaignIDNode, etc.).
+      this.denormalizedCampaignProperties = ['name', 'fullName', 'i18n', 'slug']
       this.nextLevelProperties = ['original', 'name', 'slug', 'type', 'permissions']
     }
 

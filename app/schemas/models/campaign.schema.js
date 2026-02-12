@@ -266,6 +266,19 @@ for (const hiddenProp of hiddenLevelProperties) {
   CampaignSchema.properties.levels.additionalProperties.properties[hiddenProp].format = 'hidden'
 }
 
+// Denormalized properties for module campaigns stored directly on the parent campaign.
+CampaignSchema.denormalizedModuleCampaignProperties = [
+  'name',
+  'fullName',
+  'slug',
+  'i18n',
+]
+for (const prop of CampaignSchema.denormalizedModuleCampaignProperties) {
+  if (CampaignSchema.properties[prop]) {
+    CampaignSchema.properties.modules.items.properties[prop] = _.cloneDeep(CampaignSchema.properties[prop])
+  }
+}
+
 c.extendBasicProperties(CampaignSchema, 'campaign')
 c.extendTranslationCoverageProperties(CampaignSchema)
 c.extendPatchableProperties(CampaignSchema)
