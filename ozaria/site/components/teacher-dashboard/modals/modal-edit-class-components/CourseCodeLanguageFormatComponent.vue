@@ -322,8 +322,9 @@ export default {
       if (!this.isCodeCombat) {
         return []
       }
+      const freeCocoCourseIDs = [...utils.freeCocoCourseIDs]
       return [
-        ...utils.freeCocoCourseIDs.map(id => {
+        ...freeCocoCourseIDs.map(id => {
           const course = this.courses.find(({ _id }) => _id === id)
           if (!course) {
             // computed value uses in template before mounted, so no courses yet
