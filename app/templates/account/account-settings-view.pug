@@ -13,6 +13,7 @@ else
             - var firstName = me.get('firstName') || '';
             - var lastName = me.get('lastName') || '';
             - var email = me.get('email') || '';
+            - var phone = me.get('phone') || '';
             - var admin = me.get('permissions', true).indexOf('admin') != -1;
             - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
             .form-group
@@ -32,6 +33,10 @@ else
                   span.sent-text.hide(data-i18n="account.email_sent")
                 span )
               input#email.form-control(name="email", type="text", value=email)
+            if phone && (me.isAdmin() || (serverSession && serverSession.amActually))
+              .form-group
+                label.control-label(for='phone', data-i18n="teachers_quote.phone_number")
+                input#phone.form-control(name="phone", type="text", value=phone)
             .row
               .form-group.col-sm-6
                 label.control-label(for="firstName", data-i18n="general.first_name")

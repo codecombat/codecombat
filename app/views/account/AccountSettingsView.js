@@ -40,7 +40,7 @@ module.exports = (AccountSettingsView = (function () {
         'click #delete-account-btn': 'onClickDeleteAccountButton',
         'click #reset-progress-btn': 'onClickResetProgressButton',
         'click .resend-verification-email': 'onClickResendVerificationEmail',
-        'click #save-button': 'save'
+        'click #save-button': 'save',
       }
 
       // TODO: After Ozaria launch, when redoing this page - do we still need this weird shortcut?
@@ -205,7 +205,7 @@ module.exports = (AccountSettingsView = (function () {
             toBeDelayed = false
             if (jqXHR.status !== 200) { return }
             return isPasswordCorrect = true
-          }
+          },
         })
         var callback = () => {
           if (toBeDelayed) {
@@ -238,7 +238,7 @@ module.exports = (AccountSettingsView = (function () {
             timeout: 5000,
             text: 'Your account is gone.',
             type: 'success',
-            layout: 'topCenter'
+            layout: 'topCenter',
           })
           return _.delay(function () {
             if (globalVar.application.isIPadApp) { __guard__(__guard__(__guard__(typeof window !== 'undefined' && window !== null ? window.webkit : undefined, x2 => x2.messageHandlers), x1 => x1.notification), x => x.postMessage({ name: 'signOut' })) }
@@ -260,10 +260,10 @@ module.exports = (AccountSettingsView = (function () {
             timeout: 5000,
             text: `Deleting account failed with error code ${jqXHR.status}`,
             type: 'error',
-            layout: 'topCenter'
+            layout: 'topCenter',
           })
         },
-        url: `/db/user/${this.user.id}`
+        url: `/db/user/${this.user.id}`,
       })
     }
 
@@ -275,7 +275,7 @@ module.exports = (AccountSettingsView = (function () {
             timeout: 5000,
             text: 'Your progress is gone.',
             type: 'success',
-            layout: 'topCenter'
+            layout: 'topCenter',
           })
           localStorage.clear()
           this.user.fetch({ cache: false })
@@ -287,10 +287,10 @@ module.exports = (AccountSettingsView = (function () {
             timeout: 5000,
             text: `Resetting progress failed with error code ${jqXHR.status}`,
             type: 'error',
-            layout: 'topCenter'
+            layout: 'topCenter',
           })
         },
-        url: `/db/user/${this.user.id}/reset_progress`
+        url: `/db/user/${this.user.id}/reset_progress`,
       })
     }
 
@@ -351,7 +351,7 @@ module.exports = (AccountSettingsView = (function () {
             text: (res.responseJSON != null ? res.responseJSON.message : undefined) || res.responseText,
             type: 'error',
             layout: 'topCenter',
-            timeout: 5000
+            timeout: 5000,
           })
         }
         return this.trigger('save-user-error')
@@ -396,11 +396,11 @@ module.exports = (AccountSettingsView = (function () {
               text: (res.responseJSON != null ? res.responseJSON.message : undefined) || res.responseText,
               type: 'error',
               layout: 'topCenter',
-              timeout: 5000
+              timeout: 5000,
             })
           }
           return this.trigger('save-user-error')
-        }
+        },
         )
       } else if (password1) {
         message = $.i18n.t('account_settings.password_repeat', { defaultValue: 'Please repeat your password.' })
@@ -416,6 +416,10 @@ module.exports = (AccountSettingsView = (function () {
         this.user.set('name', this.$el.find('#name-input').val())
         this.user.set('firstName', this.$el.find('#first-name-input').val())
         this.user.set('lastName', this.$el.find('#last-name-input').val())
+        const phone = this.$el.find('#phone').val()
+        if (phone) {
+          this.user.set('phone', phone)
+        }
       }
       this.user.set('email', this.$el.find('#email').val())
       const object = this.getSubscriptions()
