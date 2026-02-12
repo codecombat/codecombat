@@ -254,6 +254,17 @@ if !editorMode
                 if practiceLevelStatus !== 'complete'
                   - break
 
+      // Module portals (child campaigns) – rendered as images on the map.
+      if modules && modules.length
+        each module in modules
+          if module.portalImage && module.position && module.position.x != null && module.position.y != null
+            - var moduleWidthPercent = (module.imageSize != null ? module.imageSize : 0.1) * 100;
+            img.module-portal(
+              src="/file/" + module.portalImage,
+              draggable="false",
+              style="left: " + module.position.x + "%; bottom: " + module.position.y + "%; width: " + moduleWidthPercent + "%;"
+            )
+
       each scenario in scenarios
         if scenario.position
           - var scenarioName = scenario.displayName || "AI Scenario"

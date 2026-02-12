@@ -181,6 +181,14 @@ _.extend(CampaignSchema.properties, {
         campaign: c.stringID({ title: 'Campaign', format: 'campaignID', model: 'Campaign', links: [{ rel: 'db', href: '/db/campaign/{{$}}', model: 'Campaign' }] }),
         moduleNumber: { type: 'number', title: 'Module number', description: 'The number of the module if its defined in the related course.' },
         portalImage: { format: 'image-file', title: 'Portal Image', description: 'The image to use for the portal of the module on interface.' },
+        imageSize: {
+          type: 'number',
+          title: 'Relative Image Size',
+          description: 'The relative size of the image to use for the portal of the module on interface. 0.1 means 10% of the map width.',
+          minimum: 0,
+          maximum: 1,
+          default: 0.1, // 10% of the map width
+        },
         position: {
           type: 'object',
           title: 'Position',

@@ -109,6 +109,15 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       background-size: 100%
       @include user-select(none)
 
+    // Module portals (child campaigns) rendered on top of the map.
+    .module-portal
+      position: absolute
+      z-index: 2
+      // Center the image on the x/y map coordinates.
+      transform: translate(-50%, 50%)
+      transform-origin: center bottom
+      @include user-select(none)
+
     .level, .level-shadow
       position: absolute
       border-radius: 50%

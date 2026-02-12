@@ -748,6 +748,9 @@ class CampaignView extends RootView {
     context.requiresSubscription = this.requiresSubscription
     context.editorMode = this.editorMode
     context.scenarios = this.campaign?.get('scenarios') || []
+    // Modules: child campaigns rendered as portals on the map.
+    // We keep the raw array here and filter for portalImage/position in the template.
+    context.modules = this.campaign?.get('modules') || []
     context.adjacentCampaigns = _.filter(_.values(_.cloneDeep(this.campaign?.get('adjacentCampaigns') ?? {})), ac => {
       if (me.isStudent() || me.isTeacher()) { return false }
       if (ac.showIfUnlocked && !this.editorMode) {
