@@ -336,13 +336,14 @@ module.exports = (Classroom = (function () {
     }
 
     statsForAIProjects (sessions, courseId) {
+      const emptyResults = { levels: { size: 0, left: 0, done: true, numDone: 0, pctDone: '0.0%' }, courseComplete: false }
       const course = this.get('courses')?.find(c => c._id === courseId)
       if (!course) {
-        return null
+        return emptyResults
       }
       const scenarios = course.levels
       if (!scenarios || !scenarios.length) {
-        return null
+        return emptyResults
       }
       const allProjects = sessions.models.map(p => p.toJSON())
       const projectsByScenario = _.groupBy(allProjects, 'scenario')
