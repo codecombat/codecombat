@@ -818,6 +818,10 @@ module.exports = {
       yes_i_have_classcode: '是的，我有一个班级代码！',
       enter_it_here: '在这里输入：',
       play_without_saving: '直接开始（代码不会被保存）',
+      phone_code: '验证码',
+      send_phone_code: '发送验证码',
+      resend_phone_code: '重新发送(__countDown__)',
+      sign_up_or_login: '注册/登录',
     },
 
     recover: {
@@ -3634,7 +3638,7 @@ module.exports = {
 
     loading_error: {
       could_not_load: '载入失败',
-      connection_failure: '连接失败',
+      connection_failure: '网络链接异常',
       connection_failure_desc: '看起来你还没连接网络！检查网络连接后刷新此页面。',
       login_required: '需要登录',
       login_required_desc: '你需要登录才能访问此页面。',
@@ -3655,6 +3659,7 @@ module.exports = {
       general_desc: '出了点问题，估计是我们的错。请您稍后刷新页面，或者点击下面的链接继续编程！',
       too_many_login_failures: '登录失败过于频繁，请稍后再试。',
       something_went_wrong: '[AI_TRANSLATION]哎呀！出错了',
+      phone_code_error: '验证码错误',
     },
 
     resources: {

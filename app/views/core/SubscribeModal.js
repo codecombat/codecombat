@@ -160,6 +160,10 @@ module.exports = (SubscribeModal = (function () {
         if (application.tracker != null) {
           application.tracker.trackEvent('Started Signup from buy monthly', { service })
         }
+        const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+        if (features?.chinaHome) {
+          return this.openModalView(new PhoneAuthModal())
+        }
         return this.openModalView(new CreateAccountModal({ startOnPath: 'individual', subModalContinue: 'monthly' }))
       }
       // if @basicProduct.isRegionalSubscription()
@@ -175,6 +179,10 @@ module.exports = (SubscribeModal = (function () {
       if (me.get('anonymous')) {
         if (application.tracker != null) {
           application.tracker.trackEvent('Started Signup from buy yearly', { service: 'stripe' })
+        }
+        if (features?.chinaHome) {
+          const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+          return this.openModalView(new PhoneAuthModal())
         }
         return this.openModalView(new CreateAccountModal({ startOnPath: 'individual', subModalContinue: 'yearly' }))
       }
@@ -272,9 +280,12 @@ module.exports = (SubscribeModal = (function () {
       this.playSound('menu-button-click')
       if (me.get('anonymous')) {
         if (application.tracker != null) {
-          application.tracker.trackEvent('Started Signup from buy lifetime', { service: 'paypal' })
+          if (features?.chinaHome) {
+            const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+            return this.openModalView(new PhoneAuthModal())
+          }
+          return this.openModalView(new CreateAccountModal({ startOnPath: 'individual', subModalContinue: 'lifetime' }))
         }
-        return this.openModalView(new CreateAccountModal({ startOnPath: 'individual', subModalContinue: 'lifetime' }))
       }
       const startEvent = 'Start Lifetime Purchase'
       if (application.tracker != null) {
@@ -309,6 +320,10 @@ module.exports = (SubscribeModal = (function () {
       if (me.get('anonymous')) {
         if (application.tracker != null) {
           application.tracker.trackEvent('Started Signup from buy lifetime', { service: 'stripe' })
+        }
+        if (features?.chinaHome) {
+          const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+          return this.openModalView(new PhoneAuthModal())
         }
         return this.openModalView(new CreateAccountModal({ startOnPath: 'individual', subModalContinue: 'lifetime' }))
       }

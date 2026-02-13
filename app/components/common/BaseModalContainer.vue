@@ -1,13 +1,29 @@
 <template>
   <!-- Modified from https://vuejs.org/v2/examples/modal.html -->
   <transition name="modal">
-    <div class="modal-mask">
-      <div class="modal-container">
+    <div
+      class="modal-mask"
+      @click="$emit('dismiss')"
+    >
+      <div
+        class="modal-container"
+        @click="stopProp"
+      >
         <slot />
       </div>
     </div>
   </transition>
 </template>
+
+<script>
+export default {
+  methods: {
+    stopProp (e) {
+      return e.stopPropagation()
+    },
+  },
+}
+</script>
 
 <style scoped>
     .modal-mask {

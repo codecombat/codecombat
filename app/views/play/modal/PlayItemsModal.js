@@ -306,6 +306,10 @@ module.exports = (PlayItemsModal = (function () {
     }
 
     askToSignUp () {
+      if (features?.chinaHome) {
+        const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+        return this.openModalView(new PhoneAuthModal())
+      }
       const createAccountModal = new CreateAccountModal({ supermodel: this.supermodel })
       return this.openModalView(createAccountModal)
     }

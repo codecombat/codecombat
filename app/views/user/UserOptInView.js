@@ -65,8 +65,13 @@ module.exports = (UserOptInView = (function () {
     }
 
     onClickLoginButton (e) {
-      const AuthModal = require('views/core/AuthModal')
-      return this.openModalView(new AuthModal())
+      if (features?.chinaHome) {
+        const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+        return this.openModalView(new PhoneAuthModal())
+      } else {
+        const AuthModal = require('views/core/AuthModal')
+        return this.openModalView(new AuthModal())
+      }
     }
   }
   UserOptInView.initClass()
