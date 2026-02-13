@@ -16,6 +16,7 @@ const schema = require('schemas/models/classroom.schema')
 const utils = require('../core/utils')
 const levelUtils = require('../core/levelUtils')
 const { findNextLevelsBySession, getLevelsDataByOriginals } = require('ozaria/site/common/ozariaUtils')
+const { checkIfProjectComplete } = require('../lib/ai-projects-helper')
 const coursesHelper = require('../lib/coursesHelper')
 const User = require('models/User')
 const Level = require('models/Level')
@@ -330,6 +331,45 @@ module.exports = (Classroom = (function () {
         playtime,
         linesOfCode,
         courseComplete
+      }
+      return stats
+    }
+
+    statsForAIProjects (sessions, courseId) {
+      const emptyResults = { levels: { size: 0, left: 0, done: true, numDone: 0, pctDone: '0.0%' }, courseComplete: false }
+      const course = this.get('courses')?.find(c => c._id === courseId)
+      if (!course) {
+        return emptyResults
+      }
+      const scenarios = course.levels
+      if (!scenarios || !scenarios.length) {
+        return emptyResults
+      }
+      const allProjects = sessions.models.map(p => p.toJSON())
+      const projectsByScenario = _.groupBy(allProjects, 'scenario')
+      const levelsTotal = scenarios.length
+      let levelsLeft = levelsTotal
+      for (const scenarioOriginal in projectsByScenario) {
+        const projects = projectsByScenario[scenarioOriginal]
+        const scenario = scenarios.find(s => s.original === scenarioOriginal)
+        if (!scenario) {
+          continue
+        }
+        const isComplete = checkIfProjectComplete(scenario, projects)
+        if (isComplete) {
+          levelsLeft -= 1
+        }
+      }
+      const courseComplete = levelsLeft === 0
+      const stats = {
+        levels: {
+          size: levelsTotal,
+          left: levelsLeft,
+          done: levelsLeft === 0,
+          numDone: levelsTotal - levelsLeft,
+          pctDone: ((100 * (levelsTotal - levelsLeft)) / levelsTotal).toFixed(1) + '%',
+        },
+        courseComplete,
       }
       return stats
     }

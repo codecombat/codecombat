@@ -259,8 +259,8 @@ module.exports = (CoursesView = (function () {
           if (!courseInstance.sessions || !course) {
             return false
           }
-          const stats = classroom.statsForSessions(courseInstance.sessions, course._id)
-          if (stats.levels != null ? stats.levels.next : undefined) {
+          let stats = classroom.statsForSessions(courseInstance.sessions, course._id)
+          if (stats.levels?.next) {
             // This could be made smarter than just picking the next level from the first incomplete course
             // It will suggest redoing a course arena level, like Wakka Maul, if all courses are complete
             this.nextLevelInfo = {
@@ -285,8 +285,8 @@ module.exports = (CoursesView = (function () {
               }
             }
           }
-          if (course._id === utils.courseIDs.HACKSTACK) {
-            return false
+          if (utils.HACKSTACK_COURSE_IDS.includes(course._id)) {
+            stats = classroom.statsForAIProjects(courseInstance.sessions, course._id)
           }
           return !stats.courseComplete
         }, this)
