@@ -6046,6 +6046,13 @@ module.exports = {
       promo_modal_subtitle: 'Unlock the Full Potential of Generative AI',
       promo_modal_text: '**New to AI? Explore CodeCombat AI HackStack** — the easiest way to dive into AI literacy. Unlock the power of top models like **ChatGPT-4**, **Claude**, **Stable Diffusion**, and **DALL-E**. With hands-on tools, creating games, art, websites, code, and more has never been simpler. It’s the perfect companion for any creative project, no experience required!',
       explore_hackstack: 'Explore Hackstack',
+      learn_1_text: 'Play in a safe[NEWLINE]AI sandbox',
+      learn_2_text: 'Cross-[NEWLINE]Curricular[NEWLINE]Lessons',
+      learn_3_text: 'Prompt[NEWLINE]Engineering',
+      learn_4_text: 'Remix AI[NEWLINE]Project',
+      learn_5_text: 'Ethics-Centered[NEWLINE]Reflection',
+      learn_6_text: 'Actionable[NEWLINE]Data',
+      learn_7_text: 'Professional[NEWLINE]Development[NEWLINE]for AI',
     },
 
     standards_page: {

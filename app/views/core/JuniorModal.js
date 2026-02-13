@@ -21,7 +21,7 @@ module.exports = (JuniorModal = (function () {
       this.prototype.hasAnimated = false
       this.prototype.events = {
         'click #close-modal': 'hide',
-        'click .submit-button': 'onSubmitButtonClick'
+        'click .submit-button': 'onSubmitButtonClick',
       }
     }
 
@@ -32,8 +32,8 @@ module.exports = (JuniorModal = (function () {
     }
 
     onSubmitButtonClick (e) {
-      storage.save('roblox-clicked', true)
-      window.tracker?.trackEvent('Roblox Explored', { engageAction: 'submit_button_click' })
+      storage.save('junior-clicked', true)
+      window.tracker?.trackEvent('Junior Icon Explored', { engageAction: 'submit_button_click' })
       this.hide()
     }
 
@@ -43,7 +43,7 @@ module.exports = (JuniorModal = (function () {
     }
 
     hide () {
-      storage.save('roblox-clicked', true)
+      storage.save('junior-clicked', true)
       super.hide()
     }
 
