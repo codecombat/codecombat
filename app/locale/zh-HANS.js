@@ -5990,7 +5990,7 @@ module.exports = {
       header_details_teacher: '获取许可后，教师每月可获得 100 条提示词额度，学生每周可获得 30 条，助力在任何学科中实现创意。',
       accessible_safe_use: '无障碍、安全且负责任地使用 AI',
       learn_title: '学习',
-      learn_description: '从**英语语言艺术**到**数学**和**科学**，学生将探索如何针对各学科创作安全且有效的提示词。通过 AI HackStack 的“学习场景”，在**广泛的学科领域**中掌握核心的提示工程（Prompt Engineering）技能。在此过程中，您的学生将亲身体验 Claude、DALL-E 和 Stable Diffusion 等热门 AI 模型。',
+      learn_description: '从**英语语言艺术**到**数学**和**科学**，学生将探索如何针对各学科创作安全且有效的提示词。通过 AI HackStack 的“学习场景”，在**广泛的学科领域**中掌握核心的提示工程（Prompt Engineering）技能。在此过程中，您的学生将亲身体验 DeepSeek、阿里千问等热门 AI 模型。',
       create_title: '创作',
       create_description: '在 HackStack 的 AI **沙盒环境**中将您最天马行空的创意变为现实。在这里，学生可以快速构建各类跨学科项目的原型。利用我们的成品课程，引导学生就 AI 的**负责任使用**及其作品的**伦理影响**进行深入讨论。这种全方位的方法不仅激发了创新，还培养了数字公民意识，让学生具备在数字时代蓬勃发展所需的技能和意识。',
       remix_title: '再创作 (Remix)',
