@@ -56,6 +56,7 @@ row
               - var league = view.options.league
               - var leagueType = view.options.leagueType
               - var course = view.options.course
+              - var tid = view.options.tournament
               if (match.opTeam && match.opTeam == 'humans') || team.id == 'ogres'
                 - var yourTeam = 'ogres'
                 - var sessionOne = match.sessionID
@@ -64,14 +65,27 @@ row
                 - var yourTeam = 'humans'
                 - var sessionOne = team.session.id
                 - var sessionTwo = match.sessionID
-              a(href='/play/spectate/' + levelID + '?session-one=' + sessionOne + '&session-two=' + sessionTwo, target='_blank')
+              - var spectateUrl = '/play/spectate/' + levelID + '?session-one=' + sessionOne + '&session-two=' + sessionTwo
+              if league
+                - spectateUrl += '&league=' + league.id
+              if tid
+                - spectateUrl += '&tid=' + tid
+              a(href=spectateUrl, target='_blank')
                 span(data-i18n="play_level.watch_game")
             td.battle-cell
               if view.level.isType('ladder')
                 - var yourTeam = 'humans'
               else
                 - var yourTeam = match.opTeam == 'humans' ? 'ogres' : 'humans'
-              a(href=`/play/level/${levelID}?team=${yourTeam}&opponent=${match.sessionID}` + (league ? `&${leagueType == 'clan' ? 'league=' : ('course=' + course.id + '&course-instance=')}` + league.id : ""))
+              - var playUrl = `/play/level/${levelID}?team=${yourTeam}&opponent=${match.sessionID}`
+              if league
+                if leagueType == 'clan'
+                  - playUrl += '&league=' + league.id
+                else
+                  - playUrl += '&course=' + course.id + '&course-instance=' + league.id
+              if tid
+                - playUrl += '&tournament=' + tid
+              a(href=playUrl)
                 if (match.state === 'win')
                   span(data-i18n="ladder.watch_victory") Watch your victory
                 else if (view.level.isType('ladder'))
