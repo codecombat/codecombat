@@ -94,7 +94,7 @@ export default {
       <img
         class="logo"
         alt="Hackstack logo"
-        src="/images/pages/hackstack/hackstack-logo-square-transparent-256.png"
+        src="/images/pages/hackstack/ai-hs-icon.webp"
       >
       <div
         class="classes flex-row"

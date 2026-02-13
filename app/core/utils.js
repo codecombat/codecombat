@@ -413,7 +413,7 @@ const COCO_COURSE_IDS = [
   allCourseIDs.COMPUTER_SCIENCE_6,
 ]
 
-const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.HACKSTACK]
+const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.INTRO_TO_AI]
 const allFreeCourseIDs = [...freeCocoCourseIDs, allCourseIDs.CHAPTER_ONE]
 
 const courseNumericalStatus = {};
