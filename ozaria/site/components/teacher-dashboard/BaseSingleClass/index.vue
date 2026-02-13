@@ -754,6 +754,7 @@ export default {
         return {
           moduleNum,
           displayName: utils.i18n(module, 'name').replace('(coming soon)', ''),
+          access: module?.access,
           contentList: moduleContent.map((scenario, index) => {
             const type = utils.scenarioMode2Icon(scenario.mode)
             return {
