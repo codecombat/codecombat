@@ -104,14 +104,16 @@ export default Vue.extend({
             this.$t('hackstack_page.faq_3_answer_1'),
             this.$t('hackstack_page.faq_3_answer_2'),
             this.$t('hackstack_page.faq_3_answer_3'),
-            this.$t('hackstack_page.faq_3_answer_4'),
+            /* this.$t('hackstack_page.faq_3_answer_4'), */
             this.$t('hackstack_page.faq_3_answer_5'),
           ],
         },
+        /*
         {
           question: this.$t('hackstack_page.faq_4_question'),
           answer: this.$t('hackstack_page.faq_4_answer'),
         },
+        */
         {
           question: this.$t('hackstack_page.faq_5_question'),
           answer: [
@@ -122,10 +124,12 @@ export default Vue.extend({
             this.$t('hackstack_page.faq_5_answer_5'),
           ],
         },
+        /*
         {
           question: this.$t('hackstack_page.faq_6_question'),
           answer: this.$t('hackstack_page.faq_6_answer'),
         },
+        */
         {
           question: this.$t('hackstack_page.faq_7_question'),
           answer: this.$t('hackstack_page.faq_7_answer'),
