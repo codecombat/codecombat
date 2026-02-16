@@ -193,6 +193,43 @@ module.exports = (CampaignEditorView = (function () {
       }
     }
 
+    // Denormalize properties from child campaigns into this.campaign.modules
+    // Similar in spirit to how level denormalization works for Campaign.denormalizedLevelProperties.
+    updateModuleCampaigns () {
+      const modules = _.cloneDeep(this.campaign.get('modules') || [])
+      if (!modules.length) { return }
+
+      let changed = false
+      for (let i = 0; i < modules.length; i++) {
+        const module = modules[i]
+        const campaignId = module && module.campaign
+        if (!campaignId) { continue }
+
+        // Prefer using CampaignIDNode's cached campaigns if available
+        let childCampaign = CampaignIDNode.campaigns && CampaignIDNode.campaigns[campaignId]
+        // Fallback to supermodel cache
+        if (!childCampaign && this.supermodel) {
+          childCampaign = this.supermodel.getModel(Campaign, campaignId)
+        }
+        if (!childCampaign) { continue }
+
+        const attrs = childCampaign.attributes || {}
+        const denormProps = Campaign.denormalizedCampaignProperties
+        for (const prop of denormProps) {
+          if (attrs[prop] != null && module[prop] !== attrs[prop]) {
+            module[prop] = attrs[prop]
+            changed = true
+          }
+        }
+        modules[i] = module
+      }
+
+      if (changed) {
+        this.campaign.set('modules', modules)
+        this.toSave.add(this.campaign)
+      }
+    }
+
     updateCampaignLevels () {
       let level, model
       if (this.campaign.hasLocalChanges()) { this.toSave.add(this.campaign) }
@@ -361,6 +398,8 @@ module.exports = (CampaignEditorView = (function () {
     onClickSaveButton (e) {
       if (this.openingModal) { return }
       this.openingModal = true
+      // Before saving, denormalize module campaign properties (name/fullName/slug) into modules.
+      this.updateModuleCampaigns()
       return this.loadMissingLevelsAndRelatedModels().then(() => {
         this.openingModal = false
         this.propagateCampaignIndexes()

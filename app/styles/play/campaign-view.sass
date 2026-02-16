@@ -109,6 +109,19 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       background-size: 100%
       @include user-select(none)
 
+    // Module portals (child campaigns) rendered on top of the map.
+    .module-portal
+      position: absolute
+      z-index: 2
+      // Center the image on the x/y map coordinates.
+      transform: translate(-50%, 50%)
+      transform-origin: center bottom
+      @include user-select(none)
+      // Simple scale-up effect on hover (no glow).
+      @include transition(transform 0.2s ease-out)
+      &:hover
+        transform: translate(-50%, 50%) scale(1.05)
+
     .level, .level-shadow
       position: absolute
       border-radius: 50%
@@ -901,6 +914,10 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
       .campaign-name
         line-height: 26px
+
+        &.campaign-name-large
+          font-size: 48px
+          line-height: 50px
 
       .levels-completed
         font-size: 22px
