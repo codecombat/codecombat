@@ -871,6 +871,20 @@ class CampaignView extends RootView {
             if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
           })
       })
+      // Module portals: use same bottom-based coordinate math as scenarios.
+      this.$el.find('.module-portal').each(function () {
+        if (!me.isAdmin() || !view.editorMode) { return }
+        $(this).draggable({ scroll: false, containment: '.map' })
+          .on('dragstop', function () {
+            const bg = $('.map-background')
+            const el = $(this)
+            const x = ((el.offset().left - bg.offset().left) + (el.outerWidth() / 2)) / bg.width()
+            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2)
+            const y = 1 - (yCenterPx / bg.height())
+            const e = { position: { x: (100 * x), y: (100 * y) }, moduleSlug: el.data('module-slug') }
+            if (e.moduleSlug) { view.trigger('module-moved', e) }
+          })
+      })
     }
     this.updateVolume()
     this.updateHero()
