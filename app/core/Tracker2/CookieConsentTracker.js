@@ -26,11 +26,10 @@ export default class CookieConsentTracker extends BaseTracker {
       console.error('Preferred locale not loaded for user. This will result in consent tracker showing in incorrect language.')
     }
 
-    if (!this.store.getters['me/inEU']) {
-      this.onInitializeSuccess()
-      return
-    }
+    // For logged-in users, sync consent from user account to browser cookie
+    this.syncConsentFromUserAccount()
 
+    // Show cookie consent globally for all users to comply with privacy laws worldwide
     this.store.watch(
       (state, getters) => getters['me/preferredLocale'],
       () => this.onPreferredLocaleChanged()
@@ -40,8 +39,30 @@ export default class CookieConsentTracker extends BaseTracker {
     this.onInitializeSuccess()
   }
 
+  syncConsentFromUserAccount () {
+    const savedConsent = me.getLatestCookieConsent()
+    if (savedConsent && savedConsent.action) {
+      // Set the browser cookie to match user's saved preference
+      const cookieConsentLib = require('cookieconsent')
+      const util = cookieConsentLib.utils || {}
+      if (util.setCookie) {
+        util.setCookie('cookieconsent_status', savedConsent.action, 365, '', '/')
+      }
+      // Update store immediately
+      this.store.dispatch('tracker/cookieConsentStatusChange', savedConsent.action)
+    }
+  }
+
   onStatusChange (status) {
+    this.log('CookieConsent onStatusChange - status:', status)
     this.store.dispatch('tracker/cookieConsentStatusChange', status)
+
+    me.saveCookieConsent(status, 'User cookie consent from banner')
+    me.save(null, {
+      error: (error) => {
+        console.error('Failed to save cookie consent to user account', error)
+      },
+    })
   }
 
   onPreferredLocaleChanged () {
@@ -79,14 +100,15 @@ export default class CookieConsentTracker extends BaseTracker {
 
       palette: {
         popup: { background: '#000' },
-        button: { background: '#f1d600' }
+        button: { background: '#7a65fc' },
+        buttonText: { color: '#ffffff' },
       },
 
       hasTransition: false,
       revokeable: true,
       law: false,
       location: false,
-      type: 'opt-out',
+      type: 'opt-in',
 
       content: {
         allow: Vue.t('legal.cookies_allow'),
@@ -94,8 +116,8 @@ export default class CookieConsentTracker extends BaseTracker {
         dismiss: Vue.t('general.accept'),
         deny: Vue.t('legal.cookies_deny'),
         link: Vue.t('nav.privacy'),
-        href: '/privacy'
-      }
+        href: '/privacy',
+      },
     })
   }
 }
