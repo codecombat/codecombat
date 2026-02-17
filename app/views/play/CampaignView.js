@@ -871,19 +871,30 @@ class CampaignView extends RootView {
             if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
           })
       })
-      // Module portals: use same bottom-based coordinate math as scenarios.
-      this.$el.find('.module-portal').each(function () {
+      // Module portals: in editor, mark with an extra class for CSS targeting,
+      // and enable simple drag that saves exact on-screen position.
+      if (this.editorMode) {
+        this.$el.find('.module-portal').addClass('in-editor')
+      }
+      this.$el.find('.module-portal').addClass('has-tooltip').tooltip().each(function () {
         if (!me.isAdmin() || !view.editorMode) { return }
-        $(this).draggable({ scroll: false, containment: '.map' })
-          .on('dragstop', function () {
-            const bg = $('.map-background')
-            const el = $(this)
-            const x = ((el.offset().left - bg.offset().left) + (el.outerWidth() / 2)) / bg.width()
-            const yCenterPx = (el.offset().top - bg.offset().top) + (el.outerHeight() / 2)
-            const y = 1 - (yCenterPx / bg.height())
-            const e = { position: { x: (100 * x), y: (100 * y) }, moduleSlug: el.data('module-slug') }
-            if (e.moduleSlug) { view.trigger('module-moved', e) }
-          })
+        const el = $(this)
+        el.draggable({
+          scroll: false,
+          containment: '.map',
+        }).on('dragstop', function () {
+          // For modules, CSS left/bottom are relative to the .map container.
+          const map = $('.map')
+          const el = $(this)
+          // Save the anchor at bottom-left, which matches CSS left/bottom.
+          const leftPx = el.offset().left - map.offset().left
+          const topPx = el.offset().top - map.offset().top
+          const bottomPx = map.height() - (topPx + el.outerHeight())
+          const x = leftPx / map.width()
+          const y = bottomPx / map.height()
+          const e = { position: { x: (100 * x), y: (100 * y) }, moduleSlug: el.data('module-slug') }
+          if (e.moduleSlug) { view.trigger('module-moved', e) }
+        })
       })
     }
     this.updateVolume()
