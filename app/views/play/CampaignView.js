@@ -871,6 +871,31 @@ class CampaignView extends RootView {
             if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
           })
       })
+      // Module portals: in editor, mark with an extra class for CSS targeting,
+      // and enable simple drag that saves exact on-screen position.
+      if (this.editorMode) {
+        this.$el.find('.module-portal').addClass('in-editor')
+      }
+      this.$el.find('.module-portal').addClass('has-tooltip').tooltip().each(function () {
+        if (!me.isAdmin() || !view.editorMode) { return }
+        const el = $(this)
+        el.draggable({
+          scroll: false,
+          containment: '.map',
+        }).on('dragstop', function () {
+          // For modules, CSS left/bottom are relative to the .map container.
+          const map = $('.map')
+          const el = $(this)
+          // Save the anchor at bottom-left, which matches CSS left/bottom.
+          const leftPx = el.offset().left - map.offset().left
+          const topPx = el.offset().top - map.offset().top
+          const bottomPx = map.height() - (topPx + el.outerHeight())
+          const x = leftPx / map.width()
+          const y = bottomPx / map.height()
+          const e = { position: { x: (100 * x), y: (100 * y) }, moduleSlug: el.data('module-slug') }
+          if (e.moduleSlug) { view.trigger('module-moved', e) }
+        })
+      })
     }
     this.updateVolume()
     this.updateHero()

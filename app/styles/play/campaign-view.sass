@@ -110,17 +110,17 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       @include user-select(none)
 
     // Module portals (child campaigns) rendered on top of the map.
+    // NOTE: We do not use a base translate() here so that editor dragging
+    // can treat the CSS left/bottom as the raw anchor point and lock the
+    // mouse to the visual center via JS. Hover only scales around center.
     .module-portal
       position: absolute
       z-index: 2
-      // Center the image on the x/y map coordinates.
-      transform: translate(-50%, 50%)
-      transform-origin: center bottom
       @include user-select(none)
-      // Simple scale-up effect on hover (no glow).
       @include transition(transform 0.2s ease-out)
-      &:hover
-        transform: translate(-50%, 50%) scale(1.05)
+      // Don't scale when this extra class is present (used by CampaignView in editor).
+      &:not(.in-editor):hover
+        transform: scale(1.2)
 
     .level, .level-shadow
       position: absolute
