@@ -141,6 +141,15 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
         .module-name, .module-levels-completed, .module-locked
           margin: 0
+
+        // Make module name prominent, like an h1.
+        .module-name
+          color: #ffd31a
+          font-size: 32px
+          text-shadow: 0 0 4px black, 0 0 4px black, 0 0 8px black, 0 0 8px black
+
+        // Keep any other module text readable over the map.
+        .module-levels-completed, .module-locked
           color: white
           text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
 
