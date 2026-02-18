@@ -21,12 +21,14 @@ export default class GoogleAnalyticsTracker extends BaseTracker {
       }
     }
 
-    // Set initial Google Consent Mode state
+    // Update Google Consent Mode state — layout.static.pug already called
+    // gtag('consent', 'default', ...) before gtag('config', ...), so we must
+    // use 'update' here to avoid violating the ordering requirement.
     if (window.gtag) {
       if (this.disableAllTracking) {
-        window.gtag('consent', 'default', consentValue('denied'))
+        window.gtag('consent', 'update', consentValue('denied'))
       } else {
-        window.gtag('consent', 'default', consentValue('granted'))
+        window.gtag('consent', 'update', consentValue('granted'))
       }
 
       // Watch for consent changes

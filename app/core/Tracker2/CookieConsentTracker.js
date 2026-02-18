@@ -42,12 +42,13 @@ export default class CookieConsentTracker extends BaseTracker {
   syncConsentFromUserAccount () {
     const savedConsent = me.getLatestCookieConsent()
     if (savedConsent && savedConsent.action) {
-      // Set the browser cookie to match user's saved preference
-      const cookieConsentLib = require('cookieconsent')
-      const util = cookieConsentLib.utils || {}
-      if (util.setCookie) {
-        util.setCookie('cookieconsent_status', savedConsent.action, 365, '', '/')
-      }
+      // Set the browser cookie to match user's saved preference.
+      // Use direct cookie manipulation rather than cookieconsent.utils.setCookie,
+      // which is an undocumented internal API that may not exist (see User.js:clearCookieConsent).
+      // [TODO] if the API does exist, we should use it instead. Also, a very old package!
+      const expiry = new Date()
+      expiry.setFullYear(expiry.getFullYear() + 1)
+      document.cookie = `cookieconsent_status=${savedConsent.action}; expires=${expiry.toUTCString()}; path=/`
       // Update store immediately
       this.store.dispatch('tracker/cookieConsentStatusChange', savedConsent.action)
     }
@@ -59,7 +60,7 @@ export default class CookieConsentTracker extends BaseTracker {
 
     me.saveCookieConsent(status, 'User cookie consent from banner')
     me.save(null, {
-      error: (error) => {
+      error: (_res, error) => {
         console.error('Failed to save cookie consent to user account', error)
       },
     })
