@@ -269,10 +269,10 @@ if !editorMode
               )
               if !editorMode
                 .module-label
-                  h3.module-name= module.fullName || module.name || module.slug || 'Module'
+                  h3.module-name= i18n(module, 'fullName') || i18n(module, 'name') || module.slug || 'Module'
                   if module.description
                     .module-description-container
-                      p.module-description(dir="auto")= module.description
+                      p.module-description(dir="auto")= i18n(module, 'description')
 
       each scenario in scenarios
         if scenario.position
