@@ -110,9 +110,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       @include user-select(none)
 
     // Module portals (child campaigns) rendered on top of the map.
-    // NOTE: We do not use a base translate() here so that editor dragging
-    // can treat the CSS left/bottom as the raw anchor point and lock the
-    // mouse to the visual center via JS. Hover only scales around center.
+    // Wrapper .module-portal is positioned; .module-portal-image fills it; .module-label overlays.
     .module-portal
       position: absolute
       z-index: 2
@@ -121,6 +119,47 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       // Don't scale when this extra class is present (used by CampaignView in editor).
       &:not(.in-editor):hover
         transform: scale(1.2)
+
+      .module-portal-image
+        display: block
+        width: 100%
+        height: auto
+        vertical-align: top
+
+      // Module overlay content, structurally similar to campaign labels.
+      .module-label
+        position: absolute
+        top: 45%
+        left: 0
+        right: 0
+        width: 100%
+        text-align: center
+        pointer-events: none
+
+        .module-play-button
+          pointer-events: auto
+          margin: 15px 0
+          min-width: 100px
+
+        .module-name, .module-levels-completed, .module-locked
+          margin: 0
+          color: white
+          text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
+
+        .module-description-container
+          margin: 10px auto
+          width: 80%
+          transition: opacity 0.4s ease, visibility 0.4s ease
+          transition-delay: 0.15s
+
+          .module-description
+            background: transparent url(/images/level/popover_border_background.png) no-repeat
+            background-size: 100% 100%
+            padding: 12px
+            color: black
+            font-size: 14px
+            line-height: 1.2
+            margin: 0
 
     .level, .level-shadow
       position: absolute
