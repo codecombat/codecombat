@@ -26,6 +26,11 @@ export default class CookieConsentTracker extends BaseTracker {
       console.error('Preferred locale not loaded for user. This will result in consent tracker showing in incorrect language.')
     }
 
+    if (me.isStudent()) {
+      this.onInitializeSuccess()
+      return
+    }
+
     // For logged-in users, sync consent from user account to browser cookie
     this.syncConsentFromUserAccount()
 
