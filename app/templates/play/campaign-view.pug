@@ -267,13 +267,12 @@ if !editorMode
                 src="/file/" + module.portalImage,
                 draggable="false"
               )
-              .module-label
-                h3.module-name= module.fullName || module.name || module.slug || 'Module'
-                if !editorMode
-                  a.btn.btn-illustrated.btn-lg.module-play-button(href="/play/" + module.slug, data-i18n="common.play") Play
-                if module.description
-                  .module-description-container
-                    p.module-description(dir="auto")= module.description
+              if !editorMode
+                .module-label
+                  h3.module-name= module.fullName || module.name || module.slug || 'Module'
+                  if module.description
+                    .module-description-container
+                      p.module-description(dir="auto")= module.description
 
       each scenario in scenarios
         if scenario.position

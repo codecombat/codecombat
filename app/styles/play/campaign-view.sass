@@ -119,6 +119,9 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       // Don't scale when this extra class is present (used by CampaignView in editor).
       &:not(.in-editor):hover
         transform: scale(1.2)
+      // Cursor pointer when not in editor (module is clickable to play).
+      &:not(.in-editor)
+        cursor: pointer
 
       .module-portal-image
         display: block
@@ -126,7 +129,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         height: auto
         vertical-align: top
 
-      // Module overlay content, structurally similar to campaign labels.
+      // Module overlay content.
       .module-label
         position: absolute
         top: 45%
@@ -136,11 +139,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         text-align: center
         pointer-events: none
 
-        .module-play-button
-          pointer-events: auto
-          margin: 15px 0
-          min-width: 100px
-
         .module-name, .module-levels-completed, .module-locked
           margin: 0
           color: white
@@ -149,8 +147,10 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         .module-description-container
           margin: 10px auto
           width: 80%
+          opacity: 0
+          visibility: hidden
           transition: opacity 0.4s ease, visibility 0.4s ease
-          transition-delay: 0.15s
+          transition-delay: 0s
 
           .module-description
             background: transparent url(/images/level/popover_border_background.png) no-repeat
@@ -160,6 +160,12 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
             font-size: 14px
             line-height: 1.2
             margin: 0
+
+      // Show description only on hover (when not in editor).
+      &:not(.in-editor):hover .module-description-container
+        opacity: 1
+        visibility: visible
+        transition-delay: 0.15s
 
     .level, .level-shadow
       position: absolute
