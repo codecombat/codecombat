@@ -272,6 +272,7 @@ CampaignSchema.denormalizedModuleCampaignProperties = [
   'fullName',
   'slug',
   'i18n',
+  'description',
 ]
 for (const prop of CampaignSchema.denormalizedModuleCampaignProperties) {
   if (CampaignSchema.properties[prop]) {
