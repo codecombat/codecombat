@@ -64,14 +64,14 @@ module.exports = (PendingPatchesView = (function () {
             patch.slug = _.string.slugify(name)
             patch.url = '/editor/' + (() => {
               switch (patch.target.collection) {
-                case 'level': case 'achievement': case 'article': case 'campaign': case 'poll':
+                case 'level': case 'achievement': case 'article': case 'campaign': case 'poll': case 'course':
                   return `${patch.target.collection}/${patch.slug}`
                 case 'thang_type':
                   return `thang/${patch.slug}`
                 case 'level_system': case 'level_component':
                   return `level/items?${patch.target.collection}=${patch.slug}`
-                case 'course':
-                  return `course/${patch.slug}`
+                case 'resource_hub_resource':
+                  return `resource/${patch.slug}`
                 default:
                   console.log(`Where do we review a ${patch.target.collection} patch?`)
                   return ''
