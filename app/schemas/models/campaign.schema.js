@@ -204,7 +204,7 @@ _.extend(CampaignSchema.properties, {
       },
     },
   },
-  parentCampaign: c.stringID({ title: 'Parent Campaign', format: 'campaignID', model: 'Campaign', links: [{ rel: 'db', href: '/db/campaign/{{$}}', model: 'Campaign' }] }),
+  parentCampaignSlug: { type: 'string', title: 'Parent Campaign Slug', description: 'The slug of the parent campaign.' },
 })
 
 CampaignSchema.denormalizedLevelProperties = [
