@@ -1367,44 +1367,93 @@ class CampaignView extends RootView {
     const visualConnections = this.campaign?.get('visualConnections') || []
     if (!visualConnections.length) { return }
 
-    // Clear existing visual connections before drawing new ones (in case of re-render).
-    this.$el.find('.visual-connection-line').remove()
-
     const map = this.$el.find('.map')
-    const mapHeight = parseFloat(map.css('height'))
-    const mapWidth = parseFloat(map.css('width'))
-    if (!(mapHeight > 0)) { return }
-    const ratio = mapWidth / mapHeight
+    if (!map.length) { return }
+
+    // Clear any existing layer (we use a fixed id to avoid duplicates)
+    map.find('#visual-connections-svg').remove()
+
+    // Use actual pixel size of the map as the SVG coordinate system
+    const mapWidth = map.width()
+    const mapHeight = map.height()
+    if (!(mapWidth > 0 && mapHeight > 0)) { return }
+
+    const svgNS = 'http://www.w3.org/2000/svg'
+    const svg = document.createElementNS(svgNS, 'svg')
+    $(svg)
+      .attr({
+        id: 'visual-connections-svg',
+        width: mapWidth,
+        height: mapHeight,
+      })
+      .css({
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: mapWidth,
+        height: mapHeight,
+        'pointer-events': 'none',
+        'z-index': 5,
+      })
+
+    const defaultColor = '#AF9F7D'
+    const defaultOpacity = 0.7
+    const STROKE_WIDTH = 7
+
+    // Convert 0–100% campaign coords -> pixels in this SVG
+    const mapToSvgX = xPercent => (xPercent / 100) * mapWidth
+    const mapToSvgY = yPercent => mapHeight - (yPercent / 100) * mapHeight
 
     for (const conn of visualConnections) {
       const fromPos = conn?.fromPos
       const toPos = conn?.toPos
-      if (!fromPos || !toPos) { continue }
+      if (!fromPos || !toPos) continue
 
-      const p1 = { x: fromPos.x, y: fromPos.y / ratio }
-      const p2 = { x: toPos.x, y: toPos.y / ratio }
-      const length = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
-      const angle = (Math.atan2(p1.y - p2.y, p2.x - p1.x) * 180) / Math.PI
-      const transform = `translateY(-50%) translateX(-50%) rotate(${angle}deg) translateX(50%)`
+      const x1 = mapToSvgX(fromPos.x)
+      const y1 = mapToSvgY(fromPos.y)
+      const x2 = mapToSvgX(toPos.x)
+      const y2 = mapToSvgY(toPos.y)
 
-      const line = $('<div>')
-        .appendTo(map)
-        .addClass('visual-connection-line')
-        .css({
-          transform,
-          width: `${length}%`,
-          left: `${fromPos.x}%`,
-          bottom: `${fromPos.y - 0.5}%`,
-        })
+      const dx = x2 - x1
+      const dy = y2 - y1
+      const length = Math.hypot(dx, dy) || 1
 
-      const innerLine = $('<div class="line">').appendTo(line)
-      if (conn.color) {
-        innerLine.css('background', conn.color)
-      }
-      if (conn.opacity != null) {
-        innerLine.css('opacity', conn.opacity)
-      }
+      const nx = -dy / length
+      const ny = dx / length
+      const mx = (x1 + x2) / 2
+      const my = (y1 + y2) / 2
+
+      // Curve: 0 = straight, sign = side, magnitude = strength
+      const curve = conn.curve || 0
+      const k = 0.18
+      const minMag = 4
+      const maxMag = 22
+      const curveMagnitudeFactor = Math.max(1, Math.abs(curve))
+      const baseMag = k * length * curveMagnitudeFactor
+      const mag = Math.max(minMag, Math.min(maxMag, baseMag)) * (curve >= 0 ? 1 : -1)
+
+      const cx = mx + nx * mag
+      const cy = my + ny * mag
+
+      const d = `M ${x1},${y1} Q ${cx},${cy} ${x2},${y2}`
+
+      const color = conn.color || defaultColor
+      const opacity = (conn.opacity != null) ? conn.opacity : defaultOpacity
+
+      const path = document.createElementNS(svgNS, 'path')
+      $(path).attr({
+        d,
+        fill: 'none',
+        stroke: color,
+        'stroke-opacity': opacity,
+        'stroke-width': STROKE_WIDTH,
+        'stroke-linecap': 'round',
+      })
+
+      svg.appendChild(path)
     }
+
+    map.append(svg)
   }
 
   applyCampaignStyles () {
@@ -1734,6 +1783,10 @@ class CampaignView extends RootView {
     this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
     if (this.pointerInterval) {
       this.highlightNextLevel()
+    }
+    // Rebuild visual connections so they stay aligned with the resized map.
+    if (this.campaign) {
+      this.createVisualConnections()
     }
   }
 

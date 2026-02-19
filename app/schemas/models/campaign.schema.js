@@ -215,6 +215,14 @@ _.extend(CampaignSchema.properties, {
         toPos: c.point2d({ description: 'The position of the to point', title: 'To Position' }),
         color: { type: 'string', format: 'color', description: 'The color of the connection' },
         opacity: { type: 'number', title: 'Opacity', format: 'range', minimum: 0, maximum: 1, default: 0.5 },
+        // Curvature factor for this visual connection. 0 means straight line,
+        // positive/negative values bend the connection in opposite directions.
+        curve: {
+          type: 'number',
+          title: 'Curve',
+          description: 'Curvature factor; 0 is straight, positive/negative bend the line left/right',
+          default: 0,
+        },
       },
     },
   },
