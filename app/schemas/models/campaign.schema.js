@@ -204,6 +204,7 @@ _.extend(CampaignSchema.properties, {
       },
     },
   },
+  parentCampaignSlug: { type: 'string', title: 'Parent Campaign Slug', description: 'The slug of the parent campaign.' },
 })
 
 CampaignSchema.denormalizedLevelProperties = [

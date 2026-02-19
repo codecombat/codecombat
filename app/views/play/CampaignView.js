@@ -1775,9 +1775,10 @@ class CampaignView extends RootView {
   onClickBack (e) {
     let route = '/play'
     let viewArgs = [{ supermodel: this.supermodel }]
-    if (this.campaign?.get('isHackstackCampaign')) {
-      route = '/play/ai'
-      viewArgs = [{ supermodel: this.supermodel }, 'ai'] // Pass 'ai' as the campaign parameter
+    const parentSlug = this.campaign?.get('parentCampaignSlug')
+    if (parentSlug) {
+      route = `/play/${parentSlug}`
+      viewArgs = [{ supermodel: this.supermodel }, parentSlug]
     }
     Backbone.Mediator.publish('router:navigate', {
       route,
