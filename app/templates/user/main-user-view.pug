@@ -12,7 +12,6 @@ block append content
   if view.user
     - var playerLevel = view.user.level()
     - var emails = view.user.getEnabledEmails()
-    - var totalGems = view.user.gems()
     - var levelsComplete = (view.user.get('stats') || {}).gamesCompleted
     - var heroes = view.user.heroes().length
     - var heroID = (view.user.get('heroConfig') || {}).thangType
@@ -62,10 +61,6 @@ block append content
               div.extra-info
                 span.spr(data-i18n="league.codepoints") Code Points
                 strong= codePoints
-            if totalGems
-              div.extra-info
-                span.spr(data-i18n="account.gems") Gems
-                strong= totalGems
 
         div.inventory
           h2.inventory-title(data-i18n="game_menu.inventory_tab") Inventory
@@ -74,16 +69,24 @@ block append content
               img#hero-pose.hero-pose(alt="" src=view.heroPoseImage)
             if primaryWeapon || secondaryWeapon || headArmor || torsoArmor
               div.items
-                h4.items-title(data-i18n="user.current_items") Items Equipped
+                // h4.items-title(data-i18n="user.current_items") Items Equipped
                 div.float
                   if primaryWeapon
                     img.primary-weapon(src=`/file/db/thang.type/${primaryWeapon}/portrait.png` alt="")
+                  else 
+                    img.primary-weapon(src='/images/pages/user/empty-slot-primary.png' alt="")
                   if secondaryWeapon
                     img.secondary-weapon(src=`/file/db/thang.type/${secondaryWeapon}/portrait.png` alt="")
+                  else 
+                    img.secondary-weapon(src='/images/pages/user/empty-slot-secondary.png' alt="")
                   if headArmor
                     img.head-armor(src=`/file/db/thang.type/${headArmor}/portrait.png` alt="")
+                  else 
+                    img.head-armor(src='/images/pages/user/empty-slot-head.png' alt="")
                   if torsoArmor
                     img.torso-armor(src=`/file/db/thang.type/${torsoArmor}/portrait.png` alt="")
+                  else 
+                    img.torso-armor(src='/images/pages/user/empty-slot-torso.png' alt="")
 
         ul.contributor-categories
           li.contributor-category
