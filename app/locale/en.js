@@ -6349,6 +6349,7 @@ module.exports = {
       'claude-description': 'Writes stories and summarizes documents.',
       locked: 'LOCKED',
       view: 'View',
+      ready_to_review_text: 'You haven\'t marked this project as ready to review. Press OK to mark it as ready and continue. Press Cancel to skip and continue without marking.',
       continue: 'Continue',
       no_assigned_projects: 'Your teacher has not assigned any AI projects yet.',
       continue_here: 'Continue',
