@@ -1408,6 +1408,11 @@ class CampaignView extends RootView {
       return (yPercentFromTop / 100) * mapHeight
     }
 
+    // Container for per-path markers (arrow heads, etc.)
+    const defs = document.createElementNS(svgNS, 'defs')
+    svg.appendChild(defs)
+
+    let connectionIndex = 0
     for (const conn of visualConnections) {
       const fromPos = conn?.fromPos
       const toPos = conn?.toPos
@@ -1453,10 +1458,40 @@ class CampaignView extends RootView {
         'stroke-linecap': 'round',
       })
 
+      // Optional head decoration
+      if (conn.head === 'arrow') {
+        const markerId = `visual-connection-arrow-${connectionIndex}`
+        const marker = document.createElementNS(svgNS, 'marker')
+        $(marker).attr({
+          id: markerId,
+          viewBox: '0 0 10 10',
+          refX: 5,
+          refY: 5,
+          // Slightly smaller arrowhead than the manual test version
+          markerWidth: 3,
+          markerHeight: 3,
+          orient: 'auto-start-reverse',
+        })
+        const arrowPath = document.createElementNS(svgNS, 'path')
+        $(arrowPath).attr({
+          d: 'M 0 0 L 10 5 L 0 10 z',
+          fill: color,
+        })
+        marker.appendChild(arrowPath)
+        defs.appendChild(marker)
+        $(path).attr('marker-end', `url(#${markerId})`)
+      }
+
       svg.appendChild(path)
+      connectionIndex++
     }
 
     map.append(svg)
+
+    // Work around Chrome’s dynamic SVG marker rendering bug:
+    const $svg = map.find('#visual-connections-svg')
+    const html = $svg[0].outerHTML
+    $svg.replaceWith(html)
   }
 
   applyCampaignStyles () {

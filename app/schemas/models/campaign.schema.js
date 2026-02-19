@@ -223,6 +223,14 @@ _.extend(CampaignSchema.properties, {
           description: 'Curvature factor; 0 is straight, positive/negative bend the line left/right',
           default: 0,
         },
+        // Head decoration at the end of the connection.
+        head: {
+          type: 'string',
+          title: 'Head',
+          description: 'What to draw at the end of the connection (none or arrow)',
+          enum: ['none', 'arrow'],
+          default: 'none',
+        },
         // Relative thickness multiplier for the connection stroke.
         thickness: {
           type: 'number',
