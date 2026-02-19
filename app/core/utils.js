@@ -19,7 +19,7 @@ const isCodeCombat = product === 'codecombat'
 const isOzaria = !isCodeCombat
 const _ = require('lodash')
 const useWebsocket = false
-const showOzaria =  () => isOzaria || window.location.pathname.includes('ozaria')
+const showOzaria = () => isOzaria || window?.location?.pathname?.includes('ozaria')
 
 // Yuqiang: i don't know why we use same slugify from different source but let's keep it right now since change it sometimes trigger unbelievable bug
 if (isCodeCombat) {
@@ -1835,6 +1835,69 @@ module.exports.aiTranslate = async (modelName, docId, langs) => {
   })
 }
 
+const tournamentMixedIdHelper = {
+  // NOTE: This is obfuscation, not encryption. Do not treat as a secret (it ships to clients).
+  secret: 'a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718',
+  // Converts a hex string (e.g., "a1b2") to a byte array (e.g., [0xa1, 0xb2])
+  hexToBytes: (hex) => {
+    if (!_.isString(hex) || hex.length %2 !== 0 || !/^[0-9a-f]+$/i.test(hex)) {
+      throw new Error('Invalid hex input')
+    }
+    const bytes = []
+    for (let i = 0; i < hex.length; i += 2) {
+      bytes.push(parseInt(hex.substring(i, i + 2), 16))
+    }
+    return bytes
+  },
+  // Converts a byte array (e.g., [0xa1, 0xb2]) to a hex string (e.g., "a1b2")
+  bytesToHex: (bytes) => {
+    return Array.from(bytes).map(byte => byte.toString(16).padStart(2, '0')).join('')
+  },
+  encrypt: function (clanId, tournamentId) {
+    if (!module.exports.isID(clanId) || !module.exports.isID(tournamentId)) {
+      throw new Error('Expected 24-hex clanId and tournamentId')
+    }
+    const interleaveId = _.flatten(_.zip(clanId.split(''), tournamentId.split(''))).join('')
+    const combinedBytes = this.hexToBytes(interleaveId)
+    const keyBytes = this.hexToBytes(this.secret)
+    const xorBytes = combinedBytes.map((byte, i) => byte ^ keyBytes[i % keyBytes.length])
+    const mixedId = this.bytesToHex(xorBytes)
+    return mixedId
+  },
+  decrypt: function (mixedId) {
+    if (!_.isString(mixedId) || mixedId.length !== 48 || !/^[0-9a-f]+$/i.test(mixedId)) {
+      throw new Error('Invalid mixedId')
+    }
+    const mixedBytes = this.hexToBytes(mixedId)
+    const keyBytes = this.hexToBytes(this.secret)
+    const combinedBytes = mixedBytes.map((byte, i) => byte ^ keyBytes[i % keyBytes.length])
+    const combinedHex = this.bytesToHex(combinedBytes)
+    let decodedClanId = ''
+    let decodedTournamentId = ''
+    for (let i = 0; i < 48; i += 2) {
+      decodedClanId += combinedHex[i]
+      decodedTournamentId += combinedHex[i + 1]
+    }
+    return { clanId: decodedClanId, tournamentId: decodedTournamentId }
+  },
+  convertUrl: function (ladderUrl) {
+    try {
+      const url = new URL(ladderUrl)
+      const m = url.pathname.match(/^\/play\/ladder\/[^/]+\/clan\/([^/]+)$/)
+      const tournamentId = url.searchParams.get('tournament')
+      if (!m || !tournamentId) {
+        return ladderUrl
+      }
+      const levelId = match[1]
+      const clanId = match[2]
+      const mixedId = this.encrypt(clanId, tournamentId)
+      return `/play/tournament/${levelId}/${mixedId}`
+    } catch (e) {
+      return ladderUrl
+    }
+  },
+}
+
 module.exports.groupedCoursesList = (courses) => {
   const cocoCourses = [
     { _id: 'junior', name: $.i18n.t('teacher.JR_short'), disabled: true }, // group name
@@ -1996,6 +2059,7 @@ module.exports = {
   COCO_COURSE_IDS,
   OZ_COURSE_IDS,
   showOzaria,
+  tournamentMixedIdHelper,
 }
 
 function __guard__ (value, transform) {

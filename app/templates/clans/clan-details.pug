@@ -81,9 +81,10 @@ block content
         h2(data-i18n="tournament.mini_tournaments")
         p(data-i18n="clans.leagues_explanation")
         for tournament in view.tournamentModels
+          - var url = view.tournamentHelper.convertUrl(`/play/ladder/${tournament.slug}/clan/${tournament.clan}?tournament=${tournament._id}`)
           .level-row
             .tournament-image
-              a(href=`/play/ladder/${tournament.slug}/clan/${tournament.clan}?tournament=${tournament._id}`, title=tournament.description)
+              a(href=url, title=tournament.description)
                 span.level
                   if view.ladderImageMap[tournament.levelOriginal]
                     img.level-image(src=view.ladderImageMap[tournament.levelOriginal], alt=tournament.name).img-rounded

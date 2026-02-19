@@ -528,6 +528,7 @@ module.exports = (HeroVictoryModal = (function () {
         ladderURL += `/${leagueType}/${leagueID}`
         if (tournamentId = utils.getQueryVariable('tournament')) {
           ladderURL += `?tournament=${tournamentId}`
+          ladderURL = utils.tournamentMixedIdHelper.convertUrl(ladderURL)
         }
       }
       ladderURL += '#my-matches'

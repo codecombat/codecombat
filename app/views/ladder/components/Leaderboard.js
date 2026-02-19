@@ -37,10 +37,10 @@ module.exports = (LeaderboardView = (function () {
       super(options)
       this.level = level
       this.sessions = sessions
-      this.anonymousPlayerName = anonymousPlayerName
-      this.hidesTeams = utils.getQueryVariable('tournament') === '65775da26dd00500194eaf3f'; // Hide team display for this particular tournament
+      this.anonymousPlayerName = anonymousPlayerName;
 
-      ({ league: this.league, tournament: this.tournament, leagueType: this.leagueType, course: this.course } = options)
+      ({ league: this.league, tournament: this.tournament, tournamentState: this.tournamentState, leagueType: this.leagueType, course: this.course } = options)
+      this.hidesTeams = this.tournament === '65775da26dd00500194eaf3f' // Hide team display for this particular tournament
       // params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
       this.tableTitles = [
         { slug: 'creator', col: 0, title: '' },
@@ -59,7 +59,7 @@ module.exports = (LeaderboardView = (function () {
         _.remove(this.tableTitles, { slug: 'clan' })
       }
       this.propsData = { tableTitles: this.tableTitles, league: this.league, level: this.level, leagueType: this.leagueType, course: this.course, scoreType: 'tournament' }
-      if (!this.tournament) {
+      if (this.tournamentState !== 'ended') {
         this.propsData.tableTitles = [
           { slug: 'creator', col: 0, title: '' },
           { slug: 'language', col: 1, title: '' },
@@ -75,6 +75,7 @@ module.exports = (LeaderboardView = (function () {
           _.remove(this.propsData.tableTitles, { slug: 'clan' })
         }
         this.propsData.scoreType = 'arena'
+        this.propsData.tournament = this.tournament
       }
       this.rankings = []
       this.myRank = -1
@@ -177,7 +178,7 @@ module.exports = (LeaderboardView = (function () {
         if ((model != null ? model.type : undefined) === 'BLANK_ROW') {
           return model
         }
-        if (this.tournament) {
+        if (this.tournamentState === 'ended') {
           let left, left1
           const isMyLevelSession = (model.get('creator') === me.id) && (model.constructor.name === 'LevelSession')
           const wins = (left = model.get('wins')) != null ? left : (isMyLevelSession ? model.myWins : 0)
@@ -225,7 +226,7 @@ module.exports = (LeaderboardView = (function () {
       }
 
       const teamSession = _.find(this.sessions.models, session => session.get('team') === 'humans')
-      this.leaderboards = new LeaderboardData(this.level, 'humans', teamSession, this.ladderLimit, this.league, this.tournament, this.ageBracket, this.options.myTournamentSubmission)
+      this.leaderboards = new LeaderboardData(this.level, 'humans', teamSession, this.ladderLimit, this.league, this.tournament, this.ageBracket, this.options.myTournamentSubmission, this.tournamentState)
       this.leaderboardRes = this.supermodel.addModelResource(this.leaderboards, 'leaderboard', { cache: false }, 3)
       this.leaderboardRes.load()
       Backbone.Mediator.publish('ladder:refresh', {})
@@ -243,7 +244,7 @@ module.exports = (LeaderboardView = (function () {
       if (data.length !== 2) { return }
       if (this.spectateTargets == null) { this.spectateTargets = {} }
       const leaderboards = { top: this.leaderboards.topPlayers.models, nearby: this.nearbySessions() }
-      if (this.tournament) {
+      if (this.tournamentState === 'ended') {
         [rank, lkey] = Array.from(data[0].split('-'))
         this.spectateTargets.humans = leaderboards[lkey][+rank].get('levelSession');
         [rank, lkey] = Array.from(data[1].split('-'))
@@ -259,16 +260,16 @@ module.exports = (LeaderboardView = (function () {
     handleClickPlayerName (id, nearby) {
       if (me.isAdmin()) {
         const leaderboards = nearby ? this.nearbySessions() : this.leaderboards.topPlayers.models
-        const sessionId = this.tournament ? leaderboards[id].get('levelSession') : leaderboards[id].get('_id')
+        const sessionId = this.tournamentState === 'ended' ? leaderboards[id].get('levelSession') : leaderboards[id].get('_id')
         const session = new LevelSession({ _id: sessionId })
         this.supermodel.loadModel(session)
         return this.listenToOnce(session, 'sync', _session => {
           const models = [_session]
           if (!__guard__(_session.get('source'), x => x.name)) {
-            const playerId = this.tournament ? leaderboards[id].get('owner') : leaderboards[id].get('creator')
+            const playerId = this.tournamentState === 'ended' ? leaderboards[id].get('owner') : leaderboards[id].get('creator')
             models.push(new User({ _id: playerId }))
           }
-          if (this.tournament) {
+          if (this.tournamentState === 'ended') {
             models.push(new TournamentSubmission({ _id: leaderboards[id].get('_id') }))
           }
           return this.openModalView(new ModelModal({ models }))

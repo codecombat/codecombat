@@ -143,12 +143,16 @@ module.exports = class ControlBarView extends CocoView
       @homeViewClass = 'views/ladder/LadderView'
       @homeViewArgs.push levelID
       if leagueID = utils.getQueryVariable('league') or utils.getQueryVariable('course-instance')
+        tournamentId = utils.getQueryVariable('tournament') || utils.getQueryVariable('tid')
         leagueType = if @level.isType('course-ladder') or (@level.isType('ladder') and utils.getQueryVariable('course-instance')) then 'course' else 'clan'
-        @homeViewArgs.push leagueType
-        @homeViewArgs.push leagueID
         @homeLink += "/#{leagueType}/#{leagueID}"
-        if tournamentId = utils.getQueryVariable('tournament')
+        if !tournamentId
+          @homeViewArgs.push leagueType
+          @homeViewArgs.push leagueID
+        else
           @homeLink += "?tournament=#{tournamentId}"
+          @homeLink = utils.tournamentMixedIdHelper.convertUrl(@homeLink)
+          @homeViewArgs.push utils.tournamentMixedIdHelper.encrypt(leagueID, tournamentId)
     else if @level.isType('course') or @courseID
       @homeLink = "/play"
       if @course?

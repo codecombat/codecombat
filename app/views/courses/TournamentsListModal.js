@@ -10,6 +10,7 @@ require('app/styles/courses/tournaments-list-modal.sass')
 const ModalView = require('views/core/ModalView')
 const template = require('templates/courses/tournaments-list-modal')
 const DOMPurify = require('dompurify')
+const utils = require('core/utils')
 
 module.exports = (TournamentsListModal = (function () {
   TournamentsListModal = class TournamentsListModal extends ModalView {
@@ -25,6 +26,7 @@ module.exports = (TournamentsListModal = (function () {
       super(options)
       this.tournamentsByState = options.tournamentsByState
       this.ladderImageMap = options.ladderImageMap
+      this.tournamentHelper = utils.tournamentMixedIdHelper
     }
   }
   TournamentsListModal.initClass()

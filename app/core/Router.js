@@ -367,6 +367,7 @@ module.exports = (CocoRouter = (function () {
         'tournaments/:pageType/:objectId': go('ladder/MainTournamentView'),
 
         'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }), // extra slash is to get Facebook app to work
+        'play/tournament/:levelID/:mixedID': go('ladder/LadderView'),
         'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView'),
         'play/ladder/:levelID': go('ladder/LadderView'),
         'play/ladder': go('ladder/MainLadderView'),

@@ -11,8 +11,9 @@ mixin tournamentTileMixin(tournament)
   else
     - showLink = true
   - var showLadderImage = tournament.state != 'initializing' && view.ladderImageMap[tournament.levelOriginal]
+  - var link = view.tournamentHelper.convertUrl(`/play/ladder/${tournament.slug}/clan/${tournament.clan}?tournament=${tournament._id}`)
 
-  a.ai-league-btn.tile(href=showLink ? `/play/ladder/${tournament.slug}/clan/${tournament.clan}?tournament=${tournament._id}`: 'javascript: window.alert("Tournament not started yet")', title=tournament.description)
+  a.ai-league-btn.tile(href=showLink ? link : 'javascript: window.alert("Tournament not started yet")', title=tournament.description)
     // do not show preview image for initializing tournaments
     if showLadderImage
       img.level-image(src=view.ladderImageMap[tournament.levelOriginal], alt=tournament.name).img-rounded

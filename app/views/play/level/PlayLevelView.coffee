@@ -144,6 +144,7 @@ module.exports = class PlayLevelView extends RootView
     @opponentSessionID = utils.getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
     @gameUIState = new GameUIState()
+    @tournamentId = utils.getQueryVariable('tournament')
 
     $('flying-focus').remove() #Causes problems, so yank it out for play view.
     $(window).on 'resize', @onWindowResize
@@ -187,7 +188,7 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID, @teaching }
+    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID, @teaching, tId: @tournamentId  }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
