@@ -223,6 +223,14 @@ _.extend(CampaignSchema.properties, {
           description: 'Curvature factor; 0 is straight, positive/negative bend the line left/right',
           default: 0,
         },
+        // Relative thickness multiplier for the connection stroke.
+        thickness: {
+          type: 'number',
+          title: 'Thickness',
+          description: 'Relative thickness of the connection line; 1 = 1% of map height, 2 = 2%, etc.',
+          default: 1,
+          minimum: 0,
+        },
       },
     },
   },

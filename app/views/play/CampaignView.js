@@ -1398,11 +1398,15 @@ class CampaignView extends RootView {
 
     const defaultColor = '#AF9F7D'
     const defaultOpacity = 0.7
-    const STROKE_WIDTH = 7
 
-    // Convert 0–100% campaign coords -> pixels in this SVG
+    // Convert 0–100% campaign coords -> pixels in this SVG.
+    // X is from left; Y is from bottom (like level positions), so we flip it
+    // before mapping into the SVG's top-left–based pixel space.
     const mapToSvgX = xPercent => (xPercent / 100) * mapWidth
-    const mapToSvgY = yPercent => mapHeight - (yPercent / 100) * mapHeight
+    const mapToSvgY = yPercentFromBottom => {
+      const yPercentFromTop = 100 - yPercentFromBottom
+      return (yPercentFromTop / 100) * mapHeight
+    }
 
     for (const conn of visualConnections) {
       const fromPos = conn?.fromPos
@@ -1423,14 +1427,10 @@ class CampaignView extends RootView {
       const mx = (x1 + x2) / 2
       const my = (y1 + y2) / 2
 
-      // Curve: 0 = straight, sign = side, magnitude = strength
+      // Curve: 0 = straight. Signed curve scales curvature linearly.
       const curve = conn.curve || 0
       const k = 0.18
-      const minMag = 4
-      const maxMag = 22
-      const curveMagnitudeFactor = Math.max(1, Math.abs(curve))
-      const baseMag = k * length * curveMagnitudeFactor
-      const mag = Math.max(minMag, Math.min(maxMag, baseMag)) * (curve >= 0 ? 1 : -1)
+      const mag = k * length * curve
 
       const cx = mx + nx * mag
       const cy = my + ny * mag
@@ -1439,6 +1439,9 @@ class CampaignView extends RootView {
 
       const color = conn.color || defaultColor
       const opacity = (conn.opacity != null) ? conn.opacity : defaultOpacity
+      // Thickness is relative to map height: 1 = 1% of map height
+      const thickness = conn.thickness != null ? conn.thickness : 1
+      const strokeWidth = (mapHeight * thickness) / 100
 
       const path = document.createElementNS(svgNS, 'path')
       $(path).attr({
@@ -1446,7 +1449,7 @@ class CampaignView extends RootView {
         fill: 'none',
         stroke: color,
         'stroke-opacity': opacity,
-        'stroke-width': STROKE_WIDTH,
+        'stroke-width': strokeWidth,
         'stroke-linecap': 'round',
       })
 
