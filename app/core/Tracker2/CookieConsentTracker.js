@@ -26,7 +26,7 @@ export default class CookieConsentTracker extends BaseTracker {
       console.error('Preferred locale not loaded for user. This will result in consent tracker showing in incorrect language.')
     }
 
-    if (me.isStudent()) {
+    if (me.isStudent() || window.features?.china) {
       this.onInitializeSuccess()
       return
     }
@@ -114,8 +114,7 @@ export default class CookieConsentTracker extends BaseTracker {
 
       palette: {
         popup: { background: '#000' },
-        button: { background: '#7a65fc' },
-        buttonText: { color: '#ffffff' },
+        button: { background: '#7a65fc', text: '#ffffff' },
       },
 
       hasTransition: false,
