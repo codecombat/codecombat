@@ -915,8 +915,10 @@ class CampaignView extends RootView {
     if (!window.currentModal && this.fullyRendered) {
       this.highlightNextLevel()
       if (this.editorMode) {
-        this.createLines()
+        this.createLinesForEditor()
       }
+      // Visual connections are shown in both editor and play modes.
+      this.createVisualConnections()
       if (this.options.showLeaderboard) {
         this.showLeaderboard(this.options.justBeatLevel?.get('slug'))
       } else if (this.shouldShow('promotion')) {
@@ -1305,12 +1307,22 @@ class CampaignView extends RootView {
     return experienceScore
   }
 
-  createLines () {
+  createLinesForEditor () {
     for (const level of this.campaign?.renderedLevels || []) {
-      for (const nextLevelOriginal of level.nextLevels || []) {
+      let connections = level.connections || []
+      connections = connections.filter(connection => connection.toLevel)
+      for (const connection of connections) {
+        const toLevel = _.find(this.campaign.renderedLevels, { original: connection.toLevel })
+        if (toLevel) {
+          this.createLineForEditor(level.position, toLevel.position)
+        }
+      }
+      if (connections.length) continue // If there are connections, we don't need to draw next levels
+      const nextLevels = level.nextLevels || []
+      for (const nextLevelOriginal of nextLevels) {
         const nextLevel = _.find(this.campaign.renderedLevels, { original: nextLevelOriginal })
         if (nextLevel) {
-          this.createLine(level.position, nextLevel.position)
+          this.createLineForEditor(level.position, nextLevel.position)
         }
       }
     }
@@ -1330,14 +1342,14 @@ class CampaignView extends RootView {
           const toPos = to?.position
           if (toPos) {
             // If connection is marked invisible, render as a thinner line instead of skipping
-            this.createLine(fromPos, toPos, { thin: !!conn?.invisible })
+            this.createLineForEditor(fromPos, toPos, { thin: !!conn?.invisible })
           }
         }
       }
     }
   }
 
-  createLine (o1, o2, options = {}) {
+  createLineForEditor (o1, o2, options = {}) {
     const mapHeight = parseFloat($('.map').css('height'))
     const mapWidth = parseFloat($('.map').css('width'))
     if (!(mapHeight > 0)) { return }
@@ -1349,6 +1361,50 @@ class CampaignView extends RootView {
     const transform = `translateY(-50%) translateX(-50%) rotate(${angle}deg) translateX(50%)`
     const line = $('<div>').appendTo('.map').addClass('next-level-line').toggleClass('thin-connection', !!options.thin).css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
     return line.append($('<div class="line">')).append($('<div class="point">'))
+  }
+
+  createVisualConnections () {
+    const visualConnections = this.campaign?.get('visualConnections') || []
+    if (!visualConnections.length) { return }
+
+    // Clear existing visual connections before drawing new ones (in case of re-render).
+    this.$el.find('.visual-connection-line').remove()
+
+    const map = this.$el.find('.map')
+    const mapHeight = parseFloat(map.css('height'))
+    const mapWidth = parseFloat(map.css('width'))
+    if (!(mapHeight > 0)) { return }
+    const ratio = mapWidth / mapHeight
+
+    for (const conn of visualConnections) {
+      const fromPos = conn?.fromPos
+      const toPos = conn?.toPos
+      if (!fromPos || !toPos) { continue }
+
+      const p1 = { x: fromPos.x, y: fromPos.y / ratio }
+      const p2 = { x: toPos.x, y: toPos.y / ratio }
+      const length = Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2))
+      const angle = (Math.atan2(p1.y - p2.y, p2.x - p1.x) * 180) / Math.PI
+      const transform = `translateY(-50%) translateX(-50%) rotate(${angle}deg) translateX(50%)`
+
+      const line = $('<div>')
+        .appendTo(map)
+        .addClass('visual-connection-line')
+        .css({
+          transform,
+          width: `${length}%`,
+          left: `${fromPos.x}%`,
+          bottom: `${fromPos.y - 0.5}%`,
+        })
+
+      const innerLine = $('<div class="line">').appendTo(line)
+      if (conn.color) {
+        innerLine.css('background', conn.color)
+      }
+      if (conn.opacity != null) {
+        innerLine.css('opacity', conn.opacity)
+      }
+    }
   }
 
   applyCampaignStyles () {
