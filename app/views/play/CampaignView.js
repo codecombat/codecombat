@@ -1372,6 +1372,7 @@ class CampaignView extends RootView {
 
     // Clear any existing layer (we use a fixed id to avoid duplicates)
     map.find('#visual-connections-svg').remove()
+    this.$el.find('.visual-connection-handle').remove()
 
     // Use actual pixel size of the map as the SVG coordinate system
     const mapWidth = map.width()
@@ -1458,6 +1459,28 @@ class CampaignView extends RootView {
         'stroke-linecap': 'round',
       })
 
+      // In editor mode, create draggable HTML handles at each end so the
+      // campaign editor can reposition connection endpoints.
+      if (this.editorMode && me.isAdmin()) {
+        const handleSize = 16
+        const makeHandle = (x, y, end) => {
+          const $handle = $('<div class="visual-connection-handle">')
+            .css({
+              left: (x - handleSize / 2) + 'px',
+              top: (y - handleSize / 2) + 'px',
+              width: handleSize,
+              height: handleSize,
+            })
+            .attr({
+              'data-connection-index': connectionIndex,
+              'data-connection-end': end,
+            })
+          map.append($handle)
+        }
+        makeHandle(x1, y1, 'from')
+        makeHandle(x2, y2, 'to')
+      }
+
       // Optional head decoration
       if (conn.head === 'arrow') {
         const markerId = `visual-connection-arrow-${connectionIndex}`
@@ -1487,6 +1510,31 @@ class CampaignView extends RootView {
     }
 
     map.append(svg)
+
+    // Wire up draggable handles after they exist in the DOM.
+    if (this.editorMode && me.isAdmin()) {
+      const view = this
+      this.$el.find('.visual-connection-handle').draggable({
+        scroll: false,
+        containment: '.map',
+        stop: function () {
+          const mapEl = view.$el.find('.map')
+          const handle = $(this)
+          const centerX = (handle.offset().left - mapEl.offset().left) + (handle.outerWidth() / 2)
+          const centerY = (handle.offset().top - mapEl.offset().top) + (handle.outerHeight() / 2)
+          const xPercent = (centerX / mapEl.width()) * 100
+          const yPercentFromBottom = (1 - (centerY / mapEl.height())) * 100
+          const index = handle.data('connection-index')
+          const end = handle.data('connection-end')
+          // Let the CampaignEditorView own the actual data mutation, like levels/modules.
+          view.trigger('visual-connection-end-moved', {
+            index,
+            end,
+            position: { x: xPercent, y: yPercentFromBottom },
+          })
+        },
+      })
+    }
 
     // Work around Chrome’s dynamic SVG marker rendering bug:
     const $svg = map.find('#visual-connections-svg')
