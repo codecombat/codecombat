@@ -96,6 +96,14 @@ html(lang='en')
         }
         gtag('js', new Date());
 
+        // Initialize consent as denied by default (will be updated by tracker)
+        gtag('consent', 'default', {
+          'analytics_storage': 'denied',
+          'ad_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied'
+        });
+
         if(product == 'codecombat') {
           gtag('config', 'G-CLTH4TL5L8');
           window.gtag4Installed = true;
@@ -122,6 +130,9 @@ html(lang='en')
           s.parentNode.insertBefore(t, s)
         }(window, document, 'script',
                 'https://connect.facebook.net/en_US/fbevents.js');
+
+        // Revoke consent by default (will be granted by tracker if consent given)
+        fbq('consent', 'revoke');
 
         // Moved to dynamic tracker code to only apply to relevant user types
         //fbq('init', '514962702046652')
