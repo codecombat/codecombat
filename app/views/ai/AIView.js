@@ -58,7 +58,12 @@ module.exports = (AIView = (function () {
         window.tracker?.trackEvent('AI HS prompting sales call')
         window.open('/schools?openContactModal=true&source=ai-hs-credit-limit-reached', '_blank')
       } else if (me.isAnonymous()) {
-        this.openModalView(new CreateAccountModal({ mode: 'signup' }))
+        if (features?.chinaHome) {
+          const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+          this.openModalView(new PhoneAuthModal())
+        } else {
+          this.openModalView(new CreateAccountModal({ mode: 'signup' }))
+        }
         window.tracker?.trackEvent('AI HS prompting signup', { path: window.location.pathname })
       } else if (me.isHomeUser()) {
         if (me.hasSubscription()) {

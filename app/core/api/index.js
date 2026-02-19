@@ -36,5 +36,6 @@ module.exports = {
   outcomesReports: require('./outcomes-reports'),
   archivedElements: require('./archived-elements'),
   backgroundJob: require('./background-job'),
-  lowUsageUsers: require('./low-usage-users')
+  lowUsageUsers: require('./low-usage-users'),
+  sms: require('./sms'),
 };

@@ -214,7 +214,12 @@ class CampaignView extends RootView {
     }
 
     if (userUtils.shouldShowLibraryLoginModal() && me.isAnonymous()) {
-      this.openModalView(new CreateAccountModal({ startOnPath: 'individual-basic' }))
+      if (features?.chinaHome) {
+        const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+        this.openModalView(new PhoneAuthModal())
+      } else {
+        this.openModalView(new CreateAccountModal({ startOnPath: 'individual-basic' }))
+      }
     }
     if (!this.editorMode) {
       this.sessions = this.supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', { cache: false }, 1).model
@@ -447,7 +452,12 @@ class CampaignView extends RootView {
 
   openCreateAccountModal (e) {
     e?.stopPropagation?.()
-    this.openModalView(new CreateAccountModal())
+    if (features?.chinaHome) {
+      const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+      this.openModalView(new PhoneAuthModal())
+    } else {
+      this.openModalView(new CreateAccountModal())
+    }
   }
 
   openAnonymousTeacherModal (e) {
@@ -475,7 +485,12 @@ class CampaignView extends RootView {
 
   onClickAnonClassroomSignup () {
     window.tracker?.trackEvent('Anonymous Classroom Signup Modal Create Teacher', { category: 'Signup' })
-    this.openModalView(new CreateAccountModal({ startOnPath: 'teacher' }))
+    if (features?.chinaHome) {
+      const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+      this.openModalView(new PhoneAuthModal())
+    } else {
+      this.openModalView(new CreateAccountModal({ startOnPath: 'teacher' }))
+    }
   }
 
   onClickVideosButton () {
@@ -1033,6 +1048,10 @@ class CampaignView extends RootView {
     if (features.noAuth || (this.campaign?.get('type') === 'hoc')) { return }
     this.endHighlight()
     storage.save(PROMPTED_FOR_SIGNUP, true)
+    if (features?.chinaHome) {
+      const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+      return this.openModalView(new PhoneAuthModal())
+    }
     return this.openModalView(new CreateAccountModal({ supermodel: this.supermodel }))
   }
 

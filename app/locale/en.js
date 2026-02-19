@@ -819,6 +819,10 @@ module.exports = {
       yes_i_have_classcode: 'Yes, I have a Class Code!',
       enter_it_here: 'Enter it here:',
       play_without_saving: 'Play without saving',
+      phone_code: 'Validation SMS Code',
+      send_phone_code: 'Send SMS Code',
+      resend_phone_code: 'ReSend(__countDown__)',
+      sign_up_or_login: 'Sign Up/Login',
     },
 
     recover: {
@@ -3521,6 +3525,7 @@ module.exports = {
       parent_inspiration: 'Safe, teacher-backed coding games that build real skills',
       individual_completion: 'Check your email to dive in! Open the link on your computer for the best way to learn and play while you code.',
       parent_completion: 'Check your email to get started! For the best results, open the link on a computer so your child can learn and play in the best coding environment.',
+      phone_completion: 'Open the https://codecombat.cn on your computer for the best way to learn and play while you code.',
       all_set: 'You\'re all set!',
       date_of_birth: 'Date of Birth',
     },
@@ -3656,6 +3661,7 @@ module.exports = {
       general_desc: 'Something went wrong, and it’s probably our fault. Try waiting a bit and then refreshing the page, or visit one of the following links to get back to programming!',
       too_many_login_failures: 'There have been too many unsuccessful login attempts.  Please try again later.',
       something_went_wrong: 'Oops! Something went wrong',
+      phone_code_error: 'SMS Code Dismatch',
     },
 
     resources: {
@@ -5394,6 +5400,7 @@ module.exports = {
       invalidPhone: 'Invalid phone number',
       emailExists: 'Email already exists',
       nameExists: 'Username already exists',
+      phoneExists: 'Phone already exists',
       numberGreaterThanZero: 'Should be a number greater than 0',
       requireValidEmail: 'Please enter a valid email address.',
       requireValidPhone: 'Please enter a valid phone number, including area code.',

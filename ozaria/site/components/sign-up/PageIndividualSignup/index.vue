@@ -12,8 +12,13 @@
         :role="role"
         @next="next"
       />
+      <PhoneSignUpView
+        v-if="view == 'phone-sign-up'"
+        :role="role"
+        @next="next"
+      />
       <SuccessView
-        v-else
+        v-if="view == 'success'"
         :role="role"
       />
     </div>
@@ -23,12 +28,14 @@
 <script>
 import SignUpView from './components/SignUpView.vue'
 import SuccessView from './components/SuccessView.vue'
+import PhoneSignUpView from './components/PhoneSignUpView.vue'
 const VALID_ROLE = ['individual', 'parent']
 module.exports = Vue.extend({
   name: 'PageIndex',
   components: {
     SignUpView,
     SuccessView,
+    PhoneSignUpView,
   },
   props: {
     role: {
@@ -42,6 +49,11 @@ module.exports = Vue.extend({
   data () {
     return {
       view: 'sign-up',
+    }
+  },
+  mounted () {
+    if (features?.chinaInfra) {
+      this.view = 'phone-sign-up'
     }
   },
   methods: {

@@ -69,7 +69,14 @@ module.exports = (PrepaidView = (function () {
       super.afterRender()
       this.$el.find('span[title]').tooltip()
       if (me.isAnonymous() && this.ppc) {
-        _.defer(() => { if (!this.destroyed) { return this.openModalView(new CreateAccountModal({ startOnPath: 'individual' })) } })
+        _.defer(() => {
+          if (this.destroyed) { return }
+          if (features?.chinaHome) {
+            const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+            return this.openModalView(new PhoneAuthModal())
+          }
+          return this.openModalView(new CreateAccountModal({ startOnPath: 'individual' }))
+        })
         return window.nextURL = location.href
       }
     }

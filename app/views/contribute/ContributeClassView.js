@@ -44,7 +44,14 @@ module.exports = (ContributeClassView = (function () {
 
       me.setEmailSubscription(subscription + 'News', checked)
       me.patch()
-      if (me.get('anonymous')) { this.openModalView(new CreateAccountModal()) }
+      if (me.get('anonymous')) {
+        if (features?.chinaHome) {
+          const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+          this.openModalView(new PhoneAuthModal())
+        } else {
+          this.openModalView(new CreateAccountModal())
+        }
+      }
       return el.parent().find('.saved-notification').finish().show('fast').delay(3000).fadeOut(2000)
     }
   }

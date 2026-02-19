@@ -217,7 +217,7 @@ module.exports = (User = (function () {
 
     hasNoPasswordLoginMethod () {
       // Return true if user has any login method that doesn't require a password
-      return Boolean(this.get('facebookID') || this.get('gplusID') || this.get('githubID') || this.get('cleverID')) || (this.get('oAuth2Identities')?.length > 0)
+      return Boolean(this.get('facebookID') || this.get('gplusID') || this.get('githubID') || this.get('cleverID') || this.get('phone')) || (this.get('oAuth2Identities')?.length > 0)
     }
 
     currentPasswordRequired () {
@@ -237,6 +237,15 @@ module.exports = (User = (function () {
 
     static checkNameConflicts (name) {
       return new Promise((resolve, reject) => $.ajax(`/auth/name/${encodeURIComponent(name)}`, {
+        cache: false,
+        success: resolve,
+        error (jqxhr) { return reject(jqxhr.responseJSON) },
+      },
+      ))
+    }
+
+    static checkPhoneExists (phone) {
+      return new Promise((resolve, reject) => $.ajax(`/auth/phone/${encodeURIComponent(phone)}`, {
         cache: false,
         success: resolve,
         error (jqxhr) { return reject(jqxhr.responseJSON) },
@@ -935,6 +944,19 @@ module.exports = (User = (function () {
     clearUserSpecificLocalStorage () {
       for (const key of ['hoc-campaign']) { storage.remove(key) }
       return userUtils.removeLibraryKeys()
+    }
+
+    signupWithPhone (name, phone, phoneCode, password, options = {}) {
+      options.url = _.result(this, 'url') + '/signup-with-phone'
+      options.type = 'POST'
+      if (options.data == null) { options.data = {} }
+      _.extend(options.data, { name, phone, phoneCode, password })
+      options.contentType = 'application/json'
+      options.xhrFields = { withCredentials: true }
+      options.data = JSON.stringify(options.data)
+      const jqxhr = this.fetch(options)
+      jqxhr.then(() => window.tracker?.trackEvent('Finished Signup', { category: 'Signup', label: 'CodeCombat' }))
+      return jqxhr
     }
 
     signupWithPassword (name, email, password, options = {}) {
