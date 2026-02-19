@@ -59,7 +59,15 @@ export default class CookieConsentTracker extends BaseTracker {
     }
   }
 
+  onInitialise (status) {
+    // Called on page load when a returning user already has a consent cookie.
+    // Only sync the store — do not save to the server, as nothing has changed.
+    this.log('CookieConsent onInitialise - status:', status)
+    this.store.dispatch('tracker/cookieConsentStatusChange', status)
+  }
+
   onStatusChange (status) {
+    // Called when the user actively changes consent via the banner.
     this.log('CookieConsent onStatusChange - status:', status)
     this.store.dispatch('tracker/cookieConsentStatusChange', status)
 
@@ -98,7 +106,7 @@ export default class CookieConsentTracker extends BaseTracker {
       // Note the currently released version of cookieconsent has a bug that
       // prevents onInitialise from being called when the popup is loaded
       // before the user has interacted.
-      onInitialise: this.onStatusChange.bind(this),
+      onInitialise: this.onInitialise.bind(this),
 
       onStatusChange: this.onStatusChange.bind(this),
 
