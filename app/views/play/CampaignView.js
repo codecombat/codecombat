@@ -871,6 +871,44 @@ class CampaignView extends RootView {
             if (e.scenarioOriginal) { view.trigger('scenario-moved', e) }
           })
       })
+      // Module portals: in editor, mark with an extra class for CSS targeting,
+      // and enable drag that saves the same bottom-left anchor that CSS uses
+      // (`left` / `bottom` on `.module-portal` relative to `.map`), so there
+      // is no jump when re-rendering.
+      if (this.editorMode) {
+        this.$el.find('.module-portal').addClass('in-editor')
+      }
+      this.$el.find('.module-portal').addClass('has-tooltip').tooltip().each(function () {
+        if (!me.isAdmin() || !view.editorMode) { return }
+        const el = $(this)
+        el.draggable({
+          scroll: false,
+          containment: '.map',
+          start: function () {
+            // jQuery UI draggable uses top/left. Our modules are positioned with bottom/left.
+            // Convert bottom -> top at drag start so dragging behaves correctly.
+            const map = $('.map')
+            const el = $(this)
+            const bottomPx = parseFloat(el.css('bottom')) || 0
+            const topPx = map.height() - bottomPx - el.outerHeight()
+            el.css({ top: topPx, bottom: 'auto' })
+          },
+          stop: function () {
+            // Convert top -> bottom on drop, and persist bottom/left percentages.
+            const map = $('.map')
+            const el = $(this)
+            const leftPx = el.offset().left - map.offset().left
+            const topPx = el.offset().top - map.offset().top
+            const bottomPx = map.height() - (topPx + el.outerHeight())
+            const x = (100 * leftPx / map.width())
+            const y = (100 * bottomPx / map.height())
+            // Snap back to bottom/left positioning so the DOM matches what we persist.
+            el.css({ left: `${x}%`, bottom: `${y}%`, top: 'auto' })
+            const e = { position: { x, y }, moduleSlug: el.data('module-slug') }
+            if (e.moduleSlug) { view.trigger('module-moved', e) }
+          },
+        })
+      })
     }
     this.updateVolume()
     this.updateHero()

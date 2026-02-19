@@ -447,6 +447,7 @@ module.exports = (CampaignEditorView = (function () {
       this.listenTo(this.campaignView, 'level-moved', this.onCampaignLevelMoved)
       this.listenTo(this.campaignView, 'scenario-moved', this.onCampaignScenarioMoved)
       this.listenTo(this.campaignView, 'adjacent-campaign-moved', this.onAdjacentCampaignMoved)
+      this.listenTo(this.campaignView, 'module-moved', this.onModuleMoved)
       this.listenTo(this.campaignView, 'level-clicked', this.onCampaignLevelClicked)
       this.listenTo(this.campaignView, 'level-double-clicked', this.onCampaignLevelDoubleClicked)
       this.listenTo(this.campaignView, 'scenario-clicked', this.onCampaignScenarioClicked)
@@ -517,6 +518,17 @@ module.exports = (CampaignEditorView = (function () {
       const idx = _.findIndex(scenarios, s => (s && (s.scenario === e.scenarioOriginal)))
       if (idx >= 0) {
         const path = `/scenarios/${idx}/position`
+        return this.treema.set(path, e.position)
+      }
+      return null
+    }
+
+    onModuleMoved (e) {
+      // modules is an array; find the one with matching slug and update its position
+      const modules = this.treema.get('/modules') || []
+      const idx = _.findIndex(modules, m => (m && (m.slug === e.moduleSlug)))
+      if (idx >= 0) {
+        const path = `/modules/${idx}/position`
         return this.treema.set(path, e.position)
       }
       return null

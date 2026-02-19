@@ -110,17 +110,71 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       @include user-select(none)
 
     // Module portals (child campaigns) rendered on top of the map.
+    // Wrapper .module-portal is positioned; .module-portal-image fills it; .module-label overlays.
     .module-portal
       position: absolute
       z-index: 2
-      // Center the image on the x/y map coordinates.
-      transform: translate(-50%, 50%)
-      transform-origin: center bottom
       @include user-select(none)
-      // Simple scale-up effect on hover (no glow).
       @include transition(transform 0.2s ease-out)
-      &:hover
-        transform: translate(-50%, 50%) scale(1.05)
+      // Don't scale when this extra class is present (used by CampaignView in editor).
+      &:not(.in-editor):hover
+        transform: scale(1.2)
+      // Cursor pointer when not in editor (module is clickable to play).
+      &:not(.in-editor)
+        cursor: pointer
+
+      .module-portal-image
+        display: block
+        width: 100%
+        height: auto
+        vertical-align: top
+
+      // Module overlay content.
+      .module-label
+        position: absolute
+        top: 45%
+        left: 0
+        right: 0
+        width: 100%
+        text-align: center
+        pointer-events: none
+
+        .module-name, .module-levels-completed, .module-locked
+          margin: 0
+
+        // Make module name prominent, like an h1.
+        .module-name
+          color: #ffd31a
+          font-size: 32px
+          text-shadow: 0 0 4px black, 0 0 4px black, 0 0 8px black, 0 0 8px black
+
+        // Keep any other module text readable over the map.
+        .module-levels-completed, .module-locked
+          color: white
+          text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
+
+        .module-description-container
+          margin: 10px auto
+          width: 80%
+          opacity: 0
+          visibility: hidden
+          transition: opacity 0.4s ease, visibility 0.4s ease
+          transition-delay: 0s
+
+          .module-description
+            background: transparent url('/images/level/popover_border_background.png') no-repeat
+            background-size: 100% 100%
+            padding: 12px
+            color: black
+            font-size: 14px
+            line-height: 1.2
+            margin: 0
+
+      // Show description only on hover (when not in editor).
+      &:not(.in-editor):hover .module-description-container
+        opacity: 1
+        visibility: visible
+        transition-delay: 0.15s
 
     .level, .level-shadow
       position: absolute
@@ -1060,7 +1114,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
                 transition-delay: 0.15s
 
                 .campaign-description
-                  background: transparent url(/images/level/popover_border_background.png) no-repeat
+                  background: transparent url('/images/level/popover_border_background.png') no-repeat
                   background-size: 100% 100%
                   padding: 12px
                   color: black
@@ -1123,7 +1177,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
                 .campaign-description
                   margin: 0px 40px
-                  background: transparent url(/images/level/popover_border_background.png) no-repeat
+                  background: transparent url('/images/level/popover_border_background.png') no-repeat
                   background-size: 100% 100%
                   padding: 12px
                   color: black
