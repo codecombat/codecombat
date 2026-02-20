@@ -30,7 +30,7 @@ class LevelOriginalNode extends treemaExt.LatestVersionOriginalReferenceNode {
   }
 
   buildSearchURL (term) {
-    return `${this.url}?term=${encodeURIComponent(term)}&project=_id,original,name&limit=10`
+    return `${this.url}?term=${encodeURIComponent(term)}&project=_id,original,name&limit=30`
   }
 
   buildValueForDisplay (valEl, data) {
