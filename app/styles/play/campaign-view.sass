@@ -123,6 +123,13 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       &:not(.in-editor)
         cursor: pointer
 
+      // Locked module (e.g. need-premium): grey look, still clickable to show reason.
+      &.locked
+        .module-portal-image
+          filter: grayscale(1) brightness(0.75)
+        .module-label .module-name
+          color: #999
+
       .module-portal-image
         display: block
         width: 100%
@@ -169,6 +176,10 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
             font-size: 14px
             line-height: 1.2
             margin: 0
+            white-space: pre-line
+
+            .module-description-locked-prefix
+              font-weight: bold
 
       // Show description only on hover (when not in editor).
       &:not(.in-editor):hover .module-description-container

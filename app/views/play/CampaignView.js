@@ -751,7 +751,17 @@ class CampaignView extends RootView {
     context.scenarios = this.campaign?.get('scenarios') || []
     // Modules: child campaigns rendered as portals on the map.
     // We keep the raw array here and filter for portalImage/position in the template.
-    context.modules = this.campaign?.get('modules') || []
+    // Enrich each module with locked state: lock when access is not "free" and user is not premium.
+    const rawModules = this.campaign?.get('modules') || []
+    context.modules = rawModules.map(module => {
+      const access = module.access || 'paid'
+      const locked = !this.editorMode && access !== 'free' && !me.isPremium()
+      return {
+        ...module,
+        locked,
+        lockReason: locked ? 'need-premium' : null,
+      }
+    })
     context.adjacentCampaigns = _.filter(_.values(_.cloneDeep(this.campaign?.get('adjacentCampaigns') ?? {})), ac => {
       if (me.isStudent() || me.isTeacher()) { return false }
       if (ac.showIfUnlocked && !this.editorMode) {
@@ -770,6 +780,7 @@ class CampaignView extends RootView {
     })
     context.marked = marked
     context.i18n = utils.i18n
+    context.subscribersOnlyLabel = $.i18n.t('play.subscribers_only')
 
     if (this.campaigns) {
       context.campaigns = {}
@@ -878,7 +889,9 @@ class CampaignView extends RootView {
       if (this.editorMode) {
         this.$el.find('.module-portal').addClass('in-editor')
       }
-      this.$el.find('.module-portal').addClass('has-tooltip').tooltip().each(function () {
+      // Add tooltip only for unlocked modules (locked ones stay subtle—no hover tooltip).
+      this.$el.find('.module-portal:not(.locked)').addClass('has-tooltip').tooltip()
+      this.$el.find('.module-portal').each(function () {
         if (!me.isAdmin() || !view.editorMode) { return }
         const el = $(this)
         el.draggable({
@@ -2025,6 +2038,13 @@ class CampaignView extends RootView {
     const $target = $(e.currentTarget)
     const moduleSlug = $target.data('module-slug')
     if (!moduleSlug) { return }
+    if ($target.hasClass('locked')) {
+      const lockReason = $target.data('lock-reason')
+      if (lockReason === 'need-premium') {
+        return this.promptForSubscription(moduleSlug, 'locked module clicked')
+      }
+      return
+    }
     Backbone.Mediator.publish('router:navigate', {
       route: `/play/${moduleSlug}`,
       viewClass: CampaignView,
