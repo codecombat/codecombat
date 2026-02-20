@@ -448,6 +448,7 @@ module.exports = (CampaignEditorView = (function () {
       this.listenTo(this.campaignView, 'scenario-moved', this.onCampaignScenarioMoved)
       this.listenTo(this.campaignView, 'adjacent-campaign-moved', this.onAdjacentCampaignMoved)
       this.listenTo(this.campaignView, 'module-moved', this.onModuleMoved)
+      this.listenTo(this.campaignView, 'visual-connection-end-moved', this.onVisualConnectionEndMoved)
       this.listenTo(this.campaignView, 'level-clicked', this.onCampaignLevelClicked)
       this.listenTo(this.campaignView, 'level-double-clicked', this.onCampaignLevelDoubleClicked)
       this.listenTo(this.campaignView, 'scenario-clicked', this.onCampaignScenarioClicked)
@@ -532,6 +533,12 @@ module.exports = (CampaignEditorView = (function () {
         return this.treema.set(path, e.position)
       }
       return null
+    }
+
+    onVisualConnectionEndMoved (e) {
+      // visualConnections is an array; update fromPos/toPos for the given index.
+      const path = `/visualConnections/${e.index}/${e.end === 'from' ? 'fromPos' : 'toPos'}`
+      return this.treema.set(path, e.position)
     }
 
     onAdjacentCampaignMoved (e) {

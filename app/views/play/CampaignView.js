@@ -915,8 +915,10 @@ class CampaignView extends RootView {
     if (!window.currentModal && this.fullyRendered) {
       this.highlightNextLevel()
       if (this.editorMode) {
-        this.createLines()
+        this.createLinesForEditor()
       }
+      // Visual connections are shown in both editor and play modes.
+      this.createVisualConnections()
       if (this.options.showLeaderboard) {
         this.showLeaderboard(this.options.justBeatLevel?.get('slug'))
       } else if (this.shouldShow('promotion')) {
@@ -1305,12 +1307,22 @@ class CampaignView extends RootView {
     return experienceScore
   }
 
-  createLines () {
+  createLinesForEditor () {
     for (const level of this.campaign?.renderedLevels || []) {
-      for (const nextLevelOriginal of level.nextLevels || []) {
+      let connections = level.connections || []
+      connections = connections.filter(connection => connection.toLevel)
+      for (const connection of connections) {
+        const toLevel = _.find(this.campaign.renderedLevels, { original: connection.toLevel })
+        if (toLevel) {
+          this.createLineForEditor(level.position, toLevel.position)
+        }
+      }
+      if (connections.length) continue // If there are connections, we don't need to draw next levels
+      const nextLevels = level.nextLevels || []
+      for (const nextLevelOriginal of nextLevels) {
         const nextLevel = _.find(this.campaign.renderedLevels, { original: nextLevelOriginal })
         if (nextLevel) {
-          this.createLine(level.position, nextLevel.position)
+          this.createLineForEditor(level.position, nextLevel.position)
         }
       }
     }
@@ -1330,14 +1342,14 @@ class CampaignView extends RootView {
           const toPos = to?.position
           if (toPos) {
             // If connection is marked invisible, render as a thinner line instead of skipping
-            this.createLine(fromPos, toPos, { thin: !!conn?.invisible })
+            this.createLineForEditor(fromPos, toPos, { thin: !!conn?.invisible })
           }
         }
       }
     }
   }
 
-  createLine (o1, o2, options = {}) {
+  createLineForEditor (o1, o2, options = {}) {
     const mapHeight = parseFloat($('.map').css('height'))
     const mapWidth = parseFloat($('.map').css('width'))
     if (!(mapHeight > 0)) { return }
@@ -1349,6 +1361,185 @@ class CampaignView extends RootView {
     const transform = `translateY(-50%) translateX(-50%) rotate(${angle}deg) translateX(50%)`
     const line = $('<div>').appendTo('.map').addClass('next-level-line').toggleClass('thin-connection', !!options.thin).css({ transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%' })
     return line.append($('<div class="line">')).append($('<div class="point">'))
+  }
+
+  createVisualConnections () {
+    const visualConnections = this.campaign?.get('visualConnections') || []
+    if (!visualConnections.length) { return }
+
+    const map = this.$el.find('.map')
+    if (!map.length) { return }
+
+    // Clear any existing layer (we use a fixed id to avoid duplicates)
+    map.find('#visual-connections-svg').remove()
+    this.$el.find('.visual-connection-handle').remove()
+
+    // Use actual pixel size of the map as the SVG coordinate system
+    const mapWidth = map.width()
+    const mapHeight = map.height()
+    if (!(mapWidth > 0 && mapHeight > 0)) { return }
+
+    const svgNS = 'http://www.w3.org/2000/svg'
+    const svg = document.createElementNS(svgNS, 'svg')
+    $(svg)
+      .attr({
+        id: 'visual-connections-svg',
+        width: mapWidth,
+        height: mapHeight,
+      })
+      .css({
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        width: mapWidth,
+        height: mapHeight,
+        'pointer-events': 'none',
+        'z-index': 5,
+      })
+
+    const defaultColor = '#AF9F7D'
+    const defaultOpacity = 0.7
+
+    // Convert 0–100% campaign coords -> pixels in this SVG.
+    // X is from left; Y is from bottom (like level positions), so we flip it
+    // before mapping into the SVG's top-left–based pixel space.
+    const mapToSvgX = xPercent => (xPercent / 100) * mapWidth
+    const mapToSvgY = yPercentFromBottom => {
+      const yPercentFromTop = 100 - yPercentFromBottom
+      return (yPercentFromTop / 100) * mapHeight
+    }
+
+    // Container for per-path markers (arrow heads, etc.)
+    const defs = document.createElementNS(svgNS, 'defs')
+    svg.appendChild(defs)
+
+    let connectionIndex = 0
+    for (const conn of visualConnections) {
+      const fromPos = conn?.fromPos
+      const toPos = conn?.toPos
+      if (!fromPos || !toPos) continue
+
+      const x1 = mapToSvgX(fromPos.x)
+      const y1 = mapToSvgY(fromPos.y)
+      const x2 = mapToSvgX(toPos.x)
+      const y2 = mapToSvgY(toPos.y)
+
+      const dx = x2 - x1
+      const dy = y2 - y1
+      const length = Math.hypot(dx, dy) || 1
+
+      const nx = -dy / length
+      const ny = dx / length
+      const mx = (x1 + x2) / 2
+      const my = (y1 + y2) / 2
+
+      // Curve: 0 = straight. Signed curve scales curvature linearly.
+      const curve = conn.curve || 0
+      const k = 0.18
+      const mag = k * length * curve
+
+      const cx = mx + nx * mag
+      const cy = my + ny * mag
+
+      const d = `M ${x1},${y1} Q ${cx},${cy} ${x2},${y2}`
+
+      const color = conn.color || defaultColor
+      const opacity = (conn.opacity != null) ? conn.opacity : defaultOpacity
+      // Thickness is relative to map height: 1 = 1% of map height
+      const thickness = conn.thickness != null ? conn.thickness : 1
+      const strokeWidth = (mapHeight * thickness) / 100
+
+      const path = document.createElementNS(svgNS, 'path')
+      $(path).attr({
+        d,
+        fill: 'none',
+        stroke: color,
+        'stroke-opacity': opacity,
+        'stroke-width': strokeWidth,
+        'stroke-linecap': 'round',
+      })
+
+      // In editor mode, create draggable HTML handles at each end so the
+      // campaign editor can reposition connection endpoints.
+      if (this.editorMode && me.isAdmin()) {
+        const handleSize = 16
+        const makeHandle = (x, y, end) => {
+          const $handle = $('<div class="visual-connection-handle">')
+            .css({
+              left: (x - handleSize / 2) + 'px',
+              top: (y - handleSize / 2) + 'px',
+              width: handleSize,
+              height: handleSize,
+            })
+            .attr({
+              'data-connection-index': connectionIndex,
+              'data-connection-end': end,
+            })
+          map.append($handle)
+        }
+        makeHandle(x1, y1, 'from')
+        makeHandle(x2, y2, 'to')
+      }
+
+      // Optional head decoration
+      if (conn.head === 'arrow') {
+        const markerId = `visual-connection-arrow-${connectionIndex}`
+        const marker = document.createElementNS(svgNS, 'marker')
+        $(marker).attr({
+          id: markerId,
+          viewBox: '0 0 10 10',
+          refX: 5,
+          refY: 5,
+          // Slightly smaller arrowhead than the manual test version
+          markerWidth: 3,
+          markerHeight: 3,
+          orient: 'auto-start-reverse',
+        })
+        const arrowPath = document.createElementNS(svgNS, 'path')
+        $(arrowPath).attr({
+          d: 'M 0 0 L 10 5 L 0 10 z',
+          fill: color,
+        })
+        marker.appendChild(arrowPath)
+        defs.appendChild(marker)
+        $(path).attr('marker-end', `url(#${markerId})`)
+      }
+
+      svg.appendChild(path)
+      connectionIndex++
+    }
+
+    map.append(svg)
+
+    // Wire up draggable handles after they exist in the DOM.
+    if (this.editorMode && me.isAdmin()) {
+      const view = this
+      this.$el.find('.visual-connection-handle').draggable({
+        scroll: false,
+        containment: '.map',
+        stop: function () {
+          const mapEl = view.$el.find('.map')
+          const handle = $(this)
+          const centerX = (handle.offset().left - mapEl.offset().left) + (handle.outerWidth() / 2)
+          const centerY = (handle.offset().top - mapEl.offset().top) + (handle.outerHeight() / 2)
+          const xPercent = (centerX / mapEl.width()) * 100
+          const yPercentFromBottom = (1 - (centerY / mapEl.height())) * 100
+          const index = handle.data('connection-index')
+          const end = handle.data('connection-end')
+          // Let the CampaignEditorView own the actual data mutation, like levels/modules.
+          view.trigger('visual-connection-end-moved', {
+            index,
+            end,
+            position: { x: xPercent, y: yPercentFromBottom },
+          })
+        },
+      })
+    }
+
+    // Work around Chrome’s dynamic SVG marker rendering bug:
+    const $svg = map.find('#visual-connections-svg')
+    const html = $svg[0].outerHTML
+    $svg.replaceWith(html)
   }
 
   applyCampaignStyles () {
@@ -1678,6 +1869,10 @@ class CampaignView extends RootView {
     this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
     if (this.pointerInterval) {
       this.highlightNextLevel()
+    }
+    // Rebuild visual connections so they stay aligned with the resized map.
+    if (this.campaign) {
+      this.createVisualConnections()
     }
   }
 

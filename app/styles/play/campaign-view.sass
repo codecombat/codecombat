@@ -551,6 +551,15 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       border-bottom: 12px solid transparent
       border-left: 24px solid lighten(#F1EAC0, 10%)
 
+  // Editor-only handles for visual connection endpoints
+  .visual-connection-handle
+    position: absolute
+    border-radius: 50%
+    background: rgba(255, 255, 255, 0.2)
+    border: 2px solid rgba(255, 0, 0, 0.7)
+    z-index: 6
+    cursor: move
+
   // Render thinner connection lines for invisible connections, with no arrowhead
   .next-level-line.thin-connection
     height: 4px
