@@ -152,7 +152,10 @@ class CampaignView extends RootView {
     if (this.editorMode && !this.terrain) {
       this.terrain = 'dungeon'
     }
+    // Level completion by levelID (slug): used for UI (stars, locked state, header count). Key = session.levelID.
     this.levelStatusMap = {}
+    // Level completion by level original id: use for lookups by original (e.g. levelToUnlock). Key = session.level.original.
+    this.levelOriginalStatusMap = {}
     this.levelPlayCountMap = {}
     this.levelDifficultyMap = {}
     this.levelScoreMap = {}
@@ -504,6 +507,10 @@ class CampaignView extends RootView {
           if (this.levelStatusMap[session.get('levelID')] !== 'complete') { // Don't overwrite a complete session with an incomplete one
             this.levelStatusMap[session.get('levelID')] = session.get('state')?.complete ? 'complete' : 'started'
           }
+          const levelOriginal = session.get('level')?.original
+          if (levelOriginal && this.levelOriginalStatusMap[levelOriginal] !== 'complete') {
+            this.levelOriginalStatusMap[levelOriginal] = session.get('state')?.complete ? 'complete' : 'started'
+          }
           if (session.get('state')?.difficulty) {
             this.levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty
           }
@@ -629,6 +636,10 @@ class CampaignView extends RootView {
           if (this.levelStatusMap[session.get('levelID')] !== 'complete') { // Don't overwrite a complete session with an incomplete one
             this.levelStatusMap[session.get('levelID')] = session.get('state')?.complete ? 'complete' : 'started'
           }
+          const levelOriginal = session.get('level')?.original
+          if (levelOriginal && this.levelOriginalStatusMap[levelOriginal] !== 'complete') {
+            this.levelOriginalStatusMap[levelOriginal] = session.get('state')?.complete ? 'complete' : 'started'
+          }
           if (session.get('state')?.difficulty) {
             this.levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty
           }
@@ -750,8 +761,24 @@ class CampaignView extends RootView {
     context.editorMode = this.editorMode
     context.scenarios = this.campaign?.get('scenarios') || []
     // Modules: child campaigns rendered as portals on the map.
-    // We keep the raw array here and filter for portalImage/position in the template.
-    context.modules = this.campaign?.get('modules') || []
+    // Enrich each module with locked state: first by premium, then by levelToUnlock (complete that level to unlock).
+    const rawModules = this.campaign?.get('modules') || []
+    context.modules = rawModules.map(module => {
+      const access = module.access || 'paid'
+      const lockedByPremium = !this.editorMode && access !== 'free' && !me.isPremium()
+      const levelToUnlock = module.levelToUnlock
+      const levelNotCompleted = levelToUnlock && this.levelOriginalStatusMap[levelToUnlock] !== 'complete'
+      const lockedByLevel = !this.editorMode && levelNotCompleted
+      const locked = lockedByPremium || lockedByLevel
+      let lockReason = null
+      if (lockedByPremium) lockReason = 'need-premium'
+      else if (lockedByLevel) lockReason = 'need-level'
+      return {
+        ...module,
+        locked,
+        lockReason,
+      }
+    })
     context.adjacentCampaigns = _.filter(_.values(_.cloneDeep(this.campaign?.get('adjacentCampaigns') ?? {})), ac => {
       if (me.isStudent() || me.isTeacher()) { return false }
       if (ac.showIfUnlocked && !this.editorMode) {
@@ -770,6 +797,8 @@ class CampaignView extends RootView {
     })
     context.marked = marked
     context.i18n = utils.i18n
+    context.subscribersOnlyLabel = $.i18n.t('play.subscribers_only')
+    context.lockedCampaignLabel = $.i18n.t('play.locked_campaign')
 
     if (this.campaigns) {
       context.campaigns = {}
@@ -878,7 +907,9 @@ class CampaignView extends RootView {
       if (this.editorMode) {
         this.$el.find('.module-portal').addClass('in-editor')
       }
-      this.$el.find('.module-portal').addClass('has-tooltip').tooltip().each(function () {
+      // Add tooltip only for unlocked modules (locked ones stay subtle—no hover tooltip).
+      this.$el.find('.module-portal:not(.locked)').addClass('has-tooltip').tooltip()
+      this.$el.find('.module-portal').each(function () {
         if (!me.isAdmin() || !view.editorMode) { return }
         const el = $(this)
         el.draggable({
@@ -2025,6 +2056,13 @@ class CampaignView extends RootView {
     const $target = $(e.currentTarget)
     const moduleSlug = $target.data('module-slug')
     if (!moduleSlug) { return }
+    if ($target.hasClass('locked')) {
+      const lockReason = $target.data('lock-reason')
+      if (lockReason === 'need-premium') {
+        return this.promptForSubscription(moduleSlug, 'locked module clicked')
+      }
+      return
+    }
     Backbone.Mediator.publish('router:navigate', {
       route: `/play/${moduleSlug}`,
       viewClass: CampaignView,

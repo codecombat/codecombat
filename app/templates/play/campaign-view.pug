@@ -260,7 +260,9 @@ if !editorMode
           if module.portalImage && module.position && module.position.x != null && module.position.y != null
             - var moduleWidthPercent = (module.imageSize != null ? module.imageSize : 0.1) * 100;
             div.module-portal(
+              class=module.locked ? 'locked' : '',
               data-module-slug=module.slug,
+              data-lock-reason=module.lockReason || undefined,
               style="left: " + module.position.x + "%; bottom: " + module.position.y + "%; width: " + moduleWidthPercent + "%;"
             )
               img.module-portal-image(
@@ -270,9 +272,15 @@ if !editorMode
               if !editorMode
                 .module-label
                   h3.module-name= i18n(module, 'fullName') || i18n(module, 'name') || module.slug || 'Module'
-                  if module.description
+                  if module.locked || module.description
                     .module-description-container
-                      p.module-description(dir="auto")= i18n(module, 'description')
+                      p.module-description(dir="auto")
+                        if module.locked
+                          span.module-description-locked-prefix= "[" + (module.lockReason === 'need-level' ? lockedCampaignLabel : subscribersOnlyLabel) + "]"
+                          if module.description
+                            br
+                        if module.description
+                          = i18n(module, 'description')
 
       each scenario in scenarios
         if scenario.position
