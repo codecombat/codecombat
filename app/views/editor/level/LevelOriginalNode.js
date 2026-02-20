@@ -12,7 +12,10 @@ class LevelOriginalNode extends treemaExt.LatestVersionOriginalReferenceNode {
     // Load only the current level if we have data
     const data = this.getData()
     if (data) {
-      this.getSearchResultsEl().empty().append('Loading level...')
+      const searchEl = this.getSearchResultsEl()
+      if (searchEl.length > 0) {
+        searchEl.empty().append('Loading level...')
+      }
       const Model = this.model
       const model = new Model()
       model.set('original', data)
