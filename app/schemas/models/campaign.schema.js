@@ -200,6 +200,7 @@ _.extend(CampaignSchema.properties, {
           },
         },
         access: { type: 'string', enum: ['free', 'sales-call', 'paid'], title: 'Access', description: 'Whether this module is free, free with a sales call, or paid.' },
+        levelToUnlock: { type: 'string', title: 'Level to Unlock', description: 'Level original that must be completed to unlock this module.', links: [{ rel: 'db', href: '/db/level/{($)}/version' }], format: 'level-original' },
       },
     },
   },

@@ -152,7 +152,10 @@ class CampaignView extends RootView {
     if (this.editorMode && !this.terrain) {
       this.terrain = 'dungeon'
     }
+    // Level completion by levelID (slug): used for UI (stars, locked state, header count). Key = session.levelID.
     this.levelStatusMap = {}
+    // Level completion by level original id: use for lookups by original (e.g. levelToUnlock). Key = session.level.original.
+    this.levelOriginalStatusMap = {}
     this.levelPlayCountMap = {}
     this.levelDifficultyMap = {}
     this.levelScoreMap = {}
@@ -504,6 +507,10 @@ class CampaignView extends RootView {
           if (this.levelStatusMap[session.get('levelID')] !== 'complete') { // Don't overwrite a complete session with an incomplete one
             this.levelStatusMap[session.get('levelID')] = session.get('state')?.complete ? 'complete' : 'started'
           }
+          const levelOriginal = session.get('level')?.original
+          if (levelOriginal && this.levelOriginalStatusMap[levelOriginal] !== 'complete') {
+            this.levelOriginalStatusMap[levelOriginal] = session.get('state')?.complete ? 'complete' : 'started'
+          }
           if (session.get('state')?.difficulty) {
             this.levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty
           }
@@ -629,6 +636,10 @@ class CampaignView extends RootView {
           if (this.levelStatusMap[session.get('levelID')] !== 'complete') { // Don't overwrite a complete session with an incomplete one
             this.levelStatusMap[session.get('levelID')] = session.get('state')?.complete ? 'complete' : 'started'
           }
+          const levelOriginal = session.get('level')?.original
+          if (levelOriginal && this.levelOriginalStatusMap[levelOriginal] !== 'complete') {
+            this.levelOriginalStatusMap[levelOriginal] = session.get('state')?.complete ? 'complete' : 'started'
+          }
           if (session.get('state')?.difficulty) {
             this.levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty
           }
@@ -750,16 +761,22 @@ class CampaignView extends RootView {
     context.editorMode = this.editorMode
     context.scenarios = this.campaign?.get('scenarios') || []
     // Modules: child campaigns rendered as portals on the map.
-    // We keep the raw array here and filter for portalImage/position in the template.
-    // Enrich each module with locked state: lock when access is not "free" and user is not premium.
+    // Enrich each module with locked state: first by premium, then by levelToUnlock (complete that level to unlock).
     const rawModules = this.campaign?.get('modules') || []
     context.modules = rawModules.map(module => {
       const access = module.access || 'paid'
-      const locked = !this.editorMode && access !== 'free' && !me.isPremium()
+      const lockedByPremium = !this.editorMode && access !== 'free' && !me.isPremium()
+      const levelToUnlock = module.levelToUnlock
+      const levelNotCompleted = levelToUnlock && this.levelOriginalStatusMap[levelToUnlock] !== 'complete'
+      const lockedByLevel = !this.editorMode && levelNotCompleted
+      const locked = lockedByPremium || lockedByLevel
+      let lockReason = null
+      if (lockedByPremium) lockReason = 'need-premium'
+      else if (lockedByLevel) lockReason = 'need-level'
       return {
         ...module,
         locked,
-        lockReason: locked ? 'need-premium' : null,
+        lockReason,
       }
     })
     context.adjacentCampaigns = _.filter(_.values(_.cloneDeep(this.campaign?.get('adjacentCampaigns') ?? {})), ac => {
@@ -781,6 +798,7 @@ class CampaignView extends RootView {
     context.marked = marked
     context.i18n = utils.i18n
     context.subscribersOnlyLabel = $.i18n.t('play.subscribers_only')
+    context.lockedCampaignLabel = $.i18n.t('play.locked_campaign')
 
     if (this.campaigns) {
       context.campaigns = {}

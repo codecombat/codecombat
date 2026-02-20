@@ -276,7 +276,7 @@ if !editorMode
                     .module-description-container
                       p.module-description(dir="auto")
                         if module.locked
-                          span.module-description-locked-prefix= "[" + subscribersOnlyLabel + "]"
+                          span.module-description-locked-prefix= "[" + (module.lockReason === 'need-level' ? lockedCampaignLabel : subscribersOnlyLabel) + "]"
                           if module.description
                             br
                         if module.description

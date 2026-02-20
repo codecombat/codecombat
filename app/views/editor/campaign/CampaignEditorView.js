@@ -33,6 +33,7 @@ const RevertModal = require('views/modal/RevertModal')
 const modelDeltas = require('lib/modelDeltas')
 const globalVar = require('core/globalVar')
 const { HackstackScenarioIDNode } = require('views/editor/ai-scenario/AIScenarioNode')
+const { LevelOriginalNode } = require('views/editor/level/LevelOriginalNode')
 const { CampaignIDNode } = require('./CampaignIDNode')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
@@ -431,6 +432,7 @@ module.exports = (CampaignEditorView = (function () {
           achievement: AchievementNode,
           rewards: RewardsNode,
           scenario: HackstackScenarioIDNode,
+          'level-original': LevelOriginalNode,
         },
         supermodel: this.supermodel,
       }
