@@ -78,20 +78,19 @@ mixin course-instance-entry(courseInstance, classroom, juniorCourseInstances, co
             if view.showVideosLinkForCourse(course._id)
               = " "
               a.view-videos-link(data-classroom-id=classroom.id, data-i18n="courses.view_videos", data-course-id=course._id, data-course-name=i18n(course, 'name'))
-      if isHackstackCourse
-        - var hackstackUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignId: course.campaignID})
-        .pull-right
-          a.btn.btn-navy.btn-lg.m-b-1(href=hackstackUrl data-event-action="Students Start HackStack Course")
-            span(data-i18n="courses.start")
-      else if courseInstance.sessions
-        - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
-        - var nextLevel = stats.levels.next;
-        - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
+      if courseInstance.sessions
+        if isHackstackCourse
+          - var mapUrl = view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignId: course.campaignID})
+          - var stats = classroom.statsForAIProjects(courseInstance.sessions, course._id)
+        else
+          - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
+          - var nextLevel = stats.levels.next;
+          - var isCourseLocked = classroom.isStudentOnLockedCourse(me.get('_id'), courseID)
+          - var isNextLevelLocked = nextLevel ? classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original')) : false
+          - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
+          - var mapUrl = nextLevel ? view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID, classroomId: courseInstance.get('classroomID')}) : null
         - allCoursesComplete = allCoursesComplete && stats.courseComplete
-        - var isNextLevelLocked = nextLevel ? classroom.isStudentOnLockedLevel(me.get('_id'), courseID, nextLevel.get('original')) : false
-        - var isLocked = nextLevel === undefined ? isCourseLocked : isNextLevelLocked
-        - var mapUrl = nextLevel ? view.urls.courseWorldMap({courseId: courseID, courseInstanceId: courseInstance.get('_id'), campaignPage: nextLevel.get('campaignPage'), campaignId: course.campaignID, classroomId: courseInstance.get('classroomID')}) : null
-        +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, isLocked, isOzariaCourse)
+        +course-instance-body(courseInstance, classroom, stats, nextLevel, mapUrl, isLocked, isOzariaCourse, isHackstackCourse)
       else
         .pull-right
           a.btn.btn-navy.btn-lg.m-b-1(href=courseUrl data-event-action="Students Start Course")
@@ -99,7 +98,7 @@ mixin course-instance-entry(courseInstance, classroom, juniorCourseInstances, co
 
       .clearfix
 
-mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapUrl, isLocked, isOzariaCourse)
+mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapUrl, isLocked, isOzariaCourse, isHackstackCourse)
   - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
   if stats.courseComplete
     .text-success
@@ -152,6 +151,9 @@ mixin course-instance-body(courseInstance, classroom, stats, nextLevel, propMapU
         else
           button.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=propMapUrl, data-level-slug=nextLevel.get('slug'), data-event-action="Students Start Course" disabled=isLocked)
             span(data-i18n="courses.start")
+    else if isHackstackCourse
+      a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=propMapUrl, data-event-action="Students Start Course")
+        span(data-i18n="courses.start")
 
   if stats.courseComplete
     - certUrl = '/certificates/' + me.id + '?class=' + classroom.id + '&course=' + course._id + '&course-instance=' + courseInstance.id
