@@ -1,5 +1,6 @@
 const c = require('./../schemas')
 const LevelSchema = require('./level')
+const colors = require('../../core/colors')
 
 const CampaignSchema = c.object({
   default: {
@@ -214,7 +215,6 @@ _.extend(CampaignSchema.properties, {
       properties: {
         fromPos: c.point2d({ description: 'The position of the from point', title: 'From Position' }),
         toPos: c.point2d({ description: 'The position of the to point', title: 'To Position' }),
-        color: { type: 'string', format: 'color', description: 'The color of the connection' },
         opacity: { type: 'number', title: 'Opacity', format: 'range', minimum: 0, maximum: 1, default: 0.5 },
         // Curvature factor for this visual connection. 0 means straight line,
         // positive/negative values bend the connection in opposite directions.
@@ -239,6 +239,24 @@ _.extend(CampaignSchema.properties, {
           description: 'Relative thickness of the connection line; 1 = 1% of map height, 2 = 2%, etc.',
           default: 1,
           minimum: 0,
+        },
+        color: { type: 'string', format: 'color', description: 'The color of the connection', default: colors.black },
+        lockedColor: { type: 'string', format: 'color', description: 'The color of the connection when it is locked', default: colors.grey },
+        completeColor: { type: 'string', format: 'color', description: 'The color of the connection when it is completed', default: colors.lightGold },
+        activeColor: { type: 'string', format: 'color', description: 'The color of the connection when it is active', default: colors.red },
+        unlockLevelOriginal: {
+          type: 'string',
+          title: 'Unlock Level Original',
+          description: 'The original id of the level that used to detect the status of the connection.',
+          links: [{ rel: 'db', href: '/db/level/{($)}/version' }],
+          format: 'level-original',
+        },
+        completeLevelOriginal: {
+          type: 'string',
+          title: 'Complete Level Original',
+          description: 'The original id of the level that used to detect the status of the connection.',
+          links: [{ rel: 'db', href: '/db/level/{($)}/version' }],
+          format: 'level-original',
         },
       },
     },
