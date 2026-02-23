@@ -1494,7 +1494,7 @@ class CampaignView extends RootView {
           color = conn.lockedColor || defaultLockedColor
         } else if (completeOriginal && completeCompleted) {
           color = conn.completeColor || defaultCompleteColor
-        } else if (unlockCompleted && completeOriginal) {
+        } else if (unlockCompleted) {
           color = conn.activeColor || defaultActiveColor
         }
       }
