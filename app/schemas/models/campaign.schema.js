@@ -247,14 +247,14 @@ _.extend(CampaignSchema.properties, {
         unlockLevelOriginal: {
           type: 'string',
           title: 'Unlock Level Original',
-          description: 'The original id of the level that used to detect the status of the connection.',
+          description: 'Level original ID that unlocks or enables this connection; used to determine when the connection becomes available.',
           links: [{ rel: 'db', href: '/db/level/{($)}/version' }],
           format: 'level-original',
         },
         completeLevelOriginal: {
           type: 'string',
           title: 'Complete Level Original',
-          description: 'The original id of the level that used to detect the status of the connection.',
+          description: 'Level original ID that marks completion of this connection; used to determine when the connection is finished.',
           links: [{ rel: 'db', href: '/db/level/{($)}/version' }],
           format: 'level-original',
         },
