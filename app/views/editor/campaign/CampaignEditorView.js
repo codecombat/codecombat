@@ -500,7 +500,9 @@ module.exports = (CampaignEditorView = (function () {
       const visualConnectionMatch = path && (path.match(/\/visualConnections\/(\d+)/) || path.match(/visualConnections\.(\d+)/))
       const connectionIndex = visualConnectionMatch ? parseInt(visualConnectionMatch[1], 10) : null
       requestAnimationFrame(() => {
-        this.campaignView.setHighlightedConnection(connectionIndex)
+        if (this.campaignView && typeof this.campaignView.setHighlightedConnection === 'function') {
+          this.campaignView.setHighlightedConnection(connectionIndex)
+        }
       })
       if (selectedNode?.data?.original == null) { return }
       const elem = this.$(`div[data-level-original='${selectedNode.data.original}']`)
