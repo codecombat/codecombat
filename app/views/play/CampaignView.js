@@ -165,6 +165,7 @@ class CampaignView extends RootView {
     this.levelScoreMap = {}
     this.courseLevelsLoaded = false
     this.highlightedCampaign = null
+    this.highlightedConnectionIndex = null
 
     if (this.terrain === 'hoc-2018') {
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
@@ -1511,6 +1512,9 @@ class CampaignView extends RootView {
         'stroke-width': strokeWidth,
         'stroke-linecap': 'round',
       })
+      if (this.editorMode && me.isAdmin()) {
+        path.setAttribute('data-connection-index', connectionIndex)
+      }
 
       // In editor mode, create draggable HTML handles and helper lines to unlock/complete levels.
       if (this.editorMode && me.isAdmin()) {
@@ -1630,6 +1634,45 @@ class CampaignView extends RootView {
     const $svg = map.find('#visual-connections-svg')
     const html = $svg[0].outerHTML
     $svg.replaceWith(html)
+
+    if (this.editorMode && me.isAdmin()) {
+      const $svg = this.$el.find('.map #visual-connections-svg')
+      $svg.find('path[data-connection-index]').each(function () {
+        const el = this
+        const c = (el.getAttribute('class') || '').replace(/\s*connection-highlighted\s*/g, ' ').trim()
+        el.setAttribute('class', c)
+      })
+      if (this.highlightedConnectionIndex != null) {
+        const $target = $svg.find(`path[data-connection-index="${this.highlightedConnectionIndex}"]`)
+        if ($target.length) {
+          const el = $target[0]
+          const c = (el.getAttribute('class') || '').trim()
+          el.setAttribute('class', (c ? c + ' ' : '') + 'connection-highlighted')
+        }
+      }
+    }
+  }
+
+  setHighlightedConnection (index) {
+    if (!this.editorMode) { return }
+    this.highlightedConnectionIndex = index == null ? null : index
+    const $svg = this.$el.find('.map #visual-connections-svg')
+    if (!$svg.length) { return }
+    const $paths = $svg.find('path[data-connection-index]')
+    if (!$paths.length) { return }
+    $paths.each(function () {
+      const el = this
+      const c = (el.getAttribute('class') || '').replace(/\s*connection-highlighted\s*/g, ' ').trim()
+      el.setAttribute('class', c)
+    })
+    if (this.highlightedConnectionIndex != null) {
+      const $target = $svg.find(`path[data-connection-index="${this.highlightedConnectionIndex}"]`)
+      if ($target.length) {
+        const el = $target[0]
+        const c = (el.getAttribute('class') || '').trim()
+        el.setAttribute('class', (c ? c + ' ' : '') + 'connection-highlighted')
+      }
+    }
   }
 
   applyCampaignStyles () {
