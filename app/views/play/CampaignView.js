@@ -1512,8 +1512,7 @@ class CampaignView extends RootView {
         'stroke-linecap': 'round',
       })
 
-      // In editor mode, create draggable HTML handles at each end so the
-      // campaign editor can reposition connection endpoints.
+      // In editor mode, create draggable HTML handles and helper lines to unlock/complete levels.
       if (this.editorMode && me.isAdmin()) {
         const handleSize = 16
         const makeHandle = (x, y, end) => {
@@ -1532,6 +1531,44 @@ class CampaignView extends RootView {
         }
         makeHandle(x1, y1, 'from')
         makeHandle(x2, y2, 'to')
+
+        // Helper lines: connection start -> unlock level, connection end -> complete level (solid, visible).
+        const levels = this.getLevels() || {}
+        const helperStroke = colors.black
+        const helperStrokeWidth = 2
+        const helperOpacity = 0.8
+        if (conn.unlockLevelOriginal) {
+          const level = levels[conn.unlockLevelOriginal]
+          if (level?.position) {
+            const lx = mapToSvgX(level.position.x)
+            const ly = mapToSvgY(level.position.y)
+            const helperPath = document.createElementNS(svgNS, 'path')
+            $(helperPath).attr({
+              d: `M ${x1},${y1} L ${lx},${ly}`,
+              fill: 'none',
+              stroke: helperStroke,
+              'stroke-width': helperStrokeWidth,
+              'stroke-opacity': helperOpacity,
+            })
+            svg.appendChild(helperPath)
+          }
+        }
+        if (conn.completeLevelOriginal) {
+          const level = levels[conn.completeLevelOriginal]
+          if (level?.position) {
+            const lx = mapToSvgX(level.position.x)
+            const ly = mapToSvgY(level.position.y)
+            const helperPath = document.createElementNS(svgNS, 'path')
+            $(helperPath).attr({
+              d: `M ${x2},${y2} L ${lx},${ly}`,
+              fill: 'none',
+              stroke: helperStroke,
+              'stroke-width': helperStrokeWidth,
+              'stroke-opacity': helperOpacity,
+            })
+            svg.appendChild(helperPath)
+          }
+        }
       }
 
       // Optional head decoration
