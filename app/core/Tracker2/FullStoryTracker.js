@@ -57,8 +57,14 @@ export default class FullstoryTracker extends BaseTracker {
     this.store.watch(
       (_state, getters) => getters['tracker/disableAllTracking'],
       (disableAllTracking) => {
-        if (!disableAllTracking && !window.FS) {
-          this._loadFullStoryWithReadyCallback()
+        if (!disableAllTracking && !this.enabled) {
+          if (!window.FS) {
+            // First consent grant — script not loaded yet
+            this._loadFullStoryWithReadyCallback()
+          } else if (this.decideEnabled()) {
+            // Re-consent after revoke — script already loaded, re-evaluate sampling then restart
+            this.enable()
+          }
         } else if (disableAllTracking && window.FS) {
           this.disable()
         }
