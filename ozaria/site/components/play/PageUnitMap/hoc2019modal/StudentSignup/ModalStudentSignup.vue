@@ -25,6 +25,7 @@ export default {
     ssoAttrs: ''
   }),
   mounted () {
+    console.log('mountedd')
     this.setHourOfCode()
   },
   methods: {
