@@ -33,6 +33,7 @@ const RevertModal = require('views/modal/RevertModal')
 const modelDeltas = require('lib/modelDeltas')
 const globalVar = require('core/globalVar')
 const { HackstackScenarioIDNode } = require('views/editor/ai-scenario/AIScenarioNode')
+const { LevelOriginalNode } = require('views/editor/level/LevelOriginalNode')
 const { CampaignIDNode } = require('./CampaignIDNode')
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
@@ -431,6 +432,7 @@ module.exports = (CampaignEditorView = (function () {
           achievement: AchievementNode,
           rewards: RewardsNode,
           scenario: HackstackScenarioIDNode,
+          'level-original': LevelOriginalNode,
         },
         supermodel: this.supermodel,
       }
@@ -448,6 +450,7 @@ module.exports = (CampaignEditorView = (function () {
       this.listenTo(this.campaignView, 'scenario-moved', this.onCampaignScenarioMoved)
       this.listenTo(this.campaignView, 'adjacent-campaign-moved', this.onAdjacentCampaignMoved)
       this.listenTo(this.campaignView, 'module-moved', this.onModuleMoved)
+      this.listenTo(this.campaignView, 'visual-connection-end-moved', this.onVisualConnectionEndMoved)
       this.listenTo(this.campaignView, 'level-clicked', this.onCampaignLevelClicked)
       this.listenTo(this.campaignView, 'level-double-clicked', this.onCampaignLevelDoubleClicked)
       this.listenTo(this.campaignView, 'scenario-clicked', this.onCampaignScenarioClicked)
@@ -482,8 +485,27 @@ module.exports = (CampaignEditorView = (function () {
     }
 
     onTreemaSelectionChanged (e, node) {
-      if (__guard__(node[0] != null ? node[0].data : undefined, x => x.original) == null) { return }
-      const elem = this.$(`div[data-level-original='${node[0].data.original}']`)
+      let selectedNode = (node && node[0]) || node
+      if (!selectedNode && this.treema && this.treema.getLastSelectedTreema) {
+        selectedNode = this.treema.getLastSelectedTreema()
+      }
+      let path = selectedNode && selectedNode.getPath && selectedNode.getPath()
+      if (!path && selectedNode && selectedNode.parent) {
+        const parentPath = selectedNode.parent.getPath && selectedNode.parent.getPath()
+        const key = selectedNode.key
+        if (parentPath && (typeof key === 'number' || (typeof key === 'string' && /^\d+$/.test(key)))) {
+          path = `${parentPath}/${key}`
+        }
+      }
+      const visualConnectionMatch = path && (path.match(/\/visualConnections\/(\d+)/) || path.match(/visualConnections\.(\d+)/))
+      const connectionIndex = visualConnectionMatch ? parseInt(visualConnectionMatch[1], 10) : null
+      requestAnimationFrame(() => {
+        if (this.campaignView && typeof this.campaignView.setHighlightedConnection === 'function') {
+          this.campaignView.setHighlightedConnection(connectionIndex)
+        }
+      })
+      if (selectedNode?.data?.original == null) { return }
+      const elem = this.$(`div[data-level-original='${selectedNode.data.original}']`)
       elem.toggle('pulsate')
       return setTimeout(() => elem.toggle('pulsate')
         , 1000)
@@ -532,6 +554,12 @@ module.exports = (CampaignEditorView = (function () {
         return this.treema.set(path, e.position)
       }
       return null
+    }
+
+    onVisualConnectionEndMoved (e) {
+      // visualConnections is an array; update fromPos/toPos for the given index.
+      const path = `/visualConnections/${e.index}/${e.end === 'from' ? 'fromPos' : 'toPos'}`
+      return this.treema.set(path, e.position)
     }
 
     onAdjacentCampaignMoved (e) {

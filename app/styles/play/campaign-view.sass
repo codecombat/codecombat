@@ -123,6 +123,13 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       &:not(.in-editor)
         cursor: pointer
 
+      // Locked module (e.g. need-premium): grey look, still clickable to show reason.
+      &.locked
+        .module-portal-image
+          filter: grayscale(1) brightness(0.75)
+        .module-label .module-name
+          color: #999
+
       .module-portal-image
         display: block
         width: 100%
@@ -169,6 +176,10 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
             font-size: 14px
             line-height: 1.2
             margin: 0
+            white-space: pre-line
+
+            .module-description-locked-prefix
+              font-weight: bold
 
       // Show description only on hover (when not in editor).
       &:not(.in-editor):hover .module-description-container
@@ -400,7 +411,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     .level-info-container
       display: none
       position: absolute
-      z-index: 3
+      z-index: 7
       width: 362px
       //min-height: 179px
       padding: 17px 20px 20px 20px
@@ -550,6 +561,20 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       border-top: 12px solid transparent
       border-bottom: 12px solid transparent
       border-left: 24px solid lighten(#F1EAC0, 10%)
+
+  // Editor-only handles for visual connection endpoints
+  .visual-connection-handle
+    position: absolute
+    border-radius: 50%
+    background: rgba(255, 255, 255, 0.2)
+    border: 2px solid rgba(255, 0, 0, 0.7)
+    z-index: 6
+    cursor: move
+
+  // Editor: highlight the connection on the map when its node is selected in the sidebar
+  #visual-connections-svg path.connection-highlighted
+    stroke: #ffc800
+    filter: drop-shadow(0 0 6px rgba(255, 200, 0, 0.9))
 
   // Render thinner connection lines for invisible connections, with no arrowhead
   .next-level-line.thin-connection

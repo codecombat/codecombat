@@ -1,5 +1,6 @@
 const c = require('./../schemas')
 const LevelSchema = require('./level')
+const colors = require('../../core/colors')
 
 const CampaignSchema = c.object({
   default: {
@@ -118,7 +119,6 @@ _.extend(CampaignSchema.properties, {
         campaignPage: { type: 'number', title: 'Campaign page number', description: 'Give the page number if there are multiple pages in the campaign' },
         releasePhase: { enum: ['beta', 'internalRelease', 'released'], title: 'Release status', description: 'Release status of the level, determining who sees it.', default: 'internalRelease' },
         moduleNum: { type: 'number', title: 'Module number', default: 1 },
-
       // - denormalized properties from Levels are cloned below
       },
 
@@ -201,6 +201,63 @@ _.extend(CampaignSchema.properties, {
           },
         },
         access: { type: 'string', enum: ['free', 'sales-call', 'paid'], title: 'Access', description: 'Whether this module is free, free with a sales call, or paid.' },
+        levelToUnlock: { type: 'string', title: 'Level to Unlock', description: 'Level original that must be completed to unlock this module.', links: [{ rel: 'db', href: '/db/level/{($)}/version' }], format: 'level-original' },
+      },
+    },
+  },
+  parentCampaignSlug: { type: 'string', title: 'Parent Campaign Slug', description: 'The slug of the parent campaign.' },
+  visualConnections: {
+    type: 'array',
+    title: 'Visual Connections',
+    description: 'Visual connections between levels or just random points on the map',
+    items: {
+      type: 'object',
+      properties: {
+        fromPos: c.point2d({ description: 'The position of the from point', title: 'From Position' }),
+        toPos: c.point2d({ description: 'The position of the to point', title: 'To Position' }),
+        opacity: { type: 'number', title: 'Opacity', format: 'range', minimum: 0, maximum: 1, default: 0.5 },
+        // Curvature factor for this visual connection. 0 means straight line,
+        // positive/negative values bend the connection in opposite directions.
+        curve: {
+          type: 'number',
+          title: 'Curve',
+          description: 'Curvature factor; 0 is straight, positive/negative bend the line left/right',
+          default: 0,
+        },
+        // Head decoration at the end of the connection.
+        head: {
+          type: 'string',
+          title: 'Head',
+          description: 'What to draw at the end of the connection (none or arrow)',
+          enum: ['none', 'arrow'],
+          default: 'none',
+        },
+        // Relative thickness multiplier for the connection stroke.
+        thickness: {
+          type: 'number',
+          title: 'Thickness',
+          description: 'Relative thickness of the connection line; 1 = 1% of map height, 2 = 2%, etc.',
+          default: 1,
+          minimum: 0,
+        },
+        color: { type: 'string', format: 'color', description: 'The color of the connection', default: colors.black },
+        lockedColor: { type: 'string', format: 'color', description: 'The color of the connection when it is locked', default: colors.grey },
+        completeColor: { type: 'string', format: 'color', description: 'The color of the connection when it is completed', default: colors.lightGold },
+        activeColor: { type: 'string', format: 'color', description: 'The color of the connection when it is active', default: colors.red },
+        unlockLevelOriginal: {
+          type: 'string',
+          title: 'Unlock Level Original',
+          description: 'Level original ID that unlocks or enables this connection; used to determine when the connection becomes available.',
+          links: [{ rel: 'db', href: '/db/level/{($)}/version' }],
+          format: 'level-original',
+        },
+        completeLevelOriginal: {
+          type: 'string',
+          title: 'Complete Level Original',
+          description: 'Level original ID that marks completion of this connection; used to determine when the connection is finished.',
+          links: [{ rel: 'db', href: '/db/level/{($)}/version' }],
+          format: 'level-original',
+        },
       },
     },
   },

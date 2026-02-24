@@ -34,6 +34,32 @@ export default class TwitterPixelTracker extends BaseTracker {
   async _initializeTracker () {
     this.watchForDisableAllTrackingChanges(this.store)
 
+    const isStudent = this.store.getters['me/isStudent']
+    const isChina = (window.features || {}).china
+
+    if (!isStudent && !isChina) {
+      if (!this.disableAllTracking) {
+        this._loadAndInitTwitter()
+      }
+
+      // Twitter has no consent toggle API, so we gate by conditionally loading the script.
+      // Once loaded it cannot be unloaded, but this.enabled gates all future custom events.
+      this.store.watch(
+        (_state, getters) => getters['tracker/disableAllTracking'],
+        (disableAllTracking) => {
+          if (!disableAllTracking && !this.enabled) {
+            this._loadAndInitTwitter()
+          } else if (disableAllTracking) {
+            this.enabled = false
+          }
+        },
+      )
+    }
+
+    this.onInitializeSuccess()
+  }
+
+  _loadAndInitTwitter () {
     !(function (e, t, n, s, u, a) { // eslint-disable-line
       e.twq || (s = e.twq = function () { // eslint-disable-line
         s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments)
@@ -41,17 +67,7 @@ export default class TwitterPixelTracker extends BaseTracker {
       a = t.getElementsByTagName(n)[0], a.parentNode.insertBefore(u, a))
     }(window, document, 'script'))
     twq('config', 'obu6l') // eslint-disable-line no-undef
-
-    const isStudent = this.store.getters['me/isStudent']
-    const isChina = (window.features || {}).china
-
-    if (!this.disableAllTracking && !isStudent && !isChina) {
-      this.enabled = true
-    } else {
-      this.enabled = false
-    }
-
-    this.onInitializeSuccess()
+    this.enabled = true
   }
 
   async trackPageView () {

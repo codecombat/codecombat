@@ -133,9 +133,9 @@ _.extend(UserSchema.properties, {
 
   consentHistory: c.array({ title: 'History of consent actions' },
     c.object({ title: 'Consent action', required: ['action', 'date', 'type'] }, {
-      action: { type: 'string', enum: ['allow', 'forbid'] },
+      action: { type: 'string', enum: ['allow', 'forbid', 'deny', 'dismiss'] }, // allow/deny/dismiss for cookie consent, allow/forbid for email
       date: c.date(),
-      type: c.shortString(), // E.g 'email'
+      type: c.shortString(), // E.g 'email', 'cookies'
       emailHash: { type: 'string', maxLength: 128, minLength: 128, title: 'Hash of lower-case email address at the time' },
       description: c.shortString(),
     },

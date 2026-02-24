@@ -41,14 +41,40 @@ export default class FullstoryTracker extends BaseTracker {
     this.enableDecisionMade = (sessionEnabled !== null)
     this.enabled = (sessionEnabled === 'true')
 
-    this.log('initialized enabled', this.enabled)
-    this.log('initialized enable decision made', this.enableDecisionMade)
+    this.log('fs initialized enabled', this.enabled)
+    this.log('fs initialized enable decision made', this.enableDecisionMade)
   }
 
   async _initializeTracker () {
     this.watchForDisableAllTrackingChanges(this.store)
 
-    // TODO handle disable all tracking
+    if (!this.disableAllTracking) {
+      this._loadFullStoryWithReadyCallback()
+    }
+
+    // FullStory supports FS.shutdown()/FS.restart(), so we can respond to consent changes
+    // after load. For the initial load we still gate on consent to avoid loading the script at all.
+    this.store.watch(
+      (_state, getters) => getters['tracker/disableAllTracking'],
+      (disableAllTracking) => {
+        if (!disableAllTracking && !this.enabled) {
+          if (!window.FS) {
+            // First consent grant — script not loaded yet
+            this._loadFullStoryWithReadyCallback()
+          } else if (this.decideEnabled()) {
+            // Re-consent after revoke — script already loaded, re-evaluate sampling then restart
+            this.enable()
+          }
+        } else if (disableAllTracking && window.FS) {
+          this.disable()
+        }
+      },
+    )
+
+    this.onInitializeSuccess()
+  }
+
+  _loadFullStoryWithReadyCallback () {
     window['_fs_ready'] = () => {
       let hasFullstoryEnableQueryParam = false
       try {
@@ -56,7 +82,7 @@ export default class FullstoryTracker extends BaseTracker {
       } catch (e) {}
 
       try {
-        this.log('ready')
+        this.log('fs ready')
         if (hasFullstoryEnableQueryParam) {
           this.enabled = true
           this.log('query param force enable')
@@ -75,11 +101,8 @@ export default class FullstoryTracker extends BaseTracker {
           this.log('disabling from init')
           this.disable()
         }
-
-        this.onInitializeSuccess()
       } catch (e) {
-        this.onInitializeFail(e)
-        throw e
+        this.log('_fs_ready error', e)
       }
     }
 
@@ -90,31 +113,31 @@ export default class FullstoryTracker extends BaseTracker {
     this.enabled = true
     window.sessionStorage.setItem(FULLSTORY_SESSION_TRACKING_ENABLED_KEY, 'true')
     FS.restart()
-    this.log('enabled')
+    this.log('fs enabled')
   }
 
   disable () {
     this.enabled = false
     window.sessionStorage.setItem(FULLSTORY_SESSION_TRACKING_ENABLED_KEY, 'false')
     FS.shutdown()
-    this.log('disabled')
+    this.log('fs disabled')
   }
 
   decideEnabled () {
     const { me } = this.store.state
 
     if (this.disableAllTracking) {
-      this.log('decide enabled', 'disable all tracking')
+      this.log('fs decide enabled', 'disable all tracking')
       return false
     } else if (me.anonymous && Math.random() < 0.0015) {
-      this.log('decide enabled', 'anon user')
+      this.log('fs decide enabled', 'anon user')
       return true
     } else if (this.store.getters['me/isTeacher'] && !this.store.getters['me/isParent'] && Math.random() < 0.01) {
-      this.log('decide enabled', 'non parent teacher')
+      this.log('fs decide enabled', 'non parent teacher')
       return true
     }
 
-    this.log('decide enabled', 'not enabled')
+    this.log('fs decide enabled', 'not enabled')
     return false
   }
 
@@ -126,7 +149,7 @@ export default class FullstoryTracker extends BaseTracker {
     const { me } = this.store.state
     const lastUserId = window.sessionStorage.getItem(FULLSTORY_LAST_USER_ID_KEY)
     if (lastUserId !== me._id) {
-      this.log('identify', 'new user')
+      this.log('fs identify', 'new user')
       this.enabled = this.decideEnabled()
       if (this.enabled) {
         this.log('identify', 'enabling')

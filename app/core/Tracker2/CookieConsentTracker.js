@@ -26,11 +26,15 @@ export default class CookieConsentTracker extends BaseTracker {
       console.error('Preferred locale not loaded for user. This will result in consent tracker showing in incorrect language.')
     }
 
-    if (!this.store.getters['me/inEU']) {
+    if (me.isStudent() || window.features?.china) {
       this.onInitializeSuccess()
       return
     }
 
+    // For logged-in users, sync consent from user account to browser cookie
+    this.syncConsentFromUserAccount()
+
+    // Show cookie consent globally for all users to comply with privacy laws worldwide
     this.store.watch(
       (state, getters) => getters['me/preferredLocale'],
       () => this.onPreferredLocaleChanged()
@@ -40,8 +44,39 @@ export default class CookieConsentTracker extends BaseTracker {
     this.onInitializeSuccess()
   }
 
-  onStatusChange (status) {
+  syncConsentFromUserAccount () {
+    const savedConsent = me.getLatestCookieConsent()
+    if (savedConsent && savedConsent.action) {
+      // Set the browser cookie to match user's saved preference.
+      // Use direct cookie manipulation rather than cookieconsent.utils.setCookie,
+      // which is an undocumented internal API that may not exist (see User.js:clearCookieConsent).
+      // [TODO] if the API does exist, we should use it instead. Also, a very old package!
+      const expiry = new Date()
+      expiry.setFullYear(expiry.getFullYear() + 1)
+      document.cookie = `cookieconsent_status=${savedConsent.action}; expires=${expiry.toUTCString()}; path=/`
+      // Update store immediately
+      this.store.dispatch('tracker/cookieConsentStatusChange', savedConsent.action)
+    }
+  }
+
+  onInitialise (status) {
+    // Called on page load when a returning user already has a consent cookie.
+    // Only sync the store — do not save to the server, as nothing has changed.
+    this.log('CookieConsent onInitialise - status:', status)
     this.store.dispatch('tracker/cookieConsentStatusChange', status)
+  }
+
+  onStatusChange (status) {
+    // Called when the user actively changes consent via the banner.
+    this.log('CookieConsent onStatusChange - status:', status)
+    this.store.dispatch('tracker/cookieConsentStatusChange', status)
+
+    me.saveCookieConsent(status, 'User cookie consent from banner')
+    me.save(null, {
+      error: (_res, error) => {
+        console.error('Failed to save cookie consent to user account', error)
+      },
+    })
   }
 
   onPreferredLocaleChanged () {
@@ -71,7 +106,7 @@ export default class CookieConsentTracker extends BaseTracker {
       // Note the currently released version of cookieconsent has a bug that
       // prevents onInitialise from being called when the popup is loaded
       // before the user has interacted.
-      onInitialise: this.onStatusChange.bind(this),
+      onInitialise: this.onInitialise.bind(this),
 
       onStatusChange: this.onStatusChange.bind(this),
 
@@ -79,14 +114,14 @@ export default class CookieConsentTracker extends BaseTracker {
 
       palette: {
         popup: { background: '#000' },
-        button: { background: '#f1d600' }
+        button: { background: '#7a65fc', text: '#ffffff' },
       },
 
       hasTransition: false,
       revokeable: true,
       law: false,
       location: false,
-      type: 'opt-out',
+      type: 'opt-in',
 
       content: {
         allow: Vue.t('legal.cookies_allow'),
@@ -94,8 +129,8 @@ export default class CookieConsentTracker extends BaseTracker {
         dismiss: Vue.t('general.accept'),
         deny: Vue.t('legal.cookies_deny'),
         link: Vue.t('nav.privacy'),
-        href: '/privacy'
-      }
+        href: '/privacy',
+      },
     })
   }
 }

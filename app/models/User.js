@@ -649,6 +649,30 @@ module.exports = (User = (function () {
       })
     }
 
+    saveCookieConsent (action, description = '') {
+      // Save cookie consent to user's consentHistory
+      // action: 'allow', 'deny', or 'dismiss'
+      const consentHistory = _.clone(this.get('consentHistory')) || []
+      consentHistory.push({
+        action,
+        date: new Date(),
+        type: 'cookies',
+        description,
+      })
+      this.set('consentHistory', consentHistory)
+    }
+
+    getLatestCookieConsent () {
+      // Get the most recent cookie consent from consentHistory
+      const consentHistory = this.get('consentHistory') || []
+      const cookieConsents = consentHistory.filter(c => c.type === 'cookies')
+      if (cookieConsents.length === 0) {
+        return null
+      }
+      // Return the most recent one using _.max with custom iterator
+      return _.max(cookieConsents, c => new Date(c.date).getTime())
+    }
+
     tryStartExperiment (name) {
       let probability = window.serverConfig?.experimentProbabilities?.[name]?.beta
       if (probability == null) {
@@ -889,6 +913,8 @@ module.exports = (User = (function () {
           return globalVar.application.tracker.resetIdentity().finally(() => {
             const location = _.result(globalVar.currentView, 'logoutRedirectURL')
             this.clearUserSpecificLocalStorage?.()
+            // Clear cookie consent on logout to prevent shared device issues
+            this.clearCookieConsent()
             if (location) {
               window.location = location
             } else {
@@ -899,6 +925,11 @@ module.exports = (User = (function () {
       }
 
       return this.fetch(options)
+    }
+
+    clearCookieConsent () {
+      // Clear the cookie consent cookie so the next user on this device can make their own choice
+      document.cookie = 'cookieconsent_status=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
     }
 
     clearUserSpecificLocalStorage () {

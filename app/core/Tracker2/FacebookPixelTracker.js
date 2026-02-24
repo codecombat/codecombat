@@ -38,19 +38,40 @@ export default class FacebookPixelTracker extends BaseTracker {
     const isChina = (window.features || {}).china
     const isRegisteredHomeUser = this.store.getters['me/isHomePlayer'] // Includes anonymous: false check
 
-    if (!this.disableAllTracking && !isStudent && !isChina && !isRegisteredHomeUser && window.fbq && !window.fbq.doNotTrack) {
+    if (!isStudent && !isChina && !isRegisteredHomeUser && window.fbq) {
       this.enabled = true
       // Moved this from layout.static, since we need to first know if we are using FB for these
       window.fbq('init', '514962702046652')
-      window.fbq('track', 'PageView')
+
+      // Set initial consent state
+      if (this.disableAllTracking) {
+        window.fbq('consent', 'revoke')
+      } else {
+        window.fbq('consent', 'grant')
+        window.fbq('track', 'PageView')
+      }
+
+      // Watch for consent changes
+      this.store.watch(
+        (_state, getters) => {
+          const value = getters['tracker/disableAllTracking']
+          return value
+        },
+        (disableAllTracking, oldValue) => {
+          this.log('FB watch fired - new:', disableAllTracking, 'old:', oldValue)
+          if (disableAllTracking) {
+            window.fbq('consent', 'revoke')
+          } else {
+            window.fbq('consent', 'grant')
+            this.enabled = true
+          }
+        },
+      )
     } else {
       this.enabled = false
       const fbqTrackingScript = document.getElementById('analytics-fbq')
       if (fbqTrackingScript) {
         fbqTrackingScript.remove()
-        if (window.fbq) {
-          window.fbq.doNotTrack = true
-        }
       }
     }
 
