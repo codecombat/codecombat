@@ -15,7 +15,7 @@ module.exports = (CourseSearchView = (function () {
       this.prototype.id = 'editor-course-home-view'
       this.prototype.modelLabel = 'Course'
       this.prototype.model = require('models/Course')
-      this.prototype.modelURL = '/db/course'
+      this.prototype.modelURL = '/db/course?fetchAll=true'
       this.prototype.tableTemplate = require('app/templates/editor/course/table')
       this.prototype.projection = ['slug', 'name', 'description', 'watchers', 'creator']
       this.prototype.page = 'course'
