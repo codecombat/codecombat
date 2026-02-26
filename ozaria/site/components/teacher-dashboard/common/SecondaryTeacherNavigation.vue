@@ -73,7 +73,7 @@ export default {
     const toolOptions = [
       { id: 'toolkit', name: $.i18n.t('nav.teacher_toolkit'), path: '/teachers/resources' },
       { id: 'pd', name: $.i18n.t('nav.professional_development'), path: '/teachers/professional-development' },
-      { id: 'ai-tool', name: $.i18n.t('nav.ai_teacher_tool'), path: (utils.cocoBaseURL() + '/ai'), type: 'a' },
+      { id: 'ai-tool', name: $.i18n.t('nav.ai_teacher_tool'), path: (utils.cocoBaseURL() + '/ai/play'), type: 'a' },
     ]
     return {
       curriculumPromoClicked: false,
@@ -211,7 +211,7 @@ export default {
 
     AIHSClicked (e) {
       this.trackEvent(e)
-      let route = '/ai'
+      let route = '/ai/play'
       if (utils.isOzaria) {
         route = utils.cocoBaseURL() + '/hackstack'
       }
