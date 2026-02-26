@@ -31,6 +31,7 @@
     </background-container>
     <module-structure-section />
     <trusted-standards-section @learn-more="learnMoreClicked" />
+    <curriculum-path-section @open-signup-modal="createAccountModalOpen = true" />
     <faq-component :faq-items="faqItems" />
     <modal-get-licenses
       v-if="showContactModal"
@@ -60,6 +61,7 @@ import CoreFeaturesSection from './algebra/CoreFeaturesSection.vue'
 import LessonFlowSection from './algebra/LessonFlowSection.vue'
 import ModuleStructureSection from './algebra/ModuleStructureSection.vue'
 import TrustedStandardsSection from './algebra/TrustedStandardsSection.vue'
+import CurriculumPathSection from './algebra/CurriculumPathSection.vue'
 
 export default Vue.extend({
   name: 'PageHackstackAlgebra',
@@ -76,6 +78,7 @@ export default Vue.extend({
     LessonFlowSection,
     ModuleStructureSection,
     TrustedStandardsSection,
+    CurriculumPathSection,
   },
   data () {
     return {

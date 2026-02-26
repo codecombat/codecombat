@@ -6072,6 +6072,11 @@ module.exports = {
       trusted_standards_text: 'Our curriculum aligns with Common Core Math standards and practices, strengthening students\' skills in algebra, functions, modeling, and statistics. Additionally they\'ll develop AI literacy skills, such as prompt engineering, evaluating accuracy, using appropriate LLMs, understanding data, and considering human impact and design, all within teacher-guided instruction.',
       trusted_standards_link: 'Learn More',
 
+      // Curriculum path
+      curriculum_path_title: 'A Structured Path from Algebra Foundations to AI Application',
+      curriculum_path_cta: 'Free Teacher Account',
+      curriculum_path_subtitle: 'Trial the curriculum with your students today!',
+
       // Testimonial
       testimonial_1_quote: 'It shifted learning from just finding the final answer to understanding the step-by-step logic behind each problem.',
       testimonial_1_name: 'Montebello High School Student',
