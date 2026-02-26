@@ -127,3 +127,6 @@ scripts/analytics/mongodb/.mainAuth.json
 
 # Local VSCode history
 .history
+
+# Storybook build output
+storybook-static/
