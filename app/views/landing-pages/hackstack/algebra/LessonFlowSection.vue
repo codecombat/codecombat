@@ -64,6 +64,14 @@ $dark-bg: #021E27;
   ::v-deep .heading {
     color: white;
   }
+
+  padding: 50px 35px;
+
+  ::v-deep .body {
+    // your overrides here, e.g.:
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 }
 
 .flow {

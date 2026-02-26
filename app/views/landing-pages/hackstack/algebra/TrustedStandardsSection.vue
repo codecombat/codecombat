@@ -2,45 +2,11 @@
   <section class="trusted-section">
     <div class="trusted-card">
       <div class="trusted-card__icon">
-        <!-- Award/badge icon -->
-        <svg
-          width="72"
-          height="72"
-          viewBox="0 0 72 72"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+        <img
+          src="/images/pages/hackstack/trusted-standards.png"
+          alt="Trusted Standards"
+          class="trusted-card__icon-img"
         >
-          <circle
-            cx="36"
-            cy="28"
-            r="20"
-            stroke="#4DECF0"
-            stroke-width="3"
-            fill="none"
-          />
-          <circle
-            cx="36"
-            cy="28"
-            r="14"
-            stroke="#4DECF0"
-            stroke-width="2"
-            fill="rgba(77,236,240,0.08)"
-          />
-          <path
-            d="M29 44 L24 64 L36 58 L48 64 L43 44"
-            stroke="#4DECF0"
-            stroke-width="2.5"
-            stroke-linejoin="round"
-            fill="rgba(77,236,240,0.1)"
-          />
-          <path
-            d="M31 26 L34 29 L41 22"
-            stroke="#4DECF0"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
       </div>
       <div class="trusted-card__body">
         <h2 class="trusted-card__title">
@@ -51,8 +17,9 @@
         </p>
         <a
           class="trusted-card__link"
-          href="#"
-          @click.prevent="$emit('learn-more')"
+          href="https://docs.google.com/spreadsheets/u/2/d/1ryRZ-bs_8k5jFVHUq2NV6-T7BABo-UsSwZkxeavCD2c/edit?usp=sharing"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           {{ $t('hackstack_algebra_page.trusted_standards_link') }} →
         </a>
@@ -75,27 +42,11 @@ $primary-color: #4DECF0;
 $dark-bg: #021E27;
 
 .trusted-section {
-  background: $dark-bg;
-  padding: 80px 24px;
+  background: $dark-bg url('/images/components/bg-image__teal.webp') center / cover no-repeat;
+  padding: 20px 12px;
   display: flex;
   justify-content: center;
   align-items: center;
-  // Subtle texture using repeating gradient
-  background-image:
-    repeating-linear-gradient(
-      45deg,
-      rgba($primary-color, 0.02) 0px,
-      rgba($primary-color, 0.02) 1px,
-      transparent 1px,
-      transparent 40px
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      rgba($primary-color, 0.02) 0px,
-      rgba($primary-color, 0.02) 1px,
-      transparent 1px,
-      transparent 40px
-    );
 }
 
 .trusted-card {
@@ -119,7 +70,12 @@ $dark-bg: #021E27;
 }
 
 .trusted-card__icon {
-  flex-shrink: 0;
+  &-img {
+    width: 200px;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
 }
 
 .trusted-card__body {

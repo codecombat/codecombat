@@ -84,36 +84,48 @@ export default Vue.extend({
       showContactModal: false,
       faqItems: [
         {
-          question: this.$t('hackstack_algebra_page.faq_1_question'),
-          answer: this.$t('hackstack_algebra_page.faq_1_answer'),
+          question: this.$t('hackstack_page.faq_1_question'),
+          answer: this.$t('hackstack_page.faq_1_answer'),
         },
         {
-          question: this.$t('hackstack_algebra_page.faq_2_question'),
-          answer: this.$t('hackstack_algebra_page.faq_2_answer'),
+          question: this.$t('hackstack_page.faq_2_question'),
+          answer: this.$t('hackstack_page.faq_2_answer'),
         },
         {
-          question: this.$t('hackstack_algebra_page.faq_3_question'),
-          answer: this.$t('hackstack_algebra_page.faq_3_answer'),
+          question: this.$t('hackstack_page.faq_3_question'),
+          answer: [
+            this.$t('hackstack_page.faq_3_answer_1'),
+            this.$t('hackstack_page.faq_3_answer_2'),
+            this.$t('hackstack_page.faq_3_answer_3'),
+            this.$t('hackstack_page.faq_3_answer_4'),
+            this.$t('hackstack_page.faq_3_answer_5'),
+          ],
         },
         {
-          question: this.$t('hackstack_algebra_page.faq_4_question'),
-          answer: this.$t('hackstack_algebra_page.faq_4_answer'),
+          question: this.$t('hackstack_page.faq_4_question'),
+          answer: this.$t('hackstack_page.faq_4_answer'),
         },
         {
-          question: this.$t('hackstack_algebra_page.faq_5_question'),
-          answer: this.$t('hackstack_algebra_page.faq_5_answer'),
+          question: this.$t('hackstack_page.faq_5_question'),
+          answer: [
+            this.$t('hackstack_page.faq_5_answer_1'),
+            this.$t('hackstack_page.faq_5_answer_2'),
+            this.$t('hackstack_page.faq_5_answer_3'),
+            this.$t('hackstack_page.faq_5_answer_4'),
+            this.$t('hackstack_page.faq_5_answer_5'),
+          ],
         },
         {
-          question: this.$t('hackstack_algebra_page.faq_6_question'),
-          answer: this.$t('hackstack_algebra_page.faq_6_answer'),
+          question: this.$t('hackstack_page.faq_6_question'),
+          answer: this.$t('hackstack_page.faq_6_answer'),
         },
         {
-          question: this.$t('hackstack_algebra_page.faq_7_question'),
-          answer: this.$t('hackstack_algebra_page.faq_7_answer'),
+          question: this.$t('hackstack_page.faq_7_question'),
+          answer: this.$t('hackstack_page.faq_7_answer'),
         },
         {
-          question: this.$t('hackstack_algebra_page.faq_8_question'),
-          answer: this.$t('hackstack_algebra_page.faq_8_answer'),
+          question: this.$t('hackstack_page.faq_8_question'),
+          answer: this.$t('hackstack_page.faq_8_answer'),
         },
       ],
     }

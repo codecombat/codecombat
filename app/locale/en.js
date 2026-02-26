@@ -6075,32 +6075,6 @@ module.exports = {
       // Testimonial
       testimonial_1_quote: 'It shifted learning from just finding the final answer to understanding the step-by-step logic behind each problem.',
       testimonial_1_name: 'Montebello High School Student',
-
-      // FAQ
-      faq_1_question: 'How old should my students be to use AI HackStack?',
-      faq_1_answer: 'AI HackStack is great for middle school and high school-aged students. Our safety and privacy practices allow us to help younger users, like your students, interface safely with AI.',
-      faq_2_question: 'How we integrate AI safely and responsibly?',
-      faq_2_answer: 'Our AI technology adheres to safety-first principles, providing confidence to both students and educators. We do not allow our backend LLM providers to train your chats and have established protective measures against inappropriate content. These measures include filtering harmful language, maintaining focus on relevant subjects, safeguarding personal information, and educating students about potential AI pitfalls. Moreover, we log AI chat activity for teacher monitoring and uphold stringent data privacy and security protocols.',
-      faq_3_question: 'What LLMs is AI HackStack using?',
-      faq_3_answer_1: 'ChatGPT-4: A model designed for natural language understanding and generation tasks.',
-      faq_3_answer_2: 'Claude: A language model that focuses on performance and safety in AI interactions.',
-      faq_3_answer_3: 'Stable Diffusion: A model that generates images from text descriptions.',
-      faq_3_answer_4: 'DALL-E: An image generation model that creates visuals based on text prompts.',
-      faq_3_answer_5: 'We continuously evaluate these models for performance and safety, ensuring we update to the latest versions available.',
-      faq_4_question: 'How to find alternative funding sources?',
-      faq_4_answer: 'Grants can be a valuable resource. Check out our **[https://codecombat.com/grants]guide to grant funding** or **[mailto:team@codecombat.com]speak with our team** to learn more.',
-      faq_5_question: 'How to get started',
-      faq_5_answer_1: 'Create your Teacher or Admin Account',
-      faq_5_answer_2: 'Create a class',
-      faq_5_answer_3: 'Add students',
-      faq_5_answer_4: 'Unlock AI HackStack for your class',
-      faq_5_answer_5: 'Sit back and watch your students have fun learning about AI',
-      faq_6_question: 'Support for Clever and Google login',
-      faq_6_answer: 'We offer both Clever and Google Classroom integration.',
-      faq_7_question: 'Recommended browser and operating system',
-      faq_7_answer: 'TBA',
-      faq_8_question: 'How many prompts do I get?',
-      faq_8_answer: 'With a license, you get 100 monthly prompts for teacher and 30 weekly for students.',
     },
 
     standards_page: {
