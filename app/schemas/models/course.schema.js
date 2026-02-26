@@ -39,7 +39,7 @@ _.extend(CourseSchema.properties, {
     ],
   },
   adminOnly: { type: 'boolean', description: 'Deprecated in favor of releasePhase.' },
-  releasePhase: { enum: ['beta', 'internalRelease', 'released'], description: "How far along the course's development is, determining who sees it." },
+  releasePhase: { enum: ['beta', 'internalRelease', 'released', 'draft'], description: "How far along the course's development is, determining who sees it." },
   isOzaria: { type: 'boolean', description: 'Is this an ozaria course' }, // not used
   shortName: { type: 'string', title: 'Short Name', description: 'Short name to be used on dashboards' },
   cstaStandards: c.array({ title: 'CSTA standards', description: 'Sample CSTA standards list for display on teacher dashboard curriculum guides' }, {

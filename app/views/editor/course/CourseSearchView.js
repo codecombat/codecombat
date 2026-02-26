@@ -20,6 +20,7 @@ module.exports = (CourseSearchView = (function () {
       this.prototype.projection = ['slug', 'name', 'description', 'watchers', 'creator']
       this.prototype.page = 'course'
       this.prototype.canMakeNew = false
+      this.prototype.queryParams = 'fetchAll=true'
     }
 
     getRenderData () {
