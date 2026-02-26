@@ -120,8 +120,10 @@ module.exports = {
       title_cn_home: '[AI_TRANSLATION]CodeCombat|Python, Javascript',
       meta_keywords_coco: '[AI_TRANSLATION]CodeCombat, python, javascript, Kódovací hry  ',
       meta_keywords_ozar: '[AI_TRANSLATION]CodeCombat, python, javascript, Programování her, Program informatiky, Dobrodružství, Epický příběh',
+      //    meta_keywords_cn_home: "",
       meta_description_coco: '[AI_TRANSLATION]Nauč se programovacímu kódu prostřednictvím programovací hry. Nauč se Python, JavaScript a HTML, jakmile budeš řešit hádanky a naučíš se vytvářet své vlastní programovací hry a webové stránky.',
       meta_description_ozar: '[AI_TRANSLATION]Ozaria je program na počítačovou vědu, dobrodružná hra a fantasy příběh, kde studenti ovládají ztracenou magii kódování, aby zachránili svůj svět.',
+      //    meta_description_cn_home: "",
       meta_og_url: '[AI_TRANSLATION]https://codecombat.com',
       become_investor: '[AI_TRANSLATION]stát se investorem v CodeCombat',
       built_for_teachers_title: '[AI_TRANSLATION]Kódovací hra vytvořená s ohledem na učitele',
@@ -525,6 +527,8 @@ module.exports = {
       getting_started_2: 'Vytvořit třídu',
       getting_started_3: 'Přidat studenty',
       getting_started_4: '[AI_TRANSLATION]Sedni si a sleduj, jak se tvoji studenti baví a učí se kódovat',
+      //    mobile_question: "",
+      //    mobile_question_blurb: "",
       main_curriculum: '[AI_TRANSLATION]Můžu použít CodeCombat nebo Ozaria jako hlavní kurikulum?',
       main_curriculum_blurb: '[AI_TRANSLATION]Rozhodně! Strávili jsme čas konzultacemi se specialisty na vzdělávání, abychom vytvořili učební plán a materiály specificky pro učitele, kteří používají CodeCombat nebo Ozaria bez jakékoliv předchozí zkušenosti s informatiku. Mnoho škol zavádí CodeCombat a/nebo Ozaria jako hlavní učební plán pro informatiku.',
       clever_instant_login: '[AI_TRANSLATION]Podporují CodeCombat a Ozaria přihlášení Clever Instant?',
@@ -839,6 +843,7 @@ module.exports = {
       //    phone_code: "Validation SMS Code",
       //    send_phone_code: "Send SMS Code",
       //    resend_phone_code: "ReSend(__countDown__)",
+      //    sign_up_or_login: "Sign Up/Login",
     },
 
     recover: {
@@ -1476,14 +1481,10 @@ module.exports = {
       online_classes: '[AI_TRANSLATION]Online kurzy',
       feature_ai_level_bot: '[AI_TRANSLATION]Zrychli učení s podporou poháněnou AI',
       sure_buy_as_parent: '[AI_TRANSLATION]Jsi si jistý, že chceš prémiový přístup pro sebe místo pro své dítě?  ',
-<<<<<<< variant A
       //    monthly_inspire: "only $3.3 everyday",
       //    seasonly_inspire: "only one meal",
       //    yearly_inspire: "17% discount",
->>>>>>> variant B
       //    having_activation_code: "Having an activation Code for Premium? <a href=\"/account/prepaid\">Activate the code here</a>",
-####### Ancestor
-======= end
     },
 
     announcement: {
@@ -2984,9 +2985,7 @@ module.exports = {
       //    show_practice_levels: "Show Practice Levels",
       //    hide_practice_levels: "Hide Practice Levels",
       //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
-<<<<<<< variant A
       //    partially_complete: "Partially Complete",
->>>>>>> variant B
       //    INTRO_short: "Intro",
       //    ELA_short: "ELA",
       //    MATH_short: "Math",
@@ -2997,8 +2996,6 @@ module.exports = {
       //    CS_short: "CS",
       //    SANDBOX_short: "Sandbox",
       //    EXPLORATIONS_short: "Explorations",
-####### Ancestor
-======= end
     },
 
     teacher_licenses: {
@@ -3695,6 +3692,7 @@ module.exports = {
       general_desc: '[AI_TRANSLATION]Něco se pokazilo a pravděpodobně je to naše chyba. Zkus chvilku počkat a pak aktualizovat stránku, nebo navštiv jeden z následujících odkazů, abys se vrátil ke kódování!',
       too_many_login_failures: '[AI_TRANSLATION]Bylo provedeno příliš mnoho neúspěšných pokusů o přihlášení. Zkuste to prosím později.',
       something_went_wrong: 'Ajaj! Něco selhalo.',
+      //    phone_code_error: "SMS Code Dismatch",
     },
 
     resources: {
@@ -6049,6 +6047,13 @@ module.exports = {
     //    promo_modal_subtitle: "Unlock the Full Potential of Generative AI",
     //    promo_modal_text: "**New to AI? Explore CodeCombat AI HackStack** — the easiest way to dive into AI literacy. Unlock the power of top models like **ChatGPT-4**, **Claude**, **Stable Diffusion**, and **DALL-E**. With hands-on tools, creating games, art, websites, code, and more has never been simpler. It’s the perfect companion for any creative project, no experience required!",
     //    explore_hackstack: "Explore Hackstack",
+    //    learn_1_text: "Play in a safe[NEWLINE]AI sandbox",
+    //    learn_2_text: "Cross-[NEWLINE]Curricular[NEWLINE]Lessons",
+    //    learn_3_text: "Prompt[NEWLINE]Engineering",
+    //    learn_4_text: "Remix AI[NEWLINE]Project",
+    //    learn_5_text: "Ethics-Centered[NEWLINE]Reflection",
+    //    learn_6_text: "Actionable[NEWLINE]Data",
+    //    learn_7_text: "Professional[NEWLINE]Development[NEWLINE]for AI",
     //  },
 
     standards_page: {
@@ -6432,14 +6437,9 @@ module.exports = {
     //  galaxy: {
     //    title: "Welcome to HackStack Galaxy",
     //    description: "Explore new worlds and use AI to help you in your journey. ",
-<<<<<<< variant A
-    //    premium_only: "Premium only",
->>>>>>> variant B
     //    premium_only: "Premium only",
     //    not_enrolled: "Not Enrolled",
     //    locked_by_teacher: "Locked by teacher",
-####### Ancestor
-======= end
     //  },
 
     //  new_premium: {

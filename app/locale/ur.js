@@ -120,8 +120,10 @@ module.exports = {
       title_cn_home: '[AI_TRANSLATION]CodeCombat | Python، Javascript',
       meta_keywords_coco: '[AI_TRANSLATION]CodeCombat، python، javascript، Coding Games',
       meta_keywords_ozar: '[AI_TRANSLATION]CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story',
+      //    meta_keywords_cn_home: "",
       meta_description_coco: '[AI_TRANSLATION]پروگرامنگ گیم کے ذریعے ٹائپ کوڈ سیکھیں۔ Python، JavaScript اور HTML سیکھیں جب آپ پہیلیاں حل کرتے ہیں اور اپنے کوڈنگ گیمز اور ویب سائٹس بنانا سیکھتے ہیں۔',
       meta_description_ozar: '[AI_TRANSLATION]اوزیریا ایک کمپیوٹر سائنس پروگرام ہے، ایک ایڈونچر گیم، اور ایک فینٹسی کہانی جہاں طلباء گمشدہ کوڈنگ کی جادوئی صلاحیت کو سیکھ کر اپنی دنیا بچاتے ہیں۔',
+      //    meta_description_cn_home: "",
       meta_og_url: '[AI_TRANSLATION]https://codecombat.com',
       become_investor: '[AI_TRANSLATION]CodeCombat میں سرمایہ کار بننا',
       built_for_teachers_title: '[AI_TRANSLATION]اساتذہ کی نظر میں بنایا گیا کوڈنگ گیم',
@@ -525,6 +527,8 @@ module.exports = {
       getting_started_2: '[AI_TRANSLATION]ایک class تخلیق کریں',
       getting_started_3: '[AI_TRANSLATION]طلباء کا اضافہ کریں',
       getting_started_4: '[AI_TRANSLATION]آرام سے بیٹھو اور اپنے طالب علموں کو کوڈ سیکھتے ہوئے مزے کرتے دیکھو۔',
+      //    mobile_question: "",
+      //    mobile_question_blurb: "",
       main_curriculum: '[AI_TRANSLATION]کیا میں اپنا مین نصاب CodeCombat یا Ozaria کو بنا سکتا ہوں؟',
       main_curriculum_blurb: '[AI_TRANSLATION]بالکل صحیح! ہم نے وقت نکال کر تعلیمی ماہرین سے مشاورت کی ہے تاکہ کلاس روم کا نصاب اور مواد خاص طور پر ان اساتذہ کے لیے تیار کیا جا سکے جو خود کسی بھی کمپیوٹر سائنس کے تجربے کے بغیر CodeCombat یا Ozaria استعمال کر رہے ہیں۔ بہت سے اسکول CodeCombat اور/یا Ozaria کو بنیادی کمپیوٹر سائنس نصاب کے طور پر لاگو کر رہے ہیں۔',
       clever_instant_login: '[AI_TRANSLATION]کیا CodeCombat اور Ozaria کریور انسٹنٹ لاگ ان کو سپورٹ کرتے ہیں؟',
@@ -839,6 +843,7 @@ module.exports = {
       //    phone_code: "Validation SMS Code",
       //    send_phone_code: "Send SMS Code",
       //    resend_phone_code: "ReSend(__countDown__)",
+      //    sign_up_or_login: "Sign Up/Login",
     },
 
     recover: {
@@ -1476,13 +1481,10 @@ module.exports = {
       online_classes: '[AI_TRANSLATION]آن لائن کلاسز',
       feature_ai_level_bot: '[AI_TRANSLATION]AI پاورڈ سپورٹ کے ساتھ لرننگ کو تیز کریں۔',
       sure_buy_as_parent: '[AI_TRANSLATION]کیا تم واقعی اپنے بچے کے بجائے اپنے لیے پریمیم ایکسس لینا چاہتے ہو؟',
-<<<<<<< HEAD
       //    monthly_inspire: "only $3.3 everyday",
       //    seasonly_inspire: "only one meal",
       //    yearly_inspire: "17% discount",
-=======
       //    having_activation_code: "Having an activation Code for Premium? <a href=\"/account/prepaid\">Activate the code here</a>",
->>>>>>> origin/master
     },
 
     announcement: {
@@ -2983,9 +2985,7 @@ module.exports = {
       //    show_practice_levels: "Show Practice Levels",
       //    hide_practice_levels: "Hide Practice Levels",
       //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
-<<<<<<< HEAD
       //    partially_complete: "Partially Complete",
-=======
       //    INTRO_short: "Intro",
       //    ELA_short: "ELA",
       //    MATH_short: "Math",
@@ -2996,7 +2996,6 @@ module.exports = {
       //    CS_short: "CS",
       //    SANDBOX_short: "Sandbox",
       //    EXPLORATIONS_short: "Explorations",
->>>>>>> origin/master
     },
 
     teacher_licenses: {
@@ -3693,6 +3692,7 @@ module.exports = {
       general_desc: '[AI_TRANSLATION]کچھ غلط ہو گیا ہے، اور شاید ہماری غلطی ہو۔ تھوڑی دیر انتظار کریں اور پھر صفحہ ریفریش کریں، یا نیچے دیے گئے لنکس میں سے کسی ایک پر جائیں اور پروگرامنگ کو دوبارہ شروع کریں!',
       too_many_login_failures: '[AI_TRANSLATION]بہت زیادہ ناکام لاگ ان کوششیں ہوچکی ہیں۔ براہ کرم بعد میں دوبارہ کوشش کریں۔',
       something_went_wrong: '[AI_TRANSLATION]اوہ! کچھ غلط ہو گیا',
+      //    phone_code_error: "SMS Code Dismatch",
     },
 
     resources: {
@@ -6047,6 +6047,13 @@ module.exports = {
     //    promo_modal_subtitle: "Unlock the Full Potential of Generative AI",
     //    promo_modal_text: "**New to AI? Explore CodeCombat AI HackStack** — the easiest way to dive into AI literacy. Unlock the power of top models like **ChatGPT-4**, **Claude**, **Stable Diffusion**, and **DALL-E**. With hands-on tools, creating games, art, websites, code, and more has never been simpler. It’s the perfect companion for any creative project, no experience required!",
     //    explore_hackstack: "Explore Hackstack",
+    //    learn_1_text: "Play in a safe[NEWLINE]AI sandbox",
+    //    learn_2_text: "Cross-[NEWLINE]Curricular[NEWLINE]Lessons",
+    //    learn_3_text: "Prompt[NEWLINE]Engineering",
+    //    learn_4_text: "Remix AI[NEWLINE]Project",
+    //    learn_5_text: "Ethics-Centered[NEWLINE]Reflection",
+    //    learn_6_text: "Actionable[NEWLINE]Data",
+    //    learn_7_text: "Professional[NEWLINE]Development[NEWLINE]for AI",
     //  },
 
     standards_page: {
@@ -6431,11 +6438,8 @@ module.exports = {
     //    title: "Welcome to HackStack Galaxy",
     //    description: "Explore new worlds and use AI to help you in your journey. ",
     //    premium_only: "Premium only",
-<<<<<<< HEAD
-=======
     //    not_enrolled: "Not Enrolled",
     //    locked_by_teacher: "Locked by teacher",
->>>>>>> origin/master
     //  },
 
     //  new_premium: {

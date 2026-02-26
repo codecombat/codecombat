@@ -120,8 +120,10 @@ module.exports = {
       title_cn_home: '[AI_TRANSLATION]CodeCombat|Python, Javascript',
       meta_keywords_coco: 'كودكومبات, بايثون, جافا سكريبت, العاب برمجة',
       meta_keywords_ozar: '[AI_TRANSLATION]CodeCombat، بايثون، جافا سكريبت، ألعاب البرمجة، برنامج علوم الكمبيوتر، مغامرة، قصة ملحمية',
+      //    meta_keywords_cn_home: "",
       meta_description_coco: 'تعلم البرمجة عن طريق الالعاب. تعلم بايثون, جافا سكريبت و HTML وتعلم بناء العابك ومواقعك الخاصة',
       meta_description_ozar: '[AI_TRANSLATION]أوزاريا هو برنامج لعلوم الحاسب، لعبة مغامرة، وقصة خيالية حيث يتقن الطلاب السحر المفقود للترميز لإنقاذ عالمهم.  ',
+      //    meta_description_cn_home: "",
       meta_og_url: '[AI_TRANSLATION]https://codecombat.com',
       become_investor: '[AI_TRANSLATION]لتصبح مستثمرًا في CodeCombat',
       built_for_teachers_title: '[AI_TRANSLATION]لعبة البرمجة مصممة خصيصًا للمعلمين.',
@@ -525,6 +527,8 @@ module.exports = {
       getting_started_2: '[AI_TRANSLATION]أنشئ فئة',
       getting_started_3: '[AI_TRANSLATION]أضف الطلاب',
       getting_started_4: '[AI_TRANSLATION]اجلس واسترخ واترك طلابك يستمتعون بتعلم البرمجة',
+      //    mobile_question: "",
+      //    mobile_question_blurb: "",
       main_curriculum: '[AI_TRANSLATION]هل يمكنني استخدام CodeCombat أو أوزاريا ك منهج دراسي رئيسي؟',
       main_curriculum_blurb: '[AI_TRANSLATION]بالتأكيد! لقد خصصنا وقتًا للتشاور مع متخصصين في التعليم لتصميم مناهج ومواد صفية خصيصًا للمعلمين الذين يستخدمون CodeCombat أو Ozaria بدون أي خبرة سابقة في علوم الكمبيوتر. تقوم العديد من المدارس بتنفيذ CodeCombat و/أو Ozaria كمنهاج رئيسي لعلوم الكمبيوتر.',
       clever_instant_login: '[AI_TRANSLATION]هل يدعم CodeCombat و Ozaria تسجيل الدخول الفوري عبر Clever؟',
@@ -839,6 +843,7 @@ module.exports = {
       //    phone_code: "Validation SMS Code",
       //    send_phone_code: "Send SMS Code",
       //    resend_phone_code: "ReSend(__countDown__)",
+      //    sign_up_or_login: "Sign Up/Login",
     },
 
     recover: {
@@ -2980,9 +2985,7 @@ module.exports = {
       //    show_practice_levels: "Show Practice Levels",
       //    hide_practice_levels: "Hide Practice Levels",
       //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
-<<<<<<< variant A
       //    partially_complete: "Partially Complete",
->>>>>>> variant B
       //    INTRO_short: "Intro",
       //    ELA_short: "ELA",
       //    MATH_short: "Math",
@@ -2993,8 +2996,6 @@ module.exports = {
       //    CS_short: "CS",
       //    SANDBOX_short: "Sandbox",
       //    EXPLORATIONS_short: "Explorations",
-####### Ancestor
-======= end
     },
 
     teacher_licenses: {
@@ -3691,6 +3692,7 @@ module.exports = {
       general_desc: '[AI_TRANSLATION]حدث خطأ ما، وربما يكون خطأنا. حاول الانتظار قليلاً ثم إعادة تحميل الصفحة، أو قم بزيارة أحد الروابط التالية للعودة إلى البرمجة!',
       too_many_login_failures: '[AI_TRANSLATION]كانت هناك الكثير من محاولات تسجيل الدخول الفاشلة. يرجى المحاولة مرة أخرى لاحقًا.',
       something_went_wrong: '[AI_TRANSLATION]عفوًا! حدث خطأ ما',
+      //    phone_code_error: "SMS Code Dismatch",
     },
 
     resources: {
@@ -6045,6 +6047,13 @@ module.exports = {
     //    promo_modal_subtitle: "Unlock the Full Potential of Generative AI",
     //    promo_modal_text: "**New to AI? Explore CodeCombat AI HackStack** — the easiest way to dive into AI literacy. Unlock the power of top models like **ChatGPT-4**, **Claude**, **Stable Diffusion**, and **DALL-E**. With hands-on tools, creating games, art, websites, code, and more has never been simpler. It’s the perfect companion for any creative project, no experience required!",
     //    explore_hackstack: "Explore Hackstack",
+    //    learn_1_text: "Play in a safe[NEWLINE]AI sandbox",
+    //    learn_2_text: "Cross-[NEWLINE]Curricular[NEWLINE]Lessons",
+    //    learn_3_text: "Prompt[NEWLINE]Engineering",
+    //    learn_4_text: "Remix AI[NEWLINE]Project",
+    //    learn_5_text: "Ethics-Centered[NEWLINE]Reflection",
+    //    learn_6_text: "Actionable[NEWLINE]Data",
+    //    learn_7_text: "Professional[NEWLINE]Development[NEWLINE]for AI",
     //  },
 
     standards_page: {
@@ -6428,14 +6437,9 @@ module.exports = {
     //  galaxy: {
     //    title: "Welcome to HackStack Galaxy",
     //    description: "Explore new worlds and use AI to help you in your journey. ",
-<<<<<<< variant A
-    //    premium_only: "Premium only",
->>>>>>> variant B
     //    premium_only: "Premium only",
     //    not_enrolled: "Not Enrolled",
     //    locked_by_teacher: "Locked by teacher",
-####### Ancestor
-======= end
     //  },
 
     //  new_premium: {

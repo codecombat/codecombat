@@ -120,8 +120,10 @@ module.exports = {
       title_cn_home: '[AI_TRANSLATION]CodeCombat|Python, Javascript  ',
       meta_keywords_coco: '[AI_TRANSLATION]CodeCombat, python, javascript, Kod Oyunları  ',
       meta_keywords_ozar: '[AI_TRANSLATION]CodeCombat, python, javascript, Kod Oyunları, Bilgisayar Bilimi Programı, Macera, Destansı Hikaye  ',
+      //    meta_keywords_cn_home: "",
       meta_description_coco: '[AI_TRANSLATION]Programlama oyunuyla yazılı kod öğren. Bulmacaları çözerken Python, JavaScript ve HTML öğren, kendi kodlama oyunlarını ve web sitelerini yapmayı öğren.  ',
       meta_description_ozar: '[AI_TRANSLATION]Ozaria, öğrencilerin kodlamanın kayıp büyüsünü öğrenerek dünyalarını kurtardıkları bir bilgisayar bilimi programı, bir macera oyunu ve fantezi bir hikayedir.',
+      //    meta_description_cn_home: "",
       meta_og_url: '[AI_TRANSLATION]https://codecombat.com  ',
       become_investor: "[AI_TRANSLATION]CodeCombat'ta yatırımcı olmak için  ",
       built_for_teachers_title: 'Öğretmenlerle çocuklardan ilham alınarak oluşturulan Yazılım Oyunu',
@@ -525,6 +527,8 @@ module.exports = {
       getting_started_2: '[AI_TRANSLATION]Bir sınıf oluştur  ',
       getting_started_3: '[AI_TRANSLATION]Öğrenciler ekleyin  ',
       getting_started_4: '[AI_TRANSLATION]Arkana yaslan ve öğrencilerin kod eğlenerek öğrendiğini izle',
+      //    mobile_question: "",
+      //    mobile_question_blurb: "",
       main_curriculum: "[AI_TRANSLATION]Ana müfredat olarak CodeCombat ya da Ozaria'yı kullanabilir miyim?",
       main_curriculum_blurb: "[AI_TRANSLATION]Kesinlikle! Bilgisayar bilimi konusunda daha önce deneyimi olmayan öğretmenler için sınıf müfredatı ve materyalleri tasarlamak amacıyla eğitim uzmanları ile görüştük. Birçok okul, ana bilgisayar bilimi müfredatı olarak CodeCombat ve/veya Ozaria'yı uygulamakta.",
       clever_instant_login: "[AI_TRANSLATION]CodeCombat ve Ozaria, Clever Anında Giriş'i destekliyor mu?  ",
@@ -839,6 +843,7 @@ module.exports = {
       //    phone_code: "Validation SMS Code",
       //    send_phone_code: "Send SMS Code",
       //    resend_phone_code: "ReSend(__countDown__)",
+      //    sign_up_or_login: "Sign Up/Login",
     },
 
     recover: {
@@ -1476,13 +1481,10 @@ module.exports = {
       online_classes: '[AI_TRANSLATION]Online Dersler',
       feature_ai_level_bot: '[AI_TRANSLATION]Yapay zeka destekli yardımla öğrenmeyi hızlandırın',
       sure_buy_as_parent: '[AI_TRANSLATION]Çocuk yerine kendin için premium erişim istediğine emin misin?',
-<<<<<<< HEAD
       //    monthly_inspire: "only $3.3 everyday",
       //    seasonly_inspire: "only one meal",
       //    yearly_inspire: "17% discount",
-=======
       //    having_activation_code: "Having an activation Code for Premium? <a href=\"/account/prepaid\">Activate the code here</a>",
->>>>>>> origin/master
     },
 
     announcement: {
@@ -2983,9 +2985,7 @@ module.exports = {
       //    show_practice_levels: "Show Practice Levels",
       //    hide_practice_levels: "Hide Practice Levels",
       //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
-<<<<<<< HEAD
       //    partially_complete: "Partially Complete",
-=======
       //    INTRO_short: "Intro",
       //    ELA_short: "ELA",
       //    MATH_short: "Math",
@@ -2996,7 +2996,6 @@ module.exports = {
       //    CS_short: "CS",
       //    SANDBOX_short: "Sandbox",
       //    EXPLORATIONS_short: "Explorations",
->>>>>>> origin/master
     },
 
     teacher_licenses: {
@@ -3693,6 +3692,7 @@ module.exports = {
       general_desc: '[AI_TRANSLATION]Bir şeyler ters gitti ve muhtemelen bizim hatamız. Biraz bekleyip sayfayı yenilemeyi deneyin veya programlamaya geri dönmek için aşağıdaki bağlantılardan birini ziyaret edin!',
       too_many_login_failures: '[AI_TRANSLATION]Çok fazla başarısız giriş denemesi oldu. Lütfen daha sonra tekrar deneyin.  ',
       something_went_wrong: '[AI_TRANSLATION]Oops! Bir şeyler ters gitti.',
+      //    phone_code_error: "SMS Code Dismatch",
     },
 
     resources: {
@@ -6047,6 +6047,13 @@ module.exports = {
     //    promo_modal_subtitle: "Unlock the Full Potential of Generative AI",
     //    promo_modal_text: "**New to AI? Explore CodeCombat AI HackStack** — the easiest way to dive into AI literacy. Unlock the power of top models like **ChatGPT-4**, **Claude**, **Stable Diffusion**, and **DALL-E**. With hands-on tools, creating games, art, websites, code, and more has never been simpler. It’s the perfect companion for any creative project, no experience required!",
     //    explore_hackstack: "Explore Hackstack",
+    //    learn_1_text: "Play in a safe[NEWLINE]AI sandbox",
+    //    learn_2_text: "Cross-[NEWLINE]Curricular[NEWLINE]Lessons",
+    //    learn_3_text: "Prompt[NEWLINE]Engineering",
+    //    learn_4_text: "Remix AI[NEWLINE]Project",
+    //    learn_5_text: "Ethics-Centered[NEWLINE]Reflection",
+    //    learn_6_text: "Actionable[NEWLINE]Data",
+    //    learn_7_text: "Professional[NEWLINE]Development[NEWLINE]for AI",
     //  },
 
     standards_page: {
@@ -6431,11 +6438,8 @@ module.exports = {
     //    title: "Welcome to HackStack Galaxy",
     //    description: "Explore new worlds and use AI to help you in your journey. ",
     //    premium_only: "Premium only",
-<<<<<<< HEAD
-=======
     //    not_enrolled: "Not Enrolled",
     //    locked_by_teacher: "Locked by teacher",
->>>>>>> origin/master
     //  },
 
     //  new_premium: {

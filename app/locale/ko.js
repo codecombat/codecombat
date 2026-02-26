@@ -120,8 +120,10 @@ module.exports = {
       title_cn_home: '[AI_TRANSLATION]CodeCombat|Python, Javascript',
       meta_keywords_coco: '[AI_TRANSLATION]CodeCombat, 파이썬, 자바스크립트, 코딩 게임들',
       meta_keywords_ozar: '[AI_TRANSLATION]CodeCombat, python, javascript, Coding Games, Computer Science Program, Adventure, Epic Story',
+      //    meta_keywords_cn_home: "",
       meta_description_coco: '프로그래밍 게임을 통해 타이핑된 코드를 배우십시오. 퍼즐을 풀면서 Python, JavaScript 및 HTML을 배우고 자신만의 코딩 게임 및 웹 사이트를 만드는 방법을 배우십시오.',
       meta_description_ozar: '프로그래밍 게임을 통해 타이핑된 코드를 배우십시오. 퍼즐을 풀면서 Python, JavaScript 및 HTML을 배우고 자신만의 코딩 게임 및 웹 사이트를 만드는 방법을 배우십시오.',
+      //    meta_description_cn_home: "",
       meta_og_url: '[AI_TRANSLATION]https://codecombat.com',
       become_investor: '[AI_TRANSLATION]CodeCombat의 투자자가 되기',
       built_for_teachers_title: '선생님들의 마음을 생각한 코딩 게임',
@@ -525,6 +527,8 @@ module.exports = {
       getting_started_2: '[AI_TRANSLATION]클래스 만들기',
       getting_started_3: '[AI_TRANSLATION]학생 추가하기',
       getting_started_4: '[AI_TRANSLATION]앉아서 학생들이 재미있게 코딩을 배우는 걸 지켜봐.',
+      //    mobile_question: "",
+      //    mobile_question_blurb: "",
       main_curriculum: '[AI_TRANSLATION]CodeCombat이나 Ozaria를 주요 커리큘럼으로 사용할 수 있나요?',
       main_curriculum_blurb: '[AI_TRANSLATION]당연하지! 우리가 교육 전문가들과 협력하여 컴퓨터 과학 경험이 전혀 없는 교사들도 사용할 수 있도록 CodeCombat이나 Ozaria를 위한 교실 커리큘럼과 자료들을 만들었어. 많은 학교들이 CodeCombat과/또는 Ozaria를 주요 컴퓨터 과학 커리큘럼으로 도입하고 있어.',
       clever_instant_login: '[AI_TRANSLATION]CodeCombat과 Ozaria가 Clever Instant Login을 지원하나요?',
@@ -839,6 +843,7 @@ module.exports = {
       //    phone_code: "Validation SMS Code",
       //    send_phone_code: "Send SMS Code",
       //    resend_phone_code: "ReSend(__countDown__)",
+      //    sign_up_or_login: "Sign Up/Login",
     },
 
     recover: {
@@ -1476,13 +1481,10 @@ module.exports = {
       online_classes: '[AI_TRANSLATION]온라인 수업',
       feature_ai_level_bot: '[AI_TRANSLATION]AI 지원으로 학습 가속화',
       sure_buy_as_parent: '[AI_TRANSLATION]자녀 대신 본인이 프리미엄 접근을 원하시나요?',
-<<<<<<< HEAD
       //    monthly_inspire: "only $3.3 everyday",
       //    seasonly_inspire: "only one meal",
       //    yearly_inspire: "17% discount",
-=======
       //    having_activation_code: "Having an activation Code for Premium? <a href=\"/account/prepaid\">Activate the code here</a>",
->>>>>>> origin/master
     },
 
     announcement: {
@@ -2983,9 +2985,7 @@ module.exports = {
       //    show_practice_levels: "Show Practice Levels",
       //    hide_practice_levels: "Hide Practice Levels",
       //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
-<<<<<<< HEAD
       //    partially_complete: "Partially Complete",
-=======
       //    INTRO_short: "Intro",
       //    ELA_short: "ELA",
       //    MATH_short: "Math",
@@ -2996,7 +2996,6 @@ module.exports = {
       //    CS_short: "CS",
       //    SANDBOX_short: "Sandbox",
       //    EXPLORATIONS_short: "Explorations",
->>>>>>> origin/master
     },
 
     teacher_licenses: {
@@ -3693,6 +3692,7 @@ module.exports = {
       general_desc: '[AI_TRANSLATION]뭔가 잘못됐어, 아마 우리의 잘못일 거야. 조금 기다렸다가 페이지 새로고침을 해보거나 아래 링크들 중 하나를 방문해서 프로그래밍으로 돌아가봐!',
       too_many_login_failures: '[AI_TRANSLATION]너무 많은 로그인 시도가 실패했습니다. 나중에 다시 시도해 주세요.',
       something_went_wrong: '[AI_TRANSLATION]어이쿠! 뭔가 잘못됐어',
+      //    phone_code_error: "SMS Code Dismatch",
     },
 
     resources: {
@@ -6047,6 +6047,13 @@ module.exports = {
     //    promo_modal_subtitle: "Unlock the Full Potential of Generative AI",
     //    promo_modal_text: "**New to AI? Explore CodeCombat AI HackStack** — the easiest way to dive into AI literacy. Unlock the power of top models like **ChatGPT-4**, **Claude**, **Stable Diffusion**, and **DALL-E**. With hands-on tools, creating games, art, websites, code, and more has never been simpler. It’s the perfect companion for any creative project, no experience required!",
     //    explore_hackstack: "Explore Hackstack",
+    //    learn_1_text: "Play in a safe[NEWLINE]AI sandbox",
+    //    learn_2_text: "Cross-[NEWLINE]Curricular[NEWLINE]Lessons",
+    //    learn_3_text: "Prompt[NEWLINE]Engineering",
+    //    learn_4_text: "Remix AI[NEWLINE]Project",
+    //    learn_5_text: "Ethics-Centered[NEWLINE]Reflection",
+    //    learn_6_text: "Actionable[NEWLINE]Data",
+    //    learn_7_text: "Professional[NEWLINE]Development[NEWLINE]for AI",
     //  },
 
     standards_page: {
@@ -6431,11 +6438,8 @@ module.exports = {
     //    title: "Welcome to HackStack Galaxy",
     //    description: "Explore new worlds and use AI to help you in your journey. ",
     //    premium_only: "Premium only",
-<<<<<<< HEAD
-=======
     //    not_enrolled: "Not Enrolled",
     //    locked_by_teacher: "Locked by teacher",
->>>>>>> origin/master
     //  },
 
     //  new_premium: {

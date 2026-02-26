@@ -120,8 +120,10 @@ module.exports = {
       title_cn_home: '[AI_TRANSLATION]CodeCombat|Python, Javascript',
       meta_keywords_coco: 'CodeCombat, python, javascript, học lập trình qua game',
       meta_keywords_ozar: 'CodeCombat, python, javascript, học lập trình qua game',
+      //    meta_keywords_cn_home: "",
       meta_description_coco: 'Học lập trình thông qua chơi game. Học Python, JavaScript, và HTML trong lúc giải đố, tự thiết kế game và website.',
       meta_description_ozar: 'Học lập trình thông qua chơi game. Học Python, JavaScript, và HTML trong lúc giải đố, tự thiết kế game và website.',
+      //    meta_description_cn_home: "",
       meta_og_url: 'https://codecombat.com',
       become_investor: '[AI_TRANSLATION]để trở thành nhà đầu tư trong CodeCombat',
       built_for_teachers_title: '[AI_TRANSLATION]Một Trò chơi Mã hóa Được Xây dựng Với Sự Quan tâm Của Giáo viên',
@@ -525,6 +527,8 @@ module.exports = {
       getting_started_2: '[AI_TRANSLATION]Tạo một lớp',
       getting_started_3: '[AI_TRANSLATION]Thêm học sinh',
       getting_started_4: '[AI_TRANSLATION]Ngồi thoải mái và xem học sinh của bạn học lập trình một cách vui vẻ  ',
+      //    mobile_question: "",
+      //    mobile_question_blurb: "",
       main_curriculum: '[AI_TRANSLATION]Tôi có thể sử dụng CodeCombat hoặc Ozaria làm chương trình giảng dạy chính không?',
       //    main_curriculum_blurb: "Absolutely! We’ve spent time consulting with education specialists to craft classroom curriculum and materials specifically for teachers who are using CodeCombat or Ozaria without any prior computer science experience themselves. Many schools are implementing CodeCombat and/or Ozaria as the main computer science curriculum.",
       clever_instant_login: '[AI_TRANSLATION]CodeCombat và Ozaria có hỗ trợ Đăng Nhập Tức Thời Clever không?',
@@ -839,6 +843,7 @@ module.exports = {
       //    phone_code: "Validation SMS Code",
       //    send_phone_code: "Send SMS Code",
       //    resend_phone_code: "ReSend(__countDown__)",
+      //    sign_up_or_login: "Sign Up/Login",
     },
 
     recover: {
@@ -1476,13 +1481,10 @@ module.exports = {
       online_classes: '[AI_TRANSLATION]Lớp học trực tuyến',
       feature_ai_level_bot: '[AI_TRANSLATION]Học nhanh hơn với sự hỗ trợ từ AI',
       sure_buy_as_parent: '[AI_TRANSLATION]Bạn có chắc là muốn truy cập cao cấp cho bản thân thay vì cho con bạn không?',
-<<<<<<< HEAD
       //    monthly_inspire: "only $3.3 everyday",
       //    seasonly_inspire: "only one meal",
       //    yearly_inspire: "17% discount",
-=======
       //    having_activation_code: "Having an activation Code for Premium? <a href=\"/account/prepaid\">Activate the code here</a>",
->>>>>>> origin/master
     },
 
     announcement: {
@@ -2983,9 +2985,7 @@ module.exports = {
       //    show_practice_levels: "Show Practice Levels",
       //    hide_practice_levels: "Hide Practice Levels",
       //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
-<<<<<<< HEAD
       //    partially_complete: "Partially Complete",
-=======
       //    INTRO_short: "Intro",
       //    ELA_short: "ELA",
       //    MATH_short: "Math",
@@ -2996,7 +2996,6 @@ module.exports = {
       //    CS_short: "CS",
       //    SANDBOX_short: "Sandbox",
       //    EXPLORATIONS_short: "Explorations",
->>>>>>> origin/master
     },
 
     teacher_licenses: {
@@ -3693,6 +3692,7 @@ module.exports = {
       general_desc: 'Có lỗi xảy ra, và có thể là lỗi do chúng tôi. Hãy cố đợi một lát và tải lại trang, hoặc truy cập một trong số những đường link phía dưới để quay lại tiếp tục lập trình!',
       too_many_login_failures: '[AI_TRANSLATION]Đã có quá nhiều lần đăng nhập không thành công. Vui lòng thử lại sau.',
       something_went_wrong: '[AI_TRANSLATION]Ồ! Đã xảy ra lỗi',
+      //    phone_code_error: "SMS Code Dismatch",
     },
 
     resources: {
@@ -6047,6 +6047,13 @@ module.exports = {
     //    promo_modal_subtitle: "Unlock the Full Potential of Generative AI",
     //    promo_modal_text: "**New to AI? Explore CodeCombat AI HackStack** — the easiest way to dive into AI literacy. Unlock the power of top models like **ChatGPT-4**, **Claude**, **Stable Diffusion**, and **DALL-E**. With hands-on tools, creating games, art, websites, code, and more has never been simpler. It’s the perfect companion for any creative project, no experience required!",
     //    explore_hackstack: "Explore Hackstack",
+    //    learn_1_text: "Play in a safe[NEWLINE]AI sandbox",
+    //    learn_2_text: "Cross-[NEWLINE]Curricular[NEWLINE]Lessons",
+    //    learn_3_text: "Prompt[NEWLINE]Engineering",
+    //    learn_4_text: "Remix AI[NEWLINE]Project",
+    //    learn_5_text: "Ethics-Centered[NEWLINE]Reflection",
+    //    learn_6_text: "Actionable[NEWLINE]Data",
+    //    learn_7_text: "Professional[NEWLINE]Development[NEWLINE]for AI",
     //  },
 
     standards_page: {
@@ -6431,11 +6438,8 @@ module.exports = {
     //    title: "Welcome to HackStack Galaxy",
     //    description: "Explore new worlds and use AI to help you in your journey. ",
     //    premium_only: "Premium only",
-<<<<<<< HEAD
-=======
     //    not_enrolled: "Not Enrolled",
     //    locked_by_teacher: "Locked by teacher",
->>>>>>> origin/master
     //  },
 
     //  new_premium: {
