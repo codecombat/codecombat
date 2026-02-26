@@ -1476,9 +1476,13 @@ module.exports = {
       online_classes: '[AI_TRANSLATION]ऑनलाइन क्लासेज',
       feature_ai_level_bot: '[AI_TRANSLATION]एआई द्वारा संचालित समर्थन के साथ सीखने को तेज़ करें',
       sure_buy_as_parent: '[AI_TRANSLATION]क्या तुम पक्का हो कि तुम्हे अपने लिए प्रीमियम एक्सेस चाहिए, अपने बच्चे की बजाय?',
+<<<<<<< HEAD
       //    monthly_inspire: "only $3.3 everyday",
       //    seasonly_inspire: "only one meal",
       //    yearly_inspire: "17% discount",
+=======
+      //    having_activation_code: "Having an activation Code for Premium? <a href=\"/account/prepaid\">Activate the code here</a>",
+>>>>>>> origin/master
     },
 
     announcement: {
@@ -1870,7 +1874,7 @@ module.exports = {
       initial_free_courses: '[AI_TRANSLATION]प्रारंभिक पाठ्यक्रम',
       free_course_blurb_junior: '[AI_TRANSLATION]कक्षा K-5 के लिए बढ़िया, CodeCombat जूनियर प्री-रीडर्स के लिए ब्लॉक-आधारित और मोबाइल विकल्पों तक लचीला हो सकता है, उच्च प्राथमिक के लिए पायथन या जावास्क्रिप्ट पाठ कोड तक, या संक्रमण में मदद के लिए समानांतर ब्लॉक्स-एंड-कोड तक।',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]कक्षा 6-12 के लिए बढ़िया, CodeCombat के मुख्य CS कोर्सेस शुरुआती-मैत्रीपूर्ण कंप्यूटर साइंस की परिचय से लेकर AP कंप्यूटर साइंस प्रिंसिपल्स तक प्रगति करते हैं, और उन्नत CS कोर्सेस तक पहुँचते हैं। मिडिल और हाई स्कूल के छात्रों के लिए यहाँ से शुरू करें।',
-      //    free_course_blurb_hackstack: "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
       start_teaching_ai_today: '[AI_TRANSLATION]आज ही AI सिखाना शुरू करो!',
       hackstack_beta_release: '[AI_TRANSLATION]हैकस्टैक बीटा रिलीज़  ',
       introducing_ai_hackstack: '[AI_TRANSLATION]AI HackStack का परिचय, शुरुआती के लिए एक जनरेटिव AI शिक्षण उपकरण। यह ChatGPT, Claude, और DALL-E जैसे शीर्ष AI मॉडलों तक सुरक्षित पहुंच प्रदान करता है।',
@@ -2979,7 +2983,20 @@ module.exports = {
       //    show_practice_levels: "Show Practice Levels",
       //    hide_practice_levels: "Hide Practice Levels",
       //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
+<<<<<<< HEAD
       //    partially_complete: "Partially Complete",
+=======
+      //    INTRO_short: "Intro",
+      //    ELA_short: "ELA",
+      //    MATH_short: "Math",
+      //    CR_short: "CR",
+      //    CR2_short: "CR2",
+      //    AI1_short: "AI 1",
+      //    AI2_short: "AI 2",
+      //    CS_short: "CS",
+      //    SANDBOX_short: "Sandbox",
+      //    EXPLORATIONS_short: "Explorations",
+>>>>>>> origin/master
     },
 
     teacher_licenses: {
@@ -6407,12 +6424,18 @@ module.exports = {
       //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
       //    ready_to_review_confirm_text: "Ready to Submit? Click OK to notify your teacher to review your project.",
+      //    no_course_instances: "You do not have any course instances. Please contact your teacher to get access to the AI Hackstack.",
     },
 
     //  galaxy: {
     //    title: "Welcome to HackStack Galaxy",
     //    description: "Explore new worlds and use AI to help you in your journey. ",
     //    premium_only: "Premium only",
+<<<<<<< HEAD
+=======
+    //    not_enrolled: "Not Enrolled",
+    //    locked_by_teacher: "Locked by teacher",
+>>>>>>> origin/master
     //  },
 
     //  new_premium: {

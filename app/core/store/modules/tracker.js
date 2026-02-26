@@ -1,6 +1,7 @@
 const DEFAULT_TRACKING_DOMAINS = [
   'codecombat.com',
-  'ozaria.com'
+  'ozaria.com',
+  'localhost',
 ]
 
 const COCO_ENABLE_TRACKING_OVERRIDE_QUERY_PARAM = 'coco_tracking'
@@ -30,18 +31,29 @@ export default {
 
   mutations: {
     updateCookieConsentStatus: (state, status) => {
-      state.cookieConsent = status
+      // Update properties individually to maintain Vue reactivity
+      state.cookieConsent.answered = status.answered
+      state.cookieConsent.consented = status.consented
+      state.cookieConsent.declined = status.declined
     }
   },
 
   getters: {
     disableAllTracking (state, getters, rootState, rootGetters) {
       if (state.enableTrackingOverride) {
+        console.log('disableAllTracking: false (tracking override enabled)')
         return false
       }
 
-      return state.cookieConsent.declined || state.doNotTrack || rootGetters['me/isSmokeTestUser'] || state.spying ||
-        !state.trackingEnabledForEnvironment
+      // With opt-in consent: disable tracking unless user explicitly consented
+      const hasNotConsented = !state.cookieConsent.consented
+      const doNotTrack = state.doNotTrack
+      const isSmokeTestUser = rootGetters['me/isSmokeTestUser']
+      const spying = state.spying
+      const trackingNotEnabledForEnv = !state.trackingEnabledForEnvironment
+
+      const result = hasNotConsented || doNotTrack || isSmokeTestUser || spying || trackingNotEnabledForEnv
+      return result
     }
   },
 

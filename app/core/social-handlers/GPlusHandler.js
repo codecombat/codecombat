@@ -138,6 +138,7 @@ module.exports = (GPlusHandler = (GPlusHandler = (function () {
         client_id: clientID,
         use_fedcm_for_prompt: true,
         callback: resp => {
+          this.accessToken = { access_token: resp.credential }
           this.trigger('connect')
           return options.success.bind(options.context)(resp)
         }

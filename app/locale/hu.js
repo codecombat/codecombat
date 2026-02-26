@@ -1476,9 +1476,13 @@ module.exports = {
       online_classes: '[AI_TRANSLATION]Online órák',
       feature_ai_level_bot: '[AI_TRANSLATION]Gyorsítsd fel a tanulást AI-alapú támogatással',
       sure_buy_as_parent: '[AI_TRANSLATION]Biztos, hogy prémium hozzáférést akarsz magadnak a gyereked helyett?',
+<<<<<<< HEAD
       //    monthly_inspire: "only $3.3 everyday",
       //    seasonly_inspire: "only one meal",
       //    yearly_inspire: "17% discount",
+=======
+      //    having_activation_code: "Having an activation Code for Premium? <a href=\"/account/prepaid\">Activate the code here</a>",
+>>>>>>> origin/master
     },
 
     announcement: {
@@ -1870,7 +1874,7 @@ module.exports = {
       initial_free_courses: '[AI_TRANSLATION]Kezdő tanfolyamok  ',
       free_course_blurb_junior: '[AI_TRANSLATION]Kiváló a K-5 osztályok számára, a CodeCombat Junior lehetővé teszi a blokk-alapú és mobil opciókat az olvasni még nem tudóknak, valamint a Python vagy JavaScript szöveges kódolást a felső tagozatosok számára, vagy a blokkokkal és kóddal való párhuzamosítást a váltás megkönnyítésére.\n',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]Nagyszerű a 6-12. osztályosoknak, a CodeCombat alapkódolási kurzusai a kezdőbarát Bevezetés a számítástechnikába kurzustól egészen az emelt szintű számítástechnikai kurzusokig tartanak. Kezdd itt a középiskolásokkal.\n',
-      //    free_course_blurb_hackstack: "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
       start_teaching_ai_today: '[AI_TRANSLATION]Kezdd el AI-t tanítani ma!  ',
       hackstack_beta_release: '[AI_TRANSLATION]HackStack Béta Kiadás  ',
       introducing_ai_hackstack: '[AI_TRANSLATION]Bemutatkozik az AI HackStack, egy generatív AI oktató eszköz kezdőknek. Biztonságos hozzáférést biztosít a legjobb AI modellekhez, mint a ChatGPT, Claude és DALL-E.  ',
@@ -2979,7 +2983,20 @@ module.exports = {
       //    show_practice_levels: "Show Practice Levels",
       //    hide_practice_levels: "Hide Practice Levels",
       //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
+<<<<<<< HEAD
       //    partially_complete: "Partially Complete",
+=======
+      //    INTRO_short: "Intro",
+      //    ELA_short: "ELA",
+      //    MATH_short: "Math",
+      //    CR_short: "CR",
+      //    CR2_short: "CR2",
+      //    AI1_short: "AI 1",
+      //    AI2_short: "AI 2",
+      //    CS_short: "CS",
+      //    SANDBOX_short: "Sandbox",
+      //    EXPLORATIONS_short: "Explorations",
+>>>>>>> origin/master
     },
 
     teacher_licenses: {
@@ -6407,12 +6424,18 @@ module.exports = {
       //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
       //    ready_to_review_confirm_text: "Ready to Submit? Click OK to notify your teacher to review your project.",
+      //    no_course_instances: "You do not have any course instances. Please contact your teacher to get access to the AI Hackstack.",
     },
 
     //  galaxy: {
     //    title: "Welcome to HackStack Galaxy",
     //    description: "Explore new worlds and use AI to help you in your journey. ",
     //    premium_only: "Premium only",
+<<<<<<< HEAD
+=======
+    //    not_enrolled: "Not Enrolled",
+    //    locked_by_teacher: "Locked by teacher",
+>>>>>>> origin/master
     //  },
 
     //  new_premium: {

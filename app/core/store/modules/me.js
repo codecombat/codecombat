@@ -122,6 +122,17 @@ export default {
       return utils.isSmokeTestEmail(state.email)
     },
 
+    latestCookieConsent (state) {
+      // Get the most recent cookie consent from consentHistory
+      const consentHistory = state.consentHistory || []
+      const cookieConsents = consentHistory.filter(c => c.type === 'cookies')
+      if (cookieConsents.length === 0) {
+        return null
+      }
+      // Return the most recent one using _.max with custom iterator
+      return _.max(cookieConsents, c => new Date(c.date).getTime())
+    },
+
     hasSubscription (state) {
       if (state.payPal && state.payPal.billingAgreementID) {
         return true

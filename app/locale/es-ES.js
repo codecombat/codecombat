@@ -1476,9 +1476,13 @@ module.exports = {
       online_classes: '[AI_TRANSLATION]Clases en línea',
       feature_ai_level_bot: '[AI_TRANSLATION]Acelera el aprendizaje con soporte potenciado por IA',
       sure_buy_as_parent: '[AI_TRANSLATION]¿Estás seguro de que deseas acceso premium para ti en vez de para tu hijo?',
+<<<<<<< HEAD
       //    monthly_inspire: "only $3.3 everyday",
       //    seasonly_inspire: "only one meal",
       //    yearly_inspire: "17% discount",
+=======
+      //    having_activation_code: "Having an activation Code for Premium? <a href=\"/account/prepaid\">Activate the code here</a>",
+>>>>>>> origin/master
     },
 
     announcement: {
@@ -1870,7 +1874,7 @@ module.exports = {
       initial_free_courses: '[AI_TRANSLATION]Cursos Iniciales  ',
       free_course_blurb_junior: '[AI_TRANSLATION]Genial para los grados K-5, CodeCombat Junior puede ajustarse a opciones basadas en bloques y móviles para pre-lectores, hasta código de texto en Python o JavaScript para los últimos años de primaria, o bloques-y-código paralelos para ayudar con la transición.',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]Genial para los grados 6-12, los cursos de CS de CodeCombat progresan desde la Introducción a la Computación para principiantes, pasando por Principios de Ciencias de la Computación AP, y más allá en cursos avanzados de CS. Empieza aquí para estudiantes de secundaria.',
-      //    free_course_blurb_hackstack: "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
       start_teaching_ai_today: '[AI_TRANSLATION]¡Empieza a enseñar IA hoy!  ',
       hackstack_beta_release: '[AI_TRANSLATION]HackStack Beta Release  ',
       introducing_ai_hackstack: '[AI_TRANSLATION]Presentando AI HackStack, una herramienta generativa de AI para principiantes. Proporciona acceso seguro a los mejores modelos de AI como ChatGPT, Claude y DALL-E.',
@@ -2979,7 +2983,20 @@ module.exports = {
       //    show_practice_levels: "Show Practice Levels",
       //    hide_practice_levels: "Hide Practice Levels",
       //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
+<<<<<<< HEAD
       //    partially_complete: "Partially Complete",
+=======
+      //    INTRO_short: "Intro",
+      //    ELA_short: "ELA",
+      //    MATH_short: "Math",
+      //    CR_short: "CR",
+      //    CR2_short: "CR2",
+      //    AI1_short: "AI 1",
+      //    AI2_short: "AI 2",
+      //    CS_short: "CS",
+      //    SANDBOX_short: "Sandbox",
+      //    EXPLORATIONS_short: "Explorations",
+>>>>>>> origin/master
     },
 
     teacher_licenses: {
@@ -6407,12 +6424,18 @@ module.exports = {
       //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
       //    ready_to_review_confirm_text: "Ready to Submit? Click OK to notify your teacher to review your project.",
+      //    no_course_instances: "You do not have any course instances. Please contact your teacher to get access to the AI Hackstack.",
     },
 
     //  galaxy: {
     //    title: "Welcome to HackStack Galaxy",
     //    description: "Explore new worlds and use AI to help you in your journey. ",
     //    premium_only: "Premium only",
+<<<<<<< HEAD
+=======
+    //    not_enrolled: "Not Enrolled",
+    //    locked_by_teacher: "Locked by teacher",
+>>>>>>> origin/master
     //  },
 
     //  new_premium: {

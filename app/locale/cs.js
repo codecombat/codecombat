@@ -1476,9 +1476,14 @@ module.exports = {
       online_classes: '[AI_TRANSLATION]Online kurzy',
       feature_ai_level_bot: '[AI_TRANSLATION]Zrychli učení s podporou poháněnou AI',
       sure_buy_as_parent: '[AI_TRANSLATION]Jsi si jistý, že chceš prémiový přístup pro sebe místo pro své dítě?  ',
+<<<<<<< variant A
       //    monthly_inspire: "only $3.3 everyday",
       //    seasonly_inspire: "only one meal",
       //    yearly_inspire: "17% discount",
+>>>>>>> variant B
+      //    having_activation_code: "Having an activation Code for Premium? <a href=\"/account/prepaid\">Activate the code here</a>",
+####### Ancestor
+======= end
     },
 
     announcement: {
@@ -1870,7 +1875,7 @@ module.exports = {
       initial_free_courses: '[AI_TRANSLATION]Úvodní kurzy  ',
       //    free_course_blurb_junior: "Great for grades K-5, CodeCombat Junior can flex down to block-based and mobile options for pre-readers, up to Python or JavaScript text code for upper elementary, or to parallel blocks-and-code to help with the transition.",
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]Výborné pro ročníky 6-12, základní CS kurzy CodeCombat postupují od přívětivého Úvodu do informatiky až po AP Zásady informatiky a dál až po pokročilé CS kurzy. Začni zde pro studenty středních a vyšších škol.',
-      //    free_course_blurb_hackstack: "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
       start_teaching_ai_today: '[AI_TRANSLATION]Začněte učit AI ještě dnes!  ',
       hackstack_beta_release: '[AI_TRANSLATION]HackStack Beta Vydání',
       introducing_ai_hackstack: '[AI_TRANSLATION]Představujeme AI HackStack, generativní AI výukový nástroj pro začátečníky. Poskytuje bezpečný přístup k špičkovým AI modelům jako ChatGPT, Claude a DALL-E.  ',
@@ -2979,7 +2984,21 @@ module.exports = {
       //    show_practice_levels: "Show Practice Levels",
       //    hide_practice_levels: "Hide Practice Levels",
       //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
+<<<<<<< variant A
       //    partially_complete: "Partially Complete",
+>>>>>>> variant B
+      //    INTRO_short: "Intro",
+      //    ELA_short: "ELA",
+      //    MATH_short: "Math",
+      //    CR_short: "CR",
+      //    CR2_short: "CR2",
+      //    AI1_short: "AI 1",
+      //    AI2_short: "AI 2",
+      //    CS_short: "CS",
+      //    SANDBOX_short: "Sandbox",
+      //    EXPLORATIONS_short: "Explorations",
+####### Ancestor
+======= end
     },
 
     teacher_licenses: {
@@ -6407,12 +6426,20 @@ module.exports = {
       //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
       //    ready_to_review_confirm_text: "Ready to Submit? Click OK to notify your teacher to review your project.",
+      //    no_course_instances: "You do not have any course instances. Please contact your teacher to get access to the AI Hackstack.",
     },
 
     //  galaxy: {
     //    title: "Welcome to HackStack Galaxy",
     //    description: "Explore new worlds and use AI to help you in your journey. ",
+<<<<<<< variant A
     //    premium_only: "Premium only",
+>>>>>>> variant B
+    //    premium_only: "Premium only",
+    //    not_enrolled: "Not Enrolled",
+    //    locked_by_teacher: "Locked by teacher",
+####### Ancestor
+======= end
     //  },
 
     //  new_premium: {

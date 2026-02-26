@@ -1476,9 +1476,13 @@ module.exports = {
       online_classes: '[AI_TRANSLATION]在線課程',
       feature_ai_level_bot: '[AI_TRANSLATION]使用 AI 驅動支持加速學習',
       sure_buy_as_parent: '[AI_TRANSLATION]你確定要為自己而非你的孩子申請高級帳戶嗎？',
+<<<<<<< HEAD
       //    monthly_inspire: "only $3.3 everyday",
       //    seasonly_inspire: "only one meal",
       //    yearly_inspire: "17% discount",
+=======
+      //    having_activation_code: "Having an activation Code for Premium? <a href=\"/account/prepaid\">Activate the code here</a>",
+>>>>>>> origin/master
     },
 
     announcement: {
@@ -1870,7 +1874,7 @@ module.exports = {
       initial_free_courses: '[AI_TRANSLATION]初始課程  ',
       free_course_blurb_junior: '[AI_TRANSLATION]CodeCombat Junior 適合 K 到 5 年級的學生，對於還不會閱讀的小孩，可以選擇積木或移動版，上到高年級則有 Python 或 JavaScript的文字程式碼，或用程式塊配合程式碼幫助轉換。  ',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]CodeCombat 的核心計算機科學課程適合 6 到 12 年級，從對初學者友好的計算機科學入門課程，到 AP 計算機科學原理課程，再到高階計算機科學課程。適合中學和高中的學生從這裡開始。  ',
-      //    free_course_blurb_hackstack: "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
       start_teaching_ai_today: '[AI_TRANSLATION]今天開始教 AI！',
       hackstack_beta_release: '[AI_TRANSLATION]HackStack 測試版發佈  ',
       introducing_ai_hackstack: '[AI_TRANSLATION]推出AI HackStack，一個為初學者設計的生成 AI 教學工具。它提供安全訪問頂級AI模型，如ChatGPT、Claude和DALL-E。',
@@ -2979,7 +2983,20 @@ module.exports = {
       //    show_practice_levels: "Show Practice Levels",
       //    hide_practice_levels: "Hide Practice Levels",
       //    dashboard_deprecation_message: "This legacy dashboard will be discontinued soon. To ensure uninterrupted access to all features and the best teaching tools, please transition to our new and improved Teacher Dashboard.",
+<<<<<<< HEAD
       //    partially_complete: "Partially Complete",
+=======
+      //    INTRO_short: "Intro",
+      //    ELA_short: "ELA",
+      //    MATH_short: "Math",
+      //    CR_short: "CR",
+      //    CR2_short: "CR2",
+      //    AI1_short: "AI 1",
+      //    AI2_short: "AI 2",
+      //    CS_short: "CS",
+      //    SANDBOX_short: "Sandbox",
+      //    EXPLORATIONS_short: "Explorations",
+>>>>>>> origin/master
     },
 
     teacher_licenses: {
@@ -6407,12 +6424,18 @@ module.exports = {
       //    run_code_tour_text: "Press “Output” and watch your project come to life. No experience required!",
       //    ready_to_review_helptext: "Mark this when your project is complete. Your teacher will then see it as ready to review on their side.",
       //    ready_to_review_confirm_text: "Ready to Submit? Click OK to notify your teacher to review your project.",
+      //    no_course_instances: "You do not have any course instances. Please contact your teacher to get access to the AI Hackstack.",
     },
 
     //  galaxy: {
     //    title: "Welcome to HackStack Galaxy",
     //    description: "Explore new worlds and use AI to help you in your journey. ",
     //    premium_only: "Premium only",
+<<<<<<< HEAD
+=======
+    //    not_enrolled: "Not Enrolled",
+    //    locked_by_teacher: "Locked by teacher",
+>>>>>>> origin/master
     //  },
 
     //  new_premium: {

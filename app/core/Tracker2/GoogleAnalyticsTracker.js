@@ -10,6 +10,40 @@ export default class GoogleAnalyticsTracker extends BaseTracker {
   }
 
   async _initializeTracker () {
+    this.watchForDisableAllTrackingChanges(this.store)
+
+    const consentValue = (value) => {
+      return {
+        analytics_storage: value,
+        ad_storage: value,
+        ad_user_data: value,
+        ad_personalization: value,
+      }
+    }
+
+    // Update Google Consent Mode state — layout.static.pug already called
+    // gtag('consent', 'default', ...) before gtag('config', ...), so we must
+    // use 'update' here to avoid violating the ordering requirement.
+    if (window.gtag) {
+      if (this.disableAllTracking) {
+        window.gtag('consent', 'update', consentValue('denied'))
+      } else {
+        window.gtag('consent', 'update', consentValue('granted'))
+      }
+
+      // Watch for consent changes
+      this.store.watch(
+        (_state, getters) => getters['tracker/disableAllTracking'],
+        (disableAllTracking) => {
+          if (disableAllTracking) {
+            window.gtag('consent', 'update', consentValue('denied'))
+          } else {
+            window.gtag('consent', 'update', consentValue('granted'))
+          }
+        },
+      )
+    }
+
     this.onInitializeSuccess()
   }
 
