@@ -15,7 +15,6 @@ const template = require('templates/home-cn-view')
 const CocoCollection = require('collections/CocoCollection')
 const TrialRequest = require('models/TrialRequest')
 const TrialRequests = require('collections/TrialRequests')
-const Courses = require('collections/Courses')
 const utils = require('core/utils')
 const storage = require('core/storage')
 const { logoutUser, me } = require('core/auth')
@@ -50,9 +49,6 @@ module.exports = (HomeCNView = (function () {
 
     constructor (options) {
       super(options)
-
-      this.courses = new Courses()
-      this.supermodel.trackRequest(this.courses.fetchReleased())
 
       window.localStorage.setItem('lastUpdatedCocoStarPage', +new Date('2021-3-30 18:00:00'))
       window?.localStorage?.setItem('lastUpdatedEventPage', +new Date('2021-3-30 18:00:00'))
