@@ -38,11 +38,8 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "app/styles/component_variables.scss";
 
-$primary-color: #4DECF0;
-$dark-bg: #021E27;
-
 .trusted-section {
-  background: $dark-bg url('/images/components/bg-image__teal.webp') center / cover no-repeat;
+  background: var(--color-section-bg) url('/images/components/bg-image__teal.webp') center / cover no-repeat;
   padding: 20px 12px;
   display: flex;
   justify-content: center;
@@ -86,7 +83,7 @@ $dark-bg: #021E27;
 
 .trusted-card__title {
   @extend %font-24-30;
-  color: $dark-bg;
+  color: var(--color-section-bg);
   font-weight: bold;
   margin: 0;
 }
@@ -100,7 +97,7 @@ $dark-bg: #021E27;
 
 .trusted-card__link {
   @extend %font-16;
-  color: darken($primary-color, 20%);
+  color: var(--color-primary-1__darken_20);
   font-weight: bold;
   text-decoration: none;
 

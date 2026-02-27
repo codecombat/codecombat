@@ -45,10 +45,8 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "app/styles/component_variables.scss";
 
-$dark-bg: #021E27;
-
 .section {
-  background: $dark-bg;
+  background: var(--color-section-bg);
 
   ::v-deep .heading {
     color: white;

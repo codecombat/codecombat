@@ -77,10 +77,8 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "app/styles/component_variables.scss";
 
-$primary-color: #4DECF0;
-
 .section {
-  background: linear-gradient(to bottom, rgba(2, 30, 39, 0.7) 0%, #021e27 100%), url(/images/pages/hackstack/header-background.png) center / cover no-repeat, #021e27;
+  background: linear-gradient(to bottom, var(--color-section-bg-70) 0%, var(--color-section-bg) 100%), url(/images/pages/hackstack/header-background.png) center / cover no-repeat, var(--color-section-bg);
   text-align: center;
 }
 
@@ -98,7 +96,7 @@ $primary-color: #4DECF0;
     color: white;
   }
   ::v-deep .mixed-color-label__highlight {
-    color: $primary-color !important;
+    color: var(--color-primary-1) !important;
   }
 }
 

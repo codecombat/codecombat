@@ -65,10 +65,6 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "app/styles/component_variables.scss";
 
-// Self-contained card colors — not inherited from page theme
-$card-teal: #4DECF0;
-$card-teal-dark: #021E27;
-
 .step-card {
   display: flex;
   flex-direction: column;
@@ -84,7 +80,7 @@ $card-teal-dark: #021E27;
 
 .step-card__label {
   @extend %font-14;
-  color: $card-teal;
+  color: var(--color-primary-1);
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -103,7 +99,7 @@ $card-teal-dark: #021E27;
 
 .step-card__image {
   width: 100%;
-  max-height: 300px;
+  max-height: 100%;
   object-fit: cover;
   display: block;
   background: #f0f0f0;
@@ -139,8 +135,8 @@ $card-teal-dark: #021E27;
   &--traditional,
   &--ai-traditional,
   &--ai-enabled {
-    background: $card-teal;
-    color: $card-teal-dark;
+    background: var(--color-primary-1);
+    color: var(--color-section-bg);
   }
 }
 </style>

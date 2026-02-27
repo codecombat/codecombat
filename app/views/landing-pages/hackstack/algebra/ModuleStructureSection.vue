@@ -54,11 +54,8 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "app/styles/component_variables.scss";
 
-$primary-color: #4DECF0;
-$dark-bg: #021E27;
-
 .section {
-  background: $dark-bg;
+  background: var(--color-section-bg);
 
   ::v-deep .heading {
     color: white;
@@ -89,7 +86,7 @@ $dark-bg: #021E27;
 }
 
 .modules__arrow {
-  color: $primary-color;
+  color: var(--color-primary-1);
   font-size: 36px;
   line-height: 1;
   padding: 0 8px;

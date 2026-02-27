@@ -48,8 +48,6 @@ export default {
 @import "app/styles/bootstrap/variables";
 @import "app/styles/component_variables.scss";
 
-$primary-color: #4DECF0;
-
 .section {
   background: #193640;
 
