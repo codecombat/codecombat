@@ -174,7 +174,7 @@ block modal-footer-content
   if me.get('anonymous') && !features.noAuth && !showHourOfCodeDoneButton
     .sign-up-poke.hide
       .sign-up-blurb(data-i18n="play_level.victory_sign_up_poke")
-      button.btn.btn-illustrated.btn-warning.sign-up-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_sign_up")
+      button.btn.btn-illustrated.btn-success.sign-up-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_sign_up")
   else if !me.isPremium() && !me.freeOnly() && !showHourOfCodeDoneButton && !application.getHocCampaign() && !(me.isStudent() || me.isTeacher())
     button.btn.subscribe-button(data-dismiss="modal", data-i18n="subscribe.subscribe_title")
 
@@ -195,7 +195,10 @@ block modal-footer-content
         span= ' '
         img(src='/images/level/goal-icons/next-level.png' data-i18n="[alt]common.continue")
     else
-      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue
+      if me.get('anonymous')
+        button.btn.btn-illustrated.btn-warning.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue
+      else
+        button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue
 
   if !me.get('anonymous') && !showHourOfCodeDoneButton && showLeaderboard
     button.btn.btn-illustrated.btn-success.leaderboard-button.btn-lg(data-dismiss="modal", data-i18n="leaderboard.view_other_solutions")
