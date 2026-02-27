@@ -1080,6 +1080,7 @@ module.exports = (User = (function () {
       options.type = 'POST'
       if (options.data == null) { options.data = {} }
       _.extend(options.data, { username: usernameOrEmail, password })
+      console.log()
       return this.fetch(options)
     }
 
