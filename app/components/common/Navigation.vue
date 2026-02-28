@@ -466,6 +466,10 @@ export default Vue.extend({
           title: 'nav.aiyouth',
           url: 'http://aishiqingsai.org.cn',
         },
+        hackstack: {
+          title: 'nav.ai_hackstack',
+          url: this.cocoPath('/hackstack'),
+        },
       }
       if (me.showChinaResourceInfo()) {
         if (!me.showChinaHomeVersion()) {
