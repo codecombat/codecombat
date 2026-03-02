@@ -74,6 +74,7 @@ export default {
   align-items: center;
   gap: 8px;
   max-width: 250px;
+  height: 100%;
 
   @media (max-width: $screen-sm-max) {
     width: 100%;

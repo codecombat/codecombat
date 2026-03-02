@@ -72,7 +72,7 @@ export default {
 
 .modules {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: center;
   flex-wrap: wrap;
   row-gap: 40px;
@@ -82,7 +82,7 @@ export default {
 // Each entry holds a card + its trailing arrow side by side
 .module-entry {
   display: flex;
-  align-items: center;
+  align-items: stretch;
 }
 
 .modules__arrow {
@@ -90,8 +90,7 @@ export default {
   font-size: 36px;
   line-height: 1;
   padding: 0 8px;
-  // Nudge up to align with center of card rather than bottom
-  margin-bottom: 24px;
+  align-self: center;
 
   @media (max-width: $screen-sm-max) {
     display: none;

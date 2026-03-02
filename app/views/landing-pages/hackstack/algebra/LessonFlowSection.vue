@@ -73,7 +73,7 @@ export default {
 
 .flow {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: center;
   flex-wrap: wrap;
   row-gap: 40px;
@@ -83,7 +83,7 @@ export default {
 // Each entry: card + trailing arrow side by side
 .flow__entry {
   display: flex;
-  align-items: center;
+  align-items: stretch;
 }
 
 .flow__arrow {
@@ -91,7 +91,7 @@ export default {
   font-size: 36px;
   line-height: 1;
   padding: 0 8px;
-  margin-bottom: 24px;
+  align-self: center;
 
   @media (max-width: $screen-sm-max) {
     display: none;
