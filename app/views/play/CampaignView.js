@@ -1895,6 +1895,7 @@ class CampaignView extends RootView {
     const classroomLevel = this.classroomLevelMap?.[levelOriginal]
     const session = this.preloadedSession?.loaded && this.preloadedSession.levelSlug === levelSlug ? this.preloadedSession : null
     const codeLanguage = classroomLevel?.get('primerLanguage') || this.classroom?.get('aceConfig')?.language || session?.get('codeLanguage')
+    const fromCampaign = this.campaign?.get('slug') || this.terrain
     const options = {
       supermodel: this.supermodel,
       levelID: levelSlug,
@@ -1907,6 +1908,7 @@ class CampaignView extends RootView {
       courseID,
       courseInstanceID,
       codeLanguage,
+      fromCampaign,
     }
     this.setupManager = new LevelSetupManager(options)
     if (!this.setupManager?.navigatingToPlay) {
