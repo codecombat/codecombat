@@ -218,13 +218,14 @@ module.exports = class PlayGameDevLevelView extends RootView
       modal.once 'replay', @onClickPlayButton, @
 
   updateStudentGoals: ->
-    return if @studentGoals?.length
+    oldLength = @studentGoals?.length
     # Set by users. Defined in `game.GameUI` component in the level editor.
     if @world.uiText?.directions?.length
       @studentGoals = @world.uiText.directions.map((direction) -> {type: "user_defined", direction})
     else
       @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals?.map((g) -> JSON.parse(g))
     return unless _.size(@studentGoals)
+    return if _.size(@studentGoals) == oldLength
     @updateRealTimeGoals()
     worldCreationOptions = {spells: @spells, preload: false, realTime: false, justBegin: true, keyValueDb: @session.get('keyValueDb') ? {}}
     @god.createWorld(worldCreationOptions)
