@@ -25,6 +25,7 @@
   --color-primary__darken_10: #{darken($purple, 10%)};
   --color-primary-1__darken_10: #{darken($purple, 10%)};
   --color-primary-1__darken_20: #{darken($purple, 20%)};
+  --color-primary-mid: #{mix($purple, darken($purple, 30%), 50%)};
   --color-section-bg: #{$dark-grey};
   --color-section-bg-70: #{rgba($dark-grey, 0.7)};
 }
@@ -59,6 +60,7 @@ body.teal-theme {
   --color-primary__darken_10: #{darken($blue, 10%)};
   --color-primary-1__darken_10: #{darken($blue-1, 10%)};
   --color-primary-1__darken_20: #{darken($blue-1, 20%)};
+  --color-primary-mid: #{mix($blue-1, $blue, 50%)};
   --color-section-bg: #021E27;
   --color-section-bg-70: #{rgba(#021E27, 0.7)};
 }

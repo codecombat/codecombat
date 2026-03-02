@@ -1,6 +1,9 @@
 <template>
   <div class="step-card">
-    <div class="step-card__label">
+    <div
+      class="step-card__label"
+      :class="`step-card__label--${tagType}`"
+    >
       Step {{ stepNum }}
     </div>
     <div class="step-card__box">
@@ -80,10 +83,21 @@ export default {
 
 .step-card__label {
   @extend %font-14;
-  color: var(--color-primary-1);
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+
+  &--traditional {
+    color: var(--color-primary-1);
+  }
+
+  &--ai-traditional {
+    color: var(--color-primary-mid);
+  }
+
+  &--ai-enabled {
+    color: var(--color-primary);
+  }
 }
 
 .step-card__box {
@@ -132,10 +146,18 @@ export default {
   padding: 8px;
   letter-spacing: 0.03em;
 
-  &--traditional,
-  &--ai-traditional,
-  &--ai-enabled {
+  &--traditional {
     background: var(--color-primary-1);
+    color: var(--color-section-bg);
+  }
+
+  &--ai-traditional {
+    background: var(--color-primary-mid);
+    color: var(--color-section-bg);
+  }
+
+  &--ai-enabled {
+    background: var(--color-primary);
     color: var(--color-section-bg);
   }
 }
