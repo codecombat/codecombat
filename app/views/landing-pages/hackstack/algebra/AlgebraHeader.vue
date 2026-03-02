@@ -4,10 +4,14 @@
       <h1 class="header-title">
         {{ $t('hackstack_algebra_page.header') }}
       </h1>
-      <mixed-color-label
-        class="header-subtitle"
-        :text="$t('hackstack_algebra_page.header_powered_by')"
-      />
+      <div class="header-subtitle">
+        <span class="header-subtitle__text">{{ $t('hackstack_algebra_page.header_powered_by') }}</span>
+        <img
+          class="header-subtitle__image"
+          src="/images/pages/hackstack/hackstack-banner-black.png"
+          alt="AI Hackstack"
+        >
+      </div>
     </template>
     <template #tail>
       <p class="content">
@@ -36,7 +40,6 @@
 <script>
 import PageSection from 'app/components/common/elements/PageSection.vue'
 import CTAButton from 'app/components/common/buttons/CTAButton.vue'
-import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -44,7 +47,6 @@ export default {
   components: {
     PageSection,
     CTAButton,
-    MixedColorLabel,
   },
   computed: {
     ...mapGetters({
@@ -89,14 +91,19 @@ export default {
 }
 
 .header-subtitle {
-  @extend %font-44;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 
-  ::v-deep .mixed-color-label__normal {
+  &__text {
+    @extend %font-40;
     color: white;
   }
-  ::v-deep .mixed-color-label__highlight {
-    color: var(--color-primary-1) !important;
+
+  &__image {
+    max-height: 72px;
+    width: auto;
   }
 }
 

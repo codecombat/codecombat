@@ -6019,7 +6019,7 @@ module.exports = {
     hackstack_algebra_page: {
       // Hero
       header: 'Algebra + AI Curriculum',
-      header_powered_by: 'Powered By **AI HackStack**',
+      header_powered_by: 'Powered By',
       header_details: 'A classroom-ready Algebra + AI curriculum focused on deep reasoning and hands-on exploration before introducing AI. Students compare methods, verify AI outputs, and solve larger problems, with teachers guiding the instruction.',
       header_details_teacher: 'With a license, your students get a classroom-ready Algebra + AI curriculum focused on deep reasoning and hands-on exploration.',
       cta_get_solution: 'Get My Solution',
