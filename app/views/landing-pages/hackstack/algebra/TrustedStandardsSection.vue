@@ -17,7 +17,7 @@
         </p>
         <a
           class="trusted-card__link"
-          href="https://docs.google.com/spreadsheets/u/2/d/1ryRZ-bs_8k5jFVHUq2NV6-T7BABo-UsSwZkxeavCD2c/edit?usp=sharing"
+          href="https://docs.google.com/spreadsheets/d/1ryRZ-bs_8k5jFVHUq2NV6-T7BABo-UsSwZkxeavCD2c/edit?usp=sharing"
           target="_blank"
           rel="noopener noreferrer"
         >

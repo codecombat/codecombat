@@ -4,7 +4,7 @@
       class="step-card__label"
       :class="`step-card__label--${tagType}`"
     >
-      Step {{ stepNum }}
+      {{ $t('hackstack_algebra_page.step') }} {{ stepNum }}
     </div>
     <div class="step-card__box">
       <img

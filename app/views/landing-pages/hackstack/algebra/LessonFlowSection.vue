@@ -21,6 +21,7 @@
           <div
             v-if="index < steps.length - 1"
             class="flow__arrow"
+            aria-hidden="true"
           >
             ›
           </div>

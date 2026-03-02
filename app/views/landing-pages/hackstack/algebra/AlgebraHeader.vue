@@ -26,7 +26,7 @@
             {{ $t('hackstack_algebra_page.cta_get_solution') }}
           </CTAButton>
           <CTAButton
-            v-if="!isAnonymous()"
+            v-if="isAnonymous()"
             class="cta-button"
             @clickedCTA="onExplore"
           >
@@ -64,7 +64,7 @@ export default {
       fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher',
     }),
     isAnonymous () {
-      return typeof me === 'undefined' || !me.isAnonymous()
+      return typeof me === 'undefined' || me.isAnonymous()
     },
     isTeacher () {
       return typeof me !== 'undefined' && me.isTeacher()

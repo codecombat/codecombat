@@ -20,6 +20,7 @@
           <div
             v-if="index < modules.length - 1"
             class="modules__arrow"
+            aria-hidden="true"
           >
             ›
           </div>

@@ -6033,6 +6033,7 @@ module.exports = {
 
       // Lesson flow
       lesson_flow_title: 'Inside a Module: Lesson Flow in Action',
+      step: 'Step',
       step_1_title: 'Mathematical Reasoning Without AI',
       step_1_desc: 'Students first solve problems with pen, paper or a calculator to build a strong foundation in algebra and learn to reason through equations independently before introducing AI.',
       step_1_tag: 'Traditional',

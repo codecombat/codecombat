@@ -9,7 +9,7 @@ export default {
   argTypes: {
     showCta: {
       control: 'boolean',
-      description: 'Show/hide the CTA button and subtitle (mirrors me.isAnonymous() === false in production)',
+      description: 'Show/hide the CTA button and subtitle (mirrors me.isAnonymous() in production)',
     },
   },
 }
