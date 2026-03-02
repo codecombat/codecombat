@@ -48,6 +48,7 @@ export default {
       return result
         .map(({ campaignID, _id }, idx) => {
           return ({
+            _id,
             campaignID,
             heading: utils.isCodeCombat ? utils.courseAcronyms[_id] : this.$t('teacher_dashboard.chapter_num', { num: idx + 1 }),
           })
