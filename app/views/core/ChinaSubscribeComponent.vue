@@ -79,10 +79,13 @@
               </div>
 
               <div class="price-row">
-                <span class="symbol">¥</span><span class="amount">269</span><span class="unit"> / 3个月</span>
+                <span class="symbol">¥</span><span class="amount">299</span><span class="unit"> / 3个月</span>
               </div>
 
-              <div style="margin-top:-2px; margin-bottom:5px; font-size:11px; color:#999;">
+              <div
+                v-if="false"
+                style="margin-top:-2px; margin-bottom:5px; font-size:11px; color:#999;"
+              >
                 <span style="text-decoration:line-through;">原价¥299</span> <span style="color:#e74c3c; font-weight:bold;">限时立省 30元</span>
                 <br><span class="deadline-text">⏰ 3月1日恢复原价299元</span>
               </div>
@@ -196,7 +199,7 @@
         class="mobile-btn-inner"
         @click="$emit('season')"
       >
-        我将系统学习编程 (269元)
+        我将系统学习编程 (299元)
       </button>
     </div>
   </div>

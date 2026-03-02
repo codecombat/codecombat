@@ -12,9 +12,11 @@
         div.med-text.text-center(data-i18n="new_home.promo_modal_subtitle")
 
         div.modal-video-container(style="width: 80%; margin: 0 auto;")
-          div.video-aspect-ratio
-            iframe(src="https://www.youtube.com/embed/rOXRBQIXvlI?autoplay=1&mute=1")
-        
+          if features.chinaInfra
+            video(src='https://assets.koudashijie.com/CC_Game_Trailer_MP4_Final.mp4' autoplay muted style="width: 100%")
+          else
+            div.video-aspect-ratio
+              iframe(src="https://www.youtube.com/embed/rOXRBQIXvlI?autoplay=1&mute=1")
         hr
         div.med-text.modal-text.text-center!= marked($.i18n.t("new_home.promo_modal_text"))
 
