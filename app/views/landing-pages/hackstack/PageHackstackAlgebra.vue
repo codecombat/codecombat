@@ -41,7 +41,7 @@
       ref="createAccountModal"
       :modal-view="CreateAccountModal"
       :open="createAccountModalOpen"
-      :modal-options="{ screen: 'choose-account-type' }"
+      :modal-options="{ startOnPath: 'teacher' }"
       @close="createAccountModalClosed"
     />
   </div>

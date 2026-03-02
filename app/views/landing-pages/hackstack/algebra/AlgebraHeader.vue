@@ -26,6 +26,7 @@
             {{ $t('hackstack_algebra_page.cta_get_solution') }}
           </CTAButton>
           <CTAButton
+            v-if="!isAnonymous()"
             class="cta-button"
             @clickedCTA="onExplore"
           >
@@ -62,6 +63,9 @@ export default {
     ...mapActions({
       fetchTeacherPrepaids: 'prepaids/fetchPrepaidsForTeacher',
     }),
+    isAnonymous () {
+      return typeof me === 'undefined' || !me.isAnonymous()
+    },
     isTeacher () {
       return typeof me !== 'undefined' && me.isTeacher()
     },
@@ -82,6 +86,19 @@ export default {
 .section {
   background: linear-gradient(to bottom, var(--color-section-bg-70) 0%, var(--color-section-bg) 100%), url(/images/pages/hackstack/header-background.png) center / cover no-repeat, var(--color-section-bg);
   text-align: center;
+
+  @media screen and (max-width: $screen-sm) {
+    padding-top: 60px;
+    padding-bottom: 0;
+  }
+
+  ::v-deep .frame {
+    gap: 30px;
+
+    @media screen and (max-width: $screen-sm) {
+      gap: 16px;
+    }
+  }
 }
 
 .header-title {
@@ -104,6 +121,10 @@ export default {
   &__image {
     max-height: 72px;
     width: auto;
+
+    @media screen and (max-width: $screen-sm) {
+      max-height: 48px;
+    }
   }
 }
 
@@ -112,11 +133,17 @@ export default {
   color: #B4B4B4;
   max-width: 700px;
   margin: 0 auto 40px;
+
+  @media screen and (max-width: $screen-sm) {
+    margin-bottom: 24px;
+  }
 }
 
 .btns-group {
   display: flex;
   justify-content: center;
+
+  margin-bottom: 20px;
 }
 
 .btns {
@@ -127,9 +154,9 @@ export default {
   justify-content: center;
   gap: 50px;
   flex-wrap: wrap;
-}
 
-.cta-button {
-  margin-bottom: 80px;
+  @media screen and (max-width: $screen-sm) {
+    gap: 16px;
+  }
 }
 </style>
