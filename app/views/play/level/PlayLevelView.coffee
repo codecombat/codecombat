@@ -141,6 +141,9 @@ module.exports = class PlayLevelView extends RootView
     @observing = utils.getQueryVariable 'observing'
     @teaching = utils.getQueryVariable 'teaching'
 
+    # Where to go "back" to: explicit fromCampaign param wins; otherwise fall back to the originating campaign model, if provided.
+    @parentCampaign = utils.getQueryVariable('fromCampaign') or options.campaign?.get('slug')
+
     @opponentSessionID = utils.getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
     @gameUIState = new GameUIState()
@@ -448,7 +451,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ProblemAlertView {@session, @level, @supermodel, aceConfig: @classroomAceConfig}
     @insertSubView new SurfaceContextMenuView {@session, @level}
     @insertSubView new DuelStatsView {@level, @session, @otherSession, @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView} if @level.isLadder()
-    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), @session, @level, @supermodel, @courseID, @courseInstanceID, @classroomAceConfig, @hintsState, @teacherID, @team }
+    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), @session, @level, @supermodel, @courseID, @courseInstanceID, @classroomAceConfig, @hintsState, @teacherID, @team, parentCampaign: @parentCampaign }
     @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState,  aceConfig: @classroomAceConfig }), @$('.hints-view')
     @insertSubView @webSurface = new WebSurfaceView {@level, @goalManager} if @level.isType('web-dev')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
@@ -1012,7 +1015,8 @@ module.exports = class PlayLevelView extends RootView
       @showVictoryHandlingInProgress=false
 
     if me.get('anonymous')
-      window.nextURL = '/play/' + (@level.get('campaign') ? '')  # Signup will go here on completion instead of reloading.
+      parentCampaign = @parentCampaign or @level.get('campaign')
+      window.nextURL = '/play/' + (parentCampaign ? '')  # Signup will go here on completion instead of reloading.
 
   onRestartLevel: ->
     @tome.reloadAllCode()
