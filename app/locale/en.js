@@ -6016,6 +6016,73 @@ module.exports = {
       learn_7_text: 'Professional[NEWLINE]Development[NEWLINE]for AI',
     },
 
+    hackstack_algebra_page: {
+      // Hero
+      header: 'Algebra + AI Curriculum',
+      header_powered_by: 'Powered By',
+      header_details: 'A classroom-ready Algebra + AI curriculum focused on deep reasoning and hands-on exploration before introducing AI. Students compare methods, verify AI outputs, and solve larger problems, with teachers guiding the instruction.',
+      header_details_teacher: 'With a license, your students get a classroom-ready Algebra + AI curriculum focused on deep reasoning and hands-on exploration.',
+      cta_get_solution: 'Get My Solution',
+      cta_explore: 'Explore AI Algebra',
+
+      // Core features strip
+      features_title: 'A Core Algebra Curriculum Enhanced With AI',
+      feature_1_title: 'Foundations First\nAI Second',
+      feature_2_title: 'Teaches to Critically\nEvaluate AI',
+      feature_3_title: 'Teacher-Guided\nReal-World Modeling',
+
+      // Lesson flow
+      lesson_flow_title: 'Inside a Module: Lesson Flow in Action',
+      step: 'Step',
+      step_1_title: 'Mathematical Reasoning Without AI',
+      step_1_desc: 'Students first solve problems with pen, paper or a calculator to build a strong foundation in algebra and learn to reason through equations independently before introducing AI.',
+      step_1_tag: 'Traditional',
+      step_2_title: 'Mathematical Reasoning With AI',
+      step_2_desc: 'Students then use an AI tool to solve the same problems and compare its process and results to their own, helping them see how AI approaches problem solving and where it differs.',
+      step_2_tag: 'AI + Traditional',
+      step_3_title: 'Practice',
+      step_3_desc: 'By working through more problems with both traditional and AI methods, students learn to verify AI outputs, identify errors or misinterpretations and refine prompts to improve accuracy.',
+      step_3_tag: 'AI + Traditional',
+      step_4_title: 'AI Modeling',
+      step_4_desc: 'Students move beyond simple calculations by using AI to model equations across larger or more complex datasets, showing how AI can scale problem solving in ways not possible by hand.',
+      step_4_tag: 'AI Enabled',
+      step_5_title: 'Checking AI Modeling',
+      step_5_desc: 'Finally, students use alternative AI tools or verification methods to cross-check their models for accuracy, reinforcing the importance of validation and accountability when working with AI.',
+      step_5_tag: 'AI Enabled',
+
+      // Module structure
+      module_structure_title: 'Algebra + AI Module Structure',
+      module_1_title: 'Mathematical Reasoning Without AI',
+      module_1_desc: 'Students first solve problems with pen, paper or a calculator to build a strong foundation in algebra and learn to reason through equations independently before introducing AI.',
+      module_1_tag: 'Traditional',
+      module_2_title: 'Mathematical Reasoning With AI',
+      module_2_desc: 'Students then use an AI tool to solve the same problems and compare its process and results to their own, helping them see how AI approaches problem solving and where it differs.',
+      module_2_tag: 'AI + Traditional',
+      module_3_title: 'Practice',
+      module_3_desc: 'By working through more problems with both traditional and AI methods, students learn to verify AI outputs, identify errors or misinterpretations and refine prompts to improve accuracy.',
+      module_3_tag: 'AI + Traditional',
+      module_4_title: 'AI Modeling',
+      module_4_desc: 'Students move beyond simple calculations by using AI to model equations across larger or more complex datasets, showing how AI can scale problem solving in ways not possible by hand.',
+      module_4_tag: 'AI Enabled',
+      module_5_title: 'Checking AI Modeling',
+      module_5_desc: 'Finally, students use alternative AI tools or verification methods to cross-check their models for accuracy, reinforcing the importance of validation and accountability when working with AI.',
+      module_5_tag: 'AI Enabled',
+
+      // Trusted standards
+      trusted_standards_title: 'Built on Trusted Standards',
+      trusted_standards_text: 'Our curriculum aligns with Common Core Math standards and practices, strengthening students\' skills in algebra, functions, modeling, and statistics. Additionally they\'ll develop AI literacy skills, such as prompt engineering, evaluating accuracy, using appropriate LLMs, understanding data, and considering human impact and design, all within teacher-guided instruction.',
+      trusted_standards_link: 'Learn More',
+
+      // Curriculum path
+      curriculum_path_title: 'A Structured Path from Algebra Foundations to AI Application',
+      curriculum_path_cta: 'Free Teacher Account',
+      curriculum_path_subtitle: 'Trial the curriculum with your students today!',
+
+      // Testimonial
+      testimonial_1_quote: 'It shifted learning from just finding the final answer to understanding the step-by-step logic behind each problem.',
+      testimonial_1_name: 'Montebello High School Student',
+    },
+
     standards_page: {
       standards_aligned_curriculum: '**Standards Aligned Curriculum**',
       curriculum_description: 'CodeCombat offers robust course pathways aligned with several national and state standard frameworks across grades K-12 including AP level programming courses in many languages. Our curriculum engages students to explore and learn computer science through standards-aligned lessons.',

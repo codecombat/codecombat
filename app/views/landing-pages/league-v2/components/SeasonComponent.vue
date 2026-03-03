@@ -164,7 +164,7 @@ $primary-color: #4DECF0;
     padding: 5px !important;
 
     .btn {
-      background-color: rgb(68, 151, 167);
+      background-color: #4497a7;
       color: black;
       white-space: unset !important;
       font-size: 12px;
