@@ -190,7 +190,7 @@ export default {
       return !this.isOnLockedCampaign
     },
     marketingPageUrl () {
-      if (utils.courseIDs.MATH_AND_STATISTICS === this.getCurrentCourse._id) {
+      if (utils.courseIDs.ALGEBRA === this.getCurrentCourse._id) {
         return '/hackstack-algebra'
       }
       return null

@@ -32,6 +32,13 @@
           >
             {{ $t('hackstack_algebra_page.cta_explore') }}
           </CTAButton>
+          <CTAButton
+            v-else
+            href="/teachers/guide/hackstack/algebra"
+            class="cta-button"
+          >
+            {{ $t('hackstack_algebra_page.cta_explore') }}
+          </CTAButton>
         </div>
       </div>
     </template>
