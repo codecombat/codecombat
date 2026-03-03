@@ -141,8 +141,14 @@ module.exports = class PlayLevelView extends RootView
     @observing = utils.getQueryVariable 'observing'
     @teaching = utils.getQueryVariable 'teaching'
 
-    # Where to go "back" to: explicit fromCampaign param wins; otherwise fall back to the originating campaign model, if provided.
-    @parentCampaign = utils.getQueryVariable('fromCampaign') or options.campaign?.get('slug')
+    # Where to go "back" to: derive from validated fromCampaign slug if present; otherwise fall back to the originating campaign model, if provided.
+    rawParentCampaign = utils.getQueryVariable('fromCampaign')
+    parentCampaign = if _.isString(rawParentCampaign) then rawParentCampaign.trim() else null
+    slugRegex = /^[a-z0-9-]+$/i
+    if parentCampaign? and slugRegex.test(parentCampaign)
+      @parentCampaign = parentCampaign
+    else
+      @parentCampaign = options.campaign?.get('slug') or null
 
     @opponentSessionID = utils.getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
