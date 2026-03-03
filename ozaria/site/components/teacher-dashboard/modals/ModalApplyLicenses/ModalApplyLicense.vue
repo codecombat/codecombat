@@ -263,7 +263,7 @@ export default {
   width: 1200px;
 
   .fake-form {
-    overflow-y: hide;
+    overflow-y: hidden;
     overflow-x: auto;
   }
 }
