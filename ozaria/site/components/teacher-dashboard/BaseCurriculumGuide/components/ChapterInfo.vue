@@ -149,7 +149,7 @@ export default {
     },
 
     isHackstackCourse () {
-      return utils.HACKSTACK_COURSE_IDS.includes(this.getCurrentCourse._id)
+      return utils.HACKSTACK_COURSE_IDS.includes(this.getCurrentCourse?._id)
     },
 
     solutionGuideUrl () {
@@ -190,7 +190,7 @@ export default {
       return !this.isOnLockedCampaign
     },
     marketingPageUrl () {
-      if (utils.courseIDs.ALGEBRA === this.getCurrentCourse._id) {
+      if (utils.courseIDs.ALGEBRA === this.getCurrentCourse?._id) {
         return '/hackstack-algebra'
       }
       return null
