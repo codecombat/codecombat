@@ -69,6 +69,11 @@ export default function getVueRouter () {
           meta: { theme: 'teal' },
         },
         {
+          path: '/hackstack-algebra',
+          component: () => import(/* webpackChunkName: "HackStackAlgebraView" */ 'app/views/landing-pages/hackstack/PageHackstackAlgebra'),
+          meta: { theme: 'teal' },
+        },
+        {
           path: '/codequest',
           component: () => import(/* webpackChunkName: "CodequestView" */ 'app/views/codequest/PageCodequest.vue'),
           meta: { theme: 'teal' },
