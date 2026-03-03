@@ -44,6 +44,7 @@ module.exports = class LevelLoader extends CocoClass
     @sessionID = options.sessionID
     @opponentSessionID = options.opponentSessionID
     @tournament = options.tournament ? false
+    @tId = options.tId ? false
     @team = options.team
     @headless = options.headless
     @loadArticles = options.loadArticles
@@ -212,6 +213,8 @@ module.exports = class LevelLoader extends CocoClass
         url += "?interpret=true"
         if league
           url = "/db/spectate/#{league}/level.session/#{@sessionID}"
+          if @tId
+            url += '?tournament=' + @tId
     else
       url = "/db/level/#{@levelID}/session"
       if @team
@@ -248,6 +251,8 @@ module.exports = class LevelLoader extends CocoClass
       opponentURL = "/db/level.session/#{@opponentSessionID}?interpret=true"
       if league
         opponentURL = "/db/spectate/#{league}/level.session/#{@opponentSessionID}"
+        if @tId
+          opponentURL += '?tournament=' + @tId
       if @tournament
         opponentURL = "/db/level.session/#{@opponentSessionID}/tournament-snapshot/#{@tournament}" # this url also get interpret
       opponentSession = new LevelSession().setURL opponentURL
