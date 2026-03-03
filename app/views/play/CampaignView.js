@@ -1430,7 +1430,8 @@ class CampaignView extends RootView {
         width: mapWidth,
         height: mapHeight,
         'pointer-events': 'none',
-        'z-index': 5,
+        // Render visual connections beneath level markers/flags (z-index 2) but above the map background.
+        'z-index': 1,
       })
 
     // Defaults from appearance-based colors; functional meaning only at use site
