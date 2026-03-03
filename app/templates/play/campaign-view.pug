@@ -250,7 +250,7 @@ if !editorMode
                         button.btn.btn-md.btn-illustrated(data-level-original=practiceLevel.original data-level-slug=practiceLevel.slug data-level-path=level.levelPath || 'level' data-level-name=level.name class=(practiceLevelStatus === "complete" ? "btn-primary" : "btn-success"))
                           span.glyphicon.glyphicon-play
                   if disabled
-                    span.practice-license-message(data-i18n="play.practice-license-required")
+                    span.practice-license-message(data-i18n="play.practice_license_required")
                 if practiceLevelStatus !== 'complete'
                   - break
 
