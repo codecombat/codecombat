@@ -1854,6 +1854,8 @@ module.exports = {
       test_student_promotion_3: 'Your first course is free. Ready for more? We\'ll guide you on adding a license for continued learning adventures.',
       dashboard_update: 'Dashboard Update',
       dashboard_update_message: 'We are currently optimizing the dashboard for your convenience. You can now find the Curriculum Guide in the left sidebar.',
+      ai_algebra_promotion_title: 'A Teacher-Led Algebra + AI Curriculum',
+      ai_algebra_promotion_description: 'Algebra + AI is a structured, year-long, classroom-ready curriculum that strengthens core Algebra skills while integrating AI as an acceleration tool. Traditional methods remain central, teachers guide the instruction, and students apply math through modeling, design thinking, and meaningful assessments.',
       switch_to_test_student: 'Switching to test student account..',
       import_ozaria_classroom: 'Import Ozaria Classroom',
       import_codecombat_classroom: 'Import Codecombat Classroom',
