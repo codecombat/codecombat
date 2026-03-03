@@ -2,10 +2,12 @@
 import { mapGetters, mapActions } from 'vuex'
 import utils from 'core/utils'
 import IconNew from 'app/core/components/IconNew'
+import IconBeta from 'app/core/components/IconBeta'
 
 export default {
   components: {
     IconNew,
+    IconBeta,
   },
   props: {
     chapters: {
@@ -68,9 +70,11 @@ export default {
         application.router.navigate(`/teachers/guide/${this.$route.params.product}/${courseName}`, { replace: true })
       }
     },
-
     showNewIcon (campaignID) {
       return campaignID === utils.campaignIDs.HACKSTACK
+    },
+    showBetaIcon (id) {
+      return id === utils.courseIDs.ENGLISH_LANGUAGE_ARTS
     },
   },
 }
@@ -79,7 +83,7 @@ export default {
 <template>
   <div id="chapter-nav">
     <div
-      v-for="{ campaignID, heading } in chapters"
+      v-for="{ campaignID, heading, _id } in chapters"
       :key="campaignID"
       :class="classForButton(campaignID)"
       @click="() => clickChapterNav(campaignID)"
@@ -88,7 +92,11 @@ export default {
         {{ heading }}
         <IconNew
           v-if="showNewIcon(campaignID)"
-          class="new-icon"
+          class="icon new-icon"
+        />
+        <IconBeta
+          v-if="showBetaIcon(_id)"
+          class="icon beta-icon"
         />
       </div>
     </div>
@@ -123,9 +131,16 @@ export default {
       background-color: #f2f2f2;
     }
 
-    .new-icon {
+    .icon {
       position: absolute;
+    }
+
+    .new-icon {
       top: -10px;
+      right: -10px;
+    }
+    .beta-icon {
+      top: -15px;
       right: -10px;
     }
   }

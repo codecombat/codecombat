@@ -230,15 +230,15 @@ const OZ_COURSE_IDS_MAP = {
 }
 const HACKSTACK_COURSE_IDS_MAP = {
   INTRO_TO_AI: '69848429268d20956ac05832',
-  ENGLISH_LANGUAGE_ARTS: '69848429268d20956ac05838',
-  MATH_AND_STATISTICS: '6984842a268d20956ac0583d',
-  CAREER_READINESS: '6984842b268d20956ac05840',
   ARTIFICIAL_INTELLIGENCE_1: '6984842b268d20956ac05843',
-  COMPUTER_SCIENCE: '6984842c268d20956ac05846',
   ARTIFICIAL_INTELLIGENCE_2: '6984842d268d20956ac05849',
+  ALGEBRA: '6984842a268d20956ac0583d',
+  CAREER_READINESS: '6984842b268d20956ac05840',
   CAREER_READINESS_2: '6984842d268d20956ac0584c',
-  AI_SANDBOX: '6984842e268d20956ac0584f',
+  ENGLISH_LANGUAGE_ARTS: '69848429268d20956ac05838',
+  COMPUTER_SCIENCE: '6984842c268d20956ac05846',
   AI_EXPLORATIONS: '6984842f268d20956ac05852',
+  AI_SANDBOX: '6984842e268d20956ac0584f',
 }
 
 const COCO_COURSE_IDS_MAP = {
@@ -309,15 +309,15 @@ if (isCodeCombat) {
     courseIDs.COMPUTER_SCIENCE_5,
     courseIDs.COMPUTER_SCIENCE_6,
     courseIDs.INTRO_TO_AI,
-    courseIDs.ENGLISH_LANGUAGE_ARTS,
-    courseIDs.MATH_AND_STATISTICS,
-    courseIDs.CAREER_READINESS,
     courseIDs.ARTIFICIAL_INTELLIGENCE_1,
-    courseIDs.COMPUTER_SCIENCE,
     courseIDs.ARTIFICIAL_INTELLIGENCE_2,
+    courseIDs.ALGEBRA,
+    courseIDs.CAREER_READINESS,
     courseIDs.CAREER_READINESS_2,
-    courseIDs.AI_SANDBOX,
+    courseIDs.ENGLISH_LANGUAGE_ARTS,
+    courseIDs.COMPUTER_SCIENCE,
     courseIDs.AI_EXPLORATIONS,
+    courseIDs.AI_SANDBOX,
   ]
   otherOrderedCourseIDs = [
     otherCourseIDs.CHAPTER_ONE,
@@ -375,15 +375,15 @@ if (isCodeCombat) {
     otherCourseIDs.COMPUTER_SCIENCE_5,
     otherCourseIDs.COMPUTER_SCIENCE_6,
     otherCourseIDs.INTRO_TO_AI,
-    otherCourseIDs.ENGLISH_LANGUAGE_ARTS,
-    otherCourseIDs.MATH_AND_STATISTICS,
-    otherCourseIDs.CAREER_READINESS,
     otherCourseIDs.ARTIFICIAL_INTELLIGENCE_1,
-    otherCourseIDs.COMPUTER_SCIENCE,
     otherCourseIDs.ARTIFICIAL_INTELLIGENCE_2,
+    otherCourseIDs.ALGEBRA,
+    otherCourseIDs.CAREER_READINESS,
     otherCourseIDs.CAREER_READINESS_2,
-    otherCourseIDs.AI_SANDBOX,
+    otherCourseIDs.ENGLISH_LANGUAGE_ARTS,
+    otherCourseIDs.COMPUTER_SCIENCE,
     otherCourseIDs.AI_EXPLORATIONS,
+    otherCourseIDs.AI_SANDBOX,
   ]
 
   hourOfCodeOptions = {
@@ -459,8 +459,8 @@ courseAcronyms[allCourseIDs.CHAPTER_FOUR] = 'CH4'
 courseAcronyms[allCourseIDs.HACKSTACK] = 'AI'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.INTRO_TO_AI] = 'INTRO'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ENGLISH_LANGUAGE_ARTS] = 'ELA'
-courseAcronyms[HACKSTACK_COURSE_IDS_MAP.MATH_AND_STATISTICS] = 'MATH'
-courseAcronyms[HACKSTACK_COURSE_IDS_MAP.CAREER_READINESS] = 'CR'
+courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ALGEBRA] = 'ALG'
+courseAcronyms[HACKSTACK_COURSE_IDS_MAP.CAREER_READINESS] = 'CR1'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ARTIFICIAL_INTELLIGENCE_1] = 'AI1'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.COMPUTER_SCIENCE] = 'CS'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ARTIFICIAL_INTELLIGENCE_2] = 'AI2'
@@ -488,7 +488,7 @@ courseCampaignSlugs[allCourseIDs.CHAPTER_FOUR] = 'chapter-4-the-final-code'
 courseCampaignSlugs[allCourseIDs.HACKSTACK] = 'hackstack'
 courseCampaignSlugs[allCourseIDs.INTRO_TO_AI] = 'intro-to-ai'
 courseCampaignSlugs[allCourseIDs.ENGLISH_LANGUAGE_ARTS] = 'english-language-arts'
-courseCampaignSlugs[allCourseIDs.MATH_AND_STATISTICS] = 'math-and-stats'
+courseCampaignSlugs[allCourseIDs.ALGEBRA] = 'algebra'
 courseCampaignSlugs[allCourseIDs.CAREER_READINESS] = 'career-readiness'
 courseCampaignSlugs[allCourseIDs.ARTIFICIAL_INTELLIGENCE_1] = 'artificial-intelligence-1'
 courseCampaignSlugs[allCourseIDs.COMPUTER_SCIENCE] = 'computer-science-ai'
