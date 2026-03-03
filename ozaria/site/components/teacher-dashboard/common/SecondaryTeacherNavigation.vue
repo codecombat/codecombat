@@ -9,6 +9,7 @@ import ModalEndOfTrial from 'ozaria/site/components/teacher-dashboard/modals/Mod
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
 import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
+import ModalAIAlgebraPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalAIAlgebraPromotion'
 import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/NavIconAssessments'
 import IconBeta from 'app/core/components/IconBeta'
 import IconNew from 'app/core/components/IconNew'
@@ -24,6 +25,7 @@ export default {
     ModalCurriculumPromotion,
     ModalOzariaHackStack,
     ModalOzariaAILeague,
+    ModalAIAlgebraPromotion,
     ModalEndOfTrial,
     IconAssessments,
     GradeFilterComponent,
@@ -544,6 +546,7 @@ export default {
       ref="ModalOzariaAILeague"
     />
     <ModalTestStudentPromotion />
+    <ModalAIAlgebraPromotion />
   </ul>
 </template>
 
