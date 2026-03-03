@@ -65,7 +65,8 @@ module.exports = {
     if (courseId === utils.courseIDs.HACKSTACK) {
       return `/ai/course-instance/${courseInstanceId}`
     } else if (utils.HACKSTACK_COURSE_IDS.includes(courseId)) {
-      return `/ai/play/${campaignId}/?course-instance=${courseInstanceId}`
+      if (courseInstanceId) return `/ai/play/${campaignId}/?course-instance=${courseInstanceId}`
+      else return '/ai/play'
     }
     const courseCampaignSlug = utils.courseCampaignSlugs[courseId]
     let url = `/play/${encodeURIComponent(courseCampaignSlug || campaignId)}`
