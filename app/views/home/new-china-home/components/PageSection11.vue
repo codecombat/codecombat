@@ -35,7 +35,7 @@
             span.contact-us(data-i18n="[html]new_home_faq.other_questions", data-i18n-options=JSON.stringify(i18nData))
     template(#tail)
       .footer
-        a.small(href="http://beian.miit.gov.cn/") 京ICP备19012263号-20
+        a.small(href="http://beian.miit.gov.cn/") 京ICP备2026009460号
         a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619")
           img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
           span='京公网安备 11010802038619号'
