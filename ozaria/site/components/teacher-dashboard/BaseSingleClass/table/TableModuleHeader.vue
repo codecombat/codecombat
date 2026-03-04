@@ -285,7 +285,7 @@ export default {
       </v-popover>
     </div>
     <div
-      v-for="({ type, slug, introContent, ozariaType, introLevelSlug, isPractice, practiceLevels, tooltipName, description, normalizedOriginal, normalizedType, contentLevelSlug }, idx) of listOfContent"
+      v-for="({ type, slug, introContent, ozariaType, introLevelSlug, isPractice, practiceLevels, tooltipName, description, normalizedOriginal, normalizedType, contentLevelSlug, _id }, idx) of listOfContent"
       :key="`${idx}-${type}`"
       class="content-icons"
     >
@@ -320,7 +320,7 @@ export default {
             >
               <dynamic-link
                 target="_blank"
-                :href="isContentAccessible(access) ? getLevelUrl({ ozariaType, introLevelSlug, courseId: selectedCourseId, codeLanguage: classroom.aceConfig.language, slug, introContent }) : null"
+                :href="isContentAccessible(access) ? getLevelUrl({ ozariaType, introLevelSlug, courseId: selectedCourseId, codeLanguage: classroom.aceConfig.language, slug, introContent, _id }) : null"
               >
                 {{ tooltipName }}
               </dynamic-link>
