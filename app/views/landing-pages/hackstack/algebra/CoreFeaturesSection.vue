@@ -54,22 +54,36 @@ export default {
   ::v-deep .heading {
     color: white;
   }
+
+  ::v-deep .body {
+    display: flex;
+    flex-direction: row;
+  }
 }
 
 .features {
   display: flex;
-  justify-content: center;
-  gap: 80px;
+  justify-content: space-evenly;
   flex-wrap: wrap;
+  width: 100%;
+
+  @media (max-width: $screen-sm-max) {
+    row-gap: 40px;
+  }
 }
 
 .feature {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 24px;
-  max-width: 200px;
+  flex: 1;
   text-align: center;
+
+  @media (max-width: $screen-sm-max) {
+    flex-basis: 100%;
+  }
 }
 
 .feature__icon {

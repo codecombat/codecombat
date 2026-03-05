@@ -91,7 +91,12 @@ export default {
 @import "app/styles/component_variables.scss";
 
 .section {
-  background: linear-gradient(to bottom, var(--color-section-bg-70) 0%, var(--color-section-bg) 100%), url(/images/pages/hackstack/header-background.png) center / cover no-repeat, var(--color-section-bg);
+  background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) 0px -400px / 120% no-repeat, #021e27;
+
+  @media (max-width: 768px) {
+    background: linear-gradient(to top, #05262f 0%, #021e27 3%, #021e27 20%, transparent 50%),url(/images/pages/roblox/header-background.png) center -200px / 250% no-repeat, #021e27;
+  }
+
   text-align: center;
 
   @media screen and (max-width: $screen-sm) {
