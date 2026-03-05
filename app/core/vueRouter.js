@@ -69,6 +69,11 @@ export default function getVueRouter () {
           meta: { theme: 'teal' },
         },
         {
+          path: '/hackstack-algebra',
+          component: () => import(/* webpackChunkName: "HackStackAlgebraView" */ 'app/views/landing-pages/hackstack/PageHackstackAlgebra'),
+          meta: { theme: 'teal' },
+        },
+        {
           path: '/codequest',
           component: () => import(/* webpackChunkName: "CodequestView" */ 'app/views/codequest/PageCodequest.vue'),
           meta: { theme: 'teal' },
@@ -328,7 +333,7 @@ export default function getVueRouter () {
             },
             { path: 'apcsp', component: () => import(/* webpackChunkName: "apcsp" */ '../views/apcsp/PageMarketing.vue') },
             {
-              path: 'guide/:product',
+              path: 'guide/:product/:course?',
               component: () => import(/* webpackChunkName: "guide" */ '../../ozaria/site/components/teacher-dashboard/BaseCurriculumGuide/v2/index.vue'),
               props: true,
             },

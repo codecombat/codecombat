@@ -108,6 +108,11 @@
       :lazy-load="true"
     />
     <box-panel
+      :items="premiumTile"
+      arrangement="horizontal"
+      :lazy-load="true"
+    />
+    <box-panel
       :title="$t('home_v3.for_younger_learners')"
       :items="youngLearners"
       :lazy-load="true"
@@ -362,10 +367,21 @@ export default Vue.extend({
           image: '/images/pages/home-v3/engaging-boxes/engaging-ai-hackstack.webp',
         },
         {
+          title: this.$t('schools_page.student_acceleration_3_title'),
+          text: this.$t('schools_page.student_acceleration_3_text'),
+          image: '/images/pages/hackstack/ai-algebra-promotion.webp',
+          linkText: this.$t('general.learn_more'),
+          link: '/hackstack-algebra',
+        },
+      ],
+      premiumTile: [
+        {
           title: this.$t('home_v3.engaging_boxes_6_title'),
           text: this.$t('home_v3.engaging_boxes_6_text'),
           link: 'https://codecombat.com/premium',
           image: '/images/pages/home-v3/engaging-boxes/box_6.webp',
+          hasPadding: false,
+          mainImageBg: true,
         },
       ],
       youngLearners: [

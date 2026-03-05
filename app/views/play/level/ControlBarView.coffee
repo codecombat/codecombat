@@ -41,6 +41,7 @@ module.exports = class ControlBarView extends CocoView
     @supermodel = options.supermodel
     @courseID = options.courseID
     @courseInstanceID = options.courseInstanceID
+    @parentCampaign = options.parentCampaign
 
     @worldName = options.worldName
     @session = options.session
@@ -161,7 +162,7 @@ module.exports = class ControlBarView extends CocoView
     else if @level.isType('hero', 'hero-coop', 'game-dev', 'web-dev')
       @homeLink = '/play'
       @homeViewClass = 'views/play/CampaignView'
-      campaign = @level.get 'campaign'
+      campaign = @parentCampaign or @level.get 'campaign'
       @homeLink += '/' + campaign
       @homeViewArgs.push campaign
     else

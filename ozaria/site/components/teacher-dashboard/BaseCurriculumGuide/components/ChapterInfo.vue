@@ -8,6 +8,7 @@ import ButtonPlayChapter from './ButtonPlayChapter'
 import ButtonSolutionGuide from './ButtonSolutionGuide'
 import ButtonCurriculum from './ButtonCurriculum'
 import { getOzariaAssetUrl } from 'ozaria/site/common/ozariaUtils'
+import CTAButton from '../../../../../../app/components/common/buttons/CTAButton.vue'
 
 import { mapGetters } from 'vuex'
 import utils from 'app/core/utils'
@@ -23,6 +24,7 @@ export default {
     ButtonPlayChapter,
     ButtonSolutionGuide,
     ButtonCurriculum,
+    CTAButton,
   },
 
   data () {
@@ -146,11 +148,15 @@ export default {
       return !_.find(this.getCurrentClassroom.courses || [], { _id: this.getCurrentCourse._id })
     },
 
+    isHackstackCourse () {
+      return utils.HACKSTACK_COURSE_IDS.includes(this.getCurrentCourse?._id)
+    },
+
     solutionGuideUrl () {
       if (!this.getCurrentCourse || this.isOnLockedCampaign) {
         return ''
       }
-      if (utils.HACKSTACK_COURSE_IDS.includes(this.getCurrentCourse._id)) {
+      if (this.isHackstackCourse) {
         return ''
       }
       let urlHead = '/teachers/course-solution'
@@ -174,7 +180,7 @@ export default {
     },
 
     playChapterUrl () {
-      if (this.isOnLockedCampaign) {
+      if (this.isOnLockedCampaign || this.isHackstackCourse) {
         return ''
       }
       return this.getCourseUnitMapUrl || ''
@@ -182,7 +188,13 @@ export default {
 
     clickedLink () {
       return !this.isOnLockedCampaign
-    }
+    },
+    marketingPageUrl () {
+      if (utils.courseIDs.ALGEBRA === this.getCurrentCourse?._id) {
+        return '/hackstack-algebra'
+      }
+      return null
+    },
   },
 
   created () {
@@ -282,7 +294,9 @@ export default {
           {{ courseDescription }}
         </p>
         <div class="stats-and-btns">
-          <div>
+          <div
+            v-if="isOzaria || totalCourseDuration"
+          >
             <p v-if="isOzaria">
               <b>{{ $t('play_level.level_type_capstone_project') }}</b>: {{ capstoneName }}
             </p>
@@ -301,6 +315,16 @@ export default {
                 }"
               />
             </div>
+          </div>
+          <div
+            v-if="marketingPageUrl"
+          >
+            <CTAButton
+              :href="marketingPageUrl"
+              size="small"
+            >
+              {{ $t('general.learn_more') }}
+            </CTAButton>
           </div>
           <div
             v-if="!isOnLockedCampaign"
@@ -331,6 +355,7 @@ export default {
               @click.native="trackEvent('Curriculum Guide: Curriculum Clicked')"
             />
             <a
+              v-if="playChapterUrl"
               :href="playChapterUrl"
               target="_blank"
               rel="noreferrer"
@@ -515,7 +540,7 @@ export default {
 
   .btns {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 
     &.locked a {
       cursor: default;

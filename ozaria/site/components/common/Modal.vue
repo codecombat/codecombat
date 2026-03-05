@@ -87,11 +87,6 @@ export default Vue.extend({
   border-top-right-radius: 10px;
 }
 
-.title {
-  @include font-h-2-subtitle-black-24;
-  letter-spacing: 0.56px;
-}
-
 .teacher-modal-header {
   display: flex;
   flex-direction: row;
@@ -99,6 +94,13 @@ export default Vue.extend({
   align-items: center;
   width: 100%;
   margin: 0px 10px;
+
+  .title {
+    @include font-h-2-subtitle-black-24;
+    letter-spacing: 0.56px;
+    margin-bottom: 5px;
+}
+
 }
 
 .close-icon {
@@ -117,6 +119,7 @@ export default Vue.extend({
     box-shadow: unset;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
+    margin-top: 10px;
   }
   }
 

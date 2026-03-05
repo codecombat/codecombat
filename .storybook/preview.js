@@ -181,7 +181,16 @@ window.me = {
   },
   getSubscriptionLevel() {
     return 'free'
-  }
+  },
+  isTeacher() {
+    return false
+  },
+  isAnonymous() {
+    return true
+  },
+  isAdmin() {
+    return false
+  },
 }
 
 window._ = _

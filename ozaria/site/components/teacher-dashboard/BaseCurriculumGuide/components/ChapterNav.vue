@@ -2,10 +2,12 @@
 import { mapGetters, mapActions } from 'vuex'
 import utils from 'core/utils'
 import IconNew from 'app/core/components/IconNew'
+import IconBeta from 'app/core/components/IconBeta'
 
 export default {
   components: {
     IconNew,
+    IconBeta,
   },
   props: {
     chapters: {
@@ -33,7 +35,15 @@ export default {
       immediate: true,
       handler (newChapters) {
         if (newChapters?.length > 0) {
-          this.setSelectedCampaign(newChapters[0].campaignID)
+          const course = this.$route.params.course
+          let campaign
+          if (course) {
+            campaign = newChapters.find(c => c.heading?.toLowerCase() === course.toLowerCase())?.campaignID
+          }
+          if (!campaign) {
+            campaign = newChapters[0].campaignID
+          }
+          this.setSelectedCampaign(campaign)
         }
       },
     },
@@ -54,10 +64,17 @@ export default {
     clickChapterNav (campaignID) {
       this.setSelectedCampaign(campaignID)
       window.tracker?.trackEvent('Curriculum Guide: Chapter Nav Clicked', { category: this.getTrackCategory, label: this.courseName })
+      const course = this.chapters.find(c => c.campaignID === campaignID)
+      if (course && course.heading) {
+        const courseName = course.heading.toLowerCase()
+        application.router.navigate(`/teachers/guide/${this.$route.params.product}/${courseName}`, { replace: true })
+      }
     },
-
     showNewIcon (campaignID) {
       return campaignID === utils.campaignIDs.HACKSTACK
+    },
+    showBetaIcon (id) {
+      return id === utils.courseIDs.ENGLISH_LANGUAGE_ARTS
     },
   },
 }
@@ -66,7 +83,7 @@ export default {
 <template>
   <div id="chapter-nav">
     <div
-      v-for="{ campaignID, heading } in chapters"
+      v-for="{ campaignID, heading, _id } in chapters"
       :key="campaignID"
       :class="classForButton(campaignID)"
       @click="() => clickChapterNav(campaignID)"
@@ -75,7 +92,11 @@ export default {
         {{ heading }}
         <IconNew
           v-if="showNewIcon(campaignID)"
-          class="new-icon"
+          class="icon new-icon"
+        />
+        <IconBeta
+          v-if="showBetaIcon(_id)"
+          class="icon beta-icon"
         />
       </div>
     </div>
@@ -110,9 +131,16 @@ export default {
       background-color: #f2f2f2;
     }
 
-    .new-icon {
+    .icon {
       position: absolute;
+    }
+
+    .new-icon {
       top: -10px;
+      right: -10px;
+    }
+    .beta-icon {
+      top: -15px;
       right: -10px;
     }
   }

@@ -154,6 +154,8 @@ module.exports = class LevelSetupManager extends CocoClass
       route += "&course=#{@options.courseID}&course-instance=#{@options.courseInstanceID}"
     else if @options.courseID?
       route += "&course=#{@options.courseID}"
+    if @options.fromCampaign?
+      route += "&fromCampaign=#{encodeURIComponent @options.fromCampaign}"
     @supermodel.registerModel(@session)
     Backbone.Mediator.publish 'router:navigate', {
       route, viewClass

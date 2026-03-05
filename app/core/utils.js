@@ -19,7 +19,7 @@ const isCodeCombat = product === 'codecombat'
 const isOzaria = !isCodeCombat
 const _ = require('lodash')
 const useWebsocket = false
-const showOzaria =  () => isOzaria || window.location.pathname.includes('ozaria')
+const showOzaria = () => isOzaria || window.location.pathname.includes('ozaria')
 
 // Yuqiang: i don't know why we use same slugify from different source but let's keep it right now since change it sometimes trigger unbelievable bug
 if (isCodeCombat) {
@@ -230,15 +230,29 @@ const OZ_COURSE_IDS_MAP = {
 }
 const HACKSTACK_COURSE_IDS_MAP = {
   INTRO_TO_AI: '69848429268d20956ac05832',
-  ENGLISH_LANGUAGE_ARTS: '69848429268d20956ac05838',
-  MATH_AND_STATISTICS: '6984842a268d20956ac0583d',
-  CAREER_READINESS: '6984842b268d20956ac05840',
   ARTIFICIAL_INTELLIGENCE_1: '6984842b268d20956ac05843',
-  COMPUTER_SCIENCE: '6984842c268d20956ac05846',
   ARTIFICIAL_INTELLIGENCE_2: '6984842d268d20956ac05849',
+  ALGEBRA: '6984842a268d20956ac0583d',
+  CAREER_READINESS: '6984842b268d20956ac05840',
   CAREER_READINESS_2: '6984842d268d20956ac0584c',
-  AI_SANDBOX: '6984842e268d20956ac0584f',
+  ENGLISH_LANGUAGE_ARTS: '69848429268d20956ac05838',
+  COMPUTER_SCIENCE: '6984842c268d20956ac05846',
   AI_EXPLORATIONS: '6984842f268d20956ac05852',
+  AI_SANDBOX: '6984842e268d20956ac0584f',
+}
+
+const COCO_COURSE_IDS_MAP = {
+  INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
+  GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
+  WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
+  COMPUTER_SCIENCE_2: '5632661322961295f9428638',
+  GAME_DEVELOPMENT_2: '57b621e7ad86a6efb5737e64',
+  WEB_DEVELOPMENT_2: '5789587aad86a6efb5737020',
+  COMPUTER_SCIENCE_3: '56462f935afde0c6fd30fc8c',
+  GAME_DEVELOPMENT_3: '5a0df02b8f2391437740f74f',
+  COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d',
+  COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447',
+  COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4',
 }
 
 if (isCodeCombat) {
@@ -253,19 +267,9 @@ if (isCodeCombat) {
 
   courseIDs = {
     JUNIOR: '65f32b6c87c07dbeb5ba1936',
-    HACKSTACK: '663b25f11c568468efc8adde',
-    INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
-    GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
-    WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
-    COMPUTER_SCIENCE_2: '5632661322961295f9428638',
-    GAME_DEVELOPMENT_2: '57b621e7ad86a6efb5737e64',
-    WEB_DEVELOPMENT_2: '5789587aad86a6efb5737020',
-    COMPUTER_SCIENCE_3: '56462f935afde0c6fd30fc8c',
-    GAME_DEVELOPMENT_3: '5a0df02b8f2391437740f74f',
-    COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d',
-    COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447',
-    COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4',
+    ...COCO_COURSE_IDS_MAP,
     ...HACKSTACK_COURSE_IDS_MAP,
+    HACKSTACK: '663b25f11c568468efc8adde',
   }
 
   coursesWithProjects = [
@@ -304,7 +308,16 @@ if (isCodeCombat) {
     courseIDs.COMPUTER_SCIENCE_4,
     courseIDs.COMPUTER_SCIENCE_5,
     courseIDs.COMPUTER_SCIENCE_6,
-    courseIDs.HACKSTACK,
+    courseIDs.INTRO_TO_AI,
+    courseIDs.ARTIFICIAL_INTELLIGENCE_1,
+    courseIDs.ARTIFICIAL_INTELLIGENCE_2,
+    courseIDs.ALGEBRA,
+    courseIDs.CAREER_READINESS,
+    courseIDs.CAREER_READINESS_2,
+    courseIDs.ENGLISH_LANGUAGE_ARTS,
+    courseIDs.COMPUTER_SCIENCE,
+    courseIDs.AI_EXPLORATIONS,
+    courseIDs.AI_SANDBOX,
   ]
   otherOrderedCourseIDs = [
     otherCourseIDs.CHAPTER_ONE,
@@ -330,19 +343,9 @@ if (isCodeCombat) {
 
   otherCourseIDs = {
     JUNIOR: '65f32b6c87c07dbeb5ba1936',
-    HACKSTACK: '663b25f11c568468efc8adde',
-    INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742',
-    GAME_DEVELOPMENT_1: '5789587aad86a6efb573701e',
-    WEB_DEVELOPMENT_1: '5789587aad86a6efb573701f',
-    COMPUTER_SCIENCE_2: '5632661322961295f9428638',
-    GAME_DEVELOPMENT_2: '57b621e7ad86a6efb5737e64',
-    WEB_DEVELOPMENT_2: '5789587aad86a6efb5737020',
-    COMPUTER_SCIENCE_3: '56462f935afde0c6fd30fc8c',
-    GAME_DEVELOPMENT_3: '5a0df02b8f2391437740f74f',
-    COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d',
-    COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447',
-    COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4',
+    ...COCO_COURSE_IDS_MAP,
     ...HACKSTACK_COURSE_IDS_MAP,
+    HACKSTACK: '663b25f11c568468efc8adde',
   }
 
   CSCourseIDs = [
@@ -371,7 +374,16 @@ if (isCodeCombat) {
     otherCourseIDs.COMPUTER_SCIENCE_4,
     otherCourseIDs.COMPUTER_SCIENCE_5,
     otherCourseIDs.COMPUTER_SCIENCE_6,
-    otherCourseIDs.HACKSTACK,
+    otherCourseIDs.INTRO_TO_AI,
+    otherCourseIDs.ARTIFICIAL_INTELLIGENCE_1,
+    otherCourseIDs.ARTIFICIAL_INTELLIGENCE_2,
+    otherCourseIDs.ALGEBRA,
+    otherCourseIDs.CAREER_READINESS,
+    otherCourseIDs.CAREER_READINESS_2,
+    otherCourseIDs.ENGLISH_LANGUAGE_ARTS,
+    otherCourseIDs.COMPUTER_SCIENCE,
+    otherCourseIDs.AI_EXPLORATIONS,
+    otherCourseIDs.AI_SANDBOX,
   ]
 
   hourOfCodeOptions = {
@@ -447,8 +459,8 @@ courseAcronyms[allCourseIDs.CHAPTER_FOUR] = 'CH4'
 courseAcronyms[allCourseIDs.HACKSTACK] = 'AI'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.INTRO_TO_AI] = 'INTRO'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ENGLISH_LANGUAGE_ARTS] = 'ELA'
-courseAcronyms[HACKSTACK_COURSE_IDS_MAP.MATH_AND_STATISTICS] = 'MATH'
-courseAcronyms[HACKSTACK_COURSE_IDS_MAP.CAREER_READINESS] = 'CR'
+courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ALGEBRA] = 'ALGEBRA'
+courseAcronyms[HACKSTACK_COURSE_IDS_MAP.CAREER_READINESS] = 'CR1'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ARTIFICIAL_INTELLIGENCE_1] = 'AI1'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.COMPUTER_SCIENCE] = 'CS'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ARTIFICIAL_INTELLIGENCE_2] = 'AI2'
@@ -474,6 +486,16 @@ courseCampaignSlugs[allCourseIDs.CHAPTER_TWO] = 'chapter-2-the-moon-dancers'
 courseCampaignSlugs[allCourseIDs.CHAPTER_THREE] = 'chapter-3-the-phoenix-lands'
 courseCampaignSlugs[allCourseIDs.CHAPTER_FOUR] = 'chapter-4-the-final-code'
 courseCampaignSlugs[allCourseIDs.HACKSTACK] = 'hackstack'
+courseCampaignSlugs[allCourseIDs.INTRO_TO_AI] = 'intro-to-ai'
+courseCampaignSlugs[allCourseIDs.ENGLISH_LANGUAGE_ARTS] = 'english-language-arts'
+courseCampaignSlugs[allCourseIDs.ALGEBRA] = 'algebra'
+courseCampaignSlugs[allCourseIDs.CAREER_READINESS] = 'career-readiness'
+courseCampaignSlugs[allCourseIDs.ARTIFICIAL_INTELLIGENCE_1] = 'artificial-intelligence-1'
+courseCampaignSlugs[allCourseIDs.COMPUTER_SCIENCE] = 'computer-science-ai'
+courseCampaignSlugs[allCourseIDs.ARTIFICIAL_INTELLIGENCE_2] = 'artificial-intelligence-2'
+courseCampaignSlugs[allCourseIDs.CAREER_READINESS_2] = 'career-readiness-2'
+courseCampaignSlugs[allCourseIDs.AI_SANDBOX] = 'ai-sandbox'
+courseCampaignSlugs[allCourseIDs.AI_EXPLORATIONS] = 'ai-explorations'
 
 const registerHocProgressModalCheck = function () {
   let hocProgressModalCheck
@@ -1424,7 +1446,7 @@ const arenas = [
   { season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-08-01T00:00:01.000-07:00'), end: new Date('2026-01-01T08:00:00.000Z'), results: new Date('2026-01-15T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png', tournament: '695383474e840b3f4aa401d3' },
   { season: 16, slug: 'devour-dash', type: 'championship', start: new Date('2026-01-13T00:00:00.000-08:00'), end: new Date('2026-05-30T00:00:00.000-08:00'), results: new Date('2026-06-15T07:00:00.000-08:00'), levelOriginal: '69415fa85459d73effdd5c51', image: '/file/db/level/69415fa85459d73effdd5c51/DevourDashCupBanner.webp', tournament: '', onePerSeason: true },
   { season: 17, slug: 'gridlock-practice', type: 'championship', start: new Date('2026-05-31T00:00:00.000-08:00'), end: new Date('2026-08-01T00:00:00.000-08:00'), results: new Date('2026-08-15T07:00:00.000-08:00'), levelOriginal: '', image: '', tournament: '', onePerSeason: true, noResults: true, restArena: true },
-  { season: 18, slug: 'chaotic-crossing', type: 'championship', start: new Date('2026-08-01T00:00:00.000-08:00'), end: new Date('2026-12-29T00:00:00.000-08:00'), results: new Date('2027-01-15T07:00:00.000-08:00'), levelOriginal: '', image: '', tournament: '', onePerSeason: true},
+  { season: 18, slug: 'chaotic-crossing', type: 'championship', start: new Date('2026-08-01T00:00:00.000-08:00'), end: new Date('2026-12-29T00:00:00.000-08:00'), results: new Date('2027-01-15T07:00:00.000-08:00'), levelOriginal: '', image: '', tournament: '', onePerSeason: true },
 ]
 
 // AI League seasons

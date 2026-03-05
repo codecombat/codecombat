@@ -1,11 +1,13 @@
 <template>
   <div class="style-ozaria apply-license">
-    <div class="form">
+    <div class="fake-form">
       <div class="licenses">
         <div class="title license-grid">
-          <div /> <!-- checkbox -->
-          <div /> <!-- name -->
-          <div>{{ $t('outcomes.end_date') }}</div>
+          <div class="cell-checkbox" />
+          <div class="cell-name" />
+          <div class="cell-date">
+            {{ $t('outcomes.end_date') }}
+          </div>
           <div
             v-for="course in utils.orderedCourseIDs"
             :key="`course-name-${course}`"
@@ -15,14 +17,16 @@
           </div>
         </div>
         <div class="sub-title">
-          <div>{{ $t('teacher_dashboard.pick_a_license') }}</div>
+          <div class="cell-stable">
+            {{ $t('teacher_dashboard.pick_a_license') }}
+          </div>
         </div>
         <div
           v-for="license in licenses"
           :key="`license-${license._id}`"
           class="license-grid"
         >
-          <div>
+          <div class="cell-checkbox">
             <input
               v-model="selectedLicenseId"
               name="license"
@@ -30,10 +34,10 @@
               :value="license._id"
             >
           </div>
-          <div>
+          <div class="cell-name">
             {{ licenseName(license) }}
           </div>
-          <div class="endDate">
+          <div class="endDate cell-date">
             {{ moment(license.endDate).format('ll') }}
           </div>
           <div
@@ -51,21 +55,23 @@
       </div>
       <div class="students">
         <div class="sub-title student-title">
-          <div>{{ $t('teacher.select_students') }}</div>
+          <div class="cell-stable">
+            {{ $t('teacher.select_students') }}
+          </div>
         </div>
         <div class="select-all all-user-grid">
-          <div>
+          <div class="cell-checkbox">
             <input
               type="checkbox"
               :checked="selectedStudentIds.length > 0 && selectedStudentIds.length === students.length"
               @change="toggleAllStudents"
             >
           </div>
-          <div>
+          <div class="cell-name-1">
             {{ $t('teacher.all_students') }}
           </div>
           <div />
-          <div class="color-box">
+          <div class="color-box cell-note-1">
             <input
               class="student-having-course"
               type="checkbox"
@@ -74,7 +80,7 @@
             >
             <span>{{ $t('teacher_dashboard.having_access') }}</span>
           </div>
-          <div class="color-box">
+          <div class="color-box cell-note-2">
             <input
               class="license-preview"
               type="checkbox"
@@ -89,17 +95,17 @@
           :key="`student-${student._id}`"
           class="students user-grid"
         >
-          <div>
+          <div class="cell-checkbox">
             <input
               type="checkbox"
               :checked="selectedStudentIds.includes(student._id)"
               @change="changeCheckBox(student._id)"
             >
           </div>
-          <div>
+          <div class="cell-name">
             {{ student.name }}
           </div>
-          <div class="endDate" />
+          <div class="endDate cell-date" />
           <div
             v-for="(course, index) in utils.orderedCourseIDs"
             :key="`student-course-${index}`"
@@ -256,29 +262,57 @@ export default {
 .apply-license {
   width: 1200px;
 
-  .form {
-    overflow-y: hide;
+  .fake-form {
+    overflow-y: hidden;
+    overflow-x: auto;
   }
 }
 .license-grid, .user-grid {
   display: grid;
-  // checkbox, name, endDate, cs1, gd1, wd1, cs2, gd2, gd3, cs3, cs4, cs5, cs6, wd2, junior, hackstack
-  grid-template-columns: 3% 19% 13% repeat(13, 5%);
-  grid-template-rows: 100%;
+  // checkbox, name, endDate, cs1, gd1, wd1, cs2, gd2, gd3, cs3, cs4, cs5, cs6, wd2, junior, ...hackstack
+  grid-template-columns: 36px 228px 156px repeat(12, 60px) repeat(10, 96px);
+  width: max-content;
+  min-width: 100%;
 }
 
 .all-user-grid {
   display: grid;
-  grid-template-columns: 5% 20% 15% 15% 30%;
-  grid-template-rows: 100%;
+  grid-template-columns: 60px 240px 180px 180px 360px;
+  width: 2100px;
 }
 
-.title-course {
-
-}
 .sub-title {
+  display: grid;
+  grid-template-columns: 200px;
+  width: 2100px;
   div {
     border-bottom: 1px solid black;
+  }
+}
+
+.cell {
+  &-stable, &-checkbox, &-name, &-date, &-name-1, &-note-1, &-note-2 {
+    position: sticky;
+    z-index: 4;
+    background-color: white;
+  }
+  &-checkbox, &-stable {
+    left: 0;
+  }
+  &-name {
+    left: 3%;
+  }
+  &-date {
+    left: 22%;
+  }
+  &-name-1 {
+    left: 5%;
+  }
+  &-note-1 {
+    left: 40%;
+  }
+  &-note-2 {
+    left: 55%;
   }
 }
 .student-title {
