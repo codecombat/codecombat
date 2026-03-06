@@ -5,6 +5,9 @@ class AskAIHelpView extends ModalComponent {
   constructor (options = {}) {
     super(options)
     this.propsData = options.propsData
+    this.on('ask-ai-clicked', () => {
+      this.hide()
+    })
   }
 }
 
