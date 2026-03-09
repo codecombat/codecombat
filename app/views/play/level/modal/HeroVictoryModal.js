@@ -65,7 +65,7 @@ module.exports = (HeroVictoryModal = (function () {
           this.setStars(this.starNum($(e.target)))
           return this.$el.find('.review, .review-label').show()
         },
-        'keypress .review textarea' () { return this.saveReviewEventually() }
+        'keypress .review textarea' () { return this.saveReviewEventually() },
       }
     }
 
@@ -74,6 +74,7 @@ module.exports = (HeroVictoryModal = (function () {
       this.tickSequentialAnimation = this.tickSequentialAnimation.bind(this)
       this.courseID = options.courseID
       this.courseInstanceID = options.courseInstanceID
+      this.parentCampaign = options.parentCampaign
 
       this.session = options.session
       this.level = options.level
@@ -81,7 +82,7 @@ module.exports = (HeroVictoryModal = (function () {
       if (this.level.isType('hero', 'hero-ladder', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder')) {
         const achievements = new CocoCollection([], {
           url: `/db/achievement?related=${this.session.get('level').original}`,
-          model: Achievement
+          model: Achievement,
         })
         this.achievements = this.supermodel.loadCollection(achievements, 'achievements').model
         this.listenToOnce(this.achievements, 'sync', this.onAchievementsLoaded)
@@ -111,7 +112,7 @@ module.exports = (HeroVictoryModal = (function () {
         api.levels.fetchNextForCampaign({
           campaignSlug: this.level.get('campaign'),
           levelOriginal: this.level.get('original'),
-          includePractice
+          includePractice,
         }).then((level) => {
           this.nextLevel?.set(level)
         })
@@ -187,7 +188,7 @@ module.exports = (HeroVictoryModal = (function () {
         const ea = new EarnedAchievement({
           collection: achievement.get('collection'),
           triggeredBy: this.session.id,
-          achievement: achievement.id
+          achievement: achievement.id,
         })
         ea.save()
         this.newEarnedAchievements.push(ea)
@@ -377,7 +378,7 @@ module.exports = (HeroVictoryModal = (function () {
         rootEl: $(panel),
         unit: $(panel).data('number-unit'),
         hero: $(panel).data('hero-thang-type'),
-        item: $(panel).data('item-thang-type')
+        item: $(panel).data('item-thang-type'),
       }))
 
       this.totalXP = 0
@@ -461,13 +462,9 @@ module.exports = (HeroVictoryModal = (function () {
     }
 
     updateXPBars (achievedXP) {
-      let {
-        previousXP
-      } = this
+      let { previousXP } = this
       if (me.isInGodMode()) { previousXP = previousXP + 1000000 }
-      const {
-        previousLevel
-      } = this
+      const { previousLevel } = this
 
       const currentXP = previousXP + achievedXP
       const currentLevel = User.levelFromExp(currentXP)
@@ -521,12 +518,12 @@ module.exports = (HeroVictoryModal = (function () {
       const viewArgs = [{ supermodel: this.options.hasReceivedMemoryWarning ? null : this.supermodel }, this.level.get('slug')]
       let ladderURL = `/play/ladder/${this.level.get('slug') || this.level.id}`
       if (leagueID) {
-        let tournamentId
         const leagueType = this.level.isType('course-ladder') ? 'course' : 'clan'
         viewArgs.push(leagueType)
         viewArgs.push(leagueID)
         ladderURL += `/${leagueType}/${leagueID}`
-        if (tournamentId = utils.getQueryVariable('tournament')) {
+        const tournamentId = utils.getQueryVariable('tournament')
+        if (tournamentId) {
           ladderURL += `?tournament=${tournamentId}`
         }
       }
@@ -570,6 +567,9 @@ module.exports = (HeroVictoryModal = (function () {
           link += `/${this.courseID}`
           if (this.courseInstanceID) { link += `/${this.courseInstanceID}` }
         }
+        if (this.parentCampaign) {
+          link += `?fromCampaign=${this.parentCampaign}`
+        }
       } else if (this.level.isType('course')) {
         link = '/students'
         if (this.courseID) {
@@ -587,11 +587,12 @@ module.exports = (HeroVictoryModal = (function () {
     onClickContinue (e, extraOptions = null) {
       let needle1, viewArgs, viewClass
       this.playSound('menu-button-click')
+      console.log('parentCampaign', this.parentCampaign)
       let nextLevelLink = this.getNextLevelLink(extraOptions != null ? extraOptions.returnToCourse : undefined)
       // Preserve the supermodel as we navigate back to the world map.
       const options = {
         justBeatLevel: this.level,
-        supermodel: this.options.hasReceivedMemoryWarning ? null : this.supermodel
+        supermodel: this.options.hasReceivedMemoryWarning ? null : this.supermodel,
       }
       if (extraOptions) { _.merge(options, extraOptions) }
       if (this.showHoc2016ExploreButton) {
@@ -603,6 +604,7 @@ module.exports = (HeroVictoryModal = (function () {
         viewClass = 'views/play/level/PlayLevelView'
         options.courseID = this.courseID
         options.courseInstanceID = this.courseInstanceID
+        options.parentCampaign = this.parentCampaign
         viewArgs = [options, this.nextLevel.get('slug')]
       } else if (this.level.isType('course')) {
         // TODO: shouldn't set viewClass and route in different places
@@ -670,7 +672,7 @@ module.exports = (HeroVictoryModal = (function () {
 
     onClickContinueFromOffer (e) {
       const url = {
-        'lost-viking': 'http://www.vikingcodeschool.com/codecombat?utm_source=codecombat&utm_medium=viking_level&utm_campaign=affiliate&ref=Code+Combat+Elite'
+        'lost-viking': 'http://www.vikingcodeschool.com/codecombat?utm_source=codecombat&utm_medium=viking_level&utm_campaign=affiliate&ref=Code+Combat+Elite',
       }[this.level.get('slug')]
       this.hide()
       Backbone.Mediator.publish('router:navigate', this.navigationEventUponCompletion)
@@ -758,7 +760,7 @@ const campaignEndLevels = [
   'quizlet',
   'clash-of-clones',
   'game-dev-3-final-project',
-  'summits-gate'
+  'summits-gate',
 ]
 
 function __guard__ (value, transform) {
