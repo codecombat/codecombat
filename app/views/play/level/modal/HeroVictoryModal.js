@@ -587,7 +587,6 @@ module.exports = (HeroVictoryModal = (function () {
     onClickContinue (e, extraOptions = null) {
       let needle1, viewArgs, viewClass
       this.playSound('menu-button-click')
-      console.log('parentCampaign', this.parentCampaign)
       let nextLevelLink = this.getNextLevelLink(extraOptions != null ? extraOptions.returnToCourse : undefined)
       // Preserve the supermodel as we navigate back to the world map.
       const options = {
