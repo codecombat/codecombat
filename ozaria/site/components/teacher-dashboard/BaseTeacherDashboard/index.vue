@@ -395,7 +395,8 @@ export default {
         !this.showOnboardingModal &&
         !this.showTeacherDetailsModal &&
         !me.get('activity')?.['visit-ozaria'] &&
-        !storage.load(TRY_OZ_MODAL_VIEWED_KEY)
+        !storage.load(TRY_OZ_MODAL_VIEWED_KEY) &&
+        !me.showOzCourses()
       ) {
         this.showTryOzariaModal = true
       }

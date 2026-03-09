@@ -1488,35 +1488,6 @@ module.exports = (User = (function () {
 
     //   return this.tryStartExperiment('template')
     // }
-
-    // Hackstack Lock Experiment -- we want to lock most of planets for non premium users
-    getOrStartHackstackLockExperimentValue () {
-      if (me.isPremium()) {
-        return 'control'
-      }
-      if (me.isAdmin()) {
-        return 'control'
-      }
-      // Its possible users got experiment value before they signed up for classroom.
-      if (me.isTeacher() || me.isStudent()) {
-        return 'control'
-      }
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      const value = utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery('hackstack-lock'),
-        me.getExperimentValue('hackstack-lock', null),
-      )
-      if (value != null) {
-        return value
-      }
-      // Additional check -- we want only home and anonymous users
-      if (me.isHomeUser() || me.isAnonymous()) {
-        return this.tryStartExperiment('hackstack-lock')
-      }
-      return 'control'
-    }
   }
 
   User.initClass()

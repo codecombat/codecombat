@@ -1,7 +1,6 @@
 const DEFAULT_TRACKING_DOMAINS = [
   'codecombat.com',
   'ozaria.com',
-  'localhost',
 ]
 
 const COCO_ENABLE_TRACKING_OVERRIDE_QUERY_PARAM = 'coco_tracking'
@@ -10,6 +9,9 @@ let hasTrackingOverrideQueryParameter = false
 try {
   hasTrackingOverrideQueryParameter = (new URLSearchParams(window.location.search))
     .has(COCO_ENABLE_TRACKING_OVERRIDE_QUERY_PARAM)
+  if (hasTrackingOverrideQueryParameter) {
+    DEFAULT_TRACKING_DOMAINS.push('localhost')
+  }
 } catch (e) {}
 
 export default {

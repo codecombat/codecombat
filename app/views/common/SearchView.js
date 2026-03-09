@@ -17,7 +17,7 @@ const template = require('app/templates/common/search-view')
 const CreateAccountModal = require('views/core/CreateAccountModal')
 
 class SearchCollection extends Backbone.Collection {
-  initialize (modelURL, model, term, projection, limit) {
+  initialize (modelURL, model, term, projection, limit, options = {}) {
     this.model = model
     this.term = term
     this.projection = projection
@@ -29,6 +29,7 @@ class SearchCollection extends Backbone.Collection {
     } else { this.url += 'true' }
     if (this.term) { this.url += `&term=${this.term}` }
     if (this.limit !== 100) { this.url += `&limit=${this.limit}` }
+    if (options?.queryParams) { this.url += `&${options.queryParams}` }
   }
 
   comparator (a, b) {
@@ -60,6 +61,7 @@ module.exports = (SearchView = (function () {
       this.prototype.canMakeNew = true
       this.prototype.archived = true // Include archived game elements
       this.prototype.limit = 100
+      this.prototype.queryParams = null // include it like 'a=1&b=2'
 
       this.prototype.events = {
         'change input#search': 'runSearch',
@@ -96,7 +98,10 @@ module.exports = (SearchView = (function () {
       if (this.sameSearch(term)) { return }
       this.removeOldSearch()
 
-      this.collection = new SearchCollection(this.modelURL, this.model, term, this.projection, this.limit)
+      const options = {
+        queryParams: this.queryParams,
+      }
+      this.collection = new SearchCollection(this.modelURL, this.model, term, this.projection, this.limit, options)
       this.collection.term = term // needed?
       if (!this.archived) {
         this.collection.url += '&archived=false'

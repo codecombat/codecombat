@@ -307,7 +307,7 @@ module.exports = (AdministerUserModal = (function () {
         attrs.includedCourseIDs = this.licensePresets[attrs.licenseType]
       }
       if (attrs.licenseType === 'hackstack') {
-        attrs.includedCourseIDs = [utils.courseIDs.HACKSTACK]
+        attrs.includedCourseIDs = [...utils.HACKSTACK_COURSE_IDS.filter(x => x !== utils.allCourseIDs.HACKSTACK)]
         isHackstack = true
         hackstackCredits.operation = 'HACKSTACK_QUERY'
         hackstackCredits.durationAmount = parseInt(attrs.durationAmount)

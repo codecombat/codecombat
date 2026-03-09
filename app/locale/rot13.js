@@ -1887,6 +1887,8 @@ module.exports = {
       test_student_promotion_3: 'Lbhe svefg pbhefr vf serr. Ernql sbe zber? Jr\'yy thvqr lbh ba nqqvat n yvprafr sbe pbagvahrq yrneavat nqiragherf.',
       dashboard_update: 'Qnfuobneq Hcqngr',
       dashboard_update_message: 'Jr ner pheeragyl bcgvzvmvat gur qnfuobneq sbe lbhe pbairavrapr. Lbh pna abj svaq gur Pheevphyhz Thvqr va gur yrsg fvqrone.',
+      ai_algebra_promotion_title: 'N Grnpure-Yrq Nytroen + NV Pheevphyhz',
+      ai_algebra_promotion_description: 'Nytroen + NV vf n fgehpgherq, lrne-ybat, pynffebbz-ernql pheevphyhz gung fgeratguraf pber Nytroen fxvyyf juvyr vagrtengvat NV nf na nppryrengvba gbby. Genqvgvbany zrgubqf erznva prageny, grnpuref thvqr gur vafgehpgvba, naq fghqragf nccyl zngu guebhtu zbqryvat, qrfvta guvaxvat, naq zrnavatshy nffrffzragf.',
       switch_to_test_student: 'Fjvgpuvat gb grfg fghqrag nppbhag..',
       import_ozaria_classroom: 'Vzcbeg Bmnevn Pynffebbz',
       import_codecombat_classroom: 'Vzcbeg Pbqrpbzong Pynffebbz',
@@ -2989,8 +2991,8 @@ module.exports = {
       partially_complete: 'Cnegvnyyl Pbzcyrgr',
       INTRO_short: 'Vageb',
       ELA_short: 'RYN',
-      MATH_short: 'Zngu',
-      CR_short: 'PE',
+      ALG_short: 'NYT',
+      CR1_short: 'PE1',
       CR2_short: 'PE2',
       AI1_short: 'NV 1',
       AI2_short: 'NV 2',
@@ -5847,6 +5849,7 @@ module.exports = {
       core_curriculum: 'Pber Pheevphyhz',
       practice_enrichment: 'Cenpgvpr & Raevpuzrag',
       student_acceleration_ap_csp: 'Fghqrag Nppryrengvba & NC PFC',
+      ai_enhanced_core_curriculum: 'NV-Raunaprq Pber Pheevphyhz',
       young_learners: 'Lbhat Yrnearef',
       funding_solutions: 'Shaqvat Fbyhgvbaf',
       support_development: 'Fhccbeg & Qrirybczrag',
@@ -5965,6 +5968,8 @@ module.exports = {
       student_acceleration_1_link_text: 'Gel vg abj',
       student_acceleration_2_title: 'NC PFC Rknz Cercrengvbaf',
       student_acceleration_2_text: 'Jr ner erpbtavmrq ol gur Pbyyrtr Obneq nf na raqbefrq cebivqre bs pheevphyhz naq cebsrffvbany qrirybczrag sbe NC® Pbzchgre Fpvrapr Cevapvcyrf (NC PFC). Bhe NC PFC pheevphyhz cebivqrf tnzr-onfrq naq gheaxrl gbbyf gb cercner fghqragf sbe gur NC rknz.',
+      student_acceleration_3_title: 'NV Nytroen',
+      student_acceleration_3_text: 'N pynffebbz-ernql Nytroen + NV pheevphyhz sbphfrq ba qrrc ernfbavat naq unaqf-ba rkcybengvba orsber vagebqhpvat NV. Fghqragf pbzcner zrgubqf, irevsl NV bhgchgf, naq fbyir ynetre ceboyrzf — jvgu grnpuref thvqvat gur vafgehpgvba rirel fgrc bs gur jnl.',
       young_learners_1_title: 'PbqrPbzong Whavbe',
       young_learners_1_title_classroom: 'PbqrPbzong Whavbe Pynffebbz',
       young_learners_1_text: 'Bhe syntfuvc X-5 pheevphyhz srngherf n cebterffvba bs yrneavat yriryf gung grnpu onfvp pbqvat pbaprcgf ng n fybjre cnpr, zbqryrq fcrpvsvpnyyl sbe ryrzragnel fghqragf.',
@@ -6053,6 +6058,73 @@ module.exports = {
       learn_5_text: 'Rguvpf-Pragrerq[ARJYVAR]Ersyrpgvba',
       learn_6_text: 'Npgvbanoyr[ARJYVAR]Qngn',
       learn_7_text: 'Cebsrffvbany[ARJYVAR]Qrirybczrag[ARJYVAR]sbe NV',
+    },
+
+    hackstack_algebra_page: {
+      // Hero
+      header: 'Nytroen + NV Pheevphyhz',
+      header_powered_by: 'Cbjrerq Ol',
+      header_details: 'N pynffebbz-ernql Nytroen + NV pheevphyhz sbphfrq ba qrrc ernfbavat naq unaqf-ba rkcybengvba orsber vagebqhpvat NV. Fghqragf pbzcner zrgubqf, irevsl NV bhgchgf, naq fbyir ynetre ceboyrzf, jvgu grnpuref thvqvat gur vafgehpgvba.',
+      header_details_teacher: 'Jvgu n yvprafr, lbhe fghqragf trg n pynffebbz-ernql Nytroen + NV pheevphyhz sbphfrq ba qrrc ernfbavat naq unaqf-ba rkcybengvba.',
+      cta_get_solution: 'Trg Zl Fbyhgvba',
+      cta_explore: 'Rkcyber NV Nytroen',
+
+      // Core features strip
+      features_title: 'N Pber Nytroen Pheevphyhz Raunaprq Jvgu NV',
+      feature_1_title: 'Sbhaqngvbaf Svefg\aNV Frpbaq',
+      feature_2_title: 'Grnpurf gb Pevgvpnyyl\aRinyhngr NV',
+      feature_3_title: 'Grnpure-Thvqrq\aErny-Jbeyq Zbqryvat',
+
+      // Lesson flow
+      lesson_flow_title: 'Vafvqr n Zbqhyr: Yrffba Sybj va Npgvba',
+      step: 'Fgrc',
+      step_1_title: 'Zngurzngvpny Ernfbavat Jvgubhg NV',
+      step_1_desc: 'Fghqragf svefg fbyir ceboyrzf jvgu cra, cncre be n pnyphyngbe gb ohvyq n fgebat sbhaqngvba va nytroen naq yrnea gb ernfba guebhtu rdhngvbaf vaqrcraqragyl orsber vagebqhpvat NV.',
+      step_1_tag: 'Genqvgvbany',
+      step_2_title: 'Zngurzngvpny Ernfbavat Jvgu NV',
+      step_2_desc: 'Fghqragf gura hfr na NV gbby gb fbyir gur fnzr ceboyrzf naq pbzcner vgf cebprff naq erfhygf gb gurve bja, urycvat gurz frr ubj NV nccebnpurf ceboyrz fbyivat naq jurer vg qvssref.',
+      step_2_tag: 'NV + Genqvgvbany',
+      step_3_title: 'Cenpgvpr',
+      step_3_desc: 'Ol jbexvat guebhtu zber ceboyrzf jvgu obgu genqvgvbany naq NV zrgubqf, fghqragf yrnea gb irevsl NV bhgchgf, vqragvsl reebef be zvfvagrecergngvbaf naq ersvar cebzcgf gb vzcebir npphenpl.',
+      step_3_tag: 'NV + Genqvgvbany',
+      step_4_title: 'NV Zbqryvat',
+      step_4_desc: 'Fghqragf zbir orlbaq fvzcyr pnyphyngvbaf ol hfvat NV gb zbqry rdhngvbaf npebff ynetre be zber pbzcyrk qngnfrgf, fubjvat ubj NV pna fpnyr ceboyrz fbyivat va jnlf abg cbffvoyr ol unaq.',
+      step_4_tag: 'NV Ranoyrq',
+      step_5_title: 'Purpxvat NV Zbqryvat',
+      step_5_desc: 'Svanyyl, fghqragf hfr nygreangvir NV gbbyf be irevsvpngvba zrgubqf gb pebff-purpx gurve zbqryf sbe npphenpl, ervasbepvat gur vzcbegnapr bs inyvqngvba naq nppbhagnovyvgl jura jbexvat jvgu NV.',
+      step_5_tag: 'NV Ranoyrq',
+
+      // Module structure
+      module_structure_title: 'Nytroen + NV Zbqhyr Fgehpgher',
+      module_1_title: 'Zngurzngvpny Ernfbavat Jvgubhg NV',
+      module_1_desc: 'Fghqragf svefg fbyir ceboyrzf jvgu cra, cncre be n pnyphyngbe gb ohvyq n fgebat sbhaqngvba va nytroen naq yrnea gb ernfba guebhtu rdhngvbaf vaqrcraqragyl orsber vagebqhpvat NV.',
+      module_1_tag: 'Genqvgvbany',
+      module_2_title: 'Zngurzngvpny Ernfbavat Jvgu NV',
+      module_2_desc: 'Fghqragf gura hfr na NV gbby gb fbyir gur fnzr ceboyrzf naq pbzcner vgf cebprff naq erfhygf gb gurve bja, urycvat gurz frr ubj NV nccebnpurf ceboyrz fbyivat naq jurer vg qvssref.',
+      module_2_tag: 'NV + Genqvgvbany',
+      module_3_title: 'Cenpgvpr',
+      module_3_desc: 'Ol jbexvat guebhtu zber ceboyrzf jvgu obgu genqvgvbany naq NV zrgubqf, fghqragf yrnea gb irevsl NV bhgchgf, vqragvsl reebef be zvfvagrecergngvbaf naq ersvar cebzcgf gb vzcebir npphenpl.',
+      module_3_tag: 'NV + Genqvgvbany',
+      module_4_title: 'NV Zbqryvat',
+      module_4_desc: 'Fghqragf zbir orlbaq fvzcyr pnyphyngvbaf ol hfvat NV gb zbqry rdhngvbaf npebff ynetre be zber pbzcyrk qngnfrgf, fubjvat ubj NV pna fpnyr ceboyrz fbyivat va jnlf abg cbffvoyr ol unaq.',
+      module_4_tag: 'NV Ranoyrq',
+      module_5_title: 'Purpxvat NV Zbqryvat',
+      module_5_desc: 'Svanyyl, fghqragf hfr nygreangvir NV gbbyf be irevsvpngvba zrgubqf gb pebff-purpx gurve zbqryf sbe npphenpl, ervasbepvat gur vzcbegnapr bs inyvqngvba naq nppbhagnovyvgl jura jbexvat jvgu NV.',
+      module_5_tag: 'NV Ranoyrq',
+
+      // Trusted standards
+      trusted_standards_title: 'Ohvyg ba Gehfgrq Fgnaqneqf',
+      trusted_standards_text: 'Bhe pheevphyhz nyvtaf jvgu Pbzzba Pber Zngu fgnaqneqf naq cenpgvprf, fgeratguravat fghqragf\' fxvyyf va nytroen, shapgvbaf, zbqryvat, naq fgngvfgvpf. Nqqvgvbanyyl gurl\'yy qrirybc NV yvgrenpl fxvyyf, fhpu nf cebzcg ratvarrevat, rinyhngvat npphenpl, hfvat nccebcevngr YYZf, haqrefgnaqvat qngn, naq pbafvqrevat uhzna vzcnpg naq qrfvta, nyy jvguva grnpure-thvqrq vafgehpgvba.',
+      trusted_standards_link: 'Yrnea Zber',
+
+      // Curriculum path
+      curriculum_path_title: 'N Fgehpgherq Cngu sebz Nytroen Sbhaqngvbaf gb NV Nccyvpngvba',
+      curriculum_path_cta: 'Serr Grnpure Nppbhag',
+      curriculum_path_subtitle: 'Gevny gur pheevphyhz jvgu lbhe fghqragf gbqnl!',
+
+      // Testimonial
+      testimonial_1_quote: 'Vg fuvsgrq yrneavat sebz whfg svaqvat gur svany nafjre gb haqrefgnaqvat gur fgrc-ol-fgrc ybtvp oruvaq rnpu ceboyrz.',
+      testimonial_1_name: 'Zbagroryyb Uvtu Fpubby Fghqrag',
     },
 
     standards_page: {
