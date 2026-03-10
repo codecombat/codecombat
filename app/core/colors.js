@@ -10,4 +10,12 @@ module.exports = {
   tan: '#AF9F7D',
   gold: '#EBD689',
   yellow: '#FFD702',
+
+  jayBlue: '#5082C8',
+  infernoRed: '#ff503c',
+  sparkySilver: '#c1c1c1',
+  seaGreen: '#2d9151',
+  lightGreen: '#90EE90',
+  darkGreen: '#006400',
+  mysticViolet: '#AD62F8',
 }
