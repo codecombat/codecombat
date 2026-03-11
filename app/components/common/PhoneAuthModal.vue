@@ -408,8 +408,7 @@ export default {
           },
         })
       } catch (e) {
-        this.countDown = 0
-        this.codeSent = false
+        console.log('unknown error, but server limit rate so still wait countDown')
       }
     },
     forgetPassword () {
