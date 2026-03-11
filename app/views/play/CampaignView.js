@@ -1145,6 +1145,9 @@ class CampaignView extends RootView {
       if (me.isInGodMode()) { level.disabled = false }
 
       level.color = colors.jayBlue
+      if (this.editorMode && !level.requiresSubscription) {
+        level.color = colors.lightBlue
+      }
       // if (!this.isClassroom() && (this.campaign?.get('type') !== 'hoc')) {
       //   if (level.requiresSubscription) { level.color = colors.jayBlue }
       // }
