@@ -2467,7 +2467,7 @@ class CampaignView extends RootView {
       if (level.locked) {
         level.color = colors.sparkySilver
       } else if (this.isLevelCompleted(level)) {
-        level.color = colors.lightGreen
+        level.color = colors.darkGreen
       }
       // else if (level.practice) {
       //   level.color = colors.seaGreen
