@@ -369,7 +369,7 @@ export default Vue.extend({
         {
           title: this.$t('schools_page.student_acceleration_3_title'),
           text: this.$t('schools_page.student_acceleration_3_text'),
-          image: '/images/pages/hackstack/ai-algebra-promotion.webp',
+          image: '/images/pages/hackstack/algebra/ai-algebra-promotion.webp',
           linkText: this.$t('general.learn_more'),
           link: '/hackstack-algebra',
         },

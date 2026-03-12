@@ -6,6 +6,13 @@ class AskAIHelpView extends ModalComponent {
     super(options)
     this.propsData = options.propsData
   }
+
+  afterRender () {
+    super.afterRender()
+    this.vueComponent.$on('ask-ai-clicked', () => {
+      this.hide()
+    })
+  }
 }
 
 AskAIHelpView.prototype.id = 'ask-ai-help-modal'
