@@ -594,11 +594,16 @@ module.exports = (HeroVictoryModal = (function () {
         supermodel: this.options.hasReceivedMemoryWarning ? null : this.supermodel,
       }
       if (extraOptions) { _.merge(options, extraOptions) }
+      const returnAfterCompleteMap = this.level.get('returnAfterCompleteMap')
       if (this.showHoc2016ExploreButton) {
         // Send players to /play after completing final game-dev activity project level
         nextLevelLink = '/play'
         viewClass = 'views/play/CampaignView'
         viewArgs = [options]
+      } else if (returnAfterCompleteMap && returnAfterCompleteMap[this.parentCampaign]) {
+        nextLevelLink = `/play/${returnAfterCompleteMap[this.parentCampaign]}`
+        viewClass = 'views/play/CampaignView'
+        viewArgs = [options, returnAfterCompleteMap[this.parentCampaign]]
       } else if ((this.level.isType('course') || this.level.get('product', true) === 'codecombat-junior') && this.nextLevel?.get('slug') && !options.returnToCourse) {
         viewClass = 'views/play/level/PlayLevelView'
         options.courseID = this.courseID

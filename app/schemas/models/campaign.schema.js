@@ -314,6 +314,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'introContent',
   'displayName',
   'hackstackScenarioId',
+  'returnAfterCompleteMap',
 ]
 const hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
 for (const prop of CampaignSchema.denormalizedLevelProperties) {
