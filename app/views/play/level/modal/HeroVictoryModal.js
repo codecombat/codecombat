@@ -601,7 +601,7 @@ module.exports = (HeroVictoryModal = (function () {
         viewClass = 'views/play/CampaignView'
         viewArgs = [options]
       } else if (returnAfterCompleteMap && returnAfterCompleteMap[this.parentCampaign]) {
-        nextLevelLink = returnAfterCompleteMap[this.parentCampaign]
+        nextLevelLink = `/play/${returnAfterCompleteMap[this.parentCampaign]}`
         viewClass = 'views/play/CampaignView'
         viewArgs = [options, returnAfterCompleteMap[this.parentCampaign]]
       } else if ((this.level.isType('course') || this.level.get('product', true) === 'codecombat-junior') && this.nextLevel?.get('slug') && !options.returnToCourse) {
