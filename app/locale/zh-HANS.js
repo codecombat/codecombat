@@ -1095,7 +1095,7 @@ module.exports = {
       tome_your_skills: '您的技能',
       //    blocks: "Blocks",
       hints: '提示',
-      //    docs: "Docs",
+      docs: '提示',
       videos: '视频',
       hints_title: '提示 {{number}}',
       code_saved: '代码已保存',
