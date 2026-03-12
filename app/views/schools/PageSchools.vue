@@ -192,13 +192,19 @@
           :items="coreCurriculum"
         />
         <box-panel
-          :title="$t('schools_page.practice_enrichment')"
-          :items="practiceEnrichment"
+          :title="$t('schools_page.student_acceleration_ap_csp')"
+          :items="apcspTile"
+          arrangement="horizontal"
+          :lazy-load="true"
         />
         <box-panel
-          :title="$t('schools_page.student_acceleration_ap_csp')"
-          :items="studentAcceleration"
+          :title="$t('schools_page.ai_enhanced_core_curriculum')"
+          :items="aiEnhancedCoreCurriculum"
           :lazy-load="true"
+        />
+        <box-panel
+          :title="$t('schools_page.practice_enrichment')"
+          :items="practiceEnrichment"
         />
         <box-panel
           :title="$t('schools_page.young_learners')"
@@ -647,7 +653,18 @@ export default Vue.extend({
           },
         },
       ],
-      studentAcceleration: [
+      apcspTile: [
+        {
+          title: this.$t('schools_page.student_acceleration_2_title'),
+          text: this.$t('schools_page.student_acceleration_2_text'),
+          image: '/images/pages/schools/boxes/maximize_6.webp',
+          linkText: this.$t('schools_page.learn_more_text'),
+          link: 'https://codecombat.com/apcsp',
+          hasPadding: false,
+          mainImageBg: true,
+        },
+      ],
+      aiEnhancedCoreCurriculum: [
         {
           title: this.$t('schools_page.student_acceleration_1_title'),
           text: this.$t('schools_page.student_acceleration_1_text'),
@@ -659,12 +676,11 @@ export default Vue.extend({
           },
         },
         {
-          title: this.$t('schools_page.student_acceleration_2_title'),
-          text: this.$t('schools_page.student_acceleration_2_text'),
-          image: '/images/pages/schools/boxes/maximize_6.webp',
-          linkText: this.$t('schools_page.learn_more_text'),
-          link: 'https://codecombat.com/apcsp',
-          mainImageOriginal: true,
+          title: this.$t('schools_page.student_acceleration_3_title'),
+          text: this.$t('schools_page.student_acceleration_3_text'),
+          image: '/images/pages/hackstack/algebra/ai-algebra-promotion.webp',
+          linkText: this.$t('general.learn_more'),
+          link: '/hackstack-algebra',
         },
       ],
       youngLearners: [

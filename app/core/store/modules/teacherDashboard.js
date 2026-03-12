@@ -3,7 +3,7 @@ import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common
 const utils = require('app/core/utils')
 
 function getLastSelectedCourseKey (state) {
-  return `courseId_${state.teacherId}_${state.classroomId}`
+  return `courseID_${state.teacherId}_${state.classroomId}`
 }
 
 function moduleCollapseKey () {

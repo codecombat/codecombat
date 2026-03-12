@@ -141,6 +141,15 @@ module.exports = class PlayLevelView extends RootView
     @observing = utils.getQueryVariable 'observing'
     @teaching = utils.getQueryVariable 'teaching'
 
+    # Where to go "back" to: derive from validated fromCampaign slug if present; otherwise fall back to the originating campaign model, if provided.
+    rawParentCampaign = utils.getQueryVariable('fromCampaign')
+    parentCampaign = if _.isString(rawParentCampaign) then rawParentCampaign.trim() else null
+    slugRegex = /^[a-z0-9-]+$/i
+    if parentCampaign? and slugRegex.test(parentCampaign)
+      @parentCampaign = parentCampaign
+    else
+      @parentCampaign = options.campaign?.get('slug') or null
+
     @opponentSessionID = utils.getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
     @gameUIState = new GameUIState()
@@ -448,7 +457,7 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new ProblemAlertView {@session, @level, @supermodel, aceConfig: @classroomAceConfig}
     @insertSubView new SurfaceContextMenuView {@session, @level}
     @insertSubView new DuelStatsView {@level, @session, @otherSession, @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView} if @level.isLadder()
-    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), @session, @level, @supermodel, @courseID, @courseInstanceID, @classroomAceConfig, @hintsState, @teacherID, @team }
+    @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), @session, @level, @supermodel, @courseID, @courseInstanceID, @classroomAceConfig, @hintsState, @teacherID, @team, parentCampaign: @parentCampaign }
     @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState,  aceConfig: @classroomAceConfig }), @$('.hints-view')
     @insertSubView @webSurface = new WebSurfaceView {@level, @goalManager} if @level.isType('web-dev')
     #_.delay (=> Backbone.Mediator.publish('level:set-debug', debug: true)), 5000 if @isIPadApp()   # if me.displayName() is 'Nick'
@@ -1000,7 +1009,17 @@ module.exports = class PlayLevelView extends RootView
     return if @showVictoryHandlingInProgress
     @showVictoryHandlingInProgress=true
     @endHighlight()
-    options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world, parent: @}
+    options = {
+      level: @level,
+      supermodel: @supermodel,
+      session: @session,
+      hasReceivedMemoryWarning: @hasReceivedMemoryWarning,
+      courseID: @courseID,
+      courseInstanceID: @courseInstanceID,
+      world: @world,
+      parent: @,
+      parentCampaign: @parentCampaign,
+    }
     ModalClass = if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder') then HeroVictoryModal else VictoryModal
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     if @level.isType('course-ladder') or @level.isType('ladder') and @courseInstanceID
@@ -1012,7 +1031,8 @@ module.exports = class PlayLevelView extends RootView
       @showVictoryHandlingInProgress=false
 
     if me.get('anonymous')
-      window.nextURL = '/play/' + (@level.get('campaign') ? '')  # Signup will go here on completion instead of reloading.
+      parentCampaign = @parentCampaign or @level.get('campaign')
+      window.nextURL = '/play/' + (parentCampaign ? '')  # Signup will go here on completion instead of reloading.
 
   onRestartLevel: ->
     @tome.reloadAllCode()

@@ -18,11 +18,31 @@ export default class ProfitWellTracker extends BaseTracker {
   }
 
   async _initializeTracker () {
+    this.watchForDisableAllTrackingChanges(this.store)
+
+    if (!this.disableAllTracking) {
+      this._loadAndInitProfitWell()
+    }
+
+    // ProfitWell has no consent toggle API, so we gate by conditionally loading the script.
+    // Once loaded it cannot be unloaded, but this prevents the initial load without consent.
+    this.store.watch(
+      (_state, getters) => getters['tracker/disableAllTracking'],
+      (disableAllTracking) => {
+        if (!disableAllTracking && !this.enabled) {
+          this._loadAndInitProfitWell()
+        }
+      },
+    )
+
+    this.onInitializeSuccess()
+  }
+
+  _loadAndInitProfitWell () {
     try {
       loadProfitWell()
     } catch (error) {
       this.log(error)
-      this.onInitializeFail(error)
       return
     }
 
@@ -35,7 +55,7 @@ export default class ProfitWellTracker extends BaseTracker {
     }
 
     this.log('starting profitwell with options', options)
-    profitwell('start', options)
-    this.onInitializeSuccess()
+    profitwell('start', options) // eslint-disable-line no-undef
+    this.enabled = true
   }
 }

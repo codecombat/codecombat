@@ -9,6 +9,7 @@ import ModalEndOfTrial from 'ozaria/site/components/teacher-dashboard/modals/Mod
 import ModalCurriculumPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalCurriculumPromotion.vue'
 import ModalOzariaHackStack from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaHackStack'
 import ModalOzariaAILeague from 'ozaria/site/components/teacher-dashboard/modals/ModalOzariaAILeague'
+import ModalAIAlgebraPromotion from 'ozaria/site/components/teacher-dashboard/modals/ModalAIAlgebraPromotion'
 import IconAssessments from 'ozaria/site/components/teacher-dashboard/common/NavIconAssessments'
 import IconBeta from 'app/core/components/IconBeta'
 import IconNew from 'app/core/components/IconNew'
@@ -24,6 +25,7 @@ export default {
     ModalCurriculumPromotion,
     ModalOzariaHackStack,
     ModalOzariaAILeague,
+    ModalAIAlgebraPromotion,
     ModalEndOfTrial,
     IconAssessments,
     GradeFilterComponent,
@@ -73,7 +75,7 @@ export default {
     const toolOptions = [
       { id: 'toolkit', name: $.i18n.t('nav.teacher_toolkit'), path: '/teachers/resources' },
       { id: 'pd', name: $.i18n.t('nav.professional_development'), path: '/teachers/professional-development' },
-      { id: 'ai-tool', name: $.i18n.t('nav.ai_teacher_tool'), path: (utils.cocoBaseURL() + '/ai'), type: 'a' },
+      { id: 'ai-tool', name: $.i18n.t('nav.ai_teacher_tool'), path: (utils.cocoBaseURL() + '/ai/play'), type: 'a' },
     ]
     return {
       curriculumPromoClicked: false,
@@ -211,7 +213,7 @@ export default {
 
     AIHSClicked (e) {
       this.trackEvent(e)
-      let route = '/ai'
+      let route = '/ai/play'
       if (utils.isOzaria) {
         route = utils.cocoBaseURL() + '/hackstack'
       }
@@ -544,6 +546,7 @@ export default {
       ref="ModalOzariaAILeague"
     />
     <ModalTestStudentPromotion />
+    <ModalAIAlgebraPromotion />
   </ul>
 </template>
 

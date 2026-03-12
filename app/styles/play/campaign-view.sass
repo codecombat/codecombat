@@ -109,6 +109,84 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       background-size: 100%
       @include user-select(none)
 
+    // Module portals (child campaigns) rendered on top of the map.
+    // Wrapper .module-portal is positioned; .module-portal-image fills it; .module-label overlays.
+    .module-portal
+      position: absolute
+      z-index: 2
+      @include user-select(none)
+      @include transition(transform 0.2s ease-out)
+      // Don't scale when this extra class is present (used by CampaignView in editor).
+      &:not(.in-editor):hover
+        transform: scale(1.2)
+      // Cursor pointer when not in editor (module is clickable to play).
+      &:not(.in-editor)
+        cursor: pointer
+
+      // Locked module (e.g. need-premium): grey look, still clickable to show reason.
+      &.locked
+        .module-portal-image
+          filter: grayscale(1) brightness(0.75)
+        .module-label .module-name
+          color: #999
+
+      .module-portal-image
+        display: block
+        width: 100%
+        height: auto
+        vertical-align: top
+
+      // Module overlay content.
+      .module-label
+        position: absolute
+        top: 45%
+        left: 0
+        right: 0
+        width: 100%
+        text-align: center
+        pointer-events: none
+
+        .module-name, .module-levels-completed, .module-locked
+          margin: 0
+
+        // Make module name prominent, like an h1.
+        .module-name
+          color: #ffd31a
+          font-size: 32px
+          text-shadow: 0 0 4px black, 0 0 4px black, 0 0 8px black, 0 0 8px black
+
+        // Keep any other module text readable over the map.
+        .module-levels-completed, .module-locked
+          color: white
+          text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
+
+        .module-description-container
+          margin: 10px auto
+          width: 80%
+          opacity: 0
+          visibility: hidden
+          transition: opacity 0.4s ease, visibility 0.4s ease
+          transition-delay: 0s
+
+          .module-description
+            background: transparent url('/images/level/popover_border_background.png') no-repeat
+            background-size: 100% 100%
+            padding: 12px
+            color: black
+            font-size: 14px
+            line-height: 1.2
+            margin: 0
+            white-space: pre-line
+
+            .module-description-locked-prefix
+              font-weight: bold
+
+      // Show description only on hover (when not in editor).
+      &:not(.in-editor):hover .module-description-container
+        opacity: 1
+        visibility: visible
+        transition-delay: 0.15s
+
     .level, .level-shadow
       position: absolute
       border-radius: 50%
@@ -333,7 +411,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     .level-info-container
       display: none
       position: absolute
-      z-index: 3
+      z-index: 7
       width: 362px
       //min-height: 179px
       padding: 17px 20px 20px 20px
@@ -483,6 +561,20 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       border-top: 12px solid transparent
       border-bottom: 12px solid transparent
       border-left: 24px solid lighten(#F1EAC0, 10%)
+
+  // Editor-only handles for visual connection endpoints
+  .visual-connection-handle
+    position: absolute
+    border-radius: 50%
+    background: rgba(255, 255, 255, 0.2)
+    border: 2px solid rgba(255, 0, 0, 0.7)
+    z-index: 6
+    cursor: move
+
+  // Editor: highlight the connection on the map when its node is selected in the sidebar
+  #visual-connections-svg path.connection-highlighted
+    stroke: #ffc800
+    filter: drop-shadow(0 0 6px rgba(255, 200, 0, 0.9))
 
   // Render thinner connection lines for invisible connections, with no arrowhead
   .next-level-line.thin-connection
@@ -902,6 +994,10 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       .campaign-name
         line-height: 26px
 
+        &.campaign-name-large
+          font-size: 48px
+          line-height: 50px
+
       .levels-completed
         font-size: 22px
 
@@ -1043,7 +1139,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
                 transition-delay: 0.15s
 
                 .campaign-description
-                  background: transparent url(/images/level/popover_border_background.png) no-repeat
+                  background: transparent url('/images/level/popover_border_background.png') no-repeat
                   background-size: 100% 100%
                   padding: 12px
                   color: black
@@ -1106,7 +1202,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
                 .campaign-description
                   margin: 0px 40px
-                  background: transparent url(/images/level/popover_border_background.png) no-repeat
+                  background: transparent url('/images/level/popover_border_background.png') no-repeat
                   background-size: 100% 100%
                   padding: 12px
                   color: black

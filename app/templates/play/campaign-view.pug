@@ -62,7 +62,7 @@ if !editorMode
 
     if view.shouldShow('back-to-classroom')
       a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(href='/play', data-i18n="play.back_to_classroom")
-    if !me.isStudent() && campaign != null && campaign.get('slug') != 'junior'
+    if !me.isStudent() && campaign != null && campaign.get('slug') != 'junior' && campaign.get('slug') != 'odyssey'
       a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#back-button(data-i18n="play_level.back_to_map", title="Back to Map")
 
     if view.shouldShow('videos')
@@ -131,7 +131,6 @@ if !editorMode
         )
           if level.unlocksHero && (!level.purchasedHero || editorMode) && (level.hidden || levelStatus === 'complete')
             img.hero-portrait(src="/file/db/thang.type/" + level.unlocksHero + "/portrait.png")
-          a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/" + (level.levelPath || 'level') + "/" + level.slug, disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
           if levelStatus === 'complete'
             img.level-star(src="/images/pages/play/star.png")
           if editorMode
@@ -250,9 +249,37 @@ if !editorMode
                         button.btn.btn-md.btn-illustrated(data-level-original=practiceLevel.original data-level-slug=practiceLevel.slug data-level-path=level.levelPath || 'level' data-level-name=level.name class=(practiceLevelStatus === "complete" ? "btn-primary" : "btn-success"))
                           span.glyphicon.glyphicon-play
                   if disabled
-                    span.practice-license-message(data-i18n="play.practice-license-required")
+                    span.practice-license-message(data-i18n="play.practice_license_required")
                 if practiceLevelStatus !== 'complete'
                   - break
+
+      // Module portals (child campaigns) – rendered as images on the map.
+      if modules && modules.length
+        each module in modules
+          if module.portalImage && module.position && module.position.x != null && module.position.y != null
+            - var moduleWidthPercent = (module.imageSize != null ? module.imageSize : 0.1) * 100;
+            div.module-portal(
+              class=module.locked ? 'locked' : '',
+              data-module-slug=module.slug,
+              data-lock-reason=module.lockReason || undefined,
+              style="left: " + module.position.x + "%; bottom: " + module.position.y + "%; width: " + moduleWidthPercent + "%;"
+            )
+              img.module-portal-image(
+                src="/file/" + module.portalImage,
+                draggable="false"
+              )
+              if !editorMode
+                .module-label
+                  h3.module-name= i18n(module, 'fullName') || i18n(module, 'name') || module.slug || 'Module'
+                  if module.locked || module.description
+                    .module-description-container
+                      p.module-description(dir="auto")
+                        if module.locked
+                          span.module-description-locked-prefix= "[" + (module.lockReason === 'need-level' ? lockedCampaignLabel : subscribersOnlyLabel) + "]"
+                          if module.description
+                            br
+                        if module.description
+                          = i18n(module, 'description')
 
       each scenario in scenarios
         if scenario.position
@@ -437,9 +464,10 @@ if !editorMode
   if campaign && campaign.loaded
     h1#campaign-status
       .campaign-status-background.rtl-allowed
-        .campaign-name.rtl-allowed
+        .campaign-name.rtl-allowed(class=!levelsTotal ? "campaign-name-large" : "")
           span= i18n(campaign.attributes, 'fullName')
-        .levels-completed.rtl-allowed
-          span= levelsCompleted
-          | /
-          span= levelsTotal
+        if levelsTotal
+          .levels-completed.rtl-allowed
+            span= levelsCompleted
+            | /
+            span= levelsTotal

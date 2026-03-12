@@ -39,7 +39,7 @@ _.extend(CourseSchema.properties, {
     ],
   },
   adminOnly: { type: 'boolean', description: 'Deprecated in favor of releasePhase.' },
-  releasePhase: { enum: ['beta', 'internalRelease', 'released'], description: "How far along the course's development is, determining who sees it." },
+  releasePhase: { enum: ['beta', 'internalRelease', 'released', 'draft'], description: "How far along the course's development is, determining who sees it." },
   isOzaria: { type: 'boolean', description: 'Is this an ozaria course' }, // not used
   shortName: { type: 'string', title: 'Short Name', description: 'Short name to be used on dashboards' },
   cstaStandards: c.array({ title: 'CSTA standards', description: 'Sample CSTA standards list for display on teacher dashboard curriculum guides' }, {
@@ -127,6 +127,7 @@ _.extend(CourseSchema.properties, {
     },
   },
   curriculum: c.url({ title: 'Curriculum URL', description: 'Link to curriculum folder. Relevant for teacher dashboard curriculum guides.' }),
+  product: { type: 'string', enum: ['ozaria', 'codecombat', 'hackstack', 'junior'], description: 'Which product this course is for, if applicable. Affects where the course appears in the teacher dashboard.' },
 })
 
 c.extendBasicProperties(CourseSchema, 'Course')

@@ -53,13 +53,13 @@ export default {
   data () {
     return {
       items: [
-        { src: '/images/pages/hackstack/learn_1.svg', text: 'Play in a safe\nAI sandbox' },
-        { src: '/images/pages/hackstack/learn_2.svg', text: 'Cross-\nCurricular\nLessons' },
-        { src: '/images/pages/hackstack/learn_3.svg', text: 'Prompt\nEngineering' },
-        { src: '/images/pages/hackstack/learn_4.svg', text: 'Remix AI\nProject' },
-        { src: '/images/pages/hackstack/learn_5.svg', text: 'Ethics-Centered\nReflection' },
-        { src: '/images/pages/hackstack/learn_6.svg', text: 'Actionable\nData' },
-        { src: '/images/pages/hackstack/learn_7.svg', text: 'Professional\nDevelopment\nfor AI' },
+        { src: '/images/pages/hackstack/learn_1.svg', text: $.i18n.t('hackstack_page.learn_1_text') },
+        { src: '/images/pages/hackstack/learn_2.svg', text: $.i18n.t('hackstack_page.learn_2_text') },
+        { src: '/images/pages/hackstack/learn_3.svg', text: $.i18n.t('hackstack_page.learn_3_text') },
+        { src: '/images/pages/hackstack/learn_4.svg', text: $.i18n.t('hackstack_page.learn_4_text') },
+        { src: '/images/pages/hackstack/learn_5.svg', text: $.i18n.t('hackstack_page.learn_5_text') },
+        { src: '/images/pages/hackstack/learn_6.svg', text: $.i18n.t('hackstack_page.learn_6_text') },
+        { src: '/images/pages/hackstack/learn_7.svg', text: $.i18n.t('hackstack_page.learn_7_text') },
       ],
     }
   },
@@ -83,6 +83,7 @@ export default {
   flex-direction: column;
   gap: 80px;
   position: relative;
+  width: 100%;
 
   .heading {
     align-self: stretch;
