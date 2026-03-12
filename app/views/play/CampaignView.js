@@ -1144,13 +1144,19 @@ class CampaignView extends RootView {
       if (level.adminOnly && ![STARTED_STATUS, COMPLETE_STATUS].includes(this.levelStatusMap[level.slug])) { level.disabled = true }
       if (me.isInGodMode()) { level.disabled = false }
 
-      level.color = 'rgb(255, 80, 60)'
-      if (!this.isClassroom() && (this.campaign?.get('type') !== 'hoc')) {
-        if (level.requiresSubscription) { level.color = 'rgb(80, 130, 200)' }
+      level.color = colors.jayBlue
+      if (this.editorMode && !level.requiresSubscription) {
+        level.color = colors.lightBlue
       }
+      // if (!this.isClassroom() && (this.campaign?.get('type') !== 'hoc')) {
+      //   if (level.requiresSubscription) { level.color = colors.jayBlue }
+      // }
       // level.color = 'rgb(200, 80, 200)' if level.adventurer  # Disable adventurer stuff for now
-
-      if (level.locked) { level.color = 'rgb(193, 193, 193)' }
+      if (level.locked) {
+        level.color = colors.sparkySilver
+      } else if (this.isLevelCompleted(level)) {
+        level.color = colors.darkGreen
+      }
       level.unlocksHero = level.rewards?.find(r => r.hero)?.hero
       if (level.unlocksHero) {
         level.purchasedHero = me.get('purchased')?.heroes?.includes(level.unlocksHero)
@@ -1232,6 +1238,10 @@ class CampaignView extends RootView {
     return this.courseInstanceID != null
   }
 
+  isLevelCompleted (level) {
+    return this.levelStatusMap[level.slug] === COMPLETE_STATUS
+  }
+
   determineNextLevel (orderedLevels) {
     if (this.isClassroom()) {
       if (this.courseStats) { this.applyCourseLogicToLevels(orderedLevels) }
@@ -1252,7 +1262,7 @@ class CampaignView extends RootView {
           level.locked = false
           level.hidden = level.locked
           level.disabled = false
-          level.color = 'rgb(255, 80, 60)'
+          level.color = colors.jayBlue
           return
         }
       }
@@ -2455,15 +2465,17 @@ class CampaignView extends RootView {
       }
 
       if (level.locked) {
-        level.color = 'rgb(193, 193, 193)'
-      } else if (level.practice) {
-        level.color = 'rgb(45, 145, 81)'
-      } else if (level.assessment) {
-        level.color = '#AD62F8'
-        if (playerState !== COMPLETE_STATUS) {
-          level.noFlag = false
-        }
+        level.color = colors.sparkySilver
+      } else if (this.isLevelCompleted(level)) {
+        level.color = colors.darkGreen
       }
+      // else if (level.practice) {
+      //   level.color = colors.seaGreen
+      // } else if (level.assessment) {
+      //   level.color = colors.mysticViolet
+      //   if (playerState !== COMPLETE_STATUS) {
+      //     level.noFlag = false
+      //   }
       level.unlocksHero = false
       level.unlocksItem = false
       prev = level
