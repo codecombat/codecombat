@@ -1844,6 +1844,7 @@ module.exports = {
       free_course_blurb_junior: '[AI_TRANSLATION]Kiváló a K-5 osztályok számára, a CodeCombat Junior lehetővé teszi a blokk-alapú és mobil opciókat az olvasni még nem tudóknak, valamint a Python vagy JavaScript szöveges kódolást a felső tagozatosok számára, vagy a blokkokkal és kóddal való párhuzamosítást a váltás megkönnyítésére.\n',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]Nagyszerű a 6-12. osztályosoknak, a CodeCombat alapkódolási kurzusai a kezdőbarát Bevezetés a számítástechnikába kurzustól egészen az emelt szintű számítástechnikai kurzusokig tartanak. Kezdd itt a középiskolásokkal.\n',
       //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_chapter-1-sky-mountain": "Great for grades 6-8, a narrative coding adventure that establishes the fundamentals of computer science.",
       start_teaching_ai_today: '[AI_TRANSLATION]Kezdd el AI-t tanítani ma!  ',
       hackstack_beta_release: '[AI_TRANSLATION]HackStack Béta Kiadás  ',
       introducing_ai_hackstack: '[AI_TRANSLATION]Bemutatkozik az AI HackStack, egy generatív AI oktató eszköz kezdőknek. Biztonságos hozzáférést biztosít a legjobb AI modellekhez, mint a ChatGPT, Claude és DALL-E.  ',

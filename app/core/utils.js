@@ -2017,6 +2017,7 @@ module.exports = {
   HACKSTACK_COURSE_IDS,
   COCO_COURSE_IDS,
   OZ_COURSE_IDS,
+  OZ_COURSE_IDS_MAP,
   showOzaria,
 }
 

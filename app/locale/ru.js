@@ -1844,6 +1844,7 @@ module.exports = {
       free_course_blurb_junior: '[AI_TRANSLATION]Отлично для K-5 классов, CodeCombat Junior может варьировать от блочных и мобильных опций для дошкольников до текста на Python или JavaScript для начальной школы, или параллельно блоки и код для перехода.  ',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]Отлично подходит для 6-12 классов, основные курсы CodeCombat по информатике развиваются от дружелюбного интро до AP Computer Science Principles и более сложных курсов. Начни здесь для учеников средней и старшей школы.  ',
       //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_chapter-1-sky-mountain": "Great for grades 6-8, a narrative coding adventure that establishes the fundamentals of computer science.",
       start_teaching_ai_today: '[AI_TRANSLATION]Начните учить ИИ сегодня!  ',
       hackstack_beta_release: '[AI_TRANSLATION]HackStack Бета релиз  ',
       introducing_ai_hackstack: '[AI_TRANSLATION]Представляем AI HackStack, образовательный инструмент для начинающих, использующий генеративный ИИ. Он предоставляет безопасный доступ к топовым ИИ моделям, таким как ChatGPT, Claude и DALL-E.  ',

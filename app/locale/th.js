@@ -1844,6 +1844,7 @@ module.exports = {
       free_course_blurb_junior: '[AI_TRANSLATION]เหมาะสำหรับเกรด K-5 CodeCombat Junior มีตัวเลือกการเขียนโปรแกรมแบบบล็อกและมือถือ สำหรับเด็กก่อนอ่าน และ Python หรือ JavaScript สำหรับประถมตอนปลาย หรือใช้บล็อกคู่และโค้ดเพื่อช่วยในการเปลี่ยนผ่าน',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]เหมาะสำหรับเกรด 6-12 หลักสูตร CS ของ CodeCombat เริ่มต้นจากการแนะนำวิทยาการคอมพิวเตอร์สำหรับผู้เริ่มต้น ไปจนถึง AP Computer Science Principles และหลักสูตร CS ขั้นสูงอื่นๆ เริ่มต้นที่นี่สำหรับนักเรียนชั้นกลางและชั้นมัธยม',
       //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_chapter-1-sky-mountain": "Great for grades 6-8, a narrative coding adventure that establishes the fundamentals of computer science.",
       start_teaching_ai_today: '[AI_TRANSLATION]เริ่มสอน AI วันนี้!  ',
       hackstack_beta_release: '[AI_TRANSLATION]HackStack Beta Release',
       introducing_ai_hackstack: '[AI_TRANSLATION]แนะนำ AI HackStack เครื่องมือสอน AI สำหรับมือใหม่ ให้เข้าถึงโมเดล AI ชั้นนำได้อย่างปลอดภัย เช่น ChatGPT, Claude, และ DALL-E  ',

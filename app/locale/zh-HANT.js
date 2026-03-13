@@ -1844,6 +1844,7 @@ module.exports = {
       free_course_blurb_junior: '[AI_TRANSLATION]CodeCombat Junior 適合 K 到 5 年級的學生，對於還不會閱讀的小孩，可以選擇積木或移動版，上到高年級則有 Python 或 JavaScript的文字程式碼，或用程式塊配合程式碼幫助轉換。  ',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]CodeCombat 的核心計算機科學課程適合 6 到 12 年級，從對初學者友好的計算機科學入門課程，到 AP 計算機科學原理課程，再到高階計算機科學課程。適合中學和高中的學生從這裡開始。  ',
       //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_chapter-1-sky-mountain": "Great for grades 6-8, a narrative coding adventure that establishes the fundamentals of computer science.",
       start_teaching_ai_today: '[AI_TRANSLATION]今天開始教 AI！',
       hackstack_beta_release: '[AI_TRANSLATION]HackStack 測試版發佈  ',
       introducing_ai_hackstack: '[AI_TRANSLATION]推出AI HackStack，一個為初學者設計的生成 AI 教學工具。它提供安全訪問頂級AI模型，如ChatGPT、Claude和DALL-E。',
