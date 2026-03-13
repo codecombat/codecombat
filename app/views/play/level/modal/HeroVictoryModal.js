@@ -120,19 +120,22 @@ module.exports = (HeroVictoryModal = (function () {
           // Avoid unhandled promise rejections; log for debugging
           console.error('Failed to fetch next level for campaign (includePractice: false):', err)
         })
-        this.practiceLevel = new Level()
-        api.levels.fetchNextForCampaign({
-          campaignSlug: this.level.get('campaign'),
-          levelOriginal: this.level.get('original'),
-          includePractice: true,
-        }).then((level) => {
-          this.practiceLevel?.set(level)
-          // Ensure dynamic parts of the modal that depend on practiceLevel are refreshed
-          this.renderSelectors?.('.next-level-buttons')
-        }).catch((err) => {
-          // Avoid unhandled promise rejections; log for debugging
-          console.error('Failed to fetch practice level for campaign (includePractice: true):', err)
-        })
+        // Only fetch the practice level for premium users, since practice is premium-gated.
+        if (me && (typeof me.isPremium === 'function' ? me.isPremium() : me.isPremium?.())) {
+          this.practiceLevel = new Level()
+          api.levels.fetchNextForCampaign({
+            campaignSlug: this.level.get('campaign'),
+            levelOriginal: this.level.get('original'),
+            includePractice: true,
+          }).then((level) => {
+            this.practiceLevel?.set(level)
+            // Ensure dynamic parts of the modal that depend on practiceLevel are refreshed
+            this.renderSelectors?.('.next-level-buttons')
+          }).catch((err) => {
+            // Avoid unhandled promise rejections; log for debugging
+            console.error('Failed to fetch practice level for campaign (includePractice: true):', err)
+          })
+        }
       }
     }
 
