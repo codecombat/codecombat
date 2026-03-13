@@ -121,7 +121,8 @@ module.exports = (HeroVictoryModal = (function () {
           console.error('Failed to fetch next level for campaign (includePractice: false):', err)
         })
         // Only fetch the practice level for premium users, since practice is premium-gated.
-        if (me && (typeof me.isPremium === 'function' ? me.isPremium() : me.isPremium?.())) {
+        const isPremium = Boolean(typeof me.isPremium === 'function' ? me.isPremium() : me.isPremium)
+        if (me && isPremium) {
           this.practiceLevel = new Level()
           api.levels.fetchNextForCampaign({
             campaignSlug: this.level.get('campaign'),
@@ -286,7 +287,8 @@ module.exports = (HeroVictoryModal = (function () {
       c.readyToRank = this.level.isLadder() && this.session.readyToRank()
       c.level = this.level
       c.i18n = utils.i18n
-      c.hasPracticeLevel = me.isPremium() && this.practiceLevel?.get('slug') != null && this.practiceLevel.get('slug') !== this.nextLevel?.get('slug')
+      const isPremium = Boolean(typeof me.isPremium === 'function' ? me.isPremium() : me.isPremium)
+      c.hasPracticeLevel = isPremium && this.practiceLevel?.get('slug') != null && this.practiceLevel.get('slug') !== this.nextLevel?.get('slug')
       const elapsed = (new Date() - new Date(me.get('dateCreated')))
       if (me.get('hourOfCode')) {
         // Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
