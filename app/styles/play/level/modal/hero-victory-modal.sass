@@ -483,23 +483,34 @@
     float: left
 
   .next-level-buttons
-    float: right
-
-    .next-level-button, .return-to-ladder-button
+    .next-button
       width: 258px
       height: 60px
       line-height: 30px
       margin: 0 10px
+    .next-level-button, .return-to-ladder-button
+      float: right
+    .practice-level-button
+      float: left
+    .next-level-button.codecombat-junior
+      span, img
+        opacity: 1
 
-      &.codecombat-junior
-        span, img
-          opacity: 1
+      img
+        position: absolute
+        right: 49px
+        height: 38px
+        margin-top: -2px
 
-        img
-          position: absolute
-          right: 49px
-          height: 38px
-          margin-top: -2px
+    .practice-level-button.codecombat-junior
+      span, img
+        opacity: 1
+
+      img
+        position: absolute
+        left: 49px
+        height: 38px
+        margin-top: -2px
 
     .ladder-submission-view
       display: inline-block

@@ -46,6 +46,7 @@ module.exports = (HeroVictoryModal = (function () {
 
       this.prototype.events = {
         'click #continue-button': 'onClickContinue',
+        'click #practice-button': 'onClickPracticeButton',
         'click .leaderboard-button': 'onClickLeaderboard',
         'click .return-to-course-button': 'onClickReturnToCourse',
         'click .return-to-ladder-button': 'onClickReturnToLadder',
@@ -107,15 +108,35 @@ module.exports = (HeroVictoryModal = (function () {
 
       if (this.level.get('product', true) === 'codecombat-junior' && this.level.get('campaign')) {
         this.nextLevel = new Level()
-        const practiceThresholdSeconds = (this.level.get('practiceThresholdMinutes') || 60) * 60
-        const includePractice = (this.session.get('playtime') || 0) > practiceThresholdSeconds && me.isPremium()
         api.levels.fetchNextForCampaign({
           campaignSlug: this.level.get('campaign'),
           levelOriginal: this.level.get('original'),
-          includePractice,
+          includePractice: false,
         }).then((level) => {
           this.nextLevel?.set(level)
+          // Ensure dynamic parts of the modal that depend on nextLevel are refreshed
+          this.renderSelectors?.('.next-level-buttons')
+        }).catch((err) => {
+          // Avoid unhandled promise rejections; log for debugging
+          console.error('Failed to fetch next level for campaign (includePractice: false):', err)
         })
+        // Only fetch the practice level for premium users, since practice is premium-gated.
+        const isPremium = Boolean(typeof me.isPremium === 'function' ? me.isPremium() : me.isPremium)
+        if (me && isPremium) {
+          this.practiceLevel = new Level()
+          api.levels.fetchNextForCampaign({
+            campaignSlug: this.level.get('campaign'),
+            levelOriginal: this.level.get('original'),
+            includePractice: true,
+          }).then((level) => {
+            this.practiceLevel?.set(level)
+            // Ensure dynamic parts of the modal that depend on practiceLevel are refreshed
+            this.renderSelectors?.('.next-level-buttons')
+          }).catch((err) => {
+            // Avoid unhandled promise rejections; log for debugging
+            console.error('Failed to fetch practice level for campaign (includePractice: true):', err)
+          })
+        }
       }
     }
 
@@ -266,7 +287,8 @@ module.exports = (HeroVictoryModal = (function () {
       c.readyToRank = this.level.isLadder() && this.session.readyToRank()
       c.level = this.level
       c.i18n = utils.i18n
-
+      const isPremium = Boolean(typeof me.isPremium === 'function' ? me.isPremium() : me.isPremium)
+      c.hasPracticeLevel = isPremium && this.practiceLevel?.get('slug') != null && this.practiceLevel.get('slug') !== this.nextLevel?.get('slug')
       const elapsed = (new Date() - new Date(me.get('dateCreated')))
       if (me.get('hourOfCode')) {
         // Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
@@ -504,7 +526,7 @@ module.exports = (HeroVictoryModal = (function () {
 
     updateSavingProgressStatus () {
       this.$el.find('#saving-progress-label').toggleClass('hide', this.readyToContinue)
-      this.$el.find('.next-level-button').toggleClass('hide', !this.readyToContinue)
+      this.$el.find('.next-button').toggleClass('hide', !this.readyToContinue)
       return this.$el.find('.sign-up-poke').toggleClass('hide', !this.readyToContinue)
     }
 
@@ -595,6 +617,7 @@ module.exports = (HeroVictoryModal = (function () {
       }
       if (extraOptions) { _.merge(options, extraOptions) }
       const returnAfterCompleteMap = this.level.get('returnAfterCompleteMap')
+      const product = this.level.get('product', true)
       if (this.showHoc2016ExploreButton) {
         // Send players to /play after completing final game-dev activity project level
         nextLevelLink = '/play'
@@ -604,7 +627,27 @@ module.exports = (HeroVictoryModal = (function () {
         nextLevelLink = `/play/${returnAfterCompleteMap[this.parentCampaign]}`
         viewClass = 'views/play/CampaignView'
         viewArgs = [options, returnAfterCompleteMap[this.parentCampaign]]
-      } else if ((this.level.isType('course') || this.level.get('product', true) === 'codecombat-junior') && this.nextLevel?.get('slug') && !options.returnToCourse) {
+      } else if (options.sendToPracticeLevel && product === 'codecombat-junior' && this.practiceLevel?.get('slug')) {
+        nextLevelLink = `/play/level/${this.practiceLevel.get('slug')}`
+        viewClass = 'views/play/level/PlayLevelView'
+        options.parentCampaign = this.parentCampaign
+        options.courseID = this.courseID
+        options.courseInstanceID = this.courseInstanceID
+        const queryParams = []
+        if (this.parentCampaign) {
+          queryParams.push(`fromCampaign=${this.parentCampaign}`)
+        }
+        if (this.courseID) {
+          queryParams.push(`courseID=${this.courseID}`)
+        }
+        if (this.courseInstanceID) {
+          queryParams.push(`courseInstanceID=${this.courseInstanceID}`)
+        }
+        if (queryParams.length) {
+          nextLevelLink += `?${queryParams.join('&')}`
+        }
+        viewArgs = [options, this.practiceLevel.get('slug')]
+      } else if ((this.level.isType('course') || product === 'codecombat-junior') && this.nextLevel?.get('slug') && !options.returnToCourse) {
         viewClass = 'views/play/level/PlayLevelView'
         options.courseID = this.courseID
         options.courseInstanceID = this.courseInstanceID
@@ -641,6 +684,10 @@ module.exports = (HeroVictoryModal = (function () {
         this.hide()
         return Backbone.Mediator.publish('router:navigate', navigationEvent)
       }
+    }
+
+    onClickPracticeButton (e) {
+      return this.onClickContinue(e, { sendToPracticeLevel: true })
     }
 
     onClickLeaderboard (e) {
