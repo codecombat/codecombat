@@ -108,14 +108,17 @@ module.exports = (HeroVictoryModal = (function () {
 
       if (this.level.get('product', true) === 'codecombat-junior' && this.level.get('campaign')) {
         this.nextLevel = new Level()
-        // const practiceThresholdSeconds = (this.level.get('practiceThresholdMinutes') || 60) * 60
-        // const includePractice = (this.session.get('playtime') || 0) > practiceThresholdSeconds && me.isPremium() // We are going to experiment with this later
         api.levels.fetchNextForCampaign({
           campaignSlug: this.level.get('campaign'),
           levelOriginal: this.level.get('original'),
           includePractice: false,
         }).then((level) => {
           this.nextLevel?.set(level)
+          // Ensure dynamic parts of the modal that depend on nextLevel are refreshed
+          this.renderSelectors?.('.next-level-buttons')
+        }).catch((err) => {
+          // Avoid unhandled promise rejections; log for debugging
+          console.error('Failed to fetch next level for campaign (includePractice: false):', err)
         })
         this.practiceLevel = new Level()
         api.levels.fetchNextForCampaign({
@@ -124,6 +127,11 @@ module.exports = (HeroVictoryModal = (function () {
           includePractice: true,
         }).then((level) => {
           this.practiceLevel?.set(level)
+          // Ensure dynamic parts of the modal that depend on practiceLevel are refreshed
+          this.renderSelectors?.('.next-level-buttons')
+        }).catch((err) => {
+          // Avoid unhandled promise rejections; log for debugging
+          console.error('Failed to fetch practice level for campaign (includePractice: true):', err)
         })
       }
     }
