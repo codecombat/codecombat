@@ -276,7 +276,6 @@ module.exports = (HeroVictoryModal = (function () {
       c.level = this.level
       c.i18n = utils.i18n
       c.hasPracticeLevel = me.isPremium() && this.practiceLevel?.get('slug') != null && this.practiceLevel.get('slug') !== this.nextLevel?.get('slug')
-      console.log('nextLevel', this.nextLevel?.get('slug'), 'practiceLevel', this.practiceLevel?.get('slug'), 'hasPracticeLevel', c.hasPracticeLevel)
       const elapsed = (new Date() - new Date(me.get('dateCreated')))
       if (me.get('hourOfCode')) {
         // Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
