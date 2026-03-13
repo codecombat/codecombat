@@ -626,8 +626,20 @@ module.exports = (HeroVictoryModal = (function () {
         nextLevelLink = `/play/level/${this.practiceLevel.get('slug')}`
         viewClass = 'views/play/level/PlayLevelView'
         options.parentCampaign = this.parentCampaign
+        options.courseID = this.courseID
+        options.courseInstanceID = this.courseInstanceID
+        const queryParams = []
         if (this.parentCampaign) {
-          nextLevelLink += `?fromCampaign=${this.parentCampaign}`
+          queryParams.push(`fromCampaign=${this.parentCampaign}`)
+        }
+        if (this.courseID) {
+          queryParams.push(`courseID=${this.courseID}`)
+        }
+        if (this.courseInstanceID) {
+          queryParams.push(`courseInstanceID=${this.courseInstanceID}`)
+        }
+        if (queryParams.length) {
+          nextLevelLink += `?${queryParams.join('&')}`
         }
         viewArgs = [options, this.practiceLevel.get('slug')]
       } else if ((this.level.isType('course') || product === 'codecombat-junior') && this.nextLevel?.get('slug') && !options.returnToCourse) {
