@@ -1844,6 +1844,7 @@ module.exports = {
       free_course_blurb_junior: '[AI_TRANSLATION]K-5학년에 아주 좋아. CodeCombat Junior는 글을 못 읽는 아이들을 위해 블록 기반과 모바일 옵션도 있고, 초등 고학년을 위해 Python이나 JavaScript 코드도 지원해. 블록과 코드를 병행해서 전환을 도울 수도 있어.',
       //    "free_course_blurb_introduction-to-computer-science": "Great for grades 6-12, CodeCombat's core CS courses progress from the beginner-friendly Introduction to Computer Science, through AP Computer Science Principles, and beyond into advanced CS courses. Start here for middle and high school students.",
       //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_chapter-1-sky-mountain": "Great for grades 6-8, a narrative coding adventure that establishes the fundamentals of computer science.",
       start_teaching_ai_today: '[AI_TRANSLATION]오늘 AI 교육 시작하세요!',
       hackstack_beta_release: '[AI_TRANSLATION]해킹 스택 베타 릴리스',
       introducing_ai_hackstack: '[AI_TRANSLATION]초보자를 위한 생성 AI 교육 도구 AI HackStack을 소개해. ChatGPT, Claude, DALL-E 같은 최고의 AI 모델에 안전하게 접근할 수 있어.',

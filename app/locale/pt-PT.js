@@ -1844,6 +1844,7 @@ module.exports = {
       free_course_blurb_junior: '[AI_TRANSLATION]Ótimo para o pré-escolar ao 5º ano, o CodeCombat Junior pode adaptar-se a opções de blocos e móveis para pré-leitores, até código de texto Python ou JavaScript para os anos superiores do ensino básico, ou a blocos-e-código paralelos para ajudar na transição.  ',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]Ótimo para o 6º ao 12º ano, os cursos principais de CS do CodeCombat progridem desde a Introdução à Ciência da Computação, focada em iniciantes, até aos Princípios de Ciência da Computação AP, e além, com cursos avançados de CS. Começa aqui para alunos do ensino básico e secundário.  ',
       //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_chapter-1-sky-mountain": "Great for grades 6-8, a narrative coding adventure that establishes the fundamentals of computer science.",
       start_teaching_ai_today: '[AI_TRANSLATION]Começa a Ensinar IA Hoje!  ',
       hackstack_beta_release: '[AI_TRANSLATION]HackStack Beta Release  ',
       introducing_ai_hackstack: '[AI_TRANSLATION]Apresentamos o AI HackStack, uma ferramenta de ensino de IA generativa para iniciantes. Oferece acesso seguro aos melhores modelos de IA como ChatGPT, Claude, e DALL-E.',
