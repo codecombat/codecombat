@@ -46,6 +46,7 @@ module.exports = (HeroVictoryModal = (function () {
 
       this.prototype.events = {
         'click #continue-button': 'onClickContinue',
+        'click #practice-button': 'onClickPracticeButton',
         'click .leaderboard-button': 'onClickLeaderboard',
         'click .return-to-course-button': 'onClickReturnToCourse',
         'click .return-to-ladder-button': 'onClickReturnToLadder',
@@ -107,14 +108,22 @@ module.exports = (HeroVictoryModal = (function () {
 
       if (this.level.get('product', true) === 'codecombat-junior' && this.level.get('campaign')) {
         this.nextLevel = new Level()
-        const practiceThresholdSeconds = (this.level.get('practiceThresholdMinutes') || 60) * 60
-        const includePractice = (this.session.get('playtime') || 0) > practiceThresholdSeconds && me.isPremium()
+        // const practiceThresholdSeconds = (this.level.get('practiceThresholdMinutes') || 60) * 60
+        // const includePractice = (this.session.get('playtime') || 0) > practiceThresholdSeconds && me.isPremium() // We are going to experiment with this later
         api.levels.fetchNextForCampaign({
           campaignSlug: this.level.get('campaign'),
           levelOriginal: this.level.get('original'),
-          includePractice,
+          includePractice: false,
         }).then((level) => {
           this.nextLevel?.set(level)
+        })
+        this.practiceLevel = new Level()
+        api.levels.fetchNextForCampaign({
+          campaignSlug: this.level.get('campaign'),
+          levelOriginal: this.level.get('original'),
+          includePractice: true,
+        }).then((level) => {
+          this.practiceLevel?.set(level)
         })
       }
     }
@@ -266,7 +275,8 @@ module.exports = (HeroVictoryModal = (function () {
       c.readyToRank = this.level.isLadder() && this.session.readyToRank()
       c.level = this.level
       c.i18n = utils.i18n
-
+      c.hasPracticeLevel = me.isPremium() && this.practiceLevel?.get('slug') != null && this.practiceLevel.get('slug') !== this.nextLevel?.get('slug')
+      console.log('nextLevel', this.nextLevel?.get('slug'), 'practiceLevel', this.practiceLevel?.get('slug'), 'hasPracticeLevel', c.hasPracticeLevel)
       const elapsed = (new Date() - new Date(me.get('dateCreated')))
       if (me.get('hourOfCode')) {
         // Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
@@ -504,7 +514,7 @@ module.exports = (HeroVictoryModal = (function () {
 
     updateSavingProgressStatus () {
       this.$el.find('#saving-progress-label').toggleClass('hide', this.readyToContinue)
-      this.$el.find('.next-level-button').toggleClass('hide', !this.readyToContinue)
+      this.$el.find('.next-button').toggleClass('hide', !this.readyToContinue)
       return this.$el.find('.sign-up-poke').toggleClass('hide', !this.readyToContinue)
     }
 
@@ -595,6 +605,7 @@ module.exports = (HeroVictoryModal = (function () {
       }
       if (extraOptions) { _.merge(options, extraOptions) }
       const returnAfterCompleteMap = this.level.get('returnAfterCompleteMap')
+      const product = this.level.get('product', true)
       if (this.showHoc2016ExploreButton) {
         // Send players to /play after completing final game-dev activity project level
         nextLevelLink = '/play'
@@ -604,7 +615,15 @@ module.exports = (HeroVictoryModal = (function () {
         nextLevelLink = `/play/${returnAfterCompleteMap[this.parentCampaign]}`
         viewClass = 'views/play/CampaignView'
         viewArgs = [options, returnAfterCompleteMap[this.parentCampaign]]
-      } else if ((this.level.isType('course') || this.level.get('product', true) === 'codecombat-junior') && this.nextLevel?.get('slug') && !options.returnToCourse) {
+      } else if (options.sendToPracticeLevel && product === 'codecombat-junior' && this.practiceLevel?.get('slug')) {
+        nextLevelLink = `/play/level/${this.practiceLevel.get('slug')}`
+        viewClass = 'views/play/level/PlayLevelView'
+        options.parentCampaign = this.parentCampaign
+        if (this.parentCampaign) {
+          nextLevelLink += `?fromCampaign=${this.parentCampaign}`
+        }
+        viewArgs = [options, this.practiceLevel.get('slug')]
+      } else if ((this.level.isType('course') || product === 'codecombat-junior') && this.nextLevel?.get('slug') && !options.returnToCourse) {
         viewClass = 'views/play/level/PlayLevelView'
         options.courseID = this.courseID
         options.courseInstanceID = this.courseInstanceID
@@ -641,6 +660,11 @@ module.exports = (HeroVictoryModal = (function () {
         this.hide()
         return Backbone.Mediator.publish('router:navigate', navigationEvent)
       }
+    }
+
+    onClickPracticeButton (e) {
+      this.playSound('menu-button-click')
+      return this.onClickContinue(e, { sendToPracticeLevel: true })
     }
 
     onClickLeaderboard (e) {
