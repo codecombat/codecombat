@@ -35,7 +35,13 @@ module.exports = (AccountSettingsRootView = (function () {
 
     afterInsert () {
       super.afterInsert()
-      if (me.get('anonymous')) { return this.openModalView(new CreateAccountModal()) }
+      if (me.get('anonymous')) {
+        if (features?.chinaHome) {
+          const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+          return this.openModalView(new PhoneAuthModal())
+        }
+        return this.openModalView(new CreateAccountModal())
+      }
     }
   }
   AccountSettingsRootView.initClass()

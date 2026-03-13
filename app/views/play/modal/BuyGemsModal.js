@@ -103,7 +103,13 @@ module.exports = (BuyGemsModal = (function () {
 
     onClickProductButton (e) {
       this.playSound('menu-button-click')
-      if (me.get('anonymous')) { return this.openModalView(new CreateAccountModal()) }
+      if (me.get('anonymous')) {
+        if (features?.chinaHome) {
+          const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+          return this.openModalView(new PhoneAuthModal())
+        }
+        return this.openModalView(new CreateAccountModal())
+      }
       const productID = $(e.target).closest('button').val()
       // Don't throw error when product is not found
       if (productID.length === 0) {

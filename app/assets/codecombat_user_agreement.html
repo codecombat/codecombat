@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCombat 用户服务协议</title>
+    <style>
+        :root {
+            --primary-color: #0ea5e9;
+            --primary-dark: #0369a1;
+            --bg-color: #f8fafc;
+            --text-color: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --highlight-bg: #fef3c7;
+            --section-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-top: 16px;
+        }
+
+        .meta-info {
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .meta-info p {
+            margin: 4px 0;
+        }
+
+        .important-notice {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-left: 4px solid #f59e0b;
+            padding: 20px 24px;
+            margin: 32px 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .important-notice h3 {
+            color: #92400e;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .important-notice p {
+            color: #78350f;
+            font-size: 0.95rem;
+        }
+
+        .toc {
+            background: var(--section-bg);
+            padding: 24px 32px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .toc h2 {
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            color: var(--primary-dark);
+        }
+
+        .toc ol {
+            columns: 2;
+            column-gap: 32px;
+            padding-left: 20px;
+        }
+
+        .toc li {
+            margin: 8px 0;
+            break-inside: avoid;
+        }
+
+        .toc a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .toc a:hover {
+            color: var(--primary-color);
+        }
+
+        section {
+            background: var(--section-bg);
+            padding: 32px;
+            margin-bottom: 24px;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        section h2 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        section h2 .section-number {
+            background: var(--primary-color);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        section h3 {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin: 24px 0 12px;
+        }
+
+        section p {
+            margin: 12px 0;
+            text-align: justify;
+        }
+
+        section ul, section ol {
+            margin: 12px 0 12px 24px;
+        }
+
+        section li {
+            margin: 8px 0;
+        }
+
+        .highlight {
+            background-color: var(--highlight-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        strong {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .warning-text {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .subsection {
+            background: var(--bg-color);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .contact-info h4 {
+            color: var(--primary-dark);
+            margin-bottom: 12px;
+        }
+
+        .contact-info p {
+            margin: 8px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer p {
+            margin: 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 24px 16px;
+            }
+
+            .toc ol {
+                columns: 1;
+            }
+
+            section {
+                padding: 24px 20px;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            header h1 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">⚔️</div>
+                CodeCombat
+            </div>
+            <h1>用户服务协议</h1>
+            <div class="meta-info">
+                <p>更新日期：2026年1月1日</p>
+                <p>生效日期：2026年1月1日</p>
+            </div>
+        </header>
+
+        <div class="important-notice">
+            <h3>📢 重要提示</h3>
+            <p>欢迎使用 CodeCombat 游戏化编程学习平台！在使用本服务前，请您务必仔细阅读并理解本协议的全部条款。<strong>特别是涉及免责声明、责任限制、争议解决等条款</strong>（通常以加粗形式标注）。您点击"同意"或继续使用本服务，即表示您已充分阅读、理解并同意接受本协议的约束。</p>
+        </div>
+
+        <nav class="toc">
+            <h2>📑 目录</h2>
+            <ol>
+                <li><a href="#section1">协议主体与服务内容</a></li>
+                <li><a href="#section2">账号注册与管理</a></li>
+                <li><a href="#section3">用户群体说明</a></li>
+                <li><a href="#section4">用户行为规范</a></li>
+                <li><a href="#section5">知识产权</a></li>
+                <li><a href="#section6">用户内容</a></li>
+                <li><a href="#section7">虚拟物品与付费服务</a></li>
+                <li><a href="#section8">隐私保护</a></li>
+                <li><a href="#section9">免责声明</a></li>
+                <li><a href="#section10">服务变更与终止</a></li>
+                <li><a href="#section11">违约责任</a></li>
+                <li><a href="#section12">法律适用与争议解决</a></li>
+                <li><a href="#section13">其他条款</a></li>
+                <li><a href="#section14">联系我们</a></li>
+            </ol>
+        </nav>
+
+        <section id="section1">
+            <h2><span class="section-number">1</span>协议主体与服务内容</h2>
+            
+            <h3>1.1 协议主体</h3>
+            <p>本《CodeCombat 用户服务协议》（以下简称"本协议"）是您（以下亦称"用户"）与 CodeCombat 平台运营方（以下简称"我们"或"平台"）之间就使用 CodeCombat 游戏化编程学习平台及相关服务所订立的协议。</p>
+
+            <h3>1.2 服务内容</h3>
+            <p>CodeCombat 是一个通过游戏化方式学习编程的在线教育平台，我们提供的服务包括但不限于：</p>
+            <ul>
+                <li><strong>游戏化编程课程：</strong>通过闯关、冒险等游戏形式学习 Python、JavaScript、C++ 等编程语言</li>
+                <li><strong>互动式代码编辑器：</strong>在线编写、运行和调试代码</li>
+                <li><strong>关卡挑战系统：</strong>包含数千个精心设计的编程关卡</li>
+                <li><strong>学习进度追踪：</strong>记录并展示您的学习成果和进度</li>
+                <li><strong>多人竞技模式：</strong>与其他用户进行编程对战</li>
+            </ul>
+
+            <h3>1.3 服务形式</h3>
+            <p>我们通过网页端、API 接口等多种形式向您提供服务。我们保留随时更新、升级、调整或终止部分服务的权利，并将通过适当方式提前通知用户。</p>
+        </section>
+
+        <section id="section2">
+            <h2><span class="section-number">2</span>账号注册与管理</h2>
+            
+            <h3>2.1 注册条件</h3>
+            <p>您在注册 CodeCombat 账号时，应当具备完全民事行为能力。注册并使用本服务即表示您确认自己具有相应的民事行为能力，能够独立承担法律责任。</p>
+
+            <h3>2.2 注册信息</h3>
+            <p>您承诺在注册时提供真实、准确、完整、有效的个人信息，并在信息发生变化时及时更新。您不得：</p>
+            <ul>
+                <li>冒用他人身份或信息进行注册</li>
+                <li>使用可能侵犯他人权益的用户名、头像或个人简介</li>
+                <li>恶意注册账号（包括但不限于批量注册、频繁注册等）</li>
+                <li>使用包含违法、不良或侮辱性内容的账号信息</li>
+            </ul>
+
+            <h3>2.3 账号安全</h3>
+            <p>您有责任妥善保管您的账号和密码，并对该账号下的所有行为承担法律责任。如您发现账号存在安全风险（如被盗用、密码泄露等），应立即通知我们。<strong>因您个人原因导致的账号安全问题，由您自行承担相应责任。</strong></p>
+
+            <h3>2.4 账号归属</h3>
+            <p><strong>CodeCombat 账号的所有权归平台所有</strong>，用户完成注册后获得账号的使用权。该使用权仅属于初始注册人，<strong>禁止以任何方式转让、出租、借用、出售或赠与他人</strong>。</p>
+
+            <h3>2.5 账号注销</h3>
+            <p>您可以申请注销您的 CodeCombat 账号。账号注销后：</p>
+            <ul>
+                <li>账号信息、学习记录、虚拟物品等数据将被清除且无法恢复</li>
+                <li>您仍需对注销前的行为承担相应责任</li>
+                <li>我们将按照法律法规的要求保留必要的数据记录</li>
+            </ul>
+        </section>
+
+        <section id="section3">
+            <h2><span class="section-number">3</span>用户群体说明</h2>
+            
+            <h3>3.1 适用人群</h3>
+            <p>CodeCombat 主要面向以下用户群体提供游戏化编程学习服务：</p>
+            <ul>
+                <li><strong>大学生：</strong>计算机相关专业学生、对编程感兴趣的各专业学生</li>
+                <li><strong>职场人士：</strong>希望学习编程技能、提升职业竞争力的在职人员</li>
+                <li><strong>编程爱好者：</strong>对编程有兴趣、希望通过游戏化方式入门的学习者</li>
+                <li><strong>学生家长：</strong>为子女寻找优质编程学习资源的家长</li>
+            </ul>
+
+            <h3>3.2 学习建议</h3>
+            <p>为获得最佳学习效果，我们建议您：</p>
+            <ul>
+                <li>合理安排学习时间，保持规律的学习节奏</li>
+                <li>循序渐进地完成关卡挑战，打好编程基础</li>
+                <li>在遇到问题时积极寻求帮助，充分利用平台资源</li>
+                <li>将所学知识应用于实际项目，巩固学习成果</li>
+            </ul>
+            
+            <div class="subsection">
+                <p><strong>温馨提示：</strong>编程学习需要持续投入和实践。我们鼓励您保持学习热情，同时注意劳逸结合，避免长时间连续使用电脑影响身体健康。</p>
+            </div>
+        </section>
+
+        <section id="section4">
+            <h2><span class="section-number">4</span>用户行为规范</h2>
+            
+            <h3>4.1 基本准则</h3>
+            <p>您在使用本服务时，应当遵守中华人民共和国相关法律法规，包括但不限于《网络安全法》《数据安全法》《个人信息保护法》《未成年人保护法》等，并遵守本协议及平台规则。</p>
+
+            <h3>4.2 禁止行为</h3>
+            <p>您不得利用本服务从事以下行为：</p>
+            <ol>
+                <li><strong>发布或传播违法信息：</strong>
+                    <ul>
+                        <li>反对宪法所确定的基本原则的内容</li>
+                        <li>危害国家安全、泄露国家秘密的内容</li>
+                        <li>煽动民族仇恨、破坏民族团结的内容</li>
+                        <li>宣扬邪教、封建迷信的内容</li>
+                        <li>散布淫秽、色情、赌博、暴力、恐怖内容</li>
+                        <li>侮辱、诽谤他人，侵害他人合法权益的内容</li>
+                        <li>其他法律法规禁止的内容</li>
+                    </ul>
+                </li>
+                <li><strong>危害平台安全：</strong>
+                    <ul>
+                        <li>使用外挂、作弊程序或其他破坏公平性的手段</li>
+                        <li>对平台进行反向工程、反编译或反汇编</li>
+                        <li>利用漏洞攻击、入侵平台系统或服务器</li>
+                        <li>传播病毒、木马或其他恶意程序</li>
+                        <li>干扰平台的正常运行</li>
+                    </ul>
+                </li>
+                <li><strong>侵犯他人权益：</strong>
+                    <ul>
+                        <li>窃取、盗用他人账号或个人信息</li>
+                        <li>骚扰、威胁、欺诈其他用户</li>
+                        <li>侵犯他人知识产权或其他合法权益</li>
+                        <li>在多人竞技中恶意攻击或不当干扰其他玩家</li>
+                    </ul>
+                </li>
+                <li><strong>不当商业行为：</strong>
+                    <ul>
+                        <li>未经许可进行商业推广或广告宣传</li>
+                        <li>买卖账号、虚拟物品或其他平台资产</li>
+                        <li>利用平台从事洗钱、套现等违法活动</li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3>4.3 代码行为规范</h3>
+            <p>在使用本平台编写和运行代码时，您不得：</p>
+            <ul>
+                <li>编写或传播恶意代码、病毒程序</li>
+                <li>尝试突破平台的沙箱安全限制</li>
+                <li>滥用平台计算资源（如挖矿、发起攻击等）</li>
+                <li>提交可能危害平台或其他用户的代码</li>
+            </ul>
+        </section>
+
+        <section id="section5">
+            <h2><span class="section-number">5</span>知识产权</h2>
+            
+            <h3>5.1 平台知识产权</h3>
+            <p>CodeCombat 平台的所有内容，包括但不限于：软件代码、界面设计、课程内容、关卡设计、游戏角色、音效、图片、文字、商标、Logo 等，均受知识产权法律保护。未经我们书面许可，您不得：</p>
+            <ul>
+                <li>复制、修改、传播、展示或以其他方式使用上述内容</li>
+                <li>对平台软件进行反向工程、反编译或反汇编</li>
+                <li>移除或修改任何版权声明或商标标识</li>
+                <li>将平台内容用于商业目的</li>
+            </ul>
+
+            <h3>5.2 商标权</h3>
+            <p>"CodeCombat"、"扣哒世界"及相关的名称、Logo、图标等均为平台的商标或注册商标。未经授权，任何人不得使用、复制、模仿或以其他方式侵犯上述商标权益。</p>
+
+            <h3>5.3 开源声明与侵权警示</h3>
+            <p>CodeCombat 仅对部分基础代码（MIT协议）及通用美术素材（CC BY 4.0协议）进行有限度的开源授权。</p>
+            
+            <p><strong>严正声明：</strong>本平台的核心资产——包括但不限于<strong>所有游戏关卡（Levels）</strong>、关卡脚本、数值配置、剧情描述以及 CodeCombat 的品牌商标，均属于 <strong>私有版权（Proprietary Copyright）</strong>，<strong>绝不属于开源范畴</strong>。</p>
+            
+            <p><strong>禁止行为：</strong>任何个人或实体，在未获得 CodeCombat Inc. 正式书面授权的情况下，<strong>严禁</strong>执行以下行为：</p>
+            <ul>
+                <li><strong>盗用关卡：</strong> 复制、抓取、转载或在任何非官方平台上运行 CodeCombat 的官方关卡数据。</li>
+                <li><strong>非法运营：</strong> 搭建包含 CodeCombat 关卡内容的镜像站点、私有服务器或进行任何形式的商业牟利。</li>
+                <li><strong>品牌混淆：</strong> 擅自使用 CodeCombat 品牌标识误导公众。</li>
+            </ul>
+            
+            <p>对于任何侵犯关卡著作权及运营盗版服务器的行为，我们将采取<strong>零容忍态度</strong>，并保留依法追究其法律责任及索赔的全部权利。请用户严格自律，切勿以身试法。</p>
+        </section>
+
+        <section id="section6">
+            <h2><span class="section-number">6</span>用户内容</h2>
+            
+            <h3>6.1 用户内容定义</h3>
+            <p>用户内容是指您在使用本服务过程中创建、上传、发布或分享的所有内容，包括但不限于：代码作品、关卡设计、个人资料等。</p>
+
+            <h3>6.2 用户内容权利</h3>
+            <p>您保留您所创作的用户内容的知识产权（如有）。但为了提供和改进服务，您同意授予我们在全球范围内免费的、非独占的、可转许可的权利，以使用、复制、修改、展示、传播您的用户内容。</p>
+
+            <h3>6.3 用户内容责任</h3>
+            <p><strong>您对您的用户内容承担全部责任。</strong>您声明并保证：</p>
+            <ul>
+                <li>您拥有发布该内容的合法权利</li>
+                <li>该内容不侵犯任何第三方的知识产权或其他合法权益</li>
+                <li>该内容不违反法律法规或本协议的规定</li>
+            </ul>
+
+            <h3>6.4 内容管理</h3>
+            <p>我们有权但无义务对用户内容进行审核。如发现违规内容，我们有权采取删除、屏蔽等措施，并可能对违规用户采取相应处理措施。</p>
+        </section>
+
+        <section id="section7">
+            <h2><span class="section-number">7</span>虚拟物品与付费服务</h2>
+            
+            <h3>7.1 虚拟物品</h3>
+            <p>平台内的虚拟物品（包括但不限于：宝石、装备、英雄角色、订阅会员等）仅限在本平台内使用。<strong>虚拟物品不具有货币价值，不可兑换现金或用于平台外交易。</strong></p>
+
+            <h3>7.2 付费服务</h3>
+            <p>您可以通过购买获得高级课程、会员服务或虚拟物品。购买时请仔细阅读相关说明，确认后再进行支付。<strong>除法律规定或另有约定外，已购买的服务或虚拟物品不予退款。</strong></p>
+        </section>
+
+        <section id="section8">
+            <h2><span class="section-number">8</span>隐私保护</h2>
+            
+            <h3>8.1 隐私政策</h3>
+            <p>我们重视用户隐私保护。关于我们如何收集、使用、存储、共享和保护您的个人信息，请详细阅读《CodeCombat 隐私政策》。</p>
+
+            <h3>8.2 信息收集</h3>
+            <p>为提供服务，我们可能收集以下信息：</p>
+            <ul>
+                <li>注册信息（如用户名、邮箱、手机号等）</li>
+                <li>学习数据（如学习进度、代码提交记录、成绩等）</li>
+                <li>设备信息（如设备型号、操作系统、IP地址等）</li>
+                <li>使用行为数据（如访问时间、功能使用情况等）</li>
+            </ul>
+
+            <h3>8.3 信息使用</h3>
+            <p>我们收集的信息将用于：</p>
+            <ul>
+                <li>提供、维护和改进服务</li>
+                <li>个性化学习体验</li>
+                <li>安全防护和风险控制</li>
+                <li>用户支持和问题解决</li>
+                <li>法律法规要求的其他目的</li>
+            </ul>
+        </section>
+
+        <section id="section9">
+            <h2><span class="section-number">9</span>免责声明</h2>
+            
+            <h3>9.1 服务现状</h3>
+            <p><strong>本服务按"现状"和"可用"的基础提供。我们不对服务的适用性、可靠性、准确性、完整性作出任何明示或暗示的保证。</strong></p>
+
+            <h3>9.2 风险承担</h3>
+            <p>您理解并同意：</p>
+            <ul>
+                <li><strong>使用本服务的风险由您自行承担</strong></li>
+                <li>我们不保证服务不会中断、及时、安全或无错误</li>
+                <li>我们不保证学习效果或学习结果</li>
+                <li>因网络、设备、不可抗力等因素导致的服务问题，我们不承担责任</li>
+            </ul>
+
+            <h3>9.3 第三方内容</h3>
+            <p>本服务可能包含第三方网站链接或内容。<strong>我们不对第三方内容的真实性、合法性、准确性负责</strong>，您访问第三方网站或使用第三方服务的风险由您自行承担。</p>
+
+            <h3>9.4 责任限制</h3>
+            <p><strong>在法律允许的最大范围内，我们对于因本服务产生的任何间接、附带、特殊、惩罚性或后果性损害不承担责任，包括但不限于利润损失、数据丢失、商誉损害等。</strong></p>
+        </section>
+
+        <section id="section10">
+            <h2><span class="section-number">10</span>服务变更与终止</h2>
+            
+            <h3>10.1 服务变更</h3>
+            <p>我们保留随时修改、暂停或终止本服务（或其任何部分）的权利，包括但不限于：</p>
+            <ul>
+                <li>更新、升级服务功能</li>
+                <li>调整服务内容或规则</li>
+                <li>因维护需要暂停服务</li>
+                <li>因经营策略调整终止部分服务</li>
+            </ul>
+            <p>对于重大变更，我们将通过适当方式提前通知用户。</p>
+
+            <h3>10.2 服务终止</h3>
+            <p>出现以下情形时，我们有权终止向您提供服务：</p>
+            <ul>
+                <li>您违反本协议或平台规则</li>
+                <li>您提供的注册信息不真实</li>
+                <li>您的行为可能对平台或其他用户造成损害</li>
+                <li>法律法规要求或主管部门要求</li>
+                <li>其他我们认为应当终止服务的情形</li>
+            </ul>
+        </section>
+
+        <section id="section11">
+            <h2><span class="section-number">11</span>违约责任</h2>
+            
+            <h3>11.1 处理措施</h3>
+            <p>如您违反本协议，我们有权视情节轻重采取以下一项或多项措施：</p>
+            <ul>
+                <li><strong>警告：</strong>向您发出警告通知</li>
+                <li><strong>功能限制：</strong>限制部分功能的使用</li>
+                <li><strong>暂停账号：</strong>暂时停止账号的使用</li>
+                <li><strong>永久封禁：</strong>永久停止账号的使用</li>
+                <li><strong>没收虚拟物品：</strong>没收通过违规行为获得的虚拟物品</li>
+                <li><strong>法律追究：</strong>依法追究法律责任</li>
+            </ul>
+
+            <h3>11.2 赔偿责任</h3>
+            <p><strong>如您的行为给我们或第三方造成损失，您应当承担全部赔偿责任</strong>，包括但不限于：直接损失、间接损失、诉讼费用、律师费用等。</p>
+        </section>
+
+        <section id="section12">
+            <h2><span class="section-number">12</span>法律适用与争议解决</h2>
+            
+            <h3>12.1 法律适用</h3>
+            <p>本协议的订立、履行、解释及争议解决均适用中华人民共和国法律（不包括冲突法规则）。</p>
+
+            <h3>12.2 争议解决</h3>
+            <p>因本协议引起的或与本协议有关的任何争议，双方应首先友好协商解决。<strong>协商不成的，任何一方均有权向平台运营方所在地有管辖权的人民法院提起诉讼。</strong></p>
+        </section>
+
+        <section id="section13">
+            <h2><span class="section-number">13</span>其他条款</h2>
+            
+            <h3>13.1 协议更新</h3>
+            <p>我们保留随时修订本协议的权利。修订后的协议将在平台公布，<strong>您继续使用本服务即视为接受修订后的协议</strong>。如您不同意修订内容，请立即停止使用本服务。</p>
+
+            <h3>13.2 通知</h3>
+            <p>我们可能通过网站公告、站内信、邮件、短信等方式向您发送通知。通知一经发出即视为送达。</p>
+
+            <h3>13.3 条款可分割性</h3>
+            <p>如本协议任何条款被认定为无效或不可执行，不影响其他条款的效力。</p>
+
+            <h3>13.4 权利保留</h3>
+            <p>我们未行使或延迟行使本协议项下的任何权利，不构成对该权利的放弃。</p>
+
+            <h3>13.5 完整协议</h3>
+            <p>本协议（包括隐私政策及其他补充协议）构成您与我们之间关于本服务的完整协议。</p>
+        </section>
+
+        <section id="section14">
+            <h2><span class="section-number">14</span>联系我们</h2>
+            
+            <p>如果您对本协议有任何疑问、意见或建议，或需要进行投诉举报，欢迎通过以下方式联系我们：</p>
+            
+            <div class="contact-info">
+                <h4>📮 联系方式</h4>
+                <p><strong>联系邮箱：</strong>china@codecombat.com</p>
+                <p><strong>官方网站：</strong>https://codecombat.cn</p>
+            </div>
+
+            <p style="margin-top: 24px;">感谢您选择 CodeCombat！我们期待与您一起开启精彩的编程学习之旅！🚀</p>
+        </section>
+
+        <footer>
+            <p>© 2026 CodeCombat. All Rights Reserved.</p>
+            <p>本协议最终解释权归 CodeCombat 平台运营方所有</p>
+        </footer>
+    </div>
+</body>
+</html>

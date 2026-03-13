@@ -163,6 +163,10 @@ module.exports = (GameMenuModal = (function () {
 
     openCreateAccountModal (e) {
       e.stopPropagation()
+      if (features?.chinaHome) {
+        const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+        return this.openModalView(new PhoneAuthModal())
+      }
       return this.openModalView(new CreateAccountModal())
     }
 
@@ -172,6 +176,10 @@ module.exports = (GameMenuModal = (function () {
       }
       // TODO: Default already seems to be prevented.  Need to be explicit?
       e.preventDefault()
+      if (features?.chinaHome) {
+        const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+        return this.openModalView(new PhoneAuthModal())
+      }
       return this.openModalView(new CreateAccountModal())
     }
   }

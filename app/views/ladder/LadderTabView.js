@@ -92,6 +92,10 @@ module.exports = (LadderTabView = (function () {
 
     openCreateAccountModal (e) {
       e.stopPropagation()
+      if (features?.chinaHome) {
+        const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
+        return this.openModalView(new PhoneAuthModal())
+      }
       return this.openModalView(new CreateAccountModal())
     }
 
