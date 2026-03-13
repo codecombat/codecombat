@@ -188,7 +188,7 @@ block modal-footer-content
     else if view.showHoc2016ExploreButton
       button.btn.btn-illustrated.btn-success.btn-lg.next-button.next-level-button.hide#continue-button(data-i18n="play_level.explore_codecombat")
     else if level.isType('hero-ladder', 'ladder')
-      button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href=`/play/ladder/${level.get('slug')}#my-matches`, data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
+      button.btn.btn-illustrated.btn-primary.btn-lg.next-button.return-to-ladder-button(data-href=`/play/ladder/${level.get('slug')}#my-matches`, data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
     else if level.get('product', true) == 'codecombat-junior'
       if hasPracticeLevel
         button.btn.btn-illustrated.btn-success.btn-lg.next-button.practice-level-button.hide.codecombat-junior#practice-button
