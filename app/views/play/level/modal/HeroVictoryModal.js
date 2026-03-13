@@ -682,7 +682,6 @@ module.exports = (HeroVictoryModal = (function () {
     }
 
     onClickPracticeButton (e) {
-      this.playSound('menu-button-click')
       return this.onClickContinue(e, { sendToPracticeLevel: true })
     }
 
