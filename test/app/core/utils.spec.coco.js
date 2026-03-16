@@ -1324,7 +1324,8 @@ describe('Utility library', function () {
   
       me = {
         isTeacher: jasmine.createSpy(),
-        isAnonymous: jasmine.createSpy()
+        isAnonymous: jasmine.createSpy(),
+        getOrStartOdysseyExperimentValue: jasmine.createSpy()
       };
       global.me = me;
     });
@@ -1336,6 +1337,7 @@ describe('Utility library', function () {
   
     it('should return junior path for non-teacher or anonymous users', () => {
       me.isTeacher.and.returnValue(false);
+      me.getOrStartOdysseyExperimentValue.and.returnValue('control');
       expect(utils.getJuniorUrl()).toEqual(`${utils.cocoBaseURL()}/play/junior`);
     });
   
