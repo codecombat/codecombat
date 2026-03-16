@@ -445,11 +445,11 @@ module.exports = Lank = class Lank extends CocoClass
     action = thang.action if thang?.acts
     action ?= @currentRootAction.name if @currentRootAction?
     action ?= 'idle'
-    if action is 'idle' and @thangType.get('name') is 'Junior Beach Floor'
-      # Randomly pick idle or idle-1 through idle-6
-      @idleVariation ?= Math.floor(Math.random() * 7)
-      if @idleVariation > 0
-        action = "idle-#{@idleVariation}"
+    if action is 'idle'
+      availableActionNames = _.keys(@thangType.get('actions') or {})
+      idles = availableActionNames.filter((name) -> name.startsWith('idle'))
+      if idles.length > 1
+        action = idles[Math.floor(Math.random() * idles.length)]
     unless @actions[action]?
       @warnedFor ?= {}
       console.info 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]
