@@ -444,13 +444,14 @@ module.exports = Lank = class Lank extends CocoClass
     thang = if @possessed then @shadow else @thang
     action = thang.action if thang?.acts
     action ?= @currentRootAction.name if @currentRootAction?
-    action ?= 'idle'
+    action ?= @randomizedIdleAction or 'idle'
     # Stateless thangs can have multiple idle actions as they define their "action" only once on spawn.
-    if action is 'idle' and thang?.stateless
+    if action is 'idle' and thang?.stateless and not @randomizedIdleAction
       availableActionNames = _.keys(@thangType?.get('actions') or {})
       idles = availableActionNames.filter((name) -> name.startsWith('idle'))
       if idles.length > 1
-        action = idles[Math.floor(Math.random() * idles.length)]
+        @randomizedIdleAction = idles[Math.floor(Math.random() * idles.length)]
+        action = @randomizedIdleAction
     unless @actions[action]?
       @warnedFor ?= {}
       console.info 'Cannot show action', action, 'for', @thangType.get('name'), 'because it DNE' unless @warnedFor[action]
