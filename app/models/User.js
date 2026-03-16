@@ -1453,6 +1453,29 @@ module.exports = (User = (function () {
 
     //   return this.tryStartExperiment('template')
     // }
+
+    getOrStartOdysseyExperimentValue () {
+      if (me.isStudent() || me.isTeacher()) {
+        return 'control'
+      }
+      if (features?.chinaInfra) {
+        return 'control'
+      }
+      const value = utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery('odyssey'),
+        me.getExperimentValue('odyssey', null),
+      )
+      if (value != null) {
+        return value
+      }
+      if (me.isPremium()) {
+        return 'control'
+      }
+      if (new Date(me.get('dateCreated')) < new Date('2026-03-16')) {
+        return 'control'
+      }
+      return this.tryStartExperiment('odyssey')
+    }
   }
 
   User.initClass()
