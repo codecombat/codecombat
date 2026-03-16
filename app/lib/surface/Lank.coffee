@@ -445,8 +445,9 @@ module.exports = Lank = class Lank extends CocoClass
     action = thang.action if thang?.acts
     action ?= @currentRootAction.name if @currentRootAction?
     action ?= 'idle'
-    if action is 'idle'
-      availableActionNames = _.keys(@thangType.get('actions') or {})
+    # Stateless thangs can have multiple idle actions as they define their "action" only once on spawn.
+    if action is 'idle' and thang?.stateless
+      availableActionNames = _.keys(@thangType?.get('actions') or {})
       idles = availableActionNames.filter((name) -> name.startsWith('idle'))
       if idles.length > 1
         action = idles[Math.floor(Math.random() * idles.length)]
