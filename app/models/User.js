@@ -1471,7 +1471,7 @@ module.exports = (User = (function () {
       if (me.isPremium()) {
         return 'control'
       }
-      if (new Date(me.get('dateCreated')) < new Date('2026-03-16')) {
+      if (new Date(me.get('dateCreated')) < new Date('2026-03-16T00:00:00Z')) {
         return 'control'
       }
       return null
