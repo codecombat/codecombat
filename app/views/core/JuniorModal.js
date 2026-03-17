@@ -10,6 +10,7 @@ require('app/styles/modal/junior-modal.sass')
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/core/junior-modal')
 const storage = require('core/storage')
+const utils = require('core/utils')
 
 // define expectations for good rates before releasing
 
@@ -23,6 +24,12 @@ module.exports = (JuniorModal = (function () {
         'click #close-modal': 'hide',
         'click .submit-button': 'onSubmitButtonClick',
       }
+    }
+
+    getRenderData (context = {}) {
+      context = super.getRenderData(context)
+      context.utils = utils
+      return context
     }
 
     afterRender () {

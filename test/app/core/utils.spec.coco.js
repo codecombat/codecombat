@@ -1325,7 +1325,7 @@ describe('Utility library', function () {
       me = {
         isTeacher: jasmine.createSpy(),
         isAnonymous: jasmine.createSpy(),
-        getOrStartOdysseyExperimentValue: jasmine.createSpy()
+        getOdysseyExperimentValue: jasmine.createSpy()
       };
       global.me = me;
     });
@@ -1337,7 +1337,7 @@ describe('Utility library', function () {
   
     it('should return junior path for non-teacher or anonymous users', () => {
       me.isTeacher.and.returnValue(false);
-      me.getOrStartOdysseyExperimentValue.and.returnValue('control');
+      me.getOdysseyExperimentValue.and.returnValue('control');
       expect(utils.getJuniorUrl()).toEqual(`${utils.cocoBaseURL()}/play/junior`);
     });
   
@@ -1345,6 +1345,12 @@ describe('Utility library', function () {
       me.isTeacher.and.returnValue(true);
       me.isAnonymous.and.returnValue(false);
       expect(utils.getJuniorUrl()).toEqual(`${utils.cocoBaseURL()}/teachers/guide/junior`);
+    });
+
+    it('should return odyssey path when user is in odyssey beta', () => {
+      me.isTeacher.and.returnValue(false);
+      me.getOdysseyExperimentValue.and.returnValue('beta');
+      expect(utils.getJuniorUrl()).toEqual(`${utils.cocoBaseURL()}/play/odyssey`);
     });
   });
 })
