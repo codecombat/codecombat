@@ -1454,7 +1454,7 @@ module.exports = (User = (function () {
     //   return this.tryStartExperiment('template')
     // }
 
-    getOrStartOdysseyExperimentValue () {
+    getOdysseyExperimentValue () {
       if (me.isStudent() || me.isTeacher()) {
         return 'control'
       }
@@ -1473,6 +1473,14 @@ module.exports = (User = (function () {
       }
       if (new Date(me.get('dateCreated')) < new Date('2026-03-16')) {
         return 'control'
+      }
+      return null
+    }
+
+    getOrStartOdysseyExperimentValue () {
+      const value = this.getOdysseyExperimentValue()
+      if (value != null) {
+        return value
       }
       return this.tryStartExperiment('odyssey')
     }
