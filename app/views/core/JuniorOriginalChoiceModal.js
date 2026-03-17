@@ -3,7 +3,7 @@ require('app/styles/modal/junior-original-choice-modal.sass')
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/core/junior-original-choice-modal')
 const storage = require('core/storage')
-
+const utils = require('core/utils')
 // define expectations for good rates before releasing
 
 module.exports = (JuniorOriginalChoiceModal = (function () {
@@ -38,7 +38,7 @@ module.exports = (JuniorOriginalChoiceModal = (function () {
 
     onJuniorButtonClick (e) {
       storage.save('junior-original-choice-seen', true)
-      window.location.href = '/play/junior'
+      window.location.href = utils.getJuniorUrl()
       this.hide()
     }
 

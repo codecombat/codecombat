@@ -1,11 +1,12 @@
 require('app/styles/modal/classic-promotion-modal.sass')
 const ModalView = require('views/core/ModalView')
 const template = require('app/templates/core/junior-promotion-modal')
+const utils = require('core/utils')
 
 const JuniorPromotionModal = class JuniorPromotionModal extends ModalView {
   onClickPlayButton (e) {
     window.tracker.trackEvent('Junior Promotion Modal', { action: 'play_click' })
-    window.location.href = '/play/junior'
+    window.location.href = utils.getJuniorUrl()
   }
 }
 
