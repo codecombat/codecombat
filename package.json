@@ -296,8 +296,8 @@
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
-    "node": "20.19.2",
-    "npm": "10.8.2"
+    "node": "22.22.1",
+    "npm": "10.9.4"
   },
   "//optionalDependencies": "Platform-specific native bindings for @swc/core (used by swc-loader in Storybook). Listed here explicitly because npm does not reliably install optional deps of transitive packages. Version must match @swc/core in package-lock.json.",
   "optionalDependencies": {
