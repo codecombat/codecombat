@@ -184,18 +184,23 @@ block modal-footer-content
     if readyToRank
       .ladder-submission-view
     else if view.showAmazonHocButton
-      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#amazon-hoc-button(data-i18n="play_level.keep_learning")
+      button.btn.btn-illustrated.btn-success.btn-lg.next-button.next-level-button.hide#amazon-hoc-button(data-i18n="play_level.keep_learning")
     else if view.showHoc2016ExploreButton
-      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="play_level.explore_codecombat")
+      button.btn.btn-illustrated.btn-success.btn-lg.next-button.next-level-button.hide#continue-button(data-i18n="play_level.explore_codecombat")
     else if level.isType('hero-ladder', 'ladder')
-      button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href=`/play/ladder/${level.get('slug')}#my-matches`, data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
+      button.btn.btn-illustrated.btn-primary.btn-lg.next-button.return-to-ladder-button(data-href=`/play/ladder/${level.get('slug')}#my-matches`, data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
     else if level.get('product', true) == 'codecombat-junior'
-      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide.codecombat-junior#continue-button
+      if hasPracticeLevel
+        button.btn.btn-illustrated.btn-success.btn-lg.next-button.practice-level-button.hide.codecombat-junior#practice-button
+          span(data-i18n="teacher.practice") Practice
+          span= ' '
+          img(src='/images/level/goal-icons/practice-level-arrow.png' data-i18n="[alt]teacher.practice")
+      button.btn.btn-illustrated.btn-primary.btn-lg.next-button.next-level-button.hide.codecombat-junior#continue-button
         span(data-i18n="common.continue") Continue
         span= ' '
         img(src='/images/level/goal-icons/next-level.png' data-i18n="[alt]common.continue")
     else
-      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue
+      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue
 
   if !me.get('anonymous') && !showHourOfCodeDoneButton && showLeaderboard
     button.btn.btn-illustrated.btn-success.leaderboard-button.btn-lg(data-dismiss="modal", data-i18n="leaderboard.view_other_solutions")
