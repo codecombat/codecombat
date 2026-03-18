@@ -5686,6 +5686,7 @@ module.exports = {
       level_chat_duration_day: 'day',
       level_chat_duration_week: 'week',
       level_chat_duration_month: 'month',
+      level_chat_duration_year: 'year',
     },
     home_v3: {
       mission_title: 'Join us in our mission to make coding and AI accessible to all.',
