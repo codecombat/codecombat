@@ -101,14 +101,9 @@
     //width: calc(#{$game-view-width} - 50px)
     //max-height: Max(200px, calc(100vh - calc(#{$game-view-width} * (589 / 924)) - 50px - 60px - 80px - 30px - 25px))
     max-height: Max(200px, calc(100vh - (100vw * 0.57 - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
-    scroll-behavior: smooth
-    overflow-y: scroll
-    scrollbar-width: none
-    -ms-overflow-style: none
-
-    &::-webkit-scrollbar
-      width: 0
-      height: 0
+    overflow: hidden
+    display: flex
+    flex-direction: column
 
     &.open-chat-area
       max-height: Max(600px, calc(100vh - (100vw * 0.57 - 17px) * 589 / 924 - 50px - 60px - 80px - 30px - 25px))
@@ -132,13 +127,24 @@
 
 
     .close-level-chat
-      position: absolute
-      top: 0
-      right: 0
-      font-size: 36px
+      align-self: flex-end
+      padding-bottom: 8px
+      flex-shrink: 0
+      font-size: 32px
       line-height: 20px
       color: white
       cursor: pointer
+    .table
+      flex-grow: 1
+      scroll-behavior: smooth
+      overflow-y: scroll
+      scrollbar-width: none
+      -ms-overflow-style: none
+      &::-webkit-scrollbar
+        width: 0
+        height: 0
+
+
 
   tr
     line-height: 18px // space between multiple lines within messages

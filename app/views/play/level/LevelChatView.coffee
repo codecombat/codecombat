@@ -307,7 +307,7 @@ module.exports = class LevelChatView extends CocoView
         noty({ text: message, type: 'error', layout: 'center', timeout: 5000 })
 
   scrollDown: ->
-    openPanel = $('.open-chat-area', @$el)[0]
+    openPanel = $('.open-chat-area .table', @$el)[0]
     return unless openPanel  # Don't scroll if chat panel doesn't exist
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
 
