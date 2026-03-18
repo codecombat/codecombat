@@ -190,7 +190,7 @@ module.exports = class LevelChatView extends CocoView
     # Only open chat if it's initialized
     if not @open and @chatInitialized
       @onIconClick {}
-    openPanel = $('.open-chat-area', @$el)
+    openPanel = $('.open-chat-area .table', @$el)
     height = openPanel.outerHeight()
     distanceFromBottom = openPanel[0].scrollHeight - height - openPanel[0].scrollTop
     doScroll = distanceFromBottom < 10
@@ -314,7 +314,7 @@ module.exports = class LevelChatView extends CocoView
         noty({ text: message, type: 'error', layout: 'center', timeout: 5000 })
 
   scrollDown: ->
-    openPanel = $('.open-chat-area', @$el)[0]
+    openPanel = $('.open-chat-area .table', @$el)[0]
     return unless openPanel  # Don't scroll if chat panel doesn't exist
     openPanel.scrollTop = openPanel.scrollHeight or 1000000
 
