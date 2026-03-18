@@ -844,7 +844,8 @@ class CampaignView extends RootView {
             levels = levels.filter(level => !level.requiresSubscription)
           }
           this.annotateLevels(levels)
-          const count = this.countLevels(levels)
+          const dontCountPracticeLevels = campaign.get('type') === 'junior' || campaign.get('slug') === 'junior'
+          const count = this.countLevels(levels, dontCountPracticeLevels)
           campaign.levelsTotal = count.total
           campaign.levelsCompleted = count.completed
           campaign.locked = !['dungeon', 'junior'].includes(campaign.get('slug')) && (!campaign.levelsTotal || !count.unlocked)
