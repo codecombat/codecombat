@@ -1243,9 +1243,9 @@ class CampaignView extends RootView {
     for (let levelIndex = 0; levelIndex < orderedLevels.length; levelIndex++) {
       const level = orderedLevels[levelIndex]
       if (level.locked == null) { this.annotateLevels(orderedLevels) } // Annotate if we haven't already.
+      if (ignorePracticeLevels && level.practice) { continue }
       if (!level.locked) { ++count.unlocked }
       if (level.disabled) { continue }
-      if (ignorePracticeLevels && level.practice) { continue }
       const completed = this.levelStatusMap[level.slug] === COMPLETE_STATUS
       const started = this.levelStatusMap[level.slug] === STARTED_STATUS
       if ((level.unlockedInSameCampaign || !level.locked) && (started || completed || !(level.locked && level.practice && /-[a-z]$/.test(level.slug)))) {
