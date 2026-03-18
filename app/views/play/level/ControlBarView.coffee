@@ -53,7 +53,9 @@ module.exports = class ControlBarView extends CocoView
     @product = @level.attributes.product
     @lastOverallStatus = null
     @aceConfig = options.classroomAceConfig or {}
-    @showAiBotHelp = utils.shouldShowAiBotHelp(@aceConfig) && !features.china
+    @showAiBotHelp = utils.shouldShowAiBotHelp(@aceConfig)
+    if features.china && @level.isLadder()
+      @showAiBotHelp = false
 
     exam = userUtils.getStorageExam()
     if exam

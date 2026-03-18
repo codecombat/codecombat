@@ -54,6 +54,7 @@ export default Vue.extend({
     const cFormatDefault = this.classroom?.aceConfig?.codeFormatDefault
     const cLevelChat = this.classroom?.aceConfig?.levelChat
     const cGrades = this.classroom?.grades || []
+    const isChinaLevelChat = !(features?.china)
     return {
       showGoogleClassroom: me.useGoogleClassroom(),
       newClassName: this.classroom?.name || '',
@@ -64,7 +65,7 @@ export default Vue.extend({
       cocoDefaultClassroomItems: true,
       newCodeFormats: typeof cFormats === 'undefined' ? ['text-code'] : cFormats,
       newCodeFormatDefault: typeof cFormatDefault === 'undefined' ? 'text-code' : cFormatDefault,
-      newLevelChat: typeof cLevelChat === 'undefined' ? true : cLevelChat === 'fixed_prompt_only',
+      newLevelChat: typeof cLevelChat === 'undefined' ? isChinaLevelChat : cLevelChat === 'fixed_prompt_only',
       newRemix: this.classroom?.hackstackConfig?.remixAllowed || false,
       cocoDefaultLevelChat: true,
       newClassroomDescription: this.classroom?.description || '',
