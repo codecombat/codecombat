@@ -1424,7 +1424,7 @@ module.exports = (User = (function () {
     showChinaRemindToast () { return features?.china != null ? features?.china : false }
     showOpenResourceLink () { return !(features?.china != null ? features?.china : false) }
     useStripe () { return (!((features?.china != null ? features?.china : false) || (features?.chinaInfra != null ? features?.chinaInfra : false))) && (this.get('preferredLanguage') !== 'nl-BE') }
-    canDeleteAccount () { return !(features?.china != null ? features?.china : false) }
+    canDeleteAccount () { return (features?.china != null ? features?.chinaHome : false) }
     canAutoFillCode () { return this.isAdmin() || this.isTeacher() || this.isInGodMode() }
 
     // Ozaria flags
