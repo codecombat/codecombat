@@ -187,7 +187,7 @@ module.exports = class LevelChatView extends CocoView
     # Only open chat if it's initialized
     if not @open and @chatInitialized
       @onIconClick {}
-    openPanel = $('.open-chat-area', @$el)
+    openPanel = $('.open-chat-area .table', @$el)
     height = openPanel.outerHeight()
     distanceFromBottom = openPanel[0].scrollHeight - height - openPanel[0].scrollTop
     doScroll = distanceFromBottom < 10
