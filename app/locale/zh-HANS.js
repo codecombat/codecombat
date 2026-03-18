@@ -2108,11 +2108,11 @@ module.exports = {
       not_logged_in: '登录或创建一个账户来修改设置。',
       me_tab: '我',
       picture_tab: '图片',
-      delete_account_tab: '删除账户',
+      delete_account_tab: '注销账户',
       wrong_email: '邮箱地址错误',
       wrong_password: '密码错误',
       temp_password_expired: '[AI_TRANSLATION]你的临时密码已过期。',
-      delete_this_account: '永久删除账户',
+      delete_this_account: '永久注销账户',
       reset_progress_tab: '重置所有进度',
       reset_your_progress: '清除记录并重新开始',
       connect_roblox_tab: '[AI_TRANSLATION]连接Roblox',
@@ -5724,6 +5724,7 @@ module.exports = {
       level_chat_duration_day: '天',
       level_chat_duration_week: '周',
       level_chat_duration_month: '个月',
+      level_chat_duration_year: '年',
     },
 
     home_v3: {

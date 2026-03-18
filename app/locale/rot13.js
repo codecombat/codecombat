@@ -5725,6 +5725,7 @@ module.exports = {
       level_chat_duration_day: 'qnl',
       level_chat_duration_week: 'jrrx',
       level_chat_duration_month: 'zbagu',
+      level_chat_duration_year: 'lrne',
     },
     home_v3: {
       mission_title: 'Wbva hf va bhe zvffvba gb znxr pbqvat naq NV npprffvoyr gb nyy.',
@@ -6072,9 +6073,9 @@ module.exports = {
 
       // Core features strip
       features_title: 'N Pber Nytroen Pheevphyhz Raunaprq Jvgu NV',
-      feature_1_title: 'Sbhaqngvbaf Svefg\aNV Frpbaq',
-      feature_2_title: 'Grnpurf gb Pevgvpnyyl\aRinyhngr NV',
-      feature_3_title: 'Grnpure-Thvqrq\aErny-Jbeyq Zbqryvat',
+      feature_1_title: 'Sbhaqngvbaf Svefg\nNV Frpbaq',
+      feature_2_title: 'Grnpurf gb Pevgvpnyyl\nRinyhngr NV',
+      feature_3_title: 'Grnpure-Thvqrq\nErny-Jbeyq Zbqryvat',
 
       // Lesson flow
       lesson_flow_title: 'Vafvqr n Zbqhyr: Yrffba Sybj va Npgvba',
