@@ -323,6 +323,9 @@ export default {
         return []
       }
       const freeCocoCourseIDs = [...utils.freeCocoCourseIDs]
+      if (me.showOzCourses()) {
+        freeCocoCourseIDs.push(utils.OZ_COURSE_IDS_MAP.CHAPTER_ONE)
+      }
       return [
         ...freeCocoCourseIDs.map(id => {
           const course = this.courses.find(({ _id }) => _id === id)

@@ -1877,6 +1877,7 @@ module.exports = {
       //    free_course_blurb_junior: "Great for grades K-5, CodeCombat Junior can flex down to block-based and mobile options for pre-readers, up to Python or JavaScript text code for upper elementary, or to parallel blocks-and-code to help with the transition.",
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]رائع لصفوف 6-12، حيث تأخذك دورات CS الأساسية في CodeCombat من مقدمة صديقة للمبتدئين إلى مبادئ علوم الحاسب AP، وما بعدها إلى دورات CS متقدمة. ابدأ هنا للطلاب في المدارس الإعدادية والثانوية.  ',
       //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_chapter-1-sky-mountain": "Great for grades 6-8, a narrative coding adventure that establishes the fundamentals of computer science.",
       start_teaching_ai_today: '[AI_TRANSLATION]ابدأ تعليم الذكاء الاصطناعي اليوم!  ',
       hackstack_beta_release: '[AI_TRANSLATION]إصدار تجريبي هاك ستاك',
       introducing_ai_hackstack: '[AI_TRANSLATION]تقديم AI HackStack، أداة تعليمية مبتدئة للذكاء الاصطناعي التوليدي. يوفر وصول آمن إلى نماذج الذكاء الاصطناعي الأعلى مثل ChatGPT وClaude وDALL-E.  ',

@@ -1877,6 +1877,7 @@ module.exports = {
       free_course_blurb_junior: '[AI_TRANSLATION]适合K-5年级，CodeCombat Junior可以为不熟练的读者提供基于块和移动化的选择，也可以为高年级的小学生提供Python或JavaScript文本代码，或者并行块与代码，协助过渡。  ',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]适合6-12年级，CodeCombat的核心计算机科学课程从适合初学者的计算机科学入门课程开始，贯穿AP计算机科学原理，并延伸到高级计算机科学课程。中学生和高中生可从这里开始。  ',
       //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_chapter-1-sky-mountain": "Great for grades 6-8, a narrative coding adventure that establishes the fundamentals of computer science.",
       start_teaching_ai_today: '[AI_TRANSLATION]今天就开始教授AI！  ',
       hackstack_beta_release: '[AI_TRANSLATION]HackStack测试版发布',
       //    introducing_ai_hackstack: "Introducing AI HackStack, a generative AI teaching tool for beginners. It provides safe access to top AI models like ChatGPT, Claude, and DALL-E.",

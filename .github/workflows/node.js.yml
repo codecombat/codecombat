@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.19.2]
+        node-version: [22.22.1]
 
     steps:
       - uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       # We can skip webpack since we will build it for testing-ubuntu
-      - run: CYPRESS_INSTALL_BINARY=0 npm ci
+      - run: CYPRESS_INSTALL_BINARY=0 npm ci --ignore-scripts
         env:
           SKIP_WEBPACK: true
       - run: npm run pre-build

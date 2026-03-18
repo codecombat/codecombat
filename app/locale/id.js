@@ -1877,6 +1877,7 @@ module.exports = {
       free_course_blurb_junior: '[AI_TRANSLATION]Sangat baik untuk kelas K-5, CodeCombat Junior bisa menyesuaikan ke opsi berbasis blok dan mobile untuk pra-pembaca, hingga kode teks Python atau JavaScript untuk kelas atas SD, atau blok dan kode paralel untuk membantu dalam transisi.',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]Sangat baik untuk kelas 6-12, kursus inti CS dari CodeCombat dimulai dari Pengenalan Ilmu Komputer yang ramah pemula, melalui Prinsip Ilmu Komputer AP, dan lebih dalam ke kursus CS lanjutan. Mulailah di sini untuk siswa sekolah menengah dan atas.',
       //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_chapter-1-sky-mountain": "Great for grades 6-8, a narrative coding adventure that establishes the fundamentals of computer science.",
       start_teaching_ai_today: '[AI_TRANSLATION]Mulai Mengajar AI Hari Ini!  ',
       hackstack_beta_release: '[AI_TRANSLATION]Rilis Beta HackStack',
       introducing_ai_hackstack: '[AI_TRANSLATION]Memperkenalkan AI HackStack, alat pengajaran AI generatif untuk pemula. Ini memberikan akses aman ke model-model AI top seperti ChatGPT, Claude, dan DALL-E.',

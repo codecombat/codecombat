@@ -122,6 +122,7 @@ if !editorMode && !(view.DEEP_API_LIST && view.DEEP_API_LIST.includes(me.get('cl
           - levelNumber = view.campaign.getLevelNumber(level.original, true); // Always uses latest levels
           if (levelNumber)
             - levelNumber += '. ';
+        - var lockedBySubscription = me.isHomeUser() && !me.isPremium() && level.requiresSubscription && campaign.get('type') !== 'hoc'
         div(
           style="left: " + level.position.x + "%; bottom: " + level.position.y + "%; background-color: " + level.color,
           class="level" + (level.next || _.any(level.practiceLevels || [], { next: true }) ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + levelStatus,
@@ -147,22 +148,22 @@ if !editorMode && !(view.DEEP_API_LIST && view.DEEP_API_LIST.includes(me.get('cl
             else if ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate', 'kithgard-mastery'].indexOf(level.slug) !== -1 && levelStatus !== 'complete'
               img.banner(src="/images/pages/play/level-banner-special.png")
             else if level.unlocksHero && levelStatus !== 'complete'
-              img.banner(src="/images/pages/play/level-banner-unlock" + (level.requiresSubscription?'-subscriber':'') + ".png")
+              img.banner(src="/images/pages/play/level-banner-unlock" + ( lockedBySubscription ? '-grey': '-blue' ) + ".png")
               img.premium-hero-banner(src="/db/thang.type/" + level.unlocksHero + "/toFile/poseImage")
               img.treasure-chest(src="/images/pages/play/gold-chest.png")
             else if level.unlocksItem && levelStatus !== 'complete'
-              img.banner(src="/images/pages/play/level-banner-unlock" + (level.requiresSubscription?'-subscriber':'') + ".png")
+              img.banner(src="/images/pages/play/level-banner-unlock" + ( lockedBySubscription ? '-grey': '-blue' ) + ".png")
               if level.unlocksPet
                 img.pet-banner(src="/db/thang.type/" + level.unlocksItem + "/toFile/dollImages.pet")
               else
                 img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/" + level.unlocksItem + "/portrait.png")
               img.treasure-chest(src="/images/pages/play/" + (level.requiresSubscription?'silver':'bronze') + "-chest.png")
             else if levelStatus !== 'complete' && level.assessment
-              img.banner(src="/images/pages/play/level-banner-unstarted-subscriber.png")
+              img.banner(src="/images/pages/play/level-banner-unstarted" + ( lockedBySubscription ? '-grey': '-red' ) + ".png")
             else if levelStatus === 'started'
               img.banner(src="/images/pages/play/level-banner-started.png")
             else if levelStatus !== 'complete'
-              img.banner(src="/images/pages/play/level-banner-unstarted" + (level.requiresSubscription?'-subscriber':'') + ".png")
+              img.banner(src="/images/pages/play/level-banner-unstarted" + ( lockedBySubscription ? '-grey': '-blue' ) + ".png")
             if levelDifficultyMap[level.slug]
               .level-difficulty-banner-text= levelDifficultyMap[level.slug]
           if level.locked
@@ -225,7 +226,10 @@ if !editorMode && !(view.DEEP_API_LIST && view.DEEP_API_LIST.includes(me.get('cl
                     button.btn.btn-primary.btn.btn-lg.btn-block.btn-illustrated
                       span(data-i18n="common.play") Play
               else if !level.practiceLevels || !level.practiceLevels.length || levelStatus != 'complete'
-                button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play" data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
+                if lockedBySubscription
+                  button.btn.btn-primary.btn.btn-lg.btn-illustrated.start-level(data-i18n="buy_gems.buy_premium" data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
+                else
+                  button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play" data-level-original=level.original data-level-slug=level.slug data-level-path=level.levelPath || 'level' data-level-name=level.name)
 
               for practiceLevel in level.practiceLevels || []
                 if levelStatus != 'complete'

@@ -637,6 +637,16 @@ _.extend(LevelSchema.properties, {
       },
     },
   },
+  returnAfterCompleteMap: {
+    type: 'object',
+    title: 'After Complete Return Map',
+    description: 'fromCampaign : whereToReturnAfterComplete (string)',
+    inEditor: 'codecombat',
+    additionalProperties: {
+      type: 'string',
+      description: 'Where to return after completing the level from the given campaign.',
+    },
+  },
   hackstackScenarioId: c.stringID({
     title: 'Hackstack Scenario ID',
     description: 'Hackstack scenario original id. This level is a proxy for a hackstack scenario.',

@@ -1877,6 +1877,7 @@ module.exports = {
       free_course_blurb_junior: '[AI_TRANSLATION]कक्षा K-5 के लिए बढ़िया, CodeCombat जूनियर प्री-रीडर्स के लिए ब्लॉक-आधारित और मोबाइल विकल्पों तक लचीला हो सकता है, उच्च प्राथमिक के लिए पायथन या जावास्क्रिप्ट पाठ कोड तक, या संक्रमण में मदद के लिए समानांतर ब्लॉक्स-एंड-कोड तक।',
       'free_course_blurb_introduction-to-computer-science': '[AI_TRANSLATION]कक्षा 6-12 के लिए बढ़िया, CodeCombat के मुख्य CS कोर्सेस शुरुआती-मैत्रीपूर्ण कंप्यूटर साइंस की परिचय से लेकर AP कंप्यूटर साइंस प्रिंसिपल्स तक प्रगति करते हैं, और उन्नत CS कोर्सेस तक पहुँचते हैं। मिडिल और हाई स्कूल के छात्रों के लिए यहाँ से शुरू करें।',
       //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_chapter-1-sky-mountain": "Great for grades 6-8, a narrative coding adventure that establishes the fundamentals of computer science.",
       start_teaching_ai_today: '[AI_TRANSLATION]आज ही AI सिखाना शुरू करो!',
       hackstack_beta_release: '[AI_TRANSLATION]हैकस्टैक बीटा रिलीज़  ',
       introducing_ai_hackstack: '[AI_TRANSLATION]AI HackStack का परिचय, शुरुआती के लिए एक जनरेटिव AI शिक्षण उपकरण। यह ChatGPT, Claude, और DALL-E जैसे शीर्ष AI मॉडलों तक सुरक्षित पहुंच प्रदान करता है।',

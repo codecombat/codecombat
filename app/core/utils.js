@@ -1850,6 +1850,9 @@ module.exports.getJuniorUrl = function () {
   if (me && me.isTeacher() && !me.isAnonymous()) {
     juniorPath = '/teachers/guide/junior'
   }
+  if (me?.getOdysseyExperimentValue?.() === 'beta') {
+    juniorPath = '/play/odyssey'
+  }
   return `${cocoBaseURL()}${juniorPath}`
 }
 
@@ -2032,6 +2035,7 @@ module.exports = {
   HACKSTACK_COURSE_IDS,
   COCO_COURSE_IDS,
   OZ_COURSE_IDS,
+  OZ_COURSE_IDS_MAP,
   showOzaria,
 }
 

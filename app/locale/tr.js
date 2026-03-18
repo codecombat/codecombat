@@ -1877,6 +1877,7 @@ module.exports = {
       free_course_blurb_junior: '[AI_TRANSLATION]K-5. sınıflar için harika, CodeCombat Junior, ön okuyucular için blok tabanlı ve mobil seçeneklere kadar esnek olabilir, üst sınıf için Python veya JavaScript metin koduna veya geçişe yardımcı olmak için paralel bloklar ve kodlara kadar genişleyebilir.  ',
       'free_course_blurb_introduction-to-computer-science': "[AI_TRANSLATION]6-12. sınıflar için harika, CodeCombat'ın temel CS kursları, başlangıç dostu Bilgisayar Bilimlerine Giriş'ten AP Bilgisayar Bilimi İlkelerine ve daha ileri CS kurslarına kadar ilerler. Ortaokul ve lise öğrencileri için buradan başlayın.  ",
       //    "free_course_blurb_intro-to-ai": "Learn essential prompt engineering skills in a wide range of subjects using Al HackStack's Learning Scenarios with popular Al models like ChatGPT, Claude, and DALL-E.",
+      //    "free_course_blurb_chapter-1-sky-mountain": "Great for grades 6-8, a narrative coding adventure that establishes the fundamentals of computer science.",
       start_teaching_ai_today: '[AI_TRANSLATION]Bugün Yapay Zeka Öğretmeye Başla!  ',
       hackstack_beta_release: '[AI_TRANSLATION]HackStack Beta Sürümü',
       introducing_ai_hackstack: "[AI_TRANSLATION]Başlangıç seviyesindeki AI eğitimi için AI HackStack'i tanıtıyoruz. ChatGPT, Claude ve DALL-E gibi üst düzey AI modellerine güvenli erişim sağlar.  ",

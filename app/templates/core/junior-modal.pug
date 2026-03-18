@@ -17,6 +17,6 @@
           p !{$.i18n.t("play.age_description_codecombat")}
 
       #button-container
-        a(href="/play/junior").submit-button.btn.btn-lg.btn-illustrated.play-button.junior-button !{$.i18n.t("play.play_codecombat_junior")}
+        a(href=`${utils.getJuniorUrl()}`).submit-button.btn.btn-lg.btn-illustrated.play-button.junior-button !{$.i18n.t("play.play_codecombat_junior")}
         | &nbsp;
         a(href="#").submit-button.btn.btn-lg.btn-illustrated.play-button !{$.i18n.t("play.play_codecombat")}

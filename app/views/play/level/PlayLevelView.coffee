@@ -1010,7 +1010,17 @@ module.exports = class PlayLevelView extends RootView
     return if @showVictoryHandlingInProgress
     @showVictoryHandlingInProgress=true
     @endHighlight()
-    options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world, parent: @}
+    options = {
+      level: @level,
+      supermodel: @supermodel,
+      session: @session,
+      hasReceivedMemoryWarning: @hasReceivedMemoryWarning,
+      courseID: @courseID,
+      courseInstanceID: @courseInstanceID,
+      world: @world,
+      parent: @,
+      parentCampaign: @parentCampaign,
+    }
     ModalClass = if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev', 'ladder') then HeroVictoryModal else VictoryModal
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     if @level.isType('course-ladder') or @level.isType('ladder') and @courseInstanceID

@@ -1878,6 +1878,7 @@ module.exports = {
       free_course_blurb_junior: 'Terng sbe tenqrf X-5, PbqrPbzong Whavbe pna syrk qbja gb oybpx-onfrq naq zbovyr bcgvbaf sbe cer-ernqref, hc gb Clguba be WninFpevcg grkg pbqr sbe hccre ryrzragnel, be gb cnenyyry oybpxf-naq-pbqr gb uryc jvgu gur genafvgvba.',
       'free_course_blurb_introduction-to-computer-science': 'Terng sbe tenqrf 6-12, PbqrPbzong\'f pber PF pbhefrf cebterff sebz gur ortvaare-sevraqyl Vagebqhpgvba gb Pbzchgre Fpvrapr, guebhtu NC Pbzchgre Fpvrapr Cevapvcyrf, naq orlbaq vagb nqinaprq PF pbhefrf. Fgneg urer sbe zvqqyr naq uvtu fpubby fghqragf.',
       'free_course_blurb_intro-to-ai': "Yrnea rffragvny cebzcg ratvarrevat fxvyyf va n jvqr enatr bs fhowrpgf hfvat Ny UnpxFgnpx'f Yrneavat Fpranevbf jvgu cbchyne Ny zbqryf yvxr PungTCG, Pynhqr, naq QNYY-R.",
+      'free_course_blurb_chapter-1-sky-mountain': 'Terng sbe tenqrf 6-8, n aneengvir pbqvat nqiragher gung rfgnoyvfurf gur shaqnzragnyf bs pbzchgre fpvrapr.',
       start_teaching_ai_today: 'Fgneg Grnpuvat NV Gbqnl!',
       hackstack_beta_release: 'UnpxFgnpx Orgn Eryrnfr',
       introducing_ai_hackstack: 'Vagebqhpvat NV UnpxFgnpx, n trarengvir NV grnpuvat gbby sbe ortvaaref. Vg cebivqrf fnsr npprff gb gbc NV zbqryf yvxr PungTCG, Pynhqr, naq QNYY-R.',
