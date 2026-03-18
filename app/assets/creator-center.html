@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCombat 创作者中心</title>
+    <style>
+        /* ================= 基础变量与全局设定 (全新高级感色彩体系) ================= */
+        :root {
+            --primary: #FF6B35;
+            --primary-glow: rgba(255, 107, 53, 0.15);
+            --bg-body: #080a0f;
+            --bg-surface: #11141d;
+            --bg-surface-hover: #181c28;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-strong: rgba(255, 255, 255, 0.12);
+            --text-title: #ffffff;
+            --text-body: #94a3b8;
+            --text-muted: #64748b;
+            --danger: #f87171;
+            --success: #34d399;
+            --font-main: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
+        body { background-color: var(--bg-body); color: var(--text-body); line-height: 1.7; font-size: 16px; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
+        strong { color: var(--text-title); font-weight: 600; }
+
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+        .container-wide { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+
+        /* ================= 保留原样：导航与首屏 ================= */
+        nav { position: fixed; top: 0; width: 100%; height: 80px; background: rgba(8, 10, 15, 0.85); backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; }
+        .logo-img { height: 40px; }
+        .nav-links { margin-left: auto; display: flex; gap: 32px; font-weight: 500; color: var(--text-body); font-size: 0.95rem;}
+        .nav-links a:hover { color: var(--primary); }
+
+        .hero { 
+            height: 100vh; 
+            min-height: 700px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            background: linear-gradient(to bottom, rgba(11,12,16,0.1) 60%, var(--bg-body) 100%), url('https://assets.koudashijie.com/creator-center/hero-background-poster.jpg');
+            background-size: cover; 
+            background-position: center; 
+            position: relative; 
+        }
+        .hero-content { position: relative; z-index: 10; max-width: 900px; transform: translateY(0px); }
+        .hero-title { font-size: 4.5rem; color: #fff; font-weight: 900; margin-bottom: 100px; line-height: 1.2; letter-spacing: -1px; text-shadow: 0 4px 20px rgba(0,0,0,0.6); }
+        .hero-desc-box { background: rgba(17, 20, 29, 0.6); backdrop-filter: blur(16px); padding: 24px 48px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); display: inline-block; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .hero-desc { font-size: 1.15rem; color: #e2e8f0; margin: 0; line-height: 1.8; }
+
+        /* ================= 现代化排版基石 ================= */
+        .section-modern { padding: 120px 0; border-bottom: 1px solid var(--border-subtle); position: relative; }
+        .section-header { text-align: center; margin-bottom: 80px; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .badge-top { display: inline-block; padding: 6px 16px; background: var(--primary-glow); color: var(--primary); border-radius: 100px; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; border: 1px solid rgba(255,107,53,0.2); }
+        .sec-title { font-size: 2.75rem; color: var(--text-title); font-weight: 800; line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 24px;}
+        .sec-title span { color: var(--primary); }
+        .sec-subtitle { font-size: 1.15rem; color: var(--text-body); line-height: 1.8; }
+
+        /* 高级感卡片基类 */
+        .premium-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 40px; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .premium-card:hover { border-color: var(--border-strong); background: var(--bg-surface-hover); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        
+        /* 高亮标签 */
+        mark { background: var(--primary-glow); color: var(--primary); padding: 2px 8px; border-radius: 6px; font-weight: 600; }
+        .highlight-text { color: var(--primary); font-weight: 600; }
+
+        /* ================= 定价卡片 (SaaS风格) ================= */
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 50px; }
+        .price-tier { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 24px; padding: 40px 32px; display: flex; flex-direction: column; transition: all 0.3s; }
+        .price-tier:hover { border-color: var(--border-strong); }
+        .price-tier.pro { background: linear-gradient(180deg, var(--bg-surface) 0%, rgba(255,107,53,0.05) 100%); border-color: rgba(255,107,53,0.3); transform: scale(1.02); box-shadow: 0 20px 40px rgba(255,107,53,0.05); position: relative;}
+        .price-tier.pro::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--primary); border-radius: 24px 24px 0 0; }
+        .tier-name { font-size: 1.1rem; color: var(--text-title); font-weight: 600; margin-bottom: 12px; }
+        .tier-price { font-size: 3rem; color: var(--text-title); font-weight: 800; line-height: 1; margin-bottom: 24px; }
+        .tier-price span { font-size: 1rem; color: var(--text-muted); font-weight: 400; }
+        .tier-desc { color: var(--text-body); font-size: 0.95rem; margin-bottom: 30px; line-height: 1.6; flex-grow: 1; }
+        .tier-badge { background: var(--primary); color: #fff; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 100px; display: inline-block; margin-bottom: 16px; align-self: flex-start; }
+
+        /* ================= Bento Grid (痛点与功能) ================= */
+        .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .bento-item { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 32px; }
+        .bento-item h4 { color: var(--text-title); font-size: 1.1rem; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;}
+        
+        .radar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+        .radar-box { background: rgba(248, 113, 113, 0.05); border: 1px solid rgba(248, 113, 113, 0.15); border-radius: 16px; padding: 24px; }
+        .radar-box .emotion { color: var(--danger); font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; }
+        .radar-box p { color: var(--text-title); font-size: 1rem; line-height: 1.6; margin: 0; font-style: italic; opacity: 0.9; }
+
+        /* ================= 人物画像卡片 ================= */
+        .persona-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+        .persona-card { background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 24px; padding: 40px; }
+        .persona-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border-subtle); }
+        .persona-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--primary-glow); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .persona-card h4 { font-size: 1.4rem; color: var(--text-title); font-weight: 700; margin: 0;}
+        .p-list { list-style: none; }
+        .p-list li { margin-bottom: 16px; font-size: 0.95rem; display: flex; flex-direction: column; gap: 4px;}
+        .p-list span.label { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .hl-red { color: #fca5a5; font-weight: 500; } 
+        .hl-green { color: #6ee7b7; font-weight: 500; }
+
+        /* ================= 现代通讯气泡 (聊天记录风格) ================= */
+        .chat-container { display: flex; flex-direction: column; gap: 16px; }
+        .chat-msg { max-width: 85%; padding: 16px 20px; border-radius: 20px; font-size: 1rem; line-height: 1.5; position: relative; }
+        .chat-msg.user { background: #262a35; color: #e2e8f0; border-bottom-left-radius: 4px; align-self: flex-start; }
+        .chat-msg.brand { background: var(--primary); color: #fff; border-bottom-right-radius: 4px; align-self: flex-end; box-shadow: 0 10px 20px rgba(255,107,53,0.2); }
+
+        /* ================= FAQ 极简风 ================= */
+        .faq-item { border-bottom: 1px solid var(--border-subtle); padding: 32px 0; }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-q { font-size: 1.25rem; color: var(--text-title); font-weight: 600; margin-bottom: 16px; }
+        .faq-a { font-size: 1.05rem; color: var(--text-body); }
+
+        /* ================= 数据背书矩阵 ================= */
+        .stats-matrix { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border-strong); border: 1px solid var(--border-strong); border-radius: 24px; overflow: hidden; }
+        .stat-cell { background: var(--bg-surface); padding: 48px 32px; text-align: center; }
+        .stat-num { font-size: 3.5rem; font-weight: 900; color: var(--text-title); line-height: 1; margin-bottom: 12px; letter-spacing: -1px; }
+        .stat-num.orange { color: var(--primary); }
+        .stat-label { font-size: 0.95rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ================= 媒体素材画廊 ================= */
+        .media-showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; margin-bottom: 80px; }
+        .media-showcase.reverse { direction: rtl; }
+        .media-showcase.reverse > * { direction: ltr; }
+        .media-frame { border-radius: 24px; overflow: hidden; aspect-ratio: 16/9; background: #000; position: relative; border: 1px solid var(--border-strong); box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+        .media-frame video, .media-frame img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+        .media-text h3 { font-size: 1.8rem; color: var(--text-title); font-weight: 700; margin-bottom: 16px; }
+        .media-text p { font-size: 1.1rem; margin-bottom: 32px; }
+        
+        /* 轮播辅助 */
+        .slider-img { opacity: 0; transition: opacity 1s ease-in-out; }
+        .slider-img.active { opacity: 1; z-index: 2; }
+
+        /* 按钮与标签 */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 14px 28px; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s; border: none; gap: 8px;}
+        .btn-primary { background: var(--primary); color: #fff; box-shadow: 0 8px 16px rgba(255,107,53,0.2); }
+        .btn-primary:hover { background: #e55a2b; transform: translateY(-2px); box-shadow: 0 12px 20px rgba(255,107,53,0.3); }
+        .btn-outline { background: transparent; border: 1px solid var(--border-strong); color: var(--text-title); }
+        .btn-outline:hover { background: var(--bg-surface-hover); border-color: var(--text-muted); }
+        
+        .tag-cloud { display: flex; flex-wrap: wrap; gap: 12px; }
+        .tag-pill { background: rgba(255,255,255,0.03); border: 1px solid var(--border-strong); color: var(--text-body); padding: 8px 16px; border-radius: 100px; font-size: 0.9rem; font-weight: 500; }
+        .tag-pill.hl { background: var(--primary-glow); color: var(--primary); border-color: rgba(255,107,53,0.3); }
+
+        /* ================= 响应式适配 (全端兼容核心) ================= */
+        @media (max-width: 1024px) {
+            .bento-grid, .radar-grid, .stats-matrix { grid-template-columns: repeat(2, 1fr); }
+            .pricing-grid { grid-template-columns: 1fr; max-width: 500px; margin: 40px auto; }
+            .media-showcase { grid-template-columns: 1fr; text-align: center; gap: 32px; }
+            .media-showcase.reverse { direction: ltr; }
+            .media-text { display: flex; flex-direction: column; align-items: center; }
+        }
+
+        @media (max-width: 768px) {
+            /* 导航栏适配：转换为上下结构或自动折行 */
+            nav { height: auto !important; padding: 16px 0; }
+            nav > div[style] { flex-direction: column !important; gap: 12px; }
+            .nav-links { margin-left: 0; flex-wrap: wrap; justify-content: center; gap: 12px !important; width: 100%; }
+            
+            /* 布局与间距适配 */
+            .persona-grid, .bento-grid, .radar-grid { grid-template-columns: 1fr !important; }
+            
+            /* 数据矩阵保留两列，移动端体验更好 */
+            .stats-matrix { grid-template-columns: repeat(2, 1fr) !important; }
+            .stat-cell { padding: 24px 16px !important; }
+            .stat-num { font-size: 2.2rem !important; margin-bottom: 6px !important; }
+            .stat-num span { font-size: 1.2rem !important; }
+            
+            /* 标题与边距精细化适配 */
+            .hero-title { font-size: 2.5rem !important; margin-bottom: 40px !important; }
+            .hero-desc-box { padding: 20px !important; }
+            .section-modern { padding: 60px 0 !important; }
+            .sec-title { font-size: 1.8rem !important; }
+            .premium-card { padding: 24px !important; }
+            
+            /* 强制覆盖 HTML 内联的 flex/grid 属性 */
+            .persona-card[style*="flex-direction: row"] { flex-direction: column !important; padding: 24px !important; gap: 20px !important; }
+            .persona-header[style*="border-right"] { border-right: none !important; border-bottom: 1px solid var(--border-subtle) !important; padding-right: 0 !important; padding-bottom: 16px !important; width: 100%; min-width: auto !important; }
+            .p-list[style*="flex-direction: row"] { flex-direction: column !important; gap: 16px !important; }
+            
+            div[style*="grid-template-columns: repeat(auto-fit"] { grid-template-columns: 1fr !important; }
+            div[style*="grid-template-columns: repeat(2, 1fr)"] { grid-template-columns: 1fr !important; }
+            div[style*="gap: 60px"] { gap: 32px !important; }
+            
+            /* 聊天气泡变宽更易读 */
+            .chat-msg { max-width: 95%; font-size: 0.95rem; }
+        }
+
+        @media (max-width: 480px) {
+            /* 针对超小屏幕手机的极限适配 */
+            .hero-title { font-size: 2rem !important; }
+            .sec-title { font-size: 1.5rem !important; }
+            .tier-price { font-size: 2.2rem !important; }
+            .stat-num { font-size: 1.8rem !important; }
+            .stat-label { font-size: 0.8rem !important; }
+            
+            /* 按钮全宽展示，更利于触控操作 */
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container-wide" style="display: flex; width: 100%; align-items: center;">
+            <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 创作者中心" class="logo-img" onerror="this.outerHTML='<h2 style=\'color:var(--text-title); margin:0; font-size:1.2rem; font-weight:700;\'>CodeCombat 创作者中心</h2>'">
+            <div class="nav-links">
+                <a href="#overview">产品概览</a>
+                <a href="#target-audience">用户分析</a>
+                <a href="#features">核心差异</a>
+                <a href="#tags">话题标签</a>
+                <a href="#media">素材下载</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container hero-content">
+            <h1 class="hero-title">CodeCombat<br>创作者中心</h1>
+            <div class="hero-desc-box">
+                <p class="hero-desc">给媒体、UP主、博主和所有想了解 CodeCombat 的人，<br>一站式拿走产品介绍、官方视觉素材、创作参考文案与合作支持。</p>
+            </div>
+        </div>
+    </header>
+
+    <section id="overview" class="section-modern">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-top">Product Overview</span>
+                <h2 class="sec-title">游戏化编程学习平台</h2>
+                <p class="sec-subtitle">CodeCombat 是<span style="color: var(--primary);">面向大学生和职场人士</span>的游戏化编程学习平台——写一行代码，英雄就执行一个动作，让零基础小白在 RPG 闯关中自然学会真实编程。官网链接：<a href="https://codecombat.cn/" target="_blank" style="color: var(--primary); text-decoration: underline;">https://codecombat.cn/</a>。</p>
+            </div>
+
+            <div class="premium-card" style="padding: 48px; margin-bottom: 40px;">
+                <h3 style="color: var(--text-title); font-size: 1.5rem; margin-bottom: 24px; font-weight: 700;">具体做什么？</h3>
+                <div style="font-size: 1.15rem; color: var(--text-body); display: flex; flex-direction: column; gap: 20px;">
+                    <p>CodeCombat 将 Python、JavaScript、C++、Java 等主流编程语言的学习融入 <mark>2300+ 个 RPG 游戏关卡</mark> 中。用户通过编写真实代码操控英雄角色完成任务，在"打怪升级"中掌握变量、函数、循环、算法等核心编程知识。</p>
+                    <p>平台内置 <mark>AI 私教功能</mark>，卡住时一键呼出，秒懂问题在哪，支持自由探索和多种解法，鼓励自主学习。</p>
+                    <p>从零基础入门到能独立写项目，覆盖网页开发、游戏开发、AI 编程等多条进阶路线。</p>
+                </div>
+                <div style="margin-top: 40px; border-top: 1px solid var(--border-subtle); padding-top: 32px; display: flex; gap: 16px; flex-wrap: wrap;">
+                    <span class="tag-pill">🎯 产品类别：成人编程教育平台 / 游戏化在线学习</span>
+                    <span class="tag-pill">💻 产品类型：SaaS 在线平台（Web端）</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-modern" style="background: rgba(255,255,255,0.01);">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-top">Subscription Model</span>
+                <h2 class="sec-title">你只需要做一件事：<span>把品牌名丢出去，剩下的交给产品本身。</span></h2>
+                <p style="margin-top: 16px;">免费就能玩 8 关，先感受一下到底适不适合自己，玩完觉得"嗯，真香"，再考虑开会员——会员能解锁什么？</p>
+            </div>
+
+            <div class="bento-grid" style="margin-bottom: 64px;">
+                <div class="bento-item">
+                    <h4>🔓 解锁全部 2300+ 实战关卡</h4>
+                    <p style="font-size: 0.95rem;">从 Python 到 C++，从网页开发到 AI 编程，所有内容一次全拥有，全面提升编程能力。</p>
+                </div>
+                <div class="bento-item">
+                    <h4>🌍 11 个地图全部开启</h4>
+                    <p style="font-size: 0.95rem;">地牢 + 森林 + 沙漠 + 雪山 + 冰川 + 游戏开发(1-3) + 网页开发(1-2) + 少年版，适合各年龄段。</p>
+                </div>
+                <div class="bento-item">
+                    <h4>💎 闯关就送专属宝石</h4>
+                    <p style="font-size: 0.95rem;">每完成一关都能获得宝石，可兑换酷炫装备和英雄角色，让角色形象随编程能力一起成长。</p>
+                </div>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="price-tier">
+                    <span class="tier-name">月度会员</span>
+                    <div class="tier-price">¥99<span>/月</span></div>
+                    <p class="tier-desc">基础的 30 天极速体验，适合想短期集中试水的初学者。</p>
+                </div>
+                <div class="price-tier pro">
+                    <span class="tier-badge">最高性价比</span>
+                    <span class="tier-name" style="color: var(--primary);">季度会员</span>
+                    <div class="tier-price">¥299<span>/3个月</span></div>
+                    <p class="tier-desc">包含最合理的学习周期长度，系统性掌握编程基础。</p>
+                    <div style="color: var(--primary); font-weight: 600; font-size: 0.95rem; margin-top: auto; border-top: 1px solid rgba(255,107,53,0.2); padding-top: 16px;">🎁 赠价值90元的 9000 宝石</div>
+                </div>
+                <div class="price-tier">
+                    <span class="tier-name">年度会员</span>
+                    <div class="tier-price">¥999<span>/年</span></div>
+                    <p class="tier-desc">8.3折，平均每天仅 ¥2.7。含专属学习报告、知识点图总结与优先客服。</p>
+                    <div style="color: var(--text-title); font-weight: 600; font-size: 0.95rem; margin-top: auto; border-top: 1px solid var(--border-subtle); padding-top: 16px;">🎁 赠价值420元的 42000 宝石</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="audience" class="section-modern">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-top">Pain Points</span>
+                <h2 class="sec-title">编程学习的真实困境</h2>
+                <p class="sec-subtitle">大量 18 岁+ 用户在 AI 时代意识到需要学编程，但传统学习路径体验太差，导致多次尝试、多次放弃——<strong>不是学不会，是学的过程太痛苦。</strong></p>
+            </div>
+
+            <div class="premium-card" style="margin-bottom: 60px; border-left: 4px solid var(--danger);">
+                <h4 style="color: var(--danger); font-size: 1.2rem; margin-bottom: 12px; font-weight: 700;">沉重的隐性代价</h4>
+                <p style="margin: 0;">反复购买不同的编程课程却始终停留在入门阶段，浪费几百到几万不等的学费和数月时间。最大的隐性代价是：因为"不会编程"持续焦虑，错失 AI 时代职业转型的最佳时机。</p>
+            </div>
+
+            <h3 style="font-size: 1.8rem; color: var(--text-title); font-weight: 700; margin-bottom: 32px;">为什么现有方案不够好？</h3>
+            <div class="bento-grid">
+                <div class="bento-item"><strong>大学教材/课堂：</strong>抽象枯燥无反馈，"参数错误"直接劝退，老师讲得快跟不上。</div>
+                <div class="bento-item"><strong>图文交互课：</strong>本质仍是"看课学"，缺沉浸体验和动力引擎，能力难迁移。</div>
+                <div class="bento-item"><strong>免费视频(B站/MOOC)：</strong>被动输入，"看了都懂、一写就废"，完课率极低。</div>
+                <div class="bento-item"><strong>传统编程培训班：</strong>动辄上万元费用，时间成本高，对非全职学习者不友好。</div>
+                <div class="bento-item"><strong>LeetCode/刷题：</strong>面向已有基础求职者，零基础完全无法入手，第一题劝退。</div>
+                <div class="bento-item"><strong>AI 问答：</strong>可以回答问题，但无法提供系统化学习路径和递进式的能力建设。</div>
+            </div>
+
+            <h3 style="font-size: 1.8rem; color: var(--text-title); font-weight: 700; margin: 80px 0 32px;">粉丝的情感雷达区</h3>
+            <div class="radar-grid">
+                <div class="radar-box"><span class="emotion">焦虑</span><p>"AI时代人人都要会编程，我还是零基础，会不会被淘汰？"</p></div>
+                <div class="radar-box"><span class="emotion">恐惧</span><p>"编程对我来说太难了，我根本不是这块料。"</p></div>
+                <div class="radar-box"><span class="emotion">挫败感</span><p>"每次学到循环就放弃了，我是不是真的学不会？"</p></div>
+                <div class="radar-box"><span class="emotion">怀疑</span><p>"花钱学编程到底有没有用？会不会又是交了智商税？"</p></div>
+                <div class="radar-box"><span class="emotion">羞耻</span><p>"同事同学都会写Python，就我不会，开会一句话都插不上。"</p></div>
+                <div class="radar-box"><span class="emotion">迷茫</span><p>"浪费学费和时间，学了半天还是停留在入门，不知道从哪开始。"</p></div>
+            </div>
+            
+            <div class="premium-card" style="margin-top: 60px;">
+                <h3 style="color: var(--text-title); font-size: 1.4rem; margin-bottom: 24px;">🎯 用户的核心诉求</h3>
+                <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px;">
+                    <li style="display: flex; gap: 12px;"><span style="color:var(--primary);">✓</span> 让我这个"编程恐惧症患者"终于能坚持学下去，不再5分钟就犯困放弃。</li>
+                    <li style="display: flex; gap: 12px;"><span style="color:var(--primary);">✓</span> 帮我用最低门槛搞定大学编程课，期末考试不挂科。</li>
+                    <li style="display: flex; gap: 12px;"><span style="color:var(--primary);">✓</span> 让我搞清楚 if、for、函数到底是什么，建立起编程的底层认知。</li>
+                    <li style="display: flex; gap: 12px;"><span style="color:var(--primary);">✓</span> 给我一个不需要配环境、不看枯燥教材的学习方式，打开浏览器就能写代码。</li>
+                    <li style="display: flex; gap: 12px;"><span style="color:var(--primary);">✓</span> 让我在AI时代不被淘汰，掌握一门真正的编程语言，而不只是会用对话框。 </li>
+                    <li style="display: flex; gap: 12px;"><span style="color:var(--primary);">✓</span> 让我能跟AI"说上话"，把脑子里的想法变成真能用的东西。 </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="target-audience" class="section-modern" style="background: rgba(255,255,255,0.01);">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-top">Target Audience</span>
+                <h2 class="sec-title">谁最需要CodeCombat？</h2>
+                <p class="sec-subtitle">从迷茫的大学生到寻求突破的职场人，精准定位用户痛点与我们的承诺。</p>
+            </div>
+            
+            <div class="persona-grid">
+                <div class="persona-card">
+                    <div class="persona-header">
+                        <div class="persona-icon">🎓</div>
+                        <h4>非计算机专业大学生</h4>
+                    </div>
+                    <ul class="p-list">
+                        <li><span class="label">🎯 核心诉求</span> <strong>编程课及格/高分</strong>学会Python基础、拿到学分</li>
+                        <li><span class="label">⚠️ 面临挑战</span> 教材枯燥看不懂、上课听不懂<span class="hl-red">作业不会做、考试要挂科</span></li>
+                        <li><span class="label">✨ 我们承诺</span> 用闯关把抽象变具体操作<span class="hl-green">从"看不懂"到"期末满分"</span>有AI私教答疑</li>
+                    </ul>
+                </div>
+                
+                <div class="persona-card">
+                    <div class="persona-header">
+                        <div class="persona-icon">🎒</div>
+                        <h4>准大一新生（高考后）</h4>
+                    </div>
+                    <ul class="p-list">
+                        <li><span class="label">🎯 核心诉求</span> <strong>暑假有意义</strong>提前适应大学节奏、建立专业自信</li>
+                        <li><span class="label">⚠️ 面临挑战</span> 高考完不知做什么、好奇但零基础<span class="hl-red">家长怕荒废暑假</span></li>
+                        <li><span class="label">✨ 我们承诺</span> 比枯燥C语言教材<span class="hl-green">非常有趣的入门</span>开学前建立信心</li>
+                    </ul>
+                </div>
+                
+                <div class="persona-card">
+                    <div class="persona-header">
+                        <div class="persona-icon">💼</div>
+                        <h4>职场转行/技能提升者</h4>
+                    </div>
+                    <ul class="p-list">
+                        <li><span class="label">🎯 核心诉求</span> <strong>掌握编程技能</strong>提高竞争力、为AI时代做准备</li>
+                        <li><span class="label">⚠️ 面临挑战</span> 工作忙、看书5分钟困、花2万报班怕坑<span class="hl-red">多次半途而废</span></li>
+                        <li><span class="label">✨ 我们承诺</span> 每天30分碎片化<span class="hl-green">体验"心流"告别焦虑</span>比培训班便宜很多</li>
+                    </ul>
+                </div>
+                
+                <div class="persona-card">
+                    <div class="persona-header">
+                        <div class="persona-icon">📊</div>
+                        <h4>文科/非技术职场人</h4>
+                    </div>
+                    <ul class="p-list">
+                        <li><span class="label">🎯 核心诉求</span> <strong>用编程打好底子，让AI真正帮你干活</strong>自动化办公、告别重复劳动</li>
+                        <li><span class="label">⚠️ 面临挑战</span> 觉得是理科生的事、害怕黑屏命令行<span class="hl-red">试过自学，被报错信息劝退</span></li>
+                        <li><span class="label">✨ 我们承诺</span> <span class="hl-green">不用面对黑屏，打开浏览器就是游戏世界</span>写一行代码立刻执行，消除恐惧；基础打好了，才真正指挥得动AI</li>
+                    </ul>
+                </div>
+
+                <div class="persona-card" style="grid-column: 1 / -1; display: flex; flex-direction: row; align-items: flex-start; gap: 40px; padding: 40px;">
+                    <div class="persona-header" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none; border-right: 1px solid var(--border-subtle); padding-right: 40px; flex-shrink: 0; min-width: 250px;">
+                        <div class="persona-icon">🤖</div>
+                        <h4>想要学习AI编程(Vibe Coding)的人</h4>
+                    </div>
+                    <ul class="p-list" style="display: flex; flex-direction: row; gap: 32px; margin: 0; flex: 1;">
+                        <li style="flex: 1;"><span class="label">🎯 核心诉求</span> <strong>掌握会用AI编程的能力</strong>把AI用到飞起，作为杠杆和放大器</li>
+                        <li style="flex: 1;"><span class="label">⚠️ 面临挑战</span> 觉得技术门槛太高<span class="hl-red">只会用提示词，写不出真正的AI应用</span></li>
+                        <li style="flex: 1;"><span class="label">✨ 我们承诺</span> 让你真正掌握编程基础<span class="hl-green">拥有在AI时代动手造东西的底层能力</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-top: 48px; background: rgba(248, 113, 113, 0.05); padding: 32px; border-radius: 20px; border: 1px solid rgba(248, 113, 113, 0.2);">
+                <h4 style="color: var(--danger); font-size: 1.1rem; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px;">避坑提醒 (不适合的人群)</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; color: var(--text-body); font-size: 0.95rem;">
+                    <div>❌ 已经有扎实基础，只需刷算法题的程序员</div>
+                    <div>❌ 寻找保就业承诺的职业培训学员</div>
+                    <div>❌ 希望完全被动式学习（只看不动手）的用户</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="section-modern">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-top">Key Differentiators</span>
+                <h2 class="sec-title">六项核心差异点</h2>
+                <p class="sec-subtitle">是什么让CodeCombat区别于所有传统编程学习方案？</p>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+                <div class="premium-card" style="padding: 32px;">
+                    <h3 style="color: var(--text-title); font-size: 1.3rem; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                        <span style="display: inline-flex; justify-content: center; align-items: center; width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), #ff8c5a); color: #fff; border-radius: 8px; font-size: 1.2rem; font-weight: 900; box-shadow: 0 4px 10px rgba(255,107,53,0.3);">1</span>
+                        "写代码=打游戏"的沉浸体验
+                    </h3>
+                    <p style="margin:0;">不是看视频、不是对话式课件，而是在RPG游戏里亲手写真实代码，每敲一行代码英雄立刻响应——if 和 for 变成剑招与魔法，函数变成装备技能。</p>
+                </div>
+                <div class="premium-card" style="padding: 32px;">
+                    <h3 style="color: var(--text-title); font-size: 1.3rem; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                        <span style="display: inline-flex; justify-content: center; align-items: center; width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), #ff8c5a); color: #fff; border-radius: 8px; font-size: 1.2rem; font-weight: 900; box-shadow: 0 4px 10px rgba(255,107,53,0.3);">2</span>
+                        为"多次放弃者"设计的动力引擎
+                    </h3>
+                    <p style="margin:0;">关卡递进、宝石奖励、英雄升级、装备解锁、竞技排行——用游戏化机制解决成人编程学习中最大的敌人：坚持不下去。</p>
+                </div>
+                <div class="premium-card" style="padding: 32px;">
+                    <h3 style="color: var(--text-title); font-size: 1.3rem; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                        <span style="display: inline-flex; justify-content: center; align-items: center; width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), #ff8c5a); color: #fff; border-radius: 8px; font-size: 1.2rem; font-weight: 900; box-shadow: 0 4px 10px rgba(255,107,53,0.3);">3</span>
+                        AI私教随叫随到
+                    </h3>
+                    <p style="margin:0;">卡住时一键呼出AI提示，用初学者看得懂的语言指出错误并解释原因，不直接给答案，保留学习的成就感。</p>
+                </div>
+                <div class="premium-card" style="padding: 32px;">
+                    <h3 style="color: var(--text-title); font-size: 1.3rem; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                        <span style="display: inline-flex; justify-content: center; align-items: center; width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), #ff8c5a); color: #fff; border-radius: 8px; font-size: 1.2rem; font-weight: 900; box-shadow: 0 4px 10px rgba(255,107,53,0.3);">4</span>
+                        13年迭代、全球2000万人验证
+                    </h3>
+                    <p style="margin:0;">不是"新做的课"，而是从2013年开始持续打磨了13年、覆盖190+国家、被75000所学校采用的成熟产品。</p>
+                </div>
+                <div class="premium-card" style="padding: 32px;">
+                    <h3 style="color: var(--text-title); font-size: 1.3rem; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                        <span style="display: inline-flex; justify-content: center; align-items: center; width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), #ff8c5a); color: #fff; border-radius: 8px; font-size: 1.2rem; font-weight: 900; box-shadow: 0 4px 10px rgba(255,107,53,0.3);">5</span>
+                        一个平台，多条路线
+                    </h3>
+                    <p style="margin:0;">从Python到C++，从网页开发到游戏开发到AI编程，不是"学完一个入门课就没了"，而是2300+关卡支撑长期持续成长。</p>
+                </div>
+                <div class="premium-card" style="padding: 32px;">
+                    <h3 style="color: var(--text-title); font-size: 1.3rem; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                        <span style="display: inline-flex; justify-content: center; align-items: center; width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), #ff8c5a); color: #fff; border-radius: 8px; font-size: 1.2rem; font-weight: 900; box-shadow: 0 4px 10px rgba(255,107,53,0.3);">6</span>
+                        极致性价比
+                    </h3>
+                    <p style="margin:0;">年度会员每天仅¥2.7，约等于一顿火锅的钱换一个季度完整编程基础，对比培训班便宜很多。</p>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px; margin-top: 48px;">
+                <div class="premium-card" style="background: linear-gradient(145deg, var(--bg-surface) 0%, rgba(255,107,53,0.05) 100%); border-color: rgba(255,107,53,0.2);">
+                    <h4 style="color: var(--primary); font-size: 1.2rem; margin-bottom: 16px;">💡 为什么更好？</h4>
+                    <p style="margin:0; font-size: 1.05rem;">传统成人编程教育要么太被动（视频课），要么太浅（交互式图文课），要么太贵（培训班），要么太难（直接刷题）。CodeCombat 是唯一把"真实代码编写"和"游戏化沉浸体验"在产品级深度上结合的产品——用户在不知不觉中写了上千行真实代码，获得的是可迁移的真实编程能力，而不只是"完课证书"。</p>
+                </div>
+                <div class="premium-card" style="background: linear-gradient(145deg, var(--bg-surface) 0%, rgba(52, 211, 153, 0.05) 100%); border-color: rgba(52, 211, 153, 0.2);">
+                    <h4 style="color: var(--success); font-size: 1.2rem; margin-bottom: 16px;">💬 用户选择你的理由</h4>
+                    <p style="margin:0; font-size: 1.15rem; font-style: italic; color: var(--text-title); line-height: 1.6;">"终于找到一个让我学编程不犯困的方法。写代码就像打游戏，每过一关都有成就感，不知不觉就把Python学会了。"</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 80px;">
+                <h2 class="sec-title" style="text-align: center; margin-bottom: 40px;"><span>来自真实用户的声音</span></h2>
+                <div class="bento-grid" style="grid-template-columns: repeat(2, 1fr); gap: 24px;">
+                    <div class="premium-card" style="padding: 32px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <p style="font-size: 1.05rem; font-style: italic; color: var(--text-title); line-height: 1.6; margin-bottom: 24px;">"我觉得 CodeCombat 真的很适合打基础，虽然讲的是 Python，但触类旁通，C 语言也能学得很快。今天期末考试我满分通过了，编程能力提升了不少！"</p>
+                        <div style="color: var(--primary); font-weight: 700; font-size: 0.95rem;">— 大学生用户</div>
+                    </div>
+                    <div class="premium-card" style="padding: 32px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <p style="font-size: 1.05rem; font-style: italic; color: var(--text-title); line-height: 1.6; margin-bottom: 24px;">"给孩子高考后第一份礼物就是 CodeCombat。比起大学里枯燥的 C 语言教材，这种轻松有趣的编程闯关能让孩子更容易进入专业课的学习。学会编程是进入 AI 时代的必备技能，给孩子一个好的起点才是最重要的投资。"</p>
+                        <div style="color: var(--primary); font-weight: 700; font-size: 0.95rem;">— 高三毕业生家长</div>
+                    </div>
+                    <div class="premium-card" style="padding: 32px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <p style="font-size: 1.05rem; font-style: italic; color: var(--text-title); line-height: 1.6; margin-bottom: 24px;">"虽然我从零开始，但一点都不觉得难。每当我通过一关，看到'宝石掉落'的成就感，我就觉得自己在走向未来，这种投资比买奶茶值多了！"</p>
+                        <div style="color: var(--primary); font-weight: 700; font-size: 0.95rem;">— 大四文科女生</div>
+                    </div>
+                    <div class="premium-card" style="padding: 32px; display: flex; flex-direction: column; justify-content: space-between;">
+                        <p style="font-size: 1.05rem; font-style: italic; color: var(--text-title); line-height: 1.6; margin-bottom: 24px;">"作为工作 10 年的土木人，以前看编程书 5 分钟就困。但在 CodeCombat 里，写代码就像打游戏，每写对一行代码都能看到角色释放技能，那种'心流'体验让我彻底告别了刷短视频的焦虑。"</p>
+                        <div style="color: var(--primary); font-weight: 700; font-size: 0.95rem;">— 某铁路局，土木工程专业，职场自学者</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="brand" class="section-modern" style="background: rgba(255,255,255,0.01);">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge-top">Brand Voice</span>
+                <h2 class="sec-title">粉丝听得懂的语言</h2>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 60px; margin-bottom: 80px;">
+                <div>
+                    <h3 style="color: var(--text-title); font-size: 1.2rem; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">🗣️ 用户是怎么描述问题的？</h3>
+                    <div class="chat-container">
+                        <div class="chat-msg user">"看编程书5分钟就困"</div>
+                        <div class="chat-msg user">"每次学到循环就放弃了"</div>
+                        <div class="chat-msg user">"大学C语言课完全听不懂"</div>
+                        <div class="chat-msg user">"高考完暑假想学点有用的，但不知道从哪开始"</div>
+                        <div class="chat-msg user">"AI时代好焦虑，感觉不会编程就要被淘汰了"</div>
+                        <div class="chat-msg user">"报了个培训班，2万块，感觉被割韭菜了"</div>
+                        <div class="chat-msg user">"看B站教程，看的时候觉得都懂，自己写一行不出来"</div>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="color: var(--text-title); font-size: 1.2rem; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">💖 用户是怎么描述产品的？</h3>
+                    <div class="chat-container">
+                        <div class="chat-msg brand">"讲的是Python，但触类旁通C语言也能学得快。期末满分通过了！"</div>
+                        <div class="chat-msg brand">"给孩子高考后第一份礼物，比大学枯燥教材好太多了。"</div>
+                        <div class="chat-msg brand">"零基础也不觉得难。看到宝石掉落，投资比买奶茶值多了！"</div>
+                        <div class="chat-msg brand">"告别刷短视频的焦虑，写对代码释放技能，心流体验拉满。"</div>
+                        <div class="chat-msg brand">"妈，我真没在玩游戏，我在学编程呢！你看屏幕右边！"</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tags" class="premium-card">
+                <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 32px; margin-bottom: 32px;">
+                    <strong style="color: var(--text-title); display: block; margin-bottom: 16px; font-size: 1.1rem;">✅ 推荐关键词和话题标签：</strong>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <strong style="color: #f87171; display: block; margin-bottom: 10px; font-size: 0.95rem;">🔴 P0 — 核心转化词</strong>
+                        <div class="tag-cloud">
+                            <span class="tag-pill hl">编程</span><span class="tag-pill hl">零基础学编程</span><span class="tag-pill hl">零基础Python</span><span class="tag-pill hl">Python入门</span><span class="tag-pill hl">编程入门</span><span class="tag-pill hl">Python学习</span><span class="tag-pill hl">编程学习</span><span class="tag-pill hl">编程自学</span><span class="tag-pill hl">学习编程</span><span class="tag-pill hl">AI编程</span><span class="tag-pill hl">Python</span><span class="tag-pill hl">Vibe Coding</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <strong style="color: #fb923c; display: block; margin-bottom: 10px; font-size: 0.95rem;">🟠 P1 — 强意图场景词</strong>
+                        <div class="tag-cloud">
+                            <span class="tag-pill hl">零基础转码</span><span class="tag-pill hl">文科转码</span><span class="tag-pill hl">转码</span><span class="tag-pill hl">成人零基础</span><span class="tag-pill hl">入门</span><span class="tag-pill hl">编程技巧</span><span class="tag-pill hl">自学</span><span class="tag-pill hl">自学方法</span><span class="tag-pill hl">学习计划</span><span class="tag-pill hl">计算机科学</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <strong style="color: #facc15; display: block; margin-bottom: 10px; font-size: 0.95rem;">🟡 P2 — 产品差异化词</strong>
+                        <div class="tag-cloud">
+                            <span class="tag-pill hl">玩游戏学编程</span><span class="tag-pill hl">游戏化学编程</span><span class="tag-pill hl">游戏化学习</span><span class="tag-pill hl">玩游戏学Python</span><span class="tag-pill hl">边玩边学</span><span class="tag-pill hl">游戏化编程</span><span class="tag-pill hl">学习游戏化</span><span class="tag-pill hl">CodeCombat</span><span class="tag-pill hl">CodeCombat官网</span><span class="tag-pill hl">CodeCombat中文</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <strong style="color: #4ade80; display: block; margin-bottom: 10px; font-size: 0.95rem;">🟢 P3 — 大学生/高考流量池</strong>
+                        <div class="tag-cloud">
+                            <span class="tag-pill hl">大学生</span><span class="tag-pill hl">大学生学习</span><span class="tag-pill hl">准大学生</span><span class="tag-pill hl">开学</span><span class="tag-pill hl">高考</span><span class="tag-pill hl">高三生</span><span class="tag-pill hl">升学相关</span><span class="tag-pill hl">2026高考</span><span class="tag-pill hl">高考加油</span><span class="tag-pill hl">高考结束做什么</span><span class="tag-pill hl">考研</span><span class="tag-pill hl">张雪峰</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <strong style="color: #60a5fa; display: block; margin-bottom: 10px; font-size: 0.95rem;">🔵 P4 — 学习/自律泛流量词</strong>
+                        <div class="tag-cloud">
+                            <span class="tag-pill hl">学习</span><span class="tag-pill hl">学习法</span><span class="tag-pill hl">自律</span><span class="tag-pill hl">狂学</span><span class="tag-pill hl">清单</span><span class="tag-pill hl">无纸化</span><span class="tag-pill hl">书桌搭</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <strong style="color: #c084fc; display: block; margin-bottom: 10px; font-size: 0.95rem;">🟣 P5 — 情绪/文化共鸣词</strong>
+                        <div class="tag-cloud">
+                            <span class="tag-pill hl">快乐</span><span class="tag-pill hl">爽感</span><span class="tag-pill hl">普通人</span><span class="tag-pill hl">硬核</span><span class="tag-pill hl">硬核编程</span><span class="tag-pill hl">硬核科技</span><span class="tag-pill hl">极客</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 32px; margin-bottom: 32px;">
+                    <strong style="color: var(--danger); display: block; margin-bottom: 12px; font-size: 1.1rem;">❌ 绝对避免的用词：</strong>
+                    <p style="margin:0;">少儿编程、小朋友、孩子 (这是扣哒世界的定位)；简单/容易 (降低专业感)；课程 (暗示被动学习)；保就业/保涨薪 (不做虚假承诺)；培训 (区别于传统机构)。</p>
+                </div>
+                <div>
+                    <strong style="color: var(--text-title); display: block; margin-bottom: 12px; font-size: 1.1rem;">🎙️ 品牌发声指南 (Brand Voice)：</strong>
+                    <p style="margin-bottom: 12px;"><strong>语气：</strong>轻松但不轻浮、自信但不说教、有"懂你"的共情感但不煽情、像一个已经学会编程的好朋友在给你推荐方法。</p>
+                    <p style="margin-bottom: 12px;"><strong>风格：</strong>善用对比制造"认知反差"（"你以为你在打游戏，其实你在学编程"）；用具象化的类比替代抽象概念（"函数就是英雄装备"、"变量是你的随身背包"）；文案有节奏感和画面感，贴近年轻用户的表达方式。</p>
+                    <p style="margin:0;"><strong>品牌个性：</strong>有趣、硬核（内容扎实）、全球化、务实、有感染力。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-modern">
+        <div class="container" style="max-width: 800px;">
+            <div class="section-header">
+                <span class="badge-top">Community Q&A</span>
+                <h2 class="sec-title">常见问题</h2>
+                <p class="sec-subtitle">当粉丝在评论区提出疑问时，用真诚的话语帮助他们打消疑虑。</p>
+            </div>
+            
+            <div style="display: flex; flex-direction: column;">
+                <div class="faq-item">
+                    <div class="faq-q">"这不是小孩子玩的游戏吗？我都成年了还玩这个？"</div>
+                    <div class="faq-a">CodeCombat 覆盖190+国家2000万用户，其中包括大量大学生和职场人士。游戏化不等于幼稚化——就像健身环用游戏让你爱上运动，CodeCombat 用游戏让你爱上编程。你学到的是真实的Python/C++，和企业里用的完全一样。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">"玩游戏真的能学会编程吗？"</div>
+                    <div class="faq-a">你在游戏里写的每一行代码都是真实的编程语言语法。已有用户反馈"期末考试满分通过"、"C语言也能触类旁通"。游戏只是学习的载体，你获得的是真正的编码能力。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">"我之前学过好几次编程都放弃了"</div>
+                    <div class="faq-a">那恰好说明你需要换一种方法。以前放弃是因为枯燥，不是因为你笨。CodeCombat 的游戏化设计就是专门为"多次放弃者"打造的——关卡递进保证你不会被一下子难倒，即时反馈让你每写对一行代码都有成就感。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">"¥99/月，有点贵，B站上免费教程不是很多吗？"</div>
+                    <div class="faq-a">免费视频的完课率通常不到5%——不是视频不好，是被动看视频无法建立编码能力。CodeCombat 的价值不在于"教你知识"，而在于"让你真正动手写出来并且坚持下去"。季度会员¥299，约等于一顿火锅的钱。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">"学完之后能找到工作吗？"</div>
+                    <div class="faq-a">CodeCombat 的定位是帮你从零基础建立扎实的编程基础和编程思维，这是所有进阶学习和职业发展的起点。它不是"求职培训班"，但它解决的是最关键的第一步：让你真正学会写代码，而不是"又放弃了"。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">"我只想学一点皮毛应付工作，有必要用这个吗？"</div>
+                    <div class="faq-a">如果只是"了解一下"，免费版关卡就够了。但如果你发现自己写出第一行代码时很有成就感，想继续深入——会员能打开2300+关卡的完整世界，从入门到真正能做项目。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-modern">
+        <div class="container-wide">
+            <div class="section-header">
+                <h2 class="sec-title">关键数据背书</h2>
+            </div>
+            <div class="stats-matrix">
+                <div class="stat-cell"><div class="stat-num" style="color: #ffffff;">13<span style="color: var(--primary); font-size: 1.8rem;">年</span></div><div class="stat-label">专注游戏化编程</div></div>
+                <div class="stat-cell"><div class="stat-num">2000<span style="color: var(--primary); font-size: 1.8rem;">万+</span></div><div class="stat-label">全球学习者</div></div>
+                <div class="stat-cell"><div class="stat-num">2300<span style="color: var(--primary); font-size: 1.8rem;">+</span></div><div class="stat-label">实战关卡</div></div>
+                <div class="stat-cell"><div class="stat-num">10<span style="color: var(--primary); font-size: 1.8rem;">亿+</span></div><div class="stat-label">累计编写代码行数</div></div>
+                <div class="stat-cell"><div class="stat-num">190<span style="color: var(--primary); font-size: 1.8rem;">+</span></div><div class="stat-label">国家覆盖</div></div>
+                <div class="stat-cell"><div class="stat-num">7.5<span style="color: var(--primary); font-size: 1.8rem;">万</span></div><div class="stat-label">合作学校</div></div>
+                <div class="stat-cell"><div class="stat-num">32<span style="color: var(--primary); font-size: 1.8rem;">万+</span></div><div class="stat-label">全球教师用户</div></div>
+                <div class="stat-cell"><div class="stat-num">520<span style="color: var(--primary); font-size: 1.8rem;">万</span></div><div class="stat-label">编程比赛参与者</div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="media" class="section-modern">
+        <div class="container-wide">
+            <div class="section-header">
+                <span class="badge-top">Media Kit</span>
+                <h2 class="sec-title">多媒体创作素材</h2>
+                <p class="sec-subtitle">官方高品质视频与图像，助你快速生成爆款内容。</p>
+            </div>
+
+            <div class="media-showcase">
+                <div class="media-frame" style="background: var(--bg-surface);">
+                    <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="品牌商标图片" style="width: 100%; height: 100%; object-fit: contain; padding: 20px;">
+                </div>
+                <div class="media-text">
+                    <h3>品牌商标图片</h3>
+                    <p>官方品牌 Logo 源文件，包含多种配色与透明背景格式，适用于各类海报、视频封面或文章排版植入。</p>
+                    <a href="https://assets.koudashijie.com/creator-center/brand-logos.zip" download class="btn btn-outline">📥 打包下载商标 (.zip)</a>
+                </div>
+            </div>
+
+            <div class="media-showcase reverse">
+                <div class="media-frame">
+                    <video src="https://assets.koudashijie.com/creator-center/intro-gameplay-video.mp4" autoplay loop muted playsinline poster="https://assets.koudashijie.com/creator-center/hero-background-poster.jpg"></video>
+                </div>
+                <div class="media-text">
+                    <h3>官方宣传片视频</h3>
+                    <p>包含核心玩法介绍、代码编辑器实录、英雄跑图等纯净画面，非常适合作为你视频口播时的背景画面。</p>
+                    <a href="https://assets.koudashijie.com/creator-center/intro-gameplay.zip" download class="btn btn-outline">📥 打包下载素材 (.zip)</a>
+                </div>
+            </div>
+
+            <div class="media-showcase">
+                <div class="media-frame">
+                    <img src="https://assets.koudashijie.com/creator-center/hero-background-poster.jpg" alt="官方海报" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="media-text">
+                    <h3>官方海报</h3>
+                    <p>宽屏 16:9 设计，包含史诗感的英雄对战场景以及精美的 UI 原画，可直接用作文章头图或视频封面底图。</p>
+                    <a href="https://assets.koudashijie.com/creator-center/key-art-posters.zip" download class="btn btn-outline">📥 打包下载海报库 (.zip)</a>
+                </div>
+            </div>
+
+            <div class="media-showcase reverse">
+                <div class="media-frame">
+                    <img src="https://assets.koudashijie.com/creator-center/character-sprites-pack.png" alt="官网英雄图鉴" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="media-text">
+                    <h3>官网英雄图鉴</h3>
+                    <p>各职业英雄的高清透明底图及游戏内常用素材，方便二创合成封面或加入视频贴纸。</p>
+                    <a href="https://assets.koudashijie.com/creator-center/memes-and-sprites.zip" download class="btn btn-outline">📥 打包下载图片 (.zip)</a>
+                </div>
+            </div>
+
+            <div class="media-showcase">
+                <div class="media-frame">
+                    <img src="https://assets.koudashijie.com/creator-center/gameplay-screenshots.png" alt="闯关截图" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="media-text">
+                    <h3>闯关截图</h3>
+                    <p>精选游戏内真实闯关与代码编写界面高清截图，生动展示“玩游戏学编程”的核心交互体验。</p>
+                    <a href="https://assets.koudashijie.com/creator-center/gameplay-screenshots.zip" download class="btn btn-outline">📥 打包下载截图 (.zip)</a>
+                </div>
+            </div>
+
+            <div class="section-header" style="margin-top: 120px;">
+                <span class="badge-top">Fan-Made</span>
+                <h2 class="sec-title">二创内容</h2>
+                <p class="sec-subtitle">玩家与社区的创意结晶，丰富你的创作素材库。</p>
+            </div>
+
+            <div class="media-showcase">
+                <div class="media-frame">
+                    <img src="https://assets.koudashijie.com/creator-center/paper-cuts.png" alt="窗花版英雄" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="media-text">
+                    <h3>窗花版英雄</h3>
+                    <p>充满传统剪纸艺术风格的英雄形象，适合节日主题或特色二创内容。</p>
+                    <a href="https://assets.koudashijie.com/creator-center/paper-cuts.zip" download class="btn btn-outline">📥 打包下载素材 (.zip)</a>
+                </div>
+            </div>
+
+            <div class="media-showcase reverse">
+                <div class="media-frame">
+                    <img src="https://assets.koudashijie.com/creator-center/rubber-ducks.png" alt="小黄鸭版英雄" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="media-text">
+                    <h3>小黄鸭版英雄</h3>
+                    <p>萌趣可爱的小黄鸭主题英雄变体，为你的视频或文章增加趣味性与互动感。</p>
+                    <a href="https://assets.koudashijie.com/creator-center/rubber-ducks.zip" download class="btn btn-outline">📥 打包下载素材 (.zip)</a>
+                </div>
+            </div>
+
+            <div class="media-showcase">
+                <div class="media-frame">
+                    <img src="https://assets.koudashijie.com/creator-center/memes-and-sprites.png" alt="英雄表情包" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="media-text">
+                    <h3>英雄表情包</h3>
+                    <p>官方与社区精选的英雄表情包素材，日常沟通和社群运营的绝佳利器。</p>
+                    <a href="https://assets.koudashijie.com/creator-center/memes-and-sprites.zip" download class="btn btn-outline">📥 打包下载素材 (.zip)</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer style="padding: 60px 0; text-align: center; border-top: 1px solid var(--border-subtle); color: var(--text-muted); font-size: 0.95rem; background: var(--bg-body);">
+        <p>© 2026 CodeCombat. 致力于让每个人轻松学会编程。</p>
+    </footer>
+
+    <script>
+        window.onload = function() {
+            if (window.location.hostname.includes('koudashijie')) {
+                window.location.replace('/');
+            }
+        };
+        function initImageSlider(containerId, interval) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const images = container.querySelectorAll('.slider-img');
+            if (images.length <= 1) return; 
+
+            let currentIndex = 0;
+            setInterval(() => {
+                images[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % images.length;
+                images[currentIndex].classList.add('active');
+            }, interval);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initImageSlider('poster-slider', 3000); // 3秒切换海报
+            initImageSlider('meme-slider', 3500);   // 3.5秒切换表情包
+        });
+    </script>
+</body>
+</html>
