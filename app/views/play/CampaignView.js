@@ -762,7 +762,8 @@ class CampaignView extends RootView {
       context.levels = _.filter(context.levels, level => ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'true-names'].includes(level.slug))
     }
     this.annotateLevels(context.levels)
-    const count = this.countLevels(context.levels)
+    const dontCountPracticeLevels = context.campaign?.get('type') === 'junior' || context.campaign?.get('slug') === 'junior'
+    const count = this.countLevels(context.levels, dontCountPracticeLevels)
     if (this.courseStats) {
       context.levelsCompleted = this.courseStats.levels.numDone
       context.levelsTotal = this.courseStats.levels.size
@@ -843,7 +844,8 @@ class CampaignView extends RootView {
             levels = levels.filter(level => !level.requiresSubscription)
           }
           this.annotateLevels(levels)
-          const count = this.countLevels(levels)
+          const dontCountPracticeLevels = campaign.get('type') === 'junior' || campaign.get('slug') === 'junior'
+          const count = this.countLevels(levels, dontCountPracticeLevels)
           campaign.levelsTotal = count.total
           campaign.levelsCompleted = count.completed
           campaign.locked = !['dungeon', 'junior'].includes(campaign.get('slug')) && (!campaign.levelsTotal || !count.unlocked)
@@ -1223,23 +1225,25 @@ class CampaignView extends RootView {
     return null
   }
 
-  countLevels (orderedLevels) {
+  countLevels (orderedLevels, ignorePracticeLevels = false) {
     const count = { total: 0, completed: 0, unlocked: 0 }
 
     if (this.campaign?.get('type') === 'hoc') {
       // HoC: Just order left-to-right instead of looking at unlocks, which we don't use for this copycat campaign
       orderedLevels = _.sortBy(orderedLevels, level => level.position.x)
       for (const level of orderedLevels) {
+        if (ignorePracticeLevels && level.practice) { continue }
         if (this.levelStatusMap[level.slug] === COMPLETE_STATUS) { count.completed++ }
         if (!level.locked) { ++count.unlocked }
+        ++count.total
       }
-      count.total = orderedLevels.length
       return count
     }
 
     for (let levelIndex = 0; levelIndex < orderedLevels.length; levelIndex++) {
       const level = orderedLevels[levelIndex]
       if (level.locked == null) { this.annotateLevels(orderedLevels) } // Annotate if we haven't already.
+      if (ignorePracticeLevels && level.practice) { continue }
       if (!level.locked) { ++count.unlocked }
       if (level.disabled) { continue }
       const completed = this.levelStatusMap[level.slug] === COMPLETE_STATUS
