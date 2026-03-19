@@ -188,7 +188,6 @@ class CampaignView extends RootView {
     this.levelDifficultyMap = {}
     this.levelScoreMap = {}
     this.moduleCampaignStatsMap = {}
-    this.moduleCampaignStatsPromises = {}
     this.courseLevelsLoaded = false
     this.highlightedCampaign = null
     this.highlightedConnectionIndex = null
@@ -557,7 +556,6 @@ class CampaignView extends RootView {
     // If module stats loaded before sessions were ready, completed counts can be cached as 0.
     // Reset caches now that statuses are populated so next render recalculates correctly.
     this.moduleCampaignStatsMap = {}
-    this.moduleCampaignStatsPromises = {}
 
     // HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
     if ((this.campaign?.get('type') === 'hoc') || (me.isStudent() && !this.courseInstance && (this.campaign?.get('slug') === 'intro'))) {
@@ -770,9 +768,9 @@ class CampaignView extends RootView {
     if (features.brainPop) {
       context.levels = _.filter(context.levels, level => ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'enemy-mine', 'true-names'].includes(level.slug))
     }
-    this.annotateLevels(context.levels)
+    this.annotateLevels(context.levels, context.campaign)
     const dontCountPracticeLevels = context.campaign?.get('type') === 'junior' || context.campaign?.get('slug') === 'junior'
-    const count = this.countLevels(context.levels, dontCountPracticeLevels)
+    const count = this.countLevels(context.levels, context.campaign, dontCountPracticeLevels)
     if (this.courseStats) {
       context.levelsCompleted = this.courseStats.levels.numDone
       context.levelsTotal = this.courseStats.levels.size
@@ -858,9 +856,9 @@ class CampaignView extends RootView {
           if (me.freeOnly() && !me.isStudent()) {
             levels = levels.filter(level => !level.requiresSubscription)
           }
-          this.annotateLevels(levels)
+          this.annotateLevels(levels, campaign)
           const dontCountPracticeLevels = campaign.get('type') === 'junior' || campaign.get('slug') === 'junior'
-          const count = this.countLevels(levels, dontCountPracticeLevels)
+          const count = this.countLevels(levels, campaign, dontCountPracticeLevels)
           campaign.levelsTotal = count.total
           campaign.levelsCompleted = count.completed
           campaign.locked = !['dungeon', 'junior'].includes(campaign.get('slug')) && (!campaign.levelsTotal || !count.unlocked)
@@ -899,7 +897,6 @@ class CampaignView extends RootView {
       const moduleSlug = module?.slug
       if (!moduleSlug) { continue }
       if (this.moduleCampaignStatsMap[moduleSlug]) { continue }
-      if (this.moduleCampaignStatsPromises[moduleSlug]) { continue }
 
       this.moduleCampaignStatsMap[moduleSlug] = {
         levelsTotal: null,
@@ -908,24 +905,18 @@ class CampaignView extends RootView {
       }
 
       const moduleCampaign = new Campaign({ _id: moduleSlug })
+      const dontCountPracticeLevels = this.campaign?.get('type') === 'junior' || this.campaign?.get('slug') === 'junior'
       const jqxhr = moduleCampaign.fetch()
       this.supermodel.trackRequest(jqxhr)
-      this.moduleCampaignStatsPromises[moduleSlug] = new Promise(jqxhr.then)
+      new Promise(jqxhr.then)
         .then(() => {
-          const originalCampaign = this.campaign
-          this.campaign = moduleCampaign
-          try {
-            const levels = _.values($.extend(true, {}, moduleCampaign.get('levels') || {}))
-            this.annotateLevels(levels)
-            const dontCountPracticeLevels = moduleCampaign.get('type') === 'junior' || moduleCampaign.get('slug') === 'junior'
-            const count = this.countLevels(levels, dontCountPracticeLevels)
-            this.moduleCampaignStatsMap[moduleSlug] = {
-              levelsTotal: count.total,
-              levelsCompleted: count.completed,
-              levelsLoading: false,
-            }
-          } finally {
-            this.campaign = originalCampaign
+          const levels = _.values($.extend(true, {}, moduleCampaign.get('levels') || {}))
+          this.annotateLevels(levels, moduleCampaign)
+          const count = this.countLevels(levels, moduleCampaign, dontCountPracticeLevels)
+          this.moduleCampaignStatsMap[moduleSlug] = {
+            levelsTotal: count.total,
+            levelsCompleted: count.completed,
+            levelsLoading: false,
           }
           if (!this.destroyed) {
             this.render()
@@ -1219,7 +1210,7 @@ class CampaignView extends RootView {
     return collapsedLevels
   }
 
-  annotateLevels (orderedLevels) {
+  annotateLevels (orderedLevels, campaign = this.campaign) {
     if (this.isClassroom()) { return }
 
     for (let levelIndex = 0; levelIndex < orderedLevels.length; levelIndex++) {
@@ -1230,7 +1221,7 @@ class CampaignView extends RootView {
       if (level.requiresSubscription && this.requiresSubscription && me.isInHourOfCode()) { level.locked = true }
       if ([STARTED_STATUS, COMPLETE_STATUS].includes(this.levelStatusMap[level.slug])) { level.locked = false }
       if (this.editorMode) { level.locked = false }
-      if (['Auditions', 'Intro'].includes(this.campaign?.get('name'))) { level.locked = false }
+      if (['Auditions', 'Intro'].includes(campaign?.get('name'))) { level.locked = false }
       if (me.isInGodMode()) { level.locked = false }
       if (this.courseInstanceID && level.hasAccessByTeacher(this.courseTeacher)) { level.locked = false }
       if (level.adminOnly && ![STARTED_STATUS, COMPLETE_STATUS].includes(this.levelStatusMap[level.slug])) { level.disabled = true }
@@ -1240,10 +1231,6 @@ class CampaignView extends RootView {
       if (this.editorMode && !level.requiresSubscription) {
         level.color = colors.lightBlue
       }
-      // if (!this.isClassroom() && (this.campaign?.get('type') !== 'hoc')) {
-      //   if (level.requiresSubscription) { level.color = colors.jayBlue }
-      // }
-      // level.color = 'rgb(200, 80, 200)' if level.adventurer  # Disable adventurer stuff for now
       if (level.locked) {
         level.color = colors.sparkySilver
       } else if (this.isLevelCompleted(level)) {
@@ -1262,7 +1249,7 @@ class CampaignView extends RootView {
         level.unlocksPet = false
       }
 
-      level.hidden = level.locked && (this.campaign?.get('type') !== 'hoc')
+      level.hidden = level.locked && (campaign?.get('type') !== 'hoc')
       if (level.concepts?.length) {
         level.displayConcepts = level.concepts
         const maxConcepts = 6
@@ -1291,10 +1278,10 @@ class CampaignView extends RootView {
     return null
   }
 
-  countLevels (orderedLevels, ignorePracticeLevels = false) {
+  countLevels (orderedLevels, campaign, ignorePracticeLevels = false) {
     const count = { total: 0, completed: 0, unlocked: 0 }
 
-    if (this.campaign?.get('type') === 'hoc') {
+    if (campaign?.get('type') === 'hoc') {
       // HoC: Just order left-to-right instead of looking at unlocks, which we don't use for this copycat campaign
       orderedLevels = _.sortBy(orderedLevels, level => level.position.x)
       for (const level of orderedLevels) {
@@ -1308,7 +1295,7 @@ class CampaignView extends RootView {
 
     for (let levelIndex = 0; levelIndex < orderedLevels.length; levelIndex++) {
       const level = orderedLevels[levelIndex]
-      if (level.locked == null) { this.annotateLevels(orderedLevels) } // Annotate if we haven't already.
+      if (level.locked == null) { this.annotateLevels(orderedLevels, campaign) } // Annotate if we haven't already.
       if (ignorePracticeLevels && level.practice) { continue }
       if (!level.locked) { ++count.unlocked }
       if (level.disabled) { continue }
