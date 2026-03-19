@@ -800,7 +800,9 @@ class CampaignView extends RootView {
     // Modules: child campaigns rendered as portals on the map.
     // Enrich each module with locked state: first by premium, then by levelToUnlock (complete that level to unlock).
     const rawModules = this.campaign?.get('modules') || []
-    this.loadModuleCampaignStats(rawModules)
+    if (!this.editorMode) {
+      this.loadModuleCampaignStats(rawModules)
+    }
     context.modules = rawModules.map(module => {
       const access = module.access || 'paid'
       const lockedByPremium = !this.editorMode && access !== 'free' && !me.isPremium()
@@ -808,7 +810,7 @@ class CampaignView extends RootView {
       const levelNotCompleted = levelToUnlock && this.levelOriginalStatusMap[levelToUnlock] !== COMPLETE_STATUS
       const lockedByLevel = !this.editorMode && levelNotCompleted
       const locked = lockedByPremium || lockedByLevel
-      const moduleStats = this.moduleCampaignStatsMap[module.slug]
+      const moduleStats = this.editorMode ? null : this.moduleCampaignStatsMap[module.slug]
       let lockReason = null
       if (lockedByPremium) lockReason = 'need-premium'
       else if (lockedByLevel) lockReason = 'need-level'
