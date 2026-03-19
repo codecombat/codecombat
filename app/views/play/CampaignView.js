@@ -913,8 +913,8 @@ class CampaignView extends RootView {
       const dontCountPracticeLevels = this.campaign?.get('type') === 'junior' || this.campaign?.get('slug') === 'junior'
       const jqxhr = moduleCampaign.fetch({ data: { project: { levels: 1, type: 1, name: 1, slug: 1 } } })
       this.supermodel.trackRequest(jqxhr)
-      new Promise(jqxhr.then)
-        .then(() => {
+      jqxhr.then(
+        () => {
           const levels = _.values($.extend(true, {}, moduleCampaign.get('levels') || {}))
           this.annotateLevels(levels, moduleCampaign)
           const count = this.countLevels(levels, moduleCampaign, dontCountPracticeLevels)
@@ -926,8 +926,8 @@ class CampaignView extends RootView {
           if (!this.destroyed) {
             this.render()
           }
-        })
-        .catch(err => {
+        },
+        err => {
           console.warn('Failed to load module campaign stats', moduleSlug, err)
           this.moduleCampaignStatsMap[moduleSlug] = {
             levelsTotal: null,
@@ -937,7 +937,8 @@ class CampaignView extends RootView {
           if (!this.destroyed) {
             this.render()
           }
-        })
+        },
+      )
     }
   }
 
