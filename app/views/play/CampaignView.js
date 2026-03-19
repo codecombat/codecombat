@@ -854,7 +854,7 @@ class CampaignView extends RootView {
           if ((me.level() < 12) && (campaign.get('slug') === 'dungeon') && !this.editorMode) {
             levels = levels.filter(level => level.slug !== 'signs-and-portents')
           }
-          // The special case for some type of players (see User.js for more details)
+          // Special case for some player types (see User.js for more details)
           if (me.freeOnly() && !me.isStudent()) {
             levels = levels.filter(level => !level.requiresSubscription)
           }
