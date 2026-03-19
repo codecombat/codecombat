@@ -905,6 +905,9 @@ class CampaignView extends RootView {
       }
 
       const moduleCampaign = new Campaign({ _id: moduleSlug })
+      // Intentionally inherit practice-level counting policy from the parent campaign, not moduleCampaign.
+      // This keeps module-portal progress behavior consistent for "module-containing" campaign families
+      // (notably junior-like maps), even if an individual child campaign is marked differently.
       const dontCountPracticeLevels = this.campaign?.get('type') === 'junior' || this.campaign?.get('slug') === 'junior'
       const jqxhr = moduleCampaign.fetch()
       this.supermodel.trackRequest(jqxhr)
