@@ -62,6 +62,8 @@ _.extend(ClassroomSchema.properties, {
       displayName: c.shortString(),
       slug: { type: 'string' },
       position: c.point2d(),
+      mode: { type: 'string' },
+      minMsgs: { type: 'number' },
 
       // properties relevant for ozaria campaigns
       nextLevels: {

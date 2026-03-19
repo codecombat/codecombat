@@ -48,6 +48,8 @@ module.exports = class SpellPaletteEntryView extends CocoView
       content: @docFormatter.formatPopover()
       container: 'body'
       template: @overridePopoverTemplate
+    ).on('inserted.bs.popover', =>
+      $('.spell-palette-popover').attr('translate', 'no');
     ).on 'shown.bs.popover', =>
       Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
       soundIndex = Math.floor(Math.random() * 4)
