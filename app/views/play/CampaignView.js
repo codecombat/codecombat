@@ -911,7 +911,7 @@ class CampaignView extends RootView {
       // This keeps module-portal progress behavior consistent for "module-containing" campaign families
       // (notably junior-like maps), even if an individual child campaign is marked differently.
       const dontCountPracticeLevels = this.campaign?.get('type') === 'junior' || this.campaign?.get('slug') === 'junior'
-      const jqxhr = moduleCampaign.fetch()
+      const jqxhr = moduleCampaign.fetch({ data: { project: { levels: 1, type: 1, name: 1, slug: 1 } } })
       this.supermodel.trackRequest(jqxhr)
       new Promise(jqxhr.then)
         .then(() => {
