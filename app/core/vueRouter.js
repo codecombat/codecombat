@@ -46,12 +46,6 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "AnnouncementView" */ 'app/views/announcement/AnnouncementView'),
         },
         {
-          path: '/event-calendar/:eventType?',
-          name: 'eventCalendar',
-          component: () => import(/* webpackChunkName: "EventView" */ 'app/views/events/index'),
-          props: true,
-        },
-        {
           path: '/premium',
           props: (route) => ({ showPremium: true, type: route.query.type }),
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/premium/PagePremium'),
@@ -114,21 +108,6 @@ export default function getVueRouter () {
               meta: { theme: 'teal' },
             },
           ],
-        },
-        {
-          path: '/admin/trial-classes',
-          component: () => import(/* webpackChunkName: "TrialClassView" */ 'app/views/online-class/TrialClassesView'),
-          props: (_route) => ({ isAdminView: true }),
-        },
-        {
-          path: '/trial-classes',
-          component: () => import(/* webpackChunkName: "TrialClassView" */ 'app/views/online-class/TrialClassesView'),
-        },
-        {
-          path: '/trial-classes/:eventId/confirm/:token',
-          name: 'TrialClassConfirm',
-          component: () => import(/* webpackChunkName: 'TrialClassConfirm' */ 'app/views/online-class/TrialClassConfirm'),
-          props: (route) => ({ ...route.params }),
         },
         {
           path: '/live-classes',
@@ -411,11 +390,6 @@ export default function getVueRouter () {
           name: 'ParentSignup',
           component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/SignupView'),
           props: (route) => ({ ...route.query, ...route.params }),
-        },
-        {
-          path: '/parents/book-trial-classes',
-          name: 'TrialClassesScheduler',
-          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/online-class/SchedulerView'),
         },
         {
           path: '/parents/:viewName/:childId?/:product?',

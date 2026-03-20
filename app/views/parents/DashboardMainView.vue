@@ -40,10 +40,6 @@
       v-else-if="selectedView === 'toolkit'"
       :product="selectedProduct"
     />
-    <online-classes-view
-      v-else-if="selectedView === 'online-classes'"
-      :child="selectedChildren"
-    />
     <div
       v-else
       class="unknown"
@@ -61,12 +57,10 @@ import StudentSummaryView from './StudentSummaryView'
 import CreateChildAccountComponent from './signup/CreateChildAccountComponent'
 import ToolkitView from './ToolkitView'
 import createChildAccountMixin from './mixins/createChildAccountMixin'
-import OnlineClassesView from './OnlineClassesView'
 
 export default {
   name: 'DashboardMainView',
   components: {
-    OnlineClassesView,
     StudentSummaryView,
     SidebarComponent,
     HeaderComponent,
