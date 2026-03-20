@@ -128,7 +128,6 @@ module.exports = (CocoRouter = (function () {
         'admin/activation-code-usage': go('core/SingletonAppVueComponentView'),
 
         announcements: go('core/SingletonAppVueComponentView'),
-        'event-calendar(/*subpath)': go('core/SingletonAppVueComponentView'),
 
         'exams/(*subpath)': go('core/SingletonAppVueComponentView'),
 
