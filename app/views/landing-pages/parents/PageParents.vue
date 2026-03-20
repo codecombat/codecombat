@@ -21,11 +21,6 @@
       :show="showTimetapConfirmationModal"
       @close="showTimetapConfirmationModal = false"
     />
-    <ModalScheduleFreeClass
-      v-if="showScheduleFreeClassModal"
-      :availability-p-d-t="availabilityPDT"
-      @close="showScheduleFreeClassModal = false"
-    />
     <!-- END Modals -->
     <slot name="contents">
       <!-- make this component extendable so we can use the code defined here on modal openings -->
@@ -876,18 +871,15 @@ import PageParentsSectionPremium from './PageParentsSectionPremium'
 import PageParentsJumbotron from './PageParentsJumbotron'
 import ModalTimetapSchedule from './ModalTimetapSchedule'
 import ModalTimetapConfirmation from './ModalTimetapConfirmation'
-import ModalScheduleFreeClass from './ModalScheduleFreeClass'
 import ButtonMainCta from './ButtonMainCta'
 import IconGem from './IconGem'
 import ButtonArrow from './ButtonArrow'
 import { mapGetters } from 'vuex'
-import { getAvailability } from 'core/api/parents'
 
 export default {
   name: 'PageParentsLanding',
   components: {
     ModalTimetapSchedule,
-    ModalScheduleFreeClass,
     PageParentsSectionPremium,
     PageParentsJumbotron,
     ModalTimetapConfirmation,
@@ -925,7 +917,6 @@ export default {
     showTimetapModal: false,
     showTimetapConfirmationModal: false,
     modalClassType: undefined,
-    showScheduleFreeClassModal: false,
     availabilityPDT: []
   }),
 
@@ -978,16 +969,6 @@ export default {
 
     async onClickMainCta () {
       this.trackCtaClicked()
-
-      const { isAvailable, availabilityPDT } = await getAvailability()
-      this.availabilityPDT = availabilityPDT
-
-      if (isAvailable) {
-        if (this.scheduleFreeClassExperiment === 'schedule-free-class') {
-          this.showScheduleFreeClassModal = true
-          return
-        }
-      }
 
       if (this.brightchampsExperiment === 'brightchamps') {
         const url = 'https://learn.brightchamps.com/book-trial-class/?utm_source=B2B&utm_medium=Codecombat#'

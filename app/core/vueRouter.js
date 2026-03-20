@@ -110,21 +110,6 @@ export default function getVueRouter () {
           ],
         },
         {
-          path: '/admin/trial-classes',
-          component: () => import(/* webpackChunkName: "TrialClassView" */ 'app/views/online-class/TrialClassesView'),
-          props: (_route) => ({ isAdminView: true }),
-        },
-        {
-          path: '/trial-classes',
-          component: () => import(/* webpackChunkName: "TrialClassView" */ 'app/views/online-class/TrialClassesView'),
-        },
-        {
-          path: '/trial-classes/:eventId/confirm/:token',
-          name: 'TrialClassConfirm',
-          component: () => import(/* webpackChunkName: 'TrialClassConfirm' */ 'app/views/online-class/TrialClassConfirm'),
-          props: (route) => ({ ...route.params }),
-        },
-        {
           path: '/live-classes',
           props: (route) => ({ showPremium: true, type: route.query.type || 'live-classes' }),
           component: () => import(/* webpackChunkName: "ParentsView" */ 'app/views/landing-pages/parents-v2/PageParents'),
@@ -405,11 +390,6 @@ export default function getVueRouter () {
           name: 'ParentSignup',
           component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/parents/SignupView'),
           props: (route) => ({ ...route.query, ...route.params }),
-        },
-        {
-          path: '/parents/book-trial-classes',
-          name: 'TrialClassesScheduler',
-          component: () => import(/* webpackChunkName: "parentDashboard" */'/app/views/online-class/SchedulerView'),
         },
         {
           path: '/parents/:viewName/:childId?/:product?',
