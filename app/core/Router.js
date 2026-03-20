@@ -124,7 +124,6 @@ module.exports = (CocoRouter = (function () {
         'admin/outcomes-report': go('admin/OutcomesReportView'),
         'admin/clan(/:clanID)': go('core/SingletonAppVueComponentView'),
         'admin/low-usage-users': go('core/SingletonAppVueComponentView'),
-        'admin/trial-classes': go('core/SingletonAppVueComponentView'),
         'admin/activation-code-usage': go('core/SingletonAppVueComponentView'),
 
         announcements: go('core/SingletonAppVueComponentView'),
@@ -560,9 +559,6 @@ module.exports = (CocoRouter = (function () {
           if (me.isStudent() && !me.isAdmin()) { return this.navigate('/students', { trigger: true, replace: true }) }
           return this.routeDirectly('teachers/ConvertToTeacherAccountView', [])
         },
-
-        'trial-classes/:eventId/confirm/:token': go('core/SingletonAppVueComponentView'),
-        'trial-classes': go('core/SingletonAppVueComponentView'),
 
         'school-administrator(/*subpath)': go('core/SingletonAppVueComponentView'),
         'cinematicplaceholder/:levelSlug': go('core/SingletonAppVueComponentView'),
