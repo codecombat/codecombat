@@ -4,7 +4,8 @@ const text = fs.readFileSync("./app/locale/en.js").toString();
 
 const lines = text.split('\n');
 
-const rot13 = s => s.split('').map(function(char) {
+const rot13 = s => s.split('').map(function(char, index, chars) {
+  if (chars[index - 1] === '\\') { return char; }
   if (!char.match(/[A-Za-z]/)) { return char; }
   const c = Math.floor(char.charCodeAt(0) / 97);
   const k = ((char.toLowerCase().charCodeAt(0) - 83) % 26) || 26;
