@@ -366,17 +366,6 @@ mixin coco_main_content()
                   a.more-ai-league-tiles= '+ ' + $.i18n.t('general.more')
           if me.showChinaResourceInfo()
             .school-stats.col-md-3
-              if features.china && (!me.isCreatedByTarena())
-                h2
-                  span 扣哒学堂
-                hr
-                a.tile(href="https://vvf.xet.tech/s/2Daahj" target="_blank")
-                  h3(class="dynamic-level-name overlay-text") 获得许可证
-                  img.level-image(src="/images/pages/courses/coco-course.png")
-                  .tile-text-backdrop
-                  .play-text-container
-                    .overlay-text.play-text
-                      span(style="font-size: 12px") 想要获得全课许可？请点击这里购买
           else
             .school-stats.col-md-5
               if view.myClans
