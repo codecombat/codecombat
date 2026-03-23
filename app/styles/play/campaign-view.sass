@@ -127,7 +127,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       &.locked
         .module-portal-image
           filter: grayscale(1) brightness(0.75)
-        .module-label .module-name
+        .module-label .module-name, .module-label .module-levels-completed
           color: #999
 
       .module-portal-image
@@ -155,8 +155,12 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
           font-size: 32px
           text-shadow: 0 0 4px black, 0 0 4px black, 0 0 8px black, 0 0 8px black
 
-        // Keep any other module text readable over the map.
-        .module-levels-completed, .module-locked
+        .module-levels-completed
+          color: #ffd31a
+          text-shadow: 0 0 4px black, 0 0 4px black, 0 0 8px black, 0 0 8px black
+
+        // Keep lock state text readable over the map.
+        .module-locked
           color: white
           text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black, 0 0 3px black
 

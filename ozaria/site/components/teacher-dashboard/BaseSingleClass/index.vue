@@ -14,6 +14,7 @@ import { getLevelUrl, isOzariaNoCodeLevelHelper } from 'ozaria/site/components/t
 
 import _ from 'lodash'
 import ClassroomLib from '../../../../../app/models/ClassroomLib.js'
+import { checkIfProjectComplete } from 'app/lib/ai-projects-helper'
 
 function getLearningGoalsDocumentation (content) {
   if (!content.documentation) {
@@ -606,20 +607,7 @@ export default {
     },
 
     checkIfComplete (aiScenario, aiProjects) {
-      if (aiScenario.minMsgs) { // if minMsgs is 0, let's still use old logic
-        if (aiProjects.some(project => {
-          return (project.totalChatMessages || 0) - (project.unsafeChatMessages?.length || 0) >= aiScenario.minMsgs
-        })) {
-          return true
-        }
-        return false
-      }
-      if (aiScenario.mode === 'learn to use' && aiProjects.some(project => (project.actionQueue.length === 0))) {
-        return true
-      } else if (aiScenario.mode === 'use' && aiProjects.some(project => (project.isReadyToReview))) {
-        return true
-      }
-      return false
+      return checkIfProjectComplete(aiScenario, aiProjects)
     },
 
     findLatestChanged (aiProjects) {

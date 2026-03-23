@@ -653,7 +653,7 @@ module.exports = class PlayLevelView extends RootView
     return true if utils.getQueryVariable('simulate') is true
 
     currentDate = new Date()
-    endSimulateDate = new Date('2026-01-10')
+    endSimulateDate = new Date('2026-03-25')
     @simulateAILeagueFinals = currentDate.getTime() < endSimulateDate.getTime()
     @simulateAILeagueLevelOriginalId = '68493b715562817aef7dea31' # use any of championship or regular - doesn't matter
 
