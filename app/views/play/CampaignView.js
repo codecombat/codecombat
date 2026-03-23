@@ -2725,7 +2725,8 @@ class CampaignView extends RootView {
     }
 
     if (what === 'hackstack-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && !this.editorMode
+      const isStudentCampaignMap = ['intro', 'junior', 'odyssey'].includes(this.terrain)
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode && !isStudentCampaignMap
     }
 
     if (what === 'cchome-menu-icon') {

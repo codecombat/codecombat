@@ -179,4 +179,22 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
       expect(orderedLevels.map(l => l.locked)).toEqual([false, true, true, true, true, true, true])
     })
   })
+
+  describe('shouldShow hackstack-menu-icon', function () {
+    beforeEach(function () {
+      this.campaignView = new CampaignView()
+    })
+
+    it('hides the icon on student campaign maps', function () {
+      for (const terrain of ['intro', 'junior', 'odyssey']) {
+        this.campaignView.terrain = terrain
+        expect(this.campaignView.shouldShow('hackstack-menu-icon')).toBe(false)
+      }
+    })
+
+    it('still shows the icon on other campaign maps', function () {
+      this.campaignView.terrain = 'dungeon'
+      expect(this.campaignView.shouldShow('hackstack-menu-icon')).toBe(true)
+    })
+  })
 }))
