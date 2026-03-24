@@ -12,6 +12,17 @@ export default Vue.extend({
       modalType: 'newModal',
     }
   },
+  computed: {
+    showPromotion () {
+      const dateCreated = me.get('dateCreated')
+      if (!dateCreated) {
+        return true
+      }
+
+      const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+      return new Date(dateCreated) <= weekAgo
+    },
+  },
   methods: {
     close () {
       this.$refs.modal.onClose()
@@ -22,6 +33,7 @@ export default Vue.extend({
 
 <template>
   <ModalDynamicContent
+    v-if="showPromotion"
     ref="modal"
     name="ai-algebra-promotion-modal"
     seen-promotions-property="ai-algebra-promotion-modal"
