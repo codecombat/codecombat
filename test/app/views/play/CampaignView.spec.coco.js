@@ -186,15 +186,23 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
     })
 
     it('hides the icon for students', function () {
-      spyOn(me, 'isStudent').and.returnValue(true)
-
-      expect(this.campaignView.shouldShow('hackstack-menu-icon')).toBe(false)
+      const originalIsStudent = me.isStudent
+      me.isStudent = () => true
+      try {
+        expect(this.campaignView.shouldShow('hackstack-menu-icon')).toBe(false)
+      } finally {
+        me.isStudent = originalIsStudent
+      }
     })
 
     it('shows the icon for non-students', function () {
-      spyOn(me, 'isStudent').and.returnValue(false)
-
-      expect(this.campaignView.shouldShow('hackstack-menu-icon')).toBe(true)
+      const originalIsStudent = me.isStudent
+      me.isStudent = () => false
+      try {
+        expect(this.campaignView.shouldShow('hackstack-menu-icon')).toBe(true)
+      } finally {
+        me.isStudent = originalIsStudent
+      }
     })
   })
 }))
