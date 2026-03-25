@@ -2725,7 +2725,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'hackstack-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && !this.editorMode && !me.isStudent()
+      return !userUtils.isCreatedViaLibrary() && !this.editorMode && !me.isStudent() && !me.isTeacher()
     }
 
     if (what === 'cchome-menu-icon') {
