@@ -3659,6 +3659,7 @@ module.exports = {
       general_desc: 'Coś poszło nie tak, prawdopodobnie to nasza wina. Poczekaj chwilę i spróbuj odświeżyć stronę, albo kliknij któryś z linków, żeby wrócić do programowania!',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

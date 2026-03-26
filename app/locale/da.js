@@ -3659,6 +3659,7 @@ module.exports = {
       general_desc: 'Noget gik galt, og det er sandsynligvis vores skyld. Prøv at vente lidt og opdatér derefter siden, eller besøg en af ​​de følgende links for at komme tilbage til programmering!',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

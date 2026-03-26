@@ -3659,6 +3659,7 @@ module.exports = {
       general_desc: '[AI_TRANSLATION]Něco se pokazilo a pravděpodobně je to naše chyba. Zkus chvilku počkat a pak aktualizovat stránku, nebo navštiv jeden z následujících odkazů, abys se vrátil ke kódování!',
       too_many_login_failures: '[AI_TRANSLATION]Bylo provedeno příliš mnoho neúspěšných pokusů o přihlášení. Zkuste to prosím později.',
       something_went_wrong: 'Ajaj! Něco selhalo.',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

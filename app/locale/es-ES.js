@@ -3659,6 +3659,7 @@ module.exports = {
       general_desc: '[AI_TRANSLATION]Algo salió mal, y probablemente es nuestra culpa. Intenta esperar un poco y luego actualiza la página, o visita uno de los siguientes enlaces para volver a programar.',
       too_many_login_failures: '[AI_TRANSLATION]Han habido demasiados intentos fallidos de inicio de sesión. Por favor, inténtalo más tarde.',
       something_went_wrong: '[AI_TRANSLATION]Oops! Algo salió mal.',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

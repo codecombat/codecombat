@@ -3659,6 +3659,7 @@ module.exports = {
       general_desc: 'Ocurrió un errór, probablemente es tu culpa. Espera un poco y luego refresca la página, o visíta uno de los siguientes enlaces para regresar a programar!',
       too_many_login_failures: 'Hubo demasiados intentos de acceso fallidos.  Vuelve a intentarlo más tarde.',
       something_went_wrong: '¡Ups! Hubo un error.',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {
