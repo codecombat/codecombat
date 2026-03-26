@@ -1891,6 +1891,7 @@ module.exports = {
       roster_sub_text: 'Fhccbegf rznvy, svefgAnzr naq ynfgAnzr pbyhzaf. Erdhverq: rznvy naq svefgAnzr.',
       roster_sub_text_2: 'Va pnfr bs ybt-va jvgubhg FFB, fghqragf jvyy unir gb erfrg gurve cnffjbeq.',
       roster_sub_text_3: 'Rkvfgvat fghqragf va gur pynffebbz ner abg erzbirq.',
+      roster_download_example: 'Qbjaybnq Rknzcyr PFI',
       roster_completed: 'Flap pbzcyrgrq, erserfu gb frr punatrf.',
     },
 
