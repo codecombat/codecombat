@@ -107,48 +107,9 @@ module.exports = (SubscriptionView = (function () {
       return this.$el.find('.unsubscribe-feedback').show(500).find('textarea').focus()
     }
 
-    showProfitwellCancellationForm () {
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Unsubscribe Start - Profitwell', { category: 'Subscription' })
-      }
-      const {
-        subscriptionID
-      } = me.get('stripe')
-      return window.profitwell('init_cancellation_flow', { subscription_id: subscriptionID }).then(result => {
-        if (window.tracker != null) {
-          window.tracker.trackEvent('Unsubscribe Result - Profitwell', { label: result.status, category: 'Subscription' })
-        }
-        if (['retained', 'aborted'].includes(result.status)) {
-          // User either aborted the flow (i.e.they clicked on "never mind, I don't want to cancel"),
-          // or accepted a salvage attempt or salvage offer.
-          // Thus, do nothing, since they won't cancel.
-          return
-        }
-        if (result.status === 'error') {
-          // The widget oculdn't be shown; fall back to native cancellation form
-          this.showNativeCancellationForm()
-          return
-        }
-        if (result.status !== 'chose_to_cancel') {
-          console.error(`Unknown Retain status: ${result.status}. Proceeding to cancellation.`)
-        }
-        let message = ''
-        if (result.cancelReason) { message += `Cancellation reason: ${result.cancelReason}\n` }
-        if (result.satisfactionInsight) { message += `Satisfied with: ${result.satisfactionInsight}\n` }
-        if (result.additionalFeedback) { message += `Feedback: ${result.additionalFeedback}\n` }
-        return this.personalSub.unsubscribe(message, () => (typeof this.render === 'function' ? this.render() : undefined))
-      })
-    }
-
     onClickEndSubscription (e) {
-      if (window.tracker != null) {
-        window.tracker.trackEvent('Unsubscribe Start', { category: 'Subscription' })
-      }
-      if (window.profitwell && me.get('preferredLanguage', true).startsWith('en') && __guard__(me.get('stripe'), x => x.subscriptionID) && utils.getQueryVariable('retain')) {
-        return this.showProfitwellCancellationForm()
-      } else {
-        return this.showNativeCancellationForm()
-      }
+      window.tracker?.trackEvent('Unsubscribe Start', { category: 'Subscription' })
+      return this.showNativeCancellationForm()
     }
 
     onClickCancelEndSubscription (e) {
