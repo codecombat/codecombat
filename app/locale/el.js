@@ -1890,6 +1890,7 @@ module.exports = {
       //    roster_sub_text: "Supports email, firstName and lastName columns. Required: email and firstName.",
       //    roster_sub_text_2: "In case of log-in without SSO, students will have to reset their password.",
       //    roster_sub_text_3: "Existing students in the classroom are not removed.",
+      //    roster_download_example: "Download Example CSV",
       //    roster_completed: "Sync completed, refresh to see changes.",
     },
 
@@ -3658,6 +3659,7 @@ module.exports = {
       general_desc: 'Κάτι πήγε στραβά, και ίσως είναι λάθος μας. Δοκιμάστε να περιμένετε λίγο και στη συνέχεια να ανανεώσετε τη σελίδα ή επισκεφθείτε έναν από τους παρακάτω συνδέσμους για να επιστρέψετε στον προγραμματισμό!',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

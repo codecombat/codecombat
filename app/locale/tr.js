@@ -1890,6 +1890,7 @@ module.exports = {
       //    roster_sub_text: "Supports email, firstName and lastName columns. Required: email and firstName.",
       //    roster_sub_text_2: "In case of log-in without SSO, students will have to reset their password.",
       //    roster_sub_text_3: "Existing students in the classroom are not removed.",
+      //    roster_download_example: "Download Example CSV",
       //    roster_completed: "Sync completed, refresh to see changes.",
     },
 
@@ -3658,6 +3659,7 @@ module.exports = {
       general_desc: '[AI_TRANSLATION]Bir şeyler ters gitti ve muhtemelen bizim hatamız. Biraz bekleyip sayfayı yenilemeyi deneyin veya programlamaya geri dönmek için aşağıdaki bağlantılardan birini ziyaret edin!',
       too_many_login_failures: '[AI_TRANSLATION]Çok fazla başarısız giriş denemesi oldu. Lütfen daha sonra tekrar deneyin.  ',
       something_went_wrong: '[AI_TRANSLATION]Oops! Bir şeyler ters gitti.',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

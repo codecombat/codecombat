@@ -1890,6 +1890,7 @@ module.exports = {
       //    roster_sub_text: "Supports email, firstName and lastName columns. Required: email and firstName.",
       //    roster_sub_text_2: "In case of log-in without SSO, students will have to reset their password.",
       //    roster_sub_text_3: "Existing students in the classroom are not removed.",
+      //    roster_download_example: "Download Example CSV",
       //    roster_completed: "Sync completed, refresh to see changes.",
     },
 
@@ -3658,6 +3659,7 @@ module.exports = {
       general_desc: 'Щось пішло не так і це, скоріш за все, наша провина. Спробуйте трохи зачекати і після цього перевантажити сторінку, або відвідайте одне з наступних посилань щоб повернутись до програмування!',
       too_many_login_failures: '[AI_TRANSLATION]Було занадто багато невдалих спроб увійти. Будь ласка, спробуйте пізніше.',
       something_went_wrong: '[AI_TRANSLATION]Ой! Щось пішло не так.',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

@@ -1890,6 +1890,7 @@ module.exports = {
       //    roster_sub_text: "Supports email, firstName and lastName columns. Required: email and firstName.",
       //    roster_sub_text_2: "In case of log-in without SSO, students will have to reset their password.",
       //    roster_sub_text_3: "Existing students in the classroom are not removed.",
+      //    roster_download_example: "Download Example CSV",
       //    roster_completed: "Sync completed, refresh to see changes.",
     },
 
@@ -3658,6 +3659,7 @@ module.exports = {
       general_desc: '[AI_TRANSLATION]뭔가 잘못됐어, 아마 우리의 잘못일 거야. 조금 기다렸다가 페이지 새로고침을 해보거나 아래 링크들 중 하나를 방문해서 프로그래밍으로 돌아가봐!',
       too_many_login_failures: '[AI_TRANSLATION]너무 많은 로그인 시도가 실패했습니다. 나중에 다시 시도해 주세요.',
       something_went_wrong: '[AI_TRANSLATION]어이쿠! 뭔가 잘못됐어',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

@@ -1890,6 +1890,7 @@ module.exports = {
       //    roster_sub_text: "Supports email, firstName and lastName columns. Required: email and firstName.",
       //    roster_sub_text_2: "In case of log-in without SSO, students will have to reset their password.",
       //    roster_sub_text_3: "Existing students in the classroom are not removed.",
+      //    roster_download_example: "Download Example CSV",
       //    roster_completed: "Sync completed, refresh to see changes.",
     },
 
@@ -3658,6 +3659,7 @@ module.exports = {
       general_desc: 'Có lỗi xảy ra, và có thể là lỗi do chúng tôi. Hãy cố đợi một lát và tải lại trang, hoặc truy cập một trong số những đường link phía dưới để quay lại tiếp tục lập trình!',
       too_many_login_failures: '[AI_TRANSLATION]Đã có quá nhiều lần đăng nhập không thành công. Vui lòng thử lại sau.',
       something_went_wrong: '[AI_TRANSLATION]Ồ! Đã xảy ra lỗi',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

@@ -1890,6 +1890,7 @@ module.exports = {
       //    roster_sub_text: "Supports email, firstName and lastName columns. Required: email and firstName.",
       //    roster_sub_text_2: "In case of log-in without SSO, students will have to reset their password.",
       //    roster_sub_text_3: "Existing students in the classroom are not removed.",
+      //    roster_download_example: "Download Example CSV",
       //    roster_completed: "Sync completed, refresh to see changes.",
     },
 
@@ -3658,6 +3659,7 @@ module.exports = {
       general_desc: 'Irgendwas lief schief und es ist wahrscheinlich unsere Schuld. Versuche etwas zu warten und die Seite neu zu laden, oder besuche einen der folgenden Links um zurück zum Programmieren zu kommen!',
       too_many_login_failures: '[AI_TRANSLATION]Es gab zu viele erfolglose Anmeldeversuche. Bitte versuche es später erneut.',
       something_went_wrong: '[AI_TRANSLATION]Oops! Etwas ist schiefgelaufen',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

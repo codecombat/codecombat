@@ -1890,6 +1890,7 @@ module.exports = {
     //    roster_sub_text: "Supports email, firstName and lastName columns. Required: email and firstName.",
     //    roster_sub_text_2: "In case of log-in without SSO, students will have to reset their password.",
     //    roster_sub_text_3: "Existing students in the classroom are not removed.",
+    //    roster_download_example: "Download Example CSV",
     //    roster_completed: "Sync completed, refresh to see changes.",
     //  },
 
@@ -3658,6 +3659,7 @@ module.exports = {
       general_desc: 'Jotain meni pieleen ja se on luultavasti meidän syytämme. Odota hetki ja lataa sivu uudelleen tai katso seuraavat linkit päästäksesi takaisin ohjelmoimaan!',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

@@ -1891,6 +1891,7 @@ module.exports = {
       roster_sub_text: 'Fhccbegf rznvy, svefgAnzr naq ynfgAnzr pbyhzaf. Erdhverq: rznvy naq svefgAnzr.',
       roster_sub_text_2: 'Va pnfr bs ybt-va jvgubhg FFB, fghqragf jvyy unir gb erfrg gurve cnffjbeq.',
       roster_sub_text_3: 'Rkvfgvat fghqragf va gur pynffebbz ner abg erzbirq.',
+      roster_download_example: 'Qbjaybnq Rknzcyr PFI',
       roster_completed: 'Flap pbzcyrgrq, erserfu gb frr punatrf.',
     },
 
@@ -3659,6 +3660,7 @@ module.exports = {
       general_desc: 'Fbzrguvat jrag jebat, naq vg’f cebonoyl bhe snhyg. Gel jnvgvat n ovg naq gura erserfuvat gur cntr, be ivfvg bar bs gur sbyybjvat yvaxf gb trg onpx gb cebtenzzvat!',
       too_many_login_failures: 'Gurer unir orra gbb znal hafhpprffshy ybtva nggrzcgf.  Cyrnfr gel ntnva yngre.',
       something_went_wrong: 'Bbcf! Fbzrguvat jrag jebat',
+      back_to_dashboard: 'Onpx gb Qnfuobneq',
     },
 
     resources: {

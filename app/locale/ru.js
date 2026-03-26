@@ -1890,6 +1890,7 @@ module.exports = {
       //    roster_sub_text: "Supports email, firstName and lastName columns. Required: email and firstName.",
       //    roster_sub_text_2: "In case of log-in without SSO, students will have to reset their password.",
       //    roster_sub_text_3: "Existing students in the classroom are not removed.",
+      //    roster_download_example: "Download Example CSV",
       //    roster_completed: "Sync completed, refresh to see changes.",
     },
 
@@ -3658,6 +3659,7 @@ module.exports = {
       general_desc: 'Что-то пошло не так, и скорее всего это наша вина. Попробуйте немного подождать и обновить страницу, или посетите одну из ссылок ниже, чтобы вернуться к программированию!',
       too_many_login_failures: 'Слишком много неудачных попыток входа. Пожалуйста, попробуйте еще раз позже.',
       something_went_wrong: '[AI_TRANSLATION]Упс! Что-то пошло не так',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

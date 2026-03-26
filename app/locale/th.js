@@ -1890,6 +1890,7 @@ module.exports = {
       //    roster_sub_text: "Supports email, firstName and lastName columns. Required: email and firstName.",
       //    roster_sub_text_2: "In case of log-in without SSO, students will have to reset their password.",
       //    roster_sub_text_3: "Existing students in the classroom are not removed.",
+      //    roster_download_example: "Download Example CSV",
       //    roster_completed: "Sync completed, refresh to see changes.",
     },
 
@@ -3658,6 +3659,7 @@ module.exports = {
       general_desc: '[AI_TRANSLATION]เกิดข้อผิดพลาดบางอย่าง และอาจจะเป็นความผิดของเรา ลองรอสักครู่แล้วรีเฟรชหน้าใหม่ หรือเยี่ยมชมหนึ่งในลิงก์ต่อไปนี้เพื่อกลับไปที่การเขียนโปรแกรม!  ',
       too_many_login_failures: '[AI_TRANSLATION]มีความพยายามเข้าสู่ระบบที่ไม่สำเร็จมากเกินไป กรุณาลองใหม่ภายหลัง',
       something_went_wrong: '[AI_TRANSLATION]อุ๊ปส์! มีข้อผิดพลาดบางอย่าง',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {
