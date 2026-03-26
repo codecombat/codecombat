@@ -140,6 +140,16 @@ export default Vue.extend({
         await sleep(3000)
       }
     },
+    downloadExampleCsv () {
+      const csvContent = 'email,firstName,lastName\njane.doe@example.com,Jane,Doe\njohn.smith@example.com,John,Smith\nalex.jones@example.com,Alex,Jones\n'
+      const blob = new Blob([csvContent], { type: 'text/csv' })
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'example-roster.csv'
+      link.click()
+      URL.revokeObjectURL(url)
+    },
     async regenerateClassCode () {
       this.regenerationInProgress = true
       window.tracker?.trackEvent('Add Students: Request New Class Code Clicked', { category: 'Teachers', label: this.from })
@@ -233,6 +243,11 @@ export default Vue.extend({
         <p class="sub-text">
           *{{ $t("teachers.roster_sub_text_3") }}
         </p>
+        <a
+          class="download-example-csv"
+          href="#"
+          @click.prevent="downloadExampleCsv"
+        >{{ $t("teachers.roster_download_example") }}</a>
         <p
           v-if="jobInfo"
           class="sub-text bold"
@@ -346,6 +361,14 @@ export default Vue.extend({
   .sub-text {
     margin-top: 5px;
     margin-bottom: 5px;
+  }
+  .download-example-csv {
+    @include font-p-4-paragraph-smallest-gray;
+    display: inline-block;
+    margin-top: 5px;
+    color: $color-secondary-button-dusk;
+    text-decoration: underline;
+    cursor: pointer;
   }
 }
 .bold {
