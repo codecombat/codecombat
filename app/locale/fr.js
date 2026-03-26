@@ -3658,6 +3658,7 @@ module.exports = {
       general_desc: "Quelque chose a mal tourné, et c'est probablement de notre faute. Essayez d'attendre un peu puis de rafraîchir la page, ou visitez l'un des liens suivants pour revenir à la programmation !",
       too_many_login_failures: '[AI_TRANSLATION]Il y a eu trop de tentatives de connexion infructueuses. Veuillez réessayer plus tard.',
       something_went_wrong: '[AI_TRANSLATION]Oups ! Quelque chose a mal tourné',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

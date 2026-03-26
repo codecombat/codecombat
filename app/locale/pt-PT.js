@@ -3658,6 +3658,7 @@ module.exports = {
       general_desc: 'Algo correu mal, e, provavelmente, a culpa é nossa. Tenta esperar um pouco e depois recarregar a página, ou visita uma das ligações seguintes para voltares para a programação!',
       too_many_login_failures: '[AI_TRANSLATION]Houve demasiadas tentativas de login sem sucesso. Por favor, tenta novamente mais tarde.',
       something_went_wrong: '[AI_TRANSLATION]Oops! Algo deu errado',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

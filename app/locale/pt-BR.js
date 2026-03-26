@@ -3658,6 +3658,7 @@ module.exports = {
       general_desc: 'Algo deu errado, e provavelmente é nossa falha. Tente aguardar um momento e tente novamente atualizando a página, ou visite um dos seguintes links para voltar à programação!',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

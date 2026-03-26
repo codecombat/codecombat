@@ -3658,6 +3658,7 @@ module.exports = {
       general_desc: 'Qualcosa è andato storto, e probabilmente è colpa nostra. Prova ad aspettare un attimo e ricarica la pagina, altrimenti visita uno dei seguenti links per tornare a programmare!',
       too_many_login_failures: '[AI_TRANSLATION]Ci sono stati troppi tentativi di accesso non riusciti. Riprova più tardi.  ',
       something_went_wrong: '[AI_TRANSLATION]Ops! Qualcosa è andato storto',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

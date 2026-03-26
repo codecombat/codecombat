@@ -3658,6 +3658,7 @@ module.exports = {
       general_desc: 'Oeps er ging iets mis, en dat ligt waarschijnlijk aan ons. Probeer de pagina straks opnieuw te laden, of klik op een van de volgende links om verder te gaan met programmeren!',
       too_many_login_failures: '[AI_TRANSLATION]Er zijn te veel mislukte inlogpogingen geweest. Probeer het later opnieuw.',
       something_went_wrong: '[AI_TRANSLATION]Oeps! Er ging iets mis',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

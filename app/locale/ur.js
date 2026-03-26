@@ -3658,6 +3658,7 @@ module.exports = {
       general_desc: '[AI_TRANSLATION]کچھ غلط ہو گیا ہے، اور شاید ہماری غلطی ہو۔ تھوڑی دیر انتظار کریں اور پھر صفحہ ریفریش کریں، یا نیچے دیے گئے لنکس میں سے کسی ایک پر جائیں اور پروگرامنگ کو دوبارہ شروع کریں!',
       too_many_login_failures: '[AI_TRANSLATION]بہت زیادہ ناکام لاگ ان کوششیں ہوچکی ہیں۔ براہ کرم بعد میں دوبارہ کوشش کریں۔',
       something_went_wrong: '[AI_TRANSLATION]اوہ! کچھ غلط ہو گیا',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

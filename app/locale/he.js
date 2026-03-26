@@ -3658,6 +3658,7 @@ module.exports = {
       general_desc: 'משהו השתבש, וזה כנראה באשמתנו. נסו להמתין מעט ולאחר מכן לרענן את הדף. לחלופין, בקרו באחד הקישורים שלהלן כדי לחזור לתכנות!',
       //    too_many_login_failures: "There have been too many unsuccessful login attempts.  Please try again later.",
       //    something_went_wrong: "Oops! Something went wrong",
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

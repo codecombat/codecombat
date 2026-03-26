@@ -3658,6 +3658,7 @@ module.exports = {
       general_desc: '[AI_TRANSLATION]حدث خطأ ما، وربما يكون خطأنا. حاول الانتظار قليلاً ثم إعادة تحميل الصفحة، أو قم بزيارة أحد الروابط التالية للعودة إلى البرمجة!',
       too_many_login_failures: '[AI_TRANSLATION]كانت هناك الكثير من محاولات تسجيل الدخول الفاشلة. يرجى المحاولة مرة أخرى لاحقًا.',
       something_went_wrong: '[AI_TRANSLATION]عفوًا! حدث خطأ ما',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

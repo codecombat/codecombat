@@ -3658,6 +3658,7 @@ module.exports = {
       general_desc: 'Hiba történt, valószínűleg a mi készülékünkben. Kis idő múlva frissítsd az oldalt vagy válassz az alábbi linkek közül, hogy visszatérj a programozáshoz.',
       too_many_login_failures: '[AI_TRANSLATION]Túl sok sikertelen bejelentkezési kísérlet történt. Kérjük, próbáld meg később újra.',
       something_went_wrong: '[AI_TRANSLATION]Hoppá! Valami nem stimmelt',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

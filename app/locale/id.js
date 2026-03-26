@@ -3658,6 +3658,7 @@ module.exports = {
       general_desc: 'Ada yang salah, dan mungkin itu salah kami. Coba tunggu sebentar lalu muat ulang halaman, atau kunjungi salah satu tautan dibawah untuk kembali ke pemrograman!',
       too_many_login_failures: 'Terlalu banyak upaya login yang gagal. Silakan coba lagi nanti.',
       something_went_wrong: '[AI_TRANSLATION]Oops! Ada yang salah',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {
