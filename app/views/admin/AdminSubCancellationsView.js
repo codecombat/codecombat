@@ -26,6 +26,7 @@ module.exports = (AdminSubCancellationsView = (function () {
       Promise.resolve($.get(url))
         .then(cancelEvents => {
           this.cancelEvents = cancelEvents
+          console.log('cancelEvents', cancelEvents)
           return (typeof this.render === 'function' ? this.render() : undefined)
         })
       return super.initialize()

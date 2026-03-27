@@ -500,6 +500,7 @@ module.exports = class PlayLevelView extends RootView
         @setupManager.open()
 
   onLoaded: ->
+    $('.cc-revoke:visible, .cc-window:visible').addClass('play-level-temp-hidden').hide()
     _.defer => @onLevelLoaderLoaded?()
 
   onLevelLoaderLoaded: ->
@@ -1195,6 +1196,7 @@ module.exports = class PlayLevelView extends RootView
       clearInterval @checkTournamentEndInterval
     Backbone.Mediator.unsubscribe 'modal:closed', @onLevelStarted, @
     Backbone.Mediator.unsubscribe 'audio-player:loaded', @playAmbientSound, @
+    $('.cc-revoke.play-level-temp-hidden, .cc-window.play-level-temp-hidden').show().removeClass('play-level-temp-hidden')
     super()
 
   onIPadMemoryWarning: (e) ->

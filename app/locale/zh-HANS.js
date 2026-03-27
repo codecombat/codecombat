@@ -1923,6 +1923,7 @@ module.exports = {
       //    roster_sub_text: "Supports email, firstName and lastName columns. Required: email and firstName.",
       //    roster_sub_text_2: "In case of log-in without SSO, students will have to reset their password.",
       //    roster_sub_text_3: "Existing students in the classroom are not removed.",
+      //    roster_download_example: "Download Example CSV",
       //    roster_completed: "Sync completed, refresh to see changes.",
     },
 
@@ -3696,6 +3697,7 @@ module.exports = {
       too_many_login_failures: '登录失败过于频繁，请稍后再试。',
       something_went_wrong: '[AI_TRANSLATION]哎呀！出错了',
       phone_code_error: '验证码错误',
+      //    back_to_dashboard: "Back to Dashboard",
     },
 
     resources: {

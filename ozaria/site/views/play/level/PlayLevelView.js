@@ -778,6 +778,7 @@ class PlayLevelView extends RootView {
   }
 
   onLoaded () {
+    $('.cc-revoke:visible, .cc-window:visible').addClass('play-level-temp-hidden').hide()
     return _.defer(() => this.onLevelLoaderLoaded())
   }
 
@@ -1625,6 +1626,7 @@ class PlayLevelView extends RootView {
     }
     Backbone.Mediator.unsubscribe('modal:closed', this.onLevelStarted, this)
     Backbone.Mediator.unsubscribe('audio-player:loaded', this.playAmbientSound, this)
+    $('.cc-revoke.play-level-temp-hidden, .cc-window.play-level-temp-hidden').show().removeClass('play-level-temp-hidden')
     return super.destroy()
   }
 
