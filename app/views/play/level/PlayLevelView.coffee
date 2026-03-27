@@ -499,6 +499,7 @@ module.exports = class PlayLevelView extends RootView
         @setupManager.open()
 
   onLoaded: ->
+    $('.cc-revoke, .cc-window').hide()
     _.defer => @onLevelLoaderLoaded?()
 
   onLevelLoaderLoaded: ->
@@ -1194,6 +1195,7 @@ module.exports = class PlayLevelView extends RootView
       clearInterval @checkTournamentEndInterval
     Backbone.Mediator.unsubscribe 'modal:closed', @onLevelStarted, @
     Backbone.Mediator.unsubscribe 'audio-player:loaded', @playAmbientSound, @
+    $('.cc-revoke, .cc-window').show()
     super()
 
   onIPadMemoryWarning: (e) ->
