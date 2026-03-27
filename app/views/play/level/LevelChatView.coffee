@@ -230,7 +230,7 @@ module.exports = class LevelChatView extends CocoView
 
     # Otherwise, just toggle the chat open/closed
     @open = not @open
-    openPanel = @$('.open-chat-area', @$el).toggle @open
+    openPanel = @$('.open-chat-area', @$el).toggleClass('secret', not @open)
     closedPanel = @$('.closed-chat-area', @$el).toggle not @open
     # Don't toggle icon visibility since we want it always visible
     @scrollDown()
@@ -263,7 +263,7 @@ module.exports = class LevelChatView extends CocoView
     # If chat is not open, open it first
     if not @open
       @open = true
-      @$('.open-chat-area').show()
+      @$('.open-chat-area').toggleClass('secret', false)
       @$('.closed-chat-area').hide()
     # Use the normal credit system since chat is initialized
     @checkCreditsAndAddMessage(e.message)
