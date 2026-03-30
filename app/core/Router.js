@@ -73,6 +73,8 @@ module.exports = (CocoRouter = (function () {
           }
         },
 
+        resources: go('DynamicView'),
+
         about: go('AboutView'),
         'contact-cn': go('ContactCNView'),
         'china-bridge': go('ChinaBridgeView'),

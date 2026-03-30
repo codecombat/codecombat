@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户故事：一个工业设计师学Python的五个月 | CodeCombat</title>
+    <style>
+        /* ================= 品牌色彩体系 ================= */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-white: #ffffff;
+            
+            --text-heading: #1e293b; 
+            --text-main: #334155;    
+            --text-muted: #64748b;   
+            
+            --brand-indigo: #4338ca; /* 品牌蓝 */
+            --brand-indigo-light: #e0e7ff;
+            --brand-gold: #F2BE22;   /* 荣耀金 */
+            --brand-gold-text: #000000;
+            
+            --font-main: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: "Noto Serif SC", serif;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ================= 极简导航栏 (无右侧菜单) ================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; justify-content: flex-start; align-items: center;
+            padding: 15px 40px;
+        }
+        .logo img { height: 36px; display: block; }
+
+        /* ================= 全局动画 ================= */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ================= 博客文章头部 ================= */
+        .article-header {
+            padding: 160px 20px 60px;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            text-align: center;
+        }
+        .article-header-inner { max-width: 800px; margin: 0 auto; }
+        
+        .article-title {
+            font-size: 2.8rem; font-weight: 900; color: var(--text-heading);
+            line-height: 1.3; margin-bottom: 25px; letter-spacing: -0.5px;
+        }
+        
+        /* 真实记录认证标签 (极简版) */
+        .interview-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #fffbeb; border: 1px solid #fde68a; color: #b45309;
+            padding: 8px 20px; border-radius: 50px; font-weight: 800; font-size: 0.95rem;
+            margin-bottom: 30px; box-shadow: var(--shadow-sm);
+        }
+        
+        .article-meta {
+            display: flex; justify-content: center; gap: 20px; color: var(--text-muted);
+            font-size: 0.95rem; font-weight: 600;
+        }
+        .meta-item { display: flex; align-items: center; gap: 6px; }
+
+        /* ================= 博客正文区 ================= */
+        .article-body {
+            max-width: 760px; margin: 0 auto; padding: 60px 20px 100px;
+            font-size: 1.15rem; line-height: 2; color: var(--text-main);
+        }
+
+        .article-body p { margin-bottom: 25px; }
+
+        /* 段落小标题 */
+        .article-body h2 {
+            font-size: 1.6rem; font-weight: 900; color: var(--brand-indigo);
+            margin: 60px 0 25px; position: relative; display: inline-block;
+        }
+        .article-body h2::after {
+            content: ''; position: absolute; left: 0; bottom: -8px; width: 100%; height: 3px; background: var(--brand-gold); border-radius: 2px;
+        }
+
+        /* 荧光笔下半部半遮盖特效 */
+        .highlight-marker {
+            background: linear-gradient(180deg, transparent 55%, rgba(242, 190, 34, 0.8) 55%);
+            padding: 0 4px; font-weight: 900; color: var(--text-heading); display: inline;
+        }
+
+        /* 次重点加粗 */
+        .strong-text { font-weight: 800; color: var(--text-heading); }
+
+        /* 引言块 */
+        .story-quote {
+            font-family: var(--font-serif); font-size: 1.3rem; font-weight: 800; color: var(--brand-indigo);
+            border-left: 5px solid var(--brand-gold); padding: 25px 30px; margin: 40px 0;
+            background: var(--brand-indigo-light); border-radius: 0 16px 16px 0; line-height: 1.7;
+        }
+
+        /* ================= 底部声明框 ================= */
+        .statement-box {
+            background: var(--bg-body);
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            border: 1px solid var(--border-light);
+        }
+        .statement-box strong { color: var(--text-main); font-size: 0.95rem; display: block; margin-bottom: 8px;}
+
+        /* ================= 页脚 ================= */
+        footer { text-align: center; padding: 40px 20px; font-size: 0.95rem; color: var(--text-muted); background: var(--bg-white); border-top: 1px solid var(--border-light); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .article-header { padding: 120px 20px 40px; }
+            .article-title { font-size: 2.2rem; }
+            .article-body { font-size: 1.05rem; padding: 40px 20px; }
+            .article-body h2 { font-size: 1.4rem; margin-top: 40px; }
+            .statement-box { padding: 20px; margin-top: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
+            </a>
+        </div>
+    </header>
+
+    <section class="article-header">
+        <div class="article-header-inner reveal">
+            <div class="interview-badge">
+                🎙️ 声明：本篇内容根据 2026年2月6日 真实用户访谈录音整理发布，发布前经受访者本人审阅确认。
+            </div>
+            <h1 class="article-title">一个工业设计师学Python的五个月</h1>
+            <div class="article-meta">
+                <div class="meta-item"><span>访谈日期：</span> 2026-02-06</div>
+                <div class="meta-item">工业设计师 · 职场人 · 零基础</div>
+            </div>
+        </div>
+    </section>
+
+    <main class="article-body">
+        <div class="reveal delay-1">
+            <p>我做工业设计，平时主要用犀牛建模，Grasshopper参数化插件用得比较多。</p>
+            <p>Grasshopper是可视化编程，拖电池、连线，不用写代码。靠这个吃了好几年饭，一直觉得够用了。但最近两年越来越明显地感觉到天花板——很多高级的纹理生成、参数化设计，底层都要调Python脚本。<span class="highlight-marker">不会写代码的话，很多时候只能在别人搭好的框架里操作，比较难做到真正自定义。</span></p>
+            <p><span class="strong-text">所以学Python这件事，对我来说不是兴趣爱好，是职业刚需。</span></p>
+        </div>
+
+        <div class="reveal">
+            <h2>视频教程我是真看不下去</h2>
+            <p>动手之前我也走过常规路线。</p>
+            <p>B站搜"Python零基础入门"，收藏了几个高赞的系列教程，信心满满地打开第一集。讲得好不好？挺好的。但我就是看不下去。</p>
+            <p>怎么说呢，看视频学编程对我来说有一种特别强烈的痛苦感。你在看别人敲代码，你知道你应该跟着敲，但你就是提不起手来。看了二十分钟觉得"好像都懂了"，关掉视频你什么都写不出来。<span class="highlight-marker">那种反馈周期太长了，你投入了时间但感受不到任何回报。</span></p>
+            <p>对一个习惯了在Grasshopper里拖一个电池就能看到模型变化的人来说，这种"干等"的学习方式简直是折磨。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>找一个不那么痛苦的方法</h2>
+            <p>我后来在B站和知乎搜"游戏化学Python"，看到有人推荐CodeCombat。</p>
+            <p>说实话我选它的原因很朴素：我需要一个学Python不那么痛苦的方式。就这么简单。不是被什么营销打动了，就是排除法——视频看不下去，书也看不下去，那就试试这个。也看过其他类似产品，但有的没有中文支持，就没继续试。</p>
+            <p>注册之后选了Python，进入第一关。写代码让角色移动，点运行，角色动了。</p>
+            <p><span class="highlight-marker">这个即时反馈的感觉，跟在Grasshopper里连完线看到模型变化是同一种东西。</span>我写一行代码，就能看到一个结果。这个循环足够短，短到你来不及觉得无聊。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>五个月打到冰川</h2>
+            <p>从去年开始，到现在大概五个月了，打到了冰川关卡。本来预期三个月能到这里，实际花了更久，因为中间卡过不少次。</p>
+            <p>我的学习节奏很不固定。下班之后如果不太累就打开电脑闯几关，顺利的话几十分钟推进两三关，不顺利的话一整晚耗在一个关卡上。这种不确定性有时候让人很上头，有时候也让人很崩溃。</p>
+            <p>但五个月下来，我确实学到了东西。for循环、while循环、if判断、def定义函数，这些现在用起来已经比较顺了。尤其是学会定义函数并且能嵌套复用的时候，那种感觉很奇妙——<span class="strong-text">你突然理解了编程效率的核心逻辑，理解了为什么程序员要把重复的操作封装起来。</span></p>
+            <p>这些知识已经开始反哺我的工作了。虽然我现在还写不了完整的参数化脚本，但至少看别人写的Python代码不再是天书了，能看懂大致逻辑，知道哪里可以改。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>支撑我走到现在的其实是客服</h2>
+            <p>说一个可能很多人想不到的事：<span class="highlight-marker">我到现在还没弃坑，有一半的原因是因为人工客服。</span></p>
+            <p>这句话一点都不夸张。</p>
+            <p>打到中后期，关卡难度上来了，卡住的频率越来越高。我的求助路线基本是固定的：先自己看代码找问题，找不到就问游戏内置的AI，AI解决不了就去B站搜攻略，攻略也没有的话就找客服。</p>
+            <p>这四步里面，AI那一步的成功率不太高。它有时候给出的建议和我的实际代码对不上。你本来就卡住了，它再给你一个错误方向的提示，那种挫败感是加倍的。<br>
+            <span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：感谢反馈。自本篇访谈之后，平台已对 AI 助手进行了全面升级，语言识别和提示准确性均有显著改善。随着AI助手升级，玩家对外部攻略的依赖也将减少。遇到问题时可放心使用，也可随时联系人工客服获取帮助。）</span>
+            </p>
+            <p>B站上的攻略大部分是老版本的，有些关卡的装备和代码都变了，对不上。</p>
+            <p>最后能兜住我的就是人工客服。我遇到过好几次很具体的问题——比如某个关卡的range索引写法跟标准Python不一样，比如某个装备的技能函数需要特定的调用方式——这些问题只有真人能帮你定位。每次客服帮我解决完，我就能继续往前推好几关。</p>
+            <p>如果没有这个兜底，我大概率在第三个月就放弃了。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>几个让我很难受的地方</h2>
+            <p>既然是真实记录就说真话。</p>
+            <p>宝石经济比较紧。关卡越往后越需要特定的装备才能通关，有些远程技能、有些侦测功能，都绑定在高价装备上。但闯关攒宝石的速度太慢，买了一个就不太舍得换下一个。我到现在基本只用战士一路打过来的。有时候一个关卡卡住了，问题根本不是代码写错了，而是你没有对应的装备。体验有点打折。<br>
+            <span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：感谢反馈。关于装备获取与关卡推进的平衡，团队一直在根据玩家数据和反馈进行调优。目前玩家可通过闯关、成就系统等多种方式获取宝石，部分关卡也支持多种装备方案通关。）</span>
+            </p>
+            <p>后期关卡汉化也有问题。冰川那边有些关卡出现纯英文说明，数学类的尤其多。我英语还行所以能硬啃，但这个额外的认知负担确实让体验打了折扣。</p>
+            <p>还有一个让我一直很想吐槽的事：这个游戏缺一本字典。所有怪物在代码里叫什么名字、英雄的技能有哪些参数、建筑单位有什么属性——这些信息散落在各个关卡里，没有一个统一的地方能查。你经常需要靠猜、靠试错来搞清楚一个东西的代码名到底是什么。对于我们这种做设计的人来说，参数手册是最基本的东西。没有这个，效率会低很多。<br>
+            <span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：这也是我们收到最多的建议之一。团队正在筹备的 Wiki 知识页面将涵盖角色技能、装备属性、代码参数等信息，方便玩家随时查阅。）</span>
+            </p>
+        </div>
+
+        <div class="reveal">
+            <h2>但我还在打</h2>
+            <p>说了一堆问题，但事实是：五个月了，我还在打。</p>
+            <p>工作之后再去学一个新东西，最难的不是学不会，是坚持不下去。我身边也有同事想学Python，买了书、买了课，大多数没撑过两周。</p>
+            <p>我为什么撑下来了？因为<span class="highlight-marker">CodeCombat把"坚持"这件事的成本降低了。</span>它不需要你每天逼自己坐下来看教程，而是让你打开游戏闯几关。闯不过就卡着，卡着就想办法，想不出就找人帮忙，帮完了继续闯。这个循环虽然不完美，但它是转得动的。</p>
+            <p>对我这种"不缺逻辑缺耐心"的人来说，能转动就够了。</p>
+            
+            <p style="font-weight: 800; font-size: 1.35rem; color: var(--text-heading); margin-top: 60px; text-align: center; line-height: 2;">
+                冰川还没打完。打完了我应该就可以开始尝试在工作里写一些简单的Python脚本了。<br>
+                到时候再回头看这五个月，应该会觉得挺值的。<br>
+                <span class="highlight-marker" style="font-size: 1.5rem;">现在先不想那么远，今晚回去把那个卡了两天的关先过了再说。</span>
+            </p>
+        </div>
+
+        <div class="statement-box reveal">
+            <strong>编者补充：</strong>
+                        文中学习体验因人而异，不构成学习效果承诺。文中涉及的价格与关卡信息以平台官网当前公示为准。<br>
+            <span style="display: block; margin-top: 10px; color: var(--text-muted);">我们珍视每一位深度玩家的真实反馈，包括汉化进度、关卡平衡等建议均已同步至产品团队。更多优化动态请关注平台公告。</span>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>京ICP备2026009460号 | 京公网安备 11010802038619号 | 版权 ©2026 CodeCombat Inc. 版权所有.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

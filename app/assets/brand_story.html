@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>品牌故事 | CodeCombat 扣哒世界</title>
+    <style>
+        /* ================= 品牌色彩体系 ================= */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-white: #ffffff;
+            
+            --text-heading: #1e293b; 
+            --text-main: #334155;    
+            --text-muted: #64748b;   
+            
+            --brand-indigo: #4338ca; /* 品牌蓝 */
+            --brand-indigo-light: #e0e7ff;
+            --brand-gold: #F2BE22;   /* 荣耀金 */
+            --brand-gold-text: #000000;
+            
+            --font-main: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: "Noto Serif SC", serif;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ================= 极简导航栏 (无右侧菜单) ================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; justify-content: flex-start; align-items: center;
+            padding: 15px 40px;
+        }
+        .logo img { height: 36px; display: block; }
+
+        /* ================= 全局动画 ================= */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ================= 页面头部区域 ================= */
+        .page-header {
+            padding: 180px 20px 100px;
+            text-align: center;
+            background: linear-gradient(180deg, #f0f4f8 0%, var(--bg-body) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at center, rgba(67, 56, 202, 0.05) 0%, transparent 50%);
+            animation: rotate 60s linear infinite; z-index: 0;
+        }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+
+        .page-header-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+        .page-header h1 { font-size: 4rem; font-weight: 900; color: var(--text-heading); margin-bottom: 20px; line-height: 1.2; letter-spacing: -1px; }
+        .page-header p.subtitle { font-size: 1.5rem; color: var(--brand-indigo); font-weight: 800; margin-bottom: 50px; }
+
+        .header-quote {
+            font-family: var(--font-serif); font-size: 1.8rem; line-height: 1.6; color: var(--text-heading);
+            background: var(--bg-white); padding: 50px; border-radius: 24px; box-shadow: var(--shadow-lg);
+            position: relative; border-top: 6px solid var(--brand-gold); text-align: left;
+        }
+        .header-quote::before {
+            content: "“"; position: absolute; top: -20px; left: 30px; font-size: 8rem; color: var(--brand-indigo-light);
+            font-family: var(--font-main); line-height: 1; font-weight: 900; opacity: 0.5;
+        }
+        .header-quote span { display: block; font-size: 1.1rem; color: var(--text-muted); font-family: var(--font-main); margin-top: 30px; font-weight: 600; text-align: right; }
+
+        /* ================= 博客排版内容区 ================= */
+        .blog-container {
+            max-width: 800px; margin: 0 auto; padding: 60px 20px 80px;
+            font-size: 1.15rem; line-height: 2; color: var(--text-main);
+        }
+
+        .blog-container h2 {
+            font-size: 2rem; font-weight: 900; color: var(--text-heading);
+            margin: 80px 0 30px; position: relative; padding-bottom: 15px;
+        }
+        .blog-container h2::after {
+            content: ''; position: absolute; left: 0; bottom: 0; width: 60px; height: 4px; background: var(--brand-indigo); border-radius: 2px;
+        }
+
+        .blog-container p { margin-bottom: 25px; }
+
+        /* 特殊高亮语法 (黄色荧光笔半遮盖) */
+        .highlight-marker {
+            background: linear-gradient(180deg, transparent 55%, rgba(242, 190, 34, 0.8) 55%);
+            padding: 0 4px; font-weight: 900; color: var(--text-heading); display: inline;
+        }
+        
+        /* 次重点加粗显示 */
+        .strong-text { font-weight: 800; color: var(--text-heading); }
+
+        /* 引用块设计 */
+        .blockquote {
+            border-left: 5px solid var(--brand-indigo); background: var(--brand-indigo-light);
+            padding: 30px; margin: 40px 0; border-radius: 0 16px 16px 0;
+            font-size: 1.3rem; font-weight: 800; color: var(--brand-indigo); line-height: 1.6;
+        }
+
+        /* 列表设计 */
+        .blog-container ul { margin: 0 0 30px 20px; padding-left: 20px; }
+        .blog-container ul li { margin-bottom: 10px; position: relative; list-style-type: none; }
+        .blog-container ul li::before {
+            content: "•"; color: var(--brand-gold); font-size: 1.5rem; font-weight: 900;
+            position: absolute; left: -25px; top: -5px;
+        }
+
+        /* ================= 中轴时间线 (替换原表格) ================= */
+        .timeline-section {
+            max-width: 1000px; margin: 60px auto 120px; padding: 0 20px;
+        }
+        .timeline-section h2 {
+            font-size: 2.2rem; font-weight: 900; color: var(--text-heading); text-align: center; margin-bottom: 60px;
+        }
+        
+        .timeline-wrapper { position: relative; width: 100%; margin: 0 auto; }
+        .timeline-wrapper::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: var(--brand-indigo-light); transform: translateX(-50%); }
+        
+        .timeline-item { width: 50%; padding: 0 50px 50px 0; position: relative; }
+        .timeline-item:nth-child(even) { margin-left: auto; padding: 0 0 50px 50px; }
+        
+        .timeline-item::after { content: ''; position: absolute; right: -12px; top: 10px; width: 24px; height: 24px; background: var(--brand-gold); border-radius: 50%; border: 4px solid var(--bg-body); z-index: 2; }
+        .timeline-item:nth-child(even)::after { left: -12px; }
+        
+        /* 针对 2026 年节点的专门修复 */
+        .timeline-item.year-2026 { width: 100% !important; margin-left: 0 !important; padding: 60px 0 0 0 !important; text-align: center; margin-top: 20px; }
+        .timeline-item.year-2026::after { left: 50% !important; top: 10px !important; margin-left: -12px !important; transform: none !important; }
+
+        .timeline-year { font-size: 1.8rem; font-weight: 900; color: var(--brand-indigo); line-height: 1; margin-bottom: 12px; }
+        .timeline-content { background: var(--bg-white); padding: 25px 30px; border-radius: 20px; box-shadow: var(--shadow-sm); font-size: 1.05rem; border: 1px solid var(--border-light); line-height: 1.8; color: var(--text-main); }
+
+        /* ================= 页脚 ================= */
+        footer { text-align: center; padding: 40px 20px; font-size: 0.95rem; color: var(--text-muted); background: var(--bg-white); border-top: 1px solid var(--border-light); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .page-header h1 { font-size: 2.8rem; }
+            .header-quote { font-size: 1.3rem; padding: 30px; }
+            .blog-container { padding: 40px 20px 40px; font-size: 1.05rem; }
+            .blog-container h2 { font-size: 1.6rem; margin-top: 50px; }
+            
+            .timeline-wrapper::before { left: 30px; }
+            .timeline-item, .timeline-item:nth-child(even) { width: 100%; padding: 0 0 40px 80px; }
+            .timeline-item::after, .timeline-item:nth-child(even)::after { left: 18px; width: 20px; height: 20px; }
+            .timeline-item.year-2026 { padding: 40px 0 0 0 !important; }
+            .timeline-item.year-2026::after { left: 50% !important; margin-left: -10px !important; }
+            .timeline-year { font-size: 1.5rem; }
+            .timeline-content { padding: 20px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
+            </a>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="page-header-content reveal">
+            <h1>我们的故事</h1>
+            <p class="subtitle">从教外国人写汉字，到教全世界与计算机对话</p>
+            <div class="header-quote">
+                既然我能教会外国人书写一门复杂的语言，我也相信，我们能教会更多人掌握与计算机对话的能力。
+                <span>—— Nick Winter，CodeCombat 联合创始人</span>
+            </div>
+        </div>
+    </section>
+
+    <main class="blog-container">
+
+        <section class="reveal">
+            <h2>一、三个年轻人的"反常识"选择</h2>
+            <p>2004 年，美国俄亥俄州欧柏林学院（Oberlin College）里，三个痴迷代码、游戏和创造的计算机系本科生 Nick Winter、George Saines、Scott Erickson 成了挚友，后续与 Matt Lott 共同组成了 CodeCombat 的创始团队。</p>
+            <p>他们课余时间不是在写代码，就是在研究怎么把学习变得更有趣。他们一起在校园里搞过街头艺术项目，也熬过无数个讨论技术与教育的通宵。</p>
+            <p>按照常规的职业路径，他们毕业后本可以进入硅谷的 Google、Meta 等头部科技公司，拿到六位数美元年薪，成为一名资深工程师。但他们选择了一条截然不同的路。</p>
+        </section>
+
+        <section class="reveal">
+            <h2>二、一个美国人去重庆的故事</h2>
+            <p>2006 年末到 2007 年初，还在读大三的 Nick Winter 做了一个特别的决定：去<span class="strong-text">中国重庆</span>，为一个叫"爱知"的艾滋病防治公益组织做志愿者，帮助这家非营利机构建立与美国 NGO 的合作联系。</p>
+            <p>这段经历给他留下了两样东西。第一样是对中国的真实触感——不是旅行攻略里的中国，而是一个巨大、复杂、充满活力的真实世界。第二样更重要：<span class="strong-text">他开始认真学习中文。</span></p>
+            <p>如果你接触过中文学习就会知道，汉字对母语为拼音文字的外国人来说，是学习门槛极高、逻辑体系完全不同的书写系统。这不是靠背就能会的东西——<span class="strong-text">你必须一笔一画地写，才能真正记住。</span></p>
+            <p>Nick 在学汉字的过程中发现了一件让他兴奋的事：当时市面上所有的语言学习产品，本质上都在让你"看"和"记"。<span class="highlight-marker">但真正让他学会汉字的，是"写"。</span></p>
+            <p>于是，2007年，Nick 和室友 George Saines、Scott Erickson 在宿舍里开始筹备一个项目——<strong style="color: var(--brand-indigo); font-size: 1.25rem;">Skritter</strong>。2008年正式发布。</p>
+        </section>
+
+        <section class="reveal">
+            <h2>三、Skritter：用"亲手写"替代"死记硬背"</h2>
+            <p>Skritter 是一款专门教外国人<span class="strong-text">手写汉字</span>的应用。它的核心理念今天听起来似乎理所当然，但在 2007 年，这在教育科技领域是极其前沿的思路：</p>
+            <div class="blockquote">
+                学习不是"看懂"就够了，必须"做出来"。
+            </div>
+            <p>用户要在屏幕上一笔一画地写，系统会实时判断笔顺和笔画是否正确，然后立即给出反馈。<span class="highlight-marker">亲手写、实时反馈、在犯错中学会。</span>写对了，记忆加深；快忘了，系统就在最精确的时间点把这个字推回你面前让你重新写一次。</p>
+            <p>这背后是一套叫做<span class="strong-text">"间隔重复"（Spaced Repetition）</span>的记忆算法——在记忆遗忘临界点推送复习内容，帮助用户更科学地完成汉字记忆与巩固。</p>
+            <p>Skritter 后来成为全球广受认可的外国人汉字学习工具，全球用户累计学习字符超 10 亿个（数据来源：Skritter 官方后台学习数据统计），至今仍在稳定运营。它证明了一件看似简单、实则深刻的事情：</p>
+            <p><span class="strong-text">复杂的能力，也可以被设计成让人愿意坚持学下去的过程。<span class="highlight-marker">关键不是降低难度，而是改变体验。</span></span></p>
+        </section>
+
+        <section class="reveal">
+            <h2>四、“如果汉字可以这样学，编程为什么不行？”</h2>
+            <p>Skritter 成功之后，Nick 心里一直有一个更大的问题在转。他是程序员，他教外国人写汉字，但他同时也目睹了太多想学编程却失败的人。这些人不笨，他们只是——</p>
+            <ul>
+                <li>被枯燥的教材劝退了。</li>
+                <li>被抽象的概念搞懵了。</li>
+                <li>被报错信息打击到怀疑人生。</li>
+            </ul>
+            <p>然后放弃了。一次、两次、三次。Nick 开始意识到，代码和语言，底层逻辑惊人地相似。人类用母语跟彼此说话，用代码跟计算机说话。<span class="strong-text">你不可能只靠"看别人说"就学会一门语言。<span class="highlight-marker">你必须自己开口、自己书写、自己犯错、自己修正。</span></span></p>
+            <p>编程也一样——你必须亲手一行一行敲下去，才能把抽象概念变成真正属于自己的能力。但当时所有的编程教育，要么让你被动地看视频，要么让你在一个毫无乐趣的黑色终端里一个人孤独地打字。</p>
+            <p><span class="highlight-marker">学习最大的敌人，不是难，而是无聊。</span></p>
+            <p>大多数人不是学不会，只是坚持不到学会。如果 Skritter 能通过"亲手写 + 即时反馈 + 间隔重复"让外国人爱上写汉字，那么，用同样的底层逻辑，<span class="highlight-marker">再加上一个新元素：游戏</span>，能不能让所有人爱上写代码？</p>
+        </section>
+
+        <section class="reveal">
+            <h2>五、2013 年 2 月，旧金山</h2>
+            <p>2013 年 2 月，Nick Winter 与 George Saines、Scott Erickson、Matt Lott 在旧金山正式创立了 CodeCombat。</p>
+            <p>Nick 把 Skritter 里已经被十亿次学习验证过的学习科学方法论，完整地迁移到了编程教育中：<span class="strong-text"><span class="highlight-marker">沉浸式学习、即时反馈、自适应难度、高频练习、面向真实使用场景的知识巩固。</span></span></p>
+            <p>但他们又往前走了一步，加入了一个改变一切的新元素——<strong style="color: var(--brand-indigo); font-size: 1.25rem;">游戏。</strong></p>
+            <p>这不是为了"看起来更酷"，也不是为了给严肃学习贴一层花花绿绿的外皮。而是因为他们在 Skritter 的经验中清楚地看到了：真正适配用户成长节奏的学习系统，不是一次性灌输大量知识，而是在合适的阶段给用户匹配对应的挑战与正向反馈。而游戏，恰恰是人类发明的、具备极强正向激励能力的"挑战-反馈"系统。</p>
+            <p>于是，CodeCombat 从第一天起就不是一个"课程平台"，而是<span class="highlight-marker">一个"让你停不下来的学习系统"。</span></p>
+            <p>你进入的不是一个目录页，而是一个世界。你面对的不是 PPT，而是任务。你写的每一行代码都是真实的 Python 或 JavaScript——但 if 和 for 变成了剑招和魔法，函数变成了装备技能。每写对一行代码，你的英雄就立刻做出响应。<span class="strong-text">不是"看懂了再做题"，而是"做着做着就懂了"。</span></p>
+        </section>
+
+        <section class="reveal">
+            <h2>六、一周 18 万用户，硅谷顶级孵化器入选</h2>
+            <p>CodeCombat 产品原型发布后，被用户分享至 Reddit 平台，帖子迅速引发广泛关注，上线一周内累计新增注册用户 18 万（数据来源：CodeCombat 全球官方后台注册统计）。</p>
+            <p>没有付费广告投放，没有 KOL 商业推广，仅靠用户自发分享与一句核心介绍：“这是一个让你通过写真实代码来闯关的游戏。”</p>
+            <p>同年，团队入选全球知名创业孵化器 Y Combinator，随后获得了包括硅谷一线风投机构 Andreessen Horowitz 在内的多家机构投资。这意味着，不只是用户认可它的差异化价值，硅谷成熟的创业投资生态，也认可了它在教育领域的创新模式。</p>
+            <p>2014 年 1 月，团队做了一个在教育公司里极为罕见的决定：将 CodeCombat 核心代码开源，代码托管至 GitHub 平台，全球开发者均可查看、修改、贡献代码。</p>
+            <div class="blockquote">
+                “如果我们的使命是让每个人都能学会编程，那么我们的工具本身也不应该有门槛。”
+            </div>
+            <p>开源之后，来自全球的数百名开发者自发加入贡献，将 CodeCombat 翻译成了几十种语言，推进到了 190 多个国家。</p>
+        </section>
+
+        <section class="reveal">
+            <h2>七、一本关于"如何不靠意志力"的书</h2>
+            <p>同样是在 2013 年，Nick 把自己多年来对学习动力与行为机制的研究写成了一本书——《The Motivation Hacker》（《动力黑客》）。</p>
+            <p>这本书的写作过程本身就是一次疯狂的实验：他在三个月内同时挑战了 17 个目标，包括创办 CodeCombat、发布一款 iPhone 应用、学写 3000 个新汉字、从零开始跑马拉松、学滑板、读 20 本书、学飞刀、学清醒梦——同时保证每晚睡 8 小时。</p>
+            <p>听起来像在吹牛，但 Nick 用这本书想传达的核心观点，恰恰是 CodeCombat 的精神内核：</p>
+            <p><span class="highlight-marker">真正有效的学习和行动，不依赖意志力硬撑，而依赖系统设计。</span></p>
+            <p>当你的环境、反馈机制和激励系统设计对了，“坚持"这件事就不再需要咬牙——它会自然发生。这正是 CodeCombat 做的事情：不是告诉你"编程很重要你要努力学”，而是把学习体验设计成让你根本停不下来。</p>
+        </section>
+
+        <section class="reveal">
+            <h2>八、跨越太平洋——从硅谷到中关村</h2>
+            <p>CodeCombat 和中国的缘分，其实从创始人就已经埋下了种子。Nick 在重庆做过志愿者，学过中文，他的第一家公司 Skritter 教的就是汉字。这不是一个对中国一无所知的硅谷团队，而是一个从起点就理解"跨语言学习"意味着什么的团队。</p>
+            <p>2018 年，CodeCombat 正式与网易达成战略合作，以"极客战记"的名字进入中国市场，面向个人学习者开放。同年，产品开始在中国学校里试点运行。</p>
+            <p>但真正让 CodeCombat 在中国扎下根的，是接下来发生的事。</p>
+        </section>
+
+        <section class="reveal">
+            <h2>九、扣哒世界：中关村长出来的中国团队</h2>
+            <p>2019 年 1 月，CodeCombat 中国团队在北京中关村正式成立，扣哒世界成为 CodeCombat 中国区核心运营方。</p>
+            <p>很快，来自清华计算机姚班、北大信息科学学院、北大软件与微电子学院、斯坦福大学计算机系、耶鲁大学计算机系的顶尖毕业生陆续加入。团队核心成员硕士及以上学历占比超 90%（数据来源：扣哒世界内部人事统计），部分成员曾在 ACM、ICM、NOIP 和全国数学联赛中取得过优异成绩。</p>
+            <p>这不是一个简单的"代理翻译"团队。他们要做的不只是汉化界面，而是把 CodeCombat 的游戏化编程学习方法论，<span class="strong-text">嫁接到中国教育的土壤里，长出真正属于中国用户的果实。</span></p>
+            <p>2019 年 2 月，核心三人组聚首北京。5 月，扣哒教学版正式上线。扣哒团队随即开启全国巡回路演，足迹遍及新疆、宁夏、陕西、山西、黑龙江、辽宁、四川、重庆、浙江、江苏、广东、海南……和各地合作伙伴一起，把编程教育推进到一个又一个学校和机构。</p>
+            <p>2019 年 12 月，扣哒世界斩获新浪 2019 中国教育盛典"年度最有影响力 STEAM 项目"奖项。同期举办的全球教育技术大会（GET）上，CodeCombat 联合创始人 Nick Winter 全程用中文发表主题演讲，相关内容获得近百家媒体转载报道（数据来源：媒体监测系统统计）。</p>
+            <p>一个美国创始人在中国的教育大会上用中文演讲——这件事本身，就是 CodeCombat 基因里那个"跨语言学习"故事的最好注脚。</p>
+        </section>
+
+        <section class="reveal">
+            <h2>十、从比赛到白名单——被中国教育体系正式认可</h2>
+            <p>扣哒世界不只是做产品，还在中国做了一件非常重要的事：办比赛。</p>
+            <p>首届"扣哒杯"AI 世青赛在工信部党校正式启动，由工信部赛迪研究院培训中心和人工智能产业创新联盟主办，扣哒世界作为全球独家竞赛技术支持伙伴。首届比赛吸引了全国 28 个省市的 7000 多名中小学生参赛。</p>
+            <p>这只是一个开始。</p>
+            <p>2020 年，第二届 AI 世青赛由扣哒人工智能学院、CodeCombat 和网易伏羲人工智能实验室联合主办，累计参赛人数达 65332 人，同比增长 931.7%（数据来源：AI 世青赛官方报名系统统计），成为国内规模领先的真实代码青少年编程赛事之一。同年，全球 Code Quest 决赛线上举行，来自 58 个国家和地区的 1500 多名选手参加，中国队斩获 12 枚奖牌中的 4 枚（2 金 1 银 1 铜），位居奖牌榜第一。</p>
+            <p>2020 年，扣哒世界与全球青少年图灵计划达成全球战略合作，为这一面向全球选拔 AI 人才的顶级项目提供算法竞赛平台和顶点项目设计。</p>
+            <p>2021 年，扣哒世界迎来一个重大里程碑 —— 成为第 33 届国际信息学奥林匹克竞赛（IOI）专项赛事的官方技术支持平台。来自 87 个国家的信奥国家队选手通过扣哒世界的多人竞技场展示编程技能。IOI 是全球中学生计算机科学领域公认的顶级赛事，扣哒世界能成为其中一个专项活动的技术平台，意味着它的竞赛系统已经得到了全球顶级学术机构的认可。</p>
+            <p>2022 年 2 月，扣哒世界成为教育部公布的面向中小学生的全国性白名单赛事 ——"少年硅谷全国青少年人工智能教育成果展示大赛"AI 算法竞技赛项的独家技术合作平台。这项赛事由中国下一代教育基金会主办、教育部批准，覆盖全国省级选拔赛和全国决赛。"白名单"赛事意味着其权威性、规范性和教育价值已通过教育部的严格审核，是国内面向中小学生的合规全国性竞赛活动。</p>
+            <p>截至 2024 年，AI 世青赛国内累计参赛人数已突破数十万人（数据来源：AI 世青赛官方报名系统累计统计）。扣哒世界也从一个五人创业团队，发展成了辐射全国 31 个省市、覆盖港澳台地区，并跨洋拓展至澳大利亚、新西兰、新加坡、日本、韩国等亚太国家的平台。产品已被翻译成 50 多种语言，截至 2024 年，中国及港澳台地区累计注册用户近 600 万（数据来源：扣哒世界官方后台注册统计）。</p>
+            <p>2023 年 6 月，CodeCombat 在纳什维尔召开全球团队周会，庆祝 CodeCombat 创立 10 周年、扣哒世界创立 5 周年。同年，扣哒世界与中国科学院大学培训中心合作，推出面向全球青少年的人工智能认证评价体系，进一步夯实了平台在学术评估领域的权威性。</p>
+        </section>
+
+        <section class="reveal">
+            <h2>十一、从斯坦福到清华——一场真正的双向奔赴</h2>
+            <p>回头看这个故事，会发现一条很有意思的暗线：</p>
+            <p>2019 年夏天，扣哒世界与斯坦福大学相关机构联合举办了首届 Code Quest 全球青少年编程和人工智能挑战赛，39 位来自中美两国的优秀青少年选手在斯坦福校园同台竞技，赛事获得《彭博社》《纽约时报》《华尔街日报》等多家全球知名媒体报道。</p>
+            <p>2023 年 5 月，在清华大学计算机系科协主办的第 27 届智能体大赛全国决赛中，由扣哒世界选派的上海小学四年级学生施佳颖脱颖而出 —— 她是本届最小的获奖选手，也是唯一晋级全国决赛的女选手。</p>
+            <p>从斯坦福到清华，从硅谷到中关村，从一个美国人学汉字的小故事，到数百万中国学生在游戏中写下第一行真实代码——这不是一个"外国产品进中国"的商业故事，而是一场关于"学习应该是什么样子"的理念实验在两种文化中同时生根发芽。</p>
+        </section>
+
+        <section class="reveal">
+            <h2>十二、新篇章：面向中国成年人的 codecombat.cn</h2>
+            <p>在扣哒世界深耕青少年编程教育多年之后，团队发现了一个被严重忽视的群体——<span class="strong-text">中国的大学生和职场人。</span></p>
+            <p>这群人数量庞大，需求真实而迫切：大学里被 C 语言课折磨的文科生、AI 时代焦虑但不知从哪学起的职场人、多次尝试又多次放弃的"编程恐惧症患者"。他们不是不想学，而是市面上没有一个真正为他们设计的产品。</p>
+            <p>市面上的传统编程培训课程门槛高、周期长、成本高，纯视频课程缺乏实操反馈，交互式图文课难以建立完整的编程思维，纯算法刷题平台对零基础用户极不友好，很多人多次尝试却始终无法跨过入门门槛。</p>
+            <p>于是，<strong style="color: var(--brand-indigo);">codecombat.cn</strong> 作为专门面向中国大学生和职场人士的版本应运而生。</p>
+            <p>它继承了 CodeCombat 十三年打磨的 2300+ 关卡、游戏化引擎和学习科学方法论，继承了扣哒世界在中国市场积累的本土化经验和教育资源，但重新定位于一个全新的使命：</p>
+            <p><span class="strong-text">帮助每一个被编程劝退过的中国成年人，终于跨过从"想学"到"学会"的那道坎。</span></p>
+        </section>
+
+        <section class="reveal">
+            <h2>十三、13 年后，问题变了，答案没变</h2>
+            <p>2013 年，CodeCombat 要解决的问题是：<br>怎么让一个从没学过代码的人，愿意开始、愿意继续。</p>
+            <p><span class="highlight-marker">2026 年，这个问题升级了：<br>怎么让普通人不只是会用 AI，而是能真正指挥 AI。</span></p>
+            <p>你可能听过一句话：“AI 时代不需要学编程了，让 AI 帮你写就行。”</p>
+            <p>但现实是：如果你完全不懂代码在做什么，你连 AI 写出来的东西对不对都判断不了。你以为你在指挥 AI，其实你只是在盲目地复制粘贴。</p>
+            <p>真正能在 AI 时代把技术变成杠杆的人，不是"会用对话框的人"，而是懂得代码逻辑、能跟 AI 真正协作的人。<br>这就是为什么"学会编程"在 2026 年不是变得不重要了，而是变得前所未有地重要。</p>
+            <p>CodeCombat 的初心从未改变。<br>变的，只是时代给它赋予了更大的意义。</p>
+            <div class="blockquote" style="border-color: var(--brand-gold); background: #fffbeb; color: var(--brand-gold-text);">
+                过去，它帮助人们跨过"学编程太难"的门槛。<br>现在，它帮助人们跨过"AI 很强，但我不会用"的门槛。
+            </div>
+        </section>
+
+    </main>
+
+    <section class="timeline-section reveal">
+        <h2>关键时间线</h2>
+        <div class="timeline-wrapper">
+            <div class="timeline-item">
+                <div class="timeline-year">2004</div>
+                <div class="timeline-content">Nick、George、Scott 在欧柏林学院相识</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2006-2007</div>
+                <div class="timeline-content">Nick 前往中国重庆做公益志愿者，开始认真学中文</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2007</div>
+                <div class="timeline-content">三人在大学宿舍创立 Skritter，教外国人手写汉字</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2008</div>
+                <div class="timeline-content">从欧柏林学院毕业，全身心投入 Skritter</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2013 年 2 月</div>
+                <div class="timeline-content">Nick、George、Scott 与 Matt Lott 在旧金山创立 CodeCombat</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2014</div>
+                <div class="timeline-content">入选 Y Combinator Winter 2014（W14）批次；产品原型上线一周累计新增注册用户 18 万（数据来源：CodeCombat 全球官方后台统计）</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2013</div>
+                <div class="timeline-content">Nick 出版《The Motivation Hacker》</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2014 年 1 月</div>
+                <div class="timeline-content">CodeCombat 宣布核心代码开源，代码托管至 GitHub 平台，全球开发者均可查看、修改、贡献代码</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2016 年 5 月</div>
+                <div class="timeline-content">完成 200 万美元种子轮融资，投资方包括 Third Kind Venture Capital、Andreessen Horowitz、Allen & Company</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2018</div>
+                <div class="timeline-content">与网易合作，以"极客战记"名义正式进入中国市场</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2019 年 1 月</div>
+                <div class="timeline-content">CodeCombat 中国团队在北京中关村正式成立，扣哒世界成为 CodeCombat 中国区核心运营方</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2019 年 5 月</div>
+                <div class="timeline-content">扣哒教学版正式上线，开启全国巡回路演</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2019 年 8 月</div>
+                <div class="timeline-content">首届 Code Quest 全球决赛在斯坦福大学举行，《彭博社》《纽约时报》《华尔街日报》报道</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2019 年 9 月</div>
+                <div class="timeline-content">首届"扣哒杯"AI 世青赛在工信部党校启动，全国 28 省市 7000+ 选手参赛</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2019 年 12 月</div>
+                <div class="timeline-content">扣哒获新浪教育盛典"年度最有影响力 STEAM 项目"；Nick Winter 在 GET 大会用中文演讲</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2020</div>
+                <div class="timeline-content">扣哒世界与极客战记国内累计注册用户突破 500 万（数据来源：官方后台注册统计）；第二届 AI 世青赛 65,332 人参赛</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2020</div>
+                <div class="timeline-content">扣哒世界是中国计算机学会（CCF）会员单位，平台课程体系适配全国青少年信息学竞赛（NOI/CSP-J/CSP-S）的能力培养需求，平台执教教师均通过 CCF NOI 指导教师资质考核，具备官方认证的竞赛指导资格。C++ 学习内容上线</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2020</div>
+                <div class="timeline-content">Code Quest 全球决赛 58 国参赛，中国队夺 4 枚奖牌（2 金 1 银 1 铜），奖牌榜第一</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2020</div>
+                <div class="timeline-content">扣哒世界与全球青少年图灵计划达成全球合作</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2021</div>
+                <div class="timeline-content">入选第 33 届国际信息学奥林匹克竞赛（IOI）专项赛，87 国选手参与</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2022 年 2 月</div>
+                <div class="timeline-content">扣哒世界正式入围教育部白名单官方赛事，成为少年硅谷 AI 算法竞技赛独家技术合作平台</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2023</div>
+                <div class="timeline-content">CodeCombat 创立 10 周年 / 扣哒世界创立 5 周年；与中国科学院大学培训中心合作推出 AI 认证评价体系</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2023</div>
+                <div class="timeline-content">扣哒选手施佳颖（小学四年级）获清华大学第 27 届智能体大赛全国决赛奖项</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2024</div>
+                <div class="timeline-content">全球累计注册学习者突破 2000 万，覆盖 190+ 国家和地区；中国及港澳台地区累计注册用户近 600 万（数据来源：CodeCombat 全球官方后台统计）</div>
+            </div>
+            <div class="timeline-item year-2026">
+                <div class="timeline-year" style="font-size: 3.5rem; color: var(--brand-gold);">2026</div>
+                <div class="timeline-content" style="border: 2px solid var(--brand-gold); max-width: 800px; margin: 0 auto; font-size: 1.15rem; font-weight: 800; text-align: center;">codecombat.cn 正式上线，面向中国大学生与职场人士，开启 AI 时代的编程学习新篇章</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>京ICP备2026009460号 | 京公网安备 11010802038619号 | 版权 ©2026 CodeCombat Inc. 版权所有.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

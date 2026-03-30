@@ -4,6 +4,7 @@ module.exports = {
   'views/ai-junior/AIJuniorScenarioView': function () { return import(/* webpackChunkName: 'aiJunior' */ 'views/ai-junior/AIJuniorScenarioView') },
   'views/ai-junior/AIJuniorScenarioUserView': function () { return import(/* webpackChunkName: 'aiJunior' */ 'views/ai-junior/AIJuniorScenarioUserView') },
   'views/ai-junior/AIJuniorScenarioUserProjectView': function () { return import(/* webpackChunkName: 'aiJunior' */ 'views/ai-junior/AIJuniorScenarioUserProjectView') },
+  'views/DynamicView': function () { return import(/* webpackChunkName: "AboutView" */ 'views/DynamicLoadHTML') },
   'views/AboutView': function () { return import(/* webpackChunkName: "AboutView" */ 'views/AboutView') },
   'views/EventsView': function () { return import(/* webpackChunkName: "EventsView" */ 'views/EventsView')},
   'views/HomeView': function () { return import(/* webpackChunkName: "HomeView" */ 'views/HomeView') },

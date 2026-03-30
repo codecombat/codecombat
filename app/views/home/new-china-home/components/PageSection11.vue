@@ -41,7 +41,8 @@
           span='京公网安备 11010802038619号'
 
         span {{ $t("nav.copyright_prefix") }}
-        span= ' ©2026 CodeCombat Inc. '
+        //span= ' ©2026 CodeCombat Inc. '
+        span= ' ©2026 扣哒少年（北京）科技有限公司. '
         span {{ $t("nav.copyright_suffix") }}
 </template>
 <script>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户故事：计科大一，一个编程游戏帮我重新理解了Python | CodeCombat</title>
+    <style>
+        /* ================= 品牌色彩体系 ================= */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-white: #ffffff;
+            
+            --text-heading: #1e293b; 
+            --text-main: #334155;    
+            --text-muted: #64748b;   
+            
+            --brand-indigo: #4338ca; /* 品牌蓝 */
+            --brand-indigo-light: #e0e7ff;
+            --brand-gold: #F2BE22;   /* 荣耀金 */
+            --brand-gold-text: #000000;
+            
+            --font-main: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: "Noto Serif SC", serif;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ================= 极简导航栏 (无右侧菜单) ================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; justify-content: flex-start; align-items: center;
+            padding: 15px 40px;
+        }
+        .logo img { height: 36px; display: block; }
+
+        /* ================= 全局动画 ================= */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ================= 博客文章头部 ================= */
+        .article-header {
+            padding: 160px 20px 60px;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            text-align: center;
+        }
+        .article-header-inner { max-width: 800px; margin: 0 auto; }
+        
+        .article-title {
+            font-size: 2.8rem; font-weight: 900; color: var(--text-heading);
+            line-height: 1.3; margin-bottom: 25px; letter-spacing: -0.5px;
+        }
+        
+        /* 真实记录认证标签 */
+        .interview-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #fffbeb; border: 1px solid #fde68a; color: #b45309;
+            padding: 10px 20px; border-radius: 50px; font-weight: 800; font-size: 0.95rem;
+            margin-bottom: 30px; box-shadow: var(--shadow-sm);
+            text-align: left;
+            line-height: 1.6;
+        }
+        
+        .article-meta {
+            display: flex; justify-content: center; gap: 20px; color: var(--text-muted);
+            font-size: 0.95rem; font-weight: 600;
+        }
+        .meta-item { display: flex; align-items: center; gap: 6px; }
+
+        /* ================= 博客正文区 ================= */
+        .article-body {
+            max-width: 760px; margin: 0 auto; padding: 60px 20px 100px;
+            font-size: 1.15rem; line-height: 2; color: var(--text-main);
+        }
+
+        .article-body p { margin-bottom: 25px; }
+
+        /* 段落小标题 */
+        .article-body h2 {
+            font-size: 1.6rem; font-weight: 900; color: var(--brand-indigo);
+            margin: 60px 0 25px; position: relative; display: inline-block;
+        }
+        .article-body h2::after {
+            content: ''; position: absolute; left: 0; bottom: -8px; width: 100%; height: 3px; background: var(--brand-gold); border-radius: 2px;
+        }
+
+        /* 荧光笔下半部半遮盖特效 */
+        .highlight-marker {
+            background: linear-gradient(180deg, transparent 55%, rgba(242, 190, 34, 0.8) 55%);
+            padding: 0 4px; font-weight: 900; color: var(--text-heading); display: inline;
+        }
+
+        /* 次重点加粗 */
+        .strong-text { font-weight: 800; color: var(--text-heading); }
+
+        /* 引言块 */
+        .story-quote {
+            font-family: var(--font-serif); font-size: 1.3rem; font-weight: 800; color: var(--brand-indigo);
+            border-left: 5px solid var(--brand-gold); padding: 25px 30px; margin: 40px 0;
+            background: var(--brand-indigo-light); border-radius: 0 16px 16px 0; line-height: 1.7;
+        }
+
+        /* ================= 底部声明框 ================= */
+        .statement-box {
+            background: var(--bg-body);
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            border: 1px solid var(--border-light);
+        }
+        .statement-box strong { color: var(--text-main); font-size: 0.95rem; display: block; margin-bottom: 8px;}
+
+        /* ================= 页脚 ================= */
+        footer { text-align: center; padding: 40px 20px; font-size: 0.95rem; color: var(--text-muted); background: var(--bg-white); border-top: 1px solid var(--border-light); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .article-header { padding: 120px 20px 40px; }
+            .article-title { font-size: 2.2rem; }
+            .article-body { font-size: 1.05rem; padding: 40px 20px; }
+            .article-body h2 { font-size: 1.4rem; margin-top: 40px; }
+            .interview-badge { font-size: 0.85rem; padding: 10px 15px; }
+            .statement-box { padding: 20px; margin-top: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
+            </a>
+        </div>
+    </header>
+
+    <section class="article-header">
+        <div class="article-header-inner reveal">
+            <div class="interview-badge">
+                🎙️ 声明：本篇内容根据2026年1月11日真实用户访谈整理发布，发布前经受访者本人审阅确认。
+            </div>
+            <h1 class="article-title">计科大一，一个编程游戏帮我重新理解了Python</h1>
+            <div class="article-meta">
+                <div class="meta-item"><span>访谈日期：</span> 2026-01-11</div>
+                <div class="meta-item">计算机科学（AI方向）大一 · 有一定基础</div>
+            </div>
+        </div>
+    </section>
+
+    <main class="article-body">
+        <div class="reveal delay-1">
+            <p><span class="strong-text">先说背景：某985高校，大一，人工智能方向。</span></p>
+            <p>计算机类专业的大一生活基本就是被各种语言轮着锤——C语言刚喘口气，Python考试又来了。课堂上老师三节课能把基础语法全过完，你以为你听懂了，结果一上机什么都敲不出来。</p>
+            <p>我不算零基础，C语言学过一些，Python也接触过。但<span class="highlight-marker">"接触过"和"考试能过"之间，隔着一个巨大的实操鸿沟。</span></p>
+        </div>
+
+        <div class="reveal">
+            <h2>课堂的问题</h2>
+            <p>对我来说课堂节奏偏快，理论到实操之间需要更多练习时间。</p>
+            <p>变量、循环、函数、列表，课上哗哗地过，笔记记了一堆，感觉什么都懂。但真到自己写代码的时候，就开始卡壳——这个循环条件怎么写来着？这个列表怎么遍历来着？明明上课都讲过，就是手上出不来。</p>
+            <p>靠看书复习吧，枯燥。靠刷题吧，对着IDE一个人写，没有任何反馈，写对了没感觉，写错了只有一堆红色报错信息，看完更烦。</p>
+            <p>后来养成了一个坏习惯：遇到不会的直接问AI。GPT一贴代码就给答案，省事是省事了，但我也知道这样下去考试的时候不可能打开GPT帮我写。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>怎么接触到CodeCombat的</h2>
+            <p>之前通过同学推荐第一次知道了 CodeCombat，随便玩了几关，没太当回事。</p>
+            <p>后来考试压力上来了，我开始在B站搜Python相关的学习内容。看到有人提CodeCombat，说是写代码闯关，突然想起来之前用过这东西，就重新打开看了看。</p>
+            <p><span class="strong-text">这次的心态完全不一样——不是"随便玩玩"，而是"我需要一个让我动手写代码的东西"。</span></p>
+        </div>
+
+        <div class="reveal">
+            <h2>和刷题最大的区别</h2>
+            <p>在IDE里刷题，你面对的是一个空白的编辑器和一道题目。写出来了就写出来了，写不出来就干瞪眼。整个过程没有任何"爽感"，纯靠意志力撑着。</p>
+            <p>CodeCombat不一样的地方在于，你写的每一行代码都有即时的视觉反馈。你写了一个if判断，英雄马上就按照你的逻辑去行动了；你写了一个循环，英雄就真的在地图上重复执行你的指令。<span class="highlight-marker">对就是对，错就是错，不需要你去读那些看不懂的报错信息，看画面就知道哪里有问题。</span></p>
+            <p>这个反馈速度比在IDE里写代码快太多了。</p>
+            <p>而且因为是游戏嘛，你会有一种"我要把这关过了"的驱动力。跟我打CS2和三角洲的心态是一样的——卡住了会想再试一次，而不是关掉窗口去刷抖音。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>后期关卡给了我一个意外的东西</h2>
+            <p>前面几章对我来说确实太基础了，变量、简单循环这些东西我在C语言课上就学过，过起来有点无聊。说实话中间有段时间差点弃了。</p>
+            <p>但打到后面几个大关卡的时候，感觉突然变了。</p>
+            <p>那些关卡需要你把好几个知识点串起来——条件判断嵌套循环，函数调用配合变量，代码量也上来了。你得自己分析场景，自己拆解逻辑，自己写完整的解决方案。没有人给你提示"这道题考的是什么"，你得自己判断该用什么工具。</p>
+            <p><span class="strong-text">通关那一下的感觉很强。不是"我打过了一个游戏关卡"，而是"我刚才写的那段代码逻辑是对的，我真的理解了这个东西"。</span></p>
+            <p>这种自信心是在IDE里刷十道题都换不来的。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>期末的时候验证了一件事</h2>
+            <p>考前那段时间，我每天晚上在宿舍打一个小时左右的关卡，算是变相复习。</p>
+            <p>期末Python考试成绩有了明显提升，自己比较满意。更意外的是，学 Python 过程中积累的编程思维，对后来学 C 也有一些帮助。</p>
+            <p>想想其实很好理解。编程语言之间底层的逻辑是相通的，循环就是循环，条件判断就是条件判断，函数封装的思路也是一样的，只是不同语言的写法不同而已。在CodeCombat里面，这些逻辑结构你不是"背"会的，是反反复复在不同场景里"用"会的。<span class="highlight-marker">用到后来形成了一种类似"肌肉记忆"的编码熟练感，换到C语言的语法里也能很快反应过来。</span></p>
+            <p>当然也离不开课堂复习和刷题，但 CodeCombat 帮我把概念真正"跑通"了。不敢说全是CodeCombat的功劳，但那段时间的高强度练习确实让我的编程手感整体上了一个台阶。触类旁通这件事，只有底子真正打扎实了才会发生。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>一些不太爽的地方</h2>
+            <p>既然是真实体验就说真话。</p>
+            <p>前三章太拖了。对于我们计算机专业的学生来说，最基础的那些内容课上早就学过了，但游戏里你没法跳过，得一关一关打完。如果能有一个"我已经有基础了，让我直接跳到进阶关卡"的选项，体验会好很多。<br>
+<span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：感谢反馈。"有基础的用户希望跳过入门内容"是我们收到较多的建议之一，团队正在探索分层入口的方案，让不同水平的玩家都能从适合自己的阶段开始。方案落地后会第一时间在平台内通知。）</span>
+            </p>
+            <p>还有一个让我挺头疼的事——账号系统。我之前在学校用的是学校版的账号，后来自己想在个人版继续打，发现数据不互通。登录页面也有点绕，一会儿是这个入口一会儿是那个入口，差点直接劝退。<br>
+<span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：感谢这位同学的详细反馈。校园版与个人版目前确实是独立账号体系，主要是为了保障校园场景下的数据管理需要。我们理解这给同时使用两个版本的用户带来了不便，团队正在评估在合规前提下实现学习进度衔接的可能性。关于登录入口不够清晰的问题，我们也已记录并反馈给产品团队优化。）</span>
+            </p>
+            <p>地图上的任务分支也有点乱。有些支线关卡藏在犄角旮旯里，你不仔细看根本发现不了。打到一半不知道主线在哪了，得来回翻地图找，打断节奏。</p>
+<span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：感谢反馈。主线与支线的视觉引导确实有优化空间，团队已将地图导航的清晰度列入体验改进计划。）</span>
+        </div>
+
+        <div class="reveal">
+            <h2>对同专业同学说几句</h2>
+            <p>如果你也是计算机相关专业，也觉得上课听得懂但自己写不出来，可以试试。前面几关可能会觉得简单，忍一忍，后面会越来越有感觉。</p>
+            <p>它不能替代课堂，也不能替代系统学习，但它能帮你补上最关键的那块短板——<span class="strong-text">从"我知道"到"我能写出来"。</span></p>
+            
+            <p style="font-weight: 800; font-size: 1.35rem; color: var(--text-heading); margin-top: 60px; text-align: center; line-height: 2;">
+                比起对着教材发呆或者抄AI给的代码，<br>
+                <span class="highlight-marker" style="font-size: 1.5rem;">至少这个方式让你真正动了脑子。</span>
+            </p>
+        </div>
+        
+        <div class="statement-box reveal">
+            <strong>编者补充：</strong>
+            文中学习体验因人而异，不构成学习效果承诺。
+        </div>
+    </main>
+
+    <footer>
+        <p>京ICP备2026009460号 | 京公网安备 11010802038619号 | 版权 ©2026 CodeCombat Inc. 版权所有.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

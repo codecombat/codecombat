@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCombat的用户故事</title>
+    <style>
+        /* ================= 品牌色彩体系 ================= */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-white: #ffffff;
+            
+            --text-heading: #1e293b; 
+            --text-main: #334155;    
+            --text-muted: #64748b;   
+            
+            --brand-indigo: #4338ca; 
+            --brand-gold: #F2BE22;   
+            
+            --border-light: rgba(0,0,0,0.05);
+            
+            --font-main: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 20px 40px -10px rgba(0, 0, 0, 0.12);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ================= 极简导航栏 ================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-light);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 40px;
+        }
+        .logo img { height: 36px; display: block; }
+        .back-link { font-size: 1rem; font-weight: 700; color: var(--text-main); text-decoration: none; transition: color 0.3s; }
+        .back-link:hover { color: var(--brand-indigo); }
+
+        /* ================= 纯粹文字版的页面头部 ================= */
+        .page-header {
+            padding: 160px 20px 80px;
+            background: var(--bg-white);
+            text-align: center;
+            border-bottom: 1px solid var(--border-light);
+            position: relative;
+        }
+        /* 增加一个非常淡的径向渐变，让纯白背景不那么干瘪 */
+        .page-header::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 50% 0%, #f1f5f9 0%, transparent 70%);
+            z-index: 0; pointer-events: none;
+        }
+        
+        .page-title {
+            position: relative; z-index: 1;
+            font-size: 3.2rem; font-weight: 900; color: var(--text-heading); 
+            margin-bottom: 20px; letter-spacing: -1px;
+        }
+        .page-subtitle {
+            position: relative; z-index: 1;
+            font-size: 1.25rem; color: var(--text-muted); 
+            font-weight: 500; max-width: 750px; margin: 0 auto; line-height: 1.8;
+        }
+
+        /* ================= 分组与网格布局 ================= */
+        .main-container {
+            max-width: 1100px; margin: 0 auto; padding: 60px 20px 20px;
+        }
+        .group-section {
+            margin-bottom: 90px;
+        }
+        
+        /* 分组标题设计：带有一个小圆点前缀，很像杂志的专栏标记 */
+        .group-title {
+            font-size: 2rem; font-weight: 900; color: var(--text-heading);
+            margin-bottom: 40px; display: flex; align-items: center; gap: 15px;
+        }
+        .group-title::before {
+            content: ''; display: block; width: 12px; height: 12px;
+            background: var(--brand-indigo); border-radius: 50%;
+            box-shadow: 0 0 0 4px var(--brand-indigo-light);
+        }
+        
+        .story-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;
+        }
+
+        /* ================= 卡片设计 ================= */
+        .story-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            padding: 40px;
+            text-decoration: none;
+            display: flex; flex-direction: column; justify-content: flex-start;
+            position: relative; overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            opacity: 0; transform: translateY(30px);
+        }
+        
+        /* 侧边彩色装饰条 */
+        .story-card::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px;
+            background: var(--card-theme, var(--brand-indigo));
+            transition: width 0.3s ease;
+        }
+
+        .story-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: transparent;
+        }
+        .story-card:hover::before { width: 12px; }
+
+        /* 一句话标签 (取代了原来的日期) */
+        .story-label {
+            font-size: 1.1rem; color: var(--card-theme, var(--brand-indigo)); 
+            font-weight: 900; margin-bottom: 15px;
+            display: inline-block;
+        }
+        
+        .story-title {
+            font-size: 1.45rem; font-weight: 800; color: var(--text-heading);
+            line-height: 1.5; margin: 0; transition: color 0.3s;
+        }
+
+        .story-card:hover .story-title {
+            color: var(--text-main);
+        }
+
+        .story-card.active { opacity: 1; transform: translateY(0); }
+
+        /* ================= 动态色彩主题集 ================= */
+        .theme-blue { --card-theme: #3b82f6; }
+        .theme-green { --card-theme: #22c55e; }
+        .theme-amber { --card-theme: #f59e0b; }
+        .theme-purple { --card-theme: #8b5cf6; }
+        .theme-indigo { --card-theme: #4338ca; }
+        .theme-rose { --card-theme: #f43f5e; }
+        .theme-teal { --card-theme: #14b8a6; }
+
+        /* ================= 底部引导语 ================= */
+        .bottom-cta {
+            text-align: center; padding: 40px 20px 80px;
+            font-size: 1.3rem; color: var(--text-heading); font-weight: 800; line-height: 1.8;
+            max-width: 700px; margin: 0 auto;
+        }
+        .bottom-cta span { color: var(--brand-indigo); }
+
+        /* ================= 页脚 ================= */
+        footer { text-align: center; padding: 40px 20px; font-size: 0.95rem; color: var(--text-muted); background: var(--bg-white); border-top: 1px solid var(--border-light); }
+
+        /* ================= 响应式 ================= */
+        @media (max-width: 900px) {
+            .story-grid { grid-template-columns: 1fr; gap: 20px; }
+            .page-header { padding: 120px 20px 60px; }
+            .page-title { font-size: 2.2rem; }
+            .page-subtitle { font-size: 1.1rem; }
+            .group-title { font-size: 1.6rem; margin-bottom: 30px; }
+            .story-card { padding: 30px 25px; }
+            .story-title { font-size: 1.3rem; }
+            .bottom-cta { font-size: 1.15rem; padding: 20px 20px 60px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="/">
+                <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
+            </a>
+        </div>
+            </header>
+
+    <section class="page-header">
+        <h1 class="page-title">CodeCombat的用户故事</h1>
+        <p class="page-subtitle">每一个故事都来自真实的CodeCombat用户访谈。<br>他们背景不同、年龄不同、起点不同，但都在这里找到了属于自己的节奏。</p>
+    </section>
+
+    <div class="main-container">
+
+        <section class="group-section">
+            <h2 class="group-title">第一组：还在读书的他们</h2>
+            <div class="story-grid">
+                <a href="user1.html" class="story-card theme-blue">
+                    <div class="story-label">文科女生</div>
+                    <h3 class="story-title">毕业前的两个月，我居然开始看懂代码了</h3>
+                </a>
+
+                <a href="user10.html" class="story-card theme-purple">
+                    <div class="story-label">大一生物女生</div>
+                    <h3 class="story-title">学生物的我，为什么开始学编程了</h3>
+                </a>
+
+                <a href="user3.html" class="story-card theme-amber">
+                    <div class="story-label">北京初一男生</div>
+                    <h3 class="story-title">一个初一男生的编程闯关日记</h3>
+                </a>
+
+                <a href="user15.html" class="story-card theme-teal">
+                    <div class="story-label">大一计算机专业</div>
+                    <h3 class="story-title">大一计算机专业，我用一个编程游戏备考Python</h3>
+                </a>
+            </div>
+        </section>
+
+        <section class="group-section">
+            <h2 class="group-title">第二组：已经工作的他们</h2>
+            <div class="story-grid">
+                <a href="user2.html" class="story-card theme-green">
+                    <div class="story-label">土木工程10年</div>
+                    <h3 class="story-title">工作十年的土木人，靠一个"编程游戏"重新找回了心流</h3>
+                </a>
+
+                <a href="user4.html" class="story-card theme-rose">
+                    <div class="story-label">前前端开发</div>
+                    <h3 class="story-title">职业转型期，我在一个编程游戏里找到了新方向</h3>
+                </a>
+
+                <a href="user7.html" class="story-card theme-indigo">
+                    <div class="story-label">卡车司机</div>
+                    <h3 class="story-title">跑长途的间隙，我在驾驶室里学会了写代码</h3>
+                </a>
+
+                <a href="user8.html" class="story-card theme-teal">
+                    <div class="story-label">19岁工作党</div>
+                    <h3 class="story-title">自动化专业毕业就工作，我想靠编程多一个选择</h3>
+                </a>
+
+                <a href="user11.html" class="story-card theme-purple">
+                    <div class="story-label">音乐专业</div>
+                    <h3 class="story-title">一个音乐专业毕业生，学编程是什么体验</h3>
+                </a>
+
+                <a href="user12.html" class="story-card theme-amber">
+                    <div class="story-label">工业设计师</div>
+                    <h3 class="story-title">一个工业设计师学Python的五个月</h3>
+                </a>
+
+                <a href="user14.html" class="story-card theme-blue">
+                    <div class="story-label">建筑从业者</div>
+                    <h3 class="story-title">建筑行业干了几年，我决定开始学编程</h3>
+                </a>
+            </div>
+        </section>
+
+        <section class="group-section">
+            <h2 class="group-title">第三组：为孩子选择的他们</h2>
+            <div class="story-grid">
+                <a href="user5.html" class="story-card theme-indigo">
+                    <div class="story-label">高三家长</div>
+                    <h3 class="story-title">给高考后的女儿选编程学习工具，我的思考过程</h3>
+                </a>
+
+                <a href="user6.html" class="story-card theme-rose">
+                    <div class="story-label">四年级家长</div>
+                    <h3 class="story-title">一个编程零基础妈妈，陪四年级儿子闯到了安息云峰</h3>
+                </a>
+
+                <a href="user9.html" class="story-card theme-green">
+                    <div class="story-label">六年级家长</div>
+                    <h3 class="story-title">寒假给儿子找了个"正事"，结果我自己也上头了</h3>
+                </a>
+
+                <a href="user13.html" class="story-card theme-teal">
+                    <div class="story-label">阿勒泰家长</div>
+                    <h3 class="story-title">在阿勒泰给一年级的儿子找编程启蒙，我的踩坑和选择</h3>
+                </a>
+            </div>
+        </section>
+
+        <div class="bottom-cta">
+            <div style="font-weight: 500; font-size: 1.15rem; color: var(--text-main); margin-bottom: 15px;">每个人学编程的理由都不一样，但坐下来开始写代码的那一刻是一样的。</div>
+            <div style="font-weight: 500; font-size: 1.15rem; color: var(--text-main); margin-bottom: 30px;">我们想记录更多这样的故事——不需要你学得多深、打到多远，哪怕只是"第一次让小人动起来"的那个瞬间，对我们来说都值得听。</div>
+                        <div style="font-weight: 500; font-size: 1.15rem; color: var(--text-main); margin-bottom: 30px;">你的经历，也许正好能让另一个犹豫中的人觉得"我也可以试试"。</div>
+            <div style="margin-bottom: 30px;"><span>如果你也在用 CodeCombat，愿意聊聊你的经历，欢迎扫码预约一次简短的访谈。我们会为每位受访者准备一份小小的感谢。</span></div>
+            
+            <img src="https://assets.koudashijie.com/images/homeVersion/service_qr.png" alt="扫码预约访谈" style="width: 160px; height: 160px; display: block; margin: 0 auto 40px; border-radius: 12px; box-shadow: var(--shadow-sm);">
+            
+            <div style="color: var(--text-muted); font-size: 1.1rem; font-weight: 600;">更多故事，持续更新中。</div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>京ICP备2026009460号 | 京公网安备 11010802038619号 | 版权 ©2026 CodeCombat Inc. 版权所有.</p>
+    </footer>
+
+    <script>
+        // 瀑布流式的滚动浮现动画
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll('.story-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        // 加入少许随机延迟，让网格浮现更有层次感
+                        const delay = Math.random() * 200;
+                        setTimeout(() => {
+                            entry.target.classList.add('active');
+                        }, delay); 
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            cards.forEach((card) => {
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户故事：一个音乐专业毕业生的编程尝鲜记录 | CodeCombat</title>
+    <style>
+        /* ================= 品牌色彩体系 ================= */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-white: #ffffff;
+            
+            --text-heading: #1e293b; 
+            --text-main: #334155;    
+            --text-muted: #64748b;   
+            
+            --brand-indigo: #4338ca; /* 品牌蓝 */
+            --brand-indigo-light: #e0e7ff;
+            --brand-gold: #F2BE22;   /* 荣耀金 */
+            --brand-gold-text: #000000;
+            
+            --font-main: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: "Noto Serif SC", serif;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ================= 极简导航栏 (无右侧菜单) ================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; justify-content: flex-start; align-items: center;
+            padding: 15px 40px;
+        }
+        .logo img { height: 36px; display: block; }
+
+        /* ================= 全局动画 ================= */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ================= 博客文章头部 ================= */
+        .article-header {
+            padding: 160px 20px 60px;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            text-align: center;
+        }
+        .article-header-inner { max-width: 800px; margin: 0 auto; }
+        
+        .article-title {
+            font-size: 2.8rem; font-weight: 900; color: var(--text-heading);
+            line-height: 1.3; margin-bottom: 25px; letter-spacing: -0.5px;
+        }
+        
+        /* 真实记录认证标签 (极简版) */
+        .interview-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #fffbeb; border: 1px solid #fde68a; color: #b45309;
+            padding: 8px 20px; border-radius: 50px; font-weight: 800; font-size: 0.95rem;
+            margin-bottom: 30px; box-shadow: var(--shadow-sm);
+        }
+        
+        .article-meta {
+            display: flex; justify-content: center; gap: 20px; color: var(--text-muted);
+            font-size: 0.95rem; font-weight: 600;
+        }
+        .meta-item { display: flex; align-items: center; gap: 6px; }
+
+        /* ================= 博客正文区 ================= */
+        .article-body {
+            max-width: 760px; margin: 0 auto; padding: 60px 20px 100px;
+            font-size: 1.15rem; line-height: 2; color: var(--text-main);
+        }
+
+        .article-body p { margin-bottom: 25px; }
+
+        /* 段落小标题 */
+        .article-body h2 {
+            font-size: 1.6rem; font-weight: 900; color: var(--brand-indigo);
+            margin: 60px 0 25px; position: relative; display: inline-block;
+        }
+        .article-body h2::after {
+            content: ''; position: absolute; left: 0; bottom: -8px; width: 100%; height: 3px; background: var(--brand-gold); border-radius: 2px;
+        }
+
+        /* 荧光笔下半部半遮盖特效 */
+        .highlight-marker {
+            background: linear-gradient(180deg, transparent 55%, rgba(242, 190, 34, 0.8) 55%);
+            padding: 0 4px; font-weight: 900; color: var(--text-heading); display: inline;
+        }
+
+        /* 次重点加粗 */
+        .strong-text { font-weight: 800; color: var(--text-heading); }
+
+        /* 引言块 */
+        .story-quote {
+            font-family: var(--font-serif); font-size: 1.3rem; font-weight: 800; color: var(--brand-indigo);
+            border-left: 5px solid var(--brand-gold); padding: 25px 30px; margin: 40px 0;
+            background: var(--brand-indigo-light); border-radius: 0 16px 16px 0; line-height: 1.7;
+        }
+
+        /* ================= 底部声明框 ================= */
+        .statement-box {
+            background: var(--bg-body);
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            border: 1px solid var(--border-light);
+        }
+        .statement-box strong { color: var(--text-main); font-size: 0.95rem; display: block; margin-bottom: 8px;}
+
+        /* ================= 页脚 ================= */
+        footer { text-align: center; padding: 40px 20px; font-size: 0.95rem; color: var(--text-muted); background: var(--bg-white); border-top: 1px solid var(--border-light); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .article-header { padding: 120px 20px 40px; }
+            .article-title { font-size: 2.2rem; }
+            .article-body { font-size: 1.05rem; padding: 40px 20px; }
+            .article-body h2 { font-size: 1.4rem; margin-top: 40px; }
+            .statement-box { padding: 20px; margin-top: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
+            </a>
+        </div>
+    </header>
+
+    <section class="article-header">
+        <div class="article-header-inner reveal">
+            <div class="interview-badge">
+                🎙️ 声明：本篇内容根据 2026年2月6日 真实用户访谈录音整理发布，发布前经受访者本人审阅确认。
+            </div>
+            <h1 class="article-title">一个音乐专业毕业生的编程尝鲜记录</h1>
+            <div class="article-meta">
+                <div class="meta-item">音乐专业毕业生 · 职场人 · 零基础</div>
+            </div>
+        </div>
+    </section>
+
+    <main class="article-body">
+        <div class="reveal delay-1">
+            <p>我是学音乐的，已经毕业工作了。</p>
+            <p>先回答那个所有人都会问的问题：学音乐的为什么要学编程？</p>
+            <p>答案是：<span class="strong-text">不为什么。就是好奇。</span></p>
+        </div>
+
+        <div class="reveal">
+            <h2>大学那次不太成功的尝试</h2>
+            <p>其实大学的时候选修过一门Python。当时想着多学点东西总没坏处，结果第一节课老师就开始讲变量类型、数据结构，一堆概念轰上来，我一个音乐生坐在那儿完全跟不上。</p>
+            <p>不是听不懂每个字，是一下子塞太多了，脑子根本处理不过来。第三周之后我就没再去过了。期末靠背题勉强混过去，Python长什么样我基本全忘了。</p>
+            <p><span class="highlight-marker">这件事给我留下了一个印象：编程不适合我。</span></p>
+            <p>后来工作了，日常被各种琐事填满，这个念头也就压下去了。偶尔刷到什么"人人都该学编程"的帖子，心里会动一下，但也就动一下。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>在小红书上刷到的</h2>
+            <p>有一天在电脑上刷小红书——对，我习惯在电脑上看小红书，屏幕大看着舒服——搜了一下"Python"，也没想真的学，就是随便看看现在大家都怎么学的。</p>
+            <p>翻着翻着看到有人推荐一个叫CodeCombat的东西，说是写代码控制游戏角色，零基础也能玩。配的截图看起来还挺好看的，不像那种粗糙的教学软件。</p>
+            <p>我就去百度搜了官网，打开，注册，选了Python，进去了。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>零负担这件事对我很重要</h2>
+            <p>我这个人有一个特点：<span class="strong-text">一旦感觉到"在学习"，就会本能地抗拒。</span>不是懒，是那种被考试支配了十几年之后的应激反应。任何让我觉得"我必须掌握这个"的东西，我都会想逃。</p>
+            <p>所以那些传统的网课我是真的受不了。视频一打开，老师严肃地说"今天我们来学习Python的基本数据类型"，我内心已经开始想关掉了。</p>
+            <p>CodeCombat给我的第一感觉完全不一样。它就是一个游戏。进去之后有个小人站在地牢里，我要写代码让它走路、捡宝石、打怪。没有人跟我说"注意这是顺序执行结构"，我就是在给一个小角色下指令而已。</p>
+            <p>hero.moveRight() —— 小人往右走了。<br>
+            hero.attack(enemy) —— 小人拔剑出手了。</p>
+            <p>就这么简单。<span class="highlight-marker">没有心理负担，没有"学不会怎么办"的焦虑。</span>就像下班回家打开一个小游戏放松一下，只不过放松完了之后你发现自己居然记住了几个Python的命令。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>那个让我上头的瞬间</h2>
+            <p>说一个具体的感受。</p>
+            <p>有一关需要让英雄对着一个角色说话，代码是hero.say("something")。我敲完点了运行，屏幕上那个小人头顶真的冒出了一个对话气泡，说出了我写的话。</p>
+            <p>这个画面让我有一种很奇妙的感觉。<span class="strong-text">不是"我学会了一个语法"，而是"我让一个东西按照我的意思做了一件事"。</span>像是在一个小世界里当指挥官，每一行代码都是我的指令。</p>
+            <p>这种掌控感让人非常舒服。</p>
+            <p>我之前打过不少游戏，RPG、模拟经营什么的，但CodeCombat的爽点跟那些不太一样。普通游戏的操控是按键，你按什么角色就做什么，反应是机械的。但在这里，你是用逻辑去操控的——你得想清楚先做什么后做什么，然后把你的想法翻译成代码，再看着角色去执行。这个过程比按按钮有意思多了。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>每关只学一点点的舒适感</h2>
+            <p>最让我觉得舒服的一点是，它每一关就教你一丁点东西。</p>
+            <p>第一关就是走路，第二关加一个方向，第三关教你攻击，后面慢慢加捡东西、跟人对话。不会像我之前上的网课那样一节课塞太多概念让我自己消化。</p>
+            <p>对我这种文科脑来说，这个节奏刚刚好。<span class="highlight-marker">每一关我就记住一两个新单词、一两个新用法，积累下来其实也不少。</span>打完免费的那几关之后，我发现自己已经认识了move、attack、say这些词，而且是在用的过程中记住的，不是死背的。</p>
+            <p>大学选修课上没找到的那种感觉，在这里玩了一个小时居然有了。当然，两边学的深度不一样，但"有感觉"这件事本身就是从零到一的突破。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>为什么我停在了第七关</h2>
+            <p>免费的关卡打完之后，出现了付费页面。</p>
+            <p>我看了一下价格，对于一个"随便玩玩"的人来说，确实超出了我的预期。如果当时有一个更灵活的体验方式，我可能会继续试试。</p>
+            <p>犹豫就意味着关掉页面，关掉之后就很难再打开。</p>
+            <p>所以我现在还停在第七关，没有继续。<br>
+            <span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：平台目前提供多种订阅方案，也可通过免费关卡充分体验后再决定。免费关卡数量及具体价格请以官网当前公示为准。）</span>
+            </p>
+        </div>
+
+        <div class="reveal">
+            <h2>但我不后悔这一个小时</h2>
+            <p>虽然没付费继续，但前面那一个小时的体验确实让我重新审视了一件事：编程可能没有我以为的那么可怕。</p>
+            <p>大学那次的经历让我觉得"编程不适合我"，但现在回头看，<span class="highlight-marker">可能不是我不适合编程，是那种教法不适合我。</span>一上来就灌概念、讲理论、要你记住一堆东西——这种方式对我来说就是灾难。</p>
+            <p>但如果是"你来指挥这个小人，让它完成任务"——这个我可以。这不需要你先背一堆定义，你只需要观察、尝试、调整。跟我练琴其实是一个道理：不是先把乐理全学完再碰琴键，而是先摸着琴键找感觉，理论在过程中自然就懂了。</p>
+            <p>我不确定自己以后会不会认真学编程。可能会，可能不会。但至少我现在知道了：如果某天我真的想学，是有适合我这种人的方式的。</p>
+            
+            <p style="font-weight: 800; font-size: 1.35rem; color: var(--text-heading); margin-top: 60px; text-align: center; line-height: 2;">
+                这一个小时给我的最大收获不是学了几个Python命令，<br>
+                <span class="highlight-marker" style="font-size: 1.5rem;">而是把"编程不适合我"这个想法从脑子里拿掉了。</span><br>
+                光这一点就挺值的。
+            </p>
+        </div>
+
+        <div class="statement-box reveal">
+            <strong>编者补充：</strong>
+            本篇内容根据 2026年2月6日 真实用户访谈录音整理发布，发布前经受访者本人审阅确认。<br>
+            文中学习体验因人而异，不构成学习效果承诺。文中涉及的价格与关卡信息以平台官网当前公示为准。
+        </div>
+
+    </main>
+
+    <footer>
+        <p>京ICP备2026009460号 | 京公网安备 11010802038619号 | 版权 ©2026 CodeCombat Inc. 版权所有.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

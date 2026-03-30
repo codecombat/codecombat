@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户故事：学生物的我，为什么开始学编程了 | CodeCombat</title>
+    <style>
+        /* ================= 品牌色彩体系 ================= */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-white: #ffffff;
+            
+            --text-heading: #1e293b; 
+            --text-main: #334155;    
+            --text-muted: #64748b;   
+            
+            --brand-indigo: #4338ca; /* 品牌蓝 */
+            --brand-indigo-light: #e0e7ff;
+            --brand-gold: #F2BE22;   /* 荣耀金 */
+            --brand-gold-text: #000000;
+            
+            --font-main: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: "Noto Serif SC", serif;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ================= 极简导航栏 (无右侧菜单) ================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; justify-content: flex-start; align-items: center;
+            padding: 15px 40px;
+        }
+        .logo img { height: 36px; display: block; }
+
+        /* ================= 全局动画 ================= */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ================= 博客文章头部 ================= */
+        .article-header {
+            padding: 160px 20px 60px;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            text-align: center;
+        }
+        .article-header-inner { max-width: 800px; margin: 0 auto; }
+        
+        .article-title {
+            font-size: 2.8rem; font-weight: 900; color: var(--text-heading);
+            line-height: 1.3; margin-bottom: 25px; letter-spacing: -0.5px;
+        }
+        
+        /* 真实记录认证标签 */
+        .interview-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #fffbeb; border: 1px solid #fde68a; color: #b45309;
+            padding: 10px 20px; border-radius: 50px; font-weight: 800; font-size: 0.95rem;
+            margin-bottom: 30px; box-shadow: var(--shadow-sm);
+        }
+        
+        .article-meta {
+            display: flex; justify-content: center; gap: 20px; color: var(--text-muted);
+            font-size: 0.95rem; font-weight: 600;
+        }
+        .meta-item { display: flex; align-items: center; gap: 6px; }
+
+        /* ================= 博客正文区 ================= */
+        .article-body {
+            max-width: 760px; margin: 0 auto; padding: 60px 20px 100px;
+            font-size: 1.15rem; line-height: 2; color: var(--text-main);
+        }
+
+        .article-body p { margin-bottom: 25px; }
+
+        /* 段落小标题 */
+        .article-body h2 {
+            font-size: 1.6rem; font-weight: 900; color: var(--brand-indigo);
+            margin: 60px 0 25px; position: relative; display: inline-block;
+        }
+        .article-body h2::after {
+            content: ''; position: absolute; left: 0; bottom: -8px; width: 100%; height: 3px; background: var(--brand-gold); border-radius: 2px;
+        }
+
+        /* 荧光笔下半部半遮盖特效 */
+        .highlight-marker {
+            background: linear-gradient(180deg, transparent 55%, rgba(242, 190, 34, 0.8) 55%);
+            padding: 0 4px; font-weight: 900; color: var(--text-heading); display: inline;
+        }
+
+        /* 次重点加粗 */
+        .strong-text { font-weight: 800; color: var(--text-heading); }
+
+        /* 引言块 */
+        .story-quote {
+            font-family: var(--font-serif); font-size: 1.3rem; font-weight: 800; color: var(--brand-indigo);
+            border-left: 5px solid var(--brand-gold); padding: 25px 30px; margin: 40px 0;
+            background: var(--brand-indigo-light); border-radius: 0 16px 16px 0; line-height: 1.7;
+        }
+
+        /* ================= 页脚 ================= */
+        footer { text-align: center; padding: 40px 20px; font-size: 0.95rem; color: var(--text-muted); background: var(--bg-white); border-top: 1px solid var(--border-light); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .article-header { padding: 120px 20px 40px; }
+            .article-title { font-size: 2.2rem; }
+            .article-body { font-size: 1.05rem; padding: 40px 20px; }
+            .article-body h2 { font-size: 1.4rem; margin-top: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
+            </a>
+        </div>
+    </header>
+
+    <section class="article-header">
+        <div class="article-header-inner reveal">
+            <div class="interview-badge">
+                🎙️ 声明：本篇内容根据 2026年1月26日 真实用户访谈录音整理发布，发布前经受访者本人审阅确认。
+            </div>
+            <h1 class="article-title">学生物的我，为什么开始学编程了</h1>
+            <div class="article-meta">
+                <div class="meta-item"><span>访谈日期：</span> 2026-01-26</div>
+                <div class="meta-item">大一生物技术专业女生 · 零基础</div>
+            </div>
+        </div>
+    </section>
+
+    <main class="article-body">
+        <div class="reveal delay-1">
+            <p>高考填志愿的时候，我本来想报计算机的。</p>
+            <p>但是分数差了一点，最后调剂到了生物技术。说不遗憾是假的。入学之后每天上高数、无机化学、英语，忙是挺忙的，但心里一直有个声音：我还是想学编程。</p>
+            <p>不只是因为遗憾。我后来了解了一下，生物这个方向如果往深了走，生物信息学是一个很重要的分支，而生物信息学的核心工具就是编程。也就是说，不管我以后是考研还是找工作，编程这个技能迟早要补上。</p>
+            <p><span class="strong-text">与其迟早要学，不如现在开始。</span></p>
+        </div>
+
+        <div class="reveal">
+            <h2>第一次尝试，败在了第一步</h2>
+            <p>大一上学期我就动过手。</p>
+            <p>在网上找了一本Python的电子书，翻了几页，让我先下载一个叫什么Anaconda的软件。我照着教程装了半天，各种报错，系统环境变量什么的完全看不懂。好不容易装上了，打开一看是个黑乎乎的界面，让我输入print("Hello World")。</p>
+            <p>输了。屏幕上出来一行字。</p>
+            <p>然后呢？</p>
+            <p><span class="highlight-marker">然后就没有然后了。我盯着那个黑框看了一会儿，不知道接下来该干什么，</span>也不知道这个东西跟我以后要做的事有什么关系。翻了翻后面的章节，变量、数据类型、列表、字典……全是概念。</p>
+            <p>那本电子书我再也没打开过。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>抖音上刷到的</h2>
+            <p>有一天晚上躺床上刷抖音，刷到一条视频，画面是一个游戏界面，左边是代码右边是一个小人在跑，配的文字是"大学生零基础玩游戏学编程"。</p>
+            <p><span class="strong-text">"大学生"、"零基础"、"玩游戏"——这三个词每一个都精准踩在我身上。</span></p>
+            <p>我点进去看了看，是一个叫CodeCombat的东西。评论区有人说挺好玩的，有人说学到了一些基础。我当时就有点心动，但没有马上去搜。</p>
+            <p>第二天上课走神的时候又想起来了。下课之后打开电脑，百度搜了一下官网，注册了一个账号。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>打开就能玩这件事很重要</h2>
+            <p>注册完直接进了一个游戏界面。没让我下载任何东西，没让我配置什么环境，连教程都不用看，上来就是第一关：让英雄往右走。</p>
+            <p>我在左边的代码框里敲了hero.moveRight()，点了运行，右边的小人就走了。</p>
+            <p>就这一下，跟之前看电子书的体验形成了巨大的反差。<span class="highlight-marker">那次是折腾了一个小时配环境，最后看到一行冷冰冰的Hello World。这次是打开网页三十秒，我写的代码就让一个角色动了起来。</span></p>
+            <p>然后我就停不下来了。</p>
+            <p>一关接一关地打，第一关走路，很快就开始捡宝石、打怪、躲陷阱，每一关都要写不同的代码。我也没有刻意去记什么语法，就是跟着关卡提示写，写完看效果，效果不对就改，改对了就过。</p>
+            <p>等我回过神来，已经过了一个小时，打了五关。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>说实话，英语让我有点慌</h2>
+            <p>不瞒你说，我英语不太好。代码里的那些单词，比如moveRight、moveDown，我一开始是真不认识。虽然打了几关之后大概能猜到move是移动，Right是右边，但心里还是有点虚。</p>
+            <p>我会想：后面的语法会不会更复杂？单词会不会越来越多？我是不是得先去背一波编程词汇？</p>
+            <p>后来发现其实还好。常用的就那么几个词，而且你用多了自然就记住了，不需要刻意去背。但如果游戏里面能顺带把这些单词的意思标注一下就更好了，对我们这种英语一般的人会友好很多。<br>
+            <span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：目前在游戏内将光标悬停在代码单词上，即可查看对应的中文解释。）</span>
+            </p>
+        </div>
+
+        <div class="reveal">
+            <h2>免费关卡打完之后</h2>
+            <p>免费的关卡打完了，后面要付费。</p>
+            <p>说实话我犹豫了。不是觉得不好，是觉得才体验了几关，我还没有办法判断后面的内容值不值。一个月九十九块，对大学生来说不算小数目。</p>
+            <p>但我又很想继续往下打。那种一关一关推进的感觉确实会上瘾，而且我能明显感觉到自己在理解一些东西——<span class="strong-text">不是那种"背下来了"的理解，而是"用过了所以知道"的理解。</span>比如我现在看到hero.attack()，不用想就知道它是让英雄攻击。这种感觉用看书是很难建立的。</p>
+            <p>最后还是买了月卡。想着先玩一个月看看，如果真的能坚持下来、学到东西，再续。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>给跟我一样的人说几句心里话</h2>
+            <p>如果你也是非计算机专业，但因为各种原因需要学编程——考研也好，就业也好，或者就是不甘心——我特别理解那种"想学但不知道从哪开始"的感觉。</p>
+            <p>看书太枯燥，配环境就劝退，看视频记不住。这些我都经历过。</p>
+            <p>我不敢说CodeCombat能让你变成编程高手，我自己现在也才刚起步，很多东西还是一知半解。但它至少做到了一件事：<span class="highlight-marker">让我这个看电子书五分钟就想关掉的人，坐在电脑前玩了一个小时还意犹未尽。</span></p>
+            
+            <p style="font-weight: 800; font-size: 1.35rem; color: var(--text-heading); margin-top: 60px; text-align: center; line-height: 2;">
+                能坐下来，能动手写，能不讨厌这件事。<br>
+                <span class="highlight-marker" style="font-size: 1.5rem;">对零基础的人来说，这就是最重要的第一步。</span><br>
+                至于后面的路，慢慢来吧。反正现在每天写完作业打两关已经变成习惯了，比刷抖音和打王者有用一点。<br>
+                嗯，只是一点。但积少成多嘛。
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <p>京ICP备2026009460号 | 京公网安备 11010802038619号 | 版权 ©2026 CodeCombat Inc. 版权所有.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教学资料下载中心</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --bg-color: #f4f7f6;
+        }
+    .footer {
+      margin-top: 60px;
+    }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 20px;
+        }
+
+        h1 { color: #333; margin-bottom: 30px; }
+
+        /* 链接列表样式 */
+        .download-list {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .download-item {
+            background: white;
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .download-item:hover {
+            transform: translateY(-3px);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .title { font-weight: bold; color: #444; }
+        .btn { color: var(--primary-color); text-decoration: none; font-size: 14px; }
+
+        /* 弹窗遮罩层 */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        /* 弹窗主体 */
+        .amodal {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            width: 400px;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .price {
+            font-size: 24px;
+            color: #e74c3c;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+        .qr-code {
+            width: 200px;
+            height: 400px;
+            background: #eee;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+        }
+
+        .tip { font-size: 12px; color: #666; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>📚 付费资料下载中心</h1>
+
+    <div class="download-list">
+        <div class="download-item" onclick="openModal('《计算机科学入门》编程教学讲义', '￥300.0')">
+            <span class="title">《计算机科学入门》编程教学讲义</span>
+            <span class="btn">付费下载</span>
+        </div>
+        <div class="download-item" onclick="openModal('《计算机科学2》编程教学讲义', '￥300.0')">
+            <span class="title">《计算机科学2》编程教学讲义</span>
+            <span class="btn">付费下载</span>
+        </div>
+        <div class="download-item" onclick="openModal('《计算机科学3》编程教学讲义', '￥300.0')">
+            <span class="title">《计算机科学3》编程教学讲义</span>
+            <span class="btn">付费下载</span>
+        </div>
+        <div class="download-item" onclick="openModal('《游戏开发1》编程教学讲义', '￥300.0')">
+            <span class="title">《游戏开发1》编程教学讲义</span>
+            <span class="btn">付费下载</span>
+        </div>
+        <div class="download-item" onclick="openModal('《游戏开发2》编程教学讲义', '￥300.0')">
+            <span class="title">《游戏开发2》编程教学讲义</span>
+            <span class="btn">付费下载</span>
+        </div>
+    </div>
+    <div class="footer">
+      <a class="small" href="http://beian.miit.gov.cn/">京ICP备2026009460号</a>
+      <a class="small" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619">
+          <img id="mps" alt="" src="/images/pages/base/the_ministry_of_public_security_of_china.png"/>
+          <span>京公网安备 11010802038619号</span>
+      </a>
+    </div>
+    <span>版权 ©2026 扣哒少年（北京）科技有限公司. 版权所有.</span>
+
+    <div class="overlay" id="resources-overlay">
+        <div class="amodal">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3 id="modal-title">资料名称</h3>
+            <p>扫码支付后即可获取下载链接</p>
+            <div class="price" id="modal-price">￥0.00</div>
+
+            <div class="qr-code">
+                <img src="https://assets.koudashijie.com/images/qwqr300.jpg" alt="支付二维码" style="width:100%">
+            </div>
+
+            <p class="tip">支付后请截图凭证联系客服</p>
+        </div>
+    </div>
+
+    <script>
+        function openModal(title, price) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-price').innerText = price;
+            document.getElementById('resources-overlay').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('resources-overlay').style.display = 'none';
+        }
+
+        // 点击遮罩层也可以关闭
+        window.onclick = function(event) {
+            let overlay = document.getElementById('overlay');
+            if (event.target == overlay) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+</html>

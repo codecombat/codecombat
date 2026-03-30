@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户故事：寒假给儿子找了个"正事"，结果我自己也上头了 | CodeCombat</title>
+    <style>
+        /* ================= 品牌色彩体系 ================= */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-white: #ffffff;
+            
+            --text-heading: #1e293b; 
+            --text-main: #334155;    
+            --text-muted: #64748b;   
+            
+            --brand-indigo: #4338ca; /* 品牌蓝 */
+            --brand-indigo-light: #e0e7ff;
+            --brand-gold: #F2BE22;   /* 荣耀金 */
+            --brand-gold-text: #000000;
+            
+            --font-main: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: "Noto Serif SC", serif;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ================= 极简导航栏 (无右侧菜单) ================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; justify-content: flex-start; align-items: center;
+            padding: 15px 40px;
+        }
+        .logo img { height: 36px; display: block; }
+
+        /* ================= 全局动画 ================= */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ================= 博客文章头部 ================= */
+        .article-header {
+            padding: 160px 20px 60px;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            text-align: center;
+        }
+        .article-header-inner { max-width: 800px; margin: 0 auto; }
+        
+        .article-title {
+            font-size: 2.8rem; font-weight: 900; color: var(--text-heading);
+            line-height: 1.3; margin-bottom: 25px; letter-spacing: -0.5px;
+        }
+        
+        /* 真实记录认证标签 (极简版) */
+        .interview-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #fffbeb; border: 1px solid #fde68a; color: #b45309;
+            padding: 8px 20px; border-radius: 50px; font-weight: 800; font-size: 0.95rem;
+            margin-bottom: 30px; box-shadow: var(--shadow-sm);
+        }
+        
+        .article-meta {
+            display: flex; justify-content: center; gap: 20px; color: var(--text-muted);
+            font-size: 0.95rem; font-weight: 600;
+        }
+        .meta-item { display: flex; align-items: center; gap: 6px; }
+
+        /* ================= 博客正文区 ================= */
+        .article-body {
+            max-width: 760px; margin: 0 auto; padding: 60px 20px 100px;
+            font-size: 1.15rem; line-height: 2; color: var(--text-main);
+        }
+
+        .article-body p { margin-bottom: 25px; }
+
+        /* 段落小标题 */
+        .article-body h2 {
+            font-size: 1.6rem; font-weight: 900; color: var(--brand-indigo);
+            margin: 60px 0 25px; position: relative; display: inline-block;
+        }
+        .article-body h2::after {
+            content: ''; position: absolute; left: 0; bottom: -8px; width: 100%; height: 3px; background: var(--brand-gold); border-radius: 2px;
+        }
+
+        /* 荧光笔下半部半遮盖特效 */
+        .highlight-marker {
+            background: linear-gradient(180deg, transparent 55%, rgba(242, 190, 34, 0.8) 55%);
+            padding: 0 4px; font-weight: 900; color: var(--text-heading); display: inline;
+        }
+
+        /* 次重点加粗 */
+        .strong-text { font-weight: 800; color: var(--text-heading); }
+
+        /* 引言块 */
+        .story-quote {
+            font-family: var(--font-serif); font-size: 1.3rem; font-weight: 800; color: var(--brand-indigo);
+            border-left: 5px solid var(--brand-gold); padding: 25px 30px; margin: 40px 0;
+            background: var(--brand-indigo-light); border-radius: 0 16px 16px 0; line-height: 1.7;
+        }
+
+        /* ================= 底部声明框 ================= */
+        .statement-box {
+            background: var(--bg-body);
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            border: 1px solid var(--border-light);
+        }
+        .statement-box strong { color: var(--text-main); font-size: 0.95rem; display: block; margin-bottom: 8px;}
+
+        /* ================= 页脚 ================= */
+        footer { text-align: center; padding: 40px 20px; font-size: 0.95rem; color: var(--text-muted); background: var(--bg-white); border-top: 1px solid var(--border-light); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .article-header { padding: 120px 20px 40px; }
+            .article-title { font-size: 2.2rem; }
+            .article-body { font-size: 1.05rem; padding: 40px 20px; }
+            .article-body h2 { font-size: 1.4rem; margin-top: 40px; }
+            .statement-box { padding: 20px; margin-top: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
+            </a>
+        </div>
+    </header>
+
+    <section class="article-header">
+        <div class="article-header-inner reveal">
+            <div class="interview-badge">
+                🎙️ 声明：本篇内容根据 2026年1月24日真实家长访谈录音整理发布，发布前经受访者本人审阅确认。
+
+            </div>
+            <h1 class="article-title">寒假给儿子找了个"正事"，结果我自己也上头了</h1>
+            <div class="article-meta">
+                <div class="meta-item">六年级学生家长</div>
+            </div>
+        </div>
+    </section>
+
+    <main class="article-body">
+        <div class="reveal delay-1">
+            <p>我儿子六年级。</p>
+            <p>寒假之前我就在想一个问题：这个假期怎么安排？纯玩肯定不行，一个多月就这么荒掉了太可惜。但也不想给他报那种坐在那儿听课的班。之前也上过线上的编程课，学了两年。语法学了不少，但我感觉他后期的主动性在下降，更多是跟着课程走，自己独立思考的机会不太多。</p>
+            <p>我想找一个他愿意主动花时间、同时还真的能学到东西的事情。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>起因是一次比赛</h2>
+            <p>之前参加过一个Python趣味编程比赛，类似闯关的形式，写代码让角色完成任务。儿子回来跟我说，班里好多人第一次见这种东西，都有点懵。他因为有点基础还好，但也没发挥出什么水平。</p>
+            <p>这件事让我意识到一个问题：他语法是会一些，但<span class="highlight-marker">我感觉他学到的知识点还比较零散，放到需要独立解决问题的场景里，串不太起来。</span></p>
+            <p>我就想，有没有什么东西能让他练一练这种"实战"？</p>
+        </div>
+
+        <div class="reveal">
+            <h2>百度搜出来的</h2>
+            <p>我这个人不刷抖音也不刷快手，找东西就是百度。搜了"Python闯关"、"编程游戏"之类的关键词，翻了几个结果，看到了CodeCombat。</p>
+            <p>点进去大概看了一下——RPG风格的游戏界面，写代码操控英雄，关卡递进，有地图有装备。第一反应是：这不就是学校比赛那种模式吗？</p>
+            <p>我让儿子先试了一下免费的关卡。他坐下来开始玩，我在旁边看。</p>
+            <p>然后我就发现了一个有意思的事情：<span class="highlight-marker">他的状态跟之前上课的时候明显不同。</span></p>
+        </div>
+
+        <div class="reveal">
+            <h2>父子俩一起磨代码</h2>
+            <p>跟之前被动跟着老师走不同，在CodeCombat里面，没人给他讲。关卡摆在那里，目标告诉你了，怎么实现你自己想。<span class="strong-text">他得自己看场景、自己分析该用什么逻辑、自己写代码、自己跑、自己看哪里出了问题。</span></p>
+            <p>他会卡住。经常卡住。</p>
+            <p>但有意思的是，他卡住了不会马上烦躁，而是开始反复试。改一行跑一下，再改一行再跑一下。有时候我在旁边忍不住凑过去看，看着看着就参与进去了。</p>
+            <p>我不是程序员，但基本的逻辑我能看懂。有好几次我俩对着屏幕讨论："你看这里，是不是应该先判断敌人的距离？""这个循环是不是多跑了一步？"然后一起改，一起跑，一起等结果。</p>
+            <p>有一关我俩磨了半个小时。不是因为特别难，而是我们想用更少的代码完成同样的任务。<span class="strong-text">最后终于优化到了最简写法，两个人都特别有成就感。</span>那种感觉跟一起打通一个游戏关卡一模一样，只不过武器换成了代码。</p>
+            <p>说实话这是我没想到的。本来是给他找的学习工具，结果变成了我俩的亲子活动。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>确实也有让我头疼的地方</h2>
+            <p>打到后面几关，开始出现一些之前没见过的语法——某些特定的函数调用、对象引用之类的。游戏里没有直接教你这个东西是什么意思、该怎么用，你就得自己悟。</p>
+            <p>我儿子悟不出来的时候，我就去百度搜，搜完再翻译成他能听懂的话讲给他。这个过程倒也不是不行，但多了一步就会打断节奏。如果关卡里面能有一个简单的提示——不用很长，就一两句话告诉你"这里需要用到XX语法，它的作用是XX"——就会顺畅很多。<br>
+            <span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：感谢反馈。"闯关中缺少语法说明"是我们收到较多的建议，团队正在筹备 Wiki 知识页面，方便玩家随时查阅语法和用法说明。）</span>
+            </p>
+            <p>还有一个事，我一开始搜的时候，百度出来好几个网站，有个叫扣哒世界的，还有什么教育版、个人版，搞得我有点晕。花了一些时间才搞清楚应该用哪个。<br>
+            <span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：感谢反馈。目前平台入口已进行整合优化，新用户可直接通过 codecombat.cn 注册使用。）</span>
+            </p>
+            <p>另外我到做访谈的时候才知道，原来产品里面有AI助手可以提问，还有真人客服可以求助。之前我俩完全不知道，遇到问题全靠自己死磕加百度。早知道有这个功能，有些关卡不至于卡那么久。<br>
+            <span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：闯关过程中如遇困难，可随时点击游戏界面中的 AI 助手按钮获取提示，也可通过平台内的客服入口联系真人支持。）</span>
+            </p>
+        </div>
+
+        <div class="reveal">
+            <h2>为什么我觉得这个东西值得花时间</h2>
+            <p>我不是那种追求孩子必须考证拿奖的家长。编程对我来说，<span class="strong-text">重要的不是他背了多少语法，而是他能不能建立起一种思维方式——遇到问题，拆解它，试错，优化，再试。</span></p>
+            <p>CodeCombat让我看到了这个过程。</p>
+            <p>有一关他写了一段代码，能过，但步骤很多。我随口说了一句"你觉得能不能更短？"他想了一下，把两段重复的逻辑合并成了一个循环。那一刻他可能自己都没意识到，他做了一次代码优化——用更少的指令实现同样的目标。</p>
+            <p><span class="highlight-marker">这种自己动脑优化的过程，我觉得特别有价值。</span></p>
+        </div>
+
+        <div class="reveal">
+            <h2>关于花钱</h2>
+            <p>月费确实有点贵，这个我不回避。买了三个月的，想法是先试试寒假能用到什么程度。如果他能保持现在这个状态——愿意主动坐下来打、遇到问题愿意自己想——那这个钱花得就不亏。</p>
+            <p>比在外面瞎逛瞎玩强，至少每天都在动脑子。</p>
+            <p>现在每天晚上他写完作业之后，会自己打开电脑说<span class="strong-text">"爸我打两关"</span>。</p>
+            
+            <p style="font-weight: 800; font-size: 1.35rem; color: var(--text-heading); margin-top: 60px; text-align: center; line-height: 2;">
+                我偶尔也会凑过去看一眼，如果碰上有意思的关卡，就坐下来一起研究。<br>
+                他负责写代码，我负责在旁边出主意和捣乱。<br>
+                <span class="highlight-marker" style="font-size: 1.5rem;">挺好的。</span>
+            </p>
+        </div>
+
+        <div class="statement-box reveal">
+            <strong>编者补充：</strong>
+            本篇内容根据 2026年1月24日 真实用户访谈录音整理发布，发布前经受访者本人审阅确认，文中涉及的未成年人信息已获其监护人授权。<br>
+            文中学习体验因人而异，不构成学习效果承诺。
+        </div>
+
+    </main>
+
+    <footer>
+        <p>京ICP备2026009460号 | 京公网安备 11010802038619号 | 版权 ©2026 CodeCombat Inc. 版权所有.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户故事：一个编程零基础妈妈，陪四年级儿子闯到了安息云峰 | CodeCombat</title>
+    <style>
+        /* ================= 品牌色彩体系 ================= */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-white: #ffffff;
+            
+            --text-heading: #1e293b; 
+            --text-main: #334155;    
+            --text-muted: #64748b;   
+            
+            --brand-indigo: #4338ca; /* 品牌蓝 */
+            --brand-indigo-light: #e0e7ff;
+            --brand-gold: #F2BE22;   /* 荣耀金 */
+            --brand-gold-text: #000000;
+            
+            --font-main: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: "Noto Serif SC", serif;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ================= 极简导航栏 (无右侧菜单) ================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; justify-content: flex-start; align-items: center;
+            padding: 15px 40px;
+        }
+        .logo img { height: 36px; display: block; }
+
+        /* ================= 全局动画 ================= */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ================= 博客文章头部 ================= */
+        .article-header {
+            padding: 160px 20px 60px;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            text-align: center;
+        }
+        .article-header-inner { max-width: 800px; margin: 0 auto; }
+        
+        .article-title {
+            font-size: 2.8rem; font-weight: 900; color: var(--text-heading);
+            line-height: 1.3; margin-bottom: 25px; letter-spacing: -0.5px;
+        }
+        
+        /* 真实记录认证标签 (极简版) */
+        .interview-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #fffbeb; border: 1px solid #fde68a; color: #b45309;
+            padding: 8px 20px; border-radius: 50px; font-weight: 800; font-size: 0.95rem;
+            margin-bottom: 30px; box-shadow: var(--shadow-sm);
+        }
+        
+        .article-meta {
+            display: flex; justify-content: center; gap: 20px; color: var(--text-muted);
+            font-size: 0.95rem; font-weight: 600;
+        }
+        .meta-item { display: flex; align-items: center; gap: 6px; }
+
+        /* ================= 博客正文区 ================= */
+        .article-body {
+            max-width: 760px; margin: 0 auto; padding: 60px 20px 100px;
+            font-size: 1.15rem; line-height: 2; color: var(--text-main);
+        }
+
+        .article-body p { margin-bottom: 25px; }
+
+        /* 段落小标题 */
+        .article-body h2 {
+            font-size: 1.6rem; font-weight: 900; color: var(--brand-indigo);
+            margin: 60px 0 25px; position: relative; display: inline-block;
+        }
+        .article-body h2::after {
+            content: ''; position: absolute; left: 0; bottom: -8px; width: 100%; height: 3px; background: var(--brand-gold); border-radius: 2px;
+        }
+
+        /* 荧光笔下半部半遮盖特效 */
+        .highlight-marker {
+            background: linear-gradient(180deg, transparent 55%, rgba(242, 190, 34, 0.8) 55%);
+            padding: 0 4px; font-weight: 900; color: var(--text-heading); display: inline;
+        }
+
+        /* 次重点加粗 */
+        .strong-text { font-weight: 800; color: var(--text-heading); }
+
+        /* 引言块 */
+        .story-quote {
+            font-family: var(--font-serif); font-size: 1.3rem; font-weight: 800; color: var(--brand-indigo);
+            border-left: 5px solid var(--brand-gold); padding: 25px 30px; margin: 40px 0;
+            background: var(--brand-indigo-light); border-radius: 0 16px 16px 0; line-height: 1.7;
+        }
+
+        /* ================= 底部声明框 ================= */
+        .statement-box {
+            background: var(--bg-body);
+            border-radius: 16px;
+            padding: 25px 30px;
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            border: 1px solid var(--border-light);
+        }
+        .statement-box strong { color: var(--text-main); font-size: 0.95rem; display: block; margin-bottom: 8px;}
+
+        /* ================= 页脚 ================= */
+        footer { text-align: center; padding: 40px 20px; font-size: 0.95rem; color: var(--text-muted); background: var(--bg-white); border-top: 1px solid var(--border-light); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .article-header { padding: 120px 20px 40px; }
+            .article-title { font-size: 2.2rem; }
+            .article-body { font-size: 1.05rem; padding: 40px 20px; }
+            .article-body h2 { font-size: 1.4rem; margin-top: 40px; }
+            .statement-box { padding: 20px; margin-top: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
+            </a>
+        </div>
+    </header>
+
+    <section class="article-header">
+        <div class="article-header-inner reveal">
+            <div class="interview-badge">
+                 🎙️ 声明：本篇内容根据 2026年1月12日真实家长访谈录音整理发布，发布前经受访者本人审阅确认。
+            </div>
+            <h1 class="article-title">一个编程零基础妈妈，陪四年级儿子闯到了安息云峰</h1>
+            <div class="article-meta">
+                <div class="meta-item">零基础妈妈 · 四年级男生</div>
+            </div>
+        </div>
+    </section>
+
+    <main class="article-body">
+        <div class="reveal delay-1">
+            <p>先声明：我是一个完全不懂编程的家长。Python是什么、Scratch是什么，我到现在也只能说出个大概。但我儿子从小学二年级开始折腾这些东西，一路折腾到现在四年级，我就在旁边陪着，看着，帮他找资源、做选择。</p>
+            <p>这篇文章是我作为一个"编程门外汉"家长的真实记录。<span class="highlight-marker">不懂技术，但我能看懂孩子的状态。</span></p>
+        </div>
+
+        <div class="reveal">
+            <h2>他是怎么开始学编程的</h2>
+            <p>最早是二年级，给他报了一个图形化编程的平台，拖拖拽拽那种。他很喜欢，玩得很起劲。后来接触了Scratch，自己做了几个小动画小游戏，还参加了一个全国性的比赛，拿了不错的成绩。</p>
+            <p>作为家长说实话我挺意外的。我们不在一线城市，孩子能走到这一步，靠的基本都是他自己的兴趣。</p>
+            <p>拿完奖之后，机构的老师建议往Python方向走。Scratch作为图形化工具有它的适用范围，到了一定阶段需要过渡到代码编程。</p>
+            <p>然后问题就来了。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>从Scratch到Python，那道坎是真的难</h2>
+            <p>机构给安排了线下的Python课，用编辑器写代码那种。</p>
+            <p>头两节课儿子还挺兴奋的，觉得自己"升级"了。但很快就不对劲了。<span class="strong-text">图形化编程里拖个积木块就能跑，但Python里面少一个缩进、多一个空格、拼错一个单词，程序就报错。</span>而且报错信息他根本看不懂，满屏英文红字，跟天书一样。</p>
+            <p>他开始变得烦躁。有时候一个bug找二十分钟找不到，情绪一下子就上来了。课堂上老师要同时带好几个孩子，没办法一直盯着他一个人。几次下来，他跟我说："妈妈，写代码一点都不好玩。"</p>
+            <p>这句话让我很纠结。他明明有天赋、有兴趣，之前玩图形化那么开心，不能因为换了个工具就这么放弃了。但我又不能逼他，四年级的小孩，你逼他他只会更抵触。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>怎么遇到 CodeCombat 的</h2>
+            <p>是之前机构那边推荐的。他们比赛体系里有CodeCombat的内容，儿子试了一下，就入迷了。</p>
+            <p>区别在哪呢？同样是写Python代码，但在CodeCombat里面你写完代码点运行，屏幕右边的小英雄就动了——打怪、捡宝石、躲攻击，全是你写的代码在控制。写对了英雄就赢，写错了英雄就被打倒。</p>
+            <p><span class="highlight-marker">对一个九岁的男孩来说，这个吸引力太大了。</span></p>
+            <p>他不再觉得自己是在"上课"了，他觉得自己在打一个很酷的游戏，只不过操控方式是写代码。那些让他在编辑器前面烦躁的语法细节——缩进、拼写、逻辑顺序——还是要面对，但<span class="strong-text">因为有了"英雄能不能过关"这个即时反馈，他愿意去较劲了。</span></p>
+            <p>有一次他卡在一个关卡上，反复试了好多遍，我以为他要发脾气了。结果他盯着屏幕想了一会儿，自己把代码改了改，英雄通关了。他转过头来跟我说：</p>
+            <div class="story-quote">
+                "妈妈我搞定了！"
+            </div>
+            <p>那个表情我到现在都记得。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>现在打到 安息云峰 了</h2>
+            <p>从流金沙漠一路闯到安息云峰，关卡越来越复杂。他现在已经会写while循环、会定义函数、会给变量赋值了。有一关需要指挥士兵和弓箭手分别对付不同类型的敌人——近战的去打巫师，远程的去打普通怪。他得把这套策略逻辑用代码写出来。</p>
+            <p><span class="strong-text">四年级的孩子在写战术调度的代码，说出去可能没人信，但他确实在做这个事情。</span></p>
+            <p>当然也有吃力的地方。安息云峰开始涉及函数返回值、数组遍历这些概念，对他来说理解起来确实有门槛。而且有些关卡需要特定的装备才能解锁关键功能，如果之前宝石没攒够，就会被卡住，这一点体验上不太友好。<br>
+            <span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：感谢反馈。关于装备与关卡推进的平衡，团队一直在根据玩家反馈持续调优，也欢迎家长和小玩家们继续向我们提出建议。）</span>
+            </p>
+        </div>
+
+        <div class="reveal">
+            <h2>他现在遇到问题怎么办</h2>
+            <p>这个我觉得挺值得说的。</p>
+            <p>他现在卡住了会自己先想，想不通会试着借助一些AI工具去查。虽然有时候问法不太对、答案太复杂看不懂，但这个'自己想办法'的习惯本身让我觉得挺好的。</p>
+            <p>实在搞不定的时候，会找专业的老师远程指导。有一次他卡在一个关卡上，怎么都过不了，老师通过屏幕共享看了一下，没有直接帮他改代码，而是问他："你想想，这个函数的视角是谁的？是英雄还是士兵？"他一下子就反应过来了。</p>
+            <p>这种点拨式的引导比直接告诉他答案有用得多。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>作为一个不懂编程的家长，我看到了什么</h2>
+            <p><span class="strong-text">我不懂代码，我看不懂他屏幕上写的那些英文字母是什么意思。但我能看懂的东西是：他愿不愿意坐在那里。</span></p>
+            <p>就我家孩子的情况来说，在编辑器前面，他坐十五分钟就开始烦。在CodeCombat前面，他能坐一个多小时还不想停。</p>
+            <p>这个差别已经说明了问题。</p>
+            <p><span class="highlight-marker">编程对小孩来说，最大的敌人不是难度，而是枯燥。</span>尤其是从图形化过渡到代码的那个阶段，如果第一口吃的是苦的，他可能很长时间都不想再碰了。<span class="highlight-marker">CodeCombat做的事情，就是把这第一口变甜了。</span>语法还是要学的，逻辑还是要练的，但孩子不抵触了——这就够了。</p>
+            <p>至于更系统的学习、更深的知识框架，那是后面的事。先让他愿意坐下来，先让他觉得"写代码是一件很酷的事"。这个基础打好了，后面的路他自己会走。</p>
+            <p>他跟我说过一句话，我觉得比任何考级证书都重要："妈妈，我以后想自己做一个游戏。"</p>
+            
+            <p style="font-weight: 800; font-size: 1.3rem; color: var(--text-heading); margin-top: 50px; text-align: center; line-height: 1.8;">
+                他才四年级，这个梦还早得很。<br>但至少现在，他还在往前走，还没放弃。<br>对我来说，这就够了。
+            </p>
+        </div>
+
+        <div class="statement-box reveal">
+            <strong>编者补充：</strong>
+            本篇内容根据 2026年1月12日 家长用户自述整理发布，发布前经作者本人审阅确认，文中涉及的未成年人信息已获其监护人授权。<br>
+            文中学习体验因人而异，不构成学习效果承诺。
+        </div>
+
+    </main>
+
+    <footer>
+        <p>京ICP备2026009460号 | 京公网安备 11010802038619号 | 版权 ©2026 CodeCombat Inc. 版权所有.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

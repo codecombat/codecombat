@@ -472,7 +472,26 @@ export default Vue.extend({
         },
       }
       if (me.showChinaResourceInfo()) {
-        if (!me.showChinaHomeVersion()) {
+        if (me.showChinaHomeVersion()) {
+          chinaNav = {
+            frontpage: {
+              title: '首页',
+              url: '/',
+            },
+            player: {
+              title: '用户故事',
+              url: '/user_stories.html',
+            },
+            source: {
+              title: '关于我们',
+              url: '/aboutus.html',
+            },
+            resources: {
+              title: '付费资料',
+              url: '/resources',
+            },
+          }
+        } else {
           chinaNav = {
             ...chinaNav,
             ...chinaEduNav,

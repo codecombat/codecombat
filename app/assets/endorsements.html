@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>荣誉及合作伙伴 | CodeCombat 扣哒世界</title>
+    <style>
+        /* ================= 品牌色彩体系 ================= */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-white: #ffffff;
+            
+            --text-heading: #1e293b; 
+            --text-main: #334155;    
+            --text-muted: #64748b;   
+            
+            --brand-indigo: #4338ca; /* 品牌蓝 */
+            --brand-indigo-light: #e0e7ff;
+            --brand-gold: #F2BE22;   /* 荣耀金 */
+            --brand-gold-text: #000000;
+            
+            --font-main: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: "Noto Serif SC", serif;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ================= 极简导航栏 (无右侧菜单) ================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; justify-content: flex-start; align-items: center;
+            padding: 15px 40px;
+        }
+        .logo img { height: 36px; display: block; }
+
+        /* ================= 全局动画 ================= */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ================= 页面头部区域 ================= */
+        .page-header {
+            padding: 180px 20px 100px;
+            text-align: center;
+            background: linear-gradient(180deg, #f0f4f8 0%, var(--bg-body) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .page-header::before {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at center, rgba(67, 56, 202, 0.05) 0%, transparent 50%);
+            animation: rotate 60s linear infinite; z-index: 0;
+        }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
+
+        .page-header-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+        .page-header h1 { font-size: 4rem; font-weight: 900; color: var(--text-heading); margin-bottom: 20px; line-height: 1.2; letter-spacing: -1px; }
+        .page-header p.subtitle { font-size: 1.5rem; color: var(--brand-indigo); font-weight: 800; margin-bottom: 50px; }
+
+        /* 顶部引言块 */
+        .header-quote {
+            font-family: var(--font-serif); font-size: 1.6rem; line-height: 1.8; color: var(--text-heading);
+            background: var(--bg-white); padding: 50px; border-radius: 24px; box-shadow: var(--shadow-lg);
+            position: relative; border-top: 6px solid var(--brand-gold); text-align: left;
+        }
+        .header-quote p { margin-bottom: 20px; font-weight: 800; }
+        .header-quote p:last-child { margin-bottom: 0; font-size: 1.2rem; font-weight: 500; font-family: var(--font-main); color: var(--text-main); }
+        .header-quote::before {
+            content: "“"; position: absolute; top: -20px; left: 30px; font-size: 8rem; color: var(--brand-indigo-light);
+            font-family: var(--font-main); line-height: 1; font-weight: 900; opacity: 0.5;
+        }
+
+        /* ================= 博客排版内容区 ================= */
+        .blog-container {
+            max-width: 850px; margin: 0 auto; padding: 60px 20px 120px;
+            font-size: 1.15rem; line-height: 1.9; color: var(--text-main);
+        }
+
+        /* 一级标题 */
+        .blog-container h2 {
+            font-size: 2.2rem; font-weight: 900; color: var(--text-heading);
+            margin: 100px 0 40px; position: relative; padding-bottom: 15px;
+        }
+        .blog-container h2::after {
+            content: ''; position: absolute; left: 0; bottom: 0; width: 60px; height: 5px; background: var(--brand-indigo); border-radius: 2px;
+        }
+
+        /* 二级标题 */
+        .blog-container h3 {
+            font-size: 1.4rem; font-weight: 900; color: var(--text-heading);
+            margin: 50px 0 20px; display: flex; align-items: center; gap: 12px;
+        }
+        .blog-container h3::before {
+            content: "✦"; color: var(--brand-gold); font-size: 1.5rem;
+        }
+
+        .blog-container p { margin-bottom: 25px; }
+
+        /* 特殊高亮语法 (黄色荧光笔半遮盖) */
+        .highlight-marker {
+            background: linear-gradient(180deg, transparent 55%, rgba(242, 190, 34, 0.8) 55%);
+            padding: 0 4px; font-weight: 900; color: var(--text-heading); display: inline;
+        }
+        
+        /* 次重点加粗显示 */
+        .strong-text { font-weight: 800; color: var(--text-heading); }
+
+        /* 结论性引用块设计 */
+        .blockquote {
+            border-left: 5px solid var(--brand-indigo); background: var(--brand-indigo-light);
+            padding: 30px; margin: 40px 0; border-radius: 0 16px 16px 0;
+            font-size: 1.25rem; font-weight: 800; color: var(--brand-indigo); line-height: 1.6;
+        }
+
+        /* 列表设计 */
+        .blog-container ul { margin: 0 0 30px 20px; padding-left: 20px; }
+        .blog-container ul li { margin-bottom: 10px; position: relative; list-style-type: none; }
+        .blog-container ul li::before {
+            content: "•"; color: var(--brand-gold); font-size: 1.5rem; font-weight: 900;
+            position: absolute; left: -25px; top: -5px;
+        }
+
+        /* ================= 数据表格 (用数字说话) ================= */
+        .data-table-container { margin-top: 50px; background: var(--bg-white); border-radius: 24px; padding: 40px; box-shadow: var(--shadow-md); border: 1px solid var(--border-light); overflow-x: auto; }
+        
+        .data-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        .data-table th, .data-table td { padding: 20px; text-align: left; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+        .data-table th { background: var(--bg-body); color: var(--brand-indigo); font-weight: 900; font-size: 1.1rem; border-bottom: 2px solid var(--brand-indigo); }
+        .data-table td.dim-col { font-weight: 800; color: var(--text-heading); width: 30%; }
+        .data-table td.val-col { font-family: Consolas, monospace; font-size: 1.1rem; font-weight: 900; color: var(--brand-indigo); width: 70%; line-height: 1.4; }
+        .data-source-text { display: block; font-family: var(--font-main); font-size: 0.85rem; color: var(--text-muted); font-weight: normal; margin-top: 6px; }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover td { background: #f8fafc; }
+
+        /* ================= 结尾强调卡片 ================= */
+        .final-card {
+            background: var(--bg-white); border-radius: 32px; padding: 60px; text-align: center;
+            box-shadow: var(--shadow-lg); border: 2px solid var(--brand-indigo-light); margin-top: 100px;
+        }
+        .final-card p { font-size: 1.5rem; font-weight: 900; color: var(--text-heading); line-height: 1.8; margin-bottom: 0; }
+
+        /* ================= 页脚 ================= */
+        footer { text-align: center; padding: 40px 20px; font-size: 0.95rem; color: var(--text-muted); background: var(--bg-white); border-top: 1px solid var(--border-light); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .page-header h1 { font-size: 2.8rem; }
+            .header-quote { padding: 30px; font-size: 1.3rem; }
+            .blog-container { padding: 40px 20px 80px; font-size: 1.05rem; }
+            .blog-container h2 { font-size: 1.8rem; margin-top: 60px; }
+            .blog-container h3 { font-size: 1.25rem; }
+            .blockquote { font-size: 1.15rem; padding: 25px; }
+            .data-table-container { padding: 20px; }
+            .data-table th, .data-table td { padding: 15px 10px; }
+            .data-table td.val-col { font-size: 1rem; }
+            .final-card { padding: 40px 20px; }
+            .final-card p { font-size: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
+            </a>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="page-header-content reveal">
+            <h1>荣誉及合作伙伴</h1>
+            <div class="header-quote">
+                <p><span class="highlight-marker">有趣，是你开始的理由。专业，才是你愿意付费、愿意长期投入的理由。</span></p>
+                <p>CodeCombat 不是一款轻量的游戏化编程工具，而是一套拥有完整课程体系、经全球权威认证的编程学习与 AI 能力成长系统。<br>它的背后，是全球教育权威认证、中国教育体系认可、国际重要竞赛采用、行业荣誉、知名资本信任、媒体关注和中国本土落地共同构成的长期荣誉与合作体系。<br></p>
+            </div>
+        </div>
+    </section>
+
+    <main class="blog-container">
+
+        <section class="reveal">
+            <h2>一、全球教育权威认证</h2>
+            
+            <h3>美国大学理事会（College Board）AP CSP 官方认证课程提供商</h3>
+            <p>2019 年，CodeCombat 的课程体系通过了 <span class="strong-text">College Board</span> 的严格审核，获得 <span class="strong-text">AP Computer Science Principles（AP CSP）</span>官方认证，成为全球为数不多的 AP CSP Endorsed Provider 之一。</p>
+            <p>College Board 是管理美国 SAT 考试和 AP（大学先修课程）体系的权威机构。Endorsed Provider 是 College Board 对外部课程提供商质量的重要认可机制。获得 AP CSP 认证意味着 CodeCombat 的知识框架和学习路径，已经达到国际主流计算机科学教育的正式标准。美国高中教师可基于 CodeCombat 的 AP 认证课程体系，开展 AP 计算机科学课程教学——这是 College Board 对课程专业度与教学质量的权威官方认可。</p>
+
+            <h3>对齐 CSTA 与 ISTE 国际标准</h3>
+            <p>CodeCombat 的课程同时对齐了美国计算机科学教师协会（<span class="strong-text">CSTA</span>）K-12 计算机科学标准和国际教育技术协会（<span class="strong-text">ISTE</span>）学生标准。这两个标准体系覆盖了从基础计算思维到高阶编程能力的完整光谱，是全球计算机科学教育领域被广泛应用的核心标准框架。</p>
+            <div class="blockquote">
+                这意味着：CodeCombat 不只是"适合学"，而是其课程体系已经被国际教育标准正式检验和认可，能够长期进入学校课堂。
+            </div>
+        </section>
+
+        <section class="reveal">
+            <h2>二、中国教育与竞赛体系认可</h2>
+            
+            <h3>教育部白名单赛事官方技术合作平台</h3>
+            <p>2022 年 2 月，CodeCombat 中国（扣哒世界）成为教育部公布的面向中小学生的全国性白名单赛事 ——「少年硅谷全国青少年人工智能教育成果展示大赛」AI 算法竞技赛项的独家技术合作平台。该赛事由中国下一代教育基金会主办、教育部批准。</p>
+            <p>白名单是教育部对面向中小学生的全国性竞赛活动的官方合规性审核与公示，是国内青少年竞赛领域极具权威性的官方认定。能进入白名单的赛事，意味着其组织规范性、学术含金量和教育价值已通过国家层面的严格筛选。扣哒世界作为独家技术合作方，说明其竞赛平台和技术能力获得了这一体系的深度认可。</p>
+
+            <h3>AI 世青赛官方竞赛平台</h3>
+            <p>"扣哒杯"AI 世青赛是扣哒世界自 2019 年起持续举办的全国性青少年编程赛事。首届比赛由中国电子技术标准化研究院（赛迪研究院）指导，中国计算机行业协会和人工智能产业创新联盟联合主办。从首届 7000 余人参赛，到 2020 年第二届赛事参赛人数达 65332 人，同比增长 931.7%（数据来源：AI 世青赛官方报名系统统计）。AI 世青赛已成为国内规模领先的真实代码青少年编程赛事之一。</p>
+
+            <h3>全球青少年图灵计划官方合作</h3>
+            <p>图灵计划由中关村管委会发起，中国人民大学高瓴人工智能学院、中国人民大学附属中学、中国人民大学文化科技园联合主办，是一项面向全球选拔 AI 高潜人才的高端青少年科技教育项目。2020 年 8 月，扣哒世界与全球青少年图灵计划达成全球战略合作，为挑战活动提供指定竞赛平台，并深度参与项目课题设计和研学营组织。</p>
+
+            <h3>中国科学院大学培训中心合作</h3>
+            <p>2023 年，扣哒世界与中国科学院大学培训中心等权威学术机构达成官方合作，落地了青少年 AI 人才培养、赛事体系搭建等项目。这意味着，在扣哒世界平台上表现优异的学习者，可以获得相关权威机构的成绩证书认证。</p>
+
+            <h3>中国计算机学会（CCF）会员单位</h3>
+            <p>2020年，扣哒世界成为中国计算机学会（CCF）会员单位，平台课程体系适配全国青少年信息学竞赛（NOI/CSP-J/CSP-S）的能力培养需求，平台执教教师均通过 CCF NOI 指导教师资质考核，具备官方认证的竞赛指导资格。</p>
+            <div class="blockquote">
+                这意味着：CodeCombat 中国不只是"海外品牌"，更是在中国本土教育体系、竞赛体系和能力认证体系里真正跑通的成熟平台。
+            </div>
+        </section>
+
+        <section class="reveal">
+            <h2>三、国际重要竞赛领域采用</h2>
+            
+            <h3>国际信息学奥林匹克竞赛（IOI）展示活动技术支持平台</h3>
+            <p>2021 年 6 月，扣哒世界成为第 33 届国际信息学奥林匹克竞赛（IOI）官方展示活动的技术支持平台。来自 87 个国家的信奥国家队选手通过平台完成了技能展示，新加坡国立大学为前四名颁发了荣誉奖学金。</p>
+            <p>IOI 是全球中学生计算机科学领域公认的权威国际赛事，汇聚了来自全球各国的优秀青少年编程选手。能成为 IOI 的技术平台，说明 CodeCombat 不只是面向兴趣启蒙，也能够承接高阶的算法、逻辑与竞技需求。</p>
+
+            <h3>Code Quest 全球青少年编程挑战赛</h3>
+            <p>Code Quest 是由 CodeCombat 和扣哒世界主办的全球性青少年编程竞赛，是一项覆盖全球的青少年编程国际赛事，在全球青少年编程领域拥有广泛影响力。2019 年夏天，扣哒世界与斯坦福大学相关机构联合举办了首届 Code Quest 全球青少年编程和人工智能挑战赛，39 位来自中美两国的优秀青少年选手在斯坦福校园同台竞技，赛事获得《彭博社》《纽约时报》《华尔街日报》等多家全球知名媒体报道。2020 年全球决赛吸引了来自数十个国家和地区的选手参赛，中国队获得 2 金 1 银 1 铜的成绩。</p>
+
+            <h3>CodeCombat AI League（国内叫AI世青赛/Code Quest） 全球人工智能锦标赛</h3>
+            <p>CodeCombat AI League（国内叫AI世青赛/Code Quest） 是面向全球的 AI 算法竞技赛事，选手通过编写代码控制游戏中的角色策略，进行多人实时对战。自 2021 年推出以来，已覆盖全球 60 多个国家和地区。</p>
+        </section>
+
+        <section class="reveal">
+            <h2>四、行业荣誉与专业评选</h2>
+            
+            <h3>SIIA CODiE 最佳学生创意工具奖（2017）</h3>
+            <p>2017 年，CodeCombat 荣获美国软件与信息产业协会（SIIA）颁发的 CODiE <span class="strong-text">“最佳学生创意工具奖”</span>（Best Creativity Tool for Students）。CODiE Awards 创立于 1986 年，拥有 40 年历史，是软件和信息产业领域广受认可的专业奖项之一。</p>
+
+            <h3>Common Sense Education 课堂优选推荐</h3>
+            <p>2018 年 10 月，CodeCombat 被 Common Sense Education 评为“课堂优选编程平台”（Top Pick for Learning）。Common Sense 是美国极具影响力的非营利教育评估机构，其推荐对全美教育工作者的工具选择具有重要参考价值。</p>
+
+            <h3>EdTech Digest 教育科技奖入围</h3>
+            <p>CodeCombat 在 2017、2019、2020 年连续入围 EdTech Digest 教育科技奖评选，体现了业内对平台创新能力的长期关注。</p>
+
+            <h3>新浪教育盛典"年度最有影响力 STEAM 项目"（2019）</h3>
+            <p>2019 年 12 月，扣哒世界斩获新浪 2019 中国教育盛典“年度最有影响力 STEAM 项目”奖项。这是中国教育媒体领域极具行业影响力的年度评选活动。</p>
+        </section>
+
+        <section class="reveal">
+            <h2>五、知名资本与硅谷生态验证</h2>
+            
+            <h3>Y Combinator 孵化</h3>
+            <p>CodeCombat 于 2014 年入选 <span class="strong-text">Y Combinator（YC）Winter 2014（W14）批次</span>。YC 是全球极具影响力的头部创业孵化器，孵化过 Airbnb、Stripe、Dropbox、Reddit 等企业。入选本身就代表了硅谷成熟创业生态对公司商业模式与发展潜力的高度认可。</p>
+
+            <h3>Andreessen Horowitz（a16z）等机构投资</h3>
+            <p>2016 年 5 月，CodeCombat 完成 200 万美元种子轮融资，投资方包括 Third Kind Venture Capital、硅谷知名风投 <span class="strong-text">Andreessen Horowitz（a16z）</span>、Allen & Company。a16z 是硅谷知名风投机构，曾投资 Facebook、GitHub、Coinbase、Roblox 等全球知名企业，在教育科技领域投资布局极为审慎。</p>
+
+            <h3>Hone Capital 领投 A 轮</h3>
+            <p>2019 年 8 月，CodeCombat 完成 600 万美元 A 轮融资，由 Hone Capital 领投。这轮融资有力支持了平台新产品的开发和全球市场拓展。</p>
+            <div class="blockquote">
+                当许多同类产品仍聚焦单一内容制作时，CodeCombat 已被全球头部投资机构认可，成为一套解决“高效学习复杂能力”核心命题的成熟学习系统。其获得注资，代表着顶级投资机构对产品底层学习方法论与长期发展价值的高度认可。
+            </div>
+        </section>
+
+        <section class="reveal">
+            <h2>六、全球及国内媒体报道</h2>
+            <p>CodeCombat 及其团队多年来获得了全球及国内众多媒体的持续关注：</p>
+            <ul>
+                <li><span class="strong-text">《华尔街日报》（The Wall Street Journal）</span> 在 2016 年以专题形式介绍了 CodeCombat 如何通过游戏模式协助学校的编程教学。</li>
+                <li><span class="strong-text">TechCrunch</span> 在 2014 年对其从 Y Combinator 毕业进行了详细报道（"YC-Backed CodeCombat Wants You To Learn To Code By Playing Games"）。</li>
+                <li>在中国，<span class="strong-text">新浪、搜狐、网易、腾讯、中国教育在线、中青在线</span>等多家国内主流媒体，均对扣哒世界及旗下 AI 世青赛进行过多次专题报道。</li>
+                <li>2019 年全球教育技术大会（GET）上，CodeCombat 联合创始人 Nick Winter 的中文主题演讲相关内容，获得了近百家中国媒体的转载报道（数据来源：媒体监测系统统计）。</li>
+            </ul>
+        </section>
+
+        <section class="reveal">
+            <h2>七、中国团队的本地化能力</h2>
+            <p>CodeCombat 于 2018 年 4 月通过与网易合作正式进入中国市场。2019 年 1 月，CodeCombat 中国团队（扣哒世界）在北京中关村独立组建运营。</p>
+            <p>核心团队成员均来自清华大学、北京大学等顶尖学府，核心成员硕士及以上学历占比超 90%（数据来源：扣哒世界内部人事统计），并在全球知名互联网与咨询企业拥有丰富经验。部分成员在 ACM、ICM、NOIP 等权威赛事中取得过优异成绩。</p>
+            <p>这支团队深度参与中国市场的课程设计、内容适配、学习路径规划、赛事场景开发和用户体验优化。从 2019 年创立初期的核心初创团队，到如今业务已辐射全国 31 个省市自治区、覆盖港澳台地区，并拓展至澳大利亚、新加坡、日本等亚太十余个国家和地区。</p>
+            <div class="blockquote" style="border-color: var(--brand-gold); background: #fffbeb; color: var(--brand-gold-text);">
+                不仅是"全球视野"，更是：这套方法对中国大学生有用吗？对中国职场人的真实场景有用吗？它对竞赛、作品集、求职、转行和 AI 工具使用有承接吗？<br><br>codecombat.cn 给出的答案是：<span class="strong-text">将全球通用的能力训练方法论，真正落到中国年轻人的真实成长路径里。</span>
+            </div>
+        </section>
+
+        <section class="reveal">
+            <h2>八、用数字说话</h2>
+            <div class="data-table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>维度指标</th>
+                            <th>平台数据与来源</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="dim-col">产品持续迭代时间</td>
+                            <td class="val-col">13 年（2013 年至今）</td>
+                        </tr>
+                        <tr>
+                            <td class="dim-col">全球累计注册学习者</td>
+                            <td class="val-col">2000 万+
+                                <span class="data-source-text">（数据来源：CodeCombat 全球官方后台 2026 年 3 月统计）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="dim-col">中国及港澳台地区累计注册用户</td>
+                            <td class="val-col">近 600 万
+                                <span class="data-source-text">（数据来源：扣哒世界官方后台 2026 年 3 月统计）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="dim-col">实战关卡数量</td>
+                            <td class="val-col">2300+
+                                <span class="data-source-text">（数据来源：官方后台 2026 年 3 月统计）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="dim-col">累计编写代码行数</td>
+                            <td class="val-col">10 亿+
+                                <span class="data-source-text">（数据来源：官方后台 2026 年 3 月统计）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="dim-col">覆盖国家和地区</td>
+                            <td class="val-col">190+
+                                <span class="data-source-text">（数据来源：官方后台 2026 年 3 月统计）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="dim-col">触达学校数量</td>
+                            <td class="val-col">75000+
+                                <span class="data-source-text">（数据来源：官方后台 2026 年 3 月统计）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="dim-col">全球教师用户</td>
+                            <td class="val-col">140000+
+                                <span class="data-source-text">（数据来源：官方后台 2026 年 3 月统计）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="dim-col">AI League 电竞参与人次</td>
+                            <td class="val-col">520 万+
+                                <span class="data-source-text">（数据来源：CodeCombat 官方后台 2026 年 3 月统计）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="dim-col">多语言翻译</td>
+                            <td class="val-col">50+ 种语言
+                                <span class="data-source-text">（数据来源：官方后台 2026 年 3 月统计）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="dim-col">AI 世青赛国内累计参赛人数</td>
+                            <td class="val-col">超数十万
+                                <span class="data-source-text">（数据来源：AI 世青赛官方报名系统累计统计）</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="dim-col">Code Quest 赛事覆盖国家和地区</td>
+                            <td class="val-col">70+
+                                <span class="data-source-text">（数据来源：Code Quest 全球赛事组委会统计）</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="reveal">
+            <h2>九、总结：为什么你可以信任这个产品</h2>
+            <p>很多编程学习产品会告诉你它很好用。但 CodeCombat 可以告诉你的是，它是一套经由国际教育标准（AP CSP、CSTA）、全球权威学术竞赛（IOI）、中国白名单赛事体系、硅谷一线风投（a16z、YC）及全球两千多万用户共同检验过的成熟能力训练体系。</p>
+        </section>
+
+        <div class="final-card reveal">
+            <p>
+                <span class="highlight-marker">有趣，让你开始。专业，让你留下。被验证过的事实，让你放心投入。</span>
+            </p>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>京ICP备2026009460号 | 京公网安备 11010802038619号 | 版权 ©2026 CodeCombat Inc. 版权所有.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户故事：跑长途的间隙，我在驾驶室里开始学写代码 | CodeCombat</title>
+    <style>
+        /* ================= 品牌色彩体系 ================= */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-white: #ffffff;
+            
+            --text-heading: #1e293b; 
+            --text-main: #334155;    
+            --text-muted: #64748b;   
+            
+            --brand-indigo: #4338ca; /* 品牌蓝 */
+            --brand-indigo-light: #e0e7ff;
+            --brand-gold: #F2BE22;   /* 荣耀金 */
+            --brand-gold-text: #000000;
+            
+            --font-main: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: "Noto Serif SC", serif;
+            
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ================= 极简导航栏 (无右侧菜单) ================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; justify-content: flex-start; align-items: center;
+            padding: 15px 40px;
+        }
+        .logo img { height: 36px; display: block; }
+
+        /* ================= 全局动画 ================= */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ================= 博客文章头部 ================= */
+        .article-header {
+            padding: 160px 20px 60px;
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border-light);
+            text-align: center;
+        }
+        .article-header-inner { max-width: 800px; margin: 0 auto; }
+        
+        .article-title {
+            font-size: 2.8rem; font-weight: 900; color: var(--text-heading);
+            line-height: 1.3; margin-bottom: 25px; letter-spacing: -0.5px;
+        }
+        
+        /* 真实记录认证标签 */
+        .interview-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #fffbeb; border: 1px solid #fde68a; color: #b45309;
+            padding: 10px 20px; border-radius: 50px; font-weight: 800; font-size: 0.95rem;
+            margin-bottom: 30px; box-shadow: var(--shadow-sm);
+        }
+        
+        .article-meta {
+            display: flex; justify-content: center; gap: 20px; color: var(--text-muted);
+            font-size: 0.95rem; font-weight: 600;
+        }
+        .meta-item { display: flex; align-items: center; gap: 6px; }
+
+        /* ================= 博客正文区 ================= */
+        .article-body {
+            max-width: 760px; margin: 0 auto; padding: 60px 20px 100px;
+            font-size: 1.15rem; line-height: 2; color: var(--text-main);
+        }
+
+        .article-body p { margin-bottom: 25px; }
+
+        /* 段落小标题 */
+        .article-body h2 {
+            font-size: 1.6rem; font-weight: 900; color: var(--brand-indigo);
+            margin: 60px 0 25px; position: relative; display: inline-block;
+        }
+        .article-body h2::after {
+            content: ''; position: absolute; left: 0; bottom: -8px; width: 100%; height: 3px; background: var(--brand-gold); border-radius: 2px;
+        }
+
+        /* 荧光笔下半部半遮盖特效 */
+        .highlight-marker {
+            background: linear-gradient(180deg, transparent 55%, rgba(242, 190, 34, 0.8) 55%);
+            padding: 0 4px; font-weight: 900; color: var(--text-heading); display: inline;
+        }
+
+        /* 次重点加粗 */
+        .strong-text { font-weight: 800; color: var(--text-heading); }
+
+        /* 引言块 */
+        .story-quote {
+            font-family: var(--font-serif); font-size: 1.3rem; font-weight: 800; color: var(--brand-indigo);
+            border-left: 5px solid var(--brand-gold); padding: 25px 30px; margin: 40px 0;
+            background: var(--brand-indigo-light); border-radius: 0 16px 16px 0; line-height: 1.7;
+        }
+
+        /* ================= 页脚 ================= */
+        footer { text-align: center; padding: 40px 20px; font-size: 0.95rem; color: var(--text-muted); background: var(--bg-white); border-top: 1px solid var(--border-light); }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            header { padding: 15px 20px; }
+            .article-header { padding: 120px 20px 40px; }
+            .article-title { font-size: 2.2rem; }
+            .article-body { font-size: 1.05rem; padding: 40px 20px; }
+            .article-body h2 { font-size: 1.4rem; margin-top: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
+            </a>
+        </div>
+    </header>
+
+    <section class="article-header">
+        <div class="article-header-inner reveal">
+            <div class="interview-badge">
+                🎙️ 声明：本篇内容根据 2026年1月14日 真实用户访谈录音整理发布，发布前经受访者本人审阅确认。
+            </div>
+            <h1 class="article-title">跑长途的间隙，我在驾驶室里开始学写代码</h1>
+            <div class="article-meta">
+                <div class="meta-item"><span>访谈日期：</span> 2026-01-14</div>
+                <div class="meta-item">长途卡车司机 · 零基础</div>
+            </div>
+        </div>
+    </section>
+
+    <main class="article-body">
+        <div class="reveal delay-1">
+            <p>每个人都可以用自己的方式接触编程。这是一位长途卡车司机的故事。</p>
+            <p>我是跑货运的，开大卡车。</p>
+            <p>说出来可能很多人觉得不搭——一个卡车司机学什么编程？我自己一开始也这么想。但人就是这样，<span class="highlight-marker">有些念头冒出来了，压不下去。</span></p>
+        </div>
+
+        <div class="reveal">
+            <h2>怎么开始的</h2>
+            <p>我平时基本就刷抖音。有一阵子不知道点了什么，算法就开始给我推编程相关的东西。一开始没当回事，后来越推越多，有教Python的，有讲AI的，看着看着就心痒了。</p>
+            <p>心痒归心痒，我对自己几斤几两还是清楚的——没有技术背景，英语基本不会，连right和down这种词都不认识。你跟我说"学编程"，我第一反应就是：<span class="strong-text">我能学会吗？</span></p>
+            <p>但还是没忍住。之前也试过别的学习方式，但那种看视频听讲的模式对我来说不太合适，下了班太累了，坐那儿看五分钟就困了。</p>
+            <p>后来又刷到一个视频，是介绍CodeCombat的，画面上一个小人在跑，旁边有代码。说是写代码控制角色，跟玩游戏似的。我当时想：这个看起来不太一样。</p>
+            <p>然后就用夸克搜了一下官网，注册了一个号，开始玩。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>在卡车里学编程是什么体验</h2>
+            <p>我的生活很简单：开车、睡觉、等卸货。</p>
+            <p>等卸货这段时间是我最闲的时候。短的话一两个小时，长的话四五个小时，干等着也是等着。以前这段时间要么睡觉要么刷手机，现在我会把笔记本打开，坐在驾驶室里打几关。</p>
+            
+            <div class="story-quote">
+                有时候等卸货的时间很长，在驾驶室里也睡不着，停车场里黑漆漆的，就我驾驶室亮着一块屏幕，上面一个小人在跑来跑去。
+            </div>
+            
+            <p>说起来画面感确实挺奇怪的，但我觉得这比干坐着强多了。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>不认识英语单词也能玩</h2>
+            <p>这是让我最意外的一点。</p>
+            <p>代码里面全是英文，比如 <code style="background:#e2e8f0; padding:2px 6px; border-radius:4px; font-family: monospace;">hero.moveRight()</code>，我一个单词都不认识。但玩了几关之后我发现，其实不用认识。我只要记住这串东西的"样子"就行——hero后面加个点，点后面是动作，括号里是数字。moveRight就是往右，moveDown就是往下。</p>
+            <p>我不是在"学英语"，我是在记一个"动作指令"长什么样。<span class="highlight-marker">就跟打游戏记招式一样，你不需要知道每个按键的英文含义，你只要记住"这么按就能放技能"。</span></p>
+            <p>前面那些关我一关都没卡过，全打过去了。那种感觉怎么说呢，就是——<span class="strong-text">原来我也能学会这个东西。</span></p>
+            <p>你不知道这句话对我有多重要。我从一开始就怕自己学不会，基础摆在那儿嘛。但真的打了几关之后，心里那个"我不行"的声音就小了很多。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>后面确实遇到了坎</h2>
+            <p>打到一个关卡，好像是涉及陷阱什么的，一下子就卡住了。之前那种顺畅的感觉没了，试了好几种写法都过不去。</p>
+            <p>我想用AI提示，但搞不太清楚提示的次数怎么算，感觉好像用几次就没了，不太敢随便点。后来就开始自己瞎试，上下左右乱改数字，改半天也没过。<br>
+<span style="font-size: 0.95rem; color: var(--text-muted);">（编者注：感谢反馈。自本篇访谈之后，平台已对 AI 助手进行了全面升级——提示能力更强，使用规则也更加清晰。卡关时可以放心使用，AI 助手会根据你的代码给出针对性的引导。）</span>
+            </p>
+            <p>那会儿确实有点泄气。我这个人遇到问题不太会去B站搜什么攻略，也不太用百度，基本就是自己琢磨，琢磨不出来就想找个人问。后来找到了客服，问了一下，对方帮我看了看，指了一下方向，我又接着往下打了。</p>
+        </div>
+
+        <div class="reveal">
+            <h2>关于花钱这件事</h2>
+            <p>说实话，年费对我来说不是个小数目。</p>
+            <p>不是说拿不出来，而是怕拿出来之后没用。我这个人花钱很实际，如果发现自己学不下去、学不会，那就是白扔了。之前买别的网课不就是这样吗？花了钱，打了水漂。</p>
+            <p>所以我现在的想法是：先玩着免费的部分，看看自己到底能不能坚持。如果真的能坚持下来，能学到东西，那花钱我不心疼。怕的就是热乎劲一过，又跟上次一样。</p>
+            <p>但话说回来，到目前为止，CodeCombat给我的感觉确实不一样。网课是你逼自己去看，看着看着就想睡。<span class="highlight-marker">之前学东西全靠硬撑，这次换了个方式，反而能坚持下来了。对我来说，能坚持的方法就是好方法。</span></p>
+        </div>
+
+        <div class="reveal">
+            <h2>凌晨三点的驾驶室</h2>
+            <p>我有时候会想，要是被同行看到我半夜在卡车里敲代码，他们肯定觉得我有病。</p>
+            <p>但我无所谓。人嘛，总得给自己找点盼头。我不知道学编程最后能给我带来什么，可能什么都不带来。</p>
+            
+            <p style="font-weight: 800; font-size: 1.35rem; color: var(--text-heading); margin-top: 60px; text-align: center; line-height: 2;">
+                但至少在凌晨三点的驾驶室里，<br>看着屏幕上那个小人按照我写的代码一步一步往前走的时候，<br>
+                <span class="highlight-marker" style="font-size: 1.5rem; margin-top: 10px; display: inline-block;">我觉得我也在往前走。</span><br>
+                比干等着强多了。
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <p>京ICP备2026009460号 | 京公网安备 11010802038619号 | 版权 ©2026 CodeCombat Inc. 版权所有.</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

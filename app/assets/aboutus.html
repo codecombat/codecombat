@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCombat 扣哒世界 | 品牌故事</title>
+    <style>
+        /* ================= 品牌色彩体系 ================= */
+        :root {
+            --bg-body: #f8fafc;
+            --bg-white: #ffffff;
+            
+            --text-heading: #1e293b; 
+            --text-main: #334155;    
+            --text-muted: #64748b;   
+            
+            --brand-indigo: #4338ca; /* 品牌蓝 */
+            --brand-indigo-light: #e0e7ff;
+            --brand-gold: #F2BE22;   /* 荣耀金 */
+            --brand-gold-text: #000000;
+            
+            --font-main: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-serif: "Noto Serif SC", serif;
+            
+            --border-light: #e2e8f0;
+
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* ================= 极简导航栏 ================= */
+        header {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 40px;
+        }
+        .logo img { height: 36px; display: block; }
+
+        /* ================= 全局动画与按钮 ================= */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.15s; }
+
+        .btn-primary {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 14px 40px; background-color: var(--brand-gold); color: var(--brand-gold-text);
+            font-size: 1.1rem; font-weight: 900; border-radius: 50px; text-decoration: none;
+            transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(242, 190, 34, 0.3); border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(242, 190, 34, 0.5); background-color: #ffd24d; }
+        
+        .btn-text-link {
+            font-size: 1.1rem; font-weight: 800; color: var(--brand-indigo); text-decoration: none;
+            display: inline-flex; align-items: center; margin-top: 20px; padding-bottom: 2px; border-bottom: 2px solid transparent; transition: border-color 0.3s;
+        }
+        .btn-text-link:hover { border-color: var(--brand-indigo); }
+
+        /* ================= 统一标题设计 ================= */
+        .section-title-center { text-align: center; margin-bottom: 60px; }
+        .section-title-center h2 { font-size: 2.8rem; font-weight: 900; color: var(--text-heading); line-height: 1.3; margin-bottom: 5px; }
+        .section-title-center .en-title { font-family: Consolas, monospace; font-size: 0.9rem; color: var(--brand-indigo); letter-spacing: 3px; font-weight: 900; text-transform: uppercase; }
+        .section-title-center p.sub { font-size: 1.25rem; color: var(--text-muted); max-width: 800px; margin: 20px auto 0; }
+
+        /* ================= 文字高亮特效 ================= */
+        .highlight-marker {
+            background: linear-gradient(180deg, transparent 55%, rgba(242, 190, 34, 0.8) 55%);
+            padding: 0 4px;
+            font-weight: 900;
+            color: var(--text-heading);
+            display: inline;
+        }
+
+        /* ================= 板块一：使命宣言 ================= */
+        .hero-scene-1 {
+            width: 100%; min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
+            
+            /* 【💡严格保持与 index29 一致的布局，绝不撑大背景】 */
+            text-align: center; padding: 42vh 20px 100px; position: relative;
+            background-image: url('https://assets.koudashijie.com/aboutus/bg.png'); background-size: cover; background-position: center;
+        }
+        
+        .hero-center-box {
+            position: relative; z-index: 1; max-width: 1000px; width: 100%;
+            
+            /* 【💡严格使用 index29 正常边距，修复此前 380px 导致背景被撑破的 bug】 */
+            padding: 60px 40px; 
+            
+            /* 【💡修改：让文字整体向下移动】使用 top 纯视觉偏移，完全不会影响背景图片 */
+            top: 16vh; 
+            
+            opacity: 0;
+            animation: textFadeIn 2.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
+        }
+
+        .hero-center-box::before {
+            content: ''; position: absolute;
+            top: -60px; left: -60px; right: -60px; bottom: -60px; 
+            background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.8) 40%, rgba(255, 255, 255, 0.95) 100%);
+            filter: blur(60px); 
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* 【💡修改：大标题放大 + 单行显示】 */
+        .hero-center-box h1 {
+            /* 字体放大到 4.2rem，同时用 clamp 保证小屏幕下不会把网页撑宽 */
+            font-size: clamp(2rem, 4.5vw, 4.2rem); 
+            /* 强制单行显示，绝不换行 */
+            white-space: nowrap; 
+            font-weight: 900;
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 25px;
+            letter-spacing: -1px;
+        }
+
+        /* 【💡修改：副标题放大】 */
+        .hero-body-text { 
+            font-size: 1.35rem; /* 放大了文字 */
+            font-weight: 500; 
+            color: var(--text-main); 
+            line-height: 1.9; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            text-align: center; 
+        }
+
+        @keyframes textFadeIn {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ================= 通用容器 ================= */
+        .container-content { max-width: 1100px; margin: 0 auto; padding: 100px 20px; }
+
+        /* ================= 板块二：价值主张大排版 (无边框大气版) ================= */
+        .value-redesign-wrapper { max-width: 900px; margin: 0 auto; text-align: left; }
+        .value-intro { font-size: 1.3rem; color: var(--text-heading); line-height: 1.8; margin-bottom: 50px; font-weight: 500; }
+        
+        .value-list { list-style: none; padding: 0; margin: 0 0 60px 0; }
+        .value-list li { 
+            display: flex; align-items: center; gap: 20px; 
+            font-size: 1.35rem; color: var(--text-heading); font-weight: 700; 
+            margin-bottom: 30px; padding-bottom: 30px; 
+            border-bottom: 1px solid rgba(0,0,0,0.06); 
+        }
+        .value-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .value-icon { font-size: 1.8rem; color: var(--brand-gold); font-weight: 900; line-height: 1; }
+        
+        .value-highlight { font-size: 1.6rem; font-weight: 900; margin-bottom: 40px; text-align: center; }
+        .value-text { font-size: 1.2rem; color: var(--text-main); line-height: 1.8; margin-bottom: 60px; text-align: center; }
+        
+        .value-conclusion { text-align: center; padding: 40px; background: transparent; border-radius: 20px; position: relative; }
+        .value-conclusion::before { content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--brand-indigo); border-radius: 4px; }
+        .value-conclusion p { margin-bottom: 25px; font-size: 1.2rem; color: var(--text-main); font-weight: 500; text-align: left; padding-left: 20px;}
+        .value-conclusion p strong { color: var(--brand-indigo); font-weight: 900; font-size: 1.35rem; display: block; margin-top: 5px;}
+        .value-conclusion p:last-child { margin-bottom: 0; }
+
+        /* ================= 板块三：起源故事 ================= */
+        .story-center-wrap {
+            max-width: 850px; margin: 0 auto; text-align: left;
+            font-size: 1.15rem; line-height: 2; color: var(--text-main);
+        }
+        .story-center-wrap p { margin-bottom: 25px; }
+
+        /* ================= 板块四：产品哲学 ================= */
+        .philosophy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 30px; }
+        .phil-card { 
+            background: var(--bg-white); padding: 40px; border-radius: 24px; 
+            box-shadow: var(--shadow-sm); border: 1px solid var(--border-light);
+            border-top: 4px solid var(--brand-gold);
+        }
+        .phil-card h3 { font-size: 1.3rem; color: var(--text-heading); margin-bottom: 15px; font-weight: 900; display: flex; align-items: center; gap: 10px; }
+        .phil-num { background: #fffbeb; color: #b45309; width: 32px; height: 32px; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; font-weight: 900; }
+        .phil-card p { font-size: 1.05rem; color: var(--text-main); margin: 0; line-height: 1.7; }
+
+        /* ================= 板块六：全球足迹 ================= */
+        .data-grid-full { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 80px; }
+        .data-card-full { background: var(--bg-white); padding: 40px; border-radius: 24px; box-shadow: var(--shadow-sm); border: 2px solid transparent; transition: all 0.3s; border-bottom: 4px solid var(--brand-gold); }
+        .data-card-full:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--brand-gold); }
+        .data-card-full h4 { font-size: 2.5rem; font-weight: 900; color: var(--brand-indigo); margin-bottom: 10px; line-height: 1.2; }
+        .data-card-full p.title { font-weight: 900; font-size: 1.15rem; margin-bottom: 10px; color: var(--text-heading); }
+        .data-card-full p.desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+
+        .sketch-box { margin-bottom: 80px; text-align: center; }
+        .sketch-box img { max-width: 100%; border-radius: 24px; box-shadow: var(--shadow-md); border: 2px solid var(--brand-gold); }
+        .sketch-caption { font-size: 1.05rem; color: var(--text-muted); margin-top: 15px; font-weight: 600; }
+
+        /* 时间轴 */
+        .timeline-wrapper { position: relative; max-width: 900px; margin: 0 auto; }
+        .timeline-wrapper::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: var(--brand-indigo-light); transform: translateX(-50%); }
+        .timeline-item { width: 50%; padding: 0 50px 50px 0; position: relative; }
+        .timeline-item:nth-child(even) { margin-left: auto; padding: 0 0 50px 50px; }
+        .timeline-item::after { content: ''; position: absolute; right: -12px; top: 10px; width: 24px; height: 24px; background: var(--brand-gold); border-radius: 50%; border: 4px solid var(--bg-body); z-index: 2; }
+        .timeline-item:nth-child(even)::after { left: -12px; }
+        
+        .timeline-item.year-2026 { width: 100%; margin-left: 0; padding: 60px 0 0 0; text-align: center; margin-top: 20px; }
+        .timeline-item.year-2026::after { left: 50%; top: 10px; margin-left: -12px; transform: none; }
+
+        .timeline-year { font-size: 2.2rem; font-weight: 900; color: var(--brand-indigo); line-height: 1; margin-bottom: 15px; }
+        .timeline-content { background: var(--bg-white); padding: 25px; border-radius: 20px; box-shadow: var(--shadow-sm); font-size: 1rem; border: 1px solid var(--border-light); }
+
+        /* ================= 板块七：权威背书 ================= */
+        .endorse-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 40px; }
+        .endorse-item { background: var(--bg-white); padding: 40px; border-radius: 24px; box-shadow: var(--shadow-sm); border-top: 4px solid var(--brand-indigo); transition: transform 0.3s; }
+        .endorse-item:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+        .endorse-item h4 { font-size: 1.15rem; font-weight: 900; color: var(--text-heading); margin-bottom: 15px; line-height: 1.4; }
+        .endorse-item p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* ================= 板块八：真实蜕变 ================= */
+        .story-carousel-container { position: relative; max-width: 900px; margin: 0 auto 40px; overflow: hidden; min-height: 350px; background: var(--bg-white); border-radius: 32px; box-shadow: var(--shadow-lg); border: 1px solid var(--border-light); }
+        .carousel-slide { position: absolute; inset: 0; padding: 60px; opacity: 0; transition: opacity 0.5s ease-in-out; pointer-events: none; display: flex; flex-direction: column; justify-content: center; }
+        .carousel-slide.active { opacity: 1; pointer-events: auto; z-index: 10; }
+        
+        .carousel-header { margin-bottom: 30px; border-bottom: 1px solid var(--border-light); padding-bottom: 20px; text-align: left;}
+        .carousel-header h5 { font-size: 1.4rem; font-weight: 900; color: var(--text-heading); margin-bottom: 5px; }
+        .carousel-header p { font-size: 1rem; color: var(--text-muted); font-weight: 600; margin: 0; }
+        .carousel-quote { font-size: 1.6rem; font-weight: 900; color: var(--brand-indigo); margin-bottom: 20px; line-height: 1.5; }
+        .carousel-text { font-size: 1.15rem; color: var(--text-main); line-height: 1.8; }
+
+        .carousel-dots { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 20; }
+        .dot { width: 12px; height: 12px; background: #cbd5e1; border-radius: 50%; cursor: pointer; transition: 0.3s; }
+        .dot.active { background: var(--brand-indigo); width: 35px; border-radius: 10px; }
+
+        /* ================= 板块九：幕后团队 ================= */
+        .team-intro { text-align: center; max-width: 900px; margin: 0 auto 60px; font-size: 1.1rem; color: var(--text-main); line-height: 1.8; }
+        .team-intro p { margin-bottom: 20px; }
+        .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-bottom: 40px; }
+        .team-card { background: var(--bg-white); padding: 40px 30px; border-radius: 24px; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); }
+        
+        .flip-avatar { width: 120px; height: 120px; margin: 0 auto 20px; perspective: 1000px; cursor: pointer; }
+        .flip-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
+        .flip-avatar:hover .flip-inner { transform: rotateY(180deg); }
+        .flip-front, .flip-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; border: 3px solid var(--brand-indigo); box-shadow: var(--shadow-md); overflow: hidden;}
+        .flip-front { background: var(--bg-body); color: var(--text-muted); }
+        .flip-back { background: var(--brand-gold); color: var(--brand-gold-text); transform: rotateY(180deg); border-color: var(--brand-gold); }
+
+        .team-card h4 { font-size: 1.4rem; font-weight: 900; margin: 20px 0 5px; color: var(--text-heading); }
+        .team-card .role { color: var(--brand-indigo); font-weight: 900; font-size: 0.95rem; margin-bottom: 15px; }
+        .team-card p { font-size: 0.95rem; line-height: 1.6; }
+
+        .opensource-card { background: var(--bg-white); border-radius: 24px; padding: 50px; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); max-width: 900px; margin: 60px auto 0; }
+
+        /* ================= 结尾 CTA ================= */
+        .cta-dark { background: var(--brand-indigo); padding: 120px 20px; }
+        .cta-wrapper { max-width: 1000px; margin: 0 auto; text-align: center; }
+        .cta-wrapper h2 { font-size: 3.5rem; font-weight: 900; color: white; margin-bottom: 60px; line-height: 1.2; letter-spacing: -1px; }
+        .cta-wrapper h2 span { color: var(--brand-gold); display: block; margin-top: 10px; font-size: 3rem; }
+        
+        .cta-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 60px; text-align: left; }
+        .cta-card-wait { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 24px; color: rgba(255,255,255,0.8); }
+        .cta-card-start { background: var(--bg-white); padding: 40px; border-radius: 24px; color: var(--text-main); box-shadow: 0 20px 40px rgba(0,0,0,0.2); transform: scale(1.05); }
+        
+        .cta-cards h4 { font-size: 1.6rem; font-weight: 900; margin-bottom: 15px; }
+        .cta-card-wait h4 { color: white; }
+        .cta-card-start h4 { color: var(--brand-indigo); }
+        .cta-cards p { font-size: 1.15rem; line-height: 1.8; }
+
+        footer { text-align: center; padding: 40px 20px; font-size: 0.95rem; color: var(--text-muted); background: var(--bg-body); }
+
+        /* ================= 移动端适配 ================= */
+        @media (max-width: 992px) {
+            .hero-scene-1 { 
+                /* 【💡修改：取消 100vh 强制高度，消除底部留白；用 padding-top 把文字挤到背景图下方】 */
+                min-height: auto; 
+                padding: 65vw 15px 40px; 
+                background-size: 100% auto; 
+                background-position: top center; 
+                background-repeat: no-repeat; 
+            }
+            .hero-center-box { 
+                padding: 20px 10px; 
+                top: 0; 
+            }
+            /* 【💡修改：移动端标题允许自然换行，避免撑破屏幕】 */
+            .hero-center-box h1 { 
+                font-size: 2.2rem; 
+                white-space: normal;
+                line-height: 1.3;
+            }
+            .hero-center-box p.intro { font-size: 1.1rem; }
+            .hero-body-text { font-size: 1.15rem; }
+            /* 将发光背景稍微收敛，免得遮盖上方的图片内容 */
+            .hero-center-box::before { top: 0px; left: -10px; right: -10px; bottom: -10px; filter: blur(30px); }
+            
+            .section-title-center { margin-bottom: 40px; }
+            .section-title-center h2 { font-size: 2rem; }
+            .section-title-center p.sub { font-size: 1.1rem; }
+            /* 【💡修改：缩小移动端的板块上下间距，消除多余空白】 */
+            .container-content { padding: 40px 20px; }
+
+            .value-intro { font-size: 1.1rem; margin-bottom: 30px; }
+            .value-list { margin-bottom: 40px; }
+            .value-list li { font-size: 1.15rem; align-items: flex-start; margin-bottom: 20px; padding-bottom: 20px; }
+            .value-icon { margin-top: 3px; }
+            .value-highlight { margin-bottom: 30px; }
+            .value-text { margin-bottom: 40px; }
+            .value-conclusion { padding: 25px 20px; }
+            .value-conclusion p { padding-left: 15px; font-size: 1.05rem; }
+            .value-conclusion p strong { font-size: 1.15rem; }
+
+            .story-center-wrap { font-size: 1.05rem; }
+            
+            .philosophy-grid { grid-template-columns: 1fr; }
+            .phil-card { padding: 25px; }
+
+            .data-grid-full, .endorse-grid, .team-grid { grid-template-columns: 1fr; gap: 20px; }
+            .data-card-full, .endorse-item, .team-card, .opensource-card { padding: 30px 20px; }
+
+            .timeline-wrapper::before { left: 20px; }
+            .timeline-item, .timeline-item:nth-child(even) { padding: 0 0 30px 50px; }
+            .timeline-item::after, .timeline-item:nth-child(even)::after { left: 8px; width: 20px; height: 20px; }
+            .timeline-item.year-2026 { padding: 40px 0 0 0 !important; }
+            .timeline-item.year-2026::after { left: 50% !important; margin-left: -10px !important; }
+            .timeline-year { font-size: 1.8rem; }
+            .timeline-content { font-size: 0.95rem; padding: 20px; }
+
+            .carousel-slide { padding: 40px 20px; }
+            .carousel-header { flex-direction: column; text-align: center; gap: 10px; }
+            .carousel-quote { font-size: 1.25rem; text-align: center; }
+            .carousel-text { font-size: 1rem; }
+            .story-carousel-container { min-height: 450px; }
+
+            summary { padding: 20px; font-size: 1.1rem; }
+            .faq-body { padding: 0 20px 20px; font-size: 1rem; }
+
+            .cta-dark { padding: 80px 20px; }
+            .cta-wrapper h2 { font-size: 2.2rem; margin-bottom: 40px; }
+            .cta-wrapper h2 span { font-size: 2rem; }
+            .cta-cards { grid-template-columns: 1fr; gap: 20px; }
+            .cta-card-wait, .cta-card-start { padding: 30px 20px; }
+            .cta-card-start { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="/">
+                <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
+            </a>
+        </div>
+    </header>
+
+    <section class="hero-scene-1">
+        <div class="hero-center-box">
+            <h1>AI 时代，会写代码的人创造未来</h1>
+    
+            <div class="hero-body-text">
+                <p>从第一行代码开始，把你的想法变成真的。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="value" class="container-content">
+        <div class="section-title-center reveal">
+            <span class="en-title">VALUE</span>
+            <h2>价值主张</h2>
+            <p class="sub">为什么是 CodeCombat</p>
+        </div>
+
+        <div class="value-redesign-wrapper reveal delay-1">
+            <p class="value-intro">无论你是大学生、职场新人、转行者，还是一个单纯不想被时代甩下的人，今天你真正需要的，已经不只是“学会一门技能”，而是获得一种新的工作方式：</p>
+            
+            <ul class="value-list">
+                <li><span class="value-icon">✓</span>能把模糊的问题，拆成清晰的步骤</li>
+                <li><span class="value-icon">✓</span>能把重复的工作，交给脚本和 AI</li>
+                <li><span class="value-icon">✓</span>能看懂技术、使用技术、与技术团队协作</li>
+                <li><span class="value-icon">✓</span>能在 AI 给出答案时，判断它对不对、好不好、能不能真正落地</li>
+            </ul>
+
+            <p class="value-highlight"><span class="highlight-marker">这，就是编程思维的价值。<br>这，也是 CodeCombat 存在的原因。</span></p>
+
+            <p class="value-text">从硅谷到中国，从课堂到职场，全球累计超2000万用户通过 CodeCombat 开启编程学习，写下属于自己的代码。<br>他们来到这里，不只是因为“编程重要”，更是因为——在这里，原本枯燥的编程学习，变得有趣、可上手、能坚持。</p>
+            
+            <div class="value-conclusion">
+                <p>在过去，CodeCombat 解决的是一个问题：<br><strong>怎么让更多普通人不被传统编程课劝退。</strong></p>
+                <p>在今天，CodeCombat 解决的是一个更大的问题：<br><strong>怎么让更多普通人在 AI 爆发的时代，不只是使用工具，而是成为能驾驭工具的人。</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="story" class="container-content" style="padding-top: 10px;">
+        <div class="section-title-center reveal">
+            <span class="en-title">ORIGIN</span>
+            <h2>起源故事</h2>
+            <p class="sub">从教外国人写汉字，到教全世界与计算机对话</p>
+        </div>
+
+        <div class="story-center-wrap reveal">
+            <p>2008年，三个痴迷代码和语言学习的美国大学生从欧柏林学院（Oberlin College）毕业，没有选择进入大厂的常规职业路径，而是投身教育产品创新——他们开发了 Skritter，一款教外国人手写汉字和日语的应用。<span class="highlight-marker">亲手写、实时反馈、在犯错中学会。</span>它至今仍是全球范围内广受认可的汉字书写学习工具之一。</p>
+            <p>但创始人 Nick Winter 一直在想：如果汉字可以这样学，编程为什么不行？</p>
+            <p>2013年，团队在旧金山正式创立 CodeCombat，把同样的学习理念搬进编程——<span class="highlight-marker">再加上一个新元素：游戏</span>。因为学习最大的敌人不是难，是无聊。</p>
+            <p>产品原型发布一周，即收获18万全球用户的关注与体验（数据来源：CodeCombat 官方后台注册统计）。随即入选硅谷顶尖孵化器 Y Combinator（W14 批次）。到今天，全球累计超2000万用户通过 CodeCombat 开启编程学习，写下属于自己的代码。</p>
+            <p>2013 年，CodeCombat 要解决的是：怎么让没学过代码的人愿意开始。<br><span class="highlight-marker">2026 年，这个问题变成了：怎么让普通人不只是会用 AI，而是能真正指挥 AI。</span></p>
+            <p style="font-weight: 900; color: var(--text-heading); font-size: 1.3rem;">答案没变——从写下第一行真实代码开始。</p>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="brand_story.html" class="btn-text-link">了解更多起源故事 →</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="philosophy" class="container-content" style="background-color: var(--bg-white); border-radius: 40px; box-shadow: var(--shadow-sm); padding: 80px 40px;">
+        <div class="section-title-center reveal">
+            <span class="en-title">PHILOSOPHY</span>
+            <h2>产品哲学</h2>
+            <p class="sub">CodeCombat 的不同之处</p>
+        </div>
+
+        <div class="philosophy-grid reveal">
+            <div class="phil-card">
+                <h3><span class="phil-num">1</span> AI编程Vibe Coding</h3>
+                <p>同样的 AI 工具，是否具备编程基础，使用效果会有显著差距。编程基础决定了你能不能看懂AI写的代码、能不能发现它的错误、能不能精准地告诉它你要什么。CodeCombat帮你把这层底子打扎实。</p>
+            </div>
+            <div class="phil-card">
+                <h3><span class="phil-num">2</span> 知识被需要，而不是被讲授</h3>
+                <p>写下代码英雄才移动，在解决具体问题中长出编程直觉，告别枯燥理论先行的半途而废。</p>
+            </div>
+            <div class="phil-card">
+                <h3><span class="phil-num">3</span> 适配成年人的学习节奏与职场需求</h3>
+                <p>低门槛易上手，实时正向反馈。每一关都很短，当下就能获得小成就感，所学内容均可对应职场真实场景，具备强可迁移性。</p>
+            </div>
+            <div class="phil-card">
+                <h3><span class="phil-num">4</span> 严肃的学习科学体系</h3>
+                <p>历经多年打磨的代码引擎。智能报错系统不仅提示代码错误，更会针对性说明错误原因、修改逻辑与优化方向。</p>
+            </div>
+        </div>
+        <div style="text-align: center;" class="reveal">
+            <a href="philosophy.html" class="btn-text-link">查看更多产品理念 →</a>
+        </div>
+    </section>
+
+    <section id="endorsement" class="container-content" style="background-color: var(--bg-white); border-radius: 40px; box-shadow: var(--shadow-sm); padding: 80px 40px; margin-top: 40px;">
+        <div class="section-title-center reveal">
+            <span class="en-title">HONORS & PARTNERS</span>
+            <h2>荣誉及合作伙伴</h2>
+            <p class="sub">有趣是开始的理由，专业是投入的理由。</p>
+        </div>
+        
+        <p style="text-align: center; max-width: 850px; margin: 0 auto 40px; font-size: 1.05rem;" class="reveal">CodeCombat 的产品矩阵覆盖从青少年启蒙到成人自学的完整年龄段。以下荣誉与合作体现了 CodeCombat 在全球教育领域的专业积累与权威认可：</p>
+
+        <div class="endorse-grid reveal">
+            <div class="endorse-item">
+                <h4>全球青少年图灵计划战略合作伙伴</h4>
+                <p>图灵计划由中关村管委会发起，中国人民大学高瓴人工智能学院与人大附中联合主办，面向全球青少年发现和培养科技高潜人才。2020年，CodeCombat 成为全球青少年图灵计划官方战略合作伙伴，为赛事提供竞赛平台与技术支持。AI 世青赛和 Code Quest 全球赛的优秀选手将获邀参与图灵计划的训练营与研学活动。</p>
+            </div>
+            <div class="endorse-item">
+                <h4>中国教育部白名单赛事合作平台</h4>
+                <p>2022年，为教育部公布的面向中小学生的全国性白名单赛事「少年硅谷全国青少年人工智能教育成果展示大赛」提供独家技术合作与支持，同时也是 AI 世青赛、Code Quest 国际编程竞赛等赛事官方平台。</p>
+            </div>
+            <div class="endorse-item">
+                <h4>国际信息学奥林匹克(IOI)相关专项赛事技术支持平台</h4>
+                <p>2021年，CodeCombat 竞技场被选为第33届国际信息学奥林匹克竞赛（IOI）的展示活动平台，来自87个国家的信奥国家队选手参与了 CodeCombat 多人竞技。这说明 CodeCombat 的竞技模式已获得国际计算机科学竞赛社区的关注与认可。</p>
+            </div>
+            <div class="endorse-item">
+                <h4>行业权威荣誉</h4>
+                <p>2017年获 SIIA CODiE 最佳学生创意工具奖（Best Creativity Tool for Students）；2017、2019、2020年连续入围 EdTech Digest 教育科技奖评选；被 Common Sense Education 评为课堂优选编程平台（2018年）。被专业人士长期看见、被行业标准反复检验。</p>
+            </div>
+            <div class="endorse-item">
+                <h4>知名一线资本与硅谷产业生态验证</h4>
+                <p>由 Y Combinator 孵化，获得 Andreessen Horowitz（a16z）、Allen & Company、Hone Capital 等机构投资。这些投资代表了知名一线资本对游戏化编程教育赛道的认可与看好。</p>
+            </div>
+            <div class="endorse-item">
+                <h4>美国大学理事会 AP CSP 官方认证</h4>
+                <p>2019年，CodeCombat 对应课程体系通过美国大学理事会（College Board）严格审核，成为 AP Computer Science Principles 官方认可的课程及教师专业发展供应商。课程知识框架与学习路径，严格对标 CSTA、ISTE 等国际计算机科学教育标准。</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; padding-top: 20px;" class="reveal">
+            <a href="endorsements.html" class="btn-text-link">查看更多权威资质 →</a>
+        </div>
+    </section>
+
+    <section id="footprint" class="container-content">
+        <div class="section-title-center reveal">
+            <span class="en-title">FOOTPRINT</span>
+            <h2>我们的足迹</h2>
+            <p class="sub">从公寓草图到全球数千万学习者的平台</p>
+        </div>
+
+        <div class="sketch-box reveal">
+            <img src="https://assets.koudashijie.com/aboutus/sketch.jpg" alt="早期公寓草图">
+            <p class="sketch-caption">Nick在非常早期时描绘即将制作的编程游戏的草图。</p>
+        </div>
+    </section>
+
+    <section id="team" class="container-content" style="padding-top: 10px;">
+        <div class="section-title-center reveal">
+            <span class="en-title">OUR TEAM</span>
+            <h2>幕后团队</h2>
+        </div>
+        
+        <div class="team-intro reveal">
+            <div style="font-size: 1.2rem; color: var(--text-heading); text-align: center; margin-bottom: 25px;">
+                一群在 AI 时代依然相信：<br><span class="highlight-marker" style="margin-top: 10px;">人应该理解代码，而不是把理解力外包给工具的人</span>
+            </div>
+            <p style="font-size: 1.05rem; text-align: left; max-width: 850px; margin: 0 auto 40px;">
+                AI 越强，人越需要理解逻辑。十年前学编程是为了成为程序员，今天是为了更好地使用 AI、更快地把想法变成作品。CodeCombat 从 2013 年到今天，始终做同一件事：用最容易开始、最愿意坚持的方式，让更多人获得编程思维。这件事在 AI 时代不但没有过时，反而更重要了。<br><br>中国团队是一支拥有独立产品设计和课程研发能力的完整团队，深度理解中国教育体系、竞赛制度和职场需求。核心团队成员分别来自清华大学、北京大学等学府，及 Google、宝洁、麦肯锡等企业，拥有丰富的教育科技与互联网行业经验。
+            </p>
+        </div>
+
+        <div class="team-grid reveal">
+            <div class="team-card">
+                <div class="flip-avatar"><div class="flip-inner">
+                    <div class="flip-front"><img src="https://assets.koudashijie.com/aboutus/nick_real.jpg" alt="Nick" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                    <div class="flip-back"><img src="https://assets.koudashijie.com/aboutus/nick_game.jpg" alt="Nick Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                </div></div>
+                <h4>Nick Winter</h4><p class="role">联合创始人、董事长</p>
+                <p>Skritter 联合创始人，《The Motivation Hacker》作者。</p>
+            </div>
+            <div class="team-card">
+                <div class="flip-avatar"><div class="flip-inner">
+                    <div class="flip-front" style="border-color: var(--brand-gold);"><img src="https://assets.koudashijie.com/aboutus/run_real.jpg" alt="Run" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                    <div class="flip-back" style="border-color: var(--brand-indigo);"><img src="https://assets.koudashijie.com/aboutus/run_game.jpg" alt="Run Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                </div></div>
+                <h4>陈闰</h4><p class="role">中国区运营负责人</p>
+                <p>统筹中国整体业务运营和市场战略。</p>
+            </div>
+            <div class="team-card">
+                <div class="flip-avatar"><div class="flip-inner">
+                    <div class="flip-front" style="border-color: var(--brand-gold);"><img src="https://assets.koudashijie.com/aboutus/yuqiang_real.jpg" alt="Yuqiang" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                    <div class="flip-back" style="border-color: var(--brand-indigo);"><img src="https://assets.koudashijie.com/aboutus/yuqiang_game.jpg" alt="Yuqiang Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                </div></div>
+                <h4>童羽强</h4><p class="role">中国区创新负责人</p>
+                <p>负责产品创新和技术研发，推动游戏化编程教育与中国市场的深度融合。</p>
+            </div>
+            <div class="team-card">
+                <div class="flip-avatar"><div class="flip-inner">
+                    <div class="flip-front" style="border-color: var(--brand-gold);"><img src="https://assets.koudashijie.com/aboutus/zhiran_real.jpg" alt="Zhiran" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                    <div class="flip-back" style="border-color: var(--brand-indigo);"><img src="https://assets.koudashijie.com/aboutus/zhiran_game.jpg" alt="Zhiran Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
+                </div></div>
+                <h4>陈之然</h4><p class="role">中国区课程负责人</p>
+                <p>主导中国版课程体系设计与开发，适配从竞赛到职场的全场景需求。</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="stories" class="container-content" style="padding-top: 10px;">
+        <div class="section-title-center reveal">
+            <span class="en-title">USER STORIES</span>
+            <h2>真实蜕变</h2>
+            <p class="sub">他们和你一样，不是天生会写代码。<br><span class="highlight-marker" style="margin-top: 10px;">只是更早把“我也许不行”换成了“先试试看”。</span></p>
+        </div>
+
+        <div class="story-carousel-container reveal" id="storyCarousel">
+            <div class="carousel-slide active">
+                <div class="carousel-header">
+                    <div><h5>大四女生</h5><p>零基础，养伤期间自学</p></div>
+                </div>
+                <div class="carousel-text" style="font-size: 1.3rem; font-weight: bold; color: var(--brand-indigo); line-height: 1.6; margin-top: 20px;">
+                    "以前看编程书翻二十页就犯困，在CodeCombat里一坐就是一下午。不知不觉就把if-else和while循环学会了，花三百多块比买奶茶值多了。"
+                </div>
+            </div>
+
+            <div class="carousel-slide">
+                <div class="carousel-header">
+                    <div><h5>土木工程从业者</h5><p>工作10年，待业期转型</p></div>
+                </div>
+                <div class="carousel-text" style="font-size: 1.3rem; font-weight: bold; color: var(--brand-indigo); line-height: 1.6; margin-top: 20px;">
+                    "以前学编程靠忍，现在靠的是停不下来。一个三十多岁的土木老哥能坐在电脑前写代码写一整天还觉得没玩够，这事本身就挺说明问题的。"
+                </div>
+            </div>
+
+            <div class="carousel-slide">
+                <div class="carousel-header">
+                    <div><h5>六年级男生家长</h5><p>北京通州，父子共学</p></div>
+                </div>
+                <div class="carousel-text" style="font-size: 1.3rem; font-weight: bold; color: var(--brand-indigo); line-height: 1.6; margin-top: 20px;">
+                    "以前上网课他从来不会主动打开电脑，现在每天写完作业就说'爸我打两关'。有一次父子俩为了优化一段代码死磕了半个小时，那种一起攻克难关的感觉，比任何亲子活动都带劲。"
+                </div>
+            </div>
+
+            <div class="carousel-slide">
+                <div class="carousel-header">
+                    <div><h5>货运卡车司机</h5><p>绝对零基础，凌晨驾驶室自学</p></div>
+                </div>
+                <div class="carousel-text" style="font-size: 1.3rem; font-weight: bold; color: var(--brand-indigo); line-height: 1.6; margin-top: 20px;">
+                    "我学历不高，英语单词也不认识几个，但在这里面我不用背单词，记住代码的'样子'就能过关。凌晨三点在驾驶室里敲代码的时候，觉得自己也在往前走。"
+                </div>
+            </div>
+
+            <div class="carousel-dots" id="carouselDots">
+                <div class="dot active" onclick="goToSlide(0)"></div>
+                <div class="dot" onclick="goToSlide(1)"></div>
+                <div class="dot" onclick="goToSlide(2)"></div>
+                <div class="dot" onclick="goToSlide(3)"></div>
+            </div>
+        </div>
+
+        <div style="text-align: center;" class="reveal">
+            <a href="user_stories.html" class="btn-text-link">查看更多用户故事 →</a>
+        </div>
+    </section>
+
+    <section id="milestones" class="container-content" style="padding-top: 10px;">
+        <h3 style="text-align: center; font-size: 2.2rem; font-weight: 900; margin: 0 0 40px; color: var(--text-heading);" class="reveal">关键里程碑</h3>
+        <div class="timeline-wrapper reveal">
+            <div class="timeline-item">
+                <div class="timeline-year">2013</div>
+                <div class="timeline-content">CodeCombat 在旧金山创立，入选 Y Combinator W14。同年产品原型引发广泛关注，验证了“游戏化学编程”的强需求。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2014</div>
+                <div class="timeline-content">2014年1月，项目核心代码全面开源，托管于 GitHub 平台。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2016</div>
+                <div class="timeline-content">2016年，完成200万美元种子轮融资，投资方包括 Third Kind Venture Capital、Andreessen Horowitz（a16z）及 Allen & Company。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2018</div>
+                <div class="timeline-content">2018年，与网易（NetEase）达成战略合作，正式进入中国市场。中国团队落地运营，开始将全球方法论与中国用户需求结合。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2019</div>
+                <div class="timeline-content">2019年，CodeCombat 完成600万美元 A 轮融资（Hone Capital 领投），并发布沉浸式编程教育产品奥佳睿Ozaria。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2021</div>
+                <div class="timeline-content">入选国际信息学奥林匹克竞赛（IOI）专项赛事平台。在全球竞赛体系中获得更高专业认可。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2022</div>
+                <div class="timeline-content">入围中国教育部白名单赛事官方技术合作平台。CodeCombat 中国在本土深度落地。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2023</div>
+                <div class="timeline-content">登陆 Roblox 平台，推出 AI HackStack。从“学习代码”走向“代码 + AI 协作创作”。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2024</div>
+                <div class="timeline-content">发布 CodeCombat Junior，AI世青赛/Code Quest 赛事规模扩大。覆盖启蒙到高阶竞技路径。</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2025</div>
+                <div class="timeline-content">2025年，全面升级 AI 智能辅导能力，帮助用户与 AI 一起完成真实任务。</div>
+            </div>
+            <div class="timeline-item year-2026">
+                <div class="timeline-year" style="font-size: 3.5rem; color: var(--brand-gold);">2026</div>
+                <div class="timeline-content" style="border: 2px solid var(--brand-gold); max-width: 800px; margin: 0 auto; font-size: 1.15rem; font-weight: 800;">2026年，全面升级为“AI 时代的底层能力训练场”，形成从零基础启蒙、主流语言学习，到 AI 协作开发、项目创造的完整能力成长路径。</div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 80px; font-size: 1.5rem; font-weight: 900; color: var(--brand-indigo);" class="reveal">我们的故事未完待续...</div>
+    </section>
+
+    <footer>
+        <p>京ICP备2026009460号 | 京公网安备 11010802038619号 | 版权 ©2026 CodeCombat Inc. 版权所有.</p>
+    </footer>
+
+    <script>
+        // 滚动监听动画
+        document.addEventListener("DOMContentLoaded", function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+            document.querySelectorAll('.reveal').forEach((el) => {
+                observer.observe(el);
+            });
+        });
+
+        // 用户故事单屏自动轮播图逻辑
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.dot');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+            resetInterval();
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 6000); 
+        }
+
+        // 启动自动轮播
+        slideInterval = setInterval(nextSlide, 6000);
+    </script>
+</body>
+</html>
