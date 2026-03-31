@@ -167,6 +167,9 @@ export default {
     },
 
     curriculumUrl () {
+      if (me.showChinaResourceInfo()) {
+        return ''
+      }
       if (!this.getCurrentCourse) {
         return this.courseLinks['introduction-to-computer-science']
       }

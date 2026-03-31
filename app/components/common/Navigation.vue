@@ -480,11 +480,13 @@ export default Vue.extend({
             },
             player: {
               title: '用户故事',
-              url: '/user_stories.html',
+              url: this.cocoPath('/user_stories.html'),
+              properties: { target: '_blank' },
             },
             source: {
               title: '关于我们',
               url: '/aboutus.html',
+              properties: { target: '_blank' },
             },
             resources: {
               title: '付费资料',
@@ -592,7 +594,7 @@ export default Vue.extend({
                       li(v-for="child in navItem.children.filter(child => child.hide!==true)")
                         a.text-p(:href="child.url" :class="[child.class, child.url && checkLocation(child.url) && 'text-teal'].filter(Boolean)" v-bind="child.attrs") {{ $t(child.title) }}
                           div.text-description(v-if="child.description") {{ $t(child.description) }}
-                a.text-p(v-else :href="navItem.url") {{ $t(navItem.title) }}
+                a.text-p(v-else :href="navItem.url" v-bind="navItem.properties && navItem.properties") {{ $t(navItem.title) }}
 
           .navbar-collapse.collapse(v-if="!float")
             ul.nav.navbar-nav.loggedin(v-if="!me.isAnonymous()")
