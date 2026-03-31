@@ -345,7 +345,6 @@ module.exports = {
       promo_modal_title: 'CodeCombat Home',
       promo_modal_subtitle: 'Learn Real Coding Through Epic Gameplay',
       promo_modal_text: 'Dive into real‑world coding with **Python** and **JavaScript**, solving epic puzzles, battling foes, and building a strong coding foundation. Along the way, you’ll learn the skills to **create your own games** and **websites** — all in their browser, no downloads needed.',
-      start_playing: 'Start Playing',
     },
 
     nav: {
@@ -774,7 +773,7 @@ module.exports = {
       confirm_individual_blurb: 'Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!',
       confirm_individual_blurb_without_email: 'Write down your login information in case you need it later.',
       write_this_down: 'Write down your username:',
-      start_playing: 'Start Playing!',
+      start_playing: 'Start Playing',
       sso_connected: 'Successfully connected with:',
       select_your_starting_hero: 'Select Your Starting Hero:',
       you_can_always_change_your_hero_later: 'You can always change your hero later.',
@@ -5164,7 +5163,7 @@ module.exports = {
       final_arena: 'Final Arena',
       rest_season: 'Practice Season',
       no_prizes: 'No Prizing',
-      prizing_top_3: 'Prizing Awarded to Top 3 Championships',
+      prizing_top_3: 'Prizing Awarded to Top 3 Champions',
       package_options_and_guide: 'Package Options & Implementation Guide',
       custom_tournament: 'For a Custom Tournament',
       you_win: 'You can win',
