@@ -28,6 +28,7 @@ _.extend(AIDocumentSchema.properties, {
       preText: { type: 'string', title: 'Pre Text', description: 'The pre text of the document' },
       postText: { type: 'string', title: 'Post Text', description: 'The post text of the document' },
       linkText: { type: 'string', title: 'Link Text', description: 'The text of the link' },
+      fileSize: { type: 'integer', title: 'File Size', description: 'Size of the uploaded file (helps in estimating chunk cost for LLM input)' },
     },
   },
 })
