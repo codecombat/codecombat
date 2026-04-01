@@ -424,6 +424,14 @@ const COCO_COURSE_IDS = [
   allCourseIDs.COMPUTER_SCIENCE_5,
   allCourseIDs.COMPUTER_SCIENCE_6,
 ]
+const GD_COURSE_IDS = [
+  allCourseIDs.GAME_DEVELOPMENT_1,
+  allCourseIDs.GAME_DEVELOPMENT_2,
+]
+const WD_COURSE_IDS = [
+  allCourseIDs.WEB_DEVELOPMENT_1,
+  allCourseIDs.WEB_DEVELOPMENT_2,
+]
 
 const freeCocoCourseIDs = [allCourseIDs.JUNIOR, allCourseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE, allCourseIDs.INTRO_TO_AI]
 const allFreeCourseIDs = [...freeCocoCourseIDs, allCourseIDs.CHAPTER_ONE]
@@ -2021,6 +2029,8 @@ module.exports = {
   COCO_COURSE_IDS,
   OZ_COURSE_IDS,
   OZ_COURSE_IDS_MAP,
+  GD_COURSE_IDS,
+  WD_COURSE_IDS,
   showOzaria,
 }
 

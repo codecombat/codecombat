@@ -1,29 +1,257 @@
 <script>
 import ProgressLabels from '../common/progress/progressLabels'
-import ContentIcon from '../common/icons/ContentIcon'
+import ContentGuideItem from './ContentGuideItem'
+import { mapGetters } from 'vuex'
 import utils from 'core/utils'
+
+const ozariaContentGuideItems = [
+  {
+    isTitle: true,
+    title: $.i18n.t('teacher_dashboard.story'),
+    classes: 'story-title',
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.cutscenes_tooltip'),
+    classes: 'cutscene-icon vertical-grid-divider',
+    icon: 'cutscene',
+    iconStyle: '',
+    text: $.i18n.t('teacher_dashboard.cutscenes'),
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.cinematics_tooltip'),
+    classes: 'cinematic-icon',
+    icon: 'cinematic',
+    iconStyle: 'width: 28px;',
+    text: $.i18n.t('teacher_dashboard.cinematics'),
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.concepts_tooltip'),
+    classes: 'concept-icon vertical-grid-divider',
+    icon: 'interactive',
+    iconStyle: 'width: 28px;',
+    text: $.i18n.t('teacher_dashboard.concept_checks'),
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.ozaria_practices_tooltip'),
+    classes: 'practice-icon',
+    icon: 'practicelvl',
+    iconStyle: '',
+    text: $.i18n.t('teacher_dashboard.practice_levels'),
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.challenges_tooltip'),
+    classes: 'challenge-icon vertical-grid-divider',
+    icon: 'challengelvl',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.challenge_levels'),
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.capstones_tooltip'),
+    classes: 'capstone-icon',
+    icon: 'capstone',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.capstone_levels'),
+  },
+  {
+    isTitle: true,
+    title: $.i18n.t('teacher_dashboard.intro'),
+    classes: 'intro-title',
+  },
+  {
+    isTitle: true,
+    title: $.i18n.t('teacher_dashboard.practice'),
+    classes: 'practice-title',
+  },
+  {
+    isTitle: true,
+    title: $.i18n.t('teacher_dashboard.assess'),
+    classes: 'assess-title',
+  },
+]
+
+const cocoContentGuideItems = [
+  {
+    tooltip: $.i18n.t('teacher_dashboard.coco_practices_tooltip'),
+    classes: 'practice-icon vertical-grid-divider',
+    icon: 'practicelvl',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.practice_levels'),
+  },
+
+  {
+    tooltip: $.i18n.t('teacher_dashboard.mains_tooltip'),
+    classes: 'challenge-icon vertical-grid-divider',
+    icon: 'challengelvl',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.main_levels'),
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.multiplayers_tooltip'),
+    classes: 'intro-icon vertical-grid-divider',
+    icon: 'intro',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.multiplayer_levels'),
+  },
+
+  {
+    isTitle: true,
+    title: $.i18n.t('teacher_dashboard.main'),
+    classes: 'main-title',
+  },
+  {
+    isTitle: true,
+    title: $.i18n.t('teacher_dashboard.multiplayer'),
+    classes: 'multiplayer-title',
+  },
+  {
+    isTitle: true,
+    title: $.i18n.t('teacher_dashboard.practice'),
+    classes: 'practice-title',
+  },
+]
+
+const hackstackContentGuideItems = [
+  {
+    isTitle: true,
+    title: $.i18n.t('teacher_dashboard.type'),
+    classes: 'type-title',
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.learn_to_use_tooltip'),
+    classes: 'learn-icon',
+    icon: 'ai-learn',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.learn_levels'),
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.use_tooltip'),
+    classes: 'use-icon',
+    icon: 'ai-use',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.use_levels'),
+  },
+]
+
+const gameDevContentGuideItems = [
+  {
+    isTitle: true,
+    title: $.i18n.t('teacher_dashboard.main'),
+    classes: 'main-title',
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.mains_tooltip'),
+    classes: 'challenge-icon vertical-grid-divider',
+    icon: 'intro',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.main_levels'),
+  },
+
+  {
+    isTitle: true,
+    title: $.i18n.t('teacher_dashboard.assess'),
+    classes: 'assess-title',
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.capstones_tooltip'),
+    classes: 'capstone-icon',
+    icon: 'capstone',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.capstone_levels'),
+  },
+]
+const webDevContentGuideItems = [
+  {
+    isTitle: true,
+    title: $.i18n.t('teacher_dashboard.main'),
+    classes: 'main-title',
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.mains_tooltip'),
+    classes: 'intro-icon vertical-grid-divider',
+    icon: 'intro',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.main_levels'),
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.mains_tooltip'),
+    classes: 'challenge-icon',
+    icon: 'challengelvl',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.main_levels'),
+  },
+  {
+    isTitle: true,
+    title: $.i18n.t('teacher_dashboard.assess'),
+    classes: 'assess-title',
+  },
+  {
+    tooltip: $.i18n.t('teacher_dashboard.capstones_tooltip'),
+    classes: 'capstone-icon',
+    icon: 'capstone',
+    iconStyle: 'width: 22px;',
+    text: $.i18n.t('teacher_dashboard.capstone_levels'),
+  },
+]
 
 export default {
   components: {
     'progress-labels': ProgressLabels,
-    ContentIcon
+    ContentGuideItem,
   },
   props: {
     visible: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   computed: {
+    ...mapGetters({
+      selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
+    }),
     showContentGuide () {
-      return utils.isOzaria
+      return this.guideContainer?.items?.length
+    },
+    guideContainer () {
+      if (utils.isOzaria) {
+        return {
+          classes: 'ozaria-container',
+          items: ozariaContentGuideItems,
+        }
+      } else {
+        if (utils.OZ_COURSE_IDS.includes(this.selectedCourseId)) {
+          return {
+            classes: 'ozaria-container',
+            items: ozariaContentGuideItems,
+          }
+        } else if (utils.HACKSTACK_COURSE_IDS.includes(this.selectedCourseId)) {
+          return {
+            classes: 'hackstack-container',
+            items: hackstackContentGuideItems,
+          }
+        } else if (utils.GD_COURSE_IDS.includes(this.selectedCourseId)) {
+          return {
+            classes: 'game-dev-container',
+            items: gameDevContentGuideItems,
+          }
+        } else if (utils.WD_COURSE_IDS.includes(this.selectedCourseId)) {
+          return {
+            classes: 'web-dev-container',
+            items: webDevContentGuideItems,
+          }
+        } else {
+          return {
+            classes: 'coco-container',
+            items: cocoContentGuideItems,
+          }
+        }
+      }
     },
   },
   methods: {
     clickArrow () {
       this.$emit('click-arrow')
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -47,91 +275,13 @@ export default {
         <div
           v-if="showContentGuide"
           class="grid-container"
+          :class="guideContainer.classes"
         >
-          <div class="story-title">
-            <h3>{{ $t('teacher_dashboard.story') }}</h3>
-          </div>
-          <div
-            v-tooltip.bottom="{
-              content: $t('teacher_dashboard.cutscenes_tooltip'),
-              classes: 'teacher-dashboard-tooltip lighter-p'
-            }"
-            class="img-subtext cutscene-icon vertical-grid-divider"
-          >
-            <content-icon icon="cutscene" />
-            <span>{{ $t('teacher_dashboard.cutscenes') }}</span>
-          </div>
-          <div
-            v-tooltip.bottom="{
-              content: `<h3>Cinematic</h3><p>Expositional dialogue that introduces concepts in an engaging back-and-forth between characters.</p><p class='small'>Part of an <b>intro</b>, which introduce new concepts in a scaffolded way.</p>`,
-              classes: 'teacher-dashboard-tooltip lighter-p'
-            }"
-            class="img-subtext cinematic-icon"
-          >
-            <content-icon
-              icon="cinematic"
-              style="width: 28px;"
-            />
-            <span>{{ $t('teacher_dashboard.cinematics') }}</span>
-          </div>
-          <div
-            v-tooltip.bottom="{
-              content: `<h3>Concept Check</h3><p>Formative checks for student understanding presented in varied formats, including drag-and-drop and code ordering questions.</p><p class='small'>Part of an <b>intro</b>, which introduce new concepts in a scaffolded way.</p>`,
-              classes: 'teacher-dashboard-tooltip lighter-p'
-            }"
-            class="img-subtext concept-icon vertical-grid-divider"
-          >
-            <content-icon
-              icon="interactive"
-              style="width: 28px;"
-            />
-            <span>{{ $t('teacher_dashboard.concept_checks') }}</span>
-          </div>
-          <div
-            v-tooltip.bottom="{
-              content: `<h3>Practice Level</h3><p>Game-play in which students are practicing concepts while solving puzzles to complete their hero's quest.</p>`,
-              classes: 'teacher-dashboard-tooltip lighter-p'
-            }"
-            class="img-subtext practice-icon"
-          >
-            <content-icon icon="practicelvl" />
-            <span>{{ $t('teacher_dashboard.practice_levels') }}</span>
-          </div>
-          <div
-            v-tooltip.bottom="{
-              content: `<h3>Challenge Level</h3><p>Game-play that combines key concepts students have practiced previously.</p>`,
-              classes: 'teacher-dashboard-tooltip lighter-p'
-            }"
-            class="img-subtext challenge-icon vertical-grid-divider"
-          >
-            <content-icon
-              icon="challengelvl"
-              style="width: 22px;"
-            />
-            <span>{{ $t('teacher_dashboard.challenge_levels') }}</span>
-          </div>
-          <div
-            v-tooltip.bottom="{
-              content: `<h3>Capstone Level</h3><p>Students create games and stories using key concepts they learned from the chapter.</p>`,
-              classes: 'teacher-dashboard-tooltip lighter-p'
-            }"
-            class="img-subtext capstone-icon"
-          >
-            <content-icon
-              icon="capstone"
-              style="width: 22px;"
-            />
-            <span>{{ $t('teacher_dashboard.capstone_levels') }}</span>
-          </div>
-          <div class="intro-title">
-            <h3>{{ $t('teacher_dashboard.intro') }}</h3>
-          </div>
-          <div class="practice-title">
-            <h3>{{ $t('teacher_dashboard.practice') }}</h3>
-          </div>
-          <div class="assess-title">
-            <h3>{{ $t('teacher_dashboard.assess') }}</h3>
-          </div>
+          <ContentGuideItem
+            v-for="(item, index) in guideContainer.items"
+            :key="`content-guide-items-${index}`"
+            :item="item"
+          />
         </div>
       </div>
       <div
@@ -162,74 +312,6 @@ export default {
   border-bottom: 0.5px solid #d8d8d8;
 
   position: relative;
-}
-
-.story-title {
-  grid-area: story-title;
-  align-self: end;
-}
-.intro-title {
-  grid-area: intro-title;
-  align-self: end;
-}
-.practice-title {
-  grid-area: practice-title;
-  align-self: end;
-}
-.assess-title {
-  grid-area: assess-title;
-  align-self: end;
-}
-.cutscene-icon {
-  grid-area: cutscene-icon;
-}
-.cinematic-icon {
-  grid-area: cinematic-icon;
-}
-.concept-icon {
-  grid-area: concept-icon;
-}
-.practice-icon {
-  grid-area: practice-icon;
-}
-.challenge-icon {
-  grid-area: challenge-icon;
-}
-.capstone-icon {
-  grid-area: capstone-icon;
-}
-
-.vertical-grid-divider {
-  position: relative;
-}
-
-.vertical-grid-divider:after {
-  content: "";
-  position: absolute;
-  border-left: 0.5px solid #476FB1;
-  top: -17%;
-  bottom: 28%;
-  left: 101%;
-}
-
-.grid-container {
-  width: 100%;
-  max-width: 700px;
-
-  display: grid;
-  grid-template-rows: 22px 47px;
-  grid-template-columns: auto;
-  grid-template-areas:
-    "story-title intro-title intro-title practice-title practice-title assess-title"
-    "cutscene-icon cinematic-icon concept-icon practice-icon challenge-icon capstone-icon";
-
-  h3 {
-    @include font-p-1-paragraph-large-twilight;
-    font-size: 12px;
-    line-height: 16px;
-    font-weight: 600;
-    text-align: center;
-  }
 }
 
 .title-card {
@@ -333,5 +415,118 @@ export default {
 .fade-enter-to {
   opacity: 1;
   max-height: 60px;
+}
+
+.grid-container {
+  width: 100%;
+  max-width: 700px;
+
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 22px 47px;
+
+  ::v-deep {
+    h3 {
+      @include font-p-1-paragraph-large-twilight;
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    &.ozaria-container {
+      grid-template-areas:
+        "story-title intro-title intro-title practice-title practice-title assess-title"
+        "cutscene-icon cinematic-icon concept-icon practice-icon challenge-icon capstone-icon";
+    }
+    &.coco-container {
+      grid-template-areas:
+        "main-title practice-title multiplayer-title"
+        "challenge-icon practice-icon intro-icon";
+    }
+    &.game-dev-container {
+      grid-template-areas:
+        "main-title assess-title"
+        "challenge-icon capstone-icon";
+    }
+    &.web-dev-container {
+      grid-template-areas:
+        "main-title main-title assess-title"
+        "challenge-icon intro-icon capstone-icon";
+    }
+
+    &.hackstack-container {
+      grid-template-areas:
+        "type-title type-title"
+        "learn-icon use-icon";
+    }
+
+    .type-title {
+      grid-area: type-title;
+      align-self: end;
+    }
+    .main-title {
+      grid-area: main-title;
+      align-self: end;
+    }
+
+    .multiplayer-title {
+      grid-area: multiplayer-title;
+      align-self: end;
+    }
+
+    .story-title {
+      grid-area: story-title;
+      align-self: end;
+    }
+    .intro-title {
+      grid-area: intro-title;
+      align-self: end;
+    }
+    .practice-title {
+      grid-area: practice-title;
+      align-self: end;
+    }
+    .assess-title {
+      grid-area: assess-title;
+      align-self: end;
+    }
+    .learn-icon {
+      grid-area: learn-icon;
+    }
+    .use-icon {
+      grid-area: use-icon;
+    }
+    .cutscene-icon {
+      grid-area: cutscene-icon;
+    }
+    .cinematic-icon {
+      grid-area: cinematic-icon;
+    }
+    .concept-icon {
+      grid-area: concept-icon;
+    }
+    .practice-icon {
+      grid-area: practice-icon;
+    }
+    .challenge-icon {
+      grid-area: challenge-icon;
+    }
+    .capstone-icon {
+      grid-area: capstone-icon;
+    }
+
+    .vertical-grid-divider {
+      position: relative;
+    }
+    .vertical-grid-divider:after {
+      content: "";
+      position: absolute;
+      border-left: 0.5px solid #476FB1;
+      top: -17%;
+      bottom: 28%;
+      left: 101%;
+    }
+  }
 }
 </style>
