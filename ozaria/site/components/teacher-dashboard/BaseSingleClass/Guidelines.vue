@@ -218,6 +218,11 @@ export default {
           items: ozariaContentGuideItems,
         }
       } else {
+        if (!this.selectedCourseId) {
+          return {
+            items: [],
+          }
+        }
         if (utils.OZ_COURSE_IDS.includes(this.selectedCourseId)) {
           return {
             classes: 'ozaria-container',
@@ -425,15 +430,6 @@ export default {
   grid-template-columns: auto;
   grid-template-rows: 22px 47px;
 
-  ::v-deep {
-    h3 {
-      @include font-p-1-paragraph-large-twilight;
-      font-size: 12px;
-      line-height: 16px;
-      font-weight: 600;
-      text-align: center;
-    }
-
     &.ozaria-container {
       grid-template-areas:
         "story-title intro-title intro-title practice-title practice-title assess-title"
@@ -459,6 +455,15 @@ export default {
       grid-template-areas:
         "type-title type-title"
         "learn-icon use-icon";
+    }
+
+  ::v-deep {
+    h3 {
+      @include font-p-1-paragraph-large-twilight;
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 600;
+      text-align: center;
     }
 
     .type-title {
@@ -496,6 +501,9 @@ export default {
     }
     .use-icon {
       grid-area: use-icon;
+    }
+    .intro-icon {
+      grid-area: intro-icon;
     }
     .cutscene-icon {
       grid-area: cutscene-icon;

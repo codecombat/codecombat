@@ -427,6 +427,7 @@ const COCO_COURSE_IDS = [
 const GD_COURSE_IDS = [
   allCourseIDs.GAME_DEVELOPMENT_1,
   allCourseIDs.GAME_DEVELOPMENT_2,
+  allCourseIDs.GAME_DEVELOPMENT_3,
 ]
 const WD_COURSE_IDS = [
   allCourseIDs.WEB_DEVELOPMENT_1,
