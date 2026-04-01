@@ -1928,37 +1928,13 @@ class CampaignView extends RootView {
     const levelName = levelElement.data('level-name')
     const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
 
-    let defaultAccess = me.get('hourOfCode') || (this.campaign?.get('type') === 'hoc') || (this.campaign?.get('slug') === 'intro') ? 'long' : 'short'
-    if (new Date(me.get('dateCreated')) < new Date('2021-09-21')) {
-      defaultAccess = 'all'
-    }
-    let access
-    if (this.terrain === 'junior') {
-      access = 'all' // CodeCombat Junior level access is managed the old way, with level.requiresSubscription, no hardcoded overrides
-    }
-    access = access || me.getExperimentValue('home-content', defaultAccess)
-    if (me.showChinaResourceInfo() || (me.get('country') === 'japan')) {
-      access = 'short'
-    }
-    const freeAccessLevels = utils.freeAccessLevels
-      .filter(fal => {
-        if (fal.access === 'short') return true
-        if (fal.access === 'medium' && ['medium', 'long', 'extended'].includes(access)) return true
-        if (fal.access === 'long' && ['long', 'extended'].includes(access)) return true
-        if (fal.access === 'extended' && access === 'extended') return true
-        return false
-      })
-      .map(fal => fal.slug)
-
-    const requiresSubscription = level.requiresSubscription || ((access !== 'all') && !freeAccessLevels.includes(level.slug))
     const canPlayAnyway = [
       !this.requiresSubscription,
-      // level.adventurer  # Disable adventurer stuff for now
       this.levelStatusMap[level.slug],
       this.campaign.get('type') === 'hoc',
     ].some(Boolean)
 
-    if (requiresSubscription && !canPlayAnyway) {
+    if (level.requiresSubscription && !canPlayAnyway) {
       return this.promptForSubscription(levelSlug, 'map level clicked')
     } else {
       this.startLevel({ levelSlug, levelOriginal, levelPath, levelName })
