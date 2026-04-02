@@ -59,19 +59,25 @@
       v-if="season.published"
       class="text-center"
     >
-      <div class="col-xs-12 col-md-6 view-winners-col">
+      <div
+        v-if="season.regularArena"
+        class="col-xs-12 col-md-6 view-winners-col"
+      >
         <a
-          :href="`/play/ladder/${season.regularArena.slug}?tournament=${season.regularArena.tournament}`"
+          :href="formatUrl(season.regularArena)"
           class="btn btn-small btn-primary btn-moon play-btn-cta"
           rel="noopener noreferrer"
         >{{ $t('league.view_arena_winners', { arenaName: $t('league.' + season.regularArena.slug.replace(/-/g, '_')), arenaType: $t('league.arena_type_regular'), interpolation: { escapeValue: false } }) }}</a>
       </div>
-      <div class="col-xs-12 col-md-6 view-winners-col">
+      <div
+        class="col-xs-12 view-winners-col"
+        :class="season.regularArena ? 'col-md-6' : 'col-md-12' "
+      >
         <a
           rel="noopener noreferrer"
-          :href="`/play/ladder/${season.championshipArena.slug}?tournament=${season.championshipArena.tournament}`"
+          :href="formatUrl(season.championshipArena)"
           class="btn btn-small btn-primary btn-moon play-btn-cta"
-        >{{ $t('league.view_arena_winners', { arenaName: $t('league.' + season.championshipArena.slug.replace(/-/g, '_')) + ' ' + $t('league.' + season.championshipType), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
+        >{{ season.championshipArena.noResults ? $t('league.play_arena_full', { arenaName: arenaName(season.championshipArena, season), arenaType: $t('league.arena_type_championship')}) : $t('league.view_arena_winners', { arenaName: arenaName(season.championshipArena, season), arenaType: $t('league.arena_type_championship'), interpolation: { escapeValue: false } }) }}</a>
       </div>
     </div>
     <div
@@ -80,7 +86,7 @@
     >
       <span>{{ $t(`league.${season.championshipArena.slug.replace(/-/g, '_')}`) }} {{ $t(`league.${season.championshipType}`) }}</span>
       <br>
-      <span>{{ season.restSeason ? ($t('league.rest_season') + ' - ' + $t('league.no_prizes')) : season.dates.endDisplay + ' ' + $t('league.final_arena') }}</span>
+      <span>{{ season.restSeason ? ($t('league.rest_season') + ' - ' + $t('league.no_prizes')) : (season.regularArena ? season.dates.endDisplay + ' ' + $t('league.final_arena') : $t('league.prizing_top_3') ) }}</span>
     </div>
   </div>
 </template>
@@ -106,6 +112,18 @@ export default {
         return null
       }
       return `https://iframe.videodelivery.net/${video}?poster=https://videodelivery.net/${video}/thumbnails/thumbnail.jpg%3Ftime%3D${this.season.videoThumbnailTime || '600s'}`
+    },
+  },
+  methods: {
+    formatUrl (arena) {
+      let url = '/play/ladder/' + arena.slug
+      if (arena.tournament) {
+        url += '?tournament=' + arena.tournament
+      }
+      return url
+    },
+    arenaName (arena, season) {
+      return $.i18n.t('league.' + arena.slug.replace(/-/g, '_')) + ' ' + $.i18n.t('league.' + season.championshipType)
     },
   },
 }
