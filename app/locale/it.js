@@ -5160,6 +5160,7 @@ module.exports = {
       final_arena: '[AI_TRANSLATION]Arena Finale',
       //    rest_season: "Practice Season",
       //    no_prizes: "No Prizing",
+      //    prizing_top_3: "Prizing Awarded to Top 3 Champions",
       package_options_and_guide: "[AI_TRANSLATION]Opzioni del Pacchetto & Guida all'Implementazione",
       custom_tournament: '[AI_TRANSLATION]Per un Torneo Personalizzato',
       you_win: '[AI_TRANSLATION]Puoi vincere',

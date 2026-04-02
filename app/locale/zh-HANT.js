@@ -5160,6 +5160,7 @@ module.exports = {
       final_arena: '[AI_TRANSLATION]終極競技場',
       //    rest_season: "Practice Season",
       //    no_prizes: "No Prizing",
+      //    prizing_top_3: "Prizing Awarded to Top 3 Champions",
       package_options_and_guide: '[AI_TRANSLATION]套件選項及實施指南',
       custom_tournament: '[AI_TRANSLATION]自訂比賽',
       you_win: '[AI_TRANSLATION]你可以贏\n',

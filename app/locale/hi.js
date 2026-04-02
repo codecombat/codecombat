@@ -5160,6 +5160,7 @@ module.exports = {
       final_arena: '[AI_TRANSLATION]अंतिम अखाड़ा',
       //    rest_season: "Practice Season",
       //    no_prizes: "No Prizing",
+      //    prizing_top_3: "Prizing Awarded to Top 3 Champions",
       package_options_and_guide: '[AI_TRANSLATION]पैकेज विकल्प और कार्यान्वयन गाइड\n',
       custom_tournament: '[AI_TRANSLATION]एक कस्टम टूर्नामेंट के लिए',
       you_win: '[AI_TRANSLATION]तुम जीत सकते हो',

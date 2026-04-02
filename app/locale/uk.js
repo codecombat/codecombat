@@ -5160,6 +5160,7 @@ module.exports = {
       final_arena: '[AI_TRANSLATION]Остання арена  ',
       //    rest_season: "Practice Season",
       //    no_prizes: "No Prizing",
+      //    prizing_top_3: "Prizing Awarded to Top 3 Champions",
       package_options_and_guide: '[AI_TRANSLATION]Варіанти пакета і Посібник з впровадження',
       custom_tournament: '[AI_TRANSLATION]Для індивідуального турніру',
       you_win: '[AI_TRANSLATION]Ви можете перемогти.',

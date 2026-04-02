@@ -5160,6 +5160,7 @@ module.exports = {
       final_arena: '[AI_TRANSLATION]Végső Aréna',
       //    rest_season: "Practice Season",
       //    no_prizes: "No Prizing",
+      //    prizing_top_3: "Prizing Awarded to Top 3 Champions",
       package_options_and_guide: '[AI_TRANSLATION]Csomag Opciók és Implementációs Útmutató',
       custom_tournament: '[AI_TRANSLATION]Egy Egyéni Versenyhez',
       you_win: '[AI_TRANSLATION]Nyerhetsz',

@@ -5160,6 +5160,7 @@ module.exports = {
       //    final_arena: "Final Arena",
       //    rest_season: "Practice Season",
       //    no_prizes: "No Prizing",
+      //    prizing_top_3: "Prizing Awarded to Top 3 Champions",
       //    package_options_and_guide: "Package Options & Implementation Guide",
       //    custom_tournament: "For a Custom Tournament",
       //    you_win: "You can win",

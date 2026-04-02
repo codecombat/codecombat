@@ -5160,6 +5160,7 @@ module.exports = {
       final_arena: '[AI_TRANSLATION]حتمی میدان',
       //    rest_season: "Practice Season",
       //    no_prizes: "No Prizing",
+      //    prizing_top_3: "Prizing Awarded to Top 3 Champions",
       package_options_and_guide: '[AI_TRANSLATION]پیکیج آپشنز اور ایمپلیمنٹیشن گائیڈ ',
       custom_tournament: '[AI_TRANSLATION]ایک کسٹم ٹورنامنٹ کے لئے',
       you_win: '[AI_TRANSLATION]تم جیت سکتے ہو',

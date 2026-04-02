@@ -5160,6 +5160,7 @@ module.exports = {
       final_arena: '[AI_TRANSLATION]Konečná Aréna',
       //    rest_season: "Practice Season",
       //    no_prizes: "No Prizing",
+      //    prizing_top_3: "Prizing Awarded to Top 3 Champions",
       package_options_and_guide: '[AI_TRANSLATION]Možnosti balíčku & Průvodce implementací',
       custom_tournament: '[AI_TRANSLATION]Pro vlastní turnaj',
       you_win: '[AI_TRANSLATION]Můžeš vyhrát',

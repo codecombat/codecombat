@@ -5160,6 +5160,7 @@ module.exports = {
       final_arena: '[AI_TRANSLATION]สนามแข่งสุดท้าย',
       //    rest_season: "Practice Season",
       //    no_prizes: "No Prizing",
+      //    prizing_top_3: "Prizing Awarded to Top 3 Champions",
       package_options_and_guide: '[AI_TRANSLATION]ตัวเลือกและแนวทางปฏิบัติในการติดตั้ง',
       custom_tournament: '[AI_TRANSLATION]สำหรับการแข่งขันแบบกำหนดเอง',
       you_win: '[AI_TRANSLATION]คุณสามารถชนะได้',

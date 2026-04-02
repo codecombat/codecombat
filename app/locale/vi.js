@@ -5160,6 +5160,7 @@ module.exports = {
       final_arena: '[AI_TRANSLATION]Đấu Trường Cuối',
       //    rest_season: "Practice Season",
       //    no_prizes: "No Prizing",
+      //    prizing_top_3: "Prizing Awarded to Top 3 Champions",
       package_options_and_guide: '[AI_TRANSLATION]Tùy chọn Gói & Hướng Dẫn Triển Khai',
       custom_tournament: '[AI_TRANSLATION]Cho một Giải đấu Tùy chỉnh',
       you_win: '[AI_TRANSLATION]Bạn có thể thắng',
