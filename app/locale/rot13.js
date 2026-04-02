@@ -6467,7 +6467,6 @@ module.exports = {
       ready_to_review_helptext: 'Znex guvf jura lbhe cebwrpg vf pbzcyrgr. Lbhe grnpure jvyy gura frr vg nf ernql gb erivrj ba gurve fvqr.',
       ready_to_review_confirm_text: 'Ernql gb Fhozvg? Pyvpx BX gb abgvsl lbhe grnpure gb erivrj lbhe cebwrpg.',
       no_course_instances: 'Lbh qb abg unir nal pbhefr vafgnaprf. Cyrnfr pbagnpg lbhe grnpure gb trg npprff gb gur NV Unpxfgnpx.',
-      restart_scenario: 'Erfgneg Fpranevb',
       restart_scenario_confirm: 'Lbhe cebterff jvyy or ybfg. Ner lbh fher lbh jnag gb erfgneg?',
     },
     galaxy: {
