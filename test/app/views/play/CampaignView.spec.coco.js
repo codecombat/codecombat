@@ -1,3 +1,4 @@
+/* eslint-env jasmine */
 /*
  * decaffeinate suggestions:
  * DS101: Remove unnecessary use of Array.from
@@ -9,6 +10,7 @@
 const factories = require('test/app/factories')
 const CampaignView = require('views/play/CampaignView')
 const Levels = require('collections/Levels')
+const storage = require('core/storage')
 
 describe('CampaignView', () => describe('when 4 earned levels', function () {
   beforeEach(function () {
@@ -216,6 +218,47 @@ describe('CampaignView', () => describe('when 4 earned levels', function () {
         me.isStudent = originalIsStudent
         me.isTeacher = originalIsTeacher
       }
+    })
+  })
+
+  describe('maybeAutoShowPromotionModal', function () {
+    beforeEach(function () {
+      this.campaignView = new CampaignView()
+      spyOn(this.campaignView, 'showAiLeagueModal')
+      spyOn(this.campaignView, 'showRobloxModal')
+    })
+
+    it('shows AI League instead of Roblox after an anonymous signup prompt', function () {
+      spyOn(me, 'get').and.returnValue(true)
+      spyOn(me, 'isPremium').and.returnValue(false)
+      spyOn(storage, 'load').and.callFake(key => key === 'prompted-for-signup')
+
+      this.campaignView.maybeAutoShowPromotionModal()
+
+      expect(this.campaignView.showAiLeagueModal).toHaveBeenCalled()
+      expect(this.campaignView.showRobloxModal).not.toHaveBeenCalled()
+    })
+
+    it('shows AI League after a subscription prompt for free users', function () {
+      spyOn(me, 'get').and.returnValue(false)
+      spyOn(me, 'isPremium').and.returnValue(false)
+      spyOn(storage, 'load').and.callFake(key => key === 'prompted-for-subscription')
+
+      this.campaignView.maybeAutoShowPromotionModal()
+
+      expect(this.campaignView.showAiLeagueModal).toHaveBeenCalled()
+      expect(this.campaignView.showRobloxModal).not.toHaveBeenCalled()
+    })
+
+    it('does not show any promo modal without prior prompt state', function () {
+      spyOn(me, 'get').and.returnValue(false)
+      spyOn(me, 'isPremium').and.returnValue(false)
+      spyOn(storage, 'load').and.returnValue(false)
+
+      this.campaignView.maybeAutoShowPromotionModal()
+
+      expect(this.campaignView.showAiLeagueModal).not.toHaveBeenCalled()
+      expect(this.campaignView.showRobloxModal).not.toHaveBeenCalled()
     })
   })
 }))
