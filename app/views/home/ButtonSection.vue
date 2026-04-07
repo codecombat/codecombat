@@ -21,7 +21,7 @@
         data-start-on-path="student"
         @click="homePageEvent('Started Signup'); homePageEvent('Homepage Click Student Button CTA')"
       >
-        {{ $t('new_home.im_a_student') }}
+        {{ $t('signup.start_playing') }}
       </CTAButton>
     </div>
     <div
