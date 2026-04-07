@@ -26,6 +26,7 @@ const userUtils = require('lib/user-utils')
 const _ = require('lodash')
 const moment = require('moment')
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
+const CHOCOLI_EXPERIMENT_NAME = 'chocoli'
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -1475,6 +1476,29 @@ module.exports = (User = (function () {
         return 'control'
       }
       return null
+    }
+
+    // Chocoli experiment - mini games for hackstack
+    getChocoliExperimentValue () {
+      if (me.isStudent() || me.isTeacher()) {
+        return 'control'
+      }
+      if (features?.chinaInfra) {
+        return 'control'
+      }
+      const value = utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery(CHOCOLI_EXPERIMENT_NAME),
+        me.getExperimentValue(CHOCOLI_EXPERIMENT_NAME, null),
+      )
+      return value
+    }
+
+    getOrStartChocoliExperimentValue () {
+      const value = this.getChocoliExperimentValue()
+      if (value != null) {
+        return value
+      }
+      return this.tryStartExperiment(CHOCOLI_EXPERIMENT_NAME)
     }
 
     getOrStartOdysseyExperimentValue () {
