@@ -6485,6 +6485,7 @@ module.exports = {
       ready_to_review_helptext: 'Mark this when your project is complete. Your teacher will then see it as ready to review on their side.',
       ready_to_review_confirm_text: 'Ready to Submit? Click OK to notify your teacher to review your project.',
       no_course_instances: 'You do not have any course instances. Please contact your teacher to get access to the AI Hackstack.',
+      restart_scenario_confirm: 'Your progress will be lost. Are you sure you want to restart?',
     },
     galaxy: {
       title: 'Welcome to HackStack Galaxy',
