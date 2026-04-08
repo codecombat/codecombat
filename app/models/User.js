@@ -1490,7 +1490,7 @@ module.exports = (User = (function () {
         utils.getExperimentValueFromQuery(CHOCOLI_EXPERIMENT_NAME),
         me.getExperimentValue(CHOCOLI_EXPERIMENT_NAME, null),
       )
-      return value
+      return value ?? null
     }
 
     getOrStartChocoliExperimentValue () {
