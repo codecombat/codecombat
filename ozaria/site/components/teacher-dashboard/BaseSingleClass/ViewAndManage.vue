@@ -142,7 +142,7 @@ export default {
       />
       <v-popover
         popover-class="teacher-dashboard-tooltip lighter-p"
-        trigger="hover"
+        trigger="hover focus"
         placement="bottom"
       >
         <icon-button-with-text
