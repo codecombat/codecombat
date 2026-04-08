@@ -1,0 +1,1045 @@
+{
+	"textures": [
+		{
+			"image": "signalFilter1.webp",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1624,
+				"h": 1018
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "Fire Ball_Frame_01",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 35,
+						"y": 35,
+						"w": 250,
+						"h": 250
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 250,
+						"h": 250
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Fire Ball_Frame_02",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 35,
+						"y": 35,
+						"w": 250,
+						"h": 250
+					},
+					"frame": {
+						"x": 1,
+						"y": 253,
+						"w": 250,
+						"h": 250
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Fire Ball_Frame_03",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 35,
+						"y": 35,
+						"w": 250,
+						"h": 250
+					},
+					"frame": {
+						"x": 253,
+						"y": 1,
+						"w": 250,
+						"h": 250
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Fire Ball_Frame_04",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 35,
+						"y": 35,
+						"w": 250,
+						"h": 250
+					},
+					"frame": {
+						"x": 1,
+						"y": 505,
+						"w": 250,
+						"h": 250
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Fire Ball_Frame_05",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 35,
+						"y": 35,
+						"w": 250,
+						"h": 250
+					},
+					"frame": {
+						"x": 253,
+						"y": 253,
+						"w": 250,
+						"h": 250
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Fire Ball_Frame_06",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 35,
+						"y": 35,
+						"w": 250,
+						"h": 250
+					},
+					"frame": {
+						"x": 505,
+						"y": 1,
+						"w": 250,
+						"h": 250
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Fire Ball_Frame_07",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 35,
+						"y": 35,
+						"w": 250,
+						"h": 250
+					},
+					"frame": {
+						"x": 1,
+						"y": 757,
+						"w": 250,
+						"h": 250
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Fire Ball_Frame_08",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 35,
+						"y": 35,
+						"w": 250,
+						"h": 250
+					},
+					"frame": {
+						"x": 253,
+						"y": 505,
+						"w": 250,
+						"h": 250
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Water Ball_Frame_02",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 44,
+						"y": 45,
+						"w": 231,
+						"h": 229
+					},
+					"frame": {
+						"x": 505,
+						"y": 253,
+						"w": 231,
+						"h": 229
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Water Ball_Frame_11",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 46,
+						"y": 44,
+						"w": 228,
+						"h": 231
+					},
+					"frame": {
+						"x": 757,
+						"y": 1,
+						"w": 228,
+						"h": 231
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Water Ball_Frame_05",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 46,
+						"y": 45,
+						"w": 228,
+						"h": 230
+					},
+					"frame": {
+						"x": 253,
+						"y": 757,
+						"w": 228,
+						"h": 230
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Water Ball_Frame_08",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 45,
+						"y": 46,
+						"w": 230,
+						"h": 228
+					},
+					"frame": {
+						"x": 505,
+						"y": 484,
+						"w": 230,
+						"h": 228
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Water Ball_Frame_03",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 47,
+						"y": 47,
+						"w": 227,
+						"h": 227
+					},
+					"frame": {
+						"x": 987,
+						"y": 1,
+						"w": 227,
+						"h": 227
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Water Ball_Frame_06",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 47,
+						"y": 46,
+						"w": 227,
+						"h": 227
+					},
+					"frame": {
+						"x": 1216,
+						"y": 1,
+						"w": 227,
+						"h": 227
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Effect-Fx01_8",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 229,
+						"h": 212
+					},
+					"spriteSourceSize": {
+						"x": 34,
+						"y": 23,
+						"w": 166,
+						"h": 161
+					},
+					"frame": {
+						"x": 1445,
+						"y": 1,
+						"w": 166,
+						"h": 161
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Water Ball_Frame_09",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 46,
+						"y": 46,
+						"w": 227,
+						"h": 227
+					},
+					"frame": {
+						"x": 505,
+						"y": 714,
+						"w": 227,
+						"h": 227
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Water Ball_Frame_12",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 46,
+						"y": 47,
+						"w": 227,
+						"h": 227
+					},
+					"frame": {
+						"x": 738,
+						"y": 253,
+						"w": 227,
+						"h": 227
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Water Ball_Frame_01",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 47,
+						"y": 47,
+						"w": 226,
+						"h": 226
+					},
+					"frame": {
+						"x": 987,
+						"y": 230,
+						"w": 226,
+						"h": 226
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Water Ball_Frame_04",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 47,
+						"y": 47,
+						"w": 226,
+						"h": 226
+					},
+					"frame": {
+						"x": 1215,
+						"y": 230,
+						"w": 226,
+						"h": 226
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Effect-Fx01_10",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 229,
+						"h": 212
+					},
+					"spriteSourceSize": {
+						"x": 26,
+						"y": 15,
+						"w": 180,
+						"h": 177
+					},
+					"frame": {
+						"x": 1443,
+						"y": 230,
+						"w": 180,
+						"h": 177
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Water Ball_Frame_07",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 47,
+						"y": 47,
+						"w": 226,
+						"h": 226
+					},
+					"frame": {
+						"x": 967,
+						"y": 458,
+						"w": 226,
+						"h": 226
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Water Ball_Frame_10",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 320,
+						"h": 320
+					},
+					"spriteSourceSize": {
+						"x": 47,
+						"y": 47,
+						"w": 226,
+						"h": 226
+					},
+					"frame": {
+						"x": 1195,
+						"y": 458,
+						"w": 226,
+						"h": 226
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Effect-Fx01_14",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 229,
+						"h": 212
+					},
+					"spriteSourceSize": {
+						"x": 15,
+						"y": 6,
+						"w": 200,
+						"h": 199
+					},
+					"frame": {
+						"x": 1423,
+						"y": 458,
+						"w": 200,
+						"h": 199
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Effect-Fx01_12",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 229,
+						"h": 212
+					},
+					"spriteSourceSize": {
+						"x": 20,
+						"y": 11,
+						"w": 191,
+						"h": 188
+					},
+					"frame": {
+						"x": 1423,
+						"y": 659,
+						"w": 191,
+						"h": 188
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Effect-Fx01_16",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 229,
+						"h": 212
+					},
+					"spriteSourceSize": {
+						"x": 9,
+						"y": 2,
+						"w": 210,
+						"h": 209
+					},
+					"frame": {
+						"x": 738,
+						"y": 482,
+						"w": 210,
+						"h": 209
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "House_4",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 154,
+						"h": 195
+					},
+					"spriteSourceSize": {
+						"x": 14,
+						"y": 6,
+						"w": 130,
+						"h": 181
+					},
+					"frame": {
+						"x": 734,
+						"y": 714,
+						"w": 130,
+						"h": 181
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "Gun04-Idle_0",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 130,
+						"h": 181
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 5,
+						"w": 122,
+						"h": 171
+					},
+					"frame": {
+						"x": 866,
+						"y": 693,
+						"w": 122,
+						"h": 171
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "Gun04-Shoot_00",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 130,
+						"h": 181
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 5,
+						"w": 122,
+						"h": 171
+					},
+					"frame": {
+						"x": 866,
+						"y": 693,
+						"w": 122,
+						"h": 171
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "Gun04-Shoot_01",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 130,
+						"h": 181
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 6,
+						"w": 122,
+						"h": 170
+					},
+					"frame": {
+						"x": 990,
+						"y": 686,
+						"w": 122,
+						"h": 170
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "Gun04-Shoot_09",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 130,
+						"h": 181
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 6,
+						"w": 122,
+						"h": 170
+					},
+					"frame": {
+						"x": 990,
+						"y": 686,
+						"w": 122,
+						"h": 170
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "Gun04-Shoot_02",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 130,
+						"h": 181
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 7,
+						"w": 122,
+						"h": 169
+					},
+					"frame": {
+						"x": 1114,
+						"y": 686,
+						"w": 122,
+						"h": 169
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "Gun04-Shoot_08",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 130,
+						"h": 181
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 7,
+						"w": 122,
+						"h": 169
+					},
+					"frame": {
+						"x": 1114,
+						"y": 686,
+						"w": 122,
+						"h": 169
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "Gun04-Shoot_03",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 130,
+						"h": 181
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 8,
+						"w": 122,
+						"h": 168
+					},
+					"frame": {
+						"x": 1238,
+						"y": 686,
+						"w": 122,
+						"h": 168
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "Gun04-Shoot_07",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 130,
+						"h": 181
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 8,
+						"w": 122,
+						"h": 168
+					},
+					"frame": {
+						"x": 1238,
+						"y": 686,
+						"w": 122,
+						"h": 168
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "Effect-Fx01_4",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 229,
+						"h": 212
+					},
+					"spriteSourceSize": {
+						"x": 61,
+						"y": 58,
+						"w": 113,
+						"h": 110
+					},
+					"frame": {
+						"x": 734,
+						"y": 897,
+						"w": 113,
+						"h": 110
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Effect-Fx01_6",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 229,
+						"h": 212
+					},
+					"spriteSourceSize": {
+						"x": 53,
+						"y": 46,
+						"w": 130,
+						"h": 126
+					},
+					"frame": {
+						"x": 866,
+						"y": 866,
+						"w": 130,
+						"h": 126
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Effect-Fx01_2",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 229,
+						"h": 212
+					},
+					"spriteSourceSize": {
+						"x": 68,
+						"y": 67,
+						"w": 100,
+						"h": 96
+					},
+					"frame": {
+						"x": 998,
+						"y": 858,
+						"w": 100,
+						"h": 96
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Effect-Fx01_0",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 229,
+						"h": 212
+					},
+					"spriteSourceSize": {
+						"x": 74,
+						"y": 67,
+						"w": 87,
+						"h": 92
+					},
+					"frame": {
+						"x": 1100,
+						"y": 858,
+						"w": 87,
+						"h": 92
+					},
+					"anchor": {
+						"x": 0.49230769,
+						"y": 0.64640884
+					}
+				},
+				{
+					"filename": "Gun04-Shoot_04",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 130,
+						"h": 181
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 8,
+						"w": 122,
+						"h": 168
+					},
+					"frame": {
+						"x": 1362,
+						"y": 849,
+						"w": 122,
+						"h": 168
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "Gun04-Shoot_06",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 130,
+						"h": 181
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 8,
+						"w": 122,
+						"h": 168
+					},
+					"frame": {
+						"x": 1362,
+						"y": 849,
+						"w": 122,
+						"h": 168
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				},
+				{
+					"filename": "Gun04-Shoot_05",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 130,
+						"h": 181
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 9,
+						"w": 122,
+						"h": 167
+					},
+					"frame": {
+						"x": 1486,
+						"y": 849,
+						"w": 122,
+						"h": 167
+					},
+					"anchor": {
+						"x": 0.5,
+						"y": 0.5
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:d5d7422fc7e897172c9611e6fc771e64:bf5672fa2b444f5b961040459e5f2988:3babe58ad8d483d23a896dce259107ae$"
+	}
+}
