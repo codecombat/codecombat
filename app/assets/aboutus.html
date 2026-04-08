@@ -9,19 +9,19 @@
         :root {
             --bg-body: #f8fafc;
             --bg-white: #ffffff;
-            
-            --text-heading: #1e293b; 
-            --text-main: #334155;    
-            --text-muted: #64748b;   
-            
+
+            --text-heading: #1e293b;
+            --text-main: #334155;
+            --text-muted: #64748b;
+
             --brand-indigo: #4338ca; /* 品牌蓝 */
             --brand-indigo-light: #e0e7ff;
             --brand-gold: #F2BE22;   /* 荣耀金 */
             --brand-gold-text: #000000;
-            
+
             --font-main: "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
             --font-serif: "Noto Serif SC", serif;
-            
+
             --border-light: #e2e8f0;
 
             --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -30,7 +30,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+
         body {
             background: var(--bg-body);
             color: var(--text-main);
@@ -63,7 +63,7 @@
             cursor: pointer;
         }
         .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(242, 190, 34, 0.5); background-color: #ffd24d; }
-        
+
         .btn-text-link {
             font-size: 1.1rem; font-weight: 800; color: var(--brand-indigo); text-decoration: none;
             display: inline-flex; align-items: center; margin-top: 20px; padding-bottom: 2px; border-bottom: 2px solid transparent; transition: border-color 0.3s;
@@ -89,30 +89,30 @@
         .hero-scene-1 {
             width: 100%; min-height: 100vh;
             display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
-            
+
             /* 【💡严格保持与 index29 一致的布局，绝不撑大背景】 */
             text-align: center; padding: 42vh 20px 100px; position: relative;
             background-image: url('https://assets.koudashijie.com/aboutus/bg.png'); background-size: cover; background-position: center;
         }
-        
+
         .hero-center-box {
             position: relative; z-index: 1; max-width: 1000px; width: 100%;
-            
+
             /* 【💡严格使用 index29 正常边距，修复此前 380px 导致背景被撑破的 bug】 */
-            padding: 60px 40px; 
-            
+            padding: 60px 40px;
+
             /* 【💡修改：让文字整体向下移动】使用 top 纯视觉偏移，完全不会影响背景图片 */
-            top: 16vh; 
-            
+            top: 16vh;
+
             opacity: 0;
             animation: textFadeIn 2.5s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
         }
 
         .hero-center-box::before {
             content: ''; position: absolute;
-            top: -60px; left: -60px; right: -60px; bottom: -60px; 
+            top: -60px; left: -60px; right: -60px; bottom: -60px;
             background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.8) 40%, rgba(255, 255, 255, 0.95) 100%);
-            filter: blur(60px); 
+            filter: blur(60px);
             z-index: -1;
             pointer-events: none;
         }
@@ -120,9 +120,9 @@
         /* 【💡修改：大标题放大 + 单行显示】 */
         .hero-center-box h1 {
             /* 字体放大到 4.2rem，同时用 clamp 保证小屏幕下不会把网页撑宽 */
-            font-size: clamp(2rem, 4.5vw, 4.2rem); 
+            font-size: clamp(2rem, 4.5vw, 4.2rem);
             /* 强制单行显示，绝不换行 */
-            white-space: nowrap; 
+            white-space: nowrap;
             font-weight: 900;
             color: var(--text-heading);
             line-height: 1.2;
@@ -131,14 +131,14 @@
         }
 
         /* 【💡修改：副标题放大】 */
-        .hero-body-text { 
+        .hero-body-text {
             font-size: 1.35rem; /* 放大了文字 */
-            font-weight: 500; 
-            color: var(--text-main); 
-            line-height: 1.9; 
-            max-width: 800px; 
-            margin: 0 auto; 
-            text-align: center; 
+            font-weight: 500;
+            color: var(--text-main);
+            line-height: 1.9;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
         }
 
         @keyframes textFadeIn {
@@ -152,20 +152,20 @@
         /* ================= 板块二：价值主张大排版 (无边框大气版) ================= */
         .value-redesign-wrapper { max-width: 900px; margin: 0 auto; text-align: left; }
         .value-intro { font-size: 1.3rem; color: var(--text-heading); line-height: 1.8; margin-bottom: 50px; font-weight: 500; }
-        
+
         .value-list { list-style: none; padding: 0; margin: 0 0 60px 0; }
-        .value-list li { 
-            display: flex; align-items: center; gap: 20px; 
-            font-size: 1.35rem; color: var(--text-heading); font-weight: 700; 
-            margin-bottom: 30px; padding-bottom: 30px; 
-            border-bottom: 1px solid rgba(0,0,0,0.06); 
+        .value-list li {
+            display: flex; align-items: center; gap: 20px;
+            font-size: 1.35rem; color: var(--text-heading); font-weight: 700;
+            margin-bottom: 30px; padding-bottom: 30px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
         }
         .value-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
         .value-icon { font-size: 1.8rem; color: var(--brand-gold); font-weight: 900; line-height: 1; }
-        
+
         .value-highlight { font-size: 1.6rem; font-weight: 900; margin-bottom: 40px; text-align: center; }
         .value-text { font-size: 1.2rem; color: var(--text-main); line-height: 1.8; margin-bottom: 60px; text-align: center; }
-        
+
         .value-conclusion { text-align: center; padding: 40px; background: transparent; border-radius: 20px; position: relative; }
         .value-conclusion::before { content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--brand-indigo); border-radius: 4px; }
         .value-conclusion p { margin-bottom: 25px; font-size: 1.2rem; color: var(--text-main); font-weight: 500; text-align: left; padding-left: 20px;}
@@ -181,8 +181,8 @@
 
         /* ================= 板块四：产品哲学 ================= */
         .philosophy-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 30px; }
-        .phil-card { 
-            background: var(--bg-white); padding: 40px; border-radius: 24px; 
+        .phil-card {
+            background: var(--bg-white); padding: 40px; border-radius: 24px;
             box-shadow: var(--shadow-sm); border: 1px solid var(--border-light);
             border-top: 4px solid var(--brand-gold);
         }
@@ -209,7 +209,7 @@
         .timeline-item:nth-child(even) { margin-left: auto; padding: 0 0 50px 50px; }
         .timeline-item::after { content: ''; position: absolute; right: -12px; top: 10px; width: 24px; height: 24px; background: var(--brand-gold); border-radius: 50%; border: 4px solid var(--bg-body); z-index: 2; }
         .timeline-item:nth-child(even)::after { left: -12px; }
-        
+
         .timeline-item.year-2026 { width: 100%; margin-left: 0; padding: 60px 0 0 0; text-align: center; margin-top: 20px; }
         .timeline-item.year-2026::after { left: 50%; top: 10px; margin-left: -12px; transform: none; }
 
@@ -227,7 +227,7 @@
         .story-carousel-container { position: relative; max-width: 900px; margin: 0 auto 40px; overflow: hidden; min-height: 350px; background: var(--bg-white); border-radius: 32px; box-shadow: var(--shadow-lg); border: 1px solid var(--border-light); }
         .carousel-slide { position: absolute; inset: 0; padding: 60px; opacity: 0; transition: opacity 0.5s ease-in-out; pointer-events: none; display: flex; flex-direction: column; justify-content: center; }
         .carousel-slide.active { opacity: 1; pointer-events: auto; z-index: 10; }
-        
+
         .carousel-header { margin-bottom: 30px; border-bottom: 1px solid var(--border-light); padding-bottom: 20px; text-align: left;}
         .carousel-header h5 { font-size: 1.4rem; font-weight: 900; color: var(--text-heading); margin-bottom: 5px; }
         .carousel-header p { font-size: 1rem; color: var(--text-muted); font-weight: 600; margin: 0; }
@@ -243,7 +243,7 @@
         .team-intro p { margin-bottom: 20px; }
         .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-bottom: 40px; }
         .team-card { background: var(--bg-white); padding: 40px 30px; border-radius: 24px; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); }
-        
+
         .flip-avatar { width: 120px; height: 120px; margin: 0 auto 20px; perspective: 1000px; cursor: pointer; }
         .flip-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d; }
         .flip-avatar:hover .flip-inner { transform: rotateY(180deg); }
@@ -262,11 +262,11 @@
         .cta-wrapper { max-width: 1000px; margin: 0 auto; text-align: center; }
         .cta-wrapper h2 { font-size: 3.5rem; font-weight: 900; color: white; margin-bottom: 60px; line-height: 1.2; letter-spacing: -1px; }
         .cta-wrapper h2 span { color: var(--brand-gold); display: block; margin-top: 10px; font-size: 3rem; }
-        
+
         .cta-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 60px; text-align: left; }
         .cta-card-wait { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 40px; border-radius: 24px; color: rgba(255,255,255,0.8); }
         .cta-card-start { background: var(--bg-white); padding: 40px; border-radius: 24px; color: var(--text-main); box-shadow: 0 20px 40px rgba(0,0,0,0.2); transform: scale(1.05); }
-        
+
         .cta-cards h4 { font-size: 1.6rem; font-weight: 900; margin-bottom: 15px; }
         .cta-card-wait h4 { color: white; }
         .cta-card-start h4 { color: var(--brand-indigo); }
@@ -276,21 +276,21 @@
 
         /* ================= 移动端适配 ================= */
         @media (max-width: 992px) {
-            .hero-scene-1 { 
+            .hero-scene-1 {
                 /* 【💡修改：取消 100vh 强制高度，消除底部留白；用 padding-top 把文字挤到背景图下方】 */
-                min-height: auto; 
-                padding: 65vw 15px 40px; 
-                background-size: 100% auto; 
-                background-position: top center; 
-                background-repeat: no-repeat; 
+                min-height: auto;
+                padding: 65vw 15px 40px;
+                background-size: 100% auto;
+                background-position: top center;
+                background-repeat: no-repeat;
             }
-            .hero-center-box { 
-                padding: 20px 10px; 
-                top: 0; 
+            .hero-center-box {
+                padding: 20px 10px;
+                top: 0;
             }
             /* 【💡修改：移动端标题允许自然换行，避免撑破屏幕】 */
-            .hero-center-box h1 { 
-                font-size: 2.2rem; 
+            .hero-center-box h1 {
+                font-size: 2.2rem;
                 white-space: normal;
                 line-height: 1.3;
             }
@@ -298,7 +298,7 @@
             .hero-body-text { font-size: 1.15rem; }
             /* 将发光背景稍微收敛，免得遮盖上方的图片内容 */
             .hero-center-box::before { top: 0px; left: -10px; right: -10px; bottom: -10px; filter: blur(30px); }
-            
+
             .section-title-center { margin-bottom: 40px; }
             .section-title-center h2 { font-size: 2rem; }
             .section-title-center p.sub { font-size: 1.1rem; }
@@ -316,7 +316,7 @@
             .value-conclusion p strong { font-size: 1.15rem; }
 
             .story-center-wrap { font-size: 1.05rem; }
-            
+
             .philosophy-grid { grid-template-columns: 1fr; }
             .phil-card { padding: 25px; }
 
@@ -353,16 +353,16 @@
 
     <header>
         <div class="logo">
-            <a href="/">
-                <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
-            </a>
+          <a href='/'>
+            <img src="https://assets.koudashijie.com/creator-center/logo-creator-center.png" alt="CodeCombat 扣哒世界">
+          </a>
         </div>
     </header>
 
     <section class="hero-scene-1">
         <div class="hero-center-box">
             <h1>AI 时代，会写代码的人创造未来</h1>
-    
+
             <div class="hero-body-text">
                 <p>从第一行代码开始，把你的想法变成真的。</p>
             </div>
@@ -378,7 +378,7 @@
 
         <div class="value-redesign-wrapper reveal delay-1">
             <p class="value-intro">无论你是大学生、职场新人、转行者，还是一个单纯不想被时代甩下的人，今天你真正需要的，已经不只是“学会一门技能”，而是获得一种新的工作方式：</p>
-            
+
             <ul class="value-list">
                 <li><span class="value-icon">✓</span>能把模糊的问题，拆成清晰的步骤</li>
                 <li><span class="value-icon">✓</span>能把重复的工作，交给脚本和 AI</li>
@@ -389,7 +389,7 @@
             <p class="value-highlight"><span class="highlight-marker">这，就是编程思维的价值。<br>这，也是 CodeCombat 存在的原因。</span></p>
 
             <p class="value-text">从硅谷到中国，从课堂到职场，全球累计超2000万用户通过 CodeCombat 开启编程学习，写下属于自己的代码。<br>他们来到这里，不只是因为“编程重要”，更是因为——在这里，原本枯燥的编程学习，变得有趣、可上手、能坚持。</p>
-            
+
             <div class="value-conclusion">
                 <p>在过去，CodeCombat 解决的是一个问题：<br><strong>怎么让更多普通人不被传统编程课劝退。</strong></p>
                 <p>在今天，CodeCombat 解决的是一个更大的问题：<br><strong>怎么让更多普通人在 AI 爆发的时代，不只是使用工具，而是成为能驾驭工具的人。</strong></p>
@@ -411,7 +411,7 @@
             <p>产品原型发布一周，即收获18万全球用户的关注与体验（数据来源：CodeCombat 官方后台注册统计）。随即入选硅谷顶尖孵化器 Y Combinator（W14 批次）。到今天，全球累计超2000万用户通过 CodeCombat 开启编程学习，写下属于自己的代码。</p>
             <p>2013 年，CodeCombat 要解决的是：怎么让没学过代码的人愿意开始。<br><span class="highlight-marker">2026 年，这个问题变成了：怎么让普通人不只是会用 AI，而是能真正指挥 AI。</span></p>
             <p style="font-weight: 900; color: var(--text-heading); font-size: 1.3rem;">答案没变——从写下第一行真实代码开始。</p>
-            
+
             <div style="text-align: center; margin-top: 40px;">
                 <a href="brand_story.html" class="btn-text-link">了解更多起源故事 →</a>
             </div>
@@ -454,7 +454,7 @@
             <h2>荣誉及合作伙伴</h2>
             <p class="sub">有趣是开始的理由，专业是投入的理由。</p>
         </div>
-        
+
         <p style="text-align: center; max-width: 850px; margin: 0 auto 40px; font-size: 1.05rem;" class="reveal">CodeCombat 的产品矩阵覆盖从青少年启蒙到成人自学的完整年龄段。以下荣誉与合作体现了 CodeCombat 在全球教育领域的专业积累与权威认可：</p>
 
         <div class="endorse-grid reveal">
@@ -507,7 +507,7 @@
             <span class="en-title">OUR TEAM</span>
             <h2>幕后团队</h2>
         </div>
-        
+
         <div class="team-intro reveal">
             <div style="font-size: 1.2rem; color: var(--text-heading); text-align: center; margin-bottom: 25px;">
                 一群在 AI 时代依然相信：<br><span class="highlight-marker" style="margin-top: 10px;">人应该理解代码，而不是把理解力外包给工具的人</span>
@@ -619,7 +619,7 @@
             </div>
             <div class="timeline-item">
                 <div class="timeline-year">2014</div>
-                <div class="timeline-content">2014年1月，项目核心代码全面开源，托管于 GitHub 平台。</div>
+                <div class="timeline-content">2014年1月，项目部分基础代码以 MIT 协议开源并托管于 GitHub 平台，全球开发者由此参与翻译与本地化适配，推动产品覆盖190多个国家。</div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-year">2016</div>
@@ -690,7 +690,7 @@
         function showSlide(index) {
             slides.forEach(slide => slide.classList.remove('active'));
             dots.forEach(dot => dot.classList.remove('active'));
-            
+
             slides[index].classList.add('active');
             dots[index].classList.add('active');
             currentSlide = index;
@@ -708,7 +708,7 @@
 
         function resetInterval() {
             clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 6000); 
+            slideInterval = setInterval(nextSlide, 6000);
         }
 
         // 启动自动轮播
