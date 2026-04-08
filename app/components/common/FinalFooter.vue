@@ -52,7 +52,7 @@ export default Vue.extend({
           component: 'you-tube-icon',
           alt: 'YouTube'
         }, {
-          href: 'https://www.tiktok.com/@codecombat_tiktok',
+          href: 'https://www.tiktok.com/@codecombat_official',
           component: 'tik-tok-icon',
           alt: 'TikTok'
         }, {
