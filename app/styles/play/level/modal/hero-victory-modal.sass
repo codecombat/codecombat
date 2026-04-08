@@ -19,12 +19,30 @@
     @media screen and (max-height: 375px)
       margin-top: -94px
 
+    @media screen and (max-width: 800px)
+      width: 95vw
+      max-width: 750px
+      margin-left: auto
+      margin-right: auto
+
     @media screen and (max-width: 667px)
-      transform: scale(0.8)
-      margin-left: -48px
+      width: 750px
+      left: 50%
+      margin-left: -375px
+      transform-origin: top center
+      transform: scale(0.75)
 
       @media screen and (max-height: 390px)
         margin-top: -49px
+
+    @media screen and (max-width: 580px)
+      transform: scale(0.63)
+
+    @media screen and (max-width: 490px)
+      transform: scale(0.52)
+
+    @media screen and (max-width: 405px)
+      transform: scale(0.43)
 
     .modal-content
       position: relative
@@ -54,6 +72,10 @@
     border-width: 250px 0 100px 0
     border-radius: 12px
 
+    @media screen and (max-width: 800px)
+      width: 100%
+      max-width: 750px
+
   .modal-header
     border: none
     position: absolute
@@ -62,6 +84,10 @@
     height: 134px
     margin: 0
     padding: 0
+
+    @media screen and (max-width: 800px)
+      left: 50%
+      transform: translateX(-50%)
 
     #victory-header
       position: relative
@@ -103,12 +129,21 @@
     top: -37px
     font-size: 50px
 
+    @media screen and (max-width: 800px)
+      right: 0px
+      top: -30px
+      z-index: 10
+
   .achievement-panel
     background: transparent url("/images/pages/play/level/modal/victory_modal_shelf.png") no-repeat center 73px
     width: 824px
     height: 127px
     margin: 0px -37px 0px -57px
     position: relative
+
+    @media screen and (max-width: 800px)
+      width: calc(100% + 94px)
+      background-size: 100% auto
 
     @include transition-duration(1s)
 
@@ -287,15 +322,25 @@
     position: relative
     text-align: left
 
+    @media screen and (max-width: 800px)
+      width: 100%
+      max-width: 709px
+      background-size: 100% 100%
+
     &.codecombat-junior .total-wrapper#xp-wrapper
       .total-label:not(.total-label-icon)
         float: none
         position: absolute
         color: white
         text-shadow: 0 1px black, 0 -1px black, 1px 0 black, -1px 0 black
-        left: 104px
-        top: 10px
+        left: 90px
+        width: 110px
+        text-align: center
+        top: 23px
         z-index: 2
+        font-size: 16px
+        line-height: 16px
+        margin-top: 0
 
       .xp-bar-outer
         width: 110px
@@ -392,6 +437,11 @@
     padding: 12px 20px 0 20px
     text-align: center
 
+    @media screen and (max-width: 800px)
+      width: 100%
+      max-width: 709px
+      background-size: 100% 100%
+
     .share-level-label
       color: rgb(103, 92, 76)
       text-transform: uppercase
@@ -424,8 +474,23 @@
     padding: 0 20px
     text-align: center
 
+    @media screen and (max-width: 800px)
+      padding: 0 10px
+      display: flex
+      flex-direction: column
+      align-items: center
+
+    .btn
+      color: darken(white, 5%)
+
+      &:hover
+        color: white
+
   .sign-up-poke
     width: 430px
+
+    @media screen and (max-width: 800px)
+      width: 100%
 
     .sign-up-blurb
       width: 175px
@@ -439,6 +504,12 @@
       margin: 5px 0 0 5px
       color: rgb(160, 150, 126)
 
+      @media screen and (max-width: 800px)
+        float: none
+        width: 100%
+        text-align: center
+        margin: 0 0 8px 0
+
     .sign-up-button
       width: 250px
       height: 60px
@@ -446,29 +517,38 @@
       margin: 0
       float: left
 
+      @media screen and (max-width: 800px)
+        float: none
+        width: 100%
+
   .subscribe-button
     width: 209px
     height: 60px
-    flex-grow: 1
+    float: left
     text-align: center
     text-transform: uppercase
-    font-size: 24.5px
+    font-size: 18px
     font-family: $headings-font-family
-    line-height: 20px
+    font-weight: bold
+    line-height: 34px
     border-style: solid
     border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
     border-width: 14px 20px 20px 20px
     color: darken(white, 5%)
-    background-color: black
+    background: 0
+    padding: 0
+
+    @media screen and (max-width: 800px)
+      float: none
+      width: 100%
 
     span
       pointer-events: none
 
     &:hover
-      border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+      color: white
 
     &:active
-      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
       padding: 2px 0 0 2px
       color: white
 
@@ -478,39 +558,77 @@
     margin: 0 10px
     float: right
 
+    @media screen and (max-width: 800px)
+      float: none
+      margin: 8px 0
+      display: block
+      width: 100%
+
   .return-to-course-button
     width: 258px
     float: left
 
+    @media screen and (max-width: 800px)
+      float: none
+      width: 100%
+      margin: 8px 0
+      display: block
+
   .next-level-buttons
+    @media screen and (max-width: 800px)
+      display: flex
+      flex-wrap: wrap
+      justify-content: center
+      gap: 8px
+      width: 100%
+
     .next-button
       width: 258px
       height: 60px
       line-height: 30px
       margin: 0 10px
+
+      @media screen and (max-width: 800px)
+        width: 100%
+        margin: 0
+
     .next-level-button, .return-to-ladder-button
       float: right
+
+      @media screen and (max-width: 800px)
+        float: none
+
     .practice-level-button
       float: left
+
+      @media screen and (max-width: 800px)
+        float: none
+
     .next-level-button.codecombat-junior
+      position: relative
       span, img
         opacity: 1
 
       img
         position: absolute
-        right: 49px
+        right: 10px
+        top: 50%
+        transform: translateY(-50%)
         height: 38px
-        margin-top: -2px
+        margin-top: 0
 
     .practice-level-button.codecombat-junior
+      position: relative
       span, img
         opacity: 1
 
       img
         position: absolute
-        left: 49px
+        left: 10px
+        top: 50%
+        transform: translateY(-50%)
         height: 38px
-        margin-top: -2px
+        margin-top: 0
 
     .ladder-submission-view
       display: inline-block
@@ -533,6 +651,11 @@
     text-align: left
     padding: 12px 20px 0 20px
     text-align: center
+
+    @media screen and (max-width: 800px)
+      width: 100%
+      max-width: 424px
+      background-size: 100% 100%
 
     .hoc-label
       color: rgb(103, 92, 76)
