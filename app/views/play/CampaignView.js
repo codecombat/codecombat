@@ -1136,15 +1136,15 @@ class CampaignView extends RootView {
       return this.promptForSubscription(campaignSlug, 'premium campaign visited')
     }
 
+    this.maybeAutoShowPromotionModal()
+  }
+
+  maybeAutoShowPromotionModal () {
     if (
       (me.get('anonymous') && storage.load(PROMPTED_FOR_SIGNUP)) || // already prompted for signup, but not signed up
       (!me.isPremium() && storage.load(PROMPTED_FOR_SUBSCRIPTION)) // already prompted for subscription, but not subscribed
     ) {
-      if (!storage.load(ROBLOX_MODAL_SHOWN)) {
-        this.showRobloxModal()
-      } else {
-        this.showAiLeagueModal()
-      }
+      this.showAiLeagueModal()
     }
   }
 
