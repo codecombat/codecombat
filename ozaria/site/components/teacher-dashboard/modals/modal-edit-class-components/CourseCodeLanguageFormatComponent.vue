@@ -275,7 +275,7 @@ export default {
         return this.newInitialFreeCourses.includes(utils.courseIDs.INTRO_TO_AI) && this.newInitialFreeCourses?.length === 1
       } else {
         const courseInstances = this.getCourseInstances(this.classroomId)
-        return !(courseInstances?.some(ci => utils.HACKSTACK_COURSE_IDS.includes(ci.courseID)))
+        return courseInstances?.every(ci => utils.HACKSTACK_COURSE_IDS.includes(ci.courseID))
       }
     },
     availableCodeFormats () {
@@ -346,7 +346,8 @@ export default {
   watch: {
     availableCodeFormats () {
       const ava = this.availableCodeFormats.filter(cf => !cf.disabled).map(cf => cf.id)
-      this.newCodeFormats = this.newCodeFormats.filter(cf => ava.includes(cf))
+      const filtered = this.newCodeFormats.filter(cf => ava.includes(cf))
+      this.newCodeFormats = filtered.length > 0 ? filtered : (ava.length ? [ava[0]] : [])
       if (!this.newCodeFormats.includes(this.newCodeFormatDefault)) {
         this.newCodeFormatDefault = this.newCodeFormats[0]
       }
