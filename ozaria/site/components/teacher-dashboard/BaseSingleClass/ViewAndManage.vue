@@ -52,6 +52,7 @@ export default {
       getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
       getLevelsForClassroom: 'levels/getLevelsForClassroom',
       getSessionsForClassroom: 'levelSessions/getSessionsForClassroom',
+      getLastFetchedMemberSessionsDate: 'levelSessions/getLastFetchedMemberSessionsDate',
       getLoading: 'teacherDashboard/getLoadingState',
     }),
 
@@ -65,6 +66,12 @@ export default {
 
     me () {
       return window.me
+    },
+
+    lastFetchedDate () {
+      const date = this.getLastFetchedMemberSessionsDate(this.classroom?._id)
+      if (!date) return null
+      return new Date(date).toLocaleString()
     },
   },
   methods: {
@@ -133,14 +140,30 @@ export default {
         :value="sortBy"
         @change="changeSortBy"
       />
-      <icon-button-with-text
-        class="icon-with-text larger-icon"
-        :inactive="getLoading"
-        :spinning="getLoading"
-        :icon-name="'IconReload'"
-        :text="$t('teacher_dashboard.refresh_progress')"
-        @click="onRefresh"
-      />
+      <v-popover
+        popover-class="teacher-dashboard-tooltip lighter-p"
+        trigger="hover focus"
+        placement="bottom"
+      >
+        <icon-button-with-text
+          class="icon-with-text larger-icon"
+          :inactive="getLoading"
+          :spinning="getLoading"
+          :icon-name="'IconReload'"
+          :text="$t('teacher_dashboard.refresh_progress')"
+          @click="onRefresh"
+        />
+        <template slot="popover">
+          <div class="refresh-tooltip">
+            <div v-if="lastFetchedDate">
+              {{ $t('teacher_dashboard.progress_last_fetched') }}: {{ lastFetchedDate }}
+            </div>
+            <div class="propagation-note">
+              {{ $t('teacher_dashboard.refresh_progress_helptext') }}
+            </div>
+          </div>
+        </template>
+      </v-popover>
       <!-- TODO - enable and use jQuery to scroll. -->
       <!-- TODO - use the store to send the signal. -->
       <!-- <dropdown label-text="Go To" class="dropdowns" /> -->
@@ -352,6 +375,16 @@ export default {
   .icon-with-text {
     width: 96px;
     margin: 5px;
+  }
+
+  .refresh-tooltip {
+    max-width: 220px;
+    font-size: 12px;
+
+    .propagation-note {
+      margin-top: 4px;
+      color: #999;
+    }
   }
 
   .arrow-fade-enter-active {
