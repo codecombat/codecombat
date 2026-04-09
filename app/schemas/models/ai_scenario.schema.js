@@ -96,6 +96,11 @@ _.extend(AIScenarioSchema.properties, {
     type: 'integer',
     description: 'The minimum number of messages required to mark a scenario as complete.',
   },
+  allowFileUpload: {
+    title: 'Allow File Upload',
+    description: 'Allow user to upload file or not',
+    type: 'boolean',
+  },
 })
 
 AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']
