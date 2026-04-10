@@ -6399,6 +6399,7 @@ module.exports = {
       'ScenarioDetailsPanel_save-scenario': 'Save Scenario',
       'ScenarioDetailsPanel_scenario-settings': 'Scenario settings',
       'ScenarioDetailsPanel_allow-user-upload-file': 'Allow user to upload file',
+      'ScenarioDetailsPanel_allowed-file-types': 'Allowed Files Types user can upload',
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': "You're in scenario creation mode! Go ahead, mess around and try to build a cool scenario, then click \"beta\" or \"released\" to share it with the world! If you ever don't like a prompt, just go back and edit it.",
       'ScenarioPromptMessage_alternate-choices': 'Alternate Choices',
       ScenarioPromptMessage_edit: 'Edit',

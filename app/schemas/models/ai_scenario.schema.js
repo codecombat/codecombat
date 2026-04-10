@@ -101,6 +101,14 @@ _.extend(AIScenarioSchema.properties, {
     description: 'Allow user to upload file or not',
     type: 'boolean',
   },
+  allowedFileTypes: {
+    title: 'Allowed Types of Uploaded File',
+    description: 'MIME types of files that can be uploaded',
+    type: 'array',
+    items: {
+      type: 'string',
+    },
+  },
 })
 
 AIScenarioSchema.required = ['mode', 'tool', 'task', 'doc', 'releasePhase', 'initialActionQueue']
