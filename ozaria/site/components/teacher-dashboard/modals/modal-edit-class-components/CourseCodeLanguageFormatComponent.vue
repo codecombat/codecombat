@@ -272,10 +272,10 @@ export default {
     },
     hasOnlyHackstack () {
       if (this.isNewClassroom) {
-        return this.newInitialFreeCourses.includes(utils.courseIDs.HACKSTACK) && this.newInitialFreeCourses?.length === 1
+        return this.newInitialFreeCourses.includes(utils.courseIDs.INTRO_TO_AI) && this.newInitialFreeCourses?.length === 1
       } else {
         const courseInstances = this.getCourseInstances(this.classroomId)
-        return courseInstances?.some(ci => ci.courseID === utils.courseIDs.HACKSTACK) && courseInstances?.length === 1
+        return courseInstances?.every(ci => utils.HACKSTACK_COURSE_IDS.includes(ci.courseID))
       }
     },
     availableCodeFormats () {
@@ -284,6 +284,7 @@ export default {
         codeFormats['blocks-icons'].disabled = true
       }
       if (!this.enableBlocks) {
+        codeFormats['blocks-icons'].disabled = true
         codeFormats['blocks-and-code'].disabled = true
         codeFormats['blocks-text'].disabled = true
       }
@@ -347,18 +348,35 @@ export default {
     },
   },
   watch: {
+    availableCodeFormats () {
+      const ava = this.availableCodeFormats.filter(cf => !cf.disabled).map(cf => cf.id)
+      const filtered = this.newCodeFormats.filter(cf => ava.includes(cf))
+      this.newCodeFormats = filtered.length > 0 ? filtered : (ava.length ? [ava[0]] : [])
+      if (!this.newCodeFormats.includes(this.newCodeFormatDefault)) {
+        this.newCodeFormatDefault = this.newCodeFormats[0]
+      }
+    },
     newProgrammingLanguage (newVal) {
       this.$emit('programmingLanguageUpdated', newVal)
     },
     newInitialFreeCourses (newVal) {
       this.$emit('initialFreeCoursesUpdated', newVal)
-      if (this.hasJunior && !this.newCodeFormats.includes('blocks-icons')) {
+      if (this.hasJunior && !this.newCodeFormats.includes('blocks-icons') && this.enableBlocks) {
         this.newCodeFormats.push('blocks-icons')
         this.$emit('codeFormatsUpdated', this.newCodeFormats)
       }
     },
-    newCodeFormats (newVal) {
-      this.$emit('codeFormatsUpdated', newVal)
+    newCodeFormats (newVal, oldVal) {
+      if (newVal.length === 0) { // prevent final code format unchecked
+        this.$nextTick(() => {
+          this.newCodeFormats = oldVal
+        })
+      } else {
+        this.$emit('codeFormatsUpdated', newVal)
+        if (!newVal.includes(this.newCodeFormatDefault)) {
+          this.newCodeFormatDefault = newVal[0]
+        }
+      }
     },
     newCodeFormatDefault (newVal) {
       this.$emit('codeFormatDefaultUpdated', newVal)

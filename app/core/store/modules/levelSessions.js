@@ -50,7 +50,8 @@ export default {
       Vue.set(state.levelSessionsByClassroom, classroomId, {
         sessions: [],
         levelCompletionsByUser: {},
-        levelSessionMapByUser: {}
+        levelSessionMapByUser: {},
+        lastFetchedMemberSessionsDate: null
       })
     },
 
@@ -72,6 +73,10 @@ export default {
       state.levelSessionsByClassroom[classroomId].sessions = sessions
       state.levelSessionsByClassroom[classroomId].levelCompletionsByUser = {}
       state.levelSessionsByClassroom[classroomId].levelSessionMapByUser = {}
+    },
+
+    setLastFetchedMemberSessionsDate: (state, { classroomId, date }) => {
+      state.levelSessionsByClassroom[classroomId].lastFetchedMemberSessionsDate = date
     },
 
     addLevelCompletionsByUserForClassroom: (state, { classroomId, levelCompletionsByUser }) => {
@@ -118,6 +123,9 @@ export default {
     },
     getSessionsForCampaignOfRelatedUser: (state) => (userId, campaignHandle) => {
       return (state.levelSessionsByCampaign[campaignHandle] || {})[userId]?.sessions
+    },
+    getLastFetchedMemberSessionsDate: (state) => (classroomId) => {
+      return (state.levelSessionsByClassroom[classroomId] || {}).lastFetchedMemberSessionsDate
     }
   },
   // TODO add a way to clear out old level session data
@@ -132,6 +140,7 @@ export default {
 
       const processAllBatches = async () => {
         let allSessions = []
+        let lastUpdatedAt = null
 
         for (let i = 0; i < totalRequests; i += BATCH_SIZE) {
           const batchEnd = Math.min(i + BATCH_SIZE, totalRequests)
@@ -152,23 +161,30 @@ export default {
           const batchResults = await Promise.all(batchRequests)
 
           for (const res of batchResults) {
-            if (res && Array.isArray(res)) {
-              allSessions = allSessions.concat(res)
+            if (res && Array.isArray(res.sessions)) {
+              allSessions = allSessions.concat(res.sessions)
+              if (res.lastUpdatedAt) {
+                lastUpdatedAt = res.lastUpdatedAt
+              }
             } else {
               throw new Error('Unexpected response from level sessions call')
             }
           }
         }
 
-        return allSessions
+        return { sessions: allSessions, lastUpdatedAt }
       }
 
       return processAllBatches()
-        .then((sessions) => {
+        .then(({ sessions, lastUpdatedAt }) => {
           commit('setSessionsForClassroom', {
             classroomId: classroom._id,
             sessions: Object.freeze(sessions)
           })
+
+          if (lastUpdatedAt) {
+            commit('setLastFetchedMemberSessionsDate', { classroomId: classroom._id, date: lastUpdatedAt })
+          }
 
           dispatch('computeLevelSessionMapForClassroom', classroom._id)
         })

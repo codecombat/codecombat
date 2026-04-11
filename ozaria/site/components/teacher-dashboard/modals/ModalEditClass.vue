@@ -224,13 +224,6 @@ export default Vue.extend({
   },
 
   watch: {
-    availableCodeFormats () {
-      const ava = this.availableCodeFormats.filter(cf => !cf.disabled).map(cf => cf.id)
-      this.newCodeFormats = this.newCodeFormats.filter(cf => ava.includes(cf))
-      if (!this.newCodeFormats.includes(this.newCodeFormatDefault)) {
-        this.newCodeFormatDefault = this.newCodeFormats[0]
-      }
-    },
     otherProductClassroom (newOtherProductClassroom) {
       // update settings that are available on both coco and ozar
       const { language, levelChat, liveCompletion, disablePaste } = newOtherProductClassroom.aceConfig
