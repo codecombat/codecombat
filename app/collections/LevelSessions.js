@@ -47,7 +47,14 @@ module.exports = (LevelSessionCollection = (function () {
     fetchForClassroomMembers (classroomID, options) {
       // Params: memberSkip, memberLimit
       options = _.extend({
-        url: `/db/classroom/${classroomID}/member-sessions`
+        url: `/db/classroom/${classroomID}/member-sessions`,
+        dataFilter: (data, type) => {
+          const json = JSON.parse(data)
+          if (Array.isArray(json)) {
+            return data
+          }
+          return JSON.stringify(json.sessions)
+        },
       }, options)
       return this.fetch(options)
     }
