@@ -287,7 +287,12 @@ module.exports = (Classroom = (function () {
         let left4
         const currentLevel = courseLevels.models[currentIndex]
         const currentPlaytime = (left4 = __guard__(levelSessionMap[currentLevel.get('original')], x => x.get('playtime'))) != null ? left4 : 0
-        needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes')) && !currentLevel.get('assessment')
+        let thresholdFactor = 1
+        if (utils.JUNIOR_COURSE_IDS.includes(courseID) && me.get('aceConfig')?.codeFormat === 'text-code') {
+          // when Junior text-code, we allow user to have double time to type compare to drag the blocks
+          thresholdFactor = 2
+        }
+        needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes')) * thresholdFactor && !currentLevel.get('assessment')
         if (utils.isCodeCombat || !utils.orderedCourseIDs.includes(courseID)) {
           nextIndex = utils.findNextLevel(levels.map(level => {
             return { ...level, locked: this.isStudentOnLockedLevel(me.id, courseID, level.original) }
