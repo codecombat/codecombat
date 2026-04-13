@@ -292,7 +292,7 @@ module.exports = (Classroom = (function () {
           // when Junior text-code, we allow user to have double time to type compare to drag the blocks
           thresholdFactor = 2
         }
-        needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes')) * thresholdFactor && !currentLevel.get('assessment')
+        needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes') * thresholdFactor) && !currentLevel.get('assessment')
         if (utils.isCodeCombat || !utils.orderedCourseIDs.includes(courseID)) {
           nextIndex = utils.findNextLevel(levels.map(level => {
             return { ...level, locked: this.isStudentOnLockedLevel(me.id, courseID, level.original) }
