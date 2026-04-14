@@ -618,6 +618,21 @@ module.exports = (HeroVictoryModal = (function () {
       if (extraOptions) { _.merge(options, extraOptions) }
       const returnAfterCompleteMap = this.level.get('returnAfterCompleteMap')
       const product = this.level.get('product', true)
+      if (product === 'codecombat-junior') {
+        let allowAnonymous = true
+        if (this.nextLevel?.get('slug')) {
+          allowAnonymous = this.nextLevel.get('allowAnonymous')
+        } else if (options.sendToPracticeLevel && this.practiceLevel?.get('slug')) {
+          allowAnonymous = this.practiceLevel.get('allowAnonymous')
+        }
+        if (!allowAnonymous && me.isAnonymous()) {
+          const requireSignup = me.getOrStartRequireSignupExperimentValue?.('junior')
+          if (requireSignup === 'beta') {
+            return this.openModalView(new CreateAccountModal())
+          }
+        }
+      }
+
       if (this.showHoc2016ExploreButton) {
         // Send players to /play after completing final game-dev activity project level
         nextLevelLink = '/play'
