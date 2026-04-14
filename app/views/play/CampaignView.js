@@ -1155,12 +1155,12 @@ class CampaignView extends RootView {
     }
   }
 
-  promptForSignup () {
+  promptForSignup (options) {
     if (/hoc/.test(this.terrain || '')) { return }
     if (features.noAuth || (this.campaign?.get('type') === 'hoc')) { return }
     this.endHighlight()
     storage.save(PROMPTED_FOR_SIGNUP, true)
-    return this.openModalView(new CreateAccountModal({ supermodel: this.supermodel }))
+    return this.openModalView(new CreateAccountModal({ supermodel: this.supermodel, ...options }))
   }
 
   promptForSubscription (slug, label) {
@@ -1932,7 +1932,7 @@ class CampaignView extends RootView {
       const CAMPAIGN = this.campaign?.get('name')?.toLowerCase() || this.terrain
       const requireSignup = me.getOrStartRequireSignupExperimentValue?.(CAMPAIGN)
       if (requireSignup === 'beta') {
-        return this.promptForSignup()
+        return this.promptForSignup({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') })
       }
     }
 

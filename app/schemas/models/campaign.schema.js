@@ -319,6 +319,10 @@ CampaignSchema.denormalizedLevelProperties = [
   'returnAfterCompleteMap',
 ]
 const hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
+
+CampaignSchema.definitions = CampaignSchema.definitions || {}
+CampaignSchema.definitions.classroomSub = _.cloneDeep(LevelSchema.definitions?.classroomSub)
+
 for (const prop of CampaignSchema.denormalizedLevelProperties) {
   CampaignSchema.properties.levels.additionalProperties.properties[prop] = _.cloneDeep(LevelSchema.properties[prop])
 }

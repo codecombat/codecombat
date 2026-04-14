@@ -620,15 +620,15 @@ module.exports = (HeroVictoryModal = (function () {
       const product = this.level.get('product', true)
       if (product === 'codecombat-junior') {
         let allowAnonymous = true
-        if (this.nextLevel?.get('slug')) {
-          allowAnonymous = this.nextLevel.get('allowAnonymous')
-        } else if (options.sendToPracticeLevel && this.practiceLevel?.get('slug')) {
+        if (options.sendToPracticeLevel && this.practiceLevel?.get('slug')) {
           allowAnonymous = this.practiceLevel.get('allowAnonymous')
+        } else if (this.nextLevel?.get('slug')) {
+          allowAnonymous = this.nextLevel.get('allowAnonymous')
         }
         if (!allowAnonymous && me.isAnonymous()) {
           const requireSignup = me.getOrStartRequireSignupExperimentValue?.('junior')
           if (requireSignup === 'beta') {
-            return this.openModalView(new CreateAccountModal())
+            return this.openModalView(new CreateAccountModal({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') }))
           }
         }
       }
