@@ -111,8 +111,8 @@ export default {
         .filter((course) => me.hasCampaignAccess(course))
         .filter((course) => !me.isCodeNinja() || !selectedCodeNinjasCampCourses || selectedCodeNinjasCampCourses.includes(course._id))
         .map((course) => {
-          const splitName = course.name.split(':')
           let name = i18n(course, 'name')
+          const splitName = name.split(':')
           if (splitName.length > 1) {
             name = splitName[0]
           }

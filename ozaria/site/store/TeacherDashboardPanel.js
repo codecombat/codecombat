@@ -370,7 +370,7 @@ export default {
       commit('setSelectedProgressKey', `${student._id}_${content._id}`)
       commit('setLearningGoal', (content?.documentation?.specificArticles || []).find(({ name }) => name === 'Learning Goals')?.body || '')
 
-      const panelHeader = `Module ${moduleNum} | ${getGameContentDisplayNameWithType(content)}`
+      const panelHeader = `${$.i18n.t('teacher_dashboard.module')} ${moduleNum} | ${getGameContentDisplayNameWithType(content)}`
 
       if (['hero', 'course', undefined].includes(content.type)) {
         // For practice levels and challenge levels

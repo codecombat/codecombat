@@ -6,14 +6,14 @@ import utils from 'core/utils'
 export default {
   components: {
     CodeArea,
-    CodeDiff
+    CodeDiff,
   },
 
   props: {
     panelSessionContent: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
 
   computed: {
@@ -25,8 +25,8 @@ export default {
     },
     formattedPracticeThreshold () {
       return utils.secondsToMinutesAndSeconds(this.panelSessionContent.practiceThresholdMinutes * 60)
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -80,7 +80,7 @@ export default {
     </div>
     <div class="flex-row">
       <div>
-        <h4>Starter Code</h4>
+        <h4>{{ $t('teacher_dashboard.starter_code') }}</h4>
         <code-area
           :code="panelSessionContent.starterCode"
           :language="panelSessionContent.language"
@@ -89,8 +89,8 @@ export default {
       <div />
     </div>
     <div class="flex-row extra-title">
-      <h4>Student Code</h4>
-      <h4>Solution</h4>
+      <h4>{{ $t('teacher_dashboard.student_code') }}</h4>
+      <h4>{{ $t('teacher_dashboard.solution_code') }}</h4>
     </div>
     <div class="flex-row">
       <code-diff

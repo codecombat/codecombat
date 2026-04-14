@@ -20,6 +20,7 @@ const errors = require('core/errors')
 const Concepts = require('collections/Concepts')
 const schemas = require('app/schemas/schemas')
 const nodes = require('views/editor/level/treema_nodes')
+const AITranslateConfirmModal = require('views/editor/modal/AITranslateConfirmModal')
 
 require('lib/game-libraries')
 
@@ -31,7 +32,8 @@ module.exports = (CourseEditView = (function () {
 
       this.prototype.events = {
         'click #save-button': 'onClickSaveButton',
-        'click #i18n-button': 'onPopulateI18N'
+        'click #i18n-button': 'onPopulateI18N',
+        'click #ai-translate-button': 'onAITranslate',
       }
     }
 
@@ -61,6 +63,10 @@ module.exports = (CourseEditView = (function () {
         this.course.updateI18NCoverage()
         return this.treema.set('/', this.course.attributes)
       })
+    }
+
+    async onAITranslate () {
+      this.openModalView(new AITranslateConfirmModal(this.course))
     }
 
     buildTreema () {

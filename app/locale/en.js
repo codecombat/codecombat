@@ -2994,6 +2994,7 @@ module.exports = {
       INTRO_short: 'Intro',
       ELA_short: 'ELA',
       ALG_short: 'ALG',
+      ALGEBRA_short: 'ALG',
       CR1_short: 'CR1',
       CR2_short: 'CR2',
       AI1_short: 'AI 1',
@@ -4930,6 +4931,10 @@ module.exports = {
       curriculum_beta: 'Beta',
       progress_last_fetched: 'Progress last fetched',
       refresh_progress_helptext: 'Student progress may take 2–3 minutes to sync after completion.',
+      completed: 'Completed',
+      starter_code: 'Starter Code',
+      student_code: 'Student Code',
+      solution_code: 'Solution',
     },
 
     outcomes: {

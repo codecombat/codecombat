@@ -41,6 +41,9 @@ export default {
       levelSessionsMapByUser: 'teacherDashboard/getLevelSessionsMapCurrentClassroom',
       aiProjectsMapForClassroom: 'teacherDashboard/getAiProjectsMapCurrentClassroom',
     }),
+    me () {
+      return window.me
+    },
 
     creditMessage () {
       if (this.studentCredits && this.studentCredits.result?.length > 0) {
@@ -50,7 +53,7 @@ export default {
           creditCreditsLeft: credit.creditsLeft,
           creditInitialCredits: credit.initialCredits,
           durAmount,
-          creditDurationKey: credit.durationKey,
+          creditDurationKey: $.i18n.t('user_credits.level_chat_duration_' + credit.durationKey),
         })
       } else {
         return $.i18n.t('common.loading')
@@ -262,6 +265,7 @@ export default {
           </div>
         </form>
         <roblox-button
+          v-if="!me.showChinaResourceInfo()"
           size="small"
           :user-id="studentId"
           :use-oauth="false"

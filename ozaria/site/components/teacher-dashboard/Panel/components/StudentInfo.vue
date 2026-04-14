@@ -3,19 +3,19 @@ export default {
   props: {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     completed: {
       type: String,
-      default: ''
-    }
-  }
+      default: '',
+    },
+  },
 }
 </script>
 <template>
   <div id="student-info">
     <p>{{ name }}</p>
-    <span v-if="completed">Completed: {{ completed }}</span>
+    <span v-if="completed">{{ $t('teacher_dashboard.completed') }}: {{ completed }}</span>
   </div>
 </template>
 
