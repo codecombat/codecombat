@@ -27,6 +27,7 @@ const _ = require('lodash')
 const moment = require('moment')
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
 const CHOCOLI_EXPERIMENT_NAME = 'chocoli'
+const REQUIRE_SIGN_UP_EXPERIMENT = 'require-sign-up'
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -1478,6 +1479,18 @@ module.exports = (User = (function () {
       return null
     }
 
+    getRequireSignupExperimentValue () {
+      if (!me.isAnonymous()) {
+        return 'control'
+      }
+      const value = utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery(REQUIRE_SIGN_UP_EXPERIMENT),
+        me.getExperimentValue(REQUIRE_SIGN_UP_EXPERIMENT, null),
+      )
+
+      return value ?? null
+    }
+
     // Chocoli experiment - mini games for hackstack
     getChocoliExperimentValue () {
       if (me.isStudent() || me.isTeacher()) {
@@ -1491,6 +1504,14 @@ module.exports = (User = (function () {
         me.getExperimentValue(CHOCOLI_EXPERIMENT_NAME, null),
       )
       return value ?? null
+    }
+
+    getOrStartRequireSignupExperimentValue () {
+      const value = this.getRequireSignupExperimentValue()
+      if (value != null) {
+        return value
+      }
+      return this.tryStartExperiment(REQUIRE_SIGN_UP_EXPERIMENT)
     }
 
     getOrStartChocoliExperimentValue () {

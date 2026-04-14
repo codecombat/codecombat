@@ -1928,6 +1928,13 @@ class CampaignView extends RootView {
     const levelName = levelElement.data('level-name')
     const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
 
+    if (me.isAnonymous()) {
+      const requireSignup = me.getOrStartRequireSignupExperimentValue?.()
+      if (requireSignup === 'beta' && !level.allowAnonymous) {
+        return this.promptForSignup()
+      }
+    }
+
     const canPlayAnyway = [
       !this.requiresSubscription,
       this.levelStatusMap[level.slug],

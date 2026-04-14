@@ -433,6 +433,7 @@ _.extend(LevelSchema.properties, {
   terrain: c.terrainString,
   requiresSubscription: { title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean', inEditor: 'codecombat' },
   classroomSub: { $ref: '#/definitions/classroomSub', inEditor: true },
+  allowAnonymous: { title: 'Allow Anonymous Play', description: 'Whether this level is available to anonymous user', type: 'boolean', inEditor: 'codecombat' },
   tasks: c.array({ title: 'Tasks', description: 'Tasks to be completed for this level.' }, c.task),
   helpVideos: c.array({ title: 'Help Videos', inEditor: 'codecombat' }, c.object({ default: { style: 'eccentric', url: '', free: false } }, {
     style: c.shortString({ title: 'Style', description: 'Like: original, eccentric, scripted, edited, etc.' }),

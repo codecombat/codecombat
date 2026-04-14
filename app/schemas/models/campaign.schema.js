@@ -268,6 +268,8 @@ CampaignSchema.denormalizedLevelProperties = [
   'description',
   'i18n',
   'requiresSubscription',
+  'classroomSub',
+  'allowAnonymous',
   'replayable',
   'type',
   'kind',
