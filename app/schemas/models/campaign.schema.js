@@ -269,7 +269,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'i18n',
   'requiresSubscription',
   'classroomSub',
-  'allowAnonymous',
+  'requiresSignUp',
   'replayable',
   'type',
   'kind',
