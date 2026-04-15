@@ -40,7 +40,7 @@ module.exports = (LeaderboardView = (function () {
       this.anonymousPlayerName = anonymousPlayerName
       this.hidesTeams = utils.getQueryVariable('tournament') === '65775da26dd00500194eaf3f'; // Hide team display for this particular tournament
 
-      ({ league: this.league, tournament: this.tournament, leagueType: this.leagueType, course: this.course } = options)
+      ({ league: this.league, tournament: this.tournament, leagueType: this.leagueType, course: this.course, scoreType: this.scoreType } = options)
       // params = @collectionParameters(order: -1, scoreOffset: HIGHEST_SCORE, limit: @limit)
       this.tableTitles = [
         { slug: 'creator', col: 0, title: '' },
@@ -58,8 +58,8 @@ module.exports = (LeaderboardView = (function () {
       if (this.hidesTeams) {
         _.remove(this.tableTitles, { slug: 'clan' })
       }
-      this.propsData = { tableTitles: this.tableTitles, league: this.league, level: this.level, leagueType: this.leagueType, course: this.course, scoreType: 'tournament', showContactUs: this.anonymousPlayerName && me.isTeacher() }
-      if (!this.tournament) {
+      this.propsData = { tableTitles: this.tableTitles, league: this.league, level: this.level, leagueType: this.leagueType, course: this.course, scoreType: this.scoreType, showContactUs: this.anonymousPlayerName && me.isTeacher(), tournament: this.tournament }
+      if (this.scoreType === 'arena') {
         this.propsData.tableTitles = [
           { slug: 'creator', col: 0, title: '' },
           { slug: 'language', col: 1, title: '' },
@@ -74,7 +74,6 @@ module.exports = (LeaderboardView = (function () {
         if (this.hidesTeams) {
           _.remove(this.propsData.tableTitles, { slug: 'clan' })
         }
-        this.propsData.scoreType = 'arena'
       }
       this.rankings = []
       this.myRank = -1
@@ -177,7 +176,7 @@ module.exports = (LeaderboardView = (function () {
         if ((model != null ? model.type : undefined) === 'BLANK_ROW') {
           return model
         }
-        if (this.tournament) {
+        if (this.scoreType === 'tournament') {
           let left, left1
           const isMyLevelSession = (model.get('creator') === me.id) && (model.constructor.name === 'LevelSession')
           const wins = (left = model.get('wins')) != null ? left : (isMyLevelSession ? model.myWins : 0)
@@ -243,7 +242,7 @@ module.exports = (LeaderboardView = (function () {
       if (data.length !== 2) { return }
       if (this.spectateTargets == null) { this.spectateTargets = {} }
       const leaderboards = { top: this.leaderboards.topPlayers.models, nearby: this.nearbySessions() }
-      if (this.tournament) {
+      if (this.scoreType === 'tournament') {
         [rank, lkey] = Array.from(data[0].split('-'))
         this.spectateTargets.humans = leaderboards[lkey][+rank].get('levelSession');
         [rank, lkey] = Array.from(data[1].split('-'))
@@ -259,16 +258,16 @@ module.exports = (LeaderboardView = (function () {
     handleClickPlayerName (id, nearby) {
       if (me.isAdmin()) {
         const leaderboards = nearby ? this.nearbySessions() : this.leaderboards.topPlayers.models
-        const sessionId = this.tournament ? leaderboards[id].get('levelSession') : leaderboards[id].get('_id')
+        const sessionId = this.scoreType === 'tournament' ? leaderboards[id].get('levelSession') : leaderboards[id].get('_id')
         const session = new LevelSession({ _id: sessionId })
         this.supermodel.loadModel(session)
         return this.listenToOnce(session, 'sync', _session => {
           const models = [_session]
           if (!__guard__(_session.get('source'), x => x.name)) {
-            const playerId = this.tournament ? leaderboards[id].get('owner') : leaderboards[id].get('creator')
+            const playerId = this.scoreType === 'tournament' ? leaderboards[id].get('owner') : leaderboards[id].get('creator')
             models.push(new User({ _id: playerId }))
           }
-          if (this.tournament) {
+          if (this.scoreType === 'tournament') {
             models.push(new TournamentSubmission({ _id: leaderboards[id].get('_id') }))
           }
           return this.openModalView(new ModelModal({ models }))

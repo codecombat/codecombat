@@ -42,6 +42,8 @@ module.exports = (MyMatchesTabView = (function () {
       this.nameMap = {}
       this.previouslyRankingTeams = {}
       this.matchesLimit = 95
+      this.league = options.league
+      this.tournament = utils.getQueryVariable('tournament')
       this.refreshMatches(20)
     }
 

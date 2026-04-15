@@ -326,14 +326,14 @@ module.exports = (LadderView = (function () {
       // waiting for owner - only leaderboard
       // ended - only leaderboard
       if ((this.tournamentState === 'ended') || ((['waiting', 'abandoned'].includes(this.tournamentState)) && (me.get('_id') === (this.league != null ? this.league.get('ownerID') : undefined)))) {
-        this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, tournament: this.tournamentId, leagueType: 'clan', myTournamentSubmission: this.myTournamentSubmission }, this.level, this.sessions)) // classroom ladder do not have tournament for now
+        this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, tournament: this.tournamentId, scoreType: 'tournament', leagueType: 'clan', myTournamentSubmission: this.myTournamentSubmission }, this.level, this.sessions)) // classroom ladder do not have tournament for now
       } else if (['initializing', 'ranking', 'waiting', 'abandoned'].includes(this.tournamentState)) {
         null
       } else if(this.level.get('slug') === 'farmers-feud' && ! this.league) {
         null
       } else { // starting, or unset
         if (this.level.isType('ladder')) {
-          this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, leagueType: this.leagueType, course: this.course, myTournamentSubmission: this.myTournamentSubmission, updateSpectateList: this.updateSpectateList }, this.level, this.sessions, this.anonymousPlayerName))
+          this.insertSubView(this.ladderTab = new TournamentLeaderboard({ league: this.league, leagueType: this.leagueType, course: this.course, scoreType: 'arena', tournament: this.tournamentId, myTournamentSubmission: this.myTournamentSubmission, updateSpectateList: this.updateSpectateList }, this.level, this.sessions, this.anonymousPlayerName))
         } else {
           this.insertSubView(this.ladderTab = new LadderTabView({ league: this.league, tournament: this.tournamentId }, this.level, this.sessions))
         }
@@ -509,6 +509,9 @@ module.exports = (LadderView = (function () {
     }
 
     onClickNewSpectateButton () {
+      if (this.tournamentState === 'initializing') {
+        return
+      }
       const player1Index = parseInt(this.$el.find('#spectate-player-1').val().split(':')[0]) - 1
       const player2Index = parseInt(this.$el.find('#spectate-player-2').val().split(':')[0]) - 1
       const player1 = this.leaderboardRankings[player1Index]
@@ -519,7 +522,11 @@ module.exports = (LadderView = (function () {
       if (humanSession && ogreSession) { url += `session-one=${humanSession}&session-two=${ogreSession}` }
       if (this.league) { url += '&league=' + this.league.id }
       if (key.command) { url += '&autoplay=false' }
-      if (this.tournamentState === 'ended') { url += '&tournament=' + this.tournamentId }
+      if (this.tournamentState === 'ended') {
+        url += '&tournament=' + this.tournamentId
+      } else if (this.tournamentId) {
+        url += '&tid=' + this.tournamentId
+      }
       return window.open(url, key.command ? '_blank' : 'spectate') // New tab for spectating specific matches
     }
 

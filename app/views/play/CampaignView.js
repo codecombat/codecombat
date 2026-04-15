@@ -199,6 +199,10 @@ class CampaignView extends RootView {
       $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
     }
 
+    if (!utils.getQueryVariable('course-instance') && me.isStudent()) {
+      application.router.navigate('/students', { trigger: true, replace: true })
+    }
+
     if (utils.getQueryVariable('hour_of_code')) {
       if (me.isStudent() || me.isTeacher()) {
         if (this.terrain === 'dungeon') {

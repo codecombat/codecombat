@@ -83,6 +83,7 @@ module.exports = (SpectateLevelView = (function () {
       this.sessionOne = utils.getQueryVariable('session-one')
       this.sessionTwo = utils.getQueryVariable('session-two')
       this.tournament = utils.getQueryVariable('tournament')
+      this.tId = utils.getQueryVariable('tid')
       if (options.spectateSessions) {
         this.sessionOne = options.spectateSessions.sessionOne
         this.sessionTwo = options.spectateSessions.sessionTwo

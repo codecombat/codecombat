@@ -490,7 +490,7 @@ module.exports = {
       ai_hackstack: '[AI_TRANSLATION]AI HackStack  ',
       beta: '[AI_TRANSLATION]测试版',
       teacher_tools: '教师工具',
-      ai_teacher_tool: '教师AI工具',
+      ai_teacher_tool: '演示AI课关卡',
       //    ccw_short: "Roblox",
     },
 

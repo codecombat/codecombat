@@ -11,48 +11,56 @@ export default Vue.extend({
   props: {
     scoreType: {
       type: String,
-      default: 'arena'
+      default: 'arena',
+    },
+    showContactUs: {
+      type: Boolean,
+      default: false,
+    },
+    tournament: {
+      type: String,
+      default: '',
     },
     league: {
       type: Object,
-      default: null
+      default: null,
     },
     leagueType: {
       type: String,
-      default: 'clan'
+      default: 'clan',
     },
     course: {
       type: Object,
-      default: null
+      default: null,
     },
     level: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     playerCount: {
       type: Number,
-      default: 0
+      default: 0,
     },
     clanId: {
       type: String,
-      default: '_global'
+      default: '_global',
     },
     title: {
       type: String,
-      default: ''
+      default: '',
     },
     tableTitles: {
       type: Array,
       default () {
         return []
-      }
-    }
+      },
+    },
   },
   data () {
     return {
       selectedRow: [],
       ageFilter: false,
-      dateBeforeSep: new Date() < new Date('2022-9-1')
+      dateBeforeSep: new Date() < new Date('2022-9-1'),
     }
   },
   computed: {
@@ -64,10 +72,10 @@ export default Vue.extend({
       return brackets.map((b) => {
         return {
           name: this.getAgeBracket(b.slug),
-          slug: b.slug
+          slug: b.slug,
         }
       })
-    }
+    },
   },
   mounted () {
     if (this.scoreType === 'tournament') {
@@ -81,7 +89,7 @@ export default Vue.extend({
       url += '&leagues.leagueID=' + this.league.id
     }
     $.when(
-      $.get(url, (data) => { histogramData = data })
+      $.get(url, (data) => { histogramData = data }),
     ).then(() => this.generateHistogram(histogramWrapper, histogramData, 'humans'))
   },
   methods: {
@@ -103,7 +111,7 @@ export default Vue.extend({
         top: 20,
         right: 20,
         bottom: 30,
-        left: 15
+        left: 15,
       }
       const width = 470 - margin.left - margin.right
       const height = 125 - margin.top - margin.bottom
@@ -235,6 +243,9 @@ export default Vue.extend({
         if (this.league) {
           if (this.leagueType === 'clan') {
             url += `&league=${this.league.id}`
+            if (this.tournament) {
+              url += `&tournament=${this.tournament}`
+            }
           } else if (this.leagueType === 'course') {
             url += `&course=${this.course.id}&course-instance=${this.league.id}`
           }
@@ -275,8 +286,8 @@ export default Vue.extend({
       } else {
         window.open('https://form.typeform.com/to/qXqgbubC', '_blank')
       }
-    }
-  }
+    },
+  },
 })
 </script>
 
