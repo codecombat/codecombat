@@ -28,8 +28,8 @@ const moment = require('moment')
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
 const CHOCOLI_EXPERIMENT_NAME = 'chocoli'
 const REQUIRE_SIGN_UP_EXPERIMENT = {
-  dungeon: 'require-sign-up-dungeon',
-  junior: 'require-sign-up-junior',
+  dungeon: 'requires-sign-up-dungeon',
+  junior: 'requires-sign-up-junior',
 }
 
 // Pure functions for use in Vue
@@ -1510,6 +1510,9 @@ module.exports = (User = (function () {
     }
 
     getOrStartRequireSignupExperimentValue (CAMPAIGN) {
+      if (!(Object.keys(REQUIRE_SIGN_UP_EXPERIMENT).includes(CAMPAIGN))) {
+        return 'control'
+      }
       const value = this.getRequireSignupExperimentValue(CAMPAIGN)
       if (value != null) {
         return value

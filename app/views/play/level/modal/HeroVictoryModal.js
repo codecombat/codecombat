@@ -618,18 +618,18 @@ module.exports = (HeroVictoryModal = (function () {
       if (extraOptions) { _.merge(options, extraOptions) }
       const returnAfterCompleteMap = this.level.get('returnAfterCompleteMap')
       const product = this.level.get('product', true)
-      if (product === 'codecombat-junior') {
-        let levelRequiresSignUp = false
-        if (options.sendToPracticeLevel && this.practiceLevel?.get('slug')) {
-          levelRequiresSignUp = this.practiceLevel.get('requiresSignUp')
-        } else if (this.nextLevel?.get('slug')) {
-          levelRequiresSignUp = this.nextLevel.get('requiresSignUp')
-        }
-        if (levelRequiresSignUp && me.isAnonymous()) {
-          const userRequiresSignUp = me.getOrStartRequireSignupExperimentValue?.('junior')
-          if (userRequiresSignUp === 'beta') {
-            return this.openModalView(new CreateAccountModal({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') }))
-          }
+
+      // currently only junior set the nextLevel and practiceLevel, so we can start junior experiment without checking product
+      let levelRequiresSignUp = false
+      if (options.sendToPracticeLevel && this.practiceLevel?.get('slug')) {
+        levelRequiresSignUp = this.practiceLevel.get('requiresSignUp')
+      } else if (this.nextLevel?.get('slug')) {
+        levelRequiresSignUp = this.nextLevel.get('requiresSignUp')
+      }
+      if (levelRequiresSignUp && me.isAnonymous()) {
+        const userRequiresSignUp = me.getOrStartRequireSignupExperimentValue?.('junior')
+        if (userRequiresSignUp === 'beta') {
+          return this.openModalView(new CreateAccountModal({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') }))
         }
       }
 
