@@ -156,30 +156,6 @@ class CampaignView extends RootView {
     if (this.editorMode && !this.terrain) {
       this.terrain = 'dungeon'
     }
-
-    // Only bucket/start the odyssey experiment when the user is explicitly trying to enter Junior.
-    // This avoids side-effects from random "read" code paths that just want to know a value.
-    if (this.terrain === 'junior' && !this.editorMode) {
-      const odysseyValue = me.getOrStartOdysseyExperimentValue?.()
-      if (odysseyValue === 'beta') {
-        // Use the URL API to preserve/merge query params + hash when available; fallback for older/weird URL environments.
-        try {
-          const destUrl = new URL('/play/odyssey', window.location.origin)
-          const currentUrl = new URL(window.location.href)
-          currentUrl.searchParams.forEach((value, key) => destUrl.searchParams.set(key, value))
-          if (currentUrl.hash) destUrl.hash = currentUrl.hash
-          window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
-          application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
-        } catch (e) {
-          const query = location.search || ''
-          const hash = location.hash || ''
-          window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
-          application.router.navigate(`/play/odyssey${query}${hash}`, { trigger: true, replace: true })
-        }
-        return
-      }
-    }
-
     // Level completion by levelID (slug): used for UI (stars, locked state, header count). Key = session.levelID.
     this.levelStatusMap = {}
     // Level completion by level original id: use for lookups by original (e.g. levelToUnlock). Key = session.level.original.
@@ -192,58 +168,8 @@ class CampaignView extends RootView {
     this.highlightedCampaign = null
     this.highlightedConnectionIndex = null
 
-    if (this.terrain === 'hoc-2018') {
-      $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
-    }
-
-    if (utils.getQueryVariable('hour_of_code')) {
-      if (me.isStudent() || me.isTeacher()) {
-        if (this.terrain === 'dungeon') {
-          const newCampaign = 'intro'
-          api.users.getCourseInstances({ userID: me.id, campaignSlug: newCampaign }, { data: { project: '_id' } })
-            .then(courseInstances => {
-              if (courseInstances.length) {
-                const courseInstanceID = courseInstances[0]._id
-                return application.router.navigate(`/play/${newCampaign}?course-instance=${courseInstanceID}`, { trigger: true, replace: true })
-              } else {
-                application.router.navigate((me.isStudent() ? '/students' : '/teachers'), { trigger: true, replace: true })
-                return noty({ text: 'Please create or join a classroom first', layout: 'topCenter', timeout: 8000, type: 'success' })
-              }
-            })
-          return
-        }
-      }
-      if (this.terrain === 'game-dev-hoc') {
-        window.tracker?.trackEvent('Start HoC Campaign', { label: 'game-dev-hoc' })
-      }
-      me.set('hourOfCode', true)
-      me.patch()
-      const pixelCode = (() => {
-        switch (this.terrain) {
-          case 'game-dev-hoc': return 'code_combat_gamedev'
-          case 'game-dev-hoc-2': return 'code_combat_build_arcade'
-          case 'ai-league-hoc': return 'codecombat_esports'
-          case 'goblins-hoc': return 'codecombat_goblins'
-          default: return 'code_combat'
-        }
-      })()
-      $('body').append($(`<img src='https://code.org/api/hour/begin_${pixelCode}.png' style='visibility: hidden;'>`))
-    } else if (me.isTeacher() && !utils.getQueryVariable('course-instance') &&
-        !application.getHocCampaign() && (this.terrain !== 'hoc-2018')) {
-      // redirect teachers away from home campaigns
-      application.router.navigate('/teachers', { trigger: true, replace: true })
+    if (this.redirectMiddleware()) {
       return
-    } else if (location.pathname === '/paypal/subscribe-callback') {
-      this.payPalToken = utils.getQueryVariable('token')
-      api.users.executeBillingAgreement({ userID: me.id, token: this.payPalToken })
-        .then(billingAgreement => {
-          const value = Math.round(parseFloat(billingAgreement?.plan?.payment_definitions?.[0]?.amount?.value ?? 0) * 100)
-          application.tracker?.trackEvent('Finished subscription purchase', { value, service: 'paypal' })
-          noty({ text: $.i18n.t('subscribe.confirmation'), layout: 'topCenter', timeout: 8000 })
-          return me.fetch({ cache: false, success: () => this.render?.() })
-        }).catch(err => {
-          return console.error(err)
-        })
     }
 
     if (userUtils.shouldShowLibraryLoginModal() && me.isAnonymous()) {
@@ -404,6 +330,105 @@ class CampaignView extends RootView {
 
     this.isMto = me.isMto()
     window.tracker?.trackEvent('Loaded World Map', { category: 'World Map', label: this.terrain })
+  }
+
+  redirectMiddleware () {
+    const juniorRedirect = () => {
+      // Only bucket/start the odyssey experiment when the user is explicitly trying to enter Junior.
+      // This avoids side-effects from random "read" code paths that just want to know a value.
+      if (this.terrain === 'junior' && !this.editorMode) {
+        const odysseyValue = me.getOrStartOdysseyExperimentValue?.()
+        if (odysseyValue === 'beta') {
+          // Use the URL API to preserve/merge query params + hash when available; fallback for older/weird URL environments.
+          try {
+            const destUrl = new URL('/play/odyssey', window.location.origin)
+            const currentUrl = new URL(window.location.href)
+            currentUrl.searchParams.forEach((value, key) => destUrl.searchParams.set(key, value))
+            if (currentUrl.hash) destUrl.hash = currentUrl.hash
+            window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
+            application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
+          } catch (e) {
+            const query = location.search || ''
+            const hash = location.hash || ''
+            window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
+            application.router.navigate(`/play/odyssey${query}${hash}`, { trigger: true, replace: true })
+          }
+          return true
+        }
+      }
+    }
+
+    const studentRedirect = () => {
+      const courseInstanceId = utils.getQueryVariable('course-instance')
+      if (!courseInstanceId && me.isStudent() && this.terrain !== 'intro') {
+        window.noty({
+          text: $.i18n.t('play.home_campaign_redirect_student'),
+          layout: 'center',
+          timeout: 5000,
+          type: 'error',
+        })
+        application.router.navigate('/students', { trigger: true, replace: true })
+        return true
+      }
+    }
+
+    const hocRedirect = () => {
+      if (this.terrain === 'hoc-2018') {
+        $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
+      }
+
+      if (utils.getQueryVariable('hour_of_code')) {
+        if (me.isStudent() || me.isTeacher()) {
+          if (this.terrain === 'dungeon') {
+            const newCampaign = 'intro'
+            api.users.getCourseInstances({ userID: me.id, campaignSlug: newCampaign }, { data: { project: '_id' } })
+              .then(courseInstances => {
+                if (courseInstances.length) {
+                  const courseInstanceID = courseInstances[0]._id
+                  return application.router.navigate(`/play/${newCampaign}?course-instance=${courseInstanceID}`, { trigger: true, replace: true })
+                } else {
+                  application.router.navigate((me.isStudent() ? '/students' : '/teachers'), { trigger: true, replace: true })
+                  return noty({ text: 'Please create or join a classroom first', layout: 'topCenter', timeout: 8000, type: 'success' })
+                }
+              })
+            return true
+          }
+        }
+        if (this.terrain === 'game-dev-hoc') {
+          window.tracker?.trackEvent('Start HoC Campaign', { label: 'game-dev-hoc' })
+        }
+        me.set('hourOfCode', true)
+        me.patch()
+        const pixelCode = (() => {
+          switch (this.terrain) {
+            case 'game-dev-hoc': return 'code_combat_gamedev'
+            case 'game-dev-hoc-2': return 'code_combat_build_arcade'
+            case 'ai-league-hoc': return 'codecombat_esports'
+            case 'goblins-hoc': return 'codecombat_goblins'
+            default: return 'code_combat'
+          }
+        })()
+        $('body').append($(`<img src='https://code.org/api/hour/begin_${pixelCode}.png' style='visibility: hidden;'>`))
+      } else if (me.isTeacher() && !utils.getQueryVariable('course-instance') &&
+          !application.getHocCampaign() && (this.terrain !== 'hoc-2018')) {
+        // redirect teachers away from home campaigns
+        application.router.navigate('/teachers', { trigger: true, replace: true })
+        return true
+      } else if (location.pathname === '/paypal/subscribe-callback') {
+        this.payPalToken = utils.getQueryVariable('token')
+        api.users.executeBillingAgreement({ userID: me.id, token: this.payPalToken })
+          .then(billingAgreement => {
+            const value = Math.round(parseFloat(billingAgreement?.plan?.payment_definitions?.[0]?.amount?.value ?? 0) * 100)
+            application.tracker?.trackEvent('Finished subscription purchase', { value, service: 'paypal' })
+            noty({ text: $.i18n.t('subscribe.confirmation'), layout: 'topCenter', timeout: 8000 })
+            return me.fetch({ cache: false, success: () => this.render?.() })
+          }).catch(err => {
+            return console.error(err)
+          })
+      }
+    }
+
+    return juniorRedirect() || hocRedirect() || studentRedirect()
   }
 
   destroy () {
