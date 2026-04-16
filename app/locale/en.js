@@ -619,7 +619,7 @@ module.exports = {
       hackstack_button_hover: 'Code and Create with AI HackStack',
       junior_button_hover: 'Blocks coding for beginners',
       cchome_button_hover: 'Original CodeCombat Adventure',
-
+      home_campaign_redirect_student: 'Please visit the course map from your student page.',
     },
 
     code: {

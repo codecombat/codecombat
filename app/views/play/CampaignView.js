@@ -361,12 +361,17 @@ class CampaignView extends RootView {
     const studentRedirect = () => {
       const courseInstanceId = utils.getQueryVariable('course-instance')
       if (!courseInstanceId && me.isStudent() && this.terrain !== 'intro') {
+        window.noty({
+          text: $.i18n.t('play.home_campaign_redirect_student'),
+          layout: 'center',
+          timeout: 5000,
+        })
         application.router.navigate('/students', { trigger: true, replace: true })
         return true
       }
     }
 
-    const hocRedicrect = () => {
+    const hocRedirect = () => {
       if (this.terrain === 'hoc-2018') {
         $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
       }
@@ -422,7 +427,7 @@ class CampaignView extends RootView {
       }
     }
 
-    return juniorRedirect() || hocRedicrect() || studentRedirect()
+    return juniorRedirect() || hocRedirect() || studentRedirect()
   }
 
   destroy () {
