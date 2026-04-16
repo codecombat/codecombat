@@ -365,6 +365,7 @@ class CampaignView extends RootView {
           text: $.i18n.t('play.home_campaign_redirect_student'),
           layout: 'center',
           timeout: 5000,
+          type: 'error',
         })
         application.router.navigate('/students', { trigger: true, replace: true })
         return true
