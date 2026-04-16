@@ -463,7 +463,7 @@ module.exports.LeaderboardData = (LeaderboardData = (LeaderboardData = class Lea
   Consolidates what you need to load for a leaderboard into a single Backbone Model-like object.
   */
 
-  constructor (level, team, session, limit, league, tournamentId, ageBracket, myTournamentSubmission) {
+  constructor (level, team, session, limit, league, tournamentId, scoreType, ageBracket, myTournamentSubmission) {
     super()
     this.onLoad = this.onLoad.bind(this)
     this.onFail = this.onFail.bind(this)
@@ -473,6 +473,7 @@ module.exports.LeaderboardData = (LeaderboardData = (LeaderboardData = class Lea
     this.limit = limit
     this.league = league
     this.tournamentId = tournamentId
+    this.scoreType = scoreType
     this.ageBracket = ageBracket
     this.myTournamentSubmission = myTournamentSubmission
     if (this.myTournamentSubmission) {
@@ -496,7 +497,7 @@ module.exports.LeaderboardData = (LeaderboardData = (LeaderboardData = class Lea
     if (this.ageBracket != null) {
       params.age = this.ageBracket
     }
-    if (this.tournamentId != null) {
+    if (this.scoreType === 'tournament') {
       this.topPlayers = new TournamentLeaderboardCollection(this.tournamentId, params)
     } else {
       this.topPlayers = new LeaderboardCollection(this.level, params)
@@ -514,7 +515,7 @@ module.exports.LeaderboardData = (LeaderboardData = (LeaderboardData = class Lea
         score = this.session.get('totalScore')
       }
       if (score) {
-        if (this.tournamentId != null) {
+        if (this.scoreType === 'tournament') {
           this.playersAbove = new TournamentLeaderboardCollection(this.tournamentId, this.collectionParameters({ order: 1, scoreOffset: score, limit: 4, winRate: this.myWinRate }))
           promises.push(this.playersAbove.fetch({ cache: false }))
           this.playersBelow = new TournamentLeaderboardCollection(this.tournamentId, this.collectionParameters({ order: -1, scoreOffset: score, limit: 4, winRate: this.myWinRate }))
@@ -530,7 +531,7 @@ module.exports.LeaderboardData = (LeaderboardData = (LeaderboardData = class Lea
         }
         let loadURL = `/db/level/${this.level.get('original')}/rankings/${this.session.id}?scoreOffset=${score}&team=${this.team}&levelSlug=${this.level.get('slug')}`
         if (this.league) { loadURL += '&leagues.leagueID=' + this.league.id }
-        if (this.tournamentId != null) {
+        if (this.scoreType === 'tournament') {
           success = ({ rank, wins, losses, totalScore }) => {
             this.myRank = rank
             this.myWins = wins

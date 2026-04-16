@@ -224,7 +224,7 @@ module.exports = (LeaderboardView = (function () {
       }
 
       const teamSession = _.find(this.sessions.models, session => session.get('team') === 'humans')
-      this.leaderboards = new LeaderboardData(this.level, 'humans', teamSession, this.ladderLimit, this.league, this.tournament, this.ageBracket, this.options.myTournamentSubmission)
+      this.leaderboards = new LeaderboardData(this.level, 'humans', teamSession, this.ladderLimit, this.league, this.tournament, this.scoreType, this.ageBracket, this.options.myTournamentSubmission)
       this.leaderboardRes = this.supermodel.addModelResource(this.leaderboards, 'leaderboard', { cache: false }, 3)
       this.leaderboardRes.load()
       Backbone.Mediator.publish('ladder:refresh', {})
