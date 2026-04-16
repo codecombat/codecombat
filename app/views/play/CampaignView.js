@@ -1155,7 +1155,7 @@ class CampaignView extends RootView {
     }
   }
 
-  promptForSignup (options) {
+  promptForSignup (options = {}) {
     if (/hoc/.test(this.terrain || '')) { return }
     if (features.noAuth || (this.campaign?.get('type') === 'hoc')) { return }
     this.endHighlight()
