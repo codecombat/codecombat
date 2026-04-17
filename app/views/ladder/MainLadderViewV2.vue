@@ -325,7 +325,7 @@ export default {
     },
     handleCreateTournament (arena) {
       if (!this.tournamentsLeft && !me.isAdmin()) {
-        window.open('https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com', '_blank')
+        window.open('/schools?openContactModal=true&source=sales-call-badge-ai-league', '_blank')
       } else {
         /* console.log('handle create', arena) */
         this.editableTournament = {
