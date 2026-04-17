@@ -14,10 +14,9 @@
       <div class="ladder-subhead row">
         <CTAButton
           v-if="!canUseArenaHelpers"
-          href="https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com"
-          target="_blank"
+          @clickedCTA="salesCallClicked"
         >
-          {{ $t('general.contact_us') }}
+          {{ $t('paywall.badge_sales-call') }}
         </CTAButton>
         <div
           v-if="canUseArenaHelpers"
@@ -319,6 +318,10 @@ export default {
 
       // If all else is equal
       return 0
+    },
+    salesCallClicked () {
+      window.tracker?.trackEvent('AI League Page: Clicked Sales Call Badge')
+      window.open('/schools?openContactModal=true&source=sales-call-badge-ai-league', '_blank')
     },
     handleCreateTournament (arena) {
       if (!this.tournamentsLeft && !me.isAdmin()) {
