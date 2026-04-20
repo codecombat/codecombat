@@ -1180,12 +1180,12 @@ class CampaignView extends RootView {
     }
   }
 
-  promptForSignup () {
+  promptForSignup (options = {}) {
     if (/hoc/.test(this.terrain || '')) { return }
     if (features.noAuth || (this.campaign?.get('type') === 'hoc')) { return }
     this.endHighlight()
     storage.save(PROMPTED_FOR_SIGNUP, true)
-    return this.openModalView(new CreateAccountModal({ supermodel: this.supermodel }))
+    return this.openModalView(new CreateAccountModal({ supermodel: this.supermodel, ...options }))
   }
 
   promptForSubscription (slug, label) {
@@ -1952,6 +1952,14 @@ class CampaignView extends RootView {
     const levelPath = levelElement.data('level-path')
     const levelName = levelElement.data('level-name')
     const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
+
+    if (level.requiresSignUp && me.isAnonymous()) {
+      const CAMPAIGN = this.campaign?.get('name')?.toLowerCase() || this.terrain
+      const requiresSignUp = me.getOrStartRequireSignupExperimentValue?.(CAMPAIGN)
+      if (requiresSignUp === 'beta') {
+        return this.promptForSignup({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') })
+      }
+    }
 
     const canPlayAnyway = [
       !this.requiresSubscription,
