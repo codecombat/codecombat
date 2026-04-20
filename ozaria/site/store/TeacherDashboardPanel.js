@@ -1,7 +1,7 @@
-import moment from 'moment'
 import utils from 'app/core/utils'
 import Level from '../../../app/models/Level'
 import { getGameContentDisplayNameWithType } from 'ozaria/site/common/ozariaUtils.js'
+const moment = window.moment
 
 export const PRACTICE_LEVEL = 'PRACTICE_LEVEL'
 export const CAPSTONE_LEVEL = 'CAPSTONE_LEVEL'

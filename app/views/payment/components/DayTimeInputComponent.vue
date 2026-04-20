@@ -61,29 +61,28 @@
 </template>
 
 <script>
-import moment from 'moment'
-import momentTimezone from 'moment-timezone'
+const moment = window.moment
 let id = 1
 export default {
   name: 'DayTimeInputComponent',
   props: {
     label: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data () {
     return {
       utcDayTime: this.getUtcDefaultData(),
       convertedDayTime: null,
       selectedDay: null,
-      selectedTime: null
+      selectedTime: null,
     }
   },
   computed: {
     getTimeBasedOnDay () {
       return this.convertedDayTime.dayWise[this.selectedDay]
-    }
+    },
   },
   created () {
     this.convertedDayTime = this.convertUtcToUserTimezoneData()
@@ -98,13 +97,13 @@ export default {
           Wednesday: this.getUtcDefaultDayTimes(),
           Thursday: this.getUtcDefaultDayTimes(),
           Friday: this.getUtcDefaultDayTimes(),
-          Saturday: this.getUtcDefaultDayTimes()
+          Saturday: this.getUtcDefaultDayTimes(),
         },
         timezone: {
           name: 'UTC',
           offsetString: '00:00',
-          offset: 0
-        }
+          offset: 0,
+        },
       }
     },
     getUtcDefaultDayTimes () {
@@ -161,9 +160,9 @@ export default {
       dayWise.Monday = dayWise.Monday.concat(resp.nextDay)
 
       finalData.timezone = {
-        name: momentTimezone.tz.guess(),
+        name: moment.tz.guess(),
         offsetString: moment().parseZone().format('Z'),
-        offset: this.getOffsetBasedOfUserTimezone()
+        offset: this.getOffsetBasedOfUserTimezone(),
       }
       return finalData
     },
@@ -228,8 +227,8 @@ export default {
         event.extraInfo = utcData
         this.$emit('updateDayTime', event)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

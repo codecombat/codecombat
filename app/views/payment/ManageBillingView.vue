@@ -39,10 +39,10 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { createPaymentCustomerPortal } from '../../core/api/payment-customer-portal'
 import paymentApi from '../../core/api/payment'
 import prepaidApi from '../../core/api/prepaids'
+const moment = window.moment
 
 export default {
   name: 'ManageBillingView',
@@ -53,7 +53,7 @@ export default {
       moment,
       paymentModels: [],
       paymentDescription: {},
-      prepaidMap: {}
+      prepaidMap: {},
     }
   },
   async created () {
@@ -158,8 +158,8 @@ export default {
 
     getCreationDate (payment) {
       return new Date(parseInt(payment._id.slice(0, 8), 16) * 1000)
-    }
-  }
+    },
+  },
 }
 </script>
 

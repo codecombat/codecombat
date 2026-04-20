@@ -22,7 +22,6 @@ const globalVar = require('core/globalVar')
 const VueRouter = require('vue-router')
 const Vuex = require('vuex')
 const VTooltip = require('v-tooltip')
-const VueMoment = require('vue-moment')
 const VueMeta = require('vue-meta')
 const { VueMaskDirective } = require('v-mask')
 const VueAsyncComputed = require('vue-async-computed')
@@ -33,10 +32,14 @@ const { $themePath } = require('./initialize-themes')
 Vue.prototype.$themePath = $themePath
 Vue.use(VueRouter.default)
 Vue.use(Vuex.default)
-Vue.use(VueMoment.default)
 
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
+Vue.filter('moment', (date, format) => {
+  if (!date) return ''
+  return window.moment(date).format(format)
+})
+Vue.prototype.$moment = window.moment
 
 Vue.use(utils.vueNonReactiveInstall)
 if (utils.isOzaria) {
@@ -211,16 +214,22 @@ var setUpBackboneMediator = function (app) {
 
 var setUpMoment = function () {
   const { me } = require('core/auth')
-  const setMomentLanguage = function (lang) {
+  const setMomentLanguage = async function (lang) {
     lang = {
       'zh-HANS': 'zh-cn',
-      'zh-HANT': 'zh-tw'
+      'zh-HANT': 'zh-tw',
     }[lang] || lang
-    return moment.locale(lang.toLowerCase())
+    if (lang.startsWith('en')) {
+      lang = 'en'
+    }
+    // below is an important comment for build dayjs, do not delete it
+    await import(/* webpackExclude: /\.d\.ts$/ */`dayjs/locale/${lang}.js`)
+
+    return window.moment.locale(lang.toLowerCase())
   }
   // TODO: this relies on moment having all languages baked in, which is a performance hit; should switch to loading the language module we need on demand.
   setMomentLanguage(me.get('preferredLanguage', true))
-  return me.on('change:preferredLanguage', me => setMomentLanguage(me.get('preferredLanguage', true)))
+  me.on('change:preferredLanguage', me => setMomentLanguage(me.get('preferredLanguage', true)))
 }
 
 var setUpTv4 = function () {

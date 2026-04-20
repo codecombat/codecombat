@@ -1,4 +1,4 @@
-import moment from 'moment'
+const moment = window.moment
 
 export default {
   methods: {

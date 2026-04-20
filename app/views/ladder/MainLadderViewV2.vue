@@ -187,7 +187,6 @@
 
 <script>
 import _ from 'lodash'
-import moment from 'moment'
 import { mapActions, mapGetters } from 'vuex'
 import utils from '../../core/utils'
 import ClanSelector from '../landing-pages/league/components/ClanSelector.vue'
@@ -195,6 +194,7 @@ import LadderPanel from './components/LadderPanel'
 import EditTournamentModal from './components/EditTournamentModal'
 import { ESPORTS_PRODUCT_STATS, GLOBAL_AI_LEAGUE_CREATORS } from '../../core/constants'
 import CTAButton from '../../components/common/buttons/CTAButton.vue'
+const moment = window.moment
 
 export default {
   name: 'MainLadderViewV2',

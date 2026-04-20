@@ -14,11 +14,11 @@ import ButtonImportClassroom from 'ozaria/site/components/teacher-dashboard/moda
 import ClassroomsApi from 'app/core/api/classrooms.js'
 import OAuth2Api from 'app/core/api/oauth2.js'
 import BackgroundJobApi from 'app/core/api/background-job.js'
-import moment from 'moment'
 import { COMPONENT_NAMES } from 'ozaria/site/components/teacher-dashboard/common/constants.js'
 import ClassStartEndDateComponent from './modal-edit-class-components/ClassStartEndDateComponent.vue'
 import CourseCodeLanguageFormatComponent from './modal-edit-class-components/CourseCodeLanguageFormatComponent.vue'
 import ClassroomImportComponent from './modal-edit-class-components/ClassroomImportComponent.vue'
+const moment = window.moment
 
 export default Vue.extend({
   components: {

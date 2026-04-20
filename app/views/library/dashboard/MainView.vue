@@ -37,28 +37,28 @@
 <script>
 import SidebarComponent from './components/SidebarComponent'
 import LibraryDataComponent from './components/LibraryDataComponent'
-import moment from 'moment'
 import { mapActions, mapGetters } from 'vuex'
+const moment = window.moment
 const _ = require('lodash')
 
 export default {
   name: 'MainView',
   components: {
     SidebarComponent,
-    LibraryDataComponent
+    LibraryDataComponent,
   },
   data () {
     return {
       startDate: moment().subtract(3, 'months').format('YYYY-MM-DD'),
       endDate: moment().format('YYYY-MM-DD'),
       clientId: null,
-      printing: false
+      printing: false,
     }
   },
   methods: {
     ...mapActions({
       fetchClientId: 'apiClient/fetchClientId',
-      fetchLicenseStats: 'apiClient/fetchLicenseStats'
+      fetchLicenseStats: 'apiClient/fetchLicenseStats',
     }),
     onStartDateChanged (val) {
       this.startDate = val
@@ -73,7 +73,7 @@ export default {
       this.fetchLicenseStats(query)
       if (!initialFetch) {
         window.tracker?.trackEvent('Partner board date-filter change', {
-          startDate: this.startDate, endDate: this.endDate, spyId: window.serverSession?.amActually
+          startDate: this.startDate, endDate: this.endDate, spyId: window.serverSession?.amActually,
         })
       }
     },
@@ -88,21 +88,21 @@ export default {
         this.printing = false
         $('iframe#launcher').parent().show()
       }, 500)
-    }
+    },
   },
   computed: {
     ...mapGetters({
       licenseStats: 'apiClient/getLicenseStats',
-      loading: 'apiClient/getLoadingByLicenseState'
+      loading: 'apiClient/getLoadingByLicenseState',
     }),
     libraryName () {
       return this.licenseStats?.info?.name
-    }
+    },
   },
   async created () {
     this.clientId = await this.fetchClientId()
     this.fetchStats({ initialFetch: true })
-  }
+  },
 }
 </script>
 

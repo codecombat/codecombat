@@ -157,7 +157,6 @@
 
 <script>
 import _ from 'lodash'
-import moment from 'moment'
 import { mapGetters } from 'vuex'
 
 import { postTournament, putTournament } from '../../../core/api/tournaments'
@@ -166,6 +165,7 @@ import Modal from '../../../components/common/Modal'
 import ClanSelector from '../../landing-pages/league/components/ClanSelector.vue'
 
 import { HTML5_FMT_DATETIME_LOCAL, GLOBAL_AI_LEAGUE_CREATORS } from '../../../core/constants'
+const moment = window.moment
 
 export default {
   name: 'EditTournamentModal',

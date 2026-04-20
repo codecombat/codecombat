@@ -1,32 +1,73 @@
-import 'core-js/features/array/flat'
+import 'core-js/features/array/flat' // TODO webpack: Try to extract this
+import 'bower_components/treema/treema.css'
 
 if (!window.Promise) {
   window.Promise = require('promise-polyfill')
 }
 require('bower_components/fetch/fetch.js')
-global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
-window._ = require('lodash');
-window.Backbone = require('backbone');
-window.Backbone.$ = window.jQuery; //wat
-window.tv4 = require('tv4');
-window.lscache = require('lscache');
-window._.string = require('underscore.string');
-require('jquery.browser');
-window.marked = require('marked');
-require('bower_components/validated-backbone-mediator/backbone-mediator.js');
-window.TreemaUtils = require('exports-loader?TreemaUtils!bower_components/treema/treema-utils.js'); // TODO webpack: Try to extract this
-import 'bower_components/treema/treema.css'
-window.moment = require('moment');
-require('vendor/scripts/idle.js').createjs;
-window.key = require('../vendor/scripts/keymaster.js');
-require('vendor/scripts/jquery.noty.packaged.min.js');
-require('nanoscroller');// TODO webpack: Try to extract this
-require('vendor/scripts/hsl-to-rgb.js');
-window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js');// TODO webpack: Try to extract this
+global.$ = window.$ = global.jQuery = window.jQuery = require('jquery')
+window._ = require('lodash')
+window.Backbone = require('backbone')
+window.Backbone.$ = window.jQuery // wat
+window.tv4 = require('tv4')
+window.lscache = require('lscache')
+window._.string = require('underscore.string')
+require('jquery.browser')
+window.marked = require('marked')
+require('bower_components/validated-backbone-mediator/backbone-mediator.js')
+window.TreemaUtils = require('exports-loader?TreemaUtils!bower_components/treema/treema-utils.js')
+
+const dayjs = require('dayjs')
+const utc = require('dayjs/plugin/utc')
+const timezone = require('dayjs/plugin/timezone')
+const relativeTime = require('dayjs/plugin/relativeTime')
+const localizedFormat = require('dayjs/plugin/localizedFormat')
+const isBetween = require('dayjs/plugin/isBetween')
+const calendar = require('dayjs/plugin/calendar')
+const advancedFormat = require('dayjs/plugin/advancedFormat')
+const duration = require('dayjs/plugin/duration')
+// Extend dayjs with required capabilities
+const relativeConfig = {
+  thresholds: [
+    // 'l' is the key in the locale file (e.g., 's' for "a few seconds")
+    // 'r' is the maximum value for that unit before it jumps to the next
+    { l: 's', r: 1 },
+    { l: 'm', r: 1 },
+    { l: 'mm', r: 59, d: 'minute' },
+    { l: 'h', r: 1 },
+    { l: 'hh', r: 23, d: 'hour' },
+    { l: 'd', r: 1 },
+    { l: 'dd', r: 29, d: 'day' },
+    { l: 'M', r: 1 },
+    { l: 'MM', r: 11,  d: 'month' },
+    { l: 'y', r: 1 },
+    { l: 'yy', d: 'year' }
+  ]
+}
+dayjs.extend(utc)
+dayjs.extend(timezone)
+dayjs.extend(relativeTime, relativeConfig)
+dayjs.extend(localizedFormat) // For 'll', 'lll', 'LLLL'
+dayjs.extend(isBetween)
+dayjs.extend(calendar)
+dayjs.extend(advancedFormat) // For 'Do' (ordinal dates like "Jan 1st")
+dayjs.extend(duration)
+
+dayjs.timezone = dayjs
+dayjs.timezone.tz = dayjs.tz
+window.moment = dayjs
+window.dayjs = dayjs
+
+require('vendor/scripts/idle.js').createjs
+window.key = require('../vendor/scripts/keymaster.js')
+require('vendor/scripts/jquery.noty.packaged.min.js')
+require('nanoscroller')// TODO webpack: Try to extract this
+require('vendor/scripts/hsl-to-rgb.js')
+window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js')// TODO webpack: Try to extract this
 require('vendor/scripts/fuzzaldrin')// TODO webpack: Try to extract this
 require('bower_components/waypoints/lib/jquery.waypoints.min.js')
 
-require('imports-loader?this=>window!npm-modernizr');
+require('imports-loader?this=>window!npm-modernizr')
 
 window.Vue = require('vue/dist/vue.common.js') // TODO: Update to using just the runtime (need to precompile templates!)
 window.Vuex = require('vuex').default
@@ -35,17 +76,17 @@ window.algoliasearch = require('algoliasearch')
 
 // polyfill to support IE11
 if (!String.prototype.includes) {
-  String.prototype.includes = function(search, start) {
-    'use strict';
+  String.prototype.includes = function (search, start) {
+    'use strict'
     if (typeof start !== 'number') {
-      start = 0;
+      start = 0
     }
     if (start + search.length > this.length) {
-      return false;
+      return false
     } else {
-      return this.indexOf(search, start) !== -1;
+      return this.indexOf(search, start) !== -1
     }
-  };
+  }
 }
 
 // Polyfill for `node.remove` method.
@@ -62,7 +103,7 @@ if (!String.prototype.includes) {
       writable: true,
       value: function remove () {
         this.parentNode.removeChild(this)
-      }
+      },
     })
   })
 })([Element.prototype, CharacterData.prototype, DocumentType.prototype])
