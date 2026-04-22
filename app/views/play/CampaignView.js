@@ -158,30 +158,6 @@ class CampaignView extends RootView {
     if (this.editorMode && !this.terrain) {
       this.terrain = 'dungeon'
     }
-
-    // Only bucket/start the odyssey experiment when the user is explicitly trying to enter Junior.
-    // This avoids side-effects from random "read" code paths that just want to know a value.
-    if (this.terrain === 'junior' && !this.editorMode) {
-      const odysseyValue = me.getOrStartOdysseyExperimentValue?.()
-      if (odysseyValue === 'beta') {
-        // Use the URL API to preserve/merge query params + hash when available; fallback for older/weird URL environments.
-        try {
-          const destUrl = new URL('/play/odyssey', window.location.origin)
-          const currentUrl = new URL(window.location.href)
-          currentUrl.searchParams.forEach((value, key) => destUrl.searchParams.set(key, value))
-          if (currentUrl.hash) destUrl.hash = currentUrl.hash
-          window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
-          application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
-        } catch (e) {
-          const query = location.search || ''
-          const hash = location.hash || ''
-          window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
-          application.router.navigate(`/play/odyssey${query}${hash}`, { trigger: true, replace: true })
-        }
-        return
-      }
-    }
-
     // Level completion by levelID (slug): used for UI (stars, locked state, header count). Key = session.levelID.
     this.levelStatusMap = {}
     // Level completion by level original id: use for lookups by original (e.g. levelToUnlock). Key = session.level.original.
@@ -195,62 +171,8 @@ class CampaignView extends RootView {
     this.highlightedCampaign = null
     this.highlightedConnectionIndex = null
 
-    if (this.terrain === 'hoc-2018') {
-      $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
-    }
-
-    if (!utils.getQueryVariable('course-instance') && me.isStudent()) {
-      application.router.navigate('/students', { trigger: true, replace: true })
-    }
-
-    if (utils.getQueryVariable('hour_of_code')) {
-      if (me.isStudent() || me.isTeacher()) {
-        if (this.terrain === 'dungeon') {
-          const newCampaign = 'intro'
-          api.users.getCourseInstances({ userID: me.id, campaignSlug: newCampaign }, { data: { project: '_id' } })
-            .then(courseInstances => {
-              if (courseInstances.length) {
-                const courseInstanceID = courseInstances[0]._id
-                return application.router.navigate(`/play/${newCampaign}?course-instance=${courseInstanceID}`, { trigger: true, replace: true })
-              } else {
-                application.router.navigate((me.isStudent() ? '/students' : '/teachers'), { trigger: true, replace: true })
-                return noty({ text: 'Please create or join a classroom first', layout: 'topCenter', timeout: 8000, type: 'success' })
-              }
-            })
-          return
-        }
-      }
-      if (this.terrain === 'game-dev-hoc') {
-        window.tracker?.trackEvent('Start HoC Campaign', { label: 'game-dev-hoc' })
-      }
-      me.set('hourOfCode', true)
-      me.patch()
-      const pixelCode = (() => {
-        switch (this.terrain) {
-          case 'game-dev-hoc': return 'code_combat_gamedev'
-          case 'game-dev-hoc-2': return 'code_combat_build_arcade'
-          case 'ai-league-hoc': return 'codecombat_esports'
-          case 'goblins-hoc': return 'codecombat_goblins'
-          default: return 'code_combat'
-        }
-      })()
-      $('body').append($(`<img src='https://code.org/api/hour/begin_${pixelCode}.png' style='visibility: hidden;'>`))
-    } else if (me.isTeacher() && !utils.getQueryVariable('course-instance') &&
-        !application.getHocCampaign() && (this.terrain !== 'hoc-2018')) {
-      // redirect teachers away from home campaigns
-      application.router.navigate('/teachers', { trigger: true, replace: true })
+    if (this.redirectMiddleware()) {
       return
-    } else if (location.pathname === '/paypal/subscribe-callback') {
-      this.payPalToken = utils.getQueryVariable('token')
-      api.users.executeBillingAgreement({ userID: me.id, token: this.payPalToken })
-        .then(billingAgreement => {
-          const value = Math.round(parseFloat(billingAgreement?.plan?.payment_definitions?.[0]?.amount?.value ?? 0) * 100)
-          application.tracker?.trackEvent('Finished subscription purchase', { value, service: 'paypal' })
-          noty({ text: $.i18n.t('subscribe.confirmation'), layout: 'topCenter', timeout: 8000 })
-          return me.fetch({ cache: false, success: () => this.render?.() })
-        }).catch(err => {
-          return console.error(err)
-        })
     }
 
     if (userUtils.shouldShowLibraryLoginModal() && me.isAnonymous()) {
@@ -416,6 +338,105 @@ class CampaignView extends RootView {
 
     this.isMto = me.isMto()
     window.tracker?.trackEvent('Loaded World Map', { category: 'World Map', label: this.terrain })
+  }
+
+  redirectMiddleware () {
+    const juniorRedirect = () => {
+      // Only bucket/start the odyssey experiment when the user is explicitly trying to enter Junior.
+      // This avoids side-effects from random "read" code paths that just want to know a value.
+      if (this.terrain === 'junior' && !this.editorMode) {
+        const odysseyValue = me.getOrStartOdysseyExperimentValue?.()
+        if (odysseyValue === 'beta') {
+          // Use the URL API to preserve/merge query params + hash when available; fallback for older/weird URL environments.
+          try {
+            const destUrl = new URL('/play/odyssey', window.location.origin)
+            const currentUrl = new URL(window.location.href)
+            currentUrl.searchParams.forEach((value, key) => destUrl.searchParams.set(key, value))
+            if (currentUrl.hash) destUrl.hash = currentUrl.hash
+            window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
+            application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
+          } catch (e) {
+            const query = location.search || ''
+            const hash = location.hash || ''
+            window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
+            application.router.navigate(`/play/odyssey${query}${hash}`, { trigger: true, replace: true })
+          }
+          return true
+        }
+      }
+    }
+
+    const studentRedirect = () => {
+      const courseInstanceId = utils.getQueryVariable('course-instance')
+      if (!courseInstanceId && me.isStudent() && this.terrain !== 'intro') {
+        window.noty({
+          text: $.i18n.t('play.home_campaign_redirect_student'),
+          layout: 'center',
+          timeout: 5000,
+          type: 'error',
+        })
+        application.router.navigate('/students', { trigger: true, replace: true })
+        return true
+      }
+    }
+
+    const hocRedirect = () => {
+      if (this.terrain === 'hoc-2018') {
+        $('body').append($("<img src='https://code.org/api/hour/begin_codecombat_play.png' style='visibility: hidden;'>"))
+      }
+
+      if (utils.getQueryVariable('hour_of_code')) {
+        if (me.isStudent() || me.isTeacher()) {
+          if (this.terrain === 'dungeon') {
+            const newCampaign = 'intro'
+            api.users.getCourseInstances({ userID: me.id, campaignSlug: newCampaign }, { data: { project: '_id' } })
+              .then(courseInstances => {
+                if (courseInstances.length) {
+                  const courseInstanceID = courseInstances[0]._id
+                  return application.router.navigate(`/play/${newCampaign}?course-instance=${courseInstanceID}`, { trigger: true, replace: true })
+                } else {
+                  application.router.navigate((me.isStudent() ? '/students' : '/teachers'), { trigger: true, replace: true })
+                  return noty({ text: 'Please create or join a classroom first', layout: 'topCenter', timeout: 8000, type: 'success' })
+                }
+              })
+            return true
+          }
+        }
+        if (this.terrain === 'game-dev-hoc') {
+          window.tracker?.trackEvent('Start HoC Campaign', { label: 'game-dev-hoc' })
+        }
+        me.set('hourOfCode', true)
+        me.patch()
+        const pixelCode = (() => {
+          switch (this.terrain) {
+            case 'game-dev-hoc': return 'code_combat_gamedev'
+            case 'game-dev-hoc-2': return 'code_combat_build_arcade'
+            case 'ai-league-hoc': return 'codecombat_esports'
+            case 'goblins-hoc': return 'codecombat_goblins'
+            default: return 'code_combat'
+          }
+        })()
+        $('body').append($(`<img src='https://code.org/api/hour/begin_${pixelCode}.png' style='visibility: hidden;'>`))
+      } else if (me.isTeacher() && !utils.getQueryVariable('course-instance') &&
+          !application.getHocCampaign() && (this.terrain !== 'hoc-2018')) {
+        // redirect teachers away from home campaigns
+        application.router.navigate('/teachers', { trigger: true, replace: true })
+        return true
+      } else if (location.pathname === '/paypal/subscribe-callback') {
+        this.payPalToken = utils.getQueryVariable('token')
+        api.users.executeBillingAgreement({ userID: me.id, token: this.payPalToken })
+          .then(billingAgreement => {
+            const value = Math.round(parseFloat(billingAgreement?.plan?.payment_definitions?.[0]?.amount?.value ?? 0) * 100)
+            application.tracker?.trackEvent('Finished subscription purchase', { value, service: 'paypal' })
+            noty({ text: $.i18n.t('subscribe.confirmation'), layout: 'topCenter', timeout: 8000 })
+            return me.fetch({ cache: false, success: () => this.render?.() })
+          }).catch(err => {
+            return console.error(err)
+          })
+      }
+    }
+
+    return juniorRedirect() || hocRedirect() || studentRedirect()
   }
 
   destroy () {
@@ -1179,7 +1200,7 @@ class CampaignView extends RootView {
     }
   }
 
-  promptForSignup () {
+  promptForSignup (options = {}) {
     if (/hoc/.test(this.terrain || '')) { return }
     if (features.noAuth || (this.campaign?.get('type') === 'hoc')) { return }
     this.endHighlight()
@@ -1188,7 +1209,7 @@ class CampaignView extends RootView {
       const PhoneAuthModal = require('components/common/PhoneAuthModal.js')
       return this.openModalView(new PhoneAuthModal())
     }
-    return this.openModalView(new CreateAccountModal({ supermodel: this.supermodel }))
+    return this.openModalView(new CreateAccountModal({ supermodel: this.supermodel, ...options }))
   }
 
   promptForSubscription (slug, label) {
@@ -1972,27 +1993,15 @@ class CampaignView extends RootView {
       }
       freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
     } else {
-      let defaultAccess = (me.get('hourOfCode') || ((this.campaign != null ? this.campaign.get('type') : undefined) === 'hoc') || ((this.campaign != null ? this.campaign.get('slug') : undefined) === 'intro')) ? 'long' : 'short'
-      if (new Date(me.get('dateCreated')) < new Date('2021-09-21') && (!me.showChinaHomeVersion())) {
-        defaultAccess = 'all'
+      if (level.requiresSignUp && me.isAnonymous()) {
+        const CAMPAIGN = this.campaign?.get('name')?.toLowerCase() || this.terrain
+        const requiresSignUp = me.getOrStartRequireSignupExperimentValue?.(CAMPAIGN)
+        if (requiresSignUp === 'beta') {
+          return this.promptForSignup({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') })
+        }
       }
-      if (this.terrain === 'junior') {
-        access = 'all' // CodeCombat Junior level access is managed the old way, with level.requiresSubscription, no hardcoded overrides
-      }
-      access = access || me.getExperimentValue('home-content', defaultAccess)
-      if (me.showChinaResourceInfo() || (me.get('country') === 'japan')) {
-        access = 'short'
-      }
-      freeAccessLevels = utils.freeAccessLevels
-        .filter(fal => {
-          if (fal.access === 'short') return true
-          if (fal.access === 'medium' && ['medium', 'long', 'extended'].includes(access)) return true
-          if (fal.access === 'long' && ['long', 'extended'].includes(access)) return true
-          if (fal.access === 'extended' && access === 'extended') return true
-          return false
-        })
-        .map(fal => fal.slug)
     }
+
     const requiresSubscription = level.requiresSubscription || ((access !== 'all') && !freeAccessLevels.includes(level.slug))
     const canPlayAnyway = [
       !this.requiresSubscription,

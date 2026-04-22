@@ -28,6 +28,10 @@ const moment = require('moment')
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
 const { DEEP_API_LIST } = require('core/constants')
 const CHOCOLI_EXPERIMENT_NAME = 'chocoli'
+const REQUIRE_SIGN_UP_EXPERIMENT = {
+  dungeon: 'requires-sign-up-dungeon',
+  junior: 'requires-sign-up-junior',
+}
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -1510,6 +1514,18 @@ module.exports = (User = (function () {
       return null
     }
 
+    getRequireSignupExperimentValue (CAMPAIGN) {
+      if (!me.isAnonymous()) {
+        return 'control'
+      }
+      const value = utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN]),
+        me.getExperimentValue(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN], null),
+      )
+
+      return value ?? null
+    }
+
     // Chocoli experiment - mini games for hackstack
     getChocoliExperimentValue () {
       if (me.isStudent() || me.isTeacher()) {
@@ -1523,6 +1539,17 @@ module.exports = (User = (function () {
         me.getExperimentValue(CHOCOLI_EXPERIMENT_NAME, null),
       )
       return value ?? null
+    }
+
+    getOrStartRequireSignupExperimentValue (CAMPAIGN) {
+      if (!(Object.keys(REQUIRE_SIGN_UP_EXPERIMENT).includes(CAMPAIGN))) {
+        return 'control'
+      }
+      const value = this.getRequireSignupExperimentValue(CAMPAIGN)
+      if (value != null) {
+        return value
+      }
+      return this.tryStartExperiment(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN])
     }
 
     getOrStartChocoliExperimentValue () {

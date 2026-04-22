@@ -641,7 +641,7 @@ module.exports = {
       hackstack_button_hover: 'Code and Create with AI HackStack',
       junior_button_hover: 'Blocks coding for beginners',
       cchome_button_hover: 'Original CodeCombat Adventure',
-
+      home_campaign_redirect_student: 'Please visit the course map from your student page.',
     },
 
     code: {
@@ -3563,6 +3563,7 @@ module.exports = {
       phone_completion: 'Open the https://codecombat.cn on your computer for the best way to learn and play while you code.',
       all_set: 'You\'re all set!',
       date_of_birth: 'Date of Birth',
+      unlock_next_level_with_sign_up: 'You\'ve unlocked the next level! Create a free account to save your progress and continue your coding journey.',
     },
 
     account_invoices: {
