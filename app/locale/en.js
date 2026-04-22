@@ -2798,6 +2798,8 @@ module.exports = {
       customized_license: 'Customized License',
       hackstack_license: 'AI HackStack License',
       hackstack_credits: 'Credits: __limit__ prompts / __durationAmount__ __durationKey__(s)',
+      coco_full_license: 'CoCo License',
+      ozar_full_license: 'Ozaria License',
       trial: 'Trial',
       hoc_welcome: 'Happy Computer Science Education Week',
       hoc_title: 'Hour of Code Games - Free Activities to Learn Real Coding Languages',
