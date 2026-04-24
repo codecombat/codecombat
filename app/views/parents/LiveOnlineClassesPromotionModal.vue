@@ -48,6 +48,7 @@
           <a
             href="/parents"
             target="_blank"
+            @click="onClickHref"
           >
             <button
               class="btn btn-success btn-lg"
@@ -69,9 +70,9 @@ export default Vue.extend({
     Modal
   },
   methods: {
-    onBookClass () {
-      window.tracker?.trackEvent('Post-pay loc class clicked')
-    }
+    onClickHref () {
+      window.tracker?.trackEvent('LiveOnlineClassesPromotionModal click to parents page')
+    },
   }
 })
 </script>
