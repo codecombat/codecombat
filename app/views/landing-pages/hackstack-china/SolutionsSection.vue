@@ -7,7 +7,7 @@
       <div class="body">
         <div class="solutions">
           <div class="heading">
-            <span class="text-teal title">AI HackStack 是什么</span>
+            <span class="text-teal title">扣哒宇宙是什么</span>
             <p class="description">
               一个为中小学量身打造的生成式人工智能教学平台。学生在游戏化的星球闯关中，亲手体验DeepSeek、通义千问、智谱、MiniMax等热门国产大模型，系统掌握提示词工程——这项被称为"AI时代第一技能"的核心能力。
               教师端提供标准化教案、学情数据面板和全流程安全监管，无需技术背景和AI经验也能轻松开课。

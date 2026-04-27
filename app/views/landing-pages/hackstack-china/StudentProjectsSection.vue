@@ -5,7 +5,7 @@
   >
     <div class="frame constrained-width">
       <div class="heading">
-        <span class="title">看看学生用 AI HackStack 做出了什么</span><br>
+        <span class="title">看看学生用扣哒宇宙做出了什么</span><br>
         <p class="description">
           不需要专业编程基础，只需要一个好的想法和精准的提示词——以下是学生在平台上完成的真实项目
         </p>
@@ -113,7 +113,7 @@ export default {
           image: '/images/pages/hackstack-new/project_game.png',
           title: '3D 射击游戏',
           tag: '3D游戏开发 + AI辅助设计 + Unity引擎',
-          desc: '学生在AI HackStack中学习提示词工程和AI辅助编程的核心技能后，将其应用到Unity 3D游戏开发中。这款第一人称射击游戏的开发流程充分体现了AI协作的力量：游戏关卡设计用AI生成初稿，角色建模用AI辅助创建3D素材，敌人的行为逻辑用自然语言描述后由AI转化为C#脚本，甚至音效和UI界面也是AI辅助完成的。学生从"氛围编程"走向真实的工业级游戏引擎，完成了从AI学习者到AI开发者的跨越。',
+          desc: '学生在扣哒宇宙中学习提示词工程和AI辅助编程的核心技能后，将其应用到Unity 3D游戏开发中。这款第一人称射击游戏的开发流程充分体现了AI协作的力量：游戏关卡设计用AI生成初稿，角色建模用AI辅助创建3D素材，敌人的行为逻辑用自然语言描述后由AI转化为C#脚本，甚至音效和UI界面也是AI辅助完成的。学生从"氛围编程"走向真实的工业级游戏引擎，完成了从AI学习者到AI开发者的跨越。',
           meta: '3D空间设计 + 物理引擎 + AI辅助编程 + 项目工程管理',
           reverse: true,
         },

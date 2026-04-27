@@ -307,7 +307,7 @@ module.exports = {
       educator: '教育工作者',
       student: '学生',
       go_to_my_dashboard: '进入我的课程',
-      our_coding_programs: '编程和人工智能平台',
+      our_coding_programs: '从编程扣哒世界到AI扣哒宇宙',
       codecombat: '扣哒世界',
       ozaria: '奥佳睿',
       hackstack: '扣哒宇宙',

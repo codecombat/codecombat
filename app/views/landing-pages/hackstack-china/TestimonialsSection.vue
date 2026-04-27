@@ -58,13 +58,13 @@ export default {
           avatar: '/images/pages/hackstack-new/avatar_wei.png',
         },
         {
-          quote: '我不是计算机专业出身，之前一直担心自己教不了AI课。没想到AI HackStack的教案和操作指引做得这么细致，我跟着流程走就能完整上完一堂课，学生的反应比我预期好太多了。',
+          quote: '我不是计算机专业出身，之前一直担心自己教不了AI课。没想到扣哒宇宙的教案和操作指引做得这么细致，我跟着流程走就能完整上完一堂课，学生的反应比我预期好太多了。',
           name: '张老师',
           school: '成都某重点中学',
           avatar: '/images/pages/hackstack-new/avatar_zhang.png',
         },
         {
-          quote: '我们班用AI HackStack上了一学期AI通识课后，有三个学生在AI世青赛中拿了全国一等奖。最让我意外的是，这三个孩子之前并不是成绩最好的，但他们在平台上的创造力完全被激发出来了。',
+          quote: '我们班用扣哒宇宙上了一学期AI通识课后，有三个学生在AI世青赛中拿了全国一等奖。最让我意外的是，这三个孩子之前并不是成绩最好的，但他们在平台上的创造力完全被激发出来了。',
           name: '陈老师',
           school: '上海某实验小学',
           avatar: '/images/pages/hackstack-new/avatar_chen.png',

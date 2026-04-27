@@ -7,7 +7,7 @@
       <div class="heading">
         <span class="title">学完之后，孩子能收获什么</span><br>
         <p class="description">
-          AI HackStack 的课程设计围绕六大核心能力展开——每一项都是面向未来的刚需技能
+          扣哒宇宙的课程设计围绕六大核心能力展开——每一项都是面向未来的刚需技能
         </p>
       </div>
       <div class="image-container">

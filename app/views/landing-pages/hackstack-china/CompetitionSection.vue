@@ -9,7 +9,7 @@
           <span class="text-white">学了就能比——</span><span class="text-teal">无缝对接高含金量赛事</span>
         </span>
         <p class="description">
-          AI HackStack课程与扣哒世界竞赛体系天然打通，形成"课堂学习—赛事实战—成果认可"的完整闭环
+          扣哒宇宙课程与扣哒世界竞赛体系天然打通，形成"课堂学习—赛事实战—成果认可"的完整闭环
         </p>
       </div>
 
