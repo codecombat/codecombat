@@ -1982,14 +1982,13 @@ class CampaignView extends RootView {
     const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
 
     let access, freeAccessLevels
+    if (this.terrain === 'junior') {
+      access = 'all' // CodeCombat Junior level access is managed the old way, with level.requiresSubscription, no hardcoded overrides
+    }
     if (me.showChinaResourceInfo() && !me.showChinaHomeVersion()) {
       let defaultAccess = ['short', 'china-classroom']
-      if (me.get('hourOfCode') || this.campaign?.get('type') === 'hoc' || this.campaign?.get('slug') === 'intro') {
+      if (this.campaign?.get('slug') === 'intro') {
         defaultAccess = defaultAccess.concat(['medium', 'long'])
-      }
-
-      if (this.terrain === 'junior') {
-        access = 'all' // CodeCombat Junior level access is managed the old way, with level.requiresSubscription, no hardcoded overrides
       }
       freeAccessLevels = utils.freeAccessLevels.filter((faLevel) => defaultAccess.includes(faLevel.access)).map((faLevel) => faLevel.slug)
     } else {
@@ -2000,6 +1999,7 @@ class CampaignView extends RootView {
           return this.promptForSignup({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') })
         }
       }
+      freeAccessLevels = utils.freeAccessLevels.filter(fal => fal.access === 'short').map(fal => fal.slug)
     }
 
     const requiresSubscription = level.requiresSubscription || ((access !== 'all') && !freeAccessLevels.includes(level.slug))
