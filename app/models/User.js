@@ -1458,30 +1458,6 @@ module.exports = (User = (function () {
 
     //   return this.tryStartExperiment('template')
     // }
-
-    getOdysseyExperimentValue () {
-      if (me.isStudent() || me.isTeacher()) {
-        return 'control'
-      }
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      const value = utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery('odyssey'),
-        me.getExperimentValue('odyssey', null),
-      )
-      if (value != null) {
-        return value
-      }
-      if (me.isPremium()) {
-        return 'control'
-      }
-      if (new Date(me.get('dateCreated')) < new Date('2026-03-16T00:00:00Z')) {
-        return 'control'
-      }
-      return null
-    }
-
     getRequireSignupExperimentValue (CAMPAIGN) {
       if (!me.isAnonymous()) {
         return 'control'
@@ -1526,14 +1502,6 @@ module.exports = (User = (function () {
         return value
       }
       return this.tryStartExperiment(CHOCOLI_EXPERIMENT_NAME)
-    }
-
-    getOrStartOdysseyExperimentValue () {
-      const value = this.getOdysseyExperimentValue()
-      if (value != null) {
-        return value
-      }
-      return this.tryStartExperiment('odyssey')
     }
   }
 
