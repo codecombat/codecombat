@@ -69,6 +69,7 @@ export default {
       childClanDetails: 'clans/childClanDetails',
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading',
+      seasonalLoading: 'seasonalLeague/isLoading',
       codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
     }),
 
@@ -198,6 +199,14 @@ export default {
         this.joinClan()
       }
     },
+
+    seasonalLoading (nv) {
+      if (nv) {
+        this.startLoading()
+      } else {
+        this.stopLoading()
+      }
+    },
   },
 
   beforeCreate () {
@@ -229,6 +238,8 @@ export default {
     }),
     ...mapMutations({
       paginateArenas: 'seasonalLeague/paginateArenas',
+      startLoading: 'teacherDashboard/startLoading',
+      stopLoading: 'teacherDashboard/stopLoading',
     }),
 
     triggerTour () {
