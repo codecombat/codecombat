@@ -454,9 +454,9 @@ export default Vue.extend({
       let chinaNav = {
       }
       const chinaEduNav = {
-        cocoOJ: {
-          title: 'nav.coco_oj',
-          url: 'https://oj.koudashijie.com',
+        hackstack: {
+          title: 'nav.ai_hackstack',
+          url: this.cocoPath('/hackstack'),
         },
         cocoStar: {
           title: 'nav.star',
@@ -466,9 +466,9 @@ export default Vue.extend({
           title: 'nav.aiyouth',
           url: 'http://aishiqingsai.org.cn',
         },
-        hackstack: {
-          title: 'nav.ai_hackstack',
-          url: this.cocoPath('/hackstack'),
+        cocoOJ: {
+          title: 'nav.coco_oj',
+          url: 'https://oj.koudashijie.com',
         },
       }
       if (me.showChinaResourceInfo()) {
