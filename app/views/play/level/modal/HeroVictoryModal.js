@@ -580,36 +580,9 @@ module.exports = (HeroVictoryModal = (function () {
       return campaign
     }
 
-    getNextLevelLink (returnToCourse) {
-      let link
-      if (returnToCourse == null) { returnToCourse = false }
-      if (this.level.get('product', true) === 'codecombat-junior' && this.nextLevel?.get('slug')) {
-        link = `/play/level/${this.nextLevel.get('slug')}`
-        if (this.courseID) {
-          link += `/${this.courseID}`
-          if (this.courseInstanceID) { link += `/${this.courseInstanceID}` }
-        }
-        if (this.parentCampaign) {
-          link += `?fromCampaign=${this.parentCampaign}`
-        }
-      } else if (this.level.isType('course')) {
-        link = '/students'
-        if (this.courseID) {
-          link += `/${this.courseID}`
-          if (this.courseInstanceID) { link += `/${this.courseInstanceID}` }
-        }
-      } else {
-        link = '/play'
-        const nextCampaign = this.getNextLevelCampaign()
-        link += '/' + nextCampaign
-      }
-      return link
-    }
-
     onClickContinue (e, extraOptions = null) {
       let needle1, viewArgs, viewClass
       this.playSound('menu-button-click')
-      let nextLevelLink = this.getNextLevelLink(extraOptions != null ? extraOptions.returnToCourse : undefined)
       // Preserve the supermodel as we navigate back to the world map.
       const options = {
         justBeatLevel: this.level,
@@ -618,32 +591,19 @@ module.exports = (HeroVictoryModal = (function () {
       if (extraOptions) { _.merge(options, extraOptions) }
       const returnAfterCompleteMap = this.level.get('returnAfterCompleteMap')
       const product = this.level.get('product', true)
-
-      // currently only junior set the nextLevel and practiceLevel, so we can start junior experiment without checking product
-      let levelRequiresSignUp = false
-      if (options.sendToPracticeLevel && this.practiceLevel?.get('slug')) {
-        levelRequiresSignUp = this.practiceLevel.get('requiresSignUp')
-      } else if (this.nextLevel?.get('slug')) {
-        levelRequiresSignUp = this.nextLevel.get('requiresSignUp')
-      }
-      if (levelRequiresSignUp && me.isAnonymous()) {
-        const userRequiresSignUp = me.getOrStartRequireSignupExperimentValue?.('junior')
-        if (userRequiresSignUp === 'beta') {
-          return this.openModalView(new CreateAccountModal({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') }))
-        }
-      }
+      let continueLink
 
       if (this.showHoc2016ExploreButton) {
         // Send players to /play after completing final game-dev activity project level
-        nextLevelLink = '/play'
+        continueLink = '/play'
         viewClass = 'views/play/CampaignView'
         viewArgs = [options]
       } else if (returnAfterCompleteMap && returnAfterCompleteMap[this.parentCampaign]) {
-        nextLevelLink = `/play/${returnAfterCompleteMap[this.parentCampaign]}`
+        continueLink = `/play/${returnAfterCompleteMap[this.parentCampaign]}`
         viewClass = 'views/play/CampaignView'
         viewArgs = [options, returnAfterCompleteMap[this.parentCampaign]]
       } else if (options.sendToPracticeLevel && product === 'codecombat-junior' && this.practiceLevel?.get('slug')) {
-        nextLevelLink = `/play/level/${this.practiceLevel.get('slug')}`
+        continueLink = `/play/level/${this.practiceLevel.get('slug')}`
         viewClass = 'views/play/level/PlayLevelView'
         options.parentCampaign = this.parentCampaign
         options.courseID = this.courseID
@@ -659,16 +619,29 @@ module.exports = (HeroVictoryModal = (function () {
           queryParams.push(`courseInstanceID=${this.courseInstanceID}`)
         }
         if (queryParams.length) {
-          nextLevelLink += `?${queryParams.join('&')}`
+          continueLink += `?${queryParams.join('&')}`
         }
         viewArgs = [options, this.practiceLevel.get('slug')]
       } else if ((this.level.isType('course') || product === 'codecombat-junior') && this.nextLevel?.get('slug') && !options.returnToCourse) {
+        continueLink = `/play/level/${this.nextLevel.get('slug')}`
+        if (this.courseID) {
+          continueLink += `/${this.courseID}`
+          if (this.courseInstanceID) { continueLink += `/${this.courseInstanceID}` }
+        }
+        if (this.parentCampaign) {
+          continueLink += `?fromCampaign=${this.parentCampaign}`
+        }
         viewClass = 'views/play/level/PlayLevelView'
         options.courseID = this.courseID
         options.courseInstanceID = this.courseInstanceID
         options.parentCampaign = this.parentCampaign
         viewArgs = [options, this.nextLevel.get('slug')]
       } else if (this.level.isType('course')) {
+        continueLink = '/students'
+        if (this.courseID) {
+          continueLink += `/${this.courseID}`
+          if (this.courseInstanceID) { continueLink += `/${this.courseInstanceID}` }
+        }
         // TODO: shouldn't set viewClass and route in different places
         viewClass = 'views/courses/CoursesView'
         viewArgs = [options]
@@ -679,8 +652,8 @@ module.exports = (HeroVictoryModal = (function () {
         }
       } else if (this.level.isType('course-ladder')) {
         const leagueID = this.courseInstanceID || utils.getQueryVariable('league')
-        nextLevelLink = `/play/ladder/${this.level.get('slug')}`
-        if (leagueID) { nextLevelLink += `/course/${leagueID}` }
+        continueLink = `/play/ladder/${this.level.get('slug')}`
+        if (leagueID) { continueLink += `/course/${leagueID}` }
         viewClass = 'views/ladder/LadderView'
         viewArgs = [options, this.level.get('slug')]
         if (leagueID) { viewArgs = viewArgs.concat(['course', leagueID]) }
@@ -689,10 +662,29 @@ module.exports = (HeroVictoryModal = (function () {
         if ((needle = this.level.get('slug'), Array.from(campaignEndLevels).includes(needle))) {
           options.worldComplete = this.level.get('campaign') || true
         }
+        continueLink = '/play'
+        const nextCampaign = this.getNextLevelCampaign()
+        continueLink += '/' + nextCampaign
         viewClass = 'views/play/CampaignView'
-        viewArgs = [options, this.getNextLevelCampaign()]
+        viewArgs = [options, nextCampaign]
       }
-      const navigationEvent = { route: nextLevelLink, viewClass, viewArgs }
+      // currently only junior set the nextLevel and practiceLevel, so we can start junior experiment without checking product
+      // If the link contains /play/level/, we need to check if the level requires sign up
+      if (continueLink.includes('/play/level/')) {
+        let levelRequiresSignUp = false
+        if (options.sendToPracticeLevel && this.practiceLevel?.get('slug')) {
+          levelRequiresSignUp = this.practiceLevel.get('requiresSignUp')
+        } else if (this.nextLevel?.get('slug')) {
+          levelRequiresSignUp = this.nextLevel.get('requiresSignUp')
+        }
+        if (levelRequiresSignUp && me.isAnonymous()) {
+          const userRequiresSignUp = me.getOrStartRequireSignupExperimentValue?.('junior')
+          if (userRequiresSignUp === 'beta') {
+            return this.openModalView(new CreateAccountModal({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') }))
+          }
+        }
+      }
+      const navigationEvent = { route: continueLink, viewClass, viewArgs }
       if ((this.level.get('slug') === 'lost-viking') && !((needle1 = me.get('age'), ['0-13', '14-17'].includes(needle1)))) {
         return this.showOffer(navigationEvent)
       } else {
