@@ -1458,28 +1458,11 @@ module.exports = (User = (function () {
 
     //   return this.tryStartExperiment('template')
     // }
-
-    getOdysseyExperimentValue () {
+    getOdysseyValue () {
       if (me.isStudent() || me.isTeacher()) {
-        return 'control'
+        return false
       }
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      const value = utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery('odyssey'),
-        me.getExperimentValue('odyssey', null),
-      )
-      if (value != null) {
-        return value
-      }
-      if (me.isPremium()) {
-        return 'control'
-      }
-      if (new Date(me.get('dateCreated')) < new Date('2026-03-16T00:00:00Z')) {
-        return 'control'
-      }
-      return null
+      return true
     }
 
     getRequireSignupExperimentValue (CAMPAIGN) {
@@ -1526,14 +1509,6 @@ module.exports = (User = (function () {
         return value
       }
       return this.tryStartExperiment(CHOCOLI_EXPERIMENT_NAME)
-    }
-
-    getOrStartOdysseyExperimentValue () {
-      const value = this.getOdysseyExperimentValue()
-      if (value != null) {
-        return value
-      }
-      return this.tryStartExperiment('odyssey')
     }
   }
 

@@ -1844,7 +1844,7 @@ module.exports.getJuniorUrl = function () {
   if (me && me.isTeacher() && !me.isAnonymous()) {
     juniorPath = '/teachers/guide/junior'
   }
-  if (me?.getOdysseyExperimentValue?.() === 'beta') {
+  if (me?.getOdysseyValue?.()) {
     juniorPath = '/play/odyssey'
   }
   return `${cocoBaseURL()}${juniorPath}`
