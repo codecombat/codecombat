@@ -1458,13 +1458,6 @@ module.exports = (User = (function () {
 
     //   return this.tryStartExperiment('template')
     // }
-    getOdysseyValue () {
-      if (me.isStudent() || me.isTeacher()) {
-        return false
-      }
-      return true
-    }
-
     getRequireSignupExperimentValue (CAMPAIGN) {
       if (!me.isAnonymous()) {
         return 'control'
