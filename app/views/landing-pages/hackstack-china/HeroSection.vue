@@ -9,14 +9,12 @@
       </div>
       <div class="body">
         <div class="video-box box">
-          <base-cloudflare-video
-            video-cloudflare-id="fe31e99a3b8c473590001bacb5029fca"
-            :sound-on="false"
-            preload="none"
-            :loop="true"
-            :autoplay="true"
-            :controls="false"
-            :play-when-visible="true"
+          <video
+            src="https://assets.koudashijie.com/videos/hackstack-iframe.mp4"
+            autoplay
+            loop
+            muted
+            playsinline
             class="video"
           />
         </div>
@@ -65,12 +63,8 @@
 </template>
 
 <script>
-import BaseCloudflareVideo from 'app/components/common/BaseCloudflareVideo.vue'
 export default {
   name: 'HeroSection',
-  components: {
-    BaseCloudflareVideo,
-  },
   inject: ['toggleQRModal'],
 }
 </script>
@@ -107,6 +101,7 @@ export default {
 .video {
     position: relative;
     aspect-ratio: 16 / 9;
+  width: 100%;
 }
 
 .hero-video {
