@@ -53,7 +53,7 @@ export default {
     },
 
     paginateArenas (state, direction = 'next') {
-      const season = state.currentRegularArena.season
+      const season = state.currentRegularArena?.season || state.currentChampionshipArena?.season
       const increment = direction === 'next' ? 1 : -1
 
       const nextOrPreviousRegularArena = findArena(season + increment, 'regular')
