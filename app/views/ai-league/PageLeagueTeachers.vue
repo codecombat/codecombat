@@ -11,7 +11,7 @@ import AILeagueResources from './AILeagueResources'
 import LadderView from 'app/views/ladder/MainLadderViewV2'
 import { AI_LEAGUE_STEPS } from 'ozaria/site/components/teacher-dashboard/BaseTeacherDashboard/teacherDashboardTours'
 
-import { findArena, currentRegularArena } from 'app/core/store/modules/seasonalLeague.js'
+import { findArena, currentRegularArena, currentChampionshipArena } from 'app/core/store/modules/seasonalLeague.js'
 
 const VueShepherd = require('vue-shepherd')
 
@@ -49,7 +49,7 @@ export default {
       REGULAR: 'regular',
       CHAMPIONSHIP: 'championship',
     },
-    regularOrChampionship: 'regular',
+    regularOrChampionship: 'championship',
   }),
 
   computed: {
@@ -69,8 +69,13 @@ export default {
       childClanDetails: 'clans/childClanDetails',
       clanByIdOrSlug: 'clans/clanByIdOrSlug',
       isLoading: 'clans/isLoading',
+      seasonalLoading: 'seasonalLeague/isLoading',
       codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
     }),
+
+    regularAvailable () {
+      return !!this.getCurrentRegularArena
+    },
 
     championshipAvailable () {
       return !!this.getCurrentChampionshipArena
@@ -78,7 +83,7 @@ export default {
 
     regularArenaSlug () {
       if (this.regularOrChampionship === this.TYPES.REGULAR) {
-        return this.getCurrentRegularArena.slug
+        return this.getCurrentRegularArena?.slug
       }
       return this.getCurrentChampionshipArena?.slug
     },
@@ -137,30 +142,42 @@ export default {
     },
 
     nextArenaAvailable () {
-      const season = this.getCurrentRegularArena?.season
+      const season = this.getCurrentRegularArena?.season || this.getCurrentChampionshipArena?.season
       if (!season) {
         return false
       }
-      const nextArena = findArena(season + 1, this.getCurrentRegularArena.type)
-      return !!nextArena
+      const nextRegularArena = findArena(season + 1, 'regular')
+      const nextChampionshipArena = findArena(season + 1, 'championship')
+      return !!nextRegularArena || !!nextChampionshipArena
     },
 
     previousArenaAvailable () {
-      const season = this.getCurrentRegularArena?.season
+      const season = this.getCurrentRegularArena?.season || this.getCurrentChampionshipArena?.season
       if (!season) {
         return false
       }
-      const previousArena = findArena(season - 1, this.getCurrentRegularArena.type)
-      return !!previousArena
+      const previousRegularArena = findArena(season - 1, 'regular')
+      const previousChampionshipArena = findArena(season - 1, 'championship')
+      return !!previousRegularArena || !!previousChampionshipArena
     },
 
     boardTitle () {
-      if (currentRegularArena.slug === this.getCurrentRegularArena.slug) {
+      let arena, currentArena
+      if (this.regularAvailable) {
+        arena = this.getCurrentRegularArena
+        currentArena = currentRegularArena
+      } else if (this.championshipAvailable) {
+        arena = this.getCurrentChampionshipArena
+        currentArena = currentChampionshipArena
+      } else {
+        return ''
+      }
+      if (arena.slug === currentArena?.slug) {
         return $.i18n.t('league.current_season')
       }
-      const season = AILeagueSeasons.find(s => s.number === this.getCurrentRegularArena.season)
+      const season = AILeagueSeasons.find(s => s.number === arena.season)
       const seasonTitle = $.i18n.t('league.season_label', { seasonNumber: season.number, seasonName: $.i18n.t(`league.season_${season.number}`), interpolation: { escapeValue: false } })
-      return `${seasonTitle}, ${this.getCurrentRegularArena.start.getFullYear()}`
+      return `${seasonTitle}, ${arena.start.getFullYear()}`
     },
 
   },
@@ -180,6 +197,14 @@ export default {
     clanIdSelected (newSelectedClan, lastSelectedClan) {
       if (newSelectedClan !== lastSelectedClan && newSelectedClan && !this.inSelectedClan()) {
         this.joinClan()
+      }
+    },
+
+    seasonalLoading (nv) {
+      if (nv) {
+        this.startLoading()
+      } else {
+        this.stopLoading()
       }
     },
   },
@@ -213,6 +238,8 @@ export default {
     }),
     ...mapMutations({
       paginateArenas: 'seasonalLeague/paginateArenas',
+      startLoading: 'teacherDashboard/startLoading',
+      stopLoading: 'teacherDashboard/stopLoading',
     }),
 
     triggerTour () {
@@ -294,6 +321,9 @@ export default {
         this.loadGlobalRequiredData()
         this.loadChampionshipGlobalRequiredData()
         this.loadCodePointsRequiredData({ leagueId: '' })
+      }
+      if (this.regularOrChampionship === this.TYPES.REGULAR && !this.regularAvailable) {
+        this.regularOrChampionship = this.TYPES.CHAMPIONSHIP
       }
     },
 
@@ -401,7 +431,7 @@ export default {
                   <div class="button-group">
                     <button
                       class="btn toggle-btn"
-                      :class="{ 'active': regularOrChampionship === TYPES.REGULAR }"
+                      :class="{ 'active': regularOrChampionship === TYPES.REGULAR, 'disabled': !regularAvailable }"
                       @click="changeLeagueType(TYPES.REGULAR)"
                     >
                       {{ $t('league.regular') }}
