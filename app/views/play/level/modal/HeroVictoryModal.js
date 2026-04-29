@@ -591,6 +591,7 @@ module.exports = (HeroVictoryModal = (function () {
       if (extraOptions) { _.merge(options, extraOptions) }
       const returnAfterCompleteMap = this.level.get('returnAfterCompleteMap')
       const product = this.level.get('product', true)
+      const isJunior = product === 'codecombat-junior'
       let continueLink
 
       if (this.showHoc2016ExploreButton) {
@@ -602,7 +603,7 @@ module.exports = (HeroVictoryModal = (function () {
         continueLink = `/play/${returnAfterCompleteMap[this.parentCampaign]}`
         viewClass = 'views/play/CampaignView'
         viewArgs = [options, returnAfterCompleteMap[this.parentCampaign]]
-      } else if (options.sendToPracticeLevel && product === 'codecombat-junior' && this.practiceLevel?.get('slug')) {
+      } else if (options.sendToPracticeLevel && isJunior && this.practiceLevel?.get('slug')) {
         continueLink = `/play/level/${this.practiceLevel.get('slug')}`
         viewClass = 'views/play/level/PlayLevelView'
         options.parentCampaign = this.parentCampaign
@@ -622,7 +623,7 @@ module.exports = (HeroVictoryModal = (function () {
           continueLink += `?${queryParams.join('&')}`
         }
         viewArgs = [options, this.practiceLevel.get('slug')]
-      } else if ((this.level.isType('course') || product === 'codecombat-junior') && this.nextLevel?.get('slug') && !options.returnToCourse) {
+      } else if ((this.level.isType('course') || isJunior) && this.nextLevel?.get('slug') && !options.returnToCourse) {
         continueLink = `/play/level/${this.nextLevel.get('slug')}`
         if (this.courseID) {
           continueLink += `/${this.courseID}`
@@ -668,20 +669,12 @@ module.exports = (HeroVictoryModal = (function () {
         viewClass = 'views/play/CampaignView'
         viewArgs = [options, nextCampaign]
       }
-      // currently only junior set the nextLevel and practiceLevel, so we can start junior experiment without checking product
       // If the link contains /play/level/, we need to check if the level requires sign up
-      if (continueLink.includes('/play/level/')) {
-        let levelRequiresSignUp = false
-        if (options.sendToPracticeLevel && this.practiceLevel?.get('slug')) {
-          levelRequiresSignUp = this.practiceLevel.get('requiresSignUp')
-        } else if (this.nextLevel?.get('slug')) {
-          levelRequiresSignUp = this.nextLevel.get('requiresSignUp')
-        }
-        if (levelRequiresSignUp && me.isAnonymous()) {
-          const userRequiresSignUp = me.getOrStartRequireSignupExperimentValue?.('junior')
-          if (userRequiresSignUp === 'beta') {
-            return this.openModalView(new CreateAccountModal({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') }))
-          }
+      // for home users we are going to try get-out experiment
+      if (isJunior && continueLink.includes('/play/level/') && (me.isHomeUser() || me.isAnonymous())) {
+        const getOutValue = me.getOrStartGetOutExperimentValue?.()
+        if (getOutValue === 'beta' && this.parentCampaign) {
+          continueLink = `/play/${this.parentCampaign}`
         }
       }
       const navigationEvent = { route: continueLink, viewClass, viewArgs }
