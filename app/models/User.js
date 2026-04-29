@@ -27,6 +27,7 @@ const _ = require('lodash')
 const moment = require('moment')
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
 const CHOCOLI_EXPERIMENT_NAME = 'chocoli'
+const GET_OUT_EXPERIMENT_NAME = 'get-out'
 const REQUIRE_SIGN_UP_EXPERIMENT = {
   dungeon: 'requires-sign-up-dungeon',
   junior: 'requires-sign-up-junior',
@@ -684,13 +685,14 @@ module.exports = (User = (function () {
         return 'control'
       }
       let value
-      if (Math.random() < probability) {
+      const rnd = Math.random()
+      if (rnd < probability) {
         value = 'beta'
       } else {
         value = 'control'
         probability = 1 - probability
       }
-      console.log(`starting ${name} experiment with value ${value} and probability ${probability}`)
+      console.log(`starting ${name} experiment with value ${value} and probability ${probability} and rnd ${rnd}`)
       me.startExperiment(name, value, probability)
       return value
     }
@@ -1494,6 +1496,31 @@ module.exports = (User = (function () {
         return value
       }
       return this.tryStartExperiment(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN])
+    }
+
+    getGetOutExperimentValue () {
+      if (me.isStudent() || me.isTeacher()) {
+        return 'control'
+      }
+      if (features?.chinaInfra) {
+        return 'control'
+      }
+      if (me.isPremium()) {
+        return 'control'
+      }
+      const value = utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery(GET_OUT_EXPERIMENT_NAME),
+        me.getExperimentValue(GET_OUT_EXPERIMENT_NAME, null),
+      )
+      return value ?? null
+    }
+
+    getOrStartGetOutExperimentValue () {
+      const value = this.getGetOutExperimentValue()
+      if (value != null) {
+        return value
+      }
+      return this.tryStartExperiment(GET_OUT_EXPERIMENT_NAME)
     }
 
     getOrStartChocoliExperimentValue () {
