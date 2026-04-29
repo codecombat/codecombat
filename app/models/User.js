@@ -685,13 +685,14 @@ module.exports = (User = (function () {
         return 'control'
       }
       let value
-      if (Math.random() < probability) {
+      const rnd = Math.random()
+      if (rnd < probability) {
         value = 'beta'
       } else {
         value = 'control'
         probability = 1 - probability
       }
-      console.log(`starting ${name} experiment with value ${value} and probability ${probability}`)
+      console.log(`starting ${name} experiment with value ${value} and probability ${probability} and rnd ${rnd}`)
       me.startExperiment(name, value, probability)
       return value
     }

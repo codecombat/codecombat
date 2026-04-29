@@ -675,6 +675,8 @@ module.exports = (HeroVictoryModal = (function () {
         const getOutValue = me.getOrStartGetOutExperimentValue?.()
         if (getOutValue === 'beta' && this.parentCampaign) {
           continueLink = `/play/${this.parentCampaign}`
+          viewClass = 'views/play/CampaignView'
+          viewArgs = [options, this.parentCampaign]
         }
       }
       const navigationEvent = { route: continueLink, viewClass, viewArgs }
