@@ -73,6 +73,18 @@ _.extend(AIProjectSchema.properties, {
     title: 'Changed',
     readOnly: true,
   }),
+  evaluations: {
+    type: 'array',
+    items: {
+      type: 'object',
+      properties: {
+        content: { type: 'string' },
+        apiUsage: { type: 'object', additionalProperties: true },
+        date: { type: 'date' },
+        lastMessageId: { type: ['object', 'string'], format: 'chat-message-link' },
+      },
+    },
+  },
 })
 
 AIProjectSchema.required = ['visibility', 'user', 'scenario', 'actionQueue']
