@@ -333,31 +333,6 @@ class CampaignView extends RootView {
   }
 
   redirectMiddleware () {
-    const juniorRedirect = () => {
-      // Only bucket/start the odyssey experiment when the user is explicitly trying to enter Junior.
-      // This avoids side-effects from random "read" code paths that just want to know a value.
-      if (this.terrain === 'junior' && !this.editorMode) {
-        const odysseyValue = me.getOrStartOdysseyExperimentValue?.()
-        if (odysseyValue === 'beta') {
-          // Use the URL API to preserve/merge query params + hash when available; fallback for older/weird URL environments.
-          try {
-            const destUrl = new URL('/play/odyssey', window.location.origin)
-            const currentUrl = new URL(window.location.href)
-            currentUrl.searchParams.forEach((value, key) => destUrl.searchParams.set(key, value))
-            if (currentUrl.hash) destUrl.hash = currentUrl.hash
-            window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
-            application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
-          } catch (e) {
-            const query = location.search || ''
-            const hash = location.hash || ''
-            window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
-            application.router.navigate(`/play/odyssey${query}${hash}`, { trigger: true, replace: true })
-          }
-          return true
-        }
-      }
-    }
-
     const studentRedirect = () => {
       const courseInstanceId = utils.getQueryVariable('course-instance')
       if (!courseInstanceId && me.isStudent() && this.terrain !== 'intro') {
@@ -428,7 +403,7 @@ class CampaignView extends RootView {
       }
     }
 
-    return juniorRedirect() || hocRedirect() || studentRedirect()
+    return hocRedirect() || studentRedirect()
   }
 
   destroy () {
