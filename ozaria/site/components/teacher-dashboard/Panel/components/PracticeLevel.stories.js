@@ -1,5 +1,5 @@
 import PracticeLevel from './PracticeLevel.vue'
-import moment from 'moment'
+const moment = window.moment
 
 export default {
   title: 'Components/PracticeLevel',

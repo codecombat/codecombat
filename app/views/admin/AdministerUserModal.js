@@ -25,7 +25,6 @@ const fetchJson = require('core/api/fetch-json')
 const utils = require('core/utils')
 const api = require('core/api')
 const NameLoader = require('core/NameLoader')
-const momentTimezone = require('moment-timezone')
 const OnlineTeacherSchema = require('schemas/models/online_teacher')
 const { LICENSE_PRESETS, ESPORTS_PRODUCT_STATS } = require('core/constants')
 
@@ -137,7 +136,7 @@ module.exports = (AdministerUserModal = (function () {
       this.utils = utils
       options.models = [this.user] // For ModelModal to generate a Treema of this user
       this.models = [this.user]
-      this.momentTimezone = momentTimezone
+      this.momentTimezone = window.moment
     }
 
     onLoaded () {
@@ -253,7 +252,7 @@ module.exports = (AdministerUserModal = (function () {
       if (!attrs.endDate) { return }
       if (!creditType) { return }
       attrs.endDate = attrs.endDate + ' ' + '23:59'
-      attrs.endDate = momentTimezone.tz(attrs.endDate, this.timeZone).toISOString()
+      attrs.endDate = moment.tz(attrs.endDate, this.timeZone).toISOString()
 
       this.state = 'creating-credits'
       this.renderSelectors('#credit-form')
@@ -298,8 +297,8 @@ module.exports = (AdministerUserModal = (function () {
         attrs.irrevocable = true
       }
       delete attrs.revokable
-      attrs.startDate = momentTimezone.tz(attrs.startDate, timeZone).toISOString()
-      attrs.endDate = momentTimezone.tz(attrs.endDate, timeZone).toISOString()
+      attrs.startDate = moment.tz(attrs.startDate, timeZone).toISOString()
+      attrs.endDate = moment.tz(attrs.endDate, timeZone).toISOString()
 
       if (attrs.licenseType in this.licensePresets) {
         attrs.includedCourseIDs = this.licensePresets[attrs.licenseType]
@@ -360,8 +359,8 @@ module.exports = (AdministerUserModal = (function () {
       }
       attrs.endDate = attrs.endDate + ' ' + '23:59' // Otherwise, it ends at 12 am by default which does not include the date indicated
 
-      attrs.startDate = momentTimezone.tz(attrs.startDate, this.timeZone).toISOString()
-      attrs.endDate = momentTimezone.tz(attrs.endDate, this.timeZone).toISOString()
+      attrs.startDate = moment.tz(attrs.startDate, this.timeZone).toISOString()
+      attrs.endDate = moment.tz(attrs.endDate, this.timeZone).toISOString()
       attrs.productOptions = { id: _.uniqueId() }
 
       _.extend(attrs, {
@@ -403,8 +402,8 @@ module.exports = (AdministerUserModal = (function () {
       if (!attrs.endDate || !attrs.startDate || !(attrs.endDate > attrs.startDate)) { return }
       attrs.endDate = attrs.endDate + ' ' + '23:59' // Otherwise, it ends at 12 am by default which does not include the date indicated
 
-      attrs.startDate = momentTimezone.tz(attrs.startDate, this.timeZone).toISOString()
-      attrs.endDate = momentTimezone.tz(attrs.endDate, this.timeZone).toISOString()
+      attrs.startDate = moment.tz(attrs.startDate, this.timeZone).toISOString()
+      attrs.endDate = moment.tz(attrs.endDate, this.timeZone).toISOString()
 
       attrs.productOptions = { type: attrs.esportsType, id: _.uniqueId(), createdTournaments: 0 }
       delete attrs.esportsType
@@ -472,9 +471,9 @@ module.exports = (AdministerUserModal = (function () {
 
       // this offsets is server_tz - user_tz
       const getOffsets = () => {
-        const now = momentTimezone().utc()
-        const userTz = momentTimezone.tz.zone(this.userTimeZone).utcOffset(now)
-        const serverTz = momentTimezone.tz.zone(this.timeZone).utcOffset(now)
+        const now = new Date()
+        const userTz = moment.tz(now, this.userTimeZone).utcOffset()
+        const serverTz = moment.tz(now, this.timeZone).utcOffset()
         return (userTz - serverTz) / 60 // in hours
       }
       const tzOffset = getOffsets()
@@ -678,8 +677,8 @@ module.exports = (AdministerUserModal = (function () {
             alert('Total number of licenses cannot be less than used licenses')
             return
           }
-          prepaid.set('startDate', momentTimezone.tz(prepaidStartDate, this.timeZone).toISOString())
-          prepaid.set('endDate', momentTimezone.tz(prepaidEndDate, this.timeZone).toISOString())
+          prepaid.set('startDate', moment.tz(prepaidStartDate, this.timeZone).toISOString())
+          prepaid.set('endDate', moment.tz(prepaidEndDate, this.timeZone).toISOString())
           prepaid.set('maxRedeemers', prepaidTotalLicenses)
           prepaid.set('irrevocable', !prepaidRevokable)
           const options = {}
@@ -732,8 +731,8 @@ module.exports = (AdministerUserModal = (function () {
             alert('End date cannot be on or before start date')
             return
           }
-          product.startDate = momentTimezone.tz(productStartDate, this.timeZone).toISOString()
-          product.endDate = momentTimezone.tz(productEndDate, this.timeZone).toISOString()
+          product.startDate = moment.tz(productStartDate, this.timeZone).toISOString()
+          product.endDate = moment.tz(productEndDate, this.timeZone).toISOString()
 
           if (productType === 'esports') {
             const tournaments = this.$el.find('#product-tournaments-' + productId).val()

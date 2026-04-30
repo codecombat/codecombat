@@ -2,7 +2,7 @@ const EditView = require('views/common/EditView')
 const CocoCollection = require('collections/CocoCollection')
 const Announcement = require('models/Announcement')
 const AnnouncementSchema = require('schemas/models/announcement.schema')
-const moment = require('moment')
+const moment = window.moment
 const treemaExt = require('core/treema-ext')
 
 class AnnouncementEditView extends EditView {

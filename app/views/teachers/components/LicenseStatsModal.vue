@@ -1,11 +1,10 @@
 <script>
-const moment = require('moment')
 export default Vue.extend({
   name: 'LicenseStatsModal',
   props: ['hide', 'loading', 'redeemers', 'removedRedeemers', 'prepaid'],
   computed: {
     moment () {
-      return moment
+      return window.moment
     }
   }
 })

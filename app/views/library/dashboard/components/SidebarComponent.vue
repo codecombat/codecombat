@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+const moment = window.moment
 export default {
   name: 'SidebarComponent',
   props: {

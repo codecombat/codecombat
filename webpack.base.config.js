@@ -3,11 +3,8 @@
 const _ = require('lodash')
 const path = require('path')
 const webpack = require('webpack')
-const moment = require('moment')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
-require('moment/min/locales.min')
 const glob = require('glob')
 require('coffee-script')
 require('coffee-script/register')
@@ -44,7 +41,6 @@ const possibleLocaleKeysFn = (keys) => {
   return current
 }
 const possibleLocaleKeys = possibleLocaleKeysFn(localeKeys)
-const momentCocoLocales = _.intersection(possibleLocaleKeys, moment.locales())
 
 console.log(`Starting Webpack for product ${product}`)
 
@@ -341,9 +337,6 @@ module.exports = (env) => {
         process: 'process/browser', // because of algoliasearch which needs access to process: https://github.com/algolia/docsearch/issues/980
         Buffer: ['buffer', 'Buffer']
       }),
-      new MomentLocalesPlugin({
-        localesToKeep: momentCocoLocales
-      })
     ].concat(extraIgnorePluginEntries),
     optimization: {},
     stats: 'minimal',

@@ -83,9 +83,9 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { mapGetters } from 'vuex'
 import { ARENA_CURRICULUM } from 'app/core/constants'
+const moment = window.moment
 export default {
   name: 'LadderPanel',
   props: {
