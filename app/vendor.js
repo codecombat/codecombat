@@ -30,16 +30,26 @@ const duration = require('dayjs/plugin/duration')
 const relativeConfig = {
   thresholds: [
     { l: 's', r: 1 }, // skip a few seconds like what old moment.js do
+    { l: 'm', r: 1 },
+    { l: 'mm', r: 59, d: 'minute' },
+    { l: 'h', r: 1 },
+    { l: 'hh', r: 23, d: 'hour' },
+    { l: 'd', r: 1 },
+    { l: 'dd', r: 29, d: 'day' },
+    { l: 'M', r: 1 },
+    { l: 'MM', r: 11, d: 'month' },
+    { l: 'y', r: 1 },
+    { l: 'yy', d: 'year' }
   ]
 }
 dayjs.extend(utc)
 dayjs.extend(timezone)
+dayjs.extend(duration)
 dayjs.extend(relativeTime, relativeConfig)
 dayjs.extend(localizedFormat) // For 'll', 'lll', 'LLLL'
 dayjs.extend(isBetween)
 dayjs.extend(calendar)
 dayjs.extend(advancedFormat) // For 'Do' (ordinal dates like "Jan 1st")
-dayjs.extend(duration)
 
 dayjs.timezone = dayjs
 dayjs.timezone.tz = dayjs.tz
