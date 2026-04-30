@@ -36,7 +36,7 @@ Vue.use(Vuex.default)
 Vue.use(VTooltip.default)
 Vue.use(VueMeta)
 Vue.filter('moment', (date, format) => {
-  if (!date) return ''
+  if (date == null || date === '') return ''
   return window.moment(date).format(format)
 })
 Vue.prototype.$moment = window.moment
@@ -226,11 +226,18 @@ var setUpMoment = function () {
     try {
       // below is an important comment for build dayjs, do not delete it
       await import(/* webpackExclude: /\.d\.ts$/ */`dayjs/locale/${lang}.js`)
+      return window.moment.locale(lang)
     } catch (err) {
-      console.warn('loading lang error: ', lang)
+      const baseLang = lang.split('-')[0]
+      if (baseLang && baseLang !== lang) {
+        try {
+          await import(/* webpackExclude: /\.d\.ts$/ */`dayjs/locale/${baseLang}.js`)
+          return window.moment.locale(baseLang)
+        } catch (_) {}
+      }
+      console.warn('laoding lang error: ', lang)
       return window.moment.locale('en')
     }
-    return window.moment.locale(lang)
   }
   // TODO: this relies on moment having all languages baked in, which is a performance hit; should switch to loading the language module we need on demand.
   setMomentLanguage(me.get('preferredLanguage', true))
