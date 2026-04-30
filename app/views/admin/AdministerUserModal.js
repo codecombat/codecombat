@@ -471,7 +471,7 @@ module.exports = (AdministerUserModal = (function () {
 
       // this offsets is server_tz - user_tz
       const getOffsets = () => {
-        const now = moment().utc()
+        const now = new Date()
         const userTz = moment.tz(now, this.userTimeZone).utcOffset()
         const serverTz = moment.tz(now, this.timeZone).utcOffset()
         return (userTz - serverTz) / 60 // in hours

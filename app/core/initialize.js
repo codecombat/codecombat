@@ -214,18 +214,22 @@ var setUpBackboneMediator = function (app) {
 
 var setUpMoment = function () {
   const { me } = require('core/auth')
-  const setMomentLanguage = async function (lang) {
+  const setMomentLanguage = async function (lang = 'en') {
+    lang = String(lang || 'en').toLowerCase()
     lang = {
       'zh-HANS': 'zh-cn',
       'zh-HANT': 'zh-tw',
     }[lang] || lang
     if (lang.startsWith('en')) {
-      lang = 'en'
+      return window.moment.locale('en')
     }
-    // below is an important comment for build dayjs, do not delete it
-    await import(/* webpackExclude: /\.d\.ts$/ */`dayjs/locale/${lang}.js`)
-
-    return window.moment.locale(lang.toLowerCase())
+    try {
+      // below is an important comment for build dayjs, do not delete it
+      await import(/* webpackExclude: /\.d\.ts$/ */`dayjs/locale/${lang}.js`)
+    } catch (err) {
+      return window.moment.locale('en')
+    }
+    return window.moment.locale(lang)
   }
   // TODO: this relies on moment having all languages baked in, which is a performance hit; should switch to loading the language module we need on demand.
   setMomentLanguage(me.get('preferredLanguage', true))

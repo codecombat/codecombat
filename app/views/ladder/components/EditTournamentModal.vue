@@ -224,28 +224,38 @@ export default {
     },
     _startDate: {
       get () {
+        if (!this.editableTournament.startDate) return ''
         return moment(this.editableTournament.startDate).format(HTML5_FMT_DATETIME_LOCAL)
       },
       set (val) {
-        this.$set(this.editableTournament, 'startDate', moment(val).toISOString())
+        const parsed = moment(val)
+        this.$set(this.editableTournament, 'startDate', val && parsed.isValid() ? parsed.toISOString() : null)
       },
     },
     _endDate: {
       get () {
+        if (!this.editableTournament.endDate) return ''
         return moment(this.editableTournament.endDate).format(HTML5_FMT_DATETIME_LOCAL)
       },
       set (val) {
-        this.$set(this.editableTournament, 'endDate', moment(val).toISOString())
+        const parsed = moment(val)
+        if (!val || !parsed.isValid()) {
+          this.$set(this.editableTournament, 'endDate', null)
+          return
+        }
+        this.$set(this.editableTournament, 'endDate', parsed.toISOString())
 
-        this.$set(this.editableTournament, 'resultsDate', moment(val).add(1, 'days').toISOString())
+        this.$set(this.editableTournament, 'resultsDate', parsed.add(1, 'days').toISOString())
       },
     },
     _resultsDate: {
       get () {
+        if (!this.editableTournament.resultsDate) return ''
         return moment(this.editableTournament.resultsDate).format(HTML5_FMT_DATETIME_LOCAL)
       },
       set (val) {
-        this.$set(this.editableTournament, 'resultsDate', moment(val).toISOString())
+        const parsed = moment(val)
+        this.$set(this.editableTournament, 'resultsDate', val && parsed.isValid() ? parsed.toISOString() : null)
       },
     },
     _publishOption: {

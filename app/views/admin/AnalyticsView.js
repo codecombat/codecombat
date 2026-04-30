@@ -533,7 +533,7 @@ module.exports = (AnalyticsView = (function () {
           for (revenue of Array.from(_.clone(this.revenue).reverse())) {
             if (!(revenue.day > weekZero)) { continue }
             // Assign revenue for the week to the week ending on Friday. Reset on Saturday.
-            if (moment(revenue.day).isoWeekday() === 6) {
+            if (moment(revenue.day).day() === 6) {
               week = moment(week).add(7, 'days').format('YYYY-MM-DD')
             }
             if (this.weekMrrMap[week] == null) { this.weekMrrMap[week] = { gems: 0, yearly: 0, monthly: 0, total: 0 } }

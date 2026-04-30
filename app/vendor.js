@@ -29,19 +29,7 @@ const duration = require('dayjs/plugin/duration')
 // Extend dayjs with required capabilities
 const relativeConfig = {
   thresholds: [
-    // 'l' is the key in the locale file (e.g., 's' for "a few seconds")
-    // 'r' is the maximum value for that unit before it jumps to the next
-    { l: 's', r: 1 },
-    { l: 'm', r: 1 },
-    { l: 'mm', r: 59, d: 'minute' },
-    { l: 'h', r: 1 },
-    { l: 'hh', r: 23, d: 'hour' },
-    { l: 'd', r: 1 },
-    { l: 'dd', r: 29, d: 'day' },
-    { l: 'M', r: 1 },
-    { l: 'MM', r: 11,  d: 'month' },
-    { l: 'y', r: 1 },
-    { l: 'yy', d: 'year' }
+    { l: 's', r: 1 }, // skip a few seconds like what old moment.js do
   ]
 }
 dayjs.extend(utc)

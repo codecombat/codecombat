@@ -24,6 +24,7 @@ const fetchJson = require('core/api/fetch-json')
 const utils = require('core/utils')
 const api = require('core/api')
 const { LICENSE_PRESETS } = require('core/constants')
+const moment = window.moment
 
 // TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
 // TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
