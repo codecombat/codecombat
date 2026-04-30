@@ -91,6 +91,14 @@ _.extend(AIScenarioSchema.properties, {
       format: 'markdown',
     },
   },
+  evaluationRules: {
+    title: 'Evaluation Rules in System prompts for evaluate the project',
+    type: 'array',
+    items: {
+      type: 'string',
+      format: 'markdown',
+    },
+  },
   minMsgs: {
     title: 'Minimum messages for completion',
     type: 'integer',
