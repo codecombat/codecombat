@@ -217,8 +217,8 @@ var setUpMoment = function () {
   const setMomentLanguage = async function (lang = 'en') {
     lang = String(lang || 'en').toLowerCase()
     lang = {
-      'zh-HANS': 'zh-cn',
-      'zh-HANT': 'zh-tw',
+      'zh-hans': 'zh-cn',
+      'zh-hant': 'zh-tw',
     }[lang] || lang
     if (lang.startsWith('en')) {
       return window.moment.locale('en')
@@ -227,6 +227,7 @@ var setUpMoment = function () {
       // below is an important comment for build dayjs, do not delete it
       await import(/* webpackExclude: /\.d\.ts$/ */`dayjs/locale/${lang}.js`)
     } catch (err) {
+      console.warn('loading lang error: ', lang)
       return window.moment.locale('en')
     }
     return window.moment.locale(lang)
