@@ -1,5 +1,5 @@
 <script>
-import moment from 'moment'
+const moment = window.moment
 export default Vue.extend({
   data () {
     return {

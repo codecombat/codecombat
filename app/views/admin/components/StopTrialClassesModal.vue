@@ -1,5 +1,5 @@
 <script>
-import moment from 'moment'
+const moment = window.moment
 const fetchJson = require('../../../core/api/fetch-json')
 export default Vue.extend({
   props: {
