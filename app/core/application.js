@@ -105,7 +105,6 @@ const Application = {
     }
     // @githubHandler = new GitHubHandler(@)  # Currently unused
     $(document).bind('keydown', preventBackspace)
-    moment.relativeTimeThreshold('ss', 1) // do not return 'a few seconds' when calling 'humanize'
     CocoModel.pollAchievements()
     if (!me.get('anonymous')) {
       this.checkForNewAchievement()

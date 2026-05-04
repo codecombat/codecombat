@@ -37,7 +37,6 @@ const Prepaid = require('models/Prepaid')
 const User = require('models/User')
 const Users = require('collections/Users')
 const Mandate = require('models/Mandate')
-const momentTimezone = require('moment-timezone')
 if (window.saveAs == null) { window.saveAs = require('file-saver/FileSaver.js') } // `window.` is necessary for spec to spy on it
 if (window.saveAs.saveAs) { window.saveAs = window.saveAs.saveAs } // Module format changed with webpack?
 
@@ -62,7 +61,7 @@ module.exports = (MainAdminView = (function () {
         this.checkParentAdminAvailability()
       }
       this.timeZone = (typeof features !== 'undefined' && features !== null ? features.chinaInfra : undefined) ? 'Asia/Shanghai' : 'America/Los_Angeles'
-      this.prepaidEndDate = momentTimezone().tz(this.timeZone).add(1, 'year').format('YYYY-MM-DD')
+      this.prepaidEndDate = moment().tz(this.timeZone).add(1, 'year').format('YYYY-MM-DD')
     }
 
     static initClass () {

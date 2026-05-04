@@ -38,16 +38,16 @@
 <script>
 import DOMPurify from 'dompurify'
 import utils from 'core/utils'
-import moment from 'moment'
 
 import { mapActions } from 'vuex'
+const moment = window.moment
 export default {
   name: 'AnnouncementTab',
   props: ['announcement', 'scrolledTo', 'observer', 'index'],
   data () {
     return {
       isTruncated: true,
-      isEllipsisActive: false
+      isEllipsisActive: false,
     }
   },
   computed: {
@@ -60,7 +60,7 @@ export default {
     },
     time () {
       return moment(this.announcement.startDate).format('ll')
-    }
+    },
   },
   mounted () {
     this.observer.observe(this.$el)
@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     ...mapActions('announcements', [
-      'readAnnouncement'
+      'readAnnouncement',
     ]),
     read (id) {
       if (!this.announcement.read) {
@@ -115,8 +115,8 @@ export default {
       el.classList.remove('text-overflow-ellipsis')
       el.classList.remove('text-overflow-clip')
       return rectsClipped.length !== rectsEllipsis.length
-    }
-  }
+    },
+  },
 }
 </script>
 

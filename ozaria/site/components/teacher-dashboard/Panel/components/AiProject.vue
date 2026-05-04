@@ -59,7 +59,7 @@
 <script>
 
 import _ from 'lodash'
-import moment from 'moment'
+const moment = window.moment
 
 export default {
   name: 'AiProject',

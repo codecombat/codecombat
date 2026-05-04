@@ -1,4 +1,4 @@
-const moment = require('moment')
+const moment = window.moment
 function isMarkedDone (user) {
   const actions = [...(user.actions || [])]
   actions.reverse()
