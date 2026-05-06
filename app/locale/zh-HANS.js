@@ -2797,6 +2797,8 @@ module.exports = {
       customized_license: '定制许可',
       hackstack_license: 'AI HackStack 许可证',
       hackstack_credits: '积分：__limit__ 次提示 / __durationAmount__ __durationKey__',
+      coco_full_license: '扣哒世界许可',
+      ozar_full_license: '奥佳睿许可',
       trial: '试用',
       hoc_welcome: '计算机教育周快乐',
       hoc_title: '编码一小时游戏 —— 免费活动，学习真正的编码语言。',
