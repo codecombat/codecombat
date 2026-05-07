@@ -315,6 +315,7 @@ if (isCodeCombat) {
     courseIDs.ALGEBRA,
     courseIDs.CAREER_READINESS,
     courseIDs.CAREER_READINESS_2,
+    courseIDs.CYBER,
     courseIDs.ENGLISH_LANGUAGE_ARTS,
     courseIDs.COMPUTER_SCIENCE,
     courseIDs.AI_EXPLORATIONS,
@@ -381,6 +382,7 @@ if (isCodeCombat) {
     otherCourseIDs.ALGEBRA,
     otherCourseIDs.CAREER_READINESS,
     otherCourseIDs.CAREER_READINESS_2,
+    otherCourseIDs.CYBER,
     otherCourseIDs.ENGLISH_LANGUAGE_ARTS,
     otherCourseIDs.COMPUTER_SCIENCE,
     otherCourseIDs.AI_EXPLORATIONS,
@@ -505,6 +507,7 @@ courseCampaignSlugs[allCourseIDs.ARTIFICIAL_INTELLIGENCE_1] = 'artificial-intell
 courseCampaignSlugs[allCourseIDs.COMPUTER_SCIENCE] = 'computer-science-ai'
 courseCampaignSlugs[allCourseIDs.ARTIFICIAL_INTELLIGENCE_2] = 'artificial-intelligence-2'
 courseCampaignSlugs[allCourseIDs.CAREER_READINESS_2] = 'career-readiness-2'
+courseCampaignSlugs[allCourseIDs.CYBER] = 'cyber'
 courseCampaignSlugs[allCourseIDs.AI_SANDBOX] = 'ai-sandbox'
 courseCampaignSlugs[allCourseIDs.AI_EXPLORATIONS] = 'ai-explorations'
 
