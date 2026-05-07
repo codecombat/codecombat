@@ -74,7 +74,8 @@ export default {
       return campaignID === utils.campaignIDs.HACKSTACK
     },
     showBetaIcon (id) {
-      return id === utils.courseIDs.ENGLISH_LANGUAGE_ARTS
+      return [utils.courseIDs.ENGLISH_LANGUAGE_ARTS,
+              utils.courseIDs.CYBER].includes(id)
     },
   },
 }

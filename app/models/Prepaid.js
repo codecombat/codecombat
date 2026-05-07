@@ -14,6 +14,7 @@
 let Prepaid
 const CocoModel = require('./CocoModel')
 const utils = require('../core/utils')
+const constants = require('../core/constants')
 
 module.exports = (Prepaid = (function () {
   Prepaid = class Prepaid extends CocoModel {
@@ -75,11 +76,19 @@ module.exports = (Prepaid = (function () {
       if (type === 'starter_license') {
         return i18n.t('teacher.starter_license')
       }
+      const arraySame = (a, b) => a.length === b.length && a.every((v, i) => v === b[i])
       const includedCourseIDs = this.get('includedCourseIDs')
       if (includedCourseIDs) {
         const credit = this.get('properties')?.creditDetails
-        if (credit && includedCourseIDs[0] === utils.courseIDs.HACKSTACK) {
+        const hsCourses = [...utils.HACKSTACK_COURSE_IDS.filter(x => x !== utils.allCourseIDs.HACKSTACK)]
+        if (credit && arraySame(includedCourseIDs, hsCourses)) {
           return i18n.t('teacher.hackstack_license') + i18n.t('teacher.hackstack_credits', credit)
+        }
+        if (arraySame(includedCourseIDs, constants.LICENSE_PRESETS['COCO-OLD(No HS, OZ)'])) {
+          return i18n.t('teacher.coco_full_license')
+        }
+        if (arraySame(includedCourseIDs, constants.LICENSE_PRESETS['CH1+CH2+CH3+CH4(OZ only)'])) {
+          return i18n.t('teacher.ozar_full_license')
         }
         return i18n.t('teacher.customized_license') + ': ' + (includedCourseIDs.map(id => utils.courseAcronyms[id])).join('+')
       } else {
