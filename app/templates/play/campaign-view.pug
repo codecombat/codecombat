@@ -309,9 +309,9 @@ if !editorMode
               a(href="#", data-scenario-original=scenario.scenario, data-scenario-display-name=scenario.displayName)
               .scenario-acronym= scenarioAcronym
 
-          for adjacentCampaign in adjacentCampaigns
-            a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
-              span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)
+        for adjacentCampaign in adjacentCampaigns
+          a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
+            span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)
     else
       .portals-container
         .portals
