@@ -697,8 +697,8 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
           @include scale(0.67)
 
     &.in-campaign
-      left: 3%
-      width: 5%
+      left: 2%
+      width: 6%
 
       .btn
         width: 100%
@@ -728,9 +728,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
       width: $gameControlSize
       height: $gameControlSize
-
-      @media only screen and (max-height: 650px)
-        @include scale(0.67)
 
       background: url(/images/pages/play/menu_icons.png) no-repeat
 
@@ -831,6 +828,42 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
       .tooltip-arrow
         display: none
+
+    &:not(.in-campaign)
+      .btn
+        @media only screen and (max-height: 650px)
+          @include scale(0.67)
+
+    &.in-campaign
+      right: 2%
+      width: 6%
+
+      .btn
+        width: 100%
+        height: auto
+        aspect-ratio: 1 / 1
+        min-width: 0
+        margin-top: 0
+        background-size: contain
+        --icon-scale: 1
+        --icon-shift-x: 0px
+        --icon-shift-y: 0px
+        transform: translate(var(--icon-shift-x), var(--icon-shift-y)) scale(var(--icon-scale))
+
+        &:not(:first-child)
+          margin-top: 35%
+
+      // Per-icon tuning knobs for in-campaign proportional mode.
+      .hackstack-menu-icon
+        --icon-scale: 1.15
+      .junior-menu-icon
+        --icon-scale: 1.12
+      .cchome-menu-icon
+        --icon-scale: 1.2
+      .roblox-menu-icon
+        --icon-scale: 1.05
+      .ai-league-menu-icon
+        --icon-scale: 0.8
 
   .user-status
     position: absolute
@@ -1283,6 +1316,25 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       z-index: 2
       width: 193px
 
+  .gameplay-container.in-campaign
+    .resizable-gameplay-content
+      #back-button
+        width: 13%
+        min-width: 110px
+        aspect-ratio: 3.5 / 1
+        height: auto
+        min-height: 0
+        padding: 0
+        font-size: clamp(6px, 1.3vw, 30px)
+        line-height: 1
+        display: flex
+        align-items: center
+        justify-content: center
+        text-align: center
+
+        .back-button-label
+          transform: translateY(2px)
+
   #amazon-campaign-logo, #santa-clara-logo, #arapahoe-logo, #garfield-logo, #houston-logo
     cursor: pointer
     width: 200px
@@ -1355,8 +1407,8 @@ body[lang='ru'] .portals h2
 
 .utility-controls
   position: absolute
-  right: 20px
-  bottom: 20px
+  right: 4%
+  bottom: 4%
   z-index: 10
   display: flex
   gap: 10px
@@ -1382,6 +1434,22 @@ body[lang='ru'] .portals h2
 
     #volume-button
       margin-right: 10px
+
+  &.in-campaign
+    width: 2.5%
+
+    .btn
+      width: 100%
+      height: auto
+      aspect-ratio: 1 / 1
+      min-width: 0
+      padding: 0
+      display: flex
+      align-items: center
+      justify-content: center
+
+      .glyphicon
+        font-size: clamp(16px, 1.4vw, 30px)
 
 
 

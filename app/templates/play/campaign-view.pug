@@ -95,7 +95,8 @@ if !editorMode
 
   .resizable-gameplay-content
     if !me.isStudent() && campaign != null && campaign.get('slug') != 'junior' && campaign.get('slug') != 'odyssey'
-      a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#back-button(data-i18n="play_level.back_to_map", title="Back to Map")
+      a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#back-button(title="Back to Map")
+        span.back-button-label(data-i18n="play_level.back_to_map")
     if campaign
       .map
         if features && features.brainPop && levelsCompleted && levelsCompleted === levelsTotal
@@ -457,7 +458,7 @@ if !editorMode
           if view.shouldShow('premium')
             button.btn.btn-illustrated.btn-primary.premium-btn(data-i18n="buy_gems.buy_premium")
 
-    .utility-controls.header-font
+    .utility-controls.header-font(class=campaign != null ? "in-campaign" : "")
       button.btn.btn-lg.btn-inverse#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
         .glyphicon.glyphicon-volume-off
         .glyphicon.glyphicon-volume-down
