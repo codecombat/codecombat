@@ -3,7 +3,7 @@
 @import "app/styles/bootstrap/variables"
 
 $mapHeight: 1536
-$mapWidth: 2350
+$mapWidth: 2500
 $campaignPortalWidth: 317px
 $campaignPortalHeight: 484px
 $marginTopBase: 20px
@@ -681,16 +681,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         &.highlighted
           @include animation(jiggle .3s 20)
 
-    &.in-campaign
-      flex-direction: row
-      bottom: 2%
-      top: auto
-      transform: translateY(0)
-      .btn
-        margin-top: 0
-        &:not(:first-child)
-          margin-left: 10px
-
     .tooltip
       font-size: 24px
 
@@ -813,35 +803,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         margin-top: 10px
         &:hover
           filter: drop-shadow(0 0 2px #bbf)
-
-
-
-    &.in-campaign
-      flex-direction: row
-      bottom: 2%
-      right: 50%
-      top: auto
-      transform: translateY(-10px) translateX(100%)
-
-
-      .btn
-        margin-top: 0
-        height: 40px
-        width: 40px
-        margin-right: 40px
-
-        &.hackstack-menu-icon
-          transform: scale(2)
-        &.junior-menu-icon
-          transform: scale(2.2)
-        &.roblox-menu-icon
-          transform: scale(2) translateY(-5px)
-        &.ai-league-menu-icon
-          transform: scale(1.4) translateX(-10px)
-        &.cchome-menu-icon
-          transform: scale(2.3) translate(-5px, -1px)
-
-
 
     .tooltip
       font-size: 24px

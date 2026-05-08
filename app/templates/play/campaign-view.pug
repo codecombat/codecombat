@@ -309,13 +309,6 @@ if !editorMode
       for adjacentCampaign in adjacentCampaigns
         a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
           span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)
-
-      // HackStack Modal
-      if view.shouldShow('hackstack-menu-icon') && campaign.get('slug') == 'dungeon'
-        .level.hackstack-level#hackstack-level-container(title="CodeCombat AI HackStack")
-           span
-            .hackstack-icon
-        .hackstack-level#hackstack-level-shadow(style="left: 57.5%; top: 62.1%;", class="level-shadow")
   else
     .portals-container
       .portals
