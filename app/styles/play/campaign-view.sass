@@ -611,10 +611,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
       width: $gameControlSize
       height: $gameControlSize
 
-      @media only screen and (max-height: 650px)
-        @include scale(0.67)
-
-      background: url(/images/pages/play/menu_icons.png) no-repeat
+      background: url(/images/pages/play/menu_icons_flag.webp) no-repeat center center
 
       position: relative
       img
@@ -639,19 +636,26 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         @include box-shadow(0 0 20px white)
 
       &.items
-        background-position: (-1 * $gameControlSize) 0px
+        background: url(/images/pages/play/menu_icons_chest.webp) no-repeat center center
+        background-size: contain
       &.heroes
-        background-position: (-2 * $gameControlSize) 0px
+        background: url(/images/pages/play/menu_icons_heroes.webp) no-repeat center center
+        background-size: contain
       &.achievements
-        background-position: (-3 * $gameControlSize) 0px
+        background: url(/images/pages/play/menu_icons_cup.webp) no-repeat center center
+        background-size: contain
       &.account
-        background-position: (-5 * $gameControlSize) 0px
+        background: url(/images/pages/play/menu_icons_gear.webp) no-repeat center center
+        background-size: contain
       &.settings
-        background-position: (-5 * $gameControlSize) 0px
+        background: url(/images/pages/play/menu_icons_gear.webp) no-repeat center center
+        background-size: contain
       &.gems
-        background-position: (-6 * $gameControlSize) 0px
+        background: url(/images/pages/play/menu_icons_gems.webp) no-repeat center center
+        background-size: contain
       &.poll
-        background-position: (-4 * $gameControlSize) 0px
+        background: url(/images/pages/play/menu_icons_note.webp) no-repeat center center
+        background-size: contain
       &.premium-menu-icon
         background: url(/images/pages/play/premium-menu-icon.png) no-repeat
         background-position: 50% 50%
@@ -686,6 +690,24 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
 
       .tooltip-arrow
         display: none
+
+    &:not(.in-campaign)
+      .btn
+        @media only screen and (max-height: 650px)
+          @include scale(0.67)
+
+    &.in-campaign
+      left: 3%
+      width: 5%
+
+      .btn
+        width: 100%
+        height: auto
+        aspect-ratio: 1 / 1
+        min-width: 0
+
+        &:not(:first-child)
+          margin-top: 35%
 
   .other-products
     position: absolute
