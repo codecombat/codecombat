@@ -2,8 +2,8 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 
-$mapHeight: 1536
-$mapWidth: 2500
+$mapHeight: 1280
+$mapWidth: 1920
 $campaignPortalWidth: 317px
 $campaignPortalHeight: 484px
 $marginTopBase: 20px
@@ -818,14 +818,24 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     font-size: 26px
     color: white
     text-shadow: 0px 2px 1px black, 0px -2px 1px black, -2px 0px 1px black, 2px 0px 1px black
-    height: 40px
-    line-height: 40px
+    height: auto
+    line-height: normal
 
     .user-status-line
       position: relative
       display: flex
-      align-items: center
+      align-items: flex-start
       justify-content: flex-end
+
+      .status-stats
+        display: flex
+        flex-direction: column
+        align-items: flex-end
+        gap: 2px
+
+      .status-stat-row
+        display: inline-flex
+        align-items: center
 
       .btn.btn-illustrated
         margin-left: 10px
@@ -1008,7 +1018,6 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     position: relative
     width: 100%
     height: 100%
-    background: transparent url(/images/pages/play/portal-background.png)
     overflow-y: auto
     padding: 20px
     $description-transition-time: 0.4s
@@ -1234,6 +1243,23 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     top: 71px
     height: calc(100% - 71px)
     width: 100%
+
+    &.in-portals
+      background: transparent url(/images/pages/play/portal-background.png)
+      .resizable-gameplay-content
+        width: 100%
+        height: 100%
+
+  .resizable-gameplay-content
+    position: relative
+    overflow: hidden
+
+    #back-button
+      position: absolute
+      top: 2%
+      left: 1%
+      z-index: 2
+      width: 193px
 
   #amazon-campaign-logo, #santa-clara-logo, #arapahoe-logo, #garfield-logo, #houston-logo
     cursor: pointer
