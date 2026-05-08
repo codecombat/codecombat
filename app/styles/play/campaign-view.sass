@@ -851,17 +851,21 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         transform: translate(var(--icon-shift-x), var(--icon-shift-y)) scale(var(--icon-scale))
 
         &:not(:first-child)
-          margin-top: 35%
+          margin-top: 10%
 
       // Per-icon tuning knobs for in-campaign proportional mode.
       .hackstack-menu-icon
         --icon-scale: 1.15
       .junior-menu-icon
         --icon-scale: 1.12
+        &:not(:first-child)
+          margin-top: -15%
       .cchome-menu-icon
         --icon-scale: 1.2
       .roblox-menu-icon
         --icon-scale: 1.05
+        &:not(:first-child)
+          margin-top: -5%
       .ai-league-menu-icon
         --icon-scale: 0.8
 
@@ -1309,31 +1313,40 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
     position: relative
     overflow: hidden
 
-    #back-button
+    .campaign-action-buttons
       position: absolute
       top: 2%
       left: 1%
       z-index: 2
       width: 193px
+      display: flex
+      flex-direction: column
+      gap: 8px
+
+      #back-button, #back-to-classroom-button, #videos-button
+        width: 100%
 
   .gameplay-container.in-campaign
     .resizable-gameplay-content
-      #back-button
-        width: 13%
+      .campaign-action-buttons
+        width: 15%
         min-width: 110px
-        aspect-ratio: 3.5 / 1
-        height: auto
-        min-height: 0
-        padding: 0
-        font-size: clamp(6px, 1.3vw, 30px)
-        line-height: 1
-        display: flex
-        align-items: center
-        justify-content: center
-        text-align: center
+        gap: 3%
 
-        .back-button-label
-          transform: translateY(2px)
+        #back-button, #back-to-classroom-button, #videos-button
+          aspect-ratio: 3.5 / 1
+          height: auto
+          min-height: 0
+          padding: 0
+          font-size: clamp(6px, 1.3vw, 30px)
+          line-height: 1
+          display: flex
+          align-items: center
+          justify-content: center
+          text-align: center
+
+          .back-button-label
+            transform: translateY(2px)
 
   #amazon-campaign-logo, #santa-clara-logo, #arapahoe-logo, #garfield-logo, #houston-logo
     cursor: pointer

@@ -590,7 +590,7 @@ module.exports = {
       brain_pop_done: 'You’ve defeated the Ogres with code! You win!',
       brain_pop_challenge: 'Challenge yourself to play again using a different programming language!',
       replay: 'Replay',
-      back_to_classroom: 'Back to Classroom',
+      back_to_classroom: 'Back to Class',
       teacher_button: 'For Teachers',
       get_more_codecombat: 'Get More CodeCombat',
       back_to_dashboard: 'Back to Dashboard',
