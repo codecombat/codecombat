@@ -2093,6 +2093,11 @@ class CampaignView extends RootView {
       Backbone.Mediator.subscribeOnce('audio-player:loaded', this.playAmbientSound, this)
       return
     }
+    if (this.isMusicPlaybackBlockedByAutoplay()) {
+      this.pendingAmbientSound = true
+      this.ensureMusicGestureListeners()
+      return
+    }
     this.ambientSound = createjs.Sound.play(src, { loop: -1, volume: 0.1 })
     createjs.Tween.get(this.ambientSound).to({ volume: 0.5 }, 1000)
   }
@@ -2130,6 +2135,10 @@ class CampaignView extends RootView {
           if (!this.probablyCachedMusic) {
             storage.save('loaded-menu-music', true)
           }
+        }
+        if (this.pendingAmbientSound) {
+          this.pendingAmbientSound = false
+          this.playAmbientSound()
         }
       })
     }
