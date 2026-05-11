@@ -2032,37 +2032,21 @@ class CampaignView extends RootView {
   }
 
   onWindowResize (e) {
-    const mapHeight = 1536
-    const mapWidths = {
-      dungeon: 2350,
-      forest: 2500,
-      auditions: 2500,
-      desert: 2411,
-      mountain: 2421,
-      glacier: 2413,
-      junior: 2214,
-      'campaign-game-dev-1': 2500,
-      'campaign-game-dev-2': 2500,
-      'campaign-game-dev-3': 2500,
-      'campaign-web-dev-1': 2500,
-      'campaign-web-dev-2': 2500,
-      'game-dev-1': 2500,
-      'game-dev-2': 2500,
-      'game-dev-3': 2500,
-      'web-dev-1': 2500,
-      'web-dev-2': 2500,
-      'course-3': 2500,
-      'course-4': 2411,
-      'course-5': 2421,
-      'course-6': 2413,
+    if (!this.campaign) {
+      return
     }
-    const mapWidth = mapWidths[this.terrain] || 2350
-    const aspectRatio = mapWidth / mapHeight
-    const pageWidth = this.$el.width()
-    const pageHeight = this.$el.height()
-    const navOffset = 71 // navbar height
-    const availableHeight = Math.max(0, pageHeight - navOffset)
-    const widthRatio = pageWidth / mapWidth
+    const mapHeight = 1280
+    const mapWidth = 1920
+    const sideControlsGutter = 240
+    const layoutWidth = mapWidth + (sideControlsGutter * 2)
+    const $gameplayContainer = this.$el.find('.gameplay-container')
+    const $resizableGameplayContent = this.$el.find('.resizable-gameplay-content')
+    const $map = $resizableGameplayContent.find('.map')
+    const $portalsContainer = $resizableGameplayContent.find('.portals-container')
+    const pageWidth = $gameplayContainer.length ? $gameplayContainer.width() : this.$el.width()
+    const availableHeight = $gameplayContainer.length ? $gameplayContainer.height() : this.$el.height()
+    const aspectRatio = layoutWidth / mapHeight
+    const widthRatio = pageWidth / layoutWidth
     const heightRatio = availableHeight / mapHeight
 
     let resultingWidth, resultingHeight
@@ -2083,7 +2067,12 @@ class CampaignView extends RootView {
     }
     const resultingMarginX = (pageWidth - resultingWidth) / 2
     const resultingMarginY = (availableHeight - resultingHeight) / 2
-    this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
+    $resizableGameplayContent.css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
+
+    const mapWidthInLayout = resultingWidth * (mapWidth / layoutWidth)
+    const mapMarginX = (resultingWidth - mapWidthInLayout) / 2
+    $map.css({ width: mapWidthInLayout, height: resultingHeight, 'margin-left': mapMarginX, 'margin-top': 0 })
+    $portalsContainer.css({ width: '', height: '', 'margin-left': '', 'margin-top': '' })
     if (this.pointerInterval) {
       this.highlightNextLevel()
     }
