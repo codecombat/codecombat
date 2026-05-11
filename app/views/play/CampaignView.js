@@ -182,6 +182,14 @@ class CampaignView extends RootView {
     if (!this.terrain) {
       this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
       this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
+      this.probablyCachedMusic = storage.load('loaded-menu-music')
+      const musicDelay = this.probablyCachedMusic ? 1000 : 10000
+      const delayMusicStart = () => setTimeout(() => {
+        if (!this.destroyed) {
+          this.playMusic()
+        }
+      }, musicDelay)
+      this.playMusicTimeout = delayMusicStart()
       return
     }
     if (this.terrain) {
@@ -293,14 +301,6 @@ class CampaignView extends RootView {
     }
 
     window.addEventListener('resize', this.onWindowResize)
-    this.probablyCachedMusic = storage.load('loaded-menu-music')
-    const musicDelay = this.probablyCachedMusic ? 1000 : 10000
-    const delayMusicStart = () => setTimeout(() => {
-      if (!this.destroyed) {
-        this.playMusic()
-      }
-    }, musicDelay)
-    this.playMusicTimeout = delayMusicStart()
     this.hadEverChosenHero = me.get('heroConfig')?.thangType
     this.listenTo(me, 'change:purchased', () => this.renderSelectors('#gems-count'))
     this.listenTo(me, 'change:spent', () => this.renderSelectors('#gems-count'))
@@ -320,7 +320,6 @@ class CampaignView extends RootView {
             showVideo: this.terrain === 'hoc-2018',
             onDestroy: () => {
               if (this.destroyed) { return }
-              delayMusicStart()
               this.highlightNextLevel()
             },
           }))
