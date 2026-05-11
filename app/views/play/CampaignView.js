@@ -2038,7 +2038,7 @@ class CampaignView extends RootView {
     const mapHeight = 1280
     const mapWidth = 1920
     const sideControlsGutter = 240
-    const layoutWidth = mapWidth + (sideControlsGutter * 2) // 1920 map + 320 left + 320 right
+    const layoutWidth = mapWidth + (sideControlsGutter * 2)
     const $gameplayContainer = this.$el.find('.gameplay-container')
     const $resizableGameplayContent = this.$el.find('.resizable-gameplay-content')
     const $map = $resizableGameplayContent.find('.map')
