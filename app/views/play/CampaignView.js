@@ -2129,6 +2129,7 @@ class CampaignView extends RootView {
       const pendingMusicFile = this.pendingMusicFile
       this.pendingMusicFile = null
       Promise.resolve(context?.resume?.()).finally(() => {
+        if (this.destroyed) { return }
         this.removeMusicGestureListeners()
         if (pendingMusicFile) {
           Backbone.Mediator.publish('music-player:play-music', { play: true, file: pendingMusicFile })
