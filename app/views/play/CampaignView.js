@@ -182,6 +182,14 @@ class CampaignView extends RootView {
     if (!this.terrain) {
       this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
       this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
+      this.probablyCachedMusic = storage.load('loaded-menu-music')
+      const musicDelay = this.probablyCachedMusic ? 1000 : 10000
+      const delayMusicStart = () => setTimeout(() => {
+        if (!this.destroyed) {
+          this.playMusic()
+        }
+      }, musicDelay)
+      this.playMusicTimeout = delayMusicStart()
       return
     }
     if (this.terrain) {
@@ -293,14 +301,6 @@ class CampaignView extends RootView {
     }
 
     window.addEventListener('resize', this.onWindowResize)
-    this.probablyCachedMusic = storage.load('loaded-menu-music')
-    const musicDelay = this.probablyCachedMusic ? 1000 : 10000
-    const delayMusicStart = () => setTimeout(() => {
-      if (!this.destroyed) {
-        this.playMusic()
-      }
-    }, musicDelay)
-    this.playMusicTimeout = delayMusicStart()
     this.hadEverChosenHero = me.get('heroConfig')?.thangType
     this.listenTo(me, 'change:purchased', () => this.renderSelectors('#gems-count'))
     this.listenTo(me, 'change:spent', () => this.renderSelectors('#gems-count'))
@@ -320,7 +320,6 @@ class CampaignView extends RootView {
             showVideo: this.terrain === 'hoc-2018',
             onDestroy: () => {
               if (this.destroyed) { return }
-              delayMusicStart()
               this.highlightNextLevel()
             },
           }))
@@ -416,6 +415,7 @@ class CampaignView extends RootView {
       createjs.Tween.get(ambientSound).to({ volume: 0.0 }, 1500).call(() => ambientSound.stop())
     }
     this.musicPlayer?.destroy()
+    this.removeMusicGestureListeners()
     clearTimeout(this.playMusicTimeout)
     clearInterval(this.portalScrollInterval)
     Backbone.Mediator.unsubscribe('audio-player:loaded', this.playAmbientSound, this)
@@ -2093,17 +2093,68 @@ class CampaignView extends RootView {
       Backbone.Mediator.subscribeOnce('audio-player:loaded', this.playAmbientSound, this)
       return
     }
+    if (this.isMusicPlaybackBlockedByAutoplay()) {
+      this.pendingAmbientSound = true
+      this.ensureMusicGestureListeners()
+      return
+    }
     this.ambientSound = createjs.Sound.play(src, { loop: -1, volume: 0.1 })
     createjs.Tween.get(this.ambientSound).to({ volume: 0.5 }, 1000)
   }
 
   playMusic () {
-    this.musicPlayer = new MusicPlayer()
     const musicFile = '/music/music-menu'
+    this.musicPlayer = this.musicPlayer || new MusicPlayer()
+    if (this.isMusicPlaybackBlockedByAutoplay()) {
+      this.pendingMusicFile = musicFile
+      this.ensureMusicGestureListeners()
+      return
+    }
     Backbone.Mediator.publish('music-player:play-music', { play: true, file: musicFile })
     if (!this.probablyCachedMusic) {
       storage.save('loaded-menu-music', true)
     }
+  }
+
+  isMusicPlaybackBlockedByAutoplay () {
+    const context = createjs?.WebAudioPlugin?.context ?? createjs?.Sound?.activePlugin?.context
+    return context?.state === 'suspended'
+  }
+
+  ensureMusicGestureListeners () {
+    if (this.musicGestureHandler) { return }
+    this.musicGestureEvents = ['pointerdown', 'touchstart', 'mousedown', 'keydown']
+    this.musicGestureHandler = () => {
+      const context = createjs?.WebAudioPlugin?.context ?? createjs?.Sound?.activePlugin?.context
+      const pendingMusicFile = this.pendingMusicFile
+      this.pendingMusicFile = null
+      Promise.resolve(context?.resume?.()).finally(() => {
+        if (this.destroyed) { return }
+        this.removeMusicGestureListeners()
+        if (pendingMusicFile) {
+          Backbone.Mediator.publish('music-player:play-music', { play: true, file: pendingMusicFile })
+          if (!this.probablyCachedMusic) {
+            storage.save('loaded-menu-music', true)
+          }
+        }
+        if (this.pendingAmbientSound) {
+          this.pendingAmbientSound = false
+          this.playAmbientSound()
+        }
+      })
+    }
+    for (const eventName of this.musicGestureEvents) {
+      window.addEventListener(eventName, this.musicGestureHandler, { passive: true })
+    }
+  }
+
+  removeMusicGestureListeners () {
+    if (!this.musicGestureHandler) { return }
+    for (const eventName of this.musicGestureEvents || []) {
+      window.removeEventListener(eventName, this.musicGestureHandler)
+    }
+    this.musicGestureHandler = null
+    this.musicGestureEvents = null
   }
 
   checkForCourseOption (levelOriginal) {
