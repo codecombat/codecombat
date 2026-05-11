@@ -93,7 +93,7 @@ if !editorMode
         a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase#back-to-classroom-button(href='/play')
           span.back-button-label(data-i18n="play.back_to_classroom")
       if !me.isStudent() && campaign != null && campaign.get('slug') != 'junior' && campaign.get('slug') != 'odyssey'
-        a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#back-button(title="Back to Map")
+        button.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#back-button(type="button" title="Back to Map")
           span.back-button-label(data-i18n="play_level.back_to_map")
       if view.shouldShow('videos')
         a.btn.btn-illustrated.btn-block.btn-lg.text-uppercase#videos-button
