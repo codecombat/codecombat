@@ -488,10 +488,6 @@ export default Vue.extend({
               url: '/aboutus.html',
               properties: { target: '_blank' },
             },
-            resources: {
-              title: '付费资料',
-              url: '/resources',
-            },
           }
         } else {
           chinaNav = {
