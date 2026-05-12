@@ -24,10 +24,11 @@ const globalVar = require('core/globalVar')
 const fetchJson = require('core/api/fetch-json')
 const userUtils = require('lib/user-utils')
 const _ = require('lodash')
-const moment = require('moment')
+const moment = window.moment
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
 const { DEEP_API_LIST } = require('core/constants')
 const CHOCOLI_EXPERIMENT_NAME = 'chocoli'
+const GET_OUT_EXPERIMENT_NAME = 'get-out'
 const REQUIRE_SIGN_UP_EXPERIMENT = {
   dungeon: 'requires-sign-up-dungeon',
   junior: 'requires-sign-up-junior',
@@ -695,13 +696,14 @@ module.exports = (User = (function () {
         return 'control'
       }
       let value
-      if (Math.random() < probability) {
+      const rnd = Math.random()
+      if (rnd < probability) {
         value = 'beta'
       } else {
         value = 'control'
         probability = 1 - probability
       }
-      console.log(`starting ${name} experiment with value ${value} and probability ${probability}`)
+      console.log(`starting ${name} experiment with value ${value} and probability ${probability} and rnd ${rnd}`)
       me.startExperiment(name, value, probability)
       return value
     }
@@ -1490,30 +1492,6 @@ module.exports = (User = (function () {
 
     //   return this.tryStartExperiment('template')
     // }
-
-    getOdysseyExperimentValue () {
-      if (me.isStudent() || me.isTeacher()) {
-        return 'control'
-      }
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      const value = utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery('odyssey'),
-        me.getExperimentValue('odyssey', null),
-      )
-      if (value != null) {
-        return value
-      }
-      if (me.isPremium()) {
-        return 'control'
-      }
-      if (new Date(me.get('dateCreated')) < new Date('2026-03-16T00:00:00Z')) {
-        return 'control'
-      }
-      return null
-    }
-
     getRequireSignupExperimentValue (CAMPAIGN) {
       if (!me.isAnonymous()) {
         return 'control'
@@ -1552,20 +1530,37 @@ module.exports = (User = (function () {
       return this.tryStartExperiment(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN])
     }
 
+    getGetOutExperimentValue () {
+      if (me.isStudent() || me.isTeacher()) {
+        return 'control'
+      }
+      if (features?.chinaInfra) {
+        return 'control'
+      }
+      if (me.isPremium()) {
+        return 'control'
+      }
+      const value = utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery(GET_OUT_EXPERIMENT_NAME),
+        me.getExperimentValue(GET_OUT_EXPERIMENT_NAME, null),
+      )
+      return value ?? null
+    }
+
+    getOrStartGetOutExperimentValue () {
+      const value = this.getGetOutExperimentValue()
+      if (value != null) {
+        return value
+      }
+      return this.tryStartExperiment(GET_OUT_EXPERIMENT_NAME)
+    }
+
     getOrStartChocoliExperimentValue () {
       const value = this.getChocoliExperimentValue()
       if (value != null) {
         return value
       }
       return this.tryStartExperiment(CHOCOLI_EXPERIMENT_NAME)
-    }
-
-    getOrStartOdysseyExperimentValue () {
-      const value = this.getOdysseyExperimentValue()
-      if (value != null) {
-        return value
-      }
-      return this.tryStartExperiment('odyssey')
     }
   }
 

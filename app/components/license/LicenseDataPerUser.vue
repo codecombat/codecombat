@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+const moment = window.moment
 const saveAs = require('file-saver/FileSaver.js')
 
 export default {

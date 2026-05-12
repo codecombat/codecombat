@@ -4,10 +4,10 @@ import PrimaryButton from '../common/buttons/PrimaryButton'
 import LicensesComponent from '../common/LicensesComponent'
 import NavSelectUnit from '../common/NavSelectUnit'
 import ClassInfoRow from './ClassInfoRow'
-import moment from 'moment'
 import zendeskResourceMixin from 'ozaria/site/components/teacher-dashboard/BaseResourceHub/mixins/zendeskResourceMixin'
 
 import { mapGetters } from 'vuex'
+const moment = window.moment
 
 const Classroom = require('models/Classroom')
 
