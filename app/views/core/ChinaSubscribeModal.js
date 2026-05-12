@@ -42,6 +42,7 @@ module.exports = (ChinaSubscribeModal = (function () {
       this.basicProductAnnual = this.products.getBasicAnnualSubscriptionForUser()
       if (features.chinaHome) {
         this.seasonalProduct = this.products.getChinaSeasonlySubscriptionForUser()
+        this.groupProductAnnual = this.products.getChinaGroupSubscriptionForUser()
       }
       return this.render()
     }
@@ -73,12 +74,14 @@ module.exports = (ChinaSubscribeModal = (function () {
         this.vueComponent.$on('season', () => {
           this.wechatPayMethod(this.seasonalProduct)
         })
-
         this.vueComponent.$on('month', () => {
           this.wechatPayMethod(this.basicProduct)
         })
         this.vueComponent.$on('year', () => {
           this.wechatPayMethod(this.basicProductAnnual)
+        })
+        this.vueComponent.$on('group', () => {
+          this.wechatPayMethod(this.groupProductAnnual)
         })
       }
       return super.afterRender(...arguments)

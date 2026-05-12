@@ -56,6 +56,12 @@ module.exports = (Products = (function () {
       } else if (features.chinaInfra) { return null }
     }
 
+    getChinaGroupSubscriptionForUser () {
+      if (features.chinaHome) {
+        return this.findWhere({ name: 'china_group_subscription' })
+      } else if (features.chinaInfra) { return null }
+    }
+
     getBasicAnnualSubscriptionForUser () {
       if (features.chinaHome) {
         return this.findWhere({ name: 'china_annual_subscription' })

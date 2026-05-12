@@ -16,54 +16,59 @@
         </div>
         <div class="plans-container">
           <div class="card">
-            <div class="corner-ribbon ribbon-gray">
-              体验尝鲜
+            <div class="corner-ribbon ribbon-purple">
+              长期成长计划
             </div>
             <div class="card-title">
-              月度会员
+              年度会员
             </div>
             <div class="price-row">
-              <span class="symbol">¥</span><span class="amount">99</span><span class="unit"> / 1个月</span>
+              <span class="symbol">¥</span><span class="amount">999</span><span class="unit"> / 365天</span>
+            </div>
+            <div style="font-size:11px; color:#888; margin-bottom:5px;">
+              8.3 折 · 平均每天仅 2.7元
             </div>
 
-            <div class="info-box warning-box">
-              <span class="warning-main">短期体验，适合试用</span>
-              <span class="warning-sub">⚠️ 30 天通常无法完成完整学习路径</span>
+            <div
+              class="info-box"
+              style="background:#f3e5f5; color:#8e44ad;"
+            >
+              <span style="font-weight:bold; display:block; font-size:12px;">最佳投资，专注成长</span>
+              <span style="font-size:10px;">给真正想学会编程的人</span>
             </div>
 
             <ul class="check-list">
               <li class="positive">
-                可体验基础关卡与玩法
+                包含季度会员全部权益
               </li>
               <li class="positive">
-                感受游戏化学编程方式
+                年度专属学习报告
               </li>
-              <li class="negative">
-                无法完成完整学习路径
+              <li class="positive">
+                年度知识点系统总结
               </li>
-              <li class="negative">
-                学习进度容易中断
+              <li class="positive">
+                客服优先答疑
               </li>
-              <li class="negative">
-                不包含阶段性成长反馈
+              <li
+                class="positive"
+                style="color:#2980b9;"
+              >
+                赠送价值 420元 的 42000 宝石
               </li>
             </ul>
 
-            <div style="font-size:10px; color:#999; margin-top:5px;">
-              不确定是否适合？可以从体验开始<br>
-              <span style="color:#d35400; font-weight:bold;">多数用户1 个月后还想继续学</span>
-            </div>
             <button
-              class="btn btn-gray"
-              @click="$emit('month')"
+              class="btn btn-purple"
+              @click="$emit('year')"
             >
-              立即体验
+              开启年度成长计划
             </button>
           </div>
 
           <div class="card featured">
             <div class="gold-badge">
-              官方推荐 · 更多人选择
+              更多人选择
             </div>
 
             <div class="shimmer-mask" />
@@ -119,64 +124,65 @@
                 我将系统学习编程
               </button>
               <div class="sub-btn-text">
-                💡 90% 的长期用户从这个方案开始
+                💡 大多数长期用户从这个方案开始
               </div>
             </div>
           </div>
 
           <div class="card">
-            <div class="corner-ribbon ribbon-purple">
-              长期成长计划
+            <div class="corner-ribbon ribbon-green">
+              多人更划算
             </div>
             <div class="card-title">
-              年度会员
+              家庭/学习小队计划
             </div>
             <div class="price-row">
-              <span class="symbol">¥</span><span class="amount">999</span><span class="unit"> / 365天</span>
-            </div>
-            <div style="font-size:11px; color:#888; margin-bottom:5px;">
-              8.3 折 · 平均每天仅 2.7元
+              <span class="symbol">¥</span><span class="amount">1699</span><span class="unit"> / 年 <span style="font-size:12px">(最多3人)</span></span>
             </div>
 
             <div
               class="info-box"
-              style="background:#f3e5f5; color:#8e44ad;"
+              style="background:#e8f8f5; color:#16a085; padding:8px;"
             >
-              <span style="font-weight:bold; display:block; font-size:12px;">最佳投资，专注成长</span>
-              <span style="font-size:10px;">给真正想学会编程的人</span>
+              <span style="font-weight:bold; display:block; font-size:12px;">一个计划，支持 3 个独立账号</span>
             </div>
 
             <ul class="check-list">
               <li class="positive">
-                包含季度会员全部权益
+                每个账号包含年度会员全部权益
               </li>
               <li class="positive">
-                年度专属学习报告
+                每个账号都有独立进度与成就
               </li>
               <li class="positive">
-                年度知识点系统总结
+                适合兄弟姐妹、同学拼组共学
               </li>
               <li class="positive">
-                客服优先答疑
-              </li>
-              <li
-                class="positive"
-                style="color:#2980b9;"
-              >
-                赠送价值 420元 的 42000 宝石
+                每个账号 AI助教每日 30 次
               </li>
             </ul>
 
             <button
-              class="btn btn-green"
-              @click="$emit('year')"
+              class="btn btn-green-theme"
+              @click="$emit('group')"
             >
-              开启年度学习计划
+              3人一起更划算
             </button>
+            <div style="font-size:11px; color:#16a085; margin-top:8px; font-weight:bold;">
+              👨‍👩‍👧 买 2 个年卡，不如直接选家庭计划
+            </div>
           </div>
         </div>
       </template>
       <template #footer>
+        <div class="experience-link-container">
+          想先体验？ <button
+            class="redeem-btn"
+            @click="$emit('month')"
+          >
+            选择探索计划¥99/30天
+          </button>
+        </div>
         <div class="testimonial-container">
           <div class="testimonial-icon">
             📜
@@ -428,8 +434,8 @@ $--card-bg-highlight: #fffbf0;
   font-size: 13px;
   font-weight: bold;
 }
-.ribbon-gray { left: 0; background: #95a5a6; border-radius: 12px 0 10px 0; }
-.ribbon-purple { right: 0; background: #8e44ad; border-radius: 0 12px 0 10px; }
+.ribbon-purple { left: 0; background: #8e44ad; border-radius: 12px 0 10px 0; }
+.ribbon-green { right: 0; background: #16a085; border-radius: 0 12px 0 10px; }
 
 .card-title {
   font-size: 22px;
@@ -510,9 +516,16 @@ $--card-bg-highlight: #fffbf0;
   z-index: 2;
 }
 .btn-gray { background: $--gray-btn-bg; color: $--gray-btn-text; border: 1px solid #ced6e0; }
+.btn-purple {
+    background: #8e44ad; color: white; box-shadow: 0 3px 0 #5b2c6f;
+}
+.btn-purple:hover { background: #9b59b6; transform: translateY(-1px); box-shadow: 0 4px 0 #5b2c6f; }
+
 /* 绿色按钮的悬停效果 */
-.btn-green { background: $--green; color: white; box-shadow: 0 3px 0 #1e8449; }
-.btn-green:hover { background: $--green-dark; }
+.btn-green-theme {
+    background: #16a085; color: white; box-shadow: 0 3px 0 #0e6655;
+}
+.btn-green-theme:hover { background: #1abc9c; transform: translateY(-1px); box-shadow: 0 4px 0 #0e6655; }
 
 /* =========================================
    4. 中间卡片 (核心重构)
@@ -688,20 +701,15 @@ $--card-bg-highlight: #fffbf0;
 }
 
 /* 兑换码区域 */
+.experience-link-container,
 .redeem-code-container {
-  font-size: 13px;
-  color: #000000;
-  font-weight: bold;
-  white-space: nowrap;
-  background: rgba(255,255,255,0.4);
-  padding: 6px 15px;
-  border-radius: 20px;
-  /* 修改：绝对定位到右侧 */
-  position: absolute;
-  right: 40px;
-  top: 50%;
-  transform: translateY(-50%);
+  font-size: 13px; color: #000; font-weight: bold; white-space: nowrap;
+  background: rgba(255,255,255,0.4); padding: 6px 15px; border-radius: 20px;
+  position: absolute; top: 50%; transform: translateY(-50%);
 }
+.experience-link-container { left: 40px; }
+.redeem-code-container { right: 40px; }
+
 .redeem-btn {
   background: transparent;
   border: none;
