@@ -115,8 +115,9 @@ export default {
       }))))
     },
     aiEvaluation () {
-      if (!this.aiProject || !this.aiProject.evaluations) return []
+      if (!this.aiProject || !this.aiProject.evaluations) return undefined
       const evs = this.aiProject.evaluations
+      if (evs.length === 0) return undefined
       return evs[evs.length - 1] // last one
     },
   },
