@@ -49,6 +49,18 @@
       </ul>
     </p>
 
+    <div
+      v-if="aiEvaluation"
+      class="ai-evaluation"
+    >
+      {{ $t('teacher_dashboard.ai_evaluation') }}:
+      <div class="evaluation">
+        <p class="content">
+          {{ aiEvaluation.content }}
+        </p>
+        <span class="text-muted">{{ aiEvaluation.date }}</span>
+      </div>
+    </div>
     <a
       :href="`/ai/project/${aiProject._id}`"
       target="_blank"
@@ -101,6 +113,11 @@ export default {
         ...validation,
         text: i.text.length > 100 ? `${i.text.substring(0, 100)}...` : i.text,
       }))))
+    },
+    aiEvaluation () {
+      if (!this.aiProject || !this.aiProject.evaluations) return []
+      const evs = this.aiProject.evaluations
+      return evs[evs.length - 1] // last one
     },
   },
 }
@@ -155,6 +172,23 @@ export default {
     margin-top: 5px;
     margin-bottom: 5px;
     display: block;
+  }
+
+  .ai-evaluation {
+    border: solid 1px #999999;
+    border-radius: 5px;
+    margin: 10px 5px;
+    padding: 5px;
+
+    .evaluation {
+      max-height: 40vh;
+      overflow-y: auto;
+
+      .content {
+        white-space: pre-wrap;
+        font-size: 1em;
+      }
+    }
   }
 }
 </style>
