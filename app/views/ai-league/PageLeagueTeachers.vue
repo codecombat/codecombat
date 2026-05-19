@@ -14,6 +14,8 @@ import { AI_LEAGUE_STEPS } from 'ozaria/site/components/teacher-dashboard/BaseTe
 import { findArena, currentRegularArena, currentChampionshipArena } from 'app/core/store/modules/seasonalLeague.js'
 
 const VueShepherd = require('vue-shepherd')
+const REGULAR = 'regular'
+const CHAMPIONSHIP = 'championship'
 
 export default {
   components: {
@@ -46,10 +48,10 @@ export default {
     anonymousPlayerName: false,
     toPage: 'custom',
     TYPES: {
-      REGULAR: 'regular',
-      CHAMPIONSHIP: 'championship',
+      REGULAR,
+      CHAMPIONSHIP,
     },
-    regularOrChampionship: 'championship',
+    regularOrChampionship: CHAMPIONSHIP,
   }),
 
   computed: {
@@ -146,8 +148,8 @@ export default {
       if (!season) {
         return false
       }
-      const nextRegularArena = findArena(season + 1, 'regular')
-      const nextChampionshipArena = findArena(season + 1, 'championship')
+      const nextRegularArena = findArena(season + 1, REGULAR)
+      const nextChampionshipArena = findArena(season + 1, CHAMPIONSHIP)
       return !!nextRegularArena || !!nextChampionshipArena
     },
 
@@ -156,8 +158,8 @@ export default {
       if (!season) {
         return false
       }
-      const previousRegularArena = findArena(season - 1, 'regular')
-      const previousChampionshipArena = findArena(season - 1, 'championship')
+      const previousRegularArena = findArena(season - 1, REGULAR)
+      const previousChampionshipArena = findArena(season - 1, CHAMPIONSHIP)
       return !!previousRegularArena || !!previousChampionshipArena
     },
 
@@ -275,6 +277,12 @@ export default {
     },
 
     changeLeagueType (leagueType) {
+      if (leagueType === REGULAR && !this.regularAvailable) {
+        return
+      }
+      if (leagueType === CHAMPIONSHIP && !this.championshipAvailable) {
+        return
+      }
       this.regularOrChampionship = leagueType
     },
 
