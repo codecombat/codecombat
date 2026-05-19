@@ -1,7 +1,7 @@
 
 <script>
-import moment from 'moment'
 import IconButtonWithText from '../../common/buttons/IconButtonWithText'
+const moment = window.moment
 const utils = require('core/utils')
 
 export default {

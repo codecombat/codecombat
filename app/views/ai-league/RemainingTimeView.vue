@@ -54,7 +54,7 @@
 
 <script>
 import { currentRegularArena, currentChampionshipArena } from 'app/core/store/modules/seasonalLeague'
-import moment from 'moment'
+const moment = window.moment
 
 export default {
   name: 'RemainingTimeView',

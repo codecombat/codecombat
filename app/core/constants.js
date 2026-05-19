@@ -23,6 +23,12 @@ const LICENSE_PRESETS = {
     ...utils.JUNIOR_COURSE_IDS,
   ],
   'CS1+CS2+GD1+WD1': STARTER_LICENSE_COURSE_IDS,
+  'CS1+GD1+WD1+JR': [
+    '560f1a9f22961295f9427742', // Introduction to Computer Science
+    '5789587aad86a6efb573701e', // Game Development 1
+    '5789587aad86a6efb573701f', // Web Development 1
+    ...utils.JUNIOR_COURSE_IDS,
+  ],
   'CS1+CS2+CS3+CS4': [
     '560f1a9f22961295f9427742', // Introduction to Computer Science
     '5632661322961295f9428638', // CS 2

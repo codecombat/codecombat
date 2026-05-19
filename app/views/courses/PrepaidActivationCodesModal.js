@@ -23,8 +23,8 @@ const TrialRequests = require('collections/TrialRequests')
 const fetchJson = require('core/api/fetch-json')
 const utils = require('core/utils')
 const api = require('core/api')
-const momentTimezone = require('moment-timezone')
 const { LICENSE_PRESETS } = require('core/constants')
+const moment = window.moment
 
 // TODO: the updateAdministratedTeachers method could be moved to an afterRender lifecycle method.
 // TODO: Then we could use @render in the finally method, and remove the repeated use of both of them through the file.
@@ -63,7 +63,7 @@ module.exports = (PreapidActivationCodesModal = (function () {
       this.licenseType = 'all'
       this.licensePresets = LICENSE_PRESETS
       this.utils = utils
-      this.momentTimezone = momentTimezone
+      this.momentTimezone = window.moment
     }
 
     onLoaded () {
@@ -103,8 +103,8 @@ module.exports = (PreapidActivationCodesModal = (function () {
             alert('Total number of licenses cannot be less than used licenses')
             return
           }
-          prepaid.set('startDate', momentTimezone.tz(prepaidStartDate, this.timeZone).toISOString())
-          prepaid.set('endDate', momentTimezone.tz(prepaidEndDate, this.timeZone).toISOString())
+          prepaid.set('startDate', moment.tz(prepaidStartDate, this.timeZone).toISOString())
+          prepaid.set('endDate', moment.tz(prepaidEndDate, this.timeZone).toISOString())
           prepaid.set('maxRedeemers', prepaidTotalLicenses)
           const options = {}
           prepaid.patch(options)
@@ -130,8 +130,8 @@ module.exports = (PreapidActivationCodesModal = (function () {
       if (!(attrs.duration > 0)) { return }
       if (!attrs.endDate || !moment().isBefore(attrs.endDate)) { return }
       attrs.endDate = attrs.endDate + ' ' + '23:59' // Otherwise, it ends at 12 am by default which does not include the date indicated
-      attrs.startDate = momentTimezone.tz(this.timeZone).toISOString()
-      attrs.endDate = momentTimezone.tz(attrs.endDate, this.timeZone).toISOString()
+      attrs.startDate = moment().tz(this.timeZone).toISOString()
+      attrs.endDate = moment.tz(attrs.endDate, this.timeZone).toISOString()
       const days = attrs.duration
       delete attrs.duration
 

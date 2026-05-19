@@ -269,7 +269,6 @@ div.licensor.container(v-else)
 <script lang="coffee">
 co = require('co')
 api = require 'core/api'
-moment.timezone = require('moment-timezone')
 forms = require 'core/forms'
 {getQueryVariable} = require('core/utils')
 clientSchema = require '../schemas/models/api-client.schema'

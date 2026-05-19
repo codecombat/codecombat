@@ -235,6 +235,7 @@ const HACKSTACK_COURSE_IDS_MAP = {
   ALGEBRA: '6984842a268d20956ac0583d',
   CAREER_READINESS: '6984842b268d20956ac05840',
   CAREER_READINESS_2: '6984842d268d20956ac0584c',
+  CYBER: '69cde02a956c9590bf085a91',
   ENGLISH_LANGUAGE_ARTS: '69848429268d20956ac05838',
   COMPUTER_SCIENCE: '6984842c268d20956ac05846',
   AI_EXPLORATIONS: '6984842f268d20956ac05852',
@@ -314,6 +315,7 @@ if (isCodeCombat) {
     courseIDs.ALGEBRA,
     courseIDs.CAREER_READINESS,
     courseIDs.CAREER_READINESS_2,
+    courseIDs.CYBER,
     courseIDs.ENGLISH_LANGUAGE_ARTS,
     courseIDs.COMPUTER_SCIENCE,
     courseIDs.AI_EXPLORATIONS,
@@ -380,6 +382,7 @@ if (isCodeCombat) {
     otherCourseIDs.ALGEBRA,
     otherCourseIDs.CAREER_READINESS,
     otherCourseIDs.CAREER_READINESS_2,
+    otherCourseIDs.CYBER,
     otherCourseIDs.ENGLISH_LANGUAGE_ARTS,
     otherCourseIDs.COMPUTER_SCIENCE,
     otherCourseIDs.AI_EXPLORATIONS,
@@ -476,6 +479,7 @@ courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ARTIFICIAL_INTELLIGENCE_2] = 'AI2'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.CAREER_READINESS_2] = 'CR2'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.AI_SANDBOX] = 'SANDBOX'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.AI_EXPLORATIONS] = 'EXPLORATIONS'
+courseAcronyms[HACKSTACK_COURSE_IDS_MAP.CYBER] = 'CYBER'
 
 const courseCampaignSlugs = {}
 courseCampaignSlugs[allCourseIDs.JUNIOR] = 'junior'
@@ -503,6 +507,7 @@ courseCampaignSlugs[allCourseIDs.ARTIFICIAL_INTELLIGENCE_1] = 'artificial-intell
 courseCampaignSlugs[allCourseIDs.COMPUTER_SCIENCE] = 'computer-science-ai'
 courseCampaignSlugs[allCourseIDs.ARTIFICIAL_INTELLIGENCE_2] = 'artificial-intelligence-2'
 courseCampaignSlugs[allCourseIDs.CAREER_READINESS_2] = 'career-readiness-2'
+courseCampaignSlugs[allCourseIDs.CYBER] = 'cyber'
 courseCampaignSlugs[allCourseIDs.AI_SANDBOX] = 'ai-sandbox'
 courseCampaignSlugs[allCourseIDs.AI_EXPLORATIONS] = 'ai-explorations'
 
@@ -1844,7 +1849,7 @@ module.exports.getJuniorUrl = function () {
   if (me && me.isTeacher() && !me.isAnonymous()) {
     juniorPath = '/teachers/guide/junior'
   }
-  if (me?.getOdysseyExperimentValue?.() === 'beta') {
+  if (me?.isHomeUser?.()) {
     juniorPath = '/play/odyssey'
   }
   return `${cocoBaseURL()}${juniorPath}`

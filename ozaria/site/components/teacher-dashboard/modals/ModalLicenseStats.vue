@@ -1,13 +1,13 @@
 <script>
-import moment from 'moment'
 import Modal from '../../common/Modal'
 import SecondaryButton from '../common/buttons/SecondaryButton'
 
 import { mapGetters, mapActions } from 'vuex'
+const moment = window.moment
 export default Vue.extend({
   components: {
     Modal,
-    SecondaryButton
+    SecondaryButton,
   },
   props: ['prepaid'],
   computed: {
