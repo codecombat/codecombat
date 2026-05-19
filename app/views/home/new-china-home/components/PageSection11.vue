@@ -36,13 +36,14 @@
     template(#tail)
       .footer
         a.small(href="http://beian.miit.gov.cn/") 京ICP备2026009460号
-        a.small(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619")
+        a(href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802038619")
           img#mps(src="/images/pages/base/the_ministry_of_public_security_of_china.png")
-          span='京公网安备 11010802038619号'
-
+          span.small='京公网安备 11010802038619号'
+        br
+        span 增值电信业务经营许可证：京B2-20261369
+        span= ' '
         span {{ $t("nav.copyright_prefix") }}
-        //span= ' ©2026 CodeCombat Inc. '
-        span= ' ©2026 扣哒少年（北京）科技有限公司. '
+        span= ' ©2026 CodeCombat Inc. '
         span {{ $t("nav.copyright_suffix") }}
 </template>
 <script>
@@ -170,7 +171,8 @@ export default {
   span
     font-size: 12px
   .small
+    font-size: 12px
     margin-right: 10px
   #mps
-    width: 10px
+    width: 12px
 </style>

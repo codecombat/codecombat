@@ -660,6 +660,27 @@ $primary-background: #31636F;
 
 .border-l-4 { border-left-width: 4px; border-left-style: solid; }
 
+/* Background Colors */
+.bg-emerald-50 { background-color: #ecfdf5; }
+.bg-emerald-100 { background-color: #d1fae5; }
+.bg-emerald-200 { background-color: #a7f3d0; }
+.bg-emerald-500 { background-color: #10b981; }
+.bg-emerald-600 { background-color: #059669; }
+
+/* Text Colors */
+.text-emerald-100 { color: #d1fae5; }
+.text-emerald-300 { color: #6ee7b7; }
+.text-emerald-500 { color: #10b981; }
+.text-emerald-600 { color: #059669; }
+.text-emerald-700 { color: #047857; }
+.text-emerald-800 { color: #065f46; }
+.text-emerald-900 { color: #064e3b; }
+
+/* Border Colors */
+.border-emerald-100 { border-color: #d1fae5; }
+.border-emerald-200 { border-color: #a7f3d0; }
+.border-emerald-400 { border-color: #34d399; }
+
 /* Typography */
 .text-xs { font-size: 1.2rem; line-height: 1.6rem; }
 .text-sm { font-size: 1.4rem; line-height: 2.0rem; }

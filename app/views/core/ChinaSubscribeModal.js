@@ -29,6 +29,7 @@ module.exports = (ChinaSubscribeModal = (function () {
         data.coupon = this.couponID
       }
       this.supermodel.trackRequest(this.products.fetch({ data }))
+      this.propsData = {}
     }
 
     render () {
@@ -40,15 +41,23 @@ module.exports = (ChinaSubscribeModal = (function () {
     onLoaded () {
       this.basicProduct = this.products.getBasicSubscriptionForUser(me)
       this.basicProductAnnual = this.products.getBasicAnnualSubscriptionForUser()
+      const products = [
+        this.basicProduct?.toJSON(),
+        this.basicProductAnnual?.toJSON(),
+      ]
       if (features.chinaHome) {
         this.seasonalProduct = this.products.getChinaSeasonlySubscriptionForUser()
         this.groupProductAnnual = this.products.getChinaGroupSubscriptionForUser()
+        products.push(this.seasonalProduct?.toJSON())
+        products.push(this.groupProductAnnual?.toJSON())
       }
+      this.propsData.products = products.filter(Boolean)
       return this.render()
     }
 
     afterRender () {
       if (this.vueComponent) {
+        this.vueComponent.products = this.propsData?.products || []
         this.$el.find('#china-subscribe-modal').replaceWith(this.vueComponent.$el)
       } else {
         if (this.vuexModule) {

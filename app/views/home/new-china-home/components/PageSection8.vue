@@ -34,7 +34,7 @@
             >/ {{ plan.duration }}</span>
             <span
               v-if="plan.discount"
-              class="bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded ml-1 align-middle"
+              :class="plan.discountColor"
             >{{ plan.discount }}</span>
           </div>
 
@@ -113,20 +113,25 @@ export default {
       selectedPlan: 1, // Default to middle plan
       pricingPlans: [
         {
-          type: 'monthly',
-          plan: 'basic',
-          title: '月度会员',
-          price: '¥99',
-          duration: '1个月',
-          ribbonText: '体验尝鲜',
-          ribbonClass: 'ribbon-gray',
-          titleColor: '#1e293b',
-          priceColor: '#1e293b',
-          highlight: '<div class="bg-slate-100 rounded-lg p-3 mb-2 mt-2 w-full"><span class="block text-indigo-800 font-bold text-sm">30天极速体验，快速突破</span></div>',
+          type: 'annual',
+          plan: 'yearly',
+          title: '年度会员',
+          price: '¥999',
+          duration: '365天',
+          discount: '(8.3折)',
+          discountColor: 'bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded ml-1 align-middle',
+          ribbonText: '长期成长计划',
+          ribbonClass: 'ribbon-blue',
+          titleColor: '#4338ca',
+          priceColor: '#4338ca',
+          highlight: '<div class="bg-indigo-100 rounded-lg p-3 mb-2 mt-2 w-full"><span class="block text-indigo-900 font-bold text-sm">最佳投资，专注成长</span><span class="block text-indigo-800 font-medium text-xs">给真正想学会编程的人</span></div>',
+          note: '平均每天仅 ¥2.7 元',
           features: [
-            '<i class="fa-solid fa-check text-green-500"></i> 适合短期高效极速学习，集中攻克难点',
-            '<i class="fa-solid fa-check text-green-500"></i> 解锁全库关卡权限，快速补充知识',
-            '<i class="fa-solid fa-question text-slate-400"></i> 不确定是否适合？从这里开始',
+            '<li class="font-bold text-indigo-800 mb-2 border-b border-indigo-100 pb-1">季度会员所有权益再加：</li>',
+            '<i class="fa-solid fa-file-contract text-indigo-500"></i> 年度会员专属学习报告',
+            '<i class="fa-solid fa-map text-indigo-500"></i> 年度会员专属详细知识点图总结',
+            '<i class="fa-solid fa-headset text-indigo-500"></i> 客服优先解答疑问',
+            '<i class="fa-solid fa-gem text-indigo-500"></i> 尊享礼包：赠送价值420元的 42000 宝石，助你更快进阶',
           ],
         },
         {
@@ -150,24 +155,25 @@ export default {
           ],
         },
         {
-          type: 'annual',
-          plan: 'yearly',
-          title: '年度会员',
-          price: '¥999',
+          type: 'grouped',
+          plan: 'group',
+          title: '家庭会员',
+          price: '¥1999',
           duration: '365天',
-          discount: '(8.3折)',
-          ribbonText: '长期成长计划',
-          ribbonClass: 'ribbon-blue',
-          titleColor: '#4338ca',
-          priceColor: '#4338ca',
-          highlight: '<div class="bg-indigo-100 rounded-lg p-3 mb-2 mt-2 w-full"><span class="block text-indigo-900 font-bold text-sm">最佳投资，专注成长</span><span class="block text-indigo-800 font-medium text-xs">给真正想学会编程的人</span></div>',
+          discount: '(3个账号)',
+          discountColor: 'bg-emerald-100 text-emerald-700 text-xs px-2 py-0.5 rounded ml-1 align-middle',
+          ribbonText: '省近1000元',
+          ribbonClass: 'ribbon-green',
+          titleColor: '#2ecc71',
+          priceColor: '#27ae60',
+          highlight: '<div class="bg-emerald-100 rounded-lg p-3 mb-2 mt-2 w-full"><span class="block text-emerald-900 font-bold text-sm">最佳投资，专注成长</span><span class="block text-emerald-800 font-medium text-xs">给真正想学会编程的人</span></div>',
           note: '平均每天仅 ¥2.7 元',
           features: [
-            '<li class="font-bold text-indigo-800 mb-2 border-b border-indigo-100 pb-1">季度会员所有权益再加：</li>',
-            '<i class="fa-solid fa-file-contract text-indigo-500"></i> 年度会员专属学习报告',
-            '<i class="fa-solid fa-map text-indigo-500"></i> 年度会员专属详细知识点图总结',
-            '<i class="fa-solid fa-headset text-indigo-500"></i> 客服优先解答疑问',
-            '<i class="fa-solid fa-gem text-indigo-500"></i> 尊享礼包：赠送价值420元的 42000 宝石，助你更快进阶',
+            '<li class="font-bold text-emerald-800 mb-2 border-b border-emerald-100 pb-1">季度会员所有权益再加：</li>',
+            '<i class="fa-solid fa-file-contract text-emerald-500"></i> 每个账号均享年度会员全部权益',
+            '<i class="fa-solid fa-map text-emerald-500"></i> 每个账号独立保存学习进度与成就',
+            '<i class="fa-solid fa-star text-emerald-500"></i> 家长可为多个孩子统一购买更省心',
+            '<i class="fa-solid fa-gem text-emerald-500"></i> 人均约 ¥666/年，长期学习更划算',
           ],
         },
       ],
@@ -280,6 +286,9 @@ export default {
   background: #4338ca;
 }
 
+.ribbon-green {
+  background: #27ae60;
+}
 .card-p.active-plan {
   border: 3px solid #F2BE22;
   transform: scale(1.02);

@@ -572,6 +572,10 @@ module.exports = (CocoRouter = (function () {
           return this.routeDirectly('teachers/ConvertToTeacherAccountView', [])
         },
 
+        'index.html' () {
+          return this.redirectHome()
+        },
+
         'school-administrator(/*subpath)': go('core/SingletonAppVueComponentView'),
         'cinematicplaceholder/:levelSlug': go('core/SingletonAppVueComponentView'),
 
