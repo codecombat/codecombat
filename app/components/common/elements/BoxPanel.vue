@@ -60,7 +60,23 @@
             {{ item.title }}
           </template>
           <template #text>
-            <mixed-color-label :text="item.text" />
+            <mixed-color-label
+              v-if="item.text"
+              :text="item.text"
+            />
+          </template>
+          <template
+            v-if="item.lists"
+            #list
+          >
+            <div
+              v-for="it in item.lists"
+              :key="`list-items-${it.text}`"
+              class="list-items"
+              :class="`list-type-${it.listType}`"
+            >
+              {{ it.text }}
+            </div>
           </template>
           <template
             v-if="item.link || item.signupModal || item.links"
@@ -210,4 +226,14 @@ export default {
   align-self: flex-end;
 }
 
+.list-items {
+  position: relative;
+  margin-left: 2em;
+
+  &.list-type-check::before {
+    content: '✅';
+    position: absolute;
+    left: -1.5em;
+  }
+}
 </style>
