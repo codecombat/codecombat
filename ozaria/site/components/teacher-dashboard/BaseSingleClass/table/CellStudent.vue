@@ -1,5 +1,5 @@
 <script>
-import { isOzaria, courseIDs, OZ_COURSE_IDS } from 'core/utils'
+import { isOzaria, courseIDs, OZ_COURSE_IDS, courseAcronyms } from 'core/utils'
 import { mapMutations, mapGetters } from 'vuex'
 export default {
   props: {
@@ -82,7 +82,7 @@ export default {
       if (this.student.prepaidIncludesCourse(this.selectedCourseId)) {
         title = $.i18n.t('teacher.owned_license')
       } else {
-        title = $.i18n.t('teacher.course_not_covered')
+        title = $.i18n.t('teacher.course_not_covered', { course: courseAcronyms[this.selectedCourseId] })
       }
       return title + ` \n${covers}${this.student.prepaidTypeDescription()}`
     },

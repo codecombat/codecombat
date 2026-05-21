@@ -2969,7 +2969,7 @@ module.exports = {
       CS_short: 'CS',
       SANDBOX_short: 'Sandbox',
       EXPLORATIONS_short: 'Explorations',
-      course_not_covered: 'Course not covered',
+      course_not_covered: 'Course __course__ not covered',
       license_is: 'The student license is: ',
     },
 
