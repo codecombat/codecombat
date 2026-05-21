@@ -123,7 +123,11 @@ const ARENA_CURRICULUM = {
 
 const USER_CREDIT_HACKSTACK_KEY = 'HACKSTACK_QUERY'
 
+module.exports.BD_LEAD_FORM = 'https://docs.google.com/forms/d/18uhgIyMhYWGAHx265gkmP5tBW31sIPYHO05Sqb5aRrY'
+module.exports.AI_LEAGUE_LEAD_FORM = 'https://docs.google.com/forms/d/1rO__VvhM1yCuUHrtHJKXXj3RYA2vCzpRKzMCMaMS6SE'
+
 module.exports = {
+  ...module.exports,
   STARTER_LICENSE_COURSE_IDS,
   FREE_COURSE_IDS,
   MAX_STARTER_LICENSES,
