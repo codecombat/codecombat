@@ -1,34 +1,38 @@
 <script>
-import { isOzaria, courseIDs, OZ_COURSE_IDS } from 'core/utils'
+import { isOzaria, courseIDs, OZ_COURSE_IDS, courseAcronyms } from 'core/utils'
 import { mapMutations, mapGetters } from 'vuex'
 export default {
   props: {
     studentName: {
       type: String,
-      required: true
+      required: true,
     },
     studentId: {
       type: String,
-      required: true
+      required: true,
+    },
+    studentObj: {
+      type: Object,
+      default: null,
     },
     checked: {
       type: Boolean,
-      required: true
+      required: true,
     },
     isEnrolled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     studentSessions: {
-      type: Array
-    }
+      type: Array,
+    },
   },
 
   computed: {
     ...mapGetters({
       classroom: 'teacherDashboard/getCurrentClassroom',
       selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
-      getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass'
+      getCourseInstancesOfClass: 'courseInstances/getCourseInstancesOfClass',
     }),
 
     selectedCourseInstanceId () {
@@ -62,10 +66,30 @@ export default {
     isOzCourse () {
       return OZ_COURSE_IDS.includes(this.selectedCourseId)
     },
+    student () {
+      const User = require('models/User')
+      return new User(this.studentObj)
+    },
+    licenseImg () {
+      if (this.student.prepaidIncludesCourse(this.selectedCourseId)) {
+        return '/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Purple.svg'
+      }
+      return '/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg'
+    },
+    licensedStatus () {
+      let title
+      const covers = $.i18n.t('teacher.license_is')
+      if (this.student.prepaidIncludesCourse(this.selectedCourseId)) {
+        title = $.i18n.t('teacher.owned_license')
+      } else {
+        title = $.i18n.t('teacher.course_not_covered', { course: courseAcronyms[this.selectedCourseId] })
+      }
+      return title + ` \n${covers}${this.student.prepaidTypeDescription()}`
+    },
   },
   methods: {
     ...mapMutations({
-      openModalEditStudent: 'baseSingleClass/openModalEditStudent'
+      openModalEditStudent: 'baseSingleClass/openModalEditStudent',
     }),
     certUrl (studentId) {
       let urlStarts = '/certificates'
@@ -74,7 +98,7 @@ export default {
       }
       return `${urlStarts}/${studentId}?class=${this.classroom._id}&course=${this.selectedCourseId}&course-instance=${this.selectedCourseInstanceId}`
     },
-  }
+  },
 }
 </script>
 <template>
@@ -107,8 +131,8 @@ export default {
       </a>
       <img
         v-if="isEnrolled"
-        src="/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg"
-        title="Licensed"
+        :src="licenseImg"
+        :title="licensedStatus"
       >
     </div>
   </div>

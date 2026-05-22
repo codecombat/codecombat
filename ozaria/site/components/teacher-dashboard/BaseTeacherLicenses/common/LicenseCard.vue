@@ -47,7 +47,7 @@ export default {
     },
     includedCourseIds: {
       type: Array,
-      default: () => [],
+      default: () => undefined,
     },
     disableApplyLicenses: {
       type: Boolean,
@@ -105,14 +105,8 @@ export default {
       return credit && includedCourseIds?.length === 1 && includedCourseIds[0] === utils.courseIDs.HACKSTACK
     },
     licenseName () {
-      if (this.customizedLicense) {
-        if (this.hackstackLicense) {
-          return $.i18n.t('teacher.hackstack_license')
-        }
-        return $.i18n.t('teacher.customized_license')
-      } else {
-        return $.i18n.t('teacher.full_license')
-      }
+      const typeDescription = utils.courseDescription(this.includedCourseIds, this.properties?.creditDetails)
+      return typeDescription.split(':')[0]
     },
     licenseDescription () {
       if (this.customizedLicense) {
