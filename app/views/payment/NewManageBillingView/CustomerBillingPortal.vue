@@ -30,8 +30,8 @@
         <span />
       </div>
       <div
-        v-for="line of filtered_histories"
-        :key="line.date"
+        v-for="(line, idx) of filtered_histories"
+        :key="`${line.date}-${idx}`"
         class="table-row"
       >
         <div />
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { createPaymentCustomerPortal } from '../../core/api/payment-customer-portal'
+import { createPaymentCustomerPortal } from '../../../core/api/payment-customer-portal'
 import paymentApi from '../../../core/api/payment'
 
 export default {
@@ -109,14 +109,14 @@ export default {
       const data = resp?.data
       const stripeCustomerIdPresent = data?.stripeCustomerIdPresent
       if (!stripeCustomerIdPresent) {
-        // const _errMsg = $.i18n.t('payments.stripe_no_data')
-        // todo
+        this.errMsg = $.i18n.t('payments.stripe_no_data')
       } else {
         this.customerPortalUrl = data.url
       }
     },
     onManageBilling (e) {
       e.preventDefault()
+      if (!this.customerPortalUrl) return
       window.location.href = this.customerPortalUrl
     },
     async loadPaymentHistory () {

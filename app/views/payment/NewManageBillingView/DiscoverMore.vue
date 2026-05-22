@@ -33,9 +33,9 @@ export default {
   components: {
     BoxPanel,
   },
-  data () {
-    return {
-      cards: [
+  computed: {
+    cards () {
+      return [
         // junior
         {
           title: this.$t('new_premium.junior_title'),
@@ -103,8 +103,8 @@ export default {
             },
           ],
         },
-      ],
-    }
+      ]
+    },
   },
 }
 </script>

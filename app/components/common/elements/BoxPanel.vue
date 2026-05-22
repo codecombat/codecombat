@@ -70,8 +70,8 @@
             #list
           >
             <div
-              v-for="it in item.lists"
-              :key="`list-items-${it.text}`"
+              v-for="(it, idx) in item.lists"
+              :key="`list-${index}-items-${idx}-${it.text}`"
               class="list-items"
               :class="`list-type-${it.listType}`"
             >
