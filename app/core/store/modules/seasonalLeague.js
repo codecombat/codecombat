@@ -53,7 +53,7 @@ export default {
     },
 
     paginateArenas (state, direction = 'next') {
-      const season = state.currentRegularArena.season
+      const season = state.currentRegularArena?.season || state.currentChampionshipArena?.season
       const increment = direction === 'next' ? 1 : -1
 
       const nextOrPreviousRegularArena = findArena(season + increment, 'regular')
@@ -361,6 +361,7 @@ export default {
 
     async loadChampionshipGlobalRequiredData ({ commit, dispatch, state }) {
       if (!state.currentChampionshipArena) return
+      commit('setLoading', true)
       commit('clearMyChampionshipSession')
       const awaitPromises = [
         dispatch('fetchChampionshipGlobalLeaderboard'),
@@ -410,6 +411,7 @@ export default {
         }
       }
       await Promise.all(awaitPromises)
+      commit('setLoading', false)
     },
 
     async loadClanRequiredData ({ commit, state }, { leagueId }) {
