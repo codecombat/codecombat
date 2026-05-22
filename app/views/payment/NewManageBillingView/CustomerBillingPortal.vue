@@ -60,6 +60,7 @@ export default {
       histories: [],
       customerPortalUrl: '',
       view_all: false,
+      errMsg: '',
     }
   },
   computed: {
