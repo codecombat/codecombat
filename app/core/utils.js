@@ -1016,9 +1016,7 @@ const isAnyPrecedingLevelLocked = function (levels, currentIndex) {
 
 const findNextLevel = function (levels, currentIndex, needsPractice) {
   let index = currentIndex + 1
-
   if (isAnyPrecedingLevelLocked(levels, currentIndex)) { return -1 }
-
   if (needsPractice) {
     if (isPractice(levels[currentIndex]) || ((index < levels.length) && isPractice(levels[index]))) {
       while ((index < levels.length) && (isCompleteOrAssessmentOrSkipped(levels[index]) || isLocked(levels[index]))) {
@@ -1042,8 +1040,22 @@ const findNextLevel = function (levels, currentIndex, needsPractice) {
       index++
     }
   }
-
   return index
+}
+
+// Practice level slugs are <mainLevelSlug>-[a-z]; the DB only stores locks on the parent level
+// this works on junior only as they have practice levels related to parent level
+const findParentLevelOriginal = function (level, levelsArr) {
+  if (!level) return
+  let lockCheckOriginal = level.original
+  if (level.practice) {
+    const mainSlug = level.slug?.replace(/-[a-z]$/, '')
+    const mainLevel = levelsArr.find(l => l.slug === mainSlug)
+    if (mainLevel) {
+      lockCheckOriginal = mainLevel.original
+    }
+  }
+  return lockCheckOriginal
 }
 
 const findNextAssessmentForLevel = function (levels, currentIndex, needsPractice) {
@@ -1969,6 +1981,7 @@ module.exports = {
   freeAccessLevels,
   findNextAssessmentForLevel,
   findNextLevel,
+  findParentLevelOriginal,
   formatDollarValue,
   formatStudentLicenseStatusDate,
   formatStudentSingleLicenseStatusDate,
