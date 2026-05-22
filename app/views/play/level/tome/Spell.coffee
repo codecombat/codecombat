@@ -176,7 +176,7 @@ module.exports = class Spell
     else
       source = @getSource()
     # we have some spell.transpile usage without fetchToken (maybe buggy?), so keep this line for the case
-    source = @view?.handleJuniorLevelHack(source) || source
+    source = utils.guardJuniorLevelHealthCode(@level, source)
     unless @language is 'html'
       @thang?.aether.transpile source
       @session.lastAST = @thang?.aether.ast

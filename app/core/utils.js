@@ -1917,6 +1917,17 @@ module.exports.groupedCoursesList = (courses) => {
     return cs
   }
 }
+module.exports.guardJuniorLevelHealthCode = (level, source) => {
+  if (level?.get('product') === 'codecombat-junior') {
+    source = source.replace(/(^|[^a-zA-Z.])health(?!\w)/g, (match, prefix) => {
+      if (prefix.endsWith('hero.')) {
+        return match
+      }
+      return `${prefix}hero.health`
+    })
+  }
+  return source
+}
 
 module.exports.courseDescription = (includedCourseIDs, credit = undefined) => {
   const { LICENSE_PRESETS } = require('./constants')
