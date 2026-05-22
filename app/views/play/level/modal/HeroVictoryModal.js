@@ -623,6 +623,10 @@ module.exports = (HeroVictoryModal = (function () {
           continueLink += `?${queryParams.join('&')}`
         }
         viewArgs = [options, this.practiceLevel.get('slug')]
+      } else if (isJunior && (me.isHomeUser() || me.isAnonymous()) && this.parentCampaign) {
+        continueLink = `/play/${this.parentCampaign}`
+        viewClass = 'views/play/CampaignView'
+        viewArgs = [options, this.parentCampaign]
       } else if ((this.level.isType('course') || isJunior) && this.nextLevel?.get('slug') && !options.returnToCourse) {
         continueLink = `/play/level/${this.nextLevel.get('slug')}`
         if (this.courseID) {
@@ -668,16 +672,6 @@ module.exports = (HeroVictoryModal = (function () {
         continueLink += '/' + nextCampaign
         viewClass = 'views/play/CampaignView'
         viewArgs = [options, nextCampaign]
-      }
-      // If the link contains /play/level/, we need to check if the level requires sign up
-      // for home users we are going to try get-out experiment
-      if (isJunior && continueLink.includes('/play/level/') && (me.isHomeUser() || me.isAnonymous())) {
-        const getOutValue = me.getOrStartGetOutExperimentValue?.()
-        if (getOutValue === 'beta' && this.parentCampaign) {
-          continueLink = `/play/${this.parentCampaign}`
-          viewClass = 'views/play/CampaignView'
-          viewArgs = [options, this.parentCampaign]
-        }
       }
       const navigationEvent = { route: continueLink, viewClass, viewArgs }
       if ((this.level.get('slug') === 'lost-viking') && !((needle1 = me.get('age'), ['0-13', '14-17'].includes(needle1)))) {
