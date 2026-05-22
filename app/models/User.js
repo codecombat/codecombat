@@ -864,6 +864,16 @@ module.exports = (User = (function () {
       return 'course'
     }
 
+    prepaidTypeDescription () {
+      const courseProducts = this.activeProducts('course')
+      if (!courseProducts.length) { return '' }
+      // NOTE: Full licenses implicitly include all courses
+      if (_.any(courseProducts, p => (p.productOptions?.includedCourseIDs == null))) { return utils.courseDescription() }
+      const union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs != null ? prepaid.productOptions?.includedCourseIDs : [])
+      const includedCourseIDs = _.reduce(courseProducts, union, [])
+      return utils.courseDescription(includedCourseIDs)
+    }
+
     prepaidIncludesCourse (course) {
       const courseProducts = this.activeProducts('course')
       if (!courseProducts.length) { return false }
