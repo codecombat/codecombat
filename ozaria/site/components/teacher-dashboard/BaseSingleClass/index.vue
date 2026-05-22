@@ -380,7 +380,6 @@ export default {
         return {
           displayName,
           _id: userObj._id,
-          userObj,
           isEnrolled,
           firstName: userObj.firstName || displayName,
           lastName: userObj.lastName || displayName,

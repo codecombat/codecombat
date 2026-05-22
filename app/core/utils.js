@@ -1918,27 +1918,6 @@ module.exports.groupedCoursesList = (courses) => {
   }
 }
 
-module.exports.courseDescription = (includedCourseIDs, credit = undefined) => {
-  const { LICENSE_PRESETS } = require('./constants')
-  const numericalCourses = courses => courses.reduce((s, k) => s + courseNumericalStatus[k], 0)
-  const courseSame = (a, b) => a.length === b.length && numericalCourses(a) === numericalCourses(b)
-  if (includedCourseIDs) {
-    const hsCourses = [...HACKSTACK_COURSE_IDS.filter(x => x !== allCourseIDs.HACKSTACK)]
-    if (credit && courseSame(includedCourseIDs, hsCourses)) {
-      return $.i18n.t('teacher.hackstack_license') + $.i18n.t('teacher.hackstack_credits', credit)
-    }
-    if (courseSame(includedCourseIDs, LICENSE_PRESETS['COCO-OLD(No HS, OZ)'])) {
-      return $.i18n.t('teacher.coco_full_license')
-    }
-    if (courseSame(includedCourseIDs, LICENSE_PRESETS['CH1+CH2+CH3+CH4(OZ only)'])) {
-      return $.i18n.t('teacher.ozar_full_license')
-    }
-    return $.i18n.t('teacher.customized_license') + ': ' + (includedCourseIDs.map(id => courseAcronyms[id])).join('+')
-  } else {
-    return $.i18n.t('teacher.full_license')
-  }
-}
-
 module.exports = {
   ...module.exports,
   activeAndPastArenas,
