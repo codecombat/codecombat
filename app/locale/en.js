@@ -5268,7 +5268,7 @@ module.exports = {
       invite_players: 'Invite Players',
       select_arena: 'Select an Arena',
       refer_guide: 'Refer to the <a href="https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit#slide=id.gb06b5c7fa4_0_10">Educator Getting Started Guide</a> to see how easy it can be to bring competitive coding to your school.',
-      having_question: 'Still have questions? Check out our <a target="_blank" href="https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League">FAQs</a> or <a href="https://form.typeform.com/to/qXqgbubC" target="_blank">Contact Us</a> to learn more.',
+      having_question: 'Still have questions? Check out our <a target="_blank" href="https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League">FAQs</a> or <a href="https://docs.google.com/forms/d/1rO__VvhM1yCuUHrtHJKXXj3RYA2vCzpRKzMCMaMS6SE" target="_blank">Contact Us</a> to learn more.',
       global_rankings: 'Global Ranking',
       team_rankings: 'Team Ranking',
       inspiration_title: 'Are you an educator or esports coach?',
