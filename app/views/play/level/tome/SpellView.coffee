@@ -127,7 +127,7 @@ module.exports = class SpellView extends CocoView
     _.defer @onAllLoaded  # Needs to happen after the code generating this view is complete
 
   handleJuniorLevelHack: (source) ->
-    if @options.level.get('product') is 'codecombat-junior'
+    if @options?.level?.get('product') is 'codecombat-junior'
       # cpp/java need rewrite blank `health` calls to `hero.health` before sending to codekeeper.
       source = source.replace /(^|[^a-zA-Z.])health(?!\w)/g, (match, prefix) ->
         return match if prefix.endsWith('hero.')
