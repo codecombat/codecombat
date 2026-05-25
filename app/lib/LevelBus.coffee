@@ -6,6 +6,7 @@ tagger = require 'lib/SolutionConceptTagger'
 store = require('core/store')
 Concepts = require 'collections/Concepts'
 globalVar = require 'core/globalVar'
+v4Debounce = require 'lodash-4/debounce'
 
 module.exports = class LevelBus extends Bus
 
@@ -25,6 +26,7 @@ module.exports = class LevelBus extends Bus
     'tome:spell-created': 'onSpellCreated'
     'tome:cast-spells': 'onCastSpells'
     'tome:winnability-updated': 'onWinnabilityUpdated'
+    'tome:blockly-error': 'onBlocklyError'
     'application:idle-changed': 'onIdleChanged'
     'goal-manager:new-goal-states': 'onNewGoalStates'
     'god:new-world-created': 'onNewWorldCreated'
@@ -37,7 +39,7 @@ module.exports = class LevelBus extends Bus
       when not application.isProduction or not saveDelay then [1, 5]  # Save quickly in development.
       when me.isAnonymous() then [saveDelay.anonymous.min, saveDelay.anonymous.max]
       else [saveDelay.registered.min, saveDelay.registered.max]
-    @saveSession = _.debounce @reallySaveSession, wait * 1000, {maxWait: maxWait * 1000}
+    @saveSession = v4Debounce @reallySaveSession, wait * 1000, {maxWait: maxWait * 1000}
     @playerIsIdle = false
     @vuexDestroyFunctions = []
     @vuexDestroyFunctions.push store.watch(
@@ -105,6 +107,14 @@ module.exports = class LevelBus extends Bus
   # TODO: The LevelBus doesn't need to be in charge of updating the
   #   LevelSession object. Either break this off into a separate class
   #   or have the LevelSession object listen for all these events itself.
+  onBlocklyError: ->
+    @saveSession.cancel()
+    window.noty({
+      type: 'error',
+      text: $.i18n.t('play.blockly_error_msg'),
+      layout: 'center',
+      timeout: 4000,
+    })
 
   setSpells: (spells) ->
     @onSpellCreated spell: spell for spellKey, spell of spells
