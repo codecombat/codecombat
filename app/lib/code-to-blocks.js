@@ -571,7 +571,7 @@ class Converters {
     if (n.property.type === 'Identifier' && n.property.name === 'length') {
       return {
         type: 'lists_length',
-        input: {
+        inputs: {
           VALUE: { block: convert(n.object, ctx) },
         },
       }

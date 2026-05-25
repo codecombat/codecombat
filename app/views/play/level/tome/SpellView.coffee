@@ -487,7 +487,7 @@ module.exports = class SpellView extends CocoView
       @awaitingBlocklySerialization = true
       @blocklySuccess = blocklyUtils.loadBlocklyState { blocklyState: @lastBlocklyState, blockly: @blockly }
       unless @blocklySuccess
-        Backbone.Mediator.publish 'tome:blockly-error'
+        Backbone.Mediator.publish 'tome:blockly-error', {}
         return @resizeBlockly()
       for block in @blockly.getAllBlocks() when block.type is 'comment'
         # Make long comments not so long. (The full comments will be visible, wrapped, in text version anyway.)
