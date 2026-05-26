@@ -1710,6 +1710,7 @@ const aiToolToImage = {
   gpt: '/images/ai/ChatGPT.svg',
   'stable-diffusion': '/images/ai/Stable_Diffusion.png',
   'dall-e-3': '/images/ai/DALL-E.webp',
+  'gpt-image': '/images/ai/DALL-E.webp',
   claude: '/images/ai/claude.webp',
   gemini: '/images/ai/gemini.svg',
   imagen: '/images/ai/gemini.svg',
@@ -1718,7 +1719,7 @@ const aiToolToImage = {
 module.exports.getImageFromAiTool = (tool) => {
   if (tool.includes('claude')) {
     return aiToolToImage.claude
-  } else if (tool.includes('dall-e')) {
+  } else if (tool.includes('dall-e') || tool.includes('gpt-image')) {
     return aiToolToImage['dall-e-3']
   } else if (tool.includes('stable-diffusion')) {
     return aiToolToImage['stable-diffusion']
