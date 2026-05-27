@@ -2704,6 +2704,10 @@ class CampaignView extends RootView {
       return false
     }
 
+    if (what === 'pets') {
+      return this.isJuniorCampaign()
+    }
+
     if (['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements'].includes(what)) {
       let extraCond = true
       if (me.showChinaHomeVersion() && what === 'poll') {
