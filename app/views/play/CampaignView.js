@@ -2738,7 +2738,7 @@ class CampaignView extends RootView {
 
     if (what === 'anonymous-classroom-signup') {
       return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() &&
-        !this.editorMode && this.terrain !== 'junior' && !storage.load('hid-anonymous-classroom-signup-dialog')
+        !this.editorMode && !this.isJuniorCampaign() && !storage.load('hid-anonymous-classroom-signup-dialog')
     }
 
     if (what === 'amazon-campaign') {
