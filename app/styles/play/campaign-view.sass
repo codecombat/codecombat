@@ -708,6 +708,19 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         height: auto
         aspect-ratio: 1 / 1
         min-width: 0
+        padding: 0
+        border-radius: 0
+        background-size: contain
+        box-shadow: none
+        filter: drop-shadow(2px 2px 4px black)
+
+        &:hover
+          box-shadow: none
+          filter: drop-shadow(0 0 8px #bbf)
+
+        &:active, &.active, &.highlighted
+          box-shadow: none
+          filter: drop-shadow(0 0 12px white)
 
         &:not(:first-child)
           margin-top: 35%
@@ -846,8 +859,21 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         height: auto
         aspect-ratio: 1 / 1
         min-width: 0
+        padding: 0
+        border-radius: 0
         margin-top: 0
         background-size: contain
+        box-shadow: none
+        filter: drop-shadow(2px 2px 4px black)
+
+        &:hover
+          box-shadow: none
+          filter: drop-shadow(0 0 8px #bbf)
+
+        &:active, &.active, &.highlighted
+          box-shadow: none
+          filter: drop-shadow(0 0 12px white)
+
         --icon-scale: 1
         --icon-shift-x: 0px
         --icon-shift-y: 0px
