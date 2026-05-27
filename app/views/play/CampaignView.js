@@ -2646,12 +2646,17 @@ class CampaignView extends RootView {
     }
   }
 
+  isJuniorCampaign (campaign) {
+    campaign = campaign || this.campaign
+    return campaign?.get('type') === 'junior' || campaign?.get('slug') === 'junior'
+  }
+
   shouldShow (what) {
     const isStudentOrTeacher = me.isStudent() || me.isTeacher()
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
     if (what === 'junior-menu-icon') {
-      if (this.terrain === 'junior') {
+      if (this.isJuniorCampaign()) {
         return false
       }
       return me.isHomeUser() && !this.editorMode
@@ -2687,11 +2692,15 @@ class CampaignView extends RootView {
       return me.showGemsAndXpInClassroom() || !isStudentOrTeacher
     }
 
-    if (['leaderboard'].includes(what) && this.terrain === 'junior') {
+    if (['leaderboard'].includes(what) && this.isJuniorCampaign()) {
       return false
     }
 
-    if (what === 'items' && this.terrain === 'junior') {
+    if (what === 'items' && this.isJuniorCampaign()) {
+      return false
+    }
+
+    if (what === 'heros' && this.isJuniorCampaign()) {
       return false
     }
 
@@ -2755,7 +2764,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'cchome-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior') && !this.editorMode
+      return !userUtils.isCreatedViaLibrary() && this.isJuniorCampaign() && !this.editorMode
     }
 
     return true
