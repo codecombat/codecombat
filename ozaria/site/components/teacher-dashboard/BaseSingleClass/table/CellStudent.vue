@@ -72,9 +72,9 @@ export default {
     },
     licenseImg () {
       if (this.student.prepaidIncludesCourse(this.selectedCourseId)) {
-        return '/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Purple.svg'
+        return '/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg'
       }
-      return '/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Gray.svg'
+      return '/images/ozaria/teachers/dashboard/svg_icons/IconLicense_Moon.svg'
     },
     licensedStatus () {
       let title
