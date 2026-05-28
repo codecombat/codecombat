@@ -33,6 +33,12 @@ export default {
   components: {
     BoxPanel,
   },
+  props: {
+    location: {
+      type: String,
+      default: 'ManageBillingView',
+    },
+  },
   computed: {
     cards () {
       return [
@@ -43,6 +49,7 @@ export default {
           link: getJuniorUrl(),
           linkText: this.$t('home_v3.try_it_now'),
           image: '/images/pages/premium/tiles/pbox_1.webp',
+          linkEvent: this.track,
         },
         // codecombat
         {
@@ -51,6 +58,7 @@ export default {
           link: 'https://codecombat.com/play',
           linkText: this.$t('home_v3.try_it_now'),
           image: '/images/pages/premium/tiles/pbox_2.webp',
+          linkEvent: this.track,
         },
         // esports
         {
@@ -59,6 +67,7 @@ export default {
           link: 'https://codecombat.com/league',
           linkText: this.$t('home_v3.try_it_now'),
           image: '/images/pages/parents/tiles/pbox_3.webp',
+          linkEvent: this.track,
         },
         // ccw
         {
@@ -68,6 +77,7 @@ export default {
           image: '/images/pages/parents/tiles/pbox_4.webp',
           link: 'https://codecombat.com/roblox',
           linkText: this.$t('home_v3.try_it_now'),
+          linkEvent: this.track,
         },
         // hackstack
         {
@@ -76,6 +86,7 @@ export default {
           image: '/images/pages/premium/tiles/pbox_5.webp',
           link: 'https://codecombat.com/hackstack/',
           linkText: this.$t('home_v3.try_it_now'),
+          linkEvent: this.track,
         },
         // subscription inlcudes
         {
@@ -104,6 +115,11 @@ export default {
           ],
         },
       ]
+    },
+  },
+  methods: {
+    track (link) {
+      window.tracker?.trackEvent(`click link to ${link} from ${this.location}`)
     },
   },
 }
