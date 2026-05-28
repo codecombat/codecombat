@@ -92,7 +92,7 @@ _.extend(AIScenarioSchema.properties, {
     },
   },
   evaluationRules: {
-    title: 'Evaluation Rules in System prompts for evaluate the project',
+    title: 'Evaluation Rules in System prompts for evaluating the project',
     type: 'array',
     items: {
       type: 'string',

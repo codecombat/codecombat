@@ -80,7 +80,7 @@ _.extend(AIProjectSchema.properties, {
       properties: {
         content: { type: 'string' },
         apiUsage: { type: 'object', additionalProperties: true },
-        date: { type: 'date' },
+        date: c.date(),
         lastMessageId: { type: ['object', 'string'], format: 'chat-message-link' },
       },
     },

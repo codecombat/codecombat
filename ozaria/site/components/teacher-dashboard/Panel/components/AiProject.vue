@@ -54,6 +54,7 @@
       class="ai-evaluation"
     >
       {{ $t('teacher_dashboard.ai_evaluation') }}:
+      <IconBeta class="beta-icon" />
       <div class="evaluation">
         <p class="content">
           {{ aiEvaluation.content }}
@@ -69,12 +70,15 @@
 </template>
 
 <script>
-
 import _ from 'lodash'
+import IconBeta from 'app/core/components/IconBeta'
 const moment = window.moment
 
 export default {
   name: 'AiProject',
+  components: {
+    IconBeta,
+  },
   props: {
     aiProject: {
       type: Object,
@@ -180,7 +184,12 @@ export default {
     border-radius: 5px;
     margin: 10px 5px;
     padding: 5px;
+    position: relative;
 
+    .beta-icon {
+      position: absolute;
+      top: -10px;
+    }
     .evaluation {
       max-height: 40vh;
       overflow-y: auto;
