@@ -99,7 +99,7 @@ _.extend(AIScenarioSchema.properties, {
       format: 'markdown',
     },
   },
-  evaluationPhase: { enum: ['beta', 'internalRelease', 'released', 'draft'], description: "How far along the evaluationRules' development is, determining who sees it." },
+  evaluationPhase: { enum: ['internalRelease', 'released', 'draft'], description: "How far along the evaluationRules' development is, determining who sees it." },
   minMsgs: {
     title: 'Minimum messages for completion',
     type: 'integer',
