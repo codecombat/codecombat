@@ -50,9 +50,9 @@ export default {
 <template>
   <div id="studentList">
     <CellStudent
-      v-for="{ displayName, _id, isEnrolled, studentCombinedSessions } of studentsWithSessions"
+      v-for="{ displayName, _id, userObj, isEnrolled, studentCombinedSessions } of studentsWithSessions"
       :key="_id"
-
+      :student-obj="userObj"
       :student-id="_id"
       :student-name="displayName"
       :is-enrolled="isEnrolled"

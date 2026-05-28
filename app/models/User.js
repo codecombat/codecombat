@@ -27,7 +27,6 @@ const _ = require('lodash')
 const moment = window.moment
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
 const CHOCOLI_EXPERIMENT_NAME = 'chocoli'
-const GET_OUT_EXPERIMENT_NAME = 'get-out'
 const REQUIRE_SIGN_UP_EXPERIMENT = {
   dungeon: 'requires-sign-up-dungeon',
   junior: 'requires-sign-up-junior',
@@ -865,6 +864,16 @@ module.exports = (User = (function () {
       return 'course'
     }
 
+    prepaidTypeDescription () {
+      const courseProducts = this.activeProducts('course')
+      if (!courseProducts.length) { return '' }
+      // NOTE: Full licenses implicitly include all courses
+      if (_.any(courseProducts, p => (p.productOptions?.includedCourseIDs == null))) { return utils.courseDescription() }
+      const union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs != null ? prepaid.productOptions?.includedCourseIDs : [])
+      const includedCourseIDs = _.reduce(courseProducts, union, [])
+      return utils.courseDescription(includedCourseIDs)
+    }
+
     prepaidIncludesCourse (course) {
       const courseProducts = this.activeProducts('course')
       if (!courseProducts.length) { return false }
@@ -1496,31 +1505,6 @@ module.exports = (User = (function () {
         return value
       }
       return this.tryStartExperiment(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN])
-    }
-
-    getGetOutExperimentValue () {
-      if (me.isStudent() || me.isTeacher()) {
-        return 'control'
-      }
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      if (me.isPremium()) {
-        return 'control'
-      }
-      const value = utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery(GET_OUT_EXPERIMENT_NAME),
-        me.getExperimentValue(GET_OUT_EXPERIMENT_NAME, null),
-      )
-      return value ?? null
-    }
-
-    getOrStartGetOutExperimentValue () {
-      const value = this.getGetOutExperimentValue()
-      if (value != null) {
-        return value
-      }
-      return this.tryStartExperiment(GET_OUT_EXPERIMENT_NAME)
     }
 
     getOrStartChocoliExperimentValue () {

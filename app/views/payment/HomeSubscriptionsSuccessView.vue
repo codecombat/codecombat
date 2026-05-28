@@ -25,29 +25,35 @@
       <div class="section">
         Thank you for choosing CodeCombat and you can always reach us with any questions at <a href="mailto:support@codecombat.com">support@codecombat.com</a>
       </div>
+      <DiscoverMore
+        class="discover-more"
+        location="HomeSubscriptionsSuccessView"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import LiveOnlineClassesPromotionModal from '../parents/LiveOnlineClassesPromotionModal.vue'
+import DiscoverMore from './NewManageBillingView/DiscoverMore.vue'
 const paymentUtils = require('app/lib/paymentUtils')
 export default {
   name: 'PaymentHomeSubscriptionsSuccessView',
   components: {
-    LiveOnlineClassesPromotionModal
+    LiveOnlineClassesPromotionModal,
+    DiscoverMore,
   },
   props: {
     amount: {
-      type: String
+      type: String,
     },
     duration: {
-      type: String // possible values: one_time, x_month, y_year
-    }
+      type: String, // possible values: one_time, x_month, y_year
+    },
   },
   data () {
     return {
-      showLocModal: true
+      showLocModal: true,
     }
   },
   created () {
@@ -58,7 +64,7 @@ export default {
       window.tracker.trackEvent('Home subscription purchase success', options)
       paymentUtils.setTrackedPremiumPurchase()
     }
-  }
+  },
 }
 </script>
 
@@ -69,4 +75,6 @@ export default {
   color: green
 .processed
   color: grey
+.discover-more
+  margin-top: 40px
 </style>
