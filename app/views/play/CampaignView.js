@@ -2522,7 +2522,9 @@ class CampaignView extends RootView {
       level.color = 'rgb(255, 80, 60)'
       level.disabled = false
 
-      if (level.slug === nextSlug && !this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+      const lockCheckOriginal = utils.findParentLevelOriginal(level, courseOrder)
+
+      if (level.slug === nextSlug && !this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
         level.locked = false
         level.hidden = false
         level.next = true
@@ -2551,7 +2553,7 @@ class CampaignView extends RootView {
         }
       }
 
-      if ((!prev || !prev.locked) && level.locked && this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+      if ((!prev || !prev.locked) && level.locked && this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
         level.locked = false
       }
 
@@ -2562,8 +2564,8 @@ class CampaignView extends RootView {
       const legacyLock = startLockedLevel && level.slug === startLockedLevel
 
       if (legacyLock ||
-      this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original)) {
-        if (!this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+      this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
+        if (!this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
           lockedByTeacher = true
         } else {
           lockSkippedLevel = true
@@ -2590,7 +2592,7 @@ class CampaignView extends RootView {
       level.unlocksHero = false
       level.unlocksItem = false
       prev = level
-      if (!this.campaign.levelIsPractice(level) && !this.campaign.levelIsAssessment(level) && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+      if (!this.campaign.levelIsPractice(level) && !this.campaign.levelIsAssessment(level) && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
         lastNormalLevel = level
       }
     }

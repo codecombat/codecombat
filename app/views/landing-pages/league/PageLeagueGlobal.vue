@@ -11,6 +11,7 @@ import ApiData from '../../api/components/ApiData'
 
 import { joinClan, leaveClan } from '../../../core/api/clans'
 import { titleize, arenas, activeArenas } from '../../../core/utils'
+import { AI_LEAGUE_LEAD_FORM } from '../../../core/constants'
 
 import BackboneModalHarness from '../../common/BackboneModalHarness'
 import CreateAccountModal from '../../core/CreateAccountModal/CreateAccountModal'
@@ -92,7 +93,7 @@ export default {
       codePointsPlayerCount: 'seasonalLeague/codePointsPlayerCount',
     }),
     AILeagueProductCTA () {
-      return 'https://form.typeform.com/to/qXqgbubC'
+      return AI_LEAGUE_LEAD_FORM
     },
     currentSelectedClan () {
       return this.clanByIdOrSlug(this.clanIdOrSlug) || null
@@ -1207,7 +1208,7 @@ export default {
       >
         <a
           class="btn btn-large btn-primary btn-moon contact-us__btn"
-          href="https://form.typeform.com/to/qXqgbubC"
+          :href="AILeagueProductCTA"
           target="_blank"
         >
           {{ $t('general.contact_us') }}

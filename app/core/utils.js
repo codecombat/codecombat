@@ -1016,9 +1016,7 @@ const isAnyPrecedingLevelLocked = function (levels, currentIndex) {
 
 const findNextLevel = function (levels, currentIndex, needsPractice) {
   let index = currentIndex + 1
-
   if (isAnyPrecedingLevelLocked(levels, currentIndex)) { return -1 }
-
   if (needsPractice) {
     if (isPractice(levels[currentIndex]) || ((index < levels.length) && isPractice(levels[index]))) {
       while ((index < levels.length) && (isCompleteOrAssessmentOrSkipped(levels[index]) || isLocked(levels[index]))) {
@@ -1042,8 +1040,22 @@ const findNextLevel = function (levels, currentIndex, needsPractice) {
       index++
     }
   }
-
   return index
+}
+
+// Practice level slugs are <mainLevelSlug>-[a-z]; the DB only stores locks on the parent level
+// this works on junior only as they have practice levels related to parent level
+const findParentLevelOriginal = function (level, levelsArr) {
+  if (!level) return
+  let lockCheckOriginal = level.original
+  if (level.practice) {
+    const mainSlug = level.slug?.replace(/-[a-z]$/, '')
+    const mainLevel = levelsArr.find(l => l.slug === mainSlug)
+    if (mainLevel) {
+      lockCheckOriginal = mainLevel.original
+    }
+  }
+  return lockCheckOriginal
 }
 
 const findNextAssessmentForLevel = function (levels, currentIndex, needsPractice) {
@@ -1698,6 +1710,7 @@ const aiToolToImage = {
   gpt: '/images/ai/ChatGPT.svg',
   'stable-diffusion': '/images/ai/Stable_Diffusion.png',
   'dall-e-3': '/images/ai/DALL-E.webp',
+  'gpt-image': '/images/ai/DALL-E.webp',
   claude: '/images/ai/claude.webp',
   gemini: '/images/ai/gemini.svg',
   imagen: '/images/ai/gemini.svg',
@@ -1706,7 +1719,7 @@ const aiToolToImage = {
 module.exports.getImageFromAiTool = (tool) => {
   if (tool.includes('claude')) {
     return aiToolToImage.claude
-  } else if (tool.includes('dall-e')) {
+  } else if (tool.includes('dall-e') || tool.includes('gpt-image')) {
     return aiToolToImage['dall-e-3']
   } else if (tool.includes('stable-diffusion')) {
     return aiToolToImage['stable-diffusion']
@@ -1905,6 +1918,13 @@ module.exports.groupedCoursesList = (courses) => {
     return cs
   }
 }
+module.exports.guardJuniorLevelHealthCode = (level, source) => {
+  if (typeof source !== 'string') return source // should not happen
+  if (level?.get('product') === 'codecombat-junior') {
+    source = source.replace(/(^|[^a-zA-Z.])health(?!\w)/g, (match, prefix) => `${prefix}hero.health`)
+  }
+  return source
+}
 
 module.exports.courseDescription = (includedCourseIDs, credit = undefined) => {
   const { LICENSE_PRESETS } = require('./constants')
@@ -1969,6 +1989,7 @@ module.exports = {
   freeAccessLevels,
   findNextAssessmentForLevel,
   findNextLevel,
+  findParentLevelOriginal,
   formatDollarValue,
   formatStudentLicenseStatusDate,
   formatStudentSingleLicenseStatusDate,

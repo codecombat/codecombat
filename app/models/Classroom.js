@@ -248,6 +248,7 @@ module.exports = (Classroom = (function () {
       let linesOfCode = 0
       const userLevels = {}
       const levelsInCourse = new Set()
+      const levelAttributesArr = courseLevels.models.map(l => l.attributes)
       for (let index = 0; index < courseLevels.models.length; index++) {
         let left2, left3
         const level = courseLevels.models[index]
@@ -270,11 +271,14 @@ module.exports = (Classroom = (function () {
         } else if (!(level.get('practice') || level.get('assessment'))) {
           levelsLeft++
         }
+        const lockCheckOriginal = utils.findParentLevelOriginal(level.attributes, levelAttributesArr)
         levels.push({
           assessment: (left2 = level.get('assessment')) != null ? left2 : false,
           practice: (left3 = level.get('practice')) != null ? left3 : false,
           complete,
-          optional: this.isStudentOnOptionalLevel(me.id, courseID, level.get('original'))
+          optional: this.isStudentOnOptionalLevel(me.id, courseID, lockCheckOriginal),
+          slug: level.get('slug'),
+          original: level.get('original'),
         })
         if (!level.get('practice') && !level.get('assessment')) { levelsInCourse.add(level.get('original')) }
         userLevels[level.get('original')] = complete
@@ -295,7 +299,8 @@ module.exports = (Classroom = (function () {
         needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes') * thresholdFactor) && !currentLevel.get('assessment')
         if (utils.isCodeCombat || !utils.orderedCourseIDs.includes(courseID)) {
           nextIndex = utils.findNextLevel(levels.map(level => {
-            return { ...level, locked: this.isStudentOnLockedLevel(me.id, courseID, level.original) }
+            const lockCheckOriginal = utils.findParentLevelOriginal(level, levels)
+            return { ...level, locked: this.isStudentOnLockedLevel(me.id, courseID, lockCheckOriginal) }
           }), currentIndex, needsPractice)
         }
       }
@@ -305,7 +310,8 @@ module.exports = (Classroom = (function () {
       } else {
         if (currentIndex === -1) {
           nextIndex = utils.findNextLevel(levels.map(level => {
-            return { ...level, locked: this.isStudentOnLockedLevel(me.id, courseID, level.original) }
+            const lockCheckOriginal = utils.findParentLevelOriginal(level, levels)
+            return { ...level, locked: this.isStudentOnLockedLevel(me.id, courseID, lockCheckOriginal) }
           }), currentIndex, needsPractice)
         }
         nextLevel = courseLevels.models[nextIndex]
