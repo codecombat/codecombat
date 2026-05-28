@@ -49,6 +49,19 @@
       </ul>
     </p>
 
+    <div
+      v-if="aiEvaluation"
+      class="ai-evaluation"
+    >
+      {{ $t('teacher_dashboard.ai_evaluation') }}:
+      <IconBeta class="beta-icon" />
+      <div class="evaluation">
+        <p class="content">
+          {{ aiEvaluation.content }}
+        </p>
+        <span class="text-muted">{{ aiEvaluation.date }}</span>
+      </div>
+    </div>
     <a
       :href="`/ai/project/${aiProject._id}`"
       target="_blank"
@@ -57,12 +70,15 @@
 </template>
 
 <script>
-
 import _ from 'lodash'
+import IconBeta from 'app/core/components/IconBeta'
 const moment = window.moment
 
 export default {
   name: 'AiProject',
+  components: {
+    IconBeta,
+  },
   props: {
     aiProject: {
       type: Object,
@@ -101,6 +117,12 @@ export default {
         ...validation,
         text: i.text.length > 100 ? `${i.text.substring(0, 100)}...` : i.text,
       }))))
+    },
+    aiEvaluation () {
+      if (!this.aiProject || !this.aiProject.evaluations) return undefined
+      const evs = this.aiProject.evaluations
+      if (evs.length === 0) return undefined
+      return evs[evs.length - 1] // last one
     },
   },
 }
@@ -155,6 +177,28 @@ export default {
     margin-top: 5px;
     margin-bottom: 5px;
     display: block;
+  }
+
+  .ai-evaluation {
+    border: solid 1px #999999;
+    border-radius: 5px;
+    margin: 10px 5px;
+    padding: 5px;
+    position: relative;
+
+    .beta-icon {
+      position: absolute;
+      top: -10px;
+    }
+    .evaluation {
+      max-height: 40vh;
+      overflow-y: auto;
+
+      .content {
+        white-space: pre-wrap;
+        font-size: 1em;
+      }
+    }
   }
 }
 </style>
