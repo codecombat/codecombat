@@ -1,18 +1,18 @@
 <template>
-  <div class="discovery-more">
+  <div class="discover-more">
     <div class="head container">
       <div class="icon">
         <img
           alt=""
-          src="/images/pages/payment/discorver.png"
+          src="/images/pages/payment/discover.png"
         >
       </div>
       <div class="titles">
         <div class="title">
-          {{ $t('payments.discorver_more_title') }}
+          {{ $t('payments.discover_more_title') }}
         </div>
         <div class="desc">
-          {{ $t('payments.discorver_more_desc') }}
+          {{ $t('payments.discover_more_desc') }}
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
 import { getJuniorUrl } from 'core/utils'
 import BoxPanel from 'app/components/common/elements/BoxPanel.vue'
 export default {
-  name: 'DiscoveryMore',
+  name: 'DiscoverMore',
   components: {
     BoxPanel,
   },
