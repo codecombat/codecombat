@@ -84,9 +84,10 @@
           >
             <div class="learn-more-buttons-container">
               <learn-more-button
-                v-for="(linkItem, linkIndex) of (item.links || [{link: item.link, linkText: item.linkText}])"
+                v-for="(linkItem, linkIndex) of (item.links || [{link: item.link, linkText: item.linkText, linkEvent: item.linkEvent}])"
                 :key="linkIndex"
                 :link="linkItem.link"
+                @click.native="() => clickedEvent(linkItem.linkEvent, linkItem.link)"
               >
                 {{ linkItem.linkText || $t('home_v3.learn_more_text') }}
               </learn-more-button>
@@ -152,6 +153,11 @@ export default {
     },
   },
   methods: {
+    clickedEvent (event, link) {
+      if (event && typeof event === 'function') {
+        return event(link)
+      }
+    },
     onVideoLoaded (refName, videoId, retries = 0) {
       this.$nextTick(() => {
         const videoBoxes = this.$refs[refName] || []
