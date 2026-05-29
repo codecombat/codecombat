@@ -2647,10 +2647,10 @@ class CampaignView extends RootView {
   }
 
   isJuniorCampaign () {
-    const campaign = this.campaign || this.terrain
+    const campaignObj = this.campaign || (typeof this.terrain === 'object' ? this.terrain : null)
     return this.terrain === 'junior' || this.terrain === 'odyssey' ||
-      campaign?.get('slug') === 'junior' || campaign?.get('slug') === 'odyssey' ||
-      campaign?.get('type') === 'junior'
+      campaignObj?.get('slug') === 'junior' || campaignObj?.get('slug') === 'odyssey' ||
+      campaignObj?.get('type') === 'junior'
   }
 
   shouldShow (what) {
