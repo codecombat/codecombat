@@ -42,6 +42,11 @@ module.exports = (AIView = (function () {
       window.handleAICreditLimitReached = null
       window.AICreditLimitReachedMsg = null
       window.openSubscribeModal = null
+      try {
+        ai.AI.unmount?.(this.$el.find('#ai-root')[0])
+      } catch (e) {
+        console.error('[AIView] Error unmounting AI root', e)
+      }
       return super.destroy()
     }
 
