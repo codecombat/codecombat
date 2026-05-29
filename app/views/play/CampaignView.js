@@ -2646,12 +2646,19 @@ class CampaignView extends RootView {
     }
   }
 
+  isJuniorCampaign () {
+    const campaignObj = this.campaign || (typeof this.terrain === 'object' ? this.terrain : null)
+    return this.terrain === 'junior' || this.terrain === 'odyssey' ||
+      campaignObj?.get('slug') === 'junior' || campaignObj?.get('slug') === 'odyssey' ||
+      campaignObj?.get('type') === 'junior'
+  }
+
   shouldShow (what) {
     const isStudentOrTeacher = me.isStudent() || me.isTeacher()
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
     if (what === 'junior-menu-icon') {
-      if (this.terrain === 'junior') {
+      if (this.isJuniorCampaign()) {
         return false
       }
       return me.isHomeUser() && !this.editorMode
@@ -2687,12 +2694,20 @@ class CampaignView extends RootView {
       return me.showGemsAndXpInClassroom() || !isStudentOrTeacher
     }
 
-    if (['leaderboard'].includes(what) && this.terrain === 'junior') {
+    if (['leaderboard'].includes(what) && this.isJuniorCampaign()) {
       return false
     }
 
-    if (what === 'items' && this.terrain === 'junior') {
+    if (what === 'items' && this.isJuniorCampaign()) {
       return false
+    }
+
+    if (what === 'heros' && this.isJuniorCampaign()) {
+      return false
+    }
+
+    if (what === 'pets') {
+      return this.isJuniorCampaign()
     }
 
     if (['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements'].includes(what)) {
@@ -2725,7 +2740,7 @@ class CampaignView extends RootView {
 
     if (what === 'anonymous-classroom-signup') {
       return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() &&
-        !this.editorMode && this.terrain !== 'junior' && !storage.load('hid-anonymous-classroom-signup-dialog')
+        !this.editorMode && !this.isJuniorCampaign() && !storage.load('hid-anonymous-classroom-signup-dialog')
     }
 
     if (what === 'amazon-campaign') {
@@ -2755,7 +2770,7 @@ class CampaignView extends RootView {
     }
 
     if (what === 'cchome-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior') && !this.editorMode
+      return !userUtils.isCreatedViaLibrary() && this.isJuniorCampaign() && !this.editorMode
     }
 
     return true
