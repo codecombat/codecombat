@@ -621,6 +621,7 @@ module.exports = {
       junior_button_hover: 'Blocks coding for beginners',
       cchome_button_hover: 'Original CodeCombat Adventure',
       home_campaign_redirect_student: 'Please visit the course map from your student page.',
+      blockly_error_msg: 'Oops! Something went wrong loading your blocks. Try reloading the page to bring your workspace back.',
     },
 
     code: {
