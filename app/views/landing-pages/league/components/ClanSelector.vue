@@ -57,7 +57,7 @@ export default {
         :value="clan._id"
         :selected="selected===clan._id"
       >
-        {{ (clan.displayName || clan.name) + (clan.archived ? '(Archived)' : '') }}
+        {{ (clan.displayName || clan.name) + (clan.archived ? ` (${$t('general.archived')})` : '') }}
       </option>
     </select>
   </div>
