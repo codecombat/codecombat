@@ -1,6 +1,6 @@
 <script>
-import moment from 'moment'
 import { mapGetters } from 'vuex'
+const moment = window.moment
 
 export default {
   props: {

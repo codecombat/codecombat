@@ -138,10 +138,10 @@
 <script>
 import utils from 'app/core/utils'
 import { mapGetters, mapActions } from 'vuex'
-import moment from 'moment'
 
 import SecondaryButton from '../../common/buttons/SecondaryButton'
 import TertiaryButton from '../../common/buttons/TertiaryButton'
+const moment = window.moment
 
 export default {
   components: {

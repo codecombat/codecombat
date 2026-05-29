@@ -29,6 +29,31 @@ _.extend(AIDocumentSchema.properties, {
       postText: { type: 'string', title: 'Post Text', description: 'The post text of the document' },
       linkText: { type: 'string', title: 'Link Text', description: 'The text of the link' },
       fileSize: { type: 'integer', title: 'File Size', description: 'Size of the uploaded file (helps in estimating chunk cost for LLM input)' },
+      fileName: { type: 'string', description: 'Uploaded filename' },
+      mimeType: { type: 'string', description: 'The mimeType of the uploaded file' },
+      aiFileRef: {
+        type: 'object',
+        description: 'The reference of ai uploaded file.',
+        properties: {
+          provider: {
+            type: 'string', // enum: ['openai', 'gemini', 'anthropic'] but we may support more so do mot limit enum
+            description: 'The ai model company name to determine use which api to refs the file',
+          },
+          refId: {
+            type: 'string',
+            description: 'The file id returned from ai model api',
+          },
+          refUri: {
+            type: 'string',
+            description: 'The file uri returned from google api',
+          },
+          metadata: {
+            type: 'object',
+            description: 'Not used yet, but a placeholder for any extra info',
+            additionalProperties: true,
+          },
+        },
+      },
     },
   },
 })

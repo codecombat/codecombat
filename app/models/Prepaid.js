@@ -76,31 +76,15 @@ module.exports = (Prepaid = (function () {
         return i18n.t('teacher.starter_license')
       }
       const includedCourseIDs = this.get('includedCourseIDs')
-      if (includedCourseIDs) {
-        const credit = this.get('properties')?.creditDetails
-        if (credit && includedCourseIDs[0] === utils.courseIDs.HACKSTACK) {
-          return i18n.t('teacher.hackstack_license') + i18n.t('teacher.hackstack_credits', credit)
-        }
-        return i18n.t('teacher.customized_license') + ': ' + (includedCourseIDs.map(id => utils.courseAcronyms[id])).join('+')
-      } else {
-        return i18n.t('teacher.full_license')
-      }
+      const credit = this.get('properties')?.creditDetails
+      return utils.courseDescription(includedCourseIDs, credit)
     }
 
     typeDescriptionWithTime () {
-      const type = this.get('type')
       const endDate = moment(this.get('endDate')).utc().format('ll')
       let endAt = `<br>${i18n.t('teacher.status_enrolled')}`
       endAt = endAt.replace('{{date}}', endDate)
-      if (type === 'starter_license') {
-        return i18n.t('teacher.starter_license') + endAt
-      }
-      const includedCourseIDs = this.get('includedCourseIDs')
-      if (includedCourseIDs) {
-        return i18n.t('teacher.customized_license') + ': ' + (includedCourseIDs.map(id => utils.courseAcronyms[id])).join('+') + endAt
-      } else {
-        return i18n.t('teacher.full_license') + endAt
-      }
+      return this.typeDescription() + endAt
     }
 
     redeem (user, options) {

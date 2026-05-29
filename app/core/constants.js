@@ -18,7 +18,17 @@ const OZARIA_COURSE_IDS = [
 ]
 
 const LICENSE_PRESETS = {
+  'COCO-OLD(No HS, OZ)': [
+    ...utils.COCO_COURSE_IDS,
+    ...utils.JUNIOR_COURSE_IDS,
+  ],
   'CS1+CS2+GD1+WD1': STARTER_LICENSE_COURSE_IDS,
+  'CS1+GD1+WD1+JR': [
+    '560f1a9f22961295f9427742', // Introduction to Computer Science
+    '5789587aad86a6efb573701e', // Game Development 1
+    '5789587aad86a6efb573701f', // Web Development 1
+    ...utils.JUNIOR_COURSE_IDS,
+  ],
   'CS1+CS2+CS3+CS4': [
     '560f1a9f22961295f9427742', // Introduction to Computer Science
     '5632661322961295f9428638', // CS 2
@@ -47,7 +57,7 @@ const LICENSE_PRESETS = {
     '5789587aad86a6efb573701e', // Game Development 1
     '57b621e7ad86a6efb5737e64' // GD 2
   ],
-  'CH1+CH2+CH3+CH4': OZARIA_COURSE_IDS
+  'CH1+CH2+CH3+CH4(OZ only)': OZARIA_COURSE_IDS
 }
 
 const FREE_COURSE_IDS = [
@@ -113,6 +123,9 @@ const ARENA_CURRICULUM = {
 
 const USER_CREDIT_HACKSTACK_KEY = 'HACKSTACK_QUERY'
 
+const BD_LEAD_FORM = 'https://docs.google.com/forms/d/18uhgIyMhYWGAHx265gkmP5tBW31sIPYHO05Sqb5aRrY'
+const AI_LEAGUE_LEAD_FORM = 'https://docs.google.com/forms/d/1rO__VvhM1yCuUHrtHJKXXj3RYA2vCzpRKzMCMaMS6SE'
+
 module.exports = {
   STARTER_LICENSE_COURSE_IDS,
   FREE_COURSE_IDS,
@@ -135,4 +148,6 @@ module.exports = {
   ARENA_CURRICULUM,
   USER_CREDIT_HACKSTACK_KEY,
   GLOBAL_AI_LEAGUE_CREATORS,
+  BD_LEAD_FORM,
+  AI_LEAGUE_LEAD_FORM,
 }

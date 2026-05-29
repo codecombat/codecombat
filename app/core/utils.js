@@ -235,6 +235,7 @@ const HACKSTACK_COURSE_IDS_MAP = {
   ALGEBRA: '6984842a268d20956ac0583d',
   CAREER_READINESS: '6984842b268d20956ac05840',
   CAREER_READINESS_2: '6984842d268d20956ac0584c',
+  CYBER: '69cde02a956c9590bf085a91',
   ENGLISH_LANGUAGE_ARTS: '69848429268d20956ac05838',
   COMPUTER_SCIENCE: '6984842c268d20956ac05846',
   AI_EXPLORATIONS: '6984842f268d20956ac05852',
@@ -314,6 +315,7 @@ if (isCodeCombat) {
     courseIDs.ALGEBRA,
     courseIDs.CAREER_READINESS,
     courseIDs.CAREER_READINESS_2,
+    courseIDs.CYBER,
     courseIDs.ENGLISH_LANGUAGE_ARTS,
     courseIDs.COMPUTER_SCIENCE,
     courseIDs.AI_EXPLORATIONS,
@@ -380,6 +382,7 @@ if (isCodeCombat) {
     otherCourseIDs.ALGEBRA,
     otherCourseIDs.CAREER_READINESS,
     otherCourseIDs.CAREER_READINESS_2,
+    otherCourseIDs.CYBER,
     otherCourseIDs.ENGLISH_LANGUAGE_ARTS,
     otherCourseIDs.COMPUTER_SCIENCE,
     otherCourseIDs.AI_EXPLORATIONS,
@@ -476,6 +479,7 @@ courseAcronyms[HACKSTACK_COURSE_IDS_MAP.ARTIFICIAL_INTELLIGENCE_2] = 'AI2'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.CAREER_READINESS_2] = 'CR2'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.AI_SANDBOX] = 'SANDBOX'
 courseAcronyms[HACKSTACK_COURSE_IDS_MAP.AI_EXPLORATIONS] = 'EXPLORATIONS'
+courseAcronyms[HACKSTACK_COURSE_IDS_MAP.CYBER] = 'CYBER'
 
 const courseCampaignSlugs = {}
 courseCampaignSlugs[allCourseIDs.JUNIOR] = 'junior'
@@ -503,6 +507,7 @@ courseCampaignSlugs[allCourseIDs.ARTIFICIAL_INTELLIGENCE_1] = 'artificial-intell
 courseCampaignSlugs[allCourseIDs.COMPUTER_SCIENCE] = 'computer-science-ai'
 courseCampaignSlugs[allCourseIDs.ARTIFICIAL_INTELLIGENCE_2] = 'artificial-intelligence-2'
 courseCampaignSlugs[allCourseIDs.CAREER_READINESS_2] = 'career-readiness-2'
+courseCampaignSlugs[allCourseIDs.CYBER] = 'cyber'
 courseCampaignSlugs[allCourseIDs.AI_SANDBOX] = 'ai-sandbox'
 courseCampaignSlugs[allCourseIDs.AI_EXPLORATIONS] = 'ai-explorations'
 
@@ -1011,9 +1016,7 @@ const isAnyPrecedingLevelLocked = function (levels, currentIndex) {
 
 const findNextLevel = function (levels, currentIndex, needsPractice) {
   let index = currentIndex + 1
-
   if (isAnyPrecedingLevelLocked(levels, currentIndex)) { return -1 }
-
   if (needsPractice) {
     if (isPractice(levels[currentIndex]) || ((index < levels.length) && isPractice(levels[index]))) {
       while ((index < levels.length) && (isCompleteOrAssessmentOrSkipped(levels[index]) || isLocked(levels[index]))) {
@@ -1037,8 +1040,22 @@ const findNextLevel = function (levels, currentIndex, needsPractice) {
       index++
     }
   }
-
   return index
+}
+
+// Practice level slugs are <mainLevelSlug>-[a-z]; the DB only stores locks on the parent level
+// this works on junior only as they have practice levels related to parent level
+const findParentLevelOriginal = function (level, levelsArr) {
+  if (!level) return
+  let lockCheckOriginal = level.original
+  if (level.practice) {
+    const mainSlug = level.slug?.replace(/-[a-z]$/, '')
+    const mainLevel = levelsArr.find(l => l.slug === mainSlug)
+    if (mainLevel) {
+      lockCheckOriginal = mainLevel.original
+    }
+  }
+  return lockCheckOriginal
 }
 
 const findNextAssessmentForLevel = function (levels, currentIndex, needsPractice) {
@@ -1693,6 +1710,7 @@ const aiToolToImage = {
   gpt: '/images/ai/ChatGPT.svg',
   'stable-diffusion': '/images/ai/Stable_Diffusion.png',
   'dall-e-3': '/images/ai/DALL-E.webp',
+  'gpt-image': '/images/ai/DALL-E.webp',
   claude: '/images/ai/claude.webp',
   gemini: '/images/ai/gemini.svg',
   imagen: '/images/ai/gemini.svg',
@@ -1701,7 +1719,7 @@ const aiToolToImage = {
 module.exports.getImageFromAiTool = (tool) => {
   if (tool.includes('claude')) {
     return aiToolToImage.claude
-  } else if (tool.includes('dall-e')) {
+  } else if (tool.includes('dall-e') || tool.includes('gpt-image')) {
     return aiToolToImage['dall-e-3']
   } else if (tool.includes('stable-diffusion')) {
     return aiToolToImage['stable-diffusion']
@@ -1844,7 +1862,7 @@ module.exports.getJuniorUrl = function () {
   if (me && me.isTeacher() && !me.isAnonymous()) {
     juniorPath = '/teachers/guide/junior'
   }
-  if (me?.getOdysseyExperimentValue?.() === 'beta') {
+  if (me?.isHomeUser?.()) {
     juniorPath = '/play/odyssey'
   }
   return `${cocoBaseURL()}${juniorPath}`
@@ -1900,6 +1918,34 @@ module.exports.groupedCoursesList = (courses) => {
     return cs
   }
 }
+module.exports.guardJuniorLevelHealthCode = (level, source) => {
+  if (typeof source !== 'string') return source // should not happen
+  if (level?.get('product') === 'codecombat-junior') {
+    source = source.replace(/(^|[^a-zA-Z.])health(?!\w)/g, (match, prefix) => `${prefix}hero.health`)
+  }
+  return source
+}
+
+module.exports.courseDescription = (includedCourseIDs, credit = undefined) => {
+  const { LICENSE_PRESETS } = require('./constants')
+  const numericalCourses = courses => courses.reduce((s, k) => s + courseNumericalStatus[k], 0)
+  const courseSame = (a, b) => a.length === b.length && numericalCourses(a) === numericalCourses(b)
+  if (includedCourseIDs) {
+    const hsCourses = [...HACKSTACK_COURSE_IDS.filter(x => x !== allCourseIDs.HACKSTACK)]
+    if (credit && courseSame(includedCourseIDs, hsCourses)) {
+      return $.i18n.t('teacher.hackstack_license') + $.i18n.t('teacher.hackstack_credits', credit)
+    }
+    if (courseSame(includedCourseIDs, LICENSE_PRESETS['COCO-OLD(No HS, OZ)'])) {
+      return $.i18n.t('teacher.coco_full_license')
+    }
+    if (courseSame(includedCourseIDs, LICENSE_PRESETS['CH1+CH2+CH3+CH4(OZ only)'])) {
+      return $.i18n.t('teacher.ozar_full_license')
+    }
+    return $.i18n.t('teacher.customized_license') + ': ' + (includedCourseIDs.map(id => courseAcronyms[id])).join('+')
+  } else {
+    return $.i18n.t('teacher.full_license')
+  }
+}
 
 module.exports = {
   ...module.exports,
@@ -1943,6 +1989,7 @@ module.exports = {
   freeAccessLevels,
   findNextAssessmentForLevel,
   findNextLevel,
+  findParentLevelOriginal,
   formatDollarValue,
   formatStudentLicenseStatusDate,
   formatStudentSingleLicenseStatusDate,

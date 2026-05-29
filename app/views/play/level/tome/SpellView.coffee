@@ -125,6 +125,7 @@ module.exports = class SpellView extends CocoView
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
     _.defer @onAllLoaded  # Needs to happen after the code generating this view is complete
+
   # This ACE is used for the code editor, and is only instantiated once per level.
   createACE: ->
     # Test themes and settings here: http://ace.ajax.org/build/kitchen-sink.html
@@ -1209,6 +1210,7 @@ module.exports = class SpellView extends CocoView
   fetchToken: (source, language) =>
     if source of @loadedToken
       return Promise.resolve(@loadedToken[source])
+    source = utils.guardJuniorLevelHealthCode(@options.level, source)
     return aetherUtils.fetchToken(source, language)
 
   fetchTokenForSource: () =>

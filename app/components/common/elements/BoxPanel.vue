@@ -60,7 +60,23 @@
             {{ item.title }}
           </template>
           <template #text>
-            <mixed-color-label :text="item.text" />
+            <mixed-color-label
+              v-if="item.text"
+              :text="item.text"
+            />
+          </template>
+          <template
+            v-if="item.lists"
+            #list
+          >
+            <div
+              v-for="(it, idx) in item.lists"
+              :key="`list-${index}-items-${idx}-${it.text}`"
+              class="list-items"
+              :class="`list-type-${it.listType}`"
+            >
+              {{ it.text }}
+            </div>
           </template>
           <template
             v-if="item.link || item.signupModal || item.links"
@@ -68,9 +84,10 @@
           >
             <div class="learn-more-buttons-container">
               <learn-more-button
-                v-for="(linkItem, linkIndex) of (item.links || [{link: item.link, linkText: item.linkText}])"
+                v-for="(linkItem, linkIndex) of (item.links || [{link: item.link, linkText: item.linkText, linkEvent: item.linkEvent}])"
                 :key="linkIndex"
                 :link="linkItem.link"
+                @click.native="() => clickedEvent(linkItem.linkEvent, linkItem.link)"
               >
                 {{ linkItem.linkText || $t('home_v3.learn_more_text') }}
               </learn-more-button>
@@ -136,6 +153,11 @@ export default {
     },
   },
   methods: {
+    clickedEvent (event, link) {
+      if (event && typeof event === 'function') {
+        return event(link)
+      }
+    },
     onVideoLoaded (refName, videoId, retries = 0) {
       this.$nextTick(() => {
         const videoBoxes = this.$refs[refName] || []
@@ -210,4 +232,14 @@ export default {
   align-self: flex-end;
 }
 
+.list-items {
+  position: relative;
+  margin-left: 2em;
+
+  &.list-type-check::before {
+    content: '✅';
+    position: absolute;
+    left: -1.5em;
+  }
+}
 </style>

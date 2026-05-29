@@ -14,10 +14,9 @@
       <div class="ladder-subhead row">
         <CTAButton
           v-if="!canUseArenaHelpers"
-          href="https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com"
-          target="_blank"
+          @clickedCTA="salesCallClicked"
         >
-          {{ $t('general.contact_us') }}
+          {{ $t('paywall.badge_sales-call') }}
         </CTAButton>
         <div
           v-if="canUseArenaHelpers"
@@ -188,7 +187,6 @@
 
 <script>
 import _ from 'lodash'
-import moment from 'moment'
 import { mapActions, mapGetters } from 'vuex'
 import utils from '../../core/utils'
 import ClanSelector from '../landing-pages/league/components/ClanSelector.vue'
@@ -196,6 +194,7 @@ import LadderPanel from './components/LadderPanel'
 import EditTournamentModal from './components/EditTournamentModal'
 import { ESPORTS_PRODUCT_STATS, GLOBAL_AI_LEAGUE_CREATORS } from '../../core/constants'
 import CTAButton from '../../components/common/buttons/CTAButton.vue'
+const moment = window.moment
 
 export default {
   name: 'MainLadderViewV2',
@@ -320,9 +319,13 @@ export default {
       // If all else is equal
       return 0
     },
+    salesCallClicked () {
+      window.tracker?.trackEvent('AI League Page: Clicked Sales Call Badge')
+      window.open('/schools?openContactModal=true&source=sales-call-badge-ai-league', '_blank')
+    },
     handleCreateTournament (arena) {
       if (!this.tournamentsLeft && !me.isAdmin()) {
-        window.open('https://form.typeform.com/to/qXqgbubC?typeform-source=codecombat.com', '_blank')
+        window.open('/schools?openContactModal=true&source=sales-call-badge-ai-league', '_blank')
       } else {
         /* console.log('handle create', arena) */
         this.editableTournament = {

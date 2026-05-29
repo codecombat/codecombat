@@ -224,6 +224,10 @@ export default function getVueRouter () {
           component: () => import(/* webpackChunkName: "manageBillingComponent"  */'app/views/payment/ManageBillingView'),
         },
         {
+          path: '/payments/manage-billing-beta',
+          component: () => import(/* webpackChunkName: "manageBillingComponentBeta" */'app/views/payment/NewManageBillingView/index.vue'),
+        },
+        {
           path: '/payments/online-classes-success',
           component: () => import(/* webpackChunkName: "onlineClassesSuccessComponent" */'app/views/payment/online-class/SuccessView'),
         },

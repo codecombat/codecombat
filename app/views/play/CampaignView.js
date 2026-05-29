@@ -182,6 +182,14 @@ class CampaignView extends RootView {
     if (!this.terrain) {
       this.campaigns = this.supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
       this.listenToOnce(this.campaigns, 'sync', this.onCampaignsLoaded)
+      this.probablyCachedMusic = storage.load('loaded-menu-music')
+      const musicDelay = this.probablyCachedMusic ? 1000 : 10000
+      const delayMusicStart = () => setTimeout(() => {
+        if (!this.destroyed) {
+          this.playMusic()
+        }
+      }, musicDelay)
+      this.playMusicTimeout = delayMusicStart()
       return
     }
     if (this.terrain) {
@@ -293,14 +301,6 @@ class CampaignView extends RootView {
     }
 
     window.addEventListener('resize', this.onWindowResize)
-    this.probablyCachedMusic = storage.load('loaded-menu-music')
-    const musicDelay = this.probablyCachedMusic ? 1000 : 10000
-    const delayMusicStart = () => setTimeout(() => {
-      if (!this.destroyed) {
-        this.playMusic()
-      }
-    }, musicDelay)
-    this.playMusicTimeout = delayMusicStart()
     this.hadEverChosenHero = me.get('heroConfig')?.thangType
     this.listenTo(me, 'change:purchased', () => this.renderSelectors('#gems-count'))
     this.listenTo(me, 'change:spent', () => this.renderSelectors('#gems-count'))
@@ -320,7 +320,6 @@ class CampaignView extends RootView {
             showVideo: this.terrain === 'hoc-2018',
             onDestroy: () => {
               if (this.destroyed) { return }
-              delayMusicStart()
               this.highlightNextLevel()
             },
           }))
@@ -333,31 +332,6 @@ class CampaignView extends RootView {
   }
 
   redirectMiddleware () {
-    const juniorRedirect = () => {
-      // Only bucket/start the odyssey experiment when the user is explicitly trying to enter Junior.
-      // This avoids side-effects from random "read" code paths that just want to know a value.
-      if (this.terrain === 'junior' && !this.editorMode) {
-        const odysseyValue = me.getOrStartOdysseyExperimentValue?.()
-        if (odysseyValue === 'beta') {
-          // Use the URL API to preserve/merge query params + hash when available; fallback for older/weird URL environments.
-          try {
-            const destUrl = new URL('/play/odyssey', window.location.origin)
-            const currentUrl = new URL(window.location.href)
-            currentUrl.searchParams.forEach((value, key) => destUrl.searchParams.set(key, value))
-            if (currentUrl.hash) destUrl.hash = currentUrl.hash
-            window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
-            application.router.navigate(destUrl.pathname + destUrl.search + destUrl.hash, { trigger: true, replace: true })
-          } catch (e) {
-            const query = location.search || ''
-            const hash = location.hash || ''
-            window.tracker?.trackEvent('Redirected Junior to Odyssey', { category: 'World Map', label: 'junior' })
-            application.router.navigate(`/play/odyssey${query}${hash}`, { trigger: true, replace: true })
-          }
-          return true
-        }
-      }
-    }
-
     const studentRedirect = () => {
       const courseInstanceId = utils.getQueryVariable('course-instance')
       if (!courseInstanceId && me.isStudent() && this.terrain !== 'intro') {
@@ -428,7 +402,7 @@ class CampaignView extends RootView {
       }
     }
 
-    return juniorRedirect() || hocRedirect() || studentRedirect()
+    return hocRedirect() || studentRedirect()
   }
 
   destroy () {
@@ -441,6 +415,7 @@ class CampaignView extends RootView {
       createjs.Tween.get(ambientSound).to({ volume: 0.0 }, 1500).call(() => ambientSound.stop())
     }
     this.musicPlayer?.destroy()
+    this.removeMusicGestureListeners()
     clearTimeout(this.playMusicTimeout)
     clearInterval(this.portalScrollInterval)
     Backbone.Mediator.unsubscribe('audio-player:loaded', this.playAmbientSound, this)
@@ -2057,37 +2032,21 @@ class CampaignView extends RootView {
   }
 
   onWindowResize (e) {
-    const mapHeight = 1536
-    const mapWidths = {
-      dungeon: 2350,
-      forest: 2500,
-      auditions: 2500,
-      desert: 2411,
-      mountain: 2421,
-      glacier: 2413,
-      junior: 2214,
-      'campaign-game-dev-1': 2500,
-      'campaign-game-dev-2': 2500,
-      'campaign-game-dev-3': 2500,
-      'campaign-web-dev-1': 2500,
-      'campaign-web-dev-2': 2500,
-      'game-dev-1': 2500,
-      'game-dev-2': 2500,
-      'game-dev-3': 2500,
-      'web-dev-1': 2500,
-      'web-dev-2': 2500,
-      'course-3': 2500,
-      'course-4': 2411,
-      'course-5': 2421,
-      'course-6': 2413,
+    if (!this.campaign) {
+      return
     }
-    const mapWidth = mapWidths[this.terrain] || 2350
-    const aspectRatio = mapWidth / mapHeight
-    const pageWidth = this.$el.width()
-    const pageHeight = this.$el.height()
-    const navOffset = 71 // navbar height
-    const availableHeight = Math.max(0, pageHeight - navOffset)
-    const widthRatio = pageWidth / mapWidth
+    const mapHeight = 1280
+    const mapWidth = 1920
+    const sideControlsGutter = 240
+    const layoutWidth = mapWidth + (sideControlsGutter * 2)
+    const $gameplayContainer = this.$el.find('.gameplay-container')
+    const $resizableGameplayContent = this.$el.find('.resizable-gameplay-content')
+    const $map = $resizableGameplayContent.find('.map')
+    const $portalsContainer = $resizableGameplayContent.find('.portals-container')
+    const pageWidth = $gameplayContainer.length ? $gameplayContainer.width() : this.$el.width()
+    const availableHeight = $gameplayContainer.length ? $gameplayContainer.height() : this.$el.height()
+    const aspectRatio = layoutWidth / mapHeight
+    const widthRatio = pageWidth / layoutWidth
     const heightRatio = availableHeight / mapHeight
 
     let resultingWidth, resultingHeight
@@ -2108,7 +2067,12 @@ class CampaignView extends RootView {
     }
     const resultingMarginX = (pageWidth - resultingWidth) / 2
     const resultingMarginY = (availableHeight - resultingHeight) / 2
-    this.$el.find('.map').css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
+    $resizableGameplayContent.css({ width: resultingWidth, height: resultingHeight, 'margin-left': resultingMarginX, 'margin-top': resultingMarginY })
+
+    const mapWidthInLayout = resultingWidth * (mapWidth / layoutWidth)
+    const mapMarginX = (resultingWidth - mapWidthInLayout) / 2
+    $map.css({ width: mapWidthInLayout, height: resultingHeight, 'margin-left': mapMarginX, 'margin-top': 0 })
+    $portalsContainer.css({ width: '', height: '', 'margin-left': '', 'margin-top': '' })
     if (this.pointerInterval) {
       this.highlightNextLevel()
     }
@@ -2129,17 +2093,68 @@ class CampaignView extends RootView {
       Backbone.Mediator.subscribeOnce('audio-player:loaded', this.playAmbientSound, this)
       return
     }
+    if (this.isMusicPlaybackBlockedByAutoplay()) {
+      this.pendingAmbientSound = true
+      this.ensureMusicGestureListeners()
+      return
+    }
     this.ambientSound = createjs.Sound.play(src, { loop: -1, volume: 0.1 })
     createjs.Tween.get(this.ambientSound).to({ volume: 0.5 }, 1000)
   }
 
   playMusic () {
-    this.musicPlayer = new MusicPlayer()
     const musicFile = '/music/music-menu'
+    this.musicPlayer = this.musicPlayer || new MusicPlayer()
+    if (this.isMusicPlaybackBlockedByAutoplay()) {
+      this.pendingMusicFile = musicFile
+      this.ensureMusicGestureListeners()
+      return
+    }
     Backbone.Mediator.publish('music-player:play-music', { play: true, file: musicFile })
     if (!this.probablyCachedMusic) {
       storage.save('loaded-menu-music', true)
     }
+  }
+
+  isMusicPlaybackBlockedByAutoplay () {
+    const context = createjs?.WebAudioPlugin?.context ?? createjs?.Sound?.activePlugin?.context
+    return context?.state === 'suspended'
+  }
+
+  ensureMusicGestureListeners () {
+    if (this.musicGestureHandler) { return }
+    this.musicGestureEvents = ['pointerdown', 'touchstart', 'mousedown', 'keydown']
+    this.musicGestureHandler = () => {
+      const context = createjs?.WebAudioPlugin?.context ?? createjs?.Sound?.activePlugin?.context
+      const pendingMusicFile = this.pendingMusicFile
+      this.pendingMusicFile = null
+      Promise.resolve(context?.resume?.()).finally(() => {
+        if (this.destroyed) { return }
+        this.removeMusicGestureListeners()
+        if (pendingMusicFile) {
+          Backbone.Mediator.publish('music-player:play-music', { play: true, file: pendingMusicFile })
+          if (!this.probablyCachedMusic) {
+            storage.save('loaded-menu-music', true)
+          }
+        }
+        if (this.pendingAmbientSound) {
+          this.pendingAmbientSound = false
+          this.playAmbientSound()
+        }
+      })
+    }
+    for (const eventName of this.musicGestureEvents) {
+      window.addEventListener(eventName, this.musicGestureHandler, { passive: true })
+    }
+  }
+
+  removeMusicGestureListeners () {
+    if (!this.musicGestureHandler) { return }
+    for (const eventName of this.musicGestureEvents || []) {
+      window.removeEventListener(eventName, this.musicGestureHandler)
+    }
+    this.musicGestureHandler = null
+    this.musicGestureEvents = null
   }
 
   checkForCourseOption (levelOriginal) {
@@ -2507,7 +2522,9 @@ class CampaignView extends RootView {
       level.color = 'rgb(255, 80, 60)'
       level.disabled = false
 
-      if (level.slug === nextSlug && !this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+      const lockCheckOriginal = utils.findParentLevelOriginal(level, courseOrder)
+
+      if (level.slug === nextSlug && !this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
         level.locked = false
         level.hidden = false
         level.next = true
@@ -2536,7 +2553,7 @@ class CampaignView extends RootView {
         }
       }
 
-      if ((!prev || !prev.locked) && level.locked && this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+      if ((!prev || !prev.locked) && level.locked && this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
         level.locked = false
       }
 
@@ -2547,8 +2564,8 @@ class CampaignView extends RootView {
       const legacyLock = startLockedLevel && level.slug === startLockedLevel
 
       if (legacyLock ||
-      this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original)) {
-        if (!this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+      this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
+        if (!this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
           lockedByTeacher = true
         } else {
           lockSkippedLevel = true
@@ -2575,7 +2592,7 @@ class CampaignView extends RootView {
       level.unlocksHero = false
       level.unlocksItem = false
       prev = level
-      if (!this.campaign.levelIsPractice(level) && !this.campaign.levelIsAssessment(level) && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+      if (!this.campaign.levelIsPractice(level) && !this.campaign.levelIsAssessment(level) && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
         lastNormalLevel = level
       }
     }

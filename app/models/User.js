@@ -24,7 +24,7 @@ const globalVar = require('core/globalVar')
 const fetchJson = require('core/api/fetch-json')
 const userUtils = require('lib/user-utils')
 const _ = require('lodash')
-const moment = require('moment')
+const moment = window.moment
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
 const CHOCOLI_EXPERIMENT_NAME = 'chocoli'
 const REQUIRE_SIGN_UP_EXPERIMENT = {
@@ -684,13 +684,14 @@ module.exports = (User = (function () {
         return 'control'
       }
       let value
-      if (Math.random() < probability) {
+      const rnd = Math.random()
+      if (rnd < probability) {
         value = 'beta'
       } else {
         value = 'control'
         probability = 1 - probability
       }
-      console.log(`starting ${name} experiment with value ${value} and probability ${probability}`)
+      console.log(`starting ${name} experiment with value ${value} and probability ${probability} and rnd ${rnd}`)
       me.startExperiment(name, value, probability)
       return value
     }
@@ -861,6 +862,16 @@ module.exports = (User = (function () {
       }
       // NOTE: Default type is 'course' if no type is marked on the user's copy
       return 'course'
+    }
+
+    prepaidTypeDescription () {
+      const courseProducts = this.activeProducts('course')
+      if (!courseProducts.length) { return '' }
+      // NOTE: Full licenses implicitly include all courses
+      if (_.any(courseProducts, p => (p.productOptions?.includedCourseIDs == null))) { return utils.courseDescription() }
+      const union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs != null ? prepaid.productOptions?.includedCourseIDs : [])
+      const includedCourseIDs = _.reduce(courseProducts, union, [])
+      return utils.courseDescription(includedCourseIDs)
     }
 
     prepaidIncludesCourse (course) {
@@ -1458,30 +1469,6 @@ module.exports = (User = (function () {
 
     //   return this.tryStartExperiment('template')
     // }
-
-    getOdysseyExperimentValue () {
-      if (me.isStudent() || me.isTeacher()) {
-        return 'control'
-      }
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      const value = utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery('odyssey'),
-        me.getExperimentValue('odyssey', null),
-      )
-      if (value != null) {
-        return value
-      }
-      if (me.isPremium()) {
-        return 'control'
-      }
-      if (new Date(me.get('dateCreated')) < new Date('2026-03-16T00:00:00Z')) {
-        return 'control'
-      }
-      return null
-    }
-
     getRequireSignupExperimentValue (CAMPAIGN) {
       if (!me.isAnonymous()) {
         return 'control'
@@ -1526,14 +1513,6 @@ module.exports = (User = (function () {
         return value
       }
       return this.tryStartExperiment(CHOCOLI_EXPERIMENT_NAME)
-    }
-
-    getOrStartOdysseyExperimentValue () {
-      const value = this.getOdysseyExperimentValue()
-      if (value != null) {
-        return value
-      }
-      return this.tryStartExperiment('odyssey')
     }
   }
 
