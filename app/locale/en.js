@@ -565,6 +565,7 @@ module.exports = {
       available: 'Available',
       skills_granted: 'Skills Granted', // Property documentation details
       heroes: 'Heroes', // Tooltip on hero shop button from /play
+      pets: 'Pets', // Tooltip on pet shop button from /play
       achievements: 'Achievements', // Tooltip on achievement list button from /play
       settings: 'Settings', // Tooltip on settings button from /play
       poll: 'Poll', // Tooltip on poll button from /play
