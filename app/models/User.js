@@ -26,7 +26,6 @@ const userUtils = require('lib/user-utils')
 const _ = require('lodash')
 const moment = window.moment
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
-const CHOCOLI_EXPERIMENT_NAME = 'chocoli'
 const REQUIRE_SIGN_UP_EXPERIMENT = {
   dungeon: 'requires-sign-up-dungeon',
   junior: 'requires-sign-up-junior',
@@ -1481,21 +1480,6 @@ module.exports = (User = (function () {
       return value ?? null
     }
 
-    // Chocoli experiment - mini games for hackstack
-    getChocoliExperimentValue () {
-      if (me.isStudent() || me.isTeacher()) {
-        return 'control'
-      }
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      const value = utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery(CHOCOLI_EXPERIMENT_NAME),
-        me.getExperimentValue(CHOCOLI_EXPERIMENT_NAME, null),
-      )
-      return value ?? null
-    }
-
     getOrStartRequireSignupExperimentValue (CAMPAIGN) {
       if (!(Object.keys(REQUIRE_SIGN_UP_EXPERIMENT).includes(CAMPAIGN))) {
         return 'control'
@@ -1505,14 +1489,6 @@ module.exports = (User = (function () {
         return value
       }
       return this.tryStartExperiment(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN])
-    }
-
-    getOrStartChocoliExperimentValue () {
-      const value = this.getChocoliExperimentValue()
-      if (value != null) {
-        return value
-      }
-      return this.tryStartExperiment(CHOCOLI_EXPERIMENT_NAME)
     }
   }
 
