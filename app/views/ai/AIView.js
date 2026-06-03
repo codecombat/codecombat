@@ -33,6 +33,7 @@ module.exports = (AIView = (function () {
       window.handleAICreditLimitReached = this.handleAICreditLimitReached.bind(this)
       window.AICreditLimitReachedMsg = this.AICreditLimitReachedMsg.bind(this)
       window.openSubscribeModal = this.openSubscribeModal.bind(this)
+      window.openCreateAccountModal = this.openCreateAccountModal.bind(this)
       return super.afterInsert()
     }
 
@@ -42,6 +43,7 @@ module.exports = (AIView = (function () {
       window.handleAICreditLimitReached = null
       window.AICreditLimitReachedMsg = null
       window.openSubscribeModal = null
+      window.openCreateAccountModal = null
       try {
         ai.AI.unmount?.(this.$el.find('#ai-root')[0])
       } catch (e) {
@@ -112,6 +114,13 @@ module.exports = (AIView = (function () {
       }
       this.openModalView(new SubscribeModal())
       window.tracker?.trackEvent('HS open subscribe modal', { path: window.location.pathname })
+    }
+
+    openCreateAccountModal () {
+      if (!me.isAnonymous()) {
+        return
+      }
+      this.openModalView(new CreateAccountModal({ mode: 'signup' }))
     }
   }
   AIView.initClass()
