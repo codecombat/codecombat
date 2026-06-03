@@ -565,6 +565,7 @@ module.exports = {
       available: 'Available',
       skills_granted: 'Skills Granted', // Property documentation details
       heroes: 'Heroes', // Tooltip on hero shop button from /play
+      pets: 'Pets', // Tooltip on pet shop button from /play
       achievements: 'Achievements', // Tooltip on achievement list button from /play
       settings: 'Settings', // Tooltip on settings button from /play
       poll: 'Poll', // Tooltip on poll button from /play
@@ -620,6 +621,7 @@ module.exports = {
       junior_button_hover: 'Blocks coding for beginners',
       cchome_button_hover: 'Original CodeCombat Adventure',
       home_campaign_redirect_student: 'Please visit the course map from your student page.',
+      blockly_error_msg: 'Oops! Something went wrong loading your blocks. Try reloading the page to bring your workspace back.',
     },
 
     code: {

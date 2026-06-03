@@ -39,10 +39,17 @@
         <div>{{ line.amount }}</div>
       </div>
       <div
-        class="button"
+        v-if="filtered_histories.length"
+        class="button cta"
         @click="toggleView"
       >
         <div>{{ histories_btn_msg }}</div>
+      </div>
+      <div
+        v-else
+        class="button"
+      >
+        <div>{{ $t('account.no_payments_found') }}</div>
       </div>
     </div>
   </div>
@@ -122,6 +129,10 @@ export default {
     },
     async loadPaymentHistory () {
       const payments = await paymentApi.fetchByRecipient(me.id)
+      if (!payments.length) {
+        this.histories = []
+        return
+      }
       this.histories = [this.history_title].concat(payments.toReversed().map(p => ({
         date: moment(this.getCreationDate(p)).format('l'),
         amount: '$' + ((p.amount || 0) / 100).toFixed(2),
@@ -145,7 +156,7 @@ export default {
     display: none;
   }
 }
-.button {
+.button.cta {
   cursor: pointer;
 }
 .card {

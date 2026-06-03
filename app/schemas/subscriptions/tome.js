@@ -194,4 +194,5 @@ module.exports = {
   'blockly:clicked-block': c.object({ required: ['block', 'text'] }, { block: { type: 'object' }, text: { type: 'string' } }),
 
   'tome:game-menu-opened': c.object({}),
+  'tome:blockly-error': c.object({}),
 }
