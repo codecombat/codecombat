@@ -76,7 +76,7 @@ export default Vue.extend({
           title: 'nav.curriculum',
           condition: true,
           lists: [
-            { ...items.COCO_HOME, url: null, attrs: { class: 'signup-button' } },
+            items.COCO_HOME,
             items.COCO_CLASSROOM,
             items.COCO_JUNIOR,
             items.OZ_CLASSROOM,
@@ -85,7 +85,7 @@ export default Vue.extend({
             items.ROBLOX,
             items.AI_HACKSTACK,
             items.AI_JUNIOR,
-          ]
+          ],
         },
         {
           title: 'nav.resources',

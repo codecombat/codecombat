@@ -63,7 +63,7 @@ module.exports = (PlayHeroesModal = (function () {
       this.animateHeroes = this.animateHeroes.bind(this)
       this.confirmButtonI18N = options.confirmButtonI18N != null ? options.confirmButtonI18N : 'common.save'
       this.heroes = new CocoCollection([], { model: ThangType })
-      this.isJunior = this.options.level?.get('product') === 'codecombat-junior' || this.options.campaign?.get('slug') === 'junior'
+      this.isJunior = this.options.level?.get('product') === 'codecombat-junior' || this.options.campaign?.get('slug') === 'junior' || this.options.campaign?.get('type') === 'junior'
       this.heroes.url = '/db/thang.type?view=' + (this.isJunior ? 'heroes-junior' : 'heroes')
       this.heroes.setProjection(['original', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'shortName', 'unlockLevelName', 'i18n', 'poseImage', 'tier', 'releasePhase', 'ozaria', 'kind'])
       this.heroes.comparator = 'gems'
@@ -137,8 +137,8 @@ module.exports = (PlayHeroesModal = (function () {
           featureName: 'view-hero',
           premiumThang: {
             _id: this.visibleHero.id,
-            slug: this.visibleHero.get('slug')
-          }
+            slug: this.visibleHero.get('slug'),
+          },
         }
       } else {
         return null
@@ -329,7 +329,7 @@ module.exports = (PlayHeroesModal = (function () {
         placement: 'left',
         content: ' ', // template has it
         container: this.$el,
-        template: popoverTemplate
+        template: popoverTemplate,
       }).popover('show')
       const popover = unlockButton.data('bs.popover')
       __guard__(popover != null ? popover.$tip : undefined, x => x.i18n()) // Doesn't work
@@ -374,7 +374,7 @@ module.exports = (PlayHeroesModal = (function () {
           text: 'Error: hero not loaded. If this keeps happening, please report the bug.',
           layout: 'topCenter',
           timeout: 10000,
-          type: 'error'
+          type: 'error',
         })
         return
       }

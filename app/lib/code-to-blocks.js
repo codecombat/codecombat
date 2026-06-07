@@ -65,7 +65,7 @@ function findOne (array, pred, why = 'Expected exactly one match') {
 class Converters {
   static ConvertProgram (n, ctx) {
     return {
-      blocks: convert(n.body, ctx)
+      blocks: convert(n.body, ctx),
     }
   }
 
@@ -80,8 +80,8 @@ class Converters {
         type: 'variables_set',
         fields: { VAR: { id: d.id.name } },
         inputs: {
-          VALUE: { block: convert(d.init, { ...ctx, context: 'value' }) }
-        }
+          VALUE: { block: convert(d.init, { ...ctx, context: 'value' }) },
+        },
       })
     }
     return result.length > 0 ? nextify(result, { ...ctx, nospace: true })[0] : null
@@ -105,7 +105,7 @@ class Converters {
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), 'Finding Numeric Literal')
     return {
       type: found[0].type,
-      fields: { NUM: n.value }
+      fields: { NUM: n.value },
     }
   }
 
@@ -113,7 +113,7 @@ class Converters {
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), 'Finding String Literal')
     return {
       type: found[0].type,
-      fields: { TEXT: n.value }
+      fields: { TEXT: n.value },
     }
   }
 
@@ -121,7 +121,7 @@ class Converters {
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), 'Finding Boolean Literal')
     return {
       type: found[0].type,
-      fields: { BOOL: n.value ? 'TRUE' : 'FALSE' }
+      fields: { BOOL: n.value ? 'TRUE' : 'FALSE' },
     }
   }
 
@@ -130,7 +130,7 @@ class Converters {
   }
 
   static ConvertExpressionStatement (n, ctx) {
-    return convert(n.expression, ctx, { ...ctx, context: 'statement' })
+    return convert(n.expression, { ...ctx, context: 'statement' })
   }
 
   static ConvertBreakStatement (n, ctx) {
@@ -146,7 +146,7 @@ class Converters {
     const o = {
       type: found[0].type,
       extraState: { itemCount: n.elements.length },
-      inputs: {}
+      inputs: {},
     }
     for (let i = 0; i < n.elements.length; ++i) {
       o.inputs['ADD' + i] = { block: convert(n.elements[i], { ...ctx, context: 'value' }) }
@@ -160,8 +160,8 @@ class Converters {
     const o = {
       type: found[0].type,
       inputs: {
-        BOOL: { block: convert(n.test, { ...ctx, context: 'value' }) }
-      }
+        BOOL: { block: convert(n.test, { ...ctx, context: 'value' }) },
+      },
     }
     if (body && body.length > 0) o.inputs.DO = { block: body[0] }
 
@@ -176,8 +176,8 @@ class Converters {
     const o = {
       type: found[0].type,
       inputs: {
-        IF: { block: convert(n.test, ctx) }
-      }
+        IF: { block: convert(n.test, ctx) },
+      },
     }
 
     if (yes) o.inputs.THEN = { block: yes }
@@ -257,11 +257,11 @@ class Converters {
         // type: 'controls_untyped_for_each',
         type: 'controls_forEach',
         fields: {
-          VAR: { id: n.left.name }
+          VAR: { id: n.left.name },
         },
         inputs: {
-          LIST: { block: convert(n.right, { ...ctx, context: 'value' }) }
-        }
+          LIST: { block: convert(n.right, { ...ctx, context: 'value' }) },
+        },
       }
     }
 
@@ -277,8 +277,8 @@ class Converters {
       type: 'controls_if',
       extraState: {},
       inputs: {
-        IF0: { block: convert(n.test, { ...ctx, context: 'value' }) }
-      }
+        IF0: { block: convert(n.test, { ...ctx, context: 'value' }) },
+      },
     }
 
     if (conq) o.inputs.DO0 = { block: conq[0] }
@@ -314,8 +314,8 @@ class Converters {
       type: 'variables_set',
       fields: { VAR: { id: n.left.name } },
       inputs: {
-        VALUE: { block: convert(n.right, { ...ctx, context: 'value' }) }
-      }
+        VALUE: { block: convert(n.right, { ...ctx, context: 'value' }) },
+      },
     }
   }
 
@@ -338,18 +338,18 @@ class Converters {
       '!=': ['logic_compare', 'NEQ'],
 
       '===': ['logic_compare', 'EQ'],
-      '!==': ['logic_compare', 'NEQ']
+      '!==': ['logic_compare', 'NEQ'],
 
     })[n.operator]
     return {
       type,
       fields: {
-        OP: op
+        OP: op,
       },
       inputs: {
         A: { block: convert(n.left, ctx) },
-        B: { block: convert(n.right, ctx) }
-      }
+        B: { block: convert(n.right, ctx) },
+      },
     }
   }
 
@@ -359,7 +359,7 @@ class Converters {
 
   static ConvertReturnStatement (n, ctx) {
     const o = {
-      type: 'procedures_return'
+      type: 'procedures_return',
     }
 
     if (n.argument) {
@@ -377,8 +377,8 @@ class Converters {
         return {
           type: 'comment',
           fields: {
-            COMMENT: n.arguments[0].value.trim()
-          }
+            COMMENT: n.arguments[0].value.trim(),
+          },
         }
       }
 
@@ -386,7 +386,7 @@ class Converters {
         return {
           type: 'entry_point',
           fields: {
-          }
+          },
         }
       }
 
@@ -408,19 +408,19 @@ class Converters {
           return {
             type: 'procedures_callreturn',
             fields: {
-              NAME: n.callee.name
+              NAME: n.callee.name,
             },
             inputs,
-            extraState
+            extraState,
           }
         } else {
           return {
             type: 'procedures_callnoreturn',
             fields: {
-              NAME: n.callee.name
+              NAME: n.callee.name,
             },
             inputs,
-            extraState
+            extraState,
           }
         }
       }
@@ -435,12 +435,12 @@ class Converters {
             type: 'lists_setIndex',
             fields: {
               MODE: 'INSERT',
-              WHERE: 'LAST'
+              WHERE: 'LAST',
             },
             inputs: {
               LIST: { block: vari },
-              TO: { block: val }
-            }
+              TO: { block: val },
+            },
           }
         }
 
@@ -451,11 +451,11 @@ class Converters {
             extraState: { isStatement: ctx.context !== 'value' },
             fields: {
               MODE: ctx.context === 'value' ? 'GET_REMOVE' : 'REMOVE',
-              WHERE: 'LAST'
+              WHERE: 'LAST',
             },
             inputs: {
-              VALUE: { block: vari }
-            }
+              VALUE: { block: vari },
+            },
           }
         }
       }
@@ -466,7 +466,7 @@ class Converters {
 
     const out = {
       type: found[0].type,
-      inputs: {}
+      inputs: {},
     }
 
     const args = n.arguments.map(x => convert(x, { ...ctx, context: 'value' }))
@@ -495,8 +495,8 @@ class Converters {
       return {
         type: 'expression_statement',
         inputs: {
-          EXPRESSION: { block: out }
-        }
+          EXPRESSION: { block: out },
+        },
       }
     }
 
@@ -510,9 +510,9 @@ class Converters {
       type: 'procedures_defnoreturn',
       extraState: { params: [] },
       fields: {
-        NAME: n.id.name
+        NAME: n.id.name,
       },
-      inputs: {}
+      inputs: {},
     }
 
     for (const p of n.params) {
@@ -526,16 +526,27 @@ class Converters {
   }
 
   static ConvertIdentifier (n, ctx) {
+    let out
     if (n.name in ctx.scope && ctx.scope[n.name].type === 'var') {
-      return {
+      out = {
         type: 'variables_get',
-        fields: { VAR: { id: n.name } }
+        fields: { VAR: { id: n.name } },
+      }
+    } else {
+      const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), `Unknown variable ${n.name}`)
+      out = {
+        type: found[0].type,
       }
     }
-    const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), `Unknown variable ${n.name}`)
-    return {
-      type: found[0].type
+    if (ctx.context === 'statement') {
+      return {
+        type: 'expression_statement',
+        inputs: {
+          EXPRESSION: { block: out },
+        },
+      }
     }
+    return out
   }
 
   static ConvertUnaryExpression (n, ctx) {
@@ -548,28 +559,28 @@ class Converters {
         type: 'lists_getIndex',
         fields: {
           MODE: 'GET',
-          WHERE: 'FROM_START'
+          WHERE: 'FROM_START',
         },
         inputs: {
           AT: { block: convert(n.property, ctx) },
-          VALUE: { block: convert(n.object, ctx) }
-        }
+          VALUE: { block: convert(n.object, ctx) },
+        },
       }
     }
 
     if (n.property.type === 'Identifier' && n.property.name === 'length') {
       return {
         type: 'lists_length',
-        input: {
-          VALUE: { block: convert(n.object, ctx) }
-        }
+        inputs: {
+          VALUE: { block: convert(n.object, ctx) },
+        },
       }
     }
 
     const found = findOne(ctx.plan, x => fuzzyMatch(n, x[1]), `Couldn't find match for ${JSON.stringify(n)}`)
     // console.log(found)
     return {
-      type: found[0].type
+      type: found[0].type,
     }
   }
 }
@@ -585,10 +596,10 @@ function convert (node, ctx) {
           result.push({
             type: 'comment',
             fields: {
-              COMMENT: c.value.substr(1)
+              COMMENT: c.value.substr(1),
             },
             start: c.loc.start.line,
-            end: c.loc.end.line
+            end: c.loc.end.line,
           })
         }
       }
@@ -618,8 +629,8 @@ function convert (node, ctx) {
     return {
       type: ctx.context === 'value' ? 'raw_code_value' : 'raw_code',
       fields: {
-        CODE: code || '<CoDe>'
-      }
+        CODE: code || '<CoDe>',
+      },
     }
   }
 }
@@ -703,7 +714,7 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
     // console.log('Consider', block, 'z', zeblock)
     workspace.clear()
     const defn = {
-      type: block.type
+      type: block.type,
     }
     defn.setupInfo = zeblock.setupInfo || 'NO SETUP INFO'
     if (zeblock.setupInfo) {
@@ -724,18 +735,18 @@ function prepareBlockIntelligence ({ toolbox, blocklyState, workspace }) {
               block: {
                 type: 'math_number',
                 fields: {
-                  NUM: 0
-                }
-              }
+                  NUM: 0,
+                },
+              },
             }
           } else {
             defn.inputs[entry.name] = {
               block: {
                 type: 'text',
                 fields: {
-                  TEXT: '$ARGUMENT$' + entry.name
-                }
-              }
+                  TEXT: '$ARGUMENT$' + entry.name,
+                },
+              },
             }
           }
         }
@@ -877,7 +888,7 @@ function codeToBlocks ({ code, originalCode, codeLanguage, prepData }) {
   }
   const out = {
     blocks: convert(ast.program, ctx),
-    variables: []
+    variables: [],
   }
   for (const v in ctx.scope) {
     if (ctx.scope[v].type === 'var') out.variables.push({ name: v, id: v })
@@ -891,5 +902,5 @@ function codeToBlocks ({ code, originalCode, codeLanguage, prepData }) {
 
 module.exports = {
   prepareBlockIntelligence,
-  codeToBlocks
+  codeToBlocks,
 }

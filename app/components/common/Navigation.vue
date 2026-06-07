@@ -28,7 +28,7 @@ const ozCurriculumLink = function () {
   if (isOzaria || me.showOzCourses()) {
     return '/teachers/guide/ozaria'
   } else {
-    return ozPath('/teachers/guide/ozaria')
+    return '/ozaria'
   }
 }
 
@@ -45,7 +45,7 @@ export const items = {
   GRANTS: { url: cocoPath('/grants'), title: 'nav.grants_funding_resources' },
   ACCESSIBILITY: { url: cocoPath('/acr'), title: 'nav.accessibility' },
   DEMO: { url: '/teachers/quote', title: 'nav.request_quote_demo' },
-  COCO_CLASSROOM: { url: cocoPath('/teachers/guide/codecombat'), title: 'new_home.codecombat' },
+  COCO_CLASSROOM: { url: cocoPath('/schools'), title: 'new_home.codecombat' },
   COCO_JUNIOR: { url: getJuniorUrl(), title: 'nav.coco_junior' },
   COCO_HOME: { url: cocoPath('/play'), title: 'nav.codecombat_home' },
   OZ_CLASSROOM: { url: ozCurriculumLink(), title: 'new_home.ozaria' },
@@ -285,8 +285,6 @@ export default Vue.extend({
             },
             {
               ...items.COCO_CLASSROOM,
-              class: 'signup-button',
-              url: null,
               description: 'nav.coco_classroom_description',
             },
             {
