@@ -13,7 +13,7 @@
       {{ lastPlayed }}
     </p>
     <p v-if="mode === 'use'">
-      {{ aiProject.isReadyToReview ? $t('teacher_dashboard.ready_to_review') : $t('teacher.in_progress') }}
+      <b>{{ $t('user.status') }}:</b> {{ aiProject.isReadyToReview ? $t('teacher_dashboard.ready_to_review') : $t('teacher.in_progress') }}
     </p>
     <div v-else>
       <p class="highlighted">
@@ -59,8 +59,8 @@
         <p class="content">
           {{ aiEvaluation.content }}
         </p>
-        <p class="evaluate-date">
-          {{ $t('teacher_dashboard.evaluate_on') }}:
+        <p class="content evaluate-date">
+          {{ $t('teacher_dashboard.ai_evaluated_on') }}:
           <span class="text-muted">{{ aiEvaluation.evaluateOn }}</span>
         </p>
       </div>
@@ -190,7 +190,8 @@ export default {
 
     .beta-icon {
       position: absolute;
-      top: -10px;
+      top: -20px;
+      cursor: auto;
     }
     .evaluation {
       .content {
