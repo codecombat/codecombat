@@ -92,14 +92,19 @@ _.extend(AIScenarioSchema.properties, {
     },
   },
   evaluationRules: {
-    title: 'Evaluation Rules in System prompts for evaluating the project',
+    title: 'Evalualtion Rules',
+    description: 'Evaluation Rules in System prompts for evaluating the project',
     type: 'array',
     items: {
       type: 'string',
       format: 'markdown',
     },
   },
-  evaluationPhase: { enum: ['internalRelease', 'released', 'draft'], description: "How far along the evaluationRules' development is, determining who sees it." },
+  evaluationPhase: {
+    title: 'Evaluation Phase',
+    enum: ['internalRelease', 'released', 'draft'],
+    description: "How far along the evaluationRules' development is, determining who sees it.",
+  },
   minMsgs: {
     title: 'Minimum messages for completion',
     type: 'integer',

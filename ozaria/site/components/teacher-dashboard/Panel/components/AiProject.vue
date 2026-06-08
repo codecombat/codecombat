@@ -53,13 +53,16 @@
       v-if="aiEvaluation"
       class="ai-evaluation"
     >
-      {{ $t('teacher_dashboard.ai_evaluation') }}:
+      <b>{{ $t('teacher_dashboard.ai_evaluation') }}:</b>
       <IconBeta class="beta-icon" />
       <div class="evaluation">
         <p class="content">
           {{ aiEvaluation.content }}
         </p>
-        <span class="text-muted">{{ aiEvaluation.date }}</span>
+        <p class="evaluate-date">
+          {{ $t('teacher_dashboard.evaluate_on') }}:
+          <span class="text-muted">{{ aiEvaluation.evaluateOn }}</span>
+        </p>
       </div>
     </div>
     <a
@@ -122,7 +125,9 @@ export default {
       if (!this.aiProject || !this.aiProject.evaluations) return undefined
       const evs = this.aiProject.evaluations
       if (evs.length === 0) return undefined
-      return evs[evs.length - 1] // last one
+      const ev = evs[evs.length - 1] // last one
+      ev.evaluateOn = moment(ev.date).format('lll')
+      return ev
     },
   },
 }
@@ -180,10 +185,7 @@ export default {
   }
 
   .ai-evaluation {
-    border: solid 1px #999999;
-    border-radius: 5px;
-    margin: 10px 5px;
-    padding: 5px;
+    color: #666666;
     position: relative;
 
     .beta-icon {
@@ -191,12 +193,14 @@ export default {
       top: -10px;
     }
     .evaluation {
-      max-height: 40vh;
-      overflow-y: auto;
-
       .content {
-        white-space: pre-wrap;
+        max-height: 40vh;
+        overflow-y: auto;
+        margin-left: 1em;
         font-size: 1em;
+      }
+      .evaluate-date {
+        font-size: 0.8em;
       }
     }
   }
