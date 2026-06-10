@@ -332,7 +332,7 @@ module.exports = {
       learning_technology_blurb_short: 'Our innovative game-based learning technology has transformed the way students learn to code.',
       online_classes_blurb: 'Our online coding classes combine the power of gameplay and personalized instruction for an experience your child will love. With both private or group options available, this is remote learning that works.',
       codecombat_home_blurb: '__codecombatHome__ offers your child a fun and engaging way to advance their coding skills. With access to over 530 levels and exclusive features like pets, premium-only items, and heroes, your child can fully immerse themselves in the world of coding. They can even design games to challenge their friends, build websites and apps to share, and create private teams to compete on a group leaderboard, all in a safe and interactive environment that encourages learning and socialization.',
-      codecombat_home: 'CodeCombat Home',
+      codecombat_home: 'CodeCombat',
       for_educators: 'For Educators',
       for_parents: 'For Parents',
       for_everyone: 'For Everyone',
@@ -442,7 +442,7 @@ module.exports = {
       dashboard: 'Dashboard',
       products: 'Products',
       live_online_classes: 'Live Online Classes',
-      codecombat_home: 'CodeCombat Home',
+      codecombat_home: 'CodeCombat',
       libraries: 'Libraries',
       codecombat_worlds_on_roblox: 'CodeCombat Worlds on Roblox',
       pricing: 'Pricing',
@@ -587,6 +587,7 @@ module.exports = {
       available: 'Available',
       skills_granted: 'Skills Granted', // Property documentation details
       heroes: 'Heroes', // Tooltip on hero shop button from /play
+      pets: 'Pets', // Tooltip on pet shop button from /play
       achievements: 'Achievements', // Tooltip on achievement list button from /play
       settings: 'Settings', // Tooltip on settings button from /play
       poll: 'Poll', // Tooltip on poll button from /play
@@ -642,6 +643,7 @@ module.exports = {
       junior_button_hover: 'Blocks coding for beginners',
       cchome_button_hover: 'Original CodeCombat Adventure',
       home_campaign_redirect_student: 'Please visit the course map from your student page.',
+      blockly_error_msg: 'Oops! Something went wrong loading your blocks. Try reloading the page to bring your workspace back.',
     },
 
     code: {
@@ -3004,6 +3006,8 @@ module.exports = {
       CS_short: 'CS',
       SANDBOX_short: 'Sandbox',
       EXPLORATIONS_short: 'Explorations',
+      course_not_covered: 'Course __course__ not covered',
+      license_is: 'The student license is: ',
     },
 
     teacher_licenses: {
@@ -4938,6 +4942,8 @@ module.exports = {
       starter_code: 'Starter Code',
       student_code: 'Student Code',
       solution_code: 'Solution',
+      ai_evaluation: 'AI Evaluation',
+      ai_evaluated_on: 'AI Evaluated On',
     },
 
     outcomes: {
@@ -5309,7 +5315,7 @@ module.exports = {
       invite_players: 'Invite Players',
       select_arena: 'Select an Arena',
       refer_guide: 'Refer to the <a href="https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit#slide=id.gb06b5c7fa4_0_10">Educator Getting Started Guide</a> to see how easy it can be to bring competitive coding to your school.',
-      having_question: 'Still have questions? Check out our <a target="_blank" href="https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League">FAQs</a> or <a href="https://form.typeform.com/to/qXqgbubC" target="_blank">Contact Us</a> to learn more.',
+      having_question: 'Still have questions? Check out our <a target="_blank" href="https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League">FAQs</a> or <a href="https://docs.google.com/forms/d/1rO__VvhM1yCuUHrtHJKXXj3RYA2vCzpRKzMCMaMS6SE" target="_blank">Contact Us</a> to learn more.',
       global_rankings: 'Global Ranking',
       team_rankings: 'Team Ranking',
       inspiration_title: 'Are you an educator or esports coach?',
@@ -5457,6 +5463,14 @@ module.exports = {
       billing_portal: 'Customer Billing Portal',
       email_not_verified: 'Your email is not verified, please verify it from the account settings!',
       stripe_no_data: 'You do not have any data to manage on Stripe portal',
+      manage_payment_and_subscription: 'Manage Payment & Subscription',
+      discover_more_title: 'Discover More',
+      discover_more_desc: 'See everything you have access to with your premium account!',
+      billing_portal_desc: 'Manage your subscription, update your payment method, view invoices and more in Stripe.',
+      billing_portal_btn: 'Manage billing with Stripe',
+      payment_history: 'Payment History',
+      payment_history_btn_all: 'View all Invoices',
+      payment_history_btn_less: 'View recent Invoices',
     },
 
     form_validation_errors: {
@@ -6551,6 +6565,17 @@ module.exports = {
       junior_title: 'CodeCombat Junior',
       junior_text: 'Our flagship K-5 curriculum features a progression of learning levels that teach basic coding concepts at a slower pace.',
       codecombat_worlds_text: 'Developed in partnership with Roblox Education, this experience accelerates your coding abilities to create amazing Roblox games and experiences.',
+      junior_text_short: 'Our K-5 curriculum teaches coding concepts from icon blocks to text at a slower pace.',
+      codecombat_text_short: 'A game-based coding adventure that features web development, game development, and more.',
+      ai_league_text_short: 'A competitive coding esports platform that encourages creative programming.',
+      codecombat_worlds_text_short: 'Developed with Roblox Education, learn coding and game development on Roblox.',
+      ai_hackstack_text_short: 'Learn anything, create something, do everything with the first generative AI tool crafted for those new to AI.',
+      subscription_includes_title: 'Your subscription includes',
+      subscription_includes_1: 'Access to all learning adventures',
+      subscription_includes_2: 'AI project creation credits',
+      subscription_includes_3: 'More gems, heroes, and items',
+      subscription_includes_4: 'Game, website, and app creation',
+      subscription_includes_5: 'Premium support',
       testimonials_2_name: 'Amanda S.',
       features_1: 'Full Access to All[NEWLINE]Learning Adventures',
       features_2: 'Master AI with[NEWLINE]AI HackStack',

@@ -2571,7 +2571,9 @@ class CampaignView extends RootView {
       level.color = 'rgb(255, 80, 60)'
       level.disabled = false
 
-      if (level.slug === nextSlug && !this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+      const lockCheckOriginal = utils.findParentLevelOriginal(level, courseOrder)
+
+      if (level.slug === nextSlug && !this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
         level.locked = false
         level.hidden = false
         level.next = true
@@ -2600,7 +2602,7 @@ class CampaignView extends RootView {
         }
       }
 
-      if ((!prev || !prev.locked) && level.locked && this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+      if ((!prev || !prev.locked) && level.locked && this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
         level.locked = false
       }
 
@@ -2611,8 +2613,8 @@ class CampaignView extends RootView {
       const legacyLock = startLockedLevel && level.slug === startLockedLevel
 
       if (legacyLock ||
-      this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), level.original)) {
-        if (!this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+      this.classroom.isStudentOnLockedLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
+        if (!this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
           lockedByTeacher = true
         } else {
           lockSkippedLevel = true
@@ -2639,7 +2641,7 @@ class CampaignView extends RootView {
       level.unlocksHero = false
       level.unlocksItem = false
       prev = level
-      if (!this.campaign.levelIsPractice(level) && !this.campaign.levelIsAssessment(level) && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), level.original)) {
+      if (!this.campaign.levelIsPractice(level) && !this.campaign.levelIsAssessment(level) && !this.classroom.isStudentOnOptionalLevel(me.get('_id'), this.course.get('_id'), lockCheckOriginal)) {
         lastNormalLevel = level
       }
     }
@@ -2693,12 +2695,19 @@ class CampaignView extends RootView {
     }
   }
 
+  isJuniorCampaign () {
+    const campaignObj = this.campaign || (typeof this.terrain === 'object' ? this.terrain : null)
+    return this.terrain === 'junior' || this.terrain === 'odyssey' ||
+      campaignObj?.get('slug') === 'junior' || campaignObj?.get('slug') === 'odyssey' ||
+      campaignObj?.get('type') === 'junior'
+  }
+
   shouldShow (what) {
     const isStudentOrTeacher = me.isStudent() || me.isTeacher()
     const isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
     if (what === 'junior-menu-icon') {
-      if (this.terrain === 'junior') {
+      if (this.isJuniorCampaign()) {
         return false
       }
       return me.isHomeUser() && !this.editorMode
@@ -2734,12 +2743,20 @@ class CampaignView extends RootView {
       return me.showGemsAndXpInClassroom() || !isStudentOrTeacher
     }
 
-    if (['leaderboard'].includes(what) && this.terrain === 'junior') {
+    if (['leaderboard'].includes(what) && this.isJuniorCampaign()) {
       return false
     }
 
-    if (what === 'items' && this.terrain === 'junior') {
+    if (what === 'items' && this.isJuniorCampaign()) {
       return false
+    }
+
+    if (what === 'heros' && this.isJuniorCampaign()) {
+      return false
+    }
+
+    if (what === 'pets') {
+      return this.isJuniorCampaign()
     }
 
     if (['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements'].includes(what)) {
@@ -2772,7 +2789,7 @@ class CampaignView extends RootView {
 
     if (what === 'anonymous-classroom-signup') {
       return me.isAnonymous() && (me.level() < 8) && me.promptForClassroomSignup() &&
-        !this.editorMode && this.terrain !== 'junior' && !storage.load('hid-anonymous-classroom-signup-dialog')
+        !this.editorMode && !this.isJuniorCampaign() && !storage.load('hid-anonymous-classroom-signup-dialog')
     }
 
     if (what === 'amazon-campaign') {
@@ -2805,7 +2822,7 @@ class CampaignView extends RootView {
       return !me.showChinaResourceInfo() && !userUtils.isCreatedViaLibrary() && !this.editorMode && !me.isStudent() && !me.isTeacher()
     }
     if (what === 'cchome-menu-icon') {
-      return !userUtils.isCreatedViaLibrary() && (this.terrain === 'junior') && !this.editorMode
+      return !userUtils.isCreatedViaLibrary() && this.isJuniorCampaign() && !this.editorMode
     }
 
     return true

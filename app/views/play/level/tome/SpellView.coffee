@@ -110,6 +110,7 @@ module.exports = class SpellView extends CocoView
     @addUserSnippets = _.debounce @reallyAddUserSnippets, 500, {maxWait: 1500, leading: true, trailing: false}
     @teaching = utils.getQueryVariable('teaching', false)
     @urlSession = utils.getQueryVariable('session')
+    @blocklySuccess = true
 
   afterRender: ->
     super()
@@ -125,14 +126,6 @@ module.exports = class SpellView extends CocoView
     @createOnCodeChangeHandlers()
     @lockDefaultCode()
     _.defer @onAllLoaded  # Needs to happen after the code generating this view is complete
-
-  handleJuniorLevelHack: (source) ->
-    if @options.level.get('product') is 'codecombat-junior'
-      # cpp/java need rewrite blank `health` calls to `hero.health` before sending to codekeeper.
-      source = source.replace /(^|[^a-zA-Z.])health(?!\w)/g, (match, prefix) ->
-        return match if prefix.endsWith('hero.')
-        return "#{prefix}hero.health"
-    return source
 
   # This ACE is used for the code editor, and is only instantiated once per level.
   createACE: ->
@@ -492,7 +485,10 @@ module.exports = class SpellView extends CocoView
     @lastBlocklyState = if PERSIST_BLOCK_STATE and not @session.fake then storage.load "lastBlocklyState_#{@options.level.get('original')}_#{@session.id}" else null
     if @lastBlocklyState
       @awaitingBlocklySerialization = true
-      blocklyUtils.loadBlocklyState { blocklyState: @lastBlocklyState, blockly: @blockly }
+      @blocklySuccess = blocklyUtils.loadBlocklyState { blocklyState: @lastBlocklyState, blockly: @blockly }
+      unless @blocklySuccess
+        Backbone.Mediator.publish 'tome:blockly-error', {}
+        return @resizeBlockly()
       for block in @blockly.getAllBlocks() when block.type is 'comment'
         # Make long comments not so long. (The full comments will be visible, wrapped, in text version anyway.)
         # TODO: do we like this?
@@ -641,10 +637,13 @@ module.exports = class SpellView extends CocoView
     #console.log 'A2B: Changing blockly source from', blocklySource, 'to', aceSource
     @eventsSuppressed = true
     @awaitingBlocklySerialization = true
-    #console.log 'would set to', newBlocklyState
-    blocklyUtils.loadBlocklyState { blocklyState: newBlocklyState, blockly: @blockly }
+    # console.log 'would set to', newBlocklyState
+    @blocklySuccess = blocklyUtils.loadBlocklyState { blocklyState: newBlocklyState, blockly: @blockly }
     #@resizeBlockly()  # Needed?
     @eventsSuppressed = false
+    unless @blocklySuccess
+      Backbone.Mediator.publish 'tome:blockly-error', {}
+      return
     @lastBlocklyState = newBlocklyState
 
   playBlockSound: (block) ->
@@ -892,6 +891,7 @@ module.exports = class SpellView extends CocoView
 
   notifySpellChanged: =>
     return if @destroyed
+    return if @options.blocks and not @blocklySuccess
     Backbone.Mediator.publish 'tome:spell-changed', spell: @spell
 
   notifyEditingEnded: =>
@@ -1218,7 +1218,7 @@ module.exports = class SpellView extends CocoView
   fetchToken: (source, language) =>
     if source of @loadedToken
       return Promise.resolve(@loadedToken[source])
-    source = @handleJuniorLevelHack(source)
+    source = utils.guardJuniorLevelHealthCode(@options.level, source)
     return aetherUtils.fetchToken(source, language)
 
   fetchTokenForSource: () =>

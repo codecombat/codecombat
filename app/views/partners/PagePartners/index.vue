@@ -12,7 +12,7 @@
                 h2.text-h2 {{ $t('partners.headline') }}
             .row
               .col-lg-12
-                a.btn.btn-primary.btn-lg(href="https://form.typeform.com/to/loZIh0I9" target="_blank") {{ $t('general.contact_us') }}
+                a.btn.btn-primary.btn-lg(:href="BD_LEAD_FORM" target="_blank") {{ $t('general.contact_us') }}
         .container-fluid.header-part-bottom
           .width-container.text-center
             .row
@@ -82,7 +82,7 @@
 
       .width-container.text-center.row.row-button
         .col-lg-12
-          a.btn.btn-primary.btn-lg.btn-talk(href="https://form.typeform.com/to/loZIh0I9" target="_blank") {{ $t('partners.talk_with_us') }}
+          a.btn.btn-primary.btn-lg.btn-talk(:href="BD_LEAD_FORM" target="_blank") {{ $t('partners.talk_with_us') }}
 
     .container-fluid.container-fluid-gradient
       .width-container.text-center.row.brands-row
@@ -115,6 +115,9 @@
 </template>
 
 <script>
+import { BD_LEAD_FORM } from '../../../core/constants'
+import { cocoBaseURL } from '../../../core/utils'
+
 export default Vue.extend({
   data () {
     return {
@@ -126,14 +129,17 @@ export default Vue.extend({
         seeds_of_light: `<a href='https://www.accesswire.com/702186/Seeds-of-Light-and-CodeCombat-Expand-Partnership-with-Launch-of-Glow-Academies-for-Middle-School-Students' target='_blank'>${$.i18n.t('partners.seeds_of_light')}</a>`,
         eugenio_derbez: '<a href=\'https://www.businesswire.com/news/home/20210316006024/en/Mexican-Superstar-Eugenio-Derbez-Partners-with-CodeCombat-to-Get-the-Latinx-Community-Coding\' target=\'_blank\'>Eugenio Derbez</a>',
         see_how: `<a href='/images/pages/partners/pdf/Flyer_-_Coding_Esports_for_Employers_with_Amdocs_Case_Study.pdf' target='_blank'>${$.i18n.t('partners.see_how')}</a>`,
-        interpolation: { escapeValue: false }
+        interpolation: { escapeValue: false },
       },
-      apiLink: this.getApiLink()
+      apiLink: this.getApiLink(),
+      BD_LEAD_FORM,
     }
   },
 
   methods: {
-
+    cocoPath (relativePath) {
+      return `${cocoBaseURL()}${relativePath}`
+    },
     getApiLink () {
       let link = 'https://github.com/codecombat/codecombat-api'
       const lang = (me.get('preferredLanguage') || 'en').split('-')[0]

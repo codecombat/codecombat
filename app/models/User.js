@@ -27,7 +27,6 @@ const _ = require('lodash')
 const moment = window.moment
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
 const { DEEP_API_LIST } = require('core/constants')
-const CHOCOLI_EXPERIMENT_NAME = 'chocoli'
 const REQUIRE_SIGN_UP_EXPERIMENT = {
   dungeon: 'requires-sign-up-dungeon',
   junior: 'requires-sign-up-junior',
@@ -875,6 +874,16 @@ module.exports = (User = (function () {
       return 'course'
     }
 
+    prepaidTypeDescription () {
+      const courseProducts = this.activeProducts('course')
+      if (!courseProducts.length) { return '' }
+      // NOTE: Full licenses implicitly include all courses
+      if (_.any(courseProducts, p => (p.productOptions?.includedCourseIDs == null))) { return utils.courseDescription() }
+      const union = (res, prepaid) => _.union(res, prepaid.productOptions?.includedCourseIDs != null ? prepaid.productOptions?.includedCourseIDs : [])
+      const includedCourseIDs = _.reduce(courseProducts, union, [])
+      return utils.courseDescription(includedCourseIDs)
+    }
+
     prepaidIncludesCourse (course) {
       const courseProducts = this.activeProducts('course')
       if (!courseProducts.length) { return false }
@@ -1503,21 +1512,6 @@ module.exports = (User = (function () {
       return value ?? null
     }
 
-    // Chocoli experiment - mini games for hackstack
-    getChocoliExperimentValue () {
-      if (me.isStudent() || me.isTeacher()) {
-        return 'control'
-      }
-      if (features?.chinaInfra) {
-        return 'control'
-      }
-      const value = utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery(CHOCOLI_EXPERIMENT_NAME),
-        me.getExperimentValue(CHOCOLI_EXPERIMENT_NAME, null),
-      )
-      return value ?? null
-    }
-
     getOrStartRequireSignupExperimentValue (CAMPAIGN) {
       if (!(Object.keys(REQUIRE_SIGN_UP_EXPERIMENT).includes(CAMPAIGN))) {
         return 'control'
@@ -1527,14 +1521,6 @@ module.exports = (User = (function () {
         return value
       }
       return this.tryStartExperiment(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN])
-    }
-
-    getOrStartChocoliExperimentValue () {
-      const value = this.getChocoliExperimentValue()
-      if (value != null) {
-        return value
-      }
-      return this.tryStartExperiment(CHOCOLI_EXPERIMENT_NAME)
     }
   }
 

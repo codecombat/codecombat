@@ -39,6 +39,7 @@
           <slot name="title" />
         </div>
         <slot name="text" />
+        <slot name="list" />
 
         <p
           v-if="middleText && middleImage"

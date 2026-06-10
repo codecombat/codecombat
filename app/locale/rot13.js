@@ -587,6 +587,7 @@ module.exports = {
       available: 'Ninvynoyr',
       skills_granted: 'Fxvyyf Tenagrq', // Cebcregl qbphzragngvba qrgnvyf
       heroes: 'Urebrf', // Gbbygvc ba ureb fubc ohggba sebz /cynl
+      pets: 'Crgf', // Gbbygvc ba crg fubc ohggba sebz /cynl
       achievements: 'Npuvrirzragf', // Gbbygvc ba npuvrirzrag yvfg ohggba sebz /cynl
       settings: 'Frggvatf', // Gbbygvc ba frggvatf ohggba sebz /cynl
       poll: 'Cbyy', // Gbbygvc ba cbyy ohggba sebz /cynl
@@ -612,7 +613,7 @@ module.exports = {
       brain_pop_done: 'Lbh’ir qrsrngrq gur Bterf jvgu pbqr! Lbh jva!',
       brain_pop_challenge: 'Punyyratr lbhefrys gb cynl ntnva hfvat n qvssrerag cebtenzzvat ynathntr!',
       replay: 'Ercynl',
-      back_to_classroom: 'Onpx gb Pynffebbz',
+      back_to_classroom: 'Onpx gb Pynff',
       teacher_button: 'Sbe Grnpuref',
       get_more_codecombat: 'Trg Zber PbqrPbzong',
       back_to_dashboard: 'Onpx gb Qnfuobneq',
@@ -641,7 +642,7 @@ module.exports = {
       hackstack_button_hover: 'Pbqr naq Perngr jvgu NV UnpxFgnpx',
       junior_button_hover: 'Oybpxf pbqvat sbe ortvaaref',
       cchome_button_hover: 'Bevtvany PbqrPbzong Nqiragher',
-
+      home_campaign_redirect_student: 'Cyrnfr ivfvg gur pbhefr znc sebz lbhe fghqrag cntr.',
     },
 
     code: {
@@ -2831,6 +2832,8 @@ module.exports = {
       customized_license: 'Phfgbzvmrq Yvprafr',
       hackstack_license: 'NV UnpxFgnpx Yvprafr',
       hackstack_credits: 'Perqvgf: __yvzvg__ cebzcgf / __qhengvbaNzbhag__ __qhengvbaXrl__(f)',
+      coco_full_license: 'PbPb Yvprafr',
+      ozar_full_license: 'Bmnevn Yvprafr',
       trial: 'Gevny',
       hoc_welcome: 'Unccl Pbzchgre Fpvrapr Rqhpngvba Jrrx',
       hoc_title: 'Ubhe bs Pbqr Tnzrf - Serr Npgvivgvrf gb Yrnea Erny Pbqvat Ynathntrf',
@@ -3001,6 +3004,8 @@ module.exports = {
       CS_short: 'PF',
       SANDBOX_short: 'Fnaqobk',
       EXPLORATIONS_short: 'Rkcybengvbaf',
+      course_not_covered: 'Pbhefr __pbhefr__ abg pbirerq',
+      license_is: 'Gur fghqrag yvprafr vf: ',
     },
 
     teacher_licenses: {
@@ -3562,6 +3567,7 @@ module.exports = {
       phone_completion: 'Bcra gur uggcf://pbqrpbzong.pa ba lbhe pbzchgre sbe gur orfg jnl gb yrnea naq cynl juvyr lbh pbqr.',
       all_set: 'Lbh\'er nyy frg!',
       date_of_birth: 'Qngr bs Ovegu',
+      unlock_next_level_with_sign_up: 'Lbh\'ir haybpxrq gur arkg yriry! Perngr n serr nppbhag gb fnir lbhe cebterff naq pbagvahr lbhe pbqvat wbhearl.',
     },
 
     account_invoices: {
@@ -4928,6 +4934,8 @@ module.exports = {
       curriculum_coco: 'PbqrPbzong',
       curriculum_ozaria: 'Bmnevn',
       curriculum_beta: 'Orgn',
+      progress_last_fetched: 'Cebterff ynfg srgpurq',
+      refresh_progress_helptext: 'Fghqrag cebterff znl gnxr 2–3 zvahgrf gb flap nsgre pbzcyrgvba.',
     },
 
     outcomes: {
@@ -5299,7 +5307,7 @@ module.exports = {
       invite_players: 'Vaivgr Cynlref',
       select_arena: 'Fryrpg na Neran',
       refer_guide: 'Ersre gb gur <n uers="uggcf://qbpf.tbbtyr.pbz/cerfragngvba/q/1bhQBh2x-cBkxJfjHXhvx7PoeHPxLKS7A_wAwTB0VV6b/rqvg#fyvqr=vq.to06o5p7sn4_0_10">Rqhpngbe Trggvat Fgnegrq Thvqr</n> gb frr ubj rnfl vg pna or gb oevat pbzcrgvgvir pbqvat gb lbhe fpubby.',
-      having_question: 'Fgvyy unir dhrfgvbaf? Purpx bhg bhe <n gnetrg="_oynax" uers="uggcf://pbqrpbzong.mraqrfx.pbz/up/ra-hf/pngrtbevrf/1500000915842-NV-Yrnthr">SNDf</n> be <n uers="uggcf://sbez.glcrsbez.pbz/gb/dKdtohoP" gnetrg="_oynax">Pbagnpg Hf</n> gb yrnea zber.',
+      having_question: 'Fgvyy unir dhrfgvbaf? Purpx bhg bhe <n gnetrg="_oynax" uers="uggcf://pbqrpbzong.mraqrfx.pbz/up/ra-hf/pngrtbevrf/1500000915842-NV-Yrnthr">SNDf</n> be <n uers="uggcf://qbpf.tbbtyr.pbz/sbezf/q/1eB__IiuZ1lPhHUegUWXKKw3ELN2iPmcEXmZPZnZF6FR" gnetrg="_oynax">Pbagnpg Hf</n> gb yrnea zber.',
       global_rankings: 'Tybony Enaxvat',
       team_rankings: 'Grnz Enaxvat',
       inspiration_title: 'Ner lbh na rqhpngbe be rfcbegf pbnpu?',
@@ -5447,6 +5455,14 @@ module.exports = {
       billing_portal: 'Phfgbzre Ovyyvat Cbegny',
       email_not_verified: 'Lbhe rznvy vf abg irevsvrq, cyrnfr irevsl vg sebz gur nppbhag frggvatf!',
       stripe_no_data: 'Lbh qb abg unir nal qngn gb znantr ba Fgevcr cbegny',
+      manage_payment_and_subscription: 'Znantr Cnlzrag & Fhofpevcgvba',
+      discover_more_title: 'Qvfpbire Zber',
+      discover_more_desc: 'Frr rirelguvat lbh unir npprff gb jvgu lbhe cerzvhz nppbhag!',
+      billing_portal_desc: 'Znantr lbhe fhofpevcgvba, hcqngr lbhe cnlzrag zrgubq, ivrj vaibvprf naq zber va Fgevcr.',
+      billing_portal_btn: 'Znantr ovyyvat jvgu Fgevcr',
+      payment_history: 'Cnlzrag Uvfgbel',
+      payment_history_btn_all: 'Ivrj nyy Vaibvprf',
+      payment_history_btn_less: 'Ivrj erprag Vaibvprf',
     },
 
     form_validation_errors: {
@@ -6435,6 +6451,7 @@ module.exports = {
       ScenarioDetailsPanel_released: 'Eryrnfrq',
       'ScenarioDetailsPanel_save-scenario': 'Fnir Fpranevb',
       'ScenarioDetailsPanel_scenario-settings': 'Fpranevb frggvatf',
+      'ScenarioDetailsPanel_allow-user-upload-file': 'Nyybj hfre gb hcybnq svyr',
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': "Lbh'er va fpranevb perngvba zbqr! Tb nurnq, zrff nebhaq naq gel gb ohvyq n pbby fpranevb, gura pyvpx \"orgn\" be \"eryrnfrq\" gb funer vg jvgu gur jbeyq! Vs lbh rire qba'g yvxr n cebzcg, whfg tb onpx naq rqvg vg.",
       'ScenarioPromptMessage_alternate-choices': 'Nygreangr Pubvprf',
       ScenarioPromptMessage_edit: 'Rqvg',
@@ -6540,6 +6557,17 @@ module.exports = {
       junior_title: 'PbqrPbzong Whavbe',
       junior_text: 'Bhe syntfuvc X-5 pheevphyhz srngherf n cebterffvba bs yrneavat yriryf gung grnpu onfvp pbqvat pbaprcgf ng n fybjre cnpr.',
       codecombat_worlds_text: 'Qrirybcrq va cnegarefuvc jvgu Eboybk Rqhpngvba, guvf rkcrevrapr nppryrengrf lbhe pbqvat novyvgvrf gb perngr nznmvat Eboybk tnzrf naq rkcrevraprf.',
+      junior_text_short: 'Bhe X-5 pheevphyhz grnpurf pbqvat pbaprcgf sebz vpba oybpxf gb grkg ng n fybjre cnpr.',
+      codecombat_text_short: 'N tnzr-onfrq pbqvat nqiragher gung srngherf jro qrirybczrag, tnzr qrirybczrag, naq zber.',
+      ai_league_text_short: 'N pbzcrgvgvir pbqvat rfcbegf cyngsbez gung rapbhentrf perngvir cebtenzzvat.',
+      codecombat_worlds_text_short: 'Qrirybcrq jvgu Eboybk Rqhpngvba, yrnea pbqvat naq tnzr qrirybczrag ba Eboybk.',
+      ai_hackstack_text_short: 'Yrnea nalguvat, perngr fbzrguvat, qb rirelguvat jvgu gur svefg trarengvir NV gbby pensgrq sbe gubfr arj gb NV.',
+      subscription_includes_title: 'Lbhe fhofpevcgvba vapyhqrf',
+      subscription_includes_1: 'Npprff gb nyy yrneavat nqiragherf',
+      subscription_includes_2: 'NV cebwrpg perngvba perqvgf',
+      subscription_includes_3: 'Zber trzf, urebrf, naq vgrzf',
+      subscription_includes_4: 'Tnzr, jrofvgr, naq ncc perngvba',
+      subscription_includes_5: 'Cerzvhz fhccbeg',
       testimonials_2_name: 'Nznaqn F.',
       features_1: 'Shyy Npprff gb Nyy[ARJYVAR]Yrneavat Nqiragherf',
       features_2: 'Znfgre NV jvgu[ARJYVAR]NV UnpxFgnpx',

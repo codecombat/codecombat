@@ -587,6 +587,7 @@ module.exports = {
       available: 'Disponible',
       skills_granted: 'Compétences acquises',
       heroes: 'Héros',
+      //    pets: "Pets",
       achievements: 'Succès',
       settings: 'Réglages',
       poll: 'Sondage',
@@ -641,6 +642,7 @@ module.exports = {
       //    hackstack_button_hover: "Code and Create with AI HackStack",
       //    junior_button_hover: "Blocks coding for beginners",
       //    cchome_button_hover: "Original CodeCombat Adventure",
+      //    home_campaign_redirect_student: "Please visit the course map from your student page.",
     },
 
     code: {
@@ -2830,6 +2832,8 @@ module.exports = {
       customized_license: '[AI_TRANSLATION]Licence Personnalisée',
       //    hackstack_license: "AI HackStack License",
       //    hackstack_credits: "Credits: __limit__ prompts / __durationAmount__ __durationKey__(s)",
+      //    coco_full_license: "CoCo License",
+      //    ozar_full_license: "Ozaria License",
       trial: 'Essai',
       hoc_welcome: "Bonne Semaine de l'enseignement de l'informatique",
       hoc_title: '[AI_TRANSLATION]Jeux de l’Heure du Code - Activités gratuites pour apprendre de vrais langages de programmation',
@@ -3000,6 +3004,8 @@ module.exports = {
       //    CS_short: "CS",
       //    SANDBOX_short: "Sandbox",
       //    EXPLORATIONS_short: "Explorations",
+      //    course_not_covered: "Course __course__ not covered",
+      //    license_is: "The student license is: ",
     },
 
     teacher_licenses: {
@@ -3561,6 +3567,7 @@ module.exports = {
       //    phone_completion: "Open the https://codecombat.cn on your computer for the best way to learn and play while you code.",
       //    all_set: "You're all set!",
       //    date_of_birth: "Date of Birth",
+      //    unlock_next_level_with_sign_up: "You've unlocked the next level! Create a free account to save your progress and continue your coding journey.",
     },
 
     account_invoices: {
@@ -4926,6 +4933,8 @@ module.exports = {
       //    curriculum_coco: "CodeCombat",
       //    curriculum_ozaria: "Ozaria",
       //    curriculum_beta: "Beta",
+      //    progress_last_fetched: "Progress last fetched",
+      //    refresh_progress_helptext: "Student progress may take 2–3 minutes to sync after completion.",
     },
 
     outcomes: {
@@ -5297,7 +5306,7 @@ module.exports = {
     //    invite_players: "Invite Players",
     //    select_arena: "Select an Arena",
     //    refer_guide: "Refer to the <a href=\"https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit#slide=id.gb06b5c7fa4_0_10\">Educator Getting Started Guide</a> to see how easy it can be to bring competitive coding to your school.",
-    //    having_question: "Still have questions? Check out our <a target=\"_blank\" href=\"https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League\">FAQs</a> or <a href=\"https://form.typeform.com/to/qXqgbubC\" target=\"_blank\">Contact Us</a> to learn more.",
+    //    having_question: "Still have questions? Check out our <a target=\"_blank\" href=\"https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League\">FAQs</a> or <a href=\"https://docs.google.com/forms/d/1rO__VvhM1yCuUHrtHJKXXj3RYA2vCzpRKzMCMaMS6SE\" target=\"_blank\">Contact Us</a> to learn more.",
     //    global_rankings: "Global Ranking",
     //    team_rankings: "Team Ranking",
     //    inspiration_title: "Are you an educator or esports coach?",
@@ -5445,6 +5454,14 @@ module.exports = {
       billing_portal: '[AI_TRANSLATION]Portail de Facturation Client',
       email_not_verified: "[AI_TRANSLATION]Ton email n'est pas vérifié, merci de le vérifier depuis les paramètres du compte!",
       stripe_no_data: "[AI_TRANSLATION]Tu n'as aucune donnée à gérer sur le portail Stripe.",
+      //    manage_payment_and_subscription: "Manage Payment & Subscription",
+      //    discover_more_title: "Discover More",
+      //    discover_more_desc: "See everything you have access to with your premium account!",
+      //    billing_portal_desc: "Manage your subscription, update your payment method, view invoices and more in Stripe.",
+      //    billing_portal_btn: "Manage billing with Stripe",
+      //    payment_history: "Payment History",
+      //    payment_history_btn_all: "View all Invoices",
+      //    payment_history_btn_less: "View recent Invoices",
     },
 
     form_validation_errors: {
@@ -6424,6 +6441,7 @@ module.exports = {
       ScenarioDetailsPanel_released: '[AI_TRANSLATION]Publié',
       'ScenarioDetailsPanel_save-scenario': '[AI_TRANSLATION]Sauvegarder le scénario',
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]Paramètres du scénario',
+      //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': "[AI_TRANSLATION]T'es en mode création de scénario ! Vas-y, fais des essais et essaie de construire un scénario cool, puis clique sur \"bêta\" ou \"release\" pour le partager avec le monde ! Si jamais une invite ne te plaît pas, retourne simplement et modifie-la.",
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]Choix alternatifs',
       //    ScenarioPromptMessage_edit: "Edit",
@@ -6531,6 +6549,17 @@ module.exports = {
     //    junior_title: "CodeCombat Junior",
     //    junior_text: "Our flagship K-5 curriculum features a progression of learning levels that teach basic coding concepts at a slower pace.",
     //    codecombat_worlds_text: "Developed in partnership with Roblox Education, this experience accelerates your coding abilities to create amazing Roblox games and experiences.",
+    //    junior_text_short: "Our K-5 curriculum teaches coding concepts from icon blocks to text at a slower pace.",
+    //    codecombat_text_short: "A game-based coding adventure that features web development, game development, and more.",
+    //    ai_league_text_short: "A competitive coding esports platform that encourages creative programming.",
+    //    codecombat_worlds_text_short: "Developed with Roblox Education, learn coding and game development on Roblox.",
+    //    ai_hackstack_text_short: "Learn anything, create something, do everything with the first generative AI tool crafted for those new to AI.",
+    //    subscription_includes_title: "Your subscription includes",
+    //    subscription_includes_1: "Access to all learning adventures",
+    //    subscription_includes_2: "AI project creation credits",
+    //    subscription_includes_3: "More gems, heroes, and items",
+    //    subscription_includes_4: "Game, website, and app creation",
+    //    subscription_includes_5: "Premium support",
     //    testimonials_2_name: "Amanda S.",
     //    features_1: "Full Access to All[NEWLINE]Learning Adventures",
     //    features_2: "Master AI with[NEWLINE]AI HackStack",

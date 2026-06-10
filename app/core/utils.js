@@ -1016,9 +1016,7 @@ const isAnyPrecedingLevelLocked = function (levels, currentIndex) {
 
 const findNextLevel = function (levels, currentIndex, needsPractice) {
   let index = currentIndex + 1
-
   if (isAnyPrecedingLevelLocked(levels, currentIndex)) { return -1 }
-
   if (needsPractice) {
     if (isPractice(levels[currentIndex]) || ((index < levels.length) && isPractice(levels[index]))) {
       while ((index < levels.length) && (isCompleteOrAssessmentOrSkipped(levels[index]) || isLocked(levels[index]))) {
@@ -1042,8 +1040,22 @@ const findNextLevel = function (levels, currentIndex, needsPractice) {
       index++
     }
   }
-
   return index
+}
+
+// Practice level slugs are <mainLevelSlug>-[a-z]; the DB only stores locks on the parent level
+// this works on junior only as they have practice levels related to parent level
+const findParentLevelOriginal = function (level, levelsArr) {
+  if (!level) return
+  let lockCheckOriginal = level.original
+  if (level.practice) {
+    const mainSlug = level.slug?.replace(/-[a-z]$/, '')
+    const mainLevel = levelsArr.find(l => l.slug === mainSlug)
+    if (mainLevel) {
+      lockCheckOriginal = mainLevel.original
+    }
+  }
+  return lockCheckOriginal
 }
 
 const findNextAssessmentForLevel = function (levels, currentIndex, needsPractice) {
@@ -1458,8 +1470,8 @@ const arenas = [
   // Autumn we skip warm up arena and go straight to championship
   // { season: 15, slug: 'strikers-stadium', noResults: true, type: 'regular', start: new Date('2025-08-01T00:00:00.000-07:00'), end: new Date('2025-08-01T00:00:01.000-07:00'), results: new Date('2025-12-20T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png' },
   { season: 15, slug: 'golden-goal', type: 'championship', start: new Date('2025-08-01T00:00:01.000-07:00'), end: new Date('2026-01-01T08:00:00.000Z'), results: new Date('2026-01-15T07:00:00.000-07:00'), levelOriginal: '68493b715562817aef7dea31', image: '/file/db/level/68493b715562817aef7dea31/Golden%20Goal%20Blitz%20Banner%20(1).png', tournament: '695383474e840b3f4aa401d3' },
-  { season: 16, slug: 'devour-dash', type: 'championship', start: new Date('2026-01-13T00:00:00.000-08:00'), end: new Date('2026-05-30T00:00:00.000-08:00'), results: new Date('2026-06-15T07:00:00.000-08:00'), levelOriginal: '69415fa85459d73effdd5c51', image: '/file/db/level/69415fa85459d73effdd5c51/DevourDashCupBanner.webp', tournament: '', onePerSeason: true },
-  { season: 17, slug: 'gridlock-practice', type: 'championship', start: new Date('2026-05-31T00:00:00.000-08:00'), end: new Date('2026-08-01T00:00:00.000-08:00'), results: new Date('2026-08-15T07:00:00.000-08:00'), levelOriginal: '', image: '', tournament: '', onePerSeason: true, noResults: true, restArena: true },
+  { season: 16, slug: 'devour-dash', type: 'championship', start: new Date('2026-01-13T00:00:00.000-08:00'), end: new Date('2026-05-30T00:00:00.000-08:00'), results: new Date('2026-06-16T07:00:00.000-08:00'), levelOriginal: '69415fa85459d73effdd5c51', image: '/file/db/level/69415fa85459d73effdd5c51/DevourDashCupBanner.webp', tournament: '6a22ab6d78e6f30412322011', onePerSeason: true },
+  { season: 17, slug: 'gridlock-practice', type: 'championship', start: new Date('2026-05-31T00:00:00.000-08:00'), end: new Date('2026-08-01T00:00:00.000-08:00'), results: new Date('2026-08-15T07:00:00.000-08:00'), levelOriginal: '6a0eda3fa9b23bee22fbc603', image: '', tournament: '', onePerSeason: true, noResults: true, restArena: true },
   { season: 18, slug: 'chaotic-crossing', type: 'championship', start: new Date('2026-08-01T00:00:00.000-08:00'), end: new Date('2026-12-29T00:00:00.000-08:00'), results: new Date('2027-01-15T07:00:00.000-08:00'), levelOriginal: '', image: '', tournament: '', onePerSeason: true },
 ]
 
@@ -1713,6 +1725,7 @@ const aiToolToImage = {
   gpt: '/images/ai/ChatGPT.svg',
   'stable-diffusion': '/images/ai/Stable_Diffusion.png',
   'dall-e-3': '/images/ai/DALL-E.webp',
+  'gpt-image': '/images/ai/DALL-E.webp',
   claude: '/images/ai/claude.webp',
   gemini: '/images/ai/gemini.svg',
   imagen: '/images/ai/gemini.svg',
@@ -1721,7 +1734,7 @@ const aiToolToImage = {
 module.exports.getImageFromAiTool = (tool) => {
   if (tool.includes('claude')) {
     return aiToolToImage.claude
-  } else if (tool.includes('dall-e')) {
+  } else if (tool.includes('dall-e') || tool.includes('gpt-image')) {
     return aiToolToImage['dall-e-3']
   } else if (tool.includes('stable-diffusion')) {
     return aiToolToImage['stable-diffusion']
@@ -1920,6 +1933,34 @@ module.exports.groupedCoursesList = (courses) => {
     return cs
   }
 }
+module.exports.guardJuniorLevelHealthCode = (level, source) => {
+  if (typeof source !== 'string') return source // should not happen
+  if (level?.get('product') === 'codecombat-junior') {
+    source = source.replace(/(^|[^a-zA-Z.])health(?!\w)/g, (match, prefix) => `${prefix}hero.health`)
+  }
+  return source
+}
+
+module.exports.courseDescription = (includedCourseIDs, credit = undefined) => {
+  const { LICENSE_PRESETS } = require('./constants')
+  const numericalCourses = courses => courses.reduce((s, k) => s + courseNumericalStatus[k], 0)
+  const courseSame = (a, b) => a.length === b.length && numericalCourses(a) === numericalCourses(b)
+  if (includedCourseIDs) {
+    const hsCourses = [...HACKSTACK_COURSE_IDS.filter(x => x !== allCourseIDs.HACKSTACK)]
+    if (credit && courseSame(includedCourseIDs, hsCourses)) {
+      return $.i18n.t('teacher.hackstack_license') + $.i18n.t('teacher.hackstack_credits', credit)
+    }
+    if (courseSame(includedCourseIDs, LICENSE_PRESETS['COCO-OLD(No HS, OZ)'])) {
+      return $.i18n.t('teacher.coco_full_license')
+    }
+    if (courseSame(includedCourseIDs, LICENSE_PRESETS['CH1+CH2+CH3+CH4(OZ only)'])) {
+      return $.i18n.t('teacher.ozar_full_license')
+    }
+    return $.i18n.t('teacher.customized_license') + ': ' + (includedCourseIDs.map(id => courseAcronyms[id])).join('+')
+  } else {
+    return $.i18n.t('teacher.full_license')
+  }
+}
 
 module.exports = {
   ...module.exports,
@@ -1963,6 +2004,7 @@ module.exports = {
   freeAccessLevels,
   findNextAssessmentForLevel,
   findNextLevel,
+  findParentLevelOriginal,
   formatDollarValue,
   formatStudentLicenseStatusDate,
   formatStudentSingleLicenseStatusDate,

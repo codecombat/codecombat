@@ -4,6 +4,7 @@
  * TODO: This leaderboard is not only shown on the league url but also the ladder url.
  */
 import utils from 'core/utils'
+import { AI_LEAGUE_LEAD_FORM } from 'core/constants'
 const d3 = require('d3/d3.js')
 
 export default Vue.extend({
@@ -284,7 +285,7 @@ export default Vue.extend({
       if (this.dateBeforeSep) {
         this.$emit('temp-unlock')
       } else {
-        window.open('https://form.typeform.com/to/qXqgbubC', '_blank')
+        window.open(AI_LEAGUE_LEAD_FORM, '_blank')
       }
     },
   },

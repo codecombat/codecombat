@@ -418,6 +418,8 @@ if !editorMode && !(view.DEEP_API_LIST && view.DEEP_API_LIST.includes(me.get('cl
           button.btn.premium-menu-icon(data-i18n="[title]subscribe.subscribe_modal_title")
         if view.shouldShow('heros')
           button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
+        if view.shouldShow('pets')
+          button.btn.pets(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.pets")
         if view.shouldShow('items')
           button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
         if view.shouldShow('achievements')

@@ -587,6 +587,7 @@ module.exports = {
       available: '可用',
       skills_granted: '获得技能',
       heroes: '英雄',
+      //    pets: "Pets",
       achievements: '成就',
       settings: '设置',
       poll: '投票',
@@ -641,6 +642,7 @@ module.exports = {
       hackstack_button_hover: '使用 扣哒宇宙 编写代码和进行创作',
       junior_button_hover: '适合初学者的积木式编程',
       cchome_button_hover: 'CodeCombat 原版冒险游戏',
+      //    home_campaign_redirect_student: "Please visit the course map from your student page.",
     },
 
     code: {
@@ -3003,6 +3005,8 @@ module.exports = {
       CS_short: '计算机科学',
       SANDBOX_short: 'AI沙盒',
       EXPLORATIONS_short: '人工智能探索',
+      course_not_covered: '__course__ 课程未被许可证涵盖',
+      license_is: '该学生的许可证是：',
     },
 
     teacher_licenses: {
@@ -3564,6 +3568,7 @@ module.exports = {
       phone_completion: '建议在电脑上打开 https://codecombat.cn，开启编程边学边玩的最佳体验。',
       all_set: '注册成功！',
       //    date_of_birth: "Date of Birth",
+      //    unlock_next_level_with_sign_up: "You've unlocked the next level! Create a free account to save your progress and continue your coding journey.",
     },
 
     account_invoices: {
@@ -4933,6 +4938,8 @@ module.exports = {
       starter_code: '初始代码',
       student_code: '学生代码',
       solution_code: '示例解法',
+      progress_last_fetched: '获取最新进度时间',
+      refresh_progress_helptext: '学生的完成情况可能需要2-3分钟时间同步',
     },
 
     outcomes: {
@@ -5304,7 +5311,7 @@ module.exports = {
     //    invite_players: "Invite Players",
     //    select_arena: "Select an Arena",
     //    refer_guide: "Refer to the <a href=\"https://docs.google.com/presentation/d/1ouDOu2k-pOxkWswUKuik7CbrUCkYXF7N_jNjGO0II6o/edit#slide=id.gb06b5c7fa4_0_10\">Educator Getting Started Guide</a> to see how easy it can be to bring competitive coding to your school.",
-    //    having_question: "Still have questions? Check out our <a target=\"_blank\" href=\"https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League\">FAQs</a> or <a href=\"https://form.typeform.com/to/qXqgbubC\" target=\"_blank\">Contact Us</a> to learn more.",
+    //    having_question: "Still have questions? Check out our <a target=\"_blank\" href=\"https://codecombat.zendesk.com/hc/en-us/categories/1500000915842-AI-League\">FAQs</a> or <a href=\"https://docs.google.com/forms/d/1rO__VvhM1yCuUHrtHJKXXj3RYA2vCzpRKzMCMaMS6SE\" target=\"_blank\">Contact Us</a> to learn more.",
     //    global_rankings: "Global Ranking",
     //    team_rankings: "Team Ranking",
     //    inspiration_title: "Are you an educator or esports coach?",
@@ -5452,6 +5459,14 @@ module.exports = {
       billing_portal: '[AI_TRANSLATION]客户账单门户',
       email_not_verified: '[AI_TRANSLATION]你的邮箱还没验证，请在账户设置中验证！',
       stripe_no_data: '[AI_TRANSLATION]你没有数据可以在 Stripe 门户中管理',
+      //    manage_payment_and_subscription: "Manage Payment & Subscription",
+      //    discover_more_title: "Discover More",
+      //    discover_more_desc: "See everything you have access to with your premium account!",
+      //    billing_portal_desc: "Manage your subscription, update your payment method, view invoices and more in Stripe.",
+      //    billing_portal_btn: "Manage billing with Stripe",
+      //    payment_history: "Payment History",
+      //    payment_history_btn_all: "View all Invoices",
+      //    payment_history_btn_less: "View recent Invoices",
     },
 
     form_validation_errors: {
@@ -6431,6 +6446,7 @@ module.exports = {
       ScenarioDetailsPanel_released: '[AI_TRANSLATION]已发布',
       'ScenarioDetailsPanel_save-scenario': '[AI_TRANSLATION]保存场景',
       'ScenarioDetailsPanel_scenario-settings': '[AI_TRANSLATION]场景设置',
+      //    "ScenarioDetailsPanel_allow-user-upload-file": "Allow user to upload file",
       'ScenarioPage_youre-in-scenario-creation-mode-go-ahead': '[AI_TRANSLATION]你现在处于场景创作模式！继续，随意试着建立一个酷炫的场景，然后点击“beta”或“released”与全世界分享！如果你不喜欢某个提示，可以回去编辑。\n',
       'ScenarioPromptMessage_alternate-choices': '[AI_TRANSLATION]备用选择\n',
       ScenarioPromptMessage_edit: '修改',
