@@ -1,6 +1,9 @@
 <template>
   <div class="ai-project">
     <h4>{{ aiProject.name }}</h4>
+    <p>
+      <b>{{ $t('teacher_dashboard.ai_model') }}</b>: {{ aiScenario.tool }}
+    </p>
     <p v-if="aiProject.remixedFrom">
       {{ $t('teacher_dashboard.this_project_is_remixed') }}
       <a
@@ -56,9 +59,11 @@
       <b>{{ $t('teacher_dashboard.ai_evaluation') }}:</b>
       <IconBeta class="beta-icon" />
       <div class="evaluation">
-        <p class="content">
-          {{ aiEvaluation.content }}
-        </p>
+        <!-- v-text avoids a text node so `white-space: pre-wrap` doesn't render the template's own indentation as leading whitespace, eslint + whitespace issues -->
+        <p
+          class="content"
+          v-text="aiEvaluation.content"
+        />
         <p class="content evaluate-date">
           {{ $t('teacher_dashboard.ai_evaluated_on') }}:
           <span class="text-muted">{{ aiEvaluation.evaluateOn }}</span>
@@ -199,9 +204,11 @@ export default {
         overflow-y: auto;
         margin-left: 1em;
         font-size: 1em;
+        white-space: pre-wrap;
       }
       .evaluate-date {
         font-size: 0.8em;
+        white-space: unset;
       }
     }
   }

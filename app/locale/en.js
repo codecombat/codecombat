@@ -4901,6 +4901,7 @@ module.exports = {
       refresh_progress_helptext: 'Student progress may take 2–3 minutes to sync after completion.',
       ai_evaluation: 'AI Evaluation',
       ai_evaluated_on: 'AI Evaluated On',
+      ai_model: 'AI Model',
     },
 
     outcomes: {
