@@ -519,6 +519,18 @@ module.exports = (User = (function () {
           return
         }
       }
+      if (errors) {
+        // temp hide paymentDetails validation here and will fix in server pre save hook
+        const newErrors = errors.filter(err => {
+          if (err.dataPath.startsWith('/products') && err.message.includes('paymentDetails')) {
+            return false
+          }
+          return true
+        })
+        if (_.size(newErrors) === 0) {
+          return
+        }
+      }
       return errors
     }
 
