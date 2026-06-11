@@ -1929,11 +1929,7 @@ class CampaignView extends RootView {
     const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
 
     if (level.requiresSignUp && me.isAnonymous()) {
-      const CAMPAIGN = this.campaign?.get('name')?.toLowerCase() || this.terrain
-      const requiresSignUp = me.getOrStartRequireSignupExperimentValue?.(CAMPAIGN)
-      if (requiresSignUp === 'beta') {
-        return this.promptForSignup({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') })
-      }
+      return this.promptForSignup({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') })
     }
 
     const canPlayAnyway = [

@@ -26,10 +26,6 @@ const userUtils = require('lib/user-utils')
 const _ = require('lodash')
 const moment = window.moment
 const NAPERVILLE_UNIQUE_KEY = 'naperville'
-const REQUIRE_SIGN_UP_EXPERIMENT = {
-  dungeon: 'requires-sign-up-dungeon',
-  junior: 'requires-sign-up-junior',
-}
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -1468,28 +1464,6 @@ module.exports = (User = (function () {
 
     //   return this.tryStartExperiment('template')
     // }
-    getRequireSignupExperimentValue (CAMPAIGN) {
-      if (!me.isAnonymous()) {
-        return 'control'
-      }
-      const value = utils.getFirstNonNull(
-        utils.getExperimentValueFromQuery(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN]),
-        me.getExperimentValue(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN], null),
-      )
-
-      return value ?? null
-    }
-
-    getOrStartRequireSignupExperimentValue (CAMPAIGN) {
-      if (!(Object.keys(REQUIRE_SIGN_UP_EXPERIMENT).includes(CAMPAIGN))) {
-        return 'control'
-      }
-      const value = this.getRequireSignupExperimentValue(CAMPAIGN)
-      if (value != null) {
-        return value
-      }
-      return this.tryStartExperiment(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN])
-    }
   }
 
   User.initClass()
