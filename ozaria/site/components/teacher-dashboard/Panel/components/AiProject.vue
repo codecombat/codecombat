@@ -13,7 +13,7 @@
       {{ lastPlayed }}
     </p>
     <p v-if="mode === 'use'">
-      {{ aiProject.isReadyToReview ? $t('teacher_dashboard.ready_to_review') : $t('teacher.in_progress') }}
+      <b>{{ $t('user.status') }}:</b> {{ aiProject.isReadyToReview ? $t('teacher_dashboard.ready_to_review') : $t('teacher.in_progress') }}
     </p>
     <div v-else>
       <p class="highlighted">
@@ -49,6 +49,22 @@
       </ul>
     </p>
 
+    <div
+      v-if="aiEvaluation"
+      class="ai-evaluation"
+    >
+      <b>{{ $t('teacher_dashboard.ai_evaluation') }}:</b>
+      <IconBeta class="beta-icon" />
+      <div class="evaluation">
+        <p class="content">
+          {{ aiEvaluation.content }}
+        </p>
+        <p class="content evaluate-date">
+          {{ $t('teacher_dashboard.ai_evaluated_on') }}:
+          <span class="text-muted">{{ aiEvaluation.evaluateOn }}</span>
+        </p>
+      </div>
+    </div>
     <a
       :href="`/ai/project/${aiProject._id}`"
       target="_blank"
@@ -57,12 +73,15 @@
 </template>
 
 <script>
-
 import _ from 'lodash'
+import IconBeta from 'app/core/components/IconBeta'
 const moment = window.moment
 
 export default {
   name: 'AiProject',
+  components: {
+    IconBeta,
+  },
   props: {
     aiProject: {
       type: Object,
@@ -101,6 +120,14 @@ export default {
         ...validation,
         text: i.text.length > 100 ? `${i.text.substring(0, 100)}...` : i.text,
       }))))
+    },
+    aiEvaluation () {
+      if (!this.aiProject || !this.aiProject.evaluations) return undefined
+      const evs = this.aiProject.evaluations
+      if (evs.length === 0) return undefined
+      const ev = evs[evs.length - 1] // last one
+      ev.evaluateOn = moment(ev.date).format('lll')
+      return ev
     },
   },
 }
@@ -155,6 +182,28 @@ export default {
     margin-top: 5px;
     margin-bottom: 5px;
     display: block;
+  }
+
+  .ai-evaluation {
+    color: #666666;
+    position: relative;
+
+    .beta-icon {
+      position: absolute;
+      top: -20px;
+      cursor: auto;
+    }
+    .evaluation {
+      .content {
+        max-height: 40vh;
+        overflow-y: auto;
+        margin-left: 1em;
+        font-size: 1em;
+      }
+      .evaluate-date {
+        font-size: 0.8em;
+      }
+    }
   }
 }
 </style>
