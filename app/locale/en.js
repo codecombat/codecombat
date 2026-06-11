@@ -6512,6 +6512,7 @@ module.exports = {
       description: 'Explore new worlds and use AI to help you in your journey. ',
       premium_only: 'Premium only',
       not_enrolled: 'Not Enrolled',
+      need_sign_up: 'Sign up to access',
       locked_by_teacher: 'Locked by teacher',
     },
     new_premium: {
