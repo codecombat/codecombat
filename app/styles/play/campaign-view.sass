@@ -938,7 +938,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         display: inline-block
         margin-right: 10px
 
-      .gem, .player-hero-icon
+      .gem
         position: relative
         top: auto
 
@@ -952,46 +952,12 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         display: inline-flex
         align-items: center
 
-      .player-name
-        margin-left: 5px
-        margin-right: 10px
-        display: inline-flex
-        align-items: center
-
       a
         color: white
 
       $spriteSheetSize: 30px
 
-      .player-hero-icon
-        background: transparent url(/images/pages/play/play-spritesheet.png)
-        background-size: cover
-        background-position: (-2 * $spriteSheetSize) 0
-        display: inline-block
-        width: 30px
-        height: 30px
-        margin: 0px 4px
-        transform: scale(1.33)  // Scale up by 1.33 to get from 30px to ~40px
-        transform-origin: center center
-        margin-left: 10px
-        background-position: (-4 * $spriteSheetSize) 0
-
-        &.knight
-          background-position: (-5 * $spriteSheetSize) 0
-        &.librarian
-          background-position: (-6 * $spriteSheetSize) 0
-        &.ninja
-          background-position: (-7 * $spriteSheetSize) 0
-        &.potion-master
-          background-position: (-8 * $spriteSheetSize) 0
-        &.samurai
-          background-position: (-9 * $spriteSheetSize) 0
-        &.trapper
-          background-position: (-10 * $spriteSheetSize) 0
-        &.forest-archer
-          background-position: (-11 * $spriteSheetSize) 0
-        &.sorcerer
-          background-position: (-12 * $spriteSheetSize) 0
+  
 
       .level-indicator
         margin-left: 15px
@@ -999,6 +965,7 @@ $scenarioDotHeight: math.div($scenarioDotWidth * $mapWidth, $mapHeight)
         display: inline-block
         margin: 0 2px
 
+     
 
   .campaign-control-button
     padding: 3px 8px
