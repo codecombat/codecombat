@@ -477,13 +477,28 @@ export default Vue.extend({
               url: '/',
             },
             player: {
-              title: '用户故事',
+              title: '玩家',
               url: this.cocoPath('/user_stories.html'),
               properties: { target: '_blank' },
             },
-            source: {
-              title: '关于我们',
+            about: {
+              title: '起源',
               url: '/aboutus.html',
+              properties: { target: '_blank' },
+            },
+            heroes: {
+              title: '英雄',
+              url: 'https://info.codecombat.cn/hero/',
+              properties: { target: '_blank' },
+            },
+            knowledge: {
+              title: '教程',
+              url: 'https://info.codecombat.cn/knowledge-tree/',
+              properties: { target: '_blank' },
+            },
+            world: {
+              title: '世界',
+              url: 'https://info.codecombat.cn/world/',
               properties: { target: '_blank' },
             },
           }

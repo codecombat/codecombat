@@ -1,7 +1,7 @@
 <template>
   <div class="card featured">
     <div class="gold-badge">
-      更多人选择
+      {{ context.planText || '更多人选择' }}
     </div>
 
     <div class="shimmer-mask" />
@@ -13,11 +13,13 @@
           alt="Anya"
           class="anya-icon"
         >
-        <h2>完整编程成长计划</h2>
+        <h2>
+          {{ context.title || '完整编程成长计划' }}
+        </h2>
       </div>
 
       <div class="price-row">
-        <span class="symbol">¥</span><span class="amount">{{ price }}</span><span class="unit"> / 3个月</span>
+        <span class="symbol">¥</span><span class="amount">{{ amount }}</span><span class="unit"> / 3个月</span>
       </div>
 
       <div
@@ -29,27 +31,17 @@
       </div>
 
       <div class="hot-pot-tag">
-        🔥 3个月系统练习，帮你打稳编程基础
+        {{ context.description || '🔥 3个月系统练习，帮你打稳编程基础' }}
       </div>
 
       <ul class="check-list">
-        <li class="positive">
-          解锁全部关卡与完整内容
-        </li>
-        <li class="positive">
-          通过闯关练习掌握编程基础
-        </li>
-        <li class="positive">
-          获得阶段学习记录与成长反馈
-        </li>
-        <li class="positive">
-          卡关时可使用 AI 提示辅助学习
-        </li>
         <li
+          v-for="positive in positives"
+          :key="positive.text"
           class="positive"
-          style="color:#2980b9;"
+          :style="positive.type === 'gem' ? 'color: #2980b9;' : ''"
         >
-          赠送价值90元的 9000 宝石
+          {{ positive.text }}
         </li>
       </ul>
 
@@ -57,10 +49,10 @@
         class="btn btn-gold"
         @click="$emit('clicked')"
       >
-        开始 3 个月系统学习
+        {{ context.cta || '开始 3 个月系统学习' }}
       </button>
       <div class="sub-btn-text">
-        💡 多数新用户从这个计划开始
+        {{ context.extra || '💡 多数新用户从这个计划开始' }}
       </div>
     </div>
   </div>
@@ -68,5 +60,22 @@
 <script>
 export default {
   props: ['price'],
+  computed: {
+    amount () {
+      return (this.price?.amount / 100) || '-'
+    },
+    context () {
+      return this.price?.metadata || {}
+    },
+    positives () {
+      return this.context.positives || [
+        { text: '解锁全部关卡与完整内容' },
+        { text: '通过闯关练习掌握编程基础' },
+        { text: '获得阶段学习记录与成长反馈' },
+        { text: '卡关时可使用 AI 提示辅助学习' },
+        { text: '赠送价值90元的 9000 宝石', type: 'gem' },
+      ]
+    },
+  },
 }
 </script>

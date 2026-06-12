@@ -110,13 +110,13 @@ export default {
       return this.testimonials[this.testIndex]
     },
     yearlyPrice () {
-      return (this.products.find(p => p.planID === 'yearly')?.amount || 0) / 100 || '-'
+      return this.products.find(p => p.planID === 'yearly')
     },
     seasonlyPrice () {
-      return (this.products.find(p => p.planID === 'seasonly')?.amount || 0) / 100 || '-'
+      return this.products.find(p => p.planID === 'seasonly')
     },
     groupPrice () {
-      return (this.products.find(p => p.planID === 'group')?.amount || 0) / 100 || '-'
+      return this.products.find(p => p.planID === 'group')
     },
   },
   mounted () {
