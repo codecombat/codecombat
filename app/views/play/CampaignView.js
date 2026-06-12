@@ -1956,6 +1956,9 @@ class CampaignView extends RootView {
     const levelName = levelElement.data('level-name')
     const level = _.find(_.values(this.getLevels()), { slug: levelSlug })
 
+    if (level.requiresSignUp && me.isAnonymous()) {
+      return this.promptForSignup({ accountRequiredMessage: $.i18n.t('account.unlock_next_level_with_sign_up') })
+    }
     let access, freeAccessLevels
     if (this.terrain === 'junior') {
       access = 'all' // CodeCombat Junior level access is managed the old way, with level.requiresSubscription, no hardcoded overrides
@@ -2293,12 +2296,13 @@ class CampaignView extends RootView {
   updateHero () {
     const hero = me.get('heroConfig')?.thangType
     if (!hero) { return }
-    for (const [slug, original] of Object.entries(ThangType.heroes)) {
+    for (const original of Object.values(ThangType.heroes)) {
       if (original === hero) {
-        this.$el.find('.player-hero-icon').removeClass().addClass(`player-hero-icon ${slug}`)
+        this.$el.find('.player-hero').attr('src', `/file/db/thang.type/${hero}/portrait.png`)
         return
       }
     }
+
     console.error("CampaignView hero update couldn't find hero slug for original:", hero)
   }
 

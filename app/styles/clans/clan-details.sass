@@ -143,35 +143,12 @@
     .progress-level-cell-started, .progress-level-cell-complete
       cursor: pointer
 
-  .player-hero-icon
-    background: transparent url(/images/pages/play/play-spritesheet.png)
-    background-size: cover
-    background-position: (-2 * $spriteSheetSize) 0
-    display: inline-block
-    width: 30px
+  .player-hero
     height: 30px
-    margin: 0px 2px
-    vertical-align: middle
-
-  .player-hero-icon
-    background-position: (-4 * $spriteSheetSize) 0
-
-    &.knight
-      background-position: (-5 * $spriteSheetSize) 0
-    &.librarian
-      background-position: (-6 * $spriteSheetSize) 0
-    &.ninja
-      background-position: (-7 * $spriteSheetSize) 0
-    &.potion-master
-      background-position: (-8 * $spriteSheetSize) 0
-    &.samurai
-      background-position: (-9 * $spriteSheetSize) 0
-    &.trapper
-      background-position: (-10 * $spriteSheetSize) 0
-    &.forest-archer
-      background-position: (-11 * $spriteSheetSize) 0
-    &.sorcerer
-      background-position: (-12 * $spriteSheetSize) 0
+    width: 30px
+    background-image: url(/images/pages/play/hero-portrait-frame.png)
+    padding: 6px
+    background-size: contain
 
   td.code-language-cell
     width: 30px

@@ -69,6 +69,7 @@ _.extend(ClanSchema.properties, {
   displayName: { type: 'string', description: 'overwrites visual visual name of clan - used as name is tied to the slug' },
   esportsImage: { type: 'string', format: 'image-file', title: 'Esports Image', description: 'Image to show for this team on league page.' },
   anonymizeTournament: { type: 'boolean', title: 'Anonymize Tournament', description: 'Anonymize the leaderboard of it\'s tournament.' },
+  archived: { type: 'boolean', default: false, description: 'Whether the clan is archived. Auto-set when the source classroom is archived.' },
 })
 
 c.extendBasicProperties(ClanSchema, 'Clan')
