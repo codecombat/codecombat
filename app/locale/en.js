@@ -4901,6 +4901,7 @@ module.exports = {
       refresh_progress_helptext: 'Student progress may take 2–3 minutes to sync after completion.',
       ai_evaluation: 'AI Evaluation',
       ai_evaluated_on: 'AI Evaluated On',
+      ai_model: 'AI Model',
     },
 
     outcomes: {
@@ -6512,6 +6513,7 @@ module.exports = {
       description: 'Explore new worlds and use AI to help you in your journey. ',
       premium_only: 'Premium only',
       not_enrolled: 'Not Enrolled',
+      need_sign_up: 'Sign up to access',
       locked_by_teacher: 'Locked by teacher',
     },
     new_premium: {

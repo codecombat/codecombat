@@ -1,74 +1,115 @@
 <template>
-  <div class="ai-project">
-    <h4>{{ aiProject.name }}</h4>
-    <p v-if="aiProject.remixedFrom">
-      {{ $t('teacher_dashboard.this_project_is_remixed') }}
-      <a
-        :href="`/ai/project/${aiProject.remixedFrom}`"
-        target="_blank"
-      >{{ $t('teacher_dashboard.view_original_project') }}</a>
-    </p>
-    <p v-if="lastPlayed">
-      <b>{{ $t('user.last_played') }}:</b>
-      {{ lastPlayed }}
-    </p>
-    <p v-if="mode === 'use'">
-      <b>{{ $t('user.status') }}:</b> {{ aiProject.isReadyToReview ? $t('teacher_dashboard.ready_to_review') : $t('teacher.in_progress') }}
-    </p>
-    <div v-else>
-      <p class="highlighted">
-        Progress: {{ progress }}%
-      </p>
-
-      <p v-if="failedAttempts">
-        {{ $t('teacher_dashboard.failed_attempts') }}: {{ failedAttempts }}
-        <br><span class="subtext">{{ $t('teacher_dashboard.failed_attempts_subtext') }}</span>
-      </p>
-      <p v-else-if="mode === 'learn to use'">
-        {{ $t('teacher_dashboard.no_failed_attempts') }}
-      </p>
+  <div class="ai-project panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {{ aiProject.name }}
+      </h4>
     </div>
 
-    <p
-      v-if="safetyValidations.length > 0"
-      class="safety-validations alert alert-warning"
-    >
-      {{ $t('teacher_dashboard.safety_violations') }}
-      <ul>
-        <li
-          v-for="safetyValidation in safetyValidations"
-          :key="safetyValidation._id"
-        >
-          <p class="safety-validations__item">
+    <div class="panel-body">
+      <!-- Metadata grouped as a Bootstrap definition list for consistent label/value alignment -->
+      <dl class="dl-horizontal">
+        <dt>{{ $t('teacher_dashboard.ai_model') }}</dt>
+        <dd>{{ aiScenario.tool }}</dd>
+
+        <template v-if="lastPlayed">
+          <dt>{{ $t('user.last_played') }}</dt>
+          <dd>{{ lastPlayed }}</dd>
+        </template>
+
+        <template v-if="mode === 'use'">
+          <dt>{{ $t('user.status') }}</dt>
+          <dd>
+            <span :class="['label', aiProject.isReadyToReview ? 'label-success' : 'label-info']">
+              {{ aiProject.isReadyToReview ? $t('teacher_dashboard.ready_to_review') : $t('teacher.in_progress') }}
+            </span>
+          </dd>
+        </template>
+
+        <template v-else>
+          <dt>{{ $t('teacher.progress') }}</dt>
+          <dd>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                :aria-valuenow="progress"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                :style="{ width: `${progress}%` }"
+              >
+                {{ progress }}%
+              </div>
+            </div>
+          </dd>
+
+          <template v-if="failedAttempts">
+            <dt>{{ $t('teacher_dashboard.failed_attempts') }}</dt>
+            <dd>
+              {{ failedAttempts }}
+              <br><span class="subtext text-muted">{{ $t('teacher_dashboard.failed_attempts_subtext') }}</span>
+            </dd>
+          </template>
+          <template v-else-if="mode === 'learn to use'">
+            <dt>{{ $t('teacher_dashboard.failed_attempts') }}</dt>
+            <dd>{{ $t('teacher_dashboard.no_failed_attempts') }}</dd>
+          </template>
+        </template>
+      </dl>
+
+      <p v-if="aiProject.remixedFrom">
+        {{ $t('teacher_dashboard.this_project_is_remixed') }}
+        <a
+          :href="`/ai/project/${aiProject.remixedFrom}`"
+          target="_blank"
+        >{{ $t('teacher_dashboard.view_original_project') }}</a>
+      </p>
+
+      <div
+        v-if="safetyValidations.length > 0"
+        class="safety-validations alert alert-warning"
+      >
+        <strong>{{ $t('teacher_dashboard.safety_violations') }}</strong>
+        <ul class="list-unstyled">
+          <li
+            v-for="safetyValidation in safetyValidations"
+            :key="safetyValidation._id"
+            class="safety-validations__item"
+          >
             <strong>{{ safetyValidation.failureType }}</strong><br>
             {{ safetyValidation.failureDetails }}
-            <br>
             <span class="violation-message-text text-muted">{{ safetyValidation.text }}</span>
-          </p>
-        </li>
-      </ul>
-    </p>
+          </li>
+        </ul>
+      </div>
 
-    <div
-      v-if="aiEvaluation"
-      class="ai-evaluation"
-    >
-      <b>{{ $t('teacher_dashboard.ai_evaluation') }}:</b>
-      <IconBeta class="beta-icon" />
-      <div class="evaluation">
-        <p class="content">
-          {{ aiEvaluation.content }}
-        </p>
-        <p class="content evaluate-date">
-          {{ $t('teacher_dashboard.ai_evaluated_on') }}:
-          <span class="text-muted">{{ aiEvaluation.evaluateOn }}</span>
-        </p>
+      <div
+        v-if="aiEvaluation"
+        class="ai-evaluation"
+      >
+        <strong>{{ $t('teacher_dashboard.ai_evaluation') }}:</strong>
+        <IconBeta class="beta-icon" />
+        <div class="evaluation well well-sm">
+          <!-- v-text avoids a text node so `white-space: pre-wrap` doesn't render the template's own indentation as leading whitespace, eslint + whitespace issues -->
+          <p
+            class="content"
+            v-text="aiEvaluation.content"
+          />
+          <p class="content evaluate-date text-muted">
+            {{ $t('teacher_dashboard.ai_evaluated_on') }}:
+            {{ aiEvaluation.evaluateOn }}
+          </p>
+        </div>
       </div>
     </div>
-    <a
-      :href="`/ai/project/${aiProject._id}`"
-      target="_blank"
-    >{{ $t('teacher_dashboard.open_project') }}</a>
+
+    <div class="panel-footer">
+      <a
+        class="purple-btn"
+        :href="`/ai/project/${aiProject._id}`"
+        target="_blank"
+      >{{ $t('teacher_dashboard.open_project') }}</a>
+    </div>
   </div>
 </template>
 
@@ -134,45 +175,38 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "app/styles/bootstrap/variables";
+@import "ozaria/site/styles/common/variables.scss";
+@import "app/styles/ozaria/_ozaria-style-params.scss";
+@import "ozaria/site/components/teacher-dashboard/common/purple-button";
+
+// Layout/spacing comes from Bootstrap's .panel; only component-specific tweaks live here.
 .ai-project {
-  padding: 20px;
-  border-radius: 5px;
+  // .purple-btn is display:flex; keep the footer link sized to its label instead of full-width.
+  .purple-btn {
+    display: inline-flex;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  background-color: #ffffff;
-  margin-bottom: 20px;
 
-  h4 {
-    color: #333333;
-    margin-bottom: 10px;
-    font-weight: bold;
+  // Bootstrap right-aligns .dl-horizontal labels at wider viewports; keep them left-aligned.
+  .dl-horizontal dt {
+    text-align: left;
   }
 
-  p {
-    color: #666666;
-    margin-bottom: 15px;
+  .subtext {
+    font-size: 0.8em;
+  }
+
+  .safety-validations__item {
+    font-size: 0.8em;
     line-height: 1.2em;
-
-    &.highlighted {
-      font-weight: bold;
-    }
-
-    .subtext {
-      font-size: 0.8em;
-      color: #999999;
-    }
-  }
-
-  .safety-validations {
-    ul {
-      margin-top: 10px;
-    }
-
-    &__item {
-      font-weight: normal;
-      margin-bottom: 10px;
-      font-size: 0.8em;
-      line-height: 1.2em;
-    }
+    margin-bottom: 10px;
   }
 
   .violation-message-text {
@@ -185,7 +219,6 @@ export default {
   }
 
   .ai-evaluation {
-    color: #666666;
     position: relative;
 
     .beta-icon {
@@ -193,15 +226,22 @@ export default {
       top: -20px;
       cursor: auto;
     }
+
     .evaluation {
+      margin-top: 8px;
+
       .content {
         max-height: 40vh;
         overflow-y: auto;
-        margin-left: 1em;
-        font-size: 1em;
+        white-space: pre-wrap;
+        margin-bottom: 0;
       }
+
       .evaluate-date {
         font-size: 0.8em;
+        white-space: unset;
+        margin-top: 8px;
+        margin-bottom: 0;
       }
     }
   }
