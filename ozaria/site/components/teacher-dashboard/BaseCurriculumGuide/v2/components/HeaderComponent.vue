@@ -40,13 +40,13 @@ export default {
   computed: {
     displayProductName () {
       if (this.product === 'codecombat') {
-        return 'CodeCombat'
+        return $.i18n.t('new_home.codecombat')
       } else if (this.product === 'ozaria') {
-        return 'Ozaria'
+        return $.i18n.t('new_home.ozaria')
       } else if (this.product === 'hackstack') {
-        return 'AI HackStack'
+        return $.i18n.t('new_home.hackstack')
       } else if (this.product === 'junior') {
-        return 'Junior'
+        return $.i18n.t('play.junior')
       }
       return this.product
     },

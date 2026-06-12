@@ -491,14 +491,14 @@ export default Vue.extend({
               url: 'https://info.codecombat.cn/hero/',
               properties: { target: '_blank' },
             },
-            knowledge: {
-              title: '教程',
-              url: 'https://info.codecombat.cn/knowledge-tree/',
-              properties: { target: '_blank' },
-            },
             world: {
               title: '世界',
               url: 'https://info.codecombat.cn/world/',
+              properties: { target: '_blank' },
+            },
+            knowledge: {
+              title: '教程',
+              url: 'https://info.codecombat.cn/knowledge-tree/',
               properties: { target: '_blank' },
             },
           }

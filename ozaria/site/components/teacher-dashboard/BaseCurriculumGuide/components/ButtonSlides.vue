@@ -3,13 +3,13 @@ export default {
   props: {
     link: {
       type: String,
-      required: true
+      required: true,
     },
     locked: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 }
 </script>
 <template>
@@ -20,7 +20,7 @@ export default {
     rel="noopener"
   >
     <button>
-      <div id="IconLessonSlides" /><span>Lesson Slides</span>
+      <div id="IconLessonSlides" /><span>{{ $t('new_home.lesson_slides') }}</span>
     </button>
   </a>
   <button
@@ -28,7 +28,7 @@ export default {
     :disabled="true"
     class="locked"
   >
-    <div id="IconLessonSlides" /><span>Lesson Slides</span>
+    <div id="IconLessonSlides" /><span>{{ $t('new_home.lesson_slides') }}</span>
   </button>
 </template>
 

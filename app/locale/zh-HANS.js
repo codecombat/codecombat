@@ -640,7 +640,7 @@ module.exports = {
       roblox_button_hover: '在 Roblox 上玩游戏、编写代码和进行创作',
       //    ai_league_button_hover: "Compete in AI League Esports",
       hackstack_button_hover: '使用 扣哒宇宙 编写代码和进行创作',
-      junior_button_hover: '适合初学者的积木式编程',
+      junior_button_hover: '图形化让零基础也能编程',
       cchome_button_hover: 'CodeCombat 原版冒险游戏',
       //    home_campaign_redirect_student: "Please visit the course map from your student page.",
     },
