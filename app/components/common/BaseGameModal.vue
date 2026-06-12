@@ -110,4 +110,8 @@ export default {
       padding-top: 30px
       padding-left: 40px
       padding-right: 40px
+
+  @media screen and (max-width: 768px)
+    .modal-body
+      padding-top: 100px !important
 </style>
