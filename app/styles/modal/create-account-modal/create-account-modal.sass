@@ -23,6 +23,11 @@
       width: 850px
     max-width: fit-content
     min-width: 850px
+    @media (max-width: 767px)
+      width: calc(100vw - 24px)
+      max-width: calc(100vw - 24px)
+      min-width: 0
+      margin: 12px auto
     @media (max-height: 800px)
       margin-top: 0
 
@@ -61,6 +66,12 @@
     text-align: center
     padding: 0
     border: none
+    @media (max-width: 767px)
+      width: 100%
+      max-width: 100%
+      min-width: 0
+      min-height: auto
+      max-height: calc(100vh - 24px)
 
   // General modal stuff
 
@@ -120,6 +131,10 @@
     display: flex
     align-items: center
     justify-content: center
+    @media (max-width: 767px)
+      min-height: 50px
+      height: auto
+      padding: 14px 16px
 
     @if $is-codecombat
       background-color: $navy
