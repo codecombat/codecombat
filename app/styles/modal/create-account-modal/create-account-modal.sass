@@ -162,6 +162,8 @@
     align-items: center
     justify-content: center
     padding: 20px 0
+    @media (max-width: 767px)
+      padding: 16px 0
 
   // Back/forward buttons
 
@@ -180,6 +182,14 @@
     // Left-align when there's only a back button
     .back-button:first-child:last-child
       margin-right: auto
+
+    @media (max-width: 767px)
+      flex-direction: column
+      align-items: stretch
+      gap: 12px
+
+      .btn
+        width: 100%
 
   // Forms
 

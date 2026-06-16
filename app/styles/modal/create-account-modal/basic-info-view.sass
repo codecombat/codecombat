@@ -2,6 +2,60 @@
 @import "ozaria/site/styles/common/variables"
 
 #basic-info-view
+  .individual-flow-panel
+    width: min(100%, 640px)
+    padding: 8px 20px 0
+
+  .individual-flow-progress
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    gap: 10px
+    margin-bottom: 16px
+
+  .individual-flow-progress-step
+    height: 8px
+    border-radius: 999px
+    background: rgb(28 54 87 / 12%)
+
+    &.active
+      background: linear-gradient(90deg, #f97316 0%, #ea580c 100%)
+
+  .individual-basic-info-card
+    border-radius: 24px
+    padding: 28px 24px
+    background: linear-gradient(180deg, #fffef8 0%, #fff5d1 100%)
+    box-shadow: 0 20px 50px rgb(15 23 42 / 12%)
+  .individual-flow-note
+    margin-bottom: 16px
+    font-size: 15px
+    line-height: 1.5
+    color: #35506f
+
+  .individual-flow-heading
+    margin-bottom: 20px
+
+    h4
+      margin: 0
+      font-size: 28px
+      line-height: 1.15
+      font-weight: 700
+      color: #17314d
+
+  .individual-basic-info-fields
+    display: flex
+    flex-direction: column
+    gap: 18px
+
+    .form-group
+      margin: 0
+
+    .fancy-error
+      padding-top: 8px
+      line-height: 18px
+
+  .individual-flow-social
+    margin-top: 18px
+
   @if $is-codecombat
     .network-login
       transition: filter 0.1s linear
@@ -139,3 +193,20 @@
     text-align: center
     padding-bottom: 10px
     font-weight: lighter
+
+  @media (max-width: 767px)
+    .individual-flow-panel
+      padding: 0 16px
+
+    .individual-basic-info-card
+      padding: 24px 18px
+      border-radius: 20px
+
+    .individual-flow-heading
+      h4
+        font-size: 24px
+
+    .individual-flow-social
+      .auth-network-logins
+        flex-direction: column
+        gap: 12px

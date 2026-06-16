@@ -153,6 +153,14 @@ module.exports = (SegmentCheckView = (function () {
       }
     }
 
+    trackIndividualStepNext (destination) {
+      if (this.signupState.get('path') !== 'individual') { return }
+      return window.tracker?.trackEvent('CreateAccountModal Individual Step 1 Next Clicked', {
+        category: 'Individuals',
+        destination,
+      })
+    }
+
     onSubmitSegmentCheck (e) {
       e.preventDefault()
 
@@ -191,9 +199,11 @@ module.exports = (SegmentCheckView = (function () {
           const age = (new Date().getTime() - this.signupState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
           if (age > utils.ageOfConsent(me.get('country'), 13)) {
             const screen = me.get('country') && me.inEU() ? 'eu-confirmation' : 'basic-info'
+            this.trackIndividualStepNext(screen)
             this.trigger('nav-forward', screen)
             return (window.tracker != null ? window.tracker.trackEvent('CreateAccountModal Individual SegmentCheckView Submit', { category: 'Individuals' }) : undefined)
           } else {
+            this.trackIndividualStepNext('coppa-deny')
             this.trigger('nav-forward', 'coppa-deny')
             return (window.tracker != null ? window.tracker.trackEvent('CreateAccountModal Individual SegmentCheckView Coppa Deny', { category: 'Individuals' }) : undefined)
           }

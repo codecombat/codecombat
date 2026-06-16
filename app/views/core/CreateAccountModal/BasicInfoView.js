@@ -354,6 +354,14 @@ module.exports = (BasicInfoView = (function () {
       return forms.clearFormAlerts(this.$el.find('input[name="name"]').closest('.form-group').parent())
     }
 
+    trackIndividualStepNext (action) {
+      if (this.signupState.get('path') !== 'individual') { return }
+      return window.tracker?.trackEvent('CreateAccountModal Individual Step 2 Next Clicked', {
+        category: 'Individuals',
+        action,
+      })
+    }
+
     onSubmitForm (e) {
       if (this.signupState.get('path') === 'teacher') {
         if (window.tracker != null) {
@@ -366,6 +374,7 @@ module.exports = (BasicInfoView = (function () {
         }
       }
       if (this.signupState.get('path') === 'individual') {
+        this.trackIndividualStepNext('submit-clicked')
         if (window.tracker != null) {
           window.tracker.trackEvent('CreateAccountModal Individual BasicInfoView Submit Clicked', { category: 'Individuals' })
         }
