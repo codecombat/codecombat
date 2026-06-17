@@ -13,27 +13,28 @@ mixin use-social-signon
         hr
         span(data-i18n="general.or")
 
+      //- One shared header; each row below just centers the provider's own
+      //- logo and lets it carry its own recognition.
+      .sso-header(data-i18n="signup.sign_up_with")
+
       .auth-network-logins.text-center
-        .gplus-login#google-login-button
-          a.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
-            img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.svg", draggable="false")
+        a#google-signup-btn.network-login.sso-row(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
+          img.sso-logo.sso-logo-google(src="/images/pages/modal/auth/google-logo-wordmark.svg", draggable="false")
         if !/(teacher|student)/.test(view.signupState.get('path'))
-          .facebook-login
-            a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
-              img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+          a#facebook-signup-btn.network-login.sso-row(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
+            img.sso-logo.sso-logo-facebook(src="/images/pages/modal/auth/facebook-logo-wordmark.svg", draggable="false")
         if /(teacher|student)/.test(view.signupState.get('path'))
-          .clever-login
-            a#clever-signup-btn.network-login(data-sso-used="clever")
-              img.clever-logo(src="/images/pages/modal/auth/clever-logo-blue.png", draggable="false")
-        if /(teacher|student)/.test(view.signupState.get('path'))
-          .schoology-login
-            a#schoology-signup-btn.network-login(data-sso-used="schoology")
-              img.schoology-login-img(src="/images/pages/modal/auth/schoology.png")
-              span Schoology
-          .classlink-login
-            a#classlink-signup-btn.network-login(data-sso-used="classlink")
-              img.classlink-login-img(src="/images/pages/modal/auth/classlink-logo-small.png")
-              span ClassLink
+          a#clever-signup-btn.network-login.sso-row(data-sso-used="clever")
+            img.sso-logo.sso-logo-clever(src="/images/pages/modal/auth/clever-logo-blue.png", draggable="false")
+          a#schoology-signup-btn.network-login.sso-row(data-sso-used="schoology")
+            img.sso-logo.sso-logo-schoology(src="/images/pages/modal/auth/schoology-logo-wordmark.svg")
+          a#classlink-signup-btn.network-login.sso-row(data-sso-used="classlink")
+            img.sso-logo.sso-logo-classlink(src="/images/pages/modal/auth/classlink-logo-text.png")
+
+      // Mobile two-step: reveal the email/password form. A de-emphasized link
+      // (not a button) so the SSO integrations stay the primary path.
+      a#reveal-email-form.reveal-email-row(role='button' tabindex='0')
+        span(data-i18n="signup.signup_with_email")
 
 
     // TODO: turn on once we can ask about school inside ConfirmationView
@@ -73,6 +74,9 @@ mixin use-social-signon
 form#basic-info-form.modal-body.basic-info
   - var path = view.signupState.get('path')
   .modal-body-content
+    // Mobile two-step: return from the email form back to the SSO options.
+    a#back-to-sso.back-to-sso-row(role='button' tabindex='0')
+      span(data-i18n="signup.other_signin_options")
     if path === 'individual'
       .individual-flow-panel
         .individual-flow-progress(aria-hidden="true")

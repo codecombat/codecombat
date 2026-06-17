@@ -60,6 +60,11 @@ module.exports = (BasicInfoView = (function () {
         'click #clever-signup-btn': 'onClickSsoSignupButton',
         'click #schoology-signup-btn': 'onClickSsoSignupButton',
         'click #classlink-signup-btn': 'onClickSsoSignupButton',
+        'click #google-signup-btn': 'onClickSsoSignupButton',
+        'click #reveal-email-form': 'onClickRevealEmailForm',
+        'keydown #reveal-email-form': 'onKeydownRevealEmailForm',
+        'click #back-to-sso': 'onClickBackToSso',
+        'keydown #back-to-sso': 'onKeydownBackToSso',
       }
     }
 
@@ -116,15 +121,47 @@ module.exports = (BasicInfoView = (function () {
     }
 
     afterRender () {
+      // Mobile two-step signup: when SSO options exist, the email form starts
+      // collapsed behind a "Sign up with email" action (see basic-info-view.sass,
+      // gated on the `has-sso` class so library/no-SSO paths are unaffected).
+      if (this.$el.find('.auth-network-logins').length) {
+        this.$el.addClass('has-sso')
+      }
       this.$el.find('#first-name-input').focus()
       if (!me.showChinaRegistration()) {
-        application.gplusHandler.loadAPI({
-          success: () => {
-            return this.handleSSOConnect(application.gplusHandler, 'gplus')
-          }
-        })
+        // Load the Google Identity script so the custom Google row can trigger
+        // sign-in on click (handleSSOConnect -> gplusHandler.connect -> prompt).
+        // We intentionally do NOT auto-render the GSI button or auto-prompt
+        // One Tap here; the row is styled like the other providers.
+        application.gplusHandler.loadAPI()
       }
       return super.afterRender()
+    }
+
+    // Mobile two-step: reveal the email/password form, hide the SSO chooser.
+    onClickRevealEmailForm (e) {
+      if (e) { e.preventDefault() }
+      this.$el.addClass('email-revealed')
+      const $firstField = this.$el.find('#first-name-input, #email-input').filter(':visible').first()
+      $firstField.focus()
+    }
+
+    onKeydownRevealEmailForm (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
+        this.onClickRevealEmailForm(e)
+      }
+    }
+
+    // Mobile two-step: go back from the email form to the SSO chooser.
+    onClickBackToSso (e) {
+      if (e) { e.preventDefault() }
+      this.$el.removeClass('email-revealed')
+    }
+
+    onKeydownBackToSso (e) {
+      if (e.key === 'Enter' || e.key === ' ' || e.keyCode === 13 || e.keyCode === 32) {
+        this.onClickBackToSso(e)
+      }
     }
 
     // These values are passed along to AuthModal if the user clicks "Sign In" (handled by CreateAccountModal)

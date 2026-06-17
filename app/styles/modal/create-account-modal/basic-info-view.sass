@@ -63,60 +63,97 @@
       &:hover
         filter: brightness(110%)
 
-  .auth-network-logins
-    display: flex
-    align-items: center
-    justify-content: center
-    flex-direction: row
-    gap: 20px
+  @if $is-codecombat
+    // One header labels the whole set ("Sign up with"); each row below simply
+    // centers the provider's own logo and lets it carry its own recognition.
+    .sso-header
+      margin-bottom: 12px
+      text-align: center
+      font-size: 13px
+      font-weight: 700
+      letter-spacing: 0.04em
+      text-transform: uppercase
+      color: #5a6b7b
 
-  .gplus-login
-    @if $is-codecombat
+    .auth-network-logins
+      display: flex
+      flex-direction: column
+      align-items: stretch
+      gap: 12px
 
-    .gplus-logo
-      @if $is-codecombat
-        width: 254px
-      @else
+    // Identical option rows; the provider logo is centered and stands alone.
+    .sso-row
+      display: flex
+      align-items: center
+      justify-content: center
+      width: 100%
+      min-height: 52px
+      padding: 0 16px
+      border: 1px solid #d7dee6
+      border-radius: 8px
+      background: white
+      text-decoration: none
+      cursor: pointer
+      transition: border-color 0.1s linear, box-shadow 0.1s linear
+
+      &:hover
+        border-color: #b8c4d0
+        box-shadow: 0 1px 4px rgb(15 23 42 / 8%)
+
+    // Centered provider logo. Width-focused brand lockups, scaled by a shared
+    // height so each reads at consistent visual weight; per-provider nudges
+    // account for differing logo padding/baselines.
+    .sso-logo
+      width: auto
+      height: 24px
+      max-width: 78%
+      object-fit: contain
+
+    // Google's wordmark is light/thin; give it a little more height to balance
+    // against the bolder Clever and ClassLink marks.
+    .sso-logo-google
+      height: 28px
+
+    .sso-logo-clever
+      height: 20px
+
+    .sso-logo-classlink
+      height: 24px
+
+    .sso-logo-schoology
+      height: 22px
+
+  @if not $is-codecombat
+    .auth-network-logins
+      display: flex
+      align-items: center
+      justify-content: center
+      flex-direction: row
+      gap: 20px
+
+    .gplus-login
+      .gplus-logo
         height: 50px
         margin-right: 7px
 
-  .facebook-login
-
-    #facebook-signup-btn
-      height: 40px
-
-      .facebook-logo
-        height: 40px
-
-  .schoology-login,.classlink-login
-    #schoology-signup-btn,#classlink-signup-btn
-      padding: 4px
-      display: inline-flex
-      gap: 5px
-      justify-content: initial
-      align-items: center
-      border-radius: 5px
-      height: 45px
-      width: 100%
-      border: 1px solid #117bbc
-      color: black
-      background-color: white
-      font-size: 14px
-      img
-        width: 38px
-        height: 38px
-        border-radius: 50%
-
-  @if $is-codecombat
-    .clever-login
-
-      .clever-logo
-        // Match size of Google button
-        width: 154px
-        height: 52px
-        background: white
-        padding: 5px
+    .schoology-login,.classlink-login
+      #schoology-signup-btn,#classlink-signup-btn
+        padding: 4px
+        display: inline-flex
+        gap: 5px
+        justify-content: initial
+        align-items: center
+        border-radius: 5px
+        height: 45px
+        width: 100%
         border: 1px solid #117bbc
+        color: black
+        background-color: white
+        font-size: 14px
+        img
+          width: 38px
+          height: 38px
+          border-radius: 50%
 
   // Forms
 
@@ -194,6 +231,42 @@
     padding-bottom: 10px
     font-weight: lighter
 
+  // Mobile two-step SSO/email disclosure controls. Hidden by default (desktop
+  // and any non-mobile view); only revealed inside the mobile media query below.
+  // The email option is a de-emphasized text link, not a button, so the SSO
+  // integrations stay the primary path.
+  .reveal-email-row
+    display: none
+    width: 100%
+    margin-top: 18px
+    padding: 4px
+    background: none
+    border: none
+    text-align: center
+    color: #5a6b7b
+    font-size: 14px
+    font-weight: 500
+    text-decoration: underline
+    cursor: pointer
+
+    &:hover,
+    &:focus
+      color: #2b3a4a
+
+  .back-to-sso-row
+    display: none
+    margin-bottom: 14px
+    padding: 0
+    background: none
+    border: none
+    color: #117bbc
+    font-weight: 600
+    cursor: pointer
+
+    &:hover,
+    &:focus
+      text-decoration: underline
+
   @media (max-width: 767px)
     .individual-flow-panel
       padding: 0 16px
@@ -206,38 +279,24 @@
       h4
         font-size: 24px
 
-    // Stack the social-login row on mobile for every path (teacher/parent/
-    // student/individual), not just the individual flow. The Google and Clever
-    // buttons have fixed pixel widths that otherwise overflow the modal.
-    .auth-network-logins
-      flex-direction: column
-      gap: 12px
-      width: 100%
-
-      .network-login,
-      .gplus-login,
-      .clever-login,
-      .facebook-login,
-      .schoology-login,
-      .classlink-login
+    // Ozaria's social buttons still use fixed-width brand images; stack them on
+    // mobile so they don't overflow. CodeCombat already stacks as uniform
+    // .sso-row items, so it needs no mobile-specific social rules here.
+    @if not $is-codecombat
+      .auth-network-logins
+        flex-direction: column
+        gap: 12px
         width: 100%
-        max-width: 100%
 
-      // Google's button reads well full-width; constrain it so it never
-      // exceeds the column.
-      .gplus-logo
-        width: 100%
-        max-width: 320px
+        .network-login,
+        .gplus-login,
+        .classlink-login
+          width: 100%
+          max-width: 100%
 
-      // Keep Clever's fixed-size logo at its natural size and centre it in the
-      // full-width row, rather than stretching the bare logo into a sore thumb.
-      .clever-login
-        display: flex
-        justify-content: center
-
-      .clever-logo
-        width: auto
-        max-width: 200px
+        .gplus-logo
+          width: 100%
+          max-width: 320px
 
     // The teacher/student form sets an 800px desktop width that forced ~177px
     // of horizontal overflow on mobile (and a viewport scrollbar). Let it fill
@@ -245,3 +304,39 @@
     .form-container
       width: 100%
       max-width: 100%
+
+    // "Back" doesn't belong in the first-impression chooser — the user can
+    // close the modal or switch to "Sign in" instead.
+    .back-button
+      display: none
+
+    // Two-step progressive disclosure, only when SSO options are present
+    // (gated by `has-sso`, added in afterRender). Library / no-SSO paths keep
+    // the single-screen form untouched.
+    &.has-sso
+      // Step 1 — SSO chooser front and center; the email form + submit are
+      // collapsed behind the "Sign up with email" action.
+      &:not(.email-revealed)
+        .individual-basic-info-card,
+        .form-container,
+        .next-button
+          display: none
+
+        // The "or" divider belongs between the form and SSO; with SSO first
+        // and the form collapsed it would float at the top with nothing above.
+        .hr-text
+          display: none
+
+        .reveal-email-row
+          display: block
+
+      // Step 2 — email form revealed; hide the SSO chooser and surface a way
+      // back to the options.
+      &.email-revealed
+        .hr-text,
+        .auth-network-logins,
+        .reveal-email-row
+          display: none
+
+        .back-to-sso-row
+          display: inline-block
