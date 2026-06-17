@@ -206,7 +206,24 @@
       h4
         font-size: 24px
 
-    .individual-flow-social
-      .auth-network-logins
-        flex-direction: column
-        gap: 12px
+    // Stack the social-login row on mobile for every path (teacher/parent/
+    // student/individual), not just the individual flow. The Google and Clever
+    // buttons have fixed pixel widths that otherwise overflow the modal.
+    .auth-network-logins
+      flex-direction: column
+      gap: 12px
+      width: 100%
+
+      .network-login,
+      .gplus-login,
+      .clever-login,
+      .facebook-login,
+      .schoology-login,
+      .classlink-login
+        width: 100%
+        max-width: 100%
+
+      .gplus-logo,
+      .clever-logo
+        width: 100%
+        max-width: 320px
