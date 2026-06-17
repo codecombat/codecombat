@@ -223,7 +223,25 @@
         width: 100%
         max-width: 100%
 
-      .gplus-logo,
-      .clever-logo
+      // Google's button reads well full-width; constrain it so it never
+      // exceeds the column.
+      .gplus-logo
         width: 100%
         max-width: 320px
+
+      // Keep Clever's fixed-size logo at its natural size and centre it in the
+      // full-width row, rather than stretching the bare logo into a sore thumb.
+      .clever-login
+        display: flex
+        justify-content: center
+
+      .clever-logo
+        width: auto
+        max-width: 200px
+
+    // The teacher/student form sets an 800px desktop width that forced ~177px
+    // of horizontal overflow on mobile (and a viewport scrollbar). Let it fill
+    // the modal instead.
+    .form-container
+      width: 100%
+      max-width: 100%
