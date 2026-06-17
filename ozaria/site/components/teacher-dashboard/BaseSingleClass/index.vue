@@ -797,6 +797,7 @@ export default {
       @removeStudents="$emit('removeStudents')"
       @applyLicenses="$emit('applyLicenses')"
       @refresh="onRefresh"
+      @replay-hs-tour="$emit('replay-hs-tour')"
     />
 
     <table-class-frame

@@ -1,4 +1,5 @@
 <script>
+import utils from 'app/core/utils'
 import Dropdown from '../common/Dropdown'
 import PrimaryButton from '../common/buttons/PrimaryButton'
 import IconButtonWithText from '../common/buttons/IconButtonWithText'
@@ -43,6 +44,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      selectedCourseId: 'teacherDashboard/getSelectedCourseIdCurrentClassroom',
       selectedStudentIds: 'baseSingleClass/selectedStudentIds',
       selectedOriginals: 'baseSingleClass/selectedOriginals',
       classroom: 'teacherDashboard/getCurrentClassroom',
@@ -55,6 +57,10 @@ export default {
       getLastFetchedMemberSessionsDate: 'levelSessions/getLastFetchedMemberSessionsDate',
       getLoading: 'teacherDashboard/getLoadingState',
     }),
+
+    isHackStackCourse () {
+      return utils.HACKSTACK_COURSE_IDS.includes(this.selectedCourseId)
+    },
 
     showLicenses () {
       return !me.isCodeNinja()
@@ -167,6 +173,14 @@ export default {
       <!-- TODO - enable and use jQuery to scroll. -->
       <!-- TODO - use the store to send the signal. -->
       <!-- <dropdown label-text="Go To" class="dropdowns" /> -->
+      <icon-button-with-text
+        v-if="isHackStackCourse"
+        id="replay-tour-btn"
+        class="icon-with-text larger-icon"
+        :icon-name="'IconReset'"
+        :text="$t('teacher_dashboard.replay_tour')"
+        @click="$emit('replay-hs-tour')"
+      />
     </div>
     <div class="title-card">
       <span style="width: 59px">{{ $t('teacher_dashboard.manage_class') }}</span>
@@ -174,6 +188,7 @@ export default {
     <div class="spacer align-to-left">
       <div class="manage-container">
         <primary-button
+          id="grant-course-btn"
           class="primary-btn"
           :inactive="displayOnly"
           @click="$emit('assignContent')"
@@ -182,6 +197,7 @@ export default {
         </primary-button>
         <icon-button-with-text
           v-if="showLicenses"
+          id="apply-license-btn"
           class="icon-with-text larger-icon"
           :icon-name="displayOnly ? 'IconLicenseApply_Gray' : 'IconLicenseApply'"
           :text="$t('teacher.apply_licenses')"

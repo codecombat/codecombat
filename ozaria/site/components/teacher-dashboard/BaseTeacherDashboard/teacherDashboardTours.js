@@ -1,3 +1,23 @@
+function createStepWithFallbackAttaches (attaches, config) {
+  return {
+    ...config,
+    beforeShowPromise: function () {
+      return new Promise((resolve) => {
+        // Try selectors in order
+        let existedAttach = null
+        for (const attach of attaches) {
+          const element = document.querySelector(attach.element)
+          if (element) {
+            existedAttach = attach
+            break
+          }
+        }
+        this.attachTo = existedAttach || attaches[attaches.length - 1]
+        resolve()
+      })
+    },
+  }
+}
 const PLAN_FIRST_CLASS_STEP = {
   attachTo: {
     element: '#GuideDropdown',
@@ -100,6 +120,160 @@ const AI_LEAGUE_CUSTOM = {
     text: $.i18n.t('teacher_dashboard.click_dismiss'),
   }],
 }
+
+const WELCOME_STEP = {
+  text: $.i18n.t('teacher_dashboard.welcome_tour_desc'),
+  title: $.i18n.t('teacher_dashboard.welcome_tour_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('common.next'),
+  }],
+}
+
+const ALL_STUDENTS_STEP = {
+  attachTo: {
+    element: '#studentList', // Fill in manually
+    on: 'right',
+  },
+  text: $.i18n.t('teacher_dashboard.all_students_desc'),
+  title: $.i18n.t('teacher_dashboard.all_students_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('common.next'),
+  }],
+}
+
+const CONTENT_SYMBOL_STEP = {
+  attachTo: {
+    element: '#content-guides', // Fill in manually
+    on: 'bottom',
+  },
+  text: $.i18n.t('teacher_dashboard.content_symbol_desc'),
+  title: $.i18n.t('teacher_dashboard.content_symbol_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('common.next'),
+  }],
+}
+
+const PROGRESS_DOT_STEP = createStepWithFallbackAttaches([
+  {
+    element: '#module-grid .dot:first-child',
+    on: 'right',
+  },
+  {
+    element: '#module-grid',
+    on: 'top',
+  },
+], {
+  attachTo: {
+    element: '', // Fill in manually
+    on: 'bottom',
+  },
+  text: $.i18n.t('teacher_dashboard.progress_dot_desc'),
+  title: $.i18n.t('teacher_dashboard.progress_dot_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('common.next'),
+  }],
+})
+
+const ASSIGN_CONTENT_STEP = {
+  attachTo: {
+    element: '#grant-course-btn', // Fill in manually
+    on: 'bottom',
+  },
+  text: $.i18n.t('teacher_dashboard.assign_content_desc'),
+  title: $.i18n.t('teacher_dashboard.assign_content_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('common.next'),
+  }],
+}
+
+const APPLY_LICENSES_STEP = {
+  attachTo: {
+    element: '#apply-license-btn', // Fill in manually
+    on: 'bottom',
+  },
+  showOn: function () {
+    return !!document.querySelector('#apply-license-btn')
+  },
+  text: $.i18n.t('teacher_dashboard.apply_licenses_desc'),
+  title: $.i18n.t('teacher_dashboard.apply_licenses_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('common.next'),
+  }],
+}
+
+const LOCK_CONTENT_STEP = {
+  attachTo: {
+    element: '.moduleHeading .v-popover .btn', // Fill in manually
+    on: 'bottom',
+  },
+  text: $.i18n.t('teacher_dashboard.lock_content_desc'),
+  title: $.i18n.t('teacher_dashboard.lock_content_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('common.next'),
+  }],
+  beforeShowPromise: function () {
+    return new Promise((resolve) => {
+      // Trigger the popover to show
+      const parent = document.querySelector('.moduleHeading .title')
+      parent.querySelector('.v-popover').style.display = 'block'
+      setTimeout(resolve, 100)
+    })
+  },
+  when: {
+    hide: function () {
+      // Clean up: hide the popover when step ends
+      const parent = document.querySelector('.moduleHeading .title')
+      parent.querySelector('.v-popover').style.display = ''
+    },
+  },
+}
+
+const TOUR_REPLAY_STEP = {
+  attachTo: {
+    element: '#replay-tour-btn', // Fill in manually
+    on: 'left',
+  },
+  text: $.i18n.t('teacher_dashboard.tour_replay_desc'),
+  title: $.i18n.t('teacher_dashboard.tour_replay_title'),
+  buttons: [{
+    action () {
+      return this.next()
+    },
+    text: $.i18n.t('teacher_dashboard.click_dismiss'),
+  }],
+}
+
+export const HS_GUIDE_TOUR_STEPS = [
+  WELCOME_STEP,
+  ALL_STUDENTS_STEP,
+  CONTENT_SYMBOL_STEP,
+  PROGRESS_DOT_STEP,
+  ASSIGN_CONTENT_STEP,
+  APPLY_LICENSES_STEP,
+  LOCK_CONTENT_STEP,
+  TOUR_REPLAY_STEP,
+]
 
 export const FIRST_CLASS_STEPS = [
   CLICK_INTO_CLASS_STEP,
