@@ -168,8 +168,9 @@ export default {
         if (storage.load(`${SEEN_AUTO_HS_TOUR_KEY}-${me.get('_id')}`)) {
           return
         }
-        storage.save(`${SEEN_AUTO_HS_TOUR_KEY}-${me.get('_id')}`, true)
-        this.triggerHSGuideTour()
+        if (this.triggerHSGuideTour()) {
+          storage.save(`${SEEN_AUTO_HS_TOUR_KEY}-${me.get('_id')}`, true)
+        }
       }
     },
   },
@@ -341,10 +342,10 @@ export default {
 
     triggerHSGuideTour () {
       if (this.isAllClassesPage) {
-        return
+        return false
       }
       if (!utils.HACKSTACK_COURSE_IDS.includes(this.selectedCourseId)) {
-        return
+        return false
       }
       this.runningTour?.complete?.()
 
@@ -360,6 +361,7 @@ export default {
       tour.start()
 
       this.runningTour = tour
+      return true
     },
 
     triggerFirstClassTour () {

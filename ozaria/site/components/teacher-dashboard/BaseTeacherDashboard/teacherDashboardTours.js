@@ -236,7 +236,10 @@ const LOCK_CONTENT_STEP = {
     return new Promise((resolve) => {
       // Trigger the popover to show
       const parent = document.querySelector('.moduleHeading .title')
-      parent.querySelector('.v-popover').style.display = 'block'
+      const popover = parent?.querySelector('.v-popover')
+      if (popover) {
+        popover.style.display = 'block'
+      }
       setTimeout(resolve, 100)
     })
   },
@@ -244,7 +247,10 @@ const LOCK_CONTENT_STEP = {
     hide: function () {
       // Clean up: hide the popover when step ends
       const parent = document.querySelector('.moduleHeading .title')
-      parent.querySelector('.v-popover').style.display = ''
+      const popover = parent?.querySelector('.v-popover')
+      if (popover) {
+        popover.style.display = ''
+      }
     },
   },
 }
