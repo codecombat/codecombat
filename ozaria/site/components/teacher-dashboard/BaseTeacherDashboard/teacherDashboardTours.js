@@ -134,7 +134,7 @@ const WELCOME_STEP = {
 
 const ALL_STUDENTS_STEP = {
   attachTo: {
-    element: '#studentList', // Fill in manually
+    element: '.allStudents',
     on: 'right',
   },
   text: $.i18n.t('teacher_dashboard.all_students_desc'),
@@ -149,7 +149,7 @@ const ALL_STUDENTS_STEP = {
 
 const CONTENT_SYMBOL_STEP = {
   attachTo: {
-    element: '#content-guides', // Fill in manually
+    element: '#content-guides .img-subtext',
     on: 'bottom',
   },
   text: $.i18n.t('teacher_dashboard.content_symbol_desc'),
@@ -164,8 +164,8 @@ const CONTENT_SYMBOL_STEP = {
 
 const PROGRESS_DOT_STEP = createStepWithFallbackAttaches([
   {
-    element: '#module-grid .dot:first-child',
-    on: 'right',
+    element: '.golden-backer .dot:first-child',
+    on: 'bottom',
   },
   {
     element: '#module-grid',
@@ -173,7 +173,7 @@ const PROGRESS_DOT_STEP = createStepWithFallbackAttaches([
   },
 ], {
   attachTo: {
-    element: '', // Fill in manually
+    element: '',
     on: 'bottom',
   },
   text: $.i18n.t('teacher_dashboard.progress_dot_desc'),
@@ -188,7 +188,7 @@ const PROGRESS_DOT_STEP = createStepWithFallbackAttaches([
 
 const ASSIGN_CONTENT_STEP = {
   attachTo: {
-    element: '#grant-course-btn', // Fill in manually
+    element: '#grant-course-btn',
     on: 'bottom',
   },
   text: $.i18n.t('teacher_dashboard.assign_content_desc'),
@@ -203,7 +203,7 @@ const ASSIGN_CONTENT_STEP = {
 
 const APPLY_LICENSES_STEP = {
   attachTo: {
-    element: '#apply-license-btn', // Fill in manually
+    element: '#apply-license-btn',
     on: 'bottom',
   },
   showOn: function () {
@@ -221,7 +221,7 @@ const APPLY_LICENSES_STEP = {
 
 const LOCK_CONTENT_STEP = {
   attachTo: {
-    element: '.moduleHeading .v-popover .btn', // Fill in manually
+    element: '.moduleHeading .v-popover .btn',
     on: 'bottom',
   },
   text: $.i18n.t('teacher_dashboard.lock_content_desc'),
@@ -251,8 +251,8 @@ const LOCK_CONTENT_STEP = {
 
 const TOUR_REPLAY_STEP = {
   attachTo: {
-    element: '#replay-tour-btn', // Fill in manually
-    on: 'left',
+    element: '#replay-tour-btn',
+    on: 'right',
   },
   text: $.i18n.t('teacher_dashboard.tour_replay_desc'),
   title: $.i18n.t('teacher_dashboard.tour_replay_title'),

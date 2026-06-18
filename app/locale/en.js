@@ -4918,7 +4918,7 @@ module.exports = {
       lock_content_desc: "Hover any module name to reveal its yellow lock icon — click it to stop students moving past that module until you're ready. Need to lock the whole course at once? Use the Lock or Skip Levels button instead.",
       tour_replay_title: 'Need a refresher?',
       tour_replay_desc: 'Lost track? Replay this tour anytime by clicking here.',
-      replay_tour: 'Replay Tour',
+      replay_tour: 'Play Tour',
     },
 
     outcomes: {

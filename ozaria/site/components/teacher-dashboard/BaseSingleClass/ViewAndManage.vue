@@ -177,7 +177,7 @@ export default {
         v-if="isHackStackCourse"
         id="replay-tour-btn"
         class="icon-with-text larger-icon"
-        :icon-name="'IconReset'"
+        :icon-name="'IconPlay'"
         :text="$t('teacher_dashboard.replay_tour')"
         @click="$emit('replay-hs-tour')"
       />
