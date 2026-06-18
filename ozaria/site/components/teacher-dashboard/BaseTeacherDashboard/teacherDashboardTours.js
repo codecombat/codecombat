@@ -149,7 +149,7 @@ const ALL_STUDENTS_STEP = {
 
 const CONTENT_SYMBOL_STEP = {
   attachTo: {
-    element: '#content-guides .img-subtext',
+    element: '.moduleHeading .content-icons',
     on: 'bottom',
   },
   text: $.i18n.t('teacher_dashboard.content_symbol_desc'),
