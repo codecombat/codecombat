@@ -50,9 +50,6 @@ module.exports = (LevelSessionCollection = (function () {
         url: `/db/classroom/${classroomID}/member-sessions`,
         dataFilter: (data, type) => {
           const json = JSON.parse(data)
-          if (Array.isArray(json)) {
-            return data
-          }
           return JSON.stringify(json.sessions)
         },
       }, options)
