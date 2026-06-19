@@ -29,7 +29,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
 
   describe('when logged in', function () {
     beforeEach(function (done) {
-      spyOn(clansApi, 'getMyClans').and.returnValue(Promise.resolve([]))
+      window.spyOn(clansApi, 'getMyClans').and.returnValue(Promise.resolve([]))
       const me = factories.makeUser({})
 
       this.courses = new Courses([
@@ -141,7 +141,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
         })
 
         return describe('Enroll button', () => it('calls enrollStudents with that user when clicked', function () {
-          spyOn(this.view, 'enrollStudents')
+          window.spyOn(this.view, 'enrollStudents')
           this.view.$el.find('.enroll-student-button:first').click()
           expect(this.view.enrollStudents).toHaveBeenCalled()
           const users = this.view.enrollStudents.calls.argsFor(0)[0]
@@ -175,7 +175,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
      */
 
       return describe('Export Student Progress (CSV) button', () => it('downloads a CSV file', function (done) {
-        spyOn(window, 'saveAs').and.callFake((blob, fileName) => {
+        window.spyOn(window, 'saveAs').and.callFake((blob, fileName) => {
           const reader = new FileReader()
           reader.onload = event => {
             const encodedCSV = reader.result
@@ -246,7 +246,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
       })
 
       return describe('Export Student Progress (CSV) button', () => it('downloads a CSV file', function (done) {
-        spyOn(window, 'saveAs').and.callFake((blob, fileName) => {
+        window.spyOn(window, 'saveAs').and.callFake((blob, fileName) => {
           const reader = new FileReader()
           reader.onload = event => {
             const encodedCSV = reader.result
@@ -315,7 +315,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
 
       return describe('when the student has a starter license', () => describe('and the course is NOT covered by starter licenses', function () {
         beforeEach(function (done) {
-          spyOn(this.view.prepaids.at(1), 'redeem')
+          window.spyOn(this.view.prepaids.at(1), 'redeem')
           const starterId = this.available2.get('_id')
           this.starterStudent = this.students.find(s => s.get('products').length && (s.get('products')[0].prepaid === starterId))
           this.view.assignCourse(this.courses.at(1).id, [this.starterStudent.id])
@@ -420,7 +420,7 @@ describe('TeacherClassView', () => // describe 'when logged out', ->
         beforeEach(function (done) {
         // first four students are unenrolled, but only two licenses are available
           this.view.assignCourse(this.courses.first().id, this.students.pluck('_id'))
-          return spyOn(this.view, 'openModalView').and.callFake(done)
+          return window.spyOn(this.view, 'openModalView').and.callFake(done)
         })
 
         return it('shows CoursesNotAssignedModal', function () {
