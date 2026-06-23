@@ -1,6 +1,5 @@
 <template>
   <div class="ai-scenario">
-    <h3>{{ aiScenario.tool }}</h3>
     <ai-project
       v-for="aiProject in aiProjects"
       :key="aiProject._id"

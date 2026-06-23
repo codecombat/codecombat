@@ -459,7 +459,7 @@ _.extend(UserSchema.properties, {
 
   archived: c.date({ description: 'Marks this record for automatic online archiving to cold storage by our cloud database.' }),
   products: c.array({ title: 'Products purchased or used by this user' },
-    c.object({ required: ['product', 'startDate', 'recipient', 'paymentService', 'paymentDetails'], additionalProperties: true }, {
+    c.object({ required: ['product', 'startDate', 'recipient', 'paymentService'], additionalProperties: true }, {
       // ensure we can add additionalProperties
       product: { type: 'string', enum: ['course', 'basic_subscription', 'pd', 'esports', 'online-classes', 'call-sales'], description: 'The "name" field for the product purchased' }, // And/or the ID of the Product in the database, if we make a Product for each thing we can buy?
 

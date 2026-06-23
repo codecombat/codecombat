@@ -3535,7 +3535,7 @@ module.exports = {
       parent_completion: 'Check your email to get started! For the best results, open the link on a computer so your child can learn and play in the best coding environment.',
       all_set: 'You\'re all set!',
       date_of_birth: 'Date of Birth',
-      unlock_next_level_with_sign_up: 'You\'ve unlocked the next level! Create a free account to save your progress and continue your coding journey.',
+      unlock_next_level_with_sign_up: 'Create a free account to save your progress and continue your coding journey.',
     },
 
     account_invoices: {
@@ -4901,6 +4901,9 @@ module.exports = {
       curriculum_beta: 'Beta',
       progress_last_fetched: 'Progress last fetched',
       refresh_progress_helptext: 'Student progress may take 2–3 minutes to sync after completion.',
+      ai_evaluation: 'AI Evaluation',
+      ai_evaluated_on: 'AI Evaluated On',
+      ai_model: 'AI Model',
     },
 
     outcomes: {
@@ -6512,6 +6515,7 @@ module.exports = {
       description: 'Explore new worlds and use AI to help you in your journey. ',
       premium_only: 'Premium only',
       not_enrolled: 'Not Enrolled',
+      need_sign_up: 'Sign up to access',
       locked_by_teacher: 'Locked by teacher',
     },
     new_premium: {

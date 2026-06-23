@@ -30,6 +30,7 @@ const REQUIRE_SIGN_UP_EXPERIMENT = {
   dungeon: 'requires-sign-up-dungeon',
   junior: 'requires-sign-up-junior',
 }
+const LOCKED_PLANETS_EXPERIMENT_NAME = 'locked-planets'
 
 // Pure functions for use in Vue
 // First argument is always a raw User.attributes
@@ -1489,6 +1490,34 @@ module.exports = (User = (function () {
         return value
       }
       return this.tryStartExperiment(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN])
+    }
+
+    getLockedPlanetsExperimentValue () {
+      if (me.isStudent() || me.isTeacher()) {
+        return 'control'
+      }
+      if (features?.chinaInfra) {
+        return 'control'
+      }
+      if (me.isPremium()) {
+        return 'control'
+      }
+      // We don't take non anonymus premium users into account for this experiment
+      // However if they are already in the experiment, we should return the value
+      const value = utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery(LOCKED_PLANETS_EXPERIMENT_NAME),
+        me.getExperimentValue(LOCKED_PLANETS_EXPERIMENT_NAME, null),
+        (!me.isAnonymous() ? 'control' : null),
+      )
+      return value ?? null
+    }
+
+    getOrStartLockedPlanetsExperimentValue () {
+      const value = this.getLockedPlanetsExperimentValue()
+      if (value != null) {
+        return value
+      }
+      return this.tryStartExperiment(LOCKED_PLANETS_EXPERIMENT_NAME)
     }
   }
 
