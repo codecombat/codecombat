@@ -453,7 +453,9 @@ export default {
       this.setSelectedCourseId({ courseId: this.defaultCourseId })
     }
     this.setTeacherId(this.teacherId || me.get('_id'))
-    this.fetchClassroomData(this.classroomId).catch(console.error)
+    this.fetchClassroomData(this.classroomId).then(() => {
+      this.$emit('auto-play-td-tour')
+    }).catch(console.error)
   },
 
   destroyed () {
@@ -797,7 +799,7 @@ export default {
       @removeStudents="$emit('removeStudents')"
       @applyLicenses="$emit('applyLicenses')"
       @refresh="onRefresh"
-      @replay-hs-tour="$emit('replay-hs-tour')"
+      @replay-td-tour="$emit('replay-td-tour')"
     />
 
     <table-class-frame

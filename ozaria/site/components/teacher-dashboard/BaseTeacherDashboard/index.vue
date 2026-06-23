@@ -29,7 +29,7 @@ const VueShepherd = require('vue-shepherd')
 const SEEN_CREATE_CLASS_TOUR_KEY = 'create-a-class-tour-seen'
 const TRY_OZ_MODAL_VIEWED_KEY = 'try-oz-modal-viewed'
 const SIDEBAR_COLLAPSED_KEY = 'teacher-dashboard-sidebar-collapsed'
-const SEEN_AUTO_HS_TOUR_KEY = 'auto-hs-tour-seen'
+const SEEN_AUTO_TD_TOUR_KEY = 'auto-td-tour-seen'
 
 export default {
   name: 'BaseTeacherDashboardIndex',
@@ -161,16 +161,6 @@ export default {
       // skip the ozaria modal for coco users
       if (this.isCodeCombat && newVal) {
         this.closeOnboardingModal()
-      }
-    },
-    selectedCourseId (newVal) {
-      if (utils.HACKSTACK_COURSE_IDS.includes(newVal)) {
-        if (storage.load(`${SEEN_AUTO_HS_TOUR_KEY}-${me.get('_id')}`)) {
-          return
-        }
-        if (this.triggerHSGuideTour()) {
-          storage.save(`${SEEN_AUTO_HS_TOUR_KEY}-${me.get('_id')}`, true)
-        }
       }
     },
   },
@@ -340,11 +330,19 @@ export default {
       this.runningTour = tour
     },
 
-    triggerHSGuideTour () {
-      if (this.isAllClassesPage) {
-        return false
+    conditionalPlayTDTour () {
+      if (storage.load(`${SEEN_AUTO_TD_TOUR_KEY}-${me.get('_id')}`)) {
+        return
       }
-      if (!utils.HACKSTACK_COURSE_IDS.includes(this.selectedCourseId)) {
+      if (this.triggerTDGuideTour()) {
+        storage.save(`${SEEN_AUTO_TD_TOUR_KEY}-${me.get('_id')}`, true)
+        me.setSeenPromotion('auto-td-tour')
+        me.save()
+      }
+    },
+
+    triggerTDGuideTour () {
+      if (this.isAllClassesPage) {
         return false
       }
       this.runningTour?.complete?.()
@@ -359,6 +357,7 @@ export default {
 
       tour.addSteps(HS_GUIDE_TOUR_STEPS)
       tour.start()
+      window?.tracker?.trackEvent('Watch Teacher Dashboard Guide Tour', { category: 'Teachers' })
 
       this.runningTour = tour
       return true
@@ -499,7 +498,8 @@ export default {
           @addStudents="showAddStudentsModal = true"
           @removeStudents="showRemoveStudentsModal = true"
           @applyLicenses="dynamicShowingApplyLicenseModal"
-          @replay-hs-tour="triggerHSGuideTour"
+          @replay-td-tour="triggerTDGuideTour"
+          @auto-play-td-tour="conditionalPlayTDTour"
         />
       </div>
     </div>

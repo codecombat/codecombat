@@ -1,5 +1,4 @@
 <script>
-import utils from 'app/core/utils'
 import Dropdown from '../common/Dropdown'
 import PrimaryButton from '../common/buttons/PrimaryButton'
 import IconButtonWithText from '../common/buttons/IconButtonWithText'
@@ -57,10 +56,6 @@ export default {
       getLastFetchedMemberSessionsDate: 'levelSessions/getLastFetchedMemberSessionsDate',
       getLoading: 'teacherDashboard/getLoadingState',
     }),
-
-    isHackStackCourse () {
-      return utils.HACKSTACK_COURSE_IDS.includes(this.selectedCourseId)
-    },
 
     showLicenses () {
       return !me.isCodeNinja()
@@ -174,12 +169,11 @@ export default {
       <!-- TODO - use the store to send the signal. -->
       <!-- <dropdown label-text="Go To" class="dropdowns" /> -->
       <icon-button-with-text
-        v-if="isHackStackCourse"
         id="replay-tour-btn"
         class="icon-with-text larger-icon"
         :icon-name="'IconPlay'"
         :text="$t('teacher_dashboard.replay_tour')"
-        @click="$emit('replay-hs-tour')"
+        @click="$emit('replay-td-tour')"
       />
     </div>
     <div class="title-card">
