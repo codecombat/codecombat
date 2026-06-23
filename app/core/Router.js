@@ -350,6 +350,9 @@ module.exports = (CocoRouter = (function () {
           })
         },
 
+        signup: go('account/AuthView'),
+        login: go('account/AuthView'),
+
         parents: go('core/SingletonAppVueComponentView'),
         'parents/*path': go('core/SingletonAppVueComponentView'),
         'live-classes': go('core/SingletonAppVueComponentView'),

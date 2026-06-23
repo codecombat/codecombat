@@ -1,0 +1,173 @@
+@import "app/styles/style-flat-variables"
+@import "app/styles/bootstrap/variables"
+
+#auth-view
+  min-height: 100vh
+  background: #f7f8fc
+
+  .auth-view
+    padding: 48px 20px 72px
+
+  .auth-view__content
+    max-width: 1120px
+    margin: 0 auto
+    display: grid
+    gap: 32px
+
+  .auth-view__hero
+    display: grid
+    gap: 12px
+    text-align: center
+
+  .auth-view__title
+    margin: 0
+    color: $navy
+    font-size: 42px
+    font-weight: 700
+    line-height: 1.08
+
+  .auth-view__subtitle
+    max-width: 720px
+    margin: 0 auto
+    color: $gray
+    font-size: 18px
+    line-height: 1.5
+
+  .auth-view__panel
+    background: white
+    border-radius: 16px
+    box-shadow: 0 18px 38px rgba(28, 42, 74, 0.12)
+    padding: 28px
+    display: grid
+    gap: 24px
+
+  .auth-view__mode-switch
+    display: flex
+    gap: 8px
+    justify-content: flex-end
+    align-items: center
+    color: $gray
+
+    a
+      color: $teal
+      font-weight: 600
+
+  .auth-chooser__grid
+    display: grid
+    grid-template-columns: minmax(0, 1fr)
+    gap: 20px
+
+  .auth-path-button
+    appearance: none
+    border: 0
+    background: transparent
+    padding: 0
+    display: flex
+    flex-direction: column
+    gap: 12px
+    text-align: left
+
+  .auth-path-image
+    width: 100%
+    aspect-ratio: 4 / 3
+    object-fit: cover
+    border-radius: 24px
+    box-shadow: 0 16px 32px rgba(28, 42, 74, 0.14)
+
+  .auth-path-cta
+    min-height: 56px
+    display: flex
+    align-items: center
+    justify-content: center
+    padding: 14px 18px
+    border-radius: 14px
+    background: linear-gradient(135deg, #8a6cff 0%, #6f5dff 100%)
+    color: white
+    font-size: 17px
+    font-weight: 700
+    line-height: 1.2
+    text-align: center
+
+  .auth-path-description
+    color: $gray
+    font-size: 15px
+    line-height: 1.45
+    text-align: center
+    padding: 0 8px
+
+  .auth-login
+    max-width: 520px
+    width: 100%
+    margin: 0 auto
+    display: grid
+    gap: 24px
+
+  .auth-login__password-row
+    display: flex
+    justify-content: space-between
+    gap: 12px
+    align-items: baseline
+
+  .input-border
+    border: 1px solid #d9dfeb
+    border-radius: 12px
+    padding: 2px
+
+  .form-control
+    border: 0
+    box-shadow: none
+    height: 48px
+
+  .auth-network-logins
+    display: grid
+    gap: 12px
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+
+  .network-login
+    min-height: 52px
+    border: 1px solid #d9dfeb
+    border-radius: 12px
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: 10px
+    padding: 12px
+    background: white
+    color: $navy
+
+    img
+      max-height: 24px
+      max-width: 120px
+
+  @media (min-width: 768px)
+    .auth-view__panel
+      padding: 36px
+
+    .auth-chooser__grid
+      grid-template-columns: repeat(2, minmax(0, 1fr))
+      gap: 28px 32px
+
+  @media (max-width: 767px)
+    .auth-view
+      padding-top: 32px
+
+    .auth-view__title
+      font-size: 32px
+
+    .auth-view__subtitle
+      font-size: 16px
+
+    .auth-view__panel
+      padding: 20px
+
+    .auth-view__mode-switch
+      justify-content: flex-start
+      flex-wrap: wrap
+
+    .auth-network-logins
+      grid-template-columns: minmax(0, 1fr)
+
+    .auth-login__password-row
+      flex-direction: column
+      align-items: flex-start
+      gap: 6px

@@ -1,0 +1,69 @@
+mixin account-card(path, titleKey, descriptionKey, imageAltKey, imageSrc)
+  button.auth-path-button(type="button" data-path=path class=path + "-path-button")
+    img.auth-path-image(src=imageSrc data-i18n=imageAltKey)
+    span.auth-path-cta(data-i18n=titleKey)
+    span.auth-path-description(data-i18n=descriptionKey)
+
+.auth-view
+  .auth-view__content
+    .auth-view__hero
+      h1.auth-view__title(data-i18n=mode === 'login' ? 'login.log_in' : 'nav.create_free_account')
+      if mode === 'signup'
+        p.auth-view__subtitle Start with account type. Sign in stays one tap away.
+      else
+        p.auth-view__subtitle Welcome back. Use account details or existing sign-in provider.
+
+    .auth-view__panel
+      .auth-view__mode-switch
+        if mode === 'signup'
+          span(data-i18n="login.signup_switch")
+          a.auth-mode-link(href="/login" data-mode="login" data-i18n="login.log_in")
+        else
+          span(data-i18n="login.signup_switch")
+          a.auth-mode-link(href="/signup" data-mode="signup" data-i18n="login.sign_up")
+
+      if mode === 'signup'
+        .auth-chooser
+          .auth-chooser__grid
+            +account-card('teacher', 'new_home.im_an_educator', 'new_home.im_an_educator_description', '[alt]new_home.for_educators', '/images/pages/account/create/educator.png')
+            +account-card('parent', 'new_home.im_a_parent', 'new_home.im_a_parent_description', '[alt]new_home.for_parents', '/images/pages/account/create/parent.png')
+            +account-card('student', 'new_home.im_a_student', 'new_home.im_a_student_description', '[alt]new_home.for_students', '/images/pages/account/create/student.png')
+            +account-card('individual', 'new_home.im_an_individual', 'new_home.im_an_individual_description', '[alt]new_home.for_individuals', '/images/pages/account/create/individual.png')
+      else
+        .auth-login
+          #unknown-error-alert.alert.alert-danger.hide(data-i18n="loading_error.unknown")
+          form.auth-login-form.form
+            .form-group
+              label.control-label(for="username-or-email-input")
+                span(data-i18n="login.email_or_username")
+                | :
+              .input-border
+                input#username-or-email-input.input-large.form-control(name="emailOrUsername" value=previousFormInputs.email dir="auto")
+
+            .form-group
+              .auth-login__password-row
+                label.control-label(for="password-input")
+                  span(data-i18n="general.password")
+                  | :
+                a#link-to-recover(href="#" data-i18n="login.forgot_password")
+              .input-border
+                input#password-input.input-large.form-control(name="password" type="password" value=previousFormInputs.password dir="auto")
+
+            input#login-btn.btn.btn-lg.btn-success.btn-block(type="submit" value=translate('login.log_in'))
+
+          if me.useSocialSignOn()
+            div(class="auth-network-logins" + (showClever ? " three-choices" : " two-choices"))
+              a#facebook-login-btn.network-login.signup-with-button(disabled=true)
+                img.fb-login-img(src="/images/pages/modal/auth/facebook_small.png", draggable="false")
+                span Facebook
+              if showClever
+                a#clever-signup-btn.network-login
+                  img.clever-login-img(src="/images/pages/modal/auth/clever-logo-blue.png", draggable="false")
+              a#google-login-button.network-login(disabled=true)
+                img.google-login-img(src="/images/pages/modal/auth/gplus_sso_button2.svg" draggable="false")
+              a#schoology-login-btn.network-login.signup-with-button
+                img.schoology-login-img(src="/images/pages/modal/auth/schoology.png")
+                span Schoology
+              a#classlink-login-btn.network-login.signup-with-button
+                img.classlink-login-img(src="/images/pages/modal/auth/classlink-logo-small.png")
+                span ClassLink
