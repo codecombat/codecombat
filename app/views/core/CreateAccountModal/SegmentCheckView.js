@@ -28,6 +28,7 @@ module.exports = (SegmentCheckView = (function () {
         'change .birthday-form-group': 'onInputBirthday',
         'submit form.segment-check': 'onSubmitSegmentCheck',
         'click button.play-now': 'onPlayClicked',
+        'click .under-13-button': 'onClickUnder13',
         'click .individual-path-button' () { return this.trigger('choose-path', 'individual') }
       }
     }
@@ -41,7 +42,9 @@ module.exports = (SegmentCheckView = (function () {
       this.fetchAndApplyClassCodeDebounced = _.debounce(this.fetchAndApplyClassCode, 1000)
       this.fetchClassByCode = _.memoize(this.fetchClassByCode)
       this.classroom = new Classroom()
-      this.state = new State()
+      this.state = new State({
+        birthdayComplete: false,
+      })
       if (this.signupState.get('classCode')) {
         if (utils.isCodeCombat) {
           this.checkClassCode(this.signupState.get('classCode'))
@@ -147,7 +150,9 @@ module.exports = (SegmentCheckView = (function () {
     onInputBirthday () {
       const { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(this.$('form'))
       const birthday = new Date(Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay))
+      const birthdayComplete = Boolean(birthdayYear && birthdayMonth && birthdayDay)
       this.signupState.set({ birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true })
+      this.state.set({ birthdayComplete })
       if (!_.isNaN(birthday.getTime())) {
         return forms.clearFormAlerts(this.$el)
       }
@@ -159,6 +164,13 @@ module.exports = (SegmentCheckView = (function () {
         category: 'Individuals',
         destination,
       })
+    }
+
+    onClickUnder13 (e) {
+      if (e) { e.preventDefault() }
+      this.trackIndividualStepNext('coppa-deny')
+      this.trigger('nav-forward', 'coppa-deny')
+      return (window.tracker != null ? window.tracker.trackEvent('CreateAccountModal Individual SegmentCheckView Under 13 Clicked', { category: 'Individuals' }) : undefined)
     }
 
     onSubmitSegmentCheck (e) {
@@ -205,7 +217,7 @@ module.exports = (SegmentCheckView = (function () {
           } else {
             this.trackIndividualStepNext('coppa-deny')
             this.trigger('nav-forward', 'coppa-deny')
-            return (window.tracker != null ? window.tracker.trackEvent('CreateAccountModal Individual SegmentCheckView Coppa Deny', { category: 'Individuals' }) : undefined)
+            return (window.tracker != null ? window.tracker.trackEvent('CreateAccountModal Individual SegmentCheckView Parent Email Required', { category: 'Individuals' }) : undefined)
           }
         }
       }

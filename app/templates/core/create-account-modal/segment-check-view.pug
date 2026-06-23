@@ -111,6 +111,7 @@ form.modal-body.segment-check
                   - var thisYear = new Date().getFullYear()
                   for year in _.range(thisYear, thisYear - 100, -1)
                     option(selected=(year === view.signupState.get('birthdayYear'))) #{year}
+            button.under-13-button(type='button') I'm under 13
 
       default
         p(class=view.utils.isOzaria ? "medium-gray" : '')
@@ -123,7 +124,7 @@ form.modal-body.segment-check
     // In reverse order for tabbing purposes
     .history-nav-buttons
       //- disabled=!view.signupState.get('segmentCheckValid')
-      button.next-button.btn.btn-lg(type='submit' class=view.utils.isCodeCombat ? 'btn-navy' : 'ozaria-primary-button')
+      button.next-button.btn.btn-lg(type='submit' disabled=(view.signupState.get('path') === 'individual' && !state.get('birthdayComplete')) ? true : undefined class=view.utils.isCodeCombat ? 'btn-navy' : 'ozaria-primary-button')
         span(data-i18n=view.utils.isCodeCombat ? "common.continue" : "common.next")
 
       if !view.signupState.get('subModalContinue')

@@ -88,9 +88,9 @@ module.exports = (BasicInfoView = (function () {
         isCodeCombat,
         isOzaria
       }
-      this.listenTo(this.state, 'change:checkEmailState', function () { return this.renderSelectors('.email-check') })
-      this.listenTo(this.state, 'change:checkNameState', function () { return this.renderSelectors('.name-check') })
-      this.listenTo(this.state, 'change:error', function () { return this.renderSelectors('.error-area') })
+      this.listenTo(this.state, 'change:checkEmailState', function () { return this.renderSelectors('.email-check, .submit-row') })
+      this.listenTo(this.state, 'change:checkNameState', function () { return this.renderSelectors('.name-check, .submit-row') })
+      this.listenTo(this.state, 'change:error', function () { return this.renderSelectors('.error-area, .submit-row') })
       this.listenTo(this.signupState, 'change:facebookEnabled', function () { return this.renderSelectors('.auth-network-logins') })
       this.listenTo(this.signupState, 'change:gplusEnabled', function () { return this.renderSelectors('.auth-network-logins') })
 
@@ -285,6 +285,14 @@ module.exports = (BasicInfoView = (function () {
 
     onChangePassword (e) {
       return this.updateAuthModalInitialValues({ password: this.$(e.currentTarget).val() })
+    }
+
+    isSubmitDisabled () {
+      const data = forms.formToObject(this.$el.find('#basic-info-form'))
+      if (this.signupState.get('path') === 'individual') {
+        return !(data.email && forms.validateEmail(data.email) && data.name && data.password && data.password.length >= 8)
+      }
+      return false
     }
 
     checkBasicInfo (data) {

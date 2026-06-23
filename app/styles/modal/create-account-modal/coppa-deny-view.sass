@@ -1,16 +1,86 @@
 #coppa-deny-view
-  .parent-email-blurb
-    width: 500px
+  .individual-flow-panel
+    width: min(100%, 560px)
+    padding: 8px 20px 0
+
+  .individual-flow-progress
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    gap: 10px
+    margin-bottom: 16px
+
+  .individual-flow-progress-step
+    height: 8px
+    border-radius: 999px
+    background: rgb(28 54 87 / 12%)
+
+    &.active
+      background: linear-gradient(90deg, #f97316 0%, #ea580c 100%)
+
+  .parent-email-card
+    border-radius: 24px
+    padding: 28px 24px
+    background: linear-gradient(180deg, #fffdf6 0%, #fff7d9 100%)
+    box-shadow: 0 20px 50px rgb(15 23 42 / 12%)
+
+  .individual-flow-heading
+    margin-bottom: 20px
+
+    h4
+      margin: 0
+      font-size: 28px
+      line-height: 1.15
+      font-weight: 700
+      color: #17314d
 
   .parent-email-input-group
+    margin-bottom: 16px
+
+  .parent-email-blurb,
+  .parent-email-sent-copy
+    margin: 0
+    font-size: 15px
+    line-height: 1.55
+    color: #35506f
+
+  .parent-email-confirmation
     display: flex
+    flex-direction: column
     align-items: center
     text-align: center
-    
-    .glyphicon
-      width: 0
-      line-height: 40px
-      font-size: 30px
+    gap: 14px
+
+  .parent-email-confirmation-mark
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    width: 72px
+    height: 72px
+    border-radius: 50%
+    background: #e9e8fd
+    color: #6f5dff
+    font-size: 28px
+
+  .parent-email-unsaved-link
+    display: inline-block
+    margin-top: 10px
+    text-align: center
+    color: #5a6b7b
+    font-size: 14px
+    font-weight: 500
+    text-decoration: underline
 
   .error
-    color: red
+    color: #c0392b
+
+  @media (max-width: 767px)
+    .individual-flow-panel
+      padding: 0 16px
+
+    .parent-email-card
+      padding: 24px 18px
+      border-radius: 20px
+
+    .individual-flow-heading
+      h4
+        font-size: 24px

@@ -49,6 +49,7 @@ They `screen`s are:
     sso-confirm: Alternate version of basic-info for new facebook/g+ users
   sso-already-exists: When facebook/g+ user already exists, this prompts them to sign in.
   extras: Not yet implemented
+  coppa-deny: Individual under-13 parent email handoff and post-send confirmation.
   confirmation: When an account has been successfully created, this view shows them their info and
     links them to a landing page based on their account type.
 
@@ -167,7 +168,8 @@ module.exports = (CreateAccountModal = (function () {
             }
             return this.signupState.set({ path, screen: 'segment-check' })
           }
-        }
+        },
+        'login' () { return this.onClickLoginLink() },
       })
 
       this.listenTo(this.insertSubView(new SegmentCheckView({ signupState: this.signupState })), {

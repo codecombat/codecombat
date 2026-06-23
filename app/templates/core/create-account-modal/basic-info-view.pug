@@ -87,6 +87,7 @@ form#basic-info-form.modal-body.basic-info
             .individual-flow-note(data-i18n="signup.sign_in_to_continue")
           .individual-flow-heading
             h4(data-i18n="signup.create_individual_header")
+            p.individual-flow-subtitle You&rsquo;re one step away from unlocking the fun of coding!
           .individual-basic-info-fields
             if view.utils.isOzaria || !view.hideEmail
               .form-group
@@ -244,7 +245,7 @@ form#basic-info-form.modal-body.basic-info
   if view.utils.isOzaria
     +error-area
   // In reverse order for tabbing purposes
-  .history-nav-buttons
+  .history-nav-buttons.submit-row
     if view.signupState.get('path') === 'teacher'
       button.next-button.btn.btn-lg(type='submit' class=view.utils.isCodeCombat ? "btn-navy" : "ozaria-primary-button")
         span(data-i18n="common.next")
@@ -252,7 +253,7 @@ form#basic-info-form.modal-body.basic-info
       button#create-account-btn.next-button.btn.btn-lg(type='submit' class=view.utils.isCodeCombat ? "btn-navy" : "ozaria-primary-button")
         span(data-i18n="common.continue")
     else
-      button#create-account-btn.next-button.btn.btn-lg(type='submit' class=view.utils.isCodeCombat ? "btn-navy" : "ozaria-primary-button")
+      button#create-account-btn.next-button.btn.btn-lg(type='submit' disabled=view.isSubmitDisabled() class=view.utils.isCodeCombat ? "btn-navy" : "ozaria-primary-button")
         if view.utils.isCodeCombat
           span(data-i18n="login.sign_up")
         else

@@ -35,11 +35,17 @@
     margin-bottom: 20px
 
     h4
-      margin: 0
+      margin: 0 0 8px
       font-size: 28px
       line-height: 1.15
       font-weight: 700
       color: #17314d
+
+  .individual-flow-subtitle
+    margin: 0
+    font-size: 15px
+    line-height: 1.5
+    color: #35506f
 
   .individual-basic-info-fields
     display: flex
@@ -266,6 +272,10 @@
     &:hover,
     &:focus
       text-decoration: underline
+
+  .submit-row .next-button[disabled]
+    opacity: 0.5
+    cursor: not-allowed
 
   @media (max-width: 767px)
     .individual-flow-panel

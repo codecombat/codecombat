@@ -46,10 +46,23 @@
     display: grid
     grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr) minmax(0, 1fr)
     gap: 12px
+    margin-bottom: 18px
 
     select
       width: 100%
       height: 48px
+
+  .under-13-button
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    padding: 0
+    border: none
+    background: none
+    color: #6f5dff
+    font-size: 15px
+    font-weight: 600
+    text-decoration: underline
 
   .class-code-input-group
     display: flex
@@ -151,6 +164,10 @@
       & a
         color: #232323
         text-decoration: underline
+
+  .next-button[disabled]
+    opacity: 0.5
+    cursor: not-allowed
 
   @media (max-width: 767px)
     .individual-flow-panel
