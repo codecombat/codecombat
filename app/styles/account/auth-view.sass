@@ -3,26 +3,82 @@
 
 #auth-view
   min-height: 100vh
-  background: #f7f8fc
+  background: #f6f7ff
 
   .auth-view
-    padding: 48px 20px 72px
+    padding: 32px 20px 72px
 
   .auth-view__content
     max-width: 1120px
     margin: 0 auto
     display: grid
-    gap: 32px
+    gap: 28px
 
   .auth-view__hero
     display: grid
     gap: 12px
     text-align: center
 
+  .auth-view__hero--chooser
+    max-width: 760px
+    margin: 0 auto
+
+  .auth-view__hero-art
+    position: relative
+    min-height: 180px
+    border-radius: 22px
+    background: linear-gradient(145deg, #7a65fc 0%, #9487ff 56%, #b9aeff 100%)
+    overflow: hidden
+    box-shadow: 0 18px 38px rgba(28, 42, 74, 0.14)
+
+    &:before,
+    &:after
+      content: ""
+      position: absolute
+      background: rgba(255, 255, 255, 0.16)
+      border-radius: 6px
+
+    &:before
+      width: 24px
+      height: 24px
+      top: 18%
+      left: 16%
+      transform: rotate(16deg)
+
+    &:after
+      width: 18px
+      height: 18px
+      right: 14%
+      top: 22%
+      transform: rotate(-18deg)
+
+  .auth-view__hero-code
+    position: absolute
+    left: 18px
+    right: 18px
+    bottom: 16px
+    border-radius: 12px
+    background: rgba(13, 10, 40, 0.58)
+    padding: 12px 14px
+    text-align: left
+    color: white
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace
+    font-size: 13px
+    line-height: 1.55
+
+  .auth-view__hero-code-label
+    color: #b9b2ff
+
+  .auth-view__hero-code-action
+    color: white
+
+  .auth-view__hero-code-paren
+    color: #ffd479
+
   .auth-view__title
     margin: 0
     color: $navy
-    font-size: 42px
+    font-size: 40px
     font-weight: 700
     line-height: 1.08
 
@@ -30,16 +86,20 @@
     max-width: 720px
     margin: 0 auto
     color: $gray
-    font-size: 18px
+    font-size: 17px
     line-height: 1.5
 
   .auth-view__panel
     background: white
-    border-radius: 16px
+    border-radius: 20px
     box-shadow: 0 18px 38px rgba(28, 42, 74, 0.12)
     padding: 28px
     display: grid
     gap: 24px
+
+  .auth-view__panel--individual
+    max-width: 680px
+    margin: 0 auto
 
   .auth-view__mode-switch
     display: flex
@@ -102,6 +162,101 @@
     display: grid
     gap: 24px
 
+  .auth-individual
+    display: grid
+    gap: 20px
+
+  .auth-individual__progress
+    display: grid
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+    gap: 10px
+
+  .auth-individual__progress-step
+    height: 8px
+    border-radius: 999px
+    background: rgba(28, 54, 87, 0.12)
+
+  .auth-individual__progress-step--active
+    background: linear-gradient(90deg, #f97316 0%, #ea580c 100%)
+
+  .auth-birthday-grid
+    display: grid
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr) minmax(0, 1fr)
+    gap: 12px
+
+  .auth-birthday-help
+    margin: 0
+    color: #4b637c
+    font-size: 14px
+    line-height: 1.5
+
+  .auth-individual__social
+    display: grid
+    gap: 14px
+    padding: 28px 24px
+    border-radius: 24px
+    background: linear-gradient(180deg, #fffef8 0%, #fff5d1 100%)
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12)
+
+  .auth-individual__social--collapsed
+    display: none
+
+  .auth-individual__social-title
+    margin: 0
+    color: #17314d
+    font-size: 28px
+    line-height: 1.15
+    font-weight: 700
+
+  .auth-individual-form
+    display: none
+    gap: 16px
+    padding: 28px 24px
+    border-radius: 24px
+    background: linear-gradient(180deg, #fffef8 0%, #fff5d1 100%)
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12)
+
+  .auth-individual-form--visible
+    display: grid
+
+  .auth-parent-email
+    .alert
+      margin-bottom: 0
+
+  .auth-parent-email__blurb
+    border-radius: 14px
+    background: #e9e8fd
+    padding: 14px 16px
+    color: #17314d
+    font-size: 13.5px
+    line-height: 1.5
+
+  .auth-individual__actions
+    display: flex
+    gap: 12px
+    align-items: center
+
+    .btn-primary,
+    #create-individual-account-btn,
+    .auth-continue-btn
+      flex: 1
+      min-height: 54px
+      border: 0
+      border-radius: 14px
+      background: linear-gradient(135deg, #7a65fc 0%, #6a52f0 100%)
+      color: white
+      font-size: 16px
+      font-weight: 700
+
+  .auth-reveal-email,
+  .auth-hide-email,
+  .auth-parent-email-back
+    border: 0
+    background: transparent
+    color: $teal
+    font-weight: 600
+    padding: 0
+
   .auth-login__password-row
     display: flex
     justify-content: space-between
@@ -112,16 +267,25 @@
     border: 1px solid #d9dfeb
     border-radius: 12px
     padding: 2px
+    background: white
 
   .form-control
     border: 0
     box-shadow: none
     height: 48px
 
+  .auth-field-status
+    min-height: 22px
+    padding-top: 8px
+    line-height: 18px
+
   .auth-network-logins
     display: grid
     gap: 12px
     grid-template-columns: repeat(2, minmax(0, 1fr))
+
+  .auth-network-logins--stacked
+    grid-template-columns: minmax(0, 1fr)
 
   .network-login
     min-height: 52px
@@ -139,6 +303,9 @@
       max-height: 24px
       max-width: 120px
 
+  .signup-with-button
+    justify-content: flex-start
+
   @media (min-width: 768px)
     .auth-view__panel
       padding: 36px
@@ -149,7 +316,7 @@
 
   @media (max-width: 767px)
     .auth-view
-      padding-top: 32px
+      padding-top: 24px
 
     .auth-view__title
       font-size: 32px
@@ -171,3 +338,24 @@
       flex-direction: column
       align-items: flex-start
       gap: 6px
+
+    .auth-birthday-grid
+      grid-template-columns: 1fr
+
+    .auth-individual__social,
+    .auth-individual-form
+      padding: 24px 18px
+      border-radius: 20px
+
+    .auth-individual__social-title
+      font-size: 24px
+
+    .auth-individual__actions
+      flex-direction: column-reverse
+
+      .auth-hide-email,
+      .auth-parent-email-back,
+      .btn-primary,
+      #create-individual-account-btn,
+      .auth-continue-btn
+        width: 100%

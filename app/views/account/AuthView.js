@@ -4,7 +4,13 @@ const utils = require('core/utils')
 const forms = require('core/forms')
 const errors = require('core/errors')
 const RecoverModal = require('views/core/RecoverModal')
+const contact = require('core/contact')
 const User = require('models/User')
+const State = require('models/State')
+const store = require('core/store')
+const globalVar = require('core/globalVar')
+const userUtils = require('lib/user-utils')
+const { isCodeCombat } = require('core/utils')
 const { logInWithClever } = require('core/social-handlers/CleverHandler')
 const SchoologyHandler = require('core/social-handlers/SchoologyHandler')
 const ClassLinkHandler = require('core/social-handlers/ClassLinkHandler')
@@ -18,11 +24,29 @@ class AuthView extends RootView {
     this.prototype.events = {
       'click .auth-mode-link': 'onClickModeLink',
       'click .auth-path-button': 'onClickPathButton',
+      'click .auth-back-link': 'onClickBackLink',
+      'change input[name="birthdayMonth"]': 'onInputBirthday',
+      'change input[name="birthdayDay"]': 'onInputBirthday',
+      'change input[name="birthdayYear"]': 'onInputBirthday',
+      'submit form.auth-birthday-form': 'onSubmitBirthdayForm',
+      'click .auth-parent-email-back': 'onClickParentEmailBack',
+      'change input[name="parentEmail"]': 'onChangeParentEmail',
+      'submit form.auth-parent-email-form': 'onSubmitParentEmailForm',
+      'click .auth-reveal-email': 'onClickRevealEmailForm',
+      'click .auth-hide-email': 'onClickHideEmailForm',
+      'change input[name="email"]': 'onChangeEmail',
+      'change input[name="name"]': 'onChangeName',
+      'change input[name="password"]': 'onChangePassword',
+      'submit form.auth-individual-form': 'onSubmitIndividualForm',
       'submit form.auth-login-form': 'onSubmitForm',
       'click #link-to-recover': 'openRecoverModal',
+      'click #google-signup-button': 'onClickGoogleSignupButton',
+      'click #facebook-signup-btn': 'onClickFacebookSignupButton',
+      'click #clever-signup-btn': 'onClickCleverSignupButton',
+      'click #schoology-signup-btn': 'onClickSchoologySignupButton',
+      'click #classlink-signup-btn': 'onClickClasslinkSignupButton',
       'click #google-login-button': 'onClickGPlusLoginButton',
       'click #facebook-login-btn': 'onClickFacebookLoginButton',
-      'click #clever-signup-btn': 'onClickCleverSignupButton',
       'click #clever-login-btn': 'onClickCleverLoginButton',
       'click #schoology-login-btn': 'onClickSchoologyLoginButton',
       'click #classlink-login-btn': 'onClickClasslinkLoginButton',
@@ -33,6 +57,60 @@ class AuthView extends RootView {
     super.initialize(options)
     this.utils = utils
     this.onFacebookLoginError = this.onFacebookLoginError.bind(this)
+    this.signupState = new State({
+      path: this.getInitialPath(),
+      step: this.getInitialSignupStep(),
+      birthday: new Date(''),
+      birthdayMonth: this.getInitialBirthdayMonth(),
+      birthdayDay: '',
+      birthdayYear: '',
+      parentEmail: '',
+      parentEmailSent: false,
+      parentEmailSending: false,
+      parentEmailError: false,
+      dontUseOurEmailSilly: false,
+      ssoUsed: null,
+      ssoAttrs: null,
+      ssoResp: null,
+      signupForm: {
+        email: '',
+        name: '',
+        password: '',
+      },
+      authModalInitialValues: {},
+    })
+    this.state = new State({
+      showEmailForm: false,
+      checkEmailState: 'standby',
+      checkEmailValue: null,
+      checkEmailPromise: null,
+      checkNameState: 'standby',
+      checkNameValue: null,
+      checkNamePromise: null,
+      suggestedName: '',
+      suggestedNameText: '...',
+      error: '',
+      loginError: '',
+    })
+    this.hideEmail = isCodeCombat ? userUtils.shouldHideEmail() : false
+    this.showLibraryIdInsteadOfUsername = isCodeCombat ? userUtils.shouldShowLibraryLoginModal() : false
+    this.listenTo(this.signupState, 'change', () => this.render())
+    this.listenTo(this.state, 'change', () => this.render())
+  }
+
+  getInitialPath () {
+    if (this.getMode() !== 'signup') { return null }
+    const type = new URLSearchParams(window.location.search).get('type')
+    return type === 'individual' ? 'individual' : null
+  }
+
+  getInitialSignupStep () {
+    if (this.getMode() !== 'signup') { return null }
+    return this.getInitialPath() === 'individual' ? 'birthday' : 'chooser'
+  }
+
+  getInitialBirthdayMonth () {
+    return new Date().getUTCMonth() + 1
   }
 
   getRenderData () {
@@ -43,6 +121,35 @@ class AuthView extends RootView {
       email: '',
       password: '',
     }
+    context.signupPath = this.signupState.get('path')
+    context.signupStep = this.signupState.get('step')
+    context.signupForm = this.signupState.get('signupForm')
+    context.signupBirthdayMonth = this.signupState.get('birthdayMonth')
+    context.signupBirthdayDay = this.signupState.get('birthdayDay')
+    context.signupBirthdayYear = this.signupState.get('birthdayYear')
+    context.parentEmail = this.signupState.get('parentEmail')
+    context.parentEmailSent = this.signupState.get('parentEmailSent')
+    context.parentEmailSending = this.signupState.get('parentEmailSending')
+    context.parentEmailError = this.signupState.get('parentEmailError')
+    context.dontUseOurEmailSilly = this.signupState.get('dontUseOurEmailSilly')
+    context.authState = this.state.attributes
+    context.hideEmail = this.hideEmail
+    context.showLibraryIdInsteadOfUsername = this.showLibraryIdInsteadOfUsername
+    context.months = [
+      'calendar.january',
+      'calendar.february',
+      'calendar.march',
+      'calendar.april',
+      'calendar.may',
+      'calendar.june',
+      'calendar.july',
+      'calendar.august',
+      'calendar.september',
+      'calendar.october',
+      'calendar.november',
+      'calendar.december',
+    ]
+    context.currentYear = new Date().getFullYear()
     return context
   }
 
@@ -51,7 +158,13 @@ class AuthView extends RootView {
   }
 
   getTitle () {
-    return $.i18n.t(this.getMode() === 'login' ? 'login.log_in' : 'nav.create_free_account')
+    if (this.getMode() === 'login') {
+      return $.i18n.t('login.log_in')
+    }
+    if (this.signupState.get('step') === 'birthday') {
+      return $.i18n.t('nav.create_free_account')
+    }
+    return $.i18n.t('nav.create_free_account')
   }
 
   afterRender () {
@@ -62,6 +175,7 @@ class AuthView extends RootView {
       success: () => {
         if (!this.destroyed) {
           this.$('#google-login-button').attr('disabled', false)
+          this.$('#google-signup-button').attr('disabled', false)
         }
       },
     })
@@ -71,6 +185,7 @@ class AuthView extends RootView {
         success: () => {
           if (!this.destroyed) {
             this.$('#facebook-login-btn').attr('disabled', false)
+            this.$('#facebook-signup-btn').attr('disabled', false)
           }
         },
       })
@@ -81,6 +196,12 @@ class AuthView extends RootView {
     e.preventDefault()
     const mode = $(e.currentTarget).data('mode')
     application.router.navigate(`/${mode}`, { trigger: true })
+  }
+
+  onClickBackLink (e) {
+    e.preventDefault()
+    const step = $(e.currentTarget).data('step')
+    this.signupState.set({ step })
   }
 
   onClickPathButton (e) {
@@ -96,8 +217,362 @@ class AuthView extends RootView {
       case 'student':
         return application.router.navigate('/students', { trigger: true })
       case 'individual':
-        return application.router.navigate('/signup?type=individual', { trigger: true })
+        this.signupState.set({ path: 'individual', step: 'birthday' })
+        this.state.set({ showEmailForm: false, error: '' })
+        window.history.replaceState({}, '', '/signup?type=individual')
     }
+  }
+
+  onInputBirthday () {
+    const birthdayMonth = parseInt(this.$('[name="birthdayMonth"]').val(), 10)
+    const birthdayDay = parseInt(this.$('[name="birthdayDay"]').val(), 10)
+    const birthdayYear = parseInt(this.$('[name="birthdayYear"]').val(), 10)
+    const birthday = new Date(Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay))
+    this.signupState.set({ birthdayMonth, birthdayDay, birthdayYear, birthday }, { silent: true })
+    if (!_.isNaN(birthday.getTime())) {
+      forms.clearFormAlerts(this.$el)
+    }
+  }
+
+  onSubmitBirthdayForm (e) {
+    e.preventDefault()
+    this.onInputBirthday()
+    const birthday = this.signupState.get('birthday')
+    if (_.isNaN(birthday.getTime())) {
+      forms.clearFormAlerts(this.$el)
+      forms.setErrorToProperty(this.$el, 'birthdayDay', _.string.titleize($.i18n.t('common.required_field')))
+      return
+    }
+    const age = (new Date().getTime() - birthday.getTime()) / 365.4 / 24 / 60 / 60 / 1000
+    if (age > utils.ageOfConsent(me.get('country'), 13)) {
+      this.signupState.set({ step: 'individual', path: 'individual' })
+      this.state.set({ showEmailForm: false, error: '' })
+    } else {
+      this.signupState.set({ step: 'parent-email', path: 'individual' })
+      this.state.set({ error: '' })
+    }
+  }
+
+  onClickRevealEmailForm (e) {
+    e.preventDefault()
+    this.state.set({ showEmailForm: true })
+  }
+
+  onClickHideEmailForm (e) {
+    e.preventDefault()
+    this.state.set({ showEmailForm: false })
+  }
+
+  onClickParentEmailBack (e) {
+    e.preventDefault()
+    this.signupState.set({ step: 'birthday' })
+  }
+
+  onChangeParentEmail (e) {
+    const parentEmail = $(e.currentTarget).val()
+    this.signupState.set({ parentEmail }, { silent: true })
+    this.signupState.set({
+      dontUseOurEmailSilly: /team@codecombat.com/i.test(parentEmail),
+      parentEmailError: false,
+    })
+  }
+
+  onSubmitParentEmailForm (e) {
+    e.preventDefault()
+    const parentEmail = this.signupState.get('parentEmail')
+    this.signupState.set({ parentEmailSending: true, parentEmailError: false })
+    return contact.sendParentSignupInstructions(parentEmail)
+      .then(() => {
+        this.signupState.set({ parentEmailSent: true, parentEmailSending: false })
+      })
+      .catch(() => {
+        this.signupState.set({ parentEmailError: true, parentEmailSending: false, parentEmailSent: false })
+      })
+  }
+
+  updateAuthModalInitialValues (values) {
+    this.signupState.set({
+      authModalInitialValues: _.merge(this.signupState.get('authModalInitialValues'), values),
+    }, { silent: true })
+  }
+
+  onChangeEmail (e) {
+    const email = this.$(e.currentTarget).val()
+    this.signupState.get('signupForm').email = email
+    this.updateAuthModalInitialValues({ email })
+    return this.checkEmail()
+  }
+
+  onChangeName (e) {
+    const name = this.$(e.currentTarget).val()
+    this.signupState.get('signupForm').name = name
+    this.updateAuthModalInitialValues({ name })
+    return this.checkName()
+  }
+
+  onChangePassword (e) {
+    const password = this.$(e.currentTarget).val()
+    this.signupState.get('signupForm').password = password
+    this.updateAuthModalInitialValues({ password })
+  }
+
+  checkEmail () {
+    const email = this.$('[name="email"]').val()
+
+    if (this.hideEmail) {
+      return Promise.resolve(true)
+    }
+
+    if (!_.isEmpty(email) && email === this.state.get('checkEmailValue')) {
+      return this.state.get('checkEmailPromise')
+    }
+
+    if (!(email && forms.validateEmail(email))) {
+      this.state.set({
+        checkEmailState: 'standby',
+        checkEmailValue: email,
+        checkEmailPromise: null,
+      })
+      return Promise.resolve()
+    }
+
+    this.state.set({
+      checkEmailState: 'checking',
+      checkEmailValue: email,
+      checkEmailPromise: User.checkEmailExists(email)
+        .then(({ exists }) => {
+          if (email !== this.$('[name="email"]').val()) { return }
+          this.state.set({ checkEmailState: exists ? 'exists' : 'available' })
+        })
+        .catch(error => {
+          this.state.set({ checkEmailState: 'standby' })
+          throw error
+        }),
+    })
+    return this.state.get('checkEmailPromise')
+  }
+
+  checkName () {
+    const name = this.$('[name="name"]').val()
+
+    if (name === this.state.get('checkNameValue')) {
+      return this.state.get('checkNamePromise')
+    }
+
+    if (!name) {
+      this.state.set({
+        checkNameState: 'standby',
+        checkNameValue: name,
+        checkNamePromise: null,
+      })
+      return Promise.resolve()
+    }
+
+    this.state.set({
+      checkNameState: 'checking',
+      checkNameValue: name,
+      checkNamePromise: User.checkNameConflicts(name)
+        .then(({ suggestedName, conflicts }) => {
+          if (name !== this.$('[name="name"]').val()) { return }
+          if (conflicts) {
+            const suggestedNameText = $.i18n.t('signup.name_taken').replace('{{suggestedName}}', suggestedName)
+            this.state.set({ checkNameState: 'exists', suggestedName, suggestedNameText })
+          } else {
+            this.state.set({ checkNameState: 'available' })
+          }
+        })
+        .catch(error => {
+          this.state.set({ checkNameState: 'standby' })
+          throw error
+        }),
+    })
+
+    return this.state.get('checkNamePromise')
+  }
+
+  checkBasicInfo (data) {
+    forms.clearFormAlerts(this.$el)
+
+    if (data.name && forms.validateEmail(data.name)) {
+      forms.setErrorToProperty(this.$el, 'name', $.i18n.t('signup.name_is_email'))
+      return false
+    }
+
+    const res = tv4.validateMultiple(data, this.formSchema())
+    if (res.errors && res.errors.some(err => err.dataPath === '/password')) {
+      res.errors = res.errors.filter(err => err.dataPath !== '/password')
+      res.errors.push({ dataPath: '/password', message: $.i18n.t('signup.invalid') })
+    }
+    if (!res.valid || ((res.errors != null ? res.errors.length : undefined) > 0)) {
+      forms.applyErrorsToForm(this.$('form.auth-individual-form'), res.errors)
+    }
+    return res.valid && ((res.errors != null ? res.errors.length : undefined) === 0)
+  }
+
+  formSchema () {
+    return {
+      type: 'object',
+      properties: {
+        email: User.schema.properties.email,
+        name: User.schema.properties.name,
+        password: User.schema.properties.password,
+      },
+      required: ['name', 'password', 'email'],
+    }
+  }
+
+  onSubmitIndividualForm (e) {
+    e.preventDefault()
+    this.state.unset('error')
+    const data = forms.formToObject(e.currentTarget)
+    const valid = this.checkBasicInfo(data)
+    if (!valid) { return }
+
+    this.displaySignupSubmitting()
+    const abortError = new Error('abort')
+
+    return this.checkEmail()
+      .then(() => this.checkName())
+      .then(() => {
+        if (!(this.state.get('checkEmailState') === 'available' && this.state.get('checkNameState') === 'available')) {
+          throw abortError
+        }
+
+        const emails = _.assign({}, me.get('emails'))
+        if (emails.generalNews == null) { emails.generalNews = {} }
+        if (me.inEU()) {
+          emails.generalNews.enabled = false
+          me.set('unsubscribedFromMarketingEmails', true)
+        } else {
+          emails.generalNews.enabled = !_.isEmpty(this.state.get('checkEmailValue'))
+        }
+        me.set('emails', emails)
+
+        if (!_.isNaN(this.signupState.get('birthday')?.getTime())) {
+          me.set('birthday', this.signupState.get('birthday').toISOString().slice(0, 7))
+        }
+        me.set(_.omit(this.signupState.get('ssoAttrs') || {}, 'email', 'facebookID', 'gplusID'))
+        me.set('features', {
+          ...(me.get('features') || {}),
+          isNewDashboardActive: true,
+        })
+        const saveReq = me.save()
+        if (!saveReq) {
+          throw new Error('Could not save user')
+        }
+        return new Promise(saveReq.then)
+      })
+      .then(newUser => {
+        globalVar.application.tracker.identifyAfterNextPageLoad()
+        if (!User.isSmokeTestUser({ email: this.signupState.get('signupForm').email })) {
+          store.dispatch('me/authenticated', newUser)
+          globalVar.application.tracker.identify()
+        }
+
+        let signupReq
+        switch (this.signupState.get('ssoUsed')) {
+          case 'gplus': {
+            const { email, gplusID } = this.signupState.get('ssoAttrs')
+            signupReq = me.signupWithGPlus(data.name, email, gplusID)
+            break
+          }
+          case 'facebook': {
+            const { email, facebookID } = this.signupState.get('ssoAttrs')
+            const facebookAccessToken = this.signupState.get('ssoResp')?.authResponse?.accessToken
+            signupReq = me.signupWithFacebook(data.name, email, facebookID, { facebookAccessToken })
+            break
+          }
+          case 'schoology':
+          case 'classlink':
+            signupReq = me.signupWithOauth2(data.email, { name: data.name })
+            break
+          default:
+            signupReq = me.signupWithPassword(data.name, data.email, data.password)
+        }
+
+        return new Promise(signupReq.then)
+      })
+      .then(() => {
+        globalVar.application.tracker.trackEvent('CreateAccountModal Individual BasicInfoView Submit Success', { category: 'Individuals' })
+        window.location.reload()
+      })
+      .catch(error => {
+        if (error === abortError || error.message === 'abort') {
+          return this.displaySignupStandingBy()
+        }
+        this.displaySignupStandingBy()
+        if (error.responseJSON?.i18n) {
+          this.state.set({ error: $.i18n.t(error.responseJSON.i18n) || 'Unknown Error' })
+        } else if (error.responseJSON?.message) {
+          this.state.set({ error: error.responseJSON.message })
+        } else {
+          this.state.set({ error: 'Unknown Error' })
+        }
+      })
+  }
+
+  displaySignupSubmitting () {
+    this.$('#create-individual-account-btn').text($.i18n.t('signup.creating')).attr('disabled', true)
+    this.$('input').attr('disabled', true)
+  }
+
+  displaySignupStandingBy () {
+    this.$('#create-individual-account-btn').text($.i18n.t('login.sign_up')).attr('disabled', false)
+    this.$('input').attr('disabled', false)
+  }
+
+  onClickGoogleSignupButton (e) {
+    return this.onClickSsoSignupButton(e, 'gplus', application.gplusHandler)
+  }
+
+  onClickFacebookSignupButton (e) {
+    return this.onClickSsoSignupButton(e, 'facebook', application.facebookHandler)
+  }
+
+  onClickSchoologySignupButton (e) {
+    return this.onClickSsoSignupButton(e, 'schoology', application.schoologyHandler)
+  }
+
+  onClickClasslinkSignupButton (e) {
+    return this.onClickSsoSignupButton(e, 'classlink', application.classlinkHandler)
+  }
+
+  onClickSsoSignupButton (e, ssoUsed, handler) {
+    e.preventDefault()
+    if (!handler) {
+      console.error('Unsupported SSO provider', ssoUsed)
+      return
+    }
+    return this.handleSSOConnect(handler, ssoUsed)
+  }
+
+  handleSSOConnect (handler, ssoUsed) {
+    if (me.showChinaRegistration()) { return }
+    return handler.connect({
+      context: this,
+      success (resp) {
+        if (resp == null) { resp = {} }
+        return handler.loadPerson({
+          resp,
+          context: this,
+          success: ssoAttrs => {
+            this.signupState.set({ ssoAttrs, ssoResp: resp })
+            const { email } = ssoAttrs
+            return User.checkEmailExists(email).then(({ exists }) => {
+              this.signupState.set({ ssoUsed, email: ssoAttrs.email })
+              const autoName = `${ssoAttrs.email.split('@')[0]}+${ssoUsed}`
+              this.signupState.set('autoName', autoName)
+              this.signupState.get('signupForm').email = ssoAttrs.email
+              this.signupState.get('signupForm').name = this.signupState.get('signupForm').name || autoName
+              this.state.set({ showEmailForm: true })
+              if (exists) {
+                return this.state.set({ error: $.i18n.t('signup.account_exists') })
+              }
+            })
+          },
+        })
+      },
+    })
   }
 
   openRecoverModal (e) {
@@ -220,6 +695,8 @@ class AuthView extends RootView {
 
     const btn = this.$('#google-login-button')
     btn.attr('disabled', false)
+    const signupBtn = this.$('#google-signup-button')
+    signupBtn.attr('disabled', false)
   }
 
   onClickFacebookLoginButton (e) {
@@ -263,6 +740,8 @@ class AuthView extends RootView {
 
     const btn = this.$('#facebook-login-btn')
     btn.attr('disabled', false)
+    const signupBtn = this.$('#facebook-signup-btn')
+    signupBtn.attr('disabled', false)
     return errors.showNotyNetworkError(...arguments)
   }
 
