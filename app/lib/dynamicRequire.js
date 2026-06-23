@@ -18,6 +18,7 @@ module.exports = {
   'views/account/SubscriptionView': function () { return import(/* webpackChunkName: "account" */ 'views/account/SubscriptionView') },
   'views/account/InvoicesView': function () { return import(/* webpackChunkName: "account" */ 'views/account/InvoicesView') },
   'views/account/PrepaidView': function () { return import(/* webpackChunkName: "account" */ 'views/account/PrepaidView') },
+  'views/account/AuthView': function () { return import(/* webpackChunkName: "account" */ 'views/account/AuthView') },
   'views/admin/MainAdminView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/MainAdminView') },
   'views/admin/CLAsView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/CLAsView') },
   'views/admin/AdminClassroomContentView': function () { return import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomContentView') },
