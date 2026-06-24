@@ -15,11 +15,11 @@
       </div>
 
       <div class="copy-block">
-        <img
-          class="logo-wordmark"
-          src="/images/pages/base/logo.webp"
-          alt="CodeCombat"
-        >
+        <mixed-color-label
+          class="wordmark"
+          text="Code**Combat"
+          :inherit-default-color="true"
+        />
         <h1>Learn to code by playing.</h1>
         <p>Write real Python &amp; JavaScript to beat each level. Loved by 20,000+ teachers.</p>
       </div>
@@ -63,8 +63,11 @@
 </template>
 
 <script>
+import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
+
 export default Vue.extend({
   name: 'AuthWelcomeScreen',
+  components: { MixedColorLabel },
 })
 </script>
 
@@ -139,9 +142,18 @@ export default Vue.extend({
   text-align: center;
 }
 
-.logo-wordmark {
-  width: 154px;
-  height: auto;
+.wordmark {
+  font-size: 24px;
+  font-weight: 800;
+  color: #17314d;
+}
+
+:deep(.wordmark .mixed-color-label__highlight) {
+  color: #7a65fc;
+}
+
+:deep(.wordmark .mixed-color-label__normal) {
+  color: #17314d;
 }
 
 h1 {

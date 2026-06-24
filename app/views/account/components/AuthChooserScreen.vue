@@ -2,11 +2,11 @@
   <section class="auth-screen auth-chooser-screen">
     <div class="auth-shell-card">
       <div class="brand-row">
-        <img
-          class="logo-wordmark"
-          src="/images/pages/base/logo.webp"
-          alt="CodeCombat"
-        >
+        <mixed-color-label
+          class="wordmark"
+          text="Code**Combat"
+          :inherit-default-color="true"
+        />
       </div>
 
       <div class="copy-block">
@@ -61,6 +61,8 @@
 </template>
 
 <script>
+import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
+
 const options = [
   {
     key: 'educator',
@@ -90,6 +92,7 @@ const options = [
 
 export default Vue.extend({
   name: 'AuthChooserScreen',
+  components: { MixedColorLabel },
   data () {
     return { options }
   },
@@ -112,9 +115,18 @@ export default Vue.extend({
   justify-content: center;
 }
 
-.logo-wordmark {
-  width: 154px;
-  height: auto;
+.wordmark {
+  font-size: 24px;
+  font-weight: 800;
+  color: #17314d;
+}
+
+:deep(.wordmark .mixed-color-label__highlight) {
+  color: #7a65fc;
+}
+
+:deep(.wordmark .mixed-color-label__normal) {
+  color: #17314d;
 }
 
 .copy-block {
@@ -155,19 +167,19 @@ p {
 }
 
 .choice-list {
-  margin-top: 24px;
+  margin-top: 22px;
   display: grid;
-  gap: 14px;
+  gap: 12px;
 }
 
 .choice-row {
   display: grid;
-  grid-template-columns: 84px 1fr 20px;
-  gap: 16px;
+  grid-template-columns: 84px 1fr 18px;
+  gap: 14px;
   align-items: center;
   width: 100%;
   text-align: left;
-  padding: 16px;
+  padding: 14px 16px;
   border-radius: 22px;
   border: 1px solid rgba(122, 101, 252, 0.18);
   background: #fff;

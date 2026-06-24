@@ -2,11 +2,11 @@
   <section class="auth-screen auth-login-screen">
     <div class="auth-shell-card">
       <div class="brand-row">
-        <img
-          class="logo-wordmark"
-          src="/images/pages/base/logo.webp"
-          alt="CodeCombat"
-        >
+        <mixed-color-label
+          class="wordmark"
+          text="Code**Combat"
+          :inherit-default-color="true"
+        />
       </div>
 
       <div class="copy-block">
@@ -109,8 +109,11 @@
 </template>
 
 <script>
+import MixedColorLabel from 'app/components/common/labels/MixedColorLabel.vue'
+
 export default Vue.extend({
   name: 'AuthLoginScreen',
+  components: { MixedColorLabel },
   props: {
     submitting: {
       type: Boolean,
@@ -158,9 +161,18 @@ export default Vue.extend({
   justify-content: center;
 }
 
-.logo-wordmark {
-  width: 154px;
-  height: auto;
+.wordmark {
+  font-size: 24px;
+  font-weight: 800;
+  color: #17314d;
+}
+
+:deep(.wordmark .mixed-color-label__highlight) {
+  color: #7a65fc;
+}
+
+:deep(.wordmark .mixed-color-label__normal) {
+  color: #17314d;
 }
 
 .copy-block {
