@@ -5,6 +5,8 @@ describe('AuthView', function () {
 
   beforeEach(function () {
     jasmine.clock().install()
+    spyOn(application.gplusHandler, 'loadAPI')
+    spyOn(application.facebookHandler, 'loadAPI')
   })
 
   afterEach(function () {
