@@ -60,12 +60,12 @@ export default function getVueRouter () {
         {
           path: '/signup',
           props: (route) => ({ mode: 'signup', screen: route.query.screen || 'welcome' }),
-          component: () => import(/* webpackChunkName: "AccountAuthPage" */ 'app/views/account/PageAuth.vue'),
+          component: () => import(/* webpackChunkName: "AccountAuthPage" */ 'app/views/account/PageAuthExperiment.vue'),
         },
         {
           path: '/login',
           props: () => ({ mode: 'login', screen: 'login' }),
-          component: () => import(/* webpackChunkName: "AccountAuthPage" */ 'app/views/account/PageAuth.vue'),
+          component: () => import(/* webpackChunkName: "AccountAuthPage" */ 'app/views/account/PageAuthExperiment.vue'),
         },
         {
           path: '/hackstack',

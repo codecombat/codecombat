@@ -1490,6 +1490,20 @@ module.exports = (User = (function () {
       }
       return this.tryStartExperiment(REQUIRE_SIGN_UP_EXPERIMENT[CAMPAIGN])
     }
+
+    getOrStartStandaloneAuthPageExperimentValue () {
+      if (!me.isAnonymous()) {
+        return 'control'
+      }
+      const value = utils.getFirstNonNull(
+        utils.getExperimentValueFromQuery('standalone-auth-page'),
+        me.getExperimentValue('standalone-auth-page', null),
+      )
+      if (value != null) {
+        return value
+      }
+      return this.tryStartExperiment('standalone-auth-page')
+    }
   }
 
   User.initClass()
