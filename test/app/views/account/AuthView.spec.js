@@ -60,8 +60,8 @@ describe('AuthView', function () {
     view.$('.student-path-button').click()
     expect(application.router.navigate).toHaveBeenCalledWith('/students', { trigger: true })
 
-    application.router.navigate.calls.reset()
     view.$('.individual-path-button').click()
-    expect(application.router.navigate).toHaveBeenCalledWith('/signup?type=individual', { trigger: true })
+    expect(view.signupState.get('path')).toBe('individual')
+    expect(view.signupState.get('step')).toBe('birthday')
   })
 })
