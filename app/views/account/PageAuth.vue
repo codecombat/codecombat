@@ -31,7 +31,7 @@
       <AuthWelcomeScreen
         v-if="currentScreen === 'welcome'"
         @create-account="goToChooser"
-        @class-code="onSelectPlaceholder('classroom')"
+        @class-code="goToClassCode"
         @login="goToLogin"
       />
       <AuthChooserScreen
@@ -75,6 +75,21 @@
       />
       <AuthParentSuccessScreen
         v-else-if="currentScreen === 'parent-success'"
+      />
+      <AuthClassCodeScreen
+        v-else-if="currentScreen === 'class-code'"
+        :error-message="errorMessage"
+        @submit="submitClassCode"
+      />
+      <AuthClassUsernameScreen
+        v-else-if="currentScreen === 'class-username'"
+        :class-code="classCode"
+        :submitting="submitting"
+        :error-message="errorMessage"
+        @submit="submitClassUsername"
+      />
+      <AuthClassSuccessScreen
+        v-else-if="currentScreen === 'class-success'"
       />
       <AuthBirthdayScreen
         v-else-if="currentScreen === 'birthday'"
@@ -128,6 +143,9 @@ import AuthLoginScreen from './components/AuthLoginScreen.vue'
 import AuthEducatorSignInScreen from './components/AuthEducatorSignInScreen.vue'
 import AuthEducatorCreateAccountScreen from './components/AuthEducatorCreateAccountScreen.vue'
 import AuthParentCreateAccountScreen from './components/AuthParentCreateAccountScreen.vue'
+import AuthClassCodeScreen from './components/AuthClassCodeScreen.vue'
+import AuthClassUsernameScreen from './components/AuthClassUsernameScreen.vue'
+import AuthClassSuccessScreen from './components/AuthClassSuccessScreen.vue'
 import AuthParentAddChildScreen from './components/AuthParentAddChildScreen.vue'
 import AuthParentSuccessScreen from './components/AuthParentSuccessScreen.vue'
 import AuthEducatorClassReadyScreen from './components/AuthEducatorClassReadyScreen.vue'
@@ -156,6 +174,9 @@ export default Vue.extend({
     AuthParentCreateAccountScreen,
     AuthParentAddChildScreen,
     AuthParentSuccessScreen,
+    AuthClassCodeScreen,
+    AuthClassUsernameScreen,
+    AuthClassSuccessScreen,
   },
   props: {
     mode: {
@@ -195,6 +216,7 @@ export default Vue.extend({
         email: '',
         password: '',
       },
+      classCode: '',
     }
   },
   computed: {
@@ -261,11 +283,26 @@ export default Vue.extend({
       if (screen === 'parent-create') return this.goToChooser()
       if (screen === 'parent-add-child') return this.goToParentCreate()
       if (screen === 'parent-success') return this.goToChooser()
+      if (screen === 'class-code') return this.goToChooser()
+      if (screen === 'class-username') return this.goToClassCode()
+      if (screen === 'class-success') return this.goToChooser()
       // welcome and login are flow entry points - back exits the flow
       return this.handleClose()
     },
     handleClose () {
       window.location.href = '/'
+    },
+    goToClassCode () {
+      this.resetMessages()
+      this.updateRoute('/signup', { screen: 'class-code' })
+    },
+    goToClassUsername () {
+      this.resetMessages()
+      this.updateRoute('/signup', { screen: 'class-username' })
+    },
+    goToClassSuccess () {
+      this.resetMessages()
+      this.updateRoute('/signup', { screen: 'class-success' })
     },
     goToParentCreate () {
       this.resetMessages()
@@ -301,12 +338,13 @@ export default Vue.extend({
       if (path === 'parent') {
         return this.goToParentCreate()
       }
+      if (path === 'classroom') {
+        return this.goToClassCode()
+      }
       return this.onSelectPlaceholder(path)
     },
     onSelectPlaceholder (path) {
-      const titles = {
-        classroom: 'With a Class path arrives in next slice.',
-      }
+      const titles = {}
       noty({ text: titles[path] || 'Next step arrives in next slice.', layout: 'topCenter', type: 'info', timeout: 3000, killer: false, dismissQueue: true })
     },
     handleBirthdayContinue (birthday) {
@@ -432,6 +470,27 @@ export default Vue.extend({
       }).catch((err) => {
         this.errorMessage = err?.message || 'ClassLink login failed.'
       })
+    },
+    submitClassCode (code) {
+      this.resetMessages()
+      if (code.length < 6) {
+        this.errorMessage = 'Enter all 6 characters of your class code.'
+        return
+      }
+      // Class code lookup is backend territory - stub: accept code, advance to username screen
+      this.classCode = code
+      this.goToClassUsername()
+    },
+    submitClassUsername ({ username, password }) {
+      this.resetMessages()
+      if (password.length < 4) {
+        this.errorMessage = 'Password must be at least 4 characters.'
+        return
+      }
+      // Creating a student account + joining the classroom requires a Classroom model API call.
+      // Stubbed: show a noty and advance to success.
+      noty({ text: 'Account created! (Note: full classroom join coming in next slice.)', layout: 'topCenter', type: 'success', timeout: 3000, killer: false, dismissQueue: true })
+      this.goToClassSuccess()
     },
     submitParentCreate ({ email, password }) {
       this.resetMessages()
