@@ -1,57 +1,78 @@
 <template>
-  <div id="page-auth">
-    <div class="auth-page-shell">
-      <div class="auth-page-card">
-        <AuthWelcomeScreen
-          v-if="currentScreen === 'welcome'"
-          @create-account="goToChooser"
-          @class-code="onSelectPlaceholder('classroom')"
-          @login="goToLogin"
-        />
-        <AuthChooserScreen
-          v-else-if="currentScreen === 'chooser'"
-          @back="goToWelcome"
-          @select-path="handleChooserPath"
-          @login="goToLogin"
-        />
-        <AuthBirthdayScreen
-          v-else-if="currentScreen === 'birthday'"
-          :birthday="birthday"
-          @back="goToChooser"
-          @continue="handleBirthdayContinue"
-          @under-13="goToCoppa"
-        />
-        <AuthSoloCreateAccountScreen
-          v-else-if="currentScreen === 'create-account'"
-          :form="soloCreateForm"
-          :submitting="submitting"
-          :error-message="errorMessage"
-          @back="goToBirthday"
-          @update-form="updateSoloCreateForm"
-          @submit="submitSoloCreateAccount"
-          @google-signup="signupWithGoogle"
-        />
-        <AuthCoppaScreen
-          v-else-if="currentScreen === 'coppa'"
-          :parent-email="parentEmail"
-          :submitting="submitting"
-          :error-message="errorMessage"
-          :success-message="successMessage"
-          @back="goToBirthday"
-          @update:parent-email="updateParentEmail"
-          @submit="submitParentEmail"
-        />
-        <AuthLoginScreen
-          v-else
-          :submitting="submitting"
-          :google-loading="googleLoading"
-          :error-message="errorMessage"
-          @login="submitLogin"
-          @google-login="loginWithGoogle"
-          @clever-login="loginWithClever"
-          @create-account="goToChooser"
-        />
-      </div>
+  <div
+    id="page-auth"
+    :class="`screen-${currentScreen}`"
+  >
+    <!-- Desktop Back (upper-left, outside card) -->
+    <div
+      v-if="canGoBack"
+      class="back-desktop"
+    >
+      <button
+        class="back-desktop-btn"
+        type="button"
+        @click="handleBack"
+      >
+        ← Back
+      </button>
+    </div>
+
+    <div class="auth-shell">
+      <!-- Mobile X close (inside top-right of card, hidden on desktop) -->
+      <button
+        class="close-x"
+        type="button"
+        aria-label="Close"
+        @click="handleClose"
+      >
+        ✕
+      </button>
+
+      <AuthWelcomeScreen
+        v-if="currentScreen === 'welcome'"
+        @create-account="goToChooser"
+        @class-code="onSelectPlaceholder('classroom')"
+        @login="goToLogin"
+      />
+      <AuthChooserScreen
+        v-else-if="currentScreen === 'chooser'"
+        @select-path="handleChooserPath"
+        @login="goToLogin"
+      />
+      <AuthBirthdayScreen
+        v-else-if="currentScreen === 'birthday'"
+        :birthday="birthday"
+        @continue="handleBirthdayContinue"
+        @under-13="goToCoppa"
+      />
+      <AuthSoloCreateAccountScreen
+        v-else-if="currentScreen === 'create-account'"
+        :form="soloCreateForm"
+        :submitting="submitting"
+        :error-message="errorMessage"
+        @update-form="updateSoloCreateForm"
+        @submit="submitSoloCreateAccount"
+        @google-signup="signupWithGoogle"
+      />
+      <AuthCoppaScreen
+        v-else-if="currentScreen === 'coppa'"
+        :parent-email="parentEmail"
+        :submitting="submitting"
+        :error-message="errorMessage"
+        :success-message="successMessage"
+        @update:parent-email="updateParentEmail"
+        @submit="submitParentEmail"
+      />
+      <AuthLoginScreen
+        v-else
+        :submitting="submitting"
+        :google-loading="googleLoading"
+        :error-message="errorMessage"
+        @login="submitLogin"
+        @google-login="loginWithGoogle"
+        @clever-login="loginWithClever"
+        @create-account="goToChooser"
+      />
     </div>
   </div>
 </template>
@@ -117,6 +138,9 @@ export default Vue.extend({
       }
       return this.screen || 'welcome'
     },
+    canGoBack () {
+      return this.currentScreen !== 'welcome' && this.currentScreen !== 'login'
+    },
   },
   mounted () {
     document.body.classList.add('auth-route-standalone')
@@ -158,6 +182,17 @@ export default Vue.extend({
     goToLogin () {
       this.resetMessages()
       this.updateRoute('/login')
+    },
+    handleBack () {
+      const screen = this.currentScreen
+      if (screen === 'chooser') return this.goToWelcome()
+      if (screen === 'birthday') return this.goToChooser()
+      if (screen === 'create-account') return this.goToBirthday()
+      if (screen === 'coppa') return this.goToBirthday()
+      return this.goToWelcome()
+    },
+    handleClose () {
+      window.location.href = '/'
     },
     handleChooserPath (path) {
       if (path === 'individual') {
@@ -233,7 +268,7 @@ export default Vue.extend({
           } else if (errorID === 'name-exists') {
             this.errorMessage = 'That username is already taken.'
           } else {
-            this.errorMessage = 'Create account is not fully wired yet. Please try again.'
+            this.errorMessage = 'Sign up failed. Please try again.'
             errors.showNotyNetworkError(res, jqxhr)
           }
         },
@@ -243,7 +278,7 @@ export default Vue.extend({
     },
     signupWithGoogle () {
       this.resetMessages()
-      noty({ text: 'Google signup wiring is next pass; password signup is live now.', layout: 'topCenter', type: 'info', timeout: 3500, killer: false, dismissQueue: true })
+      noty({ text: 'Google signup coming next pass; use email signup for now.', layout: 'topCenter', type: 'info', timeout: 3500, killer: false, dismissQueue: true })
     },
     submitParentEmail (email) {
       this.resetMessages()
@@ -255,10 +290,10 @@ export default Vue.extend({
       this.parentEmail = email
       return contact.sendParentSignupInstructions(email)
         .then(() => {
-          this.successMessage = 'Check your parent\'s inbox. They need to finish creating your account before you can save progress.'
+          this.successMessage = 'Email sent! Your parent needs to finish creating your account.'
         })
         .catch(() => {
-          this.errorMessage = 'We could not send that email yet. Please try again.'
+          this.errorMessage = 'Could not send that email. Please try again.'
         })
         .finally(() => {
           this.submitting = false
@@ -319,6 +354,7 @@ export default Vue.extend({
 <style lang="scss">
 @import "app/styles/component_variables.scss";
 
+/* Hide site chrome when auth route is active */
 body.auth-route-standalone #main-nav,
 body.auth-route-standalone #site-nav,
 body.auth-route-standalone #site-footer,
@@ -328,8 +364,12 @@ body.auth-route-standalone #final-footer {
 }
 
 body.auth-route-standalone #page-container,
-body.auth-route-standalone #page-container > .content {
-  padding-top: 0 !important;
+body.auth-route-standalone #page-container > .content,
+body.auth-route-standalone #site-content-area {
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 100vh !important;
+  overflow: hidden !important;
 }
 </style>
 
@@ -337,30 +377,90 @@ body.auth-route-standalone #page-container > .content {
 @import "app/styles/component_variables.scss";
 
 #page-auth {
-  min-height: 100vh;
-  background: linear-gradient(180deg, #f7f8ff 0%, #eef0ff 100%);
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: linear-gradient(160deg, #f4f5ff 0%, #ece8ff 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
 }
 
-.auth-page-shell {
-  min-height: 100vh;
-  padding: 24px 16px 40px;
+/* Desktop Back — outside card, upper-left relative to the card column */
+.back-desktop {
+  display: none;
+}
+
+.close-x {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(100, 90, 200, 0.08);
+  color: #7a65fc;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
 }
 
-.auth-page-card {
-  width: min(100%, 520px);
+.auth-shell {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+}
+
+/* Chooser gets wider on desktop only */
+#page-auth.screen-chooser .auth-shell {
+  max-width: 440px; /* mobile default, overridden on desktop */
 }
 
 @media screen and (min-width: $screen-md-min) {
-  .auth-page-shell {
-    padding: 64px 24px 88px;
-    align-items: center;
+  #page-auth {
+    padding: 0 24px;
   }
 
-  .auth-page-card {
-    width: min(100%, 520px);
+  .auth-shell {
+    max-width: 440px;
+  }
+
+  #page-auth.screen-chooser .auth-shell {
+    max-width: 720px;
+  }
+
+  /* Desktop: hide mobile X, show Back outside card */
+  .close-x {
+    display: none;
+  }
+
+  .back-desktop {
+    display: block;
+    width: 440px;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  #page-auth.screen-chooser .back-desktop {
+    width: 720px;
+  }
+
+  .back-desktop-btn {
+    appearance: none;
+    border: 0;
+    background: none;
+    color: #6d5df6;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
   }
 }
 </style>

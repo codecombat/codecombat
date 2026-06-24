@@ -1,7 +1,7 @@
 <template>
-  <section class="auth-screen auth-login-screen">
-    <div class="auth-shell-card">
-      <div class="brand-row">
+  <section class="auth-login-screen">
+    <div class="auth-card">
+      <div class="wordmark-row">
         <mixed-color-label
           class="wordmark"
           text="Code**Combat"
@@ -12,6 +12,38 @@
       <div class="copy-block">
         <h1>Welcome back</h1>
         <p>Log in to keep coding where you left off.</p>
+      </div>
+
+      <!-- SSO first — primary path -->
+      <div class="provider-row">
+        <button
+          class="provider-btn"
+          type="button"
+          :disabled="googleLoading"
+          @click="$emit('google-login')"
+        >
+          <img
+            src="/images/pages/modal/auth/google-logo-wordmark.svg"
+            alt="Google"
+          >
+          <span>{{ googleLoading ? 'Google…' : 'Google' }}</span>
+        </button>
+        <button
+          class="provider-btn"
+          type="button"
+          @click="$emit('clever-login')"
+        >
+          <img
+            src="/images/pages/modal/auth/clever-logo-blue.png"
+            alt="Clever"
+          >
+          <span>Clever</span>
+        </button>
+      </div>
+
+      <!-- Email form — secondary path -->
+      <div class="divider">
+        <span>or</span>
       </div>
 
       <form
@@ -30,7 +62,7 @@
           autocomplete="username"
         >
 
-        <div class="password-label-row">
+        <div class="password-row">
           <label
             class="field-label"
             for="auth-password"
@@ -39,7 +71,7 @@
             class="forgot-link"
             href="#"
             @click.prevent="showRecoverNotice"
-          >Forgot password?</a>
+          >Forgot?</a>
         </div>
         <input
           id="auth-password"
@@ -65,38 +97,9 @@
         </button>
       </form>
 
-      <div class="divider">
-        <span>OR</span>
-      </div>
-
-      <div class="provider-stack">
-        <button
-          class="provider-button"
-          type="button"
-          :disabled="googleLoading"
-          @click="$emit('google-login')"
-        >
-          <img
-            src="/images/pages/modal/auth/google-logo-wordmark.svg"
-            alt="Google"
-          >
-          <span>{{ googleLoading ? 'Google…' : 'Google' }}</span>
-        </button>
-        <button
-          class="provider-button"
-          type="button"
-          @click="$emit('clever-login')"
-        >
-          <img
-            src="/images/pages/modal/auth/clever-logo-blue.png"
-            alt="Clever"
-          >
-          <span>Clever</span>
-        </button>
-      </div>
-
       <p class="footer-copy">
-        New to CodeCombat? <button
+        New to CodeCombat?
+        <button
           type="button"
           class="text-link"
           @click="$emit('create-account')"
@@ -148,125 +151,83 @@ export default Vue.extend({
 <style lang="scss" scoped>
 @import "app/styles/component_variables.scss";
 
-.auth-shell-card {
+.auth-card {
   background: rgba(255, 255, 255, 0.98);
-  border-radius: 32px;
-  padding: 20px 20px 28px;
+  border-radius: 28px;
+  padding: 24px 20px 20px;
 }
 
-.brand-row {
+.wordmark-row {
   display: flex;
   justify-content: center;
 }
 
 .wordmark {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
-  color: #17314d;
 }
 
-:deep(.wordmark .mixed-color-label__highlight) {
-  color: #7a65fc;
-}
-
-:deep(.wordmark .mixed-color-label__normal) {
-  color: #17314d;
-}
+:deep(.wordmark .mixed-color-label__normal) { color: #17314d; }
+:deep(.wordmark .mixed-color-label__highlight) { color: #7a65fc; }
 
 .copy-block {
-  margin-top: 18px;
+  margin-top: 14px;
   text-align: center;
 }
 
 h1 {
   margin: 0;
   color: #17314d;
-  font-size: 40px;
-  line-height: 1.08;
+  font-size: 26px;
   font-weight: 800;
+  line-height: 1.1;
 }
 
 p {
-  margin: 12px 0 0;
+  margin: 6px 0 0;
   color: #5b6b7c;
-  font-size: 18px;
-  line-height: 1.5;
-}
-
-.login-form {
-  margin-top: 26px;
-}
-
-.field-label {
-  display: block;
-  color: #17314d;
   font-size: 15px;
   line-height: 1.4;
-  font-weight: 700;
-  margin-bottom: 10px;
 }
 
-.password-label-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+/* SSO row - primary */
+.provider-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
   margin-top: 18px;
 }
 
-.field-input {
-  width: 100%;
-  border-radius: 16px;
+.provider-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 14px;
   border: 1px solid #d9ddf6;
-  background: #fbfbff;
-  padding: 16px 18px;
+  background: #fff;
+  padding: 12px 14px;
   color: #17314d;
-  font-size: 17px;
-  line-height: 1.4;
-}
-
-.field-input:focus {
-  outline: 2px solid rgba(122, 101, 252, 0.25);
-  border-color: #7a65fc;
-}
-
-.forgot-link,
-.text-link {
-  appearance: none;
-  border: 0;
-  background: none;
-  color: #6d5df6;
+  font-size: 15px;
   font-weight: 700;
+  cursor: pointer;
 }
 
-.error-copy {
-  color: #cc3846;
-  font-size: 14px;
-  line-height: 1.45;
-  margin-top: 12px;
+.provider-btn img {
+  width: 60px;
+  height: 20px;
+  object-fit: contain;
 }
 
-.primary-action {
-  width: 100%;
-  margin-top: 22px;
-  border: 0;
-  border-radius: 18px;
-  padding: 16px 20px;
-  background: #7a65fc;
-  color: #fff;
-  font-size: 18px;
-  line-height: 1.3;
-  font-weight: 700;
-  box-shadow: 0 16px 32px rgba(122, 101, 252, 0.26);
-}
-
-.primary-action:disabled {
+.provider-btn:disabled {
   opacity: 0.55;
 }
 
+/* Divider */
 .divider {
   position: relative;
   text-align: center;
-  margin: 22px 0 18px;
+  margin: 16px 0 14px;
 }
 
 .divider::before {
@@ -281,68 +242,94 @@ p {
 
 .divider span {
   position: relative;
-  padding: 0 14px;
-  background: #fff;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.98);
   color: #8b95a7;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 12px;
+  font-weight: 600;
 }
 
-.provider-stack {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.provider-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  border-radius: 18px;
-  border: 1px solid #d9ddf6;
-  background: #fff;
-  padding: 16px 18px;
+/* Form */
+.field-label {
+  display: block;
   color: #17314d;
-  font-size: 17px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.password-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 12px;
+}
+
+.field-input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #d9ddf6;
+  background: #fbfbff;
+  padding: 12px 14px;
+  color: #17314d;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.field-input:focus {
+  outline: 2px solid rgba(122, 101, 252, 0.25);
+  border-color: #7a65fc;
+}
+
+.forgot-link {
+  color: #8b95a7;
+  font-size: 12px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  color: #6d5df6;
+}
+
+.error-copy {
+  color: #cc3846;
+  font-size: 13px;
+  line-height: 1.4;
+  margin-top: 8px;
+}
+
+.primary-action {
+  width: 100%;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 14px;
+  padding: 13px 20px;
+  background: #7a65fc;
+  color: #fff;
+  font-size: 16px;
   font-weight: 700;
+  cursor: pointer;
 }
 
-.provider-button img {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-}
-
-.provider-button:first-child img {
-  width: 96px;
+.primary-action:disabled {
+  opacity: 0.55;
 }
 
 .footer-copy {
+  margin-top: 14px;
   text-align: center;
-  font-size: 16px;
-  margin-top: 20px;
+  font-size: 13px;
+  color: #516173;
 }
 
-@media screen and (max-width: 640px) {
-  h1 {
-    font-size: 32px;
-  }
-
-  p {
-    font-size: 16px;
-  }
-
-  .provider-button {
-    font-size: 16px;
-  }
-}
-
-@media screen and (min-width: $screen-md-min) {
-  .auth-shell-card {
-    padding: 28px 28px 32px;
-  }
+.text-link {
+  appearance: none;
+  border: 0;
+  background: none;
+  color: #6d5df6;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 13px;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <section class="auth-screen auth-birthday-screen">
-    <div class="auth-shell-card">
-      <div class="brand-row">
+  <section class="auth-birthday-screen">
+    <div class="auth-card">
+      <div class="wordmark-row">
         <mixed-color-label
           class="wordmark"
           text="Code**Combat"
@@ -10,16 +10,9 @@
       </div>
 
       <div class="copy-block">
-        <button
-          class="back-link"
-          type="button"
-          @click="$emit('back')"
-        >
-          Back
-        </button>
         <span class="path-pill">Solo Learner</span>
         <h1>When's your birthday?</h1>
-        <p>Parents, please enter your own birthday - we'll set the right experience.</p>
+        <p>Parents, please enter your own birthday — we'll set the right experience.</p>
       </div>
 
       <div class="birthday-grid">
@@ -30,7 +23,7 @@
         <select
           id="birthday-month"
           v-model="localBirthday.month"
-          class="field-input field-select"
+          class="field-input"
         >
           <option value="">
             Month
@@ -51,7 +44,7 @@
         <select
           id="birthday-day"
           v-model="localBirthday.day"
-          class="field-input field-select"
+          class="field-input"
         >
           <option value="">
             Day
@@ -72,7 +65,7 @@
         <select
           id="birthday-year"
           v-model="localBirthday.year"
-          class="field-input field-select"
+          class="field-input"
         >
           <option value="">
             Year
@@ -151,105 +144,106 @@ export default Vue.extend({
 <style lang="scss" scoped>
 @import "app/styles/component_variables.scss";
 
-.auth-shell-card {
+.auth-card {
   background: rgba(255, 255, 255, 0.98);
-  border-radius: 32px;
-  padding: 20px 20px 28px;
+  border-radius: 28px;
+  padding: 24px 20px 20px;
 }
 
-.brand-row { display: flex; justify-content: center; }
+.wordmark-row {
+  display: flex;
+  justify-content: center;
+}
 
 .wordmark {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 800;
-  color: #17314d;
 }
 
-.copy-block { margin-top: 16px; text-align: center; }
+:deep(.wordmark .mixed-color-label__normal) { color: #17314d; }
+:deep(.wordmark .mixed-color-label__highlight) { color: #7a65fc; }
 
-.back-link,
-.under-13-link {
-  appearance: none;
-  border: 0;
-  background: none;
-}
-
-.back-link {
-  color: #6d5df6;
-  font-size: 14px;
-  font-weight: 700;
-  margin-bottom: 16px;
+.copy-block {
+  margin-top: 14px;
+  text-align: center;
 }
 
 .path-pill {
   display: inline-flex;
-  margin-bottom: 14px;
-  padding: 9px 14px;
+  margin-bottom: 10px;
+  padding: 6px 14px;
   border-radius: 999px;
   background: #fff2e8;
   color: #e98632;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 800;
 }
 
 h1 {
   margin: 0;
   color: #17314d;
-  font-size: 36px;
-  line-height: 1.08;
+  font-size: 26px;
   font-weight: 800;
+  line-height: 1.1;
 }
 
 p {
-  margin: 12px 0 0;
+  margin: 8px 0 0;
   color: #5b6b7c;
-  font-size: 17px;
-  line-height: 1.5;
+  font-size: 14px;
+  line-height: 1.45;
 }
 
 .birthday-grid {
-  margin-top: 24px;
+  margin-top: 20px;
   display: grid;
   grid-template-columns: 1.4fr 1fr 1.1fr;
-  gap: 10px;
+  gap: 8px;
 }
 
 .field-input {
   width: 100%;
-  border-radius: 16px;
+  border-radius: 12px;
   border: 1px solid #d9ddf6;
   background: #fbfbff;
-  padding: 16px 18px;
+  padding: 12px 10px;
   color: #17314d;
-  font-size: 17px;
+  font-size: 15px;
+  appearance: none;
 }
-
-.field-select { appearance: none; }
 
 .primary-action {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 16px;
   border: 0;
-  border-radius: 18px;
-  padding: 16px 20px;
+  border-radius: 14px;
+  padding: 13px 20px;
   background: #7a65fc;
   color: #fff;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
+  cursor: pointer;
 }
 
-.primary-action:disabled { opacity: 0.5; }
+.primary-action:disabled {
+  opacity: 0.5;
+}
 
 .under-13-link {
-  margin: 14px auto 0;
+  appearance: none;
+  border: 0;
+  background: none;
+  margin: 12px auto 0;
   display: block;
   color: #6d5df6;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 700;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 640px) {
-  h1 { font-size: 28px; }
-  .birthday-grid { grid-template-columns: 1fr; }
+  .birthday-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
 </style>
